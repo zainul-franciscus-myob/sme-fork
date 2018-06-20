@@ -22,6 +22,7 @@ List any feelix components or important design decisions.
 Kick off done with:
 
 - BA: 
+- Design: 
 - QA: 
 - Devs: 
 
