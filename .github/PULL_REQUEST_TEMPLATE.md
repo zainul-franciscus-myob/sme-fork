@@ -1,10 +1,10 @@
-[link to issue]( ... ) **/** [Reason for change]
+closes #  **/** [Reason for change]
 
 ---
 
-Screenshot (if applicable)
+<Screenshot?>
 
-### High Level Overview / Things to look out for (code specific)
+### High Level Overview / Notable
 
 - foo
 

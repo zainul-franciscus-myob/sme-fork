@@ -1,14 +1,14 @@
 ## Overview
 
-Include **who**, **what** and **why**
+<Include **who**, **what** and **why**>
 
 ## Acceptance Criteria
 
 - Feature
-- Design + user experience (gold, purple etc)
-- Tests (QA)
+- Design + UX (gold, purple etc)
+- QA
 
-## Design artifacts
+## Design
 List any feelix components or important design decisions.
 
 ## List of sub-tasks
@@ -17,18 +17,18 @@ List any feelix components or important design decisions.
 
 ---
 
-- [ ] Kick off
+## Kick Off
 
-Who is present at Kick off:
+Kick off done with:
 
-- [ ] BA:  name
-- [ ] QA:  name
-- [ ] Dev: name
-- [ ] Dev: name
+- BA: 
+- Design: 
+- QA: 
+- Devs: 
 
-## Review
+## Reviews Completed
 
 - [ ] Code
 - [ ] Design
 - [ ] Acceptance Criteria
-- [ ] Tests
+- [ ] QA
