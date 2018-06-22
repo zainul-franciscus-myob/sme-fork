@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Toy from '../toy/Toy';
+import Toy from './Toy';
 
 export default class PetModule {
   constructor(integration, domElement) {

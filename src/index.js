@@ -1,4 +1,5 @@
 import PetModule from './toy/PetModule';
+import '@myob/myob-styles/dist/styles/myob-clean.css';
 import './index.css';
 
 async function main(integrationModule, integrationConfig) {

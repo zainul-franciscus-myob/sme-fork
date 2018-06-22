@@ -1,3 +1,12 @@
-.Toy {
-  text-align: center;
+
+.Toy .table-data__cell:last-of-type {
+  border-left: 2px solid #DCDFE1;
+}
+
+.Toy .table-data__body .table-data__cell:last-of-type {
+  background-color: #F3F4F5;
+}
+
+.Toy .table-data__body .table-data__row:hover .table-data__cell:last-of-type {
+  background-color: #E8EAEC;
 }
