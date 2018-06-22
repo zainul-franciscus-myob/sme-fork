@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import PetModule from './toy/PetModule';
 import './index.css';
-import Toy from './toy/Toy';
 
 async function main(integrationModule, integrationConfig) {
   const IntegrationModule = await import(`./integration/${integrationModule}`);
   const config = await import(`./integration/config/${integrationConfig}`);
   const Integration = IntegrationModule.default;
+  
+  const rootElement = document.getElementById('root');
+  const integration = new Integration(config);
+  const module = new PetModule(integration, rootElement);
 
-  // TODO: Instantiate new ServiceLayer(new Integration(config));
-
-  ReactDOM.render(<Toy />, document.getElementById('root'));
+  module.run();
 }
 
 main(
