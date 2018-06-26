@@ -2,11 +2,10 @@ import PetModule from './toy/PetModule';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
 import './index.css';
 
-async function main(integrationModule, integrationConfig) {
-  const IntegrationModule = await import(`./integration/${integrationModule}`);
+async function main(integrationType, integrationConfig) {
+  const Integration = (await import(`./integration/${integrationType}`)).default;
   const config = await import(`./integration/config/${integrationConfig}`);
-  const Integration = IntegrationModule.default;
-  
+
   const rootElement = document.getElementById('root');
   const integration = new Integration(config);
   const module = new PetModule(integration, rootElement);
@@ -15,6 +14,6 @@ async function main(integrationModule, integrationConfig) {
 }
 
 main(
-  process.env.REACT_APP_INTEGRATION_MODULE,
+  process.env.REACT_APP_INTEGRATION_TYPE,
   process.env.REACT_APP_INTEGRATION_CONFIG
 );
