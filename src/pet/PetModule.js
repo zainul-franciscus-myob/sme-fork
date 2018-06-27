@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Toy from './Toy';
+import Pet from './Pet';
 import PetIntents from "../integration/PetIntents";
 
 export default class PetModule {
@@ -23,7 +23,7 @@ export default class PetModule {
   run() {
     this.data = this.integration.read(PetIntents.LOAD_PETS_AND_SPECIES);
     ReactDOM.render(
-      <Toy
+      <Pet
         pets={this.data.pets}
         species={this.data.species}
         onAllocate={this.handleAllocate}

@@ -1,4 +1,4 @@
-import PetModule from './toy/PetModule';
+import PetModule from './pet/PetModule';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
 import './index.css';
 

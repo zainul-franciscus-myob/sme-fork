@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Table, StandardTemplate } from '@myob/myob-widgets';
-import './Toy.css';
+import './Pet.css';
 import PetRow from "./PetRow";
 
-class Toy extends Component {
+class Pet extends Component {
   render() {
     const { pets, species } = this.props;
     const petRows = pets.map(pet => <PetRow key={pet.name} pet={pet} allSpecies={species} onAllocate={this.props.onAllocate}/>);
 
     return (
-      <div className="Toy container">
+      <div className="Pet container">
         <StandardTemplate pageHead='Cat or dog?'>
           <Table>
             <Table.Header>
@@ -27,4 +27,4 @@ class Toy extends Component {
   }
 }
 
-export default Toy;
+export default Pet;
