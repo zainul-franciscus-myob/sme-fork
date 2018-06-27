@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import { Button, Combobox } from '@myob/myob-widgets';
 
 export default class PetSpeciesAllocator extends Component {
-  state = {
-    showAllocationOptions: false,
-  }
 
   render() {
-    return this.state.showAllocationOptions ? this.renderComboBox() : this.renderButton();
+    return this.props.allocationState ? this.renderComboBox() : this.renderButton();
   }
 
   renderButton() {
@@ -16,7 +13,7 @@ export default class PetSpeciesAllocator extends Component {
   }
 
   allocate = () => {
-    this.setState({ showAllocationOptions: true })
+    this.props.onStateChange(true);
   }
 
   renderComboBox() {
@@ -38,6 +35,6 @@ export default class PetSpeciesAllocator extends Component {
 
   onSpeciesAllocation = (value) => {
     this.props.onSpeciesAllocation(this.props.pet, value.name);
-    this.setState({ showAllocationOptions: false })
+    this.props.onStateChange(false);
   }
 }
