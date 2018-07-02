@@ -4,6 +4,7 @@ import './Pet.css';
 import PetRow from "./PetRow";
 
 class Pet extends Component {
+
   render() {
     const { pets, species } = this.props;
     const petRows = pets.map(pet => <PetRow key={pet.name} pet={pet} allSpecies={species} onAllocate={this.props.onAllocate}/>);

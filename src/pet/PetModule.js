@@ -9,26 +9,46 @@ export default class PetModule {
     this.domElement = domElement;
   }
 
-  handleAllocate = (pet, species) => {
+  handleLoadPetsAndSpecies = (onSuccess, onFailure) => {
+    this.integration.read(
+      PetIntents.LOAD_PETS_AND_SPECIES,
+      onSuccess,
+      onFailure
+    );
+  };
+
+  handleAllocate = (pet, species, setState) => {
     this.integration.write(
       PetIntents.ALLOCATE_SPECIES_FOR_PET,
       {pet, species},
-      () => {
-        console.log("Success");
+      (returnedPet) => {
+        setState(false, returnedPet);
+        console.log("Success", returnedPet);
       },
       () => console.log("Failure")
     );
   };
 
+  render(component) {
+    ReactDOM.render(component, this.domElement);
+  }
+
   run() {
-    this.data = this.integration.read(PetIntents.LOAD_PETS_AND_SPECIES);
-    ReactDOM.render(
-      <Pet
-        pets={this.data.pets}
-        species={this.data.species}
-        onAllocate={this.handleAllocate}
-      />,
-      this.domElement
+    this.render(() => <p>Loading...</p>);
+
+    this.handleLoadPetsAndSpecies(
+      (data) => {
+        this.render(
+          <Pet
+            pets={data.pets}
+            species={data.species}
+            onAllocate={this.handleAllocate}
+          />
+        );
+      },
+      (error) => {
+        this.render(() => <p>Error: {error}</p>);
+      }
     );
-  } 
+  }
 }

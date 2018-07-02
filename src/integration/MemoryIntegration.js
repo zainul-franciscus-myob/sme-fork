@@ -4,13 +4,13 @@ export default class MemoryIntegration {
   constructor(data) {
     this.data = data || {};
     this.petsIntentMapping = {
-      [PetIntents.LOAD_PETS_AND_SPECIES]: this.data,
+      [PetIntents.LOAD_PETS_AND_SPECIES]: handleRead,
       [PetIntents.ALLOCATE_SPECIES_FOR_PET]: handleAllocation
     }
   }
 
-  read(intent) {
-    return this.petsIntentMapping[intent];
+  read(intent, onSuccess, onFailure) {
+    return this.petsIntentMapping[intent](this.data, onSuccess, onFailure);
   }
 
   write(intent, params, onSuccess, onFailure) {
@@ -18,11 +18,15 @@ export default class MemoryIntegration {
   }
 }
 
+const handleRead = (data, onSuccess, onFailure) => {
+  onSuccess(data);
+};
+
 const handleAllocation = (params, onSuccess, onFailure) => {
   if( params.pet.name === 'Smoke') {
     onFailure();
   } else {
     params.pet.species = params.species;
-    onSuccess();
+    onSuccess(params.pet);
   }
 };

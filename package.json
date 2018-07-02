@@ -5,6 +5,7 @@
   "dependencies": {
     "@myob/myob-styles": "2.0.0",
     "@myob/myob-widgets": "2.0.0",
+    "cross-fetch": "2.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4"

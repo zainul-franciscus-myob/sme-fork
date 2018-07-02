@@ -6,16 +6,19 @@ class PetRow extends Component {
 
   state = {
     showAllocationOptions: false,
+    pet: this.props.pet //we should not do this
   }
 
-  onStateChange = (state) => {
+  onStateChange = (state, pet) => {
     this.setState({
-      showAllocationOptions: state
+      showAllocationOptions: state,
+      pet: pet // we should not do this
     })
   }
 
   render() {
-    let {pet, allSpecies, onAllocate} = this.props;
+    let {allSpecies, onAllocate} = this.props;
+    let {pet, showAllocationOptions} = this.state;
 
     const petSpeciesAllocator = (
       <PetSpeciesAllocator
@@ -24,10 +27,11 @@ class PetRow extends Component {
         selectedSpecies={pet.species}
         onSpeciesAllocation={onAllocate}
 
-        allocationState={this.state.showAllocationOptions}
+        allocationState={showAllocationOptions}
         onStateChange={this.onStateChange}
       />
     );
+
 
     return (
       <Table.Row key={pet.name}>

@@ -13,7 +13,7 @@ export default class PetSpeciesAllocator extends Component {
   }
 
   allocate = () => {
-    this.props.onStateChange(true);
+    this.props.onStateChange(true, this.props.pet);
   }
 
   renderComboBox() {
@@ -34,7 +34,6 @@ export default class PetSpeciesAllocator extends Component {
   }
 
   onSpeciesAllocation = (value) => {
-    this.props.onSpeciesAllocation(this.props.pet, value.name);
-    this.props.onStateChange(false);
+    this.props.onSpeciesAllocation(this.props.pet, value.name, this.props.onStateChange);
   }
 }
