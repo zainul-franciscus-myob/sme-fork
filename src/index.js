@@ -3,8 +3,8 @@ import '@myob/myob-styles/dist/styles/myob-clean.css';
 import './index.css';
 
 async function main(integrationType, integrationConfig) {
-  const Integration = (await import(`./integration/${integrationType}`)).default;
-  const config = await import(`./integration/config/${integrationConfig}`);
+  const Integration = (await import(`${integrationType}`)).default;
+  const config = await import(`${integrationConfig}`);
 
   const rootElement = document.getElementById('root');
   const integration = new Integration(config);
