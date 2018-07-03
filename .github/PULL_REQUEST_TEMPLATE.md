@@ -6,5 +6,6 @@ closes #  **/** [Reason for change]
 
 ### High Level Overview / Notable
 
-- foo
+- [ ] Updated documentation (project setup, processes, etc)
 
+- [ More things... ]
