@@ -1,4 +1,4 @@
-import PetIntents from './PetIntents'
+import * as PetIntents from './PetIntents'
 
 export default class MemoryIntegration {
   constructor(data) {
@@ -10,7 +10,7 @@ export default class MemoryIntegration {
   }
 
   read(intent, onSuccess, onFailure) {
-    return this.petsIntentMapping[intent](this.data, onSuccess, onFailure);
+    this.petsIntentMapping[intent](this.data, onSuccess, onFailure);
   }
 
   write(intent, params, onSuccess, onFailure) {
@@ -23,10 +23,10 @@ const handleRead = (data, onSuccess, onFailure) => {
 };
 
 const handleAllocation = (params, onSuccess, onFailure) => {
-  if( params.pet.name === 'Smoke') {
+  const { pet, species } = params;
+  if (pet.name === 'Smoke') {
     onFailure();
   } else {
-    params.pet.species = params.species;
-    onSuccess(params.pet);
+    onSuccess({ ...pet, species });
   }
 };

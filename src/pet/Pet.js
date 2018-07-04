@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Table, StandardTemplate } from '@myob/myob-widgets';
 import './Pet.css';
-import PetRow from "./PetRow";
+import PetSpeciesAllocator from './PetSpeciesAllocator';
 
 class Pet extends Component {
 
   render() {
-    const { pets, species } = this.props;
-    const petRows = pets.map(pet => <PetRow key={pet.name} pet={pet} allSpecies={species} onAllocate={this.props.onAllocate}/>);
+    const petRows = this.props.pets.map((pet) => this.renderRow(pet));
 
     return (
       <div className="Pet container">
@@ -25,6 +24,22 @@ class Pet extends Component {
         </StandardTemplate>
       </div>
     );
+  }
+
+  renderRow = (pet) => {
+    const petSpeciesAllocator = (
+      <PetSpeciesAllocator
+        pet={pet}
+        species={this.props.species}
+        onAllocate={this.props.onAllocate}
+      />
+    );
+
+    return (<Table.Row key={pet.name}>
+      <Table.RowItem width="30%">{pet.name}</Table.RowItem>
+      <Table.RowItem width="40%">{pet.owner}</Table.RowItem>
+      <Table.RowItem width="30%">{petSpeciesAllocator}</Table.RowItem>
+    </Table.Row>)
   }
 }
 

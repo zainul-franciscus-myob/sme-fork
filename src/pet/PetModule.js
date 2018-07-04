@@ -1,54 +1,58 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Pet from './Pet';
-import PetIntents from "../integration/PetIntents";
+import PetReducer from './PetReducer';
+import Store from '../store/Store';
+import { LOAD_PETS_AND_SPECIES, ALLOCATE_SPECIES_FOR_PET } from '../integration/PetIntents';
 
 export default class PetModule {
   constructor(integration, domElement) {
     this.integration = integration;
+    this.store = new Store(PetReducer);
     this.domElement = domElement;
   }
 
-  handleLoadPetsAndSpecies = (onSuccess, onFailure) => {
+  loadPetsAndSpecies = () => {
     this.integration.read(
-      PetIntents.LOAD_PETS_AND_SPECIES,
-      onSuccess,
-      onFailure
+      LOAD_PETS_AND_SPECIES,
+      ({ pets, species }) => {
+        this.store.publish({
+          intent: LOAD_PETS_AND_SPECIES,
+          pets,
+          species
+        });
+      },
+      (error) => {
+        console.log(`Error: ${error}`)
+      }
     );
   };
 
-  handleAllocate = (pet, species, setState) => {
+  handleAllocate = (pet, species) => {
     this.integration.write(
-      PetIntents.ALLOCATE_SPECIES_FOR_PET,
-      {pet, species},
-      (returnedPet) => {
-        setState(false, returnedPet);
-        console.log("Success", returnedPet);
+      ALLOCATE_SPECIES_FOR_PET,
+      { pet, species },
+      (updatedPet) => {
+        this.store.publish({
+          intent: ALLOCATE_SPECIES_FOR_PET,
+          updatedPet
+        })
       },
       () => console.log("Failure")
     );
   };
 
-  render(component) {
-    ReactDOM.render(component, this.domElement);
+  render = (state) => {
+    ReactDOM.render(<Pet
+      pets={state.pets}
+      species={state.species}
+      onAllocate={this.handleAllocate}
+    />, this.domElement);
   }
 
   run() {
-    this.render(() => <p>Loading...</p>);
-
-    this.handleLoadPetsAndSpecies(
-      (data) => {
-        this.render(
-          <Pet
-            pets={data.pets}
-            species={data.species}
-            onAllocate={this.handleAllocate}
-          />
-        );
-      },
-      (error) => {
-        this.render(() => <p>Error: {error}</p>);
-      }
-    );
+    ReactDOM.render(<p>Loading...</p>, this.domElement);
+    this.store.subscribe(this.render);
+    this.loadPetsAndSpecies();
   }
 }

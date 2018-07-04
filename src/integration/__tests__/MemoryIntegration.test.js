@@ -1,12 +1,14 @@
 import MemoryIntegration from '../MemoryIntegration.js';
-import PetIntents from '../PetIntents';
+import { LOAD_PETS_AND_SPECIES } from '../PetIntents';
 
 describe('MemoryIntegration', () => {
   describe('read method', () => {
-    it('should return data supplied in config', () => {
+    it('should return data supplied in config', (done) => {
       const integration = new MemoryIntegration({ key: 'value' });
-      const result = integration.read(PetIntents.LOAD_PETS_AND_SPECIES);
-      expect(result).toEqual({key: 'value'});
+      integration.read(LOAD_PETS_AND_SPECIES, (result) => { 
+        expect(result).toEqual({ key: 'value' });
+        done(); 
+      });
     });
   });
 });
