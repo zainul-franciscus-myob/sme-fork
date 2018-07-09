@@ -1,0 +1,28 @@
+{
+  "transactions": [
+    {
+      "id": "1",
+      "displayDate": "31/02/2018",
+      "sourceAccount": "Cheque",
+      "description": "Paid for Coffee",
+      "withdrawalDisplayAmount": "3.50",
+      "depositDisplayAmount": ""
+    },
+    {
+      "id": "2",
+      "displayDate": "30/02/2018",
+      "sourceAccount": "Cheque",
+      "description": "Paid for Donut",
+      "withdrawalDisplayAmount": "4.50",
+      "depositDisplayAmount": ""
+    },
+    {
+      "id": "3",
+      "displayDate": "05/03/2018",
+      "sourceAccount": "Farm Cheque",
+      "description": "Paid for Horse Feed",
+      "withdrawalDisplayAmount": "250.00",
+      "depositDisplayAmount": ""
+    }
+  ]
+}
