@@ -1,6 +1,5 @@
-import * as PetIntents from "../../pet/PetIntents";
+import * as PetIntents from '../../pet/PetIntents';
 import petsAndSpecies from '../data/petsAndSpecies';
-
 
 const allocateSpeciesForPet = (params, onSuccess, onFailure) => {
   const { pet, species } = params;
@@ -15,9 +14,7 @@ const loadPetsAndSpecies = (onSuccess, onFailure) => {
   onSuccess(petsAndSpecies);
 };
 
-const intentMapping = {
+export default {
   [PetIntents.LOAD_PETS_AND_SPECIES]: loadPetsAndSpecies,
   [PetIntents.ALLOCATE_SPECIES_FOR_PET]: allocateSpeciesForPet
 };
-
-export default intentMapping;
