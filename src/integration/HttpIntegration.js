@@ -1,4 +1,4 @@
-import * as PetIntents from './PetIntents';
+import * as PetIntents from '../pet/PetIntents';
 import fetch from 'cross-fetch';
 
 export default class HttpIntegration {

@@ -87,12 +87,6 @@ It is designed to work hand-in-hand with [MYOB-Technology/sme-web-bff], but is n
   Integration classes are kept in the [`src/integration`](src/integration) folder.
   - `MemoryIntegration` &mdash; default for development
   - `HTTPIntegration` &mdash; default for production
-  
-#### `REACT_APP_INTEGRATION_CONFIG`
-  The configuration file that should be used to configure the integration class.<br/>
-  Integration configurations are kept in the [`src/integration/config`](src/integration/config) folder.
-  > :construction: Configuration formats are currently a work-in-progress and subject to significant change.<br/>Refer to the files that exist for some idea of how to configure the different integrations.
-  - `data.json` &mdash; default configuration for `MemoryIntegration`, used in local development environment.
 
 ## FAQ
 

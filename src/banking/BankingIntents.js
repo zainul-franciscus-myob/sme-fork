@@ -1,0 +1,1 @@
+export const LOAD_TRANSACTIONS = Symbol("Load all transaction data");
