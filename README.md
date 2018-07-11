@@ -22,6 +22,8 @@ It is designed to work hand-in-hand with [MYOB-Technology/sme-web-bff], but is n
 
 1. [Running a production build](#run-a-production-build)
 
+1. [Usage of the MemoryIntegration](#usage-of-the-memoryintegration)
+
 ## Setup
 
 1. Install [node] &mdash; **consider using [nvm]**
@@ -87,12 +89,16 @@ It is designed to work hand-in-hand with [MYOB-Technology/sme-web-bff], but is n
   Integration classes are kept in the [`src/integration`](src/integration) folder.
   - `MemoryIntegration` &mdash; default for development
   - `HTTPIntegration` &mdash; default for production
-  
-#### `REACT_APP_INTEGRATION_CONFIG`
-  The configuration file that should be used to configure the integration class.<br/>
-  Integration configurations are kept in the [`src/integration/config`](src/integration/config) folder.
-  > :construction: Configuration formats are currently a work-in-progress and subject to significant change.<br/>Refer to the files that exist for some idea of how to configure the different integrations.
-  - `data.json` &mdash; default configuration for `MemoryIntegration`, used in local development environment.
+
+## Usage of the MemoryIntegration
+The `MemoryIntegration` is used in local development to stub out back-end server interaction. This makes it possible to run and test the web UI stand-alone (without any back-end server or HTTP calls). The `MemoryIntegration` uses a set of mappings to delegate intent requests to functions. All mappings that the `MemoryIntegration` is using are defined in the `rootMapper.js` file. 
+
+### Adding a new mapping with data
+1. Put your JSON data files in `src/integration/data`.
+2. Create your new mapping file in `src/integration/memoryMapping`.
+3. Import and assign your new mapping in the `rootMapper.js` file.
+
+> ❗️ An intent can only be assigned to one function. If multiple mappings use the same intent Symbol and are assigned in the `rootMapper.js` file, then the latest one assigned in `rootMapper` will be used by the `MemoryIntegration`.
 
 ## FAQ
 

@@ -1,4 +1,4 @@
-import { LOAD_PETS_AND_SPECIES, ALLOCATE_SPECIES_FOR_PET } from '../integration/PetIntents';
+import { LOAD_PETS_AND_SPECIES, ALLOCATE_SPECIES_FOR_PET } from './PetIntents';
 
 export default (state = { pets: [], species: [] }, action) => {
   switch (action.intent) {

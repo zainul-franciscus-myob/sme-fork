@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Pet from './Pet';
 import PetReducer from './PetReducer';
 import Store from '../store/Store';
-import { LOAD_PETS_AND_SPECIES, ALLOCATE_SPECIES_FOR_PET } from '../integration/PetIntents';
+import { LOAD_PETS_AND_SPECIES, ALLOCATE_SPECIES_FOR_PET } from './PetIntents';
 
 export default class PetModule {
   constructor(integration, domElement) {
