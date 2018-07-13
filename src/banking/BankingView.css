@@ -1,0 +1,4 @@
+.BankingView .table-data__container .table-data__cell {
+  word-break: normal;
+  word-wrap: break-word;
+}

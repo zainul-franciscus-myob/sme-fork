@@ -1,4 +1,4 @@
-import PetModule from './pet/PetModule';
+import BankingModule from './banking/BankingModule';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
 import './index.css';
 
@@ -7,7 +7,7 @@ async function main(integrationType) {
 
   const rootElement = document.getElementById('root');
   const integration = new Integration();
-  const module = new PetModule(integration, rootElement);
+  const module = new BankingModule(integration, rootElement);
 
   module.run();
 }
