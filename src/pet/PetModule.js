@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Pet from './Pet';
+import PetView from './PetView';
 import PetReducer from './PetReducer';
 import Store from '../store/Store';
 import { LOAD_PETS_AND_SPECIES, ALLOCATE_SPECIES_FOR_PET } from './PetIntents';
@@ -43,7 +43,7 @@ export default class PetModule {
   };
 
   render = (state) => {
-    ReactDOM.render(<Pet
+    ReactDOM.render(<PetView
       pets={state.pets}
       species={state.species}
       onAllocate={this.handleAllocate}

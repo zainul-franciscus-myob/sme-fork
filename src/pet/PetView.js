@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Table, StandardTemplate } from '@myob/myob-widgets';
-import './Pet.css';
+import './PetView.css';
 import PetSpeciesAllocator from './PetSpeciesAllocator';
 
-class Pet extends Component {
+class PetView extends Component {
 
   render() {
     const petRows = this.props.pets.map((pet) => this.renderRow(pet));
@@ -43,4 +43,4 @@ class Pet extends Component {
   }
 }
 
-export default Pet;
+export default PetView;
