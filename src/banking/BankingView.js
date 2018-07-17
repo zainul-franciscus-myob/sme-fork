@@ -1,30 +1,29 @@
 import React, { Component } from 'react';
-import { Table, StandardTemplate } from '@myob/myob-widgets';
+import { StandardTemplate, Table } from '@myob/myob-widgets';
 import './BankingView.css';
 
 class BankingView extends Component {
   render() {
+    const tableConfig = {
+      date: { width: "96px", valign: 'top'},
+      account: { width: "102px", valign: 'top'},
+      description: { width: "flex-1", valign: 'top'},
+      withdrawal: { width: "124px", valign: 'top', align: 'right'},
+      deposit: { width: "124px", valign: 'top', align: 'right'}
+    };
     return (
       <div className="BankingView container">
         <StandardTemplate pageHead='Bank transactions'>
           <Table>
             <Table.Header>
-              <Table.HeaderItem width="96px">Date</Table.HeaderItem>
-              <Table.HeaderItem width="102px">Account</Table.HeaderItem>
-              <Table.HeaderItem width="flex-1">Descriptions</Table.HeaderItem>
-              <Table.HeaderItem width="124px" align="right">Withdrawal ($)</Table.HeaderItem>
-              <Table.HeaderItem width="124px" align="right">Deposit ($)</Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.date} >Date</Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.account} >Account</Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.description} >Descriptions</Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.withdrawal} >Withdrawal ($)</Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.deposit} >Deposit ($)</Table.HeaderItem>
             </Table.Header>
             <Table.Body>
-              {this.props.transactions.map((transaction) => (
-                <Table.Row key={transaction.id}>
-                  <Table.RowItem valign="top" width="96px">{transaction.displayDate}</Table.RowItem>
-                  <Table.RowItem valign="top" width="102px">{transaction.sourceAccount}</Table.RowItem>
-                  <Table.RowItem valign="top" width="flex-1">{transaction.description}</Table.RowItem>
-                  <Table.RowItem valign="top" width="124px" align="right">{transaction.withdrawalDisplayAmount}</Table.RowItem>
-                  <Table.RowItem valign="top" width="124px" align="right">{transaction.depositDisplayAmount}</Table.RowItem>
-                </Table.Row>
-              ))}
+              {this.props.renderRows(tableConfig)}
             </Table.Body>
           </Table>
         </StandardTemplate>

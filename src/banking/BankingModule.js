@@ -4,6 +4,8 @@ import BankingView from './BankingView';
 import BankingReducer from './BankingReducer';
 import Store from '../store/Store';
 import { LOAD_TRANSACTIONS } from './BankingIntents';
+import BankingTableRowView from "./BankingTableRowView";
+import EmptyBankingRowView from "./EmptyBankingRowView";
 
 export default class BankingModule {
   constructor(integration, domElement) {
@@ -13,8 +15,13 @@ export default class BankingModule {
   }
 
   render = (state) => {
-    ReactDOM.render(<BankingView transactions={state.transactions} />, this.domElement);
-  }
+    const hasTransactionsToDisplay = state.transactions.length > 0;
+
+    const tableRowComponent = hasTransactionsToDisplay
+      ? (tableConfig) => <BankingTableRowView tableConfig={tableConfig} transactions={state.transactions}/>
+      : () => <EmptyBankingRowView/>;
+    ReactDOM.render(<BankingView renderRows={tableRowComponent}/>, this.domElement);
+  };
 
   run() {
     ReactDOM.render(<p>Loading...</p>, this.domElement);
