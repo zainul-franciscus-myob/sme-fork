@@ -1,4 +1,6 @@
-closes #  **/** [Reason for change]
+closes MYOB-Technology/sme-web# 
+
+[Reason for change]
 
 ---
 
@@ -9,3 +11,11 @@ closes #  **/** [Reason for change]
 - [ ] Updated documentation (project setup, processes, etc)
 
 - [ More things... ]
+
+
+## Reviews Completed
+
+- [ ] Code
+- [ ] Design
+- [ ] Acceptance Criteria
+- [ ] QA
