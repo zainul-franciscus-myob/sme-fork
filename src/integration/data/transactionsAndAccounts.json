@@ -40,5 +40,31 @@
       "withdrawalDisplayAmount": "",
       "depositDisplayAmount": "1,100.00"
     }
+  ],
+  "accounts": [
+    {
+      "AccountName": "Expenses",
+      "AccountNumber": "1000",
+      "SubType": "Expense",
+      "TaxCode": "GST"
+    },
+    {
+      "AccountName": "Petty Cash",
+      "AccountNumber": "2000",
+      "SubType": "Expense",
+      "TaxCode": "GST"
+    },
+    {
+      "AccountName": "Sales",
+      "AccountNumber": "3000",
+      "SubType": "Income",
+      "TaxCode": "GST"
+    },
+    {
+      "AccountName": "Cheque",
+      "AccountNumber": "4000",
+      "SubType": "Expense",
+      "TaxCode": "GST"
+    }
   ]
 }
