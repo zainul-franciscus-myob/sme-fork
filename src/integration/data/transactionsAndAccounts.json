@@ -1,12 +1,13 @@
 {
   "transactions": [
     {
-      "id": "1",
+        "id": "1",
       "displayDate": "31/02/2018",
       "sourceAccount": "Cheque",
       "description": "Paid for Coffee Lorem ipsum dolor sit amet, at sed hinc rebum ancillae. Ea ius labitur ceteros denique. Elitr adversarium concludaturque ne nam. Molestie intellegat interpretaris at vel, habemus accusam commune ad per. Eros tantas per cu, id mel sumo convenire. Sed mundi choro scaevola te, eu mea laudem timeam adipiscing.",
       "withdrawalDisplayAmount": "1,000,000.00",
-      "depositDisplayAmount": ""
+      "depositDisplayAmount": "",
+      "allocatedAccount": ""
     },
     {
       "id": "2",
@@ -14,7 +15,8 @@
       "sourceAccount": "Cheque",
       "description": "Paid for Donut",
       "withdrawalDisplayAmount": "4.50",
-      "depositDisplayAmount": ""
+      "depositDisplayAmount": "",
+      "allocatedAccount": "Petty Cash"
     },
     {
       "id": "3",
@@ -22,7 +24,8 @@
       "sourceAccount": "Farm Cheque",
       "description": "Paid for Horse Feed",
       "withdrawalDisplayAmount": "250.00",
-      "depositDisplayAmount": ""
+      "depositDisplayAmount": "",
+      "allocatedAccount": ""
     },
     {
       "id": "4",
@@ -30,7 +33,8 @@
       "sourceAccount": "Farm Cheque",
       "description": "sold a horse",
       "withdrawalDisplayAmount": "",
-      "depositDisplayAmount": "115.00"
+      "depositDisplayAmount": "115.00",
+      "allocatedAccount": "Farm Expenses"
     },
     {
       "id": "5",
@@ -38,7 +42,8 @@
       "sourceAccount": "Farm Cheque",
       "description": "sold the saddle",
       "withdrawalDisplayAmount": "",
-      "depositDisplayAmount": "1,100.00"
+      "depositDisplayAmount": "1,100.00",
+      "allocatedAccount": ""
     }
   ],
   "accounts": [
