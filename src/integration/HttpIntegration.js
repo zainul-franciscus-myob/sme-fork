@@ -1,5 +1,6 @@
 import fetch from 'cross-fetch';
 import bffMappings from './httpMappings/bffMappings';
+import handleResponse from './httpMappings/handleResponse';
 
 export default class HttpIntegration {
   constructor() {
@@ -12,26 +13,20 @@ export default class HttpIntegration {
   read(intent, onSuccess, onFailure) {
     const { baseUrl } = this.config;
     const requestSpec = this.mappings[intent];
-    fetch(`${baseUrl}${requestSpec.path}`, {
+    const requestUrl = `${baseUrl}${requestSpec.path}`;
+    const requestOptions = {
       method: requestSpec.method,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-    })
-      .then(res => {
-        if (res.status >= 400) {
-          onFailure(res);
-        }
-        return res.json();
-      })
-      .then(data => {
-        onSuccess(data);
-      })
-      .catch(err => {
-        console.error(err);
-        onFailure(err);
-      });
+    };
+
+    handleResponse(
+      fetch(requestUrl, requestOptions),
+      onSuccess,
+      onFailure
+    );
   }
 
   write(intent, params, onSuccess, onFailure) {
