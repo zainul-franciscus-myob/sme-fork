@@ -1,5 +1,9 @@
 import handleResponse from '../handleResponse';
 
+const fail = () => {
+  throw Error('Unexpected call')
+};
+
 describe('handleResponse', () => {
 
   describe('when promise is rejected', () => {
@@ -7,7 +11,7 @@ describe('handleResponse', () => {
     it('should reject', (done) => {
       const rejectedPromise = Promise.reject('TEST');
 
-      handleResponse(rejectedPromise, () => {}, done);
+      handleResponse(rejectedPromise, fail, done);
     });
 
   });
@@ -19,7 +23,7 @@ describe('handleResponse', () => {
         status: 400
       });
 
-      handleResponse(httpErrorCodePromise, () => {}, done);
+      handleResponse(httpErrorCodePromise, fail, done);
     });
 
   });
@@ -31,7 +35,7 @@ describe('handleResponse', () => {
         json: () => Promise.reject('TEST when JSON is invalid / unparseable')
       });
 
-      handleResponse(invalidJsonResponsePromise, () => {}, done);
+      handleResponse(invalidJsonResponsePromise, fail, done);
     });
 
   })
@@ -43,7 +47,7 @@ describe('handleResponse', () => {
         status: 200
       });
 
-      handleResponse(goodResponsePromise, done, () => {});
+      handleResponse(goodResponsePromise, done, fail);
     });
   })
 });
