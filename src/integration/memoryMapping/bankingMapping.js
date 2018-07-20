@@ -1,10 +1,10 @@
 import * as BankingIntents from '../../banking/BankingIntents';
-import transactions from '../data/transactionsAndAccounts';
+import transactionsAndAccounts from '../data/transactionsAndAccounts';
 
-const readTransactions = (onSuccess, onFailure) => {
-  onSuccess(transactions);
+const readTransactionsAndAccounts = (onSuccess, onFailure) => {
+  onSuccess(transactionsAndAccounts);
 };
 
 export default {
-  [BankingIntents.LOAD_TRANSACTIONS]: readTransactions
+  [BankingIntents.LOAD_TRANSACTIONS_AND_ACCOUNTS]: readTransactionsAndAccounts
 };

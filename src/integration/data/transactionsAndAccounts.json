@@ -48,7 +48,7 @@
   ],
   "accounts": [
     {
-      "AccountName": "Expenses",
+      "AccountName": "Farm Expenses",
       "AccountNumber": "1000",
       "SubType": "Expense",
       "TaxCode": "GST"

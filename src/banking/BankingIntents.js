@@ -1,1 +1,1 @@
-export const LOAD_TRANSACTIONS = Symbol("Load all transaction data");
+export const LOAD_TRANSACTIONS_AND_ACCOUNTS = Symbol("Load all transaction and account data");

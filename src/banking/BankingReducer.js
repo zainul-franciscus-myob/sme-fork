@@ -1,9 +1,13 @@
-import { LOAD_TRANSACTIONS } from './BankingIntents';
+import { LOAD_TRANSACTIONS_AND_ACCOUNTS } from './BankingIntents';
 
-export default (state = { transactions: [] }, action) => {
+export default (state = { transactions: [], accounts: [] }, action) => {
   switch (action.intent) {
-    case LOAD_TRANSACTIONS:
-      return { ...state, transactions: action.transactions };
+    case LOAD_TRANSACTIONS_AND_ACCOUNTS:
+      return {
+        ...state,
+        transactions: action.transactions,
+        accounts: action.accounts
+      };
 
     default:
       return state;

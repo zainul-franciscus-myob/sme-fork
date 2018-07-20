@@ -5,11 +5,12 @@ import './BankingView.css';
 class BankingView extends Component {
   render() {
     const tableConfig = {
-      date: { width: "96px", valign: 'top'},
-      account: { width: "102px", valign: 'top'},
-      description: { width: "flex-1", valign: 'top'},
-      withdrawal: { width: "124px", valign: 'top', align: 'right'},
-      deposit: { width: "124px", valign: 'top', align: 'right'}
+      date: { width: '96px', valign: 'top'},
+      account: { width: '102px', valign: 'top'},
+      description: { width: 'flex-1', valign: 'top'},
+      withdrawal: { width: '124px', valign: 'top', align: 'right'},
+      deposit: { width: '124px', valign: 'top', align: 'right'},
+      allocatedAccount: { width: '268px', valign: 'top' }
     };
     return (
       <div className="BankingView container">
@@ -21,6 +22,7 @@ class BankingView extends Component {
               <Table.HeaderItem {...tableConfig.description} >Descriptions</Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.withdrawal} >Withdrawal ($)</Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.deposit} >Deposit ($)</Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.allocatedAccount} >Allocate or Match</Table.HeaderItem>
             </Table.Header>
             <Table.Body>
               {this.props.renderRows(tableConfig)}
