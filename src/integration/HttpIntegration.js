@@ -32,26 +32,20 @@ export default class HttpIntegration {
   write(intent, params, onSuccess, onFailure) {
     const { baseUrl } = this.config;
     const requestSpec = this.mappings[intent];
-    fetch(`${baseUrl}${requestSpec.path}`, {
+    const requestUrl = `${baseUrl}${requestSpec.path}`;
+    const requestOptions = {
       method: requestSpec.method,
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
       body: JSON.stringify(params)
-    })
-      .then(res => {
-        if (res.status >= 400) {
-          onFailure(res);
-        }
-        return res.json();
-      })
-      .then(data => {
-        onSuccess(data);
-      })
-      .catch(err => {
-        console.error(err);
-        onFailure(err);
-      });
+    };
+
+    handleResponse(
+      fetch(requestUrl, requestOptions),
+      onSuccess,
+      onFailure
+    );
   }
 }
