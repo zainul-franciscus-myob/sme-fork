@@ -1,19 +1,18 @@
-import * as PetIntents from '../pet/PetIntents';
 import fetch from 'cross-fetch';
+import bffMappings from './httpMappings/bffMappings';
 
 export default class HttpIntegration {
-  constructor(env) {
-    // lets get this from the environment
-    this.baseUrl = "http://localhost:5000/bff";
-    this.intentsBffMapping = {
-      [PetIntents.LOAD_PETS_AND_SPECIES]: { method: 'GET', path: `${this.baseUrl}/pets/load_pets_and_species` },
-      [PetIntents.ALLOCATE_SPECIES_FOR_PET]: { method: 'PUT', path: `${this.baseUrl}/pets/allocate_species_for_pet` }
+  constructor() {
+    this.config = {
+      baseUrl: "http://localhost:5000/bff"
     }
+    this.mappings = bffMappings;
   }
 
   read(intent, onSuccess, onFailure) {
-    const requestSpec = this.intentsBffMapping[intent];
-    fetch(requestSpec.path, {
+    const { baseUrl } = this.config;
+    const requestSpec = this.mappings[intent];
+    fetch(`${baseUrl}${requestSpec.path}`, {
       method: requestSpec.method,
       headers: {
         'Accept': 'application/json',
@@ -36,8 +35,9 @@ export default class HttpIntegration {
   }
 
   write(intent, params, onSuccess, onFailure) {
-    const requestSpec = this.intentsBffMapping[intent]
-    fetch(requestSpec.path, {
+    const { baseUrl } = this.config;
+    const requestSpec = this.mappings[intent];
+    fetch(`${baseUrl}${requestSpec.path}`, {
       method: requestSpec.method,
       headers: {
         'Content-Type': 'application/json',
