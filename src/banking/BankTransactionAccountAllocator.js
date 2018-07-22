@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {Button, Combobox} from '@myob/myob-widgets';
+import {Combobox} from '@myob/myob-widgets';
 
 class BankTransactionAccountAllocator extends Component {
   state = {
@@ -8,9 +8,9 @@ class BankTransactionAccountAllocator extends Component {
   };
 
   comboboxMetaData = [
-    {columnName: 'AccountNumber', columnWidth: '63px'},
-    {columnName: 'AccountName', columnWidth: '243px', showData: true},
-    {columnName: 'SubType', columnWidth: '76px'}
+    {columnName: 'accountNumber', columnWidth: '63px'},
+    {columnName: 'accountName', columnWidth: '243px', showData: true},
+    {columnName: 'subType', columnWidth: '76px'}
   ];
 
   constructor(props) {
@@ -47,7 +47,7 @@ class BankTransactionAccountAllocator extends Component {
 
     const enableFocus = {tabIndex: 0, role: 'button'};
 
-    const allocatedAccount = accounts.find(account=> account.AccountName === allocatedAccountName);
+    const allocatedAccount = accounts.find(account=> account.accountName === allocatedAccountName);
 
     let content;
 
