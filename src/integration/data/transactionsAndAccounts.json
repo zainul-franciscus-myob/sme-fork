@@ -48,28 +48,32 @@
   ],
   "accounts": [
     {
-      "AccountName": "Farm Expenses",
-      "AccountNumber": "1000",
-      "SubType": "Expense",
-      "TaxCode": "GST"
+      "id": "1",
+      "accountName": "Farm Expenses",
+      "accountNumber": "1000",
+      "subType": "Expense",
+      "taxCode": "GST"
     },
     {
-      "AccountName": "Petty Cash",
-      "AccountNumber": "2000",
-      "SubType": "Expense",
-      "TaxCode": "GST"
+      "id": "2",
+      "accountName": "Petty Cash",
+      "accountNumber": "2000",
+      "subType": "Expense",
+      "taxCode": "GST"
     },
     {
-      "AccountName": "Sales",
-      "AccountNumber": "3000",
-      "SubType": "Income",
-      "TaxCode": "GST"
+      "id": "3",
+      "accountName": "Sales",
+      "accountNumber": "3000",
+      "subType": "Income",
+      "taxCode": "GST"
     },
     {
-      "AccountName": "Cheque",
-      "AccountNumber": "4000",
-      "SubType": "Expense",
-      "TaxCode": "GST"
+      "id": "4",
+      "accountName": "Cheque",
+      "accountNumber": "4000",
+      "subType": "Expense",
+      "taxCode": "GST"
     }
   ]
 }
