@@ -6,7 +6,7 @@
       "description": "Paid for Horse Feed",
       "withdrawalDisplayAmount": "250.00",
       "depositDisplayAmount": "",
-      "allocatedAccount": "Expenses"
+      "allocatedAccount": ""
   },
    "accountId": "1000"
 }
