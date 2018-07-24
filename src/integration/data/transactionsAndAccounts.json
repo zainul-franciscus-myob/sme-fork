@@ -7,7 +7,8 @@
       "description": "Paid for Coffee Lorem ipsum dolor sit amet, at sed hinc rebum ancillae. Ea ius labitur ceteros denique. Elitr adversarium concludaturque ne nam. Molestie intellegat interpretaris at vel, habemus accusam commune ad per. Eros tantas per cu, id mel sumo convenire. Sed mundi choro scaevola te, eu mea laudem timeam adipiscing.",
       "withdrawalDisplayAmount": "1,000,000.00",
       "depositDisplayAmount": "",
-      "allocatedAccount": ""
+      "allocatedAccountDisplayName": "",
+      "allocatedAccountId": ""
     },
     {
       "id": "2",
@@ -16,7 +17,8 @@
       "description": "Paid for Donut",
       "withdrawalDisplayAmount": "4.50",
       "depositDisplayAmount": "",
-      "allocatedAccount": "Petty Cash"
+      "allocatedAccountDisplayName": "Petty Cash",
+      "allocatedAccountId": "2"
     },
     {
       "id": "3",
@@ -25,7 +27,8 @@
       "description": "Paid for Horse Feed",
       "withdrawalDisplayAmount": "250.00",
       "depositDisplayAmount": "",
-      "allocatedAccount": ""
+      "allocatedAccountDisplayName": "",
+      "allocatedAccountId": ""
     },
     {
       "id": "4",
@@ -34,7 +37,8 @@
       "description": "sold a horse",
       "withdrawalDisplayAmount": "",
       "depositDisplayAmount": "115.00",
-      "allocatedAccount": "Farm Expenses"
+      "allocatedAccountDisplayName": "Farm Expenses",
+      "allocatedAccountId": "1"
     },
     {
       "id": "5",
@@ -43,7 +47,8 @@
       "description": "sold the saddle",
       "withdrawalDisplayAmount": "",
       "depositDisplayAmount": "1,100.00",
-      "allocatedAccount": ""
+      "allocatedAccountDisplayName": "",
+      "allocatedAccountId": ""
     }
   ],
   "accounts": [

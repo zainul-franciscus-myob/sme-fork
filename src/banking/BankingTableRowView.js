@@ -4,7 +4,7 @@ import BankTransactionAccountAllocator from './BankTransactionAccountAllocator';
 
 class BankingTableRowView extends Component {
   render() {
-    const {tableConfig, transactions, accounts} = this.props;
+    const {tableConfig, transactions, accounts, onAllocate} = this.props;
 
     return transactions.map((transaction) => (
       <Table.Row key={transaction.id}>
@@ -16,7 +16,9 @@ class BankingTableRowView extends Component {
         <Table.RowItem {...tableConfig.allocatedAccount} >
           <BankTransactionAccountAllocator
             accounts={accounts}
-            allocatedAccountName={transaction.allocatedAccount}
+            allocatedAccountDisplayName={transaction.allocatedAccountDisplayName}
+            allocatedAccountId={transaction.allocatedAccountId}
+            onAllocate={account => onAllocate(transaction, account)}
           />
         </Table.RowItem>
       </Table.Row>

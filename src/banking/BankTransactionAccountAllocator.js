@@ -42,12 +42,12 @@ class BankTransactionAccountAllocator extends Component {
   };
 
   render() {
-    const { accounts, allocatedAccountName } = this.props;
+    const { accounts, allocatedAccountDisplayName, allocatedAccountId, onAllocate } = this.props;
     const { isDisplayingCombobox } = this.state;
 
     const enableFocus = {tabIndex: 0, role: 'button'};
 
-    const allocatedAccount = accounts.find(account=> account.accountName === allocatedAccountName);
+    const allocatedAccount = accounts.find(account=> account.id === allocatedAccountId);
 
     let content;
 
@@ -56,9 +56,7 @@ class BankTransactionAccountAllocator extends Component {
         <Combobox
           ref={this.combobox}
           metaData={this.comboboxMetaData}
-          onChange={item => {
-            console.log('onChange', item);
-          }}
+          onChange={account => onAllocate(account)}
           onSelect={item => {
             console.log('onSelect', item);
           }}
@@ -68,7 +66,7 @@ class BankTransactionAccountAllocator extends Component {
         />;
     }
     else if (allocatedAccount) {
-      content = <span {...enableFocus}>{allocatedAccountName}</span>;
+      content = <span {...enableFocus}>{allocatedAccountDisplayName}</span>;
     }
     else {
       content = <a {...enableFocus}>Allocate Me</a>
