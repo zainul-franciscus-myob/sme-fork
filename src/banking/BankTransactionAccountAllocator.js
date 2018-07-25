@@ -65,7 +65,7 @@ class BankTransactionAccountAllocator extends Component {
           defaultItem={allocatedAccount}
         />;
     }
-    else if (allocatedAccount) {
+    else if (allocatedAccountDisplayName) {
       content = <span {...enableFocus}>{allocatedAccountDisplayName}</span>;
     }
     else {
