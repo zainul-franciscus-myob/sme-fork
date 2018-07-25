@@ -6,11 +6,15 @@ const readTransactionsAndAccounts = (onSuccess, onFailure) => {
 };
 
 const allocateAccountForTransaction = (params, onSuccess, onFailure) => {
-  const { transaction, accountId } = params;
+  const {transaction, accountId} = params;
   onSuccess(
-    {...transaction, 
-    allocatedAccountId: accountId, 
-    allocatedAccountDisplayName: 'Updated'}
+    {
+      transaction: {
+        ...transaction,
+        allocatedAccountId: accountId,
+        allocatedAccountDisplayName: 'Updated'
+      }
+    }
   );
 }
 

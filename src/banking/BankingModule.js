@@ -42,7 +42,7 @@ export default class BankingModule {
       (allocatedTransaction) => {
         this.store.publish({
           intent: ALLOCATE_ACCOUNT_FOR_TRANSACTION,
-          allocatedTransaction
+          allocatedTransaction: allocatedTransaction.transaction
         })
       },
       () => console.error('Failure')
