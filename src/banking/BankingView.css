@@ -1,21 +1,21 @@
-.BankingView .table-data__container .table-data__row {
+.banking-transactions .table-data__container .table-data__row {
   border-right: 0px;
 }
 
-.BankingView .table-data__container .table-data__cell {
+.banking-transactions .table-data__container .table-data__cell {
   word-break: normal;
   word-wrap: break-word;
 }
 
-.BankingView .table-data__cell:last-of-type {
+.banking-transactions .table-data__cell:last-of-type {
   border-left: 2px solid #DCDFE1;
   align-self: auto;
 }
 
-.BankingView .table-data__body .table-data__cell:last-of-type {
+.banking-transactions .table-data__body .table-data__cell:last-of-type {
   background-color: #F3F4F5;
 }
 
-.BankingView .table-data__body .table-data__row:hover .table-data__cell:last-of-type {
+.banking-transactions .table-data__body .table-data__row:hover .table-data__cell:last-of-type {
   background-color: #E8EAEC;
 }
