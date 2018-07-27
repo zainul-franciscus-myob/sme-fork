@@ -19,7 +19,7 @@ class BankingView extends Component {
             <Table.Header>
               <Table.HeaderItem {...tableConfig.date} >Date</Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.account} >Account</Table.HeaderItem>
-              <Table.HeaderItem {...tableConfig.description} >Descriptions</Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.description} >Description</Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.withdrawal} >Withdrawal ($)</Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.deposit} >Deposit ($)</Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.allocatedAccount} >Allocate or Match</Table.HeaderItem>
