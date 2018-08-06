@@ -36,7 +36,7 @@ export default class PetModule {
           updatedPet
         })
       },
-      (error) => console.error(error)
+      () => console.error("Failure to allocate species")
     );
   };
 
