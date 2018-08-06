@@ -4,25 +4,25 @@
       "displayDate": "30/4/2016",
       "referenceId": "JE0000001",
       "note": "lorem ipsum 1",
-      "displayAmount": "2.00"
-    }, 
+      "displayAmount": "$2.00"
+    },
     {
       "displayDate": "30/5/2016",
       "referenceId": "JE0000002",
       "note": "lorem ipsum 2",
-      "displayAmount": "3.00"
+      "displayAmount": "$3.00"
     },
     {
       "displayDate": "30/6/2016",
       "referenceId": "JE0000003",
       "note": "lorem ipsum 3",
-      "displayAmount": "4.00"
+      "displayAmount": "$4.00"
     },
     {
       "displayDate": "30/7/2016",
       "referenceId": "JE0000004",
       "note": "lorem ipsum 4",
-      "displayAmount": "5.00"
+      "displayAmount": "$5.00"
     }
   ]
 }
