@@ -11,7 +11,7 @@ const handleResponse = async (fetchedPromise, onFulfilled, onRejected) => {
   try {
     response = await fetchedPromise;
   } catch (error) {
-    onRejected(error);
+    onRejected(error.message);
     return;
   }
 
@@ -23,7 +23,7 @@ const handleResponse = async (fetchedPromise, onFulfilled, onRejected) => {
   try {
     payload = await response.json();
   } catch (error) {
-    onRejected(error)
+    onRejected(error.message);
     return;
   }
 

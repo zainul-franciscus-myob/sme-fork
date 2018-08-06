@@ -22,9 +22,7 @@ export default class PetModule {
           species
         });
       },
-      (error) => {
-        console.log(`Error: ${error}`)
-      }
+      (error) => console.error(error)
     );
   };
 
@@ -38,7 +36,7 @@ export default class PetModule {
           updatedPet
         })
       },
-      () => console.log("Failure")
+      (error) => console.error(error)
     );
   };
 
