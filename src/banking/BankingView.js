@@ -13,7 +13,7 @@ class BankingView extends Component {
       allocatedAccount: { width: '268px', valign: 'top' }
     };
     return (
-      <div className="BankingView container">
+      <div className="banking-transactions container">
         <StandardTemplate pageHead='Bank transactions'>
           <Table>
             <Table.Header>

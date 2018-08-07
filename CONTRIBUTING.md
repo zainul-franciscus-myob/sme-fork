@@ -56,3 +56,35 @@ Exit criteria | •**3 amigos kickoff**<br/><br/> Discuss &amp; understand:<br/>
   
 #### Don't
   - Do any business logic here.
+
+## Naming Conventions
+### CSS
+#### classes - dash-case
+example: `banking-view`
+### Javascript
+#### React component file - TitleCase
+example: `BankingView.js`
+#### Json file - camelCase
+example: `bankingTransactions.json`
+#### Tests files - {fileName}.test.js
+Located under `__tests__` file
+
+example - `BankingView.test.js`
+### Variables
+#### Local - camelCase
+example `myVariable = foo`
+#### Global - CAPITAL_CASE
+example `BIG_GLOBAL`
+#### Class - TitleCase
+example - `BankingView`
+### API
+#### contract keys - camelCase
+example:
+```javascript
+{ 'referenceId': '001' }
+```
+#### contract values - String
+example:
+```javascript
+{ 'referenceId': '001' }
+```
