@@ -1,0 +1,22 @@
+{
+  "transactions": [
+    {
+      "displayDate": "08/2/2018",
+      "referenceId": "TR00002",
+      "description": "Cry havoc",
+      "allocatedAccountDisplayName": "Mastercard",
+      "debitDisplayAmount": "$110.00",
+      "creditDisplayAmount": "",
+      "unreconciled": false
+    },
+    {
+      "displayDate": "08/3/2018",
+      "referenceId": "TR00003",
+      "description": "Let llip",
+      "allocatedAccountDisplayName": "American Expresso",
+      "debitDisplayAmount": "",
+      "creditDisplayAmount": "$90.50",
+      "unreconciled": false
+    }
+  ]
+}
