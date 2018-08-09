@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BankingView from '../BankingView';
+import GeneralJournalView from '../GeneralJournalView';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<BankingView renderRows={() => {}} />, div);
+  ReactDOM.render(<GeneralJournalView renderRows={() => {}} />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

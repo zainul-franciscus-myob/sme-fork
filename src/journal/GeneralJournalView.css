@@ -1,0 +1,12 @@
+.general-journal-view .table-data__container .table-data__row {
+  border-right: 0px;
+}
+
+.general-journal-view .table-data__container .table-data__cell {
+  word-break: normal;
+  word-wrap: break-word;
+}
+
+.general-journal-view .table-data__cell:last-of-type {
+  align-self: auto;
+}

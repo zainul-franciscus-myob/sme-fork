@@ -9,7 +9,6 @@ class EmptyBankingRowView extends Component {
       </Table.Row>
     )
   }
-
 }
 
 export default EmptyBankingRowView;
