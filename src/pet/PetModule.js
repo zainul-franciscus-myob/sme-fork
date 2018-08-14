@@ -1,15 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PetView from './PetView';
 import PetReducer from './PetReducer';
 import Store from '../store/Store';
 import { LOAD_PETS_AND_SPECIES, ALLOCATE_SPECIES_FOR_PET } from './PetIntents';
 
 export default class PetModule {
-  constructor(integration, domElement) {
+  constructor(integration, setRootView) {
     this.integration = integration;
     this.store = new Store(PetReducer);
-    this.domElement = domElement;
+    this.setRootView = setRootView;
   }
 
   loadPetsAndSpecies = () => {
@@ -41,15 +40,14 @@ export default class PetModule {
   };
 
   render = (state) => {
-    ReactDOM.render(<PetView
+    this.setRootView(<PetView
       pets={state.pets}
       species={state.species}
       onAllocate={this.handleAllocate}
-    />, this.domElement);
+    />);
   }
 
-  run() {
-    ReactDOM.render(<p>Loading...</p>, this.domElement);
+  run = () => {
     this.store.subscribe(this.render);
     this.loadPetsAndSpecies();
   }
