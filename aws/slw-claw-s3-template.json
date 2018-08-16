@@ -1,0 +1,73 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "  ",
+  "Parameters": {
+    "BucketName": {
+      "Type": "String",
+      "Default": "slw-claw-bucket"
+    },
+    "AccountId": {
+      "Type": "String",
+      "Default": "foo"
+    }
+  },
+  "Resources": {
+    "S3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "PublicRead",
+        "BucketName": {
+          "Ref": "BucketName"
+        },
+        "Tags": [
+          {
+            "Key": "crew",
+            "Value": "CLAW"
+          }
+        ],
+        "WebsiteConfiguration": {
+          "IndexDocument": "bundle.js",
+          "ErrorDocument": "404.json"
+        }
+
+    },
+    "DeletionPolicy": "Retain"
+  },
+  "S3BucketPolicy" : {
+    "Type" : "AWS::S3::BucketPolicy",
+    "Properties" : {
+      "Bucket" : {"Ref" : "S3Bucket"},
+      "PolicyDocument": {
+        "Statement": [
+          {
+            "Sid":"AddPerm",
+            "Effect":"Allow",
+            "Principal": "*",
+            "Action":["s3:GetObject"],
+            "Resource": {
+              "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "BucketName" } , "/*" ]]
+            },
+            "Condition": {
+              "IpAddress": {
+                "aws:SourceIp": [
+                  "255.255.255.255/32 OFFICE IP/VPN?"
+                  ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+      "WebsiteURL": {
+          "Value": {
+              "Fn::GetAtt": [
+                  "S3Bucket",
+                  "WebsiteURL"
+              ]
+          },
+          "Description": "S3 Website URL"
+      }
+  }
+}

@@ -1,0 +1,14 @@
+steps:
+
+  - name: Unit Tests
+    command: ./ops/bin/test
+    agents:
+      queue: ???
+
+  - block
+
+  - name: :rocket: Deploy App to Prod
+    command: ./ops/bin/deploy-prod
+    branches: 'master'
+    agents:
+      queue: ???

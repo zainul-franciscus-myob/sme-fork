@@ -1,0 +1,4 @@
+#! /bin/sh
+
+npm build out
+aws s3 cp out/ s3://myob-slw-claw-prod-bucket/
