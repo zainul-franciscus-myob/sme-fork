@@ -2,19 +2,37 @@ import createRouter from 'router5'
 import browserPlugin from 'router5/plugins/browser'
 import listenersPlugin from 'router5/plugins/listeners';
 
-const initializeRouter = (routes, actions) => {
-  const router = createRouter(routes)
-    .usePlugin(listenersPlugin())
-    .usePlugin(browserPlugin(
-      { useHash: true }
-    ))
-    .start('/home', (err, route) => {
-      actions[route.name]()
-    });
+function createModuleRouterPlugin(actions) {
+  function moduleRouterPlugin(router, dependencies) {
+    return {
+      onTransitionSuccess: (toState, fromState) => {
+        actions[toState.name]()
+      }
+    };
+  }
 
-  router.subscribe(({ route }) => {
-    actions[route.name]()
-  });
+  moduleRouterPlugin.pluginName = "MODULE_ROUTER_PLUGIN";
+  return moduleRouterPlugin;
+}
+
+const initializeRouter = (routes, actions) => {
+  const defaultRoute = routes.find(route => route.isDefault);
+
+  const routerOptions = {
+    defaultRoute: defaultRoute.name
+  };
+
+  const router = createRouter(routes, routerOptions)
+    .usePlugin(listenersPlugin())
+    .usePlugin(
+      browserPlugin(
+        { useHash: true }
+      ),
+      createModuleRouterPlugin(actions)
+    )
+    .start();
+
+    return router;
 }
 
 export default initializeRouter;

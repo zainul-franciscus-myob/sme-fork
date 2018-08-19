@@ -22,7 +22,7 @@ async function main(integrationType) {
   const app = new App(setRootView);
 
   const routes = [
-    {name: 'home',    path:'/home'},
+    {name: 'home',    path:'/home', isDefault: true},
     {name: 'banking', path:'/banking'},
     {name: 'pets',    path:'/pets'}
   ];
