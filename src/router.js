@@ -24,12 +24,8 @@ const initializeRouter = (routes, actions) => {
 
   const router = createRouter(routes, routerOptions)
     .usePlugin(listenersPlugin())
-    .usePlugin(
-      browserPlugin(
-        { useHash: true }
-      ),
-      createModuleRouterPlugin(actions)
-    )
+    .usePlugin(browserPlugin({ useHash: true }))
+    .usePlugin(createModuleRouterPlugin(actions))
     .start();
 
     return router;
