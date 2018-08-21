@@ -33,9 +33,11 @@ async function main(integrationType) {
     pets:     () => { pets.run() }
   };
 
-  const defaultRoute = 'home';
-
-  initalizeRouter(routes, actions, defaultRoute);
+  initalizeRouter({
+    routes,
+    actions,
+    defaultRoute: 'home'
+  });
 }
 
 main(
