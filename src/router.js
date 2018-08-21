@@ -1,11 +1,9 @@
 import createRouter from 'router5'
 import browserPlugin from 'router5/plugins/browser'
 
-const initializeRouter = (routes, actions) => {
-  const defaultRoute = routes.find(route => route.isDefault);
-
+const initializeRouter = (routes, actions, defaultRoute) => {
   const routerOptions = {
-    defaultRoute: defaultRoute.name
+    defaultRoute: defaultRoute
   };
 
   const router = createRouter(routes, routerOptions)
