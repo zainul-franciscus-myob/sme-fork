@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PetModule from './pet/PetModule';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
 import './index.css';
-import Router from './router';
+import initalizeRouter from './router';
 import App from './App';
 
 async function main(integrationType) {
@@ -33,7 +33,7 @@ async function main(integrationType) {
     pets:     () => { pets.run() }
   };
 
-  Router(routes, actions);
+  initalizeRouter(routes, actions);
 }
 
 main(
