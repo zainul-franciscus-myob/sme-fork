@@ -1,8 +1,8 @@
 # SME Web Client
 
-> This project was bootstrapped with [Create React App].
+[![Build status](https://badge.buildkite.com/98bde0dbe63125f2f0d51e684ad6b8018c6f861fb0b416071e.svg?theme=00AA65,CE2554,2B74DF,8241AA,fff,fff)](https://buildkite.com/myob/sme-web-ui) The SME Web Client is the primary frontend codebase, which implements the user interface for the SME Web product.
 
-The SME Web Client is the primary frontend codebase, which implements the user interface for the SME Web product.
+> This project was bootstrapped with [Create React App].
 
 It is designed to work hand-in-hand with [MYOB-Technology/sme-web-bff], but is not strictly dependent on it for the purposes of local development.
 
