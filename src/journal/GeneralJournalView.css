@@ -10,3 +10,7 @@
 .general-journal-view .table-data__cell:last-of-type {
   align-self: auto;
 }
+
+.general-journal-view .table-data__body {
+  min-height: 60vh;
+}

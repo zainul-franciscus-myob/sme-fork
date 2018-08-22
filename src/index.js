@@ -5,6 +5,7 @@ import '@myob/myob-styles/dist/styles/myob-clean.css';
 import './index.css';
 import initalizeRouter from './router';
 import App from './App';
+import GeneralJournalModule from './journal/GeneralJournalModule';
 
 async function main(integrationType) {
 
@@ -18,18 +19,21 @@ async function main(integrationType) {
   const integration = new Integration();
 
   const banking = new BankingModule(integration, setRootView);
+  const journal = new GeneralJournalModule(integration, setRootView);
   const pets = new PetModule(integration, setRootView);
   const app = new App(setRootView);
 
   const routes = [
     {name: 'home',    path:'/home'},
     {name: 'banking', path:'/banking'},
+    {name: 'journal', path:'/journal'},
     {name: 'pets',    path:'/pets'}
   ];
 
   const actions = {
     home:     () => { app.run() },
     banking:  () => { banking.run() },
+    journal:  () => { journal.run() },
     pets:     () => { pets.run() }
   };
 

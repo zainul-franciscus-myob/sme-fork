@@ -8,10 +8,10 @@ import {LOAD_GENERAL_JOURNAL_ENTRIES} from './JournalIntents';
 import EmptyGeneralJournalTableRowView from './EmptyGeneralJournalTableRowView';
 
 export default class GeneralJournalModule {
-  constructor(integration, domElement) {
+  constructor(integration, setRootView) {
     this.integration = integration;
     this.store = new Store(GeneralJournalReducer);
-    this.domElement = domElement;
+    this.setRootView = setRootView;
   }
 
   render = (state) => {
@@ -34,7 +34,6 @@ export default class GeneralJournalModule {
   };
 
   run() {
-    ReactDOM.render(<p>Loading...</p>, this.domElement);
     this.store.subscribe(this.render);
     this.integration.read(
       LOAD_GENERAL_JOURNAL_ENTRIES,
