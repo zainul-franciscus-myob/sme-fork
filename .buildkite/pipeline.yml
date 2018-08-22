@@ -1,14 +1,14 @@
 steps:
 
-  - name: Unit Tests
+  - name: 'Unit Tests'
     command: ./ops/bin/test
     agents:
-      queue: ???
+      queue: hd-dev-dflt
 
   - block
 
-  - name: :rocket: Deploy App to Prod
+  - name: ':rocket: Deploy App to Prod'
     command: ./ops/bin/deploy-prod
     branches: 'master'
     agents:
-      queue: ???
+      queue: hd-dev-dflt

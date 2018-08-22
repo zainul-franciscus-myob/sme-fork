@@ -2,7 +2,7 @@
 set -eu
 
 if [ $# -ne 1 ]; then
-  echo "usage: $0 [slw-claw-s3-<dev|prod>]."
+  echo "usage: $0 [ slw-claw-s3-<dev|prod> ]."
   exit 1
 fi
 
