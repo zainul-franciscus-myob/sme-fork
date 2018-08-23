@@ -11,6 +11,9 @@
   align-self: auto;
 }
 
-.general-journal-view .table-data__body {
+.general-journal-view .table-empty-list-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   min-height: 60vh;
 }

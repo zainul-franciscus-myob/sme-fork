@@ -4,9 +4,9 @@ import { Table } from '@myob/myob-widgets';
 class EmptyGeneralJournalTableRowView extends Component {
   render() {
     return (
-      <Table.Row>
-        <Table.RowItem valign="top" align="center" width="flex-1">There are no general journal entries for this period.</Table.RowItem>
-      </Table.Row>
+      <div className="table-empty-list-state">
+        There are no general journal entries for this period.
+      </div>
     )
   }
 }
