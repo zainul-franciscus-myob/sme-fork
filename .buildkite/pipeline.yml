@@ -5,10 +5,19 @@ steps:
     agents:
       queue: hd-dev-dflt
 
+  - wait
+
+  - name: 'Build Javascript'
+    command: ./ops/bin/build
+    branches: 'ci-js-to-s3'
+    agents:
+      queue: hd-dev-dflt
+    artifact_paths: "build.tar.gz"
+
   - block
 
-  - name: ':rocket: Deploy App to Prod'
-    command: ./ops/bin/deploy-prod
+  - name: ':rocket: Deploy App'
+    command: ./ops/bin/deploy
     branches: 'master'
     agents:
       queue: hd-dev-dflt

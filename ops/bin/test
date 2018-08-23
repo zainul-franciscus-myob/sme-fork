@@ -1,3 +1,4 @@
-#! /bin/sh
+#!/bin/bash -eu
 
-npm run test
+echo "--- Running Unit Tests";
+ops/bin/env "npm install && npm run test -- --coverage"

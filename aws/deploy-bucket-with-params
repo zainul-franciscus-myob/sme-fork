@@ -6,7 +6,7 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-${STACKNAME:=slw-claw-bucket}
+STACKNAME="slw-claw-bucket"
 REGION=ap-southeast-2
 PARAMETERS=$1
 
@@ -26,6 +26,5 @@ echo "running $op-stack for ${STACKNAME}"
 aws cloudformation ${op}-stack \
   --region ${REGION} \
   --stack-name ${STACKNAME} \
-  --template-body file://slw-claw-s3-template.json \
-  --parameters file://$PARAMETERS-params.json
-
+  --template-body file://aws/slw-claw-s3-template.json \
+  --parameters file://aws/$PARAMETERS-params.json

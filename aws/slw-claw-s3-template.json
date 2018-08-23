@@ -26,7 +26,7 @@
           }
         ],
         "WebsiteConfiguration": {
-          "IndexDocument": "bundle.js",
+          "IndexDocument": "index.html",
           "ErrorDocument": "404.json"
         }
 
@@ -68,16 +68,6 @@
         ]
       }
     }
-  },
-  "Outputs": {
-      "WebsiteURL": {
-          "Value": {
-              "Fn::GetAtt": [
-                  "S3Bucket",
-                  "WebsiteURL"
-              ]
-          },
-          "Description": "S3 Website URL"
-      }
   }
+}
 }

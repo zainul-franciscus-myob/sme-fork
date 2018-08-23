@@ -1,3 +1,11 @@
-#! /bin/sh
+#! /bin/sh -eu
 
-npm run start
+# Get the build artefact
+export BUCKET=s3://myob-slw-claw-prod-bucket
+
+buildkite-agent artifact download build.tar.gz .
+tar -zxvf build.tar.gz
+
+# Deploy it
+aws s3 cp build/ ${BUCKET} --recursive \
+   --cache-control max-age=31104000

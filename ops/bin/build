@@ -1,3 +1,4 @@
-#! /bin/sh
+#!/bin/bash -eu
+echo "--- Building Started"
+./ops/bin/env "npm install && npm run build && tar czf build.tar.gz build"
 
-npm run build

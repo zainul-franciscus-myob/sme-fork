@@ -1,0 +1,20 @@
+#! /bin/sh
+
+SECRET_ID='MYOB_NPM_AUTH_MACHINE_TOKEN_TEST'
+
+echo "--- Create .npmrc for internal NPM access"
+aws sts get-caller-identity &>/dev/null || { echo 'aws sts : Failed to connect to AWS'; exit 1; }
+
+secret=$(aws secretsmanager get-secret-value \
+  --secret-id "SME_CLAW_TEST_SECRET" \
+  --query "SecretString" \
+  --output text) \
+  || { echo 'Failed to get secret from ssm' ; exit 1; }
+
+[[ -e "$(pwd)/.npmrc" ]] && rm "$(pwd)/.npmrc"
+while read -r line; do
+  echo $line >> "$(pwd)/.npmrc"
+done <<EOF
+$secret
+EOF
+echo "NPM secrets added to .npmrc file"

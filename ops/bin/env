@@ -1,0 +1,15 @@
+#!/bin/bash -eu
+
+BUILD_IMAGE_URI='451515956712.dkr.ecr.ap-southeast-2.amazonaws.com/sme-web:latest'
+
+echo "--- Login to ECR"
+$(aws ecr get-login --no-include-email --region ap-southeast-2)
+
+echo "--- Start Build Container"
+docker run -t  \
+   -v $(pwd):/app \
+   -w /app \
+   -v ~/.aws/credentials:/root/.aws/credentials \
+   $BUILD_IMAGE_URI \
+   /bin/sh -c "ops/bin/npm-auth && $@"
+
