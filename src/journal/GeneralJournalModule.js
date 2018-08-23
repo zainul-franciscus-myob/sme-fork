@@ -4,7 +4,6 @@ import GeneralJournalReducer from './GeneralJournalReducer';
 import GeneralJournalView from './GeneralJournalView';
 import GeneralJournalTableRowView from './GeneralJournalTableRowView';
 import {LOAD_GENERAL_JOURNAL_ENTRIES} from './JournalIntents';
-import EmptyGeneralJournalTableRowView from './EmptyGeneralJournalTableRowView';
 
 export default class GeneralJournalModule {
   constructor(integration, setRootView) {
@@ -14,22 +13,9 @@ export default class GeneralJournalModule {
   }
 
   render = (state) => {
-    const hasGeneralJournalEntriesToDisplay = state.entries.length > 0;
-
-    const renderGeneralJournalEntries = tableConfig => (
-      <GeneralJournalTableRowView
-        tableConfig={tableConfig}
-        entries={state.entries}
-      />
-    );
-
-    const renderEmptyGeneralJournalEntries = () => <EmptyGeneralJournalTableRowView/>;
-
-    const renderGeneralJournalTableRows = hasGeneralJournalEntriesToDisplay
-      ? renderGeneralJournalEntries
-      : renderEmptyGeneralJournalEntries;
-
-    this.setRootView(<GeneralJournalView renderRows={renderGeneralJournalTableRows}/>);
+    const noGeneralJournalsToDisplay = state.entries.length === 0;
+    const renderGeneralJournalEntries = tableConfig => (GeneralJournalTableRowView(state.entries, tableConfig));
+    this.setRootView(<GeneralJournalView renderRows={renderGeneralJournalEntries} isEmpty={noGeneralJournalsToDisplay}/>);
   };
 
   run() {

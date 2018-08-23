@@ -11,7 +11,11 @@
   align-self: auto;
 }
 
-.general-journal-view .table-empty-list-state {
+.general-journal-view__list {
+  min-height: 60vh;
+}
+
+.general-journal-view__empty {
   display: flex;
   justify-content: center;
   align-items: center;
