@@ -13,9 +13,8 @@ export default class GeneralJournalModule {
   }
 
   render = (state) => {
-    const noGeneralJournalsToDisplay = state.entries.length === 0;
     const renderGeneralJournalEntries = tableConfig => (GeneralJournalTableRowView(state.entries, tableConfig));
-    this.setRootView(<GeneralJournalView renderRows={renderGeneralJournalEntries} isEmpty={noGeneralJournalsToDisplay}/>);
+    this.setRootView(<GeneralJournalView renderRows={renderGeneralJournalEntries} isEmpty={state.entries.length === 0}/>);
   };
 
   run() {
