@@ -1,17 +1,17 @@
 class Store {
   constructor(reducer) {
-    this._reducer = reducer;
-    this._subscribers = [];
+    this.reducer = reducer;
+    this.subscribers = [];
   }
 
   subscribe = (subscriber) => {
-    this._subscribers.push(subscriber);
+    this.subscribers.push(subscriber);
   };
 
   publish = (action) => {
-    this._state = this._reducer(this._state, action);
-    this._subscribers.forEach((subscriber) => {
-      subscriber(this._state);
+    this.state = this.reducer(this.state, action);
+    this.subscribers.forEach((subscriber) => {
+      subscriber(this.state);
     });
   };
 }

@@ -1,32 +1,39 @@
-import React, { Component } from 'react';
 import { Button, Combobox } from '@myob/myob-widgets';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 export default class PetSpeciesAllocator extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAllocationOptions: false
+      showAllocationOptions: false,
     };
   }
-  
-  render() {
-    return this.state.showAllocationOptions ? this.renderComboBox() : this.renderButton();
+
+  onShowAllocationOptions = () => {
+    this.setState({
+      showAllocationOptions: true,
+    });
   }
 
-  renderButton() {
-    const label = this.props.pet.species ? this.props.pet.species : 'Allocate me';
-    return (<Button onClick={this.onShowAllocationOptions} type="link">{label}</Button>)
+  onAllocate = (species) => {
+    const { onAllocate, pet } = this.props;
+    this.setState({
+      showAllocationOptions: false,
+    });
+    onAllocate(pet, species.name);
   }
 
   renderComboBox() {
+    const { species } = this.props;
     const comboboxMetaData = [
       { columnName: 'emoji', columnWidth: '30px', showData: true },
       { columnName: 'name', showData: true },
     ];
-    
+
     return (
       <Combobox
-        items={this.props.species}
+        items={species}
         metaData={comboboxMetaData}
         noMatchFoundMessage="No Matches Found"
         onChange={this.onAllocate}
@@ -35,16 +42,20 @@ export default class PetSpeciesAllocator extends Component {
     );
   }
 
-  onShowAllocationOptions = () => {
-    this.setState({
-      showAllocationOptions: true
-    });
+  renderButton() {
+    const { pet } = this.props;
+    const label = pet.species ? pet.species : 'Allocate me';
+    return (<Button onClick={this.onShowAllocationOptions} type="link">{label}</Button>);
   }
 
-  onAllocate = (species) => {
-    this.setState({
-      showAllocationOptions: false
-    });
-    this.props.onAllocate(this.props.pet, species.name);
+  render() {
+    const { showAllocationOptions } = this.state;
+    return showAllocationOptions ? this.renderComboBox() : this.renderButton();
   }
 }
+
+PetSpeciesAllocator.propTypes = {
+  species: PropTypes.isRequired,
+  onAllocate: PropTypes.isRequired,
+  pet: PropTypes.isRequired,
+};

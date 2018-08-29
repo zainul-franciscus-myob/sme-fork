@@ -1,10 +1,11 @@
 import React from 'react';
-import BankingView from './BankingView';
+
+import { ALLOCATE_ACCOUNT_FOR_TRANSACTION, LOAD_TRANSACTIONS_AND_ACCOUNTS } from './BankingIntents';
 import BankingReducer from './BankingReducer';
+import BankingTableRowView from './BankingTableRowView';
+import BankingView from './BankingView';
+import EmptyBankingRowView from './EmptyBankingRowView';
 import Store from '../store/Store';
-import { LOAD_TRANSACTIONS_AND_ACCOUNTS, ALLOCATE_ACCOUNT_FOR_TRANSACTION } from './BankingIntents';
-import BankingTableRowView from "./BankingTableRowView";
-import EmptyBankingRowView from "./EmptyBankingRowView";
 
 export default class BankingModule {
   constructor(integration, setRootView) {
@@ -13,22 +14,22 @@ export default class BankingModule {
     this.setRootView = setRootView;
   }
 
+  renderBankTransactions = ({ state, onAllocate }) => tableConfig => (
+    <BankingTableRowView
+      tableConfig={tableConfig}
+      transactions={state.transactions}
+      accounts={state.accounts}
+      onAllocate={onAllocate}
+    />
+  );
+
   render = (state) => {
     const hasTransactionsToDisplay = state.transactions.length > 0;
-
-    const renderBankTransactions = tableConfig => (
-      <BankingTableRowView
-        tableConfig={tableConfig}
-        transactions={state.transactions}
-        accounts={state.accounts}
-        onAllocate={this.handleAllocate}
-      />
-    );
 
     const renderNoTransactions = () => <EmptyBankingRowView />;
 
     const renderRows = hasTransactionsToDisplay
-      ? renderBankTransactions
+      ? this.renderBankTransactions({ state, onAllocate: this.handleAllocate })
       : renderNoTransactions;
 
     this.setRootView(<BankingView renderRows={renderRows} />);
@@ -41,10 +42,10 @@ export default class BankingModule {
       (allocatedTransaction) => {
         this.store.publish({
           intent: ALLOCATE_ACCOUNT_FOR_TRANSACTION,
-          allocatedTransaction: allocatedTransaction.transaction
-        })
+          allocatedTransaction: allocatedTransaction.transaction,
+        });
       },
-      () => console.error('Failure')
+      () => console.error('Failure'),
     );
   };
 
@@ -56,10 +57,10 @@ export default class BankingModule {
         this.store.publish({
           intent: LOAD_TRANSACTIONS_AND_ACCOUNTS,
           transactions,
-          accounts
-        })
+          accounts,
+        });
       },
-      (error) => console.error(error)
+      error => console.error(error),
     );
   }
 }

@@ -1,5 +1,5 @@
 .banking-transactions .table-data__container .table-data__row {
-  border-right: 0px;
+  border-right: 0;
 }
 
 .banking-transactions .table-data__container .table-data__cell {
@@ -8,14 +8,14 @@
 }
 
 .banking-transactions .table-data__cell:last-of-type {
-  border-left: 2px solid #DCDFE1;
+  border-left: 2px solid #dcdfe1;
   align-self: auto;
 }
 
 .banking-transactions .table-data__body .table-data__cell:last-of-type {
-  background-color: #F3F4F5;
+  background-color: #f3f4f5;
 }
 
 .banking-transactions .table-data__body .table-data__row:hover .table-data__cell:last-of-type {
-  background-color: #E8EAEC;
+  background-color: #e8eaec;
 }

@@ -10,11 +10,11 @@ const allocateSpeciesForPet = (params, onSuccess, onFailure) => {
   }
 };
 
-const loadPetsAndSpecies = (onSuccess, onFailure) => {
+const loadPetsAndSpecies = (onSuccess) => {
   onSuccess(petsAndSpecies);
 };
 
 export default {
   [PetIntents.LOAD_PETS_AND_SPECIES]: loadPetsAndSpecies,
-  [PetIntents.ALLOCATE_SPECIES_FOR_PET]: allocateSpeciesForPet
+  [PetIntents.ALLOCATE_SPECIES_FOR_PET]: allocateSpeciesForPet,
 };

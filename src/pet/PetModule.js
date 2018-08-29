@@ -1,8 +1,9 @@
 import React from 'react';
-import PetView from './PetView';
+
+import { ALLOCATE_SPECIES_FOR_PET, LOAD_PETS_AND_SPECIES } from './PetIntents';
 import PetReducer from './PetReducer';
+import PetView from './PetView';
 import Store from '../store/Store';
-import { LOAD_PETS_AND_SPECIES, ALLOCATE_SPECIES_FOR_PET } from './PetIntents';
 
 export default class PetModule {
   constructor(integration, setRootView) {
@@ -18,10 +19,10 @@ export default class PetModule {
         this.store.publish({
           intent: LOAD_PETS_AND_SPECIES,
           pets,
-          species
+          species,
         });
       },
-      (error) => console.error(error)
+      error => console.error(error),
     );
   };
 
@@ -32,10 +33,10 @@ export default class PetModule {
       (updatedPet) => {
         this.store.publish({
           intent: ALLOCATE_SPECIES_FOR_PET,
-          updatedPet
-        })
+          updatedPet,
+        });
       },
-      () => console.error("Failure to allocate species")
+      () => console.error('Failure to allocate species'),
     );
   };
 

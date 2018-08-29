@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import BankingView from '../BankingView';
 
 it('renders without crashing', () => {

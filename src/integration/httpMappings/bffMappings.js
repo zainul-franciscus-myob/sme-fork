@@ -1,9 +1,9 @@
-import bankingMappings from "./bankingMappings";
-import petMappings from "./petMappings";
-import journalMappings from "./journalMappings";
+import bankingMappings from './bankingMappings';
+import journalMappings from './journalMappings';
+import petMappings from './petMappings';
 
 export default Object.freeze(Object.assign(
   petMappings,
   bankingMappings,
-  journalMappings
+  journalMappings,
 ));

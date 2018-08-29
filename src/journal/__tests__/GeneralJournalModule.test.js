@@ -1,4 +1,4 @@
-import GeneralJournalModule from '../GeneralJournalModule'
+import GeneralJournalModule from '../GeneralJournalModule';
 
 describe('GeneralJournalModule', () => {
   it('should render into the supplied DOM element', () => {

@@ -1,9 +1,10 @@
 import React from 'react';
-import Store from '../store/Store';
+
+import { LOAD_GENERAL_JOURNAL_ENTRIES } from './JournalIntents';
 import GeneralJournalReducer from './GeneralJournalReducer';
-import GeneralJournalView from './GeneralJournalView';
 import GeneralJournalTableRowView from './GeneralJournalTableRowView';
-import {LOAD_GENERAL_JOURNAL_ENTRIES} from './JournalIntents';
+import GeneralJournalView from './GeneralJournalView';
+import Store from '../store/Store';
 
 export default class GeneralJournalModule {
   constructor(integration, setRootView) {
@@ -13,23 +14,30 @@ export default class GeneralJournalModule {
   }
 
   render = (state) => {
-    const renderGeneralJournalEntries = tableConfig => (GeneralJournalTableRowView(state.entries, tableConfig));
-    this.setRootView(<GeneralJournalView renderRows={renderGeneralJournalEntries} isEmpty={state.entries.length === 0}/>);
+    const renderGeneralJournalEntries = tableConfig => (
+      GeneralJournalTableRowView(state.entries, tableConfig)
+    );
+    this.setRootView(
+      <GeneralJournalView
+        renderRows={renderGeneralJournalEntries}
+        isEmpty={state.entries.length === 0}
+      />,
+    );
   };
 
   run() {
     this.store.subscribe(this.render);
     this.integration.read(
       LOAD_GENERAL_JOURNAL_ENTRIES,
-      ({entries}) => {
+      ({ entries }) => {
         this.store.publish({
           intent: LOAD_GENERAL_JOURNAL_ENTRIES,
-          entries: entries
-        })
+          entries,
+        });
       },
       () => {
-        console.log("Failed to load general journal entries");
-      }
-    )
+        console.log('Failed to load general journal entries');
+      },
+    );
   }
 }

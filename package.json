@@ -6,6 +6,7 @@
     "@myob/myob-styles": "2.0.0",
     "@myob/myob-widgets": "2.0.0",
     "cross-fetch": "2.2.0",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
@@ -15,6 +16,22 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint:js": "eslint ./src",
+    "lint:js:fix": "eslint ./src --fix",
+    "lint:css": "stylelint ./src/**/*.css",
+    "lint:css:fix": "stylelint ./src/**/*.css --fix"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.6",
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^21.21.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.3.0",
+    "stylelint": "^9.5.0",
+    "stylelint-config-standard": "^18.2.0"
   }
 }

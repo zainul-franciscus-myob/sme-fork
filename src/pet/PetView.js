@@ -1,16 +1,37 @@
+import { StandardTemplate, Table } from '@myob/myob-widgets';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Table, StandardTemplate } from '@myob/myob-widgets';
+
 import './PetView.css';
 import PetSpeciesAllocator from './PetSpeciesAllocator';
 
 class PetView extends Component {
+  renderRow = (pet) => {
+    const { species, onAllocate } = this.props;
+    const petSpeciesAllocator = (
+      <PetSpeciesAllocator
+        pet={pet}
+        species={species}
+        onAllocate={onAllocate}
+      />
+    );
+
+    return (
+      <Table.Row key={pet.name}>
+        <Table.RowItem width="30%">{pet.name}</Table.RowItem>
+        <Table.RowItem width="40%">{pet.owner}</Table.RowItem>
+        <Table.RowItem width="30%">{petSpeciesAllocator}</Table.RowItem>
+      </Table.Row>
+    );
+  }
 
   render() {
-    const petRows = this.props.pets.map((pet) => this.renderRow(pet));
+    const { pets } = this.props;
+    const petRows = pets.map(pet => this.renderRow(pet));
 
     return (
       <div className="Pet container">
-        <StandardTemplate pageHead='Cat or dog?'>
+        <StandardTemplate pageHead="Cat or dog?">
           <Table>
             <Table.Header>
               <Table.HeaderItem width="30%">Pet Name</Table.HeaderItem>
@@ -25,22 +46,12 @@ class PetView extends Component {
       </div>
     );
   }
-
-  renderRow = (pet) => {
-    const petSpeciesAllocator = (
-      <PetSpeciesAllocator
-        pet={pet}
-        species={this.props.species}
-        onAllocate={this.props.onAllocate}
-      />
-    );
-
-    return (<Table.Row key={pet.name}>
-      <Table.RowItem width="30%">{pet.name}</Table.RowItem>
-      <Table.RowItem width="40%">{pet.owner}</Table.RowItem>
-      <Table.RowItem width="30%">{petSpeciesAllocator}</Table.RowItem>
-    </Table.Row>)
-  }
 }
+
+PetView.propTypes = {
+  species: PropTypes.isRequired,
+  onAllocate: PropTypes.isRequired,
+  pets: PropTypes.isRequired,
+};
 
 export default PetView;
