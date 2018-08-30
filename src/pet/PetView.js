@@ -49,9 +49,9 @@ class PetView extends Component {
 }
 
 PetView.propTypes = {
-  species: PropTypes.isRequired,
-  onAllocate: PropTypes.isRequired,
-  pets: PropTypes.isRequired,
+  species: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onAllocate: PropTypes.func.isRequired,
+  pets: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default PetView;

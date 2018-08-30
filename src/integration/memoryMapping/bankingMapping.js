@@ -1,11 +1,11 @@
 import * as BankingIntents from '../../banking/BankingIntents';
 import transactionsAndAccounts from '../data/transactionsAndAccounts';
 
-const readTransactionsAndAccounts = (onSuccess) => {
+const readTransactionsAndAccounts = ({ onSuccess }) => {
   onSuccess(transactionsAndAccounts);
 };
 
-const allocateAccountForTransaction = (params, onSuccess) => {
+const allocateAccountForTransaction = ({ params, onSuccess }) => {
   const { transaction, accountId } = params;
   onSuccess(
     {

@@ -1,5 +1,6 @@
-import '@myob/myob-styles/dist/styles/myob-clean.css';
 import ReactDOM from 'react-dom';
+
+import '@myob/myob-styles/dist/styles/myob-clean.css';
 
 import './index.css';
 import App from './App';

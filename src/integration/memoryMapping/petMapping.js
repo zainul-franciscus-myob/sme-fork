@@ -1,7 +1,7 @@
 import * as PetIntents from '../../pet/PetIntents';
 import petsAndSpecies from '../data/petsAndSpecies';
 
-const allocateSpeciesForPet = (params, onSuccess, onFailure) => {
+const allocateSpeciesForPet = ({ params, onSuccess, onFailure }) => {
   const { pet, species } = params;
   if (pet.name === 'Smoke') {
     onFailure();
@@ -10,7 +10,7 @@ const allocateSpeciesForPet = (params, onSuccess, onFailure) => {
   }
 };
 
-const loadPetsAndSpecies = (onSuccess) => {
+const loadPetsAndSpecies = ({ onSuccess }) => {
   onSuccess(petsAndSpecies);
 };
 

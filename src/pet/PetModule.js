@@ -13,38 +13,52 @@ export default class PetModule {
   }
 
   loadPetsAndSpecies = () => {
-    this.integration.read(
-      LOAD_PETS_AND_SPECIES,
-      ({ pets, species }) => {
-        this.store.publish({
-          intent: LOAD_PETS_AND_SPECIES,
-          pets,
-          species,
-        });
-      },
-      error => console.error(error),
-    );
+    const intent = LOAD_PETS_AND_SPECIES;
+
+    const onSuccess = ({ pets, species }) => {
+      this.store.publish({
+        intent,
+        pets,
+        species,
+      });
+    };
+
+    const onFailure = error => console.error(error);
+
+    this.integration.read({
+      intent,
+      onSuccess,
+      onFailure,
+    });
   };
 
-  handleAllocate = (pet, species) => {
-    this.integration.write(
-      ALLOCATE_SPECIES_FOR_PET,
-      { pet, species },
-      (updatedPet) => {
-        this.store.publish({
-          intent: ALLOCATE_SPECIES_FOR_PET,
-          updatedPet,
-        });
-      },
-      () => console.error('Failure to allocate species'),
-    );
+  allocateSpeciesForPet = (pet, species) => {
+    const intent = ALLOCATE_SPECIES_FOR_PET;
+
+    const onSuccess = (updatedPet) => {
+      this.store.publish({
+        intent,
+        updatedPet,
+      });
+    };
+
+    const onFailure = () => {
+      console.error('Failure to allocate species');
+    };
+
+    this.integration.write({
+      intent,
+      params: { pet, species },
+      onSuccess,
+      onFailure,
+    });
   };
 
   render = (state) => {
     this.setRootView(<PetView
       pets={state.pets}
       species={state.species}
-      onAllocate={this.handleAllocate}
+      onAllocate={this.allocateSpeciesForPet}
     />);
   }
 

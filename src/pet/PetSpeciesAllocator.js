@@ -55,7 +55,7 @@ export default class PetSpeciesAllocator extends Component {
 }
 
 PetSpeciesAllocator.propTypes = {
-  species: PropTypes.isRequired,
-  onAllocate: PropTypes.isRequired,
-  pet: PropTypes.isRequired,
+  pet: PropTypes.shape({}).isRequired,
+  species: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onAllocate: PropTypes.func.isRequired,
 };

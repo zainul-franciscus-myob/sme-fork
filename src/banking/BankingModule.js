@@ -35,32 +35,50 @@ export default class BankingModule {
     this.setRootView(<BankingView renderRows={renderRows} />);
   };
 
-  handleAllocate = (transaction, account) => {
-    this.integration.write(
-      ALLOCATE_ACCOUNT_FOR_TRANSACTION,
-      { transaction, accountId: account.id },
-      (allocatedTransaction) => {
-        this.store.publish({
-          intent: ALLOCATE_ACCOUNT_FOR_TRANSACTION,
-          allocatedTransaction: allocatedTransaction.transaction,
-        });
-      },
-      () => console.error('Failure'),
-    );
+  allocateAccountForTransaction = (transaction, account) => {
+    const intent = ALLOCATE_ACCOUNT_FOR_TRANSACTION;
+
+    const onSuccess = (allocatedTransaction) => {
+      this.store.publish({
+        intent,
+        allocatedTransaction: allocatedTransaction.transaction,
+      });
+    };
+
+    const onFailure = () => console.error('Failure');
+
+    this.integration.write({
+      intent,
+      params: { transaction, accountId: account.id },
+      onSuccess,
+      onFailure,
+    });
   };
+
+  loadTransactionsAndAccounts = () => {
+    const intent = LOAD_TRANSACTIONS_AND_ACCOUNTS;
+
+    const onSuccess = ({ transactions, accounts }) => {
+      this.store.publish({
+        intent,
+        transactions,
+        accounts,
+      });
+    };
+
+    const onFailure = (error) => {
+      console.log(error);
+    };
+
+    this.integration.read({
+      intent,
+      onSuccess,
+      onFailure,
+    });
+  }
 
   run = () => {
     this.store.subscribe(this.render);
-    this.integration.read(
-      LOAD_TRANSACTIONS_AND_ACCOUNTS,
-      ({ transactions, accounts }) => {
-        this.store.publish({
-          intent: LOAD_TRANSACTIONS_AND_ACCOUNTS,
-          transactions,
-          accounts,
-        });
-      },
-      error => console.error(error),
-    );
+    this.loadTransactionsAndAccounts();
   }
 }
