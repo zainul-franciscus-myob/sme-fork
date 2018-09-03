@@ -2,8 +2,8 @@ import React from 'react';
 
 import { FILTER_GENERAL_JOURNAL_ENTRIES, LOAD_GENERAL_JOURNAL_ENTRIES, UPDATE_FILTER_OPTIONS } from './JournalIntents';
 import GeneralJournalReducer from './GeneralJournalReducer';
-import GeneralJournalTableRowView from './GeneralJournalTableRowView';
-import GeneralJournalView from './GeneralJournalView';
+import GeneralJournalTableRowView from './components/GeneralJournalTableRow';
+import GeneralJournalView from './components/GeneralJournalView';
 import Store from '../store/Store';
 
 export default class GeneralJournalModule {

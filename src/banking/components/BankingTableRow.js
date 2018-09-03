@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import BankTransactionAccountAllocator from './BankTransactionAccountAllocator';
 
-class BankingTableRowView extends Component {
+class BankingTableRow extends Component {
   render() {
     const {
       tableConfig, transactions, accounts, onAllocate,
@@ -31,4 +31,4 @@ class BankingTableRowView extends Component {
   }
 }
 
-export default BankingTableRowView;
+export default BankingTableRow;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ALLOCATE_SPECIES_FOR_PET, LOAD_PETS_AND_SPECIES } from './PetIntents';
 import PetReducer from './PetReducer';
-import PetView from './PetView';
+import PetView from './components/PetView';
 import Store from '../store/Store';
 
 export default class PetModule {
