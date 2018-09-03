@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@myob/ldal": "^0.2.4",
     "@myob/myob-styles": "2.7.1",
     "@myob/myob-widgets": "2.7.1",
     "cross-fetch": "2.2.0",

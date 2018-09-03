@@ -8,6 +8,7 @@ import BankingModule from './banking/BankingModule';
 import GeneralJournalModule from './journal/GeneralJournalModule';
 import PetModule from './pet/PetModule';
 import initalizeRouter from './router';
+import login from './auth';
 
 async function main(integrationType) {
   const Integration = (await import(`./integration/${integrationType}Integration.js`)).default;
@@ -16,6 +17,8 @@ async function main(integrationType) {
   const setRootView = (component) => {
     ReactDOM.render(component, root);
   };
+
+  login();
 
   const integration = Integration();
 
