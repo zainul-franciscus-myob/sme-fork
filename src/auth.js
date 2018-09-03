@@ -1,4 +1,4 @@
-import { inject } from "@myob/ldal";
+import { inject } from '@myob/ldal';
 
 const authenticationContext = inject({
   authority: 'https://sit.login.myob.com',

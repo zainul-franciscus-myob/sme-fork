@@ -12,7 +12,7 @@ function getQueryFromParams(params = {}) {
 }
 
 const defaultHttpHeaders = {
-  'Accept': 'application/json',
+  Accept: 'application/json',
   'Content-Type': 'application/json',
 };
 
@@ -30,7 +30,7 @@ export default (getAdditionalHeaders = () => ({})) => {
       const requestSpec = mappings[intent];
       const requestOptions = {
         method: requestSpec.method,
-        headers: {...defaultHttpHeaders, ...getAdditionalHeaders()},
+        headers: { ...defaultHttpHeaders, ...getAdditionalHeaders() },
       };
 
       const intentUrlPath = requestSpec.path;
@@ -51,7 +51,7 @@ export default (getAdditionalHeaders = () => ({})) => {
       const requestSpec = mappings[intent];
       const requestOptions = {
         method: requestSpec.method,
-        headers: {...defaultHttpHeaders, ...getAdditionalHeaders()},
+        headers: { ...defaultHttpHeaders, ...getAdditionalHeaders() },
         body: JSON.stringify(params),
       };
 
