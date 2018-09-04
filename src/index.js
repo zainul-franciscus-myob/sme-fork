@@ -3,22 +3,22 @@ import ReactDOM from 'react-dom';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
 
 import './index.css';
+import { bindOAuth2Callback } from './auth';
 import App from './App';
 import BankingModule from './banking/BankingModule';
 import GeneralJournalModule from './journal/GeneralJournalModule';
 import PetModule from './pet/PetModule';
 import initalizeRouter from './router';
-import login from './auth';
 
 async function main(integrationType) {
+  bindOAuth2Callback();
+
   const Integration = (await import(`./integration/${integrationType}Integration.js`)).default;
 
   const root = document.getElementById('root');
   const setRootView = (component) => {
     ReactDOM.render(component, root);
   };
-
-  login();
 
   const integration = Integration();
 

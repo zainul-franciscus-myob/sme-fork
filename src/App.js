@@ -1,4 +1,7 @@
+import { Button } from '@myob/myob-widgets';
 import React from 'react';
+
+import { isLoggedIn, login, logout } from './auth';
 
 export default class App {
   constructor(setRootView) {
@@ -14,6 +17,11 @@ export default class App {
           <li><a href="#/journal"> General Journal Screen </a></li>
           <li><a href="#/pets"> Pets Screen </a></li>
         </ul>
+        {
+          isLoggedIn()
+            ? <Button onClick={logout}>Logout</Button>
+            : <Button onClick={login}>Login</Button>
+        }
       </div>,
     );
   }

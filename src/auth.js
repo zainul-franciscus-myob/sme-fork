@@ -1,22 +1,32 @@
 import { inject } from '@myob/ldal';
 
+const clientId = 'sme-web';
+const resourceId = 'sme-web-bff';
+
 const authenticationContext = inject({
   authority: 'https://sit.login.myob.com',
-  clientId: 'sme-web',
-  loginResource: 'sme-web-bff',
+  clientId,
+  loginResource: resourceId,
   storageLocation: 'localStorage',
   redirectUri: 'https://localhost:3000',
+  postLogoutRedirectUri: 'https://localhost:3000',
 });
 
-authenticationContext.handleOAuth2Callback();
+export const bindOAuth2Callback = () => {
+  authenticationContext.handleOAuth2Callback();
+};
 
-export const getToken = () => authenticationContext.getToken('sme-web-bff');
-
-const login = () => {
+export const login = () => {
   const isLoggedIn = authenticationContext.getUser();
   if (!isLoggedIn) {
     authenticationContext.logIn();
   }
 };
 
-export default login;
+export const logout = () => {
+  authenticationContext.logOut();
+};
+
+export const isLoggedIn = () => !!authenticationContext.getUser();
+
+export const getToken = () => authenticationContext.getToken(resourceId);
