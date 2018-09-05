@@ -27,7 +27,7 @@
         ],
         "WebsiteConfiguration": {
           "IndexDocument": "index.html",
-          "ErrorDocument": "404.json"
+          "ErrorDocument": "index.html"
         }
 
     },
