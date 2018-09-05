@@ -9,12 +9,11 @@ steps:
 
   - name: 'Build Javascript'
     command: ./ops/bin/build
-    branches: 'ci-js-to-s3'
     agents:
       queue: hd-dev-dflt
     artifact_paths: "build.tar.gz"
 
-  - block
+  - wait
 
   - name: ':rocket: Deploy App'
     command: ./ops/bin/deploy
