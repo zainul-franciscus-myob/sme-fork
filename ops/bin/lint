@@ -1,0 +1,4 @@
+#!/bin/bash -eu
+
+echo "--- Running Linter";
+ops/bin/env "npm install && npm run lint:js"

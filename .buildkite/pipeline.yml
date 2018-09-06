@@ -1,13 +1,18 @@
 steps:
 
-  - name: 'Unit Tests'
+  - name: ':traffic_light: Unit Tests'
     command: ./ops/bin/test
+    agents:
+      queue: hd-dev-dflt
+
+  - name: ':book: Linting'
+    command: ./ops/bin/lint
     agents:
       queue: hd-dev-dflt
 
   - wait
 
-  - name: 'Build Javascript'
+  - name: ':package: Build Javascript'
     command: ./ops/bin/build
     agents:
       queue: hd-dev-dflt

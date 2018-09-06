@@ -9,7 +9,7 @@ describe('BankingModule', () => {
       ReactDOM.render(component, rootElement);
     };
 
-    const integration = { read: ({ onSuccess }) => onSuccess({ transactions: [], accounts: []}) };
+    const integration = { read: ({ onSuccess }) => onSuccess({ transactions: [], accounts: [] }) };
     const module = new BankingModule(integration, setRootView);
     module.run();
 
