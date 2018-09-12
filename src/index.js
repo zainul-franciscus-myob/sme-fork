@@ -8,7 +8,6 @@ import App from './App';
 import BankingModule from './banking/BankingModule';
 import BusinessModule from './business/BusinessModule';
 import GeneralJournalModule from './journal/GeneralJournalModule';
-import PetModule from './pet/PetModule';
 import initalizeRouter from './router';
 
 async function main(integrationType) {
@@ -26,7 +25,6 @@ async function main(integrationType) {
   const banking = new BankingModule(integration, setRootView);
   const business = new BusinessModule(integration, setRootView);
   const journal = new GeneralJournalModule(integration, setRootView);
-  const pets = new PetModule(integration, setRootView);
   const app = new App(setRootView);
 
   const routes = [
@@ -34,7 +32,6 @@ async function main(integrationType) {
     { name: 'home', path: '/home' },
     { name: 'banking', path: '/:businessId/banking' },
     { name: 'journal', path: '/:businessId/journal' },
-    { name: 'pets', path: '/pets' },
   ];
 
   const actions = {
@@ -42,7 +39,6 @@ async function main(integrationType) {
     home: () => { app.run(); },
     banking: (context) => { banking.run(context); },
     journal: (context) => { journal.run(context); },
-    pets: () => { pets.run(); },
   };
 
   initalizeRouter({
