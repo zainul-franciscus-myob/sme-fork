@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ALLOCATE_ACCOUNT_FOR_TRANSACTION, LOAD_TRANSACTIONS_AND_ACCOUNTS } from './BankingIntents';
-import BankingReducer from './BankingReducer';
+import { ALLOCATE_ACCOUNT_FOR_TRANSACTION, LOAD_TRANSACTIONS_AND_ACCOUNTS } from './bankingIntents';
+import BankingReducer from './bankingReducer';
 import BankingTableRow from './components/BankingTableRow';
-import BankingView from './components/BankingView';
+import BankingTransactionsView from './components/BankingTransactionsView';
 import EmptyBankingRow from './components/EmptyBankingRow';
 import Store from '../store/Store';
 
@@ -32,7 +32,7 @@ export default class BankingModule {
       ? this.renderBankTransactions({ state, onAllocate: this.handleAllocate })
       : renderNoTransactions;
 
-    this.setRootView(<BankingView renderRows={renderRows} />);
+    this.setRootView(<BankingTransactionsView renderRows={renderRows} />);
   };
 
   allocateAccountForTransaction = (transaction, account) => {

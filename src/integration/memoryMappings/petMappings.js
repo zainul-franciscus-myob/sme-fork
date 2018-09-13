@@ -1,4 +1,4 @@
-import * as PetIntents from '../../pet/PetIntents';
+import * as PetIntents from '../../pet/petIntents';
 import petsAndSpecies from '../data/petsAndSpecies';
 
 const allocateSpeciesForPet = ({ params, onSuccess, onFailure }) => {

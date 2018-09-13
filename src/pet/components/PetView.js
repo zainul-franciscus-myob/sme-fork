@@ -30,7 +30,7 @@ class PetView extends Component {
     const petRows = pets.map(pet => this.renderRow(pet));
 
     return (
-      <div className="Pet container">
+      <div className="pet container">
         <StandardTemplate pageHead="Cat or dog?">
           <Table>
             <Table.Header>

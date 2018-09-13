@@ -1,4 +1,4 @@
-import * as PetIntents from '../../pet/PetIntents';
+import * as PetIntents from '../../pet/petIntents';
 
 export default {
   [PetIntents.LOAD_PETS_AND_SPECIES]: {

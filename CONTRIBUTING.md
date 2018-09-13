@@ -63,20 +63,22 @@ Exit criteria | •**3 amigos kickoff**<br/><br/> Discuss &amp; understand:<br/>
 example: `banking-view`
 ### Javascript
 #### React component file - TitleCase
-example: `BankingView.js`
+example: `BankingTransactionsView.js`
 #### Json file - camelCase
 example: `bankingTransactions.json`
 #### Tests files - {fileName}.test.js
 Located under `__tests__` file
 
-example - `BankingView.test.js`
+example - `BankingTransactionsView.test.js`
+#### Files not exporting classes - camelCase
+example: `bankingIntents.js`
 ### Variables
 #### Local - camelCase
 example `myVariable = foo`
 #### Global - CAPITAL_CASE
 example `BIG_GLOBAL`
 #### Class - TitleCase
-example - `BankingView`
+example - `BankingTransactionsView`
 ### API
 #### contract keys - camelCase
 example:

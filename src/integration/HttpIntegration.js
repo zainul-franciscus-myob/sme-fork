@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-import bffMappings from './httpMappings/bffMappings';
+import bffMappings from './httpMappings/rootMappings';
 import handleResponse from './httpMappings/handleResponse';
 
 function getQueryFromParams(params = {}) {

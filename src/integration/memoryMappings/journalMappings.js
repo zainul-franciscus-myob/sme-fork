@@ -1,4 +1,4 @@
-import * as JournalIntents from '../../journal/JournalIntents';
+import * as JournalIntents from '../../journal/journalIntents';
 import generalJournalEntries from '../data/generalJournalEntries';
 
 const readGeneralJournalEntries = ({ onSuccess }) => {

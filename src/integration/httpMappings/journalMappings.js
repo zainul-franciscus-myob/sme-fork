@@ -1,4 +1,4 @@
-import * as JournalIntents from '../../journal/JournalIntents';
+import * as JournalIntents from '../../journal/journalIntents';
 
 export default {
   [JournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES]: {

@@ -1,4 +1,4 @@
-import { ALLOCATE_ACCOUNT_FOR_TRANSACTION, LOAD_TRANSACTIONS_AND_ACCOUNTS } from './BankingIntents';
+import { ALLOCATE_ACCOUNT_FOR_TRANSACTION, LOAD_TRANSACTIONS_AND_ACCOUNTS } from './bankingIntents';
 
 export default (state = { transactions: [], accounts: [] }, action) => {
   switch (action.intent) {

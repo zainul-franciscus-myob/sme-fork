@@ -29,7 +29,7 @@ const GeneralJournalView = (props) => {
   );
 
   return (
-    <div className="general-journal-view">
+    <div className="general-journal container">
       <StandardTemplate pageHead="General Journals" filterBar={filterBar}>
         <div className="general-journal-view__list">
           <Table>

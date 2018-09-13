@@ -3,7 +3,7 @@ import React from 'react';
 
 import './BankingView.css';
 
-const BankingView = ({ renderRows }) => {
+const BankingTransactionsView = ({ renderRows }) => {
   const tableConfig = {
     date: { width: '96px', valign: 'top' },
     account: { width: '102px', valign: 'top' },
@@ -34,4 +34,4 @@ const BankingView = ({ renderRows }) => {
   );
 };
 
-export default BankingView;
+export default BankingTransactionsView;

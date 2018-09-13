@@ -1,4 +1,4 @@
-import intentMapping from './memoryMapping/rootMapper';
+import intentMapping from './memoryMappings/rootMappings';
 
 export default () => ({
   read: ({

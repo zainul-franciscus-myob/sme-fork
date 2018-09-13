@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { ALLOCATE_SPECIES_FOR_PET, LOAD_PETS_AND_SPECIES } from './PetIntents';
-import PetReducer from './PetReducer';
+import { ALLOCATE_SPECIES_FOR_PET, LOAD_PETS_AND_SPECIES } from './petIntents';
+import PetReducer from './petReducer';
 import PetView from './components/PetView';
 import Store from '../store/Store';
 
