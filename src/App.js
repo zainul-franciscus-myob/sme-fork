@@ -8,15 +8,12 @@ export default class App {
     this.setRootView = setRootView;
   }
 
-  run = () => {
+  render = () => {
     this.setRootView(
       <div>
         <h2>MYOB SLW</h2>
         <ul>
           <li><a href="#/business"> Business List Screen </a></li>
-          <li><a href="#/banking"> Banking Screen </a></li>
-          <li><a href="#/journal"> General Journal Screen </a></li>
-          <li><a href="#/pets"> Pets Screen </a></li>
         </ul>
         {
           isLoggedIn()
@@ -25,5 +22,9 @@ export default class App {
         }
       </div>,
     );
+  }
+
+  run = () => {
+    this.render();
   }
 }

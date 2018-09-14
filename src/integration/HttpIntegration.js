@@ -24,7 +24,7 @@ export default (getAdditionalHeaders = () => ({})) => {
 
   return {
     read: ({
-      intent, params, onSuccess, onFailure,
+      intent, urlParams, params, onSuccess, onFailure,
     }) => {
       const { baseUrl } = config;
       const requestSpec = mappings[intent];
@@ -33,7 +33,7 @@ export default (getAdditionalHeaders = () => ({})) => {
         headers: { ...defaultHttpHeaders, ...getAdditionalHeaders() },
       };
 
-      const intentUrlPath = requestSpec.path;
+      const intentUrlPath = requestSpec.getPath(urlParams);
       const query = getQueryFromParams(params);
       const url = `${baseUrl}${intentUrlPath}?${query}`;
 
@@ -45,7 +45,7 @@ export default (getAdditionalHeaders = () => ({})) => {
     },
 
     write: ({
-      intent, params, onSuccess, onFailure,
+      intent, urlParams, params, onSuccess, onFailure,
     }) => {
       const { baseUrl } = config;
       const requestSpec = mappings[intent];
@@ -55,7 +55,7 @@ export default (getAdditionalHeaders = () => ({})) => {
         body: JSON.stringify(params),
       };
 
-      const intentUrlPath = requestSpec.path;
+      const intentUrlPath = requestSpec.getPath(urlParams);
       const url = `${baseUrl}${intentUrlPath}`;
 
       handleResponse(

@@ -11,6 +11,8 @@ export default class GeneralJournalModule {
     this.integration = integration;
     this.store = new Store(GeneralJournalReducer);
     this.setRootView = setRootView;
+
+    this.businessId = '';
   }
 
   render = (state) => {
@@ -30,6 +32,10 @@ export default class GeneralJournalModule {
   filterGeneralJournalEntries = () => {
     const intent = FILTER_GENERAL_JOURNAL_ENTRIES;
 
+    const urlParams = {
+      businessId: this.businessId,
+    };
+
     const onSuccess = ({ entries }) => {
       this.store.publish({
         intent,
@@ -43,6 +49,7 @@ export default class GeneralJournalModule {
 
     this.integration.read({
       intent,
+      urlParams,
       params: this.store.state.filterOptions,
       onSuccess,
       onFailure,
@@ -51,6 +58,10 @@ export default class GeneralJournalModule {
 
   loadGeneralJournalEntries = () => {
     const intent = LOAD_GENERAL_JOURNAL_ENTRIES;
+
+    const urlParams = {
+      businessId: this.businessId,
+    };
 
     const onSuccess = ({ entries, filterOptions }) => {
       this.store.publish({
@@ -66,6 +77,7 @@ export default class GeneralJournalModule {
 
     this.integration.read({
       intent,
+      urlParams,
       onSuccess,
       onFailure,
     });
@@ -81,7 +93,8 @@ export default class GeneralJournalModule {
     });
   }
 
-  run() {
+  run(context) {
+    this.businessId = context.businessId;
     this.store.subscribe(this.render);
     this.loadGeneralJournalEntries();
   }

@@ -30,18 +30,18 @@ async function main(integrationType) {
   const app = new App(setRootView);
 
   const routes = [
-    { name: 'home', path: '/home' },
     { name: 'business', path: '/business' },
-    { name: 'banking', path: '/banking' },
-    { name: 'journal', path: '/journal' },
+    { name: 'home', path: '/home' },
+    { name: 'banking', path: '/:businessId/banking' },
+    { name: 'journal', path: '/:businessId/journal' },
     { name: 'pets', path: '/pets' },
   ];
 
   const actions = {
-    home: () => { app.run(); },
-    banking: () => { banking.run(); },
     business: () => { business.run(); },
-    journal: () => { journal.run(); },
+    home: () => { app.run(); },
+    banking: (context) => { banking.run(context); },
+    journal: (context) => { journal.run(context); },
     pets: () => { pets.run(); },
   };
 

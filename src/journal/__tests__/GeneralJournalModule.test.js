@@ -11,7 +11,10 @@ describe('GeneralJournalModule', () => {
 
     const integration = { read: ({ onSuccess }) => onSuccess({ filterOptions: { dateFrom: '', dateTo: '' }, entries: [] }) };
     const module = new GeneralJournalModule(integration, setRootView);
-    module.run();
+    const context = {
+      businessId: '1234',
+    };
+    module.run(context);
 
     expect(rootElement.innerHTML).not.toBe('');
   });
