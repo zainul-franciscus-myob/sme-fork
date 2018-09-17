@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch';
+import uuid from 'uuid/v4';
 
 import bffMappings from './httpMappings/rootMappings';
 import handleResponse from './httpMappings/handleResponse';
@@ -14,6 +15,7 @@ function getQueryFromParams(params = {}) {
 const defaultHttpHeaders = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
+  'x-myobapi-requestid': uuid(),
 };
 
 export default (getAdditionalHeaders = () => ({})) => {
