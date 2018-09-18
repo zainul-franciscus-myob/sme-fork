@@ -12,11 +12,11 @@ function getQueryFromParams(params = {}) {
   return query;
 }
 
-const defaultHttpHeaders = {
+const getDefaultHttpHeaders = () => ({
   Accept: 'application/json',
   'Content-Type': 'application/json',
   'x-myobapi-requestid': uuid(),
-};
+});
 
 export default (getAdditionalHeaders = () => ({})) => {
   const config = {
@@ -32,7 +32,7 @@ export default (getAdditionalHeaders = () => ({})) => {
       const requestSpec = mappings[intent];
       const requestOptions = {
         method: requestSpec.method,
-        headers: { ...defaultHttpHeaders, ...getAdditionalHeaders() },
+        headers: { ...getDefaultHttpHeaders(), ...getAdditionalHeaders() },
       };
 
       const intentUrlPath = requestSpec.getPath(urlParams);
@@ -53,7 +53,7 @@ export default (getAdditionalHeaders = () => ({})) => {
       const requestSpec = mappings[intent];
       const requestOptions = {
         method: requestSpec.method,
-        headers: { ...defaultHttpHeaders, ...getAdditionalHeaders() },
+        headers: { ...getDefaultHttpHeaders(), ...getAdditionalHeaders() },
         body: JSON.stringify(params),
       };
 
