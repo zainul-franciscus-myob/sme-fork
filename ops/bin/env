@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-BUILD_IMAGE_URI='451515956712.dkr.ecr.ap-southeast-2.amazonaws.com/sme-web:latest'
+BUILD_IMAGE_URI='590476131038.dkr.ecr.ap-southeast-2.amazonaws.com/sme-web:latest'
 
 echo "--- Login to ECR"
 $(aws ecr get-login --no-include-email --region ap-southeast-2)

@@ -4,6 +4,6 @@ $(aws ecr get-login --no-include-email --region ap-southeast-2)
 
 docker build -f Dockerfile.build -t sme-claw-web-build .
 
-docker tag sme-claw-web-build:latest 451515956712.dkr.ecr.ap-southeast-2.amazonaws.com/sme-web
+docker tag sme-claw-web-build:latest 590476131038.dkr.ecr.ap-southeast-2.amazonaws.com/sme-web
 
-docker push 451515956712.dkr.ecr.ap-southeast-2.amazonaws.com/sme-web:latest
+docker push 590476131038.dkr.ecr.ap-southeast-2.amazonaws.com/sme-web:latest
