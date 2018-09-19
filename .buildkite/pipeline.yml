@@ -3,25 +3,24 @@ steps:
   - name: ':traffic_light: Unit Tests'
     command: ./ops/bin/test
     agents:
-      queue: hd-dev-dflt
+      queue: cacc-prod-dflt
 
   - name: ':book: Linting'
     command: ./ops/bin/lint
     agents:
-      queue: hd-dev-dflt
+      queue: cacc-prod-dflt
 
   - wait
 
   - name: ':package: Build Javascript'
     command: ./ops/bin/build
     agents:
-      queue: hd-dev-dflt
+      queue: cacc-prod-dflt
     artifact_paths: "build.tar.gz"
 
   - wait
 
   - name: ':rocket: Deploy App'
     command: ./ops/bin/deploy
-    branches: 'master'
     agents:
-      queue: hd-dev-dflt
+      queue: cacc-prod-dflt
