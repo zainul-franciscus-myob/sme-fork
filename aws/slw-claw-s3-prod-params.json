@@ -2,9 +2,5 @@
   {
     "ParameterKey": "BucketName",
     "ParameterValue": "myob-slw-claw-prod-bucket"
-  },
-  {
-    "ParameterKey": "AccountId",
-    "ParameterValue": "590476131038"
   }
 ]

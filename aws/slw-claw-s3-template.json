@@ -5,10 +5,6 @@
     "BucketName": {
       "Type": "String",
       "Default": "slw-claw-bucket"
-    },
-    "AccountId": {
-      "Type": "String",
-      "Default": "590476131038"
     }
   },
   "Resources": {
