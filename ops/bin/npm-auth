@@ -1,12 +1,12 @@
 #! /bin/sh
 
-SECRET_ID='MYOB_NPM_AUTH_MACHINE_TOKEN_TEST'
-
+SECRET_ID='SME_CLAW_AGENT_NPMRC'
+:
 echo "--- Create .npmrc for internal NPM access"
 aws sts get-caller-identity &>/dev/null || { echo 'aws sts : Failed to connect to AWS'; exit 1; }
 
 secret=$(aws secretsmanager get-secret-value \
-  --secret-id "SME_CLAW_TEST_SECRET" \
+  --secret-id $SECRET_ID \
   --query "SecretString" \
   --output text) \
   || { echo 'Failed to get secret from ssm' ; exit 1; }
