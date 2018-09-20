@@ -22,5 +22,6 @@ steps:
 
   - name: ':rocket: Deploy App'
     command: ./ops/bin/deploy
+    branches: master
     agents:
       queue: cacc-prod-dflt

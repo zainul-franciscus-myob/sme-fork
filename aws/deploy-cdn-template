@@ -1,0 +1,23 @@
+#!/bin/bash
+set -eu
+
+REGION=ap-southeast-2
+STACKNAME="sme-web-ui-cdn-stack"
+
+operation() {
+  AWS_DEFAULT_REGION=$REGION AWS_REGION=$REGION aws cloudformation describe-stack-resources --stack-name $STACKNAME > /dev/null 2>&1
+  exists=$?
+
+  if [ 0 == $exists ]; then
+    echo 'update'
+  else
+    echo 'create'
+  fi
+}
+op=$(operation)
+echo "running $op-stack for ${STACKNAME}"
+
+aws cloudformation ${op}-stack \
+  --region ${REGION} \
+  --stack-name ${STACKNAME} \
+  --template-body file://aws/slw-claw-cdn-template.json

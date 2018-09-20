@@ -1,0 +1,195 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "  ",
+  "Parameters": {
+    "BucketName": {
+      "Type": "String",
+      "Default": "myob-sme-web-ui-bucket"
+    }
+  },
+  "Resources":
+  {
+    "CFDistribution":
+    {
+      "Type" : "AWS::CloudFront::Distribution",
+      "Properties" :
+      {
+        "DistributionConfig" :
+        {
+          "Origins" :
+          [{
+            "DomainName" :
+            {
+              "Fn::Join" : ["", [{ "Ref" : "BucketName" }, ".s3.amazonaws.com"]]
+            },
+            "Id" : { "Ref": "S3Bucket" },
+            "S3OriginConfig":
+            {
+              "OriginAccessIdentity":
+              {
+                "Fn::Join" : ["", ["origin-access-identity/cloudfront/", { "Ref" : "OriginAccessId" }]]
+              }
+            }
+          }],
+          "Enabled" : "true",
+          "DefaultRootObject" : "index.html",
+          "DefaultCacheBehavior" :
+          {
+            "TargetOriginId" : { "Ref": "S3Bucket" },
+            "MinTTL" : 0,
+            "DefaultTTL" : 0,
+            "ForwardedValues" :
+            {
+              "QueryString" : "true",
+              "Cookies" : { "Forward" : "all" }
+            },
+            "ViewerProtocolPolicy" : "allow-all"
+          },
+          "PriceClass" : "PriceClass_100",
+          "ViewerCertificate": { "CloudFrontDefaultCertificate" : "true" },
+          "WebACLId" : { "Ref" : "WebACL" }
+        }
+      },
+      "DependsOn": ["S3Bucket", "OriginAccessId"]
+    },
+    "OriginAccessId":
+    {
+      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+      "Properties":
+      {
+        "CloudFrontOriginAccessIdentityConfig": {
+            "Comment": "Access id for sme web ui"
+        }
+      }
+    },
+    "IPSetWhitelist":
+    {
+      "Type": "AWS::WAF::IPSet",
+      "Properties": {
+        "Name": "IPSet for whitelisting office IP adresses",
+        "IPSetDescriptors":
+        [{
+          "Type" : "IPV4",
+          "Value" : "210.10.223.250/32"
+        },
+        {
+          "Type" : "IPV4",
+          "Value" : "203.34.100.2/32"
+        },
+        {
+          "Type" : "IPV4",
+          "Value" : "49.255.213.144/28"
+        },
+        {
+          "Type" : "IPV4",
+          "Value" : "210.10.244.96/28"
+        },
+        {
+          "Type" : "IPV4",
+          "Value" : "62.219.135.48/32"
+        },
+        {
+          "Type" : "IPV4",
+          "Value" : "184.59.133.179/32"
+        },
+        {
+          "Type" : "IPV4",
+          "Value" : "27.33.58.60/30"
+        },
+        {
+          "Type" : "IPV4",
+          "Value" : "14.200.59.197/32"
+        },
+        {
+          "Type" : "IPV4",
+          "Value" : "203.219.46.60/32"
+        },
+        {
+          "Type" : "IPV4",
+          "Value" : "14.200.152.208/32"
+        }]
+      }
+    },
+    "IPSetRule" : {
+      "Type": "AWS::WAF::Rule",
+      "Properties": {
+        "Name": "IPSetRule for whitelisting office IP addresses",
+        "MetricName" : "IPSetRule",
+        "Predicates": [
+          {
+            "DataId" : {  "Ref" : "IPSetWhitelist" },
+            "Negated" : false,
+            "Type" : "IPMatch"
+          }
+        ]
+      }
+    },
+    "WebACL":
+    {
+      "Type": "AWS::WAF::WebACL",
+      "Properties":
+      {
+        "Name": "WebACL for whitelisting office IP addresses",
+        "DefaultAction":
+        {
+          "Type": "BLOCK"
+        },
+        "MetricName" : "WebACL",
+        "Rules":
+        [
+          {
+            "Action" : {
+              "Type" : "ALLOW"
+            },
+            "Priority" : 1,
+            "RuleId" : { "Ref" : "IPSetRule" }
+          }
+        ]
+      }
+    },
+    "S3Bucket":
+    {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "Private",
+        "BucketName": {
+          "Ref": "BucketName"
+        },
+        "Tags": [
+          {
+            "Key": "crew",
+            "Value": "CLAW"
+          }
+        ]
+      }
+    },
+    "S3BucketPolicy" :
+    {
+      "Type" : "AWS::S3::BucketPolicy",
+      "Properties" :
+      {
+        "Bucket" : {"Ref" : "S3Bucket"},
+        "PolicyDocument":
+        {
+          "Statement":
+          [{
+            "Sid":"Grant permission to only cloud front",
+            "Effect":"Allow",
+            "Principal":
+            {
+              "AWS":
+              {
+                  "Fn::Join" : ["", ["arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ", { "Ref" : "OriginAccessId" } ]]
+              }
+            },
+            "Action":["s3:GetObject"],
+            "Resource":
+            {
+              "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "BucketName" } , "/*" ]]
+            }
+          }]
+        }
+      }
+    }
+  }
+}
