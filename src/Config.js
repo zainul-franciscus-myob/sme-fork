@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-const configURL = `${process.env.REACT_APP_BASE_URL}/config-${process.env.REACT_APP_BUILD_NUMBER || 'dev'}.json`;
+const configURL = `${process.env.REACT_APP_BASE_CONFIG_URL}/config-${process.env.REACT_APP_BUILD_NUMBER || 'dev'}.json`;
 
 const Config = {};
 

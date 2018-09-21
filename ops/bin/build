@@ -1,6 +1,5 @@
 #!/bin/bash -eu
 echo "--- Building Started"
-./ops/bin/env "npm install && npm run build \
-              && tar czf build.tar.gz build && \
-              cp ./public/config-prod.json ./build/config-${REACT_APP_BUILD_NUMBER}.json && \
-              cat ./build/config-${REACT_APP_BUILD_NUMBER}.json"
+./ops/bin/env "npm install && npm run build &&\
+              mv ./build/config-prod.json ./build/config-${REACT_APP_BUILD_NUMBER}.json && \
+              tar czf build.tar.gz build"
