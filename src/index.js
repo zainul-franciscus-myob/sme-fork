@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
 
 import './index.css';
-import { bindOAuth2Callback } from './auth';
+import { initializeAuth } from './auth';
+import { initializeConfig } from './Config';
 import App from './App';
 import BankingModule from './banking/BankingModule';
 import BusinessModule from './business/BusinessModule';
@@ -11,7 +12,8 @@ import GeneralJournalModule from './journal/GeneralJournalModule';
 import initalizeRouter from './router';
 
 async function main(integrationType) {
-  bindOAuth2Callback();
+  await initializeConfig();
+  initializeAuth();
 
   const Integration = (await import(`./integration/${integrationType}Integration.js`)).default;
 

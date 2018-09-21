@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import uuid from 'uuid/v4';
 
+import Config from '../Config';
 import bffMappings from './httpMappings/rootMappings';
 import handleResponse from './httpMappings/handleResponse';
 
@@ -20,7 +21,7 @@ const getDefaultHttpHeaders = () => ({
 
 export default (getAdditionalHeaders = () => ({})) => {
   const config = {
-    baseUrl: 'http://localhost:5000/bff',
+    baseUrl: `${Config.BFF_BASE_URL}/bff`,
   };
   const mappings = bffMappings;
 

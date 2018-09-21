@@ -14,6 +14,8 @@ steps:
 
   - name: ':package: Build Javascript'
     command: ./ops/bin/build
+    env:
+      REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
       queue: cacc-prod-dflt
     artifact_paths: "build.tar.gz"

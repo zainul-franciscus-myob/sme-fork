@@ -1,7 +1,7 @@
 #! /bin/sh -eu
 
 # Get the build artefact
-export BUCKET=s3://myob-slw-claw-prod-bucket
+export BUCKET=s3://myob-sme-web-ui-bucket
 
 buildkite-agent artifact download build.tar.gz .
 tar -zxvf build.tar.gz
