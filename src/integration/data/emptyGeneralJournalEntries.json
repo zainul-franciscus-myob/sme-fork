@@ -1,7 +1,7 @@
 {
-  "filterOptions" : {
-    "dateFrom": "01/04/2016",
-    "dateTo": "30/04/2016"
-  },
+  "dateFrom": "2016-04-01",
+  "dateTo": "2016-04-30",
+  "search": "lorem ipsum",
+  "order": "desc",
   "entries": []
 }
