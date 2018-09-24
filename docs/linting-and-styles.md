@@ -1,5 +1,4 @@
 ## Code editors
-
 For consistent code style, ensure your editor supports:
 
 -   [editorconfig](http://editorconfig.org/#download).
@@ -7,34 +6,28 @@ For consistent code style, ensure your editor supports:
 -   [stylelint](https://github.com/stylelint/stylelint/blob/master/docs/user-guide/complementary-tools.md#editor-plugins) plugin installed and enabled for live linting CSS
 
 ## Linting
-
 We use:
 
--   [eslint] to lint javascript files with airbnb rules
--   [stylelint] to lint css files with [standard config](https://github.com/stylelint/stylelint-config-standard)
+-   ESlint to lint javascript files with [airbnb rules](https://github.com/airbnb/javascript)
+-   stylelint to lint css files with [standard config](https://github.com/stylelint/stylelint-config-standard)
 
 ### Scripts
-
 -   Run eslint
-
 ```sh
 npm run lint:js
 ```
 
 -   Run eslint and fix autofixable issues
-
 ```sh
 npm run lint:js:fix
 ```
 
 -   Run stylelint
-
 ```sh
 npm run lint:css
 ```
 
 -   Run stylelint and fix autofixable issues
-
 ```sh
 npm run lint:css:fix
 ```
