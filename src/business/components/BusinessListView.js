@@ -6,7 +6,7 @@ class BusinessListView extends Component {
   renderRow = business => (
     <Table.Row key={business.id} dataId={business.id}>
       <Table.RowItem columnName="Business name" title={business.businessName}>
-        <a href={`/#/${business.id}/journal`}>{business.businessName}</a>
+        <a href={`/#/${business.id}/generalJournal`}>{business.businessName}</a>
       </Table.RowItem>
     </Table.Row>
   );

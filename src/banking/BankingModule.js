@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { ALLOCATE_ACCOUNT_FOR_TRANSACTION, LOAD_TRANSACTIONS_AND_ACCOUNTS } from './bankingIntents';
-import BankingReducer from './bankingReducer';
+import BankingIntents from './BankingIntents';
 import BankingTableRow from './components/BankingTableRow';
 import BankingTransactionsView from './components/BankingTransactionsView';
 import EmptyBankingRow from './components/EmptyBankingRow';
 import Store from '../store/Store';
+import bankingReducer from './bankingReducer';
 
 export default class BankingModule {
   constructor(integration, setRootView) {
     this.integration = integration;
-    this.store = new Store(BankingReducer);
+    this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
   }
 
@@ -36,7 +36,7 @@ export default class BankingModule {
   };
 
   allocateAccountForTransaction = (transaction, account) => {
-    const intent = ALLOCATE_ACCOUNT_FOR_TRANSACTION;
+    const intent = BankingIntents.ALLOCATE_ACCOUNT_FOR_TRANSACTION;
 
     const onSuccess = (allocatedTransaction) => {
       this.store.publish({
@@ -56,7 +56,7 @@ export default class BankingModule {
   };
 
   loadTransactionsAndAccounts = () => {
-    const intent = LOAD_TRANSACTIONS_AND_ACCOUNTS;
+    const intent = BankingIntents.LOAD_TRANSACTIONS_AND_ACCOUNTS;
 
     const onSuccess = ({ transactions, accounts }) => {
       this.store.publish({
@@ -75,7 +75,7 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   run = () => {
     this.store.subscribe(this.render);

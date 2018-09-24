@@ -1,4 +1,4 @@
-import * as BankingIntents from '../../banking/bankingIntents';
+import BankingIntents from '../../banking/BankingIntents';
 
 export default {
   [BankingIntents.LOAD_TRANSACTIONS_AND_ACCOUNTS]: {

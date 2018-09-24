@@ -1,4 +1,4 @@
-import { FILTER_GENERAL_JOURNAL_ENTRIES, LOAD_GENERAL_JOURNAL_ENTRIES, UPDATE_FILTER_OPTIONS } from './journalIntents';
+import GeneralJournalIntents from './GeneralJournalIntents';
 
 const initialState = {
   entries: [],
@@ -9,9 +9,9 @@ const initialState = {
   },
 };
 
-export default (state = initialState, action) => {
+const generalJournalReducer = (state = initialState, action) => {
   switch (action.intent) {
-    case LOAD_GENERAL_JOURNAL_ENTRIES:
+    case GeneralJournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES:
       return {
         ...state,
         entries: action.entries,
@@ -21,13 +21,13 @@ export default (state = initialState, action) => {
         },
       };
 
-    case FILTER_GENERAL_JOURNAL_ENTRIES:
+    case GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES:
       return {
         ...state,
         entries: action.entries,
       };
 
-    case UPDATE_FILTER_OPTIONS:
+    case GeneralJournalIntents.UPDATE_FILTER_OPTIONS:
       return {
         ...state,
         filterOptions: {
@@ -40,3 +40,5 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+export default generalJournalReducer;

@@ -1,17 +1,16 @@
 import React from 'react';
 
-import { FILTER_GENERAL_JOURNAL_ENTRIES, LOAD_GENERAL_JOURNAL_ENTRIES, UPDATE_FILTER_OPTIONS } from './journalIntents';
-import GeneralJournalReducer from './generalJournalReducer';
+import GeneralJournalIntents from './GeneralJournalIntents';
 import GeneralJournalTableRowView from './components/GeneralJournalTableRow';
 import GeneralJournalView from './components/GeneralJournalView';
 import Store from '../store/Store';
+import generalJournalReducer from './generalJournalReducer';
 
 export default class GeneralJournalModule {
   constructor(integration, setRootView) {
     this.integration = integration;
-    this.store = new Store(GeneralJournalReducer);
+    this.store = new Store(generalJournalReducer);
     this.setRootView = setRootView;
-
     this.businessId = '';
   }
 
@@ -27,10 +26,10 @@ export default class GeneralJournalModule {
       filterOptions={state.filterOptions}
       onApplyFilter={this.filterGeneralJournalEntries}
     />);
-  }
+  };
 
   filterGeneralJournalEntries = () => {
-    const intent = FILTER_GENERAL_JOURNAL_ENTRIES;
+    const intent = GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES;
 
     const urlParams = {
       businessId: this.businessId,
@@ -54,10 +53,10 @@ export default class GeneralJournalModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   loadGeneralJournalEntries = () => {
-    const intent = LOAD_GENERAL_JOURNAL_ENTRIES;
+    const intent = GeneralJournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES;
 
     const urlParams = {
       businessId: this.businessId,
@@ -81,17 +80,17 @@ export default class GeneralJournalModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   updateFilterOptions = ({ filterName, value }) => {
-    const intent = UPDATE_FILTER_OPTIONS;
+    const intent = GeneralJournalIntents.UPDATE_FILTER_OPTIONS;
 
     this.store.publish({
       intent,
       filterName,
       value,
     });
-  }
+  };
 
   run(context) {
     this.businessId = context.businessId;

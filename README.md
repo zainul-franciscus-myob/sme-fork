@@ -101,15 +101,15 @@ For consistent code style, ensure your editor supports:
 
 ## Usage of the MemoryIntegration
 
-The `MemoryIntegration` is used in local development to stub out back-end server interaction. This makes it possible to run and test the web UI stand-alone (without any back-end server or HTTP calls). The `MemoryIntegration` uses a set of mappings to delegate intent requests to functions. All mappings that the `MemoryIntegration` is using are defined in the `rootMappings.js` file.
+The `MemoryIntegration` is used in local development to stub out back-end server interaction. This makes it possible to run and test the web UI stand-alone (without any back-end server or HTTP calls). The `MemoryIntegration` uses a set of mappings to delegate intent requests to functions. All mappings that the `MemoryIntegration` is using are defined in the `RootMapping.js` file.
 
 ### Adding a new mapping with data
 
 1.  Put your JSON data files in `src/integration/data`.
 2.  Create your new mapping file in `src/integration/memoryMappings`.
-3.  Import and assign your new mapping in the `rootMappings.js` file.
+3.  Import and assign your new mapping in the `RootMapping.js` file.
 
-> ❗️ An intent can only be assigned to one function. If multiple mappings use the same intent Symbol and are assigned in the `rootMappings.js` file, then the latest one assigned in `rootMapper` will be used by the `MemoryIntegration`.
+> ❗️ An intent can only be assigned to one function. If multiple mappings use the same intent Symbol and are assigned in the `RootMapping.js` file, then the latest one assigned in `rootMapper` will be used by the `MemoryIntegration`.
 
 ## Linting
 

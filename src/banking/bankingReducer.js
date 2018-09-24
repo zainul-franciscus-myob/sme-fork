@@ -1,15 +1,14 @@
-import { ALLOCATE_ACCOUNT_FOR_TRANSACTION, LOAD_TRANSACTIONS_AND_ACCOUNTS } from './bankingIntents';
+import BankingIntents from './BankingIntents';
 
-export default (state = { transactions: [], accounts: [] }, action) => {
+const bankingReducer = (state = { transactions: [], accounts: [] }, action) => {
   switch (action.intent) {
-    case LOAD_TRANSACTIONS_AND_ACCOUNTS:
+    case BankingIntents.LOAD_TRANSACTIONS_AND_ACCOUNTS:
       return {
         ...state,
         transactions: action.transactions,
         accounts: action.accounts,
       };
-
-    case ALLOCATE_ACCOUNT_FOR_TRANSACTION: {
+    case BankingIntents.ALLOCATE_ACCOUNT_FOR_TRANSACTION: {
       const { allocatedTransaction } = action;
       return {
         ...state,
@@ -24,3 +23,5 @@ export default (state = { transactions: [], accounts: [] }, action) => {
       return state;
   }
 };
+
+export default bankingReducer;

@@ -68,10 +68,15 @@ example: `BankingTransactionsView.js`
 example: `bankingTransactions.json`
 #### Tests files - {fileName}.test.js
 Located under `__tests__` file
-
 example - `BankingTransactionsView.test.js`
-#### Files not exporting classes - camelCase
-example: `bankingIntents.js`
+
+#### Files exporting classes / function library / multiple exports / objects - PascalCase
+example: `BankingIntents.js`
+#### Files exporting functions - camelCase
+example: `bankingReducer.js`
+#### File names need to reflect the name of the const being exported
+example: `BankingIntents.js` `export default BankingIntents;`
+
 ### Variables
 #### Local - camelCase
 example `myVariable = foo`

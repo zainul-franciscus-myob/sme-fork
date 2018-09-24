@@ -2,8 +2,8 @@ import fetch from 'cross-fetch';
 import uuid from 'uuid/v4';
 
 import Config from '../Config';
-import bffMappings from './httpMappings/rootMappings';
-import handleResponse from './httpMappings/handleResponse';
+import RootMapping from './httpMapping/RootMapping';
+import handleResponse from './httpMapping/handleResponse';
 
 function getQueryFromParams(params = {}) {
   const encode = encodeURIComponent;
@@ -23,14 +23,13 @@ export default (getAdditionalHeaders = () => ({})) => {
   const config = {
     baseUrl: `${Config.BFF_BASE_URL}/bff`,
   };
-  const mappings = bffMappings;
 
   return {
     read: ({
       intent, urlParams, params, onSuccess, onFailure,
     }) => {
       const { baseUrl } = config;
-      const requestSpec = mappings[intent];
+      const requestSpec = RootMapping[intent];
       const requestOptions = {
         method: requestSpec.method,
         headers: { ...getDefaultHttpHeaders(), ...getAdditionalHeaders() },
@@ -51,7 +50,7 @@ export default (getAdditionalHeaders = () => ({})) => {
       intent, urlParams, params, onSuccess, onFailure,
     }) => {
       const { baseUrl } = config;
-      const requestSpec = mappings[intent];
+      const requestSpec = RootMapping[intent];
       const requestOptions = {
         method: requestSpec.method,
         headers: { ...getDefaultHttpHeaders(), ...getAdditionalHeaders() },
