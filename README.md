@@ -1,16 +1,14 @@
-# SME Web Client
-
-[![Build status](https://badge.buildkite.com/b96b134e5543ff90ffa9200467c65f8bed6b155c056b23f103.svg?theme=00AA65,CE2554,2B74DF,8241AA,fff,fff)](https://buildkite.com/myob/sme-web)
+[![Build status](https://badge.buildkite.com/b96b134e5543ff90ffa9200467c65f8bed6b155c056b23f103.svg?theme=00AA65,CE2554,2B74DF,8241AA,fff,fff)](https://buildkite.com/myob/sme-web)  
 The SME Web Client is the primary frontend codebase, which implements the user interface for the SME Web product.
 
 > This project was bootstrapped with [Create React App].
 
 It is designed to work hand-in-hand with [MYOB-Technology/sme-web-bff], but is not strictly dependent on it for the purposes of local development.
 
-SME Web Manifest
+SME Web
 =================
 
-  * Welcome
+  * Getting Started
     * Review the [social contract].
     * Review the [contributions process].
     * Review the [system architecture].
@@ -102,11 +100,11 @@ The `MemoryIntegration` is used in local development to stub out back-end server
 > ❗️ An intent can only be assigned to one function. If multiple mappings use the same intent Symbol and are assigned in the `RootMapping.js` file, then the latest one assigned in `rootMapper` will be used by the `MemoryIntegration`.
 
 
-[social contract]: (https://myobconfluence.atlassian.net/wiki/spaces/SA/pages/800688620/Web+Stream+Social+Contract)
+[social contract]: (myobconfluence.atlassian.net/wiki/spaces/SA/pages/800688620/Web+Stream+Social+Contract)
 [contributions process]: (CONTRIBUTING.md)
-[system architecture]: (https://myobconfluence.atlassian.net/wiki/spaces/SA/pages/815661633/Working+on+SME-web)
-[Editors]: (https://github.com/MYOB-Technology/sme-web/blob/master/docs/linting-and-styles.yaml#code-editorshttps://github.com/MYOB-Technology/sme-web/blob/master/docs/linting-and-styles.yaml#code-editors)
-[Linting]: (https://github.com/MYOB-Technology/sme-web/blob/master/docs/linting-and-styles.yaml#linting)
+[system architecture]: (myobconfluence.atlassian.net/wiki/spaces/SA/pages/815661633/Working+on+SME-web)
+[Editors]: (docs/linting-and-styles.yaml#code-editorshttps://github.com/MYOB-Technology/sme-web/blob/master/docs/linting-and-styles.yaml#code-editors)
+[Linting]: (docs/linting-and-styles.yaml#linting)
 [create react app]: https://github.com/facebookincubator/create-react-app
 [node]: https://nodejs.org/en/
 [nvm]: https://github.com/creationix/nvm
