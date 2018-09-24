@@ -1,30 +1,28 @@
 # SME Web Client
 
-[![Build status](https://badge.buildkite.com/98bde0dbe63125f2f0d51e684ad6b8018c6f861fb0b416071e.svg?theme=00AA65,CE2554,2B74DF,8241AA,fff,fff)](https://buildkite.com/myob/sme-web-ui) The SME Web Client is the primary frontend codebase, which implements the user interface for the SME Web product.
+[![Build status](https://badge.buildkite.com/b96b134e5543ff90ffa9200467c65f8bed6b155c056b23f103.svg?theme=00AA65,CE2554,2B74DF,8241AA,fff,fff)](https://buildkite.com/myob/sme-web)
+The SME Web Client is the primary frontend codebase, which implements the user interface for the SME Web product.
 
 > This project was bootstrapped with [Create React App].
 
 It is designed to work hand-in-hand with [MYOB-Technology/sme-web-bff], but is not strictly dependent on it for the purposes of local development.
 
-## Before we begin
+SME Web Manifest
+=================
 
-1.  Review the [social contract](Confluence).
+  * Welcome
+    * Review the [social contract].
+    * Review the [contributions process].
+    * Review the [system architecture].
+  * [Setting up the project](#setup)
+    * [Editors]
+    * [Linting]
+  * [Running the tests](#run-tests)
+  * [Running the local development environment](#run-local-development-environment)
+  * [Running a production build](#run-a-production-build)
+  * [Environment](#run-a-production-build)
+    * [Integrations](#usage-of-the-memoryintegration)
 
-2.  Review the [contributions process](CONTRIBUTING.md).
-
-3.  Review the [system architecture](Confluence).
-
-## Contents
-
-1.  [Setting up the project](#setup)
-
-2.  [Running the tests](#run-tests)
-
-3.  [Running the local development environment](#run-local-development-environment)
-
-4.  [Running a production build](#run-a-production-build)
-
-5.  [Usage of the MemoryIntegration](#usage-of-the-memoryintegration)
 
 ## Setup
 
@@ -35,14 +33,6 @@ It is designed to work hand-in-hand with [MYOB-Technology/sme-web-bff], but is n
 
 2.  Install project dependencies
         npm install
-
-### Code editors
-
-For consistent code style, ensure your editor supports:
-
--   [editorconfig](http://editorconfig.org/#download).
--   [ESLint](http://eslint.org/docs/user-guide/integrations#editors) plugin installed and enabled for live linting Javascript
--   [stylelint](https://github.com/stylelint/stylelint/blob/master/docs/user-guide/complementary-tools.md#editor-plugins) plugin installed and enabled for live linting CSS
 
 ## Run tests
 
@@ -111,51 +101,13 @@ The `MemoryIntegration` is used in local development to stub out back-end server
 
 > ❗️ An intent can only be assigned to one function. If multiple mappings use the same intent Symbol and are assigned in the `RootMapping.js` file, then the latest one assigned in `rootMapper` will be used by the `MemoryIntegration`.
 
-## Linting
 
-We use:
-
--   [eslint] to lint javascript files with airbnb rules
--   [stylelint] to lint css files with [standard config](https://github.com/stylelint/stylelint-config-standard)
-
-### Scripts
-
--   Run eslint
-
-```sh
-npm run lint:js
-```
-
--   Run eslint and fix autofixable issues
-
-```sh
-npm run lint:js:fix
-```
-
--   Run stylelint
-
-```sh
-npm run lint:css
-```
-
--   Run stylelint and fix autofixable issues
-
-```sh
-npm run lint:css:fix
-```
-
-## FAQ
-
-## Troubleshooting
-
-[social contract]: https://myobconfluence.atlassian.net/wiki/x/7Im5Lw
-
-[system architecture]: https://myobconfluence.atlassian.net/wiki
-
+[social contract]: (https://myobconfluence.atlassian.net/wiki/spaces/SA/pages/800688620/Web+Stream+Social+Contract)
+[contributions process]: (CONTRIBUTING.md)
+[system architecture]: (https://myobconfluence.atlassian.net/wiki/spaces/SA/pages/815661633/Working+on+SME-web)
+[Editors]: (https://github.com/MYOB-Technology/sme-web/blob/master/docs/linting-and-styles.yaml#code-editorshttps://github.com/MYOB-Technology/sme-web/blob/master/docs/linting-and-styles.yaml#code-editors)
+[Linting]: (https://github.com/MYOB-Technology/sme-web/blob/master/docs/linting-and-styles.yaml#linting)
 [create react app]: https://github.com/facebookincubator/create-react-app
-
 [node]: https://nodejs.org/en/
-
 [nvm]: https://github.com/creationix/nvm
-
 [myob-technology/sme-web-bff]: https://github.com/MYOB-Technology/sme-web-bff
