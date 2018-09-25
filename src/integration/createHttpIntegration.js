@@ -1,11 +1,12 @@
 import fetch from 'cross-fetch';
 import uuid from 'uuid/v4';
 
+import Config from '../Config';
 import RootMapping from './httpMapping/RootMapping';
 import handleResponse from './httpMapping/handleResponse';
 
 const config = {
-  baseUrl: 'http://localhost:5000/bff',
+  baseUrl: Config.BFF_BASE_URL,
 };
 
 const getQueryFromParams = (params = {}) => {
