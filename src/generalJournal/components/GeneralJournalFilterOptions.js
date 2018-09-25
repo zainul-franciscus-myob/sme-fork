@@ -11,7 +11,7 @@ export default class GeneralJournalFilterOptions extends React.Component {
   }
 
   onSearchBoxChange = (e) => {
-    const filterName = 'descriptionSearchText';
+    const filterName = 'search';
     const { value } = e.target;
     const { onUpdateFilters } = this.props;
 
@@ -23,7 +23,7 @@ export default class GeneralJournalFilterOptions extends React.Component {
       filterOptions: {
         dateFrom,
         dateTo,
-        descriptionSearchText,
+        search,
       },
       onApplyFilter,
     } = this.props;
@@ -41,7 +41,7 @@ export default class GeneralJournalFilterOptions extends React.Component {
           </FilterBar.Option>
           <FilterBar.Option>
             <InputLabel label="Description" id="Search_Box" />
-            <DirectSearchBox id="Search_Box" placeholder="Search" maxLength={255} value={descriptionSearchText} onChange={this.onSearchBoxChange} />
+            <DirectSearchBox id="Search_Box" placeholder="Search" maxLength={255} value={search} onChange={this.onSearchBoxChange} />
           </FilterBar.Option>
           <FilterBar.Option>
             <Button type="link" onClick={onApplyFilter}>Apply filters</Button>

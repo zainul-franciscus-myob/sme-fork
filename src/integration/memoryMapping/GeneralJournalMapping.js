@@ -9,9 +9,14 @@ const filterGeneralJournalEntries = ({ onSuccess }) => {
   onSuccess(generalJournalEntries);
 };
 
+const sortGeneralJournalEntries = ({ onSuccess }) => {
+  onSuccess(generalJournalEntries);
+};
+
 const GeneralJournalMapping = {
   [GeneralJournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES]: readGeneralJournalEntries,
   [GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES]: filterGeneralJournalEntries,
+  [GeneralJournalIntents.SORT_GENERAL_JOURNAL_ENTRIES]: sortGeneralJournalEntries,
 };
 
 export default GeneralJournalMapping;

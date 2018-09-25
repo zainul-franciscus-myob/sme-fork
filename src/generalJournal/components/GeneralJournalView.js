@@ -1,4 +1,4 @@
-import { StandardTemplate, Table } from '@myob/myob-widgets';
+import { HeaderSort, StandardTemplate, Table } from '@myob/myob-widgets';
 import React from 'react';
 
 import './GeneralJournalView.css';
@@ -18,6 +18,8 @@ const GeneralJournalView = (props) => {
     filterOptions,
     onUpdateFilters,
     onApplyFilter,
+    onDateSort,
+    order,
   } = props;
 
   const filterBar = (
@@ -34,7 +36,9 @@ const GeneralJournalView = (props) => {
         <div className="general-journal-view__list">
           <Table>
             <Table.Header>
-              <Table.HeaderItem {...tableConfig.date}>Date </Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.date}>
+                <HeaderSort title="Date" sortName="date" activeSort={{ column: 'date', descending: order === 'desc' }} onSort={onDateSort} />
+              </Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>

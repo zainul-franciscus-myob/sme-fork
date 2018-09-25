@@ -25,8 +25,38 @@ export default class GeneralJournalModule {
       onUpdateFilters={this.updateFilterOptions}
       filterOptions={state.filterOptions}
       onApplyFilter={this.filterGeneralJournalEntries}
+      onDateSort={this.sortGeneralJournalEntries}
+      order={state.order}
     />);
   };
+
+  loadGeneralJournalEntries = () => {
+    const intent = GeneralJournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES;
+
+    const urlParams = {
+      businessId: this.businessId,
+    };
+
+    const onSuccess = ({ entries, order, ...filterOptions }) => {
+      this.store.publish({
+        intent,
+        entries,
+        filterOptions,
+        order,
+      });
+    };
+
+    const onFailure = () => {
+      console.log('Failed to load general journal entries');
+    };
+
+    this.integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  }
 
   filterGeneralJournalEntries = () => {
     const intent = GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES;
@@ -49,34 +79,35 @@ export default class GeneralJournalModule {
     this.integration.read({
       intent,
       urlParams,
-      params: this.store.state.filterOptions,
+      params: { order: this.store.state.order, ...this.store.state.filterOptions },
       onSuccess,
       onFailure,
     });
   };
 
-  loadGeneralJournalEntries = () => {
-    const intent = GeneralJournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES;
+  sortGeneralJournalEntries = () => {
+    const intent = GeneralJournalIntents.SORT_GENERAL_JOURNAL_ENTRIES;
 
     const urlParams = {
       businessId: this.businessId,
     };
 
-    const onSuccess = ({ entries, filterOptions }) => {
+    const onSuccess = ({ entries, order }) => {
       this.store.publish({
         intent,
         entries,
-        filterOptions,
+        order,
       });
     };
 
     const onFailure = () => {
-      console.log('Failed to load general journal entries');
+      console.log('Failed to sort general journal entries');
     };
 
     this.integration.read({
       intent,
       urlParams,
+      params: { order: this.store.state.order, ...this.store.state.filterOptions },
       onSuccess,
       onFailure,
     });

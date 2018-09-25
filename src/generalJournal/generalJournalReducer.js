@@ -5,8 +5,9 @@ const initialState = {
   filterOptions: {
     dateFrom: '',
     dateTo: '',
-    descriptionSearchText: '',
+    search: '',
   },
+  order: '',
 };
 
 const generalJournalReducer = (state = initialState, action) => {
@@ -19,6 +20,7 @@ const generalJournalReducer = (state = initialState, action) => {
           ...state.filterOptions,
           ...action.filterOptions,
         },
+        order: action.order,
       };
 
     case GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES:
@@ -34,6 +36,13 @@ const generalJournalReducer = (state = initialState, action) => {
           ...state.filterOptions,
           [action.filterName]: action.value,
         },
+      };
+
+    case GeneralJournalIntents.SORT_GENERAL_JOURNAL_ENTRIES:
+      return {
+        ...state,
+        entries: action.entries,
+        order: action.order,
       };
 
     default:
