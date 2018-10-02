@@ -4,14 +4,14 @@
   "private": true,
   "dependencies": {
     "@myob/ldal": "^0.2.4",
-    "@myob/myob-styles": "2.7.1",
-    "@myob/myob-widgets": "2.7.1",
+    "@myob/myob-styles": "3.1.0",
+    "@myob/myob-widgets": "3.1.0",
     "cross-fetch": "2.2.0",
     "prop-types": "^15.6.2",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
     "react-scripts": "1.1.4",
-    "router5": "^6.4.1",
+    "router5": "^6.5.1",
     "uuid": "^3.3.2"
   },
   "scripts": {
@@ -26,14 +26,14 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
-    "eslint": "^5.4.0",
+    "eslint": "^5.6.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.21.0",
+    "eslint-plugin-jest": "^21.24.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-sort-imports-es6-autofix": "^0.3.0",
-    "stylelint": "^9.5.0",
+    "stylelint": "^9.6.0",
     "stylelint-config-standard": "^18.2.0"
   }
 }

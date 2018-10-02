@@ -8,6 +8,7 @@ import { initializeConfig } from './Config';
 import App from './App';
 import BankingModule from './banking/BankingModule';
 import BusinessModule from './business/BusinessModule';
+import GeneralJournalDetailModule from './generalJournal/GeneralJournalDetailModule';
 import GeneralJournalModule from './generalJournal/GeneralJournalModule';
 import initializeRouter from './initializeRouter';
 
@@ -27,6 +28,8 @@ async function main(integrationType) {
   const banking = new BankingModule(integration, setRootView);
   const business = new BusinessModule(integration, setRootView);
   const generalJournal = new GeneralJournalModule(integration, setRootView);
+  const generalJournalDetail = new GeneralJournalDetailModule(integration, setRootView);
+
   const app = new App(setRootView);
 
   const routes = [
@@ -34,6 +37,7 @@ async function main(integrationType) {
     { name: 'home', path: '/home' },
     { name: 'banking', path: '/:businessId/banking' },
     { name: 'generalJournal', path: '/:businessId/generalJournal' },
+    { name: 'generalJournalDetail', path: '/:businessId/generalJournal/:generalJournalId' },
   ];
 
   const actions = {
@@ -41,6 +45,7 @@ async function main(integrationType) {
     home: () => { app.run(); },
     banking: (context) => { banking.run(context); },
     generalJournal: (context) => { generalJournal.run(context); },
+    generalJournalDetail: (context) => { generalJournalDetail.run(context); },
   };
 
   initializeRouter({
