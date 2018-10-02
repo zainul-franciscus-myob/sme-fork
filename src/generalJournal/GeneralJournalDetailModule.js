@@ -1,6 +1,7 @@
 import React from 'react';
 
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
+import GeneralJournalIntents from './GeneralJournalIntents';
 import Store from '../store/Store';
 import generalJournalDetailReducer from './generalJournalDetailReducer';
 
@@ -12,14 +13,43 @@ export default class GeneralJournalDetailModule {
     this.businessId = '';
   }
 
+  loadGeneralJournalDetail = () => {
+    const intent = GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL;
+
+    const urlParams = {
+      businessId: this.businessId,
+      referenceId: this.referenceId,
+    };
+
+    const onSuccess = ({ generalJournal, accounts }) => {
+      this.store.publish({
+        intent,
+        generalJournal,
+        accounts,
+      });
+    };
+
+    const onFailure = () => {
+      console.log('Failed to load general journal details');
+    };
+
+    this.integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  };
+
   render = () => {
     this.setRootView(<GeneralJournalDetailView />);
   };
 
   run(context) {
     this.businessId = context.businessId;
+    this.referenceId = context.referenceId;
     console.log('Journal ID: ', context.generalJournalId);
     this.store.subscribe(this.render);
-    this.render();
+    this.loadGeneralJournalDetail();
   }
 }

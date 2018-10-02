@@ -3,6 +3,7 @@ const GeneralJournalIntents = {
   FILTER_GENERAL_JOURNAL_ENTRIES: Symbol('Filter general journal entry data'),
   UPDATE_FILTER_OPTIONS: Symbol('Update Filter Options'),
   SORT_GENERAL_JOURNAL_ENTRIES: Symbol('Sort general journal entry data'),
+  LOAD_GENERAL_JOURNAL_DETAIL: Symbol('Load details for a single journal entry'),
 };
 
 export default GeneralJournalIntents;
