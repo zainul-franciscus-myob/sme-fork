@@ -18,6 +18,7 @@ export default class GeneralJournalDetailModule {
 
   run(context) {
     this.businessId = context.businessId;
+    console.log('Journal ID: ', context.generalJournalId);
     this.store.subscribe(this.render);
     this.render();
   }

@@ -22,6 +22,7 @@ const GeneralJournalView = (props) => {
     onApplyFilter,
     onDateSort,
     order,
+    newGeneralJournalEntry,
   } = props;
 
   const filterBar = (
@@ -32,10 +33,9 @@ const GeneralJournalView = (props) => {
     />
   );
 
-  // Set up pageHead component
   const pageHead = (
     <PageHead title="General Journals">
-      <Button type="primary">Create general journal entry</Button>
+      <Button type="primary" onClick={newGeneralJournalEntry}>Create general journal entry</Button>
     </PageHead>
   );
 

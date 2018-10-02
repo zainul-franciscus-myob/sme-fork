@@ -38,6 +38,7 @@ async function main(integrationType) {
     { name: 'banking', path: '/:businessId/banking' },
     { name: 'generalJournal', path: '/:businessId/generalJournal' },
     { name: 'generalJournalDetail', path: '/:businessId/generalJournal/:generalJournalId' },
+    { name: 'generalJournalNew', path: '/:businessId/generalJournal/new' },
   ];
 
   const actions = {
@@ -46,6 +47,7 @@ async function main(integrationType) {
     banking: (context) => { banking.run(context); },
     generalJournal: (context) => { generalJournal.run(context); },
     generalJournalDetail: (context) => { generalJournalDetail.run(context); },
+    generalJournalNew: (context) => { generalJournalDetail.run(context); },
   };
 
   initializeRouter({

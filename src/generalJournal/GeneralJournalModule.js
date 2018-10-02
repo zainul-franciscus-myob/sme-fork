@@ -27,6 +27,7 @@ export default class GeneralJournalModule {
       onApplyFilter={this.filterGeneralJournalEntries}
       onDateSort={this.sortGeneralJournalEntries}
       order={state.order}
+      newGeneralJournalEntry={this.newGeneralJournalEntry}
     />);
   };
 
@@ -121,6 +122,10 @@ export default class GeneralJournalModule {
       filterName,
       value,
     });
+  };
+
+  newGeneralJournalEntry = () => {
+    window.location.href = `/#/${this.businessId}/generalJournal/new`;
   };
 
   run(context) {
