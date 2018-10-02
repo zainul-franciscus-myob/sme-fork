@@ -1,7 +1,7 @@
 import React from 'react';
 
 import GeneralJournalIntents from './GeneralJournalIntents';
-import GeneralJournalTableRowView from './components/GeneralJournalTableRow';
+import GeneralJournalTableRowView from './components/GeneralJournalTableRowView';
 import GeneralJournalView from './components/GeneralJournalView';
 import Store from '../store/Store';
 import generalJournalReducer from './generalJournalReducer';
@@ -16,7 +16,7 @@ export default class GeneralJournalModule {
 
   render = (state) => {
     const renderGeneralJournalEntries = tableConfig => (
-      GeneralJournalTableRowView(state.entries, tableConfig)
+      GeneralJournalTableRowView(state.entries, tableConfig, this.businessId)
     );
 
     this.setRootView(<GeneralJournalView
