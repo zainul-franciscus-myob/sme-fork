@@ -1,4 +1,6 @@
-import { HeaderSort, StandardTemplate, Table } from '@myob/myob-widgets';
+import {
+  Button, HeaderSort, PageHead, StandardTemplate, Table,
+} from '@myob/myob-widgets';
 import React from 'react';
 
 import './GeneralJournalView.css';
@@ -30,9 +32,16 @@ const GeneralJournalView = (props) => {
     />
   );
 
+  // Set up pageHead component
+  const pageHead = (
+    <PageHead title="General Journals">
+      <Button type="primary">Create general journal entry</Button>
+    </PageHead>
+  );
+
   return (
     <div className="general-journal container">
-      <StandardTemplate pageHead="General Journals" filterBar={filterBar}>
+      <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
         <div className="general-journal-view__list">
           <Table>
             <Table.Header>
