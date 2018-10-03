@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getHeaderOptions } from './GeneralJournalDetailSelectors';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import GeneralJournalIntents from './GeneralJournalIntents';
 import Store from '../store/Store';
@@ -41,14 +42,26 @@ export default class GeneralJournalDetailModule {
     });
   };
 
-  render = () => {
-    this.setRootView(<GeneralJournalDetailView />);
+  updateHeaderOptions = ({ key, value }) => {
+    const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_HEADER_OPTIONS;
+
+    this.store.publish({
+      intent,
+      key,
+      value,
+    });
+  }
+
+  render = (state) => {
+    this.setRootView(<GeneralJournalDetailView
+      headerOptions={getHeaderOptions(state)}
+      onUpdateHeaderOptions={this.updateHeaderOptions}
+    />);
   };
 
   run(context) {
     this.businessId = context.businessId;
     this.referenceId = context.referenceId;
-    console.log('Journal ID: ', context.generalJournalId);
     this.store.subscribe(this.render);
     this.loadGeneralJournalDetail();
   }

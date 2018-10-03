@@ -1,0 +1,55 @@
+{
+  "generalJournal": {
+      "id": "1",
+      "referenceId": "JE0000002",
+      "date": "1533045600000",
+      "gstReportingMethod": "purchase",
+      "isEndOfYearAdjustment": false,
+      "isTaxInclusive": true,
+      "description": "Cry havoc",
+      "lines": [
+        {
+          "accountId": "123",
+          "debitDisplayAmount": "110.00",
+          "creditDisplayAmount": "",
+          "description": "Cry havoc",
+          "taxCodeId": "123",
+          "displayTaxAmount": "11.00"
+        }
+      ]
+  },
+  "accounts": [
+    {
+      "id": "123",
+      "displayName": "Sales",
+      "taxCodes": [
+        {
+          "id": "123",
+          "displayName": "GST",
+          "rate": "0.10"
+        },
+        {
+          "id": "124",
+          "displayName": "RTR",
+          "rate": "0.05"
+        }
+      ]
+    },
+    {
+      "id": "456",
+      "displayName": "Assets",
+      "taxCodes": [
+        {
+          "id": "123",
+          "displayName": "GST",
+          "rate": "0.10"
+        },
+        {
+          "id": "124",
+          "displayName": "RTR",
+          "rate": "0.05"
+        }
+      ]
+    }
+  ]
+}

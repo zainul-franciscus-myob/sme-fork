@@ -22,6 +22,16 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         generalJournal: { ...state.generalJournal, ...action.generalJournal },
         accounts: action.accounts,
       };
+    case GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_HEADER_OPTIONS:
+      return {
+        ...state,
+        generalJournal: {
+          ...state.generalJournal,
+          [action.key]: action.key === 'isTaxInclusive'
+            ? action.value === 'true'
+            : action.value,
+        },
+      };
     default:
       return state;
   }
