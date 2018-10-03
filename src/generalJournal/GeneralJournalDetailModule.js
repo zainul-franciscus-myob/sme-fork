@@ -56,12 +56,14 @@ export default class GeneralJournalDetailModule {
     this.setRootView(<GeneralJournalDetailView
       headerOptions={getHeaderOptions(state)}
       onUpdateHeaderOptions={this.updateHeaderOptions}
+      isCreating={this.isCreating}
     />);
   };
 
   run(context) {
     this.businessId = context.businessId;
     this.referenceId = context.referenceId;
+    this.isCreating = context.referenceId !== 'new';
     this.store.subscribe(this.render);
     this.loadGeneralJournalDetail();
   }

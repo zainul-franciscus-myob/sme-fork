@@ -6,14 +6,14 @@ import GeneralJournalDetailActions from './GeneralJournalDetailActions';
 import GeneralJournalDetailOptions from './GeneralJournalDetailOptions';
 import GeneralJournalDetailTable from './GeneralJournalDetailTable';
 
-const GeneralJournalDetailView = ({ headerOptions, onUpdateHeaderOptions }) => {
+const GeneralJournalDetailView = ({ isCreating, headerOptions, onUpdateHeaderOptions }) => {
   const templateOptions = (
     <GeneralJournalDetailOptions
       headerOptions={headerOptions}
       onUpdateHeaderOptions={onUpdateHeaderOptions}
     />
   );
-  const actions = <GeneralJournalDetailActions />;
+  const actions = <GeneralJournalDetailActions isCreating={isCreating} />;
 
   return (
     <LineItemTemplate
@@ -29,6 +29,7 @@ const GeneralJournalDetailView = ({ headerOptions, onUpdateHeaderOptions }) => {
 GeneralJournalDetailView.propTypes = {
   headerOptions: PropTypes.shape({}).isRequired,
   onUpdateHeaderOptions: PropTypes.func.isRequired,
+  isCreating: PropTypes.bool.isRequired,
 };
 
 export default GeneralJournalDetailView;
