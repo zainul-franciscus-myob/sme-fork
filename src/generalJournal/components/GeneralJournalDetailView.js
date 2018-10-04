@@ -6,7 +6,17 @@ import GeneralJournalDetailActions from './GeneralJournalDetailActions';
 import GeneralJournalDetailOptions from './GeneralJournalDetailOptions';
 import GeneralJournalDetailTable from './GeneralJournalDetailTable';
 
-const GeneralJournalDetailView = ({ isCreating, headerOptions, onUpdateHeaderOptions }) => {
+const GeneralJournalDetailView = ({
+  headerOptions,
+  lines,
+  isCreating,
+  accounts,
+  onUpdateHeaderOptions,
+  onUpdateRow,
+  onAddRow,
+  onRemoveRow,
+  indexOfLastLine,
+}) => {
   const templateOptions = (
     <GeneralJournalDetailOptions
       headerOptions={headerOptions}
@@ -21,15 +31,28 @@ const GeneralJournalDetailView = ({ isCreating, headerOptions, onUpdateHeaderOpt
       options={templateOptions}
       actions={actions}
     >
-      <GeneralJournalDetailTable />
+      <GeneralJournalDetailTable
+        lines={lines}
+        indexOfLastLine={indexOfLastLine}
+        accounts={accounts}
+        onUpdateRow={onUpdateRow}
+        onAddRow={onAddRow}
+        onRemoveRow={onRemoveRow}
+      />
     </LineItemTemplate>
   );
 };
 
 GeneralJournalDetailView.propTypes = {
   headerOptions: PropTypes.shape({}).isRequired,
+  lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  accounts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onUpdateRow: PropTypes.func.isRequired,
+  onAddRow: PropTypes.func.isRequired,
+  onRemoveRow: PropTypes.func.isRequired,
   onUpdateHeaderOptions: PropTypes.func.isRequired,
   isCreating: PropTypes.bool.isRequired,
+  indexOfLastLine: PropTypes.number.isRequired,
 };
 
 export default GeneralJournalDetailView;

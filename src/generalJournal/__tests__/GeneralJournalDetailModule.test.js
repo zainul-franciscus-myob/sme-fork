@@ -9,7 +9,7 @@ describe('GeneralJournalDetailModule', () => {
       ReactDOM.render(component, rootElement);
     };
 
-    const integration = { read: ({ onSuccess }) => onSuccess({ }) };
+    const integration = { read: ({ onSuccess }) => onSuccess({ accounts: [] }) };
     const module = new GeneralJournalDetailModule(integration, setRootView);
     const context = {
       businessId: '1234',

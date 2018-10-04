@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { getHeaderOptions } from './GeneralJournalDetailSelectors';
+import {
+  getAccounts,
+  getHeaderOptions,
+  getIndexOfLastLine,
+  getLineData,
+} from './GeneralJournalDetailSelectors';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import GeneralJournalIntents from './GeneralJournalIntents';
 import Store from '../store/Store';
@@ -52,11 +57,56 @@ export default class GeneralJournalDetailModule {
     });
   }
 
+  updateGeneralJournalLine = (lineIndex, lineKey, lineValue) => {
+    const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_LINE;
+
+    this.store.publish({
+      intent,
+      lineIndex,
+      lineKey,
+      lineValue,
+    });
+  }
+
+  addGeneralJournalLine = (partialLine) => {
+    const intent = GeneralJournalIntents.ADD_GENERAL_JOURNAL_DETAIL_LINE;
+
+    const line = {
+      accountId: '',
+      debitDisplayAmount: '',
+      creditDisplayAmount: '',
+      description: '',
+      taxCodeId: '',
+      displayTaxAmount: '',
+      ...partialLine,
+    };
+
+    this.store.publish({
+      intent,
+      line,
+    });
+  }
+
+  deleteJournalLine = (index) => {
+    const intent = GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL_LINE;
+
+    this.store.publish({
+      intent,
+      index,
+    });
+  }
+
   render = (state) => {
     this.setRootView(<GeneralJournalDetailView
       headerOptions={getHeaderOptions(state)}
       onUpdateHeaderOptions={this.updateHeaderOptions}
       isCreating={this.isCreating}
+      lines={getLineData(state)}
+      accounts={getAccounts(state)}
+      onUpdateRow={this.updateGeneralJournalLine}
+      onAddRow={this.addGeneralJournalLine}
+      onRemoveRow={this.deleteJournalLine}
+      indexOfLastLine={getIndexOfLastLine(state)}
     />);
   };
 

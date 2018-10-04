@@ -21,33 +21,35 @@
   "accounts": [
     {
       "id": "123",
-      "displayName": "Sales",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
       "taxCodes": [
         {
           "id": "123",
           "displayName": "GST",
-          "rate": "0.10"
+          "rate": "10"
         },
         {
           "id": "124",
           "displayName": "RTR",
-          "rate": "0.05"
+          "rate": "5"
         }
       ]
     },
     {
       "id": "456",
-      "displayName": "Assets",
+      "displayName": "My Assets Account 1",
+      "accountType": "Assets",
       "taxCodes": [
         {
           "id": "123",
           "displayName": "GST",
-          "rate": "0.10"
+          "rate": "10"
         },
         {
           "id": "124",
           "displayName": "RTR",
-          "rate": "0.05"
+          "rate": "5"
         }
       ]
     }

@@ -63,8 +63,8 @@ class GeneralJournalDetailOptions extends Component {
         <div className="form-group">
           <InputLabel label="Amounts are" id="isTaxInclusive" />
           <div className={styles.radioGroup}>
-            <div><RadioButton name="isTaxInclusive" label="Tax inclusive" value checked={isTaxInclusive} onChange={this.handleInputChange} /></div>
-            <div><RadioButton name="isTaxInclusive" label="Tax exclusive" value={false} checked={!isTaxInclusive} onChange={this.handleInputChange} /></div>
+            <div><RadioButton name="isTaxInclusive" label="Tax inclusive" value="true" checked={isTaxInclusive} onChange={this.handleInputChange} /></div>
+            <div><RadioButton name="isTaxInclusive" label="Tax exclusive" value="false" checked={!isTaxInclusive} onChange={this.handleInputChange} /></div>
           </div>
         </div>
         <div />

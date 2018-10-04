@@ -32,6 +32,39 @@ const generalJournalDetailReducer = (state = initialState, action) => {
             : action.value,
         },
       };
+    case GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_LINE:
+      return {
+        ...state,
+        generalJournal: {
+          ...state.generalJournal,
+          lines: state.generalJournal.lines.map(
+            (line, index) => (
+              index === action.lineIndex
+                ? { ...line, [action.lineKey]: action.lineValue }
+                : line
+            ),
+          ),
+        },
+      };
+    case GeneralJournalIntents.ADD_GENERAL_JOURNAL_DETAIL_LINE:
+      return {
+        ...state,
+        generalJournal: {
+          ...state.generalJournal,
+          lines: [
+            ...state.generalJournal.lines,
+            action.line,
+          ],
+        },
+      };
+    case GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL_LINE:
+      return {
+        ...state,
+        generalJournal: {
+          ...state.generalJournal,
+          lines: state.generalJournal.lines.filter((item, index) => index !== action.index),
+        },
+      };
     default:
       return state;
   }

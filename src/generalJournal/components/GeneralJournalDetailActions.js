@@ -13,6 +13,7 @@ const items = [
 const SaveDropDown = () => (
   <Dropdown
     items={items}
+    onSelect={() => {}}
     buttons={[
       <Button
         key="save"
