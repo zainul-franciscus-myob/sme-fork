@@ -65,6 +65,24 @@ const generalJournalDetailReducer = (state = initialState, action) => {
           lines: state.generalJournal.lines.filter((item, index) => index !== action.index),
         },
       };
+    case GeneralJournalIntents.FORMAT_GENERAL_JOURNAL_DETAIL_LINE:
+      return {
+        ...state,
+        generalJournal: {
+          ...state.generalJournal,
+          lines: state.generalJournal.lines.map(
+            ({ debitDisplayAmount, creditDisplayAmount, ...line }, index) => (
+              {
+                debitDisplayAmount: index === action.index && debitDisplayAmount
+                  ? parseFloat(debitDisplayAmount).toFixed(2).toString() : debitDisplayAmount,
+                creditDisplayAmount: index === action.index && creditDisplayAmount
+                  ? parseFloat(creditDisplayAmount).toFixed(2).toString() : creditDisplayAmount,
+                ...line,
+              }
+            ),
+          ),
+        },
+      };
     default:
       return state;
   }

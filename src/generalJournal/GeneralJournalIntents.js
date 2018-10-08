@@ -9,6 +9,7 @@ const GeneralJournalIntents = {
   ADD_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Add general journal detail line'),
   DELETE_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Delete general journal detail line'),
   REORDER_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Reorder general journal detail line'),
+  FORMAT_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Format general journal detail line'),
 };
 
 export default GeneralJournalIntents;

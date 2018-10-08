@@ -10,7 +10,7 @@ const AccountCombobox = (props) => {
   } = props;
 
   const metaData = [
-    { columnName: 'id', columnWidth: '50px' },
+    { columnName: 'id', columnWidth: '50px', showData: true },
     { columnName: 'displayName', columnWidth: '200px', showData: true },
     { columnName: 'accountType', columnWidth: '100px' },
   ];
@@ -105,6 +105,11 @@ export default class GeneralJournalDetailTable extends React.Component {
     onAddRow(partialLine);
   }
 
+  onRowInputBlur = index => () => {
+    const { onRowInputBlur } = this.props;
+    onRowInputBlur(index);
+  }
+
   renderRow = (index, data, onChange) => {
     const {
       accounts,
@@ -146,6 +151,7 @@ export default class GeneralJournalDetailTable extends React.Component {
           value={debitDisplayAmount}
           disabled={isDebitDisabled || isNewLineRow}
           onChange={onChange}
+          onBlur={this.onRowInputBlur(index)}
         />
         <Input
           type="number"
@@ -155,6 +161,7 @@ export default class GeneralJournalDetailTable extends React.Component {
           value={creditDisplayAmount}
           disabled={isCreditDisabled || isNewLineRow}
           onChange={onChange}
+          onBlur={this.onRowInputBlur(index)}
         />
         <Input
           type="text"
@@ -178,7 +185,7 @@ export default class GeneralJournalDetailTable extends React.Component {
           name="displayTaxAmount"
           value={displayTaxAmount}
           onChange={onChange}
-          disabled={isNewLineRow}
+          disabled
         />
       </LineItemTable.Row>
     );
@@ -191,6 +198,7 @@ export default class GeneralJournalDetailTable extends React.Component {
 
     const {
       lines,
+      amountTotals,
       onRemoveRow,
     } = this.props;
 
@@ -204,10 +212,10 @@ export default class GeneralJournalDetailTable extends React.Component {
         onRemoveRow={onRemoveRow}
       >
         <LineItemTable.Total>
-          <LineItemTable.Totals title="Total debit" amount="$34556.90" />
-          <LineItemTable.Totals title="Total credit" amount="$34556.90" />
-          <LineItemTable.Totals title="Tax" amount="$345.57" />
-          <LineItemTable.Totals totalAmount title="Out of balance" amount="$0.00" />
+          <LineItemTable.Totals title="Total debit" amount={amountTotals.totalDebit} />
+          <LineItemTable.Totals title="Total credit" amount={amountTotals.totalCredit} />
+          <LineItemTable.Totals title="Tax" amount={amountTotals.totalTax} />
+          <LineItemTable.Totals totalAmount title="Out of balance" amount={amountTotals.totalOutOfBalance} />
         </LineItemTable.Total>
       </LineItemTable>
     );
@@ -218,7 +226,14 @@ GeneralJournalDetailTable.propTypes = {
   lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   accounts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
+  amountTotals: PropTypes.shape({
+    totalDebit: PropTypes.string,
+    totalCredit: PropTypes.string,
+    totalTax: PropTypes.string,
+    totalOutOfBalance: PropTypes.string,
+  }).isRequired,
   onUpdateRow: PropTypes.func.isRequired,
   onAddRow: PropTypes.func.isRequired,
+  onRowInputBlur: PropTypes.func.isRequired,
   onRemoveRow: PropTypes.func.isRequired,
 };

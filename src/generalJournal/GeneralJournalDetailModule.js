@@ -5,6 +5,7 @@ import {
   getHeaderOptions,
   getIndexOfLastLine,
   getLineData,
+  getTotals,
 } from './GeneralJournalDetailSelectors';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import GeneralJournalIntents from './GeneralJournalIntents';
@@ -96,6 +97,15 @@ export default class GeneralJournalDetailModule {
     });
   }
 
+  formatJournalLine = (index) => {
+    const intent = GeneralJournalIntents.FORMAT_GENERAL_JOURNAL_DETAIL_LINE;
+
+    this.store.publish({
+      intent,
+      index,
+    });
+  }
+
   render = (state) => {
     this.setRootView(<GeneralJournalDetailView
       headerOptions={getHeaderOptions(state)}
@@ -106,7 +116,9 @@ export default class GeneralJournalDetailModule {
       onUpdateRow={this.updateGeneralJournalLine}
       onAddRow={this.addGeneralJournalLine}
       onRemoveRow={this.deleteJournalLine}
+      onRowInputBlur={this.formatJournalLine}
       indexOfLastLine={getIndexOfLastLine(state)}
+      amountTotals={getTotals(state)}
     />);
   };
 

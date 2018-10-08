@@ -15,7 +15,9 @@ const GeneralJournalDetailView = ({
   onUpdateRow,
   onAddRow,
   onRemoveRow,
+  onRowInputBlur,
   indexOfLastLine,
+  amountTotals,
 }) => {
   const templateOptions = (
     <GeneralJournalDetailOptions
@@ -35,9 +37,11 @@ const GeneralJournalDetailView = ({
         lines={lines}
         indexOfLastLine={indexOfLastLine}
         accounts={accounts}
+        amountTotals={amountTotals}
         onUpdateRow={onUpdateRow}
         onAddRow={onAddRow}
         onRemoveRow={onRemoveRow}
+        onRowInputBlur={onRowInputBlur}
       />
     </LineItemTemplate>
   );
@@ -51,8 +55,10 @@ GeneralJournalDetailView.propTypes = {
   onAddRow: PropTypes.func.isRequired,
   onRemoveRow: PropTypes.func.isRequired,
   onUpdateHeaderOptions: PropTypes.func.isRequired,
+  onRowInputBlur: PropTypes.func.isRequired,
   isCreating: PropTypes.bool.isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
+  amountTotals: PropTypes.shape({}).isRequired,
 };
 
 export default GeneralJournalDetailView;
