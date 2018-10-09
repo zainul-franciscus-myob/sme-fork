@@ -128,6 +128,10 @@ export default class GeneralJournalModule {
     window.location.href = `/#/${this.businessId}/generalJournal/new`;
   };
 
+  unsubscribeFromStore = () => {
+    this.store.unsubscribeAll();
+  };
+
   run(context) {
     this.businessId = context.businessId;
     this.store.subscribe(this.render);

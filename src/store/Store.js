@@ -4,6 +4,10 @@ class Store {
     this.subscribers = [];
   }
 
+  unsubscribeAll = () => {
+    this.subscribers = [];
+  }
+
   subscribe = (subscriber) => {
     this.subscribers.push(subscriber);
   };

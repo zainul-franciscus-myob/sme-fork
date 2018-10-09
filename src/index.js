@@ -40,17 +40,34 @@ async function main(integrationType) {
     { name: 'generalJournalDetail', path: '/:businessId/generalJournal/:referenceId' },
   ];
 
+  const moduleMappings = {
+    home: app,
+    banking,
+    business,
+    generalJournal,
+    generalJournalDetail,
+  };
+
+  const unsubscribeAllModulesFromStore = () => {
+    Object.keys(moduleMappings).forEach((moduleName) => {
+      if (moduleName !== 'home') {
+        moduleMappings[moduleName].unsubscribeFromStore();
+      }
+    });
+  };
+
   const actions = {
-    business: () => { business.run(); },
-    home: () => { app.run(); },
-    banking: (context) => { banking.run(context); },
-    generalJournal: (context) => { generalJournal.run(context); },
-    generalJournalDetail: (context) => { generalJournalDetail.run(context); },
+    business: () => { moduleMappings.business.run(); },
+    home: () => { moduleMappings.home.run(); },
+    banking: (context) => { moduleMappings.banking.run(context); },
+    generalJournal: (context) => { moduleMappings.generalJournal.run(context); },
+    generalJournalDetail: (context) => { moduleMappings.generalJournalDetail.run(context); },
   };
 
   initializeRouter({
     routes,
     actions,
+    beforeAll: unsubscribeAllModulesFromStore,
     defaultRoute: 'home',
   });
 }

@@ -9,7 +9,23 @@ describe('GeneralJournalDetailModule', () => {
       ReactDOM.render(component, rootElement);
     };
 
-    const integration = { read: ({ onSuccess }) => onSuccess({ accounts: [] }) };
+    const integration = {
+      read: ({ onSuccess }) => onSuccess({
+        generalJournal:
+      {
+        id: '',
+        referenceId: '',
+        date: '',
+        gstReportingMethod: '',
+        isEndOfYearAdjustment: false,
+        isTaxInclusive: false,
+        description: '',
+        lines: [],
+      },
+        accounts: [],
+        modalType: '',
+      }),
+    };
     const module = new GeneralJournalDetailModule(integration, setRootView);
     const context = {
       businessId: '1234',

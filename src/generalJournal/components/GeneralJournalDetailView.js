@@ -8,10 +8,14 @@ import GeneralJournalDetailTable from './GeneralJournalDetailTable';
 
 const GeneralJournalDetailView = ({
   headerOptions,
-  lines,
-  isCreating,
-  accounts,
   onUpdateHeaderOptions,
+  onSaveButtonClick,
+  onCancelButtonClick,
+  onDeleteButtonClick,
+  modal,
+  isCreating,
+  lines,
+  accounts,
   onUpdateRow,
   onAddRow,
   onRemoveRow,
@@ -25,7 +29,15 @@ const GeneralJournalDetailView = ({
       onUpdateHeaderOptions={onUpdateHeaderOptions}
     />
   );
-  const actions = <GeneralJournalDetailActions isCreating={isCreating} />;
+
+  const actions = (
+    <GeneralJournalDetailActions
+      isCreating={isCreating}
+      onSave={onSaveButtonClick}
+      onCancel={onCancelButtonClick}
+      onDelete={onDeleteButtonClick}
+    />
+  );
 
   return (
     <LineItemTemplate
@@ -33,6 +45,7 @@ const GeneralJournalDetailView = ({
       options={templateOptions}
       actions={actions}
     >
+      { modal }
       <GeneralJournalDetailTable
         lines={lines}
         indexOfLastLine={indexOfLastLine}
@@ -49,14 +62,18 @@ const GeneralJournalDetailView = ({
 
 GeneralJournalDetailView.propTypes = {
   headerOptions: PropTypes.shape({}).isRequired,
+  isCreating: PropTypes.bool.isRequired,
+  onUpdateHeaderOptions: PropTypes.func.isRequired,
+  onSaveButtonClick: PropTypes.func.isRequired,
+  onCancelButtonClick: PropTypes.func.isRequired,
+  onDeleteButtonClick: PropTypes.func.isRequired,
+  modal: PropTypes.func.isRequired,
   lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   accounts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onUpdateRow: PropTypes.func.isRequired,
   onAddRow: PropTypes.func.isRequired,
   onRemoveRow: PropTypes.func.isRequired,
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
   onRowInputBlur: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool.isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
   amountTotals: PropTypes.shape({}).isRequired,
 };

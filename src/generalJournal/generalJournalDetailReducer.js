@@ -12,6 +12,7 @@ const initialState = {
     lines: [],
   },
   accounts: [],
+  modalType: '',
 };
 
 const generalJournalDetailReducer = (state = initialState, action) => {
@@ -31,6 +32,20 @@ const generalJournalDetailReducer = (state = initialState, action) => {
             ? action.value === 'true'
             : action.value,
         },
+      };
+    case GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL:
+      return {
+        ...state,
+      };
+    case GeneralJournalIntents.OPEN_MODAL:
+      return {
+        ...state,
+        modalType: action.modalType,
+      };
+    case GeneralJournalIntents.CLOSE_MODAL:
+      return {
+        ...state,
+        modalType: '',
       };
     case GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_LINE:
       return {

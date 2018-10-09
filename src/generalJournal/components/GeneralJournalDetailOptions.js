@@ -36,6 +36,7 @@ class GeneralJournalDetailOptions extends Component {
     } = this.props;
 
     const isPurchase = gstReportingMethod === 'purchase';
+    const isSale = gstReportingMethod === 'sale';
 
     return (
       <Columns type="three">
@@ -48,7 +49,7 @@ class GeneralJournalDetailOptions extends Component {
           <InputLabel label="Display in GST (BAS) report as:" id="gstReporting" />
           <div className={styles.radioGroup}>
             <div><RadioButton name="gstReportingMethod" label="Purchase" value="purchase" checked={isPurchase} onChange={this.handleInputChange} /></div>
-            <div><RadioButton name="gstReportingMethod" label="Sale" value="sale" checked={!isPurchase} onChange={this.handleInputChange} /></div>
+            <div><RadioButton name="gstReportingMethod" label="Sale" value="sale" checked={isSale} onChange={this.handleInputChange} /></div>
           </div>
         </div>
         <div className="form-group">

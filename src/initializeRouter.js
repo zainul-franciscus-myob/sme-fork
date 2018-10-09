@@ -5,6 +5,7 @@ const initializeRouter = (options) => {
   const {
     routes,
     actions,
+    beforeAll,
     defaultRoute,
   } = options;
 
@@ -16,6 +17,7 @@ const initializeRouter = (options) => {
     .usePlugin(browserPlugin({ useHash: true }));
 
   router.subscribe(({ route }) => {
+    beforeAll();
     actions[route.name]({ ...route.params });
   });
 

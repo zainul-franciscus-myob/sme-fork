@@ -1,55 +1,37 @@
 import {
-  Button, ButtonRow, Dropdown, Icons,
+  Button, ButtonRow,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import React from 'react';
 
-
-const items = [
-  <Dropdown.Item key="saveCopy" label="Save & Copy" value="Save & Copy" />,
-  <Dropdown.Item key="saveAdd" label="Save & Add" value="Save & Add" />,
-];
-
-const SaveDropDown = () => (
-  <Dropdown
-    items={items}
-    onSelect={() => {}}
-    buttons={[
-      <Button
-        key="save"
-        type="primary"
-      >
-        Save
-      </Button>,
-    ]}
-    toggle={(
-      <Dropdown.Toggle type="primary">
-        <Icons.Caret />
-      </Dropdown.Toggle>
-    )}
-  />
-);
-
-const renderDeleteButton = isCreating => (
-  isCreating ? (
-    <Button type="secondary">
-      Delete
-    </Button>
-  ) : null);
-
-
-const GeneralJournalDetailActions = ({ isCreating }) => (
+const GeneralJournalDetailActions = ({
+  isCreating,
+  onSave,
+  onCancel,
+  onDelete,
+}) => (
   <ButtonRow>
-    {renderDeleteButton(isCreating)}
-    <Button type="secondary">
-         Cancel
+    {isCreating
+        && (
+        <Button name="delete" type="secondary" onClick={onDelete}>
+          Delete
+        </Button>
+        )
+    }
+    <Button name="cancel" type="secondary" onClick={onCancel}>
+      Cancel
     </Button>
-    <SaveDropDown />
+    <Button name="save" type="primary" onClick={onSave}>
+      Save
+    </Button>
   </ButtonRow>
 );
 
 GeneralJournalDetailActions.propTypes = {
   isCreating: PropTypes.bool.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default GeneralJournalDetailActions;

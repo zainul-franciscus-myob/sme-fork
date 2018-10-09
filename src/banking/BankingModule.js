@@ -77,6 +77,10 @@ export default class BankingModule {
     });
   };
 
+  unsubscribeFromStore = () => {
+    this.store.unsubscribeAll();
+  };
+
   run = () => {
     this.store.subscribe(this.render);
     this.loadTransactionsAndAccounts();

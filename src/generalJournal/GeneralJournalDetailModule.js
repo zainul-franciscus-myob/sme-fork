@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModals';
 import {
   getAccounts,
   getHeaderOptions,
@@ -56,7 +57,87 @@ export default class GeneralJournalDetailModule {
       key,
       value,
     });
-  }
+  };
+
+  deleteGeneralJournalEntry = () => {
+    const intent = GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL;
+
+    const urlParams = {
+      businessId: this.businessId,
+      referenceId: this.referenceId,
+    };
+
+    const onSuccess = () => {
+      this.redirectToGeneralJournalList();
+    };
+
+    const onFailure = () => {
+      console.log('Failed to delete general journal details');
+    };
+
+    this.integration.write({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  saveGeneralJournalEntry = () => {
+    const intent = GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL;
+
+    const urlParams = {
+      businessId: this.businessId,
+      referenceId: this.referenceId,
+    };
+
+    const onSuccess = () => {
+      this.redirectToGeneralJournalList();
+    };
+
+    const onFailure = () => {
+      console.log('Failed to save the general journal details');
+    };
+
+    this.integration.write({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  openCancelModal = () => {
+    const intent = GeneralJournalIntents.OPEN_MODAL;
+
+    this.store.publish({
+      intent,
+      modalType: 'cancel',
+    });
+  };
+
+  openDeleteModal = () => {
+    const intent = GeneralJournalIntents.OPEN_MODAL;
+
+    this.store.publish({
+      intent,
+      modalType: 'delete',
+    });
+  };
+
+  closeModal = () => {
+    const intent = GeneralJournalIntents.CLOSE_MODAL;
+
+    this.store.publish({ intent });
+  };
+
+  redirectToGeneralJournalList = () => {
+    window.location.href = `/#/${this.businessId}/generalJournal`;
+  };
+
+  unsubscribeFromStore = () => {
+    this.store.unsubscribeAll();
+  };
 
   updateGeneralJournalLine = (lineIndex, lineKey, lineValue) => {
     const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_LINE;
@@ -107,9 +188,30 @@ export default class GeneralJournalDetailModule {
   }
 
   render = (state) => {
+    let modal = null;
+    if (state.modalType === 'cancel') {
+      modal = (
+        <CancelModal
+          onCancel={this.closeModal}
+          onConfirm={this.redirectToGeneralJournalList}
+        />
+      );
+    } else if (state.modalType === 'delete') {
+      modal = (
+        <DeleteModal
+          onCancel={this.closeModal}
+          onConfirm={this.deleteGeneralJournalEntry}
+        />
+      );
+    }
+
     this.setRootView(<GeneralJournalDetailView
       headerOptions={getHeaderOptions(state)}
       onUpdateHeaderOptions={this.updateHeaderOptions}
+      onSaveButtonClick={this.saveGeneralJournalEntry}
+      onCancelButtonClick={this.openCancelModal}
+      onDeleteButtonClick={this.openDeleteModal}
+      modal={modal}
       isCreating={this.isCreating}
       lines={getLineData(state)}
       accounts={getAccounts(state)}

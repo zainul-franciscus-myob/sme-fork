@@ -31,6 +31,10 @@ export default class BusinessModule {
     });
   };
 
+  unsubscribeFromStore = () => {
+    this.store.unsubscribeAll();
+  };
+
   render = ({ businesses }) => {
     this.setRootView(<BusinessListView
       businesses={businesses}
