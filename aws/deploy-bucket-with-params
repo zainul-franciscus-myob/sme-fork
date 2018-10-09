@@ -2,13 +2,13 @@
 set -eu
 
 if [ $# -ne 1 ]; then
-  echo "usage: $0 [ slw-claw-s3-<dev|prod>-params ]."
+  echo "usage: $0 [ s3-<qa|prod>-params ]."
   exit 1
 fi
 
-STACKNAME="slw-claw-bucket"
-REGION=ap-southeast-2
 PARAMETERS=$1
+STACKNAME="slw-claw-${1}-bucket"
+REGION=ap-southeast-2
 
 operation() {
   AWS_DEFAULT_REGION=$REGION AWS_REGION=$REGION aws cloudformation describe-stack-resources --stack-name $STACKNAME > /dev/null 2>&1
@@ -26,5 +26,5 @@ echo "running $op-stack for ${STACKNAME}"
 aws cloudformation ${op}-stack \
   --region ${REGION} \
   --stack-name ${STACKNAME} \
-  --template-body file://aws/slw-claw-s3-template.json \
-  --parameters file://aws/$PARAMETERS-params.json
+  --template-body file://aws/s3-stack.json \
+  --parameters file://aws/s3-$PARAMETERS-params.json

@@ -12,6 +12,22 @@ steps:
 
   - wait
 
+  - name: ':package: Build (QA) Javascript'
+    command: ./ops/bin/build-qa
+    agents:
+      queue: cacc-prod-dflt
+    artifact_paths: "build-qa.tar.gz"
+
+  - wait
+
+  - name: ':rocket: Deploy (QA) App'
+    command: ./ops/bin/deploy-qa
+    branches: master
+    agents:
+      queue: cacc-prod-dflt
+
+  - block
+
   - name: ':package: Build Javascript'
     command: ./ops/bin/build
     env:

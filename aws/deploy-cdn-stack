@@ -20,4 +20,4 @@ echo "running $op-stack for ${STACKNAME}"
 aws cloudformation ${op}-stack \
   --region ${REGION} \
   --stack-name ${STACKNAME} \
-  --template-body file://aws/slw-claw-cdn-template.json
+  --template-body file://aws/cdn-stack.json
