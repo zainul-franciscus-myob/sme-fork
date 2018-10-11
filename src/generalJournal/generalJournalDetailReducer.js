@@ -13,6 +13,7 @@ const initialState = {
   },
   accounts: [],
   modalType: '',
+  alertMessage: '',
 };
 
 const generalJournalDetailReducer = (state = initialState, action) => {
@@ -97,6 +98,11 @@ const generalJournalDetailReducer = (state = initialState, action) => {
             ),
           ),
         },
+      };
+    case GeneralJournalIntents.SET_ALERT_MESSAGE:
+      return {
+        ...state,
+        alertMessage: action.alertMessage,
       };
     default:
       return state;

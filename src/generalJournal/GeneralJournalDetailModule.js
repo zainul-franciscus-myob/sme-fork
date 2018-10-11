@@ -1,3 +1,4 @@
+import { Alert } from '@myob/myob-widgets';
 import React from 'react';
 
 import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModals';
@@ -71,8 +72,9 @@ export default class GeneralJournalDetailModule {
       this.redirectToGeneralJournalList();
     };
 
-    const onFailure = () => {
-      console.log('Failed to delete general journal details');
+    const onFailure = (error) => {
+      this.closeModal();
+      this.displayAlert(error.message);
     };
 
     this.integration.write({
@@ -82,6 +84,13 @@ export default class GeneralJournalDetailModule {
       onFailure,
     });
   };
+
+  displayAlert = (errorMessage) => {
+    this.store.publish({
+      intent: GeneralJournalIntents.SET_ALERT_MESSAGE,
+      alertMessage: errorMessage,
+    });
+  }
 
   saveGeneralJournalEntry = () => {
     const intent = GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL;
@@ -95,8 +104,8 @@ export default class GeneralJournalDetailModule {
       this.redirectToGeneralJournalList();
     };
 
-    const onFailure = () => {
-      console.log('Failed to save the general journal details');
+    const onFailure = (error) => {
+      this.displayAlert(error.message);
     };
 
     this.integration.write({
@@ -187,6 +196,13 @@ export default class GeneralJournalDetailModule {
     });
   }
 
+  dismissAlert = () => {
+    this.store.publish({
+      intent: GeneralJournalIntents.SET_ALERT_MESSAGE,
+      alertMessage: '',
+    });
+  };
+
   render = (state) => {
     let modal = null;
     if (state.modalType === 'cancel') {
@@ -205,6 +221,12 @@ export default class GeneralJournalDetailModule {
       );
     }
 
+    const alertComponent = state.alertMessage ? (
+      <Alert type="danger" onDismiss={this.dismissAlert}>
+        {state.alertMessage}
+      </Alert>
+    ) : null;
+
     this.setRootView(<GeneralJournalDetailView
       headerOptions={getHeaderOptions(state)}
       onUpdateHeaderOptions={this.updateHeaderOptions}
@@ -212,6 +234,7 @@ export default class GeneralJournalDetailModule {
       onCancelButtonClick={this.openCancelModal}
       onDeleteButtonClick={this.openDeleteModal}
       modal={modal}
+      alertComponent={alertComponent}
       isCreating={this.isCreating}
       lines={getLineData(state)}
       accounts={getAccounts(state)}

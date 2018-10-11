@@ -5,6 +5,7 @@ import React from 'react';
 import GeneralJournalDetailActions from './GeneralJournalDetailActions';
 import GeneralJournalDetailOptions from './GeneralJournalDetailOptions';
 import GeneralJournalDetailTable from './GeneralJournalDetailTable';
+import styles from './GeneralJournalDetailView.css';
 
 const GeneralJournalDetailView = ({
   headerOptions,
@@ -13,6 +14,7 @@ const GeneralJournalDetailView = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   modal,
+  alertComponent,
   isCreating,
   lines,
   accounts,
@@ -40,23 +42,29 @@ const GeneralJournalDetailView = ({
   );
 
   return (
-    <LineItemTemplate
-      pageHead="General Journal Entry"
-      options={templateOptions}
-      actions={actions}
-    >
-      { modal }
-      <GeneralJournalDetailTable
-        lines={lines}
-        indexOfLastLine={indexOfLastLine}
-        accounts={accounts}
-        amountTotals={amountTotals}
-        onUpdateRow={onUpdateRow}
-        onAddRow={onAddRow}
-        onRemoveRow={onRemoveRow}
-        onRowInputBlur={onRowInputBlur}
-      />
-    </LineItemTemplate>
+    <React.Fragment>
+      <div className={`${styles.myobAlert} flx-container`}>
+        {alertComponent}
+      </div>
+      <LineItemTemplate
+        pageHead="General Journal Entry"
+        options={templateOptions}
+        actions={actions}
+      >
+        { modal }
+        <GeneralJournalDetailTable
+          lines={lines}
+          indexOfLastLine={indexOfLastLine}
+          accounts={accounts}
+          amountTotals={amountTotals}
+          onUpdateRow={onUpdateRow}
+          onAddRow={onAddRow}
+          onRemoveRow={onRemoveRow}
+          onRowInputBlur={onRowInputBlur}
+        />
+
+      </LineItemTemplate>
+    </React.Fragment>
   );
 };
 
@@ -68,6 +76,7 @@ GeneralJournalDetailView.propTypes = {
   onCancelButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
   modal: PropTypes.func.isRequired,
+  alertComponent: PropTypes.element.isRequired,
   lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   accounts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onUpdateRow: PropTypes.func.isRequired,
