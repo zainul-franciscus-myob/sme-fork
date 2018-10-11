@@ -14,7 +14,7 @@ const BankingTransactionsView = ({ renderRows }) => {
   };
 
   return (
-    <div className="banking-transactions container">
+    <div className="banking-transactions">
       <StandardTemplate pageHead="Bank transactions">
         <Table>
           <Table.Header>

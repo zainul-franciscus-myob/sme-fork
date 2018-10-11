@@ -8,7 +8,10 @@ describe('GeneralJournalView', () => {
     const div = document.createElement('div');
     ReactDOM.render(<GeneralJournalView
       renderRows={() => {}}
+      onApplyFilter={() => {}}
+      onUpdateFilters={() => {}}
       filterOptions={{}}
+      onDateSort={() => {}}
     />, div);
     ReactDOM.unmountComponentAtNode(div);
   });

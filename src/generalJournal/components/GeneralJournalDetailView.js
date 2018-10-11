@@ -75,8 +75,8 @@ GeneralJournalDetailView.propTypes = {
   onSaveButtonClick: PropTypes.func.isRequired,
   onCancelButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
-  modal: PropTypes.func.isRequired,
-  alertComponent: PropTypes.element.isRequired,
+  modal: PropTypes.element,
+  alertComponent: PropTypes.element,
   lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   accounts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onUpdateRow: PropTypes.func.isRequired,
@@ -85,6 +85,11 @@ GeneralJournalDetailView.propTypes = {
   onRowInputBlur: PropTypes.func.isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
   amountTotals: PropTypes.shape({}).isRequired,
+};
+
+GeneralJournalDetailView.defaultProps = {
+  modal: null,
+  alertComponent: null,
 };
 
 export default GeneralJournalDetailView;

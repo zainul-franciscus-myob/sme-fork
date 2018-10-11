@@ -16,20 +16,18 @@ class BusinessListView extends Component {
     const businessList = businesses.map(business => this.renderRow(business));
 
     return (
-      <div className="business-list container">
-        <StandardTemplate pageHead="My businesses">
-          <nav>
-            <Table>
-              <Table.Header>
-                <Table.HeaderItem>Business name</Table.HeaderItem>
-              </Table.Header>
-              <Table.Body>
-                {businessList}
-              </Table.Body>
-            </Table>
-          </nav>
-        </StandardTemplate>
-      </div>
+      <StandardTemplate pageHead="My businesses">
+        <nav>
+          <Table>
+            <Table.Header>
+              <Table.HeaderItem>Business name</Table.HeaderItem>
+            </Table.Header>
+            <Table.Body>
+              {businessList}
+            </Table.Body>
+          </Table>
+        </nav>
+      </StandardTemplate>
     );
   }
 }

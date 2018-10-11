@@ -3,8 +3,8 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import './GeneralJournalView.css';
 import GeneralJournalFilterOptions from './GeneralJournalFilterOptions';
+import style from './GeneralJournalView.css';
 
 const GeneralJournalView = (props) => {
   const tableConfig = {
@@ -40,26 +40,25 @@ const GeneralJournalView = (props) => {
   );
 
   return (
-    <div className="general-journal container">
-      <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
-        <div className="general-journal-view__list">
-          <Table>
-            <Table.Header>
-              <Table.HeaderItem {...tableConfig.date}>
-                <HeaderSort title="Date" sortName="date" activeSort={{ column: 'date', descending: order === 'desc' }} onSort={onDateSort} />
-              </Table.HeaderItem>
-              <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
-              <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
-              <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
-            </Table.Header>
-            <Table.Body>
-              {renderRows(tableConfig)}
-            </Table.Body>
-          </Table>
-          {isEmpty && <div className="general-journal-view__empty">There are no general journal entries for this period.</div>}
-        </div>
-      </StandardTemplate>
-    </div>
+    <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
+      <div className={style.list}>
+        <Table>
+          <Table.Header>
+            <Table.HeaderItem {...tableConfig.date}>
+              <HeaderSort title="Date" sortName="date" activeSort={{ column: 'date', descending: order === 'desc' }} onSort={onDateSort} />
+            </Table.HeaderItem>
+            <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
+            <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
+            <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
+          </Table.Header>
+          <Table.Body>
+            {renderRows(tableConfig)}
+          </Table.Body>
+        </Table>
+        {isEmpty
+        && <div className={style.empty}>There are no general journal entries for this period.</div>}
+      </div>
+    </StandardTemplate>
   );
 };
 
