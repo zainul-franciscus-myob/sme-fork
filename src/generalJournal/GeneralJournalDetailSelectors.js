@@ -1,4 +1,4 @@
-export const getHeaderOptions = (state) => { // eslint-disable-line
+export const getHeaderOptions = (state) => {
   const { generalJournal: { lines, id, ...headerOptions } } = state;
 
   return headerOptions;
@@ -28,25 +28,12 @@ const getDisabledField = ({ debitDisplayAmount, creditDisplayAmount }) => {
     return 'debit';
   }
 
-  return null;
-};
-
-const calculateTax = (line, rate = 0) => {
-  const {
-    debitDisplayAmount,
-    creditDisplayAmount,
-  } = line;
-
-  const selectedAmount = parseFloat(debitDisplayAmount || creditDisplayAmount || 0);
-  const taxRate = parseFloat(rate) / 100;
-
-  return selectedAmount * taxRate;
+  return '';
 };
 
 const getSelectedTaxCode = (taxCodes, taxCodeId) => {
-  const taxCodeOptions = taxCodes.map(formatTaxCode);
   const selectedTaxCodeIndex = taxCodes.findIndex(({ id }) => id === taxCodeId);
-  const selectedTaxCode = taxCodeOptions[selectedTaxCodeIndex] || {};
+  const selectedTaxCode = taxCodes[selectedTaxCodeIndex] || {};
   return selectedTaxCode;
 };
 
@@ -56,11 +43,37 @@ const getTaxCodes = (accounts, line) => {
   return taxCodes;
 };
 
+const calculateInclusiveTax = (amount, rate) => rate * (amount / (1 + rate));
+const calculateExclusiveTax = (amount, rate) => amount * rate;
+
+export const getTaxRateForLineFromAccounts = (accounts, line) => {
+  const taxCodes = getTaxCodes(accounts, line);
+  const { rate = 0 } = getSelectedTaxCode(taxCodes, line.taxCodeId);
+  const taxRate = parseFloat(rate) / 100;
+  return taxRate;
+};
+
+const calculateTaxForLine = (line, accounts, isTaxInclusive) => {
+  const {
+    debitDisplayAmount,
+    creditDisplayAmount,
+  } = line;
+
+  const taxRate = getTaxRateForLineFromAccounts(accounts, line);
+  const selectedAmount = parseFloat(debitDisplayAmount || creditDisplayAmount || 0);
+  const taxAmount = isTaxInclusive
+    ? calculateInclusiveTax(selectedAmount, taxRate)
+    : calculateExclusiveTax(selectedAmount, taxRate);
+
+  return taxAmount;
+};
+
 export const getLineData = (state) => {
   const {
     accounts,
     generalJournal: {
       lines,
+      isTaxInclusive,
     },
   } = state;
 
@@ -70,10 +83,9 @@ export const getLineData = (state) => {
     const selectedAccountIndex = accounts.findIndex(({ id }) => id === line.accountId);
 
     const { taxCodes = [] } = accounts[selectedAccountIndex] || {};
-    const selectedTaxCode = getSelectedTaxCode(taxCodes, line.taxCodeId);
     const taxCodeOptions = taxCodes.map(formatTaxCode);
     const selectedTaxCodeIndex = taxCodes.findIndex(({ id }) => id === line.taxCodeId);
-    const displayTaxAmount = formatNumber(calculateTax(line, selectedTaxCode.rate));
+    const displayTaxAmount = formatNumber(calculateTaxForLine(line, accounts, isTaxInclusive));
 
     return {
       ...line,
@@ -114,25 +126,73 @@ const getTotalCredit = (lines) => {
   );
 };
 
-const getTotalTax = (lines, accounts) => lines.reduce(
-  (acc, line) => {
-    const taxCodes = getTaxCodes(accounts, line);
-    return acc + calculateTax(line, getSelectedTaxCode(taxCodes, line.taxCodeId).rate);
-  }, 0,
+const getTotalTax = (lines, accounts, isTaxInclusive) => lines.reduce(
+  (acc, line) => acc + calculateTaxForLine(line, accounts, isTaxInclusive),
+  0,
 );
+
+const getTaxInclusiveOutOfBalance = (lines) => {
+  const totalDebit = getTotalDebit(lines);
+  const totalCredit = getTotalCredit(lines);
+  return totalDebit - totalCredit;
+};
+
+const isCreditLine = ({ creditDisplayAmount }) => Boolean(creditDisplayAmount);
+
+const getLineAmount = (line) => {
+  const {
+    creditDisplayAmount,
+    debitDisplayAmount,
+  } = line;
+
+  const lineAmount = debitDisplayAmount || creditDisplayAmount || 0;
+  return parseFloat(lineAmount);
+};
+
+const getTaxAmountForTaxExclusiveLine = (amount, line, accounts) => {
+  const taxRate = getTaxRateForLineFromAccounts(accounts, line);
+  const taxAmount = calculateExclusiveTax(amount, taxRate);
+  return taxAmount;
+};
+
+const getTaxExclusiveOutOfBalance = (lines, accounts) => {
+  const outOfBalance = lines.reduce(
+    (acc, line) => {
+      const amount = getLineAmount(line);
+      const taxAmount = getTaxAmountForTaxExclusiveLine(amount, line, accounts);
+      const totalAmount = amount + taxAmount;
+
+      return isCreditLine(line)
+        ? acc - totalAmount
+        : acc + totalAmount;
+    },
+    0,
+  );
+
+  return outOfBalance;
+};
+
+const getOutOfBalance = (lines, accounts, isTaxInclusive) => {
+  const outOfBalance = isTaxInclusive
+    ? getTaxInclusiveOutOfBalance(lines)
+    : getTaxExclusiveOutOfBalance(lines, accounts);
+
+  return Math.abs(outOfBalance);
+};
 
 export const getTotals = (state) => {
   const {
     accounts,
     generalJournal: {
       lines,
+      isTaxInclusive,
     },
   } = state;
 
   const totalDebit = getTotalDebit(lines);
   const totalCredit = getTotalCredit(lines);
-  const totalTax = getTotalTax(lines, accounts);
-  const totalOutOfBalance = totalDebit - totalCredit;
+  const totalTax = getTotalTax(lines, accounts, isTaxInclusive);
+  const totalOutOfBalance = getOutOfBalance(lines, accounts, isTaxInclusive);
 
   return {
     totalCredit: formatTotal(totalCredit),

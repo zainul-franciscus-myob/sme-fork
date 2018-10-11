@@ -3,6 +3,7 @@ import {
   getHeaderOptions,
   getIndexOfLastLine,
   getLineData,
+  getTaxRateForLineFromAccounts,
   getTotals,
 } from '../GeneralJournalDetailSelectors';
 import generalJournalDetail from './fixtures/generalJournalDetail';
@@ -15,21 +16,39 @@ describe('GeneralJournalDetailSelectors', () => {
         date: '1533045600000',
         gstReportingMethod: 'purchase',
         isEndOfYearAdjustment: false,
-        isTaxInclusive: true,
+        isTaxInclusive: false,
         description: 'Cry havoc',
       });
     });
   });
 
   describe('getTotals', () => {
-    it('should return correct totals', () => {
+    it('should return correct totals when tax is exclusive', () => {
       const totals = {
         totalDebit: '$210.10',
         totalCredit: '$210.66',
         totalTax: '$42.08',
-        totalOutOfBalance: '-$0.56',
+        totalOutOfBalance: '$0.62',
       };
       expect(getTotals(generalJournalDetail)).toEqual(totals);
+    });
+
+    it('should return the correct totals when tax is inclusive', () => {
+      const detail = {
+        ...generalJournalDetail,
+        generalJournal: {
+          ...generalJournalDetail.generalJournal,
+          isTaxInclusive: true,
+        },
+      };
+
+      const totals = {
+        totalDebit: '$210.10',
+        totalCredit: '$210.66',
+        totalTax: '$38.25',
+        totalOutOfBalance: '$0.56',
+      };
+      expect(getTotals(detail)).toEqual(totals);
     });
   });
 
@@ -53,6 +72,18 @@ describe('GeneralJournalDetailSelectors', () => {
   describe('getIndexOfLastLine', () => {
     it('should get the index of the last line in the given journal', () => {
       expect(getIndexOfLastLine(generalJournalDetail)).toEqual(3);
+    });
+  });
+
+  describe('getTaxRate', () => {
+    it('should get the tax rate of a line', () => {
+      const {
+        accounts,
+        generalJournal: {
+          lines,
+        },
+      } = generalJournalDetail;
+      expect(getTaxRateForLineFromAccounts(accounts, lines[0])).toEqual(0.1);
     });
   });
 

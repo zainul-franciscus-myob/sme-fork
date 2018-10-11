@@ -1,3 +1,4 @@
+import { getTaxRateForLineFromAccounts } from './GeneralJournalDetailSelectors';
 import GeneralJournalIntents from './GeneralJournalIntents';
 
 const initialState = {
@@ -16,6 +17,38 @@ const initialState = {
   alertMessage: '',
 };
 
+const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
+
+const getExclusiveAmount = (amount, rate) => amount / (1 + rate);
+const getInclusiveAmount = (amount, rate) => amount * (1 + rate);
+
+const getDisplayAmount = (amount, rate, isTaxInclusive) => {
+  const parsedAmount = parseFloat(amount);
+  const calculatedAmount = isTaxInclusive
+    ? getInclusiveAmount(parsedAmount, rate) : getExclusiveAmount(parsedAmount, rate);
+  return formatStringNumber(calculatedAmount);
+};
+
+const updateLineByTaxType = (line, accounts, isTaxInclusive) => {
+  let {
+    debitDisplayAmount,
+    creditDisplayAmount,
+  } = line;
+
+  const taxRate = getTaxRateForLineFromAccounts(accounts, line);
+
+  debitDisplayAmount = debitDisplayAmount
+    && getDisplayAmount(debitDisplayAmount, taxRate, isTaxInclusive);
+  creditDisplayAmount = creditDisplayAmount
+    && getDisplayAmount(creditDisplayAmount, taxRate, isTaxInclusive);
+
+  return {
+    ...line,
+    debitDisplayAmount,
+    creditDisplayAmount,
+  };
+};
+
 const generalJournalDetailReducer = (state = initialState, action) => {
   switch (action.intent) {
     case GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL:
@@ -29,9 +62,12 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         ...state,
         generalJournal: {
           ...state.generalJournal,
-          [action.key]: action.key === 'isTaxInclusive'
-            ? action.value === 'true'
-            : action.value,
+          [action.key]: action.value,
+          lines: action.key === 'isTaxInclusive'
+            ? state.generalJournal.lines.map(
+              line => updateLineByTaxType(line, state.accounts, action.value),
+            )
+            : state.generalJournal.lines,
         },
       };
     case GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL:
@@ -90,9 +126,9 @@ const generalJournalDetailReducer = (state = initialState, action) => {
             ({ debitDisplayAmount, creditDisplayAmount, ...line }, index) => (
               {
                 debitDisplayAmount: index === action.index && debitDisplayAmount
-                  ? parseFloat(debitDisplayAmount).toFixed(2).toString() : debitDisplayAmount,
+                  ? formatStringNumber(debitDisplayAmount) : debitDisplayAmount,
                 creditDisplayAmount: index === action.index && creditDisplayAmount
-                  ? parseFloat(creditDisplayAmount).toFixed(2).toString() : creditDisplayAmount,
+                  ? formatStringNumber(creditDisplayAmount) : creditDisplayAmount,
                 ...line,
               }
             ),

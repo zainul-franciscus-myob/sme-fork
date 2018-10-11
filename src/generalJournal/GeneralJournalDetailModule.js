@@ -204,7 +204,7 @@ export default class GeneralJournalDetailModule {
   };
 
   render = (state) => {
-    let modal = null;
+    let modal;
     if (state.modalType === 'cancel') {
       modal = (
         <CancelModal

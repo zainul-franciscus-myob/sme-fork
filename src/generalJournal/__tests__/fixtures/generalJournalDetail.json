@@ -5,7 +5,7 @@
       "date": "1533045600000",
       "gstReportingMethod": "purchase",
       "isEndOfYearAdjustment": false,
-      "isTaxInclusive": true,
+      "isTaxInclusive": false,
       "description": "Cry havoc",
       "lines": [
         {
@@ -22,7 +22,7 @@
           "creditDisplayAmount": "",
           "description": "Cry havoc 2",
           "taxCodeId": "123",
-          "displayTaxAmount": "11.00"
+          "displayTaxAmount": "10.00"
         },
         {
           "accountId": "123",
@@ -38,7 +38,7 @@
           "creditDisplayAmount": "100.33",
           "description": "Cry havoc 4",
           "taxCodeId": "123",
-          "displayTaxAmount": "11.00"
+          "displayTaxAmount": "10.00"
         }
       ]
   },
