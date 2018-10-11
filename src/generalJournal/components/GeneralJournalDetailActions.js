@@ -11,7 +11,7 @@ const GeneralJournalDetailActions = ({
   onDelete,
 }) => (
   <ButtonRow>
-    {isCreating
+    {!isCreating
         && (
         <Button name="delete" type="secondary" onClick={onDelete}>
           Delete

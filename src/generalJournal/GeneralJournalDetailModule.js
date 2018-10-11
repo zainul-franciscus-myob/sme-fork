@@ -6,6 +6,7 @@ import {
   getAccounts,
   getHeaderOptions,
   getIndexOfLastLine,
+  getJournalId,
   getLineData,
   getTotals,
 } from './GeneralJournalDetailSelectors';
@@ -23,11 +24,13 @@ export default class GeneralJournalDetailModule {
   }
 
   loadGeneralJournalDetail = () => {
-    const intent = GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL;
+    const intent = this.isCreating
+      ? GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL
+      : GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL;
 
     const urlParams = {
       businessId: this.businessId,
-      referenceId: this.referenceId,
+      ...(!this.isCreating && { referenceId: this.referenceId }),
     };
 
     const onSuccess = ({ generalJournal, accounts }) => {
@@ -92,12 +95,11 @@ export default class GeneralJournalDetailModule {
     });
   }
 
-  saveGeneralJournalEntry = () => {
+  saveGeneralJournalEntry = journalId => () => {
     const intent = GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL;
-
     const urlParams = {
       businessId: this.businessId,
-      referenceId: this.referenceId,
+      journalId,
     };
 
     const onSuccess = () => {
@@ -106,6 +108,29 @@ export default class GeneralJournalDetailModule {
 
     const onFailure = (error) => {
       this.displayAlert(error.message);
+    };
+
+    this.integration.write({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  createGeneralJournalEntry = () => {
+    const intent = GeneralJournalIntents.CREATE_GENERAL_JOURNAL_DETAIL;
+
+    const urlParams = {
+      businessId: this.businessId,
+    };
+
+    const onSuccess = () => {
+      this.redirectToGeneralJournalList();
+    };
+
+    const onFailure = () => {
+      console.log('Failed to create the general journal details');
     };
 
     this.integration.write({
@@ -230,7 +255,9 @@ export default class GeneralJournalDetailModule {
     this.setRootView(<GeneralJournalDetailView
       headerOptions={getHeaderOptions(state)}
       onUpdateHeaderOptions={this.updateHeaderOptions}
-      onSaveButtonClick={this.saveGeneralJournalEntry}
+      onSaveButtonClick={this.isCreating
+        ? this.createGeneralJournalEntry
+        : this.saveGeneralJournalEntry(getJournalId(state))}
       onCancelButtonClick={this.openCancelModal}
       onDeleteButtonClick={this.openDeleteModal}
       modal={modal}
@@ -250,7 +277,7 @@ export default class GeneralJournalDetailModule {
   run(context) {
     this.businessId = context.businessId;
     this.referenceId = context.referenceId;
-    this.isCreating = context.referenceId !== 'new';
+    this.isCreating = context.referenceId === 'new';
     this.store.subscribe(this.render);
     this.loadGeneralJournalDetail();
   }

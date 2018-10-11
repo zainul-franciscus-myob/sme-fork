@@ -201,3 +201,5 @@ export const getTotals = (state) => {
     totalOutOfBalance: formatTotal(totalOutOfBalance),
   };
 };
+
+export const getJournalId = state => state.generalJournal.id;

@@ -25,6 +25,7 @@ describe('GeneralJournalDetailModule', () => {
         accounts: [],
         modalType: '',
       }),
+      write: () => {},
     };
     const module = new GeneralJournalDetailModule(integration, setRootView);
     const context = {

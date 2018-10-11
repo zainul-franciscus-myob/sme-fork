@@ -1,5 +1,6 @@
 import GeneralJournalIntents from '../../generalJournal/GeneralJournalIntents';
 import generalJournalDetail from '../data/generalJournalEntryDetail';
+import generalJournalDetailNew from '../data/generalJournalNewEntryDetail';
 import generalJournalEntries from '../data/generalJournalEntries';
 
 const readGeneralJournalEntries = ({ onSuccess }) => {
@@ -18,6 +19,10 @@ const readGeneralJournalDetail = ({ onSuccess }) => {
   onSuccess(generalJournalDetail);
 };
 
+const newGeneralJournalDetail = ({ onSuccess }) => {
+  onSuccess(generalJournalDetailNew);
+};
+
 const deleteGeneralJournalDetail = ({ onSuccess }) => {
   onSuccess();
 };
@@ -31,7 +36,9 @@ const GeneralJournalMapping = {
   [GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES]: filterGeneralJournalEntries,
   [GeneralJournalIntents.SORT_GENERAL_JOURNAL_ENTRIES]: sortGeneralJournalEntries,
   [GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL]: readGeneralJournalDetail,
+  [GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL]: newGeneralJournalDetail,
   [GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL]: deleteGeneralJournalDetail,
+  [GeneralJournalIntents.CREATE_GENERAL_JOURNAL_DETAIL]: saveGeneralJournalDetail,
   [GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL]: saveGeneralJournalDetail,
 };
 

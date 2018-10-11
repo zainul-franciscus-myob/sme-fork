@@ -57,6 +57,12 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         generalJournal: { ...state.generalJournal, ...action.generalJournal },
         accounts: action.accounts,
       };
+    case GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL:
+      return {
+        ...initialState,
+        generalJournal: { ...initialState.generalJournal, ...action.generalJournal },
+        accounts: action.accounts,
+      };
     case GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_HEADER_OPTIONS:
       return {
         ...state,
