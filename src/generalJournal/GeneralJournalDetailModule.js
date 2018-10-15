@@ -63,12 +63,12 @@ export default class GeneralJournalDetailModule {
     });
   };
 
-  deleteGeneralJournalEntry = () => {
+  deleteGeneralJournalEntry = journalId => () => {
     const intent = GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL;
 
     const urlParams = {
       businessId: this.businessId,
-      referenceId: this.referenceId,
+      journalId,
     };
 
     const onSuccess = () => {
@@ -241,7 +241,7 @@ export default class GeneralJournalDetailModule {
       modal = (
         <DeleteModal
           onCancel={this.closeModal}
-          onConfirm={this.deleteGeneralJournalEntry}
+          onConfirm={this.deleteGeneralJournalEntry(getJournalId(state))}
         />
       );
     }

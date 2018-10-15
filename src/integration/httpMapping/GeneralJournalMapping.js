@@ -29,6 +29,10 @@ const GeneralJournalMapping = {
     method: 'PUT',
     getPath: ({ businessId, journalId }) => `/${businessId}/generalJournal/update_general_journal_detail/${journalId}`,
   },
+  [GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL]: {
+    method: 'DELETE',
+    getPath: ({ businessId, journalId }) => `/${businessId}/generalJournal/delete_general_journal_detail/${journalId}`,
+  },
 };
 
 export default GeneralJournalMapping;
