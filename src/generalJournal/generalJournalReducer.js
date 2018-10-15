@@ -8,6 +8,7 @@ const initialState = {
     search: '',
   },
   order: '',
+  alertMessage: '',
 };
 
 const generalJournalReducer = (state = initialState, action) => {
@@ -43,6 +44,12 @@ const generalJournalReducer = (state = initialState, action) => {
         ...state,
         entries: action.entries,
         order: action.order,
+      };
+
+    case GeneralJournalIntents.SET_ALERT_MESSAGE:
+      return {
+        ...state,
+        alertMessage: action.alertMessage,
       };
 
     default:

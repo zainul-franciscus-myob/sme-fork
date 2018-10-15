@@ -5,7 +5,6 @@ import React from 'react';
 import GeneralJournalDetailActions from './GeneralJournalDetailActions';
 import GeneralJournalDetailOptions from './GeneralJournalDetailOptions';
 import GeneralJournalDetailTable from './GeneralJournalDetailTable';
-import styles from './GeneralJournalDetailView.css';
 
 const GeneralJournalDetailView = ({
   headerOptions,
@@ -43,9 +42,7 @@ const GeneralJournalDetailView = ({
 
   return (
     <React.Fragment>
-      <div className={`${styles.myobAlert} flx-container`}>
-        {alertComponent}
-      </div>
+      {alertComponent}
       <LineItemTemplate
         pageHead="General Journal Entry"
         options={templateOptions}

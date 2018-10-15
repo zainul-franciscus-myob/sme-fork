@@ -10,6 +10,7 @@ import BankingModule from './banking/BankingModule';
 import BusinessModule from './business/BusinessModule';
 import GeneralJournalDetailModule from './generalJournal/GeneralJournalDetailModule';
 import GeneralJournalModule from './generalJournal/GeneralJournalModule';
+import Inbox from './inbox';
 import initializeRouter from './initializeRouter';
 
 async function main(integrationType) {
@@ -23,15 +24,19 @@ async function main(integrationType) {
     ReactDOM.render(component, root);
   };
 
+  const inbox = new Inbox();
+  const { popMessages, pushMessage, clearInbox } = inbox;
+
   const integration = createIntegration();
 
-  const banking = new BankingModule(integration, setRootView);
-  const business = new BusinessModule(integration, setRootView);
-  const generalJournal = new GeneralJournalModule(integration, setRootView);
-  const generalJournalDetail = new GeneralJournalDetailModule(integration, setRootView);
+  const banking = new BankingModule({ integration, setRootView });
+  const business = new BusinessModule({ integration, setRootView });
+  const generalJournal = new GeneralJournalModule({ integration, setRootView, popMessages });
+  const generalJournalDetail = new GeneralJournalDetailModule({
+    integration, setRootView, pushMessage,
+  });
 
   const app = new App(setRootView);
-
   const routes = [
     { name: 'business', path: '/business' },
     { name: 'home', path: '/home' },
@@ -69,6 +74,7 @@ async function main(integrationType) {
     actions,
     beforeAll: unsubscribeAllModulesFromStore,
     defaultRoute: 'home',
+    afterAll: () => clearInbox,
   });
 }
 

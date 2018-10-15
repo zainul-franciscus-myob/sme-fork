@@ -23,6 +23,7 @@ const GeneralJournalView = (props) => {
     onDateSort,
     order,
     newGeneralJournalEntry,
+    alertComponent,
   } = props;
 
   const filterBar = (
@@ -40,25 +41,33 @@ const GeneralJournalView = (props) => {
   );
 
   return (
-    <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
-      <div className={style.list}>
-        <Table>
-          <Table.Header>
-            <Table.HeaderItem {...tableConfig.date}>
-              <HeaderSort title="Date" sortName="date" activeSort={{ column: 'date', descending: order === 'desc' }} onSort={onDateSort} />
-            </Table.HeaderItem>
-            <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
-            <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
-            <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
-          </Table.Header>
-          <Table.Body>
-            {renderRows(tableConfig)}
-          </Table.Body>
-        </Table>
-        {isEmpty
-        && <div className={style.empty}>There are no general journal entries for this period.</div>}
-      </div>
-    </StandardTemplate>
+    <React.Fragment>
+      {alertComponent}
+      <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
+        <div className={style.list}>
+          <Table>
+            <Table.Header>
+              <Table.HeaderItem {...tableConfig.date}>
+                <HeaderSort title="Date" sortName="date" activeSort={{ column: 'date', descending: order === 'desc' }} onSort={onDateSort} />
+              </Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
+              <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
+            </Table.Header>
+            <Table.Body>
+              {renderRows(tableConfig)}
+            </Table.Body>
+          </Table>
+          {isEmpty
+            && (
+            <div className={style.empty}>
+              There are no general journal entries for this period.
+            </div>
+            )
+          }
+        </div>
+      </StandardTemplate>
+    </React.Fragment>
   );
 };
 

@@ -7,6 +7,7 @@ const initializeRouter = (options) => {
     actions,
     beforeAll,
     defaultRoute,
+    afterAll,
   } = options;
 
   const routerOptions = {
@@ -19,6 +20,7 @@ const initializeRouter = (options) => {
   router.subscribe(({ route }) => {
     beforeAll();
     actions[route.name]({ ...route.params });
+    afterAll();
   });
 
   router.start();

@@ -1,7 +1,7 @@
-import { Alert } from '@myob/myob-widgets';
 import React from 'react';
 
 import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModals';
+import { SUCCESSFULLY_CREATED_ENTRY } from './GeneralJournalMessageTypes';
 import {
   getAccounts,
   getHeaderOptions,
@@ -10,17 +10,19 @@ import {
   getLineData,
   getTotals,
 } from './GeneralJournalDetailSelectors';
+import GeneralJournalAlert from './components/GeneralJournalAlert';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import GeneralJournalIntents from './GeneralJournalIntents';
 import Store from '../store/Store';
 import generalJournalDetailReducer from './generalJournalDetailReducer';
 
 export default class GeneralJournalDetailModule {
-  constructor(integration, setRootView) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.integration = integration;
     this.store = new Store(generalJournalDetailReducer);
     this.setRootView = setRootView;
     this.businessId = '';
+    this.pushMessage = pushMessage;
   }
 
   loadGeneralJournalDetail = () => {
@@ -103,6 +105,10 @@ export default class GeneralJournalDetailModule {
     };
 
     const onSuccess = () => {
+      this.pushMessage({
+        type: SUCCESSFULLY_CREATED_ENTRY,
+        content: 'Success! Your general journal was saved.',
+      });
       this.redirectToGeneralJournalList();
     };
 
@@ -126,6 +132,10 @@ export default class GeneralJournalDetailModule {
     };
 
     const onSuccess = () => {
+      this.pushMessage({
+        type: SUCCESSFULLY_CREATED_ENTRY,
+        content: 'Success! Your general journal was saved.',
+      });
       this.redirectToGeneralJournalList();
     };
 
@@ -246,11 +256,11 @@ export default class GeneralJournalDetailModule {
       );
     }
 
-    const alertComponent = state.alertMessage ? (
-      <Alert type="danger" onDismiss={this.dismissAlert}>
+    const alertComponent = state.alertMessage && (
+      <GeneralJournalAlert type="danger" onDismiss={this.dismissAlert}>
         {state.alertMessage}
-      </Alert>
-    ) : null;
+      </GeneralJournalAlert>
+    );
 
     this.setRootView(<GeneralJournalDetailView
       headerOptions={getHeaderOptions(state)}

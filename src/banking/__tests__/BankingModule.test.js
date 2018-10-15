@@ -10,7 +10,7 @@ describe('BankingModule', () => {
     };
 
     const integration = { read: ({ onSuccess }) => onSuccess({ transactions: [], accounts: [] }) };
-    const module = new BankingModule(integration, setRootView);
+    const module = new BankingModule({ integration, setRootView });
     module.run();
 
     expect(rootElement.innerHTML).not.toBe('');

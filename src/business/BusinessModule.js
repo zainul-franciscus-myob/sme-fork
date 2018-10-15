@@ -6,7 +6,7 @@ import Store from '../store/Store';
 import businessReducer from './businessReducer';
 
 export default class BusinessModule {
-  constructor(integration, setRootView) {
+  constructor({ integration, setRootView }) {
     this.integration = integration;
     this.store = new Store(businessReducer);
     this.setRootView = setRootView;

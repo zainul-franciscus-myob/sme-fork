@@ -27,7 +27,9 @@ describe('GeneralJournalDetailModule', () => {
       }),
       write: () => {},
     };
-    const module = new GeneralJournalDetailModule(integration, setRootView);
+
+    const pushMessage = () => {};
+    const module = new GeneralJournalDetailModule({ integration, setRootView, pushMessage });
     const context = {
       businessId: '1234',
     };

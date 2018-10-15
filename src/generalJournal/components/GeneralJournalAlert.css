@@ -1,5 +1,5 @@
 :local .myobAlert:global(.flx-container) {
-  padding-top: 2.4rem;
+  padding: 2.4rem 0 0;
 }
 
 :local .myobAlert :global(.alert) {

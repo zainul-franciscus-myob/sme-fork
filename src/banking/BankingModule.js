@@ -8,7 +8,7 @@ import Store from '../store/Store';
 import bankingReducer from './bankingReducer';
 
 export default class BankingModule {
-  constructor(integration, setRootView) {
+  constructor({ integration, setRootView }) {
     this.integration = integration;
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;

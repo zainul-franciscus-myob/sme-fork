@@ -10,7 +10,8 @@ describe('GeneralJournalModule', () => {
     };
 
     const integration = { read: ({ onSuccess }) => onSuccess({ filterOptions: { dateFrom: '', dateTo: '' }, entries: [] }) };
-    const module = new GeneralJournalModule(integration, setRootView);
+    const popMessages = () => [];
+    const module = new GeneralJournalModule({ integration, setRootView, popMessages });
     const context = {
       businessId: '1234',
     };
