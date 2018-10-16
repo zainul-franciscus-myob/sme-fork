@@ -8,10 +8,10 @@ import style from './GeneralJournalView.css';
 
 const GeneralJournalView = (props) => {
   const tableConfig = {
-    date: { width: '96px', valign: 'top' },
-    referenceId: { width: '102px', valign: 'top' },
+    date: { width: '11rem', valign: 'top' },
+    referenceId: { width: '10.2rem', valign: 'top' },
     description: { width: 'flex-1', valign: 'top' },
-    displayAmount: { width: '124px', valign: 'top', align: 'right' },
+    displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
   };
 
   const {
