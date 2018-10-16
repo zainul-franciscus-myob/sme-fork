@@ -3,6 +3,7 @@
   "dateTo": "1535551200000",
   "search": "",
   "order": "desc",
+  "orderBy": "date",
   "entries": [
     {
       "id": "1",
