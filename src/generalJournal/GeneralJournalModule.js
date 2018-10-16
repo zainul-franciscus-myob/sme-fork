@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { SUCCESSFULLY_CREATED_ENTRY } from './GeneralJournalMessageTypes';
+import { getOrder } from './GeneralJournalSelectors';
 import GeneralJournalAlert from './components/GeneralJournalAlert';
 import GeneralJournalIntents from './GeneralJournalIntents';
 import GeneralJournalTableRowView from './components/GeneralJournalTableRowView';
@@ -35,8 +36,8 @@ export default class GeneralJournalModule {
       onUpdateFilters={this.updateFilterOptions}
       filterOptions={state.filterOptions}
       onApplyFilter={this.filterGeneralJournalEntries}
-      onDateSort={this.sortGeneralJournalEntries}
-      order={state.order}
+      onSort={this.sortGeneralJournalEntries}
+      order={getOrder(state)}
       newGeneralJournalEntry={this.newGeneralJournalEntry}
       alertComponent={alertComponent}
     />);
@@ -58,12 +59,18 @@ export default class GeneralJournalModule {
       businessId: this.businessId,
     };
 
-    const onSuccess = ({ entries, order, ...filterOptions }) => {
+    const onSuccess = ({
+      entries,
+      order,
+      orderBy,
+      ...filterOptions
+    }) => {
       this.store.publish({
         intent,
         entries,
         filterOptions,
         order,
+        orderBy,
       });
     };
 
@@ -106,18 +113,19 @@ export default class GeneralJournalModule {
     });
   };
 
-  sortGeneralJournalEntries = () => {
+  sortGeneralJournalEntries = (sortName) => {
     const intent = GeneralJournalIntents.SORT_GENERAL_JOURNAL_ENTRIES;
 
     const urlParams = {
       businessId: this.businessId,
     };
 
-    const onSuccess = ({ entries, order }) => {
+    const onSuccess = ({ entries, order, orderBy }) => {
       this.store.publish({
         intent,
         entries,
         order,
+        orderBy,
       });
     };
 
@@ -125,10 +133,16 @@ export default class GeneralJournalModule {
       console.log('Failed to sort general journal entries');
     };
 
+    const order = this.store.state.order === 'desc' ? 'asc' : 'desc';
+
     this.integration.read({
       intent,
       urlParams,
-      params: { order: this.store.state.order, ...this.store.state.filterOptions },
+      params: {
+        order,
+        orderBy: sortName,
+        ...this.store.state.filterOptions,
+      },
       onSuccess,
       onFailure,
     });
@@ -152,7 +166,7 @@ export default class GeneralJournalModule {
     this.store.unsubscribeAll();
   };
 
-  readMesages = () => {
+  readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
 
     if (successMessage) {
@@ -172,7 +186,7 @@ export default class GeneralJournalModule {
   run(context) {
     this.businessId = context.businessId;
     this.store.subscribe(this.render);
-    this.readMesages();
+    this.readMessages();
     this.loadGeneralJournalEntries();
   }
 }

@@ -8,6 +8,7 @@ const initialState = {
     search: '',
   },
   order: '',
+  orderBy: '',
   alertMessage: '',
 };
 
@@ -22,6 +23,7 @@ const generalJournalReducer = (state = initialState, action) => {
           ...action.filterOptions,
         },
         order: action.order,
+        orderBy: action.orderBy,
       };
 
     case GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES:
@@ -44,6 +46,7 @@ const generalJournalReducer = (state = initialState, action) => {
         ...state,
         entries: action.entries,
         order: action.order,
+        orderBy: action.orderBy,
       };
 
     case GeneralJournalIntents.SET_ALERT_MESSAGE:

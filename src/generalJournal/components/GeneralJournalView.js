@@ -20,7 +20,7 @@ const GeneralJournalView = (props) => {
     filterOptions,
     onUpdateFilters,
     onApplyFilter,
-    onDateSort,
+    onSort,
     order,
     newGeneralJournalEntry,
     alertComponent,
@@ -48,7 +48,7 @@ const GeneralJournalView = (props) => {
           <Table>
             <Table.Header>
               <Table.HeaderItem {...tableConfig.date}>
-                <HeaderSort title="Date" sortName="date" activeSort={{ column: 'date', descending: order === 'desc' }} onSort={onDateSort} />
+                <HeaderSort title="Date" sortName="date" activeSort={order} onSort={onSort} />
               </Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
               <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
