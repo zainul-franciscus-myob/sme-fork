@@ -107,7 +107,11 @@ export default class GeneralJournalModule {
     this.integration.read({
       intent,
       urlParams,
-      params: { order: this.store.state.order, ...this.store.state.filterOptions },
+      params: {
+        ...this.store.state.filterOptions,
+        order: this.store.state.order,
+        orderBy: this.store.state.orderBy,
+      },
       onSuccess,
       onFailure,
     });
@@ -139,9 +143,9 @@ export default class GeneralJournalModule {
       intent,
       urlParams,
       params: {
+        ...this.store.state.filterOptions,
         order,
         orderBy: sortName,
-        ...this.store.state.filterOptions,
       },
       onSuccess,
       onFailure,
