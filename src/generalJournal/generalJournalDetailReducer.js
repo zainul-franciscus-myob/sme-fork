@@ -15,6 +15,7 @@ const initialState = {
   accounts: [],
   modalType: '',
   alertMessage: '',
+  isLoading: true,
 };
 
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
@@ -56,12 +57,14 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         ...state,
         generalJournal: { ...state.generalJournal, ...action.generalJournal },
         accounts: action.accounts,
+        isLoading: false,
       };
     case GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL:
       return {
         ...initialState,
         generalJournal: { ...initialState.generalJournal, ...action.generalJournal },
         accounts: action.accounts,
+        isLoading: action.isLoading,
       };
     case GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_HEADER_OPTIONS:
       return {
@@ -145,6 +148,11 @@ const generalJournalDetailReducer = (state = initialState, action) => {
       return {
         ...state,
         alertMessage: action.alertMessage,
+      };
+    case GeneralJournalIntents.SET_LOADING_STATE:
+      return {
+        ...state,
+        isLoading: action.isLoading,
       };
     default:
       return state;

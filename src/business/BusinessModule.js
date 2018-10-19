@@ -1,3 +1,4 @@
+import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import BusinessIntents from './BusinessIntents';
@@ -16,9 +17,11 @@ export default class BusinessModule {
     const intent = BusinessIntents.LOAD_BUSINESS_LIST;
 
     const onSuccess = (businesses) => {
+      this.setLoadingState(false);
       this.store.publish({
         intent,
         businesses,
+        isLoading: false,
       });
     };
 
@@ -35,14 +38,26 @@ export default class BusinessModule {
     this.store.unsubscribeAll();
   };
 
-  render = ({ businesses }) => {
-    this.setRootView(<BusinessListView
-      businesses={businesses}
-    />);
+  setLoadingState = (isLoading) => {
+    this.store.publish({
+      intent: BusinessIntents.SET_LOADING_STATE,
+      isLoading,
+    });
+  }
+
+  render = ({ businesses, isLoading }) => {
+    const businessListView = (
+      <BusinessListView
+        businesses={businesses}
+      />
+    );
+    const view = isLoading ? <Spinner /> : businessListView;
+    this.setRootView(view);
   };
 
   run = () => {
     this.store.subscribe(this.render);
+    this.setLoadingState(true);
     this.loadBusinessList();
   }
 }

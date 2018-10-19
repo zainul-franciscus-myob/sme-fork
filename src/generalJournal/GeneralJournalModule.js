@@ -1,3 +1,5 @@
+
+import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import { SUCCESSFULLY_CREATED_ENTRY } from './GeneralJournalMessageTypes';
@@ -30,17 +32,23 @@ export default class GeneralJournalModule {
       </GeneralJournalAlert>
     );
 
-    this.setRootView(<GeneralJournalView
-      renderRows={renderGeneralJournalEntries}
-      isEmpty={state.entries.length === 0}
-      onUpdateFilters={this.updateFilterOptions}
-      filterOptions={state.filterOptions}
-      onApplyFilter={this.filterGeneralJournalEntries}
-      onSort={this.sortGeneralJournalEntries}
-      order={getOrder(state)}
-      newGeneralJournalEntry={this.newGeneralJournalEntry}
-      alertComponent={alertComponent}
-    />);
+    const generalJournalView = (
+      <GeneralJournalView
+        renderRows={renderGeneralJournalEntries}
+        isLoading={state.isLoading}
+        isEmpty={state.entries.length === 0}
+        onUpdateFilters={this.updateFilterOptions}
+        filterOptions={state.filterOptions}
+        onApplyFilter={this.filterGeneralJournalEntries}
+        onSort={this.sortGeneralJournalEntries}
+        order={getOrder(state)}
+        newGeneralJournalEntry={this.newGeneralJournalEntry}
+        alertComponent={alertComponent}
+      />
+    );
+
+    const view = state.isLoading ? (<Spinner />) : generalJournalView;
+    this.setRootView(view);
   };
 
   dismissAlert = () => {
@@ -65,6 +73,7 @@ export default class GeneralJournalModule {
       orderBy,
       ...filterOptions
     }) => {
+      this.setLoadingState(false);
       this.store.publish({
         intent,
         entries,
@@ -187,10 +196,18 @@ export default class GeneralJournalModule {
     }
   }
 
+  setLoadingState = (isLoading) => {
+    this.store.publish({
+      intent: GeneralJournalIntents.SET_LOADING_STATE,
+      isLoading,
+    });
+  }
+
   run(context) {
     this.businessId = context.businessId;
     this.store.subscribe(this.render);
     this.readMessages();
+    this.setLoadingState(true);
     this.loadGeneralJournalEntries();
   }
 }

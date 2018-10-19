@@ -10,6 +10,7 @@ const initialState = {
   order: '',
   orderBy: '',
   alertMessage: '',
+  isLoading: true,
 };
 
 const generalJournalReducer = (state = initialState, action) => {
@@ -24,6 +25,7 @@ const generalJournalReducer = (state = initialState, action) => {
         },
         order: action.order,
         orderBy: action.orderBy,
+        isLoading: action.isLoading,
       };
 
     case GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES:
@@ -54,7 +56,11 @@ const generalJournalReducer = (state = initialState, action) => {
         ...state,
         alertMessage: action.alertMessage,
       };
-
+    case GeneralJournalIntents.SET_LOADING_STATE:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
     default:
       return state;
   }

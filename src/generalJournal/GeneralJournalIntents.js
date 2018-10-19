@@ -17,6 +17,7 @@ const GeneralJournalIntents = {
   REORDER_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Reorder general journal detail line'),
   FORMAT_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Format general journal detail line'),
   SET_ALERT_MESSAGE: Symbol('Set alert message'),
+  SET_LOADING_STATE: Symbol('Set loading state'),
 };
 
 export default GeneralJournalIntents;

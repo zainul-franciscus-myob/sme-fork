@@ -1,3 +1,4 @@
+import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModals';
@@ -36,10 +37,12 @@ export default class GeneralJournalDetailModule {
     };
 
     const onSuccess = ({ generalJournal, accounts }) => {
+      this.setLoadingState(false);
       this.store.publish({
         intent,
         generalJournal,
         accounts,
+        isLoading: false,
       });
     };
 
@@ -262,33 +265,45 @@ export default class GeneralJournalDetailModule {
       </GeneralJournalAlert>
     );
 
-    this.setRootView(<GeneralJournalDetailView
-      headerOptions={getHeaderOptions(state)}
-      onUpdateHeaderOptions={this.updateHeaderOptions}
-      onSaveButtonClick={this.isCreating
-        ? this.createGeneralJournalEntry
-        : this.saveGeneralJournalEntry(getJournalId(state))}
-      onCancelButtonClick={this.openCancelModal}
-      onDeleteButtonClick={this.openDeleteModal}
-      modal={modal}
-      alertComponent={alertComponent}
-      isCreating={this.isCreating}
-      lines={getLineData(state)}
-      accounts={getAccounts(state)}
-      onUpdateRow={this.updateGeneralJournalLine}
-      onAddRow={this.addGeneralJournalLine}
-      onRemoveRow={this.deleteJournalLine}
-      onRowInputBlur={this.formatJournalLine}
-      indexOfLastLine={getIndexOfLastLine(state)}
-      amountTotals={getTotals(state)}
-    />);
+    const generalJournalDetailView = (
+      <GeneralJournalDetailView
+        headerOptions={getHeaderOptions(state)}
+        onUpdateHeaderOptions={this.updateHeaderOptions}
+        onSaveButtonClick={this.isCreating
+          ? this.createGeneralJournalEntry
+          : this.saveGeneralJournalEntry(getJournalId(state))}
+        onCancelButtonClick={this.openCancelModal}
+        onDeleteButtonClick={this.openDeleteModal}
+        modal={modal}
+        alertComponent={alertComponent}
+        isCreating={this.isCreating}
+        lines={getLineData(state)}
+        accounts={getAccounts(state)}
+        onUpdateRow={this.updateGeneralJournalLine}
+        onAddRow={this.addGeneralJournalLine}
+        onRemoveRow={this.deleteJournalLine}
+        onRowInputBlur={this.formatJournalLine}
+        indexOfLastLine={getIndexOfLastLine(state)}
+        amountTotals={getTotals(state)}
+      />
+    );
+    const view = state.isLoading ? (<Spinner />) : generalJournalDetailView;
+    this.setRootView(view);
   };
+
+  setLoadingState = (isLoading) => {
+    this.store.publish({
+      intent: GeneralJournalIntents.SET_LOADING_STATE,
+      isLoading,
+    });
+  }
 
   run(context) {
     this.businessId = context.businessId;
     this.referenceId = context.referenceId;
     this.isCreating = context.referenceId === 'new';
     this.store.subscribe(this.render);
+    this.setLoadingState(true);
     this.loadGeneralJournalDetail();
   }
 }
