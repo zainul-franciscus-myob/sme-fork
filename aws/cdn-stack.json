@@ -36,14 +36,12 @@
           "DefaultCacheBehavior" :
           {
             "TargetOriginId" : { "Ref": "S3Bucket" },
-            "MinTTL" : 0,
-            "DefaultTTL" : 0,
             "ForwardedValues" :
             {
               "QueryString" : "true",
               "Cookies" : { "Forward" : "all" }
             },
-            "ViewerProtocolPolicy" : "allow-all"
+            "ViewerProtocolPolicy" : "redirect-to-https"
           },
           "PriceClass" : "PriceClass_100",
           "ViewerCertificate": { "CloudFrontDefaultCertificate" : "true" },
