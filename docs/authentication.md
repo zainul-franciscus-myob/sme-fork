@@ -23,7 +23,7 @@ Each service in our end-to-end systems chain is also required to register and va
 
 The flow requires the use of 3 separate MYOB JavaScript SDKs.
 
-- [IDS Admin Portal] .  
+- [IDAM JS Auth]
   Web UI **login** call, to get an access token.
 - [IDAM Passport]   
   BFF **validation** of incoming token using Asymmetric  Encryption.
