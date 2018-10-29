@@ -1,57 +1,45 @@
-  {
+{
   "generalJournal": {
-      "id": "1",
-      "referenceId": "JE0000002",
-      "date": "1533045600000",
-      "gstReportingMethod": "purchase",
-      "isEndOfYearAdjustment": false,
-      "isTaxInclusive": true,
-      "description": "Cry havoc",
-      "lines": [
-        {
-          "accountId": "123",
-          "debitDisplayAmount": "110.00",
-          "creditDisplayAmount": "",
-          "description": "Cry havoc",
-          "taxCodeId": "123",
-          "displayTaxAmount": "11.00"
-        }
-      ]
+    "id": "1",
+    "referenceId": "JE0000002",
+    "date": "1533045600000",
+    "gstReportingMethod": "purchase",
+    "isEndOfYearAdjustment": false,
+    "isTaxInclusive": true,
+    "description": "Cry havoc",
+    "lines": [
+      {
+        "accountId": "123",
+        "debitAmount": "110.00",
+        "creditAmount": "",
+        "description": "Cry havoc",
+        "taxCodeId": "123",
+        "taxAmount": "11.00"
+      }
+    ]
   },
   "accounts": [
     {
       "id": "123",
       "displayName": "My Sales Account 1",
-      "accountType": "Sales",
-      "taxCodes": [
-        {
-          "id": "123",
-          "displayName": "GST",
-          "rate": "10"
-        },
-        {
-          "id": "124",
-          "displayName": "RTR",
-          "rate": "5"
-        }
-      ]
+      "accountType": "Sales"
     },
     {
       "id": "456",
       "displayName": "My Assets Account 1",
-      "accountType": "Assets",
-      "taxCodes": [
-        {
-          "id": "123",
-          "displayName": "GST",
-          "rate": "10"
-        },
-        {
-          "id": "124",
-          "displayName": "RTR",
-          "rate": "5"
-        }
-      ]
+      "accountType": "Assets"
+    }
+  ],
+  "taxCodes": [
+    {
+      "id": "123",
+      "displayName": "GST",
+      "rate": "10"
+    },
+    {
+      "id": "124",
+      "displayName": "RTR",
+      "rate": "5"
     }
   ]
 }
