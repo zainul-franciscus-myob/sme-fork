@@ -11,6 +11,7 @@ const initialState = {
   orderBy: '',
   alertMessage: '',
   isLoading: true,
+  isTableLoading: false,
 };
 
 const generalJournalReducer = (state = initialState, action) => {
@@ -60,6 +61,11 @@ const generalJournalReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: action.isLoading,
+      };
+    case GeneralJournalIntents.SET_TABLE_LOADING_STATE:
+      return {
+        ...state,
+        isTableLoading: action.isTableLoading,
       };
     default:
       return state;

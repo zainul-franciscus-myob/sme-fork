@@ -9,15 +9,16 @@ const GeneralJournalIntents = {
   DELETE_GENERAL_JOURNAL_DETAIL: Symbol('Delete a general journal detail entry'),
   CREATE_GENERAL_JOURNAL_DETAIL: Symbol('Create a new general journal detail entry'),
   SAVE_GENERAL_JOURNAL_DETAIL: Symbol('Save a general journal detail entry'),
-  OPEN_MODAL: Symbol('Open a modal'),
-  CLOSE_MODAL: Symbol('Close a modal'),
   UPDATE_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Update general journal detail line'),
   ADD_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Add general journal detail line'),
   DELETE_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Delete general journal detail line'),
   REORDER_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Reorder general journal detail line'),
   FORMAT_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Format general journal detail line'),
+  OPEN_MODAL: Symbol('Open a modal'),
+  CLOSE_MODAL: Symbol('Close a modal'),
   SET_ALERT_MESSAGE: Symbol('Set alert message'),
   SET_LOADING_STATE: Symbol('Set loading state'),
+  SET_TABLE_LOADING_STATE: Symbol('Set table loading state'),
 };
 
 export default GeneralJournalIntents;

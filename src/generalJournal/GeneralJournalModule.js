@@ -35,7 +35,7 @@ export default class GeneralJournalModule {
     const generalJournalView = (
       <GeneralJournalView
         renderRows={renderGeneralJournalEntries}
-        isLoading={state.isLoading}
+        isTableLoading={state.isTableLoading}
         isEmpty={state.entries.length === 0}
         onUpdateFilters={this.updateFilterOptions}
         filterOptions={state.filterOptions}
@@ -50,15 +50,6 @@ export default class GeneralJournalModule {
     const view = state.isLoading ? (<Spinner />) : generalJournalView;
     this.setRootView(view);
   };
-
-  dismissAlert = () => {
-    const intent = GeneralJournalIntents.SET_ALERT_MESSAGE;
-
-    this.store.publish({
-      intent,
-      alertMessage: '',
-    });
-  }
 
   loadGeneralJournalEntries = () => {
     const intent = GeneralJournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES;
@@ -96,6 +87,8 @@ export default class GeneralJournalModule {
   }
 
   filterGeneralJournalEntries = () => {
+    this.setTableLoadingState(true);
+
     const intent = GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES;
 
     const urlParams = {
@@ -103,6 +96,7 @@ export default class GeneralJournalModule {
     };
 
     const onSuccess = ({ entries }) => {
+      this.setTableLoadingState(false);
       this.store.publish({
         intent,
         entries,
@@ -161,24 +155,6 @@ export default class GeneralJournalModule {
     });
   };
 
-  updateFilterOptions = ({ filterName, value }) => {
-    const intent = GeneralJournalIntents.UPDATE_FILTER_OPTIONS;
-
-    this.store.publish({
-      intent,
-      filterName,
-      value,
-    });
-  };
-
-  newGeneralJournalEntry = () => {
-    window.location.href = `/#/${this.businessId}/generalJournal/new`;
-  };
-
-  unsubscribeFromStore = () => {
-    this.store.unsubscribeAll();
-  };
-
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
 
@@ -196,12 +172,46 @@ export default class GeneralJournalModule {
     }
   }
 
+  newGeneralJournalEntry = () => {
+    window.location.href = `/#/${this.businessId}/generalJournal/new`;
+  };
+
+  unsubscribeFromStore = () => {
+    this.store.unsubscribeAll();
+  };
+
   setLoadingState = (isLoading) => {
+    const intent = GeneralJournalIntents.SET_LOADING_STATE;
     this.store.publish({
-      intent: GeneralJournalIntents.SET_LOADING_STATE,
+      intent,
       isLoading,
     });
-  }
+  };
+
+  setTableLoadingState = (isTableLoading) => {
+    const intent = GeneralJournalIntents.SET_TABLE_LOADING_STATE;
+    this.store.publish({
+      intent,
+      isTableLoading,
+    });
+  };
+
+  updateFilterOptions = ({ filterName, value }) => {
+    const intent = GeneralJournalIntents.UPDATE_FILTER_OPTIONS;
+    this.store.publish({
+      intent,
+      filterName,
+      value,
+    });
+  };
+
+  dismissAlert = () => {
+    const intent = GeneralJournalIntents.SET_ALERT_MESSAGES;
+    this.store.publish({
+      intent,
+      alertMessage: '',
+    });
+  };
 
   run(context) {
     this.businessId = context.businessId;

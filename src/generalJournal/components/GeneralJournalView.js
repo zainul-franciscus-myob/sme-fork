@@ -1,5 +1,5 @@
 import {
-  Button, HeaderSort, PageHead, StandardTemplate, Table,
+  Button, HeaderSort, PageHead, Spinner, StandardTemplate, Table,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -17,6 +17,7 @@ const GeneralJournalView = (props) => {
   const {
     renderRows,
     isEmpty,
+    isTableLoading,
     filterOptions,
     onUpdateFilters,
     onApplyFilter,
@@ -40,31 +41,42 @@ const GeneralJournalView = (props) => {
     </PageHead>
   );
 
+  const table = (
+    <Table>
+      <Table.Header>
+        <Table.HeaderItem {...tableConfig.date}>
+          <HeaderSort title="Date" sortName="date" activeSort={order} onSort={onSort} />
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
+      </Table.Header>
+      <Table.Body>
+        {renderRows(tableConfig)}
+      </Table.Body>
+    </Table>
+  );
+
+  const tableView = isTableLoading
+    ? (
+      <div className={style.spinner}>
+        <Spinner size="medium" />
+      </div>
+    )
+    : table;
+
+  const emptyView = (
+    <div className={style.empty}>
+      There are no general journal entries for this period.
+    </div>
+  );
+
   return (
     <React.Fragment>
       {alertComponent}
       <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
         <div className={style.list}>
-          <Table>
-            <Table.Header>
-              <Table.HeaderItem {...tableConfig.date}>
-                <HeaderSort title="Date" sortName="date" activeSort={order} onSort={onSort} />
-              </Table.HeaderItem>
-              <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
-              <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
-              <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
-            </Table.Header>
-            <Table.Body>
-              {renderRows(tableConfig)}
-            </Table.Body>
-          </Table>
-          {isEmpty
-            && (
-            <div className={style.empty}>
-              There are no general journal entries for this period.
-            </div>
-            )
-          }
+          {isEmpty ? emptyView : tableView}
         </div>
       </StandardTemplate>
     </React.Fragment>
