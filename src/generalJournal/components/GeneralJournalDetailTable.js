@@ -119,12 +119,11 @@ export default class GeneralJournalDetailTable extends React.Component {
     const isNewLineRow = indexOfLastLine < index;
 
     const {
-      debitDisplayAmount = '',
+      displayDebitAmount = '',
       isDebitDisabled,
-      creditDisplayAmount = '',
+      displayCreditAmount = '',
       isCreditDisabled,
       description = '',
-      displayTaxAmount = '',
       selectedAccountIndex,
       taxCodes,
       selectedTaxCodeIndex,
@@ -147,8 +146,8 @@ export default class GeneralJournalDetailTable extends React.Component {
           type="number"
           label="Debit Amount"
           hiddenLabel
-          name="debitDisplayAmount"
-          value={debitDisplayAmount}
+          name="displayDebitAmount"
+          value={displayDebitAmount}
           disabled={isDebitDisabled || isNewLineRow}
           onChange={onChange}
           onBlur={this.onRowInputBlur(index)}
@@ -157,8 +156,8 @@ export default class GeneralJournalDetailTable extends React.Component {
           type="number"
           label="Credit Amount"
           hiddenLabel
-          name="creditDisplayAmount"
-          value={creditDisplayAmount}
+          name="displayCreditAmount"
+          value={displayCreditAmount}
           disabled={isCreditDisabled || isNewLineRow}
           onChange={onChange}
           onBlur={this.onRowInputBlur(index)}
@@ -178,22 +177,13 @@ export default class GeneralJournalDetailTable extends React.Component {
           onChange={this.eventWrapper('taxCodeId', onChange)}
           disabled={isNewLineRow}
         />
-        <Input
-          type="number"
-          label="Tax Amount"
-          hiddenLabel
-          name="displayTaxAmount"
-          value={displayTaxAmount}
-          onChange={onChange}
-          disabled
-        />
       </LineItemTable.Row>
     );
   };
 
   render() {
     const labels = [
-      'Account', 'Debit ($)', 'Credit ($)', 'Line Description', 'Tax code', 'Tax Amount ($)',
+      'Account', 'Debit ($)', 'Credit ($)', 'Line Description', 'Tax code',
     ];
 
     const {

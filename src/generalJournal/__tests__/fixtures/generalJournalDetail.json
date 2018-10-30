@@ -10,35 +10,35 @@
       "lines": [
         {
           "accountId": "123",
-          "debitDisplayAmount": "110.00",
-          "creditDisplayAmount": "",
+          "debitAmount": "110.00",
+          "creditAmount": "",
           "description": "Cry havoc 1",
           "taxCodeId": "123",
-          "displayTaxAmount": "11.00"
+          "taxAmount": "11.00"
         },
         {
           "accountId": "123",
-          "debitDisplayAmount": "100.10",
-          "creditDisplayAmount": "",
+          "debitAmount": "100.10",
+          "creditAmount": "",
           "description": "Cry havoc 2",
           "taxCodeId": "123",
-          "displayTaxAmount": "10.00"
+          "taxAmount": "10.01"
         },
         {
           "accountId": "123",
-          "debitDisplayAmount": "",
-          "creditDisplayAmount": "110.33",
+          "debitAmount": "",
+          "creditAmount": "110.33",
           "description": "Cry havoc 3",
           "taxCodeId": "123",
-          "displayTaxAmount": "11.00"
+          "taxAmount": "11.03"
         },
         {
           "accountId": "123",
-          "debitDisplayAmount": "",
-          "creditDisplayAmount": "100.33",
+          "debitAmount": "",
+          "creditAmount": "100.33",
           "description": "Cry havoc 4",
           "taxCodeId": "123",
-          "displayTaxAmount": "10.00"
+          "taxAmount": "10.03"
         }
       ]
   },
@@ -46,36 +46,25 @@
     {
       "id": "123",
       "displayName": "My Sales Account 1",
-      "accountType": "Sales",
-      "taxCodes": [
-        {
-          "id": "123",
-          "displayName": "GST",
-          "rate": "10"
-        },
-        {
-          "id": "124",
-          "displayName": "RTR",
-          "rate": "5"
-        }
-      ]
+      "accountType": "Sales"
     },
     {
       "id": "456",
       "displayName": "My Assets Account 1",
-      "accountType": "Assets",
-      "taxCodes": [
-        {
-          "id": "123",
-          "displayName": "GST",
-          "rate": "10"
-        },
-        {
-          "id": "124",
-          "displayName": "RTR",
-          "rate": "5"
-        }
-      ]
+      "accountType": "Assets"
+    }
+  ],
+  "taxCodes": [
+    {
+      "id": "123",
+      "displayName": "GST",
+      "rate": "10"
+    },
+    {
+      "id": "124",
+      "displayName": "RTR",
+      "rate": "5"
     }
   ]
 }
+

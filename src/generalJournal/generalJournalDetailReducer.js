@@ -1,4 +1,4 @@
-import { getTaxRateForLineFromAccounts } from './GeneralJournalDetailSelectors';
+import { calculateTaxForLine } from './GeneralJournalDetailSelectors';
 import GeneralJournalIntents from './GeneralJournalIntents';
 
 const initialState = {
@@ -13,42 +13,13 @@ const initialState = {
     lines: [],
   },
   accounts: [],
+  taxCodes: [],
   modalType: '',
   alertMessage: '',
   isLoading: true,
 };
 
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
-
-const getExclusiveAmount = (amount, rate) => amount / (1 + rate);
-const getInclusiveAmount = (amount, rate) => amount * (1 + rate);
-
-const getDisplayAmount = (amount, rate, isTaxInclusive) => {
-  const parsedAmount = parseFloat(amount);
-  const calculatedAmount = isTaxInclusive
-    ? getInclusiveAmount(parsedAmount, rate) : getExclusiveAmount(parsedAmount, rate);
-  return formatStringNumber(calculatedAmount);
-};
-
-const updateLineByTaxType = (line, accounts, isTaxInclusive) => {
-  let {
-    debitDisplayAmount,
-    creditDisplayAmount,
-  } = line;
-
-  const taxRate = getTaxRateForLineFromAccounts(accounts, line);
-
-  debitDisplayAmount = debitDisplayAmount
-    && getDisplayAmount(debitDisplayAmount, taxRate, isTaxInclusive);
-  creditDisplayAmount = creditDisplayAmount
-    && getDisplayAmount(creditDisplayAmount, taxRate, isTaxInclusive);
-
-  return {
-    ...line,
-    debitDisplayAmount,
-    creditDisplayAmount,
-  };
-};
 
 const generalJournalDetailReducer = (state = initialState, action) => {
   switch (action.intent) {
@@ -57,6 +28,7 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         ...state,
         generalJournal: { ...state.generalJournal, ...action.generalJournal },
         accounts: action.accounts,
+        taxCodes: action.taxCodes,
         isLoading: false,
       };
     case GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL:
@@ -64,6 +36,7 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         ...initialState,
         generalJournal: { ...initialState.generalJournal, ...action.generalJournal },
         accounts: action.accounts,
+        taxCodes: action.taxCodes,
         isLoading: action.isLoading,
       };
     case GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_HEADER_OPTIONS:
@@ -72,11 +45,6 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         generalJournal: {
           ...state.generalJournal,
           [action.key]: action.value,
-          lines: action.key === 'isTaxInclusive'
-            ? state.generalJournal.lines.map(
-              line => updateLineByTaxType(line, state.accounts, action.value),
-            )
-            : state.generalJournal.lines,
         },
       };
     case GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL:
@@ -101,7 +69,11 @@ const generalJournalDetailReducer = (state = initialState, action) => {
           lines: state.generalJournal.lines.map(
             (line, index) => (
               index === action.lineIndex
-                ? { ...line, [action.lineKey]: action.lineValue }
+                ? {
+                  ...line,
+                  taxAmount: calculateTaxForLine(line, state.taxCodes),
+                  [action.lineKey]: action.lineValue,
+                }
                 : line
             ),
           ),
@@ -132,12 +104,12 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         generalJournal: {
           ...state.generalJournal,
           lines: state.generalJournal.lines.map(
-            ({ debitDisplayAmount, creditDisplayAmount, ...line }, index) => (
+            ({ debitAmount, creditAmount, ...line }, index) => (
               {
-                debitDisplayAmount: index === action.index && debitDisplayAmount
-                  ? formatStringNumber(debitDisplayAmount) : debitDisplayAmount,
-                creditDisplayAmount: index === action.index && creditDisplayAmount
-                  ? formatStringNumber(creditDisplayAmount) : creditDisplayAmount,
+                debitAmount: index === action.index && debitAmount
+                  ? formatStringNumber(debitAmount) : debitAmount,
+                creditAmount: index === action.index && creditAmount
+                  ? formatStringNumber(creditAmount) : creditAmount,
                 ...line,
               }
             ),

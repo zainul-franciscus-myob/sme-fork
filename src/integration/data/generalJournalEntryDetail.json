@@ -5,7 +5,7 @@
     "date": "1533045600000",
     "gstReportingMethod": "purchase",
     "isEndOfYearAdjustment": false,
-    "isTaxInclusive": true,
+    "isTaxInclusive": false,
     "description": "Cry havoc",
     "lines": [
       {

@@ -19,12 +19,12 @@ const formatNumber = num => num.toFixed(2);
 
 export const getAccounts = ({ accounts }) => accounts.map(formatAccount);
 
-const getDisabledField = ({ debitDisplayAmount, creditDisplayAmount }) => {
-  if (debitDisplayAmount) {
+const getDisabledField = ({ debitAmount, creditAmount }) => {
+  if (debitAmount) {
     return 'credit';
   }
 
-  if (creditDisplayAmount) {
+  if (creditAmount) {
     return 'debit';
   }
 
@@ -37,36 +37,42 @@ const getSelectedTaxCode = (taxCodes, taxCodeId) => {
   return selectedTaxCode;
 };
 
-const getTaxCodes = (accounts, line) => {
-  const selectedAccountIndex = accounts.findIndex(({ id }) => id === line.accountId);
-  const { taxCodes = [] } = accounts[selectedAccountIndex] || {};
-  return taxCodes;
-};
-
-const calculateInclusiveTax = (amount, rate) => rate * (amount / (1 + rate));
 const calculateExclusiveTax = (amount, rate) => amount * rate;
 
-export const getTaxRateForLineFromAccounts = (accounts, line) => {
-  const taxCodes = getTaxCodes(accounts, line);
+const getTaxRateForLine = (line, taxCodes) => {
   const { rate = 0 } = getSelectedTaxCode(taxCodes, line.taxCodeId);
   const taxRate = parseFloat(rate) / 100;
   return taxRate;
 };
 
-const calculateTaxForLine = (line, accounts, isTaxInclusive) => {
+export const calculateTaxForLine = (line, taxCodes) => {
   const {
-    debitDisplayAmount,
-    creditDisplayAmount,
+    debitAmount,
+    creditAmount,
   } = line;
 
-  const taxRate = getTaxRateForLineFromAccounts(accounts, line);
-  const selectedAmount = parseFloat(debitDisplayAmount || creditDisplayAmount || 0);
-  const taxAmount = isTaxInclusive
-    ? calculateInclusiveTax(selectedAmount, taxRate)
-    : calculateExclusiveTax(selectedAmount, taxRate);
+  const taxRate = getTaxRateForLine(line, taxCodes);
+  const selectedAmount = parseFloat(debitAmount || creditAmount || 0);
+  const taxAmount = calculateExclusiveTax(selectedAmount, taxRate);
 
   return taxAmount;
 };
+
+const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
+
+const getDisplayAmount = (amount, taxAmount, isTaxInclusive) => {
+  const parsedAmount = parseFloat(amount);
+  const calculatedAmount = isTaxInclusive ? parsedAmount + parseFloat(taxAmount) : amount;
+
+  return formatStringNumber(calculatedAmount);
+};
+
+const getDisplayAmounts = ({ debitAmount, creditAmount, taxAmount }, isTaxInclusive) => ({
+  displayDebitAmount: debitAmount
+    && getDisplayAmount(debitAmount, taxAmount, isTaxInclusive),
+  displayCreditAmount: creditAmount
+    && getDisplayAmount(creditAmount, taxAmount, isTaxInclusive),
+});
 
 export const getLineData = (state) => {
   const {
@@ -75,6 +81,7 @@ export const getLineData = (state) => {
       lines,
       isTaxInclusive,
     },
+    taxCodes,
   } = state;
 
   const formattedLines = lines.map((line) => {
@@ -82,14 +89,17 @@ export const getLineData = (state) => {
 
     const selectedAccountIndex = accounts.findIndex(({ id }) => id === line.accountId);
 
-    const { taxCodes = [] } = accounts[selectedAccountIndex] || {};
     const taxCodeOptions = taxCodes.map(formatTaxCode);
     const selectedTaxCodeIndex = taxCodes.findIndex(({ id }) => id === line.taxCodeId);
-    const displayTaxAmount = formatNumber(calculateTaxForLine(line, accounts, isTaxInclusive));
 
+    const {
+      displayDebitAmount,
+      displayCreditAmount,
+    } = getDisplayAmounts(line, isTaxInclusive);
     return {
       ...line,
-      displayTaxAmount,
+      displayDebitAmount,
+      displayCreditAmount,
       selectedAccountIndex,
       selectedTaxCodeIndex,
       taxCodes: taxCodeOptions,
@@ -114,52 +124,40 @@ export const getIndexOfLastLine = (state) => {
 const formatTotal = num => (num < 0 ? `-$${formatNumber(Math.abs(num))}` : `$${formatNumber(num)}`);
 
 const getTotalDebit = (lines) => {
-  const debitLines = lines.filter(line => line.debitDisplayAmount !== '');
+  const debitLines = lines.filter(line => line.debitAmount !== '');
   return debitLines.reduce(
-    (acc, line) => acc + (parseFloat(line.debitDisplayAmount) || 0), 0,
+    (acc, line) => acc + (parseFloat(line.debitAmount) || 0), 0,
   );
 };
 const getTotalCredit = (lines) => {
-  const creditLines = lines.filter(line => line.creditDisplayAmount !== '');
+  const creditLines = lines.filter(line => line.creditAmount !== '');
   return creditLines.reduce(
-    (acc, line) => acc + (parseFloat(line.creditDisplayAmount) || 0), 0,
+    (acc, line) => acc + (parseFloat(line.creditAmount) || 0), 0,
   );
 };
 
-const getTotalTax = (lines, accounts, isTaxInclusive) => lines.reduce(
-  (acc, line) => acc + calculateTaxForLine(line, accounts, isTaxInclusive),
+const getTotalTax = lines => lines.reduce(
+  (acc, { taxAmount }) => acc + parseFloat(taxAmount),
   0,
 );
 
-const getTaxInclusiveOutOfBalance = (lines) => {
-  const totalDebit = getTotalDebit(lines);
-  const totalCredit = getTotalCredit(lines);
-  return totalDebit - totalCredit;
-};
-
-const isCreditLine = ({ creditDisplayAmount }) => Boolean(creditDisplayAmount);
+const isCreditLine = ({ creditAmount }) => Boolean(creditAmount);
 
 const getLineAmount = (line) => {
   const {
-    creditDisplayAmount,
-    debitDisplayAmount,
+    creditAmount,
+    debitAmount,
   } = line;
 
-  const lineAmount = debitDisplayAmount || creditDisplayAmount || 0;
+  const lineAmount = debitAmount || creditAmount || 0;
   return parseFloat(lineAmount);
 };
 
-const getTaxAmountForTaxExclusiveLine = (amount, line, accounts) => {
-  const taxRate = getTaxRateForLineFromAccounts(accounts, line);
-  const taxAmount = calculateExclusiveTax(amount, taxRate);
-  return taxAmount;
-};
-
-const getTaxExclusiveOutOfBalance = (lines, accounts) => {
+const getTaxExclusiveOutOfBalance = (lines) => {
   const outOfBalance = lines.reduce(
     (acc, line) => {
       const amount = getLineAmount(line);
-      const taxAmount = getTaxAmountForTaxExclusiveLine(amount, line, accounts);
+      const taxAmount = parseFloat(line.taxAmount);
       const totalAmount = amount + taxAmount;
 
       return isCreditLine(line)
@@ -172,27 +170,23 @@ const getTaxExclusiveOutOfBalance = (lines, accounts) => {
   return outOfBalance;
 };
 
-const getOutOfBalance = (lines, accounts, isTaxInclusive) => {
-  const outOfBalance = isTaxInclusive
-    ? getTaxInclusiveOutOfBalance(lines)
-    : getTaxExclusiveOutOfBalance(lines, accounts);
+const getOutOfBalance = (lines) => {
+  const outOfBalance = getTaxExclusiveOutOfBalance(lines);
 
   return Math.abs(outOfBalance);
 };
 
 export const getTotals = (state) => {
   const {
-    accounts,
     generalJournal: {
       lines,
-      isTaxInclusive,
     },
   } = state;
 
   const totalDebit = getTotalDebit(lines);
   const totalCredit = getTotalCredit(lines);
-  const totalTax = getTotalTax(lines, accounts, isTaxInclusive);
-  const totalOutOfBalance = getOutOfBalance(lines, accounts, isTaxInclusive);
+  const totalTax = getTotalTax(lines);
+  const totalOutOfBalance = getOutOfBalance(lines);
 
   return {
     totalCredit: formatTotal(totalCredit),

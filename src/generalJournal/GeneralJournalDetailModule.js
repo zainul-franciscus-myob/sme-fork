@@ -36,12 +36,13 @@ export default class GeneralJournalDetailModule {
       ...(!this.isCreating && { referenceId: this.referenceId }),
     };
 
-    const onSuccess = ({ generalJournal, accounts }) => {
+    const onSuccess = ({ generalJournal, accounts, taxCodes }) => {
       this.setLoadingState(false);
       this.store.publish({
         intent,
         generalJournal,
         accounts,
+        taxCodes,
         isLoading: false,
       });
     };
@@ -202,11 +203,11 @@ export default class GeneralJournalDetailModule {
 
     const line = {
       accountId: '',
-      debitDisplayAmount: '',
-      creditDisplayAmount: '',
+      debitAmount: '',
+      creditAmount: '',
       description: '',
       taxCodeId: '',
-      displayTaxAmount: '',
+      taxAmount: '',
       ...partialLine,
     };
 

@@ -1,14 +1,21 @@
 import {
+  calculateTaxForLine,
   getAccounts,
   getHeaderOptions,
   getIndexOfLastLine,
   getLineData,
-  getTaxRateForLineFromAccounts,
   getTotals,
 } from '../GeneralJournalDetailSelectors';
 import generalJournalDetail from './fixtures/generalJournalDetail';
 
 describe('GeneralJournalDetailSelectors', () => {
+  describe('caculateTaxForLine', () => {
+    it('should calculate the tax amount for a debit line', () => {
+      const line = generalJournalDetail.generalJournal.lines[0];
+      const { taxCodes } = generalJournalDetail;
+      expect(calculateTaxForLine(line, taxCodes).toFixed(2)).toEqual('11.00');
+    });
+  });
   describe('getHeaderOptions', () => {
     it('returns header options object', () => {
       expect(getHeaderOptions(generalJournalDetail)).toEqual({
@@ -27,8 +34,8 @@ describe('GeneralJournalDetailSelectors', () => {
       const totals = {
         totalDebit: '$210.10',
         totalCredit: '$210.66',
-        totalTax: '$42.08',
-        totalOutOfBalance: '$0.62',
+        totalTax: '$42.07',
+        totalOutOfBalance: '$0.61',
       };
       expect(getTotals(generalJournalDetail)).toEqual(totals);
     });
@@ -45,8 +52,8 @@ describe('GeneralJournalDetailSelectors', () => {
       const totals = {
         totalDebit: '$210.10',
         totalCredit: '$210.66',
-        totalTax: '$38.25',
-        totalOutOfBalance: '$0.56',
+        totalTax: '$42.07',
+        totalOutOfBalance: '$0.61',
       };
       expect(getTotals(detail)).toEqual(totals);
     });
@@ -75,118 +82,66 @@ describe('GeneralJournalDetailSelectors', () => {
     });
   });
 
-  describe('getTaxRate', () => {
-    it('should get the tax rate of a line', () => {
-      const {
-        accounts,
-        generalJournal: {
-          lines,
-        },
-      } = generalJournalDetail;
-      expect(getTaxRateForLineFromAccounts(accounts, lines[0])).toEqual(0.1);
-    });
-  });
-
   describe('getLineData', () => {
     it('should get the formatted line data', () => {
       expect(getLineData(generalJournalDetail)).toEqual([
         {
           accountId: '123',
-          debitDisplayAmount: '110.00',
-          creditDisplayAmount: '',
+          creditAmount: '',
+          debitAmount: '110.00',
           description: 'Cry havoc 1',
-          taxCodeId: '123',
-          displayTaxAmount: '11.00',
-          selectedAccountIndex: 0,
-          selectedTaxCodeIndex: 0,
-          taxCodes: [
-            {
-              id: '123',
-              displayName: 'GST',
-              rate: '10%',
-            },
-            {
-              id: '124',
-              displayName: 'RTR',
-              rate: '5%',
-            },
-          ],
+          displayCreditAmount: '',
+          displayDebitAmount: '110.00',
           isCreditDisabled: true,
           isDebitDisabled: false,
-        },
-        {
+          selectedAccountIndex: 0,
+          selectedTaxCodeIndex: 0,
+          taxAmount: '11.00',
+          taxCodeId: '123',
+          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+        }, {
           accountId: '123',
-          debitDisplayAmount: '100.10',
-          creditDisplayAmount: '',
+          creditAmount: '',
+          debitAmount: '100.10',
           description: 'Cry havoc 2',
-          taxCodeId: '123',
-          displayTaxAmount: '10.01',
-          selectedAccountIndex: 0,
-          selectedTaxCodeIndex: 0,
-          taxCodes: [
-            {
-              id: '123',
-              displayName: 'GST',
-              rate: '10%',
-            },
-            {
-              id: '124',
-              displayName: 'RTR',
-              rate: '5%',
-            },
-          ],
+          displayCreditAmount: '',
+          displayDebitAmount: '100.10',
           isCreditDisabled: true,
           isDebitDisabled: false,
-        },
-        {
+          selectedAccountIndex: 0,
+          selectedTaxCodeIndex: 0,
+          taxAmount: '10.01',
+          taxCodeId: '123',
+          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+        }, {
           accountId: '123',
-          debitDisplayAmount: '',
-          creditDisplayAmount: '110.33',
+          creditAmount: '110.33',
+          debitAmount: '',
           description: 'Cry havoc 3',
-          taxCodeId: '123',
-          displayTaxAmount: '11.03',
-          selectedAccountIndex: 0,
-          selectedTaxCodeIndex: 0,
-          taxCodes: [
-            {
-              id: '123',
-              displayName: 'GST',
-              rate: '10%',
-            },
-            {
-              id: '124',
-              displayName: 'RTR',
-              rate: '5%',
-            },
-          ],
+          displayCreditAmount: '110.33',
+          displayDebitAmount: '',
           isCreditDisabled: false,
           isDebitDisabled: true,
-        },
-        {
+          selectedAccountIndex: 0,
+          selectedTaxCodeIndex: 0,
+          taxAmount: '11.03',
+          taxCodeId: '123',
+          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+        }, {
           accountId: '123',
-          debitDisplayAmount: '',
-          creditDisplayAmount: '100.33',
+          creditAmount: '100.33',
+          debitAmount: '',
           description: 'Cry havoc 4',
-          taxCodeId: '123',
-          displayTaxAmount: '10.03',
-          selectedAccountIndex: 0,
-          selectedTaxCodeIndex: 0,
-          taxCodes: [
-            {
-              id: '123',
-              displayName: 'GST',
-              rate: '10%',
-            },
-            {
-              id: '124',
-              displayName: 'RTR',
-              rate: '5%',
-            },
-          ],
+          displayCreditAmount: '100.33',
+          displayDebitAmount: '',
           isCreditDisabled: false,
           isDebitDisabled: true,
-        },
-      ]);
+          selectedAccountIndex: 0,
+          selectedTaxCodeIndex: 0,
+          taxAmount: '10.03',
+          taxCodeId: '123',
+          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+        }]);
     });
   });
 });
