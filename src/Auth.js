@@ -20,7 +20,7 @@ export const initializeAuth = () => {
 export const login = () => {
   const isLoggedIn = authenticationContext.getUser();
   if (!isLoggedIn) {
-    authenticationContext.logIn();
+    authenticationContext.logIn(window.location.href);
   }
 };
 
@@ -35,7 +35,7 @@ export const acquireToken = () => new Promise((resolve, reject) => {
     Config.AUTHENTICATION_BFF_CLIENT_ID,
     (token, error) => {
       if (error) {
-        authenticationContext.logIn();
+        authenticationContext.logIn(window.location.href);
         reject(Error('login didn\'t work'));
       } else {
         resolve(token);
