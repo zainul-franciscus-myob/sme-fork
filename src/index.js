@@ -42,7 +42,7 @@ async function main(integrationType) {
     { name: 'home', path: '/home' },
     { name: 'banking', path: '/:businessId/banking' },
     { name: 'generalJournal', path: '/:businessId/generalJournal' },
-    { name: 'generalJournalDetail', path: '/:businessId/generalJournal/:referenceId' },
+    { name: 'generalJournalDetail', path: '/:businessId/generalJournal/:journalId' },
   ];
 
   const moduleMappings = {

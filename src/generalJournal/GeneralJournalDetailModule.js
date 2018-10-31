@@ -24,6 +24,7 @@ export default class GeneralJournalDetailModule {
     this.setRootView = setRootView;
     this.businessId = '';
     this.pushMessage = pushMessage;
+    this.journalId = '';
   }
 
   loadGeneralJournalDetail = () => {
@@ -33,7 +34,7 @@ export default class GeneralJournalDetailModule {
 
     const urlParams = {
       businessId: this.businessId,
-      ...(!this.isCreating && { referenceId: this.referenceId }),
+      ...(!this.isCreating && { journalId: this.journalId }),
     };
 
     const onSuccess = ({ generalJournal, accounts, taxCodes }) => {
@@ -301,8 +302,8 @@ export default class GeneralJournalDetailModule {
 
   run(context) {
     this.businessId = context.businessId;
-    this.referenceId = context.referenceId;
-    this.isCreating = context.referenceId === 'new';
+    this.journalId = context.journalId;
+    this.isCreating = context.journalId === 'new';
     this.store.subscribe(this.render);
     this.setLoadingState(true);
     this.loadGeneralJournalDetail();

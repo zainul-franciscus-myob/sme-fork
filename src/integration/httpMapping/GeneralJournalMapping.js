@@ -15,7 +15,7 @@ const GeneralJournalMapping = {
   },
   [GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, referenceId }) => `/${businessId}/generalJournal/load_general_journal_detail/${referenceId}`,
+    getPath: ({ businessId, journalId }) => `/${businessId}/generalJournal/load_general_journal_detail/${journalId}`,
   },
   [GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL]: {
     method: 'GET',
