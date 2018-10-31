@@ -24,14 +24,15 @@ const getDefaultHttpHeaders = () => ({
 });
 
 const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
-  read: ({
+  read: async ({
     intent, urlParams, params, onSuccess, onFailure,
   }) => {
     const { baseUrl } = config;
     const requestSpec = RootMapping[intent];
+    const additionalHeaders = await getAdditionalHeaders();
     const requestOptions = {
       method: requestSpec.method,
-      headers: { ...getDefaultHttpHeaders(), ...getAdditionalHeaders() },
+      headers: { ...getDefaultHttpHeaders(), ...additionalHeaders },
     };
 
     const intentUrlPath = requestSpec.getPath(urlParams);
@@ -44,14 +45,15 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
       onFailure,
     );
   },
-  write: ({
+  write: async ({
     intent, urlParams, params, onSuccess, onFailure,
   }) => {
     const { baseUrl } = config;
     const requestSpec = RootMapping[intent];
+    const additionalHeaders = await getAdditionalHeaders();
     const requestOptions = {
       method: requestSpec.method,
-      headers: { ...getDefaultHttpHeaders(), ...getAdditionalHeaders() },
+      headers: { ...getDefaultHttpHeaders(), ...additionalHeaders },
       body: JSON.stringify(params),
     };
 

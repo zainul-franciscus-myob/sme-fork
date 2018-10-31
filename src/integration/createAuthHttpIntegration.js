@@ -1,10 +1,14 @@
-import { getToken } from '../Auth';
+import { acquireToken } from '../Auth';
 import createHttpIntegration from './createHttpIntegration';
 
 const createAuthHttpIntegration = () => {
-  const getAuthHeaders = () => ({
-    Authorization: `bearer ${getToken()}`,
-  });
+  const getAuthHeaders = async () => {
+    const token = await acquireToken();
+
+    return {
+      Authorization: `bearer ${token}`,
+    };
+  };
 
   return createHttpIntegration(getAuthHeaders);
 };

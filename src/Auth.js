@@ -30,4 +30,16 @@ export const logout = () => {
 
 export const isLoggedIn = () => !!authenticationContext.getUser();
 
-export const getToken = () => authenticationContext.getToken(Config.AUTHENTICATION_BFF_CLIENT_ID);
+export const acquireToken = () => new Promise((resolve, reject) => {
+  authenticationContext.acquireToken(
+    Config.AUTHENTICATION_BFF_CLIENT_ID,
+    (token, error) => {
+      if (error) {
+        authenticationContext.logIn();
+        reject(Error('login didn\'t work'));
+      } else {
+        resolve(token);
+      }
+    },
+  );
+});
