@@ -15,6 +15,7 @@ import GeneralJournalAlert from './components/GeneralJournalAlert';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import GeneralJournalIntents from './GeneralJournalIntents';
 import Store from '../store/Store';
+import SystemIntents from '../SystemIntents';
 import generalJournalDetailReducer from './generalJournalDetailReducer';
 
 export default class GeneralJournalDetailModule {
@@ -307,5 +308,16 @@ export default class GeneralJournalDetailModule {
     this.store.subscribe(this.render);
     this.setLoadingState(true);
     this.loadGeneralJournalDetail();
+  }
+
+  resetState() {
+    const intent = SystemIntents.RESET_STATE;
+    this.store.publish({
+      intent,
+    });
+  }
+
+  exit() {
+    this.resetState();
   }
 }

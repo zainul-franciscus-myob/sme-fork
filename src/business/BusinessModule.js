@@ -4,6 +4,7 @@ import React from 'react';
 import BusinessIntents from './BusinessIntents';
 import BusinessListView from './components/BusinessListView';
 import Store from '../store/Store';
+import SystemIntents from '../SystemIntents';
 import businessReducer from './businessReducer';
 
 export default class BusinessModule {
@@ -59,5 +60,16 @@ export default class BusinessModule {
     this.store.subscribe(this.render);
     this.setLoadingState(true);
     this.loadBusinessList();
+  }
+
+  resetState() {
+    const intent = SystemIntents.RESET_STATE;
+    this.store.publish({
+      intent,
+    });
+  }
+
+  exit() {
+    this.resetState();
   }
 }

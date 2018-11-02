@@ -2,6 +2,7 @@ class Store {
   constructor(reducer) {
     this.reducer = reducer;
     this.subscribers = [];
+    this.state = undefined;
   }
 
   unsubscribeAll = () => {

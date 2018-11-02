@@ -1,4 +1,5 @@
 import GeneralJournalIntents from './GeneralJournalIntents';
+import SystemIntents from '../SystemIntents';
 
 const initialState = {
   entries: [],
@@ -16,6 +17,10 @@ const initialState = {
 
 const generalJournalReducer = (state = initialState, action) => {
   switch (action.intent) {
+    case SystemIntents.RESET_STATE:
+      return {
+        ...initialState,
+      };
     case GeneralJournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES:
       return {
         ...state,

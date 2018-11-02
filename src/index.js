@@ -53,14 +53,6 @@ async function main(integrationType) {
     generalJournalDetail,
   };
 
-  const unsubscribeAllModulesFromStore = () => {
-    Object.keys(moduleMappings).forEach((moduleName) => {
-      if (moduleName !== 'home') {
-        moduleMappings[moduleName].unsubscribeFromStore();
-      }
-    });
-  };
-
   const actions = {
     business: () => { moduleMappings.business.run(); },
     home: () => { moduleMappings.home.run(); },
@@ -69,10 +61,26 @@ async function main(integrationType) {
     generalJournalDetail: (context) => { moduleMappings.generalJournalDetail.run(context); },
   };
 
+  const unsubscribeAllModulesFromStore = () => {
+    Object.keys(moduleMappings).forEach((moduleName) => {
+      if (moduleName !== 'home') {
+        moduleMappings[moduleName].unsubscribeFromStore();
+      }
+    });
+  };
+
+  const beforeAll = (previousModule) => {
+    unsubscribeAllModulesFromStore();
+    const module = moduleMappings[previousModule];
+    if (module && module.exit) {
+      module.exit();
+    }
+  };
+
   initializeRouter({
     routes,
     actions,
-    beforeAll: unsubscribeAllModulesFromStore,
+    beforeAll,
     defaultRoute: 'home',
     afterAll: () => clearInbox,
   });

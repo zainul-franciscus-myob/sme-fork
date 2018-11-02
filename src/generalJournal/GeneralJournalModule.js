@@ -9,6 +9,7 @@ import GeneralJournalIntents from './GeneralJournalIntents';
 import GeneralJournalTableRowView from './components/GeneralJournalTableRowView';
 import GeneralJournalView from './components/GeneralJournalView';
 import Store from '../store/Store';
+import SystemIntents from '../SystemIntents';
 import generalJournalReducer from './generalJournalReducer';
 
 export default class GeneralJournalModule {
@@ -206,7 +207,7 @@ export default class GeneralJournalModule {
   };
 
   dismissAlert = () => {
-    const intent = GeneralJournalIntents.SET_ALERT_MESSAGES;
+    const intent = GeneralJournalIntents.SET_ALERT_MESSAGE;
     this.store.publish({
       intent,
       alertMessage: '',
@@ -219,5 +220,16 @@ export default class GeneralJournalModule {
     this.readMessages();
     this.setLoadingState(true);
     this.loadGeneralJournalEntries();
+  }
+
+  resetState() {
+    const intent = SystemIntents.RESET_STATE;
+    this.store.publish({
+      intent,
+    });
+  }
+
+  exit() {
+    this.resetState();
   }
 }

@@ -5,6 +5,7 @@ import BankingTableRow from './components/BankingTableRow';
 import BankingTransactionsView from './components/BankingTransactionsView';
 import EmptyBankingRow from './components/EmptyBankingRow';
 import Store from '../store/Store';
+import SystemIntents from '../SystemIntents';
 import bankingReducer from './bankingReducer';
 
 export default class BankingModule {
@@ -84,5 +85,16 @@ export default class BankingModule {
   run = () => {
     this.store.subscribe(this.render);
     this.loadTransactionsAndAccounts();
+  }
+
+  resetState() {
+    const intent = SystemIntents.RESET_STATE;
+    this.store.publish({
+      intent,
+    });
+  }
+
+  exit() {
+    this.resetState();
   }
 }

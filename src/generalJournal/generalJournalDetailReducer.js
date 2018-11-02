@@ -1,5 +1,6 @@
 import { calculateTaxForLine } from './GeneralJournalDetailSelectors';
 import GeneralJournalIntents from './GeneralJournalIntents';
+import SystemIntents from '../SystemIntents';
 
 const initialState = {
   generalJournal: {
@@ -23,6 +24,10 @@ const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
 
 const generalJournalDetailReducer = (state = initialState, action) => {
   switch (action.intent) {
+    case SystemIntents.RESET_STATE:
+      return {
+        ...initialState,
+      };
     case GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL:
       return {
         ...state,
