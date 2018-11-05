@@ -2,7 +2,7 @@ import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModals';
-import { SUCCESSFULLY_CREATED_ENTRY } from './GeneralJournalMessageTypes';
+import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from './GeneralJournalMessageTypes';
 import {
   getAccounts,
   getHeaderOptions,
@@ -80,6 +80,10 @@ export default class GeneralJournalDetailModule {
     };
 
     const onSuccess = () => {
+      this.pushMessage({
+        type: SUCCESSFULLY_DELETED_ENTRY,
+        content: 'Success! Your general journal was deleted.',
+      });
       this.redirectToGeneralJournalList();
     };
 

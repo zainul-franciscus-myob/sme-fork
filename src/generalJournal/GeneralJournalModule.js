@@ -2,7 +2,7 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import { SUCCESSFULLY_CREATED_ENTRY } from './GeneralJournalMessageTypes';
+import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from './GeneralJournalMessageTypes';
 import { getOrder } from './GeneralJournalSelectors';
 import GeneralJournalAlert from './components/GeneralJournalAlert';
 import GeneralJournalIntents from './GeneralJournalIntents';
@@ -19,7 +19,7 @@ export default class GeneralJournalModule {
     this.setRootView = setRootView;
     this.businessId = '';
     this.popMessages = popMessages;
-    this.messageTypes = [SUCCESSFULLY_CREATED_ENTRY];
+    this.messageTypes = [SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY];
   }
 
   render = (state) => {
