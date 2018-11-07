@@ -1,6 +1,7 @@
-import { Combobox } from '@myob/myob-widgets';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+
+import Combobox from '../../components/Feelix/ComboBox/Combobox';
 
 class BankTransactionAccountAllocator extends Component {
   state = {
