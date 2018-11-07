@@ -1,6 +1,7 @@
 import {
   calculateTaxForLine,
   getAccounts,
+  getDefaultTaxCodeId,
   getHeaderOptions,
   getIndexOfLastLine,
   getLineData,
@@ -66,13 +67,27 @@ describe('GeneralJournalDetailSelectors', () => {
           id: '123',
           displayName: ' My Sales Account 1',
           accountType: 'Sales',
+          taxCodeId: '123',
         },
         {
           id: '456',
           displayName: ' My Assets Account 1',
           accountType: 'Assets',
+          taxCodeId: '124',
         },
       ]);
+    });
+  });
+
+  describe('getDefaultTaxCodeId', () => {
+    it('should return the default tax code id of an account given a line with an account id', () => {
+      const { accounts } = generalJournalDetail;
+
+      expect(getDefaultTaxCodeId(accounts, { accountId: '456' })).toEqual('124');
+    });
+    it('should return an empty string if the accountId is undefined', () => {
+      const { accounts } = generalJournalDetail;
+      expect(getDefaultTaxCodeId(accounts, { accountId: undefined })).toEqual('');
     });
   });
 

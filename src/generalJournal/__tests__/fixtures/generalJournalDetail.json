@@ -46,12 +46,14 @@
     {
       "id": "123",
       "displayName": "My Sales Account 1",
-      "accountType": "Sales"
+      "accountType": "Sales",
+      "taxCodeId": "123"
     },
     {
       "id": "456",
       "displayName": "My Assets Account 1",
-      "accountType": "Assets"
+      "accountType": "Assets",
+      "taxCodeId": "124"
     }
   ],
   "taxCodes": [
@@ -67,4 +69,3 @@
     }
   ]
 }
-

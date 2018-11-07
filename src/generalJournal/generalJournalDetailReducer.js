@@ -1,4 +1,4 @@
-import { calculateTaxForLine } from './GeneralJournalDetailSelectors';
+import { calculateTaxForLine, getDefaultTaxCodeId } from './GeneralJournalDetailSelectors';
 import GeneralJournalIntents from './GeneralJournalIntents';
 import SystemIntents from '../SystemIntents';
 
@@ -21,6 +21,21 @@ const initialState = {
 };
 
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
+
+const updateGeneralJournalLine = (accounts, taxCodes, line, { lineKey, lineValue }) => {
+  const updatedLine = {
+    ...line,
+    taxAmount: calculateTaxForLine(line, taxCodes),
+    [lineKey]: lineValue,
+  };
+
+  return lineKey === 'accountId'
+    ? {
+      ...updatedLine,
+      taxCodeId: getDefaultTaxCodeId(accounts, { accountId: lineValue }),
+    }
+    : updatedLine;
+};
 
 const generalJournalDetailReducer = (state = initialState, action) => {
   switch (action.intent) {
@@ -74,11 +89,7 @@ const generalJournalDetailReducer = (state = initialState, action) => {
           lines: state.generalJournal.lines.map(
             (line, index) => (
               index === action.lineIndex
-                ? {
-                  ...line,
-                  taxAmount: calculateTaxForLine(line, state.taxCodes),
-                  [action.lineKey]: action.lineValue,
-                }
+                ? updateGeneralJournalLine(state.accounts, state.taxCodes, line, action)
                 : line
             ),
           ),
@@ -91,7 +102,10 @@ const generalJournalDetailReducer = (state = initialState, action) => {
           ...state.generalJournal,
           lines: [
             ...state.generalJournal.lines,
-            action.line,
+            {
+              ...action.line,
+              taxCodeId: getDefaultTaxCodeId(state.accounts, action.line),
+            },
           ],
         },
       };

@@ -9,13 +9,21 @@ const formatTaxCode = taxCode => ({
   rate: `${taxCode.rate}%`,
 });
 
-const formatAccount = ({ id, displayName, accountType }) => ({
+const formatAccount = ({
+  id, displayName, accountType, taxCodeId,
+}) => ({
   id,
   displayName: ` ${displayName}`,
   accountType,
+  taxCodeId,
 });
 
 const formatNumber = num => num.toFixed(2);
+
+export const getDefaultTaxCodeId = (accounts, { accountId }) => {
+  const account = accounts.find(({ id }) => id === accountId);
+  return account === undefined ? '' : account.taxCodeId;
+};
 
 export const getAccounts = ({ accounts }) => accounts.map(formatAccount);
 

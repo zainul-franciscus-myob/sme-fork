@@ -55,7 +55,7 @@ const TaxCodeCombobox = (props) => {
   ];
 
   let selectedItem = {};
-  if (typeof selectedIndex === 'number') {
+  if (typeof selectedIndex === 'number' && selectedIndex !== -1) {
     selectedItem = items[selectedIndex];
   }
 
@@ -128,7 +128,6 @@ export default class GeneralJournalDetailTable extends React.Component {
       taxCodes,
       selectedTaxCodeIndex,
     } = data;
-
 
     return (
       <LineItemTable.Row
