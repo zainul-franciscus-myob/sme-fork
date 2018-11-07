@@ -205,3 +205,5 @@ export const getTotals = (state) => {
 };
 
 export const getJournalId = state => state.generalJournal.id;
+
+export const getGeneralJournal = state => state.generalJournal;

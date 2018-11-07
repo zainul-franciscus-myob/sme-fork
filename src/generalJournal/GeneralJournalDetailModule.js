@@ -5,6 +5,7 @@ import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModal
 import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from './GeneralJournalMessageTypes';
 import {
   getAccounts,
+  getGeneralJournal,
   getHeaderOptions,
   getIndexOfLastLine,
   getJournalId,
@@ -107,7 +108,9 @@ export default class GeneralJournalDetailModule {
     });
   }
 
-  saveGeneralJournalEntry = journalId => () => {
+  saveGeneralJournalEntry = state => () => {
+    const journalId = getJournalId(state);
+    const params = getGeneralJournal(state);
     const intent = GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL;
     const urlParams = {
       businessId: this.businessId,
@@ -129,6 +132,7 @@ export default class GeneralJournalDetailModule {
     this.integration.write({
       intent,
       urlParams,
+      params,
       onSuccess,
       onFailure,
     });
@@ -278,7 +282,7 @@ export default class GeneralJournalDetailModule {
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.isCreating
           ? this.createGeneralJournalEntry
-          : this.saveGeneralJournalEntry(getJournalId(state))}
+          : this.saveGeneralJournalEntry(state)}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         modal={modal}
