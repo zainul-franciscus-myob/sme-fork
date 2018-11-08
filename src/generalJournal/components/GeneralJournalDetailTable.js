@@ -12,7 +12,7 @@ const AccountCombobox = (props) => {
   } = props;
 
   const metaData = [
-    { columnName: 'id', columnWidth: '50px', showData: true },
+    { columnName: 'displayId', columnWidth: '50px', showData: true },
     { columnName: 'displayName', columnWidth: '200px', showData: true },
     { columnName: 'accountType', columnWidth: '100px' },
   ];

@@ -10,9 +10,10 @@ const formatTaxCode = taxCode => ({
 });
 
 const formatAccount = ({
-  id, displayName, accountType, taxCodeId,
+  id, displayId, displayName, accountType, taxCodeId,
 }) => ({
   id,
+  displayId,
   displayName: ` ${displayName}`,
   accountType,
   taxCodeId,

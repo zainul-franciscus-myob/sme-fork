@@ -68,12 +68,14 @@ describe('GeneralJournalDetailSelectors', () => {
           displayName: ' My Sales Account 1',
           accountType: 'Sales',
           taxCodeId: '123',
+          displayId: '1-123',
         },
         {
           id: '456',
           displayName: ' My Assets Account 1',
           accountType: 'Assets',
           taxCodeId: '124',
+          displayId: '2-124',
         },
       ]);
     });
