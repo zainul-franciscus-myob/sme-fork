@@ -1,73 +1,193 @@
 {
   "generalJournal": {
-      "id": "1",
-      "referenceId": "JE0000002",
-      "date": "1533045600000",
-      "gstReportingMethod": "purchase",
-      "isEndOfYearAdjustment": false,
-      "isTaxInclusive": false,
-      "description": "Cry havoc",
-      "lines": [
-        {
-          "accountId": "123",
-          "debitAmount": "110.00",
-          "creditAmount": "",
-          "description": "Cry havoc 1",
-          "taxCodeId": "123",
-          "taxAmount": "11.00"
-        },
-        {
-          "accountId": "123",
-          "debitAmount": "100.10",
-          "creditAmount": "",
-          "description": "Cry havoc 2",
-          "taxCodeId": "123",
-          "taxAmount": "10.01"
-        },
-        {
-          "accountId": "123",
-          "debitAmount": "",
-          "creditAmount": "110.33",
-          "description": "Cry havoc 3",
-          "taxCodeId": "123",
-          "taxAmount": "11.03"
-        },
-        {
-          "accountId": "123",
-          "debitAmount": "",
-          "creditAmount": "100.33",
-          "description": "Cry havoc 4",
-          "taxCodeId": "123",
-          "taxAmount": "10.03"
-        }
-      ]
+    "id": "1",
+    "referenceId": "JE0000002",
+    "date": "1533045600000",
+    "gstReportingMethod": "purchase",
+    "isEndOfYearAdjustment": false,
+    "isTaxInclusive": false,
+    "description": "Cry havoc",
+    "lines": [
+      {
+        "accountId": "123",
+        "debitAmount": "110.00",
+        "creditAmount": "",
+        "description": "Cry havoc 1",
+        "taxCodeId": "123",
+        "taxAmount": "11.00",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "1-123"
+          },
+          {
+            "id": "456",
+            "displayName": "My Assets Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-124"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "rate": "10"
+          },
+          {
+            "id": "124",
+            "displayName": "RTR",
+            "rate": "5"
+          }
+        ]
+      },
+      {
+        "accountId": "123",
+        "debitAmount": "100.10",
+        "creditAmount": "",
+        "description": "Cry havoc 2",
+        "taxCodeId": "123",
+        "taxAmount": "10.01",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "1-123"
+          },
+          {
+            "id": "456",
+            "displayName": "My Assets Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-124"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "rate": "10"
+          },
+          {
+            "id": "124",
+            "displayName": "RTR",
+            "rate": "5"
+          }
+        ]
+      },
+      {
+        "accountId": "123",
+        "debitAmount": "",
+        "creditAmount": "110.33",
+        "description": "Cry havoc 3",
+        "taxCodeId": "123",
+        "taxAmount": "11.03",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "1-123"
+          },
+          {
+            "id": "456",
+            "displayName": "My Assets Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-124"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "rate": "10"
+          },
+          {
+            "id": "124",
+            "displayName": "RTR",
+            "rate": "5"
+          }
+        ]
+      },
+      {
+        "accountId": "123",
+        "debitAmount": "",
+        "creditAmount": "100.33",
+        "description": "Cry havoc 4",
+        "taxCodeId": "123",
+        "taxAmount": "10.03",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "1-123"
+          },
+          {
+            "id": "456",
+            "displayName": "My Assets Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-124"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "rate": "10"
+          },
+          {
+            "id": "124",
+            "displayName": "RTR",
+            "rate": "5"
+          }
+        ]
+      }
+    ]
   },
-  "accounts": [
-    {
-      "id": "123",
-      "displayName": "My Sales Account 1",
-      "accountType": "Sales",
-      "taxCodeId": "123",
-      "displayId": "1-123"
-    },
-    {
-      "id": "456",
-      "displayName": "My Assets Account 1",
-      "accountType": "Assets",
-      "taxCodeId": "124",
-      "displayId": "2-124"
-    }
-  ],
-  "taxCodes": [
-    {
-      "id": "123",
-      "displayName": "GST",
-      "rate": "10"
-    },
-    {
-      "id": "124",
-      "displayName": "RTR",
-      "rate": "5"
-    }
-  ]
+  "newLine": {
+    "accountId": "123",
+    "debitAmount": "",
+    "creditAmount": "100.33",
+    "description": "Cry havoc 4",
+    "taxCodeId": "123",
+    "taxAmount": "10.03",
+    "accounts": [
+      {
+        "id": "123",
+        "displayName": "My Sales Account 1",
+        "accountType": "Sales",
+        "taxCodeId": "123",
+        "displayId": "1-123"
+      },
+      {
+        "id": "456",
+        "displayName": "My Assets Account 1",
+        "accountType": "Assets",
+        "taxCodeId": "124",
+        "displayId": "2-124"
+      }
+    ],
+    "taxCodes": [
+      {
+        "id": "123",
+        "displayName": "GST",
+        "rate": "10"
+      },
+      {
+        "id": "124",
+        "displayName": "RTR",
+        "rate": "5"
+      }
+    ]
+  }
 }

@@ -12,18 +12,30 @@ describe('GeneralJournalDetailModule', () => {
     const integration = {
       read: ({ onSuccess }) => onSuccess({
         generalJournal:
-      {
-        id: '',
-        referenceId: '',
-        date: '',
-        gstReportingMethod: '',
-        isEndOfYearAdjustment: false,
-        isTaxInclusive: false,
-        description: '',
-        lines: [],
-      },
-        accounts: [],
+        {
+          id: '',
+          referenceId: '',
+          date: '',
+          gstReportingMethod: '',
+          isEndOfYearAdjustment: false,
+          isTaxInclusive: false,
+          description: '',
+          lines: [],
+        },
+        newLine:
+        {
+          accountId: '',
+          debitAmount: '',
+          creditAmount: '',
+          description: '',
+          taxCodeId: '',
+          taxAmount: '',
+          accounts: [],
+          taxCodes: [],
+        },
         modalType: '',
+        alertMessage: '',
+        isLoading: true,
       }),
       write: () => {},
     };
@@ -32,6 +44,7 @@ describe('GeneralJournalDetailModule', () => {
     const module = new GeneralJournalDetailModule({ integration, setRootView, pushMessage });
     const context = {
       businessId: '1234',
+      journalId: '12',
     };
     module.run(context);
 

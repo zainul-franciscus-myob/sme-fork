@@ -114,11 +114,13 @@ export default class GeneralJournalDetailTable extends React.Component {
 
   renderRow = (index, data, onChange) => {
     const {
-      accounts,
+      newLineData,
       indexOfLastLine,
     } = this.props;
 
     const isNewLineRow = indexOfLastLine < index;
+
+    const lineData = isNewLineRow ? newLineData : data;
 
     const {
       displayDebitAmount = '',
@@ -128,8 +130,9 @@ export default class GeneralJournalDetailTable extends React.Component {
       description = '',
       selectedAccountIndex,
       taxCodes,
+      accounts,
       selectedTaxCodeIndex,
-    } = data;
+    } = lineData;
 
     return (
       <LineItemTable.Row
@@ -215,7 +218,7 @@ export default class GeneralJournalDetailTable extends React.Component {
 
 GeneralJournalDetailTable.propTypes = {
   lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  accounts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  newLineData: PropTypes.shape({}).isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
   amountTotals: PropTypes.shape({
     totalDebit: PropTypes.string,

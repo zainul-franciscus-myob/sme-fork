@@ -13,8 +13,16 @@ const initialState = {
     description: '',
     lines: [],
   },
-  accounts: [],
-  taxCodes: [],
+  newLine: {
+    accountId: '',
+    debitAmount: '',
+    creditAmount: '',
+    description: '',
+    taxCodeId: '',
+    taxAmount: '',
+    accounts: [],
+    taxCodes: [],
+  },
   modalType: '',
   alertMessage: '',
   isLoading: true,
@@ -22,17 +30,19 @@ const initialState = {
 
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
 
-const updateGeneralJournalLine = (accounts, taxCodes, line, { lineKey, lineValue }) => {
+const updateGeneralJournalLine = (line, { lineKey, lineValue }) => {
   const updatedLine = {
     ...line,
-    taxAmount: calculateTaxForLine(line, taxCodes),
+    taxAmount: calculateTaxForLine(line),
     [lineKey]: lineValue,
   };
+
+  const { accounts } = line;
 
   return lineKey === 'accountId'
     ? {
       ...updatedLine,
-      taxCodeId: getDefaultTaxCodeId(accounts, { accountId: lineValue }),
+      taxCodeId: getDefaultTaxCodeId({ accountId: lineValue, accounts }),
     }
     : updatedLine;
 };
@@ -47,16 +57,14 @@ const generalJournalDetailReducer = (state = initialState, action) => {
       return {
         ...state,
         generalJournal: { ...state.generalJournal, ...action.generalJournal },
-        accounts: action.accounts,
-        taxCodes: action.taxCodes,
+        newLine: { ...state.newLine, ...action.newLine },
         isLoading: false,
       };
     case GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL:
       return {
         ...initialState,
         generalJournal: { ...initialState.generalJournal, ...action.generalJournal },
-        accounts: action.accounts,
-        taxCodes: action.taxCodes,
+        newLine: { ...state.newLine, ...action.newLine },
         isLoading: action.isLoading,
       };
     case GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_HEADER_OPTIONS:
@@ -89,7 +97,7 @@ const generalJournalDetailReducer = (state = initialState, action) => {
           lines: state.generalJournal.lines.map(
             (line, index) => (
               index === action.lineIndex
-                ? updateGeneralJournalLine(state.accounts, state.taxCodes, line, action)
+                ? updateGeneralJournalLine(line, action)
                 : line
             ),
           ),
@@ -103,8 +111,9 @@ const generalJournalDetailReducer = (state = initialState, action) => {
           lines: [
             ...state.generalJournal.lines,
             {
+              ...state.newLine,
               ...action.line,
-              taxCodeId: getDefaultTaxCodeId(state.accounts, action.line),
+              taxCodeId: getDefaultTaxCodeId({ ...state.newLine, ...action.line }),
             },
           ],
         },

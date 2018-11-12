@@ -1,6 +1,5 @@
 import {
   calculateTaxForLine,
-  getAccounts,
   getDefaultTaxCodeId,
   getHeaderOptions,
   getIndexOfLastLine,
@@ -60,36 +59,15 @@ describe('GeneralJournalDetailSelectors', () => {
     });
   });
 
-  describe('getAccounts', () => {
-    it('should return a subset of the account object', () => {
-      expect(getAccounts(generalJournalDetail)).toEqual([
-        {
-          id: '123',
-          displayName: ' My Sales Account 1',
-          accountType: 'Sales',
-          taxCodeId: '123',
-          displayId: '1-123',
-        },
-        {
-          id: '456',
-          displayName: ' My Assets Account 1',
-          accountType: 'Assets',
-          taxCodeId: '124',
-          displayId: '2-124',
-        },
-      ]);
-    });
-  });
-
   describe('getDefaultTaxCodeId', () => {
     it('should return the default tax code id of an account given a line with an account id', () => {
-      const { accounts } = generalJournalDetail;
+      const { accounts } = generalJournalDetail.newLine;
 
-      expect(getDefaultTaxCodeId(accounts, { accountId: '456' })).toEqual('124');
+      expect(getDefaultTaxCodeId({ accountId: '456', accounts })).toEqual('124');
     });
     it('should return an empty string if the accountId is undefined', () => {
-      const { accounts } = generalJournalDetail;
-      expect(getDefaultTaxCodeId(accounts, { accountId: undefined })).toEqual('');
+      const { accounts } = generalJournalDetail.newLine;
+      expect(getDefaultTaxCodeId({ accountId: undefined, accounts })).toEqual('');
     });
   });
 
@@ -115,7 +93,23 @@ describe('GeneralJournalDetailSelectors', () => {
           selectedTaxCodeIndex: 0,
           taxAmount: '11.00',
           taxCodeId: '123',
-          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+          accounts: [
+            {
+              id: '123',
+              displayName: ' My Sales Account 1',
+              accountType: 'Sales',
+              taxCodeId: '123',
+              displayId: '1-123',
+            },
+            {
+              id: '456',
+              displayName: ' My Assets Account 1',
+              accountType: 'Assets',
+              taxCodeId: '124',
+              displayId: '2-124',
+            },
+          ],
+          taxCodes: [{ displayName: 'GST', id: '123', rate: '10' }, { displayName: 'RTR', id: '124', rate: '5' }],
         }, {
           accountId: '123',
           creditAmount: '',
@@ -129,7 +123,23 @@ describe('GeneralJournalDetailSelectors', () => {
           selectedTaxCodeIndex: 0,
           taxAmount: '10.01',
           taxCodeId: '123',
-          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+          accounts: [
+            {
+              id: '123',
+              displayName: ' My Sales Account 1',
+              accountType: 'Sales',
+              taxCodeId: '123',
+              displayId: '1-123',
+            },
+            {
+              id: '456',
+              displayName: ' My Assets Account 1',
+              accountType: 'Assets',
+              taxCodeId: '124',
+              displayId: '2-124',
+            },
+          ],
+          taxCodes: [{ displayName: 'GST', id: '123', rate: '10' }, { displayName: 'RTR', id: '124', rate: '5' }],
         }, {
           accountId: '123',
           creditAmount: '110.33',
@@ -143,7 +153,23 @@ describe('GeneralJournalDetailSelectors', () => {
           selectedTaxCodeIndex: 0,
           taxAmount: '11.03',
           taxCodeId: '123',
-          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+          accounts: [
+            {
+              id: '123',
+              displayName: ' My Sales Account 1',
+              accountType: 'Sales',
+              taxCodeId: '123',
+              displayId: '1-123',
+            },
+            {
+              id: '456',
+              displayName: ' My Assets Account 1',
+              accountType: 'Assets',
+              taxCodeId: '124',
+              displayId: '2-124',
+            },
+          ],
+          taxCodes: [{ displayName: 'GST', id: '123', rate: '10' }, { displayName: 'RTR', id: '124', rate: '5' }],
         }, {
           accountId: '123',
           creditAmount: '100.33',
@@ -157,7 +183,23 @@ describe('GeneralJournalDetailSelectors', () => {
           selectedTaxCodeIndex: 0,
           taxAmount: '10.03',
           taxCodeId: '123',
-          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+          accounts: [
+            {
+              id: '123',
+              displayName: ' My Sales Account 1',
+              accountType: 'Sales',
+              taxCodeId: '123',
+              displayId: '1-123',
+            },
+            {
+              id: '456',
+              displayName: ' My Assets Account 1',
+              accountType: 'Assets',
+              taxCodeId: '124',
+              displayId: '2-124',
+            },
+          ],
+          taxCodes: [{ displayName: 'GST', id: '123', rate: '10' }, { displayName: 'RTR', id: '124', rate: '5' }],
         }]);
     });
   });

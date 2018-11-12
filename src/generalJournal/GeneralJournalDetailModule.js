@@ -4,12 +4,12 @@ import React from 'react';
 import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModals';
 import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from './GeneralJournalMessageTypes';
 import {
-  getAccounts,
   getGeneralJournal,
   getHeaderOptions,
   getIndexOfLastLine,
   getJournalId,
   getLineData,
+  getNewLineData,
   getTotals,
 } from './GeneralJournalDetailSelectors';
 import GeneralJournalAlert from './components/GeneralJournalAlert';
@@ -39,13 +39,12 @@ export default class GeneralJournalDetailModule {
       ...(!this.isCreating && { journalId: this.journalId }),
     };
 
-    const onSuccess = ({ generalJournal, accounts, taxCodes }) => {
+    const onSuccess = ({ generalJournal, newLine }) => {
       this.setLoadingState(false);
       this.store.publish({
         intent,
         generalJournal,
-        accounts,
-        taxCodes,
+        newLine,
         isLoading: false,
       });
     };
@@ -211,19 +210,9 @@ export default class GeneralJournalDetailModule {
   addGeneralJournalLine = (partialLine) => {
     const intent = GeneralJournalIntents.ADD_GENERAL_JOURNAL_DETAIL_LINE;
 
-    const line = {
-      accountId: '',
-      debitAmount: '',
-      creditAmount: '',
-      description: '',
-      taxCodeId: '',
-      taxAmount: '',
-      ...partialLine,
-    };
-
     this.store.publish({
       intent,
-      line,
+      line: partialLine,
     });
   }
 
@@ -289,7 +278,7 @@ export default class GeneralJournalDetailModule {
         alertComponent={alertComponent}
         isCreating={this.isCreating}
         lines={getLineData(state)}
-        accounts={getAccounts(state)}
+        newLineData={getNewLineData(state)}
         onUpdateRow={this.updateGeneralJournalLine}
         onAddRow={this.addGeneralJournalLine}
         onRemoveRow={this.deleteJournalLine}

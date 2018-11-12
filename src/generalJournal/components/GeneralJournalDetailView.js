@@ -16,7 +16,7 @@ const GeneralJournalDetailView = ({
   alertComponent,
   isCreating,
   lines,
-  accounts,
+  newLineData,
   onUpdateRow,
   onAddRow,
   onRemoveRow,
@@ -52,7 +52,7 @@ const GeneralJournalDetailView = ({
         <GeneralJournalDetailTable
           lines={lines}
           indexOfLastLine={indexOfLastLine}
-          accounts={accounts}
+          newLineData={newLineData}
           amountTotals={amountTotals}
           onUpdateRow={onUpdateRow}
           onAddRow={onAddRow}
@@ -75,13 +75,13 @@ GeneralJournalDetailView.propTypes = {
   modal: PropTypes.element,
   alertComponent: PropTypes.element,
   lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  accounts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onUpdateRow: PropTypes.func.isRequired,
   onAddRow: PropTypes.func.isRequired,
   onRemoveRow: PropTypes.func.isRequired,
   onRowInputBlur: PropTypes.func.isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
   amountTotals: PropTypes.shape({}).isRequired,
+  newLineData: PropTypes.shape({}).isRequired,
 };
 
 GeneralJournalDetailView.defaultProps = {

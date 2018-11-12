@@ -4,11 +4,6 @@ export const getHeaderOptions = (state) => {
   return headerOptions;
 };
 
-const formatTaxCode = taxCode => ({
-  ...taxCode,
-  rate: `${taxCode.rate}%`,
-});
-
 const formatAccount = ({
   id, displayId, displayName, accountType, taxCodeId,
 }) => ({
@@ -21,12 +16,10 @@ const formatAccount = ({
 
 const formatNumber = num => num.toFixed(2);
 
-export const getDefaultTaxCodeId = (accounts, { accountId }) => {
+export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
   const account = accounts.find(({ id }) => id === accountId);
   return account === undefined ? '' : account.taxCodeId;
 };
-
-export const getAccounts = ({ accounts }) => accounts.map(formatAccount);
 
 const getDisabledField = ({ debitAmount, creditAmount }) => {
   if (debitAmount) {
@@ -54,10 +47,11 @@ const getTaxRateForLine = (line, taxCodes) => {
   return taxRate;
 };
 
-export const calculateTaxForLine = (line, taxCodes) => {
+export const calculateTaxForLine = (line) => {
   const {
     debitAmount,
     creditAmount,
+    taxCodes,
   } = line;
 
   const taxRate = getTaxRateForLine(line, taxCodes);
@@ -85,33 +79,39 @@ const getDisplayAmounts = ({ debitAmount, creditAmount, taxAmount }, isTaxInclus
 
 export const getLineData = (state) => {
   const {
-    accounts,
     generalJournal: {
       lines,
       isTaxInclusive,
     },
-    taxCodes,
   } = state;
 
   const formattedLines = lines.map((line) => {
+    const {
+      taxCodes,
+      accounts,
+      accountId,
+      taxCodeId,
+    } = line;
+
     const disabledField = getDisabledField(line);
 
-    const selectedAccountIndex = accounts.findIndex(({ id }) => id === line.accountId);
-
-    const taxCodeOptions = taxCodes.map(formatTaxCode);
-    const selectedTaxCodeIndex = taxCodes.findIndex(({ id }) => id === line.taxCodeId);
+    const selectedAccountIndex = accounts.findIndex(({ id }) => id === accountId);
+    const selectedTaxCodeIndex = taxCodes.findIndex(({ id }) => id === taxCodeId);
 
     const {
       displayDebitAmount,
       displayCreditAmount,
     } = getDisplayAmounts(line, isTaxInclusive);
+
+    const formattedAccounts = accounts.map(account => formatAccount(account));
+
     return {
       ...line,
+      accounts: formattedAccounts,
       displayDebitAmount,
       displayCreditAmount,
       selectedAccountIndex,
       selectedTaxCodeIndex,
-      taxCodes: taxCodeOptions,
       isCreditDisabled: disabledField === 'credit',
       isDebitDisabled: disabledField === 'debit',
     };
@@ -208,3 +208,5 @@ export const getTotals = (state) => {
 export const getJournalId = state => state.generalJournal.id;
 
 export const getGeneralJournal = state => state.generalJournal;
+
+export const getNewLineData = state => state.newLine;
