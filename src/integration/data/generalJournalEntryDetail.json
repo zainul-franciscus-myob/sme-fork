@@ -14,36 +14,119 @@
         "creditAmount": "",
         "description": "Cry havoc",
         "taxCodeId": "123",
-        "taxAmount": "11.00"
+        "taxAmount": "11.00",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "1-123"
+          },
+          {
+            "id": "456",
+            "displayName": "My Assets Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-123"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "description": "GST Free",
+            "rate": "10"
+          },
+          {
+            "id": "124",
+            "displayName": "RTR",
+            "description": "",
+            "rate": "5"
+          }
+        ]
+      }, {
+        "accountId": "457",
+        "debitAmount": "",
+        "creditAmount": "110.00",
+        "description": "Cry havoc",
+        "taxCodeId": "123",
+        "taxAmount": "11.00",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "1-123"
+          },
+          {
+            "id": "456",
+            "displayName": "My Assets Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-123"
+          }, {
+            "id": "457",
+            "displayName": "My Inactive Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "123",
+            "displayId": "2-123"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "description": "GST Free",
+            "rate": "10"
+          },
+          {
+            "id": "124",
+            "displayName": "RTR",
+            "description": "",
+            "rate": "5"
+          }
+        ]
       }
     ]
   },
-  "accounts": [
-    {
-      "id": "123",
-      "displayName": "My Sales Account 1",
-      "accountType": "Sales",
-      "taxCodeId": "123",
-      "displayId": "1-123"
-    },
-    {
-      "id": "456",
-      "displayName": "My Assets Account 1",
-      "accountType": "Assets",
-      "taxCodeId": "124",
-      "displayId": "2-123"
-    }
-  ],
-  "taxCodes": [
-    {
-      "id": "123",
-      "displayName": "GST",
-      "rate": "10"
-    },
-    {
-      "id": "124",
-      "displayName": "RTR",
-      "rate": "5"
-    }
-  ]
+  "newLine": {
+    "accountId": "",
+    "debitAmount": "",
+    "creditAmount": "",
+    "description": "",
+    "taxCodeId": "",
+    "taxAmount": "",
+    "accounts": [
+      {
+        "id": "123",
+        "displayName": "My Sales Account 1",
+        "accountType": "Sales",
+        "taxCodeId": "123",
+        "displayId": "1-123"
+      },
+      {
+        "id": "456",
+        "displayName": "My Assets Account 1",
+        "accountType": "Assets",
+        "taxCodeId": "124",
+        "displayId": "2-123"
+      }
+    ],
+    "taxCodes": [
+      {
+        "id": "123",
+        "displayName": "GST",
+        "description": "GST Free",
+        "rate": "10"
+      },
+      {
+        "id": "124",
+        "displayName": "RTR",
+        "description": "",
+        "rate": "5"
+      }
+    ]
+  }
 }
