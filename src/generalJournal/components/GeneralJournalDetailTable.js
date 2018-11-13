@@ -51,8 +51,8 @@ const TaxCodeCombobox = (props) => {
   } = props;
 
   const metaData = [
-    { columnName: 'id', columnWidth: '50px' },
-    { columnName: 'displayName', columnWidth: '200px', showData: true },
+    { columnName: 'displayName', columnWidth: '50px', showData: true },
+    { columnName: 'description', columnWidth: '200px' },
     { columnName: 'rate', columnWidth: '50px' },
   ];
 
