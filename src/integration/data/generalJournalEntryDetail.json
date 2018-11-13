@@ -19,6 +19,7 @@
         "accounts": [
           {
             "id": "123",
+            "reportingMethod": "sale",
             "displayName": "My Sales Account 1",
             "accountType": "Sales",
             "taxCodeId": "123",
@@ -26,6 +27,7 @@
           },
           {
             "id": "456",
+            "reportingMethod": "purchase",
             "displayName": "My Assets Account 1",
             "accountType": "Assets",
             "taxCodeId": "124",
@@ -57,6 +59,7 @@
         "accounts": [
           {
             "id": "123",
+            "reportingMethod": "sale",
             "displayName": "My Sales Account 1",
             "accountType": "Sales",
             "taxCodeId": "123",
@@ -64,12 +67,14 @@
           },
           {
             "id": "456",
+            "reportingMethod": "purchase",
             "displayName": "My Assets Account 1",
             "accountType": "Assets",
             "taxCodeId": "124",
             "displayId": "2-123"
           }, {
             "id": "457",
+            "reportingMethod": "sale",
             "displayName": "My Inactive Account 1",
             "accountType": "Assets",
             "taxCodeId": "123",
@@ -103,6 +108,7 @@
     "accounts": [
       {
         "id": "123",
+        "reportingMethod": "sale",
         "displayName": "My Sales Account 1",
         "accountType": "Sales",
         "taxCodeId": "123",
@@ -110,6 +116,7 @@
       },
       {
         "id": "456",
+        "reportingMethod": "purchase",
         "displayName": "My Assets Account 1",
         "accountType": "Assets",
         "taxCodeId": "124",
