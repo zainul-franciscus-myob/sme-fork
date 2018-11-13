@@ -110,8 +110,8 @@ export const getLineData = (state) => {
       displayCreditAmount,
     } = getDisplayAmounts(line, isTaxInclusive);
 
-    const formattedAccounts = accounts.map(account => formatAccount(account));
-    const formattedTaxCodes = taxCodes.map(taxCode => formatTaxCode(taxCode));
+    const formattedAccounts = accounts.map(formatAccount);
+    const formattedTaxCodes = taxCodes.map(formatTaxCode);
 
     return {
       ...line,

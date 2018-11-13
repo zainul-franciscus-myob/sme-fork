@@ -12,9 +12,9 @@ const AccountCombobox = (props) => {
   } = props;
 
   const metaData = [
-    { columnName: 'displayId', columnWidth: '50px', showData: true },
-    { columnName: 'displayName', columnWidth: '200px', showData: true },
-    { columnName: 'accountType', columnWidth: '100px' },
+    { columnName: 'displayId', columnWidth: '5rem', showData: true },
+    { columnName: 'displayName', columnWidth: '20rem', showData: true },
+    { columnName: 'accountType', columnWidth: '10rem' },
   ];
 
   let selectedItem = {};
@@ -51,9 +51,9 @@ const TaxCodeCombobox = (props) => {
   } = props;
 
   const metaData = [
-    { columnName: 'displayName', columnWidth: '50px', showData: true },
-    { columnName: 'description', columnWidth: '200px' },
-    { columnName: 'rate', columnWidth: '50px' },
+    { columnName: 'displayName', columnWidth: '5rem', showData: true },
+    { columnName: 'description', columnWidth: '20rem' },
+    { columnName: 'rate', columnWidth: '5rem' },
   ];
 
   let selectedItem = {};
