@@ -4,13 +4,6 @@ export const getHeaderOptions = (state) => {
   return headerOptions;
 };
 
-const formatTaxCode = ({
-  rate, ...taxCode
-}) => ({
-  rate: `${rate}%`,
-  ...taxCode,
-});
-
 const formatAccount = ({
   id, displayId, displayName, accountType, taxCodeId,
 }) => ({
@@ -49,8 +42,8 @@ const getSelectedTaxCode = (taxCodes, taxCodeId) => {
 const calculateExclusiveTax = (amount, rate) => amount * rate;
 
 const getTaxRateForLine = (line, taxCodes) => {
-  const { rate = 0 } = getSelectedTaxCode(taxCodes, line.taxCodeId);
-  const taxRate = parseFloat(rate) / 100;
+  const { displayRate = 0 } = getSelectedTaxCode(taxCodes, line.taxCodeId);
+  const taxRate = parseFloat(displayRate) / 100;
   return taxRate;
 };
 
@@ -111,11 +104,9 @@ export const getLineData = (state) => {
     } = getDisplayAmounts(line, isTaxInclusive);
 
     const formattedAccounts = accounts.map(formatAccount);
-    const formattedTaxCodes = taxCodes.map(formatTaxCode);
 
     return {
       ...line,
-      taxCodes: formattedTaxCodes,
       accounts: formattedAccounts,
       displayDebitAmount,
       displayCreditAmount,

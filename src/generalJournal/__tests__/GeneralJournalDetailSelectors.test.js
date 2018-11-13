@@ -110,7 +110,11 @@ describe('GeneralJournalDetailSelectors', () => {
               displayId: '2-124',
             },
           ],
-          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+          taxCodes: [{
+            displayName: 'GST', description: 'Goods & Service Tax', id: '123', displayRate: '10%',
+          }, {
+            displayName: 'RTR', description: 'GST Free', id: '124', displayRate: '5%',
+          }],
         }, {
           id: '124',
           accountId: '123',
@@ -141,7 +145,11 @@ describe('GeneralJournalDetailSelectors', () => {
               displayId: '2-124',
             },
           ],
-          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+          taxCodes: [{
+            displayName: 'GST', id: '123', description: 'Goods & Service Tax', displayRate: '10%',
+          }, {
+            displayName: 'RTR', description: 'GST Free', id: '124', displayRate: '5%',
+          }],
         }, {
           id: '125',
           accountId: '123',
@@ -172,7 +180,11 @@ describe('GeneralJournalDetailSelectors', () => {
               displayId: '2-124',
             },
           ],
-          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+          taxCodes: [{
+            displayName: 'GST', id: '123', description: 'Goods & Service Tax', displayRate: '10%',
+          }, {
+            displayName: 'RTR', description: 'GST Free', id: '124', displayRate: '5%',
+          }],
         }, {
           id: '126',
           accountId: '123',
@@ -203,7 +215,11 @@ describe('GeneralJournalDetailSelectors', () => {
               displayId: '2-124',
             },
           ],
-          taxCodes: [{ displayName: 'GST', id: '123', rate: '10%' }, { displayName: 'RTR', id: '124', rate: '5%' }],
+          taxCodes: [{
+            displayName: 'GST', id: '123', description: 'Goods & Service Tax', displayRate: '10%',
+          }, {
+            displayName: 'RTR', description: 'GST Free', id: '124', displayRate: '5%',
+          }],
         }]);
     });
   });
