@@ -81,6 +81,7 @@ describe('GeneralJournalDetailSelectors', () => {
     it('should get the formatted line data', () => {
       expect(getLineData(generalJournalDetail)).toEqual([
         {
+          id: '123',
           accountId: '123',
           creditAmount: '',
           debitAmount: '110.00',
@@ -111,6 +112,7 @@ describe('GeneralJournalDetailSelectors', () => {
           ],
           taxCodes: [{ displayName: 'GST', id: '123', rate: '10' }, { displayName: 'RTR', id: '124', rate: '5' }],
         }, {
+          id: '124',
           accountId: '123',
           creditAmount: '',
           debitAmount: '100.10',
@@ -141,6 +143,7 @@ describe('GeneralJournalDetailSelectors', () => {
           ],
           taxCodes: [{ displayName: 'GST', id: '123', rate: '10' }, { displayName: 'RTR', id: '124', rate: '5' }],
         }, {
+          id: '125',
           accountId: '123',
           creditAmount: '110.33',
           debitAmount: '',
@@ -171,6 +174,7 @@ describe('GeneralJournalDetailSelectors', () => {
           ],
           taxCodes: [{ displayName: 'GST', id: '123', rate: '10' }, { displayName: 'RTR', id: '124', rate: '5' }],
         }, {
+          id: '126',
           accountId: '123',
           creditAmount: '100.33',
           debitAmount: '',
