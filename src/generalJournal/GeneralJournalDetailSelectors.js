@@ -4,6 +4,13 @@ export const getHeaderOptions = (state) => {
   return headerOptions;
 };
 
+const formatTaxCode = ({
+  rate, ...taxCode
+}) => ({
+  rate: `${rate}%`,
+  ...taxCode,
+});
+
 const formatAccount = ({
   id, displayId, displayName, accountType, taxCodeId,
 }) => ({
@@ -104,9 +111,11 @@ export const getLineData = (state) => {
     } = getDisplayAmounts(line, isTaxInclusive);
 
     const formattedAccounts = accounts.map(account => formatAccount(account));
+    const formattedTaxCodes = taxCodes.map(taxCode => formatTaxCode(taxCode));
 
     return {
       ...line,
+      taxCodes: formattedTaxCodes,
       accounts: formattedAccounts,
       displayDebitAmount,
       displayCreditAmount,
