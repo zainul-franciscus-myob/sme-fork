@@ -5,13 +5,14 @@ export const getHeaderOptions = (state) => {
 };
 
 const formatAccount = ({
-  id, displayId, displayName, accountType, taxCodeId,
+  id, displayId, displayName, accountType, taxCodeId, reportingMethod,
 }) => ({
   id,
   displayId,
   displayName: ` ${displayName}`,
   accountType,
   taxCodeId,
+  reportingMethod,
 });
 
 const formatNumber = num => num.toFixed(2);

@@ -38,14 +38,16 @@ const updateGeneralJournalLine = (line, { lineKey, lineValue }) => {
   };
 
   const { accounts } = line;
-
   return lineKey === 'accountId'
     ? {
       ...updatedLine,
-      taxCodeId: getDefaultTaxCodeId({ accountId: lineValue, accounts }),
+      taxCodeId: getDefaultTaxCodeId({ accountId: lineValue.id, accounts }),
     }
     : updatedLine;
 };
+
+const updateReportingMethod = action => (action.lineIndex === 0 && action.lineKey === 'accountId'
+  ? action.lineValue.reportingMethod : undefined);
 
 const generalJournalDetailReducer = (state = initialState, action) => {
   switch (action.intent) {
@@ -94,6 +96,8 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         ...state,
         generalJournal: {
           ...state.generalJournal,
+          gstReportingMethod:
+          updateReportingMethod(action) || state.generalJournal.gstReportingMethod,
           lines: state.generalJournal.lines.map(
             (line, index) => (
               index === action.lineIndex
