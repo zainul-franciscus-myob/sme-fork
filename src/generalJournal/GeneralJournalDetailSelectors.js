@@ -5,13 +5,14 @@ export const getHeaderOptions = (state) => {
 };
 
 const formatAccount = ({
-  id, displayId, displayName, accountType, taxCodeId,
+  id, displayId, displayName, accountType, taxCodeId, reportingMethod,
 }) => ({
   id,
   displayId,
   displayName: ` ${displayName}`,
   accountType,
   taxCodeId,
+  reportingMethod,
 });
 
 const formatNumber = num => num.toFixed(2);
@@ -58,7 +59,7 @@ export const calculateTaxForLine = (line) => {
   const selectedAmount = parseFloat(debitAmount || creditAmount || 0);
   const taxAmount = calculateExclusiveTax(selectedAmount, taxRate);
 
-  return taxAmount;
+  return String(taxAmount);
 };
 
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();

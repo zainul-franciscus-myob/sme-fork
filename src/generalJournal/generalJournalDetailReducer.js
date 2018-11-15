@@ -29,6 +29,7 @@ const initialState = {
 };
 
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
+const isAccountLineItem = lineKey => lineKey === 'accountId';
 
 const updateGeneralJournalLine = (line, { lineKey, lineValue }) => {
   const updatedLine = {
@@ -38,13 +39,42 @@ const updateGeneralJournalLine = (line, { lineKey, lineValue }) => {
   };
 
   const { accounts } = line;
-
-  return lineKey === 'accountId'
+  return isAccountLineItem(lineKey)
     ? {
       ...updatedLine,
       taxCodeId: getDefaultTaxCodeId({ accountId: lineValue, accounts }),
     }
     : updatedLine;
+};
+
+const getLinesForUpdate = (action, lines) => lines.map((line, index) => (
+  index === action.lineIndex ? updateGeneralJournalLine(line, action) : line
+));
+
+const isUpdatingAccountItemInFirstLine = (lineIndex, lineKey) => lineIndex === 0
+      && isAccountLineItem(lineKey);
+
+const getReportingMethodFromSelectAccount = (accounts, selectAccountId) => accounts
+  .find(account => account.id === selectAccountId).reportingMethod;
+
+const getReportingMethodForUpdate = (action, { lines, gstReportingMethod }) => {
+  let reportingMethod = gstReportingMethod;
+  if (isUpdatingAccountItemInFirstLine(action.lineIndex, action.lineKey)) {
+    const accountId = action.lineValue;
+    reportingMethod = getReportingMethodFromSelectAccount(
+      lines[action.lineIndex].accounts,
+      accountId,
+    );
+  }
+  return reportingMethod;
+};
+
+const getReportingMethodForCreate = (action, newLine, { lines, gstReportingMethod }) => {
+  let reportingMethod = gstReportingMethod;
+  if (lines.length === 0) {
+    reportingMethod = getReportingMethodFromSelectAccount(newLine.accounts, action.line.accountId);
+  }
+  return reportingMethod;
 };
 
 const generalJournalDetailReducer = (state = initialState, action) => {
@@ -94,13 +124,8 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         ...state,
         generalJournal: {
           ...state.generalJournal,
-          lines: state.generalJournal.lines.map(
-            (line, index) => (
-              index === action.lineIndex
-                ? updateGeneralJournalLine(line, action)
-                : line
-            ),
-          ),
+          gstReportingMethod: getReportingMethodForUpdate(action, state.generalJournal),
+          lines: getLinesForUpdate(action, state.generalJournal.lines),
         },
       };
     case GeneralJournalIntents.ADD_GENERAL_JOURNAL_DETAIL_LINE:
@@ -108,6 +133,8 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         ...state,
         generalJournal: {
           ...state.generalJournal,
+          gstReportingMethod: getReportingMethodForCreate(action,
+            state.newLine, state.generalJournal),
           lines: [
             ...state.generalJournal.lines,
             {

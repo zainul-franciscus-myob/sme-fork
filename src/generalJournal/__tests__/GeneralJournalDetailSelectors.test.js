@@ -13,7 +13,7 @@ describe('GeneralJournalDetailSelectors', () => {
     it('should calculate the tax amount for a debit line', () => {
       const line = generalJournalDetail.generalJournal.lines[0];
       const { taxCodes } = generalJournalDetail;
-      expect(calculateTaxForLine(line, taxCodes).toFixed(2)).toEqual('11.00');
+      expect(Number(calculateTaxForLine(line, taxCodes)).toFixed(2)).toEqual('11.00');
     });
   });
   describe('getHeaderOptions', () => {
