@@ -36,13 +36,13 @@ describe('general journal detail reducer', () => {
     taxCodes,
   };
 
-  describe('Update existing general journal detail lines', () => {
+  describe('UPDATE_GENERAL_JOURNAL_DETAIL_LINE', () => {
     const state = {
       generalJournal: {
         id: '1',
         referenceId: 'JE0000002',
         date: '1533045600000',
-        gstReportingMethod: 'purchase',
+        gstReportingMethod: 'sale',
         isEndOfYearAdjustment: false,
         isTaxInclusive: false,
         description: 'Cry havoc',
@@ -76,7 +76,29 @@ describe('general journal detail reducer', () => {
       isLoading: false,
     };
 
-    it('should update the existing general journal line when change account for line', () => {
+    it('should update gst reporting method when change account for first line', () => {
+      const action = {
+        intent: GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_LINE,
+        lineIndex: 0,
+        lineKey: 'accountId',
+        lineValue: '456',
+      };
+      const newState = generalJournalDetailReducer(state, action);
+      expect(newState.generalJournal.gstReportingMethod).toEqual('purchase');
+      expect(newState.generalJournal.lines[0]).toEqual({
+        id: '123',
+        accountId: '456',
+        debitAmount: '110.00',
+        creditAmount: '',
+        description: 'Cry havoc one',
+        taxCodeId: '124',
+        taxAmount: '11',
+        accounts,
+        taxCodes,
+      });
+    });
+
+    it('should not update gst reporting method and update the existing general journal line when change account for second line', () => {
       const action = {
         intent: GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_LINE,
         lineIndex: 1,
@@ -84,7 +106,7 @@ describe('general journal detail reducer', () => {
         lineValue: '456',
       };
       const newState = generalJournalDetailReducer(state, action);
-      expect(newState.generalJournal.gstReportingMethod).toEqual('purchase');
+      expect(newState.generalJournal.gstReportingMethod).toEqual('sale');
       expect(newState.generalJournal.lines[1]).toEqual({
         id: '124',
         accountId: '456',
@@ -99,7 +121,7 @@ describe('general journal detail reducer', () => {
     });
   });
 
-  describe('Add new line', () => {
+  describe('ADD_GENERAL_JOURNAL_DETAIL_LINE', () => {
     const state = {
       generalJournal: {
         id: '',

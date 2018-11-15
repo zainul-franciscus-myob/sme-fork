@@ -55,8 +55,7 @@ const isUpdatingAccountItemInFirstLine = (lineIndex, lineKey) => lineIndex === 0
       && isAccountLineItem(lineKey);
 
 const getReportingMethodFromSelectAccount = (accounts, selectAccountId) => accounts
-  .filter(account => account.id === selectAccountId)
-  .map(account => account.reportingMethod)[0];
+  .find(account => account.id === selectAccountId).reportingMethod;
 
 const getReportingMethodForUpdate = (action, { lines, gstReportingMethod }) => {
   let reportingMethod = gstReportingMethod;
