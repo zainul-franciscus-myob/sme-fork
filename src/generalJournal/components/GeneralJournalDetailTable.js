@@ -95,7 +95,7 @@ export default class GeneralJournalDetailTable extends React.Component {
     onChange({
       target: {
         name,
-        value: item,
+        value: item.id,
       },
     });
   }
