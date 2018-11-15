@@ -48,13 +48,26 @@ const updateGeneralJournalLine = (line, { lineKey, lineValue }) => {
 
 const isFirstLineAccount = (lineIndex, lineKey) => lineIndex === 0 && lineKey === 'accountId';
 
-const updateReportingMethod = (action, lines, originalReportingMethod) => {
-  let reportingMethod = originalReportingMethod;
+const getReportingMethodFromSelectAccount = (accounts, selectAccountId) => accounts
+  .filter(account => account.id === selectAccountId)
+  .map(account => account.reportingMethod)[0];
+
+const getReportingMethod = (action, { lines, gstReportingMethod }) => {
+  let reportingMethod = gstReportingMethod;
   if (isFirstLineAccount(action.lineIndex, action.lineKey)) {
     const accountId = action.lineValue;
-    [reportingMethod] = lines[action.lineIndex].accounts
-      .filter(account => account.id === accountId)
-      .map(account => account.reportingMethod);
+    reportingMethod = getReportingMethodFromSelectAccount(
+      lines[action.lineIndex].accounts,
+      accountId,
+    );
+  }
+  return reportingMethod;
+};
+
+const getReportingMethodForCreate = (action, newLine, { lines, gstReportingMethod }) => {
+  let reportingMethod = gstReportingMethod;
+  if (lines.length === 0) {
+    reportingMethod = getReportingMethodFromSelectAccount(newLine.accounts, action.line.accountId);
   }
   return reportingMethod;
 };
@@ -107,9 +120,7 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         generalJournal: {
           ...state.generalJournal,
           gstReportingMethod:
-          updateReportingMethod(action,
-            state.generalJournal.lines,
-            state.generalJournal.gstReportingMethod),
+          getReportingMethod(action, state.generalJournal),
           lines: state.generalJournal.lines.map(
             (line, index) => (
               index === action.lineIndex
@@ -124,6 +135,8 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         ...state,
         generalJournal: {
           ...state.generalJournal,
+          gstReportingMethod: getReportingMethodForCreate(action,
+            state.newLine, state.generalJournal),
           lines: [
             ...state.generalJournal.lines,
             {
