@@ -59,7 +59,7 @@ export const calculateTaxForLine = (line) => {
   const selectedAmount = parseFloat(debitAmount || creditAmount || 0);
   const taxAmount = calculateExclusiveTax(selectedAmount, taxRate);
 
-  return taxAmount;
+  return String(taxAmount);
 };
 
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
