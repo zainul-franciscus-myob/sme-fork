@@ -34,41 +34,11 @@ const getDisabledField = ({ debitAmount, creditAmount }) => {
   return '';
 };
 
-const getSelectedTaxCode = (taxCodes, taxCodeId) => {
-  const selectedTaxCodeIndex = taxCodes.findIndex(({ id }) => id === taxCodeId);
-  const selectedTaxCode = taxCodes[selectedTaxCodeIndex] || {};
-  return selectedTaxCode;
-};
-
-const calculateExclusiveTax = (amount, rate) => amount * rate;
-
-const getTaxRateForLine = (line, taxCodes) => {
-  const { displayRate = 0 } = getSelectedTaxCode(taxCodes, line.taxCodeId);
-  const taxRate = parseFloat(displayRate) / 100;
-  return taxRate;
-};
-
-export const calculateTaxForLine = (line) => {
-  const {
-    debitAmount,
-    creditAmount,
-    taxCodes,
-  } = line;
-
-  const taxRate = getTaxRateForLine(line, taxCodes);
-  const selectedAmount = parseFloat(debitAmount || creditAmount || 0);
-  const taxAmount = calculateExclusiveTax(selectedAmount, taxRate);
-
-  return String(taxAmount);
-};
-
-const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
-
 const getDisplayAmount = (amount, taxAmount, isTaxInclusive) => {
   const parsedAmount = parseFloat(amount);
   const calculatedAmount = isTaxInclusive ? parsedAmount + parseFloat(taxAmount) : amount;
 
-  return formatStringNumber(calculatedAmount);
+  return calculatedAmount;
 };
 
 const getDisplayAmounts = ({ debitAmount, creditAmount, taxAmount }, isTaxInclusive) => ({
@@ -209,5 +179,10 @@ export const getTotals = (state) => {
 export const getJournalId = state => state.generalJournal.id;
 
 export const getGeneralJournal = state => state.generalJournal;
+
+export const getGeneralJournalForCreatePayload = (state) => {
+  const { referenceId, originalReferenceId, ...rest } = getGeneralJournal(state);
+  return referenceId === originalReferenceId ? rest : { ...rest, referenceId };
+};
 
 export const getNewLineData = state => state.newLine;

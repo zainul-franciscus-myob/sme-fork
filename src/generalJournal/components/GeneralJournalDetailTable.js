@@ -150,7 +150,7 @@ export default class GeneralJournalDetailTable extends React.Component {
           type="number"
           label="Debit Amount"
           hiddenLabel
-          name="displayDebitAmount"
+          name="debitAmount"
           value={displayDebitAmount}
           disabled={isDebitDisabled || isNewLineRow}
           onChange={onChange}
@@ -160,7 +160,7 @@ export default class GeneralJournalDetailTable extends React.Component {
           type="number"
           label="Credit Amount"
           hiddenLabel
-          name="displayCreditAmount"
+          name="creditAmount"
           value={displayCreditAmount}
           disabled={isCreditDisabled || isNewLineRow}
           onChange={onChange}

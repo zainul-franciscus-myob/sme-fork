@@ -58,7 +58,6 @@ describe('general journal detail reducer', () => {
       expect(newState.generalJournal.lines[0]).toEqual({
         accountId: '456',
         taxCodeId: '124',
-        taxAmount: '0',
         accounts,
         taxCodes,
       });
@@ -76,7 +75,6 @@ describe('general journal detail reducer', () => {
       expect(newState.generalJournal.lines[1]).toEqual({
         accountId: '456',
         taxCodeId: '124',
-        taxAmount: '0',
         accounts,
         taxCodes,
       });

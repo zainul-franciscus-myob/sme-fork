@@ -1,4 +1,4 @@
-import { calculateTaxForLine, getDefaultTaxCodeId } from './GeneralJournalDetailSelectors';
+import { getDefaultTaxCodeId } from './GeneralJournalDetailSelectors';
 import GeneralJournalIntents from './GeneralJournalIntents';
 import SystemIntents from '../SystemIntents';
 
@@ -6,6 +6,7 @@ const initialState = {
   generalJournal: {
     id: '',
     referenceId: '',
+    originalReferenceId: '',
     date: '',
     gstReportingMethod: '',
     isEndOfYearAdjustment: false,
@@ -34,7 +35,6 @@ const isAccountLineItem = lineKey => lineKey === 'accountId';
 const updateGeneralJournalLine = (line, { lineKey, lineValue }) => {
   const updatedLine = {
     ...line,
-    taxAmount: calculateTaxForLine(line),
     [lineKey]: lineValue,
   };
 
@@ -93,7 +93,11 @@ const generalJournalDetailReducer = (state = initialState, action) => {
     case GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL:
       return {
         ...initialState,
-        generalJournal: { ...initialState.generalJournal, ...action.generalJournal },
+        generalJournal: {
+          ...initialState.generalJournal,
+          ...action.generalJournal,
+          originalReferenceId: action.generalJournal.referenceId,
+        },
         newLine: { ...state.newLine, ...action.newLine },
         isLoading: action.isLoading,
       };

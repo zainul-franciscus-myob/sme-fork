@@ -1,6 +1,6 @@
 import {
-  calculateTaxForLine,
   getDefaultTaxCodeId,
+  getGeneralJournalForCreatePayload,
   getHeaderOptions,
   getIndexOfLastLine,
   getLineData,
@@ -9,13 +9,19 @@ import {
 import generalJournalDetail from './fixtures/generalJournalDetail';
 
 describe('GeneralJournalDetailSelectors', () => {
-  describe('caculateTaxForLine', () => {
-    it('should calculate the tax amount for a debit line', () => {
-      const line = generalJournalDetail.generalJournal.lines[0];
-      const { taxCodes } = generalJournalDetail;
-      expect(Number(calculateTaxForLine(line, taxCodes)).toFixed(2)).toEqual('11.00');
+  describe('getGeneralJournalForCreatePayload', () => {
+    it('should exclude reference IDs from payloads when the value is unchanged', () => {
+      const actual = {
+        generalJournal: {
+          referenceId: 'identical',
+          originalReferenceId: 'identical',
+        },
+      };
+      const expected = {};
+      expect(getGeneralJournalForCreatePayload(actual)).toEqual(expected);
     });
   });
+
   describe('getHeaderOptions', () => {
     it('returns header options object', () => {
       expect(getHeaderOptions(generalJournalDetail)).toEqual({

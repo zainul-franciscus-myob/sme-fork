@@ -46,7 +46,7 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     );
   },
   write: async ({
-    intent, urlParams, params, onSuccess, onFailure,
+    intent, urlParams, content, onSuccess, onFailure,
   }) => {
     const { baseUrl } = config;
     const requestSpec = RootMapping[intent];
@@ -54,7 +54,7 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     const requestOptions = {
       method: requestSpec.method,
       headers: { ...getDefaultHttpHeaders(), ...additionalHeaders },
-      body: JSON.stringify(params),
+      body: JSON.stringify(content),
     };
 
     const intentUrlPath = requestSpec.getPath(urlParams);

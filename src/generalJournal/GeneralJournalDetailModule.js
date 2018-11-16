@@ -5,6 +5,7 @@ import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModal
 import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from './GeneralJournalMessageTypes';
 import {
   getGeneralJournal,
+  getGeneralJournalForCreatePayload,
   getHeaderOptions,
   getIndexOfLastLine,
   getJournalId,
@@ -109,7 +110,7 @@ export default class GeneralJournalDetailModule {
 
   saveGeneralJournalEntry = state => () => {
     const journalId = getJournalId(state);
-    const params = getGeneralJournal(state);
+    const content = getGeneralJournal(state);
     const intent = GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL;
     const urlParams = {
       businessId: this.businessId,
@@ -131,15 +132,15 @@ export default class GeneralJournalDetailModule {
     this.integration.write({
       intent,
       urlParams,
-      params,
+      content,
       onSuccess,
       onFailure,
     });
   };
 
-  createGeneralJournalEntry = () => {
+  createGeneralJournalEntry = state => () => {
     const intent = GeneralJournalIntents.CREATE_GENERAL_JOURNAL_DETAIL;
-
+    const content = getGeneralJournalForCreatePayload(state);
     const urlParams = {
       businessId: this.businessId,
     };
@@ -152,13 +153,14 @@ export default class GeneralJournalDetailModule {
       this.redirectToGeneralJournalList();
     };
 
-    const onFailure = () => {
-      console.log('Failed to create the general journal details');
+    const onFailure = (error) => {
+      this.displayAlert(error.message);
     };
 
     this.integration.write({
       intent,
       urlParams,
+      content,
       onSuccess,
       onFailure,
     });
@@ -270,7 +272,7 @@ export default class GeneralJournalDetailModule {
         headerOptions={getHeaderOptions(state)}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.isCreating
-          ? this.createGeneralJournalEntry
+          ? this.createGeneralJournalEntry(state)
           : this.saveGeneralJournalEntry(state)}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
