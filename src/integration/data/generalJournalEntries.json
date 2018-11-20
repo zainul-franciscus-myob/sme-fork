@@ -1,9 +1,8 @@
 {
   "dateFrom": "1533045600000",
   "dateTo": "1535551200000",
-  "search": "",
-  "order": "desc",
-  "orderBy": "date",
+  "keywords": "",
+  "sortOrder": "desc",
   "entries": [
     {
       "id": "1",
