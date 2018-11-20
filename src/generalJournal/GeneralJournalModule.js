@@ -3,7 +3,7 @@ import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from './GeneralJournalMessageTypes';
-import { getOrder } from './GeneralJournalSelectors';
+import { getFilterOptions, getOrder, getSortOrder } from './GeneralJournalSelectors';
 import GeneralJournalAlert from './components/GeneralJournalAlert';
 import GeneralJournalIntents from './GeneralJournalIntents';
 import GeneralJournalTableRowView from './components/GeneralJournalTableRowView';
@@ -40,8 +40,8 @@ export default class GeneralJournalModule {
         isEmpty={state.entries.length === 0}
         onUpdateFilters={this.updateFilterOptions}
         filterOptions={state.filterOptions}
-        onApplyFilter={this.filterGeneralJournalEntries}
-        onSort={this.sortGeneralJournalEntries}
+        onApplyFilter={this.filterGeneralJournalEntries(state)}
+        onSort={this.sortGeneralJournalEntries(state)}
         order={getOrder(state)}
         newGeneralJournalEntry={this.newGeneralJournalEntry}
         alertComponent={alertComponent}
@@ -61,8 +61,7 @@ export default class GeneralJournalModule {
 
     const onSuccess = ({
       entries,
-      order,
-      orderBy,
+      sortOrder,
       ...filterOptions
     }) => {
       this.setLoadingState(false);
@@ -70,8 +69,7 @@ export default class GeneralJournalModule {
         intent,
         entries,
         filterOptions,
-        order,
-        orderBy,
+        sortOrder,
       });
     };
 
@@ -87,7 +85,7 @@ export default class GeneralJournalModule {
     });
   }
 
-  filterGeneralJournalEntries = () => {
+  filterGeneralJournalEntries = state => () => {
     this.setTableLoadingState(true);
 
     const intent = GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES;
@@ -108,32 +106,33 @@ export default class GeneralJournalModule {
       console.log('Failed to filter general journal entries');
     };
 
+    const filterOptions = getFilterOptions(state);
+    const sortOrder = getSortOrder(state);
+
     this.integration.read({
       intent,
       urlParams,
       params: {
-        ...this.store.state.filterOptions,
-        order: this.store.state.order,
-        orderBy: this.store.state.orderBy,
+        ...filterOptions,
+        sortOrder,
       },
       onSuccess,
       onFailure,
     });
   };
 
-  sortGeneralJournalEntries = (sortName) => {
+  sortGeneralJournalEntries = state => () => {
     const intent = GeneralJournalIntents.SORT_GENERAL_JOURNAL_ENTRIES;
 
     const urlParams = {
       businessId: this.businessId,
     };
 
-    const onSuccess = ({ entries, order, orderBy }) => {
+    const onSuccess = ({ entries, sortOrder }) => {
       this.store.publish({
         intent,
         entries,
-        order,
-        orderBy,
+        sortOrder,
       });
     };
 
@@ -141,15 +140,15 @@ export default class GeneralJournalModule {
       console.log('Failed to sort general journal entries');
     };
 
-    const order = this.store.state.order === 'desc' ? 'asc' : 'desc';
+    const sortOrder = getSortOrder(state) === 'desc' ? 'asc' : 'desc';
+    const filterOptions = getFilterOptions(state);
 
     this.integration.read({
       intent,
       urlParams,
       params: {
-        ...this.store.state.filterOptions,
-        order,
-        orderBy: sortName,
+        ...filterOptions,
+        sortOrder,
       },
       onSuccess,
       onFailure,
