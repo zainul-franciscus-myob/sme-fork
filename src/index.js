@@ -8,6 +8,7 @@ import { initializeConfig } from './Config';
 import App from './App';
 import BankingModule from './banking/BankingModule';
 import BusinessModule from './business/BusinessModule';
+import FeaturesModule from './featureList/FeaturesModule';
 import GeneralJournalDetailModule from './generalJournal/generalJournalDetail/GeneralJournalDetailModule';
 import GeneralJournalModule from './generalJournal/generalJournalList/GeneralJournalModule';
 import Inbox from './inbox';
@@ -31,6 +32,7 @@ async function main(integrationType) {
   const integration = createIntegration();
 
   const banking = new BankingModule({ integration, setRootView });
+  const features = new FeaturesModule({ setRootView });
   const business = new BusinessModule({ integration, setRootView });
   const generalJournal = new GeneralJournalModule({ integration, setRootView, popMessages });
   const generalJournalDetail = new GeneralJournalDetailModule({
@@ -41,6 +43,7 @@ async function main(integrationType) {
   const app = new App(setRootView);
   const routes = [
     { name: 'business', path: '/business' },
+    { name: 'features', path: '/:businessId/features' },
     { name: 'home', path: '/home' },
     { name: 'banking', path: '/:businessId/banking' },
     { name: 'generalJournal', path: '/:businessId/generalJournal' },
@@ -51,6 +54,7 @@ async function main(integrationType) {
   const moduleMappings = {
     home: app,
     banking,
+    features,
     business,
     generalJournal,
     generalJournalDetail,
@@ -59,6 +63,7 @@ async function main(integrationType) {
 
   const actions = {
     business: () => { moduleMappings.business.run(); },
+    features: () => { moduleMappings.features.run(); },
     home: () => { moduleMappings.home.run(); },
     banking: (context) => { moduleMappings.banking.run(context); },
     generalJournal: (context) => { moduleMappings.generalJournal.run(context); },
@@ -68,9 +73,10 @@ async function main(integrationType) {
 
   const unsubscribeAllModulesFromStore = () => {
     Object.keys(moduleMappings).forEach((moduleName) => {
-      if (moduleName !== 'home') {
-        moduleMappings[moduleName].unsubscribeFromStore();
+      if (moduleName === 'home' || moduleName === 'features') {
+        return;
       }
+      moduleMappings[moduleName].unsubscribeFromStore();
     });
   };
 

@@ -1,6 +1,5 @@
 import GeneralJournalIntents from '../GeneralJournalIntents';
 import SystemIntents from '../../SystemIntents';
-import createReducer from '../../store/createReducer';
 
 const initialState = {
   entries: [],
@@ -15,64 +14,64 @@ const initialState = {
   isTableLoading: false,
 };
 
-const resetState = () => (initialState);
+const generalJournalReducer = (state = initialState, action) => {
+  switch (action.intent) {
+    case SystemIntents.RESET_STATE:
+      return {
+        ...initialState,
+      };
+    case GeneralJournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES:
+      return {
+        ...state,
+        entries: action.entries,
+        filterOptions: {
+          ...state.filterOptions,
+          ...action.filterOptions,
+        },
+        sortOrder: action.sortOrder,
+        isLoading: action.isLoading,
+      };
 
-const loadGeneralJournalEntries = (state, action) => ({
-  ...state,
-  entries: action.entries,
-  filterOptions: {
-    ...state.filterOptions,
-    ...action.filterOptions,
-  },
-  sortOrder: action.sortOrder,
-  isLoading: action.isLoading,
-});
+    case GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES:
+      return {
+        ...state,
+        entries: action.entries,
+      };
 
-const filterGeneralJournalEntries = (state, action) => ({
-  ...state,
-  entries: action.entries,
-});
+    case GeneralJournalIntents.UPDATE_FILTER_OPTIONS:
+      return {
+        ...state,
+        filterOptions: {
+          ...state.filterOptions,
+          [action.filterName]: action.value,
+        },
+      };
 
-const updateFilterOptions = (state, action) => ({
-  ...state,
-  filterOptions: {
-    ...state.filterOptions,
-    [action.filterName]: action.value,
-  },
-});
+    case GeneralJournalIntents.SORT_GENERAL_JOURNAL_ENTRIES:
+      return {
+        ...state,
+        entries: action.entries,
+        sortOrder: action.sortOrder,
+      };
 
-const sortGeneralJournalEntries = (state, action) => ({
-  ...state,
-  entries: action.entries,
-  sortOrder: action.sortOrder,
-});
-
-const setTableLoadingState = (state, action) => ({
-  ...state,
-  isTableLoading: action.isTableLoading,
-});
-
-const setLoadingState = (state, action) => ({
-  ...state,
-  isLoading: action.isLoading,
-});
-
-const setAlertMessage = (state, action) => ({
-  ...state,
-  alertMessage: action.alertMessage,
-});
-
-const handlers = {
-  [GeneralJournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES]: loadGeneralJournalEntries,
-  [GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES]: filterGeneralJournalEntries,
-  [GeneralJournalIntents.UPDATE_FILTER_OPTIONS]: updateFilterOptions,
-  [GeneralJournalIntents.SORT_GENERAL_JOURNAL_ENTRIES]: sortGeneralJournalEntries,
-  [GeneralJournalIntents.SET_TABLE_LOADING_STATE]: setTableLoadingState,
-  [GeneralJournalIntents.SET_LOADING_STATE]: setLoadingState,
-  [GeneralJournalIntents.SET_ALERT_MESSAGE]: setAlertMessage,
-  [SystemIntents.RESET_STATE]: resetState,
+    case GeneralJournalIntents.SET_ALERT_MESSAGE:
+      return {
+        ...state,
+        alertMessage: action.alertMessage,
+      };
+    case GeneralJournalIntents.SET_LOADING_STATE:
+      return {
+        ...state,
+        isLoading: action.isLoading,
+      };
+    case GeneralJournalIntents.SET_TABLE_LOADING_STATE:
+      return {
+        ...state,
+        isTableLoading: action.isTableLoading,
+      };
+    default:
+      return state;
+  }
 };
-
-const generalJournalReducer = createReducer(initialState, handlers);
 
 export default generalJournalReducer;
