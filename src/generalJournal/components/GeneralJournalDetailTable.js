@@ -123,9 +123,9 @@ export default class GeneralJournalDetailTable extends React.Component {
     const lineData = isNewLineRow ? newLineData : data;
 
     const {
-      displayDebitAmount = '',
+      debitInputAmount,
       isDebitDisabled,
-      displayCreditAmount = '',
+      creditInputAmount,
       isCreditDisabled,
       description = '',
       selectedAccountIndex,
@@ -150,8 +150,8 @@ export default class GeneralJournalDetailTable extends React.Component {
           type="number"
           label="Debit Amount"
           hiddenLabel
-          name="debitAmount"
-          value={displayDebitAmount}
+          name="debitInputAmount"
+          value={debitInputAmount}
           disabled={isDebitDisabled || isNewLineRow}
           onChange={onChange}
           onBlur={this.onRowInputBlur(index)}
@@ -160,8 +160,8 @@ export default class GeneralJournalDetailTable extends React.Component {
           type="number"
           label="Credit Amount"
           hiddenLabel
-          name="creditAmount"
-          value={displayCreditAmount}
+          name="creditInputAmount"
+          value={creditInputAmount}
           disabled={isCreditDisabled || isNewLineRow}
           onChange={onChange}
           onBlur={this.onRowInputBlur(index)}

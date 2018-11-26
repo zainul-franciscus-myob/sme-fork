@@ -2,34 +2,23 @@ import GeneralJournalIntents from '../../generalJournal/GeneralJournalIntents';
 import generalJournalDetail from '../data/generalJournalEntryDetail';
 import generalJournalDetailNew from '../data/generalJournalNewEntryDetail';
 import generalJournalEntries from '../data/generalJournalEntries';
+import taxResponse from '../data/generalJournalDetailTaxResponse';
 
-const readGeneralJournalEntries = ({ onSuccess }) => {
-  onSuccess(generalJournalEntries);
-};
+const readGeneralJournalEntries = ({ onSuccess }) => onSuccess(generalJournalEntries);
 
-const filterGeneralJournalEntries = ({ onSuccess }) => {
-  onSuccess(generalJournalEntries);
-};
+const filterGeneralJournalEntries = ({ onSuccess }) => onSuccess(generalJournalEntries);
 
-const sortGeneralJournalEntries = ({ onSuccess }) => {
-  onSuccess(generalJournalEntries);
-};
+const sortGeneralJournalEntries = ({ onSuccess }) => onSuccess(generalJournalEntries);
 
-const readGeneralJournalDetail = ({ onSuccess }) => {
-  onSuccess(generalJournalDetail);
-};
+const readGeneralJournalDetail = ({ onSuccess }) => onSuccess(generalJournalDetail);
 
-const newGeneralJournalDetail = ({ onSuccess }) => {
-  onSuccess(generalJournalDetailNew);
-};
+const newGeneralJournalDetail = ({ onSuccess }) => onSuccess(generalJournalDetailNew);
 
-const deleteGeneralJournalDetail = ({ onSuccess }) => {
-  onSuccess();
-};
+const deleteGeneralJournalDetail = ({ onSuccess }) => onSuccess();
 
-const saveGeneralJournalDetail = ({ onSuccess }) => {
-  onSuccess();
-};
+const saveGeneralJournalDetail = ({ onSuccess }) => onSuccess();
+
+const getCalculatedTax = ({ onSuccess }) => onSuccess(taxResponse);
 
 const GeneralJournalMapping = {
   [GeneralJournalIntents.LOAD_GENERAL_JOURNAL_ENTRIES]: readGeneralJournalEntries,
@@ -40,6 +29,7 @@ const GeneralJournalMapping = {
   [GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL]: deleteGeneralJournalDetail,
   [GeneralJournalIntents.CREATE_GENERAL_JOURNAL_DETAIL]: saveGeneralJournalDetail,
   [GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL]: saveGeneralJournalDetail,
+  [GeneralJournalIntents.GET_CALCULATED_TAX]: getCalculatedTax,
 };
 
 export default GeneralJournalMapping;

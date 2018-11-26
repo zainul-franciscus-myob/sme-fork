@@ -13,12 +13,13 @@ const GeneralJournalIntents = {
   ADD_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Add general journal detail line'),
   DELETE_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Delete general journal detail line'),
   REORDER_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Reorder general journal detail line'),
-  FORMAT_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Format general journal detail line'),
   OPEN_MODAL: Symbol('Open a modal'),
   CLOSE_MODAL: Symbol('Close a modal'),
   SET_ALERT_MESSAGE: Symbol('Set alert message'),
   SET_LOADING_STATE: Symbol('Set loading state'),
   SET_TABLE_LOADING_STATE: Symbol('Set table loading state'),
+  GET_CALCULATED_TAX: Symbol('Get calculated tax'),
+  FORMAT_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Format general journal detail line'),
 };
 
 export default GeneralJournalIntents;

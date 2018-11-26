@@ -17,44 +17,27 @@ const formatAccount = ({
 
 const formatNumber = num => num.toFixed(2);
 
+const isZero = amount => formatNumber(Number(amount)) === '0.00';
+
 export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
   const account = accounts.find(({ id }) => id === accountId);
   return account === undefined ? '' : account.taxCodeId;
 };
 
-const getDisabledField = ({ debitAmount, creditAmount }) => {
-  if (debitAmount) {
+const getDisabledField = ({ debitInputAmount, creditInputAmount }) => {
+  if (debitInputAmount && !isZero(debitInputAmount)) {
     return 'credit';
   }
 
-  if (creditAmount) {
+  if (creditInputAmount && !isZero(creditInputAmount)) {
     return 'debit';
   }
 
   return '';
 };
 
-const getDisplayAmount = (amount, taxAmount, isTaxInclusive) => {
-  const parsedAmount = parseFloat(amount);
-  const calculatedAmount = isTaxInclusive ? parsedAmount + parseFloat(taxAmount) : amount;
-
-  return calculatedAmount;
-};
-
-const getDisplayAmounts = ({ debitAmount, creditAmount, taxAmount }, isTaxInclusive) => ({
-  displayDebitAmount: debitAmount
-    && getDisplayAmount(debitAmount, taxAmount, isTaxInclusive),
-  displayCreditAmount: creditAmount
-    && getDisplayAmount(creditAmount, taxAmount, isTaxInclusive),
-});
-
 export const getLineData = (state) => {
-  const {
-    generalJournal: {
-      lines,
-      isTaxInclusive,
-    },
-  } = state;
+  const { generalJournal: { lines } } = state;
 
   const formattedLines = lines.map((line) => {
     const {
@@ -69,18 +52,11 @@ export const getLineData = (state) => {
     const selectedAccountIndex = accounts.findIndex(({ id }) => id === accountId);
     const selectedTaxCodeIndex = taxCodes.findIndex(({ id }) => id === taxCodeId);
 
-    const {
-      displayDebitAmount,
-      displayCreditAmount,
-    } = getDisplayAmounts(line, isTaxInclusive);
-
     const formattedAccounts = accounts.map(formatAccount);
 
     return {
       ...line,
       accounts: formattedAccounts,
-      displayDebitAmount,
-      displayCreditAmount,
       selectedAccountIndex,
       selectedTaxCodeIndex,
       isCreditDisabled: disabledField === 'credit',
@@ -92,97 +68,110 @@ export const getLineData = (state) => {
 };
 
 export const getIndexOfLastLine = (state) => {
-  const {
-    generalJournal: {
-      lines,
-    },
-  } = state;
+  const { generalJournal: { lines } } = state;
 
   return lines.length - 1;
 };
 
-const formatTotal = num => (num < 0 ? `-$${formatNumber(Math.abs(num))}` : `$${formatNumber(num)}`);
-
-const getTotalDebit = (lines) => {
+const getTotalDebit = (lines, isTaxInclusive) => {
   const debitLines = lines.filter(line => line.debitAmount !== '');
+
   return debitLines.reduce(
-    (acc, line) => acc + (parseFloat(line.debitAmount) || 0), 0,
-  );
-};
-const getTotalCredit = (lines) => {
-  const creditLines = lines.filter(line => line.creditAmount !== '');
-  return creditLines.reduce(
-    (acc, line) => acc + (parseFloat(line.creditAmount) || 0), 0,
+    (acc, line) => acc
+    + (Number(line.debitAmount)
+    + (isTaxInclusive ? Number(line.taxAmount) : 0)),
+    0,
   );
 };
 
-const getTotalTax = lines => lines.reduce(
-  (acc, { taxAmount }) => acc + parseFloat(taxAmount),
+const getTotalCredit = (lines, isTaxInclusive) => {
+  const creditLines = lines.filter(line => line.creditAmount !== '');
+
+  return creditLines.reduce(
+    (acc, line) => acc
+    + (Number(line.creditAmount)
+    + (isTaxInclusive ? Number(line.taxAmount) : 0)),
+    0,
+  );
+};
+
+const getTotalTax = (lines, gstReportingMethod) => lines.reduce(
+  (acc, { taxAmount, creditAmount }) => {
+    const parsedTaxAmount = Number(taxAmount);
+    const isCredit = Boolean(creditAmount);
+    const isSale = gstReportingMethod === 'sale';
+
+    if (isCredit) {
+      return isSale ? acc + parsedTaxAmount : acc - parsedTaxAmount;
+    }
+
+    return isSale ? acc - parsedTaxAmount : acc + parsedTaxAmount;
+  },
   0,
 );
 
-const isCreditLine = ({ creditAmount }) => Boolean(creditAmount);
+const getTotalAmount = lines => lines.reduce(
+  (acc, { debitAmount, creditAmount, isCollected }) => {
+    const isCredit = Boolean(creditAmount);
 
-const getLineAmount = (line) => {
-  const {
-    creditAmount,
-    debitAmount,
-  } = line;
+    if (isCredit) {
+      return isCollected ? acc + Number(creditAmount) : acc - Number(creditAmount);
+    }
 
-  const lineAmount = debitAmount || creditAmount || 0;
-  return parseFloat(lineAmount);
-};
+    return isCollected ? acc - Number(debitAmount) : acc + Number(debitAmount);
+  },
+  0,
+);
 
-const getTaxExclusiveOutOfBalance = (lines) => {
-  const outOfBalance = lines.reduce(
-    (acc, line) => {
-      const amount = getLineAmount(line);
-      const taxAmount = parseFloat(line.taxAmount);
-      const totalAmount = amount + taxAmount;
+const getOutOfBalance = (lines, gstReportingMethod) => Math.abs(
+  getTotalAmount(lines) + getTotalTax(lines, gstReportingMethod),
+);
 
-      return isCreditLine(line)
-        ? acc - totalAmount
-        : acc + totalAmount;
-    },
-    0,
-  );
+const formatTotal = num => (num < 0 ? `-$${formatNumber(Math.abs(num))}` : `$${formatNumber(num)}`);
 
-  return outOfBalance;
-};
-
-const getOutOfBalance = (lines) => {
-  const outOfBalance = getTaxExclusiveOutOfBalance(lines);
-
-  return Math.abs(outOfBalance);
-};
+export const getGeneralJournal = state => state.generalJournal;
 
 export const getTotals = (state) => {
   const {
-    generalJournal: {
-      lines,
-    },
-  } = state;
+    lines,
+    isTaxInclusive,
+    gstReportingMethod,
+  } = getGeneralJournal(state);
 
-  const totalDebit = getTotalDebit(lines);
-  const totalCredit = getTotalCredit(lines);
-  const totalTax = getTotalTax(lines);
-  const totalOutOfBalance = getOutOfBalance(lines);
+  const totalDebit = formatTotal(getTotalDebit(lines, isTaxInclusive));
+  const totalCredit = formatTotal(getTotalCredit(lines, isTaxInclusive));
+  const totalTax = formatTotal(getTotalTax(lines, gstReportingMethod));
+  const totalOutOfBalance = formatTotal(getOutOfBalance(lines, gstReportingMethod));
 
   return {
-    totalCredit: formatTotal(totalCredit),
-    totalDebit: formatTotal(totalDebit),
-    totalTax: formatTotal(totalTax),
-    totalOutOfBalance: formatTotal(totalOutOfBalance),
+    totalCredit,
+    totalDebit,
+    totalTax,
+    totalOutOfBalance,
   };
 };
 
 export const getJournalId = state => state.generalJournal.id;
 
-export const getGeneralJournal = state => state.generalJournal;
-
 export const getGeneralJournalForCreatePayload = (state) => {
   const { referenceId, originalReferenceId, ...rest } = getGeneralJournal(state);
   return referenceId === originalReferenceId ? rest : { ...rest, referenceId };
+};
+
+export const getTaxCalculatorPayload = (state) => {
+  const { lines, isTaxInclusive, gstReportingMethod } = getGeneralJournal(state);
+  const newLines = lines.map(({
+    taxAmount,
+    debitInputAmount: debitAmount,
+    creditInputAmount: creditAmount,
+    ...line
+  }) => ({
+    ...line,
+    debitAmount,
+    creditAmount,
+  }));
+
+  return { isTaxInclusive, gstReportingMethod, lines: newLines };
 };
 
 export const getNewLineData = state => state.newLine;

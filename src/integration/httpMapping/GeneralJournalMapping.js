@@ -33,6 +33,10 @@ const GeneralJournalMapping = {
     method: 'DELETE',
     getPath: ({ businessId, journalId }) => `/${businessId}/generalJournal/delete_general_journal_detail/${journalId}`,
   },
+  [GeneralJournalIntents.GET_CALCULATED_TAX]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/generalJournal/tax`,
+  },
 };
 
 export default GeneralJournalMapping;

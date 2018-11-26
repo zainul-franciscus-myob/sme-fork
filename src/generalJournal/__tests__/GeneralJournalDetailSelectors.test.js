@@ -4,6 +4,7 @@ import {
   getHeaderOptions,
   getIndexOfLastLine,
   getLineData,
+  getTaxCalculatorPayload,
   getTotals,
 } from '../GeneralJournalDetailSelectors';
 import generalJournalDetail from './fixtures/generalJournalDetail';
@@ -40,7 +41,7 @@ describe('GeneralJournalDetailSelectors', () => {
       const totals = {
         totalDebit: '$210.10',
         totalCredit: '$210.66',
-        totalTax: '$42.07',
+        totalTax: '-$0.05',
         totalOutOfBalance: '$0.61',
       };
       expect(getTotals(generalJournalDetail)).toEqual(totals);
@@ -56,9 +57,9 @@ describe('GeneralJournalDetailSelectors', () => {
       };
 
       const totals = {
-        totalDebit: '$210.10',
-        totalCredit: '$210.66',
-        totalTax: '$42.07',
+        totalDebit: '$231.11',
+        totalCredit: '$231.72',
+        totalTax: '-$0.05',
         totalOutOfBalance: '$0.61',
       };
       expect(getTotals(detail)).toEqual(totals);
@@ -91,9 +92,9 @@ describe('GeneralJournalDetailSelectors', () => {
           accountId: '123',
           creditAmount: '',
           debitAmount: '110.00',
+          creditInputAmount: '',
+          debitInputAmount: '110.00',
           description: 'Cry havoc 1',
-          displayCreditAmount: '',
-          displayDebitAmount: '110.00',
           isCreditDisabled: true,
           isDebitDisabled: false,
           selectedAccountIndex: 0,
@@ -126,9 +127,9 @@ describe('GeneralJournalDetailSelectors', () => {
           accountId: '123',
           creditAmount: '',
           debitAmount: '100.10',
+          creditInputAmount: '',
+          debitInputAmount: '100.10',
           description: 'Cry havoc 2',
-          displayCreditAmount: '',
-          displayDebitAmount: '100.10',
           isCreditDisabled: true,
           isDebitDisabled: false,
           selectedAccountIndex: 0,
@@ -161,9 +162,9 @@ describe('GeneralJournalDetailSelectors', () => {
           accountId: '123',
           creditAmount: '110.33',
           debitAmount: '',
+          creditInputAmount: '110.33',
+          debitInputAmount: '',
           description: 'Cry havoc 3',
-          displayCreditAmount: '110.33',
-          displayDebitAmount: '',
           isCreditDisabled: false,
           isDebitDisabled: true,
           selectedAccountIndex: 0,
@@ -196,9 +197,9 @@ describe('GeneralJournalDetailSelectors', () => {
           accountId: '123',
           creditAmount: '100.33',
           debitAmount: '',
+          creditInputAmount: '100.33',
+          debitInputAmount: '',
           description: 'Cry havoc 4',
-          displayCreditAmount: '100.33',
-          displayDebitAmount: '',
           isCreditDisabled: false,
           isDebitDisabled: true,
           selectedAccountIndex: 0,
@@ -227,6 +228,70 @@ describe('GeneralJournalDetailSelectors', () => {
             displayName: 'RTR', description: 'GST Free', id: '124', displayRate: '5%',
           }],
         }]);
+    });
+  });
+
+  describe('getTaxCalculatorPayload', () => {
+    it('returns payload for tax calculator with tax inclusive', () => {
+      const state = {
+        generalJournal: {
+          isTaxInclusive: true,
+          gstReportingMethod: 'sale',
+          lines: [
+            {
+              debitAmount: '',
+              debitInputAmount: '',
+              creditAmount: '123',
+              creditInputAmount: '133.00',
+              taxAmount: '10',
+            },
+          ],
+        },
+      };
+
+      const expected = {
+        isTaxInclusive: true,
+        gstReportingMethod: 'sale',
+        lines: [
+          {
+            debitAmount: '',
+            creditAmount: '133.00',
+          },
+        ],
+      };
+
+      expect(getTaxCalculatorPayload(state)).toEqual(expected);
+    });
+
+    it('returns payload for tax calculator with tax exclusive', () => {
+      const state = {
+        generalJournal: {
+          isTaxInclusive: false,
+          gstReportingMethod: 'sale',
+          lines: [
+            {
+              debitAmount: '123',
+              debitInputAmount: '123.00',
+              creditAmount: '',
+              creditInputAmount: '',
+              taxAmount: '10',
+            },
+          ],
+        },
+      };
+
+      const expected = {
+        isTaxInclusive: false,
+        gstReportingMethod: 'sale',
+        lines: [
+          {
+            debitAmount: '123.00',
+            creditAmount: '',
+          },
+        ],
+      };
+
+      expect(getTaxCalculatorPayload(state)).toEqual(expected);
     });
   });
 });

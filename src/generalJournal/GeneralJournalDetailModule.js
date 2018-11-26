@@ -11,6 +11,7 @@ import {
   getJournalId,
   getLineData,
   getNewLineData,
+  getTaxCalculatorPayload,
   getTotals,
 } from './GeneralJournalDetailSelectors';
 import GeneralJournalAlert from './components/GeneralJournalAlert';
@@ -70,6 +71,10 @@ export default class GeneralJournalDetailModule {
       key,
       value,
     });
+
+    if (key === 'gstReportingMethod') {
+      this.getCalculatedTax();
+    }
   };
 
   deleteGeneralJournalEntry = journalId => () => {
@@ -108,7 +113,8 @@ export default class GeneralJournalDetailModule {
     });
   }
 
-  saveGeneralJournalEntry = state => () => {
+  saveGeneralJournalEntry = () => {
+    const { state } = this.store;
     const journalId = getJournalId(state);
     const content = getGeneralJournal(state);
     const intent = GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL;
@@ -138,9 +144,9 @@ export default class GeneralJournalDetailModule {
     });
   };
 
-  createGeneralJournalEntry = state => () => {
+  createGeneralJournalEntry = () => {
     const intent = GeneralJournalIntents.CREATE_GENERAL_JOURNAL_DETAIL;
-    const content = getGeneralJournalForCreatePayload(state);
+    const content = getGeneralJournalForCreatePayload(this.store.state);
     const urlParams = {
       businessId: this.businessId,
     };
@@ -207,6 +213,11 @@ export default class GeneralJournalDetailModule {
       lineKey,
       lineValue,
     });
+
+    const taxKeys = ['accountId', 'taxCodeId'];
+    if (taxKeys.includes(lineKey)) {
+      this.getCalculatedTax();
+    }
   }
 
   addGeneralJournalLine = (partialLine) => {
@@ -225,7 +236,16 @@ export default class GeneralJournalDetailModule {
       intent,
       index,
     });
+
+    this.getCalculatedTax();
   }
+
+  dismissAlert = () => {
+    this.store.publish({
+      intent: GeneralJournalIntents.SET_ALERT_MESSAGE,
+      alertMessage: '',
+    });
+  };
 
   formatJournalLine = (index) => {
     const intent = GeneralJournalIntents.FORMAT_GENERAL_JOURNAL_DETAIL_LINE;
@@ -236,12 +256,30 @@ export default class GeneralJournalDetailModule {
     });
   }
 
-  dismissAlert = () => {
-    this.store.publish({
-      intent: GeneralJournalIntents.SET_ALERT_MESSAGE,
-      alertMessage: '',
+  getCalculatedTax = () => {
+    const intent = GeneralJournalIntents.GET_CALCULATED_TAX;
+    const content = getTaxCalculatorPayload(this.store.state);
+    const urlParams = { businessId: this.businessId };
+
+    const onSuccess = generalJournal => this.store.publish({
+      intent,
+      generalJournal,
     });
-  };
+    const onFailure = error => this.displayAlert(error.message);
+
+    this.integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  formatAndCalculateTax = (index) => {
+    this.formatJournalLine(index);
+    this.getCalculatedTax(this.store.state);
+  }
 
   render = (state) => {
     let modal;
@@ -272,8 +310,8 @@ export default class GeneralJournalDetailModule {
         headerOptions={getHeaderOptions(state)}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.isCreating
-          ? this.createGeneralJournalEntry(state)
-          : this.saveGeneralJournalEntry(state)}
+          ? this.createGeneralJournalEntry
+          : this.saveGeneralJournalEntry}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         modal={modal}
@@ -284,7 +322,7 @@ export default class GeneralJournalDetailModule {
         onUpdateRow={this.updateGeneralJournalLine}
         onAddRow={this.addGeneralJournalLine}
         onRemoveRow={this.deleteJournalLine}
-        onRowInputBlur={this.formatJournalLine}
+        onRowInputBlur={this.formatAndCalculateTax}
         indexOfLastLine={getIndexOfLastLine(state)}
         amountTotals={getTotals(state)}
       />
