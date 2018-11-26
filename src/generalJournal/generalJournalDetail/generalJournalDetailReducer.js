@@ -1,6 +1,6 @@
 import { getDefaultTaxCodeId } from './GeneralJournalDetailSelectors';
-import GeneralJournalIntents from './GeneralJournalIntents';
-import SystemIntents from '../SystemIntents';
+import GeneralJournalIntents from '../GeneralJournalIntents';
+import SystemIntents from '../../SystemIntents';
 
 const initialState = {
   generalJournal: {

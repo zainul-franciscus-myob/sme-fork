@@ -1,5 +1,5 @@
-import GeneralJournalIntents from './GeneralJournalIntents';
-import SystemIntents from '../SystemIntents';
+import GeneralJournalIntents from '../GeneralJournalIntents';
+import SystemIntents from '../../SystemIntents';
 
 const initialState = {
   entries: [],

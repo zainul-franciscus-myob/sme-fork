@@ -2,7 +2,7 @@ import { Input, LineItemTable } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Combobox from '../../components/Feelix/ComboBox/Combobox';
+import Combobox from '../../../components/Feelix/ComboBox/Combobox';
 
 const AccountCombobox = (props) => {
   const {

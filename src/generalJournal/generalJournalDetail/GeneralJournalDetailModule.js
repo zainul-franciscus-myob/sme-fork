@@ -2,7 +2,7 @@ import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModals';
-import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from './GeneralJournalMessageTypes';
+import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from '../GeneralJournalMessageTypes';
 import {
   getGeneralJournal,
   getGeneralJournalForCreatePayload,
@@ -14,11 +14,11 @@ import {
   getTaxCalculatorPayload,
   getTotals,
 } from './GeneralJournalDetailSelectors';
-import GeneralJournalAlert from './components/GeneralJournalAlert';
+import GeneralJournalAlert from '../components/GeneralJournalAlert';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
-import GeneralJournalIntents from './GeneralJournalIntents';
-import Store from '../store/Store';
-import SystemIntents from '../SystemIntents';
+import GeneralJournalIntents from '../GeneralJournalIntents';
+import Store from '../../store/Store';
+import SystemIntents from '../../SystemIntents';
 import generalJournalDetailReducer from './generalJournalDetailReducer';
 
 export default class GeneralJournalDetailModule {
