@@ -110,21 +110,22 @@ const getTotalTax = (lines, gstReportingMethod) => lines.reduce(
   0,
 );
 
-const getTotalAmount = lines => lines.reduce(
-  (acc, { debitAmount, creditAmount, isCollected }) => {
+const getTotalAmount = (lines, gstReportingMethod) => lines.reduce(
+  (acc, { debitAmount, creditAmount }) => {
     const isCredit = Boolean(creditAmount);
+    const isSale = gstReportingMethod === 'sale';
 
     if (isCredit) {
-      return isCollected ? acc + Number(creditAmount) : acc - Number(creditAmount);
+      return isSale ? acc + Number(creditAmount) : acc - Number(creditAmount);
     }
 
-    return isCollected ? acc - Number(debitAmount) : acc + Number(debitAmount);
+    return isSale ? acc - Number(debitAmount) : acc + Number(debitAmount);
   },
   0,
 );
 
 const getOutOfBalance = (lines, gstReportingMethod) => Math.abs(
-  getTotalAmount(lines) + getTotalTax(lines, gstReportingMethod),
+  getTotalAmount(lines, gstReportingMethod) + getTotalTax(lines, gstReportingMethod),
 );
 
 const formatTotal = num => (num < 0 ? `-$${formatNumber(Math.abs(num))}` : `$${formatNumber(num)}`);
