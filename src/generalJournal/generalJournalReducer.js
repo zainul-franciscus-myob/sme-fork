@@ -6,10 +6,9 @@ const initialState = {
   filterOptions: {
     dateFrom: '',
     dateTo: '',
-    search: '',
+    keywords: '',
   },
-  order: '',
-  orderBy: '',
+  sortOrder: '',
   alertMessage: '',
   isLoading: true,
   isTableLoading: false,
@@ -29,8 +28,7 @@ const generalJournalReducer = (state = initialState, action) => {
           ...state.filterOptions,
           ...action.filterOptions,
         },
-        order: action.order,
-        orderBy: action.orderBy,
+        sortOrder: action.sortOrder,
         isLoading: action.isLoading,
       };
 
@@ -53,8 +51,7 @@ const generalJournalReducer = (state = initialState, action) => {
       return {
         ...state,
         entries: action.entries,
-        order: action.order,
-        orderBy: action.orderBy,
+        sortOrder: action.sortOrder,
       };
 
     case GeneralJournalIntents.SET_ALERT_MESSAGE:

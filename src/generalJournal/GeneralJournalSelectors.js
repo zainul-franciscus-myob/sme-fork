@@ -1,4 +1,8 @@
-export const getOrder = ({ order, orderBy }) => ({ // eslint-disable-line
-  column: orderBy,
-  descending: order === 'desc',
+export const getOrder = ({ sortOrder }) => ({
+  column: 'date',
+  descending: sortOrder === 'desc',
 });
+
+export const getSortOrder = ({ sortOrder }) => sortOrder;
+
+export const getFilterOptions = ({ filterOptions }) => filterOptions;
