@@ -1,4 +1,3 @@
-
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -40,8 +39,8 @@ export default class GeneralJournalModule {
         isEmpty={state.entries.length === 0}
         onUpdateFilters={this.updateFilterOptions}
         filterOptions={state.filterOptions}
-        onApplyFilter={this.filterGeneralJournalEntries(state)}
-        onSort={this.sortGeneralJournalEntries(state)}
+        onApplyFilter={this.filterGeneralJournalEntries}
+        onSort={this.sortGeneralJournalEntries}
         order={getOrder(state)}
         newGeneralJournalEntry={this.newGeneralJournalEntry}
         alertComponent={alertComponent}
@@ -85,7 +84,8 @@ export default class GeneralJournalModule {
     });
   }
 
-  filterGeneralJournalEntries = state => () => {
+  filterGeneralJournalEntries = () => {
+    const { state } = this.store;
     this.setTableLoadingState(true);
 
     const intent = GeneralJournalIntents.FILTER_GENERAL_JOURNAL_ENTRIES;
@@ -121,7 +121,8 @@ export default class GeneralJournalModule {
     });
   };
 
-  sortGeneralJournalEntries = state => () => {
+  sortGeneralJournalEntries = () => {
+    const { state } = this.store;
     const intent = GeneralJournalIntents.SORT_GENERAL_JOURNAL_ENTRIES;
 
     const urlParams = {
