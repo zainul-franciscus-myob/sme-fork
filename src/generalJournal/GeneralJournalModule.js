@@ -140,7 +140,7 @@ export default class GeneralJournalModule {
       console.log('Failed to sort general journal entries');
     };
 
-    const sortOrder = getSortOrder(state) === 'desc' ? 'asc' : 'desc';
+    const requestSortOrder = getSortOrder(state) === 'desc' ? 'asc' : 'desc';
     const filterOptions = getFilterOptions(state);
 
     this.integration.read({
@@ -148,7 +148,7 @@ export default class GeneralJournalModule {
       urlParams,
       params: {
         ...filterOptions,
-        sortOrder,
+        sortOrder: requestSortOrder,
       },
       onSuccess,
       onFailure,
