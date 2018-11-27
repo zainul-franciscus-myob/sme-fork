@@ -8,8 +8,8 @@ import { initializeConfig } from './Config';
 import App from './App';
 import BankingModule from './banking/BankingModule';
 import BusinessModule from './business/BusinessModule';
-import GeneralJournalDetailModule from './generalJournal/GeneralJournalDetailModule';
-import GeneralJournalModule from './generalJournal/GeneralJournalModule';
+import GeneralJournalDetailModule from './generalJournal/generalJournalDetail/GeneralJournalDetailModule';
+import GeneralJournalModule from './generalJournal/generalJournalList/GeneralJournalModule';
 import Inbox from './inbox';
 import initializeRouter from './initializeRouter';
 

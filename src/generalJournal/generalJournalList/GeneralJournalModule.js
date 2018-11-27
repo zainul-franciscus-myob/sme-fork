@@ -1,14 +1,14 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from './GeneralJournalMessageTypes';
+import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from '../GeneralJournalMessageTypes';
 import { getFilterOptions, getOrder, getSortOrder } from './GeneralJournalSelectors';
-import GeneralJournalAlert from './components/GeneralJournalAlert';
-import GeneralJournalIntents from './GeneralJournalIntents';
+import GeneralJournalAlert from '../components/GeneralJournalAlert';
+import GeneralJournalIntents from '../GeneralJournalIntents';
 import GeneralJournalTableRowView from './components/GeneralJournalTableRowView';
 import GeneralJournalView from './components/GeneralJournalView';
-import Store from '../store/Store';
-import SystemIntents from '../SystemIntents';
+import Store from '../../store/Store';
+import SystemIntents from '../../SystemIntents';
 import generalJournalReducer from './generalJournalReducer';
 
 export default class GeneralJournalModule {

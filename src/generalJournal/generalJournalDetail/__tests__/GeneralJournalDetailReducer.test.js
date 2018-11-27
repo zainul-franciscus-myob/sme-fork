@@ -1,4 +1,4 @@
-import GeneralJournalIntents from '../GeneralJournalIntents';
+import GeneralJournalIntents from '../../GeneralJournalIntents';
 import generalJournalDetailReducer from '../generalJournalDetailReducer';
 
 describe('general journal detail reducer', () => {
