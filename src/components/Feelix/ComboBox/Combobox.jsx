@@ -20,6 +20,8 @@ const Combobox = ({
   disableHighlight,
   name,
   selected,
+  label,
+  hideLabel,
 }) => (
   <ComboboxCore
     items={items}
@@ -63,8 +65,8 @@ const Combobox = ({
       }
     }}
     /* eslint-enable no-underscore-dangle */
-    label=""
-    hideLabel
+    label={label}
+    hideLabel={hideLabel}
     defaultSelectedItem={defaultItem}
     selected={selected}
     disabled={disabled}
@@ -150,6 +152,8 @@ Combobox.defaultProps = {
   onSelect: undefined,
   name: undefined,
   selected: undefined,
+  label: '',
+  hideLabel: true,
 };
 
 Combobox.propTypes = {
@@ -170,6 +174,8 @@ Combobox.propTypes = {
   disableHighlight: PropTypes.bool,
   name: PropTypes.string,
   selected: PropTypes.shape({}),
+  label: PropTypes.string,
+  hideLabel: PropTypes.bool,
 };
 
 export default Combobox;

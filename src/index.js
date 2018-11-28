@@ -11,6 +11,7 @@ import BusinessModule from './business/BusinessModule';
 import GeneralJournalDetailModule from './generalJournal/generalJournalDetail/GeneralJournalDetailModule';
 import GeneralJournalModule from './generalJournal/generalJournalList/GeneralJournalModule';
 import Inbox from './inbox';
+import SpendMoneyModule from './spendMoney/SpendMoneyModule';
 import initializeRouter from './initializeRouter';
 
 async function main(integrationType) {
@@ -35,6 +36,7 @@ async function main(integrationType) {
   const generalJournalDetail = new GeneralJournalDetailModule({
     integration, setRootView, pushMessage,
   });
+  const spendMoney = new SpendMoneyModule({ integration, setRootView, popMessages });
 
   const app = new App(setRootView);
   const routes = [
@@ -42,6 +44,7 @@ async function main(integrationType) {
     { name: 'home', path: '/home' },
     { name: 'banking', path: '/:businessId/banking' },
     { name: 'generalJournal', path: '/:businessId/generalJournal' },
+    { name: 'spendMoney', path: '/:businessId/spendMoney/new' },
     { name: 'generalJournalDetail', path: '/:businessId/generalJournal/:journalId' },
   ];
 
@@ -51,6 +54,7 @@ async function main(integrationType) {
     business,
     generalJournal,
     generalJournalDetail,
+    spendMoney,
   };
 
   const actions = {
@@ -58,6 +62,7 @@ async function main(integrationType) {
     home: () => { moduleMappings.home.run(); },
     banking: (context) => { moduleMappings.banking.run(context); },
     generalJournal: (context) => { moduleMappings.generalJournal.run(context); },
+    spendMoney: (context) => { moduleMappings.spendMoney.run(context); },
     generalJournalDetail: (context) => { moduleMappings.generalJournalDetail.run(context); },
   };
 
