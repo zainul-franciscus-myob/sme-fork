@@ -32,7 +32,7 @@ async function main(integrationType) {
   const integration = createIntegration();
 
   const banking = new BankingModule({ integration, setRootView });
-  const features = new FeaturesModule({ setRootView });
+  const features = new FeaturesModule({ setRootView, popMessages });
   const business = new BusinessModule({ integration, setRootView });
   const generalJournal = new GeneralJournalModule({ integration, setRootView, popMessages });
   const generalJournalDetail = new GeneralJournalDetailModule({

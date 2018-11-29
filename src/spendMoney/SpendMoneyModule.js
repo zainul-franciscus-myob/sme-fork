@@ -71,9 +71,9 @@ export default class SpendMoneyModule {
     });
   }
 
-  createSpendMoneyEntry = state => () => {
+  createSpendMoneyEntry = () => {
     const intent = SpendMoneyIntents.CREATE_SPEND_MONEY;
-    const content = getSpendMoneyForCreatePayload(state);
+    const content = getSpendMoneyForCreatePayload(this.store.state);
     const urlParams = {
       businessId: this.businessId,
     };
@@ -89,6 +89,7 @@ export default class SpendMoneyModule {
     const onFailure = (error) => {
       this.displayAlert(error.message);
     };
+
 
     this.integration.write({
       intent,
@@ -124,7 +125,7 @@ export default class SpendMoneyModule {
   };
 
   redirectToGeneralJournalList = () => {
-    window.location.href = `/#/${this.businessId}/generalJournal`;
+    window.location.href = `/#/${this.businessId}/features`;
   };
 
   unsubscribeFromStore = () => {
