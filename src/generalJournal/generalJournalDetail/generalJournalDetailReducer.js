@@ -27,6 +27,7 @@ const initialState = {
   modalType: '',
   alertMessage: '',
   isLoading: true,
+  isSubmitting: false,
 };
 
 const formatStringNumber = num => num && Number(num).toFixed(2).toString();
@@ -144,10 +145,6 @@ const generalJournalDetailReducer = (state = initialState, action) => {
         generalJournal,
       };
     }
-    case GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL:
-      return {
-        ...state,
-      };
     case GeneralJournalIntents.OPEN_MODAL:
       return {
         ...state,
@@ -219,6 +216,11 @@ const generalJournalDetailReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: action.isLoading,
+      };
+    case GeneralJournalIntents.SET_SUBMITTING_STATE:
+      return {
+        ...state,
+        isSubmitting: action.isSubmitting,
       };
     case GeneralJournalIntents.GET_CALCULATED_TAX:
       return {

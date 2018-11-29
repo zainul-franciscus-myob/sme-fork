@@ -6,6 +6,7 @@ import React from 'react';
 
 const GeneralJournalDetailActions = ({
   isCreating,
+  isActionsDisabled,
   onSave,
   onCancel,
   onDelete,
@@ -13,25 +14,30 @@ const GeneralJournalDetailActions = ({
   <ButtonRow>
     {!isCreating
         && (
-        <Button name="delete" type="secondary" onClick={onDelete}>
+        <Button name="delete" type="secondary" onClick={onDelete} disabled={isActionsDisabled}>
           Delete
         </Button>
         )
     }
-    <Button name="cancel" type="secondary" onClick={onCancel}>
+    <Button name="cancel" type="secondary" onClick={onCancel} disabled={isActionsDisabled}>
       Cancel
     </Button>
-    <Button name="save" type="primary" onClick={onSave}>
+    <Button name="save" type="primary" onClick={onSave} disabled={isActionsDisabled}>
       Save
     </Button>
   </ButtonRow>
 );
+
+GeneralJournalDetailActions.defaultProps = {
+  isActionsDisabled: false,
+};
 
 GeneralJournalDetailActions.propTypes = {
   isCreating: PropTypes.bool.isRequired,
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  isActionsDisabled: PropTypes.bool,
 };
 
 export default GeneralJournalDetailActions;

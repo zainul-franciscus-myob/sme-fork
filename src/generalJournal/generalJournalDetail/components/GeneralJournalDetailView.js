@@ -8,6 +8,7 @@ import GeneralJournalDetailTable from './GeneralJournalDetailTable';
 
 const GeneralJournalDetailView = ({
   headerOptions,
+  isActionsDisabled,
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onCancelButtonClick,
@@ -37,6 +38,7 @@ const GeneralJournalDetailView = ({
       onSave={onSaveButtonClick}
       onCancel={onCancelButtonClick}
       onDelete={onDeleteButtonClick}
+      isActionsDisabled={isActionsDisabled}
     />
   );
 
@@ -82,11 +84,13 @@ GeneralJournalDetailView.propTypes = {
   indexOfLastLine: PropTypes.number.isRequired,
   amountTotals: PropTypes.shape({}).isRequired,
   newLineData: PropTypes.shape({}).isRequired,
+  isActionsDisabled: PropTypes.bool,
 };
 
 GeneralJournalDetailView.defaultProps = {
   modal: null,
   alertComponent: null,
+  isActionsDisabled: false,
 };
 
 export default GeneralJournalDetailView;

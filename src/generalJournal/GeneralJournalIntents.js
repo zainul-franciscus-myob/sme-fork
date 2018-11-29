@@ -17,6 +17,7 @@ const GeneralJournalIntents = {
   CLOSE_MODAL: Symbol('Close a modal'),
   SET_ALERT_MESSAGE: Symbol('Set alert message'),
   SET_LOADING_STATE: Symbol('Set loading state'),
+  SET_SUBMITTING_STATE: Symbol('Set submitting state'),
   SET_TABLE_LOADING_STATE: Symbol('Set table loading state'),
   GET_CALCULATED_TAX: Symbol('Get calculated tax'),
   FORMAT_GENERAL_JOURNAL_DETAIL_LINE: Symbol('Format general journal detail line'),

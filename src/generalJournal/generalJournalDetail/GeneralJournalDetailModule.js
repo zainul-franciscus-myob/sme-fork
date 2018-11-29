@@ -8,6 +8,7 @@ import {
   getGeneralJournalForCreatePayload,
   getHeaderOptions,
   getIndexOfLastLine,
+  getIsActionsDisabled,
   getJournalId,
   getLineData,
   getNewLineData,
@@ -96,6 +97,7 @@ export default class GeneralJournalDetailModule {
     const onFailure = (error) => {
       this.closeModal();
       this.displayAlert(error.message);
+      this.setSubmittingState(false);
     };
 
     this.integration.write({
@@ -104,6 +106,7 @@ export default class GeneralJournalDetailModule {
       onSuccess,
       onFailure,
     });
+    this.setSubmittingState(true);
   };
 
   displayAlert = (errorMessage) => {
@@ -132,6 +135,7 @@ export default class GeneralJournalDetailModule {
     };
 
     const onFailure = (error) => {
+      this.setSubmittingState(false);
       this.displayAlert(error.message);
     };
 
@@ -142,6 +146,8 @@ export default class GeneralJournalDetailModule {
       onSuccess,
       onFailure,
     });
+
+    this.setSubmittingState(true);
   };
 
   createGeneralJournalEntry = () => {
@@ -160,6 +166,7 @@ export default class GeneralJournalDetailModule {
     };
 
     const onFailure = (error) => {
+      this.setSubmittingState(false);
       this.displayAlert(error.message);
     };
 
@@ -170,7 +177,18 @@ export default class GeneralJournalDetailModule {
       onSuccess,
       onFailure,
     });
+
+    this.setSubmittingState(true);
   };
+
+  setSubmittingState = (isSubmitting) => {
+    const intent = GeneralJournalIntents.SET_SUBMITTING_STATE;
+
+    this.store.publish({
+      intent,
+      isSubmitting,
+    });
+  }
 
   openCancelModal = () => {
     const intent = GeneralJournalIntents.OPEN_MODAL;
@@ -325,6 +343,7 @@ export default class GeneralJournalDetailModule {
         onRowInputBlur={this.formatAndCalculateTax}
         indexOfLastLine={getIndexOfLastLine(state)}
         amountTotals={getTotals(state)}
+        isActionsDisabled={getIsActionsDisabled(state)}
       />
     );
     const view = state.isLoading ? (<Spinner />) : generalJournalDetailView;

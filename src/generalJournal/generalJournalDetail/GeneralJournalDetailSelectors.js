@@ -176,3 +176,5 @@ export const getTaxCalculatorPayload = (state) => {
 };
 
 export const getNewLineData = state => state.newLine;
+
+export const getIsActionsDisabled = state => state.isSubmitting;
