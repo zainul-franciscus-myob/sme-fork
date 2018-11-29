@@ -63,7 +63,7 @@ async function main(integrationType) {
 
   const actions = {
     business: () => { moduleMappings.business.run(); },
-    features: () => { moduleMappings.features.run(); },
+    features: (context) => { moduleMappings.features.run(context); },
     home: () => { moduleMappings.home.run(); },
     banking: (context) => { moduleMappings.banking.run(context); },
     generalJournal: (context) => { moduleMappings.generalJournal.run(context); },

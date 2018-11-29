@@ -11,14 +11,15 @@ export default class FeaturesModule {
     this.setRootView(<FeatureListView features={features} />);
   };
 
-  run = () => {
+  run = (context) => {
+    const { businessId } = context;
     const features = {
       features: [{
-        businessId: '1',
+        businessId,
         featureName: 'spendMoney/new',
       },
       {
-        businessId: '2',
+        businessId,
         featureName: 'generalJournal',
       }],
     };
