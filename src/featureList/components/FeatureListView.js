@@ -4,7 +4,7 @@ import React, { Component, Fragment } from 'react';
 
 class FeatureListView extends Component {
   renderRow = feature => (
-    <Table.Row key={feature.businessId}>
+    <Table.Row key={feature.featureName}>
       <Table.RowItem columnName="Features" title={feature.featureName}>
         <a href={`/#/${feature.businessId}/${feature.featureName}`}>{feature.featureName}</a>
       </Table.RowItem>
