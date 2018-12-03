@@ -8,6 +8,7 @@ const AccountCombobox = (props) => {
     items,
     selectedIndex,
     onChange,
+    ...otherProps
   } = props;
 
   const metaData = [
@@ -16,17 +17,19 @@ const AccountCombobox = (props) => {
     { columnName: 'accountType', columnWidth: '10rem' },
   ];
 
+  const formattedItems = items && items.map(({ displayName, ...rest }) => ({ ...rest, displayName: ` ${displayName}` }));
   let selectedItem = {};
   if (typeof selectedIndex === 'number') {
-    selectedItem = items[selectedIndex];
+    selectedItem = formattedItems[selectedIndex];
   }
 
   return (
     <Combobox
       metaData={metaData}
-      items={items}
+      items={formattedItems}
       selected={selectedItem}
       onChange={onChange}
+      {...otherProps}
     />
   );
 };

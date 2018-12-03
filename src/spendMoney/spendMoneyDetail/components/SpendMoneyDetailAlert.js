@@ -1,12 +1,12 @@
 import { Alert } from '@myob/myob-widgets';
 import React from 'react';
 
-import styles from './SpendMoneyAlert.css';
+import styles from './SpendMoneyDetailAlert.css';
 
-const SpendMoneyAlert = props => (
+const SpendMoneyDetailAlert = props => (
   <div className={`${styles.myobAlert} flx-container`}>
     <Alert {...props} />
   </div>
 );
 
-export default SpendMoneyAlert;
+export default SpendMoneyDetailAlert;

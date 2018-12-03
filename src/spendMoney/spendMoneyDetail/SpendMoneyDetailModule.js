@@ -1,25 +1,27 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import { SUCCESSFULLY_CREATED_ENTRY } from './spendMoneyMessageTypes';
+import { SUCCESSFULLY_CREATED_ENTRY } from '../spendMoneyMessageTypes';
 import {
   getHeaderOptions,
+  getIndexOfLastLine,
+  getLineData,
   getNewLineData,
   getSpendMoneyForCreatePayload,
   getTotals,
-} from './spendMoneySelectors';
-import CancelModal from './components/SpendMoneyCancelModal';
-import SpendMoneyAlert from './components/SpendMoneyAlert';
-import SpendMoneyIntents from './SpendMoneyIntents';
-import SpendMoneyView from './components/SpendMoneyView';
-import Store from '../store/Store';
-import SystemIntents from '../SystemIntents';
-import spendMoneyReducer from './spendMoneyReducer';
+} from './spendMoneyDetailSelectors';
+import CancelModal from './components/SpendMoneyDetailCancelModal';
+import SpendMoneyDetailAlert from './components/SpendMoneyDetailAlert';
+import SpendMoneyDetailView from './components/SpendMoneyDetailView';
+import SpendMoneyIntents from '../SpendMoneyIntents';
+import Store from '../../store/Store';
+import SystemIntents from '../../SystemIntents';
+import spendMoneyDetailReducer from './spendMoneyDetailReducer';
 
-export default class SpendMoneyModule {
+export default class SpendMoneyDetailModule {
   constructor({ integration, setRootView, pushMessage }) {
     this.integration = integration;
-    this.store = new Store(spendMoneyReducer);
+    this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
     this.businessId = '';
     this.pushMessage = pushMessage;
@@ -151,7 +153,7 @@ export default class SpendMoneyModule {
     });
   }
 
-  deleteJournalLine = (index) => {
+  deleteSpendMoneyLine = (index) => {
     const intent = SpendMoneyIntents.DELETE_SPEND_MONEY_LINE;
 
     this.store.publish({
@@ -160,7 +162,7 @@ export default class SpendMoneyModule {
     });
   }
 
-  formatJournalLine = (index) => {
+  formatSpendMoneyLine = (index) => {
     const intent = SpendMoneyIntents.FORMAT_SPEND_MONEY_LINE;
 
     this.store.publish({
@@ -188,13 +190,13 @@ export default class SpendMoneyModule {
     }
 
     const alertComponent = state.alertMessage && (
-      <SpendMoneyAlert type="danger" onDismiss={this.dismissAlert}>
+      <SpendMoneyDetailAlert type="danger" onDismiss={this.dismissAlert}>
         {state.alertMessage}
-      </SpendMoneyAlert>
+      </SpendMoneyDetailAlert>
     );
 
     const spendMoneyView = (
-      <SpendMoneyView
+      <SpendMoneyDetailView
         headerOptions={getHeaderOptions(state)}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.createSpendMoneyEntry}
@@ -202,13 +204,13 @@ export default class SpendMoneyModule {
         modal={modal}
         alertComponent={alertComponent}
         isCreating={this.isCreating}
-        lines={[]}
+        lines={getLineData(state)}
         newLineData={getNewLineData(state)}
         onUpdateRow={this.updateSpendMoneyLine}
         onAddRow={this.addSpendMoneyLine}
-        onRemoveRow={this.deleteJournalLine}
-        onRowInputBlur={this.formatJournalLine}
-        indexOfLastLine={-1}
+        onRemoveRow={this.deleteSpendMoneyLine}
+        onRowInputBlur={this.formatSpendMoneyLine}
+        indexOfLastLine={getIndexOfLastLine(state)}
         amountTotals={getTotals(state)}
       />
     );

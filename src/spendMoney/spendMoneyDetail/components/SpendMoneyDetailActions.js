@@ -4,7 +4,7 @@ import {
 import { PropTypes } from 'prop-types';
 import React from 'react';
 
-const SpendMoneyActions = ({
+const SpendMoneyDetailActions = ({
   onSave,
   onCancel,
 }) => (
@@ -18,9 +18,9 @@ const SpendMoneyActions = ({
   </ButtonRow>
 );
 
-SpendMoneyActions.propTypes = {
+SpendMoneyDetailActions.propTypes = {
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
 
-export default SpendMoneyActions;
+export default SpendMoneyDetailActions;

@@ -4,17 +4,6 @@ export const getHeaderOptions = (state) => {
   return headerOptions;
 };
 
-const formatAccount = ({
-  id, displayId, displayName, accountType, taxCodeId, reportingMethod,
-}) => ({
-  id,
-  displayId,
-  displayName: ` ${displayName}`,
-  accountType,
-  taxCodeId,
-  reportingMethod,
-});
-
 const formatNumber = num => num.toFixed(2);
 
 const isZero = amount => formatNumber(Number(amount)) === '0.00';
@@ -52,11 +41,9 @@ export const getLineData = (state) => {
     const selectedAccountIndex = accounts.findIndex(({ id }) => id === accountId);
     const selectedTaxCodeIndex = taxCodes.findIndex(({ id }) => id === taxCodeId);
 
-    const formattedAccounts = accounts.map(formatAccount);
-
     return {
       ...line,
-      accounts: formattedAccounts,
+      accounts,
       selectedAccountIndex,
       selectedTaxCodeIndex,
       isCreditDisabled: disabledField === 'credit',

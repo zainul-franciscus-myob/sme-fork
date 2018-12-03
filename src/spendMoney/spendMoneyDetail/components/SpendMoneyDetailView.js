@@ -2,11 +2,11 @@ import { LineItemTemplate } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SpendMoneyActions from './SpendMoneyActions';
-import SpendMoneyOptions from './SpendMoneyOptions';
-import SpendMoneyTable from './SpendMoneyTable';
+import SpendMoneyDetailActions from './SpendMoneyDetailActions';
+import SpendMoneyDetailOptions from './SpendMoneyDetailOptions';
+import SpendMoneyDetailTable from './SpendMoneyDetailTable';
 
-const SpendMoneyView = ({
+const SpendMoneyDetailView = ({
   headerOptions,
   onUpdateHeaderOptions,
   onSaveButtonClick,
@@ -25,14 +25,14 @@ const SpendMoneyView = ({
   amountTotals,
 }) => {
   const templateOptions = (
-    <SpendMoneyOptions
+    <SpendMoneyDetailOptions
       headerOptions={headerOptions}
       onUpdateHeaderOptions={onUpdateHeaderOptions}
     />
   );
 
   const actions = (
-    <SpendMoneyActions
+    <SpendMoneyDetailActions
       isCreating={isCreating}
       onSave={onSaveButtonClick}
       onCancel={onCancelButtonClick}
@@ -49,7 +49,7 @@ const SpendMoneyView = ({
         actions={actions}
       >
         { modal }
-        <SpendMoneyTable
+        <SpendMoneyDetailTable
           lines={lines}
           indexOfLastLine={indexOfLastLine}
           newLineData={newLineData}
@@ -65,7 +65,7 @@ const SpendMoneyView = ({
   );
 };
 
-SpendMoneyView.propTypes = {
+SpendMoneyDetailView.propTypes = {
   headerOptions: PropTypes.shape({}).isRequired,
   isCreating: PropTypes.bool.isRequired,
   onUpdateHeaderOptions: PropTypes.func.isRequired,
@@ -84,9 +84,9 @@ SpendMoneyView.propTypes = {
   newLineData: PropTypes.shape({}).isRequired,
 };
 
-SpendMoneyView.defaultProps = {
+SpendMoneyDetailView.defaultProps = {
   modal: null,
   alertComponent: null,
 };
 
-export default SpendMoneyView;
+export default SpendMoneyDetailView;

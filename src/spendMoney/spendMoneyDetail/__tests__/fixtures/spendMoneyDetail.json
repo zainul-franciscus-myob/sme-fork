@@ -4,8 +4,42 @@
     "isTaxInclusive": false,
     "date": "1533045600000",
     "selectedPayFromAccountId": "123",
-    "payFromAccounts": [
-      {
+    "lines": [{
+      "accountId": "123",
+      "amount": "100",
+      "description": "",
+      "taxCodeId": "123",
+      "taxAmount": "",
+      "accounts": [{
+          "id": "123",
+          "displayName": "My Sales Account 1",
+          "accountType": "Sales",
+          "taxCodeId": "123",
+          "displayId": "1-123"
+        },
+        {
+          "id": "456",
+          "displayName": "My Assets Account 1",
+          "accountType": "Assets",
+          "taxCodeId": "124",
+          "displayId": "2-123"
+        }
+      ],
+      "taxCodes": [{
+          "id": "123",
+          "displayName": "GST",
+          "description": "Goods & Service Tax",
+          "displayRate": "10%"
+        },
+        {
+          "id": "124",
+          "displayName": "FRE",
+          "description": "GST FREE",
+          "displayRate": "5%"
+        }
+      ]
+    }],
+    "payFromAccounts": [{
         "id": "123",
         "displayName": "My Bank",
         "accountType": "Asset",
@@ -20,8 +54,7 @@
         "displayId": "2-123"
       }
     ],
-    "payToContacts": [
-      {
+    "payToContacts": [{
         "contactType": "Customer",
         "displayName": "A-Z Stationery Supplies",
         "id": "1",
@@ -41,8 +74,7 @@
     "description": "",
     "taxCodeId": "",
     "taxAmount": "",
-    "accounts": [
-      {
+    "accounts": [{
         "id": "123",
         "displayName": "My Sales Account 1",
         "accountType": "Sales",
@@ -57,8 +89,7 @@
         "displayId": "2-123"
       }
     ],
-    "taxCodes": [
-      {
+    "taxCodes": [{
         "id": "123",
         "displayName": "GST",
         "description": "Goods & Service Tax",

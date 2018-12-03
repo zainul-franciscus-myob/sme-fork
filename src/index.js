@@ -11,7 +11,7 @@ import BusinessModule from './business/BusinessModule';
 import GeneralJournalDetailModule from './generalJournal/generalJournalDetail/GeneralJournalDetailModule';
 import GeneralJournalModule from './generalJournal/generalJournalList/GeneralJournalModule';
 import Inbox from './inbox';
-import SpendMoneyModule from './spendMoney/SpendMoneyModule';
+import SpendMoneyDetailModule from './spendMoney/spendMoneyDetail/SpendMoneyDetailModule';
 import initializeRouter from './initializeRouter';
 
 async function main(integrationType) {
@@ -36,7 +36,7 @@ async function main(integrationType) {
   const generalJournalDetail = new GeneralJournalDetailModule({
     integration, setRootView, pushMessage,
   });
-  const spendMoney = new SpendMoneyModule({ integration, setRootView, popMessages });
+  const spendMoney = new SpendMoneyDetailModule({ integration, setRootView, popMessages });
 
   const app = new App(setRootView);
   const routes = [

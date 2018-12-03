@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import SpendMoneyView from '../SpendMoneyView';
+import SpendMoneyDetailView from '../SpendMoneyDetailView';
 
 describe('SpendMoneyView', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<SpendMoneyView
+    ReactDOM.render(<SpendMoneyDetailView
       headerOptions={{}}
       onUpdateHeaderOptions={() => {}}
       onSaveButtonClick={() => {}}

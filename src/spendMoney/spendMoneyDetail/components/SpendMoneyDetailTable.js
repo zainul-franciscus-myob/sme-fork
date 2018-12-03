@@ -2,53 +2,10 @@ import { Input, LineItemTable } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AccountCombobox from '../../components/AccountCombobox';
-import Combobox from '../../components/Feelix/ComboBox/Combobox';
-import TaxCodeCombobox from '../../components/TaxCodeCombobox';
+import AccountCombobox from '../../../components/AccountCombobox';
+import TaxCodeCombobox from '../../../components/TaxCodeCombobox';
 
-const JobsCombobox = (props) => {
-  const {
-    items,
-    selectedIndex,
-    onChange,
-    disabled,
-  } = props;
-
-  const metaData = [
-    { columnName: 'displayId', columnWidth: '5rem' },
-    { columnName: 'displayName', columnWidth: '20rem', showData: true },
-  ];
-
-  let selectedItem = {};
-  if (typeof selectedIndex === 'number' && selectedIndex !== -1) {
-    selectedItem = items[selectedIndex];
-  }
-
-  return (
-    <Combobox
-      metaData={metaData}
-      items={items}
-      onChange={onChange}
-      selected={selectedItem}
-      disabled={disabled}
-    />
-  );
-};
-
-JobsCombobox.defaultProps = {
-  items: [],
-  selectedIndex: null,
-  disabled: false,
-};
-
-JobsCombobox.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({})),
-  selectedIndex: PropTypes.number,
-  onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-};
-
-export default class SpendMoneyTable extends React.Component {
+export default class SpendMoneyDetailTable extends React.Component {
   onChange = (index, name, value) => {
     const { onUpdateRow } = this.props;
     onUpdateRow(index, name, value);
@@ -92,8 +49,6 @@ export default class SpendMoneyTable extends React.Component {
       taxCodes,
       accounts,
       selectedTaxCodeIndex,
-      selectedJobIndex,
-      jobs,
     } = lineData;
 
     return (
@@ -127,12 +82,6 @@ export default class SpendMoneyTable extends React.Component {
           onChange={onChange}
           disabled={isNewLineRow}
         />
-        <JobsCombobox
-          items={jobs}
-          selectedIndex={selectedJobIndex}
-          onChange={this.eventWrapper('jobId', onChange)}
-          disabled={isNewLineRow}
-        />
         <TaxCodeCombobox
           items={taxCodes}
           selectedIndex={selectedTaxCodeIndex}
@@ -145,7 +94,7 @@ export default class SpendMoneyTable extends React.Component {
 
   render() {
     const labels = [
-      'Account', 'Amount ($)', 'Line description', 'Jobs', 'Tax code',
+      'Account', 'Amount ($)', 'Line description', 'Tax code',
     ];
 
     const {
@@ -177,7 +126,7 @@ export default class SpendMoneyTable extends React.Component {
   }
 }
 
-SpendMoneyTable.propTypes = {
+SpendMoneyDetailTable.propTypes = {
   lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   newLineData: PropTypes.shape({}).isRequired,
   indexOfLastLine: PropTypes.number.isRequired,

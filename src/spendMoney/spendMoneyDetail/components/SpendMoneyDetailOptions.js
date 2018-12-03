@@ -4,9 +4,9 @@ import {
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import AccountCombobox from '../../components/AccountCombobox';
-import Combobox from '../../components/Feelix/ComboBox/Combobox';
-import styles from './SpendMoneyOptions.css';
+import AccountCombobox from '../../../components/AccountCombobox';
+import Combobox from '../../../components/Feelix/ComboBox/Combobox';
+import styles from './SpendMoneyDetailOptions.css';
 
 const ContactCombobox = (props) => {
   const {
@@ -51,7 +51,7 @@ ContactCombobox.propTypes = {
 };
 
 
-class SpendMoneyOptions extends Component {
+class SpendMoneyDetailOptions extends Component {
   handleInputChange = (e) => {
     const { onUpdateHeaderOptions } = this.props;
     const { value, name } = e.target;
@@ -83,9 +83,9 @@ class SpendMoneyOptions extends Component {
     onUpdateHeaderOptions({ key, value });
   }
 
-  handleComboBoxChange = key => (value) => {
+  handleComboBoxChange = key => (item) => {
     const { onUpdateHeaderOptions } = this.props;
-    onUpdateHeaderOptions({ key, value });
+    onUpdateHeaderOptions({ key, value: item.id });
   }
 
   render = () => {
@@ -98,6 +98,8 @@ class SpendMoneyOptions extends Component {
         description,
         payToContacts,
         payFromAccounts,
+        selectedPayToContactIndex,
+        selectedPayFromAccountIndex,
       },
     } = this.props;
 
@@ -117,19 +119,23 @@ class SpendMoneyOptions extends Component {
         </div>
         <div className="form-group">
           <AccountCombobox
+            label="PayFrom"
+            hideLabel={false}
             items={payFromAccounts}
-            onChange={() => {}}
+            selectedIndex={selectedPayFromAccountIndex}
+            onChange={this.handleComboBoxChange('selectedPayFromAccountId')}
           />
         </div>
         <div className="form-group">
           <ContactCombobox
             items={payToContacts}
-            onChange={() => {}}
+            selectedIndex={selectedPayToContactIndex}
+            onChange={this.handleComboBoxChange('selectedPayToContactId')}
           />
         </div>
         <div className="form-group">
           <div className={styles.checkbox}>
-            <Checkbox name="reportable" label="Reportable" checked={isReportable} onChange={this.handleCheckboxChange} />
+            <Checkbox name="isReportable" label="Reportable" checked={isReportable} onChange={this.handleCheckboxChange} />
           </div>
         </div>
         <TextArea name="description" label="Description" autoSize maxLength={255} placeholder="Max 255 characters" value={description} onChange={this.handleInputChange} />
@@ -138,7 +144,7 @@ class SpendMoneyOptions extends Component {
   }
 }
 
-SpendMoneyOptions.propTypes = {
+SpendMoneyDetailOptions.propTypes = {
   headerOptions: PropTypes.shape({
     referenceId: PropTypes.string,
     date: PropTypes.string,
@@ -150,4 +156,4 @@ SpendMoneyOptions.propTypes = {
   onUpdateHeaderOptions: PropTypes.func.isRequired,
 };
 
-export default SpendMoneyOptions;
+export default SpendMoneyDetailOptions;
