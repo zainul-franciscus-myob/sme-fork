@@ -1,5 +1,5 @@
 import SpendMoneyIntents from '../../spendMoney/SpendMoneyIntents';
-import spendMoneyNewEntry from '../data/spendMoneyNewEntry';
+import spendMoneyNewEntry from '../data/spendMoney/spendMoneyDetailNewEntry';
 import successResponse from '../data/success.json';
 
 const newSpendMoney = ({ onSuccess }) => {

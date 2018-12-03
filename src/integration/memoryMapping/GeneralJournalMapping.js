@@ -1,8 +1,8 @@
 import GeneralJournalIntents from '../../generalJournal/GeneralJournalIntents';
-import generalJournalDetail from '../data/generalJournalEntryDetail';
-import generalJournalDetailNew from '../data/generalJournalNewEntryDetail';
-import generalJournalEntries from '../data/generalJournalEntries';
-import taxResponse from '../data/generalJournalDetailTaxResponse';
+import generalJournalDetail from '../data/generalJournalDetail/generalJournalDetailEntry';
+import generalJournalDetailNew from '../data/generalJournalDetail/generalJournalDetailNewEntry';
+import generalJournalEntries from '../data/generalJournalList/generalJournalEntries';
+import taxResponse from '../data/generalJournalDetail/generalJournalDetailTaxResponse';
 
 const readGeneralJournalEntries = ({ onSuccess }) => onSuccess(generalJournalEntries);
 
