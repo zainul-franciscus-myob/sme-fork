@@ -1,5 +1,5 @@
 const FeatureListIntents = {
-  DISPLAY_SUCCESS_MESSAGE: Symbol('Display success message'),
+  SET_ALERT_MESSAGE: Symbol('Set alert message'),
 };
 
 export default FeatureListIntents;
