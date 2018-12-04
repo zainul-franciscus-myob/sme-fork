@@ -15,7 +15,7 @@ import {
   getTaxCalculatorPayload,
   getTotals,
 } from './GeneralJournalDetailSelectors';
-import GeneralJournalAlert from '../components/GeneralJournalAlert';
+import Alert from '../../components/Alert/Alert';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import GeneralJournalIntents from '../GeneralJournalIntents';
 import Store from '../../store/Store';
@@ -318,9 +318,9 @@ export default class GeneralJournalDetailModule {
     }
 
     const alertComponent = state.alertMessage && (
-      <GeneralJournalAlert type="danger" onDismiss={this.dismissAlert}>
+      <Alert type="danger" onDismiss={this.dismissAlert}>
         {state.alertMessage}
-      </GeneralJournalAlert>
+      </Alert>
     );
 
     const generalJournalDetailView = (

@@ -3,7 +3,7 @@ import React from 'react';
 
 import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from '../GeneralJournalMessageTypes';
 import { getFilterOptions, getOrder, getSortOrder } from './GeneralJournalSelectors';
-import GeneralJournalAlert from '../components/GeneralJournalAlert';
+import Alert from '../../components/Alert/Alert';
 import GeneralJournalIntents from '../GeneralJournalIntents';
 import GeneralJournalTableRowView from './components/GeneralJournalTableRowView';
 import GeneralJournalView from './components/GeneralJournalView';
@@ -27,9 +27,9 @@ export default class GeneralJournalModule {
     );
 
     const alertComponent = state.alertMessage && (
-      <GeneralJournalAlert type="success" onDismiss={this.dismissAlert}>
+      <Alert type="success" onDismiss={this.dismissAlert}>
         {state.alertMessage}
-      </GeneralJournalAlert>
+      </Alert>
     );
 
     const generalJournalView = (

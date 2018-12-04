@@ -73,19 +73,19 @@ export default class SpendMoneyDetailModule {
     });
   }
 
-  createSpendMoneyEntry = state => () => {
+  createSpendMoneyEntry = () => {
     const intent = SpendMoneyIntents.CREATE_SPEND_MONEY;
-    const content = getSpendMoneyForCreatePayload(state);
+    const content = getSpendMoneyForCreatePayload(this.store.state);
     const urlParams = {
       businessId: this.businessId,
     };
 
-    const onSuccess = () => {
+    const onSuccess = (response) => {
       this.pushMessage({
         type: SUCCESSFULLY_CREATED_ENTRY,
-        content: 'Success! Your spend money was saved.',
+        content: response.message,
       });
-      this.redirectToGeneralJournalList();
+      this.redirectToFeatureList();
     };
 
     const onFailure = (error) => {
@@ -125,8 +125,8 @@ export default class SpendMoneyDetailModule {
     this.store.publish({ intent });
   };
 
-  redirectToGeneralJournalList = () => {
-    window.location.href = `/#/${this.businessId}/generalJournal`;
+  redirectToFeatureList = () => {
+    window.location.href = `/#/${this.businessId}/features`;
   };
 
   unsubscribeFromStore = () => {

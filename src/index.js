@@ -8,6 +8,7 @@ import { initializeConfig } from './Config';
 import App from './App';
 import BankingModule from './banking/BankingModule';
 import BusinessModule from './business/BusinessModule';
+import FeaturesModule from './featureList/FeaturesModule';
 import GeneralJournalDetailModule from './generalJournal/generalJournalDetail/GeneralJournalDetailModule';
 import GeneralJournalModule from './generalJournal/generalJournalList/GeneralJournalModule';
 import Inbox from './inbox';
@@ -31,16 +32,18 @@ async function main(integrationType) {
   const integration = createIntegration();
 
   const banking = new BankingModule({ integration, setRootView });
+  const features = new FeaturesModule({ setRootView, popMessages });
   const business = new BusinessModule({ integration, setRootView });
   const generalJournal = new GeneralJournalModule({ integration, setRootView, popMessages });
   const generalJournalDetail = new GeneralJournalDetailModule({
     integration, setRootView, pushMessage,
   });
-  const spendMoney = new SpendMoneyDetailModule({ integration, setRootView, popMessages });
+  const spendMoney = new SpendMoneyDetailModule({ integration, setRootView, pushMessage });
 
   const app = new App(setRootView);
   const routes = [
     { name: 'business', path: '/business' },
+    { name: 'features', path: '/:businessId/features' },
     { name: 'home', path: '/home' },
     { name: 'banking', path: '/:businessId/banking' },
     { name: 'generalJournal', path: '/:businessId/generalJournal' },
@@ -51,6 +54,7 @@ async function main(integrationType) {
   const moduleMappings = {
     home: app,
     banking,
+    features,
     business,
     generalJournal,
     generalJournalDetail,
@@ -59,6 +63,7 @@ async function main(integrationType) {
 
   const actions = {
     business: () => { moduleMappings.business.run(); },
+    features: (context) => { moduleMappings.features.run(context); },
     home: () => { moduleMappings.home.run(); },
     banking: (context) => { moduleMappings.banking.run(context); },
     generalJournal: (context) => { moduleMappings.generalJournal.run(context); },
