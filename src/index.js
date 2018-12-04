@@ -38,7 +38,7 @@ async function main(integrationType) {
   const generalJournalDetail = new GeneralJournalDetailModule({
     integration, setRootView, pushMessage,
   });
-  const spendMoney = new SpendMoneyDetailModule({ integration, setRootView, popMessages });
+  const spendMoney = new SpendMoneyDetailModule({ integration, setRootView, pushMessage });
 
   const app = new App(setRootView);
   const routes = [

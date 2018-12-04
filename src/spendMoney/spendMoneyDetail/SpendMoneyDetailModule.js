@@ -73,9 +73,9 @@ export default class SpendMoneyDetailModule {
     });
   }
 
-  createSpendMoneyEntry = state => () => {
+  createSpendMoneyEntry = () => {
     const intent = SpendMoneyIntents.CREATE_SPEND_MONEY;
-    const content = getSpendMoneyForCreatePayload(state);
+    const content = getSpendMoneyForCreatePayload(this.store.state);
     const urlParams = {
       businessId: this.businessId,
     };
@@ -126,7 +126,7 @@ export default class SpendMoneyDetailModule {
   };
 
   redirectToGeneralJournalList = () => {
-    window.location.href = `/#/${this.businessId}/generalJournal`;
+    window.location.href = `/#/${this.businessId}/features`;
   };
 
   unsubscribeFromStore = () => {
