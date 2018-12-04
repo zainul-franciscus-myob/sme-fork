@@ -54,5 +54,5 @@ export const getTotals = () => ({
 });
 
 export const getSpendMoneyForCreatePayload = state => ({
-  ...state,
+  ...state.spendMoney,
 });
