@@ -17,14 +17,7 @@ export default class FeaturesModule {
   }
 
   render = (state) => {
-    const features = [{
-      businessId: this.businessId,
-      featureName: 'generalJournal',
-    },
-    {
-      businessId: this.businessId,
-      featureName: 'spendMoney/new',
-    }];
+    const features = ['generalJournal', 'spendMoney/new'];
     const alertComponent = state.alertMessage && (
       <Alert type="success" onDismiss={this.dismissAlert}>
         { state.alertMessage }
@@ -34,6 +27,7 @@ export default class FeaturesModule {
       <FeatureListView
         alertComponent={alertComponent}
         features={features}
+        businessId={this.businessId}
       />,
     );
   };
@@ -43,6 +37,10 @@ export default class FeaturesModule {
       intent: FeatureListIntents.SET_ALERT_MESSAGE,
       alertMessage: '',
     });
+  };
+
+  unsubscribeFromStore = () => {
+    this.store.unsubscribeAll();
   };
 
   readMessages = () => {

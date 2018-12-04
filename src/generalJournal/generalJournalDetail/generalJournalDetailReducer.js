@@ -1,6 +1,7 @@
 import { getDefaultTaxCodeId } from './GeneralJournalDetailSelectors';
 import GeneralJournalIntents from '../GeneralJournalIntents';
 import SystemIntents from '../../SystemIntents';
+import createReducer from '../../store/createReducer';
 
 const initialState = {
   generalJournal: {
@@ -27,6 +28,7 @@ const initialState = {
   modalType: '',
   alertMessage: '',
   isLoading: true,
+  isSubmitting: false,
 };
 
 const formatStringNumber = num => num && Number(num).toFixed(2).toString();
@@ -92,147 +94,161 @@ const formatLinesWithInputAmounts = (lines, isTaxInclusive) => lines.map(line =>
   creditInputAmount: calculateAmount(line.creditAmount, line.taxAmount, isTaxInclusive),
 }));
 
-const generalJournalDetailReducer = (state = initialState, action) => {
-  switch (action.intent) {
-    case SystemIntents.RESET_STATE:
-      return {
-        ...initialState,
-      };
-    case GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL: {
-      const newLine = {
-        ...state.newLine,
-        ...action.newLine,
-        debitInputAmount: action.newLine.debitAmount,
-        creditInputAmount: action.newLine.creditAmount,
-      };
+const resetState = () => (initialState);
 
-      return {
-        ...state,
-        generalJournal: {
-          ...state.generalJournal,
-          ...action.generalJournal,
-          lines: formatLinesWithInputAmounts(
-            action.generalJournal.lines, action.generalJournal.isTaxInclusive,
-          ),
-        },
-        newLine,
-        isLoading: false,
-      };
-    }
-    case GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL:
-      return {
-        ...initialState,
-        generalJournal: {
-          ...initialState.generalJournal,
-          ...action.generalJournal,
-          originalReferenceId: action.generalJournal.referenceId,
-        },
-        newLine: { ...state.newLine, ...action.newLine },
-        isLoading: action.isLoading,
-      };
-    case GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_HEADER_OPTIONS: {
-      const generalJournal = {
-        ...state.generalJournal,
-        [action.key]: action.value,
-      };
-      generalJournal.lines = formatLinesWithInputAmounts(
-        generalJournal.lines, generalJournal.isTaxInclusive,
-      );
+const loadGeneralJournalDetail = (state, action) => {
+  const newLine = {
+    ...state.newLine,
+    ...action.newLine,
+    debitInputAmount: action.newLine.debitAmount,
+    creditInputAmount: action.newLine.creditAmount,
+  };
 
-      return {
-        ...state,
-        generalJournal,
-      };
-    }
-    case GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL:
-      return {
-        ...state,
-      };
-    case GeneralJournalIntents.OPEN_MODAL:
-      return {
-        ...state,
-        modalType: action.modalType,
-      };
-    case GeneralJournalIntents.CLOSE_MODAL:
-      return {
-        ...state,
-        modalType: '',
-      };
-    case GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_LINE:
-      return {
-        ...state,
-        generalJournal: {
-          ...state.generalJournal,
-          gstReportingMethod: getReportingMethodForUpdate(action, state.generalJournal),
-          lines: getLinesForUpdate(action, state.generalJournal.lines),
-        },
-      };
-    case GeneralJournalIntents.FORMAT_GENERAL_JOURNAL_DETAIL_LINE:
-      return {
-        ...state,
-        generalJournal: {
-          ...state.generalJournal,
-          lines: state.generalJournal.lines.map(
-            ({ debitInputAmount, creditInputAmount, ...line }, index) => (
-              {
-                debitInputAmount: index === action.index && debitInputAmount
-                  ? formatStringNumber(debitInputAmount) : debitInputAmount,
-                creditInputAmount: index === action.index && creditInputAmount
-                  ? formatStringNumber(creditInputAmount) : creditInputAmount,
-                ...line,
-              }
-            ),
-          ),
-        },
-      };
-    case GeneralJournalIntents.ADD_GENERAL_JOURNAL_DETAIL_LINE:
-      return {
-        ...state,
-        generalJournal: {
-          ...state.generalJournal,
-          gstReportingMethod: getReportingMethodForCreate(action,
-            state.newLine, state.generalJournal),
-          lines: [
-            ...state.generalJournal.lines,
-            {
-              ...state.newLine,
-              ...action.line,
-              taxCodeId: getDefaultTaxCodeId({ ...state.newLine, ...action.line }),
-            },
-          ],
-        },
-      };
-    case GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL_LINE:
-      return {
-        ...state,
-        generalJournal: {
-          ...state.generalJournal,
-          lines: state.generalJournal.lines.filter((item, index) => index !== action.index),
-        },
-      };
-    case GeneralJournalIntents.SET_ALERT_MESSAGE:
-      return {
-        ...state,
-        alertMessage: action.alertMessage,
-      };
-    case GeneralJournalIntents.SET_LOADING_STATE:
-      return {
-        ...state,
-        isLoading: action.isLoading,
-      };
-    case GeneralJournalIntents.GET_CALCULATED_TAX:
-      return {
-        ...state,
-        generalJournal: {
-          ...state.generalJournal,
-          ...action.generalJournal,
-          lines: formatLinesWithInputAmounts(
-            action.generalJournal.lines, action.generalJournal.isTaxInclusive,
-          ),
-        },
-      };
-    default:
-      return state;
-  }
+  return {
+    ...state,
+    generalJournal: {
+      ...state.generalJournal,
+      ...action.generalJournal,
+      lines: formatLinesWithInputAmounts(
+        action.generalJournal.lines, action.generalJournal.isTaxInclusive,
+      ),
+    },
+    newLine,
+    isLoading: false,
+  };
 };
+
+const loadNewGeneralJournalDetail = (state, action) => ({
+  ...initialState,
+  generalJournal: {
+    ...initialState.generalJournal,
+    ...action.generalJournal,
+    originalReferenceId: action.generalJournal.referenceId,
+  },
+  newLine: { ...state.newLine, ...action.newLine },
+  isLoading: action.isLoading,
+});
+
+const updateHeader = (state, action) => {
+  const generalJournal = {
+    ...state.generalJournal,
+    [action.key]: action.value,
+  };
+  generalJournal.lines = formatLinesWithInputAmounts(
+    generalJournal.lines, generalJournal.isTaxInclusive,
+  );
+
+  return {
+    ...state,
+    generalJournal,
+  };
+};
+
+const addLine = (state, action) => ({
+  ...state,
+  generalJournal: {
+    ...state.generalJournal,
+    gstReportingMethod: getReportingMethodForCreate(action,
+      state.newLine, state.generalJournal),
+    lines: [
+      ...state.generalJournal.lines,
+      {
+        ...state.newLine,
+        ...action.line,
+        taxCodeId: getDefaultTaxCodeId({ ...state.newLine, ...action.line }),
+      },
+    ],
+  },
+});
+
+const updateLine = (state, action) => ({
+  ...state,
+  generalJournal: {
+    ...state.generalJournal,
+    gstReportingMethod: getReportingMethodForUpdate(action, state.generalJournal),
+    lines: getLinesForUpdate(action, state.generalJournal.lines),
+  },
+});
+
+const formatLine = (state, action) => ({
+  ...state,
+  generalJournal: {
+    ...state.generalJournal,
+    lines: state.generalJournal.lines.map(
+      ({ debitInputAmount, creditInputAmount, ...line }, index) => (
+        {
+          debitInputAmount: index === action.index && debitInputAmount
+            ? formatStringNumber(debitInputAmount) : debitInputAmount,
+          creditInputAmount: index === action.index && creditInputAmount
+            ? formatStringNumber(creditInputAmount) : creditInputAmount,
+          ...line,
+        }
+      ),
+    ),
+  },
+});
+
+const deleteLine = (state, action) => ({
+  ...state,
+  generalJournal: {
+    ...state.generalJournal,
+    lines: state.generalJournal.lines.filter((item, index) => index !== action.index),
+  },
+});
+
+const getCalculatedTax = (state, action) => ({
+  ...state,
+  generalJournal: {
+    ...state.generalJournal,
+    ...action.generalJournal,
+    lines: formatLinesWithInputAmounts(
+      action.generalJournal.lines, action.generalJournal.isTaxInclusive,
+    ),
+  },
+});
+
+const setSubmittingState = (state, action) => ({
+  ...state,
+  isSubmitting: action.isSubmitting,
+});
+
+const setLoadingState = (state, action) => ({
+  ...state,
+  isLoading: action.isLoading,
+});
+
+const setAlertMessage = (state, action) => ({
+  ...state,
+  alertMessage: action.alertMessage,
+});
+
+const openModal = (state, action) => ({
+  ...state,
+  modalType: action.modalType,
+});
+
+const closeModal = state => ({
+  ...state,
+  modalType: '',
+});
+
+const handlers = {
+  [GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL]: loadGeneralJournalDetail,
+  [GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL]: loadNewGeneralJournalDetail,
+  [GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_HEADER_OPTIONS]: updateHeader,
+  [GeneralJournalIntents.ADD_GENERAL_JOURNAL_DETAIL_LINE]: addLine,
+  [GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_LINE]: updateLine,
+  [GeneralJournalIntents.FORMAT_GENERAL_JOURNAL_DETAIL_LINE]: formatLine,
+  [GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL_LINE]: deleteLine,
+  [GeneralJournalIntents.GET_CALCULATED_TAX]: getCalculatedTax,
+  [GeneralJournalIntents.SET_SUBMITTING_STATE]: setSubmittingState,
+  [GeneralJournalIntents.SET_ALERT_MESSAGE]: setAlertMessage,
+  [GeneralJournalIntents.SET_LOADING_STATE]: setLoadingState,
+  [GeneralJournalIntents.OPEN_MODAL]: openModal,
+  [GeneralJournalIntents.CLOSE_MODAL]: closeModal,
+  [SystemIntents.RESET_STATE]: resetState,
+};
+
+const generalJournalDetailReducer = createReducer(initialState, handlers);
+
 export default generalJournalDetailReducer;

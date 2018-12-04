@@ -1,11 +1,12 @@
 import SpendMoneyIntents from '../../spendMoney/SpendMoneyIntents';
 import spendMoneyNewEntry from '../data/spendMoneyNewEntry';
+import successResponse from '../data/success.json';
 
 const newSpendMoney = ({ onSuccess }) => {
   onSuccess(spendMoneyNewEntry);
 };
 
-const saveSpendMoney = ({ onSuccess }) => onSuccess();
+const saveSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
 
 const SpendMoneyMapping = {
   [SpendMoneyIntents.LOAD_NEW_SPEND_MONEY]: newSpendMoney,

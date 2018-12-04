@@ -80,12 +80,12 @@ export default class SpendMoneyDetailModule {
       businessId: this.businessId,
     };
 
-    const onSuccess = () => {
+    const onSuccess = (response) => {
       this.pushMessage({
         type: SUCCESSFULLY_CREATED_ENTRY,
-        content: 'Success! Your spend money was saved.',
+        content: response.message,
       });
-      this.redirectToGeneralJournalList();
+      this.redirectToFeatureList();
     };
 
     const onFailure = (error) => {
@@ -125,7 +125,7 @@ export default class SpendMoneyDetailModule {
     this.store.publish({ intent });
   };
 
-  redirectToGeneralJournalList = () => {
+  redirectToFeatureList = () => {
     window.location.href = `/#/${this.businessId}/features`;
   };
 

@@ -1,24 +1,23 @@
 import FeatureListIntents from './FeatureListIntents';
 import SystemIntents from '../SystemIntents';
+import createReducer from '../store/createReducer';
+
 
 const initialState = {
   alertMessage: '',
 };
 
-const featureListReducer = (state = initialState, action) => {
-  switch (action.intent) {
-    case SystemIntents.RESET_STATE:
-      return {
-        ...initialState,
-      };
-    case FeatureListIntents.SET_ALERT_MESSAGE:
-      return {
-        ...state,
-        alertMessage: action.alertMessage,
-      };
-    default:
-      return state;
-  }
+const resetState = () => (initialState);
+
+const setAlertMessage = (state, action) => ({
+  ...state,
+  alertMessage: action.alertMessage,
+});
+
+const handlers = {
+  [FeatureListIntents.SET_ALERT_MESSAGE]: setAlertMessage,
+  [SystemIntents.RESET_STATE]: resetState,
 };
 
+const featureListReducer = createReducer(initialState, handlers);
 export default featureListReducer;

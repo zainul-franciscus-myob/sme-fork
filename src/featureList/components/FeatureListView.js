@@ -3,17 +3,21 @@ import PropTypes from 'prop-types';
 import React, { Component, Fragment } from 'react';
 
 class FeatureListView extends Component {
-  renderRow = feature => (
-    <Table.Row key={feature.featureName}>
-      <Table.RowItem columnName="Features" title={feature.featureName}>
-        <a href={`/#/${feature.businessId}/${feature.featureName}`}>{feature.featureName}</a>
-      </Table.RowItem>
-    </Table.Row>
-  );
+  renderRow = (feature) => {
+    const { businessId } = this.props;
+
+    return (
+      <Table.Row key={feature}>
+        <Table.RowItem columnName="Features" title={feature}>
+          <a href={`/#/${businessId}/${feature}`}>{feature}</a>
+        </Table.RowItem>
+      </Table.Row>
+    );
+  }
 
   render() {
     const { features, alertComponent } = this.props;
-    const featureList = features.map(feature => this.renderRow(feature));
+    const featureList = features.map(this.renderRow);
 
     return (
       <Fragment>
@@ -37,11 +41,9 @@ FeatureListView.defaultProps = {
 };
 
 FeatureListView.propTypes = {
-  features: PropTypes.arrayOf(PropTypes.shape({
-    businessId: PropTypes.string,
-    featureName: PropTypes.string,
-  })).isRequired,
+  features: PropTypes.arrayOf(PropTypes.string).isRequired,
   alertComponent: PropTypes.element,
+  businessId: PropTypes.string.isRequired,
 };
 
 export default FeatureListView;

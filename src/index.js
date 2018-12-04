@@ -73,10 +73,9 @@ async function main(integrationType) {
 
   const unsubscribeAllModulesFromStore = () => {
     Object.keys(moduleMappings).forEach((moduleName) => {
-      if (moduleName === 'home' || moduleName === 'features') {
-        return;
+      if (moduleName !== 'home') {
+        moduleMappings[moduleName].unsubscribeFromStore();
       }
-      moduleMappings[moduleName].unsubscribeFromStore();
     });
   };
 
