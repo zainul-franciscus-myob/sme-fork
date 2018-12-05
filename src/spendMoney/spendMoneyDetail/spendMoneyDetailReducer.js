@@ -110,7 +110,11 @@ const updateHeader = (state, action) => ({
 
 const loadNewSpendMoney = (state, action) => ({
   ...state,
-  spendMoney: { ...state.spendMoney, ...action.spendMoney },
+  spendMoney: {
+    ...state.spendMoney,
+    ...action.spendMoney,
+    originalReferenceId: action.spendMoney.referenceId,
+  },
   newLine: { ...state.newLine, ...action.newLine },
   isLoading: false,
 });
