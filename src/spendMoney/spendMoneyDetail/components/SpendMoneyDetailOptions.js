@@ -119,7 +119,7 @@ class SpendMoneyDetailOptions extends Component {
         </div>
         <div className="form-group">
           <AccountCombobox
-            label="PayFrom"
+            label="Pay from"
             hideLabel={false}
             items={payFromAccounts}
             selectedIndex={selectedPayFromAccountIndex}

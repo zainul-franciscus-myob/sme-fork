@@ -5,6 +5,7 @@ import { SUCCESSFULLY_CREATED_ENTRY } from '../spendMoneyMessageTypes';
 import {
   getHeaderOptions,
   getIndexOfLastLine,
+  getIsActionsDisabled,
   getLineData,
   getNewLineData,
   getSpendMoneyForCreatePayload,
@@ -85,10 +86,12 @@ export default class SpendMoneyDetailModule {
         type: SUCCESSFULLY_CREATED_ENTRY,
         content: response.message,
       });
+      this.setSubmittingState(false);
       this.redirectToFeatureList();
     };
 
     const onFailure = (error) => {
+      this.setSubmittingState(false);
       this.displayAlert(error.message);
     };
 
@@ -99,7 +102,17 @@ export default class SpendMoneyDetailModule {
       onSuccess,
       onFailure,
     });
+    this.setSubmittingState(true);
   };
+
+  setSubmittingState = (isSubmitting) => {
+    const intent = SpendMoneyIntents.SET_SUBMITTING_STATE;
+
+    this.store.publish({
+      intent,
+      isSubmitting,
+    });
+  }
 
   openCancelModal = () => {
     const intent = SpendMoneyIntents.OPEN_MODAL;
@@ -212,6 +225,7 @@ export default class SpendMoneyDetailModule {
         onRowInputBlur={this.formatSpendMoneyLine}
         indexOfLastLine={getIndexOfLastLine(state)}
         amountTotals={getTotals(state)}
+        isActionsDisabled={getIsActionsDisabled(state)}
       />
     );
     const view = state.isLoading ? (<Spinner />) : spendMoneyView;

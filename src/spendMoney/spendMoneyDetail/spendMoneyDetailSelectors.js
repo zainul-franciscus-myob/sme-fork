@@ -53,6 +53,9 @@ export const getTotals = () => ({
   totalOutOfBalance: formatTotal(0),
 });
 
-export const getSpendMoneyForCreatePayload = state => ({
-  ...state,
-});
+export const getSpendMoneyForCreatePayload = ({ spendMoney }) => {
+  const { referenceId, originalReferenceId, ...rest } = spendMoney;
+  return referenceId === originalReferenceId ? rest : { ...rest, referenceId };
+};
+
+export const getIsActionsDisabled = state => state.isSubmitting;

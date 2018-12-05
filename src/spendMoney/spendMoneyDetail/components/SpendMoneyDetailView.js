@@ -23,6 +23,7 @@ const SpendMoneyDetailView = ({
   onRowInputBlur,
   indexOfLastLine,
   amountTotals,
+  isActionsDisabled,
 }) => {
   const templateOptions = (
     <SpendMoneyDetailOptions
@@ -37,6 +38,7 @@ const SpendMoneyDetailView = ({
       onSave={onSaveButtonClick}
       onCancel={onCancelButtonClick}
       onDelete={onDeleteButtonClick}
+      isActionsDisabled={isActionsDisabled}
     />
   );
 
@@ -82,6 +84,7 @@ SpendMoneyDetailView.propTypes = {
   indexOfLastLine: PropTypes.number.isRequired,
   amountTotals: PropTypes.shape({}).isRequired,
   newLineData: PropTypes.shape({}).isRequired,
+  isActionsDisabled: PropTypes.bool.isRequired,
 };
 
 SpendMoneyDetailView.defaultProps = {

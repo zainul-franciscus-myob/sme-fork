@@ -30,6 +30,7 @@ const initialState = {
   modalType: '',
   alertMessage: '',
   isLoading: true,
+  isSubmitting: false,
 };
 
 const resetState = () => (initialState);
@@ -110,7 +111,11 @@ const updateHeader = (state, action) => ({
 
 const loadNewSpendMoney = (state, action) => ({
   ...state,
-  spendMoney: { ...state.spendMoney, ...action.spendMoney },
+  spendMoney: {
+    ...state.spendMoney,
+    ...action.spendMoney,
+    originalReferenceId: action.spendMoney.referenceId,
+  },
   newLine: { ...state.newLine, ...action.newLine },
   isLoading: false,
 });
@@ -118,6 +123,11 @@ const loadNewSpendMoney = (state, action) => ({
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
+});
+
+const setSubmittingState = (state, action) => ({
+  ...state,
+  isSubmitting: action.isSubmitting,
 });
 
 const setAlertMessage = (state, action) => ({
@@ -143,6 +153,7 @@ const handlers = {
   [SpendMoneyIntents.DELETE_SPEND_MONEY_LINE]: deleteLine,
   [SpendMoneyIntents.FORMAT_SPEND_MONEY_LINE]: formatLine,
   [SpendMoneyIntents.SET_LOADING_STATE]: setLoadingState,
+  [SpendMoneyIntents.SET_SUBMITTING_STATE]: setSubmittingState,
   [SpendMoneyIntents.SET_ALERT_MESSAGE]: setAlertMessage,
   [SpendMoneyIntents.OPEN_MODAL]: openModal,
   [SpendMoneyIntents.CLOSE_MODAL]: closeModal,
