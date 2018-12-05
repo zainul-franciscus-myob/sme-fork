@@ -120,6 +120,15 @@ const loadNewSpendMoney = (state, action) => ({
   isLoading: false,
 });
 
+const loadReferenceId = (state, action) => ({
+  ...state,
+  spendMoney: {
+    ...state.spendMoney,
+    referenceId: action.referenceId,
+    originalReferenceId: action.referenceId,
+  },
+});
+
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
@@ -148,6 +157,7 @@ const closeModal = state => ({
 const handlers = {
   [SpendMoneyIntents.UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [SpendMoneyIntents.LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
+  [SpendMoneyIntents.LOAD_REFERENCE_ID]: loadReferenceId,
   [SpendMoneyIntents.UPDATE_SPEND_MONEY_LINE]: updateLine,
   [SpendMoneyIntents.ADD_SPEND_MONEY_LINE]: addLine,
   [SpendMoneyIntents.DELETE_SPEND_MONEY_LINE]: deleteLine,

@@ -6,6 +6,7 @@ import {
   getHeaderOptions,
   getIndexOfLastLine,
   getIsActionsDisabled,
+  getIsReferenceIdDirty,
   getLineData,
   getNewLineData,
   getSpendMoneyForCreatePayload,
@@ -57,8 +58,46 @@ export default class SpendMoneyDetailModule {
     });
   };
 
+  loadNextReferenceId = (accountId) => {
+    if (getIsReferenceIdDirty(this.store.state)) {
+      return;
+    }
+
+    const intent = SpendMoneyIntents.LOAD_REFERENCE_ID;
+
+    const urlParams = {
+      accountId,
+    };
+
+    const onSuccess = ({ referenceId }) => {
+      const isReferenceIdDirty = getIsReferenceIdDirty(this.store.state);
+
+      if (!isReferenceIdDirty) {
+        this.store.publish({
+          intent,
+          referenceId,
+        });
+      }
+    };
+
+    const onFailure = () => {
+      console.log('Failed to load the next reference Id');
+    };
+
+    this.integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  }
+
   updateHeaderOptions = ({ key, value }) => {
     const intent = SpendMoneyIntents.UPDATE_SPEND_MONEY_HEADER;
+
+    if (key === 'selectedPayFromAccountId') {
+      this.loadNextReferenceId(value);
+    }
 
     this.store.publish({
       intent,

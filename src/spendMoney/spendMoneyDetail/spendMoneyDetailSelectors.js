@@ -53,6 +53,11 @@ export const getTotals = () => ({
   totalOutOfBalance: formatTotal(0),
 });
 
+export const getIsReferenceIdDirty = ({ spendMoney }) => {
+  const { referenceId, originalReferenceId } = spendMoney;
+  return referenceId !== originalReferenceId;
+};
+
 export const getSpendMoneyForCreatePayload = ({ spendMoney }) => {
   const { referenceId, originalReferenceId, ...rest } = spendMoney;
   return referenceId === originalReferenceId ? rest : { ...rest, referenceId };
