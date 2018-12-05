@@ -30,6 +30,7 @@ const initialState = {
   modalType: '',
   alertMessage: '',
   isLoading: true,
+  isSubmitting: false,
 };
 
 const resetState = () => (initialState);
@@ -124,6 +125,11 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
+const setSubmittingState = (state, action) => ({
+  ...state,
+  isSubmitting: action.isSubmitting,
+});
+
 const setAlertMessage = (state, action) => ({
   ...state,
   alertMessage: action.alertMessage,
@@ -147,6 +153,7 @@ const handlers = {
   [SpendMoneyIntents.DELETE_SPEND_MONEY_LINE]: deleteLine,
   [SpendMoneyIntents.FORMAT_SPEND_MONEY_LINE]: formatLine,
   [SpendMoneyIntents.SET_LOADING_STATE]: setLoadingState,
+  [SpendMoneyIntents.SET_SUBMITTING_STATE]: setSubmittingState,
   [SpendMoneyIntents.SET_ALERT_MESSAGE]: setAlertMessage,
   [SpendMoneyIntents.OPEN_MODAL]: openModal,
   [SpendMoneyIntents.CLOSE_MODAL]: closeModal,

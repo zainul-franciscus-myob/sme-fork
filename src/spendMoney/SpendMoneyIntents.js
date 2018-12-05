@@ -10,6 +10,7 @@ const SpendMoneyIntents = {
   CLOSE_MODAL: Symbol('Close a modal'),
   SET_ALERT_MESSAGE: Symbol('Set alert message'),
   SET_LOADING_STATE: Symbol('Set loading state'),
+  SET_SUBMITTING_STATE: Symbol('Set submitting state'),
 };
 
 export default SpendMoneyIntents;
