@@ -1,7 +1,7 @@
 {
   "spendMoney": {
     "referenceId": "SM0000002",
-    "isTaxInclusive": false,
+    "isTaxInclusive": true,
     "date": "1533045600000",
     "selectedPayFromAccountId": "123",
     "payFromAccounts": [
@@ -40,7 +40,6 @@
     "amount": "",
     "description": "",
     "taxCodeId": "",
-    "taxAmount": "",
     "accounts": [
       {
         "id": "123",

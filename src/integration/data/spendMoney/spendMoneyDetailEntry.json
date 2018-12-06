@@ -1,0 +1,164 @@
+{
+  "spendMoney": {
+    "id": "789",
+    "referenceId": "SM1234567",
+    "date": "1533045600000",
+    "isTaxInclusive": false,
+    "isReportable": false,
+    "description": "Bob the builder",
+    "selectedPayFromAccountId": "456",
+    "selectedPayToContactId": "2",
+    "totals": {
+      "netAmount": "3352.00",
+      "totalTax": "335.20",
+      "totalAmount": "3687.20"
+    },
+    "lines": [
+      {
+        "accountId": "789",
+        "amount": "1000.00",
+        "description": "Bob",
+        "taxCodeId": "123",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "1-123"
+          },
+          {
+            "id": "456",
+            "displayName": "My Assets Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-123"
+          },
+          {
+            "id": "789",
+            "displayName": "My (Inactive) Assets Account 2",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-124"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "description": "Goods & Service Tax",
+            "displayRate": "10%"
+          },
+          {
+            "id": "124",
+            "displayName": "FRE",
+            "description": "GST FREE",
+            "displayRate": "5%"
+          }
+        ]
+      },
+      {
+        "accountId": "456",
+        "amount": "2352.00",
+        "description": "the builder",
+        "taxCodeId": "123",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "1-123"
+          },
+          {
+            "id": "456",
+            "displayName": "My Assets Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-123"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "description": "Goods & Service Tax",
+            "displayRate": "10%"
+          },
+          {
+            "id": "124",
+            "displayName": "FRE",
+            "description": "GST FREE",
+            "displayRate": "5%"
+          }
+        ]
+      }
+    ],
+    "payFromAccounts": [
+      {
+        "id": "123",
+        "displayName": "My Bank",
+        "accountType": "Asset",
+        "taxCodeId": "123",
+        "displayId": "1-123"
+      },
+      {
+        "id": "456",
+        "displayName": "My Other Bank",
+        "accountType": "Asset",
+        "taxCodeId": "124",
+        "displayId": "2-123"
+      }
+    ],
+    "payToContacts": [
+      {
+        "contactType": "Customer",
+        "displayName": "A-Z Stationery Supplies",
+        "id": "1",
+        "displayId": "CUS000001"
+      },
+      {
+        "contactType": "Supplier",
+        "displayName": "Cow Feed",
+        "id": "2",
+        "displayId": "CUS000003"
+      }
+    ]
+  },
+  "newLine": {
+    "accountId": "",
+    "amount": "",
+    "description": "",
+    "taxCodeId": "",
+    "accounts": [
+      {
+        "id": "123",
+        "displayName": "My Sales Account 1",
+        "accountType": "Sales",
+        "taxCodeId": "123",
+        "displayId": "1-123"
+      },
+      {
+        "id": "456",
+        "displayName": "My Assets Account 1",
+        "accountType": "Assets",
+        "taxCodeId": "124",
+        "displayId": "2-123"
+      }
+    ],
+    "taxCodes": [
+      {
+        "id": "123",
+        "displayName": "GST",
+        "description": "Goods & Service Tax",
+        "displayRate": "10%"
+      },
+      {
+        "id": "124",
+        "displayName": "FRE",
+        "description": "GST FREE",
+        "displayRate": "5%"
+      }
+    ]
+  }
+}
