@@ -13,16 +13,17 @@
     "@myob/ldal": "^0.2.4",
     "@myob/myob-styles": "3.1.0",
     "@myob/myob-widgets": "3.1.0",
-    "cross-fetch": "2.2.0",
+    "abortcontroller-polyfill": "1.2.1",
+    "classnames": "2.2.5",
+    "downshift": "1.16.0",
+    "match-sorter": "2.2.1",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "^1.1.5",
     "router5": "^6.5.1",
     "uuid": "^3.3.2",
-    "classnames": "2.2.5",
-    "match-sorter": "2.2.1",
-    "downshift": "1.16.0"
+    "whatwg-fetch": "3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

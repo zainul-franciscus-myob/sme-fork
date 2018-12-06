@@ -45,22 +45,37 @@ export const getNewLineData = state => state.newLine;
 
 export const getIndexOfLastLine = state => state.spendMoney.lines.length - 1;
 
-const formatTotal = num => (num < 0 ? `-$${formatNumber(Math.abs(num))}` : `$${formatNumber(num)}`);
+const formatTotal = (total) => {
+  const num = parseFloat(total);
 
-export const getTotals = () => ({
-  netAmount: formatTotal(0),
-  totalTax: formatTotal(0),
-  totalOutOfBalance: formatTotal(0),
-});
+  return num < 0 ? `-$${formatNumber(Math.abs(num))}` : `$${formatNumber(num)}`;
+};
 
-export const getIsReferenceIdDirty = ({ spendMoney }) => {
-  const { referenceId, originalReferenceId } = spendMoney;
+const getSpendMoney = state => state.spendMoney;
+
+export const getTotals = (state) => {
+  const { netAmount, totalTax, totalAmount } = state.totals;
+
+  return {
+    netAmount: formatTotal(netAmount),
+    totalTax: formatTotal(totalTax),
+    totalAmount: formatTotal(totalAmount),
+  };
+};
+
+export const isReferenceIdDirty = (state) => {
+  const { referenceId, originalReferenceId } = getSpendMoney(state);
   return referenceId !== originalReferenceId;
 };
 
-export const getSpendMoneyForCreatePayload = ({ spendMoney }) => {
-  const { referenceId, originalReferenceId, ...rest } = spendMoney;
+export const getSpendMoneyForCreatePayload = (state) => {
+  const { referenceId, originalReferenceId, ...rest } = getSpendMoney(state);
   return referenceId === originalReferenceId ? rest : { ...rest, referenceId };
+};
+
+export const getCalculatedTotalsPayload = (state) => {
+  const { lines, isTaxInclusive } = getSpendMoney(state);
+  return { isTaxInclusive, lines };
 };
 
 export const getIsActionsDisabled = state => state.isSubmitting;

@@ -71,6 +71,7 @@ export default class SpendMoneyDetailTable extends React.Component {
           value={amount}
           disabled={isNewLineRow}
           onChange={onChange}
+          step="0.01"
           onBlur={this.onRowInputBlur(index)}
         />
         <Input
@@ -102,7 +103,7 @@ export default class SpendMoneyDetailTable extends React.Component {
       amountTotals: {
         netAmount,
         totalTax,
-        totalOutOfBalance,
+        totalAmount,
       },
       onRemoveRow,
     } = this.props;
@@ -119,7 +120,7 @@ export default class SpendMoneyDetailTable extends React.Component {
         <LineItemTable.Total>
           <LineItemTable.Totals title="Net amount" amount={netAmount} />
           <LineItemTable.Totals title="Tax" amount={totalTax} />
-          <LineItemTable.Totals totalAmount title="Total amount" amount={totalOutOfBalance} />
+          <LineItemTable.Totals totalAmount title="Total amount" amount={totalAmount} />
         </LineItemTable.Total>
       </LineItemTable>
     );

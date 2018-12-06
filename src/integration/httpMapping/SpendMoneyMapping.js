@@ -13,6 +13,10 @@ const SpendMoneyMapping = {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/get_reference_id`,
   },
+  [SpendMoneyIntents.GET_CALCULATED_TOTALS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/spendMoney/calculate_totals`,
+  },
 };
 
 export default SpendMoneyMapping;

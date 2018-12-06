@@ -12,6 +12,7 @@ const SpendMoneyIntents = {
   SET_ALERT_MESSAGE: Symbol('Set alert message'),
   SET_LOADING_STATE: Symbol('Set loading state'),
   SET_SUBMITTING_STATE: Symbol('Set submitting state'),
+  GET_CALCULATED_TOTALS: Symbol('Get calculated totals'),
 };
 
 export default SpendMoneyIntents;

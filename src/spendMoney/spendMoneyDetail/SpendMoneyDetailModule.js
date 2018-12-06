@@ -3,14 +3,15 @@ import React from 'react';
 
 import { SUCCESSFULLY_CREATED_ENTRY } from '../spendMoneyMessageTypes';
 import {
+  getCalculatedTotalsPayload,
   getHeaderOptions,
   getIndexOfLastLine,
   getIsActionsDisabled,
-  getIsReferenceIdDirty,
   getLineData,
   getNewLineData,
   getSpendMoneyForCreatePayload,
   getTotals,
+  isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
 import CancelModal from './components/SpendMoneyDetailCancelModal';
 import SpendMoneyDetailAlert from './components/SpendMoneyDetailAlert';
@@ -59,20 +60,20 @@ export default class SpendMoneyDetailModule {
   };
 
   loadNextReferenceId = (accountId) => {
-    if (getIsReferenceIdDirty(this.store.state)) {
+    if (isReferenceIdDirty(this.store.state)) {
       return;
     }
 
     const intent = SpendMoneyIntents.LOAD_REFERENCE_ID;
 
     const urlParams = {
-      accountId,
+      businessId: this.businessId,
     };
 
-    const onSuccess = ({ referenceId }) => {
-      const isReferenceIdDirty = getIsReferenceIdDirty(this.store.state);
+    const params = { accountId };
 
-      if (!isReferenceIdDirty) {
+    const onSuccess = ({ referenceId }) => {
+      if (!isReferenceIdDirty(this.store.state)) {
         this.store.publish({
           intent,
           referenceId,
@@ -87,6 +88,7 @@ export default class SpendMoneyDetailModule {
     this.integration.read({
       intent,
       urlParams,
+      params,
       onSuccess,
       onFailure,
     });
@@ -97,6 +99,10 @@ export default class SpendMoneyDetailModule {
 
     if (key === 'selectedPayFromAccountId') {
       this.loadNextReferenceId(value);
+    }
+
+    if (key === 'isTaxInclusive') {
+      this.getCalculatedTotals();
     }
 
     this.store.publish({
@@ -194,6 +200,11 @@ export default class SpendMoneyDetailModule {
       lineKey,
       lineValue,
     });
+
+    const taxKeys = ['accountId', 'taxCodeId'];
+    if (taxKeys.includes(lineKey)) {
+      this.getCalculatedTotals();
+    }
   }
 
   addSpendMoneyLine = (partialLine) => {
@@ -203,6 +214,8 @@ export default class SpendMoneyDetailModule {
       intent,
       line: partialLine,
     });
+
+    this.getCalculatedTotals();
   }
 
   deleteSpendMoneyLine = (index) => {
@@ -212,6 +225,8 @@ export default class SpendMoneyDetailModule {
       intent,
       index,
     });
+
+    this.getCalculatedTotals();
   }
 
   formatSpendMoneyLine = (index) => {
@@ -221,6 +236,43 @@ export default class SpendMoneyDetailModule {
       intent,
       index,
     });
+  }
+
+  setTotalsLoadingState = (isTotalsLoading) => {
+    const intent = SpendMoneyIntents.SET_TOTALS_LOADING_STATE;
+
+    this.store.publish({
+      intent,
+      isTotalsLoading,
+    });
+  }
+
+  getCalculatedTotals = () => {
+    const intent = SpendMoneyIntents.GET_CALCULATED_TOTALS;
+    const content = getCalculatedTotalsPayload(this.store.state);
+    const urlParams = { businessId: this.businessId };
+
+    const onSuccess = (totals) => {
+      this.store.publish({
+        intent,
+        totals,
+      });
+    };
+
+    const onFailure = error => this.displayAlert(error.message);
+
+    this.integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  formatAndCalculateTotals = (line) => {
+    this.formatSpendMoneyLine(line);
+    this.getCalculatedTotals();
   }
 
   dismissAlert = () => {
@@ -261,7 +313,7 @@ export default class SpendMoneyDetailModule {
         onUpdateRow={this.updateSpendMoneyLine}
         onAddRow={this.addSpendMoneyLine}
         onRemoveRow={this.deleteSpendMoneyLine}
-        onRowInputBlur={this.formatSpendMoneyLine}
+        onRowInputBlur={this.formatAndCalculateTotals}
         indexOfLastLine={getIndexOfLastLine(state)}
         amountTotals={getTotals(state)}
         isActionsDisabled={getIsActionsDisabled(state)}

@@ -27,6 +27,11 @@ const initialState = {
     accounts: [],
     taxCodes: [],
   },
+  totals: {
+    netAmount: '0.00',
+    totalTax: '0.00',
+    totalAmount: '0.00',
+  },
   modalType: '',
   alertMessage: '',
   isLoading: true,
@@ -154,9 +159,15 @@ const closeModal = state => ({
   modalType: '',
 });
 
+const getCalculateTotals = (state, action) => ({
+  ...state,
+  totals: action.totals,
+});
+
 const handlers = {
   [SpendMoneyIntents.UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [SpendMoneyIntents.LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
+  [SpendMoneyIntents.GET_CALCULATED_TOTALS]: getCalculateTotals,
   [SpendMoneyIntents.LOAD_REFERENCE_ID]: loadReferenceId,
   [SpendMoneyIntents.UPDATE_SPEND_MONEY_LINE]: updateLine,
   [SpendMoneyIntents.ADD_SPEND_MONEY_LINE]: addLine,

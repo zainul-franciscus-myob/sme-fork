@@ -1,17 +1,13 @@
-/**
- * @param {Promise<Response>} fetchedPromise
- * @param {(payload: any) => any} onFulfilled
- * @param {(Error: Object) => any} onRejected
- */
+const handleError = (error, onRejected) => error.name !== 'AbortError' && onRejected(error);
+
 const handleResponse = async (fetchedPromise, onFulfilled, onRejected) => {
-  /** @type {Response} response */
   let response;
   let payload;
 
   try {
     response = await fetchedPromise;
   } catch (error) {
-    onRejected(error);
+    handleError(error, onRejected);
     return;
   }
 
@@ -20,7 +16,7 @@ const handleResponse = async (fetchedPromise, onFulfilled, onRejected) => {
       const responseBody = await response.json();
       onRejected({ message: responseBody.message });
     } catch (error) {
-      onRejected(error);
+      handleError(error, onRejected);
       return;
     }
     return;
@@ -29,7 +25,7 @@ const handleResponse = async (fetchedPromise, onFulfilled, onRejected) => {
   try {
     payload = await response.json();
   } catch (error) {
-    onRejected(error);
+    handleError(error, onRejected);
     return;
   }
 
