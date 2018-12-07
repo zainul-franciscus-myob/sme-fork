@@ -101,15 +101,15 @@ export default class SpendMoneyDetailModule {
       this.loadNextReferenceId(value);
     }
 
-    if (key === 'isTaxInclusive') {
-      this.getCalculatedTotals();
-    }
-
     this.store.publish({
       intent,
       key,
       value,
     });
+
+    if (key === 'isTaxInclusive') {
+      this.getCalculatedTotals();
+    }
   };
 
   displayAlert = (errorMessage) => {
@@ -288,7 +288,7 @@ export default class SpendMoneyDetailModule {
       modal = (
         <CancelModal
           onCancel={this.closeModal}
-          onConfirm={this.redirectToGeneralJournalList}
+          onConfirm={this.redirectToFeatureList}
         />
       );
     }
