@@ -68,8 +68,4 @@ export default class BusinessModule {
       intent,
     });
   }
-
-  exit() {
-    this.resetState();
-  }
 }

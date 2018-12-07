@@ -93,8 +93,4 @@ export default class BankingModule {
       intent,
     });
   }
-
-  exit() {
-    this.resetState();
-  }
 }

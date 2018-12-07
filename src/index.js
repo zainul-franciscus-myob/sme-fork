@@ -79,12 +79,10 @@ async function main(integrationType) {
     });
   };
 
-  const beforeAll = (previousModule) => {
+  const beforeAll = (currentModule) => {
     unsubscribeAllModulesFromStore();
-    const module = moduleMappings[previousModule];
-    if (module && module.exit) {
-      module.exit();
-    }
+    const module = moduleMappings[currentModule];
+    module.resetState();
   };
 
   initializeRouter({

@@ -5,6 +5,7 @@ import Alert from '../components/Alert/Alert';
 import FeatureListIntents from './FeatureListIntents';
 import FeatureListView from './components/FeatureListView';
 import Store from '../store/Store';
+import SystemIntents from '../SystemIntents';
 import featureListReducer from './featureListReducer';
 
 export default class FeaturesModule {
@@ -64,5 +65,12 @@ export default class FeaturesModule {
     this.store.subscribe(this.render);
     this.readMessages();
     this.render(this.store.state);
+  }
+
+  resetState() {
+    const intent = SystemIntents.RESET_STATE;
+    this.store.publish({
+      intent,
+    });
   }
 }

@@ -343,8 +343,4 @@ export default class SpendMoneyDetailModule {
       intent,
     });
   }
-
-  exit() {
-    this.resetState();
-  }
 }

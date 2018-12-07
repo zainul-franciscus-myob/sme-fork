@@ -228,8 +228,4 @@ export default class GeneralJournalModule {
       intent,
     });
   }
-
-  exit() {
-    this.resetState();
-  }
 }

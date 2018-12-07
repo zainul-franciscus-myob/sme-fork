@@ -27,4 +27,6 @@ export default class App {
   run = () => {
     this.render();
   }
+
+  resetState = () => {};
 }

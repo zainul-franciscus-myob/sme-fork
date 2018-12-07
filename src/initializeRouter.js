@@ -17,9 +17,8 @@ const initializeRouter = (options) => {
   const router = createRouter(routes, routerOptions)
     .usePlugin(browserPlugin({ useHash: true }));
 
-  router.subscribe(({ route, previousRoute }) => {
-    const previousRouteName = previousRoute && previousRoute.name;
-    beforeAll(previousRouteName);
+  router.subscribe(({ route }) => {
+    beforeAll(route.name);
     actions[route.name]({ ...route.params });
     afterAll();
   });
