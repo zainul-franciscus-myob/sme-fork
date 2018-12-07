@@ -10,7 +10,7 @@ const SpendMoneyMapping = {
     getPath: ({ businessId }) => `/${businessId}/spendMoney/create_spend_money`,
   },
   [SpendMoneyIntents.LOAD_REFERENCE_ID]: {
-    method: 'POST',
+    method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/get_reference_id`,
   },
   [SpendMoneyIntents.GET_CALCULATED_TOTALS]: {
