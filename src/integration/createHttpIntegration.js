@@ -15,7 +15,7 @@ const getQueryFromParams = (params = {}) => {
   const query = Object.keys(params)
     .map(key => `${encode(key)}=${encode(params[key])}`)
     .join('&');
-  return `?${query}`;
+  return query && `?${query}`;
 };
 
 const getDefaultHttpHeaders = () => ({

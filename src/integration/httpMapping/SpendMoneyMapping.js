@@ -5,6 +5,10 @@ const SpendMoneyMapping = {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/load_new_spend_money`,
   },
+  [SpendMoneyIntents.LOAD_SPEND_MONEY_DETAIL]: {
+    method: 'GET',
+    getPath: ({ businessId, spendMoneyId }) => `/${businessId}/spendMoney/load_spend_money_detail/${spendMoneyId}`,
+  },
   [SpendMoneyIntents.CREATE_SPEND_MONEY]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/create_spend_money`,

@@ -8,11 +8,6 @@
     "description": "Bob the builder",
     "selectedPayFromAccountId": "456",
     "selectedPayToContactId": "2",
-    "totals": {
-      "netAmount": "3352.00",
-      "totalTax": "335.20",
-      "totalAmount": "3687.20"
-    },
     "lines": [
       {
         "accountId": "789",
@@ -124,6 +119,11 @@
         "displayId": "CUS000003"
       }
     ]
+  },
+  "totals": {
+    "netAmount": "3352.00",
+    "totalTax": "335.20",
+    "totalAmount": "3687.20"
   },
   "newLine": {
     "accountId": "",

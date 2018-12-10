@@ -47,7 +47,7 @@ async function main(integrationType) {
     { name: 'home', path: '/home' },
     { name: 'banking', path: '/:businessId/banking' },
     { name: 'generalJournal', path: '/:businessId/generalJournal' },
-    { name: 'spendMoney', path: '/:businessId/spendMoney/new' },
+    { name: 'spendMoney', path: '/:businessId/spendMoney/:spendMoneyId' },
     { name: 'generalJournalDetail', path: '/:businessId/generalJournal/:journalId' },
   ];
 

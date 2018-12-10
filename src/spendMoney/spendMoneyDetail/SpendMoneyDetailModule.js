@@ -28,20 +28,25 @@ export default class SpendMoneyDetailModule {
     this.setRootView = setRootView;
     this.businessId = '';
     this.pushMessage = pushMessage;
+    this.spendMoneyId = '';
   }
 
   loadSpendMoney = () => {
-    const intent = SpendMoneyIntents.LOAD_NEW_SPEND_MONEY;
+    const intent = this.isCreating
+      ? SpendMoneyIntents.LOAD_NEW_SPEND_MONEY
+      : SpendMoneyIntents.LOAD_SPEND_MONEY_DETAIL;
 
     const urlParams = {
       businessId: this.businessId,
+      ...(!this.isCreating && { spendMoneyId: this.spendMoneyId }),
     };
 
-    const onSuccess = ({ spendMoney, newLine }) => {
+    const onSuccess = ({ spendMoney, newLine, totals }) => {
       this.setLoadingState(false);
       this.store.publish({
         intent,
         spendMoney,
+        totals,
         newLine,
         isLoading: false,
       });
@@ -332,6 +337,8 @@ export default class SpendMoneyDetailModule {
 
   run(context) {
     this.businessId = context.businessId;
+    this.spendMoneyId = context.spendMoneyId;
+    this.isCreating = context.spendMoneyId === 'new';
     this.store.subscribe(this.render);
     this.setLoadingState(true);
     this.loadSpendMoney();

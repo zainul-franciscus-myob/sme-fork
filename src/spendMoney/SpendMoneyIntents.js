@@ -1,5 +1,6 @@
 const SpendMoneyIntents = {
   LOAD_NEW_SPEND_MONEY: Symbol('Load a new empty spend money entry data'),
+  LOAD_SPEND_MONEY_DETAIL: Symbol('Load a spend money entry data'),
   LOAD_REFERENCE_ID: Symbol('Load the reference id'),
   CREATE_SPEND_MONEY: Symbol('Create a new spend money entry'),
   UPDATE_SPEND_MONEY_HEADER: Symbol('Update spend money header'),

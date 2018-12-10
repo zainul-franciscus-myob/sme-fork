@@ -125,6 +125,18 @@ const loadNewSpendMoney = (state, action) => ({
   isLoading: false,
 });
 
+const loadSpendMoneyDetail = (state, action) => ({
+  ...state,
+  spendMoney: {
+    ...state.spendMoney,
+    ...action.spendMoney,
+    originalReferenceId: action.spendMoney.referenceId,
+  },
+  newLine: { ...state.newLine, ...action.newLine },
+  totals: action.totals,
+  isLoading: false,
+});
+
 const loadReferenceId = (state, action) => ({
   ...state,
   spendMoney: {
@@ -167,6 +179,7 @@ const getCalculateTotals = (state, action) => ({
 const handlers = {
   [SpendMoneyIntents.UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [SpendMoneyIntents.LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
+  [SpendMoneyIntents.LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
   [SpendMoneyIntents.GET_CALCULATED_TOTALS]: getCalculateTotals,
   [SpendMoneyIntents.LOAD_REFERENCE_ID]: loadReferenceId,
   [SpendMoneyIntents.UPDATE_SPEND_MONEY_LINE]: updateLine,
