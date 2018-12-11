@@ -108,7 +108,14 @@ class SpendMoneyDetailOptions extends Component {
         <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} />
         <div>
           <InputLabel label="Date" id="date" />
-          <DatePicker inputProps={{ id: 'date' }} dateTime={date} onChange={this.handleDateChange} />
+          <DatePicker
+            inputProps={{
+              id: 'date',
+              autoFocus: true,
+            }}
+            dateTime={date}
+            onChange={this.handleDateChange}
+          />
         </div>
         <div className="form-group">
           <InputLabel label="Amounts are" id="isTaxInclusive" />
