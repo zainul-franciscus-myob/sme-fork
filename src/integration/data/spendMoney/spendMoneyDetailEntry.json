@@ -10,6 +10,7 @@
     "selectedPayToContactId": "2",
     "lines": [
       {
+        "id": "1",
         "accountId": "789",
         "amount": "1000.00",
         "description": "Bob",
@@ -53,6 +54,7 @@
         ]
       },
       {
+        "id": "2",
         "accountId": "456",
         "amount": "2352.00",
         "description": "the builder",
