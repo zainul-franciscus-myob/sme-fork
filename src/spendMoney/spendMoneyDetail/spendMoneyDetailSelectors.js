@@ -51,7 +51,9 @@ const formatTotal = (total) => {
   return num < 0 ? `-$${formatNumber(Math.abs(num))}` : `$${formatNumber(num)}`;
 };
 
-const getSpendMoney = state => state.spendMoney;
+export const getSpendMoney = state => state.spendMoney;
+
+export const getSpendMoneyId = state => state.spendMoney.id;
 
 export const getTotals = (state) => {
   const { netAmount, totalTax, totalAmount } = state.totals;

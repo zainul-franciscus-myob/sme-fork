@@ -9,7 +9,9 @@ import {
   getIsActionsDisabled,
   getLineData,
   getNewLineData,
+  getSpendMoney,
   getSpendMoneyForCreatePayload,
+  getSpendMoneyId,
   getTotals,
   isPageEdited,
   isReferenceIdDirty,
@@ -131,7 +133,21 @@ export default class SpendMoneyDetailModule {
     const urlParams = {
       businessId: this.businessId,
     };
+    this.saveSpendMoneyEntry(intent, content, urlParams);
+  };
 
+  updateSpendMoneyEntry = () => {
+    const intent = SpendMoneyIntents.UPDATE_SPEND_MONEY;
+    const content = getSpendMoney(this.store.state);
+    const spendMoneyId = getSpendMoneyId(this.store.state);
+    const urlParams = {
+      businessId: this.businessId,
+      spendMoneyId,
+    };
+    this.saveSpendMoneyEntry(intent, content, urlParams);
+  }
+
+  saveSpendMoneyEntry(intent, content, urlParams) {
     const onSuccess = (response) => {
       this.pushMessage({
         type: SUCCESSFULLY_CREATED_ENTRY,
@@ -154,7 +170,7 @@ export default class SpendMoneyDetailModule {
       onFailure,
     });
     this.setSubmittingState(true);
-  };
+  }
 
   setSubmittingState = (isSubmitting) => {
     const intent = SpendMoneyIntents.SET_SUBMITTING_STATE;
@@ -312,7 +328,8 @@ export default class SpendMoneyDetailModule {
       <SpendMoneyDetailView
         headerOptions={getHeaderOptions(state)}
         onUpdateHeaderOptions={this.updateHeaderOptions}
-        onSaveButtonClick={this.createSpendMoneyEntry}
+        onSaveButtonClick={this.isCreating
+          ? this.createSpendMoneyEntry : this.updateSpendMoneyEntry}
         onCancelButtonClick={this.openCancelModal}
         modal={modal}
         alertComponent={alertComponent}
