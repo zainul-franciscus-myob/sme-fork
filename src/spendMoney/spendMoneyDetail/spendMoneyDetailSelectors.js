@@ -79,3 +79,4 @@ export const getCalculatedTotalsPayload = (state) => {
 };
 
 export const getIsActionsDisabled = state => state.isSubmitting;
+export const isPageEdited = state => state.isPageEdited;

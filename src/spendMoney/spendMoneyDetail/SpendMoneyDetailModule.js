@@ -11,6 +11,7 @@ import {
   getNewLineData,
   getSpendMoneyForCreatePayload,
   getTotals,
+  isPageEdited,
   isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
 import CancelModal from './components/SpendMoneyDetailCancelModal';
@@ -166,11 +167,14 @@ export default class SpendMoneyDetailModule {
 
   openCancelModal = () => {
     const intent = SpendMoneyIntents.OPEN_MODAL;
-
-    this.store.publish({
-      intent,
-      modalType: 'cancel',
-    });
+    if (isPageEdited(this.store.state)) {
+      this.store.publish({
+        intent,
+        modalType: 'cancel',
+      });
+    } else {
+      this.redirectToFeatureList();
+    }
   };
 
   openDeleteModal = () => {

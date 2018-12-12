@@ -36,7 +36,10 @@ const initialState = {
   alertMessage: '',
   isLoading: true,
   isSubmitting: false,
+  isPageEdited: false,
 };
+
+const pageEdited = { isPageEdited: true };
 
 const resetState = () => (initialState);
 
@@ -61,6 +64,7 @@ const getLinesForUpdate = (action, lines) => lines.map((line, index) => (
 
 const updateLine = (state, action) => ({
   ...state,
+  ...pageEdited,
   spendMoney: {
     ...state.spendMoney,
     lines: getLinesForUpdate(action, state.spendMoney.lines),
@@ -69,6 +73,7 @@ const updateLine = (state, action) => ({
 
 const addLine = (state, action) => ({
   ...state,
+  ...pageEdited,
   spendMoney: {
     ...state.spendMoney,
     lines: [
@@ -100,6 +105,7 @@ const formatLine = (state, action) => ({
 
 const deleteLine = (state, action) => ({
   ...state,
+  ...pageEdited,
   spendMoney: {
     ...state.spendMoney,
     lines: state.spendMoney.lines.filter((item, index) => index !== action.index),
@@ -108,6 +114,7 @@ const deleteLine = (state, action) => ({
 
 const updateHeader = (state, action) => ({
   ...state,
+  ...pageEdited,
   spendMoney: {
     ...state.spendMoney,
     [action.key]: action.value,
