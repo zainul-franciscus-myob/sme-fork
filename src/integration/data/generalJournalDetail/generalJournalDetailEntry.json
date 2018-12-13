@@ -15,7 +15,6 @@
         "creditAmount": "",
         "description": "Cry havoc",
         "taxCodeId": "123",
-        "taxAmount": "11.00",
         "accounts": [
           {
             "id": "123",
@@ -55,7 +54,6 @@
         "creditAmount": "110.00",
         "description": "Cry havoc",
         "taxCodeId": "123",
-        "taxAmount": "11.00",
         "accounts": [
           {
             "id": "123",
@@ -98,13 +96,18 @@
       }
     ]
   },
+  "totals": {
+    "totalCredit": "110.00",
+    "totalDebit": "110.00",
+    "totalTax": "22.00",
+    "totalOutOfBalance": "0.00"
+  },
   "newLine": {
     "accountId": "",
     "debitAmount": "",
     "creditAmount": "",
     "description": "",
     "taxCodeId": "",
-    "taxAmount": "",
     "accounts": [
       {
         "id": "123",

@@ -10,7 +10,6 @@
     "creditAmount": "",
     "description": "",
     "taxCodeId": "",
-    "taxAmount": "",
     "accounts": [
       {
         "id": "123",
