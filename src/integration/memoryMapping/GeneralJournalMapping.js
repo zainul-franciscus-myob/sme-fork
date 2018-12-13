@@ -2,7 +2,7 @@ import GeneralJournalIntents from '../../generalJournal/GeneralJournalIntents';
 import generalJournalDetail from '../data/generalJournalDetail/generalJournalDetailEntry';
 import generalJournalDetailNew from '../data/generalJournalDetail/generalJournalDetailNewEntry';
 import generalJournalEntries from '../data/generalJournalList/generalJournalEntries';
-import taxResponse from '../data/generalJournalDetail/generalJournalDetailTaxResponse';
+import taxResponse from '../data/generalJournalDetail/generalJournalDetailTotalsResponse';
 
 const readGeneralJournalEntries = ({ onSuccess }) => onSuccess(generalJournalEntries);
 
