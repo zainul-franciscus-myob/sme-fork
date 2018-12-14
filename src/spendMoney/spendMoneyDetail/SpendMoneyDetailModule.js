@@ -105,7 +105,7 @@ export default class SpendMoneyDetailModule {
   updateHeaderOptions = ({ key, value }) => {
     const intent = SpendMoneyIntents.UPDATE_SPEND_MONEY_HEADER;
 
-    if (key === 'selectedPayFromAccountId') {
+    if (key === 'selectedPayFromAccountId' && this.isCreating) {
       this.loadNextReferenceId(value);
     }
 
