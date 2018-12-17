@@ -17,6 +17,7 @@ import {
   isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
 import CancelModal from './components/SpendMoneyDetailCancelModal';
+import DeleteModal from './components/SpendMoneyDetailDeleteModal';
 import SpendMoneyDetailAlert from './components/SpendMoneyDetailAlert';
 import SpendMoneyDetailView from './components/SpendMoneyDetailView';
 import SpendMoneyIntents from '../SpendMoneyIntents';
@@ -307,6 +308,8 @@ export default class SpendMoneyDetailModule {
     });
   };
 
+  deleteSpendMoneyTransaction = () => console.log('delete sm transaction');
+
   render = (state) => {
     let modal;
     if (state.modalType === 'cancel') {
@@ -314,6 +317,13 @@ export default class SpendMoneyDetailModule {
         <CancelModal
           onCancel={this.closeModal}
           onConfirm={this.redirectToFeatureList}
+        />
+      );
+    } else if (state.modalType === 'delete') {
+      modal = (
+        <DeleteModal
+          onCancel={this.closeModal}
+          onConfirm={this.deleteSpendMoneyTransaction}
         />
       );
     }
@@ -331,6 +341,7 @@ export default class SpendMoneyDetailModule {
         onSaveButtonClick={this.isCreating
           ? this.createSpendMoneyEntry : this.updateSpendMoneyEntry}
         onCancelButtonClick={this.openCancelModal}
+        onDeleteButtonClick={this.openDeleteModal}
         modal={modal}
         alertComponent={alertComponent}
         isCreating={this.isCreating}
