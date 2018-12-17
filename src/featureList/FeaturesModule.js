@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { SUCCESSFULLY_CREATED_ENTRY } from '../spendMoney/spendMoneyMessageTypes';
+import {
+  SUCCESSFULLY_CREATED_ENTRY,
+  SUCCESSFULLY_DELETED_ENTRY,
+} from '../spendMoney/spendMoneyMessageTypes';
 import Alert from '../components/Alert/Alert';
 import FeatureListIntents from './FeatureListIntents';
 import FeatureListView from './components/FeatureListView';
@@ -13,7 +16,7 @@ export default class FeaturesModule {
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.businessId = '';
-    this.messageTypes = [SUCCESSFULLY_CREATED_ENTRY];
+    this.messageTypes = [SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY];
     this.store = new Store(featureListReducer);
   }
 

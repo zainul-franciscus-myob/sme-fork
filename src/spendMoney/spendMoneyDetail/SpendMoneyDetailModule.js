@@ -1,7 +1,10 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import { SUCCESSFULLY_CREATED_ENTRY } from '../spendMoneyMessageTypes';
+import {
+  SUCCESSFULLY_CREATED_ENTRY,
+  SUCCESSFULLY_DELETED_ENTRY,
+} from '../spendMoneyMessageTypes';
 import {
   getCalculatedTotalsPayload,
   getHeaderOptions,
@@ -275,8 +278,6 @@ export default class SpendMoneyDetailModule {
 
   getCalculatedTotals = () => {
     const intent = SpendMoneyIntents.GET_CALCULATED_TOTALS;
-    const content = getCalculatedTotalsPayload(this.store.state);
-    const urlParams = { businessId: this.businessId };
 
     const onSuccess = (totals) => {
       this.store.publish({
@@ -289,8 +290,8 @@ export default class SpendMoneyDetailModule {
 
     this.integration.write({
       intent,
-      urlParams,
-      content,
+      urlParams: { businessId: this.businessId },
+      content: getCalculatedTotalsPayload(this.store.state),
       onSuccess,
       onFailure,
     });
@@ -308,7 +309,33 @@ export default class SpendMoneyDetailModule {
     });
   };
 
-  deleteSpendMoneyTransaction = () => console.log('delete sm transaction');
+  deleteSpendMoneyTransaction = () => {
+    this.setSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_DELETED_ENTRY,
+        content: message,
+      });
+      this.redirectToFeatureList();
+    };
+
+    const onFailure = (error) => {
+      this.closeModal();
+      this.setSubmittingState(false);
+      this.displayAlert(error.message);
+    };
+
+    this.integration.write({
+      intent: SpendMoneyIntents.DELETE_SPEND_MONEY,
+      urlParams: {
+        businessId: this.businessId,
+        spendMoneyId: this.spendMoneyId,
+      },
+      onSuccess,
+      onFailure,
+    });
+  }
 
   render = (state) => {
     let modal;
@@ -324,6 +351,7 @@ export default class SpendMoneyDetailModule {
         <DeleteModal
           onCancel={this.closeModal}
           onConfirm={this.deleteSpendMoneyTransaction}
+          isButtonsDisabled={getIsActionsDisabled(state)}
         />
       );
     }

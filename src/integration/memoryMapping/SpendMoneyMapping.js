@@ -9,6 +9,8 @@ const newSpendMoney = ({ onSuccess }) => onSuccess(spendMoneyNewEntry);
 
 const saveSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
 
+const deleteSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
+
 const updateSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
 
 const getSpendMoneyNextReferenceId = ({ onSuccess }) => onSuccess(spendMoneyReferenceId);
@@ -20,6 +22,7 @@ const loadSpendMoneyDetail = ({ onSuccess }) => onSuccess(spendMoneyDetailEntry)
 const SpendMoneyMapping = {
   [SpendMoneyIntents.LOAD_NEW_SPEND_MONEY]: newSpendMoney,
   [SpendMoneyIntents.CREATE_SPEND_MONEY]: saveSpendMoney,
+  [SpendMoneyIntents.DELETE_SPEND_MONEY]: deleteSpendMoney,
   [SpendMoneyIntents.UPDATE_SPEND_MONEY]: updateSpendMoney,
   [SpendMoneyIntents.LOAD_REFERENCE_ID]: getSpendMoneyNextReferenceId,
   [SpendMoneyIntents.GET_CALCULATED_TOTALS]: getCalculatedTotals,
