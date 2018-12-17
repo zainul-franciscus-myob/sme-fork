@@ -1,6 +1,6 @@
-import { Alert } from '@myob/myob-widgets';
 import React from 'react';
 
+import Alert from '../../../components/Alert/Alert';
 import styles from './SpendMoneyDetailAlert.css';
 
 const SpendMoneyDetailAlert = props => (

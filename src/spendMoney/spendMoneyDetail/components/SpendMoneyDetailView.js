@@ -35,9 +35,9 @@ const SpendMoneyDetailView = ({
   const actions = (
     <SpendMoneyDetailActions
       isCreating={isCreating}
-      onSave={onSaveButtonClick}
-      onCancel={onCancelButtonClick}
-      onDelete={onDeleteButtonClick}
+      onSaveButtonClick={onSaveButtonClick}
+      onCancelButtonClick={onCancelButtonClick}
+      onDeleteButtonClick={onDeleteButtonClick}
       isActionsDisabled={isActionsDisabled}
     />
   );

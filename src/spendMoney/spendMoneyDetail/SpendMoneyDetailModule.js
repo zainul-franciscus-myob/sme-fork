@@ -1,7 +1,10 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import { SUCCESSFULLY_CREATED_ENTRY } from '../spendMoneyMessageTypes';
+import {
+  SUCCESSFULLY_CREATED_ENTRY,
+  SUCCESSFULLY_DELETED_ENTRY,
+} from '../spendMoneyMessageTypes';
 import {
   getCalculatedTotalsPayload,
   getHeaderOptions,
@@ -17,6 +20,7 @@ import {
   isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
 import CancelModal from './components/SpendMoneyDetailCancelModal';
+import DeleteModal from './components/SpendMoneyDetailDeleteModal';
 import SpendMoneyDetailAlert from './components/SpendMoneyDetailAlert';
 import SpendMoneyDetailView from './components/SpendMoneyDetailView';
 import SpendMoneyIntents from '../SpendMoneyIntents';
@@ -274,8 +278,6 @@ export default class SpendMoneyDetailModule {
 
   getCalculatedTotals = () => {
     const intent = SpendMoneyIntents.GET_CALCULATED_TOTALS;
-    const content = getCalculatedTotalsPayload(this.store.state);
-    const urlParams = { businessId: this.businessId };
 
     const onSuccess = (totals) => {
       this.store.publish({
@@ -288,8 +290,8 @@ export default class SpendMoneyDetailModule {
 
     this.integration.write({
       intent,
-      urlParams,
-      content,
+      urlParams: { businessId: this.businessId },
+      content: getCalculatedTotalsPayload(this.store.state),
       onSuccess,
       onFailure,
     });
@@ -307,6 +309,34 @@ export default class SpendMoneyDetailModule {
     });
   };
 
+  deleteSpendMoneyTransaction = () => {
+    this.setSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_DELETED_ENTRY,
+        content: message,
+      });
+      this.redirectToFeatureList();
+    };
+
+    const onFailure = (error) => {
+      this.closeModal();
+      this.setSubmittingState(false);
+      this.displayAlert(error.message);
+    };
+
+    this.integration.write({
+      intent: SpendMoneyIntents.DELETE_SPEND_MONEY,
+      urlParams: {
+        businessId: this.businessId,
+        spendMoneyId: this.spendMoneyId,
+      },
+      onSuccess,
+      onFailure,
+    });
+  }
+
   render = (state) => {
     let modal;
     if (state.modalType === 'cancel') {
@@ -314,6 +344,14 @@ export default class SpendMoneyDetailModule {
         <CancelModal
           onCancel={this.closeModal}
           onConfirm={this.redirectToFeatureList}
+        />
+      );
+    } else if (state.modalType === 'delete') {
+      modal = (
+        <DeleteModal
+          onCancel={this.closeModal}
+          onConfirm={this.deleteSpendMoneyTransaction}
+          isButtonsDisabled={getIsActionsDisabled(state)}
         />
       );
     }
@@ -331,6 +369,7 @@ export default class SpendMoneyDetailModule {
         onSaveButtonClick={this.isCreating
           ? this.createSpendMoneyEntry : this.updateSpendMoneyEntry}
         onCancelButtonClick={this.openCancelModal}
+        onDeleteButtonClick={this.openDeleteModal}
         modal={modal}
         alertComponent={alertComponent}
         isCreating={this.isCreating}

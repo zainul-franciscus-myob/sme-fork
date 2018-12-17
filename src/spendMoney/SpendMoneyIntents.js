@@ -3,6 +3,7 @@ const SpendMoneyIntents = {
   LOAD_SPEND_MONEY_DETAIL: Symbol('Load a spend money entry data'),
   LOAD_REFERENCE_ID: Symbol('Load the reference id'),
   CREATE_SPEND_MONEY: Symbol('Create a new spend money entry'),
+  DELETE_SPEND_MONEY: Symbol('Delete spend money transaction'),
   UPDATE_SPEND_MONEY: Symbol('Update a spend money entry'),
   UPDATE_SPEND_MONEY_HEADER: Symbol('Update spend money header'),
   UPDATE_SPEND_MONEY_LINE: Symbol('Update spend money line'),
