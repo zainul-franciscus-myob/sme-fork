@@ -158,7 +158,7 @@ export default class SpendMoneyDetailModule {
         content: response.message,
       });
       this.setSubmittingState(false);
-      this.redirectToFeatureList();
+      this.redirectToSpendMoneyList();
     };
 
     const onFailure = (error) => {
@@ -193,7 +193,7 @@ export default class SpendMoneyDetailModule {
         modalType: 'cancel',
       });
     } else {
-      this.redirectToFeatureList();
+      this.redirectToSpendMoneyList();
     }
   };
 
@@ -212,8 +212,8 @@ export default class SpendMoneyDetailModule {
     this.store.publish({ intent });
   };
 
-  redirectToFeatureList = () => {
-    window.location.href = `/#/${this.businessId}/features`;
+  redirectToSpendMoneyList = () => {
+    window.location.href = `/#/${this.businessId}/spendMoney`;
   };
 
   unsubscribeFromStore = () => {
@@ -317,7 +317,7 @@ export default class SpendMoneyDetailModule {
         type: SUCCESSFULLY_DELETED_ENTRY,
         content: message,
       });
-      this.redirectToFeatureList();
+      this.redirectToSpendMoneyList();
     };
 
     const onFailure = (error) => {
@@ -343,7 +343,7 @@ export default class SpendMoneyDetailModule {
       modal = (
         <CancelModal
           onCancel={this.closeModal}
-          onConfirm={this.redirectToFeatureList}
+          onConfirm={this.redirectToSpendMoneyList}
         />
       );
     } else if (state.modalType === 'delete') {

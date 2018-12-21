@@ -13,6 +13,7 @@ import GeneralJournalDetailModule from './generalJournal/generalJournalDetail/Ge
 import GeneralJournalModule from './generalJournal/generalJournalList/GeneralJournalModule';
 import Inbox from './inbox';
 import SpendMoneyDetailModule from './spendMoney/spendMoneyDetail/SpendMoneyDetailModule';
+import SpendMoneyListModule from './spendMoney/spendMoneyList/SpendMoneyListModule';
 import initializeRouter from './initializeRouter';
 
 async function main(integrationType) {
@@ -38,7 +39,8 @@ async function main(integrationType) {
   const generalJournalDetail = new GeneralJournalDetailModule({
     integration, setRootView, pushMessage,
   });
-  const spendMoney = new SpendMoneyDetailModule({ integration, setRootView, pushMessage });
+  const spendMoneyDetail = new SpendMoneyDetailModule({ integration, setRootView, pushMessage });
+  const spendMoneyList = new SpendMoneyListModule({ integration, setRootView, popMessages });
 
   const app = new App(setRootView);
   const routes = [
@@ -47,7 +49,8 @@ async function main(integrationType) {
     { name: 'home', path: '/home' },
     { name: 'banking', path: '/:businessId/banking' },
     { name: 'generalJournal', path: '/:businessId/generalJournal' },
-    { name: 'spendMoney', path: '/:businessId/spendMoney/:spendMoneyId' },
+    { name: 'spendMoneyList', path: '/:businessId/spendMoney' },
+    { name: 'spendMoneyDetail', path: '/:businessId/spendMoney/:spendMoneyId' },
     { name: 'generalJournalDetail', path: '/:businessId/generalJournal/:journalId' },
   ];
 
@@ -58,7 +61,8 @@ async function main(integrationType) {
     business,
     generalJournal,
     generalJournalDetail,
-    spendMoney,
+    spendMoneyDetail,
+    spendMoneyList,
   };
 
   const actions = {
@@ -67,7 +71,8 @@ async function main(integrationType) {
     home: () => { moduleMappings.home.run(); },
     banking: (context) => { moduleMappings.banking.run(context); },
     generalJournal: (context) => { moduleMappings.generalJournal.run(context); },
-    spendMoney: (context) => { moduleMappings.spendMoney.run(context); },
+    spendMoneyDetail: (context) => { moduleMappings.spendMoneyDetail.run(context); },
+    spendMoneyList: (context) => { moduleMappings.spendMoneyList.run(context); },
     generalJournalDetail: (context) => { moduleMappings.generalJournalDetail.run(context); },
   };
 

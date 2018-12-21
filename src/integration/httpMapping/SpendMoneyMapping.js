@@ -29,6 +29,18 @@ const SpendMoneyMapping = {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/calculate_totals`,
   },
+  [SpendMoneyIntents.LOAD_SPEND_MONEY_ENTRIES]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/spendMoney/load_spend_money_entries`,
+  },
+  [SpendMoneyIntents.FILTER_SPEND_MONEY_ENTRIES]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/spendMoney/filter_spend_money_entries`,
+  },
+  [SpendMoneyIntents.SORT_SPEND_MONEY_ENTRIES]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/spendMoney/filter_spend_money_entries`,
+  },
 };
 
 export default SpendMoneyMapping;
