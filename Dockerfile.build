@@ -1,4 +1,4 @@
-FROM node:carbon-alpine
+FROM node:11.6.0-alpine
 
 COPY . /app
 WORKDIR /app
