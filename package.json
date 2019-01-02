@@ -10,21 +10,21 @@
     ]
   },
   "dependencies": {
-    "@myob/ldal": "^0.2.4",
+    "@myob/ldal": "0.2.4",
     "@myob/myob-styles": "3.1.0",
     "@myob/myob-widgets": "3.1.0",
     "abortcontroller-polyfill": "1.2.1",
     "classnames": "2.2.5",
     "downshift": "1.16.0",
     "match-sorter": "2.2.1",
-    "prop-types": "^15.6.2",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "react-redux": "^6.0.0",
-    "react-scripts": "^1.1.5",
-    "reselect": "^4.0.0",
-    "router5": "^6.5.1",
-    "uuid": "^3.3.2",
+    "prop-types": "15.6.2",
+    "react": "16.5.2",
+    "react-dom": "16.5.2",
+    "react-redux": "6.0.0",
+    "react-scripts": "1.1.5",
+    "reselect": "4.0.0",
+    "router5": "6.5.1",
+    "uuid": "3.3.2",
     "whatwg-fetch": "3.0.0"
   },
   "scripts": {
@@ -38,15 +38,15 @@
     "lint:css:fix": "stylelint ./src/**/*.css --fix"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.6",
-    "eslint": "^5.6.1",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.24.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.11.1",
-    "eslint-plugin-sort-imports-es6-autofix": "^0.3.0",
-    "stylelint": "^9.6.0",
-    "stylelint-config-standard": "^18.2.0"
+    "babel-eslint": "8.2.6",
+    "eslint": "5.6.1",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jest": "21.24.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-react": "7.11.1",
+    "eslint-plugin-sort-imports-es6-autofix": "0.3.0",
+    "stylelint": "9.6.0",
+    "stylelint-config-standard": "18.2.0"
   }
 }
