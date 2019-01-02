@@ -1,4 +1,4 @@
 #!/bin/bash -eu
 
 echo "--- Running Linters";
-ops/bin/env "npm install && npm run lint:js && npm run lint:css"
+ops/bin/env "yarn install && yarn run lint:js && yarn run lint:css"

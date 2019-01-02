@@ -1,4 +1,4 @@
 #!/bin/bash -eu
 
 echo "--- Running Unit Tests";
-ops/bin/env "npm install && npm run test -- --coverage"
+ops/bin/env "yarn install && yarn run test -- --coverage"
