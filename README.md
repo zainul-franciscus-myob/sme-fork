@@ -30,18 +30,18 @@ SME Web
     > At this stage there are no guarantees that this web client will use the same node version as the BFF.
 
 2.  Install project dependencies
-        npm install
+        yarn install
 
 ## Run tests
 
 ```sh
-./ops/bin/test # npm run test
+./ops/bin/test yarn run test
 ```
 
 **with code coverage:**
 
 ```sh
-./ops/bin/coverage # npm run test -- --coverage
+./ops/bin/coverage # yarn run test -- --coverage
 ```
 
 > :hand: We consider code coverage to be a _very soft_ indicator of quality, so there are no specific thresholds configured at this stage.
@@ -49,7 +49,7 @@ SME Web
 ## Run local development environment
 
 ```sh
-./ops/bin/local # npm run start
+./ops/bin/local # yarn run start
 ```
 
 **Environment configuration:**<br/>
@@ -65,7 +65,7 @@ SME Web
 ## Run a production build
 
 ```sh
-./ops/bin/build # npm run build
+./ops/bin/build # yarn run build
 ```
 
 **Environment configuration:**<br/>
