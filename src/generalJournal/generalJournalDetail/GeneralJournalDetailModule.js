@@ -44,7 +44,7 @@ export default class GeneralJournalDetailModule {
 
     const onSuccess = ({ generalJournal, newLine }) => {
       this.setLoadingState(false);
-      this.store.publish({
+      this.store.dispatch({
         intent,
         generalJournal,
         newLine,
@@ -67,7 +67,7 @@ export default class GeneralJournalDetailModule {
   updateHeaderOptions = ({ key, value }) => {
     const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_HEADER_OPTIONS;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       key,
       value,
@@ -110,7 +110,7 @@ export default class GeneralJournalDetailModule {
   };
 
   displayAlert = (errorMessage) => {
-    this.store.publish({
+    this.store.dispatch({
       intent: GeneralJournalIntents.SET_ALERT_MESSAGE,
       alertMessage: errorMessage,
     });
@@ -184,7 +184,7 @@ export default class GeneralJournalDetailModule {
   setSubmittingState = (isSubmitting) => {
     const intent = GeneralJournalIntents.SET_SUBMITTING_STATE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       isSubmitting,
     });
@@ -193,7 +193,7 @@ export default class GeneralJournalDetailModule {
   openCancelModal = () => {
     const intent = GeneralJournalIntents.OPEN_MODAL;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       modalType: 'cancel',
     });
@@ -202,7 +202,7 @@ export default class GeneralJournalDetailModule {
   openDeleteModal = () => {
     const intent = GeneralJournalIntents.OPEN_MODAL;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       modalType: 'delete',
     });
@@ -211,7 +211,7 @@ export default class GeneralJournalDetailModule {
   closeModal = () => {
     const intent = GeneralJournalIntents.CLOSE_MODAL;
 
-    this.store.publish({ intent });
+    this.store.dispatch({ intent });
   };
 
   redirectToGeneralJournalList = () => {
@@ -225,7 +225,7 @@ export default class GeneralJournalDetailModule {
   updateGeneralJournalLine = (lineIndex, lineKey, lineValue) => {
     const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_LINE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       lineIndex,
       lineKey,
@@ -241,7 +241,7 @@ export default class GeneralJournalDetailModule {
   addGeneralJournalLine = (partialLine) => {
     const intent = GeneralJournalIntents.ADD_GENERAL_JOURNAL_DETAIL_LINE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       line: partialLine,
     });
@@ -250,7 +250,7 @@ export default class GeneralJournalDetailModule {
   deleteJournalLine = (index) => {
     const intent = GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL_LINE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       index,
     });
@@ -259,7 +259,7 @@ export default class GeneralJournalDetailModule {
   }
 
   dismissAlert = () => {
-    this.store.publish({
+    this.store.dispatch({
       intent: GeneralJournalIntents.SET_ALERT_MESSAGE,
       alertMessage: '',
     });
@@ -268,7 +268,7 @@ export default class GeneralJournalDetailModule {
   formatJournalLine = (index) => {
     const intent = GeneralJournalIntents.FORMAT_GENERAL_JOURNAL_DETAIL_LINE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       index,
     });
@@ -279,7 +279,7 @@ export default class GeneralJournalDetailModule {
     const content = getTaxCalculatorPayload(this.store.state);
     const urlParams = { businessId: this.businessId };
 
-    const onSuccess = generalJournal => this.store.publish({
+    const onSuccess = generalJournal => this.store.dispatch({
       intent,
       generalJournal,
     });
@@ -351,7 +351,7 @@ export default class GeneralJournalDetailModule {
   };
 
   setLoadingState = (isLoading) => {
-    this.store.publish({
+    this.store.dispatch({
       intent: GeneralJournalIntents.SET_LOADING_STATE,
       isLoading,
     });
@@ -368,7 +368,7 @@ export default class GeneralJournalDetailModule {
 
   resetState() {
     const intent = SystemIntents.RESET_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
     });
   }

@@ -10,15 +10,24 @@ class Store {
   }
 
   subscribe = (subscriber) => {
-    this.subscribers.push(subscriber);
+    const length = this.subscribers.push(subscriber);
+    const subscriptionIndex = length - 1;
+
+    const unsubscribe = () => {
+      this.subscribers = this.subscribers.filter((item, i) => i !== subscriptionIndex);
+    };
+
+    return unsubscribe;
   };
 
-  publish = (action) => {
+  dispatch = (action) => {
     this.state = this.reducer(this.state, action);
     this.subscribers.forEach((subscriber) => {
       subscriber(this.state);
     });
   };
+
+  getState = () => this.state;
 }
 
 export default Store;

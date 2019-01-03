@@ -2,7 +2,10 @@ import {
   Button, ButtonRow,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
 import React from 'react';
+
+import { getIsActionsDisabled } from '../spendMoneyDetailSelectors';
 
 const SpendMoneyDetailActions = ({
   onSaveButtonClick,
@@ -34,4 +37,8 @@ SpendMoneyDetailActions.propTypes = {
   isActionsDisabled: PropTypes.bool.isRequired,
 };
 
-export default SpendMoneyDetailActions;
+const mapStateToProps = state => ({
+  isActionsDisabled: getIsActionsDisabled(state),
+});
+
+export default connect(mapStateToProps)(SpendMoneyDetailActions);

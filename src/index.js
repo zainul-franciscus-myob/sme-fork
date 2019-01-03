@@ -24,6 +24,7 @@ async function main(integrationType) {
 
   const root = document.getElementById('root');
   const setRootView = (component) => {
+    ReactDOM.unmountComponentAtNode(root);
     ReactDOM.render(component, root);
   };
 

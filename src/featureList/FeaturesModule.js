@@ -37,7 +37,7 @@ export default class FeaturesModule {
   };
 
   dismissAlert = () => {
-    this.store.publish({
+    this.store.dispatch({
       intent: FeatureListIntents.SET_ALERT_MESSAGE,
       alertMessage: '',
     });
@@ -56,7 +56,7 @@ export default class FeaturesModule {
 
       const intent = FeatureListIntents.SET_ALERT_MESSAGE;
 
-      this.store.publish({
+      this.store.dispatch({
         intent,
         alertMessage,
       });
@@ -72,7 +72,7 @@ export default class FeaturesModule {
 
   resetState() {
     const intent = SystemIntents.RESET_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
     });
   }

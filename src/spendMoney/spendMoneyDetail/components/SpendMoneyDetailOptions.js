@@ -1,9 +1,11 @@
 import {
   Checkbox, Columns, DatePicker, Input, InputLabel, RadioButton, TextArea,
 } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import { getHeaderOptions } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../components/AccountCombobox';
 import Combobox from '../../../components/Feelix/ComboBox/Combobox';
 import styles from './SpendMoneyDetailOptions.css';
@@ -151,6 +153,10 @@ class SpendMoneyDetailOptions extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  headerOptions: getHeaderOptions(state),
+});
+
 SpendMoneyDetailOptions.propTypes = {
   headerOptions: PropTypes.shape({
     referenceId: PropTypes.string,
@@ -163,4 +169,4 @@ SpendMoneyDetailOptions.propTypes = {
   onUpdateHeaderOptions: PropTypes.func.isRequired,
 };
 
-export default SpendMoneyDetailOptions;
+export default connect(mapStateToProps)(SpendMoneyDetailOptions);

@@ -69,7 +69,7 @@ export default class SpendMoneyListModule {
       ...filterOptions
     }) => {
       this.setLoadingState(false);
-      this.store.publish({
+      this.store.dispatch({
         intent,
         entries,
         filterOptions,
@@ -101,7 +101,7 @@ export default class SpendMoneyListModule {
 
     const onSuccess = ({ entries }) => {
       this.setTableLoadingState(false);
-      this.store.publish({
+      this.store.dispatch({
         intent,
         entries,
       });
@@ -133,7 +133,7 @@ export default class SpendMoneyListModule {
     };
 
     const onSuccess = ({ entries, sortOrder }) => {
-      this.store.publish({
+      this.store.dispatch({
         intent,
         entries,
         sortOrder,
@@ -174,7 +174,7 @@ export default class SpendMoneyListModule {
 
   setAlert = ({ message, type }) => {
     const intent = SpendMoneyIntents.SET_ALERT;
-    this.store.publish({
+    this.store.dispatch({
       intent,
       alert: {
         message,
@@ -193,7 +193,7 @@ export default class SpendMoneyListModule {
 
   setLoadingState = (isLoading) => {
     const intent = SpendMoneyIntents.SET_LOADING_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
       isLoading,
     });
@@ -201,7 +201,7 @@ export default class SpendMoneyListModule {
 
   setTableLoadingState = (isTableLoading) => {
     const intent = SpendMoneyIntents.SET_TABLE_LOADING_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
       isTableLoading,
     });
@@ -209,7 +209,7 @@ export default class SpendMoneyListModule {
 
   updateFilterOptions = ({ filterName, value }) => {
     const intent = SpendMoneyIntents.UPDATE_FILTER_OPTIONS;
-    this.store.publish({
+    this.store.dispatch({
       intent,
       filterName,
       value,
@@ -218,7 +218,7 @@ export default class SpendMoneyListModule {
 
   dismissAlert = () => {
     const intent = SpendMoneyIntents.SET_ALERT;
-    this.store.publish({
+    this.store.dispatch({
       intent,
       alert: undefined,
     });
@@ -234,7 +234,7 @@ export default class SpendMoneyListModule {
 
   resetState() {
     const intent = SystemIntents.RESET_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
     });
   }

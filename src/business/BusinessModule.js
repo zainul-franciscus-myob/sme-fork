@@ -19,7 +19,7 @@ export default class BusinessModule {
 
     const onSuccess = (businesses) => {
       this.setLoadingState(false);
-      this.store.publish({
+      this.store.dispatch({
         intent,
         businesses,
         isLoading: false,
@@ -40,7 +40,7 @@ export default class BusinessModule {
   };
 
   setLoadingState = (isLoading) => {
-    this.store.publish({
+    this.store.dispatch({
       intent: BusinessIntents.SET_LOADING_STATE,
       isLoading,
     });
@@ -64,7 +64,7 @@ export default class BusinessModule {
 
   resetState() {
     const intent = SystemIntents.RESET_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
     });
   }

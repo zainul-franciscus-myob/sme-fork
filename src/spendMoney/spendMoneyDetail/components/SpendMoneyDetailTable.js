@@ -1,23 +1,17 @@
-import { Input, LineItemTable } from '@myob/myob-widgets';
+import { LineItemTable } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AccountCombobox from '../../../components/AccountCombobox';
-import TaxCodeCombobox from '../../../components/TaxCodeCombobox';
+import {
+  getFormattedTotals, getIndexOfLastLine, getTableData,
+} from '../spendMoneyDetailSelectors';
+import SpendMoneyDetailRow from './SpendMoneyDetailRow';
 
-export default class SpendMoneyDetailTable extends React.Component {
+class SpendMoneyDetailTable extends React.Component {
   onChange = (index, name, value) => {
     const { onUpdateRow } = this.props;
     onUpdateRow(index, name, value);
-  }
-
-  eventWrapper = (name, onChange) => (item) => {
-    onChange({
-      target: {
-        name,
-        value: item.id,
-      },
-    });
   }
 
   onMoveRow = () => {}
@@ -34,62 +28,20 @@ export default class SpendMoneyDetailTable extends React.Component {
 
   renderRow = (index, data, onChange) => {
     const {
-      newLineData,
       indexOfLastLine,
     } = this.props;
 
     const isNewLineRow = indexOfLastLine < index;
 
-    const lineData = isNewLineRow ? newLineData : data;
-
-    const {
-      amount = '',
-      description = '',
-      selectedAccountIndex,
-      taxCodes,
-      accounts,
-      selectedTaxCodeIndex,
-    } = lineData;
-
     return (
-      <LineItemTable.Row
-        id={index}
-        key={index}
+      <SpendMoneyDetailRow
         index={index}
-        moveRow={this.onMoveRow}
-      >
-        <AccountCombobox
-          items={accounts}
-          selectedIndex={selectedAccountIndex}
-          onChange={this.eventWrapper('accountId', onChange)}
-        />
-        <Input
-          type="number"
-          label="Amount"
-          hiddenLabel
-          name="amount"
-          value={amount}
-          disabled={isNewLineRow}
-          onChange={onChange}
-          step="0.01"
-          onBlur={this.onRowInputBlur(index)}
-        />
-        <Input
-          type="text"
-          label="Description"
-          hiddenLabel
-          name="description"
-          value={description}
-          onChange={onChange}
-          disabled={isNewLineRow}
-        />
-        <TaxCodeCombobox
-          items={taxCodes}
-          selectedIndex={selectedTaxCodeIndex}
-          onChange={this.eventWrapper('taxCodeId', onChange)}
-          disabled={isNewLineRow}
-        />
-      </LineItemTable.Row>
+        key={index}
+        onMoveRow={this.onMoveRow}
+        onChange={onChange}
+        isNewLineRow={isNewLineRow}
+        onRowInputBlur={this.onRowInputBlur}
+      />
     );
   };
 
@@ -99,7 +51,7 @@ export default class SpendMoneyDetailTable extends React.Component {
     ];
 
     const {
-      lines,
+      tableData,
       amountTotals: {
         netAmount,
         totalTax,
@@ -114,7 +66,7 @@ export default class SpendMoneyDetailTable extends React.Component {
         onRowChange={this.onChange}
         labels={labels}
         renderRow={this.renderRow}
-        data={lines}
+        data={tableData}
         onRemoveRow={onRemoveRow}
       >
         <LineItemTable.Total>
@@ -128,7 +80,7 @@ export default class SpendMoneyDetailTable extends React.Component {
 }
 
 SpendMoneyDetailTable.propTypes = {
-  lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  tableData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   newLineData: PropTypes.shape({}).isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
   amountTotals: PropTypes.shape({
@@ -142,3 +94,11 @@ SpendMoneyDetailTable.propTypes = {
   onRowInputBlur: PropTypes.func.isRequired,
   onRemoveRow: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  amountTotals: getFormattedTotals(state),
+  indexOfLastLine: getIndexOfLastLine(state),
+  tableData: getTableData(state),
+});
+
+export default connect(mapStateToProps)(SpendMoneyDetailTable);

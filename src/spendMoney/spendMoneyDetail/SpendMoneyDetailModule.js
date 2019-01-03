@@ -1,4 +1,4 @@
-import { Spinner } from '@myob/myob-widgets';
+import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
@@ -7,21 +7,12 @@ import {
 } from '../spendMoneyMessageTypes';
 import {
   getCalculatedTotalsPayload,
-  getHeaderOptions,
-  getIndexOfLastLine,
-  getIsActionsDisabled,
-  getLineData,
-  getNewLineData,
   getSpendMoney,
   getSpendMoneyForCreatePayload,
   getSpendMoneyId,
-  getTotals,
   isPageEdited,
   isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
-import CancelModal from './components/SpendMoneyDetailCancelModal';
-import DeleteModal from './components/SpendMoneyDetailDeleteModal';
-import SpendMoneyDetailAlert from './components/SpendMoneyDetailAlert';
 import SpendMoneyDetailView from './components/SpendMoneyDetailView';
 import SpendMoneyIntents from '../SpendMoneyIntents';
 import Store from '../../store/Store';
@@ -50,7 +41,7 @@ export default class SpendMoneyDetailModule {
 
     const onSuccess = ({ spendMoney, newLine, totals }) => {
       this.setLoadingState(false);
-      this.store.publish({
+      this.store.dispatch({
         intent,
         spendMoney,
         totals,
@@ -86,7 +77,7 @@ export default class SpendMoneyDetailModule {
 
     const onSuccess = ({ referenceId }) => {
       if (!isReferenceIdDirty(this.store.state)) {
-        this.store.publish({
+        this.store.dispatch({
           intent,
           referenceId,
         });
@@ -113,7 +104,7 @@ export default class SpendMoneyDetailModule {
       this.loadNextReferenceId(value);
     }
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       key,
       value,
@@ -125,7 +116,7 @@ export default class SpendMoneyDetailModule {
   };
 
   displayAlert = (errorMessage) => {
-    this.store.publish({
+    this.store.dispatch({
       intent: SpendMoneyIntents.SET_ALERT_MESSAGE,
       alertMessage: errorMessage,
     });
@@ -179,7 +170,7 @@ export default class SpendMoneyDetailModule {
   setSubmittingState = (isSubmitting) => {
     const intent = SpendMoneyIntents.SET_SUBMITTING_STATE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       isSubmitting,
     });
@@ -188,7 +179,7 @@ export default class SpendMoneyDetailModule {
   openCancelModal = () => {
     const intent = SpendMoneyIntents.OPEN_MODAL;
     if (isPageEdited(this.store.state)) {
-      this.store.publish({
+      this.store.dispatch({
         intent,
         modalType: 'cancel',
       });
@@ -200,7 +191,7 @@ export default class SpendMoneyDetailModule {
   openDeleteModal = () => {
     const intent = SpendMoneyIntents.OPEN_MODAL;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       modalType: 'delete',
     });
@@ -209,7 +200,7 @@ export default class SpendMoneyDetailModule {
   closeModal = () => {
     const intent = SpendMoneyIntents.CLOSE_MODAL;
 
-    this.store.publish({ intent });
+    this.store.dispatch({ intent });
   };
 
   redirectToSpendMoneyList = () => {
@@ -223,7 +214,7 @@ export default class SpendMoneyDetailModule {
   updateSpendMoneyLine = (lineIndex, lineKey, lineValue) => {
     const intent = SpendMoneyIntents.UPDATE_SPEND_MONEY_LINE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       lineIndex,
       lineKey,
@@ -239,7 +230,7 @@ export default class SpendMoneyDetailModule {
   addSpendMoneyLine = (partialLine) => {
     const intent = SpendMoneyIntents.ADD_SPEND_MONEY_LINE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       line: partialLine,
     });
@@ -250,7 +241,7 @@ export default class SpendMoneyDetailModule {
   deleteSpendMoneyLine = (index) => {
     const intent = SpendMoneyIntents.DELETE_SPEND_MONEY_LINE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       index,
     });
@@ -261,7 +252,7 @@ export default class SpendMoneyDetailModule {
   formatSpendMoneyLine = (index) => {
     const intent = SpendMoneyIntents.FORMAT_SPEND_MONEY_LINE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       index,
     });
@@ -270,7 +261,7 @@ export default class SpendMoneyDetailModule {
   setTotalsLoadingState = (isTotalsLoading) => {
     const intent = SpendMoneyIntents.SET_TOTALS_LOADING_STATE;
 
-    this.store.publish({
+    this.store.dispatch({
       intent,
       isTotalsLoading,
     });
@@ -280,7 +271,7 @@ export default class SpendMoneyDetailModule {
     const intent = SpendMoneyIntents.GET_CALCULATED_TOTALS;
 
     const onSuccess = (totals) => {
-      this.store.publish({
+      this.store.dispatch({
         intent,
         totals,
       });
@@ -303,7 +294,7 @@ export default class SpendMoneyDetailModule {
   }
 
   dismissAlert = () => {
-    this.store.publish({
+    this.store.dispatch({
       intent: SpendMoneyIntents.SET_ALERT_MESSAGE,
       alertMessage: '',
     });
@@ -337,59 +328,37 @@ export default class SpendMoneyDetailModule {
     });
   }
 
-  render = (state) => {
-    let modal;
-    if (state.modalType === 'cancel') {
-      modal = (
-        <CancelModal
-          onCancel={this.closeModal}
-          onConfirm={this.redirectToSpendMoneyList}
-        />
-      );
-    } else if (state.modalType === 'delete') {
-      modal = (
-        <DeleteModal
-          onCancel={this.closeModal}
-          onConfirm={this.deleteSpendMoneyTransaction}
-          isButtonsDisabled={getIsActionsDisabled(state)}
-        />
-      );
-    }
-
-    const alertComponent = state.alertMessage && (
-      <SpendMoneyDetailAlert type="danger" onDismiss={this.dismissAlert}>
-        {state.alertMessage}
-      </SpendMoneyDetailAlert>
-    );
-
+  render = () => {
     const spendMoneyView = (
       <SpendMoneyDetailView
-        headerOptions={getHeaderOptions(state)}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.isCreating
           ? this.createSpendMoneyEntry : this.updateSpendMoneyEntry}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
-        modal={modal}
-        alertComponent={alertComponent}
+        onCloseModal={this.closeModal}
+        onCancelModal={this.redirectToSpendMoneyList}
+        onDeleteModal={this.deleteSpendMoneyTransaction}
+        onDismissAlert={this.dismissAlert}
         isCreating={this.isCreating}
-        lines={getLineData(state)}
-        newLineData={getNewLineData(state)}
         onUpdateRow={this.updateSpendMoneyLine}
         onAddRow={this.addSpendMoneyLine}
         onRemoveRow={this.deleteSpendMoneyLine}
         onRowInputBlur={this.formatAndCalculateTotals}
-        indexOfLastLine={getIndexOfLastLine(state)}
-        amountTotals={getTotals(state)}
-        isActionsDisabled={getIsActionsDisabled(state)}
       />
     );
-    const view = state.isLoading ? (<Spinner />) : spendMoneyView;
-    this.setRootView(view);
+
+    const wrappedView = (
+      <Provider store={this.store}>
+        {spendMoneyView}
+      </Provider>
+    );
+
+    this.setRootView(wrappedView);
   };
 
   setLoadingState = (isLoading) => {
-    this.store.publish({
+    this.store.dispatch({
       intent: SpendMoneyIntents.SET_LOADING_STATE,
       isLoading,
     });
@@ -399,14 +368,15 @@ export default class SpendMoneyDetailModule {
     this.businessId = context.businessId;
     this.spendMoneyId = context.spendMoneyId;
     this.isCreating = context.spendMoneyId === 'new';
-    this.store.subscribe(this.render);
+    this.resetState();
+    this.render();
     this.setLoadingState(true);
     this.loadSpendMoney();
   }
 
   resetState() {
     const intent = SystemIntents.RESET_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
     });
   }

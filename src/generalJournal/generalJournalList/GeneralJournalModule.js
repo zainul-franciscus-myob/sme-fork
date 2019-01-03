@@ -64,7 +64,7 @@ export default class GeneralJournalModule {
       ...filterOptions
     }) => {
       this.setLoadingState(false);
-      this.store.publish({
+      this.store.dispatch({
         intent,
         entries,
         filterOptions,
@@ -96,7 +96,7 @@ export default class GeneralJournalModule {
 
     const onSuccess = ({ entries }) => {
       this.setTableLoadingState(false);
-      this.store.publish({
+      this.store.dispatch({
         intent,
         entries,
       });
@@ -130,7 +130,7 @@ export default class GeneralJournalModule {
     };
 
     const onSuccess = ({ entries, sortOrder }) => {
-      this.store.publish({
+      this.store.dispatch({
         intent,
         entries,
         sortOrder,
@@ -166,7 +166,7 @@ export default class GeneralJournalModule {
 
       const intent = GeneralJournalIntents.SET_ALERT_MESSAGE;
 
-      this.store.publish({
+      this.store.dispatch({
         intent,
         alertMessage,
       });
@@ -183,7 +183,7 @@ export default class GeneralJournalModule {
 
   setLoadingState = (isLoading) => {
     const intent = GeneralJournalIntents.SET_LOADING_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
       isLoading,
     });
@@ -191,7 +191,7 @@ export default class GeneralJournalModule {
 
   setTableLoadingState = (isTableLoading) => {
     const intent = GeneralJournalIntents.SET_TABLE_LOADING_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
       isTableLoading,
     });
@@ -199,7 +199,7 @@ export default class GeneralJournalModule {
 
   updateFilterOptions = ({ filterName, value }) => {
     const intent = GeneralJournalIntents.UPDATE_FILTER_OPTIONS;
-    this.store.publish({
+    this.store.dispatch({
       intent,
       filterName,
       value,
@@ -208,7 +208,7 @@ export default class GeneralJournalModule {
 
   dismissAlert = () => {
     const intent = GeneralJournalIntents.SET_ALERT_MESSAGE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
       alertMessage: '',
     });
@@ -224,7 +224,7 @@ export default class GeneralJournalModule {
 
   resetState() {
     const intent = SystemIntents.RESET_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
     });
   }

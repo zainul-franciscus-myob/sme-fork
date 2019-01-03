@@ -40,7 +40,7 @@ export default class BankingModule {
     const intent = BankingIntents.ALLOCATE_ACCOUNT_FOR_TRANSACTION;
 
     const onSuccess = (allocatedTransaction) => {
-      this.store.publish({
+      this.store.dispatch({
         intent,
         allocatedTransaction: allocatedTransaction.transaction,
       });
@@ -60,7 +60,7 @@ export default class BankingModule {
     const intent = BankingIntents.LOAD_TRANSACTIONS_AND_ACCOUNTS;
 
     const onSuccess = ({ transactions, accounts }) => {
-      this.store.publish({
+      this.store.dispatch({
         intent,
         transactions,
         accounts,
@@ -89,7 +89,7 @@ export default class BankingModule {
 
   resetState() {
     const intent = SystemIntents.RESET_STATE;
-    this.store.publish({
+    this.store.dispatch({
       intent,
     });
   }

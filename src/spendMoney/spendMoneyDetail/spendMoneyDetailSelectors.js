@@ -1,16 +1,39 @@
-export const getHeaderOptions = (state) => {
+import { createSelector, createStructuredSelector } from 'reselect';
+
+const getReferenceId = state => state.spendMoney.referenceId;
+const getSelectedPayFromId = state => state.spendMoney.selectedPayFromAccountId;
+const getSelectedPayToContact = state => state.spendMoney.selectedPayToContactId;
+const getPayFromAccounts = state => state.spendMoney.payFromAccounts;
+const getPayToContacts = state => state.spendMoney.payToContacts;
+const getDate = state => state.spendMoney.date;
+const getDescription = state => state.spendMoney.description;
+const getIsReportable = state => state.spendMoney.isReportable;
+const getIsTaxInclusive = state => state.spendMoney.isTaxInclusive;
+
+const getHeadersProperties = createStructuredSelector({
+  referenceId: getReferenceId,
+  selectedPayFromAccountId: getSelectedPayFromId,
+  selectedPayToContactId: getSelectedPayToContact,
+  payFromAccounts: getPayFromAccounts,
+  payToContacts: getPayToContacts,
+  date: getDate,
+  description: getDescription,
+  isReportable: getIsReportable,
+  isTaxInclusive: getIsTaxInclusive,
+});
+
+export const getHeaderOptions = createSelector(getHeadersProperties, (headerProps) => {
   const {
-    spendMoney: {
-      lines, id, payFromAccounts, payToContacts,
-      selectedPayToContactId, selectedPayFromAccountId, ...headerOptions
-    },
-  } = state;
+    payFromAccounts = [], payToContacts = [],
+    selectedPayToContactId, selectedPayFromAccountId, ...headerOptions
+  } = headerProps;
   const selectedPayFromAccountIndex = payFromAccounts.findIndex(
     account => account.id === selectedPayFromAccountId,
   );
   const selectedPayToContactIndex = payToContacts.findIndex(
     contact => contact.id === selectedPayToContactId,
   );
+
   return {
     payFromAccounts,
     payToContacts,
@@ -18,7 +41,11 @@ export const getHeaderOptions = (state) => {
     selectedPayToContactIndex,
     ...headerOptions,
   };
-};
+});
+
+export const getAlertMessage = state => state.alertMessage;
+export const getModalType = state => state.modalType;
+export const getIsLoading = state => state.isLoading;
 
 const formatNumber = num => num.toFixed(2);
 
@@ -27,19 +54,37 @@ export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
   return account === undefined ? '' : account.taxCodeId;
 };
 
-export const getLineData = state => state.spendMoney.lines.map(({
-  accountId, taxCodeId, taxCodes, accounts, amount, description, taxAmount,
-}) => ({
-  amount,
-  taxAmount,
-  description,
-  accountId,
-  taxCodeId,
-  taxCodes,
-  accounts,
-  selectedAccountIndex: accounts.findIndex(({ id }) => id === accountId),
-  selectedTaxCodeIndex: taxCodes.findIndex(({ id }) => id === taxCodeId),
-}));
+export const getLineDataByIndexSelector = () => createSelector(
+  (state, props) => state.spendMoney.lines[props.index],
+  ((line) => {
+    if (!line) {
+      return null;
+    }
+
+    const {
+      accountId, taxCodeId, taxCodes, accounts, amount, description, taxAmount,
+    } = line;
+
+    return ({
+      amount,
+      taxAmount,
+      description,
+      accountId,
+      taxCodeId,
+      taxCodes,
+      accounts,
+      selectedAccountIndex: accounts.findIndex(({ id }) => id === accountId),
+      selectedTaxCodeIndex: taxCodes.findIndex(({ id }) => id === taxCodeId),
+    });
+  }),
+);
+
+const getLength = state => state.spendMoney.lines.length;
+
+export const getTableData = createSelector(
+  getLength,
+  len => Array(len).fill({}),
+);
 
 export const getNewLineData = state => state.newLine;
 
@@ -55,15 +100,20 @@ export const getSpendMoney = state => state.spendMoney;
 
 export const getSpendMoneyId = state => state.spendMoney.id;
 
-export const getTotals = (state) => {
-  const { netAmount, totalTax, totalAmount } = state.totals;
+const getTotals = state => state.totals;
 
-  return {
-    netAmount: formatTotal(netAmount),
-    totalTax: formatTotal(totalTax),
-    totalAmount: formatTotal(totalAmount),
-  };
-};
+export const getFormattedTotals = createSelector(
+  getTotals,
+  (totals) => {
+    const { netAmount, totalTax, totalAmount } = totals;
+
+    return {
+      netAmount: formatTotal(netAmount),
+      totalTax: formatTotal(totalTax),
+      totalAmount: formatTotal(totalAmount),
+    };
+  },
+);
 
 export const isReferenceIdDirty = (state) => {
   const { referenceId, originalReferenceId } = getSpendMoney(state);

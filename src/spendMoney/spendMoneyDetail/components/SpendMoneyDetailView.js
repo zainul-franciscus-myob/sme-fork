@@ -1,33 +1,36 @@
-import { LineItemTemplate } from '@myob/myob-widgets';
+import { LineItemTemplate, Spinner } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { getAlertMessage, getIsLoading, getModalType } from '../spendMoneyDetailSelectors';
+import CancelModal from './SpendMoneyDetailCancelModal';
+import DeleteModal from './SpendMoneyDetailDeleteModal';
 import SpendMoneyDetailActions from './SpendMoneyDetailActions';
+import SpendMoneyDetailAlert from './SpendMoneyDetailAlert';
 import SpendMoneyDetailOptions from './SpendMoneyDetailOptions';
 import SpendMoneyDetailTable from './SpendMoneyDetailTable';
 
 const SpendMoneyDetailView = ({
-  headerOptions,
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
-  modal,
-  alertComponent,
+  onCancelModal,
+  onCloseModal,
+  alertMessage,
+  onDismissAlert,
   isCreating,
-  lines,
-  newLineData,
+  isLoading,
+  onDeleteModal,
+  modalType,
   onUpdateRow,
   onAddRow,
   onRemoveRow,
   onRowInputBlur,
-  indexOfLastLine,
-  amountTotals,
-  isActionsDisabled,
 }) => {
   const templateOptions = (
     <SpendMoneyDetailOptions
-      headerOptions={headerOptions}
       onUpdateHeaderOptions={onUpdateHeaderOptions}
     />
   );
@@ -38,12 +41,35 @@ const SpendMoneyDetailView = ({
       onSaveButtonClick={onSaveButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
-      isActionsDisabled={isActionsDisabled}
     />
   );
 
-  return (
+  const alertComponent = alertMessage && (
+    <SpendMoneyDetailAlert type="danger" onDismiss={onDismissAlert}>
+      {alertMessage}
+    </SpendMoneyDetailAlert>
+  );
+
+  let modal;
+  if (modalType === 'cancel') {
+    modal = (
+      <CancelModal
+        onCancel={onCloseModal}
+        onConfirm={onCancelModal}
+      />
+    );
+  } else if (modalType === 'delete') {
+    modal = (
+      <DeleteModal
+        onCancel={onCloseModal}
+        onConfirm={onDeleteModal}
+      />
+    );
+  }
+
+  const view = (
     <React.Fragment>
+
       {alertComponent}
       <LineItemTemplate
         pageHead="Spend Money Entry"
@@ -52,10 +78,6 @@ const SpendMoneyDetailView = ({
       >
         { modal }
         <SpendMoneyDetailTable
-          lines={lines}
-          indexOfLastLine={indexOfLastLine}
-          newLineData={newLineData}
-          amountTotals={amountTotals}
           onUpdateRow={onUpdateRow}
           onAddRow={onAddRow}
           onRemoveRow={onRemoveRow}
@@ -65,31 +87,35 @@ const SpendMoneyDetailView = ({
       </LineItemTemplate>
     </React.Fragment>
   );
+
+  return (
+    isLoading ? <Spinner /> : view
+  );
 };
 
 SpendMoneyDetailView.propTypes = {
-  headerOptions: PropTypes.shape({}).isRequired,
   isCreating: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  alertMessage: PropTypes.string.isRequired,
+  modalType: PropTypes.string.isRequired,
   onUpdateHeaderOptions: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,
   onCancelButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
-  modal: PropTypes.element,
-  alertComponent: PropTypes.element,
-  lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onCancelModal: PropTypes.func.isRequired,
+  onDeleteModal: PropTypes.func.isRequired,
+  onCloseModal: PropTypes.func.isRequired,
+  onDismissAlert: PropTypes.func.isRequired,
   onUpdateRow: PropTypes.func.isRequired,
   onAddRow: PropTypes.func.isRequired,
   onRemoveRow: PropTypes.func.isRequired,
   onRowInputBlur: PropTypes.func.isRequired,
-  indexOfLastLine: PropTypes.number.isRequired,
-  amountTotals: PropTypes.shape({}).isRequired,
-  newLineData: PropTypes.shape({}).isRequired,
-  isActionsDisabled: PropTypes.bool.isRequired,
 };
 
-SpendMoneyDetailView.defaultProps = {
-  modal: null,
-  alertComponent: null,
-};
+const mapStateToProps = state => ({
+  alertMessage: getAlertMessage(state),
+  modalType: getModalType(state),
+  isLoading: getIsLoading(state),
+});
 
-export default SpendMoneyDetailView;
+export default connect(mapStateToProps)(SpendMoneyDetailView);
