@@ -1,5 +1,5 @@
 #!/bin/bash -eu
 echo "--- Building Started"
-./ops/bin/env "npm install && npm run build &&\
+./ops/bin/env "yarn install && yarn run build &&\
               mv ./build/config-prod.json ./build/config-${REACT_APP_BUILD_NUMBER}.json && \
               tar czf build.tar.gz build"

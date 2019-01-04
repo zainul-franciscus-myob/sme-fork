@@ -32,6 +32,7 @@ steps:
     command: ./ops/bin/build
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
+    branches: master
     agents:
       queue: cacc-prod-dflt
     artifact_paths: "build.tar.gz"

@@ -14,20 +14,20 @@ We use:
 ### Scripts
 -   Run eslint
 ```sh
-npm run lint:js
+yarn run lint:js
 ```
 
 -   Run eslint and fix autofixable issues
 ```sh
-npm run lint:js:fix
+yarn run lint:js:fix
 ```
 
 -   Run stylelint
 ```sh
-npm run lint:css
+yarn run lint:css
 ```
 
 -   Run stylelint and fix autofixable issues
 ```sh
-npm run lint:css:fix
+yarn run lint:css:fix
 ```
