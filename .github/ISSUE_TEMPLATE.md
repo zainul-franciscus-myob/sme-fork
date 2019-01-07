@@ -15,14 +15,4 @@ List any feelix components or important design decisions.
 
 ## Out of Scope
 
----
-
-## Kick Off
-
-Kick off done with:
-
-- [ ] BA:  name
-- [ ] QA:  name
-- [ ] Dev: name
-- [ ] Dev: name
 
