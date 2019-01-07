@@ -5,16 +5,9 @@ import '@myob/myob-styles/dist/styles/myob-clean.css';
 import './index.css';
 import { initializeAuth } from './Auth';
 import { initializeConfig } from './Config';
-import App from './App';
-import BankingModule from './banking/BankingModule';
-import BusinessModule from './business/BusinessModule';
-import FeaturesModule from './featureList/FeaturesModule';
-import GeneralJournalDetailModule from './generalJournal/generalJournalDetail/GeneralJournalDetailModule';
-import GeneralJournalModule from './generalJournal/generalJournalList/GeneralJournalModule';
 import Inbox from './inbox';
-import SpendMoneyDetailModule from './spendMoney/spendMoneyDetail/SpendMoneyDetailModule';
-import SpendMoneyListModule from './spendMoney/spendMoneyList/SpendMoneyListModule';
-import initializeRouter from './initializeRouter';
+import getRoutes from './getRoutes';
+import initializeRouter from './router/initializeRouter';
 
 async function main(integrationType) {
   await initializeConfig();
@@ -33,67 +26,28 @@ async function main(integrationType) {
 
   const integration = createIntegration();
 
-  const banking = new BankingModule({ integration, setRootView });
-  const features = new FeaturesModule({ setRootView, popMessages });
-  const business = new BusinessModule({ integration, setRootView });
-  const generalJournal = new GeneralJournalModule({ integration, setRootView, popMessages });
-  const generalJournalDetail = new GeneralJournalDetailModule({
-    integration, setRootView, pushMessage,
+  const routes = getRoutes({
+    integration, setRootView, popMessages, pushMessage,
   });
-  const spendMoneyDetail = new SpendMoneyDetailModule({ integration, setRootView, pushMessage });
-  const spendMoneyList = new SpendMoneyListModule({ integration, setRootView, popMessages });
 
-  const app = new App(setRootView);
-  const routes = [
-    { name: 'business', path: '/business' },
-    { name: 'features', path: '/:businessId/features' },
-    { name: 'home', path: '/home' },
-    { name: 'banking', path: '/:businessId/banking' },
-    { name: 'generalJournal', path: '/:businessId/generalJournal' },
-    { name: 'spendMoneyList', path: '/:businessId/spendMoney' },
-    { name: 'spendMoneyDetail', path: '/:businessId/spendMoney/:spendMoneyId' },
-    { name: 'generalJournalDetail', path: '/:businessId/generalJournal/:journalId' },
-  ];
-
-  const moduleMappings = {
-    home: app,
-    banking,
-    features,
-    business,
-    generalJournal,
-    generalJournalDetail,
-    spendMoneyDetail,
-    spendMoneyList,
-  };
-
-  const actions = {
-    business: () => { moduleMappings.business.run(); },
-    features: (context) => { moduleMappings.features.run(context); },
-    home: () => { moduleMappings.home.run(); },
-    banking: (context) => { moduleMappings.banking.run(context); },
-    generalJournal: (context) => { moduleMappings.generalJournal.run(context); },
-    spendMoneyDetail: (context) => { moduleMappings.spendMoneyDetail.run(context); },
-    spendMoneyList: (context) => { moduleMappings.spendMoneyList.run(context); },
-    generalJournalDetail: (context) => { moduleMappings.generalJournalDetail.run(context); },
-  };
+  const moduleList = routes.reduce((acc, route) => {
+    const routeModules = route.subRoutes.map(({ module }) => module);
+    return [...acc, ...routeModules];
+  }, []);
 
   const unsubscribeAllModulesFromStore = () => {
-    Object.keys(moduleMappings).forEach((moduleName) => {
-      if (moduleName !== 'home') {
-        moduleMappings[moduleName].unsubscribeFromStore();
-      }
+    moduleList.forEach((module) => {
+      module.unsubscribeFromStore();
     });
   };
 
   const beforeAll = (currentModule) => {
     unsubscribeAllModulesFromStore();
-    const module = moduleMappings[currentModule];
-    module.resetState();
+    currentModule.resetState();
   };
 
   initializeRouter({
     routes,
-    actions,
     beforeAll,
     defaultRoute: 'home',
     afterAll: () => clearInbox,

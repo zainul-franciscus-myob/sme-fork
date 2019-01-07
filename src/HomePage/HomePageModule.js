@@ -1,10 +1,10 @@
 import { Button } from '@myob/myob-widgets';
 import React from 'react';
 
-import { isLoggedIn, login, logout } from './Auth';
+import { isLoggedIn, login, logout } from '../Auth';
 
-export default class App {
-  constructor(setRootView) {
+export default class HomePageModule {
+  constructor({ setRootView }) {
     this.setRootView = setRootView;
   }
 
@@ -29,4 +29,6 @@ export default class App {
   }
 
   resetState = () => {};
+
+  unsubscribeFromStore = () => {}
 }
