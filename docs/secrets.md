@@ -5,8 +5,8 @@ The web ui has relatively few secrets, given the final artefact we build is
 publicly distributed.
 
 ### What secrets do we have?
- - [Build Agent: Internal NPM credentials](Build-Agent-NPM-login)
- -
+ - [Build Agent: Internal NPM credentials](#build-agent-npm-login)
+
 
 ### Rotation Policy
 
