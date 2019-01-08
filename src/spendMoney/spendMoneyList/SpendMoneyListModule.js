@@ -1,4 +1,4 @@
-import { Spinner } from '@myob/myob-widgets';
+import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
@@ -6,12 +6,10 @@ import {
   SUCCESSFULLY_DELETED_ENTRY,
 } from '../spendMoneyMessageTypes';
 import {
-  getAlert, getFilterOptions, getOrder, getSortOrder, isTableEmpty,
+  getFilterOptions, getSortOrder,
 } from './SpendMoneyListSelectors';
-import Alert from '../../components/Alert/Alert';
 import SpendMoneyIntents from '../SpendMoneyIntents';
 import SpendMoneyListView from './components/SpendMoneyListView';
-import SpendMoneyTableRowView from './components/SpendMoneyTableRowView';
 import Store from '../../store/Store';
 import SystemIntents from '../../SystemIntents';
 import spendMoneyListReducer from './spendMoneyListReducer';
@@ -25,36 +23,24 @@ export default class SpendMoneyListModule {
     this.messageTypes = [SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY];
   }
 
-  render = (state) => {
-    const renderSpendMoneyEntries = tableConfig => (
-      SpendMoneyTableRowView(state.entries, tableConfig, this.businessId)
-    );
-
-    const alert = getAlert(state);
-
-    const alertComponent = alert && (
-      <Alert type={alert.type} onDismiss={this.dismissAlert}>
-        {alert.message}
-      </Alert>
-    );
-
+  render = () => {
     const spendMoneyView = (
       <SpendMoneyListView
-        renderRows={renderSpendMoneyEntries}
-        isTableLoading={state.isTableLoading}
-        isEmpty={isTableEmpty(state)}
+        businessId={this.businessId}
         onUpdateFilters={this.updateFilterOptions}
-        filterOptions={state.filterOptions}
         onApplyFilter={this.filterSpendMoneyEntries}
         onSort={this.sortSpendMoneyEntries}
-        order={getOrder(state)}
+        onDismissAlert={this.dismissAlert}
         onCreateNewEntry={this.newSpendMoneyEntry}
-        alertComponent={alertComponent}
       />
     );
 
-    const view = state.isLoading ? (<Spinner />) : spendMoneyView;
-    this.setRootView(view);
+    const wrappedView = (
+      <Provider store={this.store}>
+        {spendMoneyView}
+      </Provider>
+    );
+    this.setRootView(wrappedView);
   };
 
   loadSpendMoneyEntries = () => {
@@ -226,7 +212,7 @@ export default class SpendMoneyListModule {
 
   run(context) {
     this.businessId = context.businessId;
-    this.store.subscribe(this.render);
+    this.render();
     this.readMessages();
     this.setLoadingState(true);
     this.loadSpendMoneyEntries();

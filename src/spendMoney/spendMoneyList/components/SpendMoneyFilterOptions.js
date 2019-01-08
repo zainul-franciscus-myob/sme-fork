@@ -1,10 +1,13 @@
 import {
   Button, DatePicker, DirectSearchBox, FilterBar, InputLabel,
 } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class SpendMoneyFilterOptions extends React.Component {
+import { getFilterOptions } from '../SpendMoneyListSelectors';
+
+class SpendMoneyFilterOptions extends React.Component {
   onFilterChange = filterName => (value) => {
     const { onUpdateFilters } = this.props;
     onUpdateFilters({ filterName, value });
@@ -57,3 +60,9 @@ SpendMoneyFilterOptions.propTypes = {
   onUpdateFilters: PropTypes.func.isRequired,
   filterOptions: PropTypes.shape({}).isRequired,
 };
+
+const mapStateToProps = state => ({
+  filterOptions: getFilterOptions(state),
+});
+
+export default connect(mapStateToProps)(SpendMoneyFilterOptions);
