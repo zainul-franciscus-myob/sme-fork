@@ -5,10 +5,10 @@ import React from 'react';
 
 import {
   getFormattedTotals, getIndexOfLastLine, getTableData,
-} from '../spendMoneyDetailSelectors';
-import SpendMoneyDetailRow from './SpendMoneyDetailRow';
+} from '../receiveMoneyDetailSelectors';
+import ReceiveMoneyDetailRow from './ReceiveMoneyDetailRow';
 
-class SpendMoneyDetailTable extends React.Component {
+class ReceiveMoneyDetailTable extends React.Component {
   onChange = (index, name, value) => {
     const { onUpdateRow } = this.props;
     onUpdateRow(index, name, value);
@@ -16,15 +16,7 @@ class SpendMoneyDetailTable extends React.Component {
 
   onMoveRow = () => {}
 
-  onAddRow = ({ id, ...partialLine }) => {
-    const { onAddRow } = this.props;
-    onAddRow(partialLine);
-  }
-
-  onRowInputBlur = index => () => {
-    const { onRowInputBlur } = this.props;
-    onRowInputBlur(index);
-  }
+  onAddRow = () => {}
 
   renderRow = (index, data, onChange) => {
     const {
@@ -34,13 +26,12 @@ class SpendMoneyDetailTable extends React.Component {
     const isNewLineRow = indexOfLastLine < index;
 
     return (
-      <SpendMoneyDetailRow
+      <ReceiveMoneyDetailRow
         index={index}
         key={index}
         onMoveRow={this.onMoveRow}
         onChange={onChange}
         isNewLineRow={isNewLineRow}
-        onRowInputBlur={this.onRowInputBlur}
       />
     );
   };
@@ -79,7 +70,7 @@ class SpendMoneyDetailTable extends React.Component {
   }
 }
 
-SpendMoneyDetailTable.propTypes = {
+ReceiveMoneyDetailTable.propTypes = {
   tableData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
   amountTotals: PropTypes.shape({
@@ -89,8 +80,6 @@ SpendMoneyDetailTable.propTypes = {
     totalOutOfBalance: PropTypes.string,
   }).isRequired,
   onUpdateRow: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
   onRemoveRow: PropTypes.func.isRequired,
 };
 
@@ -100,4 +89,4 @@ const mapStateToProps = state => ({
   tableData: getTableData(state),
 });
 
-export default connect(mapStateToProps)(SpendMoneyDetailTable);
+export default connect(mapStateToProps)(ReceiveMoneyDetailTable);

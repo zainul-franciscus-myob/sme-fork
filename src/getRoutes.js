@@ -3,6 +3,7 @@ import getBusinessesRoutes from './business/getBusinessRoutes';
 import getFeaturesListRoutes from './featureList/getFeatureListRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getHomePageRoutes from './HomePage/getHomePageRoutes';
+import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
 import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 
 const getRoutes = ({
@@ -33,6 +34,13 @@ const getRoutes = ({
     rootPath: '/:businessId/spendMoney',
     subRoutes: getSpendMoneyRoutes({
       integration, setRootView, popMessages, pushMessage,
+    }),
+  },
+  {
+    name: 'receiveMoney',
+    rootPath: '/:businessId/receiveMoney',
+    subRoutes: getReceiveMoneyRoutes({
+      integration, setRootView, pushMessage,
     }),
   },
   {

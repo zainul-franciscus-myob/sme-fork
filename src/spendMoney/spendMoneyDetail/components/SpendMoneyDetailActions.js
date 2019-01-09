@@ -1,6 +1,4 @@
-import {
-  Button, ButtonRow,
-} from '@myob/myob-widgets';
+import { Button } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -14,11 +12,11 @@ const SpendMoneyDetailActions = ({
   isActionsDisabled,
   isCreating,
 }) => (
-  <ButtonRow>
+  <React.Fragment>
     {!isCreating && (
-      <Button name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isActionsDisabled}>
+    <Button name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isActionsDisabled}>
         Delete
-      </Button>
+    </Button>
     )}
     <Button name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
       Cancel
@@ -26,7 +24,7 @@ const SpendMoneyDetailActions = ({
     <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
       Save
     </Button>
-  </ButtonRow>
+  </React.Fragment>
 );
 
 SpendMoneyDetailActions.propTypes = {

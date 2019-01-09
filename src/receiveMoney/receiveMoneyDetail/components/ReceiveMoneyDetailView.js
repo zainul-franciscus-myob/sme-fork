@@ -5,45 +5,33 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getAlertMessage, getIsLoading, getModalType } from '../spendMoneyDetailSelectors';
+import { getAlertMessage, getIsLoading, getModalType } from '../receiveMoneyDetailSelectors';
+import Alert from '../../../components/Alert/Alert';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
-import SpendMoneyDetailActions from './SpendMoneyDetailActions';
-import SpendMoneyDetailAlert from './SpendMoneyDetailAlert';
-import SpendMoneyDetailOptions from './SpendMoneyDetailOptions';
-import SpendMoneyDetailTable from './SpendMoneyDetailTable';
+import ReceiveMoneyDetailActions from './ReceiveMoneyDetailActions';
+import ReceiveMoneyDetailOptions from './ReceiveMoneyDetailOptions';
+import ReceiveMoneyDetailTable from './ReceiveMoneyDetailTable';
 
-const SpendMoneyDetailView = ({
-  onUpdateHeaderOptions,
-  onSaveButtonClick,
+const ReceiveMoneyDetailView = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onCancelModal,
   onCloseModal,
   alertMessage,
   onDismissAlert,
-  isCreating,
   isLoading,
-  onDeleteModal,
   modalType,
-  onUpdateRow,
-  onAddRow,
-  onRemoveRow,
-  onRowInputBlur,
 }) => {
   const templateOptions = (
     <Columns type="three">
-      <SpendMoneyDetailOptions
-        onUpdateHeaderOptions={onUpdateHeaderOptions}
-      />
+      <ReceiveMoneyDetailOptions />
     </Columns>
   );
 
   const actions = (
     <ButtonRow>
-      <SpendMoneyDetailActions
-        isCreating={isCreating}
-        onSaveButtonClick={onSaveButtonClick}
+      <ReceiveMoneyDetailActions
         onCancelButtonClick={onCancelButtonClick}
         onDeleteButtonClick={onDeleteButtonClick}
       />
@@ -51,9 +39,9 @@ const SpendMoneyDetailView = ({
   );
 
   const alertComponent = alertMessage && (
-    <SpendMoneyDetailAlert type="danger" onDismiss={onDismissAlert}>
+    <Alert type="danger" onDismiss={onDismissAlert}>
       {alertMessage}
-    </SpendMoneyDetailAlert>
+    </Alert>
   );
 
   let modal;
@@ -62,38 +50,34 @@ const SpendMoneyDetailView = ({
       <CancelModal
         onCancel={onCloseModal}
         onConfirm={onCancelModal}
-        title="Cancel spend money alterations"
-        description="Are you sure you want to cancel the alterations in this spend money?"
+        title="Cancel receive money alterations"
+        description="Are you sure you want to cancel the alterations in this receive money?"
       />
     );
   } else if (modalType === 'delete') {
     modal = (
       <DeleteModal
         onCancel={onCloseModal}
-        onConfirm={onDeleteModal}
+        onConfirm={() => {}}
         title="Delete transaction"
-        description="Are you sure you want delete this spend money transaction?"
+        description="Are you sure you want to delete this receive money transaction?"
       />
     );
   }
 
   const view = (
     <React.Fragment>
-
       {alertComponent}
       <LineItemTemplate
-        pageHead="Spend Money Entry"
+        pageHead="Receive Money Entry"
         options={templateOptions}
         actions={actions}
       >
         { modal }
-        <SpendMoneyDetailTable
-          onUpdateRow={onUpdateRow}
-          onAddRow={onAddRow}
-          onRemoveRow={onRemoveRow}
-          onRowInputBlur={onRowInputBlur}
+        <ReceiveMoneyDetailTable
+          onRemoveRow={() => {}}
+          onUpdateRow={() => {}}
         />
-
       </LineItemTemplate>
     </React.Fragment>
   );
@@ -103,23 +87,15 @@ const SpendMoneyDetailView = ({
   );
 };
 
-SpendMoneyDetailView.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
+ReceiveMoneyDetailView.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   alertMessage: PropTypes.string.isRequired,
   modalType: PropTypes.string.isRequired,
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
   onCancelButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
   onCancelModal: PropTypes.func.isRequired,
-  onDeleteModal: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   onDismissAlert: PropTypes.func.isRequired,
-  onUpdateRow: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRemoveRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -128,4 +104,4 @@ const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
 });
 
-export default connect(mapStateToProps)(SpendMoneyDetailView);
+export default connect(mapStateToProps)(ReceiveMoneyDetailView);

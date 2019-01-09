@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Combobox from './Feelix/ComboBox/Combobox';
+import Combobox from '../Feelix/ComboBox/Combobox';
 
 const TaxCodeCombobox = (props) => {
   const {

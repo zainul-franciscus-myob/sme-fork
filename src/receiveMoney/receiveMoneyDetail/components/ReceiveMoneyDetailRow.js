@@ -5,7 +5,7 @@ import React from 'react';
 
 import {
   getLineDataByIndexSelector, getNewLineData,
-} from '../spendMoneyDetailSelectors';
+} from '../receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
@@ -18,7 +18,7 @@ const eventWrapper = (name, onChange) => (item) => {
   });
 };
 
-const SpendMoneyDetailRow = (props) => {
+const ReceiveMoneyDetailRow = (props) => {
   const {
     index,
     onMoveRow,
@@ -29,6 +29,7 @@ const SpendMoneyDetailRow = (props) => {
     newLineData,
     ...feelixInjectedProps
   } = props;
+
   const data = isNewLineRow ? newLineData : lineData;
 
   const {
@@ -61,7 +62,6 @@ const SpendMoneyDetailRow = (props) => {
         disabled={isNewLineRow}
         onChange={onChange}
         step="0.01"
-        onBlur={onRowInputBlur(index)}
       />
       <Input
         type="text"
@@ -81,10 +81,9 @@ const SpendMoneyDetailRow = (props) => {
     </LineItemTable.Row>);
 };
 
-SpendMoneyDetailRow.propTypes = {
+ReceiveMoneyDetailRow.propTypes = {
   index: PropTypes.number.isRequired,
   onMoveRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   isNewLineRow: PropTypes.bool.isRequired,
   lineData: PropTypes.shape({}).isRequired,
@@ -99,4 +98,4 @@ const makeMapRowStateToProps = () => {
   });
 };
 
-export default connect(makeMapRowStateToProps)(SpendMoneyDetailRow);
+export default connect(makeMapRowStateToProps)(ReceiveMoneyDetailRow);

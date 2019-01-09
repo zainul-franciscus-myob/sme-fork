@@ -1,14 +1,14 @@
 import {
-  Checkbox, DatePicker, Input, InputLabel, RadioButton, TextArea,
+  DatePicker, Input, InputLabel, RadioButton, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { getHeaderOptions } from '../spendMoneyDetailSelectors';
+import { getHeaderOptions } from '../receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import Combobox from '../../../components/Feelix/ComboBox/Combobox';
-import styles from './SpendMoneyDetailOptions.css';
+import styles from './ReceiveMoneyDetailOptions.css';
 
 const ContactCombobox = (props) => {
   const {
@@ -34,8 +34,8 @@ const ContactCombobox = (props) => {
       items={items}
       selected={selectedItem}
       onChange={onChange}
-      label="Pay to"
-      name="Pay To Contacts"
+      label="Pay from"
+      name="Pay From Contacts"
       hideLabel={false}
       hintText="Select contact"
     />
@@ -53,55 +53,21 @@ ContactCombobox.propTypes = {
 };
 
 
-class SpendMoneyDetailOptions extends Component {
-  handleInputChange = (e) => {
-    const { onUpdateHeaderOptions } = this.props;
-    const { value, name } = e.target;
-
-    onUpdateHeaderOptions({ key: name, value });
-  }
-
-  handleRadioChange = (e) => {
-    const { onUpdateHeaderOptions } = this.props;
-    const { value, name } = e.target;
-
-    onUpdateHeaderOptions({
-      key: name,
-      value: value === 'true',
-    });
-  }
-
-  handleCheckboxChange = (e) => {
-    const { onUpdateHeaderOptions } = this.props;
-    const { checked, name } = e.target;
-
-    onUpdateHeaderOptions({ key: name, value: checked });
-  }
-
-  handleDateChange = (value) => {
-    const { onUpdateHeaderOptions } = this.props;
-    const key = 'date';
-
-    onUpdateHeaderOptions({ key, value });
-  }
-
-  handleComboBoxChange = key => (item) => {
-    const { onUpdateHeaderOptions } = this.props;
-    onUpdateHeaderOptions({ key, value: item.id });
-  }
+class ReceiveMoneyDetailOptions extends Component {
+  handleInputChange = () => {
+  };
 
   render = () => {
     const {
       headerOptions: {
         referenceId,
         date,
-        isReportable,
         isTaxInclusive,
         description,
-        payToContacts,
-        payFromAccounts,
-        selectedPayToContactIndex,
-        selectedPayFromAccountIndex,
+        payFromContacts,
+        depositIntoAccounts,
+        selectedDepositIntoAccountIndex,
+        selectedPayFromContactIndex,
       },
     } = this.props;
 
@@ -122,32 +88,52 @@ class SpendMoneyDetailOptions extends Component {
         <div className="form-group">
           <InputLabel label="Amounts are" id="isTaxInclusive" />
           <div className={styles.radioGroup}>
-            <div><RadioButton name="isTaxInclusive" label="Tax inclusive" value="true" checked={isTaxInclusive} onChange={this.handleRadioChange} /></div>
-            <div><RadioButton name="isTaxInclusive" label="Tax exclusive" value="false" checked={!isTaxInclusive} onChange={this.handleRadioChange} /></div>
+            <div>
+              <RadioButton
+                name="isTaxInclusive"
+                label="Tax inclusive"
+                value="true"
+                checked={isTaxInclusive}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div>
+              <RadioButton
+                name="isTaxInclusive"
+                label="Tax exclusive"
+                value="false"
+                checked={!isTaxInclusive}
+                onChange={this.handleInputChange}
+              />
+            </div>
           </div>
         </div>
         <div className="form-group">
           <AccountCombobox
-            label="Pay from"
+            label="Deposit into"
             hideLabel={false}
-            items={payFromAccounts}
-            selectedIndex={selectedPayFromAccountIndex}
-            onChange={this.handleComboBoxChange('selectedPayFromAccountId')}
+            items={depositIntoAccounts}
+            selectedIndex={selectedDepositIntoAccountIndex}
+            onChange={() => {}}
           />
         </div>
         <div className="form-group">
           <ContactCombobox
-            items={payToContacts}
-            selectedIndex={selectedPayToContactIndex}
-            onChange={this.handleComboBoxChange('selectedPayToContactId')}
+            items={payFromContacts}
+            selectedIndex={selectedPayFromContactIndex}
+            onChange={() => {}}
           />
         </div>
-        <div className="form-group">
-          <div className={styles.checkbox}>
-            <Checkbox name="isReportable" label="Reportable" checked={isReportable} onChange={this.handleCheckboxChange} />
-          </div>
-        </div>
-        <TextArea name="description" label="Description" autoSize maxLength={255} placeholder="Max 255 characters" value={description} onChange={this.handleInputChange} />
+        <div />
+        <TextArea
+          name="description"
+          label="Description"
+          autoSize
+          maxLength={255}
+          placeholder="Max 255 characters"
+          value={description}
+          onChange={this.handleInputChange}
+        />
       </React.Fragment>
     );
   }
@@ -157,7 +143,7 @@ const mapStateToProps = state => ({
   headerOptions: getHeaderOptions(state),
 });
 
-SpendMoneyDetailOptions.propTypes = {
+ReceiveMoneyDetailOptions.propTypes = {
   headerOptions: PropTypes.shape({
     referenceId: PropTypes.string,
     date: PropTypes.string,
@@ -166,7 +152,6 @@ SpendMoneyDetailOptions.propTypes = {
     isTaxInclusive: PropTypes.bool,
     description: PropTypes.string,
   }).isRequired,
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(SpendMoneyDetailOptions);
+export default connect(mapStateToProps)(ReceiveMoneyDetailOptions);

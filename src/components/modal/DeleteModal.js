@@ -2,25 +2,30 @@ import { Button, Modal } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const CancelModal = ({ onCancel, onConfirm }) => (
+const DeleteModal = ({
+  onCancel, onConfirm, title, description,
+}) => (
   <Modal
-    title="Cancel spend money alterations"
+    title={title}
     size="small"
     onCancel={onCancel}
+    canClose={false}
   >
     <Modal.Body>
-      Are you sure you want to cancel the alterations in this spend money?
+      {description}
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCancel}>No, go back</Button>
-      <Button type="delete" onClick={onConfirm}>Yes, Cancel</Button>
+      <Button type="delete" onClick={onConfirm}>Yes, Delete</Button>
     </Modal.Footer>
   </Modal>
 );
 
-CancelModal.propTypes = {
+DeleteModal.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
 };
 
-export default CancelModal;
+export default DeleteModal;

@@ -2,8 +2,8 @@ import { Input, LineItemTable } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AccountCombobox from '../../../components/AccountCombobox';
-import TaxCodeCombobox from '../../../components/TaxCodeCombobox';
+import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
 export default class GeneralJournalDetailTable extends React.Component {
   onChange = (index, name, value) => {
