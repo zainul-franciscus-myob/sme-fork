@@ -6,7 +6,7 @@ import React from 'react';
 
 import {
   getAlert, getIsLoading, getIsTableEmpty, getIsTableLoading, getOrder,
-} from '../SpendMoneyListSelectors';
+} from '../spendMoneyListSelectors';
 import Alert from '../../../components/Alert/Alert';
 import SpendMoneyFilterOptions from './SpendMoneyFilterOptions';
 import SpendMoneyTable from './SpendMoneyTable';

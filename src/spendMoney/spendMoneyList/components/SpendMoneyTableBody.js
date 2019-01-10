@@ -3,7 +3,7 @@ import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getEntries } from '../SpendMoneyListSelectors';
+import { getEntries } from '../spendMoneyListSelectors';
 
 /* eslint-disable react/no-array-index-key */
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getFilterOptions } from '../SpendMoneyListSelectors';
+import { getFilterOptions } from '../spendMoneyListSelectors';
 
 class SpendMoneyFilterOptions extends React.Component {
   onFilterChange = filterName => (value) => {

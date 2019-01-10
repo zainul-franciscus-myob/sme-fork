@@ -7,7 +7,13 @@ export const getSortOrder = ({ sortOrder }) => sortOrder;
 
 export const getAlert = ({ alert }) => alert;
 
-export const getFilterOptions = state => state.filterOptions;
+export const convertToUnixTime = date => new Date(date).getTime().toString();
+
+export const getFilterOptions = ({ filterOptions }) => ({
+  ...filterOptions,
+  dateFrom: convertToUnixTime(filterOptions.dateFrom),
+  dateTo: convertToUnixTime(filterOptions.dateTo),
+});
 
 export const getEntries = state => state.entries;
 

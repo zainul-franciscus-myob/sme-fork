@@ -7,7 +7,7 @@ import {
 } from '../spendMoneyMessageTypes';
 import {
   getFilterOptions, getSortOrder,
-} from './SpendMoneyListSelectors';
+} from './spendMoneyListSelectors';
 import SpendMoneyIntents from '../SpendMoneyIntents';
 import SpendMoneyListView from './components/SpendMoneyListView';
 import Store from '../../store/Store';

@@ -43,6 +43,10 @@ const pageEdited = { isPageEdited: true };
 
 const resetState = () => (initialState);
 
+const convertToDateString = (unixTime) => {
+  new Date(Number(unixTime)).toISOString().substring(0, 10);
+};
+
 const isAccountLineItem = lineKey => lineKey === 'accountId';
 const updateSpendMoneyLine = (line, { lineKey, lineValue }) => {
   const updatedLine = {
@@ -126,6 +130,7 @@ const loadNewSpendMoney = (state, action) => ({
   spendMoney: {
     ...state.spendMoney,
     ...action.spendMoney,
+    date: convertToDateString(Date.now()),
     originalReferenceId: action.spendMoney.referenceId,
   },
   newLine: { ...state.newLine, ...action.newLine },

@@ -17,16 +17,24 @@ const initialState = {
 
 const resetState = () => (initialState);
 
+const convertToDateString = unixTime => new Date(Number(unixTime)).toISOString().substring(0, 10);
+
+const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
+
 const loadSpendMoneyEntries = (state, action) => ({
   ...state,
   entries: action.entries,
   filterOptions: {
     ...state.filterOptions,
-    ...action.filterOptions,
+    dateFrom: convertToDateString(getDefaultDateRange()),
+    dateTo: convertToDateString(Date.now()),
+    keywords: action.keywords,
   },
   sortOrder: action.sortOrder,
   isLoading: action.isLoading,
 });
+
+const isDateFilterChange = filterName => filterName === 'dateTo' || filterName === 'dateFrom';
 
 const filterSpendMoneyEntries = (state, action) => ({
   ...state,
@@ -37,7 +45,9 @@ const updateFilterOptions = (state, action) => ({
   ...state,
   filterOptions: {
     ...state.filterOptions,
-    [action.filterName]: action.value,
+    [action.filterName]: isDateFilterChange(action.filterName)
+      ? convertToDateString(action.value)
+      : action.value,
   },
 });
 
