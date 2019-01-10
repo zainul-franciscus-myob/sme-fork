@@ -2,7 +2,7 @@
   "receiveMoney": {
     "id": "789",
     "referenceId": "RM1234567",
-    "date": "1533045600000",
+    "date": "2018-11-02",
     "isTaxInclusive": false,
     "description": "Bob the builder",
     "selectedDepositIntoAccountId": "456",

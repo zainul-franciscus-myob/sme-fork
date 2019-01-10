@@ -1,9 +1,9 @@
 {
-  "spendMoney": {
-    "referenceId": "SM0000002",
-    "isTaxInclusive": true,
-    "selectedPayFromAccountId": "123",
-    "payFromAccounts": [
+  "receiveMoney": {
+    "referenceId": "RM1234567",
+    "selectedDepositIntoAccountId": "123",
+    "lines": [],
+    "depositIntoAccounts": [
       {
         "id": "123",
         "displayName": "My Bank",
@@ -19,7 +19,7 @@
         "displayId": "2-123"
       }
     ],
-    "payToContacts": [
+    "payFromContacts": [
       {
         "contactType": "Customer",
         "displayName": "A-Z Stationery Supplies",
