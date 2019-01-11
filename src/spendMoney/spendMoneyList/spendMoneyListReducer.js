@@ -28,7 +28,6 @@ const loadSpendMoneyEntries = (state, action) => ({
     ...state.filterOptions,
     dateFrom: convertToDateString(getDefaultDateRange()),
     dateTo: convertToDateString(Date.now()),
-    keywords: action.keywords,
   },
   sortOrder: action.sortOrder,
   isLoading: action.isLoading,
