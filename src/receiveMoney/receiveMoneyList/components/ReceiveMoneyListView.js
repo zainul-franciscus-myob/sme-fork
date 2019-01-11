@@ -1,5 +1,5 @@
 import {
-  Button, PageHead, Spinner, StandardTemplate,
+  Button, FilterBar, PageHead, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -34,10 +34,12 @@ const ReceiveMoneyListView = (props) => {
   } = props;
 
   const filterBar = (
-    <ReceiveMoneyFilterOptions
-      onUpdateFilters={onUpdateFilters}
-      onApplyFilter={onApplyFilter}
-    />
+    <FilterBar>
+      <ReceiveMoneyFilterOptions
+        onUpdateFilters={onUpdateFilters}
+        onApplyFilter={onApplyFilter}
+      />
+    </FilterBar>
   );
 
   const pageHead = (
