@@ -1,3 +1,4 @@
+import { getDefaultTaxCodeId } from './receiveMoneyDetailSelectors';
 import ReceiveMoneyIntents from '../ReceiveMoneyIntents';
 import SystemIntents from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
@@ -11,10 +12,10 @@ const initialState = {
     isTaxInclusive: false,
     isReportable: false,
     description: '',
-    selectedDepostiIntoAccountId: '',
+    selectedDepositIntoAccountId: '',
     selectedPayFromContactId: '',
     lines: [],
-    depostiIntoAccounts: [],
+    depositIntoAccounts: [],
     payFromContacts: [],
   },
   newLine: {
@@ -37,6 +38,8 @@ const initialState = {
   isSubmitting: false,
   isPageEdited: false,
 };
+
+const pageEdited = { isPageEdited: true };
 
 const resetState = () => (initialState);
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
@@ -67,6 +70,86 @@ const loadReceiveMoneyDetail = (state, action) => ({
   isLoading: false,
 });
 
+const convertToDateString = (unixTime) => {
+  new Date(Number(unixTime)).toISOString().substring(0, 10);
+};
+
+const isAccountLineItem = lineKey => lineKey === 'accountId';
+const updateReceiveMoneyLine = (line, { lineKey, lineValue }) => {
+  const updatedLine = {
+    ...line,
+    [lineKey]: lineValue,
+  };
+
+  const { accounts } = line;
+  return isAccountLineItem(lineKey)
+    ? {
+      ...updatedLine,
+      taxCodeId: getDefaultTaxCodeId({ accountId: lineValue, accounts }),
+    }
+    : updatedLine;
+};
+const getLinesForUpdate = (action, lines) => lines.map((line, index) => (
+  index === action.lineIndex ? updateReceiveMoneyLine(line, action) : line
+));
+
+const updateLine = (state, action) => ({
+  ...state,
+  ...pageEdited,
+  receiveMoney: {
+    ...state.receiveMoney,
+    lines: getLinesForUpdate(action, state.receiveMoney.lines),
+  },
+});
+
+const addLine = (state, action) => ({
+  ...state,
+  ...pageEdited,
+  receiveMoney: {
+    ...state.receiveMoney,
+    lines: [
+      ...state.receiveMoney.lines,
+      {
+        ...state.newLine,
+        ...action.line,
+        taxCodeId: getDefaultTaxCodeId({ ...state.newLine, ...action.line }),
+      },
+    ],
+  },
+});
+
+const deleteLine = (state, action) => ({
+  ...state,
+  ...pageEdited,
+  receiveMoney: {
+    ...state.receiveMoney,
+    lines: state.receiveMoney.lines.filter((item, index) => index !== action.index),
+  },
+});
+
+const updateHeader = (state, action) => {
+  return ({
+    ...state,
+    ...pageEdited,
+    receiveMoney: {
+      ...state.receiveMoney,
+      [action.key]: action.value,
+    },
+  });
+};
+
+const loadNewReceiveMoney = (state, action) => ({
+  ...state,
+  receiveMoney: {
+    ...state.receiveMoney,
+    ...action.receiveMoney,
+    date: convertToDateString(Date.now()),
+    originalReferenceId: action.receiveMoney.referenceId,
+  },
+  newLine: { ...state.newLine, ...action.newLine },
+  isLoading: false,
+});
+
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
@@ -92,8 +175,19 @@ const closeModal = state => ({
   modalType: '',
 });
 
+const getCalculateTotals = (state, action) => ({
+  ...state,
+  totals: action.totals,
+});
+
 const handlers = {
   [ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
+  [ReceiveMoneyIntents.LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
+  [ReceiveMoneyIntents.GET_CALCULATED_TOTALS]: getCalculateTotals,
+  [ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY_HEADER]: updateHeader,
+  [ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY_LINE]: updateLine,
+  [ReceiveMoneyIntents.ADD_RECEIVE_MONEY_LINE]: addLine,
+  [ReceiveMoneyIntents.DELETE_RECEIVE_MONEY_LINE]: deleteLine,
   [ReceiveMoneyIntents.FORMAT_RECEIVE_MONEY_LINE]: formatLine,
   [ReceiveMoneyIntents.SET_LOADING_STATE]: setLoadingState,
   [ReceiveMoneyIntents.SET_SUBMITTING_STATE]: setSubmittingState,

@@ -140,14 +140,14 @@ class ReceiveMoneyDetailOptions extends Component {
             hideLabel={false}
             items={depositIntoAccounts}
             selectedIndex={selectedDepositIntoAccountIndex}
-            onChange={this.handleComboBoxChange}
+            onChange={this.handleComboBoxChange('selectedDepositIntoAccountId')}
           />
         </div>
         <div className="form-group">
           <ContactCombobox
             items={payFromContacts}
             selectedIndex={selectedPayFromContactIndex}
-            onChange={this.handleComboBoxChange}
+            onChange={this.handleComboBoxChange('selectedPayFromContactId')}
           />
         </div>
         <div />
