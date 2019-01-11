@@ -1,6 +1,6 @@
 {
-  "dateFrom": "1533045600000",
-  "dateTo": "1535551200000",
+  "dateFrom": "2018-07-31",
+  "dateTo": "2018-08-30",
   "sortOrder": "desc",
   "entries": [
     {
@@ -9,13 +9,6 @@
       "referenceId": "JE0000001",
       "description": "lorem ipsum 1",
       "displayAmount": "2.00"
-    },
-    {
-      "id": "2",
-      "displayDate": "30/05/2016",
-      "referenceId": "JE0000002",
-      "description": "lorem ipsum 2",
-      "displayAmount": "3.00"
     },
     {
       "id": "3",
@@ -30,6 +23,13 @@
       "referenceId": "JE0000004",
       "description": "lorem ipsum 4",
       "displayAmount": "5.00"
+    },
+    {
+      "id": "2",
+      "displayDate": "30/05/2016",
+      "referenceId": "JE0000002",
+      "description": "lorem ipsum 2",
+      "displayAmount": "3.00"
     }
   ]
 }

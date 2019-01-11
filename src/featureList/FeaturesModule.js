@@ -21,7 +21,7 @@ export default class FeaturesModule {
   }
 
   render = (state) => {
-    const features = ['generalJournal', 'spendMoney'];
+    const features = ['generalJournal', 'spendMoney', 'receiveMoney'];
     const alertComponent = state.alertMessage && (
       <Alert type="success" onDismiss={this.dismissAlert}>
         { state.alertMessage }

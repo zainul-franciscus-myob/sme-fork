@@ -40,7 +40,7 @@ const getRoutes = ({
     name: 'receiveMoney',
     rootPath: '/:businessId/receiveMoney',
     subRoutes: getReceiveMoneyRoutes({
-      integration, setRootView, pushMessage,
+      integration, setRootView, popMessages, pushMessage,
     }),
   },
   {

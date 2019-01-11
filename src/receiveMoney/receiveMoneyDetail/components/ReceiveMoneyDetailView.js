@@ -58,7 +58,7 @@ const ReceiveMoneyDetailView = ({
     modal = (
       <DeleteModal
         onCancel={onCloseModal}
-        onConfirm={() => {}}
+        onConfirm={onCancelModal}
         title="Delete transaction"
         description="Are you sure you want to delete this receive money transaction?"
       />

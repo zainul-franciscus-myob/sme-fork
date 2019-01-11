@@ -108,7 +108,7 @@ export default class ReceiveMoneyDetailModule {
   };
 
   redirectToReceiveMoneyList= () => {
-    window.location.href = `/#/${this.businessId}/receiveMoney/1`;
+    window.location.href = `/#/${this.businessId}/receiveMoney/`;
   }
 
   render = () => {
