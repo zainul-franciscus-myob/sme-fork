@@ -14,6 +14,7 @@ import ReceiveMoneyDetailOptions from './ReceiveMoneyDetailOptions';
 import ReceiveMoneyDetailTable from './ReceiveMoneyDetailTable';
 
 const ReceiveMoneyDetailView = ({
+  onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   onCancelModal,
@@ -35,6 +36,7 @@ const ReceiveMoneyDetailView = ({
     <ButtonRow>
       <ReceiveMoneyDetailActions
         isCreating={isCreating}
+        onSaveButtonClick={onSaveButtonClick}
         onCancelButtonClick={onCancelButtonClick}
         onDeleteButtonClick={onDeleteButtonClick}
       />
@@ -95,6 +97,7 @@ ReceiveMoneyDetailView.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   alertMessage: PropTypes.string.isRequired,
   modalType: PropTypes.string.isRequired,
+  onSaveButtonClick: PropTypes.func.isRequired,
   onCancelButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
   onCancelModal: PropTypes.func.isRequired,

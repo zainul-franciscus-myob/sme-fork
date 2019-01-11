@@ -1,7 +1,8 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_ENTRY } from '../receiveMoneyMessageTypes';
+import { SUCCESSFULLY_DELETED_ENTRY, SUCCESSFULLY_SAVED_ENTRY } from '../receiveMoneyMessageTypes';
+import { getReceiveMoney, getReceiveMoneyForCreatePayload, getReceiveMoneyId } from './receiveMoneyDetailSelectors';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
 import ReceiveMoneyIntents from '../ReceiveMoneyIntents';
 import Store from '../../store/Store';
@@ -75,6 +76,51 @@ export default class ReceiveMoneyDetailModule {
       onSuccess,
       onFailure,
     });
+  }
+
+  createReceiveMoneyEntry = () => {
+    const intent = ReceiveMoneyIntents.CREATE_RECEIVE_MONEY;
+    const content = getReceiveMoneyForCreatePayload(this.store.state);
+    const urlParams = {
+      businessId: this.businessId,
+    };
+    this.saveReceiveMoneyEntry(intent, content, urlParams);
+  };
+
+  updateReceiveMoneyEntry = () => {
+    const intent = ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY;
+    const content = getReceiveMoney(this.store.state);
+    const receiveMoneyId = getReceiveMoneyId(this.store.state);
+    const urlParams = {
+      businessId: this.businessId,
+      receiveMoneyId,
+    };
+    this.saveReceiveMoneyEntry(intent, content, urlParams);
+  }
+
+  saveReceiveMoneyEntry(intent, content, urlParams) {
+    const onSuccess = (response) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_ENTRY,
+        content: response.message,
+      });
+      this.setSubmittingState(false);
+      this.redirectToReceiveMoneyList();
+    };
+
+    const onFailure = (error) => {
+      this.setSubmittingState(false);
+      this.displayAlert(error.message);
+    };
+
+    this.integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+    this.setSubmittingState(true);
   }
 
   setSubmittingState = (isSubmitting) => {
@@ -153,6 +199,8 @@ export default class ReceiveMoneyDetailModule {
     const receiveMoneyView = (
       <ReceiveMoneyDetailView
         isCreating={this.isCreating}
+        onSaveButtonClick={this.isCreating
+          ? this.createReceiveMoneyEntry : this.updateReceiveMoneyEntry}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.closeModal}
