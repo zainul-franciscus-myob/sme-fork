@@ -10,6 +10,8 @@ const ReceiveMoneyIntents = {
   FILTER_RECEIVE_MONEY_ENTRIES: Symbol('filter receive money entries'),
   UPDATE_FILTER_OPTIONS: Symbol('Update filter Options'),
   SORT_RECEIVE_MONEY_ENTRIES: Symbol('Sort the receive money entries'),
+  SET_SUBMITTING_STATE: Symbol('Set submitting state'),
+  DELETE_RECEIVE_MONEY: Symbol('Delete a receive money entry'),
 };
 
 export default ReceiveMoneyIntents;

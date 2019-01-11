@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { SUCCESSFULLY_DELETED_ENTRY } from '../receiveMoneyMessageTypes';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
 import ReceiveMoneyIntents from '../ReceiveMoneyIntents';
 import Store from '../../store/Store';
@@ -47,6 +48,43 @@ export default class ReceiveMoneyDetailModule {
       onFailure,
     });
   };
+
+  deleteReceiveMoney = () => {
+    this.setSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_DELETED_ENTRY,
+        content: message,
+      });
+      this.redirectToReceiveMoneyList();
+    };
+
+    const onFailure = (error) => {
+      this.closeModal();
+      this.setSubmittingState(false);
+      this.displayAlert(error.message);
+    };
+
+    this.integration.write({
+      intent: ReceiveMoneyIntents.DELETE_RECEIVE_MONEY,
+      urlParams: {
+        businessId: this.businessId,
+        receiveMoneyId: this.receiveMoneyId,
+      },
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  setSubmittingState = (isSubmitting) => {
+    const intent = ReceiveMoneyIntents.SET_SUBMITTING_STATE;
+
+    this.store.dispatch({
+      intent,
+      isSubmitting,
+    });
+  }
 
   displayAlert = (errorMessage) => {
     this.store.dispatch({
@@ -114,9 +152,11 @@ export default class ReceiveMoneyDetailModule {
   render = () => {
     const receiveMoneyView = (
       <ReceiveMoneyDetailView
+        isCreating={this.isCreating}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.closeModal}
+        onDeleteModal={this.deleteReceiveMoney}
         onCancelModal={this.redirectToReceiveMoneyList}
         onDismissAlert={this.dismissAlert}
       />

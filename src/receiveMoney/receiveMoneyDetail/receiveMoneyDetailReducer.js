@@ -72,6 +72,11 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
+const setSubmittingState = (state, action) => ({
+  ...state,
+  isSubmitting: action.isSubmitting,
+});
+
 const setAlertMessage = (state, action) => ({
   ...state,
   alertMessage: action.alertMessage,
@@ -91,6 +96,7 @@ const handlers = {
   [ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
   [ReceiveMoneyIntents.FORMAT_RECEIVE_MONEY_LINE]: formatLine,
   [ReceiveMoneyIntents.SET_LOADING_STATE]: setLoadingState,
+  [ReceiveMoneyIntents.SET_SUBMITTING_STATE]: setSubmittingState,
   [ReceiveMoneyIntents.SET_ALERT_MESSAGE]: setAlertMessage,
   [ReceiveMoneyIntents.OPEN_MODAL]: openModal,
   [ReceiveMoneyIntents.CLOSE_MODAL]: closeModal,

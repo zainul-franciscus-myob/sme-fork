@@ -1,29 +1,40 @@
 import { Button } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import { getIsActionsDisabled } from '../receiveMoneyDetailSelectors';
+
 const ReceiveMoneyDetailActions = ({
+  isCreating,
+  isActionsDisabled,
   onCancelButtonClick,
   onDeleteButtonClick,
 }) => (
   <React.Fragment>
-    { (
-      <Button name="delete" type="secondary" onClick={onDeleteButtonClick}>
+    {!isCreating && (
+      <Button name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isActionsDisabled}>
         Delete
       </Button>
     )}
-    <Button name="cancel" type="secondary" onClick={onCancelButtonClick}>
+    <Button name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
       Cancel
     </Button>
-    <Button name="save" type="primary">
+    <Button name="save" type="primary" disabled={isActionsDisabled}>
       Save
     </Button>
   </React.Fragment>
 );
 
 ReceiveMoneyDetailActions.propTypes = {
+  isCreating: PropTypes.bool.isRequired,
+  isActionsDisabled: PropTypes.bool.isRequired,
   onCancelButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
 };
 
-export default ReceiveMoneyDetailActions;
+const mapStateToProps = state => ({
+  isActionsDisabled: getIsActionsDisabled(state),
+});
+
+export default connect(mapStateToProps)(ReceiveMoneyDetailActions);

@@ -17,6 +17,10 @@ const ReceiveMoneyMapping = {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/receiveMoney/filter_receive_money_entries`,
   },
+  [ReceiveMoneyIntents.DELETE_RECEIVE_MONEY]: {
+    method: 'DELETE',
+    getPath: ({ businessId, receiveMoneyId }) => `/${businessId}/receiveMoney/delete_receive_money_detail/${receiveMoneyId}`,
+  },
 };
 
 export default ReceiveMoneyMapping;

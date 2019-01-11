@@ -18,8 +18,10 @@ const ReceiveMoneyDetailView = ({
   onDeleteButtonClick,
   onCancelModal,
   onCloseModal,
+  onDeleteModal,
   alertMessage,
   onDismissAlert,
+  isCreating,
   isLoading,
   modalType,
 }) => {
@@ -32,6 +34,7 @@ const ReceiveMoneyDetailView = ({
   const actions = (
     <ButtonRow>
       <ReceiveMoneyDetailActions
+        isCreating={isCreating}
         onCancelButtonClick={onCancelButtonClick}
         onDeleteButtonClick={onDeleteButtonClick}
       />
@@ -58,7 +61,7 @@ const ReceiveMoneyDetailView = ({
     modal = (
       <DeleteModal
         onCancel={onCloseModal}
-        onConfirm={onCancelModal}
+        onConfirm={onDeleteModal}
         title="Delete transaction"
         description="Are you sure you want to delete this receive money transaction?"
       />
@@ -88,12 +91,14 @@ const ReceiveMoneyDetailView = ({
 };
 
 ReceiveMoneyDetailView.propTypes = {
+  isCreating: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   alertMessage: PropTypes.string.isRequired,
   modalType: PropTypes.string.isRequired,
   onCancelButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
   onCancelModal: PropTypes.func.isRequired,
+  onDeleteModal: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   onDismissAlert: PropTypes.func.isRequired,
 };
