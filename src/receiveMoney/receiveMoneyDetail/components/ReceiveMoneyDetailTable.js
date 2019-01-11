@@ -16,7 +16,15 @@ class ReceiveMoneyDetailTable extends React.Component {
 
   onMoveRow = () => {}
 
-  onAddRow = () => {}
+  onAddRow = ({ id, ...partialLine }) => {
+    const { onAddRow } = this.props;
+    onAddRow(partialLine);
+  }
+
+  onRowInputBlur = index => () => {
+    const { onRowInputBlur } = this.props;
+    onRowInputBlur(index);
+  }
 
   renderRow = (index, data, onChange) => {
     const {
@@ -32,6 +40,7 @@ class ReceiveMoneyDetailTable extends React.Component {
         onMoveRow={this.onMoveRow}
         onChange={onChange}
         isNewLineRow={isNewLineRow}
+        onRowInputBlur={this.onRowInputBlur}
       />
     );
   };
@@ -80,7 +89,9 @@ ReceiveMoneyDetailTable.propTypes = {
     totalOutOfBalance: PropTypes.string,
   }).isRequired,
   onUpdateRow: PropTypes.func.isRequired,
+  onAddRow: PropTypes.func.isRequired,
   onRemoveRow: PropTypes.func.isRequired,
+  onRowInputBlur: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

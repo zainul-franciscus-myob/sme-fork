@@ -115,11 +115,6 @@ export const getFormattedTotals = createSelector(
   },
 );
 
-export const isReferenceIdDirty = (state) => {
-  const { referenceId, originalReferenceId } = getReceiveMoney(state);
-  return referenceId !== originalReferenceId;
-};
-
 export const getReceiveMoneyForCreatePayload = (state) => {
   const { referenceId, originalReferenceId, ...rest } = getReceiveMoney(state);
   return referenceId === originalReferenceId ? rest : { ...rest, referenceId };

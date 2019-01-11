@@ -26,6 +26,10 @@ const ReceiveMoneyDetailView = ({
   isCreating,
   isLoading,
   modalType,
+  onUpdateRow,
+  onAddRow,
+  onRemoveRow,
+  onRowInputBlur,
 }) => {
   const templateOptions = (
     <Columns type="three">
@@ -81,8 +85,10 @@ const ReceiveMoneyDetailView = ({
       >
         { modal }
         <ReceiveMoneyDetailTable
-          onRemoveRow={() => {}}
-          onUpdateRow={() => {}}
+          onUpdateRow={onUpdateRow}
+          onAddRow={onAddRow}
+          onRemoveRow={onRemoveRow}
+          onRowInputBlur={onRowInputBlur}
         />
       </LineItemTemplate>
     </React.Fragment>
@@ -106,6 +112,10 @@ ReceiveMoneyDetailView.propTypes = {
   onDeleteModal: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   onDismissAlert: PropTypes.func.isRequired,
+  onUpdateRow: PropTypes.func.isRequired,
+  onAddRow: PropTypes.func.isRequired,
+  onRemoveRow: PropTypes.func.isRequired,
+  onRowInputBlur: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
