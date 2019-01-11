@@ -3,7 +3,11 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_ENTRY, SUCCESSFULLY_SAVED_ENTRY } from '../receiveMoneyMessageTypes';
 import {
-  getCalculatedTotalsPayload, getReceiveMoney, getReceiveMoneyForCreatePayload, getReceiveMoneyId,
+  getCalculatedTotalsPayload,
+  getReceiveMoney,
+  getReceiveMoneyForCreatePayload,
+  getReceiveMoneyId,
+  isPageEdited,
 } from './receiveMoneyDetailSelectors';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
 import ReceiveMoneyIntents from '../ReceiveMoneyIntents';
@@ -231,10 +235,14 @@ export default class ReceiveMoneyDetailModule {
 
   openCancelModal = () => {
     const intent = ReceiveMoneyIntents.OPEN_MODAL;
-    this.store.dispatch({
-      intent,
-      modalType: 'cancel',
-    });
+    if (isPageEdited(this.store.state)) {
+      this.store.dispatch({
+        intent,
+        modalType: 'cancel',
+      });
+    } else {
+      this.redirectToReceiveMoneyList();
+    }
   };
 
   openDeleteModal = () => {
