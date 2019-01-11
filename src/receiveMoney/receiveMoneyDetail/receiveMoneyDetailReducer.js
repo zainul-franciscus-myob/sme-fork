@@ -127,16 +127,14 @@ const deleteLine = (state, action) => ({
   },
 });
 
-const updateHeader = (state, action) => {
-  return ({
-    ...state,
-    ...pageEdited,
-    receiveMoney: {
-      ...state.receiveMoney,
-      [action.key]: action.value,
-    },
-  });
-};
+const updateHeader = (state, action) => ({
+  ...state,
+  ...pageEdited,
+  receiveMoney: {
+    ...state.receiveMoney,
+    [action.key]: action.value,
+  },
+});
 
 const loadNewReceiveMoney = (state, action) => ({
   ...state,

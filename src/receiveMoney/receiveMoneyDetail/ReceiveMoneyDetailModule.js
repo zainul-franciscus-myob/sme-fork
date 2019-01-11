@@ -23,7 +23,7 @@ export default class ReceiveMoneyDetailModule {
 
   loadReceiveMoney = () => {
     const intent = this.isCreating
-      ? ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL
+      ? ReceiveMoneyIntents.LOAD_NEW_RECEIVE_MONEY
       : ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL;
 
     const urlParams = {
