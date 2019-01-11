@@ -20,11 +20,13 @@ export default class ReceiveMoneyDetailModule {
   }
 
   loadReceiveMoney = () => {
-    const intent = ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL;
+    const intent = this.isCreating
+      ? ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL
+      : ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL;
 
     const urlParams = {
       businessId: this.businessId,
-      receiveMoneyId: this.receiveMoneyId,
+      ...(!this.isCreating && { receiveMoneyId: this.receiveMoneyId }),
     };
 
     const onSuccess = ({ receiveMoney, newLine, totals }) => {
@@ -123,6 +125,19 @@ export default class ReceiveMoneyDetailModule {
     this.setSubmittingState(true);
   }
 
+  updateHeaderOptions = ({ key, value }) => {
+    const intent = ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY_HEADER;
+    this.store.dispatch({
+      intent,
+      key,
+      value,
+    });
+
+    if (key === 'isTaxInclusive') {
+      this.getCalculatedTotals();
+    }
+  };
+
   setSubmittingState = (isSubmitting) => {
     const intent = ReceiveMoneyIntents.SET_SUBMITTING_STATE;
 
@@ -198,6 +213,7 @@ export default class ReceiveMoneyDetailModule {
   render = () => {
     const receiveMoneyView = (
       <ReceiveMoneyDetailView
+        onUpdateHeaderOptions={this.updateHeaderOptions}
         isCreating={this.isCreating}
         onSaveButtonClick={this.isCreating
           ? this.createReceiveMoneyEntry : this.updateReceiveMoneyEntry}

@@ -54,8 +54,34 @@ ContactCombobox.propTypes = {
 
 
 class ReceiveMoneyDetailOptions extends Component {
-  handleInputChange = () => {
-  };
+  handleInputChange = (e) => {
+    const { onUpdateHeaderOptions } = this.props;
+    const { value, name } = e.target;
+
+    onUpdateHeaderOptions({ key: name, value });
+  }
+
+  handleRadioChange = (e) => {
+    const { onUpdateHeaderOptions } = this.props;
+    const { value, name } = e.target;
+
+    onUpdateHeaderOptions({
+      key: name,
+      value: value === 'true',
+    });
+  }
+
+  handleDateChange = (value) => {
+    const { onUpdateHeaderOptions } = this.props;
+    const key = 'date';
+
+    onUpdateHeaderOptions({ key, value });
+  }
+
+  handleComboBoxChange = key => (item) => {
+    const { onUpdateHeaderOptions } = this.props;
+    onUpdateHeaderOptions({ key, value: item.id });
+  }
 
   render = () => {
     const {
@@ -94,7 +120,7 @@ class ReceiveMoneyDetailOptions extends Component {
                 label="Tax inclusive"
                 value="true"
                 checked={isTaxInclusive}
-                onChange={this.handleInputChange}
+                onChange={this.handleRadioChange}
               />
             </div>
             <div>
@@ -103,7 +129,7 @@ class ReceiveMoneyDetailOptions extends Component {
                 label="Tax exclusive"
                 value="false"
                 checked={!isTaxInclusive}
-                onChange={this.handleInputChange}
+                onChange={this.handleRadioChange}
               />
             </div>
           </div>
@@ -114,14 +140,14 @@ class ReceiveMoneyDetailOptions extends Component {
             hideLabel={false}
             items={depositIntoAccounts}
             selectedIndex={selectedDepositIntoAccountIndex}
-            onChange={() => {}}
+            onChange={this.handleComboBoxChange}
           />
         </div>
         <div className="form-group">
           <ContactCombobox
             items={payFromContacts}
             selectedIndex={selectedPayFromContactIndex}
-            onChange={() => {}}
+            onChange={this.handleComboBoxChange}
           />
         </div>
         <div />
@@ -144,6 +170,7 @@ const mapStateToProps = state => ({
 });
 
 ReceiveMoneyDetailOptions.propTypes = {
+  onUpdateHeaderOptions: PropTypes.func.isRequired,
   headerOptions: PropTypes.shape({
     referenceId: PropTypes.string,
     date: PropTypes.string,

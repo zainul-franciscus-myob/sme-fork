@@ -14,6 +14,7 @@ import ReceiveMoneyDetailOptions from './ReceiveMoneyDetailOptions';
 import ReceiveMoneyDetailTable from './ReceiveMoneyDetailTable';
 
 const ReceiveMoneyDetailView = ({
+  onUpdateHeaderOptions,
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
@@ -28,7 +29,7 @@ const ReceiveMoneyDetailView = ({
 }) => {
   const templateOptions = (
     <Columns type="three">
-      <ReceiveMoneyDetailOptions />
+      <ReceiveMoneyDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
     </Columns>
   );
 
@@ -97,6 +98,7 @@ ReceiveMoneyDetailView.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   alertMessage: PropTypes.string.isRequired,
   modalType: PropTypes.string.isRequired,
+  onUpdateHeaderOptions: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,
   onCancelButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
