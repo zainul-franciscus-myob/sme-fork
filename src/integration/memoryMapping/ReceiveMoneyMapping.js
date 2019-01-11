@@ -1,9 +1,9 @@
 import ReceiveMoneyIntents from '../../receiveMoney/ReceiveMoneyIntents';
+import receiveMoneyCalculatedTotals from '../data/receiveMoney/receiveMoneyDetailTotalsResponse';
 import receiveMoneyDetailEntry from '../data/receiveMoney/receiveMoneyDetailEntry';
 import receiveMoneyDetailNewEntry from '../data/receiveMoney/receiveMoneyDetailNewEntry';
 import receiveMoneyEntriesResponse from '../data/receiveMoneyList/loadReceiveMoneyEntries';
 import receiveMoneyFilterResponse from '../data/receiveMoneyList/filterReceiveMoneyEntries';
-import spendMoneyCalculatedTotals from '../data/spendMoney/spendMoneyDetailTotalsResponse';
 import successResponse from '../data/success';
 
 const loadReceiveMoneyDetail = ({ onSuccess }) => onSuccess(receiveMoneyDetailEntry);
@@ -14,7 +14,7 @@ const filterReceiveMoneyEntries = ({ onSuccess }) => onSuccess(receiveMoneyFilte
 const deleteReceiveMoney = ({ onSuccess }) => onSuccess(successResponse);
 const saveReceiveMoney = ({ onSuccess }) => onSuccess(successResponse);
 const updateReceiveMoney = ({ onSuccess }) => onSuccess(successResponse);
-const getCalculatedTotals = ({ onSuccess }) => onSuccess(spendMoneyCalculatedTotals);
+const getCalculatedTotals = ({ onSuccess }) => onSuccess(receiveMoneyCalculatedTotals);
 
 const ReceiveMoneyMapping = {
   [ReceiveMoneyIntents.LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
