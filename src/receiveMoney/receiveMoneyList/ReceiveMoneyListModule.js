@@ -31,6 +31,7 @@ export default class ReceiveMoneyListModule {
         onApplyFilter={this.filterReceiveMoneyEntries}
         onSort={this.sortReceiveMoneyEntries}
         onDismissAlert={this.dismissAlert}
+        onCreateNewEntry={this.newReceiveMoneyEntry}
       />
     );
 
@@ -40,6 +41,10 @@ export default class ReceiveMoneyListModule {
       </Provider>
     );
     this.setRootView(wrappedView);
+  };
+
+  newReceiveMoneyEntry = () => {
+    window.location.href = `/#/${this.businessId}/receiveMoney/new`;
   };
 
   loadReceiveMoneyEntries = () => {

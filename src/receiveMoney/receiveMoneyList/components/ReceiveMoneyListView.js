@@ -31,6 +31,7 @@ const ReceiveMoneyListView = (props) => {
     onApplyFilter,
     onSort,
     onDismissAlert,
+    onCreateNewEntry,
   } = props;
 
   const filterBar = (
@@ -44,7 +45,7 @@ const ReceiveMoneyListView = (props) => {
 
   const pageHead = (
     <PageHead title="Receive Money Entries">
-      <Button type="primary">Create receive money entry</Button>
+      <Button type="primary" onClick={onCreateNewEntry}>Create receive money entry</Button>
     </PageHead>
   );
 
