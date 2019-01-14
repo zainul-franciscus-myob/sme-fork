@@ -62,6 +62,7 @@ const ReceiveMoneyDetailRow = (props) => {
         disabled={isNewLineRow}
         onChange={onChange}
         step="0.01"
+        onBlur={onRowInputBlur(index)}
       />
       <Input
         type="text"
@@ -84,6 +85,7 @@ const ReceiveMoneyDetailRow = (props) => {
 ReceiveMoneyDetailRow.propTypes = {
   index: PropTypes.number.isRequired,
   onMoveRow: PropTypes.func.isRequired,
+  onRowInputBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   isNewLineRow: PropTypes.bool.isRequired,
   lineData: PropTypes.shape({}).isRequired,

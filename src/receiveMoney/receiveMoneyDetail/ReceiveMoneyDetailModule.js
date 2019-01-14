@@ -1,7 +1,14 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_ENTRY } from '../receiveMoneyMessageTypes';
+import { SUCCESSFULLY_DELETED_ENTRY, SUCCESSFULLY_SAVED_ENTRY } from '../receiveMoneyMessageTypes';
+import {
+  getCalculatedTotalsPayload,
+  getReceiveMoney,
+  getReceiveMoneyForCreatePayload,
+  getReceiveMoneyId,
+  isPageEdited,
+} from './receiveMoneyDetailSelectors';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
 import ReceiveMoneyIntents from '../ReceiveMoneyIntents';
 import Store from '../../store/Store';
@@ -19,11 +26,13 @@ export default class ReceiveMoneyDetailModule {
   }
 
   loadReceiveMoney = () => {
-    const intent = ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL;
+    const intent = this.isCreating
+      ? ReceiveMoneyIntents.LOAD_NEW_RECEIVE_MONEY
+      : ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL;
 
     const urlParams = {
       businessId: this.businessId,
-      receiveMoneyId: this.receiveMoneyId,
+      ...(!this.isCreating && { receiveMoneyId: this.receiveMoneyId }),
     };
 
     const onSuccess = ({ receiveMoney, newLine, totals }) => {
@@ -77,6 +86,137 @@ export default class ReceiveMoneyDetailModule {
     });
   }
 
+  createReceiveMoneyEntry = () => {
+    const intent = ReceiveMoneyIntents.CREATE_RECEIVE_MONEY;
+    const content = getReceiveMoneyForCreatePayload(this.store.state);
+    const urlParams = {
+      businessId: this.businessId,
+    };
+    this.saveReceiveMoneyEntry(intent, content, urlParams);
+  };
+
+  updateReceiveMoneyEntry = () => {
+    const intent = ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY;
+    const content = getReceiveMoney(this.store.state);
+    const receiveMoneyId = getReceiveMoneyId(this.store.state);
+    const urlParams = {
+      businessId: this.businessId,
+      receiveMoneyId,
+    };
+    this.saveReceiveMoneyEntry(intent, content, urlParams);
+  }
+
+  saveReceiveMoneyEntry(intent, content, urlParams) {
+    const onSuccess = (response) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_ENTRY,
+        content: response.message,
+      });
+      this.setSubmittingState(false);
+      this.redirectToReceiveMoneyList();
+    };
+
+    const onFailure = (error) => {
+      this.setSubmittingState(false);
+      this.displayAlert(error.message);
+    };
+
+    this.integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+    this.setSubmittingState(true);
+  }
+
+  updateHeaderOptions = ({ key, value }) => {
+    const intent = ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY_HEADER;
+    this.store.dispatch({
+      intent,
+      key,
+      value,
+    });
+
+    if (key === 'isTaxInclusive') {
+      this.getCalculatedTotals();
+    }
+  };
+
+  updateReceiveMoneyLine = (lineIndex, lineKey, lineValue) => {
+    const intent = ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY_LINE;
+
+    this.store.dispatch({
+      intent,
+      lineIndex,
+      lineKey,
+      lineValue,
+    });
+
+    const taxKeys = ['accountId', 'taxCodeId'];
+    if (taxKeys.includes(lineKey)) {
+      this.getCalculatedTotals();
+    }
+  }
+
+  addReceiveMoneyLine = (partialLine) => {
+    const intent = ReceiveMoneyIntents.ADD_RECEIVE_MONEY_LINE;
+
+    this.store.dispatch({
+      intent,
+      line: partialLine,
+    });
+
+    this.getCalculatedTotals();
+  }
+
+  deleteReceiveMoneyLine = (index) => {
+    const intent = ReceiveMoneyIntents.DELETE_RECEIVE_MONEY_LINE;
+
+    this.store.dispatch({
+      intent,
+      index,
+    });
+
+    this.getCalculatedTotals();
+  }
+
+  getCalculatedTotals = () => {
+    const intent = ReceiveMoneyIntents.GET_CALCULATED_TOTALS;
+
+    const onSuccess = (totals) => {
+      this.store.dispatch({
+        intent,
+        totals,
+      });
+    };
+
+    const onFailure = error => this.displayAlert(error.message);
+
+    this.integration.write({
+      intent,
+      urlParams: { businessId: this.businessId },
+      content: getCalculatedTotalsPayload(this.store.state),
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  formatReceiveMoneyLine = (index) => {
+    const intent = ReceiveMoneyIntents.FORMAT_RECEIVE_MONEY_LINE;
+
+    this.store.dispatch({
+      intent,
+      index,
+    });
+  }
+
+  formatAndCalculateTotals = (line) => {
+    this.formatReceiveMoneyLine(line);
+    this.getCalculatedTotals();
+  }
+
   setSubmittingState = (isSubmitting) => {
     const intent = ReceiveMoneyIntents.SET_SUBMITTING_STATE;
 
@@ -95,10 +235,14 @@ export default class ReceiveMoneyDetailModule {
 
   openCancelModal = () => {
     const intent = ReceiveMoneyIntents.OPEN_MODAL;
-    this.store.dispatch({
-      intent,
-      modalType: 'cancel',
-    });
+    if (isPageEdited(this.store.state)) {
+      this.store.dispatch({
+        intent,
+        modalType: 'cancel',
+      });
+    } else {
+      this.redirectToReceiveMoneyList();
+    }
   };
 
   openDeleteModal = () => {
@@ -119,15 +263,6 @@ export default class ReceiveMoneyDetailModule {
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
-
-  formatReceiveMoneyLine = (index) => {
-    const intent = ReceiveMoneyIntents.FORMAT_RECEIVE_MONEY_LINE;
-
-    this.store.dispatch({
-      intent,
-      index,
-    });
-  }
 
   setTotalsLoadingState = (isTotalsLoading) => {
     const intent = ReceiveMoneyIntents.SET_TOTALS_LOADING_STATE;
@@ -152,13 +287,20 @@ export default class ReceiveMoneyDetailModule {
   render = () => {
     const receiveMoneyView = (
       <ReceiveMoneyDetailView
+        onUpdateHeaderOptions={this.updateHeaderOptions}
         isCreating={this.isCreating}
+        onSaveButtonClick={this.isCreating
+          ? this.createReceiveMoneyEntry : this.updateReceiveMoneyEntry}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.closeModal}
         onDeleteModal={this.deleteReceiveMoney}
         onCancelModal={this.redirectToReceiveMoneyList}
         onDismissAlert={this.dismissAlert}
+        onUpdateRow={this.updateReceiveMoneyLine}
+        onAddRow={this.addReceiveMoneyLine}
+        onRemoveRow={this.deleteReceiveMoneyLine}
+        onRowInputBlur={this.formatAndCalculateTotals}
       />
     );
 

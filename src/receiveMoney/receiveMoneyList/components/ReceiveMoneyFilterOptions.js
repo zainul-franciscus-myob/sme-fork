@@ -32,25 +32,23 @@ class ReceiveMoneyFilterOptions extends React.Component {
     } = this.props;
 
     return (
-      <FilterBar>
-        <FilterBar.Group>
-          <FilterBar.Option>
-            <InputLabel label="From" id="Date_From" />
-            <DatePicker inputProps={{ id: 'Date_From' }} dateTime={dateFrom} onChange={this.onFilterChange('dateFrom')} />
-          </FilterBar.Option>
-          <FilterBar.Option>
-            <InputLabel label="To" id="Date_To" />
-            <DatePicker inputProps={{ id: 'Date_To' }} dateTime={dateTo} onChange={this.onFilterChange('dateTo')} />
-          </FilterBar.Option>
-          <FilterBar.Option>
-            <InputLabel label="Description" id="Search_Box" />
-            <DirectSearchBox id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
-          </FilterBar.Option>
-          <FilterBar.Option>
-            <Button type="link" onClick={onApplyFilter}>Apply filters</Button>
-          </FilterBar.Option>
-        </FilterBar.Group>
-      </FilterBar>
+      <FilterBar.Group>
+        <FilterBar.Option>
+          <InputLabel label="From" id="Date_From" />
+          <DatePicker inputProps={{ id: 'Date_From' }} dateTime={dateFrom} onChange={this.onFilterChange('dateFrom')} />
+        </FilterBar.Option>
+        <FilterBar.Option>
+          <InputLabel label="To" id="Date_To" />
+          <DatePicker inputProps={{ id: 'Date_To' }} dateTime={dateTo} onChange={this.onFilterChange('dateTo')} />
+        </FilterBar.Option>
+        <FilterBar.Option>
+          <InputLabel label="Description" id="Search_Box" />
+          <DirectSearchBox id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+        </FilterBar.Option>
+        <FilterBar.Option>
+          <Button type="link" onClick={onApplyFilter}>Apply filters</Button>
+        </FilterBar.Option>
+      </FilterBar.Group>
     );
   }
 }

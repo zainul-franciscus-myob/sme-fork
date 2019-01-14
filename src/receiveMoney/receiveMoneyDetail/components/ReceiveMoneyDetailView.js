@@ -14,6 +14,8 @@ import ReceiveMoneyDetailOptions from './ReceiveMoneyDetailOptions';
 import ReceiveMoneyDetailTable from './ReceiveMoneyDetailTable';
 
 const ReceiveMoneyDetailView = ({
+  onUpdateHeaderOptions,
+  onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   onCancelModal,
@@ -24,10 +26,14 @@ const ReceiveMoneyDetailView = ({
   isCreating,
   isLoading,
   modalType,
+  onUpdateRow,
+  onAddRow,
+  onRemoveRow,
+  onRowInputBlur,
 }) => {
   const templateOptions = (
     <Columns type="three">
-      <ReceiveMoneyDetailOptions />
+      <ReceiveMoneyDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
     </Columns>
   );
 
@@ -35,6 +41,7 @@ const ReceiveMoneyDetailView = ({
     <ButtonRow>
       <ReceiveMoneyDetailActions
         isCreating={isCreating}
+        onSaveButtonClick={onSaveButtonClick}
         onCancelButtonClick={onCancelButtonClick}
         onDeleteButtonClick={onDeleteButtonClick}
       />
@@ -78,8 +85,10 @@ const ReceiveMoneyDetailView = ({
       >
         { modal }
         <ReceiveMoneyDetailTable
-          onRemoveRow={() => {}}
-          onUpdateRow={() => {}}
+          onUpdateRow={onUpdateRow}
+          onAddRow={onAddRow}
+          onRemoveRow={onRemoveRow}
+          onRowInputBlur={onRowInputBlur}
         />
       </LineItemTemplate>
     </React.Fragment>
@@ -95,12 +104,18 @@ ReceiveMoneyDetailView.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   alertMessage: PropTypes.string.isRequired,
   modalType: PropTypes.string.isRequired,
+  onUpdateHeaderOptions: PropTypes.func.isRequired,
+  onSaveButtonClick: PropTypes.func.isRequired,
   onCancelButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
   onCancelModal: PropTypes.func.isRequired,
   onDeleteModal: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   onDismissAlert: PropTypes.func.isRequired,
+  onUpdateRow: PropTypes.func.isRequired,
+  onAddRow: PropTypes.func.isRequired,
+  onRemoveRow: PropTypes.func.isRequired,
+  onRowInputBlur: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

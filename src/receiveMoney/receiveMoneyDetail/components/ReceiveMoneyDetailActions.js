@@ -8,6 +8,7 @@ import { getIsActionsDisabled } from '../receiveMoneyDetailSelectors';
 const ReceiveMoneyDetailActions = ({
   isCreating,
   isActionsDisabled,
+  onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
 }) => (
@@ -20,7 +21,7 @@ const ReceiveMoneyDetailActions = ({
     <Button name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
       Cancel
     </Button>
-    <Button name="save" type="primary" disabled={isActionsDisabled}>
+    <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
       Save
     </Button>
   </React.Fragment>
@@ -29,6 +30,7 @@ const ReceiveMoneyDetailActions = ({
 ReceiveMoneyDetailActions.propTypes = {
   isCreating: PropTypes.bool.isRequired,
   isActionsDisabled: PropTypes.bool.isRequired,
+  onSaveButtonClick: PropTypes.func.isRequired,
   onCancelButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
 };

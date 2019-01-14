@@ -2,8 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  SUCCESSFULLY_CREATED_ENTRY,
   SUCCESSFULLY_DELETED_ENTRY,
+  SUCCESSFULLY_SAVED_ENTRY,
 } from '../receiveMoneyMessageTypes';
 import {
   getFilterOptions, getSortOrder,
@@ -20,7 +20,7 @@ export default class ReceiveMoneyListModule {
     this.store = new Store(receiveMoneyListReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
-    this.messageTypes = [SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY];
+    this.messageTypes = [SUCCESSFULLY_SAVED_ENTRY, SUCCESSFULLY_DELETED_ENTRY];
   }
 
   render = () => {
@@ -31,6 +31,7 @@ export default class ReceiveMoneyListModule {
         onApplyFilter={this.filterReceiveMoneyEntries}
         onSort={this.sortReceiveMoneyEntries}
         onDismissAlert={this.dismissAlert}
+        onCreateNewEntry={this.newReceiveMoneyEntry}
       />
     );
 
@@ -40,6 +41,10 @@ export default class ReceiveMoneyListModule {
       </Provider>
     );
     this.setRootView(wrappedView);
+  };
+
+  newReceiveMoneyEntry = () => {
+    window.location.href = `/#/${this.businessId}/receiveMoney/new`;
   };
 
   loadReceiveMoneyEntries = () => {
