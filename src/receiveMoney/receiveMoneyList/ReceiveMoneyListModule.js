@@ -48,6 +48,8 @@ export default class ReceiveMoneyListModule {
   };
 
   loadReceiveMoneyEntries = () => {
+    const { state } = this.store;
+
     const intent = ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_ENTRIES;
     const urlParams = {
       businessId: this.businessId,
@@ -71,8 +73,13 @@ export default class ReceiveMoneyListModule {
       console.log('Failed to load receive money entries');
     };
 
+    const filterOptions = getFilterOptions(state);
+
     this.integration.read({
       intent,
+      params: {
+        ...filterOptions,
+      },
       urlParams,
       onSuccess,
       onFailure,

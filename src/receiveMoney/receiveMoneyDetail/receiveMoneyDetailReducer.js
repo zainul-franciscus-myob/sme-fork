@@ -1,3 +1,5 @@
+import dateFormat from 'dateformat';
+
 import { getDefaultTaxCodeId } from './receiveMoneyDetailSelectors';
 import ReceiveMoneyIntents from '../ReceiveMoneyIntents';
 import SystemIntents from '../../SystemIntents';
@@ -70,9 +72,7 @@ const loadReceiveMoneyDetail = (state, action) => ({
   isLoading: false,
 });
 
-const convertToDateString = (unixTime) => {
-  new Date(Number(unixTime)).toISOString().substring(0, 10);
-};
+const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
 const isAccountLineItem = lineKey => lineKey === 'accountId';
 const updateReceiveMoneyLine = (line, { lineKey, lineValue }) => {
@@ -127,12 +127,16 @@ const deleteLine = (state, action) => ({
   },
 });
 
+const isDateOptionChange = filterName => filterName === 'date';
+
 const updateHeader = (state, action) => ({
   ...state,
   ...pageEdited,
   receiveMoney: {
     ...state.receiveMoney,
-    [action.key]: action.value,
+    [action.key]: isDateOptionChange(action.key)
+      ? convertToDateString(action.value)
+      : action.value,
   },
 });
 

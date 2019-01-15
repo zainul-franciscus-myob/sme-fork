@@ -1,34 +1,30 @@
+import dateFormat from 'dateformat';
+
 import ReceiveMoneyIntents from '../ReceiveMoneyIntents';
 import SystemIntents from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
-const initialState = {
+const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
+const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
+
+const getInitialState = () => ({
   entries: [],
   filterOptions: {
-    dateFrom: '',
-    dateTo: '',
+    dateFrom: convertToDateString(getDefaultDateRange()),
+    dateTo: convertToDateString(Date.now()),
     keywords: '',
   },
   sortOrder: '',
   alert: undefined,
   isLoading: true,
   isTableLoading: false,
-};
+});
 
-const resetState = () => (initialState);
-
-const convertToDateString = unixTime => new Date(Number(unixTime)).toISOString().substring(0, 10);
-
-const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
+const resetState = () => (getInitialState());
 
 const loadReceiveMoneyEntries = (state, action) => ({
   ...state,
   entries: action.entries,
-  filterOptions: {
-    ...state.filterOptions,
-    dateFrom: convertToDateString(getDefaultDateRange()),
-    dateTo: convertToDateString(Date.now()),
-  },
   sortOrder: action.sortOrder,
   isLoading: action.isLoading,
 });
@@ -82,6 +78,6 @@ const handlers = {
   [SystemIntents.RESET_STATE]: resetState,
 };
 
-const receiveMoneyReducer = createReducer(initialState, handlers);
+const receiveMoneyReducer = createReducer(getInitialState(), handlers);
 
 export default receiveMoneyReducer;

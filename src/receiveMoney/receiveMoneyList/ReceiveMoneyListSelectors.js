@@ -9,7 +9,9 @@ export const getAlert = ({ alert }) => alert;
 
 export const convertToUnixTime = date => new Date(date).getTime().toString();
 
-export const getFilterOptions = ({ filterOptions }) => ({
+export const getFilterOptions = ({ filterOptions }) => filterOptions;
+
+export const getFormattedFilterOptions = ({ filterOptions }) => ({
   ...filterOptions,
   dateFrom: convertToUnixTime(filterOptions.dateFrom),
   dateTo: convertToUnixTime(filterOptions.dateTo),
@@ -21,4 +23,4 @@ export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
 export const getIsTableLoading = state => state.isTableLoading;
 
-export const getIsLoading = state => state.isLaoding;
+export const getIsLoading = state => state.isLoading;

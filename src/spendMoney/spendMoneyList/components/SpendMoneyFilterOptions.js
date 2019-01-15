@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getFilterOptions } from '../spendMoneyListSelectors';
+import { getFormattedFilterOptions } from '../spendMoneyListSelectors';
 
 class SpendMoneyFilterOptions extends React.Component {
   onFilterChange = filterName => (value) => {
@@ -62,7 +62,7 @@ SpendMoneyFilterOptions.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  filterOptions: getFilterOptions(state),
+  filterOptions: getFormattedFilterOptions(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyFilterOptions);

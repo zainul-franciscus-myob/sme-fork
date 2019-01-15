@@ -44,6 +44,8 @@ export default class SpendMoneyListModule {
   };
 
   loadSpendMoneyEntries = () => {
+    const { state } = this.store;
+
     const intent = SpendMoneyIntents.LOAD_SPEND_MONEY_ENTRIES;
     const urlParams = {
       businessId: this.businessId,
@@ -67,8 +69,13 @@ export default class SpendMoneyListModule {
       console.log('Failed to load spend money entries');
     };
 
+    const filterOptions = getFilterOptions(state);
+
     this.integration.read({
       intent,
+      params: {
+        ...filterOptions,
+      },
       urlParams,
       onSuccess,
       onFailure,

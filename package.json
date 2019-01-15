@@ -15,6 +15,7 @@
     "@myob/myob-widgets": "3.1.0",
     "abortcontroller-polyfill": "1.2.1",
     "classnames": "2.2.5",
+    "dateformat": "^3.0.3",
     "downshift": "1.16.0",
     "match-sorter": "2.2.1",
     "prop-types": "15.6.2",

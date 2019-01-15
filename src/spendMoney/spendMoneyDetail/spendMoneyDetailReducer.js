@@ -1,3 +1,5 @@
+import dateFormat from 'dateformat';
+
 import { getDefaultTaxCodeId } from './spendMoneyDetailSelectors';
 import SpendMoneyIntents from '../SpendMoneyIntents';
 import SystemIntents from '../../SystemIntents';
@@ -43,9 +45,7 @@ const pageEdited = { isPageEdited: true };
 
 const resetState = () => (initialState);
 
-const convertToDateString = (unixTime) => {
-  new Date(Number(unixTime)).toISOString().substring(0, 10);
-};
+const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
 const isAccountLineItem = lineKey => lineKey === 'accountId';
 const updateSpendMoneyLine = (line, { lineKey, lineValue }) => {
@@ -116,12 +116,16 @@ const deleteLine = (state, action) => ({
   },
 });
 
+const isDateOptionChange = filterName => filterName === 'date';
+
 const updateHeader = (state, action) => ({
   ...state,
   ...pageEdited,
   spendMoney: {
     ...state.spendMoney,
-    [action.key]: action.value,
+    [action.key]: isDateOptionChange(action.key)
+      ? convertToDateString(action.value)
+      : action.value,
   },
 });
 
