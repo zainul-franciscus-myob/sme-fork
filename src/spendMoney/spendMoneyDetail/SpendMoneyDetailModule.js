@@ -7,6 +7,7 @@ import {
 } from '../spendMoneyMessageTypes';
 import {
   getCalculatedTotalsPayload,
+  getIsTableEmpty,
   getSpendMoney,
   getSpendMoneyForCreatePayload,
   getSpendMoneyId,
@@ -268,6 +269,11 @@ export default class SpendMoneyDetailModule {
   }
 
   getCalculatedTotals = () => {
+    const state = this.store.getState();
+    if (getIsTableEmpty(state)) {
+      return;
+    }
+
     const intent = SpendMoneyIntents.GET_CALCULATED_TOTALS;
 
     const onSuccess = (totals) => {

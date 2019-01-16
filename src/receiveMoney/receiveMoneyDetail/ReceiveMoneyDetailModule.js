@@ -4,6 +4,7 @@ import React from 'react';
 import { SUCCESSFULLY_DELETED_ENTRY, SUCCESSFULLY_SAVED_ENTRY } from '../receiveMoneyMessageTypes';
 import {
   getCalculatedTotalsPayload,
+  getIsTableEmpty,
   getReceiveMoney,
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyId,
@@ -183,6 +184,11 @@ export default class ReceiveMoneyDetailModule {
   }
 
   getCalculatedTotals = () => {
+    const state = this.store.getState();
+    if (getIsTableEmpty(state)) {
+      return;
+    }
+
     const intent = ReceiveMoneyIntents.GET_CALCULATED_TOTALS;
 
     const onSuccess = (totals) => {

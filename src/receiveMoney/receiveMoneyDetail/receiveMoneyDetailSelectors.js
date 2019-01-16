@@ -91,6 +91,11 @@ export const getTableData = createSelector(
   len => Array(len).fill({}),
 );
 
+export const getIsTableEmpty = createSelector(
+  getLength,
+  len => len === 0,
+);
+
 export const getNewLineData = state => state.newLine;
 
 export const getIndexOfLastLine = state => state.receiveMoney.lines.length - 1;
