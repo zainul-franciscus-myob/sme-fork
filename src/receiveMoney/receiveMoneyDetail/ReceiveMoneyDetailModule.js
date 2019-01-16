@@ -186,6 +186,9 @@ export default class ReceiveMoneyDetailModule {
   getCalculatedTotals = () => {
     const state = this.store.getState();
     if (getIsTableEmpty(state)) {
+      this.store.dispatch({
+        intent: ReceiveMoneyIntents.RESET_TOTALS,
+      });
       return;
     }
 

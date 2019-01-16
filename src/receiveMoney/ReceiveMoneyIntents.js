@@ -20,6 +20,7 @@ const ReceiveMoneyIntents = {
   ADD_RECEIVE_MONEY_LINE: Symbol('Add receive money line'),
   DELETE_RECEIVE_MONEY_LINE: Symbol('Delete receive money line'),
   GET_CALCULATED_TOTALS: Symbol('Get calculated totals'),
+  RESET_TOTALS: Symbol('Reset calculation totals'),
   SET_ALERT: Symbol('Set the Alert of the page'),
 };
 
