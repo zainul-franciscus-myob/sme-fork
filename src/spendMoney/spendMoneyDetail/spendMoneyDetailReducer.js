@@ -192,6 +192,11 @@ const getCalculateTotals = (state, action) => ({
   totals: action.totals,
 });
 
+const resetTotals = state => ({
+  ...state,
+  totals: initialState.totals,
+});
+
 const handlers = {
   [SpendMoneyIntents.UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [SpendMoneyIntents.LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -207,6 +212,7 @@ const handlers = {
   [SpendMoneyIntents.SET_ALERT_MESSAGE]: setAlertMessage,
   [SpendMoneyIntents.OPEN_MODAL]: openModal,
   [SpendMoneyIntents.CLOSE_MODAL]: closeModal,
+  [SpendMoneyIntents.RESET_TOTALS]: resetTotals,
   [SystemIntents.RESET_STATE]: resetState,
 };
 const spendMoneyReducer = createReducer(initialState, handlers);
