@@ -1,0 +1,58 @@
+{
+  "sortOrder": "desc",
+  "selectedSourceJournalFilter": "All",
+  "sourceJournalFilters": [{
+      "name": "All",
+      "value": "All"
+    },
+    {
+      "name": "General",
+      "value": "General"
+    },
+    {
+      "name": "Sales",
+      "value": "Sale"
+    },
+    {
+      "name": "Purchases",
+      "value": "Purchase"
+    },
+    {
+      "name": "Cash Payments",
+      "value": "CashPayment"
+    },
+    {
+      "name": "Cash Receipts",
+      "value": "CashReceipt"
+    },
+    {
+      "name": "Inventory",
+      "value": "Inventory"
+    }
+  ],
+  "entries": [{
+      "id": "1",
+      "displayDate": "30/04/2016",
+      "referenceId": "GJ0000001",
+      "description": "doing general business",
+      "sourceJournal": "General",
+      "displayAmount": "2.00"
+    },
+    {
+      "id": "3",
+      "displayDate": "30/06/2016",
+      "referenceId": "SM0000003",
+      "description": "Spending money",
+      "sourceJournal": "Cash Payments",
+      "displayAmount": "4.00"
+    },
+    {
+      "id": "2",
+      "displayDate": "30/07/2016",
+      "referenceId": "RM0000004",
+      "description": "cash something?",
+      "sourceJournal": "Cash Receipts",
+      "displayAmount": "5.00"
+    }
+  ]
+}
