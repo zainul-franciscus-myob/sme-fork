@@ -1,11 +1,14 @@
 import RootMapping from './memoryMapping/RootMapping';
 
 const createMemoryIntegration = () => ({
-  read: ({
+  read: async ({
     intent, params, onSuccess, onFailure,
   }) => {
+    // await Promise.resolve();
     const integrationFunction = RootMapping[intent];
-    integrationFunction({ params, onSuccess, onFailure });
+    setTimeout(() => {
+      integrationFunction({ params, onSuccess, onFailure });
+    }, 1000);
   },
   write: ({
     intent, params, onSuccess, onFailure,
