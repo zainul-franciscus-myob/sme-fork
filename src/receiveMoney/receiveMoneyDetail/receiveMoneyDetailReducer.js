@@ -182,6 +182,11 @@ const getCalculateTotals = (state, action) => ({
   totals: action.totals,
 });
 
+const resetTotals = state => ({
+  ...state,
+  totals: initialState.totals,
+});
+
 const handlers = {
   [ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
   [ReceiveMoneyIntents.LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
@@ -196,6 +201,7 @@ const handlers = {
   [ReceiveMoneyIntents.SET_ALERT_MESSAGE]: setAlertMessage,
   [ReceiveMoneyIntents.OPEN_MODAL]: openModal,
   [ReceiveMoneyIntents.CLOSE_MODAL]: closeModal,
+  [ReceiveMoneyIntents.RESET_TOTALS]: resetTotals,
   [SystemIntents.RESET_STATE]: resetState,
 };
 const receiveMoneyReducer = createReducer(initialState, handlers);

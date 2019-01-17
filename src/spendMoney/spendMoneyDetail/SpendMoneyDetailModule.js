@@ -271,6 +271,9 @@ export default class SpendMoneyDetailModule {
   getCalculatedTotals = () => {
     const state = this.store.getState();
     if (getIsTableEmpty(state)) {
+      this.store.dispatch({
+        intent: SpendMoneyIntents.RESET_TOTALS,
+      });
       return;
     }
 
