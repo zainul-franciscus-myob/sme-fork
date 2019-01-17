@@ -22,7 +22,7 @@ const SpendMoneyIntents = {
   SET_TABLE_LOADING_STATE: Symbol('Set Table loading state'),
   UPDATE_FILTER_OPTIONS: Symbol('Update filter Options'),
   SORT_SPEND_MONEY_ENTRIES: Symbol('Sort the spend money entries'),
-  RESET_TOTALS: Symbol('Reset calculation totals'),
+  RESET_TOTALS: Symbol('Reset calculated totals'),
 };
 
 export default SpendMoneyIntents;
