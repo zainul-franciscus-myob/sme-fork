@@ -222,8 +222,8 @@ export default class SpendMoneyListModule {
     this.render();
     this.readMessages();
 
-    this.loadSpendMoneyEntries();
     this.setLoadingState(true);
+    this.loadSpendMoneyEntries();
   }
 
   resetState() {
