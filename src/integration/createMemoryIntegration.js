@@ -5,15 +5,17 @@ const createMemoryIntegration = () => ({
     intent, params, onSuccess, onFailure,
   }) => {
     const integrationFunction = RootMapping[intent];
-    await Promise.resolve();
-    integrationFunction({ params, onSuccess, onFailure });
+    Promise.resolve().then(() => {
+      integrationFunction({ params, onSuccess, onFailure });
+    });
   },
   write: async ({
     intent, params, onSuccess, onFailure,
   }) => {
     const integrationFunction = RootMapping[intent];
-    await Promise.resolve();
-    integrationFunction({ params, onSuccess, onFailure });
+    Promise.resolve().then(() => {
+      integrationFunction({ params, onSuccess, onFailure });
+    });
   },
 });
 
