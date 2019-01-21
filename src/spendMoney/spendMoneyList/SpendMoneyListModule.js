@@ -221,7 +221,6 @@ export default class SpendMoneyListModule {
     this.businessId = context.businessId;
     this.render();
     this.readMessages();
-
     this.setLoadingState(true);
     this.loadSpendMoneyEntries();
   }
