@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 export const getOrder = ({ sortOrder }) => ({
   column: 'date',
   descending: sortOrder === 'desc',
@@ -43,11 +45,15 @@ const getEntryLink = (entry, businessId) => {
   return `/#/${businessId}/${feature}/${id}`;
 };
 
-export const getTableEntries = (state, props) => state.entries.map(
-  entry => ({
-    ...entry,
-    link: getEntryLink(entry, props.businessId),
-  }),
+export const getTableEntries = createSelector(
+  getEntries,
+  (state, props) => props.businessId,
+  (entries, businessId) => entries.map(
+    entry => ({
+      ...entry,
+      link: getEntryLink(entry, businessId),
+    }),
+  ),
 );
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;

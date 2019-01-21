@@ -1,6 +1,9 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../generalJournal/GeneralJournalMessageTypes';
+import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../receiveMoney/receiveMoneyMessageTypes';
+import { SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY } from '../spendMoney/spendMoneyMessageTypes';
 import {
   getFilterOptions, getSortOrder,
 } from './transactionListSelectors';
@@ -10,13 +13,19 @@ import TransactionListIntents from './TransactionListIntents';
 import TransactionListView from './components/TransactionListView';
 import transactionListReducer from './transactionListReducer';
 
+const messageTypes = [
+  SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+  SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY,
+  SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY,
+];
+
 export default class TransactionListModule {
   constructor({ integration, setRootView, popMessages }) {
     this.integration = integration;
     this.store = new Store(transactionListReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
-    this.messageTypes = [];
+    this.messageTypes = messageTypes;
   }
 
   render = () => {

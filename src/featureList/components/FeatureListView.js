@@ -16,12 +16,11 @@ class FeatureListView extends Component {
   }
 
   render() {
-    const { features, alertComponent } = this.props;
+    const { features } = this.props;
     const featureList = features.map(this.renderRow);
 
     return (
       <Fragment>
-        { alertComponent }
         <StandardTemplate pageHead="Available features">
           <nav>
             <Table>
@@ -36,13 +35,8 @@ class FeatureListView extends Component {
   }
 }
 
-FeatureListView.defaultProps = {
-  alertComponent: null,
-};
-
 FeatureListView.propTypes = {
   features: PropTypes.arrayOf(PropTypes.string).isRequired,
-  alertComponent: PropTypes.element,
   businessId: PropTypes.string.isRequired,
 };
 

@@ -2,8 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  SUCCESSFULLY_CREATED_ENTRY,
-  SUCCESSFULLY_DELETED_ENTRY,
+  SUCCESSFULLY_DELETED_SPEND_MONEY,
+  SUCCESSFULLY_SAVED_SPEND_MONEY,
 } from '../spendMoneyMessageTypes';
 import {
   getCalculatedTotalsPayload,
@@ -146,11 +146,11 @@ export default class SpendMoneyDetailModule {
   saveSpendMoneyEntry(intent, content, urlParams) {
     const onSuccess = (response) => {
       this.pushMessage({
-        type: SUCCESSFULLY_CREATED_ENTRY,
+        type: SUCCESSFULLY_SAVED_SPEND_MONEY,
         content: response.message,
       });
       this.setSubmittingState(false);
-      this.redirectToSpendMoneyList();
+      this.redirectToTransactionList();
     };
 
     const onFailure = (error) => {
@@ -185,7 +185,7 @@ export default class SpendMoneyDetailModule {
         modalType: 'cancel',
       });
     } else {
-      this.redirectToSpendMoneyList();
+      this.redirectToTransactionList();
     }
   };
 
@@ -204,8 +204,8 @@ export default class SpendMoneyDetailModule {
     this.store.dispatch({ intent });
   };
 
-  redirectToSpendMoneyList = () => {
-    window.location.href = `/#/${this.businessId}/spendMoney`;
+  redirectToTransactionList = () => {
+    window.location.href = `/#/${this.businessId}/transactionList`;
   };
 
   unsubscribeFromStore = () => {
@@ -314,10 +314,10 @@ export default class SpendMoneyDetailModule {
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
-        type: SUCCESSFULLY_DELETED_ENTRY,
+        type: SUCCESSFULLY_DELETED_SPEND_MONEY,
         content: message,
       });
-      this.redirectToSpendMoneyList();
+      this.redirectToTransactionList();
     };
 
     const onFailure = (error) => {
@@ -346,7 +346,7 @@ export default class SpendMoneyDetailModule {
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.closeModal}
-        onCancelModal={this.redirectToSpendMoneyList}
+        onCancelModal={this.redirectToTransactionList}
         onDeleteModal={this.deleteSpendMoneyTransaction}
         onDismissAlert={this.dismissAlert}
         isCreating={this.isCreating}

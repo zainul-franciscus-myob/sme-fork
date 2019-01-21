@@ -27,21 +27,21 @@ const getRoutes = ({
     name: 'generalJournal',
     rootPath: '/:businessId/generalJournal',
     subRoutes: getGeneralJournalRoutes({
-      integration, setRootView, popMessages, pushMessage,
+      integration, setRootView, pushMessage,
     }),
   },
   {
     name: 'spendMoney',
     rootPath: '/:businessId/spendMoney',
     subRoutes: getSpendMoneyRoutes({
-      integration, setRootView, popMessages, pushMessage,
+      integration, setRootView, pushMessage,
     }),
   },
   {
     name: 'receiveMoney',
     rootPath: '/:businessId/receiveMoney',
     subRoutes: getReceiveMoneyRoutes({
-      integration, setRootView, popMessages, pushMessage,
+      integration, setRootView, pushMessage,
     }),
   },
   {

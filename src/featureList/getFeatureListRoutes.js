@@ -1,13 +1,13 @@
 import FeaturesModule from './FeaturesModule';
 
 const getFeatureListRoutes = ({
-  setRootView, popMessages,
+  setRootView,
 }) => {
   const routes = [
     {
       name: 'featureList',
       path: '/',
-      module: new FeaturesModule({ setRootView, popMessages }),
+      module: new FeaturesModule({ setRootView }),
     },
   ];
 

@@ -1,7 +1,9 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_ENTRY, SUCCESSFULLY_SAVED_ENTRY } from '../receiveMoneyMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY,
+} from '../receiveMoneyMessageTypes';
 import {
   getCalculatedTotalsPayload,
   getIsTableEmpty,
@@ -64,10 +66,10 @@ export default class ReceiveMoneyDetailModule {
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
-        type: SUCCESSFULLY_DELETED_ENTRY,
+        type: SUCCESSFULLY_DELETED_RECEIVE_MONEY,
         content: message,
       });
-      this.redirectToReceiveMoneyList();
+      this.redirectToTransactionList();
     };
 
     const onFailure = (error) => {
@@ -110,11 +112,11 @@ export default class ReceiveMoneyDetailModule {
   saveReceiveMoneyEntry(intent, content, urlParams) {
     const onSuccess = (response) => {
       this.pushMessage({
-        type: SUCCESSFULLY_SAVED_ENTRY,
+        type: SUCCESSFULLY_SAVED_RECEIVE_MONEY,
         content: response.message,
       });
       this.setSubmittingState(false);
-      this.redirectToReceiveMoneyList();
+      this.redirectToTransactionList();
     };
 
     const onFailure = (error) => {
@@ -250,7 +252,7 @@ export default class ReceiveMoneyDetailModule {
         modalType: 'cancel',
       });
     } else {
-      this.redirectToReceiveMoneyList();
+      this.redirectToTransactionList();
     }
   };
 
@@ -289,8 +291,8 @@ export default class ReceiveMoneyDetailModule {
     });
   };
 
-  redirectToReceiveMoneyList= () => {
-    window.location.href = `/#/${this.businessId}/receiveMoney/`;
+  redirectToTransactionList= () => {
+    window.location.href = `/#/${this.businessId}/transactionList`;
   }
 
   render = () => {
@@ -304,7 +306,7 @@ export default class ReceiveMoneyDetailModule {
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.closeModal}
         onDeleteModal={this.deleteReceiveMoney}
-        onCancelModal={this.redirectToReceiveMoneyList}
+        onCancelModal={this.redirectToTransactionList}
         onDismissAlert={this.dismissAlert}
         onUpdateRow={this.updateReceiveMoneyLine}
         onAddRow={this.addReceiveMoneyLine}

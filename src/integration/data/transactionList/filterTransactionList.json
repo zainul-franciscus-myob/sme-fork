@@ -25,7 +25,7 @@
       "description": "cash something?",
       "sourceJournal": "Cash Receipts",
       "displayAmount": "5.00",
-      "bussinessEventType": "CashRecipt"
+      "bussinessEventType": "CashReceipt"
     }
   ]
 }

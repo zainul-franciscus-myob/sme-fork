@@ -16,12 +16,6 @@ const SpendMoneyIntents = {
   SET_LOADING_STATE: Symbol('Set loading state'),
   SET_SUBMITTING_STATE: Symbol('Set submitting state'),
   GET_CALCULATED_TOTALS: Symbol('Get calculated totals'),
-  SET_ALERT: Symbol('Set the Alert of the page'),
-  LOAD_SPEND_MONEY_ENTRIES: Symbol('Load spend money entries'),
-  FILTER_SPEND_MONEY_ENTRIES: Symbol('Load spend money entries'),
-  SET_TABLE_LOADING_STATE: Symbol('Set Table loading state'),
-  UPDATE_FILTER_OPTIONS: Symbol('Update filter Options'),
-  SORT_SPEND_MONEY_ENTRIES: Symbol('Sort the spend money entries'),
   RESET_TOTALS: Symbol('Reset calculated totals'),
 };
 

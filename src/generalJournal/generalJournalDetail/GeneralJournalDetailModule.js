@@ -2,7 +2,10 @@ import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModals';
-import { SUCCESSFULLY_CREATED_ENTRY, SUCCESSFULLY_DELETED_ENTRY } from '../GeneralJournalMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_GENERAL_JOURNAL,
+  SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+} from '../GeneralJournalMessageTypes';
 import {
   getGeneralJournal,
   getGeneralJournalForCreatePayload,
@@ -88,10 +91,10 @@ export default class GeneralJournalDetailModule {
 
     const onSuccess = () => {
       this.pushMessage({
-        type: SUCCESSFULLY_DELETED_ENTRY,
+        type: SUCCESSFULLY_DELETED_GENERAL_JOURNAL,
         content: 'Success! Your general journal was deleted.',
       });
-      this.redirectToGeneralJournalList();
+      this.redirectToTransactionList();
     };
 
     const onFailure = (error) => {
@@ -128,10 +131,10 @@ export default class GeneralJournalDetailModule {
 
     const onSuccess = () => {
       this.pushMessage({
-        type: SUCCESSFULLY_CREATED_ENTRY,
+        type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
         content: 'Success! Your general journal was saved.',
       });
-      this.redirectToGeneralJournalList();
+      this.redirectToTransactionList();
     };
 
     const onFailure = (error) => {
@@ -159,10 +162,10 @@ export default class GeneralJournalDetailModule {
 
     const onSuccess = () => {
       this.pushMessage({
-        type: SUCCESSFULLY_CREATED_ENTRY,
+        type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
         content: 'Success! Your general journal was saved.',
       });
-      this.redirectToGeneralJournalList();
+      this.redirectToTransactionList();
     };
 
     const onFailure = (error) => {
@@ -214,8 +217,8 @@ export default class GeneralJournalDetailModule {
     this.store.dispatch({ intent });
   };
 
-  redirectToGeneralJournalList = () => {
-    window.location.href = `/#/${this.businessId}/generalJournal`;
+  redirectToTransactionList = () => {
+    window.location.href = `/#/${this.businessId}/transactionList`;
   };
 
   unsubscribeFromStore = () => {
@@ -305,7 +308,7 @@ export default class GeneralJournalDetailModule {
       modal = (
         <CancelModal
           onCancel={this.closeModal}
-          onConfirm={this.redirectToGeneralJournalList}
+          onConfirm={this.redirectToTransactionList}
         />
       );
     } else if (state.modalType === 'delete') {

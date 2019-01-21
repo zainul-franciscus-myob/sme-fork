@@ -25,18 +25,6 @@ const ReceiveMoneyMapping = {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/receiveMoney/calculate_totals`,
   },
-  [ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_ENTRIES]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/receiveMoney/load_receive_money_entries`,
-  },
-  [ReceiveMoneyIntents.FILTER_RECEIVE_MONEY_ENTRIES]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/receiveMoney/filter_receive_money_entries`,
-  },
-  [ReceiveMoneyIntents.SORT_RECEIVE_MONEY_ENTRIES]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/receiveMoney/filter_receive_money_entries`,
-  },
 };
 
 export default ReceiveMoneyMapping;
