@@ -29,7 +29,7 @@ export const getEntries = state => state.entries;
 const BUSINESS_EVENT_TYPE_TO_FEATURE_MAP = {
   GeneralAccounting: 'generalJournal',
   CashPayment: 'spendMoney',
-  CashRecipt: 'receiveMoney',
+  CashReceipt: 'receiveMoney',
   TransferMoney: 'transferMoney',
 };
 

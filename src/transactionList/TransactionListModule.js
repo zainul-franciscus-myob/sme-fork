@@ -90,11 +90,12 @@ export default class TransactionListModule {
       businessId: this.businessId,
     };
 
-    const onSuccess = ({ entries }) => {
+    const onSuccess = ({ entries, sortOrder }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
+        sortOrder,
       });
     };
 
