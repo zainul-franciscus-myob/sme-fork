@@ -1,6 +1,6 @@
 {
   "sortOrder": "desc",
-  "selectedSourceJournalFilter": "All",
+  "sourceJournal": "All",
   "sourceJournalFilters": [{
       "name": "All",
       "value": "All"
@@ -36,7 +36,8 @@
       "referenceId": "GJ0000001",
       "description": "doing general business",
       "sourceJournal": "General",
-      "displayAmount": "2.00"
+      "displayAmount": "2.00",
+      "bussinessEventType": "GeneralAccounting"
     },
     {
       "id": "3",
@@ -44,7 +45,8 @@
       "referenceId": "SM0000003",
       "description": "Spending money",
       "sourceJournal": "Cash Payments",
-      "displayAmount": "4.00"
+      "displayAmount": "4.00",
+      "bussinessEventType": "CashPayment"
     },
     {
       "id": "2",
@@ -52,7 +54,8 @@
       "referenceId": "RM0000004",
       "description": "cash something?",
       "sourceJournal": "Cash Receipts",
-      "displayAmount": "5.00"
+      "displayAmount": "5.00",
+      "bussinessEventType": "CashRecipt"
     }
   ]
 }

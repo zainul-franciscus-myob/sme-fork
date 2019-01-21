@@ -5,6 +5,7 @@ import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getHomePageRoutes from './HomePage/getHomePageRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
 import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
+import getTransactionListRoutes from './transactionList/getTransactionListRoutes';
 
 const getRoutes = ({
   integration, setRootView, popMessages, pushMessage,
@@ -47,6 +48,11 @@ const getRoutes = ({
     name: 'featureList',
     rootPath: '/:businessId/features',
     subRoutes: getFeaturesListRoutes({ setRootView, popMessages }),
+  },
+  {
+    name: 'transactionList',
+    rootPath: '/:businessId/transactionList',
+    subRoutes: getTransactionListRoutes({ integration, setRootView, popMessages }),
   },
 ];
 
