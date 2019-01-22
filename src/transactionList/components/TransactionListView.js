@@ -49,33 +49,10 @@ const TransactionListView = (props) => {
     />
   );
 
-  const table = (
-    <TransactionListTable
-      businessId={businessId}
-      order={order}
-      tableConfig={tableConfig}
-      onSort={onSort}
-    />
-  );
-
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
     </Alert>
-  );
-
-  const tableView = isTableLoading
-    ? (
-      <div className={style.spinner}>
-        <Spinner size="medium" />
-      </div>
-    )
-    : table;
-
-  const emptyView = (
-    <div className={style.empty}>
-      There are no transactions for the selected filter options.
-    </div>
   );
 
   const transactionListView = (
@@ -83,7 +60,14 @@ const TransactionListView = (props) => {
       {alertComponent}
       <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
         <div className={style.list}>
-          {isTableEmpty ? emptyView : tableView}
+          <TransactionListTable
+            isTableEmpty={isTableEmpty}
+            isTableLoading={isTableLoading}
+            businessId={businessId}
+            order={order}
+            tableConfig={tableConfig}
+            onSort={onSort}
+          />
         </div>
       </StandardTemplate>
     </React.Fragment>
