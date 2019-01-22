@@ -1,8 +1,7 @@
 {
   "generalJournal": {
     "referenceId": "JE0000005",
-    "isTaxInclusive": false,
-    "date": "1533045600000"
+    "isTaxInclusive": false
   },
   "newLine": {
     "accountId": "",
