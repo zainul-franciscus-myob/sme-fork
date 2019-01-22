@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getIsTableEmpty, getIsTableLoading, getOrder,
+  getAlert, getIsLoading,
 } from '../transactionListSelectors';
 import Alert from '../../components/Alert/Alert';
 import TransactionListFilterOptions from './TransactionListFilterOptions';
@@ -26,9 +26,6 @@ const TransactionListView = (props) => {
     businessId,
     isLoading,
     alert,
-    isTableEmpty,
-    isTableLoading,
-    order,
     onUpdateFilters,
     onApplyFilter,
     onSort,
@@ -61,10 +58,7 @@ const TransactionListView = (props) => {
       <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
         <div className={style.list}>
           <TransactionListTable
-            isTableEmpty={isTableEmpty}
-            isTableLoading={isTableLoading}
             businessId={businessId}
-            order={order}
             tableConfig={tableConfig}
             onSort={onSort}
           />
@@ -81,9 +75,6 @@ const TransactionListView = (props) => {
 const mapStateToProps = state => ({
   alert: getAlert(state),
   isLoading: getIsLoading(state),
-  isTableLoading: getIsTableLoading(state),
-  isTableEmpty: getIsTableEmpty(state),
-  order: getOrder(state),
 });
 
 export default connect(mapStateToProps)(TransactionListView);

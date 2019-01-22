@@ -1,6 +1,10 @@
 import { HeaderSort, Spinner, Table } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import {
+  getIsTableEmpty, getIsTableLoading, getOrder,
+} from '../transactionListSelectors';
 import TransactionListTableBody from './TransactionListTableBody';
 import style from './TransactionListView.css';
 
@@ -10,19 +14,23 @@ const emptyView = (
   </div>
 );
 
-const TableBody = ({
+const spinnerView = (
+  <div className={style.spinner}>
+    <Spinner size="medium" />
+  </div>
+);
+
+const TransactionListTable = ({
   isTableEmpty,
   isTableLoading,
   businessId,
   tableConfig,
+  onSort,
+  order,
 }) => {
   let view;
   if (isTableLoading) {
-    view = (
-      <div className={style.spinner}>
-        <Spinner size="medium" />
-      </div>
-    );
+    view = spinnerView;
   } else if (isTableEmpty) {
     view = emptyView;
   } else {
@@ -33,18 +41,6 @@ const TableBody = ({
       />
     );
   }
-  return view;
-};
-
-const TransactionListTable = (props) => {
-  const {
-    isTableEmpty,
-    isTableLoading,
-    businessId,
-    tableConfig,
-    onSort,
-    order,
-  } = props;
 
   return (
     <Table>
@@ -57,14 +53,15 @@ const TransactionListTable = (props) => {
         <Table.HeaderItem {...tableConfig.sourceJournal}>Source Journal </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
       </Table.Header>
-      <TableBody
-        isTableEmpty={isTableEmpty}
-        isTableLoading={isTableLoading}
-        businessId={businessId}
-        tableConfig={tableConfig}
-      />
+      {view}
     </Table>
   );
 };
 
-export default TransactionListTable;
+const mapStateToProps = state => ({
+  isTableLoading: getIsTableLoading(state),
+  isTableEmpty: getIsTableEmpty(state),
+  order: getOrder(state),
+});
+
+export default connect(mapStateToProps)(TransactionListTable);
