@@ -14,7 +14,7 @@ describe('TransactionListView', () => {
     const view = (
       <Provider store={store}>
         <TrasnactionListView
-          bussinessId=""
+          businessId=""
           onUpdateFilters={() => {}}
           onApplyFilter={() => {}}
           onSort={() => {}}

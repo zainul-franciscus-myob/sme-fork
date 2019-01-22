@@ -38,9 +38,9 @@ const BUSINESS_EVENT_TYPE_TO_FEATURE_MAP = {
 const getEntryLink = (entry, businessId) => {
   const {
     id,
-    bussinessEventType,
+    businessEventType,
   } = entry;
-  const feature = BUSINESS_EVENT_TYPE_TO_FEATURE_MAP[bussinessEventType];
+  const feature = BUSINESS_EVENT_TYPE_TO_FEATURE_MAP[businessEventType];
 
   return `/#/${businessId}/${feature}/${id}`;
 };

@@ -20,7 +20,7 @@ const getRoutes = ({
     rootPath: '/:businessId/banking',
     subRoutes: getBankingRoutes({ setRootView, integration }),
   }, {
-    name: 'bussinesses',
+    name: 'businesses',
     rootPath: '/business',
     subRoutes: getBusinessesRoutes({ setRootView, integration }),
   }, {
