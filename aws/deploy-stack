@@ -1,8 +1,15 @@
 #!/bin/bash
 set -eu
 
+if [ $# -ne 1 ]; then
+  echo "You must provide the name of your environment's parameters file located in '/aws' "
+  echo "usage: $0 [ prod | qa | etc ]."
+  exit 1
+fi
+
+PARAMETERS=$1
+STACKNAME="sme-web-ui-${1}-stack"
 REGION=ap-southeast-2
-STACKNAME="sme-web-ui-cdn-stack"
 
 operation() {
   AWS_DEFAULT_REGION=$REGION AWS_REGION=$REGION aws cloudformation describe-stack-resources --stack-name $STACKNAME > /dev/null 2>&1
@@ -20,4 +27,5 @@ echo "running $op-stack for ${STACKNAME}"
 aws cloudformation ${op}-stack \
   --region ${REGION} \
   --stack-name ${STACKNAME} \
-  --template-body file://aws/cdn-stack.json
+  --template-body file://aws/sme-web-ui-stack.json \
+  --parameters file://aws/params/$PARAMETERS-params.json
