@@ -1,23 +1,17 @@
-import { Input, LineItemTable } from '@myob/myob-widgets';
+import { LineItemTable } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AccountCombobox from '../../../components/combobox/AccountCombobox';
-import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
+import {
+  getFormattedTotals, getIndexOfLastLine, getTableData,
+} from '../generalJournalDetailSelectors';
+import GeneralJournalDetailRow from './GeneralJournalDetailRow';
 
-export default class GeneralJournalDetailTable extends React.Component {
+class GeneralJournalDetailTable extends React.Component {
   onChange = (index, name, value) => {
     const { onUpdateRow } = this.props;
     onUpdateRow(index, name, value);
-  }
-
-  eventWrapper = (name, onChange) => (item) => {
-    onChange({
-      target: {
-        name,
-        value: item.id,
-      },
-    });
   }
 
   onMoveRow = () => {}
@@ -34,85 +28,36 @@ export default class GeneralJournalDetailTable extends React.Component {
 
   renderRow = (index, data, onChange) => {
     const {
-      newLineData,
       indexOfLastLine,
     } = this.props;
 
     const isNewLineRow = indexOfLastLine < index;
 
-    const lineData = isNewLineRow ? newLineData : data;
-
-    const {
-      debitInputAmount,
-      isDebitDisabled,
-      creditInputAmount,
-      isCreditDisabled,
-      description = '',
-      selectedAccountIndex,
-      taxCodes,
-      accounts,
-      selectedTaxCodeIndex,
-    } = lineData;
-
     return (
-      <LineItemTable.Row
-        id={index}
-        key={index}
+      <GeneralJournalDetailRow
         index={index}
-        moveRow={this.onMoveRow}
-      >
-        <AccountCombobox
-          items={accounts}
-          selectedIndex={selectedAccountIndex}
-          onChange={this.eventWrapper('accountId', onChange)}
-        />
-        <Input
-          type="number"
-          label="Debit Amount"
-          hiddenLabel
-          name="debitInputAmount"
-          value={debitInputAmount}
-          disabled={isDebitDisabled || isNewLineRow}
-          onChange={onChange}
-          onBlur={this.onRowInputBlur(index)}
-        />
-        <Input
-          type="number"
-          label="Credit Amount"
-          hiddenLabel
-          name="creditInputAmount"
-          value={creditInputAmount}
-          disabled={isCreditDisabled || isNewLineRow}
-          onChange={onChange}
-          onBlur={this.onRowInputBlur(index)}
-        />
-        <Input
-          type="text"
-          label="Description"
-          hiddenLabel
-          name="description"
-          value={description}
-          onChange={onChange}
-          disabled={isNewLineRow}
-        />
-        <TaxCodeCombobox
-          items={taxCodes}
-          selectedIndex={selectedTaxCodeIndex}
-          onChange={this.eventWrapper('taxCodeId', onChange)}
-          disabled={isNewLineRow}
-        />
-      </LineItemTable.Row>
+        key={index}
+        onMoveRow={this.onMoveRow}
+        onChange={onChange}
+        isNewLineRow={isNewLineRow}
+        onRowInputBlur={this.onRowInputBlur}
+      />
     );
   };
 
   render() {
     const labels = [
-      'Account', 'Debit ($)', 'Credit ($)', 'Line Description', 'Tax code',
+      'Account', 'Debit ($)', 'Credit ($)', 'Line description', 'Tax code',
     ];
 
     const {
-      lines,
-      amountTotals,
+      tableData,
+      amountTotals: {
+        totalDebit,
+        totalCredit,
+        totalTax,
+        totalOutOfBalance,
+      },
       onRemoveRow,
     } = this.props;
 
@@ -122,14 +67,14 @@ export default class GeneralJournalDetailTable extends React.Component {
         onRowChange={this.onChange}
         labels={labels}
         renderRow={this.renderRow}
-        data={lines}
+        data={tableData}
         onRemoveRow={onRemoveRow}
       >
         <LineItemTable.Total>
-          <LineItemTable.Totals title="Total debit" amount={amountTotals.totalDebit} />
-          <LineItemTable.Totals title="Total credit" amount={amountTotals.totalCredit} />
-          <LineItemTable.Totals title="Tax" amount={amountTotals.totalTax} />
-          <LineItemTable.Totals totalAmount title="Out of balance" amount={amountTotals.totalOutOfBalance} />
+          <LineItemTable.Totals title="Total debit" amount={totalDebit} />
+          <LineItemTable.Totals title="Total credit" amount={totalCredit} />
+          <LineItemTable.Totals title="Tax" amount={totalTax} />
+          <LineItemTable.Totals totalAmount title="Out of balance" amount={totalOutOfBalance} />
         </LineItemTable.Total>
       </LineItemTable>
     );
@@ -137,8 +82,7 @@ export default class GeneralJournalDetailTable extends React.Component {
 }
 
 GeneralJournalDetailTable.propTypes = {
-  lines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  newLineData: PropTypes.shape({}).isRequired,
+  tableData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
   amountTotals: PropTypes.shape({
     totalDebit: PropTypes.string,
@@ -148,6 +92,14 @@ GeneralJournalDetailTable.propTypes = {
   }).isRequired,
   onUpdateRow: PropTypes.func.isRequired,
   onAddRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
   onRemoveRow: PropTypes.func.isRequired,
+  onRowInputBlur: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  amountTotals: getFormattedTotals(state),
+  indexOfLastLine: getIndexOfLastLine(state),
+  tableData: getTableData(state),
+});
+
+export default connect(mapStateToProps)(GeneralJournalDetailTable);

@@ -2,17 +2,17 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import SpendMoneyDetailView from '../SpendMoneyDetailView';
+import GeneralJournalDetailView from '../GeneralJournalDetailView';
 import Store from '../../../../store/Store';
-import spendMoneyDetailReducer from '../../spendMoneyDetailReducer';
+import generalJournalDetailReducer from '../../generalJournalDetailReducer';
 
-describe('SpendMoneyView', () => {
+describe('GeneralJournalView', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    const store = new Store(spendMoneyDetailReducer);
+    const store = new Store(generalJournalDetailReducer);
     const view = (
       <Provider store={store}>
-        <SpendMoneyDetailView
+        <GeneralJournalDetailView
           isCreating
           onUpdateHeaderOptions={() => {}}
           onSaveButtonClick={() => {}}

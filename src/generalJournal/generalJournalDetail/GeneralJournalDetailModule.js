@@ -1,24 +1,17 @@
-import { Spinner } from '@myob/myob-widgets';
+import { Provider } from 'react-redux';
 import React from 'react';
 
-import { CancelModal, DeleteModal } from './components/GeneralJournalDetailModals';
 import {
-  SUCCESSFULLY_DELETED_GENERAL_JOURNAL,
-  SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
+  SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
 } from '../GeneralJournalMessageTypes';
 import {
+  getCalculatedTotalsPayload,
   getGeneralJournal,
   getGeneralJournalForCreatePayload,
-  getHeaderOptions,
-  getIndexOfLastLine,
-  getIsActionsDisabled,
-  getJournalId,
-  getLineData,
-  getNewLineData,
-  getTaxCalculatorPayload,
-  getTotals,
-} from './GeneralJournalDetailSelectors';
-import Alert from '../../components/Alert/Alert';
+  getGeneralJournalId,
+  getIsTableEmpty,
+  isPageEdited,
+} from './generalJournalDetailSelectors';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import GeneralJournalIntents from '../GeneralJournalIntents';
 import Store from '../../store/Store';
@@ -32,24 +25,25 @@ export default class GeneralJournalDetailModule {
     this.setRootView = setRootView;
     this.businessId = '';
     this.pushMessage = pushMessage;
-    this.journalId = '';
+    this.generalJournalId = '';
   }
 
-  loadGeneralJournalDetail = () => {
+  loadGeneralJournal = () => {
     const intent = this.isCreating
-      ? GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL_DETAIL
+      ? GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL
       : GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL;
 
     const urlParams = {
       businessId: this.businessId,
-      ...(!this.isCreating && { journalId: this.journalId }),
+      ...(!this.isCreating && { generalJournalId: this.generalJournalId }),
     };
 
-    const onSuccess = ({ generalJournal, newLine }) => {
+    const onSuccess = ({ generalJournal, newLine, totals }) => {
       this.setLoadingState(false);
       this.store.dispatch({
         intent,
         generalJournal,
+        totals,
         newLine,
         isLoading: false,
       });
@@ -67,104 +61,61 @@ export default class GeneralJournalDetailModule {
     });
   };
 
-  updateHeaderOptions = ({ key, value }) => {
-    const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_HEADER_OPTIONS;
+  deleteGeneralJournal = () => {
+    this.setSubmittingState(true);
 
-    this.store.dispatch({
-      intent,
-      key,
-      value,
-    });
-
-    if (key === 'gstReportingMethod') {
-      this.getCalculatedTax();
-    }
-  };
-
-  deleteGeneralJournalEntry = journalId => () => {
-    const intent = GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL;
-
-    const urlParams = {
-      businessId: this.businessId,
-      journalId,
-    };
-
-    const onSuccess = () => {
+    const onSuccess = ({ message }) => {
       this.pushMessage({
         type: SUCCESSFULLY_DELETED_GENERAL_JOURNAL,
-        content: 'Success! Your general journal was deleted.',
+        content: message,
       });
       this.redirectToTransactionList();
     };
 
     const onFailure = (error) => {
       this.closeModal();
-      this.displayAlert(error.message);
       this.setSubmittingState(false);
+      this.displayAlert(error.message);
     };
 
     this.integration.write({
-      intent,
-      urlParams,
+      intent: GeneralJournalIntents.DELETE_GENERAL_JOURNAL,
+      urlParams: {
+        businessId: this.businessId,
+        generalJournalId: this.generalJournalId,
+      },
       onSuccess,
       onFailure,
-    });
-    this.setSubmittingState(true);
-  };
-
-  displayAlert = (errorMessage) => {
-    this.store.dispatch({
-      intent: GeneralJournalIntents.SET_ALERT_MESSAGE,
-      alertMessage: errorMessage,
     });
   }
 
-  saveGeneralJournalEntry = () => {
-    const { state } = this.store;
-    const journalId = getJournalId(state);
-    const content = getGeneralJournal(state);
-    const intent = GeneralJournalIntents.SAVE_GENERAL_JOURNAL_DETAIL;
-    const urlParams = {
-      businessId: this.businessId,
-      journalId,
-    };
-
-    const onSuccess = () => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
-        content: 'Success! Your general journal was saved.',
-      });
-      this.redirectToTransactionList();
-    };
-
-    const onFailure = (error) => {
-      this.setSubmittingState(false);
-      this.displayAlert(error.message);
-    };
-
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-
-    this.setSubmittingState(true);
-  };
-
   createGeneralJournalEntry = () => {
-    const intent = GeneralJournalIntents.CREATE_GENERAL_JOURNAL_DETAIL;
+    const intent = GeneralJournalIntents.CREATE_GENERAL_JOURNAL;
     const content = getGeneralJournalForCreatePayload(this.store.state);
     const urlParams = {
       businessId: this.businessId,
     };
+    this.saveGeneralJournalEntry(intent, content, urlParams);
+  };
 
-    const onSuccess = () => {
+  updateGeneralJournalEntry = () => {
+    const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL;
+    const content = getGeneralJournal(this.store.state);
+    const generalJournalId = getGeneralJournalId(this.store.state);
+    const urlParams = {
+      businessId: this.businessId,
+      generalJournalId,
+    };
+    this.saveGeneralJournalEntry(intent, content, urlParams);
+  }
+
+  saveGeneralJournalEntry(intent, content, urlParams) {
+    const onSuccess = (response) => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
-        content: 'Success! Your general journal was saved.',
+        content: response.message,
       });
+      this.setSubmittingState(false);
       this.redirectToTransactionList();
     };
 
@@ -180,9 +131,103 @@ export default class GeneralJournalDetailModule {
       onSuccess,
       onFailure,
     });
-
     this.setSubmittingState(true);
+  }
+
+  updateHeaderOptions = ({ key, value }) => {
+    const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_HEADER;
+    this.store.dispatch({
+      intent,
+      key,
+      value,
+    });
+
+    const taxKeys = ['isTaxInclusive', 'gstReportingMethod'];
+    if (taxKeys.includes(key)) {
+      this.getCalculatedTotals();
+    }
   };
+
+  updateGeneralJournalLine = (lineIndex, lineKey, lineValue) => {
+    const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_LINE;
+
+    this.store.dispatch({
+      intent,
+      lineIndex,
+      lineKey,
+      lineValue,
+    });
+
+    const taxKeys = ['accountId', 'taxCodeId'];
+    if (taxKeys.includes(lineKey)) {
+      this.getCalculatedTotals();
+    }
+  }
+
+  addGeneralJournalLine = (partialLine) => {
+    const intent = GeneralJournalIntents.ADD_GENERAL_JOURNAL_LINE;
+
+    this.store.dispatch({
+      intent,
+      line: partialLine,
+    });
+
+    this.getCalculatedTotals();
+  }
+
+  deleteGeneralJournalLine = (index) => {
+    const intent = GeneralJournalIntents.DELETE_GENERAL_JOURNAL_LINE;
+
+    this.store.dispatch({
+      intent,
+      index,
+    });
+
+    this.getCalculatedTotals();
+  }
+
+  getCalculatedTotals = () => {
+    const state = this.store.getState();
+    if (getIsTableEmpty(state)) {
+      this.store.dispatch({
+        intent: GeneralJournalIntents.RESET_TOTALS,
+      });
+      return;
+    }
+
+    const intent = GeneralJournalIntents.GET_CALCULATED_TOTALS;
+
+    const onSuccess = (totals) => {
+      this.store.dispatch({
+        intent,
+        totals,
+      });
+    };
+
+    const onFailure = error => this.displayAlert(error.message);
+
+    this.integration.write({
+      intent,
+      urlParams: { businessId: this.businessId },
+      content: getCalculatedTotalsPayload(this.store.state),
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  formatGeneralJournalLine = (index) => {
+    const intent = GeneralJournalIntents.FORMAT_GENERAL_JOURNAL_LINE;
+
+    this.store.dispatch({
+      intent,
+      index,
+    });
+  }
+
+  formatAndCalculateTotals = (line) => {
+    this.formatGeneralJournalLine(line);
+    this.getCalculatedTotals();
+  }
 
   setSubmittingState = (isSubmitting) => {
     const intent = GeneralJournalIntents.SET_SUBMITTING_STATE;
@@ -193,13 +238,23 @@ export default class GeneralJournalDetailModule {
     });
   }
 
+  displayAlert = (errorMessage) => {
+    this.store.dispatch({
+      intent: GeneralJournalIntents.SET_ALERT_MESSAGE,
+      alertMessage: errorMessage,
+    });
+  }
+
   openCancelModal = () => {
     const intent = GeneralJournalIntents.OPEN_MODAL;
-
-    this.store.dispatch({
-      intent,
-      modalType: 'cancel',
-    });
+    if (isPageEdited(this.store.state)) {
+      this.store.dispatch({
+        intent,
+        modalType: 'cancel',
+      });
+    } else {
+      this.redirectToTransactionList();
+    }
   };
 
   openDeleteModal = () => {
@@ -217,49 +272,9 @@ export default class GeneralJournalDetailModule {
     this.store.dispatch({ intent });
   };
 
-  redirectToTransactionList = () => {
-    window.location.href = `/#/${this.businessId}/transactionList`;
-  };
-
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
-
-  updateGeneralJournalLine = (lineIndex, lineKey, lineValue) => {
-    const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_DETAIL_LINE;
-
-    this.store.dispatch({
-      intent,
-      lineIndex,
-      lineKey,
-      lineValue,
-    });
-
-    const taxKeys = ['accountId', 'taxCodeId'];
-    if (taxKeys.includes(lineKey)) {
-      this.getCalculatedTax();
-    }
-  }
-
-  addGeneralJournalLine = (partialLine) => {
-    const intent = GeneralJournalIntents.ADD_GENERAL_JOURNAL_DETAIL_LINE;
-
-    this.store.dispatch({
-      intent,
-      line: partialLine,
-    });
-  }
-
-  deleteJournalLine = (index) => {
-    const intent = GeneralJournalIntents.DELETE_GENERAL_JOURNAL_DETAIL_LINE;
-
-    this.store.dispatch({
-      intent,
-      index,
-    });
-
-    this.getCalculatedTax();
-  }
 
   dismissAlert = () => {
     this.store.dispatch({
@@ -268,89 +283,37 @@ export default class GeneralJournalDetailModule {
     });
   };
 
-  formatJournalLine = (index) => {
-    const intent = GeneralJournalIntents.FORMAT_GENERAL_JOURNAL_DETAIL_LINE;
-
-    this.store.dispatch({
-      intent,
-      index,
-    });
+  redirectToTransactionList= () => {
+    window.location.href = `/#/${this.businessId}/transactionList`;
   }
 
-  getCalculatedTax = () => {
-    const intent = GeneralJournalIntents.GET_CALCULATED_TAX;
-    const content = getTaxCalculatorPayload(this.store.state);
-    const urlParams = { businessId: this.businessId };
-
-    const onSuccess = generalJournal => this.store.dispatch({
-      intent,
-      generalJournal,
-    });
-    const onFailure = error => this.displayAlert(error.message);
-
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  formatAndCalculateTax = (index) => {
-    this.formatJournalLine(index);
-    this.getCalculatedTax(this.store.state);
-  }
-
-  render = (state) => {
-    let modal;
-    if (state.modalType === 'cancel') {
-      modal = (
-        <CancelModal
-          onCancel={this.closeModal}
-          onConfirm={this.redirectToTransactionList}
-        />
-      );
-    } else if (state.modalType === 'delete') {
-      modal = (
-        <DeleteModal
-          onCancel={this.closeModal}
-          onConfirm={this.deleteGeneralJournalEntry(getJournalId(state))}
-        />
-      );
-    }
-
-    const alertComponent = state.alertMessage && (
-      <Alert type="danger" onDismiss={this.dismissAlert}>
-        {state.alertMessage}
-      </Alert>
-    );
-
-    const generalJournalDetailView = (
+  render = () => {
+    const generalJournalView = (
       <GeneralJournalDetailView
-        headerOptions={getHeaderOptions(state)}
         onUpdateHeaderOptions={this.updateHeaderOptions}
+        isCreating={this.isCreating}
         onSaveButtonClick={this.isCreating
-          ? this.createGeneralJournalEntry
-          : this.saveGeneralJournalEntry}
+          ? this.createGeneralJournalEntry : this.updateGeneralJournalEntry}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
-        modal={modal}
-        alertComponent={alertComponent}
-        isCreating={this.isCreating}
-        lines={getLineData(state)}
-        newLineData={getNewLineData(state)}
+        onCloseModal={this.closeModal}
+        onDeleteModal={this.deleteGeneralJournal}
+        onCancelModal={this.redirectToTransactionList}
+        onDismissAlert={this.dismissAlert}
         onUpdateRow={this.updateGeneralJournalLine}
         onAddRow={this.addGeneralJournalLine}
-        onRemoveRow={this.deleteJournalLine}
-        onRowInputBlur={this.formatAndCalculateTax}
-        indexOfLastLine={getIndexOfLastLine(state)}
-        amountTotals={getTotals(state)}
-        isActionsDisabled={getIsActionsDisabled(state)}
+        onRemoveRow={this.deleteGeneralJournalLine}
+        onRowInputBlur={this.formatAndCalculateTotals}
       />
     );
-    const view = state.isLoading ? (<Spinner />) : generalJournalDetailView;
-    this.setRootView(view);
+
+    const wrappedView = (
+      <Provider store={this.store}>
+        {generalJournalView}
+      </Provider>
+    );
+
+    this.setRootView(wrappedView);
   };
 
   setLoadingState = (isLoading) => {
@@ -362,11 +325,12 @@ export default class GeneralJournalDetailModule {
 
   run(context) {
     this.businessId = context.businessId;
-    this.journalId = context.journalId;
-    this.isCreating = context.journalId === 'new';
-    this.store.subscribe(this.render);
+    this.generalJournalId = context.generalJournalId;
+    this.isCreating = context.generalJournalId === 'new';
+    this.resetState();
+    this.render();
     this.setLoadingState(true);
-    this.loadGeneralJournalDetail();
+    this.loadGeneralJournal();
   }
 
   resetState() {

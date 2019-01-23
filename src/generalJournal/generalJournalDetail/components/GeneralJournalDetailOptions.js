@@ -1,9 +1,11 @@
 import {
-  Checkbox, Columns, DatePicker, Input, InputLabel, RadioButton, TextArea, Tooltip,
+  Checkbox, DatePicker, Input, InputLabel, RadioButton, TextArea, Tooltip,
 } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import { getHeaderOptions } from '../generalJournalDetailSelectors';
 import styles from './GeneralJournalDetailOptions.css';
 
 class GeneralJournalDetailOptions extends Component {
@@ -41,7 +43,12 @@ class GeneralJournalDetailOptions extends Component {
   render = () => {
     const {
       headerOptions: {
-        referenceId, date, gstReportingMethod, isEndOfYearAdjustment, isTaxInclusive, description,
+        referenceId,
+        date,
+        isTaxInclusive,
+        description,
+        gstReportingMethod,
+        isEndOfYearAdjustment,
       },
     } = this.props;
 
@@ -49,11 +56,18 @@ class GeneralJournalDetailOptions extends Component {
     const isSale = gstReportingMethod === 'sale';
 
     return (
-      <Columns type="three">
+      <React.Fragment>
         <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} />
         <div>
           <InputLabel label="Date" id="date" />
-          <DatePicker inputProps={{ id: 'date' }} dateTime={date} onChange={this.handleDateChange} />
+          <DatePicker
+            inputProps={{
+              id: 'date',
+              autoFocus: true,
+            }}
+            dateTime={date}
+            onChange={this.handleDateChange}
+          />
         </div>
         <div className="form-group">
           <InputLabel label="Display in GST (BAS) report as:" id="gstReporting" />
@@ -74,18 +88,47 @@ class GeneralJournalDetailOptions extends Component {
         <div className="form-group">
           <InputLabel label="Amounts are" id="isTaxInclusive" />
           <div className={styles.radioGroup}>
-            <div><RadioButton name="isTaxInclusive" label="Tax inclusive" value="true" checked={isTaxInclusive} onChange={this.handleRadioChange} /></div>
-            <div><RadioButton name="isTaxInclusive" label="Tax exclusive" value="false" checked={!isTaxInclusive} onChange={this.handleRadioChange} /></div>
+            <div>
+              <RadioButton
+                name="isTaxInclusive"
+                label="Tax inclusive"
+                value="true"
+                checked={isTaxInclusive}
+                onChange={this.handleRadioChange}
+              />
+            </div>
+            <div>
+              <RadioButton
+                name="isTaxInclusive"
+                label="Tax exclusive"
+                value="false"
+                checked={!isTaxInclusive}
+                onChange={this.handleRadioChange}
+              />
+            </div>
           </div>
         </div>
         <div />
-        <TextArea name="description" label="Description" autoSize maxLength={255} placeholder="Max 255 characters" value={description} onChange={this.handleInputChange} />
-      </Columns>
+        <TextArea
+          name="description"
+          label="Description"
+          autoSize
+          maxLength={255}
+          placeholder="Max 255 characters"
+          value={description}
+          onChange={this.handleInputChange}
+        />
+      </React.Fragment>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  headerOptions: getHeaderOptions(state),
+});
+
 GeneralJournalDetailOptions.propTypes = {
+  onUpdateHeaderOptions: PropTypes.func.isRequired,
   headerOptions: PropTypes.shape({
     referenceId: PropTypes.string,
     date: PropTypes.string,
@@ -94,7 +137,6 @@ GeneralJournalDetailOptions.propTypes = {
     isTaxInclusive: PropTypes.bool,
     description: PropTypes.string,
   }).isRequired,
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
 };
 
-export default GeneralJournalDetailOptions;
+export default connect(mapStateToProps)(GeneralJournalDetailOptions);

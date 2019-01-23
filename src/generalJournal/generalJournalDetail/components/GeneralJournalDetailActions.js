@@ -1,43 +1,42 @@
-import {
-  Button, ButtonRow,
-} from '@myob/myob-widgets';
+import { Button } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
 import React from 'react';
+
+import { getIsActionsDisabled } from '../generalJournalDetailSelectors';
 
 const GeneralJournalDetailActions = ({
   isCreating,
   isActionsDisabled,
-  onSave,
-  onCancel,
-  onDelete,
+  onSaveButtonClick,
+  onCancelButtonClick,
+  onDeleteButtonClick,
 }) => (
-  <ButtonRow>
-    {!isCreating
-        && (
-        <Button name="delete" type="secondary" onClick={onDelete} disabled={isActionsDisabled}>
-          Delete
-        </Button>
-        )
-    }
-    <Button name="cancel" type="secondary" onClick={onCancel} disabled={isActionsDisabled}>
+  <React.Fragment>
+    {!isCreating && (
+      <Button name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isActionsDisabled}>
+        Delete
+      </Button>
+    )}
+    <Button name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
       Cancel
     </Button>
-    <Button name="save" type="primary" onClick={onSave} disabled={isActionsDisabled}>
+    <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
       Save
     </Button>
-  </ButtonRow>
+  </React.Fragment>
 );
-
-GeneralJournalDetailActions.defaultProps = {
-  isActionsDisabled: false,
-};
 
 GeneralJournalDetailActions.propTypes = {
   isCreating: PropTypes.bool.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  isActionsDisabled: PropTypes.bool,
+  isActionsDisabled: PropTypes.bool.isRequired,
+  onSaveButtonClick: PropTypes.func.isRequired,
+  onCancelButtonClick: PropTypes.func.isRequired,
+  onDeleteButtonClick: PropTypes.func.isRequired,
 };
 
-export default GeneralJournalDetailActions;
+const mapStateToProps = state => ({
+  isActionsDisabled: getIsActionsDisabled(state),
+});
+
+export default connect(mapStateToProps)(GeneralJournalDetailActions);
