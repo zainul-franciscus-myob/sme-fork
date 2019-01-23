@@ -1,15 +1,53 @@
-import { HeaderSort, Table } from '@myob/myob-widgets';
+import { HeaderSort, Spinner, Table } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import {
+  getIsTableEmpty, getIsTableLoading, getOrder,
+} from '../transactionListSelectors';
 import TransactionListTableBody from './TransactionListTableBody';
+import style from './TransactionListView.css';
 
-const TransactionListTable = (props) => {
-  const {
-    businessId,
-    tableConfig,
-    onSort,
-    order,
-  } = props;
+const tableConfig = {
+  date: { width: '11rem', valign: 'top' },
+  referenceId: { width: '10.2rem', valign: 'top' },
+  description: { width: 'flex-1', valign: 'top' },
+  sourceJournal: { width: '12.4rem', valign: 'top' },
+  displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
+};
+
+const emptyView = (
+  <div className={style.empty}>
+    There are no transactions for the selected filter options.
+  </div>
+);
+
+const spinnerView = (
+  <div className={style.spinner}>
+    <Spinner size="medium" />
+  </div>
+);
+
+const TransactionListTable = ({
+  isTableEmpty,
+  isTableLoading,
+  businessId,
+  onSort,
+  order,
+}) => {
+  let view;
+  if (isTableLoading) {
+    view = spinnerView;
+  } else if (isTableEmpty) {
+    view = emptyView;
+  } else {
+    view = (
+      <TransactionListTableBody
+        businessId={businessId}
+        tableConfig={tableConfig}
+      />
+    );
+  }
 
   return (
     <Table>
@@ -22,12 +60,15 @@ const TransactionListTable = (props) => {
         <Table.HeaderItem {...tableConfig.sourceJournal}>Source Journal </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
       </Table.Header>
-      <TransactionListTableBody
-        businessId={businessId}
-        tableConfig={tableConfig}
-      />
+      {view}
     </Table>
   );
 };
 
-export default TransactionListTable;
+const mapStateToProps = state => ({
+  isTableLoading: getIsTableLoading(state),
+  isTableEmpty: getIsTableEmpty(state),
+  order: getOrder(state),
+});
+
+export default connect(mapStateToProps)(TransactionListTable);

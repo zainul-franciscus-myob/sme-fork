@@ -16,6 +16,12 @@ const getInitialState = () => ({
     dateTo: convertToDateString(Date.now()),
     keywords: '',
   },
+  appliedFilterOptions: {
+    sourceJournal: '',
+    dateFrom: convertToDateString(getDefaultDateRange()),
+    dateTo: convertToDateString(Date.now()),
+    keywords: '',
+  },
   sortOrder: '',
   alert: undefined,
   isLoading: true,
@@ -29,7 +35,14 @@ const loadTransactionList = (state, action) => ({
   sourceJournalFilters: action.sourceJournalFilters,
   entries: action.entries,
   sortOrder: action.sortOrder,
-  isLoading: action.isLoading,
+  filterOptions: {
+    ...state.filterOptions,
+    sourceJournal: action.sourceJournal,
+  },
+  appliedFilterOptions: {
+    ...state.appliedFilterOptions,
+    sourceJournal: action.sourceJournal,
+  },
 });
 
 const isDateFilterChange = filterName => filterName === 'dateTo' || filterName === 'dateFrom';
@@ -38,6 +51,7 @@ const sortAndFilterTransactionList = (state, action) => ({
   ...state,
   entries: action.entries,
   sortOrder: action.sortOrder,
+  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
 const updateFilterOptions = (state, action) => ({

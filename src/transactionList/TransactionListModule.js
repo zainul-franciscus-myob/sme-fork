@@ -5,7 +5,7 @@ import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNA
 import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../receiveMoney/receiveMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY } from '../spendMoney/spendMoneyMessageTypes';
 import {
-  getFilterOptions, getSortOrder,
+  getAppliedFilterOptions, getFilterOptions, getSortOrder,
 } from './transactionListSelectors';
 import Store from '../store/Store';
 import SystemIntents from '../SystemIntents';
@@ -60,14 +60,14 @@ export default class TransactionListModule {
       entries,
       sourceJournalFilters,
       sortOrder,
-      ...filterOptions
+      sourceJournal,
     }) => {
       this.setLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
         sourceJournalFilters,
-        filterOptions,
+        sourceJournal,
         sortOrder,
       });
     };
@@ -104,6 +104,7 @@ export default class TransactionListModule {
       this.store.dispatch({
         intent,
         entries,
+        isSort: false,
         sortOrder,
       });
     };
@@ -137,6 +138,7 @@ export default class TransactionListModule {
       this.store.dispatch({
         intent,
         entries,
+        isSort: true,
         sortOrder,
       });
     };
@@ -144,8 +146,7 @@ export default class TransactionListModule {
     const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
 
     const newSortOrder = getSortOrder(state) === 'desc' ? 'asc' : 'desc';
-    const filterOptions = getFilterOptions(state);
-
+    const filterOptions = getAppliedFilterOptions(state);
     this.integration.read({
       intent,
       urlParams,
