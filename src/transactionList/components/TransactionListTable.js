@@ -8,6 +8,14 @@ import {
 import TransactionListTableBody from './TransactionListTableBody';
 import style from './TransactionListView.css';
 
+const tableConfig = {
+  date: { width: '11rem', valign: 'top' },
+  referenceId: { width: '10.2rem', valign: 'top' },
+  description: { width: 'flex-1', valign: 'top' },
+  sourceJournal: { width: '12.4rem', valign: 'top' },
+  displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
+};
+
 const emptyView = (
   <div className={style.empty}>
     There are no transactions for the selected filter options.
@@ -24,7 +32,6 @@ const TransactionListTable = ({
   isTableEmpty,
   isTableLoading,
   businessId,
-  tableConfig,
   onSort,
   order,
 }) => {

@@ -13,14 +13,6 @@ import TransactionListPageHead from './TransactionListPageHead';
 import TransactionListTable from './TransactionListTable';
 import style from './TransactionListView.css';
 
-const tableConfig = {
-  date: { width: '11rem', valign: 'top' },
-  referenceId: { width: '10.2rem', valign: 'top' },
-  description: { width: 'flex-1', valign: 'top' },
-  sourceJournal: { width: '12.4rem', valign: 'top' },
-  displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
-};
-
 const TransactionListView = (props) => {
   const {
     businessId,
@@ -59,7 +51,6 @@ const TransactionListView = (props) => {
         <div className={style.list}>
           <TransactionListTable
             businessId={businessId}
-            tableConfig={tableConfig}
             onSort={onSort}
           />
         </div>
