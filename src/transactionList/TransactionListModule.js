@@ -60,14 +60,14 @@ export default class TransactionListModule {
       entries,
       sourceJournalFilters,
       sortOrder,
-      ...filterOptions
+      sourceJournal,
     }) => {
       this.setLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
         sourceJournalFilters,
-        filterOptions,
+        sourceJournal,
         sortOrder,
       });
     };

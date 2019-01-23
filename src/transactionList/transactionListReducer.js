@@ -35,7 +35,14 @@ const loadTransactionList = (state, action) => ({
   sourceJournalFilters: action.sourceJournalFilters,
   entries: action.entries,
   sortOrder: action.sortOrder,
-  isLoading: action.isLoading,
+  filterOptions: {
+    ...state.filterOptions,
+    sourceJournal: action.sourceJournal,
+  },
+  appliedFilterOptions: {
+    ...state.appliedFilterOptions,
+    sourceJournal: action.sourceJournal,
+  },
 });
 
 const isDateFilterChange = filterName => filterName === 'dateTo' || filterName === 'dateFrom';
