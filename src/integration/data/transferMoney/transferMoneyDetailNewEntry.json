@@ -1,0 +1,17 @@
+{
+  "referenceId": "TM00023",
+  "accounts": [
+    {
+      "id": "123",
+      "displayName": "My Bank",
+      "accountType": "Asset",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Credit Card",
+      "accountType": "Liability",
+      "displayId": "2-123"
+    }
+  ]
+}
