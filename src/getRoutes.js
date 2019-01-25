@@ -8,7 +8,7 @@ import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 import getTransactionListRoutes from './transactionList/getTransactionListRoutes';
 
 const getRoutes = ({
-  integration, setRootView, popMessages, pushMessage,
+  integration, setRootView, popMessages, pushMessage, replaceURLParams,
 }) => [
   {
     name: 'home',
@@ -52,7 +52,9 @@ const getRoutes = ({
   {
     name: 'transactionList',
     rootPath: '/:businessId/transactionList',
-    subRoutes: getTransactionListRoutes({ integration, setRootView, popMessages }),
+    subRoutes: getTransactionListRoutes({
+      integration, setRootView, popMessages, replaceURLParams,
+    }),
   },
 ];
 

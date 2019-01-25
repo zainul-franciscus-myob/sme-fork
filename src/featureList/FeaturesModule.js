@@ -9,7 +9,7 @@ export default class FeaturesModule {
   }
 
   render = () => {
-    const features = ['transactionList'];
+    const features = ['transactionList', 'transactionList?sourceJournal=General'];
 
     this.setRootView(
       <FeatureListView

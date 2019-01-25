@@ -13,6 +13,7 @@ const config = {
 const getQueryFromParams = (params = {}) => {
   const encode = encodeURIComponent;
   const query = Object.keys(params)
+    .filter(key => params[key] !== undefined)
     .map(key => `${encode(key)}=${encode(params[key])}`)
     .join('&');
   return query && `?${query}`;

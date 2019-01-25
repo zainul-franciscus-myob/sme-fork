@@ -15,10 +15,17 @@ describe('convertRoutesToRouterConfig', () => {
             name: 'home',
             path: '/',
             module,
+            allowedParams: ['parameter1'],
           },
           {
             name: 'features',
             path: '/features',
+            module,
+            allowedParams: ['featureParam1', 'featureParam2'],
+          },
+          {
+            name: 'test',
+            path: '/test',
             module,
           },
         ],
@@ -30,11 +37,15 @@ describe('convertRoutesToRouterConfig', () => {
     const expected = [
       {
         name: 'homePage',
-        path: '/home',
+        path: '/home?parameter1',
         children: [
           {
             name: 'features',
-            path: '/features',
+            path: '/features?featureParam1&featureParam2',
+          },
+          {
+            name: 'test',
+            path: '/test',
           },
         ],
       },

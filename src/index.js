@@ -6,8 +6,8 @@ import './index.css';
 import { initializeAuth } from './Auth';
 import { initializeConfig } from './Config';
 import Inbox from './inbox';
+import Router from './router/Router';
 import getRoutes from './getRoutes';
-import initializeRouter from './router/initializeRouter';
 
 async function main(integrationType) {
   await initializeConfig();
@@ -21,13 +21,18 @@ async function main(integrationType) {
     ReactDOM.render(component, root);
   };
 
+  const router = new Router({
+    defaultRoute: 'home',
+  });
   const inbox = new Inbox();
-  const { popMessages, pushMessage, clearInbox } = inbox;
-
   const integration = createIntegration();
 
   const routes = getRoutes({
-    integration, setRootView, popMessages, pushMessage,
+    integration,
+    setRootView,
+    popMessages: inbox.popMessages,
+    pushMessage: inbox.pushMessage,
+    replaceURLParams: router.replaceURLParams,
   });
 
   const moduleList = routes.reduce((acc, route) => {
@@ -46,11 +51,10 @@ async function main(integrationType) {
     currentModule.resetState();
   };
 
-  initializeRouter({
+  router.start({
     routes,
     beforeAll,
-    defaultRoute: 'home',
-    afterAll: () => clearInbox,
+    afterAll: inbox.clearInbox,
   });
 }
 

@@ -79,6 +79,18 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
+const setInitialState = (state, action) => ({
+  ...state,
+  filterOptions: {
+    ...state.filterOptions,
+    sourceJournal: action.sourceJournal,
+  },
+  appliedFilterOptions: {
+    ...state.appliedFilterOptions,
+    sourceJournal: action.sourceJournal,
+  },
+});
+
 const handlers = {
   [TransactionListIntents.LOAD_TRANSACTION_LIST]: loadTransactionList,
   [TransactionListIntents.SORT_AND_FILTER_TRANSACTION_LIST]: sortAndFilterTransactionList,
@@ -87,6 +99,7 @@ const handlers = {
   [TransactionListIntents.SET_LOADING_STATE]: setLoadingState,
   [TransactionListIntents.SET_ALERT]: setAlert,
   [SystemIntents.RESET_STATE]: resetState,
+  [SystemIntents.SET_INITIAL_STATE]: setInitialState,
 };
 
 const transactionListReducer = createReducer(getInitialState(), handlers);

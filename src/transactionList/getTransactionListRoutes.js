@@ -1,13 +1,16 @@
 import TransactionListModule from './TransactionListModule';
 
 const getTransactionListRoutes = ({
-  integration, setRootView, popMessages,
+  integration, setRootView, popMessages, replaceURLParams,
 }) => {
   const routes = [
     {
       name: 'transactionList',
       path: '/',
-      module: new TransactionListModule({ integration, setRootView, popMessages }),
+      allowedParams: ['sourceJournal'],
+      module: new TransactionListModule({
+        integration, setRootView, popMessages, replaceURLParams,
+      }),
     },
   ];
 

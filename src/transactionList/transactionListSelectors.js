@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
 
 export const getOrder = ({ sortOrder }) => ({
   column: 'date',
@@ -62,3 +62,9 @@ export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 export const getIsTableLoading = state => state.isTableLoading;
 
 export const getIsLoading = state => state.isLoading;
+
+const getAppliedSourceJournal = state => state.appliedFilterOptions.sourceJournal;
+
+export const getURLParams = createStructuredSelector({
+  sourceJournal: getAppliedSourceJournal,
+});

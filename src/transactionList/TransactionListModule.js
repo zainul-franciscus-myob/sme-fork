@@ -5,7 +5,7 @@ import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNA
 import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../receiveMoney/receiveMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY } from '../spendMoney/spendMoneyMessageTypes';
 import {
-  getAppliedFilterOptions, getFilterOptions, getSortOrder,
+  getAppliedFilterOptions, getFilterOptions, getSortOrder, getURLParams,
 } from './transactionListSelectors';
 import Store from '../store/Store';
 import SystemIntents from '../SystemIntents';
@@ -20,12 +20,15 @@ const messageTypes = [
 ];
 
 export default class TransactionListModule {
-  constructor({ integration, setRootView, popMessages }) {
+  constructor({
+    integration, setRootView, popMessages, replaceURLParams,
+  }) {
     this.integration = integration;
     this.store = new Store(transactionListReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
+    this.replaceURLParams = replaceURLParams;
   }
 
   render = () => {
@@ -128,6 +131,7 @@ export default class TransactionListModule {
 
   sortTransactionList = () => {
     const state = this.store.getState();
+    this.setTableLoadingState(true);
     const intent = TransactionListIntents.SORT_AND_FILTER_TRANSACTION_LIST;
 
     const urlParams = {
@@ -135,6 +139,7 @@ export default class TransactionListModule {
     };
 
     const onSuccess = ({ entries, sortOrder }) => {
+      this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
@@ -226,12 +231,32 @@ export default class TransactionListModule {
     });
   };
 
+  setInitialState = (params) => {
+    const intent = SystemIntents.SET_INITIAL_STATE;
+
+    const {
+      sourceJournal = '',
+    } = params;
+
+    this.store.dispatch({
+      intent,
+      sourceJournal,
+    });
+  }
+
+  updateURLFromState = (state) => {
+    const params = getURLParams(state);
+    this.replaceURLParams(params);
+  }
+
   run(context) {
     this.businessId = context.businessId;
+    this.setInitialState(context);
     this.render();
     this.readMessages();
     this.setLoadingState(true);
     this.loadTransactionList();
+    this.store.subscribe(this.updateURLFromState);
   }
 
   resetState() {
