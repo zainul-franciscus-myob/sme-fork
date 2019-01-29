@@ -1,0 +1,7 @@
+:local(.template) .form-group {
+  margin-bottom: 0;
+}
+
+:local(.template) .flx-col {
+  grid-gap: 0.8rem 1.6rem;
+}

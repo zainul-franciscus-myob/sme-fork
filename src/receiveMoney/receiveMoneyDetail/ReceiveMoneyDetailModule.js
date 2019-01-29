@@ -91,7 +91,7 @@ export default class ReceiveMoneyDetailModule {
 
   createReceiveMoneyEntry = () => {
     const intent = ReceiveMoneyIntents.CREATE_RECEIVE_MONEY;
-    const content = getReceiveMoneyForCreatePayload(this.store.state);
+    const content = getReceiveMoneyForCreatePayload(this.store.getState());
     const urlParams = {
       businessId: this.businessId,
     };
@@ -100,8 +100,9 @@ export default class ReceiveMoneyDetailModule {
 
   updateReceiveMoneyEntry = () => {
     const intent = ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY;
-    const content = getReceiveMoney(this.store.state);
-    const receiveMoneyId = getReceiveMoneyId(this.store.state);
+    const state = this.store.getState();
+    const content = getReceiveMoney(state);
+    const receiveMoneyId = getReceiveMoneyId(state);
     const urlParams = {
       businessId: this.businessId,
       receiveMoneyId,
@@ -208,7 +209,7 @@ export default class ReceiveMoneyDetailModule {
     this.integration.write({
       intent,
       urlParams: { businessId: this.businessId },
-      content: getCalculatedTotalsPayload(this.store.state),
+      content: getCalculatedTotalsPayload(this.store.getState()),
       onSuccess,
       onFailure,
     });
@@ -246,7 +247,7 @@ export default class ReceiveMoneyDetailModule {
 
   openCancelModal = () => {
     const intent = ReceiveMoneyIntents.OPEN_MODAL;
-    if (isPageEdited(this.store.state)) {
+    if (isPageEdited(this.store.getState())) {
       this.store.dispatch({
         intent,
         modalType: 'cancel',

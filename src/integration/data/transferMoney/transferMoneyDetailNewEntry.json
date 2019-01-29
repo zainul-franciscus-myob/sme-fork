@@ -5,13 +5,15 @@
       "id": "123",
       "displayName": "My Bank",
       "accountType": "Asset",
-      "displayId": "1-123"
+      "displayId": "1-123",
+      "currentBalance": "5000.00"
     },
     {
       "id": "456",
       "displayName": "My Credit Card",
       "accountType": "Liability",
-      "displayId": "2-123"
+      "displayId": "2-123",
+      "currentBalance": "10000.00"
     }
   ]
 }

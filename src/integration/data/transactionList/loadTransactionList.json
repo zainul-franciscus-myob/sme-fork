@@ -56,6 +56,15 @@
       "sourceJournal": "Cash Receipts",
       "displayAmount": "5.00",
       "businessEventType": "CashReceipt"
+    },
+    {
+      "id": "20",
+      "displayDate": "30/09/2016",
+      "referenceId": "TM0000025",
+      "description": "transferring money",
+      "sourceJournal": "Purchases",
+      "displayAmount": "5.00",
+      "businessEventType": "TransferMoney"
     }
   ]
 }

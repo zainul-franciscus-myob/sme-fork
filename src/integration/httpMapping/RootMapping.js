@@ -3,7 +3,8 @@ import BusinessMapping from './BusinessMapping';
 import GeneralJournalMapping from './GeneralJournalMapping';
 import ReceiveMoneyMapping from './ReceiveMoneyMapping';
 import SpendMoneyMapping from './SpendMoneyMapping';
-import TransactionListMapping from './TransactionListMappings';
+import TransactionListMapping from './TransactionListMapping';
+import TransferMoneyMapping from './TransferMoneyMapping';
 
 const RootMapping = Object.freeze({
   ...BankingMapping,
@@ -12,6 +13,7 @@ const RootMapping = Object.freeze({
   ...SpendMoneyMapping,
   ...ReceiveMoneyMapping,
   ...TransactionListMapping,
+  ...TransferMoneyMapping,
 });
 
 export default RootMapping;

@@ -6,6 +6,7 @@ import getHomePageRoutes from './HomePage/getHomePageRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
 import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 import getTransactionListRoutes from './transactionList/getTransactionListRoutes';
+import getTransferMoneyRoutes from './transferMoney/getTransferMoneyRoutes';
 
 const getRoutes = ({
   integration, setRootView, popMessages, pushMessage, replaceURLParams,
@@ -41,6 +42,13 @@ const getRoutes = ({
     name: 'receiveMoney',
     rootPath: '/:businessId/receiveMoney',
     subRoutes: getReceiveMoneyRoutes({
+      integration, setRootView, pushMessage,
+    }),
+  },
+  {
+    name: 'transferMoney',
+    rootPath: '/:businessId/transferMoney',
+    subRoutes: getTransferMoneyRoutes({
       integration, setRootView, pushMessage,
     }),
   },
