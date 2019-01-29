@@ -135,8 +135,8 @@ export const getGeneralJournalForCreatePayload = (state) => {
 };
 
 export const getCalculatedTotalsPayload = (state) => {
-  const { lines, isTaxInclusive } = getGeneralJournal(state);
-  return { isTaxInclusive, lines };
+  const { lines, isTaxInclusive, gstReportingMethod } = getGeneralJournal(state);
+  return { isTaxInclusive, lines, gstReportingMethod };
 };
 
 export const getIsActionsDisabled = state => state.isSubmitting;

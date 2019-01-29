@@ -47,7 +47,7 @@ class TransactionListFilterOptions extends React.Component {
           <FilterBar.Option>
             <Select name="SourceJournal" label="Source Journal" value={sourceJournal} onChange={this.onSelectChange}>
               {sourceJournalFilterOptions.map(({ label, value }) => (
-                <Select.Option value={value} label={label} />
+                <Select.Option value={value} label={label} key={value} />
               ))}
             </Select>
           </FilterBar.Option>
