@@ -49,7 +49,7 @@ class TransferMoneyDetailForm extends Component {
       <Card>
         <Columns type="three">
           <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} disabled={!isCreating} />
-          <div>
+          <div className={`${!isCreating && styles.datePicker}`}>
             <InputLabel label="Date" id="date" />
             <DatePicker
               inputProps={{
