@@ -1,17 +1,22 @@
-import BusinessIntents from './BusinessIntents';
-import SystemIntents from '../SystemIntents';
+import {
+  LOAD_BUSINESS_LIST,
+  SET_LOADING_STATE,
+} from './BusinessIntents';
+import {
+  RESET_STATE,
+} from '../SystemIntents';
 
 const initialState = { businesses: [], isLoading: true };
 
 const businessReducer = (state = initialState, action) => {
   switch (action.intent) {
-    case SystemIntents.RESET_STATE:
+    case RESET_STATE:
       return {
         ...initialState,
       };
-    case BusinessIntents.LOAD_BUSINESS_LIST:
+    case LOAD_BUSINESS_LIST:
       return { ...state, businesses: action.businesses, isLoading: action.isLoading };
-    case BusinessIntents.SET_LOADING_STATE:
+    case SET_LOADING_STATE:
       return {
         ...state,
         isLoading: action.isLoading,

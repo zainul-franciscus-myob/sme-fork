@@ -1,4 +1,6 @@
-import TransactionListIntents from '../TransactionListIntents';
+import {
+  UPDATE_FILTER_OPTIONS,
+} from '../TransactionListIntents';
 import transactionListReducer from '../transactionListReducer';
 
 describe('transactionListReducer', () => {
@@ -12,7 +14,7 @@ describe('transactionListReducer', () => {
       };
 
       const action = {
-        intent: TransactionListIntents.UPDATE_FILTER_OPTIONS,
+        intent: UPDATE_FILTER_OPTIONS,
         filterName: 'dateTo',
         value: '1547078776000',
       };
@@ -39,7 +41,7 @@ describe('transactionListReducer', () => {
       };
 
       const action = {
-        intent: TransactionListIntents.UPDATE_FILTER_OPTIONS,
+        intent: UPDATE_FILTER_OPTIONS,
         filterName: 'keywords',
         value: 'after',
       };

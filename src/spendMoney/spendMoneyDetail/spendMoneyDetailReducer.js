@@ -1,8 +1,26 @@
 import dateFormat from 'dateformat';
 
+import {
+  ADD_SPEND_MONEY_LINE,
+  CLOSE_MODAL,
+  DELETE_SPEND_MONEY_LINE,
+  FORMAT_SPEND_MONEY_LINE,
+  GET_CALCULATED_TOTALS,
+  LOAD_NEW_SPEND_MONEY,
+  LOAD_REFERENCE_ID,
+  LOAD_SPEND_MONEY_DETAIL,
+  OPEN_MODAL,
+  RESET_TOTALS,
+  SET_ALERT_MESSAGE,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
+  UPDATE_SPEND_MONEY_HEADER,
+  UPDATE_SPEND_MONEY_LINE,
+} from '../SpendMoneyIntents';
+import {
+  RESET_STATE,
+} from '../../SystemIntents';
 import { getDefaultTaxCodeId } from './spendMoneyDetailSelectors';
-import SpendMoneyIntents from '../SpendMoneyIntents';
-import SystemIntents from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const initialState = {
@@ -198,22 +216,22 @@ const resetTotals = state => ({
 });
 
 const handlers = {
-  [SpendMoneyIntents.UPDATE_SPEND_MONEY_HEADER]: updateHeader,
-  [SpendMoneyIntents.LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
-  [SpendMoneyIntents.LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
-  [SpendMoneyIntents.GET_CALCULATED_TOTALS]: getCalculateTotals,
-  [SpendMoneyIntents.LOAD_REFERENCE_ID]: loadReferenceId,
-  [SpendMoneyIntents.UPDATE_SPEND_MONEY_LINE]: updateLine,
-  [SpendMoneyIntents.ADD_SPEND_MONEY_LINE]: addLine,
-  [SpendMoneyIntents.DELETE_SPEND_MONEY_LINE]: deleteLine,
-  [SpendMoneyIntents.FORMAT_SPEND_MONEY_LINE]: formatLine,
-  [SpendMoneyIntents.SET_LOADING_STATE]: setLoadingState,
-  [SpendMoneyIntents.SET_SUBMITTING_STATE]: setSubmittingState,
-  [SpendMoneyIntents.SET_ALERT_MESSAGE]: setAlertMessage,
-  [SpendMoneyIntents.OPEN_MODAL]: openModal,
-  [SpendMoneyIntents.CLOSE_MODAL]: closeModal,
-  [SpendMoneyIntents.RESET_TOTALS]: resetTotals,
-  [SystemIntents.RESET_STATE]: resetState,
+  [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
+  [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
+  [LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
+  [GET_CALCULATED_TOTALS]: getCalculateTotals,
+  [LOAD_REFERENCE_ID]: loadReferenceId,
+  [UPDATE_SPEND_MONEY_LINE]: updateLine,
+  [ADD_SPEND_MONEY_LINE]: addLine,
+  [DELETE_SPEND_MONEY_LINE]: deleteLine,
+  [FORMAT_SPEND_MONEY_LINE]: formatLine,
+  [SET_LOADING_STATE]: setLoadingState,
+  [SET_SUBMITTING_STATE]: setSubmittingState,
+  [SET_ALERT_MESSAGE]: setAlertMessage,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
+  [RESET_TOTALS]: resetTotals,
+  [RESET_STATE]: resetState,
 };
 const spendMoneyReducer = createReducer(initialState, handlers);
 

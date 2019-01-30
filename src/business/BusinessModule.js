@@ -1,10 +1,15 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import BusinessIntents from './BusinessIntents';
+import {
+  LOAD_BUSINESS_LIST,
+  SET_LOADING_STATE,
+} from './BusinessIntents';
+import {
+  RESET_STATE,
+} from '../SystemIntents';
 import BusinessListView from './components/BusinessListView';
 import Store from '../store/Store';
-import SystemIntents from '../SystemIntents';
 import businessReducer from './businessReducer';
 
 export default class BusinessModule {
@@ -15,7 +20,7 @@ export default class BusinessModule {
   }
 
   loadBusinessList = () => {
-    const intent = BusinessIntents.LOAD_BUSINESS_LIST;
+    const intent = LOAD_BUSINESS_LIST;
 
     const onSuccess = (businesses) => {
       this.setLoadingState(false);
@@ -41,7 +46,7 @@ export default class BusinessModule {
 
   setLoadingState = (isLoading) => {
     this.store.dispatch({
-      intent: BusinessIntents.SET_LOADING_STATE,
+      intent: SET_LOADING_STATE,
       isLoading,
     });
   }
@@ -63,7 +68,7 @@ export default class BusinessModule {
   }
 
   resetState() {
-    const intent = SystemIntents.RESET_STATE;
+    const intent = RESET_STATE;
     this.store.dispatch({
       intent,
     });

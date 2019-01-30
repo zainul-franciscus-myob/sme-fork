@@ -1,15 +1,11 @@
-const TransferMoneyIntents = {
-  SET_LOADING_STATE: Symbol('Set loading state'),
-  LOAD_NEW_TRANSFER_MONEY: Symbol('Load a new empty transfer money entry data'),
-  LOAD_TRANSFER_MONEY_DETAIL: Symbol('Load a transfer money entry data'),
-  DELETE_TRANSFER_MONEY: Symbol('Delete a transfer money entry'),
-  UPDATE_FORM: Symbol('Update a form value'),
-  FORMAT_AMOUNT: Symbol('Format amount'),
-  SET_SUBMITTING_STATE: Symbol('Set submitting state'),
-  CREATE_TRANSFER_MONEY: Symbol('Create a transfer money entry'),
-  SET_ALERT_MESSAGE: Symbol('Set alert message'),
-  OPEN_MODAL: Symbol('Open modal'),
-  CLOSE_MODAL: Symbol('Close modal'),
-};
-
-export default TransferMoneyIntents;
+export const SET_LOADING_STATE = Symbol('Set loading state');
+export const LOAD_NEW_TRANSFER_MONEY = Symbol('Load a new empty transfer money entry data');
+export const LOAD_TRANSFER_MONEY_DETAIL = Symbol('Load a transfer money entry data');
+export const DELETE_TRANSFER_MONEY = Symbol('Delete a transfer money entry');
+export const UPDATE_FORM = Symbol('Update a form value');
+export const FORMAT_AMOUNT = Symbol('Format amount');
+export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
+export const CREATE_TRANSFER_MONEY = Symbol('Create a transfer money entry');
+export const SET_ALERT_MESSAGE = Symbol('Set alert message');
+export const OPEN_MODAL = Symbol('Open modal');
+export const CLOSE_MODAL = Symbol('Close modal');

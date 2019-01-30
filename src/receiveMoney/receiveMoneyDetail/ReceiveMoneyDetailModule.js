@@ -2,6 +2,29 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  ADD_RECEIVE_MONEY_LINE,
+  CLOSE_MODAL,
+  CREATE_RECEIVE_MONEY,
+  DELETE_RECEIVE_MONEY,
+  DELETE_RECEIVE_MONEY_LINE,
+  FORMAT_RECEIVE_MONEY_LINE,
+  GET_CALCULATED_TOTALS,
+  LOAD_NEW_RECEIVE_MONEY,
+  LOAD_RECEIVE_MONEY_DETAIL,
+  OPEN_MODAL,
+  RESET_TOTALS,
+  SET_ALERT_MESSAGE,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
+  SET_TOTALS_LOADING_STATE,
+  UPDATE_RECEIVE_MONEY,
+  UPDATE_RECEIVE_MONEY_HEADER,
+  UPDATE_RECEIVE_MONEY_LINE,
+} from '../ReceiveMoneyIntents';
+import {
+  RESET_STATE,
+} from '../../SystemIntents';
+import {
   SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY,
 } from '../receiveMoneyMessageTypes';
 import {
@@ -13,9 +36,7 @@ import {
   isPageEdited,
 } from './receiveMoneyDetailSelectors';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
-import ReceiveMoneyIntents from '../ReceiveMoneyIntents';
 import Store from '../../store/Store';
-import SystemIntents from '../../SystemIntents';
 import receiveMoneyDetailReducer from './receiveMoneyDetailReducer';
 
 export default class ReceiveMoneyDetailModule {
@@ -30,8 +51,8 @@ export default class ReceiveMoneyDetailModule {
 
   loadReceiveMoney = () => {
     const intent = this.isCreating
-      ? ReceiveMoneyIntents.LOAD_NEW_RECEIVE_MONEY
-      : ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL;
+      ? LOAD_NEW_RECEIVE_MONEY
+      : LOAD_RECEIVE_MONEY_DETAIL;
 
     const urlParams = {
       businessId: this.businessId,
@@ -79,7 +100,7 @@ export default class ReceiveMoneyDetailModule {
     };
 
     this.integration.write({
-      intent: ReceiveMoneyIntents.DELETE_RECEIVE_MONEY,
+      intent: DELETE_RECEIVE_MONEY,
       urlParams: {
         businessId: this.businessId,
         receiveMoneyId: this.receiveMoneyId,
@@ -90,7 +111,7 @@ export default class ReceiveMoneyDetailModule {
   }
 
   createReceiveMoneyEntry = () => {
-    const intent = ReceiveMoneyIntents.CREATE_RECEIVE_MONEY;
+    const intent = CREATE_RECEIVE_MONEY;
     const content = getReceiveMoneyForCreatePayload(this.store.getState());
     const urlParams = {
       businessId: this.businessId,
@@ -99,7 +120,7 @@ export default class ReceiveMoneyDetailModule {
   };
 
   updateReceiveMoneyEntry = () => {
-    const intent = ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY;
+    const intent = UPDATE_RECEIVE_MONEY;
     const state = this.store.getState();
     const content = getReceiveMoney(state);
     const receiveMoneyId = getReceiveMoneyId(state);
@@ -136,7 +157,7 @@ export default class ReceiveMoneyDetailModule {
   }
 
   updateHeaderOptions = ({ key, value }) => {
-    const intent = ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY_HEADER;
+    const intent = UPDATE_RECEIVE_MONEY_HEADER;
     this.store.dispatch({
       intent,
       key,
@@ -149,7 +170,7 @@ export default class ReceiveMoneyDetailModule {
   };
 
   updateReceiveMoneyLine = (lineIndex, lineKey, lineValue) => {
-    const intent = ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY_LINE;
+    const intent = UPDATE_RECEIVE_MONEY_LINE;
 
     this.store.dispatch({
       intent,
@@ -165,7 +186,7 @@ export default class ReceiveMoneyDetailModule {
   }
 
   addReceiveMoneyLine = (partialLine) => {
-    const intent = ReceiveMoneyIntents.ADD_RECEIVE_MONEY_LINE;
+    const intent = ADD_RECEIVE_MONEY_LINE;
 
     this.store.dispatch({
       intent,
@@ -176,7 +197,7 @@ export default class ReceiveMoneyDetailModule {
   }
 
   deleteReceiveMoneyLine = (index) => {
-    const intent = ReceiveMoneyIntents.DELETE_RECEIVE_MONEY_LINE;
+    const intent = DELETE_RECEIVE_MONEY_LINE;
 
     this.store.dispatch({
       intent,
@@ -190,12 +211,12 @@ export default class ReceiveMoneyDetailModule {
     const state = this.store.getState();
     if (getIsTableEmpty(state)) {
       this.store.dispatch({
-        intent: ReceiveMoneyIntents.RESET_TOTALS,
+        intent: RESET_TOTALS,
       });
       return;
     }
 
-    const intent = ReceiveMoneyIntents.GET_CALCULATED_TOTALS;
+    const intent = GET_CALCULATED_TOTALS;
 
     const onSuccess = (totals) => {
       this.store.dispatch({
@@ -216,7 +237,7 @@ export default class ReceiveMoneyDetailModule {
   }
 
   formatReceiveMoneyLine = (index) => {
-    const intent = ReceiveMoneyIntents.FORMAT_RECEIVE_MONEY_LINE;
+    const intent = FORMAT_RECEIVE_MONEY_LINE;
 
     this.store.dispatch({
       intent,
@@ -230,7 +251,7 @@ export default class ReceiveMoneyDetailModule {
   }
 
   setSubmittingState = (isSubmitting) => {
-    const intent = ReceiveMoneyIntents.SET_SUBMITTING_STATE;
+    const intent = SET_SUBMITTING_STATE;
 
     this.store.dispatch({
       intent,
@@ -240,13 +261,13 @@ export default class ReceiveMoneyDetailModule {
 
   displayAlert = (errorMessage) => {
     this.store.dispatch({
-      intent: ReceiveMoneyIntents.SET_ALERT_MESSAGE,
+      intent: SET_ALERT_MESSAGE,
       alertMessage: errorMessage,
     });
   }
 
   openCancelModal = () => {
-    const intent = ReceiveMoneyIntents.OPEN_MODAL;
+    const intent = OPEN_MODAL;
     if (isPageEdited(this.store.getState())) {
       this.store.dispatch({
         intent,
@@ -258,7 +279,7 @@ export default class ReceiveMoneyDetailModule {
   };
 
   openDeleteModal = () => {
-    const intent = ReceiveMoneyIntents.OPEN_MODAL;
+    const intent = OPEN_MODAL;
 
     this.store.dispatch({
       intent,
@@ -267,7 +288,7 @@ export default class ReceiveMoneyDetailModule {
   };
 
   closeModal = () => {
-    const intent = ReceiveMoneyIntents.CLOSE_MODAL;
+    const intent = CLOSE_MODAL;
 
     this.store.dispatch({ intent });
   };
@@ -277,7 +298,7 @@ export default class ReceiveMoneyDetailModule {
   };
 
   setTotalsLoadingState = (isTotalsLoading) => {
-    const intent = ReceiveMoneyIntents.SET_TOTALS_LOADING_STATE;
+    const intent = SET_TOTALS_LOADING_STATE;
 
     this.store.dispatch({
       intent,
@@ -287,7 +308,7 @@ export default class ReceiveMoneyDetailModule {
 
   dismissAlert = () => {
     this.store.dispatch({
-      intent: ReceiveMoneyIntents.SET_ALERT_MESSAGE,
+      intent: SET_ALERT_MESSAGE,
       alertMessage: '',
     });
   };
@@ -327,7 +348,7 @@ export default class ReceiveMoneyDetailModule {
 
   setLoadingState = (isLoading) => {
     this.store.dispatch({
-      intent: ReceiveMoneyIntents.SET_LOADING_STATE,
+      intent: SET_LOADING_STATE,
       isLoading,
     });
   }
@@ -343,7 +364,7 @@ export default class ReceiveMoneyDetailModule {
   }
 
   resetState() {
-    const intent = SystemIntents.RESET_STATE;
+    const intent = RESET_STATE;
     this.store.dispatch({
       intent,
     });

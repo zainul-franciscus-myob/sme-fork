@@ -1,11 +1,13 @@
 import React from 'react';
 
+import {
+  RESET_STATE,
+} from '../SystemIntents';
 import BankingIntents from './BankingIntents';
 import BankingTableRow from './components/BankingTableRow';
 import BankingTransactionsView from './components/BankingTransactionsView';
 import EmptyBankingRow from './components/EmptyBankingRow';
 import Store from '../store/Store';
-import SystemIntents from '../SystemIntents';
 import bankingReducer from './bankingReducer';
 
 export default class BankingModule {
@@ -88,7 +90,7 @@ export default class BankingModule {
   }
 
   resetState() {
-    const intent = SystemIntents.RESET_STATE;
+    const intent = RESET_STATE;
     this.store.dispatch({
       intent,
     });

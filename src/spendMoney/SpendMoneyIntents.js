@@ -1,22 +1,19 @@
-const SpendMoneyIntents = {
-  LOAD_NEW_SPEND_MONEY: Symbol('Load a new empty spend money entry data'),
-  LOAD_SPEND_MONEY_DETAIL: Symbol('Load a spend money entry data'),
-  LOAD_REFERENCE_ID: Symbol('Load the reference id'),
-  CREATE_SPEND_MONEY: Symbol('Create a new spend money entry'),
-  DELETE_SPEND_MONEY: Symbol('Delete spend money transaction'),
-  UPDATE_SPEND_MONEY: Symbol('Update a spend money entry'),
-  UPDATE_SPEND_MONEY_HEADER: Symbol('Update spend money header'),
-  UPDATE_SPEND_MONEY_LINE: Symbol('Update spend money line'),
-  ADD_SPEND_MONEY_LINE: Symbol('Add spend money line'),
-  DELETE_SPEND_MONEY_LINE: Symbol('Delete spend money line'),
-  FORMAT_SPEND_MONEY_LINE: Symbol('Format spend money line'),
-  OPEN_MODAL: Symbol('Open a modal'),
-  CLOSE_MODAL: Symbol('Close a modal'),
-  SET_ALERT_MESSAGE: Symbol('Set alert message'),
-  SET_LOADING_STATE: Symbol('Set loading state'),
-  SET_SUBMITTING_STATE: Symbol('Set submitting state'),
-  GET_CALCULATED_TOTALS: Symbol('Get calculated totals'),
-  RESET_TOTALS: Symbol('Reset calculated totals'),
-};
-
-export default SpendMoneyIntents;
+export const LOAD_NEW_SPEND_MONEY = Symbol('Load a new empty spend money entry data');
+export const LOAD_SPEND_MONEY_DETAIL = Symbol('Load a spend money entry data');
+export const LOAD_REFERENCE_ID = Symbol('Load the reference id');
+export const CREATE_SPEND_MONEY = Symbol('Create a new spend money entry');
+export const DELETE_SPEND_MONEY = Symbol('Delete spend money transaction');
+export const UPDATE_SPEND_MONEY = Symbol('Update a spend money entry');
+export const UPDATE_SPEND_MONEY_HEADER = Symbol('Update spend money header');
+export const UPDATE_SPEND_MONEY_LINE = Symbol('Update spend money line');
+export const ADD_SPEND_MONEY_LINE = Symbol('Add spend money line');
+export const DELETE_SPEND_MONEY_LINE = Symbol('Delete spend money line');
+export const FORMAT_SPEND_MONEY_LINE = Symbol('Format spend money line');
+export const OPEN_MODAL = Symbol('Open a modal');
+export const CLOSE_MODAL = Symbol('Close a modal');
+export const SET_ALERT_MESSAGE = Symbol('Set alert message');
+export const SET_LOADING_STATE = Symbol('Set loading state');
+export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
+export const GET_CALCULATED_TOTALS = Symbol('Get calculated totals');
+export const RESET_TOTALS = Symbol('Reset calculated totals');
+export const SET_TOTALS_LOADING_STATE = Symbol('Set totals loading state');

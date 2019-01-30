@@ -1,7 +1,17 @@
 import dateFormat from 'dateformat';
 
-import SystemIntents from '../SystemIntents';
-import TransactionListIntents from './TransactionListIntents';
+import {
+  LOAD_TRANSACTION_LIST,
+  SET_ALERT,
+  SET_LOADING_STATE,
+  SET_TABLE_LOADING_STATE,
+  SORT_AND_FILTER_TRANSACTION_LIST,
+  UPDATE_FILTER_OPTIONS,
+} from './TransactionListIntents';
+import {
+  RESET_STATE,
+  SET_INITIAL_STATE,
+} from '../SystemIntents';
 import createReducer from '../store/createReducer';
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
@@ -92,14 +102,14 @@ const setInitialState = (state, action) => ({
 });
 
 const handlers = {
-  [TransactionListIntents.LOAD_TRANSACTION_LIST]: loadTransactionList,
-  [TransactionListIntents.SORT_AND_FILTER_TRANSACTION_LIST]: sortAndFilterTransactionList,
-  [TransactionListIntents.UPDATE_FILTER_OPTIONS]: updateFilterOptions,
-  [TransactionListIntents.SET_TABLE_LOADING_STATE]: setTableLoadingState,
-  [TransactionListIntents.SET_LOADING_STATE]: setLoadingState,
-  [TransactionListIntents.SET_ALERT]: setAlert,
-  [SystemIntents.RESET_STATE]: resetState,
-  [SystemIntents.SET_INITIAL_STATE]: setInitialState,
+  [LOAD_TRANSACTION_LIST]: loadTransactionList,
+  [SORT_AND_FILTER_TRANSACTION_LIST]: sortAndFilterTransactionList,
+  [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [SET_TABLE_LOADING_STATE]: setTableLoadingState,
+  [SET_LOADING_STATE]: setLoadingState,
+  [SET_ALERT]: setAlert,
+  [RESET_STATE]: resetState,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 
 const transactionListReducer = createReducer(getInitialState(), handlers);

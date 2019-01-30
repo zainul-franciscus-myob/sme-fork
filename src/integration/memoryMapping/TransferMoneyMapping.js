@@ -1,4 +1,9 @@
-import TransferMoneyIntents from '../../transferMoney/TransferMoneyIntents';
+import {
+  CREATE_TRANSFER_MONEY,
+  DELETE_TRANSFER_MONEY,
+  LOAD_NEW_TRANSFER_MONEY,
+  LOAD_TRANSFER_MONEY_DETAIL,
+} from '../../transferMoney/TransferMoneyIntents';
 import successResponse from '../data/success';
 import transferMoneyDetailEntry from '../data/transferMoney/transferMoneyDetailEntry';
 import transferMoneyDetailNewEntry from '../data/transferMoney/transferMoneyDetailNewEntry';
@@ -9,10 +14,10 @@ const loadTransferMoneyDetail = ({ onSuccess }) => onSuccess(transferMoneyDetail
 const deleteTransferMoney = ({ onSuccess }) => onSuccess(successResponse);
 
 const ReceiveMoneyMapping = {
-  [TransferMoneyIntents.LOAD_NEW_TRANSFER_MONEY]: loadNewTransferMoney,
-  [TransferMoneyIntents.CREATE_TRANSFER_MONEY]: createTransferMoney,
-  [TransferMoneyIntents.LOAD_TRANSFER_MONEY_DETAIL]: loadTransferMoneyDetail,
-  [TransferMoneyIntents.DELETE_TRANSFER_MONEY]: deleteTransferMoney,
+  [LOAD_NEW_TRANSFER_MONEY]: loadNewTransferMoney,
+  [CREATE_TRANSFER_MONEY]: createTransferMoney,
+  [LOAD_TRANSFER_MONEY_DETAIL]: loadTransferMoneyDetail,
+  [DELETE_TRANSFER_MONEY]: deleteTransferMoney,
 };
 
 export default ReceiveMoneyMapping;

@@ -1,12 +1,26 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import {
+  CLOSE_MODAL,
+  CREATE_TRANSFER_MONEY,
+  DELETE_TRANSFER_MONEY,
+  FORMAT_AMOUNT,
+  LOAD_NEW_TRANSFER_MONEY,
+  LOAD_TRANSFER_MONEY_DETAIL,
+  OPEN_MODAL,
+  SET_ALERT_MESSAGE,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
+  UPDATE_FORM,
+} from '../TransferMoneyIntents';
+import {
+  RESET_STATE,
+} from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoneyMessageTypes';
 import { getCreateTransferMoneyPayload, isPageEdited } from './transferMoneyDetailSelectors';
 import Store from '../../store/Store';
-import SystemIntents from '../../SystemIntents';
 import TransferMoneyDetailView from './components/TransferMoneyDetailView';
-import TransferMoneyIntents from '../TransferMoneyIntents';
 import transferMoneyDetailReducer from './transferMoneyDetailReducer';
 
 export default class TransferMoneyDetailModule {
@@ -20,15 +34,15 @@ export default class TransferMoneyDetailModule {
 
   setLoadingState = (isLoading) => {
     this.store.dispatch({
-      intent: TransferMoneyIntents.SET_LOADING_STATE,
+      intent: SET_LOADING_STATE,
       isLoading,
     });
   }
 
   loadTransferMoney = () => {
     const intent = this.isCreating
-      ? TransferMoneyIntents.LOAD_NEW_TRANSFER_MONEY
-      : TransferMoneyIntents.LOAD_TRANSFER_MONEY_DETAIL;
+      ? LOAD_NEW_TRANSFER_MONEY
+      : LOAD_TRANSFER_MONEY_DETAIL;
 
     const urlParams = {
       businessId: this.businessId,
@@ -56,15 +70,15 @@ export default class TransferMoneyDetailModule {
   }
 
   updateForm = ({ key, value }) => this.store.dispatch({
-    intent: TransferMoneyIntents.UPDATE_FORM,
+    intent: UPDATE_FORM,
     key,
     value,
   })
 
-  formatAmount = () => this.store.dispatch({ intent: TransferMoneyIntents.FORMAT_AMOUNT })
+  formatAmount = () => this.store.dispatch({ intent: FORMAT_AMOUNT })
 
   setSubmittingState = isSubmitting => this.store.dispatch({
-    intent: TransferMoneyIntents.SET_SUBMITTING_STATE,
+    intent: SET_SUBMITTING_STATE,
     isSubmitting,
   });
 
@@ -73,12 +87,12 @@ export default class TransferMoneyDetailModule {
   }
 
   displayAlert = errorMessage => this.store.dispatch({
-    intent: TransferMoneyIntents.SET_ALERT_MESSAGE,
+    intent: SET_ALERT_MESSAGE,
     alertMessage: errorMessage,
   });
 
   dismissAlert = () => this.store.dispatch({
-    intent: TransferMoneyIntents.SET_ALERT_MESSAGE,
+    intent: SET_ALERT_MESSAGE,
     alertMessage: '',
   });
 
@@ -101,7 +115,7 @@ export default class TransferMoneyDetailModule {
 
     this.setSubmittingState(true);
     this.integration.write({
-      intent: TransferMoneyIntents.CREATE_TRANSFER_MONEY,
+      intent: CREATE_TRANSFER_MONEY,
       urlParams,
       content,
       onSuccess,
@@ -127,7 +141,7 @@ export default class TransferMoneyDetailModule {
     };
 
     this.integration.write({
-      intent: TransferMoneyIntents.DELETE_TRANSFER_MONEY,
+      intent: DELETE_TRANSFER_MONEY,
       urlParams: {
         businessId: this.businessId,
         transferMoneyId: this.transferMoneyId,
@@ -138,24 +152,24 @@ export default class TransferMoneyDetailModule {
   }
 
   openDeleteModal = () => this.store.dispatch({
-    intent: TransferMoneyIntents.OPEN_MODAL,
+    intent: OPEN_MODAL,
     modalType: 'delete',
   })
 
   openCancelModal = () => (isPageEdited(this.store.getState())
     ? this.store.dispatch({
-      intent: TransferMoneyIntents.OPEN_MODAL,
+      intent: OPEN_MODAL,
       modalType: 'cancel',
     })
     : this.redirectToTransactionList())
 
-  closeModal = () => this.store.dispatch({ intent: TransferMoneyIntents.CLOSE_MODAL })
+  closeModal = () => this.store.dispatch({ intent: CLOSE_MODAL })
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
 
-  resetState = () => this.store.dispatch({ intent: SystemIntents.RESET_STATE });
+  resetState = () => this.store.dispatch({ intent: RESET_STATE });
 
   render = () => {
     const transferMoneyView = (

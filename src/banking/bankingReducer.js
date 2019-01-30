@@ -1,11 +1,13 @@
+import {
+  RESET_STATE,
+} from '../SystemIntents';
 import BankingIntents from './BankingIntents';
-import SystemIntents from '../SystemIntents';
 
 const initialState = { transactions: [], accounts: [] };
 
 const bankingReducer = (state = initialState, action) => {
   switch (action.intent) {
-    case SystemIntents.RESET_STATE:
+    case RESET_STATE:
       return {
         ...initialState,
       };

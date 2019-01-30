@@ -1,8 +1,25 @@
 import dateFormat from 'dateformat';
 
+import {
+  ADD_RECEIVE_MONEY_LINE,
+  CLOSE_MODAL,
+  DELETE_RECEIVE_MONEY_LINE,
+  FORMAT_RECEIVE_MONEY_LINE,
+  GET_CALCULATED_TOTALS,
+  LOAD_NEW_RECEIVE_MONEY,
+  LOAD_RECEIVE_MONEY_DETAIL,
+  OPEN_MODAL,
+  RESET_TOTALS,
+  SET_ALERT_MESSAGE,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
+  UPDATE_RECEIVE_MONEY_HEADER,
+  UPDATE_RECEIVE_MONEY_LINE,
+} from '../ReceiveMoneyIntents';
+import {
+  RESET_STATE,
+} from '../../SystemIntents';
 import { getDefaultTaxCodeId } from './receiveMoneyDetailSelectors';
-import ReceiveMoneyIntents from '../ReceiveMoneyIntents';
-import SystemIntents from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const initialState = {
@@ -188,21 +205,21 @@ const resetTotals = state => ({
 });
 
 const handlers = {
-  [ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
-  [ReceiveMoneyIntents.LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
-  [ReceiveMoneyIntents.GET_CALCULATED_TOTALS]: getCalculateTotals,
-  [ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY_HEADER]: updateHeader,
-  [ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY_LINE]: updateLine,
-  [ReceiveMoneyIntents.ADD_RECEIVE_MONEY_LINE]: addLine,
-  [ReceiveMoneyIntents.DELETE_RECEIVE_MONEY_LINE]: deleteLine,
-  [ReceiveMoneyIntents.FORMAT_RECEIVE_MONEY_LINE]: formatLine,
-  [ReceiveMoneyIntents.SET_LOADING_STATE]: setLoadingState,
-  [ReceiveMoneyIntents.SET_SUBMITTING_STATE]: setSubmittingState,
-  [ReceiveMoneyIntents.SET_ALERT_MESSAGE]: setAlertMessage,
-  [ReceiveMoneyIntents.OPEN_MODAL]: openModal,
-  [ReceiveMoneyIntents.CLOSE_MODAL]: closeModal,
-  [ReceiveMoneyIntents.RESET_TOTALS]: resetTotals,
-  [SystemIntents.RESET_STATE]: resetState,
+  [LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
+  [LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
+  [GET_CALCULATED_TOTALS]: getCalculateTotals,
+  [UPDATE_RECEIVE_MONEY_HEADER]: updateHeader,
+  [UPDATE_RECEIVE_MONEY_LINE]: updateLine,
+  [ADD_RECEIVE_MONEY_LINE]: addLine,
+  [DELETE_RECEIVE_MONEY_LINE]: deleteLine,
+  [FORMAT_RECEIVE_MONEY_LINE]: formatLine,
+  [SET_LOADING_STATE]: setLoadingState,
+  [SET_SUBMITTING_STATE]: setSubmittingState,
+  [SET_ALERT_MESSAGE]: setAlertMessage,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
+  [RESET_TOTALS]: resetTotals,
+  [RESET_STATE]: resetState,
 };
 const receiveMoneyReducer = createReducer(initialState, handlers);
 

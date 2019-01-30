@@ -1,8 +1,25 @@
 import dateFormat from 'dateformat';
 
+import {
+  ADD_GENERAL_JOURNAL_LINE,
+  CLOSE_MODAL,
+  DELETE_GENERAL_JOURNAL_LINE,
+  FORMAT_GENERAL_JOURNAL_LINE,
+  GET_CALCULATED_TOTALS,
+  LOAD_GENERAL_JOURNAL_DETAIL,
+  LOAD_NEW_GENERAL_JOURNAL,
+  OPEN_MODAL,
+  RESET_TOTALS,
+  SET_ALERT_MESSAGE,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
+  UPDATE_GENERAL_JOURNAL_HEADER,
+  UPDATE_GENERAL_JOURNAL_LINE,
+} from '../GeneralJournalIntents';
+import {
+  RESET_STATE,
+} from '../../SystemIntents';
 import { getDefaultTaxCodeId } from './generalJournalDetailSelectors';
-import GeneralJournalIntents from '../GeneralJournalIntents';
-import SystemIntents from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const initialState = {
@@ -221,21 +238,21 @@ const resetTotals = state => ({
 });
 
 const handlers = {
-  [GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL]: loadGeneralJournalDetail,
-  [GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL]: loadNewGeneralJournal,
-  [GeneralJournalIntents.GET_CALCULATED_TOTALS]: getCalculateTotals,
-  [GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_HEADER]: updateHeader,
-  [GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_LINE]: updateLine,
-  [GeneralJournalIntents.ADD_GENERAL_JOURNAL_LINE]: addLine,
-  [GeneralJournalIntents.DELETE_GENERAL_JOURNAL_LINE]: deleteLine,
-  [GeneralJournalIntents.FORMAT_GENERAL_JOURNAL_LINE]: formatLine,
-  [GeneralJournalIntents.SET_LOADING_STATE]: setLoadingState,
-  [GeneralJournalIntents.SET_SUBMITTING_STATE]: setSubmittingState,
-  [GeneralJournalIntents.SET_ALERT_MESSAGE]: setAlertMessage,
-  [GeneralJournalIntents.OPEN_MODAL]: openModal,
-  [GeneralJournalIntents.CLOSE_MODAL]: closeModal,
-  [GeneralJournalIntents.RESET_TOTALS]: resetTotals,
-  [SystemIntents.RESET_STATE]: resetState,
+  [LOAD_GENERAL_JOURNAL_DETAIL]: loadGeneralJournalDetail,
+  [LOAD_NEW_GENERAL_JOURNAL]: loadNewGeneralJournal,
+  [GET_CALCULATED_TOTALS]: getCalculateTotals,
+  [UPDATE_GENERAL_JOURNAL_HEADER]: updateHeader,
+  [UPDATE_GENERAL_JOURNAL_LINE]: updateLine,
+  [ADD_GENERAL_JOURNAL_LINE]: addLine,
+  [DELETE_GENERAL_JOURNAL_LINE]: deleteLine,
+  [FORMAT_GENERAL_JOURNAL_LINE]: formatLine,
+  [SET_LOADING_STATE]: setLoadingState,
+  [SET_SUBMITTING_STATE]: setSubmittingState,
+  [SET_ALERT_MESSAGE]: setAlertMessage,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
+  [RESET_TOTALS]: resetTotals,
+  [RESET_STATE]: resetState,
 };
 const generalJournalReducer = createReducer(initialState, handlers);
 

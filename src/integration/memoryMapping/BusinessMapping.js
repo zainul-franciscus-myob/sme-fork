@@ -1,4 +1,6 @@
-import BusinessIntents from '../../business/BusinessIntents';
+import {
+  LOAD_BUSINESS_LIST,
+} from '../../business/BusinessIntents';
 import businesses from '../data/businessList';
 
 const loadBusinessList = ({ onSuccess }) => {
@@ -6,7 +8,7 @@ const loadBusinessList = ({ onSuccess }) => {
 };
 
 const BusinessMapping = {
-  [BusinessIntents.LOAD_BUSINESS_LIST]: loadBusinessList,
+  [LOAD_BUSINESS_LIST]: loadBusinessList,
 };
 
 export default BusinessMapping;

@@ -1,31 +1,39 @@
-import SpendMoneyIntents from '../../spendMoney/SpendMoneyIntents';
+import {
+  CREATE_SPEND_MONEY,
+  DELETE_SPEND_MONEY,
+  GET_CALCULATED_TOTALS,
+  LOAD_NEW_SPEND_MONEY,
+  LOAD_REFERENCE_ID,
+  LOAD_SPEND_MONEY_DETAIL,
+  UPDATE_SPEND_MONEY,
+} from '../../spendMoney/SpendMoneyIntents';
 
 const SpendMoneyMapping = {
-  [SpendMoneyIntents.LOAD_NEW_SPEND_MONEY]: {
+  [LOAD_NEW_SPEND_MONEY]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/load_new_spend_money`,
   },
-  [SpendMoneyIntents.LOAD_SPEND_MONEY_DETAIL]: {
+  [LOAD_SPEND_MONEY_DETAIL]: {
     method: 'GET',
     getPath: ({ businessId, spendMoneyId }) => `/${businessId}/spendMoney/load_spend_money_detail/${spendMoneyId}`,
   },
-  [SpendMoneyIntents.CREATE_SPEND_MONEY]: {
+  [CREATE_SPEND_MONEY]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/create_spend_money`,
   },
-  [SpendMoneyIntents.DELETE_SPEND_MONEY]: {
+  [DELETE_SPEND_MONEY]: {
     method: 'DELETE',
     getPath: ({ businessId, spendMoneyId }) => `/${businessId}/spendMoney/delete_spend_money_detail/${spendMoneyId}`,
   },
-  [SpendMoneyIntents.UPDATE_SPEND_MONEY]: {
+  [UPDATE_SPEND_MONEY]: {
     method: 'PUT',
     getPath: ({ businessId, spendMoneyId }) => `/${businessId}/spendMoney/update_spend_money_detail/${spendMoneyId}`,
   },
-  [SpendMoneyIntents.LOAD_REFERENCE_ID]: {
+  [LOAD_REFERENCE_ID]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/get_reference_id`,
   },
-  [SpendMoneyIntents.GET_CALCULATED_TOTALS]: {
+  [GET_CALCULATED_TOTALS]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/calculate_totals`,
   },

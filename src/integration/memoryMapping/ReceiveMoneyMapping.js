@@ -1,4 +1,11 @@
-import ReceiveMoneyIntents from '../../receiveMoney/ReceiveMoneyIntents';
+import {
+  CREATE_RECEIVE_MONEY,
+  DELETE_RECEIVE_MONEY,
+  GET_CALCULATED_TOTALS,
+  LOAD_NEW_RECEIVE_MONEY,
+  LOAD_RECEIVE_MONEY_DETAIL,
+  UPDATE_RECEIVE_MONEY,
+} from '../../receiveMoney/ReceiveMoneyIntents';
 import receiveMoneyCalculatedTotals from '../data/receiveMoney/receiveMoneyDetailTotalsResponse';
 import receiveMoneyDetailEntry from '../data/receiveMoney/receiveMoneyDetailEntry';
 import receiveMoneyDetailNewEntry from '../data/receiveMoney/receiveMoneyDetailNewEntry';
@@ -12,12 +19,12 @@ const updateReceiveMoney = ({ onSuccess }) => onSuccess(successResponse);
 const getCalculatedTotals = ({ onSuccess }) => onSuccess(receiveMoneyCalculatedTotals);
 
 const ReceiveMoneyMapping = {
-  [ReceiveMoneyIntents.LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
-  [ReceiveMoneyIntents.LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
-  [ReceiveMoneyIntents.DELETE_RECEIVE_MONEY]: deleteReceiveMoney,
-  [ReceiveMoneyIntents.CREATE_RECEIVE_MONEY]: saveReceiveMoney,
-  [ReceiveMoneyIntents.UPDATE_RECEIVE_MONEY]: updateReceiveMoney,
-  [ReceiveMoneyIntents.GET_CALCULATED_TOTALS]: getCalculatedTotals,
+  [LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
+  [LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
+  [DELETE_RECEIVE_MONEY]: deleteReceiveMoney,
+  [CREATE_RECEIVE_MONEY]: saveReceiveMoney,
+  [UPDATE_RECEIVE_MONEY]: updateReceiveMoney,
+  [GET_CALCULATED_TOTALS]: getCalculatedTotals,
 };
 
 export default ReceiveMoneyMapping;

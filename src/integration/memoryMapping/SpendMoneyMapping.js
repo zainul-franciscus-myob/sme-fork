@@ -1,4 +1,12 @@
-import SpendMoneyIntents from '../../spendMoney/SpendMoneyIntents';
+import {
+  CREATE_SPEND_MONEY,
+  DELETE_SPEND_MONEY,
+  GET_CALCULATED_TOTALS,
+  LOAD_NEW_SPEND_MONEY,
+  LOAD_REFERENCE_ID,
+  LOAD_SPEND_MONEY_DETAIL,
+  UPDATE_SPEND_MONEY,
+} from '../../spendMoney/SpendMoneyIntents';
 import spendMoneyCalculatedTotals from '../data/spendMoney/spendMoneyDetailTotalsResponse';
 import spendMoneyDetailEntry from '../data/spendMoney/spendMoneyDetailEntry';
 import spendMoneyNewEntry from '../data/spendMoney/spendMoneyDetailNewEntry';
@@ -20,13 +28,13 @@ const getCalculatedTotals = ({ onSuccess }) => onSuccess(spendMoneyCalculatedTot
 const loadSpendMoneyDetail = ({ onSuccess }) => onSuccess(spendMoneyDetailEntry);
 
 const SpendMoneyMapping = {
-  [SpendMoneyIntents.LOAD_NEW_SPEND_MONEY]: newSpendMoney,
-  [SpendMoneyIntents.CREATE_SPEND_MONEY]: saveSpendMoney,
-  [SpendMoneyIntents.DELETE_SPEND_MONEY]: deleteSpendMoney,
-  [SpendMoneyIntents.UPDATE_SPEND_MONEY]: updateSpendMoney,
-  [SpendMoneyIntents.LOAD_REFERENCE_ID]: getSpendMoneyNextReferenceId,
-  [SpendMoneyIntents.GET_CALCULATED_TOTALS]: getCalculatedTotals,
-  [SpendMoneyIntents.LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
+  [LOAD_NEW_SPEND_MONEY]: newSpendMoney,
+  [CREATE_SPEND_MONEY]: saveSpendMoney,
+  [DELETE_SPEND_MONEY]: deleteSpendMoney,
+  [UPDATE_SPEND_MONEY]: updateSpendMoney,
+  [LOAD_REFERENCE_ID]: getSpendMoneyNextReferenceId,
+  [GET_CALCULATED_TOTALS]: getCalculatedTotals,
+  [LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
 };
 
 export default SpendMoneyMapping;

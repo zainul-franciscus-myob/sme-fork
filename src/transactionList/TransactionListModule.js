@@ -1,6 +1,18 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import {
+  LOAD_TRANSACTION_LIST,
+  SET_ALERT,
+  SET_LOADING_STATE,
+  SET_TABLE_LOADING_STATE,
+  SORT_AND_FILTER_TRANSACTION_LIST,
+  UPDATE_FILTER_OPTIONS,
+} from './TransactionListIntents';
+import {
+  RESET_STATE,
+  SET_INITIAL_STATE,
+} from '../SystemIntents';
 import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../generalJournal/GeneralJournalMessageTypes';
 import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../receiveMoney/receiveMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY } from '../spendMoney/spendMoneyMessageTypes';
@@ -9,8 +21,6 @@ import {
   getAppliedFilterOptions, getFilterOptions, getSortOrder, getURLParams,
 } from './transactionListSelectors';
 import Store from '../store/Store';
-import SystemIntents from '../SystemIntents';
-import TransactionListIntents from './TransactionListIntents';
 import TransactionListView from './components/TransactionListView';
 import transactionListReducer from './transactionListReducer';
 
@@ -56,7 +66,7 @@ export default class TransactionListModule {
   loadTransactionList = () => {
     const state = this.store.getState();
 
-    const intent = TransactionListIntents.LOAD_TRANSACTION_LIST;
+    const intent = LOAD_TRANSACTION_LIST;
     const urlParams = {
       businessId: this.businessId,
     };
@@ -98,7 +108,7 @@ export default class TransactionListModule {
     const state = this.store.getState();
     this.setTableLoadingState(true);
 
-    const intent = TransactionListIntents.SORT_AND_FILTER_TRANSACTION_LIST;
+    const intent = SORT_AND_FILTER_TRANSACTION_LIST;
 
     const urlParams = {
       businessId: this.businessId,
@@ -134,7 +144,7 @@ export default class TransactionListModule {
   sortTransactionList = () => {
     const state = this.store.getState();
     this.setTableLoadingState(true);
-    const intent = TransactionListIntents.SORT_AND_FILTER_TRANSACTION_LIST;
+    const intent = SORT_AND_FILTER_TRANSACTION_LIST;
 
     const urlParams = {
       businessId: this.businessId,
@@ -182,7 +192,7 @@ export default class TransactionListModule {
   }
 
   setAlert = ({ message, type }) => {
-    const intent = TransactionListIntents.SET_ALERT;
+    const intent = SET_ALERT;
     this.store.dispatch({
       intent,
       alert: {
@@ -201,7 +211,7 @@ export default class TransactionListModule {
   };
 
   setLoadingState = (isLoading) => {
-    const intent = TransactionListIntents.SET_LOADING_STATE;
+    const intent = SET_LOADING_STATE;
     this.store.dispatch({
       intent,
       isLoading,
@@ -209,7 +219,7 @@ export default class TransactionListModule {
   };
 
   setTableLoadingState = (isTableLoading) => {
-    const intent = TransactionListIntents.SET_TABLE_LOADING_STATE;
+    const intent = SET_TABLE_LOADING_STATE;
     this.store.dispatch({
       intent,
       isTableLoading,
@@ -217,7 +227,7 @@ export default class TransactionListModule {
   };
 
   updateFilterOptions = ({ filterName, value }) => {
-    const intent = TransactionListIntents.UPDATE_FILTER_OPTIONS;
+    const intent = UPDATE_FILTER_OPTIONS;
     this.store.dispatch({
       intent,
       filterName,
@@ -226,7 +236,7 @@ export default class TransactionListModule {
   };
 
   dismissAlert = () => {
-    const intent = TransactionListIntents.SET_ALERT;
+    const intent = SET_ALERT;
     this.store.dispatch({
       intent,
       alert: undefined,
@@ -234,7 +244,7 @@ export default class TransactionListModule {
   };
 
   setInitialState = (params) => {
-    const intent = SystemIntents.SET_INITIAL_STATE;
+    const intent = SET_INITIAL_STATE;
 
     const {
       sourceJournal = '',
@@ -262,7 +272,7 @@ export default class TransactionListModule {
   }
 
   resetState() {
-    const intent = SystemIntents.RESET_STATE;
+    const intent = RESET_STATE;
     this.store.dispatch({
       intent,
     });

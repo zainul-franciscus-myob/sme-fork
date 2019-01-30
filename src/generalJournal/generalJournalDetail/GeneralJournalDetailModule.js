@@ -2,6 +2,28 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  ADD_GENERAL_JOURNAL_LINE,
+  CLOSE_MODAL,
+  CREATE_GENERAL_JOURNAL,
+  DELETE_GENERAL_JOURNAL,
+  DELETE_GENERAL_JOURNAL_LINE,
+  FORMAT_GENERAL_JOURNAL_LINE,
+  GET_CALCULATED_TOTALS,
+  LOAD_GENERAL_JOURNAL_DETAIL,
+  LOAD_NEW_GENERAL_JOURNAL,
+  OPEN_MODAL,
+  RESET_TOTALS,
+  SET_ALERT_MESSAGE,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
+  UPDATE_GENERAL_JOURNAL,
+  UPDATE_GENERAL_JOURNAL_HEADER,
+  UPDATE_GENERAL_JOURNAL_LINE,
+} from '../GeneralJournalIntents';
+import {
+  RESET_STATE,
+} from '../../SystemIntents';
+import {
   SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
 } from '../GeneralJournalMessageTypes';
 import {
@@ -13,9 +35,7 @@ import {
   isPageEdited,
 } from './generalJournalDetailSelectors';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
-import GeneralJournalIntents from '../GeneralJournalIntents';
 import Store from '../../store/Store';
-import SystemIntents from '../../SystemIntents';
 import generalJournalDetailReducer from './generalJournalDetailReducer';
 
 export default class GeneralJournalDetailModule {
@@ -30,8 +50,8 @@ export default class GeneralJournalDetailModule {
 
   loadGeneralJournal = () => {
     const intent = this.isCreating
-      ? GeneralJournalIntents.LOAD_NEW_GENERAL_JOURNAL
-      : GeneralJournalIntents.LOAD_GENERAL_JOURNAL_DETAIL;
+      ? LOAD_NEW_GENERAL_JOURNAL
+      : LOAD_GENERAL_JOURNAL_DETAIL;
 
     const urlParams = {
       businessId: this.businessId,
@@ -79,7 +99,7 @@ export default class GeneralJournalDetailModule {
     };
 
     this.integration.write({
-      intent: GeneralJournalIntents.DELETE_GENERAL_JOURNAL,
+      intent: DELETE_GENERAL_JOURNAL,
       urlParams: {
         businessId: this.businessId,
         generalJournalId: this.generalJournalId,
@@ -90,7 +110,7 @@ export default class GeneralJournalDetailModule {
   }
 
   createGeneralJournalEntry = () => {
-    const intent = GeneralJournalIntents.CREATE_GENERAL_JOURNAL;
+    const intent = CREATE_GENERAL_JOURNAL;
     const content = getGeneralJournalForCreatePayload(this.store.state);
     const urlParams = {
       businessId: this.businessId,
@@ -99,7 +119,7 @@ export default class GeneralJournalDetailModule {
   };
 
   updateGeneralJournalEntry = () => {
-    const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL;
+    const intent = UPDATE_GENERAL_JOURNAL;
     const content = getGeneralJournal(this.store.state);
     const generalJournalId = getGeneralJournalId(this.store.state);
     const urlParams = {
@@ -135,7 +155,7 @@ export default class GeneralJournalDetailModule {
   }
 
   updateHeaderOptions = ({ key, value }) => {
-    const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_HEADER;
+    const intent = UPDATE_GENERAL_JOURNAL_HEADER;
     this.store.dispatch({
       intent,
       key,
@@ -149,7 +169,7 @@ export default class GeneralJournalDetailModule {
   };
 
   updateGeneralJournalLine = (lineIndex, lineKey, lineValue) => {
-    const intent = GeneralJournalIntents.UPDATE_GENERAL_JOURNAL_LINE;
+    const intent = UPDATE_GENERAL_JOURNAL_LINE;
 
     this.store.dispatch({
       intent,
@@ -165,7 +185,7 @@ export default class GeneralJournalDetailModule {
   }
 
   addGeneralJournalLine = (partialLine) => {
-    const intent = GeneralJournalIntents.ADD_GENERAL_JOURNAL_LINE;
+    const intent = ADD_GENERAL_JOURNAL_LINE;
 
     this.store.dispatch({
       intent,
@@ -176,7 +196,7 @@ export default class GeneralJournalDetailModule {
   }
 
   deleteGeneralJournalLine = (index) => {
-    const intent = GeneralJournalIntents.DELETE_GENERAL_JOURNAL_LINE;
+    const intent = DELETE_GENERAL_JOURNAL_LINE;
 
     this.store.dispatch({
       intent,
@@ -190,12 +210,12 @@ export default class GeneralJournalDetailModule {
     const state = this.store.getState();
     if (getIsTableEmpty(state)) {
       this.store.dispatch({
-        intent: GeneralJournalIntents.RESET_TOTALS,
+        intent: RESET_TOTALS,
       });
       return;
     }
 
-    const intent = GeneralJournalIntents.GET_CALCULATED_TOTALS;
+    const intent = GET_CALCULATED_TOTALS;
 
     const onSuccess = (totals) => {
       this.store.dispatch({
@@ -216,7 +236,7 @@ export default class GeneralJournalDetailModule {
   }
 
   formatGeneralJournalLine = (index) => {
-    const intent = GeneralJournalIntents.FORMAT_GENERAL_JOURNAL_LINE;
+    const intent = FORMAT_GENERAL_JOURNAL_LINE;
 
     this.store.dispatch({
       intent,
@@ -230,7 +250,7 @@ export default class GeneralJournalDetailModule {
   }
 
   setSubmittingState = (isSubmitting) => {
-    const intent = GeneralJournalIntents.SET_SUBMITTING_STATE;
+    const intent = SET_SUBMITTING_STATE;
 
     this.store.dispatch({
       intent,
@@ -240,13 +260,13 @@ export default class GeneralJournalDetailModule {
 
   displayAlert = (errorMessage) => {
     this.store.dispatch({
-      intent: GeneralJournalIntents.SET_ALERT_MESSAGE,
+      intent: SET_ALERT_MESSAGE,
       alertMessage: errorMessage,
     });
   }
 
   openCancelModal = () => {
-    const intent = GeneralJournalIntents.OPEN_MODAL;
+    const intent = OPEN_MODAL;
     if (isPageEdited(this.store.state)) {
       this.store.dispatch({
         intent,
@@ -258,7 +278,7 @@ export default class GeneralJournalDetailModule {
   };
 
   openDeleteModal = () => {
-    const intent = GeneralJournalIntents.OPEN_MODAL;
+    const intent = OPEN_MODAL;
 
     this.store.dispatch({
       intent,
@@ -267,7 +287,7 @@ export default class GeneralJournalDetailModule {
   };
 
   closeModal = () => {
-    const intent = GeneralJournalIntents.CLOSE_MODAL;
+    const intent = CLOSE_MODAL;
 
     this.store.dispatch({ intent });
   };
@@ -278,7 +298,7 @@ export default class GeneralJournalDetailModule {
 
   dismissAlert = () => {
     this.store.dispatch({
-      intent: GeneralJournalIntents.SET_ALERT_MESSAGE,
+      intent: SET_ALERT_MESSAGE,
       alertMessage: '',
     });
   };
@@ -318,7 +338,7 @@ export default class GeneralJournalDetailModule {
 
   setLoadingState = (isLoading) => {
     this.store.dispatch({
-      intent: GeneralJournalIntents.SET_LOADING_STATE,
+      intent: SET_LOADING_STATE,
       isLoading,
     });
   }
@@ -334,7 +354,7 @@ export default class GeneralJournalDetailModule {
   }
 
   resetState() {
-    const intent = SystemIntents.RESET_STATE;
+    const intent = RESET_STATE;
     this.store.dispatch({
       intent,
     });

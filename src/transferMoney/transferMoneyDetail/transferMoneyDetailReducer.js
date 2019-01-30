@@ -1,7 +1,19 @@
 import dateFormat from 'dateformat';
 
-import SystemIntents from '../../SystemIntents';
-import TransferMoneyIntents from '../TransferMoneyIntents';
+import {
+  CLOSE_MODAL,
+  FORMAT_AMOUNT,
+  LOAD_NEW_TRANSFER_MONEY,
+  LOAD_TRANSFER_MONEY_DETAIL,
+  OPEN_MODAL,
+  SET_ALERT_MESSAGE,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
+  UPDATE_FORM,
+} from '../TransferMoneyIntents';
+import {
+  RESET_STATE,
+} from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const initialState = {
@@ -96,16 +108,16 @@ const closeModal = state => ({
 const resetState = () => (initialState);
 
 const handlers = {
-  [TransferMoneyIntents.SET_LOADING_STATE]: setLoadingState,
-  [TransferMoneyIntents.LOAD_TRANSFER_MONEY_DETAIL]: loadTransferMoneyDetail,
-  [TransferMoneyIntents.LOAD_NEW_TRANSFER_MONEY]: loadNewTransferMoney,
-  [TransferMoneyIntents.UPDATE_FORM]: updateForm,
-  [TransferMoneyIntents.FORMAT_AMOUNT]: formatAmount,
-  [TransferMoneyIntents.SET_SUBMITTING_STATE]: setSubmittingState,
-  [TransferMoneyIntents.SET_ALERT_MESSAGE]: setAlertMessage,
-  [TransferMoneyIntents.OPEN_MODAL]: openModal,
-  [TransferMoneyIntents.CLOSE_MODAL]: closeModal,
-  [SystemIntents.RESET_STATE]: resetState,
+  [SET_LOADING_STATE]: setLoadingState,
+  [LOAD_TRANSFER_MONEY_DETAIL]: loadTransferMoneyDetail,
+  [LOAD_NEW_TRANSFER_MONEY]: loadNewTransferMoney,
+  [UPDATE_FORM]: updateForm,
+  [FORMAT_AMOUNT]: formatAmount,
+  [SET_SUBMITTING_STATE]: setSubmittingState,
+  [SET_ALERT_MESSAGE]: setAlertMessage,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
+  [RESET_STATE]: resetState,
 };
 
 const transferMoneyReducer = createReducer(initialState, handlers);
