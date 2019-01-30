@@ -70,6 +70,7 @@ class TransferMoneyDetailForm extends Component {
               selectedIndex={selectedTransferFromAccountIndex}
               onChange={this.handleComboBoxChange('selectedTransferFromAccountId')}
               disabled={!isCreating}
+              hintText="Select account"
             />
             <div className={styles.balance}>
               {isCreating && <div>{`Current balance ${transferFrom.currentBalance}`}</div>}
@@ -84,6 +85,7 @@ class TransferMoneyDetailForm extends Component {
               selectedIndex={selectedTransferToAccountIndex}
               onChange={this.handleComboBoxChange('selectedTransferToAccountId')}
               disabled={!isCreating}
+              hintText="Select account"
             />
             <div className={styles.balance}>
               {isCreating && <div>{`Current balance ${transferTo.currentBalance}`}</div>}
