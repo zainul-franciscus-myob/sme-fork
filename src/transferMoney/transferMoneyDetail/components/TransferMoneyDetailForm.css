@@ -2,6 +2,6 @@
   margin-top: 0.5rem;
 }
 
-:local(.datePicker) .input-group-addon{
+:local(.datePicker) .input-group-addon {
   pointer-events: none;
 }
