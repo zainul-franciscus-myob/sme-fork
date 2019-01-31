@@ -4,6 +4,7 @@ const getUnixTime = date => new Date(date).getTime().toString();
 const formatNumber = num => num.toFixed(2);
 
 const getReferenceId = state => state.transferMoney.referenceId;
+const getOriginalReferenceId = state => state.transferMoney.originalReferenceId;
 const getDate = state => state.transferMoney.date;
 const getAmount = state => state.transferMoney.amount;
 const getAccounts = state => state.transferMoney.accounts;
@@ -13,6 +14,7 @@ const getDescription = state => state.transferMoney.description;
 
 const getTransferMoneyProperties = createStructuredSelector({
   referenceId: getReferenceId,
+  originalReferenceId: getOriginalReferenceId,
   date: getDate,
   amount: getAmount,
   accounts: getAccounts,
@@ -117,7 +119,9 @@ export const getBalance = createStructuredSelector({
 
 export const getCreateTransferMoneyPayload = createSelector(
   getTransferMoneyProperties,
-  ({ accounts, ...rest }) => ({ ...rest }),
+  ({
+    accounts, originalReferenceId, referenceId, ...rest
+  }) => (referenceId === originalReferenceId ? rest : { ...rest, referenceId }),
 );
 
 export const getIsActionsDisabled = state => state.isSubmitting;
