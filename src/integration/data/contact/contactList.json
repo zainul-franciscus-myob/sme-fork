@@ -1,0 +1,36 @@
+{
+  "entries": [
+    {
+      "id": "1",
+      "name": "The builder, Bob",
+      "type": "Supplier",
+      "phoneNumber": "02 98918911",
+      "email": "Curbys@aol.com",
+      "outstandingBalance": "825.00"
+    },
+    {
+      "id": "3",
+      "name": "Witherow, Matt",
+      "type": "Customer",
+      "phoneNumber": "03 95463920",
+      "email": "matt_witherow@hotmail.com",
+      "outstandingBalance": "10000.25"
+    },
+    {
+      "id": "2",
+      "name": "Curbys Super Stands",
+      "type": "Supplier",
+      "phoneNumber": "07 83948389",
+      "email": "Curbys@super.stands",
+      "outstandingBalance": "9534.99"
+    },
+    {
+      "id": "20",
+      "name": "Shahid, Hamza",
+      "type": "Other",
+      "phoneNumber": "03 847588393",
+      "email": "hamza.shahid@example.com",
+      "outstandingBalance": "948.00"
+    }
+  ]
+}

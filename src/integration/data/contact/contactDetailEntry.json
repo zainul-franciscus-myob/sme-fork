@@ -1,0 +1,34 @@
+{
+  "contact": {
+    "id": "1",
+    "selectedContactType": "Customer",
+    "designation": "Company",
+    "referenceId": "CUS1002",
+    "companyName": "Curbys Super Stands",
+    "abn": "53 086 760 303",
+    "phoneNumbers": [
+      "03 93883848",
+      "03 94839483"
+    ],
+    "fax": "03 93883848",
+    "email": "curbys@example.com, curbys1@example.com",
+    "website": "curbys.stands",
+    "businessContact": "Vinny",
+    "notes": "These guys have great stands",
+    "hasBillingAddress": true,
+    "primaryAddress": {
+      "street": "742 Evergreen Tce",
+      "city": "Springfield",
+      "state": "VIC",
+      "postCode": "3232",
+      "country": "Australia"
+    },
+    "billingAddress": {
+      "street": "West 57 Street",
+      "city": "New New York",
+      "state": "NY",
+      "postCode": "10985",
+      "country": "United States"
+    }
+  }
+}
