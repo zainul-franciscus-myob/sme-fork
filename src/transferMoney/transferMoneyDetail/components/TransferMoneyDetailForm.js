@@ -45,6 +45,8 @@ class TransferMoneyDetailForm extends Component {
       isCreating,
     } = this.props;
 
+    const descriptionPlaceholder = isCreating ? 'Max 255 characters' : '';
+
     return (
       <Card>
         <Columns type="three">
@@ -98,7 +100,7 @@ class TransferMoneyDetailForm extends Component {
             label="Description"
             autoSize
             maxLength={255}
-            placeholder="Max 255 characters"
+            placeholder={descriptionPlaceholder}
             value={description}
             onChange={this.handleInputChange}
             disabled={!isCreating}
