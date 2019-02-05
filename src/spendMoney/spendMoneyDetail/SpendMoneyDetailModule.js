@@ -333,6 +333,7 @@ export default class SpendMoneyDetailModule {
 
   deleteSpendMoneyTransaction = () => {
     this.setSubmittingState(true);
+    this.closeModal();
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -343,7 +344,6 @@ export default class SpendMoneyDetailModule {
     };
 
     const onFailure = (error) => {
-      this.closeModal();
       this.setSubmittingState(false);
       this.displayAlert(error.message);
     };

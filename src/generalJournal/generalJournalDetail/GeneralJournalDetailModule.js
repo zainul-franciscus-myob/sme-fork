@@ -83,6 +83,7 @@ export default class GeneralJournalDetailModule {
 
   deleteGeneralJournal = () => {
     this.setSubmittingState(true);
+    this.closeModal();
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -93,7 +94,6 @@ export default class GeneralJournalDetailModule {
     };
 
     const onFailure = (error) => {
-      this.closeModal();
       this.setSubmittingState(false);
       this.displayAlert(error.message);
     };
