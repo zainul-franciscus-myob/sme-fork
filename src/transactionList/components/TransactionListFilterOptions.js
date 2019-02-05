@@ -64,7 +64,7 @@ class TransactionListFilterOptions extends React.Component {
             <DirectSearchBox id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
           </FilterBar.Option>
           <FilterBar.Option>
-            <Button type="link" onClick={onApplyFilter}>Apply filters</Button>
+            <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
           </FilterBar.Option>
         </FilterBar.Group>
       </FilterBar>
