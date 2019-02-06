@@ -1,5 +1,6 @@
 import getBankingRoutes from './banking/getBankingRoutes';
 import getBusinessesRoutes from './business/getBusinessRoutes';
+import getContactRoutes from './contact/getContactRoutes';
 import getFeaturesListRoutes from './featureList/getFeatureListRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getHomePageRoutes from './HomePage/getHomePageRoutes';
@@ -62,6 +63,13 @@ const getRoutes = ({
     rootPath: '/:businessId/transactionList',
     subRoutes: getTransactionListRoutes({
       integration, setRootView, popMessages, replaceURLParams,
+    }),
+  },
+  {
+    name: 'contact',
+    rootPath: '/:businessId/contact',
+    subRoutes: getContactRoutes({
+      integration, setRootView, popMessages,
     }),
   },
 ];
