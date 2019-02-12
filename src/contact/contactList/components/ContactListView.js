@@ -6,8 +6,9 @@ import React from 'react';
 
 import {
   getAlert, getIsLoading,
-} from '../contactList/contactListSelector';
-import Alert from '../../components/Alert/Alert';
+} from '../contactListSelector';
+import Alert from '../../../components/Alert/Alert';
+import ContactListFilterOptions from './ContactListFilterOptions';
 import ContactListTable from './ContactListTable';
 import style from './ContactListView.css';
 
@@ -17,6 +18,9 @@ const ContactListView = (props) => {
     isLoading,
     alert,
     onDismissAlert,
+    onUpdateFilters,
+    onApplyFilter,
+    onSort,
   } = props;
 
   const alertComponent = alert && (
@@ -25,15 +29,23 @@ const ContactListView = (props) => {
     </Alert>
   );
 
+  const filterBar = (
+    <ContactListFilterOptions
+      onUpdateFilters={onUpdateFilters}
+      onApplyFilter={onApplyFilter}
+    />
+  );
+
   const pageHead = <PageHead title="Contacts" />;
 
   const contactListView = (
     <React.Fragment>
       {alertComponent}
-      <StandardTemplate pageHead={pageHead}>
+      <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
         <div className={style.list}>
           <ContactListTable
             businessId={businessId}
+            onSort={onSort}
           />
         </div>
       </StandardTemplate>

@@ -3,8 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import ContactListView from '../ContactListView';
-import Store from '../../../store/Store';
-import contactListReducer from '../../contactList/contactListReducer';
+import Store from '../../../../store/Store';
+import contactListReducer from '../../contactListReducer';
 
 describe('ContactListView', () => {
   it('renders without crashing', () => {

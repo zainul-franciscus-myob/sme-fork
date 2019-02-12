@@ -1,10 +1,10 @@
-import { Spinner, Table } from '@myob/myob-widgets';
+import { HeaderSort, Spinner, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsTableEmpty, getIsTableLoading,
-} from '../contactList/contactListSelector';
+  getIsTableEmpty, getIsTableLoading, getOrder,
+} from '../contactListSelector';
 import ContactListTableBody from './ContactListTableBody';
 import style from './ContactListView.css';
 
@@ -32,6 +32,8 @@ const ContactListTable = ({
   isTableEmpty,
   isTableLoading,
   businessId,
+  onSort,
+  order,
 }) => {
   let view;
   if (isTableLoading) {
@@ -50,12 +52,20 @@ const ContactListTable = ({
   return (
     <Table>
       <Table.Header>
-        <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.type}>Type</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.phoneNumber}>Phone number</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.email}>Email</Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.name}>
+          <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSort} />
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.type}>
+          <HeaderSort title="Type" sortName="Type" activeSort={order} onSort={onSort} />
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.phoneNumber}>
+          <HeaderSort title="Phone number" sortName="Phone" activeSort={order} onSort={onSort} />
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.email}>
+          <HeaderSort title="Email" sortName="Email" activeSort={order} onSort={onSort} />
+        </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.outstandingBalance}>
-          Outstanding balance ($)
+          <HeaderSort title="Outstanding balance ($)" sortName="CurrentBalance" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
       </Table.Header>
       {view}
@@ -66,6 +76,7 @@ const ContactListTable = ({
 const mapStateToProps = state => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
+  order: getOrder(state),
 });
 
 export default connect(mapStateToProps)(ContactListTable);
