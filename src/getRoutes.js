@@ -69,7 +69,7 @@ const getRoutes = ({
     name: 'contact',
     rootPath: '/:businessId/contact',
     subRoutes: getContactRoutes({
-      integration, setRootView, popMessages,
+      integration, setRootView, popMessages, pushMessage,
     }),
   },
 ];

@@ -1,5 +1,5 @@
 import {
-  PageHead, Spinner, StandardTemplate,
+  Button, PageHead, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -18,6 +18,7 @@ const ContactListView = (props) => {
     isLoading,
     alert,
     onDismissAlert,
+    onAddContactButtonClick,
     onUpdateFilters,
     onApplyFilter,
     onSort,
@@ -36,7 +37,11 @@ const ContactListView = (props) => {
     />
   );
 
-  const pageHead = <PageHead title="Contacts" />;
+  const pageHead = (
+    <PageHead title="Contacts">
+      <Button onClick={onAddContactButtonClick}>Add contact</Button>
+    </PageHead>
+  );
 
   const contactListView = (
     <React.Fragment>

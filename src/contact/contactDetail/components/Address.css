@@ -1,0 +1,7 @@
+:local .phoneNumber {
+  display: flex;
+}
+
+:local .phoneNumber button {
+  border: none;
+}

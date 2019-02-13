@@ -1,0 +1,4 @@
+:local .contact input,
+:local .contact textarea {
+  width: 230px;
+}

@@ -111,7 +111,7 @@ export default class GeneralJournalDetailModule {
 
   createGeneralJournalEntry = () => {
     const intent = CREATE_GENERAL_JOURNAL;
-    const content = getGeneralJournalForCreatePayload(this.store.state);
+    const content = getGeneralJournalForCreatePayload(this.store.getState());
     const urlParams = {
       businessId: this.businessId,
     };
@@ -120,8 +120,8 @@ export default class GeneralJournalDetailModule {
 
   updateGeneralJournalEntry = () => {
     const intent = UPDATE_GENERAL_JOURNAL;
-    const content = getGeneralJournal(this.store.state);
-    const generalJournalId = getGeneralJournalId(this.store.state);
+    const content = getGeneralJournal(this.store.getState());
+    const generalJournalId = getGeneralJournalId(this.store.getState());
     const urlParams = {
       businessId: this.businessId,
       generalJournalId,
@@ -229,7 +229,7 @@ export default class GeneralJournalDetailModule {
     this.integration.write({
       intent,
       urlParams: { businessId: this.businessId },
-      content: getCalculatedTotalsPayload(this.store.state),
+      content: getCalculatedTotalsPayload(this.store.getState()),
       onSuccess,
       onFailure,
     });
@@ -267,7 +267,7 @@ export default class GeneralJournalDetailModule {
 
   openCancelModal = () => {
     const intent = OPEN_MODAL;
-    if (isPageEdited(this.store.state)) {
+    if (isPageEdited(this.store.getState())) {
       this.store.dispatch({
         intent,
         modalType: 'cancel',

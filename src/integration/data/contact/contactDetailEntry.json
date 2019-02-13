@@ -1,34 +1,45 @@
 {
   "contact": {
     "id": "1",
+    "contactHeader": "Curbys Super Stands",
     "selectedContactType": "Customer",
     "designation": "Company",
     "referenceId": "CUS1002",
     "companyName": "Curbys Super Stands",
-    "abn": "53 086 760 303",
-    "phoneNumbers": [
-      "03 93883848",
-      "03 94839483"
-    ],
-    "fax": "03 93883848",
-    "email": "curbys@example.com, curbys1@example.com",
-    "website": "curbys.stands",
-    "businessContact": "Vinny",
+    "firstName": "Bob",
+    "lastName": "The builder",
+    "abn": "53086760303",
     "notes": "These guys have great stands",
-    "hasBillingAddress": true,
-    "primaryAddress": {
+    "isInactive": false,
+    "shippingAddress": {
       "street": "742 Evergreen Tce",
       "city": "Springfield",
       "state": "VIC",
-      "postCode": "3232",
-      "country": "Australia"
+      "postcode": "3232",
+      "country": "Australia",
+      "phoneNumbers": [
+        "03 93883848",
+        "03 94839483"
+      ],
+      "fax": "03 93883848",
+      "email": "curbys@example.com,curbys1@example.com",
+      "website": "curbys.stands",
+      "businessContact": "Vinny"
     },
     "billingAddress": {
       "street": "West 57 Street",
       "city": "New New York",
       "state": "NY",
-      "postCode": "10985",
-      "country": "United States"
+      "postcode": "10985",
+      "country": "United States",
+      "phoneNumbers": [
+        "03 93883848",
+        "03 94839483"
+      ],
+      "fax": "03 93883848",
+      "email": "curbys@example.com,curbys1@example.com",
+      "website": "curbys.stands",
+      "businessContact": "Vinny"
     }
   }
 }

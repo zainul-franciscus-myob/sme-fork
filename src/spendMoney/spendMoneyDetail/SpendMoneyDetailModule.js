@@ -86,7 +86,7 @@ export default class SpendMoneyDetailModule {
   };
 
   loadNextReferenceId = (accountId) => {
-    if (isReferenceIdDirty(this.store.state)) {
+    if (isReferenceIdDirty(this.store.getState())) {
       return;
     }
 
@@ -99,7 +99,7 @@ export default class SpendMoneyDetailModule {
     const params = { accountId };
 
     const onSuccess = ({ referenceId }) => {
-      if (!isReferenceIdDirty(this.store.state)) {
+      if (!isReferenceIdDirty(this.store.getState())) {
         this.store.dispatch({
           intent,
           referenceId,
@@ -147,7 +147,7 @@ export default class SpendMoneyDetailModule {
 
   createSpendMoneyEntry = () => {
     const intent = CREATE_SPEND_MONEY;
-    const content = getSpendMoneyForCreatePayload(this.store.state);
+    const content = getSpendMoneyForCreatePayload(this.store.getState());
     const urlParams = {
       businessId: this.businessId,
     };
@@ -156,8 +156,8 @@ export default class SpendMoneyDetailModule {
 
   updateSpendMoneyEntry = () => {
     const intent = UPDATE_SPEND_MONEY;
-    const content = getSpendMoney(this.store.state);
-    const spendMoneyId = getSpendMoneyId(this.store.state);
+    const content = getSpendMoney(this.store.getState());
+    const spendMoneyId = getSpendMoneyId(this.store.getState());
     const urlParams = {
       businessId: this.businessId,
       spendMoneyId,
@@ -201,7 +201,7 @@ export default class SpendMoneyDetailModule {
 
   openCancelModal = () => {
     const intent = OPEN_MODAL;
-    if (isPageEdited(this.store.state)) {
+    if (isPageEdited(this.store.getState())) {
       this.store.dispatch({
         intent,
         modalType: 'cancel',
@@ -313,7 +313,7 @@ export default class SpendMoneyDetailModule {
     this.integration.write({
       intent,
       urlParams: { businessId: this.businessId },
-      content: getCalculatedTotalsPayload(this.store.state),
+      content: getCalculatedTotalsPayload(this.store.getState()),
       onSuccess,
       onFailure,
     });

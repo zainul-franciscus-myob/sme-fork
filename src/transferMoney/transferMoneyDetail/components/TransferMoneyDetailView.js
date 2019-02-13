@@ -1,7 +1,7 @@
 import { Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { getAlertMessage, getIsLoading, getModalType } from '../transferMoneyDetailSelectors';
 import Alert from '../../../components/Alert/Alert';
@@ -10,6 +10,7 @@ import DeleteModal from '../../../components/modal/DeleteModal';
 import SimplePageTemplate from '../../../components/SimplePageTemplate/SimplePageTemplate';
 import TransferMoneyDetailActions from './TranferMoneyDetailActions';
 import TransferMoneyDetailForm from './TransferMoneyDetailForm';
+import styles from './TransferMoneyDetailView.css';
 
 const TransferMoneyDetailView = ({
   onUpdateForm,
@@ -63,7 +64,7 @@ const TransferMoneyDetailView = ({
   }
 
   const view = (
-    <Fragment>
+    <div className={styles.transferMoneyView}>
       {alertComponent}
       <SimplePageTemplate pageHead="Transfer money">
         { modal }
@@ -74,7 +75,7 @@ const TransferMoneyDetailView = ({
         />
         { actions }
       </SimplePageTemplate>
-    </Fragment>
+    </div>
   );
 
   return isLoading ? <Spinner /> : view;

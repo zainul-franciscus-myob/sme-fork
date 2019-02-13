@@ -41,6 +41,7 @@ export default class ContactListModule {
     const contactListView = (
       <ContactListView
         businessId={this.businessId}
+        onAddContactButtonClick={this.redirectToAddContact}
         onDismissAlert={this.dismissAlert}
         onUpdateFilters={this.updateFilterOptions}
         onApplyFilter={this.filterContactList}
@@ -121,6 +122,10 @@ export default class ContactListModule {
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
+
+  redirectToAddContact = () => {
+    window.location.href = `/#/${this.businessId}/contact/new`;
+  }
 
   setLoadingState = (isLoading) => {
     const intent = SET_LOADING_STATE;

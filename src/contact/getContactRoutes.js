@@ -1,7 +1,8 @@
+import ContactDetailModule from './contactDetail/ContactDetailModule';
 import ContactListModule from './contactList/ContactListModule';
 
 const getContactRoutes = ({
-  integration, setRootView, popMessages,
+  integration, setRootView, popMessages, pushMessage,
 }) => {
   const routes = [
     {
@@ -10,6 +11,11 @@ const getContactRoutes = ({
       module: new ContactListModule({
         integration, setRootView, popMessages,
       }),
+    },
+    {
+      name: 'contactDetail',
+      path: '/:contactId',
+      module: new ContactDetailModule({ integration, setRootView, pushMessage }),
     },
   ];
 
