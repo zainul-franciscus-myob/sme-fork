@@ -38,12 +38,12 @@ describe('transferMoneyDetailSelectors', () => {
 
         const expected = {
           transferFrom: {
-            currentBalance: '$5000.00',
+            currentBalance: '$5,000.00',
             calculatedBalance: '$0.00',
           },
           transferTo: {
-            currentBalance: '$10000.00',
-            calculatedBalance: '$5000.00',
+            currentBalance: '$10,000.00',
+            calculatedBalance: '$5,000.00',
           },
         };
 
@@ -62,12 +62,12 @@ describe('transferMoneyDetailSelectors', () => {
 
         const expected = {
           transferFrom: {
-            currentBalance: '$5000.00',
-            calculatedBalance: '$10000.00',
+            currentBalance: '$5,000.00',
+            calculatedBalance: '$10,000.00',
           },
           transferTo: {
-            currentBalance: '$1000.00',
-            calculatedBalance: '-$4000.00',
+            currentBalance: '$1,000.00',
+            calculatedBalance: '-$4,000.00',
           },
         };
 
@@ -86,12 +86,12 @@ describe('transferMoneyDetailSelectors', () => {
 
         const expected = {
           transferFrom: {
-            currentBalance: '$10000.00',
-            calculatedBalance: '$15000.00',
+            currentBalance: '$10,000.00',
+            calculatedBalance: '$15,000.00',
           },
           transferTo: {
-            currentBalance: '$5000.00',
-            calculatedBalance: '$10000.00',
+            currentBalance: '$5,000.00',
+            calculatedBalance: '$10,000.00',
           },
         };
 
@@ -110,12 +110,12 @@ describe('transferMoneyDetailSelectors', () => {
 
         const expected = {
           transferFrom: {
-            currentBalance: '$10000.00',
-            calculatedBalance: '$5000.00',
+            currentBalance: '$10,000.00',
+            calculatedBalance: '$5,000.00',
           },
           transferTo: {
-            currentBalance: '$5000.00',
-            calculatedBalance: '$10000.00',
+            currentBalance: '$5,000.00',
+            calculatedBalance: '$10,000.00',
           },
         };
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getFormattedTotals, getIndexOfLastLine, getTableData,
+  getIndexOfLastLine, getTableData, getTotals,
 } from '../generalJournalDetailSelectors';
 import GeneralJournalDetailRow from './GeneralJournalDetailRow';
 
@@ -97,7 +97,7 @@ GeneralJournalDetailTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  amountTotals: getFormattedTotals(state),
+  amountTotals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
   tableData: getTableData(state),
 });

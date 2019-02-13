@@ -101,33 +101,11 @@ export const getNewLineData = state => state.newLine;
 
 export const getIndexOfLastLine = state => state.generalJournal.lines.length - 1;
 
-const formatTotal = (total) => {
-  const num = parseFloat(total);
-
-  return num < 0 ? `-$${formatNumber(Math.abs(num))}` : `$${formatNumber(num)}`;
-};
-
 export const getGeneralJournal = state => state.generalJournal;
 
 export const getGeneralJournalId = state => state.generalJournal.id;
 
-const getTotals = state => state.totals;
-
-export const getFormattedTotals = createSelector(
-  getTotals,
-  (totals) => {
-    const {
-      totalDebit, totalCredit, totalTax, totalOutOfBalance,
-    } = totals;
-
-    return {
-      totalDebit: formatTotal(totalDebit),
-      totalCredit: formatTotal(totalCredit),
-      totalTax: formatTotal(totalTax),
-      totalOutOfBalance: formatTotal(totalOutOfBalance),
-    };
-  },
-);
+export const getTotals = state => state.totals;
 
 export const getGeneralJournalForCreatePayload = (state) => {
   const { referenceId, originalReferenceId, ...rest } = getGeneralJournal(state);

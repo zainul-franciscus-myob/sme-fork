@@ -1,7 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 const getUnixTime = date => new Date(date).getTime().toString();
-const formatNumber = num => num.toFixed(2);
 
 const getReferenceId = state => state.transferMoney.referenceId;
 const getOriginalReferenceId = state => state.transferMoney.originalReferenceId;
@@ -49,12 +48,14 @@ export const getTransferMoneyData = createSelector(getTransferMoneyProperties,
     };
   });
 
+const formatNumber = amount => Intl.NumberFormat('en-AU',
+  { style: 'decimal', minimumFractionDigits: '2', maximumFractionDigits: '2' }).format(amount);
+
 const formatBalance = (balance) => {
-  const num = parseFloat(balance);
+  if (balance === undefined || Number.isNaN(balance)) { return '-'; }
 
-  if (Number.isNaN(num)) { return '-'; }
-
-  return num < 0 ? `-$${formatNumber(Math.abs(num))}` : `$${formatNumber(num)}`;
+  const formattedBalance = formatNumber(Math.abs(balance));
+  return balance < 0 ? `-$${formattedBalance}` : `$${formattedBalance}`;
 };
 
 const getCalculatedBalance = ({

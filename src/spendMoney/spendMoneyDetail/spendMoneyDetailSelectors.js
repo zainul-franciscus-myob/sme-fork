@@ -52,8 +52,6 @@ export const getAlertMessage = state => state.alertMessage;
 export const getModalType = state => state.modalType;
 export const getIsLoading = state => state.isLoading;
 
-const formatNumber = num => num.toFixed(2);
-
 export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
   const account = accounts.find(({ id }) => id === accountId);
   return account === undefined ? '' : account.taxCodeId;
@@ -100,30 +98,11 @@ export const getNewLineData = state => state.newLine;
 
 export const getIndexOfLastLine = state => state.spendMoney.lines.length - 1;
 
-const formatTotal = (total) => {
-  const num = parseFloat(total);
-
-  return num < 0 ? `-$${formatNumber(Math.abs(num))}` : `$${formatNumber(num)}`;
-};
-
 export const getSpendMoney = state => state.spendMoney;
 
 export const getSpendMoneyId = state => state.spendMoney.id;
 
-const getTotals = state => state.totals;
-
-export const getFormattedTotals = createSelector(
-  getTotals,
-  (totals) => {
-    const { netAmount, totalTax, totalAmount } = totals;
-
-    return {
-      netAmount: formatTotal(netAmount),
-      totalTax: formatTotal(totalTax),
-      totalAmount: formatTotal(totalAmount),
-    };
-  },
-);
+export const getTotals = state => state.totals;
 
 export const isReferenceIdDirty = (state) => {
   const { referenceId, originalReferenceId } = getSpendMoney(state);

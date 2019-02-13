@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getFormattedTotals, getIndexOfLastLine, getTableData,
+  getIndexOfLastLine, getTableData, getTotals,
 } from '../spendMoneyDetailSelectors';
 import SpendMoneyDetailRow from './SpendMoneyDetailRow';
 
@@ -95,7 +95,7 @@ SpendMoneyDetailTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  amountTotals: getFormattedTotals(state),
+  amountTotals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
   tableData: getTableData(state),
 });

@@ -47,9 +47,9 @@ const initialState = {
     taxCodes: [],
   },
   totals: {
-    netAmount: '0.00',
-    totalTax: '0.00',
-    totalAmount: '0.00',
+    netAmount: '$0.00',
+    totalTax: '$0.00',
+    totalAmount: '$0.00',
   },
   modalType: '',
   alertMessage: '',

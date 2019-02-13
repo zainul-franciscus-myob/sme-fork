@@ -123,9 +123,9 @@
     ]
   },
   "totals": {
-    "netAmount": "3352.00",
-    "totalTax": "335.20",
-    "totalAmount": "3687.20"
+    "netAmount": "$3,352.00",
+    "totalTax": "$335.20",
+    "totalAmount": "$3,687.20"
   },
   "newLine": {
     "accountId": "",
