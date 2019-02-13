@@ -31,7 +31,7 @@ const Address = ({
   <div>
     <h2>{title}</h2>
     <TextArea
-      name="streetAddress"
+      name="street"
       label="Street address"
       autoSize
       maxLength={255}
