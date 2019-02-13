@@ -92,7 +92,7 @@ const BusinessDetails = ({
 
     <Input
       name="referenceId"
-      label="reference"
+      label="Reference"
       placeholder="Enter reference"
       value={referenceId}
       onChange={onInputChange(onBusinessDetailsChange)}
