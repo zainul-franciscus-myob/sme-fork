@@ -17,14 +17,14 @@ const getInitialState = () => ({
   filterOptions: {
     keywords: '',
     showInactive: false,
-    contactType: 'all',
+    type: 'all',
   },
   appliedFilterOptions: {
     keywords: '',
     showInactive: false,
-    contactType: 'all',
+    type: 'all',
   },
-  contactTypeFilters: [],
+  typeFilters: [],
   entries: [],
   alert: undefined,
   isLoading: true,
@@ -36,16 +36,16 @@ const resetState = () => (getInitialState());
 const loadContactList = (state, action) => ({
   ...state,
   entries: action.entries,
-  contactTypeFilters: action.contactTypeFilters,
+  typeFilters: action.typeFilters,
   sortOrder: action.sortOrder,
   orderBy: action.orderBy,
   filterOptions: {
     ...state.filterOptions,
-    contactType: action.contactType,
+    type: action.type,
   },
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
-    contactType: action.contactType,
+    type: action.type,
   }
   ,
 });

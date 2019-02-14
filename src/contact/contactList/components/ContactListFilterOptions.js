@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getContactTypeFilterOptions, getFilterOptions } from '../contactListSelector';
+import { getFilterOptions, getTypeFilterOptions } from '../contactListSelector';
 
 class ContactListFilterOptions extends React.Component {
   onFilterChange = filterName => (value) => {
@@ -22,7 +22,7 @@ class ContactListFilterOptions extends React.Component {
   }
 
   onSelectChange = (e) => {
-    const filterName = 'contactType';
+    const filterName = 'type';
     const { value } = e.target;
     const { onUpdateFilters } = this.props;
 
@@ -39,11 +39,11 @@ class ContactListFilterOptions extends React.Component {
   render = () => {
     const {
       filterOptions: {
-        contactType,
+        type,
         keywords,
         showInactive,
       },
-      contactTypeFilterOptions,
+      typeFilterOptions,
       onApplyFilter,
     } = this.props;
 
@@ -51,8 +51,8 @@ class ContactListFilterOptions extends React.Component {
       <FilterBar>
         <FilterBar.Group>
           <FilterBar.Option>
-            <Select name="ContactType" label="Contact type" value={contactType} onChange={this.onSelectChange}>
-              {contactTypeFilterOptions.map(({ label, value }) => (
+            <Select name="Type" label="Contact type" value={type} onChange={this.onSelectChange}>
+              {typeFilterOptions.map(({ label, value }) => (
                 <Select.Option value={value} label={label} key={value} />
               ))}
             </Select>
@@ -77,11 +77,11 @@ ContactListFilterOptions.propTypes = {
   onApplyFilter: PropTypes.func.isRequired,
   onUpdateFilters: PropTypes.func.isRequired,
   filterOptions: PropTypes.shape({
-    contactType: PropTypes.string,
+    type: PropTypes.string,
     keywords: PropTypes.string,
     showInactive: PropTypes.bool,
   }).isRequired,
-  contactTypeFilterOptions: PropTypes.arrayOf(PropTypes.shape({
+  typeFilterOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string,
   })).isRequired,
@@ -89,7 +89,7 @@ ContactListFilterOptions.propTypes = {
 
 const mapStateToProps = state => ({
   filterOptions: getFilterOptions(state),
-  contactTypeFilterOptions: getContactTypeFilterOptions(state),
+  typeFilterOptions: getTypeFilterOptions(state),
 });
 
 export default connect(mapStateToProps)(ContactListFilterOptions);

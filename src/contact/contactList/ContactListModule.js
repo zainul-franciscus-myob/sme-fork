@@ -65,8 +65,8 @@ export default class ContactListModule {
 
     const onSuccess = ({
       entries,
-      contactTypeFilters,
-      contactType,
+      typeFilters,
+      type,
       sortOrder,
       orderBy,
     }) => {
@@ -74,8 +74,8 @@ export default class ContactListModule {
       this.store.dispatch({
         intent,
         entries,
-        contactTypeFilters,
-        contactType,
+        typeFilters,
+        type,
         sortOrder,
         orderBy,
       });
@@ -143,13 +143,12 @@ export default class ContactListModule {
     });
   };
 
-  updateFilterOptions = ({ filterName, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_FILTER_OPTIONS,
-      filterName,
-      value,
-    });
-  };
+  updateFilterOptions = ({ filterName, value }) => this.store.dispatch({
+    intent: UPDATE_FILTER_OPTIONS,
+    filterName,
+    value,
+  });
+
 
   flipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
 

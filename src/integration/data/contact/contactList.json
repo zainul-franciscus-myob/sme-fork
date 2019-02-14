@@ -1,6 +1,6 @@
 {
-  "contactType": "All",
-  "contactTypeFilters": [{
+  "type": "All",
+  "typeFilters": [{
     "name": "All Contacts",
     "value": "All"
   },

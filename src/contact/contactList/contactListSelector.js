@@ -34,12 +34,13 @@ export const getOrderBy = ({ orderBy }) => orderBy;
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
 
-export const getContactTypeFilterOptions = ({ contactTypeFilters }) => contactTypeFilters.map(
+export const getTypeFilterOptions = ({ typeFilters }) => typeFilters.map(
   filter => ({
     label: filter.name,
     value: filter.value,
   }),
 );
+
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
