@@ -1,22 +1,25 @@
 {
   "type": "All",
-  "typeFilters": [{
-    "name": "All Contacts",
-    "value": "All"
-  },
-  {
-    "name": "Supplier",
-    "value": "Supplier"
-  },
-  {
-    "name": "Customer",
-    "value": "Customer"
-  },
-  {
-    "name": "Other",
-    "value": "Other"
-  }
-],
+  "typeFilters": [
+    {
+      "name": "All Contacts",
+      "value": "All"
+    },
+    {
+      "name": "Supplier",
+      "value": "Supplier"
+    },
+    {
+      "name": "Customer",
+      "value": "Customer"
+    },
+    {
+      "name": "Other",
+      "value": "Other"
+    }
+  ],
+  "sortOrder": "asc",
+  "orderBy": "Name",
   "entries": [
     {
       "id": "1",
