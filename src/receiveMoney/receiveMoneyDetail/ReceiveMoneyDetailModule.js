@@ -30,8 +30,8 @@ import {
 import {
   getCalculatedTotalsPayload,
   getIsTableEmpty,
-  getReceiveMoney,
   getReceiveMoneyForCreatePayload,
+  getReceiveMoneyForUpdatePayload,
   getReceiveMoneyId,
   isPageEdited,
 } from './receiveMoneyDetailSelectors';
@@ -122,7 +122,7 @@ export default class ReceiveMoneyDetailModule {
   updateReceiveMoneyEntry = () => {
     const intent = UPDATE_RECEIVE_MONEY;
     const state = this.store.getState();
-    const content = getReceiveMoney(state);
+    const content = getReceiveMoneyForUpdatePayload(state);
     const receiveMoneyId = getReceiveMoneyId(state);
     const urlParams = {
       businessId: this.businessId,

@@ -1,4 +1,8 @@
-import { getLineDataByIndexSelector } from '../spendMoneyDetailSelectors';
+import {
+  getLineDataByIndexSelector,
+  getSpendMoneyForCreatePayload,
+  getSpendMoneyForUpdatePayload,
+} from '../spendMoneyDetailSelectors';
 import spendMoneyDetail from './fixtures/spendMoneyDetail';
 
 describe('spendMoneySelectors', () => {
@@ -48,5 +52,43 @@ describe('spendMoneySelectors', () => {
       selectedTaxCodeIndex: 0,
     };
     expect(lineData).toEqual(expectedData);
+  });
+
+  const spendMoneyPayloadInput = {
+    spendMoney: {
+      referenceId: 'foo',
+      selectedPayFromAccountId: 'bar',
+      selectedPayToContactId: 'contactId',
+      payFromAccounts: [1, 2, 3, 4],
+      payToContacts: [1, 2, 3, 4],
+      date: '12-1-2017',
+      description: 'txt',
+      isReportable: 'true',
+      isTaxInclusive: 'false',
+      originalReferenceId: '1234',
+      lines: [{ a: 'foo', accounts: [], taxCodes: [] }],
+    },
+  };
+
+  describe('getSpendMoneyForUpdatePayload', () => {
+    it('it removes extraneious fields from the payload', () => {
+      const actual = getSpendMoneyForUpdatePayload(spendMoneyPayloadInput);
+      expect(actual.payFromAccounts).toBeUndefined();
+      expect(actual.payToAccounts).toBeUndefined();
+      expect(actual.originalReferenceId).toBeUndefined();
+      expect(actual.lines[0].accounts).toBeUndefined();
+      expect(actual.lines[0].taxCodes).toBeUndefined();
+    });
+  });
+
+  describe('getSpendMoneyForCreatePayload', () => {
+    it('it removes extraneious fields from the payload', () => {
+      const actual = getSpendMoneyForCreatePayload(spendMoneyPayloadInput);
+      expect(actual.payFromAccounts).toBeUndefined();
+      expect(actual.payToAccounts).toBeUndefined();
+      expect(actual.originalReferenceId).toBeUndefined();
+      expect(actual.lines[0].accounts).toBeUndefined();
+      expect(actual.lines[0].taxCodes).toBeUndefined();
+    });
   });
 });

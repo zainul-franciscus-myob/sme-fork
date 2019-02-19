@@ -32,8 +32,8 @@ import {
 import {
   getCalculatedTotalsPayload,
   getIsTableEmpty,
-  getSpendMoney,
   getSpendMoneyForCreatePayload,
+  getSpendMoneyForUpdatePayload,
   getSpendMoneyId,
   isPageEdited,
   isReferenceIdDirty,
@@ -155,8 +155,9 @@ export default class SpendMoneyDetailModule {
   };
 
   updateSpendMoneyEntry = () => {
+    console.log(this.store.getState());
     const intent = UPDATE_SPEND_MONEY;
-    const content = getSpendMoney(this.store.getState());
+    const content = getSpendMoneyForUpdatePayload(this.store.getState());
     const spendMoneyId = getSpendMoneyId(this.store.getState());
     const urlParams = {
       businessId: this.businessId,

@@ -107,9 +107,46 @@ export const getGeneralJournalId = state => state.generalJournal.id;
 
 export const getTotals = state => state.totals;
 
+const getGeneralJournalLinesForPayload = lines => lines.map((line) => {
+  const { accounts, taxCodes, ...rest } = line;
+  return rest;
+});
+
 export const getGeneralJournalForCreatePayload = (state) => {
-  const { referenceId, originalReferenceId, ...rest } = getGeneralJournal(state);
-  return referenceId === originalReferenceId ? rest : { ...rest, referenceId };
+  const {
+    depositIntoAccounts,
+    payFromContacts,
+    referenceId,
+    originalReferenceId,
+    lines,
+    ...rest
+  } = getGeneralJournal(state);
+
+  const linesForPayload = getGeneralJournalLinesForPayload(lines);
+  const referenceIdForPayload = referenceId === originalReferenceId ? undefined : referenceId;
+
+  return {
+    ...rest,
+    lines: linesForPayload,
+    referenceId: referenceIdForPayload,
+  };
+};
+
+export const getGeneralJournalForUpdatePayload = (state) => {
+  const {
+    depositIntoAccounts,
+    payFromContacts,
+    originalReferenceId,
+    lines,
+    ...rest
+  } = getGeneralJournal(state);
+
+  const linesForPayload = getGeneralJournalLinesForPayload(lines);
+
+  return {
+    ...rest,
+    lines: linesForPayload,
+  };
 };
 
 export const getCalculatedTotalsPayload = (state) => {

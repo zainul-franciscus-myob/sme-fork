@@ -104,9 +104,46 @@ export const getReceiveMoneyId = state => state.receiveMoney.id;
 
 export const getTotals = state => state.totals;
 
+const getReceiveMoneyLinesForPayload = lines => lines.map((line) => {
+  const { accounts, taxCodes, ...rest } = line;
+  return rest;
+});
+
 export const getReceiveMoneyForCreatePayload = (state) => {
-  const { referenceId, originalReferenceId, ...rest } = getReceiveMoney(state);
-  return referenceId === originalReferenceId ? rest : { ...rest, referenceId };
+  const {
+    referenceId,
+    originalReferenceId,
+    depositIntoAccounts,
+    payFromContacts,
+    lines,
+    ...rest
+  } = getReceiveMoney(state);
+
+  const linesForPayload = getReceiveMoneyLinesForPayload(lines);
+  const referenceIdForPayload = referenceId === originalReferenceId ? undefined : referenceId;
+
+  return {
+    ...rest,
+    lines: linesForPayload,
+    referenceId: referenceIdForPayload,
+  };
+};
+
+export const getReceiveMoneyForUpdatePayload = (state) => {
+  const {
+    depositIntoAccounts,
+    payFromContacts,
+    originalReferenceId,
+    lines,
+    ...rest
+  } = getReceiveMoney(state);
+
+  const linesForPayload = getReceiveMoneyLinesForPayload(lines);
+
+  return {
+    ...rest,
+    lines: linesForPayload,
+  };
 };
 
 export const getCalculatedTotalsPayload = (state) => {

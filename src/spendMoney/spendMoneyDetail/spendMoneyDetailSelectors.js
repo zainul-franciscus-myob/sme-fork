@@ -109,9 +109,46 @@ export const isReferenceIdDirty = (state) => {
   return referenceId !== originalReferenceId;
 };
 
+const getSpendMoneyLinesForPayload = lines => lines.map((line) => {
+  const { accounts, taxCodes, ...rest } = line;
+  return rest;
+});
+
 export const getSpendMoneyForCreatePayload = (state) => {
-  const { referenceId, originalReferenceId, ...rest } = getSpendMoney(state);
-  return referenceId === originalReferenceId ? rest : { ...rest, referenceId };
+  const {
+    referenceId,
+    originalReferenceId,
+    payFromAccounts,
+    payToContacts,
+    lines,
+    ...rest
+  } = getSpendMoney(state);
+
+  const linesForPayload = getSpendMoneyLinesForPayload(lines);
+  const referenceIdForPayload = referenceId === originalReferenceId ? undefined : referenceId;
+
+  return {
+    ...rest,
+    lines: linesForPayload,
+    referenceId: referenceIdForPayload,
+  };
+};
+
+export const getSpendMoneyForUpdatePayload = (state) => {
+  const {
+    payFromAccounts,
+    payToContacts,
+    originalReferenceId,
+    lines,
+    ...rest
+  } = getSpendMoney(state);
+
+  const linesForPayload = getSpendMoneyLinesForPayload(lines);
+
+  return {
+    ...rest,
+    lines: linesForPayload,
+  };
 };
 
 export const getCalculatedTotalsPayload = (state) => {
