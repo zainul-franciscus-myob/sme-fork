@@ -1,0 +1,55 @@
+{
+  "incomeAllocation": {
+    "entityType": "Partnership",
+    "lines": [
+      {
+        "headerAccountId": "123",
+        "retainedEarningsAccountId": "124",
+        "currentEarningsAccountId": "125",
+        "equity": "51.00"
+      },
+      {
+        "headerAccountId": "123",
+        "retainedEarningsAccountId": "126",
+        "currentEarningsAccountId": "127",
+        "equity": "49.00"
+      }
+    ]
+  },
+  "accounts": [
+    {
+      "id": "123",
+      "displayName": "My Header Bank",
+      "displayId": "3-123",
+      "detailAccounts": [
+        {
+          "id": "124",
+          "displayName": "My Bank Bank",
+          "displayId": "3-124"
+        },
+        {
+          "id": "125",
+          "displayName": "My Bank Bank Bank",
+          "displayId": "3-125"
+        }
+      ]
+    },
+    {
+      "id": "456",
+      "displayName": "My Other Header Bank",
+      "displayId": "3-456",
+      "detailAccounts": [
+        {
+          "id": "457",
+          "displayName": "My Other Bank",
+          "displayId": "3-457"
+        },
+        {
+          "id": "458",
+          "displayName": "My Other Bank Bank",
+          "displayId": "3-458"
+        }
+      ]
+    }
+  ]
+}
