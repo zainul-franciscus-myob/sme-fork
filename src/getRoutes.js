@@ -1,7 +1,6 @@
 import getBankingRoutes from './banking/getBankingRoutes';
 import getBusinessesRoutes from './business/getBusinessRoutes';
 import getContactRoutes from './contact/getContactRoutes';
-import getFeaturesListRoutes from './featureList/getFeatureListRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getHomePageRoutes from './HomePage/getHomePageRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
@@ -52,11 +51,6 @@ const getRoutes = ({
     subRoutes: getTransferMoneyRoutes({
       integration, setRootView, pushMessage,
     }),
-  },
-  {
-    name: 'featureList',
-    rootPath: '/:businessId/features',
-    subRoutes: getFeaturesListRoutes({ setRootView, popMessages }),
   },
   {
     name: 'transactionList',

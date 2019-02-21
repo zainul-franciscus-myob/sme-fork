@@ -5,7 +5,7 @@ const getGeneralJournalRoutes = ({
 }) => {
   const routes = [
     {
-      name: 'generalJournal',
+      name: 'generalJournalDetail',
       path: '/:generalJournalId',
       module: new GeneralJournalDetailModule({ integration, setRootView, pushMessage }),
     },

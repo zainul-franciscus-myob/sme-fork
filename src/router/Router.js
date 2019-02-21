@@ -9,6 +9,7 @@ export default class Router {
   constructor({ defaultRoute }) {
     this.router = createRouter([], {
       defaultRoute,
+      trailingSlashMode: 'never',
     }).usePlugin(browserPlugin({ useHash: true }));
   }
 
@@ -29,21 +30,20 @@ export default class Router {
       beforeAll,
       afterAll,
     } = options;
-
     const routerConfig = convertRoutesToRouterConfig(routes);
-
     const moduleMapping = getRouteNameToModuleMapping(routes);
 
     this.router.add(routerConfig);
 
     this.router.subscribe(({ route }) => {
       const { module, action } = moduleMapping[route.name];
-
-      beforeAll(module);
+      beforeAll({ module, routeInfo: { routeParams: route.params, currentRouteName: route.name } });
       action({ ...route.params }, this.replaceURLParams);
       afterAll();
     });
 
     this.router.start();
   }
+
+  constructPath = (name, params) => this.router.buildPath(name, params)
 }

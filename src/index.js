@@ -6,6 +6,7 @@ import './index.css';
 import { initializeAuth } from './Auth';
 import { initializeConfig } from './Config';
 import Inbox from './inbox';
+import NavigationModule from './navigation/NavigationModule';
 import Router from './router/Router';
 import getRoutes from './getRoutes';
 
@@ -21,8 +22,14 @@ async function main(integrationType) {
     ReactDOM.render(component, root);
   };
 
+  const navNode = document.getElementById('nav');
+  const setNavigationView = (component) => {
+    ReactDOM.unmountComponentAtNode(navNode);
+    ReactDOM.render(component, navNode);
+  };
+
   const router = new Router({
-    defaultRoute: 'home',
+    defaultRoute: 'home.homePage',
   });
   const inbox = new Inbox();
   const integration = createIntegration();
@@ -40,15 +47,22 @@ async function main(integrationType) {
     return [...acc, ...routeModules];
   }, []);
 
+  const { constructPath } = router;
+
+  const nav = new NavigationModule({
+    integration, setNavigationView, constructPath,
+  });
+
   const unsubscribeAllModulesFromStore = () => {
     moduleList.forEach((module) => {
       module.unsubscribeFromStore();
     });
   };
 
-  const beforeAll = (currentModule) => {
+  const beforeAll = ({ module, routeInfo }) => {
     unsubscribeAllModulesFromStore();
-    currentModule.resetState();
+    module.resetState();
+    nav.run(routeInfo);
   };
 
   router.start({

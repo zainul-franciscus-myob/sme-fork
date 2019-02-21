@@ -1,0 +1,34 @@
+import {
+  LOAD_NAVIGATION_CONFIG,
+  SET_ROUTE_INFO,
+} from './NavigationIntents';
+import createReducer from '../store/createReducer';
+
+const initialState = {
+  businessName: '',
+  enabledFeatures: [],
+  urls: {},
+  routeParams: {},
+};
+
+const loadBusinessDetails = (state, action) => ({
+  ...state,
+  businessName: action.businessName,
+  enabledFeatures: action.enabledFeatures,
+});
+
+const setRouteInfo = (state, action) => ({
+  ...state,
+  urls: action.urls,
+  currentRouteName: action.currentRouteName,
+  routeParams: action.routeParams,
+});
+
+const handlers = {
+  [LOAD_NAVIGATION_CONFIG]: loadBusinessDetails,
+  [SET_ROUTE_INFO]: setRouteInfo,
+};
+
+const navReducer = createReducer(initialState, handlers);
+
+export default navReducer;

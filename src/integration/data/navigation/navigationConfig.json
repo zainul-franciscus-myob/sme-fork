@@ -1,0 +1,13 @@
+{
+  "businessName": "Stark Industries",
+  "enabledFeatures": [
+    "spendMoney",
+    "receiveMoney",
+    "transferMoney",
+    "transactionList",
+    "createContact",
+    "contactList",
+    "generalJournal",
+    "generalJournalList"
+  ]
+}

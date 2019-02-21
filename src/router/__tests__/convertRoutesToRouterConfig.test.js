@@ -37,8 +37,12 @@ describe('convertRoutesToRouterConfig', () => {
     const expected = [
       {
         name: 'homePage',
-        path: '/home?parameter1',
+        path: '/home',
         children: [
+          {
+            name: 'home',
+            path: '/?parameter1',
+          },
           {
             name: 'features',
             path: '/features?featureParam1&featureParam2',
