@@ -7,15 +7,17 @@ import ContactMenu from './ContactMenu';
 import JournalMenu from './JournalMenu';
 import SwitchBusiness from './SwitchBusiness';
 
-const getPrimary = () => [
-  <BankingMenu key="BankingMenu" />,
-  <ContactMenu key="ContactMenu" />,
-  <JournalMenu key="JournalMenu" />,
+const getPrimary = ({ onMenuSelect }) => [
+  <BankingMenu key="BankingMenu" onMenuSelect={onMenuSelect} />,
+  <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} />,
+  <JournalMenu key="JournalMenu" onMenuSelect={onMenuSelect} />,
 ].filter(Boolean);
 
-const getSecondary = ({ isLoggedIn, logout, businessName }) => [
+const getSecondary = ({
+  isLoggedIn, logout, businessName, onMenuSelect,
+}) => [
   <SwitchBusiness businessName={businessName} key="SwitchBusiness" />,
-  <BusinessMenu isLoggedIn={isLoggedIn} logout={logout} key="BusinessMenu" />,
+  <BusinessMenu isLoggedIn={isLoggedIn} logout={logout} key="BusinessMenu" onMenuSelect={onMenuSelect} />,
 ].filter(Boolean);
 
 const NavigationBar = (props) => {

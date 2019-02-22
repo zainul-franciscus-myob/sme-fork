@@ -1,6 +1,5 @@
 import ReceiveMoneyDetailModule from './receiveMoneyDetail/ReceiveMoneyDetailModule';
 
-
 const getReceiveMoneyRoutes = ({
   integration, setRootView, pushMessage,
 }) => {

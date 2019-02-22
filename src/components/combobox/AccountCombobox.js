@@ -19,7 +19,7 @@ const AccountCombobox = (props) => {
 
   const formattedItems = items && items.map(({ displayName, ...rest }) => ({ ...rest, displayName: ` ${displayName}` }));
   let selectedItem = {};
-  if (typeof selectedIndex === 'number') {
+  if (typeof selectedIndex === 'number' && selectedIndex !== -1) {
     selectedItem = formattedItems[selectedIndex];
   }
 

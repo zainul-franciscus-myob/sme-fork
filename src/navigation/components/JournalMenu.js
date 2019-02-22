@@ -10,11 +10,11 @@ const getItems = urls => [
   urls.generalJournalList && <Navigation.MenuLink key="View general journals" url={urls.generalJournalList} label="View general journals" />,
 ].filter(Boolean);
 
-const JournalMenu = ({ urls, activeNav }) => Object.keys(urls).length > 0 && (
+const JournalMenu = ({ urls, activeNav, onMenuSelect }) => Object.values(urls).some(Boolean) && (
   <Navigation.Menu
     label="Journals"
     icon={<Icons.Caret />}
-    onSelect={() => {}}
+    onSelect={onMenuSelect}
     items={getItems(urls)}
     active={activeNav === 'journals'}
   />
@@ -23,6 +23,7 @@ const JournalMenu = ({ urls, activeNav }) => Object.keys(urls).length > 0 && (
 JournalMenu.propTypes = {
   urls: PropTypes.shape().isRequired,
   activeNav: PropTypes.string.isRequired,
+  onMenuSelect: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({

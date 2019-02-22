@@ -25,13 +25,9 @@ const getEnabledUrls = createSelector(
   ),
 );
 
-const filterUndefinedFromObject = object => Object.keys(object)
-  .filter(key => object[key])
-  .reduce((acc, key) => ({ ...acc, [key]: object[key] }), {});
-
 export const getBankingUrls = createSelector(
   getEnabledUrls,
-  enabledUrls => filterUndefinedFromObject({
+  enabledUrls => ({
     spendMoney: enabledUrls.spendMoney,
     receiveMoney: enabledUrls.receiveMoney,
     transferMoney: enabledUrls.transferMoney,
@@ -41,7 +37,7 @@ export const getBankingUrls = createSelector(
 
 export const getContactUrls = createSelector(
   getEnabledUrls,
-  enabledUrls => filterUndefinedFromObject({
+  enabledUrls => ({
     createContact: enabledUrls.createContact,
     contactList: enabledUrls.contactList,
   }),
@@ -49,8 +45,15 @@ export const getContactUrls = createSelector(
 
 export const getJournalUrls = createSelector(
   getEnabledUrls,
-  enabledUrls => filterUndefinedFromObject({
+  enabledUrls => ({
     generalJournal: enabledUrls.generalJournal,
     generalJournalList: enabledUrls.generalJournalList,
+  }),
+);
+
+export const getBusinessUrls = createSelector(
+  getEnabledUrls,
+  enabledUrls => ({
+    incomeAllocation: enabledUrls.incomeAllocation,
   }),
 );

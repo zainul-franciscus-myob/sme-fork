@@ -12,11 +12,11 @@ const getItems = urls => [
   urls.transactionList && <Navigation.MenuLink key="Transaction list" url={urls.transactionList} label="Transaction list" />,
 ].filter(Boolean);
 
-const BankingMenu = ({ urls, activeNav }) => Object.keys(urls).length > 0 && (
+const BankingMenu = ({ urls, activeNav, onMenuSelect }) => Object.values(urls).some(Boolean) && (
   <Navigation.Menu
     label="Banking"
     icon={<Icons.Caret />}
-    onSelect={() => {}}
+    onSelect={onMenuSelect}
     items={getItems(urls)}
     active={activeNav === 'banking'}
   />

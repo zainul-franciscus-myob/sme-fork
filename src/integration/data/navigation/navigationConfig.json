@@ -8,6 +8,7 @@
     "createContact",
     "contactList",
     "generalJournal",
-    "generalJournalList"
+    "generalJournalList",
+    "incomeAllocation"
   ]
 }

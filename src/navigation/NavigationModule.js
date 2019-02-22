@@ -69,11 +69,16 @@ export default class NavigationModule {
     });
   }
 
+  redirectToPage = (url) => {
+    window.location.href = url;
+  }
+
   render = () => {
     const view = (
       <NavigationBar
         logout={logout}
         constructPath={this.constructPath}
+        onMenuSelect={this.redirectToPage}
       />
     );
 

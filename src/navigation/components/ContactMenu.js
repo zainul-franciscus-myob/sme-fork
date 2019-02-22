@@ -10,19 +10,20 @@ const getItems = urls => [
   urls.contactList && <Navigation.MenuLink key="View contacts" url={urls.contactList} label="View contacts" />,
 ].filter(Boolean);
 
-const ContactMenu = ({ urls, activeNav }) => Object.keys(urls).length > 0 && (
+const ContactMenu = ({ urls, activeNav, onMenuSelect }) => Object.values(urls).some(Boolean) && (
   <Navigation.Menu
     label="Contacts"
     icon={<Icons.Caret />}
-    onSelect={() => {}}
     items={getItems(urls)}
     active={activeNav === 'contact'}
+    onSelect={onMenuSelect}
   />
 );
 
 ContactMenu.propTypes = {
   urls: PropTypes.shape().isRequired,
   activeNav: PropTypes.string.isRequired,
+  onMenuSelect: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({

@@ -6,6 +6,7 @@ export const activeMapping = {
   'contact.contactDetail': 'contact',
   'contact.contactList': 'contact',
   'generalJournal.generalJournalDetail': 'journals',
+  'incomeAllocation.incomeAllocation': 'business',
 };
 
 export const featuresConfig = {
@@ -50,6 +51,9 @@ export const featuresConfig = {
     params: {
       sourceJournal: 'General',
     },
+  },
+  incomeAllocation: {
+    routeName: 'incomeAllocation.incomeAllocation',
   },
 };
 

@@ -3,6 +3,7 @@ import getBusinessesRoutes from './business/getBusinessRoutes';
 import getContactRoutes from './contact/getContactRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getHomePageRoutes from './HomePage/getHomePageRoutes';
+import getIncomeAllocationRoutes from './IncomeAllocation/getIncomeAllocationRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
 import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 import getTransactionListRoutes from './transactionList/getTransactionListRoutes';
@@ -64,6 +65,13 @@ const getRoutes = ({
     rootPath: '/:businessId/contact',
     subRoutes: getContactRoutes({
       integration, setRootView, popMessages, pushMessage,
+    }),
+  },
+  {
+    name: 'incomeAllocation',
+    rootPath: '/:businessId/incomeAllocation',
+    subRoutes: getIncomeAllocationRoutes({
+      integration, setRootView,
     }),
   },
 ];

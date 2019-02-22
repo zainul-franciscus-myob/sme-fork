@@ -9,9 +9,9 @@
         "equity": "51.00"
       },
       {
-        "headerAccountId": "123",
-        "retainedEarningsAccountId": "126",
-        "currentEarningsAccountId": "127",
+        "headerAccountId": "456",
+        "retainedEarningsAccountId": "457",
+        "currentEarningsAccountId": "458",
         "equity": "49.00"
       }
     ]
@@ -51,5 +51,10 @@
         }
       ]
     }
+  ],
+  "entityTypes": [
+    { "name": "Company", "value": "Company" },
+    { "name": "Partnership", "value": "Partnership" },
+    { "name": "Unit Trust", "value": "UnitTrust" }
   ]
 }
