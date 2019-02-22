@@ -14,16 +14,16 @@ const getPrimary = ({ onMenuSelect }) => [
 ].filter(Boolean);
 
 const getSecondary = ({
-  isLoggedIn, logout, businessName, onMenuSelect,
+  businessName, onMenuSelect,
 }) => [
   <SwitchBusiness businessName={businessName} key="SwitchBusiness" />,
-  <BusinessMenu isLoggedIn={isLoggedIn} logout={logout} key="BusinessMenu" onMenuSelect={onMenuSelect} />,
+  <BusinessMenu key="BusinessMenu" onMenuSelect={onMenuSelect} />,
 ].filter(Boolean);
 
 const NavigationBar = (props) => {
   const primary = getPrimary(props);
   const secondary = getSecondary(props);
-  const brand = <Navigation.Brand url="#home" width="73px"><MYOBLogo /></Navigation.Brand>;
+  const brand = <Navigation.Brand url="#/business" width="73px"><MYOBLogo /></Navigation.Brand>;
 
   return (
     <Navigation brand={brand} primary={primary} secondary={secondary} />

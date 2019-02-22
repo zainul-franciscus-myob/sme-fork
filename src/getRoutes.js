@@ -2,8 +2,8 @@ import getBankingRoutes from './banking/getBankingRoutes';
 import getBusinessesRoutes from './business/getBusinessRoutes';
 import getContactRoutes from './contact/getContactRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
-import getHomePageRoutes from './HomePage/getHomePageRoutes';
 import getIncomeAllocationRoutes from './IncomeAllocation/getIncomeAllocationRoutes';
+import getLogoutRoute from './logout/getLogoutRoute';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
 import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 import getTransactionListRoutes from './transactionList/getTransactionListRoutes';
@@ -12,11 +12,6 @@ import getTransferMoneyRoutes from './transferMoney/getTransferMoneyRoutes';
 const getRoutes = ({
   integration, setRootView, popMessages, pushMessage, replaceURLParams,
 }) => [
-  {
-    name: 'home',
-    rootPath: '/home',
-    subRoutes: getHomePageRoutes({ setRootView }),
-  },
   {
     name: 'banking',
     rootPath: '/:businessId/banking',
@@ -73,6 +68,11 @@ const getRoutes = ({
     subRoutes: getIncomeAllocationRoutes({
       integration, setRootView,
     }),
+  },
+  {
+    name: 'logout',
+    rootPath: '/logout',
+    subRoutes: getLogoutRoute(),
   },
 ];
 

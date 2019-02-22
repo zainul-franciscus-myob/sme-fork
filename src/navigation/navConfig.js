@@ -56,8 +56,3 @@ export const featuresConfig = {
     routeName: 'incomeAllocation.incomeAllocation',
   },
 };
-
-export const noPrimaryRoutes = [
-  'home.homePage',
-  'businesses.businessList',
-];

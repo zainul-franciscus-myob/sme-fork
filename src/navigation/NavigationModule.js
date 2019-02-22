@@ -2,9 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
-import { featuresConfig, noPrimaryRoutes } from './navConfig';
+import { featuresConfig } from './navConfig';
 import { getBusinessId } from './NavigationSelectors';
-import { logout } from '../Auth';
 import NavigationBar from './components/NavigationBar';
 import Store from '../store/Store';
 import navReducer from './navReducer';
@@ -20,9 +19,14 @@ export default class NavigationModule {
   }
 
   getBusinessInfo = () => {
+    const businessId = getBusinessId(this.store.getState());
+    if (!businessId) {
+      return;
+    }
+
     const intent = LOAD_NAVIGATION_CONFIG;
     const urlParams = {
-      businessId: getBusinessId(this.store.getState()),
+      businessId,
     };
     const onSuccess = ({ businessName, enabledFeatures }) => {
       this.store.dispatch({
@@ -43,9 +47,8 @@ export default class NavigationModule {
     });
   };
 
-  buildUrls = (currentRouteName, routeParams) => {
-    const hasPrimaryRoutes = !noPrimaryRoutes.includes(currentRouteName);
-
+  buildUrls = (routeParams) => {
+    const hasPrimaryRoutes = Object.keys(routeParams).includes('businessId');
     if (!hasPrimaryRoutes) {
       return {};
     }
@@ -60,7 +63,7 @@ export default class NavigationModule {
   }
 
   buildAndSetRoutingInfo = ({ currentRouteName, routeParams }) => {
-    const urls = this.buildUrls(currentRouteName, routeParams);
+    const urls = this.buildUrls(routeParams);
     this.store.dispatch({
       intent: SET_ROUTE_INFO,
       urls,
@@ -76,7 +79,6 @@ export default class NavigationModule {
   render = () => {
     const view = (
       <NavigationBar
-        logout={logout}
         constructPath={this.constructPath}
         onMenuSelect={this.redirectToPage}
       />
