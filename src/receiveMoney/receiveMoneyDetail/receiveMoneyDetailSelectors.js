@@ -148,7 +148,10 @@ export const getReceiveMoneyForUpdatePayload = (state) => {
 
 export const getCalculatedTotalsPayload = (state) => {
   const { lines, isTaxInclusive } = getReceiveMoney(state);
-  return { isTaxInclusive, lines };
+  return {
+    isTaxInclusive,
+    lines: getReceiveMoneyLinesForPayload(lines),
+  };
 };
 
 export const getIsActionsDisabled = state => state.isSubmitting;

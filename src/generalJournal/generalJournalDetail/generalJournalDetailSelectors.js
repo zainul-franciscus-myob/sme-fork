@@ -151,7 +151,11 @@ export const getGeneralJournalForUpdatePayload = (state) => {
 
 export const getCalculatedTotalsPayload = (state) => {
   const { lines, isTaxInclusive, gstReportingMethod } = getGeneralJournal(state);
-  return { isTaxInclusive, lines, gstReportingMethod };
+  return {
+    isTaxInclusive,
+    lines: getGeneralJournalLinesForPayload(lines),
+    gstReportingMethod,
+  };
 };
 
 export const getIsActionsDisabled = state => state.isSubmitting;
