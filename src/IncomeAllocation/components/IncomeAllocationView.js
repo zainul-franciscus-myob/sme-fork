@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getAlert, getEntityTypeOptions, getIsLoading, getIsTableHidden, getSelectedEntityType,
+  getAlert, getEntityTypeOptions, getIsLoadingState, getIsTableHidden, getSelectedEntityType,
 } from '../IncomeAllocationSelectors';
 import Alert from '../../components/Alert/Alert';
 import IncomeAllocationActions from './IncomeAllocationActions';
@@ -91,7 +91,7 @@ const mapStateToProps = state => ({
   entityTypeOptions: getEntityTypeOptions(state),
   isTableHidden: getIsTableHidden(state),
   alert: getAlert(state),
-  isLoading: getIsLoading(state),
+  isLoading: getIsLoadingState(state),
 });
 
 export default connect(mapStateToProps)(IncomeAllocationView);

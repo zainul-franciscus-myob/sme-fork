@@ -8,4 +8,3 @@ export const SET_ALERT = Symbol('Set alert');
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SAVE_INCOME_ALLOCATION = Symbol('Save an income allocation');
-export const RESET_LINES = Symbol('Reset the lines on save');

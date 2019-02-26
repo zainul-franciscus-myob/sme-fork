@@ -56,6 +56,10 @@ const getAccountIndex = (accountId, accounts) => accounts.findIndex(
   ({ id }) => id === accountId,
 );
 
+const getFilteredAccountOptions = (detailAccounts, originalSelectedAccountId) => (
+  detailAccounts.filter(({ isActive, id }) => isActive || id === originalSelectedAccountId)
+);
+
 export const getLineDataByIndexSelector = () => createSelector(
   (state, props) => state.incomeAllocation.lines[props.index],
   getAccounts,
@@ -68,15 +72,29 @@ export const getLineDataByIndexSelector = () => createSelector(
     const {
       headerAccountId,
       retainedEarningsAccountId,
+      originalRetainedEarningsAccountId = '',
       currentEarningsAccountId,
+      originalCurrentEarningsAccountId = '',
       equity,
     } = line;
 
     const detailAccounts = getDetailAccounts(headerAccountId, accounts);
 
     const headerAccountIndex = getAccountIndex(headerAccountId, headerAccounts);
-    const retainedEarningsAccountIndex = getAccountIndex(retainedEarningsAccountId, detailAccounts);
-    const currentEarningsAccountIndex = getAccountIndex(currentEarningsAccountId, detailAccounts);
+
+    const retainedEarningsAccounts = getFilteredAccountOptions(
+      detailAccounts, originalRetainedEarningsAccountId,
+    );
+    const retainedEarningsAccountIndex = getAccountIndex(
+      retainedEarningsAccountId, retainedEarningsAccounts,
+    );
+
+    const currentEarningsAccounts = getFilteredAccountOptions(
+      detailAccounts, originalCurrentEarningsAccountId,
+    );
+    const currentEarningsAccountIndex = getAccountIndex(
+      currentEarningsAccountId, currentEarningsAccounts,
+    );
 
     return ({
       headerAccountIndex,
@@ -84,8 +102,8 @@ export const getLineDataByIndexSelector = () => createSelector(
       currentEarningsAccountIndex,
       equity,
       headerAccounts,
-      retainedEarningsAccounts: detailAccounts,
-      currentEarningsAccounts: detailAccounts,
+      retainedEarningsAccounts,
+      currentEarningsAccounts,
     });
   }),
 );
@@ -97,8 +115,13 @@ export const getIsTableHidden = createSelector(
   entityType => entityType === 'Company',
 );
 
-export const getIsActionsDisabled = state => state.isSubmitting;
+export const getIsSubmitting = state => state.isSubmitting;
 export const getIsLoading = state => state.isLoading;
-export const getAlert = state => state.alert;
 
-export const shouldLinesBeReset = state => state.incomeAllocation.entityType === 'Company';
+export const getIsLoadingState = createSelector(
+  getIsLoading,
+  getIsSubmitting,
+  (isLoading, isSubmitting) => isLoading || isSubmitting,
+);
+
+export const getAlert = state => state.alert;

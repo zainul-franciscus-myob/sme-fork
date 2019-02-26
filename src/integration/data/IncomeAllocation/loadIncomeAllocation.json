@@ -24,13 +24,15 @@
       "detailAccounts": [
         {
           "id": "124",
-          "displayName": "My Bank Bank",
-          "displayId": "3-124"
+          "displayName": "My Inactive Bank",
+          "displayId": "3-124",
+          "isActive": false
         },
         {
           "id": "125",
-          "displayName": "My Bank Bank Bank",
-          "displayId": "3-125"
+          "displayName": "My Bank Bank",
+          "displayId": "3-125",
+          "isActive": true
         }
       ]
     },
@@ -42,19 +44,30 @@
         {
           "id": "457",
           "displayName": "My Other Bank",
-          "displayId": "3-457"
+          "displayId": "3-457",
+          "isActive": true
         },
         {
           "id": "458",
           "displayName": "My Other Bank Bank",
-          "displayId": "3-458"
+          "displayId": "3-458",
+          "isActive": true
         }
       ]
     }
   ],
   "entityTypes": [
-    { "name": "Company", "value": "Company" },
-    { "name": "Partnership", "value": "Partnership" },
-    { "name": "Unit Trust", "value": "UnitTrust" }
+    {
+      "name": "Company",
+      "value": "Company"
+    },
+    {
+      "name": "Partnership",
+      "value": "Partnership"
+    },
+    {
+      "name": "Unit Trust",
+      "value": "UnitTrust"
+    }
   ]
 }

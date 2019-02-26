@@ -6,7 +6,6 @@ import {
   DELETE_INCOME_ALLOCATION_LINE,
   FORMAT_INCOME_ALLOCATION_LINE,
   LOAD_INCOME_ALLOCATION,
-  RESET_LINES,
   SAVE_INCOME_ALLOCATION,
   SET_ALERT,
   SET_LOADING_STATE,
@@ -15,7 +14,7 @@ import {
   UPDATE_INCOME_ALLOCATION_LINE,
 } from './IncomeAllocationIntents';
 import { RESET_STATE } from '../SystemIntents';
-import { getIncomeAllocationSavePayload, shouldLinesBeReset } from './IncomeAllocationSelectors';
+import { getIncomeAllocationSavePayload } from './IncomeAllocationSelectors';
 import IncomeAllocationView from './components/IncomeAllocationView';
 import Store from '../store/Store';
 import incomeAllocationReducer from './IncomeAllocationReducer';
@@ -33,12 +32,15 @@ export default class IncomeAllocationModule {
     const urlParams = { businessId: this.businessId };
     this.setLoadingState(true);
 
-    const onSuccess = ({ incomeAllocation, entityTypes, accounts }) => {
+    const onSuccess = ({
+      incomeAllocation, newLine, accounts, entityTypes,
+    }) => {
       this.setLoadingState(false);
       this.store.dispatch({
         intent,
         incomeAllocation,
         accounts,
+        newLine,
         entityTypes,
       });
     };
@@ -141,16 +143,6 @@ export default class IncomeAllocationModule {
     });
   }
 
-  resetLines = () => {
-    const state = this.store.getState();
-    if (!shouldLinesBeReset(state)) {
-      return;
-    }
-
-    const intent = RESET_LINES;
-    this.store.dispatch({ intent });
-  }
-
   saveIncomeAllocation = () => {
     const intent = SAVE_INCOME_ALLOCATION;
 
@@ -167,7 +159,7 @@ export default class IncomeAllocationModule {
       });
 
       this.setSubmittingState(false);
-      this.resetLines();
+      this.loadIncomeAllocation();
     };
 
     const onFailure = (error) => {

@@ -3,7 +3,6 @@ import {
   DELETE_INCOME_ALLOCATION_LINE,
   FORMAT_INCOME_ALLOCATION_LINE,
   LOAD_INCOME_ALLOCATION,
-  RESET_LINES,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -21,7 +20,9 @@ const initialState = {
   newLine: {
     headerAccountId: '',
     retainedEarningsAccountId: '',
+    originalRetainedEarningsAccountId: '',
     currentEarningsAccountId: '',
+    originalCurrentEarningsAccountId: '',
     equity: '',
   },
   accounts: [],
@@ -31,11 +32,22 @@ const initialState = {
   alert: undefined,
 };
 
+const getIncomeAllocationLines = (lines = []) => lines.map(({
+  retainedEarningsAccountId, currentEarningsAccountId, ...line
+}) => ({
+  retainedEarningsAccountId,
+  originalRetainedEarningsAccountId: retainedEarningsAccountId,
+  currentEarningsAccountId,
+  originalCurrentEarningsAccountId: currentEarningsAccountId,
+  ...line,
+}));
+
 const loadIncomeAllocation = (state, action) => ({
   ...state,
   incomeAllocation: {
     ...state.incomeAllocation,
     ...action.incomeAllocation,
+    lines: getIncomeAllocationLines(action.incomeAllocation.lines),
   },
   entityTypes: action.entityTypes,
   accounts: action.accounts,
@@ -134,15 +146,6 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-
-const resetLines = state => ({
-  ...state,
-  incomeAllocation: {
-    ...state.incomeAllocation,
-    lines: [],
-  },
-});
-
 const handlers = {
   [LOAD_INCOME_ALLOCATION]: loadIncomeAllocation,
   [RESET_STATE]: resetState,
@@ -154,7 +157,6 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_ALERT]: setAlert,
   [SET_SUBMITTING_STATE]: setSubmittingState,
-  [RESET_LINES]: resetLines,
 };
 
 const incomeAllocationReducer = createReducer(initialState, handlers);
