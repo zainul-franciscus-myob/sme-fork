@@ -17,12 +17,12 @@ SME Web
   * [Setting up the project](#setup)
     * [Editors]
     * [Linting]
-  * [Running the tests](#run-tests)
-  * [Running the local development environment](#run-local-development-environment)
-  * [Running a production build](#run-a-production-build)
+  * [Running tests](#run-tests)
+  * [Running locally](#run-locally)
+  * [Build SME Web](#build-sme-web)
+  * [Deploy SME Web](#run-a-deploy)
   * [Environment](#run-a-production-build)
     * [Integrations](#usage-of-the-memoryintegration)
-
 
 ## Setup
 
@@ -37,47 +37,32 @@ SME Web
 ## Run tests
 
 ```sh
-./ops/bin/test yarn run test
+./ops/bin/test # yarn run test
 ```
 
-**with code coverage:**
-
-```sh
-./ops/bin/coverage # yarn run test -- --coverage
-```
-
-> :hand: We consider code coverage to be a _very soft_ indicator of quality, so there are no specific thresholds configured at this stage.
-
-## Run local development environment
+## Run locally
 
 ```sh
 ./ops/bin/local # yarn run start
 ```
 
-**Environment configuration:**<br/>
-  By default, we use `.env.development` for _development_ environments.<br/>
-
-> :thought_balloon: Local development should **never require running `sme-web-bff`**.<br/>
-> :partly_sunny: Local development should be **offline capable** (stub data provided).
-
-  You can also configure `.env.development.local`, which has been added to `.gitignore` for safety.<br/>
-
-  Refer to the list of [supported environment variables](#environment-variables) for more detail.
-
-## Run a production build
+## Build sme web
 
 ```sh
 ./ops/bin/build # yarn run build
 ```
 
 **Environment configuration:**<br/>
-  By default, we use `.env.production` for _production_ environments.
+  We use the `config.prod` in the project root by default for a build.
+  This will cause the `public/config-prod.json` to be included in the build output as the application configuration.
 
-> :thumbsup: The default production configuration will require that [MYOB-Technology/sme-web-bff] is up and available.
+  You can create any configuration you like by adding the corresponding files
 
-  You can also configure `.env.production.local`, which has been added to `.gitignore` for safety.
+  - Application Config : `touch public/config-foo.json`
+  - Environment : `touch config.foo`
 
-  Refer to the list of [supported environment variables](#environment-variables) for more detail.
+  Alternatively you can easily override values for once offs
+  `REACT_APP_BASE_CONFIG_URL=my-custom-override yarn run start` 
 
 ## Environment variables
 

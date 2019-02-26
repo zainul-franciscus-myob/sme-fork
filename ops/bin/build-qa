@@ -1,8 +1,0 @@
-#!/bin/bash -eu
-
-echo "--- Building Started"
-./ops/bin/env "yarn install &&\
-              REACT_APP_INTEGRATION_TYPE=Memory \
-              REACT_APP_BASE_CONFIG_URL=http://myob-sme-web-ui-qa-bucket.s3-website-ap-southeast-2.amazonaws.com \
-              yarn run build &&\
-              tar czf build-qa.tar.gz build"

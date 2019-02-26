@@ -1,5 +1,19 @@
 #!/bin/bash -eu
+
+if [ $# -ne 1 ]; then
+  echo "You must provide a configuration ENV argument."
+  echo "Both /public/config-foo.json and /config.foo must exist for ENV arg foo"
+  echo "usage: $0 [ dev | preprod | prod ]."
+  exit 1
+fi
+
+ENV=$1
+BUILD_CONFIG_FILE=config.$ENV
+APP_CONFIG_FILE=config-$ENV.json
+
 echo "--- Building Started"
-./ops/bin/env "yarn install && yarn run build &&\
-              mv ./build/config-prod.json ./build/config-${REACT_APP_BUILD_NUMBER}.json && \
-              tar czf build.tar.gz build"
+echo "--- Building with  $BUILD_CONFIG_FILE"
+
+./ops/bin/env "yarn install && . ${BUILD_CONFIG_FILE} && yarn run build && \
+              mv ./build/${APP_CONFIG_FILE} ./build/config-${REACT_APP_BUILD_NUMBER}.json && \
+              tar czf build-${ENV}.tar.gz build"

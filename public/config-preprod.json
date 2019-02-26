@@ -1,0 +1,7 @@
+{
+  "AUTHENTICATION_AUTHORITY": "https://sit.login.myob.com",
+  "AUTHENTICATION_WEB_CLIENT_ID": "sme-web",
+  "AUTHENTICATION_BFF_CLIENT_ID": "sme-web-bff",
+  "BASE_URL": "https://d2md7l656d3wq2.cloudfront.net",
+  "BFF_BASE_URL": "https://sme-web-bff.svc.platform.myobdev.com"
+}

@@ -12,35 +12,34 @@ steps:
 
   - wait
 
-  - name: ':package: Build (QA) Javascript'
-    command: ./ops/bin/build-qa
-    agents:
-      queue: cacc-prod-dflt
-    artifact_paths: "build-qa.tar.gz"
-
-  - wait
-
-  - name: ':rocket: Deploy (QA) App'
-    command: ./ops/bin/deploy-qa
-    branches: master
-    agents:
-      queue: cacc-prod-dflt
-
-  - block
-
-  - name: ':package: Build Javascript'
-    command: ./ops/bin/build
+  - name: ':package: :hatched_chick: Build Preprod Javascript'
+    command: ./ops/bin/build preprod
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
-    branches: master
+    agents:
+      queue: cacc-prod-dflt
+    artifact_paths: "build-preprod.tar.gz"
+
+  - name: ':package: :eagle: Build Prod Javascript'
+    command: ./ops/bin/build prod
+    env:
+      REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
       queue: cacc-prod-dflt
     artifact_paths: "build.tar.gz"
 
   - wait
 
-  - name: ':rocket: Deploy App'
-    command: ./ops/bin/deploy
+  - name: ':rocket: :hatched_chick: Deploy Preprod App'
+    command: ./ops/bin/deploy preprod
+    branches: master
+    agents:
+      queue: cacc-prod-dflt
+
+  - block
+
+  - name: ':rocket: :eagle: Deploy Prod App'
+    command: ./ops/bin/deploy prod
     branches: master
     agents:
       queue: cacc-prod-dflt
