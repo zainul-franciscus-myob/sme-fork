@@ -163,6 +163,8 @@ export default class IncomeAllocationModule {
     };
 
     const onFailure = (error) => {
+      this.setSubmittingState(false);
+
       this.setAlert({
         message: error.message,
         type: 'danger',
