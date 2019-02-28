@@ -7,7 +7,7 @@ import RootMapping from './httpMapping/RootMapping';
 import handleResponse from './httpMapping/handleResponse';
 
 const config = {
-  baseUrl: `${Config.BFF_BASE_URL}/bff`,
+  baseUrl: Config.BFF_BASE_URL,
 };
 
 const getQueryFromParams = (params = {}) => {
