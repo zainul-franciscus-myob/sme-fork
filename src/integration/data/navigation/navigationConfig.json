@@ -9,6 +9,7 @@
     "contactList",
     "generalJournal",
     "generalJournalList",
-    "incomeAllocation"
+    "incomeAllocation",
+    "businessDetails"
   ]
 }

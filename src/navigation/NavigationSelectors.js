@@ -55,5 +55,6 @@ export const getBusinessUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
     incomeAllocation: enabledUrls.incomeAllocation,
+    businessDetails: enabledUrls.businessDetails,
   }),
 );

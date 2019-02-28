@@ -7,6 +7,7 @@ export const activeMapping = {
   'contact.contactList': 'contact',
   'generalJournal.generalJournalDetail': 'journals',
   'incomeAllocation.incomeAllocation': 'business',
+  'businesses.businessDetail': 'business',
 };
 
 export const featuresConfig = {
@@ -54,5 +55,8 @@ export const featuresConfig = {
   },
   incomeAllocation: {
     routeName: 'incomeAllocation.incomeAllocation',
+  },
+  businessDetails: {
+    routeName: 'businesses.businessDetail',
   },
 };

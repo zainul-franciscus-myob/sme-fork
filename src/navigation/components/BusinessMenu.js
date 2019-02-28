@@ -8,8 +8,9 @@ import {
 } from '../NavigationSelectors';
 
 const getItems = ({ urls }) => [
+  urls.businessDetails && <Navigation.MenuLink key="businessDetails" label="Business Details" url={urls.businessDetails} />,
   urls.incomeAllocation && <Navigation.MenuLink key="incomeAllocation" label="Income Allocation" url={urls.incomeAllocation} />,
-  urls.incomeAllocation && <Navigation.Separator key="sperator" />,
+  urls.incomeAllocation && <Navigation.Separator key="separator" />,
   <Navigation.MenuLink key="logout" url="#/logout" label="Logout" icon={<Icons.SignOut />} />,
 ].filter(Boolean);
 
