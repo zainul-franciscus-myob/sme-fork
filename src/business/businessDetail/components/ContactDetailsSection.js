@@ -17,7 +17,7 @@ const ContactDetailsSection = ({
     <h2>Contact details</h2>
     <Input
       name="phoneNumber"
-      label="Phone Number"
+      label="Phone"
       value={phoneNumber}
       onChange={onInputChange(onChange)}
     />

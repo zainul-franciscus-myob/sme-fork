@@ -31,7 +31,7 @@ const BusinessDetailView = ({
   const view = (
     <div className={styles.businessDetails}>
       {alertComponent}
-      <SimplePageTemplate pageHead="Business Details">
+      <SimplePageTemplate pageHead="Business details">
         <Card>
           <div>
             <BusinessDetailsSection onChange={onChange} />

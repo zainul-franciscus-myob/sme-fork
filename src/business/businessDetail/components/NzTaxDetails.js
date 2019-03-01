@@ -20,7 +20,7 @@ const NzTaxDetails = ({ irdNumber, nzbn, onChange }) => (
     />
     <Input
       name="nzbn"
-      label="NZBN"
+      label="NZ Business Number (NZBN)"
       value={nzbn}
       onChange={onInputChange(onChange)}
     />

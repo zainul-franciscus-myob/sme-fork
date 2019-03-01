@@ -24,7 +24,7 @@ const BusinessDetailsSection = ({
     />
     <Input
       name="organisationName"
-      label="Organisation Name"
+      label="Organisation name"
       value={organisationName}
       onChange={onInputChange(onChange)}
     />
