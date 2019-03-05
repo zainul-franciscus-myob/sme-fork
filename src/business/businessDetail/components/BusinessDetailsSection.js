@@ -36,7 +36,7 @@ const BusinessDetailsSection = ({
 BusinessDetailsSection.propTypes = {
   serialNumber: PropTypes.string.isRequired,
   organisationName: PropTypes.string.isRequired,
-  isAu: PropTypes.func.isRequired,
+  isAu: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

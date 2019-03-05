@@ -13,7 +13,7 @@ const onInputChange = handler => (e) => {
 const NzTaxDetails = ({ irdNumber, nzbn, onChange }) => (
   <div>
     <Input
-      name="abn"
+      name="irdNumber"
       label="IRD Number/GST Number"
       value={irdNumber}
       onChange={onInputChange(onChange)}
