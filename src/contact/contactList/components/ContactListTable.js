@@ -31,7 +31,6 @@ const spinnerView = (
 const ContactListTable = ({
   isTableEmpty,
   isTableLoading,
-  businessId,
   onSort,
   order,
 }) => {
@@ -43,7 +42,6 @@ const ContactListTable = ({
   } else {
     view = (
       <ContactListTableBody
-        businessId={businessId}
         tableConfig={tableConfig}
       />
     );

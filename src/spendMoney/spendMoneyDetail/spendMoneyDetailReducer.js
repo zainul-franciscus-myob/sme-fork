@@ -18,7 +18,7 @@ import {
   UPDATE_SPEND_MONEY_LINE,
 } from '../SpendMoneyIntents';
 import {
-  RESET_STATE,
+  RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import { getDefaultTaxCodeId } from './spendMoneyDetailSelectors';
 import createReducer from '../../store/createReducer';
@@ -57,6 +57,8 @@ const initialState = {
   isLoading: true,
   isSubmitting: false,
   isPageEdited: false,
+  businessId: '',
+  region: '',
 };
 
 const pageEdited = { isPageEdited: true };
@@ -215,6 +217,11 @@ const resetTotals = state => ({
   totals: initialState.totals,
 });
 
+const setInitialState = (state, action) => ({
+  ...state,
+  ...action.context,
+});
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -232,6 +239,7 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [RESET_TOTALS]: resetTotals,
   [RESET_STATE]: resetState,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 const spendMoneyReducer = createReducer(initialState, handlers);
 

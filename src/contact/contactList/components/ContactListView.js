@@ -14,7 +14,6 @@ import style from './ContactListView.css';
 
 const ContactListView = (props) => {
   const {
-    businessId,
     isLoading,
     alert,
     onDismissAlert,
@@ -49,7 +48,6 @@ const ContactListView = (props) => {
       <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
         <div className={style.list}>
           <ContactListTable
-            businessId={businessId}
             onSort={onSort}
           />
         </div>

@@ -9,7 +9,7 @@ import {
   UPDATE_ENTITY_TYPE,
   UPDATE_INCOME_ALLOCATION_LINE,
 } from './IncomeAllocationIntents';
-import { RESET_STATE } from '../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import createReducer from '../store/createReducer';
 
 const initialState = {
@@ -30,6 +30,7 @@ const initialState = {
   isLoading: true,
   isSubmitting: false,
   alert: undefined,
+  businessId: '',
 };
 
 const getIncomeAllocationLines = (lines = []) => lines.map(({
@@ -146,6 +147,11 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
+const setInitialState = (state, action) => ({
+  ...state,
+  ...action.context,
+});
+
 const handlers = {
   [LOAD_INCOME_ALLOCATION]: loadIncomeAllocation,
   [RESET_STATE]: resetState,
@@ -157,6 +163,7 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_ALERT]: setAlert,
   [SET_SUBMITTING_STATE]: setSubmittingState,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 
 const incomeAllocationReducer = createReducer(initialState, handlers);

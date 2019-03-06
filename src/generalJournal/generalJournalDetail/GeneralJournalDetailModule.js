@@ -22,16 +22,19 @@ import {
 } from '../GeneralJournalIntents';
 import {
   RESET_STATE,
+  SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
 } from '../GeneralJournalMessageTypes';
 import {
+  getBusinessId,
   getCalculatedTotalsPayload,
   getGeneralJournal,
   getGeneralJournalForCreatePayload,
   getGeneralJournalId,
   getIsTableEmpty,
+  getRegion,
   isPageEdited,
 } from './generalJournalDetailSelectors';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
@@ -43,7 +46,6 @@ export default class GeneralJournalDetailModule {
     this.integration = integration;
     this.store = new Store(generalJournalDetailReducer);
     this.setRootView = setRootView;
-    this.businessId = '';
     this.pushMessage = pushMessage;
     this.generalJournalId = '';
   }
@@ -52,9 +54,9 @@ export default class GeneralJournalDetailModule {
     const intent = this.isCreating
       ? LOAD_NEW_GENERAL_JOURNAL
       : LOAD_GENERAL_JOURNAL_DETAIL;
-
+    const state = this.store.getState();
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
       ...(!this.isCreating && { generalJournalId: this.generalJournalId }),
     };
 
@@ -98,10 +100,13 @@ export default class GeneralJournalDetailModule {
       this.displayAlert(error.message);
     };
 
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+
     this.integration.write({
       intent: DELETE_GENERAL_JOURNAL,
       urlParams: {
-        businessId: this.businessId,
+        businessId,
         generalJournalId: this.generalJournalId,
       },
       onSuccess,
@@ -111,19 +116,22 @@ export default class GeneralJournalDetailModule {
 
   createGeneralJournalEntry = () => {
     const intent = CREATE_GENERAL_JOURNAL;
-    const content = getGeneralJournalForCreatePayload(this.store.getState());
+    const state = this.store.getState();
+    const content = getGeneralJournalForCreatePayload(state);
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
     this.saveGeneralJournalEntry(intent, content, urlParams);
   };
 
   updateGeneralJournalEntry = () => {
     const intent = UPDATE_GENERAL_JOURNAL;
-    const content = getGeneralJournal(this.store.getState());
-    const generalJournalId = getGeneralJournalId(this.store.getState());
+    const state = this.store.getState();
+    const content = getGeneralJournal(state);
+    const generalJournalId = getGeneralJournalId(state);
+
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
       generalJournalId,
     };
     this.saveGeneralJournalEntry(intent, content, urlParams);
@@ -228,8 +236,8 @@ export default class GeneralJournalDetailModule {
 
     this.integration.write({
       intent,
-      urlParams: { businessId: this.businessId },
-      content: getCalculatedTotalsPayload(this.store.getState()),
+      urlParams: { businessId: getBusinessId(state) },
+      content: getCalculatedTotalsPayload(state),
       onSuccess,
       onFailure,
     });
@@ -304,7 +312,11 @@ export default class GeneralJournalDetailModule {
   };
 
   redirectToTransactionList= () => {
-    window.location.href = `/#/${this.businessId}/transactionList`;
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/transactionList`;
   }
 
   render = () => {
@@ -343,20 +355,26 @@ export default class GeneralJournalDetailModule {
     });
   }
 
-  run(context) {
-    this.businessId = context.businessId;
-    this.generalJournalId = context.generalJournalId;
-    this.isCreating = context.generalJournalId === 'new';
-    this.resetState();
-    this.render();
-    this.setLoadingState(true);
-    this.loadGeneralJournal();
-  }
+ setInitialState = (context) => {
+   this.store.dispatch({
+     intent: SET_INITIAL_STATE,
+     context,
+   });
+ }
 
-  resetState() {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
-  }
+ run(context) {
+   this.generalJournalId = context.generalJournalId;
+   this.isCreating = context.generalJournalId === 'new';
+   this.setInitialState(context);
+   this.render();
+   this.setLoadingState(true);
+   this.loadGeneralJournal();
+ }
+
+ resetState() {
+   const intent = RESET_STATE;
+   this.store.dispatch({
+     intent,
+   });
+ }
 }

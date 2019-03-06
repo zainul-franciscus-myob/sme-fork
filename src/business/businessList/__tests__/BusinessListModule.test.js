@@ -1,15 +1,15 @@
 import ReactDOM from 'react-dom';
 
-import BusinessModule from '../BusinessModule';
+import BusinessListModule from '../BusinessListModule';
 
-describe('BusinessModule', () => {
+describe('BusinessListModule', () => {
   it('should render into the supplied DOM element', () => {
     const integration = { read: ({ onSuccess }) => onSuccess([]) };
     const rootElement = document.createElement('div');
     const setRootView = (component) => {
       ReactDOM.render(component, rootElement);
     };
-    const module = new BusinessModule({ integration, setRootView });
+    const module = new BusinessListModule({ integration, setRootView });
 
     module.run();
 

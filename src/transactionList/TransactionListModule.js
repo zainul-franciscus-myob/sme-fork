@@ -18,7 +18,7 @@ import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } 
 import { SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY } from '../spendMoney/spendMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoney/transferMoneyMessageTypes';
 import {
-  getAppliedFilterOptions, getFilterOptions, getSortOrder, getURLParams,
+  getAppliedFilterOptions, getBusinessId, getFilterOptions, getRegion, getSortOrder, getURLParams,
 } from './transactionListSelectors';
 import Store from '../store/Store';
 import TransactionListView from './components/TransactionListView';
@@ -46,7 +46,6 @@ export default class TransactionListModule {
   render = () => {
     const transactionListView = (
       <TransactionListView
-        businessId={this.businessId}
         onUpdateFilters={this.updateFilterOptions}
         onApplyFilter={this.filterTransactionList}
         onSort={this.sortTransactionList}
@@ -68,7 +67,7 @@ export default class TransactionListModule {
 
     const intent = LOAD_TRANSACTION_LIST;
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
 
     const onSuccess = ({
@@ -111,7 +110,7 @@ export default class TransactionListModule {
     const intent = SORT_AND_FILTER_TRANSACTION_LIST;
 
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
 
     const onSuccess = ({ entries, sortOrder }) => {
@@ -147,7 +146,7 @@ export default class TransactionListModule {
     const intent = SORT_AND_FILTER_TRANSACTION_LIST;
 
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
 
     const onSuccess = ({ entries, sortOrder }) => {
@@ -203,7 +202,11 @@ export default class TransactionListModule {
   }
 
   redirectToAddTransaction = (transactionType) => {
-    window.location.href = `/#/${this.businessId}/${transactionType}/new`;
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/${transactionType}/new`;
   };
 
   unsubscribeFromStore = () => {
@@ -243,16 +246,18 @@ export default class TransactionListModule {
     });
   };
 
-  setInitialState = (params) => {
+  setInitialState = (context) => {
     const intent = SET_INITIAL_STATE;
 
     const {
       sourceJournal = '',
-    } = params;
+      ...rest
+    } = context;
 
     this.store.dispatch({
       intent,
       sourceJournal,
+      context: rest,
     });
   }
 
@@ -262,7 +267,6 @@ export default class TransactionListModule {
   }
 
   run(context) {
-    this.businessId = context.businessId;
     this.setInitialState(context);
     this.render();
     this.readMessages();

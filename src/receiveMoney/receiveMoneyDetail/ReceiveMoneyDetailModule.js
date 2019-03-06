@@ -22,17 +22,19 @@ import {
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
 import {
-  RESET_STATE,
+  RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY,
 } from '../receiveMoneyMessageTypes';
 import {
+  getBusinessId,
   getCalculatedTotalsPayload,
   getIsTableEmpty,
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyForUpdatePayload,
   getReceiveMoneyId,
+  getRegion,
   isPageEdited,
 } from './receiveMoneyDetailSelectors';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
@@ -44,7 +46,6 @@ export default class ReceiveMoneyDetailModule {
     this.integration = integration;
     this.store = new Store(receiveMoneyDetailReducer);
     this.setRootView = setRootView;
-    this.businessId = '';
     this.pushMessage = pushMessage;
     this.receiveMoneyId = '';
   }
@@ -55,7 +56,7 @@ export default class ReceiveMoneyDetailModule {
       : LOAD_RECEIVE_MONEY_DETAIL;
 
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(this.store.getState()),
       ...(!this.isCreating && { receiveMoneyId: this.receiveMoneyId }),
     };
 
@@ -102,7 +103,7 @@ export default class ReceiveMoneyDetailModule {
     this.integration.write({
       intent: DELETE_RECEIVE_MONEY,
       urlParams: {
-        businessId: this.businessId,
+        businessId: getBusinessId(this.store.getState()),
         receiveMoneyId: this.receiveMoneyId,
       },
       onSuccess,
@@ -112,9 +113,10 @@ export default class ReceiveMoneyDetailModule {
 
   createReceiveMoneyEntry = () => {
     const intent = CREATE_RECEIVE_MONEY;
-    const content = getReceiveMoneyForCreatePayload(this.store.getState());
+    const state = this.store.getState();
+    const content = getReceiveMoneyForCreatePayload(state);
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
     this.saveReceiveMoneyEntry(intent, content, urlParams);
   };
@@ -125,7 +127,7 @@ export default class ReceiveMoneyDetailModule {
     const content = getReceiveMoneyForUpdatePayload(state);
     const receiveMoneyId = getReceiveMoneyId(state);
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
       receiveMoneyId,
     };
     this.saveReceiveMoneyEntry(intent, content, urlParams);
@@ -229,8 +231,8 @@ export default class ReceiveMoneyDetailModule {
 
     this.integration.write({
       intent,
-      urlParams: { businessId: this.businessId },
-      content: getCalculatedTotalsPayload(this.store.getState()),
+      urlParams: { businessId: getBusinessId(state) },
+      content: getCalculatedTotalsPayload(state),
       onSuccess,
       onFailure,
     });
@@ -313,9 +315,13 @@ export default class ReceiveMoneyDetailModule {
     });
   };
 
-  redirectToTransactionList= () => {
-    window.location.href = `/#/${this.businessId}/transactionList`;
-  }
+  redirectToTransactionList = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/transactionList`;
+  };
 
   render = () => {
     const receiveMoneyView = (
@@ -353,11 +359,17 @@ export default class ReceiveMoneyDetailModule {
     });
   }
 
+  setInitialState = (context) => {
+    this.store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    });
+  }
+
   run(context) {
-    this.businessId = context.businessId;
+    this.setInitialState(context);
     this.receiveMoneyId = context.receiveMoneyId;
     this.isCreating = context.receiveMoneyId === 'new';
-    this.resetState();
     this.render();
     this.setLoadingState(true);
     this.loadReceiveMoney();

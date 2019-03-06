@@ -56,3 +56,5 @@ export const getContact = state => state.contact;
 
 export const getIsActionsDisabled = state => state.isSubmitting;
 export const isPageEdited = state => state.isPageEdited;
+export const getBusinessId = state => state.businessId;
+export const getRegion = state => state.region;

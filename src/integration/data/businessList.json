@@ -1,13 +1,17 @@
 [
   {
-   "businessName": "Moo Farms Pty Ltd",
-   "id": "4d0429b1-c5c1-4b90-803d-03d3124fc216"
+    "businessName": "Moo Farms Pty Ltd",
+    "id": "4d0429b1-c5c1-4b90-803d-03d3124fc216",
+    "region": "au"
   },
   {
     "businessName": "Pets R Us Pty Ltd",
-    "id": "4d0429b1-c5c1-4b90-803d-04c3124fc216"
-  },  {
-   "businessName": "Winston & Sons Law Firm",
-   "id": "4d0429b1-c5c1-4b90-803d-05b3124fc216"
+    "id": "4d0429b1-c5c1-4b90-803d-04c3124fc216",
+    "region": "nz"
+  },
+  {
+    "businessName": "Winston & Sons Law Firm",
+    "id": "4d0429b1-c5c1-4b90-803d-05b3124fc216",
+    "region": "au"
   }
 ]

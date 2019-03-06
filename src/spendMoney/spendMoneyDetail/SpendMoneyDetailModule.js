@@ -23,15 +23,17 @@ import {
   UPDATE_SPEND_MONEY_LINE,
 } from '../SpendMoneyIntents';
 import {
-  RESET_STATE,
+  RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY,
 } from '../spendMoneyMessageTypes';
 import {
+  getBusinessId,
   getCalculatedTotalsPayload,
   getIsTableEmpty,
+  getRegion,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
   getSpendMoneyId,
@@ -47,7 +49,6 @@ export default class SpendMoneyDetailModule {
     this.integration = integration;
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
-    this.businessId = '';
     this.pushMessage = pushMessage;
     this.spendMoneyId = '';
   }
@@ -58,7 +59,7 @@ export default class SpendMoneyDetailModule {
       : LOAD_SPEND_MONEY_DETAIL;
 
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(this.store.getState()),
       ...(!this.isCreating && { spendMoneyId: this.spendMoneyId }),
     };
 
@@ -86,14 +87,15 @@ export default class SpendMoneyDetailModule {
   };
 
   loadNextReferenceId = (accountId) => {
-    if (isReferenceIdDirty(this.store.getState())) {
+    const state = this.store.getState();
+    if (isReferenceIdDirty(state)) {
       return;
     }
 
     const intent = LOAD_REFERENCE_ID;
 
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
 
     const params = { accountId };
@@ -147,21 +149,21 @@ export default class SpendMoneyDetailModule {
 
   createSpendMoneyEntry = () => {
     const intent = CREATE_SPEND_MONEY;
-    const content = getSpendMoneyForCreatePayload(this.store.getState());
+    const state = this.store.getState();
+    const content = getSpendMoneyForCreatePayload(state);
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
     this.saveSpendMoneyEntry(intent, content, urlParams);
   };
 
   updateSpendMoneyEntry = () => {
-    console.log(this.store.getState());
     const intent = UPDATE_SPEND_MONEY;
-    const content = getSpendMoneyForUpdatePayload(this.store.getState());
-    const spendMoneyId = getSpendMoneyId(this.store.getState());
+    const state = this.store.getState();
+    const content = getSpendMoneyForUpdatePayload(state);
     const urlParams = {
-      businessId: this.businessId,
-      spendMoneyId,
+      businessId: getBusinessId(state),
+      spendMoneyId: getSpendMoneyId(state),
     };
     this.saveSpendMoneyEntry(intent, content, urlParams);
   }
@@ -228,7 +230,11 @@ export default class SpendMoneyDetailModule {
   };
 
   redirectToTransactionList = () => {
-    window.location.href = `/#/${this.businessId}/transactionList`;
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/transactionList`;
   };
 
   unsubscribeFromStore = () => {
@@ -313,7 +319,7 @@ export default class SpendMoneyDetailModule {
 
     this.integration.write({
       intent,
-      urlParams: { businessId: this.businessId },
+      urlParams: { businessId: getBusinessId(state) },
       content: getCalculatedTotalsPayload(this.store.getState()),
       onSuccess,
       onFailure,
@@ -352,7 +358,7 @@ export default class SpendMoneyDetailModule {
     this.integration.write({
       intent: DELETE_SPEND_MONEY,
       urlParams: {
-        businessId: this.businessId,
+        businessId: getBusinessId(this.store.getState()),
         spendMoneyId: this.spendMoneyId,
       },
       onSuccess,
@@ -396,11 +402,17 @@ export default class SpendMoneyDetailModule {
     });
   }
 
+  setInitialState = (context) => {
+    this.store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    });
+  }
+
   run(context) {
-    this.businessId = context.businessId;
+    this.setInitialState(context);
     this.spendMoneyId = context.spendMoneyId;
     this.isCreating = context.spendMoneyId === 'new';
-    this.resetState();
     this.render();
     this.setLoadingState(true);
     this.loadSpendMoney();

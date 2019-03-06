@@ -29,7 +29,7 @@ async function main(integrationType) {
   };
 
   const router = new Router({
-    defaultRoute: 'businesses.businessList',
+    defaultRoute: 'businessList.businessList',
   });
   const inbox = new Inbox();
   const integration = createIntegration();
@@ -59,10 +59,10 @@ async function main(integrationType) {
     });
   };
 
-  const beforeAll = ({ module, routeInfo }) => {
+  const beforeAll = ({ module, routeProps }) => {
     unsubscribeAllModulesFromStore();
     module.resetState();
-    nav.run(routeInfo);
+    nav.run(routeProps);
   };
 
   router.start({

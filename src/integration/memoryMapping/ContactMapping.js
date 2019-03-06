@@ -14,7 +14,7 @@ import success from '../data/success';
 const sortAndFilterContactList = ({ onSuccess }) => onSuccess(contactListFilterResponse);
 const loadContactList = ({ onSuccess }) => onSuccess(contactListLoadResponse);
 const loadContactDetail = ({ onSuccess }) => onSuccess(contactDetailLoadResponse);
-const deleteContact = ({ onFailure }) => onFailure(success);
+const deleteContact = ({ onSuccess }) => onSuccess(success);
 const updateContact = ({ onSuccess }) => onSuccess(success);
 const createContact = ({ onSuccess }) => onSuccess(success);
 

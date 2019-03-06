@@ -21,7 +21,34 @@ export default class Router {
       ...params,
     });
 
+    this.router.setState({
+      ...currentRoute,
+      params: newParams,
+    });
+
     this.router.replaceHistoryState(currentRoute.name, newParams);
+  }
+
+  replaceURLParamsAndReload = (params) => {
+    const currentRoute = this.router.getState();
+
+    if (Object.entries(params).every(([key, value]) => currentRoute.params[key] === value)) {
+      return;
+    }
+
+    const newParams = removeEmptyParams({
+      ...currentRoute.params,
+      ...params,
+    });
+
+    this.router.setState({
+      ...currentRoute,
+      params: newParams,
+    });
+
+    this.router.replaceHistoryState(currentRoute.name, newParams);
+
+    window.location.reload();
   }
 
   start = (options) => {
@@ -37,7 +64,15 @@ export default class Router {
 
     this.router.subscribe(({ route }) => {
       const { module, action } = moduleMapping[route.name];
-      beforeAll({ module, routeInfo: { routeParams: route.params, currentRouteName: route.name } });
+      beforeAll({
+        module,
+        routeProps: {
+          routeParams: route.params,
+          currentRouteName: route.name,
+          replaceURLParams: this.replaceURLParams,
+          replaceURLParamsAndReload: this.replaceURLParamsAndReload,
+        },
+      });
       action({ ...route.params }, this.replaceURLParams);
       afterAll();
     });

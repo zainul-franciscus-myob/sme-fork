@@ -17,7 +17,7 @@ import {
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
 import {
-  RESET_STATE,
+  RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import { getDefaultTaxCodeId } from './receiveMoneyDetailSelectors';
 import createReducer from '../../store/createReducer';
@@ -56,6 +56,8 @@ const initialState = {
   isLoading: true,
   isSubmitting: false,
   isPageEdited: false,
+  businessId: '',
+  region: '',
 };
 
 const pageEdited = { isPageEdited: true };
@@ -204,6 +206,11 @@ const resetTotals = state => ({
   totals: initialState.totals,
 });
 
+const setInitialState = (state, action) => ({
+  ...state,
+  ...action.context,
+});
+
 const handlers = {
   [LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
   [LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
@@ -220,6 +227,7 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [RESET_TOTALS]: resetTotals,
   [RESET_STATE]: resetState,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 const receiveMoneyReducer = createReducer(initialState, handlers);
 

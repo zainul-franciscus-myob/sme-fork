@@ -1,10 +1,10 @@
 import {
   LOAD_BUSINESS_LIST,
   SET_LOADING_STATE,
-} from './BusinessIntents';
+} from '../BusinessIntents';
 import {
   RESET_STATE,
-} from '../SystemIntents';
+} from '../../SystemIntents';
 
 const initialState = { businesses: [], isLoading: true };
 

@@ -1,5 +1,6 @@
 {
   "businessName": "Stark Industries",
+  "region": "au",
   "enabledFeatures": [
     "spendMoney",
     "receiveMoney",
@@ -10,6 +11,7 @@
     "generalJournal",
     "generalJournalList",
     "incomeAllocation",
-    "businessDetails"
+    "businessDetails",
+    "taxList"
   ]
 }

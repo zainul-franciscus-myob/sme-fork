@@ -11,11 +11,11 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from '../ContactIntents';
 import {
-  RESET_STATE,
+  RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT } from '../ContactMessageTypes';
 import {
-  getAppliedFilterOptions, getFilterOptions, getOrderBy, getSortOrder,
+  getAppliedFilterOptions, getBusinessId, getFilterOptions, getOrderBy, getRegion, getSortOrder,
 } from './contactListSelector';
 import ContactListView from './components/ContactListView';
 import Store from '../../store/Store';
@@ -40,7 +40,6 @@ export default class ContactListModule {
   render = () => {
     const contactListView = (
       <ContactListView
-        businessId={this.businessId}
         onAddContactButtonClick={this.redirectToAddContact}
         onDismissAlert={this.dismissAlert}
         onUpdateFilters={this.updateFilterOptions}
@@ -60,7 +59,7 @@ export default class ContactListModule {
   loadContactList = () => {
     const intent = LOAD_CONTACT_LIST;
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(this.store.getState()),
     };
 
     const onSuccess = ({
@@ -124,7 +123,11 @@ export default class ContactListModule {
   };
 
   redirectToAddContact = () => {
-    window.location.href = `/#/${this.businessId}/contact/new`;
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/contact/new`;
   }
 
   setLoadingState = (isLoading) => {
@@ -168,7 +171,7 @@ export default class ContactListModule {
     this.setSortOrder(orderBy, newSortOrder);
 
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
 
     const intent = SORT_AND_FILTER_CONTACT_LIST;
@@ -204,7 +207,7 @@ export default class ContactListModule {
     const intent = SORT_AND_FILTER_CONTACT_LIST;
 
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
 
     const onSuccess = ({ entries, sortOrder }) => {
@@ -244,8 +247,15 @@ export default class ContactListModule {
     });
   };
 
+  setInitialState = (context) => {
+    this.store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    });
+  }
+
   run(context) {
-    this.businessId = context.businessId;
+    this.setInitialState(context);
     this.render();
     this.readMessages();
     this.setLoadingState(true);

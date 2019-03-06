@@ -6,6 +6,7 @@ import IncomeAllocationMapping from './IncomeAllocationMapping';
 import NavigationMapping from './NavigationMapping';
 import ReceiveMoneyMapping from './ReceiveMoneyMapping';
 import SpendMoneyMapping from './SpendMoneyMapping';
+import TaxMapping from './TaxMapping';
 import TransactionListMapping from './TransactionListMapping';
 import TransferMoneyMapping from './TransferMoneyMapping';
 
@@ -18,8 +19,9 @@ const RootMapping = Object.freeze({
   ...TransactionListMapping,
   ...TransferMoneyMapping,
   ...ContactMapping,
-  ...NavigationMapping,
   ...IncomeAllocationMapping,
+  ...NavigationMapping,
+  ...TaxMapping,
 });
 
 export default RootMapping;

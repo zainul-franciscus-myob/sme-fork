@@ -36,6 +36,8 @@ const getInitialState = () => ({
   alert: undefined,
   isLoading: true,
   isTableLoading: false,
+  businessId: '',
+  region: '',
 });
 
 const resetState = () => (getInitialState());
@@ -91,6 +93,7 @@ const setAlert = (state, action) => ({
 
 const setInitialState = (state, action) => ({
   ...state,
+  ...action.context,
   filterOptions: {
     ...state.filterOptions,
     sourceJournal: action.sourceJournal,

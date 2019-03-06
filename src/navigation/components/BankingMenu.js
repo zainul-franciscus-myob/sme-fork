@@ -12,7 +12,7 @@ const getItems = urls => [
   urls.transactionList && <Navigation.MenuLink key="Transaction list" url={urls.transactionList} label="Transaction list" />,
 ].filter(Boolean);
 
-const BankingMenu = ({ urls, activeNav, onMenuSelect }) => Object.values(urls).some(Boolean) && (
+const BankingMenu = ({ urls, activeNav, onMenuSelect }) => (
   <Navigation.Menu
     label="Banking"
     icon={<Icons.Caret />}
@@ -25,6 +25,7 @@ const BankingMenu = ({ urls, activeNav, onMenuSelect }) => Object.values(urls).s
 BankingMenu.propTypes = {
   urls: PropTypes.shape().isRequired,
   activeNav: PropTypes.string.isRequired,
+  onMenuSelect: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({

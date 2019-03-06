@@ -36,23 +36,27 @@ const BUSINESS_EVENT_TYPE_TO_FEATURE_MAP = {
   TransferMoney: 'transferMoney',
 };
 
-const getEntryLink = (entry, businessId) => {
+const getEntryLink = (entry, businessId, region) => {
   const {
     id,
     businessEventType,
   } = entry;
   const feature = BUSINESS_EVENT_TYPE_TO_FEATURE_MAP[businessEventType];
 
-  return `/#/${businessId}/${feature}/${id}`;
+  return `/#/${region}/${businessId}/${feature}/${id}`;
 };
+
+export const getBusinessId = state => state.businessId;
+export const getRegion = state => state.region;
 
 export const getTableEntries = createSelector(
   getEntries,
-  (state, props) => props.businessId,
-  (entries, businessId) => entries.map(
+  getBusinessId,
+  getRegion,
+  (entries, businessId, region) => entries.map(
     entry => ({
       ...entry,
-      link: getEntryLink(entry, businessId),
+      link: getEntryLink(entry, businessId, region),
     }),
   ),
 );

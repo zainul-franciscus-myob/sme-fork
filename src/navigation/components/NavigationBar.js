@@ -1,28 +1,42 @@
 import { MYOBLogo, Navigation } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  hasBankingUrls, hasBusinessId, hasContactUrls, hasJournalUrls,
+} from '../NavigationSelectors';
 import BankingMenu from './BankingMenu';
 import BusinessMenu from './BusinessMenu';
 import ContactMenu from './ContactMenu';
 import JournalMenu from './JournalMenu';
+import Logout from './Logout';
 import SwitchBusiness from './SwitchBusiness';
 
-const getPrimary = ({ onMenuSelect }) => [
-  <BankingMenu key="BankingMenu" onMenuSelect={onMenuSelect} />,
-  <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} />,
-  <JournalMenu key="JournalMenu" onMenuSelect={onMenuSelect} />,
+const getPrimary = ({
+  onMenuSelect, shouldDisplayBankingMenu, shouldDisplayContactMenu, shouldDisplayJournalMenu,
+}) => [
+  shouldDisplayBankingMenu && <BankingMenu key="BankingMenu" onMenuSelect={onMenuSelect} />,
+  shouldDisplayContactMenu && <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} />,
+  shouldDisplayJournalMenu && <JournalMenu key="JournalMenu" onMenuSelect={onMenuSelect} />,
 ].filter(Boolean);
 
 const getSecondary = ({
-  businessName, onMenuSelect,
+  onMenuSelect, shouldDisplayBusinessMenu,
 }) => [
-  <SwitchBusiness businessName={businessName} key="SwitchBusiness" />,
-  <BusinessMenu key="BusinessMenu" onMenuSelect={onMenuSelect} />,
+  shouldDisplayBusinessMenu && <SwitchBusiness key="SwitchBusiness" />,
+  shouldDisplayBusinessMenu && <BusinessMenu key="BusinessMenu" onMenuSelect={onMenuSelect} />,
+  !shouldDisplayBusinessMenu && <Logout key="Logout" />,
 ].filter(Boolean);
 
-const NavigationBar = (props) => {
-  const primary = getPrimary(props);
-  const secondary = getSecondary(props);
+const NavigationBar = ({
+  onMenuSelect, shouldDisplayBusinessMenu, shouldDisplayBankingMenu,
+  shouldDisplayContactMenu, shouldDisplayJournalMenu,
+}) => {
+  const primary = getPrimary({
+    onMenuSelect, shouldDisplayBankingMenu, shouldDisplayContactMenu, shouldDisplayJournalMenu,
+  });
+  const secondary = getSecondary({ onMenuSelect, shouldDisplayBusinessMenu });
   const brand = <Navigation.Brand url="#/business" width="73px"><MYOBLogo /></Navigation.Brand>;
 
   return (
@@ -30,4 +44,19 @@ const NavigationBar = (props) => {
   );
 };
 
-export default NavigationBar;
+NavigationBar.propTypes = {
+  onMenuSelect: PropTypes.func.isRequired,
+  shouldDisplayBusinessMenu: PropTypes.bool.isRequired,
+  shouldDisplayBankingMenu: PropTypes.bool.isRequired,
+  shouldDisplayContactMenu: PropTypes.bool.isRequired,
+  shouldDisplayJournalMenu: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = state => ({
+  shouldDisplayBusinessMenu: hasBusinessId(state),
+  shouldDisplayBankingMenu: hasBankingUrls(state),
+  shouldDisplayContactMenu: hasContactUrls(state),
+  shouldDisplayJournalMenu: hasJournalUrls(state),
+});
+
+export default connect(mapStateToProps)(NavigationBar);

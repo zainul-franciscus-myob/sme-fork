@@ -125,3 +125,4 @@ export const getIsLoadingState = createSelector(
 );
 
 export const getAlert = state => state.alert;
+export const getBusinessId = state => state.businessId;

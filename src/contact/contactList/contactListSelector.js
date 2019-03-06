@@ -1,23 +1,26 @@
 import { createSelector } from 'reselect';
 
 export const getAlert = ({ alert }) => alert;
-
 export const getEntries = state => state.entries;
 
-const getEntryLink = (entry, businessId) => {
+const getEntryLink = (entry, businessId, region) => {
   const {
     id,
   } = entry;
-  return `/#/${businessId}/contact/${id}`;
+  return `/#/${region}/${businessId}/contact/${id}`;
 };
+
+export const getBusinessId = state => state.businessId;
+export const getRegion = state => state.region;
 
 export const getTableEntries = createSelector(
   getEntries,
-  (state, props) => props.businessId,
-  (entries, businessId) => entries.map(
+  getBusinessId,
+  getRegion,
+  (entries, businessId, region) => entries.map(
     entry => ({
       ...entry,
-      link: getEntryLink(entry, businessId),
+      link: getEntryLink(entry, businessId, region),
     }),
   ),
 );
@@ -40,7 +43,6 @@ export const getTypeFilterOptions = ({ typeFilters }) => typeFilters.map(
     value: filter.value,
   }),
 );
-
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 

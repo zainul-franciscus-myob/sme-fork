@@ -10,7 +10,7 @@ import {
   UPDATE_CONTACT_DETAILS,
   UPDATE_SHIPPING_ADDRESS,
 } from '../ContactIntents';
-import { RESET_STATE } from '../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const getInitialState = () => ({
@@ -56,6 +56,8 @@ const getInitialState = () => ({
   modalType: '',
   alertMessage: '',
   isPageEdited: false,
+  businessId: '',
+  region: '',
 });
 
 const resetState = () => (getInitialState());
@@ -146,6 +148,11 @@ const closeModal = state => ({
   modalType: '',
 });
 
+const setInitialState = (state, action) => ({
+  ...state,
+  ...action.context,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [LOAD_CONTACT_DETAIL]: loadContactDetail,
@@ -158,6 +165,7 @@ const handlers = {
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 
 const contactDetailReducer = createReducer(getInitialState(), handlers);

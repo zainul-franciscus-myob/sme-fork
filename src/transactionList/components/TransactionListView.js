@@ -15,7 +15,6 @@ import style from './TransactionListView.css';
 
 const TransactionListView = (props) => {
   const {
-    businessId,
     isLoading,
     alert,
     onUpdateFilters,
@@ -50,7 +49,6 @@ const TransactionListView = (props) => {
       <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
         <div className={style.list}>
           <TransactionListTable
-            businessId={businessId}
             onSort={onSort}
           />
         </div>

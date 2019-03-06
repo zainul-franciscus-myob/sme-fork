@@ -28,12 +28,13 @@ export default class NavigationModule {
     const urlParams = {
       businessId,
     };
-    const onSuccess = ({ businessName, enabledFeatures }) => {
+    const onSuccess = ({ businessName, region, enabledFeatures }) => {
       this.store.dispatch({
         intent,
         businessName,
         enabledFeatures,
       });
+      this.replaceURLParamsAndReload({ businessId, region: region.toLowerCase() });
     };
     const onFailure = () => {
       console.log('Failed to load navigation config');
@@ -93,7 +94,8 @@ export default class NavigationModule {
     this.setNavigationView(wrappedView);
   }
 
-  run = ({ routeParams, currentRouteName }) => {
+  run = ({ routeParams, currentRouteName, replaceURLParamsAndReload }) => {
+    this.replaceURLParamsAndReload = replaceURLParamsAndReload;
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     this.getBusinessInfo();
     this.render();

@@ -4,18 +4,18 @@ import React from 'react';
 import {
   LOAD_BUSINESS_LIST,
   SET_LOADING_STATE,
-} from './BusinessIntents';
+} from '../BusinessIntents';
 import {
   RESET_STATE,
-} from '../SystemIntents';
+} from '../../SystemIntents';
 import BusinessListView from './components/BusinessListView';
-import Store from '../store/Store';
-import businessReducer from './businessReducer';
+import Store from '../../store/Store';
+import businessListReducer from './businessListReducer';
 
 export default class BusinessModule {
   constructor({ integration, setRootView }) {
     this.integration = integration;
-    this.store = new Store(businessReducer);
+    this.store = new Store(businessListReducer);
     this.setRootView = setRootView;
   }
 

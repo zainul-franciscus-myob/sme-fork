@@ -17,7 +17,7 @@ import {
   UPDATE_GENERAL_JOURNAL_LINE,
 } from '../GeneralJournalIntents';
 import {
-  RESET_STATE,
+  RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import { getDefaultTaxCodeId } from './generalJournalDetailSelectors';
 import createReducer from '../../store/createReducer';
@@ -55,6 +55,8 @@ const initialState = {
   isLoading: true,
   isSubmitting: false,
   isPageEdited: false,
+  businessId: '',
+  region: '',
 };
 
 const pageEdited = { isPageEdited: true };
@@ -237,6 +239,11 @@ const resetTotals = state => ({
   totals: initialState.totals,
 });
 
+const setInitialState = (state, action) => ({
+  ...state,
+  ...action.context,
+});
+
 const handlers = {
   [LOAD_GENERAL_JOURNAL_DETAIL]: loadGeneralJournalDetail,
   [LOAD_NEW_GENERAL_JOURNAL]: loadNewGeneralJournal,
@@ -253,6 +260,7 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [RESET_TOTALS]: resetTotals,
   [RESET_STATE]: resetState,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 const generalJournalReducer = createReducer(initialState, handlers);
 

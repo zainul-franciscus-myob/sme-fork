@@ -17,10 +17,12 @@ import {
   UPDATE_SHIPPING_ADDRESS,
 } from '../ContactIntents';
 import {
-  RESET_STATE,
+  RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT } from '../ContactMessageTypes';
-import { getContact, isPageEdited } from './contactDetailSelectors';
+import {
+  getBusinessId, getContact, getRegion, isPageEdited,
+} from './contactDetailSelectors';
 import ContactDetailView from './components/ContactDetailView';
 import Store from '../../store/Store';
 import contactDetailReducer from './contactDetailReducer';
@@ -73,7 +75,7 @@ export default class ContactDetailModule {
 
     const intent = LOAD_CONTACT_DETAIL;
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(this.store.getState()),
       contactId: this.contactId,
     };
 
@@ -189,23 +191,29 @@ export default class ContactDetailModule {
   };
 
   redirectToContactList = () => {
-    window.location.href = `/#/${this.businessId}/contact`;
-  }
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/contact`;
+  };
 
   createContact = () => {
     const intent = CREATE_CONTACT;
-    const content = getContact(this.store.getState());
+    const state = this.store.getState();
+    const content = getContact(state);
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
     this.saveContact(intent, content, urlParams);
   };
 
   updateContact = () => {
     const intent = UPDATE_CONTACT;
-    const content = getContact(this.store.getState());
+    const state = this.store.getState();
+    const content = getContact(state);
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
       contactId: this.contactId,
     };
     this.saveContact(intent, content, urlParams);
@@ -257,7 +265,7 @@ export default class ContactDetailModule {
     this.integration.write({
       intent: DELETE_CONTACT,
       urlParams: {
-        businessId: this.businessId,
+        businessId: getBusinessId(this.store.getState()),
         contactId: this.contactId,
       },
       onSuccess,
@@ -290,8 +298,15 @@ export default class ContactDetailModule {
     });
   }
 
+  setInitialState = (context) => {
+    this.store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    });
+  }
+
   run(context) {
-    this.businessId = context.businessId;
+    this.setInitialState(context);
     this.contactId = context.contactId;
     this.isCreating = context.contactId === 'new';
     this.render();

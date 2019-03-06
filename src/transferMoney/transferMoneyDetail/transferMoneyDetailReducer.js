@@ -12,7 +12,7 @@ import {
   UPDATE_FORM,
 } from '../TransferMoneyIntents';
 import {
-  RESET_STATE,
+  RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
@@ -32,6 +32,8 @@ const initialState = {
   isLoading: true,
   modalType: '',
   alertMessage: '',
+  businessId: '',
+  region: '',
 };
 
 const pageEdited = { isPageEdited: true };
@@ -107,6 +109,11 @@ const closeModal = state => ({
 
 const resetState = () => (initialState);
 
+const setInitialState = (state, action) => ({
+  ...state,
+  ...action.context,
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_TRANSFER_MONEY_DETAIL]: loadTransferMoneyDetail,
@@ -118,6 +125,7 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [RESET_STATE]: resetState,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 
 const transferMoneyReducer = createReducer(initialState, handlers);

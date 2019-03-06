@@ -10,7 +10,7 @@ const getItems = urls => [
   urls.contactList && <Navigation.MenuLink key="View contacts" url={urls.contactList} label="View contacts" />,
 ].filter(Boolean);
 
-const ContactMenu = ({ urls, activeNav, onMenuSelect }) => Object.values(urls).some(Boolean) && (
+const ContactMenu = ({ urls, activeNav, onMenuSelect }) => (
   <Navigation.Menu
     label="Contacts"
     icon={<Icons.Caret />}

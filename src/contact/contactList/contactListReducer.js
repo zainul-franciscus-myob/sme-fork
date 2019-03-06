@@ -8,7 +8,7 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from '../ContactIntents';
 import {
-  RESET_STATE,
+  RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
@@ -29,6 +29,8 @@ const getInitialState = () => ({
   alert: undefined,
   isLoading: true,
   isTableLoading: false,
+  businessId: '',
+  region: '',
 });
 
 const resetState = () => (getInitialState());
@@ -85,6 +87,11 @@ const setSortOrder = (state, action) => ({
   orderBy: action.orderBy,
 });
 
+const setInitialState = (state, action) => ({
+  ...state,
+  ...action.context,
+});
+
 const handlers = {
   [LOAD_CONTACT_LIST]: loadContactList,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
@@ -94,6 +101,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [SET_SORT_ORDER]: setSortOrder,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 
 const contactListReducer = createReducer(getInitialState(), handlers);

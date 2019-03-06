@@ -44,8 +44,8 @@ ContactListTableBody.propTypes = {
   entries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
-const mapStateToProps = (state, props) => ({
-  entries: getTableEntries(state, props),
+const mapStateToProps = state => ({
+  entries: getTableEntries(state),
 });
 
 export default connect(mapStateToProps)(ContactListTableBody);

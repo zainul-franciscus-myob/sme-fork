@@ -13,8 +13,8 @@ import {
   UPDATE_ENTITY_TYPE,
   UPDATE_INCOME_ALLOCATION_LINE,
 } from './IncomeAllocationIntents';
-import { RESET_STATE } from '../SystemIntents';
-import { getIncomeAllocationSavePayload } from './IncomeAllocationSelectors';
+import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
+import { getBusinessId, getIncomeAllocationSavePayload } from './IncomeAllocationSelectors';
 import IncomeAllocationView from './components/IncomeAllocationView';
 import Store from '../store/Store';
 import incomeAllocationReducer from './IncomeAllocationReducer';
@@ -24,12 +24,11 @@ export default class IncomeAllocationModule {
     this.integration = integration;
     this.store = new Store(incomeAllocationReducer);
     this.setRootView = setRootView;
-    this.businessId = '';
   }
 
   loadIncomeAllocation = () => {
     const intent = LOAD_INCOME_ALLOCATION;
-    const urlParams = { businessId: this.businessId };
+    const urlParams = { businessId: getBusinessId(this.store.getState()) };
     this.setLoadingState(true);
 
     const onSuccess = ({
@@ -149,7 +148,7 @@ export default class IncomeAllocationModule {
     const state = this.store.getState();
     const content = getIncomeAllocationSavePayload(state);
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
 
     const onSuccess = (response) => {
@@ -204,12 +203,6 @@ export default class IncomeAllocationModule {
     this.setRootView(wrappedView);
   }
 
-  run = (context) => {
-    this.businessId = context.businessId;
-    this.render();
-    this.loadIncomeAllocation();
-  }
-
   resetState = () => {
     const intent = RESET_STATE;
     this.store.dispatch({
@@ -219,5 +212,18 @@ export default class IncomeAllocationModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
+  }
+
+  setInitialState = (context) => {
+    this.store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    });
+  }
+
+  run = (context) => {
+    this.setInitialState(context);
+    this.render();
+    this.loadIncomeAllocation();
   }
 }

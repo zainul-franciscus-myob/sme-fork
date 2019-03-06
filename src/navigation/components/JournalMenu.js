@@ -10,7 +10,7 @@ const getItems = urls => [
   urls.generalJournalList && <Navigation.MenuLink key="View general journals" url={urls.generalJournalList} label="View general journals" />,
 ].filter(Boolean);
 
-const JournalMenu = ({ urls, activeNav, onMenuSelect }) => Object.values(urls).some(Boolean) && (
+const JournalMenu = ({ urls, activeNav, onMenuSelect }) => (
   <Navigation.Menu
     label="Journals"
     icon={<Icons.Caret />}

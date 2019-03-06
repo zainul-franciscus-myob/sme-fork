@@ -15,10 +15,12 @@ import {
   UPDATE_FORM,
 } from '../TransferMoneyIntents';
 import {
-  RESET_STATE,
+  RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoneyMessageTypes';
-import { getCreateTransferMoneyPayload, isPageEdited } from './transferMoneyDetailSelectors';
+import {
+  getBusinessId, getCreateTransferMoneyPayload, getRegion, isPageEdited,
+} from './transferMoneyDetailSelectors';
 import Store from '../../store/Store';
 import TransferMoneyDetailView from './components/TransferMoneyDetailView';
 import transferMoneyDetailReducer from './transferMoneyDetailReducer';
@@ -45,7 +47,7 @@ export default class TransferMoneyDetailModule {
       : LOAD_TRANSFER_MONEY_DETAIL;
 
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(this.store.getState()),
       ...(!this.isCreating && { transferMoneyId: this.transferMoneyId }),
     };
 
@@ -82,9 +84,13 @@ export default class TransferMoneyDetailModule {
     isSubmitting,
   });
 
-  redirectToTransactionList= () => {
-    window.location.href = `/#/${this.businessId}/transactionList`;
-  }
+  redirectToTransactionList = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/transactionList`;
+  };
 
   displayAlert = errorMessage => this.store.dispatch({
     intent: SET_ALERT_MESSAGE,
@@ -97,8 +103,9 @@ export default class TransferMoneyDetailModule {
   });
 
   createTransferMoneyEntry = () => {
-    const content = getCreateTransferMoneyPayload(this.store.getState());
-    const urlParams = { businessId: this.businessId };
+    const state = this.store.getState();
+    const content = getCreateTransferMoneyPayload(state);
+    const urlParams = { businessId: getBusinessId(state) };
 
     const onSuccess = (response) => {
       this.pushMessage({
@@ -143,7 +150,7 @@ export default class TransferMoneyDetailModule {
     this.integration.write({
       intent: DELETE_TRANSFER_MONEY,
       urlParams: {
-        businessId: this.businessId,
+        businessId: getBusinessId(this.store.getState()),
         transferMoneyId: this.transferMoneyId,
       },
       onSuccess,
@@ -193,11 +200,17 @@ export default class TransferMoneyDetailModule {
     this.setRootView(wrappedView);
   }
 
+  setInitialState = (context) => {
+    this.store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    });
+  }
+
   run(context) {
-    this.businessId = context.businessId;
+    this.setInitialState(context);
     this.transferMoneyId = context.transferMoneyId;
     this.isCreating = context.transferMoneyId === 'new';
-    this.resetState();
     this.render();
     this.setLoadingState(true);
     this.loadTransferMoney();
