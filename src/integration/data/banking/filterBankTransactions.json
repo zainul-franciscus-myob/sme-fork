@@ -1,0 +1,33 @@
+{
+  "balances": {
+    "bankBalance": "$12,000.00",
+    "myobBalance": "$15,342.00",
+    "unallocated": "$3,342.00"
+  },
+  "entries": [
+    {
+      "date": "21/10/20l8",
+      "description": "Bob the builder",
+      "withdrawal": "3,300.00",
+      "deposit": "",
+      "allocatedTo": "TM00003",
+      "numberOfMatches": 0
+    },
+    {
+      "date": "21/10/20l8",
+      "description": "Join the crew",
+      "withdrawal": "295.00",
+      "deposit": "",
+      "allocatedTo": "TM00003",
+      "numberOfMatches": 0
+    },
+    {
+      "date": "21/10/20l8",
+      "description": "Bob the gang have soo much fun",
+      "withdrawal": "",
+      "deposit": "1,300.00",
+      "allocatedTo": "SM0000005",
+      "numberOfMatches": 0
+    }
+  ]
+}
