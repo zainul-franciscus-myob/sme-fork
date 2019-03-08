@@ -30,6 +30,17 @@ const getEnabledUrls = createSelector(
   ),
 );
 
+export const getSalesUrls = createSelector(
+  getEnabledUrls,
+  enabledUrls => ({
+    quoteList: enabledUrls.quoteList,
+  }),
+);
+export const hasSalesUrls = createSelector(
+  getSalesUrls,
+  urls => Object.values(urls).some(Boolean),
+);
+
 export const getBankingUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({

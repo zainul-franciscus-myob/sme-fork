@@ -9,6 +9,7 @@ export const activeMapping = {
   'incomeAllocation.incomeAllocation': 'business',
   'business.businessDetail': 'business',
   'tax.taxList': 'business',
+  'quote.quoteList': 'sales',
 };
 
 export const featuresConfig = {
@@ -62,5 +63,8 @@ export const featuresConfig = {
   },
   taxList: {
     routeName: 'tax.taxList',
+  },
+  quoteList: {
+    routeName: 'quote.quoteList',
   },
 };

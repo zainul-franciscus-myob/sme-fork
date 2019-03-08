@@ -82,7 +82,7 @@ const SpendMoneyDetailView = ({
 
       {alertComponent}
       <LineItemTemplate
-        pageHead="Spend Money Entry"
+        pageHead="Spend money entry"
         options={templateOptions}
         actions={actions}
       >

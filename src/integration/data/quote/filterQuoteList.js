@@ -1,5 +1,5 @@
 export default {
-  total: '2,852.00',
+  total: '$2,852.00',
   entries: [
     {
       id: '3',

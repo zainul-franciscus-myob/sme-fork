@@ -26,7 +26,7 @@ const TransactionListPageHead = (props) => {
   );
 
   return (
-    <PageHead title="Transaction List">
+    <PageHead title="Transaction list">
       <Dropdown
         items={items}
         onSelect={onAddTransaction}

@@ -12,6 +12,7 @@
     "generalJournalList",
     "incomeAllocation",
     "businessDetails",
-    "taxList"
+    "taxList",
+    "quoteList"
   ]
 }

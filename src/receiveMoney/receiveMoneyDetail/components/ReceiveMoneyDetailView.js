@@ -79,7 +79,7 @@ const ReceiveMoneyDetailView = ({
     <React.Fragment>
       {alertComponent}
       <LineItemTemplate
-        pageHead="Receive Money Entry"
+        pageHead="Receive money entry"
         options={templateOptions}
         actions={actions}
       >

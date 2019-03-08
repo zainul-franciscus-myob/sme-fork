@@ -6,7 +6,7 @@ import React from 'react';
 import { getActiveNav, getContactUrls } from '../NavigationSelectors';
 
 const getItems = urls => [
-  urls.createContact && <Navigation.MenuLink key="Create contact" url={urls.createContact} label="Create contact" />,
+  urls.createContact && <Navigation.MenuLink key="Add contact" url={urls.createContact} label="Add contact" />,
   urls.contactList && <Navigation.MenuLink key="View contacts" url={urls.contactList} label="View contacts" />,
 ].filter(Boolean);
 

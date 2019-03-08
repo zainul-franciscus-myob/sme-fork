@@ -1,0 +1,7 @@
+export const LOAD_QUOTE_LIST = Symbol('Load list of quotes');
+export const SET_ALERT = Symbol('Set the Alert of the page');
+export const SET_LOADING_STATE = Symbol('Set loading state');
+export const SET_SORT_ORDER = Symbol('Set sort order for quote list');
+export const SET_TABLE_LOADING_STATE = Symbol('Set Table loading state');
+export const SORT_AND_FILTER_QUOTE_LIST = Symbol('Sort and filter list of quotes');
+export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');

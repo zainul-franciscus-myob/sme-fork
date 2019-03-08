@@ -3,6 +3,7 @@ import ContactMapping from './ContactMapping';
 import GeneralJournalMapping from './GeneralJournalMapping';
 import IncomeAllocationMapping from './IncomeAllocationMapping';
 import NavigationMapping from './NavigationMapping';
+import QuoteMapping from './QuoteMapping';
 import ReceiveMoneyMapping from './ReceiveMoneyMapping';
 import SpendMoneyMapping from './SpendMoneyMapping';
 import TaxMapping from './TaxMapping';
@@ -11,15 +12,16 @@ import TransferMoneyMapping from './TransferMoneyMapping';
 
 const RootMapping = Object.freeze({
   ...BusinessMapping,
-  ...GeneralJournalMapping,
-  ...SpendMoneyMapping,
-  ...ReceiveMoneyMapping,
-  ...TransactionListMapping,
-  ...TransferMoneyMapping,
   ...ContactMapping,
+  ...GeneralJournalMapping,
   ...IncomeAllocationMapping,
   ...NavigationMapping,
+  ...QuoteMapping,
+  ...ReceiveMoneyMapping,
+  ...SpendMoneyMapping,
   ...TaxMapping,
+  ...TransactionListMapping,
+  ...TransferMoneyMapping,
 });
 
 export default RootMapping;

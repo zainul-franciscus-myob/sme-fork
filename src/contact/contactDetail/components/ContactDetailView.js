@@ -62,7 +62,7 @@ const ContactDetailView = ({
     );
   }
 
-  const pageHead = isCreating ? 'New contact' : contactHeader;
+  const pageHead = isCreating ? 'Add contact' : contactHeader;
 
   const view = (
     <div className={styles.contact}>

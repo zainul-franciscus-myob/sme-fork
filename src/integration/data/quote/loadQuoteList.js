@@ -8,8 +8,8 @@ export default {
     { name: 'Krzysztof Coleman', value: '4' },
   ],
   sortOrder: 'desc',
-  orderBy: 'Number',
-  total: '1,747.00',
+  orderBy: 'DisplayId',
+  total: '$1,747.00',
   entries: [
     {
       id: '1',

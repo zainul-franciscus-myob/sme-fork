@@ -4,6 +4,7 @@ import getContactRoutes from './contact/getContactRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getIncomeAllocationRoutes from './IncomeAllocation/getIncomeAllocationRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
+import getQuoteRoutes from './quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
 import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 import getTaxRoutes from './tax/getTaxRoutes';
@@ -64,6 +65,13 @@ const getRoutes = ({
     name: 'incomeAllocation',
     rootPath: '/:region/:businessId/incomeAllocation',
     subRoutes: getIncomeAllocationRoutes({
+      integration, setRootView,
+    }),
+  },
+  {
+    name: 'quote',
+    rootPath: '/:region/:businessId/quote',
+    subRoutes: getQuoteRoutes({
       integration, setRootView,
     }),
   },
