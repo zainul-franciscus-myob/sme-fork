@@ -184,7 +184,7 @@ export default class QuoteListModule {
     this.setSortOrder(orderBy, newSortOrder);
 
     const urlParams = {
-      businessId: this.businessId,
+      businessId: getBusinessId(state),
     };
 
     const intent = SORT_AND_FILTER_QUOTE_LIST;
