@@ -1,32 +1,32 @@
 export const activeMapping = {
-  'spendMoney.spendMoneyDetail': 'banking',
-  'receiveMoney.receiveMoneyDetail': 'banking',
-  'transferMoney.transferMoneyDetail': 'banking',
-  'transactionList.transactionList': 'banking',
-  'contact.contactDetail': 'contact',
-  'contact.contactList': 'contact',
-  'generalJournal.generalJournalDetail': 'journals',
-  'incomeAllocation.incomeAllocation': 'business',
-  'business.businessDetail': 'business',
-  'tax.taxList': 'business',
-  'quote.quoteList': 'sales',
+  'spendMoney/spendMoneyDetail': 'banking',
+  'receiveMoney/receiveMoneyDetail': 'banking',
+  'transferMoney/transferMoneyDetail': 'banking',
+  'transactionList/transactionList': 'banking',
+  'contact/contactDetail': 'contact',
+  'contact/contactList': 'contact',
+  'generalJournal/generalJournalDetail': 'journals',
+  'incomeAllocation/incomeAllocation': 'business',
+  'business/businessDetail': 'business',
+  'tax/taxList': 'business',
+  'quote/quoteList': 'sales',
 };
 
 export const featuresConfig = {
   spendMoney: {
-    routeName: 'spendMoney.spendMoneyDetail',
+    routeName: 'spendMoney/spendMoneyDetail',
     params: {
       spendMoneyId: 'new',
     },
   },
   receiveMoney: {
-    routeName: 'receiveMoney.receiveMoneyDetail',
+    routeName: 'receiveMoney/receiveMoneyDetail',
     params: {
       receiveMoneyId: 'new',
     },
   },
   transferMoney: {
-    routeName: 'transferMoney.transferMoneyDetail',
+    routeName: 'transferMoney/transferMoneyDetail',
     params: {
       transferMoneyId: 'new',
     },
@@ -35,36 +35,36 @@ export const featuresConfig = {
     routeName: 'transactionList',
   },
   createContact: {
-    routeName: 'contact.contactDetail',
+    routeName: 'contact/contactDetail',
     params: {
       contactId: 'new',
     },
   },
   contactList: {
-    routeName: 'contact.contactList',
+    routeName: 'contact/contactList',
   },
   generalJournal: {
-    routeName: 'generalJournal.generalJournalDetail',
+    routeName: 'generalJournal/generalJournalDetail',
     params: {
       generalJournalId: 'new',
     },
   },
   generalJournalList: {
-    routeName: 'transactionList.transactionList',
+    routeName: 'transactionList/transactionList',
     params: {
       sourceJournal: 'General',
     },
   },
   incomeAllocation: {
-    routeName: 'incomeAllocation.incomeAllocation',
+    routeName: 'incomeAllocation/incomeAllocation',
   },
   businessDetails: {
-    routeName: 'business.businessDetail',
+    routeName: 'business/businessDetail',
   },
   taxList: {
-    routeName: 'tax.taxList',
+    routeName: 'tax/taxList',
   },
   quoteList: {
-    routeName: 'quote.quoteList',
+    routeName: 'quote/quoteList',
   },
 };

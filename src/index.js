@@ -29,7 +29,7 @@ async function main(integrationType) {
   };
 
   const router = new Router({
-    defaultRoute: 'businessList.businessList',
+    defaultRoute: 'businessList/businessList',
   });
   const inbox = new Inbox();
   const integration = createIntegration();

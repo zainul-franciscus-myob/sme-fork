@@ -29,11 +29,11 @@ describe('getRouteNameToModuleMapping', () => {
     const actual = getRouteNameToModuleMapping(routes);
 
     const expected = {
-      'homePage.home': {
+      'homePage/home': {
         module: homeModule,
         action: expect.any(Function),
       },
-      'homePage.features': {
+      'homePage/features': {
         module: featuresModule,
         action: expect.any(Function),
       },

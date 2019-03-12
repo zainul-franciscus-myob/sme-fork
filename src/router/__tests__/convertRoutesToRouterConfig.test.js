@@ -30,28 +30,35 @@ describe('convertRoutesToRouterConfig', () => {
           },
         ],
       },
+      {
+        name: 'anotherPage',
+        rootPath: '/anotherPage',
+        subRoutes: [
+          {
+            name: 'features',
+            path: '/features',
+          },
+        ],
+      },
     ];
 
     const actual = convertRoutesToRouterConfig(routes);
-
     const expected = [
       {
-        name: 'homePage',
-        path: '/home',
-        children: [
-          {
-            name: 'home',
-            path: '/?parameter1',
-          },
-          {
-            name: 'features',
-            path: '/features?featureParam1&featureParam2',
-          },
-          {
-            name: 'test',
-            path: '/test',
-          },
-        ],
+        name: 'homePage/home',
+        path: '/home?parameter1',
+      },
+      {
+        name: 'homePage/features',
+        path: '/home/features?featureParam1&featureParam2',
+      },
+      {
+        name: 'homePage/test',
+        path: '/home/test',
+      },
+      {
+        name: 'anotherPage/features',
+        path: '/anotherPage/features',
       },
     ];
 

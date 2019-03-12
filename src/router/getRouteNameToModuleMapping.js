@@ -3,7 +3,7 @@ const getRouteNameToModuleMapping = (routes) => {
 
   routes.forEach(({ name: rootName, subRoutes }) => {
     subRoutes.forEach(({ name, module }) => {
-      const routeName = `${rootName}.${name}`;
+      const routeName = `${rootName}/${name}`;
       const defaultAction = (context) => { module.run(context); };
 
       moduleMapping[routeName] = {
