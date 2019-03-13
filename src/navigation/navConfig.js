@@ -10,6 +10,7 @@ export const activeMapping = {
   'business/businessDetail': 'business',
   'tax/taxList': 'business',
   'quote/quoteList': 'sales',
+  'banking/bankTransactionList': 'banking',
 };
 
 export const featuresConfig = {
@@ -66,5 +67,8 @@ export const featuresConfig = {
   },
   quoteList: {
     routeName: 'quote/quoteList',
+  },
+  bankTransactionList: {
+    routeName: 'banking/bankTransactionList',
   },
 };

@@ -1,0 +1,42 @@
+:local .list {
+  position: relative;
+  min-height: 60vh;
+}
+
+:local .empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+:local .spinner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+
+:local .list [data-label=allocateOrMatch],
+:local .list [data-label=allocateOrMatchHeader] {
+  border-left: 0.2rem solid #dcdfe1;
+}
+
+:local .list [data-label=allocateOrMatch] {
+  background: #f3f4f5;
+}
+
+:local .balances {
+  text-align: right;
+}
+
+:local .unallocated {
+  font-weight: bold;
+}
+
+:local .balanceItem {
+  margin-right: 2rem;
+}

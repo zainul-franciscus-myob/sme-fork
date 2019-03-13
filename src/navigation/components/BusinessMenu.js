@@ -7,11 +7,15 @@ import {
   getActiveNav, getBusinessName, getBusinessUrls, getTaxCodesLabel,
 } from '../NavigationSelectors';
 
+const isSeparatorRequired = urls => (
+  urls.businessDetails || urls.taxList || urls.incomeAllocation
+);
+
 const getItems = ({ urls, taxCodesLabel }) => [
   urls.businessDetails && <Navigation.MenuLink key="businessDetails" label="Business details" url={urls.businessDetails} />,
   urls.incomeAllocation && <Navigation.MenuLink key="incomeAllocation" label="Income allocation" url={urls.incomeAllocation} />,
   urls.taxList && <Navigation.MenuLink key="taxList" label={taxCodesLabel} url={urls.taxList} />,
-  urls.incomeAllocation && <Navigation.Separator key="separator" />,
+  isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
   <Navigation.MenuLink key="logout" url="#/logout" label="Logout" icon={<Icons.SignOut />} />,
 ].filter(Boolean);
 

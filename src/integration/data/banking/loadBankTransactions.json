@@ -2,23 +2,19 @@
   "bankAccounts": [
     {
       "id": "123",
-      "reportingMethod": "sale",
       "displayName": "My Sales Account 1",
       "accountType": "Sales",
-      "taxCodeId": "123",
       "displayId": "1-123"
     },
     {
       "id": "456",
-      "reportingMethod": "purchase",
       "displayName": "My Assets Account 1",
       "accountType": "Assets",
-      "taxCodeId": "124",
       "displayId": "2-123"
     }
   ],
-  "selectedBankAccountId": "123",
-  "selectedTransactionType": "CurrentTransactions",
+  "bankAccount": "123",
+  "transactionType": "CurrentTransactions",
   "transactionTypes": [
     {
       "name": "Unallocated transactions",
@@ -33,11 +29,9 @@
     "myobBalance": "$15,342.00",
     "unallocated": "$3,342.00"
   },
-  "sortOrder": "Date",
-  "orderBy": "desc",
   "entries": [
     {
-      "date": "21/10/20l8",
+      "displayDate": "21/10/2018",
       "description": "Bob the builder",
       "withdrawal": "3,300.00",
       "deposit": "",
@@ -45,7 +39,7 @@
       "numberOfMatches": 0
     },
     {
-      "date": "21/10/20l8",
+      "displayDate": "20/10/2018",
       "description": "Scoop muck and dizzy",
       "withdrawal": "295.00",
       "deposit": "",
@@ -53,7 +47,7 @@
       "numberOfMatches": 1
     },
     {
-      "date": "21/10/20l8",
+      "displayDate": "11/10/2018",
       "description": "Rolly too, lofty and wendy",
       "withdrawal": "",
       "deposit": "1,300.00",

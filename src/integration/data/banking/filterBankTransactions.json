@@ -6,7 +6,7 @@
   },
   "entries": [
     {
-      "date": "21/10/20l8",
+      "displayDate": "01/10/2018",
       "description": "Bob the builder",
       "withdrawal": "3,300.00",
       "deposit": "",
@@ -14,7 +14,7 @@
       "numberOfMatches": 0
     },
     {
-      "date": "21/10/20l8",
+      "displayDate": "21/09/2018",
       "description": "Join the crew",
       "withdrawal": "295.00",
       "deposit": "",
@@ -22,7 +22,7 @@
       "numberOfMatches": 0
     },
     {
-      "date": "21/10/20l8",
+      "displayDate": "01/09/2018",
       "description": "Bob the gang have soo much fun",
       "withdrawal": "",
       "deposit": "1,300.00",

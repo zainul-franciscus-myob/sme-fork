@@ -1,3 +1,4 @@
+import getBankingRoutes from './banking/getBankingRoutes';
 import getBusinessListRoutes from './business/getBusinessListRoutes';
 import getBusinessRoutes from './business/getBusinessRoutes';
 import getContactRoutes from './contact/getContactRoutes';
@@ -89,6 +90,10 @@ const getRoutes = ({
     name: 'business',
     rootPath: '/:region/:businessId',
     subRoutes: getBusinessRoutes({ setRootView, integration }),
+  }, {
+    name: 'banking',
+    rootPath: '/:region/:businessId/banking',
+    subRoutes: getBankingRoutes({ integration, setRootView }),
   },
 ];
 

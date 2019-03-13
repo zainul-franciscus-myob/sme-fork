@@ -44,6 +44,7 @@ export const hasSalesUrls = createSelector(
 export const getBankingUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
+    bankTransactionList: enabledUrls.bankTransactionList,
     spendMoney: enabledUrls.spendMoney,
     receiveMoney: enabledUrls.receiveMoney,
     transferMoney: enabledUrls.transferMoney,
