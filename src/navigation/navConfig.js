@@ -33,7 +33,7 @@ export const featuresConfig = {
     },
   },
   transactionList: {
-    routeName: 'transactionList',
+    routeName: 'transactionList/transactionList',
   },
   createContact: {
     routeName: 'contact/contactDetail',
