@@ -32,9 +32,11 @@
               }
             }],
             "Enabled" : "true",
+            "HttpVersion" : "http2",
             "DefaultRootObject" : "index.html",
             "DefaultCacheBehavior" :
             {
+              "Compress": "true",
               "TargetOriginId" : { "Ref": "S3Bucket" },
               "ForwardedValues" :
               {
@@ -149,7 +151,23 @@
     "S3Bucket":
     {
       "Type": "AWS::S3::Bucket",
+      "DeletionPolicy" : "Delete",
       "Properties": {
+        "CorsConfiguration": {
+          "CorsRules": [
+            {
+              "ExposedHeaders": [ "Content-Length" ],
+              "AllowedMethods" : [ "GET" ],
+              "AllowedOrigins" : [ "*" ]
+            },
+            {
+              "AllowedHeaders" : [ "Authorization" ],
+              "AllowedMethods" : [ "GET" ],
+              "AllowedOrigins" : [ "*" ],
+              "MaxAge" : "3000"
+            }
+          ]
+        },
         "AccessControl": "Private",
         "BucketName": {
           "Ref": "BucketName"
