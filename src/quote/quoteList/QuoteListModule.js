@@ -111,7 +111,7 @@ export default class QuoteListModule {
     };
 
     const onFailure = () => {
-      console.error('Failed to load transaction list entries');
+      console.error('Failed to load quote list entries');
     };
 
     const filterOptions = getFilterOptions(state);
@@ -188,12 +188,13 @@ export default class QuoteListModule {
     };
 
     const intent = SORT_AND_FILTER_QUOTE_LIST;
-    const onSuccess = ({ entries }) => {
+    const onSuccess = ({ entries, total }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
         isSort: true,
+        total,
       });
     };
 

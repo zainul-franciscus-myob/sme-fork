@@ -89,6 +89,7 @@ const setTableLoadingState = (state, action) => ({
 const sortAndFilterQuoteList = (state, action) => ({
   ...state,
   entries: action.entries,
+  total: action.total,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
