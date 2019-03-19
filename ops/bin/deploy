@@ -10,7 +10,7 @@ TARGET=$1
 BUCKET=s3://myob-sme-web-ui-$TARGET-bucket
 
 # Get the build artefact
-# buildkite-agent artifact download build-$TARGET.tar.gz .
+buildkite-agent artifact download build-$TARGET.tar.gz .
 tar -zxvf build-$TARGET.tar.gz
 
 # Deploy it
