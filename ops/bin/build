@@ -15,5 +15,5 @@ echo "--- Building Started"
 echo "--- Building with  $BUILD_CONFIG_FILE"
 
 ./ops/bin/env "yarn install && . ${BUILD_CONFIG_FILE} yarn react-scripts build && \
-              mv ./build/${APP_CONFIG_FILE} ./build/config-${REACT_APP_BUILD_NUMBER:-local}.json && \
+              mv ./build/${APP_CONFIG_FILE} ./build/config-${REACT_APP_BUILD_NUMBER:-dev}.json && \
               tar czf build-${ENV}.tar.gz build"
