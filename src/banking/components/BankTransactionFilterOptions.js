@@ -1,5 +1,5 @@
 import {
-  Button, DatePicker, DirectSearchBox, FilterBar, InputLabel, Select,
+  Button, DatePicker, FilterBar, InputLabel, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -49,7 +49,6 @@ class BankTransactionFilterOptions extends React.Component {
         transactionType,
         dateFrom,
         dateTo,
-        keywords,
         selectedBankAccountIndex,
       },
       balances: {
@@ -99,10 +98,6 @@ class BankTransactionFilterOptions extends React.Component {
 
             {dateRangeFilter}
 
-            <FilterBar.Option>
-              <InputLabel label="Search" id="Search_Box" />
-              <DirectSearchBox id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
-            </FilterBar.Option>
             <FilterBar.Option>
               <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
             </FilterBar.Option>
