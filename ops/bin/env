@@ -9,7 +9,7 @@ docker run -t  \
    -v $(pwd):/app \
    -w /app \
    -v ~/.aws/credentials:/root/.aws/credentials \
-   -e "REACT_APP_BUILD_NUMBER=${REACT_APP_BUILD_NUMBER:-dev}" \
+   -e "REACT_APP_BUILD_NUMBER=${REACT_APP_BUILD_NUMBER:-local}" \
    $BUILD_IMAGE_URI \
    /bin/sh -c "ops/bin/npm-auth && $@"
 

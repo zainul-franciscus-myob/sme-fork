@@ -2,6 +2,6 @@
   "AUTHENTICATION_AUTHORITY": "https://login.myob.com",
   "AUTHENTICATION_WEB_CLIENT_ID": "sme-web",
   "AUTHENTICATION_BFF_CLIENT_ID": "sme-web-bff",
-  "BASE_URL": "https://d2uq2hrr7dphm8.cloudfront.net",
-  "BFF_BASE_URL": "https://sme-web-bff.svc.platform.myob.com"
+  "BASE_URL": "https://d2cvwklhlztlov.cloudfront.net",
+  "BFF_BASE_URL": "https://production-sme-web-bff.svc.platform.myob.com"
 }

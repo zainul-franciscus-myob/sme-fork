@@ -2,7 +2,7 @@
 
 if [ $# -ne 1 ]; then
   echo "You must provide a target ENV"
-  echo "usage: $0 [ dev | preprod | prod ]."
+  echo "usage: $0 [ stack ] eg. $0 integration"
   exit 1
 fi
 
@@ -10,7 +10,7 @@ TARGET=$1
 BUCKET=s3://myob-sme-web-ui-$TARGET-bucket
 
 # Get the build artefact
-buildkite-agent artifact download build-$TARGET.tar.gz .
+# buildkite-agent artifact download build-$TARGET.tar.gz .
 tar -zxvf build-$TARGET.tar.gz
 
 # Deploy it

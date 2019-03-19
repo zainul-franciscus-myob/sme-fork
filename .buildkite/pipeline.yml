@@ -12,34 +12,82 @@ steps:
 
   - wait
 
-  - name: ':package: :hatched_chick: Build Preprod Javascript'
-    command: ./ops/bin/build preprod
+  - name: ':package: :hatched_chick: Build Development Javascript'
+    command: ./ops/bin/build development
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
       queue: cacc-prod-dflt
-    artifact_paths: "build-preprod.tar.gz"
+    artifact_paths: "build-development.tar.gz"
 
-  - name: ':package: :eagle: Build Prod Javascript'
-    command: ./ops/bin/build prod
+  - name: ':package: :hatched_chick: Build Integration Javascript'
+    command: ./ops/bin/build integration
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
       queue: cacc-prod-dflt
-    artifact_paths: "build.tar.gz"
+    artifact_paths: "build-integration.tar.gz"
+
+  - name: ':package: :hatched_chick: Build PDV Javascript'
+    command: ./ops/bin/build pdv
+    env:
+      REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
+    agents:
+      queue: cacc-prod-dflt
+    artifact_paths: "build-pdv.tar.gz"
+
+  - name: ':package: :hatched_chick: Build Preview Javascript'
+    command: ./ops/bin/build preview
+    env:
+      REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
+    agents:
+      queue: cacc-prod-dflt
+    artifact_paths: "build-preview.tar.gz"
+
+  - name: ':package: :hatched_chick: Build Production Javascript'
+    command: ./ops/bin/build production
+    env:
+      REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
+    agents:
+      queue: cacc-prod-dflt
+    artifact_paths: "build-production.tar.gz"
 
   - wait
 
-  - name: ':rocket: :hatched_chick: Deploy Preprod App'
-    command: ./ops/bin/deploy preprod
+  - name: ':rocket: :hatched_chick: Deploy Development App'
+    command: ./ops/bin/deploy development
     branches: master
     agents:
       queue: cacc-prod-dflt
 
   - block
 
-  - name: ':rocket: :eagle: Deploy Prod App'
-    command: ./ops/bin/deploy prod
+  - name: ':rocket: :eagle: Deploy Integration App'
+    command: ./ops/bin/deploy integration
+    branches: master
+    agents:
+      queue: cacc-prod-dflt
+
+  - block
+
+  - name: ':rocket: :eagle: Deploy PDV App'
+    command: ./ops/bin/deploy pdv
+    branches: master
+    agents:
+      queue: cacc-prod-dflt
+
+  - block
+
+  - name: ':rocket: :eagle: Deploy Preview App'
+    command: ./ops/bin/deploy preview
+    branches: master
+    agents:
+      queue: cacc-prod-dflt
+
+  - block
+
+  - name: ':rocket: :eagle: Deploy Production App'
+    command: ./ops/bin/deploy production
     branches: master
     agents:
       queue: cacc-prod-dflt

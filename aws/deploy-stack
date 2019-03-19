@@ -3,7 +3,7 @@ set -eu
 
 if [ $# -ne 1 ]; then
   echo "You must provide the name of your environment's parameters file located in '/aws' "
-  echo "usage: $0 [ prod | preprod | etc ]."
+  echo "usage: $0 [ environment ] eg. ./$0 development ."
   exit 1
 fi
 
