@@ -17,7 +17,7 @@ import createReducer from '../store/createReducer';
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
 
-const getInitialState = () => ({
+const getDefaultState = () => ({
   entries: [],
   sourceJournalFilters: [],
   filterOptions: {
@@ -40,7 +40,7 @@ const getInitialState = () => ({
   region: '',
 });
 
-const resetState = () => (getInitialState());
+const resetState = () => (getDefaultState());
 
 const loadTransactionList = (state, action) => ({
   ...state,
@@ -115,6 +115,6 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
 };
 
-const transactionListReducer = createReducer(getInitialState(), handlers);
+const transactionListReducer = createReducer(getDefaultState(), handlers);
 
 export default transactionListReducer;

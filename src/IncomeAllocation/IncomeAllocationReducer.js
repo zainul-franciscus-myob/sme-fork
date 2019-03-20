@@ -12,7 +12,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import createReducer from '../store/createReducer';
 
-const initialState = {
+const getDefaultState = () => ({
   incomeAllocation: {
     entityType: '',
     lines: [],
@@ -31,7 +31,7 @@ const initialState = {
   isSubmitting: false,
   alert: undefined,
   businessId: '',
-};
+});
 
 const getIncomeAllocationLines = (lines = []) => lines.map(({
   retainedEarningsAccountId, currentEarningsAccountId, ...line
@@ -54,7 +54,7 @@ const loadIncomeAllocation = (state, action) => ({
   accounts: action.accounts,
 });
 
-const resetState = () => ({ ...initialState });
+const resetState = () => ({ ...getDefaultState() });
 
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
 const formatLine = (state, action) => ({
@@ -166,6 +166,6 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
 };
 
-const incomeAllocationReducer = createReducer(initialState, handlers);
+const incomeAllocationReducer = createReducer(getDefaultState(), handlers);
 
 export default incomeAllocationReducer;

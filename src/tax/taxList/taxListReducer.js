@@ -2,14 +2,14 @@ import { LOAD_TAX_LIST, SET_LOADING_STATE } from '../TaxIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
-const initialState = {
+const getDefaultState = () => ({
   businessId: '',
   region: '',
   entries: [],
   isLoading: true,
-};
+});
 
-const resetState = () => ({ ...initialState });
+const resetState = () => ({ ...getDefaultState() });
 
 const loadTaxList = (state, action) => ({
   ...state,
@@ -32,6 +32,6 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [RESET_STATE]: resetState,
 };
-const taxListReducer = createReducer(initialState, handlers);
+const taxListReducer = createReducer(getDefaultState(), handlers);
 
 export default taxListReducer;

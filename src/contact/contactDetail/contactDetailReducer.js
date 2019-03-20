@@ -13,7 +13,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
-const getInitialState = () => ({
+const getDefaultState = () => ({
   contact: {
     id: '',
     isInactive: false,
@@ -60,7 +60,7 @@ const getInitialState = () => ({
   region: '',
 });
 
-const resetState = () => (getInitialState());
+const resetState = () => (getDefaultState());
 const pageEdited = { isPageEdited: true };
 
 const loadContactDetail = (state, action) => ({
@@ -168,6 +168,6 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
 };
 
-const contactDetailReducer = createReducer(getInitialState(), handlers);
+const contactDetailReducer = createReducer(getDefaultState(), handlers);
 
 export default contactDetailReducer;

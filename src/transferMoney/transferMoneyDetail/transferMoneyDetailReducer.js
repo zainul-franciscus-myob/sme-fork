@@ -16,7 +16,7 @@ import {
 } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
-const initialState = {
+const getDefaultState = () => ({
   transferMoney: {
     referenceId: '',
     originalReferenceId: '',
@@ -34,7 +34,7 @@ const initialState = {
   alertMessage: '',
   businessId: '',
   region: '',
-};
+});
 
 const pageEdited = { isPageEdited: true };
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
@@ -107,7 +107,7 @@ const closeModal = state => ({
   modalType: '',
 });
 
-const resetState = () => (initialState);
+const resetState = () => (getDefaultState());
 
 const setInitialState = (state, action) => ({
   ...state,
@@ -128,6 +128,6 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
 };
 
-const transferMoneyReducer = createReducer(initialState, handlers);
+const transferMoneyReducer = createReducer(getDefaultState(), handlers);
 
 export default transferMoneyReducer;

@@ -17,7 +17,7 @@ import createReducer from '../store/createReducer';
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
 
-const getInitialState = () => ({
+const getDefaultState = () => ({
   entries: [],
   balances: {
     bankBalance: '',
@@ -49,7 +49,7 @@ const getInitialState = () => ({
   region: '',
 });
 
-const resetState = () => (getInitialState());
+const resetState = () => (getDefaultState());
 
 const loadBankTransactions = (state, action) => ({
   ...state,
@@ -120,6 +120,6 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
 };
 
-const bankingReducer = createReducer(getInitialState(), handlers);
+const bankingReducer = createReducer(getDefaultState(), handlers);
 
 export default bankingReducer;

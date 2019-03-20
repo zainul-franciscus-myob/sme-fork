@@ -22,7 +22,7 @@ import {
 import { getDefaultTaxCodeId } from './generalJournalDetailSelectors';
 import createReducer from '../../store/createReducer';
 
-const initialState = {
+const getDefaultState = () => ({
   generalJournal: {
     id: '',
     referenceId: '',
@@ -57,11 +57,11 @@ const initialState = {
   isPageEdited: false,
   businessId: '',
   region: '',
-};
+});
 
 const pageEdited = { isPageEdited: true };
 
-const resetState = () => (initialState);
+const resetState = () => (getDefaultState());
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
 const formatLine = (state, action) => ({
   ...state,
@@ -236,7 +236,7 @@ const getCalculateTotals = (state, action) => ({
 
 const resetTotals = state => ({
   ...state,
-  totals: initialState.totals,
+  totals: getDefaultState().totals,
 });
 
 const setInitialState = (state, action) => ({
@@ -262,6 +262,6 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
 };
-const generalJournalReducer = createReducer(initialState, handlers);
+const generalJournalReducer = createReducer(getDefaultState(), handlers);
 
 export default generalJournalReducer;

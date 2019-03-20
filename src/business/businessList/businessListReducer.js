@@ -6,13 +6,13 @@ import {
   RESET_STATE,
 } from '../../SystemIntents';
 
-const initialState = { businesses: [], isLoading: true };
+const getDefaultState = () => ({ businesses: [], isLoading: true });
 
-const businessReducer = (state = initialState, action) => {
+const businessReducer = (state = getDefaultState(), action) => {
   switch (action.intent) {
     case RESET_STATE:
       return {
-        ...initialState,
+        ...getDefaultState(),
       };
     case LOAD_BUSINESS_LIST:
       return { ...state, businesses: action.businesses, isLoading: action.isLoading };

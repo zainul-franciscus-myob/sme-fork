@@ -23,7 +23,7 @@ import {
 import { getDefaultTaxCodeId } from './spendMoneyDetailSelectors';
 import createReducer from '../../store/createReducer';
 
-const initialState = {
+const getDefaultState = () => ({
   spendMoney: {
     id: '',
     referenceId: '',
@@ -59,11 +59,11 @@ const initialState = {
   isPageEdited: false,
   businessId: '',
   region: '',
-};
+});
 
 const pageEdited = { isPageEdited: true };
 
-const resetState = () => (initialState);
+const resetState = () => (getDefaultState());
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
@@ -214,7 +214,7 @@ const getCalculateTotals = (state, action) => ({
 
 const resetTotals = state => ({
   ...state,
-  totals: initialState.totals,
+  totals: getDefaultState().totals,
 });
 
 const setInitialState = (state, action) => ({
@@ -241,6 +241,6 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
 };
-const spendMoneyReducer = createReducer(initialState, handlers);
+const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 
 export default spendMoneyReducer;

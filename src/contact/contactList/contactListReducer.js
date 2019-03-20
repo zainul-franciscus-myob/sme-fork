@@ -13,7 +13,7 @@ import {
 import createReducer from '../../store/createReducer';
 
 
-const getInitialState = () => ({
+const getDefaultState = () => ({
   filterOptions: {
     keywords: '',
     showInactive: false,
@@ -33,7 +33,7 @@ const getInitialState = () => ({
   region: '',
 });
 
-const resetState = () => (getInitialState());
+const resetState = () => (getDefaultState());
 
 const loadContactList = (state, action) => ({
   ...state,
@@ -104,6 +104,6 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
 };
 
-const contactListReducer = createReducer(getInitialState(), handlers);
+const contactListReducer = createReducer(getDefaultState(), handlers);
 
 export default contactListReducer;

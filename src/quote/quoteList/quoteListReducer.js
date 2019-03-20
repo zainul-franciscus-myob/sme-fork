@@ -18,7 +18,7 @@ const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
 const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
 
-const getInitialState = () => ({
+const getDefaultState = () => ({
   filterOptions: {
     customerId: 'All',
     dateFrom: convertToDateString(getDefaultDateRange()),
@@ -58,7 +58,7 @@ const loadQuoteList = (state, action) => ({
   },
 });
 
-const resetState = () => (getInitialState());
+const resetState = () => (getDefaultState());
 
 const setAlert = (state, action) => ({
   ...state,
@@ -115,6 +115,6 @@ const handlers = {
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
 };
 
-const quoteListReducer = createReducer(getInitialState(), handlers);
+const quoteListReducer = createReducer(getDefaultState(), handlers);
 
 export default quoteListReducer;

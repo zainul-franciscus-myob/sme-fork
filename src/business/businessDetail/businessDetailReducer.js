@@ -10,7 +10,7 @@ import {
 } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
-const getInitialState = () => ({
+const getDefaultState = () => ({
   businessDetails: {
     region: '',
     organisationName: '',
@@ -66,7 +66,7 @@ const updateBusinessDetail = (state, action) => ({
   },
 });
 
-const resetState = () => (getInitialState());
+const resetState = () => (getDefaultState());
 
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
@@ -77,6 +77,6 @@ const handlers = {
   [RESET_STATE]: resetState,
 };
 
-const businessDetailsReducer = createReducer(getInitialState(), handlers);
+const businessDetailsReducer = createReducer(getDefaultState(), handlers);
 
 export default businessDetailsReducer;

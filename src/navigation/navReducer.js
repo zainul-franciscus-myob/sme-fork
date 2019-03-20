@@ -4,12 +4,12 @@ import {
 } from './NavigationIntents';
 import createReducer from '../store/createReducer';
 
-const initialState = {
+const getDefaultState = () => ({
   businessName: '',
   enabledFeatures: [],
   urls: {},
   routeParams: {},
-};
+});
 
 const loadBusinessDetails = (state, action) => ({
   ...state,
@@ -29,6 +29,6 @@ const handlers = {
   [SET_ROUTE_INFO]: setRouteInfo,
 };
 
-const navReducer = createReducer(initialState, handlers);
+const navReducer = createReducer(getDefaultState(), handlers);
 
 export default navReducer;
