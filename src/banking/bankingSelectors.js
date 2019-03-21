@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import dateFormat from 'dateformat';
 
 export const getOrder = ({ sortOrder }) => ({
   column: 'date',
@@ -37,6 +38,8 @@ export const getEntries = state => state.entries;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 
+const getWithdrawalAccounts = state => state.withdrawalAccounts;
+const getDepositAccounts = state => state.depositAccounts;
 
 const getEntryTransactionType = ({ allocatedTo, numberOfMatches }) => {
   if (allocatedTo) {
@@ -62,14 +65,26 @@ const getMatchedDisplayText = ({ numberOfMatches }) => {
   return '';
 };
 
+
+const getIsDepositEntry = entry => entry.deposit !== '';
+
 export const getTableEntries = createSelector(
   getEntries,
-  entries => entries.map(
-    entry => ({
-      ...entry,
-      transactionType: getEntryTransactionType(entry),
-      matchedDisplayText: getMatchedDisplayText(entry),
-    }),
+  getWithdrawalAccounts,
+  getDepositAccounts,
+  (entries, withdrawalAccounts, depositAccounts) => entries.map(
+    (entry) => {
+      const transactionType = getEntryTransactionType(entry);
+      const accountList = getIsDepositEntry(entry) ? depositAccounts : withdrawalAccounts;
+
+      return ({
+        ...entry,
+        displayDate: dateFormat(entry.date, 'dd/mm/yyyy'),
+        accountList,
+        transactionType,
+        matchedDisplayText: getMatchedDisplayText(entry),
+      });
+    },
   ),
 );
 
@@ -89,3 +104,38 @@ export const getTransactionTypes = state => state.transactionTypes.map(
 );
 
 export const getBalances = state => state.balances;
+
+export const getAllocationPayload = (index, selectedAccount, state) => {
+  const entries = getEntries(state);
+  const entry = entries[index];
+
+  const { bankAccount: bankAccountId } = getFilterOptions(state);
+
+  const {
+    id: accountId,
+    taxCodeId,
+  } = selectedAccount;
+
+  return {
+    bankAccountId,
+    transactionId: entry.transactionId,
+    deposit: entry.deposit,
+    withdrawal: entry.withdrawal,
+    date: entry.date,
+    accountId,
+    taxCodeId,
+  };
+};
+
+export const getUnallocationPayload = (index, state) => {
+  const entries = getEntries(state);
+  const entry = entries[index];
+
+  const { bankAccount: bankAccountId } = getFilterOptions(state);
+
+  return {
+    bankAccountId,
+    transactionId: entry.transactionId,
+    journalLineId: entry.journalLineId,
+  };
+};

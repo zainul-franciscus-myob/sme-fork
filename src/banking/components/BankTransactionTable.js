@@ -9,10 +9,10 @@ import BankTransactionTableBody from './BankTransactionTableBody';
 import style from './BankingView.css';
 
 const tableConfig = {
-  date: { width: '11rem' },
-  description: { width: 'flex-1' },
-  withdrawal: { width: '12.4rem', align: 'right' },
-  deposit: { width: '12.4rem', align: 'right' },
+  date: { width: '11rem', valign: 'middle' },
+  description: { width: 'flex-1', valign: 'middle' },
+  withdrawal: { width: '12.4rem', align: 'right', valign: 'middle' },
+  deposit: { width: '12.4rem', align: 'right', valign: 'middle' },
   allocateOrMatch: { width: '28rem', columnName: 'allocateOrMatch' },
 };
 
@@ -32,6 +32,12 @@ const BankTransactionTable = ({
   isTableEmpty,
   isTableLoading,
   businessId,
+  onMatchedToBlur,
+  onMatchedToFocus,
+  onUnmatchedFocus,
+  onUnmatchedBlur,
+  onAllocate,
+  onUnallocate,
 }) => {
   let view;
   if (isTableLoading) {
@@ -43,6 +49,12 @@ const BankTransactionTable = ({
       <BankTransactionTableBody
         businessId={businessId}
         tableConfig={tableConfig}
+        onMatchedToBlur={onMatchedToBlur}
+        onMatchedToFocus={onMatchedToFocus}
+        onAllocate={onAllocate}
+        onUnallocate={onUnallocate}
+        onUnmatchedFocus={onUnmatchedFocus}
+        onUnmatchedBlur={onUnmatchedBlur}
       />
     );
   }

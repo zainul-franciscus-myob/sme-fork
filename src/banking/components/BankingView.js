@@ -19,7 +19,13 @@ const BankingView = (props) => {
     onUpdateFilters,
     onApplyFilter,
     onSort,
+    onAllocate,
+    onUnallocate,
     onDismissAlert,
+    onMatchedToBlur,
+    onMatchedToFocus,
+    onUnmatchedFocus,
+    onUnmatchedBlur,
   } = props;
 
   const filterBar = (
@@ -42,6 +48,12 @@ const BankingView = (props) => {
         <div className={style.list}>
           <BankTransactionTable
             onSort={onSort}
+            onAllocate={onAllocate}
+            onUnallocate={onUnallocate}
+            onMatchedToBlur={onMatchedToBlur}
+            onMatchedToFocus={onMatchedToFocus}
+            onUnmatchedFocus={onUnmatchedFocus}
+            onUnmatchedBlur={onUnmatchedBlur}
           />
         </div>
       </StandardTemplate>

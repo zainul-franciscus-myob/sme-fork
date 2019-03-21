@@ -9,8 +9,16 @@ const ComboboxMenu = ({
   children,
   onClick,
   inputValue,
+  onMouseDown,
+  onMouseLeave,
 }) => (
-  <div className="combobox-menu" role="presentation" onClick={onClick}>
+  <div
+    className="combobox-menu"
+    role="presentation"
+    onClick={onClick}
+    onMouseDown={onMouseDown}
+    onMouseLeave={onMouseLeave}
+  >
     {children({
       items,
       getItemProps,
@@ -28,6 +36,8 @@ ComboboxMenu.defaultProps = {
   selectedItem: undefined,
   highlightedIndex: undefined,
   inputValue: undefined,
+  onMouseDown: undefined,
+  onMouseLeave: undefined,
 };
 
 ComboboxMenu.propTypes = {
@@ -38,6 +48,8 @@ ComboboxMenu.propTypes = {
   highlightedIndex: PropTypes.number,
   onClick: PropTypes.func,
   inputValue: PropTypes.string,
+  onMouseDown: PropTypes.func,
+  onMouseLeave: PropTypes.func,
 };
 
 export default ComboboxMenu;

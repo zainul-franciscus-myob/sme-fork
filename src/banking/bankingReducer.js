@@ -1,11 +1,15 @@
 import dateFormat from 'dateformat';
 
 import {
+  ALLOCATE_TRANSACTION,
   LOAD_BANK_TRANSACTIONS,
   SET_ALERT,
+  SET_ENTRY_FOCUS,
+  SET_ENTRY_LOADING_STATE,
   SET_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
+  UNALLOCATE_TRANSACTION,
   UPDATE_FILTER_OPTIONS,
 } from './BankingIntents';
 import {
@@ -19,6 +23,8 @@ const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3)
 
 const getDefaultState = () => ({
   entries: [],
+  withdrawalAccounts: [],
+  depositAccounts: [],
   balances: {
     bankBalance: '',
     myobBalance: '',
@@ -54,9 +60,15 @@ const resetState = () => (getDefaultState());
 const loadBankTransactions = (state, action) => ({
   ...state,
   bankAccounts: action.bankAccounts,
+  withdrawalAccounts: action.withdrawalAccounts,
+  depositAccounts: action.depositAccounts,
   transactionTypes: action.transactionTypes,
   balances: action.balances,
-  entries: action.entries,
+  entries: action.entries.map(entry => ({
+    ...entry,
+    isFocused: false,
+    isLoading: false,
+  })),
   sortOrder: action.sortOrder,
   filterOptions: {
     ...state.filterOptions,
@@ -109,6 +121,56 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
+const setEntryFocus = (state, action) => ({
+  ...state,
+  entries: state.entries.map(
+    (entry, index) => (
+      index === action.index ? { ...entry, isFocused: action.isFocused } : entry
+    ),
+  ),
+});
+
+const setEntryLoading = (state, action) => ({
+  ...state,
+  entries: state.entries.map(
+    (entry, index) => (
+      index === action.index ? { ...entry, isLoading: action.isLoading } : entry
+    ),
+  ),
+});
+
+const allocateTransaction = (state, action) => ({
+  ...state,
+  entries: state.entries.map(
+    (entry, index) => (
+      index === action.index
+        ? {
+          ...entry,
+          isUnallocated: false,
+          allocatedTo: action.allocatedTo,
+          journalLineId: action.journalLineId,
+        }
+        : entry
+    ),
+  ),
+});
+
+const unallocateTransaction = (state, action) => ({
+  ...state,
+  entries: state.entries.map(
+    (entry, index) => (
+      index === action.index
+        ? {
+          ...entry,
+          isUnallocated: true,
+          allocatedTo: '',
+          journalLineId: '',
+        }
+        : entry
+    ),
+  ),
+});
+
 const handlers = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: sortAndFilterBankTransactions,
@@ -118,6 +180,10 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
+  [SET_ENTRY_FOCUS]: setEntryFocus,
+  [SET_ENTRY_LOADING_STATE]: setEntryLoading,
+  [ALLOCATE_TRANSACTION]: allocateTransaction,
+  [UNALLOCATE_TRANSACTION]: unallocateTransaction,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

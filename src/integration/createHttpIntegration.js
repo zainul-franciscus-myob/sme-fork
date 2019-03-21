@@ -36,9 +36,16 @@ const abortRequest = (intent) => {
 
 const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
   read: async ({
-    intent, urlParams, params, onSuccess, onFailure,
+    intent,
+    urlParams,
+    allowParallelRequests,
+    params,
+    onSuccess,
+    onFailure,
   }) => {
-    abortRequest(intent);
+    if (!allowParallelRequests) {
+      abortRequest(intent);
+    }
 
     const controller = new AbortController();
     abortMapping[intent] = controller;
@@ -63,9 +70,16 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     );
   },
   write: async ({
-    intent, urlParams, content, onSuccess, onFailure,
+    intent,
+    allowParallelRequests,
+    urlParams,
+    content,
+    onSuccess,
+    onFailure,
   }) => {
-    abortRequest(intent);
+    if (!allowParallelRequests) {
+      abortRequest(intent);
+    }
 
     const controller = new AbortController();
     abortMapping[intent] = controller;

@@ -28,6 +28,10 @@ class ComboboxCore extends React.Component {
     hintText: PropTypes.string,
     name: PropTypes.string,
     selected: PropTypes.shape({}),
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    autoFocus: PropTypes.bool,
+    preventTabbingOnSelect: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -44,6 +48,10 @@ class ComboboxCore extends React.Component {
     onSelect: undefined,
     name: undefined,
     selected: undefined,
+    onFocus: undefined,
+    onBlur: undefined,
+    autoFocus: false,
+    preventTabbingOnSelect: false,
   };
 
   constructor(props) {
@@ -52,9 +60,12 @@ class ComboboxCore extends React.Component {
     if (filterOnType) {
       this.state = { isTyping: false };
     }
+
+    this.isMouseDown = false;
   }
 
   onMenuClick = () => {
+    this.isMouseDown = false;
     if (this.inputControl) {
       this.inputControl.focus();
     }
@@ -112,6 +123,34 @@ class ComboboxCore extends React.Component {
     this.inputControl = input;
   };
 
+  onMenuMouseDown = () => {
+    this.isMouseDown = true;
+  }
+
+  onMenuMouseLeave = () => {
+    if (!this.isMouseDown) {
+      return;
+    }
+
+    this.isMouseDown = false;
+    this.blurComboBox();
+  }
+
+  onComboBoxInputBlur = () => {
+    if (this.isMouseDown) {
+      return;
+    }
+
+    this.blurComboBox();
+  }
+
+  blurComboBox = () => {
+    const { onBlur } = this.props;
+    if (onBlur) {
+      onBlur();
+    }
+  }
+
   render() {
     const {
       items,
@@ -128,6 +167,9 @@ class ComboboxCore extends React.Component {
       defaultIsOpen,
       name,
       selected,
+      onFocus,
+      autoFocus,
+      preventTabbingOnSelect,
     } = this.props;
 
     const { isTyping } = this.state;
@@ -144,7 +186,7 @@ class ComboboxCore extends React.Component {
       >
         {({
           getInputProps,
-          getButtonProps,
+          getToggleButtonProps,
           getLabelProps,
           getItemProps,
           isOpen,
@@ -156,6 +198,9 @@ class ComboboxCore extends React.Component {
           const onKeyDown = (event) => {
             if (event.key === TAB_KEY) {
               selectHighlightedItem();
+              if (preventTabbingOnSelect && highlightedIndex !== null) {
+                event.preventDefault();
+              }
             }
           };
 
@@ -185,12 +230,15 @@ class ComboboxCore extends React.Component {
               </label>
               <ComboboxInput
                 getInputProps={getInputProps}
-                getButtonProps={getButtonProps}
+                getButtonProps={getToggleButtonProps}
                 inputRef={this.inputRef}
                 disabled={disabled}
                 id={id}
                 hintText={hintText}
                 name={name}
+                onFocus={onFocus}
+                onBlur={this.onComboBoxInputBlur}
+                autoFocus={autoFocus}
               />
               {isOpen && (
                 <ComboboxMenu
@@ -204,6 +252,8 @@ class ComboboxCore extends React.Component {
                   highlightedIndex={highlightedIndex}
                   onClick={this.onMenuClick}
                   inputValue={inputValue}
+                  onMouseDown={this.onMenuMouseDown}
+                  onMouseLeave={this.onMenuMouseLeave}
                 >
                   {children}
                 </ComboboxMenu>

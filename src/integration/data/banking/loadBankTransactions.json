@@ -18,19 +18,22 @@
       "id": "123",
       "displayName": "My Sales Account 1",
       "accountType": "Sales",
-      "displayId": "1-123"
+      "displayId": "1-123",
+      "taxCodeId": "123"
     },
     {
       "id": "456",
       "displayName": "My Assets Account 1",
       "accountType": "Assets",
-      "displayId": "2-123"
+      "displayId": "2-123",
+      "taxCodeId": "123"
     },
     {
       "id": "457",
       "displayName": "My Account 2",
       "accountType": "Assets",
-      "displayId": "2-123"
+      "displayId": "2-123",
+      "taxCodeId": "123"
     }
   ],
   "depositAccounts": [
@@ -38,19 +41,22 @@
       "id": "456",
       "displayName": "My Assets Account 1",
       "accountType": "Assets",
-      "displayId": "2-123"
+      "displayId": "2-123",
+      "taxCodeId": "123"
     },
     {
       "id": "457",
       "displayName": "My Account 2",
       "accountType": "Assets",
-      "displayId": "2-123"
+      "displayId": "2-123",
+      "taxCodeId": "123"
     },
     {
       "id": "123",
       "displayName": "My Sales Account 1",
       "accountType": "Sales",
-      "displayId": "1-123"
+      "displayId": "1-123",
+      "taxCodeId": "123"
     }
   ],
   "bankAccount": "123",
@@ -73,7 +79,16 @@
   "entries": [
     {
       "transactionId": "1",
-      "displayDate": "21/10/2018",
+      "date": "2018-10-21",
+      "description": "Bob the builder",
+      "withdrawal": "3,300.00",
+      "deposit": "",
+      "allocatedTo": "",
+      "journalLineId": "",
+      "numberOfMatches": 0
+    }, {
+      "transactionId": "1",
+      "date": "2018-10-21",
       "description": "Bob the builder",
       "withdrawal": "3,300.00",
       "deposit": "",
@@ -83,7 +98,7 @@
     },
     {
       "transactionId": "2",
-      "displayDate": "20/10/2018",
+      "date": "2018-10-20",
       "description": "Scoop muck and dizzy",
       "withdrawal": "295.00",
       "deposit": "",
@@ -93,7 +108,7 @@
     },
     {
       "transactionId": "3",
-      "displayDate": "11/10/2018",
+      "date": "2018-10-11",
       "description": "Rolly too, lofty and wendy",
       "withdrawal": "",
       "deposit": "1,300.00",

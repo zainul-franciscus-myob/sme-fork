@@ -29,6 +29,42 @@
   background: #f3f4f5;
 }
 
+:local .unallocatedRowItem button {
+  border: none;
+}
+
+:local .list :global(.table-data__row) > :global(.table-data__cell)[data-label=allocateOrMatch] {
+  overflow: initial;
+  text-overflow: initial;
+}
+
+:local .list [data-label=allocateOrMatch] :global(.combobox) {
+  display: inline-block;
+}
+
+/* https://developer.paciellogroup.com/blog/2012/05/html5-accessibility-chops-hidden-and-aria-hidden/ */
+:local .unallocate {
+  clip-path: inset(100%);
+  clip: rect(0.1rem, 0.1rem, 0.1rem, 0.1rem);
+  height: 0.1rem;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 0.1rem;
+}
+
+/* https://developer.paciellogroup.com/blog/2012/05/html5-accessibility-chops-hidden-and-aria-hidden/ */
+:local .unallocate:focus,
+:local .list [data-label=allocateOrMatch]:hover .unallocate,
+:local .list [data-label=allocateOrMatch]:focus .unallocate {
+  position: relative;
+  clip-path: initial;
+  clip: auto;
+  width: auto;
+  height: auto;
+  overflow: auto;
+}
+
 :local .balances {
   text-align: right;
 }

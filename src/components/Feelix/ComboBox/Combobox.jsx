@@ -22,9 +22,17 @@ const Combobox = ({
   selected,
   label,
   hideLabel,
+  autoFocus,
+  onFocus,
+  onBlur,
+  preventTabbingOnSelect,
 }) => (
   <ComboboxCore
+    onFocus={onFocus}
+    onBlur={onBlur}
+    autoFocus={autoFocus}
     items={items}
+    preventTabbingOnSelect={preventTabbingOnSelect}
     itemToString={item => metaData.reduce(
       (result, meta) => result
           + (item
@@ -154,6 +162,8 @@ Combobox.defaultProps = {
   selected: undefined,
   label: '',
   hideLabel: true,
+  autoFocus: false,
+  preventTabbingOnSelect: false,
 };
 
 Combobox.propTypes = {
@@ -176,6 +186,8 @@ Combobox.propTypes = {
   selected: PropTypes.shape({}),
   label: PropTypes.string,
   hideLabel: PropTypes.bool,
+  autoFocus: PropTypes.bool,
+  preventTabbingOnSelect: PropTypes.bool,
 };
 
 export default Combobox;

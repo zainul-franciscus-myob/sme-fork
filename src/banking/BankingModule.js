@@ -2,11 +2,15 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  ALLOCATE_TRANSACTION,
   LOAD_BANK_TRANSACTIONS,
   SET_ALERT,
+  SET_ENTRY_FOCUS,
+  SET_ENTRY_LOADING_STATE,
   SET_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
+  UNALLOCATE_TRANSACTION,
   UPDATE_FILTER_OPTIONS,
 } from './BankingIntents';
 import {
@@ -14,7 +18,7 @@ import {
   SET_INITIAL_STATE,
 } from '../SystemIntents';
 import {
-  getBusinessId, getFilterOptions, getSortOrder,
+  getAllocationPayload, getBusinessId, getFilterOptions, getSortOrder, getUnallocationPayload,
 } from './bankingSelectors';
 import BankingView from './components/BankingView';
 import Store from '../store/Store';
@@ -36,6 +40,12 @@ export default class BankingModule {
         onApplyFilter={this.filterBankTransactions}
         onSort={this.sortBankTransactions}
         onDismissAlert={this.dismissAlert}
+        onAllocate={this.allocateTransaction}
+        onUnallocate={this.unallocateTransaction}
+        onMatchedToBlur={this.blurEntry}
+        onMatchedToFocus={this.focusEntry}
+        onUnmatchedFocus={this.focusEntry}
+        onUnmatchedBlur={this.blurEntry}
       />
     );
 
@@ -47,6 +57,112 @@ export default class BankingModule {
     this.setRootView(wrappedView);
   };
 
+  focusEntry = (index) => {
+    const intent = SET_ENTRY_FOCUS;
+
+    this.store.dispatch({
+      intent,
+      index,
+      isFocused: true,
+    });
+  }
+
+  blurEntry = (index) => {
+    const intent = SET_ENTRY_FOCUS;
+
+    this.store.dispatch({
+      intent,
+      index,
+      isFocused: false,
+    });
+  }
+
+  setEntryLoadingState = (index, isLoading) => {
+    const intent = SET_ENTRY_LOADING_STATE;
+
+    this.store.dispatch({
+      intent,
+      index,
+      isLoading,
+    });
+  }
+
+  allocateTransaction = (index, selectedAccount) => {
+    this.focusEntry(index + 1);
+    this.blurEntry(index);
+    this.setEntryLoadingState(index, true);
+
+    const state = this.store.getState();
+    const urlParams = { businessId: getBusinessId(state) };
+
+    const intent = ALLOCATE_TRANSACTION;
+
+    const onSuccess = (payload) => {
+      this.setEntryLoadingState(index, false);
+      this.store.dispatch({
+        intent,
+        index,
+        ...payload,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setEntryLoadingState(index, false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    const allocationPayload = getAllocationPayload(index, selectedAccount, state);
+
+    this.integration.write({
+      intent,
+      urlParams,
+      allowParallelRequests: true,
+      content: allocationPayload,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  unallocateTransaction = (index) => {
+    this.setEntryLoadingState(index, true);
+
+    const state = this.store.getState();
+    const urlParams = { businessId: getBusinessId(state) };
+
+    const intent = UNALLOCATE_TRANSACTION;
+
+    const onSuccess = () => {
+      this.setEntryLoadingState(index, false);
+
+      this.store.dispatch({
+        intent,
+        index,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setEntryLoadingState(index, false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    const unallocationPayload = getUnallocationPayload(index, state);
+
+    this.integration.write({
+      intent,
+      urlParams,
+      allowParallelRequests: true,
+      content: unallocationPayload,
+      onSuccess,
+      onFailure,
+    });
+  }
+
   loadBankTransactions = () => {
     const state = this.store.getState();
 
@@ -55,23 +171,11 @@ export default class BankingModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({
-      entries,
-      balances,
-      bankAccount,
-      transactionType,
-      bankAccounts,
-      transactionTypes,
-    }) => {
+    const onSuccess = (payload) => {
       this.setLoadingState(false);
       this.store.dispatch({
         intent,
-        entries,
-        balances,
-        bankAccount,
-        transactionType,
-        bankAccounts,
-        transactionTypes,
+        ...payload,
       });
     };
 
