@@ -1,0 +1,20 @@
+{
+  "entries": [
+    {
+      "id":"1",
+      "referenceId": "2",
+      "name": "Flashlight - solar powered",
+      "sellingPrice": "4.20",
+      "tax": "Exclusive",
+      "isActive": true
+    },
+    {
+      "id":"2",
+      "referenceId": "1",
+      "name": "Screwdriver - left handed",
+      "sellingPrice": "246.01",
+      "tax": "Inclusive",
+      "isActive": false
+    }
+  ]
+}
