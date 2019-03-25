@@ -1,11 +1,11 @@
 export default {
-  total: '$123.45',
-  totalDue: '$100.00',
+  total: '$999.99',
+  totalDue: '$4554.00',
   entries: [
     {
       id: '1',
       referenceId: '00000045',
-      purchaseOrder: 'some text',
+      purchaseOrder: 'some FILTERED text',
       customer: 'Bob Kelso',
       dateIssued: '25/02/2019',
       dateClosed: '',

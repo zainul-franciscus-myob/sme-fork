@@ -11,8 +11,10 @@ export default {
     { name: 'Open', value: 'Open' },
     { name: 'Closed', value: 'Closed' },
   ],
+  customerId: 'All',
+  status: 'All',
   sortOrder: 'desc',
-  orderBy: 'Number',
+  orderBy: 'DisplayId',
   total: '$123.45',
   totalDue: '$100.00',
   entries: [

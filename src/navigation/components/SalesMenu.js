@@ -7,6 +7,7 @@ import { getActiveNav, getSalesUrls } from '../NavigationSelectors';
 
 const getItems = urls => [
   urls.quoteList && <Navigation.MenuLink key="Quotes" url={urls.quoteList} label="Quotes" />,
+  urls.invoiceList && <Navigation.MenuLink key="Invoices" url={urls.invoiceList} label="Invoices" />,
 ].filter(Boolean);
 
 const SalesMenu = ({ urls, activeNav, onMenuSelect }) => (

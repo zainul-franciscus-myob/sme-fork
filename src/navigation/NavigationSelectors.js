@@ -34,6 +34,7 @@ export const getSalesUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
     quoteList: enabledUrls.quoteList,
+    invoiceList: enabledUrls.invoiceList,
   }),
 );
 export const hasSalesUrls = createSelector(

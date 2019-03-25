@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
 import { getCustomerFilterOptions, getFormattedFilterOptions, getTotal } from '../quoteListSelector';
-import Combobox from '../../../components/Feelix/ComboBox/Combobox';
+import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import style from './QuoteListView.css';
 
 class QuoteListFilterOptions extends React.Component {
@@ -44,22 +44,14 @@ class QuoteListFilterOptions extends React.Component {
       onApplyFilter,
     } = this.props;
 
-    const comboBoxMetaData = [
-      { columnName: 'name', showData: true },
-      { columnName: 'value', columnWidth: '0' },
-    ];
-
-    const comboBoxSelectedItem = customerFilterOptions.find(option => option.value === customerId);
-
     return (
       <Fragment>
         <FilterBar>
           <FilterBar.Group>
             <FilterBar.Option>
-              <Combobox
-                metaData={comboBoxMetaData}
+              <ContactCombobox
                 items={customerFilterOptions}
-                selected={comboBoxSelectedItem}
+                selectedId={customerId}
                 onChange={this.onComboBoxChange}
                 label="Customer"
                 name="Customer"

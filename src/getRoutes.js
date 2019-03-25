@@ -4,6 +4,7 @@ import getBusinessRoutes from './business/getBusinessRoutes';
 import getContactRoutes from './contact/getContactRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getIncomeAllocationRoutes from './IncomeAllocation/getIncomeAllocationRoutes';
+import getInvoiceRoutes from './invoice/getInvoiceRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
 import getQuoteRoutes from './quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
@@ -73,6 +74,13 @@ const getRoutes = ({
     name: 'quote',
     rootPath: '/:region/:businessId/quote',
     subRoutes: getQuoteRoutes({
+      integration, setRootView,
+    }),
+  },
+  {
+    name: 'invoice',
+    rootPath: '/:region/:businessId/invoice',
+    subRoutes: getInvoiceRoutes({
       integration, setRootView,
     }),
   },
