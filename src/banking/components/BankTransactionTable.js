@@ -31,7 +31,6 @@ const spinnerView = (
 const BankTransactionTable = ({
   isTableEmpty,
   isTableLoading,
-  businessId,
   onMatchedToBlur,
   onMatchedToFocus,
   onUnmatchedFocus,
@@ -47,7 +46,6 @@ const BankTransactionTable = ({
   } else {
     view = (
       <BankTransactionTableBody
-        businessId={businessId}
         tableConfig={tableConfig}
         onMatchedToBlur={onMatchedToBlur}
         onMatchedToFocus={onMatchedToFocus}

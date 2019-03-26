@@ -9,8 +9,7 @@
       "transactionId": "1",
       "displayDate": "01/10/2018",
       "description": "Bob the builder",
-      "withdrawal": "3,300.00",
-      "deposit": "",
+      "withdrawal": 3300.00,
       "allocatedTo": "TM00003",
       "journalLineId": "123",
       "numberOfMatches": 0
@@ -19,8 +18,7 @@
       "transactionId": "2",
       "displayDate": "21/09/2018",
       "description": "Join the crew",
-      "withdrawal": "295.00",
-      "deposit": "",
+      "withdrawal": 295.00,
       "allocatedTo": "TM00003",
       "journalLineId": "124",
       "numberOfMatches": 0
@@ -29,8 +27,7 @@
       "transactionId": "3",
       "displayDate": "01/09/2018",
       "description": "Bob the gang have soo much fun",
-      "withdrawal": "",
-      "deposit": "1,300.00",
+      "deposit": 1300.00,
       "allocatedTo": "SM0000005",
       "journalLineId": "125",
       "numberOfMatches": 0

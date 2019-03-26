@@ -81,8 +81,7 @@
       "transactionId": "1",
       "date": "2018-10-21",
       "description": "Bob the builder",
-      "withdrawal": "3,300.00",
-      "deposit": "",
+      "withdrawal": 3300.00,
       "allocatedTo": "",
       "journalLineId": "",
       "numberOfMatches": 0
@@ -90,8 +89,7 @@
       "transactionId": "1",
       "date": "2018-10-21",
       "description": "Bob the builder",
-      "withdrawal": "3,300.00",
-      "deposit": "",
+      "withdrawal": 3300.00,
       "allocatedTo": "",
       "journalLineId": "",
       "numberOfMatches": 0
@@ -100,8 +98,7 @@
       "transactionId": "2",
       "date": "2018-10-20",
       "description": "Scoop muck and dizzy",
-      "withdrawal": "295.00",
-      "deposit": "",
+      "withdrawal": 295.00,
       "allocatedTo": "",
       "journalLineId": "",
       "numberOfMatches": 1
@@ -110,8 +107,7 @@
       "transactionId": "3",
       "date": "2018-10-11",
       "description": "Rolly too, lofty and wendy",
-      "withdrawal": "",
-      "deposit": "1,300.00",
+      "deposit": 1300.00,
       "allocatedTo": "",
       "journalLineId": "",
       "numberOfMatches": 2
