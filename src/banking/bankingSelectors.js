@@ -65,8 +65,6 @@ const getMatchedDisplayText = ({ numberOfMatches }) => {
   return '';
 };
 
-const getIsDepositEntry = entry => entry.deposit !== '';
-
 const formatAmount = amount => Intl
   .NumberFormat('en-AU', {
     style: 'decimal',
@@ -82,7 +80,7 @@ export const getTableEntries = createSelector(
   (entries, withdrawalAccounts, depositAccounts) => entries.map(
     (entry) => {
       const transactionType = getEntryTransactionType(entry);
-      const accountList = getIsDepositEntry(entry) ? depositAccounts : withdrawalAccounts;
+      const accountList = entry.deposit ? depositAccounts : withdrawalAccounts;
 
       return ({
         ...entry,

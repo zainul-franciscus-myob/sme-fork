@@ -15,6 +15,13 @@
   ],
   "withdrawalAccounts": [
     {
+      "id": "128",
+      "displayName": "My Expense Account 1",
+      "accountType": "Expense",
+      "displayId": "2-345",
+      "taxCodeId": "123"
+    },
+    {
       "id": "123",
       "displayName": "My Sales Account 1",
       "accountType": "Sales",
@@ -38,6 +45,20 @@
   ],
   "depositAccounts": [
     {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "displayId": "1-123",
+      "taxCodeId": "123"
+    },
+    {
+      "id": "128",
+      "displayName": "My Expense Account 1",
+      "accountType": "Expense",
+      "displayId": "2-345",
+      "taxCodeId": "123"
+    },
+    {
       "id": "456",
       "displayName": "My Assets Account 1",
       "accountType": "Assets",
@@ -49,13 +70,6 @@
       "displayName": "My Account 2",
       "accountType": "Assets",
       "displayId": "2-123",
-      "taxCodeId": "123"
-    },
-    {
-      "id": "123",
-      "displayName": "My Sales Account 1",
-      "accountType": "Sales",
-      "displayId": "1-123",
       "taxCodeId": "123"
     }
   ],
@@ -89,7 +103,7 @@
       "transactionId": "1",
       "date": "2018-10-21",
       "description": "Bob the builder",
-      "withdrawal": 3300.00,
+      "deposit": 3300.00,
       "allocatedTo": "",
       "journalLineId": "",
       "numberOfMatches": 0
