@@ -4,6 +4,7 @@ import getBusinessRoutes from './business/getBusinessRoutes';
 import getContactRoutes from './contact/getContactRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getIncomeAllocationRoutes from './IncomeAllocation/getIncomeAllocationRoutes';
+import getInventoryRoutes from './inventory/getInventoryRoutes';
 import getInvoiceRoutes from './invoice/getInvoiceRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
 import getQuoteRoutes from './quote/getQuoteRoutes';
@@ -102,6 +103,11 @@ const getRoutes = ({
     name: 'banking',
     rootPath: '/:region/:businessId/banking',
     subRoutes: getBankingRoutes({ integration, setRootView }),
+  },
+  {
+    name: 'item',
+    rootPath: '/:region/:businessId/inventory',
+    subRoutes: getInventoryRoutes({ integration, setRootView, pushMessage }),
   },
 ];
 

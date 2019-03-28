@@ -3,11 +3,12 @@
     "id": "3",
     "referenceId": "1",
     "name": "Left handed screwdriver",
+    "originalName": "Left handed screwdriver",
     "description": "A screwdriver for lefties",
     "useItemDescription": false,
     "isInactive": false,
     "sellingDetails": {
-      "allocateToAccountId": "123",
+      "allocateToAccountId": "456",
       "sellingPrice": "7.00",
       "taxCodeId": "124",
       "isTaxInclusive": true,
@@ -20,18 +21,36 @@
       "unitOfMeasure": "Ton"
     }
   },
-  "accounts": [
+  "sellingAccounts": [
     {
       "id": "123",
-      "displayName": "My Sales Account 1",
-      "accountType": "Sales",
-      "displayId": "1-123"
+      "displayName": "Income 1",
+      "accountType": "Income",
+      "displayId": "4-123",
+      "taxCodeId": "123"
     },
     {
       "id": "456",
-      "displayName": "My Assets Account 1",
-      "accountType": "Assets",
-      "displayId": "2-123"
+      "displayName": "Income 2",
+      "accountType": "Income",
+      "displayId": "4-456",
+      "taxCodeId": "123"
+    }
+  ],
+  "buyingAccounts": [
+    {
+      "id": "134",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134",
+      "taxCodeId": "123"
+    },
+    {
+      "id": "456",
+      "displayName": "Expense 2",
+      "accountType": "Expense",
+      "displayId": "6-135",
+      "taxCodeId": "123"
     }
   ],
   "taxCodes": [

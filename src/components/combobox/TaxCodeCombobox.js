@@ -9,6 +9,8 @@ const TaxCodeCombobox = (props) => {
     selectedIndex,
     onChange,
     disabled,
+    allowClearSelection,
+    ...otherProps
   } = props;
 
   const metaData = [
@@ -17,18 +19,33 @@ const TaxCodeCombobox = (props) => {
     { columnName: 'displayRate', columnWidth: '5rem' },
   ];
 
+  const clearSelectionText = 'None';
+
+  const clearSelectionItem = { displayName: clearSelectionText };
+  const completedItems = allowClearSelection ? [clearSelectionItem, ...items] : items;
+
   let selectedItem = {};
   if (typeof selectedIndex === 'number' && selectedIndex !== -1) {
-    selectedItem = items[selectedIndex];
+    const index = allowClearSelection ? selectedIndex + 1 : selectedIndex;
+    selectedItem = completedItems[index];
   }
+
+  const onComboboxChange = (item) => {
+    if (item.displayName === clearSelectionText) {
+      onChange({});
+    } else {
+      onChange(item);
+    }
+  };
 
   return (
     <Combobox
       metaData={metaData}
-      items={items}
-      onChange={onChange}
+      items={completedItems}
+      onChange={onComboboxChange}
       selected={selectedItem}
       disabled={disabled}
+      {...otherProps}
     />
   );
 };
@@ -37,6 +54,7 @@ TaxCodeCombobox.defaultProps = {
   items: [],
   selectedIndex: null,
   disabled: false,
+  allowClearSelection: false,
 };
 
 TaxCodeCombobox.propTypes = {
@@ -44,6 +62,7 @@ TaxCodeCombobox.propTypes = {
   selectedIndex: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  allowClearSelection: PropTypes.bool,
 };
 
 export default TaxCodeCombobox;

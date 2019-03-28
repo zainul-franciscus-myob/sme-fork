@@ -8,6 +8,7 @@ const AccountCombobox = (props) => {
     items,
     selectedIndex,
     onChange,
+    allowClearSelection,
     ...otherProps
   } = props;
 
@@ -17,18 +18,35 @@ const AccountCombobox = (props) => {
     { columnName: 'accountType', columnWidth: '10rem' },
   ];
 
+  const clearSelectionText = 'None';
+
+  const clearSelectionItem = { displayId: clearSelectionText };
   const formattedItems = items && items.map(({ displayName, ...rest }) => ({ ...rest, displayName: ` ${displayName}` }));
+
+  const completedItems = allowClearSelection
+    ? [clearSelectionItem, ...formattedItems]
+    : formattedItems;
+
   let selectedItem = {};
   if (typeof selectedIndex === 'number' && selectedIndex !== -1) {
-    selectedItem = formattedItems[selectedIndex];
+    const index = allowClearSelection ? selectedIndex + 1 : selectedIndex;
+    selectedItem = completedItems[index];
   }
+
+  const onComboboxChange = (item) => {
+    if (item.displayId === clearSelectionText) {
+      onChange({});
+    } else {
+      onChange(item);
+    }
+  };
 
   return (
     <Combobox
       metaData={metaData}
-      items={formattedItems}
+      items={completedItems}
       selected={selectedItem}
-      onChange={onChange}
+      onChange={onComboboxChange}
       {...otherProps}
     />
   );
@@ -36,12 +54,14 @@ const AccountCombobox = (props) => {
 
 AccountCombobox.defaultProps = {
   selectedIndex: null,
+  allowClearSelection: false,
 };
 
 AccountCombobox.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selectedIndex: PropTypes.number,
   onChange: PropTypes.func.isRequired,
+  allowClearSelection: PropTypes.bool,
 };
 
 export default AccountCombobox;

@@ -1,0 +1,73 @@
+import { createSelector, createStructuredSelector } from 'reselect';
+
+import getRegionToDialectText from '../../dialect/getRegionToDialectText';
+
+const getSellingAccounts = state => state.sellingAccounts;
+const getBuyingAccounts = state => state.buyingAccounts;
+const getTaxCodes = state => state.taxCodes;
+const getTaxLabel = state => getRegionToDialectText(state.region)('Tax code');
+const getItemSellingDetails = state => (state.item.sellingDetails || {});
+const getItemBuyingDetails = state => (state.item.buyingDetails || {});
+
+export const getItemDetails = createStructuredSelector({
+  referenceId: state => state.item.referenceId,
+  name: state => state.item.name,
+  description: state => state.item.description,
+  useItemDescription: state => state.item.useItemDescription,
+  isInactive: state => state.item.isInactive,
+});
+
+export const getSellingDetails = createSelector(
+  getItemSellingDetails,
+  getSellingAccounts,
+  getTaxCodes,
+  getTaxLabel,
+  (sellingDetails, sellingAccounts, taxCodes, taxLabel) => {
+    const allocateToAccountIndex = sellingAccounts.findIndex(
+      account => account.id === sellingDetails.allocateToAccountId,
+    );
+    const selectedTaxCodeIndex = taxCodes.findIndex(
+      taxCode => taxCode.id === sellingDetails.taxCodeId,
+    );
+    return ({
+      ...sellingDetails,
+      sellingAccounts,
+      taxCodes,
+      allocateToAccountIndex,
+      selectedTaxCodeIndex,
+      taxLabel,
+    });
+  },
+);
+
+export const getBuyingDetails = createSelector(
+  getItemBuyingDetails,
+  getBuyingAccounts,
+  getTaxCodes,
+  getTaxLabel,
+  (buyingDetails, buyingAccounts, taxCodes, taxLabel) => {
+    const allocateToAccountIndex = buyingAccounts.findIndex(
+      account => account.id === buyingDetails.allocateToAccountId,
+    );
+    const selectedTaxCodeIndex = taxCodes.findIndex(
+      taxCode => taxCode.id === buyingDetails.taxCodeId,
+    );
+    return ({
+      ...buyingDetails,
+      buyingAccounts,
+      taxCodes,
+      allocateToAccountIndex,
+      selectedTaxCodeIndex,
+      taxLabel,
+    });
+  },
+);
+
+export const getBusinessId = state => state.businessId;
+export const getRegion = state => state.region;
+export const getOriginalName = state => state.item.originalName;
+export const getItem = state => state.item;
+export const getAlertMessage = state => state.alertMessage;
+export const getModalType = state => state.modalType;
+export const isPageEdited = state => state.isPageEdited;
+export const getIsActionsDisabled = state => state.isSubmitting;
