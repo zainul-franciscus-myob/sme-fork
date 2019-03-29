@@ -12,6 +12,7 @@ export const activeMapping = {
   'quote/quoteList': 'sales',
   'invoice/invoiceList': 'sales',
   'banking/bankTransactionList': 'banking',
+  'inventory/itemList': 'sales',
 };
 
 export const featuresConfig = {
@@ -74,5 +75,8 @@ export const featuresConfig = {
   },
   bankTransactionList: {
     routeName: 'banking/bankTransactionList',
+  },
+  inventory: {
+    routeName: 'inventory/itemList',
   },
 };

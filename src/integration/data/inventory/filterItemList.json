@@ -10,7 +10,7 @@
     },
     {
       "id":"2",
-      "referenceId": "1",
+      "referenceId": "long inactive reference 1",
       "name": "Screwdriver - left handed",
       "sellingPrice": "246.01",
       "tax": "Inclusive",

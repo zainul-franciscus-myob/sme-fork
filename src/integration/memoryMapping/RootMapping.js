@@ -28,6 +28,7 @@ const RootMapping = Object.freeze({
   ...TaxMapping,
   ...TransactionListMapping,
   ...TransferMoneyMapping,
+  ...InventoryMapping,
 });
 
 export default RootMapping;

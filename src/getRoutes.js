@@ -103,11 +103,12 @@ const getRoutes = ({
     name: 'banking',
     rootPath: '/:region/:businessId/banking',
     subRoutes: getBankingRoutes({ integration, setRootView }),
-  },
-  {
-    name: 'item',
+  }, {
+    name: 'inventory',
     rootPath: '/:region/:businessId/inventory',
-    subRoutes: getInventoryRoutes({ integration, setRootView, pushMessage }),
+    subRoutes: getInventoryRoutes({
+      integration, setRootView, popMessages, pushMessage,
+    }),
   },
 ];
 

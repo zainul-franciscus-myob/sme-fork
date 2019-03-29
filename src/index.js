@@ -47,10 +47,10 @@ async function main(integrationType) {
     return [...acc, ...routeModules];
   }, []);
 
-  const { constructPath } = router;
+  const { constructPath, replaceURLParamsAndReload } = router;
 
   const nav = new NavigationModule({
-    integration, setNavigationView, constructPath,
+    integration, setNavigationView, constructPath, replaceURLParamsAndReload,
   });
 
   const unsubscribeAllModulesFromStore = () => {

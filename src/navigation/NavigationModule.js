@@ -10,12 +10,13 @@ import navReducer from './navReducer';
 
 export default class NavigationModule {
   constructor({
-    integration, setNavigationView, constructPath,
+    integration, setNavigationView, constructPath, replaceURLParamsAndReload,
   }) {
     this.integration = integration;
     this.setNavigationView = setNavigationView;
     this.constructPath = constructPath;
     this.store = new Store(navReducer);
+    this.replaceURLParamsAndReload = replaceURLParamsAndReload;
   }
 
   getBusinessInfo = () => {
@@ -94,8 +95,7 @@ export default class NavigationModule {
     this.setNavigationView(wrappedView);
   }
 
-  run = ({ routeParams, currentRouteName, replaceURLParamsAndReload }) => {
-    this.replaceURLParamsAndReload = replaceURLParamsAndReload;
+  run = ({ routeParams, currentRouteName }) => {
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     this.getBusinessInfo();
     this.render();

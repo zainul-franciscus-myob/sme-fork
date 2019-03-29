@@ -69,8 +69,6 @@ export default class Router {
         routeProps: {
           routeParams: route.params,
           currentRouteName: route.name,
-          replaceURLParams: this.replaceURLParams,
-          replaceURLParamsAndReload: this.replaceURLParamsAndReload,
         },
       });
       action({ ...route.params }, this.replaceURLParams);

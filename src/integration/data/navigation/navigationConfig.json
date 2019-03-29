@@ -15,6 +15,7 @@
     "taxList",
     "quoteList",
     "invoiceList",
-    "bankTransactionList"
+    "bankTransactionList",
+    "inventory"
   ]
 }
