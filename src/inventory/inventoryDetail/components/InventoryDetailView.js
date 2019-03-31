@@ -1,10 +1,10 @@
-import { Card } from '@myob/myob-widgets';
+import { Card, Spinner } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getModalType, getOriginalName,
+  getAlertMessage, getIsLoading, getModalType, getOriginalName,
 } from '../inventoryDetailSelectors';
 import Alert from '../../../components/Alert/Alert';
 import BuyingDetails from './BuyingDetails';
@@ -17,6 +17,7 @@ import SimplePageTemplate from '../../../components/SimplePageTemplate/SimplePag
 import styles from './InventoryDetailView.css';
 
 const InventoryDetailView = ({
+  isLoading,
   originalName,
   onItemDetailsChange,
   onSellingDetailsChange,
@@ -55,7 +56,7 @@ const InventoryDetailView = ({
 
   const pageHead = isCreating ? 'New item' : originalName;
 
-  const view = (
+  const itemDetailView = (
     <div className={styles.item}>
       {alertMessage && (
         <Alert type="danger" onDismiss={onDismissAlert}>
@@ -81,9 +82,9 @@ const InventoryDetailView = ({
     </div>
   );
 
-  return (
-    view
-  );
+  const view = isLoading ? (<Spinner />) : itemDetailView;
+
+  return view;
 };
 
 InventoryDetailView.propTypes = {
@@ -107,6 +108,7 @@ const mapStateToProps = state => ({
   originalName: getOriginalName(state),
   alertMessage: getAlertMessage(state),
   modalType: getModalType(state),
+  isLoading: getIsLoading(state),
 });
 
 export default connect(mapStateToProps)(InventoryDetailView);

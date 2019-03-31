@@ -14,12 +14,12 @@ import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
   filterOptions: {
-    type: '',
+    filterBy: '',
     keywords: '',
     showInactive: false,
   },
   appliedFilterOptions: {
-    type: '',
+    filterBy: '',
     keywords: '',
     showInactive: false,
   },
@@ -42,11 +42,11 @@ const loadItemList = (state, action) => ({
   orderBy: action.orderBy,
   filterOptions: {
     ...state.filterOptions,
-    type: action.type,
+    filterBy: action.filterBy,
   },
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
-    type: action.type,
+    filterBy: action.filterBy,
   },
 });
 
@@ -74,7 +74,6 @@ const updateFilterOptions = (state, action) => ({
     [action.filterName]: action.value,
   },
 });
-
 
 const setLoadingState = (state, action) => ({
   ...state,

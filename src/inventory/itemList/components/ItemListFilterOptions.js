@@ -9,7 +9,7 @@ import { getFilterOptions, getTypeOptions } from '../itemListSelectors';
 
 class ItemListFilterOptions extends React.Component {
   onSelectChange = (e) => {
-    const filterName = 'type';
+    const filterName = 'filterBy';
     const { value } = e.target;
 
     const { onUpdateFilters } = this.props;
@@ -36,7 +36,7 @@ class ItemListFilterOptions extends React.Component {
   render = () => {
     const {
       filterOptions: {
-        type,
+        filterBy,
         keywords,
         showInactive,
       },
@@ -48,7 +48,7 @@ class ItemListFilterOptions extends React.Component {
       <FilterBar>
         <FilterBar.Group>
           <FilterBar.Option>
-            <Select name="type" label="Type" value={type} onChange={this.onSelectChange}>
+            <Select name="filterBy" label="Type" value={filterBy} onChange={this.onSelectChange}>
               {typeOptions.map(({ label, value }) => (
                 <Select.Option value={value} label={label} key={value} />
               ))}

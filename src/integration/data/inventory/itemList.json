@@ -1,5 +1,5 @@
 {
-  "type": "All",
+  "filterBy": "Sold",
   "typeFilters": [
     {
       "name": "All",

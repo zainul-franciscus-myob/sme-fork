@@ -8,7 +8,7 @@ export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilt
 
 export const getTableEntries = ({ entries }) => entries;
 
-const getRegion = state => state.region;
+export const getRegion = state => state.region;
 
 const getEntryLink = (entry, businessId, region) => {
   const {

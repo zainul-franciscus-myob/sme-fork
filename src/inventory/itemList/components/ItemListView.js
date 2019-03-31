@@ -22,6 +22,7 @@ const ItemListView = ({
   onUpdateFilters,
   onApplyFilter,
   onSort,
+  onCreateItem,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -38,7 +39,7 @@ const ItemListView = ({
 
   const pageHead = (
     <PageHead title="Items">
-      <Button onClick={() => {}} disabled>Create item</Button>
+      <Button onClick={onCreateItem} disabled>Create item</Button>
     </PageHead>
   );
 

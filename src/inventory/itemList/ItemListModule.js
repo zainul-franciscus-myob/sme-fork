@@ -24,6 +24,7 @@ import {
   getFilterOptions,
   getFlipSortOrder,
   getOrderBy,
+  getRegion,
   getSortOrder,
 } from './itemListSelectors';
 import ItemListView from './components/ItemListView';
@@ -195,7 +196,7 @@ export default class ItemListModule {
     const intent = SET_TABLE_LOADING_STATE;
     this.store.dispatch({
       intent,
-      isLoading,
+      isTableLoading: isLoading,
     });
   };
 
@@ -209,6 +210,14 @@ export default class ItemListModule {
       },
     });
   };
+
+  createItem = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/inventory/new`;
+  }
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
