@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsLoading,
+  getAlert, getIsLoading,
 } from '../itemListSelectors';
 import Alert from '../../../components/Alert/Alert';
 import ItemListFilterOptions from './ItemListFilterOptions';
@@ -60,6 +60,7 @@ const ItemListView = ({
 };
 
 const mapStateToProps = state => ({
+  alert: getAlert(state),
   isLoading: getIsLoading(state),
 });
 

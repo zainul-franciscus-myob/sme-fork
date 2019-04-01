@@ -1,5 +1,6 @@
 import {
   LOAD_ITEM_LIST,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -85,6 +86,11 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
+const setAlert = (state, action) => ({
+  ...state,
+  alert: action.alert,
+});
+
 const resetState = () => (getDefaultState());
 
 const handlers = {
@@ -96,6 +102,7 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
+  [SET_ALERT]: setAlert,
 };
 
 const itemListReducer = createReducer(getDefaultState(), handlers);

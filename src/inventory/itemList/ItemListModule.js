@@ -53,6 +53,7 @@ export default class ItemListModule {
         onUpdateFilters={this.updateFilterOptions}
         onDismissAlert={this.dismissAlert}
         onSort={this.sortItemList}
+        onCreateItem={this.createItem}
       />
     );
 
