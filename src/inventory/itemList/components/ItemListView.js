@@ -39,7 +39,7 @@ const ItemListView = ({
 
   const pageHead = (
     <PageHead title="Items">
-      <Button onClick={onCreateItem} disabled>Create item</Button>
+      <Button onClick={onCreateItem}>Create item</Button>
     </PageHead>
   );
 
