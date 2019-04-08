@@ -5,3 +5,5 @@ export const SET_SORT_ORDER = Symbol('Set sort order for quote list');
 export const SET_TABLE_LOADING_STATE = Symbol('Set Table loading state');
 export const SORT_AND_FILTER_QUOTE_LIST = Symbol('Sort and filter list of quotes');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
+export const LOAD_SERVICE_QUOTE_DETAIL = Symbol('Load service quote detail');
+export const UPDATE_SERVICE_QUOTE_HEADER_OPTIONS = Symbol('Update service quote header options');

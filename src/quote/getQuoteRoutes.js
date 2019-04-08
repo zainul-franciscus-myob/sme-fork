@@ -1,4 +1,5 @@
 import QuoteListModule from './quoteList/QuoteListModule';
+import ServiceQuoteModule from './serviceQuote/ServiceQuoteModule';
 
 const getQuoteRoutes = ({
   integration, setRootView,
@@ -8,6 +9,13 @@ const getQuoteRoutes = ({
       name: 'quoteList',
       path: '/',
       module: new QuoteListModule({
+        integration, setRootView,
+      }),
+    },
+    {
+      name: 'serviceQuote',
+      path: '/service/:quoteId',
+      module: new ServiceQuoteModule({
         integration, setRootView,
       }),
     },

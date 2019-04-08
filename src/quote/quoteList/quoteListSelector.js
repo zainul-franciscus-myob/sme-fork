@@ -35,10 +35,16 @@ export const getOrderBy = ({ orderBy }) => orderBy;
 
 export const getSortOrder = ({ sortOrder }) => sortOrder;
 
+const getRegion = state => state.region;
+
 export const getTableEntries = createSelector(
+  getRegion,
+  getBusinessId,
   getEntries,
-  (state, props) => props.businessId,
-  entries => entries,
+  (region, businessId, entries) => entries.map(entry => ({
+    ...entry,
+    link: `/#/${region}/${businessId}/quote/service/${entry.id}`,
+  })),
 );
 
 export const getTotal = state => state.total;
