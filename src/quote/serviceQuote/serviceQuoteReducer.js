@@ -78,7 +78,6 @@ const loadNewServiceQuote = (state, action) => ({
   customerOptions: action.customerOptions,
   expirationTermOptions: action.expirationTermOptions,
   newLine: action.newLine,
-  totals: action.totals,
 });
 
 const loadServiceQuoteDetail = (state, action) => ({
