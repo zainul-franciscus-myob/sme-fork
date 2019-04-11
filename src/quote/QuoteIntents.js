@@ -21,3 +21,4 @@ export const LOAD_NEW_SERVICE_QUOTE = Symbol('Load new service quote entry');
 export const LOAD_CUSTOMER_ADDRESS = Symbol('Load customer address');
 export const FORMAT_SERVICE_QUOTE_LINE = Symbol('Format service quote line');
 export const CREATE_SERVICE_QUOTE = Symbol('Create a new service quote');
+export const RESET_TOTALS = Symbol('Reset totals');

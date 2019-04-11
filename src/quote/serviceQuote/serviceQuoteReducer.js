@@ -10,6 +10,7 @@ import {
   LOAD_SERVICE_QUOTE_DETAIL,
   OPEN_MODAL,
   REMOVE_SERVICE_QUOTE_LINE,
+  RESET_TOTALS,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -54,9 +55,9 @@ const getDefaultState = () => ({
     taxCodes: [],
   },
   totals: {
-    subTotal: '',
-    totalTax: '',
-    totalAmount: '',
+    subTotal: '$0.00',
+    totalTax: '$0.00',
+    totalAmount: '$0.00',
   },
   businessId: '',
   region: '',
@@ -226,6 +227,11 @@ const formatServiceQuoteLine = (state, action) => {
   return state;
 };
 
+const resetTotals = state => ({
+  ...state,
+  totals: getDefaultState().totals,
+});
+
 const handlers = {
   [LOAD_SERVICE_QUOTE_DETAIL]: loadServiceQuoteDetail,
   [SET_LOADING_STATE]: setLoadingState,
@@ -243,6 +249,7 @@ const handlers = {
   [LOAD_NEW_SERVICE_QUOTE]: loadNewServiceQuote,
   [LOAD_CUSTOMER_ADDRESS]: loadCustomerAddress,
   [FORMAT_SERVICE_QUOTE_LINE]: formatServiceQuoteLine,
+  [RESET_TOTALS]: resetTotals,
 };
 
 const serviceQuoteReducer = createReducer(getDefaultState(), handlers);

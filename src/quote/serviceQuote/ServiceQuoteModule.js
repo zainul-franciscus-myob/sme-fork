@@ -13,6 +13,7 @@ import {
   LOAD_SERVICE_QUOTE_DETAIL,
   OPEN_MODAL,
   REMOVE_SERVICE_QUOTE_LINE,
+  RESET_TOTALS,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -78,9 +79,12 @@ export default class ServiceQuoteModule {
     });
   }
 
+  resetTotals = () => this.store.dispatch({ intent: RESET_TOTALS });
+
   getCalculatedTotals = () => {
     const state = this.store.getState();
     if (getIsTableEmpty(state)) {
+      this.resetTotals();
       return;
     }
     const intent = GET_CALCULATED_TOTALS;
