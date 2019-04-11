@@ -1,21 +1,18 @@
-import { Card, Spinner } from '@myob/myob-widgets';
+import { Spinner, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getIsLoading, getPageHead } from '../taxListSelectors';
-import SimplePageTemplate from '../../../components/SimplePageTemplate/SimplePageTemplate';
 import TaxListTable from './TaxListTable';
 
 const TaxListView = ({ isLoading, pageHead }) => (
   isLoading
     ? <Spinner />
     : (
-      <SimplePageTemplate pageHead={pageHead}>
-        <Card>
-          <TaxListTable />
-        </Card>
-      </SimplePageTemplate>
+      <StandardTemplate sticky="none" pageHead={pageHead}>
+        <TaxListTable />
+      </StandardTemplate>
     )
 );
 

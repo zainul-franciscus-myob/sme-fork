@@ -1,5 +1,5 @@
 import {
-  Button, ButtonRow, Card, Spinner,
+  Alert, Button, ButtonRow, Card, FormTemplate, Spinner,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,12 +8,9 @@ import React from 'react';
 import {
   getAlert, getIsLoading, getIsSubmitting,
 } from '../businessDetailSelectors';
-import Alert from '../../../components/Alert/Alert';
 import BusinessDetailsSection from './BusinessDetailsSection';
 import ContactDetailsSection from './ContactDetailsSection';
 import FinancialYearSection from './FinancialYearSection';
-import SimplePageTemplate from '../../../components/SimplePageTemplate/SimplePageTemplate';
-import styles from './BusinessDetailView.css';
 
 const BusinessDetailView = ({
   isLoading,
@@ -29,24 +26,17 @@ const BusinessDetailView = ({
     </Alert>
   );
   const view = (
-    <div className={styles.businessDetails}>
-      {alertComponent}
-      <SimplePageTemplate pageHead="Business details">
-        <Card>
-          <div>
-            <BusinessDetailsSection onChange={onChange} />
-            <hr />
-            <ContactDetailsSection onChange={onChange} />
-            <hr />
-            <FinancialYearSection />
-          </div>
-          <hr />
-          <ButtonRow>
-            <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting}>Save</Button>
-          </ButtonRow>
-        </Card>
-      </SimplePageTemplate>
-    </div>
+    <FormTemplate pageHead="Business details" alert={alertComponent}>
+      <Card>
+        <BusinessDetailsSection onChange={onChange} />
+        <ContactDetailsSection onChange={onChange} />
+        <FinancialYearSection />
+        <hr />
+        <ButtonRow>
+          <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting}>Save</Button>
+        </ButtonRow>
+      </Card>
+    </FormTemplate>
   );
   return (
     isLoading ? <Spinner /> : view

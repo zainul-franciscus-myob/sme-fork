@@ -1,5 +1,5 @@
 import {
-  Card, Select, Spinner,
+  Alert, Columns, LineItemTemplate, Select, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,11 +8,8 @@ import React from 'react';
 import {
   getAlert, getEntityTypeOptions, getIsLoadingState, getIsTableHidden, getSelectedEntityType,
 } from '../IncomeAllocationSelectors';
-import Alert from '../../components/Alert/Alert';
 import IncomeAllocationActions from './IncomeAllocationActions';
 import IncomeAllocationTable from './IncomeAllocationTable';
-import SimplePageTemplate from '../../components/SimplePageTemplate/SimplePageTemplate';
-import styles from './IncomeAllocationView.css';
 
 const onSelectChange = handler => (e) => {
   const { value } = e.target;
@@ -51,30 +48,43 @@ const IncomeAllocationView = ({
     )
   );
 
+  const actions = (
+    <IncomeAllocationActions onSaveButtonClick={onSaveButtonClick} />
+  );
+
+  const options = (
+    <Columns type="three">
+      <Select name="EntityType" label="Entity type" value={selectedEntityType} onChange={onSelectChange(onEntityTypeChange)}>
+        {entityTypeOptions.map(({ label, value }) => (
+          <Select.Option value={value} label={label} key={value} />
+        ))}
+      </Select>
+    </Columns>
+  );
+
   const view = (
-    <div className={styles.incomeAllocation}>
-      {alertComponent}
-      <SimplePageTemplate pageHead="Income allocation">
-        <Card>
-          <Select className={styles.select} name="EntityType" label="Entity type" value={selectedEntityType} onChange={onSelectChange(onEntityTypeChange)}>
-            {entityTypeOptions.map(({ label, value }) => (
-              <Select.Option value={value} label={label} key={value} />
-            ))}
-          </Select>
-          {table}
-          <IncomeAllocationActions onSaveButtonClick={onSaveButtonClick} />
-        </Card>
-      </SimplePageTemplate>
-    </div>
+    <LineItemTemplate
+      options={options}
+      alert={alertComponent}
+      sticky="none"
+      actions={actions}
+      pageHead="Income allocation"
+    >
+      {table}
+    </LineItemTemplate>
   );
 
   return isLoading ? <Spinner /> : view;
 };
 
+IncomeAllocationView.defaultProps = {
+  alert: undefined,
+};
+
 IncomeAllocationView.propTypes = {
   selectedEntityType: PropTypes.string.isRequired,
   entityTypeOptions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  alert: PropTypes.shape({}).isRequired,
+  alert: PropTypes.shape({}),
   isTableHidden: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   onEntityTypeChange: PropTypes.func.isRequired,

@@ -1,5 +1,5 @@
 import {
-  Spinner, StandardTemplate,
+  Alert, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,7 +7,6 @@ import React from 'react';
 import {
   getAlert, getIsLoading,
 } from '../bankingSelectors';
-import Alert from '../../components/Alert/Alert';
 import BankTransactionFilterOptions from './BankTransactionFilterOptions';
 import BankTransactionTable from './BankTransactionTable';
 import style from './BankingView.css';
@@ -42,22 +41,19 @@ const BankingView = (props) => {
   );
 
   const transactionListView = (
-    <React.Fragment>
-      {alertComponent}
-      <StandardTemplate pageHead="Bank transactions" filterBar={filterBar}>
-        <div className={style.list}>
-          <BankTransactionTable
-            onSort={onSort}
-            onAllocate={onAllocate}
-            onUnallocate={onUnallocate}
-            onMatchedToBlur={onMatchedToBlur}
-            onMatchedToFocus={onMatchedToFocus}
-            onUnmatchedFocus={onUnmatchedFocus}
-            onUnmatchedBlur={onUnmatchedBlur}
-          />
-        </div>
-      </StandardTemplate>
-    </React.Fragment>
+    <StandardTemplate sticky="none" alert={alertComponent} pageHead="Bank transactions" filterBar={filterBar}>
+      <div className={style.list}>
+        <BankTransactionTable
+          onSort={onSort}
+          onAllocate={onAllocate}
+          onUnallocate={onUnallocate}
+          onMatchedToBlur={onMatchedToBlur}
+          onMatchedToFocus={onMatchedToFocus}
+          onUnmatchedFocus={onUnmatchedFocus}
+          onUnmatchedBlur={onUnmatchedBlur}
+        />
+      </div>
+    </StandardTemplate>
   );
 
   const view = isLoading ? (<Spinner />) : transactionListView;

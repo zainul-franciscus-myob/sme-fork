@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getIndexOfLastLine, getTableData, getTotals,
+  getIndexOfLastLine, getIsOutOfBalanced, getTableData, getTotals,
 } from '../generalJournalDetailSelectors';
 import GeneralJournalDetailRow from './GeneralJournalDetailRow';
 
@@ -59,6 +59,7 @@ class GeneralJournalDetailTable extends React.Component {
         totalOutOfBalance,
       },
       onRemoveRow,
+      isOutOfBalance,
     } = this.props;
 
     return (
@@ -74,7 +75,7 @@ class GeneralJournalDetailTable extends React.Component {
           <LineItemTable.Totals title="Total debit" amount={totalDebit} />
           <LineItemTable.Totals title="Total credit" amount={totalCredit} />
           <LineItemTable.Totals title="Tax" amount={totalTax} />
-          <LineItemTable.Totals totalAmount title="Out of balance" amount={totalOutOfBalance} />
+          <LineItemTable.Totals totalAmount type={isOutOfBalance && 'danger'} title="Out of balance" amount={totalOutOfBalance} />
         </LineItemTable.Total>
       </LineItemTable>
     );
@@ -84,6 +85,7 @@ class GeneralJournalDetailTable extends React.Component {
 GeneralJournalDetailTable.propTypes = {
   tableData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
+  isOutOfBalance: PropTypes.bool.isRequired,
   amountTotals: PropTypes.shape({
     totalDebit: PropTypes.string,
     totalCredit: PropTypes.string,
@@ -100,6 +102,7 @@ const mapStateToProps = state => ({
   amountTotals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
   tableData: getTableData(state),
+  isOutOfBalance: getIsOutOfBalanced(state),
 });
 
 export default connect(mapStateToProps)(GeneralJournalDetailTable);

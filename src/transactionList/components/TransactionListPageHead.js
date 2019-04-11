@@ -4,8 +4,6 @@ import {
 import { PropTypes } from 'prop-types';
 import React from 'react';
 
-import style from './TransactionListPageHead.css';
-
 const TransactionListPageHead = (props) => {
   const { onAddTransaction } = props;
 
@@ -18,9 +16,7 @@ const TransactionListPageHead = (props) => {
 
   const toggle = (
     <Dropdown.Toggle>
-      <span className={style.toggle}>
-        Add transaction
-      </span>
+      Add transaction
       <Icons.Caret />
     </Dropdown.Toggle>
   );

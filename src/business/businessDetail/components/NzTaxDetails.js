@@ -11,7 +11,7 @@ const onInputChange = handler => (e) => {
 };
 
 const NzTaxDetails = ({ irdNumber, nzbn, onChange }) => (
-  <div>
+  <React.Fragment>
     <Input
       name="irdNumber"
       label="IRD Number/GST Number"
@@ -24,7 +24,7 @@ const NzTaxDetails = ({ irdNumber, nzbn, onChange }) => (
       value={nzbn}
       onChange={onInputChange(onChange)}
     />
-  </div>
+  </React.Fragment>
 );
 
 NzTaxDetails.propTypes = {

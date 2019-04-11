@@ -1,5 +1,5 @@
 import {
-  Input, InputLabel, RadioButton,
+  FieldGroup, Input, RadioButtonGroup,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -20,12 +20,10 @@ const handleInputChange = handler => (e) => {
   handler({ key: name, value });
 };
 
-const handleRadioChange = onSellingDetailsChange => (e) => {
-  const { value, name } = e.target;
-
+const handleTaxInclusiveChange = onSellingDetailsChange => ({ value }) => {
   onSellingDetailsChange({
-    key: name,
-    value: value === 'true',
+    key: 'isTaxInclusive',
+    value: value === 'Tax inclusive',
   });
 };
 
@@ -40,8 +38,7 @@ const SellingDetails = ({
   onSellingDetailsChange,
   selectedTaxCodeIndex,
 }) => (
-  <React.Fragment>
-    <h2>Selling details</h2>
+  <FieldGroup label="Selling Details">
     <AccountCombobox
       label="Allocated to"
       hideLabel={false}
@@ -65,13 +62,13 @@ const SellingDetails = ({
       onChange={handleComboboxChange('taxCodeId', onSellingDetailsChange)}
       hideLabel={false}
     />
-    <div className="form-group">
-      <InputLabel label="Selling price is" id="isTaxInclusive" />
-      <div>
-        <div><RadioButton name="isTaxInclusive" label="Tax inclusive" value="true" checked={isTaxInclusive} onChange={handleRadioChange(onSellingDetailsChange)} /></div>
-        <div><RadioButton name="isTaxInclusive" label="Tax exclusive" value="false" checked={!isTaxInclusive} onChange={handleRadioChange(onSellingDetailsChange)} /></div>
-      </div>
-    </div>
+    <RadioButtonGroup
+      label="Selling price is"
+      name="isTaxInclusive"
+      options={['Tax inclusive', 'Tax exclusive']}
+      onChange={handleTaxInclusiveChange(onSellingDetailsChange)}
+      value={isTaxInclusive ? 'Tax inclusive' : 'Tax exclusive'}
+    />
     <Input
       name="unitOfMeasure"
       label="Unit of measure"
@@ -79,7 +76,7 @@ const SellingDetails = ({
       onChange={handleInputChange(onSellingDetailsChange)}
       maxLength={5}
     />
-  </React.Fragment>
+  </FieldGroup>
 );
 
 SellingDetails.propTypes = {

@@ -20,7 +20,7 @@ describe('ServiceQuoteSelectors', () => {
         taxInclusive: true,
         quoteNumber: '0000012334563456',
         address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
-        issueDate: '1541116800000',
+        issueDate: '2018-11-02',
         expiredDate: '02/11/2018',
         purchaseOrderNumber: '123',
         notesToCustomer: 'Thank you!',

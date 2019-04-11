@@ -109,7 +109,6 @@ export const getIsCreating = createSelector(
 const getQuote = state => state.quote;
 const getCustomerOptions = state => state.customerOptions;
 const getExpirationTermOptions = state => state.expirationTermOptions;
-const convertDateToUnixTime = date => new Date(date).getTime().toString();
 export const getQuoteOptions = createSelector(
   getQuote,
   getCustomerOptions,
@@ -121,7 +120,7 @@ export const getQuoteOptions = createSelector(
 
     return {
       ...quoteWithoutLines,
-      issueDate: convertDateToUnixTime(issueDate),
+      issueDate,
       expiredDate,
       customerOptions,
       expirationTermOptions,

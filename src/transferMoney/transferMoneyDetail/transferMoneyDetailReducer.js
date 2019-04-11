@@ -38,7 +38,6 @@ const getDefaultState = () => ({
 
 const pageEdited = { isPageEdited: true };
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
-const isDateOptionChange = filterName => filterName === 'date';
 const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
 
 const loadTransferMoneyDetail = (state, { transferMoney }) => ({
@@ -68,9 +67,7 @@ const updateForm = (state, action) => ({
   ...pageEdited,
   transferMoney: {
     ...state.transferMoney,
-    [action.key]: isDateOptionChange(action.key)
-      ? convertToDateString(action.value)
-      : action.value,
+    [action.key]: action.value,
   },
 });
 

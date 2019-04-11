@@ -13,7 +13,7 @@ const tableConfig = {
   type: { width: '15rem', valign: 'top' },
   phoneNumber: { width: '20rem', valign: 'top' },
   email: { width: 'flex-1', valign: 'top' },
-  outstandingBalance: { width: 'flex-1', valign: 'top' },
+  outstandingBalance: { width: 'flex-1', valign: 'top', align: 'right' },
 };
 
 const emptyView = (

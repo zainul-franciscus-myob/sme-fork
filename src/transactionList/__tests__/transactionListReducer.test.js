@@ -16,7 +16,7 @@ describe('transactionListReducer', () => {
       const action = {
         intent: UPDATE_FILTER_OPTIONS,
         filterName: 'dateTo',
-        value: '1547078776000',
+        value: '2019-01-10',
       };
 
       const expected = {

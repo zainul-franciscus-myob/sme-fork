@@ -3,5 +3,6 @@
 }
 
 :local .phoneNumber button {
-  border: none;
+  border-color: transparent;
+  background: none;
 }

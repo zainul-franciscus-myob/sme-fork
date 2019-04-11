@@ -1,5 +1,5 @@
 import {
-  PageHead, Spinner, StandardTemplate,
+  Alert, PageHead, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -8,7 +8,6 @@ import {
   getAlert,
   getIsLoading,
 } from '../invoiceListSelectors';
-import Alert from '../../../components/Alert/Alert';
 import InvoiceListFilterOptions from './InvoiceListFilterOptions';
 import InvoiceListTable from './InvoiceListTable';
 import style from './InvoiceListView.css';
@@ -40,14 +39,11 @@ const InvoiceListView = (props) => {
   );
 
   const invoiceListView = (
-    <React.Fragment>
-      {alertComponent}
-      <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
-        <div className={style.list}>
-          <InvoiceListTable onSort={onSort} />
-        </div>
-      </StandardTemplate>
-    </React.Fragment>
+    <StandardTemplate sticky="none" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
+      <div className={style.list}>
+        <InvoiceListTable onSort={onSort} />
+      </div>
+    </StandardTemplate>
   );
 
   const view = isLoading ? (<Spinner />) : invoiceListView;

@@ -1,4 +1,4 @@
-import { Input } from '@myob/myob-widgets';
+import { FieldGroup, Input, ReadOnly } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -15,13 +15,10 @@ const onInputChange = handler => (e) => {
 const BusinessDetailsSection = ({
   serialNumber, organisationName, isAu, onChange,
 }) => (
-  <div>
-    <Input
-      name="serialNumber"
-      label="MYOB serial number"
-      disabled
-      value={serialNumber}
-    />
+  <FieldGroup label="Business Details" hideLabel>
+    <ReadOnly name="serialNumber" label="MYOB serial number">
+      {serialNumber}
+    </ReadOnly>
     <Input
       name="organisationName"
       label="Organisation name"
@@ -29,8 +26,7 @@ const BusinessDetailsSection = ({
       onChange={onInputChange(onChange)}
     />
     {isAu ? <AuTaxDetails onChange={onChange} /> : <NzTaxDetails onChange={onChange} />}
-
-  </div>
+  </FieldGroup>
 );
 
 BusinessDetailsSection.propTypes = {

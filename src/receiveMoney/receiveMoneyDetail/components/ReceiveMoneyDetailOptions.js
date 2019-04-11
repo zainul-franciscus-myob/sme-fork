@@ -24,7 +24,7 @@ const ContactCombobox = (props) => {
   ];
 
   let selectedItem = {};
-  if (typeof selectedIndex === 'number') {
+  if (typeof selectedIndex === 'number' && selectedIndex !== -1) {
     selectedItem = items[selectedIndex];
   }
 
@@ -71,7 +71,7 @@ class ReceiveMoneyDetailOptions extends Component {
     });
   }
 
-  handleDateChange = (value) => {
+  handleDateChange = ({ value }) => {
     const { onUpdateHeaderOptions } = this.props;
     const key = 'date';
 
@@ -101,14 +101,11 @@ class ReceiveMoneyDetailOptions extends Component {
       <React.Fragment>
         <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} />
         <div>
-          <InputLabel label="Date" id="date" />
           <DatePicker
-            inputProps={{
-              id: 'date',
-              autoFocus: true,
-            }}
-            dateTime={date}
-            onChange={this.handleDateChange}
+            label="Date"
+            name="Date"
+            value={date}
+            onSelect={this.handleDateChange}
           />
         </div>
         <div className="form-group">
@@ -134,22 +131,18 @@ class ReceiveMoneyDetailOptions extends Component {
             </div>
           </div>
         </div>
-        <div className="form-group">
-          <AccountCombobox
-            label="Deposit into"
-            hideLabel={false}
-            items={depositIntoAccounts}
-            selectedIndex={selectedDepositIntoAccountIndex}
-            onChange={this.handleComboBoxChange('selectedDepositIntoAccountId')}
-          />
-        </div>
-        <div className="form-group">
-          <ContactCombobox
-            items={payFromContacts}
-            selectedIndex={selectedPayFromContactIndex}
-            onChange={this.handleComboBoxChange('selectedPayFromContactId')}
-          />
-        </div>
+        <AccountCombobox
+          label="Deposit into"
+          hideLabel={false}
+          items={depositIntoAccounts}
+          selectedIndex={selectedDepositIntoAccountIndex}
+          onChange={this.handleComboBoxChange('selectedDepositIntoAccountId')}
+        />
+        <ContactCombobox
+          items={payFromContacts}
+          selectedIndex={selectedPayFromContactIndex}
+          onChange={this.handleComboBoxChange('selectedPayFromContactId')}
+        />
         <div />
         <TextArea
           name="description"
@@ -157,6 +150,7 @@ class ReceiveMoneyDetailOptions extends Component {
           autoSize
           maxLength={255}
           placeholder="Max 255 characters"
+          resize="vertical"
           value={description}
           onChange={this.handleInputChange}
         />

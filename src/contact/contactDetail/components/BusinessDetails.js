@@ -1,19 +1,20 @@
 import {
-  Checkbox, Input, InputLabel, RadioButton, Tooltip,
+  Checkbox, CheckboxGroup, FieldGroup, Input, RadioButtonGroup, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getBusinessDetails } from '../contactDetailSelectors';
-import styles from './BusinessDetails.css';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
 
-const onRadioButtonChange = onInputChange;
+const onRadioButtonChange = (name, handler) => ({ value }) => {
+  handler({ key: name, value });
+};
 
 const onCheckboxChange = handler => (e) => {
   const { checked, name } = e.target;
@@ -28,68 +29,22 @@ const BusinessDetails = ({
   isInactive,
   onBusinessDetailsChange,
 }) => (
-  <div>
-    <h2>Business details</h2>
-    <div className="form-group">
-      <InputLabel label="Contact type" id="contactType" />
-      <div className={styles.radioGroup}>
-        <div>
-          <RadioButton
-            name="selectedContactType"
-            label="Customer"
-            value="Customer"
-            checked={selectedContactType === 'Customer'}
-            disabled={!isCreating}
-            onChange={onRadioButtonChange(onBusinessDetailsChange)}
-          />
-        </div>
-        <div>
-          <RadioButton
-            name="selectedContactType"
-            label="Supplier"
-            value="Supplier"
-            checked={selectedContactType === 'Supplier'}
-            disabled={!isCreating}
-            onChange={onRadioButtonChange(onBusinessDetailsChange)}
-          />
-        </div>
-        <div>
-          <RadioButton
-            name="selectedContactType"
-            label="Other"
-            value="Other"
-            checked={selectedContactType === 'Other'}
-            disabled={!isCreating}
-            onChange={onRadioButtonChange(onBusinessDetailsChange)}
-          />
-        </div>
-      </div>
-    </div>
-
-    <div className="form-group">
-      <InputLabel label="Designation" id="designation" />
-      <div className={styles.radioGroup}>
-        <div>
-          <RadioButton
-            name="designation"
-            label="Company"
-            value="Company"
-            checked={designation === 'Company'}
-            onChange={onRadioButtonChange(onBusinessDetailsChange)}
-          />
-        </div>
-        <div>
-          <RadioButton
-            name="designation"
-            label="Individual"
-            value="Individual"
-            checked={designation === 'Individual'}
-            onChange={onRadioButtonChange(onBusinessDetailsChange)}
-          />
-        </div>
-      </div>
-    </div>
-
+  <FieldGroup label="Business details">
+    <RadioButtonGroup
+      label="Contact Type"
+      name="contactType"
+      options={['Customer', 'Supplier', 'Other']}
+      onChange={onRadioButtonChange('selectedContactType', onBusinessDetailsChange)}
+      value={selectedContactType}
+      disabled={!isCreating}
+    />
+    <RadioButtonGroup
+      label="Designation"
+      name="designation"
+      options={['Company', 'Individual']}
+      onChange={onRadioButtonChange('designation', onBusinessDetailsChange)}
+      value={designation}
+    />
     <Input
       name="referenceId"
       label="Reference"
@@ -97,21 +52,23 @@ const BusinessDetails = ({
       value={referenceId}
       onChange={onInputChange(onBusinessDetailsChange)}
     />
-    <div className="form-group">
-      <InputLabel label="Mark this contact as " id="isInactive" />
-      <Tooltip className={styles.tooltip}>
-        Inactive contacts will no longer be displayed in your contacts list
-      </Tooltip>
-      <div className={styles.checkbox}>
+    <CheckboxGroup
+      label="Mark this contact as "
+      labelAccessory={(
+        <Tooltip>
+          Inactive contacts will no longer be displayed in your contacts list
+        </Tooltip>
+      )}
+      renderCheckbox={() => (
         <Checkbox
           name="isInactive"
           label="Inactive"
           checked={isInactive}
           onChange={onCheckboxChange(onBusinessDetailsChange)}
         />
-      </div>
-    </div>
-  </div>
+      )}
+    />
+  </FieldGroup>
 );
 
 BusinessDetails.propTypes = {

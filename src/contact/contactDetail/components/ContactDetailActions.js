@@ -12,19 +12,24 @@ const ContactDetailActions = ({
   onCancelButtonClick,
   onDeleteButtonClick,
 }) => (
-  <ButtonRow>
-    {!isCreating && (
-      <Button name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isActionsDisabled}>
-        Delete
-      </Button>
-    )}
-    <Button name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
-      Cancel
-    </Button>
-    <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
-      Save
-    </Button>
-  </ButtonRow>
+  <ButtonRow
+    primary={[
+      <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
+        Cancel
+      </Button>,
+      <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
+        Save
+      </Button>,
+    ]}
+    secondary={[
+      !isCreating
+      && (
+        <Button key="delete" name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isActionsDisabled}>
+          Delete
+        </Button>
+      ),
+    ]}
+  />
 );
 
 ContactDetailActions.propTypes = {

@@ -1,16 +1,13 @@
-import { Spinner } from '@myob/myob-widgets';
+import { Alert, Spinner, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getAlertMessage, getIsLoading, getModalType } from '../transferMoneyDetailSelectors';
-import Alert from '../../../components/Alert/Alert';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
-import SimplePageTemplate from '../../../components/SimplePageTemplate/SimplePageTemplate';
 import TransferMoneyDetailActions from './TranferMoneyDetailActions';
 import TransferMoneyDetailForm from './TransferMoneyDetailForm';
-import styles from './TransferMoneyDetailView.css';
 
 const TransferMoneyDetailView = ({
   onUpdateForm,
@@ -64,18 +61,15 @@ const TransferMoneyDetailView = ({
   }
 
   const view = (
-    <div className={styles.transferMoneyView}>
-      {alertComponent}
-      <SimplePageTemplate pageHead="Transfer money">
-        { modal }
-        <TransferMoneyDetailForm
-          isCreating={isCreating}
-          onUpdateForm={onUpdateForm}
-          onAmountInputBlur={onAmountInputBlur}
-        />
-        { actions }
-      </SimplePageTemplate>
-    </div>
+    <StandardTemplate pageHead="Transfer money" alert={alertComponent} sticky="none">
+      { modal }
+      <TransferMoneyDetailForm
+        isCreating={isCreating}
+        onUpdateForm={onUpdateForm}
+        onAmountInputBlur={onAmountInputBlur}
+      />
+      { actions }
+    </StandardTemplate>
   );
 
   return isLoading ? <Spinner /> : view;

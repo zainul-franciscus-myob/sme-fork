@@ -56,7 +56,7 @@ const ReceiveMoneyDetailRow = (props) => {
       <Input
         type="number"
         label="Amount"
-        hiddenLabel
+        hideLabel
         name="amount"
         value={amount}
         disabled={isNewLineRow}
@@ -67,7 +67,7 @@ const ReceiveMoneyDetailRow = (props) => {
       <Input
         type="text"
         label="Description"
-        hiddenLabel
+        hideLabel
         name="description"
         value={description}
         onChange={onChange}

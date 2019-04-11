@@ -14,12 +14,6 @@ export const getEntries = state => state.entries;
 
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
-export const getFormattedFilterOptions = ({ filterOptions }) => ({
-  ...filterOptions,
-  dateFrom: convertToUnixTime(filterOptions.dateFrom),
-  dateTo: convertToUnixTime(filterOptions.dateTo),
-});
-
 export const getIsLoading = state => state.isLoading;
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;

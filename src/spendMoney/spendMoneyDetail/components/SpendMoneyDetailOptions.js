@@ -78,7 +78,7 @@ class SpendMoneyDetailOptions extends Component {
     onUpdateHeaderOptions({ key: name, value: checked });
   }
 
-  handleDateChange = (value) => {
+  handleDateChange = ({ value }) => {
     const { onUpdateHeaderOptions } = this.props;
     const key = 'date';
 
@@ -108,17 +108,12 @@ class SpendMoneyDetailOptions extends Component {
     return (
       <React.Fragment>
         <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} />
-        <div>
-          <InputLabel label="Date" id="date" />
-          <DatePicker
-            inputProps={{
-              id: 'date',
-              autoFocus: true,
-            }}
-            dateTime={date}
-            onChange={this.handleDateChange}
-          />
-        </div>
+        <DatePicker
+          label="Date"
+          name="Date"
+          value={date}
+          onSelect={this.handleDateChange}
+        />
         <div className="form-group">
           <InputLabel label="Amounts are" id="isTaxInclusive" />
           <div className={styles.radioGroup}>
@@ -126,28 +121,33 @@ class SpendMoneyDetailOptions extends Component {
             <div><RadioButton name="isTaxInclusive" label="Tax exclusive" value="false" checked={!isTaxInclusive} onChange={this.handleRadioChange} /></div>
           </div>
         </div>
-        <div className="form-group">
-          <AccountCombobox
-            label="Pay from"
-            hideLabel={false}
-            items={payFromAccounts}
-            selectedIndex={selectedPayFromAccountIndex}
-            onChange={this.handleComboBoxChange('selectedPayFromAccountId')}
-          />
-        </div>
-        <div className="form-group">
-          <ContactCombobox
-            items={payToContacts}
-            selectedIndex={selectedPayToContactIndex}
-            onChange={this.handleComboBoxChange('selectedPayToContactId')}
-          />
-        </div>
+        <AccountCombobox
+          label="Pay from"
+          hideLabel={false}
+          items={payFromAccounts}
+          selectedIndex={selectedPayFromAccountIndex}
+          onChange={this.handleComboBoxChange('selectedPayFromAccountId')}
+        />
+        <ContactCombobox
+          items={payToContacts}
+          selectedIndex={selectedPayToContactIndex}
+          onChange={this.handleComboBoxChange('selectedPayToContactId')}
+        />
         <div className="form-group">
           <div className={styles.checkbox}>
             <Checkbox name="isReportable" label="Reportable" checked={isReportable} onChange={this.handleCheckboxChange} />
           </div>
         </div>
-        <TextArea name="description" label="Description" autoSize maxLength={255} placeholder="Max 255 characters" value={description} onChange={this.handleInputChange} />
+        <TextArea
+          name="description"
+          label="Description"
+          autoSize
+          maxLength={255}
+          placeholder="Max 255 characters"
+          resize="vertical"
+          value={description}
+          onChange={this.handleInputChange}
+        />
       </React.Fragment>
     );
   }

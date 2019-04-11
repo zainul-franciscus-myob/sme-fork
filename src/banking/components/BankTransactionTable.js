@@ -11,8 +11,8 @@ import style from './BankingView.css';
 const tableConfig = {
   date: { width: '11rem', valign: 'middle' },
   description: { width: 'flex-1', valign: 'middle' },
-  withdrawal: { width: '12.4rem', align: 'right', valign: 'middle' },
-  deposit: { width: '12.4rem', align: 'right', valign: 'middle' },
+  withdrawal: { width: '13rem', align: 'right', valign: 'middle' },
+  deposit: { width: '13rem', align: 'right', valign: 'middle' },
   allocateOrMatch: { width: '28rem', columnName: 'allocateOrMatch' },
 };
 

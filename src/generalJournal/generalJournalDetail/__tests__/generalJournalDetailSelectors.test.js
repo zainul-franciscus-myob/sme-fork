@@ -2,6 +2,7 @@ import {
   getCalculatedTotalsPayload,
   getGeneralJournalForCreatePayload,
   getGeneralJournalForUpdatePayload,
+  getIsOutOfBalanced,
 } from '../generalJournalDetailSelectors';
 
 describe('generalJournalSelectors', () => {
@@ -60,6 +61,19 @@ describe('generalJournalSelectors', () => {
       expect(actual.lines[0].taxCodes).toBeUndefined();
       expect(actual.lines[1].accounts).toBeUndefined();
       expect(actual.lines[1].taxCodes).toBeUndefined();
+    });
+  });
+
+  describe('getIsOutOfBalance', () => {
+    it('returns false if the balance is 0 otherwise returns true', () => {
+      const outOfBalanceState = {
+        totals: {
+          totalOutOfBalance: '$0.00',
+        },
+      };
+
+      const actual = getIsOutOfBalanced(outOfBalanceState);
+      expect(actual).toBe(false);
     });
   });
 });

@@ -36,7 +36,7 @@ const NavigationBar = ({
   onMenuSelect, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
   shouldDisplayBankingMenu, shouldDisplayContactMenu, shouldDisplayJournalMenu,
 }) => {
-  const primary = getPrimary({
+  const primaryMenuItems = getPrimary({
     onMenuSelect,
     shouldDisplaySalesMenu,
     shouldDisplayBankingMenu,
@@ -45,6 +45,8 @@ const NavigationBar = ({
   });
   const secondary = getSecondary({ onMenuSelect, shouldDisplayBusinessMenu });
   const brand = <Navigation.Brand url="#/business" width="73px"><MYOBLogo /></Navigation.Brand>;
+
+  const primary = primaryMenuItems.length ? primaryMenuItems : [''];
 
   return (
     <Navigation brand={brand} primary={primary} secondary={secondary} />

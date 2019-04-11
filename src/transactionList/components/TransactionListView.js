@@ -1,5 +1,5 @@
 import {
-  Spinner, StandardTemplate,
+  Alert, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,7 +7,6 @@ import React from 'react';
 import {
   getAlert, getIsLoading,
 } from '../transactionListSelectors';
-import Alert from '../../components/Alert/Alert';
 import TransactionListFilterOptions from './TransactionListFilterOptions';
 import TransactionListPageHead from './TransactionListPageHead';
 import TransactionListTable from './TransactionListTable';
@@ -45,8 +44,7 @@ const TransactionListView = (props) => {
 
   const transactionListView = (
     <React.Fragment>
-      {alertComponent}
-      <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
+      <StandardTemplate alert={alertComponent} pageHead={pageHead} filterBar={filterBar} sticky="none">
         <div className={style.list}>
           <TransactionListTable
             onSort={onSort}

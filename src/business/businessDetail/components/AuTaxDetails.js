@@ -13,7 +13,7 @@ const onInputChange = handler => (e) => {
 const AuTaxDetails = ({
   abn, gstBranchNumber, acn, payeeNumber, onChange,
 }) => (
-  <div>
+  <React.Fragment>
     <Input
       name="abn"
       label="Australian Business Number (ABN)"
@@ -48,7 +48,7 @@ const AuTaxDetails = ({
       value={payeeNumber}
       onChange={onInputChange(onChange)}
     />
-  </div>
+  </React.Fragment>
 );
 
 AuTaxDetails.propTypes = {

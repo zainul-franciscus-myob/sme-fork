@@ -1,5 +1,5 @@
 import {
-  Input,
+  FieldGroup, Input,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -30,9 +30,7 @@ const BuyingDetails = ({
   allocateToAccountIndex,
   selectedTaxCodeIndex,
 }) => (
-  <React.Fragment>
-    <h2>Buying details</h2>
-
+  <FieldGroup label="Buying Details">
     <AccountCombobox
       label="Allocated to"
       hideLabel={false}
@@ -63,7 +61,7 @@ const BuyingDetails = ({
       onChange={handleInputChange(onBuyingDetailsChange)}
       maxLength={5}
     />
-  </React.Fragment>
+  </FieldGroup>
 );
 
 BuyingDetails.propTypes = {

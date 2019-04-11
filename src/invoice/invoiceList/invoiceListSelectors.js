@@ -3,12 +3,6 @@ export const getBusinessId = ({ businessId }) => businessId;
 
 export const convertToUnixTime = date => new Date(date).getTime().toString();
 
-export const getFormattedFilterOptions = ({ filterOptions }) => ({
-  ...filterOptions,
-  dateFrom: convertToUnixTime(filterOptions.dateFrom),
-  dateTo: convertToUnixTime(filterOptions.dateTo),
-});
-
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;

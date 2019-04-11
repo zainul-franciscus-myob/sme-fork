@@ -59,7 +59,7 @@ const GeneralJournalDetailRow = (props) => {
       <Input
         type="number"
         label="DebitAmount"
-        hiddenLabel
+        hideLabel
         name="debitAmount"
         value={debitAmount}
         disabled={isNewLineRow || isDebitDisabled}
@@ -70,7 +70,7 @@ const GeneralJournalDetailRow = (props) => {
       <Input
         type="number"
         label="CreditAmount"
-        hiddenLabel
+        hideLabel
         name="creditAmount"
         value={creditAmount}
         disabled={isNewLineRow || isCreditDisabled}
@@ -81,7 +81,7 @@ const GeneralJournalDetailRow = (props) => {
       <Input
         type="text"
         label="Description"
-        hiddenLabel
+        hideLabel
         name="description"
         value={description}
         onChange={onChange}

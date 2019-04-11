@@ -1,7 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-const convertToUnixTime = date => new Date(date).getTime().toString();
-
 const getReferenceId = state => state.generalJournal.referenceId;
 const getDate = state => state.generalJournal.date;
 const getDescription = state => state.generalJournal.description;
@@ -9,25 +7,13 @@ const getGSTReportingMethod = state => state.generalJournal.gstReportingMethod;
 const getIsEndOfYearAdjustment = state => state.generalJournal.isEndOfYearAdjustment;
 const getIsTaxInclusive = state => state.generalJournal.isTaxInclusive;
 
-const getHeadersProperties = createStructuredSelector({
+export const getHeaderOptions = createStructuredSelector({
   referenceId: getReferenceId,
   date: getDate,
   description: getDescription,
   isTaxInclusive: getIsTaxInclusive,
   isEndOfYearAdjustment: getIsEndOfYearAdjustment,
   gstReportingMethod: getGSTReportingMethod,
-});
-
-export const getHeaderOptions = createSelector(getHeadersProperties, (headerProps) => {
-  const {
-    date,
-    ...headerOptions
-  } = headerProps;
-
-  return {
-    date: convertToUnixTime(date),
-    ...headerOptions,
-  };
 });
 
 export const getAlertMessage = state => state.alertMessage;
@@ -106,6 +92,7 @@ export const getGeneralJournal = state => state.generalJournal;
 export const getGeneralJournalId = state => state.generalJournal.id;
 
 export const getTotals = state => state.totals;
+export const getIsOutOfBalanced = state => state.totals.totalOutOfBalance !== '$0.00';
 
 const getGeneralJournalLinesForPayload = lines => lines.map((line) => {
   const { accounts, taxCodes, ...rest } = line;

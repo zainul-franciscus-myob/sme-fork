@@ -1,5 +1,0 @@
-:local .item input,
-:local .item :global(.combobox),
-:local .item textarea {
-  width: 23rem;
-}

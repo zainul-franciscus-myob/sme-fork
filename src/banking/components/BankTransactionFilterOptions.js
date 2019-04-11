@@ -1,5 +1,5 @@
 import {
-  Button, DatePicker, FilterBar, InputLabel, Select,
+  Button, DatePicker, FilterBar, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,7 +16,7 @@ import AccountCombobox from '../../components/combobox/AccountCombobox';
 import styles from './BankingView.css';
 
 class BankTransactionFilterOptions extends React.Component {
-  onFilterChange = filterName => (value) => {
+  onDateChange = filterName => ({ value }) => {
     const { onUpdateFilters } = this.props;
     onUpdateFilters({ filterName, value });
   }
@@ -64,44 +64,34 @@ class BankTransactionFilterOptions extends React.Component {
 
     const dateRangeFilter = shouldDisplayDateRange && (
       <React.Fragment>
-        <FilterBar.Option>
-          <InputLabel label="From" id="Date_From" />
-          <DatePicker inputProps={{ id: 'Date_From' }} dateTime={dateFrom} onChange={this.onFilterChange('dateFrom')} />
-        </FilterBar.Option>
-        <FilterBar.Option>
-          <InputLabel label="To" id="Date_To" />
-          <DatePicker inputProps={{ id: 'Date_To' }} dateTime={dateTo} onChange={this.onFilterChange('dateTo')} />
-        </FilterBar.Option>
+        <FilterBar.Group>
+          <DatePicker label="From" name="dateFrom" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
+          <DatePicker label="To" name="dateTo" value={dateTo} onSelect={this.onDateChange('dateTo')} />
+        </FilterBar.Group>
       </React.Fragment>
     );
 
     return (
       <React.Fragment>
         <FilterBar>
-          <FilterBar.Group>
-            <FilterBar.Option>
-              <AccountCombobox
-                items={bankAccounts}
-                selectedIndex={selectedBankAccountIndex}
-                onChange={this.onComboBoxChange}
-                label="Bank account"
-                hideLabel={false}
-              />
-            </FilterBar.Option>
-            <FilterBar.Option>
-              <Select name="transactionType" label="Type" value={transactionType} onChange={this.onSelectChange}>
-                {transactionTypes.map(({ label, value }) => (
-                  <Select.Option value={value} label={label} key={value} />
-                ))}
-              </Select>
-            </FilterBar.Option>
+          <AccountCombobox
+            items={bankAccounts}
+            selectedIndex={selectedBankAccountIndex}
+            onChange={this.onComboBoxChange}
+            label="Bank account"
+            hideLabel={false}
+          />
+          <Select name="transactionType" label="Type" value={transactionType} onChange={this.onSelectChange}>
+            {transactionTypes.map(({ label, value }) => (
+              <Select.Option value={value} label={label} key={value} />
+            ))}
+          </Select>
 
-            {dateRangeFilter}
+          {dateRangeFilter}
 
-            <FilterBar.Option>
-              <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
-            </FilterBar.Option>
-          </FilterBar.Group>
+          <FilterBar.Item>
+            <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
+          </FilterBar.Item>
         </FilterBar>
         <hr />
         <div className={styles.balances}>

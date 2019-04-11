@@ -1,5 +1,5 @@
 import {
-  Button, Icons, Input, InputLabel,
+  Button, Field, Icons,
 } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
@@ -61,26 +61,41 @@ class PhoneNumberList extends React.Component {
 
     return (
       <Fragment>
-        <InputLabel label="Phone Number" id="phoneNumber0" />
         {phoneNumbers.map(
           (phoneNumber, i) => (
-            <div key={i} className={styles.phoneNumber}>
-              <Input
-                id={`phoneNumber${i}`}
-                name="phoneNumber"
-                label="Phone number"
-                hideLabel
-                value={phoneNumber}
-                onChange={this.onPhoneNumbersChange(i)}
-              />
-              {
-                i !== 0
-                && (<RemovePhoneNumberButton onClick={this.onRemovePhoneNumber(i)} />)
-              }
-            </div>
+            <Field
+              label="Phone Number"
+              key={i}
+              hideLabel={i !== 0}
+              renderField={({ id }) => (
+                <div className={styles.phoneNumber}>
+                  <input
+                    id={id}
+                    className="form-control"
+                    label="Phone number"
+                    hidelabel="true"
+                    value={phoneNumber}
+                    onChange={this.onPhoneNumbersChange(i)}
+                  />
+                  {
+                    i !== 0
+                    && (<RemovePhoneNumberButton onClick={this.onRemovePhoneNumber(i)} />)
+                  }
+                </div>
+              )}
+            />
           ),
         )}
-        {hasAddPhoneButton && <Button type="link" onClick={this.onAddPhoneNumber}>Add phone number</Button>}
+        {hasAddPhoneButton
+        && (
+        <Field
+          label="Add button"
+          hideLabel
+          renderField={
+            () => <Button type="link" onClick={this.onAddPhoneNumber}>Add phone number</Button>
+          }
+        />
+        )}
       </Fragment>
     );
   }

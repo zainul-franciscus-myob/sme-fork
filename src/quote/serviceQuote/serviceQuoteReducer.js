@@ -67,8 +67,6 @@ const getDefaultState = () => ({
   isSubmitting: false,
 });
 
-const isDateOptionChange = filterName => filterName === 'issueDate';
-
 const loadNewServiceQuote = (state, action) => ({
   ...state,
   quote: {
@@ -109,9 +107,7 @@ const updateServiceQuoteHeaderOptions = (state, action) => ({
   isPageEdited: true,
   quote: {
     ...state.quote,
-    [action.key]: isDateOptionChange(action.key)
-      ? convertToDateString(action.value)
-      : action.value,
+    [action.key]: action.value,
   },
 });
 

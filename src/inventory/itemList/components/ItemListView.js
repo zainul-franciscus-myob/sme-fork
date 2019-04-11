@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   PageHead,
   Spinner,
@@ -10,7 +11,6 @@ import React from 'react';
 import {
   getAlert, getIsLoading,
 } from '../itemListSelectors';
-import Alert from '../../../components/Alert/Alert';
 import ItemListFilterOptions from './ItemListFilterOptions';
 import ItemListTable from './ItemListTable';
 import style from './ItemListView.css';
@@ -44,14 +44,11 @@ const ItemListView = ({
   );
 
   const itemListView = (
-    <React.Fragment>
-      {alertComponent}
-      <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
-        <div className={style.list}>
-          <ItemListTable onSort={onSort} />
-        </div>
-      </StandardTemplate>
-    </React.Fragment>
+    <StandardTemplate pageHead={pageHead} filterBar={filterBar} alert={alertComponent} sticky="none">
+      <div className={style.list}>
+        <ItemListTable onSort={onSort} />
+      </div>
+    </StandardTemplate>
   );
 
   const view = isLoading ? (<Spinner />) : itemListView;

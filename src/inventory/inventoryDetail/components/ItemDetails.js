@@ -1,5 +1,5 @@
 import {
-  Checkbox, Input, TextArea,
+  Checkbox, CheckboxGroup, Field, FieldGroup, Input, TextArea,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -27,8 +27,7 @@ const ItemDetails = ({
   onItemDetailsChange,
   isInactive,
 }) => (
-  <React.Fragment>
-    <h2>Item details</h2>
+  <FieldGroup label="Item Details">
     <Input
       name="referenceId"
       label="Reference"
@@ -36,11 +35,17 @@ const ItemDetails = ({
       maxLength={30}
       onChange={onInputChange(onItemDetailsChange)}
     />
-    <Checkbox
-      name="isInactive"
-      label="Inactive item"
-      checked={isInactive}
-      onChange={onCheckboxChange(onItemDetailsChange)}
+    <CheckboxGroup
+      label="isInactive"
+      hideLabel
+      renderCheckbox={() => (
+        <Checkbox
+          name="isInactive"
+          label="Inactive item"
+          checked={isInactive}
+          onChange={onCheckboxChange(onItemDetailsChange)}
+        />
+      )}
     />
     <Input
       name="name"
@@ -52,17 +57,25 @@ const ItemDetails = ({
     <TextArea
       name="description"
       label="Description"
+      resize="vertical"
       value={description}
       maxLength={255}
       onChange={onInputChange(onItemDetailsChange)}
     />
-    <Checkbox
-      name="useItemDescription"
+    <Field
       label="Use item description on sales and purchases"
-      checked={useItemDescription}
-      onChange={onCheckboxChange(onItemDetailsChange)}
+      hideLabel
+      renderField={props => (
+        <Checkbox
+          {...props}
+          name="useItemDescription"
+          label="Use item description on sales and purchases"
+          checked={useItemDescription}
+          onChange={onCheckboxChange(onItemDetailsChange)}
+        />
+      )}
     />
-  </React.Fragment>
+  </FieldGroup>
 );
 
 ItemDetails.propTypes = {

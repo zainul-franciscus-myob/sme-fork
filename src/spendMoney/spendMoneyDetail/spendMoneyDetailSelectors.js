@@ -1,7 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-const convertToUnixTime = date => new Date(date).getTime().toString();
-
 const getReferenceId = state => state.spendMoney.referenceId;
 const getSelectedPayFromId = state => state.spendMoney.selectedPayFromAccountId;
 const getSelectedPayToContact = state => state.spendMoney.selectedPayToContactId;
@@ -28,7 +26,6 @@ export const getHeaderOptions = createSelector(getHeadersProperties, (headerProp
   const {
     payFromAccounts = [], payToContacts = [],
     selectedPayToContactId, selectedPayFromAccountId,
-    date,
     ...headerOptions
   } = headerProps;
   const selectedPayFromAccountIndex = payFromAccounts.findIndex(
@@ -43,7 +40,6 @@ export const getHeaderOptions = createSelector(getHeadersProperties, (headerProp
     payToContacts,
     selectedPayFromAccountIndex,
     selectedPayToContactIndex,
-    date: convertToUnixTime(date),
     ...headerOptions,
   };
 });

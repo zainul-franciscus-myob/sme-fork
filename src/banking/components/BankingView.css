@@ -29,8 +29,13 @@
   background: #f3f4f5;
 }
 
+:local .unallocatedRowItem {
+  display: flex;
+}
+
 :local .unallocatedRowItem button {
-  border: none;
+  border-color: transparent;
+  background: none;
 }
 
 :local .list :global(.table-data__row) > :global(.table-data__cell)[data-label=allocateOrMatch] {
@@ -39,7 +44,7 @@
 }
 
 :local .list [data-label=allocateOrMatch] :global(.combobox) {
-  display: inline-block;
+  width: 22rem;
 }
 
 /* https://developer.paciellogroup.com/blog/2012/05/html5-accessibility-chops-hidden-and-aria-hidden/ */

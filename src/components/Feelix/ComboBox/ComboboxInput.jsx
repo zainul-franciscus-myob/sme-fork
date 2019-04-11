@@ -1,3 +1,4 @@
+import { Icons } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -86,8 +87,9 @@ class ComboboxInput extends React.Component {
           {/* eslint-disable */}
           <a
             {...getButtonProps({
-              className: 'btn btn-default clickable',
+              className: 'btn btn-default btn-xs dropdown-toggle clickable',
               tabIndex: '-1',
+              disabled,
               onFocus: this.onButtonFocus,
               onBlur: this.onButtonBlur,
               onClick: this.onButtonClick,
@@ -95,7 +97,7 @@ class ComboboxInput extends React.Component {
               onMouseLeave: this.onButtonMouseLeave,
             })}
           >
-            <span className="caret" />
+            <Icons.Caret />
           </a>
         </div>
       </div>

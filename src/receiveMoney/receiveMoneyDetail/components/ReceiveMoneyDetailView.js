@@ -1,12 +1,11 @@
 import {
-  ButtonRow, Columns, LineItemTemplate, Spinner,
+  Alert, Columns, LineItemTemplate, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getAlertMessage, getIsLoading, getModalType } from '../receiveMoneyDetailSelectors';
-import Alert from '../../../components/Alert/Alert';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import ReceiveMoneyDetailActions from './ReceiveMoneyDetailActions';
@@ -38,14 +37,12 @@ const ReceiveMoneyDetailView = ({
   );
 
   const actions = (
-    <ButtonRow>
-      <ReceiveMoneyDetailActions
-        isCreating={isCreating}
-        onSaveButtonClick={onSaveButtonClick}
-        onCancelButtonClick={onCancelButtonClick}
-        onDeleteButtonClick={onDeleteButtonClick}
-      />
-    </ButtonRow>
+    <ReceiveMoneyDetailActions
+      isCreating={isCreating}
+      onSaveButtonClick={onSaveButtonClick}
+      onCancelButtonClick={onCancelButtonClick}
+      onDeleteButtonClick={onDeleteButtonClick}
+    />
   );
 
   const alertComponent = alertMessage && (
@@ -77,11 +74,11 @@ const ReceiveMoneyDetailView = ({
 
   const view = (
     <React.Fragment>
-      {alertComponent}
       <LineItemTemplate
         pageHead="Receive money entry"
         options={templateOptions}
         actions={actions}
+        alert={alertComponent}
       >
         { modal }
         <ReceiveMoneyDetailTable

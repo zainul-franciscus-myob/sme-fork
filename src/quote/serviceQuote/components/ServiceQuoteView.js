@@ -1,9 +1,9 @@
 import {
-  ButtonRow, Columns, LineItemTemplate, Spinner,
+  Alert, Columns, LineItemTemplate, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   getAlertMessage,
@@ -11,7 +11,6 @@ import {
   getIsLoading,
   getModalType,
 } from '../ServiceQuoteSelectors';
-import Alert from '../../../components/Alert/Alert';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import ServiceQuoteActions from './ServiceQuoteActions';
@@ -45,14 +44,12 @@ const ServiceQuoteView = ({
   );
 
   const actions = (
-    <ButtonRow>
-      <ServiceQuoteActions
-        isCreating={isCreating}
-        onSaveButtonClick={onSaveButtonClick}
-        onCancelButtonClick={onCancelButtonClick}
-        onDeleteButtonClick={onDeleteButtonClick}
-      />
-    </ButtonRow>
+    <ServiceQuoteActions
+      isCreating={isCreating}
+      onSaveButtonClick={onSaveButtonClick}
+      onCancelButtonClick={onCancelButtonClick}
+      onDeleteButtonClick={onDeleteButtonClick}
+    />
   );
 
   const alertComponent = alertMessage && (
@@ -83,18 +80,15 @@ const ServiceQuoteView = ({
   }
 
   const view = (
-    <Fragment>
-      {alertComponent}
-      <LineItemTemplate pageHead="Quote" options={templateOptions} actions={actions}>
-        { modal }
-        <ServiceQuoteTable
-          onUpdateRow={onUpdateRow}
-          onAddRow={onAddRow}
-          onRemoveRow={onRemoveRow}
-          onRowInputBlur={onRowInputBlur}
-        />
-      </LineItemTemplate>
-    </Fragment>
+    <LineItemTemplate pageHead="Quote" alert={alertComponent} options={templateOptions} actions={actions}>
+      { modal }
+      <ServiceQuoteTable
+        onUpdateRow={onUpdateRow}
+        onAddRow={onAddRow}
+        onRemoveRow={onRemoveRow}
+        onRowInputBlur={onRowInputBlur}
+      />
+    </LineItemTemplate>
   );
 
   return isLoading ? <Spinner /> : view;

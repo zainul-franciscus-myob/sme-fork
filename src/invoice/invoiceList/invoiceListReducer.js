@@ -16,7 +16,6 @@ import createReducer from '../../store/createReducer';
 
 
 const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
-const isDateFilterChange = filterName => filterName === 'dateTo' || filterName === 'dateFrom';
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
 const getInitialState = () => ({
@@ -72,9 +71,7 @@ const updateFilterOptions = (state, action) => ({
   ...state,
   filterOptions: {
     ...state.filterOptions,
-    [action.filterName]: isDateFilterChange(action.filterName)
-      ? convertToDateString(action.value)
-      : action.value,
+    [action.filterName]: action.value,
   },
 });
 

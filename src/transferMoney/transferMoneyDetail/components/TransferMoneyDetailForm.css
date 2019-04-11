@@ -1,7 +1,3 @@
 :local(.balance) {
   margin-top: 0.5rem;
 }
-
-:local(.datePicker) .input-group-addon {
-  pointer-events: none;
-}

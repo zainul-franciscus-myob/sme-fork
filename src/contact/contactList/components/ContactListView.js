@@ -1,5 +1,5 @@
 import {
-  Button, PageHead, Spinner, StandardTemplate,
+  Alert, Button, PageHead, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,7 +7,6 @@ import React from 'react';
 import {
   getAlert, getIsLoading,
 } from '../contactListSelector';
-import Alert from '../../../components/Alert/Alert';
 import ContactListFilterOptions from './ContactListFilterOptions';
 import ContactListTable from './ContactListTable';
 import style from './ContactListView.css';
@@ -43,16 +42,13 @@ const ContactListView = (props) => {
   );
 
   const contactListView = (
-    <React.Fragment>
-      {alertComponent}
-      <StandardTemplate pageHead={pageHead} filterBar={filterBar}>
-        <div className={style.list}>
-          <ContactListTable
-            onSort={onSort}
-          />
-        </div>
-      </StandardTemplate>
-    </React.Fragment>
+    <StandardTemplate alert={alertComponent} sticky="none" pageHead={pageHead} filterBar={filterBar}>
+      <div className={style.list}>
+        <ContactListTable
+          onSort={onSort}
+        />
+      </div>
+    </StandardTemplate>
   );
 
   const view = isLoading ? (<Spinner />) : contactListView;

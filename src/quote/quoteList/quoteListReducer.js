@@ -39,8 +39,6 @@ const getDefaultState = () => ({
   isTableLoading: false,
 });
 
-const isDateFilterChange = filterName => filterName === 'dateTo' || filterName === 'dateFrom';
-
 const loadQuoteList = (state, action) => ({
   ...state,
   entries: action.entries,
@@ -97,9 +95,7 @@ const updateFilterOptions = (state, action) => ({
   ...state,
   filterOptions: {
     ...state.filterOptions,
-    [action.filterName]: isDateFilterChange(action.filterName)
-      ? convertToDateString(action.value)
-      : action.value,
+    [action.filterName]: action.value,
   },
 });
 

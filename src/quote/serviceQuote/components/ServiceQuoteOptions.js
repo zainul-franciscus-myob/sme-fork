@@ -22,7 +22,7 @@ const handleInputChange = handler => (e) => {
   handler({ key: name, value });
 };
 
-const handleIssueDateChange = handler => (value) => {
+const handleIssueDateChange = handler => ({ value }) => {
   const key = 'issueDate';
 
   handler({ key, value });
@@ -66,16 +66,12 @@ const ServiceQuoteOptions = (props) => {
       <Input name="quoteNumber" label="Quote number" value={quoteNumber} onChange={handleInputChange(onUpdateHeaderOptions)} />
       <Input name="purchaseOrderNumber" label="Purchase order" value={purchaseOrderNumber} onChange={handleInputChange(onUpdateHeaderOptions)} />
       <span className={styles.address}>{address}</span>
-      <div>
-        <InputLabel label="Date of issue" id="issueDate" />
-        <DatePicker
-          inputProps={{
-            id: 'issueDate',
-          }}
-          dateTime={issueDate}
-          onChange={handleIssueDateChange(onUpdateHeaderOptions)}
-        />
-      </div>
+      <DatePicker
+        label="Date of issue"
+        name="issueDate"
+        value={issueDate}
+        onSelect={handleIssueDateChange(onUpdateHeaderOptions)}
+      />
       <div className="form-group">
         <InputLabel label="Amounts are" id="isTaxInclusive" />
         <div>
@@ -102,7 +98,13 @@ const ServiceQuoteOptions = (props) => {
       </Select>
       <Input name="expirationDays" label="Expiration days" value={expirationDays} onChange={handleInputChange(onUpdateHeaderOptions)} type="number" />
       <Input name="expiredDate" label="Expired date" value={expiredDate} disabled />
-      <TextArea value={notesToCustomer} name="notesToCustomer" label="Notes to customer" onChange={handleInputChange(onUpdateHeaderOptions)} />
+      <TextArea
+        value={notesToCustomer}
+        resize="vertical"
+        name="notesToCustomer"
+        label="Notes to customer"
+        onChange={handleInputChange(onUpdateHeaderOptions)}
+      />
     </Fragment>
   );
 };

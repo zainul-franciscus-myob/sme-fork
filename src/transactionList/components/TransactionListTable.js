@@ -10,9 +10,9 @@ import style from './TransactionListView.css';
 
 const tableConfig = {
   date: { width: '11rem', valign: 'top' },
-  referenceId: { width: '10.2rem', valign: 'top' },
+  referenceId: { width: '12.4rem', valign: 'top' },
   description: { width: 'flex-1', valign: 'top' },
-  sourceJournal: { width: '12.4rem', valign: 'top' },
+  sourceJournal: { width: '14.0rem', valign: 'top' },
   displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
 };
 

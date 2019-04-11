@@ -37,7 +37,7 @@ const ServiceQuoteTableRow = ({
     >
       <Input
         label="Description"
-        hiddenLabel
+        hideLabel
         name="description"
         value={description}
         onChange={onChange}
@@ -55,7 +55,7 @@ const ServiceQuoteTableRow = ({
       <Input
         label="Amount"
         type="number"
-        hiddenLabel
+        hideLabel
         name="amount"
         value={amount}
         onChange={onChange}

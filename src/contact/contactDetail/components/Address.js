@@ -1,5 +1,5 @@
 import {
-  Input, TextArea,
+  FieldGroup, Input, TextArea,
 } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -28,12 +28,12 @@ const Address = ({
   hasAddPhoneButton,
   onAddressChange,
 }) => (
-  <div>
-    <h2>{title}</h2>
+  <FieldGroup label={title}>
     <TextArea
       name="street"
       label="Street address"
       autoSize
+      resize="vertical"
       maxLength={255}
       value={street}
       onChange={onInputChange(onAddressChange)}
@@ -49,7 +49,7 @@ const Address = ({
     />
     <Input name="fax" label="Fax" value={fax} onChange={onInputChange(onAddressChange)} />
     <Input name="email" label="Email" value={email} onChange={onInputChange(onAddressChange)} />
-  </div>
+  </FieldGroup>
 );
 
 Address.propTypes = {

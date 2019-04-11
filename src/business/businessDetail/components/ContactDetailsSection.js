@@ -1,4 +1,4 @@
-import { Input, TextArea } from '@myob/myob-widgets';
+import { FieldGroup, Input, TextArea } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -13,8 +13,7 @@ const onInputChange = handler => (e) => {
 const ContactDetailsSection = ({
   phoneNumber, fax, email, address, onChange,
 }) => (
-  <div>
-    <h2>Contact details</h2>
+  <FieldGroup label="Contact details">
     <Input
       name="phoneNumber"
       label="Phone"
@@ -37,11 +36,12 @@ const ContactDetailsSection = ({
       name="address"
       label="Address"
       autoSize
+      resize="vertical"
       maxLength={255}
       value={address}
       onChange={onInputChange(onChange)}
     />
-  </div>
+  </FieldGroup>
 );
 
 ContactDetailsSection.propTypes = {

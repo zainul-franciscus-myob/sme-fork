@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@myob/ldal": "0.2.4",
-    "@myob/myob-styles": "3.1.0",
-    "@myob/myob-widgets": "3.1.0",
+    "@myob/myob-styles": "5.0.0",
+    "@myob/myob-widgets": "5.0.1",
     "abortcontroller-polyfill": "1.2.1",
     "classnames": "2.2.5",
     "date-fns": "1.30.1",

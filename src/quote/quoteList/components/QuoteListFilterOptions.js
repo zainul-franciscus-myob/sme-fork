@@ -1,11 +1,11 @@
 import {
-  Button, DatePicker, DirectSearchBox, FilterBar, InputLabel,
+  Button, DatePicker, FilterBar, Search,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
-import { getCustomerFilterOptions, getFormattedFilterOptions, getTotal } from '../quoteListSelector';
+import { getCustomerFilterOptions, getFilterOptions, getTotal } from '../quoteListSelector';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import style from './QuoteListView.css';
 
@@ -47,33 +47,22 @@ class QuoteListFilterOptions extends React.Component {
     return (
       <Fragment>
         <FilterBar>
+          <ContactCombobox
+            items={customerFilterOptions}
+            selectedId={customerId}
+            onChange={this.onComboBoxChange}
+            label="Customer"
+            name="Customer"
+            hideLabel={false}
+          />
           <FilterBar.Group>
-            <FilterBar.Option>
-              <ContactCombobox
-                items={customerFilterOptions}
-                selectedId={customerId}
-                onChange={this.onComboBoxChange}
-                label="Customer"
-                name="Customer"
-                hideLabel={false}
-              />
-            </FilterBar.Option>
-            <FilterBar.Option>
-              <InputLabel label="Issued from" id="Date_From" />
-              <DatePicker inputProps={{ id: 'Date_From' }} dateTime={dateFrom} onChange={this.onFilterChange('dateFrom')} />
-            </FilterBar.Option>
-            <FilterBar.Option>
-              <InputLabel label="Issued to" id="Date_To" />
-              <DatePicker inputProps={{ id: 'Date_To' }} dateTime={dateTo} onChange={this.onFilterChange('dateTo')} />
-            </FilterBar.Option>
-            <FilterBar.Option>
-              <InputLabel label="Search" id="Search_Box" />
-              <DirectSearchBox id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
-            </FilterBar.Option>
-            <FilterBar.Option>
-              <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
-            </FilterBar.Option>
+            <DatePicker label="Issued from" value={dateFrom} onSelect={this.onFilterChange('dateFrom')} />
+            <DatePicker label="Issued to" value={dateTo} onSelect={this.onFilterChange('dateTo')} />
           </FilterBar.Group>
+          <Search label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+          <FilterBar.Item>
+            <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
+          </FilterBar.Item>
         </FilterBar>
         <hr />
         <div className={style.total}>
@@ -99,7 +88,7 @@ QuoteListFilterOptions.propTypes = {
 
 const mapStateToProps = state => ({
   customerFilterOptions: getCustomerFilterOptions(state),
-  filterOptions: getFormattedFilterOptions(state),
+  filterOptions: getFilterOptions(state),
   total: getTotal(state),
 });
 

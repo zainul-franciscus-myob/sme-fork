@@ -1,4 +1,4 @@
-import { HelpBlock } from '@myob/myob-widgets';
+import { Field, HelpBlock } from '@myob/myob-widgets';
 import Downshift from 'downshift';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,8 +12,6 @@ const TAB_KEY = 'Tab';
 class ComboboxCore extends React.Component {
   static propTypes = {
     id: PropTypes.string,
-    label: PropTypes.string.isRequired,
-    hideLabel: PropTypes.bool,
     errorMessage: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     itemToString: PropTypes.func,
@@ -36,7 +34,6 @@ class ComboboxCore extends React.Component {
 
   static defaultProps = {
     id: null,
-    hideLabel: false,
     disabled: false,
     errorMessage: '',
     itemsFilter: undefined,
@@ -156,8 +153,6 @@ class ComboboxCore extends React.Component {
       items,
       filterOnType,
       errorMessage,
-      label,
-      hideLabel,
       disabled,
       children,
       id,
@@ -204,16 +199,9 @@ class ComboboxCore extends React.Component {
             }
           };
 
-          const comboClasses = classnames('form-group', 'combobox', {
+          const comboClasses = classnames('combobox', {
             'has-error': errorMessage,
           });
-
-          const labelProps = {
-            ...getLabelProps({
-              htmlFor: id,
-              className: classnames({ 'sr-only': hideLabel }),
-            }),
-          };
 
           // Input control is part of ComboBoxInput
           /* eslint-disable */
@@ -223,11 +211,6 @@ class ComboboxCore extends React.Component {
               className={comboClasses}
               onKeyDown={onKeyDown}
             >
-              <label
-                {...labelProps}
-              >
-                {label}
-              </label>
               <ComboboxInput
                 getInputProps={getInputProps}
                 getButtonProps={getToggleButtonProps}
@@ -272,4 +255,22 @@ class ComboboxCore extends React.Component {
   }
 }
 
-export default ComboboxCore;
+const WrappedComboBox = ({
+  label,
+  id,
+  hideLabel = true,
+  labelAccessory,
+  errorMessage,
+  ...comboboxCoreProps,
+}) => (
+  <Field
+    label={label}
+    id={id}
+    hideLabel={hideLabel}
+    labelAccessory={labelAccessory}
+    errorMessage={errorMessage}
+    renderField={props => <ComboboxCore {...props} {...comboboxCoreProps} />}
+  />
+);
+
+export default WrappedComboBox;

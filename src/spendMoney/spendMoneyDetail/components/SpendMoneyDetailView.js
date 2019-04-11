@@ -1,5 +1,5 @@
 import {
-  ButtonRow, Columns, LineItemTemplate, Spinner,
+  Alert, Columns, LineItemTemplate, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -9,7 +9,6 @@ import { getAlertMessage, getIsLoading, getModalType } from '../spendMoneyDetail
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import SpendMoneyDetailActions from './SpendMoneyDetailActions';
-import SpendMoneyDetailAlert from './SpendMoneyDetailAlert';
 import SpendMoneyDetailOptions from './SpendMoneyDetailOptions';
 import SpendMoneyDetailTable from './SpendMoneyDetailTable';
 
@@ -40,20 +39,18 @@ const SpendMoneyDetailView = ({
   );
 
   const actions = (
-    <ButtonRow>
-      <SpendMoneyDetailActions
-        isCreating={isCreating}
-        onSaveButtonClick={onSaveButtonClick}
-        onCancelButtonClick={onCancelButtonClick}
-        onDeleteButtonClick={onDeleteButtonClick}
-      />
-    </ButtonRow>
+    <SpendMoneyDetailActions
+      isCreating={isCreating}
+      onSaveButtonClick={onSaveButtonClick}
+      onCancelButtonClick={onCancelButtonClick}
+      onDeleteButtonClick={onDeleteButtonClick}
+    />
   );
 
   const alertComponent = alertMessage && (
-    <SpendMoneyDetailAlert type="danger" onDismiss={onDismissAlert}>
+    <Alert type="danger" onDismiss={onDismissAlert}>
       {alertMessage}
-    </SpendMoneyDetailAlert>
+    </Alert>
   );
 
   let modal;
@@ -79,12 +76,11 @@ const SpendMoneyDetailView = ({
 
   const view = (
     <React.Fragment>
-
-      {alertComponent}
       <LineItemTemplate
         pageHead="Spend money entry"
         options={templateOptions}
         actions={actions}
+        alert={alertComponent}
       >
         { modal }
         <SpendMoneyDetailTable

@@ -12,7 +12,7 @@ const tableConfig = {
   referenceId: { width: '10.2rem', valign: 'top' },
   purchaseOrder: { width: '20rem', valign: 'top' },
   customer: { width: 'flex-1', valign: 'top' },
-  displayDate: { width: '11rem', valign: 'top' },
+  displayDate: { width: '12.4rem', valign: 'top' },
   displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
 };
 

@@ -33,7 +33,7 @@ class GeneralJournalDetailOptions extends Component {
     onUpdateHeaderOptions({ key: name, value: checked });
   }
 
-  handleDateChange = (value) => {
+  handleDateChange = ({ value }) => {
     const { onUpdateHeaderOptions } = this.props;
     const key = 'date';
 
@@ -59,14 +59,11 @@ class GeneralJournalDetailOptions extends Component {
       <React.Fragment>
         <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} />
         <div>
-          <InputLabel label="Date" id="date" />
           <DatePicker
-            inputProps={{
-              id: 'date',
-              autoFocus: true,
-            }}
-            dateTime={date}
-            onChange={this.handleDateChange}
+            label="Date"
+            name="Date"
+            value={date}
+            onSelect={this.handleDateChange}
           />
         </div>
         <div className="form-group">
@@ -115,6 +112,7 @@ class GeneralJournalDetailOptions extends Component {
           autoSize
           maxLength={255}
           placeholder="Max 255 characters"
+          resize="vertical"
           value={description}
           onChange={this.handleInputChange}
         />

@@ -16,7 +16,7 @@ class BusinessListView extends Component {
     const businessList = businesses.map(business => this.renderRow(business));
 
     return (
-      <StandardTemplate pageHead="My businesses">
+      <StandardTemplate pageHead="My businesses" sticky="none">
         <nav>
           <Table>
             <Table.Header>

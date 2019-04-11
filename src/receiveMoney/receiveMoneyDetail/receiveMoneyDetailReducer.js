@@ -146,16 +146,12 @@ const deleteLine = (state, action) => ({
   },
 });
 
-const isDateOptionChange = filterName => filterName === 'date';
-
 const updateHeader = (state, action) => ({
   ...state,
   ...pageEdited,
   receiveMoney: {
     ...state.receiveMoney,
-    [action.key]: isDateOptionChange(action.key)
-      ? convertToDateString(action.value)
-      : action.value,
+    [action.key]: action.value,
   },
 });
 

@@ -10,12 +10,12 @@ import style from './InvoiceListView.css';
 
 const tableConfig = {
   number: { width: '10.2rem', valign: 'top' },
-  purchaseOrder: { width: '20rem', valign: 'top' },
+  purchaseOrder: { width: '18rem', valign: 'top' },
   customer: { width: 'flex-1', valign: 'top' },
   dateIssued: { width: '12rem', valign: 'top', align: 'right' },
-  dateClosed: { width: '12rem', valign: 'top', align: 'right' },
-  invoiceAmount: { width: '14rem', valign: 'top', align: 'right' },
-  invoiceDue: { width: '14rem', valign: 'top', align: 'right' },
+  dateClosed: { width: '13rem', valign: 'top', align: 'right' },
+  invoiceAmount: { width: '17rem', valign: 'top', align: 'right' },
+  invoiceDue: { width: '16rem', valign: 'top', align: 'right' },
   status: { width: '8rem', valign: 'top', align: 'right' },
 };
 

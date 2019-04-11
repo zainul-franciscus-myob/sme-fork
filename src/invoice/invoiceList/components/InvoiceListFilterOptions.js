@@ -1,5 +1,5 @@
 import {
-  Button, DatePicker, DirectSearchBox, FilterBar, InputLabel, Select,
+  Button, DatePicker, FilterBar, Search, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import {
   getCustomerFilterOptions,
-  getFormattedFilterOptions,
+  getFilterOptions,
   getStatusFilterOptions,
   getTotal,
   getTotalDue,
@@ -32,7 +32,7 @@ class InvoiceListFilterOptions extends React.Component {
     onUpdateFilter({ filterName: 'status', value: event.target.value });
   }
 
-  onUpdateFilter = filterName => (value) => {
+  onDateChange = filterName => ({ value }) => {
     const { onUpdateFilter } = this.props;
     onUpdateFilter({ filterName, value });
   }
@@ -56,40 +56,27 @@ class InvoiceListFilterOptions extends React.Component {
     return (
       <Fragment>
         <FilterBar>
+          <ContactCombobox
+            items={customerFilterOptions}
+            selectedId={customerId}
+            onChange={this.onComboBoxChange}
+            label="Customer"
+            name="Customer"
+            hideLabel={false}
+          />
+          <Select name="status" label="Status" value={status} onChange={this.onSelectChange}>
+            {statusFilterOptions.map(({ name, value }) => (
+              <Select.Option value={value} label={name} key={value} />
+            ))}
+          </Select>
           <FilterBar.Group>
-            <FilterBar.Option>
-              <ContactCombobox
-                items={customerFilterOptions}
-                selectedId={customerId}
-                onChange={this.onComboBoxChange}
-                label="Customer"
-                name="Customer"
-                hideLabel={false}
-              />
-            </FilterBar.Option>
-            <FilterBar.Option>
-              <Select name="status" label="Status" value={status} onChange={this.onSelectChange}>
-                {statusFilterOptions.map(({ name, value }) => (
-                  <Select.Option value={value} label={name} key={value} />
-                ))}
-              </Select>
-            </FilterBar.Option>
-            <FilterBar.Option>
-              <InputLabel label="Issued from" id="Date_From" />
-              <DatePicker inputProps={{ id: 'Date_From' }} dateTime={dateFrom} onChange={this.onUpdateFilter('dateFrom')} />
-            </FilterBar.Option>
-            <FilterBar.Option>
-              <InputLabel label="Issued to" id="Date_To" />
-              <DatePicker inputProps={{ id: 'Date_To' }} dateTime={dateTo} onChange={this.onUpdateFilter('dateTo')} />
-            </FilterBar.Option>
-            <FilterBar.Option>
-              <InputLabel label="Search" id="Search_Box" />
-              <DirectSearchBox id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
-            </FilterBar.Option>
-            <FilterBar.Option>
-              <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
-            </FilterBar.Option>
+            <DatePicker label="Issued from" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
+            <DatePicker label="Issued to" value={dateTo} onSelect={this.onDateChange('dateTo')} />
           </FilterBar.Group>
+          <Search label="Search" id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+          <FilterBar.Item>
+            <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
+          </FilterBar.Item>
         </FilterBar>
         <hr />
         <div className={style.totals}>
@@ -117,7 +104,7 @@ InvoiceListFilterOptions.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  filterOptions: getFormattedFilterOptions(state),
+  filterOptions: getFilterOptions(state),
   customerFilterOptions: getCustomerFilterOptions(state),
   statusFilterOptions: getStatusFilterOptions(state),
   total: getTotal(state),

@@ -1,5 +1,5 @@
 import {
-  Button, Checkbox, DirectSearchBox, FilterBar, InputLabel, Select,
+  Button, Checkbox, FilterBar, Search, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -46,25 +46,18 @@ class ItemListFilterOptions extends React.Component {
 
     return (
       <FilterBar>
-        <FilterBar.Group>
-          <FilterBar.Option>
-            <Select name="filterBy" label="Type" value={filterBy} onChange={this.onSelectChange}>
-              {typeOptions.map(({ label, value }) => (
-                <Select.Option value={value} label={label} key={value} />
-              ))}
-            </Select>
-          </FilterBar.Option>
-          <FilterBar.Option>
-            <InputLabel label="Search" id="Search_Box" />
-            <DirectSearchBox id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
-          </FilterBar.Option>
-          <FilterBar.Option>
-            <Checkbox id="Check_Box" name="showInactive" label="Show inactive items" checked={showInactive} onChange={this.onCheckboxChange} />
-          </FilterBar.Option>
-          <FilterBar.Option>
-            <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
-          </FilterBar.Option>
-        </FilterBar.Group>
+        <Select name="filterBy" label="Type" value={filterBy} onChange={this.onSelectChange}>
+          {typeOptions.map(({ label, value }) => (
+            <Select.Option value={value} label={label} key={value} />
+          ))}
+        </Select>
+        <Search label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+        <FilterBar.Item>
+          <Checkbox id="Check_Box" name="showInactive" label="Show inactive items" checked={showInactive} onChange={this.onCheckboxChange} />
+        </FilterBar.Item>
+        <FilterBar.Item>
+          <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
+        </FilterBar.Item>
       </FilterBar>
     );
   }

@@ -1,14 +1,14 @@
 import {
-  Button, DatePicker, DirectSearchBox, FilterBar, InputLabel, Select,
+  Button, DatePicker, FilterBar, Search, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getFormattedFilterOptions, getSourceJournalFilterOptions } from '../transactionListSelectors';
+import { getFilterOptions, getSourceJournalFilterOptions } from '../transactionListSelectors';
 
 class TransactionListFilterOptions extends React.Component {
-  onFilterChange = filterName => (value) => {
+  onDatePickerChange = filterName => ({ value }) => {
     const { onUpdateFilters } = this.props;
     onUpdateFilters({ filterName, value });
   }
@@ -43,30 +43,19 @@ class TransactionListFilterOptions extends React.Component {
 
     return (
       <FilterBar>
+        <Select name="SourceJournal" label="Source Journal" value={sourceJournal} onChange={this.onSelectChange}>
+          {sourceJournalFilterOptions.map(({ label, value }) => (
+            <Select.Option value={value} label={label} key={value} />
+          ))}
+        </Select>
         <FilterBar.Group>
-          <FilterBar.Option>
-            <Select name="SourceJournal" label="Source Journal" value={sourceJournal} onChange={this.onSelectChange}>
-              {sourceJournalFilterOptions.map(({ label, value }) => (
-                <Select.Option value={value} label={label} key={value} />
-              ))}
-            </Select>
-          </FilterBar.Option>
-          <FilterBar.Option>
-            <InputLabel label="From" id="Date_From" />
-            <DatePicker inputProps={{ id: 'Date_From' }} dateTime={dateFrom} onChange={this.onFilterChange('dateFrom')} />
-          </FilterBar.Option>
-          <FilterBar.Option>
-            <InputLabel label="To" id="Date_To" />
-            <DatePicker inputProps={{ id: 'Date_To' }} dateTime={dateTo} onChange={this.onFilterChange('dateTo')} />
-          </FilterBar.Option>
-          <FilterBar.Option>
-            <InputLabel label="Description" id="Search_Box" />
-            <DirectSearchBox id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
-          </FilterBar.Option>
-          <FilterBar.Option>
-            <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
-          </FilterBar.Option>
+          <DatePicker label="From" name="dateFrom" value={dateFrom} onSelect={this.onDatePickerChange('dateFrom')} />
+          <DatePicker label="To" name="dateTo" value={dateTo} onSelect={this.onDatePickerChange('dateTo')} />
         </FilterBar.Group>
+        <Search label="Description" name="description" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+        <FilterBar.Item>
+          <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
+        </FilterBar.Item>
       </FilterBar>
     );
   }
@@ -80,7 +69,7 @@ TransactionListFilterOptions.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  filterOptions: getFormattedFilterOptions(state),
+  filterOptions: getFilterOptions(state),
   sourceJournalFilterOptions: getSourceJournalFilterOptions(state),
 });
 

@@ -68,7 +68,7 @@ const IncomeAllocationRow = (props) => {
       <Input
         type="number"
         label="Equity"
-        hiddenLabel
+        hideLabel
         name="equity"
         value={equity}
         disabled={isNewLineRow}

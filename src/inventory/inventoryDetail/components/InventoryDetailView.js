@@ -1,4 +1,6 @@
-import { Card, Spinner } from '@myob/myob-widgets';
+import {
+  Alert, Card, FormTemplate, Spinner,
+} from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -6,15 +8,12 @@ import React from 'react';
 import {
   getAlertMessage, getIsLoading, getModalType, getOriginalName,
 } from '../inventoryDetailSelectors';
-import Alert from '../../../components/Alert/Alert';
 import BuyingDetails from './BuyingDetails';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import InventoryDetailActions from './InventoryDetailActions';
 import ItemDetails from './ItemDetails';
 import SellingDetails from './SellingDetails';
-import SimplePageTemplate from '../../../components/SimplePageTemplate/SimplePageTemplate';
-import styles from './InventoryDetailView.css';
 
 const InventoryDetailView = ({
   isLoading,
@@ -56,30 +55,28 @@ const InventoryDetailView = ({
 
   const pageHead = isCreating ? 'New item' : originalName;
 
+  const alertComponent = alertMessage && (
+    <Alert type="danger" onDismiss={onDismissAlert}>
+      {alertMessage}
+    </Alert>
+  );
+
   const itemDetailView = (
-    <div className={styles.item}>
-      {alertMessage && (
-        <Alert type="danger" onDismiss={onDismissAlert}>
-          {alertMessage}
-        </Alert>)}
-      <SimplePageTemplate pageHead={pageHead}>
-        {modal}
-        <Card>
-          <ItemDetails onItemDetailsChange={onItemDetailsChange} />
-          <hr />
-          <SellingDetails onSellingDetailsChange={onSellingDetailsChange} />
-          <hr />
-          <BuyingDetails onBuyingDetailsChange={onBuyingDetailsChange} />
-          <hr />
-          <InventoryDetailActions
-            isCreating={isCreating}
-            onSaveButtonClick={onSaveButtonClick}
-            onCancelButtonClick={onCancelButtonClick}
-            onDeleteButtonClick={onDeleteButtonClick}
-          />
-        </Card>
-      </SimplePageTemplate>
-    </div>
+    <FormTemplate pageHead={pageHead} alert={alertComponent}>
+      {modal}
+      <Card>
+        <ItemDetails onItemDetailsChange={onItemDetailsChange} />
+        <SellingDetails onSellingDetailsChange={onSellingDetailsChange} />
+        <BuyingDetails onBuyingDetailsChange={onBuyingDetailsChange} />
+        <hr />
+        <InventoryDetailActions
+          isCreating={isCreating}
+          onSaveButtonClick={onSaveButtonClick}
+          onCancelButtonClick={onCancelButtonClick}
+          onDeleteButtonClick={onDeleteButtonClick}
+        />
+      </Card>
+    </FormTemplate>
   );
 
   const view = isLoading ? (<Spinner />) : itemDetailView;

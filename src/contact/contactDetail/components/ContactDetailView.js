@@ -1,4 +1,6 @@
-import { Card, Spinner } from '@myob/myob-widgets';
+import {
+  Alert, Card, FormTemplate, Spinner,
+} from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -6,7 +8,6 @@ import React from 'react';
 import {
   getAlertMessage, getContactHeader, getIsLoading, getModalType,
 } from '../contactDetailSelectors';
-import Alert from '../../../components/Alert/Alert';
 import BillingAddress from './BillingAddress';
 import BusinessDetails from './BusinessDetails';
 import CancelModal from '../../../components/modal/CancelModal';
@@ -14,8 +15,6 @@ import ContactDetailActions from './ContactDetailActions';
 import ContactDetails from './ContactDetails';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import ShippingAddress from './ShippingAddress';
-import SimplePageTemplate from '../../../components/SimplePageTemplate/SimplePageTemplate';
-import styles from './ContactDetailView.css';
 
 const ContactDetailView = ({
   isCreating,
@@ -65,31 +64,25 @@ const ContactDetailView = ({
   const pageHead = isCreating ? 'Add contact' : contactHeader;
 
   const view = (
-    <div className={styles.contact}>
-      {alertComponent}
-      <SimplePageTemplate pageHead={pageHead}>
-        {modal}
-        <Card>
-          <BusinessDetails
-            isCreating={isCreating}
-            onBusinessDetailsChange={onBusinessDetailsChange}
-          />
-          <hr />
-          <ContactDetails onContactDetailsChange={onContactDetailsChange} />
-          <hr />
-          <ShippingAddress onAddressChange={onShippingAddressChange} />
-          <hr />
-          <BillingAddress onAddressChange={onBillingAddressChange} />
-          <hr />
-          <ContactDetailActions
-            isCreating={isCreating}
-            onSaveButtonClick={onSaveButtonClick}
-            onCancelButtonClick={onCancelButtonClick}
-            onDeleteButtonClick={onDeleteButtonClick}
-          />
-        </Card>
-      </SimplePageTemplate>
-    </div>
+    <FormTemplate pageHead={pageHead} alert={alertComponent}>
+      {modal}
+      <Card>
+        <BusinessDetails
+          isCreating={isCreating}
+          onBusinessDetailsChange={onBusinessDetailsChange}
+        />
+        <ContactDetails onContactDetailsChange={onContactDetailsChange} />
+        <ShippingAddress onAddressChange={onShippingAddressChange} />
+        <BillingAddress onAddressChange={onBillingAddressChange} />
+        <hr />
+        <ContactDetailActions
+          isCreating={isCreating}
+          onSaveButtonClick={onSaveButtonClick}
+          onCancelButtonClick={onCancelButtonClick}
+          onDeleteButtonClick={onDeleteButtonClick}
+        />
+      </Card>
+    </FormTemplate>
   );
 
   return (

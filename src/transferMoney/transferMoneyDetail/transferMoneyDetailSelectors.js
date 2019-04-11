@@ -1,7 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-const getUnixTime = date => new Date(date).getTime().toString();
-
 const getReferenceId = state => state.transferMoney.referenceId;
 const getOriginalReferenceId = state => state.transferMoney.originalReferenceId;
 const getDate = state => state.transferMoney.date;
@@ -28,7 +26,6 @@ export const getTransferMoneyData = createSelector(getTransferMoneyProperties,
       accounts,
       selectedTransferFromAccountId,
       selectedTransferToAccountId,
-      date,
       ...rest
     } = transferMoneyProps;
 
@@ -44,7 +41,6 @@ export const getTransferMoneyData = createSelector(getTransferMoneyProperties,
       accounts,
       selectedTransferFromAccountIndex,
       selectedTransferToAccountIndex,
-      date: getUnixTime(date),
     };
   });
 

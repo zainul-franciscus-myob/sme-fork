@@ -1,12 +1,11 @@
 import {
-  ButtonRow, Columns, LineItemTemplate, Spinner,
+  Alert, Columns, LineItemTemplate, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getAlertMessage, getIsLoading, getModalType } from '../generalJournalDetailSelectors';
-import Alert from '../../../components/Alert/Alert';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import GeneralJournalDetailActions from './GeneralJournalDetailActions';
@@ -38,14 +37,12 @@ const GeneralJournalDetailView = ({
   );
 
   const actions = (
-    <ButtonRow>
-      <GeneralJournalDetailActions
-        isCreating={isCreating}
-        onSaveButtonClick={onSaveButtonClick}
-        onCancelButtonClick={onCancelButtonClick}
-        onDeleteButtonClick={onDeleteButtonClick}
-      />
-    </ButtonRow>
+    <GeneralJournalDetailActions
+      isCreating={isCreating}
+      onSaveButtonClick={onSaveButtonClick}
+      onCancelButtonClick={onCancelButtonClick}
+      onDeleteButtonClick={onDeleteButtonClick}
+    />
   );
 
   const alertComponent = alertMessage && (
@@ -76,22 +73,20 @@ const GeneralJournalDetailView = ({
   }
 
   const view = (
-    <React.Fragment>
-      {alertComponent}
-      <LineItemTemplate
-        pageHead="General journal entry"
-        options={templateOptions}
-        actions={actions}
-      >
-        { modal }
-        <GeneralJournalDetailTable
-          onUpdateRow={onUpdateRow}
-          onAddRow={onAddRow}
-          onRemoveRow={onRemoveRow}
-          onRowInputBlur={onRowInputBlur}
-        />
-      </LineItemTemplate>
-    </React.Fragment>
+    <LineItemTemplate
+      pageHead="General journal entry"
+      options={templateOptions}
+      actions={actions}
+      alert={alertComponent}
+    >
+      { modal }
+      <GeneralJournalDetailTable
+        onUpdateRow={onUpdateRow}
+        onAddRow={onAddRow}
+        onRemoveRow={onRemoveRow}
+        onRowInputBlur={onRowInputBlur}
+      />
+    </LineItemTemplate>
   );
 
   return (

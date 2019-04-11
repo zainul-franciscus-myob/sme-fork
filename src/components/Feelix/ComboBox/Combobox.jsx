@@ -1,3 +1,4 @@
+import { Button, Field, Icons } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
@@ -6,6 +7,7 @@ import matchSorter from 'match-sorter';
 import ComboboxCore from './ComboboxCore';
 
 const Combobox = ({
+  id,
   items,
   renderItem,
   metaData,
@@ -26,8 +28,10 @@ const Combobox = ({
   onFocus,
   onBlur,
   preventTabbingOnSelect,
+  ...otherProps
 }) => (
   <ComboboxCore
+    id={id}
     onFocus={onFocus}
     onBlur={onBlur}
     autoFocus={autoFocus}
@@ -51,14 +55,10 @@ const Combobox = ({
       // Want to use underscores here to ensure that our new item attributes don't clash with
       // real item attributes
       /* eslint-disable no-underscore-dangle */
-      if (!selectedItem) {
+      if (!selectedItem || selectedItem._addNewItem) {
         return;
       }
-      if (addNewItem && addNewItem === selectedItem._addNew) {
-        addNewItem.onAddNew(selectedItem._inputValue);
-      } else {
-        onChange(selectedItem, stateAndHelpers);
-      }
+      onChange(selectedItem, stateAndHelpers);
     }}
     onSelect={(selectedItem, stateAndHelpers) => {
       // Want to use underscores here to ensure that our new item attributes don't clash with
@@ -66,7 +66,7 @@ const Combobox = ({
       if (!selectedItem) {
         return;
       }
-      if (addNewItem && addNewItem === selectedItem._addNew) {
+      if (addNewItem && selectedItem._addNewItem) {
         addNewItem.onAddNew(selectedItem._inputValue);
       } else if (onSelect) {
         onSelect(selectedItem, stateAndHelpers);
@@ -82,6 +82,7 @@ const Combobox = ({
     filterOnType
     errorMessage={errorMessage}
     name={name}
+    {...otherProps}
   >
     {({
       items: menuItems,
@@ -102,19 +103,23 @@ const Combobox = ({
           {addNewItem && (
             <tr
               {...getItemProps({
-                item: { _inputValue: inputValue, _addNew: addNewItem },
+                item: { _inputValue: inputValue, _addNewItem: true },
                 index: menuItems.length,
                 className: classnames({
                   active: menuItems.length === highlightedIndex,
                 }),
-                key: menuItems.length,
               })}
+              key={menuItems.length}
             >
-              <td colSpan={metaData.length}>{addNewItem.label}</td>
+              <td colSpan={metaData.length}>
+                <Button type="link" icon={<Icons.Add />}>
+                  {addNewItem.label}
+                </Button>
+              </td>
             </tr>
           )}
           {menuItems.length === 0 ? (
-            <tr>
+            <tr key={-1}>
               <td colSpan={metaData.length}>{noMatchFoundMessage}</td>
             </tr>
           ) : (
@@ -148,6 +153,8 @@ const Combobox = ({
   </ComboboxCore>
 );
 
+const { renderField, ...propsFromField } = Field.propTypes;
+
 Combobox.defaultProps = {
   errorMessage: undefined,
   noMatchFoundMessage: undefined,
@@ -167,6 +174,7 @@ Combobox.defaultProps = {
 };
 
 Combobox.propTypes = {
+  ...propsFromField,
   items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   renderItem: PropTypes.func,
   errorMessage: PropTypes.string,
