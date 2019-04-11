@@ -35,7 +35,7 @@ export const getOrderBy = ({ orderBy }) => orderBy;
 
 export const getSortOrder = ({ sortOrder }) => sortOrder;
 
-const getRegion = state => state.region;
+export const getRegion = state => state.region;
 
 export const getTableEntries = createSelector(
   getRegion,

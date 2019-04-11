@@ -9,7 +9,7 @@ export const getIsLoading = state => state.isLoading;
 export const getQuoteId = state => state.quoteId;
 export const getTotals = state => state.totals;
 const getNewLine = state => state.newLine;
-const getLineByIndex = (state, props) => state.quote.lines[props.index];
+export const getLineByIndex = (state, props) => state.quote.lines[props.index];
 
 export const getQuoteLine = createSelector(
   getNewLine,
@@ -101,6 +101,11 @@ export const getExpiredDate = createSelector(
   },
 );
 
+export const getIsCreating = createSelector(
+  getQuoteId,
+  quoteId => quoteId === 'new',
+);
+
 const getQuote = state => state.quote;
 const getCustomerOptions = state => state.customerOptions;
 const getExpirationTermOptions = state => state.expirationTermOptions;
@@ -110,7 +115,8 @@ export const getQuoteOptions = createSelector(
   getCustomerOptions,
   getExpirationTermOptions,
   getExpiredDate,
-  (quote, customerOptions, expirationTermOptions, expiredDate) => {
+  getIsCreating,
+  (quote, customerOptions, expirationTermOptions, expiredDate, isCreating) => {
     const { lines, issueDate, ...quoteWithoutLines } = quote;
 
     return {
@@ -119,6 +125,48 @@ export const getQuoteOptions = createSelector(
       expiredDate,
       customerOptions,
       expirationTermOptions,
+      isCreating,
     };
   },
+);
+
+export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
+  const account = accounts.find(({ id }) => id === accountId);
+  return account === undefined ? '' : account.taxCodeId;
+};
+
+export const getCalculatedTotalsPayload = createSelector(
+  getQuote,
+  quote => ({
+    taxInclusive: quote.taxInclusive,
+    lines: quote.lines.map(({ allocatedAccountId, amount, taxCodeId }) => ({
+      allocatedAccountId, amount, taxCodeId,
+    })),
+  }),
+);
+
+export const isPageEdited = state => state.isPageEdited;
+export const getRegion = state => state.region;
+export const getModalType = state => state.modalType;
+
+const getServiceQuoteLinesForPayload = lines => lines.map((line) => {
+  const { accounts, taxCodes, ...rest } = line;
+  return rest;
+});
+
+export const getQuotePayload = createSelector(
+  getQuote,
+  quote => ({
+    ...quote,
+    lines: getServiceQuoteLinesForPayload(quote.lines),
+  }),
+);
+
+export const getAlertMessage = state => state.alertMessage;
+export const getIsActionsDisabled = state => state.isSubmitting;
+export const getCustomerId = state => state.quote.customerId;
+
+export const getIsTableEmpty = createSelector(
+  getLength,
+  len => len === 0,
 );

@@ -8,13 +8,28 @@ import ServiceQuoteTableRow from './ServiceQuoteTableRow';
 
 const labels = ['Description', 'Allocate to', 'Tax type', 'Amount'];
 
-const renderRow = index => (
-  <ServiceQuoteTableRow index={index} key={index} />
+const renderRow = onRowInputBlurHandler => (index, data, onChange) => (
+  <ServiceQuoteTableRow
+    index={index}
+    key={index}
+    onChange={onChange}
+    onRowInputBlur={onRowInputBlurHandler}
+  />
 );
+
+const onRowChange = handler => (index, key, value) => handler({ index, key, value });
+
+const onTableAddRow = handler => ({ id, ...partialLine }) => handler(partialLine);
+
+const onTableRemoveRow = handler => index => handler(index);
 
 const ServiceQuoteTable = ({
   tableData,
   totals,
+  onUpdateRow,
+  onAddRow,
+  onRemoveRow,
+  onRowInputBlur,
 }) => {
   const {
     subTotal,
@@ -25,11 +40,11 @@ const ServiceQuoteTable = ({
   return (
     <LineItemTable
       labels={labels}
-      renderRow={renderRow}
+      renderRow={renderRow(onRowInputBlur)}
       data={tableData}
-      onAddRow={() => console.log('onAddRow')}
-      onRowChange={() => console.log('onRowChange')}
-      onRemoveRow={() => console.log('onRemoveRow')}
+      onAddRow={onTableAddRow(onAddRow)}
+      onRowChange={onRowChange(onUpdateRow)}
+      onRemoveRow={onTableRemoveRow(onRemoveRow)}
     >
       <LineItemTable.Total>
         <LineItemTable.Totals title="Subtotal" amount={subTotal} />
@@ -43,6 +58,10 @@ const ServiceQuoteTable = ({
 ServiceQuoteTable.propTypes = {
   tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   totals: PropTypes.shape().isRequired,
+  onUpdateRow: PropTypes.func.isRequired,
+  onAddRow: PropTypes.func.isRequired,
+  onRemoveRow: PropTypes.func.isRequired,
+  onRowInputBlur: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

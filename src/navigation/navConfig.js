@@ -13,6 +13,7 @@ export const activeMapping = {
   'invoice/invoiceList': 'sales',
   'banking/bankTransactionList': 'banking',
   'inventory/itemList': 'sales',
+  'quote/serviceQuote': 'sales',
 };
 
 export const featuresConfig = {

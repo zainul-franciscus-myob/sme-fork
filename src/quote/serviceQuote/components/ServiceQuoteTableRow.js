@@ -7,8 +7,17 @@ import { getQuoteLine } from '../ServiceQuoteSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
+const onComboboxChange = (name, onChange) => item => onChange({
+  target: {
+    name,
+    value: item.id,
+  },
+});
+
+const onRowInputBlurHandler = (onRowInputBlur, index) => () => onRowInputBlur(index);
+
 const ServiceQuoteTableRow = ({
-  quoteLine, index,
+  quoteLine, index, onChange, onRowInputBlur, ...feelixInjectedProps
 }) => {
   const {
     description,
@@ -18,35 +27,39 @@ const ServiceQuoteTableRow = ({
     selectedTaxCodeIndex,
     amount,
   } = quoteLine;
+
   return (
     <LineItemTable.Row
       index={index}
       id={index}
       moveRow={() => {}}
+      {...feelixInjectedProps}
     >
       <Input
         label="Description"
         hiddenLabel
         name="description"
         value={description}
-        onChange={() => {}}
+        onChange={onChange}
       />
       <AccountCombobox
-        onChange={() => {}}
+        onChange={onComboboxChange('allocatedAccountId', onChange)}
         items={accounts}
         selectedIndex={selectedAccountIndex}
       />
       <TaxCodeCombobox
-        onChange={() => {}}
+        onChange={onComboboxChange('taxCodeId', onChange)}
         items={taxCodes}
         selectedIndex={selectedTaxCodeIndex}
       />
       <Input
         label="Amount"
+        type="number"
         hiddenLabel
         name="amount"
         value={amount}
-        onChange={() => {}}
+        onChange={onChange}
+        onBlur={onRowInputBlurHandler(onRowInputBlur, index)}
       />
     </LineItemTable.Row>
   );
@@ -55,6 +68,7 @@ const ServiceQuoteTableRow = ({
 ServiceQuoteTableRow.propTypes = {
   quoteLine: PropTypes.shape().isRequired,
   index: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({

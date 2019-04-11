@@ -13,20 +13,28 @@ import {
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { SUCCESSFULLY_DELETED_SERVICE_QUOTE, SUCCESSFULLY_SAVED_SERVICE_QUOTE } from '../quoteMessageTypes';
 import {
-  getAppliedFilterOptions, getBusinessId, getFilterOptions, getOrderBy, getSortOrder,
+  getAppliedFilterOptions, getBusinessId, getFilterOptions, getOrderBy, getRegion, getSortOrder,
 } from './quoteListSelector';
 import QuoteListView from './components/QuoteListView';
 import Store from '../../store/Store';
 import quoteListReducer from './quoteListReducer';
 
+const messageTypes = [
+  SUCCESSFULLY_SAVED_SERVICE_QUOTE,
+  SUCCESSFULLY_DELETED_SERVICE_QUOTE,
+];
+
 export default class QuoteListModule {
   constructor({
-    integration, setRootView,
+    integration, setRootView, popMessages,
   }) {
     this.integration = integration;
     this.store = new Store(quoteListReducer);
     this.setRootView = setRootView;
+    this.messageTypes = messageTypes;
+    this.popMessages = popMessages;
   }
 
   filterQuoteList = () => {
@@ -220,6 +228,29 @@ export default class QuoteListModule {
     value,
   });
 
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const {
+        content: message,
+      } = successMessage;
+
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+    }
+  }
+
+  redirectToAddQuote = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/quote/service/new`;
+  }
+
   render = () => {
     const quoteListView = (
       <QuoteListView
@@ -227,6 +258,7 @@ export default class QuoteListModule {
         onDismissAlert={this.dismissAlert}
         onSort={this.sortQuoteList}
         onUpdateFilters={this.updateFilterOptions}
+        onAddQuote={this.redirectToAddQuote}
       />
     );
 
@@ -241,6 +273,7 @@ export default class QuoteListModule {
   run(context) {
     this.setInitialState(context);
     this.render();
+    this.readMessages();
     this.setLoadingState(true);
     this.loadQuoteList();
   }

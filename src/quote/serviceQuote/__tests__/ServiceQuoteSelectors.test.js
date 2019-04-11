@@ -32,6 +32,7 @@ describe('ServiceQuoteSelectors', () => {
           { value: 'Prepaid', name: 'Prepaid' },
           { value: 'CashOnDelivery', name: 'C.O.D.' },
         ],
+        isCreating: false,
       };
       const actual = getQuoteOptions(state);
 

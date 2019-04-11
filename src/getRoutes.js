@@ -75,7 +75,7 @@ const getRoutes = ({
     name: 'quote',
     rootPath: '/:region/:businessId/quote',
     subRoutes: getQuoteRoutes({
-      integration, setRootView,
+      integration, setRootView, pushMessage, popMessages,
     }),
   },
   {

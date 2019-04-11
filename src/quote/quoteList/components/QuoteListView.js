@@ -21,6 +21,7 @@ const QuoteListView = (props) => {
     onUpdateFilters,
     onApplyFilter,
     onSort,
+    onAddQuote,
   } = props;
 
   const alertComponent = alert && (
@@ -38,7 +39,7 @@ const QuoteListView = (props) => {
 
   const pageHead = (
     <PageHead title="Quotes">
-      <Button onClick={() => {}} disabled>Create quote</Button>
+      <Button onClick={onAddQuote}>Create quote</Button>
     </PageHead>
   );
 

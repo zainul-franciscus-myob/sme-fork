@@ -49,6 +49,7 @@ const ServiceQuoteOptions = (props) => {
     expirationTermOptions,
     notesToCustomer,
     onUpdateHeaderOptions,
+    isCreating,
   } = props;
 
   return (
@@ -60,7 +61,7 @@ const ServiceQuoteOptions = (props) => {
         label="Customer"
         name="customerId"
         hideLabel={false}
-        disabled
+        disabled={!isCreating}
       />
       <Input name="quoteNumber" label="Quote number" value={quoteNumber} onChange={handleInputChange(onUpdateHeaderOptions)} />
       <Input name="purchaseOrderNumber" label="Purchase order" value={purchaseOrderNumber} onChange={handleInputChange(onUpdateHeaderOptions)} />
@@ -120,6 +121,7 @@ ServiceQuoteOptions.propTypes = {
   expirationTermOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   customerOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   onUpdateHeaderOptions: PropTypes.func.isRequired,
+  isCreating: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => getQuoteOptions(state);
