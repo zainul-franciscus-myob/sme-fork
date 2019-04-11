@@ -1,0 +1,27 @@
+{
+  "sortOrder": "asc",
+  "orderBy": "UserName",
+  "entries":[
+    {
+      "id":"345",
+      "name": "Bob The Builder",
+      "email":"bob@thebuilder.com",
+      "advisor":"Yes",
+      "status":"Active"
+    },
+    {
+      "id":"346",
+      "name": "Matt Witherow",
+      "email":"matt@hotmail.com",
+      "advisor":"Yes",
+      "status":"Active"
+    },
+    {
+      "id":"345",
+      "name": "John Contad",
+      "email":"johncontad@hotmail.com",
+      "advisor":"",
+      "status":"Inactive"
+    }
+  ]
+}
