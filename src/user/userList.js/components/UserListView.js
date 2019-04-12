@@ -24,7 +24,7 @@ const UserListView = (props) => {
   );
 
   const pageHead = (
-    <PageHead title="Online users">
+    <PageHead title="Users">
       <a href="https://my.myob.com" target="_blank" rel="noopener noreferrer">Manage online access</a>
       <ButtonRow>
         <Button type="secondary" onClick={onCreateUser(true)}>Invite advisor</Button>
