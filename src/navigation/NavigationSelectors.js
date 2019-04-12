@@ -88,6 +88,7 @@ export const getBusinessUrls = createSelector(
     incomeAllocation: enabledUrls.incomeAllocation,
     businessDetails: enabledUrls.businessDetails,
     taxList: enabledUrls.taxList,
+    userList: enabledUrls.userList,
   }),
 );
 

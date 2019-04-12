@@ -13,6 +13,7 @@ import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 import getTaxRoutes from './tax/getTaxRoutes';
 import getTransactionListRoutes from './transactionList/getTransactionListRoutes';
 import getTransferMoneyRoutes from './transferMoney/getTransferMoneyRoutes';
+import getUserRoutes from './user/getUserRoutes';
 
 const getRoutes = ({
   integration, setRootView, popMessages, pushMessage, replaceURLParams,
@@ -108,6 +109,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/inventory',
     subRoutes: getInventoryRoutes({
       integration, setRootView, popMessages, pushMessage,
+    }),
+  },
+  {
+    name: 'user',
+    rootPath: '/:region/:businessId/user',
+    subRoutes: getUserRoutes({
+      integration, setRootView, popMessages,
     }),
   },
 ];
