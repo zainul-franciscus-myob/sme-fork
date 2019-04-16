@@ -1,0 +1,23 @@
+{
+  "isActive": false,
+  "isReadOnly": false,
+  "userName": "rivneg",
+  "email": "email@example.com",
+  "roles": [
+    {
+      "id": "1",
+      "name": "Accountant/BookKeeper",
+      "selected": true
+    },
+    {
+      "id": "2",
+      "name": "Administrator"
+    },
+    {
+      "id": "3",
+      "name": "Banking",
+      "selected": true
+    }
+  ],
+  "isAdmin": true
+}
