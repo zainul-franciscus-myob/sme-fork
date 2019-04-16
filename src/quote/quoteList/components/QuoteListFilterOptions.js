@@ -18,7 +18,7 @@ class QuoteListFilterOptions extends React.Component {
     onUpdateFilters({ filterName, value });
   }
 
-  onFilterChange = filterName => (value) => {
+  onFilterChange = filterName => ({ value }) => {
     const { onUpdateFilters } = this.props;
     onUpdateFilters({ filterName, value });
   }
