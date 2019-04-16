@@ -123,10 +123,10 @@ const updateServiceQuoteLine = (state, action) => {
   const value = isAmountLineItem(action.key) ? limitToTwoDecimals(action.value) : action.value;
   const newLine = {
     ...line,
-    [action.key]: value,
     taxCodeId: isAccountLineItem(action.key)
       ? getDefaultTaxCodeId({ accountId: action.value, accounts: line.accounts })
       : line.taxCodeId,
+    [action.key]: value,
   };
 
   return ({
@@ -148,11 +148,11 @@ const addServiceQuoteLine = (state, action) => ({
       ...state.quote.lines,
       {
         ...state.newLine,
-        ...action.line,
         taxCodeId: getDefaultTaxCodeId({
           ...state.newLine,
           accountId: action.line.allocatedAccountId,
         }),
+        ...action.line,
       },
     ],
   },
