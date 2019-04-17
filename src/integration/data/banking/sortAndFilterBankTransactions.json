@@ -10,27 +10,39 @@
       "displayDate": "01/10/2018",
       "description": "Bob the builder",
       "withdrawal": 3300.00,
-      "allocatedTo": "TM00003",
+      "allocateOrMatch": "Internet",
       "journalLineId": "123",
-      "numberOfMatches": 0
+      "numberOfMatches": 0,
+      "taxCode": "GST",
+      "note": "",
+      "isReportable": true,
+      "type": "allocated"
     },
     {
       "transactionId": "2",
       "displayDate": "21/09/2018",
       "description": "Join the crew",
       "withdrawal": 295.00,
-      "allocatedTo": "TM00003",
+      "allocateOrMatch": "Transfered from Rental income",
       "journalLineId": "124",
-      "numberOfMatches": 0
+      "numberOfMatches": 0,
+      "taxCode": "FRE",
+      "note": "Lofty and wendy",
+      "isReportable": true,
+      "type": "allocated"
     },
     {
       "transactionId": "3",
       "displayDate": "01/09/2018",
       "description": "Bob the gang have soo much fun",
       "deposit": 1300.00,
-      "allocatedTo": "SM0000005",
+      "allocateOrMatch": "Matched to General Journal 573498874",
       "journalLineId": "125",
-      "numberOfMatches": 0
+      "numberOfMatches": 0,
+      "taxCode": "LOL",
+      "note": "the second notable thing",
+      "isReportable": false,
+      "type": "allocated"
     }
   ]
 }

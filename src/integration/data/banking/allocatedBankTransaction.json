@@ -1,4 +1,5 @@
 {
-  "allocatedTo": "SM0101240",
-  "journalLineId": "1559"
+  "allocateOrMatch": "Internet",
+  "journalLineId": "1559",
+  "type": "allocated"
 }

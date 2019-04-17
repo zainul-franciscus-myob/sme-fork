@@ -6,7 +6,7 @@ import {
 } from '../../banking/BankingIntents';
 import allocatedBankTransaction from '../data/banking/allocatedBankTransaction';
 import bankTransactions from '../data/banking/loadBankTransactions';
-import filteredBankTransactions from '../data/banking/filterBankTransactions';
+import filteredBankTransactions from '../data/banking/sortAndFilterBankTransactions';
 import success from '../data/success';
 
 const loadBankTransactions = ({ onSuccess }) => onSuccess(bankTransactions);

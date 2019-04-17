@@ -1,4 +1,6 @@
 {
+  "sortOrder": "desc",
+  "orderBy": "DisplayId",
   "bankAccounts": [
     {
       "id": "123",
@@ -96,35 +98,52 @@
       "date": "2018-10-21",
       "description": "Bob the builder",
       "withdrawal": 3300.00,
-      "allocatedTo": "",
       "journalLineId": "",
-      "numberOfMatches": 0
-    }, {
+      "numberOfMatches": 0,
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "allocateOrMatch": "Allocate me",
+      "type": "unmatched"
+    },
+    {
       "transactionId": "1",
       "date": "2018-10-21",
       "description": "Bob the builder",
       "deposit": 3300.00,
-      "allocatedTo": "",
       "journalLineId": "",
-      "numberOfMatches": 0
+      "numberOfMatches": 0,
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "allocateOrMatch": "Allocate me",
+      "type": "unmatched"
     },
     {
       "transactionId": "2",
       "date": "2018-10-20",
       "description": "Scoop muck and dizzy",
       "withdrawal": 295.00,
-      "allocatedTo": "",
       "journalLineId": "",
-      "numberOfMatches": 1
+      "numberOfMatches": 1,
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "allocateOrMatch": "1 match available",
+      "type": "matched"
     },
     {
       "transactionId": "3",
       "date": "2018-10-11",
       "description": "Rolly too, lofty and wendy",
       "deposit": 1300.00,
-      "allocatedTo": "",
       "journalLineId": "",
-      "numberOfMatches": 2
+      "numberOfMatches": 2,
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "allocateOrMatch": "2 matches available",
+      "type": "matched"
     }
   ]
 }
