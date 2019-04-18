@@ -1,5 +1,5 @@
 import {
-  Alert, Button, ButtonRow, Card, FormTemplate, Spinner,
+  Alert, Button, ButtonRow, FormTemplate, Spinner,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -11,6 +11,7 @@ import {
 import BusinessDetailsSection from './BusinessDetailsSection';
 import ContactDetailsSection from './ContactDetailsSection';
 import FinancialYearSection from './FinancialYearSection';
+import FormCard from '../../../components/FormCard/FormCard';
 
 const BusinessDetailView = ({
   isLoading,
@@ -27,15 +28,14 @@ const BusinessDetailView = ({
   );
   const view = (
     <FormTemplate pageHead="Business details" alert={alertComponent}>
-      <Card>
+      <FormCard>
         <BusinessDetailsSection onChange={onChange} />
         <ContactDetailsSection onChange={onChange} />
         <FinancialYearSection />
-        <hr />
-        <ButtonRow>
-          <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting}>Save</Button>
-        </ButtonRow>
-      </Card>
+      </FormCard>
+      <ButtonRow>
+        <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting}>Save</Button>
+      </ButtonRow>
     </FormTemplate>
   );
   return (

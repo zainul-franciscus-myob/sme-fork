@@ -1,0 +1,3 @@
+:local .card :global(.flx-card) {
+  margin-bottom: 0.8rem;
+}

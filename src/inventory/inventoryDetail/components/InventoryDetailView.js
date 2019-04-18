@@ -1,5 +1,5 @@
 import {
-  Alert, Card, FormTemplate, Spinner,
+  Alert, FormTemplate, Spinner,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -11,6 +11,7 @@ import {
 import BuyingDetails from './BuyingDetails';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
+import FormCard from '../../../components/FormCard/FormCard';
 import InventoryDetailActions from './InventoryDetailActions';
 import ItemDetails from './ItemDetails';
 import SellingDetails from './SellingDetails';
@@ -64,18 +65,17 @@ const InventoryDetailView = ({
   const itemDetailView = (
     <FormTemplate pageHead={pageHead} alert={alertComponent}>
       {modal}
-      <Card>
+      <FormCard>
         <ItemDetails onItemDetailsChange={onItemDetailsChange} />
         <SellingDetails onSellingDetailsChange={onSellingDetailsChange} />
         <BuyingDetails onBuyingDetailsChange={onBuyingDetailsChange} />
-        <hr />
-        <InventoryDetailActions
-          isCreating={isCreating}
-          onSaveButtonClick={onSaveButtonClick}
-          onCancelButtonClick={onCancelButtonClick}
-          onDeleteButtonClick={onDeleteButtonClick}
-        />
-      </Card>
+      </FormCard>
+      <InventoryDetailActions
+        isCreating={isCreating}
+        onSaveButtonClick={onSaveButtonClick}
+        onCancelButtonClick={onCancelButtonClick}
+        onDeleteButtonClick={onDeleteButtonClick}
+      />
     </FormTemplate>
   );
 
