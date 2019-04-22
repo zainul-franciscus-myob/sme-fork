@@ -1,12 +1,16 @@
 import { createSelector } from 'reselect';
 import dateFormat from 'dateformat';
 
-export const getOrder = ({ sortOrder }) => ({
-  column: 'date',
+export const getOrder = ({ sortOrder, orderBy }) => ({
+  column: orderBy,
   descending: sortOrder === 'desc',
 });
 
+export const getOrderBy = ({ orderBy }) => orderBy;
+
 export const getSortOrder = ({ sortOrder }) => sortOrder;
+
+export const getFlipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
 
 export const getAlert = ({ alert }) => alert;
 
@@ -38,30 +42,6 @@ export const getRegion = state => state.region;
 const getWithdrawalAccounts = state => state.withdrawalAccounts;
 const getDepositAccounts = state => state.depositAccounts;
 
-const getEntryTransactionType = ({ allocatedTo, numberOfMatches }) => {
-  if (allocatedTo) {
-    return 'allocated';
-  }
-
-  if (numberOfMatches > 0) {
-    return 'matched';
-  }
-
-  return 'unmatched';
-};
-
-const getMatchedDisplayText = ({ numberOfMatches }) => {
-  if (numberOfMatches > 1) {
-    return `${numberOfMatches} matches available`;
-  }
-
-  if (numberOfMatches > 0) {
-    return `${numberOfMatches} match available`;
-  }
-
-  return '';
-};
-
 const formatAmount = amount => Intl
   .NumberFormat('en-AU', {
     style: 'decimal',
@@ -76,7 +56,6 @@ export const getTableEntries = createSelector(
   getDepositAccounts,
   (entries, withdrawalAccounts, depositAccounts) => entries.map(
     (entry) => {
-      const transactionType = getEntryTransactionType(entry);
       const accountList = entry.deposit ? depositAccounts : withdrawalAccounts;
 
       return ({
@@ -85,8 +64,6 @@ export const getTableEntries = createSelector(
         withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
         displayDate: dateFormat(entry.date, 'dd/mm/yyyy'),
         accountList,
-        transactionType,
-        matchedDisplayText: getMatchedDisplayText(entry),
       });
     },
   ),

@@ -70,6 +70,7 @@ const loadBankTransactions = (state, action) => ({
     isLoading: false,
   })),
   sortOrder: action.sortOrder,
+  orderBy: action.orderBy,
   filterOptions: {
     ...state.filterOptions,
     bankAccount: action.bankAccount,
@@ -87,6 +88,8 @@ const sortAndFilterBankTransactions = (state, action) => ({
   entries: action.entries,
   balances: action.balances,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
+  sortOrder: action.sortOrder,
+  orderBy: action.orderBy,
 });
 
 const updateFilterOptions = (state, action) => ({
@@ -143,8 +146,9 @@ const allocateTransaction = (state, action) => ({
         ? {
           ...entry,
           isUnallocated: false,
-          allocatedTo: action.allocatedTo,
+          allocateOrMatch: action.allocateOrMatch,
           journalLineId: action.journalLineId,
+          type: action.type,
         }
         : entry
     ),
@@ -159,7 +163,7 @@ const unallocateTransaction = (state, action) => ({
         ? {
           ...entry,
           isUnallocated: true,
-          allocatedTo: '',
+          allocateOrMatch: '',
           journalLineId: '',
         }
         : entry

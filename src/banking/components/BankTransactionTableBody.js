@@ -1,4 +1,6 @@
-import { Button, Spinner, Table } from '@myob/myob-widgets';
+import {
+  Button, Spinner, Table,
+} from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,6 +9,7 @@ import { getTableEntries } from '../bankingSelectors';
 import AllocatedRowItem from './AllocatedRowItem';
 import MatchedRowItem from './MatchedRowItem';
 import UnmatchedRowItem from './UnmatchedRowItem';
+import style from './BankingView.css';
 
 /* eslint-disable react/no-array-index-key */
 
@@ -22,7 +25,7 @@ const getMatchedOrAllocatedRowItem = ({
   index,
 }) => {
   const {
-    transactionType,
+    type,
     isLoading,
     isUnallocated,
   } = entry;
@@ -38,12 +41,14 @@ const getMatchedOrAllocatedRowItem = ({
   if (isUnallocated) {
     return (
       <Table.RowItem {...tableConfig.allocateOrMatch}>
-        <Button type="link" onClick={() => {}}>Matches available</Button>
+        <div className={style.buttonLinkWrapper}>
+          <Button type="link" onClick={() => {}}>Matches available</Button>
+        </div>
       </Table.RowItem>
     );
   }
 
-  if (transactionType === 'matched') {
+  if (type === 'matched') {
     return (
       <MatchedRowItem
         entry={entry}
@@ -52,7 +57,7 @@ const getMatchedOrAllocatedRowItem = ({
     );
   }
 
-  if (transactionType === 'allocated') {
+  if (type === 'allocated') {
     return (
       <AllocatedRowItem
         {...tableConfig.allocateOrMatch}
@@ -103,11 +108,27 @@ const BankTransactionTableBody = (props) => {
 
     return (
       <Table.Row key={index}>
-        <Table.RowItem {...tableConfig.date}>{entry.displayDate}</Table.RowItem>
-        <Table.RowItem {...tableConfig.description}>{entry.description}</Table.RowItem>
-        <Table.RowItem {...tableConfig.withdrawal}>{entry.withdrawal}</Table.RowItem>
-        <Table.RowItem {...tableConfig.deposit}>{entry.deposit}</Table.RowItem>
+        <Table.RowItem {...tableConfig.date}>
+          {entry.displayDate}
+        </Table.RowItem>
+        <Table.RowItem {...tableConfig.description}>
+          <div className={style.ellipsisText} title={entry.description}>
+            {entry.description}
+          </div>
+          {entry.note
+            && (<div className={style.ellipsisText} title={entry.note}>{entry.note}</div>)
+          }
+        </Table.RowItem>
+        <Table.RowItem {...tableConfig.withdrawal}>
+          {entry.withdrawal}
+        </Table.RowItem>
+        <Table.RowItem {...tableConfig.deposit}>
+          {entry.deposit}
+        </Table.RowItem>
         {matchedOrAllocatedRowItem}
+        <Table.RowItem {...tableConfig.taxCode}>
+          {entry.taxCode}
+        </Table.RowItem>
       </Table.Row>
     );
   });

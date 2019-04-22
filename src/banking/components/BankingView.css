@@ -20,16 +20,52 @@
   align-items: center;
 }
 
+:local .allocateButton {
+  color: #1b2830;
+  margin-right: 0.5rem;
+}
+
+:local .allocateButton :global(.btn-link__content) {
+  color: #1b2830;
+  max-width: 15rem;
+  text-align: left;
+}
+
+:local .allocateButton :global(.btn-link__content),
+:local .ellipsisText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:local .reportableTooltip {
+  display: flex;
+  padding-right: 0.5rem;
+}
+
+:local .buttonLinkWrapper {
+  min-height: 3.2rem;
+  padding-top: 0.1rem;
+}
+
+:local .reportableTooltip > span {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 :local .list [data-label=allocateOrMatch],
 :local .list [data-label=allocateOrMatchHeader] {
   border-left: 0.2rem solid #dcdfe1;
 }
 
-:local .list [data-label=allocateOrMatch] {
+:local .list [data-label=allocateOrMatch],
+:local .list [data-label=taxCode] {
   background: #f3f4f5;
+  align-self: stretch;
 }
 
-:local .unallocatedRowItem {
+:local .unallocatedRowItem,
+:local .buttonLinkWrapper {
   display: flex;
 }
 
@@ -38,13 +74,26 @@
   background: none;
 }
 
+:local .taxCode :global(.svg-icon-caret) {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+:local .list [data-label=allocateOrMatch] {
+  padding: 0.2rem 1.2rem;
+}
+
 :local .list :global(.table-data__row) > :global(.table-data__cell)[data-label=allocateOrMatch] {
   overflow: initial;
   text-overflow: initial;
 }
 
 :local .list [data-label=allocateOrMatch] :global(.combobox) {
-  width: 22rem;
+  width: 17rem;
+}
+
+:local .allocateButton:global(.btn-link):hover :global(.btn-link__content) {
+  box-shadow: 0 0.1rem 0 #1b2830;
 }
 
 /* https://developer.paciellogroup.com/blog/2012/05/html5-accessibility-chops-hidden-and-aria-hidden/ */

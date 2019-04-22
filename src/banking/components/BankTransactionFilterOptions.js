@@ -1,5 +1,5 @@
 import {
-  Button, DatePicker, FilterBar, Select,
+  Button, DatePicker, FilterBar, Search, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -50,6 +50,7 @@ class BankTransactionFilterOptions extends React.Component {
         dateFrom,
         dateTo,
         selectedBankAccountIndex,
+        keywords,
       },
       balances: {
         bankBalance,
@@ -64,10 +65,8 @@ class BankTransactionFilterOptions extends React.Component {
 
     const dateRangeFilter = shouldDisplayDateRange && (
       <React.Fragment>
-        <FilterBar.Group>
-          <DatePicker label="From" name="dateFrom" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
-          <DatePicker label="To" name="dateTo" value={dateTo} onSelect={this.onDateChange('dateTo')} />
-        </FilterBar.Group>
+        <DatePicker label="From" name="dateFrom" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
+        <DatePicker label="To" name="dateTo" value={dateTo} onSelect={this.onDateChange('dateTo')} />
       </React.Fragment>
     );
 
@@ -81,13 +80,17 @@ class BankTransactionFilterOptions extends React.Component {
             label="Bank account"
             hideLabel={false}
           />
-          <Select name="transactionType" label="Type" value={transactionType} onChange={this.onSelectChange}>
-            {transactionTypes.map(({ label, value }) => (
-              <Select.Option value={value} label={label} key={value} />
-            ))}
-          </Select>
 
-          {dateRangeFilter}
+          <FilterBar.Group>
+            <Select name="transactionType" label="Type" value={transactionType} onChange={this.onSelectChange}>
+              {transactionTypes.map(({ label, value }) => (
+                <Select.Option value={value} label={label} key={value} />
+              ))}
+            </Select>
+
+            {dateRangeFilter}
+          </FilterBar.Group>
+          <Search id="Search_Box" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
 
           <FilterBar.Item>
             <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>

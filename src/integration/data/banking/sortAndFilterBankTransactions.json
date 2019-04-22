@@ -1,4 +1,6 @@
 {
+  "sortOrder": "asc",
+  "orderBy": "Date",
   "balances": {
     "bankBalance": "$12,000.00",
     "myobBalance": "$15,342.00",
@@ -12,7 +14,6 @@
       "withdrawal": 3300.00,
       "allocateOrMatch": "Internet",
       "journalLineId": "123",
-      "numberOfMatches": 0,
       "taxCode": "GST",
       "note": "",
       "isReportable": true,
@@ -25,7 +26,6 @@
       "withdrawal": 295.00,
       "allocateOrMatch": "Transfered from Rental income",
       "journalLineId": "124",
-      "numberOfMatches": 0,
       "taxCode": "FRE",
       "note": "Lofty and wendy",
       "isReportable": true,
@@ -38,7 +38,6 @@
       "deposit": 1300.00,
       "allocateOrMatch": "Matched to General Journal 573498874",
       "journalLineId": "125",
-      "numberOfMatches": 0,
       "taxCode": "LOL",
       "note": "the second notable thing",
       "isReportable": false,

@@ -1,6 +1,6 @@
 {
   "sortOrder": "desc",
-  "orderBy": "DisplayId",
+  "orderBy": "Date",
   "bankAccounts": [
     {
       "id": "123",
@@ -99,7 +99,6 @@
       "description": "Bob the builder",
       "withdrawal": 3300.00,
       "journalLineId": "",
-      "numberOfMatches": 0,
       "taxCode": "",
       "note": "",
       "isReportable": false,
@@ -112,7 +111,6 @@
       "description": "Bob the builder",
       "deposit": 3300.00,
       "journalLineId": "",
-      "numberOfMatches": 0,
       "taxCode": "",
       "note": "",
       "isReportable": false,
@@ -125,7 +123,6 @@
       "description": "Scoop muck and dizzy",
       "withdrawal": 295.00,
       "journalLineId": "",
-      "numberOfMatches": 1,
       "taxCode": "",
       "note": "",
       "isReportable": false,
@@ -138,7 +135,6 @@
       "description": "Rolly too, lofty and wendy",
       "deposit": 1300.00,
       "journalLineId": "",
-      "numberOfMatches": 2,
       "taxCode": "",
       "note": "",
       "isReportable": false,

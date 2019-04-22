@@ -18,7 +18,12 @@ import {
   SET_INITIAL_STATE,
 } from '../SystemIntents';
 import {
-  getAllocationPayload, getBusinessId, getFilterOptions, getSortOrder, getUnallocationPayload,
+  getAllocationPayload,
+  getBusinessId,
+  getFilterOptions,
+  getFlipSortOrder, getOrderBy,
+  getSortOrder,
+  getUnallocationPayload,
 } from './bankingSelectors';
 import BankingView from './components/BankingView';
 import Store from '../store/Store';
@@ -55,7 +60,7 @@ export default class BankingModule {
       </Provider>
     );
     this.setRootView(wrappedView);
-  };
+  }
 
   focusEntry = (index) => {
     const intent = SET_ENTRY_FOCUS;
@@ -206,14 +211,12 @@ export default class BankingModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({ entries, sortOrder, balances }) => {
+    const onSuccess = (payload) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
-        entries,
         isSort: false,
-        sortOrder,
-        balances,
+        ...payload,
       });
     };
 
@@ -221,6 +224,7 @@ export default class BankingModule {
 
     const filterOptions = getFilterOptions(state);
     const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
 
     this.integration.read({
       intent,
@@ -228,11 +232,49 @@ export default class BankingModule {
       params: {
         ...filterOptions,
         sortOrder,
+        orderBy,
       },
       onSuccess,
       onFailure,
     });
-  };
+  }
+
+  sortBankTransactions = (orderBy) => {
+    const state = this.store.getState();
+    this.setTableLoadingState(true);
+
+    const intent = SORT_AND_FILTER_BANK_TRANSACTIONS;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const onSuccess = (payload) => {
+      this.setTableLoadingState(false);
+      this.store.dispatch({
+        intent,
+        isSort: true,
+        ...payload,
+      });
+    };
+
+    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
+
+    const filterOptions = getFilterOptions(state);
+    const sortOrder = getFlipSortOrder(state);
+
+    this.integration.read({
+      intent,
+      urlParams,
+      params: {
+        ...filterOptions,
+        sortOrder,
+        orderBy,
+      },
+      onSuccess,
+      onFailure,
+    });
+  }
 
   setAlert = ({ message, type }) => {
     const intent = SET_ALERT;
@@ -247,7 +289,7 @@ export default class BankingModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  };
+  }
 
   setLoadingState = (isLoading) => {
     const intent = SET_LOADING_STATE;
@@ -255,7 +297,7 @@ export default class BankingModule {
       intent,
       isLoading,
     });
-  };
+  }
 
   setTableLoadingState = (isTableLoading) => {
     const intent = SET_TABLE_LOADING_STATE;
@@ -263,7 +305,7 @@ export default class BankingModule {
       intent,
       isTableLoading,
     });
-  };
+  }
 
   updateFilterOptions = ({ filterName, value }) => {
     const intent = UPDATE_FILTER_OPTIONS;
@@ -272,7 +314,7 @@ export default class BankingModule {
       filterName,
       value,
     });
-  };
+  }
 
   dismissAlert = () => {
     const intent = SET_ALERT;
@@ -280,7 +322,7 @@ export default class BankingModule {
       intent,
       alert: undefined,
     });
-  };
+  }
 
   setInitialState = (context) => {
     const intent = SET_INITIAL_STATE;
