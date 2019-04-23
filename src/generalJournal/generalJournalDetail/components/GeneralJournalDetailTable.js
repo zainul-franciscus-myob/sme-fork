@@ -14,8 +14,6 @@ class GeneralJournalDetailTable extends React.Component {
     onUpdateRow(index, name, value);
   }
 
-  onMoveRow = () => {}
-
   onAddRow = ({ id, ...partialLine }) => {
     const { onAddRow } = this.props;
     onAddRow(partialLine);
@@ -37,7 +35,6 @@ class GeneralJournalDetailTable extends React.Component {
       <GeneralJournalDetailRow
         index={index}
         key={index}
-        onMoveRow={this.onMoveRow}
         onChange={onChange}
         isNewLineRow={isNewLineRow}
         onRowInputBlur={this.onRowInputBlur}

@@ -21,7 +21,6 @@ const eventWrapper = (name, onChange) => (item) => {
 const ReceiveMoneyDetailRow = (props) => {
   const {
     index,
-    onMoveRow,
     onRowInputBlur,
     onChange,
     isNewLineRow,
@@ -45,7 +44,6 @@ const ReceiveMoneyDetailRow = (props) => {
     <LineItemTable.Row
       id={index}
       index={index}
-      moveRow={onMoveRow}
       {...feelixInjectedProps}
     >
       <AccountCombobox
@@ -84,7 +82,6 @@ const ReceiveMoneyDetailRow = (props) => {
 
 ReceiveMoneyDetailRow.propTypes = {
   index: PropTypes.number.isRequired,
-  onMoveRow: PropTypes.func.isRequired,
   onRowInputBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   isNewLineRow: PropTypes.bool.isRequired,

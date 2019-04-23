@@ -32,7 +32,6 @@ const ServiceQuoteTableRow = ({
     <LineItemTable.Row
       index={index}
       id={index}
-      moveRow={() => {}}
       {...feelixInjectedProps}
     >
       <Input
