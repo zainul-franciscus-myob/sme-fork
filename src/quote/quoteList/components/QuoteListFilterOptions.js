@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
 import { getCustomerFilterOptions, getFilterOptions, getTotal } from '../quoteListSelector';
-import ContactCombobox from '../../../components/combobox/ContactCombobox';
+import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
 import style from './QuoteListView.css';
 
 class QuoteListFilterOptions extends React.Component {
@@ -47,7 +47,7 @@ class QuoteListFilterOptions extends React.Component {
     return (
       <Fragment>
         <FilterBar>
-          <ContactCombobox
+          <CustomerCombobox
             items={customerFilterOptions}
             selectedId={customerId}
             onChange={this.onComboBoxChange}
@@ -56,10 +56,10 @@ class QuoteListFilterOptions extends React.Component {
             hideLabel={false}
           />
           <FilterBar.Group>
-            <DatePicker label="Issued from" value={dateFrom} onSelect={this.onFilterChange('dateFrom')} />
-            <DatePicker label="Issued to" value={dateTo} onSelect={this.onFilterChange('dateTo')} />
+            <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onFilterChange('dateFrom')} />
+            <DatePicker name="issuedTo" label="Issued to" value={dateTo} onSelect={this.onFilterChange('dateTo')} />
           </FilterBar.Group>
-          <Search label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+          <Search name="search" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
           <FilterBar.Item>
             <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
           </FilterBar.Item>

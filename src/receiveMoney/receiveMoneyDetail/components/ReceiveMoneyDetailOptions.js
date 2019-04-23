@@ -7,51 +7,8 @@ import React, { Component } from 'react';
 
 import { getHeaderOptions } from '../receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
-import Combobox from '../../../components/Feelix/ComboBox/Combobox';
+import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import styles from './ReceiveMoneyDetailOptions.css';
-
-const ContactCombobox = (props) => {
-  const {
-    items,
-    selectedIndex,
-    onChange,
-  } = props;
-
-  const metaData = [
-    { columnName: 'displayId', columnWidth: '10rem' },
-    { columnName: 'displayName', columnWidth: '20rem', showData: true },
-    { columnName: 'contactType', columnWidth: '10rem' },
-  ];
-
-  let selectedItem = {};
-  if (typeof selectedIndex === 'number' && selectedIndex !== -1) {
-    selectedItem = items[selectedIndex];
-  }
-
-  return (
-    <Combobox
-      metaData={metaData}
-      items={items}
-      selected={selectedItem}
-      onChange={onChange}
-      label="Pay from"
-      name="Pay From Contacts"
-      hideLabel={false}
-      hintText="Select contact"
-    />
-  );
-};
-
-ContactCombobox.defaultProps = {
-  selectedIndex: null,
-};
-
-ContactCombobox.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  selectedIndex: PropTypes.number,
-  onChange: PropTypes.func.isRequired,
-};
-
 
 class ReceiveMoneyDetailOptions extends Component {
   handleInputChange = (e) => {
@@ -93,7 +50,7 @@ class ReceiveMoneyDetailOptions extends Component {
         payFromContacts,
         depositIntoAccounts,
         selectedDepositIntoAccountIndex,
-        selectedPayFromContactIndex,
+        selectedPayFromContactId,
       },
     } = this.props;
 
@@ -140,8 +97,12 @@ class ReceiveMoneyDetailOptions extends Component {
         />
         <ContactCombobox
           items={payFromContacts}
-          selectedIndex={selectedPayFromContactIndex}
+          selectedId={selectedPayFromContactId}
           onChange={this.handleComboBoxChange('selectedPayFromContactId')}
+          label="Pay from"
+          name="Pay From Contacts"
+          hideLabel={false}
+          hintText="Select contact"
         />
         <div />
         <TextArea

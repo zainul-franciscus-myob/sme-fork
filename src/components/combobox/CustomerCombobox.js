@@ -3,7 +3,7 @@ import React from 'react';
 
 import Combobox from '../Feelix/ComboBox/Combobox';
 
-const ContactCombobox = (props) => {
+const CustomerCombobox = (props) => {
   const {
     items,
     selectedId,
@@ -12,13 +12,12 @@ const ContactCombobox = (props) => {
   } = props;
 
   const metaData = [
-    { columnName: 'displayId', columnWidth: '10rem' },
-    { columnName: 'displayName', columnWidth: '20rem', showData: true },
-    { columnName: 'contactType', columnWidth: '10rem' },
+    { columnName: 'name', showData: true },
+    { columnName: 'value', columnWidth: '0' },
   ];
 
   const selectedItem = items
-    .find(option => option.id === selectedId) || {};
+    .find(option => option.value === selectedId) || {};
 
   return (
     <Combobox
@@ -31,14 +30,14 @@ const ContactCombobox = (props) => {
   );
 };
 
-ContactCombobox.defaultProps = {
+CustomerCombobox.defaultProps = {
   selectedId: null,
 };
 
-ContactCombobox.propTypes = {
+CustomerCombobox.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selectedId: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 
-export default ContactCombobox;
+export default CustomerCombobox;

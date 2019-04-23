@@ -7,51 +7,8 @@ import React, { Component } from 'react';
 
 import { getHeaderOptions } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
-import Combobox from '../../../components/Feelix/ComboBox/Combobox';
+import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import styles from './SpendMoneyDetailOptions.css';
-
-const ContactCombobox = (props) => {
-  const {
-    items,
-    selectedIndex,
-    onChange,
-  } = props;
-
-  const metaData = [
-    { columnName: 'displayId', columnWidth: '10rem' },
-    { columnName: 'displayName', columnWidth: '20rem', showData: true },
-    { columnName: 'contactType', columnWidth: '10rem' },
-  ];
-
-  let selectedItem = {};
-  if (typeof selectedIndex === 'number') {
-    selectedItem = items[selectedIndex];
-  }
-
-  return (
-    <Combobox
-      metaData={metaData}
-      items={items}
-      selected={selectedItem}
-      onChange={onChange}
-      label="Pay to"
-      name="Pay To Contacts"
-      hideLabel={false}
-      hintText="Select contact"
-    />
-  );
-};
-
-ContactCombobox.defaultProps = {
-  selectedIndex: null,
-};
-
-ContactCombobox.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  selectedIndex: PropTypes.number,
-  onChange: PropTypes.func.isRequired,
-};
-
 
 class SpendMoneyDetailOptions extends Component {
   handleInputChange = (e) => {
@@ -100,7 +57,7 @@ class SpendMoneyDetailOptions extends Component {
         description,
         payToContacts,
         payFromAccounts,
-        selectedPayToContactIndex,
+        selectedPayToContactId,
         selectedPayFromAccountIndex,
       },
     } = this.props;
@@ -130,8 +87,12 @@ class SpendMoneyDetailOptions extends Component {
         />
         <ContactCombobox
           items={payToContacts}
-          selectedIndex={selectedPayToContactIndex}
+          selectedId={selectedPayToContactId}
           onChange={this.handleComboBoxChange('selectedPayToContactId')}
+          label="Pay to"
+          name="Pay To Contacts"
+          hideLabel={false}
+          hintText="Select contact"
         />
         <div className="form-group">
           <div className={styles.checkbox}>

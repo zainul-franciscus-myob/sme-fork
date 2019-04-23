@@ -31,15 +31,12 @@ export const getHeaderOptions = createSelector(getHeadersProperties, (headerProp
   const selectedDepositIntoAccountIndex = depositIntoAccounts.findIndex(
     account => account.id === selectedDepositIntoAccountId,
   );
-  const selectedPayFromContactIndex = payFromContacts.findIndex(
-    contact => contact.id === selectedPayFromContactId,
-  );
 
   return {
     depositIntoAccounts,
     payFromContacts,
     selectedDepositIntoAccountIndex,
-    selectedPayFromContactIndex,
+    selectedPayFromContactId,
     ...headerOptions,
   };
 });

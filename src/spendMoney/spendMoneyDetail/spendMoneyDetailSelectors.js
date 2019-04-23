@@ -2,7 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 const getReferenceId = state => state.spendMoney.referenceId;
 const getSelectedPayFromId = state => state.spendMoney.selectedPayFromAccountId;
-const getSelectedPayToContact = state => state.spendMoney.selectedPayToContactId;
+const getSelectedPayToContactId = state => state.spendMoney.selectedPayToContactId;
 const getPayFromAccounts = state => state.spendMoney.payFromAccounts;
 const getPayToContacts = state => state.spendMoney.payToContacts;
 const getDate = state => state.spendMoney.date;
@@ -13,7 +13,7 @@ const getIsTaxInclusive = state => state.spendMoney.isTaxInclusive;
 const getHeadersProperties = createStructuredSelector({
   referenceId: getReferenceId,
   selectedPayFromAccountId: getSelectedPayFromId,
-  selectedPayToContactId: getSelectedPayToContact,
+  selectedPayToContactId: getSelectedPayToContactId,
   payFromAccounts: getPayFromAccounts,
   payToContacts: getPayToContacts,
   date: getDate,
@@ -31,15 +31,12 @@ export const getHeaderOptions = createSelector(getHeadersProperties, (headerProp
   const selectedPayFromAccountIndex = payFromAccounts.findIndex(
     account => account.id === selectedPayFromAccountId,
   );
-  const selectedPayToContactIndex = payToContacts.findIndex(
-    contact => contact.id === selectedPayToContactId,
-  );
 
   return {
     payFromAccounts,
     payToContacts,
     selectedPayFromAccountIndex,
-    selectedPayToContactIndex,
+    selectedPayToContactId,
     ...headerOptions,
   };
 });

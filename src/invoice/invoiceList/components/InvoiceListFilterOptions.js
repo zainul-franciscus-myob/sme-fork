@@ -12,7 +12,7 @@ import {
   getTotal,
   getTotalDue,
 } from '../invoiceListSelectors';
-import ContactCombobox from '../../../components/combobox/ContactCombobox';
+import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
 import style from './InvoiceListView.css';
 
 class InvoiceListFilterOptions extends React.Component {
@@ -56,7 +56,7 @@ class InvoiceListFilterOptions extends React.Component {
     return (
       <Fragment>
         <FilterBar>
-          <ContactCombobox
+          <CustomerCombobox
             items={customerFilterOptions}
             selectedId={customerId}
             onChange={this.onComboBoxChange}
@@ -70,10 +70,10 @@ class InvoiceListFilterOptions extends React.Component {
             ))}
           </Select>
           <FilterBar.Group>
-            <DatePicker label="Issued from" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
-            <DatePicker label="Issued to" value={dateTo} onSelect={this.onDateChange('dateTo')} />
+            <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
+            <DatePicker name="issuedTo" label="Issued to" value={dateTo} onSelect={this.onDateChange('dateTo')} />
           </FilterBar.Group>
-          <Search label="Search" id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+          <Search name="search" label="Search" id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
           <FilterBar.Item>
             <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
           </FilterBar.Item>

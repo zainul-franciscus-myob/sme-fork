@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
 import { getQuoteOptions } from '../ServiceQuoteSelectors';
-import ContactCombobox from '../../../components/combobox/ContactCombobox';
+import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
 import styles from './ServiceQuoteOptions.css';
 
 const onComboBoxChange = handler => (option) => {
@@ -54,7 +54,7 @@ const ServiceQuoteOptions = (props) => {
 
   return (
     <Fragment>
-      <ContactCombobox
+      <CustomerCombobox
         items={customerOptions}
         selectedId={customerId}
         onChange={onComboBoxChange(onUpdateHeaderOptions)}
