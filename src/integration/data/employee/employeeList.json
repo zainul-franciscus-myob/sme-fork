@@ -1,0 +1,23 @@
+{
+  "sortOrder": "asc",
+  "orderBy": "Name",
+  "entries": [{
+    "id": "124",
+    "name": "Another, One",
+    "email": "one@another.com",
+    "phone": "045334343434",
+    "isActive": true
+  }, {
+    "id": "123",
+    "name": "The builder, Bob",
+    "email": "bob@thebuilder.com.au",
+    "phone": "0455 3434343",
+    "isActive": true
+  }, {
+    "id": "125",
+    "name": "Zebra, Afro",
+    "email": "zebra@madagascar.com",
+    "phone": "+23 23232 1232",
+    "isActive": true
+  }]
+}
