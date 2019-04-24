@@ -1,5 +1,5 @@
 import {
-  Button, Checkbox, FilterBar, Search, Select,
+  Checkbox, FilterBar, Search, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -48,7 +48,7 @@ class ContactListFilterOptions extends React.Component {
     } = this.props;
 
     return (
-      <FilterBar>
+      <FilterBar onApply={onApplyFilter}>
         <Select name="Type" label="Contact type" value={type} onChange={this.onSelectChange}>
           {typeFilterOptions.map(({ label, value }) => (
             <Select.Option value={value} label={label} key={value} />
@@ -57,9 +57,6 @@ class ContactListFilterOptions extends React.Component {
         <Search id="Search_Box" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
         <FilterBar.Item>
           <Checkbox id="Check_Box" name="showInactive" label="Show inactive contacts" checked={showInactive} onChange={this.onCheckboxChange} />
-        </FilterBar.Item>
-        <FilterBar.Item>
-          <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
         </FilterBar.Item>
       </FilterBar>
     );

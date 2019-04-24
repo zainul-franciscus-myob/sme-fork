@@ -1,5 +1,5 @@
 import {
-  Button, DatePicker, FilterBar, Search,
+  DatePicker, FilterBar, Search,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -46,7 +46,7 @@ class QuoteListFilterOptions extends React.Component {
 
     return (
       <Fragment>
-        <FilterBar>
+        <FilterBar onApply={onApplyFilter}>
           <CustomerCombobox
             items={customerFilterOptions}
             selectedId={customerId}
@@ -60,9 +60,6 @@ class QuoteListFilterOptions extends React.Component {
             <DatePicker name="issuedTo" label="Issued to" value={dateTo} onSelect={this.onFilterChange('dateTo')} />
           </FilterBar.Group>
           <Search name="search" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
-          <FilterBar.Item>
-            <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
-          </FilterBar.Item>
         </FilterBar>
         <hr />
         <div className={style.total}>

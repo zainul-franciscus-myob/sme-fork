@@ -1,5 +1,5 @@
 import {
-  Button, DatePicker, FilterBar, Search, Select,
+  DatePicker, FilterBar, Search, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -42,7 +42,7 @@ class TransactionListFilterOptions extends React.Component {
     } = this.props;
 
     return (
-      <FilterBar>
+      <FilterBar onApply={onApplyFilter}>
         <Select name="SourceJournal" label="Source Journal" value={sourceJournal} onChange={this.onSelectChange}>
           {sourceJournalFilterOptions.map(({ label, value }) => (
             <Select.Option value={value} label={label} key={value} />
@@ -53,9 +53,6 @@ class TransactionListFilterOptions extends React.Component {
           <DatePicker label="To" name="dateTo" value={dateTo} onSelect={this.onDatePickerChange('dateTo')} />
         </FilterBar.Group>
         <Search label="Description" name="description" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
-        <FilterBar.Item>
-          <Button type="secondary" onClick={onApplyFilter}>Apply filters</Button>
-        </FilterBar.Item>
       </FilterBar>
     );
   }
