@@ -13,6 +13,7 @@ export const getIsSubmitting = state => state.isSubmitting;
 export const getUser = state => state.user;
 export const getUserId = state => state.userId;
 export const getIsAdvisor = state => state.user.isAdvisor;
+export const getIsLoading = state => state.isLoading;
 
 export const getIsCreating = state => [
   NEW_USER_PATH_COMPONENT,

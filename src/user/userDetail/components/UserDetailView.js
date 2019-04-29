@@ -1,12 +1,13 @@
 import {
   FormTemplate,
+  Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getIsSubmitting, getModalType, getPageHead,
+  getIsLoading, getIsSubmitting, getModalType, getPageHead,
 } from '../userDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
@@ -27,6 +28,7 @@ const UserDetailView = ({
   onSaveButtonClick,
   onDeleteButtonClick,
   isSubmitting,
+  isLoading,
 }) => {
   let modal;
   if (modalType === 'cancel') {
@@ -49,7 +51,7 @@ const UserDetailView = ({
     );
   }
 
-  return (
+  const view = (
     <FormTemplate pageHead={pageHead}>
       {modal}
       <FormCard>
@@ -69,6 +71,10 @@ const UserDetailView = ({
       />
     </FormTemplate>
   );
+
+  return (
+    isLoading ? <Spinner /> : view
+  );
 };
 
 UserDetailView.propTypes = {
@@ -83,12 +89,14 @@ UserDetailView.propTypes = {
   onSaveButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   pageHead: getPageHead(state),
   modalType: getModalType(state),
   isSubmitting: getIsSubmitting(state),
+  isLoading: getIsLoading(state),
 });
 
 export default connect(mapStateToProps)(UserDetailView);
