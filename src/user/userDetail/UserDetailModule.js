@@ -21,6 +21,7 @@ import {
   getRegion,
   getUser,
   getUserForCreate,
+  getUserForUpdate,
   getUserId,
   isPageEdited,
 } from './userDetailSelectors';
@@ -147,7 +148,7 @@ export default class UserDetailModule {
   updateUser = () => {
     const intent = UPDATE_USER;
     const state = this.store.getState();
-    const content = getUser(state);
+    const content = getUserForUpdate(state);
     const urlParams = {
       businessId: getBusinessId(state),
       userId: getUserId(state),

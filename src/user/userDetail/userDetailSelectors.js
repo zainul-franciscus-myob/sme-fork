@@ -42,6 +42,16 @@ export const getUserForCreate = (state) => {
   };
 };
 
+export const getUserForUpdate = (state) => {
+  const { roles, userName, ...strippedUser } = state.user;
+  return {
+    ...strippedUser,
+    roleIds: state.user.roles
+      .filter(role => role.selected)
+      .map(role => Number(role.id)),
+  };
+};
+
 export const getUserDetails = createSelector(
   getUser,
   getIsCreating,
