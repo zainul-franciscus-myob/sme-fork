@@ -115,7 +115,7 @@ const getRoutes = ({
     name: 'user',
     rootPath: '/:region/:businessId/user',
     subRoutes: getUserRoutes({
-      integration, setRootView, popMessages,
+      integration, setRootView, popMessages, pushMessage,
     }),
   },
 ];

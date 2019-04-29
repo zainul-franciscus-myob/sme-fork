@@ -1,7 +1,8 @@
-import UserListModule from './userList.js/UserListModule';
+import UserDetailModule from './userDetail/UserDetailModule';
+import UserListModule from './userList/UserListModule';
 
 const getUserRoutes = ({
-  integration, setRootView, popMessages,
+  integration, setRootView, popMessages, pushMessage,
 }) => {
   const routes = [
     {
@@ -10,6 +11,11 @@ const getUserRoutes = ({
       module: new UserListModule({
         integration, setRootView, popMessages,
       }),
+    },
+    {
+      name: 'userDetail',
+      path: '/:userId',
+      module: new UserDetailModule({ integration, setRootView, pushMessage }),
     },
   ];
 

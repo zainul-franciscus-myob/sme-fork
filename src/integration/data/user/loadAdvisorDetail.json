@@ -7,11 +7,13 @@
     },
     {
       "id": "2",
-      "name": "Administrator"
+      "name": "Administrator",
+      "selected": false
     },
     {
       "id": "3",
-      "name": "Banking"
+      "name": "Banking",
+      "selected": true
     }
   ],
   "isOnlineAdministrator": false,
