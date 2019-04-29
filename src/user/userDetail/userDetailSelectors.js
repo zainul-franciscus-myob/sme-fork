@@ -9,7 +9,6 @@ export const getModalType = state => state.modalType;
 export const isPageEdited = state => state.isPageEdited;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
-export const getIsSubmitting = state => state.isSubmitting;
 export const getUser = state => state.user;
 export const getUserId = state => state.userId;
 export const getIsAdvisor = state => state.user.isAdvisor;
@@ -51,3 +50,6 @@ export const getUserDetails = createSelector(
     isCreating,
   }),
 );
+
+export const getAlertMessage = state => state.alertMessage;
+export const getIsActionsDisabled = state => state.isSubmitting;

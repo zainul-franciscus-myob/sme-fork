@@ -5,7 +5,8 @@ import {
   CLOSE_MODAL,
   CREATE_USER,
   DELETE_USER,
-  OPEN_MODAL, SET_ALERT_MESSAGE,
+  OPEN_MODAL,
+  SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_USER,
@@ -50,6 +51,7 @@ export default class UserDetailModule {
         onUserRolesChange={this.updateSelectedRoles}
         onSaveButtonClick={onSaveButtonClick}
         onDeleteButtonClick={this.openDeleteModal}
+        onDismissAlert={this.dismissAlert}
       />
     );
 
@@ -214,6 +216,13 @@ export default class UserDetailModule {
       alertMessage: errorMessage,
     });
   }
+
+  dismissAlert = () => {
+    this.store.dispatch({
+      intent: SET_ALERT_MESSAGE,
+      alertMessage: '',
+    });
+  };
 
   setSubmittingState = (isSubmitting) => {
     this.store.dispatch({

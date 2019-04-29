@@ -6,21 +6,21 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getIsCreating } from '../userDetailSelectors';
+import { getIsActionsDisabled, getIsCreating } from '../userDetailSelectors';
 
 const UserDetailButtons = ({
   onCancelButtonClick,
   onSaveButtonClick,
   isCreating,
   onDeleteButtonClick,
-  isSubmitting,
+  isActionsDisabled,
 }) => (
   <ButtonRow
     primary={[
-      <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick}>
+      <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
         Cancel
       </Button>,
-      <Button key="save" name="save" type="primary" onClick={onSaveButtonClick}>
+      <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
         {isCreating ? 'Save and Invite' : 'Save'}
       </Button>,
     ]}
@@ -32,7 +32,7 @@ const UserDetailButtons = ({
           name="delete"
           type="secondary"
           onClick={onDeleteButtonClick}
-          disabled={isSubmitting}
+          disabled={isActionsDisabled}
         >
           Delete
         </Button>
@@ -46,11 +46,12 @@ UserDetailButtons.propTypes = {
   onSaveButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
   isCreating: PropTypes.bool.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
+  isActionsDisabled: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
+  isActionsDisabled: getIsActionsDisabled(state),
 });
 
 export default connect(mapStateToProps)(UserDetailButtons);

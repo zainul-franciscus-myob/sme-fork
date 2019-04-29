@@ -29,6 +29,7 @@ const getDefaultState = () => ({
   },
   isLoading: true,
   isSubmitting: false,
+  alertMessage: '',
 });
 
 const resetState = () => (getDefaultState());

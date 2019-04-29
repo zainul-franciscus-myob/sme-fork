@@ -1,4 +1,5 @@
 import {
+  Alert,
   FormTemplate,
   Spinner,
 } from '@myob/myob-widgets';
@@ -7,7 +8,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getIsLoading, getIsSubmitting, getModalType, getPageHead,
+  getAlertMessage, getIsLoading, getModalType, getPageHead,
 } from '../userDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
@@ -27,8 +28,9 @@ const UserDetailView = ({
   onUserRolesChange,
   onSaveButtonClick,
   onDeleteButtonClick,
-  isSubmitting,
   isLoading,
+  alertMessage,
+  onDismissAlert,
 }) => {
   let modal;
   if (modalType === 'cancel') {
@@ -51,8 +53,14 @@ const UserDetailView = ({
     );
   }
 
+  const alertComponent = alertMessage && (
+    <Alert type="danger" onDismiss={onDismissAlert}>
+      {alertMessage}
+    </Alert>
+  );
+
   const view = (
-    <FormTemplate pageHead={pageHead}>
+    <FormTemplate pageHead={pageHead} alert={alertComponent}>
       {modal}
       <FormCard>
         <UserDetailDetailsGroup
@@ -67,7 +75,6 @@ const UserDetailView = ({
         onCancelButtonClick={onCancelButtonClick}
         onSaveButtonClick={onSaveButtonClick}
         onDeleteButtonClick={onDeleteButtonClick}
-        isSubmitting={isSubmitting}
       />
     </FormTemplate>
   );
@@ -88,15 +95,16 @@ UserDetailView.propTypes = {
   onUserRolesChange: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  alertMessage: PropTypes.string.isRequired,
+  onDismissAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   pageHead: getPageHead(state),
   modalType: getModalType(state),
-  isSubmitting: getIsSubmitting(state),
   isLoading: getIsLoading(state),
+  alertMessage: getAlertMessage(state),
 });
 
 export default connect(mapStateToProps)(UserDetailView);
