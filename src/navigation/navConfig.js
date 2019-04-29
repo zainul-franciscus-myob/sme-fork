@@ -15,6 +15,7 @@ export const activeMapping = {
   'inventory/itemList': 'sales',
   'quote/serviceQuote': 'sales',
   'user/userList': 'business',
+  'user/userDetail': 'business',
 };
 
 export const featuresConfig = {

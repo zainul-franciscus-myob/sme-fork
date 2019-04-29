@@ -51,7 +51,7 @@ const UserDetailDetailsGroup = ({
             <Checkbox
               key="isInactive"
               name="isInactive"
-              label="Inactive User"
+              label="Inactive user"
               checked={isInactive}
               onChange={onCheckboxChange(onUserDetailsChange)}
               disabled={!isCreating && isAdmin}

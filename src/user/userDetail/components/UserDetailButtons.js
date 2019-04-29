@@ -21,7 +21,7 @@ const UserDetailButtons = ({
         Cancel
       </Button>,
       <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
-        {isCreating ? 'Save and Invite' : 'Save'}
+        {isCreating ? 'Save and invite' : 'Save'}
       </Button>,
     ]}
     secondary={[

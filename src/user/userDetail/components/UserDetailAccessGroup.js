@@ -60,7 +60,7 @@ const UserDetailAccessGroup = ({
               <RadioButton
                 key="1"
                 name="isReadOnly"
-                label="Create and Edit"
+                label="Create and edit"
                 value="false"
                 checked={!isReadOnly}
                 onChange={onRadioButtonChange(onUserDetailsChange)}
