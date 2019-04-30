@@ -1,0 +1,167 @@
+{
+  "payrollDetails": {
+    "employmentDetails": {
+      "employmentBasis": "Individual",
+      "employmentCateogry": "Permanent",
+      "employmentStatus": "FullTime",
+      "paySlipDelivery": "ToBeEmailed"
+    }
+  },
+  "paymentDetails": {
+    "paymentMethod": "Electronic",
+    "splitPayBetween": "1",
+    "bankAccounts": []
+  },
+  "stateOptions": [
+    {
+      "name": "Blank",
+      "value": "NotSet"
+    },
+    {
+      "name": "AAT",
+      "value": "AAT"
+    },
+    {
+      "name": "ACT",
+      "value": "ACT"
+    },
+    {
+      "name": "VIC",
+      "value": "VIC"
+    }
+  ],
+  "countryOptions": [
+    {
+      "name": "Australia",
+      "value": "Australia"
+    },
+    {
+      "name": "Austria",
+      "value": "Austria"
+    },
+    {
+      "name": "Azerbaijan",
+      "value": "Azerbaijan"
+    },
+    {
+      "name": "Bahamas",
+      "value": "Bahamas"
+    }
+  ],
+  "genderOptions": [
+    {
+      "name": "Blank",
+      "value": "NotSet"
+    },
+    {
+      "name": "Male",
+      "value": "Male"
+    },
+    {
+      "value": "Female",
+      "name": "Female"
+    },
+    {
+      "value": "Indeterminate",
+      "name": "Indeterminate"
+    }
+  ],
+  "employeeBasisOptions": [
+    {
+      "name": "Individual",
+      "value": "Individual"
+    },
+    {
+      "name": "Labour Hire",
+      "value": "LabourHire"
+    },
+    {
+      "name": "Other",
+      "value": "Other"
+    }
+  ],
+  "employeeCategoryOptions": [
+    {
+      "name": "Permanent",
+      "value": "Permanent"
+    },
+    {
+      "name": "Temporary",
+      "value": "Temporary"
+    }
+  ],
+  "employeeStatusOptions": [
+    {
+      "name": "Full time",
+      "value": "FullTime"
+    },
+    {
+      "name": "Part-time",
+      "value": "PartTime"
+    },
+    {
+      "name": "Other",
+      "value": "Other"
+    },
+    {
+      "name": "Casual",
+      "value": "Casual"
+    }
+  ],
+  "payslipDeliveryOptions": [
+    {
+      "name": "To be printed",
+      "value": "ToBePrinted"
+    },
+    {
+      "name": "To be emailed",
+      "value": "ToBeEmailed"
+    },
+    {
+      "name": "To be printed and emailed",
+      "value": "ToBeBrintedAndEmailed"
+    },
+    {
+      "name": "Already printed or sent",
+      "value": "AlreadyPrintedOrSent"
+    }
+  ],
+  "paymentMethodOptions": [
+    {
+      "name": "Electronic",
+      "value": "Electronic"
+    },
+    {
+      "name": "Cheque",
+      "value": "Cheque"
+    },
+    {
+      "name": "Cash",
+      "value": "Cash"
+    }
+  ],
+  "splitNetPayBetweenOptions": [
+    {
+      "name": "1",
+      "value": "1"
+    },
+    {
+      "name": "2",
+      "value": "2"
+    },
+    {
+      "name": "3",
+      "value": "3"
+    }
+  ],
+  "valueOptions": [
+    {
+      "name": "Percentage",
+      "value": "Percent"
+    },
+    {
+      "name": "Dollars",
+      "value": "Dollars"
+    }
+  ]
+}
