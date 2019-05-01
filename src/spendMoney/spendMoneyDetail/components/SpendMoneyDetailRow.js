@@ -36,7 +36,7 @@ const SpendMoneyDetailRow = (props) => {
     selectedAccountIndex,
     taxCodes,
     accounts,
-    selectedTaxCodeIndex,
+    taxCodeId,
   } = data;
 
   return (
@@ -72,7 +72,7 @@ const SpendMoneyDetailRow = (props) => {
       />
       <TaxCodeCombobox
         items={taxCodes}
-        selectedIndex={selectedTaxCodeIndex}
+        selectedId={taxCodeId}
         onChange={eventWrapper('taxCodeId', onChange)}
         disabled={isNewLineRow}
       />

@@ -50,7 +50,6 @@ describe('spendMoneySelectors', () => {
       taxCodes,
       accounts,
       selectedAccountIndex: 0,
-      selectedTaxCodeIndex: 0,
     };
     expect(lineData).toEqual(expectedData);
   });

@@ -26,15 +26,11 @@ export const getSellingDetails = createSelector(
     const allocateToAccountIndex = sellingAccounts.findIndex(
       account => account.id === sellingDetails.allocateToAccountId,
     );
-    const selectedTaxCodeIndex = taxCodes.findIndex(
-      taxCode => taxCode.id === sellingDetails.taxCodeId,
-    );
     return ({
       ...sellingDetails,
       sellingAccounts,
       taxCodes,
       allocateToAccountIndex,
-      selectedTaxCodeIndex,
       taxLabel,
     });
   },
@@ -49,15 +45,12 @@ export const getBuyingDetails = createSelector(
     const allocateToAccountIndex = buyingAccounts.findIndex(
       account => account.id === buyingDetails.allocateToAccountId,
     );
-    const selectedTaxCodeIndex = taxCodes.findIndex(
-      taxCode => taxCode.id === buyingDetails.taxCodeId,
-    );
+
     return ({
       ...buyingDetails,
       buyingAccounts,
       taxCodes,
       allocateToAccountIndex,
-      selectedTaxCodeIndex,
       taxLabel,
     });
   },

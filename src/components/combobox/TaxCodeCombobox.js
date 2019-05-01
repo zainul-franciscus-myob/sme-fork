@@ -6,7 +6,7 @@ import Combobox from '../Feelix/ComboBox/Combobox';
 const TaxCodeCombobox = (props) => {
   const {
     items,
-    selectedIndex,
+    selectedId,
     onChange,
     disabled,
     allowClearSelection,
@@ -24,15 +24,12 @@ const TaxCodeCombobox = (props) => {
   const clearSelectionItem = { displayName: clearSelectionText };
   const completedItems = allowClearSelection ? [clearSelectionItem, ...items] : items;
 
-  let selectedItem = {};
-  if (typeof selectedIndex === 'number' && selectedIndex !== -1) {
-    const index = allowClearSelection ? selectedIndex + 1 : selectedIndex;
-    selectedItem = completedItems[index];
-  }
+  const selectedItem = completedItems
+    .find(option => option.id === selectedId) || {};
 
   const onComboboxChange = (item) => {
     if (item.displayName === clearSelectionText) {
-      onChange({});
+      onChange({ id: '' });
     } else {
       onChange(item);
     }
@@ -52,14 +49,14 @@ const TaxCodeCombobox = (props) => {
 
 TaxCodeCombobox.defaultProps = {
   items: [],
-  selectedIndex: null,
+  selectedId: null,
   disabled: false,
   allowClearSelection: false,
 };
 
 TaxCodeCombobox.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({})),
-  selectedIndex: PropTypes.number,
+  selectedId: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   allowClearSelection: PropTypes.bool,

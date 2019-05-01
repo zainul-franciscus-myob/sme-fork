@@ -40,7 +40,7 @@ const GeneralJournalDetailRow = (props) => {
     selectedAccountIndex,
     taxCodes,
     accounts,
-    selectedTaxCodeIndex,
+    taxCodeId,
   } = data;
 
   return (
@@ -87,7 +87,7 @@ const GeneralJournalDetailRow = (props) => {
       />
       <TaxCodeCombobox
         items={taxCodes}
-        selectedIndex={selectedTaxCodeIndex}
+        selectedId={taxCodeId}
         onChange={eventWrapper('taxCodeId', onChange)}
         disabled={isNewLineRow}
       />

@@ -19,14 +19,12 @@ export const getQuoteLine = createSelector(
 
     const {
       allocatedAccountId,
-      taxCodeId,
       ...rest
     } = line;
 
     return {
       ...rest,
       selectedAccountIndex: rest.accounts.findIndex(account => account.id === allocatedAccountId),
-      selectedTaxCodeIndex: rest.taxCodes.findIndex(taxCode => taxCode.id === taxCodeId),
     };
   },
 );

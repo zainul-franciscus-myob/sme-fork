@@ -36,7 +36,7 @@ const SellingDetails = ({
   taxLabel,
   allocateToAccountIndex,
   onSellingDetailsChange,
-  selectedTaxCodeIndex,
+  taxCodeId,
 }) => (
   <FieldGroup label="Selling Details">
     <AccountCombobox
@@ -56,7 +56,7 @@ const SellingDetails = ({
     />
     <TaxCodeCombobox
       items={taxCodes}
-      selectedIndex={selectedTaxCodeIndex}
+      selectedId={taxCodeId}
       label={taxLabel}
       allowClearSelection
       onChange={handleComboboxChange('taxCodeId', onSellingDetailsChange)}
@@ -88,7 +88,7 @@ SellingDetails.propTypes = {
   taxLabel: PropTypes.string.isRequired,
   onSellingDetailsChange: PropTypes.func.isRequired,
   allocateToAccountIndex: PropTypes.number.isRequired,
-  selectedTaxCodeIndex: PropTypes.number.isRequired,
+  taxCodeId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => getSellingDetails(state);

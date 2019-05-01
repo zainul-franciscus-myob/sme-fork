@@ -24,7 +24,7 @@ const ServiceQuoteTableRow = ({
     accounts,
     selectedAccountIndex,
     taxCodes,
-    selectedTaxCodeIndex,
+    taxCodeId,
     amount,
   } = quoteLine;
 
@@ -49,7 +49,7 @@ const ServiceQuoteTableRow = ({
       <TaxCodeCombobox
         onChange={onComboboxChange('taxCodeId', onChange)}
         items={taxCodes}
-        selectedIndex={selectedTaxCodeIndex}
+        selectedId={taxCodeId}
       />
       <Input
         label="Amount"

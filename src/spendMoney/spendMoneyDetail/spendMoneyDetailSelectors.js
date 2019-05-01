@@ -68,7 +68,6 @@ export const getLineDataByIndexSelector = () => createSelector(
         taxCodes,
         accounts,
         selectedAccountIndex: accounts.findIndex(({ id }) => id === accountId),
-        selectedTaxCodeIndex: taxCodes.findIndex(({ id }) => id === taxCodeId),
       });
     }
     return formatedLine;
