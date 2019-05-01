@@ -2,7 +2,7 @@
   "contactDetail": {
     "firstName": "Bob",
     "lastName": "The builder",
-    "adddress": "43 ABC lane",
+    "address": "43 ABC lane",
     "suburb": "Suburb",
     "state": "VIC",
     "postcode": "3456",
@@ -23,7 +23,7 @@
       "startDate": "2003-03-13",
       "terminationDate": "",
       "employmentBasis": "Individual",
-      "employmentCateogry": "Permanent",
+      "employmentCategory": "Permanent",
       "employmentStatus": "FullTime",
       "paySlipDelivery": "ToBeEmailed",
       "paySlipEmail": "bob@thebuilder.com"
@@ -155,7 +155,7 @@
     },
     {
       "name": "To be printed and emailed",
-      "value": "ToBeBrintedAndEmailed"
+      "value": "ToBePrintedAndEmailed"
     },
     {
       "name": "Already printed or sent",
