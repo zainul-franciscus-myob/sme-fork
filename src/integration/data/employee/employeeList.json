@@ -12,7 +12,7 @@
     "name": "The builder, Bob",
     "email": "bob@thebuilder.com.au",
     "phone": "0455 3434343",
-    "isActive": true
+    "isActive": false
   }, {
     "id": "125",
     "name": "Zebra, Afro",

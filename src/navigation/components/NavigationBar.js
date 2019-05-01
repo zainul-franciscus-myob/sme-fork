@@ -4,24 +4,26 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  hasBankingUrls, hasBusinessId, hasContactUrls, hasJournalUrls, hasSalesUrls,
+  hasBankingUrls, hasBusinessId, hasContactUrls, hasJournalUrls, hasPayrollUrls, hasSalesUrls,
 } from '../NavigationSelectors';
 import BankingMenu from './BankingMenu';
 import BusinessMenu from './BusinessMenu';
 import ContactMenu from './ContactMenu';
 import JournalMenu from './JournalMenu';
 import Logout from './Logout';
+import PayrollMenu from './PayrollMenu';
 import SalesMenu from './SalesMenu';
 import SwitchBusiness from './SwitchBusiness';
 
 const getPrimary = ({
   onMenuSelect, shouldDisplaySalesMenu, shouldDisplayBankingMenu,
-  shouldDisplayContactMenu, shouldDisplayJournalMenu,
+  shouldDisplayContactMenu, shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
 }) => [
   shouldDisplaySalesMenu && <SalesMenu key="SalesMenu" onMenuSelect={onMenuSelect} />,
   shouldDisplayBankingMenu && <BankingMenu key="BankingMenu" onMenuSelect={onMenuSelect} />,
   shouldDisplayContactMenu && <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} />,
   shouldDisplayJournalMenu && <JournalMenu key="JournalMenu" onMenuSelect={onMenuSelect} />,
+  shouldDisplayPayrollMenu && <PayrollMenu key="PayrollMenu" onMenuSelect={onMenuSelect} />,
 ].filter(Boolean);
 
 const getSecondary = ({
@@ -34,7 +36,8 @@ const getSecondary = ({
 
 const NavigationBar = ({
   onMenuSelect, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
-  shouldDisplayBankingMenu, shouldDisplayContactMenu, shouldDisplayJournalMenu,
+  shouldDisplayBankingMenu, shouldDisplayContactMenu,
+  shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
@@ -42,6 +45,7 @@ const NavigationBar = ({
     shouldDisplayBankingMenu,
     shouldDisplayContactMenu,
     shouldDisplayJournalMenu,
+    shouldDisplayPayrollMenu,
   });
   const secondary = getSecondary({ onMenuSelect, shouldDisplayBusinessMenu });
   const brand = <Navigation.Brand url="#/business" width="73px"><MYOBLogo /></Navigation.Brand>;
@@ -60,6 +64,7 @@ NavigationBar.propTypes = {
   shouldDisplayContactMenu: PropTypes.bool.isRequired,
   shouldDisplayJournalMenu: PropTypes.bool.isRequired,
   shouldDisplaySalesMenu: PropTypes.bool.isRequired,
+  shouldDisplayPayrollMenu: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -68,6 +73,7 @@ const mapStateToProps = state => ({
   shouldDisplayContactMenu: hasContactUrls(state),
   shouldDisplayJournalMenu: hasJournalUrls(state),
   shouldDisplaySalesMenu: hasSalesUrls(state),
+  shouldDisplayPayrollMenu: hasPayrollUrls(state),
 });
 
 export default connect(mapStateToProps)(NavigationBar);

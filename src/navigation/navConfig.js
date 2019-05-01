@@ -5,6 +5,7 @@ export const activeMapping = {
   'transactionList/transactionList': 'banking',
   'contact/contactDetail': 'contact',
   'contact/contactList': 'contact',
+  'employee/employeeList': 'payroll',
   'generalJournal/generalJournalDetail': 'journals',
   'incomeAllocation/incomeAllocation': 'business',
   'business/businessDetail': 'business',
@@ -48,6 +49,9 @@ export const featuresConfig = {
   },
   contactList: {
     routeName: 'contact/contactList',
+  },
+  employeeList: {
+    routeName: 'employee/employeeList',
   },
   generalJournal: {
     routeName: 'generalJournal/generalJournalDetail',

@@ -43,6 +43,17 @@ export const hasSalesUrls = createSelector(
   urls => Object.values(urls).some(Boolean),
 );
 
+export const getPayrollUrls = createSelector(
+  getEnabledUrls,
+  enabledUrls => ({
+    employeeList: enabledUrls.employeeList,
+  }),
+);
+export const hasPayrollUrls = createSelector(
+  getPayrollUrls,
+  urls => Object.values(urls).some(Boolean),
+);
+
 export const getBankingUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
