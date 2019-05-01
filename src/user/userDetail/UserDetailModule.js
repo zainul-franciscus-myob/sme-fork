@@ -19,7 +19,6 @@ import {
   getBusinessId,
   getIsCreating, getLoadUserIntent,
   getRegion,
-  getUser,
   getUserForCreate,
   getUserForUpdate,
   getUserId,
@@ -204,7 +203,7 @@ export default class UserDetailModule {
       intent: DELETE_USER,
       urlParams: {
         businessId: getBusinessId(state),
-        userId: getUser(state),
+        userId: getUserId(state),
       },
       onSuccess,
       onFailure,
