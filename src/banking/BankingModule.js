@@ -139,12 +139,13 @@ export default class BankingModule {
 
     const intent = UNALLOCATE_TRANSACTION;
 
-    const onSuccess = () => {
+    const onSuccess = (payload) => {
       this.setEntryLoadingState(index, false);
 
       this.store.dispatch({
         intent,
         index,
+        ...payload,
       });
     };
 

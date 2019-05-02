@@ -1,7 +1,7 @@
-import {
-  Button, Spinner, Table,
-} from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
+import {
+  Spinner, Table,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -27,23 +27,12 @@ const getMatchedOrAllocatedRowItem = ({
   const {
     type,
     isLoading,
-    isUnallocated,
   } = entry;
 
   if (isLoading) {
     return (
       <Table.RowItem {...tableConfig.allocateOrMatch}>
         <Spinner size="small" />
-      </Table.RowItem>
-    );
-  }
-
-  if (isUnallocated) {
-    return (
-      <Table.RowItem {...tableConfig.allocateOrMatch}>
-        <div className={style.buttonLinkWrapper}>
-          <Button type="link" onClick={() => {}}>Matches available</Button>
-        </div>
       </Table.RowItem>
     );
   }

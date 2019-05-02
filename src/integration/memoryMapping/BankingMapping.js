@@ -7,12 +7,12 @@ import {
 import allocatedBankTransaction from '../data/banking/allocatedBankTransaction';
 import bankTransactions from '../data/banking/loadBankTransactions';
 import filteredBankTransactions from '../data/banking/sortAndFilterBankTransactions';
-import success from '../data/success';
+import unallocatedBankTransaction from '../data/banking/unallocatedBankTransaction';
 
 const loadBankTransactions = ({ onSuccess }) => onSuccess(bankTransactions);
 const filterBankTransactions = ({ onSuccess }) => onSuccess(filteredBankTransactions);
 const allocateBankTransaction = ({ onSuccess }) => onSuccess(allocatedBankTransaction);
-const unallocateBankTransaction = ({ onSuccess }) => onSuccess(success);
+const unallocateBankTransaction = ({ onSuccess }) => onSuccess(unallocatedBankTransaction);
 
 const BankingMappings = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,

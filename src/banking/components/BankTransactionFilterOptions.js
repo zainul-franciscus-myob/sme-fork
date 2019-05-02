@@ -90,7 +90,7 @@ class BankTransactionFilterOptions extends React.Component {
 
             {dateRangeFilter}
           </FilterBar.Group>
-          <Search id="Search_Box" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+          <Search id="Search_Box" name="Search" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
         </FilterBar>
         <hr />
         <div className={styles.balances}>

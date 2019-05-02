@@ -145,10 +145,10 @@ const allocateTransaction = (state, action) => ({
       index === action.index
         ? {
           ...entry,
-          isUnallocated: false,
           allocateOrMatch: action.allocateOrMatch,
           journalLineId: action.journalLineId,
           type: action.type,
+          taxCode: action.taxCode,
         }
         : entry
     ),
@@ -162,9 +162,10 @@ const unallocateTransaction = (state, action) => ({
       index === action.index
         ? {
           ...entry,
-          isUnallocated: true,
-          allocateOrMatch: '',
+          allocateOrMatch: action.allocateOrMatch,
           journalLineId: '',
+          type: action.type,
+          taxCode: '',
         }
         : entry
     ),
