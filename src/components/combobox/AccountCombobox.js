@@ -6,7 +6,7 @@ import Combobox from '../Feelix/ComboBox/Combobox';
 const AccountCombobox = (props) => {
   const {
     items,
-    selectedIndex,
+    selectedId,
     onChange,
     allowClearSelection,
     ...otherProps
@@ -27,15 +27,11 @@ const AccountCombobox = (props) => {
     ? [clearSelectionItem, ...formattedItems]
     : formattedItems;
 
-  let selectedItem = {};
-  if (typeof selectedIndex === 'number' && selectedIndex !== -1) {
-    const index = allowClearSelection ? selectedIndex + 1 : selectedIndex;
-    selectedItem = completedItems[index];
-  }
+  const selectedItem = completedItems.find(option => option.id === selectedId) || {};
 
   const onComboboxChange = (item) => {
     if (item.displayId === clearSelectionText) {
-      onChange({});
+      onChange({ id: '' });
     } else {
       onChange(item);
     }
@@ -53,13 +49,13 @@ const AccountCombobox = (props) => {
 };
 
 AccountCombobox.defaultProps = {
-  selectedIndex: null,
+  selectedId: null,
   allowClearSelection: false,
 };
 
 AccountCombobox.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  selectedIndex: PropTypes.number,
+  selectedId: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   allowClearSelection: PropTypes.bool,
 };

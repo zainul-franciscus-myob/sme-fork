@@ -61,7 +61,6 @@ export const getLineDataByIndexSelector = () => createSelector(
         taxCodeId,
         taxCodes,
         accounts,
-        selectedAccountIndex: accounts.findIndex(({ id }) => id === accountId),
         isCreditDisabled: disabledField === 'credit',
         isDebitDisabled: disabledField === 'debit',
       });

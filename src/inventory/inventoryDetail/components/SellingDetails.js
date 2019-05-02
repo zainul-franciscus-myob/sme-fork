@@ -34,7 +34,7 @@ const SellingDetails = ({
   isTaxInclusive,
   unitOfMeasure,
   taxLabel,
-  allocateToAccountIndex,
+  allocateToAccountId,
   onSellingDetailsChange,
   taxCodeId,
 }) => (
@@ -43,7 +43,7 @@ const SellingDetails = ({
       label="Allocated to"
       hideLabel={false}
       items={sellingAccounts}
-      selectedIndex={allocateToAccountIndex}
+      selectedId={allocateToAccountId}
       allowClearSelection
       onChange={handleComboboxChange('allocateToAccountId', onSellingDetailsChange)}
     />
@@ -87,7 +87,7 @@ SellingDetails.propTypes = {
   isTaxInclusive: PropTypes.bool.isRequired,
   taxLabel: PropTypes.string.isRequired,
   onSellingDetailsChange: PropTypes.func.isRequired,
-  allocateToAccountIndex: PropTypes.number.isRequired,
+  allocateToAccountId: PropTypes.string.isRequired,
   taxCodeId: PropTypes.string.isRequired,
 };
 

@@ -8,7 +8,7 @@ import React from 'react';
 import {
   getBalances,
   getBankAccounts,
-  getFormattedFilterOptions,
+  getFilterOptions,
   getShouldDisplayDateRange,
   getTransactionTypes,
 } from '../bankingSelectors';
@@ -49,7 +49,7 @@ class BankTransactionFilterOptions extends React.Component {
         transactionType,
         dateFrom,
         dateTo,
-        selectedBankAccountIndex,
+        bankAccount,
         keywords,
       },
       balances: {
@@ -75,7 +75,7 @@ class BankTransactionFilterOptions extends React.Component {
         <FilterBar onApply={onApplyFilter}>
           <AccountCombobox
             items={bankAccounts}
-            selectedIndex={selectedBankAccountIndex}
+            selectedId={bankAccount}
             onChange={this.onComboBoxChange}
             label="Bank account"
             hideLabel={false}
@@ -115,7 +115,7 @@ BankTransactionFilterOptions.propTypes = {
 
 const mapStateToProps = state => ({
   balances: getBalances(state),
-  filterOptions: getFormattedFilterOptions(state),
+  filterOptions: getFilterOptions(state),
   transactionTypes: getTransactionTypes(state),
   bankAccounts: getBankAccounts(state),
   shouldDisplayDateRange: getShouldDisplayDateRange(state),

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { getBalance, getTransferMoneyData } from '../transferMoneyDetailSelectors';
+import { getBalance, getTransferMoneyProperties } from '../transferMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import styles from './TransferMoneyDetailForm.css';
 
@@ -34,8 +34,8 @@ class TransferMoneyDetailForm extends Component {
     const {
       transferMoney: {
         referenceId, accounts, date, amount, description,
-        selectedTransferFromAccountIndex,
-        selectedTransferToAccountIndex,
+        selectedTransferFromAccountId,
+        selectedTransferToAccountId,
       },
       balance: {
         transferFrom,
@@ -65,7 +65,7 @@ class TransferMoneyDetailForm extends Component {
             label="Transfer from"
             hideLabel={false}
             items={accounts}
-            selectedIndex={selectedTransferFromAccountIndex}
+            selectedId={selectedTransferFromAccountId}
             onChange={this.handleComboBoxChange('selectedTransferFromAccountId')}
             disabled={!isCreating}
             hintText="Select account"
@@ -80,7 +80,7 @@ class TransferMoneyDetailForm extends Component {
             label="Transfer to"
             hideLabel={false}
             items={accounts}
-            selectedIndex={selectedTransferToAccountIndex}
+            selectedId={selectedTransferToAccountId}
             onChange={this.handleComboBoxChange('selectedTransferToAccountId')}
             disabled={!isCreating}
             hintText="Select account"
@@ -115,8 +115,8 @@ TransferMoneyDetailForm.propTypes = {
     accounts: PropTypes.arrayOf(PropTypes.shape()),
     date: PropTypes.string,
     amount: PropTypes.string,
-    selectedTransferFromAccountIndex: PropTypes.number,
-    selectedTransferToAccountIndex: PropTypes.number,
+    selectedTransferFromAccountId: PropTypes.string,
+    selectedTransferToAccountId: PropTypes.string,
     description: PropTypes.string,
   }).isRequired,
   balance: PropTypes.shape({
@@ -127,7 +127,7 @@ TransferMoneyDetailForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  transferMoney: getTransferMoneyData(state),
+  transferMoney: getTransferMoneyProperties(state),
   balance: getBalance(state),
 });
 

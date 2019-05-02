@@ -37,7 +37,7 @@ const GeneralJournalDetailRow = (props) => {
     description = '',
     isCreditDisabled = false,
     isDebitDisabled = false,
-    selectedAccountIndex,
+    accountId,
     taxCodes,
     accounts,
     taxCodeId,
@@ -51,7 +51,7 @@ const GeneralJournalDetailRow = (props) => {
     >
       <AccountCombobox
         items={accounts}
-        selectedIndex={selectedAccountIndex}
+        selectedId={accountId}
         onChange={eventWrapper('accountId', onChange)}
       />
       <Input

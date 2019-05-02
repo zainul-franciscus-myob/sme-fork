@@ -37,9 +37,9 @@ describe('incomeAllocationSelectors', () => {
       const lineByIndexSelector = getLineDataByIndexSelector();
 
       const expected = {
-        headerAccountIndex: 0,
-        retainedEarningsAccountIndex: 0,
-        currentEarningsAccountIndex: 0,
+        headerAccountId: '1',
+        retainedEarningsAccountId: '2',
+        currentEarningsAccountId: '3',
         equity: '100',
         headerAccounts: [{ id: '1' }],
         retainedEarningsAccounts: [{ id: '2', isActive: false }, { id: '3', isActive: true }],

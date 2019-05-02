@@ -49,7 +49,6 @@ describe('spendMoneySelectors', () => {
       description: '',
       taxCodes,
       accounts,
-      selectedAccountIndex: 0,
     };
     expect(lineData).toEqual(expectedData);
   });

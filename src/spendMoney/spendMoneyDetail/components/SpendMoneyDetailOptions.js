@@ -58,7 +58,7 @@ class SpendMoneyDetailOptions extends Component {
         payToContacts,
         payFromAccounts,
         selectedPayToContactId,
-        selectedPayFromAccountIndex,
+        selectedPayFromAccountId,
       },
     } = this.props;
 
@@ -82,7 +82,7 @@ class SpendMoneyDetailOptions extends Component {
           label="Pay from"
           hideLabel={false}
           items={payFromAccounts}
-          selectedIndex={selectedPayFromAccountIndex}
+          selectedId={selectedPayFromAccountId}
           onChange={this.handleComboBoxChange('selectedPayFromAccountId')}
         />
         <ContactCombobox

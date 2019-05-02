@@ -49,7 +49,7 @@ class ReceiveMoneyDetailOptions extends Component {
         description,
         payFromContacts,
         depositIntoAccounts,
-        selectedDepositIntoAccountIndex,
+        selectedDepositIntoAccountId,
         selectedPayFromContactId,
       },
     } = this.props;
@@ -92,7 +92,7 @@ class ReceiveMoneyDetailOptions extends Component {
           label="Deposit into"
           hideLabel={false}
           items={depositIntoAccounts}
-          selectedIndex={selectedDepositIntoAccountIndex}
+          selectedId={selectedDepositIntoAccountId}
           onChange={this.handleComboBoxChange('selectedDepositIntoAccountId')}
         />
         <ContactCombobox

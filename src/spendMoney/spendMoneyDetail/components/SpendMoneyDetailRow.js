@@ -33,7 +33,7 @@ const SpendMoneyDetailRow = (props) => {
   const {
     amount = '',
     description = '',
-    selectedAccountIndex,
+    accountId,
     taxCodes,
     accounts,
     taxCodeId,
@@ -47,7 +47,7 @@ const SpendMoneyDetailRow = (props) => {
     >
       <AccountCombobox
         items={accounts}
-        selectedIndex={selectedAccountIndex}
+        selectedId={accountId}
         onChange={eventWrapper('accountId', onChange)}
       />
       <Input

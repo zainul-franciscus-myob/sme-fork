@@ -32,11 +32,11 @@ const IncomeAllocationRow = (props) => {
 
   const {
     headerAccounts,
-    headerAccountIndex,
+    headerAccountId,
     retainedEarningsAccounts,
-    retainedEarningsAccountIndex,
+    retainedEarningsAccountId,
     currentEarningsAccounts,
-    currentEarningsAccountIndex,
+    currentEarningsAccountId,
     equity = '',
   } = data;
 
@@ -48,18 +48,18 @@ const IncomeAllocationRow = (props) => {
     >
       <AccountCombobox
         items={headerAccounts}
-        selectedIndex={headerAccountIndex}
+        selectedId={headerAccountId}
         onChange={eventWrapper('headerAccountId', onChange)}
       />
       <AccountCombobox
         items={retainedEarningsAccounts}
-        selectedIndex={retainedEarningsAccountIndex}
+        selectedId={retainedEarningsAccountId}
         onChange={eventWrapper('retainedEarningsAccountId', onChange)}
         disabled={isNewLineRow}
       />
       <AccountCombobox
         items={currentEarningsAccounts}
-        selectedIndex={currentEarningsAccountIndex}
+        selectedId={currentEarningsAccountId}
         onChange={eventWrapper('currentEarningsAccountId', onChange)}
         disabled={isNewLineRow}
       />

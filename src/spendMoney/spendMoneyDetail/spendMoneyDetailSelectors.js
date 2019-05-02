@@ -25,18 +25,12 @@ const getHeadersProperties = createStructuredSelector({
 export const getHeaderOptions = createSelector(getHeadersProperties, (headerProps) => {
   const {
     payFromAccounts = [], payToContacts = [],
-    selectedPayToContactId, selectedPayFromAccountId,
     ...headerOptions
   } = headerProps;
-  const selectedPayFromAccountIndex = payFromAccounts.findIndex(
-    account => account.id === selectedPayFromAccountId,
-  );
 
   return {
     payFromAccounts,
     payToContacts,
-    selectedPayFromAccountIndex,
-    selectedPayToContactId,
     ...headerOptions,
   };
 });
@@ -52,26 +46,7 @@ export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
 
 export const getLineDataByIndexSelector = () => createSelector(
   (state, props) => state.spendMoney.lines[props.index],
-  ((line) => {
-    let formatedLine = {};
-    if (line) {
-      const {
-        accountId, taxCodeId, taxCodes, accounts, amount, description, taxAmount,
-      } = line;
-
-      formatedLine = ({
-        amount,
-        taxAmount,
-        description,
-        accountId,
-        taxCodeId,
-        taxCodes,
-        accounts,
-        selectedAccountIndex: accounts.findIndex(({ id }) => id === accountId),
-      });
-    }
-    return formatedLine;
-  }),
+  (line => line || {}),
 );
 
 const getLength = state => state.spendMoney.lines.length;

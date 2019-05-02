@@ -22,18 +22,12 @@ export const getSellingDetails = createSelector(
   getSellingAccounts,
   getTaxCodes,
   getTaxLabel,
-  (sellingDetails, sellingAccounts, taxCodes, taxLabel) => {
-    const allocateToAccountIndex = sellingAccounts.findIndex(
-      account => account.id === sellingDetails.allocateToAccountId,
-    );
-    return ({
-      ...sellingDetails,
-      sellingAccounts,
-      taxCodes,
-      allocateToAccountIndex,
-      taxLabel,
-    });
-  },
+  (sellingDetails, sellingAccounts, taxCodes, taxLabel) => ({
+    ...sellingDetails,
+    sellingAccounts,
+    taxCodes,
+    taxLabel,
+  }),
 );
 
 export const getBuyingDetails = createSelector(
@@ -41,19 +35,12 @@ export const getBuyingDetails = createSelector(
   getBuyingAccounts,
   getTaxCodes,
   getTaxLabel,
-  (buyingDetails, buyingAccounts, taxCodes, taxLabel) => {
-    const allocateToAccountIndex = buyingAccounts.findIndex(
-      account => account.id === buyingDetails.allocateToAccountId,
-    );
-
-    return ({
-      ...buyingDetails,
-      buyingAccounts,
-      taxCodes,
-      allocateToAccountIndex,
-      taxLabel,
-    });
-  },
+  (buyingDetails, buyingAccounts, taxCodes, taxLabel) => ({
+    ...buyingDetails,
+    buyingAccounts,
+    taxCodes,
+    taxLabel,
+  }),
 );
 
 export const getBusinessId = state => state.businessId;

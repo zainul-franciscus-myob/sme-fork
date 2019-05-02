@@ -25,18 +25,12 @@ const getHeadersProperties = createStructuredSelector({
 export const getHeaderOptions = createSelector(getHeadersProperties, (headerProps) => {
   const {
     depositIntoAccounts = [], payFromContacts = [],
-    selectedPayFromContactId, selectedDepositIntoAccountId,
     ...headerOptions
   } = headerProps;
-  const selectedDepositIntoAccountIndex = depositIntoAccounts.findIndex(
-    account => account.id === selectedDepositIntoAccountId,
-  );
 
   return {
     depositIntoAccounts,
     payFromContacts,
-    selectedDepositIntoAccountIndex,
-    selectedPayFromContactId,
     ...headerOptions,
   };
 });
@@ -67,7 +61,6 @@ export const getLineDataByIndexSelector = () => createSelector(
         taxCodeId,
         taxCodes,
         accounts,
-        selectedAccountIndex: accounts.findIndex(({ id }) => id === accountId),
       });
     }
     return formatedLine;

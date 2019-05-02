@@ -27,7 +27,7 @@ const BuyingDetails = ({
   unitOfMeasure,
   taxLabel,
   onBuyingDetailsChange,
-  allocateToAccountIndex,
+  allocateToAccountId,
   taxCodeId,
 }) => (
   <FieldGroup label="Buying Details">
@@ -35,7 +35,7 @@ const BuyingDetails = ({
       label="Allocated to"
       hideLabel={false}
       items={buyingAccounts}
-      selectedIndex={allocateToAccountIndex}
+      selectedId={allocateToAccountId}
       allowClearSelection
       onChange={handleComboboxChange('allocateToAccountId', onBuyingDetailsChange)}
     />
@@ -71,7 +71,7 @@ BuyingDetails.propTypes = {
   unitOfMeasure: PropTypes.string.isRequired,
   taxLabel: PropTypes.string.isRequired,
   onBuyingDetailsChange: PropTypes.func.isRequired,
-  allocateToAccountIndex: PropTypes.number.isRequired,
+  allocateToAccountId: PropTypes.string.isRequired,
   taxCodeId: PropTypes.string.isRequired,
 };
 

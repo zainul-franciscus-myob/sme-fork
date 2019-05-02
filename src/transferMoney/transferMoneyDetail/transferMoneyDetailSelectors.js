@@ -9,7 +9,7 @@ const getSelectedTransferFromAccountId = state => state.transferMoney.selectedTr
 const getSelectedTransferToAccountId = state => state.transferMoney.selectedTransferToAccountId;
 const getDescription = state => state.transferMoney.description;
 
-const getTransferMoneyProperties = createStructuredSelector({
+export const getTransferMoneyProperties = createStructuredSelector({
   referenceId: getReferenceId,
   originalReferenceId: getOriginalReferenceId,
   date: getDate,
@@ -19,30 +19,6 @@ const getTransferMoneyProperties = createStructuredSelector({
   selectedTransferToAccountId: getSelectedTransferToAccountId,
   description: getDescription,
 });
-
-export const getTransferMoneyData = createSelector(getTransferMoneyProperties,
-  (transferMoneyProps) => {
-    const {
-      accounts,
-      selectedTransferFromAccountId,
-      selectedTransferToAccountId,
-      ...rest
-    } = transferMoneyProps;
-
-    const selectedTransferFromAccountIndex = accounts.findIndex(
-      account => account.id === selectedTransferFromAccountId,
-    );
-    const selectedTransferToAccountIndex = accounts.findIndex(
-      account => account.id === selectedTransferToAccountId,
-    );
-
-    return {
-      ...rest,
-      accounts,
-      selectedTransferFromAccountIndex,
-      selectedTransferToAccountIndex,
-    };
-  });
 
 const formatNumber = amount => Intl.NumberFormat('en-AU',
   { style: 'decimal', minimumFractionDigits: '2', maximumFractionDigits: '2' }).format(amount);

@@ -20,20 +20,6 @@ export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilt
 
 export const getBankAccounts = state => state.bankAccounts;
 
-export const getFormattedFilterOptions = createSelector(
-  getFilterOptions,
-  getBankAccounts,
-  (filterOptions, bankAccounts) => {
-    const selectedBankAccountIndex = bankAccounts.findIndex(
-      ({ id }) => id === filterOptions.bankAccount,
-    );
-    return ({
-      ...filterOptions,
-      selectedBankAccountIndex,
-    });
-  },
-);
-
 export const getEntries = state => state.entries;
 
 export const getBusinessId = state => state.businessId;

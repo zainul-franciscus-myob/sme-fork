@@ -34,7 +34,7 @@ const ReceiveMoneyDetailRow = (props) => {
   const {
     amount = '',
     description = '',
-    selectedAccountIndex,
+    accountId,
     taxCodes,
     accounts,
     taxCodeId,
@@ -48,7 +48,7 @@ const ReceiveMoneyDetailRow = (props) => {
     >
       <AccountCombobox
         items={accounts}
-        selectedIndex={selectedAccountIndex}
+        selectedId={accountId}
         onChange={eventWrapper('accountId', onChange)}
       />
       <Input

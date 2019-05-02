@@ -14,19 +14,7 @@ export const getLineByIndex = (state, props) => state.quote.lines[props.index];
 export const getQuoteLine = createSelector(
   getNewLine,
   getLineByIndex,
-  (newLine, line) => {
-    if (!line) return newLine;
-
-    const {
-      allocatedAccountId,
-      ...rest
-    } = line;
-
-    return {
-      ...rest,
-      selectedAccountIndex: rest.accounts.findIndex(account => account.id === allocatedAccountId),
-    };
-  },
+  (newLine, line) => line || newLine,
 );
 
 const getLength = state => state.quote.lines.length;

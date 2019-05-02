@@ -52,10 +52,6 @@ const getDetailAccounts = (headerAccountId, accounts) => {
   return selectedHeaderAccount.detailAccounts || [];
 };
 
-const getAccountIndex = (accountId, accounts) => accounts.findIndex(
-  ({ id }) => id === accountId,
-);
-
 const getFilteredAccountOptions = (detailAccounts, originalSelectedAccountId) => (
   detailAccounts.filter(({ isActive, id }) => isActive || id === originalSelectedAccountId)
 );
@@ -80,26 +76,18 @@ export const getLineDataByIndexSelector = () => createSelector(
 
     const detailAccounts = getDetailAccounts(headerAccountId, accounts);
 
-    const headerAccountIndex = getAccountIndex(headerAccountId, headerAccounts);
-
     const retainedEarningsAccounts = getFilteredAccountOptions(
       detailAccounts, originalRetainedEarningsAccountId,
-    );
-    const retainedEarningsAccountIndex = getAccountIndex(
-      retainedEarningsAccountId, retainedEarningsAccounts,
     );
 
     const currentEarningsAccounts = getFilteredAccountOptions(
       detailAccounts, originalCurrentEarningsAccountId,
     );
-    const currentEarningsAccountIndex = getAccountIndex(
-      currentEarningsAccountId, currentEarningsAccounts,
-    );
 
     return ({
-      headerAccountIndex,
-      retainedEarningsAccountIndex,
-      currentEarningsAccountIndex,
+      headerAccountId,
+      retainedEarningsAccountId,
+      currentEarningsAccountId,
       equity,
       headerAccounts,
       retainedEarningsAccounts,
