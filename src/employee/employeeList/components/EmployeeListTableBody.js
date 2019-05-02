@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getEntries } from '../EmployeeListSelectors';
+import { getTableEntries } from '../EmployeeListSelectors';
 
 const EmployeeListTableBody = (props) => {
   const { tableConfig, entries } = props;
@@ -30,7 +30,7 @@ const EmployeeListTableBody = (props) => {
 };
 
 const mapStateToProps = state => ({
-  entries: getEntries(state),
+  entries: getTableEntries(state),
 });
 
 EmployeeListTableBody.propTypes = {
