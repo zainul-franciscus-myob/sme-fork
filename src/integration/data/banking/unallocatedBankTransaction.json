@@ -1,4 +1,4 @@
 {
-  "allocateOrMatch": "Allocate me",
-  "type": "unmatched"
+  "allocateOrMatch": "1 match available",
+  "type": "matched"
 }
