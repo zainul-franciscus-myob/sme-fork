@@ -13,11 +13,12 @@
       "description": "Bob the builder",
       "withdrawal": 3300.00,
       "allocateOrMatch": "Internet",
+      "journalId": "456",
       "journalLineId": "123",
       "taxCode": "GST",
       "note": "",
       "isReportable": true,
-      "type": "allocated"
+      "type": "singleAllocation"
     },
     {
       "transactionId": "2",
@@ -25,11 +26,12 @@
       "description": "Join the crew",
       "withdrawal": 295.00,
       "allocateOrMatch": "Transfered from Rental income",
+      "journalId": "789",
       "journalLineId": "124",
       "taxCode": "FRE",
       "note": "Lofty and wendy",
       "isReportable": true,
-      "type": "allocated"
+      "type": "singleAllocation"
     },
     {
       "transactionId": "3",
@@ -37,11 +39,25 @@
       "description": "Bob the gang have soo much fun",
       "deposit": 1300.00,
       "allocateOrMatch": "Matched to General Journal 573498874",
+      "journalId": "101",
       "journalLineId": "125",
       "taxCode": "LOL",
       "note": "the second notable thing",
       "isReportable": false,
-      "type": "allocated"
+      "type": "singleAllocation"
+    },
+    {
+      "transactionId": "4",
+      "displayDate": "01/10/2018",
+      "description": "Bob rules",
+      "deposit": 1300.00,
+      "allocateOrMatch": "Spit across account",
+      "journalId": "101",
+      "journalLineId": "125",
+      "taxCode": "FRE",
+      "note": "",
+      "isReportable": false,
+      "type": "splitAllocation"
     }
   ]
 }

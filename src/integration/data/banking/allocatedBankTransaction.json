@@ -1,6 +1,7 @@
 {
   "allocateOrMatch": "Internet",
+  "journalId": "8373",
   "journalLineId": "1559",
-  "type": "allocated",
+  "type": "singleAllocation",
   "taxCode": "GST"
 }

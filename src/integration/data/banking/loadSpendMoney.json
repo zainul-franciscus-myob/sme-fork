@@ -1,0 +1,92 @@
+{
+  "spendMoney": {
+    "id": "789",
+    "date": "2018-11-02",
+    "isReportable": false,
+    "accountId": "456",
+    "contactId": "2",
+    "lines": [
+      {
+        "id": "1",
+        "accountId": "789",
+        "amount": "1000.00",
+        "description": "Bob",
+        "taxCodeId": "123",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "1-123"
+          },
+          {
+            "id": "456",
+            "displayName": "My Assets Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-123"
+          },
+          {
+            "id": "789",
+            "displayName": "My (Inactive) Assets Account 2",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-124"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "description": "Goods & Service Tax",
+            "displayRate": "10%"
+          },
+          {
+            "id": "124",
+            "displayName": "FRE",
+            "description": "GST FREE",
+            "displayRate": "5%"
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "accountId": "456",
+        "amount": "2352.00",
+        "description": "the builder",
+        "taxCodeId": "123",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "1-123"
+          },
+          {
+            "id": "456",
+            "displayName": "My Assets Account 1",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "2-123"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "description": "Goods & Service Tax",
+            "displayRate": "10%"
+          },
+          {
+            "id": "124",
+            "displayName": "FRE",
+            "description": "GST FREE",
+            "displayRate": "5%"
+          }
+        ]
+      }
+    ]
+  }
+}
