@@ -14,8 +14,6 @@ export const getFlipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc'
 
 export const getAlert = ({ alert }) => alert;
 
-
-export const getFilterOptions = ({ filterOptions }) => filterOptions;
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
 
 export const getBankAccounts = state => state.bankAccounts;
@@ -55,7 +53,15 @@ export const getTableEntries = createSelector(
   ),
 );
 
-export const getShouldDisplayDateRange = state => state.filterOptions.transactionType === 'Approved';
+export const isTransactionTypeApproved = state => state.filterOptions.transactionType === 'Approved';
+
+export const getShouldDisplayDateRange = state => isTransactionTypeApproved(state);
+
+export const getFilterOptions = (state) => {
+  const { filterOptions } = state;
+  const { dateTo, dateFrom, ...noDateFilterOptions } = filterOptions;
+  return isTransactionTypeApproved(state) ? filterOptions : noDateFilterOptions;
+};
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 

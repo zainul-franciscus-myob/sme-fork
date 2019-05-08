@@ -6,6 +6,7 @@ import {
   CREATE_CONTACT,
   DELETE_CONTACT,
   LOAD_CONTACT_DETAIL,
+  LOAD_NEW_CONTACT,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
@@ -68,11 +69,11 @@ export default class ContactDetailModule {
 
   loadContactDetail = () => {
     if (this.isCreating) {
+      this.loadNewContact();
       return;
     }
 
     this.setLoadingState(true);
-
     const intent = LOAD_CONTACT_DETAIL;
     const urlParams = {
       businessId: getBusinessId(this.store.getState()),
@@ -197,6 +198,18 @@ export default class ContactDetailModule {
 
     window.location.href = `/#/${region}/${businessId}/contact`;
   };
+
+  loadNewContact = () => {
+    const intent = LOAD_NEW_CONTACT;
+    const urlParams = {
+      businessId: getBusinessId(this.store.getState()),
+    };
+    // No response handlers, event for BFF telemetry only
+    this.integration.read({
+      intent,
+      urlParams,
+    });
+  }
 
   createContact = () => {
     const intent = CREATE_CONTACT;

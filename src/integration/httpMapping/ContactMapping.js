@@ -3,6 +3,7 @@ import {
   DELETE_CONTACT,
   LOAD_CONTACT_DETAIL,
   LOAD_CONTACT_LIST,
+  LOAD_NEW_CONTACT,
   SORT_AND_FILTER_CONTACT_LIST,
   UPDATE_CONTACT,
 } from '../../contact/ContactIntents';
@@ -15,6 +16,10 @@ const ContactListMapping = {
   [LOAD_CONTACT_LIST]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/contact/load_contact_list`,
+  },
+  [LOAD_NEW_CONTACT]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/contact/load_new_contact_detail`,
   },
   [LOAD_CONTACT_DETAIL]: {
     method: 'GET',

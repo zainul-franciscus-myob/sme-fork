@@ -3,6 +3,7 @@ import {
   DELETE_CONTACT,
   LOAD_CONTACT_DETAIL,
   LOAD_CONTACT_LIST,
+  LOAD_NEW_CONTACT,
   SORT_AND_FILTER_CONTACT_LIST,
   UPDATE_CONTACT,
 } from '../../contact/ContactIntents';
@@ -14,6 +15,7 @@ import success from '../data/success';
 const sortAndFilterContactList = ({ onSuccess }) => onSuccess(contactListFilterResponse);
 const loadContactList = ({ onSuccess }) => onSuccess(contactListLoadResponse);
 const loadContactDetail = ({ onSuccess }) => onSuccess(contactDetailLoadResponse);
+const loadNewContact = () => { console.log('New Contact Event Tracked'); }; // eslint-disable-line no-console
 const deleteContact = ({ onSuccess }) => onSuccess(success);
 const updateContact = ({ onSuccess }) => onSuccess(success);
 const createContact = ({ onSuccess }) => onSuccess(success);
@@ -22,6 +24,7 @@ const ContactListMapping = {
   [LOAD_CONTACT_LIST]: loadContactList,
   [SORT_AND_FILTER_CONTACT_LIST]: sortAndFilterContactList,
   [LOAD_CONTACT_DETAIL]: loadContactDetail,
+  [LOAD_NEW_CONTACT]: loadNewContact,
   [DELETE_CONTACT]: deleteContact,
   [UPDATE_CONTACT]: updateContact,
   [CREATE_CONTACT]: createContact,

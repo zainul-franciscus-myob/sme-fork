@@ -8,6 +8,7 @@ export const SORT_AND_FILTER_CONTACT_LIST = Symbol('Sort and filter list of cont
 export const SET_SORT_ORDER = Symbol('Set sort order for contact list');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const LOAD_CONTACT_DETAIL = Symbol('Load an existing contact');
+export const LOAD_NEW_CONTACT = Symbol('Load a new contact');
 export const UPDATE_BUSINESS_DETAILS = Symbol('Update business details');
 export const UPDATE_CONTACT_DETAILS = Symbol('Update contact details');
 export const UPDATE_SHIPPING_ADDRESS = Symbol('Update shipping address');

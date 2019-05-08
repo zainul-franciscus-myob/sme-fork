@@ -33,14 +33,14 @@ const getDefaultState = () => ({
   bankAccounts: [],
   transactionTypes: [],
   filterOptions: {
-    transactionType: '',
+    transactionType: 'All',
     bankAccount: '',
     dateFrom: convertToDateString(getDefaultDateRange()),
     dateTo: convertToDateString(Date.now()),
     keywords: '',
   },
   appliedFilterOptions: {
-    transactionType: '',
+    transactionType: 'All',
     bankAccount: '',
     dateFrom: convertToDateString(getDefaultDateRange()),
     dateTo: convertToDateString(Date.now()),

@@ -19,6 +19,7 @@ import {
 } from '../SystemIntents';
 import {
   getAllocationPayload,
+  getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getFlipSortOrder, getOrderBy,
@@ -190,7 +191,6 @@ export default class BankingModule {
     };
 
     const filterOptions = getFilterOptions(state);
-
     this.integration.read({
       intent,
       params: {
@@ -261,7 +261,7 @@ export default class BankingModule {
 
     const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
 
-    const filterOptions = getFilterOptions(state);
+    const filterOptions = getAppliedFilterOptions(state);
     const sortOrder = getFlipSortOrder(state);
 
     this.integration.read({
