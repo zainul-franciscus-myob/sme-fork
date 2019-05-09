@@ -1,9 +1,10 @@
 {
-  "receiveMoney": {
+  "allocate": {
     "id": "789",
     "date": "2018-11-02",
     "accountId": "456",
     "contactId": "2",
+    "isSpendMoney": false,
     "lines": [
       {
         "id": "1",

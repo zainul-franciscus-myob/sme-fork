@@ -1,7 +1,7 @@
 
 [![Build status](https://badge.buildkite.com/136ac15e403f9d3be9d1dd3910781e553a17a63b4c44866346.svg?branch=master)](https://buildkite.com/myob/sme-web)
 
-The SME Web Client is the primary frontend codebase, which implements the user interface for the SME Web product.
+The SME Web Client is the primary frontend codebase, which implements the user interface for the SME Web product
 
 > This project was bootstrapped with [Create React App].
 
@@ -62,7 +62,7 @@ SME Web
   - Environment : `touch config.foo`
 
   Alternatively you can easily override values for once offs
-  `REACT_APP_BASE_CONFIG_URL=my-custom-override yarn run start` 
+  `REACT_APP_BASE_CONFIG_URL=my-custom-override yarn run start`
 
 ## Environment variables
 
