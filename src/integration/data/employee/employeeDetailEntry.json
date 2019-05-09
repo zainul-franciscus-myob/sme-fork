@@ -6,7 +6,7 @@
     "suburb": "Suburb",
     "state": "VIC",
     "postcode": "3456",
-    "country": "AU",
+    "country": "Australia",
     "phoneNumbers": [
       "03 93883848",
       "03 94839483"
@@ -48,40 +48,70 @@
       }
     ]
   },
-  "stateOptions": [
-    {
-      "name": "Blank",
-      "value": "NotSet"
-    },
-    {
-      "name": "AAT",
-      "value": "AAT"
-    },
-    {
-      "name": "ACT",
-      "value": "ACT"
-    },
-    {
-      "name": "VIC",
-      "value": "VIC"
-    }
-  ],
   "countryOptions": [
     {
+      "name": "Select one",
+      "value": "",
+      "states": [
+        {
+          "name": "Others",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "name": "Afghanistan",
+      "value": "Afghanistan",
+      "states": [
+        {
+          "name": "Others",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "name": "Aland Islands",
+      "value": "Aland Islands",
+      "states": [
+        {
+          "name": "Others",
+          "value": ""
+        }
+      ]
+    },
+    {
       "name": "Australia",
-      "value": "Australia"
-    },
-    {
-      "name": "Austria",
-      "value": "Austria"
-    },
-    {
-      "name": "Azerbaijan",
-      "value": "Azerbaijan"
+      "value": "Australia",
+      "states": [
+        {
+          "name": "Select one",
+          "value": ""
+        },
+        {
+          "name": "VIC",
+          "value": "VIC"
+        }
+      ]
     },
     {
       "name": "Bahamas",
-      "value": "Bahamas"
+      "value": "Bahamas",
+      "states": [
+        {
+          "name": "Others",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "name": "New Zealand",
+      "value": "New Zealand",
+      "states": [
+        {
+          "name": "Others",
+          "value": ""
+        }
+      ]
     }
   ],
   "genderOptions": [

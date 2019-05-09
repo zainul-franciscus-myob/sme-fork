@@ -123,7 +123,7 @@ const getRoutes = ({
     name: 'employee',
     rootPath: '/:region/:businessId/employee',
     subRoutes: getEmployeeRoutes({
-      integration, setRootView, popMessages,
+      integration, setRootView, popMessages, pushMessage, replaceURLParams,
     }),
   },
 ];

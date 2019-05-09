@@ -4,7 +4,7 @@ import {
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import PhoneNumberList from './PhoneNumberList';
+import PhoneNumberList from '../../../components/phoneNumberList/PhoneNumberList';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
