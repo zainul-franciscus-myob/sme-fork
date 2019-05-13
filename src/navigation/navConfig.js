@@ -6,6 +6,7 @@ export const activeMapping = {
   'contact/contactDetail': 'contact',
   'contact/contactList': 'contact',
   'employee/employeeList': 'payroll',
+  'employee/employeeDetail': 'payroll',
   'generalJournal/generalJournalDetail': 'journals',
   'incomeAllocation/incomeAllocation': 'business',
   'business/businessDetail': 'business',
