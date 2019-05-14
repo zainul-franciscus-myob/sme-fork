@@ -79,6 +79,10 @@
   margin-right: auto;
 }
 
+:local .list :global(.combobox table) {
+  white-space: initial;
+}
+
 :local .list [data-label=allocateOrMatch] {
   padding: 0.2rem 1.2rem;
 }
