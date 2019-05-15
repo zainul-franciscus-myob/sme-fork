@@ -1,6 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { mainTabIds, payrollDetailsSubTabIds } from './tabItems';
+import countryList from '../../sharedData/countryList';
 
 export const getBusinessId = state => state.businessId;
 export const getIsLoading = state => state.isLoading;
@@ -56,14 +57,13 @@ export const getContactDetail = state => ({
   hasAddPhoneButton: hasAddPhoneButton(state),
 });
 
-export const getCountryOptions = state => state.countryOptions;
+const getSelectedCountry = state => state.contactDetail.country;
 
-export const getStateOptions = (state) => {
-  const countryOption = getCountryOptions(state)
-    .find(country => country.value === state.contactDetail.country);
-
-  return countryOption ? countryOption.states : [];
-};
+export const getStateOptions = createSelector(
+  getSelectedCountry,
+  selectedcountry => (countryList
+    .find(country => country.value === selectedcountry) || {}).states,
+);
 
 export const getEmployeePayload = ({ contactDetail }) => ({
   contactDetail,
@@ -91,3 +91,8 @@ export const getPageHeadTitle = (state) => {
     ? 'Create employee'
     : employeeFullName;
 };
+
+export const getIsStateDropdown = createSelector(
+  getStateOptions,
+  states => states !== undefined,
+);

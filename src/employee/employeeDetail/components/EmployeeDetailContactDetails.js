@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getContactDetail, getCountryOptions, getStateOptions,
+  getContactDetail, getIsStateDropdown, getStateOptions,
 } from '../EmployeeDetailSelectors';
+import CountryCombobox from '../../../components/combobox/CountryCombobox';
 import PhoneNumberList from '../../../components/phoneNumberList/PhoneNumberList';
 
 const onInputChange = handler => (e) => {
@@ -25,6 +26,11 @@ const onSelectChange = handler => (e) => {
   handler({ key: name, value });
 };
 
+const onComboBoxChange = (handler, key) => (option) => {
+  const { value } = option;
+  handler({ key, value });
+};
+
 const onPhoneNumberChange = handler => (phoneNumbers) => {
   handler({ key: 'phoneNumbers', value: phoneNumbers });
 };
@@ -33,9 +39,19 @@ const EmployeeDetailContactDetails = (props) => {
   const {
     contactDetail,
     stateOptions,
-    countryOptions,
     onContactDetailsChange,
+    isStateDropdown,
   } = props;
+
+  const stateInput = isStateDropdown
+    ? (
+      <Select label="State/territory" name="state" value={contactDetail.state} onChange={onSelectChange(onContactDetailsChange)}>
+        {stateOptions.map(
+          ({ name, value }) => <Select.Option key={value} value={value} label={name} />,
+        )}
+      </Select>
+    )
+    : <Input label="State/territory" name="state" value={contactDetail.state} onChange={onInputChange(onContactDetailsChange)} />;
 
   const view = (
     <React.Fragment>
@@ -62,19 +78,17 @@ const EmployeeDetailContactDetails = (props) => {
 
         <Input label="Suburb/town/locality" name="suburb" value={contactDetail.suburb} onChange={onInputChange(onContactDetailsChange)} />
 
-        <Select label="State/territory" name="state" value={contactDetail.state} onChange={onSelectChange(onContactDetailsChange)}>
-          {stateOptions.map(
-            ({ name, value }) => <Select.Option key={value} value={value} label={name} />,
-          )}
-        </Select>
+        { stateInput }
 
         <Input label="Postcode" name="postcode" value={contactDetail.postcode} onChange={onInputChange(onContactDetailsChange)} />
 
-        <Select label="Country" name="country" value={contactDetail.country} onChange={onSelectChange(onContactDetailsChange)}>
-          {countryOptions.map(
-            ({ name, value }) => <Select.Option key={value} value={value} label={name} />,
-          )}
-        </Select>
+        <CountryCombobox
+          hideLabel={false}
+          label="Country"
+          name="country"
+          selectedId={contactDetail.country}
+          onChange={onComboBoxChange(onContactDetailsChange, 'country')}
+        />
 
         <PhoneNumberList
           phoneNumbers={contactDetail.phoneNumbers}
@@ -115,15 +129,19 @@ const optionShape = {
 
 EmployeeDetailContactDetails.propTypes = {
   contactDetail: PropTypes.shape(contactDetailShape).isRequired,
-  stateOptions: PropTypes.arrayOf(PropTypes.shape(optionShape)).isRequired,
-  countryOptions: PropTypes.arrayOf(PropTypes.shape(optionShape)).isRequired,
+  stateOptions: PropTypes.arrayOf(PropTypes.shape(optionShape)),
   onContactDetailsChange: PropTypes.func.isRequired,
+  isStateDropdown: PropTypes.bool.isRequired,
+};
+
+EmployeeDetailContactDetails.defaultProps = {
+  stateOptions: undefined,
 };
 
 const mapStateToProps = state => ({
   contactDetail: getContactDetail(state),
   stateOptions: getStateOptions(state),
-  countryOptions: getCountryOptions(state),
+  isStateDropdown: getIsStateDropdown(state),
 });
 
 export default connect(mapStateToProps)(EmployeeDetailContactDetails);

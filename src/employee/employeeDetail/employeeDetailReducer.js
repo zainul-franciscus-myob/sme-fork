@@ -58,7 +58,6 @@ const getDefaultState = () => ({
     bankStatementText: '',
     bankAccounts: [],
   },
-  countryOptions: [],
   genderOptions: [],
   employeeBasisOptions: [],
   employeeCategoryOptions: [],
@@ -105,7 +104,6 @@ const loadEmployeeDetail = (state, action) => ({
     ...state.paymentDetails,
     ...action.paymentDetails,
   },
-  countryOptions: action.countryOptions,
   genderOptions: action.genderOptions,
   employeeBasisOptions: action.employeeBasisOptions,
   employeeCategoryOptions: action.employeeCategoryOptions,
@@ -130,7 +128,6 @@ const loadNewEmployeeDetail = (state, action) => ({
     ...state.paymentDetails,
     ...action.paymentDetails,
   },
-  countryOptions: action.countryOptions,
   genderOptions: action.genderOptions,
   employeeBasisOptions: action.employeeBasisOptions,
   employeeCategoryOptions: action.employeeCategoryOptions,
@@ -143,35 +140,14 @@ const loadNewEmployeeDetail = (state, action) => ({
 
 const pageEdited = { isPageEdited: true };
 
-const clearStateOrTerritoryIfCountryIsChanged = (oldState, newState) => {
-  const oldCountryValue = oldState.contactDetail.country;
-  const newCountryValue = newState.contactDetail.country;
-
-  return oldCountryValue !== newCountryValue
-    ? {
-      ...newState,
-      contactDetail: {
-        ...newState.contactDetail,
-        state: '',
-      },
-    }
-    : newState;
-};
-
-const updateContactDetails = (state, action) => {
-  let newState = {
-    ...state,
-    contactDetail: {
-      ...state.contactDetail,
-      [action.key]: action.value,
-    },
-    ...pageEdited,
-  };
-
-  newState = clearStateOrTerritoryIfCountryIsChanged(state, newState);
-
-  return newState;
-};
+const updateContactDetails = (state, action) => ({
+  ...state,
+  contactDetail: {
+    ...state.contactDetail,
+    [action.key]: action.value,
+  },
+  ...pageEdited,
+});
 
 const setSubmittingState = (state, action) => ({
   ...state,

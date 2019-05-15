@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Combobox from '../Feelix/ComboBox/Combobox';
+import countryList from '../../sharedData/countryList';
 
-const CustomerCombobox = (props) => {
+const CountryCombobox = (props) => {
   const {
     items,
     selectedId,
@@ -15,13 +16,13 @@ const CustomerCombobox = (props) => {
     { columnName: 'name', showData: true },
   ];
 
-  const selectedItem = items
+  const selectedItem = countryList
     .find(option => option.value === selectedId) || {};
 
   return (
     <Combobox
       metaData={metaData}
-      items={items}
+      items={countryList}
       selected={selectedItem}
       onChange={onChange}
       {...otherProps}
@@ -29,14 +30,13 @@ const CustomerCombobox = (props) => {
   );
 };
 
-CustomerCombobox.defaultProps = {
+CountryCombobox.defaultProps = {
   selectedId: null,
 };
 
-CustomerCombobox.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+CountryCombobox.propTypes = {
   selectedId: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 
-export default CustomerCombobox;
+export default CountryCombobox;
