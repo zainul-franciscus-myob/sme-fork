@@ -14,11 +14,27 @@ describe('TransactionListView', () => {
     const view = (
       <Provider store={store}>
         <BankingView
-          businessId=""
           onUpdateFilters={() => {}}
           onApplyFilter={() => {}}
           onSort={() => {}}
           onDismissAlert={() => {}}
+          onAllocate={() => {}}
+          onUnallocate={() => {}}
+          onMatchedToBlur={() => {}}
+          onMatchedToFocus={() => {}}
+          onUnmatchedFocus={() => {}}
+          onUnmatchedBlur={() => {}}
+          onHeaderClick={() => {}}
+          onTabChange={() => {}}
+          onSaveSplitAllocation={() => {}}
+          onCancelSplitAllocation={() => {}}
+          onUnallocateSplitAllocation={() => {}}
+          onUpdateSplitAllocationHeader={() => {}}
+          onAddSplitAllocationLine={() => {}}
+          onUpdateSplitAllocationLine={() => {}}
+          onDeleteSplitAllocationLine={() => {}}
+          onCancelModal={() => {}}
+          onCloseModal={() => {}}
         />
       </Provider>
     );

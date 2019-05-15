@@ -5,7 +5,7 @@ import Combobox from '../Feelix/ComboBox/Combobox';
 
 const ContactCombobox = (props) => {
   const {
-    items,
+    items = [],
     selectedId,
     onChange,
     ...otherProps

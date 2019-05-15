@@ -3,8 +3,14 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsTableEmpty, getIsTableLoading, getOrder,
+  getIsOpenEntryLoading,
+  getIsTableEmpty,
+  getIsTableLoading,
+  getOpenEntryActiveTabId,
+  getOrder,
+  getTableEntries,
 } from '../bankingSelectors';
+import AccordionTable from '../../components/Feelix/Accordion/AccordionTable';
 import BankTransactionTableBody from './BankTransactionTableBody';
 import style from './BankingView.css';
 
@@ -17,21 +23,28 @@ const tableConfig = {
   taxCode: { width: '13rem', columnName: 'taxCode' },
 };
 
-const emptyView = (
-  <div className={style.empty}>
+const emptyView = header => (
+  <Table>
+    {header}
+    <div className={style.empty}>
     There are no transactions for the selected filter options.
-  </div>
+    </div>
+  </Table>
 );
 
-const spinnerView = (
-  <div className={style.spinner}>
-    <Spinner size="medium" />
-  </div>
+const spinnerView = header => (
+  <Table>
+    {header}
+    <div className={style.spinner}>
+      <Spinner size="medium" />
+    </div>
+  </Table>
 );
 
 const BankTransactionTable = ({
   isTableEmpty,
   isTableLoading,
+  isOpenEntryLoading,
   onMatchedToBlur,
   onMatchedToFocus,
   onUnmatchedFocus,
@@ -40,50 +53,75 @@ const BankTransactionTable = ({
   onUnallocate,
   onSort,
   order,
+  entries,
+  openPosition,
+  activeTabId,
+  onHeaderClick,
+  onTabChange,
+  onSaveSplitAllocation,
+  onCancelSplitAllocation,
+  onUnallocateSplitAllocation,
+  onUpdateSplitAllocationHeader,
+  onAddSplitAllocationLine,
+  onUpdateSplitAllocationLine,
+  onDeleteSplitAllocationLine,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = spinnerView;
-  } else if (isTableEmpty) {
-    view = emptyView;
-  } else {
-    view = (
-      <BankTransactionTableBody
-        tableConfig={tableConfig}
-        onMatchedToBlur={onMatchedToBlur}
-        onMatchedToFocus={onMatchedToFocus}
-        onAllocate={onAllocate}
-        onUnallocate={onUnallocate}
-        onUnmatchedFocus={onUnmatchedFocus}
-        onUnmatchedBlur={onUnmatchedBlur}
-      />
-    );
-  }
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem {...tableConfig.date}>
+        <HeaderSort title="Date" sortName="Date" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.description}>
+        <HeaderSort title="Description" sortName="Description" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.withdrawal}>
+        <HeaderSort title="Withdrawal ($)" sortName="Withdrawal" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.deposit}>
+        <HeaderSort title="Deposit ($)" sortName="Deposit" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.allocateOrMatch} columnName="allocateOrMatchHeader">
+        <HeaderSort title="Allocate or Match" sortName="AllocateOrMatch" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.taxCode} columnName="taxCodeHeader">
+        <HeaderSort title="Tax" sortName="TaxCode" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+    </Table.Header>
+  );
 
+  if (isTableLoading) {
+    return spinnerView(header);
+  } if (isTableEmpty) {
+    return emptyView(header);
+  }
+  const body = BankTransactionTableBody({
+    entries,
+    tableConfig,
+    isOpenEntryLoading,
+    activeTabId,
+    onMatchedToBlur,
+    onMatchedToFocus,
+    onAllocate,
+    onUnallocate,
+    onUnmatchedFocus,
+    onUnmatchedBlur,
+    openPosition,
+    onTabChange,
+    onSaveSplitAllocation,
+    onCancelSplitAllocation,
+    onUnallocateSplitAllocation,
+    onUpdateSplitAllocationHeader,
+    onAddSplitAllocationLine,
+    onUpdateSplitAllocationLine,
+    onDeleteSplitAllocationLine,
+  });
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem {...tableConfig.date}>
-          <HeaderSort title="Date" sortName="Date" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.description}>
-          <HeaderSort title="Description" sortName="Description" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.withdrawal}>
-          <HeaderSort title="Withdrawal ($)" sortName="Withdrawal" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.deposit}>
-          <HeaderSort title="Deposit ($)" sortName="Deposit" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.allocateOrMatch} columnName="allocateOrMatchHeader">
-          <HeaderSort title="Allocate or Match" sortName="AllocateOrMatch" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.taxCode} columnName="taxCodeHeader">
-          <HeaderSort title="Tax" sortName="TaxCode" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-      </Table.Header>
-      {view}
-    </Table>
+    <AccordionTable
+      openPosition={openPosition}
+      handleHeaderClick={onHeaderClick}
+      header={header}
+      body={body}
+    />
   );
 };
 
@@ -91,6 +129,10 @@ const mapStateToProps = state => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   order: getOrder(state),
+  openPosition: state.openPosition,
+  isOpenEntryLoading: getIsOpenEntryLoading(state),
+  activeTabId: getOpenEntryActiveTabId(state),
+  entries: getTableEntries(state),
 });
 
 export default connect(mapStateToProps)(BankTransactionTable);

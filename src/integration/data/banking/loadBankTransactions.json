@@ -18,7 +18,7 @@
   "withdrawalAccounts": [
     {
       "id": "128",
-      "displayName": "My Expense Account 1",
+      "displayName": "My Expense Account long long long long long long long long longlonglong long long1 end",
       "accountType": "Expense",
       "displayId": "2-345",
       "taxCodeId": "123"
@@ -48,7 +48,7 @@
   "depositAccounts": [
     {
       "id": "123",
-      "displayName": "My Sales Account 1",
+      "displayName": "My Sales My Expense Account long long long long long long long long longlonglong long long1 end",
       "accountType": "Sales",
       "displayId": "1-123",
       "taxCodeId": "123"

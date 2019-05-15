@@ -5,7 +5,7 @@ import Combobox from '../Feelix/ComboBox/Combobox';
 
 const TaxCodeCombobox = (props) => {
   const {
-    items,
+    items = [],
     selectedId,
     onChange,
     disabled,

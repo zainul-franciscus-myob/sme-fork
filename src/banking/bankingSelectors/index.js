@@ -1,5 +1,7 @@
-import { createSelector } from 'reselect';
+import { createSelector } from 'reselect/lib/index';
 import dateFormat from 'dateformat';
+
+import { tabIds } from '../tabItems';
 
 export const getOrder = ({ sortOrder, orderBy }) => ({
   column: orderBy,
@@ -23,10 +25,10 @@ export const getEntries = state => state.entries;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 
-const getWithdrawalAccounts = state => state.withdrawalAccounts;
-const getDepositAccounts = state => state.depositAccounts;
+export const getWithdrawalAccounts = state => state.withdrawalAccounts;
+export const getDepositAccounts = state => state.depositAccounts;
 
-const formatAmount = amount => Intl
+export const formatAmount = amount => Intl
   .NumberFormat('en-AU', {
     style: 'decimal',
     minimumFractionDigits: '2',
@@ -48,6 +50,7 @@ export const getTableEntries = createSelector(
         withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
         displayDate: dateFormat(entry.date, 'dd/mm/yyyy'),
         accountList,
+        isLineDisabled: entry.isLoading,
       });
     },
   ),
@@ -112,3 +115,34 @@ export const getUnallocationPayload = (index, state) => {
     journalLineId: entry.journalLineId,
   };
 };
+
+export const getModalType = state => state.modalType;
+
+export const getContacts = state => state.contacts;
+
+export const getOpenPosition = state => state.openPosition;
+
+export const getIsOpenEntryLoading = state => state.isOpenEntryLoading;
+
+export const getIsOpenEntryEdited = state => state.openEntry.isEdited;
+
+export const getOpenEntryActiveTabId = state => state.openEntry.activeTabId;
+
+export const getDefaultOpenPosition = () => -1;
+
+export const getOpenEntryDefaultTabId = ({ type }) => {
+  if (type === 'matched') {
+    return undefined;
+  }
+
+  return tabIds.allocate;
+};
+
+export const getBankTransactionLineByIndex = (state, index) => {
+  const entries = getEntries(state);
+  return entries[index];
+};
+
+export const getIsAllocated = ({ type, journalId }) => (
+  !!((type === 'singleAllocation' || type === 'splitAllocation') && journalId)
+);

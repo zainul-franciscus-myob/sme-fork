@@ -1,59 +1,47 @@
-import dateFormat from 'dateformat';
-
 import {
+  ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
+  CLOSE_MODAL,
+  COLLAPSE_TRANSACTION_LINE,
+  DELETE_SPLIT_ALLOCATION_LINE,
   LOAD_BANK_TRANSACTIONS,
+  LOAD_MATCH_TRANSACTION,
+  LOAD_NEW_SPLIT_ALLOCATION,
+  LOAD_SPLIT_ALLOCATION,
+  OPEN_MODAL,
+  SAVE_SPLIT_ALLOCATION,
   SET_ALERT,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
   SET_LOADING_STATE,
+  SET_OPEN_ENTRY_LOADING_STATE,
+  SET_OPEN_ENTRY_POSITION,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
+  UNALLOCATE_SPLIT_ALLOCATION,
   UNALLOCATE_TRANSACTION,
   UPDATE_FILTER_OPTIONS,
-} from './BankingIntents';
+  UPDATE_SPLIT_ALLOCATION_HEADER,
+  UPDATE_SPLIT_ALLOCATION_LINE,
+} from '../BankingIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../SystemIntents';
-import createReducer from '../store/createReducer';
-
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
-const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
-
-const getDefaultState = () => ({
-  entries: [],
-  withdrawalAccounts: [],
-  depositAccounts: [],
-  balances: {
-    bankBalance: '',
-    myobBalance: '',
-    unallocated: '',
-  },
-  bankAccounts: [],
-  transactionTypes: [],
-  filterOptions: {
-    transactionType: 'All',
-    bankAccount: '',
-    dateFrom: convertToDateString(getDefaultDateRange()),
-    dateTo: convertToDateString(Date.now()),
-    keywords: '',
-  },
-  appliedFilterOptions: {
-    transactionType: 'All',
-    bankAccount: '',
-    dateFrom: convertToDateString(getDefaultDateRange()),
-    dateTo: convertToDateString(Date.now()),
-    keywords: '',
-  },
-  orderBy: '',
-  sortOrder: '',
-  alert: undefined,
-  isLoading: true,
-  isTableLoading: false,
-  businessId: '',
-  region: '',
-});
+  addSplitAllocationLine,
+  deleteSplitAllocationLine,
+  loadNewSplitAllocation,
+  loadSplitAllocation,
+  saveSplitAllocation,
+  unallocateSplitAllocation,
+  updateSplitAllocationHeader,
+  updateSplitAllocationLine,
+} from './splitAllocationHandlers';
+import {
+  allocateTransaction, setEntryFocus, setEntryLoading, unallocateTransaction,
+} from './singleAllocationHandlers';
+import { collapseTransactionLine, setOpenEntryLoadingState, setOpenPosition } from './openEntryHandlers';
+import { loadMatchTransaction } from './matchTransactionHandlers';
+import createReducer from '../../store/createReducer';
+import getDefaultState from './getDefaultState';
 
 const resetState = () => (getDefaultState());
 
@@ -64,6 +52,8 @@ const loadBankTransactions = (state, action) => ({
   depositAccounts: action.depositAccounts,
   transactionTypes: action.transactionTypes,
   balances: action.balances,
+  contacts: action.contacts,
+  taxCodes: action.taxCodes,
   entries: action.entries.map(entry => ({
     ...entry,
     isFocused: false,
@@ -120,56 +110,14 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const setEntryFocus = (state, action) => ({
+export const openModal = (state, action) => ({
   ...state,
-  entries: state.entries.map(
-    (entry, index) => (
-      index === action.index ? { ...entry, isFocused: action.isFocused } : entry
-    ),
-  ),
+  modalType: action.modalType,
 });
 
-const setEntryLoading = (state, action) => ({
+export const closeModal = state => ({
   ...state,
-  entries: state.entries.map(
-    (entry, index) => (
-      index === action.index ? { ...entry, isLoading: action.isLoading } : entry
-    ),
-  ),
-});
-
-const allocateTransaction = (state, action) => ({
-  ...state,
-  entries: state.entries.map(
-    (entry, index) => (
-      index === action.index
-        ? {
-          ...entry,
-          allocateOrMatch: action.allocateOrMatch,
-          journalLineId: action.journalLineId,
-          type: action.type,
-          taxCode: action.taxCode,
-        }
-        : entry
-    ),
-  ),
-});
-
-const unallocateTransaction = (state, action) => ({
-  ...state,
-  entries: state.entries.map(
-    (entry, index) => (
-      index === action.index
-        ? {
-          ...entry,
-          allocateOrMatch: action.allocateOrMatch,
-          journalLineId: '',
-          type: action.type,
-          taxCode: '',
-        }
-        : entry
-    ),
-  ),
+  modalType: '',
 });
 
 const handlers = {
@@ -185,6 +133,20 @@ const handlers = {
   [SET_ENTRY_LOADING_STATE]: setEntryLoading,
   [ALLOCATE_TRANSACTION]: allocateTransaction,
   [UNALLOCATE_TRANSACTION]: unallocateTransaction,
+  [COLLAPSE_TRANSACTION_LINE]: collapseTransactionLine,
+  [SET_OPEN_ENTRY_POSITION]: setOpenPosition,
+  [SET_OPEN_ENTRY_LOADING_STATE]: setOpenEntryLoadingState,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
+  [UPDATE_SPLIT_ALLOCATION_HEADER]: updateSplitAllocationHeader,
+  [ADD_SPLIT_ALLOCATION_LINE]: addSplitAllocationLine,
+  [UPDATE_SPLIT_ALLOCATION_LINE]: updateSplitAllocationLine,
+  [DELETE_SPLIT_ALLOCATION_LINE]: deleteSplitAllocationLine,
+  [LOAD_SPLIT_ALLOCATION]: loadSplitAllocation,
+  [LOAD_NEW_SPLIT_ALLOCATION]: loadNewSplitAllocation,
+  [SAVE_SPLIT_ALLOCATION]: saveSplitAllocation,
+  [UNALLOCATE_SPLIT_ALLOCATION]: unallocateSplitAllocation,
+  [LOAD_MATCH_TRANSACTION]: loadMatchTransaction,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

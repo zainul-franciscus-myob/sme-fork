@@ -2,9 +2,8 @@
   "allocate": {
     "id": "789",
     "date": "2018-11-02",
-    "isReportable": false,
-    "accountId": "456",
     "contactId": "2",
+    "isReportable": false,
     "isSpendMoney": true,
     "lines": [
       {

@@ -25,7 +25,8 @@
   margin-right: 0.5rem;
 }
 
-:local .allocateButton :global(.btn-link__content) {
+:local .allocateButton :global(.btn-link__content),
+:local .splitButton :global(.btn-link__content) {
   color: #1b2830;
   max-width: 15rem;
   text-align: left;
@@ -58,10 +59,54 @@
   border-left: 0.2rem solid #dcdfe1;
 }
 
+:local .taxCode :global(.svg-icon-caret) {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+:local .openEntry :global(.flx-tabs) {
+  flex-direction: row-reverse;
+}
+
+:local .list :global(.table-data__row) {
+  grid-gap: 0;
+}
+
+:local .list :global(.combobox table) {
+  white-space: initial;
+}
+
+:local .list :global(.is-open) :global(.btn-link) {
+  color: white;
+}
+
+:local .list [data-label=allocateOrMatch] :global(.combobox) {
+  width: 17rem;
+}
+
+:local .list :global(.collapsible .table-data__row) {
+  padding-right: 0;
+}
+
+:local .list :global(.table-data__actions:last-child) {
+  padding-right: 0;
+  width: 66px;
+}
+
+:local .list :global(.combobox .btn) {
+  border-color: #c5c9ce;
+  padding: 0.6rem 0.6rem 0.5rem;
+}
+
 :local .list [data-label=allocateOrMatch],
-:local .list [data-label=taxCode] {
-  background: #f3f4f5;
+:local .list [data-label=taxCode],
+:local .list :global(.table-data__actions:last-child) {
+  background-color: #f3f4f5;
   align-self: stretch;
+}
+
+:local .list :global(.is-open .table-data__actions:last-child) {
+  background-color: #515e6d;
 }
 
 :local .unallocatedRowItem,
@@ -74,17 +119,13 @@
   background: none;
 }
 
-:local .taxCode :global(.svg-icon-caret) {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-:local .list :global(.combobox table) {
-  white-space: initial;
-}
-
 :local .list [data-label=allocateOrMatch] {
   padding: 0.2rem 1.2rem;
+}
+
+:local .list :global(.is-open) [data-label=allocateOrMatch],
+:local .list :global(.is-open) [data-label=taxCode] {
+  background: unset;
 }
 
 :local .list :global(.table-data__row) > :global(.table-data__cell)[data-label=allocateOrMatch] {
@@ -92,8 +133,9 @@
   text-overflow: initial;
 }
 
-:local .list [data-label=allocateOrMatch] :global(.combobox) {
-  width: 17rem;
+:local .list :global(.is-open .table-data__cell[data-label=allocateOrMatch]) {
+  display: flex;
+  align-items: center;
 }
 
 :local .allocateButton:global(.btn-link):hover :global(.btn-link__content) {
@@ -133,4 +175,15 @@
 
 :local .balanceItem {
   margin-right: 2rem;
+}
+
+:local .openEntry {
+  min-height: 220px;
+}
+
+:local .checkbox {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  margin-top: 2rem;
 }

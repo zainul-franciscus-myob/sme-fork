@@ -2,16 +2,29 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
-  LOAD_BANK_TRANSACTIONS,
+  CLOSE_MODAL,
+  COLLAPSE_TRANSACTION_LINE,
+  DELETE_SPLIT_ALLOCATION_LINE,
+  LOAD_BANK_TRANSACTIONS, LOAD_MATCH_TRANSACTION,
+  LOAD_NEW_SPLIT_ALLOCATION,
+  LOAD_SPLIT_ALLOCATION,
+  OPEN_MODAL,
+  SAVE_SPLIT_ALLOCATION,
   SET_ALERT,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
   SET_LOADING_STATE,
+  SET_OPEN_ENTRY_LOADING_STATE,
+  SET_OPEN_ENTRY_POSITION,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
+  UNALLOCATE_SPLIT_ALLOCATION,
   UNALLOCATE_TRANSACTION,
   UPDATE_FILTER_OPTIONS,
+  UPDATE_SPLIT_ALLOCATION_HEADER,
+  UPDATE_SPLIT_ALLOCATION_LINE,
 } from './BankingIntents';
 import {
   RESET_STATE,
@@ -20,12 +33,21 @@ import {
 import {
   getAllocationPayload,
   getAppliedFilterOptions,
+  getBankTransactionLineByIndex,
   getBusinessId,
   getFilterOptions,
-  getFlipSortOrder, getOrderBy,
+  getFlipSortOrder,
+  getIsAllocated,
+  getIsOpenEntryEdited,
+  getOpenEntryActiveTabId,
+  getOpenEntryDefaultTabId,
+  getOpenPosition,
+  getOrderBy,
   getSortOrder,
   getUnallocationPayload,
 } from './bankingSelectors';
+import { getSplitAllocationPayload } from './bankingSelectors/splitAllocationSelectors';
+import { tabIds } from './tabItems';
 import BankingView from './components/BankingView';
 import Store from '../store/Store';
 import bankingReducer from './bankingReducer';
@@ -43,8 +65,8 @@ export default class BankingModule {
     const transactionListView = (
       <BankingView
         onUpdateFilters={this.updateFilterOptions}
-        onApplyFilter={this.filterBankTransactions}
-        onSort={this.sortBankTransactions}
+        onApplyFilter={this.confirmBefore(this.filterBankTransactions)}
+        onSort={this.confirmBefore(this.sortBankTransactions)}
         onDismissAlert={this.dismissAlert}
         onAllocate={this.allocateTransaction}
         onUnallocate={this.unallocateTransaction}
@@ -52,6 +74,17 @@ export default class BankingModule {
         onMatchedToFocus={this.focusEntry}
         onUnmatchedFocus={this.focusEntry}
         onUnmatchedBlur={this.blurEntry}
+        onHeaderClick={this.confirmBefore(this.toggleLine)}
+        onTabChange={this.confirmBefore(this.changeOpenEntryTab)}
+        onSaveSplitAllocation={this.saveSplitAllocation}
+        onCancelSplitAllocation={this.confirmBefore(this.collapseTransactionLine)}
+        onUnallocateSplitAllocation={this.confirmBefore(this.unallocateSplitAllocation)}
+        onUpdateSplitAllocationHeader={this.updateSplitAllocationHeader}
+        onAddSplitAllocationLine={this.addSplitAllocationLine}
+        onUpdateSplitAllocationLine={this.updateSplitAllocationLine}
+        onDeleteSplitAllocationLine={this.deleteSplitAllocationLine}
+        onCancelModal={this.cancelModal}
+        onCloseModal={this.closeModal}
       />
     );
 
@@ -204,6 +237,8 @@ export default class BankingModule {
 
   filterBankTransactions = () => {
     const state = this.store.getState();
+
+    this.collapseTransactionLine();
     this.setTableLoadingState(true);
 
     const intent = SORT_AND_FILTER_BANK_TRANSACTIONS;
@@ -242,6 +277,8 @@ export default class BankingModule {
 
   sortBankTransactions = (orderBy) => {
     const state = this.store.getState();
+
+    this.collapseTransactionLine();
     this.setTableLoadingState(true);
 
     const intent = SORT_AND_FILTER_BANK_TRANSACTIONS;
@@ -325,9 +362,275 @@ export default class BankingModule {
     });
   }
 
+  confirmBefore = onConfirm => (...args) => {
+    const state = this.store.getState();
+    const isEdited = getIsOpenEntryEdited(state);
+
+    if (isEdited) {
+      this.openCancelModal({
+        onConfirm: () => onConfirm(...args),
+      });
+    } else {
+      onConfirm(...args);
+    }
+  }
+
+  toggleLine = (index) => {
+    const state = this.store.getState();
+    const openPosition = getOpenPosition(state);
+
+    const isOpened = openPosition === index;
+    if (isOpened) {
+      this.collapseTransactionLine();
+    } else {
+      this.expandTransactionLine(index);
+    }
+  }
+
+  expandTransactionLine = (index) => {
+    const state = this.store.getState();
+
+    const line = getBankTransactionLineByIndex(state, index);
+    const tabId = getOpenEntryDefaultTabId(line);
+
+    this.loadOpenEntryTab(state, index, tabId);
+  }
+
+  collapseTransactionLine = () => {
+    const intent = COLLAPSE_TRANSACTION_LINE;
+    this.store.dispatch({ intent });
+  }
+
+  setOpenEntryPosition = (index) => {
+    const intent = SET_OPEN_ENTRY_POSITION;
+    this.store.dispatch({
+      intent,
+      index,
+    });
+  }
+
+  setOpenEntryLoadingState = (isLoading) => {
+    const intent = SET_OPEN_ENTRY_LOADING_STATE;
+    this.store.dispatch({
+      intent,
+      isLoading,
+    });
+  }
+
+  changeOpenEntryTab = (tabId) => {
+    const state = this.store.getState();
+
+    if (tabId !== getOpenEntryActiveTabId(state)) {
+      const index = getOpenPosition(state);
+      this.loadOpenEntryTab(state, index, tabId);
+    }
+  }
+
+  loadOpenEntryTab = (state, index, tabId) => {
+    const line = getBankTransactionLineByIndex(state, index);
+
+    if (tabId === tabIds.allocate) {
+      if (getIsAllocated(line)) {
+        this.loadSplitAllocation(state, index, line);
+      } else {
+        this.loadNewSplitAllocation(index);
+      }
+    }
+
+    if (tabId === tabIds.match) {
+      this.loadMatchTransaction(index);
+    }
+  }
+
+  loadSplitAllocation = (state, index, { withdrawal, journalId }) => {
+    const intent = LOAD_SPLIT_ALLOCATION;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      type: withdrawal ? 'spend_money' : 'receive_money',
+      journalId,
+    };
+
+    const onSuccess = (payload) => {
+      this.setOpenEntryLoadingState(false);
+
+      this.store.dispatch({
+        intent,
+        ...payload,
+        index,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setOpenEntryLoadingState(false);
+      this.collapseTransactionLine();
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.setOpenEntryLoadingState(true);
+    this.setOpenEntryPosition(index);
+    this.integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  loadNewSplitAllocation = (index) => {
+    const intent = LOAD_NEW_SPLIT_ALLOCATION;
+    this.store.dispatch({
+      intent,
+      index,
+    });
+  }
+
+  saveSplitAllocation = () => {
+    const intent = SAVE_SPLIT_ALLOCATION;
+    const state = this.store.getState();
+
+    const index = getOpenPosition(state);
+    const urlParams = { businessId: getBusinessId(state) };
+    const content = getSplitAllocationPayload(state, index);
+
+    this.collapseTransactionLine();
+
+    const onSuccess = (payload) => {
+      this.setEntryLoadingState(index, false);
+      this.store.dispatch({
+        intent,
+        index,
+        ...payload,
+      });
+      this.setAlert({
+        type: 'success',
+        message: 'Success! You\'ve successfully allocated bank transaction',
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setEntryLoadingState(index, false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.setEntryLoadingState(index, true);
+    this.integration.write({
+      intent,
+      urlParams,
+      allowParallelRequests: true,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  unallocateSplitAllocation = () => {
+    const intent = UNALLOCATE_SPLIT_ALLOCATION;
+    const state = this.store.getState();
+
+    const index = getOpenPosition(state);
+    const urlParams = { businessId: getBusinessId(state) };
+    const content = getUnallocationPayload(index, state);
+
+    const onSuccess = (payload) => {
+      this.setEntryLoadingState(index, false);
+      this.store.dispatch({
+        intent,
+        index,
+        ...payload,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setEntryLoadingState(index, false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.collapseTransactionLine();
+    this.setEntryLoadingState(index, true);
+    this.integration.write({
+      intent,
+      urlParams,
+      allowParallelRequests: true,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  openCancelModal = ({ onConfirm = () => {} }) => {
+    this.afterCancel = onConfirm;
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modalType: 'cancel',
+    });
+  };
+
+  cancelModal = () => {
+    this.closeModal();
+
+    this.afterCancel();
+    this.afterCancel = () => {};
+  }
+
+  closeModal = () => {
+    this.store.dispatch({ intent: CLOSE_MODAL });
+  };
+
+  updateSplitAllocationHeader = ({ key, value }) => {
+    const intent = UPDATE_SPLIT_ALLOCATION_HEADER;
+    this.store.dispatch({
+      intent,
+      key,
+      value,
+    });
+  }
+
+  addSplitAllocationLine = (partialLine) => {
+    const intent = ADD_SPLIT_ALLOCATION_LINE;
+    this.store.dispatch({
+      intent,
+      line: partialLine,
+    });
+  }
+
+  updateSplitAllocationLine = (lineIndex, lineKey, lineValue) => {
+    const intent = UPDATE_SPLIT_ALLOCATION_LINE;
+    this.store.dispatch({
+      intent,
+      lineIndex,
+      lineKey,
+      lineValue,
+    });
+  }
+
+  deleteSplitAllocationLine = (index) => {
+    const intent = DELETE_SPLIT_ALLOCATION_LINE;
+    this.store.dispatch({
+      intent,
+      index,
+    });
+  }
+
+  loadMatchTransaction = (index) => {
+    const intent = LOAD_MATCH_TRANSACTION;
+    this.store.dispatch({
+      intent,
+      index,
+    });
+  }
+
   setInitialState = (context) => {
     const intent = SET_INITIAL_STATE;
-
     this.store.dispatch({
       intent,
       context,

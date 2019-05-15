@@ -1,0 +1,10 @@
+:local .collapsible :global(.collapsible__header-controls-expansion .btn) {
+  min-width: initial;
+}
+
+:local .collapsible:global(.is-open) :global(.collapsible__header-outer .table-data__row) {
+  background-color: #515e6d;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  color: white;
+}
