@@ -1,0 +1,7 @@
+{
+  "allocateOrMatch": "Transit",
+  "journalId": "8373",
+  "journalLineId": "1559",
+  "type": "singleAllocation",
+  "taxCode": "GST"
+}

@@ -1,0 +1,28 @@
+{
+  "entries": [
+    {
+      "journalLineId": "222",
+      "date": "21/10/2019",
+      "referenceId": "SM004235",
+      "description": "Not bob the builder",
+      "amount": "7,508.50",
+      "sourceJournal": "CashPayment"
+    },
+    {
+      "journalLineId": "333",
+      "date": "21/10/2019",
+      "referenceId": "SM004236",
+      "description": "Maybe bob the builder",
+      "amount": "7,500.00",
+      "sourceJournal": "CashPayment"
+    },
+    {
+      "journalLineId": "111",
+      "date": "20/10/2019",
+      "referenceId": "SM004234",
+      "description": "Bob the builder",
+      "amount": "7,500.00",
+      "sourceJournal": "CashPayment"
+    }
+  ]
+}
