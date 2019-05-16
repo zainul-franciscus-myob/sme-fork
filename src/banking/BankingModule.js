@@ -388,12 +388,10 @@ export default class BankingModule {
   }
 
   expandTransactionLine = (index) => {
-    const state = this.store.getState();
-
-    const line = getBankTransactionLineByIndex(state, index);
+    const line = getBankTransactionLineByIndex(index);
     const tabId = getOpenEntryDefaultTabId(line);
 
-    this.loadOpenEntryTab(state, index, tabId);
+    this.loadOpenEntryTab(index, tabId);
   }
 
   collapseTransactionLine = () => {
@@ -422,16 +420,16 @@ export default class BankingModule {
 
     if (tabId !== getOpenEntryActiveTabId(state)) {
       const index = getOpenPosition(state);
-      this.loadOpenEntryTab(state, index, tabId);
+      this.loadOpenEntryTab(index, tabId);
     }
   }
 
-  loadOpenEntryTab = (state, index, tabId) => {
-    const line = getBankTransactionLineByIndex(state, index);
+  loadOpenEntryTab = (index, tabId) => {
+    const line = getBankTransactionLineByIndex(index);
 
     if (tabId === tabIds.allocate) {
       if (getIsAllocated(line)) {
-        this.loadSplitAllocation(state, index, line);
+        this.loadSplitAllocation(index, line);
       } else {
         this.loadNewSplitAllocation(index);
       }
@@ -442,7 +440,8 @@ export default class BankingModule {
     }
   }
 
-  loadSplitAllocation = (state, index, { withdrawal, journalId }) => {
+  loadSplitAllocation = (index, { withdrawal, journalId }) => {
+    const state = this.store.getState();
     const intent = LOAD_SPLIT_ALLOCATION;
 
     const urlParams = {
@@ -452,6 +451,9 @@ export default class BankingModule {
     };
 
     const onSuccess = (payload) => {
+      if (getOpenPosition(state) !== index) {
+        return;
+      }
       this.setOpenEntryLoadingState(false);
 
       this.store.dispatch({
@@ -494,7 +496,7 @@ export default class BankingModule {
 
     const index = getOpenPosition(state);
     const urlParams = { businessId: getBusinessId(state) };
-    const content = getSplitAllocationPayload(state, index);
+    const content = getSplitAllocationPayload(index);
 
     this.collapseTransactionLine();
 

@@ -24,6 +24,7 @@ export const unallocateTransaction = (state, action) => ({
         ? {
           ...entry,
           allocateOrMatch: action.allocateOrMatch,
+          journalId: '',
           journalLineId: '',
           type: action.type,
           taxCode: '',
