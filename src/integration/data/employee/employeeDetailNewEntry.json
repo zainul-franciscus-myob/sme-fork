@@ -1,4 +1,7 @@
 {
+  "contactDetail": {
+    "country": "Australia"
+  },
   "payrollDetails": {
     "employmentDetails": {
       "employmentBasis": "Individual",
