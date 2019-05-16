@@ -5,6 +5,7 @@ export const allocateTransaction = (state, action) => ({
       index === action.index
         ? {
           ...entry,
+          isReportable: action.isReportable,
           allocateOrMatch: action.allocateOrMatch,
           journalId: action.journalId,
           journalLineId: action.journalLineId,

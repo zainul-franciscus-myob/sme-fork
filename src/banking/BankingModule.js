@@ -70,6 +70,7 @@ export default class BankingModule {
         onDismissAlert={this.dismissAlert}
         onAllocate={this.allocateTransaction}
         onUnallocate={this.unallocateTransaction}
+        onSplitRowItemClick={this.confirmBefore(this.toggleLine)}
         onMatchedToBlur={this.blurEntry}
         onMatchedToFocus={this.focusEntry}
         onUnmatchedFocus={this.focusEntry}
@@ -428,7 +429,6 @@ export default class BankingModule {
 
   loadOpenEntryTab = (index, tabId) => {
     const state = this.store.getState();
-
     const line = getBankTransactionLineByIndex(state, index);
 
     if (tabId === tabIds.allocate) {
@@ -501,7 +501,7 @@ export default class BankingModule {
 
     const index = getOpenPosition(state);
     const urlParams = { businessId: getBusinessId(state) };
-    const content = getSplitAllocationPayload(index);
+    const content = getSplitAllocationPayload(state, index);
 
     this.collapseTransactionLine();
 

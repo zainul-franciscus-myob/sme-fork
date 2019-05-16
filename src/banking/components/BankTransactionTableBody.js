@@ -18,6 +18,7 @@ import style from './BankingView.css';
 
 const getMatchedOrAllocatedRowItem = ({
   entry,
+  onSplitRowItemClick,
   onMatchedToFocus,
   onMatchedToBlur,
   onUnmatchedBlur,
@@ -62,7 +63,9 @@ const getMatchedOrAllocatedRowItem = ({
   if (type === 'splitAllocation') {
     return (
       <SplitRowItem
+        index={index}
         entry={entry}
+        onClick={() => onSplitRowItemClick(index)}
         {...tableConfig.allocateOrMatch}
       />
     );
@@ -97,6 +100,7 @@ const BankTransactionTableBody = (props) => {
     tableConfig,
     entries,
     isOpenEntryLoading,
+    onSplitRowItemClick,
     onMatchedToBlur,
     onMatchedToFocus,
     onUnmatchedFocus,
@@ -149,6 +153,7 @@ const BankTransactionTableBody = (props) => {
   const rows = entries.map((entry, index) => {
     const matchedOrAllocatedRowItem = getMatchedOrAllocatedRowItem({
       entry,
+      onSplitRowItemClick,
       tableConfig,
       onAllocate,
       onUnallocate,
@@ -211,6 +216,7 @@ BankTransactionTableBody.propTypes = {
   onAllocate: PropTypes.func.isRequired,
   onUnallocate: PropTypes.func.isRequired,
   onMatchedToBlur: PropTypes.func.isRequired,
+  onSplitRowItemClick: PropTypes.func.isRequired,
   onMatchedToFocus: PropTypes.func.isRequired,
   onUnmatchedFocus: PropTypes.func.isRequired,
   onUnmatchedBlur: PropTypes.func.isRequired,

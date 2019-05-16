@@ -22,6 +22,7 @@ const BankingView = (props) => {
     onAllocate,
     onUnallocate,
     onDismissAlert,
+    onSplitRowItemClick,
     onMatchedToBlur,
     onMatchedToFocus,
     onUnmatchedFocus,
@@ -72,6 +73,7 @@ const BankingView = (props) => {
           onUnallocate={onUnallocate}
           onMatchedToBlur={onMatchedToBlur}
           onMatchedToFocus={onMatchedToFocus}
+          onSplitRowItemClick={onSplitRowItemClick}
           onUnmatchedFocus={onUnmatchedFocus}
           onUnmatchedBlur={onUnmatchedBlur}
           onHeaderClick={onHeaderClick}

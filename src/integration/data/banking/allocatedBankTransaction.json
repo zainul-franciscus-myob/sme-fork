@@ -3,5 +3,6 @@
   "journalId": "8373",
   "journalLineId": "1559",
   "type": "singleAllocation",
-  "taxCode": "GST"
+  "taxCode": "GST",
+  "isReportable": false
 }
