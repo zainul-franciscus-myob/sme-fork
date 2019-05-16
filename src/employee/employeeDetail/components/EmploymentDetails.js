@@ -57,7 +57,7 @@ const EmploymentDetails = ({
         onSelect={onDateChange('dateOfBirth', onEmploymentDetailsChange)}
       />
       <ReadOnly label="Calculated age" name="calculatedAge">{calculatedAge}</ReadOnly>
-      <Select name="Gender" label="Gender" onChange={handleSelectChange(onEmploymentDetailsChange)}>
+      <Select name="gender" label="Gender" onChange={handleSelectChange(onEmploymentDetailsChange)}>
         {genderOptions.map(({ name, value }) => (
           <Select.Option key={value} value={value} label={name} />
         ))}

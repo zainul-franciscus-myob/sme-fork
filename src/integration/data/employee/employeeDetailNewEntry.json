@@ -5,7 +5,7 @@
   "payrollDetails": {
     "employmentDetails": {
       "employmentBasis": "Individual",
-      "employmentCateogry": "Permanent",
+      "employmentCategory": "Permanent",
       "employmentStatus": "FullTime",
       "paySlipDelivery": "ToBeEmailed"
     }
