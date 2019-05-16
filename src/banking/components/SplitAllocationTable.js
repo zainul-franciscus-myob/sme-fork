@@ -6,10 +6,9 @@ import React from 'react';
 import {
   getIndexOfLastLine,
   getTableData,
-  getTotals,
 } from '../bankingSelectors/splitAllocationSelectors';
 import SplitAllocationRow from './SplitAllocationRow';
-
+import SplitAllocationTotals from './SplitAllocationTotals';
 
 const columnConfig = [
   {
@@ -38,7 +37,6 @@ const columnConfig = [
   },
 ];
 
-
 const labels = [
   'Account', 'Amount ($)', 'Amount (%)', 'Line description', 'Tax code',
 ];
@@ -64,10 +62,6 @@ const renderRow = indexOfLastLine => (index, data, onChange) => {
 const SplitAllocationTable = (props) => {
   const {
     tableData,
-    totals: {
-      totalAllocated,
-      totalUnallocated,
-    },
     indexOfLastLine,
     onAddSplitAllocationLine,
     onUpdateSplitAllocationLine,
@@ -84,10 +78,7 @@ const SplitAllocationTable = (props) => {
       onRemoveRow={onDeleteSplitAllocationLine}
       columnConfig={columnConfig}
     >
-      <LineItemTable.Total>
-        <LineItemTable.Totals title="Total allocated" amount={totalAllocated} />
-        <LineItemTable.Totals totalAmount title="Unallocated" amount={totalUnallocated} />
-      </LineItemTable.Total>
+      <SplitAllocationTotals />
     </LineItemTable>
   );
 };
@@ -95,10 +86,6 @@ const SplitAllocationTable = (props) => {
 SplitAllocationTable.propTypes = {
   tableData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   indexOfLastLine: PropTypes.number.isRequired,
-  totals: PropTypes.shape({
-    totalAllocated: PropTypes.string,
-    totalUnallocated: PropTypes.string,
-  }).isRequired,
   onAddSplitAllocationLine: PropTypes.func.isRequired,
   onUpdateSplitAllocationLine: PropTypes.func.isRequired,
   onDeleteSplitAllocationLine: PropTypes.func.isRequired,
@@ -106,7 +93,6 @@ SplitAllocationTable.propTypes = {
 
 const mapStateToProps = state => ({
   tableData: getTableData(state),
-  totals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
 });
 

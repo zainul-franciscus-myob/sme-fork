@@ -1,17 +1,20 @@
-import { createSelector } from 'reselect/lib/index';
+import { createSelector } from 'reselect';
 import dateFormat from 'dateformat';
 
 import { tabIds } from '../tabItems';
-
-export const getOrder = ({ sortOrder, orderBy }) => ({
-  column: orderBy,
-  descending: sortOrder === 'desc',
-});
 
 export const getOrderBy = ({ orderBy }) => orderBy;
 
 export const getSortOrder = ({ sortOrder }) => sortOrder;
 
+export const getOrder = createSelector(
+  getSortOrder,
+  getOrderBy,
+  (sortOrder, orderBy) => ({
+    column: orderBy,
+    descending: sortOrder === 'desc',
+  }),
+);
 export const getFlipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
 
 export const getAlert = ({ alert }) => alert;
@@ -56,15 +59,18 @@ export const getTableEntries = createSelector(
   ),
 );
 
-export const isTransactionTypeApproved = state => state.filterOptions.transactionType === 'Approved';
+const getIsTransactionTypeApproved = state => state.filterOptions.transactionType === 'Approved';
 
-export const getShouldDisplayDateRange = state => isTransactionTypeApproved(state);
+export const getShouldDisplayDateRange = state => getIsTransactionTypeApproved(state);
 
-export const getFilterOptions = (state) => {
-  const { filterOptions } = state;
-  const { dateTo, dateFrom, ...noDateFilterOptions } = filterOptions;
-  return isTransactionTypeApproved(state) ? filterOptions : noDateFilterOptions;
-};
+export const getFilterOptions = createSelector(
+  state => state.filterOptions,
+  getIsTransactionTypeApproved,
+  (filterOptions, isTransactionTypeApproved) => {
+    const { dateTo, dateFrom, ...noDateFilterOptions } = filterOptions;
+    return isTransactionTypeApproved ? filterOptions : noDateFilterOptions;
+  },
+);
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
@@ -72,11 +78,14 @@ export const getIsTableLoading = state => state.isTableLoading;
 
 export const getIsLoading = state => state.isLoading;
 
-export const getTransactionTypes = state => state.transactionTypes.map(
-  transactionType => ({
-    label: transactionType.name,
-    value: transactionType.value,
-  }),
+export const getTransactionTypes = createSelector(
+  state => state.transactionTypes,
+  transactionTypes => transactionTypes.map(
+    transactionType => ({
+      label: transactionType.name,
+      value: transactionType.value,
+    }),
+  ),
 );
 
 export const getBalances = state => state.balances;
