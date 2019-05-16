@@ -17,3 +17,5 @@ export const LOAD_NEW_EMPLOYEE_DETAIL = Symbol('Load new employee detail');
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
 export const SET_PAGE_EDITED_STATE = Symbol('Set page edited state');
+export const UPDATE_PAYROLL_EMPLOYMENT_DETAIL = Symbol('Update Payroll employment detail');
+export const UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY = Symbol('Update Payroll employment payslip delivery');

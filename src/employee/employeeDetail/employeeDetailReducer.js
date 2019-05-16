@@ -10,11 +10,15 @@ import {
   SET_SUBMITTING_STATE,
   SET_SUB_TAB,
   UPDATE_CONTACT_DETAILS,
+  UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
+  UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
 } from '../EmployeeIntents';
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { mainTabIds } from './tabItems';
+import { shouldDefaultPayslipEmail } from './EmployeeDetailSelectors';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -80,10 +84,22 @@ const setInitalState = (state, action) => ({
 
 const resetState = () => (getDefaultState());
 
-const setMainTab = (state, action) => ({
-  ...state,
-  mainTab: action.selectedTab,
-});
+const setMainTab = (state, action) => ((
+  action.selectedTab === mainTabIds.payrollDetails && shouldDefaultPayslipEmail(state))
+  ? {
+    ...state,
+    mainTab: action.selectedTab,
+    payrollDetails: {
+      employmentDetails: {
+        ...state.payrollDetails.employmentDetails,
+        paySlipEmail: state.contactDetail.email,
+        [action.key]: action.value,
+      },
+    },
+  } : {
+    ...state,
+    mainTab: action.selectedTab,
+  });
 
 const setSubTab = (state, action) => ({
   ...state,
@@ -174,6 +190,39 @@ const setPageEditedState = (state, action) => ({
   isPageEdited: action.isPageEdited,
 });
 
+const updatePayslipDelivery = (state, action) => ((
+  ['ToBeEmailed', 'ToBePrintedAndEmailed'].includes(action.value)
+  && shouldDefaultPayslipEmail(state))
+  ? {
+    ...state,
+    payrollDetails: {
+      employmentDetails: {
+        ...state.payrollDetails.employmentDetails,
+        paySlipEmail: state.contactDetail.email,
+        [action.key]: action.value,
+      },
+    },
+  }
+  : {
+    ...state,
+    payrollDetails: {
+      employmentDetails: {
+        ...state.payrollDetails.employmentDetails,
+        [action.key]: action.value,
+      },
+    },
+  });
+
+const updatePayrollEmployeeDetail = (state, action) => ({
+  ...state,
+  payrollDetails: {
+    employmentDetails: {
+      ...state.payrollDetails.employmentDetails,
+      [action.key]: action.value,
+    },
+  },
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitalState,
@@ -188,6 +237,8 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_PAGE_EDITED_STATE]: setPageEditedState,
+  [UPDATE_PAYROLL_EMPLOYMENT_DETAIL]: updatePayrollEmployeeDetail,
+  [UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY]: updatePayslipDelivery,
 };
 
 const employeeDetailReducer = createReducer(getDefaultState(), handlers);

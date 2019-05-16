@@ -16,6 +16,8 @@ import {
   SET_SUB_TAB,
   UPDATE_CONTACT_DETAILS,
   UPDATE_EMPLOYEE,
+  UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
+  UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
 } from '../EmployeeIntents';
 import {
   RESET_STATE,
@@ -86,6 +88,22 @@ export default class EmployeeDetailModule {
 
     this.store.dispatch({
       intent,
+      key,
+      value,
+    });
+  };
+
+  updatePayrollEmploymentDetails = ({ key, value }) => {
+    this.store.dispatch({
+      intent: UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
+      key,
+      value,
+    });
+  };
+
+  updatePayrollEmploymentPaySlipDelivery = ({ key, value }) => {
+    this.store.dispatch({
+      intent: UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
       key,
       value,
     });
@@ -291,6 +309,8 @@ export default class EmployeeDetailModule {
         onCloseModal={this.closeModal}
         onCancelModal={this.redirectToEmployeeList}
         onDeleteModal={this.deleteEmployee}
+        onEmploymentDetailsChange={this.updatePayrollEmploymentDetails}
+        onEmploymentPaySlipDeliveryChange={this.updatePayrollEmploymentPaySlipDelivery}
       />
     );
 

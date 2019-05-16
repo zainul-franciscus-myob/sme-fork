@@ -66,6 +66,8 @@ const EmployeeDetailView = ({
   onCancelModal,
   onDeleteModal,
   pageHeadTitle,
+  onEmploymentDetailsChange,
+  onEmploymentPaySlipDeliveryChange,
 }) => {
   const Content = {
     [mainTabIds.contactDetails]: EmployeeDetailContactDetails,
@@ -102,6 +104,8 @@ const EmployeeDetailView = ({
   const contentProps = {
     onSubTabSelected,
     onContactDetailsChange,
+    onEmploymentDetailsChange,
+    onEmploymentPaySlipDeliveryChange,
   };
 
   const view = (
@@ -136,6 +140,8 @@ EmployeeDetailView.propTypes = {
   onCancelModal: PropTypes.func.isRequired,
   onDeleteModal: PropTypes.func.isRequired,
   pageHeadTitle: PropTypes.string.isRequired,
+  onEmploymentDetailsChange: PropTypes.func.isRequired,
+  onEmploymentPaySlipDeliveryChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -1,10 +1,16 @@
 import { createSelector, createStructuredSelector } from 'reselect';
+import { differenceInYears } from 'date-fns';
 
 import { mainTabIds, payrollDetailsSubTabIds } from './tabItems';
 import countryList from '../../sharedData/countryList';
 
 export const getBusinessId = state => state.businessId;
 export const getIsLoading = state => state.isLoading;
+export const getGenderOptions = state => state.genderOptions;
+export const getEmployeeBasisOptions = state => state.employeeBasisOptions;
+export const getEmployeeCategoryOptions = state => state.employeeCategoryOptions;
+export const getEmployeeStatusOptions = state => state.employeeStatusOptions;
+export const getEmployeePayslipDeliveryOptions = state => state.payslipDeliveryOptions;
 
 const getStateMainTab = state => state.mainTab;
 export const getMainTab = createSelector(
@@ -92,7 +98,18 @@ export const getPageHeadTitle = (state) => {
     : employeeFullName;
 };
 
+export const getEmploymentDetails = state => state.payrollDetails.employmentDetails;
+
+export const shouldDefaultPayslipEmail = state => state.payrollDetails.employmentDetails.paySlipEmail === ''
+  && state.contactDetail.email !== '';
+
 export const getIsStateDropdown = createSelector(
   getStateOptions,
   states => states !== undefined,
 );
+
+export const getCalculatedAge = (state) => {
+  const age = differenceInYears(new Date(),
+    new Date(state.payrollDetails.employmentDetails.dateOfBirth));
+  return String(age || '0');
+};

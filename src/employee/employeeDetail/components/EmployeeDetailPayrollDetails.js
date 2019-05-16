@@ -5,17 +5,24 @@ import React, { Fragment } from 'react';
 
 import { getSubTab } from '../EmployeeDetailSelectors';
 import { payrollDetailsSubTabIds, payrollDetailsSubTabItems } from '../tabItems';
+import EmploymentDetails from './EmploymentDetails';
 
-const EmploymentDetails = () => (
-  <div>Employment details is under construction, please come back later</div>
-);
 const SalaryAndWages = () => (
   <div>Salary and wages is under construction, please come back later</div>
 );
 
-const EmployeeDetailPayrollDetails = ({ selectedTab, onSubTabSelected }) => {
+const EmployeeDetailPayrollDetails = ({
+  selectedTab, onSubTabSelected, onEmploymentDetailsChange, onEmploymentPaySlipDeliveryChange,
+}) => {
+  const Employment = () => (
+    <EmploymentDetails
+      onEmploymentDetailsChange={onEmploymentDetailsChange}
+      onEmploymentPaySlipDeliveryChange={onEmploymentPaySlipDeliveryChange}
+    />
+  );
+
   const Content = {
-    [payrollDetailsSubTabIds.employmentDetails]: EmploymentDetails,
+    [payrollDetailsSubTabIds.employmentDetails]: Employment,
     [payrollDetailsSubTabIds.salaryAndWages]: SalaryAndWages,
   }[selectedTab];
 
@@ -34,6 +41,8 @@ const EmployeeDetailPayrollDetails = ({ selectedTab, onSubTabSelected }) => {
 EmployeeDetailPayrollDetails.propTypes = {
   selectedTab: PropTypes.string.isRequired,
   onSubTabSelected: PropTypes.func.isRequired,
+  onEmploymentDetailsChange: PropTypes.func.isRequired,
+  onEmploymentPaySlipDeliveryChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

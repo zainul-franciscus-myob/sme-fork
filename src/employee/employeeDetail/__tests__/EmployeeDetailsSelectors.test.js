@@ -1,4 +1,4 @@
-import { getMainTab, getSubTab } from '../EmployeeDetailSelectors';
+import { getCalculatedAge, getMainTab, getSubTab } from '../EmployeeDetailSelectors';
 import { mainTabIds, payrollDetailsSubTabIds } from '../tabItems';
 
 describe('employeeDetailSelectors', () => {
@@ -46,6 +46,35 @@ describe('employeeDetailSelectors', () => {
       const expected = Object.values(payrollDetailsSubTabIds)[0];
       const actual = getSubTab(state);
 
+      expect(actual).toBe(expected);
+    });
+  });
+
+  describe('getCalculatedAge', () => {
+    it('Calculates the users age from birthday to current date', () => {
+      const dateOfBirth = '1985-07-20';
+      const state = {
+        payrollDetails: {
+          employmentDetails: {
+            dateOfBirth,
+          },
+        },
+      };
+      const expected = '33';
+      const actual = getCalculatedAge(state);
+      expect(actual).toBe(expected);
+    });
+    it('Returns 0 when the date of birth is unset', () => {
+      const dateOfBirth = '';
+      const state = {
+        payrollDetails: {
+          employmentDetails: {
+            dateOfBirth,
+          },
+        },
+      };
+      const expected = '0';
+      const actual = getCalculatedAge(state);
       expect(actual).toBe(expected);
     });
   });
