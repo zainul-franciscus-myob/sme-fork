@@ -115,6 +115,10 @@ const loadEmployeeDetail = (state, action) => ({
   payrollDetails: {
     ...state.payrollDetails,
     ...action.payrollDetails,
+    employmentDetails: {
+      ...state.payrollDetails.employmentDetails,
+      ...action.payrollDetails.employmentDetails,
+    },
   },
   paymentDetails: {
     ...state.paymentDetails,
@@ -139,6 +143,10 @@ const loadNewEmployeeDetail = (state, action) => ({
   payrollDetails: {
     ...state.payrollDetails,
     ...action.payrollDetails,
+    employmentDetails: {
+      ...state.payrollDetails.employmentDetails,
+      ...action.payrollDetails.employmentDetails,
+    },
   },
   paymentDetails: {
     ...state.paymentDetails,
