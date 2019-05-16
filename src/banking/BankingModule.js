@@ -388,7 +388,9 @@ export default class BankingModule {
   }
 
   expandTransactionLine = (index) => {
-    const line = getBankTransactionLineByIndex(index);
+    const state = this.store.getState();
+
+    const line = getBankTransactionLineByIndex(state, index);
     const tabId = getOpenEntryDefaultTabId(line);
 
     this.loadOpenEntryTab(index, tabId);
@@ -425,7 +427,9 @@ export default class BankingModule {
   }
 
   loadOpenEntryTab = (index, tabId) => {
-    const line = getBankTransactionLineByIndex(index);
+    const state = this.store.getState();
+
+    const line = getBankTransactionLineByIndex(state, index);
 
     if (tabId === tabIds.allocate) {
       if (getIsAllocated(line)) {
@@ -451,11 +455,12 @@ export default class BankingModule {
     };
 
     const onSuccess = (payload) => {
-      if (getOpenPosition(state) !== index) {
+      const updatedState = this.store.getState();
+      if (getOpenPosition(updatedState) !== index) {
         return;
       }
-      this.setOpenEntryLoadingState(false);
 
+      this.setOpenEntryLoadingState(false);
       this.store.dispatch({
         intent,
         ...payload,
