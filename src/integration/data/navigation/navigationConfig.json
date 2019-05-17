@@ -18,6 +18,7 @@
     "bankTransactionList",
     "inventory",
     "userList",
-    "employeeList"
+    "employeeList",
+    "billPayment"
   ]
 }

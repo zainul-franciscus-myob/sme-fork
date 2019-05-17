@@ -1,0 +1,35 @@
+{
+  "suppliers": [
+    {
+      "contactType": "Customer",
+      "displayName": "A-Z Stationery Supplies",
+      "id": "1",
+      "displayId": "CUS000001"
+    },
+    {
+      "contactType": "Supplier",
+      "displayName": "Cow Feed",
+      "id": "2",
+      "displayId": "CUS000003"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "123",
+      "displayName": "My Bank",
+      "accountType": "Asset",
+      "taxCodeId": "123",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Other Bank",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "2-123"
+    }
+  ],
+  "selectedAccountId": "123",
+  "referenceId": "BP0000002",
+  "showPaidBills": false
+}
