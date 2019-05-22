@@ -1,0 +1,31 @@
+{
+  "payment": {
+    "contactId": "2",
+    "entries": [
+      {
+        "id": "378",
+        "referenceId": "0000023",
+        "status": "Open",
+        "date": "27/03/2019",
+        "amount": 120,
+        "appliedAmount": 120
+      },
+      {
+        "id": "379",
+        "referenceId": "0000024",
+        "status": "Open",
+        "date": "28/03/2019",
+        "amount": 2500.05,
+        "appliedAmount": 2500.05
+      },
+      {
+        "id": "380",
+        "referenceId": "0000025",
+        "status": "Open",
+        "date": "30/03/2019",
+        "amount": 450.05,
+        "appliedAmount": 450.05
+      }
+    ]
+  }
+}

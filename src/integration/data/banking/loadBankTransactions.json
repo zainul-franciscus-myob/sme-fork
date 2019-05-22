@@ -89,15 +89,43 @@
   ],
   "contacts": [
     {
-      "contactType": "Customer",
+      "contactType": "Supplier",
       "displayName": "A-Z Stationery Supplies",
       "id": "1",
+      "displayId": "SUP000001"
+    },
+    {
+      "contactType": "Customer",
+      "displayName": "Clemons, Iga",
+      "id": "3",
       "displayId": "CUS000001"
+    }
+  ],
+  "suppliers": [
+    {
+      "contactType": "Supplier",
+      "displayName": "A-Z Stationery Supplies",
+      "id": "1",
+      "displayId": "SUP000001"
     },
     {
       "contactType": "Supplier",
-      "displayName": "Cow Feed",
+      "displayName": "Macro Vending",
       "id": "2",
+      "displayId": "SUP000003"
+    }
+  ],
+  "customers": [
+    {
+      "contactType": "Customer",
+      "displayName": "Clemons, Iga",
+      "id": "3",
+      "displayId": "CUS000001"
+    },
+    {
+      "contactType": "Customer",
+      "displayName": "Collins, Faye",
+      "id": "4",
       "displayId": "CUS000003"
     }
   ],
