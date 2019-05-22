@@ -2,13 +2,13 @@ import React from 'react';
 
 import AutoFormatter from '../AutoFormatterCore/AutoFormatter';
 
-const AmountInput = props => (
+const AmountInput = ({ decimalScale = 2, ...props }) => (
   <AutoFormatter
     {...props}
-    textAlign="right"
     options={{
       numeral: true,
       numeralThousandsGroupStyle: 'thousand',
+      numeralDecimalScale: decimalScale,
     }}
   />
 );

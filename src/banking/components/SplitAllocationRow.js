@@ -64,6 +64,7 @@ const SplitAllocationRow = (props) => {
         name="amount"
         value={amount}
         onChange={handleAmountChange(onChange)}
+        textAlign="right"
       />
       <AmountInput
         label="AmountPercent"
@@ -71,6 +72,7 @@ const SplitAllocationRow = (props) => {
         name="amountPercent"
         value={amountPercent}
         onChange={handleAmountChange(onChange)}
+        textAlign="right"
       />
       <Input
         type="text"

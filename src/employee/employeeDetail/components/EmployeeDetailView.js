@@ -56,6 +56,8 @@ const EmployeeDetailView = ({
   onSubTabSelected,
   isLoading,
   onContactDetailsChange,
+  onPaymentDetailsChange,
+  onBankAccountDetailsChange,
   onCancelButtonClick,
   onSaveButtonClick,
   onDeleteButtonClick,
@@ -106,6 +108,8 @@ const EmployeeDetailView = ({
     onContactDetailsChange,
     onEmploymentDetailsChange,
     onEmploymentPaySlipDeliveryChange,
+    onPaymentDetailsChange,
+    onBankAccountDetailsChange,
   };
 
   const view = (
@@ -132,6 +136,8 @@ EmployeeDetailView.propTypes = {
   onMainTabSelected: PropTypes.func.isRequired,
   onSubTabSelected: PropTypes.func.isRequired,
   onContactDetailsChange: PropTypes.func.isRequired,
+  onPaymentDetailsChange: PropTypes.func.isRequired,
+  onBankAccountDetailsChange: PropTypes.func.isRequired,
   onCancelButtonClick: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,
   onDismissAlert: PropTypes.func.isRequired,

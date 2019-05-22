@@ -1,0 +1,14 @@
+:local(.splitBank) {
+  display: flex;
+  padding-bottom: 1.2rem;
+  align-items: center;
+}
+
+:local(.splitBank) > .form-group,
+:local(.splitBank) > p {
+  margin-bottom: 0;
+}
+
+:local(.paragraphPadding) {
+  padding-left: 0.5rem;
+}

@@ -14,8 +14,10 @@ import {
   SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
   SET_SUB_TAB,
+  UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_EMPLOYEE,
+  UPDATE_PAYMENT_DETAILS,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
 } from '../EmployeeIntents';
@@ -108,6 +110,27 @@ export default class EmployeeDetailModule {
       value,
     });
   };
+
+  updatePaymentDetails = ({ key, value }) => {
+    const intent = UPDATE_PAYMENT_DETAILS;
+
+    this.store.dispatch({
+      intent,
+      key,
+      value,
+    });
+  }
+
+  updateBankAccountDetails = ({ key, value, index }) => {
+    const intent = UPDATE_BANK_ACCOUNT_DETAILS;
+
+    this.store.dispatch({
+      intent,
+      key,
+      value,
+      index,
+    });
+  }
 
   displaySuccessMessage = successMessage => this.displayAlert({
     message: successMessage,
@@ -302,6 +325,8 @@ export default class EmployeeDetailModule {
         onMainTabSelected={this.setMainTab}
         onSubTabSelected={this.setSubTab}
         onContactDetailsChange={this.updateContactDetails}
+        onPaymentDetailsChange={this.updatePaymentDetails}
+        onBankAccountDetailsChange={this.updateBankAccountDetails}
         onCancelButtonClick={this.openCancelModal}
         onSaveButtonClick={onSaveButtonClick}
         onDeleteButtonClick={this.openDeleteModal}

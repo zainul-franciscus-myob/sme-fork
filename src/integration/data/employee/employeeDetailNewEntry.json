@@ -11,9 +11,31 @@
     }
   },
   "paymentDetails": {
-    "paymentMethod": "Electronic",
+    "paymentMethod": "Cheque",
     "splitPayBetween": "1",
-    "bankAccounts": []
+    "bankAccounts": [
+      {
+        "bsbNumber": "",
+        "accountNumber": "",
+        "accountName": "",
+        "value": "Percent",
+        "amount": "100.00"
+      },
+      {
+        "bsbNumber": "",
+        "accountNumber": "",
+        "accountName": "",
+        "value": "Percent",
+        "amount": "0.00"
+      },
+      {
+        "bsbNumber": "",
+        "accountNumber": "",
+        "accountName": "",
+        "value": "Percent",
+        "amount": "0.00"
+      }
+    ]
   },
   "genderOptions": [
     {
