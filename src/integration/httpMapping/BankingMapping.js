@@ -6,6 +6,7 @@ import {
   SAVE_MATCH_TRANSACTION,
   SAVE_SPLIT_ALLOCATION,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
+  SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
 } from '../../banking/BankingIntents';
@@ -43,7 +44,7 @@ const BankingMapping = {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/banking/load_match_transactions`,
   },
-  [SORT_AND_FILTER_BANK_TRANSACTIONS]: {
+  [SORT_AND_FILTER_MATCH_TRANSACTIONS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/banking/filter_match_transactions`,
   },
