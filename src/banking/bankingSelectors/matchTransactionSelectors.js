@@ -75,10 +75,10 @@ export const getDefaultMatchTransactionFilterOptions = (accountId, line) => {
 };
 
 const getEntryLink = (entry, businessId, region) => {
-  const { journalLineId, sourceJournal } = entry;
+  const { journalId, sourceJournal } = entry;
   const feature = businessEventFeatures[sourceJournal];
 
-  return `/#/${region}/${businessId}/${feature}/${journalLineId}`;
+  return `/#/${region}/${businessId}/${feature}/${journalId}`;
 };
 
 const getIsEntryDisabled = (entry, totalAmount) => entry.amount !== formatAmount(totalAmount);
