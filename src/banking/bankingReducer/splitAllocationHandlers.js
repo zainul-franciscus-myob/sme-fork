@@ -1,4 +1,4 @@
-import { allocateTransaction } from './singleAllocationHandlers';
+import { allocateTransaction } from './index';
 import { getDefaultTaxCodeId, getTotalAmount } from '../bankingSelectors/splitAllocationSelectors';
 import {
   getDepositAccounts,
@@ -172,29 +172,6 @@ export const saveSplitAllocation = (state, action) => {
 
   return ({
     ...allocateTransaction(state, action),
-    openPosition: defaultState.openPosition,
-    openEntry: defaultState.openEntry,
-  });
-};
-
-export const unallocateSplitAllocation = (state, action) => {
-  const defaultState = getDefaultState();
-
-  return ({
-    ...state,
-    entries: state.entries.map(
-      (entry, index) => (
-        index === action.index
-          ? {
-            ...entry,
-            allocateOrMatch: action.allocateOrMatch,
-            journalLineId: '',
-            type: action.type,
-            taxCode: '',
-          }
-          : entry
-      ),
-    ),
     openPosition: defaultState.openPosition,
     openEntry: defaultState.openEntry,
   });

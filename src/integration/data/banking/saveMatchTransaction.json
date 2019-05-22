@@ -1,7 +1,10 @@
 {
+  "message": "Success! You've successfully matched the bank transaction",
   "allocateOrMatch": "Transit",
   "journalId": "8373",
   "journalLineId": "1559",
+  "sourceJournal": "CashReceipt",
   "type": "singleAllocation",
-  "taxCode": "GST"
+  "taxCode": "GST",
+  "isReportable": false
 }

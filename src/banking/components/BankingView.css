@@ -10,7 +10,15 @@
   min-height: 60vh;
 }
 
-:local .spinner {
+:local .openEntryEmpty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh;
+}
+
+:local .spinner,
+:local .bankingTableSpinner {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -18,6 +26,11 @@
   right: 0;
   display: flex;
   align-items: center;
+}
+
+:local .bankingTableSpinner {
+  position: relative;
+  min-height: 15rem;
 }
 
 :local .allocateButton {
@@ -74,6 +87,15 @@
 
 :local .list :global(.table-data__row) {
   grid-gap: 0;
+}
+
+:local .openEntry .amountInput {
+  width: 12rem;
+}
+
+:local .openEntry :global(.table-data__container) {
+  max-height: 27rem;
+  overflow-y: auto;
 }
 
 :local .list :global(.combobox table) {
@@ -138,8 +160,7 @@
 }
 
 :local .list :global(.is-open .table-data__cell[data-label=allocateOrMatch]) {
-  display: flex;
-  align-items: center;
+  padding: 0.8rem 1.2rem;
 }
 
 :local .allocateButton:global(.btn-link):hover :global(.btn-link__content) {

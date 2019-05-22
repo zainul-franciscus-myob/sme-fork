@@ -60,6 +60,24 @@ const getDefaultState = () => ({
         amount: '',
       },
     },
+    match: {
+      isTableLoading: false,
+      totalAmount: 0,
+      selectedJournalLineId: '',
+      filterOptions: {
+        accountId: '',
+        allocatedJournalLineId: '',
+        isCredit: '',
+        dateFrom: '',
+        dateTo: '',
+        amountFrom: '',
+        amountTo: '',
+        keywords: '',
+      },
+      orderBy: '',
+      sortOrder: '',
+      entries: [],
+    },
   },
 });
 

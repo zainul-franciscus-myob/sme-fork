@@ -7,22 +7,28 @@ import {
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
-  LOAD_BANK_TRANSACTIONS, LOAD_MATCH_TRANSACTION,
+  LOAD_BANK_TRANSACTIONS,
+  LOAD_MATCH_TRANSACTIONS,
   LOAD_NEW_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
-  OPEN_MODAL,
+  OPEN_MODAL, SAVE_MATCH_TRANSACTION,
   SAVE_SPLIT_ALLOCATION,
   SET_ALERT,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
   SET_LOADING_STATE,
+  SET_MATCH_TRANSACTION_LOADING_STATE,
+  SET_MATCH_TRANSACTION_SORT_ORDER,
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
-  UNALLOCATE_SPLIT_ALLOCATION,
+  SORT_AND_FILTER_MATCH_TRANSACTIONS,
+  UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
   UPDATE_FILTER_OPTIONS,
+  UPDATE_MATCH_TRANSACTION_OPTIONS,
+  UPDATE_MATCH_TRANSACTION_SELECTION,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
 } from './BankingIntents';
@@ -46,6 +52,14 @@ import {
   getSortOrder,
   getUnallocationPayload,
 } from './bankingSelectors';
+import {
+  getDefaultMatchTransactionFilterOptions,
+  getMatchTransactionFilterOptions,
+  getMatchTransactionFlipSortOrder,
+  getMatchTransactionOrderBy,
+  getMatchTransactionPayload,
+  getMatchTransactionSortOrder,
+} from './bankingSelectors/matchTransactionSelectors';
 import { getSplitAllocationPayload } from './bankingSelectors/splitAllocationSelectors';
 import { tabIds } from './tabItems';
 import BankingView from './components/BankingView';
@@ -71,6 +85,7 @@ export default class BankingModule {
         onAllocate={this.allocateTransaction}
         onUnallocate={this.unallocateTransaction}
         onSplitRowItemClick={this.confirmBefore(this.toggleLine)}
+        onMatchRowItemClick={this.confirmBefore(this.toggleLine)}
         onMatchedToBlur={this.blurEntry}
         onMatchedToFocus={this.focusEntry}
         onUnmatchedFocus={this.focusEntry}
@@ -79,11 +94,18 @@ export default class BankingModule {
         onTabChange={this.confirmBefore(this.changeOpenEntryTab)}
         onSaveSplitAllocation={this.saveSplitAllocation}
         onCancelSplitAllocation={this.confirmBefore(this.collapseTransactionLine)}
-        onUnallocateSplitAllocation={this.confirmBefore(this.unallocateSplitAllocation)}
+        onUnallocateSplitAllocation={this.confirmBefore(this.unallocateOpenEntryTransaction)}
         onUpdateSplitAllocationHeader={this.updateSplitAllocationHeader}
         onAddSplitAllocationLine={this.addSplitAllocationLine}
         onUpdateSplitAllocationLine={this.updateSplitAllocationLine}
         onDeleteSplitAllocationLine={this.deleteSplitAllocationLine}
+        onApplyMatchTransactionOptions={this.confirmBefore(this.sortOrFilterMatchTransaction)}
+        onUpdateMatchTransactionOptions={this.updateMatchTransactionOptions}
+        onSortMatchTransactions={this.confirmBefore(this.sortMatchTransaction)}
+        onUpdateMatchTransactionSelection={this.updateMatchTransactionSelection}
+        onSaveMatchTransaction={this.saveMatchTransaction}
+        onCancelMatchTransaction={this.confirmBefore(this.collapseTransactionLine)}
+        onUnmatchTransaction={this.confirmBefore(this.unallocateOpenEntryTransaction)}
         onCancelModal={this.cancelModal}
         onCloseModal={this.closeModal}
       />
@@ -428,19 +450,22 @@ export default class BankingModule {
   }
 
   loadOpenEntryTab = (index, tabId) => {
+    const openEntryAction = {
+      [tabIds.match]: this.loadMatchTransaction,
+      [tabIds.allocate]: this.loadAllocate,
+    }[tabId] || this.loadAllocate;
+
+    openEntryAction(index);
+  }
+
+  loadAllocate = (index) => {
     const state = this.store.getState();
     const line = getBankTransactionLineByIndex(state, index);
 
-    if (tabId === tabIds.allocate) {
-      if (getIsAllocated(line)) {
-        this.loadSplitAllocation(index, line);
-      } else {
-        this.loadNewSplitAllocation(index);
-      }
-    }
-
-    if (tabId === tabIds.match) {
-      this.loadMatchTransaction(index);
+    if (getIsAllocated(line)) {
+      this.loadSplitAllocation(index, line);
+    } else {
+      this.loadNewSplitAllocation(index);
     }
   }
 
@@ -514,7 +539,7 @@ export default class BankingModule {
       });
       this.setAlert({
         type: 'success',
-        message: 'Success! You\'ve successfully allocated bank transaction',
+        message: payload.message,
       });
     };
 
@@ -537,8 +562,8 @@ export default class BankingModule {
     });
   }
 
-  unallocateSplitAllocation = () => {
-    const intent = UNALLOCATE_SPLIT_ALLOCATION;
+  unallocateOpenEntryTransaction = () => {
+    const intent = UNALLOCATE_OPEN_ENTRY_TRANSACTION;
     const state = this.store.getState();
 
     const index = getOpenPosition(state);
@@ -546,24 +571,24 @@ export default class BankingModule {
     const content = getUnallocationPayload(index, state);
 
     const onSuccess = (payload) => {
-      this.setEntryLoadingState(index, false);
+      this.setOpenEntryLoadingState(false);
       this.store.dispatch({
         intent,
         index,
         ...payload,
       });
+      this.loadMatchTransaction(index);
     };
 
     const onFailure = ({ message }) => {
-      this.setEntryLoadingState(index, false);
+      this.setOpenEntryLoadingState(false);
       this.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.collapseTransactionLine();
-    this.setEntryLoadingState(index, true);
+    this.setOpenEntryLoadingState(true);
     this.integration.write({
       intent,
       urlParams,
@@ -629,10 +654,187 @@ export default class BankingModule {
   }
 
   loadMatchTransaction = (index) => {
-    const intent = LOAD_MATCH_TRANSACTION;
+    const state = this.store.getState();
+
+    const intent = LOAD_MATCH_TRANSACTIONS;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    const { bankAccount: accountId } = getFilterOptions(state);
+
+    const line = getBankTransactionLineByIndex(state, index);
+    const { withdrawal, deposit } = line;
+    const filterOptions = getDefaultMatchTransactionFilterOptions(accountId, line);
+
+    const onSuccess = (payload) => {
+      const updatedState = this.store.getState();
+      if (getOpenPosition(updatedState) !== index) {
+        return;
+      }
+
+      this.setOpenEntryLoadingState(false);
+      this.store.dispatch({
+        intent,
+        ...filterOptions,
+        ...payload,
+        totalAmount: (withdrawal || deposit),
+        index,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setOpenEntryLoadingState(false);
+      this.collapseTransactionLine();
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.setOpenEntryLoadingState(true);
+    this.setOpenEntryPosition(index);
+    this.integration.read({
+      intent,
+      params: {
+        ...filterOptions,
+      },
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  sortMatchTransaction = (orderBy) => {
+    this.updateMatchTransactionSortOrder(orderBy);
+    this.sortOrFilterMatchTransaction();
+  }
+
+  sortOrFilterMatchTransaction = () => {
+    const state = this.store.getState();
+
+    const intent = SORT_AND_FILTER_MATCH_TRANSACTIONS;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const index = getOpenPosition(state);
+    const filterOptions = getMatchTransactionFilterOptions(state);
+    const sortOrder = getMatchTransactionSortOrder(state);
+    const orderBy = getMatchTransactionOrderBy(state);
+
+    const onSuccess = (payload) => {
+      const updatedState = this.store.getState();
+      if (getOpenPosition(updatedState) !== index) {
+        return;
+      }
+
+      this.setMatchTransactionLoadingState(false);
+      this.store.dispatch({
+        intent,
+        ...payload,
+        index,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setMatchTransactionLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    this.setMatchTransactionLoadingState(true);
+    this.integration.read({
+      intent,
+      urlParams,
+      params: {
+        ...filterOptions,
+        sortOrder,
+        orderBy,
+      },
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  saveMatchTransaction = () => {
+    const intent = SAVE_MATCH_TRANSACTION;
+    const state = this.store.getState();
+
+    const index = getOpenPosition(state);
+    const urlParams = { businessId: getBusinessId(state) };
+    const content = getMatchTransactionPayload(state, index);
+
+    this.collapseTransactionLine();
+
+    const onSuccess = (payload) => {
+      this.setEntryLoadingState(index, false);
+      this.store.dispatch({
+        intent,
+        index,
+        ...payload,
+      });
+      this.setAlert({
+        type: 'success',
+        message: payload.message,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setEntryLoadingState(index, false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.setEntryLoadingState(index, true);
+    this.integration.write({
+      intent,
+      urlParams,
+      allowParallelRequests: true,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  updateMatchTransactionOptions = ({ key, value }) => {
+    const intent = UPDATE_MATCH_TRANSACTION_OPTIONS;
     this.store.dispatch({
       intent,
-      index,
+      key,
+      value,
+    });
+  }
+
+  updateMatchTransactionSortOrder = (orderBy) => {
+    const state = this.store.getState();
+
+    const newSortOrder = orderBy === getMatchTransactionOrderBy(state)
+      ? getMatchTransactionFlipSortOrder(state) : 'asc';
+
+    const intent = SET_MATCH_TRANSACTION_SORT_ORDER;
+    this.store.dispatch({
+      intent,
+      orderBy,
+      sortOrder: newSortOrder,
+    });
+  }
+
+  setMatchTransactionLoadingState = (isLoading) => {
+    const intent = SET_MATCH_TRANSACTION_LOADING_STATE;
+    this.store.dispatch({
+      intent,
+      isLoading,
+    });
+  }
+
+  updateMatchTransactionSelection = (selectedJournalLineId) => {
+    const intent = UPDATE_MATCH_TRANSACTION_SELECTION;
+    this.store.dispatch({
+      intent,
+      selectedJournalLineId,
     });
   }
 

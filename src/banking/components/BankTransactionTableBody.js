@@ -7,7 +7,9 @@ import React from 'react';
 import { tabIds, tabItems } from '../tabItems';
 import AllocatedRowItem from './AllocatedRowItem';
 import ExpandedRowItem from './ExpandedRowItem';
+import MatchTransactionBody from './MatchTransactionBody';
 import MatchedRowItem from './MatchedRowItem';
+import OpenEntryFooter from './OpenEntryFooter';
 import SplitAllocationBody from './SplitAllocationBody';
 import SplitRowItem from './SplitRowItem';
 import TableCollapsibleRow from '../../components/Feelix/Accordion/TableCollapsibleRow';
@@ -19,6 +21,7 @@ import style from './BankingView.css';
 const getMatchedOrAllocatedRowItem = ({
   entry,
   onSplitRowItemClick,
+  onMatchRowItemClick,
   onMatchedToFocus,
   onMatchedToBlur,
   onUnmatchedBlur,
@@ -55,6 +58,7 @@ const getMatchedOrAllocatedRowItem = ({
     return (
       <MatchedRowItem
         entry={entry}
+        onClick={() => onMatchRowItemClick(index)}
         {...tableConfig.allocateOrMatch}
       />
     );
@@ -101,6 +105,7 @@ const BankTransactionTableBody = (props) => {
     entries,
     isOpenEntryLoading,
     onSplitRowItemClick,
+    onMatchRowItemClick,
     onMatchedToBlur,
     onMatchedToFocus,
     onUnmatchedFocus,
@@ -117,26 +122,48 @@ const BankTransactionTableBody = (props) => {
     onAddSplitAllocationLine,
     onUpdateSplitAllocationLine,
     onDeleteSplitAllocationLine,
+    onApplyMatchTransactionOptions,
+    onUpdateMatchTransactionOptions,
+    onSortMatchTransactions,
+    onUpdateMatchTransactionSelection,
+    onSaveMatchTransaction,
+    onCancelMatchTransaction,
+    onUnmatchTransaction,
   } = props;
 
   const spinner = (<Spinner />);
 
   const Content = {
     [tabIds.allocate]: SplitAllocationBody,
-    [tabIds.match]: () => (<div>Match transaction</div>),
+    [tabIds.match]: MatchTransactionBody,
   }[activeTabId];
 
   const contentProps = {
     [tabIds.allocate]: {
-      onSaveSplitAllocation,
-      onCancelSplitAllocation,
-      onUnallocateSplitAllocation,
       onUpdateSplitAllocationHeader,
       onAddSplitAllocationLine,
       onUpdateSplitAllocationLine,
       onDeleteSplitAllocationLine,
     },
-    [tabIds.match]: {},
+    [tabIds.match]: {
+      onApplyMatchTransactionOptions,
+      onUpdateMatchTransactionOptions,
+      onSortMatchTransactions,
+      onUpdateMatchTransactionSelection,
+    },
+  }[activeTabId];
+
+  const footerProps = {
+    [tabIds.allocate]: {
+      onSave: onSaveSplitAllocation,
+      onCancel: onCancelSplitAllocation,
+      onUnmatch: onUnallocateSplitAllocation,
+    },
+    [tabIds.match]: {
+      onSave: onSaveMatchTransaction,
+      onCancel: onCancelMatchTransaction,
+      onUnmatch: onUnmatchTransaction,
+    },
   }[activeTabId];
 
   const openEntry = (
@@ -154,6 +181,7 @@ const BankTransactionTableBody = (props) => {
     const matchedOrAllocatedRowItem = getMatchedOrAllocatedRowItem({
       entry,
       onSplitRowItemClick,
+      onMatchRowItemClick,
       tableConfig,
       onAllocate,
       onUnallocate,
@@ -170,6 +198,7 @@ const BankTransactionTableBody = (props) => {
         key={index}
         headerClickDisabled={entry.isLineDisabled}
         expansionToggle
+        footer={!isOpenEntryLoading && <OpenEntryFooter {...footerProps} />}
         header={(
           <Table.Row key={index}>
             <Table.RowItem {...tableConfig.date}>
@@ -228,6 +257,9 @@ BankTransactionTableBody.propTypes = {
   onAddSplitAllocationLine: PropTypes.func.isRequired,
   onUpdateSplitAllocationLine: PropTypes.func.isRequired,
   onDeleteSplitAllocationLine: PropTypes.func.isRequired,
+  onSaveMatchTransaction: PropTypes.func.isRequired,
+  onCancelMatchTransaction: PropTypes.func.isRequired,
+  onUnmatchTransaction: PropTypes.func.isRequired,
 };
 
 export default BankTransactionTableBody;

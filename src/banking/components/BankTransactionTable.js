@@ -47,6 +47,7 @@ const BankTransactionTable = ({
   isOpenEntryLoading,
   onMatchedToBlur,
   onSplitRowItemClick,
+  onMatchRowItemClick,
   onMatchedToFocus,
   onUnmatchedFocus,
   onUnmatchedBlur,
@@ -66,6 +67,13 @@ const BankTransactionTable = ({
   onAddSplitAllocationLine,
   onUpdateSplitAllocationLine,
   onDeleteSplitAllocationLine,
+  onApplyMatchTransactionOptions,
+  onUpdateMatchTransactionOptions,
+  onSortMatchTransactions,
+  onUpdateMatchTransactionSelection,
+  onSaveMatchTransaction,
+  onCancelMatchTransaction,
+  onUnmatchTransaction,
 }) => {
   const header = (
     <Table.Header>
@@ -101,6 +109,7 @@ const BankTransactionTable = ({
     isOpenEntryLoading,
     activeTabId,
     onSplitRowItemClick,
+    onMatchRowItemClick,
     onMatchedToBlur,
     onMatchedToFocus,
     onAllocate,
@@ -116,6 +125,13 @@ const BankTransactionTable = ({
     onAddSplitAllocationLine,
     onUpdateSplitAllocationLine,
     onDeleteSplitAllocationLine,
+    onApplyMatchTransactionOptions,
+    onUpdateMatchTransactionOptions,
+    onSortMatchTransactions,
+    onUpdateMatchTransactionSelection,
+    onSaveMatchTransaction,
+    onCancelMatchTransaction,
+    onUnmatchTransaction,
   });
   return (
     <AccordionTable

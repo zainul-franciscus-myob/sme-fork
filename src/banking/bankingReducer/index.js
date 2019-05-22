@@ -5,22 +5,28 @@ import {
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
   LOAD_BANK_TRANSACTIONS,
-  LOAD_MATCH_TRANSACTION,
+  LOAD_MATCH_TRANSACTIONS,
   LOAD_NEW_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   OPEN_MODAL,
+  SAVE_MATCH_TRANSACTION,
   SAVE_SPLIT_ALLOCATION,
   SET_ALERT,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
   SET_LOADING_STATE,
+  SET_MATCH_TRANSACTION_LOADING_STATE,
+  SET_MATCH_TRANSACTION_SORT_ORDER,
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
-  UNALLOCATE_SPLIT_ALLOCATION,
+  SORT_AND_FILTER_MATCH_TRANSACTIONS,
+  UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
   UPDATE_FILTER_OPTIONS,
+  UPDATE_MATCH_TRANSACTION_OPTIONS,
+  UPDATE_MATCH_TRANSACTION_SELECTION,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
 } from '../BankingIntents';
@@ -31,15 +37,20 @@ import {
   loadNewSplitAllocation,
   loadSplitAllocation,
   saveSplitAllocation,
-  unallocateSplitAllocation,
   updateSplitAllocationHeader,
   updateSplitAllocationLine,
 } from './splitAllocationHandlers';
-import {
-  allocateTransaction, setEntryFocus, setEntryLoading, unallocateTransaction,
-} from './singleAllocationHandlers';
 import { collapseTransactionLine, setOpenEntryLoadingState, setOpenPosition } from './openEntryHandlers';
-import { loadMatchTransaction } from './matchTransactionHandlers';
+import { getCalculatedAllocatedBalances, getCalculatedUnallocatedBalances } from '../bankingSelectors';
+import {
+  loadMatchTransactions,
+  saveMatchTransaction,
+  setMatchTransactionLoadingState,
+  setMatchTransactionSortOrder,
+  sortAndFilterMatchTransactions,
+  updateMatchTransactionOptions,
+  updateMatchTransactionSelection,
+} from './matchTransactionHandlers';
 import createReducer from '../../store/createReducer';
 import getDefaultState from './getDefaultState';
 
@@ -120,6 +131,71 @@ export const closeModal = state => ({
   modalType: '',
 });
 
+export const setEntryFocus = (state, action) => ({
+  ...state,
+  entries: state.entries.map(
+    (entry, index) => (
+      index === action.index ? { ...entry, isFocused: action.isFocused } : entry
+    ),
+  ),
+});
+
+export const setEntryLoading = (state, action) => ({
+  ...state,
+  entries: state.entries.map(
+    (entry, index) => (
+      index === action.index ? { ...entry, isLoading: action.isLoading } : entry
+    ),
+  ),
+});
+
+
+export const allocateTransaction = (state, action) => ({
+  ...state,
+  balances: getCalculatedAllocatedBalances(state, action.index),
+  entries: state.entries.map(
+    (entry, index) => (
+      index === action.index
+        ? {
+          ...entry,
+          isReportable: action.isReportable,
+          allocateOrMatch: action.allocateOrMatch,
+          journalId: action.journalId,
+          journalLineId: action.journalLineId,
+          sourceJournal: action.sourceJournal,
+          type: action.type,
+          taxCode: action.taxCode,
+        }
+        : entry
+    ),
+  ),
+});
+
+export const unallocateTransaction = (state, action) => {
+  const defaultState = getDefaultState();
+
+  return {
+    ...state,
+    balances: getCalculatedUnallocatedBalances(state, action.index),
+    entries: state.entries.map(
+      (entry, index) => (
+        index === action.index
+          ? {
+            ...entry,
+            allocateOrMatch: action.allocateOrMatch,
+            journalId: '',
+            journalLineId: '',
+            sourceJournal: '',
+            type: action.type,
+            taxCode: '',
+          }
+          : entry
+      ),
+    ),
+    openEntry: defaultState.openEntry,
+  };
+};
+
 const handlers = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: sortAndFilterBankTransactions,
@@ -131,13 +207,14 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_ENTRY_FOCUS]: setEntryFocus,
   [SET_ENTRY_LOADING_STATE]: setEntryLoading,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
   [ALLOCATE_TRANSACTION]: allocateTransaction,
   [UNALLOCATE_TRANSACTION]: unallocateTransaction,
   [COLLAPSE_TRANSACTION_LINE]: collapseTransactionLine,
   [SET_OPEN_ENTRY_POSITION]: setOpenPosition,
   [SET_OPEN_ENTRY_LOADING_STATE]: setOpenEntryLoadingState,
-  [OPEN_MODAL]: openModal,
-  [CLOSE_MODAL]: closeModal,
+  [UNALLOCATE_OPEN_ENTRY_TRANSACTION]: unallocateTransaction,
   [UPDATE_SPLIT_ALLOCATION_HEADER]: updateSplitAllocationHeader,
   [ADD_SPLIT_ALLOCATION_LINE]: addSplitAllocationLine,
   [UPDATE_SPLIT_ALLOCATION_LINE]: updateSplitAllocationLine,
@@ -145,8 +222,13 @@ const handlers = {
   [LOAD_SPLIT_ALLOCATION]: loadSplitAllocation,
   [LOAD_NEW_SPLIT_ALLOCATION]: loadNewSplitAllocation,
   [SAVE_SPLIT_ALLOCATION]: saveSplitAllocation,
-  [UNALLOCATE_SPLIT_ALLOCATION]: unallocateSplitAllocation,
-  [LOAD_MATCH_TRANSACTION]: loadMatchTransaction,
+  [LOAD_MATCH_TRANSACTIONS]: loadMatchTransactions,
+  [SORT_AND_FILTER_MATCH_TRANSACTIONS]: sortAndFilterMatchTransactions,
+  [SAVE_MATCH_TRANSACTION]: saveMatchTransaction,
+  [UPDATE_MATCH_TRANSACTION_OPTIONS]: updateMatchTransactionOptions,
+  [SET_MATCH_TRANSACTION_SORT_ORDER]: setMatchTransactionSortOrder,
+  [UPDATE_MATCH_TRANSACTION_SELECTION]: updateMatchTransactionSelection,
+  [SET_MATCH_TRANSACTION_LOADING_STATE]: setMatchTransactionLoadingState,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getBalances,
   getBankAccounts,
+  getDisplayBalances,
   getFilterOptions,
   getShouldDisplayDateRange,
   getTransactionTypes,
@@ -114,7 +114,7 @@ BankTransactionFilterOptions.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  balances: getBalances(state),
+  balances: getDisplayBalances(state),
   filterOptions: getFilterOptions(state),
   transactionTypes: getTransactionTypes(state),
   bankAccounts: getBankAccounts(state),
