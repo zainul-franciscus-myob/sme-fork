@@ -1,7 +1,9 @@
 {
+  "message": "Success! You've successfully allocated bank transaction",
   "allocateOrMatch": "Internet",
   "journalId": "8373",
   "journalLineId": "1559",
+  "sourceJournal": "CashReceipt",
   "type": "singleAllocation",
   "taxCode": "GST",
   "isReportable": false

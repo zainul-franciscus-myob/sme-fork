@@ -71,9 +71,10 @@ export const getStateOptions = createSelector(
     .find(country => country.value === selectedcountry) || {}).states,
 );
 
-export const getEmployeePayload = ({ contactDetail, payrollDetails }) => ({
+export const getEmployeePayload = ({ contactDetail, payrollDetails, paymentDetails }) => ({
   contactDetail,
   payrollDetails,
+  paymentDetails,
 });
 
 export const getIsActionsDisabled = state => state.isSubmitting;
@@ -114,3 +115,24 @@ export const getCalculatedAge = (state) => {
     new Date(state.payrollDetails.employmentDetails.dateOfBirth));
   return String(age || '0');
 };
+
+export const getPaymentDetails = (state) => {
+  const { bankAccounts, splitPayBetween } = state.paymentDetails;
+  const updatedBankAccounts = bankAccounts.map(bankAccount => ({
+    ...bankAccount,
+    amountLabel: bankAccount.value === 'Dollars' ? '$' : '%',
+  }));
+
+  return {
+    ...state.paymentDetails,
+    bankAccounts: updatedBankAccounts.slice(0, Number(splitPayBetween)),
+  };
+};
+
+export const getPaymentMethodOptions = state => state.paymentMethodOptions;
+
+export const getSplitNetPayBetweenOptions = state => state.splitNetPayBetweenOptions;
+
+export const getValueOptions = state => state.valueOptions;
+
+export const getElectronicPaymentDetails = state => state.paymentDetails.paymentMethod === 'Electronic';

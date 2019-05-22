@@ -2,14 +2,14 @@
   "sortOrder": "asc",
   "orderBy": "Date",
   "balances": {
-    "bankBalance": "$12,000.00",
-    "myobBalance": "$15,342.00",
-    "unallocated": "$3,342.00"
+    "bankBalance": 12000.55,
+    "myobBalance": 15342,
+    "unallocated": 3342.55
   },
   "entries": [
     {
       "transactionId": "1",
-      "displayDate": "01/10/2018",
+      "date": "2018-10-01",
       "description": "Bob the builder",
       "withdrawal": 3300.00,
       "allocateOrMatch": "Internet",
@@ -23,7 +23,7 @@
     },
     {
       "transactionId": "2",
-      "displayDate": "21/09/2018",
+      "date": "2018-09-21",
       "description": "Join the crew",
       "withdrawal": 295.00,
       "allocateOrMatch": "Transfered from Rental income",
@@ -37,7 +37,7 @@
     },
     {
       "transactionId": "3",
-      "displayDate": "01/09/2018",
+      "date": "2018-09-01",
       "description": "Bob the gang have soo much fun",
       "deposit": 1300.00,
       "allocateOrMatch": "Matched to General Journal 573498874",
@@ -51,12 +51,12 @@
     },
     {
       "transactionId": "4",
-      "displayDate": "01/10/2018",
+      "date": "2018-10-01",
       "description": "Bob rules",
       "deposit": 1300.00,
       "allocateOrMatch": "Spit across account",
       "journalId": "101",
-      "journalLineId": "125",
+      "journalLineId": "126",
       "sourceJournal": "CashReceipt",
       "taxCode": "FRE",
       "note": "",

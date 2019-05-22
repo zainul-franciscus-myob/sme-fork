@@ -23,6 +23,7 @@ const BankingView = (props) => {
     onUnallocate,
     onDismissAlert,
     onSplitRowItemClick,
+    onMatchRowItemClick,
     onMatchedToBlur,
     onMatchedToFocus,
     onUnmatchedFocus,
@@ -36,6 +37,13 @@ const BankingView = (props) => {
     onAddSplitAllocationLine,
     onUpdateSplitAllocationLine,
     onDeleteSplitAllocationLine,
+    onApplyMatchTransactionOptions,
+    onUpdateMatchTransactionOptions,
+    onSortMatchTransactions,
+    onUpdateMatchTransactionSelection,
+    onSaveMatchTransaction,
+    onCancelMatchTransaction,
+    onUnmatchTransaction,
     modalType,
     onCancelModal,
     onCloseModal,
@@ -74,6 +82,7 @@ const BankingView = (props) => {
           onMatchedToBlur={onMatchedToBlur}
           onMatchedToFocus={onMatchedToFocus}
           onSplitRowItemClick={onSplitRowItemClick}
+          onMatchRowItemClick={onMatchRowItemClick}
           onUnmatchedFocus={onUnmatchedFocus}
           onUnmatchedBlur={onUnmatchedBlur}
           onHeaderClick={onHeaderClick}
@@ -85,6 +94,13 @@ const BankingView = (props) => {
           onAddSplitAllocationLine={onAddSplitAllocationLine}
           onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
           onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
+          onApplyMatchTransactionOptions={onApplyMatchTransactionOptions}
+          onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
+          onSortMatchTransactions={onSortMatchTransactions}
+          onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
+          onSaveMatchTransaction={onSaveMatchTransaction}
+          onCancelMatchTransaction={onCancelMatchTransaction}
+          onUnmatchTransaction={onUnmatchTransaction}
         />
       </div>
     </StandardTemplate>

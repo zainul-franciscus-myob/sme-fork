@@ -55,7 +55,7 @@ const EmployeeDetailContactDetails = (props) => {
 
   const view = (
     <React.Fragment>
-      <FormTemplate>
+      <FormTemplate pageHead="">
         <CheckboxGroup
           label="Inactive employee"
           hideLabel
@@ -69,7 +69,7 @@ const EmployeeDetailContactDetails = (props) => {
 
       <hr />
 
-      <FormTemplate>
+      <FormTemplate pageHead="">
         <Input label="First name" name="firstName" value={contactDetail.firstName} onChange={onInputChange(onContactDetailsChange)} />
 
         <Input label="Surname or family name" name="lastName" value={contactDetail.lastName} onChange={onInputChange(onContactDetailsChange)} />

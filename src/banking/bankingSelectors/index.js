@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
-import dateFormat from 'dateformat';
+import { format } from 'date-fns';
 
+import { businessEventTypes } from '../businessEventTypes';
 import { tabIds } from '../tabItems';
 
 export const getOrderBy = ({ orderBy }) => orderBy;
@@ -39,6 +40,12 @@ export const formatAmount = amount => Intl
   })
   .format(amount);
 
+const formatCurrency = (amount) => {
+  const formattedAmount = formatAmount(Math.abs(amount));
+
+  return amount < 0 ? `-$${formattedAmount}` : `$${formattedAmount}`;
+};
+
 export const getTableEntries = createSelector(
   getEntries,
   getWithdrawalAccounts,
@@ -51,7 +58,7 @@ export const getTableEntries = createSelector(
         ...entry,
         deposit: entry.deposit && formatAmount(entry.deposit),
         withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
-        displayDate: dateFormat(entry.date, 'dd/mm/yyyy'),
+        displayDate: format(entry.date, 'DD/MM/YYYY'),
         accountList,
         isLineDisabled: entry.isLoading,
       });
@@ -139,12 +146,14 @@ export const getOpenEntryActiveTabId = state => state.openEntry.activeTabId;
 
 export const getDefaultOpenPosition = () => -1;
 
-export const getOpenEntryDefaultTabId = ({ type }) => {
-  if (type === 'matched') {
-    return undefined;
+export const getOpenEntryDefaultTabId = ({ type, sourceJournal }) => {
+  if (sourceJournal === businessEventTypes.spendMoney
+    || sourceJournal === businessEventTypes.receiveMoney
+    || type === 'unmatched') {
+    return tabIds.allocate;
   }
 
-  return tabIds.allocate;
+  return tabIds.match;
 };
 
 export const getBankTransactionLineByIndex = (state, index) => {
@@ -154,4 +163,68 @@ export const getBankTransactionLineByIndex = (state, index) => {
 
 export const getIsAllocated = ({ type, journalId }) => (
   !!((type === 'singleAllocation' || type === 'splitAllocation') && journalId)
+);
+
+export const getIsBalancesInvalid = ({ bankBalance, myobBalance, unallocated }) => (
+  bankBalance === undefined || myobBalance === undefined || unallocated === undefined
+);
+
+const getCalculatedBalances = (state, amount) => {
+  const balances = getBalances(state);
+  if (getIsBalancesInvalid(balances)) {
+    return balances;
+  }
+
+  const {
+    bankBalance,
+    myobBalance,
+    unallocated,
+  } = balances;
+
+  return {
+    bankBalance,
+    myobBalance: myobBalance - amount,
+    unallocated: unallocated + amount,
+  };
+};
+
+export const getCalculatedAllocatedBalances = (state, index) => {
+  const line = getBankTransactionLineByIndex(state, index);
+  const { withdrawal, deposit } = line;
+  const amount = (-withdrawal || deposit);
+
+  return getCalculatedBalances(state, amount);
+};
+
+export const getCalculatedUnallocatedBalances = (state, index) => {
+  const line = getBankTransactionLineByIndex(state, index);
+  const { withdrawal, deposit } = line;
+  const amount = (withdrawal || -deposit);
+
+  return getCalculatedBalances(state, amount);
+};
+
+export const getDisplayBalances = createSelector(
+  getBalances,
+  (balances) => {
+    const {
+      bankBalance,
+      myobBalance,
+      unallocated,
+    } = balances;
+
+    if (getIsBalancesInvalid(balances)) {
+      return {
+        bankBalance: '$--',
+        myobBalance: '$--',
+        unallocated: '$--',
+      };
+    }
+
+    return {
+      bankBalance: formatCurrency(bankBalance),
+      myobBalance: formatCurrency(myobBalance),
+      unallocated: formatCurrency(unallocated),
+    };
+  },
 );

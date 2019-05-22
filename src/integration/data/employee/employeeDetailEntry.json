@@ -31,20 +31,29 @@
   },
   "paymentDetails": {
     "paymentMethod": "Electronic",
-    "splitPayBetween": "1",
+    "splitPayBetween": "2",
     "bankStatementText": "SALARY",
     "bankAccounts": [
       {
         "bsbNumber": "123-321",
         "accountNumber": "32321234",
         "accountName": "Bob The builder",
-        "value": "Dollar",
+        "value": "Dollars",
         "amount": "1000000.00"
       },
       {
         "bsbNumber": "323-232",
         "accountNumber": "098765454",
-        "accountName": "Bob The builder"
+        "accountName": "Bob The builder",
+        "value": "Percent",
+        "amount": "0.00"
+      },
+      {
+        "bsbNumber": "",
+        "accountNumber": "",
+        "accountName": "",
+        "value": "Percent",
+        "amount": "0.00"
       }
     ]
   },

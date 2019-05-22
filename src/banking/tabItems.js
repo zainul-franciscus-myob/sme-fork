@@ -5,4 +5,5 @@ export const tabIds = {
 
 export const tabItems = [
   { id: tabIds.allocate, label: 'Allocate' },
+  { id: tabIds.match, label: 'Match transaction' },
 ];
