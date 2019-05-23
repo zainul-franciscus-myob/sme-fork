@@ -146,6 +146,14 @@ export const getOpenEntryActiveTabId = state => state.openEntry.activeTabId;
 
 export const getDefaultOpenPosition = () => -1;
 
+export const getIsEntryLoading = createSelector(
+  getIsOpenEntryLoading,
+  getEntries,
+  (isOpenEntryLoading, entries) => (
+    isOpenEntryLoading || entries.some(({ isLoading }) => isLoading)
+  ),
+);
+
 export const getOpenEntryDefaultTabId = ({ type, sourceJournal }) => {
   if (sourceJournal === businessEventTypes.spendMoney
     || sourceJournal === businessEventTypes.receiveMoney

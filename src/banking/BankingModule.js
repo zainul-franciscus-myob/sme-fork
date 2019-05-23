@@ -44,6 +44,7 @@ import {
   getFilterOptions,
   getFlipSortOrder,
   getIsAllocated,
+  getIsEntryLoading,
   getIsOpenEntryEdited,
   getOpenEntryActiveTabId,
   getOpenEntryDefaultTabId,
@@ -260,6 +261,9 @@ export default class BankingModule {
 
   filterBankTransactions = () => {
     const state = this.store.getState();
+    if (getIsEntryLoading(state)) {
+      return;
+    }
 
     this.collapseTransactionLine();
     this.setTableLoadingState(true);
@@ -300,6 +304,9 @@ export default class BankingModule {
 
   sortBankTransactions = (orderBy) => {
     const state = this.store.getState();
+    if (getIsEntryLoading(state)) {
+      return;
+    }
 
     this.collapseTransactionLine();
     this.setTableLoadingState(true);

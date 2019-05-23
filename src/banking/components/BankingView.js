@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getModalType,
+  getAlert, getIsEntryLoading, getIsLoading, getModalType,
 } from '../bankingSelectors';
 import BankTransactionFilterOptions from './BankTransactionFilterOptions';
 import BankTransactionTable from './BankTransactionTable';
@@ -15,6 +15,7 @@ import style from './BankingView.css';
 const BankingView = (props) => {
   const {
     isLoading,
+    isEntryLoading,
     alert,
     onUpdateFilters,
     onApplyFilter,
@@ -72,38 +73,40 @@ const BankingView = (props) => {
   );
 
   const transactionListView = (
-    <StandardTemplate sticky="none" alert={alertComponent} pageHead="Bank transactions" filterBar={filterBar}>
-      {modal}
-      <div className={style.list}>
-        <BankTransactionTable
-          onSort={onSort}
-          onAllocate={onAllocate}
-          onUnallocate={onUnallocate}
-          onMatchedToBlur={onMatchedToBlur}
-          onMatchedToFocus={onMatchedToFocus}
-          onSplitRowItemClick={onSplitRowItemClick}
-          onMatchRowItemClick={onMatchRowItemClick}
-          onUnmatchedFocus={onUnmatchedFocus}
-          onUnmatchedBlur={onUnmatchedBlur}
-          onHeaderClick={onHeaderClick}
-          onTabChange={onTabChange}
-          onSaveSplitAllocation={onSaveSplitAllocation}
-          onCancelSplitAllocation={onCancelSplitAllocation}
-          onUnallocateSplitAllocation={onUnallocateSplitAllocation}
-          onUpdateSplitAllocationHeader={onUpdateSplitAllocationHeader}
-          onAddSplitAllocationLine={onAddSplitAllocationLine}
-          onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
-          onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
-          onApplyMatchTransactionOptions={onApplyMatchTransactionOptions}
-          onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
-          onSortMatchTransactions={onSortMatchTransactions}
-          onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
-          onSaveMatchTransaction={onSaveMatchTransaction}
-          onCancelMatchTransaction={onCancelMatchTransaction}
-          onUnmatchTransaction={onUnmatchTransaction}
-        />
-      </div>
-    </StandardTemplate>
+    <div className={isEntryLoading ? style.entryLoading : ''}>
+      <StandardTemplate sticky="none" alert={alertComponent} pageHead="Bank transactions" filterBar={filterBar}>
+        {modal}
+        <div className={style.list}>
+          <BankTransactionTable
+            onSort={onSort}
+            onAllocate={onAllocate}
+            onUnallocate={onUnallocate}
+            onMatchedToBlur={onMatchedToBlur}
+            onMatchedToFocus={onMatchedToFocus}
+            onSplitRowItemClick={onSplitRowItemClick}
+            onMatchRowItemClick={onMatchRowItemClick}
+            onUnmatchedFocus={onUnmatchedFocus}
+            onUnmatchedBlur={onUnmatchedBlur}
+            onHeaderClick={onHeaderClick}
+            onTabChange={onTabChange}
+            onSaveSplitAllocation={onSaveSplitAllocation}
+            onCancelSplitAllocation={onCancelSplitAllocation}
+            onUnallocateSplitAllocation={onUnallocateSplitAllocation}
+            onUpdateSplitAllocationHeader={onUpdateSplitAllocationHeader}
+            onAddSplitAllocationLine={onAddSplitAllocationLine}
+            onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
+            onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
+            onApplyMatchTransactionOptions={onApplyMatchTransactionOptions}
+            onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
+            onSortMatchTransactions={onSortMatchTransactions}
+            onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
+            onSaveMatchTransaction={onSaveMatchTransaction}
+            onCancelMatchTransaction={onCancelMatchTransaction}
+            onUnmatchTransaction={onUnmatchTransaction}
+          />
+        </div>
+      </StandardTemplate>
+    </div>
   );
 
   const view = isLoading ? (<Spinner />) : transactionListView;
@@ -114,6 +117,7 @@ const BankingView = (props) => {
 const mapStateToProps = state => ({
   alert: getAlert(state),
   isLoading: getIsLoading(state),
+  isEntryLoading: getIsEntryLoading(state),
   modalType: getModalType(state),
 });
 

@@ -98,6 +98,19 @@
   overflow-y: auto;
 }
 
+:local .entryLoading :global(.filter-bar__item button) {
+  cursor: progress;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+:local .entryLoading :global(.table-data__header button) {
+  color: #969ea7;
+  cursor: progress;
+}
+
 :local .list :global(.combobox table) {
   white-space: initial;
 }
