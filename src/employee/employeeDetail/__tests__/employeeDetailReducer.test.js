@@ -136,11 +136,11 @@ describe('employeeDetailReducer', () => {
       const action = {
         intent: UPDATE_PAYMENT_DETAILS,
         key: 'bankStatementText',
-        value: 'my',
+        value: 'MY',
       };
 
       const expected = {
-        bankStatementText: 'my',
+        bankStatementText: 'MY',
       };
 
       const { paymentDetails } = employeeDetailReducer(initialState, action);
@@ -148,7 +148,7 @@ describe('employeeDetailReducer', () => {
     });
 
     it('should not allow length of the bank statement text to exceed 18 characters', () => {
-      const stringOfLength18 = 'my name is mattias';
+      const stringOfLength18 = 'MY NAME IS MATTIAS';
       const initialState = {
         paymentDetails: {
           bankStatementText: stringOfLength18,
@@ -169,14 +169,14 @@ describe('employeeDetailReducer', () => {
     it('should only allow the following special characters: &*./- in the bank statement text', () => {
       const initialState = {
         paymentDetails: {
-          bankStatementText: 'bl& no* // -.',
+          bankStatementText: 'BL& NO* // -.',
         },
       };
 
       const action = {
         intent: UPDATE_PAYMENT_DETAILS,
         key: 'bankStatementText',
-        value: 'bl& no* // -.$',
+        value: 'BL& NO* // -.$',
       };
 
       const expected = initialState.paymentDetails;
@@ -184,21 +184,43 @@ describe('employeeDetailReducer', () => {
       expect(paymentDetails).toEqual(expected);
     });
 
-    it('should allow all numbers, characters and white space in the bank statement text', () => {
+    it('should allow all numbers, upper case characters and white space in the bank statement text', () => {
       const initialState = {
         paymentDetails: {
-          bankStatementText: 'abc0123456789',
+          bankStatementText: 'ABC0123456789',
         },
       };
 
       const action = {
         intent: UPDATE_PAYMENT_DETAILS,
         key: 'bankStatementText',
-        value: 'abc0123456789 ',
+        value: 'ABC0123456789 ',
       };
 
       const expected = {
-        bankStatementText: 'abc0123456789 ',
+        bankStatementText: 'ABC0123456789 ',
+      };
+
+      const { paymentDetails } = employeeDetailReducer(initialState, action);
+      expect(paymentDetails).toEqual(expected);
+    });
+
+    it('should convert lower case characters into uppercase characters entered in the bank statement text', () => {
+      const initialState = {
+        paymentDetails: {
+          bankStatementText: 'ABC0123',
+        },
+      };
+
+      const newTextWithLowerCaseChar = 'ABC0123x';
+      const action = {
+        intent: UPDATE_PAYMENT_DETAILS,
+        key: 'bankStatementText',
+        value: newTextWithLowerCaseChar,
+      };
+
+      const expected = {
+        bankStatementText: 'ABC0123X',
       };
 
       const { paymentDetails } = employeeDetailReducer(initialState, action);

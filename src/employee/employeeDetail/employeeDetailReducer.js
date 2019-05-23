@@ -178,7 +178,10 @@ const updateContactDetails = (state, action) => ({
 const getAppliedFormatRestrictions = (currentText, text, length) => {
   const pattern = `^(?=.{0,${length}}$)^[a-zA-Z0-9 \\&\\*\\.\\/\\-]*`;
   const matchedText = text.match(pattern);
-  return matchedText === null ? currentText : matchedText[0];
+
+  return matchedText === null
+    ? currentText
+    : matchedText[0].toUpperCase();
 };
 
 const getUpdatedBankStatementText = (
