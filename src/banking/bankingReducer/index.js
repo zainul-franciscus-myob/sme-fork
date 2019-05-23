@@ -171,28 +171,35 @@ export const allocateTransaction = (state, action) => ({
   ),
 });
 
-export const unallocateTransaction = (state, action) => {
+export const unallocateTransaction = (state, action) => ({
+  ...state,
+  balances: getCalculatedUnallocatedBalances(state, action.index),
+  entries: state.entries.map(
+    (entry, index) => (
+      index === action.index
+        ? {
+          ...entry,
+          allocateOrMatch: action.allocateOrMatch,
+          journalId: '',
+          journalLineId: '',
+          sourceJournal: '',
+          type: action.type,
+          taxCode: '',
+        }
+        : entry
+    ),
+  ),
+});
+
+export const unallocateOpenTransaction = (state, action) => {
   const defaultState = getDefaultState();
 
   return {
     ...state,
-    balances: getCalculatedUnallocatedBalances(state, action.index),
-    entries: state.entries.map(
-      (entry, index) => (
-        index === action.index
-          ? {
-            ...entry,
-            allocateOrMatch: action.allocateOrMatch,
-            journalId: '',
-            journalLineId: '',
-            sourceJournal: '',
-            type: action.type,
-            taxCode: '',
-          }
-          : entry
-      ),
-    ),
-    openEntry: defaultState.openEntry,
+    ...unallocateTransaction(state, action),
+    openEntry: action.index === state.openPosition
+      ? defaultState.openEntry
+      : state.openEntry,
   };
 };
 

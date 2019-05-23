@@ -228,3 +228,31 @@ export const getDisplayBalances = createSelector(
     };
   },
 );
+
+const getOpenTransactionLine = createSelector(
+  getEntries,
+  getOpenPosition,
+  (entries, openPosition) => entries[openPosition],
+);
+
+export const getTabItems = createSelector(
+  getOpenTransactionLine,
+  ({ sourceJournal = '' }) => {
+    const isDisabled = sourceJournal !== businessEventTypes.spendMoney
+    && sourceJournal !== businessEventTypes.receiveMoney
+    && sourceJournal !== '';
+
+    return [
+      {
+        id: tabIds.allocate,
+        label: 'Allocate',
+        isDisabled,
+        toolTip: isDisabled && 'Unmatch this transaction before creating a new one',
+      },
+      {
+        id: tabIds.match,
+        label: 'Match transaction',
+      },
+    ];
+  },
+);

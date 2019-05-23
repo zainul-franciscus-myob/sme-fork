@@ -1,5 +1,7 @@
 import { allocateTransaction } from './index';
-import { getDefaultTaxCodeId, getTotalAmount } from '../bankingSelectors/splitAllocationSelectors';
+import {
+  getDefaultTaxCodeId, getTotalAmount, getTotalDollarAmount, getTotalPercentageAmount,
+} from '../bankingSelectors/splitAllocationSelectors';
 import {
   getDepositAccounts,
   getWithdrawalAccounts,
@@ -16,9 +18,29 @@ const isAmountPercentLineItem = lineKey => lineKey === 'amountPercent';
 
 const calculateLineAmountPercent = (total, amount) => ((amount / total) * 100).toFixed(2);
 
-const calculateLineAmount = (total, percent) => ((percent / 100) * total).toFixed(2);
+export const calculateLineAmount = (state, currentLine, updatedPercent, isNewLine) => {
+  const total = getTotalAmount(state);
+  const {
+    amount: lineAmount = '',
+    amountPercent: lineAmountPercentage = '',
+  } = currentLine;
 
-const getUpdatedLine = (state, line, { lineKey, lineValue }) => {
+  const currTotalPercentage = getTotalPercentageAmount(state);
+
+  const existingAmountPercentage = isNewLine ? 0 : Number(lineAmountPercentage);
+  const totalPercentage = currTotalPercentage + Number(updatedPercent) - existingAmountPercentage;
+
+  const existingAmountDollar = isNewLine ? 0 : Number(lineAmount);
+
+  if (totalPercentage === 100) {
+    return (total - (getTotalDollarAmount(state) - existingAmountDollar)).toFixed(2);
+  }
+
+  return ((Number(updatedPercent) / 100) * total).toFixed(2);
+};
+
+
+const getUpdatedLine = (state, line, { lineKey, lineValue }, isNewLine) => {
   const updatedLine = {
     ...line,
     [lineKey]: lineValue,
@@ -43,12 +65,11 @@ const getUpdatedLine = (state, line, { lineKey, lineValue }) => {
   }
 
   if (isAmountPercentLineItem(lineKey)) {
-    const total = getTotalAmount(state);
-    const amount = calculateLineAmount(total, lineValue);
+    const updatedAmount = calculateLineAmount(state, line, lineValue, isNewLine);
 
     return {
       ...updatedLine,
-      amount,
+      amount: updatedAmount,
     };
   }
 
@@ -78,11 +99,12 @@ export const addSplitAllocationLine = (state, action) => updateSplitAllocationSt
   'lines',
   [
     ...state.openEntry.allocate.lines,
-    {
-      ...state.openEntry.allocate.newLine,
-      ...action.line,
-      taxCodeId: getDefaultTaxCodeId({ ...state.openEntry.allocate.newLine, ...action.line }),
-    },
+    getUpdatedLine(
+      state,
+      state.openEntry.allocate.newLine,
+      { lineKey: action.key, lineValue: action.value },
+      true,
+    ),
   ],
 );
 
@@ -167,12 +189,6 @@ export const loadNewSplitAllocation = (state, action) => {
   return loadOpenEntry(state, action.index, tabIds.allocate, allocate);
 };
 
-export const saveSplitAllocation = (state, action) => {
-  const defaultState = getDefaultState();
-
-  return ({
-    ...allocateTransaction(state, action),
-    openPosition: defaultState.openPosition,
-    openEntry: defaultState.openEntry,
-  });
-};
+export const saveSplitAllocation = (state, action) => ({
+  ...allocateTransaction(state, action),
+});

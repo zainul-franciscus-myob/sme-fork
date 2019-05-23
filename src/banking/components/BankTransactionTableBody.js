@@ -1,11 +1,12 @@
 import { PropTypes } from 'prop-types';
 import {
-  Spinner, Table, Tabs,
+  Spinner, Table,
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import { tabIds, tabItems } from '../tabItems';
+import { tabIds } from '../tabItems';
 import AllocatedRowItem from './AllocatedRowItem';
+import BankTransactionTabs from './BankTransactionTabs';
 import ExpandedRowItem from './ExpandedRowItem';
 import MatchTransactionBody from './MatchTransactionBody';
 import MatchedRowItem from './MatchedRowItem';
@@ -131,7 +132,11 @@ const BankTransactionTableBody = (props) => {
     onUnmatchTransaction,
   } = props;
 
-  const spinner = (<Spinner />);
+  const spinner = (
+    <div className={style.spinner}>
+      <Spinner size="medium" />
+    </div>
+  );
 
   const Content = {
     [tabIds.allocate]: SplitAllocationBody,
@@ -168,8 +173,7 @@ const BankTransactionTableBody = (props) => {
 
   const openEntry = (
     <React.Fragment>
-      <Tabs
-        items={tabItems}
+      <BankTransactionTabs
         selected={activeTabId}
         onSelected={onTabChange}
       />

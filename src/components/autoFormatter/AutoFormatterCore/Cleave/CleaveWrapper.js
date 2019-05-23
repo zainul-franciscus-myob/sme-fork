@@ -83,6 +83,8 @@ class CleaveWrapper extends React.Component {
       if (newValue !== owner.properties.initValue && newValue !== owner.properties.result) {
         owner.properties.initValue = newValue;
         owner.onInput(newValue, true);
+      } else if (newValue === owner.properties.result) {
+        owner.properties.initValue = newValue;
       }
     }
   }

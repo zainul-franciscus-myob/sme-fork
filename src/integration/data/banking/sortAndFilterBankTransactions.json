@@ -43,7 +43,7 @@
       "allocateOrMatch": "Matched to General Journal 573498874",
       "journalId": "101",
       "journalLineId": "125",
-      "sourceJournal": "CashReceipt",
+      "sourceJournal": "GeneralJournal",
       "taxCode": "LOL",
       "note": "the second notable thing",
       "isReportable": false,

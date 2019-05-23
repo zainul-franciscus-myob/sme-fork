@@ -398,6 +398,15 @@ export default class BankingModule {
     }
   }
 
+  ifOpen = (index, fn) => (...args) => {
+    const state = this.store.getState();
+    if (getOpenPosition(state) !== index) {
+      return;
+    }
+
+    fn(...args);
+  }
+
   toggleLine = (index) => {
     const state = this.store.getState();
     const openPosition = getOpenPosition(state);
@@ -479,19 +488,23 @@ export default class BankingModule {
       journalId,
     };
 
-    const onSuccess = (payload) => {
-      const updatedState = this.store.getState();
-      if (getOpenPosition(updatedState) !== index) {
-        return;
-      }
+    const onSuccess = this.ifOpen(
+      index,
 
-      this.setOpenEntryLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...payload,
-        index,
-      });
-    };
+      (payload) => {
+        const updatedState = this.store.getState();
+        if (getOpenPosition(updatedState) !== index) {
+          return;
+        }
+
+        this.setOpenEntryLoadingState(false);
+        this.store.dispatch({
+          intent,
+          ...payload,
+          index,
+        });
+      },
+    );
 
     const onFailure = ({ message }) => {
       this.setOpenEntryLoadingState(false);
@@ -577,7 +590,8 @@ export default class BankingModule {
         index,
         ...payload,
       });
-      this.loadMatchTransaction(index);
+
+      this.ifOpen(index, () => this.loadMatchTransaction(index));
     };
 
     const onFailure = ({ message }) => {
@@ -629,9 +643,12 @@ export default class BankingModule {
 
   addSplitAllocationLine = (partialLine) => {
     const intent = ADD_SPLIT_ALLOCATION_LINE;
+    const [key, value] = Object.entries(partialLine)[0] || [];
+
     this.store.dispatch({
       intent,
-      line: partialLine,
+      key,
+      value,
     });
   }
 
@@ -667,21 +684,19 @@ export default class BankingModule {
     const { withdrawal, deposit } = line;
     const filterOptions = getDefaultMatchTransactionFilterOptions(accountId, line);
 
-    const onSuccess = (payload) => {
-      const updatedState = this.store.getState();
-      if (getOpenPosition(updatedState) !== index) {
-        return;
-      }
-
-      this.setOpenEntryLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...filterOptions,
-        ...payload,
-        totalAmount: (withdrawal || deposit),
-        index,
-      });
-    };
+    const onSuccess = this.ifOpen(
+      index,
+      (payload) => {
+        this.setOpenEntryLoadingState(false);
+        this.store.dispatch({
+          intent,
+          ...filterOptions,
+          ...payload,
+          totalAmount: (withdrawal || deposit),
+          index,
+        });
+      },
+    );
 
     const onFailure = ({ message }) => {
       this.setOpenEntryLoadingState(false);

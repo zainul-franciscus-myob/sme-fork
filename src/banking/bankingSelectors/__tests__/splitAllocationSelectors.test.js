@@ -1,4 +1,4 @@
-import { getSplitAllocationPayload, getTotals } from '../splitAllocationSelectors';
+import { getSplitAllocationPayload, getTotalDollarAmount, getTotals } from '../splitAllocationSelectors';
 
 describe('splitAllocationSelectors', () => {
   describe('getTotals', () => {
@@ -15,7 +15,8 @@ describe('splitAllocationSelectors', () => {
       it(`should return ${scenario}`, () => {
         const [lines, total, totalAllocated, totalUnallocated] = rest;
 
-        const result = getTotals.resultFunc(lines, total);
+        const totalAmount = getTotalDollarAmount.resultFunc(lines);
+        const result = getTotals.resultFunc(totalAmount, total);
 
         expect(result.totalAllocated).toEqual(totalAllocated);
         expect(result.totalUnallocated).toEqual(totalUnallocated);

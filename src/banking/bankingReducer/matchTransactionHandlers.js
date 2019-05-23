@@ -40,15 +40,9 @@ export const sortAndFilterMatchTransactions = (state, action) => {
   return loadOpenEntry(state, action.index, tabIds.match, match);
 };
 
-export const saveMatchTransaction = (state, action) => {
-  const defaultState = getDefaultState();
-
-  return ({
-    ...allocateTransaction(state, action),
-    openPosition: defaultState.openPosition,
-    openEntry: defaultState.openEntry,
-  });
-};
+export const saveMatchTransaction = (state, action) => ({
+  ...allocateTransaction(state, action),
+});
 
 export const updateMatchTransactionOptions = (state, action) => ({
   ...state,

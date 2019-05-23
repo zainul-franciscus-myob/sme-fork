@@ -24,6 +24,22 @@ const getLinesLength = state => state.openEntry.allocate.lines.length;
 
 export const getIndexOfLastLine = state => state.openEntry.allocate.lines.length - 1;
 
+export const getTotalPercentageAmount = createSelector(
+  getLines,
+  (lines = []) => lines.reduce(
+    (accumulator, currentValue) => accumulator + Number(currentValue.amountPercent),
+    0,
+  ),
+);
+
+export const getTotalDollarAmount = createSelector(
+  getLines,
+  (lines = []) => lines.reduce(
+    (accumulator, currentValue) => accumulator + Number(currentValue.amount),
+    0,
+  ),
+);
+
 export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
   const account = accounts.find(({ id }) => id === accountId);
   return account === undefined ? '' : account.taxCodeId;
@@ -54,13 +70,9 @@ export const getOptions = createSelector(
 );
 
 export const getTotals = createSelector(
-  getLines,
+  getTotalDollarAmount,
   getTotalAmount,
-  (lines = [], total) => {
-    const totalAllocated = lines.reduce(
-      (accumulator, currentValue) => accumulator + Number(currentValue.amount),
-      0,
-    );
+  (totalAllocated, total) => {
     const totalAllocatedPercent = ((totalAllocated / total) * 100);
     const totalUnallocated = (total - totalAllocated);
     const totalUnallocatedPercent = 100 - totalAllocatedPercent;
