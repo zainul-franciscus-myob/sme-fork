@@ -7,11 +7,11 @@ import React from 'react';
 
 import {
   getCalculatedAge,
-  getEmployeeBasisOptions,
-  getEmployeeCategoryOptions,
   getEmployeePayslipDeliveryOptions,
-  getEmployeeStatusOptions,
+  getEmploymentBasisOptions,
+  getEmploymentCategoryOptions,
   getEmploymentDetails,
+  getEmploymentStatusOptions,
   getGenderOptions,
 } from '../EmployeeDetailSelectors';
 
@@ -156,9 +156,9 @@ EmploymentDetails.propTypes = {
 const mapStateToProps = state => ({
   employmentDetails: getEmploymentDetails(state),
   genderOptions: getGenderOptions(state),
-  employmentBasisOptions: getEmployeeBasisOptions(state),
-  employmentCategoryOptions: getEmployeeCategoryOptions(state),
-  employmentStatusOptions: getEmployeeStatusOptions(state),
+  employmentBasisOptions: getEmploymentBasisOptions(state),
+  employmentCategoryOptions: getEmploymentCategoryOptions(state),
+  employmentStatusOptions: getEmploymentStatusOptions(state),
   payslipDeliveryOptions: getEmployeePayslipDeliveryOptions(state),
   calculatedAge: getCalculatedAge(state),
 });

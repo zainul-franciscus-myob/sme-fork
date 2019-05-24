@@ -75,7 +75,7 @@
       "name": "Indeterminate"
     }
   ],
-  "employeeBasisOptions": [
+  "employmentBasisOptions": [
     {
       "name": "Individual",
       "value": "Individual"
@@ -89,7 +89,7 @@
       "value": "Other"
     }
   ],
-  "employeeCategoryOptions": [
+  "employmentCategoryOptions": [
     {
       "name": "Permanent",
       "value": "Permanent"
@@ -99,7 +99,7 @@
       "value": "Temporary"
     }
   ],
-  "employeeStatusOptions": [
+  "employmentStatusOptions": [
     {
       "name": "Full time",
       "value": "FullTime"

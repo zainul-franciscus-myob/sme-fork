@@ -7,9 +7,9 @@ import countryList from '../../sharedData/countryList';
 export const getBusinessId = state => state.businessId;
 export const getIsLoading = state => state.isLoading;
 export const getGenderOptions = state => state.genderOptions;
-export const getEmployeeBasisOptions = state => state.employeeBasisOptions;
-export const getEmployeeCategoryOptions = state => state.employeeCategoryOptions;
-export const getEmployeeStatusOptions = state => state.employeeStatusOptions;
+export const getEmploymentBasisOptions = state => state.employmentBasisOptions;
+export const getEmploymentCategoryOptions = state => state.employmentCategoryOptions;
+export const getEmploymentStatusOptions = state => state.employmentStatusOptions;
 export const getEmployeePayslipDeliveryOptions = state => state.payslipDeliveryOptions;
 
 const getStateMainTab = state => state.mainTab;
