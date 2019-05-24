@@ -6,8 +6,6 @@ import {
 
 const getAllocate = state => state.openEntry.allocate;
 
-export const getIsCreating = state => state.openEntry.allocate.isCreating;
-
 const getIsSpendMoney = state => state.openEntry.allocate.isSpendMoney;
 
 export const getTotalAmount = state => state.openEntry.allocate.totalAmount;
@@ -27,7 +25,7 @@ export const getIndexOfLastLine = state => state.openEntry.allocate.lines.length
 export const getTotalPercentageAmount = createSelector(
   getLines,
   (lines = []) => lines.reduce(
-    (accumulator, currentValue) => accumulator + Number(currentValue.amountPercent),
+    (accumulator, currentValue) => accumulator + (Number(currentValue.amountPercent) || 0),
     0,
   ),
 );
@@ -35,7 +33,7 @@ export const getTotalPercentageAmount = createSelector(
 export const getTotalDollarAmount = createSelector(
   getLines,
   (lines = []) => lines.reduce(
-    (accumulator, currentValue) => accumulator + Number(currentValue.amount),
+    (accumulator, currentValue) => accumulator + (Number(currentValue.amount) || 0),
     0,
   ),
 );

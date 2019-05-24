@@ -6,6 +6,7 @@ import classnames from 'classnames';
 
 import ComboboxInput from './ComboboxInput';
 import ComboboxMenu from './ComboboxMenu';
+import styles from './Combobox.css';
 
 const TAB_KEY = 'Tab';
 
@@ -199,7 +200,7 @@ class ComboboxCore extends React.Component {
             }
           };
 
-          const comboClasses = classnames('combobox', {
+          const comboClasses = classnames('combobox', styles.combobox, {
             'has-error': errorMessage,
           });
 

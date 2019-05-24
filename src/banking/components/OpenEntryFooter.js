@@ -3,16 +3,18 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsCreating } from '../bankingSelectors/matchTransactionSelectors';
+import { getIsOpenEntryCreating } from '../bankingSelectors';
 
 const OpenEntryFooter = ({
   isCreating,
+  children,
   onSave,
   onCancel,
   onUnmatch,
 }) => (
   <ButtonRow
     primary={[
+      children,
       <Button key="cancel" name="cancel" type="secondary" onClick={onCancel}>
         Cancel
       </Button>,
@@ -31,15 +33,20 @@ const OpenEntryFooter = ({
   />
 );
 
+OpenEntryFooter.defaultProps = {
+  children: null,
+};
+
 OpenEntryFooter.propTypes = {
   isCreating: PropTypes.bool.isRequired,
+  children: PropTypes.node,
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onUnmatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isCreating: getIsCreating(state),
+  isCreating: getIsOpenEntryCreating(state),
 });
 
 export default connect(mapStateToProps)(OpenEntryFooter);

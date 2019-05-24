@@ -18,7 +18,7 @@ const BankTransactionTabs = ({
 );
 
 BankTransactionTabs.propTypes = {
-  tabItems: PropTypes.arrayOf({}).isRequired,
+  tabItems: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selected: PropTypes.string.isRequired,
   onSelected: PropTypes.func.isRequired,
 };

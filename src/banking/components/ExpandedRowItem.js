@@ -5,7 +5,7 @@ import style from './BankingView.css';
 
 const ExpandedRowItem = ({ entry, ...props }) => (
   <Table.RowItem {...props}>
-    <div className={style.ellipsisText}>
+    <div title={entry.allocateOrMatch} className={style.ellipsisText}>
       {entry.allocateOrMatch}
     </div>
   </Table.RowItem>

@@ -11,11 +11,12 @@ export const collapseTransactionLine = (state) => {
   });
 };
 
-export const loadOpenEntry = (state, index, propName, propValue) => ({
+export const loadOpenEntry = (state, index, propName, propValue, isCreating) => ({
   ...state,
   openPosition: index,
   openEntry: {
     ...getDefaultState().openEntry,
+    isCreating,
     activeTabId: propName,
     [propName]: propValue,
   },

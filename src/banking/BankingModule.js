@@ -10,8 +10,13 @@ import {
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_NEW_SPLIT_ALLOCATION,
+  LOAD_PAYMENT_ALLOCATION,
+  LOAD_PAYMENT_ALLOCATION_LINES,
+  LOAD_PAYMENT_ALLOCATION_OPTIONS,
   LOAD_SPLIT_ALLOCATION,
-  OPEN_MODAL, SAVE_MATCH_TRANSACTION,
+  OPEN_MODAL,
+  SAVE_MATCH_TRANSACTION,
+  SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
   SET_ALERT,
   SET_ENTRY_FOCUS,
@@ -21,6 +26,7 @@ import {
   SET_MATCH_TRANSACTION_SORT_ORDER,
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
+  SET_PAYMENT_ALLOCATION_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
@@ -29,6 +35,8 @@ import {
   UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
+  UPDATE_PAYMENT_ALLOCATION_LINE,
+  UPDATE_PAYMENT_ALLOCATION_OPTIONS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
 } from './BankingIntents';
@@ -45,6 +53,7 @@ import {
   getFlipSortOrder,
   getIsAllocated,
   getIsEntryLoading,
+  getIsOpenEntryCreating,
   getIsOpenEntryEdited,
   getOpenEntryActiveTabId,
   getOpenEntryDefaultTabId,
@@ -61,6 +70,11 @@ import {
   getMatchTransactionPayload,
   getMatchTransactionSortOrder,
 } from './bankingSelectors/matchTransactionSelectors';
+import {
+  getPaymentAllocationContactId,
+  getPaymentAllocationFilterOptions, getPaymentAllocationPayload,
+  getPaymentTypeUrlParam,
+} from './bankingSelectors/paymentAllocationSelectors';
 import { getSplitAllocationPayload } from './bankingSelectors/splitAllocationSelectors';
 import { tabIds } from './tabItems';
 import BankingView from './components/BankingView';
@@ -106,6 +120,10 @@ export default class BankingModule {
         onUpdateMatchTransactionSelection={this.updateMatchTransactionSelection}
         onSaveMatchTransaction={this.saveMatchTransaction}
         onCancelMatchTransaction={this.confirmBefore(this.collapseTransactionLine)}
+        onUpdatePaymentAllocationOptions={this.confirmBefore(this.updatePaymentAllocationOptions)}
+        onUpdatePaymentAllocationLine={this.updatePaymentAllocationLine}
+        onSavePaymentAllocation={this.savePaymentAllocation}
+        onCancelPaymentAllocation={this.confirmBefore(this.collapseTransactionLine)}
         onUnmatchTransaction={this.confirmBefore(this.unallocateOpenEntryTransaction)}
         onCancelModal={this.cancelModal}
         onCloseModal={this.closeModal}
@@ -469,6 +487,7 @@ export default class BankingModule {
     const openEntryAction = {
       [tabIds.match]: this.loadMatchTransaction,
       [tabIds.allocate]: this.loadAllocate,
+      [tabIds.payment]: this.loadPayment,
     }[tabId] || this.loadAllocate;
 
     openEntryAction(index);
@@ -497,13 +516,7 @@ export default class BankingModule {
 
     const onSuccess = this.ifOpen(
       index,
-
       (payload) => {
-        const updatedState = this.store.getState();
-        if (getOpenPosition(updatedState) !== index) {
-          return;
-        }
-
         this.setOpenEntryLoadingState(false);
         this.store.dispatch({
           intent,
@@ -598,7 +611,7 @@ export default class BankingModule {
         ...payload,
       });
 
-      this.ifOpen(index, () => this.loadMatchTransaction(index));
+      this.ifOpen(index, () => this.loadMatchTransaction(index))();
     };
 
     const onFailure = ({ message }) => {
@@ -857,6 +870,192 @@ export default class BankingModule {
     this.store.dispatch({
       intent,
       selectedJournalLineId,
+    });
+  }
+
+  loadPayment = (index) => {
+    const state = this.store.getState();
+    const line = getBankTransactionLineByIndex(state, index);
+
+    if (getIsAllocated(line)) {
+      this.loadPaymentAllocation(index, line);
+    } else {
+      this.loadPaymentAllocationOptions(index);
+    }
+  }
+
+  loadPaymentAllocationOptions = (index) => {
+    const intent = LOAD_PAYMENT_ALLOCATION_OPTIONS;
+    this.store.dispatch({
+      intent,
+      index,
+    });
+  }
+
+  loadPaymentAllocationLines = () => {
+    const intent = LOAD_PAYMENT_ALLOCATION_LINES;
+
+    const state = this.store.getState();
+
+    const index = getOpenPosition(state);
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      paymentType: getPaymentTypeUrlParam(state),
+    };
+
+    const filterOptions = getPaymentAllocationFilterOptions(state);
+
+    const onSuccess = this.ifOpen(
+      index,
+      (payload) => {
+        this.setPaymentAllocationLoadingState(false);
+        this.store.dispatch({
+          intent,
+          ...payload,
+        });
+      },
+    );
+
+    const onFailure = ({ message }) => {
+      this.setPaymentAllocationLoadingState(false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.setPaymentAllocationLoadingState(true);
+    this.integration.read({
+      intent,
+      params: {
+        ...filterOptions,
+      },
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  loadPaymentAllocation = (index, { journalId }) => {
+    const intent = LOAD_PAYMENT_ALLOCATION;
+
+    const state = this.store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      paymentType: getPaymentTypeUrlParam(state),
+      paymentId: journalId,
+    };
+
+    const onSuccess = this.ifOpen(
+      index,
+      (payload) => {
+        this.setOpenEntryLoadingState(false);
+        this.store.dispatch({
+          intent,
+          ...payload,
+          index,
+        });
+      },
+    );
+
+    const onFailure = ({ message }) => {
+      this.setOpenEntryLoadingState(false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.setOpenEntryLoadingState(true);
+    this.setOpenEntryPosition(index);
+    this.integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  savePaymentAllocation = () => {
+    const intent = SAVE_PAYMENT_ALLOCATION;
+    const state = this.store.getState();
+
+    const isCreating = getIsOpenEntryCreating(state);
+    if (!isCreating) {
+      this.collapseTransactionLine();
+      return;
+    }
+
+    const index = getOpenPosition(state);
+    const urlParams = { businessId: getBusinessId(state) };
+    const content = getPaymentAllocationPayload(state, index);
+
+    this.collapseTransactionLine();
+
+    const onSuccess = (payload) => {
+      this.setEntryLoadingState(index, false);
+      this.store.dispatch({
+        intent,
+        index,
+        ...payload,
+      });
+      this.setAlert({
+        type: 'success',
+        message: payload.message,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setEntryLoadingState(index, false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.setEntryLoadingState(index, true);
+    this.integration.write({
+      intent,
+      urlParams,
+      allowParallelRequests: true,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  updatePaymentAllocationOptions = ({ key, value }) => {
+    const intent = UPDATE_PAYMENT_ALLOCATION_OPTIONS;
+    this.store.dispatch({
+      intent,
+      key,
+      value,
+    });
+
+    const state = this.store.getState();
+    const contactId = getPaymentAllocationContactId(state);
+    if (contactId) {
+      this.loadPaymentAllocationLines();
+    }
+  }
+
+  updatePaymentAllocationLine = ({ index, key, value }) => {
+    const intent = UPDATE_PAYMENT_ALLOCATION_LINE;
+    this.store.dispatch({
+      intent,
+      index,
+      key,
+      value,
+    });
+  }
+
+  setPaymentAllocationLoadingState = (isLoading) => {
+    const intent = SET_PAYMENT_ALLOCATION_LOADING_STATE;
+    this.store.dispatch({
+      intent,
+      isLoading,
     });
   }
 

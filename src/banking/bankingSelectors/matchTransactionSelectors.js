@@ -16,8 +16,6 @@ export const getMatchTransactionFlipSortOrder = state => (
   state.openEntry.match.sortOrder === 'desc' ? 'asc' : 'desc'
 );
 
-export const getIsCreating = state => state.openEntry.match.isCreating;
-
 export const getIsTableLoading = state => state.openEntry.match.isTableLoading;
 
 export const getTotalAmount = state => state.openEntry.match.totalAmount;

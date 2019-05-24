@@ -2,8 +2,11 @@ import {
   ALLOCATE_TRANSACTION,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
+  LOAD_PAYMENT_ALLOCATION,
+  LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_SPLIT_ALLOCATION,
   SAVE_MATCH_TRANSACTION,
+  SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
@@ -51,6 +54,18 @@ const BankingMapping = {
   [SAVE_MATCH_TRANSACTION]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/save_match_transaction`,
+  },
+  [LOAD_PAYMENT_ALLOCATION_LINES]: {
+    method: 'GET',
+    getPath: ({ businessId, paymentType }) => `/${businessId}/banking/load_new_payment/${paymentType}`,
+  },
+  [LOAD_PAYMENT_ALLOCATION]: {
+    method: 'GET',
+    getPath: ({ businessId, paymentType, paymentId }) => `/${businessId}/banking/load_payment/${paymentType}/${paymentId}`,
+  },
+  [SAVE_PAYMENT_ALLOCATION]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/allocate_payment`,
   },
 };
 

@@ -116,11 +116,14 @@ export const updateSplitAllocationLine = (state, action) => {
   return updateSplitAllocationState(state, 'lines', lines);
 };
 
-export const deleteSplitAllocationLine = (state, action) => updateSplitAllocationState(
-  state,
-  'lines',
-  state.openEntry.allocate.lines.filter((item, index) => index !== action.index),
-);
+export const deleteSplitAllocationLine = (state, action) => {
+  const updateState = updateSplitAllocationState(
+    state,
+    'lines',
+    state.openEntry.allocate.lines.filter((item, index) => index !== action.index),
+  );
+  return updateState;
+};
 
 export const loadSplitAllocation = (state, action) => {
   const openedEntry = state.entries[action.index];
@@ -147,10 +150,9 @@ export const loadSplitAllocation = (state, action) => {
     totalAmount,
     lines: updatedLines,
     newLine,
-    isCreating: false,
   };
 
-  return loadOpenEntry(state, action.index, tabIds.allocate, allocate);
+  return loadOpenEntry(state, action.index, tabIds.allocate, allocate, false);
 };
 
 export const loadNewSplitAllocation = (state, action) => {
@@ -183,10 +185,9 @@ export const loadNewSplitAllocation = (state, action) => {
       },
     ],
     newLine,
-    isCreating: true,
   };
 
-  return loadOpenEntry(state, action.index, tabIds.allocate, allocate);
+  return loadOpenEntry(state, action.index, tabIds.allocate, allocate, true);
 };
 
 export const saveSplitAllocation = (state, action) => ({

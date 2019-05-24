@@ -11,6 +11,8 @@ import ExpandedRowItem from './ExpandedRowItem';
 import MatchTransactionBody from './MatchTransactionBody';
 import MatchedRowItem from './MatchedRowItem';
 import OpenEntryFooter from './OpenEntryFooter';
+import PaymentAllocationBody from './PaymentAllocationBody';
+import PaymentAllocationFooter from './PaymentAllocationFooter';
 import SplitAllocationBody from './SplitAllocationBody';
 import SplitRowItem from './SplitRowItem';
 import TableCollapsibleRow from '../../components/Feelix/Accordion/TableCollapsibleRow';
@@ -65,7 +67,7 @@ const getMatchedOrAllocatedRowItem = ({
     );
   }
 
-  if (type === 'splitAllocation') {
+  if (type === 'splitAllocation' || type === 'payment') {
     return (
       <SplitRowItem
         index={index}
@@ -130,6 +132,10 @@ const BankTransactionTableBody = (props) => {
     onSaveMatchTransaction,
     onCancelMatchTransaction,
     onUnmatchTransaction,
+    onUpdatePaymentAllocationOptions,
+    onUpdatePaymentAllocationLine,
+    onSavePaymentAllocation,
+    onCancelPaymentAllocation,
   } = props;
 
   const spinner = (
@@ -141,6 +147,7 @@ const BankTransactionTableBody = (props) => {
   const Content = {
     [tabIds.allocate]: SplitAllocationBody,
     [tabIds.match]: MatchTransactionBody,
+    [tabIds.payment]: PaymentAllocationBody,
   }[activeTabId];
 
   const contentProps = {
@@ -156,6 +163,10 @@ const BankTransactionTableBody = (props) => {
       onSortMatchTransactions,
       onUpdateMatchTransactionSelection,
     },
+    [tabIds.payment]: {
+      onUpdatePaymentAllocationOptions,
+      onUpdatePaymentAllocationLine,
+    },
   }[activeTabId];
 
   const footerProps = {
@@ -169,6 +180,11 @@ const BankTransactionTableBody = (props) => {
       onCancel: onCancelMatchTransaction,
       onUnmatch: onUnmatchTransaction,
     },
+    [tabIds.payment]: {
+      onSave: onSavePaymentAllocation,
+      onCancel: onCancelPaymentAllocation,
+      onUnmatch: onUnallocateSplitAllocation,
+    },
   }[activeTabId];
 
   const openEntry = (
@@ -179,6 +195,12 @@ const BankTransactionTableBody = (props) => {
       />
       <Content {...contentProps} />
     </React.Fragment>
+  );
+
+  const openEntryFooter = (
+    <OpenEntryFooter {...footerProps}>
+      {activeTabId === tabIds.payment ? <PaymentAllocationFooter /> : null}
+    </OpenEntryFooter>
   );
 
   const rows = entries.map((entry, index) => {
@@ -202,12 +224,10 @@ const BankTransactionTableBody = (props) => {
         key={index}
         headerClickDisabled={entry.isLineDisabled}
         expansionToggle
-        footer={!isOpenEntryLoading && <OpenEntryFooter {...footerProps} />}
+        footer={!isOpenEntryLoading ? openEntryFooter : null}
         header={(
           <Table.Row key={index}>
-            <Table.RowItem {...tableConfig.date}>
-              {entry.displayDate}
-            </Table.RowItem>
+            <Table.RowItem {...tableConfig.date}>{entry.displayDate}</Table.RowItem>
             <Table.RowItem {...tableConfig.description}>
               <div className={style.ellipsisText} title={entry.description}>
                 {entry.description}
@@ -264,6 +284,10 @@ BankTransactionTableBody.propTypes = {
   onSaveMatchTransaction: PropTypes.func.isRequired,
   onCancelMatchTransaction: PropTypes.func.isRequired,
   onUnmatchTransaction: PropTypes.func.isRequired,
+  onUpdatePaymentAllocationOptions: PropTypes.func.isRequired,
+  onUpdatePaymentAllocationLine: PropTypes.func.isRequired,
+  onSavePaymentAllocation: PropTypes.func.isRequired,
+  onCancelPaymentAllocation: PropTypes.func.isRequired,
 };
 
 export default BankTransactionTableBody;

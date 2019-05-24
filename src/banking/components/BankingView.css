@@ -38,14 +38,24 @@
   margin-right: 0.5rem;
 }
 
+:local .paymentFooter {
+  align-items: center;
+  display: flex;
+  padding-right: 2rem;
+}
+
+:local .splitButton :global(.btn-link__content) {
+  max-width: 20rem;
+}
+
 :local .allocateButton :global(.btn-link__content),
 :local .splitButton :global(.btn-link__content) {
   color: #1b2830;
-  max-width: 15rem;
   text-align: left;
 }
 
 :local .allocateButton :global(.btn-link__content),
+:local .splitButton :global(.btn-link__content),
 :local .ellipsisText {
   white-space: nowrap;
   overflow: hidden;
@@ -54,6 +64,7 @@
 
 :local .allocateButton :global(.btn-link__content) {
   line-height: initial;
+  max-width: 15rem;
 }
 
 :local .reportableTooltip {

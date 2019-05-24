@@ -45,6 +45,10 @@ const BankingView = (props) => {
     onSaveMatchTransaction,
     onCancelMatchTransaction,
     onUnmatchTransaction,
+    onUpdatePaymentAllocationOptions,
+    onUpdatePaymentAllocationLine,
+    onSavePaymentAllocation,
+    onCancelPaymentAllocation,
     modalType,
     onCancelModal,
     onCloseModal,
@@ -103,6 +107,10 @@ const BankingView = (props) => {
             onSaveMatchTransaction={onSaveMatchTransaction}
             onCancelMatchTransaction={onCancelMatchTransaction}
             onUnmatchTransaction={onUnmatchTransaction}
+            onUpdatePaymentAllocationOptions={onUpdatePaymentAllocationOptions}
+            onUpdatePaymentAllocationLine={onUpdatePaymentAllocationLine}
+            onSavePaymentAllocation={onSavePaymentAllocation}
+            onCancelPaymentAllocation={onCancelPaymentAllocation}
           />
         </div>
       </StandardTemplate>

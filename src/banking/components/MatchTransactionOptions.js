@@ -53,8 +53,8 @@ MatchTransactionOptions.propTypes = {
   filterOptions: PropTypes.shape({
     dateFrom: PropTypes.string,
     dateTo: PropTypes.string,
-    amountFrom: PropTypes.number,
-    amountTo: PropTypes.number,
+    amountFrom: PropTypes.string,
+    amountTo: PropTypes.string,
     keywords: PropTypes.string,
   }).isRequired,
   onApplyMatchTransactionOptions: PropTypes.func.isRequired,

@@ -47,7 +47,7 @@
       "taxCode": "LOL",
       "note": "the second notable thing",
       "isReportable": false,
-      "type": "singleAllocation"
+      "type": "splitAllocation"
     },
     {
       "transactionId": "4",
@@ -62,6 +62,34 @@
       "note": "",
       "isReportable": false,
       "type": "splitAllocation"
+    },
+    {
+      "transactionId": "5",
+      "date": "2018-10-02",
+      "description": "Bill payment",
+      "withdrawal": 1300.00,
+      "allocateOrMatch": "Matched to Supplier Payment ABC00012",
+      "journalId": "105",
+      "journalLineId": "128",
+      "sourceJournal": "PayBill",
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "type": "payment"
+    },
+    {
+      "transactionId": "5",
+      "date": "2018-10-05",
+      "description": "Receive payment",
+      "deposit": 1300.00,
+      "allocateOrMatch": "Matched to Customer Payment ABC00012",
+      "journalId": "323",
+      "journalLineId": "324",
+      "sourceJournal": "ReceivePayment",
+      "taxCode": "",
+      "note": "",
+      "isReportable": false,
+      "type": "payment"
     }
   ]
 }

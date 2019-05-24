@@ -74,6 +74,10 @@ const BankTransactionTable = ({
   onSaveMatchTransaction,
   onCancelMatchTransaction,
   onUnmatchTransaction,
+  onUpdatePaymentAllocationOptions,
+  onUpdatePaymentAllocationLine,
+  onSavePaymentAllocation,
+  onCancelPaymentAllocation,
 }) => {
   const header = (
     <Table.Header>
@@ -132,6 +136,10 @@ const BankTransactionTable = ({
     onSaveMatchTransaction,
     onCancelMatchTransaction,
     onUnmatchTransaction,
+    onUpdatePaymentAllocationOptions,
+    onUpdatePaymentAllocationLine,
+    onSavePaymentAllocation,
+    onCancelPaymentAllocation,
   });
   return (
     <AccordionTable

@@ -8,10 +8,11 @@ import getDefaultState from './getDefaultState';
 export const loadMatchTransactions = (state, action) => {
   const defaultState = getDefaultState();
 
+  const isCreating = !action.allocatedJournalLineId;
+
   const match = {
     ...defaultState.openEntry.match,
     totalAmount: action.totalAmount,
-    isCreating: !action.allocatedJournalLineId,
     selectedJournalLineId: action.allocatedJournalLineId,
     filterOptions: {
       ...defaultState.openEntry.match.filterOptions,
@@ -28,16 +29,18 @@ export const loadMatchTransactions = (state, action) => {
     entries: action.entries,
   };
 
-  return loadOpenEntry(state, action.index, tabIds.match, match);
+  return loadOpenEntry(state, action.index, tabIds.match, match, isCreating);
 };
 
 export const sortAndFilterMatchTransactions = (state, action) => {
+  const { isCreating } = state.openEntry;
+
   const match = {
     ...state.openEntry.match,
     entries: action.entries,
   };
 
-  return loadOpenEntry(state, action.index, tabIds.match, match);
+  return loadOpenEntry(state, action.index, tabIds.match, match, isCreating);
 };
 
 export const saveMatchTransaction = (state, action) => ({

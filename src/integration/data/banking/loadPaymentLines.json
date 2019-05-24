@@ -6,24 +6,24 @@
         "referenceId": "0000023",
         "status": "Open",
         "date": "27/03/2019",
-        "amount": 120.00,
-        "discountAmount": 120.00
+        "amount": "120.00",
+        "discountAmount": "0"
       },
       {
         "id": "379",
         "referenceId": "0000024",
         "status": "Open",
         "date": "28/03/2019",
-        "amount": 2500.05,
-        "discountAmount": 2500.05
+        "amount": "2500.05",
+        "discountAmount": "0"
       },
       {
         "id": "380",
         "referenceId": "0000025",
         "status": "Open",
         "date": "30/03/2019",
-        "amount": 450.05,
-        "discountAmount": 450.05
+        "amount": "450.05",
+        "discountAmount": "0"
       }
     ]
   }

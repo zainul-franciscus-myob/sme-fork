@@ -29,21 +29,10 @@ describe('bankingSelector', () => {
   describe('getBankTransactionLineDefaultTabId', () => {
     [
       ['singleAllocation', businessEventTypes.spendMoney, tabIds.allocate],
-      ['singleAllocation', businessEventTypes.receiveMoney, tabIds.allocate],
-      ['singleAllocation', businessEventTypes.generalJournal, tabIds.match],
-      ['singleAllocation', businessEventTypes.transferMoney, tabIds.match],
       ['splitAllocation', businessEventTypes.spendMoney, tabIds.allocate],
-      ['splitAllocation', businessEventTypes.receiveMoney, tabIds.allocate],
-      ['splitAllocation', businessEventTypes.generalJournal, tabIds.match],
-      ['splitAllocation', businessEventTypes.transferMoney, tabIds.match],
-      ['matched', businessEventTypes.spendMoney, tabIds.allocate],
-      ['matched', businessEventTypes.receiveMoney, tabIds.allocate],
-      ['matched', businessEventTypes.generalJournal, tabIds.match],
-      ['matched', businessEventTypes.transferMoney, tabIds.match],
-      ['unmatched', businessEventTypes.spendMoney, tabIds.allocate],
-      ['unmatched', businessEventTypes.receiveMoney, tabIds.allocate],
-      ['unmatched', businessEventTypes.generalJournal, tabIds.allocate],
-      ['unmatched', businessEventTypes.transferMoney, tabIds.allocate],
+      ['payment', businessEventTypes.billPayment, tabIds.payment],
+      ['matched', '', tabIds.match],
+      ['unmatched', '', tabIds.allocate],
     ].forEach((args) => {
       const [type, sourceJournal, expected] = args;
 

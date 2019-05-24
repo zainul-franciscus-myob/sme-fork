@@ -7,9 +7,13 @@ import {
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_NEW_SPLIT_ALLOCATION,
+  LOAD_PAYMENT_ALLOCATION,
+  LOAD_PAYMENT_ALLOCATION_LINES,
+  LOAD_PAYMENT_ALLOCATION_OPTIONS,
   LOAD_SPLIT_ALLOCATION,
   OPEN_MODAL,
   SAVE_MATCH_TRANSACTION,
+  SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
   SET_ALERT,
   SET_ENTRY_FOCUS,
@@ -19,6 +23,7 @@ import {
   SET_MATCH_TRANSACTION_SORT_ORDER,
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
+  SET_PAYMENT_ALLOCATION_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
@@ -27,6 +32,8 @@ import {
   UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
+  UPDATE_PAYMENT_ALLOCATION_LINE,
+  UPDATE_PAYMENT_ALLOCATION_OPTIONS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
 } from '../BankingIntents';
@@ -51,6 +58,14 @@ import {
   updateMatchTransactionOptions,
   updateMatchTransactionSelection,
 } from './matchTransactionHandlers';
+import {
+  loadPaymentAllocation,
+  loadPaymentAllocationLines,
+  loadPaymentAllocationOptions, savePaymentAllocation,
+  setPaymentAllocationLoadingState,
+  updatePaymentAllocationLine,
+  updatePaymentAllocationOptions,
+} from './paymentAllocationHandler';
 import createReducer from '../../store/createReducer';
 import getDefaultState from './getDefaultState';
 
@@ -64,6 +79,8 @@ const loadBankTransactions = (state, action) => ({
   transactionTypes: action.transactionTypes,
   balances: action.balances,
   contacts: action.contacts,
+  suppliers: action.suppliers,
+  customers: action.customers,
   taxCodes: action.taxCodes,
   entries: action.entries.map(entry => ({
     ...entry,
@@ -191,18 +208,6 @@ export const unallocateTransaction = (state, action) => ({
   ),
 });
 
-export const unallocateOpenTransaction = (state, action) => {
-  const defaultState = getDefaultState();
-
-  return {
-    ...state,
-    ...unallocateTransaction(state, action),
-    openEntry: action.index === state.openPosition
-      ? defaultState.openEntry
-      : state.openEntry,
-  };
-};
-
 const handlers = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: sortAndFilterBankTransactions,
@@ -236,6 +241,13 @@ const handlers = {
   [SET_MATCH_TRANSACTION_SORT_ORDER]: setMatchTransactionSortOrder,
   [UPDATE_MATCH_TRANSACTION_SELECTION]: updateMatchTransactionSelection,
   [SET_MATCH_TRANSACTION_LOADING_STATE]: setMatchTransactionLoadingState,
+  [LOAD_PAYMENT_ALLOCATION]: loadPaymentAllocation,
+  [LOAD_PAYMENT_ALLOCATION_LINES]: loadPaymentAllocationLines,
+  [SAVE_PAYMENT_ALLOCATION]: savePaymentAllocation,
+  [LOAD_PAYMENT_ALLOCATION_OPTIONS]: loadPaymentAllocationOptions,
+  [UPDATE_PAYMENT_ALLOCATION_OPTIONS]: updatePaymentAllocationOptions,
+  [UPDATE_PAYMENT_ALLOCATION_LINE]: updatePaymentAllocationLine,
+  [SET_PAYMENT_ALLOCATION_LOADING_STATE]: setPaymentAllocationLoadingState,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

@@ -3,6 +3,8 @@ export const businessEventTypes = {
   spendMoney: 'CashPayment',
   receiveMoney: 'CashReceipt',
   transferMoney: 'TransferMoney',
+  billPayment: 'PayBill',
+  invoicePayment: 'ReceivePayment',
 };
 
 export const businessEventFeatures = {

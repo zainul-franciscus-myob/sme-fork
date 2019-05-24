@@ -42,7 +42,7 @@ const SplitAllocationRow = (props) => {
     description = '',
     accountId,
     taxCodes,
-    accounts,
+    accounts = [],
     taxCodeId,
   } = data;
 

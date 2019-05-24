@@ -18,6 +18,8 @@ const getDefaultState = () => ({
   bankAccounts: [],
   transactionTypes: [],
   contacts: [],
+  suppliers: [],
+  customers: [],
   taxCodes: [],
   filterOptions: {
     transactionType: 'All',
@@ -44,6 +46,7 @@ const getDefaultState = () => ({
   isOpenEntryLoading: false,
   openEntry: {
     isEdited: false,
+    isCreating: false,
     activeTabId: tabIds.allocate,
     allocate: {
       id: '',
@@ -76,6 +79,17 @@ const getDefaultState = () => ({
       },
       orderBy: '',
       sortOrder: '',
+      entries: [],
+    },
+    payment: {
+      isTableLoading: false,
+      isBillPayment: false,
+      totalAmount: 0,
+      contacts: [],
+      filterOptions: {
+        contactId: '',
+        showPaid: false,
+      },
       entries: [],
     },
   },

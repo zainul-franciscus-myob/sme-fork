@@ -33,3 +33,11 @@ export const UPDATE_MATCH_TRANSACTION_OPTIONS = Symbol('Update match transaction
 export const SET_MATCH_TRANSACTION_SORT_ORDER = Symbol('Set match transaction sort order');
 export const UPDATE_MATCH_TRANSACTION_SELECTION = Symbol('Update match transaction selection');
 export const SET_MATCH_TRANSACTION_LOADING_STATE = Symbol('Set match transaction table loading state');
+
+export const LOAD_PAYMENT_ALLOCATION_LINES = Symbol('Load bill or invoice payment lines');
+export const LOAD_PAYMENT_ALLOCATION = Symbol('Load bill or invoice payment allocation');
+export const SAVE_PAYMENT_ALLOCATION = Symbol('Save bill or invoice payment allocation');
+export const LOAD_PAYMENT_ALLOCATION_OPTIONS = Symbol('Load payment allocation filter options');
+export const UPDATE_PAYMENT_ALLOCATION_OPTIONS = Symbol('Update payment allocation filter options');
+export const UPDATE_PAYMENT_ALLOCATION_LINE = Symbol('Update payment allocation line');
+export const SET_PAYMENT_ALLOCATION_LOADING_STATE = Symbol('Set payment allocation loading state');

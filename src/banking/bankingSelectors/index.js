@@ -40,7 +40,7 @@ export const formatAmount = amount => Intl
   })
   .format(amount);
 
-const formatCurrency = (amount) => {
+export const formatCurrency = (amount) => {
   const formattedAmount = formatAmount(Math.abs(amount));
 
   return amount < 0 ? `-$${formattedAmount}` : `$${formattedAmount}`;
@@ -140,6 +140,8 @@ export const getOpenPosition = state => state.openPosition;
 
 export const getIsOpenEntryLoading = state => state.isOpenEntryLoading;
 
+export const getIsOpenEntryCreating = state => state.openEntry.isCreating;
+
 export const getIsOpenEntryEdited = state => state.openEntry.isEdited;
 
 export const getOpenEntryActiveTabId = state => state.openEntry.activeTabId;
@@ -155,10 +157,19 @@ export const getIsEntryLoading = createSelector(
 );
 
 export const getOpenEntryDefaultTabId = ({ type, sourceJournal }) => {
-  if (sourceJournal === businessEventTypes.spendMoney
+  if (
+    type === 'unmatched'
+    || sourceJournal === businessEventTypes.spendMoney
     || sourceJournal === businessEventTypes.receiveMoney
-    || type === 'unmatched') {
+  ) {
     return tabIds.allocate;
+  }
+
+  if (
+    sourceJournal === businessEventTypes.billPayment
+    || sourceJournal === businessEventTypes.invoicePayment
+  ) {
+    return tabIds.payment;
   }
 
   return tabIds.match;
@@ -170,7 +181,7 @@ export const getBankTransactionLineByIndex = (state, index) => {
 };
 
 export const getIsAllocated = ({ type, journalId }) => (
-  !!((type === 'singleAllocation' || type === 'splitAllocation') && journalId)
+  !!((type === 'singleAllocation' || type === 'splitAllocation' || type === 'payment') && journalId)
 );
 
 export const getIsBalancesInvalid = ({ bankBalance, myobBalance, unallocated }) => (
@@ -245,17 +256,29 @@ const getOpenTransactionLine = createSelector(
 
 export const getTabItems = createSelector(
   getOpenTransactionLine,
-  ({ sourceJournal = '' }) => {
-    const isDisabled = sourceJournal !== businessEventTypes.spendMoney
+  ({ sourceJournal = '', withdrawal }) => {
+    const isAllocateDisabled = sourceJournal !== businessEventTypes.spendMoney
     && sourceJournal !== businessEventTypes.receiveMoney
     && sourceJournal !== '';
 
+    const isPaymentDisabled = sourceJournal !== businessEventTypes.billPayment
+    && sourceJournal !== businessEventTypes.invoicePayment
+    && sourceJournal !== '';
+
+    const isBillPayment = !!withdrawal;
+
     return [
+      {
+        id: tabIds.payment,
+        label: isBillPayment ? 'Bill payment' : 'Invoice payment',
+        isDisabled: isPaymentDisabled,
+        toolTip: isPaymentDisabled && 'Unmatch this transaction before creating a new one',
+      },
       {
         id: tabIds.allocate,
         label: 'Allocate',
-        isDisabled,
-        toolTip: isDisabled && 'Unmatch this transaction before creating a new one',
+        isDisabled: isAllocateDisabled,
+        toolTip: isAllocateDisabled && 'Unmatch this transaction before creating a new one',
       },
       {
         id: tabIds.match,
