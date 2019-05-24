@@ -1,5 +1,10 @@
 import {
-  getPaymentAllocationBody, getPaymentAllocationPayload,
+  getBalanceDue,
+  getOptions,
+  getPaymentAllocationBody,
+  getPaymentAllocationPayload,
+  getPaymentTypeUrlParam,
+  getRemainingBalance,
   getTableOptions,
 } from '../paymentAllocationSelectors';
 
@@ -135,6 +140,73 @@ describe('paymentAllocationSelector', () => {
       const { contactName } = actual;
 
       expect(contactName).toBeUndefined();
+    });
+  });
+
+  describe('getPaymentTypeUrlParam', () => {
+    it('should return bill url parameter for bill payment', () => {
+      const state = { openEntry: { payment: { isBillPayment: true } } };
+      const expected = 'bill';
+
+      const actual = getPaymentTypeUrlParam(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return bill url parameter for invoice payment', () => {
+      const state = { openEntry: { payment: { isBillPayment: false } } };
+      const expected = 'invoice';
+
+      const actual = getPaymentTypeUrlParam(state);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getOptions', () => {
+    const getContactsResult = [];
+    const getPaymentAllocationContactIdResult = '';
+    const getShowPaidResult = false;
+    const getIsBillPaymentResult = true;
+
+    it('should return contacts, contactId, and showPaid as is', () => {
+      const actual = getOptions.resultFunc(
+        getContactsResult,
+        getPaymentAllocationContactIdResult,
+        getShowPaidResult,
+        getIsBillPaymentResult,
+      );
+      const { contacts, contactId, showPaid } = actual;
+
+      expect(contacts).toEqual(getContactsResult);
+      expect(contactId).toEqual(getPaymentAllocationContactIdResult);
+      expect(showPaid).toEqual(getShowPaidResult);
+    });
+
+    it('should get bill payment options', () => {
+      const actual = getOptions.resultFunc(
+        getContactsResult,
+        getPaymentAllocationContactIdResult,
+        getShowPaidResult,
+        true,
+      );
+      const { contactLabel, showPaidLabel } = actual;
+
+      expect(contactLabel).toEqual('Supplier');
+      expect(showPaidLabel).toEqual('Show paid bills');
+    });
+
+    it('should get bill payment options', () => {
+      const actual = getOptions.resultFunc(
+        getContactsResult,
+        getPaymentAllocationContactIdResult,
+        getShowPaidResult,
+        false,
+      );
+      const { contactLabel, showPaidLabel } = actual;
+
+      expect(contactLabel).toEqual('Customer');
+      expect(showPaidLabel).toEqual('Show paid invoices');
     });
   });
 
@@ -348,6 +420,47 @@ describe('paymentAllocationSelector', () => {
 
           expect(tableEmptyMessage).toEqual('No results.');
         });
+      });
+    });
+  });
+
+  describe('getBalanceDue', () => {
+    [
+      ['should return positive value', '100', '10', '90.00'],
+      ['should return negative value', '10', '100', '-90.00'],
+      ['should return amount when discount amount is invalid', '100', '-', '100.00'],
+      ['should return 0.00 when amount and discount amount are empty', '', '', '0.00'],
+    ].forEach((args) => {
+      const [scenario, ...rest] = args;
+
+      it(scenario, () => {
+        const [amount, discountAmount, expected] = rest;
+
+        const actual = getBalanceDue(amount, discountAmount);
+
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
+
+  describe('getRemainingBalance', () => {
+    [
+      ['should return positive value', '100', [{ appliedAmount: '5' }, { appliedAmount: '5' }], '$90.00'],
+      ['should return negative value', '100', [{ appliedAmount: '10' }, { appliedAmount: '100' }], '-$10.00'],
+      ['should return total amount when applied amount is invalid', '100', [{ appliedAmount: '-' }], '$100.00'],
+      ['should calculate only on valid amount', '100', [{ appliedAmount: '' }, { appliedAmount: '10' }], '$90.00'],
+    ].forEach((args) => {
+      const [scenario, ...rest] = args;
+
+      it(scenario, () => {
+        const [getTotalAmountResult, getPaymentAllocationEntriesResult, expected] = rest;
+
+        const actual = getRemainingBalance.resultFunc(
+          getTotalAmountResult,
+          getPaymentAllocationEntriesResult,
+        );
+
+        expect(actual).toEqual(expected);
       });
     });
   });

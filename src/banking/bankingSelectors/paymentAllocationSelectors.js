@@ -138,7 +138,7 @@ const getEntryLink = (entry, businessId, region, isBillPayment) => {
   return `/#/${region}/${businessId}/${feature}/${id}`;
 };
 
-const getBalanceDue = (amount = '', discountAmount = '') => formatAmount(
+export const getBalanceDue = (amount = '', discountAmount = '') => formatAmount(
   Number(amount) - (Number(discountAmount) || 0),
 );
 

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import {
-  formatAmount, getContacts, getEntries, getFilterOptions,
+  formatAmount, formatCurrency, getContacts, getEntries, getFilterOptions,
 } from './index';
 
 const getAllocate = state => state.openEntry.allocate;
@@ -76,8 +76,8 @@ export const getTotals = createSelector(
     const totalUnallocatedPercent = 100 - totalAllocatedPercent;
 
     return {
-      totalAllocated: `$${formatAmount(totalAllocated)} (${formatAmount(totalAllocatedPercent)}%)`,
-      totalUnallocated: `$${formatAmount(totalUnallocated)} (${formatAmount(totalUnallocatedPercent)}%)`,
+      totalAllocated: `${formatCurrency(totalAllocated)} (${formatAmount(totalAllocatedPercent)}%)`,
+      totalUnallocated: `${formatCurrency(totalUnallocated)} (${formatAmount(totalUnallocatedPercent)}%)`,
     };
   },
 );
