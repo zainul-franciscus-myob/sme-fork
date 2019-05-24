@@ -103,7 +103,7 @@ const EmploymentDetails = ({
         ))}
       </Select>
       <Select
-        name="payslipDelivery"
+        name="paySlipDelivery"
         label="Payslip Delivery"
         onChange={handleSelectChange(onEmploymentPaySlipDeliveryChange)}
       >
