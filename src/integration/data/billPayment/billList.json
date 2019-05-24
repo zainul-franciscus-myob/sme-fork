@@ -1,0 +1,20 @@
+{
+  "entries": [
+    {
+      "id": "123",
+      "billNumber": "0000023",
+      "status": "Open",
+      "date": "27/03/2019",
+      "billAmount": "250.05",
+      "discountAmount": "0"
+    },
+    {
+      "id": "378",
+      "billNumber": "0000024",
+      "status": "Open",
+      "date": "27/03/2019",
+      "billAmount": "2500.05",
+      "discountAmount": "0"
+    }
+  ]
+}

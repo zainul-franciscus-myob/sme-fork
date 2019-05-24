@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  hasBankingUrls, hasBusinessId, hasContactUrls, hasJournalUrls, hasPayrollUrls, hasSalesUrls,
+  hasBankingUrls,
+  hasBusinessId,
+  hasContactUrls,
+  hasJournalUrls,
+  hasPayrollUrls,
+  hasPurchasesUrls,
+  hasSalesUrls,
 } from '../NavigationSelectors';
 import BankingMenu from './BankingMenu';
 import BusinessMenu from './BusinessMenu';
@@ -12,14 +18,16 @@ import ContactMenu from './ContactMenu';
 import JournalMenu from './JournalMenu';
 import Logout from './Logout';
 import PayrollMenu from './PayrollMenu';
+import PurchasesMenu from './PurchasesMenu';
 import SalesMenu from './SalesMenu';
 import SwitchBusiness from './SwitchBusiness';
 
 const getPrimary = ({
-  onMenuSelect, shouldDisplaySalesMenu, shouldDisplayBankingMenu,
+  onMenuSelect, shouldDisplaySalesMenu, shouldDisplayPurchasesMenu, shouldDisplayBankingMenu,
   shouldDisplayContactMenu, shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
 }) => [
   shouldDisplaySalesMenu && <SalesMenu key="SalesMenu" onMenuSelect={onMenuSelect} />,
+  shouldDisplayPurchasesMenu && <PurchasesMenu key="PurchasesMenu" onMenuSelect={onMenuSelect} />,
   shouldDisplayBankingMenu && <BankingMenu key="BankingMenu" onMenuSelect={onMenuSelect} />,
   shouldDisplayContactMenu && <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} />,
   shouldDisplayJournalMenu && <JournalMenu key="JournalMenu" onMenuSelect={onMenuSelect} />,
@@ -38,10 +46,12 @@ const NavigationBar = ({
   onMenuSelect, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
   shouldDisplayBankingMenu, shouldDisplayContactMenu,
   shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
+  shouldDisplayPurchasesMenu,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
     shouldDisplaySalesMenu,
+    shouldDisplayPurchasesMenu,
     shouldDisplayBankingMenu,
     shouldDisplayContactMenu,
     shouldDisplayJournalMenu,
@@ -65,6 +75,7 @@ NavigationBar.propTypes = {
   shouldDisplayJournalMenu: PropTypes.bool.isRequired,
   shouldDisplaySalesMenu: PropTypes.bool.isRequired,
   shouldDisplayPayrollMenu: PropTypes.bool.isRequired,
+  shouldDisplayPurchasesMenu: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -74,6 +85,7 @@ const mapStateToProps = state => ({
   shouldDisplayJournalMenu: hasJournalUrls(state),
   shouldDisplaySalesMenu: hasSalesUrls(state),
   shouldDisplayPayrollMenu: hasPayrollUrls(state),
+  shouldDisplayPurchasesMenu: hasPurchasesUrls(state),
 });
 
 export default connect(mapStateToProps)(NavigationBar);

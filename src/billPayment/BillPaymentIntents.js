@@ -1,0 +1,17 @@
+export const SET_LOADING_STATE = Symbol('Set loading state');
+export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
+export const LOAD_NEW_BILL_PAYMENT = Symbol('Load new bill payment');
+export const LOAD_BILL_PAYMENT = Symbol('Load bill payment');
+export const LOAD_BILL_LIST = Symbol('Load bill list');
+export const UPDATE_HEADER_OPTION = Symbol('Update header option');
+export const UPDATE_TABLE_INPUT_FIELD = Symbol('Update table input field');
+export const UPDATE_DISCOUNT_AMOUNT = Symbol('Update discount amount');
+export const UPDATE_REFERECE_ID = Symbol('Update referenceId');
+export const CREATE_BILL_PAYMENT = Symbol('Create bill payment');
+export const UPDATE_BILL_PAYMENT = Symbol('Update bill payment');
+export const DELETE_BILL_PAYMENT = Symbol('Delete bill payment');
+export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
+export const FORMAT_AMOUNT_INPUT = Symbol('Format amount input on blur');
+export const OPEN_MODAL = Symbol('Open modal');
+export const CLOSE_MODAL = Symbol('Close modal');
+export const SET_ALERT_MESSAGE = Symbol('Set alert message');

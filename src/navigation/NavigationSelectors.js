@@ -103,6 +103,17 @@ export const getBusinessUrls = createSelector(
   }),
 );
 
+export const getPurchasesUrls = createSelector(
+  getEnabledUrls,
+  enabledUrls => ({
+    billPayment: enabledUrls.billPayment,
+  }),
+);
+export const hasPurchasesUrls = createSelector(
+  getPurchasesUrls,
+  urls => Object.values(urls).some(Boolean),
+);
+
 export const getRegion = state => state.routeParams.region;
 export const getTaxCodesLabel = createSelector(
   getRegion,

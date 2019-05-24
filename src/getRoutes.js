@@ -1,4 +1,5 @@
 import getBankingRoutes from './banking/getBankingRoutes';
+import getBillPaymentRoutes from './billPayment/getBillPaymentRoutes';
 import getBusinessListRoutes from './business/getBusinessListRoutes';
 import getBusinessRoutes from './business/getBusinessRoutes';
 import getContactRoutes from './contact/getContactRoutes';
@@ -85,6 +86,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/invoice',
     subRoutes: getInvoiceRoutes({
       integration, setRootView,
+    }),
+  },
+  {
+    name: 'billPayment',
+    rootPath: '/:region/:businessId/billPayment',
+    subRoutes: getBillPaymentRoutes({
+      integration, setRootView, pushMessage,
     }),
   },
   {

@@ -1,4 +1,5 @@
 import BankingMapping from './BankingMapping';
+import BillPaymentMapping from './BillPaymentMapping';
 import BusinessMapping from './BusinessMapping';
 import ContactMapping from './ContactMapping';
 import EmployeeMapping from './EmployeeMapping';
@@ -32,6 +33,7 @@ const RootMapping = Object.freeze({
   ...InventoryMapping,
   ...UserMapping,
   ...EmployeeMapping,
+  ...BillPaymentMapping,
 });
 
 export default RootMapping;

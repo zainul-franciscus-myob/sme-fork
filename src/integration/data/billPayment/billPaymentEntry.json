@@ -29,8 +29,9 @@
       "displayId": "2-123"
     }
   ],
-  "selectedAccountId": "123",
-  "selectedSupplierId": "1",
+  "date": "2019-03-28",
+  "accountId": "123",
+  "supplierId": "1",
   "referenceId": "BP0000002",
   "description": "Payment; A-Z Stationery Supplies. If empty, something else here",
   "entries": [
@@ -39,8 +40,8 @@
       "billNumber": "0000023",
       "status": "Open",
       "date": "27/03/2019",
-      "billAmount": "2500.05",
-      "paidAmount": "2,500.05",
+      "billAmount": "0.00",
+      "paidAmount": "2500.05",
       "discountAmount": "0"
     }
   ],

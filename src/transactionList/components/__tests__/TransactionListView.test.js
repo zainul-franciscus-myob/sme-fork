@@ -20,6 +20,7 @@ describe('TransactionListView', () => {
           onSort={() => {}}
           onDismissAlert={() => {}}
           onCreateNewEntry={() => {}}
+          onAddTransaction={() => {}}
         />
       </Provider>
     );

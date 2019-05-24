@@ -18,6 +18,7 @@ export const activeMapping = {
   'quote/serviceQuote': 'sales',
   'user/userList': 'business',
   'user/userDetail': 'business',
+  'billPayment/billPaymentDetail': 'purchases',
 };
 
 export const featuresConfig = {
@@ -89,5 +90,11 @@ export const featuresConfig = {
   },
   userList: {
     routeName: 'user/userList',
+  },
+  billPayment: {
+    routeName: 'billPayment/billPaymentDetail',
+    params: {
+      billPaymentId: 'new',
+    },
   },
 };

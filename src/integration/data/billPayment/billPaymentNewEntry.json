@@ -29,7 +29,7 @@
       "displayId": "2-123"
     }
   ],
-  "selectedAccountId": "123",
+  "accountId": "123",
   "referenceId": "BP0000002",
   "showPaidBills": false
 }
