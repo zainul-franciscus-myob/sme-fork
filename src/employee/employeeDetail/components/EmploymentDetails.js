@@ -33,9 +33,9 @@ const onDateChange = (fieldName, handler) => ({ value }) => {
 const EmploymentDetails = ({
   employmentDetails,
   genderOptions,
-  employeeBasisOptions,
-  employeeCategoryOptions,
-  employeeStatusOptions,
+  employmentBasisOptions,
+  employmentCategoryOptions,
+  employmentStatusOptions,
   payslipDeliveryOptions,
   calculatedAge,
   onEmploymentDetailsChange,
@@ -47,6 +47,10 @@ const EmploymentDetails = ({
     terminationDate,
     paySlipEmail,
     gender,
+    employmentBasis,
+    employmentCategory,
+    employmentStatus,
+    paySlipDelivery,
   } = employmentDetails;
 
   return (
@@ -76,29 +80,32 @@ const EmploymentDetails = ({
         onSelect={onDateChange('terminationDate', onEmploymentDetailsChange)}
       />
       <Select
-        name="employeeBasis"
+        name="employmentBasis"
         label="Employment basis"
         onChange={handleSelectChange(onEmploymentDetailsChange)}
+        value={employmentBasis}
       >
-        {employeeBasisOptions.map(({ name, value }) => (
+        {employmentBasisOptions.map(({ name, value }) => (
           <Select.Option key={value} value={value} label={name} />
         ))}
       </Select>
       <Select
-        name="employeeCategory"
+        name="employmentCategory"
         label="Employment category"
         onChange={handleSelectChange(onEmploymentDetailsChange)}
+        value={employmentCategory}
       >
-        {employeeCategoryOptions.map(({ name, value }) => (
+        {employmentCategoryOptions.map(({ name, value }) => (
           <Select.Option key={value} value={value} label={name} />
         ))}
       </Select>
       <Select
-        name="employeeStatus"
+        name="employmentStatus"
         label="Employment status"
         onChange={handleSelectChange(onEmploymentDetailsChange)}
+        value={employmentStatus}
       >
-        {employeeStatusOptions.map(({ name, value }) => (
+        {employmentStatusOptions.map(({ name, value }) => (
           <Select.Option key={value} value={value} label={name} />
         ))}
       </Select>
@@ -106,6 +113,7 @@ const EmploymentDetails = ({
         name="paySlipDelivery"
         label="Payslip Delivery"
         onChange={handleSelectChange(onEmploymentPaySlipDeliveryChange)}
+        value={paySlipDelivery}
       >
         {payslipDeliveryOptions.map(({ name, value }) => (
           <Select.Option key={value} value={value} label={name} />
@@ -136,9 +144,9 @@ const optionShape = {
 EmploymentDetails.propTypes = {
   employmentDetails: PropTypes.shape(employmentDetailsShape).isRequired,
   genderOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
-  employeeBasisOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
-  employeeCategoryOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
-  employeeStatusOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
+  employmentBasisOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
+  employmentCategoryOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
+  employmentStatusOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
   payslipDeliveryOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
   calculatedAge: PropTypes.string.isRequired,
   onEmploymentDetailsChange: PropTypes.func.isRequired,
@@ -148,9 +156,9 @@ EmploymentDetails.propTypes = {
 const mapStateToProps = state => ({
   employmentDetails: getEmploymentDetails(state),
   genderOptions: getGenderOptions(state),
-  employeeBasisOptions: getEmployeeBasisOptions(state),
-  employeeCategoryOptions: getEmployeeCategoryOptions(state),
-  employeeStatusOptions: getEmployeeStatusOptions(state),
+  employmentBasisOptions: getEmployeeBasisOptions(state),
+  employmentCategoryOptions: getEmployeeCategoryOptions(state),
+  employmentStatusOptions: getEmployeeStatusOptions(state),
   payslipDeliveryOptions: getEmployeePayslipDeliveryOptions(state),
   calculatedAge: getCalculatedAge(state),
 });
