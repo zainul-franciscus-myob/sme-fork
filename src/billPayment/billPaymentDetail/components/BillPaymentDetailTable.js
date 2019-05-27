@@ -53,11 +53,11 @@ const BillPaymentDetailTable = (props) => {
             <Table.RowItem columnName="Bill Number" valign="middle">{row.billNumber}</Table.RowItem>
             <Table.RowItem columnName="Status" valign="middle">{row.status}</Table.RowItem>
             <Table.RowItem columnName="Date" valign="middle">{row.date}</Table.RowItem>
-            <Table.RowItem columnName="Bill amount ($)" valign="middle" align="right">{row.billAmount}</Table.RowItem>
+            <Table.RowItem columnName="Bill amount ($)" valign="middle" textAlign="right">{row.billAmount}</Table.RowItem>
             <Table.RowItem columnName="Discount given ($)">
               <AmountInput
                 disabled={shouldDisableFields}
-                align="right"
+                textAlign="right"
                 name="discountAmount"
                 value={row.discountAmount}
                 onChange={onInputFieldChange(onUpdateTableInputField, index)}
@@ -77,7 +77,7 @@ const BillPaymentDetailTable = (props) => {
             <Table.RowItem columnName="Paid Amount ($)">
               <AmountInput
                 disabled={shouldDisableFields}
-                align="right"
+                textAlign="right"
                 name="paidAmount"
                 value={row.paidAmount}
                 onChange={onInputFieldChange(onUpdateTableInputField, index)}

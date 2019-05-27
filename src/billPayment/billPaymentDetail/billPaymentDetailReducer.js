@@ -129,7 +129,7 @@ const updateReferenceId = (state, action) => ({
 const formatAmountInput = (state, action) => ({
   ...state,
   entries: state.entries.map((entry, index) => (
-    index === action.index
+    index === action.index && action.value.length > 0
       ? {
         ...entry,
         [action.key]: Number(action.value).toFixed(2),
