@@ -91,14 +91,7 @@ const loadBillPayment = (state, action) => ({
 
 const loadBillList = (state, action) => ({
   ...state,
-  entries: action.entries.map(entry => ({
-    billNumber: entry.billNumber,
-    status: entry.status,
-    date: entry.date,
-    billAmount: entry.billAmount,
-    discountAmount: entry.discountAmount,
-    paidAmount: entry.paidAmount || '',
-  })),
+  entries: action.entries,
 });
 
 const updateHeaderOption = (state, action) => ({

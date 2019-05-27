@@ -6,7 +6,8 @@
       "status": "Open",
       "date": "27/03/2019",
       "billAmount": "250.05",
-      "discountAmount": ""
+      "discountAmount": "",
+      "paidAmount": ""
     },
     {
       "id": "378",
@@ -14,7 +15,8 @@
       "status": "Open",
       "date": "27/03/2019",
       "billAmount": "2500.05",
-      "discountAmount": ""
+      "discountAmount": "",
+      "paidAmount": ""
     }
   ]
 }
