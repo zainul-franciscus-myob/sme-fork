@@ -40,6 +40,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
   isPageEdited: false,
   modalType: '',
+  alertMessage: '',
 });
 
 const pageEdited = { isPageEdited: true };

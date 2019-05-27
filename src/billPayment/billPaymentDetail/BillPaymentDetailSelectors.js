@@ -139,7 +139,7 @@ const getBillEntriesForCreatePayload = state => (
   state.entries.filter(entry => hasAmountPaidApplied(entry.paidAmount))
     .map(entry => ({
       paidAmount: entry.paidAmount,
-      billId: entry.billId,
+      id: entry.id,
       discountAmount: entry.discountAmount,
     })));
 

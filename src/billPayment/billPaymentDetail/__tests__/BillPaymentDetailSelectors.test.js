@@ -103,7 +103,7 @@ describe('BillPaymentSelector', () => {
         entries: [
           {
             paidAmount: '100.05',
-            billId: '356',
+            id: '356',
             discountAmount: '20.85',
           },
         ],
@@ -118,7 +118,7 @@ describe('BillPaymentSelector', () => {
         entries: [
           {
             paidAmount: '100.05',
-            billId: '356',
+            id: '356',
             discountAmount: '20.85',
           },
         ],
@@ -140,12 +140,12 @@ describe('BillPaymentSelector', () => {
         entries: [
           {
             paidAmount: '',
-            billId: '356',
+            id: '356',
             discountAmount: '20.85',
           },
           {
             paidAmount: '200.00',
-            billId: '355',
+            id: '355',
             discountAmount: '20.05',
           },
         ],
@@ -160,7 +160,7 @@ describe('BillPaymentSelector', () => {
         entries: [
           {
             paidAmount: '200.00',
-            billId: '355',
+            id: '355',
             discountAmount: '20.05',
           },
         ],
@@ -181,7 +181,7 @@ describe('BillPaymentSelector', () => {
         entries: [
           {
             paidAmount: '100.05',
-            billId: '356',
+            id: '356',
             discountAmount: '20.85',
           },
         ],

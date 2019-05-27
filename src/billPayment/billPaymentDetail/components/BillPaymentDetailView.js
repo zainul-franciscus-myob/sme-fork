@@ -14,7 +14,7 @@ import BillPaymentOptions from './BillPaymentDetailOptions';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 
-const BillPaymentView = ({
+const BillPaymentDetailView = ({
   isLoading,
   modalType,
   onUpdateHeaderOption,
@@ -84,7 +84,7 @@ const BillPaymentView = ({
   return isLoading ? <Spinner /> : view;
 };
 
-BillPaymentView.propTypes = {
+BillPaymentDetailView.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   onUpdateHeaderOption: PropTypes.func.isRequired,
   onUpdateTableInputField: PropTypes.func.isRequired,
@@ -106,4 +106,4 @@ const mapStateToProps = state => ({
   alertMessage: getAlertMessage(state),
 });
 
-export default connect(mapStateToProps)(BillPaymentView);
+export default connect(mapStateToProps)(BillPaymentDetailView);

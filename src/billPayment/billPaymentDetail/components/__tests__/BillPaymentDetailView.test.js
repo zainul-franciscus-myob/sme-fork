@@ -2,32 +2,29 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import BillPaymentView from '../BillPaymentDetailView';
+import BillPaymentDetailView from '../BillPaymentDetailView';
 import Store from '../../../../store/Store';
 import billPaymentReducer from '../../billPaymentDetailReducer';
 
-describe('BillPaymentView', () => {
+describe('BillPaymentDetailView', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
     const store = new Store(billPaymentReducer);
 
     const view = (
       <Provider store={store}>
-        <BillPaymentView
-          isLoading
-          isTableEmpty
-          totalAmount=""
+        <BillPaymentDetailView
           onUpdateHeaderOption={() => {}}
           onUpdateTableInputField={() => {}}
           onUpdateDiscountAmount={() => {}}
           onCancelButtonClick={() => {}}
           onDeleteButtonClick={() => {}}
           onSaveButtonClick={() => {}}
-          modalType=""
           onAmountInputBlur={() => {}}
           onCancelModal={() => {}}
           onCloseModal={() => {}}
           onDeleteModal={() => {}}
+          onDismissAlert={() => {}}
         />
       </Provider>
     );
