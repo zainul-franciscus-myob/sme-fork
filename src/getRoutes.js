@@ -1,5 +1,6 @@
 import getBankingRoutes from './banking/getBankingRoutes';
 import getBillPaymentRoutes from './billPayment/getBillPaymentRoutes';
+import getBillRoutes from './bill/getBillRoutes';
 import getBusinessListRoutes from './business/getBusinessListRoutes';
 import getBusinessRoutes from './business/getBusinessRoutes';
 import getContactRoutes from './contact/getContactRoutes';
@@ -131,6 +132,13 @@ const getRoutes = ({
     name: 'employee',
     rootPath: '/:region/:businessId/employee',
     subRoutes: getEmployeeRoutes({
+      integration, setRootView, popMessages, pushMessage, replaceURLParams,
+    }),
+  },
+  {
+    name: 'bill',
+    rootPath: '/:region/:businessId/bill',
+    subRoutes: getBillRoutes({
       integration, setRootView, popMessages, pushMessage, replaceURLParams,
     }),
   },
