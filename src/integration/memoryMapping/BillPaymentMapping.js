@@ -5,7 +5,7 @@ import {
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
   UPDATE_BILL_PAYMENT,
-  UPDATE_REFERECE_ID,
+  UPDATE_REFERENCE_ID,
 } from '../../billPayment/BillPaymentIntents';
 import billList from '../data/billPayment/billList.json';
 import billPaymentEntry from '../data/billPayment/billPaymentEntry.json';
@@ -25,7 +25,7 @@ const BillPaymentMapping = {
   [LOAD_NEW_BILL_PAYMENT]: loadNewBillPayment,
   [LOAD_BILL_PAYMENT]: loadBillPayment,
   [LOAD_BILL_LIST]: loadBillList,
-  [UPDATE_REFERECE_ID]: updateReferenceId,
+  [UPDATE_REFERENCE_ID]: updateReferenceId,
   [CREATE_BILL_PAYMENT]: createBillPayment,
   [UPDATE_BILL_PAYMENT]: updateBillPayment,
   [DELETE_BILL_PAYMENT]: deleteBillPayment,

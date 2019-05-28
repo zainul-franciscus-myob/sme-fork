@@ -16,7 +16,7 @@ import {
   SET_TABLE_LOADING_STATE,
   UPDATE_BILL_PAYMENT,
   UPDATE_HEADER_OPTION,
-  UPDATE_REFERECE_ID,
+  UPDATE_REFERENCE_ID,
   UPDATE_TABLE_INPUT_FIELD,
 } from '../BillPaymentIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -147,7 +147,7 @@ export default class BillPaymentModule {
   }
 
   updateReferenceId = (accountId) => {
-    const intent = UPDATE_REFERECE_ID;
+    const intent = UPDATE_REFERENCE_ID;
     const state = this.store.getState();
 
     if (getIsReferenceIdDirty(state)) {
@@ -171,8 +171,8 @@ export default class BillPaymentModule {
       intent,
       urlParams: {
         businessId: getBusinessId(state),
-        accountId,
       },
+      params: { accountId },
       onSuccess,
       onFailure,
     });

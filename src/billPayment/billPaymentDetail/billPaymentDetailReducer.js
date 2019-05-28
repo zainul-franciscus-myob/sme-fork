@@ -12,7 +12,7 @@ import {
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
   UPDATE_HEADER_OPTION,
-  UPDATE_REFERECE_ID,
+  UPDATE_REFERENCE_ID,
   UPDATE_TABLE_INPUT_FIELD,
 } from '../BillPaymentIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -157,7 +157,7 @@ const handlers = {
   [LOAD_BILL_LIST]: loadBillList,
   [UPDATE_HEADER_OPTION]: updateHeaderOption,
   [UPDATE_TABLE_INPUT_FIELD]: updateTableInputField,
-  [UPDATE_REFERECE_ID]: updateReferenceId,
+  [UPDATE_REFERENCE_ID]: updateReferenceId,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [FORMAT_AMOUNT_INPUT]: formatAmountInput,
   [OPEN_MODAL]: openModal,

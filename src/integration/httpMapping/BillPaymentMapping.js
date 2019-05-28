@@ -5,7 +5,7 @@ import {
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
   UPDATE_BILL_PAYMENT,
-  UPDATE_REFERECE_ID,
+  UPDATE_REFERENCE_ID,
 } from '../../billPayment/BillPaymentIntents';
 
 const BillPaymentMapping = {
@@ -21,7 +21,7 @@ const BillPaymentMapping = {
     method: 'GET',
     getPath: ({ businessId, supplierId }) => `/${businessId}/billPayment/load_bill_list/${supplierId}`,
   },
-  [UPDATE_REFERECE_ID]: {
+  [UPDATE_REFERENCE_ID]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/billPayment/get_reference_id`,
   },
