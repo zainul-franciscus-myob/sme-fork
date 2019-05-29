@@ -33,16 +33,16 @@
   "customerId": "1",
   "referenceId": "CR0000002",
   "description": "description :)",
+  "date": "2019-04-27",
   "entries": [
     {
       "id": "378",
       "invoiceNumber": "0000023",
       "status": "Open",
       "date": "27/03/2019",
-      "invoiceAmount": "2500.05",
-      "paidAmount": "2,500.05",
+      "invoiceAmount": "0",
+      "paidAmount": "2500.05",
       "discountAmount": "0"
     }
-  ],
-  "totalPaid": "$2,500.05"
+  ]
 }

@@ -19,6 +19,7 @@ export const activeMapping = {
   'user/userList': 'business',
   'user/userDetail': 'business',
   'billPayment/billPaymentDetail': 'purchases',
+  'invoicePayment/invoicePaymentDetail': 'sales',
 };
 
 export const featuresConfig = {
@@ -95,6 +96,12 @@ export const featuresConfig = {
     routeName: 'billPayment/billPaymentDetail',
     params: {
       billPaymentId: 'new',
+    },
+  },
+  invoicePayment: {
+    routeName: 'invoicePayment/invoicePaymentDetail',
+    params: {
+      invoicePaymentId: 'new',
     },
   },
 };

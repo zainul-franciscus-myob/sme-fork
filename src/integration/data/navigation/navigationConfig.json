@@ -19,6 +19,7 @@
     "inventory",
     "userList",
     "employeeList",
-    "billPayment"
+    "billPayment",
+    "invoicePayment"
   ]
 }

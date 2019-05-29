@@ -26,6 +26,8 @@ const BUSINESS_EVENT_TYPE_TO_FEATURE_MAP = {
   CashPayment: 'spendMoney',
   CashReceipt: 'receiveMoney',
   TransferMoney: 'transferMoney',
+  ReceivePayment: 'invoicePayment',
+  PayBill: 'billPayment',
 };
 
 const getEntryLink = (entry, businessId, region) => {

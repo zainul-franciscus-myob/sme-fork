@@ -8,6 +8,7 @@ import getEmployeeRoutes from './employee/getEmployeeRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getIncomeAllocationRoutes from './IncomeAllocation/getIncomeAllocationRoutes';
 import getInventoryRoutes from './inventory/getInventoryRoutes';
+import getInvoicePaymentRoutes from './invoicePayment/getInvoicePaymentRoutes';
 import getInvoiceRoutes from './invoice/getInvoiceRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
 import getQuoteRoutes from './quote/getQuoteRoutes';
@@ -140,6 +141,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/bill',
     subRoutes: getBillRoutes({
       integration, setRootView, popMessages, pushMessage, replaceURLParams,
+    }),
+  },
+  {
+    name: 'invoicePayment',
+    rootPath: '/:region/:businessId/invoicePayment',
+    subRoutes: getInvoicePaymentRoutes({
+      integration, setRootView, pushMessage,
     }),
   },
 ];

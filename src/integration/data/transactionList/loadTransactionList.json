@@ -138,6 +138,24 @@
       "sourceJournal": "Purchases",
       "displayAmount": "5.00",
       "businessEventType": "TransferMoney"
+    },
+    {
+      "id": "21",
+      "displayDate": "30/07/2016",
+      "referenceId": "BP0000123",
+      "description": "bill payment",
+      "sourceJournal": "CashPayment",
+      "displayAmount": "115.00",
+      "businessEventType": "PayBill"
+    },
+    {
+      "id": "22",
+      "displayDate": "30/09/2016",
+      "referenceId": "RP0000123",
+      "description": "invoice payment",
+      "sourceJournal": "CashReceipt",
+      "displayAmount": "225.00",
+      "businessEventType": "ReceivePayment"
     }
   ]
 }

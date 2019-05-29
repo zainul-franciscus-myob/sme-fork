@@ -1,5 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import { formatCurrency } from '../../banking/bankingSelectors';
 import tableViewTypes from './tableViewTypes';
 
 export const getIsLoading = state => state.isLoading;
@@ -122,9 +123,9 @@ export const getTableViewType = createSelector(
 
 export const getTotalAmount = createSelector(
   getEntries,
-  entries => `$${
-    formatAmount(
-      entries.reduce((total, currentEntry) => total + Number(currentEntry.paidAmount || '0.00'), 0),
+  entries => `${
+    formatCurrency(
+      entries.reduce((total, currentEntry) => total + (Number(currentEntry.paidAmount) || 0), 0),
     )
   }`,
 );
