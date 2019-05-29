@@ -22,7 +22,7 @@ export default {
   entries: [
     {
       id: '1',
-      billNumber: '00000034',
+      number: '00000034',
       invoiceNumber: '126',
       supplier: 'Footloose Dance Studio',
       dateIssued: '01/03/2019',
@@ -33,7 +33,7 @@ export default {
     },
     {
       id: '2',
-      billNumber: '00000035',
+      number: '00000035',
       invoiceNumber: '125',
       supplier: 'Dog Foods',
       dateIssued: '01/03/2019',
@@ -44,7 +44,7 @@ export default {
     },
     {
       id: '3',
-      billNumber: '00000036',
+      number: '00000036',
       invoiceNumber: '125',
       supplier: 'Dog Foods',
       dateIssued: '01/03/2019',

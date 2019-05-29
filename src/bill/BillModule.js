@@ -35,7 +35,7 @@ export default class BillModule {
     } else {
       this.module = new BillItemModule(moduleParams);
     }
-    this.module.run({ ...context, payload });
+    this.module.run({ context, payload });
   }
 
   loadBill = (context) => {
