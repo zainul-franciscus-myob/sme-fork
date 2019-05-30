@@ -9,7 +9,7 @@ import {
 const InvoicePaymentMapping = {
   [LOAD_NEW_INVOICE_PAYMENT_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, invoicePaymentId }) => `/${businessId}/invoicePayment/load_new_invoice_payment/${invoicePaymentId}`,
+    getPath: ({ businessId }) => `/${businessId}/invoicePayment/load_new_invoice_payment`,
   },
   [LOAD_INVOICE_LIST]: {
     method: 'GET',
