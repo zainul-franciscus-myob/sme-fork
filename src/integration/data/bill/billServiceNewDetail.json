@@ -1,8 +1,8 @@
 {
   "layout": "service",
   "bill": {
-    "expirationTerm": "OnADayOfTheMonth",
-    "expirationDays": "4",
+    "expirationTerm": "InAGivenNumberOfDays",
+    "expirationDays": "0",
     "taxInclusive": true,
     "isReportable": false,
     "number": "00000123",

@@ -9,8 +9,8 @@ export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
 
 export const CREATE_BILL_SERVICE_DETAIL = Symbol('Create a new service bill');
-export const DELETE_BILL_SERVICE_DETAIL = Symbol('Delete a service bill entry');
-export const GET_CALCULATED_BILL_SERVICE_DETAIL_TOTALS = Symbol('Get calculated totals');
+export const DELETE_BILL_DETAIL = Symbol('Delete a bill entry');
+export const GET_CALCULATED_BILL_DETAIL_TOTALS = Symbol('Get calculated totals');
 export const LOAD_CUSTOMER_ADDRESS = Symbol('Load contact address');
 export const UPDATE_BILL_SERVICE_HEADER_OPTIONS = Symbol('Update service bill header options');
 export const UPDATE_BILL_SERVICE_DETAIL = Symbol('Update a service bill entry');

@@ -1,7 +1,7 @@
 import {
   CREATE_BILL_SERVICE_DETAIL,
-  DELETE_BILL_SERVICE_DETAIL,
-  GET_CALCULATED_BILL_SERVICE_DETAIL_TOTALS,
+  DELETE_BILL_DETAIL,
+  GET_CALCULATED_BILL_DETAIL_TOTALS,
   LOAD_BILL_DETAIL,
   LOAD_CUSTOMER_ADDRESS,
   LOAD_NEW_BILL_ITEM_DETAIL, LOAD_NEW_BILL_SERVICE_DETAIL,
@@ -16,7 +16,7 @@ import successResponse from '../data/success';
 import totalsResponse from '../data/bill/totalsResponse';
 
 const loadNewItemBillDetail = ({ onSuccess }) => onSuccess(billItemNewDetail);
-const loadNewServiceBillDetail = ({ onSuccess }) => onSuccess(billServiceNewDetail);
+const loadNewBillServiceDetail = ({ onSuccess }) => onSuccess(billServiceNewDetail);
 const loadBillDetail = ({ onSuccess, urlParams }) => (urlParams.billId === 'service'
   ? onSuccess(billServiceDetail)
   : onSuccess(billItemDetail));
@@ -28,13 +28,13 @@ const deleteServiceBill = ({ onSuccess }) => onSuccess(successResponse);
 
 const BillMapping = {
   [LOAD_NEW_BILL_ITEM_DETAIL]: loadNewItemBillDetail,
-  [LOAD_NEW_BILL_SERVICE_DETAIL]: loadNewServiceBillDetail,
+  [LOAD_NEW_BILL_SERVICE_DETAIL]: loadNewBillServiceDetail,
   [LOAD_BILL_DETAIL]: loadBillDetail,
   [LOAD_CUSTOMER_ADDRESS]: loadCustomerAddress,
-  [GET_CALCULATED_BILL_SERVICE_DETAIL_TOTALS]: getCalculatedTotals,
+  [GET_CALCULATED_BILL_DETAIL_TOTALS]: getCalculatedTotals,
   [CREATE_BILL_SERVICE_DETAIL]: createServiceBill,
   [UPDATE_BILL_SERVICE_DETAIL]: updateServiceBill,
-  [DELETE_BILL_SERVICE_DETAIL]: deleteServiceBill,
+  [DELETE_BILL_DETAIL]: deleteServiceBill,
 };
 
 export default BillMapping;

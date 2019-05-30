@@ -5,9 +5,9 @@ import {
   ADD_BILL_SERVICE_LINE,
   CLOSE_MODAL,
   CREATE_BILL_SERVICE_DETAIL,
-  DELETE_BILL_SERVICE_DETAIL,
+  DELETE_BILL_DETAIL,
   FORMAT_BILL_SERVICE_LINE,
-  GET_CALCULATED_BILL_SERVICE_DETAIL_TOTALS,
+  GET_CALCULATED_BILL_DETAIL_TOTALS,
   LOAD_CUSTOMER_ADDRESS,
   OPEN_MODAL,
   REMOVE_BILL_SERVICE_LINE,
@@ -57,7 +57,7 @@ export default class BillServiceModule {
       this.resetTotals();
       return;
     }
-    const intent = GET_CALCULATED_BILL_SERVICE_DETAIL_TOTALS;
+    const intent = GET_CALCULATED_BILL_DETAIL_TOTALS;
     const onSuccess = ({ totals }) => {
       this.store.dispatch({
         intent,
@@ -240,7 +240,7 @@ export default class BillServiceModule {
     this.saveBillServiceEntry(intent, content, urlParams);
   }
 
-  deleteBillServiceEntry = () => {
+  deleteBillEntry = () => {
     this.setSubmittingState(true);
     this.closeModal();
 
@@ -265,7 +265,7 @@ export default class BillServiceModule {
     };
 
     this.integration.write({
-      intent: DELETE_BILL_SERVICE_DETAIL,
+      intent: DELETE_BILL_DETAIL,
       urlParams,
       onSuccess,
       onFailure,
@@ -296,7 +296,7 @@ export default class BillServiceModule {
         onCloseModal={this.closeModal}
         onCancelModal={this.redirectToBillList}
         onDeleteButtonClick={this.openDeleteModal}
-        onDeleteModal={this.deleteBillServiceEntry}
+        onDeleteModal={this.deleteBillEntry}
         onDismissAlert={this.dismissAlert}
       />
     );

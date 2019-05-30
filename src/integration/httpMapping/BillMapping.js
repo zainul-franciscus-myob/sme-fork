@@ -1,7 +1,7 @@
 import {
   CREATE_BILL_SERVICE_DETAIL,
-  DELETE_BILL_SERVICE_DETAIL,
-  GET_CALCULATED_BILL_SERVICE_DETAIL_TOTALS,
+  DELETE_BILL_DETAIL,
+  GET_CALCULATED_BILL_DETAIL_TOTALS,
   LOAD_BILL_DETAIL,
   LOAD_CUSTOMER_ADDRESS,
   LOAD_NEW_BILL_ITEM_DETAIL, LOAD_NEW_BILL_SERVICE_DETAIL,
@@ -33,13 +33,13 @@ const BillMapping = {
     method: 'PUT',
     getPath: ({ businessId, billId }) => `/${businessId}/bill/update_bill_service_detail/${billId}`,
   },
-  [DELETE_BILL_SERVICE_DETAIL]: {
+  [DELETE_BILL_DETAIL]: {
     method: 'DELETE',
-    getPath: ({ businessId, billId }) => `/${businessId}/bill/delete_bill_service_detail/${billId}`,
+    getPath: ({ businessId, billId }) => `/${businessId}/bill/delete_bill_detail/${billId}`,
   },
-  [GET_CALCULATED_BILL_SERVICE_DETAIL_TOTALS]: {
+  [GET_CALCULATED_BILL_DETAIL_TOTALS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_service_detail_totals`,
+    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_detail_totals`,
   },
 };
 
