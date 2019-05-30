@@ -15,8 +15,6 @@ export default {
   orderBy: 'DisplayId',
   supplierId: 'All',
   status: 'All',
-  dateFrom: '2019-02-27',
-  dateTo: '2019-05-27',
   total: '$2,100.00',
   totalDue: '$56.34',
   entries: [

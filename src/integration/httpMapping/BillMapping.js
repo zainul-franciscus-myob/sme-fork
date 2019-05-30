@@ -3,8 +3,11 @@ import {
   DELETE_BILL_DETAIL,
   GET_CALCULATED_BILL_DETAIL_TOTALS,
   LOAD_BILL_DETAIL,
+  LOAD_BILL_LIST,
   LOAD_CUSTOMER_ADDRESS,
-  LOAD_NEW_BILL_ITEM_DETAIL, LOAD_NEW_BILL_SERVICE_DETAIL,
+  LOAD_NEW_BILL_ITEM_DETAIL,
+  LOAD_NEW_BILL_SERVICE_DETAIL,
+  SORT_AND_FILTER_BILL_LIST,
   UPDATE_BILL_SERVICE_DETAIL,
 } from '../../bill/BillIntents';
 
@@ -40,6 +43,14 @@ const BillMapping = {
   [GET_CALCULATED_BILL_DETAIL_TOTALS]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_detail_totals`,
+  },
+  [LOAD_BILL_LIST]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/bill/load_bill_list`,
+  },
+  [SORT_AND_FILTER_BILL_LIST]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/bill/filter_bill_list`,
   },
 };
 

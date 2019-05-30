@@ -20,6 +20,7 @@
     "userList",
     "employeeList",
     "billPayment",
+    "billList",
     "invoicePayment"
   ]
 }
