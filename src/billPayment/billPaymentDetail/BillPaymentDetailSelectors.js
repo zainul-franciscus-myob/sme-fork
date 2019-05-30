@@ -145,6 +145,15 @@ const getBillEntriesForCreatePayload = state => (
     })));
 
 const getOriginalReferenceId = state => state.originalReferenceId;
+const getSupplierName = createSelector(
+  getSuppliers,
+  getSupplierId,
+  (suppliers, supplierId) => {
+    const selectedSupplier = suppliers.find(({ id }) => supplierId === id) || {};
+
+    return selectedSupplier.displayName;
+  },
+);
 const getCreateBillPaymentPayload = (state) => {
   const originalReferenceId = getOriginalReferenceId(state);
   const referenceId = getReferenceId(state);
@@ -155,6 +164,7 @@ const getCreateBillPaymentPayload = (state) => {
     description: getDescription(state),
     accountId: getAccountId(state),
     supplierId: getSupplierId(state),
+    supplierName: getSupplierName(state),
     entries: getBillEntriesForCreatePayload(state),
   };
 };

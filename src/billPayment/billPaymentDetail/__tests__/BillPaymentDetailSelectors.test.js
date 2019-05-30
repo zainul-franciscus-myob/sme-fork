@@ -100,6 +100,7 @@ describe('BillPaymentSelector', () => {
         description: 'Payment to Thi and Cameo',
         accountId: '37',
         supplierId: '102',
+        suppliers: [{ id: '102', displayName: 'Name, Supplier' }],
         entries: [
           {
             paidAmount: '100.05',
@@ -115,6 +116,7 @@ describe('BillPaymentSelector', () => {
         description: 'Payment to Thi and Cameo',
         accountId: '37',
         supplierId: '102',
+        supplierName: 'Name, Supplier',
         entries: [
           {
             paidAmount: '100.05',
@@ -137,6 +139,7 @@ describe('BillPaymentSelector', () => {
         description: 'Payment to Thi and Cameo',
         accountId: '37',
         supplierId: '102',
+        suppliers: [{ id: '102', displayName: 'Name, Supplier' }],
         entries: [
           {
             paidAmount: '',
@@ -151,22 +154,15 @@ describe('BillPaymentSelector', () => {
         ],
       };
 
-      const expected = {
-        date: '2018-11-26',
-        referenceId: '000012',
-        description: 'Payment to Thi and Cameo',
-        accountId: '37',
-        supplierId: '102',
-        entries: [
-          {
-            paidAmount: '200.00',
-            id: '355',
-            discountAmount: '20.05',
-          },
-        ],
-      };
+      const expected = [
+        {
+          paidAmount: '200.00',
+          id: '355',
+          discountAmount: '20.05',
+        },
+      ];
 
-      const actual = getSaveBillPaymentPayload(state);
+      const actual = getSaveBillPaymentPayload(state).entries;
       expect(actual).toEqual(expected);
     });
 
