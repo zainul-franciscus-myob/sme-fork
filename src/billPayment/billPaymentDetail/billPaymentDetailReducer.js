@@ -126,7 +126,7 @@ const formatAmountInput = (state, action) => ({
     index === action.index && action.value.length > 0
       ? {
         ...entry,
-        [action.key]: Number(action.value).toFixed(2),
+        [action.key]: Number(action.value) ? Number(action.value).toFixed(2) : '',
       }
       : entry
   )),
