@@ -144,6 +144,15 @@ describe('invoicePaymentDetailSelectors', () => {
             paidAmount: '2500.05',
             discountAmount: '0',
           },
+          {
+            id: '379',
+            discountAmount: '0',
+          },
+          {
+            id: '380',
+            paidAmount: '',
+            discountAmount: '0',
+          },
         ],
       };
     });
@@ -156,7 +165,7 @@ describe('invoicePaymentDetailSelectors', () => {
         };
       });
 
-      it('return create content', () => {
+      it('return create content with only paid entries', () => {
         expect(getSaveContent(state)).toEqual({
           date: '2019-04-27',
           referenceId: 'referenceId',
@@ -165,7 +174,7 @@ describe('invoicePaymentDetailSelectors', () => {
           customerId: 'customerId',
           entries: [
             {
-              id: '378',
+              invoiceId: '378',
               paidAmount: '2500.05',
               discountAmount: '0',
             },

@@ -56,11 +56,13 @@ const getCreateContent = state => ({
   description: state.description,
   accountId: state.accountId,
   customerId: state.customerId,
-  entries: state.entries.map(entry => ({
-    paidAmount: entry.paidAmount,
-    id: entry.id,
-    discountAmount: entry.discountAmount,
-  })),
+  entries: state.entries
+    .filter(({ paidAmount }) => paidAmount && paidAmount.length > 0 && paidAmount !== '0.00')
+    .map(entry => ({
+      paidAmount: entry.paidAmount,
+      invoiceId: entry.id,
+      discountAmount: entry.discountAmount,
+    })),
 });
 const getUpdateContent = state => ({
   date: state.date,
