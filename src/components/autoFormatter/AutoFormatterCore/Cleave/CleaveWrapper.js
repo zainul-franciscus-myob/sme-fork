@@ -68,14 +68,27 @@ class CleaveWrapper extends React.Component {
     Util.setSelection(owner.element, owner.state.cursorPosition, pps.document);
   }
 
+  updateRegisteredEvents = (props) => {
+    const owner = this;
+    const {
+      onKeyDown, onChange, onFocus, onBlur, onInit,
+    } = owner.registeredEvents;
+
+    owner.registeredEvents = {
+      onInit: props.onInit === onInit ? onInit : props.onInit,
+      onChange: props.onChange === onChange ? onChange : props.onChange,
+      onFocus: props.onFocus === onFocus ? onFocus : props.onFocus,
+      onBlur: props.onBlur === onBlur ? onBlur : props.onBlur,
+      onKeyDown: props.onKeyDown === onKeyDown ? onKeyDown : props.onKeyDown,
+    };
+  }
+
   componentWillReceiveProps = (nextProps) => {
     const owner = this;
 
     let newValue = nextProps.value;
 
-    if (nextProps.onChange !== owner.props.onChange) {
-      owner.registeredEvents.onChange = nextProps.onChange || Util.noop;
-    }
+    this.updateRegisteredEvents(nextProps);
 
     if (newValue !== undefined) {
       newValue = newValue.toString();
