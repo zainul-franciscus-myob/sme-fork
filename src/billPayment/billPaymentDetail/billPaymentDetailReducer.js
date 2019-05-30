@@ -87,6 +87,7 @@ const loadBillPayment = (state, action) => ({
   referenceId: action.referenceId,
   originalReferenceId: action.referenceId,
   entries: action.entries,
+  description: action.description,
 });
 
 const loadBillList = (state, action) => ({
