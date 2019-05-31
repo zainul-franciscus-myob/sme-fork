@@ -901,7 +901,7 @@ export default class BankingModule {
 
     const urlParams = {
       businessId: getBusinessId(state),
-      paymentType: getPaymentTypeUrlParam(state),
+      paymentType: getPaymentTypeUrlParam(state, index),
     };
 
     const filterOptions = getPaymentAllocationFilterOptions(state);
