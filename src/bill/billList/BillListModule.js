@@ -53,6 +53,7 @@ export default class BillListModule {
   };
 
   loadBillList = () => {
+    const state = this.store.getState();
     const intent = LOAD_BILL_LIST;
     const urlParams = {
       businessId: getBusinessId(this.store.getState()),
@@ -66,6 +67,8 @@ export default class BillListModule {
       });
     };
 
+    const filterOptions = getFilterOptions(state);
+
     const onFailure = () => {
       this.setLoadingState(false);
       console.log('Failed to load bill list entries');
@@ -74,6 +77,10 @@ export default class BillListModule {
     this.integration.read({
       intent,
       urlParams,
+      params: {
+        dateFrom: filterOptions.dateFrom,
+        dateTo: filterOptions.dateTo,
+      },
       onSuccess,
       onFailure,
     });
