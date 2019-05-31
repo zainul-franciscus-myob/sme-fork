@@ -4,7 +4,6 @@ import React from 'react';
 import {
   LOAD_BILL_LIST,
   SET_ALERT,
-  SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -159,7 +158,7 @@ export default class BillListModule {
 
   setAlert = ({ message, type }) => {
     this.store.dispatch({
-      intent: SET_ALERT_MESSAGE,
+      intent: SET_ALERT,
       alert: {
         message,
         type,
@@ -249,17 +248,6 @@ export default class BillListModule {
         message,
       });
     }
-  };
-
-  setAlert = ({ message, type }) => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: {
-        message,
-        type,
-      },
-    });
   };
 
   run(context) {
