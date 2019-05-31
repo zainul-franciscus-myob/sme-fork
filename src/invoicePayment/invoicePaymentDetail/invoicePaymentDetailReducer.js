@@ -1,3 +1,5 @@
+import { format as dateFormat } from 'date-fns';
+
 import {
   CLOSE_MODAL, FORMAT_AMOUNT_INPUT, LOAD_INVOICE_LIST,
   LOAD_INVOICE_PAYMENT_DETAIL, LOAD_NEW_INVOICE_PAYMENT_DETAIL,
@@ -11,6 +13,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
+const convertToDateString = time => dateFormat(Number(time), 'YYYY-MM-DD');
 const getDefaultState = () => ({
   alertMessage: '',
   customers: [],
@@ -19,7 +22,7 @@ const getDefaultState = () => ({
   customerId: '',
   referenceId: '',
   description: '',
-  date: '',
+  date: convertToDateString(Date.now()),
   entries: [],
   showPaidInvoices: false,
   isLoading: false,
