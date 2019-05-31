@@ -3,7 +3,7 @@ import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getEntries } from '../billListSelectors';
+import { getTableEntries } from '../billListSelectors';
 
 const BillListTableBody = (props) => {
   const {
@@ -12,7 +12,9 @@ const BillListTableBody = (props) => {
   } = props;
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
-      <Table.RowItem {...tableConfig.number}>{entry.number}</Table.RowItem>
+      <Table.RowItem {...tableConfig.number}>
+        <a href={entry.link}>{entry.number}</a>
+      </Table.RowItem>
       <Table.RowItem {...tableConfig.invoiceNumber}>{entry.invoiceNumber}</Table.RowItem>
       <Table.RowItem {...tableConfig.supplier}>{entry.supplier}</Table.RowItem>
       <Table.RowItem {...tableConfig.dateIssued}>{entry.dateIssued}</Table.RowItem>
@@ -48,7 +50,7 @@ BillListTableBody.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  entries: getEntries(state),
+  entries: getTableEntries(state),
 });
 
 export default connect(mapStateToProps)(BillListTableBody);

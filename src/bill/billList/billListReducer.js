@@ -2,6 +2,7 @@ import dateFormat from 'dateformat';
 
 import {
   LOAD_BILL_LIST,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -18,6 +19,7 @@ const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
 
 const getDefaultState = () => ({
+  layout: '',
   filterOptions: {
     status: '',
     supplierId: '',
@@ -85,6 +87,11 @@ const sortAndFilterBillList = (state, action) => ({
   totalDue: action.totalDue,
 });
 
+const setAlert = (state, action) => ({
+  ...state,
+  alert: action.alert,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -94,6 +101,7 @@ const handlers = {
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [SORT_AND_FILTER_BILL_LIST]: sortAndFilterBillList,
   [SET_SORT_ORDER]: setSortOrder,
+  [SET_ALERT]: setAlert,
 };
 
 const billListReducer = createReducer(getDefaultState(), handlers);

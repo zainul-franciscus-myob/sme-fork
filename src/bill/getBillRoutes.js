@@ -2,14 +2,14 @@ import BillListModule from './billList/BillListModule';
 import BillModule from './BillModule';
 
 const getBillRoutes = ({
-  integration, setRootView, pushMessage, replaceURLParams,
+  integration, setRootView, pushMessage, popMessages, replaceURLParams,
 }) => {
   const routes = [
     {
       name: 'billList',
       path: '/',
       module: new BillListModule({
-        integration, setRootView,
+        integration, setRootView, popMessages,
       }),
     },
     {

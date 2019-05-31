@@ -17,6 +17,7 @@ const BillListView = (props) => {
     onUpdateFilters,
     onApplyFilter,
     onSort,
+    onCreateButtonClick,
   } = props;
 
   const alertComponent = alert && (
@@ -34,7 +35,7 @@ const BillListView = (props) => {
 
   const pageHead = (
     <PageHead title="Bills">
-      <Button onClick={() => {}}>Create bill</Button>
+      <Button onClick={onCreateButtonClick}>Create bill</Button>
     </PageHead>
   );
 

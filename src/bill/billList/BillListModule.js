@@ -14,24 +14,34 @@ import {
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { SUCCESSFULLY_DELETED_BILL_SERVICE, SUCCESSFULLY_SAVED_BILL_SERVICE } from '../billMessageTypes';
 import {
   flipSortOrder,
   getBusinessId,
   getFilterOptions,
+  getNewBillUrlParam,
   getOrderBy,
+  getRegion,
   getSortOrder,
 } from './billListSelectors';
 import BillListView from './components/BillListView';
 import Store from '../../store/Store';
 import billListReducer from './billListReducer';
 
+const messageTypes = [
+  SUCCESSFULLY_SAVED_BILL_SERVICE,
+  SUCCESSFULLY_DELETED_BILL_SERVICE,
+];
+
 export default class BillListModule {
   constructor({
-    integration, setRootView,
+    integration, setRootView, popMessages,
   }) {
     this.integration = integration;
     this.store = new Store(billListReducer);
     this.setRootView = setRootView;
+    this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
   }
 
   render = () => {
@@ -41,6 +51,7 @@ export default class BillListModule {
         onApplyFilter={this.filterBillList}
         onSort={this.sortBillList}
         onDismissAlert={this.dismissAlert}
+        onCreateButtonClick={this.redirectToCreateNewBill}
       />
     );
 
@@ -219,9 +230,42 @@ export default class BillListModule {
     });
   };
 
+  redirectToCreateNewBill = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+    const newBillUrlParam = getNewBillUrlParam(state);
+
+    window.location.href = `/#/${region}/${businessId}/bill/${newBillUrlParam}`;
+  };
+
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+    }
+  };
+
+  setAlert = ({ message, type }) => {
+    const intent = SET_ALERT;
+    this.store.dispatch({
+      intent,
+      alert: {
+        message,
+        type,
+      },
+    });
+  };
+
   run(context) {
     this.setInitialState(context);
     this.render();
+    this.readMessages();
     this.setLoadingState(true);
     this.loadBillList();
   }
