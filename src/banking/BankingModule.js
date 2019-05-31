@@ -944,7 +944,7 @@ export default class BankingModule {
 
     const urlParams = {
       businessId: getBusinessId(state),
-      paymentType: getPaymentTypeUrlParam(state),
+      paymentType: getPaymentTypeUrlParam(state, index),
       paymentId: journalId,
     };
 
@@ -962,6 +962,7 @@ export default class BankingModule {
 
     const onFailure = ({ message }) => {
       this.setOpenEntryLoadingState(false);
+      this.collapseTransactionLine();
       this.setAlert({
         type: 'danger',
         message,

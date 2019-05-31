@@ -145,19 +145,22 @@ describe('paymentAllocationSelector', () => {
 
   describe('getPaymentTypeUrlParam', () => {
     it('should return bill url parameter for bill payment', () => {
-      const state = { openEntry: { payment: { isBillPayment: true } } };
+      const state = { entries: [{ withdrawal: 123 }] };
+      const index = 0;
       const expected = 'bill';
 
-      const actual = getPaymentTypeUrlParam(state);
+      const actual = getPaymentTypeUrlParam(state, index);
 
       expect(actual).toEqual(expected);
     });
 
     it('should return bill url parameter for invoice payment', () => {
-      const state = { openEntry: { payment: { isBillPayment: false } } };
+      const state = { entries: [{ withdrawal: undefined }] };
+      const index = 0;
+
       const expected = 'invoice';
 
-      const actual = getPaymentTypeUrlParam(state);
+      const actual = getPaymentTypeUrlParam(state, index);
 
       expect(actual).toEqual(expected);
     });

@@ -73,8 +73,9 @@ export const getIsTableEmpty = createSelector(
   len => len === 0,
 );
 
-export const getPaymentTypeUrlParam = (state) => {
-  const isBillPayment = getIsBillPayment(state);
+export const getPaymentTypeUrlParam = (state, index) => {
+  const entries = getEntries(state);
+  const isBillPayment = !!entries[index].withdrawal;
   return isBillPayment ? 'bill' : 'invoice';
 };
 
