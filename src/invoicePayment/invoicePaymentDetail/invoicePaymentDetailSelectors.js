@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 import {
   DEFAULT_TABLE,
   EMPTY_CUSTOMER_TABLE,
@@ -50,12 +52,25 @@ export const getIsReferenceIdDirty = ({ referenceId, originalReferenceId }) => (
   referenceId !== originalReferenceId
 );
 
+const getCustomers = state => state.customers;
+export const getCustomerId = state => state.customerId;
+const getCustomerName = createSelector(
+  getCustomers,
+  getCustomerId,
+  (customers, customerId) => {
+    const selectedCustomer = customers.find(({ id }) => customerId === id) || {};
+
+    return selectedCustomer.displayName;
+  },
+);
+
 const getCreateContent = state => ({
   date: state.date,
   referenceId: getIsReferenceIdDirty(state) ? state.referenceId : undefined,
   description: state.description,
   accountId: state.accountId,
   customerId: state.customerId,
+  customerName: getCustomerName(state),
   entries: state.entries
     .filter(({ paidAmount }) => paidAmount && paidAmount.length > 0 && paidAmount !== '0.00')
     .map(entry => ({
@@ -75,7 +90,6 @@ export const getSaveContent = state => (getIsCreating(state)
   ? getCreateContent(state)
   : getUpdateContent(state));
 
-export const getCustomerId = state => state.customerId;
 export const getShowPaidInvoices = state => state.showPaidInvoices;
 export const getTableViewType = (state) => {
   if (state.isTableLoading) {

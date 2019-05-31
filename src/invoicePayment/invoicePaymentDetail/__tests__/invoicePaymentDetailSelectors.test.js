@@ -137,7 +137,8 @@ describe('invoicePaymentDetailSelectors', () => {
         referenceId: 'referenceId',
         description: 'description',
         accountId: 'accountId',
-        customerId: 'customerId',
+        customerId: '102',
+        customers: [{ id: '102', displayName: 'Name, Customer' }],
         entries: [
           {
             id: '378',
@@ -171,7 +172,8 @@ describe('invoicePaymentDetailSelectors', () => {
           referenceId: 'referenceId',
           description: 'description',
           accountId: 'accountId',
-          customerId: 'customerId',
+          customerId: '102',
+          customerName: 'Name, Customer',
           entries: [
             {
               invoiceId: '378',
