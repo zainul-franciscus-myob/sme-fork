@@ -26,7 +26,7 @@ const BillMapping = {
   },
   [LOAD_CUSTOMER_ADDRESS]: {
     method: 'GET',
-    getPath: ({ businessId, customerId }) => `/${businessId}/bill/load_contact_address/${customerId}`,
+    getPath: ({ businessId, contactId }) => `/${businessId}/bill/load_contact_address/${contactId}`,
   },
   [CREATE_BILL_SERVICE_DETAIL]: {
     method: 'POST',
