@@ -80,8 +80,7 @@ export default class BillListModule {
     const filterOptions = getFilterOptions(state);
 
     const onFailure = () => {
-      this.setLoadingState(false);
-      console.log('Failed to load bill list entries');
+      console.log('Failed to load contact list entries');
     };
 
     this.integration.read({
