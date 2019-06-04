@@ -193,7 +193,7 @@ const loadContactAddress = (state, action) => ({
   },
 });
 
-const formatLineAmount = amount => parseFloat(amount).toFixed(2);
+const formatLineAmount = amount => (Number(amount) ? parseFloat(amount).toFixed(2) : '');
 
 const formatBillServiceLine = (state, action) => {
   const line = getLineByIndex(state, { index: action.index });

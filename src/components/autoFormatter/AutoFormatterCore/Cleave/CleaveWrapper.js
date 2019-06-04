@@ -75,11 +75,11 @@ class CleaveWrapper extends React.Component {
     } = owner.registeredEvents;
 
     owner.registeredEvents = {
-      onInit: props.onInit === onInit ? onInit : props.onInit,
-      onChange: props.onChange === onChange ? onChange : props.onChange,
-      onFocus: props.onFocus === onFocus ? onFocus : props.onFocus,
-      onBlur: props.onBlur === onBlur ? onBlur : props.onBlur,
-      onKeyDown: props.onKeyDown === onKeyDown ? onKeyDown : props.onKeyDown,
+      onInit: props.onInit === onInit ? onInit : (props.onInit || Util.noop),
+      onChange: props.onChange === onChange ? onChange : (props.onChange || Util.noop),
+      onFocus: props.onFocus === onFocus ? onFocus : (props.onFocus || Util.noop),
+      onBlur: props.onBlur === onBlur ? onBlur : (props.onBlur || Util.noop),
+      onKeyDown: props.onKeyDown === onKeyDown ? onKeyDown : (props.onKeyDown || Util.noop),
     };
   }
 

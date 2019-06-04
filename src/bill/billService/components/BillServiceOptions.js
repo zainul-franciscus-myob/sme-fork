@@ -104,9 +104,6 @@ const BillServiceOptions = (props) => {
             onChange={handleRadioChange(onUpdateHeaderOptions)}
           />
         </div>
-        <div className={styles.checkbox}>
-          <Checkbox name="isReportable" label="Reportable" checked={isReportable} onChange={handleCheckboxChange(onUpdateHeaderOptions)} />
-        </div>
       </div>
       <Select name="expirationTerm" label="Expiration terms" value={expirationTerm} onChange={handleInputChange(onUpdateHeaderOptions)}>
         {expirationTermOptions.map(({ name, value }) => (
@@ -123,6 +120,10 @@ const BillServiceOptions = (props) => {
         onChange={handleInputChange(onUpdateHeaderOptions)}
         maxLength={255}
       />
+      <div className={styles.checkbox}>
+        <Checkbox name="isReportable" label="Reportable" checked={isReportable} onChange={handleCheckboxChange(onUpdateHeaderOptions)} />
+      </div>
+
     </Fragment>
   );
 };

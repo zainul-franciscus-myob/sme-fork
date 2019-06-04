@@ -1,23 +1,29 @@
-import { Input, LineItemTable } from '@myob/myob-widgets';
+import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getBillLine } from '../billServiceSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import Input from '../../../components/autoFormatter/AutoFormatterCore/AutoFormatter';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
-const onComboboxChange = (name, onChange) => item => onChange({
+const handleOnComboboxChange = (handler, name) => item => handler({
   target: {
     name,
     value: item.id,
   },
 });
 
-const onRowInputBlurHandler = (onRowInputBlur, index) => () => onRowInputBlur(index);
-
 const BillServiceTableRow = ({
-  billLine, index, onChange, onRowInputBlur, ...feelixInjectedProps
+  billLine,
+  index,
+  onChange,
+  onComboboxChange,
+  onRowInputBlur,
+  onAmountInputFieldChange,
+  ...feelixInjectedProps
 }) => {
   const {
     description,
@@ -43,23 +49,22 @@ const BillServiceTableRow = ({
         maxLength={255}
       />
       <AccountCombobox
-        onChange={onComboboxChange('allocatedAccountId', onChange)}
+        onChange={handleOnComboboxChange(onComboboxChange, 'allocatedAccountId')}
         items={accounts}
         selectedId={allocatedAccountId}
       />
       <TaxCodeCombobox
-        onChange={onComboboxChange('taxCodeId', onChange)}
+        onChange={handleOnComboboxChange(onComboboxChange, 'taxCodeId')}
         items={taxCodes}
         selectedId={taxCodeId}
       />
-      <Input
+      <AmountInput
         label="Amount"
-        type="number"
         hideLabel
         name="amount"
         value={amount}
-        onChange={onChange}
-        onBlur={onRowInputBlurHandler(onRowInputBlur, index)}
+        onChange={onAmountInputFieldChange}
+        onBlur={onRowInputBlur}
       />
     </LineItemTable.Row>
   );

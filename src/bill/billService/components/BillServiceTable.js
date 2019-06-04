@@ -8,12 +8,23 @@ import BillServiceTableRow from './BillServiceTableRow';
 
 const labels = ['Description', 'Allocate to', 'Tax type', 'Amount'];
 
+const onAmountInputFieldChange = handler => e => (
+  handler({
+    target: {
+      name: e.target.name,
+      value: e.target.rawValue,
+    },
+  })
+);
+
 const renderRow = onRowInputBlurHandler => (index, data, onChange) => (
   <BillServiceTableRow
     index={index}
     key={index}
     onChange={onChange}
-    onRowInputBlur={onRowInputBlurHandler}
+    onRowInputBlur={() => onRowInputBlurHandler(index)}
+    onComboboxChange={onChange}
+    onAmountInputFieldChange={onAmountInputFieldChange(onChange)}
   />
 );
 
