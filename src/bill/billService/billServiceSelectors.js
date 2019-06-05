@@ -139,17 +139,27 @@ const getBillServiceLinesForPayload = lines => lines.map((line) => {
   return rest;
 });
 
+export const getContactId = state => state.bill.contactId;
+
+const getContactName = (contacts, contactId) => {
+  const selectedContact = contacts.find(({ value }) => contactId === value) || {};
+  return selectedContact.name;
+};
+
+
 export const getBillPayload = createSelector(
   getBill,
-  bill => ({
+  getContactOptions,
+  getContactId,
+  (bill, contacts, contactId) => ({
     ...bill,
+    contactName: getContactName(contacts, contactId),
     lines: getBillServiceLinesForPayload(bill.lines),
   }),
 );
 
 export const getAlertMessage = state => state.alertMessage;
 export const getIsActionsDisabled = state => state.isSubmitting;
-export const getContactId = state => state.bill.contactId;
 
 export const getIsTableEmpty = createSelector(
   getLength,
