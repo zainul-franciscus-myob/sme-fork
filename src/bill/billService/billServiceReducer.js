@@ -41,6 +41,7 @@ const getDefaultState = () => ({
     issueDate: convertToDateString(Date.now()),
     orderNumber: '',
     notes: '',
+    journalMemo: '',
     lines: [],
   },
   contactOptions: [],

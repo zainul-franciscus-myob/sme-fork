@@ -1,4 +1,4 @@
-import { getBillOptions, getExpiredDate } from '../billServiceSelectors';
+import { getBillOptions, getBillPayload, getExpiredDate } from '../billServiceSelectors';
 import state from './fixtures/state.json';
 
 describe('BillServiceSelectors', () => {
@@ -25,6 +25,7 @@ describe('BillServiceSelectors', () => {
         expiredDate: '02/11/2018',
         orderNumber: '123',
         notes: 'Thank you!',
+        journalMemo: 'Journal Memo - Do not display on UI',
         expirationTermOptions: [
           { value: 'OnADayOfTheMonth', name: 'On a day of the month' },
           { value: 'InAGivenNumberOfDays', name: 'In a given no. of days' },
@@ -150,6 +151,42 @@ describe('BillServiceSelectors', () => {
 
         expect(actual).toBe(expected);
       });
+    });
+  });
+
+  describe('getBillPayload', () => {
+    it('should return correct shape for bill payload for create and update', () => {
+      const expected = {
+        id: '1',
+        contactId: '3',
+        contactName: 'Cow Feed 3',
+        expirationTerm: 'Prepaid',
+        expirationDays: 0,
+        chargeForLatePayment: 123.12,
+        discountForEarlyPayment: 3546.34,
+        numberOfDaysForDiscount: 10,
+        taxInclusive: true,
+        isReportable: false,
+        number: '0000012334563456',
+        address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
+        issueDate: '2018-11-02',
+        orderNumber: '123',
+        notes: 'Thank you!',
+        journalMemo: 'Journal Memo - Do not display on UI',
+        lines: [
+          {
+            id: '345',
+            description: 'Yak shaving - 1/2 an hour',
+            allocatedAccountId: '123',
+            amount: '48.50',
+            taxCodeId: '124',
+          },
+        ],
+      };
+
+      const actual = getBillPayload(state);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

@@ -15,6 +15,7 @@
     "issueDate": "2018-11-02",
     "orderNumber": "123",
     "notes": "Thank you!",
+    "journalMemo": "Journal Memo - Do not display on UI",
     "lines": [
       {
         "id": "345",
