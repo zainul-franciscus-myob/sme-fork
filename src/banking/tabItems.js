@@ -3,4 +3,5 @@ export const tabIds = {
   allocate: 'allocate',
   match: 'match',
   payment: 'payment',
+  transfer: 'transfer',
 };

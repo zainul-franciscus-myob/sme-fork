@@ -5,9 +5,11 @@ import {
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_SPLIT_ALLOCATION,
+  LOAD_TRANSFER_MONEY,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
+  SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
@@ -66,6 +68,14 @@ const BankingMapping = {
   [SAVE_PAYMENT_ALLOCATION]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/allocate_payment`,
+  },
+  [LOAD_TRANSFER_MONEY]: {
+    method: 'GET',
+    getPath: ({ businessId, transferMoneyId }) => `/${businessId}/banking/load_transfer_money/${transferMoneyId}`,
+  },
+  [SAVE_TRANSFER_MONEY]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/create_transfer_money`,
   },
 };
 

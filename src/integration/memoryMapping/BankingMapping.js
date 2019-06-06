@@ -5,9 +5,11 @@ import {
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_SPLIT_ALLOCATION,
+  LOAD_TRANSFER_MONEY,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
+  SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
@@ -23,8 +25,10 @@ import matchAllocatedTransactions from '../data/banking/loadMatchAllocatedTransa
 import matchTransactions from '../data/banking/loadMatchTransactions';
 import paymentAllocation from '../data/banking/loadPayment';
 import paymentAllocationLines from '../data/banking/loadPaymentLines';
+import saveTransferMoneyPayload from '../data/banking/saveTransferMoney';
 import savedMatchTransaction from '../data/banking/saveMatchTransaction';
 import savedPaymentAllocation from '../data/banking/savePaymentAllocation';
+import transferMoneyPayload from '../data/banking/loadTransferMoney';
 import unallocatedBankTransaction from '../data/banking/unallocatedBankTransaction';
 
 const loadBankTransactions = ({ onSuccess }) => onSuccess(bankTransactions);
@@ -43,6 +47,9 @@ const saveMatchTransaction = ({ onSuccess }) => onSuccess(savedMatchTransaction)
 const loadPaymentAllocationLines = ({ onSuccess }) => onSuccess(paymentAllocationLines);
 const loadPaymentAllocation = ({ onSuccess }) => onSuccess(paymentAllocation);
 const savePaymentAllocation = ({ onSuccess }) => onSuccess(savedPaymentAllocation);
+const loadTransferMoney = ({ onSuccess }) => onSuccess(transferMoneyPayload);
+const saveTransferMoney = ({ onSuccess }) => onSuccess(saveTransferMoneyPayload);
+
 
 const BankingMappings = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
@@ -58,6 +65,8 @@ const BankingMappings = {
   [LOAD_PAYMENT_ALLOCATION_LINES]: loadPaymentAllocationLines,
   [LOAD_PAYMENT_ALLOCATION]: loadPaymentAllocation,
   [SAVE_PAYMENT_ALLOCATION]: savePaymentAllocation,
+  [LOAD_TRANSFER_MONEY]: loadTransferMoney,
+  [SAVE_TRANSFER_MONEY]: saveTransferMoney,
 };
 
 export default BankingMappings;

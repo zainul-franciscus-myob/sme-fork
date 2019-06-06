@@ -172,6 +172,9 @@ export const getOpenEntryDefaultTabId = ({ type, sourceJournal }) => {
     return tabIds.payment;
   }
 
+  if (sourceJournal === businessEventTypes.transferMoney) {
+    return tabIds.transfer;
+  }
   return tabIds.match;
 };
 
@@ -181,7 +184,10 @@ export const getBankTransactionLineByIndex = (state, index) => {
 };
 
 export const getIsAllocated = ({ type, journalId }) => (
-  !!((type === 'singleAllocation' || type === 'splitAllocation' || type === 'payment') && journalId)
+  !!((type === 'singleAllocation'
+    || type === 'splitAllocation'
+    || type === 'payment'
+    || type === 'transfer') && journalId)
 );
 
 export const getIsBalancesInvalid = ({ bankBalance, myobBalance, unallocated }) => (
@@ -248,7 +254,7 @@ export const getDisplayBalances = createSelector(
   },
 );
 
-const getOpenTransactionLine = createSelector(
+export const getOpenTransactionLine = createSelector(
   getEntries,
   getOpenPosition,
   (entries, openPosition) => entries[openPosition],
@@ -265,9 +271,18 @@ export const getTabItems = createSelector(
     && sourceJournal !== businessEventTypes.invoicePayment
     && sourceJournal !== '';
 
+    const isTransferDisabled = sourceJournal !== businessEventTypes.transferMoney
+    && sourceJournal !== '';
+
     const isBillPayment = !!withdrawal;
 
     return [
+      {
+        id: tabIds.transfer,
+        label: 'Transfer',
+        isDisabled: isTransferDisabled,
+        toolTip: isTransferDisabled && 'Unmatch this transaction before creating a new one',
+      },
       {
         id: tabIds.payment,
         label: isBillPayment ? 'Bill payment' : 'Invoice payment',

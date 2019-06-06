@@ -16,6 +16,7 @@ import PaymentAllocationFooter from './PaymentAllocationFooter';
 import SplitAllocationBody from './SplitAllocationBody';
 import SplitRowItem from './SplitRowItem';
 import TableCollapsibleRow from '../../components/Feelix/Accordion/TableCollapsibleRow';
+import TransferMoneyBody from './TransferMoneyBody';
 import UnmatchedRowItem from './UnmatchedRowItem';
 import style from './BankingView.css';
 
@@ -67,7 +68,7 @@ const getMatchedOrAllocatedRowItem = ({
     );
   }
 
-  if (type === 'splitAllocation' || type === 'payment') {
+  if (type === 'splitAllocation' || type === 'payment' || type === 'transfer') {
     return (
       <SplitRowItem
         index={index}
@@ -136,6 +137,9 @@ const BankTransactionTableBody = (props) => {
     onUpdatePaymentAllocationLine,
     onSavePaymentAllocation,
     onCancelPaymentAllocation,
+    onSaveTransferMoney,
+    onCancelTransferMoney,
+    onUpdateTransfer,
   } = props;
 
   const spinner = (
@@ -148,6 +152,7 @@ const BankTransactionTableBody = (props) => {
     [tabIds.allocate]: SplitAllocationBody,
     [tabIds.match]: MatchTransactionBody,
     [tabIds.payment]: PaymentAllocationBody,
+    [tabIds.transfer]: TransferMoneyBody,
   }[activeTabId];
 
   const contentProps = {
@@ -167,6 +172,9 @@ const BankTransactionTableBody = (props) => {
       onUpdatePaymentAllocationOptions,
       onUpdatePaymentAllocationLine,
     },
+    [tabIds.transfer]: {
+      onUpdateTransfer,
+    },
   }[activeTabId];
 
   const footerProps = {
@@ -183,6 +191,11 @@ const BankTransactionTableBody = (props) => {
     [tabIds.payment]: {
       onSave: onSavePaymentAllocation,
       onCancel: onCancelPaymentAllocation,
+      onUnmatch: onUnallocateSplitAllocation,
+    },
+    [tabIds.transfer]: {
+      onSave: onSaveTransferMoney,
+      onCancel: onCancelTransferMoney,
       onUnmatch: onUnallocateSplitAllocation,
     },
   }[activeTabId];
@@ -219,6 +232,8 @@ const BankTransactionTableBody = (props) => {
       isExpanded: index === openPosition,
     });
 
+    const entryClassName = `${style.openEntry} ${isOpenEntryLoading ? style.isLoading : ''}`;
+
     return (
       <TableCollapsibleRow
         key={index}
@@ -245,7 +260,7 @@ const BankTransactionTableBody = (props) => {
       >
         {openPosition === index
           && (
-          <div className={style.openEntry}>
+          <div className={entryClassName}>
             { isOpenEntryLoading ? spinner : openEntry }
           </div>
           )}
@@ -288,6 +303,8 @@ BankTransactionTableBody.propTypes = {
   onUpdatePaymentAllocationLine: PropTypes.func.isRequired,
   onSavePaymentAllocation: PropTypes.func.isRequired,
   onCancelPaymentAllocation: PropTypes.func.isRequired,
+  onSaveTransferMoney: PropTypes.func.isRequired,
+  onCancelTransferMoney: PropTypes.func.isRequired,
 };
 
 export default BankTransactionTableBody;

@@ -49,9 +49,12 @@ const BankingView = (props) => {
     onUpdatePaymentAllocationLine,
     onSavePaymentAllocation,
     onCancelPaymentAllocation,
+    onSaveTransferMoney,
+    onCancelTransferMoney,
     modalType,
     onCancelModal,
     onCloseModal,
+    onUpdateTransfer,
   } = props;
 
   const filterBar = (
@@ -111,6 +114,9 @@ const BankingView = (props) => {
             onUpdatePaymentAllocationLine={onUpdatePaymentAllocationLine}
             onSavePaymentAllocation={onSavePaymentAllocation}
             onCancelPaymentAllocation={onCancelPaymentAllocation}
+            onSaveTransferMoney={onSaveTransferMoney}
+            onCancelTransferMoney={onCancelTransferMoney}
+            onUpdateTransfer={onUpdateTransfer}
           />
         </div>
       </StandardTemplate>

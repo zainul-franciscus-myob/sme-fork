@@ -50,29 +50,25 @@
       "id": "123",
       "displayName": "My Sales account 1",
       "accountType": "Asset",
-      "displayId": "1-123",
-      "taxCodeId": "123"
+      "displayId": "1-123"
     },
     {
       "id": "128",
       "displayName": "My Bank Account 2",
       "accountType": "Asset",
-      "displayId": "2-345",
-      "taxCodeId": "123"
+      "displayId": "2-345"
     },
     {
       "id": "456",
       "displayName": "My Credit Card 1",
       "accountType": "Liability",
-      "displayId": "2-123",
-      "taxCodeId": "123"
+      "displayId": "2-123"
     },
     {
       "id": "457",
       "displayName": "My Credit Card 2",
       "accountType": "Liability",
-      "displayId": "2-123",
-      "taxCodeId": "123"
+      "displayId": "2-123"
     }
   ],
   "depositAccounts": [

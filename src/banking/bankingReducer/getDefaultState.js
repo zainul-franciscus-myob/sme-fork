@@ -92,6 +92,11 @@ const getDefaultState = () => ({
       },
       entries: [],
     },
+    transfer: {
+      transferFrom: '',
+      transferTo: '',
+      amount: '',
+    },
   },
 });
 

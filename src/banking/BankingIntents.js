@@ -41,3 +41,8 @@ export const LOAD_PAYMENT_ALLOCATION_OPTIONS = Symbol('Load payment allocation f
 export const UPDATE_PAYMENT_ALLOCATION_OPTIONS = Symbol('Update payment allocation filter options');
 export const UPDATE_PAYMENT_ALLOCATION_LINE = Symbol('Update payment allocation line');
 export const SET_PAYMENT_ALLOCATION_LOADING_STATE = Symbol('Set payment allocation loading state');
+
+export const LOAD_TRANSFER_MONEY = Symbol('Load an existing transfer money');
+export const LOAD_NEW_TRANSFER_MONEY = Symbol('Load a new transfer money');
+export const UPDATE_TRANSFER_MONEY = Symbol('Update the transfer money');
+export const SAVE_TRANSFER_MONEY = Symbol('Save transfer money');

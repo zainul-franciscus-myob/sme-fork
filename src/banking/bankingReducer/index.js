@@ -7,14 +7,17 @@ import {
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_NEW_SPLIT_ALLOCATION,
+  LOAD_NEW_TRANSFER_MONEY,
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_PAYMENT_ALLOCATION_OPTIONS,
   LOAD_SPLIT_ALLOCATION,
+  LOAD_TRANSFER_MONEY,
   OPEN_MODAL,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
+  SAVE_TRANSFER_MONEY,
   SET_ALERT,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
@@ -36,6 +39,7 @@ import {
   UPDATE_PAYMENT_ALLOCATION_OPTIONS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
+  UPDATE_TRANSFER_MONEY,
 } from '../BankingIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
@@ -59,6 +63,12 @@ import {
   updateMatchTransactionSelection,
 } from './matchTransactionHandlers';
 import {
+  loadNewTransferMoney,
+  loadTransferMoney,
+  saveTransferMoney,
+  updateTransferMoney,
+} from './transferMoneyHandlers';
+import {
   loadPaymentAllocation,
   loadPaymentAllocationLines,
   loadPaymentAllocationOptions, savePaymentAllocation,
@@ -77,6 +87,7 @@ const loadBankTransactions = (state, action) => ({
   withdrawalAccounts: action.withdrawalAccounts,
   depositAccounts: action.depositAccounts,
   transactionTypes: action.transactionTypes,
+  transferAccounts: action.transferAccounts,
   balances: action.balances,
   contacts: action.contacts,
   suppliers: action.suppliers,
@@ -248,6 +259,10 @@ const handlers = {
   [UPDATE_PAYMENT_ALLOCATION_OPTIONS]: updatePaymentAllocationOptions,
   [UPDATE_PAYMENT_ALLOCATION_LINE]: updatePaymentAllocationLine,
   [SET_PAYMENT_ALLOCATION_LOADING_STATE]: setPaymentAllocationLoadingState,
+  [LOAD_TRANSFER_MONEY]: loadTransferMoney,
+  [LOAD_NEW_TRANSFER_MONEY]: loadNewTransferMoney,
+  [SAVE_TRANSFER_MONEY]: saveTransferMoney,
+  [UPDATE_TRANSFER_MONEY]: updateTransferMoney,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

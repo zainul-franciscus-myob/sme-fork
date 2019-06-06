@@ -78,6 +78,9 @@ const BankTransactionTable = ({
   onUpdatePaymentAllocationLine,
   onSavePaymentAllocation,
   onCancelPaymentAllocation,
+  onSaveTransferMoney,
+  onCancelTransferMoney,
+  onUpdateTransfer,
 }) => {
   const header = (
     <Table.Header>
@@ -140,6 +143,9 @@ const BankTransactionTable = ({
     onUpdatePaymentAllocationLine,
     onSavePaymentAllocation,
     onCancelPaymentAllocation,
+    onSaveTransferMoney,
+    onCancelTransferMoney,
+    onUpdateTransfer,
   });
   return (
     <AccordionTable

@@ -29,11 +29,11 @@
       "allocateOrMatch": "Transfered from Rental income",
       "journalId": "789",
       "journalLineId": "124",
-      "sourceJournal": "CashPayment",
+      "sourceJournal": "TransferMoney",
       "taxCode": "FRE",
       "note": "Lofty and wendy",
       "isReportable": true,
-      "type": "singleAllocation"
+      "type": "splitAllocation"
     },
     {
       "transactionId": "3",

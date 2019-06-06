@@ -10,14 +10,17 @@ import {
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_NEW_SPLIT_ALLOCATION,
+  LOAD_NEW_TRANSFER_MONEY,
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_PAYMENT_ALLOCATION_OPTIONS,
   LOAD_SPLIT_ALLOCATION,
+  LOAD_TRANSFER_MONEY,
   OPEN_MODAL,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
+  SAVE_TRANSFER_MONEY,
   SET_ALERT,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
@@ -39,6 +42,7 @@ import {
   UPDATE_PAYMENT_ALLOCATION_OPTIONS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
+  UPDATE_TRANSFER_MONEY,
 } from './BankingIntents';
 import {
   RESET_STATE,
@@ -76,6 +80,7 @@ import {
   getPaymentTypeUrlParam,
 } from './bankingSelectors/paymentAllocationSelectors';
 import { getSplitAllocationPayload } from './bankingSelectors/splitAllocationSelectors';
+import { getTransferMoneyPayload } from './bankingSelectors/transferMoneySelectors';
 import { tabIds } from './tabItems';
 import BankingView from './components/BankingView';
 import Store from '../store/Store';
@@ -123,8 +128,11 @@ export default class BankingModule {
         onUpdatePaymentAllocationOptions={this.confirmBefore(this.updatePaymentAllocationOptions)}
         onUpdatePaymentAllocationLine={this.updatePaymentAllocationLine}
         onSavePaymentAllocation={this.savePaymentAllocation}
+        onSaveTransferMoney={this.saveTransferMoney}
+        onCancelTransferMoney={this.confirmBefore(this.collapseTransactionLine)}
         onCancelPaymentAllocation={this.confirmBefore(this.collapseTransactionLine)}
         onUnmatchTransaction={this.confirmBefore(this.unallocateOpenEntryTransaction)}
+        onUpdateTransfer={this.updateTransferMoney}
         onCancelModal={this.cancelModal}
         onCloseModal={this.closeModal}
       />
@@ -488,9 +496,79 @@ export default class BankingModule {
       [tabIds.match]: this.loadMatchTransaction,
       [tabIds.allocate]: this.loadAllocate,
       [tabIds.payment]: this.loadPayment,
+      [tabIds.transfer]: this.loadTransferMoney,
     }[tabId] || this.loadAllocate;
 
     openEntryAction(index);
+  }
+
+  loadTransferMoney = (index) => {
+    const state = this.store.getState();
+    const line = getBankTransactionLineByIndex(state, index);
+
+    if (getIsAllocated(line)) {
+      this.loadExistingTransferMoney(index, line);
+    } else {
+      this.loadNewTransferMoney(index);
+    }
+  }
+
+  loadExistingTransferMoney = (index, line) => {
+    const state = this.store.getState();
+    const intent = LOAD_TRANSFER_MONEY;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      transferMoneyId: line.journalId,
+    };
+
+    const onSuccess = this.ifOpen(
+      index,
+      (payload) => {
+        this.setOpenEntryLoadingState(false);
+        this.store.dispatch({
+          intent,
+          ...payload,
+          index,
+        });
+      },
+    );
+
+    const onFailure = ({ message }) => {
+      this.setOpenEntryLoadingState(false);
+      this.collapseTransactionLine();
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.setOpenEntryLoadingState(true);
+    this.setOpenEntryPosition(index);
+    this.integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  loadNewTransferMoney = (index) => {
+    const intent = LOAD_NEW_TRANSFER_MONEY;
+
+    this.store.dispatch({
+      intent,
+      index,
+    });
+  }
+
+  updateTransferMoney = ({ key, value }) => {
+    const intent = UPDATE_TRANSFER_MONEY;
+    this.store.dispatch({
+      intent,
+      key,
+      value,
+    });
   }
 
   loadAllocate = (index) => {
@@ -983,9 +1061,10 @@ export default class BankingModule {
     const intent = SAVE_PAYMENT_ALLOCATION;
     const state = this.store.getState();
 
+    this.collapseTransactionLine();
+
     const isCreating = getIsOpenEntryCreating(state);
     if (!isCreating) {
-      this.collapseTransactionLine();
       return;
     }
 
@@ -993,7 +1072,51 @@ export default class BankingModule {
     const urlParams = { businessId: getBusinessId(state) };
     const content = getPaymentAllocationPayload(state, index);
 
+    const onSuccess = (payload) => {
+      this.setEntryLoadingState(index, false);
+      this.store.dispatch({
+        intent,
+        index,
+        ...payload,
+      });
+      this.setAlert({
+        type: 'success',
+        message: payload.message,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setEntryLoadingState(index, false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.setEntryLoadingState(index, true);
+    this.integration.write({
+      intent,
+      urlParams,
+      allowParallelRequests: true,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  saveTransferMoney = () => {
+    const intent = SAVE_TRANSFER_MONEY;
+    const state = this.store.getState();
+
     this.collapseTransactionLine();
+
+    const isCreating = getIsOpenEntryCreating(state);
+    if (!isCreating) {
+      return;
+    }
+    const index = getOpenPosition(state);
+    const urlParams = { businessId: getBusinessId(state) };
+    const content = getTransferMoneyPayload(state);
 
     const onSuccess = (payload) => {
       this.setEntryLoadingState(index, false);

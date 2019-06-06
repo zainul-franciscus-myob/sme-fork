@@ -140,7 +140,7 @@
 
 :local .list :global(.table-data__actions:last-child) {
   padding-right: 0;
-  width: 66px;
+  width: 6.6rem;
 }
 
 :local .list :global(.combobox .btn) {
@@ -226,8 +226,8 @@
   margin-right: 2rem;
 }
 
-:local .openEntry {
-  min-height: 220px;
+:local .openEntry.isLoading {
+  min-height: 22rem;
 }
 
 :local .checkbox {
