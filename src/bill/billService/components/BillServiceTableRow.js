@@ -1,4 +1,4 @@
-import { LineItemTable } from '@myob/myob-widgets';
+import { Input, LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -6,7 +6,6 @@ import React from 'react';
 import { getBillLine } from '../billServiceSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
-import Input from '../../../components/autoFormatter/AutoFormatterCore/AutoFormatter';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
 const handleOnComboboxChange = (handler, name) => item => handler({
