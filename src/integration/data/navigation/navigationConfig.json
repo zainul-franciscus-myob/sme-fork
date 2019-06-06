@@ -21,6 +21,7 @@
     "employeeList",
     "billPayment",
     "billList",
-    "invoicePayment"
+    "invoicePayment",
+    "customerReturnList"
   ]
 }

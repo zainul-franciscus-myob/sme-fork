@@ -9,6 +9,7 @@ const getItems = urls => [
   urls.quoteList && <Navigation.MenuLink key="Quotes" url={urls.quoteList} label="Quotes" />,
   urls.invoiceList && <Navigation.MenuLink key="Invoices" url={urls.invoiceList} label="Invoices" />,
   urls.invoicePayment && <Navigation.MenuLink key="Invoice Payment" url={urls.invoicePayment} label="Invoice Payment" />,
+  urls.customerReturnList && <Navigation.MenuLink key="Customer returns" url={urls.customerReturnList} label="Customer returns" />,
   urls.inventory && <Navigation.MenuLink key="Items" url={urls.inventory} label="Items" />,
 ].filter(Boolean);
 

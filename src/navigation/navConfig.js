@@ -21,6 +21,7 @@ export const activeMapping = {
   'billPayment/billPaymentDetail': 'purchases',
   'bill/billList': 'purchases',
   'invoicePayment/invoicePaymentDetail': 'sales',
+  'customerReturn/customerReturnList': 'sales',
 };
 
 export const featuresConfig = {
@@ -101,6 +102,9 @@ export const featuresConfig = {
   },
   billList: {
     routeName: 'bill/billList',
+  },
+  customerReturnList: {
+    routeName: 'customerReturn/customerReturnList',
   },
   invoicePayment: {
     routeName: 'invoicePayment/invoicePaymentDetail',
