@@ -2,7 +2,7 @@ import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import { LOAD_BILL_DETAIL, LOAD_NEW_BILL_ITEM_DETAIL, LOAD_NEW_BILL_SERVICE_DETAIL } from './BillIntents';
-import BillItemModule from './billItems/BillItemsModule';
+import BillItemModule from './billItem/BillItemModule';
 import BillServiceModule from './billService/BillServiceModule';
 
 export default class BillModule {

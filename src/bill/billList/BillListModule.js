@@ -13,7 +13,12 @@ import {
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
-import { SUCCESSFULLY_DELETED_BILL_SERVICE, SUCCESSFULLY_SAVED_BILL_SERVICE } from '../billMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_BILL_ITEM,
+  SUCCESSFULLY_DELETED_BILL_SERVICE,
+  SUCCESSFULLY_SAVED_BILL_ITEM,
+  SUCCESSFULLY_SAVED_BILL_SERVICE,
+} from '../billMessageTypes';
 import {
   flipSortOrder,
   getBusinessId,
@@ -30,6 +35,8 @@ import billListReducer from './billListReducer';
 const messageTypes = [
   SUCCESSFULLY_SAVED_BILL_SERVICE,
   SUCCESSFULLY_DELETED_BILL_SERVICE,
+  SUCCESSFULLY_DELETED_BILL_ITEM,
+  SUCCESSFULLY_SAVED_BILL_ITEM,
 ];
 
 export default class BillListModule {

@@ -1,3 +1,94 @@
 {
-  "layout": "item"
-}
+  "layout": "item",
+  "bill": {
+    "supplierId": "",
+    "expirationTerm": "OnADayOfTheMonth",
+    "expirationDays": "4",
+    "isTaxInclusive": true,
+    "isReportable": false,
+    "billNumber": "BL00000123",
+    "invoiceNumber": "IN00000123",
+    "note": "",
+    "address": "",
+    "lines": []
+  },
+  "suppliers": [
+    {
+      "contactType": "Customer",
+      "displayName": "A-Z Stationery Supplies",
+      "id": "1",
+      "displayId": "CUS000001"
+    },
+    {
+      "contactType": "Supplier",
+      "displayName": "Cow Feed",
+      "id": "2",
+      "displayId": "CUS000003"
+    }
+  ],
+  "expirationTerms": [
+    {
+      "value": "OnADayOfTheMonth",
+      "name": "On a day of the month"
+    },
+    {
+      "value": "InAGivenNumberOfDays",
+      "name": "In a given no. of days"
+    },
+    {
+      "value": "DayOfMonthAfterEOM",
+      "name": "Day of month after EOM"
+    },
+    {
+      "value": "NumberOfDaysAfterEOM",
+      "name": "No. of days after EOM"
+    },
+    {
+      "value": "Prepaid",
+      "name": "Prepaid"
+    },
+    {
+      "value": "CashOnDelivery",
+      "name": "C.O.D."
+    }
+  ],
+  "items": [
+    {
+      "id": "3",
+      "itemId": "100",
+      "description": "Cooler Large"
+    },
+    {
+      "id": "4",
+      "itemId": "101",
+      "description": "Cooler Medium"
+    }
+  ],
+  "taxCodes": [
+    {
+      "id": "123",
+      "displayName": "GST",
+      "description": "Goods & Service Tax",
+      "displayRate": "10%"
+    },
+    {
+      "id": "124",
+      "displayName": "FRE",
+      "description": "GST FREE",
+      "displayRate": "5%"
+    }
+  ],
+  "newLine": {
+    "units": "",
+    "itemId": "",
+    "description": "",
+    "unitPrice": "",
+    "discount": "",
+    "taxCodeId": "",
+    "amount": ""
+  },
+  "totals": {
+    "subTotal": "0.00",
+    "totalTax": "0.0",
+    "totalAmount": "0.00"
+  }}

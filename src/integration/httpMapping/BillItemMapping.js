@@ -1,0 +1,52 @@
+import {
+  CALCULATE_LINE,
+  CREATE_BILL,
+  DELETE_BILL,
+  REMOVE_LINE,
+  SET_ADDRESS,
+  UPDATE_BILL,
+  UPDATE_LINE_ITEM,
+  UPDATE_LINE_TAX_CODE,
+  UPDATE_TAX_INCLUSIVE,
+} from '../../bill/billItem/BillItemIntents';
+
+const BillItemMapping = {
+  [CREATE_BILL]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/bill/create_bill_item_detail`,
+  },
+  [UPDATE_BILL]: {
+    method: 'PUT',
+    getPath: ({ businessId, billId }) => `/${businessId}/bill/update_bill_item_detail/${billId}`,
+  },
+  [DELETE_BILL]: {
+    method: 'DELETE',
+    getPath: ({ businessId, billId }) => `/${businessId}/bill/delete_bill_detail/${billId}`,
+  },
+  [UPDATE_LINE_ITEM]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_item_totals/change_line_item`,
+  },
+  [UPDATE_LINE_TAX_CODE]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_item_totals/change_line_tax_code`,
+  },
+  [UPDATE_TAX_INCLUSIVE]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_item_totals/change_tax_inclusive`,
+  },
+  [CALCULATE_LINE]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_item_totals/change_line_amount`,
+  },
+  [REMOVE_LINE]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_item_totals/remove_line`,
+  },
+  [SET_ADDRESS]: {
+    method: 'GET',
+    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_contact_address/${supplierId}`,
+  },
+};
+
+export default BillItemMapping;

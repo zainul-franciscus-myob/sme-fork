@@ -12,11 +12,13 @@ const createMemoryIntegration = () => ({
     });
   },
   write: async ({
-    intent, params, onSuccess, onFailure,
+    intent, params, content, onSuccess, onFailure,
   }) => {
     const integrationFunction = RootMapping[intent];
     Promise.resolve().then(() => {
-      integrationFunction({ params, onSuccess, onFailure });
+      integrationFunction({
+        params, content, onSuccess, onFailure,
+      });
     });
   },
 });

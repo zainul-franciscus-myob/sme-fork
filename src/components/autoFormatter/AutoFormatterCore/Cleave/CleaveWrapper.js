@@ -268,7 +268,7 @@ class CleaveWrapper extends React.Component {
     // sends backspace keys in event, so we do not need to apply any hacks
     owner.hasBackspaceSupport = owner.hasBackspaceSupport || charCode === 8;
     if (!owner.hasBackspaceSupport
-        && Util.isAndroidBackspaceKeydown(owner.lastInputValue, pps.result)
+      && Util.isAndroidBackspaceKeydown(owner.lastInputValue, pps.result)
     ) {
       charCode = 8;
     }
@@ -445,7 +445,7 @@ class CleaveWrapper extends React.Component {
   render = () => {
     const owner = this;
     // eslint-disable-next-line
-      var { value, options, onKeyDown, onFocus, onBlur, onChange, onInit, htmlRef, ...propsToTransfer } = owner.props;
+    var { value, options, onKeyDown, onFocus, onBlur, onChange, onInit, htmlRef, ...propsToTransfer } = owner.props;
 
     return (
       <input
