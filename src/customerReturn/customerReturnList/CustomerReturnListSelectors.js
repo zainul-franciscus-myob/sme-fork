@@ -32,3 +32,5 @@ const flipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc')
 export const getNewSortOrder = orderBy => state => (orderBy === getOrderBy(state)
   ? flipSortOrder(state)
   : 'asc');
+
+export const getAppliedFilterOptions = state => state.appliedFilterOptions;

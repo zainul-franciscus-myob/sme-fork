@@ -15,7 +15,7 @@ import {
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import {
-  getBusinessId, getFilterOptions,
+  getAppliedFilterOptions, getBusinessId, getFilterOptions,
   getNewSortOrder, getOrderBy, getSortOrder,
 } from './CustomerReturnListSelectors';
 import CustomerReturnListView from './components/CustomerReturnListView';
@@ -73,6 +73,7 @@ export default class CustomerReturnListModule {
         entries,
         totalAmount,
         totalCreditAmount,
+        isSort: false,
       });
     };
 
@@ -122,6 +123,7 @@ export default class CustomerReturnListModule {
         entries,
         totalAmount,
         totalCreditAmount,
+        isSort: true,
       });
     };
 
@@ -132,7 +134,7 @@ export default class CustomerReturnListModule {
       });
     };
 
-    const filterOptions = getFilterOptions(state);
+    const filterOptions = getAppliedFilterOptions(state);
     const params = {
       ...filterOptions,
       sortOrder: newSortOrder,
