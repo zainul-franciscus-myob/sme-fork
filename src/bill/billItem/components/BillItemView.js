@@ -32,6 +32,7 @@ const BillItemView = ({
   <React.Fragment>
     { modalType && (
       <BillItemModal
+        modalType={modalType}
         onModalClose={onModalClose}
         onCancelModalConfirm={onCancelModalConfirm}
         onDeleteModalConfirm={onDeleteModalConfirm}

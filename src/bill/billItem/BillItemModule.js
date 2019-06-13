@@ -9,7 +9,9 @@ import {
   DELETE_BILL,
   FORMAT_LINE_AMOUNT,
   OPEN_MODAL,
-  REMOVE_LINE, SET_ADDRESS,
+  REMOVE_LINE,
+  RESET_TOTALS,
+  SET_ADDRESS,
   SET_ALERT_MESSAGE,
   SET_ARE_LINES_CALCULATING,
   SET_LINE_AMOUNT_DIRTY,
@@ -32,6 +34,7 @@ import {
   getIsCreating,
   getIsLineAmountDirty,
   getIsPageEdited,
+  getIsTableEmpty,
   getLinesAndTaxInclusive,
   getLinesForCalculation,
   getLinesForItemChange,
@@ -149,7 +152,14 @@ export default class BillItemModule {
       });
 
       const state = this.store.getState();
-      this.updateLines(getLinesAndTaxInclusive(state), REMOVE_LINE);
+
+      if (!getIsTableEmpty(state)) {
+        this.updateLines(getLinesAndTaxInclusive(state), REMOVE_LINE);
+      } else {
+        this.store.dispatch({
+          intent: RESET_TOTALS,
+        });
+      }
     }
   };
 
@@ -194,7 +204,10 @@ export default class BillItemModule {
       });
 
       const newState = this.store.getState();
-      this.updateLines(getLinesAndTaxInclusive(newState), UPDATE_TAX_INCLUSIVE);
+
+      if (!getIsTableEmpty(state)) {
+        this.updateLines(getLinesAndTaxInclusive(newState), UPDATE_TAX_INCLUSIVE);
+      }
     }
   };
 

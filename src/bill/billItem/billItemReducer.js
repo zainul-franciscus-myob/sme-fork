@@ -5,7 +5,9 @@ import {
   CLOSE_MODAL,
   FORMAT_LINE_AMOUNT,
   OPEN_MODAL,
-  REMOVE_LINE, SET_ADDRESS,
+  REMOVE_LINE,
+  RESET_TOTALS,
+  SET_ADDRESS,
   SET_ALERT_MESSAGE,
   SET_ARE_LINES_CALCULATING,
   SET_LINE_AMOUNT_DIRTY,
@@ -47,9 +49,9 @@ const getDefaultState = () => ({
     amount: '',
   },
   totals: {
-    subTotal: '',
-    totalTax: '',
-    total: '',
+    subTotal: '$0.00',
+    totalTax: '$0.00',
+    totalAmount: '$0.00',
   },
   alertMessage: '',
   isLineAmountDirty: false,
@@ -144,6 +146,13 @@ const removeLine = (state, action) => ({
   },
 });
 
+const resetTotals = state => ({
+  ...state,
+  totals: {
+    ...getDefaultState().totals,
+  },
+});
+
 const updateBillOption = (state, action) => ({
   ...state,
   isPageEdited: true,
@@ -218,6 +227,7 @@ const closeModal = state => ({
 
 const handlers = {
   [RESET_STATE]: resetState,
+  [RESET_TOTALS]: resetTotals,
   [SET_INITIAL_STATE]: setInitialState,
   [ADD_LINE]: addLine,
   [UPDATE_LINES]: updateLines,

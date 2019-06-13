@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getAreLinesCalculating, getIsCreating } from '../billItemSelectors';
+import { getAreLinesCalculating, getIsCreating, getIsSubmitting } from '../billItemSelectors';
 
 const BillItemActions = ({
   isCreating,
@@ -59,7 +59,7 @@ BillItemActions.propTypes = {
 
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
-  areButtonsDisabled: getAreLinesCalculating(state),
+  areButtonsDisabled: getAreLinesCalculating(state) || getIsSubmitting(state),
 });
 
 export default connect(mapStateToProps)(BillItemActions);

@@ -30,7 +30,8 @@ export const getBillLinesArray = createSelector(
   len => Array(len).fill({}),
 );
 
-export const getNewLine = state => state.newLine;
+export const getIsTableEmpty = state => getBillLinesArray(state).length === 0;
+
 export const getItems = state => state.items;
 export const getTaxCodes = state => state.taxCodes;
 
@@ -48,6 +49,7 @@ export const getBillPayload = (state) => {
 };
 export const getIsPageEdited = state => state.isPageEdited;
 export const getAreLinesCalculating = state => state.areLinesCalculating;
+export const getIsSubmitting = state => state.isSubmitting;
 export const getModalType = state => state.modalType;
 export const getIsCreating = state => state.billId === 'newItem';
 export const getNewLineIndex = state => state.bill.lines.length - 1;

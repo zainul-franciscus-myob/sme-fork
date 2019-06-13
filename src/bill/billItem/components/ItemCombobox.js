@@ -4,8 +4,8 @@ import React from 'react';
 import Combobox from '../../../components/Feelix/ComboBox/Combobox';
 
 const metaData = [
-  { columnName: 'itemId', showData: true },
-  { columnName: 'description', showData: true },
+  { columnName: 'itemId', columnWidth: '5rem', showData: true },
+  { columnName: 'description', columnWidth: '20rem' },
 ];
 
 const ItemCombobox = (props) => {

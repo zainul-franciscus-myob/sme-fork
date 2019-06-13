@@ -1,4 +1,5 @@
 import {
+  getBillLineByIndex,
   getBillPayload,
   getExpiredDate,
 } from '../billItemSelectors';
@@ -157,6 +158,34 @@ describe('BillItemSelectors', () => {
       };
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getBillLineByIndex', () => {
+    it('get existing line', () => {
+      const state = {
+        bill: {
+          lines: ['test'],
+        },
+      };
+      const index = 0;
+
+      const actual = getBillLineByIndex(state, { index });
+
+      expect(actual).toEqual(state.bill.lines[index]);
+    });
+
+    it('should get a new line when line does not exist', () => {
+      const state = {
+        bill: {
+          lines: [],
+        },
+        newLine: 'newLine',
+      };
+
+      const actual = getBillLineByIndex(state, { index: 0 });
+
+      expect(actual).toEqual(state.newLine);
     });
   });
 });

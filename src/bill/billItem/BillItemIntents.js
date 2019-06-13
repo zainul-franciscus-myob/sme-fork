@@ -18,3 +18,4 @@ export const UPDATE_BILL = Symbol('Update bill');
 export const SET_LINE_AMOUNT_DIRTY = Symbol('Set line amount dirty');
 export const SET_ARE_LINES_CALCULATING = Symbol('Set are lines calculating');
 export const FORMAT_LINE_AMOUNT = Symbol('Format the line amount');
+export const RESET_TOTALS = Symbol('Reset the totals');

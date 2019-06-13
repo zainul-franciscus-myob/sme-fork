@@ -57,6 +57,7 @@ const BillItemTableRow = ({
       onChange={onAmountInputChange('units', onChange)}
       onBlur={onInputBlur(onLineInputBlur, index, 'units')}
       disabled={isLineDisabled || shouldLineSelectItem}
+      decimalScale={6}
     />
     <ItemCombobox
       items={items}
