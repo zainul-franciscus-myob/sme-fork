@@ -33,6 +33,7 @@ import {
 import EmployeeDetailView from './components/EmployeeDetailView';
 import Store from '../../store/Store';
 import employeeDetailReducer from './employeeDetailReducer';
+import keyMap from '../../hotKeys/keyMap';
 
 const popMessageTypes = [
   SUCCESSFULLY_SAVED_EMPLOYEE,
@@ -40,7 +41,7 @@ const popMessageTypes = [
 
 export default class EmployeeDetailModule {
   constructor({
-    integration, setRootView, popMessages, pushMessage, replaceURLParams,
+    integration, setRootView, popMessages, pushMessage, replaceURLParams, setupHotKeys,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -49,6 +50,8 @@ export default class EmployeeDetailModule {
     this.popMessages = popMessages;
     this.pushMessage = pushMessage;
     this.popMessageTypes = popMessageTypes;
+    this.setupHotKeys = setupHotKeys;
+    this.keyMap = keyMap;
   }
 
   loadEmployeeDetails = () => {
@@ -306,6 +309,13 @@ export default class EmployeeDetailModule {
     isPageEdited: isEdited,
   });
 
+  saveContact = () => {
+    if (getIsCreating(this.store.getState())) {
+      this.createContact();
+    }
+    this.updateContact();
+  }
+
   readMessages = () => {
     const [successMessage] = this.popMessages(this.popMessageTypes);
 
@@ -316,10 +326,6 @@ export default class EmployeeDetailModule {
   };
 
   render = () => {
-    const onSaveButtonClick = getIsCreating(this.store.getState())
-      ? this.createContact
-      : this.updateContact;
-
     const employeeDetailView = (
       <EmployeeDetailView
         onMainTabSelected={this.setMainTab}
@@ -328,7 +334,7 @@ export default class EmployeeDetailModule {
         onPaymentDetailsChange={this.updatePaymentDetails}
         onBankAccountDetailsChange={this.updateBankAccountDetails}
         onCancelButtonClick={this.openCancelModal}
-        onSaveButtonClick={onSaveButtonClick}
+        onSaveButtonClick={this.saveContact}
         onDeleteButtonClick={this.openDeleteModal}
         onDismissAlert={this.dismissAlert}
         onCloseModal={this.closeModal}
@@ -380,9 +386,14 @@ export default class EmployeeDetailModule {
     });
   }
 
+  handlers = {
+    SAVE_ACTION: this.saveContact,
+  };
+
   run(context) {
     this.setInitialState(context);
     this.store.subscribe(this.updateURLFromState);
+    this.setupHotKeys(this.keyMap, this.handlers);
     this.render();
     this.readMessages();
     this.loadEmployeeDetails();

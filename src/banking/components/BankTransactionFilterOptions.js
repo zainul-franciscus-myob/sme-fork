@@ -80,14 +80,12 @@ class BankTransactionFilterOptions extends React.Component {
             label="Bank account"
             hideLabel={false}
           />
-
           <FilterBar.Group>
             <Select name="transactionType" label="Type" value={transactionType} onChange={this.onSelectChange}>
               {transactionTypes.map(({ label, value }) => (
                 <Select.Option value={value} label={label} key={value} />
               ))}
             </Select>
-
             {dateRangeFilter}
           </FilterBar.Group>
           <Search id="Search_Box" name="Search" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />

@@ -1,21 +1,22 @@
-import ReactDOM from 'react-dom';
-
-import '@myob/myob-styles/dist/styles/myob-clean.css';
 
 import './index.css';
+import '@myob/myob-styles/dist/styles/myob-clean.css';
+import ReactDOM from 'react-dom';
+
 import { initializeAuth } from './Auth';
 import { initializeConfig } from './Config';
 import Inbox from './inbox';
 import NavigationModule from './navigation/NavigationModule';
 import Router from './router/Router';
 import getRoutes from './getRoutes';
+import setupHotKeys from './hotKeys/setupHotKeys';
+import unbindAllKeys from './hotKeys/unbindAllKeys';
 
 async function main(integrationType) {
   await initializeConfig();
   initializeAuth();
 
   const createIntegration = (await import(`./integration/create${integrationType}Integration.js`)).default;
-
   const root = document.getElementById('root');
   const setRootView = (component) => {
     ReactDOM.unmountComponentAtNode(root);
@@ -40,6 +41,7 @@ async function main(integrationType) {
     popMessages: inbox.popMessages,
     pushMessage: inbox.pushMessage,
     replaceURLParams: router.replaceURLParams,
+    setupHotKeys,
   });
 
   const moduleList = routes.reduce((acc, route) => {
@@ -60,6 +62,7 @@ async function main(integrationType) {
   };
 
   const beforeAll = ({ module, routeProps }) => {
+    unbindAllKeys();
     unsubscribeAllModulesFromStore();
     module.resetState();
     nav.run(routeProps);
