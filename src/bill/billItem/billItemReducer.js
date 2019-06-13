@@ -172,7 +172,7 @@ const setAddress = (state, action) => ({
 
 const safeParseNumber = (number) => {
   const realNumber = Number(number);
-  return Number.isNaN(realNumber) ? 0 : realNumber;
+  return Number.isNaN(realNumber) ? '0' : number;
 };
 
 const formatLineAmount = (state, action) => {
@@ -187,7 +187,7 @@ const formatLineAmount = (state, action) => {
         (line, lineIndex) => (lineIndex === index
           ? {
             ...line,
-            [key]: String(parsedNumber),
+            [key]: parsedNumber,
           }
           : line),
       ),
