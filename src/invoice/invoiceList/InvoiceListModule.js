@@ -14,23 +14,33 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { SUCCESSFULLY_DELETED_INVOICE_SERVICE, SUCCESSFULLY_SAVED_INVOICE_SERVICE } from '../invoiceMessageTypes';
 import {
   getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getFlipSortOrder,
+  getNewInvoicelUrlParam,
   getOrderBy,
+  getRegion,
   getSortOrder,
 } from './invoiceListSelectors';
 import InvoiceListView from './components/InvoiceListView';
 import Store from '../../store/Store';
 import invoiceListReducer from './invoiceListReducer';
 
+const messageTypes = [
+  SUCCESSFULLY_SAVED_INVOICE_SERVICE,
+  SUCCESSFULLY_DELETED_INVOICE_SERVICE,
+];
+
 export default class InvoiceListModule {
-  constructor({ integration, setRootView }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.integration = integration;
     this.store = new Store(invoiceListReducer);
     this.setRootView = setRootView;
+    this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
   }
 
   loadInvoiceList = () => {
@@ -153,6 +163,27 @@ export default class InvoiceListModule {
     });
   };
 
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+    }
+  };
+
+  redirectToCreateNewInvoice = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+    const newInvoiceUrlParam = getNewInvoicelUrlParam(state);
+
+    window.location.href = `/#/${region}/${businessId}/invoice/${newInvoiceUrlParam}`;
+  };
+
   render = () => {
     const invoiceListView = (
       <InvoiceListView
@@ -160,6 +191,7 @@ export default class InvoiceListModule {
         onUpdateFilter={this.updateFilterOptions}
         onDismissAlert={this.dismissAlert}
         onSort={this.sortInvoiceList}
+        onCreateButtonClick={this.redirectToCreateNewInvoice}
       />
     );
 
@@ -231,6 +263,7 @@ export default class InvoiceListModule {
   run(context) {
     this.setInitialState(context);
     this.render();
+    this.readMessages();
     this.setLoadingState(true);
     this.loadInvoiceList();
   }

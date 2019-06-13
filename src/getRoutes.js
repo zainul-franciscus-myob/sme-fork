@@ -88,7 +88,7 @@ const getRoutes = ({
     name: 'invoice',
     rootPath: '/:region/:businessId/invoice',
     subRoutes: getInvoiceRoutes({
-      integration, setRootView,
+      integration, setRootView, pushMessage, popMessages, replaceURLParams,
     }),
   },
   {

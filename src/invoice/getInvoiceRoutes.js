@@ -1,13 +1,23 @@
 import InvoiceListModule from './invoiceList/InvoiceListModule';
+import InvoiceModule from './InvoiceModule';
 
-const getInvoiceRoutes = ({ integration, setRootView }) => {
+const getInvoiceRoutes = ({
+  integration, setRootView, popMessages, pushMessage, replaceURLParams,
+}) => {
   const routes = [
     {
       name: 'invoiceList',
       path: '/',
       module: new InvoiceListModule(
-        { integration, setRootView },
+        { integration, setRootView, popMessages },
       ),
+    },
+    {
+      name: 'invoiceDetail',
+      path: '/:invoiceId',
+      module: new InvoiceModule({
+        integration, setRootView, pushMessage, replaceURLParams,
+      }),
     },
   ];
 

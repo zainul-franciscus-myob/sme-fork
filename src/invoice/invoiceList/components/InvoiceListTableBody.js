@@ -15,7 +15,9 @@ const InvoiceListTableBody = (props) => {
 
   const rows = entries.map((entry, index) => (
     <Table.Row key={index}>
-      <Table.RowItem {...tableConfig.number}>{entry.referenceId}</Table.RowItem>
+      <Table.RowItem {...tableConfig.number}>
+        <a href={entry.link}>{entry.referenceId}</a>
+      </Table.RowItem>
       <Table.RowItem {...tableConfig.purchaseOrder}>{entry.purchaseOrder}</Table.RowItem>
       <Table.RowItem {...tableConfig.customer}>{entry.customer}</Table.RowItem>
       <Table.RowItem {...tableConfig.dateIssued}>{entry.dateIssued}</Table.RowItem>

@@ -19,6 +19,7 @@ const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3)
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
 const getInitialState = () => ({
+  layout: '',
   filterOptions: {
     dateFrom: convertToDateString(getDefaultDateRange()),
     dateTo: convertToDateString(Date.now()),
@@ -48,6 +49,7 @@ const setInitialState = (state, action) => ({
 
 const loadInvoiceList = (state, action) => ({
   ...state,
+  layout: action.layout,
   entries: action.entries,
   sortOrder: action.sortOrder,
   orderBy: action.orderBy,

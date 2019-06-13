@@ -25,9 +25,10 @@ describe('InvoicePaymentView', () => {
           onCancelButtonClick={() => {}}
           onConfirmCancel={() => {}}
           onDismissAlert={() => {}}
+          onAmountInputBlur={() => {}}
           isLoading
           alertMessage=""
-          modalType={undefined}
+          modalType=""
         />
       </Provider>
     );

@@ -1,5 +1,5 @@
 import {
-  Alert, PageHead, Spinner, StandardTemplate,
+  Alert, Button, PageHead, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -19,6 +19,7 @@ const InvoiceListView = (props) => {
     onUpdateFilter,
     onSort,
     isLoading,
+    onCreateButtonClick,
   } = props;
 
   const filterBar = (
@@ -29,7 +30,9 @@ const InvoiceListView = (props) => {
   );
 
   const pageHead = (
-    <PageHead title="Invoices" />
+    <PageHead title="Invoices">
+      <Button onClick={onCreateButtonClick}>Create invoice</Button>
+    </PageHead>
   );
 
   const alertComponent = alert && (

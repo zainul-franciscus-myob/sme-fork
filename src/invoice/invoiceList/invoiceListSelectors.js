@@ -1,5 +1,8 @@
+import { createSelector } from 'reselect';
 
 export const getBusinessId = ({ businessId }) => businessId;
+
+export const getRegion = state => state.region;
 
 export const convertToUnixTime = date => new Date(date).getTime().toString();
 
@@ -7,7 +10,25 @@ export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
 
-export const getTableEntries = ({ entries }) => entries;
+const getEntries = ({ entries }) => entries;
+
+const getEntryLink = (entry, businessId, region) => {
+  const { id } = entry;
+
+  return `/#/${region}/${businessId}/invoice/${id}`;
+};
+
+export const getTableEntries = createSelector(
+  getEntries,
+  getBusinessId,
+  getRegion,
+  (entries, businessId, region) => entries.map(
+    entry => ({
+      ...entry,
+      link: getEntryLink(entry, businessId, region),
+    }),
+  ),
+);
 
 export const getIsTableEmpty = state => state.entries.length === 0;
 
@@ -23,6 +44,13 @@ export const getOrder = ({ sortOrder, orderBy }) => ({
   column: orderBy,
   descending: sortOrder === 'desc',
 });
+
+const getDefaultLayout = state => state.layout;
+
+export const getNewInvoicelUrlParam = createSelector(
+  getDefaultLayout,
+  layout => (layout === 'service' ? 'newService' : 'newItem'),
+);
 
 export const getOrderBy = state => state.orderBy;
 

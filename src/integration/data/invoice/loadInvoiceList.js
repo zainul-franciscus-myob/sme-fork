@@ -1,4 +1,5 @@
 export default {
+  layout: 'service',
   customerFilters: [
     { name: 'All customers', value: 'All' },
     { name: 'Cameron James', value: '1' },

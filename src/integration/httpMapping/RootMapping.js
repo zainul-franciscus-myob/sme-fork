@@ -11,6 +11,7 @@ import IncomeAllocationMapping from './IncomeAllocationMapping';
 import InventoryMapping from './InventoryMapping';
 import InvoiceMapping from './InvoiceMapping';
 import InvoicePaymentMapping from './InvoicePaymentMapping';
+import InvoiceServiceMapping from './InvoiceServiceMapping';
 import NavigationMapping from './NavigationMapping';
 import QuoteMapping from './QuoteMapping';
 import ReceiveMoneyMapping from './ReceiveMoneyMapping';
@@ -28,6 +29,7 @@ const RootMapping = Object.freeze({
   ...NavigationMapping,
   ...QuoteMapping,
   ...InvoiceMapping,
+  ...InvoiceServiceMapping,
   ...ReceiveMoneyMapping,
   ...SpendMoneyMapping,
   ...TransactionListMapping,
