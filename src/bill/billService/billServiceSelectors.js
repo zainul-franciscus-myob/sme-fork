@@ -5,7 +5,6 @@ import { createSelector } from 'reselect';
 import dateFormat from 'dateformat';
 
 export const getBusinessId = state => state.businessId;
-export const getIsLoading = state => state.isLoading;
 export const getBillId = state => state.billId;
 export const getTotals = state => state.totals;
 const getNewLine = state => state.newLine;

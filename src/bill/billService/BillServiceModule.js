@@ -13,7 +13,6 @@ import {
   REMOVE_BILL_SERVICE_LINE,
   RESET_TOTALS,
   SET_ALERT_MESSAGE,
-  SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BILL_SERVICE_DETAIL,
   UPDATE_BILL_SERVICE_HEADER_OPTIONS,
@@ -195,6 +194,7 @@ export default class BillServiceModule {
     this.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
+      this.setSubmittingState(false);
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_BILL_SERVICE,
         content: message,
@@ -245,6 +245,7 @@ export default class BillServiceModule {
     this.closeModal();
 
     const onSuccess = ({ message }) => {
+      this.setSubmittingState(false);
       this.pushMessage({
         type: SUCCESSFULLY_DELETED_BILL_SERVICE,
         content: message,
@@ -311,14 +312,6 @@ export default class BillServiceModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
-
-  setLoadingState = (isLoading) => {
-    const intent = SET_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
   }
 
   setInitialState = (context, payload) => {

@@ -1,5 +1,5 @@
 import {
-  Alert, Columns, LineItemTemplate, Spinner,
+  Alert, Columns, LineItemTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,7 +8,6 @@ import React from 'react';
 import {
   getAlertMessage,
   getIsCreating,
-  getIsLoading,
   getModalType,
 } from '../billServiceSelectors';
 import BillServiceActions from './BillServiceActions';
@@ -18,7 +17,6 @@ import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 
 const BillServiceView = ({
-  isLoading,
   onUpdateHeaderOptions,
   onUpdateRow,
   onAddRow,
@@ -91,11 +89,10 @@ const BillServiceView = ({
     </LineItemTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return view;
 };
 
 BillServiceView.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
   onUpdateHeaderOptions: PropTypes.func.isRequired,
   onUpdateRow: PropTypes.func.isRequired,
   onAddRow: PropTypes.func.isRequired,
@@ -114,7 +111,6 @@ BillServiceView.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
   isCreating: getIsCreating(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),

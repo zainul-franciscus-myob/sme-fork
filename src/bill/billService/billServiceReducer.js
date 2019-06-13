@@ -10,7 +10,6 @@ import {
   REMOVE_BILL_SERVICE_LINE,
   RESET_TOTALS,
   SET_ALERT_MESSAGE,
-  SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BILL_SERVICE_HEADER_OPTIONS,
   UPDATE_BILL_SERVICE_LINE,
@@ -25,7 +24,6 @@ import createReducer from '../../store/createReducer';
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
 const getDefaultState = () => ({
-  isLoading: false,
   bill: {
     id: '',
     contactId: '',
@@ -65,11 +63,6 @@ const getDefaultState = () => ({
   modalType: '',
   alertMessage: '',
   isSubmitting: false,
-});
-
-const setLoadingState = (state, action) => ({
-  ...state,
-  isLoading: action.isLoading,
 });
 
 const setInitalState = (state, action) => {
@@ -224,7 +217,6 @@ const resetTotals = state => ({
 const handlers = {
   [SET_INITIAL_STATE]: setInitalState,
   [RESET_STATE]: resetState,
-  [SET_LOADING_STATE]: setLoadingState,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,
