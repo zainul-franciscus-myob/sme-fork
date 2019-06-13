@@ -22,6 +22,7 @@
     "billPayment",
     "billList",
     "invoicePayment",
-    "customerReturnList"
+    "customerReturnList",
+    "salesSettings"
   ]
 }

@@ -112,4 +112,7 @@ export const featuresConfig = {
       invoicePaymentId: 'new',
     },
   },
+  salesSettings: {
+    routeName: 'salesSettings/salesSettingsDetail',
+  },
 };

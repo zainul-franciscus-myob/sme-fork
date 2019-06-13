@@ -102,6 +102,7 @@ export const getBusinessUrls = createSelector(
     businessDetails: enabledUrls.businessDetails,
     taxList: enabledUrls.taxList,
     userList: enabledUrls.userList,
+    salesSettings: enabledUrls.salesSettings,
   }),
 );
 

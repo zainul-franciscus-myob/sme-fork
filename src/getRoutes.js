@@ -14,6 +14,7 @@ import getInvoiceRoutes from './invoice/getInvoiceRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
 import getQuoteRoutes from './quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
+import getSalesSettingsRoutes from './salesSettings/getSalesSettingsRoutes';
 import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 import getTaxRoutes from './tax/getTaxRoutes';
 import getTransactionListRoutes from './transactionList/getTransactionListRoutes';
@@ -156,6 +157,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/invoicePayment',
     subRoutes: getInvoicePaymentRoutes({
       integration, setRootView, pushMessage,
+    }),
+  },
+  {
+    name: 'salesSettings',
+    rootPath: '/:region/:businessId/salesSettings',
+    subRoutes: getSalesSettingsRoutes({
+      integration, setRootView,
     }),
   },
 ];
