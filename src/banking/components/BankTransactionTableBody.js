@@ -5,103 +5,19 @@ import {
 import React from 'react';
 
 import { tabIds } from '../tabItems';
-import AllocatedRowItem from './AllocatedRowItem';
+import BankTransactionExpansionToggle from './BankTransactionExpansionToggle';
+import BankTransactionTableRow from './BankTransactionTableRow';
 import BankTransactionTabs from './BankTransactionTabs';
-import ExpandedRowItem from './ExpandedRowItem';
 import MatchTransactionBody from './MatchTransactionBody';
-import MatchedRowItem from './MatchedRowItem';
 import OpenEntryFooter from './OpenEntryFooter';
 import PaymentAllocationBody from './PaymentAllocationBody';
 import PaymentAllocationFooter from './PaymentAllocationFooter';
 import SplitAllocationBody from './SplitAllocationBody';
-import SplitRowItem from './SplitRowItem';
 import TableCollapsibleRow from '../../components/Feelix/Accordion/TableCollapsibleRow';
 import TransferMoneyBody from './TransferMoneyBody';
-import UnmatchedRowItem from './UnmatchedRowItem';
 import style from './BankingView.css';
 
 /* eslint-disable react/no-array-index-key */
-
-const getMatchedOrAllocatedRowItem = ({
-  entry,
-  onSplitRowItemClick,
-  onMatchRowItemClick,
-  onMatchedToFocus,
-  onMatchedToBlur,
-  onUnmatchedBlur,
-  onUnmatchedFocus,
-  onAllocate,
-  onUnallocate,
-  tableConfig,
-  index,
-  isExpanded,
-}) => {
-  const {
-    type,
-    isLoading,
-  } = entry;
-
-  if (isLoading) {
-    return (
-      <Table.RowItem {...tableConfig.allocateOrMatch}>
-        <Spinner size="small" />
-      </Table.RowItem>
-    );
-  }
-
-  if (isExpanded) {
-    return (
-      <ExpandedRowItem
-        entry={entry}
-        {...tableConfig.allocateOrMatch}
-      />
-    );
-  }
-
-  if (type === 'matched') {
-    return (
-      <MatchedRowItem
-        entry={entry}
-        onClick={() => onMatchRowItemClick(index)}
-        {...tableConfig.allocateOrMatch}
-      />
-    );
-  }
-
-  if (type === 'splitAllocation' || type === 'payment' || type === 'transfer') {
-    return (
-      <SplitRowItem
-        index={index}
-        entry={entry}
-        onClick={() => onSplitRowItemClick(index)}
-        {...tableConfig.allocateOrMatch}
-      />
-    );
-  }
-
-  if (type === 'singleAllocation') {
-    return (
-      <AllocatedRowItem
-        {...tableConfig.allocateOrMatch}
-        entry={entry}
-        onUnallocate={() => onUnallocate(index)}
-        onAllocate={item => onAllocate(index, item)}
-        onFocus={() => onMatchedToFocus(index)}
-        onBlur={() => onMatchedToBlur(index)}
-      />
-    );
-  }
-
-  return (
-    <UnmatchedRowItem
-      {...tableConfig.allocateOrMatch}
-      entry={entry}
-      onAllocate={item => onAllocate(index, item)}
-      onFocus={() => onUnmatchedFocus(index)}
-      onBlur={() => onUnmatchedBlur(index)}
-    />
-  );
-};
 
 const BankTransactionTableBody = (props) => {
   const {
@@ -217,46 +133,39 @@ const BankTransactionTableBody = (props) => {
   );
 
   const rows = entries.map((entry, index) => {
-    const matchedOrAllocatedRowItem = getMatchedOrAllocatedRowItem({
-      entry,
-      onSplitRowItemClick,
-      onMatchRowItemClick,
-      tableConfig,
-      onAllocate,
-      onUnallocate,
-      onMatchedToBlur,
-      onMatchedToFocus,
-      onUnmatchedFocus,
-      onUnmatchedBlur,
-      index,
-      isExpanded: index === openPosition,
-    });
-
     const entryClassName = `${style.openEntry} ${isOpenEntryLoading ? style.isLoading : ''}`;
 
     return (
       <TableCollapsibleRow
         key={index}
-        headerClickDisabled={entry.isLineDisabled}
+        renderExpansionToggle={
+          ({ getButtonProps, isOpen }) => (
+            <BankTransactionExpansionToggle
+              index={index}
+              getButtonProps={getButtonProps}
+              isOpen={isOpen}
+            />
+          )
+        }
         expansionToggle
         footer={!isOpenEntryLoading ? openEntryFooter : null}
         header={(
-          <Table.Row key={index}>
-            <Table.RowItem {...tableConfig.date}>{entry.displayDate}</Table.RowItem>
-            <Table.RowItem {...tableConfig.description}>
-              <div className={style.ellipsisText} title={entry.description}>
-                {entry.description}
-              </div>
-              {entry.note
-                && (<div className={style.ellipsisText} title={entry.note}>{entry.note}</div>)
-                }
-            </Table.RowItem>
-            <Table.RowItem {...tableConfig.withdrawal}>{entry.withdrawal}</Table.RowItem>
-            <Table.RowItem {...tableConfig.deposit}>{entry.deposit}</Table.RowItem>
-            {matchedOrAllocatedRowItem}
-            <Table.RowItem {...tableConfig.taxCode}>{entry.taxCode}</Table.RowItem>
+          <Table.Row>
+            <BankTransactionTableRow
+              onSplitRowItemClick={onSplitRowItemClick}
+              onMatchRowItemClick={onMatchRowItemClick}
+              onMatchedToFocus={onMatchedToFocus}
+              onMatchedToBlur={onMatchedToBlur}
+              onUnmatchedBlur={onUnmatchedBlur}
+              onUnmatchedFocus={onUnmatchedFocus}
+              onAllocate={onAllocate}
+              onUnallocate={onUnallocate}
+              tableConfig={tableConfig}
+              index={index}
+              isExpanded={index === openPosition}
+            />
           </Table.Row>
-          )}
+        )}
       >
         {openPosition === index
           && (

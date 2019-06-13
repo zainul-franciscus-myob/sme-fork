@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getBankTableData,
   getIsOpenEntryLoading,
   getIsTableEmpty,
   getIsTableLoading,
   getOpenEntryActiveTabId,
   getOrder,
-  getTableEntries,
 } from '../bankingSelectors';
 import AccordionTable from '../../components/Feelix/Accordion/AccordionTable';
 import BankTransactionTableBody from './BankTransactionTableBody';
@@ -164,7 +164,7 @@ const mapStateToProps = state => ({
   openPosition: state.openPosition,
   isOpenEntryLoading: getIsOpenEntryLoading(state),
   activeTabId: getOpenEntryActiveTabId(state),
-  entries: getTableEntries(state),
+  entries: getBankTableData(state),
 });
 
 export default connect(mapStateToProps)(BankTransactionTable);

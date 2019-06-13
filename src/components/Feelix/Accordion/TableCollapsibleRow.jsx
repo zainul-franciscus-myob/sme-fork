@@ -23,8 +23,9 @@ const TableCollapsibleRow = (props) => {
         </Table.RowItem>
       );
 
+      const children = React.Children.toArray(header.props.children);
       return React.cloneElement(header, {}, [
-        ...header.props.children,
+        ...children,
         controlsRowItem,
       ]);
     }

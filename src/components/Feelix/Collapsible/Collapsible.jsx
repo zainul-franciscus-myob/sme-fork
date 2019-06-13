@@ -188,11 +188,33 @@ class Collapsible extends Component {
       </div>
   );
 
+  getExpansionToggleButtonProps = props => ({
+    ...props,
+    type: 'secondary',
+    onClick: this.onClickExpansionButton,
+  })
+
+  renderExpansionToggle = () => {
+    const {
+      renderExpansionToggle,
+    } = this.props;
+    if (renderExpansionToggle) {
+      return renderExpansionToggle({
+        getButtonProps: this.getExpansionToggleButtonProps,
+        isOpen: this.state.open,
+      });
+    }
+
+    return (
+      <Button {...this.getExpansionToggleButtonProps()}>
+        {this.state.open ? <Icons.UpChevron /> : <Icons.DownChevron />}
+      </Button>
+    );
+  }
+
   setUpExpansionToggle = expansionToggle => expansionToggle && (
   <div className="collapsible__header-controls-expansion">
-    <Button type="secondary" onClick={this.onClickExpansionButton} disabled={this.props.headerClickDisabled}>
-      {this.state.open ? <Icons.UpChevron /> : <Icons.DownChevron />}
-    </Button>
+    {this.renderExpansionToggle()}
   </div>
   );
 

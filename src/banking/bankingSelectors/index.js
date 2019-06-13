@@ -46,24 +46,27 @@ export const formatCurrency = (amount) => {
   return amount < 0 ? `-$${formattedAmount}` : `$${formattedAmount}`;
 };
 
-export const getTableEntries = createSelector(
-  getEntries,
+export const getBankTableData = createSelector(
+  state => state.entries.length,
+  len => Array(len).fill({}),
+);
+
+export const getBankEntryByIndexSelector = () => createSelector(
+  (state, props) => state.entries[props.index],
   getWithdrawalAccounts,
   getDepositAccounts,
-  (entries, withdrawalAccounts, depositAccounts) => entries.map(
-    (entry) => {
-      const accountList = entry.deposit ? depositAccounts : withdrawalAccounts;
+  (entry, withdrawalAccounts, depositAccounts) => {
+    const accountList = entry.deposit ? depositAccounts : withdrawalAccounts;
 
-      return ({
-        ...entry,
-        deposit: entry.deposit && formatAmount(entry.deposit),
-        withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
-        displayDate: format(entry.date, 'DD/MM/YYYY'),
-        accountList,
-        isLineDisabled: entry.isLoading,
-      });
-    },
-  ),
+    return ({
+      ...entry,
+      deposit: entry.deposit && formatAmount(entry.deposit),
+      withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
+      displayDate: format(entry.date, 'DD/MM/YYYY'),
+      accountList,
+      isLineDisabled: entry.isLoading,
+    });
+  },
 );
 
 const getIsTransactionTypeApproved = state => state.filterOptions.transactionType === 'Approved';
