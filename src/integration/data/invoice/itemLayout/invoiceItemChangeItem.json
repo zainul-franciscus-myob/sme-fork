@@ -1,0 +1,33 @@
+{
+  "invoice": {
+    "isTaxInclusive": true,
+    "lines": [
+      {
+        "id": "1",
+        "itemId": "3",
+        "units": "1",
+        "description": "Large Cooler",
+        "unitPrice": "1000",
+        "discount": "0",
+        "taxCodeId": "1",
+        "amount": "1000"
+      },
+      {
+        "id": "",
+        "itemId": "4",
+        "units": "3",
+        "description": "Camp fridge",
+        "unitPrice": "2000",
+        "discount": "0",
+        "taxCodeId": "2",
+        "amount": "2000"
+      }
+    ]
+  },
+  "totals": {
+    "subTotal": "$2,000.00",
+    "totalTax": "$200.05",
+    "totalAmount": "$2,200.05",
+    "amountPaid": "$1000.00",
+    "amountDue": "$1,200.05"
+  }}
