@@ -42,6 +42,7 @@ const getDefaultState = () => ({
     orderNumber: '',
     notes: '',
     amountPaid: '0.00',
+    onlinePaymentMethod: '',
     lines: [],
   },
   contactOptions: [],

@@ -15,6 +15,7 @@
     "orderNumber": "123",
     "notes": "Thank you!",
     "amountPaid": "10.00",
+    "onlinePaymentMethod": "All",
     "lines": [
       {
         "id": "345",

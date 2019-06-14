@@ -6,6 +6,7 @@
     "taxInclusive": true,
     "number": "00000123",
     "amountPaid": "0.00",
+    "onlinePaymentMethod": "All",
     "lines": []
   },
   "contactOptions": [
