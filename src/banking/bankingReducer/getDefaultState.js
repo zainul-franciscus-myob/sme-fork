@@ -98,6 +98,10 @@ const getDefaultState = () => ({
       amount: '',
     },
   },
+  loginDetails: {
+    username: '',
+    password: '',
+  },
 });
 
 export default getDefaultState;

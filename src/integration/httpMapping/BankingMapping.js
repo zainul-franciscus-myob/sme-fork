@@ -1,5 +1,6 @@
 import {
   ALLOCATE_TRANSACTION,
+  FETCH_BANK_FEEDS_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_PAYMENT_ALLOCATION,
@@ -76,6 +77,10 @@ const BankingMapping = {
   [SAVE_TRANSFER_MONEY]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/create_transfer_money`,
+  },
+  [FETCH_BANK_FEEDS_TRANSACTIONS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/fetch_bank_transactions`,
   },
 };
 

@@ -1,5 +1,5 @@
 import {
-  Alert, Spinner, StandardTemplate,
+  Alert, Button, PageHead, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,9 +7,12 @@ import React from 'react';
 import {
   getAlert, getIsEntryLoading, getIsLoading, getModalType,
 } from '../bankingSelectors';
+import {
+  getIsFetchingTransactions,
+} from '../bankingSelectors/bankFeedsLoginSelectors';
 import BankTransactionFilterOptions from './BankTransactionFilterOptions';
 import BankTransactionTable from './BankTransactionTable';
-import CancelModal from '../../components/modal/CancelModal';
+import BankingModal from './BankingModal';
 import style from './BankingView.css';
 
 const BankingView = (props) => {
@@ -55,6 +58,11 @@ const BankingView = (props) => {
     onCancelModal,
     onCloseModal,
     onUpdateTransfer,
+    onGetBankTransactions,
+    onUpdateBankFeedsLoginDetails,
+    onCancelBankFeedsLogin,
+    onConfirmBankFeedsLogin,
+    isFetchingTransactions,
   } = props;
 
   const filterBar = (
@@ -70,18 +78,26 @@ const BankingView = (props) => {
     </Alert>
   );
 
-  const modal = (modalType === 'cancel') && (
-    <CancelModal
-      onCancel={onCloseModal}
-      onConfirm={onCancelModal}
-      title="Cancel bank transaction alterations"
-      description="Are you sure you want to cancel the alterations for this bank transaction?"
-    />
+  const pageHead = (
+    <PageHead title="Bank Transactions">
+      <Button type="secondary" disabled={isFetchingTransactions} onClick={onGetBankTransactions}>Get bank transactions</Button>
+    </PageHead>
   );
+
+  const modal = (modalType
+    && (<BankingModal
+      modalType={modalType}
+      onCloseCancelModal={onCloseModal}
+      onConfirmCancelModal={onCancelModal}
+      onCancelBankFeedsLogin={onCancelBankFeedsLogin}
+      onConfirmBankFeedsLogin={onConfirmBankFeedsLogin}
+      onUpdateBankFeedsLoginDetails={onUpdateBankFeedsLoginDetails}
+    />
+    ));
 
   const transactionListView = (
     <div className={isEntryLoading ? style.entryLoading : ''}>
-      <StandardTemplate sticky="none" alert={alertComponent} pageHead="Bank transactions" filterBar={filterBar}>
+      <StandardTemplate sticky="none" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
         {modal}
         <div className={style.list}>
           <BankTransactionTable
@@ -131,6 +147,7 @@ const BankingView = (props) => {
 const mapStateToProps = state => ({
   alert: getAlert(state),
   isLoading: getIsLoading(state),
+  isFetchingTransactions: getIsFetchingTransactions(state),
   isEntryLoading: getIsEntryLoading(state),
   modalType: getModalType(state),
 });

@@ -1,6 +1,7 @@
 import {
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
+  CLEAR_BANK_FEEDS_LOGIN,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
@@ -21,6 +22,7 @@ import {
   SET_ALERT,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
+  SET_FETCHING_TRANSACTIONS_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_MATCH_TRANSACTION_SORT_ORDER,
@@ -32,6 +34,7 @@ import {
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
+  UPDATE_BANK_FEEDS_LOGIN,
   UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
@@ -51,6 +54,11 @@ import {
   updateSplitAllocationHeader,
   updateSplitAllocationLine,
 } from './splitAllocationHandlers';
+import {
+  clearBankFeedsLoginDetails,
+  setIsFetchingTransactionsState,
+  updateBankFeedsLoginDetails,
+} from './bankFeedsLoginHandlers';
 import { collapseTransactionLine, setOpenEntryLoadingState, setOpenPosition } from './openEntryHandlers';
 import { getCalculatedAllocatedBalances, getCalculatedUnallocatedBalances } from '../bankingSelectors';
 import {
@@ -263,6 +271,9 @@ const handlers = {
   [LOAD_NEW_TRANSFER_MONEY]: loadNewTransferMoney,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,
   [UPDATE_TRANSFER_MONEY]: updateTransferMoney,
+  [UPDATE_BANK_FEEDS_LOGIN]: updateBankFeedsLoginDetails,
+  [CLEAR_BANK_FEEDS_LOGIN]: clearBankFeedsLoginDetails,
+  [SET_FETCHING_TRANSACTIONS_STATE]: setIsFetchingTransactionsState,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

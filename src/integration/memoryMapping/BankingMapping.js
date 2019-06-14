@@ -1,5 +1,6 @@
 import {
   ALLOCATE_TRANSACTION,
+  FETCH_BANK_FEEDS_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_PAYMENT_ALLOCATION,
@@ -28,6 +29,7 @@ import paymentAllocationLines from '../data/banking/loadPaymentLines';
 import saveTransferMoneyPayload from '../data/banking/saveTransferMoney';
 import savedMatchTransaction from '../data/banking/saveMatchTransaction';
 import savedPaymentAllocation from '../data/banking/savePaymentAllocation';
+import success from '../data/success';
 import transferMoneyPayload from '../data/banking/loadTransferMoney';
 import unallocatedBankTransaction from '../data/banking/unallocatedBankTransaction';
 
@@ -49,6 +51,7 @@ const loadPaymentAllocation = ({ onSuccess }) => onSuccess(paymentAllocation);
 const savePaymentAllocation = ({ onSuccess }) => onSuccess(savedPaymentAllocation);
 const loadTransferMoney = ({ onSuccess }) => onSuccess(transferMoneyPayload);
 const saveTransferMoney = ({ onSuccess }) => onSuccess(saveTransferMoneyPayload);
+const fetchBankFeedsTransactions = ({ onSuccess }) => onSuccess(success);
 
 
 const BankingMappings = {
@@ -67,6 +70,7 @@ const BankingMappings = {
   [SAVE_PAYMENT_ALLOCATION]: savePaymentAllocation,
   [LOAD_TRANSFER_MONEY]: loadTransferMoney,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,
+  [FETCH_BANK_FEEDS_TRANSACTIONS]: fetchBankFeedsTransactions,
 };
 
 export default BankingMappings;

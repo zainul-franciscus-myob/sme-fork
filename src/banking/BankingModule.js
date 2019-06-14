@@ -4,9 +4,11 @@ import React from 'react';
 import {
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
+  CLEAR_BANK_FEEDS_LOGIN,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
+  FETCH_BANK_FEEDS_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_NEW_SPLIT_ALLOCATION,
@@ -24,6 +26,7 @@ import {
   SET_ALERT,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
+  SET_FETCHING_TRANSACTIONS_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_MATCH_TRANSACTION_SORT_ORDER,
@@ -35,6 +38,7 @@ import {
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
+  UPDATE_BANK_FEEDS_LOGIN,
   UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
@@ -66,6 +70,7 @@ import {
   getSortOrder,
   getUnallocationPayload,
 } from './bankingSelectors';
+import { getBankFeedsLoginDetails } from './bankingSelectors/bankFeedsLoginSelectors';
 import {
   getDefaultMatchTransactionFilterOptions,
   getMatchTransactionFilterOptions,
@@ -135,6 +140,10 @@ export default class BankingModule {
         onUpdateTransfer={this.updateTransferMoney}
         onCancelModal={this.cancelModal}
         onCloseModal={this.closeModal}
+        onGetBankTransactions={this.confirmBefore(this.openBankFeedsLoginModal)}
+        onUpdateBankFeedsLoginDetails={this.updateBankFeedsLoginDetails}
+        onCancelBankFeedsLogin={this.cancelBankFeedsLoginModal}
+        onConfirmBankFeedsLogin={this.confirmBankFeedsLogin}
       />
     );
 
@@ -246,7 +255,6 @@ export default class BankingModule {
     this.integration.write({
       intent,
       urlParams,
-      allowParallelRequests: true,
       content: unallocationPayload,
       onSuccess,
       onFailure,
@@ -718,6 +726,69 @@ export default class BankingModule {
       modalType: 'cancel',
     });
   };
+
+  openBankFeedsLoginModal = () => {
+    this.collapseTransactionLine();
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modalType: 'bankFeedsLogin',
+    });
+  };
+
+  cancelBankFeedsLoginModal = () => {
+    this.closeModal();
+    this.store.dispatch({ intent: CLEAR_BANK_FEEDS_LOGIN });
+  }
+
+  updateBankFeedsLoginDetails = ({ key, value }) => {
+    this.store.dispatch({
+      intent: UPDATE_BANK_FEEDS_LOGIN,
+      key,
+      value,
+    });
+  }
+
+  setIsFetchingTransactions = (isFetchingTransactions) => {
+    this.store.dispatch({
+      intent: SET_FETCHING_TRANSACTIONS_STATE,
+      isFetchingTransactions,
+    });
+  }
+
+  confirmBankFeedsLogin = () => {
+    const onSuccess = ({ message }) => {
+      this.setIsFetchingTransactions(false);
+      this.resetState();
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+      this.loadBankTransactions();
+    };
+
+    const onFailure = ({ message }) => {
+      this.setIsFetchingTransactions(false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    const state = this.store.getState();
+    const urlParams = { businessId: getBusinessId(state) };
+    const content = getBankFeedsLoginDetails(state);
+    this.setIsFetchingTransactions(true);
+
+    this.integration.write({
+      intent: FETCH_BANK_FEEDS_TRANSACTIONS,
+      urlParams,
+      allowParallelRequests: true,
+      content,
+      onSuccess,
+      onFailure,
+    });
+    this.cancelBankFeedsLoginModal();
+  }
 
   cancelModal = () => {
     this.closeModal();
