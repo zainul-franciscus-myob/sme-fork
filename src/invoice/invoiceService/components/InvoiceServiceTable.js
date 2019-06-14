@@ -60,12 +60,11 @@ const InvoiceServiceTable = ({
       onRemoveRow={onTableRemoveRow(onRemoveRow)}
     >
       <LineItemTable.Total>
-        <LineItemTable.Totals title="Subtotal" amount={`$${subTotal}`} />
-        <LineItemTable.Totals title="Tax" amount={`$${totalTax}`} />
-        <LineItemTable.Totals totalAmount title="Total" amount={`$${totalAmount}`} />
-        <LineItemTable.Totals />
-        <LineItemTable.Totals title="Amount paid" amount={`$${amountPaid}`} />
-        <LineItemTable.Totals title="Amount due" amount={`$${amountDue}`} />
+        <LineItemTable.Totals title="Subtotal" amount={subTotal} />
+        <LineItemTable.Totals title="Tax" amount={totalTax} />
+        <LineItemTable.Totals title="Total" amount={totalAmount} />
+        <LineItemTable.Totals title="Amount paid" amount={amountPaid} />
+        <LineItemTable.Totals title="Amount due" amount={amountDue} />
       </LineItemTable.Total>
     </LineItemTable>
   );

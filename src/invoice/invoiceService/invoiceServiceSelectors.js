@@ -7,15 +7,34 @@ import dateFormat from 'dateformat';
 export const getBusinessId = state => state.businessId;
 export const getInvoiceId = state => state.invoiceId;
 
+const formatAmount = amount => Intl
+  .NumberFormat('en-AU', {
+    style: 'decimal',
+    minimumFractionDigits: '2',
+    maximumFractionDigits: '2',
+  })
+  .format(amount);
+
+const formatCurrency = (amount) => {
+  const formattedAmount = formatAmount(Math.abs(amount));
+
+  return amount < 0 ? `-$${formattedAmount}` : `$${formattedAmount}`;
+};
+
+const calculateAmountDue = (totalAmount, amountPaid) => (
+  (Number(totalAmount) - Number(amountPaid)).toFixed(2)
+);
 const getAmountPaid = state => state.invoice.amountPaid;
 const getTotals = state => state.totals;
 export const getTotalsAndAmounts = createSelector(
   getTotals,
   getAmountPaid,
   (totals, amountPaid) => ({
-    ...totals,
-    amountPaid,
-    amountDue: (Number(totals.totalAmount) - Number(amountPaid)).toFixed(2),
+    subTotal: formatCurrency(totals.subTotal),
+    totalTax: formatCurrency(totals.totalTax),
+    totalAmount: formatCurrency(totals.totalAmount),
+    amountPaid: formatCurrency(amountPaid),
+    amountDue: formatCurrency(calculateAmountDue(totals.totalAmount, amountPaid)),
   }),
 );
 

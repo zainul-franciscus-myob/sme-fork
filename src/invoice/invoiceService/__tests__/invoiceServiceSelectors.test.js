@@ -193,11 +193,11 @@ describe('InvoiceServiceSelectors', () => {
   describe('getTotalsAndAmounts', () => {
     it('should calculate amount due correctly', () => {
       const expected = {
-        subTotal: '123.55',
-        totalTax: '4.45',
-        totalAmount: '128.00',
-        amountPaid: '10.00',
-        amountDue: '118.00',
+        subTotal: '$123.55',
+        totalTax: '-$4.45',
+        totalAmount: '$128.00',
+        amountPaid: '$10.00',
+        amountDue: '$118.00',
       };
       const actual = getTotalsAndAmounts(state);
 

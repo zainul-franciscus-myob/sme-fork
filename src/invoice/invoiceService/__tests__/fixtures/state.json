@@ -103,7 +103,7 @@
   ],
   "totals": {
     "subTotal": "123.55",
-    "totalTax": "4.45",
+    "totalTax": "-4.45",
     "totalAmount": "128.00"
   }
 }
