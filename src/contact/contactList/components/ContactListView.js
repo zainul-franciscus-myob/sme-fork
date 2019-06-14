@@ -37,7 +37,7 @@ const ContactListView = (props) => {
 
   const pageHead = (
     <PageHead title="Contacts">
-      <Button onClick={onAddContactButtonClick}>Add contact</Button>
+      <Button onClick={onAddContactButtonClick}>Create contact</Button>
     </PageHead>
   );
 

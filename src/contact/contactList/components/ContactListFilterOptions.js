@@ -8,11 +8,6 @@ import React from 'react';
 import { getFilterOptions, getTypeFilterOptions } from '../contactListSelector';
 
 class ContactListFilterOptions extends React.Component {
-  onFilterChange = filterName => (value) => {
-    const { onUpdateFilters } = this.props;
-    onUpdateFilters({ filterName, value });
-  }
-
   onSearchBoxChange = (e) => {
     const filterName = 'keywords';
     const { value } = e.target;
@@ -49,12 +44,12 @@ class ContactListFilterOptions extends React.Component {
 
     return (
       <FilterBar onApply={onApplyFilter}>
-        <Select name="Type" label="Contact type" value={type} onChange={this.onSelectChange}>
+        <Select name="type" label="Contact type" value={type} onChange={this.onSelectChange}>
           {typeFilterOptions.map(({ label, value }) => (
             <Select.Option value={value} label={label} key={value} />
           ))}
         </Select>
-        <Search id="Search_Box" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+        <Search id="Search_Box" name="keywords" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
         <FilterBar.Item>
           <Checkbox id="Check_Box" name="showInactive" label="Show inactive contacts" checked={showInactive} onChange={this.onCheckboxChange} />
         </FilterBar.Item>

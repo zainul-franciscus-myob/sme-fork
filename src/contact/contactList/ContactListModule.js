@@ -184,9 +184,13 @@ export default class ContactListModule {
       });
     };
 
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) => {
+      this.setTableLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
 
     const filterOptions = getAppliedFilterOptions(state);
+
     this.integration.read({
       intent,
       urlParams,
@@ -220,7 +224,10 @@ export default class ContactListModule {
       });
     };
 
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) => {
+      this.setTableLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
 
     const filterOptions = getFilterOptions(state);
     const sortOrder = getSortOrder(state);

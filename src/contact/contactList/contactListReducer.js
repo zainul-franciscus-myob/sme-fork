@@ -31,6 +31,7 @@ const getDefaultState = () => ({
   isTableLoading: false,
   businessId: '',
   region: '',
+  showHiddenColumns: false,
 });
 
 const resetState = () => (getDefaultState());
@@ -48,8 +49,7 @@ const loadContactList = (state, action) => ({
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
     type: action.type,
-  }
-  ,
+  },
 });
 
 const setTableLoadingState = (state, action) => ({
@@ -71,6 +71,7 @@ const sortAndFilterContactList = (state, action) => ({
   ...state,
   entries: action.entries,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
+  showHiddenColumns: state.filterOptions.showInactive,
 });
 
 const updateFilterOptions = (state, action) => ({

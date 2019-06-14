@@ -35,6 +35,7 @@ export const getSortOrder = ({ sortOrder }) => sortOrder;
 export const getOrderBy = ({ orderBy }) => orderBy;
 
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
+
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
 
 export const getTypeFilterOptions = ({ typeFilters }) => typeFilters.map(
@@ -49,3 +50,5 @@ export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 export const getIsTableLoading = state => state.isTableLoading;
 
 export const getIsLoading = state => state.isLoading;
+
+export const getShowHiddenColumns = state => state.showHiddenColumns;
