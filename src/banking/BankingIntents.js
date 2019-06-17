@@ -51,3 +51,4 @@ export const UPDATE_BANK_FEEDS_LOGIN = Symbol('Update bank feeds login details')
 export const CLEAR_BANK_FEEDS_LOGIN = Symbol('Clears bank feeds login details');
 export const FETCH_BANK_FEEDS_TRANSACTIONS = Symbol('Fetch the new bank feeds transactions');
 export const SET_FETCHING_TRANSACTIONS_STATE = Symbol('Sets fetching bank feeds transactions flag state');
+export const RESET_FILTER_OPTIONS = Symbol('Resets filter options');

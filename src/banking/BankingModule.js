@@ -19,6 +19,7 @@ import {
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_MODAL,
+  RESET_FILTER_OPTIONS,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
@@ -755,10 +756,16 @@ export default class BankingModule {
     });
   }
 
+  resetFilters = () => {
+    this.store.dispatch({
+      intent: RESET_FILTER_OPTIONS,
+    });
+  }
+
   confirmBankFeedsLogin = () => {
     const onSuccess = ({ message }) => {
       this.setIsFetchingTransactions(false);
-      this.resetState();
+      this.resetFilters();
       this.setAlert({
         type: 'success',
         message,

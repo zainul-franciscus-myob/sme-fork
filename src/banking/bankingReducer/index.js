@@ -15,6 +15,7 @@ import {
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_MODAL,
+  RESET_FILTER_OPTIONS,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
@@ -56,6 +57,7 @@ import {
 } from './splitAllocationHandlers';
 import {
   clearBankFeedsLoginDetails,
+  resetFilterOptions,
   setIsFetchingTransactionsState,
   updateBankFeedsLoginDetails,
 } from './bankFeedsLoginHandlers';
@@ -274,6 +276,7 @@ const handlers = {
   [UPDATE_BANK_FEEDS_LOGIN]: updateBankFeedsLoginDetails,
   [CLEAR_BANK_FEEDS_LOGIN]: clearBankFeedsLoginDetails,
   [SET_FETCHING_TRANSACTIONS_STATE]: setIsFetchingTransactionsState,
+  [RESET_FILTER_OPTIONS]: resetFilterOptions,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);
