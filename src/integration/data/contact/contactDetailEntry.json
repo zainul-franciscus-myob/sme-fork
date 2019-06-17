@@ -1,7 +1,6 @@
 {
   "contact": {
     "id": "1",
-    "contactHeader": "Curbys Super Stands",
     "selectedContactType": "Customer",
     "designation": "Company",
     "referenceId": "CUS1002",
@@ -11,6 +10,7 @@
     "abn": "53086760303",
     "notes": "These guys have great stands",
     "isInactive": false,
+    "isReportable": false,
     "shippingAddress": {
       "street": "742 Evergreen Tce",
       "city": "Springfield",
@@ -24,7 +24,8 @@
       "fax": "03 93883848",
       "email": "curbys@example.com,curbys1@example.com",
       "website": "curbys.stands",
-      "businessContact": "Vinny"
+      "businessContact": "Vinny",
+      "salutation": "Mr"
     },
     "billingAddress": {
       "street": "West 57 Street",
@@ -39,7 +40,21 @@
       "fax": "03 93883848",
       "email": "curbys@example.com,curbys1@example.com",
       "website": "curbys.stands",
-      "businessContact": "Vinny"
+      "businessContact": "Vinny",
+      "salutation": "Ms"
     }
-  }
+  },
+  "readonly": {
+    "title": "Curbys Super Stands",
+    "status": "Inactive",
+    "contactType": "Customer",
+    "averageDaysToPay": "20",
+    "balanceDue": "$2,230.00",
+    "overDue": "$1,230.00"
+  },
+  "contactTypes": [
+    { "name": "Customer", "value": "Customer" },
+    { "name": "Supplier", "value": "Supplier" },
+    { "name": "General", "value": "Other" }
+  ]
 }

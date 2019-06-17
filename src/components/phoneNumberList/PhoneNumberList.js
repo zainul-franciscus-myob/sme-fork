@@ -64,7 +64,7 @@ class PhoneNumberList extends React.Component {
         {phoneNumbers.map(
           (phoneNumber, i) => (
             <Field
-              label="Phone Number"
+              label="Phone"
               key={i}
               hideLabel={i !== 0}
               renderField={({ id }) => (
@@ -92,7 +92,11 @@ class PhoneNumberList extends React.Component {
           label="Add button"
           hideLabel
           renderField={
-            () => <Button type="link" onClick={this.onAddPhoneNumber}>Add phone number</Button>
+            () => (
+              <Button type="link" icon={<Icons.Add />} onClick={this.onAddPhoneNumber}>
+                Add phone number
+              </Button>
+            )
           }
         />
         )}

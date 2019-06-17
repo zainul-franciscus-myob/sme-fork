@@ -1,20 +1,21 @@
 import {
-  Alert, FormTemplate, Spinner,
+  Alert, FormTemplate, PageHead, Spinner,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getContactHeader, getIsLoading, getModalType,
+  getAlertMessage, getIsCreating, getIsLoading, getModalType, getStatus, getTitle,
 } from '../contactDetailSelectors';
 import BillingAddress from './BillingAddress';
-import BusinessDetails from './BusinessDetails';
 import CancelModal from '../../../components/modal/CancelModal';
 import ContactDetailActions from './ContactDetailActions';
 import ContactDetails from './ContactDetails';
+import ContactHeader from './ContactHeader';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import FormCard from '../../../components/FormCard/FormCard';
+import MoreDetails from './MoreDetails';
 import ShippingAddress from './ShippingAddress';
 
 const ContactDetailView = ({
@@ -22,8 +23,8 @@ const ContactDetailView = ({
   isLoading,
   modalType,
   alertMessage,
-  contactHeader,
-  onBusinessDetailsChange,
+  title,
+  status,
   onContactDetailsChange,
   onBillingAddressChange,
   onShippingAddressChange,
@@ -34,6 +35,7 @@ const ContactDetailView = ({
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
+  onRemindersButtonClick,
 }) => {
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -62,19 +64,25 @@ const ContactDetailView = ({
     );
   }
 
-  const pageHead = isCreating ? 'Add contact' : contactHeader;
+  const pageHead = isCreating ? 'Create contact' : title;
 
   const view = (
-    <FormTemplate pageHead={pageHead} alert={alertComponent}>
+    <FormTemplate
+      pageHead={(
+        <PageHead title={pageHead} tag={status} />
+      )}
+      alert={alertComponent}
+    >
       {modal}
+      {!isCreating && <ContactHeader onRemindersButtonClick={onRemindersButtonClick} />}
       <FormCard>
-        <BusinessDetails
+        <ContactDetails
           isCreating={isCreating}
-          onBusinessDetailsChange={onBusinessDetailsChange}
+          onContactDetailsChange={onContactDetailsChange}
         />
-        <ContactDetails onContactDetailsChange={onContactDetailsChange} />
-        <ShippingAddress onAddressChange={onShippingAddressChange} />
         <BillingAddress onAddressChange={onBillingAddressChange} />
+        <ShippingAddress onAddressChange={onShippingAddressChange} />
+        <MoreDetails onContactDetailsChange={onContactDetailsChange} />
       </FormCard>
       <ContactDetailActions
         isCreating={isCreating}
@@ -94,9 +102,9 @@ ContactDetailView.propTypes = {
   isCreating: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   modalType: PropTypes.string.isRequired,
-  contactHeader: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
   alertMessage: PropTypes.string.isRequired,
-  onBusinessDetailsChange: PropTypes.func.isRequired,
   onContactDetailsChange: PropTypes.func.isRequired,
   onShippingAddressChange: PropTypes.func.isRequired,
   onBillingAddressChange: PropTypes.func.isRequired,
@@ -107,13 +115,16 @@ ContactDetailView.propTypes = {
   onCloseModal: PropTypes.func.isRequired,
   onCancelModal: PropTypes.func.isRequired,
   onDeleteModal: PropTypes.func.isRequired,
+  onRemindersButtonClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
+  isCreating: getIsCreating(state),
   isLoading: getIsLoading(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
-  contactHeader: getContactHeader(state),
+  title: getTitle(state),
+  status: getStatus(state),
 });
 
 export default connect(mapStateToProps)(ContactDetailView);

@@ -12,7 +12,6 @@ import {
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BILLING_ADDRESS,
-  UPDATE_BUSINESS_DETAILS,
   UPDATE_CONTACT,
   UPDATE_CONTACT_DETAILS,
   UPDATE_SHIPPING_ADDRESS,
@@ -22,7 +21,7 @@ import {
 } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT } from '../ContactMessageTypes';
 import {
-  getBusinessId, getContact, getRegion, isPageEdited,
+  getBusinessId, getContact, getContactId, getIsCreating, getRegion, isPageEdited,
 } from './contactDetailSelectors';
 import ContactDetailView from './components/ContactDetailView';
 import Store from '../../store/Store';
@@ -39,13 +38,13 @@ export default class ContactDetailModule {
   }
 
   render = () => {
-    const onSaveButtonClick = this.isCreating
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    const onSaveButtonClick = isCreating
       ? this.createContact : this.updateContact;
 
     const contactDetailView = (
       <ContactDetailView
-        isCreating={this.isCreating}
-        onBusinessDetailsChange={this.updateBusinessDetails}
         onContactDetailsChange={this.updateContactDetails}
         onBillingAddressChange={this.updateBillingAddress}
         onShippingAddressChange={this.updateShippingAddress}
@@ -56,6 +55,7 @@ export default class ContactDetailModule {
         onSaveButtonClick={onSaveButtonClick}
         onDeleteModal={this.deleteContact}
         onCancelModal={this.redirectToContactList}
+        onRemindersButtonClick={this.redirectToRemindersSettings}
       />
     );
 
@@ -68,7 +68,10 @@ export default class ContactDetailModule {
   }
 
   loadContactDetail = () => {
-    if (this.isCreating) {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+
+    if (isCreating) {
       this.loadNewContact();
       return;
     }
@@ -77,15 +80,15 @@ export default class ContactDetailModule {
     const intent = LOAD_CONTACT_DETAIL;
     const urlParams = {
       businessId: getBusinessId(this.store.getState()),
-      contactId: this.contactId,
+      contactId: getContactId(state),
     };
 
-    const onSuccess = ({ contact }) => {
+    const onSuccess = (payload) => {
       this.setLoadingState(false);
 
       this.store.dispatch({
         intent,
-        contact,
+        ...payload,
       });
     };
 
@@ -98,16 +101,6 @@ export default class ContactDetailModule {
       urlParams,
       onSuccess,
       onFailure,
-    });
-  }
-
-  updateBusinessDetails = ({ key, value }) => {
-    const intent = UPDATE_BUSINESS_DETAILS;
-
-    this.store.dispatch({
-      intent,
-      key,
-      value,
     });
   }
 
@@ -183,7 +176,6 @@ export default class ContactDetailModule {
     this.store.dispatch({ intent });
   };
 
-
   dismissAlert = () => {
     this.store.dispatch({
       intent: SET_ALERT_MESSAGE,
@@ -199,15 +191,39 @@ export default class ContactDetailModule {
     window.location.href = `/#/${region}/${businessId}/contact`;
   };
 
+  redirectToRemindersSettings = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/salesSettings?selectedTab=reminders`;
+  }
+
   loadNewContact = () => {
     const intent = LOAD_NEW_CONTACT;
     const urlParams = {
       businessId: getBusinessId(this.store.getState()),
     };
-    // No response handlers, event for BFF telemetry only
+
+    const onSuccess = (payload) => {
+      this.setLoadingState(false);
+
+      this.store.dispatch({
+        intent,
+        ...payload,
+      });
+    };
+
+    const onFailure = () => {
+      console.log('Failed to load new contact');
+    };
+
+    this.setLoadingState(true);
     this.integration.read({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
     });
   }
 
@@ -227,7 +243,7 @@ export default class ContactDetailModule {
     const content = getContact(state);
     const urlParams = {
       businessId: getBusinessId(state),
-      contactId: this.contactId,
+      contactId: getContactId(state),
     };
     this.saveContact(intent, content, urlParams);
   }
@@ -275,11 +291,12 @@ export default class ContactDetailModule {
       this.displayAlert(error.message);
     };
 
+    const state = this.store.getState();
     this.integration.write({
       intent: DELETE_CONTACT,
       urlParams: {
-        businessId: getBusinessId(this.store.getState()),
-        contactId: this.contactId,
+        businessId: getBusinessId(state),
+        contactId: getContactId(state),
       },
       onSuccess,
       onFailure,
@@ -293,14 +310,12 @@ export default class ContactDetailModule {
     });
   }
 
-
   dismissAlert = () => {
     this.store.dispatch({
       intent: SET_ALERT_MESSAGE,
       alertMessage: '',
     });
   };
-
 
   setSubmittingState = (isSubmitting) => {
     const intent = SET_SUBMITTING_STATE;
@@ -320,8 +335,6 @@ export default class ContactDetailModule {
 
   run(context) {
     this.setInitialState(context);
-    this.contactId = context.contactId;
-    this.isCreating = context.contactId === 'new';
     this.render();
     this.loadContactDetail();
   }

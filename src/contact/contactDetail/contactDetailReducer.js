@@ -1,12 +1,12 @@
 import {
   CLOSE_MODAL,
   LOAD_CONTACT_DETAIL,
+  LOAD_NEW_CONTACT,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BILLING_ADDRESS,
-  UPDATE_BUSINESS_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_SHIPPING_ADDRESS,
 } from '../ContactIntents';
@@ -17,7 +17,7 @@ const getDefaultState = () => ({
   contact: {
     id: '',
     isInactive: false,
-    contactHeader: '',
+    isReportable: false,
     selectedContactType: '',
     designation: '',
     referenceId: '',
@@ -37,6 +37,7 @@ const getDefaultState = () => ({
       email: '',
       website: '',
       businessContact: '',
+      salutation: '',
     },
     billingAddress: {
       street: '',
@@ -49,8 +50,19 @@ const getDefaultState = () => ({
       email: '',
       website: '',
       businessContact: '',
+      salutation: '',
     },
   },
+  readonly: {
+    title: '',
+    status: '',
+    contactType: '',
+    averageDaysToPay: '',
+    balanceDue: '',
+    overDue: '',
+  },
+  contactTypes: [],
+  isCreating: false,
   isLoading: false,
   isSubmitting: false,
   modalType: '',
@@ -77,22 +89,17 @@ const loadContactDetail = (state, action) => ({
       ...action.contact.billingAddress,
     },
   },
+  readonly: {
+    ...state.readonly,
+    ...action.readonly,
+  },
+  contactTypes: action.contactTypes,
 });
 
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
 });
-
-const updateBusinessDetails = (state, action) => ({
-  ...state,
-  contact: {
-    ...state.contact,
-    [action.key]: action.value,
-  },
-  ...pageEdited,
-});
-
 
 const updateContactDetails = (state, action) => ({
   ...state,
@@ -155,9 +162,9 @@ const setInitialState = (state, action) => ({
 
 const handlers = {
   [RESET_STATE]: resetState,
+  [LOAD_NEW_CONTACT]: loadContactDetail,
   [LOAD_CONTACT_DETAIL]: loadContactDetail,
   [SET_LOADING_STATE]: setLoadingState,
-  [UPDATE_BUSINESS_DETAILS]: updateBusinessDetails,
   [UPDATE_CONTACT_DETAILS]: updateContactDetails,
   [UPDATE_BILLING_ADDRESS]: updateBillingAddress,
   [UPDATE_SHIPPING_ADDRESS]: updateShippingAddress,

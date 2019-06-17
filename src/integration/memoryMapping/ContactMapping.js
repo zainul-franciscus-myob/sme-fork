@@ -10,12 +10,13 @@ import {
 import contactDetailLoadResponse from '../data/contact/contactDetailEntry';
 import contactListFilterResponse from '../data/contact/filterContactList';
 import contactListLoadResponse from '../data/contact/contactList';
+import newContactDetailResponse from '../data/contact/contactDetailNewEntry';
 import success from '../data/success';
 
 const sortAndFilterContactList = ({ onSuccess }) => onSuccess(contactListFilterResponse);
 const loadContactList = ({ onSuccess }) => onSuccess(contactListLoadResponse);
 const loadContactDetail = ({ onSuccess }) => onSuccess(contactDetailLoadResponse);
-const loadNewContact = () => { console.log('New Contact Event Tracked'); }; // eslint-disable-line no-console
+const loadNewContact = ({ onSuccess }) => onSuccess(newContactDetailResponse);
 const deleteContact = ({ onSuccess }) => onSuccess(success);
 const updateContact = ({ onSuccess }) => onSuccess(success);
 const createContact = ({ onSuccess }) => onSuccess(success);
