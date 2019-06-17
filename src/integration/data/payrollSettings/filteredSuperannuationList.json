@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {
+      "id": "1",
+      "name": "ADCU Capital Guaranteed Super",
+      "fundId": "923841234",
+      "fundName": "ADCU Capital Guaranteed Super"
+    },
+    {
+      "id": "3",
+      "name": "Australian super",
+      "fundId": "",
+      "fundName": "Bendigo Smartstart Super"
+    },
+    {
+      "id": "2",
+      "name": "Adrian Spring",
+      "fundId": "01232322",
+      "fundName": "The Trustee for Adrian Spring Private Superannuation"
+    }
+  ]
+}
