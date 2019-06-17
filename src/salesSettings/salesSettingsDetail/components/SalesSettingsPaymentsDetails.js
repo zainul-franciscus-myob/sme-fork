@@ -38,6 +38,7 @@ const SalesSettingsPaymentsDetails = ({
         <Select
           name="paymentType"
           label="Payment is"
+          className={styles.paymentType}
           value={salesSettings.paymentType}
           onChange={onInputChange(onUpdateSalesSettingsItem)}
         >

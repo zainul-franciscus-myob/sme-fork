@@ -77,6 +77,8 @@ const loadSalesSettings = (state, { intent, ...rest }) => ({
 });
 
 const defaultDate = paymentType => ({
+  CashOnDelivery: '0',
+  Prepaid: '0',
   OnADayOfTheMonth: '31',
   InAGivenNumberOfDays: '30',
   DayOfMonthAfterEOM: '15',
@@ -89,7 +91,7 @@ const updateSalesSettingsItem = (state, action) => {
   if (action.key === 'paymentType') {
     salesSettingsPatch = {
       [action.key]: action.value,
-      numberOfDaysForBalanceDue: defaultDate(action.value) || '',
+      numberOfDaysForBalanceDue: defaultDate(action.value),
     };
   } else {
     salesSettingsPatch = {

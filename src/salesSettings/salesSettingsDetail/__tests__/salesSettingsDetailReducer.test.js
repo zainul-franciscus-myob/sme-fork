@@ -9,6 +9,48 @@ describe('salesSettingsReducer', () => {
   const reducer = salesSettingsDetailReducer;
 
   describe('updateSalesSettingsItem', () => {
+    it('updates sales settings for CashOnDelivery', () => {
+      const state = {
+        tabData: {
+          paymentType: '',
+          numberOfDaysForBalanceDue: '',
+        },
+      };
+      const action = {
+        intent: UPDATE_SALES_SETTINGS_ITEM,
+        key: 'paymentType',
+        value: 'CashOnDelivery',
+      };
+
+      const actual = reducer(state, action);
+
+      expect(actual.tabData).toEqual({
+        paymentType: 'CashOnDelivery',
+        numberOfDaysForBalanceDue: '0',
+      });
+    });
+
+    it('updates sales settings for Prepaid', () => {
+      const state = {
+        tabData: {
+          paymentType: '',
+          numberOfDaysForBalanceDue: '',
+        },
+      };
+      const action = {
+        intent: UPDATE_SALES_SETTINGS_ITEM,
+        key: 'paymentType',
+        value: 'Prepaid',
+      };
+
+      const actual = reducer(state, action);
+
+      expect(actual.tabData).toEqual({
+        paymentType: 'Prepaid',
+        numberOfDaysForBalanceDue: '0',
+      });
+    });
+
     it('updates sales settings for OnADayOfTheMonth', () => {
       const state = {
         tabData: {

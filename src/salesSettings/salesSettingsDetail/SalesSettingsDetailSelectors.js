@@ -1,3 +1,5 @@
+import { mainTabIds } from './tabItems';
+
 export const getIsLoading = state => state.isLoading;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getBusinessId = state => state.businessId;
@@ -10,6 +12,7 @@ export const getLayout = state => state.layout;
 export const getTabData = state => state.tabData;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getIsRegistered = state => state.payDirect.isRegistered;
+export const getShowActions = state => state.selectedTab !== mainTabIds.reminders;
 
 export const getShowDateField = state => [
   'OnADayOfTheMonth',

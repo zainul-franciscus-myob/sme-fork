@@ -17,3 +17,7 @@
   font-weight: bold;
   color: green;
 }
+
+:local .paymentType {
+  min-width: 37rem;
+}

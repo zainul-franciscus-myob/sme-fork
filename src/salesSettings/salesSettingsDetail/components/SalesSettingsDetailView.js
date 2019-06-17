@@ -7,7 +7,7 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsLoading, getIsSubmitting, getPendingTab, getSelectedTab,
+  getIsLoading, getIsSubmitting, getPendingTab, getSelectedTab, getShowActions,
 } from '../SalesSettingsDetailSelectors';
 import { mainTabIds, mainTabItems } from '../tabItems';
 import CancelModal from '../../../components/modal/CancelModal';
@@ -21,6 +21,7 @@ const SalesSettingsDetailView = ({
   isLoading,
   isSubmitting,
   selectedTab,
+  showActions,
   pendingTab,
   onDismissAlert,
   alert,
@@ -65,12 +66,6 @@ const SalesSettingsDetailView = ({
     />
   );
 
-  const actions = (
-    <SalesSettingsDetailActions
-      onSaveButtonClick={saveHandler}
-    />
-  );
-
   const alertComponent = alert.type && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
@@ -94,7 +89,11 @@ const SalesSettingsDetailView = ({
       >
         { subHeadTabs }
         <Content {...contentProps} />
-        { selectedTab !== mainTabIds.reminders && actions }
+        { showActions && (
+          <SalesSettingsDetailActions
+            onSaveButtonClick={saveHandler}
+          />
+        )}
       </FormTemplate>
     </React.Fragment>
   );
@@ -123,6 +122,7 @@ const mapStateToProps = state => ({
   isSubmitting: getIsSubmitting(state),
   alert: getAlert(state),
   selectedTab: getSelectedTab(state),
+  showActions: getShowActions(state),
   pendingTab: getPendingTab(state),
 });
 
