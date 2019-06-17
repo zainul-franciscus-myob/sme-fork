@@ -18,8 +18,10 @@
         "description": "Cooler Large",
         "unitPrice": "520",
         "discount": "10",
+        "displayDiscount": "10",
         "taxCodeId": "2",
-        "amount": "850.91",
+        "amount": "850.9101",
+        "displayAmount": "850.91",
         "accountId": "92"
       }
     ]
@@ -107,8 +109,10 @@
     "description": "",
     "unitPrice": "",
     "discount": "",
+    "displayDiscount": "",
     "taxCodeId": "",
     "amount": "",
+    "displayAmount": "",
     "accountId": ""
   }
 }

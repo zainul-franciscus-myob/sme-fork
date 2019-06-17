@@ -89,7 +89,7 @@ const BillItemTableRow = ({
       label="Discount"
       hideLabel
       name="discount"
-      value={billLine.discount}
+      value={billLine.displayDiscount}
       onChange={onAmountInputChange('discount', onChange)}
       onBlur={onInputBlur(onLineInputBlur, index, 'discount')}
       textAlign="right"
@@ -105,7 +105,7 @@ const BillItemTableRow = ({
       label="Amount"
       hideLabel
       name="amount"
-      value={billLine.amount}
+      value={billLine.displayAmount}
       onChange={onAmountInputChange('amount', onChange)}
       onBlur={onInputBlur(onLineInputBlur, index, 'amount')}
       textAlign="right"

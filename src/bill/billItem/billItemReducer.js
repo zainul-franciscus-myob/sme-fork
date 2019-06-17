@@ -45,8 +45,10 @@ const getDefaultState = () => ({
     description: '',
     unitPrice: '',
     discount: '',
+    displayDiscount: '',
     taxCodeId: '',
     amount: '',
+    displayAmount: '',
   },
   totals: {
     subTotal: '$0.00',
@@ -130,6 +132,8 @@ const changeTableRow = (state, action) => ({
         return {
           ...line,
           [action.key]: action.value,
+          displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
+          displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
         };
       }
       return line;

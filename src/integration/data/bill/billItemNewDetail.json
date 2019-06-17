@@ -84,8 +84,10 @@
     "description": "",
     "unitPrice": "",
     "discount": "",
+    "displayDiscount": "",
     "taxCodeId": "",
-    "amount": ""
+    "amount": "",
+    "displayAmount": ""
   },
   "totals": {
     "subTotal": "0.00",

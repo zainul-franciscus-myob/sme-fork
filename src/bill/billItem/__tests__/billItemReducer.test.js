@@ -60,15 +60,11 @@ describe('billItemReducer', () => {
     });
   });
 
-  describe('tableRowChange', () => {
+  describe('changeTableRow', () => {
     it('should update a value in a table row by key', () => {
       const state = {
         bill: {
-          lines: [
-            {
-              unitPrice: '',
-            },
-          ],
+          lines: [{}],
         },
       };
       const action = {
@@ -82,6 +78,60 @@ describe('billItemReducer', () => {
           lines: [
             {
               unitPrice: '1234',
+            },
+          ],
+        },
+        isPageEdited: true,
+      };
+
+      expect(reducer(state, action)).toEqual(expectedState);
+    });
+
+    it('should update displayDiscount when discount is changed', () => {
+      const state = {
+        bill: {
+          lines: [{}],
+        },
+      };
+      const action = {
+        intent: TABLE_ROW_CHANGE,
+        index: 0,
+        key: 'discount',
+        value: '1234',
+      };
+      const expectedState = {
+        bill: {
+          lines: [
+            {
+              discount: '1234',
+              displayDiscount: '1234',
+            },
+          ],
+        },
+        isPageEdited: true,
+      };
+
+      expect(reducer(state, action)).toEqual(expectedState);
+    });
+
+    it('should update displayAmount when amount is changed', () => {
+      const state = {
+        bill: {
+          lines: [{}],
+        },
+      };
+      const action = {
+        intent: TABLE_ROW_CHANGE,
+        index: 0,
+        key: 'amount',
+        value: '1234',
+      };
+      const expectedState = {
+        bill: {
+          lines: [
+            {
+              amount: '1234',
+              displayAmount: '1234',
             },
           ],
         },

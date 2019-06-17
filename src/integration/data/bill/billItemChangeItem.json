@@ -8,8 +8,10 @@
         "description": "Large Cooler",
         "unitPrice": "1000",
         "discount": "0",
+        "displayDiscount": "0",
         "taxCodeId": "1",
         "amount": "1000",
+        "displayAmount": "1000.00",
         "taxAmount": "90.9"
       }
     ]
