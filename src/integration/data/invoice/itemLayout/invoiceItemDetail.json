@@ -29,12 +29,12 @@
   },
   "customers": [
     {
-      "displayName": "Cameron, James",
-      "id": "1"
+      "name": "Cameron, James",
+      "value": "1"
     },
     {
-      "displayName": "Kev",
-      "id": "2"
+      "name": "Kev",
+      "value": "2"
     }
   ],
   "expirationTerms": [
