@@ -1,7 +1,7 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import { LOAD_INVOICE_DETAIL } from './InvoiceIntents';
+import { LOAD_INVOICE_DETAIL } from '../InvoiceIntents';
 import { LOAD_NEW_INVOICE_ITEM_DETAIL } from './invoiceItem/InvoiceItemIntents';
 import { LOAD_NEW_INVOICE_SERVICE_DETAIL } from './invoiceService/InvoiceServiceIntents';
 import InvoiceItemModule from './invoiceItem/InvoiceItemModule';

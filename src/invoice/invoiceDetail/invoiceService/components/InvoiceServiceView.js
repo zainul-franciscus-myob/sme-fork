@@ -8,8 +8,8 @@ import React from 'react';
 import {
   getAlertMessage, getIsCreating, getModalType,
 } from '../invoiceServiceSelectors';
-import CancelModal from '../../../components/modal/CancelModal';
-import DeleteModal from '../../../components/modal/DeleteModal';
+import CancelModal from '../../../../components/modal/CancelModal';
+import DeleteModal from '../../../../components/modal/DeleteModal';
 import InvoiceServiceActions from './InvoiceServiceActions';
 import InvoiceServiceOptions from './InvoiceServiceOptions';
 import InvoiceServiceTable from './InvoiceServiceTable';

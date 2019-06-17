@@ -1,5 +1,5 @@
 import InvoiceListModule from './invoiceList/InvoiceListModule';
-import InvoiceModule from './InvoiceModule';
+import InvoiceModule from './invoiceDetail/InvoiceModule';
 
 const getInvoiceRoutes = ({
   integration, setRootView, popMessages, pushMessage, replaceURLParams,

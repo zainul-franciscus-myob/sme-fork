@@ -14,7 +14,7 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
-import { SUCCESSFULLY_DELETED_INVOICE_SERVICE, SUCCESSFULLY_SAVED_INVOICE_SERVICE } from '../invoiceMessageTypes';
+import { SUCCESSFULLY_DELETED_INVOICE_SERVICE, SUCCESSFULLY_SAVED_INVOICE_SERVICE } from '../invoiceDetail/invoiceMessageTypes';
 import {
   getAppliedFilterOptions,
   getBusinessId,

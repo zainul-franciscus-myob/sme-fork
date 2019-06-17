@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getInvoiceLine } from '../invoiceServiceSelectors';
-import AccountCombobox from '../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
-import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
+import AccountCombobox from '../../../../components/combobox/AccountCombobox';
+import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const handleOnComboboxChange = (handler, name) => item => handler({
   target: {

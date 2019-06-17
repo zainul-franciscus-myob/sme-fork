@@ -1,6 +1,6 @@
 import {
   LOAD_NEW_INVOICE_ITEM_DETAIL,
-} from '../../invoice/invoiceItem/InvoiceItemIntents';
+} from '../../invoice/invoiceDetail/invoiceItem/InvoiceItemIntents';
 
 const loadNewInvoiceItemDetail = ({ onSuccess }) => {
   onSuccess('New invoice item');

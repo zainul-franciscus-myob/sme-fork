@@ -15,13 +15,13 @@ import {
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_SUBMITTING_STATE,
-} from '../InvoiceIntents';
+} from '../../InvoiceIntents';
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
-} from '../../SystemIntents';
+} from '../../../SystemIntents';
 import { getDefaultTaxCodeId, getLineByIndex } from './invoiceServiceSelectors';
-import createReducer from '../../store/createReducer';
+import createReducer from '../../../store/createReducer';
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 

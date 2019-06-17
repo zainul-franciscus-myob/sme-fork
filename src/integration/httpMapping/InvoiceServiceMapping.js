@@ -3,7 +3,7 @@ import {
   GET_CALCULATED_INVOICE_DETAIL_TOTALS,
   LOAD_NEW_INVOICE_SERVICE_DETAIL,
   UPDATE_INVOICE_SERVICE_DETAIL,
-} from '../../invoice/invoiceService/InvoiceServiceIntents';
+} from '../../invoice/invoiceDetail/invoiceService/InvoiceServiceIntents';
 
 const InvoiceServiceMapping = {
   [LOAD_NEW_INVOICE_SERVICE_DETAIL]: {

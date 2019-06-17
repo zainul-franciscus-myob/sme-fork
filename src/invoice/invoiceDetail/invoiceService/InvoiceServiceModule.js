@@ -19,11 +19,11 @@ import {
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_SUBMITTING_STATE,
-} from '../InvoiceIntents';
+} from '../../InvoiceIntents';
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
-} from '../../SystemIntents';
+} from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_INVOICE_SERVICE, SUCCESSFULLY_SAVED_INVOICE_SERVICE } from '../invoiceMessageTypes';
 import {
   getBusinessId,
@@ -37,7 +37,7 @@ import {
   isPageEdited,
 } from './invoiceServiceSelectors';
 import InvoiceServiceView from './components/InvoiceServiceView';
-import Store from '../../store/Store';
+import Store from '../../../store/Store';
 import invoiceServiceReducer from './invoiceServiceReducer';
 
 export default class InvoiceServiceModule {
