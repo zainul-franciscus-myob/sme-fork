@@ -1,4 +1,5 @@
 export default {
+  layout: 'service',
   quote: {
     expirationTerm: 'OnADayOfTheMonth',
     expirationDays: '4',

@@ -89,7 +89,7 @@ export const getExpiredDate = createSelector(
 
 export const getIsCreating = createSelector(
   getQuoteId,
-  quoteId => quoteId === 'new',
+  quoteId => quoteId === 'newService',
 );
 
 const getQuote = state => state.quote;

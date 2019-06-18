@@ -1,0 +1,15 @@
+export const UPDATE_SERVICE_QUOTE_HEADER_OPTIONS = Symbol('Update service quote header options');
+export const UPDATE_SERVICE_QUOTE_LINE = Symbol('Update service quote line');
+export const ADD_SERVICE_QUOTE_LINE = Symbol('Add a new service quote line');
+export const REMOVE_SERVICE_QUOTE_LINE = Symbol('Remove a service quote line');
+export const GET_SERVICE_QUOTE_CALCULATED_TOTALS = Symbol('Get calculated totals');
+export const OPEN_MODAL = Symbol('Open modal');
+export const CLOSE_MODAL = Symbol('Close modal');
+export const UPDATE_SERVICE_QUOTE = Symbol('Update a service quote entry');
+export const SET_ALERT_MESSAGE = Symbol('Set the alert message of the page');
+export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
+export const SET_LOADING_STATE = Symbol('Set loading state');
+export const LOAD_NEW_SERVICE_QUOTE = Symbol('Load new service quote entry');
+export const FORMAT_SERVICE_QUOTE_LINE = Symbol('Format service quote line');
+export const CREATE_SERVICE_QUOTE = Symbol('Create a new service quote');
+export const RESET_TOTALS = Symbol('Reset totals');

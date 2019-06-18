@@ -1,5 +1,5 @@
+import QuoteDetailModule from './quoteDetail/QuoteDetailModule';
 import QuoteListModule from './quoteList/QuoteListModule';
-import ServiceQuoteModule from './serviceQuote/ServiceQuoteModule';
 
 const getQuoteRoutes = ({
   integration, setRootView, pushMessage, popMessages,
@@ -13,9 +13,9 @@ const getQuoteRoutes = ({
       }),
     },
     {
-      name: 'serviceQuote',
-      path: '/service/:quoteId',
-      module: new ServiceQuoteModule({
+      name: 'quoteDetail',
+      path: '/:quoteId',
+      module: new QuoteDetailModule({
         integration, setRootView, pushMessage,
       }),
     },

@@ -13,7 +13,7 @@ import {
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
-import { SUCCESSFULLY_DELETED_SERVICE_QUOTE, SUCCESSFULLY_SAVED_SERVICE_QUOTE } from '../quoteMessageTypes';
+import { SUCCESSFULLY_DELETED_SERVICE_QUOTE, SUCCESSFULLY_SAVED_SERVICE_QUOTE } from '../quoteDetail/quoteMessageTypes';
 import {
   getAppliedFilterOptions, getBusinessId, getFilterOptions, getOrderBy, getRegion, getSortOrder,
 } from './quoteListSelector';
@@ -248,7 +248,7 @@ export default class QuoteListModule {
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/quote/service/new`;
+    window.location.href = `/#/${region}/${businessId}/quote/newService`;
   }
 
   render = () => {

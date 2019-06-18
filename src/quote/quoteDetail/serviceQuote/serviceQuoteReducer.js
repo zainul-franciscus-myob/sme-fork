@@ -4,25 +4,23 @@ import {
   ADD_SERVICE_QUOTE_LINE,
   CLOSE_MODAL,
   FORMAT_SERVICE_QUOTE_LINE,
-  GET_CALCULATED_TOTALS,
-  LOAD_CUSTOMER_ADDRESS,
+  GET_SERVICE_QUOTE_CALCULATED_TOTALS,
   LOAD_NEW_SERVICE_QUOTE,
-  LOAD_SERVICE_QUOTE_DETAIL,
   OPEN_MODAL,
   REMOVE_SERVICE_QUOTE_LINE,
   RESET_TOTALS,
   SET_ALERT_MESSAGE,
-  SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_SERVICE_QUOTE_HEADER_OPTIONS,
   UPDATE_SERVICE_QUOTE_LINE,
-} from '../QuoteIntents';
+} from './ServiceQuoteIntents';
+import { LOAD_CUSTOMER_ADDRESS, SET_LOADING_STATE } from '../../QuoteIntents';
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
-} from '../../SystemIntents';
+} from '../../../SystemIntents';
 import { getDefaultTaxCodeId, getLineByIndex } from './ServiceQuoteSelectors';
-import createReducer from '../../store/createReducer';
+import createReducer from '../../../store/createReducer';
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
@@ -78,27 +76,27 @@ const loadNewServiceQuote = (state, action) => ({
   newLine: action.newLine,
 });
 
-const loadServiceQuoteDetail = (state, action) => ({
-  ...state,
-  quote: {
-    ...state.quote,
-    ...action.quote,
-  },
-  customerOptions: action.customerOptions,
-  expirationTermOptions: action.expirationTermOptions,
-  newLine: action.newLine,
-  totals: action.totals,
-});
-
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
 });
 
-const setInitalState = (state, action) => ({
-  ...state,
-  ...action.context,
-});
+const setInitalState = (state, action) => {
+  const defaultState = getDefaultState();
+
+  return ({
+    ...defaultState,
+    ...action.context,
+    quote: {
+      ...defaultState.quote,
+      ...action.quote,
+    },
+    customerOptions: action.customerOptions,
+    expirationTermOptions: action.expirationTermOptions,
+    newLine: action.newLine,
+    totals: action.totals,
+  });
+};
 
 const resetState = () => (getDefaultState());
 
@@ -228,7 +226,6 @@ const resetTotals = state => ({
 });
 
 const handlers = {
-  [LOAD_SERVICE_QUOTE_DETAIL]: loadServiceQuoteDetail,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitalState,
   [RESET_STATE]: resetState,
@@ -236,7 +233,7 @@ const handlers = {
   [UPDATE_SERVICE_QUOTE_LINE]: updateServiceQuoteLine,
   [ADD_SERVICE_QUOTE_LINE]: addServiceQuoteLine,
   [REMOVE_SERVICE_QUOTE_LINE]: removeServiceQuoteLine,
-  [GET_CALCULATED_TOTALS]: getCalculatedTotals,
+  [GET_SERVICE_QUOTE_CALCULATED_TOTALS]: getCalculatedTotals,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,

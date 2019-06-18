@@ -1,5 +1,5 @@
 import {
-  Alert, Columns, LineItemTemplate, Spinner,
+  Alert, Columns, LineItemTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,17 +8,15 @@ import React from 'react';
 import {
   getAlertMessage,
   getIsCreating,
-  getIsLoading,
   getModalType,
 } from '../ServiceQuoteSelectors';
-import CancelModal from '../../../components/modal/CancelModal';
-import DeleteModal from '../../../components/modal/DeleteModal';
+import CancelModal from '../../../../components/modal/CancelModal';
+import DeleteModal from '../../../../components/modal/DeleteModal';
 import ServiceQuoteActions from './ServiceQuoteActions';
 import ServiceQuoteOptions from './ServiceQuoteOptions';
 import ServiceQuoteTable from './ServiceQuoteTable';
 
 const ServiceQuoteView = ({
-  isLoading,
   onUpdateHeaderOptions,
   onUpdateRow,
   onAddRow,
@@ -91,11 +89,10 @@ const ServiceQuoteView = ({
     </LineItemTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return view;
 };
 
 ServiceQuoteView.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
   onUpdateHeaderOptions: PropTypes.func.isRequired,
   onUpdateRow: PropTypes.func.isRequired,
   onAddRow: PropTypes.func.isRequired,
@@ -114,7 +111,6 @@ ServiceQuoteView.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
   isCreating: getIsCreating(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),

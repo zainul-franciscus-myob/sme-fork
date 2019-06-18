@@ -37,7 +37,7 @@ export const getTableEntries = createSelector(
   getEntries,
   (region, businessId, entries) => entries.map(entry => ({
     ...entry,
-    link: `/#/${region}/${businessId}/quote/service/${entry.id}`,
+    link: `/#/${region}/${businessId}/quote/${entry.id}`,
   })),
 );
 

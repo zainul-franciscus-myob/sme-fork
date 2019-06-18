@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getQuoteLine } from '../ServiceQuoteSelectors';
-import AccountCombobox from '../../../components/combobox/AccountCombobox';
-import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
+import AccountCombobox from '../../../../components/combobox/AccountCombobox';
+import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => item => onChange({
   target: {

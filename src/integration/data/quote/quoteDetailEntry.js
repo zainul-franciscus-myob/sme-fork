@@ -1,4 +1,5 @@
 export default {
+  layout: 'service',
   quote: {
     id: '5',
     customerId: '2',

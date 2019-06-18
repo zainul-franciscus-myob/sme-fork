@@ -5,26 +5,24 @@ import {
   ADD_SERVICE_QUOTE_LINE,
   CLOSE_MODAL,
   CREATE_SERVICE_QUOTE,
-  DELETE_SERVICE_QUOTE,
   FORMAT_SERVICE_QUOTE_LINE,
-  GET_CALCULATED_TOTALS,
-  LOAD_CUSTOMER_ADDRESS,
-  LOAD_NEW_SERVICE_QUOTE,
-  LOAD_SERVICE_QUOTE_DETAIL,
+  GET_SERVICE_QUOTE_CALCULATED_TOTALS,
   OPEN_MODAL,
   REMOVE_SERVICE_QUOTE_LINE,
   RESET_TOTALS,
   SET_ALERT_MESSAGE,
-  SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_SERVICE_QUOTE,
   UPDATE_SERVICE_QUOTE_HEADER_OPTIONS,
   UPDATE_SERVICE_QUOTE_LINE,
-} from '../QuoteIntents';
+} from './ServiceQuoteIntents';
+import {
+  DELETE_QUOTE_DETAIL, LOAD_CUSTOMER_ADDRESS,
+} from '../../QuoteIntents';
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
-} from '../../SystemIntents';
+} from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_SERVICE_QUOTE, SUCCESSFULLY_SAVED_SERVICE_QUOTE } from '../quoteMessageTypes';
 import {
   getBusinessId,
@@ -38,7 +36,7 @@ import {
   isPageEdited,
 } from './ServiceQuoteSelectors';
 import ServiceQuoteView from './components/ServiceQuoteView';
-import Store from '../../store/Store';
+import Store from '../../../store/Store';
 import serviceQuoteReducer from './serviceQuoteReducer';
 
 export default class ServiceQuoteModule {
@@ -51,34 +49,6 @@ export default class ServiceQuoteModule {
     this.store = new Store(serviceQuoteReducer);
   }
 
-  loadServiceQuoteDetail = () => {
-    const state = this.store.getState();
-    const isCreating = getIsCreating(state);
-    const intent = isCreating ? LOAD_NEW_SERVICE_QUOTE : LOAD_SERVICE_QUOTE_DETAIL;
-    const quoteId = isCreating ? undefined : getQuoteId(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-      quoteId,
-    };
-    const onSuccess = (response) => {
-      this.setLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...response,
-      });
-    };
-    const onFailure = () => {
-      console.log('Failed to load service quote');
-    };
-
-    this.integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  }
-
   resetTotals = () => this.store.dispatch({ intent: RESET_TOTALS });
 
   getCalculatedTotals = () => {
@@ -87,7 +57,7 @@ export default class ServiceQuoteModule {
       this.resetTotals();
       return;
     }
-    const intent = GET_CALCULATED_TOTALS;
+    const intent = GET_SERVICE_QUOTE_CALCULATED_TOTALS;
     const onSuccess = ({ totals }) => {
       this.store.dispatch({
         intent,
@@ -225,6 +195,7 @@ export default class ServiceQuoteModule {
     this.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
+      this.setSubmittingState(false);
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_SERVICE_QUOTE,
         content: message,
@@ -275,6 +246,7 @@ export default class ServiceQuoteModule {
     this.closeModal();
 
     const onSuccess = ({ message }) => {
+      this.setSubmittingState(false);
       this.pushMessage({
         type: SUCCESSFULLY_DELETED_SERVICE_QUOTE,
         content: message,
@@ -295,7 +267,7 @@ export default class ServiceQuoteModule {
     };
 
     this.integration.write({
-      intent: DELETE_SERVICE_QUOTE,
+      intent: DELETE_QUOTE_DETAIL,
       urlParams,
       onSuccess,
       onFailure,
@@ -336,6 +308,7 @@ export default class ServiceQuoteModule {
         {serviceQuoteView}
       </Provider>
     );
+
     this.setRootView(wrappedView);
   }
 
@@ -343,28 +316,19 @@ export default class ServiceQuoteModule {
     this.store.unsubscribeAll();
   }
 
-  setLoadingState = (isLoading) => {
-    const intent = SET_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
-  }
-
-  setInitialState = (context) => {
+  setInitialState = (context, payload) => {
     const intent = SET_INITIAL_STATE;
 
     this.store.dispatch({
       intent,
       context,
+      ...payload,
     });
   }
 
-  run(context) {
-    this.setInitialState(context);
+  run({ context, payload }) {
+    this.setInitialState(context, payload);
     this.render();
-    this.setLoadingState(true);
-    this.loadServiceQuoteDetail();
   }
 
   resetState = () => {
