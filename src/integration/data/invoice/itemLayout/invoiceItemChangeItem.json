@@ -33,6 +33,6 @@
     "totalTax": "$200.05",
     "totalAmount": "$2,200.05",
     "amountPaid": "$1000.00",
-    "rawAmountPaid": 1000.00,
+    "rawAmountPaid": "1000.00",
     "amountDue": "$1,200.05"
   }}

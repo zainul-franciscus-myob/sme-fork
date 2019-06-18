@@ -78,7 +78,7 @@
     "totalTax": "$0.00",
     "totalAmount": "$0.00",
     "amountPaid": "$1000.00",
-    "rawAmountPaid": 1000.00,
+    "rawAmountPaid": "1000.00",
     "amountDue": "$1,200.05"
   },
   "newLine": {
