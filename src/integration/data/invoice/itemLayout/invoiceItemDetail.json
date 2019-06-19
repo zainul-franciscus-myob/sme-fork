@@ -10,6 +10,7 @@
     "isTaxInclusive": true,
     "invoiceNumber": "IN00000123",
     "purchaseOrderNumber": "PO123",
+    "onlinePaymentMethod": "All",
     "note": "Thank you! Footloose",
     "address": "Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n",
     "issueDate": "2019-02-28T00:00:00",
@@ -98,12 +99,12 @@
     }
   ],
   "totals": {
-    "subTotal": "$999.01",
-    "totalTax": "$2.1",
-    "totalAmount": "$1,001.11",
-    "amountPaid": "$1000.00",
-    "rawAmountPaid": "1000.00",
-    "amountDue": "$1,200.05"
+    "displaySubTotal": "$999.01",
+    "displayTotalTax": "$2.1",
+    "displayTotalAmount": "$1,001.11",
+    "displayAmountPaid": "$1000.00",
+    "amountPaid": "1000.00",
+    "displayAmountDue": "$1,200.05"
   },
   "newLine": {
     "units": "",

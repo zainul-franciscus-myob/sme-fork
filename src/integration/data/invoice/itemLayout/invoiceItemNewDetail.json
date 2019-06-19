@@ -74,12 +74,12 @@
     }
   ],
   "totals": {
-    "subTotal": "$0.00",
-    "totalTax": "$0.00",
-    "totalAmount": "$0.00",
-    "amountPaid": "$1000.00",
-    "rawAmountPaid": "1000.00",
-    "amountDue": "$1,200.05"
+    "displaySubTotal": "$0.00",
+    "displayTotalTax": "$0.00",
+    "displayTotalAmount": "$0.00",
+    "displayAmountPaid": "$1000.00",
+    "amountPaid": "1000.00",
+    "displayAmountDue": "$1,200.05"
   },
   "newLine": {
     "units": "",
