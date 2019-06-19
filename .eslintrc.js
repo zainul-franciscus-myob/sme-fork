@@ -19,6 +19,8 @@ module.exports = {
         ]
       }
     ],
+    'react/prop-types': 'off',
+    'react/require-default-props': 'off',
     'sort-imports-es6-autofix/sort-imports-es6': 2,
     'import/order': [
       'error',
