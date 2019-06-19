@@ -49,6 +49,7 @@ export const getPayrollUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
     employeeList: enabledUrls.employeeList,
+    payrollSettings: enabledUrls.payrollSettings,
   }),
 );
 export const hasPayrollUrls = createSelector(

@@ -23,6 +23,7 @@
     "billList",
     "invoicePayment",
     "customerReturnList",
-    "salesSettings"
+    "salesSettings",
+    "payrollSettings"
   ]
 }

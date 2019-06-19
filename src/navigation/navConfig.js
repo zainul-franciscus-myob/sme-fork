@@ -22,6 +22,7 @@ export const activeMapping = {
   'bill/billList': 'purchases',
   'invoicePayment/invoicePaymentDetail': 'sales',
   'customerReturn/customerReturnList': 'sales',
+  'payrollSettings/payrollSettings': 'payroll',
 };
 
 export const featuresConfig = {
@@ -114,5 +115,8 @@ export const featuresConfig = {
   },
   salesSettings: {
     routeName: 'salesSettings/salesSettingsDetail',
+  },
+  payrollSettings: {
+    routeName: 'payrollSettings/payrollSettings',
   },
 };

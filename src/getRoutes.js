@@ -12,6 +12,7 @@ import getInventoryRoutes from './inventory/getInventoryRoutes';
 import getInvoicePaymentRoutes from './invoicePayment/getInvoicePaymentRoutes';
 import getInvoiceRoutes from './invoice/getInvoiceRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
+import getPayrollSettingsRoutes from './payrollSettings/getPayrollSettingsRoutes';
 import getQuoteRoutes from './quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
 import getSalesSettingsRoutes from './salesSettings/getSalesSettingsRoutes';
@@ -165,6 +166,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/salesSettings',
     subRoutes: getSalesSettingsRoutes({
       integration, setRootView,
+    }),
+  },
+  {
+    name: 'payrollSettings',
+    rootPath: '/:region/:businessId/payrollSettings',
+    subRoutes: getPayrollSettingsRoutes({
+      integration, setRootView, popMessages, pushMessage, replaceURLParams,
     }),
   },
   {
