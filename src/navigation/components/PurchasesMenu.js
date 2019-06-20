@@ -8,6 +8,7 @@ import { getActiveNav, getPurchasesUrls } from '../NavigationSelectors';
 const getItems = urls => [
   urls.billPayment && <Navigation.MenuLink key="Bill Payment" url={urls.billPayment} label="Bill Payment" />,
   urls.billList && <Navigation.MenuLink key="Bills" url={urls.billList} label="Bills" />,
+  urls.supplierReturnList && <Navigation.MenuLink key="Supplier returns" url={urls.supplierReturnList} label="Supplier returns" />,
 ].filter(Boolean);
 
 const PurchasesMenu = ({ urls, activeNav, onMenuSelect }) => (

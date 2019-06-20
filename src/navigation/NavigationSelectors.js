@@ -112,6 +112,7 @@ export const getPurchasesUrls = createSelector(
   enabledUrls => ({
     billPayment: enabledUrls.billPayment,
     billList: enabledUrls.billList,
+    supplierReturnList: enabledUrls.supplierReturnList,
   }),
 );
 export const hasPurchasesUrls = createSelector(

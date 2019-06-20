@@ -24,6 +24,7 @@
     "invoicePayment",
     "customerReturnList",
     "salesSettings",
-    "payrollSettings"
+    "payrollSettings",
+    "supplierReturnList"
   ]
 }

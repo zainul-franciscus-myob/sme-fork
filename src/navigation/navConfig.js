@@ -23,6 +23,7 @@ export const activeMapping = {
   'invoicePayment/invoicePaymentDetail': 'sales',
   'customerReturn/customerReturnList': 'sales',
   'payrollSettings/payrollSettings': 'payroll',
+  'supplierReturn/supplierReturnList': 'purchases',
 };
 
 export const featuresConfig = {
@@ -118,5 +119,8 @@ export const featuresConfig = {
   },
   payrollSettings: {
     routeName: 'payrollSettings/payrollSettings',
+  },
+  supplierReturnList: {
+    routeName: 'supplierReturn/supplierReturnList',
   },
 };

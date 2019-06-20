@@ -18,6 +18,7 @@ import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
 import getSalesSettingsRoutes from './salesSettings/getSalesSettingsRoutes';
 import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 import getSuperFundRoutes from './superFund/getSuperFundRoutes';
+import getSupplierReturnRoutes from './supplierReturn/getSupplierReturnRoutes';
 import getTaxRoutes from './tax/getTaxRoutes';
 import getTransactionListRoutes from './transactionList/getTransactionListRoutes';
 import getTransferMoneyRoutes from './transferMoney/getTransferMoneyRoutes';
@@ -180,6 +181,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/superFund',
     subRoutes: getSuperFundRoutes({
       integration, setRootView, pushMessage,
+    }),
+  },
+  {
+    name: 'supplierReturn',
+    rootPath: '/:region/:businessId/supplierReturn',
+    subRoutes: getSupplierReturnRoutes({
+      integration, setRootView,
     }),
   },
 ];

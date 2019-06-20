@@ -1,0 +1,12 @@
+:local .totals {
+  text-align: right;
+}
+
+:local .totalAmount {
+  margin-right: 2rem;
+}
+
+:local .totalDebitAmount {
+  margin-right: 2rem;
+  font-weight: bold;
+}
