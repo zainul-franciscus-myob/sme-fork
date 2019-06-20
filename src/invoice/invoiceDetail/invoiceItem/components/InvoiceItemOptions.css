@@ -1,0 +1,7 @@
+:local .address {
+  white-space: pre-line;
+}
+
+:local .checkbox {
+  margin-top: 2rem;
+}

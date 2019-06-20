@@ -13,18 +13,6 @@
         "taxCodeId": "1",
         "amount": "1000",
         "displayAmount": "1000.00"
-      },
-      {
-        "id": "",
-        "itemId": "4",
-        "units": "3",
-        "description": "Camp fridge",
-        "unitPrice": "2000",
-        "discount": "0",
-        "displayDiscount": "0",
-        "taxCodeId": "2",
-        "amount": "2000",
-        "displayAmount": "2000.00"
       }
     ]
   },

@@ -14,7 +14,12 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
-import { SUCCESSFULLY_DELETED_INVOICE_SERVICE, SUCCESSFULLY_SAVED_INVOICE_SERVICE } from '../invoiceDetail/invoiceMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_INVOICE_ITEM,
+  SUCCESSFULLY_DELETED_INVOICE_SERVICE,
+  SUCCESSFULLY_SAVED_INVOICE_ITEM,
+  SUCCESSFULLY_SAVED_INVOICE_SERVICE,
+} from '../invoiceDetail/invoiceMessageTypes';
 import {
   getAppliedFilterOptions,
   getBusinessId,
@@ -32,6 +37,8 @@ import invoiceListReducer from './invoiceListReducer';
 const messageTypes = [
   SUCCESSFULLY_SAVED_INVOICE_SERVICE,
   SUCCESSFULLY_DELETED_INVOICE_SERVICE,
+  SUCCESSFULLY_SAVED_INVOICE_ITEM,
+  SUCCESSFULLY_DELETED_INVOICE_ITEM,
 ];
 
 export default class InvoiceListModule {

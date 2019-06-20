@@ -9,6 +9,7 @@ import EmployeeMapping from './EmployeeMapping';
 import GeneralJournalMapping from './GeneralJournalMapping';
 import IncomeAllocationMapping from './IncomeAllocationMapping';
 import InventoryMapping from './InventoryMapping';
+import InvoiceItemMapping from './InvoiceItemMapping';
 import InvoiceMapping from './InvoiceMapping';
 import InvoicePaymentMapping from './InvoicePaymentMapping';
 import InvoiceServiceMapping from './InvoiceServiceMapping';
@@ -35,6 +36,7 @@ const RootMapping = Object.freeze({
   ...QuoteServiceMapping,
   ...InvoiceMapping,
   ...InvoiceServiceMapping,
+  ...InvoiceItemMapping,
   ...ReceiveMoneyMapping,
   ...SpendMoneyMapping,
   ...TransactionListMapping,
