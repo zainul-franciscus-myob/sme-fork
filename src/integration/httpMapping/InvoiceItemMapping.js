@@ -24,7 +24,7 @@ const InvoiceItemMapping = {
   },
   [UPDATE_INVOICE_ITEM_DETAIL]: {
     method: 'PUT',
-    getPath: ({ businessId }) => `/${businessId}/invoice/update_invoice_item_detail`,
+    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/update_invoice_item_detail/${invoiceId}`,
   },
   [UPDATE_LINE_ITEM]: {
     method: 'POST',
