@@ -1,5 +1,5 @@
 import {
-  getFilterOptions, getIsOpenEntryCreating, getOpenTransactionLine,
+  getEntries, getFilterOptions, getIsOpenEntryCreating, getOpenTransactionLine,
 } from '.';
 
 const getTransfer = state => state.openEntry.transfer;
@@ -42,10 +42,13 @@ export const getFormattedTransfer = (state) => {
   };
 };
 
-export const getTransferMoneyPayload = (state) => {
+export const getTransferMoneyPayload = (state, index) => {
+  const entries = getEntries(state);
+  const openedEntry = entries[index];
+
   const {
     transactionId, date, deposit, withdrawal,
-  } = getOpenTransactionLine(state);
+  } = openedEntry;
 
   const { bankAccount: bankAccountId } = getFilterOptions(state);
   const amount = withdrawal || deposit;

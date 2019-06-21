@@ -2,64 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  ADD_SPLIT_ALLOCATION_LINE,
-  ALLOCATE_TRANSACTION,
-  CLEAR_BANK_FEEDS_LOGIN,
-  CLOSE_MODAL,
-  COLLAPSE_TRANSACTION_LINE,
-  DELETE_SPLIT_ALLOCATION_LINE,
-  FETCH_BANK_FEEDS_TRANSACTIONS,
-  LOAD_BANK_TRANSACTIONS,
-  LOAD_MATCH_TRANSACTIONS,
-  LOAD_NEW_SPLIT_ALLOCATION,
-  LOAD_NEW_TRANSFER_MONEY,
-  LOAD_PAYMENT_ALLOCATION,
-  LOAD_PAYMENT_ALLOCATION_LINES,
-  LOAD_PAYMENT_ALLOCATION_OPTIONS,
-  LOAD_SPLIT_ALLOCATION,
-  LOAD_TRANSFER_MONEY,
-  OPEN_MODAL,
-  RESET_FILTER_OPTIONS,
-  SAVE_MATCH_TRANSACTION,
-  SAVE_PAYMENT_ALLOCATION,
-  SAVE_SPLIT_ALLOCATION,
-  SAVE_TRANSFER_MONEY,
-  SET_ALERT,
-  SET_ENTRY_FOCUS,
-  SET_ENTRY_LOADING_STATE,
-  SET_FETCHING_TRANSACTIONS_STATE,
-  SET_LOADING_STATE,
-  SET_MATCH_TRANSACTION_LOADING_STATE,
-  SET_MATCH_TRANSACTION_SORT_ORDER,
-  SET_OPEN_ENTRY_LOADING_STATE,
-  SET_OPEN_ENTRY_POSITION,
-  SET_PAYMENT_ALLOCATION_LOADING_STATE,
-  SET_TABLE_LOADING_STATE,
-  SORT_AND_FILTER_BANK_TRANSACTIONS,
-  SORT_AND_FILTER_MATCH_TRANSACTIONS,
-  UNALLOCATE_OPEN_ENTRY_TRANSACTION,
-  UNALLOCATE_TRANSACTION,
-  UPDATE_BANK_FEEDS_LOGIN,
-  UPDATE_FILTER_OPTIONS,
-  UPDATE_MATCH_TRANSACTION_OPTIONS,
-  UPDATE_MATCH_TRANSACTION_SELECTION,
-  UPDATE_PAYMENT_ALLOCATION_LINE,
-  UPDATE_PAYMENT_ALLOCATION_OPTIONS,
-  UPDATE_SPLIT_ALLOCATION_HEADER,
-  UPDATE_SPLIT_ALLOCATION_LINE,
-  UPDATE_TRANSFER_MONEY,
-} from './BankingIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../SystemIntents';
-import {
-  getAllocationPayload,
-  getAppliedFilterOptions,
   getBankTransactionLineByIndex,
-  getBusinessId,
   getFilterOptions,
-  getFlipSortOrder,
   getIsAllocated,
   getIsEntryLoading,
   getIsOpenEntryCreating,
@@ -67,83 +11,90 @@ import {
   getOpenEntryActiveTabId,
   getOpenEntryDefaultTabId,
   getOpenPosition,
-  getOrderBy,
-  getSortOrder,
-  getUnallocationPayload,
 } from './bankingSelectors';
-import { getBankFeedsLoginDetails } from './bankingSelectors/bankFeedsLoginSelectors';
 import {
   getDefaultMatchTransactionFilterOptions,
-  getMatchTransactionFilterOptions,
   getMatchTransactionFlipSortOrder,
   getMatchTransactionOrderBy,
-  getMatchTransactionPayload,
-  getMatchTransactionSortOrder,
 } from './bankingSelectors/matchTransactionSelectors';
-import {
-  getPaymentAllocationContactId,
-  getPaymentAllocationFilterOptions, getPaymentAllocationPayload,
-  getPaymentTypeUrlParam,
-} from './bankingSelectors/paymentAllocationSelectors';
-import { getSplitAllocationPayload } from './bankingSelectors/splitAllocationSelectors';
-import { getTransferMoneyPayload } from './bankingSelectors/transferMoneySelectors';
 import { tabIds } from './tabItems';
 import BankingView from './components/BankingView';
 import Store from '../store/Store';
 import bankingReducer from './bankingReducer';
+import createBankingDispatcher from './BankingDispatcher';
+import createBankingIntegrator from './BankingIntegrator';
 
 export default class BankingModule {
   constructor({
     integration, setRootView,
   }) {
-    this.integration = integration;
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
+    this.dispatcher = createBankingDispatcher(this.store);
+    this.integrator = createBankingIntegrator(this.store, integration);
   }
 
   render = () => {
+    const {
+      updateFilterOptions,
+      dismissAlert,
+      focusEntry,
+      blurEntry,
+      collapseTransactionLine,
+      updateSplitAllocationHeader,
+      updateSplitAllocationLine,
+      deleteSplitAllocationLine,
+      updateMatchTransactionOptions,
+      updateMatchTransactionSelection,
+      updatePaymentAllocationOptions,
+      updatePaymentAllocationLine,
+      updateTransferMoney,
+      closeModal,
+      updateBankFeedsLoginDetails,
+    } = this.dispatcher;
+
     const transactionListView = (
       <BankingView
-        onUpdateFilters={this.updateFilterOptions}
+        onUpdateFilters={updateFilterOptions}
         onApplyFilter={this.confirmBefore(this.filterBankTransactions)}
         onSort={this.confirmBefore(this.sortBankTransactions)}
-        onDismissAlert={this.dismissAlert}
+        onDismissAlert={dismissAlert}
         onAllocate={this.allocateTransaction}
         onUnallocate={this.unallocateTransaction}
         onSplitRowItemClick={this.confirmBefore(this.toggleLine)}
         onMatchRowItemClick={this.confirmBefore(this.toggleLine)}
-        onMatchedToBlur={this.blurEntry}
-        onMatchedToFocus={this.focusEntry}
-        onUnmatchedFocus={this.focusEntry}
-        onUnmatchedBlur={this.blurEntry}
+        onMatchedToBlur={blurEntry}
+        onMatchedToFocus={focusEntry}
+        onUnmatchedFocus={focusEntry}
+        onUnmatchedBlur={blurEntry}
         onHeaderClick={this.confirmBefore(this.toggleLine)}
         onTabChange={this.confirmBefore(this.changeOpenEntryTab)}
         onSaveSplitAllocation={this.saveSplitAllocation}
-        onCancelSplitAllocation={this.confirmBefore(this.collapseTransactionLine)}
+        onCancelSplitAllocation={this.confirmBefore(collapseTransactionLine)}
         onUnallocateSplitAllocation={this.confirmBefore(this.unallocateOpenEntryTransaction)}
-        onUpdateSplitAllocationHeader={this.updateSplitAllocationHeader}
+        onUpdateSplitAllocationHeader={updateSplitAllocationHeader}
         onAddSplitAllocationLine={this.addSplitAllocationLine}
-        onUpdateSplitAllocationLine={this.updateSplitAllocationLine}
-        onDeleteSplitAllocationLine={this.deleteSplitAllocationLine}
+        onUpdateSplitAllocationLine={updateSplitAllocationLine}
+        onDeleteSplitAllocationLine={deleteSplitAllocationLine}
         onApplyMatchTransactionOptions={this.confirmBefore(this.sortOrFilterMatchTransaction)}
-        onUpdateMatchTransactionOptions={this.updateMatchTransactionOptions}
+        onUpdateMatchTransactionOptions={updateMatchTransactionOptions}
         onSortMatchTransactions={this.confirmBefore(this.sortMatchTransaction)}
-        onUpdateMatchTransactionSelection={this.updateMatchTransactionSelection}
+        onUpdateMatchTransactionSelection={updateMatchTransactionSelection}
         onSaveMatchTransaction={this.saveMatchTransaction}
-        onCancelMatchTransaction={this.confirmBefore(this.collapseTransactionLine)}
-        onUpdatePaymentAllocationOptions={this.confirmBefore(this.updatePaymentAllocationOptions)}
-        onUpdatePaymentAllocationLine={this.updatePaymentAllocationLine}
+        onCancelMatchTransaction={this.confirmBefore(collapseTransactionLine)}
+        onUpdatePaymentAllocationOptions={this.confirmBefore(updatePaymentAllocationOptions)}
+        onUpdatePaymentAllocationLine={updatePaymentAllocationLine}
         onSavePaymentAllocation={this.savePaymentAllocation}
         onSaveTransferMoney={this.saveTransferMoney}
-        onCancelTransferMoney={this.confirmBefore(this.collapseTransactionLine)}
-        onCancelPaymentAllocation={this.confirmBefore(this.collapseTransactionLine)}
+        onCancelTransferMoney={this.confirmBefore(collapseTransactionLine)}
+        onCancelPaymentAllocation={this.confirmBefore(collapseTransactionLine)}
         onUnmatchTransaction={this.confirmBefore(this.unallocateOpenEntryTransaction)}
-        onUpdateTransfer={this.updateTransferMoney}
+        onUpdateTransfer={updateTransferMoney}
         onCancelModal={this.cancelModal}
-        onCloseModal={this.closeModal}
+        onCloseModal={closeModal}
         onGetBankTransactions={this.confirmBefore(this.openBankFeedsLoginModal)}
-        onUpdateBankFeedsLoginDetails={this.updateBankFeedsLoginDetails}
-        onCancelBankFeedsLogin={this.cancelBankFeedsLoginModal}
+        onUpdateBankFeedsLoginDetails={updateBankFeedsLoginDetails}
+        onCancelBankFeedsLogin={this.closeBankFeedsLoginModal}
         onConfirmBankFeedsLogin={this.confirmBankFeedsLogin}
       />
     );
@@ -156,139 +107,62 @@ export default class BankingModule {
     this.setRootView(wrappedView);
   }
 
-  focusEntry = (index) => {
-    const intent = SET_ENTRY_FOCUS;
-
-    this.store.dispatch({
-      intent,
-      index,
-      isFocused: true,
-    });
-  }
-
-  blurEntry = (index) => {
-    const intent = SET_ENTRY_FOCUS;
-
-    this.store.dispatch({
-      intent,
-      index,
-      isFocused: false,
-    });
-  }
-
-  setEntryLoadingState = (index, isLoading) => {
-    const intent = SET_ENTRY_LOADING_STATE;
-
-    this.store.dispatch({
-      intent,
-      index,
-      isLoading,
-    });
-  }
-
   allocateTransaction = (index, selectedAccount) => {
-    this.focusEntry(index + 1);
-    this.blurEntry(index);
-    this.setEntryLoadingState(index, true);
-
-    const state = this.store.getState();
-    const urlParams = { businessId: getBusinessId(state) };
-
-    const intent = ALLOCATE_TRANSACTION;
+    this.dispatcher.focusEntry(index + 1);
+    this.dispatcher.blurEntry(index);
+    this.dispatcher.setEntryLoadingState(index, true);
 
     const onSuccess = (payload) => {
-      this.setEntryLoadingState(index, false);
-      this.store.dispatch({
-        intent,
-        index,
-        ...payload,
-      });
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.allocateTransaction(index, payload);
     };
 
     const onFailure = ({ message }) => {
-      this.setEntryLoadingState(index, false);
-      this.setAlert({
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    const allocationPayload = getAllocationPayload(index, selectedAccount, state);
-
-    this.integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content: allocationPayload,
+    this.integrator.allocateTransaction({
+      index,
+      selectedAccount,
       onSuccess,
       onFailure,
     });
   }
 
   unallocateTransaction = (index) => {
-    this.setEntryLoadingState(index, true);
-
-    const state = this.store.getState();
-    const urlParams = { businessId: getBusinessId(state) };
-
-    const intent = UNALLOCATE_TRANSACTION;
+    this.dispatcher.setEntryLoadingState(index, true);
 
     const onSuccess = (payload) => {
-      this.setEntryLoadingState(index, false);
-
-      this.store.dispatch({
-        intent,
-        index,
-        ...payload,
-      });
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.unAllocateTransaction(index, payload);
     };
 
     const onFailure = ({ message }) => {
-      this.setEntryLoadingState(index, false);
-      this.setAlert({
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    const unallocationPayload = getUnallocationPayload(index, state);
-
-    this.integration.write({
-      intent,
-      urlParams,
-      content: unallocationPayload,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.unallocateTranscation({ index, onSuccess, onFailure });
   }
 
   loadBankTransactions = () => {
-    const state = this.store.getState();
-
-    const intent = LOAD_BANK_TRANSACTIONS;
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
     const onSuccess = (payload) => {
-      this.setLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...payload,
-      });
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.loadBankTransactions(payload);
     };
 
     const onFailure = () => {
       console.log('Failed to load bank transactions');
     };
 
-    const filterOptions = getFilterOptions(state);
-    this.integration.read({
-      intent,
-      params: {
-        ...filterOptions,
-      },
-      urlParams,
+    this.integrator.loadBankTransactions({
       onSuccess,
       onFailure,
     });
@@ -300,38 +174,17 @@ export default class BankingModule {
       return;
     }
 
-    this.collapseTransactionLine();
-    this.setTableLoadingState(true);
-
-    const intent = SORT_AND_FILTER_BANK_TRANSACTIONS;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
+    this.dispatcher.collapseTransactionLine();
+    this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (payload) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        isSort: false,
-        ...payload,
-      });
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.sortAndFilterBankTransactions(false, payload);
     };
 
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) => this.dispatcher.setAlert({ message, type: 'danger' });
 
-    const filterOptions = getFilterOptions(state);
-    const sortOrder = getSortOrder(state);
-    const orderBy = getOrderBy(state);
-
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder,
-        orderBy,
-      },
+    this.integrator.filterBankTransactions({
       onSuccess,
       onFailure,
     });
@@ -343,88 +196,25 @@ export default class BankingModule {
       return;
     }
 
-    this.collapseTransactionLine();
-    this.setTableLoadingState(true);
-
-    const intent = SORT_AND_FILTER_BANK_TRANSACTIONS;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
+    this.dispatcher.collapseTransactionLine();
+    this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (payload) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        isSort: true,
-        ...payload,
-      });
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.sortAndFilterBankTransactions(true, payload);
     };
 
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
+    const onFailure = ({ message }) => this.dispatcher.setAlert({ message, type: 'danger' });
 
-    const filterOptions = getAppliedFilterOptions(state);
-    const sortOrder = getFlipSortOrder(state);
-
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder,
-        orderBy,
-      },
+    this.integrator.sortBankTransactions({
+      orderBy,
       onSuccess,
       onFailure,
     });
   }
 
-  setAlert = ({ message, type }) => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: {
-        message,
-        type,
-      },
-    });
-  }
-
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
-
-  setLoadingState = (isLoading) => {
-    const intent = SET_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
-  }
-
-  setTableLoadingState = (isTableLoading) => {
-    const intent = SET_TABLE_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isTableLoading,
-    });
-  }
-
-  updateFilterOptions = ({ filterName, value }) => {
-    const intent = UPDATE_FILTER_OPTIONS;
-    this.store.dispatch({
-      intent,
-      filterName,
-      value,
-    });
-  }
-
-  dismissAlert = () => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: undefined,
-    });
   }
 
   confirmBefore = onConfirm => (...args) => {
@@ -455,7 +245,7 @@ export default class BankingModule {
 
     const isOpened = openPosition === index;
     if (isOpened) {
-      this.collapseTransactionLine();
+      this.dispatcher.collapseTransactionLine();
     } else {
       this.expandTransactionLine(index);
     }
@@ -468,27 +258,6 @@ export default class BankingModule {
     const tabId = getOpenEntryDefaultTabId(line);
 
     this.loadOpenEntryTab(index, tabId);
-  }
-
-  collapseTransactionLine = () => {
-    const intent = COLLAPSE_TRANSACTION_LINE;
-    this.store.dispatch({ intent });
-  }
-
-  setOpenEntryPosition = (index) => {
-    const intent = SET_OPEN_ENTRY_POSITION;
-    this.store.dispatch({
-      intent,
-      index,
-    });
-  }
-
-  setOpenEntryLoadingState = (isLoading) => {
-    const intent = SET_OPEN_ENTRY_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
   }
 
   changeOpenEntryTab = (tabId) => {
@@ -516,67 +285,36 @@ export default class BankingModule {
     const line = getBankTransactionLineByIndex(state, index);
 
     if (getIsAllocated(line)) {
-      this.loadExistingTransferMoney(index, line);
+      this.loadExistingTransferMoney(index);
     } else {
-      this.loadNewTransferMoney(index);
+      this.dispatcher.loadNewTransferMoney(index);
     }
   }
 
-  loadExistingTransferMoney = (index, line) => {
-    const state = this.store.getState();
-    const intent = LOAD_TRANSFER_MONEY;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      transferMoneyId: line.journalId,
-    };
-
+  loadExistingTransferMoney = (index) => {
     const onSuccess = this.ifOpen(
       index,
       (payload) => {
-        this.setOpenEntryLoadingState(false);
-        this.store.dispatch({
-          intent,
-          ...payload,
-          index,
-        });
+        this.dispatcher.setOpenEntryLoadingState(false);
+        this.dispatcher.loadExistingTransferMoney(index, payload);
       },
     );
 
     const onFailure = ({ message }) => {
-      this.setOpenEntryLoadingState(false);
-      this.collapseTransactionLine();
-      this.setAlert({
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.collapseTransactionLine();
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.setOpenEntryLoadingState(true);
-    this.setOpenEntryPosition(index);
-    this.integration.read({
-      intent,
-      urlParams,
+    this.dispatcher.setOpenEntryLoadingState(true);
+    this.dispatcher.setOpenEntryPosition(index);
+    this.integrator.loadExistingTransferMoney({
+      index,
       onSuccess,
       onFailure,
-    });
-  }
-
-  loadNewTransferMoney = (index) => {
-    const intent = LOAD_NEW_TRANSFER_MONEY;
-
-    this.store.dispatch({
-      intent,
-      index,
-    });
-  }
-
-  updateTransferMoney = ({ key, value }) => {
-    const intent = UPDATE_TRANSFER_MONEY;
-    this.store.dispatch({
-      intent,
-      key,
-      value,
     });
   }
 
@@ -585,136 +323,93 @@ export default class BankingModule {
     const line = getBankTransactionLineByIndex(state, index);
 
     if (getIsAllocated(line)) {
-      this.loadSplitAllocation(index, line);
+      this.loadSplitAllocation(index);
     } else {
-      this.loadNewSplitAllocation(index);
+      this.dispatcher.loadNewSplitAllocation(index);
     }
   }
 
-  loadSplitAllocation = (index, { withdrawal, journalId }) => {
-    const state = this.store.getState();
-    const intent = LOAD_SPLIT_ALLOCATION;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      type: withdrawal ? 'spend_money' : 'receive_money',
-      journalId,
-    };
-
+  loadSplitAllocation = (index) => {
     const onSuccess = this.ifOpen(
       index,
       (payload) => {
-        this.setOpenEntryLoadingState(false);
-        this.store.dispatch({
-          intent,
-          ...payload,
-          index,
-        });
+        this.dispatcher.setOpenEntryLoadingState(false);
+        this.dispatcher.loadSplitAllocation(index, payload);
       },
     );
 
     const onFailure = ({ message }) => {
-      this.setOpenEntryLoadingState(false);
-      this.collapseTransactionLine();
-      this.setAlert({
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.collapseTransactionLine();
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.setOpenEntryLoadingState(true);
-    this.setOpenEntryPosition(index);
-    this.integration.read({
-      intent,
-      urlParams,
+    this.dispatcher.setOpenEntryLoadingState(true);
+    this.dispatcher.setOpenEntryPosition(index);
+
+    this.integrator.loadSplitAllocation({
+      index,
       onSuccess,
       onFailure,
     });
   }
 
-  loadNewSplitAllocation = (index) => {
-    const intent = LOAD_NEW_SPLIT_ALLOCATION;
-    this.store.dispatch({
-      intent,
-      index,
-    });
-  }
-
   saveSplitAllocation = () => {
-    const intent = SAVE_SPLIT_ALLOCATION;
     const state = this.store.getState();
-
     const index = getOpenPosition(state);
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getSplitAllocationPayload(state, index);
 
-    this.collapseTransactionLine();
+    this.dispatcher.collapseTransactionLine();
 
     const onSuccess = (payload) => {
-      this.setEntryLoadingState(index, false);
-      this.store.dispatch({
-        intent,
-        index,
-        ...payload,
-      });
-      this.setAlert({
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.saveSplitAllocation(index, payload);
+      this.dispatcher.setAlert({
         type: 'success',
         message: payload.message,
       });
     };
 
     const onFailure = ({ message }) => {
-      this.setEntryLoadingState(index, false);
-      this.setAlert({
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.setEntryLoadingState(index, true);
-    this.integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content,
+    this.dispatcher.setEntryLoadingState(index, true);
+
+    this.integrator.saveSplitAllocation({
+      index,
       onSuccess,
       onFailure,
     });
   }
 
   unallocateOpenEntryTransaction = () => {
-    const intent = UNALLOCATE_OPEN_ENTRY_TRANSACTION;
     const state = this.store.getState();
-
     const index = getOpenPosition(state);
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getUnallocationPayload(index, state);
 
     const onSuccess = (payload) => {
-      this.setOpenEntryLoadingState(false);
-      this.store.dispatch({
-        intent,
-        index,
-        ...payload,
-      });
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.unAllocateOpenEntryTransaction(index, payload);
 
       this.ifOpen(index, () => this.loadMatchTransaction(index))();
     };
 
     const onFailure = ({ message }) => {
-      this.setOpenEntryLoadingState(false);
-      this.setAlert({
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.setOpenEntryLoadingState(true);
-    this.integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content,
+    this.dispatcher.setOpenEntryLoadingState(true);
+    this.integrator.unallocateOpenEntryTransaction({
       onSuccess,
       onFailure,
     });
@@ -722,51 +417,24 @@ export default class BankingModule {
 
   openCancelModal = ({ onConfirm = () => {} }) => {
     this.afterCancel = onConfirm;
-    this.store.dispatch({
-      intent: OPEN_MODAL,
-      modalType: 'cancel',
-    });
+    this.dispatcher.openCancelModal();
   };
 
   openBankFeedsLoginModal = () => {
     this.collapseTransactionLine();
-    this.store.dispatch({
-      intent: OPEN_MODAL,
-      modalType: 'bankFeedsLogin',
-    });
+    this.dispatcher.openBankFeedsLoginModal();
   };
 
-  cancelBankFeedsLoginModal = () => {
+  closeBankFeedsLoginModal = () => {
     this.closeModal();
-    this.store.dispatch({ intent: CLEAR_BANK_FEEDS_LOGIN });
-  }
-
-  updateBankFeedsLoginDetails = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_BANK_FEEDS_LOGIN,
-      key,
-      value,
-    });
-  }
-
-  setIsFetchingTransactions = (isFetchingTransactions) => {
-    this.store.dispatch({
-      intent: SET_FETCHING_TRANSACTIONS_STATE,
-      isFetchingTransactions,
-    });
-  }
-
-  resetFilters = () => {
-    this.store.dispatch({
-      intent: RESET_FILTER_OPTIONS,
-    });
+    this.dispatcher.clearBankFeedsLogin();
   }
 
   confirmBankFeedsLogin = () => {
     const onSuccess = ({ message }) => {
-      this.setIsFetchingTransactions(false);
-      this.resetFilters();
-      this.setAlert({
+      this.dispatcher.setIsFetchingTransansactions(false);
+      this.dispatcher.resetFilters();
+      this.dispatcher.setAlert({
         type: 'success',
         message,
       });
@@ -774,86 +442,35 @@ export default class BankingModule {
     };
 
     const onFailure = ({ message }) => {
-      this.setIsFetchingTransactions(false);
-      this.setAlert({
+      this.dispatcher.setIsFetchingTransactions(false);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    const state = this.store.getState();
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getBankFeedsLoginDetails(state);
-    this.setIsFetchingTransactions(true);
+    this.dispatcher.setIsFetchingTransactions(true);
+    this.integrator.confirmBankFeedsLogin({ onSuccess, onFailure });
 
-    this.integration.write({
-      intent: FETCH_BANK_FEEDS_TRANSACTIONS,
-      urlParams,
-      allowParallelRequests: true,
-      content,
-      onSuccess,
-      onFailure,
-    });
-    this.cancelBankFeedsLoginModal();
+    this.closeBankFeedsLoginModal();
   }
 
   cancelModal = () => {
-    this.closeModal();
+    this.dispatcher.closeModal();
 
     this.afterCancel();
     this.afterCancel = () => {};
   }
 
-  closeModal = () => {
-    this.store.dispatch({ intent: CLOSE_MODAL });
-  };
-
-  updateSplitAllocationHeader = ({ key, value }) => {
-    const intent = UPDATE_SPLIT_ALLOCATION_HEADER;
-    this.store.dispatch({
-      intent,
-      key,
-      value,
-    });
-  }
-
   addSplitAllocationLine = (partialLine) => {
-    const intent = ADD_SPLIT_ALLOCATION_LINE;
     const [key, value] = Object.entries(partialLine)[0] || [];
 
-    this.store.dispatch({
-      intent,
-      key,
-      value,
-    });
-  }
-
-  updateSplitAllocationLine = (lineIndex, lineKey, lineValue) => {
-    const intent = UPDATE_SPLIT_ALLOCATION_LINE;
-    this.store.dispatch({
-      intent,
-      lineIndex,
-      lineKey,
-      lineValue,
-    });
-  }
-
-  deleteSplitAllocationLine = (index) => {
-    const intent = DELETE_SPLIT_ALLOCATION_LINE;
-    this.store.dispatch({
-      intent,
-      index,
-    });
+    this.dispatcher.addSplitAllocationLine({ key, value });
   }
 
   loadMatchTransaction = (index) => {
     const state = this.store.getState();
 
-    const intent = LOAD_MATCH_TRANSACTIONS;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
     const { bankAccount: accountId } = getFilterOptions(state);
 
     const line = getBankTransactionLineByIndex(state, index);
@@ -863,34 +480,27 @@ export default class BankingModule {
     const onSuccess = this.ifOpen(
       index,
       (payload) => {
-        this.setOpenEntryLoadingState(false);
-        this.store.dispatch({
-          intent,
-          ...filterOptions,
-          ...payload,
-          totalAmount: (withdrawal || deposit),
-          index,
-        });
+        this.dispatcher.setOpenEntryLoadingState(false);
+        const totalAmount = withdrawal || deposit;
+        this.dispatcher.loadMatchTransaction(
+          index, filterOptions, payload, totalAmount,
+        );
       },
     );
 
     const onFailure = ({ message }) => {
-      this.setOpenEntryLoadingState(false);
-      this.collapseTransactionLine();
-      this.setAlert({
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.collapseTransactionLine();
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.setOpenEntryLoadingState(true);
-    this.setOpenEntryPosition(index);
-    this.integration.read({
-      intent,
-      params: {
-        ...filterOptions,
-      },
-      urlParams,
+    this.dispatcher.setOpenEntryLoadingState(true);
+    this.dispatcher.setOpenEntryPosition(index);
+    this.integrator.loadMatchTranscation({
+      index,
       onSuccess,
       onFailure,
     });
@@ -904,16 +514,7 @@ export default class BankingModule {
   sortOrFilterMatchTransaction = () => {
     const state = this.store.getState();
 
-    const intent = SORT_AND_FILTER_MATCH_TRANSACTIONS;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
     const index = getOpenPosition(state);
-    const filterOptions = getMatchTransactionFilterOptions(state);
-    const sortOrder = getMatchTransactionSortOrder(state);
-    const orderBy = getMatchTransactionOrderBy(state);
 
     const onSuccess = (payload) => {
       const updatedState = this.store.getState();
@@ -921,81 +522,51 @@ export default class BankingModule {
         return;
       }
 
-      this.setMatchTransactionLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...payload,
-        index,
-      });
+      this.dispatcher.setMatchTransactionLoadingState(false);
+      this.dispatcher.sortAndFilterMatchTransactions(index, payload);
     };
 
     const onFailure = ({ message }) => {
-      this.setMatchTransactionLoadingState(false);
-      this.setAlert({ message, type: 'danger' });
+      this.dispatcher.setMatchTransactionLoadingState(false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.setMatchTransactionLoadingState(true);
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder,
-        orderBy,
-      },
+    this.dispatcher.setMatchTransactionLoadingState(true);
+    this.integrator.sortOrFilterMatchTransaction({
       onSuccess,
       onFailure,
     });
   }
 
   saveMatchTransaction = () => {
-    const intent = SAVE_MATCH_TRANSACTION;
     const state = this.store.getState();
 
     const index = getOpenPosition(state);
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getMatchTransactionPayload(state, index);
 
-    this.collapseTransactionLine();
+    this.dispatcher.collapseTransactionLine();
 
     const onSuccess = (payload) => {
-      this.setEntryLoadingState(index, false);
-      this.store.dispatch({
-        intent,
-        index,
-        ...payload,
-      });
-      this.setAlert({
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.saveMatchTransaction(index, payload);
+      this.dispatcher.setAlert({
         type: 'success',
         message: payload.message,
       });
     };
 
     const onFailure = ({ message }) => {
-      this.setEntryLoadingState(index, false);
-      this.setAlert({
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.setEntryLoadingState(index, true);
-    this.integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content,
+    this.dispatcher.setEntryLoadingState(index, true);
+    this.integrator.saveMatchTransaction({
+      index,
       onSuccess,
       onFailure,
-    });
-  }
-
-  updateMatchTransactionOptions = ({ key, value }) => {
-    const intent = UPDATE_MATCH_TRANSACTION_OPTIONS;
-    this.store.dispatch({
-      intent,
-      key,
-      value,
     });
   }
 
@@ -1005,28 +576,7 @@ export default class BankingModule {
     const newSortOrder = orderBy === getMatchTransactionOrderBy(state)
       ? getMatchTransactionFlipSortOrder(state) : 'asc';
 
-    const intent = SET_MATCH_TRANSACTION_SORT_ORDER;
-    this.store.dispatch({
-      intent,
-      orderBy,
-      sortOrder: newSortOrder,
-    });
-  }
-
-  setMatchTransactionLoadingState = (isLoading) => {
-    const intent = SET_MATCH_TRANSACTION_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
-  }
-
-  updateMatchTransactionSelection = (selectedJournalLineId) => {
-    const intent = UPDATE_MATCH_TRANSACTION_SELECTION;
-    this.store.dispatch({
-      intent,
-      selectedJournalLineId,
-    });
+    this.dispatcher.updateMatchTransactionSortOrder(orderBy, newSortOrder);
   }
 
   loadPayment = (index) => {
@@ -1034,112 +584,72 @@ export default class BankingModule {
     const line = getBankTransactionLineByIndex(state, index);
 
     if (getIsAllocated(line)) {
-      this.loadPaymentAllocation(index, line);
+      this.loadPaymentAllocation(index);
     } else {
-      this.loadPaymentAllocationOptions(index);
+      this.dispatcher.loadPaymentAllocationOptions(index);
     }
   }
 
-  loadPaymentAllocationOptions = (index) => {
-    const intent = LOAD_PAYMENT_ALLOCATION_OPTIONS;
-    this.store.dispatch({
-      intent,
-      index,
-    });
-  }
-
   loadPaymentAllocationLines = () => {
-    const intent = LOAD_PAYMENT_ALLOCATION_LINES;
-
     const state = this.store.getState();
-
     const index = getOpenPosition(state);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      paymentType: getPaymentTypeUrlParam(state, index),
-    };
-
-    const filterOptions = getPaymentAllocationFilterOptions(state);
 
     const onSuccess = this.ifOpen(
       index,
       (payload) => {
-        this.setPaymentAllocationLoadingState(false);
-        this.store.dispatch({
-          intent,
-          ...payload,
-        });
+        this.dispatcher.setPaymentAllocationLoadingState(false);
+        this.dispatcher.loadPaymentAllocationLines(index, payload);
       },
     );
 
     const onFailure = ({ message }) => {
-      this.setPaymentAllocationLoadingState(false);
-      this.setAlert({
+      this.dispatcher.setPaymentAllocationLoadingState(false);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.setPaymentAllocationLoadingState(true);
-    this.integration.read({
-      intent,
-      params: {
-        ...filterOptions,
-      },
-      urlParams,
+    this.dispatcher.setPaymentAllocationLoadingState(true);
+
+    this.integrator.loadPaymentAllocationLines({
       onSuccess,
       onFailure,
     });
   }
 
-  loadPaymentAllocation = (index, { journalId }) => {
-    const intent = LOAD_PAYMENT_ALLOCATION;
-
-    const state = this.store.getState();
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      paymentType: getPaymentTypeUrlParam(state, index),
-      paymentId: journalId,
-    };
-
+  loadPaymentAllocation = (index) => {
     const onSuccess = this.ifOpen(
       index,
       (payload) => {
-        this.setOpenEntryLoadingState(false);
-        this.store.dispatch({
-          intent,
-          ...payload,
-          index,
-        });
+        this.dispatcher.setOpenEntryLoadingState(false);
+        this.dispatcher.loadPaymentAllocation(index, payload);
       },
     );
 
     const onFailure = ({ message }) => {
-      this.setOpenEntryLoadingState(false);
-      this.collapseTransactionLine();
-      this.setAlert({
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.collapseTransactionLine();
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.setOpenEntryLoadingState(true);
-    this.setOpenEntryPosition(index);
-    this.integration.read({
-      intent,
-      urlParams,
+    this.dispatcher.setOpenEntryLoadingState(true);
+    this.dispatcher.setOpenEntryPosition(index);
+
+    this.integrator.loadPaymentAllocation({
+      index,
       onSuccess,
       onFailure,
     });
   }
 
   savePaymentAllocation = () => {
-    const intent = SAVE_PAYMENT_ALLOCATION;
     const state = this.store.getState();
 
-    this.collapseTransactionLine();
+    this.dispatcher.collapseTransactionLine();
 
     const isCreating = getIsOpenEntryCreating(state);
     if (!isCreating) {
@@ -1147,139 +657,77 @@ export default class BankingModule {
     }
 
     const index = getOpenPosition(state);
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getPaymentAllocationPayload(state, index);
 
     const onSuccess = (payload) => {
-      this.setEntryLoadingState(index, false);
-      this.store.dispatch({
-        intent,
-        index,
-        ...payload,
-      });
-      this.setAlert({
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.savePaymentAllocation(index, payload);
+      this.dispatcher.setAlert({
         type: 'success',
         message: payload.message,
       });
     };
 
     const onFailure = ({ message }) => {
-      this.setEntryLoadingState(index, false);
-      this.setAlert({
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.setEntryLoadingState(index, true);
-    this.integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content,
+    this.dispatcher.setEntryLoadingState(index, true);
+    this.integrator.savePaymentAllocation({
+      index,
       onSuccess,
       onFailure,
     });
   }
 
   saveTransferMoney = () => {
-    const intent = SAVE_TRANSFER_MONEY;
     const state = this.store.getState();
 
-    this.collapseTransactionLine();
+    this.dispatcher.collapseTransactionLine();
 
     const isCreating = getIsOpenEntryCreating(state);
     if (!isCreating) {
       return;
     }
+
     const index = getOpenPosition(state);
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getTransferMoneyPayload(state);
 
     const onSuccess = (payload) => {
-      this.setEntryLoadingState(index, false);
-      this.store.dispatch({
-        intent,
-        index,
-        ...payload,
-      });
-      this.setAlert({
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.saveTransferMoney(index, payload);
+      this.dispatcher.setAlert({
         type: 'success',
         message: payload.message,
       });
     };
 
     const onFailure = ({ message }) => {
-      this.setEntryLoadingState(index, false);
-      this.setAlert({
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.setEntryLoadingState(index, true);
-    this.integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content,
+    this.dispatcher.setEntryLoadingState(index, true);
+
+    this.integrator.saveTransferMoney({
       onSuccess,
       onFailure,
     });
   }
 
-  updatePaymentAllocationOptions = ({ key, value }) => {
-    const intent = UPDATE_PAYMENT_ALLOCATION_OPTIONS;
-    this.store.dispatch({
-      intent,
-      key,
-      value,
-    });
-
-    const state = this.store.getState();
-    const contactId = getPaymentAllocationContactId(state);
-    if (contactId) {
-      this.loadPaymentAllocationLines();
-    }
-  }
-
-  updatePaymentAllocationLine = ({ index, key, value }) => {
-    const intent = UPDATE_PAYMENT_ALLOCATION_LINE;
-    this.store.dispatch({
-      intent,
-      index,
-      key,
-      value,
-    });
-  }
-
-  setPaymentAllocationLoadingState = (isLoading) => {
-    const intent = SET_PAYMENT_ALLOCATION_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
-  }
-
-  setInitialState = (context) => {
-    const intent = SET_INITIAL_STATE;
-    this.store.dispatch({
-      intent,
-      context,
-    });
+  resetState = () => {
+    this.dispatcher.resetState();
   }
 
   run(context) {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     this.render();
-    this.setLoadingState(true);
+    this.dispatcher.setLoadingState(true);
     this.loadBankTransactions();
-  }
-
-  resetState() {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
   }
 }
