@@ -145,6 +145,7 @@ const InvoiceItemOptions = ({
       name="note"
       label="Notes to customer"
       onChange={onTextInputChange(onUpdateInvoiceOption)}
+      maxLength={255}
     />
   </Columns>
 );
