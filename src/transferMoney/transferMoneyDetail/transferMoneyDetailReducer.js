@@ -45,7 +45,6 @@ const loadTransferMoneyDetail = (state, { transferMoney }) => ({
   transferMoney: {
     ...state.transferMoney,
     ...transferMoney,
-    date: convertToDateString(Date.now()),
     originalReferenceId: transferMoney.referenceId,
   },
   isLoading: false,
