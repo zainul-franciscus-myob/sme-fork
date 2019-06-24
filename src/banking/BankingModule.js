@@ -421,24 +421,24 @@ export default class BankingModule {
   };
 
   openBankFeedsLoginModal = () => {
-    this.collapseTransactionLine();
+    this.dispatcher.collapseTransactionLine();
     this.dispatcher.openBankFeedsLoginModal();
   };
 
   closeBankFeedsLoginModal = () => {
-    this.closeModal();
+    this.dispatcher.closeModal();
     this.dispatcher.clearBankFeedsLogin();
   }
 
   confirmBankFeedsLogin = () => {
     const onSuccess = ({ message }) => {
-      this.dispatcher.setIsFetchingTransansactions(false);
+      this.dispatcher.setIsFetchingTransactions(false);
       this.dispatcher.resetFilters();
       this.dispatcher.setAlert({
         type: 'success',
         message,
       });
-      this.loadBankTransactions();
+      this.filterBankTransactions();
     };
 
     const onFailure = ({ message }) => {

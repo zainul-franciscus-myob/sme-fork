@@ -225,7 +225,7 @@ const createBankingDispatcher = store => ({
   },
 
   openBankFeedsLoginModal: () => {
-    this.store.dispatch({
+    store.dispatch({
       intent: OPEN_MODAL,
       modalType: 'bankFeedsLogin',
     });
@@ -236,18 +236,18 @@ const createBankingDispatcher = store => ({
   },
 
   clearBankFeedsLogin: () => {
-    this.store.dispatch({ intent: CLEAR_BANK_FEEDS_LOGIN });
+    store.dispatch({ intent: CLEAR_BANK_FEEDS_LOGIN });
   },
 
-  setIsFetchingTransansactions: (isFetchingTransactions) => {
-    this.store.dispatch({
+  setIsFetchingTransactions: (isFetchingTransactions) => {
+    store.dispatch({
       intent: SET_FETCHING_TRANSACTIONS_STATE,
       isFetchingTransactions,
     });
   },
 
   updateBankFeedsLoginDetails: ({ key, value }) => {
-    this.store.dispatch({
+    store.dispatch({
       intent: UPDATE_BANK_FEEDS_LOGIN,
       key,
       value,
@@ -255,7 +255,7 @@ const createBankingDispatcher = store => ({
   },
 
   resetFilters: () => {
-    this.store.dispatch({
+    store.dispatch({
       intent: RESET_FILTER_OPTIONS,
     });
   },

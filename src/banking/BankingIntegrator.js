@@ -396,12 +396,12 @@ const createBankingIntegrator = (store, integration) => ({
     onSuccess, onFailure,
   }) => {
     const intent = FETCH_BANK_FEEDS_TRANSACTIONS;
-    const state = this.store.getState();
+    const state = store.getState();
 
     const urlParams = { businessId: getBusinessId(state) };
     const content = getBankFeedsLoginDetails(state);
 
-    this.integration.write({
+    integration.write({
       intent,
       urlParams,
       content,
