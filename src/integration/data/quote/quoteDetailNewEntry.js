@@ -68,4 +68,9 @@ export default {
       },
     ],
   },
+  totals: {
+    subTotal: '$0.00',
+    totalTax: '$0.0',
+    totalAmount: '$0.0',
+  },
 };
