@@ -9,14 +9,14 @@ import SupplierReturnListTableBody from './SupplierReturnListTableBody';
 import style from './SupplierReturnListTable.css';
 
 const tableConfig = {
-  date: { width: '11rem', valign: 'top' },
-  purchaseOrderNumber: { width: 'flex-1', valign: 'top' },
-  supplierInvoiceNumber: { width: '15rem', valign: 'top' },
-  supplier: { width: 'flex-2', valign: 'top' },
-  amount: { width: '13rem', valign: 'top', align: 'right' },
-  debitAmount: { width: '16rem', valign: 'top', align: 'right' },
-  receiveRefund: { width: '13rem', valign: 'top' },
-  applyToPurchase: { width: '10rem', valign: 'top' },
+  date: { width: '11rem', valign: 'middle' },
+  purchaseOrderNumber: { width: 'flex-1', valign: 'middle' },
+  supplierInvoiceNumber: { width: '15rem', valign: 'middle' },
+  supplier: { width: 'flex-2', valign: 'middle' },
+  amount: { width: '13rem', valign: 'middle', align: 'right' },
+  debitAmount: { width: '16rem', valign: 'middle', align: 'right' },
+  receiveRefund: { width: '13rem', valign: 'middle' },
+  applyToPurchase: { width: '10rem', valign: 'middle' },
 };
 
 const emptyView = (
@@ -36,6 +36,7 @@ const SupplierReturnListTable = ({
   isTableEmpty,
   order,
   onSort,
+  onCreateRefundClick,
 }) => {
   let tableBodyView;
 
@@ -44,7 +45,12 @@ const SupplierReturnListTable = ({
   } else if (isTableEmpty) {
     tableBodyView = emptyView;
   } else {
-    tableBodyView = <SupplierReturnListTableBody tableConfig={tableConfig} />;
+    tableBodyView = (
+      <SupplierReturnListTableBody
+        tableConfig={tableConfig}
+        onCreateRefundClick={onCreateRefundClick}
+      />
+    );
   }
 
   return (

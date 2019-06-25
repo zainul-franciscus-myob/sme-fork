@@ -28,6 +28,7 @@ const BUSINESS_EVENT_TYPE_TO_FEATURE_MAP = {
   TransferMoney: 'transferMoney',
   ReceivePayment: 'invoicePayment',
   PayBill: 'billPayment',
+  ReceiveRefund: 'receiveRefund',
 };
 
 const getEntryLink = (entry, businessId, region) => {

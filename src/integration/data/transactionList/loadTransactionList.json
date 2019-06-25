@@ -156,6 +156,15 @@
       "sourceJournal": "CashReceipt",
       "displayAmount": "225.00",
       "businessEventType": "ReceivePayment"
+    },
+    {
+      "id": "22",
+      "displayDate": "30/09/2016",
+      "referenceId": "RR0000123",
+      "description": "receive refund",
+      "sourceJournal": "Purchase",
+      "displayAmount": "490.00",
+      "businessEventType": "ReceiveRefund"
     }
   ]
 }

@@ -14,25 +14,65 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../../receiveRefund/ReceiveRefundMessageTypes';
 import {
   getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getNewSortOrder,
   getOrderBy,
+  getRegion,
   getSortOrder,
 } from './supplierReturnListSelectors';
 import Store from '../../store/Store';
 import SupplierReturnListView from './components/SupplierReturnListView';
 import supplierReturnListReducer from './supplierReturnListReducer';
 
+const messageTypes = [SUCCESSFULLY_SAVED_RECEIVE_REFUND];
+
 export default class SupplierReturnListModule {
   constructor({
-    integration, setRootView,
+    integration, setRootView, popMessages,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(supplierReturnListReducer);
+    this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
+  }
+
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const {
+        content: message,
+      } = successMessage;
+
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+    }
+  }
+
+  setAlert = ({ message, type }) => {
+    const intent = SET_ALERT;
+    this.store.dispatch({
+      intent,
+      alert: {
+        message,
+        type,
+      },
+    });
+  }
+
+  redirectToCreateRefund = (id) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/supplierReturn/${id}/receiveRefund/new`;
   }
 
   loadSupplierReturnList = () => {
@@ -155,6 +195,7 @@ export default class SupplierReturnListModule {
         onApplyFilter={this.filterSupplierReturnList}
         onDismissAlert={this.dismissAlert}
         onSort={this.sortSupplierReturnList}
+        onCreateRefundClick={this.redirectToCreateRefund}
       />
     );
 
@@ -187,6 +228,7 @@ export default class SupplierReturnListModule {
   run(context) {
     this.setInitialState(context);
     this.render();
+    this.readMessages();
     this.loadSupplierReturnList();
   }
 

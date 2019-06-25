@@ -18,6 +18,7 @@ import PayrollSettingsMapping from './PayrollSettingsMapping';
 import QuoteMapping from './QuoteMapping';
 import QuoteServiceMapping from './QuoteServiceMapping';
 import ReceiveMoneyMapping from './ReceiveMoneyMapping';
+import ReceiveRefundMapping from './ReceiveRefundMapping';
 import SaleSettingMapping from './SalesSettingsMapping';
 import SpendMoneyMapping from './SpendMoneyMapping';
 import SupplierReturnMapping from './SupplierReturnMapping';
@@ -54,6 +55,7 @@ const RootMapping = Object.freeze({
   ...SaleSettingMapping,
   ...PayrollSettingsMapping,
   ...SupplierReturnMapping,
+  ...ReceiveRefundMapping,
 });
 
 export default RootMapping;
