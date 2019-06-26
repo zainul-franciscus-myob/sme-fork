@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getContactDetails } from '../contactDetailSelectors';
+import ABNInput from '../../../components/autoFormatter/ABNInput/ABNInput';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -25,6 +26,11 @@ const onRadioButtonChange = (name, handler) => ({ value }) => {
 const onCheckboxChange = handler => (e) => {
   const { checked, name } = e.target;
   handler({ key: name, value: checked });
+};
+
+const onAbnInputChange = handler => (e) => {
+  const { name, rawValue } = e.target;
+  handler({ key: name, value: rawValue });
 };
 
 const openNewTab = url => () => window.open(url);
@@ -121,13 +127,7 @@ const ContactDetails = ({
         />
       )
     }
-    <Input
-      name="abn"
-      label="ABN"
-      maxLength={11}
-      value={abn}
-      onChange={onInputChange(onContactDetailsChange)}
-    />
+    <ABNInput name="abn" label="ABN" value={abn} onChange={onAbnInputChange(onContactDetailsChange)} />
     <Field
       label="ABN lookup"
       hideLabel
