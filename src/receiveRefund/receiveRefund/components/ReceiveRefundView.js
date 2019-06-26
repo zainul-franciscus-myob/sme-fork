@@ -2,7 +2,9 @@ import { Alert, FormTemplate, Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading, getModalType } from '../receiveRefundSelectors';
+import {
+  getAlert, getIsCreating, getIsLoading, getModalType,
+} from '../receiveRefundSelectors';
 import ReceiveRefundModal from './ReceiveRefundModal';
 import RefundActions from './ReceiveRefundActions';
 import RefundDetail from './ReceiveRefundDetail';
@@ -10,6 +12,7 @@ import RefundDetail from './ReceiveRefundDetail';
 const ReceiveRefundView = (props) => {
   const {
     alert,
+    isCreating,
     isLoading,
     modalType,
     onDismissAlert,
@@ -21,6 +24,8 @@ const ReceiveRefundView = (props) => {
     onCancelButtonClick,
     onDeleteButtonClick,
   } = props;
+
+  const pageHead = isCreating ? 'Receive refund' : 'Received refund';
 
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -38,7 +43,7 @@ const ReceiveRefundView = (props) => {
   );
 
   const view = (
-    <FormTemplate pageHead="Receive refund" alert={alertComponent}>
+    <FormTemplate pageHead={pageHead} alert={alertComponent}>
       {modal}
       <RefundDetail onRefundDetailsChange={onRefundDetailsChange} />
       <RefundActions
@@ -54,6 +59,7 @@ const ReceiveRefundView = (props) => {
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
+  isCreating: getIsCreating(state),
   isLoading: getIsLoading(state),
   modalType: getModalType(state),
 });
