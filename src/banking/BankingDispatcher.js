@@ -220,7 +220,7 @@ const createBankingDispatcher = store => ({
   openCancelModal: () => {
     store.dispatch({
       intent: OPEN_MODAL,
-      type: 'cancel',
+      modalType: 'cancel',
     });
   },
 

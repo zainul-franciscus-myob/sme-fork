@@ -715,6 +715,7 @@ export default class BankingModule {
     this.dispatcher.setEntryLoadingState(index, true);
 
     this.integrator.saveTransferMoney({
+      index,
       onSuccess,
       onFailure,
     });
