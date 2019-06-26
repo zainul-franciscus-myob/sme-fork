@@ -17,6 +17,7 @@ import {
   getMatchTransactionFlipSortOrder,
   getMatchTransactionOrderBy,
 } from './bankingSelectors/matchTransactionSelectors';
+import { getPaymentAllocationContactId } from './bankingSelectors/paymentAllocationSelectors';
 import { tabIds } from './tabItems';
 import BankingView from './components/BankingView';
 import Store from '../store/Store';
@@ -46,7 +47,6 @@ export default class BankingModule {
       deleteSplitAllocationLine,
       updateMatchTransactionOptions,
       updateMatchTransactionSelection,
-      updatePaymentAllocationOptions,
       updatePaymentAllocationLine,
       updateTransferMoney,
       closeModal,
@@ -82,7 +82,7 @@ export default class BankingModule {
         onUpdateMatchTransactionSelection={updateMatchTransactionSelection}
         onSaveMatchTransaction={this.saveMatchTransaction}
         onCancelMatchTransaction={this.confirmBefore(collapseTransactionLine)}
-        onUpdatePaymentAllocationOptions={this.confirmBefore(updatePaymentAllocationOptions)}
+        onUpdatePaymentAllocationOptions={this.confirmBefore(this.updatePaymentAllocationOptions)}
         onUpdatePaymentAllocationLine={updatePaymentAllocationLine}
         onSavePaymentAllocation={this.savePaymentAllocation}
         onSaveTransferMoney={this.saveTransferMoney}
@@ -361,8 +361,6 @@ export default class BankingModule {
     const state = this.store.getState();
     const index = getOpenPosition(state);
 
-    this.dispatcher.collapseTransactionLine();
-
     const onSuccess = (payload) => {
       this.dispatcher.setEntryLoadingState(index, false);
       this.dispatcher.saveSplitAllocation(index, payload);
@@ -387,6 +385,8 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
+
+    this.dispatcher.collapseTransactionLine();
   }
 
   unallocateOpenEntryTransaction = () => {
@@ -543,8 +543,6 @@ export default class BankingModule {
 
     const index = getOpenPosition(state);
 
-    this.dispatcher.collapseTransactionLine();
-
     const onSuccess = (payload) => {
       this.dispatcher.setEntryLoadingState(index, false);
       this.dispatcher.saveMatchTransaction(index, payload);
@@ -568,6 +566,8 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
+
+    this.dispatcher.collapseTransactionLine();
   }
 
   updateMatchTransactionSortOrder = (orderBy) => {
@@ -618,6 +618,16 @@ export default class BankingModule {
     });
   }
 
+  updatePaymentAllocationOptions = ({ key, value }) => {
+    this.dispatcher.updatePaymentAllocationOptions({ key, value });
+
+    const state = this.store.getState();
+    const contactId = getPaymentAllocationContactId(state);
+    if (contactId) {
+      this.loadPaymentAllocationLines();
+    }
+  }
+
   loadPaymentAllocation = (index) => {
     const onSuccess = this.ifOpen(
       index,
@@ -649,10 +659,9 @@ export default class BankingModule {
   savePaymentAllocation = () => {
     const state = this.store.getState();
 
-    this.dispatcher.collapseTransactionLine();
-
     const isCreating = getIsOpenEntryCreating(state);
     if (!isCreating) {
+      this.dispatcher.collapseTransactionLine();
       return;
     }
 
@@ -681,6 +690,8 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
+
+    this.dispatcher.collapseTransactionLine();
   }
 
   saveTransferMoney = () => {
