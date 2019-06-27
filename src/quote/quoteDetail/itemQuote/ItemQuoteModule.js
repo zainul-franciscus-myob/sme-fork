@@ -66,7 +66,7 @@ export default class ItemQuoteModule {
 
     const urlParams = {
       businessId: getBusinessId(state),
-      contactId: getCustomerId(state),
+      customerId: getCustomerId(state),
     };
 
     const onSuccess = ({ address }) => {
