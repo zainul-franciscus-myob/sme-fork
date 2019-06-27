@@ -32,7 +32,7 @@ const getLink = (state, id) => `/#/${state.region}/${state.businessId}/bill/${id
 
 export const getTableEntries = state => state.entries.map(entry => ({
   ...entry,
-  link: getLink(state, entry),
+  link: getLink(state, entry.id),
 }));
 
 export const getAlert = state => state.alert;
