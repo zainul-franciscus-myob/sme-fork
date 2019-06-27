@@ -165,6 +165,15 @@
       "sourceJournal": "Purchase",
       "displayAmount": "490.00",
       "businessEventType": "ReceiveRefund"
+    },
+    {
+      "id": "23",
+      "displayDate": "30/10/2018",
+      "referenceId": "SPR0000123",
+      "description": "Settle purchase return",
+      "sourceJournal": "Purchase",
+      "displayAmount": "500.00",
+      "businessEventType": "SettlePurchaseReturn"
     }
   ]
 }

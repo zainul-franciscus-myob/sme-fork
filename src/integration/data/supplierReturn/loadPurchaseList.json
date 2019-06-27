@@ -1,0 +1,44 @@
+{
+  "purchases": [
+    {
+      "id": "1",
+      "date": "21/06/2019",
+      "purchaseNumber": "0000001",
+      "status": "Open",
+      "amount": "839.36",
+      "discount": "",
+      "owed": "",
+      "amountApplied": "839.36"
+    },
+    {
+      "id": "2",
+      "date": "22/06/2019",
+      "purchaseNumber": "0000002",
+      "status": "Open",
+      "amount": "900.99",
+      "discount": "",
+      "owed": "500.00",
+      "amountApplied": "400.99"
+    },
+    {
+      "id": "3",
+      "date": "21/06/2019",
+      "purchaseNumber": "0000004",
+      "status": "Closed",
+      "amount": "712.11",
+      "discount": "",
+      "owed": "",
+      "amountApplied": "212.13"
+    },
+    {
+      "id": "4",
+      "date": "21/06/2019",
+      "purchaseNumber": "0000004",
+      "status": "Closed",
+      "amount": "500.00",
+      "discount": "",
+      "owed": "",
+      "amountApplied": "500.00"
+    }
+  ]
+}

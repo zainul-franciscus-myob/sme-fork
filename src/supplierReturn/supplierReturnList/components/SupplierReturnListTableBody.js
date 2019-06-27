@@ -12,6 +12,7 @@ const SupplierReturnListTableBody = ({
   entries,
   tableConfig,
   onCreateRefundClick,
+  onCreatePurchaseClick,
 }) => {
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
@@ -21,7 +22,7 @@ const SupplierReturnListTableBody = ({
       </Table.RowItem>
 
       <Table.RowItem {...tableConfig.purchaseOrderNumber}>
-        {entry.purchaseOrderNumber}
+        <a href={entry.link}>{entry.purchaseOrderNumber}</a>
       </Table.RowItem>
 
       <Table.RowItem {...tableConfig.supplierInvoiceNumber}>
@@ -41,13 +42,15 @@ const SupplierReturnListTableBody = ({
       </Table.RowItem>
 
       <Table.RowItem {...tableConfig.receiveRefund}>
-        <Button type="link" icon={<Icons.Dollar />} iconRight onClick={onLinkButtonClick(onCreateRefundClick, entry.id)}>
+        <Button type="link" icon={<Icons.Dollar />} iconLeft onClick={onLinkButtonClick(onCreateRefundClick, entry.id)}>
           Refund
         </Button>
       </Table.RowItem>
 
       <Table.RowItem {...tableConfig.applyToPurchase}>
-        {entry.applyToPurchase}
+        <Button type="link" icon={<Icons.ReopenedDocument />} iconLeft onClick={onLinkButtonClick(onCreatePurchaseClick, entry.id)}>
+          Apply
+        </Button>
       </Table.RowItem>
 
     </Table.Row>

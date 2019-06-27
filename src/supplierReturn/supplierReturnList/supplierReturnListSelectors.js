@@ -28,7 +28,12 @@ export const getOrder = state => ({
   descending: getSortOrder(state) === DESC,
 });
 
-export const getTableEntries = state => state.entries;
+const getLink = (state, id) => `/#/${state.region}/${state.businessId}/bill/${id}`;
+
+export const getTableEntries = state => state.entries.map(entry => ({
+  ...entry,
+  link: getLink(state, entry),
+}));
 
 export const getAlert = state => state.alert;
 

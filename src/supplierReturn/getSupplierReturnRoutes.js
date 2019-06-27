@@ -1,5 +1,6 @@
 import ReceiveRefundModule from '../receiveRefund/receiveRefund/ReceiveRefundModule';
 import SupplierReturnListModule from './supplierReturnList/SupplierReturnListModule';
+import SupplierReturnPurchaseModule from '../supplierReturnPurchase/SupplierReturnPurchaseModule';
 
 const getSupplierReturnRoutes = ({
   integration, setRootView, popMessages, pushMessage,
@@ -16,6 +17,13 @@ const getSupplierReturnRoutes = ({
       name: 'supplierReturnReceiveRefund',
       path: '/:supplierReturnId/receiveRefund/new',
       module: new ReceiveRefundModule({
+        integration, setRootView, pushMessage,
+      }),
+    },
+    {
+      name: 'supplierReturnPurchase',
+      path: '/:supplierReturnId/applyToPurchase/new',
+      module: new SupplierReturnPurchaseModule({
         integration, setRootView, pushMessage,
       }),
     },

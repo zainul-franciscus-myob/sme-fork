@@ -14,6 +14,7 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { SUCCESSFULLY_SAVED_PURCHASE_RETURN } from '../../supplierReturnPurchase/SupplierReturnPurchaseMessageTypes';
 import { SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../../receiveRefund/ReceiveRefundMessageTypes';
 import {
   getAppliedFilterOptions,
@@ -28,7 +29,7 @@ import Store from '../../store/Store';
 import SupplierReturnListView from './components/SupplierReturnListView';
 import supplierReturnListReducer from './supplierReturnListReducer';
 
-const messageTypes = [SUCCESSFULLY_SAVED_RECEIVE_REFUND];
+const messageTypes = [SUCCESSFULLY_SAVED_RECEIVE_REFUND, SUCCESSFULLY_SAVED_PURCHASE_RETURN];
 
 export default class SupplierReturnListModule {
   constructor({
@@ -73,6 +74,14 @@ export default class SupplierReturnListModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/supplierReturn/${id}/receiveRefund/new`;
+  }
+
+  redirectToCreatePurchase = (id) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/supplierReturn/${id}/applyToPurchase/new`;
   }
 
   loadSupplierReturnList = () => {
@@ -196,6 +205,7 @@ export default class SupplierReturnListModule {
         onDismissAlert={this.dismissAlert}
         onSort={this.sortSupplierReturnList}
         onCreateRefundClick={this.redirectToCreateRefund}
+        onCreatePurchaseClick={this.redirectToCreatePurchase}
       />
     );
 

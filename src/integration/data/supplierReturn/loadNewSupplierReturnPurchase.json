@@ -1,0 +1,29 @@
+{
+  "supplierName": "Daisy Flowers",
+  "supplierId": "1",
+  "description": "",
+  "referenceId": "SP000001",
+  "purchases": [
+    {
+      "id": "1",
+      "date": "21/06/2019",
+      "purchaseNumber": "0000001",
+      "status": "Open",
+      "amount": "839.36",
+      "discount": "",
+      "owed": "",
+      "amountApplied": ""
+    },
+    {
+      "id": "2",
+      "date": "22/06/2019",
+      "purchaseNumber": "0000002",
+      "status": "Open",
+      "amount": "900.99",
+      "discount": "",
+      "owed": "",
+      "amountApplied": ""
+    }
+  ],
+  "debitAmount": "1000.00"
+}

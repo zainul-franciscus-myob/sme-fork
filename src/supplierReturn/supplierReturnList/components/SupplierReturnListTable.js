@@ -37,6 +37,7 @@ const SupplierReturnListTable = ({
   order,
   onSort,
   onCreateRefundClick,
+  onCreatePurchaseClick,
 }) => {
   let tableBodyView;
 
@@ -49,6 +50,7 @@ const SupplierReturnListTable = ({
       <SupplierReturnListTableBody
         tableConfig={tableConfig}
         onCreateRefundClick={onCreateRefundClick}
+        onCreatePurchaseClick={onCreatePurchaseClick}
       />
     );
   }

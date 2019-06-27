@@ -20,6 +20,7 @@ const SupplierReturnListView = ({
   onDismissAlert,
   onSort,
   onCreateRefundClick,
+  onCreatePurchaseClick,
 }) => {
   const pageHead = (
     <PageHead title="Supplier returns" />
@@ -42,7 +43,11 @@ const SupplierReturnListView = ({
     <StandardTemplate alert={alertComponent} sticky="none" pageHead={pageHead} filterBar={filterBar}>
 
       <div className={style.list}>
-        <SupplierReturnListTable onSort={onSort} onCreateRefundClick={onCreateRefundClick} />
+        <SupplierReturnListTable
+          onSort={onSort}
+          onCreateRefundClick={onCreateRefundClick}
+          onCreatePurchaseClick={onCreatePurchaseClick}
+        />
       </div>
 
     </StandardTemplate>
