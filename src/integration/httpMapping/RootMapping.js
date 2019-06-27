@@ -14,6 +14,7 @@ import InvoiceMapping from './InvoiceMapping';
 import InvoicePaymentMapping from './InvoicePaymentMapping';
 import InvoiceServiceMapping from './InvoiceServiceMapping';
 import NavigationMapping from './NavigationMapping';
+import PayRefundMapping from './PayRefundMapping';
 import PayrollSettingsMapping from './PayrollSettingsMapping';
 import QuoteItemMapping from './QuoteItemMapping';
 import QuoteMapping from './QuoteMapping';
@@ -60,6 +61,7 @@ const RootMapping = Object.freeze({
   ...SupplierReturnMapping,
   ...ReceiveRefundMapping,
   ...SupplierReturnPurchaseMapping,
+  ...PayRefundMapping,
 });
 
 export default RootMapping;

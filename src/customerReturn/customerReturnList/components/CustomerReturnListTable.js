@@ -37,6 +37,7 @@ const CustomerReturnListTable = ({
   isTableEmpty,
   order,
   onSort,
+  onCreateRefundClick,
 }) => {
   let tableBodyView;
 
@@ -45,7 +46,12 @@ const CustomerReturnListTable = ({
   } else if (isTableEmpty) {
     tableBodyView = emptyView;
   } else {
-    tableBodyView = <CustomerReturnListTableBody tableConfig={tableConfig} />;
+    tableBodyView = (
+      <CustomerReturnListTableBody
+        tableConfig={tableConfig}
+        onCreateRefundClick={onCreateRefundClick}
+      />
+    );
   }
 
   return (

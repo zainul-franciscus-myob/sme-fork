@@ -3,7 +3,7 @@ import React from 'react';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 
-const ReceiveRefundModal = ({
+const PayRefundModal = ({
   modalType,
   onCloseModal,
   onConfirmCancel,
@@ -13,7 +13,7 @@ const ReceiveRefundModal = ({
     <CancelModal
       onCancel={onCloseModal}
       onConfirm={onConfirmCancel}
-      title="Cancel receive refund"
+      title="Cancel pay refund"
       description="Are you sure you want to cancel the alterations in this refund?"
     />
   );
@@ -37,4 +37,4 @@ const ReceiveRefundModal = ({
   }
 };
 
-export default ReceiveRefundModal;
+export default PayRefundModal;

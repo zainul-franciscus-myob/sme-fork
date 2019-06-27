@@ -1,13 +1,18 @@
-import { Table } from '@myob/myob-widgets';
+import { Button, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getTableEntries } from '../CustomerReturnListSelectors';
 
+const onLinkButtonClick = (handler, id) => () => {
+  handler(id);
+};
+
 const CustomerReturnListTableBody = ({
   entries,
   tableConfig,
+  onCreateRefundClick,
 }) => {
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
@@ -37,7 +42,9 @@ const CustomerReturnListTableBody = ({
       </Table.RowItem>
 
       <Table.RowItem {...tableConfig.payRefund}>
-        {entry.payRefund}
+        <Button type="link" icon={<Icons.Dollar />} iconRight onClick={onLinkButtonClick(onCreateRefundClick, entry.id)}>
+          Refund
+        </Button>
       </Table.RowItem>
 
       <Table.RowItem {...tableConfig.applyToSale}>

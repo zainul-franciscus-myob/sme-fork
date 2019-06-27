@@ -1,0 +1,10 @@
+{
+  "refund": {
+    "referenceId": "00001827",
+    "date": "20/12/2018",
+    "contactName": "Smith, James",
+    "accountName": "1-3456 Test Account",
+    "amount": "12,345.80",
+    "description": "Smith, James: Credit from 000000001"
+  }
+}

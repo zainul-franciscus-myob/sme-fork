@@ -13,11 +13,11 @@ const loadNewRefund = ({ onSuccess }) => onSuccess(loadNewRefundResponse);
 const loadRefund = ({ onSuccess }) => onSuccess(loadRefundResponse);
 const deleteRefund = ({ onSuccess }) => onSuccess(successResponse);
 
-const SupplierReturnMapping = {
+const ReceiveRefundMapping = {
   [LOAD_RECEIVE_REFUND]: loadRefund,
   [LOAD_NEW_RECEIVE_REFUND]: loadNewRefund,
   [CREATE_RECEIVE_REFUND]: createRefund,
   [DELETE_RECEIVE_REFUND]: deleteRefund,
 };
 
-export default SupplierReturnMapping;
+export default ReceiveRefundMapping;

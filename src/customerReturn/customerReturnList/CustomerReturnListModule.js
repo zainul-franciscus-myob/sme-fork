@@ -14,21 +14,49 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { SUCCESSFULLY_SAVED_PAY_REFUND } from '../../payRefund/PayRefundMessageTypes';
 import {
   getAppliedFilterOptions, getBusinessId, getFilterOptions,
-  getNewSortOrder, getOrderBy, getSortOrder,
+  getNewSortOrder, getOrderBy, getRegion, getSortOrder,
 } from './CustomerReturnListSelectors';
 import CustomerReturnListView from './components/CustomerReturnListView';
 import Store from '../../store/Store';
 import customerReturnListReducer from './customerReturnListReducer';
 
+const messageTypes = [SUCCESSFULLY_SAVED_PAY_REFUND];
+
 export default class CustomerReturnListModule {
   constructor({
-    integration, setRootView,
+    integration, setRootView, popMessages,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(customerReturnListReducer);
+    this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
+  }
+
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const {
+        content: message,
+      } = successMessage;
+
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+    }
+  }
+
+  redirectToCreateRefund = (id) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/customerReturn/${id}/payRefund/new`;
   }
 
   loadCustomerReturnList = () => {
@@ -196,6 +224,7 @@ export default class CustomerReturnListModule {
         onApplyFilter={this.filterCustomerReturnList}
         onDismissAlert={this.dismissAlert}
         onSort={this.sortCustomerReturnList}
+        onCreateRefundClick={this.redirectToCreateRefund}
       />
     );
 
@@ -230,6 +259,7 @@ export default class CustomerReturnListModule {
   run(context) {
     this.setInitialState(context);
     this.render();
+    this.readMessages();
     this.loadCustomerReturnList();
   }
 

@@ -16,6 +16,7 @@ import {
 import { SUCCESSFULLY_DELETED_BILL_PAYMENT, SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../billPayment/BillPaymentMessageTypes';
 import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../generalJournal/GeneralJournalMessageTypes';
 import { SUCCESSFULLY_DELETED_INVOICE_PAYMENT, SUCCESSFULLY_SAVED_INVOICE_PAYMENT } from '../invoicePayment/InvoicePaymentMessageTypes';
+import { SUCCESSFULLY_DELETED_PAY_REFUND } from '../payRefund/PayRefundMessageTypes';
 import { SUCCESSFULLY_DELETED_PURCHASE_RETURN } from '../supplierReturnPurchase/SupplierReturnPurchaseMessageTypes';
 import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../receiveMoney/receiveMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_RECEIVE_REFUND } from '../receiveRefund/ReceiveRefundMessageTypes';
@@ -36,6 +37,7 @@ const messageTypes = [
   SUCCESSFULLY_DELETED_INVOICE_PAYMENT, SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
   SUCCESSFULLY_SAVED_BILL_PAYMENT, SUCCESSFULLY_DELETED_BILL_PAYMENT,
   SUCCESSFULLY_DELETED_RECEIVE_REFUND, SUCCESSFULLY_DELETED_PURCHASE_RETURN,
+  SUCCESSFULLY_DELETED_PAY_REFUND,
 ];
 
 export default class TransactionListModule {

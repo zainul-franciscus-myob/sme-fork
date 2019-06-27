@@ -158,7 +158,7 @@
       "businessEventType": "ReceivePayment"
     },
     {
-      "id": "22",
+      "id": "23",
       "displayDate": "30/09/2016",
       "referenceId": "RR0000123",
       "description": "receive refund",
@@ -167,13 +167,22 @@
       "businessEventType": "ReceiveRefund"
     },
     {
-      "id": "23",
+      "id": "24",
       "displayDate": "30/10/2018",
       "referenceId": "SPR0000123",
       "description": "Settle purchase return",
       "sourceJournal": "Purchase",
       "displayAmount": "500.00",
       "businessEventType": "SettlePurchaseReturn"
+    },
+    {
+      "id": "25",
+      "displayDate": "30/09/2016",
+      "referenceId": "PR0000123",
+      "description": "pay refund",
+      "sourceJournal": "Sale",
+      "displayAmount": "500.00",
+      "businessEventType": "PayRefund"
     }
   ]
 }
