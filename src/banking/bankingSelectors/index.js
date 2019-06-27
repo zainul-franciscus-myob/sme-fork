@@ -239,13 +239,18 @@ export const getDisplayBalances = createSelector(
       bankBalance,
       myobBalance,
       unallocated,
+      bankBalanceDate,
     } = balances;
+
+    const balanceTooltip = bankBalanceDate
+      || 'Your bank hasn\'t provided a statement balance, so we can\'t show these amounts.';
 
     if (getIsBalancesInvalid(balances)) {
       return {
         bankBalance: '$--',
         myobBalance: '$--',
         unallocated: '$--',
+        balanceTooltip,
       };
     }
 
@@ -253,6 +258,7 @@ export const getDisplayBalances = createSelector(
       bankBalance: formatCurrency(bankBalance),
       myobBalance: formatCurrency(myobBalance),
       unallocated: formatCurrency(unallocated),
+      balanceTooltip,
     };
   },
 );

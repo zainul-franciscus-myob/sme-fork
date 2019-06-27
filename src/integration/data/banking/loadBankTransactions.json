@@ -172,7 +172,8 @@
   "balances": {
     "bankBalance": 12000.88,
     "myobBalance": 15342,
-    "unallocated": 3342.88
+    "unallocated": 3342.88,
+    "bankBalanceDate": "24/2/2019"
   },
   "entries": [
     {

@@ -14,6 +14,7 @@ const getDefaultState = () => ({
     bankBalance: '',
     myobBalance: '',
     unallocated: '',
+    balanceTooltip: '',
   },
   bankAccounts: [],
   transactionTypes: [],

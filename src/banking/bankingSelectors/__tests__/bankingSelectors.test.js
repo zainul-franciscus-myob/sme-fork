@@ -128,9 +128,34 @@ describe('bankingSelector', () => {
       const [name, balances, expected] = args;
 
       it(name, () => {
+        const result = getDisplayBalances.resultFunc(balances, 0);
+
+        expect(result.bankBalance).toEqual(expected.bankBalance);
+        expect(result.myobBalance).toEqual(expected.myobBalance);
+        expect(result.unallocated).toEqual(expected.unallocated);
+      });
+    });
+
+    [
+      ['should return balance date', '01/01/2019', '01/01/2019'],
+      [
+        'should return unavailable balance message', '',
+        'Your bank hasn\'t provided a statement balance, so we can\'t show these amounts.',
+      ],
+    ].forEach((args) => {
+      const [name, bankBalanceDate, expectedBalanceTooltip] = args;
+
+      const balances = {
+        bankBalance: 1200,
+        myobBalance: 200,
+        unallocated: 1000,
+        bankBalanceDate,
+      };
+
+      it(name, () => {
         const result = getDisplayBalances.resultFunc(balances);
 
-        expect(result).toEqual(expected);
+        expect(result.balanceTooltip).toEqual(expectedBalanceTooltip);
       });
     });
   });

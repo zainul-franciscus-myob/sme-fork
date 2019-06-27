@@ -215,7 +215,9 @@
 }
 
 :local .balances {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 :local .unallocated {
@@ -224,6 +226,10 @@
 
 :local .balanceItem {
   margin-right: 2rem;
+}
+
+:local .balanceTooltip {
+  margin-right: 0.5rem;
 }
 
 :local .openEntry.isLoading {

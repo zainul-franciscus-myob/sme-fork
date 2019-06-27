@@ -1,5 +1,5 @@
 import {
-  DatePicker, FilterBar, Search, Select,
+  DatePicker, FilterBar, Search, Select, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -56,6 +56,7 @@ class BankTransactionFilterOptions extends React.Component {
         bankBalance,
         myobBalance,
         unallocated,
+        balanceTooltip,
       },
       transactionTypes,
       bankAccounts,
@@ -92,6 +93,7 @@ class BankTransactionFilterOptions extends React.Component {
         </FilterBar>
         <hr />
         <div className={styles.balances}>
+          <span className={styles.balanceTooltip}><Tooltip>{balanceTooltip}</Tooltip></span>
           <span className={styles.balanceItem}>{`Bank balance: ${bankBalance}`}</span>
           <span className={styles.balanceItem}>{`MYOB balance: ${myobBalance}`}</span>
           <span className={styles.unallocated}>{`Unallocated: ${unallocated}`}</span>
