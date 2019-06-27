@@ -1,10 +1,10 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import {
-  LOAD_NEW_SERVICE_QUOTE,
-} from './serviceQuote/ServiceQuoteIntents';
+import { LOAD_NEW_ITEM_QUOTE } from './itemQuote/ItemQuoteIntents';
+import { LOAD_NEW_SERVICE_QUOTE } from './serviceQuote/ServiceQuoteIntents';
 import { LOAD_QUOTE_DETAIL } from '../QuoteIntents';
+import ItemQuoteModule from './itemQuote/ItemQuoteModule';
 import ServiceQuoteModule from './serviceQuote/ServiceQuoteModule';
 
 export default class QuoteDetailModule {
@@ -32,7 +32,7 @@ export default class QuoteDetailModule {
     if (layout === 'service') {
       this.module = new ServiceQuoteModule(moduleParams);
     } else {
-      // this.module = new QuoteItemModule(moduleParams);
+      this.module = new ItemQuoteModule(moduleParams);
     }
     this.module.run({ context, payload });
   };
@@ -45,7 +45,7 @@ export default class QuoteDetailModule {
     };
     const intent = {
       newService: LOAD_NEW_SERVICE_QUOTE,
-      // newItem: LOAD_NEW_QUOTE_ITEM_DETAIL,
+      newItem: LOAD_NEW_ITEM_QUOTE,
     }[quoteId] || LOAD_QUOTE_DETAIL;
 
     const onSuccess = payload => this.loadQuoteModule(context, payload);

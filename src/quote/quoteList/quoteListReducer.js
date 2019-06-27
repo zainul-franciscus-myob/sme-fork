@@ -19,6 +19,7 @@ const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
 
 const getDefaultState = () => ({
+  layout: '',
   filterOptions: {
     customerId: 'All',
     dateFrom: convertToDateString(getDefaultDateRange()),
@@ -41,6 +42,7 @@ const getDefaultState = () => ({
 
 const loadQuoteList = (state, action) => ({
   ...state,
+  layout: action.layout,
   entries: action.entries,
   customerFilters: action.customerFilters,
   sortOrder: action.sortOrder,

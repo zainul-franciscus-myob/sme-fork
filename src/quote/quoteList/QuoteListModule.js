@@ -13,9 +13,20 @@ import {
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
-import { SUCCESSFULLY_DELETED_SERVICE_QUOTE, SUCCESSFULLY_SAVED_SERVICE_QUOTE } from '../quoteDetail/quoteMessageTypes';
 import {
-  getAppliedFilterOptions, getBusinessId, getFilterOptions, getOrderBy, getRegion, getSortOrder,
+  SUCCESSFULLY_DELETED_ITEM_QUOTE,
+  SUCCESSFULLY_DELETED_SERVICE_QUOTE,
+  SUCCESSFULLY_SAVED_ITEM_QUOTE,
+  SUCCESSFULLY_SAVED_SERVICE_QUOTE,
+} from '../quoteDetail/quoteMessageTypes';
+import {
+  getAppliedFilterOptions,
+  getBusinessId,
+  getFilterOptions,
+  getNewQuoteUrlParam,
+  getOrderBy,
+  getRegion,
+  getSortOrder,
 } from './quoteListSelector';
 import QuoteListView from './components/QuoteListView';
 import Store from '../../store/Store';
@@ -24,6 +35,8 @@ import quoteListReducer from './quoteListReducer';
 const messageTypes = [
   SUCCESSFULLY_SAVED_SERVICE_QUOTE,
   SUCCESSFULLY_DELETED_SERVICE_QUOTE,
+  SUCCESSFULLY_SAVED_ITEM_QUOTE,
+  SUCCESSFULLY_DELETED_ITEM_QUOTE,
 ];
 
 export default class QuoteListModule {
@@ -98,23 +111,11 @@ export default class QuoteListModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({
-      entries,
-      customerFilters,
-      customerId,
-      sortOrder,
-      orderBy,
-      total,
-    }) => {
+    const onSuccess = (quoteListResponse) => {
       this.setLoadingState(false);
       this.store.dispatch({
         intent,
-        entries,
-        customerFilters,
-        customerId,
-        sortOrder,
-        orderBy,
-        total,
+        ...quoteListResponse,
       });
     };
 
@@ -247,8 +248,9 @@ export default class QuoteListModule {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
+    const newQuoteUrlParam = getNewQuoteUrlParam(state);
 
-    window.location.href = `/#/${region}/${businessId}/quote/newService`;
+    window.location.href = `/#/${region}/${businessId}/quote/${newQuoteUrlParam}`;
   }
 
   render = () => {

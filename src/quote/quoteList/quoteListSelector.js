@@ -42,3 +42,10 @@ export const getTableEntries = createSelector(
 );
 
 export const getTotal = state => state.total;
+
+const getDefaultLayout = state => state.layout;
+
+export const getNewQuoteUrlParam = createSelector(
+  getDefaultLayout,
+  layout => (layout === 'service' ? 'newService' : 'newItem'),
+);

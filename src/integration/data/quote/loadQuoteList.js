@@ -1,4 +1,5 @@
 export default {
+  layout: 'item',
   customerId: 'All',
   customerFilters: [
     { name: 'All customers', value: 'All' },

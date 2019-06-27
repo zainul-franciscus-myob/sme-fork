@@ -5,7 +5,6 @@ import {
   CLOSE_MODAL,
   FORMAT_SERVICE_QUOTE_LINE,
   GET_SERVICE_QUOTE_CALCULATED_TOTALS,
-  LOAD_NEW_SERVICE_QUOTE,
   OPEN_MODAL,
   REMOVE_SERVICE_QUOTE_LINE,
   RESET_TOTALS,
@@ -63,17 +62,6 @@ const getDefaultState = () => ({
   modalType: '',
   alertMessage: '',
   isSubmitting: false,
-});
-
-const loadNewServiceQuote = (state, action) => ({
-  ...state,
-  quote: {
-    ...state.quote,
-    ...action.quote,
-  },
-  customerOptions: action.customerOptions,
-  expirationTermOptions: action.expirationTermOptions,
-  newLine: action.newLine,
 });
 
 const setLoadingState = (state, action) => ({
@@ -238,7 +226,6 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [SET_SUBMITTING_STATE]: setSubmittingState,
-  [LOAD_NEW_SERVICE_QUOTE]: loadNewServiceQuote,
   [LOAD_CUSTOMER_ADDRESS]: loadCustomerAddress,
   [FORMAT_SERVICE_QUOTE_LINE]: formatServiceQuoteLine,
   [RESET_TOTALS]: resetTotals,
