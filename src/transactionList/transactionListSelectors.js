@@ -31,6 +31,8 @@ const BUSINESS_EVENT_TYPE_TO_FEATURE_MAP = {
   ReceiveRefund: 'receiveRefund',
   SettlePurchaseReturn: 'appliedPurchaseReturn',
   PayRefund: 'payRefund',
+  Purchase: 'bill',
+  Sale: 'invoice',
 };
 
 const getEntryLink = (entry, businessId, region) => {
