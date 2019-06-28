@@ -18,6 +18,14 @@ export const getIsTableLoading = state => state.isTableLoading;
 export const getModalType = state => state.modalType;
 export const getIsPageEdited = state => state.isPageEdited;
 
+const formatAmount = amount => Intl
+  .NumberFormat('en-AU', {
+    style: 'decimal',
+    minimumFractionDigits: '2',
+    maximumFractionDigits: '2',
+  })
+  .format(amount);
+
 export const getTotalAmountApplied = (state) => {
   const totalApplied = state.supplierReturnPurchase.purchases.reduce(
     (acc, purchase) => {
@@ -25,7 +33,7 @@ export const getTotalAmountApplied = (state) => {
       return acc + amountApplied;
     }, 0,
   );
-  const absoluteAmount = Math.abs(totalApplied).toFixed(2);
+  const absoluteAmount = formatAmount(Math.abs(totalApplied).toFixed(2));
   const formattedAmount = Number(totalApplied) < 0 ? `-$${absoluteAmount}` : `$${absoluteAmount}`;
   return getIsCreating(state) ? formattedAmount : `$${state.supplierReturnPurchase.debitAmount}`;
 };
@@ -33,12 +41,13 @@ export const getTotalAmountApplied = (state) => {
 export const getPurchases = state => state.supplierReturnPurchase.purchases.map(
   (purchase) => {
     const discount = purchase.discount !== '-' ? Number(purchase.discount) : 0;
-    const calculatedOwed = (Number(purchase.amount) - discount).toFixed(2);
+    const calculatedOwed = formatAmount((Number(purchase.amount) - discount).toFixed(2));
     const link = `/#/${state.region}/${state.businessId}/bill/${purchase.id}`;
 
     return {
       ...purchase,
       owed: getIsCreating(state) ? calculatedOwed : purchase.owed,
+      amount: formatAmount(purchase.amount),
       link,
     };
   },
