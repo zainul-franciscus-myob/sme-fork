@@ -1,0 +1,15 @@
+{
+  "message": "Success! You've successfully unallocated bank transactions",
+  "entries": [
+    {
+      "transactionId": "2",
+      "allocateOrMatch": "1 match available",
+      "type": "matched"
+    },
+    {
+      "transactionId": "3",
+      "allocateOrMatch": "2 match available",
+      "type": "matched"
+    }
+  ]
+}

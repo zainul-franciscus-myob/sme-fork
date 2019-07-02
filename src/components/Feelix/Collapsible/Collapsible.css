@@ -2,9 +2,53 @@
   min-width: initial;
 }
 
+:local .collapsible :global(.table-data__checkbox:first-child) {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 :local .collapsible:global(.is-open) :global(.collapsible__header-outer .table-data__row) {
   background-color: #515e6d;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   color: white;
+}
+
+:local .collapsible:global(.is-open) :global(.collapsible__header-outer .table-data--active) {
+  border-color: #515e6d;
+  border-radius: 0.4rem 0.4rem 0 0;
+  border-top-width: 0;
+  border-bottom-width: 1px;
+  margin: 0;
+}
+
+:local .collapsible:global(.is-open) + :global(.collapsible__contentOuter .collapsible__contentInner) {
+  border-left: 1px solid #515e6d;
+  border-right: 1px solid #515e6d;
+  border-bottom: 1px solid #515e6d;
+  border-radius: 0 0 4px 4px;
+}
+
+:local .collapsible:global(.is-open) + :global(.collapsible__contentOuter .collapsible__footer) {
+  background-color: #f3f4f5;
+}
+
+:local .collapsible:global(.is-open) :global(.collapsible__header-outer .magic-checkbox:checked + label::before) {
+  background: white;
+}
+
+:local .collapsible:global(.is-open) :global(.collapsible__header-outer .magic-checkbox:checked + label::after) {
+  border-color: #2e3e4f;
+}
+
+:local .collapsible:global(.is-open.collapsible__header) :global(.btn-default:not(:hover) [class*='icon']) {
+  fill: white;
+}
+
+:local .collapsible:global(.is-open.collapsible__header) :global(.btn-default:focus:not(:hover)) {
+  background: none;
+}
+
+:local .collapsible:global(.is-open.collapsible__header) :global(.collapsible__header-controls .btn-default:focus) {
+  outline: none;
 }

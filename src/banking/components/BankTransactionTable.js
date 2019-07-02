@@ -1,4 +1,6 @@
-import { HeaderSort, Spinner, Table } from '@myob/myob-widgets';
+import {
+  Checkbox, HeaderSort, Spinner, Table,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -10,6 +12,10 @@ import {
   getOpenEntryActiveTabId,
   getOrder,
 } from '../bankingSelectors';
+import {
+  getBulkSelectStatus,
+  getEntrySelectStatus, getIsBulkLoading,
+} from '../bankingSelectors/bulkAllocationSelectors';
 import AccordionTable from '../../components/Feelix/Accordion/AccordionTable';
 import BankTransactionTableBody from './BankTransactionTableBody';
 import style from './BankingView.css';
@@ -44,7 +50,10 @@ const spinnerView = header => (
 const BankTransactionTable = ({
   isTableEmpty,
   isTableLoading,
+  isBulkLoading,
   isOpenEntryLoading,
+  bulkSelectStatus,
+  entrySelectStatus,
   onMatchedToBlur,
   onSplitRowItemClick,
   onMatchRowItemClick,
@@ -81,9 +90,22 @@ const BankTransactionTable = ({
   onSaveTransferMoney,
   onCancelTransferMoney,
   onUpdateTransfer,
+  onSelectTransaction,
+  onSelectAllTransactions,
 }) => {
   const header = (
     <Table.Header>
+      <Table.HeaderItem width="auto">
+        <Checkbox
+          name="bulkSelect"
+          label="Bulk select"
+          hideLabel
+          onChange={onSelectAllTransactions}
+          checked={bulkSelectStatus === 'checked'}
+          indeterminate={bulkSelectStatus === 'indeterminate'}
+          disabled={isBulkLoading}
+        />
+      </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.date}>
         <HeaderSort title="Date" sortName="Date" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
@@ -112,6 +134,7 @@ const BankTransactionTable = ({
   }
   const body = BankTransactionTableBody({
     entries,
+    entrySelectStatus,
     tableConfig,
     isOpenEntryLoading,
     activeTabId,
@@ -146,6 +169,7 @@ const BankTransactionTable = ({
     onSaveTransferMoney,
     onCancelTransferMoney,
     onUpdateTransfer,
+    onSelectTransaction,
   });
   return (
     <AccordionTable
@@ -165,6 +189,9 @@ const mapStateToProps = state => ({
   isOpenEntryLoading: getIsOpenEntryLoading(state),
   activeTabId: getOpenEntryActiveTabId(state),
   entries: getBankTableData(state),
+  bulkSelectStatus: getBulkSelectStatus(state),
+  entrySelectStatus: getEntrySelectStatus(state),
+  isBulkLoading: getIsBulkLoading(state),
 });
 
 export default connect(mapStateToProps)(BankTransactionTable);

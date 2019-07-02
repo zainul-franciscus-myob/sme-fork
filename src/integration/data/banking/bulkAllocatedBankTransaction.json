@@ -1,0 +1,25 @@
+{
+  "message": "Success! You've successfully allocated bank transactions",
+  "entries": [
+    {
+      "transactionId": "2",
+      "allocateOrMatch": "Water",
+      "journalId": "8373",
+      "journalLineId": "1559",
+      "sourceJournal": "CashPayment",
+      "type": "singleAllocation",
+      "taxCode": "GST",
+      "isReportable": false
+    },
+    {
+      "transactionId": "3",
+      "allocateOrMatch": "Internet",
+      "journalId": "8373",
+      "journalLineId": "1559",
+      "sourceJournal": "CashReceipt",
+      "type": "singleAllocation",
+      "taxCode": "GST",
+      "isReportable": false
+    }
+  ]
+}

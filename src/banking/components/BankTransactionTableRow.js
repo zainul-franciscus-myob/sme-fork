@@ -1,10 +1,11 @@
 import {
-  Spinner, Table,
+  Checkbox, Spinner, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getBankEntryByIndexSelector } from '../bankingSelectors';
+import { getIsBulkLoading } from '../bankingSelectors/bulkAllocationSelectors';
 import AllocatedRowItem from './AllocatedRowItem';
 import ExpandedRowItem from './ExpandedRowItem';
 import MatchedRowItem from './MatchedRowItem';
@@ -93,6 +94,11 @@ const getMatchedOrAllocatedRowItem = ({
   );
 };
 
+const onCheckboxChange = (handler, index) => (e) => {
+  const { checked } = e.target;
+  handler({ index, value: checked });
+};
+
 const BankTransactionTableRow = ({
   index,
   entry,
@@ -106,6 +112,8 @@ const BankTransactionTableRow = ({
   onUnmatchedFocus,
   onUnmatchedBlur,
   isExpanded,
+  isBulkLoading,
+  onSelectTransaction,
 }) => {
   const matchedOrAllocatedRowItem = getMatchedOrAllocatedRowItem({
     entry,
@@ -124,6 +132,16 @@ const BankTransactionTableRow = ({
 
   return (
     <React.Fragment>
+      <Table.RowItem width="auto" cellRole="checkbox" valign="middle">
+        <Checkbox
+          name={`${index}-select`}
+          label={`Select row ${index}`}
+          hideLabel
+          onChange={onCheckboxChange(onSelectTransaction, index)}
+          checked={entry.selected}
+          disabled={isBulkLoading}
+        />
+      </Table.RowItem>
       <Table.RowItem {...tableConfig.date}>{entry.displayDate}</Table.RowItem>
       <Table.RowItem {...tableConfig.description}>
         <div className={style.ellipsisText} title={entry.description}>
@@ -144,6 +162,7 @@ const BankTransactionTableRow = ({
 const makeMapRowStateToProps = () => {
   const getBankEntryByIndex = getBankEntryByIndexSelector();
   return (state, ownProps) => ({
+    isBulkLoading: getIsBulkLoading(state),
     entry: getBankEntryByIndex(state, ownProps),
   });
 };

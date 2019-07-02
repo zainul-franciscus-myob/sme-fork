@@ -10,6 +10,11 @@ const getDefaultState = () => ({
   entries: [],
   withdrawalAccounts: [],
   depositAccounts: [],
+  bulkAllocationAccounts: [],
+  bulkAllocationOptions: {
+    accountId: '',
+    taxCodeId: '',
+  },
   balances: {
     bankBalance: '',
     myobBalance: '',
@@ -41,6 +46,7 @@ const getDefaultState = () => ({
   alert: undefined,
   isLoading: true,
   isTableLoading: false,
+  isBulkLoading: false,
   businessId: '',
   region: '',
   openPosition: getDefaultOpenPosition(),

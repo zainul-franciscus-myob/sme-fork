@@ -224,6 +224,21 @@ export const getCalculatedAllocatedBalances = (state, index) => {
   return getCalculatedBalances(state, amount);
 };
 
+export const getBalancesForBulkResult = (state, resultEntries, isAllocate) => {
+  const { entries } = state;
+  const allocatedIds = resultEntries.map(allocatedEntry => allocatedEntry.transactionId);
+  const amount = entries
+    .filter(entry => allocatedIds.includes(entry.transactionId))
+    .reduce((total, entry) => {
+      const { withdrawal, deposit } = entry;
+      const entryAmount = isAllocate ? (-withdrawal || deposit) : (withdrawal || -deposit);
+
+      return total + entryAmount;
+    }, 0);
+
+  return getCalculatedBalances(state, amount);
+};
+
 export const getCalculatedUnallocatedBalances = (state, index) => {
   const line = getBankTransactionLineByIndex(state, index);
   const { withdrawal, deposit } = line;

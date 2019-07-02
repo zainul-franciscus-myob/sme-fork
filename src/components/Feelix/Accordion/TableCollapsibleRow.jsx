@@ -12,6 +12,7 @@ const TableCollapsibleRow = (props) => {
   function getHeaderContent(header, dropdown, expansionToggle) {
     // since hot reload breaks the normal `header.type === Component` check,
     // need to include name check for local development
+
     if (
       header.type === Table.Row
       || header.type.displayName === Table.Row.displayName

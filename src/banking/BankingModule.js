@@ -17,6 +17,10 @@ import {
   getMatchTransactionFlipSortOrder,
   getMatchTransactionOrderBy,
 } from './bankingSelectors/matchTransactionSelectors';
+import {
+  getIsAllSelected,
+  getIsEditedEntryInBulkSelection,
+} from './bankingSelectors/bulkAllocationSelectors';
 import { getPaymentAllocationContactId } from './bankingSelectors/paymentAllocationSelectors';
 import { tabIds } from './tabItems';
 import BankingView from './components/BankingView';
@@ -51,6 +55,7 @@ export default class BankingModule {
       updateTransferMoney,
       closeModal,
       updateBankFeedsLoginDetails,
+      updateBulkAllocationOption,
     } = this.dispatcher;
 
     const transactionListView = (
@@ -96,6 +101,13 @@ export default class BankingModule {
         onUpdateBankFeedsLoginDetails={updateBankFeedsLoginDetails}
         onCancelBankFeedsLogin={this.closeBankFeedsLoginModal}
         onConfirmBankFeedsLogin={this.confirmBankFeedsLogin}
+        onSelectTransaction={this.selectTransaction}
+        onSelectAllTransactions={this.selectAllTransactions}
+        onUpdateBulkAllocationOption={updateBulkAllocationOption}
+        onSaveBulkAllocation={this.saveBulkAllocation}
+        onSaveBulkUnallocation={this.openBulkUnallocateModal}
+        onCancelUnallocateModal={closeModal}
+        onConfirmUnallocateModal={this.bulkUnallocateTransactions}
       />
     );
 
@@ -131,7 +143,49 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
+
+  saveBulkAllocation = () => {
+    const state = this.store.getState();
+    const isEditedEntryInBulkSelection = getIsEditedEntryInBulkSelection(state);
+
+    if (isEditedEntryInBulkSelection) {
+      this.openCancelModal({
+        onConfirm: () => {
+          this.bulkAllocateTransactions();
+        },
+      });
+    } else {
+      this.bulkAllocateTransactions();
+    }
+  };
+
+  bulkAllocateTransactions = () => {
+    this.dispatcher.setBulkLoadingState(true);
+    this.dispatcher.collapseTransactionLine();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setBulkLoadingState(false);
+      this.dispatcher.bulkAllocateTransactions(payload);
+      this.dispatcher.setAlert({
+        type: 'success',
+        message: payload.message,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setBulkLoadingState(false);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.bulkAllocateTransactions({
+      onSuccess,
+      onFailure,
+    });
+  };
 
   unallocateTransaction = (index) => {
     this.dispatcher.setEntryLoadingState(index, true);
@@ -151,6 +205,34 @@ export default class BankingModule {
 
     this.integrator.unallocateTranscation({ index, onSuccess, onFailure });
   }
+
+  bulkUnallocateTransactions = () => {
+    this.dispatcher.closeModal();
+    this.dispatcher.collapseTransactionLine();
+    this.dispatcher.setBulkLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setBulkLoadingState(false);
+      this.dispatcher.bulkUnallocateTransactions(payload);
+      this.dispatcher.setAlert({
+        type: 'success',
+        message: payload.message,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setBulkLoadingState(false);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.bulkUnallocateTransactions({
+      onSuccess,
+      onFailure,
+    });
+  };
 
   loadBankTransactions = () => {
     const onSuccess = (payload) => {
@@ -429,6 +511,10 @@ export default class BankingModule {
     this.dispatcher.closeModal();
     this.dispatcher.clearBankFeedsLogin();
   }
+
+  openBulkUnallocateModal = () => {
+    this.dispatcher.openBulkUnallocateModal();
+  };
 
   confirmBankFeedsLogin = () => {
     const onSuccess = ({ message }) => {
@@ -731,6 +817,39 @@ export default class BankingModule {
       onFailure,
     });
   }
+
+  selectAllTransactions = () => {
+    const state = this.store.getState();
+    const isEdited = getIsOpenEntryEdited(state);
+    const isAllSelected = getIsAllSelected(state);
+
+    if (isEdited && !isAllSelected) {
+      this.openCancelModal({
+        onConfirm: () => {
+          this.dispatcher.collapseTransactionLine();
+          this.dispatcher.selectAllTransactions();
+        },
+      });
+    } else {
+      this.dispatcher.selectAllTransactions();
+    }
+  };
+
+  selectTransaction = ({ index, value }) => {
+    const state = this.store.getState();
+    const isEdited = getIsOpenEntryEdited(state);
+
+    if (index === state.openPosition && isEdited && value) {
+      this.openCancelModal({
+        onConfirm: () => {
+          this.dispatcher.collapseTransactionLine();
+          this.dispatcher.selectTransaction({ index, value });
+        },
+      });
+    } else {
+      this.dispatcher.selectTransaction({ index, value });
+    }
+  };
 
   resetState = () => {
     this.dispatcher.resetState();

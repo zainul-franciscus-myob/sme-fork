@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import BankFeedsLoginModal from './BankFeedsLoginModal';
+import BulkUnallocateModal from './BulkUnallocateModal';
 import CancelModal from '../../components/modal/CancelModal';
 
 const BankingModal = ({
@@ -10,6 +11,8 @@ const BankingModal = ({
   onConfirmCancelModal,
   onCancelBankFeedsLogin,
   onConfirmBankFeedsLogin,
+  onCancelUnallocateModal,
+  onConfirmUnallocateModal,
   onUpdateBankFeedsLoginDetails,
 }) => {
   let modal;
@@ -30,7 +33,17 @@ const BankingModal = ({
         onUpdateBankFeedsLoginDetails={onUpdateBankFeedsLoginDetails}
       />
     );
+  } else if (modalType === 'bulkUnallocate') {
+    modal = (
+      <BulkUnallocateModal
+        onCancel={onCancelUnallocateModal}
+        onConfirm={onConfirmUnallocateModal}
+        title="Unallocate"
+        description="Are you sure you want to unallocate the selected bank transactions?"
+      />
+    );
   }
+
   return modal;
 };
 

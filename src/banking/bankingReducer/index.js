@@ -1,6 +1,8 @@
 import {
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
+  BULK_ALLOCATE_TRANSACTIONS,
+  BULK_UNALLOCATE_TRANSACTIONS,
   CLEAR_BANK_FEEDS_LOGIN,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
@@ -20,7 +22,10 @@ import {
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
+  SELECT_ALL_TRANSACTIONS,
+  SELECT_TRANSACTION,
   SET_ALERT,
+  SET_BULK_LOADING_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
   SET_FETCHING_TRANSACTIONS_STATE,
@@ -36,6 +41,7 @@ import {
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
   UPDATE_BANK_FEEDS_LOGIN,
+  UPDATE_BULK_ALLOCATION_OPTIONS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
@@ -55,6 +61,13 @@ import {
   updateSplitAllocationHeader,
   updateSplitAllocationLine,
 } from './splitAllocationHandlers';
+import {
+  bulkAllocateTransactions,
+  bulkUnallocateTransactions,
+  selectAllTransactions,
+  selectTransaction, setBulkLoading,
+  updateBulkAllocationOptions,
+} from './bulkAllocationHandlers';
 import {
   clearBankFeedsLoginDetails,
   resetFilterOptions,
@@ -98,6 +111,7 @@ const loadBankTransactions = (state, action) => ({
   depositAccounts: action.depositAccounts,
   transactionTypes: action.transactionTypes,
   transferAccounts: action.transferAccounts,
+  bulkAllocationAccounts: action.bulkAllocationAccounts,
   balances: action.balances,
   contacts: action.contacts,
   suppliers: action.suppliers,
@@ -277,6 +291,12 @@ const handlers = {
   [CLEAR_BANK_FEEDS_LOGIN]: clearBankFeedsLoginDetails,
   [SET_FETCHING_TRANSACTIONS_STATE]: setIsFetchingTransactionsState,
   [RESET_FILTER_OPTIONS]: resetFilterOptions,
+  [SELECT_TRANSACTION]: selectTransaction,
+  [SELECT_ALL_TRANSACTIONS]: selectAllTransactions,
+  [UPDATE_BULK_ALLOCATION_OPTIONS]: updateBulkAllocationOptions,
+  [BULK_ALLOCATE_TRANSACTIONS]: bulkAllocateTransactions,
+  [BULK_UNALLOCATE_TRANSACTIONS]: bulkUnallocateTransactions,
+  [SET_BULK_LOADING_STATE]: setBulkLoading,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

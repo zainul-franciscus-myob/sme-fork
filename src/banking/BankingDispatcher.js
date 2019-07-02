@@ -1,6 +1,8 @@
 import {
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
+  BULK_ALLOCATE_TRANSACTIONS,
+  BULK_UNALLOCATE_TRANSACTIONS,
   CLEAR_BANK_FEEDS_LOGIN,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
@@ -20,7 +22,10 @@ import {
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
+  SELECT_ALL_TRANSACTIONS,
+  SELECT_TRANSACTION,
   SET_ALERT,
+  SET_BULK_LOADING_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
   SET_FETCHING_TRANSACTIONS_STATE,
@@ -36,6 +41,7 @@ import {
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
   UPDATE_BANK_FEEDS_LOGIN,
+  UPDATE_BULK_ALLOCATION_OPTIONS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
@@ -72,6 +78,13 @@ const createBankingDispatcher = store => ({
     });
   },
 
+  setBulkLoadingState: (isLoading) => {
+    store.dispatch({
+      intent: SET_BULK_LOADING_STATE,
+      isLoading,
+    });
+  },
+
   loadBankTransactions: (payload) => {
     store.dispatch({
       intent: LOAD_BANK_TRANSACTIONS,
@@ -93,6 +106,20 @@ const createBankingDispatcher = store => ({
       intent: ALLOCATE_TRANSACTION,
       index,
       ...payload,
+    });
+  },
+
+  bulkAllocateTransactions: ({ entries }) => {
+    store.dispatch({
+      intent: BULK_ALLOCATE_TRANSACTIONS,
+      entries,
+    });
+  },
+
+  bulkUnallocateTransactions: ({ entries }) => {
+    store.dispatch({
+      intent: BULK_UNALLOCATE_TRANSACTIONS,
+      entries,
     });
   },
 
@@ -228,6 +255,13 @@ const createBankingDispatcher = store => ({
     store.dispatch({
       intent: OPEN_MODAL,
       modalType: 'bankFeedsLogin',
+    });
+  },
+
+  openBulkUnallocateModal: () => {
+    store.dispatch({
+      intent: OPEN_MODAL,
+      modalType: 'bulkUnallocate',
     });
   },
 
@@ -409,6 +443,28 @@ const createBankingDispatcher = store => ({
     store.dispatch({
       intent: SET_PAYMENT_ALLOCATION_LOADING_STATE,
       isLoading,
+    });
+  },
+
+  selectTransaction: ({ index, value }) => {
+    store.dispatch({
+      intent: SELECT_TRANSACTION,
+      index,
+      value,
+    });
+  },
+
+  selectAllTransactions: () => {
+    store.dispatch({
+      intent: SELECT_ALL_TRANSACTIONS,
+    });
+  },
+
+  updateBulkAllocationOption: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_BULK_ALLOCATION_OPTIONS,
+      key,
+      value,
     });
   },
 

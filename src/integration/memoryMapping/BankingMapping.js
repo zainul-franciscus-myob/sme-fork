@@ -1,5 +1,7 @@
 import {
   ALLOCATE_TRANSACTION,
+  BULK_ALLOCATE_TRANSACTIONS,
+  BULK_UNALLOCATE_TRANSACTIONS,
   FETCH_BANK_FEEDS_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -18,6 +20,8 @@ import {
 } from '../../banking/BankingIntents';
 import allocatedBankTransaction from '../data/banking/allocatedBankTransaction';
 import bankTransactions from '../data/banking/loadBankTransactions';
+import bulkAllocatedBankTransaction from '../data/banking/bulkAllocatedBankTransaction';
+import bulkUnallocatedBankTransaction from '../data/banking/bulkUnallocatedBankTransaction';
 import filteredBankTransactions from '../data/banking/sortAndFilterBankTransactions';
 import filteredMatchTransactions from '../data/banking/sortAndFilterMatchTransactions';
 import loadReceiveMoney from '../data/banking/loadReceiveMoney';
@@ -52,13 +56,16 @@ const savePaymentAllocation = ({ onSuccess }) => onSuccess(savedPaymentAllocatio
 const loadTransferMoney = ({ onSuccess }) => onSuccess(transferMoneyPayload);
 const saveTransferMoney = ({ onSuccess }) => onSuccess(saveTransferMoneyPayload);
 const fetchBankFeedsTransactions = ({ onSuccess }) => onSuccess(success);
-
+const saveBulkAllocation = ({ onSuccess }) => onSuccess(bulkAllocatedBankTransaction);
+const saveBulkUnallocation = ({ onSuccess }) => onSuccess(bulkUnallocatedBankTransaction);
 
 const BankingMappings = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: filterBankTransactions,
   [ALLOCATE_TRANSACTION]: allocateBankTransaction,
+  [BULK_ALLOCATE_TRANSACTIONS]: saveBulkAllocation,
   [UNALLOCATE_TRANSACTION]: unallocateBankTransaction,
+  [BULK_UNALLOCATE_TRANSACTIONS]: saveBulkUnallocation,
   [UNALLOCATE_OPEN_ENTRY_TRANSACTION]: unallocateBankTransaction,
   [LOAD_SPLIT_ALLOCATION]: loadSplitAlloation,
   [SAVE_SPLIT_ALLOCATION]: saveSplitAllocation,

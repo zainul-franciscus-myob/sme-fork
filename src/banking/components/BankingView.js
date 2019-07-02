@@ -1,5 +1,5 @@
 import {
-  Alert, Button, PageHead, Spinner, StandardTemplate,
+  Alert, BulkActions, Button, PageHead, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -10,9 +10,14 @@ import {
 import {
   getIsFetchingTransactions,
 } from '../bankingSelectors/bankFeedsLoginSelectors';
+import {
+  selectedCountSelector,
+  showBulkActionsSelector,
+} from '../bankingSelectors/bulkAllocationSelectors';
 import BankTransactionFilterOptions from './BankTransactionFilterOptions';
 import BankTransactionTable from './BankTransactionTable';
 import BankingModal from './BankingModal';
+import BulkAllocationPopover from './BulkAllocationPopover';
 import style from './BankingView.css';
 
 const BankingView = (props) => {
@@ -20,6 +25,8 @@ const BankingView = (props) => {
     isLoading,
     isEntryLoading,
     alert,
+    selectedCount,
+    showBulkActions,
     onUpdateFilters,
     onApplyFilter,
     onSort,
@@ -63,6 +70,13 @@ const BankingView = (props) => {
     onCancelBankFeedsLogin,
     onConfirmBankFeedsLogin,
     isFetchingTransactions,
+    onSelectTransaction,
+    onSelectAllTransactions,
+    onUpdateBulkAllocationOption,
+    onSaveBulkAllocation,
+    onSaveBulkUnallocation,
+    onCancelUnallocateModal,
+    onConfirmUnallocateModal,
   } = props;
 
   const filterBar = (
@@ -92,13 +106,28 @@ const BankingView = (props) => {
       onCancelBankFeedsLogin={onCancelBankFeedsLogin}
       onConfirmBankFeedsLogin={onConfirmBankFeedsLogin}
       onUpdateBankFeedsLoginDetails={onUpdateBankFeedsLoginDetails}
+      onConfirmUnallocateModal={onConfirmUnallocateModal}
+      onCancelUnallocateModal={onCancelUnallocateModal}
     />
     ));
+
+  const bulkActions = (
+    <BulkActions>
+      <BulkAllocationPopover
+        onUpdateBulkAllocationOption={onUpdateBulkAllocationOption}
+        onSaveBulkAllocation={onSaveBulkAllocation}
+      />
+      <Button type="secondary" onClick={onSaveBulkUnallocation}>Unallocate</Button>
+      <BulkActions.Counter count={selectedCount} />
+      <div className={style.popover} />
+    </BulkActions>
+  );
 
   const transactionListView = (
     <div className={isEntryLoading ? style.entryLoading : ''}>
       <StandardTemplate sticky="none" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
         {modal}
+        { showBulkActions && bulkActions}
         <div className={style.list}>
           <BankTransactionTable
             onSort={onSort}
@@ -133,6 +162,8 @@ const BankingView = (props) => {
             onSaveTransferMoney={onSaveTransferMoney}
             onCancelTransferMoney={onCancelTransferMoney}
             onUpdateTransfer={onUpdateTransfer}
+            onSelectTransaction={onSelectTransaction}
+            onSelectAllTransactions={onSelectAllTransactions}
           />
         </div>
       </StandardTemplate>
@@ -150,6 +181,8 @@ const mapStateToProps = state => ({
   isFetchingTransactions: getIsFetchingTransactions(state),
   isEntryLoading: getIsEntryLoading(state),
   modalType: getModalType(state),
+  selectedCount: selectedCountSelector(state),
+  showBulkActions: showBulkActionsSelector(state),
 });
 
 export default connect(mapStateToProps)(BankingView);

@@ -1,5 +1,7 @@
 import {
   ALLOCATE_TRANSACTION,
+  BULK_ALLOCATE_TRANSACTIONS,
+  BULK_UNALLOCATE_TRANSACTIONS,
   FETCH_BANK_FEEDS_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -29,6 +31,10 @@ import {
   getUnallocationPayload,
 } from './bankingSelectors';
 import { getBankFeedsLoginDetails } from './bankingSelectors/bankFeedsLoginSelectors';
+import {
+  getBulkAllocationPayload,
+  getBulkUnallocationPayload,
+} from './bankingSelectors/bulkAllocationSelectors';
 import {
   getDefaultMatchTransactionFilterOptions,
   getMatchTransactionFilterOptions,
@@ -129,6 +135,25 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
+  bulkAllocateTransactions: ({
+    onSuccess, onFailure,
+  }) => {
+    const state = store.getState();
+
+    const intent = BULK_ALLOCATE_TRANSACTIONS;
+    const urlParams = { businessId: getBusinessId(state) };
+
+    const content = getBulkAllocationPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
   unallocateTranscation: ({
     index, onSuccess, onFailure,
   }) => {
@@ -138,6 +163,25 @@ const createBankingIntegrator = (store, integration) => ({
     const urlParams = { businessId: getBusinessId(state) };
 
     const content = getUnallocationPayload(index, state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  bulkUnallocateTransactions: ({
+    onSuccess, onFailure,
+  }) => {
+    const state = store.getState();
+
+    const intent = BULK_UNALLOCATE_TRANSACTIONS;
+    const urlParams = { businessId: getBusinessId(state) };
+
+    const content = getBulkUnallocationPayload(state);
 
     integration.write({
       intent,

@@ -1,5 +1,6 @@
 import { businessEventTypes } from '../../businessEventTypes';
 import {
+  getBalancesForBulkResult,
   getCalculatedAllocatedBalances,
   getCalculatedUnallocatedBalances,
   getDisplayBalances,
@@ -63,6 +64,46 @@ describe('bankingSelector', () => {
         balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 500 },
       };
       const result = getCalculatedAllocatedBalances(state, 0);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getBalancesForBulkResult', () => {
+    it('should update balances with all allocated lines', () => {
+      const expected = { bankBalance: 1000, myobBalance: 950, unallocated: 50 };
+      const state = {
+        entries: [
+          { transactionId: '1', withdrawal: 100, deposit: undefined },
+          { transactionId: '2', withdrawal: undefined, deposit: 50 },
+          { transactionId: '3', withdrawal: 150, deposit: undefined },
+        ],
+        balances: { bankBalance: 1000, myobBalance: 900, unallocated: 100 },
+      };
+      const allocatedEntries = [
+        { transactionId: '1' },
+        { transactionId: '2' },
+      ];
+      const result = getBalancesForBulkResult(state, allocatedEntries, true);
+
+      expect(result).toEqual(expected);
+    });
+
+    it('should update balances with all unallocated lines', () => {
+      const expected = { bankBalance: 1000, myobBalance: 850, unallocated: 150 };
+      const state = {
+        entries: [
+          { transactionId: '1', withdrawal: 100, deposit: undefined },
+          { transactionId: '2', withdrawal: undefined, deposit: 50 },
+          { transactionId: '3', withdrawal: 150, deposit: undefined },
+        ],
+        balances: { bankBalance: 1000, myobBalance: 900, unallocated: 100 },
+      };
+      const allocatedEntries = [
+        { transactionId: '1' },
+        { transactionId: '2' },
+      ];
+      const result = getBalancesForBulkResult(state, allocatedEntries, false);
 
       expect(result).toEqual(expected);
     });

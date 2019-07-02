@@ -1,5 +1,7 @@
 import {
   ALLOCATE_TRANSACTION,
+  BULK_ALLOCATE_TRANSACTIONS,
+  BULK_UNALLOCATE_TRANSACTIONS,
   FETCH_BANK_FEEDS_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -30,9 +32,17 @@ const BankingMapping = {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/allocate_bank_transaction`,
   },
+  [BULK_ALLOCATE_TRANSACTIONS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/bulk_allocate_bank_transactions`,
+  },
   [UNALLOCATE_TRANSACTION]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/unallocate_bank_transaction`,
+  },
+  [BULK_UNALLOCATE_TRANSACTIONS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/bulk_unallocate_bank_transactions`,
   },
   [UNALLOCATE_OPEN_ENTRY_TRANSACTION]: {
     method: 'POST',

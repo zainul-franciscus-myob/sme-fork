@@ -1,4 +1,3 @@
-import { PropTypes } from 'prop-types';
 import {
   Spinner, Table,
 } from '@myob/myob-widgets';
@@ -23,6 +22,7 @@ const BankTransactionTableBody = (props) => {
   const {
     tableConfig,
     entries,
+    entrySelectStatus,
     isOpenEntryLoading,
     onSplitRowItemClick,
     onMatchRowItemClick,
@@ -56,6 +56,7 @@ const BankTransactionTableBody = (props) => {
     onSaveTransferMoney,
     onCancelTransferMoney,
     onUpdateTransfer,
+    onSelectTransaction,
   } = props;
 
   const spinner = (
@@ -150,7 +151,7 @@ const BankTransactionTableBody = (props) => {
         expansionToggle
         footer={!isOpenEntryLoading ? openEntryFooter : null}
         header={(
-          <Table.Row>
+          <Table.Row isSelected={entrySelectStatus[index]}>
             <BankTransactionTableRow
               onSplitRowItemClick={onSplitRowItemClick}
               onMatchRowItemClick={onMatchRowItemClick}
@@ -163,6 +164,7 @@ const BankTransactionTableBody = (props) => {
               tableConfig={tableConfig}
               index={index}
               isExpanded={index === openPosition}
+              onSelectTransaction={onSelectTransaction}
             />
           </Table.Row>
         )}
@@ -182,38 +184,6 @@ const BankTransactionTableBody = (props) => {
       {rows}
     </Table.Body>
   );
-};
-
-BankTransactionTableBody.propTypes = {
-  entries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  tableConfig: PropTypes.shape({}).isRequired,
-  openPosition: PropTypes.number.isRequired,
-  isOpenEntryLoading: PropTypes.bool.isRequired,
-  activeTabId: PropTypes.bool.isRequired,
-  onAllocate: PropTypes.func.isRequired,
-  onUnallocate: PropTypes.func.isRequired,
-  onMatchedToBlur: PropTypes.func.isRequired,
-  onSplitRowItemClick: PropTypes.func.isRequired,
-  onMatchedToFocus: PropTypes.func.isRequired,
-  onUnmatchedFocus: PropTypes.func.isRequired,
-  onUnmatchedBlur: PropTypes.func.isRequired,
-  onTabChange: PropTypes.func.isRequired,
-  onSaveSplitAllocation: PropTypes.func.isRequired,
-  onCancelSplitAllocation: PropTypes.func.isRequired,
-  onUnallocateSplitAllocation: PropTypes.func.isRequired,
-  onUpdateSplitAllocationHeader: PropTypes.func.isRequired,
-  onAddSplitAllocationLine: PropTypes.func.isRequired,
-  onUpdateSplitAllocationLine: PropTypes.func.isRequired,
-  onDeleteSplitAllocationLine: PropTypes.func.isRequired,
-  onSaveMatchTransaction: PropTypes.func.isRequired,
-  onCancelMatchTransaction: PropTypes.func.isRequired,
-  onUnmatchTransaction: PropTypes.func.isRequired,
-  onUpdatePaymentAllocationOptions: PropTypes.func.isRequired,
-  onUpdatePaymentAllocationLine: PropTypes.func.isRequired,
-  onSavePaymentAllocation: PropTypes.func.isRequired,
-  onCancelPaymentAllocation: PropTypes.func.isRequired,
-  onSaveTransferMoney: PropTypes.func.isRequired,
-  onCancelTransferMoney: PropTypes.func.isRequired,
 };
 
 export default BankTransactionTableBody;
