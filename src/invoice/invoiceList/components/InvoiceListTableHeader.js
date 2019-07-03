@@ -14,29 +14,29 @@ const InvoiceListTableHeader = (props) => {
 
   return (
     <Table.Header>
-      <Table.HeaderItem {...tableConfig.number}>
-        <HeaderSort title="Number" sortName="DisplayId" activeSort={order} onSort={onSort} />
+      <Table.HeaderItem {...tableConfig.dateIssued}>
+        <HeaderSort title="Issue date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.purchaseOrder}>
-        <HeaderSort title="Purchase order" sortName="CustomerPurchaseOrderIdentifier" activeSort={order} onSort={onSort} />
+      <Table.HeaderItem {...tableConfig.number}>
+        <HeaderSort title="Invoice number" sortName="DisplayId" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.customer}>
         <HeaderSort title="Customer" sortName="CustomerName" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.dateIssued}>
-        <HeaderSort title="Date issued" sortName="DateOccurred" activeSort={order} onSort={onSort} />
+      <Table.HeaderItem {...tableConfig.purchaseOrder}>
+        <HeaderSort title="Customer PO no." sortName="CustomerPurchaseOrderIdentifier" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.invoiceAmount}>
-        <HeaderSort title="Invoice amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
+        <HeaderSort title="Total amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.invoiceDue}>
-        <HeaderSort title="Balance Due ($)" sortName="BalanceDue" activeSort={order} onSort={onSort} />
+        <HeaderSort title="Balance due ($)" sortName="BalanceDue" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.dateDue}>
+        <HeaderSort title="Due date" sortName="DateDue" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.status}>
         <HeaderSort title="Status" sortName="Status" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.dateClosed}>
-        <HeaderSort title="Date Closed" sortName="DateClosed" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
     </Table.Header>
   );

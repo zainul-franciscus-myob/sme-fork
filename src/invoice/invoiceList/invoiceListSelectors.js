@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { isPast } from 'date-fns';
 
 export const getBusinessId = ({ businessId }) => businessId;
 
@@ -18,6 +19,14 @@ const getEntryLink = (entry, businessId, region) => {
   return `/#/${region}/${businessId}/invoice/${id}`;
 };
 
+const getEntryBadgeColour = status => (
+  { Closed: 'green', Open: 'light-grey', Overdue: 'red' }[status]
+);
+
+const getEntryStatus = ({ dateDue, status }) => ((status === 'Open' && isPast(dateDue))
+  ? 'Overdue'
+  : status);
+
 export const getTableEntries = createSelector(
   getEntries,
   getBusinessId,
@@ -26,6 +35,8 @@ export const getTableEntries = createSelector(
     entry => ({
       ...entry,
       link: getEntryLink(entry, businessId, region),
+      displayStatus: getEntryStatus(entry),
+      badgeColour: getEntryBadgeColour(getEntryStatus(entry)),
     }),
   ),
 );

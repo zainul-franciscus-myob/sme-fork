@@ -43,5 +43,17 @@ export default {
       status: 'Closed',
       dateDue: '01/10/2019',
     },
+    {
+      id: '3',
+      referenceId: '00000078',
+      purchaseOrder: 'this is interesting',
+      customer: 'Marjory Buttersworth',
+      dateIssued: '25/02/2019',
+      dateClosed: '',
+      invoiceAmount: '10.00',
+      invoiceDue: '10.00',
+      status: 'Open',
+      dateDue: '01/10/2017',
+    },
   ],
 };

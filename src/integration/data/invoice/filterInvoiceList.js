@@ -12,6 +12,7 @@ export default {
       invoiceAmount: '10.00',
       invoiceDue: '10.00',
       status: 'Open',
+      dateDue: '25/09/2020',
     },
     {
       id: '2',
@@ -23,6 +24,7 @@ export default {
       invoiceAmount: '10.00',
       invoiceDue: '0.00',
       status: 'Closed',
+      dateDue: '01/10/2019',
     },
   ],
 };

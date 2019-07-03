@@ -9,14 +9,14 @@ import InvoiceListTableHeader from './InvoiceListTableHeader';
 import style from './InvoiceListView.css';
 
 const tableConfig = {
-  number: { width: '10.2rem', valign: 'top' },
-  purchaseOrder: { width: '18rem', valign: 'top' },
-  customer: { width: 'flex-1', valign: 'top' },
   dateIssued: { width: '12rem', valign: 'top', align: 'right' },
-  dateClosed: { width: '13rem', valign: 'top', align: 'right' },
-  invoiceAmount: { width: '17rem', valign: 'top', align: 'right' },
-  invoiceDue: { width: '16rem', valign: 'top', align: 'right' },
-  status: { width: '8rem', valign: 'top', align: 'right' },
+  number: { width: '15rem', valign: 'top' },
+  customer: { width: 'flex-1', valign: 'top' },
+  purchaseOrder: { width: '16rem', valign: 'top' },
+  invoiceAmount: { width: '16rem', valign: 'top', align: 'right' },
+  invoiceDue: { width: '15rem', valign: 'top', align: 'right' },
+  dateDue: { width: '12rem', valign: 'top', align: 'right' },
+  status: { width: '10rem', valign: 'middle', align: 'left' },
 };
 
 const emptyView = (
