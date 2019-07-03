@@ -1,0 +1,18 @@
+{
+  "superFund": {
+    "id": "1",
+    "accountNumber": "111111111",
+    "bankNumber": "111111",
+    "phoneNumber": "1800SUPER",
+    "name": "APOLLO SUPER",
+    "electronicServiceAddress": "MercerSMSF",
+    "employerMembershipNumber": "123456789123",
+    "fundType": "SelfManagedSuperFund",
+    "isPaySuperFund": true,
+    "superProductAbn": "19905422981",
+    "superFundIdentifier": "33c1166e9bea9b78e2bbebebd12a48c5-000",
+    "superProductId": "73161924466001",
+    "superProductName": "The Trustee for ADRIAN SPRING PRIVATE SUPER FUND",
+    "webSite": "www.apollosuper.com"
+  }
+}

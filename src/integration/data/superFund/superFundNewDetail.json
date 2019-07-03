@@ -1,0 +1,53 @@
+{
+  "superFund": {
+    "accountNumber": "",
+    "bankNumber": "",
+    "phoneNumber": "",
+    "name": "",
+    "electronicServiceAddress": "",
+    "employerMembershipNumber": "",
+    "fundType": "APRASuperFund",
+    "isPaySuperFund": true,
+    "superProductAbn": "",
+    "superFundIdentifier": "",
+    "superProductId": "",
+    "superProductName": "",
+    "webSite": ""
+  },
+  "isPaySuperEnabled": true,
+  "superProducts": [
+    {
+      "name": "W & M MCCOLL SUPER FUND",
+      "usi": "73161924466001",
+      "abn": "73161924466",
+      "scfi": "f63bd4983d8ca697e04a2e10ecc167a0-000"
+    },
+    {
+      "name": "C P WOODS PRIVATE SUPERANNUATION FUND",
+      "usi": "47242431259001",
+      "abn": "47242431259",
+      "scfi": "3d9c214c267eaa12092c787a53696e-00000"
+    }
+  ],
+  "electronicServiceAddresses": [
+    { "name": "AUSPOSTSMSF" },
+    { "name": "CRSCSSMSF" },
+    { "name": "ClearviewSMSF" },
+    { "name": "CLICKSUPER" },
+    { "name": "Computershare" },
+    { "name": "ESUPERFUND" },
+    { "name": "MACQUARIESMSF" },
+    { "name": "MercerSMSF" },
+    { "name": "MySMSFMailbox" },
+    { "name": "netwealthsmsf" },
+    { "name": "NONSUPER" },
+    { "name": "ozedigateway" },
+    { "name": "QUICKSUPER" },
+    { "name": "RECKONSMSF" },
+    { "name": "smsfdataflow" },
+    { "name": "SUPERCHOICE" },
+    { "name": "superMate" },
+    { "name": "TheSMSFManagers" },
+    { "name": "WESTPAC" }
+  ]
+}

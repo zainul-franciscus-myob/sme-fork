@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getContactDetails } from '../contactDetailSelectors';
-import ABNInput from '../../../components/autoFormatter/ABNInput/ABNInput';
+import AbnInput from '../../../components/autoFormatter/AbnInput/AbnInput';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -127,7 +127,7 @@ const ContactDetails = ({
         />
       )
     }
-    <ABNInput name="abn" label="ABN" value={abn} onChange={onAbnInputChange(onContactDetailsChange)} />
+    <AbnInput name="abn" label="ABN" value={abn} onChange={onAbnInputChange(onContactDetailsChange)} />
     <Field
       label="ABN lookup"
       hideLabel

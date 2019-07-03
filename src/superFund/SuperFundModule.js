@@ -1,9 +1,9 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import { LOAD_SUPER_FUND } from './SuperFundIntents';
+import { LOAD_NEW_SUPER_FUND, LOAD_SUPER_FUND } from './SuperFundIntents';
 import SuperFundNoPaySuperModule from './superFundNoPaySuper/SuperFundNoPaySuperModule';
-import SuperFundSelfManagedModule from './superFundSelfManaged/SuperFundSelfManagedModule';
+import SuperFundWithPaySuperModule from './superFundWithPaySuper/SuperFundWithPaySuperModule';
 
 export default class SuperFundModule {
   constructor({
@@ -19,7 +19,7 @@ export default class SuperFundModule {
     if (this.module) {
       this.module.unsubscribeFromStore();
     }
-  }
+  };
 
   loadSuperFundModule = (context, payload) => {
     const { isPaySuperEnabled } = payload;
@@ -29,12 +29,12 @@ export default class SuperFundModule {
       pushMessage: this.pushMessage,
     };
     if (isPaySuperEnabled) {
-      this.module = new SuperFundSelfManagedModule(moduleParams);
+      this.module = new SuperFundWithPaySuperModule(moduleParams);
     } else {
       this.module = new SuperFundNoPaySuperModule(moduleParams);
     }
     this.module.run({ context, payload });
-  }
+  };
 
   loadSuperFund = (context) => {
     const { businessId, superFundId } = context;
@@ -42,7 +42,8 @@ export default class SuperFundModule {
       businessId,
       superFundId,
     };
-    const intent = LOAD_SUPER_FUND;
+
+    const intent = superFundId === 'new' ? LOAD_NEW_SUPER_FUND : LOAD_SUPER_FUND;
 
     const onSuccess = payload => this.loadSuperFundModule(context, payload);
     const onFailure = () => console.log('Failed to get initial load');
@@ -53,7 +54,7 @@ export default class SuperFundModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   run(context) {
     this.setRootView(<Spinner />);

@@ -2,7 +2,7 @@ import React from 'react';
 
 import AutoFormatter from '../AutoFormatterCore/AutoFormatter';
 
-const ABNInput = props => (
+const AbnInput = props => (
   <AutoFormatter
     {...props}
     options={{
@@ -13,4 +13,4 @@ const ABNInput = props => (
   />
 );
 
-export default ABNInput;
+export default AbnInput;

@@ -1,11 +1,15 @@
 import {
   CLOSE_MODAL,
+  LOAD_ABN_DETAIL,
   OPEN_MODAL,
+  SELECT_APRA_FUND,
+  SET_ABN_LOADING_STATE,
+  SET_ABN_STATUS,
   SET_ALERT_MESSAGE,
   SET_SUBMITTING_STATE,
   SHOW_CONTACT_DETAILS,
+  UPDATE_SELF_MANAGED_FUND_ABN,
   UPDATE_SUPER_FUND_DETAIL,
-  UPDATE_SUPER_PRODUCT,
 } from '../SuperFundIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
@@ -13,23 +17,31 @@ import createReducer from '../../store/createReducer';
 const getDefaultState = () => ({
   superFund: {
     id: '',
+    accountNumber: '',
+    bankNumber: '',
     phoneNumber: '',
     name: '',
+    electronicServiceAddress: '',
     employerMembershipNumber: '',
     fundType: '',
+    isPaySuperFund: false,
     superProductAbn: '',
+    superFundIdentifier: '',
     superProductId: '',
+    superProductName: '',
     webSite: '',
   },
+  isPaySuperEnabled: false,
   superProducts: [],
-  showContactDetails: false,
+  electronicServiceAddresses: [],
   isSubmitting: false,
-  businessId: '',
-  region: '',
-  modalType: '',
   isPageEdited: false,
-  superFundId: '',
+  isAbnLoading: false,
+  modalType: '',
   alertMessage: '',
+  isAbnDirty: false,
+  showContactDetails: false,
+  superFundId: '',
 });
 
 const shouldShowContactDetails = ({ phoneNumber, webSite }) => phoneNumber || webSite;
@@ -39,6 +51,7 @@ const setInitialState = (state, action) => ({
   ...action.context,
   superFund: action.superFund,
   superProducts: action.superProducts,
+  electronicServiceAddresses: action.electronicServiceAddresses,
   showContactDetails: shouldShowContactDetails(action.superFund),
 });
 
@@ -49,9 +62,24 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
+const setAbnLoadingState = (state, action) => ({
+  ...state,
+  isAbnLoading: action.isAbnLoading,
+});
+
 const setAlertMessage = (state, action) => ({
   ...state,
   alertMessage: action.alertMessage,
+});
+
+const openModal = (state, action) => ({
+  ...state,
+  modalType: action.modalType,
+});
+
+const closeModal = state => ({
+  ...state,
+  modalType: undefined,
 });
 
 const showContactDetails = state => ({
@@ -84,7 +112,17 @@ const updateSuperFundDetail = (state, action) => ({
   isPageEdited: true,
 });
 
-const updateSuperProduct = (state, action) => {
+const updateSelfManagedFundAbn = (state, action) => ({
+  ...state,
+  superFund: {
+    ...state.superFund,
+    superProductAbn: action.value,
+  },
+  isPageEdited: true,
+  isAbnDirty: true,
+});
+
+const selectAPRAFund = (state, action) => {
   const defaultState = getDefaultState();
   return {
     ...state,
@@ -100,28 +138,37 @@ const updateSuperProduct = (state, action) => {
   };
 };
 
-const openModal = (state, action) => ({
+const loadAbnDetail = (state, action) => ({
   ...state,
-  modalType: action.modalType,
+  superFund: {
+    ...state.superFund,
+    name: action.name,
+    superProductName: action.name,
+  },
+  isAbnDirty: false,
 });
 
-const closeModal = state => ({
+const setAbnStatus = (state, action) => ({
   ...state,
-  modalType: '',
+  isAbnDirty: action.isAbnDirty,
 });
 
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
+  [SET_ABN_LOADING_STATE]: setAbnLoadingState,
   [SET_ALERT_MESSAGE]: setAlertMessage,
-  [SHOW_CONTACT_DETAILS]: showContactDetails,
-  [UPDATE_SUPER_FUND_DETAIL]: updateSuperFundDetail,
-  [UPDATE_SUPER_PRODUCT]: updateSuperProduct,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
+  [SHOW_CONTACT_DETAILS]: showContactDetails,
+  [UPDATE_SUPER_FUND_DETAIL]: updateSuperFundDetail,
+  [UPDATE_SELF_MANAGED_FUND_ABN]: updateSelfManagedFundAbn,
+  [SELECT_APRA_FUND]: selectAPRAFund,
+  [LOAD_ABN_DETAIL]: loadAbnDetail,
+  [SET_ABN_STATUS]: setAbnStatus,
 };
 
-const superFundNoPaySuperReducer = createReducer(getDefaultState(), handlers);
+const superFundWithPaySuperReducer = createReducer(getDefaultState(), handlers);
 
-export default superFundNoPaySuperReducer;
+export default superFundWithPaySuperReducer;
