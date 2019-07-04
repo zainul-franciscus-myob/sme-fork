@@ -1,0 +1,7 @@
+:local .editableTable :global(.form-group__label-group) {
+  display: none;
+}
+
+:local .editableTable :global(.table-data__container) {
+  margin-bottom: 1rem;
+}

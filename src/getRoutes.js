@@ -219,7 +219,7 @@ const getRoutes = ({
     name: 'payItem',
     rootPath: '/:region/:businessId/payItem',
     subRoutes: getPayItemRoutes({
-      integration, setRootView, replaceURLParams,
+      integration, setRootView, popMessages, pushMessage, replaceURLParams,
     }),
   },
 ];

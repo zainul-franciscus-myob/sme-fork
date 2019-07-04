@@ -29,6 +29,7 @@ export const activeMapping = {
   'customerReturn/customerReturnPayRefund': 'sales',
   'payRefund/payRefund': 'banking',
   'payItem/payItemList': 'payroll',
+  'payItem/superPayItem': 'payroll',
 };
 
 export const featuresConfig = {

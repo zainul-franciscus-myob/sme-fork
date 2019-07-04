@@ -1,5 +1,7 @@
 import {
   Alert,
+  Button,
+  ButtonRow,
   PageHead,
   Spinner,
   StandardTemplate,
@@ -25,6 +27,8 @@ const PayItemListView = ({
   selectedTab,
   listeners,
 }) => {
+  const { onCreateSuperannuationButtonClick } = listeners;
+
   const Content = {
     [tabIds.wages]: PayItemWagesTable,
     [tabIds.superannuation]: PayItemSuperannuationTable,
@@ -39,14 +43,23 @@ const PayItemListView = ({
     </Alert>
   );
 
+  const actions = selectedTab === tabIds.superannuation && (
+    <ButtonRow>
+      <Button onClick={onCreateSuperannuationButtonClick}>Create super pay item</Button>
+    </ButtonRow>
+  );
+
   const pageHead = <PageHead title="Pay items" />;
 
   const subHeadTabs = (
-    <Tabs
-      items={tabItems}
-      selected={selectedTab}
-      onSelected={listeners.onTabSelected}
-    />
+    <React.Fragment>
+      <Tabs
+        items={tabItems}
+        selected={selectedTab}
+        onSelected={listeners.onTabSelected}
+      />
+      {actions}
+    </React.Fragment>
   );
 
   const payItemView = (

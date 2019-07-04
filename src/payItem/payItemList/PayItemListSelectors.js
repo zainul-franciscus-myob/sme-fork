@@ -69,6 +69,22 @@ export const getNewWagesSortOrder = (state, { orderBy }) => (
 
 export const getSuperannuationEntries = state => state.superannuation.entries;
 
+const getSuperannuationEntryLink = (entry, businessId, region) => {
+  const { id } = entry;
+
+  return `/#/${region}/${businessId}/payItem/superannuation/${id}`;
+};
+
+export const getSuperannuationTableEntries = createSelector(
+  getSuperannuationEntries,
+  getBusinessId,
+  getRegion,
+  (entries, businessId, region) => entries.map(entry => ({
+    ...entry,
+    link: getSuperannuationEntryLink(entry, businessId, region),
+  })),
+);
+
 export const getSuperannuationOrder = state => ({
   column: getSuperannuationOrderBy(state),
   descending: getSuperannuationSortOrder(state) === 'desc',

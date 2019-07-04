@@ -1,7 +1,8 @@
 import PayItemListModule from './payItemList/PayItemListModule';
+import SuperPayItemModule from './superPayItem/SuperPayItemModule';
 
 const getPayItemRoutes = ({
-  integration, setRootView, replaceURLParams,
+  integration, setRootView, popMessages, pushMessage, replaceURLParams,
 }) => {
   const routes = [
     {
@@ -9,7 +10,14 @@ const getPayItemRoutes = ({
       path: '/',
       allowedParams: ['tab'],
       module: new PayItemListModule({
-        integration, setRootView, replaceURLParams,
+        integration, setRootView, popMessages, replaceURLParams,
+      }),
+    },
+    {
+      name: 'superPayItem',
+      path: '/superannuation/:superPayItemId',
+      module: new SuperPayItemModule({
+        integration, setRootView, pushMessage,
       }),
     },
   ];

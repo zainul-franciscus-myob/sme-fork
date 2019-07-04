@@ -21,13 +21,15 @@ import {
   SORT_SUPERANNUATION_LIST,
   SORT_WAGES_LIST,
 } from '../PayItemIntents';
+import { SUCCESSFULLY_DELETED_SUPER_PAY_ITEM, SUCCESSFULLY_SAVED_SUPER_PAY_ITEM } from '../PayItemMessageTypes';
 import {
+  getBusinessId,
   getLoadTabContentIntent,
   getNewDeductionsSortOrder,
   getNewExpensesSortOrder,
   getNewLeaveSortOrder,
   getNewSuperannuationSortOrder,
-  getNewWagesSortOrder,
+  getNewWagesSortOrder, getRegion,
   getUrlParams,
   getUrlTabParams,
 } from './PayItemListSelectors';
@@ -35,14 +37,33 @@ import PayItemListView from './components/PayItemListView';
 import Store from '../../store/Store';
 import payItemListReducer from './payItemListReducer';
 
+const messageTypes = [SUCCESSFULLY_SAVED_SUPER_PAY_ITEM, SUCCESSFULLY_DELETED_SUPER_PAY_ITEM];
+
 export default class PayItemListModule {
   constructor({
-    integration, setRootView, replaceURLParams,
+    integration, setRootView, popMessages, replaceURLParams,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(payItemListReducer);
     this.replaceURLParams = replaceURLParams;
+    this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
+  }
+
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const {
+        content: message,
+      } = successMessage;
+
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+    }
   }
 
   setTab = selectedTab => this.store.dispatch({
@@ -246,6 +267,14 @@ export default class PayItemListModule {
     });
   }
 
+  redirectToCreateSuperPayItem= () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/payItem/superannuation/new`;
+  }
+
   render = () => {
     const payItemListView = (
       <PayItemListView
@@ -257,6 +286,7 @@ export default class PayItemListModule {
           onSortDeductionsList: this.sortDeductionsList,
           onSortExpensesList: this.sortExpensesList,
           onDismissAlert: this.dismissAlert,
+          onCreateSuperannuationButtonClick: this.redirectToCreateSuperPayItem,
         }}
       />
     );
@@ -295,6 +325,7 @@ export default class PayItemListModule {
     this.setInitialState(context);
     this.store.subscribe(this.updateURLFromState);
     this.render();
+    this.readMessages();
     this.loadInitialList();
   }
 

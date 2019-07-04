@@ -5,20 +5,24 @@
     "atoReportingCategory": "SuperGuarantee",
     "contributionType": "SuperannuationGuarantee",
     "printOnPayAdvice": true,
-    "calculationBasis": "Percent",
+    "calculationBasisType": "Percent",
     "calculationBasisPercentage": "0.00",
-    "calculationBasisPayItemId": "11",
+    "calculationBasisPayItemId": "2",
     "calculationBasisAmount": "0.00",
     "calculationBasisPeriod": "PayPeriod",
     "exclusion": "0.00",
     "limitType": "UserEntered",
     "limitPercentage": "0.00",
-    "limitPayItemId": "11",
+    "limitPayItemId": "2",
     "limitAmount": "0.00",
-    "limitBasisPeriod": "PayPeriod",
+    "limitPeriod": "PayPeriod",
     "threshold": "0.00",
     "exemptions": [],
-    "employeeIds": []
+    "employees": []
+  },
+  "settings": {
+    "grossWagesId": "2",
+    "federalWagesId": "3"
   },
   "contributionTypes": [
     {
@@ -166,89 +170,87 @@
   ],
   "calculationBasisDeductionPayItems": [
     {
-      "id": "11",
+      "id": "2",
       "name": "Gross wages",
-      "subType": "WagesPayrollCategory"
+      "mappedType": "WagesGroup"
     },
     {
-      "id": "12",
+      "id": "3",
       "name": "Federal wages",
-      "subType": "WagesPayrollCategory"
+      "mappedType": "WagesGroup"
     },
     {
       "id": "13",
       "name": "Calculation basis deduction pay item 1",
-      "subType": "SuperannuationDeductionAfterTaxPayrollCategory"
+      "mappedType": "SuperannuationDeductionAfterTax"
     }
   ],
   "calculationBasisExpensePayItems": [
     {
-      "id": "11",
+      "id": "2",
       "name": "Gross wages",
-      "subType": "WagesPayrollCategory"
+      "mappedType": "WagesGroup"
     },
     {
-      "id": "12",
+      "id": "3",
       "name": "Federal wages",
-      "subType": "WagesPayrollCategory"
+      "mappedType": "WagesGroup"
     },
     {
       "id": "23",
       "name": "Calculation basis expense pay item 1",
-      "subType": "WagesGroupPayrollCategory"
+      "mappedType": "WagesGroup"
     }
   ],
   "limitDeductionPayItems": [
     {
-      "id": "11",
-      "name": "Gross Wages",
-      "subType": "WagesPayrollCategory"
+      "id": "2",
+      "name": "Gross wages",
+      "mappedType": "WagesGroup"
     },
     {
-      "id": "12",
+      "id": "3",
       "name": "Federal wages",
-      "subType": "WagesPayrollCategory"
+      "mappedType": "WagesGroup"
     },
     {
       "id": "33",
       "name": "Limit deduction pay item 1",
-      "subType": "SuperannuationDeductionBeforeTaxPayrollCategory"
+      "mappedType": "SuperannuationDeductionBeforeTax"
     }
   ],
   "limitExpensePayItems": [
     {
-      "id": "11",
+      "id": "2",
       "name": "Gross wages",
-      "subType": "WagesPayrollCategory"
+      "mappedType": "WagesGroup"
     },
     {
-      "id": "12",
+      "id": "3",
       "name": "Federal wages",
-      "subType": "WagesPayrollCategory"
+      "mappedType": "WagesGroup"
     },
     {
       "id": "43",
       "name": "Limit expense pay item 1",
-      "subType": "WagesGroupPayrollCategory"
+      "mappedType": "WagesGroup"
     }
   ],
   "exemptionPayItems": [
     {
       "id": "51",
       "name": "Exemption 1",
-      "subType": "WagesPayrollCategory"
+      "mappedType": "Wages"
     },
     {
-      "id": "51",
+      "id": "52",
       "name": "Exemption 2",
-      "subType": "WagesPayrollCategory"
+      "mappedType": "Wages"
+    },
+    {
+      "id": "53",
+      "name": "Exemption 3",
+      "mappedType": "Wages"
     }
-  ],
-  "payItemSubTypeToSuperPayItemTypeMappings": {
-    "SuperannuationDeductionAfterTaxPayrollCategory": "SuperannuationDeductionAfterTax",
-    "SuperannuationDeductionBeforeTaxPayrollCategory": "SuperannuationDeductionBeforeTax",
-    "WagesPayrollCategory": "Wages",
-    "WagesGroupPayrollCategory": "WagesGroup",
-    "DeductionPayrollCategory": "Deduction"
-  }
+  ]
 }
