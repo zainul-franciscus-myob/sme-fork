@@ -8,6 +8,7 @@ const getSuperProducts = state => state.superProducts;
 export const getShowContactDetails = state => state.showContactDetails;
 const getPhoneNumber = state => state.superFund.phoneNumber;
 const getWebSite = state => state.superFund.webSite;
+const getIsPaySuperFund = state => state.superFund.isPaySuperFund;
 
 export const getSuperFundDetailSectionProps = createStructuredSelector({
   name: getName,
@@ -48,6 +49,7 @@ export const getSaveSuperFundPayload = createStructuredSelector({
   superProductId: getSuperProductId,
   superProductName: getSuperProductName,
   webSite: getWebSite,
+  isPaySuperFund: getIsPaySuperFund,
 });
 
 export const getSuperFundPageTitle = createSelector(
