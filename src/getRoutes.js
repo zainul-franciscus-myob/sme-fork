@@ -12,6 +12,7 @@ import getInventoryRoutes from './inventory/getInventoryRoutes';
 import getInvoicePaymentRoutes from './invoicePayment/getInvoicePaymentRoutes';
 import getInvoiceRoutes from './invoice/getInvoiceRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
+import getPayItemRoutes from './payItem/getPayItemRoutes';
 import getPayRefundRoutes from './payRefund/getPayRefundRoutes';
 import getPayrollSettingsRoutes from './payrollSettings/getPayrollSettingsRoutes';
 import getQuoteRoutes from './quote/getQuoteRoutes';
@@ -212,6 +213,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/payRefund',
     subRoutes: getPayRefundRoutes({
       integration, setRootView, pushMessage,
+    }),
+  },
+  {
+    name: 'payItem',
+    rootPath: '/:region/:businessId/payItem',
+    subRoutes: getPayItemRoutes({
+      integration, setRootView, replaceURLParams,
     }),
   },
 ];

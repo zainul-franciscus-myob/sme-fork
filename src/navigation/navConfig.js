@@ -28,6 +28,7 @@ export const activeMapping = {
   'receiveRefund/receiveRefund': 'banking',
   'customerReturn/customerReturnPayRefund': 'sales',
   'payRefund/payRefund': 'banking',
+  'payItem/payItemList': 'payroll',
 };
 
 export const featuresConfig = {
@@ -126,5 +127,8 @@ export const featuresConfig = {
   },
   supplierReturnList: {
     routeName: 'supplierReturn/supplierReturnList',
+  },
+  payItemList: {
+    routeName: 'payItem/payItemList',
   },
 };

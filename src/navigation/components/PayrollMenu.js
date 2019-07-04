@@ -8,6 +8,7 @@ import { getActiveNav, getPayrollUrls } from '../NavigationSelectors';
 const getItems = urls => [
   urls.employeeList && <Navigation.MenuLink key="Employees" url={urls.employeeList} label="Employees" />,
   urls.payrollSettings && <Navigation.MenuLink key="Payroll settings" url={urls.payrollSettings} label="Payroll settings" />,
+  urls.payItemList && <Navigation.MenuLink key="Pay items" url={urls.payItemList} label="Pay items" />,
 ].filter(Boolean);
 
 const PayrollMenu = ({ urls, onMenuSelect, activeNav }) => (

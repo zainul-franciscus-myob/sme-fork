@@ -50,6 +50,7 @@ export const getPayrollUrls = createSelector(
   enabledUrls => ({
     employeeList: enabledUrls.employeeList,
     payrollSettings: enabledUrls.payrollSettings,
+    payItemList: enabledUrls.payItemList,
   }),
 );
 export const hasPayrollUrls = createSelector(

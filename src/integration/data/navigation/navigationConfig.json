@@ -25,6 +25,7 @@
     "customerReturnList",
     "salesSettings",
     "payrollSettings",
-    "supplierReturnList"
+    "supplierReturnList",
+    "payItemList"
   ]
 }
