@@ -30,10 +30,10 @@ const PayItemDeductionsTable = ({
           <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortDeductionsList} />
         </Table.HeaderItem>
         <Table.HeaderItem>
-          <HeaderSort title="Type" sortName="Type" activeSort={order} onSort={onSortDeductionsList} />
+          <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortDeductionsList} />
         </Table.HeaderItem>
         <Table.HeaderItem>
-          <HeaderSort title="ATO reporting category" sortName="AtoReportingCategory" activeSort={order} onSort={onSortDeductionsList} />
+          <HeaderSort title="ATO reporting category" sortName="StpCategory" activeSort={order} onSort={onSortDeductionsList} />
         </Table.HeaderItem>
       </Table.Header>
       { view }

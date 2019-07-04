@@ -29,7 +29,7 @@ const PayItemLeaveList = ({
           <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortLeaveList} />
         </Table.HeaderItem>
         <Table.HeaderItem>
-          <HeaderSort title="Type" sortName="Type" activeSort={order} onSort={onSortLeaveList} />
+          <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortLeaveList} />
         </Table.HeaderItem>
       </Table.Header>
       { view }

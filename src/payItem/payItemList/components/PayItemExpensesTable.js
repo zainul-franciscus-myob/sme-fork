@@ -29,7 +29,7 @@ const PayItemExpensesTable = ({
           <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortExpensesList} />
         </Table.HeaderItem>
         <Table.HeaderItem>
-          <HeaderSort title="Type" sortName="Type" activeSort={order} onSort={onSortExpensesList} />
+          <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortExpensesList} />
         </Table.HeaderItem>
       </Table.Header>
       { view }

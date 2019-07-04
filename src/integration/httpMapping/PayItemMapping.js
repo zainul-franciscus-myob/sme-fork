@@ -14,43 +14,43 @@ import {
 const PayItemListMapping = {
   [LOAD_WAGES_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payItem/load_wage_list`,
+    getPath: ({ businessId }) => `/${businessId}/payItem/load_wage_pay_item_list`,
   },
   [SORT_WAGES_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payItem/sort_wage_list`,
+    getPath: ({ businessId }) => `/${businessId}/payItem/sort_wage_pay_item_list`,
   },
   [LOAD_SUPERANNUATION_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payItem/load_superannuation_list`,
+    getPath: ({ businessId }) => `/${businessId}/payItem/load_superannuation_pay_item_list`,
   },
   [SORT_SUPERANNUATION_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payItem/sort_superannuation_list`,
+    getPath: ({ businessId }) => `/${businessId}/payItem/sort_superannuation_pay_item_list`,
   },
   [LOAD_LEAVE_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payItem/load_leave_list`,
+    getPath: ({ businessId }) => `/${businessId}/payItem/load_leave_pay_item_list`,
   },
   [SORT_LEAVE_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payItem/sort_leave_list`,
+    getPath: ({ businessId }) => `/${businessId}/payItem/sort_leave_pay_item_list`,
   },
   [LOAD_DEDUCTIONS_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payItem/load_deduction_list`,
+    getPath: ({ businessId }) => `/${businessId}/payItem/load_deduction_pay_item_list`,
   },
   [SORT_DEDUCTIONS_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payItem/sort_deduction_list`,
+    getPath: ({ businessId }) => `/${businessId}/payItem/sort_deduction_pay_item_list`,
   },
   [LOAD_EXPENSES_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payItem/load_expense_list`,
+    getPath: ({ businessId }) => `/${businessId}/payItem/load_expense_pay_item_list`,
   },
   [SORT_EXPENSES_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payItem/sort_expense_list`,
+    getPath: ({ businessId }) => `/${businessId}/payItem/sort_expense_pay_item_list`,
   },
 };
 
