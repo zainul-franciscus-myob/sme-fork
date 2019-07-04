@@ -1,8 +1,7 @@
 import { Field } from '@myob/myob-widgets';
+import Cleave from 'cleave.js/react';
 import React from 'react';
 import classnames from 'classnames';
-
-import CleaveWrapper from './Cleave/CleaveWrapper';
 
 const Input = ({
   label,
@@ -21,7 +20,7 @@ const Input = ({
     labelAccessory={labelAccessory}
     errorMessage={errorMessage}
     renderField={({ errorId, ...props }) => (
-      <CleaveWrapper
+      <Cleave
         {...props}
         {...inputBoxProps}
         className={classnames('form-control', className, {
@@ -32,13 +31,5 @@ const Input = ({
     )}
   />
 );
-
-Input.propTypes = {
-  ...CleaveWrapper.propTypes,
-};
-
-Input.defaultProps = {
-  ...CleaveWrapper.defaultProps,
-};
 
 export default Input;
