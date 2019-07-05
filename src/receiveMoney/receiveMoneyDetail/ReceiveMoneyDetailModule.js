@@ -39,10 +39,14 @@ import {
 } from './receiveMoneyDetailSelectors';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
 import Store from '../../store/Store';
+import keyMap from '../../hotKeys/keyMap';
 import receiveMoneyDetailReducer from './receiveMoneyDetailReducer';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class ReceiveMoneyDetailModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({
+    integration, setRootView, pushMessage,
+  }) {
     this.integration = integration;
     this.store = new Store(receiveMoneyDetailReducer);
     this.setRootView = setRootView;
@@ -366,10 +370,23 @@ export default class ReceiveMoneyDetailModule {
     });
   }
 
+  saveReceivedMoney = () => {
+    if (this.isCreating) {
+      this.createReceiveMoneyEntry();
+    } else {
+      this.updateReceiveMoneyEntry();
+    }
+  };
+
+  handlers = {
+    SAVE_ACTION: this.saveReceivedMoney,
+  };
+
   run(context) {
     this.setInitialState(context);
     this.receiveMoneyId = context.receiveMoneyId;
     this.isCreating = context.receiveMoneyId === 'new';
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.setLoadingState(true);
     this.loadReceiveMoney();

@@ -34,6 +34,7 @@ import EmployeeDetailView from './components/EmployeeDetailView';
 import Store from '../../store/Store';
 import employeeDetailReducer from './employeeDetailReducer';
 import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 const popMessageTypes = [
   SUCCESSFULLY_SAVED_EMPLOYEE,
@@ -41,7 +42,7 @@ const popMessageTypes = [
 
 export default class EmployeeDetailModule {
   constructor({
-    integration, setRootView, popMessages, pushMessage, replaceURLParams, setupHotKeys,
+    integration, setRootView, popMessages, pushMessage, replaceURLParams,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -50,8 +51,6 @@ export default class EmployeeDetailModule {
     this.popMessages = popMessages;
     this.pushMessage = pushMessage;
     this.popMessageTypes = popMessageTypes;
-    this.setupHotKeys = setupHotKeys;
-    this.keyMap = keyMap;
   }
 
   loadEmployeeDetails = () => {
@@ -393,7 +392,7 @@ export default class EmployeeDetailModule {
   run(context) {
     this.setInitialState(context);
     this.store.subscribe(this.updateURLFromState);
-    this.setupHotKeys(this.keyMap, this.handlers);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();
     this.loadEmployeeDetails();

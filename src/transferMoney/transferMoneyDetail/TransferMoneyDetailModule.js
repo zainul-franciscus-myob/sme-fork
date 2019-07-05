@@ -23,10 +23,14 @@ import {
 } from './transferMoneyDetailSelectors';
 import Store from '../../store/Store';
 import TransferMoneyDetailView from './components/TransferMoneyDetailView';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 import transferMoneyDetailReducer from './transferMoneyDetailReducer';
 
 export default class TransferMoneyDetailModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({
+    integration, setRootView, pushMessage,
+  }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -207,10 +211,15 @@ export default class TransferMoneyDetailModule {
     });
   }
 
+  handlers = {
+    SAVE_ACTION: this.createTransferMoneyEntry,
+  };
+
   run(context) {
     this.setInitialState(context);
     this.transferMoneyId = context.transferMoneyId;
     this.isCreating = context.transferMoneyId === 'new';
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.setLoadingState(true);
     this.loadTransferMoney();

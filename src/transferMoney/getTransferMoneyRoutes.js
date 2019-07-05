@@ -7,7 +7,9 @@ const getTransferMoneyRoutes = ({
     {
       name: 'transferMoneyDetail',
       path: '/:transferMoneyId',
-      module: new TransferMoneyDetailModule({ integration, setRootView, pushMessage }),
+      module: new TransferMoneyDetailModule({
+        integration, setRootView, pushMessage,
+      }),
     },
   ];
 

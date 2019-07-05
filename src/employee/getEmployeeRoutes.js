@@ -2,7 +2,7 @@ import EmployeeDetailModule from './employeeDetail/EmployeeDetailModule';
 import EmployeeListModule from './employeeList/EmployeeListModule';
 
 const getEmployeeRoutes = ({
-  integration, setRootView, popMessages, pushMessage, replaceURLParams, setupHotKeys,
+  integration, setRootView, popMessages, pushMessage, replaceURLParams,
 }) => {
   const routes = [
     {
@@ -17,7 +17,7 @@ const getEmployeeRoutes = ({
       path: '/:employeeId',
       allowedParams: ['mainTab', 'subTab'],
       module: new EmployeeDetailModule({
-        integration, setRootView, popMessages, pushMessage, replaceURLParams, setupHotKeys,
+        integration, setRootView, popMessages, pushMessage, replaceURLParams,
       }),
     },
   ];

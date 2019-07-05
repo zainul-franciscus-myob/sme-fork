@@ -7,7 +7,9 @@ const getReceiveMoneyRoutes = ({
     {
       name: 'receiveMoneyDetail',
       path: '/:receiveMoneyId',
-      module: new ReceiveMoneyDetailModule({ integration, setRootView, pushMessage }),
+      module: new ReceiveMoneyDetailModule({
+        integration, setRootView, pushMessage,
+      }),
     },
   ];
 

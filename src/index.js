@@ -9,7 +9,6 @@ import Inbox from './inbox';
 import NavigationModule from './navigation/NavigationModule';
 import Router from './router/Router';
 import getRoutes from './getRoutes';
-import setupHotKeys from './hotKeys/setupHotKeys';
 import unbindAllKeys from './hotKeys/unbindAllKeys';
 
 async function main(integrationType) {
@@ -41,7 +40,6 @@ async function main(integrationType) {
     popMessages: inbox.popMessages,
     pushMessage: inbox.pushMessage,
     replaceURLParams: router.replaceURLParams,
-    setupHotKeys,
   });
 
   const moduleList = routes.reduce((acc, route) => {

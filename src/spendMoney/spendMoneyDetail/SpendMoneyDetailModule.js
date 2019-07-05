@@ -42,10 +42,15 @@ import {
 } from './spendMoneyDetailSelectors';
 import SpendMoneyDetailView from './components/SpendMoneyDetailView';
 import Store from '../../store/Store';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 import spendMoneyDetailReducer from './spendMoneyDetailReducer';
 
+
 export default class SpendMoneyDetailModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({
+    integration, setRootView, pushMessage,
+  }) {
     this.integration = integration;
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
@@ -409,10 +414,23 @@ export default class SpendMoneyDetailModule {
     });
   }
 
+  saveSpendMoney = () => {
+    if (this.isCreating) {
+      this.createSpendMoneyEntry();
+    } else {
+      this.updateSpendMoneyEntry();
+    }
+  }
+
+  handlers = {
+    SAVE_ACTION: this.saveSpendMoney,
+  };
+
   run(context) {
     this.setInitialState(context);
     this.spendMoneyId = context.spendMoneyId;
     this.isCreating = context.spendMoneyId === 'new';
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.setLoadingState(true);
     this.loadSpendMoney();

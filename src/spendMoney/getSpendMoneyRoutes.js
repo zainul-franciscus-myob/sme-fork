@@ -7,7 +7,9 @@ const getSpendMoneyRoutes = ({
     {
       name: 'spendMoneyDetail',
       path: '/:spendMoneyId',
-      module: new SpendMoneyDetailModule({ integration, setRootView, pushMessage }),
+      module: new SpendMoneyDetailModule({
+        integration, setRootView, pushMessage,
+      }),
     },
   ];
 

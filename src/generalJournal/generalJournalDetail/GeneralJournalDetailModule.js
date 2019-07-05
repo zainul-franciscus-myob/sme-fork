@@ -40,9 +40,13 @@ import {
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import Store from '../../store/Store';
 import generalJournalDetailReducer from './generalJournalDetailReducer';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class GeneralJournalDetailModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({
+    integration, setRootView, pushMessage,
+  }) {
     this.integration = integration;
     this.store = new Store(generalJournalDetailReducer);
     this.setRootView = setRootView;
@@ -362,10 +366,24 @@ export default class GeneralJournalDetailModule {
    });
  }
 
+
+ saveGeneralJournal = () => {
+   if (this.isCreating) {
+     this.createGeneralJournalEntry();
+   } else {
+     this.updateGeneralJournalEntry();
+   }
+ };
+
+ handlers = {
+   SAVE_ACTION: this.saveGeneralJournal,
+ };
+
  run(context) {
    this.generalJournalId = context.generalJournalId;
    this.isCreating = context.generalJournalId === 'new';
    this.setInitialState(context);
+   setupHotKeys(keyMap, this.handlers);
    this.render();
    this.setLoadingState(true);
    this.loadGeneralJournal();
