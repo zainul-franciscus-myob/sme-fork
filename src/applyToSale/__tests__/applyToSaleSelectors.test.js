@@ -149,26 +149,27 @@ describe('applyToSaleSelectors', () => {
   });
 
   describe('getCreateApplyToSalePayload', () => {
-    it('gets request for create', () => {
-      const state = {
-        customerReturnId: 'a',
-        description: 'b',
-        date: 'c',
-        reference: 'd',
-        invoices: [
-          {
-            invoiceId: '1i',
-            amountApplied: 1,
-            discount: 2,
-          },
-          {
-            invoiceId: '2i',
-            amountApplied: 3,
-            discount: 4,
-          },
-        ],
-      };
+    const state = {
+      customerReturnId: 'a',
+      description: 'b',
+      date: 'c',
+      reference: 'd',
+      originalReferenceId: 'e',
+      invoices: [
+        {
+          invoiceId: '1i',
+          amountApplied: 1,
+          discount: 2,
+        },
+        {
+          invoiceId: '2i',
+          amountApplied: 3,
+          discount: 4,
+        },
+      ],
+    };
 
+    it('gets request for create', () => {
       const actual = getCreateApplyToSalePayload(state);
 
       const expected = {
@@ -194,42 +195,29 @@ describe('applyToSaleSelectors', () => {
     });
 
     it('filters out invoices with 0 amount applied', () => {
-      const state = {
-        customerReturnId: 'a',
-        description: 'b',
-        date: 'c',
-        reference: 'd',
-        invoices: [
-          {
-            invoiceId: '1i',
-            amountApplied: 0,
-            discount: 2,
-          },
-          {
-            invoiceId: '2i',
-            amountApplied: 3,
-            discount: 4,
-          },
-        ],
+      const modifiedState = {
+        ...state,
+        invoices: state.invoices.map(invoice => ({
+          ...invoice,
+          amountApplied: 0,
+        })),
       };
 
-      const actual = getCreateApplyToSalePayload(state);
+      const actual = getCreateApplyToSalePayload(modifiedState);
 
-      const expected = {
-        customerReturnId: 'a',
-        description: 'b',
-        date: 'c',
-        reference: 'd',
-        invoices: [
-          {
-            invoiceId: '2i',
-            amountApplied: 3,
-            discount: 4,
-          },
-        ],
+      expect(actual.invoices).toEqual([]);
+    });
+
+    it('reference is empty string when current value equals original reference id', () => {
+      const modifiedState = {
+        ...state,
+        reference: 'p',
+        originalReferenceId: 'p',
       };
 
-      expect(actual).toEqual(expected);
+      const actual = getCreateApplyToSalePayload(modifiedState);
+
+      expect(actual.reference).toEqual('');
     });
   });
 });

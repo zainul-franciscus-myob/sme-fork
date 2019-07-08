@@ -20,7 +20,7 @@ const ApplyToSaleMapping = {
     ),
   },
   [LOAD_INVOICES]: {
-    method: 'POST',
+    method: 'GET',
     getPath: ({ businessId, customerId }) => (
       `/${businessId}/applyToSale/load_invoices/${customerId}`
     ),

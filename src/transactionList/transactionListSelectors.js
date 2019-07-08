@@ -31,7 +31,7 @@ const BUSINESS_EVENT_TYPE_TO_FEATURE_MAP = {
   ReceiveRefund: 'receiveRefund',
   SettlePurchaseReturn: 'appliedPurchaseReturn',
   PayRefund: 'payRefund',
-  ApplyToSale: 'applyToSale',
+  SettleSaleReturn: 'applyToSale',
   Purchase: 'bill',
   Sale: 'invoice',
 };

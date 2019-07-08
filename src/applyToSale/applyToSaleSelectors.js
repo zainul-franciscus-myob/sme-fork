@@ -48,7 +48,7 @@ export const getCreateApplyToSalePayload = state => ({
   customerReturnId: getCustomerReturnId(state),
   description: getDescription(state),
   date: getDate(state),
-  reference: getReference(state),
+  reference: state.reference === state.originalReferenceId ? '' : state.reference,
   invoices: state.invoices
     .filter(invoice => invoice.amountApplied > 0)
     .map(invoice => ({
