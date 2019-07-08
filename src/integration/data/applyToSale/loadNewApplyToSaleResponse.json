@@ -1,0 +1,32 @@
+{
+  "customerId": 12,
+  "customerName": "Mattias Williams",
+  "amount": "$2,000.00",
+  "description": "Mattias Williams: Credit from INV000000",
+  "reference": "ATS111111",
+  "includeClosedSales": false,
+  "invoices": [
+    {
+      "invoiceId": 1,
+      "issueDate": "28/11/2018",
+      "invoiceNumber": "INV111111",
+      "status": "Unpaid",
+      "totalAmount": 150.03,
+      "discount": 0,
+      "displayDiscount": "",
+      "amountApplied": 0,
+      "displayAmountApplied": ""
+    },
+    {
+      "invoiceId": 2,
+      "issueDate": "28/11/1998",
+      "invoiceNumber": "INV222222",
+      "status": "Paid",
+      "totalAmount": 260.05,
+      "discount": 0,
+      "displayDiscount": "",
+      "amountApplied": 0,
+      "displayAmountApplied": ""
+    }
+  ]
+}

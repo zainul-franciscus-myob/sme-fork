@@ -183,6 +183,15 @@
       "sourceJournal": "Sale",
       "displayAmount": "500.00",
       "businessEventType": "PayRefund"
+    },
+    {
+      "id": "26",
+      "displayDate": "30/09/2016",
+      "referenceId": "ATS0000123",
+      "description": "apply to sale for mattias for maccas",
+      "sourceJournal": "Sale",
+      "displayAmount": "2000.00",
+      "businessEventType": "ApplyToSale"
     }
   ]
 }

@@ -1,3 +1,4 @@
+import ApplyToSaleModule from '../applyToSale/ApplyToSaleModule';
 import CustomerReturnListModule from './customerReturnList/CustomerReturnListModule';
 import PayRefundModule from '../payRefund/payRefund/PayRefundModule';
 
@@ -16,6 +17,13 @@ const getCustomerReturnRoutes = ({
       name: 'customerReturnPayRefund',
       path: '/:customerReturnId/payRefund/new',
       module: new PayRefundModule({
+        integration, setRootView, pushMessage,
+      }),
+    },
+    {
+      name: 'customerReturnApplyToSale',
+      path: '/:customerReturnId/applyToSale/new',
+      module: new ApplyToSaleModule({
         integration, setRootView, pushMessage,
       }),
     },

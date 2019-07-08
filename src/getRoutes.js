@@ -1,3 +1,4 @@
+import getApplyToSaleRoutes from './applyToSale/getApplyToSaleRoutes';
 import getBankingRoutes from './banking/getBankingRoutes';
 import getBillPaymentRoutes from './billPayment/getBillPaymentRoutes';
 import getBillRoutes from './bill/getBillRoutes';
@@ -212,6 +213,13 @@ const getRoutes = ({
     name: 'payRefund',
     rootPath: '/:region/:businessId/payRefund',
     subRoutes: getPayRefundRoutes({
+      integration, setRootView, pushMessage,
+    }),
+  },
+  {
+    name: 'applyToSale',
+    rootPath: '/:region/:businessId/applyToSale',
+    subRoutes: getApplyToSaleRoutes({
       integration, setRootView, pushMessage,
     }),
   },

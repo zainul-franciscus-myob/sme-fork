@@ -1,0 +1,5 @@
+:local .totalAmountApplied {
+  text-align: right;
+  font-weight: bold;
+  padding-top: 1rem;
+}

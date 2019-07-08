@@ -13,6 +13,7 @@ const CustomerReturnListTableBody = ({
   entries,
   tableConfig,
   onCreateRefundClick,
+  onCreateApplyToSaleClick,
 }) => {
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
@@ -48,7 +49,9 @@ const CustomerReturnListTableBody = ({
       </Table.RowItem>
 
       <Table.RowItem {...tableConfig.applyToSale}>
-        {entry.applyToSale}
+        <Button type="link" icon={<Icons.ReopenedDocument />} iconRight onClick={onLinkButtonClick(onCreateApplyToSaleClick, entry.id)}>
+          Apply
+        </Button>
       </Table.RowItem>
 
     </Table.Row>

@@ -27,7 +27,9 @@ export const activeMapping = {
   'supplierReturn/supplierReturnReceiveRefund': 'purchases',
   'receiveRefund/receiveRefund': 'banking',
   'customerReturn/customerReturnPayRefund': 'sales',
+  'customerReturn/customerReturnApplyToSale': 'sales',
   'payRefund/payRefund': 'banking',
+  'applyToSale/applyToSale': 'sales',
   'payItem/payItemList': 'payroll',
   'payItem/superPayItem': 'payroll',
 };

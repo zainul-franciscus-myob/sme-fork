@@ -14,6 +14,7 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { SUCCESSFULLY_SAVED_APPLY_TO_SALE } from '../../applyToSale/ApplyToSaleMessageType';
 import { SUCCESSFULLY_SAVED_PAY_REFUND } from '../../payRefund/PayRefundMessageTypes';
 import {
   getAppliedFilterOptions, getBusinessId, getFilterOptions,
@@ -23,7 +24,7 @@ import CustomerReturnListView from './components/CustomerReturnListView';
 import Store from '../../store/Store';
 import customerReturnListReducer from './customerReturnListReducer';
 
-const messageTypes = [SUCCESSFULLY_SAVED_PAY_REFUND];
+const messageTypes = [SUCCESSFULLY_SAVED_PAY_REFUND, SUCCESSFULLY_SAVED_APPLY_TO_SALE];
 
 export default class CustomerReturnListModule {
   constructor({
@@ -57,6 +58,14 @@ export default class CustomerReturnListModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/customerReturn/${id}/payRefund/new`;
+  }
+
+  redirectToCreateApplyToSale = (id) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/customerReturn/${id}/applyToSale/new`;
   }
 
   loadCustomerReturnList = () => {
@@ -225,6 +234,7 @@ export default class CustomerReturnListModule {
         onDismissAlert={this.dismissAlert}
         onSort={this.sortCustomerReturnList}
         onCreateRefundClick={this.redirectToCreateRefund}
+        onCreateApplyToSaleClick={this.redirectToCreateApplyToSale}
       />
     );
 
