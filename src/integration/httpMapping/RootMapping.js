@@ -27,6 +27,7 @@ import ReceiveRefundMapping from './ReceiveRefundMapping';
 import SaleSettingMapping from './SalesSettingsMapping';
 import SpendMoneyMapping from './SpendMoneyMapping';
 import SuperFundMapping from './SuperFundMapping';
+import SuperPayItemMapping from './SuperPayItemMapping';
 import SupplierReturnMapping from './SupplierReturnMapping';
 import SupplierReturnPurchaseMapping from './SupplierReturnPurchaseMapping';
 import TaxMapping from './TaxMapping';
@@ -70,6 +71,7 @@ const RootMapping = Object.freeze({
   ...ApplyToSaleMapping,
   ...SuperFundMapping,
   ...PayItemMapping,
+  ...SuperPayItemMapping,
 });
 
 export default RootMapping;

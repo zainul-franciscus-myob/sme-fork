@@ -4,7 +4,7 @@ import {
   LOAD_NEW_SUPER_PAY_ITEM,
   LOAD_SUPER_PAY_ITEM,
   UPDATE_SUPER_PAY_ITEM,
-} from '../PayItemIntents';
+} from './SuperPayItemIntents';
 import {
   getBusinessId, getIsCreating, getSuperPayItem, getSuperPayItemId,
 } from './superPayItemSelectors';

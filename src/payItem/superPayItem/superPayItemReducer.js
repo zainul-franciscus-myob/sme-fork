@@ -9,9 +9,8 @@ import {
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
-  SET_SUPER_PAY_ITEM,
-  SET_SUPER_PAY_ITEM_DETAIL,
-} from '../PayItemIntents';
+  SET_SUPER_PAY_ITEM, SET_SUPER_PAY_ITEM_DETAIL,
+} from './SuperPayItemIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 

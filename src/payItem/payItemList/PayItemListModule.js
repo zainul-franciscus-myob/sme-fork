@@ -25,7 +25,7 @@ import {
   SUCCESSFULLY_DELETED_PAY_ITEM,
   SUCCESSFULLY_SAVED_PAY_ITEM,
 } from '../deductionPayItem/DeductionPayItemMessageTypes';
-import { SUCCESSFULLY_DELETED_SUPER_PAY_ITEM, SUCCESSFULLY_SAVED_SUPER_PAY_ITEM } from '../PayItemMessageTypes';
+import { SUCCESSFULLY_DELETED_SUPER_PAY_ITEM, SUCCESSFULLY_SAVED_SUPER_PAY_ITEM } from '../superPayItem/SuperPayItemMessageTypes';
 import {
   getBusinessId,
   getLoadTabContentIntent,
