@@ -29,6 +29,7 @@ const getDefaultState = () => ({
     description: '',
     supplierReturnId: '',
   },
+  originalReferenceId: '',
   accounts: [],
   isLoading: false,
   isPageEdited: false,
@@ -78,6 +79,7 @@ const loadRefund = (state, action) => {
       ...action.refund,
     },
     accounts: action.accounts || defaultState.accounts,
+    originalReferenceId: action.refund.referenceId || defaultState.originalReferenceId,
   };
 };
 

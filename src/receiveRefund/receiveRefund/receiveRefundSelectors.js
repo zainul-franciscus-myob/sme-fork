@@ -21,3 +21,16 @@ export const getModalType = state => state.modalType;
 export const getAccounts = state => state.accounts;
 
 export const getRefund = state => state.refund;
+
+const getOriginalReferenceId = state => state.originalReferenceId;
+
+export const getRefundForCreate = (state) => {
+  const originalReferenceId = getOriginalReferenceId(state);
+  const refund = getRefund(state);
+  const { referenceId } = refund;
+
+  return {
+    ...refund,
+    referenceId: referenceId !== originalReferenceId ? referenceId : undefined,
+  };
+};

@@ -5,7 +5,7 @@ import {
   LOAD_RECEIVE_REFUND,
 } from '../ReceiveRefundIntents';
 import {
-  getBusinessId, getIsCreating, getRefund, getRefundId, getSupplierReturnId,
+  getBusinessId, getIsCreating, getRefundForCreate, getRefundId, getSupplierReturnId,
 } from './receiveRefundSelectors';
 
 const createReceiveRefundIntegrator = (store, integration) => ({
@@ -39,7 +39,7 @@ const createReceiveRefundIntegrator = (store, integration) => ({
       businessId: getBusinessId(state),
     };
 
-    const content = getRefund(state);
+    const content = getRefundForCreate(state);
 
     integration.write({
       intent,
