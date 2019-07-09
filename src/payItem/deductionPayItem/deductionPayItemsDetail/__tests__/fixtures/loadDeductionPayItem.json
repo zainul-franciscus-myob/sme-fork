@@ -1,0 +1,98 @@
+{
+  "title": "Union Fees",
+  "name": "Union Fees",
+  "linkedPayableAccountId": "456",
+  "atoReportingCategory": "NotReportable",
+  "calculationBasis": "FixedDollar",
+  "calculationPercentage": "3.00",
+  "calculationPercentOfId": "33",
+  "calculationDollars": "56.00",
+  "calculationPer": "Hour",
+  "limit": "Percent",
+  "limitPercentage": "5.00",
+  "limitPercentOfId": "34",
+  "limitDollars": "100.10",
+  "limitPer": "Quarter",
+  "selectedEmployees": [
+    {
+      "name": "Calie Mory",
+      "id": "1"
+    }
+  ],
+  "selectedExemptions": [
+    {
+      "name": "Salary Sacrifice",
+      "id": "33",
+      "itemType": "Wages"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "134",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134"
+    }
+  ],
+  "atoReportCategoryList": [
+    {
+      "name": "ETP - Tax withholding",
+      "value": "ETPTaxWithholding"
+    }
+  ],
+  "calculationBasisOptions": [
+    {
+      "name": "User-entered amount per pay period",
+      "value": "UserEntered"
+    }
+  ],
+  "calculationPercentOfOptions": [
+    {
+      "id": "34",
+      "itemType": "WagesGroup",
+      "displayName": "Federal Wages"
+    }
+  ],
+  "calculationDollarPerOptions": [
+    {
+      "name": "Year",
+      "value": "Year"
+    }
+  ],
+  "limitOptions": [
+    {
+      "name": "Equals dollars per pay period",
+      "value": "FixedDollar"
+    }
+  ],
+  "limitPercentOfOptions": [
+    {
+      "id": "34",
+      "itemType": "WagesGroup",
+      "displayName": "Federal Wages"
+    }
+  ],
+  "limitDollarPerOptions": [
+    {
+      "name": "Year",
+      "value": "Year"
+    }
+  ],
+  "employees": [
+    {
+      "name": "Calie Mory",
+      "id": "1"
+    },
+    {
+      "name": "Helen Row",
+      "id": "3"
+    }
+  ],
+  "exemptions": [
+    {
+      "name": "PAYG Withholding",
+      "id": "34",
+      "itemType": "Tax"
+    }
+  ]
+}

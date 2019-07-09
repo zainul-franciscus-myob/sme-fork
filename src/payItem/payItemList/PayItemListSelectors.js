@@ -85,6 +85,24 @@ export const getSuperannuationTableEntries = createSelector(
   })),
 );
 
+export const getDeductionsEntries = state => state.deductions.entries;
+
+const getDeductionEntryLink = (entry, businessId, region) => {
+  const { id } = entry;
+
+  return `/#/${region}/${businessId}/payItem/deduction/${id}`;
+};
+
+export const getDeductionTableEntries = createSelector(
+  getDeductionsEntries,
+  getBusinessId,
+  getRegion,
+  (entries, businessId, region) => entries.map(entry => ({
+    ...entry,
+    link: getDeductionEntryLink(entry, businessId, region),
+  })),
+);
+
 export const getSuperannuationOrder = state => ({
   column: getSuperannuationOrderBy(state),
   descending: getSuperannuationSortOrder(state) === 'desc',
@@ -112,8 +130,6 @@ export const getNewLeaveSortOrder = (state, { orderBy }) => (
     ? flipSortOrder(getLeaveSortOrder(state))
     : 'asc'
 );
-
-export const getDeductionsEntries = state => state.deductions.entries;
 
 export const getDeductionsOrder = state => ({
   column: getDeductionsOrderBy(state),

@@ -6,6 +6,7 @@ import BillPaymentMapping from './BillPaymentMapping';
 import BusinessMapping from './BusinessMapping';
 import ContactMapping from './ContactMapping';
 import CustomerReturnMapping from './CustomerReturnMapping';
+import DeductionPayItemMapping from './DeductionPayItemMapping';
 import EmployeeMapping from './EmployeeMapping';
 import GeneralJournalMapping from './GeneralJournalMapping';
 import IncomeAllocationMapping from './IncomeAllocationMapping';
@@ -34,6 +35,7 @@ import TransferMoneyMapping from './TransferMoneyMapping';
 import UserMapping from './UserMapping';
 
 const RootMapping = Object.freeze({
+  ...DeductionPayItemMapping,
   ...BusinessMapping,
   ...ContactMapping,
   ...GeneralJournalMapping,

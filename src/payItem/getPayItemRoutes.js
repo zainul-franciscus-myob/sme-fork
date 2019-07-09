@@ -1,3 +1,4 @@
+import DeductionPayItemDetailModule from './deductionPayItem/deductionPayItemsDetail/DeductionPayItemModule';
 import PayItemListModule from './payItemList/PayItemListModule';
 import SuperPayItemModule from './superPayItem/SuperPayItemModule';
 
@@ -19,6 +20,11 @@ const getPayItemRoutes = ({
       module: new SuperPayItemModule({
         integration, setRootView, pushMessage,
       }),
+    },
+    {
+      name: 'deductionPayItemDetail',
+      path: '/deduction/:payItemId',
+      module: new DeductionPayItemDetailModule({ integration, setRootView, pushMessage }),
     },
   ];
 

@@ -21,6 +21,10 @@ import {
   SORT_SUPERANNUATION_LIST,
   SORT_WAGES_LIST,
 } from '../PayItemIntents';
+import {
+  SUCCESSFULLY_DELETED_PAY_ITEM,
+  SUCCESSFULLY_SAVED_PAY_ITEM,
+} from '../deductionPayItem/DeductionPayItemMessageTypes';
 import { SUCCESSFULLY_DELETED_SUPER_PAY_ITEM, SUCCESSFULLY_SAVED_SUPER_PAY_ITEM } from '../PayItemMessageTypes';
 import {
   getBusinessId,
@@ -37,7 +41,12 @@ import PayItemListView from './components/PayItemListView';
 import Store from '../../store/Store';
 import payItemListReducer from './payItemListReducer';
 
-const messageTypes = [SUCCESSFULLY_SAVED_SUPER_PAY_ITEM, SUCCESSFULLY_DELETED_SUPER_PAY_ITEM];
+const messageTypes = [
+  SUCCESSFULLY_SAVED_SUPER_PAY_ITEM,
+  SUCCESSFULLY_DELETED_SUPER_PAY_ITEM,
+  SUCCESSFULLY_DELETED_PAY_ITEM,
+  SUCCESSFULLY_SAVED_PAY_ITEM,
+];
 
 export default class PayItemListModule {
   constructor({
@@ -275,6 +284,14 @@ export default class PayItemListModule {
     window.location.href = `/#/${region}/${businessId}/payItem/superannuation/new`;
   }
 
+  redirectToCreateDeductionPayItem = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/payItem/deduction/new`;
+  }
+
   render = () => {
     const payItemListView = (
       <PayItemListView
@@ -287,6 +304,7 @@ export default class PayItemListModule {
           onSortExpensesList: this.sortExpensesList,
           onDismissAlert: this.dismissAlert,
           onCreateSuperannuationButtonClick: this.redirectToCreateSuperPayItem,
+          onCreateDeductionButtonClick: this.redirectToCreateDeductionPayItem,
         }}
       />
     );

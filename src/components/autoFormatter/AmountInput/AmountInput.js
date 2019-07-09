@@ -4,7 +4,6 @@ import AutoFormatter from '../AutoFormatterCore/AutoFormatter';
 
 const AmountInput = ({
   decimalScale = 2,
-  integerScale,
   numeralIntegerScale,
   numeralPositiveOnly,
   ...props

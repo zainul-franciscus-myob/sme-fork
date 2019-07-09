@@ -1,0 +1,179 @@
+{
+  "title": "Union Fees",
+  "name": "Union Fees",
+  "linkedPayableAccountId": "456",
+  "atoReportingCategory": "NotSet",
+  "calculationBasis": "Percent",
+  "calculationPercentage": "3.00",
+  "calculationPercentOfId": "33",
+  "calculationDollars": "56.00",
+  "calculationPer": "Percent",
+  "limit": "NoLimit",
+  "limitPercentage": "5.00",
+  "limitPercentOfId": "34",
+  "limitDollars": "100.10",
+  "limitPer": "PayPeriod",
+  "selectedEmployees": [
+    {
+      "name": "Calie Mory",
+      "id": "1"
+    }
+  ],
+  "selectedExemptions": [
+    {
+      "name": "Salary Sacrifice",
+      "id": "33",
+      "itemType": "Wages"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "134",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134"
+    },
+    {
+      "id": "456",
+      "displayName": "Expense 2",
+      "accountType": "Expense",
+      "displayId": "6-135"
+    }
+  ],
+  "atoReportCategoryList": [
+    {
+      "name": "To be Assigned",
+      "value": "NotSet"
+    },
+    {
+      "name": "Not Reportable",
+      "value": "NotReportable"
+    },
+    {
+      "name": "Deduction - Union/Professional Assoc. Fees",
+      "value": "DeductionUnionProfAssocFees"
+    },
+    {
+      "name": "Deduction - Workplace giving",
+      "value": "DeductionWorkPlaceGiving"
+    },
+    {
+      "name": "ETP - Tax withholding",
+      "value": "ETPTaxWithholding"
+    }
+  ],
+  "calculationBasisOptions": [
+    {
+      "name": "Equals a percentage of a pay item",
+      "value": "Percent"
+    },
+    {
+      "name": "Equals dollars per pay period",
+      "value": "FixedDollar"
+    },
+    {
+      "name": "User-entered amount per pay period",
+      "value": "UserEntered"
+    }
+  ],
+  "calculationPercentOfOptions": [
+    {
+      "id": "33",
+      "itemType": "Wages",
+      "displayName": "Gross Wages"
+    },
+    {
+      "id": "34",
+      "itemType": "WagesGroup",
+      "displayName": "Federal Wages"
+    }
+  ],
+  "calculationDollarPerOptions": [
+    {
+      "name": "Pay Period",
+      "value": "PayPeriod"
+    },
+    {
+      "name": "Hour",
+      "value": "Hour"
+    },
+    {
+      "name": "Month",
+      "value": "Month"
+    },
+    {
+      "name": "Year",
+      "value": "Year"
+    }
+  ],
+  "limitOptions": [
+    {
+      "name": "No limit",
+      "value": "NoLimit"
+    },
+    {
+      "name": "Equals a percentage of wages",
+      "value": "Percent"
+    },
+    {
+      "name": "Equals dollars per pay period",
+      "value": "FixedDollar"
+    }
+  ],
+  "limitPercentOfOptions": [
+    {
+      "id": "33",
+      "itemType": "Wages",
+      "displayName": "Gross Wages"
+    },
+    {
+      "id": "34",
+      "itemType": "WagesGroup",
+      "displayName": "Federal Wages"
+    }
+  ],
+  "limitDollarPerOptions": [
+    {
+      "name": "Pay Period",
+      "value": "PayPeriod"
+    },
+    {
+      "name": "Quarter",
+      "value": "Quarter"
+    },
+    {
+      "name": "Month",
+      "value": "Month"
+    },
+    {
+      "name": "Year",
+      "value": "Year"
+    }
+  ],
+  "employees": [
+    {
+      "name": "Calie Mory",
+      "id": "1"
+    },
+    {
+      "name": "Sylvia Belt",
+      "id": "2"
+    },
+    {
+      "name": "Helen Row",
+      "id": "3"
+    }
+  ],
+  "exemptions": [
+    {
+      "name": "Salary Sacrifice",
+      "id": "33",
+      "itemType": "Wages"
+    },
+    {
+      "name": "PAYG Withholding",
+      "id": "34",
+      "itemType": "Tax"
+    }
+  ]
+}

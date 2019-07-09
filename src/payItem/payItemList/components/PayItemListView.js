@@ -27,7 +27,10 @@ const PayItemListView = ({
   selectedTab,
   listeners,
 }) => {
-  const { onCreateSuperannuationButtonClick } = listeners;
+  const {
+    onCreateSuperannuationButtonClick,
+    onCreateDeductionButtonClick,
+  } = listeners;
 
   const Content = {
     [tabIds.wages]: PayItemWagesTable,
@@ -37,21 +40,30 @@ const PayItemListView = ({
     [tabIds.expenses]: PayItemExpensesTable,
   }[selectedTab];
 
+  const SelectedButton = {
+    [tabIds.superannuation]: (
+      <Button onClick={onCreateSuperannuationButtonClick}>Create super pay item</Button>
+    ),
+    [tabIds.deductions]: (
+      <Button onClick={onCreateDeductionButtonClick}>Create deductions pay item</Button>
+    ),
+  }[selectedTab];
+
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={listeners.onDismissAlert}>
       {alert.message}
     </Alert>
   );
 
-  const actions = selectedTab === tabIds.superannuation && (
+  const actions = (
     <ButtonRow>
-      <Button onClick={onCreateSuperannuationButtonClick}>Create super pay item</Button>
+      {SelectedButton}
     </ButtonRow>
   );
 
   const pageHead = <PageHead title="Pay items" />;
 
-  const subHeadTabs = (
+  const subHeadChildren = (
     <React.Fragment>
       <Tabs
         items={tabItems}
@@ -66,7 +78,7 @@ const PayItemListView = ({
     <StandardTemplate
       sticky="none"
       pageHead={pageHead}
-      subHeadChildren={subHeadTabs}
+      subHeadChildren={subHeadChildren}
       alert={alertComponent}
     >
       <div className={style.list}>

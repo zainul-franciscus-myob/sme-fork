@@ -2,13 +2,13 @@ import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getDeductionsEntries } from '../PayItemListSelectors';
+import { getDeductionTableEntries } from '../PayItemListSelectors';
 
 const DeductionsTableBody = ({ entries }) => {
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
       <Table.RowItem>
-        {entry.name}
+        <a href={entry.link}>{entry.name}</a>
       </Table.RowItem>
       <Table.RowItem>
         {entry.type}
@@ -27,7 +27,7 @@ const DeductionsTableBody = ({ entries }) => {
 };
 
 const mapStateToProps = state => ({
-  entries: getDeductionsEntries(state),
+  entries: getDeductionTableEntries(state),
 });
 
 export default connect(mapStateToProps)(DeductionsTableBody);

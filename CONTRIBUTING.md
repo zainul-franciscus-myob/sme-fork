@@ -16,7 +16,7 @@ This document outlines the process for contributing to the `sme-web` repository,
 1. Issues are moved on the board by raising a pull request, and referencing the related issue.<br/>
    When the pull request is merged, the issue will transition to the next place on that board.<br/>
    > :thought_balloon: There may be some rare circumstances where a pull request is not necessary. Usually this would be for issues where no actual code changes or commits need to be made to the `sme-web` or `sme-web-bff` repo(s).
-   
+
    > :page_facing_up: When creating an issue or pull request, read through the template to understand which information we recommend you submit, for the process to go most smoothly.
 
 ## Stories and Task Wall Process
@@ -34,7 +34,7 @@ Exit criteria | •**3 amigos kickoff**<br/><br/> Discuss &amp; understand:<br/>
       onMyThingSelected={(thing) => { /* handle the event */ }}
     />
     ```
-    
+
 #### Don't
   - Do any asynchronous data fetching directly.
 
@@ -43,7 +43,7 @@ Exit criteria | •**3 amigos kickoff**<br/><br/> Discuss &amp; understand:<br/>
 ### Module Layer (e.g. `ThingModule`)
 #### Do
   - Put plumbing here, to orchestrate mapping React event handlers to Integration reads and writes.
-  
+
 #### Don't
   - Do anything else.
 
@@ -53,7 +53,7 @@ Exit criteria | •**3 amigos kickoff**<br/><br/> Discuss &amp; understand:<br/>
 #### Do
   - Make asynchronous HTTP request **from the `HttpIntegration` only**
   - Minimal protocol-specific transformations (handling HTTP status codes)
-  
+
 #### Don't
   - Do any business logic here.
 
@@ -72,7 +72,7 @@ example - `BankingTransactionsView.test.js`
 
 #### Files exporting classes / function library / multiple exports / objects - PascalCase
 example: `BankingIntents.js`
-#### Files exporting functions - camelCase
+#### Files exporting a default function - camelCase
 example: `bankingReducer.js`
 #### File names need to reflect the name of the const being exported
 example: `BankingIntents.js` `export default BankingIntents;`
