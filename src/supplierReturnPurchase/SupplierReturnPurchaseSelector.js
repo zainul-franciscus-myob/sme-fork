@@ -55,10 +55,13 @@ export const getPurchases = state => state.supplierReturnPurchase.purchases.map(
 
 const hasAmountPaidApplied = amountApplied => amountApplied && amountApplied.length > 0 && amountApplied !== '0.00';
 
+const getReferenceIdForRequest = ({ referenceId, originalReferenceId }) => (
+  referenceId === originalReferenceId ? undefined : referenceId);
+
 export const getSupplierReturnPurchasePayload = state => ({
   purchaseReturnId: state.supplierReturnId,
   description: state.supplierReturnPurchase.description,
-  referenceId: state.supplierReturnPurchase.referenceId,
+  referenceId: getReferenceIdForRequest(state.supplierReturnPurchase),
   date: state.supplierReturnPurchase.date,
   purchases: state.supplierReturnPurchase.purchases
     .filter(purchase => hasAmountPaidApplied(purchase.amountApplied)).map(purchase => ({

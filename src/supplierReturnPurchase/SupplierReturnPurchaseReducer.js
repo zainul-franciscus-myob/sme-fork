@@ -25,6 +25,7 @@ const getDefaultState = () => ({
     supplierId: '',
     description: '',
     referenceId: '',
+    originalReferenceId: '',
     date: convertToDateString(Date.now()),
     includeClosedPurchases: false,
     purchases: [],
@@ -40,21 +41,17 @@ const getDefaultState = () => ({
 
 const pageEdited = { isPageEdited: true };
 
-const loadNewPurchaseReturn = (state, action) => ({
-  ...state,
-  supplierReturnPurchase: {
-    ...state.supplierReturnPurchase,
-    ...action.purchaseReturn,
-  },
-});
 
 const loadPurchaseReturn = (state, action) => ({
   ...state,
   supplierReturnPurchase: {
     ...state.supplierReturnPurchase,
     ...action.purchaseReturn,
+    originalReferenceId: action.purchaseReturn.referenceId,
   },
 });
+
+const loadNewPurchaseReturn = loadPurchaseReturn;
 
 const loadPurchases = (state, action) => ({
   ...state,

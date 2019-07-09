@@ -115,5 +115,33 @@ describe('SupplierReturnPurchaseSelector', () => {
 
       expect(actual.purchases[0].amountApplied).toEqual('100.00');
     });
+
+    it('should include the referenceId if it\'s different to the original', () => {
+      const state = {
+        supplierReturnPurchase: {
+          referenceId: 'hi',
+          originalReferenceId: 'not hi',
+          purchases: [],
+        },
+      };
+
+      const actual = getSupplierReturnPurchasePayload(state);
+
+      expect(actual.referenceId).toEqual('hi');
+    });
+
+    it('should not include the referenceId if it\'s the same as the original', () => {
+      const state = {
+        supplierReturnPurchase: {
+          referenceId: 'hi',
+          originalReferenceId: 'hi',
+          purchases: [],
+        },
+      };
+
+      const actual = getSupplierReturnPurchasePayload(state);
+
+      expect(actual.referenceId).toBeUndefined();
+    });
   });
 });
