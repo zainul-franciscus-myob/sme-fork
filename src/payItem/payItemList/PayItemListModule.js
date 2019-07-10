@@ -27,16 +27,21 @@ import {
 } from '../deductionPayItem/DeductionPayItemMessageTypes';
 import { SUCCESSFULLY_DELETED_SUPER_PAY_ITEM, SUCCESSFULLY_SAVED_SUPER_PAY_ITEM } from '../superPayItem/SuperPayItemMessageTypes';
 import {
+  SUCCESSFULLY_DELETED_WAGE_PAY_ITEM,
+  SUCCESSFULLY_SAVED_WAGE_PAY_ITEM,
+} from '../wagePayItem/WagePayItemMessageTypes';
+import {
   getBusinessId,
   getLoadTabContentIntent,
   getNewDeductionsSortOrder,
   getNewExpensesSortOrder,
   getNewLeaveSortOrder,
   getNewSuperannuationSortOrder,
-  getNewWagesSortOrder, getRegion,
+  getNewWagesSortOrder, getRegion, getTab,
   getUrlParams,
   getUrlTabParams,
 } from './PayItemListSelectors';
+import { tabIds } from './tabItems';
 import PayItemListView from './components/PayItemListView';
 import Store from '../../store/Store';
 import payItemListReducer from './payItemListReducer';
@@ -46,6 +51,8 @@ const messageTypes = [
   SUCCESSFULLY_DELETED_SUPER_PAY_ITEM,
   SUCCESSFULLY_DELETED_PAY_ITEM,
   SUCCESSFULLY_SAVED_PAY_ITEM,
+  SUCCESSFULLY_SAVED_WAGE_PAY_ITEM,
+  SUCCESSFULLY_DELETED_WAGE_PAY_ITEM,
 ];
 
 export default class PayItemListModule {
@@ -276,20 +283,19 @@ export default class PayItemListModule {
     });
   }
 
-  redirectToCreateSuperPayItem= () => {
+  redirectToCreatePayItem = () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
+    const selectedTab = getTab(state);
 
-    window.location.href = `/#/${region}/${businessId}/payItem/superannuation/new`;
-  }
+    const linkType = {
+      [tabIds.superannuation]: 'superannuation',
+      [tabIds.wages]: 'wage',
+      [tabIds.deductions]: 'deduction',
+    }[selectedTab];
 
-  redirectToCreateDeductionPayItem = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    window.location.href = `/#/${region}/${businessId}/payItem/deduction/new`;
+    window.location.href = `/#/${region}/${businessId}/payItem/${linkType}/new`;
   }
 
   render = () => {
@@ -303,8 +309,7 @@ export default class PayItemListModule {
           onSortDeductionsList: this.sortDeductionsList,
           onSortExpensesList: this.sortExpensesList,
           onDismissAlert: this.dismissAlert,
-          onCreateSuperannuationButtonClick: this.redirectToCreateSuperPayItem,
-          onCreateDeductionButtonClick: this.redirectToCreateDeductionPayItem,
+          onCreatePayItemButtonClick: this.redirectToCreatePayItem,
         }}
       />
     );

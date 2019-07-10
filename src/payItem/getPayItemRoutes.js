@@ -1,6 +1,7 @@
 import DeductionPayItemDetailModule from './deductionPayItem/deductionPayItemsDetail/DeductionPayItemModule';
 import PayItemListModule from './payItemList/PayItemListModule';
 import SuperPayItemModule from './superPayItem/SuperPayItemModule';
+import WagePayItemModule from './wagePayItem/WagePayItemModule';
 
 const getPayItemRoutes = ({
   integration, setRootView, popMessages, pushMessage, replaceURLParams,
@@ -25,6 +26,13 @@ const getPayItemRoutes = ({
       name: 'deductionPayItemDetail',
       path: '/deduction/:payItemId',
       module: new DeductionPayItemDetailModule({ integration, setRootView, pushMessage }),
+    },
+    {
+      name: 'wagePayItem',
+      path: '/wage/:payItemId',
+      module: new WagePayItemModule({
+        integration, setRootView, pushMessage,
+      }),
     },
   ];
 

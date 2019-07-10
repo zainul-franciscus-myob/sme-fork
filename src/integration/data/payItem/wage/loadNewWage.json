@@ -1,0 +1,138 @@
+{
+  "title": "Create wage pay item",
+  "wage": {
+    "atoReportingCategory": "NotSet",
+    "payBasis": "Salary",
+    "payRate": "RegularRate",
+    "payRateMultiplier": "1.0000",
+    "fixedHourlyPayRate": "0.00",
+    "autoAdjustBase": false,
+    "accountId": ""
+  },
+  "defaultAccountId": "134",
+  "overrideAccount": false,
+  "accounts": [
+    {
+      "id": "134",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134"
+    },
+    {
+      "id": "456",
+      "displayName": "Expense 2",
+      "accountType": "Expense",
+      "displayId": "6-135"
+    }
+  ],
+  "payRateList": [
+    {
+      "name": "Regular rate multiplied by",
+      "value": "RegularRate"
+    },
+    {
+      "name": "Fixed hourly rate of",
+      "value": "FixedHourly"
+    }
+  ],
+  "atoReportCategoryList": [
+    {
+      "name": "To be Assigned",
+      "value": "NotSet"
+    },
+    {
+      "name": "Not Reportable",
+      "value": "NotReportable"
+    },
+    {
+      "name": "Gross Payments",
+      "value": "GrossPayments"
+    },
+    {
+      "name": "Exempt Foreign Income",
+      "value": "ExemptForeignIncome"
+    },
+    {
+      "name": "CDEP Payments",
+      "value": "CDEPPayments"
+    },
+    {
+      "name": "Allowance- Car",
+      "value": "AllowanceCar"
+    },
+    {
+      "name": "Allowance - Transport",
+      "value": "AllowanceTransport"
+    },
+    {
+      "name": "Allowance - Travel",
+      "value": "AllowanceTravel"
+    },
+    {
+      "name": "Allowance - Meals",
+      "value": "AllowanceMeals"
+    },
+    {
+      "name": "Allowance - Laundry ",
+      "value": "AllowanceLaundry"
+    },
+    {
+      "name": "Allowance - Other",
+      "value": "AllowanceOther"
+    },
+    {
+      "name": "Lump Sum A - Termination",
+      "value": "LumpSumPaymentATermination"
+    },
+    {
+      "name": "Lump Sum A - Redundancy",
+      "value": "LumpSumPaymentARedundancy"
+    },
+    {
+      "name": "Lump Sum B",
+      "value": "LumpSumPaymentB"
+    },
+    {
+      "name": "Lump Sum D",
+      "value": "LumpSumPaymentD"
+    },
+    {
+      "name": "Lump Sum E",
+      "value": "LumpSumPaymentE"
+    },
+    {
+      "name": "ETP Taxable Component",
+      "value": "ETPTaxableComponent"
+    },
+    {
+      "name": "ETP Tax-free Component",
+      "value": "ETPTaxFreeComponent"
+    }
+  ],
+  "employees": [
+    {
+      "name": "Calie Mory",
+      "id": "1"
+    },
+    {
+      "name": "Sylvia Belt",
+      "id": "2"
+    },
+    {
+      "name": "Helen Row",
+      "id": "3"
+    }
+  ],
+  "exemptions": [
+    {
+      "name": "Salary Sacrifice",
+      "id": "33",
+      "itemType": "Deduction"
+    },
+    {
+      "name": "PAYG Withholding",
+      "id": "34",
+      "itemType": "Tax"
+    }
+  ]
+}

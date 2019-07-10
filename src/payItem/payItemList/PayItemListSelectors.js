@@ -54,7 +54,23 @@ export const getUrlTabParams = createStructuredSelector({
 
 const flipSortOrder = sortOrder => (sortOrder === 'desc' ? 'asc' : 'desc');
 
+const getPayItemEntryLink = (entry, businessId, region, payItemType) => {
+  const { id } = entry;
+
+  return `/#/${region}/${businessId}/payItem/${payItemType}/${id}`;
+};
+
 export const getWagesEntries = state => state.wages.entries;
+
+export const getWageTableEntries = createSelector(
+  getWagesEntries,
+  getBusinessId,
+  getRegion,
+  (entries, businessId, region) => entries.map(entry => ({
+    ...entry,
+    link: getPayItemEntryLink(entry, businessId, region, 'wage'),
+  })),
+);
 
 export const getWagesOrder = state => ({
   column: getWagesOrderBy(state),
@@ -69,29 +85,17 @@ export const getNewWagesSortOrder = (state, { orderBy }) => (
 
 export const getSuperannuationEntries = state => state.superannuation.entries;
 
-const getSuperannuationEntryLink = (entry, businessId, region) => {
-  const { id } = entry;
-
-  return `/#/${region}/${businessId}/payItem/superannuation/${id}`;
-};
-
 export const getSuperannuationTableEntries = createSelector(
   getSuperannuationEntries,
   getBusinessId,
   getRegion,
   (entries, businessId, region) => entries.map(entry => ({
     ...entry,
-    link: getSuperannuationEntryLink(entry, businessId, region),
+    link: getPayItemEntryLink(entry, businessId, region, 'superannuation'),
   })),
 );
 
 export const getDeductionsEntries = state => state.deductions.entries;
-
-const getDeductionEntryLink = (entry, businessId, region) => {
-  const { id } = entry;
-
-  return `/#/${region}/${businessId}/payItem/deduction/${id}`;
-};
 
 export const getDeductionTableEntries = createSelector(
   getDeductionsEntries,
@@ -99,7 +103,7 @@ export const getDeductionTableEntries = createSelector(
   getRegion,
   (entries, businessId, region) => entries.map(entry => ({
     ...entry,
-    link: getDeductionEntryLink(entry, businessId, region),
+    link: getPayItemEntryLink(entry, businessId, region, 'deduction'),
   })),
 );
 

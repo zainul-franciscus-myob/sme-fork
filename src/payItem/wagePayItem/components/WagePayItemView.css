@@ -1,0 +1,15 @@
+:local .tableContainer :global(.form-group__label-group) {
+  width: 0;
+}
+
+:local .tableContainer :global(.table-data__container) {
+  margin-bottom: 1rem;
+}
+
+:local .actionsGroup {
+  margin-bottom: 2rem;
+}
+
+:local .limitSectionDivider {
+  min-height: 1.5rem;
+}

@@ -32,6 +32,7 @@ export const activeMapping = {
   'applyToSale/applyToSale': 'sales',
   'payItem/payItemList': 'payroll',
   'payItem/superPayItem': 'payroll',
+  'payItem/wagePayItem': 'payroll',
 };
 
 export const featuresConfig = {

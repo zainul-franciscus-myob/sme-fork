@@ -27,10 +27,7 @@ const PayItemListView = ({
   selectedTab,
   listeners,
 }) => {
-  const {
-    onCreateSuperannuationButtonClick,
-    onCreateDeductionButtonClick,
-  } = listeners;
+  const { onCreatePayItemButtonClick } = listeners;
 
   const Content = {
     [tabIds.wages]: PayItemWagesTable,
@@ -40,24 +37,21 @@ const PayItemListView = ({
     [tabIds.expenses]: PayItemExpensesTable,
   }[selectedTab];
 
-  const SelectedButton = {
-    [tabIds.superannuation]: (
-      <Button onClick={onCreateSuperannuationButtonClick}>Create super pay item</Button>
-    ),
-    [tabIds.deductions]: (
-      <Button onClick={onCreateDeductionButtonClick}>Create deductions pay item</Button>
-    ),
-  }[selectedTab];
-
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={listeners.onDismissAlert}>
       {alert.message}
     </Alert>
   );
 
-  const actions = (
+  const createButtonType = {
+    [tabIds.superannuation]: 'super',
+    [tabIds.wages]: 'wage',
+    [tabIds.deductions]: 'deduction',
+  }[selectedTab];
+
+  const actions = createButtonType && (
     <ButtonRow>
-      {SelectedButton}
+      <Button onClick={onCreatePayItemButtonClick}>{`Create ${createButtonType} pay item`}</Button>
     </ButtonRow>
   );
 

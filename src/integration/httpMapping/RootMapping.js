@@ -34,6 +34,7 @@ import TaxMapping from './TaxMapping';
 import TransactionListMapping from './TransactionListMapping';
 import TransferMoneyMapping from './TransferMoneyMapping';
 import UserMapping from './UserMapping';
+import WagePayItemMapping from './WagePayItemMapping';
 
 const RootMapping = Object.freeze({
   ...DeductionPayItemMapping,
@@ -72,6 +73,7 @@ const RootMapping = Object.freeze({
   ...SuperFundMapping,
   ...PayItemMapping,
   ...SuperPayItemMapping,
+  ...WagePayItemMapping,
 });
 
 export default RootMapping;
