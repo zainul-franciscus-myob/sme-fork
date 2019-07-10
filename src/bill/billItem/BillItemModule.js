@@ -47,6 +47,7 @@ import ModalTypes from './ModalType';
 import Store from '../../store/Store';
 import billItemReducer from './billItemReducer';
 
+
 export default class BillItemModule {
   constructor({
     integration, setRootView, pushMessage, replaceURLParams,

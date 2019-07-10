@@ -26,6 +26,8 @@ import {
 import InventoryDetailView from './components/InventoryDetailView';
 import Store from '../../store/Store';
 import inventoryDetailReducer from './inventoryDetailReducer';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class InventoryDetailModule {
   constructor({
@@ -37,16 +39,21 @@ export default class InventoryDetailModule {
     this.pushMessage = pushMessage;
   }
 
-  render = () => {
-    const onSaveButtonClick = this.isCreating
-      ? this.createInventoryDetail : this.updateInventoryDetail;
+  saveItemHandler = () => {
+    if (this.isCreating) {
+      this.createInventoryDetail();
+    } else {
+      this.updateInventoryDetail();
+    }
+  }
 
+  render = () => {
     const inventoryDetailView = (
       <InventoryDetailView
         onItemDetailsChange={this.updateItemDetails}
         onSellingDetailsChange={this.updateSellingDetails}
         onBuyingDetailsChange={this.updateBuyingDetails}
-        onSaveButtonClick={onSaveButtonClick}
+        onSaveButtonClick={this.saveItemHandler}
         onDeleteButtonClick={this.openDeleteModal}
         onCancelButtonClick={this.openCancelModal}
         onCloseModal={this.closeModal}
@@ -275,8 +282,13 @@ export default class InventoryDetailModule {
     });
   }
 
+  handlers = {
+    SAVE_ACTION: this.saveItemHandler,
+  };
+
   run(context) {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.itemId = context.itemId;
     this.isCreating = context.itemId === 'new';
     this.render();
