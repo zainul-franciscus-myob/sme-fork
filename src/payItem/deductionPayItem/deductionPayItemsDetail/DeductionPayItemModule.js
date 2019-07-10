@@ -158,6 +158,7 @@ export default class DeductionPayItemModule {
         type: SUCCESSFULLY_DELETED_PAY_ITEM,
         content: message,
       });
+      this.setIsSubmitting(false);
       this.redirectToDeductionList();
     };
 

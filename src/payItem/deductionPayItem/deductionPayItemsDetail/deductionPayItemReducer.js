@@ -8,6 +8,7 @@ import {
   REMOVE_EMPLOYEE,
   REMOVE_EXEMPTION,
   SET_ALERT,
+  SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   UPDATE_DETAILS,
   UPDATE_INFORMATION,
@@ -242,6 +243,11 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
+const setIsSubmitting = (state, { isSubmitting }) => ({
+  ...state,
+  isSubmitting,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -258,6 +264,7 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT]: setAlert,
+  [SET_IS_SUBMITTING]: setIsSubmitting,
 };
 
 const deductionPayItemReducer = createReducer(getDefaultState(), handlers);
