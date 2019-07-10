@@ -48,6 +48,7 @@ const EmployeeAllocationView = ({
     </Table>
     <Combobox
       label="Employees"
+      hideLabel
       items={filteredListOfEmployees}
       metaData={filteredListEmployeesMetadata}
       selected={{}}

@@ -33,7 +33,7 @@ const SuperPayItemExemptions = (props) => {
       <SuperPayItemExemptionsTable onRemoveSuperPayItemExemption={onRemoveSuperPayItemExemption} />
       <PayItemCombobox
         label="Exemptions"
-        hideLabel={false}
+        hideLabel
         hintText="Add exemption"
         items={exemptions}
         onChange={handleExemptionComboboxChange(onAddSuperPayItemExemption)}

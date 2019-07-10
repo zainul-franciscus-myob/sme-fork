@@ -56,6 +56,7 @@ const ExemptionsView = ({
     </Table>
     <Combobox
       label="Exemptions"
+      hideLabel
       items={filteredListOfExemptions}
       metaData={filteredListExemptionsMetadata}
       hintText="Add exemption"

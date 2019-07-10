@@ -1,5 +1,5 @@
 :local .editableTable :global(.form-group__label-group) {
-  display: none;
+  width: 0;
 }
 
 :local .editableTable :global(.table-data__container) {

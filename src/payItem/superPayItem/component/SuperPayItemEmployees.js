@@ -32,7 +32,7 @@ const SuperPayItemEmployees = (props) => {
       <SuperPayItemEmployeesTable onRemoveSuperPayItemEmployee={onRemoveSuperPayItemEmployee} />
       <EmployeeCombobox
         label="Employees"
-        hideLabel={false}
+        hideLabel
         hintText="Add employees to pay item"
         items={employees}
         onChange={handleEmployeeComboboxChange(onAddSuperPayItemEmployee)}
