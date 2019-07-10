@@ -71,10 +71,9 @@ const getSelectedEmployees = state => state.employeeAllocations.selectedEmployee
 const getFilteredListOfEmployees = createSelector(
   state => state.employeeAllocations.employees,
   getSelectedEmployees,
-  (employees, selectedEmployees) => {
-    const selectedIds = selectedEmployees.map(({ id }) => id);
-    return employees.filter(({ id }) => !selectedIds.includes(id));
-  },
+  (employees, selectedEmployees) => employees.filter(
+    ({ id }) => !selectedEmployees.find((employee => employee.id === id)),
+  ),
 );
 
 export const getEmployeeAllocations = createStructuredSelector({
@@ -86,10 +85,9 @@ const getSelectedExemptions = state => state.exemptionAllocations.selectedExempt
 const getFilteredListOfExemptions = createSelector(
   state => state.exemptionAllocations.exemptions,
   getSelectedExemptions,
-  (exemptions, selectedExemptions) => {
-    const selectedIds = selectedExemptions.map(({ id }) => id);
-    return exemptions.filter(({ id }) => !selectedIds.includes(id));
-  },
+  (exemptions, selectedExemptions) => exemptions.filter(
+    ({ id }) => !selectedExemptions.find(exemption => exemption.id === id),
+  ),
 );
 
 export const getExemptionAllocations = createStructuredSelector({

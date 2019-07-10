@@ -33,6 +33,7 @@ export const activeMapping = {
   'payItem/payItemList': 'payroll',
   'payItem/superPayItem': 'payroll',
   'payItem/wagePayItem': 'payroll',
+  'payItem/deductionPayItemDetail': 'payroll',
 };
 
 export const featuresConfig = {
