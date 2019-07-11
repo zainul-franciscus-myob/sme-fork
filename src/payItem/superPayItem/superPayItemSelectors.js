@@ -101,7 +101,7 @@ export const getFilteredAtoReportingCategories = createSelector(
         ));
       case contributionTypes.superGuarantee:
         return atoReportingCategories.filter(({ value }) => (
-          [atoCategories.notSet, atoCategories.superContributions]
+          [atoCategories.notSet, atoCategories.superGuarantee]
             .includes(value)
         ));
       case contributionTypes.productivity:
@@ -213,6 +213,21 @@ export const getIsExemptionDisabled = createSelector(
       calculationBasisPayItemId === grossWagesId || calculationBasisPayItemId === federalWagesId
     )),
 );
+
+export const getFormattedAmount = value => String((Number(value) || 0).toFixed(2));
+
+export const getFormattedPercentage = (value) => {
+  const number = Number(value) || 0;
+  const decimalPlaceCount = value.includes('.')
+    ? value.split('.')[1].length
+    : 0;
+
+  const formattedNumber = decimalPlaceCount <= 2
+    ? number.toFixed(2)
+    : number;
+
+  return String(formattedNumber);
+};
 
 const getUpdatedAtoReportingCategory = (state) => {
   const atoReportingCategory = getAtoReportingCategory(state);
