@@ -18,7 +18,7 @@ const PrepareBasView = ({ lodgeStatementLink }) => (
     pageHead="Prepare BAS or IAS"
   >
     <Button type="link" icon={<Icons.OpenExternalLink />} iconRight onClick={openNewTab(lodgeStatementLink)}>
-      Open ABN lookup website
+      Lodge statement
     </Button>
   </StandardTemplate>
 
