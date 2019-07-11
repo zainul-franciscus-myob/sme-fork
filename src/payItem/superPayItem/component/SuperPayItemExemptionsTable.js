@@ -1,5 +1,5 @@
 import {
-  Button, Icons, Table,
+  Button, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -27,13 +27,14 @@ const SuperPayItemExemptionsTable = (props) => {
       <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
       <Table.RowItem {...tableConfig.type}>{type}</Table.RowItem>
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-        <Button
-          type="secondary"
-          size="xs"
-          onClick={onButtonClick(onRemoveSuperPayItemExemption, id)}
+        <Tooltip triggerContent={(
+          <Button type="secondary" size="xs" onClick={onButtonClick(onRemoveSuperPayItemExemption, id)}>
+            <Icons.Remove />
+          </Button>
+        )}
         >
-          <Icons.Remove />
-        </Button>
+          Remove pay item
+        </Tooltip>
       </Table.RowItem>
     </Table.Row>
   ));
