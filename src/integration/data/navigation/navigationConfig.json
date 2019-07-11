@@ -26,6 +26,7 @@
     "salesSettings",
     "payrollSettings",
     "supplierReturnList",
-    "payItemList"
+    "payItemList",
+    "prepareBasOrIas"
   ]
 }

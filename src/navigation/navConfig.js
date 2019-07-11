@@ -34,6 +34,7 @@ export const activeMapping = {
   'payItem/superPayItem': 'payroll',
   'payItem/wagePayItem': 'payroll',
   'payItem/deductionPayItemDetail': 'payroll',
+  'prepareBasOrIas/prepareBasOrIas': 'business',
 };
 
 export const featuresConfig = {
@@ -135,5 +136,8 @@ export const featuresConfig = {
   },
   payItemList: {
     routeName: 'payItem/payItemList',
+  },
+  prepareBasOrIas: {
+    routeName: 'prepareBasOrIas/prepareBasOrIas',
   },
 };
