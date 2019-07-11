@@ -15,7 +15,7 @@ const tableConfig = {
   purchaseOrder: { width: '16rem', valign: 'top' },
   invoiceAmount: { width: '16rem', valign: 'top', align: 'right' },
   invoiceDue: { width: '15rem', valign: 'top', align: 'right' },
-  dateDue: { width: '12rem', valign: 'top', align: 'right' },
+  dateDue: { width: '12rem', valign: 'top', align: 'left' },
   status: { width: '10rem', valign: 'middle', align: 'left' },
 };
 

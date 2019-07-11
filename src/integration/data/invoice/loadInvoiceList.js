@@ -41,7 +41,7 @@ export default {
       invoiceAmount: '10.00',
       invoiceDue: '0.00',
       status: 'Closed',
-      dateDue: '01/10/2019',
+      dateDue: 'COD',
     },
     {
       id: '3',
@@ -54,6 +54,18 @@ export default {
       invoiceDue: '10.00',
       status: 'Open',
       dateDue: '01/10/2017',
+    },
+    {
+      id: '4',
+      referenceId: '00000079',
+      purchaseOrder: 'Yeah nah',
+      customer: 'Beatrice Smythebury Pollard III',
+      dateIssued: '25/02/2019',
+      dateClosed: '25/02/2019',
+      invoiceAmount: '10.00',
+      invoiceDue: '0.00',
+      status: 'Closed',
+      dateDue: 'Prepaid',
     },
   ],
 };
