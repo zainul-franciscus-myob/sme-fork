@@ -53,7 +53,7 @@ export default class InventoryDetailModule {
         onItemDetailsChange={this.updateItemDetails}
         onSellingDetailsChange={this.updateSellingDetails}
         onBuyingDetailsChange={this.updateBuyingDetails}
-        onSaveButtonClick={this.saveItemHandler}
+        onSaveButtonClick={this.saveItem}
         onDeleteButtonClick={this.openDeleteModal}
         onCancelButtonClick={this.openCancelModal}
         onCloseModal={this.closeModal}
@@ -283,7 +283,7 @@ export default class InventoryDetailModule {
   }
 
   handlers = {
-    SAVE_ACTION: this.saveItemHandler,
+    SAVE_ACTION: this.saveItem,
   };
 
   run(context) {

@@ -302,7 +302,7 @@ export default class BillServiceModule {
         onAddRow={this.addTableLine}
         onRemoveRow={this.removeTableLineAndCalculateTotals}
         onRowInputBlur={this.formatAndCalculateTotals}
-        onSaveButtonClick={this.saveBillHandler}
+        onSaveButtonClick={this.saveBill}
         onCancelButtonClick={this.openCancelModal}
         onCloseModal={this.closeModal}
         onCancelModal={this.redirectToBillList}
@@ -335,7 +335,7 @@ export default class BillServiceModule {
   }
 
   handlers = {
-    SAVE_ACTION: this.saveBillHandler,
+    SAVE_ACTION: this.saveBill,
   };
 
   run({ context, payload }) {
