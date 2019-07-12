@@ -37,6 +37,8 @@ import {
 import BillServiceView from './components/BillServiceView';
 import Store from '../../store/Store';
 import billServiceReducer from './billServiceReducer';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class BillServiceModule {
   constructor({
@@ -283,8 +285,16 @@ export default class BillServiceModule {
     this.getCalculatedTotals();
   }
 
-  render = () => {
+  saveBill = () => {
     const isCreating = getIsCreating(this.store.getState());
+    if (isCreating) {
+      this.createBillServiceEntry();
+    } else {
+      this.updateBillServiceEntry();
+    }
+  }
+
+  render = () => {
     const billServiceView = (
       <BillServiceView
         onUpdateHeaderOptions={this.updateHeaderOptions}
@@ -292,7 +302,7 @@ export default class BillServiceModule {
         onAddRow={this.addTableLine}
         onRemoveRow={this.removeTableLineAndCalculateTotals}
         onRowInputBlur={this.formatAndCalculateTotals}
-        onSaveButtonClick={isCreating ? this.createBillServiceEntry : this.updateBillServiceEntry}
+        onSaveButtonClick={this.saveBill}
         onCancelButtonClick={this.openCancelModal}
         onCloseModal={this.closeModal}
         onCancelModal={this.redirectToBillList}
@@ -324,8 +334,13 @@ export default class BillServiceModule {
     });
   }
 
+  handlers = {
+    SAVE_ACTION: this.saveBill,
+  };
+
   run({ context, payload }) {
     this.setInitialState(context, payload);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
   }
 

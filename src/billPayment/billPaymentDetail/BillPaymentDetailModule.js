@@ -35,6 +35,8 @@ import {
 import BillPaymentView from './components/BillPaymentDetailView';
 import Store from '../../store/Store';
 import billPaymentReducer from './billPaymentDetailReducer';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class BillPaymentModule {
   constructor({ integration, setRootView, pushMessage }) {
@@ -336,8 +338,13 @@ export default class BillPaymentModule {
     this.setRootView(wrappedView);
   };
 
+  handlers = {
+    SAVE_ACTION: this.saveBillPayment,
+  };
+
   run = (context) => {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.setLoadingState(true);
     this.loadBillPayment();

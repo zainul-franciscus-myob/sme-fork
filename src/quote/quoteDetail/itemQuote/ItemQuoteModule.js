@@ -42,6 +42,8 @@ import ItemQuoteView from './components/ItemQuoteView';
 import ModalType from './ModalType';
 import Store from '../../../store/Store';
 import itemQuoteReducer from './itemQuoteReducer';
+import keyMap from '../../../hotKeys/keyMap';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ItemQuoteModule {
   constructor({
@@ -412,8 +414,13 @@ export default class ItemQuoteModule {
     this.setRootView(wrappedView);
   };
 
+  handlers = {
+    SAVE_ACTION: this.saveQuote,
+  };
+
   run = ({ context, payload }) => {
     this.setInitialState(context, payload);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
   };
 }

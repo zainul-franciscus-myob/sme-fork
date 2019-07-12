@@ -36,6 +36,9 @@ import {
 import InvoicePaymentDetailView from './components/InvoicePaymentDetailView';
 import Store from '../../store/Store';
 import invoicePaymentDetailReducer from './invoicePaymentDetailReducer';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
+
 
 export default class InvoicePaymentDetailModule {
   constructor({ integration, setRootView, pushMessage }) {
@@ -352,8 +355,13 @@ export default class InvoicePaymentDetailModule {
     });
   }
 
+  handlers = {
+    SAVE_ACTION: this.saveInvoicePayment,
+  };
+
   run = (context) => {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.setLoadingState(true);
     this.loadInvoicePayment();
