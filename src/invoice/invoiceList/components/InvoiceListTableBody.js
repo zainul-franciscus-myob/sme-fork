@@ -23,7 +23,7 @@ const InvoiceListTableBody = (props) => {
       <Table.RowItem {...tableConfig.purchaseOrder}>{entry.purchaseOrder}</Table.RowItem>
       <Table.RowItem {...tableConfig.invoiceAmount}>{entry.invoiceAmount}</Table.RowItem>
       <Table.RowItem {...tableConfig.invoiceDue}>{entry.invoiceDue}</Table.RowItem>
-      <Table.RowItem {...tableConfig.dateDue}>{entry.dateDue}</Table.RowItem>
+      <Table.RowItem {...tableConfig.dateDue}>{entry.dateDueDisplay}</Table.RowItem>
       <Table.RowItem {...tableConfig.status}>
         <Badge color={entry.badgeColour}>{entry.displayStatus}</Badge>
       </Table.RowItem>
