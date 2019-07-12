@@ -39,7 +39,7 @@ export default class InventoryDetailModule {
     this.pushMessage = pushMessage;
   }
 
-  saveItemHandler = () => {
+  saveItem = () => {
     if (this.isCreating) {
       this.createInventoryDetail();
     } else {
