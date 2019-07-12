@@ -285,7 +285,7 @@ export default class BillServiceModule {
     this.getCalculatedTotals();
   }
 
-  saveBillHandler = () => {
+  saveBill = () => {
     const isCreating = getIsCreating(this.store.getState());
     if (isCreating) {
       this.createBillServiceEntry();
