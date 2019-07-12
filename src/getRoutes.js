@@ -16,6 +16,7 @@ import getLogoutRoute from './logout/getLogoutRoute';
 import getPayItemRoutes from './payItem/getPayItemRoutes';
 import getPayRefundRoutes from './payRefund/getPayRefundRoutes';
 import getPayrollSettingsRoutes from './payrollSettings/getPayrollSettingsRoutes';
+import getPrepareBasOrIasRoutes from './prepareBasOrIas/getPrepareBasOrIasRoutes';
 import getQuoteRoutes from './quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
 import getReceiveRefundRoutes from './receiveRefund/getReceiveRefundRoutes';
@@ -228,6 +229,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/payItem',
     subRoutes: getPayItemRoutes({
       integration, setRootView, popMessages, pushMessage, replaceURLParams,
+    }),
+  },
+  {
+    name: 'prepareBasOrIas',
+    rootPath: '/:region/:businessId/prepareBasOrIas',
+    subRoutes: getPrepareBasOrIasRoutes({
+      integration, setRootView,
     }),
   },
 ];

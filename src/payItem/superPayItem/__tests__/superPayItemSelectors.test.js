@@ -1,7 +1,11 @@
 import {
   getCalculationBasis,
   getFilteredAtoReportingCategories,
-  getFilteredEmployees, getFilteredExemptions, getIsExemptionDisabled,
+  getFilteredEmployees,
+  getFilteredExemptions,
+  getFormattedAmount,
+  getFormattedPercentage,
+  getIsExemptionDisabled,
   getLimit, getUpdatedSuperPayItemForSave,
 } from '../superPayItemSelectors';
 
@@ -33,7 +37,7 @@ describe('superPayItemSelectors', () => {
       ['Redundancy', true, true, false, false],
       ['SalarySacrifice', true, true, false, true],
       ['Spouse', true, true, false, false],
-      ['SuperannuationGuarantee', true, false, false, true],
+      ['SuperannuationGuarantee', true, false, true, false],
     ].forEach((args) => {
       const [contributionType, ...rest] = args;
 
@@ -368,6 +372,46 @@ describe('superPayItemSelectors', () => {
           expect(actual.limitAmount).toEqual(amount);
           expect(actual.limitPeriod).toEqual(period);
         });
+      });
+    });
+  });
+
+  describe('getFormattedAmount', () => {
+    [
+      ['', '0.00'],
+      ['.', '0.00'],
+      ['.1', '0.10'],
+      ['.12', '0.12'],
+      ['.123', '0.12'],
+      ['1.', '1.00'],
+      ['-1', '-1.00'],
+    ].forEach((args) => {
+      const [value, expected] = args;
+
+      it(`should format ${value} to ${expected}`, () => {
+        const actual = getFormattedAmount(value);
+
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
+
+  describe('getFormattedPercentage', () => {
+    [
+      ['', '0.00'],
+      ['.', '0.00'],
+      ['.1', '0.10'],
+      ['.12', '0.12'],
+      ['.123', '0.123'],
+      ['1.', '1.00'],
+      ['-1', '-1.00'],
+    ].forEach((args) => {
+      const [value, expected] = args;
+
+      it(`should format ${value} to ${expected}`, () => {
+        const actual = getFormattedPercentage(value);
+
+        expect(actual).toEqual(expected);
       });
     });
   });

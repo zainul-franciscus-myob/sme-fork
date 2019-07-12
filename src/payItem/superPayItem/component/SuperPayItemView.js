@@ -28,6 +28,7 @@ const SuperPayItemView = (props) => {
     onCancelButtonClick,
     onDeleteButtonClick,
     onSuperPayItemDetailsChange,
+    onSuperPayItemDetailBlur,
     onAddSuperPayItemEmployee,
     onRemoveSuperPayItemEmployee,
     onAddSuperPayItemExemption,
@@ -56,7 +57,10 @@ const SuperPayItemView = (props) => {
       {modal}
       <FormCard>
         <SuperPayItemDetail onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
-        <SuperPayItemInfo onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
+        <SuperPayItemInfo
+          onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
+          onSuperPayItemDetailBlur={onSuperPayItemDetailBlur}
+        />
         <SuperPayItemEmployees
           onAddSuperPayItemEmployee={onAddSuperPayItemEmployee}
           onRemoveSuperPayItemEmployee={onRemoveSuperPayItemEmployee}

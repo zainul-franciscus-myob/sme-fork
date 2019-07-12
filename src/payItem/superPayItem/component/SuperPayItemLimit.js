@@ -33,6 +33,7 @@ const SuperPayItemLimit = (props) => {
     showPercent,
     showAmount,
     onSuperPayItemDetailsChange,
+    onSuperPayItemDetailBlur,
   } = props;
 
   return (
@@ -55,6 +56,7 @@ const SuperPayItemLimit = (props) => {
             name="limitPercentage"
             value={limitPercentage}
             onChange={handleAmountChange(onSuperPayItemDetailsChange)}
+            onBlur={handleAmountChange(onSuperPayItemDetailBlur)}
             numeralIntegerScale={3}
             decimalScale={5}
           />
@@ -75,6 +77,7 @@ const SuperPayItemLimit = (props) => {
             name="limitAmount"
             value={limitAmount}
             onChange={handleAmountChange(onSuperPayItemDetailsChange)}
+            onBlur={handleAmountChange(onSuperPayItemDetailBlur)}
             numeralIntegerScale={13}
           />
           <Select

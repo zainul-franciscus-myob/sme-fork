@@ -24,6 +24,7 @@ const SuperPayItemInfo = (props) => {
     printOnPayAdvice,
     threshold,
     onSuperPayItemDetailsChange,
+    onSuperPayItemDetailBlur,
   } = props;
 
   return (
@@ -41,13 +42,20 @@ const SuperPayItemInfo = (props) => {
           />
         )}
       />
-      <SuperPayItemCalculationBasis onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
-      <SuperPayItemLimit onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
+      <SuperPayItemCalculationBasis
+        onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
+        onSuperPayItemDetailBlur={onSuperPayItemDetailBlur}
+      />
+      <SuperPayItemLimit
+        onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
+        onSuperPayItemDetailBlur={onSuperPayItemDetailBlur}
+      />
       <AmountInput
         label="Threshold $"
         name="threshold"
         value={threshold}
         onChange={handleAmountChange(onSuperPayItemDetailsChange)}
+        onBlur={handleAmountChange(onSuperPayItemDetailBlur)}
         numeralIntegerScale={13}
         labelAccessory={(
           <Tooltip triggerContent={<Icons.Info />} placement="right">

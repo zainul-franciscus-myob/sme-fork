@@ -13,6 +13,7 @@ const isSeparatorRequired = urls => (
     || urls.incomeAllocation
     || urls.userList
     || urls.salesSettings
+    || urls.prepareBasOrIas
 );
 
 const getItems = ({ urls, taxCodesLabel }) => [
@@ -21,6 +22,7 @@ const getItems = ({ urls, taxCodesLabel }) => [
   urls.taxList && <Navigation.MenuLink key="taxList" label={taxCodesLabel} url={urls.taxList} />,
   urls.userList && <Navigation.MenuLink key="userList" label="Users" url={urls.userList} />,
   urls.salesSettings && <Navigation.MenuLink key="salesSettings" label="Invoice and quote settings" url={urls.salesSettings} />,
+  urls.prepareBasOrIas && <Navigation.MenuLink key="prepareBasOrIas" label="Prepare BAS or IAS" url={urls.prepareBasOrIas} />,
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
   <Navigation.MenuLink key="logout" url="#/logout" label="Logout" icon={<Icons.SignOut />} />,
 ].filter(Boolean);

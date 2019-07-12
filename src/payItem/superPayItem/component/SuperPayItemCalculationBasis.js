@@ -34,6 +34,7 @@ const SuperPayItemCalculationBasis = (props) => {
     showPercent,
     showAmount,
     onSuperPayItemDetailsChange,
+    onSuperPayItemDetailBlur,
   } = props;
 
   return (
@@ -56,6 +57,7 @@ const SuperPayItemCalculationBasis = (props) => {
             name="calculationBasisPercentage"
             value={calculationBasisPercentage}
             onChange={handleAmountChange(onSuperPayItemDetailsChange)}
+            onBlur={handleAmountChange(onSuperPayItemDetailBlur)}
             numeralIntegerScale={3}
             decimalScale={5}
           />
@@ -71,6 +73,7 @@ const SuperPayItemCalculationBasis = (props) => {
             name="exclusion"
             value={exclusion}
             onChange={handleAmountChange(onSuperPayItemDetailsChange)}
+            onBlur={handleAmountChange(onSuperPayItemDetailBlur)}
             numeralIntegerScale={13}
             labelAccessory={(
               <Tooltip triggerContent={<Icons.Info />} placement="right">
@@ -88,6 +91,7 @@ const SuperPayItemCalculationBasis = (props) => {
             name="calculationBasisAmount"
             value={calculationBasisAmount}
             onChange={handleAmountChange(onSuperPayItemDetailsChange)}
+            onBlur={handleAmountChange(onSuperPayItemDetailBlur)}
             numeralIntegerScale={13}
           />
           <Select
