@@ -1,0 +1,100 @@
+{
+  "leavePayItem": {
+    "printOnPaySlip": true,
+    "carryRemainingLeave": false,
+    "calculationBasisType": "UserEntered",
+    "calculationBasisPercentage": "0.00",
+    "calculationBasisPayItemId": "2",
+    "calculationBasisAmount": "0.00",
+    "calculationBasisPeriod": "PayPeriod",
+    "selectedExemptions": [],
+    "selectedEmployees": [],
+    "selectedLinkedWages": []
+  },
+  "calculationBasisTypes": [
+    {
+      "name": "User-entered amount per pay period",
+      "value": "UserEntered"
+    },
+    {
+      "name": "Equals a percentage of wages",
+      "value": "Percent"
+    },
+    {
+      "name": "Equals dollars per pay period",
+      "value": "FixedHour"
+    }
+  ],
+  "payPeriods":   [
+    {
+      "name": "Pay period",
+      "value": "PayPeriod"
+    },
+    {
+      "name": "Month",
+      "value": "Month"
+    },
+    {
+      "name": "Year",
+      "value": "Year"
+    }
+  ],
+  "employees": [
+    {
+      "name": "Pritchett, Jay",
+      "id": "21"
+    },
+    {
+      "name": "Dunphy, Claire",
+      "id": "22"
+    },
+    {
+      "name": "Dunphy, Haley",
+      "id": "23"
+    }
+  ],
+  "calculationBasisPercentOfOptions": [
+    {
+      "id": "2",
+      "name": "Gross hours",
+      "mappedType": "Wages"
+    },
+    {
+      "id": "3",
+      "name": "Federal hours",
+      "mappedType": "Wages"
+    },
+    {
+      "id": "13",
+      "name": "Time hours",
+      "mappedType": "HourlyGroup"
+    }
+  ],
+  "exemptionOptions": [
+    {
+      "id": "51",
+      "name": "Exemption 1",
+      "mappedType": "Wages"
+    },
+    {
+      "id": "52",
+      "name": "Exemption 2",
+      "mappedType": "Wages"
+    },
+    {
+      "id": "53",
+      "name": "Exemption 3",
+      "mappedType": "Wages"
+    }
+  ],
+  "linkedWagesOptions": [
+      {
+      "id": "51",
+      "name": "Linked Wage 1"
+    },
+    {
+      "id": "52",
+      "name": "Linked Wage 2"
+    }
+  ]
+}

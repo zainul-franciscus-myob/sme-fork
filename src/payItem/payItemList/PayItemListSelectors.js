@@ -124,6 +124,16 @@ export const getUrlParams = createStructuredSelector({
 
 export const getLeaveEntries = state => state.leave.entries;
 
+export const getLeaveTableEntries = createSelector(
+  getLeaveEntries,
+  getBusinessId,
+  getRegion,
+  (entries, businessId, region) => entries.map(entry => ({
+    ...entry,
+    link: getPayItemEntryLink(entry, businessId, region, 'leave'),
+  })),
+);
+
 export const getLeaveOrder = state => ({
   column: getLeaveOrderBy(state),
   descending: getLeaveSortOrder(state) === 'desc',

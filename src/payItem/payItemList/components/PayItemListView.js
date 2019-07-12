@@ -47,6 +47,7 @@ const PayItemListView = ({
     [tabIds.superannuation]: 'super',
     [tabIds.wages]: 'wage',
     [tabIds.deductions]: 'deduction',
+    [tabIds.leave]: 'leave',
   }[selectedTab];
 
   const actions = createButtonType && (

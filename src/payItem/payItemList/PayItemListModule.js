@@ -22,6 +22,10 @@ import {
   SORT_WAGES_LIST,
 } from '../PayItemIntents';
 import {
+  SUCCESSFULLY_DELETED_LEAVE_PAY_ITEM,
+  SUCCESSFULLY_SAVED_LEAVE_PAY_ITEM,
+} from '../leavePayItem/LeavePayItemMessageTypes';
+import {
   SUCCESSFULLY_DELETED_PAY_ITEM,
   SUCCESSFULLY_SAVED_PAY_ITEM,
 } from '../deductionPayItem/DeductionPayItemMessageTypes';
@@ -53,6 +57,8 @@ const messageTypes = [
   SUCCESSFULLY_SAVED_PAY_ITEM,
   SUCCESSFULLY_SAVED_WAGE_PAY_ITEM,
   SUCCESSFULLY_DELETED_WAGE_PAY_ITEM,
+  SUCCESSFULLY_SAVED_LEAVE_PAY_ITEM,
+  SUCCESSFULLY_DELETED_LEAVE_PAY_ITEM,
 ];
 
 export default class PayItemListModule {
@@ -293,6 +299,7 @@ export default class PayItemListModule {
       [tabIds.superannuation]: 'superannuation',
       [tabIds.wages]: 'wage',
       [tabIds.deductions]: 'deduction',
+      [tabIds.leave]: 'leave',
     }[selectedTab];
 
     window.location.href = `/#/${region}/${businessId}/payItem/${linkType}/new`;

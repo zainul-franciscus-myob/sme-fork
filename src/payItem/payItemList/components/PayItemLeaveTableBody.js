@@ -2,13 +2,13 @@ import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getLeaveEntries } from '../PayItemListSelectors';
+import { getLeaveTableEntries } from '../PayItemListSelectors';
 
 const LeaveTableBody = ({ entries }) => {
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
       <Table.RowItem>
-        {entry.name}
+        <a href={entry.link}>{entry.name}</a>
       </Table.RowItem>
       <Table.RowItem>
         {entry.type}
@@ -24,7 +24,7 @@ const LeaveTableBody = ({ entries }) => {
 };
 
 const mapStateToProps = state => ({
-  entries: getLeaveEntries(state),
+  entries: getLeaveTableEntries(state),
 });
 
 export default connect(mapStateToProps)(LeaveTableBody);

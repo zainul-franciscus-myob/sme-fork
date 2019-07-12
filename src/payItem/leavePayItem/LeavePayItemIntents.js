@@ -1,0 +1,20 @@
+export const SET_LOADING_STATE = Symbol('Set loading state');
+export const SET_ALERT = Symbol('Set alert');
+export const OPEN_MODAL = Symbol('Open modal');
+export const CLOSE_MODAL = Symbol('Close modal');
+export const SET_SUBMITTING_STATE = Symbol('Set loading state');
+
+export const LOAD_LEAVE_PAY_ITEM = Symbol('Load leave pay item');
+export const LOAD_NEW_LEAVE_PAY_ITEM = Symbol('Load new leave pay item');
+export const CREATE_LEAVE_PAY_ITEM = Symbol('Create leave pay item');
+export const UPDATE_LEAVE_PAY_ITEM = Symbol('Update leave pay item');
+export const DELETE_LEAVE_PAY_ITEM = Symbol('Delete leave pay item');
+export const ADD_EMPLOYEE = Symbol('Add employee');
+export const REMOVE_EMPLOYEE = Symbol('Remove employee');
+export const ADD_EXEMPTION = Symbol('Add exemption');
+export const REMOVE_EXEMPTION = Symbol('Remove exemption');
+export const ADD_LINKED_WAGE = Symbol('Add linked wage');
+export const REMOVE_LINKED_WAGE = Symbol('Remove linked wage');
+export const UPDATE_NAME = Symbol('Update name');
+export const UPDATE_CALCULATION_BASIS = Symbol('Update calculation basis');
+export const UPDATE_CALCULATION_BASIS_AMOUNTS = Symbol('Update calculation basis amounts');
