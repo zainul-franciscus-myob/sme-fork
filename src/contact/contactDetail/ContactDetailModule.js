@@ -26,6 +26,8 @@ import {
 import ContactDetailView from './components/ContactDetailView';
 import Store from '../../store/Store';
 import contactDetailReducer from './contactDetailReducer';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class ContactDetailModule {
   constructor({
@@ -38,11 +40,6 @@ export default class ContactDetailModule {
   }
 
   render = () => {
-    const state = this.store.getState();
-    const isCreating = getIsCreating(state);
-    const onSaveButtonClick = isCreating
-      ? this.createContact : this.updateContact;
-
     const contactDetailView = (
       <ContactDetailView
         onContactDetailsChange={this.updateContactDetails}
@@ -52,7 +49,7 @@ export default class ContactDetailModule {
         onDeleteButtonClick={this.openDeleteModal}
         onCancelButtonClick={this.openCancelModal}
         onCloseModal={this.closeModal}
-        onSaveButtonClick={onSaveButtonClick}
+        onSaveButtonClick={this.saveContact}
         onDeleteModal={this.deleteContact}
         onCancelModal={this.redirectToContactList}
         onRemindersButtonClick={this.redirectToRemindersSettings}
@@ -65,6 +62,17 @@ export default class ContactDetailModule {
       </Provider>
     );
     this.setRootView(wrappedView);
+  }
+
+  updateOrCreateContact = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+
+    if (isCreating) {
+      this.createContact();
+    } else {
+      this.updateContact();
+    }
   }
 
   loadContactDetail = () => {
@@ -333,8 +341,13 @@ export default class ContactDetailModule {
     });
   }
 
+  handlers = {
+    SAVE_ACTION: this.updateOrCreateContact,
+  };
+
   run(context) {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadContactDetail();
   }
