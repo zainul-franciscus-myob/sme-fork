@@ -26,6 +26,8 @@ import {
 } from './userDetailSelectors';
 import Store from '../../store/Store';
 import UserDetailView from './components/UserDetailView';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 import userDetailReducer from './userDetailReducer';
 
 export default class UserDetailModule {
@@ -36,10 +38,16 @@ export default class UserDetailModule {
     this.pushMessage = pushMessage;
   }
 
-  render = () => {
+  createOrUpdateUser = () => {
     const isCreating = getIsCreating(this.store.getState());
-    const onSaveButtonClick = isCreating
-      ? this.createUser : this.updateUser;
+    if (isCreating) {
+      this.createUser();
+    } else {
+      this.updateUser();
+    }
+  }
+
+  render = () => {
 
     const userDetailView = (
       <UserDetailView
@@ -49,7 +57,7 @@ export default class UserDetailModule {
         onCancelButtonClick={this.openCancelModal}
         onUserDetailsChange={this.updateUserDetails}
         onUserRolesChange={this.updateSelectedRoles}
-        onSaveButtonClick={onSaveButtonClick}
+        onSaveButtonClick={this.createOrUpdateUser}
         onDeleteButtonClick={this.openDeleteModal}
         onDismissAlert={this.dismissAlert}
       />
@@ -263,9 +271,14 @@ export default class UserDetailModule {
     });
   };
 
+  handlers = {
+    SAVE_ACTION: this.createOrUpdateUser,
+  };
+
   run(context) {
     this.setInitialState(context);
     this.render();
+    setupHotKeys(keyMap, this.handlers);
     this.setLoadingState(true);
     this.loadUser();
   }
