@@ -48,7 +48,6 @@ export default class UserDetailModule {
   }
 
   render = () => {
-
     const userDetailView = (
       <UserDetailView
         onCloseModal={this.closeModal}
