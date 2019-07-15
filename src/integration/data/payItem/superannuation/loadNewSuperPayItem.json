@@ -5,13 +5,13 @@
     "atoReportingCategory": "SuperGuarantee",
     "contributionType": "SuperannuationGuarantee",
     "printOnPayAdvice": true,
-    "calculationBasisType": "Percent",
+    "calculationBasisType": "PercentOfPayrollCategory",
     "calculationBasisPercentage": "0.00",
     "calculationBasisPayItemId": "2",
     "calculationBasisAmount": "0.00",
     "calculationBasisPeriod": "PayPeriod",
     "exclusion": "0.00",
-    "limitType": "UserEntered",
+    "limitType": "NoLimit",
     "limitPercentage": "0.00",
     "limitPayItemId": "2",
     "limitAmount": "0.00",
@@ -111,7 +111,7 @@
     },
     {
       "name": "Equals a percentage of wages",
-      "value": "Percent"
+      "value": "PercentOfPayrollCategory"
     },
     {
       "name": "Equals dollars per pay period",
@@ -121,7 +121,7 @@
   "limitTypes": [
     {
       "name": "No limit",
-      "value": "UserEntered"
+      "value": "NoLimit"
     },
     {
       "name": "Equals a percentage of wages",

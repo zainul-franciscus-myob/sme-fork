@@ -62,7 +62,7 @@ describe('superPayItemSelectors', () => {
     const state = {
       superPayItem: {
         contributionType: 'EmployeeAdditional',
-        calculationBasisType: 'Percent',
+        calculationBasisType: 'PercentOfPayrollCategory',
       },
       calculationBasisDeductionPayItems: [{ id: 'deduction' }],
       calculationBasisExpensePayItems: [{ id: 'expense' }],
@@ -98,7 +98,7 @@ describe('superPayItemSelectors', () => {
     describe('showPercent', () => {
       [
         ['UserEntered', false],
-        ['Percent', true],
+        ['PercentOfPayrollCategory', true],
         ['FixedDollar', false],
       ].forEach((args) => {
         const [calculationBasisType, expectedShowPercent] = args;
@@ -257,9 +257,9 @@ describe('superPayItemSelectors', () => {
       ['UserEntered', 'grossWagesId', true],
       ['UserEntered', 'federalWagesId', true],
       ['UserEntered', 'someOtherId', true],
-      ['Percent', 'grossWagesId', false],
-      ['Percent', 'federalWagesId', false],
-      ['Percent', 'someOtherId', true],
+      ['PercentOfPayrollCategory', 'grossWagesId', false],
+      ['PercentOfPayrollCategory', 'federalWagesId', false],
+      ['PercentOfPayrollCategory', 'someOtherId', true],
       ['FixedDollar', 'grossWagesId', true],
       ['FixedDollar', 'federalWagesId', true],
       ['FixedDollar', 'someOtherId', true],
@@ -322,7 +322,7 @@ describe('superPayItemSelectors', () => {
     describe('calculationBasis', () => {
       [
         ['UserEntered', '0.00', 'grossWagesId', 'grossWagesType', '0.00', 'PayPeriod'],
-        ['Percent', '10.00', 'calculationDeductionId', 'calculationDeductionType', '0.00', 'PayPeriod'],
+        ['PercentOfPayrollCategory', '10.00', 'calculationDeductionId', 'calculationDeductionType', '0.00', 'PayPeriod'],
         ['FixedDollar', '0.00', 'grossWagesId', 'grossWagesType', '20.00', 'Month'],
       ].forEach((args) => {
         const [basisType, percentage, payItemId, payItemType, amount, period] = args;
@@ -349,7 +349,7 @@ describe('superPayItemSelectors', () => {
 
     describe('limit', () => {
       [
-        ['UserEntered', '0.00', 'grossWagesId', 'grossWagesType', '0.00', 'PayPeriod'],
+        ['NoLimit', '0.00', 'grossWagesId', 'grossWagesType', '0.00', 'PayPeriod'],
         ['Percent', '30.00', 'limitDeductionId', 'limitDeductionType', '0.00', 'PayPeriod'],
         ['FixedDollar', '0.00', 'grossWagesId', 'grossWagesType', '40.00', 'Quarter'],
       ].forEach((args) => {

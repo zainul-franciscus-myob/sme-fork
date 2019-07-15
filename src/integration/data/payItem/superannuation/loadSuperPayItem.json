@@ -6,7 +6,7 @@
     "atoReportingCategory": "SuperGuarantee",
     "contributionType": "EmployeeAdditional",
     "printOnPayAdvice": true,
-    "calculationBasisType": "Percent",
+    "calculationBasisType": "PercentOfPayrollCategory",
     "calculationBasisPercentage": "80.00",
     "calculationBasisPayItemId": "2",
     "calculationBasisPayItemType": "WagesGroup",
@@ -128,7 +128,7 @@
     },
     {
       "name": "Equals a percentage of wages",
-      "value": "Percent"
+      "value": "PercentOfPayrollCategory"
     },
     {
       "name": "Equals dollars per pay period",
@@ -138,7 +138,7 @@
   "limitTypes": [
     {
       "name": "No limit",
-      "value": "UserEntered"
+      "value": "NoLimit"
     },
     {
       "name": "Equals a percentage of wages",

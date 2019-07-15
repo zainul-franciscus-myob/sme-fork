@@ -30,8 +30,14 @@ const atoCategories = {
   superContributions: 'ReportableEmployerSuperContributions',
 };
 
-const basisTypes = {
+const calculationBasisTypes = {
   userEntered: 'UserEntered',
+  percent: 'PercentOfPayrollCategory',
+  amount: 'FixedDollar',
+};
+
+const limitTypes = {
+  noLimit: 'NoLimit',
   percent: 'Percent',
   amount: 'FixedDollar',
 };
@@ -158,8 +164,8 @@ export const getCalculationBasis = createStructuredSelector({
   calculationBasisTypes: state => state.calculationBasisTypes,
   calculationBasisPayItems: getCalculationBasisPayItems,
   periods: getPeriods,
-  showPercent: state => state.superPayItem.calculationBasisType === basisTypes.percent,
-  showAmount: state => state.superPayItem.calculationBasisType === basisTypes.amount,
+  showPercent: state => state.superPayItem.calculationBasisType === calculationBasisTypes.percent,
+  showAmount: state => state.superPayItem.calculationBasisType === calculationBasisTypes.amount,
 });
 
 const getLimitPayItems = createSelector(
@@ -179,8 +185,8 @@ export const getLimit = createStructuredSelector({
   limitTypes: state => state.limitTypes,
   limitPayItems: getLimitPayItems,
   periods: getPeriods,
-  showPercent: state => state.superPayItem.limitType === basisTypes.percent,
-  showAmount: state => state.superPayItem.limitType === basisTypes.amount,
+  showPercent: state => state.superPayItem.limitType === limitTypes.percent,
+  showAmount: state => state.superPayItem.limitType === limitTypes.amount,
 });
 
 export const getFilteredEmployees = createSelector(
@@ -209,7 +215,7 @@ export const getIsExemptionDisabled = createSelector(
   getGrossWagesId,
   state => state.settings.federalWagesId,
   (calculationBasisType, calculationBasisPayItemId, grossWagesId, federalWagesId) => !(
-    calculationBasisType === basisTypes.percent && (
+    calculationBasisType === calculationBasisTypes.percent && (
       calculationBasisPayItemId === grossWagesId || calculationBasisPayItemId === federalWagesId
     )),
 );
@@ -261,10 +267,8 @@ export const getUpdatedSuperPayItem = state => ({
 });
 
 const getUpdatedBasisForSave = ({
-  basisType, percentage, payItemId, amount, period, grossWagesId, payItems,
+  isPercent, isAmount, percentage, payItemId, amount, period, grossWagesId, payItems,
 }) => {
-  const isPercent = basisType === basisTypes.percent;
-  const isAmount = basisType === basisTypes.amount;
   const selectedPayItem = payItems.find(item => item.id === payItemId) || {};
   const grossWagesItem = payItems.find(item => item.id === grossWagesId) || {};
 
@@ -282,15 +286,18 @@ const getUpdatedCalculationBasisForSave = (state) => {
   const payItems = getCalculationBasisPayItems(state);
   const superPayItem = getSuperPayItem(state);
   const {
-    calculationBasisType: basisType,
+    calculationBasisType,
     calculationBasisPercentage: percentage,
     calculationBasisPayItemId: payItemId,
     calculationBasisAmount: amount,
     calculationBasisPeriod: period,
   } = superPayItem;
 
+  const isPercent = calculationBasisType === calculationBasisTypes.percent;
+  const isAmount = calculationBasisType === calculationBasisTypes.amount;
+
   return getUpdatedBasisForSave({
-    basisType, percentage, payItemId, amount, period, grossWagesId, payItems,
+    isPercent, isAmount, percentage, payItemId, amount, period, grossWagesId, payItems,
   });
 };
 
@@ -299,15 +306,18 @@ const getUpdatedLimitForSave = (state) => {
   const payItems = getLimitPayItems(state);
   const superPayItem = getSuperPayItem(state);
   const {
-    limitType: basisType,
+    limitType,
     limitPercentage: percentage,
     limitPayItemId: payItemId,
     limitAmount: amount,
     limitPeriod: period,
   } = superPayItem;
 
+  const isPercent = limitType === limitTypes.percent;
+  const isAmount = limitType === limitTypes.amount;
+
   return getUpdatedBasisForSave({
-    basisType, percentage, payItemId, amount, period, grossWagesId, payItems,
+    isPercent, isAmount, percentage, payItemId, amount, period, grossWagesId, payItems,
   });
 };
 
