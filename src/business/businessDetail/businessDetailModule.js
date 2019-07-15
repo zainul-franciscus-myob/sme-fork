@@ -15,6 +15,8 @@ import { getBusinessForUpdate } from './businessDetailSelectors';
 import BusinessDetailsView from './components/BusinessDetailView';
 import Store from '../../store/Store';
 import businessDetailReducer from './businessDetailReducer';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class BusinessDetailModule {
   constructor({
@@ -152,9 +154,14 @@ export default class BusinessDetailModule {
     this.setRootView(wrappedView);
   };
 
+  handlers = {
+    SAVE_ACTION: this.updateBusinessDetail,
+  };
+
   run(context) {
     this.businessId = context.businessId;
     this.render();
+    setupHotKeys(keyMap, this.handlers);
     this.loadBusinessDetail();
   }
 }
