@@ -1,15 +1,13 @@
-:local .tableContainer :global(.form-group__label-group) {
-  width: 0;
+:local .addCombobox {
+  max-width: 30rem;
 }
 
-:local .tableContainer :global(.table-data__container) {
-  margin-bottom: 1rem;
+:local .editableTable :global(.table-data__container) {
+  margin-bottom: 1.2rem;
 }
 
-:local .actionsGroup {
-  margin-bottom: 2rem;
-}
-
-:local .limitSectionDivider {
-  min-height: 1.5rem;
+/* How we acheive it in the <FormTemplate> */
+:local .payItemView :global(.form-group) {
+  width: 66.3732394366197%;
+  max-width: 75.4rem;
 }

@@ -31,14 +31,16 @@ const SuperPayItemExemptions = (props) => {
   return (
     <FieldGroup label={fieldGroupLabel} className={styles.editableTable}>
       <SuperPayItemExemptionsTable onRemoveSuperPayItemExemption={onRemoveSuperPayItemExemption} />
-      <PayItemCombobox
-        label="Exemptions"
-        hideLabel
-        hintText="Add exemption"
-        items={exemptions}
-        onChange={handleExemptionComboboxChange(onAddSuperPayItemExemption)}
-        disabled={isExemptionDisabled}
-      />
+      <div className={styles.addCombobox}>
+        <PayItemCombobox
+          label="Exemptions"
+          hideLabel
+          hintText="Add exemption"
+          items={exemptions}
+          onChange={handleExemptionComboboxChange(onAddSuperPayItemExemption)}
+          disabled={isExemptionDisabled}
+        />
+      </div>
     </FieldGroup>
   );
 };

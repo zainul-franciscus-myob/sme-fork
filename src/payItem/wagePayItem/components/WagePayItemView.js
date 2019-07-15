@@ -1,5 +1,5 @@
 import {
-  Alert, FormTemplate, Spinner,
+  Alert, FormHorizontal, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -10,7 +10,6 @@ import {
 import DetailsView from './DetailsView';
 import EmployeeAllocationView from './EmployeeAllocationView';
 import ExemptionsView from './ExemptionsView';
-import FormCard from '../../../components/FormCard/FormCard';
 import WagePayItemActions from './WagePayItemActions';
 import WagePayItemModal from './WagePayItemModal';
 import styles from './WagePayItemView.css';
@@ -50,30 +49,35 @@ const WagePayItemView = ({
   );
 
   const view = (
-    <FormTemplate className={styles.addSpace} pageHead={title} alert={alertComponent}>
+    <StandardTemplate
+      pageHead={title}
+      alert={alertComponent}
+      sticky="none"
+    >
       {modal}
-      <FormCard>
-        <DetailsView
-          onDetailsChange={onDetailsChange}
-          onOverrideAccountChange={onOverrideAccountChange}
-        />
-        <EmployeeAllocationView
-          onEmployeeSelected={onEmployeeSelected}
-          onRemoveEmployee={onRemoveEmployee}
-        />
-        <ExemptionsView
-          onExemptionSelected={onExemptionSelected}
-          onRemoveExemption={onRemoveExemption}
-        />
-      </FormCard>
-      <div className={styles.actionsGroup}>
-        <WagePayItemActions
-          onSaveButtonClick={onSaveButtonClick}
-          onCancelButtonClick={onCancelButtonClick}
-          onDeleteButtonClick={onDeleteButtonClick}
-        />
+      <div className={styles.payItemView}>
+        <FormHorizontal>
+          <DetailsView
+            onDetailsChange={onDetailsChange}
+            onOverrideAccountChange={onOverrideAccountChange}
+          />
+        </FormHorizontal>
       </div>
-    </FormTemplate>
+      <hr />
+      <EmployeeAllocationView
+        onEmployeeSelected={onEmployeeSelected}
+        onRemoveEmployee={onRemoveEmployee}
+      />
+      <ExemptionsView
+        onExemptionSelected={onExemptionSelected}
+        onRemoveExemption={onRemoveExemption}
+      />
+      <WagePayItemActions
+        onSaveButtonClick={onSaveButtonClick}
+        onCancelButtonClick={onCancelButtonClick}
+        onDeleteButtonClick={onDeleteButtonClick}
+      />
+    </StandardTemplate>
   );
 
   return (isLoading ? <Spinner /> : view);

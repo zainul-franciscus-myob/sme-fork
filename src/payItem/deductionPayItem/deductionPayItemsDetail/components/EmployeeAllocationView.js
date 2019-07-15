@@ -22,7 +22,7 @@ const title = (
 const EmployeeAllocationView = ({
   selectedEmployees, filteredListOfEmployees, onEmployeeSelected, onRemoveEmployee,
 }) => (
-  <FieldGroup className={styles.tableContainer} label={title}>
+  <FieldGroup label={title} className={styles.editableTable}>
     <Table>
       <Table.Header>
         <Table.HeaderItem key="name">Name</Table.HeaderItem>
@@ -46,15 +46,17 @@ const EmployeeAllocationView = ({
         ))}
       </Table.Body>
     </Table>
-    <Combobox
-      label="Employees"
-      hideLabel
-      items={filteredListOfEmployees}
-      metaData={filteredListEmployeesMetadata}
-      selected={{}}
-      hintText="Add employees to pay item"
-      onChange={handleComboboxChange('employeeAllocation', onEmployeeSelected)}
-    />
+    <div className={styles.addCombobox}>
+      <Combobox
+        label="Employees"
+        hideLabel
+        items={filteredListOfEmployees}
+        metaData={filteredListEmployeesMetadata}
+        selected={{}}
+        hintText="Add employees to pay item"
+        onChange={handleComboboxChange('employeeAllocation', onEmployeeSelected)}
+      />
+    </div>
   </FieldGroup>);
 
 
