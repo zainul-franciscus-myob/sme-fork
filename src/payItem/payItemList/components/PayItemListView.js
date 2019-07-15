@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getTab,
+  getAlert, getIsLoading, getIsTaxTabSelected, getTab,
 } from '../PayItemListSelectors';
 import { tabIds, tabItems } from '../tabItems';
 import PayItemDeductionsTable from './PayItemDeductionsTable';
@@ -19,15 +19,17 @@ import PayItemExpensesTable from './PayItemExpensesTable';
 import PayItemLeaveTable from './PayItemLeaveTable';
 import PayItemSuperannuationTable from './PayItemSuperannuationTable';
 import PayItemWagesTable from './PayItemWagesTable';
+import TaxPayItemView from './TaxPayItemView';
 import style from './PayItemListView.css';
 
 const PayItemListView = ({
   isLoading,
   alert,
   selectedTab,
+  isTaxTabSelected,
   listeners,
 }) => {
-  const { onCreatePayItemButtonClick } = listeners;
+  const { onCreatePayItemButtonClick, onSaveTaxPayItemButtonClick } = listeners;
 
   const Content = {
     [tabIds.wages]: PayItemWagesTable,
@@ -35,6 +37,7 @@ const PayItemListView = ({
     [tabIds.leave]: PayItemLeaveTable,
     [tabIds.deductions]: PayItemDeductionsTable,
     [tabIds.expenses]: PayItemExpensesTable,
+    [tabIds.tax]: TaxPayItemView,
   }[selectedTab];
 
   const alertComponent = alert && (
@@ -53,6 +56,12 @@ const PayItemListView = ({
   const actions = createButtonType && (
     <ButtonRow>
       <Button onClick={onCreatePayItemButtonClick}>{`Create ${createButtonType} pay item`}</Button>
+    </ButtonRow>
+  );
+
+  const taxActions = (
+    <ButtonRow>
+      <Button onClick={onSaveTaxPayItemButtonClick}>Save</Button>
     </ButtonRow>
   );
 
@@ -79,6 +88,7 @@ const PayItemListView = ({
       <div className={style.list}>
         <Content listeners={listeners} />
       </div>
+      {isTaxTabSelected && taxActions}
     </StandardTemplate>
   );
 
@@ -88,6 +98,7 @@ const PayItemListView = ({
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   selectedTab: getTab(state),
+  isTaxTabSelected: getIsTaxTabSelected(state),
   alert: getAlert(state),
 });
 

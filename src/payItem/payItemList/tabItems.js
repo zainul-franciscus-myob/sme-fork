@@ -4,6 +4,7 @@ export const tabIds = {
   leave: 'leave',
   deductions: 'deductions',
   expenses: 'expenses',
+  tax: 'tax',
 };
 
 export const tabItems = [
@@ -12,4 +13,5 @@ export const tabItems = [
   { id: tabIds.leave, label: 'Leave' },
   { id: tabIds.deductions, label: 'Deductions' },
   { id: tabIds.expenses, label: 'Expenses' },
+  { id: tabIds.tax, label: 'Tax' },
 ];

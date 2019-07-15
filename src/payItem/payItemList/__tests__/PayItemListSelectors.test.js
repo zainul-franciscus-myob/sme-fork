@@ -1,4 +1,4 @@
-import { getTab } from '../PayItemListSelectors';
+import { getSaveTaxPayItemPayload, getTab } from '../PayItemListSelectors';
 import { tabIds } from '../tabItems';
 
 describe('PayItemListSelectors', () => {
@@ -22,6 +22,26 @@ describe('PayItemListSelectors', () => {
       const actual = getTab(state);
 
       expect(actual).toBe(expected);
+    });
+  });
+
+  describe('getSaveTaxPayItemPayload', () => {
+    it('returns atoReportingCategory and accountId for save', () => {
+      const state = {
+        taxPayItem: {
+          tax: {
+            atoReportingCategory: 'a',
+            accountId: 'b',
+          },
+        },
+      };
+      const expected = {
+        atoReportingCategory: 'a',
+        accountId: 'b',
+      };
+
+      const actual = getSaveTaxPayItemPayload(state);
+      expect(actual).toEqual(expected);
     });
   });
 });

@@ -5,6 +5,7 @@ import {
   LOAD_EXPENSES_LIST,
   LOAD_LEAVE_LIST,
   LOAD_SUPERANNUATION_LIST,
+  LOAD_TAX_PAY_ITEM,
   LOAD_WAGES_LIST,
 } from '../PayItemIntents';
 import { tabIds } from './tabItems';
@@ -169,6 +170,17 @@ export const getNewExpensesSortOrder = (state, { orderBy }) => (
     : 'asc'
 );
 
+export const getTaxPayItemDetail = state => state.taxPayItem.tax;
+export const getTaxPayItemAccounts = state => state.taxPayItem.accounts;
+export const getTaxPayItemAtoReportingCategoryList = state => (
+  state.taxPayItem.atoReportingCategoryList
+);
+export const getIsTaxTabSelected = state => getTab(state) === 'tax';
+export const getSaveTaxPayItemPayload = state => ({
+  atoReportingCategory: state.taxPayItem.tax.atoReportingCategory,
+  accountId: state.taxPayItem.tax.accountId,
+});
+
 export const getLoadTabContentIntent = createSelector(
   getTab,
   tab => ({
@@ -177,5 +189,6 @@ export const getLoadTabContentIntent = createSelector(
     [tabIds.leave]: LOAD_LEAVE_LIST,
     [tabIds.deductions]: LOAD_DEDUCTIONS_LIST,
     [tabIds.expenses]: LOAD_EXPENSES_LIST,
+    [tabIds.tax]: LOAD_TAX_PAY_ITEM,
   }[tab]),
 );
