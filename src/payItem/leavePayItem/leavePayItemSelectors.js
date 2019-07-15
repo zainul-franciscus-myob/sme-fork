@@ -19,7 +19,7 @@ export const getLeavePayItemEmployees = state => state.leavePayItem.selectedEmpl
 export const getSelectedExemptions = state => state.leavePayItem.selectedExemptions;
 export const getSelectedLinkedWages = state => state.leavePayItem.selectedLinkedWages;
 
-export const getShowExemptions = state => state.leavePayItem.calculationBasisType !== 'UserEntered';
+export const getShowExemptions = state => state.leavePayItem.calculationBasisType === 'Percent';
 
 export const getFilteredEmployees = createSelector(
   state => state.employees,

@@ -28,7 +28,7 @@ const tableConfig = {
 const ExemptionsView = ({
   selectedExemptions, filteredListOfExemptions, onExemptionSelected, onRemoveExemption,
 }) => (
-  <FieldGroup className={styles.tableContainer} label={title}>
+  <FieldGroup label={title} className={styles.editableTable}>
     <Table>
       <Table.Header>
         <Table.HeaderItem key="name" {...tableConfig.name}>Name</Table.HeaderItem>
@@ -54,15 +54,18 @@ const ExemptionsView = ({
         ))}
       </Table.Body>
     </Table>
-    <Combobox
-      label="Exemptions"
-      hideLabel
-      items={filteredListOfExemptions}
-      metaData={filteredListExemptionsMetadata}
-      hintText="Add exemption"
-      selected={{}}
-      onChange={handleComboboxChange('exemptions', onExemptionSelected)}
-    />
+    <div className={styles.addCombobox}>
+      <Combobox
+        label="Exemptions"
+        hideLabel
+        items={filteredListOfExemptions}
+        metaData={filteredListExemptionsMetadata}
+        hintText="Add exemption"
+        selected={{}}
+        onChange={handleComboboxChange('exemptions', onExemptionSelected)}
+      />
+    </div>
+
   </FieldGroup>);
 
 const mapToStateProps = getExemptionAllocations;

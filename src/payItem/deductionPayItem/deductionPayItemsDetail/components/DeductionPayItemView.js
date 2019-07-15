@@ -1,5 +1,5 @@
 import {
-  Alert, FormTemplate, Spinner,
+  Alert, FormHorizontal, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -12,7 +12,6 @@ import DeductionPayItemModal from './DeductionPayItemModal';
 import DetailsView from './DetailsView';
 import EmployeeAllocationView from './EmployeeAllocationView';
 import ExemptionsView from './ExemptionsView';
-import FormCard from '../../../../components/FormCard/FormCard';
 import InformationView from './InformationView';
 import styles from './DeductionPayItemView.css';
 
@@ -42,10 +41,10 @@ const DeductionPayItemView = ({
   </Alert>);
 
   const view = (
-    <FormTemplate
-      className={styles.addSpace}
+    <StandardTemplate
       pageHead={title}
       alert={alertComponent}
+      sticky="none"
     >
       {
         modalType && (
@@ -56,29 +55,30 @@ const DeductionPayItemView = ({
           onCloseModal={onCloseModal}
         />)
       }
-      <FormCard>
-        <DetailsView onDetailsChange={onDetailsChange} />
-        <InformationView
-          onInformationChange={onInformationChange}
-          onInformationAmountChange={onInformationAmountChange}
-        />
-        <EmployeeAllocationView
-          onEmployeeSelected={onEmployeeSelected}
-          onRemoveEmployee={onRemoveEmployee}
-        />
-        <ExemptionsView
-          onExemptionSelected={onExemptionSelected}
-          onRemoveExemption={onRemoveExemption}
-        />
-      </FormCard>
-      <div className={styles.actionsGroup}>
-        <DeductionPayItemActions
-          onSaveButtonClick={onSaveButtonClick}
-          onCancelButtonClick={onCancelButtonClick}
-          onDeleteButtonClick={onDeleteButtonClick}
-        />
+      <div className={styles.payItemView}>
+        <FormHorizontal>
+          <DetailsView onDetailsChange={onDetailsChange} />
+          <InformationView
+            onInformationChange={onInformationChange}
+            onInformationAmountChange={onInformationAmountChange}
+          />
+        </FormHorizontal>
       </div>
-    </FormTemplate>
+      <hr />
+      <EmployeeAllocationView
+        onEmployeeSelected={onEmployeeSelected}
+        onRemoveEmployee={onRemoveEmployee}
+      />
+      <ExemptionsView
+        onExemptionSelected={onExemptionSelected}
+        onRemoveExemption={onRemoveExemption}
+      />
+      <DeductionPayItemActions
+        onSaveButtonClick={onSaveButtonClick}
+        onCancelButtonClick={onCancelButtonClick}
+        onDeleteButtonClick={onDeleteButtonClick}
+      />
+    </StandardTemplate>
   );
   return (isLoading ? <Spinner /> : view);
 };

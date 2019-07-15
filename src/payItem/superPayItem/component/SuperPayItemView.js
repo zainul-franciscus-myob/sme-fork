@@ -1,17 +1,19 @@
-import { Alert, FormTemplate, Spinner } from '@myob/myob-widgets';
+import {
+  Alert, FormHorizontal, Spinner, StandardTemplate,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAlert, getIsCreating, getIsLoading, getModalType, getSuperPayItemOriginalName,
 } from '../superPayItemSelectors';
-import FormCard from '../../../components/FormCard/FormCard';
 import SuperPayItemActions from './SuperPayItemActions';
 import SuperPayItemDetail from './SuperPayItemDetail';
 import SuperPayItemEmployees from './SuperPayItemEmployees';
 import SuperPayItemExemptions from './SuperPayItemExemptions';
 import SuperPayItemInfo from './SuperPayItemSuperInfo';
 import SuperPayItemModal from './SuperPayItemModal';
+import styles from './SuperPayItemView.css';
 
 const SuperPayItemView = (props) => {
   const {
@@ -53,29 +55,36 @@ const SuperPayItemView = (props) => {
   );
 
   const view = (
-    <FormTemplate pageHead={pageHead} alert={alertComponent}>
+    <StandardTemplate
+      pageHead={pageHead}
+      alert={alertComponent}
+      sticky="none"
+    >
       {modal}
-      <FormCard>
-        <SuperPayItemDetail onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
-        <SuperPayItemInfo
-          onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
-          onSuperPayItemDetailBlur={onSuperPayItemDetailBlur}
-        />
-        <SuperPayItemEmployees
-          onAddSuperPayItemEmployee={onAddSuperPayItemEmployee}
-          onRemoveSuperPayItemEmployee={onRemoveSuperPayItemEmployee}
-        />
-        <SuperPayItemExemptions
-          onAddSuperPayItemExemption={onAddSuperPayItemExemption}
-          onRemoveSuperPayItemExemption={onRemoveSuperPayItemExemption}
-        />
-      </FormCard>
+      <div className={styles.payItemView}>
+        <FormHorizontal>
+          <SuperPayItemDetail onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
+          <SuperPayItemInfo
+            onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
+            onSuperPayItemDetailBlur={onSuperPayItemDetailBlur}
+          />
+        </FormHorizontal>
+      </div>
+      <hr />
+      <SuperPayItemEmployees
+        onAddSuperPayItemEmployee={onAddSuperPayItemEmployee}
+        onRemoveSuperPayItemEmployee={onRemoveSuperPayItemEmployee}
+      />
+      <SuperPayItemExemptions
+        onAddSuperPayItemExemption={onAddSuperPayItemExemption}
+        onRemoveSuperPayItemExemption={onRemoveSuperPayItemExemption}
+      />
       <SuperPayItemActions
         onSaveButtonClick={onSaveButtonClick}
         onCancelButtonClick={onCancelButtonClick}
         onDeleteButtonClick={onDeleteButtonClick}
       />
-    </FormTemplate>
+    </StandardTemplate>
   );
 
   return (isLoading ? <Spinner /> : view);
