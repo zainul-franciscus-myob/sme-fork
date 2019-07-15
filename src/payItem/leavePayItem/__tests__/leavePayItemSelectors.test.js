@@ -142,27 +142,5 @@ describe('leavePayItemSelectors', () => {
 
       expect(actual.calculationBasisPayItemType).toEqual(undefined);
     });
-
-    it('should set selectedExemptions to an empty array if the user has chosen UserEntered for calculationBasisType', () => {
-      const state = {
-        leavePayItem: {
-          calculationBasisType: 'UserEntered',
-          selectedExemptions: [
-            {
-              id: '51',
-              name: 'Exemption 1',
-              mappedType: 'Wages',
-            },
-          ],
-          selectedEmployees: [],
-          selectedLinkedWages: [],
-        },
-        calculationBasisPercentOfOptions: [],
-      };
-
-      const actual = getLeavePayItemPayload(state);
-
-      expect(actual.selectedExemptions).toEqual([]);
-    });
   });
 });

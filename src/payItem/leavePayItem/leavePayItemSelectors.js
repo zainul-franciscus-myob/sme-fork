@@ -61,7 +61,7 @@ export const getCalculationBasis = createStructuredSelector({
   calculationBasisPercentOfOptions: state => state.calculationBasisPercentOfOptions,
   payPeriods: state => state.payPeriods,
   showPercentage: state => state.leavePayItem.calculationBasisType === 'Percent',
-  showAmount: state => state.leavePayItem.calculationBasisType === 'FixedHour',
+  showAmount: state => state.leavePayItem.calculationBasisType === 'FixedHours',
 });
 
 export const getLeavePayItemPayload = (state) => {
@@ -79,7 +79,7 @@ export const getLeavePayItemPayload = (state) => {
     calculationBasisPayItemType: calculationBasisPayItem.mappedType,
     calculationBasisAmount: state.leavePayItem.calculationBasisAmount,
     calculationBasisPeriod: state.leavePayItem.calculationBasisPeriod,
-    selectedExemptions: getShowExemptions(state) ? state.leavePayItem.selectedExemptions : [],
+    selectedExemptions: state.leavePayItem.selectedExemptions,
     selectedEmployees: state.leavePayItem.selectedEmployees.map(({ id }) => id),
     selectedLinkedWages: state.leavePayItem.selectedLinkedWages.map(({ id }) => id),
   };
