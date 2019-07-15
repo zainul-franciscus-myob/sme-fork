@@ -18,6 +18,8 @@ import { getBusinessId, getIncomeAllocationSavePayload } from './IncomeAllocatio
 import IncomeAllocationView from './components/IncomeAllocationView';
 import Store from '../store/Store';
 import incomeAllocationReducer from './IncomeAllocationReducer';
+import keyMap from '../hotKeys/keyMap';
+import setupHotKeys from '../hotKeys/setupHotKeys';
 
 export default class IncomeAllocationModule {
   constructor({ integration, setRootView }) {
@@ -221,9 +223,14 @@ export default class IncomeAllocationModule {
     });
   }
 
+  handlers = {
+    SAVE_ACTION: this.saveIncomeAllocation,
+  };
+
   run = (context) => {
     this.setInitialState(context);
     this.render();
+    setupHotKeys(keyMap, this.handlers);
     this.loadIncomeAllocation();
   }
 }
