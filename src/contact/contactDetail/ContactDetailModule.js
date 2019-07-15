@@ -49,7 +49,7 @@ export default class ContactDetailModule {
         onDeleteButtonClick={this.openDeleteModal}
         onCancelButtonClick={this.openCancelModal}
         onCloseModal={this.closeModal}
-        onSaveButtonClick={this.saveContact}
+        onSaveButtonClick={this.updateOrCreateContact}
         onDeleteModal={this.deleteContact}
         onCancelModal={this.redirectToContactList}
         onRemindersButtonClick={this.redirectToRemindersSettings}
