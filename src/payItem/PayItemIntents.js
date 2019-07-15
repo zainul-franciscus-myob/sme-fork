@@ -3,7 +3,7 @@ export const SET_TAB = Symbol('Set tab');
 export const SET_ALERT = Symbol('Set alert');
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
-export const SET_SUBMITTING_STATE = Symbol('Set loading state');
+export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
 
 export const SET_WAGES_SORT_ORDER = Symbol('Set sort order');
@@ -25,3 +25,7 @@ export const SORT_DEDUCTIONS_LIST = Symbol('Sort deductions list');
 export const SET_EXPENSES_SORT_ORDER = Symbol('Set expenses sort order');
 export const LOAD_EXPENSES_LIST = Symbol('Load expenses list');
 export const SORT_EXPENSES_LIST = Symbol('Sort expenses list');
+
+export const LOAD_TAX_PAY_ITEM = Symbol('Load tax pay item');
+export const UPDATE_TAX_PAY_ITEM = Symbol('Update tax pay item');
+export const UPDATE_TAX_PAY_ITEM_DETAIL = Symbol('Update tax pay item detail');

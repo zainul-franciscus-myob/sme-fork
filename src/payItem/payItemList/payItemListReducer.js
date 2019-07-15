@@ -3,12 +3,14 @@ import {
   LOAD_EXPENSES_LIST,
   LOAD_LEAVE_LIST,
   LOAD_SUPERANNUATION_LIST,
+  LOAD_TAX_PAY_ITEM,
   LOAD_WAGES_LIST,
   SET_ALERT,
   SET_DEDUCTIONS_SORT_ORDER,
   SET_EXPENSES_SORT_ORDER,
   SET_LEAVE_SORT_ORDER,
   SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
   SET_SUPERANNUATION_SORT_ORDER,
   SET_TAB,
   SET_TABLE_LOADING_STATE,
@@ -18,6 +20,7 @@ import {
   SORT_LEAVE_LIST,
   SORT_SUPERANNUATION_LIST,
   SORT_WAGES_LIST,
+  UPDATE_TAX_PAY_ITEM_DETAIL,
 } from '../PayItemIntents';
 import {
   RESET_STATE,
@@ -28,6 +31,7 @@ import createReducer from '../../store/createReducer';
 const getDefaultState = () => ({
   isLoading: false,
   isTableLoading: false,
+  isSubmitting: false,
   tab: 'wages',
   wages: {
     orderBy: '',
@@ -54,6 +58,15 @@ const getDefaultState = () => ({
     sortOrder: '',
     entries: [],
   },
+  taxPayItem: {
+    tax: {
+      atoReportingCategory: '',
+      accountId: '',
+      revisionDate: '',
+    },
+    accounts: [],
+    atoReportingCategoryList: [],
+  },
   alert: undefined,
 });
 
@@ -65,6 +78,11 @@ const setLoadingState = (state, action) => ({
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
+});
+
+const setSubmittingState = (state, action) => ({
+  ...state,
+  isSubmitting: action.isSubmitting,
 });
 
 const resetState = () => (getDefaultState());
@@ -209,6 +227,27 @@ const setExpensesSortOrder = (state, action) => ({
   },
 });
 
+const loadTaxPayItem = (state, action) => ({
+  ...state,
+  taxPayItem: {
+    ...state.taxPayItem,
+    tax: action.tax,
+    accounts: action.accounts,
+    atoReportingCategoryList: action.atoReportingCategoryList,
+  },
+});
+
+const updateTaxPayItemDetail = (state, action) => ({
+  ...state,
+  taxPayItem: {
+    ...state.taxPayItem,
+    tax: {
+      ...state.taxPayItem.tax,
+      [action.key]: action.value,
+    },
+  },
+});
+
 const setTableLoadingState = (state, action) => ({
   ...state,
   isTableLoading: action.isTableLoading,
@@ -222,6 +261,7 @@ const setAlert = (state, action) => ({
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitialState,
+  [SET_SUBMITTING_STATE]: setSubmittingState,
   [RESET_STATE]: resetState,
   [SET_TAB]: setTab,
   [LOAD_WAGES_LIST]: loadWagesList,
@@ -241,6 +281,8 @@ const handlers = {
   [LOAD_EXPENSES_LIST]: loadExpensesList,
   [SORT_EXPENSES_LIST]: sortExpensesList,
   [SET_EXPENSES_SORT_ORDER]: setExpensesSortOrder,
+  [LOAD_TAX_PAY_ITEM]: loadTaxPayItem,
+  [UPDATE_TAX_PAY_ITEM_DETAIL]: updateTaxPayItemDetail,
 };
 
 const payItemListReducer = createReducer(getDefaultState(), handlers);

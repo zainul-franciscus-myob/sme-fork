@@ -11,6 +11,7 @@ import {
   SET_EXPENSES_SORT_ORDER,
   SET_LEAVE_SORT_ORDER,
   SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
   SET_SUPERANNUATION_SORT_ORDER,
   SET_TAB,
   SET_TABLE_LOADING_STATE,
@@ -20,6 +21,8 @@ import {
   SORT_LEAVE_LIST,
   SORT_SUPERANNUATION_LIST,
   SORT_WAGES_LIST,
+  UPDATE_TAX_PAY_ITEM,
+  UPDATE_TAX_PAY_ITEM_DETAIL,
 } from '../PayItemIntents';
 import {
   SUCCESSFULLY_DELETED_LEAVE_PAY_ITEM,
@@ -41,7 +44,10 @@ import {
   getNewExpensesSortOrder,
   getNewLeaveSortOrder,
   getNewSuperannuationSortOrder,
-  getNewWagesSortOrder, getRegion, getTab,
+  getNewWagesSortOrder,
+  getRegion,
+  getSaveTaxPayItemPayload,
+  getTab,
   getUrlParams,
   getUrlTabParams,
 } from './PayItemListSelectors';
@@ -132,37 +138,19 @@ export default class PayItemListModule {
     });
   }
 
+  setSubmittingState = (isSubmitting) => {
+    const intent = SET_SUBMITTING_STATE;
+    this.store.dispatch({
+      intent,
+      isSubmitting,
+    });
+  }
+
   setSortOrder = (intent, orderBy, sortOrder) => this.store.dispatch({
     intent,
     orderBy,
     sortOrder,
   })
-
-  loadInitialList = () => {
-    const state = this.store.getState();
-
-    const intent = getLoadTabContentIntent(state);
-
-    const urlParams = getUrlParams(state);
-
-    const onSuccess = (payload) => {
-      this.setLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...payload,
-      });
-    };
-
-    const onFailure = () => console.log('Failed to get initial load');
-
-    this.setLoadingState(true);
-    this.integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  }
 
   loadTabContentList = () => {
     const state = this.store.getState();
@@ -289,6 +277,44 @@ export default class PayItemListModule {
     });
   }
 
+  saveTaxPayItem = () => {
+    this.setSubmittingState(true);
+
+    const state = this.store.getState();
+    const payItemPayload = getSaveTaxPayItemPayload(state);
+
+    const onSuccess = ({ message }) => {
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+      this.setSubmittingState(false);
+    };
+
+    const onFailure = ({ message }) => {
+      this.setSubmittingState(false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    const intent = UPDATE_TAX_PAY_ITEM;
+    this.integration.write({
+      intent,
+      urlParams: { businessId: getBusinessId(state) },
+      content: payItemPayload,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  updateTaxPayItemDetail = ({ key, value }) => this.store.dispatch({
+    intent: UPDATE_TAX_PAY_ITEM_DETAIL,
+    key,
+    value,
+  })
+
   redirectToCreatePayItem = () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
@@ -317,6 +343,8 @@ export default class PayItemListModule {
           onSortExpensesList: this.sortExpensesList,
           onDismissAlert: this.dismissAlert,
           onCreatePayItemButtonClick: this.redirectToCreatePayItem,
+          onSaveTaxPayItemButtonClick: this.saveTaxPayItem,
+          onTaxDetailChange: this.updateTaxPayItemDetail,
         }}
       />
     );
@@ -356,7 +384,7 @@ export default class PayItemListModule {
     this.store.subscribe(this.updateURLFromState);
     this.render();
     this.readMessages();
-    this.loadInitialList();
+    this.loadTabContentList();
   }
 
   resetState = () => {
