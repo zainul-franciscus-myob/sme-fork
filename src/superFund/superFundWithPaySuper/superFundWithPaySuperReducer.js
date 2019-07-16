@@ -12,6 +12,7 @@ import {
   UPDATE_SUPER_FUND_DETAIL,
 } from '../SuperFundIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import { getFundType } from './SuperFundWithPaySuperSelectors';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -101,16 +102,26 @@ const getUpdateSuperFundDetailValue = (key, currentValue, newValue) => {
   return newValue;
 };
 
-const updateSuperFundDetail = (state, action) => ({
-  ...state,
-  superFund: {
-    ...state.superFund,
-    [action.key]: getUpdateSuperFundDetailValue(
-      action.key, state.superFund[action.key], action.value,
-    ),
-  },
-  isPageEdited: true,
-});
+const getUpdatedFundType = (state, key, newValue) => ((key === 'isPaySuperFund' && !newValue)
+  ? 'APRASuperFund'
+  : getFundType(state));
+
+const updateSuperFundDetail = (state, action) => {
+  const { key, value } = action;
+  const fundType = getUpdatedFundType(state, key, value);
+
+  return ({
+    ...state,
+    superFund: {
+      ...state.superFund,
+      fundType,
+      [key]: getUpdateSuperFundDetailValue(
+        key, state.superFund[key], value,
+      ),
+    },
+    isPageEdited: true,
+  });
+};
 
 const updateSelfManagedFundAbn = (state, action) => ({
   ...state,

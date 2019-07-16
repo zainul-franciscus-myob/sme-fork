@@ -34,7 +34,7 @@ const getSuperProductAbn = state => state.superFund.superProductAbn;
 const getSuperFundIdentifier = state => state.superFund.superFundIdentifier;
 const getSuperProductId = state => state.superFund.superProductId;
 const getSuperProductName = state => state.superFund.superProductName;
-const getFundType = state => state.superFund.fundType;
+export const getFundType = state => state.superFund.fundType;
 const getBankNumber = state => state.superFund.bankNumber;
 const getAccountNumber = state => state.superFund.accountNumber;
 const getElectronicServiceAddress = state => state.superFund.electronicServiceAddress;
@@ -53,3 +53,5 @@ export const getSaveSuperFundPayload = createStructuredSelector({
   webSite: getWebSite,
   isPaySuperFund: getIsPaySuperFund,
 });
+
+export const getShowFundType = state => state.superFund.isPaySuperFund;

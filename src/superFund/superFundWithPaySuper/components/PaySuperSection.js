@@ -2,7 +2,7 @@ import { Checkbox, CheckboxGroup, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsPaySuperFund } from '../SuperFundWithPaySuperSelectors';
+import { getIsCreating, getIsPaySuperFund } from '../SuperFundWithPaySuperSelectors';
 
 const onCheckboxChange = handler => (e) => {
   const { checked, name } = e.target;
@@ -11,6 +11,7 @@ const onCheckboxChange = handler => (e) => {
 
 const PaySuperSection = ({
   isPaySuperFund,
+  isCreating,
   listeners: { onUpdateSuperFundDetail },
 }) => (
   <CheckboxGroup
@@ -25,9 +26,10 @@ const PaySuperSection = ({
             Select to pay employee super contributions
             and remit details to this fund directly from MYOB
           </Tooltip>
-    )}
+        )}
         checked={isPaySuperFund}
         onChange={onCheckboxChange(onUpdateSuperFundDetail)}
+        disabled={!isCreating}
       />
     )}
   />
@@ -35,6 +37,7 @@ const PaySuperSection = ({
 
 const mapStateToProps = state => ({
   isPaySuperFund: getIsPaySuperFund(state),
+  isCreating: getIsCreating(state),
 });
 
 export default connect(mapStateToProps)(PaySuperSection);
