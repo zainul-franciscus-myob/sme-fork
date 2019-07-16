@@ -28,6 +28,8 @@ import Store from '../store/Store';
 import bankingReducer from './bankingReducer';
 import createBankingDispatcher from './BankingDispatcher';
 import createBankingIntegrator from './BankingIntegrator';
+import keyMap from '../hotKeys/keyMap';
+import setupHotKeys from '../hotKeys/setupHotKeys';
 
 export default class BankingModule {
   constructor({
@@ -855,9 +857,29 @@ export default class BankingModule {
     this.dispatcher.resetState();
   }
 
+  isOpenPositionForSplitAllocation = () => {
+    const state = this.store.getState();
+    const index = getOpenPosition(state);
+    if (index === -1) {
+      return false;
+    }
+    return true;
+  }
+
+  saveSplitAllocationHotkey = () => {
+    if (this.isOpenPositionForSplitAllocation()) {
+      this.saveSplitAllocation();
+    }
+  }
+
+  handlers = {
+    SAVE_ACTION: this.saveSplitAllocationHotkey,
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
     this.render();
+    setupHotKeys(keyMap, this.handlers);
     this.dispatcher.setLoadingState(true);
     this.loadBankTransactions();
   }
