@@ -14,7 +14,7 @@ import LeavePayItemExemptions from './LeavePayItemExemptions';
 import LeavePayItemInfo from './LeavePayItemInfo';
 import LeavePayItemLinkedWages from './LeavePayItemLinkedWages';
 import LeavePayItemModal from './LeavePayItemModal';
-import styles from './LeavePayItemView.css';
+import styles from './LeavePayItemView.module.css';
 
 const LeavePayItemView = (props) => {
   const {

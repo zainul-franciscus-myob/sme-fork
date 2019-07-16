@@ -9,7 +9,7 @@ import {
 } from '../bankingSelectors/bulkAllocationSelectors';
 import AccountCombobox from '../../components/combobox/AccountCombobox';
 import TaxCodeCombobox from '../../components/combobox/TaxCodeCombobox';
-import style from './BankingView.css';
+import style from './BankingView.module.css';
 
 const onComboBoxChange = (handler, key) => (item) => {
   const { id } = item;

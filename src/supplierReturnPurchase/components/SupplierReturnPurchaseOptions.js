@@ -13,7 +13,7 @@ import {
   getReferenceId,
   getSupplierName,
 } from '../SupplierReturnPurchaseSelector';
-import styles from './SupplierReturnPurchaseOptions.css';
+import styles from './SupplierReturnPurchaseOptions.module.css';
 
 const onCheckBoxChange = handler => ({ target }) => {
   const { name, checked } = target;

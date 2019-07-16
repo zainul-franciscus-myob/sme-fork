@@ -5,7 +5,7 @@ import React from 'react';
 import { getFilteredExemptions } from '../leavePayItemSelectors';
 import LeavePayItemExemptionsTable from './LeavePayItemExemptionsTable';
 import PayItemCombobox from './PayItemCombobox';
-import styles from './LeavePayItemView.css';
+import styles from './LeavePayItemView.module.css';
 
 const handleExemptionComboboxChange = handler => (item) => {
   handler(item);

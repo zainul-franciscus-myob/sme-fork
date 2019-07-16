@@ -18,7 +18,7 @@ import {
 } from '../bankingSelectors/bulkAllocationSelectors';
 import AccordionTable from '../../components/Feelix/Accordion/AccordionTable';
 import BankTransactionTableBody from './BankTransactionTableBody';
-import style from './BankingView.css';
+import style from './BankingView.module.css';
 
 const tableConfig = {
   date: { width: '11rem' },

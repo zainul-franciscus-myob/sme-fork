@@ -1,15 +1,17 @@
-#!/bin/bash -eu
-BUILD_IMAGE_URI='590476131038.dkr.ecr.ap-southeast-2.amazonaws.com/sme-web@sha256:f08e637f0ae2c563a05de045e9953a62ed6db70f6e14e5a62cb5ccc39ae97ee4'
+#!/bin/bash
+set -euo pipefail
 
-echo "--- Login to ECR"
-$(aws ecr get-login --no-include-email --region ap-southeast-2)
+hash docker 2>/dev/null || die "missing dep: docker"
+NPM_TOKEN=$(sed -ne 's/\/\/npm\.cloudsmith\.io\/myob\/npm\/:_authToken=//p' ${HOME}/.npmrc | head -1)
+docker build \
+  -t sme-web \
+  --build-arg NPM_TOKEN=${NPM_TOKEN} \
+  . || die "cant build"
 
-echo "--- Start Build Container"
-docker run -t  \
-   -v $(pwd):/app \
-   -w /app \
-   -v ~/.aws/credentials:/root/.aws/credentials \
-   -e "REACT_APP_BUILD_NUMBER=${REACT_APP_BUILD_NUMBER:-dev}" \
-   $BUILD_IMAGE_URI \
-   /bin/sh -c "ops/bin/npm-auth && $@"
+docker run --rm \
+  -w /app \
+  -e "REACT_APP_BUILD_NUMBER=${REACT_APP_BUILD_NUMBER:-dev}" \
+  -e "CI=true" \
+  -it sme-web \
+  /bin/sh -c "$@"
 

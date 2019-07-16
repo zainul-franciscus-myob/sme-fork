@@ -8,7 +8,7 @@ import React from 'react';
 import { getIsCreating, getOptions } from '../invoicePaymentDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
-import styles from './InvoicePaymentDetailOptions.css';
+import styles from './InvoicePaymentDetailOptions.module.css';
 
 const InvoicePaymentDetailOptions = ({
   customers,

@@ -6,7 +6,7 @@ import React from 'react';
 
 import { getAlert, getIsLoading } from '../userListSelectors';
 import UserListTable from './UserListTable';
-import style from './UserListView.css';
+import style from './UserListView.module.css';
 
 const UserListView = (props) => {
   const {

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { getMatchTransactionFilterOptions } from '../bankingSelectors/matchTransactionSelectors';
 import AmountInput from '../../components/autoFormatter/AmountInput/AmountInput';
-import styles from './BankingView.css';
+import styles from './BankingView.module.css';
 
 const handleDateChange = (handler, key) => ({ value }) => {
   handler({ key, value });

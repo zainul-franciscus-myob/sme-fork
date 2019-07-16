@@ -22,7 +22,7 @@ import {
 } from '../ItemQuoteSelectors';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import TaxState from '../TaxState';
-import styles from './ItemQuoteOptions.css';
+import styles from './ItemQuoteOptions.module.css';
 
 const onTextInputChange = handler => e => handler({
   key: e.target.name,

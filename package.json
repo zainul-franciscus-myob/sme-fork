@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@myob/ldal": "0.2.4",
-    "@myob/myob-styles": "5.0.0",
-    "@myob/myob-widgets": "5.0.1",
+    "@myob/myob-styles": "5.4.0",
+    "@myob/myob-widgets": "5.4.1",
     "abortcontroller-polyfill": "1.2.1",
     "classnames": "2.2.5",
     "cleave.js": "1.5.2",
@@ -28,11 +28,11 @@
     "hotkeys-js": "3.6.11",
     "match-sorter": "2.2.1",
     "prop-types": "15.6.2",
-    "react": "16.5.2",
+    "react": "16.8.6",
     "react-collapsible": "2.6.0",
-    "react-dom": "16.5.2",
+    "react-dom": "16.8.6",
     "react-redux": "6.0.0",
-    "react-scripts": "1.1.5",
+    "react-scripts": "3.0.1",
     "react-sticky-el": "1.0.20",
     "reselect": "4.0.0",
     "router5": "6.5.1",
@@ -50,8 +50,6 @@
     "lint:css:fix": "stylelint ./src/**/*.css --fix"
   },
   "devDependencies": {
-    "babel-eslint": "8.2.6",
-    "eslint": "5.6.1",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jest": "21.24.0",
@@ -60,5 +58,15 @@
     "eslint-plugin-sort-imports-es6-autofix": "0.3.0",
     "stylelint": "9.6.0",
     "stylelint-config-standard": "18.2.0"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "engines": {
+    "node": "10.16.0",
+    "yarn": "1.16.0"
   }
 }

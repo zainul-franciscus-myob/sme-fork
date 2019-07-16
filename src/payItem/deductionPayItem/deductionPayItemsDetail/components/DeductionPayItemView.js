@@ -13,7 +13,7 @@ import DetailsView from './DetailsView';
 import EmployeeAllocationView from './EmployeeAllocationView';
 import ExemptionsView from './ExemptionsView';
 import InformationView from './InformationView';
-import styles from './DeductionPayItemView.css';
+import styles from './DeductionPayItemView.module.css';
 
 const DeductionPayItemView = ({
   title,

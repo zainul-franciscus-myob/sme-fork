@@ -9,7 +9,7 @@ import {
   getLayout, getLayoutDescription,
   getTabData,
 } from '../SalesSettingsDetailSelectors';
-import styles from './SalesSettingLayoutDetail.css';
+import styles from './SalesSettingsLayoutDetails.module.css';
 
 const onInputChange = handler => e => handler({
   key: e.target.name,

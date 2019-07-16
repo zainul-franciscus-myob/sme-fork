@@ -8,7 +8,7 @@ import {
   getIsTableEmpty, getIsTableLoading, getOrder, getShowHiddenColumns,
 } from '../contactListSelector';
 import ContactListTableBody from './ContactListTableBody';
-import style from './ContactListView.css';
+import style from './ContactListView.module.css';
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'top' },

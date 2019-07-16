@@ -10,7 +10,7 @@ import {
 } from '../quoteListSelector';
 import QuoteListFilterOptions from './QuoteListFilterOptions';
 import QuoteListTable from './QuoteListTable';
-import style from './QuoteListView.css';
+import style from './QuoteListView.module.css';
 
 const QuoteListView = (props) => {
   const {

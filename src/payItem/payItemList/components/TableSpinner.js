@@ -1,7 +1,7 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import style from './PayItemListView.css';
+import style from './PayItemListView.module.css';
 
 const TableSpinner = () => (
   <div className={style.spinner}>

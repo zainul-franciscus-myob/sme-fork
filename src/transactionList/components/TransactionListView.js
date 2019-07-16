@@ -10,7 +10,7 @@ import {
 import TransactionListFilterOptions from './TransactionListFilterOptions';
 import TransactionListPageHead from './TransactionListPageHead';
 import TransactionListTable from './TransactionListTable';
-import style from './TransactionListView.css';
+import style from './TransactionListView.module.css';
 
 const TransactionListView = (props) => {
   const {

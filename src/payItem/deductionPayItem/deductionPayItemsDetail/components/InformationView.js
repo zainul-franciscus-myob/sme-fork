@@ -7,7 +7,7 @@ import AmountInput from '../../../../components/autoFormatter/AmountInput/Amount
 import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
-import styles from './DeductionPayItemView.css';
+import styles from './DeductionPayItemView.module.css';
 
 const percentOfOptionsMetadata = [{ columnName: 'displayName', showData: true }];
 

@@ -6,7 +6,7 @@ import React from 'react';
 
 import { getEmployeeAllocations } from '../wagePayItemSelector';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
-import styles from './WagePayItemView.css';
+import styles from './WagePayItemView.module.css';
 
 const filteredListEmployeesMetadata = [{ columnName: 'name', showData: true }];
 

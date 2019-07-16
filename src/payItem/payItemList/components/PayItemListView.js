@@ -20,7 +20,7 @@ import PayItemLeaveTable from './PayItemLeaveTable';
 import PayItemSuperannuationTable from './PayItemSuperannuationTable';
 import PayItemWagesTable from './PayItemWagesTable';
 import TaxPayItemView from './TaxPayItemView';
-import style from './PayItemListView.css';
+import style from './PayItemListView.module.css';
 
 const PayItemListView = ({
   isLoading,

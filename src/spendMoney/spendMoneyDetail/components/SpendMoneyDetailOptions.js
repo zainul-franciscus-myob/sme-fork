@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import { getHeaderOptions } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
-import styles from './SpendMoneyDetailOptions.css';
+import styles from './SpendMoneyDetailOptions.module.css';
 
 class SpendMoneyDetailOptions extends Component {
   handleInputChange = (e) => {

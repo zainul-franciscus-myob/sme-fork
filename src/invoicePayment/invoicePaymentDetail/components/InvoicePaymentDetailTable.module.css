@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 30vh;
+}
+
+.totalReceived {
+  text-align: right;
+  font-weight: bold;
+  padding-top: 1rem;
+}

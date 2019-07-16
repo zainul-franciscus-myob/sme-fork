@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 
 import { getBalance, getTransferMoneyProperties } from '../transferMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
-import styles from './TransferMoneyDetailForm.css';
+import styles from './TransferMoneyDetailForm.module.css';
 
 class TransferMoneyDetailForm extends Component {
   handleInputChange = (e) => {

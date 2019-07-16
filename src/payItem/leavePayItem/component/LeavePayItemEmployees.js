@@ -5,7 +5,7 @@ import React from 'react';
 import { getFilteredEmployees } from '../leavePayItemSelectors';
 import EmployeeCombobox from './EmployeeCombobox';
 import LeavePayItemEmployeesTable from './LeavePayItemEmployeesTable';
-import styles from './LeavePayItemView.css';
+import styles from './LeavePayItemView.module.css';
 
 const handleEmployeeComboboxChange = handler => (item) => {
   handler(item);

@@ -5,7 +5,7 @@ import React from 'react';
 import { getIsTableEmpty, getIsTableLoading } from '../userListSelectors';
 import { getOrder } from '../../../quote/quoteList/quoteListSelector';
 import UserListTableBody from './UserListTableBody';
-import style from './UserListView.css';
+import style from './UserListView.module.css';
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'top' },

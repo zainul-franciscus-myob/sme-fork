@@ -12,7 +12,7 @@ import EmployeeAllocationView from './EmployeeAllocationView';
 import ExemptionsView from './ExemptionsView';
 import WagePayItemActions from './WagePayItemActions';
 import WagePayItemModal from './WagePayItemModal';
-import styles from './WagePayItemView.css';
+import styles from './WagePayItemView.module.css';
 
 const WagePayItemView = ({
   title,

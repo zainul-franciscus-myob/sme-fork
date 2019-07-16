@@ -1,7 +1,0 @@
-:local(.transferMoneyBody) .combobox {
-  max-width: 35.2rem;
-}
-
-:local(.transferMoneyBody) .form-group__label-group {
-  max-width: 12rem;
-}

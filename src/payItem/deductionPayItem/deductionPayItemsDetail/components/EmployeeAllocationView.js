@@ -6,7 +6,7 @@ import React from 'react';
 
 import { getEmployeeAllocations } from '../DeductionPayItemSelectors';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
-import styles from './DeductionPayItemView.css';
+import styles from './DeductionPayItemView.module.css';
 
 const filteredListEmployeesMetadata = [{ columnName: 'name', showData: true }];
 

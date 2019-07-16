@@ -9,7 +9,7 @@ import {
   getCustomerFilterOptions, getFilterOptions, getTotalAmount, getTotalCreditAmount,
 } from '../CustomerReturnListSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
-import style from './CustomerReturnListFilterOptions.css';
+import style from './CustomerReturnListFilterOptions.module.css';
 
 const onTextFieldChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
 

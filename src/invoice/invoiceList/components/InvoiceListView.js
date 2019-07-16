@@ -10,7 +10,7 @@ import {
 } from '../invoiceListSelectors';
 import InvoiceListFilterOptions from './InvoiceListFilterOptions';
 import InvoiceListTable from './InvoiceListTable';
-import style from './InvoiceListView.css';
+import style from './InvoiceListView.module.css';
 
 const InvoiceListView = (props) => {
   const {

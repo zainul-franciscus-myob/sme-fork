@@ -11,7 +11,7 @@ import React from 'react';
 import { getAlert, getIsLoading } from '../CustomerReturnListSelectors';
 import CustomerReturnListFilterOptions from './CustomerReturnListFilterOptions';
 import CustomerReturnListTable from './CustomerReturnListTable';
-import style from './CustomerReturnListView.css';
+import style from './CustomerReturnListView.module.css';
 
 const CustomerReturnListView = ({
   isLoading,

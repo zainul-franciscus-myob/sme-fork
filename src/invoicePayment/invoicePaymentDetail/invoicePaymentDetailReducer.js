@@ -29,7 +29,7 @@ const getDefaultState = () => ({
   isTableLoading: false,
   isSubmitting: false,
   isPageEdited: false,
-  modalType: undefined,
+  modalType: '',
 });
 
 const resetState = () => (getDefaultState());

@@ -1,8 +1,0 @@
-:local .phoneNumber {
-  display: flex;
-}
-
-:local .phoneNumber button {
-  border-color: transparent;
-  background: none;
-}

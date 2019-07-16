@@ -4,7 +4,7 @@ import {
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
-import styles from './PhoneNumberList.css';
+import styles from './PhoneNumberList.module.css';
 
 /* eslint-disable react/no-array-index-key */
 

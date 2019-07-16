@@ -5,7 +5,7 @@ import React from 'react';
 
 import { getOptions } from '../bankingSelectors/splitAllocationSelectors';
 import ContactCombobox from '../../components/combobox/ContactCombobox';
-import styles from './BankingView.css';
+import styles from './BankingView.module.css';
 
 const handleCheckboxChange = handler => (e) => {
   const { checked, name } = e.target;

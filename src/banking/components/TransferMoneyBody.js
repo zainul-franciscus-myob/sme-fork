@@ -5,7 +5,7 @@ import React from 'react';
 
 import { getFormattedTransfer } from '../bankingSelectors/transferMoneySelectors';
 import AccountCombobox from '../../components/combobox/AccountCombobox';
-import style from './TransferMoneyBody.css';
+import style from './TransferMoneyBody.module.css';
 
 
 const handleComboBoxChange = (key, handler) => (item) => {

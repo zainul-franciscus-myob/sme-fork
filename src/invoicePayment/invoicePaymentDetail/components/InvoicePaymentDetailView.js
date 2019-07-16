@@ -76,6 +76,7 @@ const InvoicePaymentDetailView = ({
           />)}
         actions={actions}
         alert={alertComponent}
+        sticky="none"
       >
         <InvoicePaymentDetailTable
           onUpdateInvoicePaymentEntries={onUpdateInvoicePaymentEntries}

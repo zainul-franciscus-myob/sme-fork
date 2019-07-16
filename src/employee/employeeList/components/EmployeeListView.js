@@ -15,7 +15,7 @@ import {
 } from '../EmployeeListSelectors';
 import EmployeeListFilterOptions from './EmployeeListFilterOptions';
 import EmployeeListTable from './EmployeeListTable';
-import style from './EmployeeListView.css';
+import style from './EmployeeListView.module.css';
 
 const EmployeeListView = ({
   onEmployeeCreateButtonClick,

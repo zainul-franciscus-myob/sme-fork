@@ -6,7 +6,7 @@ import React from 'react';
 import { getIsTableEmpty, getIsTableLoading } from '../invoiceListSelectors';
 import InvoiceListTableBody from './InvoiceListTableBody';
 import InvoiceListTableHeader from './InvoiceListTableHeader';
-import style from './InvoiceListView.css';
+import style from './InvoiceListView.module.css';
 
 const tableConfig = {
   dateIssued: { width: '12rem', valign: 'top', align: 'right' },

@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 
 import { getBillOptions } from '../billServiceSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
-import styles from './BillServiceOptions.css';
+import styles from './BillServiceOptions.module.css';
 
 const onComboBoxChange = handler => (option) => {
   const key = 'contactId';

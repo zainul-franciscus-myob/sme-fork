@@ -15,7 +15,7 @@ import {
 import AccountNumberInput from '../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import BSBInput from '../../../components/autoFormatter/BankDetailsInput/BSBInput';
-import styles from './EmployeeDetailPaymentDetails.css';
+import styles from './EmployeeDetailPaymentDetails.module.css';
 
 const onSelectChange = (handler, index) => (e) => {
   const { name, value } = e.target;

@@ -13,7 +13,7 @@ import AccountNumberInput
   from '../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
 import BSBInput from '../../../components/autoFormatter/BankDetailsInput/BSBInput';
 import ESACombobox from './ESACombobox';
-import styles from './SuperFundSelfManagedDetail.css';
+import styles from './SuperFundSelfManagedDetail.module.css';
 
 const onAutoFormatInputChange = handler => (e) => {
   const { rawValue, name } = e.target;

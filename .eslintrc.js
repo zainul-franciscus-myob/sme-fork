@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'airbnb',
+  extends: ['react-app', 'airbnb'],
   parser: 'babel-eslint',
   plugins: [
     'jest',

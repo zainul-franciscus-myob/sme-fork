@@ -10,7 +10,7 @@ import {
   getPaymentTerms,
   getShowDateField, getShowDateInput, getTabData,
 } from '../SalesSettingsDetailSelectors';
-import styles from './SalesSettingPaymentDetail.css';
+import styles from './SalesSettingsPaymentsDetails.module.css';
 
 const onInputChange = handler => e => handler({
   key: e.target.name,

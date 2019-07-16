@@ -5,7 +5,7 @@ import React from 'react';
 import { getFilteredEmployees } from '../superPayItemSelectors';
 import EmployeeCombobox from './EmployeeCombobox';
 import SuperPayItemEmployeesTable from './SuperPayItemEmployeesTable';
-import styles from './SuperPayItemView.css';
+import styles from './SuperPayItemView.module.css';
 
 const handleEmployeeComboboxChange = handler => (item) => {
   handler(item);

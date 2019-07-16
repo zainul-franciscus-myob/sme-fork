@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import { getInvoiceOptions } from '../invoiceServiceSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
-import styles from './InvoiceServiceOptions.css';
+import styles from './InvoiceServiceOptions.module.css';
 
 const onComboBoxChange = handler => (option) => {
   const key = 'contactId';

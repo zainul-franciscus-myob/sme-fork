@@ -11,7 +11,7 @@ import {
   getSupplierFilterOptions, getTotal, getTotalDue,
 } from '../billListSelectors';
 import SupplierCombobox from '../../../components/combobox/SupplierCombobox';
-import style from './BillListFilterOptions.css';
+import style from './BillListFilterOptions.module.css';
 
 const onSelectChange = (key, handler) => e => handler({ filterName: key, value: e.target.value });
 

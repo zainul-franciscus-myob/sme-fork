@@ -1,0 +1,23 @@
+.dateInput {
+  display: flex;
+}
+
+.dateInput input,
+.dateInput select {
+  width: 40%;
+}
+
+.inputPostfix {
+  white-space: pre;
+  margin-top: 0.5rem;
+  padding-left: 0.8rem;
+}
+
+.status {
+  font-weight: bold;
+  color: green;
+}
+
+.paymentType {
+  min-width: 37rem;
+}

@@ -153,6 +153,7 @@ const Combobox = ({
   </ComboboxCore>
 );
 
+// eslint-disable-next-line
 const { renderField, ...propsFromField } = Field.propTypes;
 
 Combobox.defaultProps = {

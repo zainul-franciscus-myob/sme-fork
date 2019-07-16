@@ -1,46 +1,57 @@
 import handleResponse from '../handleResponse';
 
-const fail = () => {
-  throw Error('Unexpected call');
-};
-
 describe('handleResponse', () => {
+  let fail;
+  let done;
+  beforeEach(() => {
+    fail = jest.fn();
+    done = jest.fn();
+  });
+
   describe('when promise is rejected', () => {
-    it('should reject', (done) => {
+    it('should reject', async () => {
       const rejectedPromise = Promise.reject(Error('TEST'));
 
-      handleResponse(rejectedPromise, fail, done);
+      await handleResponse(rejectedPromise, done, fail);
+
+      expect(fail).toBeCalled();
     });
   });
 
   describe('when response HTTP status code is >= 400', () => {
-    it('should reject', (done) => {
+    it('should reject', async () => {
       const httpErrorCodePromise = Promise.resolve({
         status: 400,
       });
 
-      handleResponse(httpErrorCodePromise, fail, done);
+      await handleResponse(httpErrorCodePromise, done, fail);
+
+      expect(fail).toBeCalled();
     });
   });
 
   describe('when response JSON cannot be parsed', () => {
-    it('should reject', (done) => {
+    it('should reject', async () => {
       const invalidJsonResponsePromise = Promise.resolve({
         json: () => Promise.reject(Error('TEST when JSON is invalid / unparseable')),
       });
 
-      handleResponse(invalidJsonResponsePromise, fail, done);
+      await handleResponse(invalidJsonResponsePromise, done, fail);
+
+      expect(fail).toBeCalled();
     });
   });
 
   describe('when a good response is received', () => {
-    it('should fulfill', (done) => {
+    it('should fulfill', async () => {
       const goodResponsePromise = Promise.resolve({
         json: () => Promise.resolve({}),
         status: 200,
       });
 
-      handleResponse(goodResponsePromise, done, fail);
+      await handleResponse(goodResponsePromise, done, fail);
+
+      expect(done).toBeCalled();
     });
   });
 });

@@ -14,7 +14,7 @@ import PaymentAllocationFooter from './PaymentAllocationFooter';
 import SplitAllocationBody from './SplitAllocationBody';
 import TableCollapsibleRow from '../../components/Feelix/Accordion/TableCollapsibleRow';
 import TransferMoneyBody from './TransferMoneyBody';
-import style from './BankingView.css';
+import style from './BankingView.module.css';
 
 /* eslint-disable react/no-array-index-key */
 

@@ -7,7 +7,7 @@ import React from 'react';
 import { getAlert, getIsLoading } from '../billListSelectors';
 import BillListFilterOptions from './BillListFilterOptions';
 import BillListTable from './BillListTable';
-import style from './BillListView.css';
+import style from './BillListView.module.css';
 
 const BillListView = (props) => {
   const {

@@ -6,7 +6,7 @@ import { getInvoices, getIsCreating, getTableViewType } from '../applyToSaleSele
 import AmountInput from '../../components/autoFormatter/AmountInput/AmountInput';
 import ApplyToSaleTotals from './ApplyToSaleTotals';
 import TableViewType from '../TableViewType';
-import styles from './ApplyToSaleTable.css';
+import styles from './ApplyToSaleTable.module.css';
 
 const onAmountChange = (handler, index) => ({ target }) => {
   const { name, rawValue } = target;

@@ -16,7 +16,7 @@ import {
   getTotalReceived,
 } from '../invoicePaymentDetailSelectors';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
-import styles from './InvoicePaymentDetailTable.css';
+import styles from './InvoicePaymentDetailTable.module.css';
 
 const spinnerView = (
   <div className={styles.container}>

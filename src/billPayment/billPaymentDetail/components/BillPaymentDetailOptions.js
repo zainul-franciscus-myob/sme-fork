@@ -8,7 +8,7 @@ import React from 'react';
 import { getBillPaymentOptions } from '../BillPaymentDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
-import styles from './BillPaymentDetailOptions.css';
+import styles from './BillPaymentDetailOptions.module.css';
 
 const onCheckBoxChange = handler => (
   { target: { name: key, checked: value } },

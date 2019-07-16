@@ -5,7 +5,7 @@ import React from 'react';
 import { getFilteredLinkedWages } from '../leavePayItemSelectors';
 import LeavePayItemLinkedWagesTable from './LeavePayItemLinkedWagesTable';
 import PayItemCombobox from './PayItemCombobox';
-import styles from './LeavePayItemView.css';
+import styles from './LeavePayItemView.module.css';
 
 const handleLinkedWagesComboboxChange = handler => (item) => {
   handler(item);
