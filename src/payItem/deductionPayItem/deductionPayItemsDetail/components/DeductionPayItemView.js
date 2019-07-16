@@ -21,7 +21,7 @@ const DeductionPayItemView = ({
   modalType,
   onDetailsChange,
   onInformationChange,
-  onInformationAmountChange,
+  onInformationAmountBlur,
   onEmployeeSelected,
   onExemptionSelected,
   onRemoveEmployee,
@@ -60,7 +60,7 @@ const DeductionPayItemView = ({
           <DetailsView onDetailsChange={onDetailsChange} />
           <InformationView
             onInformationChange={onInformationChange}
-            onInformationAmountChange={onInformationAmountChange}
+            onInformationAmountBlur={onInformationAmountBlur}
           />
         </FormHorizontal>
       </div>

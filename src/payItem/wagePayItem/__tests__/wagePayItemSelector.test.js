@@ -9,8 +9,8 @@ describe('wagePayItemSelector', () => {
           atoReportingCategory: 'NotReportable',
           payBasis: 'Salary',
           payRate: 'RegularRate',
-          payRateMultiplier: '1.00',
-          fixedHourlyPayRate: '0.00',
+          payRateMultiplier: '1.0000',
+          fixedHourlyPayRate: '0.0000',
           accountId: '134',
           autoAdjustBase: false,
           selectedEmployees: [
@@ -46,8 +46,8 @@ describe('wagePayItemSelector', () => {
         atoReportingCategory: 'NotReportable',
         payBasis: 'Salary',
         payRate: 'RegularRate',
-        payRateMultiplier: '1.00',
-        fixedHourlyPayRate: '0.00',
+        payRateMultiplier: '1.0000',
+        fixedHourlyPayRate: '0.0000',
         accountId: '134',
         autoAdjustBase: false,
         employeeIds: [
@@ -76,8 +76,8 @@ describe('wagePayItemSelector', () => {
           atoReportingCategory: 'NotReportable',
           payBasis: 'Salary',
           payRate: 'RegularRate',
-          payRateMultiplier: '1.00',
-          fixedHourlyPayRate: '0.00',
+          payRateMultiplier: '1.0000',
+          fixedHourlyPayRate: '0.0000',
           accountId: '134',
           autoAdjustBase: false,
           selectedEmployees: [
@@ -113,8 +113,8 @@ describe('wagePayItemSelector', () => {
         atoReportingCategory: 'NotReportable',
         payBasis: 'Salary',
         payRate: 'RegularRate',
-        payRateMultiplier: '1.00',
-        fixedHourlyPayRate: '0.00',
+        payRateMultiplier: '1.0000',
+        fixedHourlyPayRate: '0.0000',
         accountId: '',
         autoAdjustBase: false,
         employeeIds: [

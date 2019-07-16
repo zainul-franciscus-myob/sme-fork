@@ -2,6 +2,7 @@ import {
   ADD_EMPLOYEE,
   ADD_EXEMPTION,
   CLOSE_MODAL,
+  FORMAT_AMOUNT,
   LOAD_EXISTING_PAY_ITEM,
   LOAD_NEW_PAY_ITEM,
   OPEN_MODAL,
@@ -88,6 +89,15 @@ const updatePayItemDetails = (state, { key, value }) => ({
   isPageEdited: true,
 });
 
+const formatAmount = value => (Number(value) || 0).toFixed(4);
+const updatePayItemAmount = (state, { key, value }) => ({
+  ...state,
+  wage: {
+    ...state.wage,
+    [key]: formatAmount(value),
+  },
+});
+
 const addEmployeeToSelectedList = (state, { value }) => ({
   ...state,
   wage: {
@@ -163,6 +173,7 @@ const handlers = {
   [LOAD_NEW_PAY_ITEM]: loadPayItem,
   [LOAD_EXISTING_PAY_ITEM]: loadPayItem,
   [UPDATE_DETAILS]: updatePayItemDetails,
+  [FORMAT_AMOUNT]: updatePayItemAmount,
   [ADD_EMPLOYEE]: addEmployeeToSelectedList,
   [REMOVE_EMPLOYEE]: removeEmployeeFromSelectedList,
   [ADD_EXEMPTION]: addExemptionToSelectedList,

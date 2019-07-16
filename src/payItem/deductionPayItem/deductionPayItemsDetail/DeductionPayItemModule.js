@@ -249,7 +249,7 @@ export default class DeductionPayItemModule {
         <DeductionPayItemView
           onDetailsChange={this.updatePayItemDetails}
           onInformationChange={this.updatePayItemInformation}
-          onInformationAmountChange={this.updatePayItemInformationAmount}
+          onInformationAmountBlur={this.updatePayItemInformationAmount}
           onEmployeeSelected={this.addEmployeeToSelectedList}
           onRemoveEmployee={this.removeEmployeeFromSelectedList}
           onRemoveExemption={this.removeExemptionFromSelectedList}

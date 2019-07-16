@@ -19,6 +19,7 @@ const WagePayItemView = ({
   isLoading,
   modalType,
   onDetailsChange,
+  onAmountInputBlur,
   onOverrideAccountChange,
   onEmployeeSelected,
   onExemptionSelected,
@@ -59,6 +60,7 @@ const WagePayItemView = ({
         <FormHorizontal>
           <DetailsView
             onDetailsChange={onDetailsChange}
+            onAmountInputBlur={onAmountInputBlur}
             onOverrideAccountChange={onOverrideAccountChange}
           />
         </FormHorizontal>
