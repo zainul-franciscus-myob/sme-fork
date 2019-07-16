@@ -1,0 +1,7 @@
+.transferMoneyBody :global(.combobox) {
+  max-width: 35.2rem;
+}
+
+.transferMoneyBody :global(.form-group__label-group) {
+  max-width: 12rem;
+}

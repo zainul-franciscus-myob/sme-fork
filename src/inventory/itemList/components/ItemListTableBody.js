@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFormattedTableEntries } from '../itemListSelectors';
-import style from './ItemListTableBody.css';
+import style from './ItemListTableBody.module.css';
 
 /* eslint-disable react/no-array-index-key */
 

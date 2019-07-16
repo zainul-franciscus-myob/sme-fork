@@ -5,14 +5,14 @@ describe('transformKeyboardMapToShortcut', () => {
     const keymap = {
       test: 'command+enter,ctrl+enter',
     };
-
+    const handler = jest.fn();
     const handlers = {
-      test: console.log('test'),
+      test: handler,
     };
 
     const expected = {
-      'command+enter': console.log('test'),
-      'ctrl+enter': console.log('test'),
+      'command+enter': handler,
+      'ctrl+enter': handler,
     };
 
     const result = keyboardTransformer(keymap, handlers);

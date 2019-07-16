@@ -1,0 +1,14 @@
+.splitBank {
+  display: flex;
+  padding-bottom: 1.2rem;
+  align-items: center;
+}
+
+.splitBank > :global(.form-group),
+.splitBank > p {
+  margin-bottom: 0;
+}
+
+.paragraphPadding {
+  padding-left: 0.5rem;
+}

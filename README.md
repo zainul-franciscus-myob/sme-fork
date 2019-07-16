@@ -37,19 +37,19 @@ SME Web
 ## Run tests
 
 ```sh
-./ops/bin/test # yarn run test
+./ops/bin/test # yarn test --coverage
 ```
 
 ## Run locally
 
 ```sh
-./ops/bin/local # yarn run start
+./ops/bin/start # yarn start
 ```
 
 ## Build sme web
 
 ```sh
-./ops/bin/build # yarn run build
+./ops/bin/build
 ```
 
 **Environment configuration:**<br/>

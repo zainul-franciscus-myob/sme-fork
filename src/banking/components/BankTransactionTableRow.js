@@ -11,7 +11,7 @@ import ExpandedRowItem from './ExpandedRowItem';
 import MatchedRowItem from './MatchedRowItem';
 import SplitRowItem from './SplitRowItem';
 import UnmatchedRowItem from './UnmatchedRowItem';
-import style from './BankingView.css';
+import style from './BankingView.module.css';
 
 const getMatchedOrAllocatedRowItem = ({
   entry,

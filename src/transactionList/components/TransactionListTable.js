@@ -6,7 +6,7 @@ import {
   getIsTableEmpty, getIsTableLoading, getOrder,
 } from '../transactionListSelectors';
 import TransactionListTableBody from './TransactionListTableBody';
-import style from './TransactionListView.css';
+import style from './TransactionListView.module.css';
 
 const tableConfig = {
   date: { width: '11rem', valign: 'top' },

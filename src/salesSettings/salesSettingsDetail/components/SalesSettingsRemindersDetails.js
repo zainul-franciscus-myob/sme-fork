@@ -7,7 +7,7 @@ import React from 'react';
 
 import { getReminderLink } from '../SalesSettingsDetailSelectors';
 import invoiceReminder from './invoiceReminder.png';
-import styles from './SalesSettingRemindersDetail.css';
+import styles from './SalesSettingsRemindersDetails.module.css';
 
 const openNewTab = url => () => window.open(
   url,

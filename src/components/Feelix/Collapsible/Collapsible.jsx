@@ -9,7 +9,7 @@ import classnames from 'classnames';
 
 import find from './helpers/find';
 import smoothScrollTo from './helpers/smoothScrolling';
-import styles from './Collapsible.css';
+import styles from './Collapsible.module.css';
 
 // Sticky Header and Footer will become scrollable again when the content displays less than 20%
 // in the viewport

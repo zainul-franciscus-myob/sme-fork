@@ -7,6 +7,7 @@ import {
   CLOSE_MODAL,
   CREATE_PAY_ITEM,
   DELETE_PAY_ITEM,
+  FORMAT_AMOUNT,
   LOAD_EXISTING_PAY_ITEM,
   LOAD_NEW_PAY_ITEM,
   OPEN_MODAL,
@@ -92,6 +93,12 @@ export default class WagePayItemModule {
 
   updatePayItemDetails = ({ key, value }) => this.store.dispatch({
     intent: UPDATE_DETAILS,
+    key,
+    value,
+  })
+
+  updatePayItemAmount = ({ key, value }) => this.store.dispatch({
+    intent: FORMAT_AMOUNT,
     key,
     value,
   })
@@ -242,6 +249,7 @@ export default class WagePayItemModule {
       <Provider store={this.store}>
         <WagePayItemView
           onDetailsChange={this.updatePayItemDetails}
+          onAmountInputBlur={this.updatePayItemAmount}
           onOverrideAccountChange={this.updateOverrideAccount}
           onEmployeeSelected={this.addEmployeeToSelectedList}
           onRemoveEmployee={this.removeEmployeeFromSelectedList}

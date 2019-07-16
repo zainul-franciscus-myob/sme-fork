@@ -6,7 +6,7 @@ import {
   getIsTableEmpty, getIsTableLoading, getOrder,
 } from '../quoteListSelector';
 import QuoteListTableBody from './QuoteListTableBody';
-import style from './QuoteListView.css';
+import style from './QuoteListView.module.css';
 
 const tableConfig = {
   referenceId: { width: '10.2rem', valign: 'top' },

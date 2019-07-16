@@ -1,0 +1,22 @@
+.removeRow {
+  border-color: transparent;
+  background: none;
+}
+
+.addCombobox {
+  max-width: 30rem;
+}
+
+.editableTable :global(.table-data__container) {
+  margin-bottom: 1.2rem;
+}
+
+/* How we acheive it in the <FormTemplate> */
+.payItemView :global(.form-group) {
+  width: 66.3732394366197%;
+  max-width: 75.4rem;
+}
+
+.limitSectionDivider {
+  min-height: 1.5rem;
+}

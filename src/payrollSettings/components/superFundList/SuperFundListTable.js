@@ -7,7 +7,7 @@ import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../../selectors/superFundListSelectors';
 import SuperFundListTableBody from './SuperFundListTableBody';
-import styles from './SuperFundListView.css';
+import styles from './SuperFundListView.module.css';
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'top' },

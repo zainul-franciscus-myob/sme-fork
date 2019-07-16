@@ -10,7 +10,7 @@ import React from 'react';
 import { getAlert, getIsLoading } from '../supplierReturnListSelectors';
 import SupplierReturnListFilterOptions from './SupplierReturnListFilterOptions';
 import SupplierReturnListTable from './SupplierReturnListTable';
-import style from './SupplierReturnListView.css';
+import style from './SupplierReturnListView.module.css';
 
 const SupplierReturnListView = ({
   isLoading,

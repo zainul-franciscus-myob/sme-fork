@@ -9,7 +9,7 @@ import { getTaxPayItemAccounts, getTaxPayItemAtoReportingCategoryList, getTaxPay
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
-import style from './TaxPayItemView.css';
+import style from './TaxPayItemView.module.css';
 
 const TaxPayItemView = ({
   taxPayItemDetail,

@@ -13,7 +13,7 @@ import {
   getTotalDue,
 } from '../invoiceListSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
-import style from './InvoiceListView.css';
+import style from './InvoiceListView.module.css';
 
 class InvoiceListFilterOptions extends React.Component {
   onComboBoxChange = (item) => {

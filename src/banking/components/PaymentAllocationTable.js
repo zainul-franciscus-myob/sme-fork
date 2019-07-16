@@ -5,7 +5,7 @@ import React from 'react';
 
 import { getTableOptions } from '../bankingSelectors/paymentAllocationSelectors';
 import PaymentAllocationTableBody from './PaymentAllocationTableBody';
-import style from './BankingView.css';
+import style from './BankingView.module.css';
 
 const tableConfig = {
   referenceId: { width: '15rem', valign: 'top' },

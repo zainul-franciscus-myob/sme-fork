@@ -1,0 +1,7 @@
+.checkbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 3rem;
+  margin-top: 2rem;
+}

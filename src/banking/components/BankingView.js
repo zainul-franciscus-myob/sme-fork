@@ -18,7 +18,7 @@ import BankTransactionFilterOptions from './BankTransactionFilterOptions';
 import BankTransactionTable from './BankTransactionTable';
 import BankingModal from './BankingModal';
 import BulkAllocationPopover from './BulkAllocationPopover';
-import style from './BankingView.css';
+import style from './BankingView.module.css';
 
 const BankingView = (props) => {
   const {

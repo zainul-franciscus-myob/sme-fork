@@ -6,6 +6,8 @@ import React from 'react';
 
 import {
   getIsAbnLoading,
+  getIsCreating,
+  getShowFundType,
   getSuperFund,
 } from '../SuperFundWithPaySuperSelectors';
 import fundTypes from '../FundTypes';
@@ -19,6 +21,8 @@ const SuperFundBasic = ({
   superFund,
   listeners: { onUpdateSuperFundDetail },
   isAbnLoading,
+  isCreating,
+  showFundType,
 }) => (
   <React.Fragment>
     <Input
@@ -29,28 +33,33 @@ const SuperFundBasic = ({
       onChange={onInputChange(onUpdateSuperFundDetail)}
       disabled={isAbnLoading}
     />
-    <FormHorizontal>
-      <RadioButtonGroup
-        label="Type"
-        name="fundType"
-        renderRadios={() => fundTypes.map(({ name, value }) => (
-          <RadioButton
-            key={name}
-            name="fundType"
-            label={name}
-            value={value}
-            checked={value === superFund.fundType}
-            onChange={onInputChange(onUpdateSuperFundDetail)}
-          />
-        ))}
-      />
-    </FormHorizontal>
+    { showFundType && (
+      <FormHorizontal>
+        <RadioButtonGroup
+          label="Type"
+          name="fundType"
+          renderRadios={() => fundTypes.map(({ name, value }) => (
+            <RadioButton
+              key={name}
+              name="fundType"
+              label={name}
+              value={value}
+              checked={value === superFund.fundType}
+              onChange={onInputChange(onUpdateSuperFundDetail)}
+              disabled={!isCreating}
+            />
+          ))}
+        />
+      </FormHorizontal>
+    )}
   </React.Fragment>
 );
 
 const mapStateToProps = state => ({
   superFund: getSuperFund(state),
   isAbnLoading: getIsAbnLoading(state),
+  isCreating: getIsCreating(state),
+  showFundType: getShowFundType(state),
 });
 
 export default connect(mapStateToProps)(SuperFundBasic);

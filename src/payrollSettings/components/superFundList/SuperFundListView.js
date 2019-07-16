@@ -8,7 +8,7 @@ import React from 'react';
 import { getIsLoading } from '../../selectors/superFundListSelectors';
 import SuperFundListFilterOptions from './SuperFundListFilterOptions';
 import SuperFundListTable from './SuperFundListTable';
-import styles from './SuperFundListView.css';
+import styles from './SuperFundListView.module.css';
 
 const SuperFundListView = (props) => {
   const {

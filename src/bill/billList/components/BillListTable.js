@@ -6,7 +6,7 @@ import {
   getIsTableEmpty, getIsTableLoading, getOrder,
 } from '../billListSelectors';
 import BillListTableBody from './BillListTableBody';
-import style from './BillListTable.css';
+import style from './BillListTable.module.css';
 
 const tableConfig = {
   number: { width: 'flex-1', valign: 'top' },

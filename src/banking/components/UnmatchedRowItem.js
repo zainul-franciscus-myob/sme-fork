@@ -2,7 +2,7 @@ import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
 import AccountCombobox from '../../components/combobox/AccountCombobox';
-import style from './BankingView.css';
+import style from './BankingView.module.css';
 
 const UnmatchedRowItem = ({
   entry,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
 
-import style from './TabItem.css';
+import style from './TabItem.module.css';
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 const TabItem = ({

@@ -4,7 +4,7 @@ import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../bankingSelectors/matchTransactionSelectors';
 import MatchTransactionTableBody from './MatchTransactionTableBody';
-import style from './BankingView.css';
+import style from './BankingView.module.css';
 
 const tableConfig = {
   radioButton: { width: '4rem', valign: 'top' },

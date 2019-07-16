@@ -1,7 +1,7 @@
 import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
-import style from './BankingView.css';
+import style from './BankingView.module.css';
 
 const SplitRowItem = ({ entry, onClick, ...props }) => (
   <Table.RowItem {...props}>

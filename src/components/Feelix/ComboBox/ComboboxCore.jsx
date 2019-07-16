@@ -6,7 +6,7 @@ import classnames from 'classnames';
 
 import ComboboxInput from './ComboboxInput';
 import ComboboxMenu from './ComboboxMenu';
-import styles from './Combobox.css';
+import styles from './Combobox.module.css';
 
 const TAB_KEY = 'Tab';
 

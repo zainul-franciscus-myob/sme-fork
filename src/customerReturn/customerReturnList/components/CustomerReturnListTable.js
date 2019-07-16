@@ -7,7 +7,7 @@ import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../CustomerReturnListSelectors';
 import CustomerReturnListTableBody from './CustomerReturnListTableBody';
-import style from './CustomerReturnListTable.css';
+import style from './CustomerReturnListTable.module.css';
 
 const tableConfig = {
   date: { width: '11rem', valign: 'top' },

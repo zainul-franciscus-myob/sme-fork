@@ -6,7 +6,7 @@ import {
   getIsTableEmpty, getIsTableLoading, getOrder,
 } from '../itemListSelectors';
 import ItemListTableBody from './ItemListTableBody';
-import style from './ItemListView.css';
+import style from './ItemListView.module.css';
 
 const tableConfig = {
   referenceId: { width: '20rem', valign: 'top' },

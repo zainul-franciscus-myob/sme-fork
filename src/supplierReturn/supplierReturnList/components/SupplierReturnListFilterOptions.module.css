@@ -1,0 +1,12 @@
+.totals {
+  text-align: right;
+}
+
+.totalAmount {
+  margin-right: 2rem;
+}
+
+.totalDebitAmount {
+  margin-right: 2rem;
+  font-weight: bold;
+}

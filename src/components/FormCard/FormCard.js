@@ -2,7 +2,7 @@ import { Card } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import style from './FormCard.css';
+import style from './FormCard.module.css';
 
 const FormCard = ({
   children,

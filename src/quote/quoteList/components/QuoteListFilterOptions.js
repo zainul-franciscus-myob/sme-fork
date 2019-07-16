@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import { getCustomerFilterOptions, getFilterOptions, getTotal } from '../quoteListSelector';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
-import style from './QuoteListView.css';
+import style from './QuoteListView.module.css';
 
 class QuoteListFilterOptions extends React.Component {
   onComboBoxChange = (item) => {

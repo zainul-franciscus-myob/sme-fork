@@ -8,7 +8,7 @@ import {
   getFilterOptions, getSupplierFilterOptions, getTotalAmount, getTotalDebitAmount,
 } from '../supplierReturnListSelectors';
 import SupplierCombobox from '../../../components/combobox/SupplierCombobox';
-import style from './SupplierReturnListFilterOptions.css';
+import style from './SupplierReturnListFilterOptions.module.css';
 
 const onTextFieldChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
 

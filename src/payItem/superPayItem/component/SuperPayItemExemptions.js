@@ -5,7 +5,7 @@ import React from 'react';
 import { getFilteredExemptions, getIsExemptionDisabled } from '../superPayItemSelectors';
 import PayItemCombobox from './PayItemCombobox';
 import SuperPayItemExemptionsTable from './SuperPayItemExemptionsTable';
-import styles from './SuperPayItemView.css';
+import styles from './SuperPayItemView.module.css';
 
 const handleExemptionComboboxChange = handler => (item) => {
   handler(item);

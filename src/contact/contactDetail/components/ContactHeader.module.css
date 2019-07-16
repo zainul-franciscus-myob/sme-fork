@@ -1,0 +1,30 @@
+.header,
+.headerLeft,
+.headerRight {
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  justify-content: space-between;
+  padding-bottom: 1rem;
+}
+
+.headerLeft > div,
+.headerRight > div {
+  margin-right: 1.2rem;
+}
+
+.headerRight > div:last-child {
+  margin-right: 0;
+}
+
+.chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.chip > :global(.label:first-child) {
+  margin-bottom: 0.8rem;
+}

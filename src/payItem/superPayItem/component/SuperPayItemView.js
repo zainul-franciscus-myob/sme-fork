@@ -13,7 +13,7 @@ import SuperPayItemEmployees from './SuperPayItemEmployees';
 import SuperPayItemExemptions from './SuperPayItemExemptions';
 import SuperPayItemInfo from './SuperPayItemSuperInfo';
 import SuperPayItemModal from './SuperPayItemModal';
-import styles from './SuperPayItemView.css';
+import styles from './SuperPayItemView.module.css';
 
 const SuperPayItemView = (props) => {
   const {

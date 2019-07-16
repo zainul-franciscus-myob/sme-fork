@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { getHeaderOptions } from '../generalJournalDetailSelectors';
-import styles from './GeneralJournalDetailOptions.css';
+import styles from './GeneralJournalDetailOptions.module.css';
 
 class GeneralJournalDetailOptions extends Component {
   handleInputChange = (e) => {

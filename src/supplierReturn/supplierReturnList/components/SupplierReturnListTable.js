@@ -6,7 +6,7 @@ import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../supplierReturnListSelectors';
 import SupplierReturnListTableBody from './SupplierReturnListTableBody';
-import style from './SupplierReturnListTable.css';
+import style from './SupplierReturnListTable.module.css';
 
 const tableConfig = {
   date: { width: '11rem', valign: 'middle' },

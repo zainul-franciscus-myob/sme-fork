@@ -54,7 +54,7 @@ export const getModalType = state => state.modalType;
 export const getIsCreating = state => state.billId === 'newItem';
 export const getNewLineIndex = state => state.bill.lines.length - 1;
 export const getTotals = state => state.totals;
-export const getExpirationDays = state => (state.bill.expirationDays ? Number(state.bill.expirationDays) : '');
+export const getExpirationDays = state => state.bill.expirationDays;
 export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 
 export const getExpirationTerm = state => state.bill.expirationTerm;
@@ -115,7 +115,7 @@ export const getExpiredDate = createSelector(
   getExpirationTerm,
   getExpirationDays,
   (issueDate, expirationTerm, expirationDays) => {
-    const calculatedDate = calculateDate(issueDate, expirationTerm, expirationDays);
+    const calculatedDate = calculateDate(issueDate, expirationTerm, Number(expirationDays));
     return formatExpiredDate(calculatedDate);
   },
 );

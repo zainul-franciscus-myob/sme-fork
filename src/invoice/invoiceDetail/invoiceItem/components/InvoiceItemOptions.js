@@ -15,7 +15,7 @@ import {
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import TaxState from '../enums/TaxState';
-import styles from './InvoiceItemOptions.css';
+import styles from './InvoiceItemOptions.module.css';
 
 const onTextInputChange = handler => e => handler({
   key: e.target.name,

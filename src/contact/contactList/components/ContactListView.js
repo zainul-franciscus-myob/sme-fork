@@ -9,7 +9,7 @@ import {
 } from '../contactListSelector';
 import ContactListFilterOptions from './ContactListFilterOptions';
 import ContactListTable from './ContactListTable';
-import style from './ContactListView.css';
+import style from './ContactListView.module.css';
 
 const ContactListView = (props) => {
   const {

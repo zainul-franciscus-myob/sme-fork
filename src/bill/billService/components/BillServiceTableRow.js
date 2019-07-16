@@ -1,6 +1,5 @@
 import { Input, LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getBillLine } from '../billServiceSelectors';
@@ -67,12 +66,6 @@ const BillServiceTableRow = ({
       />
     </LineItemTable.Row>
   );
-};
-
-BillServiceTableRow.propTypes = {
-  billLine: PropTypes.shape().isRequired,
-  index: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({

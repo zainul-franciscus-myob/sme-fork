@@ -24,6 +24,7 @@ const DetailsView = ({
   isHourlyView,
   atoReportCategoryList,
   onDetailsChange,
+  onAmountInputBlur,
   onOverrideAccountChange,
 }) => (
   <FieldGroup label="Details">
@@ -62,6 +63,7 @@ const DetailsView = ({
     { isHourlyView ? (
       <HourlySection
         onDetailsChange={onDetailsChange}
+        onAmountInputBlur={onAmountInputBlur}
         onOverrideAccountChange={onOverrideAccountChange}
       />
     ) : (

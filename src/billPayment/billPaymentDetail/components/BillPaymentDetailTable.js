@@ -8,7 +8,7 @@ import {
   getBillEntries, getShouldDisableFields, getTableViewType, getTotalAmount,
 } from '../BillPaymentDetailSelectors';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
-import styles from './BillPaymentDetailTable.css';
+import styles from './BillPaymentDetailTable.module.css';
 import tableViewTypes from '../tableViewTypes';
 
 const onInputFieldChange = (handler, index) => ({ target: { name: key, rawValue: value } }) => (

@@ -7,7 +7,7 @@ import {
   getIsCreating, getPurchases, getTableViewType, getTotalAmountApplied,
 } from '../SupplierReturnPurchaseSelector';
 import AmountInput from '../../components/autoFormatter/AmountInput/AmountInput';
-import styles from './SupplierReturnPurchaseTable.css';
+import styles from './SupplierReturnPurchaseTable.module.css';
 
 const onAmountChange = (handler, index) => ({ target }) => {
   const { name, rawValue } = target;

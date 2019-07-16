@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import { getQuoteOptions } from '../ServiceQuoteSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
-import styles from './ServiceQuoteOptions.css';
+import styles from './ServiceQuoteOptions.module.css';
 
 const onComboBoxChange = handler => (option) => {
   const key = 'customerId';

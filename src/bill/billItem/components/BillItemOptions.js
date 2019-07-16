@@ -8,7 +8,6 @@ import {
   TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -30,7 +29,7 @@ import {
 } from '../billItemSelectors';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import TaxState from '../TaxState';
-import styles from './BillItemOptions.css';
+import styles from './BillItemOptions.module.css';
 
 const onTextInputChange = handler => e => handler({
   key: e.target.name,
@@ -164,26 +163,6 @@ const BillItemOptions = ({
     </div>
   </Columns>
 );
-
-BillItemOptions.propTypes = {
-  suppliers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  billNumber: PropTypes.string.isRequired,
-  invoiceNumber: PropTypes.string.isRequired,
-  supplierAddress: PropTypes.string.isRequired,
-  supplierId: PropTypes.string.isRequired,
-  issueDate: PropTypes.string.isRequired,
-  expirationTerms: PropTypes.string.isRequired,
-  expirationTerm: PropTypes.string.isRequired,
-  note: PropTypes.string.isRequired,
-  isReportable: PropTypes.bool.isRequired,
-  isTaxInclusive: PropTypes.bool.isRequired,
-  expiredDate: PropTypes.string.isRequired,
-  expirationDay: PropTypes.string.isRequired,
-  isCreating: PropTypes.bool.isRequired,
-  onUpdateBillOption: PropTypes.func.isRequired,
-  onUpdateTaxInclusive: PropTypes.func.isRequired,
-  isTaxInclusiveDisabled: PropTypes.bool.isRequired,
-};
 
 const mapStateToProps = state => ({
   suppliers: getSuppliers(state),

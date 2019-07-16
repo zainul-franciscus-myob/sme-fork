@@ -4,7 +4,7 @@ import React from 'react';
 
 import { getIsOpenEntryCreating } from '../bankingSelectors';
 import { getRemainingBalance } from '../bankingSelectors/paymentAllocationSelectors';
-import style from './BankingView.css';
+import style from './BankingView.module.css';
 
 const PaymentAllocationFooter = (props) => {
   const { isCreating, remainingBalance } = props;

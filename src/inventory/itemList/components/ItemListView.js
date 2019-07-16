@@ -13,7 +13,7 @@ import {
 } from '../itemListSelectors';
 import ItemListFilterOptions from './ItemListFilterOptions';
 import ItemListTable from './ItemListTable';
-import style from './ItemListView.css';
+import style from './ItemListView.module.css';
 
 const ItemListView = ({
   isLoading,

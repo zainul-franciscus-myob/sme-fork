@@ -81,6 +81,58 @@ describe('superFundReducer', () => {
 
       expect(actual).toEqual(expected);
     });
+
+    it('should update fundType to default when isPaySuperFund is changed to false', () => {
+      const state = {
+        superFund: {
+          fundType: 'SelfManagedSuperFund',
+          isPaySuperFund: true,
+        },
+        isPageEdited: false,
+      };
+      const action = {
+        intent: UPDATE_SUPER_FUND_DETAIL,
+        key: 'isPaySuperFund',
+        value: false,
+      };
+      const expected = {
+        superFund: {
+          fundType: 'APRASuperFund',
+          isPaySuperFund: false,
+        },
+        isPageEdited: true,
+      };
+
+      const actual = reducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should not update fundType to default when isPaySuperFund is changed to true', () => {
+      const state = {
+        superFund: {
+          fundType: 'SelfManagedSuperFund',
+          isPaySuperFund: false,
+        },
+        isPageEdited: false,
+      };
+      const action = {
+        intent: UPDATE_SUPER_FUND_DETAIL,
+        key: 'isPaySuperFund',
+        value: true,
+      };
+      const expected = {
+        superFund: {
+          fundType: 'SelfManagedSuperFund',
+          isPaySuperFund: true,
+        },
+        isPageEdited: true,
+      };
+
+      const actual = reducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe('updateSelfManagedFundAbn', () => {

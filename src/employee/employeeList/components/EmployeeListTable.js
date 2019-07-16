@@ -8,7 +8,7 @@ import React from 'react';
 import { getIsTableEmpty } from '../../../contact/contactList/contactListSelector';
 import { getIsTableLoading, getOrder } from '../EmployeeListSelectors';
 import EmployeeListTableBody from './EmployeeListTableBody';
-import style from './EmployeeListView.css';
+import style from './EmployeeListView.module.css';
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'top' },

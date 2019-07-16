@@ -13,7 +13,7 @@ import {
   getTransactionTypes,
 } from '../bankingSelectors';
 import AccountCombobox from '../../components/combobox/AccountCombobox';
-import styles from './BankingView.css';
+import styles from './BankingView.module.css';
 
 class BankTransactionFilterOptions extends React.Component {
   onDateChange = filterName => ({ value }) => {

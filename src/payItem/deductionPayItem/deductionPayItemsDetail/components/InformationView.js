@@ -1,6 +1,4 @@
-import {
-  Combobox, FieldGroup, Select,
-} from '@myob/myob-widgets';
+import { Combobox, FieldGroup, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,16 +7,32 @@ import AmountInput from '../../../../components/autoFormatter/AmountInput/Amount
 import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
-import styles from './DeductionPayItemView.css';
+import styles from './DeductionPayItemView.module.css';
 
 const percentOfOptionsMetadata = [{ columnName: 'displayName', showData: true }];
 
 const InformationView = ({
-  calculationBasis, calculationPercentage, selectedCalculationPercentOfOption, calculationDollars,
-  calculationPer, calculationBasisOptions, calculationPercentOfOptions,
-  calculationDollarPerOptions, limit, limitPercentage, selectedLimitPercentOfOption, limitDollars,
-  limitPer, limitOptions, limitPercentOfOptions, limitDollarPerOptions, onInformationChange,
-  onInformationAmountChange, isCalculationPercentage, isCalculationDollar, isLimitDollar,
+  calculationBasis,
+  calculationPercentage,
+  selectedCalculationPercentOfOption,
+  calculationDollars,
+  calculationPer,
+  calculationBasisOptions,
+  calculationPercentOfOptions,
+  calculationDollarPerOptions,
+  limit,
+  limitPercentage,
+  selectedLimitPercentOfOption,
+  limitDollars,
+  limitPer,
+  limitOptions,
+  limitPercentOfOptions,
+  limitDollarPerOptions,
+  onInformationChange,
+  onInformationAmountBlur,
+  isCalculationPercentage,
+  isCalculationDollar,
+  isLimitDollar,
   isLimitPercentage,
 }) => (
   <FieldGroup label="Deduction information">
@@ -44,7 +58,7 @@ const InformationView = ({
             numeralIntegerScale={3}
             value={calculationPercentage}
             onChange={handleAmountInputChange(onInformationChange)}
-            onBlur={handleAmountInputChange(onInformationAmountChange)}
+            onBlur={handleAmountInputChange(onInformationAmountBlur)}
           />
           <Combobox
             label="Percent of"
@@ -65,7 +79,7 @@ const InformationView = ({
             numeralIntegerScale={13}
             value={calculationDollars}
             onChange={handleAmountInputChange(onInformationChange)}
-            onBlur={handleAmountInputChange(onInformationAmountChange)}
+            onBlur={handleAmountInputChange(onInformationAmountBlur)}
           />
           <Select
             name="calculationPer"
@@ -107,7 +121,7 @@ const InformationView = ({
             numeralIntegerScale={3}
             value={limitPercentage}
             onChange={handleAmountInputChange(onInformationChange)}
-            onBlur={handleAmountInputChange(onInformationAmountChange)}
+            onBlur={handleAmountInputChange(onInformationAmountBlur)}
           />
           <Combobox
             label="Percent of"
@@ -128,7 +142,7 @@ const InformationView = ({
             numeralIntegerScale={13}
             value={limitDollars}
             onChange={handleAmountInputChange(onInformationChange)}
-            onBlur={handleAmountInputChange(onInformationAmountChange)}
+            onBlur={handleAmountInputChange(onInformationAmountBlur)}
           />
           <Select
             name="limitPer"

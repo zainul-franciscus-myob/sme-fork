@@ -33,7 +33,7 @@ describe('generalJournalSelectors', () => {
     });
   });
 
-  it('getGeneralJournalForCreatePayload', () => {
+  describe('getGeneralJournalForCreatePayload', () => {
     it('removes extraneous fields from the create payload', () => {
       const actual = getGeneralJournalForCreatePayload(generalJournalPayloadInput);
       expect(actual.depositIntoAccounts).toBeUndefined();

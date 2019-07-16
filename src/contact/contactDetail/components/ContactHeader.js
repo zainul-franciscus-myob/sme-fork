@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getContactHeaderDetails } from '../contactDetailSelectors';
-import styles from './ContactDetailView.css';
+import styles from './ContactHeader.module.css';
 
 // eslint-disable-next-line react/prop-types
 const PaymentChip = ({ label, value, color }) => (

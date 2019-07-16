@@ -1,0 +1,17 @@
+.editableTable :global(.table-data__container) {
+  margin-bottom: 1.2rem;
+}
+
+.actionsGroup {
+  margin-bottom: 3.2rem;
+}
+
+.addCombobox {
+  max-width: 30rem;
+}
+
+/* How we acheive it in the <FormTemplate> -- Feelix specific values */
+.leavePayItemContainer :global(.form-group) {
+  width: 66.3732394366197%;
+  max-width: 75.4rem;
+}
