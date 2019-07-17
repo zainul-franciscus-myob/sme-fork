@@ -11,7 +11,7 @@ import {
   getOpenEntryActiveTabId,
   getOpenEntryDefaultTabId,
   getOpenPosition,
-  isSplitAllocationSelected,
+  getIsSplitAllocationSelected,
   getDefaultOpenPosition,
 } from './bankingSelectors';
 import {
@@ -863,7 +863,7 @@ export default class BankingModule {
     const state = this.store.getState();
     const index = getOpenPosition(state);
     if (index !== getDefaultOpenPosition()
-        && isSplitAllocationSelected(state)) {
+        && getIsSplitAllocationSelected(state)) {
       this.saveSplitAllocation();
     }
   }
