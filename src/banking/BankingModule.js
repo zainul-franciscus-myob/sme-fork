@@ -3,16 +3,16 @@ import React from 'react';
 
 import {
   getBankTransactionLineByIndex,
+  getDefaultOpenPosition,
   getFilterOptions,
   getIsAllocated,
   getIsEntryLoading,
-  getIsSplitAllocationSelected,
   getIsOpenEntryCreating,
   getIsOpenEntryEdited,
+  getIsSplitAllocationSelected,
   getOpenEntryActiveTabId,
   getOpenEntryDefaultTabId,
   getOpenPosition,
-  getDefaultOpenPosition,
 } from './bankingSelectors';
 import {
   getDefaultMatchTransactionFilterOptions,
