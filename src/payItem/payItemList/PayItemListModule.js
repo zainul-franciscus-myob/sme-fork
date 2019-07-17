@@ -25,6 +25,10 @@ import {
   UPDATE_TAX_PAY_ITEM_DETAIL,
 } from '../PayItemIntents';
 import {
+  SUCCESSFULLY_DELETED_EXPENSE_PAY_ITEM,
+  SUCCESSFULLY_SAVED_EXPENSE_PAY_ITEM,
+} from '../expensePayItem/ExpensePayItemMessageTypes';
+import {
   SUCCESSFULLY_DELETED_LEAVE_PAY_ITEM,
   SUCCESSFULLY_SAVED_LEAVE_PAY_ITEM,
 } from '../leavePayItem/LeavePayItemMessageTypes';
@@ -65,6 +69,8 @@ const messageTypes = [
   SUCCESSFULLY_DELETED_WAGE_PAY_ITEM,
   SUCCESSFULLY_SAVED_LEAVE_PAY_ITEM,
   SUCCESSFULLY_DELETED_LEAVE_PAY_ITEM,
+  SUCCESSFULLY_SAVED_EXPENSE_PAY_ITEM,
+  SUCCESSFULLY_DELETED_EXPENSE_PAY_ITEM,
 ];
 
 export default class PayItemListModule {
@@ -325,6 +331,7 @@ export default class PayItemListModule {
       [tabIds.superannuation]: 'superannuation',
       [tabIds.wages]: 'wage',
       [tabIds.deductions]: 'deduction',
+      [tabIds.expenses]: 'expense',
       [tabIds.leave]: 'leave',
     }[selectedTab];
 

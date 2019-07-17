@@ -51,6 +51,7 @@ const PayItemListView = ({
     [tabIds.wages]: 'wage',
     [tabIds.deductions]: 'deduction',
     [tabIds.leave]: 'leave',
+    [tabIds.expenses]: 'expense',
   }[selectedTab];
 
   const actions = createButtonType && (
