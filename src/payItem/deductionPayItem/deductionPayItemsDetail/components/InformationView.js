@@ -84,7 +84,7 @@ const InformationView = ({
           <Select
             name="calculationPer"
             label="Per"
-            selected={calculationPer}
+            value={calculationPer}
             onChange={handleSelectChange(onInformationChange)}
           >
             {
@@ -147,7 +147,7 @@ const InformationView = ({
           <Select
             name="limitPer"
             label="Per"
-            selected={limitPer}
+            value={limitPer}
             onChange={handleSelectChange(onInformationChange)}
           >
             {

@@ -9,6 +9,7 @@ docker build \
   . || die "cant build"
 
 docker run --rm \
+  -v $(pwd)/artefacts:/app/artefacts \
   -w /app \
   -e "REACT_APP_BUILD_NUMBER=${REACT_APP_BUILD_NUMBER:-dev}" \
   -e "CI=true" \
