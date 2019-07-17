@@ -8,10 +8,10 @@ import {
   getIsEntryLoading,
   getIsOpenEntryCreating,
   getIsOpenEntryEdited,
+  getIsSplitAllocationSelected,
   getOpenEntryActiveTabId,
   getOpenEntryDefaultTabId,
   getOpenPosition,
-  getIsSplitAllocationSelected,
   getDefaultOpenPosition,
 } from './bankingSelectors';
 import {
