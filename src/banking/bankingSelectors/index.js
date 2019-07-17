@@ -194,7 +194,7 @@ export const getIsAllocated = ({ type, journalId }) => (
 );
 
 export const getIsSplitAllocationSelected = (state) => (
-  getOpenEntryActiveTabId(state) === tabIds.allocate;
+  getOpenEntryActiveTabId(state) === tabIds.allocate
 );
 
 export const getIsBalancesInvalid = ({ bankBalance, myobBalance, unallocated }) => (
