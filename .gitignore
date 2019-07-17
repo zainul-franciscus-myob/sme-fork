@@ -10,7 +10,6 @@
 /build
 build.tar.gz
 build-*.tar.gz
-/artefacts
 
 # misc
 .DS_Store

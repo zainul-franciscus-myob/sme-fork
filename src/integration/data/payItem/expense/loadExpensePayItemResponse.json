@@ -1,0 +1,126 @@
+{
+  "name": "test",
+  "linkedExpenseAccountId": "134",
+  "linkedPayablesAccountId": "456",
+  "isPrintOnPaySlip": false,
+  "calculationBasis": "Percent",
+  "calculationBasisPercentage": "0.00",
+  "calculationBasisPayItemId": "2",
+  "calculationBasisAmount": "0.00",
+  "calculationBasisPeriod": "PayPeriod",
+  "limit": "NoLimit",
+  "limitPercentage": "0.00",
+  "limitPayItemId": "2",
+  "limitAmount": "0.00",
+  "limitPeriod": "PayPeriod",
+  "threshold": "0.00",
+  "exemptionPayItems": [],
+  "allocatedEmployees": [],
+  "exemptionPayItemOptions": [
+    {
+      "id": "51",
+      "name": "Exemption 1",
+      "mappedType": "Wages"
+    },
+    {
+      "id": "52",
+      "name": "Exemption 2",
+      "mappedType": "Wages"
+    },
+    {
+      "id": "53",
+      "name": "Exemption 3",
+      "mappedType": "Wages"
+    }
+  ],
+  "limitPayItemOptions": [
+    {
+      "id": "2",
+      "name": "Gross wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "3",
+      "name": "Federal wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "43",
+      "name": "Limit expense pay item 1",
+      "mappedType": "WagesGroup"
+    }
+  ],
+  "periodOptions": [
+    {
+      "label": "Pay period",
+      "value": "PayPeriod"
+    },
+    {
+      "label": "Month",
+      "value": "Month"
+    },
+    {
+      "label": "Year",
+      "value": "Year"
+    }
+  ],
+  "calculationBasisPayItemOptions": [
+    {
+      "id": "2",
+      "name": "Gross wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "3",
+      "name": "Federal wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "23",
+      "name": "Calculation basis expense pay item 1",
+      "mappedType": "WagesGroup"
+    }
+  ],
+  "linkedExpenseAccountOptions": [
+    {
+      "id": "134",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134"
+    },
+    {
+      "id": "456",
+      "displayName": "Expense 2",
+      "accountType": "Expense",
+      "displayId": "6-135"
+    }
+  ],
+  "linkedPayablesAccountOptions": [
+    {
+      "id": "134",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134"
+    },
+    {
+      "id": "456",
+      "displayName": "Expense 2",
+      "accountType": "Expense",
+      "displayId": "6-135"
+    }
+  ],
+  "employeeOptions": [
+    {
+      "id": "21",
+      "name": "Pritchett, Jay"
+    },
+    {
+      "id": "22",
+      "name": "Dunphy, Claire"
+    },
+    {
+      "id": "23",
+      "name": "Dunphy, Haley"
+    }
+  ]
+}

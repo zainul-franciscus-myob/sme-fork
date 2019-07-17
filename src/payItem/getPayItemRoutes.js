@@ -1,4 +1,5 @@
 import DeductionPayItemDetailModule from './deductionPayItem/deductionPayItemsDetail/DeductionPayItemModule';
+import ExpensePayItemModule from './expensePayItem/ExpensePayItemModule';
 import LeavePayItemModule from './leavePayItem/LeavePayItemModule';
 import PayItemListModule from './payItemList/PayItemListModule';
 import SuperPayItemModule from './superPayItem/SuperPayItemModule';
@@ -27,6 +28,11 @@ const getPayItemRoutes = ({
       name: 'deductionPayItemDetail',
       path: '/deduction/:payItemId',
       module: new DeductionPayItemDetailModule({ integration, setRootView, pushMessage }),
+    },
+    {
+      name: 'expensePayItem',
+      path: '/expense/:expensePayItemId',
+      module: new ExpensePayItemModule({ integration, setRootView, pushMessage }),
     },
     {
       name: 'wagePayItem',

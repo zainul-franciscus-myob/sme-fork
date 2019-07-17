@@ -159,6 +159,16 @@ export const getNewDeductionsSortOrder = (state, { orderBy }) => (
 
 export const getExpensesEntries = state => state.expenses.entries;
 
+export const getExpensesTableEntries = createSelector(
+  getExpensesEntries,
+  getBusinessId,
+  getRegion,
+  (entries, businessId, region) => entries.map(entry => ({
+    ...entry,
+    link: getPayItemEntryLink(entry, businessId, region, 'expense'),
+  })),
+);
+
 export const getExpensesOrder = state => ({
   column: getExpensesOrderBy(state),
   descending: getExpensesSortOrder(state) === 'desc',
