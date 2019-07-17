@@ -3,11 +3,13 @@ import React from 'react';
 
 import {
   getBankTransactionLineByIndex,
+  getDefaultOpenPosition,
   getFilterOptions,
   getIsAllocated,
   getIsEntryLoading,
   getIsOpenEntryCreating,
   getIsOpenEntryEdited,
+  getIsSplitAllocationSelected,
   getOpenEntryActiveTabId,
   getOpenEntryDefaultTabId,
   getOpenPosition,
@@ -28,6 +30,8 @@ import Store from '../store/Store';
 import bankingReducer from './bankingReducer';
 import createBankingDispatcher from './BankingDispatcher';
 import createBankingIntegrator from './BankingIntegrator';
+import keyMap from '../hotKeys/keyMap';
+import setupHotKeys from '../hotKeys/setupHotKeys';
 
 export default class BankingModule {
   constructor({
@@ -855,9 +859,23 @@ export default class BankingModule {
     this.dispatcher.resetState();
   }
 
+  saveSplitAllocationHotkey = () => {
+    const state = this.store.getState();
+    const index = getOpenPosition(state);
+    if (index !== getDefaultOpenPosition()
+        && getIsSplitAllocationSelected(state)) {
+      this.saveSplitAllocation();
+    }
+  }
+
+  handlers = {
+    SAVE_ACTION: this.saveSplitAllocationHotkey,
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
     this.render();
+    setupHotKeys(keyMap, this.handlers);
     this.dispatcher.setLoadingState(true);
     this.loadBankTransactions();
   }
