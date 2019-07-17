@@ -193,7 +193,7 @@ export const getIsAllocated = ({ type, journalId }) => (
     || type === 'transfer') && journalId)
 );
 
-export const getIsSplitAllocationSelected = (state) => (
+export const getIsSplitAllocationSelected = state => (
   getOpenEntryActiveTabId(state) === tabIds.allocate
 );
 
