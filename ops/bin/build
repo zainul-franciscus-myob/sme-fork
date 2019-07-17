@@ -15,4 +15,4 @@ APP_CONFIG_FILE=config-$ENV.json
 ./ops/bin/env "echo '--- Building with $BUILD_CONFIG_FILE' && \
               . ${BUILD_CONFIG_FILE} yarn react-scripts build && \
               mv ./build/${APP_CONFIG_FILE} ./build/config-${REACT_APP_BUILD_NUMBER:-dev}.json && \
-              tar czf build-${ENV}.tar.gz build"
+              tar czf artefacts/build-${ENV}.tar.gz build"
