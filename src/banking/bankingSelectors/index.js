@@ -194,7 +194,7 @@ export const getIsAllocated = ({ type, journalId }) => (
 );
 
 export const isSplitAllocationSelected = ({ type, journalId }) => (
-   (type === 'splitAllocation') && journalId
+  (type === 'splitAllocation') && journalId
 );
 
 export const getIsBalancesInvalid = ({ bankBalance, myobBalance, unallocated }) => (
