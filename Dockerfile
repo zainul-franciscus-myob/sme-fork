@@ -14,4 +14,3 @@ FROM node:10.16.0-alpine
 WORKDIR /app
 
 COPY --from=sme-web-build /app .
-COPY . .
