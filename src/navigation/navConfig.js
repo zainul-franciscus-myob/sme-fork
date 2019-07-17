@@ -34,6 +34,7 @@ export const activeMapping = {
   'payItem/superPayItem': 'payroll',
   'payItem/wagePayItem': 'payroll',
   'payItem/deductionPayItemDetail': 'payroll',
+  'payItem/expensePayItem': 'payroll',
   'prepareBasOrIas/prepareBasOrIas': 'business',
   'payItem/leavePayItem': 'payroll',
 };

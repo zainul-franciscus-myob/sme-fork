@@ -1,7 +1,7 @@
 {
   "leavePayItem": {
-    "printOnPaySlip": true,
-    "carryRemainingLeave": false,
+    "printOnPaySlip": false,
+    "carryRemainingLeave": true,
     "calculationBasisType": "UserEntered",
     "calculationBasisPercentage": "0.00",
     "calculationBasisPayItemId": "2",

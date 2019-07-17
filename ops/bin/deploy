@@ -11,11 +11,11 @@ TARGET=$1
 BUCKET=s3://myob-sme-web-ui-$TARGET-bucket
 
 # Get the build artefact
-buildkite-agent artifact download artefacts/build-$TARGET.tar.gz .
-tar -zxvf artefacts/build-$TARGET.tar.gz
+buildkite-agent artifact download build-$TARGET.tar.gz .
+tar -zxvf build-$TARGET.tar.gz
 
 # Deploy it
-aws s3 cp artefacts/build/ ${BUCKET} --recursive
+aws s3 cp build/ ${BUCKET} --recursive
 
 # Re-deploy index.html without caching in the browser
-aws s3 cp artefacts/build/index.html ${BUCKET} --cache-control max-age=0
+aws s3 cp build/index.html ${BUCKET} --cache-control max-age=0
