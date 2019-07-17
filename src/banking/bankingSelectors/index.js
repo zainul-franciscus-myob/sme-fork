@@ -193,8 +193,8 @@ export const getIsAllocated = ({ type, journalId }) => (
     || type === 'transfer') && journalId)
 );
 
-export const isSplitAllocationSelected = ({ type, journalId }) => (
-  (type === 'splitAllocation') && journalId
+export const isSplitAllocationSelected = (state) => (
+   getOpenEntryActiveTabId(state) === tabIds.allocate
 );
 
 export const getIsBalancesInvalid = ({ bankBalance, myobBalance, unallocated }) => (

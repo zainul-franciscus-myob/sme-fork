@@ -12,6 +12,7 @@ import {
   getOpenEntryDefaultTabId,
   getOpenPosition,
   isSplitAllocationSelected,
+  getDefaultOpenPosition,
 } from './bankingSelectors';
 import {
   getDefaultMatchTransactionFilterOptions,
@@ -858,20 +859,11 @@ export default class BankingModule {
     this.dispatcher.resetState();
   }
 
-  isOpenPositionForSplitAllocation = () => {
-    const state = this.store.getState();
-    const index = getOpenPosition(state);
-    if (index === -1) {
-      return false;
-    }
-    return true;
-  }
-
   saveSplitAllocationHotkey = () => {
     const state = this.store.getState();
     const index = getOpenPosition(state);
-    const line = getBankTransactionLineByIndex(state, index);
-    if (line && isSplitAllocationSelected(line)) {
+    if (index !== getDefaultOpenPosition()
+        && isSplitAllocationSelected(state)) {
       this.saveSplitAllocation();
     }
   }
