@@ -39,6 +39,8 @@ import {
 import InvoiceServiceView from './components/InvoiceServiceView';
 import Store from '../../../store/Store';
 import invoiceServiceReducer from './invoiceServiceReducer';
+import keyMap from '../../../hotKeys/keyMap';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class InvoiceServiceModule {
   constructor({
@@ -258,6 +260,15 @@ export default class InvoiceServiceModule {
     isSubmitting,
   });
 
+  saveInvoice = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+
+    return isCreating
+      ? this.createInvoiceServiceEntry()
+      : this.updateInvoiceServiceEntry();
+  };
+
   openCancelModal = () => {
     const intent = OPEN_MODAL;
 
@@ -291,7 +302,6 @@ export default class InvoiceServiceModule {
   });
 
   render = () => {
-    const isCreating = getIsCreating(this.store.getState());
     const invoiceServiceView = (
       <InvoiceServiceView
         onUpdateHeaderOptions={this.updateHeaderOptions}
@@ -300,10 +310,7 @@ export default class InvoiceServiceModule {
         onRemoveRow={this.removeTableLineAndCalculateTotals}
         onRowInputBlur={this.formatAndCalculateTotals}
         onCancelButtonClick={this.openCancelModal}
-        onSaveButtonClick={isCreating
-          ? this.createInvoiceServiceEntry
-          : this.updateInvoiceServiceEntry
-        }
+        onSaveButtonClick={this.saveInvoice}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.closeModal}
         onDeleteModal={this.deleteInvoice}
@@ -334,8 +341,13 @@ export default class InvoiceServiceModule {
     });
   }
 
+  handlers = {
+    SAVE_ACTION: this.saveInvoice,
+  };
+
   run({ context, payload }) {
     this.setInitialState(context, payload);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
   }
 

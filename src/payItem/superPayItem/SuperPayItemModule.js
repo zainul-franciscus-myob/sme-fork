@@ -15,6 +15,8 @@ import Store from '../../store/Store';
 import SuperPayItemView from './component/SuperPayItemView';
 import createSuperPayItemDispatcher from './createSuperPayItemDispatcher';
 import createSuperPayItemIntegrator from './createSuperPayItemIntegrator';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 import superPayItemReducer from './superPayItemReducer';
 
 export default class SuperPayItemModule {
@@ -152,8 +154,13 @@ export default class SuperPayItemModule {
     this.store.unsubscribeAll();
   }
 
+  handlers = {
+    SAVE_ACTION: this.createOrUpdateSuperPayItem,
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadSuperPayItem();
   }

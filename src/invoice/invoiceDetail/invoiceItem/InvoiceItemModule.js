@@ -32,6 +32,8 @@ import InvoiceItemView from './components/InvoiceItemView';
 import ModalType from './enums/ModalType';
 import Store from '../../../store/Store';
 import invoiceItemReducer from './invoiceItemReducer';
+import keyMap from '../../../hotKeys/keyMap';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class InvoiceItemModule {
   constructor({
@@ -477,8 +479,13 @@ export default class InvoiceItemModule {
     });
   }
 
+  handlers = {
+    SAVE_ACTION: this.saveInvoice,
+  };
+
   run(context) {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
   }
 

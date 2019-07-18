@@ -14,7 +14,9 @@ import LeavePayItemView from './component/LeavePayItemView';
 import Store from '../../store/Store';
 import createLeavePayItemDispatcher from './createLeavePayItemDispatcher';
 import createLeavePayItemIntegrator from './createLeavePayItemIntegrator';
+import keyMap from '../../hotKeys/keyMap';
 import leavePayItemReducer from './leavePayItemReducer';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class LeavePayItemModule {
   constructor({
@@ -123,8 +125,13 @@ export default class LeavePayItemModule {
     this.store.unsubscribeAll();
   }
 
+  handlers = {
+    SAVE_ACTION: this.saveLeavePayItem,
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadLeavePayItem();
   }

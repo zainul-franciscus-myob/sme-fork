@@ -35,6 +35,8 @@ import {
 } from './wagePayItemSelector';
 import Store from '../../store/Store';
 import WagePayItemView from './components/WagePayItemView';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 import wagePayItemReducer from './wagePayItemReducer';
 
 export default class WagePayItemModule {
@@ -238,8 +240,13 @@ export default class WagePayItemModule {
     },
   })
 
+  handlers = {
+    SAVE_ACTION: this.saveWagePayItem,
+  };
+
   run(context) {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadPayItem();
   }

@@ -35,7 +35,9 @@ import {
 } from './SuperFundWithPaySuperSelectors';
 import Store from '../../store/Store';
 import SuperFundWithPaySuperView from './components/SuperFundWithPaySuperView';
+import keyMap from '../../hotKeys/keyMap';
 import modalTypes from '../modalTypes';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 import superFundWithPaySuperReducer from './superFundWithPaySuperReducer';
 
 export default class SuperFundWithPaySuperModule {
@@ -267,8 +269,13 @@ export default class SuperFundWithPaySuperModule {
     });
   };
 
+  handlers = {
+    SAVE_ACTION: this.saveSuperFund,
+  };
+
   run({ context, payload }) {
     this.setInitialState(context, payload);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
   }
 

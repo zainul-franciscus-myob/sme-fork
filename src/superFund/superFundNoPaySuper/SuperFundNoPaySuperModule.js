@@ -23,7 +23,9 @@ import {
 } from './SuperFundNoPaySuperSelectors';
 import Store from '../../store/Store';
 import SuperFundNoPaySuperView from './components/SuperFundNoPaySuperView';
+import keyMap from '../../hotKeys/keyMap';
 import modalTypes from '../modalTypes';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 import superFundNoPaySuperReducer from './superFundNoPaySuperReducer';
 
 export default class SuperFundNoPaySuperModule {
@@ -195,8 +197,13 @@ export default class SuperFundNoPaySuperModule {
     });
   };
 
+  handlers = {
+    SAVE_ACTION: this.saveSuperFund,
+  };
+
   run({ context, payload }) {
     this.setInitialState(context, payload);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
   }
 

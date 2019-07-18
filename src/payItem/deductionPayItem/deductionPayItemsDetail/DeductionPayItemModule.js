@@ -35,6 +35,8 @@ import {
 import DeductionPayItemView from './components/DeductionPayItemView';
 import Store from '../../../store/Store';
 import deductionPayItemReducer from './deductionPayItemReducer';
+import keyMap from '../../../hotKeys/keyMap';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class DeductionPayItemModule {
   constructor({
@@ -237,8 +239,13 @@ export default class DeductionPayItemModule {
     },
   })
 
+  handlers = {
+    SAVE_ACTION: this.savePayItemDeduction,
+  };
+
   run(context) {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadPayItem();
   }
