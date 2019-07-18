@@ -27,6 +27,7 @@
     "payrollSettings",
     "supplierReturnList",
     "payItemList",
-    "prepareBasOrIas"
+    "prepareBasOrIas",
+    "inTray"
   ]
 }

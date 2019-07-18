@@ -1,0 +1,24 @@
+.inTrayEmailAddress {
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.inTrayEmailAddress :global(.form-group) {
+  flex: 1;
+  margin-right: 0.8rem;
+  margin-bottom: 0;
+}
+
+.inTrayEmailAddress button {
+  flex: 0 0 auto;
+}
+
+.generateEmailAddress {
+  margin-bottom: 0.8rem;
+}
+
+.uploadOptionsSpinner :global(.loadingSpinner) {
+  margin-top: 2.4rem;
+  margin-bottom: 2.4rem;
+}

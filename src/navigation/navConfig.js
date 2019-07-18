@@ -37,6 +37,7 @@ export const activeMapping = {
   'payItem/expensePayItem': 'payroll',
   'prepareBasOrIas/prepareBasOrIas': 'business',
   'payItem/leavePayItem': 'payroll',
+  'inTray/inTray': 'inTray',
 };
 
 export const featuresConfig = {
@@ -141,5 +142,8 @@ export const featuresConfig = {
   },
   prepareBasOrIas: {
     routeName: 'prepareBasOrIas/prepareBasOrIas',
+  },
+  inTray: {
+    routeName: 'inTray/inTray',
   },
 };

@@ -8,6 +8,7 @@ import getContactRoutes from './contact/getContactRoutes';
 import getCustomerReturnRoutes from './customerReturn/getCustomerReturnRoutes';
 import getEmployeeRoutes from './employee/getEmployeeRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
+import getInTrayRoutes from './inTray/getInTrayRoutes';
 import getIncomeAllocationRoutes from './IncomeAllocation/getIncomeAllocationRoutes';
 import getInventoryRoutes from './inventory/getInventoryRoutes';
 import getInvoicePaymentRoutes from './invoicePayment/getInvoicePaymentRoutes';
@@ -235,6 +236,13 @@ const getRoutes = ({
     name: 'prepareBasOrIas',
     rootPath: '/:region/:businessId/prepareBasOrIas',
     subRoutes: getPrepareBasOrIasRoutes({
+      integration, setRootView,
+    }),
+  },
+  {
+    name: 'inTray',
+    rootPath: '/:region/:businessId/inTray',
+    subRoutes: getInTrayRoutes({
       integration, setRootView,
     }),
   },

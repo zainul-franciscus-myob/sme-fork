@@ -7,6 +7,7 @@ import {
   hasBankingUrls,
   hasBusinessId,
   hasContactUrls,
+  hasInTrayUrl,
   hasJournalUrls,
   hasPayrollUrls,
   hasPurchasesUrls,
@@ -15,6 +16,7 @@ import {
 import BankingMenu from './BankingMenu';
 import BusinessMenu from './BusinessMenu';
 import ContactMenu from './ContactMenu';
+import InTray from './InTray';
 import JournalMenu from './JournalMenu';
 import Logout from './Logout';
 import PayrollMenu from './PayrollMenu';
@@ -24,7 +26,7 @@ import SwitchBusiness from './SwitchBusiness';
 
 const getPrimary = ({
   onMenuSelect, shouldDisplaySalesMenu, shouldDisplayPurchasesMenu, shouldDisplayBankingMenu,
-  shouldDisplayContactMenu, shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
+  shouldDisplayContactMenu, shouldDisplayJournalMenu, shouldDisplayPayrollMenu, shouldDisplayInTray,
 }) => [
   shouldDisplaySalesMenu && <SalesMenu key="SalesMenu" onMenuSelect={onMenuSelect} />,
   shouldDisplayPurchasesMenu && <PurchasesMenu key="PurchasesMenu" onMenuSelect={onMenuSelect} />,
@@ -32,6 +34,7 @@ const getPrimary = ({
   shouldDisplayContactMenu && <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} />,
   shouldDisplayJournalMenu && <JournalMenu key="JournalMenu" onMenuSelect={onMenuSelect} />,
   shouldDisplayPayrollMenu && <PayrollMenu key="PayrollMenu" onMenuSelect={onMenuSelect} />,
+  shouldDisplayInTray && <InTray key="InTray" />,
 ].filter(Boolean);
 
 const getSecondary = ({
@@ -46,7 +49,7 @@ const NavigationBar = ({
   onMenuSelect, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
   shouldDisplayBankingMenu, shouldDisplayContactMenu,
   shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
-  shouldDisplayPurchasesMenu,
+  shouldDisplayPurchasesMenu, shouldDisplayInTray,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
@@ -56,6 +59,7 @@ const NavigationBar = ({
     shouldDisplayContactMenu,
     shouldDisplayJournalMenu,
     shouldDisplayPayrollMenu,
+    shouldDisplayInTray,
   });
   const secondary = getSecondary({ onMenuSelect, shouldDisplayBusinessMenu });
   const brand = <Navigation.Brand url="#/business" width="73px"><MYOBLogo /></Navigation.Brand>;
@@ -76,6 +80,7 @@ NavigationBar.propTypes = {
   shouldDisplaySalesMenu: PropTypes.bool.isRequired,
   shouldDisplayPayrollMenu: PropTypes.bool.isRequired,
   shouldDisplayPurchasesMenu: PropTypes.bool.isRequired,
+  shouldDisplayInTray: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -86,6 +91,7 @@ const mapStateToProps = state => ({
   shouldDisplaySalesMenu: hasSalesUrls(state),
   shouldDisplayPayrollMenu: hasPayrollUrls(state),
   shouldDisplayPurchasesMenu: hasPurchasesUrls(state),
+  shouldDisplayInTray: hasInTrayUrl(state),
 });
 
 export default connect(mapStateToProps)(NavigationBar);

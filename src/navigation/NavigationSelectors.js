@@ -127,3 +127,9 @@ export const getTaxCodesLabel = createSelector(
   getRegion,
   region => getRegionToDialectText(region)('Tax codes'),
 );
+
+export const getInTrayUrl = state => getEnabledUrls(state).inTray;
+
+export const getIsInTrayActive = state => getActiveNav(state) === 'inTray';
+
+export const hasInTrayUrl = state => Boolean(getInTrayUrl(state));

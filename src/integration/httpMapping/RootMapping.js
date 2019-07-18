@@ -10,6 +10,7 @@ import DeductionPayItemMapping from './DeductionPayItemMapping';
 import EmployeeMapping from './EmployeeMapping';
 import ExpensePayItemMapping from './ExpensePayItemMapping';
 import GeneralJournalMapping from './GeneralJournalMapping';
+import InTrayMapping from './InTrayMapping';
 import IncomeAllocationMapping from './IncomeAllocationMapping';
 import InventoryMapping from './InventoryMapping';
 import InvoiceItemMapping from './InvoiceItemMapping';
@@ -77,6 +78,7 @@ const RootMapping = Object.freeze({
   ...SuperPayItemMapping,
   ...WagePayItemMapping,
   ...LeavePayItemMApping,
+  ...InTrayMapping,
   ...ExpensePayItemMapping,
 });
 
