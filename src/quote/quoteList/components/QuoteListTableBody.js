@@ -14,13 +14,14 @@ const QuoteListTableBody = (props) => {
   } = props;
   const rows = entries.map((entry, index) => (
     <Table.Row key={index}>
+      <Table.RowItem {...tableConfig.displayDate}>{entry.displayDate}</Table.RowItem>
       <Table.RowItem {...tableConfig.referenceId}>
         <a href={entry.link}>{entry.referenceId}</a>
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.purchaseOrder}>{entry.purchaseOrder}</Table.RowItem>
       <Table.RowItem {...tableConfig.customer}>{entry.customer}</Table.RowItem>
-      <Table.RowItem {...tableConfig.displayDate}>{entry.displayDate}</Table.RowItem>
+      <Table.RowItem {...tableConfig.purchaseOrder}>{entry.purchaseOrder}</Table.RowItem>
       <Table.RowItem {...tableConfig.displayAmount}>{entry.displayAmount}</Table.RowItem>
+      <Table.RowItem {...tableConfig.displayExpiryDate}>{entry.displayExpiryDate}</Table.RowItem>
     </Table.Row>
   ));
 

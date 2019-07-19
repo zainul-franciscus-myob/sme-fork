@@ -8,6 +8,7 @@ export default {
       customer: 'Cameron James',
       displayDate: '30/01/2019',
       displayAmount: '200.00',
+      displayExpiryDate: '12/04/2019',
     },
     {
       id: '4',
@@ -16,6 +17,7 @@ export default {
       customer: 'Cameron James',
       displayDate: '15/02/2019',
       displayAmount: '2,652.00',
+      displayExpiryDate: '24/05/2019',
     },
   ],
 };

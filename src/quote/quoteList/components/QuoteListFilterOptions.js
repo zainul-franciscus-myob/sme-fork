@@ -63,7 +63,7 @@ class QuoteListFilterOptions extends React.Component {
         </FilterBar>
         <hr />
         <div className={style.total}>
-          {`Total: ${total}`}
+          {`Total amount: ${total}`}
         </div>
       </Fragment>
     );

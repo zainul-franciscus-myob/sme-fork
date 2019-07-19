@@ -9,16 +9,17 @@ import QuoteListTableBody from './QuoteListTableBody';
 import style from './QuoteListView.module.css';
 
 const tableConfig = {
-  referenceId: { width: '10.2rem', valign: 'top' },
+  referenceId: { width: '13.7rem', valign: 'top' },
   purchaseOrder: { width: '20rem', valign: 'top' },
   customer: { width: 'flex-1', valign: 'top' },
   displayDate: { width: '12.4rem', valign: 'top' },
-  displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
+  displayAmount: { width: '15.6rem', valign: 'top', align: 'right' },
+  displayExpiryDate: { width: '12.4rem', valign: 'top' },
 };
 
 const emptyView = (
   <div className={style.empty}>
-    There are no quotes for the selected filter options.
+    There are no quotes for the selected filter options
   </div>
 );
 
@@ -46,20 +47,23 @@ const QuoteListTable = ({
   return (
     <Table>
       <Table.Header>
-        <Table.HeaderItem {...tableConfig.referenceId}>
-          <HeaderSort title="Number" sortName="DisplayId" activeSort={order} onSort={onSort} />
+        <Table.HeaderItem {...tableConfig.displayDate}>
+          <HeaderSort title="Issue date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.purchaseOrder}>
-          <HeaderSort title="Purchase order" sortName="CustomerPurchaseOrderIdentifier" activeSort={order} onSort={onSort} />
+        <Table.HeaderItem {...tableConfig.referenceId}>
+          <HeaderSort title="Quote number" sortName="DisplayId" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.customer}>
           <HeaderSort title="Customer" sortName="CustomerName" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.displayDate}>
-          <HeaderSort title="Date issued" sortName="DateOccurred" activeSort={order} onSort={onSort} />
+        <Table.HeaderItem {...tableConfig.purchaseOrder}>
+          <HeaderSort title="Customer PO no." sortName="CustomerPurchaseOrderIdentifier" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.displayAmount}>
-          <HeaderSort title="Amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
+          <HeaderSort title="Total amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.displayExpiryDate}>
+          <HeaderSort title="Expiry date" sortName="ExpiryDate" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
       </Table.Header>
       {view}
