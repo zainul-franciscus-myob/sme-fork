@@ -207,6 +207,7 @@ class ExpensePayItemModule {
     };
 
     const onFailure = ({ message }) => {
+      this.dismissModal();
       this.setAlertMessage(message);
       this.setIsSubmitting(false);
     };

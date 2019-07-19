@@ -29,51 +29,58 @@ const CalculationBasisSection = ({
   onChangeExpensePayItemInput,
   onBlurExpensePayItemAmountInput,
 }) => {
+  const percentForm = (
+    <React.Fragment>
+      <AmountInput
+        key={CalculationBasis.PERCENT}
+        label="Percentage %"
+        name="calculationBasisPercentage"
+        value={calculationBasisPercentage}
+        onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
+        onBlur={onBlurExpensePayItemAmountInput}
+        numeralIntegerScale={3}
+        decimalScale={5}
+        numeralPositiveOnly
+      />
+      <PayItemCombobox
+        label="Percent of"
+        hideLabel={false}
+        items={calculationBasisPayItemOptions}
+        selectedId={calculationBasisPayItemId}
+        onChange={handleComboboxChange('calculationBasisPayItemId', onChangeExpensePayItemInput)}
+      />
+    </React.Fragment>
+  );
+
+  const fixedDollarForm = (
+    <React.Fragment>
+      <AmountInput
+        key={CalculationBasis.FIXED_DOLLAR}
+        label="Dollar $"
+        name="calculationBasisAmount"
+        value={calculationBasisAmount}
+        onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
+        onBlur={onBlurExpensePayItemAmountInput}
+        numeralIntegerScale={13}
+        decimalScale={2}
+        numeralPositiveOnly
+      />
+      <Select
+        name="calculationBasisPeriod"
+        label="Per"
+        value={calculationBasisPeriod}
+        onChange={handleSelectChange(onChangeExpensePayItemInput)}
+      >
+        {periodOptions.map(period => (
+          <Select.Option key={period.value} value={period.value} label={period.label} />
+        ))}
+      </Select>
+    </React.Fragment>
+  );
+
   const form = {
-    [CalculationBasis.PERCENT]: (
-      <React.Fragment>
-        <AmountInput
-          label="Percentage %"
-          name="calculationBasisPercentage"
-          value={calculationBasisPercentage}
-          onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
-          onBlur={onBlurExpensePayItemAmountInput}
-          numeralIntegerScale={3}
-          decimalScale={5}
-          numeralPositiveOnly
-        />
-        <PayItemCombobox
-          label="Percent of"
-          hideLabel={false}
-          items={calculationBasisPayItemOptions}
-          selectedId={calculationBasisPayItemId}
-          onChange={handleComboboxChange('calculationBasisPayItemId', onChangeExpensePayItemInput)}
-        />
-      </React.Fragment>
-    ),
-    [CalculationBasis.FIXED_DOLLAR]: (
-      <React.Fragment>
-        <AmountInput
-          label="Dollar $"
-          name="calculationBasisAmount"
-          value={calculationBasisAmount}
-          onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
-          onBlur={onBlurExpensePayItemAmountInput}
-          numeralIntegerScale={13}
-          numeralPositiveOnly
-        />
-        <Select
-          name="calculationBasisPeriod"
-          label="Per"
-          value={calculationBasisPeriod}
-          onChange={handleSelectChange(onChangeExpensePayItemInput)}
-        >
-          {periodOptions.map(period => (
-            <Select.Option key={period.value} value={period.value} label={period.label} />
-          ))}
-        </Select>
-      </React.Fragment>
-    ),
+    [CalculationBasis.PERCENT]: percentForm,
+    [CalculationBasis.FIXED_DOLLAR]: fixedDollarForm,
   }[calculationBasis];
 
   return (

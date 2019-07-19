@@ -29,53 +29,61 @@ const LimitSection = ({
   onChangeExpensePayItemInput,
   onBlurExpensePayItemAmountInput,
 }) => {
+  const percentForm = (
+    <React.Fragment>
+      <AmountInput
+        key={Limit.PERCENT}
+        label="Percentage %"
+        name="limitPercentage"
+        value={limitPercentage}
+        onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
+        onBlur={onBlurExpensePayItemAmountInput}
+        numeralIntegerScale={3}
+        decimalScale={5}
+        numeralPositiveOnly
+      />
+      <PayItemCombobox
+        label="Percent of"
+        hideLabel={false}
+        items={limitPayItemOptions}
+        selectedId={limitPayItemId}
+        onChange={handleComboboxChange('limitPayItemId', onChangeExpensePayItemInput)}
+      />
+    </React.Fragment>
+  );
+
+  const fixedDollarForm = (
+    <React.Fragment>
+      <AmountInput
+        key={Limit.FIXED_DOLLAR}
+        label="Dollar $"
+        name="limitAmount"
+        value={limitAmount}
+        onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
+        onBlur={onBlurExpensePayItemAmountInput}
+        numeralIntegerScale={13}
+        decimalScale={2}
+        numeralPositiveOnly
+      />
+      <Select
+        name="limitPeriod"
+        label="Per"
+        value={limitPeriod}
+        onChange={handleSelectChange(onChangeExpensePayItemInput)}
+      >
+        {periodOptions.map(period => (
+          <Select.Option key={period.value} value={period.value} label={period.label} />
+        ))}
+      </Select>
+    </React.Fragment>
+  );
+
   const form = {
     [Limit.NO_LIMIT]: null,
-    [Limit.PERCENT]: (
-      <React.Fragment>
-        <AmountInput
-          label="Percentage %"
-          name="limitPercentage"
-          value={limitPercentage}
-          onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
-          onBlur={onBlurExpensePayItemAmountInput}
-          numeralIntegerScale={3}
-          decimalScale={5}
-          numeralPositiveOnly
-        />
-        <PayItemCombobox
-          label="Percent of"
-          hideLabel={false}
-          items={limitPayItemOptions}
-          selectedId={limitPayItemId}
-          onChange={handleComboboxChange('limitPayItemId', onChangeExpensePayItemInput)}
-        />
-      </React.Fragment>
-    ),
-    [Limit.FIXED_DOLLAR]: (
-      <React.Fragment>
-        <AmountInput
-          label="Dollar $"
-          name="limitAmount"
-          value={limitAmount}
-          onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
-          onBlur={onBlurExpensePayItemAmountInput}
-          numeralIntegerScale={13}
-          numeralPositiveOnly
-        />
-        <Select
-          name="limitPeriod"
-          label="Per"
-          value={limitPeriod}
-          onChange={handleSelectChange(onChangeExpensePayItemInput)}
-        >
-          {periodOptions.map(period => (
-            <Select.Option key={period.value} value={period.value} label={period.label} />
-          ))}
-        </Select>
-      </React.Fragment>
-    ),
+    [Limit.PERCENT]: percentForm,
+    [Limit.FIXED_DOLLAR]: fixedDollarForm,
   }[limit];
+
   return (
     <React.Fragment>
       <Select
