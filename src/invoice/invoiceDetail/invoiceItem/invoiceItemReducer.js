@@ -71,12 +71,13 @@ const getDefaultState = () => ({
     displayAmountPaid: '$0.00',
     amountPaid: '0.00',
   },
+  comments: [],
 });
 
 const setInitialState = (state, action) => {
   const {
     payload: {
-      customers, expirationTerms, invoice, items, newLine, taxCodes, totals,
+      customers, expirationTerms, invoice, items, newLine, taxCodes, totals, comments,
     },
     context: {
       region, businessId, invoiceId,
@@ -102,6 +103,7 @@ const setInitialState = (state, action) => {
     region,
     businessId,
     invoiceId,
+    comments,
   };
 };
 

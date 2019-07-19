@@ -1,12 +1,13 @@
 import {
-  DatePicker, Input, InputLabel, RadioButton, Select, TextArea,
+  DatePicker, DetailHeader, Input, RadioButtonGroup, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import { getInvoiceOptions } from '../invoiceServiceSelectors';
+import { getComments, getInvoiceOptions } from '../invoiceServiceSelectors';
+import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
+import InvoiceServicePaymentTerms from './InvoiceServicePaymentTerms';
 import styles from './InvoiceServiceOptions.module.css';
 
 const onComboBoxChange = handler => (option) => {
@@ -28,32 +29,40 @@ const handleIssueDateChange = handler => ({ value }) => {
   handler({ key, value });
 };
 
-const handleRadioChange = handler => (e) => {
-  const { name, value } = e.target;
-
-  handler({ key: name, value: value === 'true' });
+const onChangeTaxInclusive = handler => (e) => {
+  handler({
+    key: 'taxInclusive',
+    value: e.value === 'Tax inclusive',
+  });
 };
 
-const InvoiceServiceOptions = (props) => {
-  const {
+const onNoteChange = handler => ({ value }) => {
+  handler({
+    key: 'notes',
+    value,
+  });
+};
+
+const InvoiceServiceOptions = ({
+  invoiceOptions: {
     contactOptions,
     contactId,
     number,
     address,
     orderNumber,
     issueDate,
-    expiredDate,
     expirationTerm,
     expirationDays,
     taxInclusive,
     expirationTermOptions,
     notes,
-    onUpdateHeaderOptions,
     isCreating,
-  } = props;
-
-  return (
-    <Fragment>
+  },
+  onUpdateHeaderOptions,
+  comments,
+}) => {
+  const primary = (
+    <div>
       <CustomerCombobox
         items={contactOptions}
         selectedId={contactId}
@@ -63,7 +72,37 @@ const InvoiceServiceOptions = (props) => {
         hideLabel={false}
         disabled={!isCreating}
       />
-      <Input name="number" label="Invoice number" value={number} onChange={handleInputChange(onUpdateHeaderOptions)} />
+      <span className={styles.address}>{address}</span>
+      <Combobox
+        name="note"
+        label="Message to customer"
+        hideLabel={false}
+        metaData={[
+          { columnName: 'value', showData: true },
+        ]}
+        items={comments}
+        onChange={onNoteChange(onUpdateHeaderOptions)}
+      />
+      <TextArea
+        value={notes}
+        resize="vertical"
+        name="notes"
+        label="Notes to customer"
+        hideLabel
+        onChange={handleInputChange(onUpdateHeaderOptions)}
+        maxLength={255}
+      />
+    </div>
+  );
+
+  const secondary = (
+    <div>
+      <Input
+        name="number"
+        label="Invoice number"
+        value={number}
+        onChange={handleInputChange(onUpdateHeaderOptions)}
+      />
       <Input
         name="orderNumber"
         label="Purchase order"
@@ -71,68 +110,38 @@ const InvoiceServiceOptions = (props) => {
         onChange={handleInputChange(onUpdateHeaderOptions)}
         maxLength={20}
       />
-      <span className={styles.address}>{address}</span>
       <DatePicker
         label="Date of issue"
         name="issueDate"
         value={issueDate}
         onSelect={handleIssueDateChange(onUpdateHeaderOptions)}
       />
-      <div className="form-group">
-        <InputLabel label="Amounts are" id="isTaxInclusive" />
-        <div>
-          <RadioButton
-            name="taxInclusive"
-            label="Tax inclusive"
-            value="true"
-            checked={taxInclusive}
-            onChange={handleRadioChange(onUpdateHeaderOptions)}
-          />
-          <RadioButton
-            name="taxInclusive"
-            label="Tax exclusive"
-            value="false"
-            checked={!taxInclusive}
-            onChange={handleRadioChange(onUpdateHeaderOptions)}
-          />
-        </div>
-      </div>
-      <Select name="expirationTerm" label="Expiration terms" value={expirationTerm} onChange={handleInputChange(onUpdateHeaderOptions)}>
-        {expirationTermOptions.map(({ name, value }) => (
-          <Select.Option key={value} value={value} label={name} />
-        ))}
-      </Select>
-      <Input name="expirationDays" label="Expiration days" value={expirationDays} onChange={handleInputChange(onUpdateHeaderOptions)} type="number" />
-      <Input name="expiredDate" label="Expired date" value={expiredDate} disabled />
-      <TextArea
-        value={notes}
-        resize="vertical"
-        name="notes"
-        label="Notes to customer"
-        onChange={handleInputChange(onUpdateHeaderOptions)}
-        maxLength={255}
+
+      <InvoiceServicePaymentTerms
+        expirationTerm={expirationTerm}
+        expirationTerms={expirationTermOptions}
+        expirationDays={expirationDays}
+        onUpdateInvoiceOption={onUpdateHeaderOptions}
       />
-    </Fragment>
+
+      <RadioButtonGroup
+        label="Amounts are"
+        name="taxInclusive"
+        value={taxInclusive ? 'Tax inclusive' : 'Tax exclusive'}
+        options={['Tax inclusive', 'Tax exclusive']}
+        onChange={onChangeTaxInclusive(onUpdateHeaderOptions)}
+      />
+    </div>
+  );
+
+  return (
+    <DetailHeader primary={primary} secondary={secondary} />
   );
 };
 
-InvoiceServiceOptions.propTypes = {
-  contactId: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
-  orderNumber: PropTypes.string.isRequired,
-  issueDate: PropTypes.string.isRequired,
-  taxInclusive: PropTypes.bool.isRequired,
-  expirationTerm: PropTypes.string.isRequired,
-  expirationDays: PropTypes.string.isRequired,
-  expiredDate: PropTypes.string.isRequired,
-  notes: PropTypes.string.isRequired,
-  expirationTermOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  contactOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = state => getInvoiceOptions(state);
+const mapStateToProps = state => ({
+  invoiceOptions: getInvoiceOptions(state),
+  comments: getComments(state),
+});
 
 export default connect(mapStateToProps)(InvoiceServiceOptions);

@@ -23,6 +23,8 @@ SME Web
   * [Deploy SME Web](#run-a-deploy)
   * [Environment](#run-a-production-build)
     * [Integrations](#usage-of-the-memoryintegration)
+  * [General information](#general-information)
+    * [Wrapped Feelix components](#wrapped-feelix-components)
 
 ## Setup
 
@@ -85,6 +87,12 @@ The `MemoryIntegration` is used in local development to stub out back-end server
 3.  Import and assign your new mapping in the `RootMapping.js` file.
 
 > ❗️ An intent can only be assigned to one function. If multiple mappings use the same intent Symbol and are assigned in the `RootMapping.js` file, then the latest one assigned in `rootMapper` will be used by the `MemoryIntegration`.
+
+## General Information
+
+### Wrapped Feelix Components
+
+In the location `src/components/Feelix/**` there are a number of wrapped components that should be favoured for use over the Feelix counterpart. These include additional behaviours and bugfixes on top of the base components.
 
 
 [social contract]: https://myobconfluence.atlassian.net/wiki/spaces/SA/pages/800688620/Web+Stream+Social+Contract

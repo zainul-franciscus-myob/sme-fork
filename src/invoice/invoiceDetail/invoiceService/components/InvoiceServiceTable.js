@@ -64,7 +64,7 @@ const InvoiceServiceTable = ({
         <LineItemTable.Totals title="Tax" amount={totalTax} />
         <LineItemTable.Totals title="Total" amount={totalAmount} />
         <LineItemTable.Totals title="Amount paid" amount={amountPaid} />
-        <LineItemTable.Totals title="Amount due" amount={amountDue} />
+        <LineItemTable.Totals title="Balance due" amount={amountDue} />
       </LineItemTable.Total>
     </LineItemTable>
   );

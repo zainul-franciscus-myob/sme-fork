@@ -1,5 +1,5 @@
 import {
-  Alert, Columns, LineItemTemplate,
+  Alert, LineItemTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,6 +11,7 @@ import {
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import InvoiceServiceActions from './InvoiceServiceActions';
+import InvoiceServiceHeader from './InvoiceServiceHeader';
 import InvoiceServiceOptions from './InvoiceServiceOptions';
 import InvoiceServiceTable from './InvoiceServiceTable';
 
@@ -32,11 +33,9 @@ const InvoiceServiceView = ({
   onDeleteModal,
 }) => {
   const templateOptions = (
-    <Columns type="three">
-      <InvoiceServiceOptions
-        onUpdateHeaderOptions={onUpdateHeaderOptions}
-      />
-    </Columns>
+    <InvoiceServiceOptions
+      onUpdateHeaderOptions={onUpdateHeaderOptions}
+    />
   );
 
   const alertComponent = alertMessage && (
@@ -76,7 +75,12 @@ const InvoiceServiceView = ({
   );
 
   const view = (
-    <LineItemTemplate pageHead="Invoice" alert={alertComponent} options={templateOptions} actions={actions}>
+    <LineItemTemplate
+      pageHead={<InvoiceServiceHeader />}
+      alert={alertComponent}
+      options={templateOptions}
+      actions={actions}
+    >
       {modal}
       <InvoiceServiceTable
         onUpdateRow={onUpdateRow}

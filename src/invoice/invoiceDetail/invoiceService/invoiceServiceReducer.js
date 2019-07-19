@@ -66,6 +66,7 @@ const getDefaultState = () => ({
   modalType: '',
   alertMessage: '',
   isSubmitting: false,
+  comments: [],
 });
 
 const setInitalState = (state, action) => {
@@ -82,6 +83,7 @@ const setInitalState = (state, action) => {
     expirationTermOptions: action.expirationTermOptions || defaultState.expirationTermOptions,
     newLine: action.newLine || defaultState.newLine,
     totals: action.totals || defaultState.totals,
+    comments: action.comments || defaultState.comments,
   });
 };
 

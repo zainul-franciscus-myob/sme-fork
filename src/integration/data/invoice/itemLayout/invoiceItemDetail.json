@@ -43,7 +43,7 @@
   "expirationTerms": [
     {
       "value": "OnADayOfTheMonth",
-      "name": "On a day of the month"
+      "name": "Due on a date of this month"
     },
     {
       "value": "Prepaid",
@@ -51,19 +51,19 @@
     },
     {
       "value": "InAGivenNumberOfDays",
-      "name": "In a given no. of days"
+      "name": "Due in a number of days after the issue date"
     },
     {
       "value": "CashOnDelivery",
-      "name": "C.O.D."
+      "name": "Cash on delivery"
     },
     {
       "value": "DayOfMonthAfterEOM",
-      "name": "Day of month after EOM"
+      "name": "Due on a date of next month"
     },
     {
       "value": "NumberOfDaysAfterEOM",
-      "name": "No. of days after EOM"
+      "name": "Due in a number of days after the end of the month"
     }
   ],
   "items": [
@@ -116,5 +116,6 @@
     "taxCodeId": "",
     "amount": "",
     "displayAmount": ""
-  }
+  },
+  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"]
 }

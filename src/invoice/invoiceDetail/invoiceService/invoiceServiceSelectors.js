@@ -1,5 +1,5 @@
 import {
-  addDays, addMonths, endOfMonth, getDaysInMonth, setDate,
+  addDays, addMonths, eachDay, endOfMonth, format, getDaysInMonth, setDate, startOfMonth,
 } from 'date-fns';
 import { createSelector } from 'reselect';
 import dateFormat from 'dateformat';
@@ -190,3 +190,41 @@ export const getIsTableEmpty = createSelector(
   getLength,
   len => len === 0,
 );
+
+export const getPaymentTermsPopoverLabel = state => (
+  ['Prepaid', 'CashOnDelivery'].includes(state.invoice.expirationTerm)
+    ? state.expirationTermOptions.find(term => term.value === state.invoice.expirationTerm).name
+    : getExpiredDate(state));
+
+export const getShowExpiryDaysOptions = state => [
+  'OnADayOfTheMonth',
+  'InAGivenNumberOfDays',
+  'DayOfMonthAfterEOM',
+  'NumberOfDaysAfterEOM',
+].includes(state.invoice.expirationTerm);
+
+export const getExpirationTermsLabel = state => ({
+  InAGivenNumberOfDays: 'days after the issue date',
+  OnADayOfTheMonth: 'of this month',
+  NumberOfDaysAfterEOM: 'days after the end of the month',
+  DayOfMonthAfterEOM: 'of next month',
+}[state.invoice.expirationTerm]);
+
+export const getDisplayDaysForMonth = (state) => {
+  const currentMonth = new Date();
+  const nextMonth = addMonths(currentMonth, 1);
+  const month = ['OnADayOfTheMonth', 'DayOfMonthAfterEOM'].includes(state.invoice.expirationTerm)
+    ? currentMonth
+    : nextMonth;
+  return eachDay(startOfMonth(month), endOfMonth(month)).map(day => ({
+    name: format(day, 'Do'),
+    value: format(day, 'D'),
+  }));
+};
+
+export const getShowExpirationDaysAmountInput = state => [
+  'InAGivenNumberOfDays',
+  'NumberOfDaysAfterEOM',
+].includes(state.invoice.expirationTerm);
+
+export const getComments = state => state.comments.map(comment => ({ value: comment }));

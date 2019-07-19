@@ -45,7 +45,7 @@ const InvoiceItemTable = ({
 
       <LineItemTable.Totals title="Amount paid" amount={totals.displayAmountPaid} />
 
-      <LineItemTable.Totals title="Amount due" amount={totals.displayAmountDue} />
+      <LineItemTable.Totals title="Balance due" amount={totals.displayAmountDue} />
 
     </LineItemTable.Total>
   </LineItemTable>

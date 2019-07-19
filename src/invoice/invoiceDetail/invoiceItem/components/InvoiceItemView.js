@@ -1,16 +1,15 @@
-import {
-  Alert, LineItemTemplate,
-} from '@myob/myob-widgets';
+import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAlertMessage, getModalType } from '../invoiceItemSelectors';
 import InvoiceItemActions from './InvoiceItemActions';
+import InvoiceItemHeader from './InvoiceItemHeader';
 import InvoiceItemModal from './InvoiceItemModal';
 import InvoiceItemOptions from './InvoiceItemOptions';
 import InvoiceItemTable from './InvoiceItemTable';
 
-const InvoiceItemlView = ({
+const InvoiceItemView = ({
   modalType,
   alertMessage,
   onUpdateInvoiceOption,
@@ -68,7 +67,7 @@ const InvoiceItemlView = ({
 
   return (
     <LineItemTemplate
-      pageHead="Invoice"
+      pageHead={<InvoiceItemHeader />}
       alert={alert}
       options={templateOptions}
       actions={actions}
@@ -86,4 +85,4 @@ const mapStateToProps = state => ({
   modalType: getModalType(state),
 });
 
-export default connect(mapStateToProps)(InvoiceItemlView);
+export default connect(mapStateToProps)(InvoiceItemView);
