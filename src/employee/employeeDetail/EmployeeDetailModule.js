@@ -311,8 +311,9 @@ export default class EmployeeDetailModule {
   saveContact = () => {
     if (getIsCreating(this.store.getState())) {
       this.createContact();
+    } else {
+      this.updateContact();
     }
-    this.updateContact();
   }
 
   readMessages = () => {
