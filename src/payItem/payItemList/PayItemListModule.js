@@ -10,7 +10,6 @@ import {
   SET_DEDUCTIONS_SORT_ORDER,
   SET_EXPENSES_SORT_ORDER,
   SET_LEAVE_SORT_ORDER,
-  SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_SUPERANNUATION_SORT_ORDER,
   SET_TAB,
@@ -108,14 +107,6 @@ export default class PayItemListModule {
   setTabAndLoadContent = (selectedTab) => {
     this.setTab(selectedTab);
     this.loadTabContentList();
-  }
-
-  setLoadingState = (isLoading) => {
-    const intent = SET_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
   }
 
   setAlert = ({ message, type }) => {
@@ -366,14 +357,6 @@ export default class PayItemListModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
-
-  setLoadingState = (isLoading) => {
-    const intent = SET_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
   }
 
   setInitialState = (context) => {

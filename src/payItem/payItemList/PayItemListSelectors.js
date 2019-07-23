@@ -185,7 +185,7 @@ export const getTaxPayItemAccounts = state => state.taxPayItem.accounts;
 export const getTaxPayItemAtoReportingCategoryList = state => (
   state.taxPayItem.atoReportingCategoryList
 );
-export const getIsTaxTabSelected = state => getTab(state) === 'tax';
+export const getShowActionButtonForTax = state => (getTab(state) === 'tax' && !state.isTableLoading);
 export const getSaveTaxPayItemPayload = state => ({
   atoReportingCategory: state.taxPayItem.tax.atoReportingCategory,
   accountId: state.taxPayItem.tax.accountId,

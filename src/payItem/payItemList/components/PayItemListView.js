@@ -3,7 +3,6 @@ import {
   Button,
   ButtonRow,
   PageHead,
-  Spinner,
   StandardTemplate,
   Tabs,
 } from '@myob/myob-widgets';
@@ -11,7 +10,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getIsTaxTabSelected, getTab,
+  getAlert, getShowActionButtonForTax, getTab,
 } from '../PayItemListSelectors';
 import { tabIds, tabItems } from '../tabItems';
 import PayItemDeductionsTable from './PayItemDeductionsTable';
@@ -23,10 +22,9 @@ import TaxPayItemView from './TaxPayItemView';
 import style from './PayItemListView.module.css';
 
 const PayItemListView = ({
-  isLoading,
   alert,
   selectedTab,
-  isTaxTabSelected,
+  showActionButtonForTax,
   listeners,
 }) => {
   const { onCreatePayItemButtonClick, onSaveTaxPayItemButtonClick } = listeners;
@@ -89,17 +87,16 @@ const PayItemListView = ({
       <div className={style.list}>
         <Content listeners={listeners} />
       </div>
-      {isTaxTabSelected && taxActions}
+      {showActionButtonForTax && taxActions}
     </StandardTemplate>
   );
 
-  return isLoading ? <Spinner /> : payItemView;
+  return payItemView;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
   selectedTab: getTab(state),
-  isTaxTabSelected: getIsTaxTabSelected(state),
+  showActionButtonForTax: getShowActionButtonForTax(state),
   alert: getAlert(state),
 });
 

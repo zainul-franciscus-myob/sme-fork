@@ -9,7 +9,6 @@ import {
   SET_DEDUCTIONS_SORT_ORDER,
   SET_EXPENSES_SORT_ORDER,
   SET_LEAVE_SORT_ORDER,
-  SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_SUPERANNUATION_SORT_ORDER,
   SET_TAB,
@@ -29,7 +28,6 @@ import {
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
-  isLoading: false,
   isTableLoading: false,
   isSubmitting: false,
   tab: 'wages',
@@ -68,11 +66,6 @@ const getDefaultState = () => ({
     atoReportingCategoryList: [],
   },
   alert: undefined,
-});
-
-const setLoadingState = (state, action) => ({
-  ...state,
-  isLoading: action.isLoading,
 });
 
 const setInitialState = (state, action) => ({
@@ -259,7 +252,6 @@ const setAlert = (state, action) => ({
 });
 
 const handlers = {
-  [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [RESET_STATE]: resetState,
