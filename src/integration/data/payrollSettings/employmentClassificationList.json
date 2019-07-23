@@ -1,0 +1,18 @@
+{
+  "sortOrder": "asc",
+  "orderBy": "Description",
+  "entries": [
+    {
+      "id": "1",
+      "classification": "Supreme Commander"
+    },
+    {
+      "id": "2",
+      "classification": "El Presidente"
+    },
+    {
+      "id": "3",
+      "classification": "Generalissimo"
+    }
+  ]
+}
