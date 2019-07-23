@@ -54,28 +54,28 @@
   ],
   "expirationTerms": [
     {
-      "name": "On a day of the month",
-      "value": "OnADayOfTheMonth"
+      "value": "OnADayOfTheMonth",
+      "name": "Due on a date of this month"
     },
     {
-      "name": "In a given no. of days",
-      "value": "InAGivenNumberOfDays"
+      "value": "Prepaid",
+      "name": "Prepaid"
     },
     {
-      "name": "Day of month after EOM",
-      "value": "DayOfMonthAfterEOM"
+      "value": "InAGivenNumberOfDays",
+      "name": "Due in a number of days after the issue date"
     },
     {
-      "name": "No. of days after EOM",
-      "value": "NumberOfDaysAfterEOM"
+      "value": "CashOnDelivery",
+      "name": "Cash on delivery"
     },
     {
-      "name": "Prepaid",
-      "value": "Prepaid"
+      "value": "DayOfMonthAfterEOM",
+      "name": "Due on a date of next month"
     },
     {
-      "name": "C.O.D.",
-      "value": "CashOnDelivery"
+      "value": "NumberOfDaysAfterEOM",
+      "name": "Due in a number of days after the end of the month"
     }
   ],
   "items": [
@@ -119,5 +119,10 @@
     "subTotal": "$1000.00",
     "totalTax": "$5.00",
     "totalAmount": "$1000.00"
-  }
+  },
+  "comments": [
+    { "value": "Happy Holiday!" },
+    { "value": "Great doing business" },
+    { "value": "don't call us we'll call you" }
+  ]
 }

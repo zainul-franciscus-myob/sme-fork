@@ -155,13 +155,31 @@ export default {
       value: '2',
     },
   ],
-  expirationTermOptions: [
-    { value: 'OnADayOfTheMonth', name: 'On a day of the month' },
-    { value: 'InAGivenNumberOfDays', name: 'In a given no. of days' },
-    { value: 'DayOfMonthAfterEOM', name: 'Day of month after EOM' },
-    { value: 'NumberOfDaysAfterEOM', name: 'No. of days after EOM' },
-    { value: 'Prepaid', name: 'Prepaid' },
-    { value: 'CashOnDelivery', name: 'C.O.D.' },
+  expirationTerms: [
+    {
+      value: 'OnADayOfTheMonth',
+      name: 'Due on a date of this month',
+    },
+    {
+      value: 'Prepaid',
+      name: 'Prepaid',
+    },
+    {
+      value: 'InAGivenNumberOfDays',
+      name: 'Due in a number of days after the issue date',
+    },
+    {
+      value: 'CashOnDelivery',
+      name: 'Cash on delivery',
+    },
+    {
+      value: 'DayOfMonthAfterEOM',
+      name: 'Due on a date of next month',
+    },
+    {
+      value: 'NumberOfDaysAfterEOM',
+      name: 'Due in a number of days after the end of the month',
+    },
   ],
   newLine: {
     description: '',
@@ -211,4 +229,9 @@ export default {
     totalTax: '$4.39',
     totalAmount: '$48.30',
   },
+  comments: [
+    { value: 'Happy Holiday!' },
+    { value: 'Great doing business' },
+    { value: "don't call us we'll call you" },
+  ],
 };
