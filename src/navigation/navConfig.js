@@ -38,6 +38,7 @@ export const activeMapping = {
   'prepareBasOrIas/prepareBasOrIas': 'business',
   'payItem/leavePayItem': 'payroll',
   'inTray/inTray': 'inTray',
+  'linkedAccounts/linkedAccounts': 'business',
 };
 
 export const featuresConfig = {
@@ -145,5 +146,8 @@ export const featuresConfig = {
   },
   inTray: {
     routeName: 'inTray/inTray',
+  },
+  linkedAccounts: {
+    routeName: 'linkedAccounts/linkedAccounts',
   },
 };

@@ -1,0 +1,502 @@
+{
+  "equityAccountCurrentEarnings": {
+    "accountId": "1",
+    "accountName": "Expense 1"
+  },
+  "equityAccountRetainedEarnings": {
+    "accountId": "2",
+    "accountName": "Expense 2"
+  },
+  "equityHistoricalBalancing": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  },
+  "bankAccountElectronicPayments": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "2"
+  },
+  "bankAccountUndepositedFunds": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  },
+  "assetAccountTrackingReceivables": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  },
+  "bankAccountCustomerReceipts": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  },
+  "incomeAccountFreight": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1",
+    "hasAccount": true
+  },
+  "liabilityAccountCustomerDeposits": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1",
+    "hasAccount": true
+  },
+  "expenseSalesAccountDiscounts": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1",
+    "hasAccount": true
+  },
+  "incomeAccountLateCharges": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1",
+    "hasAccount": false
+  },
+  "liabilityAccountTrackingPayables": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  },
+  "bankAccountPayingBills": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  },
+  "liabilityAccountItemReceipts": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1",
+    "hasAccount": false
+  },
+  "expenseSalesAccountFreight": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1",
+    "hasAccount": true
+  },
+  "assetAccountSupplierDeposits": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1",
+    "hasAccount": true
+  },
+  "expenseAccountDiscounts": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1",
+    "hasAccount": true
+  },
+  "expenseAccountLaterCharges": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1",
+    "hasAccount": false
+  },
+  "bankAccountCashPayments": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  },
+  "bankAccountChequePayments": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  },
+  "employmentExpenseAccount": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  },
+  "wagesExpenseAccount": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  },
+  "taxDeductionsPayableAccount": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "1"
+  }
+}

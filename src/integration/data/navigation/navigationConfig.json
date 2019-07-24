@@ -27,7 +27,8 @@
     "payrollSettings",
     "supplierReturnList",
     "payItemList",
+    "inTray",
     "prepareBasOrIas",
-    "inTray"
+    "linkedAccounts"
   ]
 }

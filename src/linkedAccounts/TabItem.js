@@ -1,0 +1,8 @@
+const TabItem = {
+  ACCOUNTS_AND_BANKING: 'ACCOUNTS_AND_BANKING',
+  SALES: 'SALES',
+  PURCHASES: 'PURCHASES',
+  PAYROLL: 'PAYROLL',
+};
+
+export default TabItem;

@@ -18,6 +18,7 @@ import InvoiceMapping from './InvoiceMapping';
 import InvoicePaymentMapping from './InvoicePaymentMapping';
 import InvoiceServiceMapping from './InvoiceServiceMapping';
 import LeavePayItemMApping from './LeavePayItemMapping';
+import LinkedAccountsMapping from './LinkedAccountsMapping';
 import NavigationMapping from './NavigationMapping';
 import PayItemMapping from './PayItemMapping';
 import PayRefundMapping from './PayRefundMapping';
@@ -80,6 +81,7 @@ const RootMapping = Object.freeze({
   ...LeavePayItemMApping,
   ...InTrayMapping,
   ...ExpensePayItemMapping,
+  ...LinkedAccountsMapping,
 });
 
 export default RootMapping;
