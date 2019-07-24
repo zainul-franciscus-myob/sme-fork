@@ -38,7 +38,7 @@ class LinkedAccountsModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load employee detail');
+      console.log('Failed to load linked accounts');
     };
 
     this.integration.read({
