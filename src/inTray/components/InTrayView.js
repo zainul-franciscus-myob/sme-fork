@@ -1,6 +1,5 @@
 import {
-  Alert,
-  Button, PageHead, Spinner, StandardTemplate,
+  Alert, Button, PageHead, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -12,6 +11,7 @@ import {
 } from '../selectors/InTraySelectors';
 import InTrayListFilterOptions from './inTrayList/InTrayListFilterOptions';
 import InTrayListTable from './inTrayList/InTrayListTable';
+import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import UploadOptionsModal from './uploadOptions/UploadOptionsModal';
 import modalTypes from '../modalTypes';
 
@@ -67,7 +67,7 @@ const InTrayView = ({
     </React.Fragment>
   );
 
-  return isLoading ? (<Spinner />) : inTrayView;
+  return isLoading ? (<LoadingPageState />) : inTrayView;
 };
 
 const mapStateToProps = state => ({

@@ -8,8 +8,8 @@ import handleInputChange from '../../../components/handlers/handleInputChange';
 
 const InTrayListFilterOptions = (props) => {
   const {
-    dateFrom,
-    dateTo,
+    issueDateFrom,
+    issueDateTo,
     keywords,
     onUpdateFilterOptions,
     onApplyFilter,
@@ -18,8 +18,8 @@ const InTrayListFilterOptions = (props) => {
   return (
     <FilterBar onApply={onApplyFilter}>
       <FilterBar.Group>
-        <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={handleDatePickerChange(onUpdateFilterOptions, 'dateFrom')} />
-        <DatePicker name="issuedTo" label="Issued to" value={dateTo} onSelect={handleDatePickerChange(onUpdateFilterOptions, 'dateFrom')} />
+        <DatePicker name="issuedFrom" label="Issued from" value={issueDateFrom} onSelect={handleDatePickerChange(onUpdateFilterOptions, 'issueDateFrom')} />
+        <DatePicker name="issuedTo" label="Issued to" value={issueDateTo} onSelect={handleDatePickerChange(onUpdateFilterOptions, 'issueDateTo')} />
       </FilterBar.Group>
       <Search
         id="keywords"

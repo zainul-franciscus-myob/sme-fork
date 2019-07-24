@@ -46,11 +46,13 @@ const getDefaultState = () => ({
   inTrayList: {
     isTableLoading: false,
     filterOptions: {
-      dateFrom: convertToDateString(getDefaultDateRange()),
-      dateTo: convertToDateString(Date.now()),
+      issueDateFrom: convertToDateString(getDefaultDateRange()),
+      issueDateTo: convertToDateString(Date.now()),
       keywords: '',
     },
     appliedFilterOptions: {
+      issueDateFrom: convertToDateString(getDefaultDateRange()),
+      issueDateTo: convertToDateString(Date.now()),
       keywords: '',
     },
     sortOrder: '',

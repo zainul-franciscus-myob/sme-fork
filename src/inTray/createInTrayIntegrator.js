@@ -11,11 +11,17 @@ const createInTrayIntegrator = (store, integration) => ({
   loadInTray: ({ onSuccess, onFailure }) => {
     const intent = LOAD_IN_TRAY;
 
-    const businessId = getBusinessId(store.getState());
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const filterOptions = getFilterOptions(state);
+
+    const urlParams = { businessId };
+    const params = { ...filterOptions };
 
     integration.read({
       intent,
-      urlParams: { businessId },
+      urlParams,
+      params,
       onSuccess,
       onFailure,
     });
@@ -25,15 +31,12 @@ const createInTrayIntegrator = (store, integration) => ({
     const intent = SORT_AND_FILTER_IN_TRAY_LIST;
 
     const state = store.getState();
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
+    const businessId = getBusinessId(state);
     const filterOptions = getFilterOptions(state);
     const sortOrder = getSortOrder(state);
     const orderBy = getOrderBy(state);
 
+    const urlParams = { businessId };
     const params = {
       ...filterOptions,
       sortOrder,

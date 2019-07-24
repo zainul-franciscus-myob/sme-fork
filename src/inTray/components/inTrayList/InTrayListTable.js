@@ -1,13 +1,13 @@
 import {
-  Button, HeaderSort, Icons, Spinner, Table,
+  Button, HeaderSort, Icons, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../../selectors/InTrayListSelectors';
 import InTrayListTableBody from './InTrayListTableBody';
+import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
 import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
-import styles from './InTrayListTable.module.css';
 
 const tableConfig = {
   thumbnail: { width: '8rem', valign: 'middle' },
@@ -25,12 +25,6 @@ const emptyView = (
   />
 );
 
-const spinnerView = (
-  <div className={styles.spinner}>
-    <Spinner size="medium" />
-  </div>
-);
-
 const InTrayListTable = (props) => {
   const {
     isTableLoading,
@@ -41,7 +35,7 @@ const InTrayListTable = (props) => {
 
   let tableBodyView;
   if (isTableLoading) {
-    tableBodyView = spinnerView;
+    tableBodyView = (<LoadingPageState size="medium" />);
   } else if (isTableEmpty) {
     tableBodyView = emptyView;
   } else {
@@ -49,26 +43,24 @@ const InTrayListTable = (props) => {
   }
 
   return (
-    <div className={styles.list}>
-      <Table>
-        <Table.Header>
-          <Table.HeaderItem {...tableConfig.thumbnail} columnName="thumbnail"></Table.HeaderItem>
-          <Table.HeaderItem {...tableConfig.uploadedDate}>
-            <HeaderSort title="Date uploaded" sortName="ReceivedOn" activeSort={order} onSort={onSort} />
-          </Table.HeaderItem>
-          <Table.HeaderItem {...tableConfig.invoiceNumber}>
-            <HeaderSort title="Supplier invoice no." sortName="InvoiceNumber" activeSort={order} onSort={onSort} />
-          </Table.HeaderItem>
-          <Table.HeaderItem {...tableConfig.issuedDate}>
-            <HeaderSort title="Issue date" sortName="InvoiceDate" activeSort={order} onSort={onSort} />
-          </Table.HeaderItem>
-          <Table.HeaderItem {...tableConfig.totalAmount}>
-            <HeaderSort title="Total amount ($)" sortName="InvoiceAmount" activeSort={order} onSort={onSort} />
-          </Table.HeaderItem>
-        </Table.Header>
-        {tableBodyView}
-      </Table>
-    </div>
+    <Table>
+      <Table.Header>
+        <Table.HeaderItem {...tableConfig.thumbnail} columnName="thumbnail"></Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.uploadedDate}>
+          <HeaderSort title="Date uploaded" sortName="ReceivedOn" activeSort={order} onSort={onSort} />
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.invoiceNumber}>
+          <HeaderSort title="Supplier invoice no." sortName="InvoiceNumber" activeSort={order} onSort={onSort} />
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.issuedDate}>
+          <HeaderSort title="Issue date" sortName="InvoiceDate" activeSort={order} onSort={onSort} />
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.totalAmount}>
+          <HeaderSort title="Total amount ($)" sortName="InvoiceAmount" activeSort={order} onSort={onSort} />
+        </Table.HeaderItem>
+      </Table.Header>
+      {tableBodyView}
+    </Table>
   );
 };
 
