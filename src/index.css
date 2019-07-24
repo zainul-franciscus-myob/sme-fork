@@ -1,3 +1,9 @@
+:root {
+  --flx-palette-storm-11: #e8eaec;
+  --flx-border-button-secondary: 1px solid #c5c9ce;
+  --flx-border-radius-button: 0.4rem;
+}
+
 body {
   margin: 0;
   padding: 0;

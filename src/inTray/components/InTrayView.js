@@ -1,34 +1,69 @@
 import {
+  Alert,
   Button, PageHead, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAlert,
   getIsLoading,
   getModalType,
-} from '../InTraySelectors';
-import UploadOptionsModal from './UploadOptionsModal';
+} from '../selectors/InTraySelectors';
+import InTrayListFilterOptions from './inTrayList/InTrayListFilterOptions';
+import InTrayListTable from './inTrayList/InTrayListTable';
+import UploadOptionsModal from './uploadOptions/UploadOptionsModal';
 import modalTypes from '../modalTypes';
 
 const InTrayView = ({
-  isLoading, modalType, uploadOptionsModalListeners, onUploadOptionsButtonClicked,
+  isLoading,
+  alert,
+  modalType,
+  inTrayListeners: {
+    onDismissAlert,
+    onUploadOptionsButtonClicked,
+  },
+  inTrayListListeners: {
+    onUpdateFilterOptions,
+    onApplyFilter,
+    onSort,
+  },
+  uploadOptionsModalListeners,
 }) => {
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
+    </Alert>
+  );
+
   const modal = modalType === modalTypes.uploadOptions && (
     <UploadOptionsModal listeners={uploadOptionsModalListeners} />
   );
+
   const pageHead = (
     <PageHead title="In Tray">
       <Button type="secondary" onClick={onUploadOptionsButtonClicked}>More ways to upload</Button>
     </PageHead>
   );
+
+  const filterBar = (
+    <InTrayListFilterOptions
+      onUpdateFilterOptions={onUpdateFilterOptions}
+      onApplyFilter={onApplyFilter}
+    />
+  );
+
   const inTrayView = (
     <React.Fragment>
       {modal}
       <StandardTemplate
         sticky="none"
+        alert={alertComponent}
         pageHead={pageHead}
-      />
+        filterBar={filterBar}
+      >
+        <InTrayListTable onSort={onSort} />
+      </StandardTemplate>
     </React.Fragment>
   );
 
@@ -37,6 +72,7 @@ const InTrayView = ({
 
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
+  alert: getAlert(state),
   modalType: getModalType(state),
 });
 

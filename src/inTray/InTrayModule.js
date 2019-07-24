@@ -2,25 +2,14 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import copy from 'copy-to-clipboard';
 
-import {
-  CLOSE_MODAL,
-  GENERATE_IN_TRAY_EMAIL,
-  LOAD_IN_TRAY,
-  OPEN_MODAL,
-  SET_CONFIRMING_EMAIL_GENERATION,
-  SET_LOADING_STATE,
-  SET_UPLOAD_OPTIONS_ALERT,
-  SET_UPLOAD_OPTIONS_LOADING_STATE,
-} from './InTrayIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
-import {
-  getBusinessId,
-  getEmail,
-  getIsUploadOptionsLoading,
-} from './InTraySelectors';
+import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
+import { getNewSortOrder } from './selectors/InTrayListSelectors';
 import InTrayView from './components/InTrayView';
 import Store from '../store/Store';
-import inTrayReducer from './inTrayReducer';
+import createInTrayDispatcher from './createInTrayDispatcher';
+import createInTrayIntegrator from './createInTrayIntegrator';
+import inTrayReducer from './reducer/inTrayReducer';
 import modalTypes from './modalTypes';
 
 export default class InTrayModule {
@@ -28,120 +17,118 @@ export default class InTrayModule {
     this.integration = integration;
     this.store = new Store(inTrayReducer);
     this.setRootView = setRootView;
+    this.dispatcher = createInTrayDispatcher(this.store);
+    this.integrator = createInTrayIntegrator(this.store, integration);
   }
 
-  setLoadingState = isLoading => this.store.dispatch({
-    intent: SET_LOADING_STATE,
-    isLoading,
-  });
-
   loadInTray = () => {
-    this.setLoadingState(true);
-    const intent = LOAD_IN_TRAY;
+    this.dispatcher.setLoadingState(true);
 
-    const onSuccess = ({ email }) => {
-      this.setLoadingState(false);
-      this.store.dispatch({ intent, email });
+    const onSuccess = (payload) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.loadInTray(payload);
     };
 
     const onFailure = () => {
       console.log('Failed to load in tray');
     };
 
-    this.integration.read({
-      intent,
-      urlParams: { businessId: getBusinessId(this.store.getState()) },
-      onSuccess,
-      onFailure,
+    this.integrator.loadInTray({ onSuccess, onFailure });
+  }
+
+  filterInTrayList = () => {
+    this.dispatcher.setInTrayListTableLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setInTrayListTableLoadingState(false);
+      this.dispatcher.filterInTrayList(response);
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setInTrayListTableLoadingState(false);
+      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
+    };
+
+    this.integrator.filterInTrayList({ onSuccess, onFailure });
+  }
+
+  sortInTrayList = (orderBy) => {
+    this.dispatcher.setInTrayListTableLoadingState(true);
+
+    const state = this.store.getState();
+    const sortOrder = getNewSortOrder(orderBy)(state);
+    this.dispatcher.setInTrayListSortOrder(orderBy, sortOrder);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setInTrayListTableLoadingState(false);
+      this.dispatcher.sortInTrayList(response);
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setInTrayListTableLoadingState(false);
+      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
+    };
+
+    this.integrator.sortInTrayList({
+      orderBy, sortOrder, onSuccess, onFailure,
     });
   }
 
-  openModal = modalType => this.store.dispatch({
-    intent: OPEN_MODAL,
-    modalType,
-  });
-
-  closeModal = () => this.store.dispatch({ intent: CLOSE_MODAL })
-
   openMoreUploadOptionsDialog = () => {
-    this.openModal(modalTypes.uploadOptions);
+    this.dispatcher.openModal(modalTypes.uploadOptions);
   }
 
-  setConfirmingEmailGeneration = isConfirmingEmailGeneration => this.store.dispatch({
-    intent: SET_CONFIRMING_EMAIL_GENERATION,
-    isConfirmingEmailGeneration,
-  });
+  showEmailGenerationConfirmation = () => this.dispatcher.setConfirmingEmailGeneration(true);
 
-  showEmailGenerationConfirmation = () => this.setConfirmingEmailGeneration(true);
-
-  hideEmailGenerationConfirmation = () => this.setConfirmingEmailGeneration(false);
-
-  setUploadOptionLoading = isUploadOptionsLoading => this.store.dispatch({
-    intent: SET_UPLOAD_OPTIONS_LOADING_STATE,
-    isUploadOptionsLoading,
-  })
-
-  setUploadOptionsAlert = (type, message) => this.store.dispatch({
-    intent: SET_UPLOAD_OPTIONS_ALERT,
-    uploadOptionsAlert: {
-      type,
-      message,
-    },
-  });
-
-  dismissUploadOptionsAlert = () => this.store.dispatch({
-    intent: SET_UPLOAD_OPTIONS_ALERT,
-    uploadOptionsAlert: undefined,
-  });
+  hideEmailGenerationConfirmation = () => this.dispatcher.setConfirmingEmailGeneration(false);
 
   generateNewEmail = () => {
-    this.setUploadOptionLoading(true);
-    const intent = GENERATE_IN_TRAY_EMAIL;
+    this.dispatcher.setUploadOptionsLoading(true);
+
     const onFailure = ({ message }) => {
-      this.setUploadOptionLoading(false);
-      this.setUploadOptionsAlert('danger', message);
+      this.dispatcher.setUploadOptionsLoading(false);
+      this.dispatcher.setUploadOptionsAlert('danger', message);
     };
 
     const onSuccess = ({ message, email }) => {
       this.hideEmailGenerationConfirmation();
-      this.setUploadOptionLoading(false);
-      this.setUploadOptionsAlert('success', message);
-      this.store.dispatch({
-        intent,
-        message,
-        email,
-      });
+      this.dispatcher.setUploadOptionsLoading(false);
+      this.dispatcher.setUploadOptionsAlert('success', message);
+      this.dispatcher.generateNewEmail(message, email);
     };
 
-    this.integration.write({
-      intent,
-      urlParams: { businessId: getBusinessId(this.store.getState()) },
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.generateNewEmail({ onSuccess, onFailure });
   }
 
   onCloseUploadOptionsModal = () => {
     if (!getIsUploadOptionsLoading(this.store.getState())) {
       this.hideEmailGenerationConfirmation();
-      this.closeModal();
+      this.dispatcher.closeModal();
     }
   }
 
   copyEmail = () => {
     copy(getEmail(this.store.getState()));
-    this.setUploadOptionsAlert('success', 'Copied!');
+    this.dispatcher.setUploadOptionsAlert('success', 'Copied!');
   }
 
   render = () => {
     const inTrayView = (
       <InTrayView
-        onUploadOptionsButtonClicked={this.openMoreUploadOptionsDialog}
+        inTrayListeners={{
+          onDismissAlert: this.dispatcher.dismissAlert,
+          onUploadOptionsButtonClicked: this.openMoreUploadOptionsDialog,
+        }}
+        inTrayListListeners={{
+          onUpdateFilterOptions: this.dispatcher.setInTrayListFilterOptions,
+          onApplyFilter: this.filterInTrayList,
+          onSort: this.sortInTrayList,
+        }}
         uploadOptionsModalListeners={{
           onCancel: this.onCloseUploadOptionsModal,
           onConfirmEmailGenerationButtonClick: this.showEmailGenerationConfirmation,
           onGenerateNewEmailButtonClick: this.generateNewEmail,
-          onDismissAlert: this.dismissUploadOptionsAlert,
+          onDismissAlert: this.dispatcher.dismissUploadOptionsAlert,
           onDismissConfirmEmailGeneration: this.hideEmailGenerationConfirmation,
           onCopyEmailButtonClicked: this.copyEmail,
         }}

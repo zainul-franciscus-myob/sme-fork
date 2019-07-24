@@ -9,7 +9,7 @@ import {
   getIsConfirmingEmailGeneration,
   getIsUploadOptionsLoading,
   getUploadOptionsAlert,
-} from '../InTraySelectors';
+} from '../../selectors/UploadOptionsSelectors';
 import style from './UploadOptionsModal.module.css';
 
 const UploadOptionsModal = ({
