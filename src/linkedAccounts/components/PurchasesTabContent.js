@@ -79,7 +79,7 @@ const PurchasesTabContent = ({
         comboboxLabel="Asset account for supplier deposits"
         comboboxSelectedId={assetAccountSupplierDeposits.accountId}
         comboboxItems={assetAccountSupplierDeposits.accounts}
-        comboboxHassetAccountSupplierDepositsandler={handleComboboxChange('assetAccountSupplierDeposits', onAccountChange)}
+        comboboxHandler={handleComboboxChange('assetAccountSupplierDeposits', onAccountChange)}
       />
     </FieldGroup>
     <FieldGroup>
