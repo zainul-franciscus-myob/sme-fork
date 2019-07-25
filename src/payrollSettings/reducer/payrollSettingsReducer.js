@@ -4,6 +4,7 @@ import {
   SET_ALERT,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_LOADING_STATE,
+  SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE,
   SET_SUPER_FUND_LIST_FILTER_OPTIONS,
   SET_SUPER_FUND_LIST_LOADING_STATE,
@@ -21,6 +22,7 @@ import {
   loadEmploymentClassificationList,
   setEmploymentClassificationListFilterOption,
   setEmploymentClassificationListLoadingState,
+  setEmploymentClassificationListSortOrder,
   setEmploymentClassificationListTableLoadingState,
   sortAndFilterEmploymentClassificationList,
 } from './employmentClassificationListReducer';
@@ -70,6 +72,7 @@ const handlers = {
   [SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST]: sortAndFilterEmploymentClassificationList,
   [SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE]:
     setEmploymentClassificationListTableLoadingState,
+  [SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER]: setEmploymentClassificationListSortOrder,
 };
 
 const payrollSettingsReducer = createReducer(getDefaultState(), handlers);
