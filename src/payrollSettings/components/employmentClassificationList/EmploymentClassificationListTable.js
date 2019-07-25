@@ -41,7 +41,7 @@ const EmploymentClassificationListTable = (props) => {
     <Table>
       <Table.Header>
         <Table.HeaderItem {...tableConfig.classification}>
-          <HeaderSort title="Name" sortName="Classification" activeSort={order} onSort={onSort} />
+          <HeaderSort title="Name" sortName="Description" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
       </Table.Header>
       {tableBodyView}
