@@ -2,6 +2,13 @@
   --flx-palette-storm-11: #e8eaec;
   --flx-border-button-secondary: 1px solid #c5c9ce;
   --flx-border-radius-button: 0.4rem;
+
+  /* widths */
+  --flx-width-field-xs: 10.6rem;
+  --flx-width-field-s: 16.8rem;
+  --flx-width-field-m: 22.9rem;
+  --flx-width-field-l: 29rem;
+  --flx-width-field-xl: 35.2rem;
 }
 
 body {

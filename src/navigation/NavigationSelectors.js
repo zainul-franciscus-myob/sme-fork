@@ -66,6 +66,7 @@ export const getBankingUrls = createSelector(
     receiveMoney: enabledUrls.receiveMoney,
     transferMoney: enabledUrls.transferMoney,
     transactionList: enabledUrls.transactionList,
+    bankingRule: enabledUrls.bankingRule,
   }),
 );
 export const hasBankingUrls = createSelector(

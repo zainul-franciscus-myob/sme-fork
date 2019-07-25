@@ -29,6 +29,7 @@
     "payItemList",
     "inTray",
     "prepareBasOrIas",
-    "linkedAccounts"
+    "linkedAccounts",
+    "bankingRule"
   ]
 }

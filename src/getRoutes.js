@@ -1,5 +1,6 @@
 import getApplyToSaleRoutes from './applyToSale/getApplyToSaleRoutes';
 import getBankingRoutes from './banking/getBankingRoutes';
+import getBankingRuleRoutes from './bankingRules/getBankingRuleRoutes';
 import getBillPaymentRoutes from './billPayment/getBillPaymentRoutes';
 import getBillRoutes from './bill/getBillRoutes';
 import getBusinessListRoutes from './business/getBusinessListRoutes';
@@ -251,6 +252,13 @@ const getRoutes = ({
     name: 'linkedAccounts',
     rootPath: '/:region/:businessId/linkedAccounts',
     subRoutes: getLinkedAccountsRoutes({
+      integration, setRootView,
+    }),
+  },
+  {
+    name: 'bankingRule',
+    rootPath: '/:region/:businessId/bankingRule',
+    subRoutes: getBankingRuleRoutes({
       integration, setRootView,
     }),
   },

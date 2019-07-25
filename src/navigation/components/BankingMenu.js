@@ -12,6 +12,7 @@ const getItems = urls => [
   urls.receiveMoney && <Navigation.MenuLink key="Receive money" url={urls.receiveMoney} label="Receive money" />,
   urls.transferMoney && <Navigation.MenuLink key="Transfer money" url={urls.transferMoney} label="Transfer money" />,
   urls.transactionList && <Navigation.MenuLink key="Transaction list" url={urls.transactionList} label="Transaction list" />,
+  urls.bankingRule && <Navigation.MenuLink key="BankingRuleList" url={urls.bankingRule} label="Banking rules" />,
 ].filter(Boolean);
 
 const BankingMenu = ({ urls, activeNav, onMenuSelect }) => (

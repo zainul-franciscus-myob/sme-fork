@@ -1,0 +1,38 @@
+{
+  "sortOrder": "asc",
+  "orderBy": "Name",
+  "entries": [
+    {
+      "id": "134",
+      "ruleName": "A super important rule",
+      "isActive": true,
+      "status": "",
+      "bankAccountName": "My bank account",
+      "displayTransactionType": "Invoice"
+    },
+    {
+      "id": "133",
+      "ruleName": "Another important Rule",
+      "isActive": true,
+      "status": "",
+      "bankAccountName": "My other bank account",
+      "displayTransactionType": "Bill"
+    },
+    {
+      "id": "333",
+      "ruleName": "B spend Money rulez",
+      "isActive": true,
+      "status": "",
+      "bankAccountName": "not a bank account",
+      "displayTransactionType": "Spend money"
+    },
+    {
+      "id": "666",
+      "ruleName": "Ceriously good rule",
+      "isActive": true,
+      "status": "",
+      "bankAccountName": "Credit cardz",
+      "displayTransactionType": "Receive money"
+    }
+  ]
+}

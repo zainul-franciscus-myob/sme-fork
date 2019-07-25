@@ -39,6 +39,7 @@ export const activeMapping = {
   'payItem/leavePayItem': 'payroll',
   'inTray/inTray': 'inTray',
   'linkedAccounts/linkedAccounts': 'business',
+  'bankingRule/bankingRuleList': 'banking',
 };
 
 export const featuresConfig = {
@@ -149,5 +150,8 @@ export const featuresConfig = {
   },
   linkedAccounts: {
     routeName: 'linkedAccounts/linkedAccounts',
+  },
+  bankingRule: {
+    routeName: 'bankingRule/bankingRuleList',
   },
 };
