@@ -40,6 +40,7 @@ export const activeMapping = {
   'inTray/inTray': 'inTray',
   'linkedAccounts/linkedAccounts': 'business',
   'bankingRule/bankingRuleList': 'banking',
+  'bankReconciliation/bankReconciliation': 'banking',
 };
 
 export const featuresConfig = {
@@ -153,5 +154,8 @@ export const featuresConfig = {
   },
   bankingRule: {
     routeName: 'bankingRule/bankingRuleList',
+  },
+  bankReconciliation: {
+    routeName: 'bankReconciliation/bankReconciliation',
   },
 };

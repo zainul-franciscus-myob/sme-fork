@@ -30,6 +30,8 @@
     "inTray",
     "prepareBasOrIas",
     "linkedAccounts",
-    "bankingRule"
+    "bankingRule",
+    "inTray",
+    "bankReconciliation"
   ]
 }

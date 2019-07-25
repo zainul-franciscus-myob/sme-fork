@@ -1,0 +1,4 @@
+.outOfBalance,
+.outOfBalance :global(.form-group__label-group label) {
+  color: #ce2554;
+}

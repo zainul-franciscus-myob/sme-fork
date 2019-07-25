@@ -1,0 +1,29 @@
+{
+  "closingBankStatementBalance": "12345.00",
+  "calculatedClosingBalance": 1234,
+  "lastReconcileDate": "2019-01-01",
+  "entries": [
+    {
+      "date": "2019-01-01",
+      "referenceId": "000000123",
+      "journalLineId": "1123",
+      "isChecked": true,
+      "description": "Payment ref-001 sorted",
+      "withdrawal": 200,
+      "journalTransactionId": "2234",
+      "journalId": "11",
+      "sourceJournal": "CashPayment"
+    },
+    {
+      "date": "2019-01-01",
+      "referenceId": "000000124",
+      "journalLineId": "1124",
+      "isChecked": false,
+      "description": "Payment ref-002 sorted",
+      "deposit": 300,
+      "journalTransactionId": "2235",
+      "journalId": "12",
+      "sourceJournal": "CashReceipt"
+    }
+  ]
+}

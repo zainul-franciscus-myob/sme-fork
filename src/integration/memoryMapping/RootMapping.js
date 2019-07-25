@@ -1,4 +1,5 @@
 import ApplyToSaleMapping from './ApplyToSaleMapping';
+import BankReconciliationMapping from './BankReconciliationMapping';
 import BankingMappings from './BankingMapping';
 import BankingRuleMapping from './BankingRuleMapping';
 import BillItemMapping from './BillItemMapping';
@@ -85,6 +86,7 @@ const RootMapping = Object.freeze({
   ...InTrayMapping,
   ...LinkedAccountsMapping,
   ...BankingRuleMapping,
+  ...BankReconciliationMapping,
 });
 
 export default RootMapping;

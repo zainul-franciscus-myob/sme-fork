@@ -5,9 +5,12 @@ import React from 'react';
 
 import { getActiveNav, getBankingUrls } from '../NavigationSelectors';
 
+const showSeparator = urls => urls.bankTransactionList || urls.bankReconciliation;
+
 const getItems = urls => [
   urls.bankTransactionList && <Navigation.MenuLink key="Bank transactions" url={urls.bankTransactionList} label="Bank transactions" />,
-  urls.bankTransactionList && <Navigation.Separator key="separator" />,
+  urls.bankReconciliation && <Navigation.MenuLink key="Reconcile bank accounts" url={urls.bankReconciliation} label="Reconcile bank accounts" />,
+  showSeparator(urls) && <Navigation.Separator key="separator" />,
   urls.spendMoney && <Navigation.MenuLink key="Spend money" url={urls.spendMoney} label="Spend money" />,
   urls.receiveMoney && <Navigation.MenuLink key="Receive money" url={urls.receiveMoney} label="Receive money" />,
   urls.transferMoney && <Navigation.MenuLink key="Transfer money" url={urls.transferMoney} label="Transfer money" />,

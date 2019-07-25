@@ -1,0 +1,46 @@
+{
+  "selectedAccountId": "123",
+  "closingBankStatementBalance": "12345.00",
+  "calculatedClosingBalance": 1234,
+  "lastReconcileDate": "2019-01-01",
+  "entries": [
+    {
+      "date": "2019-01-01",
+      "referenceId": "000000123",
+      "journalLineId": "1123",
+      "isChecked": true,
+      "description": "Payment ref-001",
+      "withdrawal": 200,
+      "journalTransactionId": "2234",
+      "journalId": "11",
+      "sourceJournal": "CashPayment"
+    },
+    {
+      "date": "2019-01-01",
+      "referenceId": "000000124",
+      "journalLineId": "1124",
+      "isChecked": false,
+      "description": "Payment ref-002",
+      "deposit": 300,
+      "journalTransactionId": "2235",
+      "journalId": "12",
+      "sourceJournal": "CashReceipt"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Assets Account 1",
+      "accountType": "Assets",
+      "displayId": "2-123"
+    }
+  ],
+  "sortOrder": "desc",
+  "orderBy": "DateOccurred"
+}
