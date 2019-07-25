@@ -74,7 +74,7 @@ const BankingRuleListTable = ({
           <HeaderSort title="Bank account" sortName="AccountName" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.transactionType}>
-          <HeaderSort title="Transaction type" sortName="DateOccurred" activeSort={order} onSort={onSort} />
+          <HeaderSort title="Transaction type" sortName="RuleType" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
       </Table.Header>
       {view}
