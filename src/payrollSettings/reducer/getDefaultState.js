@@ -14,6 +14,19 @@ const getDefaultState = () => ({
     orderBy: '',
     entries: [],
   },
+  employmentClassificationList: {
+    isLoading: true,
+    isTableLoading: false,
+    filterOptions: {
+      keywords: '',
+    },
+    appliedFilterOptions: {
+      keywords: '',
+    },
+    sortOrder: '',
+    orderBy: '',
+    entries: [],
+  },
 });
 
 export default getDefaultState;

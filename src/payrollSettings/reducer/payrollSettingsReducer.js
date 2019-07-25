@@ -1,15 +1,29 @@
 import {
-  LOAD_SUPER_FUND_LIST, SET_ALERT,
+  LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
+  LOAD_SUPER_FUND_LIST,
+  SET_ALERT,
+  SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS,
+  SET_EMPLOYMENT_CLASSIFICATION_LIST_LOADING_STATE,
+  SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE,
   SET_SUPER_FUND_LIST_FILTER_OPTIONS,
   SET_SUPER_FUND_LIST_LOADING_STATE,
   SET_SUPER_FUND_LIST_SORT_ORDER,
   SET_SUPER_FUND_LIST_TABLE_LOADING_STATE,
-  SET_TAB, SORT_AND_FILTER_SUPER_FUND_LIST,
+  SET_TAB,
+  SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST,
+  SORT_AND_FILTER_SUPER_FUND_LIST,
 } from '../PayrollSettingsIntents';
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import {
+  loadEmploymentClassificationList,
+  setEmploymentClassificationListFilterOption,
+  setEmploymentClassificationListLoadingState,
+  setEmploymentClassificationListTableLoadingState,
+  sortAndFilterEmploymentClassificationList,
+} from './employmentClassificationListReducer';
 import {
   loadSuperFundList,
   setSuperFundListFilterOption,
@@ -50,6 +64,12 @@ const handlers = {
   [SET_SUPER_FUND_LIST_SORT_ORDER]: setSuperFundListSortOrder,
   [SET_SUPER_FUND_LIST_LOADING_STATE]: setSuperFundListLoadingState,
   [SET_SUPER_FUND_LIST_TABLE_LOADING_STATE]: setSuperFundListTableLoadingState,
+  [LOAD_EMPLOYMENT_CLASSIFICATION_LIST]: loadEmploymentClassificationList,
+  [SET_EMPLOYMENT_CLASSIFICATION_LIST_LOADING_STATE]: setEmploymentClassificationListLoadingState,
+  [SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS]: setEmploymentClassificationListFilterOption,
+  [SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST]: sortAndFilterEmploymentClassificationList,
+  [SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE]:
+    setEmploymentClassificationListTableLoadingState,
 };
 
 const payrollSettingsReducer = createReducer(getDefaultState(), handlers);

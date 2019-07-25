@@ -7,6 +7,7 @@ import React from 'react';
 
 import { getAlert, getTab } from '../selectors/payrollSettingsSelectors';
 import { tabIds, tabItems } from '../tabItems';
+import EmployeeClassificationListView from './employmentClassificationList/EmploymentClassificationListView';
 import SuperFundListView from './superFundList/SuperFundListView';
 
 // eslint-disable-next-line react/prop-types
@@ -21,6 +22,7 @@ const PayrollSettingsView = (props) => {
     onSelectTab,
     onDismissAlert,
     superFundListeners,
+    employmentClassificationListeners,
   } = props;
 
   const alertComponent = alert && (
@@ -33,13 +35,14 @@ const PayrollSettingsView = (props) => {
 
   const View = {
     [tabIds.general]: EmptyView,
-    [tabIds.classification]: EmptyView,
+    [tabIds.classification]: EmployeeClassificationListView,
     [tabIds.superFundList]: SuperFundListView,
     [tabIds.paySlips]: EmptyView,
   }[selectedTab];
 
   const listeners = {
     [tabIds.superFundList]: superFundListeners,
+    [tabIds.classification]: employmentClassificationListeners,
   }[selectedTab];
 
   return (
@@ -57,6 +60,7 @@ PayrollSettingsView.propTypes = {
   superFundListeners: PropTypes.shape({}).isRequired,
   onSelectTab: PropTypes.func.isRequired,
   onDismissAlert: PropTypes.func.isRequired,
+  employmentClassificationListeners: PropTypes.shape({}).isRequired,
 };
 
 const mapStateToProps = state => ({

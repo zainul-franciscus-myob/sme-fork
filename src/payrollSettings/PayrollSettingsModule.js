@@ -5,6 +5,7 @@ import { SUCCESSFULLY_DELETED_SUPER_FUND, SUCCESSFULLY_SAVED_SUPER_FUND } from '
 import {
   getBusinessId, getRegion, getTab, getURLParams,
 } from './selectors/payrollSettingsSelectors';
+import { getNewEmploymentClassificationSortOrder } from './selectors/employmentClassificationListSelectors';
 import { getNewSortOrder } from './selectors/superFundListSelectors';
 import { tabIds } from './tabItems';
 import PayrollSettingsView from './components/PayrollSettingsView';
@@ -54,6 +55,7 @@ export default class PayrollSettingsModule {
   loadTabContent = (selectedTab) => {
     const loadData = {
       [tabIds.superFundList]: this.loadSuperFundList,
+      [tabIds.classification]: this.loadEmploymentClassificationList,
     }[selectedTab] || (() => {});
 
     loadData();
@@ -120,6 +122,57 @@ export default class PayrollSettingsModule {
     window.location.href = `/#/${region}/${businessId}/superFund/new`;
   }
 
+  loadEmploymentClassificationList = () => {
+    this.dispatcher.setEmploymentClassificationListLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setEmploymentClassificationListLoadingState(false);
+      this.dispatcher.loadEmploymentClassificationList(response);
+    };
+
+    const onFailure = () => {};
+
+    this.integrator.loadEmploymentClassificationList({ onSuccess, onFailure });
+  }
+
+  filterEmploymentClassificationList = () => {
+    this.dispatcher.setEmploymentClassificationListTableLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setEmploymentClassificationListTableLoadingState(false);
+      this.dispatcher.filterEmploymentClassificationList(response);
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setEmploymentClassificationListTableLoadingState(false);
+      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
+    };
+
+    this.integrator.filterEmploymentClassificationList({ onSuccess, onFailure });
+  }
+
+  sortEmploymentClassificationList = (orderBy) => {
+    this.dispatcher.setEmploymentClassificationListTableLoadingState(true);
+
+    const state = this.store.getState();
+    const sortOrder = getNewEmploymentClassificationSortOrder(orderBy)(state);
+    this.dispatcher.setEmploymentClassificationListSortOrder(orderBy, sortOrder);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setEmploymentClassificationListTableLoadingState(false);
+      this.dispatcher.sortEmploymentClassificationList(response);
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setEmploymentClassificationListTableLoadingState(false);
+      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
+    };
+
+    this.integrator.sortEmploymentClassificationList({
+      orderBy, sortOrder, onSuccess, onFailure,
+    });
+  }
+
   resetState = () => {
     this.dispatcher.resetState();
   };
@@ -146,6 +199,12 @@ export default class PayrollSettingsModule {
           onUpdateFilterOptions: this.dispatcher.setSuperFundListFilterOptions,
           onApplyFilter: this.filterSuperFundList,
           onSort: this.sortSuperFundList,
+        }}
+        employmentClassificationListeners={{
+          onCreateButtonClick: () => {},
+          onUpdateFilterOptions: this.dispatcher.setEmploymentClassificationListFilterOptions,
+          onApplyFilter: this.filterEmploymentClassificationList,
+          onSort: this.sortEmploymentClassificationList,
         }}
       />
     );
