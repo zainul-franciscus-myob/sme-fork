@@ -1,4 +1,4 @@
-import { MYOBLogo, Navigation } from '@myob/myob-widgets';
+import { Button, MYOBLogo, Navigation } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -23,6 +23,7 @@ import PayrollMenu from './PayrollMenu';
 import PurchasesMenu from './PurchasesMenu';
 import SalesMenu from './SalesMenu';
 import SwitchBusiness from './SwitchBusiness';
+import styles from './NavigationBar.module.css';
 
 const getPrimary = ({
   onMenuSelect, shouldDisplaySalesMenu, shouldDisplayPurchasesMenu, shouldDisplayBankingMenu,
@@ -46,7 +47,7 @@ const getSecondary = ({
 ].filter(Boolean);
 
 const NavigationBar = ({
-  onMenuSelect, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
+  onMenuSelect, onSkipToMainContentClick, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
   shouldDisplayBankingMenu, shouldDisplayContactMenu,
   shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
   shouldDisplayPurchasesMenu, shouldDisplayInTray,
@@ -62,7 +63,16 @@ const NavigationBar = ({
     shouldDisplayInTray,
   });
   const secondary = getSecondary({ onMenuSelect, shouldDisplayBusinessMenu });
-  const brand = <Navigation.Brand url="#/business" width="73px"><MYOBLogo /></Navigation.Brand>;
+  const brand = (
+    <>
+      <div className={styles.skipNavigationContainer}>
+        <Button type="link" className={styles.skipNavigation} onClick={onSkipToMainContentClick}>
+          Skip to main content
+        </Button>
+      </div>
+      <Navigation.Brand url="#/business" width="7.3rem"><MYOBLogo /></Navigation.Brand>
+    </>
+  );
 
   const primary = primaryMenuItems.length ? primaryMenuItems : [''];
 

@@ -10,13 +10,21 @@ import navReducer from './navReducer';
 
 export default class NavigationModule {
   constructor({
-    integration, setNavigationView, constructPath, replaceURLParamsAndReload,
+    integration, setNavigationView, constructPath, replaceURLParamsAndReload, mainContentElement,
   }) {
     this.integration = integration;
     this.setNavigationView = setNavigationView;
     this.constructPath = constructPath;
     this.store = new Store(navReducer);
     this.replaceURLParamsAndReload = replaceURLParamsAndReload;
+    this.mainContentElement = mainContentElement;
+  }
+
+  moveFocusToMainContent = () => {
+    this.mainContentElement.setAttribute('tabindex', '-1');
+    this.mainContentElement.focus();
+    this.mainContentElement.blur();
+    this.mainContentElement.removeAttribute('tabindex');
   }
 
   getBusinessInfo = () => {
@@ -82,6 +90,7 @@ export default class NavigationModule {
     const view = (
       <NavigationBar
         constructPath={this.constructPath}
+        onSkipToMainContentClick={this.moveFocusToMainContent}
         onMenuSelect={this.redirectToPage}
       />
     );

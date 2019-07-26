@@ -50,7 +50,11 @@ async function main(integrationType) {
   const { constructPath, replaceURLParamsAndReload } = router;
 
   const nav = new NavigationModule({
-    integration, setNavigationView, constructPath, replaceURLParamsAndReload,
+    integration,
+    setNavigationView,
+    constructPath,
+    replaceURLParamsAndReload,
+    mainContentElement: root,
   });
 
   const unsubscribeAllModulesFromStore = () => {
