@@ -1,5 +1,5 @@
 import {
-  DatePicker, DetailHeader, Field, ReadOnly,
+  Button, DatePicker, DetailHeader, Icons, Label, ReadOnly,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -30,6 +30,7 @@ const BankReconciliationOptions = ({
   isOutOfBalance,
   onUpdateHeaderOption,
   onAmountInputBlur,
+  onUndoReconciliationClick,
 }) => {
   const primary = (
     <div>
@@ -43,7 +44,10 @@ const BankReconciliationOptions = ({
         disabled={isActionDisabled}
       />
       { lastReconcileDate && (
-        <Field label={`Date last reconciled: ${lastReconcileDate}`} renderField={() => {}} />
+        <div className="form-group">
+          <Label>{`Date last reconciled: ${lastReconcileDate}`}</Label>
+          <Button type="link" icon={<Icons.History />} onClick={onUndoReconciliationClick} disabled={isActionDisabled}>Undo last reconciliation</Button>
+        </div>
       )}
       <DatePicker
         label="Bank statement closing date"

@@ -2,9 +2,11 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  CLOSE_MODAL,
   CREATE_BANK_RECONCILIATION,
   FORMAT_AMOUNT,
   LOAD_BANK_RECONCILIATION,
+  OPEN_MODAL,
   SELECT_ALL,
   SELECT_ROW,
   SET_ALERT,
@@ -13,16 +15,17 @@ import {
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_RECONCILIATION,
+  UNDO_BANK_RECONCILIATION,
   UPDATE_HEADER_OPTION,
   UPDATE_RESULT,
 } from './BankReconciliationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import {
-  getAccountId,
   getBusinessId,
   getCreateBankReconciliationPayload,
   getSortAndFilterParams,
   getStatementDate,
+  getUrlParams,
 } from './BankReconciliationSelectors';
 import BankReconciliationView from './components/BankReconciliationView';
 import Store from '../store/Store';
@@ -74,10 +77,7 @@ export default class BankReconciliationModule {
     const state = this.store.getState();
     this.setTableLoadingState(true);
 
-    const urlParams = {
-      businessId: getBusinessId(state),
-      accountId: getAccountId(state),
-    };
+    const urlParams = getUrlParams(state);
 
     const params = getSortAndFilterParams(state);
 
@@ -229,15 +229,56 @@ export default class BankReconciliationModule {
 
     this.integration.write({
       intent: CREATE_BANK_RECONCILIATION,
-      urlParams: {
-        businessId: getBusinessId(state),
-        accountId: getAccountId(state),
-      },
+      urlParams: getUrlParams(state),
       content: getCreateBankReconciliationPayload(state),
       onSuccess,
       onFailure,
     });
   };
+
+  undoReconciliation = () => {
+    this.closeUndoReconciliationModal();
+    this.setSubmittingState(true);
+
+    const state = this.store.getState();
+
+    const onSuccess = ({ message }) => {
+      this.setSubmittingState(false);
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+      this.sortAndFilterBankReconciliation();
+    };
+
+    const onFailure = ({ message }) => {
+      this.setSubmittingState(false);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integration.write({
+      intent: UNDO_BANK_RECONCILIATION,
+      urlParams: getUrlParams(state),
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  openUndoReconciliationModal = () => {
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+    });
+  };
+
+  closeUndoReconciliationModal = () => {
+    this.store.dispatch({
+      intent: CLOSE_MODAL,
+    });
+  }
+
 
   render = () => {
     const bankReconciliationView = (
@@ -249,6 +290,9 @@ export default class BankReconciliationModule {
         onSort={this.setSortOrder}
         onReconcileButtonClick={this.saveBankReconciliation}
         onDismissAlert={this.dismissAlert}
+        onUndoReconciliationClick={this.openUndoReconciliationModal}
+        onModalCancel={this.closeUndoReconciliationModal}
+        onModalConfirm={this.undoReconciliation}
       />
     );
 

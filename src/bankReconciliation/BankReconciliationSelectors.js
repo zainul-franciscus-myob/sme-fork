@@ -7,10 +7,16 @@ export const getIsLoading = state => state.isLoading;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getIsActionDisabled = state => state.isSubmitting || state.isTableLoading;
-export const getAccountId = state => state.selectedAccountId;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getAlert = state => state.alert;
+export const getIsModalActive = state => state.isModalActive;
+
+const getAccountId = state => state.selectedAccountId;
+export const getUrlParams = state => ({
+  businessId: getBusinessId(state),
+  accountId: getAccountId(state),
+});
 
 export const getStatementDate = state => state.statementDate;
 

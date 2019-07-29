@@ -1,8 +1,10 @@
 import { format as dateFormat } from 'date-fns';
 
 import {
+  CLOSE_MODAL,
   FORMAT_AMOUNT,
   LOAD_BANK_RECONCILIATION,
+  OPEN_MODAL,
   SELECT_ALL,
   SELECT_ROW,
   SET_ALERT,
@@ -22,6 +24,7 @@ const getDefaultState = () => ({
   isLoading: true,
   isTableLoading: false,
   isSubmitting: false,
+  isModalActive: false,
   alert: undefined,
   statementDate: dateFormat(Number(Date.now()), 'YYYY-MM-DD'),
   selectedAccountId: '',
@@ -62,6 +65,16 @@ const loadBankReconciliation = (state, { intent, ...rest }) => ({
 const setAlert = (state, action) => ({
   ...state,
   alert: action.alert,
+});
+
+const openModal = state => ({
+  ...state,
+  isModalActive: true,
+});
+
+const closeModal = state => ({
+  ...state,
+  isModalActive: false,
 });
 
 const updateHeaderOption = (state, action) => ({
@@ -144,6 +157,8 @@ const handlers = {
   [SELECT_ALL]: selectAll,
   [SET_SORT_ORDER]: setSortOrder,
   [UPDATE_RESULT]: updateReconciliationResult,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
 };
 
 const bankReconciliationDetailReducer = createReducer(getDefaultState(), handlers);
