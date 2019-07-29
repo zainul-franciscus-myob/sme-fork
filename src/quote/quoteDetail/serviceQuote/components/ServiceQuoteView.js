@@ -1,17 +1,19 @@
 import {
-  Alert, Columns, LineItemTemplate,
+  Alert, LineItemTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
   getAlertMessage,
   getIsCreating,
   getModalType,
+  getPageTitle,
+  getTotalAmount,
 } from '../ServiceQuoteSelectors';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
+import QuotePageHead from '../../components/QuotePageHead';
 import ServiceQuoteActions from './ServiceQuoteActions';
 import ServiceQuoteOptions from './ServiceQuoteOptions';
 import ServiceQuoteTable from './ServiceQuoteTable';
@@ -32,14 +34,10 @@ const ServiceQuoteView = ({
   alertMessage,
   onDismissAlert,
   onDeleteModal,
+  pageTitle,
+  totalAmount,
 }) => {
-  const templateOptions = (
-    <Columns type="three">
-      <ServiceQuoteOptions
-        onUpdateHeaderOptions={onUpdateHeaderOptions}
-      />
-    </Columns>
-  );
+  const templateOptions = <ServiceQuoteOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />;
 
   const actions = (
     <ServiceQuoteActions
@@ -77,8 +75,21 @@ const ServiceQuoteView = ({
     );
   }
 
+  const pageHead = (
+    <QuotePageHead
+      showTotalItems={isCreating}
+      totalAmount={totalAmount}
+      pageTitle={pageTitle}
+    />
+  );
+
   const view = (
-    <LineItemTemplate pageHead="Quote" alert={alertComponent} options={templateOptions} actions={actions}>
+    <LineItemTemplate
+      pageHead={pageHead}
+      alert={alertComponent}
+      options={templateOptions}
+      actions={actions}
+    >
       { modal }
       <ServiceQuoteTable
         onUpdateRow={onUpdateRow}
@@ -92,28 +103,12 @@ const ServiceQuoteView = ({
   return view;
 };
 
-ServiceQuoteView.propTypes = {
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
-  onUpdateRow: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRemoveRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
-  onCancelModal: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool.isRequired,
-  modalType: PropTypes.string.isRequired,
-  alertMessage: PropTypes.string.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  onDeleteModal: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
+  pageTitle: getPageTitle(state),
+  totalAmount: getTotalAmount(state),
 });
 
 export default connect(mapStateToProps)(ServiceQuoteView);

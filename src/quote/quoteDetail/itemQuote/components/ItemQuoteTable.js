@@ -23,7 +23,7 @@ const ItemQuoteTable = ({
   onTableRowAmountInputBlur,
 }) => (
   <LineItemTable
-    labels={['Units', 'Item', 'Description', 'Unit Price ($)', 'Discount (%)', 'Tax Type', 'Amount ($)']}
+    labels={['Item number', 'Item name', 'Units', 'Unit price ($)', 'Discount (%)', 'Amount ($)', 'Tax code']}
     data={emptyQuoteLines}
     renderRow={renderRow(onTableRowAmountInputBlur)}
     onAddRow={onAddTableRow}
@@ -32,9 +32,9 @@ const ItemQuoteTable = ({
     onTableRowAmountInputBlur={onTableRowAmountInputBlur}
   >
     <LineItemTable.Total>
-      <LineItemTable.Totals title="Subtotal" amount={totals.subTotal} />
+      <LineItemTable.Totals title="Net amount" amount={totals.subTotal} />
       <LineItemTable.Totals title="Tax" amount={totals.totalTax} />
-      <LineItemTable.Totals totalAmount title="Total" amount={totals.totalAmount} />
+      <LineItemTable.Totals totalAmount title="Total amount" amount={totals.totalAmount} />
     </LineItemTable.Total>
   </LineItemTable>
 );

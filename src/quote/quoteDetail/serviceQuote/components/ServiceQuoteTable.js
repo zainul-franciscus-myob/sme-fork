@@ -6,7 +6,7 @@ import React from 'react';
 import { getTableData, getTotals } from '../ServiceQuoteSelectors';
 import ServiceQuoteTableRow from './ServiceQuoteTableRow';
 
-const labels = ['Description', 'Allocate to', 'Tax type', 'Amount'];
+const labels = ['Line description', 'Allocate to', 'Amount ($)', 'Tax code'];
 
 const renderRow = onRowInputBlurHandler => (index, data, onChange) => (
   <ServiceQuoteTableRow
@@ -47,9 +47,9 @@ const ServiceQuoteTable = ({
       onRemoveRow={onTableRemoveRow(onRemoveRow)}
     >
       <LineItemTable.Total>
-        <LineItemTable.Totals title="Subtotal" amount={subTotal} />
+        <LineItemTable.Totals title="Net amount" amount={subTotal} />
         <LineItemTable.Totals title="Tax" amount={totalTax} />
-        <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
+        <LineItemTable.Totals totalAmount title="Total amount" amount={totalAmount} />
       </LineItemTable.Total>
     </LineItemTable>
   );

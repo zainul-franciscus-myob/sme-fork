@@ -1,8 +1,10 @@
 export default {
   layout: 'service',
+  pageTitle: 'Quote 00000123',
   quote: {
     id: '5',
     customerId: '2',
+    customerName: 'Cow Feed',
     expirationTerm: 'OnADayOfTheMonth',
     expirationDays: '4',
     chargeForLatePayment: 123.12,
@@ -149,12 +151,6 @@ export default {
       },
     ],
   },
-  customerOptions: [
-    {
-      name: 'Cow Feed',
-      value: '2',
-    },
-  ],
   expirationTerms: [
     {
       value: 'OnADayOfTheMonth',

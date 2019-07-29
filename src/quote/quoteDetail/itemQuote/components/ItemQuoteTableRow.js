@@ -46,6 +46,22 @@ const ItemQuoteTableRow = ({
     index={index}
     onRemove={isCalculating ? undefined : feelixInjectedProps.onRemove}
   >
+    <ItemCombobox
+      items={items}
+      selectedId={quoteLine.itemId}
+      onChange={onComboboxChange('itemId', onChange)}
+      label="Item number"
+      name="itemId"
+      disabled={isCalculating}
+      hintText="Select an item"
+    />
+    <Input
+      name="description"
+      label="Item name"
+      value={quoteLine.description}
+      onChange={onChange}
+      disabled={isNewLine || isCalculating}
+    />
     <AmountInput
       name="units"
       label="Units"
@@ -55,23 +71,8 @@ const ItemQuoteTableRow = ({
       disabled={isNewLine || isCalculating}
       decimalScale={6}
     />
-    <ItemCombobox
-      items={items}
-      selectedId={quoteLine.itemId}
-      onChange={onComboboxChange('itemId', onChange)}
-      label="Item"
-      name="itemId"
-      disabled={isCalculating}
-    />
-    <Input
-      name="description"
-      label="Description"
-      value={quoteLine.description}
-      onChange={onChange}
-      disabled={isNewLine || isCalculating}
-    />
     <AmountInput
-      label="Unit Price"
+      label="Unit price"
       hideLabel
       name="unitPrice"
       value={quoteLine.unitPrice}
@@ -91,12 +92,6 @@ const ItemQuoteTableRow = ({
       textAlign="right"
       disabled={isNewLine || isCalculating}
     />
-    <TaxCodeCombobox
-      items={taxCodes}
-      selectedId={quoteLine.taxCodeId}
-      onChange={onComboboxChange('taxCodeId', onChange)}
-      disabled={isNewLine || isCalculating}
-    />
     <AmountInput
       label="Amount"
       hideLabel
@@ -105,6 +100,12 @@ const ItemQuoteTableRow = ({
       onChange={onAmountInputChange('amount', onChange)}
       onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'amount')}
       textAlign="right"
+      disabled={isNewLine || isCalculating}
+    />
+    <TaxCodeCombobox
+      items={taxCodes}
+      selectedId={quoteLine.taxCodeId}
+      onChange={onComboboxChange('taxCodeId', onChange)}
       disabled={isNewLine || isCalculating}
     />
   </LineItemTable.Row>

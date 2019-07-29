@@ -60,6 +60,8 @@ const InvoiceItemPaymentTerms = ({
           {showExpirationDaysAmountInput
           && (
             <AmountInput
+              label="Expiration days"
+              hideLabel
               name="expirationDays"
               value={expirationDays}
               onChange={onAmountInputChange('expirationDays', onUpdateInvoiceOption)}

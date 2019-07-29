@@ -1,35 +1,40 @@
 import {
-  Columns, DatePicker, Input, RadioButtonGroup, Select, TextArea,
+  DatePicker, DetailHeader, Input, RadioButtonGroup, ReadOnly, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import {
+  getComments,
   getCustomerAddress,
   getCustomerId,
+  getCustomerLink,
+  getCustomerName,
   getCustomers,
+  getDisplayDaysForMonth,
   getExpirationDays,
   getExpirationTerm,
   getExpirationTerms,
+  getExpirationTermsLabel,
   getExpiredDate,
   getIsCalculating,
   getIsCreating,
   getIsTaxInclusive,
   getIssueDate,
   getNote,
+  getPopoverLabel,
   getPurchaseOrder,
   getQuoteNumber,
+  getShowExpirationDaysAmountInput,
+  getShowExpiryDaysOptions,
 } from '../ItemQuoteSelectors';
+import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
+import ExpiryDate from '../../components/ExpiryDate';
 import TaxState from '../TaxState';
 import styles from './ItemQuoteOptions.module.css';
 
 const onTextInputChange = handler => e => handler({
-  key: e.target.name,
-  value: e.target.value,
-});
-
-const onExpirationTermChange = handler => e => handler({
   key: e.target.name,
   value: e.target.value,
 });
@@ -58,6 +63,13 @@ const onChangeTaxInclusive = handler => (e) => {
   });
 };
 
+const onNoteChange = handler => ({ value }) => {
+  handler({
+    key: 'note',
+    value,
+  });
+};
+
 const ItemQuoteOptions = ({
   customers,
   customerId,
@@ -68,84 +80,104 @@ const ItemQuoteOptions = ({
   isTaxInclusive,
   expirationTerms,
   expirationTerm,
-  expirationDay,
-  expiredDate,
+  expirationDays,
   note,
   isCreating,
   isCalculating,
   onUpdateQuoteOption,
-}) => (
-  <Columns type="three">
-    <ContactCombobox
-      name="customerId"
-      items={customers}
-      selectedId={customerId}
-      onChange={onCustomerChange(onUpdateQuoteOption)}
-      label="Customer"
-      hideLabel={false}
-      disabled={!isCreating}
-    />
-    <Input
-      name="quoteNumber"
-      label="Quote number"
-      value={quoteNumber}
-      onChange={onTextInputChange(onUpdateQuoteOption)}
-    />
-    <Input
-      name="purchaseOrder"
-      label="Purchase order"
-      value={purchaseOrder}
-      onChange={onTextInputChange(onUpdateQuoteOption)}
-      maxLength={20}
-    />
-    <div className={styles.address}>{customerAddress}</div>
-    <DatePicker
-      label="Date of issue"
-      name="issueDate"
-      value={issueDate}
-      onSelect={onDateChange(onUpdateQuoteOption, 'issueDate')}
-    />
-    <RadioButtonGroup
-      label="Amounts are"
-      name="isTaxInclusive"
-      value={isTaxInclusive}
-      options={[TaxState.TAX_INCLUSIVE, TaxState.TAX_EXCLUSIVE]}
-      onChange={onChangeTaxInclusive(onUpdateQuoteOption)}
-      disabled={isCalculating}
-    />
-    <Select
-      name="expirationTerm"
-      label="Expiration term"
-      value={expirationTerm}
-      onChange={onExpirationTermChange(onUpdateQuoteOption)}
-    >
-      {expirationTerms.map(({ name, value }) => (
-        <Select.Option key={value} value={value} label={name} />
-      ))}
-    </Select>
-    <Input
-      name="expirationDays"
-      label="Expiration days"
-      onChange={onTextInputChange(onUpdateQuoteOption)}
-      value={expirationDay}
-      type="number"
-    />
-    <DatePicker
-      label="Expired date"
-      name="expiredDate"
-      value={expiredDate}
-      disabled
-    />
-    <TextArea
-      value={note}
-      resize="vertical"
-      name="note"
-      label="Notes to customer"
-      onChange={onTextInputChange(onUpdateQuoteOption)}
-      maxLength={255}
-    />
-  </Columns>
-);
+  comments,
+  showExpiryDaysOptions,
+  expirationTermsLabel,
+  showExpirationDaysAmountInput,
+  displayDaysForMonth,
+  popoverLabel,
+  customerLink,
+  customerName,
+}) => {
+  const customer = isCreating
+    ? (
+      <ContactCombobox
+        name="customerId"
+        items={customers}
+        selectedId={customerId}
+        onChange={onCustomerChange(onUpdateQuoteOption)}
+        label="Customer"
+        hideLabel={false}
+      />
+    )
+    : <ReadOnly name="customer" label="Customer"><a href={customerLink}>{customerName}</a></ReadOnly>;
+
+  const primary = (
+    <Fragment>
+      {customer}
+      <div className={styles.address}>{customerAddress}</div>
+      <Combobox
+        name="note"
+        label="Message to customer"
+        hideLabel={false}
+        metaData={[
+          { columnName: 'value', showData: true },
+        ]}
+        items={comments}
+        onChange={onNoteChange(onUpdateQuoteOption)}
+      />
+      <TextArea
+        value={note}
+        resize="vertical"
+        name="note"
+        label="Message to customer"
+        hideLabel
+        onChange={onTextInputChange(onUpdateQuoteOption)}
+        maxLength={255}
+      />
+    </Fragment>
+  );
+
+  const secondary = (
+    <Fragment>
+      <Input
+        name="quoteNumber"
+        label="Quote number"
+        value={quoteNumber}
+        onChange={onTextInputChange(onUpdateQuoteOption)}
+      />
+      <Input
+        name="purchaseOrder"
+        label="Customer PO number"
+        value={purchaseOrder}
+        onChange={onTextInputChange(onUpdateQuoteOption)}
+        maxLength={20}
+      />
+      <DatePicker
+        label="Issue date"
+        name="issueDate"
+        value={issueDate}
+        onSelect={onDateChange(onUpdateQuoteOption, 'issueDate')}
+      />
+      <ExpiryDate
+        expirationTerm={expirationTerm}
+        expirationTerms={expirationTerms}
+        expirationDays={expirationDays}
+        popoverLabel={popoverLabel}
+        onChange={onUpdateQuoteOption}
+        showExpiryDaysOptions={showExpiryDaysOptions}
+        expirationTermsLabel={expirationTermsLabel}
+        showExpirationDaysAmountInput={showExpirationDaysAmountInput}
+        displayDaysForMonth={displayDaysForMonth}
+      />
+      <RadioButtonGroup
+        label="Amounts are"
+        name="isTaxInclusive"
+        value={isTaxInclusive}
+        options={[TaxState.TAX_INCLUSIVE, TaxState.TAX_EXCLUSIVE]}
+        onChange={onChangeTaxInclusive(onUpdateQuoteOption)}
+        disabled={isCalculating}
+      />
+    </Fragment>
+  );
+
+  return <DetailHeader primary={primary} secondary={secondary} />;
+};
 
 const mapStateToProps = state => ({
   customers: getCustomers(state),
@@ -157,11 +189,19 @@ const mapStateToProps = state => ({
   expirationTerms: getExpirationTerms(state),
   expirationTerm: getExpirationTerm(state),
   expiredDate: getExpiredDate(state),
-  expirationDay: getExpirationDays(state),
+  expirationDays: getExpirationDays(state),
   note: getNote(state),
   isTaxInclusive: getIsTaxInclusive(state),
   isCreating: getIsCreating(state),
   isCalculating: getIsCalculating(state),
+  comments: getComments(state),
+  showExpiryDaysOptions: getShowExpiryDaysOptions(state),
+  expirationTermsLabel: getExpirationTermsLabel(state),
+  showExpirationDaysAmountInput: getShowExpirationDaysAmountInput(state),
+  displayDaysForMonth: getDisplayDaysForMonth(state),
+  popoverLabel: getPopoverLabel(state),
+  customerLink: getCustomerLink(state),
+  customerName: getCustomerName(state),
 });
 
 export default connect(mapStateToProps)(ItemQuoteOptions);

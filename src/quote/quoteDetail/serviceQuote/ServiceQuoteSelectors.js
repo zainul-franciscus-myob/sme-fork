@@ -1,5 +1,5 @@
 import {
-  addDays, addMonths, endOfMonth, getDaysInMonth, setDate,
+  addDays, addMonths, eachDay, endOfMonth, format, getDaysInMonth, setDate, startOfMonth,
 } from 'date-fns';
 import { createSelector } from 'reselect';
 import dateFormat from 'dateformat';
@@ -8,6 +8,8 @@ export const getBusinessId = state => state.businessId;
 export const getIsLoading = state => state.isLoading;
 export const getQuoteId = state => state.quoteId;
 export const getTotals = state => state.totals;
+export const getRegion = state => state.region;
+export const getCustomerId = state => state.quote.customerId;
 const getNewLine = state => state.newLine;
 export const getLineByIndex = (state, props) => state.quote.lines[props.index];
 
@@ -94,23 +96,111 @@ export const getIsCreating = createSelector(
 
 const getQuote = state => state.quote;
 const getCustomerOptions = state => state.customerOptions;
-const getExpirationTermOptions = state => state.expirationTermOptions;
+const getExpirationTerms = state => state.expirationTerms;
+const getComments = state => state.comments;
+
+const getShowExpiryDaysOptions = createSelector(
+  getExpirationTerm,
+  expirationTerm => (
+    [
+      'OnADayOfTheMonth',
+      'InAGivenNumberOfDays',
+      'DayOfMonthAfterEOM',
+      'NumberOfDaysAfterEOM',
+    ].includes(expirationTerm)
+  ),
+);
+
+const getExpirationTermsLabel = createSelector(
+  getExpirationTerm,
+  expirationTerm => ({
+    InAGivenNumberOfDays: 'days after the issue date',
+    OnADayOfTheMonth: 'of this month',
+    NumberOfDaysAfterEOM: 'days after the end of the month',
+    DayOfMonthAfterEOM: 'of next month',
+  }[expirationTerm]),
+);
+
+const getDisplayDaysForMonth = createSelector(
+  getExpirationTerm,
+  (expirationTerm) => {
+    const currentMonth = new Date();
+    const nextMonth = addMonths(currentMonth, 1);
+    const month = ['OnADayOfTheMonth', 'DayOfMonthAfterEOM'].includes(expirationTerm)
+      ? currentMonth
+      : nextMonth;
+
+    return eachDay(startOfMonth(month), endOfMonth(month)).map(day => ({
+      name: format(day, 'Do'),
+      value: format(day, 'D'),
+    }));
+  },
+);
+
+const getShowExpirationDaysAmountInput = createSelector(
+  getExpirationTerm,
+  expirationTerm => (
+    [
+      'InAGivenNumberOfDays',
+      'NumberOfDaysAfterEOM',
+    ].includes(expirationTerm)
+  ),
+);
+
+const getPopoverLabel = createSelector(
+  getExpirationTerm,
+  getExpirationTerms,
+  getExpiredDate,
+  (expirationTerm, expirationTerms, expiredDate) => (
+    ['Prepaid', 'CashOnDelivery'].includes(expirationTerm)
+      ? expirationTerms.find(term => term.value === expirationTerm).name
+      : expiredDate),
+);
+
+const gettaxInclusive = state => (state.quote.taxInclusive ? 'Tax inclusive' : 'Tax exclusive');
+
+const getCustomerLink = createSelector(
+  getRegion,
+  getBusinessId,
+  getCustomerId,
+  (region, businessId, customerId) => `/#/${region}/${businessId}/contact/${customerId}`,
+);
+
 export const getQuoteOptions = createSelector(
   getQuote,
   getCustomerOptions,
-  getExpirationTermOptions,
-  getExpiredDate,
+  getExpirationTerms,
   getIsCreating,
-  (quote, customerOptions, expirationTermOptions, expiredDate, isCreating) => {
+  getComments,
+  getShowExpiryDaysOptions,
+  getExpirationTermsLabel,
+  getDisplayDaysForMonth,
+  getShowExpirationDaysAmountInput,
+  getPopoverLabel,
+  gettaxInclusive,
+  getCustomerLink,
+  (
+    quote, customerOptions, expirationTerms, isCreating,
+    comments, showExpiryDaysOptions, expirationTermsLabel, displayDaysForMonth,
+    showExpirationDaysAmountInput, popoverLabel, taxInclusive,
+    customerLink,
+  ) => {
     const { lines, issueDate, ...quoteWithoutLines } = quote;
 
     return {
       ...quoteWithoutLines,
       issueDate,
-      expiredDate,
       customerOptions,
-      expirationTermOptions,
+      expirationTerms,
       isCreating,
+      comments,
+      showExpiryDaysOptions,
+      expirationTermsLabel,
+      displayDaysForMonth,
+      showExpirationDaysAmountInput,
+      popoverLabel,
+      taxInclusive,
+      customerLink,
     };
   },
 );
@@ -131,7 +221,6 @@ export const getCalculatedTotalsPayload = createSelector(
 );
 
 export const isPageEdited = state => state.isPageEdited;
-export const getRegion = state => state.region;
 export const getModalType = state => state.modalType;
 
 const getServiceQuoteLinesForPayload = lines => lines.map((line) => {
@@ -149,9 +238,15 @@ export const getQuotePayload = createSelector(
 
 export const getAlertMessage = state => state.alertMessage;
 export const getIsActionsDisabled = state => state.isSubmitting;
-export const getCustomerId = state => state.quote.customerId;
 
 export const getIsTableEmpty = createSelector(
   getLength,
   len => len === 0,
+);
+
+export const getPageTitle = state => state.pageTitle;
+
+export const getTotalAmount = createSelector(
+  getTotals,
+  ({ totalAmount }) => totalAmount,
 );

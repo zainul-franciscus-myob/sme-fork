@@ -15,7 +15,7 @@ export const activeMapping = {
   'invoice/invoiceList': 'sales',
   'banking/bankTransactionList': 'banking',
   'inventory/itemList': 'sales',
-  'quote/serviceQuote': 'sales',
+  'quote/quoteDetail': 'sales',
   'user/userList': 'business',
   'user/userDetail': 'business',
   'billPayment/billPaymentDetail': 'purchases',

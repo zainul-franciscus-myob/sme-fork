@@ -8,33 +8,36 @@ describe('ServiceQuoteSelectors', () => {
         id: '1',
         customerOptions: [
           { name: 'Cow Feed 1', value: '1' },
-          { name: 'Cow Feed 2', value: '2' },
-          { name: 'Cow Feed 3', value: '3' },
         ],
         customerId: '3',
-        expirationTerm: 'Prepaid',
+        expirationTerm: 'InAGivenNumberOfDays',
         expirationDays: 0,
         chargeForLatePayment: 123.12,
         discountForEarlyPayment: 3546.34,
         numberOfDaysForDiscount: 10,
-        taxInclusive: true,
+        taxInclusive: 'Tax inclusive',
         quoteNumber: '0000012334563456',
         address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
         issueDate: '2018-11-02',
-        expiredDate: '02/11/2018',
         purchaseOrderNumber: '123',
         notesToCustomer: 'Thank you!',
-        expirationTermOptions: [
+        expirationTerms: [
           { value: 'OnADayOfTheMonth', name: 'On a day of the month' },
-          { value: 'InAGivenNumberOfDays', name: 'In a given no. of days' },
-          { value: 'DayOfMonthAfterEOM', name: 'Day of month after EOM' },
-          { value: 'NumberOfDaysAfterEOM', name: 'No. of days after EOM' },
           { value: 'Prepaid', name: 'Prepaid' },
           { value: 'CashOnDelivery', name: 'C.O.D.' },
         ],
         isCreating: false,
+        comments: [{ value: 'Happy Holiday!' }],
+        popoverLabel: '02/11/2018',
+        showExpirationDaysAmountInput: true,
+        showExpiryDaysOptions: true,
+        expirationTermsLabel: 'days after the issue date',
+        customerLink: '/#/au/businessId/contact/3',
       };
-      const actual = getQuoteOptions(state);
+      const actual = {
+        ...getQuoteOptions(state),
+        displayDaysForMonth: undefined,
+      };
 
       expect(actual).toEqual(expected);
     });

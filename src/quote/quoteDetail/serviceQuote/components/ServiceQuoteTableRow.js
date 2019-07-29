@@ -45,11 +45,7 @@ const ServiceQuoteTableRow = ({
         onChange={onComboboxChange('allocatedAccountId', onChange)}
         items={accounts}
         selectedId={allocatedAccountId}
-      />
-      <TaxCodeCombobox
-        onChange={onComboboxChange('taxCodeId', onChange)}
-        items={taxCodes}
-        selectedId={taxCodeId}
+        hintText="Select an account"
       />
       <Input
         label="Amount"
@@ -59,6 +55,11 @@ const ServiceQuoteTableRow = ({
         value={amount}
         onChange={onChange}
         onBlur={onRowInputBlurHandler(onRowInputBlur, index)}
+      />
+      <TaxCodeCombobox
+        onChange={onComboboxChange('taxCodeId', onChange)}
+        items={taxCodes}
+        selectedId={taxCodeId}
       />
     </LineItemTable.Row>
   );

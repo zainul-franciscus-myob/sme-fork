@@ -24,6 +24,7 @@ const getDefaultState = () => ({
   layout: '',
   quote: {
     customerId: '',
+    customerName: '',
     address: '',
     expirationTerm: '',
     expirationDays: '',
@@ -63,6 +64,8 @@ const getDefaultState = () => ({
   isPageEdited: false,
   isCalculating: false,
   modalType: undefined,
+  comments: [],
+  pageTitle: '',
 });
 
 const setModal = (state, action) => ({
@@ -96,6 +99,8 @@ const setInitialState = (state, action) => {
     items: action.payload.items,
     newLine: action.payload.newLine,
     totals: action.payload.totals,
+    comments: action.payload.comments,
+    pageTitle: action.payload.pageTitle,
   });
 };
 

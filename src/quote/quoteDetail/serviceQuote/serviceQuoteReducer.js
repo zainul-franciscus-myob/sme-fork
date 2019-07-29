@@ -28,6 +28,7 @@ const getDefaultState = () => ({
   quote: {
     id: '',
     customerId: '',
+    customerName: '',
     expirationTerm: '',
     expirationDays: '',
     chargeForLatePayment: 0,
@@ -42,7 +43,7 @@ const getDefaultState = () => ({
     lines: [],
   },
   customerOptions: [],
-  expirationTermOptions: [],
+  expirationTerms: [],
   newLine: {
     description: '',
     allocatedAccountId: '',
@@ -62,6 +63,8 @@ const getDefaultState = () => ({
   modalType: '',
   alertMessage: '',
   isSubmitting: false,
+  comments: [],
+  pageTitle: '',
 });
 
 const setLoadingState = (state, action) => ({
@@ -80,9 +83,11 @@ const setInitalState = (state, action) => {
       ...action.quote,
     },
     customerOptions: action.customerOptions,
-    expirationTermOptions: action.expirationTermOptions,
+    expirationTerms: action.expirationTerms,
     newLine: action.newLine,
     totals: action.totals,
+    comments: action.comments,
+    pageTitle: action.pageTitle,
   });
 };
 

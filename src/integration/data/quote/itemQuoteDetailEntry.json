@@ -1,7 +1,9 @@
 {
   "layout": "item",
+  "pageTitle": "Quote BL00000123",
   "quote": {
     "customerId": "1",
+    "customerName": "A-Z Stationery Supplies",
     "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": "4",
@@ -38,20 +40,6 @@
       }
     ]
   },
-  "customers": [
-    {
-      "contactType": "Customer",
-      "displayName": "A-Z Stationery Supplies",
-      "id": "1",
-      "displayId": "CUS000001"
-    },
-    {
-      "contactType": "Customer",
-      "displayName": "Cow Feed",
-      "id": "2",
-      "displayId": "CUS000003"
-    }
-  ],
   "expirationTerms": [
     {
       "value": "OnADayOfTheMonth",

@@ -3,7 +3,7 @@
   "quote": {
     "id": "1",
     "customerId": "3",
-    "expirationTerm": "Prepaid",
+    "expirationTerm": "InAGivenNumberOfDays",
     "expirationDays": 0,
     "chargeForLatePayment": 123.12,
     "discountForEarlyPayment": 3546.34,
@@ -28,20 +28,6 @@
             "accountType": "Sales",
             "taxCodeId": "123",
             "displayId": "4-123"
-          },
-          {
-            "id": "456",
-            "displayName": "Sales Account 2",
-            "accountType": "Assets",
-            "taxCodeId": "124",
-            "displayId": "4-456"
-          },
-          {
-            "id": "789",
-            "displayName": "Expense Account",
-            "accountType": "Assets",
-            "taxCodeId": "124",
-            "displayId": "6-789"
           }
         ],
         "taxCodes": [
@@ -50,12 +36,6 @@
             "displayName": "GST",
             "description": "Goods & Service Tax",
             "displayRate": "10%"
-          },
-          {
-            "id": "124",
-            "displayName": "FRE",
-            "description": "GST FREE",
-            "displayRate": "5%"
           }
         ]
       }
@@ -65,32 +45,12 @@
     {
       "name": "Cow Feed 1",
       "value": "1"
-    },
-    {
-      "name": "Cow Feed 2",
-      "value": "2"
-    },
-    {
-      "name": "Cow Feed 3",
-      "value": "3"
     }
   ],
-  "expirationTermOptions": [
+  "expirationTerms": [
     {
       "value": "OnADayOfTheMonth",
       "name": "On a day of the month"
-    },
-    {
-      "value": "InAGivenNumberOfDays",
-      "name": "In a given no. of days"
-    },
-    {
-      "value": "DayOfMonthAfterEOM",
-      "name": "Day of month after EOM"
-    },
-    {
-      "value": "NumberOfDaysAfterEOM",
-      "name": "No. of days after EOM"
     },
     {
       "value": "Prepaid",
@@ -100,5 +60,12 @@
       "value": "CashOnDelivery",
       "name": "C.O.D."
     }
-  ]
+  ],
+  "comments": [
+    {
+      "value": "Happy Holiday!"
+    }
+  ],
+  "region": "au",
+  "businessId": "businessId"
 }

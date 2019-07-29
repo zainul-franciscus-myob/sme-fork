@@ -1,12 +1,13 @@
 import {
-  DatePicker, Input, InputLabel, RadioButton, Select, TextArea,
+  DatePicker, DetailHeader, Input, RadioButtonGroup, ReadOnly, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
 import { getQuoteOptions } from '../ServiceQuoteSelectors';
+import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
+import ExpiryDate from '../../components/ExpiryDate';
 import styles from './ServiceQuoteOptions.module.css';
 
 const onComboBoxChange = handler => (option) => {
@@ -28,10 +29,20 @@ const handleIssueDateChange = handler => ({ value }) => {
   handler({ key, value });
 };
 
-const handleRadioChange = handler => (e) => {
-  const { name, value } = e.target;
+const handleNoteChange = handler => ({ value }) => {
+  handler({
+    key: 'notesToCustomer',
+    value,
+  });
+};
 
-  handler({ key: name, value: value === 'true' });
+const handleTaxInclusiveChange = handler => (e) => {
+  const value = e.value === 'Tax inclusive';
+
+  handler({
+    key: 'taxInclusive',
+    value,
+  });
 };
 
 const ServiceQuoteOptions = (props) => {
@@ -42,18 +53,25 @@ const ServiceQuoteOptions = (props) => {
     address,
     purchaseOrderNumber,
     issueDate,
-    expiredDate,
     expirationTerm,
     expirationDays,
     taxInclusive,
-    expirationTermOptions,
+    expirationTerms,
     notesToCustomer,
     onUpdateHeaderOptions,
     isCreating,
+    comments,
+    showExpiryDaysOptions,
+    expirationTermsLabel,
+    showExpirationDaysAmountInput,
+    displayDaysForMonth,
+    popoverLabel,
+    customerLink,
+    customerName,
   } = props;
 
-  return (
-    <Fragment>
+  const customer = isCreating
+    ? (
       <CustomerCombobox
         items={customerOptions}
         selectedId={customerId}
@@ -61,69 +79,77 @@ const ServiceQuoteOptions = (props) => {
         label="Customer"
         name="customerId"
         hideLabel={false}
-        disabled={!isCreating}
       />
-      <Input name="quoteNumber" label="Quote number" value={quoteNumber} onChange={handleInputChange(onUpdateHeaderOptions)} />
-      <Input name="purchaseOrderNumber" label="Purchase order" value={purchaseOrderNumber} onChange={handleInputChange(onUpdateHeaderOptions)} />
+    )
+    : <ReadOnly name="customer" label="Customer"><a href={customerLink}>{customerName}</a></ReadOnly>;
+
+  const primary = (
+    <Fragment>
+      {customer}
       <span className={styles.address}>{address}</span>
-      <DatePicker
-        label="Date of issue"
-        name="issueDate"
-        value={issueDate}
-        onSelect={handleIssueDateChange(onUpdateHeaderOptions)}
+      <Combobox
+        name="note"
+        label="Message to customer"
+        hideLabel={false}
+        metaData={[
+          { columnName: 'value', showData: true },
+        ]}
+        items={comments}
+        onChange={handleNoteChange(onUpdateHeaderOptions)}
       />
-      <div className="form-group">
-        <InputLabel label="Amounts are" id="isTaxInclusive" />
-        <div>
-          <RadioButton
-            name="taxInclusive"
-            label="Tax inclusive"
-            value="true"
-            checked={taxInclusive}
-            onChange={handleRadioChange(onUpdateHeaderOptions)}
-          />
-          <RadioButton
-            name="taxInclusive"
-            label="Tax exclusive"
-            value="false"
-            checked={!taxInclusive}
-            onChange={handleRadioChange(onUpdateHeaderOptions)}
-          />
-        </div>
-      </div>
-      <Select name="expirationTerm" label="Expiration term" value={expirationTerm} onChange={handleInputChange(onUpdateHeaderOptions)}>
-        {expirationTermOptions.map(({ name, value }) => (
-          <Select.Option key={value} value={value} label={name} />
-        ))}
-      </Select>
-      <Input name="expirationDays" label="Expiration days" value={expirationDays} onChange={handleInputChange(onUpdateHeaderOptions)} type="number" />
-      <Input name="expiredDate" label="Expired date" value={expiredDate} disabled />
       <TextArea
         value={notesToCustomer}
         resize="vertical"
         name="notesToCustomer"
-        label="Notes to customer"
+        label="Message to customer"
+        hideLabel
         onChange={handleInputChange(onUpdateHeaderOptions)}
       />
     </Fragment>
   );
-};
 
-ServiceQuoteOptions.propTypes = {
-  customerId: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
-  quoteNumber: PropTypes.string.isRequired,
-  purchaseOrderNumber: PropTypes.string.isRequired,
-  issueDate: PropTypes.string.isRequired,
-  taxInclusive: PropTypes.bool.isRequired,
-  expirationTerm: PropTypes.string.isRequired,
-  expirationDays: PropTypes.string.isRequired,
-  expiredDate: PropTypes.string.isRequired,
-  notesToCustomer: PropTypes.string.isRequired,
-  expirationTermOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  customerOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool.isRequired,
+  const secondary = (
+    <Fragment>
+      <Input
+        name="quoteNumber"
+        label="Quote number"
+        value={quoteNumber}
+        onChange={handleInputChange(onUpdateHeaderOptions)}
+      />
+      <Input
+        name="purchaseOrderNumber"
+        label="Customer PO number"
+        value={purchaseOrderNumber}
+        onChange={handleInputChange(onUpdateHeaderOptions)}
+      />
+      <DatePicker
+        label="Issue date"
+        name="issueDate"
+        value={issueDate}
+        onSelect={handleIssueDateChange(onUpdateHeaderOptions)}
+      />
+      <ExpiryDate
+        expirationTerm={expirationTerm}
+        expirationTerms={expirationTerms}
+        expirationDays={expirationDays}
+        popoverLabel={popoverLabel}
+        onChange={onUpdateHeaderOptions}
+        showExpiryDaysOptions={showExpiryDaysOptions}
+        expirationTermsLabel={expirationTermsLabel}
+        showExpirationDaysAmountInput={showExpirationDaysAmountInput}
+        displayDaysForMonth={displayDaysForMonth}
+      />
+      <RadioButtonGroup
+        label="Amounts are"
+        name="taxInclusive"
+        value={taxInclusive}
+        options={['Tax inclusive', 'Tax exclusive']}
+        onChange={handleTaxInclusiveChange(onUpdateHeaderOptions)}
+      />
+    </Fragment>
+  );
+
+  return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
 const mapStateToProps = state => getQuoteOptions(state);

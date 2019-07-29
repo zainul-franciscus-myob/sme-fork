@@ -1,9 +1,12 @@
 import {
   addDays,
   addMonths,
+  eachDay,
   endOfMonth,
+  format,
   getDaysInMonth,
   setDate,
+  startOfMonth,
 } from 'date-fns';
 import { createSelector } from 'reselect';
 import dateFormat from 'dateformat';
@@ -145,3 +148,78 @@ export const getIsCalculating = state => state.isCalculating;
 export const getIsLineAmountInputDirty = state => state.isLineAmountInputDirty;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getIsSubmitting = state => state.isSubmitting;
+export const getComments = state => state.comments;
+
+export const getShowExpiryDaysOptions = createSelector(
+  getExpirationTerm,
+  expirationTerm => (
+    [
+      'OnADayOfTheMonth',
+      'InAGivenNumberOfDays',
+      'DayOfMonthAfterEOM',
+      'NumberOfDaysAfterEOM',
+    ].includes(expirationTerm)
+  ),
+);
+
+export const getExpirationTermsLabel = createSelector(
+  getExpirationTerm,
+  expirationTerm => ({
+    InAGivenNumberOfDays: 'days after the issue date',
+    OnADayOfTheMonth: 'of this month',
+    NumberOfDaysAfterEOM: 'days after the end of the month',
+    DayOfMonthAfterEOM: 'of next month',
+  }[expirationTerm]),
+);
+
+export const getDisplayDaysForMonth = createSelector(
+  getExpirationTerm,
+  (expirationTerm) => {
+    const currentMonth = new Date();
+    const nextMonth = addMonths(currentMonth, 1);
+    const month = ['OnADayOfTheMonth', 'DayOfMonthAfterEOM'].includes(expirationTerm)
+      ? currentMonth
+      : nextMonth;
+
+    return eachDay(startOfMonth(month), endOfMonth(month)).map(day => ({
+      name: format(day, 'Do'),
+      value: format(day, 'D'),
+    }));
+  },
+);
+
+export const getShowExpirationDaysAmountInput = createSelector(
+  getExpirationTerm,
+  expirationTerm => (
+    [
+      'InAGivenNumberOfDays',
+      'NumberOfDaysAfterEOM',
+    ].includes(expirationTerm)
+  ),
+);
+
+export const getPopoverLabel = createSelector(
+  getExpirationTerm,
+  getExpirationTerms,
+  getExpiredDate,
+  (expirationTerm, expirationTerms, expiredDate) => (
+    ['Prepaid', 'CashOnDelivery'].includes(expirationTerm)
+      ? expirationTerms.find(term => term.value === expirationTerm).name
+      : expiredDate),
+);
+
+export const getCustomerLink = createSelector(
+  getRegion,
+  getBusinessId,
+  getCustomerId,
+  (region, businessId, customerId) => `/#/${region}/${businessId}/contact/${customerId}`,
+);
+
+export const getCustomerName = state => state.quote.customerName;
+
+export const getPageTitle = state => state.pageTitle;
+
+export const getTotalAmount = createSelector(
+  getTotals,
+  ({ totalAmount }) => totalAmount,
+);
