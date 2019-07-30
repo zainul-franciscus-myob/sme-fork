@@ -13,7 +13,7 @@ import {
   getEmploymentDetails,
   getEmploymentStatusOptions,
   getGenderOptions,
-} from '../EmployeeDetailSelectors';
+} from '../selectors/EmployeeDetailSelectors';
 
 const handleSelectChange = handler => (e) => {
   const { name, value } = e.target;

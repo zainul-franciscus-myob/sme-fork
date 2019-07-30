@@ -1,8 +1,9 @@
 import {
+  ADD_PAYROLL_DEDUCTION_PAY_ITEM,
   CLOSE_MODAL,
   LOAD_EMPLOYEE_DETAIL,
-  LOAD_NEW_EMPLOYEE_DETAIL,
   OPEN_MODAL,
+  REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MAIN_TAB,
@@ -14,14 +15,16 @@ import {
   UPDATE_PAYMENT_DETAILS,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
-} from '../EmployeeIntents';
+} from '../../EmployeeIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../SystemIntents';
-import { mainTabIds } from './tabItems';
-import { shouldDefaultPayslipEmail } from './EmployeeDetailSelectors';
-import createReducer from '../../store/createReducer';
+  addPayrollDeductionPayItem,
+  removePayrollDeductionPayItem,
+  updatePayrollEmployeeDetail,
+} from './PayrollDetailReducer';
+import { mainTabIds } from '../tabItems';
+import { shouldDefaultPayslipEmail } from '../selectors/EmployeeDetailSelectors';
+import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
   isLoading: true,
@@ -57,6 +60,9 @@ const getDefaultState = () => ({
       paySlipDelivery: '',
       paySlipEmail: '',
     },
+    deductionDetails: {
+      deductionPayItems: [],
+    },
   },
   paymentDetails: {
     paymentMethod: '',
@@ -72,6 +78,7 @@ const getDefaultState = () => ({
   paymentMethodOptions: [],
   splitNetPayBetweenOptions: [],
   valueOptions: [],
+  deductionPayItemOptions: [],
 });
 
 const setLoadingState = (state, action) => ({
@@ -79,7 +86,7 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
-const setInitalState = (state, action) => ({
+const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
 });
@@ -121,33 +128,9 @@ const loadEmployeeDetail = (state, action) => ({
       ...state.payrollDetails.employmentDetails,
       ...action.payrollDetails.employmentDetails,
     },
-  },
-  paymentDetails: {
-    ...state.paymentDetails,
-    ...action.paymentDetails,
-  },
-  genderOptions: action.genderOptions,
-  employmentBasisOptions: action.employmentBasisOptions,
-  employmentCategoryOptions: action.employmentCategoryOptions,
-  employmentStatusOptions: action.employmentStatusOptions,
-  payslipDeliveryOptions: action.payslipDeliveryOptions,
-  paymentMethodOptions: action.paymentMethodOptions,
-  splitNetPayBetweenOptions: action.splitNetPayBetweenOptions,
-  valueOptions: action.valueOptions,
-});
-
-const loadNewEmployeeDetail = (state, action) => ({
-  ...state,
-  contactDetail: {
-    ...state.contactDetail,
-    ...action.contactDetail,
-  },
-  payrollDetails: {
-    ...state.payrollDetails,
-    ...action.payrollDetails,
-    employmentDetails: {
-      ...state.payrollDetails.employmentDetails,
-      ...action.payrollDetails.employmentDetails,
+    deductionDetails: {
+      ...state.payrollDetails.deductionDetails,
+      ...action.payrollDetails.deductionDetails,
     },
   },
   paymentDetails: {
@@ -162,6 +145,7 @@ const loadNewEmployeeDetail = (state, action) => ({
   paymentMethodOptions: action.paymentMethodOptions,
   splitNetPayBetweenOptions: action.splitNetPayBetweenOptions,
   valueOptions: action.valueOptions,
+  deductionPayItemOptions: action.deductionPayItemOptions,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -279,20 +263,9 @@ const updatePayslipDelivery = (state, action) => ((
     ...pageEdited,
   });
 
-const updatePayrollEmployeeDetail = (state, action) => ({
-  ...state,
-  payrollDetails: {
-    employmentDetails: {
-      ...state.payrollDetails.employmentDetails,
-      [action.key]: action.value,
-    },
-  },
-  ...pageEdited,
-});
-
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
-  [SET_INITIAL_STATE]: setInitalState,
+  [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [SET_MAIN_TAB]: setMainTab,
   [SET_SUB_TAB]: setSubTab,
@@ -300,7 +273,6 @@ const handlers = {
   [UPDATE_CONTACT_DETAILS]: updateContactDetails,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,
-  [LOAD_NEW_EMPLOYEE_DETAIL]: loadNewEmployeeDetail,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_PAGE_EDITED_STATE]: setPageEditedState,
@@ -308,6 +280,8 @@ const handlers = {
   [UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY]: updatePayslipDelivery,
   [UPDATE_PAYMENT_DETAILS]: updatePaymentDetails,
   [UPDATE_BANK_ACCOUNT_DETAILS]: updateBankAccountDetails,
+  [ADD_PAYROLL_DEDUCTION_PAY_ITEM]: addPayrollDeductionPayItem,
+  [REMOVE_PAYROLL_DEDUCTION_PAY_ITEM]: removePayrollDeductionPayItem,
 };
 
 const employeeDetailReducer = createReducer(getDefaultState(), handlers);

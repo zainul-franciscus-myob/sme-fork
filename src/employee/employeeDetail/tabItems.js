@@ -13,9 +13,11 @@ export const mainTabItems = [
 export const payrollDetailsSubTabIds = {
   employmentDetails: 'employmentDetails',
   salaryAndWages: 'salaryAndWages',
+  deductions: 'deductions',
 };
 
 export const payrollDetailsSubTabItems = [
   { id: payrollDetailsSubTabIds.employmentDetails, label: 'Employment details' },
   { id: payrollDetailsSubTabIds.salaryAndWages, label: 'Salary and wages' },
+  { id: payrollDetailsSubTabIds.deductions, label: 'Deductions' },
 ];

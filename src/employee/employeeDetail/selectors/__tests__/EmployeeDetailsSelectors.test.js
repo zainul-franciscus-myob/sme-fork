@@ -1,5 +1,5 @@
 import { getMainTab, getSubTab } from '../EmployeeDetailSelectors';
-import { mainTabIds, payrollDetailsSubTabIds } from '../tabItems';
+import { mainTabIds, payrollDetailsSubTabIds } from '../../tabItems';
 
 describe('employeeDetailSelectors', () => {
   describe('getMainTab', () => {

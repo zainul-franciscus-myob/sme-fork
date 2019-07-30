@@ -27,6 +27,13 @@
       "employmentStatus": "FullTime",
       "paySlipDelivery": "ToBeEmailed",
       "paySlipEmail": "bob@thebuilder.com"
+    },
+    "deductionDetails": {
+      "deductionPayItems": [{
+        "id": "1",
+        "name": "Advance repayment",
+        "type": "Percent"
+      }]
     }
   },
   "paymentDetails": {
@@ -171,6 +178,23 @@
     {
       "name": "Dollars",
       "value": "Dollars"
+    }
+  ],
+  "deductionPayItemOptions": [
+    {
+      "id": "1",
+      "name": "Advance repayment",
+      "type": "Percent"
+    },
+    {
+      "id": "2",
+      "name": "Deduction child care tax exempt",
+      "type": "Fixed dollar"
+    },
+    {
+      "id": "3",
+      "name": "Employee purchase",
+      "type": "Fixed dollar"
     }
   ]
 }

@@ -11,7 +11,7 @@ import {
   getPaymentMethodOptions,
   getSplitNetPayBetweenOptions,
   getValueOptions,
-} from '../EmployeeDetailSelectors';
+} from '../selectors/EmployeeDetailSelectors';
 import AccountNumberInput from '../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import BSBInput from '../../../components/autoFormatter/BankDetailsInput/BSBInput';

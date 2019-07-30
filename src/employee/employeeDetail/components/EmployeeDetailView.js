@@ -14,7 +14,7 @@ import {
   getMainTab,
   getModalType,
   getPageHeadTitle,
-} from '../EmployeeDetailSelectors';
+} from '../selectors/EmployeeDetailSelectors';
 import { mainTabIds, mainTabItems } from '../tabItems';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
@@ -22,9 +22,14 @@ import EmployeeDetailActions from './EmployeeDetailActions';
 import EmployeeDetailContactDetails from './EmployeeDetailContactDetails';
 import EmployeeDetailPaymentDetails from './EmployeeDetailPaymentDetails';
 import EmployeeDetailPayrollDetails from './EmployeeDetailPayrollDetails';
+import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const getModalDialogView = ({
-  modalType, onCloseModal, onCancelModal, onDeleteModal,
+  modalType,
+  onCloseModal,
+  onCancelModal,
+  onDeleteModal,
+  onSaveModal,
 }) => {
   switch (modalType) {
     case 'cancel':
@@ -43,6 +48,14 @@ const getModalDialogView = ({
           onConfirm={onDeleteModal}
           title="Delete employee"
           description="Are you sure you want to delete this employee?"
+        />
+      );
+    case 'unsaved':
+      return (
+        <UnsavedModal
+          onConfirmSave={onSaveModal}
+          onConfirmUnsave={onCancelModal}
+          onCancel={onCloseModal}
         />
       );
     default:
@@ -67,9 +80,12 @@ const EmployeeDetailView = ({
   onCloseModal,
   onCancelModal,
   onDeleteModal,
+  onSaveModal,
   pageHeadTitle,
   onEmploymentDetailsChange,
   onEmploymentPaySlipDeliveryChange,
+  onAddPayrollDeductionPayItem,
+  onRemovePayrollDeductionPayItem,
 }) => {
   const Content = {
     [mainTabIds.contactDetails]: EmployeeDetailContactDetails,
@@ -100,7 +116,7 @@ const EmployeeDetailView = ({
   );
 
   const modal = getModalDialogView({
-    modalType, onCloseModal, onCancelModal, onDeleteModal,
+    modalType, onCloseModal, onCancelModal, onDeleteModal, onSaveModal,
   });
 
   const contentProps = {
@@ -110,6 +126,8 @@ const EmployeeDetailView = ({
     onEmploymentPaySlipDeliveryChange,
     onPaymentDetailsChange,
     onBankAccountDetailsChange,
+    onAddPayrollDeductionPayItem,
+    onRemovePayrollDeductionPayItem,
   };
 
   const view = (

@@ -14,7 +14,7 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
-import { SUCCESSFULLY_DELETED_EMPLOYEE } from '../EmployeeMessageTypes';
+import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../EmployeeMessageTypes';
 import {
   getAppliedFilterOptions, getBusinessId, getFilterOptions,
   getNewSortOrder, getOrderBy, getRegion, getSortOrder,
@@ -25,6 +25,7 @@ import employeeListReducer from './employeeListReducer';
 
 const messageTypes = [
   SUCCESSFULLY_DELETED_EMPLOYEE,
+  SUCCESSFULLY_SAVED_EMPLOYEE,
 ];
 
 export default class EmployeeListModule {

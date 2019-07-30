@@ -3,16 +3,22 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
-import { getSubTab } from '../EmployeeDetailSelectors';
+import { getSubTab } from '../selectors/EmployeeDetailSelectors';
 import { payrollDetailsSubTabIds, payrollDetailsSubTabItems } from '../tabItems';
 import EmploymentDetails from './EmploymentDetails';
+import PayrollDeductionDetails from './PayrollDeductionDetail';
 
 const SalaryAndWages = () => (
   <div>Salary and wages is under construction, please come back later</div>
 );
 
 const EmployeeDetailPayrollDetails = ({
-  selectedTab, onSubTabSelected, onEmploymentDetailsChange, onEmploymentPaySlipDeliveryChange,
+  selectedTab,
+  onSubTabSelected,
+  onEmploymentDetailsChange,
+  onEmploymentPaySlipDeliveryChange,
+  onAddPayrollDeductionPayItem,
+  onRemovePayrollDeductionPayItem,
 }) => {
   const Employment = () => (
     <EmploymentDetails
@@ -21,9 +27,17 @@ const EmployeeDetailPayrollDetails = ({
     />
   );
 
+  const Deductions = () => (
+    <PayrollDeductionDetails
+      onAddPayrollDeductionPayItem={onAddPayrollDeductionPayItem}
+      onRemovePayrollDeductionPayItem={onRemovePayrollDeductionPayItem}
+    />
+  );
+
   const Content = {
     [payrollDetailsSubTabIds.employmentDetails]: Employment,
     [payrollDetailsSubTabIds.salaryAndWages]: SalaryAndWages,
+    [payrollDetailsSubTabIds.deductions]: Deductions,
   }[selectedTab];
 
   return (

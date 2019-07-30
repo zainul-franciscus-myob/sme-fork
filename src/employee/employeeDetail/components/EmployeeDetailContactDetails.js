@@ -7,7 +7,7 @@ import React from 'react';
 
 import {
   getContactDetail, getIsStateDropdown, getStateOptions,
-} from '../EmployeeDetailSelectors';
+} from '../selectors/EmployeeDetailSelectors';
 import CountryCombobox from '../../../components/combobox/CountryCombobox';
 import PhoneNumberList from '../../../components/phoneNumberList/PhoneNumberList';
 

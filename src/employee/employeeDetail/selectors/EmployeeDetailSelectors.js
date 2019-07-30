@@ -1,8 +1,8 @@
-import { createSelector, createStructuredSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect/lib/index';
 import { differenceInYears } from 'date-fns';
 
-import { mainTabIds, payrollDetailsSubTabIds } from './tabItems';
-import countryList from '../../sharedData/countryList';
+import { mainTabIds, payrollDetailsSubTabIds } from '../tabItems';
+import countryList from '../../../sharedData/countryList';
 
 export const getBusinessId = state => state.businessId;
 export const getIsLoading = state => state.isLoading;
