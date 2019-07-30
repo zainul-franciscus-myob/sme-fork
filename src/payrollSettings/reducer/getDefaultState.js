@@ -1,6 +1,8 @@
 const getDefaultState = () => ({
+  businessId: '',
   tab: '',
   alert: undefined,
+  modalType: '',
   superFundList: {
     isLoading: true,
     isTableLoading: false,
@@ -26,6 +28,12 @@ const getDefaultState = () => ({
     sortOrder: '',
     orderBy: '',
     entries: [],
+  },
+  employmentClassificationDetail: {
+    id: undefined,
+    description: '',
+    alert: undefined,
+    isLoading: false,
   },
 });
 

@@ -26,6 +26,7 @@ const EmploymentClassificationListTable = (props) => {
     isTableEmpty,
     order,
     onSort,
+    onClickRowButton,
   } = props;
 
   let tableBodyView;
@@ -34,7 +35,12 @@ const EmploymentClassificationListTable = (props) => {
   } else if (isTableEmpty) {
     tableBodyView = emptyView;
   } else {
-    tableBodyView = (<EmploymentClassificationListTableBody tableConfig={tableConfig} />);
+    tableBodyView = (
+      <EmploymentClassificationListTableBody
+        tableConfig={tableConfig}
+        onClickRowButton={onClickRowButton}
+      />
+    );
   }
 
   return (

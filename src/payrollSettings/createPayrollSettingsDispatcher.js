@@ -1,11 +1,19 @@
 import {
+  CHANGE_EMPLOYMENT_CLASSIFICATION_DETAIL,
+  LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
+  LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_SUPER_FUND_LIST,
   SET_ALERT,
+  SET_EMPLOYMENT_CLASSIFICATION_DETAIL_ALERT,
+  SET_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
+  SET_EMPLOYMENT_CLASSIFICATION_DETAIL_IS_LOADING,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_FILTER_OPTIONS,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_LOADING_STATE,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE,
+  SET_MODAL_TYPE,
+  SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
   SET_SUPER_FUND_LIST_FILTER_OPTIONS,
   SET_SUPER_FUND_LIST_LOADING_STATE,
   SET_SUPER_FUND_LIST_SORT_ORDER,
@@ -19,7 +27,10 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 const createPayrollSettingsDispatcher = store => ({
   setInitialState: (context) => {
     const intent = SET_INITIAL_STATE;
-    store.dispatch({ intent, context });
+    store.dispatch({
+      intent,
+      context,
+    });
   },
 
   resetState: () => {
@@ -31,7 +42,10 @@ const createPayrollSettingsDispatcher = store => ({
     const intent = SET_ALERT;
     store.dispatch({
       intent,
-      alert: { message, type },
+      alert: {
+        message,
+        type,
+      },
     });
   },
 
@@ -43,9 +57,26 @@ const createPayrollSettingsDispatcher = store => ({
     });
   },
 
+  setModalType: (modalType) => {
+    store.dispatch({
+      intent: SET_MODAL_TYPE,
+      modalType,
+    });
+  },
+
+  dismissModal: () => {
+    store.dispatch({
+      intent: SET_MODAL_TYPE,
+      modalType: '',
+    });
+  },
+
   setTab: (selectedTab) => {
     const intent = SET_TAB;
-    store.dispatch({ intent, selectedTab });
+    store.dispatch({
+      intent,
+      selectedTab,
+    });
   },
 
   loadSuperFundList: (response) => {
@@ -94,12 +125,18 @@ const createPayrollSettingsDispatcher = store => ({
 
   setSuperFundListLoadingState: (isLoading) => {
     const intent = SET_SUPER_FUND_LIST_LOADING_STATE;
-    store.dispatch({ intent, isLoading });
+    store.dispatch({
+      intent,
+      isLoading,
+    });
   },
 
   setSuperFundListTableLoadingState: (isTableLoading) => {
     const intent = SET_SUPER_FUND_LIST_TABLE_LOADING_STATE;
-    store.dispatch({ intent, isTableLoading });
+    store.dispatch({
+      intent,
+      isTableLoading,
+    });
   },
 
   loadEmploymentClassificationList: (response) => {
@@ -112,12 +149,18 @@ const createPayrollSettingsDispatcher = store => ({
 
   setEmploymentClassificationListLoadingState: (isLoading) => {
     const intent = SET_EMPLOYMENT_CLASSIFICATION_LIST_LOADING_STATE;
-    store.dispatch({ intent, isLoading });
+    store.dispatch({
+      intent,
+      isLoading,
+    });
   },
 
   setEmploymentClassificationListTableLoadingState: (isTableLoading) => {
     const intent = SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE;
-    store.dispatch({ intent, isTableLoading });
+    store.dispatch({
+      intent,
+      isTableLoading,
+    });
   },
 
   filterEmploymentClassificationList: (response) => {
@@ -153,6 +196,62 @@ const createPayrollSettingsDispatcher = store => ({
       intent,
       orderBy,
       sortOrder,
+    });
+  },
+
+  changeEmploymentClassificationDetail: ({ key, value }) => {
+    store.dispatch({
+      intent: CHANGE_EMPLOYMENT_CLASSIFICATION_DETAIL,
+      key,
+      value,
+    });
+  },
+
+  setEmploymentClassificationDetailInitialState: (context) => {
+    store.dispatch({
+      intent: SET_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
+      context,
+    });
+  },
+
+  setNewEmploymentClassificationDetailInitialState: () => {
+    store.dispatch({
+      intent: SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
+    });
+  },
+
+  setEmploymentClassificationDetailIsLoading: (isLoading) => {
+    store.dispatch({
+      intent: SET_EMPLOYMENT_CLASSIFICATION_DETAIL_IS_LOADING,
+      isLoading,
+    });
+  },
+
+  setEmploymentClassificationDetailAlert: (alert) => {
+    store.dispatch({
+      intent: SET_EMPLOYMENT_CLASSIFICATION_DETAIL_ALERT,
+      alert,
+    });
+  },
+
+  dismissEmploymentClassificationDetailAlert: () => {
+    store.dispatch({
+      intent: SET_EMPLOYMENT_CLASSIFICATION_DETAIL_ALERT,
+      alert: '',
+    });
+  },
+
+  loadNewEmploymentClassificationDetail: (employmentClassification) => {
+    store.dispatch({
+      intent: LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
+      employmentClassification,
+    });
+  },
+
+  loadEmploymentClassificationDetail: (employmentClassification) => {
+    store.dispatch({
+      intent: LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL,
+      employmentClassification,
     });
   },
 });

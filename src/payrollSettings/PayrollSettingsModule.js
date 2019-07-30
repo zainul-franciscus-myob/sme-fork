@@ -5,9 +5,11 @@ import { SUCCESSFULLY_DELETED_SUPER_FUND, SUCCESSFULLY_SAVED_SUPER_FUND } from '
 import {
   getBusinessId, getRegion, getTab, getURLParams,
 } from './selectors/payrollSettingsSelectors';
+import { getIsCreating } from './selectors/employmentClassificationDetailSelectors';
 import { getNewEmploymentClassificationSortOrder } from './selectors/employmentClassificationListSelectors';
 import { getNewSortOrder } from './selectors/superFundListSelectors';
 import { tabIds } from './tabItems';
+import ModalType from './ModalType';
 import PayrollSettingsView from './components/PayrollSettingsView';
 import Store from '../store/Store';
 import createPayrollSettingsDispatcher from './createPayrollSettingsDispatcher';
@@ -173,6 +175,108 @@ export default class PayrollSettingsModule {
     });
   }
 
+  closeEmploymentClassificationDetailModal = () => {
+    this.dispatcher.dismissModal();
+  }
+
+  dismissEmploymentClassificationAlert = () => {
+    this.dispatcher.dismissEmploymentClassificationDetailAlert();
+  }
+
+  openNewEmployeeClassificationDetailModal = () => {
+    this.dispatcher.setModalType(ModalType.EMPLOYMENT_CLASSIFICATION_DETAIL);
+    this.dispatcher.setNewEmploymentClassificationDetailInitialState();
+    this.dispatcher.setEmploymentClassificationDetailIsLoading(true);
+
+    const onSuccess = (employmentClassification) => {
+      this.dispatcher.setEmploymentClassificationDetailIsLoading(false);
+      this.dispatcher.loadNewEmploymentClassificationDetail(employmentClassification);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.dismissModal();
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.loadNewEmploymentClassificationDetail({ onSuccess, onFailure });
+  }
+
+  openEmployeeClassificationDetailModal = (id) => {
+    this.dispatcher.setModalType(ModalType.EMPLOYMENT_CLASSIFICATION_DETAIL);
+    this.dispatcher.setEmploymentClassificationDetailInitialState({ id });
+    this.dispatcher.setEmploymentClassificationDetailIsLoading(true);
+
+    const onSuccess = (employmentClassification) => {
+      this.dispatcher.setEmploymentClassificationDetailIsLoading(false);
+      this.dispatcher.loadEmploymentClassificationDetail(employmentClassification);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.dismissModal();
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.loadEmploymentClassificationDetail({ onSuccess, onFailure });
+  }
+
+  saveEmploymentClassification = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setEmploymentClassificationDetailIsLoading(false);
+      this.dispatcher.dismissModal();
+      this.dispatcher.setAlert({
+        type: 'success',
+        message,
+      });
+
+      this.filterEmploymentClassificationList();
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.setEmploymentClassificationDetailIsLoading(false);
+      this.dispatcher.setEmploymentClassificationDetailAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.dispatcher.setEmploymentClassificationDetailIsLoading(true);
+    if (isCreating) {
+      this.integrator.createEmploymentClassification({ onSuccess, onFailure });
+    } else {
+      this.integrator.updateEmploymentClassification({ onSuccess, onFailure });
+    }
+  }
+
+  deleteEmploymentClassification = () => {
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setEmploymentClassificationDetailIsLoading(false);
+      this.dispatcher.dismissModal();
+      this.dispatcher.setAlert({
+        type: 'success',
+        message,
+      });
+
+      this.filterEmploymentClassificationList();
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.setEmploymentClassificationDetailIsLoading(false);
+      this.dispatcher.setEmploymentClassificationDetailAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.dispatcher.setEmploymentClassificationDetailIsLoading(true);
+    this.integrator.deleteEmploymentClassification({ onSuccess, onFailure });
+  }
+
   resetState = () => {
     this.dispatcher.resetState();
   };
@@ -201,10 +305,20 @@ export default class PayrollSettingsModule {
           onSort: this.sortSuperFundList,
         }}
         employmentClassificationListeners={{
-          onCreateButtonClick: () => {},
+          onCreateButtonClick: this.openNewEmployeeClassificationDetailModal,
           onUpdateFilterOptions: this.dispatcher.setEmploymentClassificationListFilterOptions,
           onApplyFilter: this.filterEmploymentClassificationList,
           onSort: this.sortEmploymentClassificationList,
+          onClickRowButton: this.openEmployeeClassificationDetailModal,
+        }}
+        employmentClassificationDetailListeners={{
+          onChangeEmploymentClassificationDetail:
+            this.dispatcher.changeEmploymentClassificationDetail,
+          onCancelEmploymentClassificationDetailModal:
+            this.closeEmploymentClassificationDetailModal,
+          onSaveEmploymentClassificationDetail: this.saveEmploymentClassification,
+          onDeleteEmploymentClassificationDetail: this.deleteEmploymentClassification,
+          onDismissEmploymentClassificationAlert: this.dismissEmploymentClassificationAlert,
         }}
       />
     );

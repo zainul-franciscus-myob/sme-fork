@@ -2,7 +2,6 @@ import {
   Button, ButtonRow, Spinner, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getIsLoading } from '../../selectors/employmentClassificationListSelectors';
@@ -21,6 +20,7 @@ const EmploymentClassificationListView = (props) => {
       onUpdateFilterOptions,
       onApplyFilter,
       onSort,
+      onClickRowButton,
     },
   } = props;
 
@@ -51,7 +51,7 @@ const EmploymentClassificationListView = (props) => {
   );
 
   const view = (
-    <EmploymentClassificationListTable onSort={onSort} />
+    <EmploymentClassificationListTable onSort={onSort} onClickRowButton={onClickRowButton} />
   );
 
   return (
@@ -65,23 +65,6 @@ const EmploymentClassificationListView = (props) => {
       { isLoading ? spinner : view }
     </StandardTemplate>
   );
-};
-
-EmploymentClassificationListView.defaultProps = {
-  alert: undefined,
-};
-
-EmploymentClassificationListView.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  pageHead: PropTypes.string.isRequired,
-  alert: PropTypes.node,
-  tabs: PropTypes.node.isRequired,
-  listeners: PropTypes.shape({
-    onCreateButtonClick: PropTypes.func.isRequired,
-    onUpdateFilterOptions: PropTypes.func.isRequired,
-    onApplyFilter: PropTypes.func.isRequired,
-    onSort: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 const mapStateToProps = state => ({

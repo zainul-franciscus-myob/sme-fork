@@ -23,3 +23,5 @@ export const getTab = createSelector(
 export const getURLParams = createStructuredSelector({
   tab: getTab,
 });
+
+export const getModalType = state => state.modalType;

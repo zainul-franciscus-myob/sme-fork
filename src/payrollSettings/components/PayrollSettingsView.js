@@ -2,27 +2,30 @@ import {
   Alert, StandardTemplate, Tabs,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getAlert, getTab } from '../selectors/payrollSettingsSelectors';
+import { getAlert, getModalType, getTab } from '../selectors/payrollSettingsSelectors';
 import { tabIds, tabItems } from '../tabItems';
 import EmployeeClassificationListView from './employmentClassificationList/EmploymentClassificationListView';
+import EmploymentClassificationDetailModal
+  from './employmentClassificationDetail/EmploymentClassificationDetailModal';
+import ModalType from '../ModalType';
 import SuperFundListView from './superFundList/SuperFundListView';
 
-// eslint-disable-next-line react/prop-types
 const EmptyView = ({ pageHead, alert, tabs }) => (
   <StandardTemplate sticky="none" pageHead={pageHead} alert={alert} subHeadChildren={tabs} />
 );
 
 const PayrollSettingsView = (props) => {
   const {
+    modalType,
     alert,
     selectedTab,
     onSelectTab,
     onDismissAlert,
     superFundListeners,
     employmentClassificationListeners,
+    employmentClassificationDetailListeners,
   } = props;
 
   const alertComponent = alert && (
@@ -32,6 +35,12 @@ const PayrollSettingsView = (props) => {
   );
 
   const tabsComponent = <Tabs items={tabItems} selected={selectedTab} onSelected={onSelectTab} />;
+
+  const modal = {
+    [ModalType.EMPLOYMENT_CLASSIFICATION_DETAIL]: <EmploymentClassificationDetailModal
+      employmentClassificationDetailListeners={employmentClassificationDetailListeners}
+    />,
+  }[modalType];
 
   const View = {
     [tabIds.general]: EmptyView,
@@ -46,26 +55,17 @@ const PayrollSettingsView = (props) => {
   }[selectedTab];
 
   return (
-    <View pageHead="Payroll settings" alert={alertComponent} tabs={tabsComponent} listeners={listeners} />
+    <React.Fragment>
+      { modal }
+      <View pageHead="Payroll settings" alert={alertComponent} tabs={tabsComponent} listeners={listeners} />
+    </React.Fragment>
   );
-};
-
-PayrollSettingsView.defaultProps = {
-  alert: undefined,
-};
-
-PayrollSettingsView.propTypes = {
-  alert: PropTypes.shape(),
-  selectedTab: PropTypes.string.isRequired,
-  superFundListeners: PropTypes.shape({}).isRequired,
-  onSelectTab: PropTypes.func.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  employmentClassificationListeners: PropTypes.shape({}).isRequired,
 };
 
 const mapStateToProps = state => ({
   selectedTab: getTab(state),
   alert: getAlert(state),
+  modalType: getModalType(state),
 });
 
 export default connect(mapStateToProps)(PayrollSettingsView);

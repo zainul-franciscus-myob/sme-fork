@@ -1,8 +1,13 @@
 import {
+  CREATE_EMPLOYMENT_CLASSIFICATION,
+  DELETE_EMPLOYMENT_CLASSIFICATION,
+  LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
+  LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_SUPER_FUND_LIST,
   SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST,
   SORT_AND_FILTER_SUPER_FUND_LIST,
+  UPDATE_EMPLOYMENT_CLASSIFICATION,
 } from './PayrollSettingsIntents';
 import {
   getAppliedFilterOptions,
@@ -17,6 +22,11 @@ import {
   getEmploymentClassificationOrderBy,
   getEmploymentClassificationSortOrder,
 } from './selectors/employmentClassificationListSelectors';
+import {
+  getEmploymentClassificationUrlParams,
+  getNewEmploymentClassificationUrlParams,
+  getSaveEmploymentClassificationContent,
+} from './selectors/employmentClassificationDetailSelectors';
 
 const createPayrollSettingsIntegrator = (store, integration) => ({
   loadSuperFundList: ({ onSuccess, onFailure }) => {
@@ -146,6 +156,90 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
         sortOrder,
         orderBy,
       },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadNewEmploymentClassificationDetail: ({
+    onSuccess, onFailure,
+  }) => {
+    const intent = LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL;
+
+    const state = store.getState();
+    const urlParams = getNewEmploymentClassificationUrlParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadEmploymentClassificationDetail: ({
+    onSuccess, onFailure,
+  }) => {
+    const intent = LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL;
+
+    const state = store.getState();
+    const urlParams = getEmploymentClassificationUrlParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  createEmploymentClassification: ({
+    onSuccess, onFailure,
+  }) => {
+    const intent = CREATE_EMPLOYMENT_CLASSIFICATION;
+
+    const state = store.getState();
+    const urlParams = getNewEmploymentClassificationUrlParams(state);
+    const content = getSaveEmploymentClassificationContent(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  updateEmploymentClassification: ({
+    onSuccess, onFailure,
+  }) => {
+    const intent = UPDATE_EMPLOYMENT_CLASSIFICATION;
+
+    const state = store.getState();
+    const urlParams = getEmploymentClassificationUrlParams(state);
+    const content = getSaveEmploymentClassificationContent(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  deleteEmploymentClassification: ({
+    onSuccess, onFailure,
+  }) => {
+    const intent = DELETE_EMPLOYMENT_CLASSIFICATION;
+
+    const state = store.getState();
+    const urlParams = getEmploymentClassificationUrlParams(state);
+
+    integration.write({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

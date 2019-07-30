@@ -1,0 +1,5 @@
+const ModalType = {
+  EMPLOYMENT_CLASSIFICATION_DETAIL: 'EMPLOYMENT_CLASSIFICATION_DETAIL',
+};
+
+export default ModalType;
