@@ -4,8 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert } from '../../employee/employeeDetail/EmployeeDetailSelectors';
-import { getIsLoading } from '../LinkedAccountsSelectors';
+import { getAlert, getIsLoading } from '../LinkedAccountsSelectors';
 import Alert from './Alert';
 import LinkedAccountsActions from './LinkedAccountsActions';
 import LinkedAccountsContent from './LinkedAccountsContent';
