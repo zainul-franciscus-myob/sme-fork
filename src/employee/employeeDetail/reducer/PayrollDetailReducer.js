@@ -25,7 +25,9 @@ const setPayrollDeductionState = (state, partialDeductionDetails) => ({
 export const addPayrollDeductionPayItem = (state, action) => {
   const updatedPayItems = [
     ...state.payrollDetails.deductionDetails.deductionPayItems,
-    { id: action.id, name: action.name, type: action.type },
+    {
+      id: action.id, name: action.name, type: action.type, displayType: action.displayType,
+    },
   ];
   const partialDeductionDetails = { deductionPayItems: updatedPayItems };
 

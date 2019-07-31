@@ -34,10 +34,10 @@ const PayrollDeductionDetailTable = ({
     <PageState title="You have not added any deduction pay items yet." />
   );
 
-  const tableBodyView = selected.map(({ id, name, type }) => (
+  const tableBodyView = selected.map(({ id, name, displayType }) => (
     <Table.Row key={id}>
       <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
-      <Table.RowItem {...tableConfig.type}>{type}</Table.RowItem>
+      <Table.RowItem {...tableConfig.type}>{displayType}</Table.RowItem>
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
         <Tooltip triggerContent={(
           <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemovePayItem, id)}>

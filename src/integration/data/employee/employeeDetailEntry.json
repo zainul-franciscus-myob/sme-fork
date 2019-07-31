@@ -45,7 +45,8 @@
         {
           "id": "1",
           "name": "Advance repayment",
-          "type": "Percent"
+          "type": "DeductionPayrollCategory",
+          "displayType": "Percent"
         }
       ]
     }
@@ -198,17 +199,20 @@
     {
       "id": "1",
       "name": "Advance repayment",
-      "type": "Percent"
+      "type": "DeductionPayrollCategory",
+      "displayType": "Percent"
     },
     {
       "id": "2",
       "name": "Deduction child care tax exempt",
-      "type": "Fixed dollar"
+      "type": "DeductionPayrollCategory",
+      "displayType": "Fixed dollar"
     },
     {
       "id": "3",
       "name": "Employee purchase",
-      "type": "Fixed dollar"
+      "type": "DeductionPayrollCategory",
+      "displayType": "Fixed dollar"
     }
   ],
   "allocatedPayItemOptions": [
