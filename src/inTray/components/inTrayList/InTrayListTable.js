@@ -19,9 +19,8 @@ const tableConfig = {
 
 const emptyView = (
   <NoResultPageState
-    title="Drag and drop, or browse for files to upload to the In Tray."
+    title="You currently don't have any documents in your In Tray."
     actions={[<Button key={1} type="link" icon={<Icons.Add />}>Upload documents</Button>]}
-    description="Only upload PDF, JPG, TIFF, and PNG files under 10MB."
   />
 );
 
