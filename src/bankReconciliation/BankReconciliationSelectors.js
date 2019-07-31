@@ -40,9 +40,13 @@ const formatCurrency = (amount) => {
   return amount < 0 ? `-$${formattedAmount}` : `$${formattedAmount}`;
 };
 
-export const getOutOfBalance = state => (
-  state.calculatedClosingBalance - Number(state.closingBankStatementBalance)
-);
+export const getOutOfBalance = ({ calculatedClosingBalance, closingBankStatementBalance }) => {
+  const outOfBalance = calculatedClosingBalance - (Number(closingBankStatementBalance) || 0);
+  if (Math.abs(outOfBalance) < 0.01) {
+    return 0;
+  }
+  return outOfBalance;
+};
 export const getIsOutOfBalance = state => getOutOfBalance(state) !== 0;
 export const getFormattedOutOfBalance = state => formatCurrency(getOutOfBalance(state));
 export const getOptions = createStructuredSelector({

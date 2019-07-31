@@ -4,6 +4,7 @@ import {
   getHeaderSelectStatus,
   getOptions,
   getOrder,
+  getOutOfBalance,
 } from '../BankReconciliationSelectors';
 
 describe('BankReconciliationSelectors', () => {
@@ -243,6 +244,30 @@ describe('BankReconciliationSelectors', () => {
       const actual = getCreateBankReconciliationPayload(state);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getOutOfBalance', () => {
+    it('handle invalid closingBankStatementBalance input', () => {
+      const state = {
+        closingBankStatementBalance: '-',
+        calculatedClosingBalance: 100,
+      };
+
+      const actual = getOutOfBalance(state);
+
+      expect(actual).toEqual(100);
+    });
+
+    it('handle more than 2 decimal places', () => {
+      const state = {
+        closingBankStatementBalance: '100',
+        calculatedClosingBalance: 100.001,
+      };
+
+      const actual = getOutOfBalance(state);
+
+      expect(actual).toEqual(0);
     });
   });
 });
