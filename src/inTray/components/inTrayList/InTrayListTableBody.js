@@ -18,21 +18,11 @@ const getThumbnail = (ocrStatus, thumbnailUri, alt) => (
   </div>
 );
 
-const getInvoiceRowItem = (ocrStatus, value) => {
-  if (ocrStatus === 'Completed') {
-    return value;
-  }
-
-  if (ocrStatus === 'InProgress') {
-    return '';
-  }
-
-  return (
-    <Tooltip triggerContent={<Icons.Info />}>
+const getInvoiceRowItem = value => value || (
+  <Tooltip triggerContent={<Icons.Info />}>
         Information not available
-    </Tooltip>
-  );
-};
+  </Tooltip>
+);
 
 const InTrayListTableBody = ({ tableConfig, entries }) => {
   const rows = entries.map((entry) => {
@@ -53,13 +43,13 @@ const InTrayListTableBody = ({ tableConfig, entries }) => {
         </Table.RowItem>
         <Table.RowItem {...tableConfig.uploadedDate}>{uploadedDate}</Table.RowItem>
         <Table.RowItem {...tableConfig.invoiceNumber}>
-          {getInvoiceRowItem(ocrStatus, invoiceNumber)}
+          {getInvoiceRowItem(invoiceNumber)}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.issuedDate}>
-          {getInvoiceRowItem(ocrStatus, issuedDate)}
+          {getInvoiceRowItem(issuedDate)}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.totalAmount}>
-          {getInvoiceRowItem(ocrStatus, totalAmount)}
+          {getInvoiceRowItem(totalAmount)}
         </Table.RowItem>
       </Table.Row>
     );
