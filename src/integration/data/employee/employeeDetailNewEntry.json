@@ -14,178 +14,178 @@
     },
     "deductionDetails": {
       "deductionPayItems": []
-    },
-    "paymentDetails": {
-      "paymentMethod": "Cheque",
-      "splitPayBetween": "1",
-      "bankAccounts": [
-        {
-          "bsbNumber": "",
-          "accountNumber": "",
-          "accountName": "",
-          "value": "Percent",
-          "amount": "100.00"
-        },
-        {
-          "bsbNumber": "",
-          "accountNumber": "",
-          "accountName": "",
-          "value": "Percent",
-          "amount": "0.00"
-        },
-        {
-          "bsbNumber": "",
-          "accountNumber": "",
-          "accountName": "",
-          "value": "Percent",
-          "amount": "0.00"
-        }
-      ]
     }
   },
-    "genderOptions": [
+  "paymentDetails": {
+    "paymentMethod": "Cheque",
+    "splitPayBetween": "1",
+    "bankAccounts": [
       {
-        "name": "Blank",
-        "value": ""
+        "bsbNumber": "",
+        "accountNumber": "",
+        "accountName": "",
+        "value": "Percent",
+        "amount": "100.00"
       },
       {
-        "name": "Male",
-        "value": "Male"
+        "bsbNumber": "",
+        "accountNumber": "",
+        "accountName": "",
+        "value": "Percent",
+        "amount": "0.00"
       },
       {
-        "value": "Female",
-        "name": "Female"
-      },
-      {
-        "value": "Indeterminate",
-        "name": "Indeterminate"
-      }
-    ],
-    "employmentBasisOptions": [
-      {
-        "name": "Individual",
-        "value": "Individual"
-      },
-      {
-        "name": "Labour Hire",
-        "value": "LabourHire"
-      },
-      {
-        "name": "Other",
-        "value": "Other"
-      }
-    ],
-    "employmentCategoryOptions": [
-      {
-        "name": "Permanent",
-        "value": "Permanent"
-      },
-      {
-        "name": "Temporary",
-        "value": "Temporary"
-      }
-    ],
-    "employmentStatusOptions": [
-      {
-        "name": "Full time",
-        "value": "FullTime"
-      },
-      {
-        "name": "Part-time",
-        "value": "PartTime"
-      },
-      {
-        "name": "Other",
-        "value": "Other"
-      },
-      {
-        "name": "Casual",
-        "value": "Casual"
-      }
-    ],
-    "payslipDeliveryOptions": [
-      {
-        "name": "To be printed",
-        "value": "ToBePrinted"
-      },
-      {
-        "name": "To be emailed",
-        "value": "ToBeEmailed"
-      },
-      {
-        "name": "To be printed and emailed",
-        "value": "ToBePrintedAndEmailed"
-      },
-      {
-        "name": "Already printed or sent",
-        "value": "AlreadyPrintedOrSent"
-      }
-    ],
-    "paymentMethodOptions": [
-      {
-        "name": "Electronic",
-        "value": "Electronic"
-      },
-      {
-        "name": "Cheque",
-        "value": "Cheque"
-      },
-      {
-        "name": "Cash",
-        "value": "Cash"
-      }
-    ],
-    "splitNetPayBetweenOptions": [
-      {
-        "name": "1",
-        "value": "1"
-      },
-      {
-        "name": "2",
-        "value": "2"
-      },
-      {
-        "name": "3",
-        "value": "3"
-      }
-    ],
-    "valueOptions": [
-      {
-        "name": "Percentage",
-        "value": "Percent"
-      },
-      {
-        "name": "Dollars",
-        "value": "Dollars"
-      }
-    ],
-    "deductionPayItemOptions": [
-      {
-        "id": "1",
-        "name": "Advance repayment",
-        "type": "Percent"
-      },
-      {
-        "id": "2",
-        "name": "Deduction child care tax exempt",
-        "type": "Fixed dollar"
-      },
-      {
-        "id": "3",
-        "name": "Employee purchase",
-        "type": "Fixed dollar"
-      }
-    ],
-    "allocatedPayItemOptions": [
-      {
-        "id": 87,
-        "name": "Annual leave accrual",
-        "value": "AnnualLeaveAccrual"
-      },
-      {
-        "id": 89,
-        "name": "Sick leave",
-        "value": "SickLeave"
+        "bsbNumber": "",
+        "accountNumber": "",
+        "accountName": "",
+        "value": "Percent",
+        "amount": "0.00"
       }
     ]
-  }
+  },
+  "genderOptions": [
+    {
+      "name": "Blank",
+      "value": ""
+    },
+    {
+      "name": "Male",
+      "value": "Male"
+    },
+    {
+      "value": "Female",
+      "name": "Female"
+    },
+    {
+      "value": "Indeterminate",
+      "name": "Indeterminate"
+    }
+  ],
+  "employmentBasisOptions": [
+    {
+      "name": "Individual",
+      "value": "Individual"
+    },
+    {
+      "name": "Labour Hire",
+      "value": "LabourHire"
+    },
+    {
+      "name": "Other",
+      "value": "Other"
+    }
+  ],
+  "employmentCategoryOptions": [
+    {
+      "name": "Permanent",
+      "value": "Permanent"
+    },
+    {
+      "name": "Temporary",
+      "value": "Temporary"
+    }
+  ],
+  "employmentStatusOptions": [
+    {
+      "name": "Full time",
+      "value": "FullTime"
+    },
+    {
+      "name": "Part-time",
+      "value": "PartTime"
+    },
+    {
+      "name": "Other",
+      "value": "Other"
+    },
+    {
+      "name": "Casual",
+      "value": "Casual"
+    }
+  ],
+  "payslipDeliveryOptions": [
+    {
+      "name": "To be printed",
+      "value": "ToBePrinted"
+    },
+    {
+      "name": "To be emailed",
+      "value": "ToBeEmailed"
+    },
+    {
+      "name": "To be printed and emailed",
+      "value": "ToBePrintedAndEmailed"
+    },
+    {
+      "name": "Already printed or sent",
+      "value": "AlreadyPrintedOrSent"
+    }
+  ],
+  "paymentMethodOptions": [
+    {
+      "name": "Electronic",
+      "value": "Electronic"
+    },
+    {
+      "name": "Cheque",
+      "value": "Cheque"
+    },
+    {
+      "name": "Cash",
+      "value": "Cash"
+    }
+  ],
+  "splitNetPayBetweenOptions": [
+    {
+      "name": "1",
+      "value": "1"
+    },
+    {
+      "name": "2",
+      "value": "2"
+    },
+    {
+      "name": "3",
+      "value": "3"
+    }
+  ],
+  "valueOptions": [
+    {
+      "name": "Percentage",
+      "value": "Percent"
+    },
+    {
+      "name": "Dollars",
+      "value": "Dollars"
+    }
+  ],
+  "deductionPayItemOptions": [
+    {
+      "id": "1",
+      "name": "Advance repayment",
+      "type": "Percent"
+    },
+    {
+      "id": "2",
+      "name": "Deduction child care tax exempt",
+      "type": "Fixed dollar"
+    },
+    {
+      "id": "3",
+      "name": "Employee purchase",
+      "type": "Fixed dollar"
+    }
+  ],
+  "allocatedPayItemOptions": [
+    {
+      "id": 87,
+      "name": "Annual leave accrual",
+      "value": "AnnualLeaveAccrual"
+    },
+    {
+      "id": 89,
+      "name": "Sick leave",
+      "value": "SickLeave"
+    }
+  ]
+}
