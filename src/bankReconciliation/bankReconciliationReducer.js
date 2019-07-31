@@ -88,9 +88,12 @@ const updateAmount = (state, { key, value }) => ({
   [key]: formatAmount(value),
 });
 
-const getAdjustmentForRow = ({ withdrawal, deposit }, value) => (
-  value ? (-withdrawal || deposit) : (withdrawal || -deposit)
-);
+const getAdjustmentForRow = ({ withdrawal, deposit }, value) => {
+  if (withdrawal === 0 || deposit === 0) {
+    return 0;
+  }
+  return value ? (-withdrawal || deposit) : (withdrawal || -deposit);
+};
 const selectRow = (state, { index, value }) => {
   const balanceAdjustment = getAdjustmentForRow(state.entries[index], value);
 

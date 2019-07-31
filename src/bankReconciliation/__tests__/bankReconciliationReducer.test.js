@@ -71,6 +71,74 @@ describe('bankReconciliationReducer', () => {
       expect(actual).toEqual(expected);
     });
 
+    it('should handle Withdrawal row with 0 amount', () => {
+      const state = {
+        calculatedClosingBalance: 200,
+        entries: [
+          {
+            journalLineId: '1',
+            withdrawal: 0,
+          },
+          {
+            journalLineId: '2',
+          },
+        ],
+      };
+
+      const expected = {
+        calculatedClosingBalance: 200,
+        entries: [
+          {
+            journalLineId: '1',
+            withdrawal: 0,
+            isChecked: true,
+          },
+          {
+            journalLineId: '2',
+          },
+        ],
+      };
+
+      const action = { intent: SELECT_ROW, index: 0, value: true };
+      const actual = bankReconciliationDetailReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should handle Deposit row with 0 amount', () => {
+      const state = {
+        calculatedClosingBalance: 200,
+        entries: [
+          {
+            journalLineId: '1',
+            deposit: 0,
+          },
+          {
+            journalLineId: '2',
+          },
+        ],
+      };
+
+      const expected = {
+        calculatedClosingBalance: 200,
+        entries: [
+          {
+            journalLineId: '1',
+            deposit: 0,
+            isChecked: true,
+          },
+          {
+            journalLineId: '2',
+          },
+        ],
+      };
+
+      const action = { intent: SELECT_ROW, index: 0, value: true };
+      const actual = bankReconciliationDetailReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
     it('should unselect a Withdrawal row', () => {
       const state = {
         calculatedClosingBalance: 200,
