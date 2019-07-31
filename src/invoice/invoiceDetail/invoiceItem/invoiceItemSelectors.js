@@ -101,23 +101,61 @@ export const getTaxInclusiveOption = state => (
 );
 
 const getExpirationDaysForInputField = state => getInvoice(state).expirationDays.toString();
+const getIsAllowOnlinePayments = state => state.invoice.isAllowOnlinePayments;
 
+const getHasSetUpOnlinePayments = state => state.payDirect.isRegistered;
+const getSerialNumber = state => state.payDirect.serialNumber;
+const getSetUpOnlinePaymentsBaseUrl = state => state.payDirect.baseUrl;
+const getSetUpOnlinePaymentsLink = createSelector(
+  getBusinessId,
+  getSerialNumber,
+  getSetUpOnlinePaymentsBaseUrl,
+  (businessId, serialNumber, baseUrl) => `${baseUrl}?cdf=${businessId}&sn=${serialNumber}`,
+);
 export const getComments = state => state.comments.map(comment => ({ value: comment }));
 
-export const getInvoiceOptions = (state) => {
-  const { lines, isTaxInclusive, ...restOfInvoice } = getInvoice(state);
+export const getInvoiceOptions = createSelector(
+  getInvoice,
+  getExpiredDate,
+  getExpirationDaysForInputField,
+  getTaxInclusiveOption,
+  getCustomers,
+  getExpirationTerms,
+  getIsCreating,
+  areLinesCalculating,
+  getHasSetUpOnlinePayments,
+  getIsAllowOnlinePayments,
+  getSetUpOnlinePaymentsLink,
+  (
+    invoice,
+    expiredDate,
+    expirationDays,
+    taxInclusiveOption,
+    customers,
+    expirationTerms,
+    isCreating,
+    isTaxInclusiveDisabled,
+    hasSetUpOnlinePayments,
+    isAllowOnlinePayments,
+    setUpOnlinePaymentsLink,
+  ) => {
+    const { lines, isTaxInclusive, ...restOfInvoice } = invoice;
 
-  return {
-    ...restOfInvoice,
-    expiredDate: getExpiredDate(state),
-    expirationDays: getExpirationDaysForInputField(state),
-    taxInclusiveOption: getTaxInclusiveOption(state),
-    customers: getCustomers(state),
-    expirationTerms: getExpirationTerms(state),
-    isCreating: getIsCreating(state),
-    isTaxInclusiveDisabled: areLinesCalculating(state),
-  };
-};
+    return {
+      ...restOfInvoice,
+      expiredDate,
+      expirationDays,
+      taxInclusiveOption,
+      customers,
+      expirationTerms,
+      isCreating,
+      isTaxInclusiveDisabled,
+      hasSetUpOnlinePayments,
+      isAllowOnlinePayments,
+      setUpOnlinePaymentsLink,
+    };
+  },
+);
 
 export const getAreButtonsDisabled = state => areLinesCalculating(state) || getIsSubmitting(state);
 
@@ -174,10 +212,11 @@ export const getTotalsPayloadForTaxInclusiveChange = (state) => {
 
 export const getInvoicePayload = (state) => {
   const { amountPaid } = getTotals(state);
+  const { hasSetUpOnlinePayments, setUpOnlinePaymentsLink, ...restOfInvoice } = getInvoice(state);
 
   return {
     invoice: {
-      ...getInvoice(state),
+      ...restOfInvoice,
     },
     totals: {
       amountPaid,

@@ -46,7 +46,12 @@ const getDefaultState = () => ({
     note: '',
     issueDate: '',
     purchaseOrderNumber: '',
-    onlinePaymentMethod: '',
+    isAllowOnlinePayments: false,
+  },
+  payDirect: {
+    isRegistered: false,
+    baseUrl: '',
+    serialNumber: '',
   },
   customers: [],
   expirationTerms: [],
@@ -77,7 +82,7 @@ const getDefaultState = () => ({
 const setInitialState = (state, action) => {
   const {
     payload: {
-      customers, expirationTerms, invoice, items, newLine, taxCodes, totals, comments,
+      customers, expirationTerms, invoice, items, newLine, taxCodes, totals, comments, payDirect,
     },
     context: {
       region, businessId, invoiceId,
@@ -91,6 +96,7 @@ const setInitialState = (state, action) => {
       ...invoice,
       issueDate: buildIssueDate(invoiceId, invoice.issueDate),
     },
+    payDirect,
     customers,
     expirationTerms,
     items,

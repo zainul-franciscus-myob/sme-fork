@@ -1,0 +1,9 @@
+.onlinePaymentMethodsImage {
+  height: 2.1rem;
+  padding-bottom: 0.4rem;
+  width: auto;
+}
+
+.onlinePaymentCheckboxGroup > * {
+  display: inline-block;
+}

@@ -7,6 +7,7 @@ import React from 'react';
 import { getComments, getInvoiceOptions } from '../invoiceServiceSelectors';
 import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
+import InvoiceDetailOnlinePaymentMethod from '../../components/InvoiceDetailOnlinePaymentMethod';
 import InvoiceServicePaymentTerms from './InvoiceServicePaymentTerms';
 import styles from './InvoiceServiceOptions.module.css';
 
@@ -55,8 +56,11 @@ const InvoiceServiceOptions = ({
     expirationDays,
     taxInclusive,
     expirationTermOptions,
+    setUpOnlinePaymentsLink,
     notes,
     isCreating,
+    hasSetUpOnlinePayments,
+    isAllowOnlinePayments,
   },
   onUpdateHeaderOptions,
   comments,
@@ -122,6 +126,13 @@ const InvoiceServiceOptions = ({
         expirationTerms={expirationTermOptions}
         expirationDays={expirationDays}
         onUpdateInvoiceOption={onUpdateHeaderOptions}
+      />
+
+      <InvoiceDetailOnlinePaymentMethod
+        hasSetUpOnlinePayments={hasSetUpOnlinePayments}
+        isAllowOnlinePayments={isAllowOnlinePayments}
+        setUpOnlinePaymentsLink={setUpOnlinePaymentsLink}
+        onUpdateAllowOnlinePayments={onUpdateHeaderOptions}
       />
 
       <RadioButtonGroup

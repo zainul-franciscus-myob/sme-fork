@@ -7,9 +7,15 @@
     "isTaxInclusive": true,
     "invoiceNumber": "IN00000123",
     "purchaseOrderNumber": "",
+    "isAllowOnlinePayments": false,
     "note": "",
     "address": "",
     "lines": []
+  },
+  "payDirect": {
+    "isRegistered": false,
+    "baseUrl": "https://paydirectonline.myob.com/payments",
+    "serialNumber": "000000000000"
   },
   "customers": [
     {
@@ -92,5 +98,6 @@
     "amount": "",
     "displayAmount": ""
   },
-  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"]
+  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
+  "serialNumber": "000000000000"
 }

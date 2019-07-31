@@ -14,6 +14,7 @@ import {
 } from '../invoiceItemSelectors';
 import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
+import InvoiceDetailOnlinePaymentMethod from '../../components/InvoiceDetailOnlinePaymentMethod';
 import InvoiceItemPaymentTerms from './InvoiceItemPaymentTerms';
 import TaxState from '../enums/TaxState';
 import styles from './InvoiceItemOptions.module.css';
@@ -64,6 +65,9 @@ const InvoiceItemOptions = ({
     taxInclusiveOption,
     isCreating,
     isTaxInclusiveDisabled,
+    hasSetUpOnlinePayments,
+    isAllowOnlinePayments,
+    setUpOnlinePaymentsLink,
   },
   onUpdateInvoiceOption,
   onUpdateTaxInclusive,
@@ -124,6 +128,12 @@ const InvoiceItemOptions = ({
         onSelect={onIssueDateChange(onUpdateInvoiceOption)}
       />
       <InvoiceItemPaymentTerms onUpdateInvoiceOption={onUpdateInvoiceOption} />
+      <InvoiceDetailOnlinePaymentMethod
+        hasSetUpOnlinePayments={hasSetUpOnlinePayments}
+        isAllowOnlinePayments={isAllowOnlinePayments}
+        setUpOnlinePaymentsLink={setUpOnlinePaymentsLink}
+        onUpdateAllowOnlinePayments={onUpdateInvoiceOption}
+      />
       <RadioButtonGroup
         label="Amounts are"
         name="taxInclusiveOption"

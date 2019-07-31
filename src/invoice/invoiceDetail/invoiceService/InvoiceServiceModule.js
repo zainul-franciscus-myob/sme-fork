@@ -333,7 +333,6 @@ export default class InvoiceServiceModule {
 
   setInitialState = (context, payload) => {
     const intent = SET_INITIAL_STATE;
-
     this.store.dispatch({
       intent,
       context,

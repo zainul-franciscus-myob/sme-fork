@@ -6,8 +6,13 @@
     "taxInclusive": true,
     "number": "00000123",
     "amountPaid": "0.00",
-    "onlinePaymentMethod": "All",
+    "isAllowOnlinePayments": false,
     "lines": []
+  },
+  "payDirect": {
+    "isRegistered": false,
+    "baseUrl": "https://paydirectonline.myob.com/payments",
+    "serialNumber": "000000000000"
   },
   "contactOptions": [
     {

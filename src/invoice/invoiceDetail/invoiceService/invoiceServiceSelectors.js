@@ -122,13 +122,34 @@ export const getIsCreating = createSelector(
 const getInvoice = state => state.invoice;
 const getContactOptions = state => state.contactOptions;
 const getExpirationTermOptions = state => state.expirationTermOptions;
+const getIsAllowOnlinePayments = state => state.invoice.isAllowOnlinePayments;
+
+const getHasSetUpOnlinePayments = state => state.payDirect.isRegistered;
+const getSerialNumber = state => state.payDirect.serialNumber;
+const getSetUpOnlinePaymentsBaseUrl = state => state.payDirect.baseUrl;
+const getSetUpOnlinePaymentsLink = createSelector(
+  getBusinessId,
+  getSerialNumber,
+  getSetUpOnlinePaymentsBaseUrl,
+  (businessId, serialNumber, baseUrl) => `${baseUrl}?cdf=${businessId}&sn=${serialNumber}`,
+);
 export const getInvoiceOptions = createSelector(
   getInvoice,
   getContactOptions,
   getExpirationTermOptions,
+  getSetUpOnlinePaymentsLink,
   getExpiredDate,
   getIsCreating,
-  (invoice, contactOptions, expirationTermOptions, expiredDate, isCreating) => {
+  getHasSetUpOnlinePayments,
+  getIsAllowOnlinePayments,
+  (invoice,
+    contactOptions,
+    expirationTermOptions,
+    setUpOnlinePaymentsLink,
+    expiredDate,
+    isCreating,
+    hasSetUpOnlinePayments,
+    isAllowOnlinePayments) => {
     const { lines, ...invoiceWithoutLines } = invoice;
 
     return {
@@ -136,7 +157,10 @@ export const getInvoiceOptions = createSelector(
       expiredDate,
       contactOptions,
       expirationTermOptions,
+      setUpOnlinePaymentsLink,
       isCreating,
+      hasSetUpOnlinePayments,
+      isAllowOnlinePayments,
     };
   },
 );
@@ -172,16 +196,21 @@ const getContactName = (contacts, contactId) => {
   return selectedContact.name;
 };
 
-export const getInvoicePayload = createSelector(
-  getInvoice,
-  getContactOptions,
-  getContactId,
-  (invoice, contacts, contactId) => ({
-    ...invoice,
+export const getInvoicePayload = (state) => {
+  const {
+    lines,
+    ...restOfInvoice
+  } = getInvoice(state);
+
+  const contacts = getContactOptions(state);
+  const contactId = getContactId(state);
+
+  return {
+    ...restOfInvoice,
     contactName: getContactName(contacts, contactId),
-    lines: getInvoiceServiceLinesForPayload(invoice.lines),
-  }),
-);
+    lines: getInvoiceServiceLinesForPayload(lines),
+  };
+};
 
 export const getAlertMessage = state => state.alertMessage;
 export const getIsActionsDisabled = state => state.isSubmitting;

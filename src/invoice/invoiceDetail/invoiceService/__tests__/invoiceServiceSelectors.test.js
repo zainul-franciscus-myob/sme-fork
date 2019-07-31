@@ -44,6 +44,9 @@ describe('InvoiceServiceSelectors', () => {
           { value: 'CashOnDelivery', name: 'C.O.D.' },
         ],
         isCreating: false,
+        isAllowOnlinePayments: true,
+        hasSetUpOnlinePayments: false,
+        setUpOnlinePaymentsLink: 'https://paydirectonline.myob.com/payments?cdf=abc&sn=000000000000',
       };
       const actual = getInvoiceOptions(state);
 
@@ -164,7 +167,7 @@ describe('InvoiceServiceSelectors', () => {
   });
 
   describe('getInvoice Payload', () => {
-    it('should return correct shape for invoice payload for create and update', () => {
+    it('returns correct shape for invoice payload for create and update', () => {
       const expected = {
         id: '1',
         contactId: '3',
@@ -174,6 +177,7 @@ describe('InvoiceServiceSelectors', () => {
         chargeForLatePayment: 123.12,
         discountForEarlyPayment: 3546.34,
         numberOfDaysForDiscount: 10,
+        isAllowOnlinePayments: true,
         taxInclusive: true,
         amountPaid: '10.00',
         number: '0000012334563456',

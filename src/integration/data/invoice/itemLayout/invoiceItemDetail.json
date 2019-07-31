@@ -10,7 +10,7 @@
     "isTaxInclusive": true,
     "invoiceNumber": "IN00000123",
     "purchaseOrderNumber": "PO123",
-    "onlinePaymentMethod": "All",
+    "isAllowOnlinePayments": false,
     "note": "Thank you! Footloose",
     "address": "Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n",
     "issueDate": "2019-02-28T00:00:00",
@@ -29,6 +29,11 @@
         "accountId": "92"
       }
     ]
+  },
+  "payDirect": {
+    "isRegistered": false,
+    "baseUrl": "https://paydirectonline.myob.com/payments",
+    "serialNumber": "000000000000"
   },
   "customers": [
     {
@@ -117,5 +122,6 @@
     "amount": "",
     "displayAmount": ""
   },
-  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"]
+  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
+  "serialNumber": "000000000000"
 }

@@ -15,7 +15,7 @@
     "orderNumber": "123",
     "notes": "Thank you!",
     "amountPaid": "10.00",
-    "onlinePaymentMethod": "All",
+    "isAllowOnlinePayments": true,
     "lines": [
       {
         "id": "345",
@@ -150,6 +150,11 @@
         ]
       }
     ]
+  },
+  "payDirect": {
+    "isRegistered": false,
+    "baseUrl": "https://paydirectonline.myob.com/payments",
+    "serialNumber": "000000000000"
   },
   "contactOptions": [
     {
