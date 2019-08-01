@@ -1,9 +1,12 @@
 import {
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
+  ADD_PAYROLL_TAX_PAY_ITEM,
   CLOSE_MODAL,
+  FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_EMPLOYEE_DETAIL,
   OPEN_MODAL,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
+  REMOVE_PAYROLL_TAX_PAY_ITEM,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MAIN_TAB,
@@ -15,6 +18,7 @@ import {
   UPDATE_PAYMENT_DETAILS,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
+  UPDATE_PAYROLL_TAX_DETAILS,
 } from '../../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
@@ -22,6 +26,12 @@ import {
   removePayrollDeductionPayItem,
   updatePayrollEmployeeDetail,
 } from './PayrollDetailReducer';
+import {
+  addPayrollTaxPayItem,
+  formatAmountInput,
+  removePayrollTaxPayItem,
+  updatePayrollTaxDetail,
+} from './PayrollTaxReducer';
 import { mainTabIds } from '../tabItems';
 import { shouldDefaultPayslipEmail } from '../selectors/EmployeeDetailSelectors';
 import createReducer from '../../../store/createReducer';
@@ -63,6 +73,14 @@ const getDefaultState = () => ({
     deductionDetails: {
       deductionPayItems: [],
     },
+    tax: {
+      extraTax: '',
+      taxFileNumber: '',
+      taxTableId: '',
+      totalRebates: '',
+      withholdingVariationRate: '',
+      taxPayItems: [],
+    },
   },
   paymentDetails: {
     paymentMethod: '',
@@ -79,6 +97,8 @@ const getDefaultState = () => ({
   splitNetPayBetweenOptions: [],
   valueOptions: [],
   deductionPayItemOptions: [],
+  taxTableOptions: [],
+  taxPayItemOptions: [],
 });
 
 const setLoadingState = (state, action) => ({
@@ -132,6 +152,10 @@ const loadEmployeeDetail = (state, action) => ({
       ...state.payrollDetails.deductionDetails,
       ...action.payrollDetails.deductionDetails,
     },
+    tax: {
+      ...state.paymentDetails.tax,
+      ...action.payrollDetails.tax,
+    },
   },
   paymentDetails: {
     ...state.paymentDetails,
@@ -146,6 +170,8 @@ const loadEmployeeDetail = (state, action) => ({
   splitNetPayBetweenOptions: action.splitNetPayBetweenOptions,
   valueOptions: action.valueOptions,
   deductionPayItemOptions: action.deductionPayItemOptions,
+  taxTableOptions: action.taxTableOptions,
+  taxPayItemOptions: action.taxPayItemOptions,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -282,6 +308,10 @@ const handlers = {
   [UPDATE_BANK_ACCOUNT_DETAILS]: updateBankAccountDetails,
   [ADD_PAYROLL_DEDUCTION_PAY_ITEM]: addPayrollDeductionPayItem,
   [REMOVE_PAYROLL_DEDUCTION_PAY_ITEM]: removePayrollDeductionPayItem,
+  [ADD_PAYROLL_TAX_PAY_ITEM]: addPayrollTaxPayItem,
+  [REMOVE_PAYROLL_TAX_PAY_ITEM]: removePayrollTaxPayItem,
+  [UPDATE_PAYROLL_TAX_DETAILS]: updatePayrollTaxDetail,
+  [FORMAT_PAYROLL_TAX_AMOUNT]: formatAmountInput,
 };
 
 const employeeDetailReducer = createReducer(getDefaultState(), handlers);

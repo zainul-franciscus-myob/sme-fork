@@ -136,3 +136,15 @@ export const getSplitNetPayBetweenOptions = state => state.splitNetPayBetweenOpt
 export const getValueOptions = state => state.valueOptions;
 
 export const getElectronicPaymentDetails = state => state.paymentDetails.paymentMethod === 'Electronic';
+
+const unsavedModalSubTabs = [
+  payrollDetailsSubTabIds.deductions,
+  payrollDetailsSubTabIds.taxes,
+];
+export const getUseUnsavedModal = createSelector(
+  getMainTab,
+  getSubTab,
+  (mainTab, subTab) => (
+    mainTab === mainTabIds.payrollDetails && unsavedModalSubTabs.includes(subTab)
+  ),
+);

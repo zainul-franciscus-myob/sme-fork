@@ -6,7 +6,10 @@ import {
   UPDATE_EMPLOYEE,
 } from '../EmployeeIntents';
 import {
-  getBusinessId, getEmployeeId, getEmployeePayload, getIsCreating,
+  getBusinessId,
+  getEmployeeId,
+  getEmployeePayload,
+  getIsCreating,
 } from './selectors/EmployeeDetailSelectors';
 
 const createEmployeeDetailIntegrator = (store, integration) => ({

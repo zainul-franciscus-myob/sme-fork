@@ -1,17 +1,18 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../EmployeeMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_EMPLOYEE,
+  SUCCESSFULLY_SAVED_EMPLOYEE,
+} from '../EmployeeMessageTypes';
 import {
   getBusinessId,
   getIsCreating,
-  getMainTab,
   getRegion,
-  getSubTab,
   getURLParams,
+  getUseUnsavedModal,
   isPageEdited,
 } from './selectors/EmployeeDetailSelectors';
-import { mainTabIds, payrollDetailsSubTabIds } from './tabItems';
 import EmployeeDetailView from './components/EmployeeDetailView';
 import Store from '../../store/Store';
 import createEmployeeDetailDispatcher from './createEmployeeDetailDispatcher';
@@ -47,10 +48,7 @@ export default class EmployeeDetailModule {
     const state = this.store.getState();
 
     if (isPageEdited(state)) {
-      const mainTab = getMainTab(state);
-      const subTab = getSubTab(state);
-
-      if (mainTab === mainTabIds.payrollDetails && subTab === payrollDetailsSubTabIds.deductions) {
+      if (getUseUnsavedModal(state)) {
         this.dispatcher.openModal('unsaved');
       } else {
         this.dispatcher.openModal('cancel');
@@ -184,6 +182,10 @@ export default class EmployeeDetailModule {
         onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
         onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
         onRemovePayrollDeductionPayItem={this.dispatcher.removePayrollDeductionPayItem}
+        onAddPayrollTaxPayItem={this.dispatcher.addPayrollTaxPayItem}
+        onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}
+        onPayrollTaxDetailsChange={this.dispatcher.updatePayrollTaxDetails}
+        onPayrollTaxAmountBlur={this.dispatcher.formatAmountInput}
       />
     );
 

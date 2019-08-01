@@ -1,0 +1,5 @@
+/* How we acheive it in the <FormTemplate> */
+.taxView :global(.form-group) {
+  width: 66.3732394366197%;
+  max-width: 75.4rem;
+}

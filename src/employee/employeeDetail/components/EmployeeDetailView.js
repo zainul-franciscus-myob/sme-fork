@@ -5,7 +5,6 @@ import {
   Tabs,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -86,6 +85,10 @@ const EmployeeDetailView = ({
   onEmploymentPaySlipDeliveryChange,
   onAddPayrollDeductionPayItem,
   onRemovePayrollDeductionPayItem,
+  onAddPayrollTaxPayItem,
+  onRemovePayrollTaxPayItem,
+  onPayrollTaxDetailsChange,
+  onPayrollTaxAmountBlur,
 }) => {
   const Content = {
     [mainTabIds.contactDetails]: EmployeeDetailContactDetails,
@@ -128,6 +131,10 @@ const EmployeeDetailView = ({
     onBankAccountDetailsChange,
     onAddPayrollDeductionPayItem,
     onRemovePayrollDeductionPayItem,
+    onAddPayrollTaxPayItem,
+    onRemovePayrollTaxPayItem,
+    onPayrollTaxDetailsChange,
+    onPayrollTaxAmountBlur,
   };
 
   const view = (
@@ -146,26 +153,6 @@ const EmployeeDetailView = ({
   );
 
   return isLoading ? <Spinner /> : view;
-};
-
-EmployeeDetailView.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  selectedTab: PropTypes.string.isRequired,
-  onMainTabSelected: PropTypes.func.isRequired,
-  onSubTabSelected: PropTypes.func.isRequired,
-  onContactDetailsChange: PropTypes.func.isRequired,
-  onPaymentDetailsChange: PropTypes.func.isRequired,
-  onBankAccountDetailsChange: PropTypes.func.isRequired,
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  modalType: PropTypes.string.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
-  onCancelModal: PropTypes.func.isRequired,
-  onDeleteModal: PropTypes.func.isRequired,
-  pageHeadTitle: PropTypes.string.isRequired,
-  onEmploymentDetailsChange: PropTypes.func.isRequired,
-  onEmploymentPaySlipDeliveryChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

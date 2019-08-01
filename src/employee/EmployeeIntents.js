@@ -24,3 +24,8 @@ export const UPDATE_BANK_ACCOUNT_DETAILS = Symbol('Update employee bank account 
 
 export const ADD_PAYROLL_DEDUCTION_PAY_ITEM = Symbol('Add deduction pay item');
 export const REMOVE_PAYROLL_DEDUCTION_PAY_ITEM = Symbol('Remove deduction pay item');
+
+export const ADD_PAYROLL_TAX_PAY_ITEM = Symbol('Add tax pay item');
+export const REMOVE_PAYROLL_TAX_PAY_ITEM = Symbol('Remove tax pay item');
+export const UPDATE_PAYROLL_TAX_DETAILS = Symbol('Update payroll tax details');
+export const FORMAT_PAYROLL_TAX_AMOUNT = Symbol('Format payroll tax amount');

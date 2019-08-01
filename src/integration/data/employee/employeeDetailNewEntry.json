@@ -14,6 +14,19 @@
     },
     "deductionDetails": {
       "deductionPayItems": []
+    },
+    "tax": {
+      "extraTax": "0.00",
+      "taxFileNumber": "",
+      "taxTableId": "4",
+      "totalRebates": "0.00",
+      "withholdingVariationRate": "0.00",
+      "taxPayItems": [
+        {
+          "id": "34",
+          "type": "TaxPayrollCategory"
+        }
+      ]
     }
   },
   "paymentDetails": {
@@ -189,6 +202,33 @@
       "id": 89,
       "name": "Sick leave",
       "value": "SickLeave"
+    }
+  ],
+  "taxTableOptions": [
+    {
+      "id": "2",
+      "description": "No Tax Free Threshold",
+      "allowsVariationRate": false,
+      "allowsRebates": false
+    },
+    {
+      "id": "3",
+      "description": "Withholding Variation",
+      "allowsVariationRate": true,
+      "allowsRebates": false
+    },
+    {
+      "id": "4",
+      "description": "Tax Free Threshold",
+      "allowsVariationRate": false,
+      "allowsRebates": true
+    }
+  ],
+  "taxPayItemOptions": [
+    {
+      "name": "PAYG Withholding",
+      "id": "34",
+      "type": "TaxPayrollCategory"
     }
   ]
 }

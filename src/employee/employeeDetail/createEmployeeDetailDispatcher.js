@@ -1,9 +1,12 @@
 import {
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
+  ADD_PAYROLL_TAX_PAY_ITEM,
   CLOSE_MODAL,
+  FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_EMPLOYEE_DETAIL,
   OPEN_MODAL,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
+  REMOVE_PAYROLL_TAX_PAY_ITEM,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MAIN_TAB,
@@ -15,6 +18,7 @@ import {
   UPDATE_PAYMENT_DETAILS,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
+  UPDATE_PAYROLL_TAX_DETAILS,
 } from '../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -114,6 +118,26 @@ const createEmployeeDetailDispatcher = store => ({
   loadEmployeeDetails: (response) => {
     const intent = LOAD_EMPLOYEE_DETAIL;
     store.dispatch({ intent, ...response });
+  },
+
+  addPayrollTaxPayItem: (payItem) => {
+    const intent = ADD_PAYROLL_TAX_PAY_ITEM;
+    store.dispatch({ intent, ...payItem });
+  },
+
+  removePayrollTaxPayItem: (id) => {
+    const intent = REMOVE_PAYROLL_TAX_PAY_ITEM;
+    store.dispatch({ intent, id });
+  },
+
+  updatePayrollTaxDetails: ({ key, value }) => {
+    const intent = UPDATE_PAYROLL_TAX_DETAILS;
+    store.dispatch({ intent, key, value });
+  },
+
+  formatAmountInput: ({ key, value }) => {
+    const intent = FORMAT_PAYROLL_TAX_AMOUNT;
+    store.dispatch({ intent, key, value });
   },
 });
 

@@ -1,12 +1,12 @@
 import { Tabs } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
 import { getSubTab } from '../selectors/EmployeeDetailSelectors';
 import { payrollDetailsSubTabIds, payrollDetailsSubTabItems } from '../tabItems';
 import EmploymentDetails from './EmploymentDetails';
 import PayrollDeductionDetails from './PayrollDeductionDetail';
+import PayrollTaxDetails from './PayrollTaxDetails/PayrollTaxDetails';
 
 const SalaryAndWages = () => (
   <div>Salary and wages is under construction, please come back later</div>
@@ -19,6 +19,10 @@ const EmployeeDetailPayrollDetails = ({
   onEmploymentPaySlipDeliveryChange,
   onAddPayrollDeductionPayItem,
   onRemovePayrollDeductionPayItem,
+  onAddPayrollTaxPayItem,
+  onRemovePayrollTaxPayItem,
+  onPayrollTaxDetailsChange,
+  onPayrollTaxAmountBlur,
 }) => {
   const Employment = () => (
     <EmploymentDetails
@@ -34,10 +38,20 @@ const EmployeeDetailPayrollDetails = ({
     />
   );
 
+  const Taxes = () => (
+    <PayrollTaxDetails
+      onAddPayrollTaxPayItem={onAddPayrollTaxPayItem}
+      onRemovePayrollTaxPayItem={onRemovePayrollTaxPayItem}
+      onPayrollTaxDetailsChange={onPayrollTaxDetailsChange}
+      onPayrollTaxAmountBlur={onPayrollTaxAmountBlur}
+    />
+  );
+
   const Content = {
     [payrollDetailsSubTabIds.employmentDetails]: Employment,
     [payrollDetailsSubTabIds.salaryAndWages]: SalaryAndWages,
     [payrollDetailsSubTabIds.deductions]: Deductions,
+    [payrollDetailsSubTabIds.taxes]: Taxes,
   }[selectedTab];
 
   return (
@@ -50,13 +64,6 @@ const EmployeeDetailPayrollDetails = ({
       <Content />
     </Fragment>
   );
-};
-
-EmployeeDetailPayrollDetails.propTypes = {
-  selectedTab: PropTypes.string.isRequired,
-  onSubTabSelected: PropTypes.func.isRequired,
-  onEmploymentDetailsChange: PropTypes.func.isRequired,
-  onEmploymentPaySlipDeliveryChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

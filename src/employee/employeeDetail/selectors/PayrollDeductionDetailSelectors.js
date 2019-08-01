@@ -10,9 +10,6 @@ export const getFilteredDeductionPayItemOptions = createSelector(
   getDeductionPayItemOptions,
   getDeductionPayItems,
   (deductionPayItemOptions, deductionPayItems) => deductionPayItemOptions
-    .filter((deductionPayItemOption) => {
-      const listedItem = deductionPayItems
-        .find(deductionPayItem => deductionPayItem.id === deductionPayItemOption.id);
-      return !listedItem;
-    }),
+    .filter(deductionPayItemOption => !deductionPayItems
+      .some(deductionPayItem => deductionPayItem.id === deductionPayItemOption.id)),
 );
