@@ -51,6 +51,7 @@ export default class InvoiceModule {
     const urlParams = {
       businessId,
       invoiceId,
+      quoteId,
     };
 
     const newServiceIntent = quoteId
@@ -65,15 +66,12 @@ export default class InvoiceModule {
       newItem: newItemIntent,
     }[invoiceId] || LOAD_INVOICE_DETAIL;
 
-    const params = { quoteId };
-
     const onSuccess = payload => this.loadInvoiceModule(context, payload);
     const onFailure = () => console.log('Failed to get initial load');
 
     this.integration.read({
       intent,
       urlParams,
-      params,
       onSuccess,
       onFailure,
     });
