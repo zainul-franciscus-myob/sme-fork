@@ -15,6 +15,7 @@ const getInvoiceRoutes = ({
     {
       name: 'invoiceDetail',
       path: '/:invoiceId',
+      allowedParams: ['quoteId'],
       module: new InvoiceModule({
         integration, setRootView, pushMessage, replaceURLParams,
       }),

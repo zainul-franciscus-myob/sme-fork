@@ -63,7 +63,7 @@ const InvoiceItemOptions = ({
     issueDate,
     note,
     taxInclusiveOption,
-    isCreating,
+    isCustomerDisabled,
     isTaxInclusiveDisabled,
     hasSetUpOnlinePayments,
     isAllowOnlinePayments,
@@ -82,12 +82,12 @@ const InvoiceItemOptions = ({
         label="Customer"
         name="customerId"
         hideLabel={false}
-        disabled={!isCreating}
+        disabled={isCustomerDisabled}
       />
       <div className={styles.address}>{address}</div>
       <Combobox
         name="note"
-        label="Notes to customer"
+        label="Message to customer"
         hideLabel={false}
         metaData={[
           { columnName: 'value', showData: true },
@@ -99,7 +99,8 @@ const InvoiceItemOptions = ({
         value={note}
         resize="vertical"
         name="note"
-        label=""
+        label="Message to customer"
+        hideLabel
         onChange={onTextInputChange(onUpdateInvoiceOption)}
         maxLength={255}
       />
@@ -116,13 +117,13 @@ const InvoiceItemOptions = ({
       />
       <Input
         name="purchaseOrderNumber"
-        label="Purchase Order"
+        label="Customer PO Number"
         value={purchaseOrderNumber}
         onChange={onTextInputChange(onUpdateInvoiceOption)}
         maxLength={20}
       />
       <DatePicker
-        label="Date of issue"
+        label="Issue date"
         name="issueDate"
         value={issueDate}
         onSelect={onIssueDateChange(onUpdateInvoiceOption)}

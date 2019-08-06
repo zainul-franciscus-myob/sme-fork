@@ -43,7 +43,7 @@ describe('InvoiceServiceSelectors', () => {
           { value: 'Prepaid', name: 'Prepaid' },
           { value: 'CashOnDelivery', name: 'C.O.D.' },
         ],
-        isCreating: false,
+        isCustomerDisabled: true,
         isAllowOnlinePayments: true,
         hasSetUpOnlinePayments: false,
         setUpOnlinePaymentsLink: 'https://paydirectonline.myob.com/payments?cdf=abc&sn=000000000000',

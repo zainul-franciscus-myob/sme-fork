@@ -2,6 +2,7 @@ import {
   CALCULATE_LINE,
   CREATE_INVOICE_ITEM_DETAIL,
   LOAD_NEW_INVOICE_ITEM_DETAIL,
+  LOAD_NEW_INVOICE_ITEM_DETAIL_FROM_QUOTE,
   REMOVE_LINE,
   UPDATE_INVOICE_ITEM_DETAIL,
   UPDATE_INVOICE_ITEM_TAX_INCLUSIVE,
@@ -13,6 +14,10 @@ const InvoiceItemMapping = {
   [LOAD_NEW_INVOICE_ITEM_DETAIL]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/invoice/load_new_invoice_item_detail`,
+  },
+  [LOAD_NEW_INVOICE_ITEM_DETAIL_FROM_QUOTE]: {
+    method: 'GET',
+    getPath: ({ businessId, quoteId }) => `/${businessId}/invoice/load_new_invoice_item_detail_from_quote/${quoteId}`,
   },
   [UPDATE_INVOICE_ITEM_TAX_INCLUSIVE]: {
     method: 'POST',

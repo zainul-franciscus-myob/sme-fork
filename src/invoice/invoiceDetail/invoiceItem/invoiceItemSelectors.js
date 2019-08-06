@@ -11,6 +11,8 @@ export const getBusinessId = state => state.businessId;
 
 export const getInvoiceId = state => state.invoiceId;
 
+export const getQuoteId = state => state.quoteId;
+
 export const getRegion = state => state.region;
 
 const getCustomers = state => state.customers;
@@ -122,6 +124,7 @@ export const getInvoiceOptions = createSelector(
   getCustomers,
   getExpirationTerms,
   getIsCreating,
+  getQuoteId,
   areLinesCalculating,
   getHasSetUpOnlinePayments,
   getIsAllowOnlinePayments,
@@ -134,6 +137,7 @@ export const getInvoiceOptions = createSelector(
     customers,
     expirationTerms,
     isCreating,
+    quoteId,
     isTaxInclusiveDisabled,
     hasSetUpOnlinePayments,
     isAllowOnlinePayments,
@@ -148,7 +152,7 @@ export const getInvoiceOptions = createSelector(
       taxInclusiveOption,
       customers,
       expirationTerms,
-      isCreating,
+      isCustomerDisabled: !isCreating || (isCreating && Boolean(quoteId)),
       isTaxInclusiveDisabled,
       hasSetUpOnlinePayments,
       isAllowOnlinePayments,

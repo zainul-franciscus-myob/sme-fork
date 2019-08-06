@@ -6,7 +6,7 @@ import React from 'react';
 import { getTableData, getTotalsAndAmounts } from '../invoiceServiceSelectors';
 import InvoiceServiceTableRow from './InvoiceServiceTableRow';
 
-const labels = ['Description', 'Allocate to', 'Tax type', 'Amount'];
+const labels = ['Description', 'Account', 'Tax code', 'Amount ($)'];
 
 const onRowChange = handler => (index, key, value) => handler({ index, key, value });
 
@@ -62,7 +62,7 @@ const InvoiceServiceTable = ({
       <LineItemTable.Total>
         <LineItemTable.Totals title="Subtotal" amount={subTotal} />
         <LineItemTable.Totals title="Tax" amount={totalTax} />
-        <LineItemTable.Totals title="Total" amount={totalAmount} />
+        <LineItemTable.Totals title="Invoice total" amount={totalAmount} />
         <LineItemTable.Totals title="Amount paid" amount={amountPaid} />
         <LineItemTable.Totals title="Balance due" amount={amountDue} />
       </LineItemTable.Total>

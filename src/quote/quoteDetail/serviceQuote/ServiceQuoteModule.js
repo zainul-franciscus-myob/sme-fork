@@ -35,6 +35,7 @@ import {
   getRegion,
   isPageEdited,
 } from './ServiceQuoteSelectors';
+import ModalType from '../ModalType';
 import ServiceQuoteView from './components/ServiceQuoteView';
 import Store from '../../../store/Store';
 import serviceQuoteReducer from './serviceQuoteReducer';
@@ -155,12 +156,21 @@ export default class ServiceQuoteModule {
     window.location.href = `/#/${region}/${businessId}/quote`;
   }
 
+  redirectToCreateInvoice = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+    const quoteId = getQuoteId(state);
+
+    window.location.href = `/#/${region}/${businessId}/invoice/newService?quoteId=${quoteId}`;
+  }
+
   openCancelModal = () => {
     const intent = OPEN_MODAL;
     if (isPageEdited(this.store.getState())) {
       this.store.dispatch({
         intent,
-        modalType: 'cancel',
+        modalType: ModalType.CANCEL,
       });
     } else {
       this.redirectToQuoteList();
@@ -169,8 +179,20 @@ export default class ServiceQuoteModule {
 
   openDeleteModal = () => this.store.dispatch({
     intent: OPEN_MODAL,
-    modalType: 'delete',
+    modalType: ModalType.DELETE,
   });
+
+  openUnsavedModal = () => {
+    const intent = OPEN_MODAL;
+    if (isPageEdited(this.store.getState())) {
+      this.store.dispatch({
+        intent,
+        modalType: ModalType.UNSAVED,
+      });
+    } else {
+      this.redirectToCreateInvoice();
+    }
+  }
 
   closeModal = () => this.store.dispatch({
     intent: CLOSE_MODAL,
@@ -191,17 +213,21 @@ export default class ServiceQuoteModule {
     isSubmitting,
   });
 
-  saveServiceQuoteEntry = (intent, content, urlParams) => {
+  createOrUpdateQuote = ({ onSuccess }) => {
     this.setSubmittingState(true);
 
-    const onSuccess = ({ message }) => {
-      this.setSubmittingState(false);
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_SERVICE_QUOTE,
-        content: message,
-      });
-      this.redirectToQuoteList();
-    };
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+
+    const intent = isCreating
+      ? CREATE_SERVICE_QUOTE
+      : UPDATE_SERVICE_QUOTE;
+
+    const businessId = getBusinessId(state);
+    const quoteId = isCreating ? undefined : getQuoteId(state);
+    const urlParams = { businessId, quoteId };
+
+    const content = getQuotePayload(state);
 
     const onFailure = ({ message }) => {
       this.setSubmittingState(false);
@@ -217,28 +243,25 @@ export default class ServiceQuoteModule {
     });
   }
 
-  updateServiceQuoteEntry = () => {
-    const intent = UPDATE_SERVICE_QUOTE;
-    const state = this.store.getState();
-    const quoteId = getQuoteId(state);
-    const content = getQuotePayload(state);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      quoteId,
+  saveQuote = () => {
+    const onSuccess = ({ message }) => {
+      this.setSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_SERVICE_QUOTE,
+        content: message,
+      });
+      this.redirectToQuoteList();
     };
-    this.saveServiceQuoteEntry(intent, content, urlParams);
+
+    this.createOrUpdateQuote({ onSuccess });
   }
 
-  createServiceQuoteEntry = () => {
-    const intent = CREATE_SERVICE_QUOTE;
-    const state = this.store.getState();
-    const content = getQuotePayload(state);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
+  saveAndRedirectToInvoice = () => {
+    const onSuccess = () => {
+      this.redirectToCreateInvoice();
     };
-    this.saveServiceQuoteEntry(intent, content, urlParams);
+
+    this.createOrUpdateQuote({ onSuccess });
   }
 
   deleteServiceQuoteEntry = () => {
@@ -285,7 +308,6 @@ export default class ServiceQuoteModule {
   }
 
   render = () => {
-    const isCreating = getIsCreating(this.store.getState());
     const serviceQuoteView = (
       <ServiceQuoteView
         onUpdateHeaderOptions={this.updateHeaderOptions}
@@ -293,12 +315,15 @@ export default class ServiceQuoteModule {
         onAddRow={this.addTableLine}
         onRemoveRow={this.removeTableLineAndCalculateTotals}
         onRowInputBlur={this.formatAndCalculateTotals}
-        onSaveButtonClick={isCreating ? this.createServiceQuoteEntry : this.updateServiceQuoteEntry}
+        onSaveButtonClick={this.saveQuote}
         onCancelButtonClick={this.openCancelModal}
         onCloseModal={this.closeModal}
         onCancelModal={this.redirectToQuoteList}
+        onConvertToInvoiceButtonClick={this.openUnsavedModal}
         onDeleteButtonClick={this.openDeleteModal}
         onDeleteModal={this.deleteServiceQuoteEntry}
+        onConfirmSaveButtonClick={this.saveAndRedirectToInvoice}
+        onConfirmUnsaveButtonClick={this.redirectToCreateInvoice}
         onDismissAlert={this.dismissAlert}
       />
     );

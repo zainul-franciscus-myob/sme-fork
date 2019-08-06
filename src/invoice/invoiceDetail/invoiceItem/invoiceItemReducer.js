@@ -85,7 +85,7 @@ const setInitialState = (state, action) => {
       customers, expirationTerms, invoice, items, newLine, taxCodes, totals, comments, payDirect,
     },
     context: {
-      region, businessId, invoiceId,
+      region, businessId, invoiceId, quoteId,
     },
   } = action.context;
 
@@ -109,6 +109,7 @@ const setInitialState = (state, action) => {
     region,
     businessId,
     invoiceId,
+    quoteId,
     comments,
   };
 };

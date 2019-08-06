@@ -22,9 +22,12 @@ const ItemQuoteView = ({
   onSaveButtonClick,
   onDeleteButtonClick,
   onCancelButtonClick,
+  onConvertToInvoiceButtonClick,
   onDismissAlert,
   onConfirmDeleteButtonClick,
   onConfirmCancelButtonClick,
+  onConfirmSaveButtonClick,
+  onConfirmUnsaveButtonClick,
   onDismissModal,
   pageTitle,
   isCreating,
@@ -35,6 +38,7 @@ const ItemQuoteView = ({
       onSaveButtonClick={onSaveButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
       onCancelButtonClick={onCancelButtonClick}
+      onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}
     />
   );
 
@@ -62,6 +66,8 @@ const ItemQuoteView = ({
         onDismissModal={onDismissModal}
         onConfirmCancelButtonClick={onConfirmCancelButtonClick}
         onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
+        onConfirmSaveButtonClick={onConfirmSaveButtonClick}
+        onConfirmUnsaveButtonClick={onConfirmUnsaveButtonClick}
       />
       )
     }

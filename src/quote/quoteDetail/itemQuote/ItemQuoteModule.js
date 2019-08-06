@@ -39,7 +39,7 @@ import {
   getRegion,
 } from './ItemQuoteSelectors';
 import ItemQuoteView from './components/ItemQuoteView';
-import ModalType from './ModalType';
+import ModalType from '../ModalType';
 import Store from '../../../store/Store';
 import itemQuoteReducer from './itemQuoteReducer';
 import keyMap from '../../../hotKeys/keyMap';
@@ -62,6 +62,15 @@ export default class ItemQuoteModule {
 
     window.location.href = `/#/${region}/${businessId}/quote`;
   };
+
+  redirectToCreateInvoice = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+    const quoteId = getQuoteId(state);
+
+    window.location.href = `/#/${region}/${businessId}/invoice/newItem?quoteId=${quoteId}`;
+  }
 
   loadCustomerAddress = () => {
     const state = this.store.getState();
@@ -203,26 +212,37 @@ export default class ItemQuoteModule {
     });
   };
 
-  saveQuote = () => {
+  createOrUpdateQuote = ({ onSuccess }) => {
+    this.setSubmittingState(true);
+
     const state = this.store.getState();
     const isCreating = getIsCreating(state);
 
-    if (isCreating) {
-      this.createQuote();
-    } else {
-      this.updateQuote();
-    }
-  };
+    const intent = isCreating
+      ? CREATE_ITEM_QUOTE
+      : UPDATE_ITEM_QUOTE;
 
-  createQuote = () => {
-    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const quoteId = isCreating ? undefined : getQuoteId(state);
+    const urlParams = { businessId, quoteId };
+
     const content = getQuotePayload(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
+
+    const onFailure = ({ message }) => {
+      this.setSubmittingState(false);
+      this.displayAlert(message);
     };
 
-    this.setSubmittingState(true);
+    this.integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  };
 
+  saveQuote = () => {
     const onSuccess = ({ message }) => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_ITEM_QUOTE,
@@ -231,51 +251,16 @@ export default class ItemQuoteModule {
       this.redirectToQuoteList();
     };
 
-    const onFailure = ({ message }) => {
-      this.setSubmittingState(false);
-      this.displayAlert(message);
+    this.createOrUpdateQuote({ onSuccess });
+  }
+
+  saveQuoteAndRedirectToInvoice = () => {
+    const onSuccess = () => {
+      this.redirectToCreateInvoice();
     };
 
-    this.integration.write({
-      intent: CREATE_ITEM_QUOTE,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  updateQuote = () => {
-    const state = this.store.getState();
-    const content = getQuotePayload(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-      quoteId: getQuoteId(state),
-    };
-
-    this.setSubmittingState(true);
-
-    const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_ITEM_QUOTE,
-        content: message,
-      });
-      this.redirectToQuoteList();
-    };
-
-    const onFailure = ({ message }) => {
-      this.setSubmittingState(false);
-      this.displayAlert(message);
-    };
-
-    this.integration.write({
-      intent: UPDATE_ITEM_QUOTE,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  };
+    this.createOrUpdateQuote({ onSuccess });
+  }
 
   deleteQuote = () => {
     this.dismissModal();
@@ -331,6 +316,20 @@ export default class ItemQuoteModule {
     intent: SET_MODAL,
     modalType: ModalType.DELETE,
   });
+
+  displayUnsavedModal = () => {
+    const state = this.store.getState();
+    const isPageEdited = getIsPageEdited(state);
+
+    if (isPageEdited) {
+      this.store.dispatch({
+        intent: SET_MODAL,
+        modalType: ModalType.UNSAVED,
+      });
+    } else {
+      this.redirectToCreateInvoice();
+    }
+  }
 
   dismissModal = () => this.store.dispatch({
     intent: SET_MODAL,
@@ -403,10 +402,13 @@ export default class ItemQuoteModule {
           onSaveButtonClick={this.saveQuote}
           onDeleteButtonClick={this.displayDeleteModal}
           onCancelButtonClick={this.displayCancelModal}
+          onConvertToInvoiceButtonClick={this.displayUnsavedModal}
           onDismissAlert={this.dismissAlert}
           onDismissModal={this.dismissModal}
           onConfirmDeleteButtonClick={this.deleteQuote}
           onConfirmCancelButtonClick={this.cancelQuote}
+          onConfirmSaveButtonClick={this.saveQuoteAndRedirectToInvoice}
+          onConfirmUnsaveButtonClick={this.redirectToCreateInvoice}
         />
       </Provider>
     );

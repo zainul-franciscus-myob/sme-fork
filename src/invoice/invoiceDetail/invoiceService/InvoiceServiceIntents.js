@@ -1,4 +1,5 @@
 export const LOAD_NEW_INVOICE_SERVICE_DETAIL = Symbol('Load a new invoice service detail');
+export const LOAD_NEW_INVOICE_SERVICE_DETAIL_FROM_QUOTE = Symbol('Load a new invoice service detail from a quote');
 export const UPDATE_INVOICE_SERVICE_HEADER_OPTIONS = Symbol('Update invoice service header options');
 export const GET_CALCULATED_INVOICE_DETAIL_TOTALS = Symbol('Get calculated invoice detail totals');
 export const RESET_TOTALS = Symbol('Reset totals');

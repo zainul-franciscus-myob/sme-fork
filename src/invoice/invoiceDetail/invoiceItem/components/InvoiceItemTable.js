@@ -8,7 +8,7 @@ import {
 } from '../invoiceItemSelectors';
 import InvoiceItemTableRow from './InvoiceItemTableRow';
 
-const columnLabels = ['Units', 'Item', 'Description', 'Unit price', 'Discount', 'Amount', 'Tax type'];
+const columnLabels = ['Units', 'Item', 'Description', 'Unit price', 'Discount', 'Amount ($)', 'Tax code'];
 
 const renderRow = onLineInputBlur => (index, data, onChange) => (
   <InvoiceItemTableRow
@@ -41,7 +41,7 @@ const InvoiceItemTable = ({
 
       <LineItemTable.Totals title="Tax" amount={totals.displayTotalTax} />
 
-      <LineItemTable.Totals title="Total" amount={totals.displayTotalAmount} />
+      <LineItemTable.Totals title="Invoice total" amount={totals.displayTotalAmount} />
 
       <LineItemTable.Totals title="Amount paid" amount={totals.displayAmountPaid} />
 

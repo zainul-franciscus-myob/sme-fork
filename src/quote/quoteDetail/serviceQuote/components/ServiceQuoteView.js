@@ -11,8 +11,7 @@ import {
   getPageTitle,
   getTotalAmount,
 } from '../ServiceQuoteSelectors';
-import CancelModal from '../../../../components/modal/CancelModal';
-import DeleteModal from '../../../../components/modal/DeleteModal';
+import QuoteDetailModal from '../../components/QuoteDetailModal';
 import QuotePageHead from '../../components/QuotePageHead';
 import ServiceQuoteActions from './ServiceQuoteActions';
 import ServiceQuoteOptions from './ServiceQuoteOptions';
@@ -27,10 +26,13 @@ const ServiceQuoteView = ({
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
+  onConvertToInvoiceButtonClick,
   isCreating,
   modalType,
   onCloseModal,
   onCancelModal,
+  onConfirmSaveButtonClick,
+  onConfirmUnsaveButtonClick,
   alertMessage,
   onDismissAlert,
   onDeleteModal,
@@ -45,6 +47,7 @@ const ServiceQuoteView = ({
       onSaveButtonClick={onSaveButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
+      onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}
     />
   );
 
@@ -54,26 +57,16 @@ const ServiceQuoteView = ({
     </Alert>
   );
 
-  let modal;
-  if (modalType === 'cancel') {
-    modal = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onCancelModal}
-        title="Cancel quote alterations"
-        description="Are you sure you want to cancel the alterations in this quote?"
-      />
-    );
-  } else if (modalType === 'delete') {
-    modal = (
-      <DeleteModal
-        onCancel={onCloseModal}
-        onConfirm={onDeleteModal}
-        title="Delete quote"
-        description="Are you sure you want to delete this quote?"
-      />
-    );
-  }
+  const modal = (
+    <QuoteDetailModal
+      modalType={modalType}
+      onDismissModal={onCloseModal}
+      onConfirmCancelButtonClick={onCancelModal}
+      onConfirmDeleteButtonClick={onDeleteModal}
+      onConfirmSaveButtonClick={onConfirmSaveButtonClick}
+      onConfirmUnsaveButtonClick={onConfirmUnsaveButtonClick}
+    />
+  );
 
   const pageHead = (
     <QuotePageHead

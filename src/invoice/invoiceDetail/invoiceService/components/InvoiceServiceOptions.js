@@ -58,7 +58,7 @@ const InvoiceServiceOptions = ({
     expirationTermOptions,
     setUpOnlinePaymentsLink,
     notes,
-    isCreating,
+    isCustomerDisabled,
     hasSetUpOnlinePayments,
     isAllowOnlinePayments,
   },
@@ -74,7 +74,7 @@ const InvoiceServiceOptions = ({
         label="Customer"
         name="contactId"
         hideLabel={false}
-        disabled={!isCreating}
+        disabled={isCustomerDisabled}
       />
       <span className={styles.address}>{address}</span>
       <Combobox
@@ -91,7 +91,7 @@ const InvoiceServiceOptions = ({
         value={notes}
         resize="vertical"
         name="notes"
-        label="Notes to customer"
+        label="Message to customer"
         hideLabel
         onChange={handleInputChange(onUpdateHeaderOptions)}
         maxLength={255}
@@ -109,13 +109,13 @@ const InvoiceServiceOptions = ({
       />
       <Input
         name="orderNumber"
-        label="Purchase order"
+        label="Customer PO Number"
         value={orderNumber}
         onChange={handleInputChange(onUpdateHeaderOptions)}
         maxLength={20}
       />
       <DatePicker
-        label="Date of issue"
+        label="Issue date"
         name="issueDate"
         value={issueDate}
         onSelect={handleIssueDateChange(onUpdateHeaderOptions)}

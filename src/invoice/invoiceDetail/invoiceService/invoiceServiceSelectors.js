@@ -6,6 +6,7 @@ import dateFormat from 'dateformat';
 
 export const getBusinessId = state => state.businessId;
 export const getInvoiceId = state => state.invoiceId;
+export const getQuoteId = state => state.quoteId;
 
 const formatAmount = amount => Intl
   .NumberFormat('en-AU', {
@@ -140,6 +141,7 @@ export const getInvoiceOptions = createSelector(
   getSetUpOnlinePaymentsLink,
   getExpiredDate,
   getIsCreating,
+  getQuoteId,
   getHasSetUpOnlinePayments,
   getIsAllowOnlinePayments,
   (invoice,
@@ -148,6 +150,7 @@ export const getInvoiceOptions = createSelector(
     setUpOnlinePaymentsLink,
     expiredDate,
     isCreating,
+    quoteId,
     hasSetUpOnlinePayments,
     isAllowOnlinePayments) => {
     const { lines, ...invoiceWithoutLines } = invoice;
@@ -158,7 +161,7 @@ export const getInvoiceOptions = createSelector(
       contactOptions,
       expirationTermOptions,
       setUpOnlinePaymentsLink,
-      isCreating,
+      isCustomerDisabled: !isCreating || (isCreating && Boolean(quoteId)),
       hasSetUpOnlinePayments,
       isAllowOnlinePayments,
     };

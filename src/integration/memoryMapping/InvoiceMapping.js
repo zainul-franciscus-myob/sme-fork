@@ -9,7 +9,7 @@ import contactAddress from '../data/invoice/contactAddress';
 import invoiceItemDetail from '../data/invoice/itemLayout/invoiceItemDetail';
 import invoiceListFilterResponse from '../data/invoice/filterInvoiceList';
 import invoiceListLoadResponse from '../data/invoice/loadInvoiceList';
-import invoiceServiceDetail from '../data/invoice/invoiceServiceDetail';
+import invoiceServiceDetail from '../data/invoice/serviceLayout/invoiceServiceDetail';
 import successMessage from '../data/success';
 
 const loadInvoiceList = ({ onSuccess }) => onSuccess(invoiceListLoadResponse);
