@@ -1,5 +1,5 @@
 import {
-  Checkbox, HeaderSort, LineItemTable, PageState, Table,
+  Checkbox, HeaderSort, LineItemTable, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -13,7 +13,7 @@ import {
   getOrder,
 } from '../BankReconciliationSelectors';
 import BankReconciliationTableBody from './BankReconciliationTableBody';
-import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
+import TableView from '../../components/TableView/TableView';
 
 const tableConfig = {
   date: { width: '11rem' },
@@ -35,62 +35,63 @@ const BankReconciliationTable = ({
   onSelectRow,
   onSelectAll,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = <LoadingPageState size="medium" />;
-  } else if (isTableEmpty) {
-    view = <PageState title="There are no transactions for the selected filter options." />;
-  } else {
-    view = (
-      <React.Fragment>
-        <BankReconciliationTableBody
-          tableConfig={tableConfig}
-          onSelectRow={onSelectRow}
+  const view = (
+    <React.Fragment>
+      <BankReconciliationTableBody
+        tableConfig={tableConfig}
+        onSelectRow={onSelectRow}
+      />
+      <LineItemTable.Total>
+        <LineItemTable.Totals
+          totalAmount
+          title="Out of balance"
+          amount={outOfBalance}
+          type={isOutOfBalance ? 'danger' : undefined}
         />
-        <LineItemTable.Total>
-          <LineItemTable.Totals
-            totalAmount
-            title="Out of balance"
-            amount={outOfBalance}
-            type={isOutOfBalance ? 'danger' : undefined}
-          />
-        </LineItemTable.Total>
-      </React.Fragment>
-    );
-  }
+      </LineItemTable.Total>
+    </React.Fragment>
+  );
+
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem width="auto">
+        <Checkbox
+          name="bulkSelect"
+          label="Bulk select"
+          hideLabel
+          onChange={onSelectAll}
+          checked={headerSelectStatus === 'checked'}
+          indeterminate={headerSelectStatus === 'indeterminate'}
+          disabled={isActionDisabled}
+        />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.date}>
+        <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.reference}>
+        <HeaderSort title="Reference" sortName="DisplayId" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.description}>
+        <HeaderSort title="Description" sortName="Description" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.withdrawal}>
+        <HeaderSort title="Withdrawal ($)" sortName="Withdrawal" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.deposit}>
+        <HeaderSort title="Deposit ($)" sortName="Deposit" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+    </Table.Header>
+  );
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem width="auto">
-          <Checkbox
-            name="bulkSelect"
-            label="Bulk select"
-            hideLabel
-            onChange={onSelectAll}
-            checked={headerSelectStatus === 'checked'}
-            indeterminate={headerSelectStatus === 'indeterminate'}
-            disabled={isActionDisabled}
-          />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.date}>
-          <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.reference}>
-          <HeaderSort title="Reference" sortName="DisplayId" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.description}>
-          <HeaderSort title="Description" sortName="Description" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.withdrawal}>
-          <HeaderSort title="Withdrawal ($)" sortName="Withdrawal" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.deposit}>
-          <HeaderSort title="Deposit ($)" sortName="Deposit" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-      </Table.Header>
+    <TableView
+      emptyMessage="There are no transactions for the selected filter options."
+      isLoading={isTableLoading}
+      isEmpty={isTableEmpty}
+      header={header}
+    >
       { view }
-    </Table>
+    </TableView>
   );
 };
 

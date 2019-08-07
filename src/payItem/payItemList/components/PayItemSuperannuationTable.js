@@ -5,7 +5,7 @@ import React from 'react';
 import { getIsSuperannuationTableEmpty, getIsTableLoading, getSuperannuationOrder } from '../PayItemListSelectors';
 import EmptyView from './EmptyView';
 import SuperannuationTableBody from './PayItemSuperannuationTableBody';
-import TableSpinner from './TableSpinner';
+import TableView from '../../../components/TableView/TableView';
 
 const PayItemSuperannuationTable = ({
   order,
@@ -13,31 +13,32 @@ const PayItemSuperannuationTable = ({
   isTableLoading,
   isSuperannuationTableEmpty,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = <TableSpinner />;
-  } else if (isSuperannuationTableEmpty) {
-    const additionalMessage = 'You also need to sign up for Pay Super so you can pay super directly from MYOB';
-    view = <EmptyView payItem="superannuation funds" additionalMessage={additionalMessage} />;
-  } else {
-    view = <SuperannuationTableBody />;
-  }
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem>
+        <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortSuperannuationList} />
+      </Table.HeaderItem>
+      <Table.HeaderItem>
+        <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortSuperannuationList} />
+      </Table.HeaderItem>
+      <Table.HeaderItem>
+        <HeaderSort title="ATO reporting category" sortName="StpCategory" activeSort={order} onSort={onSortSuperannuationList} />
+      </Table.HeaderItem>
+    </Table.Header>
+  );
+
+  const additionalMessage = 'You also need to sign up for Pay Super so you can pay super directly from MYOB';
+  const emptyView = <EmptyView payItem="superannuation funds" additionalMessage={additionalMessage} />;
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem>
-          <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortSuperannuationList} />
-        </Table.HeaderItem>
-        <Table.HeaderItem>
-          <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortSuperannuationList} />
-        </Table.HeaderItem>
-        <Table.HeaderItem>
-          <HeaderSort title="ATO reporting category" sortName="StpCategory" activeSort={order} onSort={onSortSuperannuationList} />
-        </Table.HeaderItem>
-      </Table.Header>
-      { view }
-    </Table>
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isSuperannuationTableEmpty}
+      emptyView={emptyView}
+    >
+      <SuperannuationTableBody />
+    </TableView>
   );
 };
 

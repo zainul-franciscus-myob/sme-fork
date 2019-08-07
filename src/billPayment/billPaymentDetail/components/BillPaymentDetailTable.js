@@ -1,51 +1,36 @@
-import { Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 import Table from '@myob/myob-widgets/lib/components/Table/Table';
 
 import {
-  getBillEntries, getShouldDisableFields, getTableViewType, getTotalAmount,
+  getBillEntries,
+  getIsTableEmpty,
+  getIsTableLoading,
+  getShouldDisableFields,
+  getTableEmptyMessage,
+  getTotalAmount,
 } from '../BillPaymentDetailSelectors';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import TableView from '../../../components/TableView/TableView';
 import styles from './BillPaymentDetailTable.module.css';
-import tableViewTypes from '../tableViewTypes';
 
 const onInputFieldChange = (handler, index) => ({ target: { name: key, rawValue: value } }) => (
   handler({ key, value, index })
-);
-
-const emptyTableView = (
-  <div className={styles.empty}>
-    There are no bills.
-  </div>
-);
-
-const emptySupplierView = (
-  <div className={styles.empty}>
-    Please select a supplier.
-  </div>
-);
-
-const spinnerView = (
-  <div className={styles.table}>
-    <div className={styles.spinner}>
-      <Spinner size="medium" />
-    </div>
-  </div>
 );
 
 const BillPaymentDetailTable = (props) => {
   const {
     entries,
     totalAmount,
-    viewType,
     onUpdateTableInputField,
     shouldDisableFields,
     onAmountInputBlur,
+    isTableEmpty,
+    isTableLoading,
+    emptyMessage,
   } = props;
 
-  const tableView = (
+  const tableBody = (
     <React.Fragment>
       <Table.Body>
         {entries.map((row, index) => (
@@ -95,43 +80,37 @@ const BillPaymentDetailTable = (props) => {
     </React.Fragment>
   );
 
-  const view = {
-    [tableViewTypes.spinner]: spinnerView,
-    [tableViewTypes.emptyTable]: emptyTableView,
-    [tableViewTypes.emptySupplier]: emptySupplierView,
-    [tableViewTypes.default]: tableView,
-  }[viewType] || tableView;
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem columnName="billNumber">Bill number</Table.HeaderItem>
+      <Table.HeaderItem columnName="status">Status</Table.HeaderItem>
+      <Table.HeaderItem columnName="date">Date</Table.HeaderItem>
+      <Table.HeaderItem columnName="billAmount">Bill amount ($)</Table.HeaderItem>
+      <Table.HeaderItem columnName="discountAmount">Discount given ($)</Table.HeaderItem>
+      <Table.HeaderItem columnName="balanceOwed">Balance due ($)</Table.HeaderItem>
+      <Table.HeaderItem columnName="paidAmount">Amount paid ($)</Table.HeaderItem>
+    </Table.Header>
+  );
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem columnName="billNumber">Bill number</Table.HeaderItem>
-        <Table.HeaderItem columnName="status">Status</Table.HeaderItem>
-        <Table.HeaderItem columnName="date">Date</Table.HeaderItem>
-        <Table.HeaderItem columnName="billAmount">Bill amount ($)</Table.HeaderItem>
-        <Table.HeaderItem columnName="discountAmount">Discount given ($)</Table.HeaderItem>
-        <Table.HeaderItem columnName="balanceOwed">Balance due ($)</Table.HeaderItem>
-        <Table.HeaderItem columnName="paidAmount">Amount paid ($)</Table.HeaderItem>
-      </Table.Header>
-      {view}
-    </Table>
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isTableEmpty}
+      emptyMessage={emptyMessage}
+    >
+      {tableBody}
+    </TableView>
   );
 };
 
 const mapStateToProps = state => ({
   entries: getBillEntries(state),
-  viewType: getTableViewType(state),
+  isTableLoading: getIsTableLoading(state),
+  isTableEmpty: getIsTableEmpty(state),
+  emptyMessage: getTableEmptyMessage(state),
   shouldDisableFields: getShouldDisableFields(state),
   totalAmount: getTotalAmount(state),
 });
-
-BillPaymentDetailTable.propTypes = {
-  entries: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  shouldDisableFields: PropTypes.bool.isRequired,
-  onUpdateTableInputField: PropTypes.func.isRequired,
-  onAmountInputBlur: PropTypes.func.isRequired,
-  viewType: PropTypes.string.isRequired,
-  totalAmount: PropTypes.string.isRequired,
-};
 
 export default connect(mapStateToProps)(BillPaymentDetailTable);

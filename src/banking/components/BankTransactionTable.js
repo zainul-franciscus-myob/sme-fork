@@ -1,5 +1,5 @@
 import {
-  Checkbox, HeaderSort, Spinner, Table,
+  Checkbox, HeaderSort, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -18,7 +18,7 @@ import {
 } from '../bankingSelectors/bulkAllocationSelectors';
 import AccordionTable from '../../components/Feelix/Accordion/AccordionTable';
 import BankTransactionTableBody from './BankTransactionTableBody';
-import style from './BankingView.module.css';
+import TableView from '../../components/TableView/TableView';
 
 const tableConfig = {
   date: { width: '11rem' },
@@ -30,21 +30,15 @@ const tableConfig = {
 };
 
 const emptyView = header => (
-  <Table>
-    {header}
-    <div className={style.empty}>
-    There are no transactions for the selected filter options.
-    </div>
-  </Table>
+  <TableView
+    isEmpty
+    emptyMessage="There are no transactions for the selected filter options."
+    header={header}
+  />
 );
 
 const spinnerView = header => (
-  <Table>
-    {header}
-    <div className={style.spinner}>
-      <Spinner size="medium" />
-    </div>
-  </Table>
+  <TableView isLoading header={header} />
 );
 
 const BankTransactionTable = ({

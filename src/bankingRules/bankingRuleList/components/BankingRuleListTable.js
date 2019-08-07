@@ -1,7 +1,6 @@
 import {
   HeaderSort,
   PageState,
-  Spinner,
   Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -14,6 +13,7 @@ import {
   getOrder,
 } from '../BankingRuleListSelectors';
 import BankingRuleListTableBody from './BankingRuleListTableBody';
+import TableView from '../../../components/TableView/TableView';
 
 const emptyView = (
   <PageState
@@ -24,13 +24,6 @@ const emptyView = (
         invoices and other transactions
       </p>
     )}
-  />
-);
-
-const spinnerView = (
-  <PageState
-    title="Loading"
-    description={<Spinner size="medium" />}
   />
 );
 
@@ -48,37 +41,36 @@ const BankingRuleListTable = ({
   onSort,
   order,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = spinnerView;
-  } else if (isTableEmpty) {
-    view = emptyView;
-  } else {
-    view = <BankingRuleListTableBody tableConfig={tableConfig} />;
-  }
-
-  return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem {...tableConfig.ruleName}>
-          <HeaderSort title="Rule name" sortName="Name" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        { isStatusDisplayed
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem {...tableConfig.ruleName}>
+        <HeaderSort title="Rule name" sortName="Name" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      { isStatusDisplayed
           && (
           <Table.HeaderItem {...tableConfig.status}>
             <HeaderSort title="Status" sortName="IsActive" activeSort={order} onSort={onSort} />
           </Table.HeaderItem>
           )
         }
-        <Table.HeaderItem {...tableConfig.bankAccount}>
-          <HeaderSort title="Bank account" sortName="AccountName" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.transactionType}>
-          <HeaderSort title="Transaction type" sortName="RuleType" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-      </Table.Header>
-      {view}
-    </Table>
+      <Table.HeaderItem {...tableConfig.bankAccount}>
+        <HeaderSort title="Bank account" sortName="AccountName" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.transactionType}>
+        <HeaderSort title="Transaction type" sortName="RuleType" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+    </Table.Header>
+  );
+
+  return (
+    <TableView
+      isLoading={isTableLoading}
+      isEmpty={isTableEmpty}
+      emptyView={emptyView}
+      header={header}
+    >
+      <BankingRuleListTableBody tableConfig={tableConfig} />
+    </TableView>
   );
 };
 

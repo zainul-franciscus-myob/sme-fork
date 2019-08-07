@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 
-import TableViewType from './TableViewType';
 import formatAmount from './formatAmount';
 
 const formatCurrency = (amount) => {
@@ -63,18 +62,9 @@ export const getIsSubmitting = state => state.isSubmitting;
 export const getIsLoading = state => state.isLoading;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getIsPageEdited = state => state.isPageEdited;
-export const getTableViewType = createSelector(
+export const getIsTableEmpty = createSelector(
   getInvoices,
-  getIsTableLoading,
-  (invoices, isTableLoading) => {
-    if (isTableLoading) {
-      return TableViewType.SPINNER;
-    }
-    if (invoices.length === 0) {
-      return TableViewType.EMPTY;
-    }
-    return TableViewType.TABLE;
-  },
+  invoices => invoices.length === 0,
 );
 export const getModalType = state => state.modalType;
 export const getAlertMessage = state => state.alertMessage;

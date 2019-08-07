@@ -1,7 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { formatCurrency } from '../../banking/bankingSelectors';
-import tableViewTypes from './tableViewTypes';
 
 export const getIsLoading = state => state.isLoading;
 export const getIsTableLoading = state => state.isTableLoading;
@@ -103,21 +102,15 @@ export const getLoadBillListParams = ({ key, value }) => createSelector(
   },
 );
 
-export const getTableViewType = createSelector(
+export const getIsTableEmpty = state => state.entries.length === 0;
+
+export const getTableEmptyMessage = createSelector(
   getSupplierId,
-  getEntries,
-  getIsTableLoading,
-  (supplierId, entries, isTableLoading) => {
+  (supplierId) => {
     if (supplierId === '') {
-      return tableViewTypes.emptySupplier;
+      return 'Please select a supplier';
     }
-    if (entries.length === 0) {
-      return tableViewTypes.emptyTable;
-    }
-    if (isTableLoading) {
-      return tableViewTypes.spinner;
-    }
-    return tableViewTypes.default;
+    return 'There are no bills';
   },
 );
 

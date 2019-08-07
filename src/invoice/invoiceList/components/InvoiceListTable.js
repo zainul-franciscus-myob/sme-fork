@@ -1,12 +1,11 @@
 import { PropTypes } from 'prop-types';
-import { Spinner, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading } from '../invoiceListSelectors';
 import InvoiceListTableBody from './InvoiceListTableBody';
 import InvoiceListTableHeader from './InvoiceListTableHeader';
-import style from './InvoiceListView.module.css';
+import TableView from '../../../components/TableView/TableView';
 
 const tableConfig = {
   dateIssued: { width: '12rem', valign: 'top', align: 'right' },
@@ -19,38 +18,20 @@ const tableConfig = {
   status: { width: '10rem', valign: 'middle', align: 'left' },
 };
 
-const emptyView = (
-  <div className={style.empty}>
-    There are no invoices for the selected filter options.
-  </div>
-);
-
-const spinnerView = (
-  <div className={style.spinner}>
-    <Spinner size="medium" />
-  </div>
-);
-
 const InvoiceListTable = ({
   onSort,
   isTableLoading,
   isTableEmpty,
-}) => {
-  let view;
-  if (isTableLoading) {
-    view = spinnerView;
-  } else if (isTableEmpty) {
-    view = emptyView;
-  } else {
-    view = (<InvoiceListTableBody tableConfig={tableConfig} />);
-  }
-  return (
-    <Table>
-      <InvoiceListTableHeader tableConfig={tableConfig} onSort={onSort} />
-      {view}
-    </Table>
-  );
-};
+}) => (
+  <TableView
+    header={<InvoiceListTableHeader tableConfig={tableConfig} onSort={onSort} />}
+    isLoading={isTableLoading}
+    isEmpty={isTableEmpty}
+    emptyMessage="There are no invoices for the selected filter options."
+  >
+    <InvoiceListTableBody tableConfig={tableConfig} />
+  </TableView>
+);
 
 InvoiceListTable.propTypes = {
   onSort: PropTypes.func.isRequired,

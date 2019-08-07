@@ -4,7 +4,7 @@ import React from 'react';
 
 import { getIsTableLoading, getIsWagesTableEmpty, getWagesOrder } from '../PayItemListSelectors';
 import EmptyView from './EmptyView';
-import TableSpinner from './TableSpinner';
+import TableView from '../../../components/TableView/TableView';
 import WagesTableBody from './PayItemWagesTableBody';
 
 const PayItemWagesTable = ({
@@ -13,30 +13,29 @@ const PayItemWagesTable = ({
   isTableLoading,
   isWagesTableEmpty,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = <TableSpinner />;
-  } else if (isWagesTableEmpty) {
-    view = <EmptyView payItem="wages and salaries" />;
-  } else {
-    view = <WagesTableBody />;
-  }
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem>
+        <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortWagesList} />
+      </Table.HeaderItem>
+      <Table.HeaderItem>
+        <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortWagesList} />
+      </Table.HeaderItem>
+      <Table.HeaderItem>
+        <HeaderSort title="ATO reporting category" sortName="StpCategory" activeSort={order} onSort={onSortWagesList} />
+      </Table.HeaderItem>
+    </Table.Header>
+  );
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem>
-          <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortWagesList} />
-        </Table.HeaderItem>
-        <Table.HeaderItem>
-          <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortWagesList} />
-        </Table.HeaderItem>
-        <Table.HeaderItem>
-          <HeaderSort title="ATO reporting category" sortName="StpCategory" activeSort={order} onSort={onSortWagesList} />
-        </Table.HeaderItem>
-      </Table.Header>
-      { view }
-    </Table>
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isWagesTableEmpty}
+      emptyView={<EmptyView payItem="wages and salaries" />}
+    >
+      <WagesTableBody />
+    </TableView>
   );
 };
 

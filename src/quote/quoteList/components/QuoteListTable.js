@@ -1,4 +1,4 @@
-import { HeaderSort, Spinner, Table } from '@myob/myob-widgets';
+import { HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -6,7 +6,7 @@ import {
   getIsTableEmpty, getIsTableLoading, getOrder,
 } from '../quoteListSelector';
 import QuoteListTableBody from './QuoteListTableBody';
-import style from './QuoteListView.module.css';
+import TableView from '../../../components/TableView/TableView';
 
 const tableConfig = {
   referenceId: { width: '13.7rem', valign: 'top' },
@@ -17,57 +17,44 @@ const tableConfig = {
   displayExpiryDate: { width: '12.4rem', valign: 'top' },
 };
 
-const emptyView = (
-  <div className={style.empty}>
-    There are no quotes for the selected filter options
-  </div>
-);
-
-const spinnerView = (
-  <div className={style.spinner}>
-    <Spinner size="medium" />
-  </div>
-);
-
 const QuoteListTable = ({
   isTableEmpty,
   isTableLoading,
   onSort,
   order,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = spinnerView;
-  } else if (isTableEmpty) {
-    view = emptyView;
-  } else {
-    view = (<QuoteListTableBody tableConfig={tableConfig} />);
-  }
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem {...tableConfig.displayDate}>
+        <HeaderSort title="Issue date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.referenceId}>
+        <HeaderSort title="Quote number" sortName="DisplayId" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.customer}>
+        <HeaderSort title="Customer" sortName="CustomerName" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.purchaseOrder}>
+        <HeaderSort title="Customer PO no." sortName="CustomerPurchaseOrderIdentifier" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.displayAmount}>
+        <HeaderSort title="Total amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.displayExpiryDate}>
+        <HeaderSort title="Expiry date" sortName="ExpiryDate" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+    </Table.Header>
+  );
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem {...tableConfig.displayDate}>
-          <HeaderSort title="Issue date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.referenceId}>
-          <HeaderSort title="Quote number" sortName="DisplayId" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.customer}>
-          <HeaderSort title="Customer" sortName="CustomerName" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.purchaseOrder}>
-          <HeaderSort title="Customer PO no." sortName="CustomerPurchaseOrderIdentifier" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.displayAmount}>
-          <HeaderSort title="Total amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.displayExpiryDate}>
-          <HeaderSort title="Expiry date" sortName="ExpiryDate" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-      </Table.Header>
-      {view}
-    </Table>
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isTableEmpty}
+      emptyMessage="There are no quotes for the selected filter options."
+    >
+      <QuoteListTableBody tableConfig={tableConfig} />
+    </TableView>
   );
 };
 

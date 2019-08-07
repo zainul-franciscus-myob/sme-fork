@@ -5,7 +5,7 @@ import React from 'react';
 import { getIsLeaveTableEmpty, getIsTableLoading, getLeaveOrder } from '../PayItemListSelectors';
 import EmptyView from './EmptyView';
 import LeaveTableBody from './PayItemLeaveTableBody';
-import TableSpinner from './TableSpinner';
+import TableView from '../../../components/TableView/TableView';
 
 const PayItemLeaveList = ({
   order,
@@ -13,27 +13,26 @@ const PayItemLeaveList = ({
   isTableLoading,
   isLeaveTableEmpty,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = <TableSpinner />;
-  } else if (isLeaveTableEmpty) {
-    view = <EmptyView payItem="leave" />;
-  } else {
-    view = <LeaveTableBody />;
-  }
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem>
+        <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortLeaveList} />
+      </Table.HeaderItem>
+      <Table.HeaderItem>
+        <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortLeaveList} />
+      </Table.HeaderItem>
+    </Table.Header>
+  );
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem>
-          <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortLeaveList} />
-        </Table.HeaderItem>
-        <Table.HeaderItem>
-          <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortLeaveList} />
-        </Table.HeaderItem>
-      </Table.Header>
-      { view }
-    </Table>
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isLeaveTableEmpty}
+      emptyView={<EmptyView payItem="leave" />}
+    >
+      <LeaveTableBody />
+    </TableView>
   );
 };
 

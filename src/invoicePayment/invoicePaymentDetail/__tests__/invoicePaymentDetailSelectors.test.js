@@ -1,11 +1,5 @@
 import {
-  DEFAULT_TABLE,
-  EMPTY_CUSTOMER_TABLE,
-  EMPTY_TABLE,
-  LOADING_TABLE,
-} from '../../InvoicePaymentTableViewTypes';
-import {
-  getEntries, getSaveContent, getTableViewType, getTotalReceived,
+  getEntries, getSaveContent, getTableEmptyMessage, getTotalReceived,
 } from '../invoicePaymentDetailSelectors';
 
 describe('invoicePaymentDetailSelectors', () => {
@@ -213,7 +207,7 @@ describe('invoicePaymentDetailSelectors', () => {
     });
   });
 
-  describe('getTableViewType', () => {
+  describe('getEmptyTableMessage', () => {
     let state;
 
     beforeEach(() => {
@@ -224,35 +218,17 @@ describe('invoicePaymentDetailSelectors', () => {
       };
     });
 
-    it('return loading table when table is loading', () => {
-      state = {
-        ...state,
-        isTableLoading: true,
-      };
-
-      expect(getTableViewType(state)).toEqual(LOADING_TABLE);
-    });
-
-    it('returns emptyCustomer when customer not selected', () => {
+    it('returns customer message when there is no customer selected', () => {
       state = {
         ...state,
         customerId: '',
       };
 
-      expect(getTableViewType(state)).toEqual(EMPTY_CUSTOMER_TABLE);
-    });
-
-    it('return empty table when no invoices', () => {
-      state = {
-        ...state,
-        entries: [],
-      };
-
-      expect(getTableViewType(state)).toEqual(EMPTY_TABLE);
+      expect(getTableEmptyMessage(state)).toEqual('Please select a customer.');
     });
 
     it('otherwise returns default', () => {
-      expect(getTableViewType(state)).toEqual(DEFAULT_TABLE);
+      expect(getTableEmptyMessage(state)).toEqual('There are no invoices.');
     });
   });
 });

@@ -1,17 +1,17 @@
+import { PageState } from '@myob/myob-widgets';
 import React from 'react';
 
-import style from './PayItemListView.module.css';
-
 const EmptyView = ({ payItem, additionalMessage }) => (
-  <div className={style.empty}>
-    <div>
-      {`You have not created any ${payItem} yet.`}
-      <br />
-      {`Your ${payItem} will show here once they are created.`}
-      <br />
-      {additionalMessage}
-    </div>
-  </div>
+  <PageState
+    title={`You have not created any ${payItem} yet.`}
+    description={(
+      <p>
+        {`Your ${payItem} will show here once they are created.`}
+        <br />
+        {additionalMessage}
+      </p>
+    )}
+  />
 );
 
 export default EmptyView;

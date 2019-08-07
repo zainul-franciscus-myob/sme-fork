@@ -1,10 +1,8 @@
 import {
   getCreateApplyToSalePayload,
   getInvoices,
-  getTableViewType,
   getTotalAmountApplied,
 } from '../applyToSaleSelectors';
-import TableViewType from '../TableViewType';
 
 describe('applyToSaleSelectors', () => {
   describe('getInvoices', () => {
@@ -110,41 +108,6 @@ describe('applyToSaleSelectors', () => {
       const actual = getTotalAmountApplied(state);
 
       expect(actual).toEqual('$33.15');
-    });
-  });
-
-  describe('getTableViewType', () => {
-    const state = {
-      invoices: [{}, {}],
-      isTableLoading: false,
-    };
-
-    it('returns EMPTY when invoices is empty', () => {
-      const testState = {
-        ...state,
-        invoices: [],
-      };
-
-      const actual = getTableViewType(testState);
-
-      expect(actual).toEqual(TableViewType.EMPTY);
-    });
-
-    it('returns SPINNER when table is loading', () => {
-      const testState = {
-        ...state,
-        isTableLoading: true,
-      };
-
-      const actual = getTableViewType(testState);
-
-      expect(actual).toEqual(TableViewType.SPINNER);
-    });
-
-    it('returns TABLE when there are invoices', () => {
-      const actual = getTableViewType(state);
-
-      expect(actual).toEqual(TableViewType.TABLE);
     });
   });
 

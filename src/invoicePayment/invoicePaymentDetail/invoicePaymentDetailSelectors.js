@@ -1,11 +1,5 @@
 import { createSelector } from 'reselect';
 
-import {
-  DEFAULT_TABLE,
-  EMPTY_CUSTOMER_TABLE,
-  EMPTY_TABLE,
-  LOADING_TABLE,
-} from '../InvoicePaymentTableViewTypes';
 import { formatCurrency } from '../../banking/bankingSelectors';
 
 export const getIsCreating = state => state.invoicePaymentId === 'new';
@@ -91,13 +85,14 @@ export const getSaveContent = state => (getIsCreating(state)
   : getUpdateContent(state));
 
 export const getShowPaidInvoices = state => state.showPaidInvoices;
-export const getTableViewType = (state) => {
-  if (state.isTableLoading) {
-    return LOADING_TABLE;
-  } if (!state.customerId) {
-    return EMPTY_CUSTOMER_TABLE;
-  } if (state.entries.length === 0) {
-    return EMPTY_TABLE;
+
+export const getIsTableLoading = state => state.isTableLoading;
+export const getIsTableEmpty = state => state.entries.length === 0;
+
+export const getTableEmptyMessage = (state) => {
+  if (!state.customerId) {
+    return 'Please select a customer.';
   }
-  return DEFAULT_TABLE;
+
+  return 'There are no invoices.';
 };

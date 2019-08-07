@@ -5,7 +5,7 @@ import React from 'react';
 import { getExpensesOrder, getIsExpensesTableEmpty, getIsTableLoading } from '../PayItemListSelectors';
 import EmptyView from './EmptyView';
 import ExpensesTableBody from './PayItemExpensesTableBody';
-import TableSpinner from './TableSpinner';
+import TableView from '../../../components/TableView/TableView';
 
 const PayItemExpensesTable = ({
   order,
@@ -13,27 +13,26 @@ const PayItemExpensesTable = ({
   isTableLoading,
   isExpensesTableEmpty,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = <TableSpinner />;
-  } else if (isExpensesTableEmpty) {
-    view = <EmptyView payItem="expenses" />;
-  } else {
-    view = <ExpensesTableBody />;
-  }
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem>
+        <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortExpensesList} />
+      </Table.HeaderItem>
+      <Table.HeaderItem>
+        <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortExpensesList} />
+      </Table.HeaderItem>
+    </Table.Header>
+  );
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem>
-          <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortExpensesList} />
-        </Table.HeaderItem>
-        <Table.HeaderItem>
-          <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortExpensesList} />
-        </Table.HeaderItem>
-      </Table.Header>
-      { view }
-    </Table>
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isExpensesTableEmpty}
+      emptyView={<EmptyView payItem="expenses" />}
+    >
+      <ExpensesTableBody />
+    </TableView>
   );
 };
 

@@ -1,23 +1,17 @@
-import { Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import Table from '@myob/myob-widgets/lib/components/Table/Table';
 
 import {
-  getIsCreating, getPurchases, getTableViewType, getTotalAmountApplied,
+  getIsCreating, getIsTableEmpty, getIsTableLoading, getPurchases, getTotalAmountApplied,
 } from '../SupplierReturnPurchaseSelector';
 import AmountInput from '../../components/autoFormatter/AmountInput/AmountInput';
+import TableView from '../../components/TableView/TableView';
 import styles from './SupplierReturnPurchaseTable.module.css';
 
 const onAmountChange = (handler, index) => ({ target }) => {
   const { name, rawValue } = target;
   handler({ key: name, value: rawValue, index });
-};
-
-const tableViewTypes = {
-  spinner: 'spinner',
-  emptyTable: 'emptyTable',
-  default: '',
 };
 
 const tableConfig = {
@@ -30,30 +24,17 @@ const tableConfig = {
   amountApplied: { columnName: 'Amount applied ($)', valign: 'middle' },
 };
 
-const emptyTableView = (
-  <div className={styles.empty}>
-    There are no purchases.
-  </div>
-);
-
-const spinnerView = (
-  <div className={styles.table}>
-    <div className={styles.spinner}>
-      <Spinner size="medium" />
-    </div>
-  </div>
-);
-
 const SupplierReturnPurchaseTable = (props) => {
   const {
     purchases,
     totalAmountApplied,
-    tableViewType,
+    isTableLoading,
+    isTableEmpty,
     isCreating,
     onUpdateTableAmountFields,
     onFormatAmountInput,
   } = props;
-  const tableView = (
+  const tableBody = (
     <React.Fragment>
       <Table.Body>
         {
@@ -100,25 +81,26 @@ const SupplierReturnPurchaseTable = (props) => {
     </React.Fragment>
   );
 
-  const view = {
-    [tableViewTypes.spinner]: spinnerView,
-    [tableViewTypes.emptyTable]: emptyTableView,
-    [tableViewTypes.default]: tableView,
-  }[tableViewType] || tableView;
-
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem columnName="date">Date</Table.HeaderItem>
+      <Table.HeaderItem columnName="purchaseNumber">Purchase No.</Table.HeaderItem>
+      <Table.HeaderItem columnName="status">Status</Table.HeaderItem>
+      <Table.HeaderItem columnName="amount">Amount ($)</Table.HeaderItem>
+      <Table.HeaderItem columnName="discount">Discount ($)</Table.HeaderItem>
+      <Table.HeaderItem columnName="owed">Owed ($)</Table.HeaderItem>
+      <Table.HeaderItem columnName="amountApplied">Amount Applied ($)</Table.HeaderItem>
+    </Table.Header>
+  );
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem columnName="date">Date</Table.HeaderItem>
-        <Table.HeaderItem columnName="purchaseNumber">Purchase No.</Table.HeaderItem>
-        <Table.HeaderItem columnName="status">Status</Table.HeaderItem>
-        <Table.HeaderItem columnName="amount">Amount ($)</Table.HeaderItem>
-        <Table.HeaderItem columnName="discount">Discount ($)</Table.HeaderItem>
-        <Table.HeaderItem columnName="owed">Owed ($)</Table.HeaderItem>
-        <Table.HeaderItem columnName="amountApplied">Amount Applied ($)</Table.HeaderItem>
-      </Table.Header>
-      {view}
-    </Table>
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isTableEmpty}
+      emptyMessage="There are no purchases."
+    >
+      {tableBody}
+    </TableView>
   );
 };
 
@@ -126,7 +108,8 @@ const mapStateToProps = state => ({
   purchases: getPurchases(state),
   totalAmountApplied: getTotalAmountApplied(state),
   isCreating: getIsCreating(state),
-  tableViewType: getTableViewType(state),
+  isTableLoading: getIsTableLoading(state),
+  isTableEmpty: getIsTableEmpty(state),
 });
 
 export default connect(mapStateToProps)(SupplierReturnPurchaseTable);

@@ -1,12 +1,12 @@
-import { HeaderSort, Spinner, Table } from '@myob/myob-widgets';
+import { HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getIsTableEmpty, getIsTableLoading, getOrder,
 } from '../transactionListSelectors';
+import TableView from '../../components/TableView/TableView';
 import TransactionListTableBody from './TransactionListTableBody';
-import style from './TransactionListView.module.css';
 
 const tableConfig = {
   date: { width: '11rem', valign: 'top' },
@@ -16,18 +16,6 @@ const tableConfig = {
   displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
 };
 
-const emptyView = (
-  <div className={style.empty}>
-    There are no transactions for the selected filter options.
-  </div>
-);
-
-const spinnerView = (
-  <div className={style.spinner}>
-    <Spinner size="medium" />
-  </div>
-);
-
 const TransactionListTable = ({
   isTableEmpty,
   isTableLoading,
@@ -35,33 +23,30 @@ const TransactionListTable = ({
   onSort,
   order,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = spinnerView;
-  } else if (isTableEmpty) {
-    view = emptyView;
-  } else {
-    view = (
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem {...tableConfig.date}>
+        <HeaderSort title="Date" sortName="date" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.sourceJournal}>Source Journal </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
+    </Table.Header>
+  );
+
+  return (
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isTableEmpty}
+      emptyMessage="There are no transactions for the selected filter options."
+    >
       <TransactionListTableBody
         businessId={businessId}
         tableConfig={tableConfig}
       />
-    );
-  }
-
-  return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem {...tableConfig.date}>
-          <HeaderSort title="Date" sortName="date" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.sourceJournal}>Source Journal </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
-      </Table.Header>
-      {view}
-    </Table>
+    </TableView>
   );
 };
 

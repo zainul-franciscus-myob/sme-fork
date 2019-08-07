@@ -1,13 +1,12 @@
 import {
-  HeaderSort, Spinner, Table,
+  HeaderSort, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../CustomerReturnListSelectors';
 import CustomerReturnListTableBody from './CustomerReturnListTableBody';
-import style from './CustomerReturnListTable.module.css';
+import TableView from '../../../components/TableView/TableView';
 
 const tableConfig = {
   date: { width: '11rem', valign: 'top' },
@@ -20,18 +19,6 @@ const tableConfig = {
   applyToSale: { width: 'flex-1', valign: 'top' },
 };
 
-const emptyView = (
-  <div className={style.empty}>
-    There are no customer returns.
-  </div>
-);
-
-const spinnerView = (
-  <div className={style.spinner}>
-    <Spinner size="medium" />
-  </div>
-);
-
 const CustomerReturnListTable = ({
   isTableLoading,
   isTableEmpty,
@@ -40,76 +27,56 @@ const CustomerReturnListTable = ({
   onCreateRefundClick,
   onCreateApplyToSaleClick,
 }) => {
-  let tableBodyView;
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem {...tableConfig.date}>
+        <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
 
-  if (isTableLoading) {
-    tableBodyView = spinnerView;
-  } else if (isTableEmpty) {
-    tableBodyView = emptyView;
-  } else {
-    tableBodyView = (
+      <Table.HeaderItem {...tableConfig.invoiceNumber}>
+        <HeaderSort title="Invoice no." sortName="DisplayId" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+
+      <Table.HeaderItem {...tableConfig.customerPurchaseOrderNo}>
+        <HeaderSort title="Cust PO No" sortName="PurchaseOrderReference" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+
+      <Table.HeaderItem {...tableConfig.customer}>
+        <HeaderSort title="Customer" sortName="CustomerName" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+
+      <Table.HeaderItem {...tableConfig.amount}>
+        <HeaderSort title="Amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+
+      <Table.HeaderItem {...tableConfig.creditAmount}>
+        <HeaderSort title="Credit amount ($)" sortName="BalanceDue" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+
+      <Table.HeaderItem {...tableConfig.payRefund}>
+        Pay refund
+      </Table.HeaderItem>
+
+      <Table.HeaderItem {...tableConfig.applyToSale}>
+        Apply to sale
+      </Table.HeaderItem>
+    </Table.Header>
+  );
+
+  return (
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isTableEmpty}
+      emptyMessage="There are no customer returns."
+    >
       <CustomerReturnListTableBody
         tableConfig={tableConfig}
         onCreateRefundClick={onCreateRefundClick}
         onCreateApplyToSaleClick={onCreateApplyToSaleClick}
       />
-    );
-  }
-
-  return (
-    <Table>
-      <Table.Header>
-
-        <Table.HeaderItem {...tableConfig.date}>
-          <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-
-        <Table.HeaderItem {...tableConfig.invoiceNumber}>
-          <HeaderSort title="Invoice no." sortName="DisplayId" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-
-        <Table.HeaderItem {...tableConfig.customerPurchaseOrderNo}>
-          <HeaderSort title="Cust PO No" sortName="PurchaseOrderReference" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-
-        <Table.HeaderItem {...tableConfig.customer}>
-          <HeaderSort title="Customer" sortName="CustomerName" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-
-        <Table.HeaderItem {...tableConfig.amount}>
-          <HeaderSort title="Amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-
-        <Table.HeaderItem {...tableConfig.creditAmount}>
-          <HeaderSort title="Credit amount ($)" sortName="BalanceDue" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-
-        <Table.HeaderItem {...tableConfig.payRefund}>
-          Pay refund
-        </Table.HeaderItem>
-
-        <Table.HeaderItem {...tableConfig.applyToSale}>
-          Apply to sale
-        </Table.HeaderItem>
-
-      </Table.Header>
-
-      {tableBodyView}
-
-    </Table>
+    </TableView>
   );
-};
-
-const orderShape = {
-  column: PropTypes.string,
-  descending: PropTypes.bool,
-};
-
-CustomerReturnListTable.propTypes = {
-  isTableLoading: PropTypes.bool.isRequired,
-  isTableEmpty: PropTypes.bool.isRequired,
-  order: PropTypes.shape(orderShape).isRequired,
-  onSort: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

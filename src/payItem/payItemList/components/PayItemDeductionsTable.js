@@ -5,7 +5,7 @@ import React from 'react';
 import { getDeductionsOrder, getIsDeductionsTableEmpty, getIsTableLoading } from '../PayItemListSelectors';
 import DeductionsTableBody from './PayItemDeductionsTableBody';
 import EmptyView from './EmptyView';
-import TableSpinner from './TableSpinner';
+import TableView from '../../../components/TableView/TableView';
 
 const PayItemDeductionsTable = ({
   order,
@@ -13,31 +13,29 @@ const PayItemDeductionsTable = ({
   isTableLoading,
   isDeductionsTableEmpty,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = <TableSpinner />;
-  } else if (isDeductionsTableEmpty) {
-    view = <EmptyView payItem="deductions" />;
-  } else {
-    view = <DeductionsTableBody />;
-  }
-
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem>
+        <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortDeductionsList} />
+      </Table.HeaderItem>
+      <Table.HeaderItem>
+        <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortDeductionsList} />
+      </Table.HeaderItem>
+      <Table.HeaderItem>
+        <HeaderSort title="ATO reporting category" sortName="StpCategory" activeSort={order} onSort={onSortDeductionsList} />
+      </Table.HeaderItem>
+    </Table.Header>
+  );
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem>
-          <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortDeductionsList} />
-        </Table.HeaderItem>
-        <Table.HeaderItem>
-          <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortDeductionsList} />
-        </Table.HeaderItem>
-        <Table.HeaderItem>
-          <HeaderSort title="ATO reporting category" sortName="StpCategory" activeSort={order} onSort={onSortDeductionsList} />
-        </Table.HeaderItem>
-      </Table.Header>
-      { view }
-    </Table>
+    <TableView
+      isLoading={isTableLoading}
+      isEmpty={isDeductionsTableEmpty}
+      header={header}
+      emptyView={<EmptyView payItem="deductions" />}
+    >
+      <DeductionsTableBody />
+    </TableView>
   );
 };
 

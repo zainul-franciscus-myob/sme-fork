@@ -1,11 +1,11 @@
-import { HeaderSort, Spinner, Table } from '@myob/myob-widgets';
+import { HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading } from '../userListSelectors';
 import { getOrder } from '../../../quote/quoteList/quoteListSelector';
+import TableView from '../../../components/TableView/TableView';
 import UserListTableBody from './UserListTableBody';
-import style from './UserListView.module.css';
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'top' },
@@ -14,51 +14,38 @@ const tableConfig = {
   status: { width: '15rem', valign: 'top' },
 };
 
-const emptyView = (
-  <div className={style.empty}>
-    There are no users.
-  </div>
-);
-
-const spinnerView = (
-  <div className={style.spinner}>
-    <Spinner size="medium" />
-  </div>
-);
-
 const UserListTable = ({
   isTableEmpty,
   isTableLoading,
   onSort,
   order,
 }) => {
-  let view;
-  if (isTableLoading) {
-    view = spinnerView;
-  } else if (isTableEmpty) {
-    view = emptyView;
-  } else {
-    view = (<UserListTableBody tableConfig={tableConfig} />);
-  }
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem {...tableConfig.name}>
+        <HeaderSort title="Name" sortName="UserName" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.email}>
+        <HeaderSort title="Email" sortName="Email" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.advisor}>
+        <HeaderSort title="Advisor" sortName="IsAdvisor" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.status}>
+        <HeaderSort title="Status" sortName="IsActive" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+    </Table.Header>
+  );
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem {...tableConfig.name}>
-          <HeaderSort title="Name" sortName="UserName" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.email}>
-          <HeaderSort title="Email" sortName="Email" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.advisor}>
-          <HeaderSort title="Advisor" sortName="IsAdvisor" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.status}>
-          <HeaderSort title="Status" sortName="IsActive" activeSort={order} onSort={onSort} />
-        </Table.HeaderItem>
-      </Table.Header>
-      {view}
-    </Table>
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isTableEmpty}
+      emptyMessage="There are no users."
+    >
+      <UserListTableBody tableConfig={tableConfig} />
+    </TableView>
   );
 };
 

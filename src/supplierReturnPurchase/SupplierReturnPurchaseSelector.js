@@ -18,6 +18,10 @@ export const getIsTableLoading = state => state.isTableLoading;
 export const getModalType = state => state.modalType;
 export const getIsPageEdited = state => state.isPageEdited;
 
+export const getIsTableEmpty = state => state.supplierReturnPurchase.purchases.length === 0;
+
+// TODO: - use create selectors in this file to remove unecessary rerenders.
+
 const formatAmount = amount => Intl
   .NumberFormat('en-AU', {
     style: 'decimal',
@@ -70,13 +74,3 @@ export const getSupplierReturnPurchasePayload = state => ({
       discount: purchase.discount,
     })),
 });
-
-export const getTableViewType = (state) => {
-  if (state.isTableLoading) {
-    return 'spinner';
-  }
-  if (state.supplierReturnPurchase.purchases.length === 0) {
-    return 'emptyTable';
-  }
-  return '';
-};

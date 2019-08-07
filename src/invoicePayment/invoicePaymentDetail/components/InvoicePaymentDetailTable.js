@@ -1,40 +1,19 @@
-import { Spinner, Table } from '@myob/myob-widgets';
+import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  DEFAULT_TABLE,
-  EMPTY_CUSTOMER_TABLE,
-  EMPTY_TABLE,
-  LOADING_TABLE,
-} from '../../InvoicePaymentTableViewTypes';
-import {
   getEntries,
   getIsCreating,
-  getTableViewType,
+  getIsTableEmpty,
+  getIsTableLoading,
+  getTableEmptyMessage,
   getTotalReceived,
 } from '../invoicePaymentDetailSelectors';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import TableView from '../../../components/TableView/TableView';
 import styles from './InvoicePaymentDetailTable.module.css';
-
-const spinnerView = (
-  <div className={styles.container}>
-    <Spinner size="medium" />
-  </div>
-);
-
-const emptyTableView = (
-  <div className={styles.container}>
-    There are no invoices.
-  </div>
-);
-
-const emptyCustomerView = (
-  <div className={styles.container}>
-    Please select a customer.
-  </div>
-);
 
 const tableConfig = {
   invoiceNumber: { columnName: 'invoiceNumber' },
@@ -62,10 +41,12 @@ const InvoicePaymentDetailTable = ({
   isCreating,
   onUpdateInvoicePaymentEntries,
   totalReceived,
-  tableViewType,
+  isTableLoading,
+  isTableEmpty,
+  tableEmptyMessage,
   onAmountInputBlur,
 }) => {
-  const tableView = (
+  const tableBody = (
     <React.Fragment>
       <Table.Body>
         {entries.map((entry, index) => (
@@ -102,26 +83,27 @@ const InvoicePaymentDetailTable = ({
     </React.Fragment>
   );
 
-  const view = {
-    [EMPTY_CUSTOMER_TABLE]: emptyCustomerView,
-    [EMPTY_TABLE]: emptyTableView,
-    [LOADING_TABLE]: spinnerView,
-    [DEFAULT_TABLE]: tableView,
-  }[tableViewType];
+  const header = (
+    <Table.Header>
+      <Table.HeaderItem {...tableConfig.invoiceNumber}>Invoice Number</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.status}>Status</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.date}>Date</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.invoiceAmount}>Invoice amount ($)</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.discountGiven}>Discount given ($)</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.balanceDue}>Balance due ($)</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.amountReceived}>Amount received ($)</Table.HeaderItem>
+    </Table.Header>
+  );
 
   return (
-    <Table>
-      <Table.Header>
-        <Table.HeaderItem {...tableConfig.invoiceNumber}>Invoice Number</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.status}>Status</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.date}>Date</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.invoiceAmount}>Invoice amount ($)</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.discountGiven}>Discount given ($)</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.balanceDue}>Balance due ($)</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.amountReceived}>Amount received ($)</Table.HeaderItem>
-      </Table.Header>
-      {view}
-    </Table>
+    <TableView
+      header={header}
+      isLoading={isTableLoading}
+      isEmpty={isTableEmpty}
+      emptyMessage={tableEmptyMessage}
+    >
+      {tableBody}
+    </TableView>
   );
 };
 
@@ -148,7 +130,9 @@ const mapStateToProps = state => ({
   entries: getEntries(state),
   isCreating: getIsCreating(state),
   totalReceived: getTotalReceived(state),
-  tableViewType: getTableViewType(state),
+  isTableLoading: getIsTableLoading(state),
+  isTableEmpty: getIsTableEmpty(state),
+  tableEmptyMessage: getTableEmptyMessage(state),
 });
 
 export default connect(mapStateToProps)(InvoicePaymentDetailTable);
