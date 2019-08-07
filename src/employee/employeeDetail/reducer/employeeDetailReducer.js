@@ -312,6 +312,7 @@ const updatePayslipDelivery = (state, action) => ((
   ? {
     ...state,
     payrollDetails: {
+      ...state.payrollDetails,
       employmentDetails: {
         ...state.payrollDetails.employmentDetails,
         paySlipEmail: state.contactDetail.email,
@@ -323,6 +324,7 @@ const updatePayslipDelivery = (state, action) => ((
   : {
     ...state,
     payrollDetails: {
+      ...state.payrollDetails,
       employmentDetails: {
         ...state.payrollDetails.employmentDetails,
         [action.key]: action.value,
