@@ -152,6 +152,8 @@ export default class EmployeeDetailModule {
   };
 
   saveUnsavedChanges = () => {
+    this.dispatcher.closeModal();
+
     const onSuccess = (response) => {
       this.dispatcher.setSubmittingState(false);
       this.pushMessage({

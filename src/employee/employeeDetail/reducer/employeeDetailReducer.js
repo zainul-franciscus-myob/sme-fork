@@ -153,6 +153,7 @@ const setMainTab = (state, action) => ((
     ...state,
     mainTab: action.selectedTab,
     payrollDetails: {
+      ...state.payrollDetails,
       employmentDetails: {
         ...state.payrollDetails.employmentDetails,
         paySlipEmail: state.contactDetail.email,
