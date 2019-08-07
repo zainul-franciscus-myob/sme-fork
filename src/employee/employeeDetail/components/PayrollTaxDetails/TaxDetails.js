@@ -6,6 +6,7 @@ import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import TfnInput from '../../../../components/autoFormatter/TfnInput/TfnInput';
 import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './TaxDetails.module.css';
 
 const comboboxMetaData = [
@@ -31,7 +32,7 @@ const TaxDetails = ({
           name="taxFileNumber"
           label="Tax file number"
           value={taxFileNumber}
-          onChange={handleAmountInputChange(onPayrollTaxDetailsChange)}
+          onChange={handleInputChange(onPayrollTaxDetailsChange)}
         />
         <Combobox
           label="Tax table"

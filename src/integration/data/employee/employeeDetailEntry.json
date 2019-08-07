@@ -64,7 +64,7 @@
     },
     "tax": {
       "extraTax": "10.20",
-      "taxFileNumber": "123123123",
+      "taxFileNumber": "123 123 123",
       "taxTableId": "4",
       "totalRebates": "12.12",
       "withholdingVariationRate": "23.1234",
