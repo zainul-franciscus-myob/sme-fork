@@ -5,6 +5,7 @@ import {
   CLOSE_MODAL,
   FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_EMPLOYEE_DETAIL,
+  LOAD_TAX_PAY_ITEM_MODAL,
   OPEN_MODAL,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
@@ -15,6 +16,9 @@ import {
   SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
   SET_SUB_TAB,
+  SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE,
+  SET_TAX_PAY_ITEM_MODAL_LOADING_STATE,
+  SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE,
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_PAYMENT_DETAILS,
@@ -22,6 +26,7 @@ import {
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
   UPDATE_PAYROLL_TAX_DETAILS,
+  UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
 } from '../../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
@@ -37,8 +42,11 @@ import {
 import {
   addPayrollTaxPayItem,
   formatAmountInput,
-  removePayrollTaxPayItem,
+  loadTaxPayItemModal,
+  removePayrollTaxPayItem, setTaxPayItemModalAlertMessage,
+  setTaxPayItemModalLoading, setTaxPayItemModalSubmitting,
   updatePayrollTaxDetail,
+  updateTaxPayItemModalDetails,
 } from './PayrollTaxReducer';
 import { mainTabIds } from '../tabItems';
 import { shouldDefaultPayslipEmail } from '../selectors/EmployeeDetailSelectors';
@@ -114,6 +122,17 @@ const getDefaultState = () => ({
   superPayItemOptions: [],
   taxTableOptions: [],
   taxPayItemOptions: [],
+  taxPayItemModal: {
+    tax: {
+      atoReportingCategory: '',
+      accountId: '',
+    },
+    accounts: [],
+    atoReportingCategoryList: [],
+    isLoading: false,
+    isSubmitting: false,
+    alertMessage: '',
+  },
 });
 
 const setLoadingState = (state, action) => ({
@@ -337,6 +356,11 @@ const handlers = {
   [REMOVE_PAYROLL_TAX_PAY_ITEM]: removePayrollTaxPayItem,
   [UPDATE_PAYROLL_TAX_DETAILS]: updatePayrollTaxDetail,
   [FORMAT_PAYROLL_TAX_AMOUNT]: formatAmountInput,
+  [SET_TAX_PAY_ITEM_MODAL_LOADING_STATE]: setTaxPayItemModalLoading,
+  [LOAD_TAX_PAY_ITEM_MODAL]: loadTaxPayItemModal,
+  [UPDATE_TAX_PAY_ITEM_MODAL_DETAILS]: updateTaxPayItemModalDetails,
+  [SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE]: setTaxPayItemModalSubmitting,
+  [SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE]: setTaxPayItemModalAlertMessage,
 };
 
 const employeeDetailReducer = createReducer(getDefaultState(), handlers);

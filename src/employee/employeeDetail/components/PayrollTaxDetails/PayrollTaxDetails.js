@@ -22,6 +22,7 @@ const PayrollTaxDetails = ({
   onRemovePayrollTaxPayItem,
   onPayrollTaxDetailsChange,
   onPayrollTaxAmountBlur,
+  onTaxPayItemClick,
 }) => {
   const fieldGroupLabel = (
     <div>
@@ -50,6 +51,7 @@ const PayrollTaxDetails = ({
           items={taxPayItemOptions}
           onAddPayItem={onAddPayrollTaxPayItem}
           onRemovePayItem={onRemovePayrollTaxPayItem}
+          onTaxPayItemClick={onTaxPayItemClick}
         />
       </FieldGroup>
     </>

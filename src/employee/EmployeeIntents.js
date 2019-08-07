@@ -33,3 +33,10 @@ export const ADD_PAYROLL_TAX_PAY_ITEM = Symbol('Add tax pay item');
 export const REMOVE_PAYROLL_TAX_PAY_ITEM = Symbol('Remove tax pay item');
 export const UPDATE_PAYROLL_TAX_DETAILS = Symbol('Update payroll tax details');
 export const FORMAT_PAYROLL_TAX_AMOUNT = Symbol('Format payroll tax amount');
+
+export const LOAD_TAX_PAY_ITEM_MODAL = Symbol('Load tax pay item modal');
+export const UPDATE_TAX_PAY_ITEM_MODAL = Symbol('Update tax pay item modal');
+export const UPDATE_TAX_PAY_ITEM_MODAL_DETAILS = Symbol('Update tax pay item modal details');
+export const SET_TAX_PAY_ITEM_MODAL_LOADING_STATE = Symbol('Set tax pay item modal loading state');
+export const SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE = Symbol('Set tax pay item modal submitting state');
+export const SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE = Symbol('Set tax pay item modal alert message');

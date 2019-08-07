@@ -36,3 +36,18 @@ export const getTaxDetails = state => ({
 export const getSelectedTaxTable = state => (
   state.taxTableOptions.find(taxTable => taxTable.id === state.payrollDetails.tax.taxTableId) || {}
 );
+
+export const getTaxPayItemModalLoading = state => state.taxPayItemModal.isLoading;
+export const getTaxPayItemModalSubmitting = state => state.taxPayItemModal.isSubmitting;
+export const getTaxPayItemModalAlertMessage = state => state.taxPayItemModal.alertMessage;
+
+export const getTaxPayItemDetail = state => state.taxPayItemModal.tax;
+export const getTaxPayItemAccounts = state => state.taxPayItemModal.accounts;
+export const getTaxPayItemAtoReportingCategoryList = state => (
+  state.taxPayItemModal.atoReportingCategoryList
+);
+
+export const getTaxPayItemPayload = state => ({
+  atoReportingCategory: state.taxPayItemModal.tax.atoReportingCategory,
+  accountId: state.taxPayItemModal.tax.accountId,
+});

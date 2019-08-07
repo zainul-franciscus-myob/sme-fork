@@ -3,7 +3,9 @@ import {
   DELETE_EMPLOYEE,
   LOAD_EMPLOYEE_DETAIL,
   LOAD_NEW_EMPLOYEE_DETAIL,
+  LOAD_TAX_PAY_ITEM_MODAL,
   UPDATE_EMPLOYEE,
+  UPDATE_TAX_PAY_ITEM_MODAL,
 } from '../EmployeeIntents';
 import {
   getBusinessId,
@@ -11,6 +13,7 @@ import {
   getEmployeePayload,
   getIsCreating,
 } from './selectors/EmployeeDetailSelectors';
+import { getTaxPayItemPayload } from './selectors/PayrollTaxSelectors';
 
 const createEmployeeDetailIntegrator = (store, integration) => ({
   loadEmployeeDetails: ({ onSuccess, onFailure }) => {
@@ -69,6 +72,38 @@ const createEmployeeDetailIntegrator = (store, integration) => ({
     integration.write({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadTaxPayItemModal: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_TAX_PAY_ITEM_MODAL;
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  saveTaxPayItemModal: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = UPDATE_TAX_PAY_ITEM_MODAL;
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    const content = getTaxPayItemPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
       onSuccess,
       onFailure,
     });

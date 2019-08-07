@@ -29,6 +29,7 @@ const AddTaxPayItemTable = ({
   items = [],
   onAddPayItem,
   onRemovePayItem,
+  onTaxPayItemClick,
 }) => (
   <div className={styles.editableTable}>
     <Table hasActions>
@@ -40,7 +41,11 @@ const AddTaxPayItemTable = ({
         {
           selected.map(({ id, name }) => (
             <Table.Row key={id}>
-              <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
+              <Table.RowItem {...tableConfig.name}>
+                <Button type="link" onClick={onTaxPayItemClick}>
+                  {name}
+                </Button>
+              </Table.RowItem>
               <Table.RowItem cellRole="actions" {...tableConfig.actions}>
                 <Tooltip triggerContent={(
                   <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemovePayItem, id)}>

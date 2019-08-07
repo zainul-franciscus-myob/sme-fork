@@ -18,6 +18,7 @@ import EmployeeDetailActions from './EmployeeDetailActions';
 import EmployeeDetailContactDetails from './EmployeeDetailContactDetails';
 import EmployeeDetailPaymentDetails from './EmployeeDetailPaymentDetails';
 import EmployeeDetailPayrollDetails from './EmployeeDetailPayrollDetails';
+import TaxPayItemModal from './PayrollTaxDetails/TaxPayItemModal';
 import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const getModalDialogView = ({
@@ -26,6 +27,9 @@ const getModalDialogView = ({
   onCancelModal,
   onDeleteModal,
   onSaveModal,
+  onTaxPayItemModalDetailChange,
+  onTaxPayItemModalSaveButtonClick,
+  onDismissTaxPayItemModalAlertMessage,
 }) => {
   switch (modalType) {
     case 'cancel':
@@ -52,6 +56,15 @@ const getModalDialogView = ({
           onConfirmSave={onSaveModal}
           onConfirmUnsave={onCancelModal}
           onCancel={onCloseModal}
+        />
+      );
+    case 'taxPayItem':
+      return (
+        <TaxPayItemModal
+          onCloseModal={onCloseModal}
+          onTaxPayItemModalDetailChange={onTaxPayItemModalDetailChange}
+          onTaxPayItemModalSaveButtonClick={onTaxPayItemModalSaveButtonClick}
+          onDismissTaxPayItemModalAlertMessage={onDismissTaxPayItemModalAlertMessage}
         />
       );
     default:
@@ -89,6 +102,10 @@ const EmployeeDetailView = ({
   onRemovePayrollTaxPayItem,
   onPayrollTaxDetailsChange,
   onPayrollTaxAmountBlur,
+  onTaxPayItemClick,
+  onTaxPayItemModalDetailChange,
+  onTaxPayItemModalSaveButtonClick,
+  onDismissTaxPayItemModalAlertMessage,
 }) => {
   const Content = {
     [mainTabIds.contactDetails]: EmployeeDetailContactDetails,
@@ -124,6 +141,9 @@ const EmployeeDetailView = ({
     onCancelModal,
     onDeleteModal,
     onSaveModal,
+    onTaxPayItemModalDetailChange,
+    onTaxPayItemModalSaveButtonClick,
+    onDismissTaxPayItemModalAlertMessage,
   });
 
   const contentProps = {
@@ -142,6 +162,7 @@ const EmployeeDetailView = ({
     onRemovePayrollTaxPayItem,
     onPayrollTaxDetailsChange,
     onPayrollTaxAmountBlur,
+    onTaxPayItemClick,
   };
 
   const view = (

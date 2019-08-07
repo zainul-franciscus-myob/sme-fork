@@ -66,3 +66,48 @@ export const formatAmountInput = (state, { key, value }) => {
     [key]: formatAmount(value),
   });
 };
+
+export const setTaxPayItemModalLoading = (state, { isLoading }) => ({
+  ...state,
+  taxPayItemModal: {
+    ...state.taxPayItemModal,
+    isLoading,
+  },
+});
+
+export const loadTaxPayItemModal = (state, { tax, atoReportingCategoryList, accounts }) => ({
+  ...state,
+  taxPayItemModal: {
+    ...state.taxPayItemModal,
+    tax,
+    atoReportingCategoryList,
+    accounts,
+  },
+});
+
+export const updateTaxPayItemModalDetails = (state, { key, value }) => ({
+  ...state,
+  taxPayItemModal: {
+    ...state.taxPayItemModal,
+    tax: {
+      ...state.taxPayItemModal.tax,
+      [key]: value,
+    },
+  },
+});
+
+export const setTaxPayItemModalSubmitting = (state, { isSubmitting }) => ({
+  ...state,
+  taxPayItemModal: {
+    ...state.taxPayItemModal,
+    isSubmitting,
+  },
+});
+
+export const setTaxPayItemModalAlertMessage = (state, { alertMessage }) => ({
+  ...state,
+  taxPayItemModal: {
+    ...state.taxPayItemModal,
+    alertMessage,
+  },
+});

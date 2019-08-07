@@ -30,6 +30,7 @@ const EmployeeDetailPayrollDetails = ({
   onRemovePayrollTaxPayItem,
   onPayrollTaxDetailsChange,
   onPayrollTaxAmountBlur,
+  onTaxPayItemClick,
 }) => {
   const Employment = () => (
     <EmploymentDetails
@@ -61,6 +62,7 @@ const EmployeeDetailPayrollDetails = ({
       onRemovePayrollTaxPayItem={onRemovePayrollTaxPayItem}
       onPayrollTaxDetailsChange={onPayrollTaxDetailsChange}
       onPayrollTaxAmountBlur={onPayrollTaxAmountBlur}
+      onTaxPayItemClick={onTaxPayItemClick}
     />
   );
 

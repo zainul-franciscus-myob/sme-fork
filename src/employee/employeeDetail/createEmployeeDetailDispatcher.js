@@ -5,6 +5,7 @@ import {
   CLOSE_MODAL,
   FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_EMPLOYEE_DETAIL,
+  LOAD_TAX_PAY_ITEM_MODAL,
   OPEN_MODAL,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
@@ -15,6 +16,9 @@ import {
   SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
   SET_SUB_TAB,
+  SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE,
+  SET_TAX_PAY_ITEM_MODAL_LOADING_STATE,
+  SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE,
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_PAYMENT_DETAILS,
@@ -22,6 +26,7 @@ import {
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
   UPDATE_PAYROLL_TAX_DETAILS,
+  UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
 } from '../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -159,6 +164,36 @@ const createEmployeeDetailDispatcher = store => ({
   formatAmountInput: ({ key, value }) => {
     const intent = FORMAT_PAYROLL_TAX_AMOUNT;
     store.dispatch({ intent, key, value });
+  },
+
+  setTaxPayItemModalLoadingState: (isLoading) => {
+    const intent = SET_TAX_PAY_ITEM_MODAL_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  loadTaxPayItemModal: (response) => {
+    const intent = LOAD_TAX_PAY_ITEM_MODAL;
+    store.dispatch({ intent, ...response });
+  },
+
+  updateTaxPayItemModalDetails: ({ key, value }) => {
+    const intent = UPDATE_TAX_PAY_ITEM_MODAL_DETAILS;
+    store.dispatch({ intent, key, value });
+  },
+
+  setTaxPayItemModalSubmitting: (isSubmitting) => {
+    const intent = SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE;
+    store.dispatch({ intent, isSubmitting });
+  },
+
+  setTaxPayItemModalAlertMessage: (alertMessage) => {
+    const intent = SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE;
+    store.dispatch({ intent, alertMessage });
+  },
+
+  dismissTaxPayItemModalAlertMessage: () => {
+    const intent = SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE;
+    store.dispatch({ intent, alertMessage: '' });
   },
 });
 

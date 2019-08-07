@@ -62,6 +62,10 @@ export default class EmployeeDetailModule {
     }
   };
 
+  openTaxPayItemModal = () => {
+    this.dispatcher.openModal('taxPayItem');
+  };
+
   redirectToEmployeeList = () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
@@ -169,6 +173,39 @@ export default class EmployeeDetailModule {
     }
   };
 
+  loadTaxPayItemModal = () => {
+    const onSuccess = (response) => {
+      this.dispatcher.setTaxPayItemModalLoadingState(false);
+      this.dispatcher.loadTaxPayItemModal(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setTaxPayItemModalLoadingState(false);
+      this.dispatcher.closeModal();
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.dispatcher.setTaxPayItemModalLoadingState(true);
+    this.openTaxPayItemModal();
+    this.integrator.loadTaxPayItemModal({ onSuccess, onFailure });
+  };
+
+  saveTaxPayItemModal = () => {
+    const onSuccess = ({ message }) => {
+      this.dispatcher.closeModal();
+      this.dispatcher.setTaxPayItemModalSubmitting(false);
+      this.dispatcher.setAlert({ type: 'success', message });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setTaxPayItemModalSubmitting(false);
+      this.dispatcher.setTaxPayItemModalAlertMessage(message);
+    };
+
+    this.dispatcher.setTaxPayItemModalSubmitting(true);
+    this.integrator.saveTaxPayItemModal({ onSuccess, onFailure });
+  };
+
   render = () => {
     const employeeDetailView = (
       <EmployeeDetailView
@@ -198,6 +235,10 @@ export default class EmployeeDetailModule {
         onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}
         onPayrollTaxDetailsChange={this.dispatcher.updatePayrollTaxDetails}
         onPayrollTaxAmountBlur={this.dispatcher.formatAmountInput}
+        onTaxPayItemClick={this.loadTaxPayItemModal}
+        onTaxPayItemModalDetailChange={this.dispatcher.updateTaxPayItemModalDetails}
+        onTaxPayItemModalSaveButtonClick={this.saveTaxPayItemModal}
+        onDismissTaxPayItemModalAlertMessage={this.dispatcher.dismissTaxPayItemModalAlertMessage}
       />
     );
 
