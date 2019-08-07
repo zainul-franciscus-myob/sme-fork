@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
 import { getSubTab } from '../selectors/EmployeeDetailSelectors';
-import { payrollDetailsSubTabIds, payrollDetailsSubTabItems } from '../tabItems';
+import {
+  payrollDetailsSubTabIds,
+  payrollDetailsSubTabItems,
+} from '../tabItems';
 import EmploymentDetails from './EmploymentDetails';
 import PayrollDeductionDetails from './PayrollDeductionDetail';
+import PayrollDetailSuperannuation from './PayrollSuperDetails/PayrollDetailSuperannuation';
 import PayrollTaxDetails from './PayrollTaxDetails/PayrollTaxDetails';
 
 const SalaryAndWages = () => (
@@ -19,6 +23,9 @@ const EmployeeDetailPayrollDetails = ({
   onEmploymentPaySlipDeliveryChange,
   onAddPayrollDeductionPayItem,
   onRemovePayrollDeductionPayItem,
+  onUpdatePayrollDetailSuperannuationDetails,
+  onAddPayrollSuperPayItem,
+  onRemovePayrollSuperPayItem,
   onAddPayrollTaxPayItem,
   onRemovePayrollTaxPayItem,
   onPayrollTaxDetailsChange,
@@ -38,6 +45,16 @@ const EmployeeDetailPayrollDetails = ({
     />
   );
 
+  const Superannuation = () => (
+    <PayrollDetailSuperannuation
+      onUpdatePayrollDetailSuperannuationDetails={
+        onUpdatePayrollDetailSuperannuationDetails
+      }
+      onAddPayrollSuperPayItem={onAddPayrollSuperPayItem}
+      onRemovePayrollSuperPayItem={onRemovePayrollSuperPayItem}
+    />
+  );
+
   const Taxes = () => (
     <PayrollTaxDetails
       onAddPayrollTaxPayItem={onAddPayrollTaxPayItem}
@@ -51,6 +68,7 @@ const EmployeeDetailPayrollDetails = ({
     [payrollDetailsSubTabIds.employmentDetails]: Employment,
     [payrollDetailsSubTabIds.salaryAndWages]: SalaryAndWages,
     [payrollDetailsSubTabIds.deductions]: Deductions,
+    [payrollDetailsSubTabIds.superannuation]: Superannuation,
     [payrollDetailsSubTabIds.taxes]: Taxes,
   }[selectedTab];
 

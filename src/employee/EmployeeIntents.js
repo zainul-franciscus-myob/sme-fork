@@ -25,6 +25,10 @@ export const UPDATE_BANK_ACCOUNT_DETAILS = Symbol('Update employee bank account 
 export const ADD_PAYROLL_DEDUCTION_PAY_ITEM = Symbol('Add deduction pay item');
 export const REMOVE_PAYROLL_DEDUCTION_PAY_ITEM = Symbol('Remove deduction pay item');
 
+export const ADD_PAYROLL_SUPER_PAY_ITEM = Symbol('Add payroll super pay item');
+export const REMOVE_PAYROLL_SUPER_PAY_ITEM = Symbol('Remove payroll super pay item');
+export const UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS = Symbol('Update payroll details superannuation details');
+
 export const ADD_PAYROLL_TAX_PAY_ITEM = Symbol('Add tax pay item');
 export const REMOVE_PAYROLL_TAX_PAY_ITEM = Symbol('Remove tax pay item');
 export const UPDATE_PAYROLL_TAX_DETAILS = Symbol('Update payroll tax details');

@@ -1,11 +1,13 @@
 import {
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
+  ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
   CLOSE_MODAL,
   FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_EMPLOYEE_DETAIL,
   OPEN_MODAL,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
+  REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
   SET_ALERT,
   SET_LOADING_STATE,
@@ -16,6 +18,7 @@ import {
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_PAYMENT_DETAILS,
+  UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
   UPDATE_PAYROLL_TAX_DETAILS,
@@ -101,7 +104,10 @@ const createEmployeeDetailDispatcher = store => ({
   updateBankAccountDetails: ({ key, value, index }) => {
     const intent = UPDATE_BANK_ACCOUNT_DETAILS;
     store.dispatch({
-      intent, key, value, index,
+      intent,
+      key,
+      value,
+      index,
     });
   },
 
@@ -112,6 +118,21 @@ const createEmployeeDetailDispatcher = store => ({
 
   removePayrollDeductionPayItem: (id) => {
     const intent = REMOVE_PAYROLL_DEDUCTION_PAY_ITEM;
+    store.dispatch({ intent, id });
+  },
+
+  updatePayrollDetailSuperannuationDetails: ({ key, value }) => {
+    const intent = UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS;
+    store.dispatch({ intent, key, value });
+  },
+
+  addPayrollSuperPayItem: (payItem) => {
+    const intent = ADD_PAYROLL_SUPER_PAY_ITEM;
+    store.dispatch({ intent, ...payItem });
+  },
+
+  removePayrollSuperPayItem: (id) => {
+    const intent = REMOVE_PAYROLL_SUPER_PAY_ITEM;
     store.dispatch({ intent, id });
   },
 

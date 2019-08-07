@@ -27,7 +27,11 @@ const popMessageTypes = [
 
 export default class EmployeeDetailModule {
   constructor({
-    integration, setRootView, popMessages, pushMessage, replaceURLParams,
+    integration,
+    setRootView,
+    popMessages,
+    pushMessage,
+    replaceURLParams,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -42,7 +46,7 @@ export default class EmployeeDetailModule {
 
   openDeleteModal = () => {
     this.dispatcher.openModal('delete');
-  }
+  };
 
   openCancelModal = () => {
     const state = this.store.getState();
@@ -64,7 +68,7 @@ export default class EmployeeDetailModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/employee`;
-  }
+  };
 
   redirectToReadEmployee = (employeeId) => {
     const state = this.store.getState();
@@ -72,7 +76,7 @@ export default class EmployeeDetailModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/employee/${employeeId}`;
-  }
+  };
 
   loadEmployeeDetails = () => {
     const onSuccess = (response) => {
@@ -112,12 +116,15 @@ export default class EmployeeDetailModule {
         this.redirectToReadEmployee(response.employeeId);
       } else {
         this.dispatcher.setIsPageEdited(false);
-        this.dispatcher.setAlert({ type: 'success', message: response.message });
+        this.dispatcher.setAlert({
+          type: 'success',
+          message: response.message,
+        });
       }
     };
 
     this.createOrUpdateEmployee(onSuccess);
-  }
+  };
 
   deleteEmployee = () => {
     this.dispatcher.setSubmittingState(true);
@@ -138,7 +145,7 @@ export default class EmployeeDetailModule {
     };
 
     this.integrator.deleteEmployee({ onSuccess, onFailure });
-  }
+  };
 
   saveUnsavedChanges = () => {
     const onSuccess = (response) => {
@@ -151,7 +158,7 @@ export default class EmployeeDetailModule {
     };
 
     this.createOrUpdateEmployee(onSuccess);
-  }
+  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.popMessageTypes);
@@ -182,6 +189,11 @@ export default class EmployeeDetailModule {
         onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
         onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
         onRemovePayrollDeductionPayItem={this.dispatcher.removePayrollDeductionPayItem}
+        onUpdatePayrollDetailSuperannuationDetails={
+          this.dispatcher.updatePayrollDetailSuperannuationDetails
+        }
+        onAddPayrollSuperPayItem={this.dispatcher.addPayrollSuperPayItem}
+        onRemovePayrollSuperPayItem={this.dispatcher.removePayrollSuperPayItem}
         onAddPayrollTaxPayItem={this.dispatcher.addPayrollTaxPayItem}
         onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}
         onPayrollTaxDetailsChange={this.dispatcher.updatePayrollTaxDetails}
@@ -195,13 +207,13 @@ export default class EmployeeDetailModule {
       </Provider>
     );
     this.setRootView(wrappedView);
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
-  updateURLFromState = state => this.replaceURLParams(getURLParams(state))
+  updateURLFromState = state => this.replaceURLParams(getURLParams(state));
 
   handlers = {
     SAVE_ACTION: this.saveEmployee,

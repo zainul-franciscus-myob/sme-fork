@@ -1,8 +1,5 @@
 import {
-  Alert,
-  Spinner,
-  StandardTemplate,
-  Tabs,
+  Alert, Spinner, StandardTemplate, Tabs,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -85,6 +82,9 @@ const EmployeeDetailView = ({
   onEmploymentPaySlipDeliveryChange,
   onAddPayrollDeductionPayItem,
   onRemovePayrollDeductionPayItem,
+  onUpdatePayrollDetailSuperannuationDetails,
+  onAddPayrollSuperPayItem,
+  onRemovePayrollSuperPayItem,
   onAddPayrollTaxPayItem,
   onRemovePayrollTaxPayItem,
   onPayrollTaxDetailsChange,
@@ -119,7 +119,11 @@ const EmployeeDetailView = ({
   );
 
   const modal = getModalDialogView({
-    modalType, onCloseModal, onCancelModal, onDeleteModal, onSaveModal,
+    modalType,
+    onCloseModal,
+    onCancelModal,
+    onDeleteModal,
+    onSaveModal,
   });
 
   const contentProps = {
@@ -131,6 +135,9 @@ const EmployeeDetailView = ({
     onBankAccountDetailsChange,
     onAddPayrollDeductionPayItem,
     onRemovePayrollDeductionPayItem,
+    onUpdatePayrollDetailSuperannuationDetails,
+    onAddPayrollSuperPayItem,
+    onRemovePayrollSuperPayItem,
     onAddPayrollTaxPayItem,
     onRemovePayrollTaxPayItem,
     onPayrollTaxDetailsChange,

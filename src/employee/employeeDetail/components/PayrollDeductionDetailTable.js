@@ -12,9 +12,7 @@ const tableConfig = {
   actions: { width: '5rem', valign: 'middle', align: 'right' },
 };
 
-const comboboxMetaData = [
-  { columnName: 'name', showData: true },
-];
+const comboboxMetaData = [{ columnName: 'name', showData: true }];
 
 const handleComboboxChange = handler => (item) => {
   handler(item);
@@ -60,7 +58,7 @@ const PayrollDeductionDetailTable = ({
           <Table.HeaderItem {...tableConfig.actions} />
         </Table.Header>
         <Table.Body>
-          { selected.length ? tableBodyView : emptyView}
+          {selected.length ? tableBodyView : emptyView}
         </Table.Body>
       </Table>
       <div className={styles.addCombobox}>
@@ -70,6 +68,7 @@ const PayrollDeductionDetailTable = ({
           hintText="Add deduction pay item"
           metaData={comboboxMetaData}
           items={items}
+          selected={{}}
           onChange={handleComboboxChange(onAddPayItem)}
         />
       </div>

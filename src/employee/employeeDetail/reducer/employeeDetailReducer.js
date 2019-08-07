@@ -1,11 +1,13 @@
 import {
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
+  ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
   CLOSE_MODAL,
   FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_EMPLOYEE_DETAIL,
   OPEN_MODAL,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
+  REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
   SET_ALERT,
   SET_LOADING_STATE,
@@ -16,6 +18,7 @@ import {
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_PAYMENT_DETAILS,
+  UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
   UPDATE_PAYROLL_TAX_DETAILS,
@@ -26,6 +29,11 @@ import {
   removePayrollDeductionPayItem,
   updatePayrollEmployeeDetail,
 } from './PayrollDetailReducer';
+import {
+  addPayrollSuperPayItem,
+  removePayrollSuperPayItem,
+  updatePayrollDetailsSuperannuationDetails,
+} from './PayrollSuperReducer';
 import {
   addPayrollTaxPayItem,
   formatAmountInput,
@@ -73,6 +81,11 @@ const getDefaultState = () => ({
     deductionDetails: {
       deductionPayItems: [],
     },
+    superannuationDetails: {
+      selectedSuperFundId: '',
+      employeeMembershipNumber: '',
+      allocatedPayItems: [],
+    },
     tax: {
       extraTax: '',
       taxFileNumber: '',
@@ -97,6 +110,8 @@ const getDefaultState = () => ({
   splitNetPayBetweenOptions: [],
   valueOptions: [],
   deductionPayItemOptions: [],
+  superFundOptions: [],
+  superPayItemOptions: [],
   taxTableOptions: [],
   taxPayItemOptions: [],
 });
@@ -111,7 +126,7 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setMainTab = (state, action) => ((
   action.selectedTab === mainTabIds.payrollDetails && shouldDefaultPayslipEmail(state))
@@ -125,7 +140,8 @@ const setMainTab = (state, action) => ((
         [action.key]: action.value,
       },
     },
-  } : {
+  }
+  : {
     ...state,
     mainTab: action.selectedTab,
   });
@@ -152,6 +168,10 @@ const loadEmployeeDetail = (state, action) => ({
       ...state.payrollDetails.deductionDetails,
       ...action.payrollDetails.deductionDetails,
     },
+    superannuationDetails: {
+      ...state.payrollDetails.superannuationDetails,
+      ...action.payrollDetails.superannuationDetails,
+    },
     tax: {
       ...state.paymentDetails.tax,
       ...action.payrollDetails.tax,
@@ -170,6 +190,8 @@ const loadEmployeeDetail = (state, action) => ({
   splitNetPayBetweenOptions: action.splitNetPayBetweenOptions,
   valueOptions: action.valueOptions,
   deductionPayItemOptions: action.deductionPayItemOptions,
+  superFundOptions: action.superFundOptions,
+  superPayItemOptions: action.superPayItemOptions,
   taxTableOptions: action.taxTableOptions,
   taxPayItemOptions: action.taxPayItemOptions,
 });
@@ -308,6 +330,9 @@ const handlers = {
   [UPDATE_BANK_ACCOUNT_DETAILS]: updateBankAccountDetails,
   [ADD_PAYROLL_DEDUCTION_PAY_ITEM]: addPayrollDeductionPayItem,
   [REMOVE_PAYROLL_DEDUCTION_PAY_ITEM]: removePayrollDeductionPayItem,
+  [UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS]: updatePayrollDetailsSuperannuationDetails,
+  [ADD_PAYROLL_SUPER_PAY_ITEM]: addPayrollSuperPayItem,
+  [REMOVE_PAYROLL_SUPER_PAY_ITEM]: removePayrollSuperPayItem,
   [ADD_PAYROLL_TAX_PAY_ITEM]: addPayrollTaxPayItem,
   [REMOVE_PAYROLL_TAX_PAY_ITEM]: removePayrollTaxPayItem,
   [UPDATE_PAYROLL_TAX_DETAILS]: updatePayrollTaxDetail,

@@ -15,6 +15,9 @@
     "deductionDetails": {
       "deductionPayItems": []
     },
+    "superannuationDetails": {
+      "allocatedPayItems": []
+    },
     "tax": {
       "extraTax": "0.00",
       "taxFileNumber": "",
@@ -202,6 +205,40 @@
       "id": 89,
       "name": "Sick leave",
       "value": "SickLeave"
+    }
+  ],
+  "superFundOptions": [
+    {
+      "id": "1",
+      "name": "Super fund 1"
+    },
+    {
+      "id": "2",
+      "name": "Super fund 2"
+    },
+    {
+      "id": "3",
+      "name": "Super fund 3"
+    }
+  ],
+  "superPayItemOptions": [
+    {
+      "id": "1",
+      "name": "Super 1",
+      "type": "SuperannuationDeductionBeforeTaxPayrollCategory",
+      "displayType": "Deduct before tax"
+    },
+    {
+      "id": "2",
+      "name": "Super 2",
+      "type": "SuperannuationDeductionAfterTaxPayrollCategory",
+      "displayType": "Deduct after tax"
+    },
+    {
+      "id": "3",
+      "name": "Super 3",
+      "type": "SuperannuationExpensePayrollCategory",
+      "displayType": "Expense"
     }
   ],
   "taxTableOptions": [
