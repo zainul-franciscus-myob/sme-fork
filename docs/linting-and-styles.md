@@ -8,7 +8,7 @@ For consistent code style, ensure your editor supports:
 ## Linting
 We use:
 
--   ESlint to lint javascript files with [airbnb rules](https://github.com/airbnb/javascript)
+-   ESlint to lint javascript files with [react-app](https://www.npmjs.com/package/eslint-config-react-app) and [airbnb](https://github.com/airbnb/javascript) rules, with some modifications to suit our needs
 -   stylelint to lint css files with [standard config](https://github.com/stylelint/stylelint-config-standard)
 
 ### Scripts
