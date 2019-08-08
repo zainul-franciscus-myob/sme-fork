@@ -31,7 +31,8 @@
     "leave": {
       "allocatedPayItems": [
         {
-          "payItemId": "87",
+          "id": 112,
+          "payItemId": 87,
           "name": "Sick Leave Accrual",
           "carryOver": "43",
           "yearToDate": "10.5",
@@ -239,16 +240,14 @@
       "displayType": "Fixed dollar"
     }
   ],
-  "allocatedPayItemOptions": [
+  "leavePayItemOptions": [
     {
       "payItemId": "87",
-      "name": "Annual leave accrual",
-      "value": "AnnualLeaveAccrual"
+      "name": "Annual leave accrual"
     },
     {
       "payItemId": "89",
-      "name": "Sick leave",
-      "value": "SickLeave"
+      "name": "Sick leave"
     }
   ],
   "superFundOptions": [
