@@ -198,13 +198,11 @@
   "leavePayItemOptions": [
     {
       "payItemId": "87",
-      "name": "Annual leave accrual",
-      "value": "AnnualLeaveAccrual"
+      "name": "Annual leave accrual"
     },
     {
       "payItemId": "89",
-      "name": "Sick leave",
-      "value": "SickLeave"
+      "name": "Sick leave"
     }
   ],
   "superFundOptions": [
