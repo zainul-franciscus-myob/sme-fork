@@ -1,4 +1,5 @@
 import {
+  ADD_ALLOCATED_LEAVE_ITEM,
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
   ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
@@ -7,6 +8,7 @@ import {
   LOAD_EMPLOYEE_DETAIL,
   LOAD_TAX_PAY_ITEM_MODAL,
   OPEN_MODAL,
+  REMOVE_ALLOCATED_LEAVE_ITEM,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
@@ -19,6 +21,7 @@ import {
   SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE,
   SET_TAX_PAY_ITEM_MODAL_LOADING_STATE,
   SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE,
+  UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_PAYMENT_DETAILS,
@@ -146,6 +149,21 @@ const createEmployeeDetailDispatcher = store => ({
     store.dispatch({ intent, ...response });
   },
 
+  addAllocatedLeaveItem: (leaveItem) => {
+    const intent = ADD_ALLOCATED_LEAVE_ITEM;
+    store.dispatch({ intent, leaveItem });
+  },
+
+  removeAllocatedLeaveItem: (payItemId) => {
+    const intent = REMOVE_ALLOCATED_LEAVE_ITEM;
+    store.dispatch({ intent, payItemId });
+  },
+
+  updateAllocatedLeaveItemCarryOver: ({ payItemId, value }) => {
+    const intent = UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER;
+    store.dispatch({ intent, payItemId, value });
+  },
+
   addPayrollTaxPayItem: (payItem) => {
     const intent = ADD_PAYROLL_TAX_PAY_ITEM;
     store.dispatch({ intent, ...payItem });
@@ -195,6 +213,7 @@ const createEmployeeDetailDispatcher = store => ({
     const intent = SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE;
     store.dispatch({ intent, alertMessage: '' });
   },
+
 });
 
 export default createEmployeeDetailDispatcher;

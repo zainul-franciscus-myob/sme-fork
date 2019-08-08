@@ -9,8 +9,8 @@
       "employmentStatus": "FullTime",
       "paySlipDelivery": "ToBeEmailed"
     },
-    "leave": {
-      "allocatedPayItems": []
+    "leaveDetails": {
+      "allocatedLeavePayItems": []
     },
     "deductionDetails": {
       "deductionPayItems": []
@@ -195,14 +195,14 @@
       "displayType": "Fixed dollar"
     }
   ],
-  "allocatedPayItemOptions": [
+  "leavePayItemOptions": [
     {
-      "id": 87,
+      "payItemId": "87",
       "name": "Annual leave accrual",
       "value": "AnnualLeaveAccrual"
     },
     {
-      "id": 89,
+      "payItemId": "89",
       "name": "Sick leave",
       "value": "SickLeave"
     }

@@ -9,6 +9,9 @@
   --flx-width-field-m: 22.9rem;
   --flx-width-field-l: 29rem;
   --flx-width-field-xl: 35.2rem;
+
+  /* spacing */
+  --flx-spacing-x-small: 1.2rem;
 }
 
 body {

@@ -1,4 +1,5 @@
 import {
+  ADD_ALLOCATED_LEAVE_ITEM,
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
   ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
@@ -7,6 +8,7 @@ import {
   LOAD_EMPLOYEE_DETAIL,
   LOAD_TAX_PAY_ITEM_MODAL,
   OPEN_MODAL,
+  REMOVE_ALLOCATED_LEAVE_ITEM,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
@@ -19,6 +21,7 @@ import {
   SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE,
   SET_TAX_PAY_ITEM_MODAL_LOADING_STATE,
   SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE,
+  UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_PAYMENT_DETAILS,
@@ -30,8 +33,9 @@ import {
 } from '../../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
-  addPayrollDeductionPayItem,
-  removePayrollDeductionPayItem,
+  addAllocatedLeaveItem,
+  addPayrollDeductionPayItem, removeAllocatedLeaveItem,
+  removePayrollDeductionPayItem, updateAllocatedLeaveItemCarryOver,
   updatePayrollEmployeeDetail,
 } from './PayrollDetailReducer';
 import {
@@ -89,6 +93,9 @@ const getDefaultState = () => ({
     deductionDetails: {
       deductionPayItems: [],
     },
+    leaveDetails: {
+      allocatedLeavePayItems: [],
+    },
     superannuationDetails: {
       selectedSuperFundId: '',
       employeeMembershipNumber: '',
@@ -118,6 +125,7 @@ const getDefaultState = () => ({
   splitNetPayBetweenOptions: [],
   valueOptions: [],
   deductionPayItemOptions: [],
+  leavePayItemOptions: [],
   superFundOptions: [],
   superPayItemOptions: [],
   taxTableOptions: [],
@@ -196,6 +204,10 @@ const loadEmployeeDetail = (state, action) => ({
       ...state.paymentDetails.tax,
       ...action.payrollDetails.tax,
     },
+    leaveDetails: {
+      ...state.payrollDetails.leaveDetails,
+      ...action.payrollDetails.leaveDetails,
+    },
   },
   paymentDetails: {
     ...state.paymentDetails,
@@ -214,6 +226,7 @@ const loadEmployeeDetail = (state, action) => ({
   superPayItemOptions: action.superPayItemOptions,
   taxTableOptions: action.taxTableOptions,
   taxPayItemOptions: action.taxPayItemOptions,
+  leavePayItemOptions: action.leavePayItemOptions,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -364,6 +377,9 @@ const handlers = {
   [UPDATE_TAX_PAY_ITEM_MODAL_DETAILS]: updateTaxPayItemModalDetails,
   [SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE]: setTaxPayItemModalSubmitting,
   [SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE]: setTaxPayItemModalAlertMessage,
+  [ADD_ALLOCATED_LEAVE_ITEM]: addAllocatedLeaveItem,
+  [REMOVE_ALLOCATED_LEAVE_ITEM]: removeAllocatedLeaveItem,
+  [UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER]: updateAllocatedLeaveItemCarryOver,
 };
 
 const employeeDetailReducer = createReducer(getDefaultState(), handlers);

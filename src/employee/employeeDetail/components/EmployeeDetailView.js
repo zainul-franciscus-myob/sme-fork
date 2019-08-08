@@ -1,5 +1,8 @@
 import {
-  Alert, Spinner, StandardTemplate, Tabs,
+  Alert,
+  Spinner,
+  StandardTemplate,
+  Tabs,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -106,6 +109,9 @@ const EmployeeDetailView = ({
   onTaxPayItemModalDetailChange,
   onTaxPayItemModalSaveButtonClick,
   onDismissTaxPayItemModalAlertMessage,
+  onAddAllocatedLeaveItem,
+  onRemoveAllocatedLeaveItem,
+  onUpdateAllocatedLeaveItemCarryOver,
 }) => {
   const Content = {
     [mainTabIds.contactDetails]: EmployeeDetailContactDetails,
@@ -155,6 +161,9 @@ const EmployeeDetailView = ({
     onBankAccountDetailsChange,
     onAddPayrollDeductionPayItem,
     onRemovePayrollDeductionPayItem,
+    onAddAllocatedLeaveItem,
+    onRemoveAllocatedLeaveItem,
+    onUpdateAllocatedLeaveItemCarryOver,
     onUpdatePayrollDetailSuperannuationDetails,
     onAddPayrollSuperPayItem,
     onRemovePayrollSuperPayItem,

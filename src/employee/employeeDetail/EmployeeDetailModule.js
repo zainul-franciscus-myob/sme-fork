@@ -228,6 +228,9 @@ export default class EmployeeDetailModule {
         onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
         onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
         onRemovePayrollDeductionPayItem={this.dispatcher.removePayrollDeductionPayItem}
+        onAddAllocatedLeaveItem={this.dispatcher.addAllocatedLeaveItem}
+        onRemoveAllocatedLeaveItem={this.dispatcher.removeAllocatedLeaveItem}
+        onUpdateAllocatedLeaveItemCarryOver={this.dispatcher.updateAllocatedLeaveItemCarryOver}
         onUpdatePayrollDetailSuperannuationDetails={
           this.dispatcher.updatePayrollDetailSuperannuationDetails
         }

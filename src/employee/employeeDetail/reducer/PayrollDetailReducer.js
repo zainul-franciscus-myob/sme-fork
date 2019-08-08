@@ -41,3 +41,46 @@ export const removePayrollDeductionPayItem = (state, action) => {
 
   return setPayrollDeductionState(state, partialDeductionDetails);
 };
+
+const setPayrollAllocatedLeaveState = (state, partialAllocatedLeave) => ({
+  ...state,
+  payrollDetails: {
+    ...state.payrollDetails,
+    leaveDetails: {
+      ...state.payrollDetails.leaveDetails,
+      ...partialAllocatedLeave,
+    },
+  },
+  isPageEdited: true,
+});
+
+export const addAllocatedLeaveItem = (state, action) => {
+  const { leaveItem } = action;
+  const updatedLeaveItems = [
+    ...state.payrollDetails.leaveDetails.allocatedLeavePayItems,
+    {
+      payItemId: leaveItem.payItemId, name: leaveItem.name, carryOver: '0',
+    },
+  ];
+  const partialAllocatedLeave = { allocatedLeavePayItems: updatedLeaveItems };
+
+  return setPayrollAllocatedLeaveState(state, partialAllocatedLeave);
+};
+
+export const removeAllocatedLeaveItem = (state, action) => {
+  const updatedLeaveItems = state.payrollDetails.leaveDetails.allocatedLeavePayItems
+    .filter(leaveItem => leaveItem.payItemId !== action.payItemId);
+  const partialAllocatedLeave = { allocatedLeavePayItems: updatedLeaveItems };
+
+  return setPayrollAllocatedLeaveState(state, partialAllocatedLeave);
+};
+
+export const updateAllocatedLeaveItemCarryOver = (state, action) => {
+  const { payItemId, value } = action;
+  const updatedLeaveItems = state.payrollDetails.leaveDetails.allocatedLeavePayItems.map(
+    item => (item.payItemId === payItemId ? { ...item, carryOver: value } : item),
+  );
+  const partialAllocatedLeave = { allocatedLeavePayItems: updatedLeaveItems };
+
+  return setPayrollAllocatedLeaveState(state, partialAllocatedLeave);
+};

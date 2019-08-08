@@ -40,3 +40,7 @@ export const UPDATE_TAX_PAY_ITEM_MODAL_DETAILS = Symbol('Update tax pay item mod
 export const SET_TAX_PAY_ITEM_MODAL_LOADING_STATE = Symbol('Set tax pay item modal loading state');
 export const SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE = Symbol('Set tax pay item modal submitting state');
 export const SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE = Symbol('Set tax pay item modal alert message');
+
+export const ADD_ALLOCATED_LEAVE_ITEM = Symbol('Add an allocated leave item');
+export const REMOVE_ALLOCATED_LEAVE_ITEM = Symbol('Remove an allocated leave item');
+export const UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER = Symbol('Update an allocated leave item carry over amount');

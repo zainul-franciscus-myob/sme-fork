@@ -10,6 +10,7 @@ import {
 import EmploymentDetails from './EmploymentDetails';
 import PayrollDeductionDetails from './PayrollDeductionDetail';
 import PayrollDetailSuperannuation from './PayrollSuperDetails/PayrollDetailSuperannuation';
+import PayrollLeaveDetail from './PayrollLeaveDetail';
 import PayrollTaxDetails from './PayrollTaxDetails/PayrollTaxDetails';
 
 const SalaryAndWages = () => (
@@ -23,6 +24,9 @@ const EmployeeDetailPayrollDetails = ({
   onEmploymentPaySlipDeliveryChange,
   onAddPayrollDeductionPayItem,
   onRemovePayrollDeductionPayItem,
+  onAddAllocatedLeaveItem,
+  onRemoveAllocatedLeaveItem,
+  onUpdateAllocatedLeaveItemCarryOver,
   onUpdatePayrollDetailSuperannuationDetails,
   onAddPayrollSuperPayItem,
   onRemovePayrollSuperPayItem,
@@ -36,6 +40,14 @@ const EmployeeDetailPayrollDetails = ({
     <EmploymentDetails
       onEmploymentDetailsChange={onEmploymentDetailsChange}
       onEmploymentPaySlipDeliveryChange={onEmploymentPaySlipDeliveryChange}
+    />
+  );
+
+  const Leave = () => (
+    <PayrollLeaveDetail
+      onAddAllocatedLeaveItem={onAddAllocatedLeaveItem}
+      onRemoveAllocatedLeaveItem={onRemoveAllocatedLeaveItem}
+      onUpdateAllocatedLeaveItemCarryOver={onUpdateAllocatedLeaveItemCarryOver}
     />
   );
 
@@ -69,6 +81,7 @@ const EmployeeDetailPayrollDetails = ({
   const Content = {
     [payrollDetailsSubTabIds.employmentDetails]: Employment,
     [payrollDetailsSubTabIds.salaryAndWages]: SalaryAndWages,
+    [payrollDetailsSubTabIds.leave]: Leave,
     [payrollDetailsSubTabIds.deductions]: Deductions,
     [payrollDetailsSubTabIds.superannuation]: Superannuation,
     [payrollDetailsSubTabIds.taxes]: Taxes,
