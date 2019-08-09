@@ -17,6 +17,7 @@ export const payrollDetailsSubTabIds = {
   deductions: 'deductions',
   superannuation: 'superannuation',
   taxes: 'taxes',
+  wages: 'wages',
 };
 
 export const payrollDetailsSubTabItems = [

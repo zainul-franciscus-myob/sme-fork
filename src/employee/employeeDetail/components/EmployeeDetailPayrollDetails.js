@@ -12,10 +12,7 @@ import PayrollDeductionDetails from './PayrollDeductionDetails/PayrollDeductionD
 import PayrollDetailSuperannuation from './PayrollSuperDetails/PayrollDetailSuperannuation';
 import PayrollLeaveDetail from './PayrollLeaveDetail';
 import PayrollTaxDetails from './PayrollTaxDetails/PayrollTaxDetails';
-
-const SalaryAndWages = () => (
-  <div>Salary and wages is under construction, please come back later</div>
-);
+import PayrollWageDetails from './PayrollWageDetails/PayrollWageDetails';
 
 const EmployeeDetailPayrollDetails = ({
   selectedTab,
@@ -35,6 +32,14 @@ const EmployeeDetailPayrollDetails = ({
   onRemovePayrollTaxPayItem,
   onPayrollTaxDetailsChange,
   onPayrollTaxAmountBlur,
+  onPayrollWageDetailsChange,
+  onAddPayrollWagePayItem,
+  onRemovePayrollWagePayItem,
+  onPayrollWagePayBasisChange,
+  onPayrollWageAnnualSalaryBlur,
+  onPayrollWageHourlyRateBlur,
+  onPayrollWageHoursInPayCycleBlur,
+  onPayrollWageSelectedPayCycleChange,
   onTaxPayItemClick,
 }) => {
   const Employment = () => (
@@ -80,9 +85,22 @@ const EmployeeDetailPayrollDetails = ({
     />
   );
 
+  const Wages = () => (
+    <PayrollWageDetails
+      onAddPayrollWagePayItem={onAddPayrollWagePayItem}
+      onRemovePayrollWagePayItem={onRemovePayrollWagePayItem}
+      onPayrollWageDetailsChange={onPayrollWageDetailsChange}
+      onPayrollWagePayBasisChange={onPayrollWagePayBasisChange}
+      onPayrollWageAnnualSalaryBlur={onPayrollWageAnnualSalaryBlur}
+      onPayrollWageHourlyRateBlur={onPayrollWageHourlyRateBlur}
+      onPayrollWageHoursInPayCycleBlur={onPayrollWageHoursInPayCycleBlur}
+      onPayrollWageSelectedPayCycleChange={onPayrollWageSelectedPayCycleChange}
+    />
+  );
+
   const Content = {
     [payrollDetailsSubTabIds.employmentDetails]: Employment,
-    [payrollDetailsSubTabIds.salaryAndWages]: SalaryAndWages,
+    [payrollDetailsSubTabIds.salaryAndWages]: Wages,
     [payrollDetailsSubTabIds.leave]: Leave,
     [payrollDetailsSubTabIds.deductions]: Deductions,
     [payrollDetailsSubTabIds.superannuation]: Superannuation,

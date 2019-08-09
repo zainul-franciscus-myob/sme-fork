@@ -293,6 +293,14 @@ export default class EmployeeDetailModule {
         onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}
         onPayrollTaxDetailsChange={this.dispatcher.updatePayrollTaxDetails}
         onPayrollTaxAmountBlur={this.dispatcher.formatAmountInput}
+        onAddPayrollWagePayItem={this.dispatcher.addPayrollWagePayItem}
+        onRemovePayrollWagePayItem={this.dispatcher.removePayrollWagePayItem}
+        onPayrollWageDetailsChange={this.dispatcher.updatePayrollWageDetails}
+        onPayrollWagePayBasisChange={this.dispatcher.updatePayrollWagePayBasis}
+        onPayrollWageAnnualSalaryBlur={this.dispatcher.updatePayrollWageAnnualSalary}
+        onPayrollWageHourlyRateBlur={this.dispatcher.updatePayrollWageHourlyRate}
+        onPayrollWageHoursInPayCycleBlur={this.dispatcher.updatePayrollWageHoursInPayCycle}
+        onPayrollWageSelectedPayCycleChange={this.dispatcher.updatePayrollWagePayCycle}
         onTaxPayItemClick={this.loadTaxPayItemModal}
         onTaxPayItemModalDetailChange={this.dispatcher.updateTaxPayItemModalDetails}
         onTaxPayItemModalSaveButtonClick={this.saveTaxPayItemModal}

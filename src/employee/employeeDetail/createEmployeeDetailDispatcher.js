@@ -4,6 +4,7 @@ import {
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
   ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
+  ADD_PAYROLL_WAGE_PAY_ITEM,
   CLOSE_MODAL,
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
@@ -18,6 +19,7 @@ import {
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
+  REMOVE_PAYROLL_WAGE_PAY_ITEM,
   SET_ALERT,
   SET_DEDUCTION_PAY_ITEM_MODAL_ALERT,
   SET_DEDUCTION_PAY_ITEM_MODAL_INPUT,
@@ -40,6 +42,12 @@ import {
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
   UPDATE_PAYROLL_TAX_DETAILS,
+  UPDATE_PAYROLL_WAGE_ANNUAL_SALARY,
+  UPDATE_PAYROLL_WAGE_DETAILS,
+  UPDATE_PAYROLL_WAGE_HOURLY_RATE,
+  UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE,
+  UPDATE_PAYROLL_WAGE_PAY_BASIS,
+  UPDATE_PAYROLL_WAGE_PAY_CYCLE,
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
 } from '../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -193,6 +201,46 @@ const createEmployeeDetailDispatcher = store => ({
   formatAmountInput: ({ key, value }) => {
     const intent = FORMAT_PAYROLL_TAX_AMOUNT;
     store.dispatch({ intent, key, value });
+  },
+
+  addPayrollWagePayItem: (payItem) => {
+    const intent = ADD_PAYROLL_WAGE_PAY_ITEM;
+    store.dispatch({ intent, ...payItem });
+  },
+
+  removePayrollWagePayItem: (id) => {
+    const intent = REMOVE_PAYROLL_WAGE_PAY_ITEM;
+    store.dispatch({ intent, id });
+  },
+
+  updatePayrollWageDetails: ({ key, value }) => {
+    const intent = UPDATE_PAYROLL_WAGE_DETAILS;
+    store.dispatch({ intent, key, value });
+  },
+
+  updatePayrollWagePayBasis: ({ value }) => {
+    const intent = UPDATE_PAYROLL_WAGE_PAY_BASIS;
+    store.dispatch({ intent, value });
+  },
+
+  updatePayrollWageAnnualSalary: ({ value }) => {
+    const intent = UPDATE_PAYROLL_WAGE_ANNUAL_SALARY;
+    store.dispatch({ intent, value });
+  },
+
+  updatePayrollWageHourlyRate: ({ value }) => {
+    const intent = UPDATE_PAYROLL_WAGE_HOURLY_RATE;
+    store.dispatch({ intent, value });
+  },
+
+  updatePayrollWageHoursInPayCycle: ({ value }) => {
+    const intent = UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE;
+    store.dispatch({ intent, value });
+  },
+
+  updatePayrollWagePayCycle: ({ value }) => {
+    const intent = UPDATE_PAYROLL_WAGE_PAY_CYCLE;
+    store.dispatch({ intent, value });
   },
 
   setTaxPayItemModalLoadingState: (isLoading) => {

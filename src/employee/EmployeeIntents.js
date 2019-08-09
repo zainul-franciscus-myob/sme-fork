@@ -34,6 +34,15 @@ export const REMOVE_PAYROLL_TAX_PAY_ITEM = Symbol('Remove tax pay item');
 export const UPDATE_PAYROLL_TAX_DETAILS = Symbol('Update payroll tax details');
 export const FORMAT_PAYROLL_TAX_AMOUNT = Symbol('Format payroll tax amount');
 
+export const ADD_PAYROLL_WAGE_PAY_ITEM = Symbol('Add wage pay item');
+export const REMOVE_PAYROLL_WAGE_PAY_ITEM = Symbol('Remove wage pay item');
+export const UPDATE_PAYROLL_WAGE_DETAILS = Symbol('Update payroll wage details');
+export const UPDATE_PAYROLL_WAGE_PAY_BASIS = Symbol('Update payroll wage pay basis');
+export const UPDATE_PAYROLL_WAGE_HOURLY_RATE = Symbol('Update payroll wage hourly rate');
+export const UPDATE_PAYROLL_WAGE_ANNUAL_SALARY = Symbol('Update payroll wage annual salary');
+export const UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE = Symbol('Update payroll wage hours in a pay cycle');
+export const UPDATE_PAYROLL_WAGE_PAY_CYCLE = Symbol('Update payroll wage pay cycle');
+
 export const LOAD_TAX_PAY_ITEM_MODAL = Symbol('Load tax pay item modal');
 export const UPDATE_TAX_PAY_ITEM_MODAL = Symbol('Update tax pay item modal');
 export const UPDATE_TAX_PAY_ITEM_MODAL_DETAILS = Symbol('Update tax pay item modal details');

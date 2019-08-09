@@ -74,6 +74,20 @@
           "type": "TaxPayrollCategory"
         }
       ]
+    },
+    "wage": {
+      "selectedPayBasis": "Salary",
+      "annualSalary": "38000000000",
+      "hourlyRate": "100000",
+      "selectedPayCycle": "Monthly",
+      "payPeriodHours": "152.0",
+      "selectedWageExpenseAccount": "2",
+      "allocatedWagePayItems": [
+        {
+          "id": "1",
+          "type": "WagesPayrollCategory"
+        }
+      ]
     }
   },
   "paymentDetails": {
@@ -104,6 +118,21 @@
       }
     ]
   },
+  "wagePayBasisOptions": [ "Salary", "Hourly"],
+  "wagePayCycleOptions": [
+    {
+      "id": "Weekly", "displayName": "Weekly"
+    },
+    {
+      "id": "Fortnightly", "displayName": "Fortnightly"
+    },
+    {
+      "id": "TwiceAMonth", "displayName": "Twice a month"
+    },
+    {
+      "id": "Monthly", "displayName": "Monthly"
+    }
+  ],
   "genderOptions": [
     {
       "name": "Blank",
@@ -310,5 +339,35 @@
       "id": "34",
       "type": "TaxPayrollCategory"
     }
-  ]
+  ],
+  "wageExpenseAccounts": [
+    {
+      "id": "1",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134"
+    },
+    {
+      "id": "2",
+      "displayName": "Expense 2",
+      "accountType": "Expense",
+      "displayId": "6-135"
+    }
+  ],
+  "wagePayItems": [
+    {
+      "id": "1",
+      "name": "Base salary",
+      "type": "WagesPayrollCategory",
+      "displayType": "Salary"
+    },
+    {
+      "id": "2",
+      "name": "Annual leave",
+      "type": "WagesPayrollCategory",
+      "displayType": "Salary"
+    }
+  ],
+  "baseSalaryWagePayItemId": "1",
+  "baseHourlyWagePayItemId": "2"
 }

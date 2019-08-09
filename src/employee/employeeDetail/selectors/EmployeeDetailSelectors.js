@@ -138,6 +138,7 @@ export const getValueOptions = state => state.valueOptions;
 export const getElectronicPaymentDetails = state => state.paymentDetails.paymentMethod === 'Electronic';
 
 const unsavedModalSubTabs = [
+  payrollDetailsSubTabIds.salaryAndWages,
   payrollDetailsSubTabIds.deductions,
   payrollDetailsSubTabIds.taxes,
 ];

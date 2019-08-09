@@ -4,6 +4,7 @@ import {
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
   ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
+  ADD_PAYROLL_WAGE_PAY_ITEM,
   CLOSE_MODAL,
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
@@ -18,6 +19,7 @@ import {
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
+  REMOVE_PAYROLL_WAGE_PAY_ITEM,
   SET_ALERT,
   SET_DEDUCTION_PAY_ITEM_MODAL_ALERT,
   SET_DEDUCTION_PAY_ITEM_MODAL_INPUT,
@@ -40,6 +42,12 @@ import {
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
   UPDATE_PAYROLL_TAX_DETAILS,
+  UPDATE_PAYROLL_WAGE_ANNUAL_SALARY,
+  UPDATE_PAYROLL_WAGE_DETAILS,
+  UPDATE_PAYROLL_WAGE_HOURLY_RATE,
+  UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE,
+  UPDATE_PAYROLL_WAGE_PAY_BASIS,
+  UPDATE_PAYROLL_WAGE_PAY_CYCLE,
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
 } from '../../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -76,6 +84,17 @@ import {
   updatePayrollTaxDetail,
   updateTaxPayItemModalDetails,
 } from './PayrollTaxReducer';
+import {
+  addPayrollWagePayItem,
+  loadWagePayrollDetails,
+  removePayrollWagePayItem,
+  updatePayrollWageAnnualSalary,
+  updatePayrollWageDetail,
+  updatePayrollWageHourlyRate,
+  updatePayrollWageHoursInPayCycle,
+  updatePayrollWagePayBasis,
+  updatePayrollWagePayCycle,
+} from './PayrollWageReducer';
 import { mainTabIds } from '../tabItems';
 import { shouldDefaultPayslipEmail } from '../selectors/EmployeeDetailSelectors';
 import createReducer from '../../../store/createReducer';
@@ -133,6 +152,15 @@ export const getDefaultState = () => ({
       withholdingVariationRate: '',
       taxPayItems: [],
     },
+    wage: {
+      selectedPayBasis: '',
+      annualSalary: '',
+      hourlyRate: '',
+      selectedPayCycle: '',
+      payPeriodHours: '',
+      selectedWageExpenseAccount: '',
+      allocatedWagePayItems: [],
+    },
   },
   paymentDetails: {
     paymentMethod: '',
@@ -154,6 +182,12 @@ export const getDefaultState = () => ({
   superPayItemOptions: [],
   taxTableOptions: [],
   taxPayItemOptions: [],
+  wagePayCycleOptions: [],
+  wagePayBasisOptions: [],
+  wageExpenseAccounts: [],
+  baseSalaryWagePayItemId: '',
+  baseHourlyWagePayItemId: '',
+  wagePayItems: [],
   taxPayItemModal: {
     tax: {
       atoReportingCategory: '',
@@ -259,9 +293,10 @@ const loadEmployeeDetail = (state, action) => ({
       ...action.payrollDetails.superannuationDetails,
     },
     tax: {
-      ...state.paymentDetails.tax,
+      ...state.payrollDetails.tax,
       ...action.payrollDetails.tax,
     },
+    wage: loadWagePayrollDetails(state.payrollDetails.wage, action.payrollDetails.wage),
     leaveDetails: {
       ...state.payrollDetails.leaveDetails,
       ...action.payrollDetails.leaveDetails,
@@ -284,6 +319,12 @@ const loadEmployeeDetail = (state, action) => ({
   superPayItemOptions: action.superPayItemOptions,
   taxTableOptions: action.taxTableOptions,
   taxPayItemOptions: action.taxPayItemOptions,
+  wagePayBasisOptions: action.wagePayBasisOptions,
+  wagePayCycleOptions: action.wagePayCycleOptions,
+  wageExpenseAccounts: action.wageExpenseAccounts,
+  baseSalaryWagePayItemId: action.baseSalaryWagePayItemId,
+  baseHourlyWagePayItemId: action.baseHourlyWagePayItemId,
+  wagePayItems: action.wagePayItems,
   leavePayItemOptions: action.leavePayItemOptions,
 });
 
@@ -430,6 +471,14 @@ const handlers = {
   [REMOVE_PAYROLL_TAX_PAY_ITEM]: removePayrollTaxPayItem,
   [UPDATE_PAYROLL_TAX_DETAILS]: updatePayrollTaxDetail,
   [FORMAT_PAYROLL_TAX_AMOUNT]: formatAmountInput,
+  [ADD_PAYROLL_WAGE_PAY_ITEM]: addPayrollWagePayItem,
+  [REMOVE_PAYROLL_WAGE_PAY_ITEM]: removePayrollWagePayItem,
+  [UPDATE_PAYROLL_WAGE_DETAILS]: updatePayrollWageDetail,
+  [UPDATE_PAYROLL_WAGE_PAY_BASIS]: updatePayrollWagePayBasis,
+  [UPDATE_PAYROLL_WAGE_HOURLY_RATE]: updatePayrollWageHourlyRate,
+  [UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE]: updatePayrollWageHoursInPayCycle,
+  [UPDATE_PAYROLL_WAGE_ANNUAL_SALARY]: updatePayrollWageAnnualSalary,
+  [UPDATE_PAYROLL_WAGE_PAY_CYCLE]: updatePayrollWagePayCycle,
   [SET_TAX_PAY_ITEM_MODAL_LOADING_STATE]: setTaxPayItemModalLoading,
   [LOAD_TAX_PAY_ITEM_MODAL]: loadTaxPayItemModal,
   [UPDATE_TAX_PAY_ITEM_MODAL_DETAILS]: updateTaxPayItemModalDetails,
