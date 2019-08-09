@@ -1,0 +1,7 @@
+.addCombobox {
+  max-width: var(--flx-width-field-l);
+}
+
+.editableTable :global(.table-data__container) {
+  margin-bottom: var(--flx-spacing-x-small);
+}

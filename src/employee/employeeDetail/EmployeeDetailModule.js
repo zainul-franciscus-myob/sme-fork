@@ -13,6 +13,7 @@ import {
   getUseUnsavedModal,
   isPageEdited,
 } from './selectors/EmployeeDetailSelectors';
+import { getIsDeductionPayItemModalCreating } from './selectors/DeductionPayItemModalSelectors';
 import EmployeeDetailView from './components/EmployeeDetailView';
 import Store from '../../store/Store';
 import createEmployeeDetailDispatcher from './createEmployeeDetailDispatcher';
@@ -166,6 +167,49 @@ export default class EmployeeDetailModule {
     this.createOrUpdateEmployee(onSuccess);
   };
 
+  openDeductionPayItemModal = (id) => {
+    this.dispatcher.openDeductionPayItemModal(id);
+    this.dispatcher.setDeductionPayItemModalLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setDeductionPayItemModalLoadingState(false);
+      this.dispatcher.loadDeductionPayItemModal(response);
+    };
+
+    const onFailure = (response) => {
+      this.dispatcher.closeModal();
+      this.dispatcher.setAlert({ type: 'danger', message: response.message });
+    };
+
+    this.integrator.loadDeductionPayItemModal({ onSuccess, onFailure });
+  }
+
+  saveDeductionPayItemModal = () => {
+    this.dispatcher.setDeductionPayItemModalLoadingState(true);
+    this.dispatcher.setDeductionPayItemModalSubmittingState(true);
+
+    const onSuccess = (response) => {
+      const state = this.store.getState();
+      const isCreating = getIsDeductionPayItemModalCreating(state);
+
+      if (isCreating) {
+        this.dispatcher.createDeductionPayItemModal(response);
+      } else {
+        this.dispatcher.updateDeductionPayItemModal(response);
+      }
+      this.dispatcher.closeModal();
+      this.dispatcher.setAlert({ type: 'success', message: response.message });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setDeductionPayItemModalLoadingState(false);
+      this.dispatcher.setDeductionPayItemModalSubmittingState(false);
+      this.dispatcher.setDeductionPayItemModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.createOrUpdateDeductionPayItemModal({ onSuccess, onFailure });
+  }
+
   readMessages = () => {
     const [successMessage] = this.popMessages(this.popMessageTypes);
 
@@ -236,6 +280,15 @@ export default class EmployeeDetailModule {
         }
         onAddPayrollSuperPayItem={this.dispatcher.addPayrollSuperPayItem}
         onRemovePayrollSuperPayItem={this.dispatcher.removePayrollSuperPayItem}
+        onOpenDeductionPayItemModal={this.openDeductionPayItemModal}
+        deductionPayItemModalListeners={{
+          onDismissAlert: this.dispatcher.dismissDeductionPayItemModalAlert,
+          onChange: this.dispatcher.setDeductionPayItemModalInput,
+          onBlur: this.dispatcher.formatDeductionPayItemModalAmountInput,
+          onAddItem: this.dispatcher.addDeductionPayItemModalItem,
+          onRemoveItem: this.dispatcher.removeDeductionPayItemModalItem,
+          onSave: this.saveDeductionPayItemModal,
+        }}
         onAddPayrollTaxPayItem={this.dispatcher.addPayrollTaxPayItem}
         onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}
         onPayrollTaxDetailsChange={this.dispatcher.updatePayrollTaxDetails}

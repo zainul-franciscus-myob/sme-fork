@@ -1,9 +1,13 @@
 import {
+  CREATE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_EMPLOYEE,
   DELETE_EMPLOYEE,
+  LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
+  LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_NEW_EMPLOYEE_DETAIL,
   LOAD_TAX_PAY_ITEM_MODAL,
+  UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EMPLOYEE,
   UPDATE_TAX_PAY_ITEM_MODAL,
 } from '../EmployeeIntents';
@@ -13,6 +17,11 @@ import {
   getEmployeePayload,
   getIsCreating,
 } from './selectors/EmployeeDetailSelectors';
+import {
+  getDeductionPayItemModalId,
+  getDeductionPayItemModalPayload,
+  getIsDeductionPayItemModalCreating,
+} from './selectors/DeductionPayItemModalSelectors';
 import { getTaxPayItemPayload } from './selectors/PayrollTaxSelectors';
 
 const createEmployeeDetailIntegrator = (store, integration) => ({
@@ -99,6 +108,50 @@ const createEmployeeDetailIntegrator = (store, integration) => ({
       businessId: getBusinessId(state),
     };
     const content = getTaxPayItemPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadDeductionPayItemModal: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const isCreating = getIsDeductionPayItemModalCreating(state);
+
+    const intent = isCreating
+      ? LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL
+      : LOAD_DEDUCTION_PAY_ITEM_MODAL;
+
+    const businessId = getBusinessId(state);
+    const payItemId = isCreating ? undefined : getDeductionPayItemModalId(state);
+
+    const urlParams = { businessId, payItemId };
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  createOrUpdateDeductionPayItemModal: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const isCreating = getIsDeductionPayItemModalCreating(state);
+
+    const intent = isCreating
+      ? CREATE_DEDUCTION_PAY_ITEM_MODAL
+      : UPDATE_DEDUCTION_PAY_ITEM_MODAL;
+
+    const businessId = getBusinessId(state);
+    const payItemId = isCreating ? undefined : getDeductionPayItemModalId(state);
+    const urlParams = { businessId, payItemId };
+
+    const content = getDeductionPayItemModalPayload(state);
 
     integration.write({
       intent,

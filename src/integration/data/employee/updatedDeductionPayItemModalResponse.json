@@ -1,0 +1,29 @@
+{
+  "message": "Great Work! You've done it well!",
+  "deductionPayItem": {
+    "id": "1",
+    "name": "Update advance repayment",
+    "type": "DeductionPayrollCategory",
+    "displayType": "Fixed dollar"
+  },
+  "deductionPayItemOptions": [
+    {
+      "id": "1",
+      "name": "Update advance repayment",
+      "type": "DeductionPayrollCategory",
+      "displayType": "Fixed dollar"
+    },
+    {
+      "id": "2",
+      "name": "Deduction child care tax exempt",
+      "type": "DeductionPayrollCategory",
+      "displayType": "Fixed dollar"
+    },
+    {
+      "id": "3",
+      "name": "Employee purchase",
+      "type": "DeductionPayrollCategory",
+      "displayType": "Fixed dollar"
+    }
+  ]
+}

@@ -3,8 +3,8 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import Combobox from '../../../components/Feelix/ComboBox/Combobox';
-import styles from './PayrollDeductionDetailTable.module.css';
+import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
+import styles from './PayrollDeductionDetailsTable.module.css';
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'middle' },
@@ -18,15 +18,16 @@ const handleComboboxChange = handler => (item) => {
   handler(item);
 };
 
-const onRemoveButtonClick = (handler, id) => () => {
+const onPayItemSelect = (handler, id) => () => {
   handler(id);
 };
 
-const PayrollDeductionDetailTable = ({
+const PayrollDeductionDetailsTable = ({
   selected = [],
   items = [],
   onAddPayItem,
   onRemovePayItem,
+  onOpenDeductionPayItemModal,
 }) => {
   const emptyView = (
     <PageState title="You have not added any deduction pay items yet." />
@@ -34,11 +35,13 @@ const PayrollDeductionDetailTable = ({
 
   const tableBodyView = selected.map(({ id, name, displayType }) => (
     <Table.Row key={id}>
-      <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
+      <Table.RowItem {...tableConfig.name}>
+        <Button type="link" onClick={onPayItemSelect(onOpenDeductionPayItemModal, id)}>{name}</Button>
+      </Table.RowItem>
       <Table.RowItem {...tableConfig.type}>{displayType}</Table.RowItem>
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
         <Tooltip triggerContent={(
-          <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemovePayItem, id)}>
+          <Button type="secondary" size="xs" onClick={onPayItemSelect(onRemovePayItem, id)}>
             <Icons.Remove />
           </Button>
         )}
@@ -70,10 +73,14 @@ const PayrollDeductionDetailTable = ({
           items={items}
           selected={{}}
           onChange={handleComboboxChange(onAddPayItem)}
+          addNewItem={{
+            label: 'Create deduction pay item',
+            onAddNew: onPayItemSelect(onOpenDeductionPayItemModal, 'new'),
+          }}
         />
       </div>
     </div>
   );
 };
 
-export default PayrollDeductionDetailTable;
+export default PayrollDeductionDetailsTable;

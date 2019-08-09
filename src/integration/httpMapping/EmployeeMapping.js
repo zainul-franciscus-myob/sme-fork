@@ -1,11 +1,15 @@
 import {
+  CREATE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_EMPLOYEE,
   DELETE_EMPLOYEE,
+  LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
   LOAD_EMPLOYEE_LIST,
+  LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_NEW_EMPLOYEE_DETAIL,
   LOAD_TAX_PAY_ITEM_MODAL,
   SORT_AND_FILTER_EMPLOYEE_LIST,
+  UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EMPLOYEE,
   UPDATE_TAX_PAY_ITEM_MODAL,
 } from '../../employee/EmployeeIntents';
@@ -46,6 +50,22 @@ const EmployeeListMapping = {
   [UPDATE_TAX_PAY_ITEM_MODAL]: {
     method: 'PUT',
     getPath: ({ businessId }) => `/${businessId}/taxPayItem/update_tax_pay_item`,
+  },
+  [LOAD_DEDUCTION_PAY_ITEM_MODAL]: {
+    method: 'GET',
+    getPath: ({ businessId, payItemId }) => `/${businessId}/employee/load_deduction_pay_item/${payItemId}`,
+  },
+  [LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/employee/load_new_deduction_pay_item`,
+  },
+  [CREATE_DEDUCTION_PAY_ITEM_MODAL]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/employee/create_new_deduction_pay_item`,
+  },
+  [UPDATE_DEDUCTION_PAY_ITEM_MODAL]: {
+    method: 'PUT',
+    getPath: ({ businessId, payItemId }) => `/${businessId}/employee/update_deduction_pay_item/${payItemId}`,
   },
 };
 

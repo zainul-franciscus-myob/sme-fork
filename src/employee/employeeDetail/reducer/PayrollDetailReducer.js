@@ -22,12 +22,10 @@ const setPayrollDeductionState = (state, partialDeductionDetails) => ({
   isPageEdited: true,
 });
 
-export const addPayrollDeductionPayItem = (state, action) => {
+export const addPayrollDeductionPayItem = (state, { payItem }) => {
   const updatedPayItems = [
     ...state.payrollDetails.deductionDetails.deductionPayItems,
-    {
-      id: action.id, name: action.name, type: action.type, displayType: action.displayType,
-    },
+    payItem,
   ];
   const partialDeductionDetails = { deductionPayItems: updatedPayItems };
 

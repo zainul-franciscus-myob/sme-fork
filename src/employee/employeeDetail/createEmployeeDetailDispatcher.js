@@ -1,18 +1,28 @@
 import {
   ADD_ALLOCATED_LEAVE_ITEM,
+  ADD_DEDUCTION_PAY_ITEM_MODAL_ITEM,
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
   ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
   CLOSE_MODAL,
+  CREATE_DEDUCTION_PAY_ITEM_MODAL,
+  FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
   FORMAT_PAYROLL_TAX_AMOUNT,
+  LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
   LOAD_TAX_PAY_ITEM_MODAL,
+  OPEN_DEDUCTION_PAY_ITEM_MODAL,
   OPEN_MODAL,
   REMOVE_ALLOCATED_LEAVE_ITEM,
+  REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
   SET_ALERT,
+  SET_DEDUCTION_PAY_ITEM_MODAL_ALERT,
+  SET_DEDUCTION_PAY_ITEM_MODAL_INPUT,
+  SET_DEDUCTION_PAY_ITEM_MODAL_LOADING_STATE,
+  SET_DEDUCTION_PAY_ITEM_MODAL_SUBMITTING_STATE,
   SET_LOADING_STATE,
   SET_MAIN_TAB,
   SET_PAGE_EDITED_STATE,
@@ -24,6 +34,7 @@ import {
   UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
+  UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_PAYMENT_DETAILS,
   UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
@@ -121,7 +132,7 @@ const createEmployeeDetailDispatcher = store => ({
 
   addPayrollDeductionPayItem: (payItem) => {
     const intent = ADD_PAYROLL_DEDUCTION_PAY_ITEM;
-    store.dispatch({ intent, ...payItem });
+    store.dispatch({ intent, payItem });
   },
 
   removePayrollDeductionPayItem: (id) => {
@@ -214,6 +225,65 @@ const createEmployeeDetailDispatcher = store => ({
     store.dispatch({ intent, alertMessage: '' });
   },
 
+  loadDeductionPayItemModal: (response) => {
+    const intent = LOAD_DEDUCTION_PAY_ITEM_MODAL;
+    store.dispatch({ intent, response });
+  },
+
+  createDeductionPayItemModal: (response) => {
+    const intent = CREATE_DEDUCTION_PAY_ITEM_MODAL;
+    store.dispatch({ intent, response });
+  },
+
+  updateDeductionPayItemModal: (response) => {
+    const intent = UPDATE_DEDUCTION_PAY_ITEM_MODAL;
+    store.dispatch({ intent, response });
+  },
+
+  openDeductionPayItemModal: (id) => {
+    const intent = OPEN_DEDUCTION_PAY_ITEM_MODAL;
+    store.dispatch({ intent, id });
+  },
+
+  setDeductionPayItemModalLoadingState: (isLoading) => {
+    const intent = SET_DEDUCTION_PAY_ITEM_MODAL_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  setDeductionPayItemModalSubmittingState: (isSubmitting) => {
+    const intent = SET_DEDUCTION_PAY_ITEM_MODAL_SUBMITTING_STATE;
+    store.dispatch({ intent, isSubmitting });
+  },
+
+  setDeductionPayItemModalAlert: (alert) => {
+    const intent = SET_DEDUCTION_PAY_ITEM_MODAL_ALERT;
+    store.dispatch({ intent, alert });
+  },
+
+  dismissDeductionPayItemModalAlert: () => {
+    const intent = SET_DEDUCTION_PAY_ITEM_MODAL_ALERT;
+    store.dispatch({ intent, alert: undefined });
+  },
+
+  setDeductionPayItemModalInput: ({ key, value }) => {
+    const intent = SET_DEDUCTION_PAY_ITEM_MODAL_INPUT;
+    store.dispatch({ intent, key, value });
+  },
+
+  formatDeductionPayItemModalAmountInput: ({ key, value }) => {
+    const intent = FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT;
+    store.dispatch({ intent, key, value });
+  },
+
+  addDeductionPayItemModalItem: ({ key, item }) => {
+    const intent = ADD_DEDUCTION_PAY_ITEM_MODAL_ITEM;
+    store.dispatch({ intent, key, item });
+  },
+
+  removeDeductionPayItemModalItem: ({ key, itemId }) => {
+    const intent = REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM;
+    store.dispatch({ intent, key, itemId });
+  },
 });
 
 export default createEmployeeDetailDispatcher;

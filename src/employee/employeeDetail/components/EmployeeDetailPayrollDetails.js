@@ -8,7 +8,7 @@ import {
   payrollDetailsSubTabItems,
 } from '../tabItems';
 import EmploymentDetails from './EmploymentDetails';
-import PayrollDeductionDetails from './PayrollDeductionDetail';
+import PayrollDeductionDetails from './PayrollDeductionDetails/PayrollDeductionDetails';
 import PayrollDetailSuperannuation from './PayrollSuperDetails/PayrollDetailSuperannuation';
 import PayrollLeaveDetail from './PayrollLeaveDetail';
 import PayrollTaxDetails from './PayrollTaxDetails/PayrollTaxDetails';
@@ -30,6 +30,7 @@ const EmployeeDetailPayrollDetails = ({
   onUpdatePayrollDetailSuperannuationDetails,
   onAddPayrollSuperPayItem,
   onRemovePayrollSuperPayItem,
+  onOpenDeductionPayItemModal,
   onAddPayrollTaxPayItem,
   onRemovePayrollTaxPayItem,
   onPayrollTaxDetailsChange,
@@ -55,6 +56,7 @@ const EmployeeDetailPayrollDetails = ({
     <PayrollDeductionDetails
       onAddPayrollDeductionPayItem={onAddPayrollDeductionPayItem}
       onRemovePayrollDeductionPayItem={onRemovePayrollDeductionPayItem}
+      onOpenDeductionPayItemModal={onOpenDeductionPayItemModal}
     />
   );
 

@@ -16,6 +16,7 @@ import {
 } from '../selectors/EmployeeDetailSelectors';
 import { mainTabIds, mainTabItems } from '../tabItems';
 import CancelModal from '../../../components/modal/CancelModal';
+import DeductionPayItemModal from './DeductionPayItemModal/DeductionPayItemModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import EmployeeDetailActions from './EmployeeDetailActions';
 import EmployeeDetailContactDetails from './EmployeeDetailContactDetails';
@@ -33,6 +34,7 @@ const getModalDialogView = ({
   onTaxPayItemModalDetailChange,
   onTaxPayItemModalSaveButtonClick,
   onDismissTaxPayItemModalAlertMessage,
+  deductionPayItemModalListeners,
 }) => {
   switch (modalType) {
     case 'cancel':
@@ -58,6 +60,13 @@ const getModalDialogView = ({
         <UnsavedModal
           onConfirmSave={onSaveModal}
           onConfirmUnsave={onCancelModal}
+          onCancel={onCloseModal}
+        />
+      );
+    case 'deductionPayItem':
+      return (
+        <DeductionPayItemModal
+          {...deductionPayItemModalListeners}
           onCancel={onCloseModal}
         />
       );
@@ -105,6 +114,8 @@ const EmployeeDetailView = ({
   onRemovePayrollTaxPayItem,
   onPayrollTaxDetailsChange,
   onPayrollTaxAmountBlur,
+  onOpenDeductionPayItemModal,
+  deductionPayItemModalListeners,
   onTaxPayItemClick,
   onTaxPayItemModalDetailChange,
   onTaxPayItemModalSaveButtonClick,
@@ -150,6 +161,7 @@ const EmployeeDetailView = ({
     onTaxPayItemModalDetailChange,
     onTaxPayItemModalSaveButtonClick,
     onDismissTaxPayItemModalAlertMessage,
+    deductionPayItemModalListeners,
   });
 
   const contentProps = {
@@ -167,6 +179,7 @@ const EmployeeDetailView = ({
     onUpdatePayrollDetailSuperannuationDetails,
     onAddPayrollSuperPayItem,
     onRemovePayrollSuperPayItem,
+    onOpenDeductionPayItemModal,
     onAddPayrollTaxPayItem,
     onRemovePayrollTaxPayItem,
     onPayrollTaxDetailsChange,
