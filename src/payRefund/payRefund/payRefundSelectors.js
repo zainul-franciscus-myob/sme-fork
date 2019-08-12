@@ -21,3 +21,8 @@ export const getModalType = state => state.modalType;
 export const getAccounts = state => state.accounts;
 
 export const getRefund = state => state.refund;
+
+export const isReferenceIdDirty = (state) => {
+  const { referenceId, originalReferenceId } = getRefund(state);
+  return referenceId !== originalReferenceId;
+};

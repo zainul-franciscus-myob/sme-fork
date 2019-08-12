@@ -3,7 +3,7 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_PAY_REFUND, SUCCESSFULLY_SAVED_PAY_REFUND } from '../PayRefundMessageTypes';
 import {
-  getBusinessId, getIsCreating, getIsPageEdited, getRegion,
+  getBusinessId, getIsCreating, getIsPageEdited, getRegion, isReferenceIdDirty,
 } from './payRefundSelectors';
 import RefundView from './components/PayRefundView';
 import Store from '../../store/Store';
@@ -130,6 +130,36 @@ export default class PayRefundModule {
     window.location.href = `/#/${region}/${businessId}/transactionList`;
   }
 
+  setRefundDetails = ({ key, value }) => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    if (isCreating && key === 'accountId') {
+      this.loadReferenceId(value);
+    }
+
+    this.dispatcher.setRefundDetail({ key, value });
+  };
+
+  loadReferenceId = (accountId) => {
+    const state = this.store.getState();
+
+    if (!isReferenceIdDirty(state)) {
+      const onSuccess = ({ referenceId }) => {
+        if (!isReferenceIdDirty(this.store.getState())) {
+          this.dispatcher.loadReferenceId(referenceId);
+        }
+      };
+
+      const onFailure = ({ message }) => {
+        this.dispatcher.setAlert({ type: 'danger', message });
+      };
+
+      this.integrator.loadReferenceId({
+        accountId, onSuccess, onFailure,
+      });
+    }
+  }
+
   resetState = () => {
     this.dispatcher.resetState();
   }
@@ -151,7 +181,7 @@ export default class PayRefundModule {
         onConfirmCancel={this.confirmCancel}
         onConfirmDelete={this.confirmDelete}
         onCloseModal={this.dispatcher.closeModal}
-        onRefundDetailsChange={this.dispatcher.setRefundDetail}
+        onRefundDetailsChange={this.setRefundDetails}
         onSaveButtonClick={this.createRefund}
         onCancelButtonClick={this.confirmBeforeCancel}
         onDeleteButtonClick={this.confirmBeforeDelete}

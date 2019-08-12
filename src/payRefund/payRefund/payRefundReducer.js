@@ -3,6 +3,7 @@ import { format as dateFormat } from 'date-fns';
 import {
   CLOSE_MODAL,
   LOAD_PAY_REFUND,
+  LOAD_REFERENCE_ID,
   OPEN_MODAL,
   SET_ALERT,
   SET_LOADING_STATE,
@@ -21,6 +22,7 @@ const getDefaultState = () => ({
   refundId: '',
   refund: {
     referenceId: '',
+    originalReferenceId: '',
     date: convertToDateString(Date.now()),
     contactName: '',
     accountId: '',
@@ -76,10 +78,21 @@ const loadRefund = (state, action) => {
     refund: {
       ...state.refund,
       ...action.refund,
+      originalReferenceId: action.refund.referenceId,
     },
     accounts: action.accounts || defaultState.accounts,
   };
 };
+
+const loadReferenceId = (state, action) => ({
+  ...state,
+  refund: {
+    ...state.refund,
+    referenceId: action.referenceId,
+    originalReferenceId: action.referenceId,
+  },
+  isPageEdited: true,
+});
 
 const setRefundDetail = (state, action) => ({
   ...state,
@@ -100,6 +113,7 @@ const handlers = {
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [LOAD_PAY_REFUND]: loadRefund,
   [SET_PAY_REFUND_DETAIL]: setRefundDetail,
+  [LOAD_REFERENCE_ID]: loadReferenceId,
 };
 
 const payRefundReducer = createReducer(getDefaultState(), handlers);

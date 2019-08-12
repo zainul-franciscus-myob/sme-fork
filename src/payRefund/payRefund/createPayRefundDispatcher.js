@@ -1,9 +1,10 @@
 import {
   CLOSE_MODAL,
   LOAD_PAY_REFUND,
+  LOAD_REFERENCE_ID,
   OPEN_MODAL,
-  SET_ALERT,
-  SET_LOADING_STATE, SET_PAY_REFUND_DETAIL,
+  SET_ALERT, SET_LOADING_STATE,
+  SET_PAY_REFUND_DETAIL,
   SET_SUBMITTING_STATE,
 } from '../PayRefundIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -57,6 +58,11 @@ const createPayRefundDispatcher = store => ({
   setRefundDetail: ({ key, value }) => {
     const intent = SET_PAY_REFUND_DETAIL;
     store.dispatch({ intent, key, value });
+  },
+
+  loadReferenceId: (referenceId) => {
+    const intent = LOAD_REFERENCE_ID;
+    store.dispatch({ intent, referenceId });
   },
 });
 

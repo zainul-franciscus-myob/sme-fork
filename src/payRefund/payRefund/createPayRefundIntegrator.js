@@ -3,6 +3,7 @@ import {
   DELETE_PAY_REFUND,
   LOAD_NEW_PAY_REFUND,
   LOAD_PAY_REFUND,
+  LOAD_REFERENCE_ID,
 } from '../PayRefundIntents';
 import {
   getBusinessId, getCustomerReturnId, getIsCreating, getRefund, getRefundId,
@@ -62,6 +63,27 @@ const createPayRefundIntegrator = (store, integration) => ({
     integration.write({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadReferenceId: ({
+    accountId, onSuccess, onFailure,
+  }) => {
+    const intent = LOAD_REFERENCE_ID;
+
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const params = { accountId };
+
+    integration.read({
+      intent,
+      urlParams,
+      params,
       onSuccess,
       onFailure,
     });

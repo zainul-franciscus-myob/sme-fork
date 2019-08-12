@@ -3,6 +3,7 @@ import {
   DELETE_PAY_REFUND,
   LOAD_NEW_PAY_REFUND,
   LOAD_PAY_REFUND,
+  LOAD_REFERENCE_ID,
 } from '../../payRefund/PayRefundIntents';
 
 const PayRefundMapping = {
@@ -28,6 +29,12 @@ const PayRefundMapping = {
     method: 'DELETE',
     getPath: ({ businessId, refundId }) => (
       `/${businessId}/payRefund/delete_pay_refund/${refundId}`
+    ),
+  },
+  [LOAD_REFERENCE_ID]: {
+    method: 'GET',
+    getPath: ({ businessId }) => (
+      `/${businessId}/payRefund/get_reference_id`
     ),
   },
 };
