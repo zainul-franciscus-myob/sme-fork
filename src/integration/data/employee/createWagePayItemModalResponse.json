@@ -1,0 +1,15 @@
+{
+  "message": "Great Work! You've done it well!",
+  "wagePayItem": {
+    "id": "1",
+    "name": "Base salary",
+    "type": "WagesPayrollCategory",
+    "displayType": "Salary"
+  },
+  "allocatedWagePayItems": [
+    {
+      "id": "1",
+      "type": "WagesPayrollCategory"
+    }
+  ]
+}
