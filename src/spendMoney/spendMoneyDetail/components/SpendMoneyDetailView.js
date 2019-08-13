@@ -1,5 +1,5 @@
 import {
-  Alert, Columns, LineItemTemplate, Spinner,
+  Alert, LineItemTemplate, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -31,11 +31,9 @@ const SpendMoneyDetailView = ({
   onRowInputBlur,
 }) => {
   const templateOptions = (
-    <Columns type="three">
-      <SpendMoneyDetailOptions
-        onUpdateHeaderOptions={onUpdateHeaderOptions}
-      />
-    </Columns>
+    <SpendMoneyDetailOptions
+      onUpdateHeaderOptions={onUpdateHeaderOptions}
+    />
   );
 
   const actions = (

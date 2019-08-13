@@ -1,5 +1,5 @@
 import {
-  Checkbox, DatePicker, Input, InputLabel, RadioButton, TextArea,
+  Checkbox, CheckboxGroup, DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -62,22 +62,8 @@ class SpendMoneyDetailOptions extends Component {
       },
     } = this.props;
 
-    return (
+    const primary = (
       <React.Fragment>
-        <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} />
-        <DatePicker
-          label="Date"
-          name="Date"
-          value={date}
-          onSelect={this.handleDateChange}
-        />
-        <div className="form-group">
-          <InputLabel label="Amounts are" id="isTaxInclusive" />
-          <div className={styles.radioGroup}>
-            <div><RadioButton name="isTaxInclusive" label="Tax inclusive" value="true" checked={isTaxInclusive} onChange={this.handleRadioChange} /></div>
-            <div><RadioButton name="isTaxInclusive" label="Tax exclusive" value="false" checked={!isTaxInclusive} onChange={this.handleRadioChange} /></div>
-          </div>
-        </div>
         <AccountCombobox
           label="Pay from"
           hideLabel={false}
@@ -85,20 +71,24 @@ class SpendMoneyDetailOptions extends Component {
           selectedId={selectedPayFromAccountId}
           onChange={this.handleComboBoxChange('selectedPayFromAccountId')}
         />
-        <ContactCombobox
-          items={payToContacts}
-          selectedId={selectedPayToContactId}
-          onChange={this.handleComboBoxChange('selectedPayToContactId')}
-          label="Pay to"
-          name="Pay To Contacts"
-          hideLabel={false}
-          hintText="Select contact"
-        />
-        <div className="form-group">
-          <div className={styles.checkbox}>
-            <Checkbox name="isReportable" label="Reportable" checked={isReportable} onChange={this.handleCheckboxChange} />
-          </div>
+        <div className={styles.contactComboBox}>
+          <ContactCombobox
+            items={payToContacts}
+            selectedId={selectedPayToContactId}
+            onChange={this.handleComboBoxChange('selectedPayToContactId')}
+            label="Pay to"
+            name="Pay To Contacts"
+            hideLabel={false}
+            hintText="Select contact"
+          />
         </div>
+        <CheckboxGroup
+          label="Reportable"
+          hideLabel
+          renderCheckbox={() => (
+            <Checkbox name="isReportable" label="Reportable" checked={isReportable} onChange={this.handleCheckboxChange} />
+          )}
+        />
         <TextArea
           name="description"
           label="Description"
@@ -110,6 +100,32 @@ class SpendMoneyDetailOptions extends Component {
           onChange={this.handleInputChange}
         />
       </React.Fragment>
+    );
+
+    const secondary = (
+      <React.Fragment>
+        <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} />
+        <DatePicker
+          label="Date"
+          name="Date"
+          value={date}
+          onSelect={this.handleDateChange}
+        />
+        <RadioButtonGroup
+          label="Amounts are"
+          name="isTaxInclusive"
+          renderRadios={({ value, ...props }) => (
+            <React.Fragment>
+              <RadioButton {...props} checked={isTaxInclusive} onChange={this.handleRadioChange} value="true" label="Tax inclusive" />
+              <RadioButton {...props} checked={!isTaxInclusive} onChange={this.handleRadioChange} value="false" label="Tax exclusive" />
+            </React.Fragment>
+          )}
+        />
+      </React.Fragment>
+    );
+
+    return (
+      <DetailHeader primary={primary} secondary={secondary} />
     );
   }
 }
