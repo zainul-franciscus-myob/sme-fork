@@ -28,6 +28,7 @@ const EmployeeDetailPayrollDetails = ({
   onAddPayrollSuperPayItem,
   onRemovePayrollSuperPayItem,
   onOpenDeductionPayItemModal,
+  deductionPayItemModalListeners,
   onAddPayrollTaxPayItem,
   onRemovePayrollTaxPayItem,
   onPayrollTaxDetailsChange,
@@ -41,6 +42,7 @@ const EmployeeDetailPayrollDetails = ({
   onPayrollWageHoursInPayCycleBlur,
   onPayrollWageSelectedPayCycleChange,
   onTaxPayItemClick,
+  taxPayItemModalListeners,
 }) => {
   const Employment = () => (
     <EmploymentDetails
@@ -62,6 +64,7 @@ const EmployeeDetailPayrollDetails = ({
       onAddPayrollDeductionPayItem={onAddPayrollDeductionPayItem}
       onRemovePayrollDeductionPayItem={onRemovePayrollDeductionPayItem}
       onOpenDeductionPayItemModal={onOpenDeductionPayItemModal}
+      deductionPayItemModalListeners={deductionPayItemModalListeners}
     />
   );
 
@@ -82,6 +85,7 @@ const EmployeeDetailPayrollDetails = ({
       onPayrollTaxDetailsChange={onPayrollTaxDetailsChange}
       onPayrollTaxAmountBlur={onPayrollTaxAmountBlur}
       onTaxPayItemClick={onTaxPayItemClick}
+      taxPayItemModalListeners={taxPayItemModalListeners}
     />
   );
 

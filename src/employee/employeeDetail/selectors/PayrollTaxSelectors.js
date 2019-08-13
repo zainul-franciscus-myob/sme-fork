@@ -37,6 +37,7 @@ export const getSelectedTaxTable = state => (
   state.taxTableOptions.find(taxTable => taxTable.id === state.payrollDetails.tax.taxTableId) || {}
 );
 
+export const getTaxPayItemModal = state => state.taxPayItemModal;
 export const getTaxPayItemModalLoading = state => state.taxPayItemModal.isLoading;
 export const getTaxPayItemModalSubmitting = state => state.taxPayItemModal.isSubmitting;
 export const getTaxPayItemModalAlertMessage = state => state.taxPayItemModal.alertMessage;

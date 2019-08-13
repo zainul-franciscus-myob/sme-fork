@@ -1,3 +1,15 @@
+const getDefaultTaxPayItemModal = () => ({
+  tax: {
+    atoReportingCategory: '',
+    accountId: '',
+  },
+  accounts: [],
+  atoReportingCategoryList: [],
+  isLoading: false,
+  isSubmitting: false,
+  alertMessage: '',
+});
+
 const setPayrollTaxState = (state, partialTax) => ({
   ...state,
   payrollDetails: {
@@ -66,6 +78,20 @@ export const formatAmountInput = (state, { key, value }) => {
     [key]: formatAmount(value),
   });
 };
+
+export const openTaxPayItemModal = (state) => {
+  const defaultTaxPayItemModalState = getDefaultTaxPayItemModal();
+  return {
+    ...state,
+    taxPayItemModal: defaultTaxPayItemModalState,
+  };
+};
+
+export const closeTaxPayItemModal = state => ({
+  ...state,
+  taxPayItemModal: undefined,
+});
+
 
 export const setTaxPayItemModalLoading = (state, { isLoading }) => ({
   ...state,

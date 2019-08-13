@@ -1,30 +1,35 @@
 import { Icons, Navigation } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getActiveNav, getJournalUrls } from '../NavigationSelectors';
+import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 
-const getItems = urls => [
-  urls.generalJournal && <Navigation.MenuLink key="General journal" url={urls.generalJournal} label="General journal" />,
-  urls.generalJournalList && <Navigation.MenuLink key="View general journals" url={urls.generalJournalList} label="View general journals" />,
+const getMenuLink = (url, label, onMenuLinkClick) => (
+  <Navigation.MenuLink
+    key={label}
+    url={url}
+    label={label}
+    onClick={handleMenuLinkClick(onMenuLinkClick, url)}
+  />
+);
+
+const getItems = (urls, onMenuLinkClick) => [
+  urls.generalJournal && getMenuLink(urls.generalJournal, 'General journal', onMenuLinkClick),
+  urls.generalJournalList && getMenuLink(urls.generalJournalList, 'View general journals', onMenuLinkClick),
 ].filter(Boolean);
 
-const JournalMenu = ({ urls, activeNav, onMenuSelect }) => (
+const JournalMenu = ({
+  urls, activeNav, onMenuSelect, onMenuLinkClick,
+}) => (
   <Navigation.Menu
     label="Journals"
     icon={<Icons.Caret />}
     onSelect={onMenuSelect}
-    items={getItems(urls)}
+    items={getItems(urls, onMenuLinkClick)}
     active={activeNav === 'journals'}
   />
 );
-
-JournalMenu.propTypes = {
-  urls: PropTypes.shape().isRequired,
-  activeNav: PropTypes.string.isRequired,
-  onMenuSelect: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = (state, props) => ({
   urls: getJournalUrls(state, props),

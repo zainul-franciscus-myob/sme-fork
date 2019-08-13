@@ -1,30 +1,35 @@
 import { Icons, Navigation } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getActiveNav, getContactUrls } from '../NavigationSelectors';
+import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 
-const getItems = urls => [
-  urls.createContact && <Navigation.MenuLink key="Add contact" url={urls.createContact} label="Add contact" />,
-  urls.contactList && <Navigation.MenuLink key="View contacts" url={urls.contactList} label="View contacts" />,
+const getMenuLink = (url, label, onMenuLinkClick) => (
+  <Navigation.MenuLink
+    key={label}
+    url={url}
+    label={label}
+    onClick={handleMenuLinkClick(onMenuLinkClick, url)}
+  />
+);
+
+const getItems = (urls, onMenuLinkClick) => [
+  urls.createContact && getMenuLink(urls.createContact, 'Add contact', onMenuLinkClick),
+  urls.contactList && getMenuLink(urls.contactList, 'View contacts', onMenuLinkClick),
 ].filter(Boolean);
 
-const ContactMenu = ({ urls, activeNav, onMenuSelect }) => (
+const ContactMenu = ({
+  urls, activeNav, onMenuSelect, onMenuLinkClick,
+}) => (
   <Navigation.Menu
     label="Contacts"
     icon={<Icons.Caret />}
-    items={getItems(urls)}
+    items={getItems(urls, onMenuLinkClick)}
     active={activeNav === 'contact'}
     onSelect={onMenuSelect}
   />
 );
-
-ContactMenu.propTypes = {
-  urls: PropTypes.shape().isRequired,
-  activeNav: PropTypes.string.isRequired,
-  onMenuSelect: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = (state, props) => ({
   urls: getContactUrls(state, props),

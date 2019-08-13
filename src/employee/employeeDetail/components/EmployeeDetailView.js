@@ -10,79 +10,15 @@ import React from 'react';
 import {
   getAlert,
   getIsLoading,
-  getMainTab,
-  getModalType,
+  getMainTab, getModal,
   getPageHeadTitle,
 } from '../selectors/EmployeeDetailSelectors';
 import { mainTabIds, mainTabItems } from '../tabItems';
-import CancelModal from '../../../components/modal/CancelModal';
-import DeductionPayItemModal from './DeductionPayItemModal/DeductionPayItemModal';
-import DeleteModal from '../../../components/modal/DeleteModal';
+import ConfirmModal from './ConfirmModal';
 import EmployeeDetailActions from './EmployeeDetailActions';
 import EmployeeDetailContactDetails from './EmployeeDetailContactDetails';
 import EmployeeDetailPaymentDetails from './EmployeeDetailPaymentDetails';
 import EmployeeDetailPayrollDetails from './EmployeeDetailPayrollDetails';
-import TaxPayItemModal from './PayrollTaxDetails/TaxPayItemModal';
-import UnsavedModal from '../../../components/modal/UnsavedModal';
-
-const getModalDialogView = ({
-  modalType,
-  onCloseModal,
-  onCancelModal,
-  onDeleteModal,
-  onSaveModal,
-  onTaxPayItemModalDetailChange,
-  onTaxPayItemModalSaveButtonClick,
-  onDismissTaxPayItemModalAlertMessage,
-  deductionPayItemModalListeners,
-}) => {
-  switch (modalType) {
-    case 'cancel':
-      return (
-        <CancelModal
-          onCancel={onCloseModal}
-          onConfirm={onCancelModal}
-          title="Cancel employee alterations"
-          description="Are you sure you want to cancel the alterations in this employee?"
-        />
-      );
-    case 'delete':
-      return (
-        <DeleteModal
-          onCancel={onCloseModal}
-          onConfirm={onDeleteModal}
-          title="Delete employee"
-          description="Are you sure you want to delete this employee?"
-        />
-      );
-    case 'unsaved':
-      return (
-        <UnsavedModal
-          onConfirmSave={onSaveModal}
-          onConfirmUnsave={onCancelModal}
-          onCancel={onCloseModal}
-        />
-      );
-    case 'deductionPayItem':
-      return (
-        <DeductionPayItemModal
-          {...deductionPayItemModalListeners}
-          onCancel={onCloseModal}
-        />
-      );
-    case 'taxPayItem':
-      return (
-        <TaxPayItemModal
-          onCloseModal={onCloseModal}
-          onTaxPayItemModalDetailChange={onTaxPayItemModalDetailChange}
-          onTaxPayItemModalSaveButtonClick={onTaxPayItemModalSaveButtonClick}
-          onDismissTaxPayItemModalAlertMessage={onDismissTaxPayItemModalAlertMessage}
-        />
-      );
-    default:
-      return undefined;
-  }
-};
 
 const EmployeeDetailView = ({
   selectedTab,
@@ -97,11 +33,10 @@ const EmployeeDetailView = ({
   onDeleteButtonClick,
   alert,
   onDismissAlert,
-  modalType,
-  onCloseModal,
-  onCancelModal,
-  onDeleteModal,
-  onSaveModal,
+  modal,
+  confirmModalListeners,
+  taxPayItemModalListeners,
+  deductionPayItemModalListeners,
   pageHeadTitle,
   onEmploymentDetailsChange,
   onEmploymentPaySlipDeliveryChange,
@@ -123,11 +58,7 @@ const EmployeeDetailView = ({
   onPayrollWageHoursInPayCycleBlur,
   onPayrollWageSelectedPayCycleChange,
   onOpenDeductionPayItemModal,
-  deductionPayItemModalListeners,
   onTaxPayItemClick,
-  onTaxPayItemModalDetailChange,
-  onTaxPayItemModalSaveButtonClick,
-  onDismissTaxPayItemModalAlertMessage,
   onAddAllocatedLeaveItem,
   onRemoveAllocatedLeaveItem,
   onUpdateAllocatedLeaveItemCarryOver,
@@ -160,17 +91,12 @@ const EmployeeDetailView = ({
     </Alert>
   );
 
-  const modal = getModalDialogView({
-    modalType,
-    onCloseModal,
-    onCancelModal,
-    onDeleteModal,
-    onSaveModal,
-    onTaxPayItemModalDetailChange,
-    onTaxPayItemModalSaveButtonClick,
-    onDismissTaxPayItemModalAlertMessage,
-    deductionPayItemModalListeners,
-  });
+  const modalComponent = modal && (
+    <ConfirmModal
+      modal={modal}
+      confirmModalListeners={confirmModalListeners}
+    />
+  );
 
   const contentProps = {
     onSubTabSelected,
@@ -188,6 +114,7 @@ const EmployeeDetailView = ({
     onAddPayrollSuperPayItem,
     onRemovePayrollSuperPayItem,
     onOpenDeductionPayItemModal,
+    deductionPayItemModalListeners,
     onAddPayrollTaxPayItem,
     onRemovePayrollTaxPayItem,
     onPayrollTaxDetailsChange,
@@ -201,6 +128,7 @@ const EmployeeDetailView = ({
     onPayrollWageHoursInPayCycleBlur,
     onPayrollWageSelectedPayCycleChange,
     onTaxPayItemClick,
+    taxPayItemModalListeners,
   };
 
   const view = (
@@ -210,7 +138,7 @@ const EmployeeDetailView = ({
       pageHead={pageHeadTitle}
       subHeadChildren={subHeadTabs}
     >
-      { modal }
+      { modalComponent }
 
       <Content {...contentProps} />
 
@@ -225,7 +153,7 @@ const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   selectedTab: getMainTab(state),
   alert: getAlert(state),
-  modalType: getModalType(state),
+  modal: getModal(state),
   pageHeadTitle: getPageHeadTitle(state),
 });
 

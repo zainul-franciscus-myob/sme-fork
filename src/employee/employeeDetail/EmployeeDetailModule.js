@@ -6,11 +6,11 @@ import {
   SUCCESSFULLY_SAVED_EMPLOYEE,
 } from '../EmployeeMessageTypes';
 import {
-  getBusinessId,
+  getEmployeeDetailUrl,
+  getEmployeeListUrl,
   getIsCreating,
-  getRegion,
+  getModalUrl,
   getURLParams,
-  getUseUnsavedModal,
   isPageEdited,
 } from './selectors/EmployeeDetailSelectors';
 import { getIsDeductionPayItemModalCreating } from './selectors/DeductionPayItemModalSelectors';
@@ -46,41 +46,51 @@ export default class EmployeeDetailModule {
   }
 
   openDeleteModal = () => {
-    this.dispatcher.openModal('delete');
+    const state = this.store.getState();
+    const url = getEmployeeListUrl(state);
+    this.dispatcher.openModal({ type: 'delete', url });
   };
 
-  openCancelModal = () => {
+  openUnsavedModal = (url) => {
+    this.dispatcher.openModal({ type: 'unsaved', url });
+  };
+
+  cancelEmployee = () => {
     const state = this.store.getState();
 
+    const url = getEmployeeListUrl(state);
     if (isPageEdited(state)) {
-      if (getUseUnsavedModal(state)) {
-        this.dispatcher.openModal('unsaved');
-      } else {
-        this.dispatcher.openModal('cancel');
-      }
+      this.openUnsavedModal(url);
     } else {
-      this.redirectToEmployeeList();
+      this.redirectToUrl(url);
     }
   };
 
-  openTaxPayItemModal = () => {
-    this.dispatcher.openModal('taxPayItem');
-  };
+  redirectToUrl = (url) => {
+    if (url) {
+      window.location.href = url;
+    }
+  }
+
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+
+    this.redirectToUrl(url);
+  }
 
   redirectToEmployeeList = () => {
     const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
+    const url = getEmployeeListUrl(state);
 
-    window.location.href = `/#/${region}/${businessId}/employee`;
+    this.redirectToUrl(url);
   };
 
   redirectToReadEmployee = (employeeId) => {
     const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
+    const url = getEmployeeDetailUrl(state, employeeId);
 
-    window.location.href = `/#/${region}/${businessId}/employee/${employeeId}`;
+    this.redirectToUrl(url);
   };
 
   loadEmployeeDetails = () => {
@@ -98,6 +108,7 @@ export default class EmployeeDetailModule {
 
   createOrUpdateEmployee = (onSuccess) => {
     this.dispatcher.setSubmittingState(true);
+    this.dispatcher.setLoadingState(true);
 
     const onFailure = (response) => {
       this.dispatcher.setSubmittingState(false);
@@ -110,6 +121,7 @@ export default class EmployeeDetailModule {
   saveEmployee = () => {
     const onSuccess = (response) => {
       this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(false);
 
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
@@ -153,15 +165,19 @@ export default class EmployeeDetailModule {
   };
 
   saveUnsavedChanges = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
     this.dispatcher.closeModal();
 
     const onSuccess = (response) => {
       this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(false);
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_EMPLOYEE,
         content: response.message,
       });
-      this.redirectToEmployeeList();
+
+      this.redirectToUrl(url);
     };
 
     this.createOrUpdateEmployee(onSuccess);
@@ -177,7 +193,7 @@ export default class EmployeeDetailModule {
     };
 
     const onFailure = (response) => {
-      this.dispatcher.closeModal();
+      this.dispatcher.closeDeductionPayItemModal();
       this.dispatcher.setAlert({ type: 'danger', message: response.message });
     };
 
@@ -197,7 +213,7 @@ export default class EmployeeDetailModule {
       } else {
         this.dispatcher.updateDeductionPayItemModal(response);
       }
-      this.dispatcher.closeModal();
+      this.dispatcher.closeDeductionPayItemModal();
       this.dispatcher.setAlert({ type: 'success', message: response.message });
     };
 
@@ -227,19 +243,18 @@ export default class EmployeeDetailModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setTaxPayItemModalLoadingState(false);
-      this.dispatcher.closeModal();
+      this.dispatcher.closeTaxPayItemModal();
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 
     this.dispatcher.setTaxPayItemModalLoadingState(true);
-    this.openTaxPayItemModal();
+    this.dispatcher.openTaxPayItemModal();
     this.integrator.loadTaxPayItemModal({ onSuccess, onFailure });
   };
 
   saveTaxPayItemModal = () => {
     const onSuccess = ({ message }) => {
-      this.dispatcher.closeModal();
-      this.dispatcher.setTaxPayItemModalSubmitting(false);
+      this.dispatcher.closeTaxPayItemModal();
       this.dispatcher.setAlert({ type: 'success', message });
     };
 
@@ -260,14 +275,16 @@ export default class EmployeeDetailModule {
         onContactDetailsChange={this.dispatcher.updateContactDetails}
         onPaymentDetailsChange={this.dispatcher.updatePaymentDetails}
         onBankAccountDetailsChange={this.dispatcher.updateBankAccountDetails}
-        onCancelButtonClick={this.openCancelModal}
+        onCancelButtonClick={this.cancelEmployee}
         onSaveButtonClick={this.saveEmployee}
         onDeleteButtonClick={this.openDeleteModal}
         onDismissAlert={this.dispatcher.dismissAlert}
-        onCloseModal={this.dispatcher.closeModal}
-        onCancelModal={this.redirectToEmployeeList}
-        onSaveModal={this.saveUnsavedChanges}
-        onDeleteModal={this.deleteEmployee}
+        confirmModalListeners={{
+          onConfirmClose: this.dispatcher.closeModal,
+          onConfirmCancel: this.redirectToModalUrl,
+          onConfirmSave: this.saveUnsavedChanges,
+          onConfirmDelete: this.deleteEmployee,
+        }}
         onEmploymentDetailsChange={this.dispatcher.updatePayrollEmploymentDetails}
         onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
         onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
@@ -288,6 +305,7 @@ export default class EmployeeDetailModule {
           onAddItem: this.dispatcher.addDeductionPayItemModalItem,
           onRemoveItem: this.dispatcher.removeDeductionPayItemModalItem,
           onSave: this.saveDeductionPayItemModal,
+          onCancel: this.dispatcher.closeDeductionPayItemModal,
         }}
         onAddPayrollTaxPayItem={this.dispatcher.addPayrollTaxPayItem}
         onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}
@@ -302,9 +320,12 @@ export default class EmployeeDetailModule {
         onPayrollWageHoursInPayCycleBlur={this.dispatcher.updatePayrollWageHoursInPayCycle}
         onPayrollWageSelectedPayCycleChange={this.dispatcher.updatePayrollWagePayCycle}
         onTaxPayItemClick={this.loadTaxPayItemModal}
-        onTaxPayItemModalDetailChange={this.dispatcher.updateTaxPayItemModalDetails}
-        onTaxPayItemModalSaveButtonClick={this.saveTaxPayItemModal}
-        onDismissTaxPayItemModalAlertMessage={this.dispatcher.dismissTaxPayItemModalAlertMessage}
+        taxPayItemModalListeners={{
+          onTaxPayItemModalDetailChange: this.dispatcher.updateTaxPayItemModalDetails,
+          onTaxPayItemModalSaveButtonClick: this.saveTaxPayItemModal,
+          onDismissTaxPayItemModalAlertMessage: this.dispatcher.dismissTaxPayItemModalAlertMessage,
+          onCloseModal: this.dispatcher.closeTaxPayItemModal,
+        }}
       />
     );
 
@@ -338,4 +359,13 @@ export default class EmployeeDetailModule {
   resetState = () => {
     this.dispatcher.resetState();
   };
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (isPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
+  }
 }

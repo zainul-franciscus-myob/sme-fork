@@ -1,6 +1,40 @@
 import { getDeductionPayItems } from '../selectors/PayrollDeductionDetailSelectors';
-import { getDefaultState } from './employeeDetailReducer';
 import { getFormattedAmount, getFormattedPercentage } from '../selectors/DeductionPayItemModalSelectors';
+
+const getDeductionPayItemModalDefaultState = () => ({
+  id: '',
+  isLoading: true,
+  isSubmitting: false,
+  alert: undefined,
+  title: '',
+  deductionPayItem: {
+    name: '',
+    linkedPayableAccountId: '',
+    atoReportingCategory: '',
+    calculationBasis: '',
+    calculationPercentage: '',
+    calculationPercentOfId: '',
+    calculationDollars: '',
+    calculationPer: '',
+    limit: '',
+    limitPercentage: '',
+    limitPercentOfId: '',
+    limitDollars: '',
+    limitPer: '',
+    employees: [],
+    exemptions: [],
+  },
+  accountOptions: [],
+  atoReportCategoryOptions: [],
+  calculationBasisOptions: [],
+  calculationPercentOfOptions: [],
+  calculationDollarPerOptions: [],
+  limitOptions: [],
+  limitPercentOfOptions: [],
+  limitDollarPerOptions: [],
+  employeeOptions: [],
+  exemptionOptions: [],
+});
 
 export const loadDeductionPayItemModal = (state, { response }) => ({
   ...state,
@@ -52,17 +86,21 @@ export const updateDeductionPayItemModal = (state, {
 };
 
 export const openDeductionPayItemModal = (state, { id }) => {
-  const defaultState = getDefaultState();
+  const deductionPayItemModalDefaultState = getDeductionPayItemModalDefaultState();
 
   return {
     ...state,
-    modalType: 'deductionPayItem',
     deductionPayItemModal: {
-      ...defaultState.deductionPayItemModal,
+      ...deductionPayItemModalDefaultState,
       id,
     },
   };
 };
+
+export const closeDeductionPayItemModal = state => ({
+  ...state,
+  deductionPayItemModal: undefined,
+});
 
 const setDeductionPayItemModalState = (state, modal) => ({
   ...state,

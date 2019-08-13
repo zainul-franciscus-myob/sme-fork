@@ -1,11 +1,11 @@
 import { Icons, Navigation } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
   getActiveNav, getBusinessName, getBusinessUrls, getTaxCodesLabel,
 } from '../NavigationSelectors';
+import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 
 const isSeparatorRequired = urls => (
   urls.businessDetails
@@ -17,37 +17,38 @@ const isSeparatorRequired = urls => (
     || urls.linkedAccounts
 );
 
-const getItems = ({ urls, taxCodesLabel }) => [
-  urls.businessDetails && <Navigation.MenuLink key="businessDetails" label="Business details" url={urls.businessDetails} />,
-  urls.incomeAllocation && <Navigation.MenuLink key="incomeAllocation" label="Income allocation" url={urls.incomeAllocation} />,
-  urls.taxList && <Navigation.MenuLink key="taxList" label={taxCodesLabel} url={urls.taxList} />,
-  urls.userList && <Navigation.MenuLink key="userList" label="Users" url={urls.userList} />,
-  urls.salesSettings && <Navigation.MenuLink key="salesSettings" label="Invoice and quote settings" url={urls.salesSettings} />,
-  urls.prepareBasOrIas && <Navigation.MenuLink key="prepareBasOrIas" label="Prepare BAS or IAS" url={urls.prepareBasOrIas} />,
-  urls.linkedAccounts && <Navigation.MenuLink key="linkedAccounts" label="Manage Linked Accounts" url={urls.linkedAccounts} />,
+const getMenuLink = (url, label, onMenuLinkClick) => (
+  <Navigation.MenuLink
+    key={label}
+    url={url}
+    label={label}
+    onClick={handleMenuLinkClick(onMenuLinkClick, url)}
+  />
+);
+
+const getItems = ({ urls, onMenuLinkClick, taxCodesLabel }) => [
+  urls.businessDetails && getMenuLink(urls.businessDetails, 'Business details', onMenuLinkClick),
+  urls.incomeAllocation && getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
+  urls.taxList && getMenuLink(urls.taxList, taxCodesLabel, onMenuLinkClick),
+  urls.userList && getMenuLink(urls.userList, 'Users', onMenuLinkClick),
+  urls.salesSettings && getMenuLink(urls.salesSettings, 'Invoice and quote settings', onMenuLinkClick),
+  urls.prepareBasOrIas && getMenuLink(urls.prepareBasOrIas, 'Prepare BAS or IAS', onMenuLinkClick),
+  urls.linkedAccounts && getMenuLink(urls.linkedAccounts, 'Manage linked accounts', onMenuLinkClick),
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
-  <Navigation.MenuLink key="logout" url="#/logout" label="Logout" icon={<Icons.SignOut />} />,
+  <Navigation.MenuLink key="logout" url="#/logout" label="Logout" icon={<Icons.SignOut />} onClick={handleMenuLinkClick(onMenuLinkClick, '#/logout')} />,
 ].filter(Boolean);
 
 const BusinessMenu = ({
-  businessName, urls, activeNav, onMenuSelect, taxCodesLabel,
+  businessName, urls, activeNav, onMenuSelect, onMenuLinkClick, taxCodesLabel,
 }) => (
   <Navigation.Menu
     label={businessName}
     icon={<Icons.Caret />}
-    items={getItems({ urls, taxCodesLabel })}
+    items={getItems({ urls, onMenuLinkClick, taxCodesLabel })}
     onSelect={onMenuSelect}
     active={activeNav === 'business'}
   />
 );
-
-BusinessMenu.propTypes = {
-  businessName: PropTypes.string.isRequired,
-  activeNav: PropTypes.string.isRequired,
-  taxCodesLabel: PropTypes.string.isRequired,
-  urls: PropTypes.shape({}).isRequired,
-  onMenuSelect: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   urls: getBusinessUrls(state),

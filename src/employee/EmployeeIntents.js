@@ -43,6 +43,8 @@ export const UPDATE_PAYROLL_WAGE_ANNUAL_SALARY = Symbol('Update payroll wage ann
 export const UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE = Symbol('Update payroll wage hours in a pay cycle');
 export const UPDATE_PAYROLL_WAGE_PAY_CYCLE = Symbol('Update payroll wage pay cycle');
 
+export const OPEN_TAX_PAY_ITEM_MODAL = Symbol('Open tax pay item modal');
+export const CLOSE_TAX_PAY_ITEM_MODAL = Symbol('Close tax pay item modal');
 export const LOAD_TAX_PAY_ITEM_MODAL = Symbol('Load tax pay item modal');
 export const UPDATE_TAX_PAY_ITEM_MODAL = Symbol('Update tax pay item modal');
 export const UPDATE_TAX_PAY_ITEM_MODAL_DETAILS = Symbol('Update tax pay item modal details');
@@ -54,11 +56,12 @@ export const ADD_ALLOCATED_LEAVE_ITEM = Symbol('Add an allocated leave item');
 export const REMOVE_ALLOCATED_LEAVE_ITEM = Symbol('Remove an allocated leave item');
 export const UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER = Symbol('Update an allocated leave item carry over amount');
 
+export const OPEN_DEDUCTION_PAY_ITEM_MODAL = Symbol('Open deduction pay item modal');
+export const CLOSE_DEDUCTION_PAY_ITEM_MODAL = Symbol('Close deduction pay item modal');
 export const LOAD_DEDUCTION_PAY_ITEM_MODAL = Symbol('Load deduction pay item modal');
 export const LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL = Symbol('Load new deduction pay item modal');
 export const CREATE_DEDUCTION_PAY_ITEM_MODAL = Symbol('Create deduction pay item modal');
 export const UPDATE_DEDUCTION_PAY_ITEM_MODAL = Symbol('Update deduction pay item modal');
-export const OPEN_DEDUCTION_PAY_ITEM_MODAL = Symbol('Open deduction pay item modal');
 export const SET_DEDUCTION_PAY_ITEM_MODAL_ALERT = Symbol('Set deduction pay item modal alert');
 export const SET_DEDUCTION_PAY_ITEM_MODAL_LOADING_STATE = Symbol('Set deduction pay item modal loading state');
 export const SET_DEDUCTION_PAY_ITEM_MODAL_SUBMITTING_STATE = Symbol('Set deduction pay item modal submitting state');

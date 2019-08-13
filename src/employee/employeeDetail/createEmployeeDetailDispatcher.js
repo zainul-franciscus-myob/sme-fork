@@ -5,7 +5,9 @@ import {
   ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
   ADD_PAYROLL_WAGE_PAY_ITEM,
+  CLOSE_DEDUCTION_PAY_ITEM_MODAL,
   CLOSE_MODAL,
+  CLOSE_TAX_PAY_ITEM_MODAL,
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
   FORMAT_PAYROLL_TAX_AMOUNT,
@@ -14,6 +16,7 @@ import {
   LOAD_TAX_PAY_ITEM_MODAL,
   OPEN_DEDUCTION_PAY_ITEM_MODAL,
   OPEN_MODAL,
+  OPEN_TAX_PAY_ITEM_MODAL,
   REMOVE_ALLOCATED_LEAVE_ITEM,
   REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
@@ -73,9 +76,9 @@ const createEmployeeDetailDispatcher = store => ({
     store.dispatch({ intent, alert: undefined });
   },
 
-  openModal: (modalType) => {
+  openModal: ({ type, url }) => {
     const intent = OPEN_MODAL;
-    store.dispatch({ intent, modalType });
+    store.dispatch({ intent, modal: { type, url } });
   },
 
   closeModal: () => {
@@ -243,6 +246,16 @@ const createEmployeeDetailDispatcher = store => ({
     store.dispatch({ intent, value });
   },
 
+  openTaxPayItemModal: () => {
+    const intent = OPEN_TAX_PAY_ITEM_MODAL;
+    store.dispatch({ intent });
+  },
+
+  closeTaxPayItemModal: () => {
+    const intent = CLOSE_TAX_PAY_ITEM_MODAL;
+    store.dispatch({ intent });
+  },
+
   setTaxPayItemModalLoadingState: (isLoading) => {
     const intent = SET_TAX_PAY_ITEM_MODAL_LOADING_STATE;
     store.dispatch({ intent, isLoading });
@@ -291,6 +304,11 @@ const createEmployeeDetailDispatcher = store => ({
   openDeductionPayItemModal: (id) => {
     const intent = OPEN_DEDUCTION_PAY_ITEM_MODAL;
     store.dispatch({ intent, id });
+  },
+
+  closeDeductionPayItemModal: () => {
+    const intent = CLOSE_DEDUCTION_PAY_ITEM_MODAL;
+    store.dispatch({ intent });
   },
 
   setDeductionPayItemModalLoadingState: (isLoading) => {

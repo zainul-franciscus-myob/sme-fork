@@ -1,6 +1,5 @@
 import { Button, MYOBLogo, Navigation } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -26,34 +25,37 @@ import SwitchBusiness from './SwitchBusiness';
 import styles from './NavigationBar.module.css';
 
 const getPrimary = ({
-  onMenuSelect, shouldDisplaySalesMenu, shouldDisplayPurchasesMenu, shouldDisplayBankingMenu,
+  onMenuSelect, onMenuLinkClick,
+  shouldDisplaySalesMenu, shouldDisplayPurchasesMenu, shouldDisplayBankingMenu,
   shouldDisplayContactMenu, shouldDisplayJournalMenu, shouldDisplayPayrollMenu, shouldDisplayInTray,
 }) => [
-  shouldDisplaySalesMenu && <SalesMenu key="SalesMenu" onMenuSelect={onMenuSelect} />,
-  shouldDisplayPurchasesMenu && <PurchasesMenu key="PurchasesMenu" onMenuSelect={onMenuSelect} />,
-  shouldDisplayBankingMenu && <BankingMenu key="BankingMenu" onMenuSelect={onMenuSelect} />,
-  shouldDisplayContactMenu && <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} />,
-  shouldDisplayJournalMenu && <JournalMenu key="JournalMenu" onMenuSelect={onMenuSelect} />,
-  shouldDisplayPayrollMenu && <PayrollMenu key="PayrollMenu" onMenuSelect={onMenuSelect} />,
-  shouldDisplayInTray && <InTray key="InTray" />,
+  shouldDisplaySalesMenu && <SalesMenu key="SalesMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayPurchasesMenu && <PurchasesMenu key="PurchasesMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayBankingMenu && <BankingMenu key="BankingMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayContactMenu && <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayJournalMenu && <JournalMenu key="JournalMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayPayrollMenu && <PayrollMenu key="PayrollMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayInTray && <InTray key="InTray" onMenuLinkClick={onMenuLinkClick} />,
 ].filter(Boolean);
 
 const getSecondary = ({
-  onMenuSelect, shouldDisplayBusinessMenu,
+  onMenuSelect, onMenuLinkClick, shouldDisplayBusinessMenu,
 }) => [
   shouldDisplayBusinessMenu && <SwitchBusiness key="SwitchBusiness" />,
-  shouldDisplayBusinessMenu && <BusinessMenu key="BusinessMenu" onMenuSelect={onMenuSelect} />,
-  !shouldDisplayBusinessMenu && <Logout key="Logout" />,
+  shouldDisplayBusinessMenu && <BusinessMenu key="BusinessMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  !shouldDisplayBusinessMenu && <Logout key="Logout" onMenuLinkClick={onMenuLinkClick} />,
 ].filter(Boolean);
 
 const NavigationBar = ({
-  onMenuSelect, onSkipToMainContentClick, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
+  onMenuSelect, onMenuLinkClick,
+  onSkipToMainContentClick, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
   shouldDisplayBankingMenu, shouldDisplayContactMenu,
   shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
   shouldDisplayPurchasesMenu, shouldDisplayInTray,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
+    onMenuLinkClick,
     shouldDisplaySalesMenu,
     shouldDisplayPurchasesMenu,
     shouldDisplayBankingMenu,
@@ -62,7 +64,7 @@ const NavigationBar = ({
     shouldDisplayPayrollMenu,
     shouldDisplayInTray,
   });
-  const secondary = getSecondary({ onMenuSelect, shouldDisplayBusinessMenu });
+  const secondary = getSecondary({ onMenuSelect, onMenuLinkClick, shouldDisplayBusinessMenu });
   const brand = (
     <>
       <div className={styles.skipNavigationContainer}>
@@ -79,18 +81,6 @@ const NavigationBar = ({
   return (
     <Navigation brand={brand} primary={primary} secondary={secondary} />
   );
-};
-
-NavigationBar.propTypes = {
-  onMenuSelect: PropTypes.func.isRequired,
-  shouldDisplayBusinessMenu: PropTypes.bool.isRequired,
-  shouldDisplayBankingMenu: PropTypes.bool.isRequired,
-  shouldDisplayContactMenu: PropTypes.bool.isRequired,
-  shouldDisplayJournalMenu: PropTypes.bool.isRequired,
-  shouldDisplaySalesMenu: PropTypes.bool.isRequired,
-  shouldDisplayPayrollMenu: PropTypes.bool.isRequired,
-  shouldDisplayPurchasesMenu: PropTypes.bool.isRequired,
-  shouldDisplayInTray: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

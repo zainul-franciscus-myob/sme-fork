@@ -1,38 +1,43 @@
 import { Icons, Navigation } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getActiveNav, getBankingUrls } from '../NavigationSelectors';
+import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 
 const showSeparator = urls => urls.bankTransactionList || urls.bankReconciliation;
 
-const getItems = urls => [
-  urls.bankTransactionList && <Navigation.MenuLink key="Bank transactions" url={urls.bankTransactionList} label="Bank transactions" />,
-  urls.bankReconciliation && <Navigation.MenuLink key="Reconcile bank accounts" url={urls.bankReconciliation} label="Reconcile bank accounts" />,
+const getMenuLink = (url, label, onMenuLinkClick) => (
+  <Navigation.MenuLink
+    key={label}
+    url={url}
+    label={label}
+    onClick={handleMenuLinkClick(onMenuLinkClick, url)}
+  />
+);
+
+const getItems = (urls, onMenuLinkClick) => [
+  urls.bankTransactionList && getMenuLink(urls.bankTransactionList, 'Bank transactions', onMenuLinkClick),
+  urls.bankReconciliation && getMenuLink(urls.bankReconciliation, 'Reconcile bank accounts', onMenuLinkClick),
   showSeparator(urls) && <Navigation.Separator key="separator" />,
-  urls.spendMoney && <Navigation.MenuLink key="Spend money" url={urls.spendMoney} label="Spend money" />,
-  urls.receiveMoney && <Navigation.MenuLink key="Receive money" url={urls.receiveMoney} label="Receive money" />,
-  urls.transferMoney && <Navigation.MenuLink key="Transfer money" url={urls.transferMoney} label="Transfer money" />,
-  urls.transactionList && <Navigation.MenuLink key="Transaction list" url={urls.transactionList} label="Transaction list" />,
-  urls.bankingRule && <Navigation.MenuLink key="BankingRuleList" url={urls.bankingRule} label="Banking rules" />,
+  urls.spendMoney && getMenuLink(urls.spendMoney, 'Spend money', onMenuLinkClick),
+  urls.receiveMoney && getMenuLink(urls.receiveMoney, 'Receive money', onMenuLinkClick),
+  urls.transferMoney && getMenuLink(urls.transferMoney, 'Transfer money', onMenuLinkClick),
+  urls.transactionList && getMenuLink(urls.transactionList, 'Transaction list', onMenuLinkClick),
+  urls.bankingRule && getMenuLink(urls.bankingRule, 'Banking rules', onMenuLinkClick),
 ].filter(Boolean);
 
-const BankingMenu = ({ urls, activeNav, onMenuSelect }) => (
+const BankingMenu = ({
+  urls, activeNav, onMenuSelect, onMenuLinkClick,
+}) => (
   <Navigation.Menu
     label="Banking"
     icon={<Icons.Caret />}
     onSelect={onMenuSelect}
-    items={getItems(urls)}
+    items={getItems(urls, onMenuLinkClick)}
     active={activeNav === 'banking'}
   />
 );
-
-BankingMenu.propTypes = {
-  urls: PropTypes.shape().isRequired,
-  activeNav: PropTypes.string.isRequired,
-  onMenuSelect: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = (state, props) => ({
   urls: getBankingUrls(state, props),

@@ -18,6 +18,7 @@ export default class NavigationModule {
     this.store = new Store(navReducer);
     this.replaceURLParamsAndReload = replaceURLParamsAndReload;
     this.mainContentElement = mainContentElement;
+    this.onPageTransition = undefined;
   }
 
   moveFocusToMainContent = () => {
@@ -92,6 +93,7 @@ export default class NavigationModule {
         constructPath={this.constructPath}
         onSkipToMainContentClick={this.moveFocusToMainContent}
         onMenuSelect={this.redirectToPage}
+        onMenuLinkClick={this.onPageTransition}
       />
     );
 
@@ -104,9 +106,14 @@ export default class NavigationModule {
     this.setNavigationView(wrappedView);
   }
 
-  run = ({ routeParams, currentRouteName }) => {
+  setOnPageTransition = (onPageTransition) => {
+    this.onPageTransition = onPageTransition;
+  }
+
+  run = ({ routeParams, currentRouteName, onPageTransition }) => {
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     this.getBusinessInfo();
+    this.setOnPageTransition(onPageTransition);
     this.render();
   }
 }

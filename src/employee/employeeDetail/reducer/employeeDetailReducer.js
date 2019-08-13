@@ -5,7 +5,9 @@ import {
   ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
   ADD_PAYROLL_WAGE_PAY_ITEM,
+  CLOSE_DEDUCTION_PAY_ITEM_MODAL,
   CLOSE_MODAL,
+  CLOSE_TAX_PAY_ITEM_MODAL,
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
   FORMAT_PAYROLL_TAX_AMOUNT,
@@ -14,6 +16,7 @@ import {
   LOAD_TAX_PAY_ITEM_MODAL,
   OPEN_DEDUCTION_PAY_ITEM_MODAL,
   OPEN_MODAL,
+  OPEN_TAX_PAY_ITEM_MODAL,
   REMOVE_ALLOCATED_LEAVE_ITEM,
   REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
@@ -60,7 +63,9 @@ import {
   updatePayrollEmployeeDetail,
 } from './PayrollDetailReducer';
 import {
-  addDeductionPayItemModalItem, createDeductionPayItemModal,
+  addDeductionPayItemModalItem,
+  closeDeductionPayItemModal,
+  createDeductionPayItemModal,
   formatDeductionPayItemModalAmountInput,
   loadDeductionPayItemModal,
   openDeductionPayItemModal,
@@ -68,7 +73,8 @@ import {
   setDeductionPayItemModalAlert,
   setDeductionPayItemModalInput,
   setDeductionPayItemModalLoadingState,
-  setDeductionPayItemModalSubmittingState, updateDeductionPayItemModal,
+  setDeductionPayItemModalSubmittingState,
+  updateDeductionPayItemModal,
 } from './DeductionPayItemModalReducer';
 import {
   addPayrollSuperPayItem,
@@ -76,9 +82,9 @@ import {
   updatePayrollDetailsSuperannuationDetails,
 } from './PayrollSuperReducer';
 import {
-  addPayrollTaxPayItem,
+  addPayrollTaxPayItem, closeTaxPayItemModal,
   formatAmountInput,
-  loadTaxPayItemModal,
+  loadTaxPayItemModal, openTaxPayItemModal,
   removePayrollTaxPayItem, setTaxPayItemModalAlertMessage,
   setTaxPayItemModalLoading, setTaxPayItemModalSubmitting,
   updatePayrollTaxDetail,
@@ -104,7 +110,7 @@ export const getDefaultState = () => ({
   isSubmitting: false,
   isPageEdited: false,
   alert: undefined,
-  modalType: '',
+  modal: undefined,
   mainTab: '',
   subTab: '',
   contactDetail: {
@@ -188,51 +194,8 @@ export const getDefaultState = () => ({
   baseSalaryWagePayItemId: '',
   baseHourlyWagePayItemId: '',
   wagePayItems: [],
-  taxPayItemModal: {
-    tax: {
-      atoReportingCategory: '',
-      accountId: '',
-    },
-    accounts: [],
-    atoReportingCategoryList: [],
-    isLoading: false,
-    isSubmitting: false,
-    alertMessage: '',
-  },
-  deductionPayItemModal: {
-    id: '',
-    isLoading: true,
-    isSubmitting: false,
-    alert: undefined,
-    title: '',
-    deductionPayItem: {
-      name: '',
-      linkedPayableAccountId: '',
-      atoReportingCategory: '',
-      calculationBasis: '',
-      calculationPercentage: '',
-      calculationPercentOfId: '',
-      calculationDollars: '',
-      calculationPer: '',
-      limit: '',
-      limitPercentage: '',
-      limitPercentOfId: '',
-      limitDollars: '',
-      limitPer: '',
-      employees: [],
-      exemptions: [],
-    },
-    accountOptions: [],
-    atoReportCategoryOptions: [],
-    calculationBasisOptions: [],
-    calculationPercentOfOptions: [],
-    calculationDollarPerOptions: [],
-    limitOptions: [],
-    limitPercentOfOptions: [],
-    limitDollarPerOptions: [],
-    employeeOptions: [],
-    exemptionOptions: [],
-  },
+  taxPayItemModal: undefined,
+  deductionPayItemModal: undefined,
 });
 
 const setLoadingState = (state, action) => ({
@@ -405,12 +368,12 @@ const setAlert = (state, action) => ({
 
 const openModal = (state, action) => ({
   ...state,
-  modalType: action.modalType,
+  modal: action.modal,
 });
 
 const closeModal = state => ({
   ...state,
-  modalType: '',
+  modal: undefined,
 });
 
 const setPageEditedState = (state, action) => ({
@@ -479,6 +442,8 @@ const handlers = {
   [UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE]: updatePayrollWageHoursInPayCycle,
   [UPDATE_PAYROLL_WAGE_ANNUAL_SALARY]: updatePayrollWageAnnualSalary,
   [UPDATE_PAYROLL_WAGE_PAY_CYCLE]: updatePayrollWagePayCycle,
+  [OPEN_TAX_PAY_ITEM_MODAL]: openTaxPayItemModal,
+  [CLOSE_TAX_PAY_ITEM_MODAL]: closeTaxPayItemModal,
   [SET_TAX_PAY_ITEM_MODAL_LOADING_STATE]: setTaxPayItemModalLoading,
   [LOAD_TAX_PAY_ITEM_MODAL]: loadTaxPayItemModal,
   [UPDATE_TAX_PAY_ITEM_MODAL_DETAILS]: updateTaxPayItemModalDetails,
@@ -491,6 +456,7 @@ const handlers = {
   [CREATE_DEDUCTION_PAY_ITEM_MODAL]: createDeductionPayItemModal,
   [UPDATE_DEDUCTION_PAY_ITEM_MODAL]: updateDeductionPayItemModal,
   [OPEN_DEDUCTION_PAY_ITEM_MODAL]: openDeductionPayItemModal,
+  [CLOSE_DEDUCTION_PAY_ITEM_MODAL]: closeDeductionPayItemModal,
   [SET_DEDUCTION_PAY_ITEM_MODAL_LOADING_STATE]: setDeductionPayItemModalLoadingState,
   [SET_DEDUCTION_PAY_ITEM_MODAL_SUBMITTING_STATE]: setDeductionPayItemModalSubmittingState,
   [SET_DEDUCTION_PAY_ITEM_MODAL_ALERT]: setDeductionPayItemModalAlert,

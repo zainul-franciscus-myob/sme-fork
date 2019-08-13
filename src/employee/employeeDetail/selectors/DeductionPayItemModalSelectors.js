@@ -1,5 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+export const getDeductionPayItemModal = state => state.deductionPayItemModal;
+
 export const getDeductionPayItemModalId = state => state.deductionPayItemModal.id;
 
 export const getAlert = state => state.deductionPayItemModal.alert;

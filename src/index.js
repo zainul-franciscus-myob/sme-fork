@@ -67,7 +67,7 @@ async function main(integrationType) {
     unbindAllKeys();
     unsubscribeAllModulesFromStore();
     module.resetState();
-    nav.run(routeProps);
+    nav.run({ ...routeProps, onPageTransition: module.handlePageTransition });
   };
 
   router.start({

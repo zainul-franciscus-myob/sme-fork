@@ -6,6 +6,9 @@ import countryList from '../../../sharedData/countryList';
 
 export const getBusinessId = state => state.businessId;
 export const getIsLoading = state => state.isLoading;
+export const getModal = state => state.modal;
+export const getModalUrl = state => ((state.modal || {}).url);
+
 export const getGenderOptions = state => state.genderOptions;
 export const getEmploymentBasisOptions = state => state.employmentBasisOptions;
 export const getEmploymentCategoryOptions = state => state.employmentCategoryOptions;
@@ -137,15 +140,16 @@ export const getValueOptions = state => state.valueOptions;
 
 export const getElectronicPaymentDetails = state => state.paymentDetails.paymentMethod === 'Electronic';
 
-const unsavedModalSubTabs = [
-  payrollDetailsSubTabIds.salaryAndWages,
-  payrollDetailsSubTabIds.deductions,
-  payrollDetailsSubTabIds.taxes,
-];
-export const getUseUnsavedModal = createSelector(
-  getMainTab,
-  getSubTab,
-  (mainTab, subTab) => (
-    mainTab === mainTabIds.payrollDetails && unsavedModalSubTabs.includes(subTab)
-  ),
-);
+export const getEmployeeListUrl = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/employee`;
+};
+
+export const getEmployeeDetailUrl = (state, employeeId) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/employee/${employeeId}`;
+};

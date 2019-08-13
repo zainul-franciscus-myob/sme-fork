@@ -1,33 +1,38 @@
 import { Icons, Navigation } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getActiveNav, getSalesUrls } from '../NavigationSelectors';
+import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 
-const getItems = urls => [
-  urls.quoteList && <Navigation.MenuLink key="Quotes" url={urls.quoteList} label="Quotes" />,
-  urls.invoiceList && <Navigation.MenuLink key="Invoices" url={urls.invoiceList} label="Invoices" />,
-  urls.invoicePayment && <Navigation.MenuLink key="Invoice Payment" url={urls.invoicePayment} label="Invoice Payment" />,
-  urls.customerReturnList && <Navigation.MenuLink key="Customer returns" url={urls.customerReturnList} label="Customer returns" />,
-  urls.inventory && <Navigation.MenuLink key="Items" url={urls.inventory} label="Items" />,
+const getMenuLink = (url, label, onMenuLinkClick) => (
+  <Navigation.MenuLink
+    key={label}
+    url={url}
+    label={label}
+    onClick={handleMenuLinkClick(onMenuLinkClick, url)}
+  />
+);
+
+const getItems = (urls, onMenuLinkClick) => [
+  urls.quoteList && getMenuLink(urls.quoteList, 'Quotes', onMenuLinkClick),
+  urls.invoiceList && getMenuLink(urls.invoiceList, 'Invoices', onMenuLinkClick),
+  urls.invoicePayment && getMenuLink(urls.invoicePayment, 'Invoice payment', onMenuLinkClick),
+  urls.customerReturnList && getMenuLink(urls.customerReturnList, 'Customer returns', onMenuLinkClick),
+  urls.inventory && getMenuLink(urls.inventory, 'Items', onMenuLinkClick),
 ].filter(Boolean);
 
-const SalesMenu = ({ urls, activeNav, onMenuSelect }) => (
+const SalesMenu = ({
+  urls, activeNav, onMenuSelect, onMenuLinkClick,
+}) => (
   <Navigation.Menu
     label="Sales"
     icon={<Icons.Caret />}
     onSelect={onMenuSelect}
-    items={getItems(urls)}
+    items={getItems(urls, onMenuLinkClick)}
     active={activeNav === 'sales'}
   />
 );
-
-SalesMenu.propTypes = {
-  urls: PropTypes.shape().isRequired,
-  activeNav: PropTypes.string.isRequired,
-  onMenuSelect: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = (state, props) => ({
   urls: getSalesUrls(state, props),
