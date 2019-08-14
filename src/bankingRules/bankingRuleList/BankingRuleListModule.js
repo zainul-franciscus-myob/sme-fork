@@ -3,6 +3,7 @@ import React from 'react';
 
 import {
   LOAD_BANKING_RULE_LIST,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -13,25 +14,33 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { SUCCESSFULLY_DELETED_BANKING_RULE_SPEND_MONEY, SUCCESSFULLY_SAVED_BANKING_RULE_SPEND_MONEY } from '../bankingRuleSpendMoney/BankingRuleSpendMoneyMessageTypes';
 import {
   getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getFlipSortOrder,
   getOrderBy,
+  getSelectedBankingRuleUrl,
   getSortOrder,
 } from './BankingRuleListSelectors';
 import BankingRuleListView from './components/BankingRuleListView';
 import Store from '../../store/Store';
 import bankingRuleListReducer from './bankingRuleListReducer';
 
+const messageTypes = [
+  SUCCESSFULLY_SAVED_BANKING_RULE_SPEND_MONEY,
+  SUCCESSFULLY_DELETED_BANKING_RULE_SPEND_MONEY,
+];
+
 export default class BankingRuleListModule {
   constructor({
-    integration, setRootView,
+    integration, setRootView, popMessages,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(bankingRuleListReducer);
+    this.popMessages = popMessages;
   }
 
   loadBankingList = () => {
@@ -86,7 +95,6 @@ export default class BankingRuleListModule {
       value,
     });
   }
-
 
   sortBankingRuleList = (orderBy) => {
     const state = this.store.getState();
@@ -164,12 +172,19 @@ export default class BankingRuleListModule {
     });
   }
 
+  selectBankingRule = (value) => {
+    const state = this.store.getState();
+    window.location.href = getSelectedBankingRuleUrl(state, value);
+  };
+
   render = () => {
     const bankingRuleListView = (
       <BankingRuleListView
         onSort={this.sortBankingRuleList}
         onApplyFilters={this.filterBankingRuleList}
         onUpdateFilters={this.updateFilterOptions}
+        onDismissAlert={this.dismissAlert}
+        onSelectBankingRule={this.selectBankingRule}
       />
     );
 
@@ -183,6 +198,20 @@ export default class BankingRuleListModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
+  }
+
+  setAlert = (alert) => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert,
+    });
+  }
+
+  dismissAlert = () => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert: undefined,
+    });
   }
 
   setLoadingState = (isLoading) => {
@@ -202,9 +231,22 @@ export default class BankingRuleListModule {
     });
   }
 
+  readMessages = () => {
+    const [successMessage] = this.popMessages(messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+    }
+  };
+
   run(context) {
     this.setInitialState(context);
     this.render();
+    this.readMessages();
     this.setLoadingState(true);
     this.loadBankingList();
   }

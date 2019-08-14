@@ -1,5 +1,6 @@
 import {
   LOAD_BANKING_RULE_LIST,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -13,6 +14,7 @@ import {
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
+  alert: undefined,
   isLoading: true,
   sortOrder: '',
   orderBy: '',
@@ -64,6 +66,11 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
+const setAlert = (state, action) => ({
+  ...state,
+  alert: action.alert,
+});
+
 const setInitalState = (state, action) => ({
   ...state,
   ...action.context,
@@ -77,6 +84,7 @@ const handlers = {
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [SET_SORT_ORDER]: setSortOrder,
+  [SET_ALERT]: setAlert,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitalState,
   [RESET_STATE]: resetState,

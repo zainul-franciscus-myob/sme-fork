@@ -260,7 +260,7 @@ const getRoutes = ({
     name: 'bankingRule',
     rootPath: '/:region/:businessId/bankingRule',
     subRoutes: getBankingRuleRoutes({
-      integration, setRootView,
+      integration, setRootView, popMessages, pushMessage,
     }),
   },
   {

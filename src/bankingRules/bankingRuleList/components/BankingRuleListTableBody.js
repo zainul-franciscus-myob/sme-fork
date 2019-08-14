@@ -2,7 +2,7 @@ import { Label, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getEntries, getIsStatusDisplayed } from '../BankingRuleListSelectors';
+import { getIsStatusDisplayed, getTableEntries } from '../BankingRuleListSelectors';
 
 /* eslint-disable react/no-array-index-key */
 
@@ -19,7 +19,9 @@ const BankingRuleTableBody = ({
 }) => {
   const rows = entries.map((entry, index) => (
     <Table.Row key={index}>
-      <Table.RowItem {...tableConfig.ruleName}>{entry.ruleName}</Table.RowItem>
+      <Table.RowItem {...tableConfig.ruleName}>
+        <a href={entry.link}>{entry.ruleName}</a>
+      </Table.RowItem>
       {isStatusDisplayed && <InActiveRow tableConfig={tableConfig} entry={entry} />}
       <Table.RowItem {...tableConfig.bankAccount}>{entry.bankAccountName}</Table.RowItem>
       <Table.RowItem {...tableConfig.transactionType}>{entry.displayTransactionType}</Table.RowItem>
@@ -34,7 +36,7 @@ const BankingRuleTableBody = ({
 };
 
 const mapStateToProps = state => ({
-  entries: getEntries(state),
+  entries: getTableEntries(state),
   isStatusDisplayed: getIsStatusDisplayed(state),
 });
 

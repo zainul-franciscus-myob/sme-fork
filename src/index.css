@@ -3,8 +3,8 @@
   --flx-border-button-secondary: 1px solid #c5c9ce;
   --flx-border-radius-button: 0.4rem;
 
-  /* widths */
-  --flx-spacing-x-small: 1.2rem;
+  /* text color */
+  --flx-color-alert-error-link: #ce2554;
 
   /* widths */
   --flx-width-field-xs: 10.6rem;
@@ -16,6 +16,12 @@
   /* spacing */
   --flx-spacing-tiny: 0.8rem;
   --flx-spacing-x-small: 1.2rem;
+
+  /* padding */
+  --flx-padding-input-y: 0.4rem;
+
+  /* typography */
+  --flx-font-weight-bold: 600;
 }
 
 body {
