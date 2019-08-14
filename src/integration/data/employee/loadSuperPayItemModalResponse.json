@@ -1,0 +1,269 @@
+{
+  "title": "Random Superannuation",
+  "superPayItem": {
+    "name": "Random Superannuation",
+    "payableAccountId": "123",
+    "expenseAccountId": "456",
+    "atoReportingCategory": "SuperGuarantee",
+    "contributionType": "EmployeeAdditional",
+    "printOnPayAdvice": true,
+    "calculationBasisType": "PercentOfPayrollCategory",
+    "calculationBasisPercentage": "80.00",
+    "calculationBasisPayItemId": "2",
+    "calculationBasisPayItemType": "WagesGroup",
+    "calculationBasisAmount": "0.00",
+    "calculationBasisPeriod": "PayPeriod",
+    "exclusion": "0.00",
+    "limitType": "FixedDollar",
+    "limitPercentage": "0.00",
+    "limitPayItemId": "2",
+    "limitPayItemType": "WagesGroup",
+    "limitAmount": "10.30",
+    "limitPeriod": "Month",
+    "threshold": "0.00",
+    "exemptions": [
+      {
+        "id": "52",
+        "name": "Exemption 2",
+        "type": "Wages"
+      }
+    ],
+    "employees": [
+      {
+        "id": "21",
+        "name": "Pritchett, Jay"
+      }
+    ]
+  },
+  "grossWagesId": "2",
+  "federalWagesId": "3",
+  "contributionTypeOptions": [
+    {
+      "name": "Employee additional (deduction)",
+      "value": "EmployeeAdditional"
+    },
+    {
+      "name": "Employer additional (expense)",
+      "value": "EmployerAdditional"
+    },
+    {
+      "name": "Productivity (expense)",
+      "value": "Productivity"
+    },
+    {
+      "name": "Redundancy (expense)",
+      "value": "Redundancy"
+    },
+    {
+      "name": "Salary sacrifice (deduction)",
+      "value": "SalarySacrifice"
+    },
+    {
+      "name": "Spouse (deduction)",
+      "value": "Spouse"
+    },
+    {
+      "name": "Superannuation guarantee (expense)",
+      "value": "SuperannuationGuarantee"
+    }
+  ],
+  "expenseAccountOptions": [
+    {
+      "id": "134",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134",
+      "taxCodeId": "123"
+    },
+    {
+      "id": "456",
+      "displayName": "Expense 2",
+      "accountType": "Expense",
+      "displayId": "6-135",
+      "taxCodeId": "123"
+    }
+  ],
+  "payableAccountOptions": [
+    {
+      "id": "123",
+      "displayName": "Income 1",
+      "accountType": "Income",
+      "displayId": "4-123",
+      "taxCodeId": "123"
+    },
+    {
+      "id": "456",
+      "displayName": "Income 2",
+      "accountType": "Income",
+      "displayId": "4-456",
+      "taxCodeId": "123"
+    }
+  ],
+  "atoReportingCategoryOptions": [
+    {
+      "name": "To be assigned",
+      "value": "NotSet"
+    },
+    {
+      "name": "Not reportable",
+      "value": "NotReportable"
+    },
+    {
+      "name": "Superannuation guarantee",
+      "value": "SuperGuarantee"
+    },
+    {
+      "name": "Reportable employer super contributions",
+      "value": "ReportableEmployerSuperContributions"
+    }
+  ],
+  "calculationBasisTypeOptions": [
+    {
+      "name": "User entered amount per pay",
+      "value": "UserEntered"
+    },
+    {
+      "name": "Equals a percentage of wages",
+      "value": "PercentOfPayrollCategory"
+    },
+    {
+      "name": "Equals dollars per pay period",
+      "value": "FixedDollar"
+    }
+  ],
+  "limitTypeOptions": [
+    {
+      "name": "No limit",
+      "value": "NoLimit"
+    },
+    {
+      "name": "Equals a percentage of wages",
+      "value": "Percent"
+    },
+    {
+      "name": "Equals dollars per pay period",
+      "value": "FixedDollar"
+    }
+  ],
+  "periodOptions":   [
+    {
+      "name": "Pay period",
+      "value": "PayPeriod"
+    },
+    {
+      "name": "Month",
+      "value": "Month"
+    },
+    {
+      "name": "Quarter",
+      "value": "Quarter"
+    },
+    {
+      "name": "Year",
+      "value": "Year"
+    },
+    {
+      "name": "Hour",
+      "value": "Hour"
+    }
+  ],
+  "employeeOptions": [
+    {
+      "name": "Pritchett, Jay",
+      "id": "21"
+    },
+    {
+      "name": "Dunphy, Claire",
+      "id": "22"
+    },
+    {
+      "name": "Dunphy, Haley",
+      "id": "23"
+    }
+  ],
+  "calculationBasisDeductionPayItemOptions": [
+    {
+      "id": "2",
+      "name": "Gross wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "3",
+      "name": "Federal wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "13",
+      "name": "Calculation basis deduction pay item 1",
+      "mappedType": "SuperannuationDeductionAfterTax"
+    }
+  ],
+  "calculationBasisExpensePayItemOptions": [
+    {
+      "id": "2",
+      "name": "Gross wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "3",
+      "name": "Federal wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "23",
+      "name": "Calculation basis expense pay item 1",
+      "mappedType": "WagesGroup"
+    }
+  ],
+  "limitDeductionPayItemOptions": [
+    {
+      "id": "2",
+      "name": "Gross wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "3",
+      "name": "Federal wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "33",
+      "name": "Limit deduction pay item 1",
+      "mappedType": "SuperannuationDeductionBeforeTax"
+    }
+  ],
+  "limitExpensePayItemOptions": [
+    {
+      "id": "2",
+      "name": "Gross wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "3",
+      "name": "Federal wages",
+      "mappedType": "WagesGroup"
+    },
+    {
+      "id": "43",
+      "name": "Limit expense pay item 1",
+      "mappedType": "WagesGroup"
+    }
+  ],
+  "exemptionPayItemOptions": [
+    {
+      "id": "51",
+      "name": "Exemption 1",
+      "mappedType": "Wages"
+    },
+    {
+      "id": "52",
+      "name": "Exemption 2",
+      "mappedType": "Wages"
+    },
+    {
+      "id": "53",
+      "name": "Exemption 3",
+      "mappedType": "Wages"
+    }
+  ]
+}

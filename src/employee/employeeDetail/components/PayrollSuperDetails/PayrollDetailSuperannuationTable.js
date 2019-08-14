@@ -32,11 +32,16 @@ const onRemoveButtonClick = (handler, id) => () => {
   handler(id);
 };
 
+const onPayItemSelect = (handler, id) => () => {
+  handler(id);
+};
+
 const PayrollDetailSuperannuationTable = ({
   allocatedPayItems = [],
   superPayItemsOptions = [],
   onAddPayrollSuperPayItem,
   onRemovePayrollSuperPayItem,
+  onOpenSuperPayItemModal,
 }) => {
   const superPayItemsFieldGroupLabel = (
     <div>
@@ -53,7 +58,9 @@ const PayrollDetailSuperannuationTable = ({
 
   const tableBodyView = allocatedPayItems.map(({ id, name, displayType }) => (
     <Table.Row key={id}>
-      <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
+      <Table.RowItem {...tableConfig.name}>
+        <Button type="link" onClick={onPayItemSelect(onOpenSuperPayItemModal, id)}>{name}</Button>
+      </Table.RowItem>
       <Table.RowItem {...tableConfig.displayType}>{displayType}</Table.RowItem>
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
         <Tooltip triggerContent={(
@@ -78,6 +85,10 @@ const PayrollDetailSuperannuationTable = ({
         items={superPayItemsOptions}
         selected={{}}
         onChange={handleComboboxChange(onAddPayrollSuperPayItem)}
+        addNewItem={{
+          label: 'Create super pay item',
+          onAddNew: onPayItemSelect(onOpenSuperPayItemModal, 'new'),
+        }}
       />
     </div>
   );

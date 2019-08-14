@@ -84,3 +84,17 @@ export const UPDATE_SELF_MANAGED_FUND_ABN = Symbol('Update self managed fund abn
 export const SET_SUPER_FUND_MODAL_ALERT_MESSAGE = Symbol('Set super fund modal alert message');
 export const SELECT_APRA_FUND = Symbol('Select a APRA fund');
 export const SHOW_CONTACT_DETAILS = Symbol('Show contact detail fields');
+
+export const LOAD_NEW_SUPER_PAY_ITEM_MODAL = Symbol('Load a new super pay item');
+export const LOAD_SUPER_PAY_ITEM_MODAL = Symbol('Load a super pay item');
+export const CREATE_SUPER_PAY_ITEM_MODAL = Symbol('Create a super pay item');
+export const UPDATE_SUPER_PAY_ITEM_MODAL = Symbol('Update a super pay item');
+export const OPEN_SUPER_PAY_ITEM_MODAL = Symbol('Open super pay item modal');
+export const CLOSE_SUPER_PAY_ITEM_MODAL = Symbol('Close super pay item modal');
+export const SET_SUPER_PAY_ITEM_MODAL_LOADING_STATE = Symbol('Set super pay item modal loading state');
+export const SET_SUPER_PAY_ITEM_MODAL_ALERT = Symbol('Set super pay item modal alert');
+export const SET_SUPER_PAY_ITEM_MODAL_SUBMITTING_STATE = Symbol('Set super pay item modal submitting state');
+export const SET_SUPER_PAY_ITEM_MODAL_SUPER_PAY_ITEM = Symbol('Set super pay item modal super pay item');
+export const SET_SUPER_PAY_ITEM_MODAL_INPUT = Symbol('Set super pay item modal input');
+export const ADD_SUPER_PAY_ITEM_MODAL_ITEM = Symbol('Add super pay item modal item');
+export const REMOVE_SUPER_PAY_ITEM_MODAL_ITEM = Symbol('Remove super pay item modal item');

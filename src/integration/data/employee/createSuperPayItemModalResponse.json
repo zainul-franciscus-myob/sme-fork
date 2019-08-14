@@ -1,0 +1,35 @@
+{
+  "message": "Great Work! You've done it well!",
+  "allocatedPayItem": {
+    "id": "4",
+    "name": "Super 4",
+    "type": "SuperannuationDeductionBeforeTaxPayrollCategory",
+    "displayType": "Deduct before tax"
+  },
+  "superPayItemOptions": [
+    {
+      "id": "1",
+      "name": "Updated super 1",
+      "type": "SuperannuationDeductionBeforeTaxPayrollCategory",
+      "displayType": "Deduct before tax"
+    },
+    {
+      "id": "2",
+      "name": "Super 2",
+      "type": "SuperannuationDeductionAfterTaxPayrollCategory",
+      "displayType": "Deduct after tax"
+    },
+    {
+      "id": "3",
+      "name": "Super 3",
+      "type": "SuperannuationExpensePayrollCategory",
+      "displayType": "Expense"
+    },
+    {
+      "id": "4",
+      "name": "Super 4",
+      "type": "SuperannuationDeductionBeforeTaxPayrollCategory",
+      "displayType": "Deduct before tax"
+    }
+  ]
+}

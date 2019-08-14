@@ -14,6 +14,13 @@ import {
   isPageEdited,
 } from './selectors/EmployeeDetailSelectors';
 import { getIsDeductionPayItemModalCreating } from './selectors/DeductionPayItemModalSelectors';
+import {
+  getIsSuperPayItemModalCreating,
+  getSuperPayItemModalFormattedAmount,
+  getSuperPayItemModalFormattedPercentage,
+  getUpdatedSuperPayItemModal,
+  getUpdatedSuperPayItemModalForSave,
+} from './selectors/SuperPayItemModalSelectors';
 import EmployeeDetailView from './components/EmployeeDetailView';
 import Store from '../../store/Store';
 import createEmployeeDetailDispatcher from './createEmployeeDetailDispatcher';
@@ -226,6 +233,74 @@ export default class EmployeeDetailModule {
     this.integrator.createOrUpdateDeductionPayItemModal({ onSuccess, onFailure });
   }
 
+  openSuperPayItemModal = (id) => {
+    this.dispatcher.openSuperPayItemModal(id);
+    this.dispatcher.setSuperPayItemModalLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setSuperPayItemModalLoadingState(false);
+      this.dispatcher.loadSuperPayItemModal(response);
+    };
+
+    const onFailure = (response) => {
+      this.dispatcher.closeSuperPayItemModal();
+      this.dispatcher.setAlert({ type: 'danger', message: response.message });
+    };
+
+    this.integrator.loadSuperPayItemModal({ onSuccess, onFailure });
+  }
+
+  saveSuperPayItemModal = () => {
+    this.dispatcher.setSuperPayItemModalLoadingState(true);
+    this.dispatcher.setSuperPayItemModalSubmittingState(true);
+
+    const state = this.store.getState();
+    const updatedSuperPayItem = getUpdatedSuperPayItemModalForSave(state);
+    this.dispatcher.setSuperPayItemModalSuperPayItem(updatedSuperPayItem);
+
+    const onSuccess = (response) => {
+      const isCreating = getIsSuperPayItemModalCreating(state);
+      if (isCreating) {
+        this.dispatcher.createSuperPayItemModal(response);
+      } else {
+        this.dispatcher.updateSuperPayItemModal(response);
+      }
+      this.dispatcher.closeSuperPayItemModal();
+      this.dispatcher.setAlert({ type: 'success', message: response.message });
+    };
+
+    const onFailure = (response) => {
+      this.dispatcher.setSuperPayItemModalLoadingState(false);
+      this.dispatcher.setSuperPayItemModalSubmittingState(false);
+      this.dispatcher.setSuperPayItemModalAlert({ type: 'danger', message: response.message });
+    };
+
+    this.integrator.createOrUpdateSuperPayItemModal({ onSuccess, onFailure });
+  }
+
+  setSuperPayItemModalInput = ({ key, value }) => {
+    this.dispatcher.setSuperPayItemModalInput({ key, value });
+
+    if (key === 'contributionType') {
+      const state = this.store.getState();
+
+      const updatedSuperPayItem = getUpdatedSuperPayItemModal(state);
+      this.dispatcher.setSuperPayItemModalSuperPayItem(updatedSuperPayItem);
+    }
+  }
+
+  formatSuperPayItemDetailModalInput = ({ key, value }) => {
+    if (['calculationBasisPercentage', 'limitPercentage'].includes(key)) {
+      const formattedValue = getSuperPayItemModalFormattedPercentage(value);
+      this.dispatcher.setSuperPayItemModalInput({ key, value: formattedValue });
+    }
+
+    if (['calculationBasisAmount', 'limitAmount', 'exclusion', 'threshold'].includes(key)) {
+      const formattedValue = getSuperPayItemModalFormattedAmount(value);
+      this.dispatcher.setSuperPayItemModalInput({ key, value: formattedValue });
+    }
+  }
+
   readMessages = () => {
     const [successMessage] = this.popMessages(this.popMessageTypes);
 
@@ -376,6 +451,16 @@ export default class EmployeeDetailModule {
           onDismissAlert: this.dispatcher.dismissSuperFundModalAlertMessage,
           onSave: this.saveSuperFundModal,
           onCancel: this.dispatcher.closeSuperFundModal,
+        }}
+        onOpenSuperPayItemModal={this.openSuperPayItemModal}
+        superPayItemModalListeners={{
+          onDismissAlert: this.dispatcher.dismissSuperPayItemModalAlert,
+          onChange: this.setSuperPayItemModalInput,
+          onBlur: this.formatSuperPayItemDetailModalInput,
+          onAddItem: this.dispatcher.addSuperPayItemModalItem,
+          onRemoveItem: this.dispatcher.removeSuperPayItemModalItem,
+          onSave: this.saveSuperPayItemModal,
+          onCancel: this.dispatcher.closeSuperPayItemModal,
         }}
         onAddPayrollTaxPayItem={this.dispatcher.addPayrollTaxPayItem}
         onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}

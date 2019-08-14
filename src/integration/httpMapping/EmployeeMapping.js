@@ -2,6 +2,7 @@ import {
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_EMPLOYEE,
   CREATE_SUPER_FUND,
+  CREATE_SUPER_PAY_ITEM_MODAL,
   DELETE_EMPLOYEE,
   LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
@@ -10,10 +11,13 @@ import {
   LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_NEW_EMPLOYEE_DETAIL,
   LOAD_NEW_SUPER_FUND,
+  LOAD_NEW_SUPER_PAY_ITEM_MODAL,
+  LOAD_SUPER_PAY_ITEM_MODAL,
   LOAD_TAX_PAY_ITEM_MODAL,
   SORT_AND_FILTER_EMPLOYEE_LIST,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EMPLOYEE,
+  UPDATE_SUPER_PAY_ITEM_MODAL,
   UPDATE_TAX_PAY_ITEM_MODAL,
 } from '../../employee/EmployeeIntents';
 
@@ -81,6 +85,22 @@ const EmployeeListMapping = {
   [CREATE_SUPER_FUND]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/employee/create_super_fund`,
+  },
+  [LOAD_NEW_SUPER_PAY_ITEM_MODAL]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/employee/load_new_super_pay_item_detail`,
+  },
+  [LOAD_SUPER_PAY_ITEM_MODAL]: {
+    method: 'GET',
+    getPath: ({ businessId, superPayItemId }) => `/${businessId}/employee/load_super_pay_item_detail/${superPayItemId}`,
+  },
+  [CREATE_SUPER_PAY_ITEM_MODAL]: {
+    method: 'POST',
+    getPath: ({ businessId }) => (`/${businessId}/employee/create_super_pay_item_detail`),
+  },
+  [UPDATE_SUPER_PAY_ITEM_MODAL]: {
+    method: 'PUT',
+    getPath: ({ businessId, superPayItemId }) => `/${businessId}/employee/update_super_pay_item_detail/${superPayItemId}`,
   },
 };
 

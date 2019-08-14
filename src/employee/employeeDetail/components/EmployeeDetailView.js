@@ -64,6 +64,8 @@ const EmployeeDetailView = ({
   onUpdateAllocatedLeaveItemCarryOver,
   onOpenSuperFundModal,
   superFundModalListeners,
+  onOpenSuperPayItemModal,
+  superPayItemModalListeners,
 }) => {
   const Content = {
     [mainTabIds.contactDetails]: EmployeeDetailContactDetails,
@@ -133,6 +135,8 @@ const EmployeeDetailView = ({
     taxPayItemModalListeners,
     onOpenSuperFundModal,
     superFundModalListeners,
+    onOpenSuperPayItemModal,
+    superPayItemModalListeners,
   };
 
   const view = (

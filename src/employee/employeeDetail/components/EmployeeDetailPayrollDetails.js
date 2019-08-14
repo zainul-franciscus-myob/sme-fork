@@ -45,6 +45,8 @@ const EmployeeDetailPayrollDetails = ({
   taxPayItemModalListeners,
   onOpenSuperFundModal,
   superFundModalListeners,
+  onOpenSuperPayItemModal,
+  superPayItemModalListeners,
 }) => {
   const Employment = () => (
     <EmploymentDetails
@@ -79,6 +81,8 @@ const EmployeeDetailPayrollDetails = ({
       onRemovePayrollSuperPayItem={onRemovePayrollSuperPayItem}
       onOpenSuperFundModal={onOpenSuperFundModal}
       superFundModalListeners={superFundModalListeners}
+      onOpenSuperPayItemModal={onOpenSuperPayItemModal}
+      superPayItemModalListeners={superPayItemModalListeners}
     />
   );
 
