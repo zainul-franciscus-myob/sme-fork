@@ -77,7 +77,7 @@ export default class EmployeeDetailModule {
     const url = getModalUrl(state);
 
     this.redirectToUrl(url);
-  }
+  };
 
   redirectToEmployeeList = () => {
     const state = this.store.getState();
@@ -267,6 +267,65 @@ export default class EmployeeDetailModule {
     this.integrator.saveTaxPayItemModal({ onSuccess, onFailure });
   };
 
+  loadSuperFundModal = () => {
+    this.dispatcher.openSuperFundModal();
+    this.dispatcher.setSuperFundModalLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setSuperFundModalLoadingState(false);
+      this.dispatcher.loadSuperFundModal(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.closeSuperFundModal();
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.loadSuperFundModal({ onSuccess, onFailure });
+  };
+
+  lookUpAbn = () => {
+    const state = this.store.getState();
+    if (state.superFundModal.isAbnDirty) {
+      this.loadAbnDetail();
+    }
+  };
+
+  loadAbnDetail = () => {
+    this.dispatcher.setAbnLoadingState(true);
+
+    const onSuccess = ({ entityName }) => {
+      this.dispatcher.setAbnLoadingState(false);
+      this.dispatcher.loadAbnDetail(entityName);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAbnLoadingState(false);
+      this.dispatcher.setSuperFundModalAlertMessage(message);
+      this.dispatcher.setAbnStatus(false);
+    };
+
+    this.integrator.loadAbnDetail({ onSuccess, onFailure });
+  };
+
+  saveSuperFundModal = () => {
+    const onSuccess = (response) => {
+      this.dispatcher.closeSuperFundModal();
+      this.dispatcher.setAlert({ type: 'success', message: response.message });
+      this.dispatcher.saveSuperFundModal(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSuperFundModalLoadingState(false);
+      this.dispatcher.setSuperFundModalSubmittingState(false);
+      this.dispatcher.setSuperFundModalAlertMessage(message);
+    };
+
+    this.dispatcher.setSuperFundModalLoadingState(true);
+    this.dispatcher.setSuperFundModalSubmittingState(true);
+    this.integrator.saveSuperFundModal({ onSuccess, onFailure });
+  };
+
   render = () => {
     const employeeDetailView = (
       <EmployeeDetailView
@@ -306,6 +365,17 @@ export default class EmployeeDetailModule {
           onRemoveItem: this.dispatcher.removeDeductionPayItemModalItem,
           onSave: this.saveDeductionPayItemModal,
           onCancel: this.dispatcher.closeDeductionPayItemModal,
+        }}
+        onOpenSuperFundModal={this.loadSuperFundModal}
+        superFundModalListeners={{
+          onUpdateSuperFundDetail: this.dispatcher.updateSuperFundDetail,
+          onAbnLookUp: this.lookUpAbn,
+          onUpdateSelfManagedFundAbn: this.dispatcher.updateSelfManagedFundAbn,
+          onSelectSuperFund: this.dispatcher.selectSuperFund,
+          onShowContactDetails: this.dispatcher.showContactDetails,
+          onDismissAlert: this.dispatcher.dismissSuperFundModalAlertMessage,
+          onSave: this.saveSuperFundModal,
+          onCancel: this.dispatcher.closeSuperFundModal,
         }}
         onAddPayrollTaxPayItem={this.dispatcher.addPayrollTaxPayItem}
         onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}

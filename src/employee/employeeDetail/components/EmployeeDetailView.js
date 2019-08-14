@@ -62,6 +62,8 @@ const EmployeeDetailView = ({
   onAddAllocatedLeaveItem,
   onRemoveAllocatedLeaveItem,
   onUpdateAllocatedLeaveItemCarryOver,
+  onOpenSuperFundModal,
+  superFundModalListeners,
 }) => {
   const Content = {
     [mainTabIds.contactDetails]: EmployeeDetailContactDetails,
@@ -129,6 +131,8 @@ const EmployeeDetailView = ({
     onPayrollWageSelectedPayCycleChange,
     onTaxPayItemClick,
     taxPayItemModalListeners,
+    onOpenSuperFundModal,
+    superFundModalListeners,
   };
 
   const view = (

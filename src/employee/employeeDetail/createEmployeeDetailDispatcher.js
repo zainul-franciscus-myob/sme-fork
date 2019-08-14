@@ -7,15 +7,20 @@ import {
   ADD_PAYROLL_WAGE_PAY_ITEM,
   CLOSE_DEDUCTION_PAY_ITEM_MODAL,
   CLOSE_MODAL,
+  CLOSE_SUPER_FUND_MODAL,
   CLOSE_TAX_PAY_ITEM_MODAL,
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
+  CREATE_SUPER_FUND,
   FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
   FORMAT_PAYROLL_TAX_AMOUNT,
+  LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
+  LOAD_NEW_SUPER_FUND,
   LOAD_TAX_PAY_ITEM_MODAL,
   OPEN_DEDUCTION_PAY_ITEM_MODAL,
   OPEN_MODAL,
+  OPEN_SUPER_FUND_MODAL,
   OPEN_TAX_PAY_ITEM_MODAL,
   REMOVE_ALLOCATED_LEAVE_ITEM,
   REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM,
@@ -23,6 +28,9 @@ import {
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
   REMOVE_PAYROLL_WAGE_PAY_ITEM,
+  SELECT_APRA_FUND,
+  SET_ABN_LOADING_STATE,
+  SET_ABN_STATUS,
   SET_ALERT,
   SET_DEDUCTION_PAY_ITEM_MODAL_ALERT,
   SET_DEDUCTION_PAY_ITEM_MODAL_INPUT,
@@ -33,9 +41,13 @@ import {
   SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
   SET_SUB_TAB,
+  SET_SUPER_FUND_MODAL_ALERT_MESSAGE,
+  SET_SUPER_FUND_MODAL_LOADING_STATE,
+  SET_SUPER_FUND_MODAL_SUBMITTING_STATE,
   SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE,
   SET_TAX_PAY_ITEM_MODAL_LOADING_STATE,
   SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE,
+  SHOW_CONTACT_DETAILS,
   UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
@@ -51,6 +63,8 @@ import {
   UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE,
   UPDATE_PAYROLL_WAGE_PAY_BASIS,
   UPDATE_PAYROLL_WAGE_PAY_CYCLE,
+  UPDATE_SELF_MANAGED_FUND_ABN,
+  UPDATE_SUPER_FUND_DETAIL,
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
 } from '../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -349,6 +363,81 @@ const createEmployeeDetailDispatcher = store => ({
   removeDeductionPayItemModalItem: ({ key, itemId }) => {
     const intent = REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM;
     store.dispatch({ intent, key, itemId });
+  },
+
+  setSuperFundModalLoadingState: (isLoading) => {
+    const intent = SET_SUPER_FUND_MODAL_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  setSuperFundModalSubmittingState: (isSubmitting) => {
+    const intent = SET_SUPER_FUND_MODAL_SUBMITTING_STATE;
+    store.dispatch({ intent, isSubmitting });
+  },
+
+  loadSuperFundModal: (response) => {
+    const intent = LOAD_NEW_SUPER_FUND;
+    store.dispatch({ intent, response });
+  },
+
+  updateSuperFundDetail: ({ key, value }) => {
+    const intent = UPDATE_SUPER_FUND_DETAIL;
+    store.dispatch({ intent, key, value });
+  },
+
+  setAbnLoadingState: (isAbnLoading) => {
+    const intent = SET_ABN_LOADING_STATE;
+    store.dispatch({ intent, isAbnLoading });
+  },
+
+  loadAbnDetail: (entityName) => {
+    const intent = LOAD_ABN_DETAIL;
+    store.dispatch({ intent, name: entityName });
+  },
+
+  setSuperFundModalAlertMessage: (alertMessage) => {
+    const intent = SET_SUPER_FUND_MODAL_ALERT_MESSAGE;
+    store.dispatch({ intent, alertMessage });
+  },
+
+  dismissSuperFundModalAlertMessage: () => {
+    const intent = SET_SUPER_FUND_MODAL_ALERT_MESSAGE;
+    store.dispatch({ intent, alertMessage: '' });
+  },
+
+  setAbnStatus: (isAbnDirty) => {
+    const intent = SET_ABN_STATUS;
+    store.dispatch({ intent, isAbnDirty });
+  },
+
+  updateSelfManagedFundAbn: ({ value }) => {
+    const intent = UPDATE_SELF_MANAGED_FUND_ABN;
+    store.dispatch({ intent, value });
+  },
+
+  selectSuperFund: (superProduct) => {
+    const intent = SELECT_APRA_FUND;
+    store.dispatch({ intent, superProduct });
+  },
+
+  showContactDetails: () => {
+    const intent = SHOW_CONTACT_DETAILS;
+    store.dispatch({ intent });
+  },
+
+  saveSuperFundModal: ({ selectedSuperFundId, superFundOptions }) => {
+    const intent = CREATE_SUPER_FUND;
+    store.dispatch({ intent, selectedSuperFundId, superFundOptions });
+  },
+
+  openSuperFundModal: () => {
+    const intent = OPEN_SUPER_FUND_MODAL;
+    store.dispatch({ intent });
+  },
+
+  closeSuperFundModal: () => {
+    const intent = CLOSE_SUPER_FUND_MODAL;
+    store.dispatch({ intent });
   },
 });
 

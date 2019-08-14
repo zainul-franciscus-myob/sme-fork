@@ -1,12 +1,15 @@
 import {
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_EMPLOYEE,
+  CREATE_SUPER_FUND,
   DELETE_EMPLOYEE,
+  LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
   LOAD_EMPLOYEE_LIST,
   LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_NEW_EMPLOYEE_DETAIL,
+  LOAD_NEW_SUPER_FUND,
   LOAD_TAX_PAY_ITEM_MODAL,
   SORT_AND_FILTER_EMPLOYEE_LIST,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
@@ -66,6 +69,18 @@ const EmployeeListMapping = {
   [UPDATE_DEDUCTION_PAY_ITEM_MODAL]: {
     method: 'PUT',
     getPath: ({ businessId, payItemId }) => `/${businessId}/employee/update_deduction_pay_item/${payItemId}`,
+  },
+  [LOAD_NEW_SUPER_FUND]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/employee/load_new_super_fund`,
+  },
+  [LOAD_ABN_DETAIL]: {
+    method: 'GET',
+    getPath: ({ businessId, abn }) => `/${businessId}/employee/load_abn/${abn}`,
+  },
+  [CREATE_SUPER_FUND]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/employee/create_super_fund`,
   },
 };
 

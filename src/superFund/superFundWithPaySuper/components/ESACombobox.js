@@ -23,7 +23,7 @@ const ESACombobox = (props) => {
       items={items}
       selected={selectedItem}
       onChange={onChange}
-      hintText="Please select a ESA"
+      hintText="Please select an ESA"
       {...otherProps}
     />
   );

@@ -19,6 +19,7 @@
 
   /* padding */
   --flx-padding-input-y: 0.4rem;
+  --flx-padding-input-x: 1rem;
 
   /* typography */
   --flx-font-weight-bold: 600;

@@ -1,11 +1,14 @@
 import {
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_EMPLOYEE,
+  CREATE_SUPER_FUND,
   DELETE_EMPLOYEE,
+  LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
   LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_NEW_EMPLOYEE_DETAIL,
+  LOAD_NEW_SUPER_FUND,
   LOAD_TAX_PAY_ITEM_MODAL,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EMPLOYEE,
@@ -22,6 +25,7 @@ import {
   getDeductionPayItemModalPayload,
   getIsDeductionPayItemModalCreating,
 } from './selectors/DeductionPayItemModalSelectors';
+import { getSuperFund, getSuperFundAbn } from './selectors/SuperFundModalSelectors';
 import { getTaxPayItemPayload } from './selectors/PayrollTaxSelectors';
 
 const createEmployeeDetailIntegrator = (store, integration) => ({
@@ -152,6 +156,57 @@ const createEmployeeDetailIntegrator = (store, integration) => ({
     const urlParams = { businessId, payItemId };
 
     const content = getDeductionPayItemModalPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadSuperFundModal: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_NEW_SUPER_FUND;
+
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadAbnDetail: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_ABN_DETAIL;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      abn: getSuperFundAbn(state),
+    };
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  saveSuperFundModal: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = CREATE_SUPER_FUND;
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    const content = getSuperFund(state);
 
     integration.write({
       intent,

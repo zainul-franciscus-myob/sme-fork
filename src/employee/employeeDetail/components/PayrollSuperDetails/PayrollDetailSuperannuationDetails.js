@@ -28,6 +28,7 @@ const PayrollDetailSuperannuationDetails = ({
   employeeMembershipNumber,
   createSuperChoiceFormLink,
   onUpdatePayrollDetailSuperannuationDetails,
+  onOpenSuperFundModal,
 }) => (
   <div className={styles.formWidth}>
     <FormHorizontal>
@@ -42,6 +43,10 @@ const PayrollDetailSuperannuationDetails = ({
             onUpdatePayrollDetailSuperannuationDetails,
           )}
           allowClearSelection
+          addNewItem={{
+            label: 'Create superannuation fund',
+            onAddNew: onOpenSuperFundModal,
+          }}
         />
         <Input
           label="Employee membership number"

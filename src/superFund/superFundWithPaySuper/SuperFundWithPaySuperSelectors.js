@@ -30,7 +30,7 @@ export const getSuperFundContactDetails = createStructuredSelector({
 
 const getName = state => state.superFund.name;
 const getEmployerMembershipNumber = state => state.superFund.employerMembershipNumber;
-const getSuperProductAbn = state => state.superFund.superProductAbn;
+export const getSuperProductAbn = state => state.superFund.superProductAbn;
 const getSuperFundIdentifier = state => state.superFund.superFundIdentifier;
 const getSuperProductId = state => state.superFund.superProductId;
 const getSuperProductName = state => state.superFund.superProductName;

@@ -32,6 +32,7 @@ import {
   getRegion,
   getSaveSuperFundPayload,
   getSuperFundId,
+  getSuperProductAbn,
 } from './SuperFundWithPaySuperSelectors';
 import Store from '../../store/Store';
 import SuperFundWithPaySuperView from './components/SuperFundWithPaySuperView';
@@ -103,7 +104,8 @@ export default class SuperFundWithPaySuperModule {
     const state = this.store.getState();
 
     const urlParams = {
-      abn: state.superFund.superProductAbn,
+      businessId: getBusinessId(state),
+      abn: getSuperProductAbn(state),
     };
 
     const onSuccess = ({ entityName }) => {

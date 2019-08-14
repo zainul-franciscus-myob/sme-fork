@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Combobox from '../../../components/Feelix/ComboBox/Combobox';
+import Combobox from '../../../../../components/Feelix/ComboBox/Combobox';
 
-const SuperFundCombobox = (props) => {
+const ESACombobox = (props) => {
   const {
     items = [],
     selectedId,
@@ -15,7 +15,7 @@ const SuperFundCombobox = (props) => {
   ];
 
   const selectedItem = items
-    .find(option => option.usi === selectedId) || {};
+    .find(option => option.name === selectedId) || {};
 
   return (
     <Combobox
@@ -23,10 +23,10 @@ const SuperFundCombobox = (props) => {
       items={items}
       selected={selectedItem}
       onChange={onChange}
-      hintText="Please select a superannuation fund"
+      hintText="Please select an ESA"
       {...otherProps}
     />
   );
 };
 
-export default SuperFundCombobox;
+export default ESACombobox;

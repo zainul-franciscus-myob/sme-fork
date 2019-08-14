@@ -1,0 +1,22 @@
+{
+  "message": "Great Work! You've done it well!",
+  "superFundOptions": [
+    {
+      "id": "1",
+      "name": "Super fund 1"
+    },
+    {
+      "id": "2",
+      "name": "Super fund 2"
+    },
+    {
+      "id": "4",
+      "name": "New Super fund 2.5"
+    },
+    {
+      "id": "3",
+      "name": "Super fund 3"
+    }
+  ],
+  "selectedSuperFundId": "4"
+}
