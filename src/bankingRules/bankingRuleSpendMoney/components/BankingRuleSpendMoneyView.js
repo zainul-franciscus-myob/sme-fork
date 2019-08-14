@@ -1,8 +1,10 @@
-import { BaseTemplate, Card } from '@myob/myob-widgets';
+import { BaseTemplate, Card, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsAlertShown, getIsLoading, getModalType } from '../bankingRuleSpendMoneySelectors';
+import {
+  getIsAlertShown, getIsLoading, getModalType, getPageTitle,
+} from '../bankingRuleSpendMoneySelectors';
 import Actions from './BankingRuleSpendMoneyActions';
 import BankingRuleSpendMoneyAlert from './BankingRuleSpendMoneyAlert';
 import BankingRuleSpendMoneyRuleConditions from './BankingRuleSpendMoneyRuleConditions';
@@ -14,6 +16,7 @@ const BankingRuleSpendMoneyView = ({
   isLoading,
   isAlertShown,
   modalType,
+  pageTitle,
   onRuleDetailsChange,
   onRuleConditionsChange,
   onRowInputBlur,
@@ -30,6 +33,7 @@ const BankingRuleSpendMoneyView = ({
 }) => (isLoading ? <LoadingPageState /> : (
   <React.Fragment>
     <BaseTemplate>
+      <PageHead title={pageTitle} />
       {isAlertShown && <BankingRuleSpendMoneyAlert onDismissAlert={onDismissAlert} /> }
       <Card>
         {
@@ -62,6 +66,7 @@ const BankingRuleSpendMoneyView = ({
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   modalType: getModalType(state),
+  pageTitle: getPageTitle(state),
   isAlertShown: getIsAlertShown(state),
 });
 

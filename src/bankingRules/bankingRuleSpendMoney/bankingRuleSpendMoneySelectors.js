@@ -22,6 +22,7 @@ export const getIsAlertShown = createSelector(
 
 export const getIsInactiveRule = state => state.isInactiveRule;
 export const getName = state => state.name;
+export const getPageTitle = state => (getIsCreating(state) ? 'Create spend money transaction rule' : getName(state));
 export const getAllocationAccounts = state => state.allocationAccounts;
 export const getBankAccounts = state => state.bankAccounts;
 export const getTaxCodes = state => state.taxCodes;
