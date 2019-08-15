@@ -402,6 +402,11 @@ export default class EmployeeDetailModule {
     this.integrator.saveSuperFundModal({ onSuccess, onFailure });
   };
 
+  removeAllocatedLeaveItem = (payItemId) => {
+    this.dispatcher.removeAllocatedLeaveItem(payItemId);
+    this.dispatcher.closeAllocatedLeaveItemModal();
+  }
+
   render = () => {
     const employeeDetailView = (
       <EmployeeDetailView
@@ -424,9 +429,13 @@ export default class EmployeeDetailModule {
         onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
         onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
         onRemovePayrollDeductionPayItem={this.dispatcher.removePayrollDeductionPayItem}
-        onAddAllocatedLeaveItem={this.dispatcher.addAllocatedLeaveItem}
-        onRemoveAllocatedLeaveItem={this.dispatcher.removeAllocatedLeaveItem}
-        onUpdateAllocatedLeaveItemCarryOver={this.dispatcher.updateAllocatedLeaveItemCarryOver}
+        onPayrollLeaveListeners={{
+          onAddAllocatedLeaveItem: this.dispatcher.addAllocatedLeaveItem,
+          onRemoveAllocatedLeaveItem: this.dispatcher.openAllocatedLeaveItemModal,
+          onConfirmRemoveAllocatedLeaveItem: this.removeAllocatedLeaveItem,
+          onConfirmCancelAllocatedLeaveItem: this.dispatcher.closeAllocatedLeaveItemModal,
+          onUpdateAllocatedLeaveItemCarryOver: this.dispatcher.updateAllocatedLeaveItemCarryOver,
+        }}
         onUpdatePayrollDetailSuperannuationDetails={
           this.dispatcher.updatePayrollDetailSuperannuationDetails
         }

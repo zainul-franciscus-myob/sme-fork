@@ -1,9 +1,13 @@
 import { createSelector } from 'reselect/lib/index';
 import { format } from 'date-fns';
 
+import { getStartDate, getTerminationDate } from './EmployeeDetailSelectors';
+
 const getLeavePayItemOptions = state => state.leavePayItemOptions;
 
 const getAllocatedLeavePayItems = state => state.payrollDetails.leaveDetails.allocatedLeavePayItems;
+
+const getAllocatedLeaveItemModal = state => state.payrollDetails.leaveDetails.modal;
 
 export const formatDate = date => format(
   new Date(date),
@@ -38,18 +42,24 @@ export const getFilteredLeavePayItemOptions = createSelector(
     }),
 );
 
-export const getStartDate = ({
-  payrollDetails: {
-    employmentDetails: {
-      startDate,
-    },
-  },
-}) => (`Start Date ${startDate === '' ? '-' : formatDate(startDate)}`);
-
-export const getTerminationDate = ({
-  payrollDetails: {
-    employmentDetails: {
-      terminationDate,
-    },
-  },
-}) => (`Termination date ${terminationDate === '' ? '-' : formatDate(terminationDate)}`);
+export const getLeaveDetail = createSelector(
+  getStartDate,
+  getTerminationDate,
+  getLeavePayItems,
+  getFilteredLeavePayItemOptions,
+  getAllocatedLeaveItemModal,
+  (
+    startDate,
+    terminationDate,
+    allocatedLeavePayItems,
+    allocatedLeavePayItemOptions,
+    allocatedLeavePayItemModal,
+  ) => ({
+    startDate: startDate ? formatDate(startDate) : '-',
+    terminationDate: terminationDate ? formatDate(terminationDate) : '-',
+    showAllocatedLeavePayItems: !terminationDate,
+    allocatedLeavePayItems,
+    allocatedLeavePayItemOptions,
+    allocatedLeavePayItemModal,
+  }),
+);

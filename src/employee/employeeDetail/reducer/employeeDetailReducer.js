@@ -38,6 +38,7 @@ import {
   SET_ABN_LOADING_STATE,
   SET_ABN_STATUS,
   SET_ALERT,
+  SET_ALLOCATED_LEAVE_ITEM_MODAL,
   SET_DEDUCTION_PAY_ITEM_MODAL_ALERT,
   SET_DEDUCTION_PAY_ITEM_MODAL_INPUT,
   SET_DEDUCTION_PAY_ITEM_MODAL_LOADING_STATE,
@@ -85,6 +86,7 @@ import {
   addPayrollDeductionPayItem,
   removeAllocatedLeaveItem,
   removePayrollDeductionPayItem,
+  setAllocatedLeaveItemModal,
   updateAllocatedLeaveItemCarryOver,
   updatePayrollEmployeeDetail,
 } from './PayrollDetailReducer';
@@ -204,6 +206,7 @@ export const getDefaultState = () => ({
     },
     leaveDetails: {
       allocatedLeavePayItems: [],
+      modal: undefined,
     },
     superannuationDetails: {
       selectedSuperFundId: '',
@@ -514,6 +517,7 @@ const handlers = {
   [ADD_ALLOCATED_LEAVE_ITEM]: addAllocatedLeaveItem,
   [REMOVE_ALLOCATED_LEAVE_ITEM]: removeAllocatedLeaveItem,
   [UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER]: updateAllocatedLeaveItemCarryOver,
+  [SET_ALLOCATED_LEAVE_ITEM_MODAL]: setAllocatedLeaveItemModal,
   [LOAD_DEDUCTION_PAY_ITEM_MODAL]: loadDeductionPayItemModal,
   [CREATE_DEDUCTION_PAY_ITEM_MODAL]: createDeductionPayItemModal,
   [UPDATE_DEDUCTION_PAY_ITEM_MODAL]: updateDeductionPayItemModal,

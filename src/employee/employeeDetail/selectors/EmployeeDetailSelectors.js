@@ -105,6 +105,11 @@ export const getPageHeadTitle = (state) => {
 
 export const getEmploymentDetails = state => state.payrollDetails.employmentDetails;
 
+export const getStartDate = state => state.payrollDetails.employmentDetails.startDate;
+
+export const getTerminationDate = state => state.payrollDetails.employmentDetails
+  .terminationDate;
+
 export const shouldDefaultPayslipEmail = state => state.payrollDetails.employmentDetails.paySlipEmail === ''
   && state.contactDetail.email !== '';
 

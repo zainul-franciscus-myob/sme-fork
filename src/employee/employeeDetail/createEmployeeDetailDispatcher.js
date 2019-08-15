@@ -38,6 +38,7 @@ import {
   SET_ABN_LOADING_STATE,
   SET_ABN_STATUS,
   SET_ALERT,
+  SET_ALLOCATED_LEAVE_ITEM_MODAL,
   SET_DEDUCTION_PAY_ITEM_MODAL_ALERT,
   SET_DEDUCTION_PAY_ITEM_MODAL_INPUT,
   SET_DEDUCTION_PAY_ITEM_MODAL_LOADING_STATE,
@@ -210,6 +211,16 @@ const createEmployeeDetailDispatcher = store => ({
   updateAllocatedLeaveItemCarryOver: ({ payItemId, value }) => {
     const intent = UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER;
     store.dispatch({ intent, payItemId, value });
+  },
+
+  openAllocatedLeaveItemModal: (modal) => {
+    const intent = SET_ALLOCATED_LEAVE_ITEM_MODAL;
+    store.dispatch({ intent, modal });
+  },
+
+  closeAllocatedLeaveItemModal: () => {
+    const intent = SET_ALLOCATED_LEAVE_ITEM_MODAL;
+    store.dispatch({ intent, modal: undefined });
   },
 
   addPayrollTaxPayItem: (payItem) => {

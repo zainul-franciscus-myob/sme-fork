@@ -55,6 +55,7 @@ export const SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE = Symbol('Set tax pay item mod
 export const ADD_ALLOCATED_LEAVE_ITEM = Symbol('Add an allocated leave item');
 export const REMOVE_ALLOCATED_LEAVE_ITEM = Symbol('Remove an allocated leave item');
 export const UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER = Symbol('Update an allocated leave item carry over amount');
+export const SET_ALLOCATED_LEAVE_ITEM_MODAL = Symbol('Set allocated leave item modal');
 
 export const OPEN_DEDUCTION_PAY_ITEM_MODAL = Symbol('Open deduction pay item modal');
 export const CLOSE_DEDUCTION_PAY_ITEM_MODAL = Symbol('Close deduction pay item modal');

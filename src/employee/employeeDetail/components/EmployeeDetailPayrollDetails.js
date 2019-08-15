@@ -21,9 +21,7 @@ const EmployeeDetailPayrollDetails = ({
   onEmploymentPaySlipDeliveryChange,
   onAddPayrollDeductionPayItem,
   onRemovePayrollDeductionPayItem,
-  onAddAllocatedLeaveItem,
-  onRemoveAllocatedLeaveItem,
-  onUpdateAllocatedLeaveItemCarryOver,
+  onPayrollLeaveListeners,
   onUpdatePayrollDetailSuperannuationDetails,
   onAddPayrollSuperPayItem,
   onRemovePayrollSuperPayItem,
@@ -56,11 +54,7 @@ const EmployeeDetailPayrollDetails = ({
   );
 
   const Leave = () => (
-    <PayrollLeaveDetail
-      onAddAllocatedLeaveItem={onAddAllocatedLeaveItem}
-      onRemoveAllocatedLeaveItem={onRemoveAllocatedLeaveItem}
-      onUpdateAllocatedLeaveItemCarryOver={onUpdateAllocatedLeaveItemCarryOver}
-    />
+    <PayrollLeaveDetail onPayrollLeaveListeners={onPayrollLeaveListeners} />
   );
 
   const Deductions = () => (

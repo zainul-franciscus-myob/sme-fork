@@ -82,3 +82,7 @@ export const updateAllocatedLeaveItemCarryOver = (state, action) => {
 
   return setPayrollAllocatedLeaveState(state, partialAllocatedLeave);
 };
+
+export const setAllocatedLeaveItemModal = (state, action) => (
+  setPayrollAllocatedLeaveState(state, { modal: action.modal })
+);

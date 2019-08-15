@@ -4,28 +4,38 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getFilteredLeavePayItemOptions,
-  getLeavePayItems,
-  getStartDate,
-  getTerminationDate,
-} from '../selectors/PayrollLeaveDetailSelectors';
+import { getLeaveDetail } from '../selectors/PayrollLeaveDetailSelectors';
+import PayrollLeaveDetailModal from './PayrollLeaveDetailModal';
 import PayrollLeaveDetailTable from './PayrollLeaveDetailTable';
 
 const PayrollLeaveDetail = ({
   startDate,
   terminationDate,
+  showAllocatedLeavePayItems,
   allocatedLeavePayItems,
   allocatedLeavePayItemOptions,
-  onAddAllocatedLeaveItem,
-  onRemoveAllocatedLeaveItem,
-  onUpdateAllocatedLeaveItemCarryOver,
+  allocatedLeavePayItemModal,
+  onPayrollLeaveListeners: {
+    onAddAllocatedLeaveItem,
+    onRemoveAllocatedLeaveItem,
+    onConfirmRemoveAllocatedLeaveItem,
+    onConfirmCancelAllocatedLeaveItem,
+    onUpdateAllocatedLeaveItemCarryOver,
+  },
 }) => {
+  const modal = allocatedLeavePayItemModal && (
+    <PayrollLeaveDetailModal
+      payItem={allocatedLeavePayItemModal}
+      onConfirm={onConfirmRemoveAllocatedLeaveItem}
+      onCancel={onConfirmCancelAllocatedLeaveItem}
+    />
+  );
+
   const details = (
     <FieldGroup label="Details">
-      <Label color="light-grey" size="large">{startDate}</Label>
+      <Label color="light-grey">{`Start date ${startDate}`}</Label>
       &emsp;
-      <Label color="light-grey" size="large">{terminationDate}</Label>
+      <Label color="light-grey">{`Termination date ${terminationDate}`}</Label>
     </FieldGroup>
   );
 
@@ -38,27 +48,27 @@ const PayrollLeaveDetail = ({
     </div>
   );
 
+  const leavePayItemComponent = showAllocatedLeavePayItems && (
+    <FieldGroup label={fieldGroupLabel}>
+      <PayrollLeaveDetailTable
+        selected={allocatedLeavePayItems}
+        items={allocatedLeavePayItemOptions}
+        onAddAllocatedLeaveItem={onAddAllocatedLeaveItem}
+        onRemoveAllocatedLeaveItem={onRemoveAllocatedLeaveItem}
+        onUpdateCarryOver={onUpdateAllocatedLeaveItemCarryOver}
+      />
+    </FieldGroup>
+  );
+
   return (
     <>
+      {modal}
       {details}
-      <FieldGroup label={fieldGroupLabel}>
-        <PayrollLeaveDetailTable
-          selected={allocatedLeavePayItems}
-          items={allocatedLeavePayItemOptions}
-          onAddAllocatedLeaveItem={onAddAllocatedLeaveItem}
-          onRemoveAllocatedLeaveItem={onRemoveAllocatedLeaveItem}
-          onUpdateCarryOver={onUpdateAllocatedLeaveItemCarryOver}
-        />
-      </FieldGroup>
+      {leavePayItemComponent}
     </>
   );
 };
 
-const mapStateToProps = state => ({
-  startDate: getStartDate(state),
-  terminationDate: getTerminationDate(state),
-  allocatedLeavePayItems: getLeavePayItems(state),
-  allocatedLeavePayItemOptions: getFilteredLeavePayItemOptions(state),
-});
+const mapStateToProps = state => getLeaveDetail(state);
 
 export default connect(mapStateToProps)(PayrollLeaveDetail);

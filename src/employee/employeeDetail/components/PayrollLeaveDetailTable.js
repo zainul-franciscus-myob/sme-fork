@@ -1,8 +1,9 @@
 import {
-  Button, Icons, Input, PageState, Table, Tooltip,
+  Button, Icons, PageState, Table, Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
+import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import Combobox from '../../../components/Feelix/ComboBox/Combobox';
 import styles from './PayrollLeaveDetailTable.module.css';
 
@@ -41,34 +42,41 @@ const PayrollLeaveDetailTable = ({
   const emptyView = (
     <PageState title="You have not allocated any Leave items yet." />
   );
-  const tableBodyView = selected.map(({
-    payItemId, name, carryOver, yearToDate, total,
-  }) => (
-    <Table.Row key={payItemId}>
-      <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
-      <Table.RowItem {...tableConfig.carryOver}>
-        <Input
-          onChange={handleInputChange(onUpdateCarryOver, payItemId)}
-          name="carryOver"
-          label="Carry Over"
-          hideLabel
-          value={carryOver}
-        />
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.yearToDate}>{yearToDate}</Table.RowItem>
-      <Table.RowItem {...tableConfig.total}>{total}</Table.RowItem>
-      <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-        <Tooltip triggerContent={(
-          <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemoveAllocatedLeaveItem, payItemId)}>
-            <Icons.Remove />
-          </Button>
+  const tableBodyView = selected.map((payItem) => {
+    const {
+      payItemId, name, carryOver, yearToDate, total,
+    } = payItem;
+
+    return (
+      <Table.Row key={payItemId}>
+        <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
+        <Table.RowItem {...tableConfig.carryOver}>
+          <AmountInput
+            name="carryOver"
+            label="Carry Over"
+            hideLabel
+            textAlign="right"
+            value={carryOver}
+            onChange={handleInputChange(onUpdateCarryOver, payItemId)}
+            numeralIntegerScale={29}
+            decimalScale={30}
+          />
+        </Table.RowItem>
+        <Table.RowItem {...tableConfig.yearToDate}>{yearToDate}</Table.RowItem>
+        <Table.RowItem {...tableConfig.total}>{total}</Table.RowItem>
+        <Table.RowItem cellRole="actions" {...tableConfig.actions}>
+          <Tooltip triggerContent={(
+            <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemoveAllocatedLeaveItem, payItem)}>
+              <Icons.Remove />
+            </Button>
         )}
-        >
+          >
           Remove from employee
-        </Tooltip>
-      </Table.RowItem>
-    </Table.Row>
-  ));
+          </Tooltip>
+        </Table.RowItem>
+      </Table.Row>
+    );
+  });
 
   return (
     <div className={styles.editableTable}>
