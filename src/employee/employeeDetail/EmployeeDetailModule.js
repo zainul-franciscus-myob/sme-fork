@@ -119,6 +119,7 @@ export default class EmployeeDetailModule {
 
     const onFailure = (response) => {
       this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(false);
       this.dispatcher.setAlert({ type: 'danger', message: response.message });
     };
 
