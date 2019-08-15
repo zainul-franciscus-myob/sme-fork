@@ -6,7 +6,21 @@ describe('bankingRuleSpendMoneySelectors', () => {
       allocations: [],
     };
 
-    it('is true when there is only 1 row item', () => {
+    it('is false when it\'s percent allocation type', () => {
+      const modifiedState = {
+        ...state,
+        allocations: [
+          {},
+        ],
+        allocationType: 'Percent',
+      };
+
+      const actual = getIsInputField(modifiedState, { index: 0 });
+
+      expect(actual).toEqual(false);
+    });
+
+    it('is true when there is only 1 row item when allocation type is amount', () => {
       const modifiedState = {
         ...state,
         allocations: [
@@ -19,7 +33,7 @@ describe('bankingRuleSpendMoneySelectors', () => {
       expect(actual).toEqual(true);
     });
 
-    it('is true when last row item', () => {
+    it('is true when last row item when allocation type is amount', () => {
       const modifiedState = {
         ...state,
         allocations: [
@@ -33,7 +47,7 @@ describe('bankingRuleSpendMoneySelectors', () => {
       expect(actual).toEqual(true);
     });
 
-    it('is false when it\'s not the last element given that the list has more than one element', () => {
+    it('is false when it\'s not the last element given that the list has more than one element when allocation type is amount', () => {
       const modifiedState = {
         ...state,
         allocations: [

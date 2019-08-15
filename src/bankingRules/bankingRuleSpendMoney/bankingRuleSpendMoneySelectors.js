@@ -88,6 +88,9 @@ export const getIsAccountFieldDisabled = (state, { index }) => {
 
 export const getIsInputField = (state, { index }) => {
   const rowCount = state.allocations.length;
+  if (getAllocationType(state) === allocationTypeOptions.percent) {
+    return false;
+  }
   if (rowCount === 1) {
     return true;
   }
