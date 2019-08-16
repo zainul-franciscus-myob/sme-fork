@@ -2,15 +2,15 @@ import {
   ADD_TABLE_ROW,
   CHANGE_TABLE_ROW,
   FORMAT_AMOUNT,
-  LOAD_BANKING_RULE_SPEND_MONEY,
-  LOAD_NEW_BANKING_RULE_SPEND_MONEY,
+  LOAD_BANKING_RULE_RECEIVE_MONEY,
+  LOAD_NEW_BANKING_RULE_RECEIVE_MONEY,
   REMOVE_TABLE_ROW,
   SET_ALERT_MESSAGE,
   SET_IS_PAGE_EDITED,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   UPDATE_FORM,
-} from './BankingRuleSpendMoneyIntents';
+} from './BankingRuleReceiveMoneyIntents';
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
@@ -68,7 +68,7 @@ const setInitalState = (state, action) => ({
   region: action.context.region,
 });
 
-const loadBankingRuleSpendMoney = (state, action) => ({
+const loadBankingRuleReceiveMoney = (state, action) => ({
   ...state,
   ...action.bankingRule,
 });
@@ -259,8 +259,8 @@ const handlers = {
   [SET_MODAL_TYPE]: setModalType,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [SET_IS_PAGE_EDITED]: setIsPagedEdited,
-  [LOAD_NEW_BANKING_RULE_SPEND_MONEY]: loadBankingRuleSpendMoney,
-  [LOAD_BANKING_RULE_SPEND_MONEY]: loadBankingRuleSpendMoney,
+  [LOAD_NEW_BANKING_RULE_RECEIVE_MONEY]: loadBankingRuleReceiveMoney,
+  [LOAD_BANKING_RULE_RECEIVE_MONEY]: loadBankingRuleReceiveMoney,
   [ADD_TABLE_ROW]: addTableRow,
   [CHANGE_TABLE_ROW]: changeTableRow,
   [REMOVE_TABLE_ROW]: removeTableRow,
@@ -268,6 +268,6 @@ const handlers = {
   [UPDATE_FORM]: updateForm,
 };
 
-const bankingRuleSpendMoneyReducer = createReducer(getDefaultState(), handlers);
+const bankingRuleReceiveMoneyReducer = createReducer(getDefaultState(), handlers);
 
-export default bankingRuleSpendMoneyReducer;
+export default bankingRuleReceiveMoneyReducer;

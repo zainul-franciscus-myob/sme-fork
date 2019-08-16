@@ -14,6 +14,7 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { SUCCESSFULLY_DELETED_BANKING_RULE_RECEIVE_MONEY, SUCCESSFULLY_SAVED_BANKING_RULE_RECEIVE_MONEY } from '../bankingRuleReceiveMoney/BankingRuleReceiveMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_BANKING_RULE_SPEND_MONEY, SUCCESSFULLY_SAVED_BANKING_RULE_SPEND_MONEY } from '../bankingRuleSpendMoney/BankingRuleSpendMoneyMessageTypes';
 import {
   getAppliedFilterOptions,
@@ -31,6 +32,8 @@ import bankingRuleListReducer from './bankingRuleListReducer';
 const messageTypes = [
   SUCCESSFULLY_SAVED_BANKING_RULE_SPEND_MONEY,
   SUCCESSFULLY_DELETED_BANKING_RULE_SPEND_MONEY,
+  SUCCESSFULLY_DELETED_BANKING_RULE_RECEIVE_MONEY,
+  SUCCESSFULLY_SAVED_BANKING_RULE_RECEIVE_MONEY,
 ];
 
 export default class BankingRuleListModule {

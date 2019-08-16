@@ -1,4 +1,5 @@
 import BankingRuleListModule from './bankingRuleList/BankingRuleListModule';
+import BankingRuleReceiveMoneyModule from './bankingRuleReceiveMoney/BankingRuleReceiveMoneyModule';
 import BankingRuleSpendMoneyModule from './bankingRuleSpendMoney/BankingRuleSpendMoneyModule';
 
 const getBankingRuleRoutes = ({
@@ -16,6 +17,13 @@ const getBankingRuleRoutes = ({
       name: 'bankingRuleSpendMoney',
       path: '/spendMoney/:bankingRuleId',
       module: new BankingRuleSpendMoneyModule({
+        integration, setRootView, pushMessage,
+      }),
+    },
+    {
+      name: 'bankingRuleReceiveMoney',
+      path: '/receiveMoney/:bankingRuleId',
+      module: new BankingRuleReceiveMoneyModule({
         integration, setRootView, pushMessage,
       }),
     },
