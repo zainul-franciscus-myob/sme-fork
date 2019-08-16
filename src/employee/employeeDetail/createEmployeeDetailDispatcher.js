@@ -1,6 +1,9 @@
 import {
   ADD_ALLOCATED_LEAVE_ITEM,
   ADD_DEDUCTION_PAY_ITEM_MODAL_ITEM,
+  ADD_LEAVE_PAY_ITEM_MODAL_EMPLOYEE,
+  ADD_LEAVE_PAY_ITEM_MODAL_EXEMPTION,
+  ADD_LEAVE_PAY_ITEM_MODAL_LINKED_WAGE,
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
   ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
@@ -9,12 +12,14 @@ import {
   ADD_WAGE_PAY_ITEM_MODAL_EMPLOYEE,
   ADD_WAGE_PAY_ITEM_MODAL_EXEMPTION,
   CLOSE_DEDUCTION_PAY_ITEM_MODAL,
+  CLOSE_LEAVE_PAY_ITEM_MODAL,
   CLOSE_MODAL,
   CLOSE_SUPER_FUND_MODAL,
   CLOSE_SUPER_PAY_ITEM_MODAL,
   CLOSE_TAX_PAY_ITEM_MODAL,
   CLOSE_WAGE_PAY_ITEM_MODAL,
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
+  CREATE_LEAVE_PAY_ITEM,
   CREATE_SUPER_FUND,
   CREATE_SUPER_PAY_ITEM_MODAL,
   CREATE_WAGE_PAY_ITEM_MODAL,
@@ -23,11 +28,13 @@ import {
   LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
+  LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_SUPER_FUND,
   LOAD_SUPER_PAY_ITEM_MODAL,
   LOAD_TAX_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
   OPEN_DEDUCTION_PAY_ITEM_MODAL,
+  OPEN_LEAVE_PAY_ITEM_MODAL,
   OPEN_MODAL,
   OPEN_SUPER_FUND_MODAL,
   OPEN_SUPER_PAY_ITEM_MODAL,
@@ -35,6 +42,9 @@ import {
   OPEN_WAGE_PAY_ITEM_MODAL,
   REMOVE_ALLOCATED_LEAVE_ITEM,
   REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM,
+  REMOVE_LEAVE_PAY_ITEM_MODAL_EMPLOYEE,
+  REMOVE_LEAVE_PAY_ITEM_MODAL_EXEMPTION,
+  REMOVE_LEAVE_PAY_ITEM_MODAL_LINKED_WAGE,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
@@ -51,6 +61,9 @@ import {
   SET_DEDUCTION_PAY_ITEM_MODAL_INPUT,
   SET_DEDUCTION_PAY_ITEM_MODAL_LOADING_STATE,
   SET_DEDUCTION_PAY_ITEM_MODAL_SUBMITTING_STATE,
+  SET_LEAVE_PAY_ITEM_MODAL_ALERT,
+  SET_LEAVE_PAY_ITEM_MODAL_LOADING_STATE,
+  SET_LEAVE_PAY_ITEM_MODAL_SUBMITTING_STATE,
   SET_LOADING_STATE,
   SET_MAIN_TAB,
   SET_PAGE_EDITED_STATE,
@@ -75,6 +88,10 @@ import {
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
+  UPDATE_LEAVE_PAY_ITEM,
+  UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS,
+  UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS,
+  UPDATE_LEAVE_PAY_ITEM_MODAL_NAME,
   UPDATE_PAYMENT_DETAILS,
   UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
@@ -621,6 +638,96 @@ const createEmployeeDetailDispatcher = store => ({
   removeSuperPayItemModalItem: ({ key, itemId }) => {
     const intent = REMOVE_SUPER_PAY_ITEM_MODAL_ITEM;
     store.dispatch({ intent, key, itemId });
+  },
+
+  openLeavePayItemModal: (leavePayItemId) => {
+    const intent = OPEN_LEAVE_PAY_ITEM_MODAL;
+    store.dispatch({ intent, leavePayItemId });
+  },
+
+  closeLeavePayItemModal: () => {
+    const intent = CLOSE_LEAVE_PAY_ITEM_MODAL;
+    store.dispatch({ intent });
+  },
+
+  dismissLeavePayItemModalAlert: () => {
+    const intent = SET_LEAVE_PAY_ITEM_MODAL_ALERT;
+    store.dispatch({ intent, alert: undefined });
+  },
+
+  setLeavePayItemModalAlert: ({ type, message }) => {
+    const intent = SET_LEAVE_PAY_ITEM_MODAL_ALERT;
+    store.dispatch({ intent, alert: { type, message } });
+  },
+
+  setLeavePayItemModalLoadingState: (isLoading) => {
+    const intent = SET_LEAVE_PAY_ITEM_MODAL_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  setLeavePayItemModalSubmittingState: (isSubmitting) => {
+    const intent = SET_LEAVE_PAY_ITEM_MODAL_SUBMITTING_STATE;
+    store.dispatch({ intent, isSubmitting });
+  },
+
+  loadLeavePayItem: (response) => {
+    const intent = LOAD_LEAVE_PAY_ITEM;
+    store.dispatch({ intent, response });
+  },
+
+  createLeavePayItem: (response) => {
+    const intent = CREATE_LEAVE_PAY_ITEM;
+    store.dispatch({ intent, ...response });
+  },
+
+  updateLeavePayItem: (response) => {
+    const intent = UPDATE_LEAVE_PAY_ITEM;
+    store.dispatch({ intent, ...response });
+  },
+
+  addLeavePayItemModalEmployee: (employee) => {
+    const intent = ADD_LEAVE_PAY_ITEM_MODAL_EMPLOYEE;
+    store.dispatch({ intent, ...employee });
+  },
+
+  removeLeavePayItemModalEmployee: (id) => {
+    const intent = REMOVE_LEAVE_PAY_ITEM_MODAL_EMPLOYEE;
+    store.dispatch({ intent, id });
+  },
+
+  addLeavePayItemModalExemption: (exemption) => {
+    const intent = ADD_LEAVE_PAY_ITEM_MODAL_EXEMPTION;
+    store.dispatch({ intent, ...exemption });
+  },
+
+  removeLeavePayItemModalExemption: (id) => {
+    const intent = REMOVE_LEAVE_PAY_ITEM_MODAL_EXEMPTION;
+    store.dispatch({ intent, id });
+  },
+
+  addLeavePayItemModalLinkedWage: (linkedWage) => {
+    const intent = ADD_LEAVE_PAY_ITEM_MODAL_LINKED_WAGE;
+    store.dispatch({ intent, ...linkedWage });
+  },
+
+  removeLeavePayItemModalLinkedWage: (id) => {
+    const intent = REMOVE_LEAVE_PAY_ITEM_MODAL_LINKED_WAGE;
+    store.dispatch({ intent, id });
+  },
+
+  updateLeavePayItemModalCalculationBasis: ({ key, value }) => {
+    const intent = UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS;
+    store.dispatch({ intent, key, value });
+  },
+
+  updateLeavePayItemModalName: ({ value }) => {
+    const intent = UPDATE_LEAVE_PAY_ITEM_MODAL_NAME;
+    store.dispatch({ intent, value });
+  },
+
+  updateLeavePayItemModalCalculationBasisAmount: ({ key, value }) => {
+    const intent = UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS;
+    store.dispatch({ intent, key, value });
   },
 });
 

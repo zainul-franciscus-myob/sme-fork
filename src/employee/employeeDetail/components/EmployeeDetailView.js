@@ -66,6 +66,7 @@ const EmployeeDetailView = ({
   superFundModalListeners,
   onOpenSuperPayItemModal,
   superPayItemModalListeners,
+  leavePayItemModalListeners,
 }) => {
   const Content = {
     [mainTabIds.contactDetails]: EmployeeDetailContactDetails,
@@ -137,6 +138,7 @@ const EmployeeDetailView = ({
     superFundModalListeners,
     onOpenSuperPayItemModal,
     superPayItemModalListeners,
+    leavePayItemModalListeners,
   };
 
   const view = (

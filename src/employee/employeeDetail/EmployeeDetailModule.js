@@ -14,6 +14,7 @@ import {
   isPageEdited,
 } from './selectors/EmployeeDetailSelectors';
 import { getIsDeductionPayItemModalCreating } from './selectors/DeductionPayItemModalSelectors';
+import { getIsLeavePayItemModalCreating } from './selectors/LeavePayItemModalSelectors';
 import {
   getIsSuperPayItemModalCreating,
   getSuperPayItemModalFormattedAmount,
@@ -451,6 +452,48 @@ export default class EmployeeDetailModule {
     this.dispatcher.closeAllocatedLeaveItemModal();
   }
 
+  openLeavePayItemModal = (id) => {
+    this.dispatcher.openLeavePayItemModal(id);
+    this.dispatcher.setLeavePayItemModalLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setLeavePayItemModalLoadingState(false);
+      this.dispatcher.loadLeavePayItem(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.closeLeavePayItemModal();
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.loadLeavePayItem({ onSuccess, onFailure });
+  };
+
+  saveLeavePayItem = () => {
+    this.dispatcher.setLeavePayItemModalLoadingState(true);
+    this.dispatcher.setLeavePayItemModalSubmittingState(true);
+
+    const onSuccess = (response) => {
+      const state = this.store.getState();
+      const isCreating = getIsLeavePayItemModalCreating(state);
+      if (isCreating) {
+        this.dispatcher.createLeavePayItem(response);
+      } else {
+        this.dispatcher.updateLeavePayItem(response);
+      }
+      this.dispatcher.closeLeavePayItemModal();
+      this.dispatcher.setAlert({ type: 'success', message: response.message });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLeavePayItemModalLoadingState(false);
+      this.dispatcher.setLeavePayItemModalSubmittingState(false);
+      this.dispatcher.setLeavePayItemModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.saveLeavePayItem({ onSuccess, onFailure });
+  };
+
   render = () => {
     const employeeDetailView = (
       <EmployeeDetailView
@@ -479,6 +522,7 @@ export default class EmployeeDetailModule {
           onConfirmRemoveAllocatedLeaveItem: this.removeAllocatedLeaveItem,
           onConfirmCancelAllocatedLeaveItem: this.dispatcher.closeAllocatedLeaveItemModal,
           onUpdateAllocatedLeaveItemCarryOver: this.dispatcher.updateAllocatedLeaveItemCarryOver,
+          onOpenLeavePayItemModal: this.openLeavePayItemModal,
         }}
         onUpdatePayrollDetailSuperannuationDetails={
           this.dispatcher.updatePayrollDetailSuperannuationDetails
@@ -528,6 +572,21 @@ export default class EmployeeDetailModule {
           onRemoveItem: this.dispatcher.removeSuperPayItemModalItem,
           onSave: this.saveSuperPayItemModal,
           onCancel: this.dispatcher.closeSuperPayItemModal,
+        }}
+        leavePayItemModalListeners={{
+          onDismissAlert: this.dispatcher.dismissLeavePayItemModalAlert,
+          onSave: this.saveLeavePayItem,
+          onCancel: this.dispatcher.closeLeavePayItemModal,
+          onAddEmployee: this.dispatcher.addLeavePayItemModalEmployee,
+          onRemoveEmployee: this.dispatcher.removeLeavePayItemModalEmployee,
+          onAddExemption: this.dispatcher.addLeavePayItemModalExemption,
+          onRemoveExemption: this.dispatcher.removeLeavePayItemModalExemption,
+          onAddLinkedWage: this.dispatcher.addLeavePayItemModalLinkedWage,
+          onRemoveLinkedWage: this.dispatcher.removeLeavePayItemModalLinkedWage,
+          onNameChange: this.dispatcher.updateLeavePayItemModalName,
+          onCalculationBasisChange: this.dispatcher.updateLeavePayItemModalCalculationBasis,
+          onCalculationBasisAmountChange:
+            this.dispatcher.updateLeavePayItemModalCalculationBasisAmount,
         }}
         onAddPayrollTaxPayItem={this.dispatcher.addPayrollTaxPayItem}
         onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}

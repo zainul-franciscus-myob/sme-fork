@@ -1,6 +1,7 @@
 import {
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_EMPLOYEE,
+  CREATE_LEAVE_PAY_ITEM,
   CREATE_SUPER_FUND,
   CREATE_SUPER_PAY_ITEM_MODAL,
   CREATE_WAGE_PAY_ITEM_MODAL,
@@ -8,8 +9,10 @@ import {
   LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
+  LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_NEW_EMPLOYEE_DETAIL,
+  LOAD_NEW_LEAVE_PAY_ITEM,
   LOAD_NEW_SUPER_FUND,
   LOAD_NEW_SUPER_PAY_ITEM_MODAL,
   LOAD_NEW_WAGE_PAY_ITEM_MODAL,
@@ -18,6 +21,7 @@ import {
   LOAD_WAGE_PAY_ITEM_MODAL,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EMPLOYEE,
+  UPDATE_LEAVE_PAY_ITEM,
   UPDATE_SUPER_PAY_ITEM_MODAL,
   UPDATE_TAX_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL,
@@ -33,6 +37,11 @@ import {
   getDeductionPayItemModalPayload,
   getIsDeductionPayItemModalCreating,
 } from './selectors/DeductionPayItemModalSelectors';
+import {
+  getIsLeavePayItemModalCreating,
+  getLeavePayItemId,
+  getLeavePayItemPayload,
+} from './selectors/LeavePayItemModalSelectors';
 import { getIsSuperPayItemModalCreating, getSuperPayItemModalId, getSuperPayItemModalSuperPayItem } from './selectors/SuperPayItemModalSelectors';
 import {
   getIsWagePayItemModalCreating,
@@ -314,6 +323,44 @@ const createEmployeeDetailIntegrator = (store, integration) => ({
       content,
       onSuccess,
       onFailure,
+    });
+  },
+
+  loadLeavePayItem: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const isCreating = getIsLeavePayItemModalCreating(state);
+
+    const intent = isCreating
+      ? LOAD_NEW_LEAVE_PAY_ITEM
+      : LOAD_LEAVE_PAY_ITEM;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      leavePayItemId: getLeavePayItemId(state),
+    };
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
+    });
+  },
+
+  saveLeavePayItem: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const isCreating = getIsLeavePayItemModalCreating(state);
+
+    const intent = isCreating
+      ? CREATE_LEAVE_PAY_ITEM
+      : UPDATE_LEAVE_PAY_ITEM;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      leavePayItemId: getLeavePayItemId(state),
+    };
+
+    const content = getLeavePayItemPayload(state);
+
+    integration.write({
+      intent, urlParams, content, onSuccess, onFailure,
     });
   },
 });

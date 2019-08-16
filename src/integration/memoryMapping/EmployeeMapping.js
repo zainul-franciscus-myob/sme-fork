@@ -1,6 +1,7 @@
 import {
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_EMPLOYEE,
+  CREATE_LEAVE_PAY_ITEM,
   CREATE_SUPER_FUND,
   CREATE_SUPER_PAY_ITEM_MODAL,
   CREATE_WAGE_PAY_ITEM_MODAL,
@@ -9,8 +10,10 @@ import {
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
   LOAD_EMPLOYEE_LIST,
+  LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_NEW_EMPLOYEE_DETAIL,
+  LOAD_NEW_LEAVE_PAY_ITEM,
   LOAD_NEW_SUPER_FUND,
   LOAD_NEW_SUPER_PAY_ITEM_MODAL,
   LOAD_NEW_WAGE_PAY_ITEM_MODAL,
@@ -20,12 +23,15 @@ import {
   SORT_AND_FILTER_EMPLOYEE_LIST,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EMPLOYEE,
+  UPDATE_LEAVE_PAY_ITEM,
   UPDATE_SUPER_PAY_ITEM_MODAL,
   UPDATE_TAX_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL,
 } from '../../employee/EmployeeIntents';
 import abnDetail from '../data/payrollSettings/abnDetail';
-import createDeductionPayItemModalResponse from '../data/employee/createDeductionPayItemModalResponse';
+import createDeductionPayItemModalResponse
+  from '../data/employee/createDeductionPayItemModalResponse';
+import createLeavePayItemModalResponse from '../data/employee/createLeavePayItemModalResponse';
 import createSuperFundModalResponse from '../data/employee/createSuperFundModalResponse';
 import createSuperPayItemModalResponse from '../data/employee/createSuperPayItemModalResponse';
 import createWagePayItemModalResponse from '../data/employee/createWagePayItemModalResponse';
@@ -33,7 +39,10 @@ import employeeDetailLoadResponse from '../data/employee/employeeDetailEntry';
 import employeeListFilterResponse from '../data/employee/filterEmployeeList';
 import employeeListResponse from '../data/employee/employeeList';
 import loadDeductionPayItemModalResponse from '../data/employee/loadDeductionPayItemModalResponse';
-import loadNewDeductionPayItemModalResponse from '../data/employee/loadNewDeductionPayItemModalResponse';
+import loadLeavePayItemModalResponse from '../data/employee/loadLeavePayItemModalResponse';
+import loadNewDeductionPayItemModalResponse
+  from '../data/employee/loadNewDeductionPayItemModalResponse';
+import loadNewLeavePayItemModalResponse from '../data/employee/loadNewLeavePayItemModalResponse';
 import loadNewSuperPayItemModalResponse from '../data/employee/loadNewSuperPayItemModalResponse';
 import loadNewWagePayItemModalResponse from '../data/employee/loadNewWagePayItemModalResponse';
 import loadSuperPayItemModalResponse from '../data/employee/loadSuperPayItemModalResponse';
@@ -43,8 +52,10 @@ import successEmployeeCreateResponse from '../data/employee/employeeCreateRespon
 import successResponse from '../data/success';
 import superFundNewDetail from '../data/superFund/superFundNewDetail';
 import taxPayItemResponse from '../data/payItem/tax/loadTaxPayItem';
-import updateDeductionPayItemModalResponse from '../data/employee/updatedDeductionPayItemModalResponse';
+import updateDeductionPayItemModalResponse
+  from '../data/employee/updatedDeductionPayItemModalResponse';
 import updateSuperPayItemModalResponse from '../data/employee/updateSuperPayItemModalResponse';
+import updatedLeavePayItemModalResponse from '../data/employee/updatedLeavePayItemModalResponse';
 import updatedWagePayItemModalResponse from '../data/employee/updatedWagePayItemModalResponse';
 
 const loadEmployeeList = ({ onSuccess }) => { onSuccess(employeeListResponse); };
@@ -107,6 +118,11 @@ const createSuperPayItemModal = ({ onSuccess }) => onSuccess(createSuperPayItemM
 
 const updateSuperPayItemModal = ({ onSuccess }) => onSuccess(updateSuperPayItemModalResponse);
 
+const loadLeavePayItemModal = ({ onSuccess }) => onSuccess(loadLeavePayItemModalResponse);
+const loadNewLeavePayItemModal = ({ onSuccess }) => onSuccess(loadNewLeavePayItemModalResponse);
+const createLeavePayItemModal = ({ onSuccess }) => onSuccess(createLeavePayItemModalResponse);
+const updatedLeavePayItemModal = ({ onSuccess }) => onSuccess(updatedLeavePayItemModalResponse);
+
 const EmployeeListMapping = {
   [LOAD_EMPLOYEE_LIST]: loadEmployeeList,
   [SORT_AND_FILTER_EMPLOYEE_LIST]: sortAndFilterEmployeeList,
@@ -132,6 +148,10 @@ const EmployeeListMapping = {
   [LOAD_SUPER_PAY_ITEM_MODAL]: loadSuperPayItemModal,
   [CREATE_SUPER_PAY_ITEM_MODAL]: createSuperPayItemModal,
   [UPDATE_SUPER_PAY_ITEM_MODAL]: updateSuperPayItemModal,
+  [LOAD_LEAVE_PAY_ITEM]: loadLeavePayItemModal,
+  [LOAD_NEW_LEAVE_PAY_ITEM]: loadNewLeavePayItemModal,
+  [CREATE_LEAVE_PAY_ITEM]: createLeavePayItemModal,
+  [UPDATE_LEAVE_PAY_ITEM]: updatedLeavePayItemModal,
 };
 
 export default EmployeeListMapping;

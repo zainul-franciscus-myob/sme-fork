@@ -5,7 +5,9 @@ import { getStartDate, getTerminationDate } from './EmployeeDetailSelectors';
 
 const getLeavePayItemOptions = state => state.leavePayItemOptions;
 
-const getAllocatedLeavePayItems = state => state.payrollDetails.leaveDetails.allocatedLeavePayItems;
+export const getAllocatedLeavePayItems = (
+  state => state.payrollDetails.leaveDetails.allocatedLeavePayItems
+);
 
 const getAllocatedLeaveItemModal = state => state.payrollDetails.leaveDetails.modal;
 

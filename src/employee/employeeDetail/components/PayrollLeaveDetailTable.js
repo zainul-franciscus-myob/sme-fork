@@ -27,9 +27,13 @@ const onRemoveButtonClick = (handler, payItemId) => () => {
   handler(payItemId);
 };
 
+const onPayItemSelect = (handler, id) => () => {
+  handler(id);
+};
+
 const handleInputChange = (handler, payItemId) => (e) => {
-  const { value } = e.target;
-  handler({ payItemId, value });
+  const { rawValue } = e.target;
+  handler({ payItemId, value: rawValue });
 };
 
 const PayrollLeaveDetailTable = ({
@@ -38,6 +42,7 @@ const PayrollLeaveDetailTable = ({
   onAddAllocatedLeaveItem,
   onRemoveAllocatedLeaveItem,
   onUpdateCarryOver,
+  onOpenLeavePayItemModal,
 }) => {
   const emptyView = (
     <PageState title="You have not allocated any Leave items yet." />
@@ -49,7 +54,9 @@ const PayrollLeaveDetailTable = ({
 
     return (
       <Table.Row key={payItemId}>
-        <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
+        <Table.RowItem {...tableConfig.name}>
+          <Button type="link" onClick={onPayItemSelect(onOpenLeavePayItemModal, payItemId)}>{name}</Button>
+        </Table.RowItem>
         <Table.RowItem {...tableConfig.carryOver}>
           <AmountInput
             name="carryOver"
@@ -101,6 +108,10 @@ const PayrollLeaveDetailTable = ({
           items={items}
           selected={{}}
           onChange={handleComboboxChange(onAddAllocatedLeaveItem)}
+          addNewItem={{
+            label: 'Create leave pay item',
+            onAddNew: onPayItemSelect(onOpenLeavePayItemModal, 'new'),
+          }}
         />
       </div>
     </div>

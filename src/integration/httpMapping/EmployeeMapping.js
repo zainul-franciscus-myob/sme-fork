@@ -1,6 +1,7 @@
 import {
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_EMPLOYEE,
+  CREATE_LEAVE_PAY_ITEM,
   CREATE_SUPER_FUND,
   CREATE_SUPER_PAY_ITEM_MODAL,
   CREATE_WAGE_PAY_ITEM_MODAL,
@@ -9,8 +10,10 @@ import {
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
   LOAD_EMPLOYEE_LIST,
+  LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_NEW_EMPLOYEE_DETAIL,
+  LOAD_NEW_LEAVE_PAY_ITEM,
   LOAD_NEW_SUPER_FUND,
   LOAD_NEW_SUPER_PAY_ITEM_MODAL,
   LOAD_NEW_WAGE_PAY_ITEM_MODAL,
@@ -20,6 +23,7 @@ import {
   SORT_AND_FILTER_EMPLOYEE_LIST,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EMPLOYEE,
+  UPDATE_LEAVE_PAY_ITEM,
   UPDATE_SUPER_PAY_ITEM_MODAL,
   UPDATE_TAX_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL,
@@ -121,6 +125,22 @@ const EmployeeListMapping = {
   [UPDATE_SUPER_PAY_ITEM_MODAL]: {
     method: 'PUT',
     getPath: ({ businessId, superPayItemId }) => `/${businessId}/employee/update_super_pay_item_detail/${superPayItemId}`,
+  },
+  [LOAD_NEW_LEAVE_PAY_ITEM]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/employee/load_new_leave_pay_item`,
+  },
+  [LOAD_LEAVE_PAY_ITEM]: {
+    method: 'GET',
+    getPath: ({ businessId, leavePayItemId }) => `/${businessId}/employee/load_leave_pay_item/${leavePayItemId}`,
+  },
+  [CREATE_LEAVE_PAY_ITEM]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/employee/create_new_leave_pay_item`,
+  },
+  [UPDATE_LEAVE_PAY_ITEM]: {
+    method: 'PUT',
+    getPath: ({ businessId, leavePayItemId }) => `/${businessId}/employee/update_leave_pay_item/${leavePayItemId}`,
   },
 };
 

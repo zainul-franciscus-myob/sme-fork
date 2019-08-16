@@ -1,12 +1,8 @@
 {
   "message": "Great Work! You've done it well!",
   "leavePayItem": {
-    "id": 112,
-    "payItemId": 87,
-    "name": "Sick Leave Accrual",
-    "carryOver": "43",
-    "yearToDate": "10.5",
-    "total": "53.5"
+    "payItemId": "87",
+    "name": "Annual leave accrual"
   },
   "leavePayItemOptions": [
     {
