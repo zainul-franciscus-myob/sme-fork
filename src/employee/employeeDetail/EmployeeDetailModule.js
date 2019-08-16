@@ -21,6 +21,7 @@ import {
   getUpdatedSuperPayItemModal,
   getUpdatedSuperPayItemModalForSave,
 } from './selectors/SuperPayItemModalSelectors';
+import { getIsWagePayItemModalCreating } from './selectors/WagePayItemModalSelectors';
 import EmployeeDetailView from './components/EmployeeDetailView';
 import Store from '../../store/Store';
 import createEmployeeDetailDispatcher from './createEmployeeDetailDispatcher';
@@ -190,6 +191,49 @@ export default class EmployeeDetailModule {
 
     this.createOrUpdateEmployee(onSuccess);
   };
+
+  onOpenWagePayItemModal = (id) => {
+    this.dispatcher.openWagePayItemModal(id);
+    this.dispatcher.setWagePayItemModalLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setWagePayItemModalLoadingState(false);
+      this.dispatcher.loadWagePayItemModal(response);
+    };
+
+    const onFailure = (response) => {
+      this.dispatcher.closeWagePayItemModal();
+      this.dispatcher.setAlert({ type: 'danger', message: response.message });
+    };
+
+    this.integrator.loadWagePayItemModal({ onSuccess, onFailure });
+  }
+
+  saveWagePayItemModal = () => {
+    this.dispatcher.setWagePayItemModalLoadingState(true);
+    this.dispatcher.setWagePayItemModalSubmittingState(true);
+
+    const onSuccess = (response) => {
+      const state = this.store.getState();
+      const isCreating = getIsWagePayItemModalCreating(state);
+
+      if (isCreating) {
+        this.dispatcher.createWagePayItemModal(response);
+      } else {
+        this.dispatcher.updateWagePayItemModal(response);
+      }
+      this.dispatcher.closeWagePayItemModal();
+      this.dispatcher.setAlert({ type: 'success', message: response.message });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setWagePayItemModalLoadingState(false);
+      this.dispatcher.setWagePayItemModalSubmittingState(false);
+      this.dispatcher.setWagePayItemModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.createOrUpdateWagePayItemModal({ onSuccess, onFailure });
+  }
 
   openDeductionPayItemModal = (id) => {
     this.dispatcher.openDeductionPayItemModal(id);
@@ -442,6 +486,19 @@ export default class EmployeeDetailModule {
         onAddPayrollSuperPayItem={this.dispatcher.addPayrollSuperPayItem}
         onRemovePayrollSuperPayItem={this.dispatcher.removePayrollSuperPayItem}
         onOpenDeductionPayItemModal={this.openDeductionPayItemModal}
+        wagePayItemModalListeners={{
+          onDetailsChange: this.dispatcher.updateWagePayItemModalDetails,
+          onAmountInputBlur: this.dispatcher.updateWagePayItemModalAmount,
+          onOverrideAccountChange: this.dispatcher.updateWagePayItemModalOverrideAccount,
+          onEmployeeSelected: this.dispatcher.addWagePayItemModalEmployeeToSelectedList,
+          onRemoveEmployee: this.dispatcher.removeWagePayItemModalEmployeeFromSelectedList,
+          onExemptionSelected: this.dispatcher.addWagePayItemModalExemptionToSelectedList,
+          onRemoveExemption: this.dispatcher.removeWagePayItemModalExemptionFromSelectedList,
+          onSave: this.saveWagePayItemModal,
+          onCancel: this.dispatcher.closeWagePayItemModal,
+          onDismissAlert: this.dispatcher.dismissWagePayItemModalAlert,
+        }}
+        onOpenWagePayItemModal={this.onOpenWagePayItemModal}
         deductionPayItemModalListeners={{
           onDismissAlert: this.dispatcher.dismissDeductionPayItemModalAlert,
           onChange: this.dispatcher.setDeductionPayItemModalInput,

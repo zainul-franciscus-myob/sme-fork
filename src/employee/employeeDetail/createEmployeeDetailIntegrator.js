@@ -3,6 +3,7 @@ import {
   CREATE_EMPLOYEE,
   CREATE_SUPER_FUND,
   CREATE_SUPER_PAY_ITEM_MODAL,
+  CREATE_WAGE_PAY_ITEM_MODAL,
   DELETE_EMPLOYEE,
   LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
@@ -11,12 +12,15 @@ import {
   LOAD_NEW_EMPLOYEE_DETAIL,
   LOAD_NEW_SUPER_FUND,
   LOAD_NEW_SUPER_PAY_ITEM_MODAL,
+  LOAD_NEW_WAGE_PAY_ITEM_MODAL,
   LOAD_SUPER_PAY_ITEM_MODAL,
   LOAD_TAX_PAY_ITEM_MODAL,
+  LOAD_WAGE_PAY_ITEM_MODAL,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EMPLOYEE,
   UPDATE_SUPER_PAY_ITEM_MODAL,
   UPDATE_TAX_PAY_ITEM_MODAL,
+  UPDATE_WAGE_PAY_ITEM_MODAL,
 } from '../EmployeeIntents';
 import {
   getBusinessId,
@@ -30,6 +34,11 @@ import {
   getIsDeductionPayItemModalCreating,
 } from './selectors/DeductionPayItemModalSelectors';
 import { getIsSuperPayItemModalCreating, getSuperPayItemModalId, getSuperPayItemModalSuperPayItem } from './selectors/SuperPayItemModalSelectors';
+import {
+  getIsWagePayItemModalCreating,
+  getSaveWagePayItemModalPayload,
+  getWagePayItemModalId,
+} from './selectors/WagePayItemModalSelectors';
 import { getSuperFund, getSuperFundAbn } from './selectors/SuperFundModalSelectors';
 import { getTaxPayItemPayload } from './selectors/PayrollTaxSelectors';
 
@@ -117,6 +126,50 @@ const createEmployeeDetailIntegrator = (store, integration) => ({
       businessId: getBusinessId(state),
     };
     const content = getTaxPayItemPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadWagePayItemModal: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const isCreating = getIsWagePayItemModalCreating(state);
+
+    const intent = isCreating
+      ? LOAD_NEW_WAGE_PAY_ITEM_MODAL
+      : LOAD_WAGE_PAY_ITEM_MODAL;
+
+    const businessId = getBusinessId(state);
+    const payItemId = isCreating ? undefined : getWagePayItemModalId(state);
+
+    const urlParams = { businessId, payItemId };
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  createOrUpdateWagePayItemModal: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const isCreating = getIsWagePayItemModalCreating(state);
+
+    const intent = isCreating
+      ? CREATE_WAGE_PAY_ITEM_MODAL
+      : UPDATE_WAGE_PAY_ITEM_MODAL;
+
+    const businessId = getBusinessId(state);
+    const payItemId = isCreating ? undefined : getWagePayItemModalId(state);
+    const urlParams = { businessId, payItemId };
+
+    const content = getSaveWagePayItemModalPayload(state);
 
     integration.write({
       intent,

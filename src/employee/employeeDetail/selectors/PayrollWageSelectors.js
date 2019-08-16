@@ -2,7 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 const getWagePayItems = state => state.wagePayItems;
 
-const getAllocatedWagePayItems = state => state.payrollDetails.wage.allocatedWagePayItems;
+export const getAllocatedWagePayItems = state => state.payrollDetails.wage.allocatedWagePayItems;
 
 export const getFilteredWagePayItemOptions = createSelector(
   getWagePayItems,

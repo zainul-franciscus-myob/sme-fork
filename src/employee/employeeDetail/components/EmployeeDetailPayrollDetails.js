@@ -26,6 +26,8 @@ const EmployeeDetailPayrollDetails = ({
   onAddPayrollSuperPayItem,
   onRemovePayrollSuperPayItem,
   onOpenDeductionPayItemModal,
+  wagePayItemModalListeners,
+  onOpenWagePayItemModal,
   deductionPayItemModalListeners,
   onAddPayrollTaxPayItem,
   onRemovePayrollTaxPayItem,
@@ -101,6 +103,8 @@ const EmployeeDetailPayrollDetails = ({
       onPayrollWageHourlyRateBlur={onPayrollWageHourlyRateBlur}
       onPayrollWageHoursInPayCycleBlur={onPayrollWageHoursInPayCycleBlur}
       onPayrollWageSelectedPayCycleChange={onPayrollWageSelectedPayCycleChange}
+      onOpenWagePayItemModal={onOpenWagePayItemModal}
+      wagePayItemModalListeners={wagePayItemModalListeners}
     />
   );
 

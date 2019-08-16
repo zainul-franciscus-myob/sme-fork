@@ -6,14 +6,18 @@ import {
   ADD_PAYROLL_TAX_PAY_ITEM,
   ADD_PAYROLL_WAGE_PAY_ITEM,
   ADD_SUPER_PAY_ITEM_MODAL_ITEM,
+  ADD_WAGE_PAY_ITEM_MODAL_EMPLOYEE,
+  ADD_WAGE_PAY_ITEM_MODAL_EXEMPTION,
   CLOSE_DEDUCTION_PAY_ITEM_MODAL,
   CLOSE_MODAL,
   CLOSE_SUPER_FUND_MODAL,
   CLOSE_SUPER_PAY_ITEM_MODAL,
   CLOSE_TAX_PAY_ITEM_MODAL,
+  CLOSE_WAGE_PAY_ITEM_MODAL,
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_SUPER_FUND,
   CREATE_SUPER_PAY_ITEM_MODAL,
+  CREATE_WAGE_PAY_ITEM_MODAL,
   FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
   FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_ABN_DETAIL,
@@ -22,11 +26,13 @@ import {
   LOAD_NEW_SUPER_FUND,
   LOAD_SUPER_PAY_ITEM_MODAL,
   LOAD_TAX_PAY_ITEM_MODAL,
+  LOAD_WAGE_PAY_ITEM_MODAL,
   OPEN_DEDUCTION_PAY_ITEM_MODAL,
   OPEN_MODAL,
   OPEN_SUPER_FUND_MODAL,
   OPEN_SUPER_PAY_ITEM_MODAL,
   OPEN_TAX_PAY_ITEM_MODAL,
+  OPEN_WAGE_PAY_ITEM_MODAL,
   REMOVE_ALLOCATED_LEAVE_ITEM,
   REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
@@ -34,6 +40,8 @@ import {
   REMOVE_PAYROLL_TAX_PAY_ITEM,
   REMOVE_PAYROLL_WAGE_PAY_ITEM,
   REMOVE_SUPER_PAY_ITEM_MODAL_ITEM,
+  REMOVE_WAGE_PAY_ITEM_MODAL_EMPLOYEE,
+  REMOVE_WAGE_PAY_ITEM_MODAL_EXEMPTION,
   SELECT_APRA_FUND,
   SET_ABN_LOADING_STATE,
   SET_ABN_STATUS,
@@ -59,6 +67,9 @@ import {
   SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE,
   SET_TAX_PAY_ITEM_MODAL_LOADING_STATE,
   SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE,
+  SET_WAGE_PAY_ITEM_MODAL_ALERT,
+  SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE,
+  SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE,
   SHOW_CONTACT_DETAILS,
   UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
   UPDATE_BANK_ACCOUNT_DETAILS,
@@ -79,6 +90,10 @@ import {
   UPDATE_SUPER_FUND_DETAIL,
   UPDATE_SUPER_PAY_ITEM_MODAL,
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
+  UPDATE_WAGE_PAY_ITEM_MODAL,
+  UPDATE_WAGE_PAY_ITEM_MODAL_AMOUNT,
+  UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS,
+  UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT,
 } from '../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -321,6 +336,86 @@ const createEmployeeDetailDispatcher = store => ({
   dismissTaxPayItemModalAlertMessage: () => {
     const intent = SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE;
     store.dispatch({ intent, alertMessage: '' });
+  },
+
+  openWagePayItemModal: (id) => {
+    const intent = OPEN_WAGE_PAY_ITEM_MODAL;
+    store.dispatch({ intent, id });
+  },
+
+  setWagePayItemModalLoadingState: (isLoading) => {
+    const intent = SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  setWagePayItemModalSubmittingState: (isSubmitting) => {
+    const intent = SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE;
+    store.dispatch({ intent, isSubmitting });
+  },
+
+  loadWagePayItemModal: (response) => {
+    const intent = LOAD_WAGE_PAY_ITEM_MODAL;
+    store.dispatch({ intent, response });
+  },
+
+  closeWagePayItemModal: () => {
+    const intent = CLOSE_WAGE_PAY_ITEM_MODAL;
+    store.dispatch({ intent });
+  },
+
+  dismissWagePayItemModalAlert: () => {
+    const intent = SET_WAGE_PAY_ITEM_MODAL_ALERT;
+    store.dispatch({ intent, alert: undefined });
+  },
+
+  updateWagePayItemModalDetails: ({ key, value }) => {
+    const intent = UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS;
+    store.dispatch({ intent, key, value });
+  },
+
+  updateWagePayItemModalAmount: ({ key, value }) => {
+    const intent = UPDATE_WAGE_PAY_ITEM_MODAL_AMOUNT;
+    store.dispatch({ intent, key, value });
+  },
+
+  updateWagePayItemModalOverrideAccount: ({ key, value }) => {
+    const intent = UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT;
+    store.dispatch({ intent, key, value });
+  },
+
+  setWagePayItemModalAlert: (alert) => {
+    const intent = SET_WAGE_PAY_ITEM_MODAL_ALERT;
+    store.dispatch({ intent, alert });
+  },
+
+  createWagePayItemModal: (response) => {
+    const intent = CREATE_WAGE_PAY_ITEM_MODAL;
+    store.dispatch({ intent, response });
+  },
+
+  updateWagePayItemModal: (response) => {
+    const intent = UPDATE_WAGE_PAY_ITEM_MODAL;
+    store.dispatch({ intent, response });
+  },
+
+  addWagePayItemModalEmployeeToSelectedList: ({ key, value }) => {
+    const intent = ADD_WAGE_PAY_ITEM_MODAL_EMPLOYEE;
+    store.dispatch({ intent, key, value });
+  },
+
+  removeWagePayItemModalEmployeeFromSelectedList: (id) => {
+    const intent = REMOVE_WAGE_PAY_ITEM_MODAL_EMPLOYEE;
+    store.dispatch({ intent, id });
+  },
+
+  addWagePayItemModalExemptionToSelectedList: ({ key, value }) => {
+    const intent = ADD_WAGE_PAY_ITEM_MODAL_EXEMPTION;
+    store.dispatch({ intent, key, value });
+  },
+
+  removeWagePayItemModalExemptionFromSelectedList: (id) => {
+    const intent = REMOVE_WAGE_PAY_ITEM_MODAL_EXEMPTION;
+    store.dispatch({ intent, id });
   },
 
   loadDeductionPayItemModal: (response) => {

@@ -26,6 +26,10 @@ const onRemoveButtonClick = (handler, id) => () => {
   handler(id);
 };
 
+const onPayItemSelect = (handler, id) => () => {
+  handler(id);
+};
+
 const addWagePayItemLabel = 'Add wage pay item';
 
 const getActionsColumnContent = ({
@@ -57,6 +61,7 @@ const AddWagePayItemTable = ({
   selectedWagePayItems,
   onAddWagePayItem,
   onRemoveWagePayItem,
+  onOpenWagePayItemModal,
 }) => (
   <div className={styles.editableTable}>
     <Table hasActions>
@@ -71,7 +76,9 @@ const AddWagePayItemTable = ({
             id, name, displayType, isRemovable, tooltipText,
           }) => (
             <Table.Row key={id}>
-              <Table.RowItem {...tableConfig.name}>{name}</Table.RowItem>
+              <Table.RowItem {...tableConfig.name}>
+                <Button type="link" onClick={onPayItemSelect(onOpenWagePayItemModal, id)}>{name}</Button>
+              </Table.RowItem>
               <Table.RowItem {...tableConfig.type}>{displayType}</Table.RowItem>
               <Table.RowItem cellRole="actions" {...tableConfig.actions}>
                 {getActionsColumnContent({
@@ -94,6 +101,10 @@ const AddWagePayItemTable = ({
           selected={{}}
           items={filteredWagePayItemOptions}
           onChange={handleComboboxChange(onAddWagePayItem)}
+          addNewItem={{
+            label: 'Create wage pay item',
+            onAddNew: onPayItemSelect(onOpenWagePayItemModal, 'new'),
+          }}
         />
       </div>
       )

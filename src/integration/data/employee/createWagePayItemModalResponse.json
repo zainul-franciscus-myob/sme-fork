@@ -6,10 +6,12 @@
     "type": "WagesPayrollCategory",
     "displayType": "Salary"
   },
-  "allocatedWagePayItems": [
+  "wagePayItems": [
     {
       "id": "1",
-      "type": "WagesPayrollCategory"
+      "name": "Base salary",
+      "type": "WagesPayrollCategory",
+      "displayType": "Salary"
     }
   ]
 }

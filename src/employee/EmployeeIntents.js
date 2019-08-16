@@ -57,6 +57,23 @@ export const REMOVE_ALLOCATED_LEAVE_ITEM = Symbol('Remove an allocated leave ite
 export const UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER = Symbol('Update an allocated leave item carry over amount');
 export const SET_ALLOCATED_LEAVE_ITEM_MODAL = Symbol('Set allocated leave item modal');
 
+export const OPEN_WAGE_PAY_ITEM_MODAL = Symbol('Open wage pay item modal');
+export const SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE = Symbol('Set wage pay item modal loading state');
+export const SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE = Symbol('Set wage pay item modal submitting state');
+export const LOAD_WAGE_PAY_ITEM_MODAL = Symbol('Load wage pay item modal');
+export const LOAD_NEW_WAGE_PAY_ITEM_MODAL = Symbol('Load new wage pay item modal');
+export const CLOSE_WAGE_PAY_ITEM_MODAL = Symbol('Close wage pay item modal');
+export const SET_WAGE_PAY_ITEM_MODAL_ALERT = Symbol('Set wage pay item modal alert');
+export const UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS = Symbol('Update wage pay item modal details');
+export const UPDATE_WAGE_PAY_ITEM_MODAL_AMOUNT = Symbol('Update wage pay item modal amount');
+export const UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT = Symbol('Update wage pay item modal override account');
+export const ADD_WAGE_PAY_ITEM_MODAL_EMPLOYEE = Symbol('Add wage pay item modal employee');
+export const REMOVE_WAGE_PAY_ITEM_MODAL_EMPLOYEE = Symbol('Remove wage pay item modal employee');
+export const ADD_WAGE_PAY_ITEM_MODAL_EXEMPTION = Symbol('Add wage pay item modal exemption');
+export const REMOVE_WAGE_PAY_ITEM_MODAL_EXEMPTION = Symbol('Remove wage pay item modal exemption');
+export const CREATE_WAGE_PAY_ITEM_MODAL = Symbol('Create wage pay item modal');
+export const UPDATE_WAGE_PAY_ITEM_MODAL = Symbol('Update wage pay item modal');
+
 export const OPEN_DEDUCTION_PAY_ITEM_MODAL = Symbol('Open deduction pay item modal');
 export const CLOSE_DEDUCTION_PAY_ITEM_MODAL = Symbol('Close deduction pay item modal');
 export const LOAD_DEDUCTION_PAY_ITEM_MODAL = Symbol('Load deduction pay item modal');

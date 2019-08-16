@@ -1,31 +1,35 @@
 {
-  "title": "Union Fees",
-  "name": "Union Fees",
-  "linkedPayableAccountId": "456",
-  "atoReportingCategory": "NotSet",
-  "calculationBasis": "Percent",
-  "calculationPercentage": "3.00",
-  "calculationPercentOfId": "33",
-  "calculationDollars": "56.00",
-  "calculationPer": "Percent",
-  "limit": "NoLimit",
-  "limitPercentage": "5.00",
-  "limitPercentOfId": "34",
-  "limitDollars": "100.10",
-  "limitPer": "PayPeriod",
-  "selectedEmployees": [
-    {
-      "name": "Calie Mory",
-      "id": "1"
-    }
-  ],
-  "selectedExemptions": [
-    {
-      "name": "Salary Sacrifice",
-      "id": "33",
-      "itemType": "Wages"
-    }
-  ],
+  "title": "My wage",
+  "wage": {
+    "name": "My wage",
+    "atoReportingCategory": "NotReportable",
+    "payBasis": "Salary",
+    "payRate": "RegularRate",
+    "payRateMultiplier": "1.0000",
+    "fixedHourlyPayRate": "0.00",
+    "accountId": "456",
+    "autoAdjustBase": false,
+    "isSystem": false,
+    "selectedEmployees": [
+      {
+        "id": "1",
+        "name": "Calie Mory"
+      },
+      {
+        "name": "Sylvia Belt",
+        "id": "2"
+      }
+    ],
+    "selectedExemptions": [
+      {
+        "name": "Salary Sacrifice",
+        "id": "33",
+        "itemType": "Deduction"
+      }
+    ]
+  },
+  "defaultAccountId": "134",
+  "overrideAccount": true,
   "accounts": [
     {
       "id": "134",
@@ -40,6 +44,16 @@
       "displayId": "6-135"
     }
   ],
+  "payRateList": [
+    {
+      "name": "Regular rate multiplied by",
+      "value": "RegularRate"
+    },
+    {
+      "name": "Fixed hourly rate of",
+      "value": "FixedHourly"
+    }
+  ],
   "atoReportCategoryList": [
     {
       "name": "To be Assigned",
@@ -50,104 +64,68 @@
       "value": "NotReportable"
     },
     {
-      "name": "Deduction - Union/Professional Assoc. Fees",
-      "value": "DeductionUnionProfAssocFees"
+      "name": "Gross Payments",
+      "value": "GrossPayments"
     },
     {
-      "name": "Deduction - Workplace giving",
-      "value": "DeductionWorkPlaceGiving"
+      "name": "Exempt Foreign Income",
+      "value": "ExemptForeignIncome"
     },
     {
-      "name": "ETP - Tax withholding",
-      "value": "ETPTaxWithholding"
-    }
-  ],
-  "calculationBasisOptions": [
-    {
-      "name": "Equals a percentage of a pay item",
-      "value": "Percent"
+      "name": "CDEP Payments",
+      "value": "CDEPPayments"
     },
     {
-      "name": "Equals dollars per pay period",
-      "value": "FixedDollar"
+      "name": "Allowance- Car",
+      "value": "AllowanceCar"
     },
     {
-      "name": "User-entered amount per pay period",
-      "value": "UserEntered"
-    }
-  ],
-  "calculationPercentOfOptions": [
-    {
-      "id": "33",
-      "itemType": "Wages",
-      "displayName": "Gross Wages"
+      "name": "Allowance - Transport",
+      "value": "AllowanceTransport"
     },
     {
-      "id": "34",
-      "itemType": "WagesGroup",
-      "displayName": "Federal Wages"
-    }
-  ],
-  "calculationDollarPerOptions": [
-    {
-      "name": "Pay Period",
-      "value": "PayPeriod"
+      "name": "Allowance - Travel",
+      "value": "AllowanceTravel"
     },
     {
-      "name": "Hour",
-      "value": "Hour"
+      "name": "Allowance - Meals",
+      "value": "AllowanceMeals"
     },
     {
-      "name": "Month",
-      "value": "Month"
+      "name": "Allowance - Laundry ",
+      "value": "AllowanceLaundry"
     },
     {
-      "name": "Year",
-      "value": "Year"
-    }
-  ],
-  "limitOptions": [
-    {
-      "name": "No limit",
-      "value": "NoLimit"
+      "name": "Allowance - Other",
+      "value": "AllowanceOther"
     },
     {
-      "name": "Equals a percentage of wages",
-      "value": "Percent"
+      "name": "Lump Sum A - Termination",
+      "value": "LumpSumPaymentATermination"
     },
     {
-      "name": "Equals dollars per pay period",
-      "value": "FixedDollar"
-    }
-  ],
-  "limitPercentOfOptions": [
-    {
-      "id": "33",
-      "itemType": "Wages",
-      "displayName": "Gross Wages"
+      "name": "Lump Sum A - Redundancy",
+      "value": "LumpSumPaymentARedundancy"
     },
     {
-      "id": "34",
-      "itemType": "WagesGroup",
-      "displayName": "Federal Wages"
-    }
-  ],
-  "limitDollarPerOptions": [
-    {
-      "name": "Pay Period",
-      "value": "PayPeriod"
+      "name": "Lump Sum B",
+      "value": "LumpSumPaymentB"
     },
     {
-      "name": "Quarter",
-      "value": "Quarter"
+      "name": "Lump Sum D",
+      "value": "LumpSumPaymentD"
     },
     {
-      "name": "Month",
-      "value": "Month"
+      "name": "Lump Sum E",
+      "value": "LumpSumPaymentE"
     },
     {
-      "name": "Year",
-      "value": "Year"
+      "name": "ETP Taxable Component",
+      "value": "ETPTaxableComponent"
+    },
+    {
+      "name": "ETP Tax-free Component",
+      "value": "ETPTaxFreeComponent"
     }
   ],
   "employees": [
@@ -168,7 +146,7 @@
     {
       "name": "Salary Sacrifice",
       "id": "33",
-      "itemType": "Wages"
+      "itemType": "Deduction"
     },
     {
       "name": "PAYG Withholding",
