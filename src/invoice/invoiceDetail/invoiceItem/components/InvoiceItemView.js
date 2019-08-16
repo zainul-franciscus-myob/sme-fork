@@ -2,19 +2,20 @@ import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlertMessage, getModalType } from '../invoiceItemSelectors';
+import {
+  getAlert, getAreModalActionButtonsDisabled, getEmailInvoiceDetail, getModalAlert, getModalType,
+} from '../invoiceItemSelectors';
+import InvoiceDetailModal from '../../components/InvoiceDetailModal';
 import InvoiceItemActions from './InvoiceItemActions';
 import InvoiceItemHeader from './InvoiceItemHeader';
-import InvoiceItemModal from './InvoiceItemModal';
 import InvoiceItemOptions from './InvoiceItemOptions';
 import InvoiceItemTable from './InvoiceItemTable';
 
 const InvoiceItemView = ({
-  modalType,
-  alertMessage,
   onUpdateInvoiceOption,
   onUpdateTaxInclusive,
   onSaveButtonClick,
+  onSaveAndEmailButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   onDismissAlert,
@@ -22,16 +23,24 @@ const InvoiceItemView = ({
   onChangeTableRow,
   onRemoveTableRow,
   onLineInputBlur,
-  onModalClose,
-  onCancelModalConfirm,
-  onDeleteModalConfirm,
+  alert,
+  modalAlert,
+  modalType,
+  emailInvoiceDetail,
+  isActionsDisabled,
+  confirmModalListeners,
+  emailSettingsModalListeners,
+  emailInvoiceDetailModalListeners,
 }) => {
   const modal = modalType && (
-    <InvoiceItemModal
+    <InvoiceDetailModal
       modalType={modalType}
-      onModalClose={onModalClose}
-      onCancelModalConfirm={onCancelModalConfirm}
-      onDeleteModalConfirm={onDeleteModalConfirm}
+      confirmModalListeners={confirmModalListeners}
+      emailSettingsModalListeners={emailSettingsModalListeners}
+      emailInvoiceDetailModalListeners={emailInvoiceDetailModalListeners}
+      emailInvoiceDetail={emailInvoiceDetail}
+      isActionsDisabled={isActionsDisabled}
+      alert={modalAlert}
     />
   );
 
@@ -45,14 +54,15 @@ const InvoiceItemView = ({
   const actions = (
     <InvoiceItemActions
       onSaveButtonClick={onSaveButtonClick}
+      onSaveAndEmailButtonClick={onSaveAndEmailButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
     />
   );
 
-  const alert = alertMessage && (
-    <Alert type="danger" onDismiss={onDismissAlert}>
-      {alertMessage}
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
     </Alert>
   );
 
@@ -68,7 +78,7 @@ const InvoiceItemView = ({
   return (
     <LineItemTemplate
       pageHead={<InvoiceItemHeader />}
-      alert={alert}
+      alert={alertComponent}
       options={templateOptions}
       actions={actions}
     >
@@ -81,8 +91,11 @@ const InvoiceItemView = ({
 };
 
 const mapStateToProps = state => ({
-  alertMessage: getAlertMessage(state),
+  alert: getAlert(state),
+  modalAlert: getModalAlert(state),
   modalType: getModalType(state),
+  emailInvoiceDetail: getEmailInvoiceDetail(state),
+  areModalActionButtonsdisabled: getAreModalActionButtonsDisabled(state),
 });
 
 export default connect(mapStateToProps)(InvoiceItemView);

@@ -2,14 +2,12 @@ import {
   Alert, LineItemTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getModalType,
+  getAlert, getEmailInvoiceDetail, getIsActionsDisabled, getIsCreating, getModalAlert, getModalType,
 } from '../invoiceServiceSelectors';
-import CancelModal from '../../../../components/modal/CancelModal';
-import DeleteModal from '../../../../components/modal/DeleteModal';
+import InvoiceDetailModal from '../../components/InvoiceDetailModal';
 import InvoiceServiceActions from './InvoiceServiceActions';
 import InvoiceServiceHeader from './InvoiceServiceHeader';
 import InvoiceServiceOptions from './InvoiceServiceOptions';
@@ -25,12 +23,16 @@ const InvoiceServiceView = ({
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
-  modalType,
-  onCancelModal,
-  onCloseModal,
-  alertMessage,
+  onSaveAndEmailButtonClick,
+  alert,
   onDismissAlert,
-  onDeleteModal,
+  modalType,
+  emailInvoiceDetail,
+  isActionsDisabled,
+  modalAlert,
+  confirmModalListeners,
+  emailSettingsModalListeners,
+  emailInvoiceDetailModalListeners,
 }) => {
   const templateOptions = (
     <InvoiceServiceOptions
@@ -38,39 +40,31 @@ const InvoiceServiceView = ({
     />
   );
 
-  const alertComponent = alertMessage && (
-    <Alert type="danger" onDismiss={onDismissAlert}>
-      {alertMessage}
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
     </Alert>
   );
-
-  let modal;
-  if (modalType === 'cancel') {
-    modal = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onCancelModal}
-        title="Cancel invoice alterations"
-        description="Are you sure you want to cancel the alterations in this invoice?"
-      />
-    );
-  } else if (modalType === 'delete') {
-    modal = (
-      <DeleteModal
-        onCancel={onCloseModal}
-        onConfirm={onDeleteModal}
-        title="Delete invoice"
-        description="Are you sure you want to delete this invoice?"
-      />
-    );
-  }
 
   const actions = (
     <InvoiceServiceActions
       isCreating={isCreating}
       onSaveButtonClick={onSaveButtonClick}
+      onSaveAndEmailButtonClick={onSaveAndEmailButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
+    />
+  );
+
+  const modal = modalType && (
+    <InvoiceDetailModal
+      modalType={modalType}
+      confirmModalListeners={confirmModalListeners}
+      emailSettingsModalListeners={emailSettingsModalListeners}
+      emailInvoiceDetailModalListeners={emailInvoiceDetailModalListeners}
+      emailInvoiceDetail={emailInvoiceDetail}
+      isActionsDisabled={isActionsDisabled}
+      alert={modalAlert}
     />
   );
 
@@ -94,28 +88,13 @@ const InvoiceServiceView = ({
   return view;
 };
 
-InvoiceServiceView.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
-  onUpdateRow: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-  onRemoveRow: PropTypes.func.isRequired,
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
-  modalType: PropTypes.string.isRequired,
-  alertMessage: PropTypes.string.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  onDeleteModal: PropTypes.func.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
-  onCancelModal: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
+  alert: getAlert(state),
+  modalAlert: getModalAlert(state),
   modalType: getModalType(state),
-  alertMessage: getAlertMessage(state),
+  emailInvoiceDetail: getEmailInvoiceDetail(state),
+  isActionsDisabled: getIsActionsDisabled(state),
 });
 
 export default connect(mapStateToProps)(InvoiceServiceView);

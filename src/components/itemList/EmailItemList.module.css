@@ -1,0 +1,8 @@
+.item {
+  display: flex;
+}
+
+.item button {
+  border-color: transparent;
+  background: none;
+}

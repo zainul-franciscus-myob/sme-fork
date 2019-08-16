@@ -1,9 +1,13 @@
 import {
+  getContactUrlParams,
   getDisplayDaysForMonth,
+  getEmailInvoicePayload,
   getExpirationTermsLabel,
   getExpiredDate,
   getInvoiceOptions,
   getInvoicePayload,
+  getInvoiceUrlParams,
+  getNewInvoiceUrlParams,
   getPaymentTermsPopoverLabel,
   getShowExpirationDaysAmountInput,
   getShowExpiryDaysOptions,
@@ -202,6 +206,26 @@ describe('InvoiceServiceSelectors', () => {
     });
   });
 
+  describe('getEmailInvoicePayload', () => {
+    it('returns the right shape for the email invoice payload', () => {
+      const expected = {
+        businessName: 'Blue Bowl Homewares',
+        ccToEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
+        fromEmail: 'tom.xu@myob.com',
+        fromName: 'Tom Xu',
+        messageBody: 'Thank you for your patronage!',
+        subject: 'Thank you!',
+        toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
+        toName: 'Geoff Speirs',
+        attachments: [],
+      };
+
+      const actual = getEmailInvoicePayload(state);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
   describe('getTotalsAndAmounts', () => {
     it('should calculate amount due correctly', () => {
       const expected = {
@@ -371,6 +395,41 @@ describe('InvoiceServiceSelectors', () => {
         },
       };
       expect(getShowExpirationDaysAmountInput(invoiceState)).toBeTruthy();
+    });
+  });
+
+  describe('getNewInvoiceUrlParams', () => {
+    it('returns the correct params for creating a new invoice', () => {
+      const actual = getNewInvoiceUrlParams(state);
+      const expected = {
+        businessId: 'abc',
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getInvoiceUrlParams', () => {
+    it('returns params that include businessId and invoiceId', () => {
+      const actual = getInvoiceUrlParams(state);
+      const expected = {
+        businessId: 'abc',
+        invoiceId: '1',
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getContactUrlParams', () => {
+    it('returns params that include businessId and contactId', () => {
+      const actual = getContactUrlParams(state);
+      const expected = {
+        businessId: 'abc',
+        contactId: '3',
+      };
+
+      expect(actual).toEqual(expected);
     });
   });
 });

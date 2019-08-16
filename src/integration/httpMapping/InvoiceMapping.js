@@ -3,6 +3,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_LIST,
+  SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
 } from '../../invoice/InvoiceIntents';
 
@@ -26,6 +27,10 @@ const InvoiceMapping = {
   [LOAD_CONTACT_ADDRESS]: {
     method: 'GET',
     getPath: ({ businessId, contactId }) => `/${businessId}/invoice/load_contact_address/${contactId}`,
+  },
+  [SEND_EMAIL]: {
+    method: 'POST',
+    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/send_invoice_email/${invoiceId}`,
   },
 };
 

@@ -20,13 +20,12 @@ const loadNewInvoiceServiceDetailFromQuote = ({ onSuccess }) => {
 };
 
 const createInvoiceServiceDetail = ({ onSuccess }) => {
-  onSuccess(successMessage);
+  onSuccess({ ...successMessage, id: '1' });
 };
 
 const updateInvoiceServiceDetail = ({ onSuccess }) => {
   onSuccess(successMessage);
 };
-
 
 const getCalculatedTotals = ({ onSuccess }) => onSuccess(totalsResponse);
 

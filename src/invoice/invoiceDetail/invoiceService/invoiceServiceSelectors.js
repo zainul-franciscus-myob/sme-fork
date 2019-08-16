@@ -1,12 +1,29 @@
 import {
   addDays, addMonths, eachDay, endOfMonth, format, getDaysInMonth, setDate, startOfMonth,
 } from 'date-fns';
-import { createSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
 import dateFormat from 'dateformat';
 
 export const getBusinessId = state => state.businessId;
 export const getInvoiceId = state => state.invoiceId;
 export const getQuoteId = state => state.quoteId;
+export const getContactId = state => state.invoice.contactId;
+export const getNewInvoiceUrlParams = state => ({
+  businessId: getBusinessId(state),
+});
+export const getInvoiceUrlParams = state => ({
+  businessId: getBusinessId(state),
+  invoiceId: getInvoiceId(state),
+});
+export const getContactUrlParams = state => ({
+  businessId: getBusinessId(state),
+  contactId: getContactId(state),
+});
+
+const getOpenSendEmail = state => state.openSendEmail;
+export const getRouteURLParams = createStructuredSelector({
+  openSendEmail: getOpenSendEmail,
+});
 
 const formatAmount = amount => Intl
   .NumberFormat('en-AU', {
@@ -192,8 +209,6 @@ const getInvoiceServiceLinesForPayload = lines => lines.map((line) => {
   return rest;
 });
 
-export const getContactId = state => state.invoice.contactId;
-
 const getContactName = (contacts, contactId) => {
   const selectedContact = contacts.find(({ value }) => contactId === value) || {};
   return selectedContact.name;
@@ -215,7 +230,8 @@ export const getInvoicePayload = (state) => {
   };
 };
 
-export const getAlertMessage = state => state.alertMessage;
+export const getAlert = state => state.alert;
+export const getModalAlert = state => state.modalAlert;
 export const getIsActionsDisabled = state => state.isSubmitting;
 
 export const getIsTableEmpty = createSelector(
@@ -260,3 +276,31 @@ export const getShowExpirationDaysAmountInput = state => [
 ].includes(state.invoice.expirationTerm);
 
 export const getComments = state => state.comments.map(comment => ({ value: comment }));
+
+export const getShouldShowEmailModalAfterSave = state => state.shouldShowEmailModalAfterSave;
+export const getHasEmailReplyDetails = state => state.emailInvoice.hasEmailReplyDetails;
+
+const getEmailToAddresses = state => state.emailInvoice.toEmail;
+const getCcEmailToAddresses = state => state.emailInvoice.ccToEmail;
+const getIsEmailMeACopy = state => state.emailInvoice.isEmailMeACopy;
+const getEmailSubject = state => state.emailInvoice.subject;
+const getEmailMessageBody = state => state.emailInvoice.messageBody;
+export const getEmailInvoiceDetail = createSelector(
+  getEmailToAddresses,
+  getCcEmailToAddresses,
+  getIsEmailMeACopy,
+  getEmailSubject,
+  getEmailMessageBody,
+  (emailToAddresses, ccEmailToAddresses, isEmailMeACopy, subject, messageBody) => ({
+    emailToAddresses,
+    ccEmailToAddresses,
+    isEmailMeACopy,
+    subject,
+    messageBody,
+  }),
+);
+
+export const getEmailInvoicePayload = (state) => {
+  const { hasEmailReplyDetails, ...restOfEmailInvoice } = state.emailInvoice;
+  return restOfEmailInvoice;
+};

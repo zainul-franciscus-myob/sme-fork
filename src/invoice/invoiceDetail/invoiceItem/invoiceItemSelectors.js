@@ -1,7 +1,7 @@
 import {
   addDays, addMonths, eachDay, endOfMonth, format, getDaysInMonth, setDate, startOfMonth,
 } from 'date-fns';
-import { createSelector } from 'reselect/lib/index';
+import { createSelector, createStructuredSelector } from 'reselect/lib/index';
 import dateFormat from 'dateformat';
 
 import ExpirationTerm from './enums/ExpirationTerm';
@@ -162,10 +162,12 @@ export const getInvoiceOptions = createSelector(
 );
 
 export const getAreButtonsDisabled = state => areLinesCalculating(state) || getIsSubmitting(state);
+export const getAreModalActionButtonsDisabled = state => getIsSubmitting(state);
 
 export const getModalType = state => state.modalType;
 
-export const getAlertMessage = state => state.alertMessage;
+export const getAlert = state => state.alert;
+export const getModalAlert = state => state.modalAlert;
 
 export const getTotals = state => state.totals;
 
@@ -319,3 +321,36 @@ export const getShowExpirationDaysAmountInput = state => [
   'InAGivenNumberOfDays',
   'NumberOfDaysAfterEOM',
 ].includes(state.invoice.expirationTerm);
+
+export const getShouldShowEmailModalAfterSave = state => state.shouldShowEmailModalAfterSave;
+export const getHasEmailReplyDetails = state => state.emailInvoice.hasEmailReplyDetails;
+
+const getEmailToAddresses = state => state.emailInvoice.toEmail;
+const getCcEmailToAddresses = state => state.emailInvoice.ccToEmail;
+const getIsEmailMeACopy = state => state.emailInvoice.isEmailMeACopy;
+const getEmailSubject = state => state.emailInvoice.subject;
+const getEmailMessageBody = state => state.emailInvoice.messageBody;
+export const getEmailInvoiceDetail = createSelector(
+  getEmailToAddresses,
+  getCcEmailToAddresses,
+  getIsEmailMeACopy,
+  getEmailSubject,
+  getEmailMessageBody,
+  (emailToAddresses, ccEmailToAddresses, isEmailMeACopy, subject, messageBody) => ({
+    emailToAddresses,
+    ccEmailToAddresses,
+    isEmailMeACopy,
+    subject,
+    messageBody,
+  }),
+);
+
+export const getEmailInvoicePayload = (state) => {
+  const { hasEmailReplyDetails, ...restOfEmailInvoice } = state.emailInvoice;
+  return restOfEmailInvoice;
+};
+
+const getOpenSendEmail = state => state.openSendEmail;
+export const getRouteURLParams = createStructuredSelector({
+  openSendEmail: getOpenSendEmail,
+});

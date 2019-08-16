@@ -1,5 +1,4 @@
 import { Button, ButtonRow } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -11,10 +10,14 @@ const InvoiceServiceActions = ({
   isActionsDisabled,
   onCancelButtonClick,
   onSaveButtonClick,
+  onSaveAndEmailButtonClick,
   onDeleteButtonClick,
 }) => (
   <ButtonRow
     primary={[
+      <Button key="saveAndEmail" name="saveAndEmail" type="secondary" onClick={onSaveAndEmailButtonClick} disabled={isActionsDisabled}>
+        Save and email
+      </Button>,
       <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
         Cancel
       </Button>,
@@ -31,14 +34,6 @@ const InvoiceServiceActions = ({
     ]}
   />
 );
-
-InvoiceServiceActions.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  isActionsDisabled: PropTypes.bool.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   isActionsDisabled: getIsActionsDisabled(state),

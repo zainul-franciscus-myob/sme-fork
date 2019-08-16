@@ -1,19 +1,33 @@
 import dateFormat from 'dateformat';
 
 import {
-  ADD_LINE, FORMAT_LINE_AMOUNT, REMOVE_LINE, RESET_TOTALS, SET_ARE_LINES_CALCULATING,
-  SET_LINE_AMOUNT_DIRTY, TABLE_ROW_CHANGE,
-  UPDATE_INVOICE_ITEM_OPTION, UPDATE_LINES,
+  ADD_LINE,
+  FORMAT_LINE_AMOUNT,
+  REMOVE_LINE,
+  RESET_TOTALS,
+  SET_ARE_LINES_CALCULATING,
+  SET_LINE_AMOUNT_DIRTY,
+  TABLE_ROW_CHANGE,
+  UPDATE_INVOICE_ITEM_OPTION,
+  UPDATE_LINES,
 } from './InvoiceItemIntents';
 import {
-  CLOSE_MODAL, LOAD_CONTACT_ADDRESS,
-  OPEN_MODAL, SET_ALERT_MESSAGE,
+  LOAD_CONTACT_ADDRESS,
+  RESET_EMAIL_INVOICE_DETAIL,
+  RESET_OPEN_SEND_EMAIL,
+  SET_ALERT,
+  SET_MODAL_ALERT,
+  SET_MODAL_TYPE,
+  SET_SHOW_EMAIL_MODAL_AFTER_SAVE,
   SET_SUBMITTING_STATE,
+  UPDATE_EMAIL_INVOICE_DETAIL,
+  UPDATE_INVOICE_ID_AFTER_CREATE,
 } from '../../InvoiceIntents';
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
+import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import createReducer from '../../../store/createReducer';
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
@@ -25,13 +39,31 @@ const buildIssueDate = (invoiceId, issueDate) => {
   return issueDate;
 };
 
+const getEmailInvoiceDefaultState = () => ({
+  hasEmailReplyDetails: false,
+  isEmailMeACopy: false,
+  businessName: '',
+  ccToEmail: [''],
+  fromEmail: '',
+  fromName: '',
+  messageBody: '',
+  subject: '',
+  toEmail: [''],
+  toName: '',
+  attachments: [],
+});
+
 const getDefaultState = () => ({
-  alertMessage: '',
   isLineAmountDirty: false,
+  areLinesCalculating: false,
   isSubmitting: false,
   isPageEdited: false,
-  areLinesCalculating: false,
-  modalType: '',
+  alert: undefined,
+  modalAlert: undefined,
+  shouldShowEmailModalAfterSave: false,
+  modalType: InvoiceDetailModalType.NONE,
+  invoiceId: '',
+  openSendEmail: false,
   invoice: {
     customerId: '',
     address: '',
@@ -47,6 +79,9 @@ const getDefaultState = () => ({
     issueDate: '',
     purchaseOrderNumber: '',
     isAllowOnlinePayments: false,
+  },
+  emailInvoice: {
+    ...getEmailInvoiceDefaultState(),
   },
   payDirect: {
     isRegistered: false,
@@ -79,15 +114,53 @@ const getDefaultState = () => ({
   comments: [],
 });
 
+const getModalType = (openSendEmailModal, emailInvoice) => {
+  if (openSendEmailModal === 'true') {
+    return emailInvoice.hasEmailReplyDetails
+      ? InvoiceDetailModalType.EMAIL_INVOICE
+      : InvoiceDetailModalType.EMAIL_SETTINGS;
+  }
+  return InvoiceDetailModalType.NONE;
+};
+
+const getModalAlert = alertMessage => alertMessage && ({
+  type: 'success',
+  message: alertMessage.content,
+});
+
+const setEmailInvoiceDetail = emailInvoice => ({
+  ...getEmailInvoiceDefaultState,
+  ...emailInvoice,
+  toEmail: emailInvoice.toEmail.length > 0 ? emailInvoice.toEmail : [''],
+  ccToEmail: emailInvoice.ccToEmail.length > 0 ? emailInvoice.ccToEmail : [''],
+});
+
 const setInitialState = (state, action) => {
   const {
     payload: {
-      customers, expirationTerms, invoice, items, newLine, taxCodes, totals, comments, payDirect,
+      customers,
+      expirationTerms,
+      invoice,
+      items,
+      newLine,
+      taxCodes,
+      totals,
+      comments,
+      payDirect,
+      emailInvoice,
     },
     context: {
-      region, businessId, invoiceId, quoteId,
+      region, businessId, invoiceId, quoteId, openSendEmail,
     },
+    message,
   } = action.context;
+
+  const modalType = getModalType(
+    openSendEmail,
+    emailInvoice,
+  );
+  const modalAlert = getModalAlert(message);
+  const defaultState = getDefaultState();
 
   return {
     ...state,
@@ -96,6 +169,12 @@ const setInitialState = (state, action) => {
       ...invoice,
       issueDate: buildIssueDate(invoiceId, invoice.issueDate),
     },
+    emailInvoice: emailInvoice
+      ? setEmailInvoiceDetail(emailInvoice)
+      : defaultState.emailInvoice,
+    emailInvoiceDefaultState: emailInvoice
+      ? setEmailInvoiceDetail(emailInvoice)
+      : defaultState.emailInvoice,
     payDirect,
     customers,
     expirationTerms,
@@ -110,12 +189,14 @@ const setInitialState = (state, action) => {
     businessId,
     invoiceId,
     quoteId,
+    openSendEmail,
     comments,
+    modalType,
+    modalAlert,
   };
 };
 
 const resetState = () => (getDefaultState());
-
 
 const buildInvoiceOptionValue = ({ key, value }) => (
   key === 'expirationDays'
@@ -169,19 +250,19 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const setAlertMessage = (state, action) => ({
+const setAlert = (state, action) => ({
   ...state,
-  alertMessage: action.alertMessage,
+  alert: action.alert,
 });
 
-const openModal = (state, action) => ({
+const setModalAlert = (state, action) => ({
+  ...state,
+  modalAlert: action.modalAlert,
+});
+
+const setModalType = (state, action) => ({
   ...state,
   modalType: action.modalType,
-});
-
-const closeModal = state => ({
-  ...state,
-  modalType: '',
 });
 
 const addLine = (state, action) => {
@@ -263,6 +344,35 @@ const formatLineAmount = (state, action) => {
   };
 };
 
+const setShowEmailModalAfterSave = (state, action) => ({
+  ...state,
+  shouldShowEmailModalAfterSave: action.shouldShowEmailModalAfterSave,
+});
+
+const resetEmailInvoiceDetail = state => ({
+  ...state,
+  emailInvoice: state.emailInvoiceDefaultState,
+});
+
+const resetOpenSendEmailParam = state => ({
+  ...state,
+  openSendEmail: 'false',
+});
+
+const updateInvoiceIdAfterCreate = (state, action) => ({
+  ...state,
+  invoiceId: action.id,
+});
+
+const updateEmailInvoiceDetail = (state, action) => ({
+  ...state,
+  emailInvoice: {
+    ...state.emailInvoice,
+    [action.key]: action.value,
+  },
+});
+
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -272,14 +382,19 @@ const handlers = {
   [SET_LINE_AMOUNT_DIRTY]: setLineAmountDirty,
   [UPDATE_LINES]: updateLines,
   [SET_SUBMITTING_STATE]: setSubmittingState,
-  [SET_ALERT_MESSAGE]: setAlertMessage,
-  [OPEN_MODAL]: openModal,
-  [CLOSE_MODAL]: closeModal,
   [ADD_LINE]: addLine,
   [TABLE_ROW_CHANGE]: changeTableRow,
   [REMOVE_LINE]: removeLine,
   [RESET_TOTALS]: resetTotals,
   [FORMAT_LINE_AMOUNT]: formatLineAmount,
+  [SET_SHOW_EMAIL_MODAL_AFTER_SAVE]: setShowEmailModalAfterSave,
+  [RESET_EMAIL_INVOICE_DETAIL]: resetEmailInvoiceDetail,
+  [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,
+  [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,
+  [UPDATE_EMAIL_INVOICE_DETAIL]: updateEmailInvoiceDetail,
+  [SET_ALERT]: setAlert,
+  [SET_MODAL_ALERT]: setModalAlert,
+  [SET_MODAL_TYPE]: setModalType,
 };
 
 const invoiceItemReducer = createReducer(getDefaultState(), handlers);

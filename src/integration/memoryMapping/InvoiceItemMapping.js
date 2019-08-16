@@ -19,7 +19,10 @@ const loadNewInvoiceItemDetailFromQuote = ({ onSuccess }) => onSuccess(
 
 const updateInvoiceItemTaxInclusive = ({ onSuccess }) => onSuccess(invoiceItemChangeItem);
 
-const createInvoiceItemDetail = ({ onSuccess }) => onSuccess(successResponse);
+const createInvoiceItemDetail = ({ onSuccess }) => onSuccess({
+  ...successResponse,
+  id: '2',
+});
 
 const updateInvoiceItemDetail = ({ onSuccess }) => onSuccess(successResponse);
 

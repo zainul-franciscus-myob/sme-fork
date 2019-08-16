@@ -146,6 +146,19 @@
       }
     ]
   },
+  "emailInvoice": {
+    "hasEmailReplyDetails": true,
+    "isEmailMeACopy": false,
+    "businessName": "Blue Bowl Homewares",
+    "ccToEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
+    "fromEmail": "tom.xu@myob.com",
+    "fromName": "Tom Xu",
+    "messageBody": "Thank you for your patronage!",
+    "subject": "Thank you!",
+    "toEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
+    "toName": "Geoff Speirs",
+    "attachments": []
+  },
   "payDirect": {
     "isRegistered": false,
     "baseUrl": "https://paydirectonline.myob.com/payments",

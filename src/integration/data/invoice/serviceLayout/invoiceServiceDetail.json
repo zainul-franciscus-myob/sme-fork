@@ -151,6 +151,19 @@
       }
     ]
   },
+  "emailInvoice": {
+    "hasEmailReplyDetails": true,
+    "isEmailMeACopy": false,
+    "businessName": "Hot Choccers",
+    "ccToEmail": [ "t-pain@myob.com","hamzzz@myob.com" ],
+    "fromEmail": "tom.xu@myob.com",
+    "fromName": "Tom Xu",
+    "messageBody": "Let's make some hot chocolate!!",
+    "subject": "Hot Chocolate is life",
+    "toEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
+    "toName": "Geoff Speirs",
+    "attachments": []
+  },
   "payDirect": {
     "isRegistered": false,
     "baseUrl": "https://paydirectonline.myob.com/payments",

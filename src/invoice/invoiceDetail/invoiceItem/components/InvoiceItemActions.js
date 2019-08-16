@@ -7,19 +7,20 @@ import { getAreButtonsDisabled, getIsCreating } from '../invoiceItemSelectors';
 const InvoiceItemActions = ({
   isCreating,
   onSaveButtonClick,
+  onSaveAndEmailButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   areButtonsDisabled,
 }) => {
-  const cancelButton = (
+  const saveAndEmailButton = (
     <Button
-      key="cancel"
-      name="cancel"
+      key="saveAndEmail"
+      name="saveAndEmail"
       type="secondary"
-      onClick={onCancelButtonClick}
+      onClick={onSaveAndEmailButtonClick}
       disabled={areButtonsDisabled}
     >
-    Cancel
+    Save and email
     </Button>
   );
 
@@ -32,6 +33,18 @@ const InvoiceItemActions = ({
       disabled={areButtonsDisabled}
     >
     Save
+    </Button>
+  );
+
+  const cancelButton = (
+    <Button
+      key="cancel"
+      name="cancel"
+      type="secondary"
+      onClick={onCancelButtonClick}
+      disabled={areButtonsDisabled}
+    >
+    Cancel
     </Button>
   );
 
@@ -49,7 +62,7 @@ const InvoiceItemActions = ({
 
   return (
     <ButtonRow
-      primary={[cancelButton, saveButton]}
+      primary={[saveAndEmailButton, cancelButton, saveButton]}
       secondary={[!isCreating && deleteButton]}
     />
   );

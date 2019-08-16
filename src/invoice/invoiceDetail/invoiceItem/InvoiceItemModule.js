@@ -2,127 +2,103 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  ADD_LINE, CALCULATE_LINE, CREATE_INVOICE_ITEM_DETAIL, FORMAT_LINE_AMOUNT,
-  REMOVE_LINE, RESET_TOTALS, SET_ARE_LINES_CALCULATING, SET_LINE_AMOUNT_DIRTY,
-  TABLE_ROW_CHANGE, UPDATE_INVOICE_ITEM_DETAIL, UPDATE_INVOICE_ITEM_OPTION,
-  UPDATE_INVOICE_ITEM_TAX_INCLUSIVE, UPDATE_LINES, UPDATE_LINE_ITEM, UPDATE_LINE_TAX_CODE,
+  CALCULATE_LINE,
+  REMOVE_LINE,
+  UPDATE_INVOICE_ITEM_TAX_INCLUSIVE,
+  UPDATE_LINE_ITEM,
+  UPDATE_LINE_TAX_CODE,
 } from './InvoiceItemIntents';
+import { SUCCESSFULLY_DELETED_INVOICE_ITEM, SUCCESSFULLY_EMAILED_INVOICE, SUCCESSFULLY_SAVED_INVOICE_ITEM } from '../invoiceMessageTypes';
 import {
-  CLOSE_MODAL, DELETE_INVOICE_DETAIL,
-  LOAD_CONTACT_ADDRESS,
-  OPEN_MODAL,
-  SET_ALERT_MESSAGE,
-  SET_LOADING_STATE,
-  SET_SUBMITTING_STATE,
-} from '../../InvoiceIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_INVOICE_ITEM, SUCCESSFULLY_SAVED_INVOICE_ITEM } from '../invoiceMessageTypes';
-import {
-  areLinesCalculating, getBusinessId, getCustomerId,
-  getInvoiceId, getInvoicePayload, getIsAnAmountLineInput,
-  getIsCreating, getIsLineAmountDirty, getIsPageEdited,
-  getIsTableEmpty, getNewLineIndex, getRegion,
-  getTotalsPayloadForCalculation, getTotalsPayloadForLineItemChange, getTotalsPayloadForLineRemoval,
-  getTotalsPayloadForLineTaxCodeChange, getTotalsPayloadForTaxInclusiveChange,
+  areLinesCalculating,
+  getBusinessId,
+  getHasEmailReplyDetails,
+  getInvoiceId,
+  getIsAnAmountLineInput,
+  getIsCreating,
+  getIsLineAmountDirty,
+  getIsPageEdited,
+  getIsTableEmpty,
+  getNewLineIndex,
+  getRegion,
+  getRouteURLParams,
+  getShouldShowEmailModalAfterSave,
+  getTotalsPayloadForCalculation,
+  getTotalsPayloadForLineItemChange,
+  getTotalsPayloadForLineRemoval,
+  getTotalsPayloadForLineTaxCodeChange,
+  getTotalsPayloadForTaxInclusiveChange,
 } from './invoiceItemSelectors';
+import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import InvoiceItemView from './components/InvoiceItemView';
-import ModalType from './enums/ModalType';
 import Store from '../../../store/Store';
+import createInvoiceItemDispatcher from './createInvoiceItemDispatcher';
+import createInvoiceItemIntegrator from './createInvoiceItemIntegrator';
 import invoiceItemReducer from './invoiceItemReducer';
 import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class InvoiceItemModule {
   constructor({
-    integration, setRootView, pushMessage,
+    integration, setRootView, pushMessage, replaceURLParams,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.replaceURLParams = replaceURLParams;
     this.store = new Store(invoiceItemReducer);
+    this.integrator = createInvoiceItemIntegrator(this.store, this.integration);
+    this.dispatcher = createInvoiceItemDispatcher(this.store);
   }
 
-  setContactAddress = address => this.store.dispatch({
-    intent: LOAD_CONTACT_ADDRESS,
-    address,
-  });
-
   loadCustomerAddress = () => {
-    const state = this.store.getState();
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      contactId: getCustomerId(state),
-    };
-
     const onSuccess = ({ address }) => {
-      this.setContactAddress(address);
+      this.dispatcher.setContactAddress(address);
     };
     const onFailure = ({ message }) => {
-      this.displayErrorAlert(message);
-      this.setContactAddress('');
+      this.displayFailureAlert(message);
+      this.dispatcher.setContactAddress('');
     };
 
-    this.integration.read({
-      intent: LOAD_CONTACT_ADDRESS,
-      urlParams,
+    this.integrator.loadCustomerAddress({
       onSuccess,
       onFailure,
     });
   };
 
   updateInvoiceOption = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_INVOICE_ITEM_OPTION,
-      key,
-      value,
-    });
-
+    this.dispatcher.updateInvoiceOption(key, value);
     if (key === 'customerId') {
       this.loadCustomerAddress();
     }
   };
 
-  setAreLinesCalculating = linesCalculating => this.store.dispatch({
-    intent: SET_ARE_LINES_CALCULATING,
-    areLinesCalculating: linesCalculating,
-  })
+  setAreLinesCalculating = (linesCalculating) => {
+    this.dispatcher.setAreLinesCalculating(linesCalculating);
+  }
 
-  setLineAmountDirty = isLineAmountDirty => this.store.dispatch({
-    intent: SET_LINE_AMOUNT_DIRTY,
-    isLineAmountDirty,
-  });
+  setLineAmountDirty = (isLineAmountDirty) => {
+    this.dispatcher.setLineAmountDirty(isLineAmountDirty);
+  }
 
   updateLines = (requestPayload, intent) => {
-    const state = this.store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
     this.setAreLinesCalculating(true);
 
     const onSuccess = (response) => {
       this.setLineAmountDirty(false);
       this.setAreLinesCalculating(false);
-      this.store.dispatch({
-        intent: UPDATE_LINES,
-        ...response,
-      });
+      this.dispatcher.updateLines(response);
     };
 
     const onFailure = ({ message }) => {
       this.setLineAmountDirty(false);
       this.setAreLinesCalculating(false);
-      this.displayErrorAlert(message);
+      this.displayFailureAlert(message);
     };
 
-    this.integration.write({
+    this.integrator.updateLines({
       intent,
-      urlParams,
-      content: requestPayload,
+      requestPayload,
       onSuccess,
       onFailure,
     });
@@ -135,11 +111,7 @@ export default class InvoiceItemModule {
     const isTableEmpty = getIsTableEmpty(state);
 
     if (!isLineAmountDirty) {
-      this.store.dispatch({
-        intent: UPDATE_INVOICE_ITEM_OPTION,
-        key,
-        value,
-      });
+      this.dispatcher.updateInvoiceOption(key, value);
 
       const newState = this.store.getState();
 
@@ -152,182 +124,6 @@ export default class InvoiceItemModule {
     }
   };
 
-  displayErrorAlert = errorMessage => this.store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: errorMessage,
-  });
-
-  setSubmittingState = (isSubmitting) => {
-    const intent = SET_SUBMITTING_STATE;
-
-    this.store.dispatch({
-      intent,
-      isSubmitting,
-    });
-  };
-
-  redirectToInvoiceList = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    window.location.href = `/#/${region}/${businessId}/invoice`;
-  };
-
-  updateInvoice = () => {
-    const intent = UPDATE_INVOICE_ITEM_DETAIL;
-
-    const state = this.store.getState();
-    const content = getInvoicePayload(state);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      invoiceId: getInvoiceId(state),
-    };
-
-    this.setSubmittingState(true);
-
-    const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_INVOICE_ITEM,
-        content: message,
-      });
-      this.redirectToInvoiceList();
-    };
-
-    const onFailure = ({ message }) => {
-      this.setSubmittingState(false);
-      this.displayErrorAlert(message);
-    };
-
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  createInvoice = () => {
-    const intent = CREATE_INVOICE_ITEM_DETAIL;
-
-    const state = this.store.getState();
-    const content = getInvoicePayload(state);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    this.setSubmittingState(true);
-
-    const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_INVOICE_ITEM,
-        content: message,
-      });
-      this.redirectToInvoiceList();
-    };
-
-    const onFailure = ({ message }) => {
-      this.setSubmittingState(false);
-      this.displayErrorAlert(message);
-    };
-
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  saveInvoice = () => {
-    const state = this.store.getState();
-    const isCreating = getIsCreating(state);
-
-    return isCreating
-      ? this.createInvoice()
-      : this.updateInvoice();
-  };
-
-  openCancelModal = () => {
-    const intent = OPEN_MODAL;
-    const state = this.store.getState();
-
-    if (getIsPageEdited(state)) {
-      this.store.dispatch({
-        intent,
-        modalType: ModalType.cancel,
-      });
-    } else {
-      this.redirectToInvoiceList();
-    }
-  };
-
-  openDeleteModal = () => {
-    const intent = OPEN_MODAL;
-
-    this.store.dispatch({
-      intent,
-      modalType: ModalType.delete,
-    });
-  };
-
-  closeModal = () => {
-    this.store.dispatch({
-      intent: CLOSE_MODAL,
-    });
-  };
-
-  confirmCancelModal = () => {
-    this.redirectToInvoiceList();
-  };
-
-  deleteInvoice = () => {
-    this.setSubmittingState(true);
-    this.closeModal();
-
-    const intent = DELETE_INVOICE_DETAIL;
-
-    const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_DELETED_INVOICE_ITEM,
-        content: message,
-      });
-      this.redirectToInvoiceList();
-    };
-
-    const onFailure = ({ message }) => {
-      this.setSubmittingState(false);
-      this.displayErrorAlert(message);
-    };
-
-    const state = this.store.getState();
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      invoiceId: getInvoiceId(state),
-    };
-
-    this.integration.write({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  updateLineItem = ({ index, itemId }) => {
-    const state = this.store.getState();
-
-    this.updateLines(
-      getTotalsPayloadForLineItemChange({ state, index, itemId }),
-      UPDATE_LINE_ITEM,
-    );
-  };
-
   updateLineTaxCode = () => {
     const state = this.store.getState();
 
@@ -338,10 +134,7 @@ export default class InvoiceItemModule {
   };
 
   addTableLine = (line) => {
-    this.store.dispatch({
-      intent: ADD_LINE,
-      line,
-    });
+    this.dispatcher.addLine(line);
 
     const { itemId } = line;
     if (itemId) {
@@ -355,12 +148,7 @@ export default class InvoiceItemModule {
   };
 
   changeTableRow = (index, key, value) => {
-    this.store.dispatch({
-      intent: TABLE_ROW_CHANGE,
-      index,
-      key,
-      value,
-    });
+    this.dispatcher.changeTableRow(index, key, value);
 
     if (getIsAnAmountLineInput(key)) {
       this.setLineAmountDirty(true);
@@ -385,18 +173,13 @@ export default class InvoiceItemModule {
     const state = this.store.getState();
 
     if (!areLinesCalculating(state)) {
-      this.store.dispatch({
-        intent: REMOVE_LINE,
-        index,
-      });
+      this.dispatcher.removeLine(index);
 
       const newState = this.store.getState();
       const isTableEmpty = getIsTableEmpty(newState);
 
       if (isTableEmpty) {
-        this.store.dispatch({
-          intent: RESET_TOTALS,
-        });
+        this.dispatcher.resetTotals();
       } else {
         this.updateLines(
           getTotalsPayloadForLineRemoval(newState),
@@ -407,11 +190,7 @@ export default class InvoiceItemModule {
   };
 
   lineCalculation = ({ index, key }) => {
-    this.store.dispatch({
-      intent: FORMAT_LINE_AMOUNT,
-      index,
-      key,
-    });
+    this.dispatcher.formatLineAmount(index, key);
 
     const state = this.store.getState();
 
@@ -425,27 +204,250 @@ export default class InvoiceItemModule {
     }
   };
 
-  dismissAlert = () => this.store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: '',
-  });
+  updateLineItem = ({ index, itemId }) => {
+    const state = this.store.getState();
+
+    this.updateLines(
+      getTotalsPayloadForLineItemChange({ state, index, itemId }),
+      UPDATE_LINE_ITEM,
+    );
+  };
+
+  redirectToInvoiceReadUpdateView = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+    const invoiceId = getInvoiceId(state);
+
+    window.location.href = `/#/${region}/${businessId}/invoice/${invoiceId}?openSendEmail=true`;
+  }
+
+  redirectToInvoiceList = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/invoice`;
+  };
+
+  createInvoice = () => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = ({ message, id }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_INVOICE_ITEM,
+        content: message,
+      });
+      this.dispatcher.saveInvoiceIdForCreate(id);
+      this.transitionAfterSave();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.displayFailureAlert(message);
+    };
+
+    this.integrator.createInvoice({
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  updateInvoice = () => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_INVOICE_ITEM,
+        content: message,
+      });
+      this.transitionAfterSave();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.displayFailureAlert(message);
+    };
+
+    this.integrator.updateInvoice({
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  deleteInvoice = () => {
+    this.dispatcher.setSubmittingState(true);
+    this.closeConfirmModal();
+
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_DELETED_INVOICE_ITEM,
+        content: message,
+      });
+      this.redirectToInvoiceList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.displayFailureAlert(message);
+    };
+
+    this.integrator.deleteInvoice({
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  openInvoiceAndQuoteSettingsTab = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    const invoiceAndQuoteSettingsUrl = `/#/${region}/${businessId}/salesSettings`;
+    window.open(invoiceAndQuoteSettingsUrl);
+  }
+
+  openSalesSettingsTabAndCloseModal = () => {
+    this.openInvoiceAndQuoteSettingsTab();
+    this.closeEmailSettingsModal();
+  }
+
+  transitionAfterSave = () => {
+    const state = this.store.getState();
+    if (getShouldShowEmailModalAfterSave(state)) {
+      this.redirectToInvoiceReadUpdateView();
+    } else {
+      this.redirectToInvoiceList();
+    }
+  }
+
+  saveInvoice = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    return isCreating
+      ? this.createInvoice()
+      : this.updateInvoice();
+  };
+
+  saveAndEmailInvoice = () => {
+    this.dispatcher.setShowEmailModalAfterSave(true);
+    this.saveInvoice();
+  }
+
+  updateEmailInvoiceDetail = ({ key, value }) => {
+    this.dispatcher.updateEmailInvoiceDetail(key, value);
+  }
+
+  sendEmail = () => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_EMAILED_INVOICE,
+        content: message,
+      });
+      this.redirectToInvoiceList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.closeEmailInvoiceDetailModal();
+      this.displayFailureAlert(message);
+    };
+
+    this.integrator.sendEmail({
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  openEmailInvoiceModal = () => {
+    const state = this.store.getState();
+    if (getHasEmailReplyDetails(state)) {
+      this.openEmailInvoiceDetailModal();
+    } else {
+      this.openEmailSettingsModal();
+    }
+  }
+
+  openEmailSettingsModal = () => {
+    this.dispatcher.setModalType(InvoiceDetailModalType.EMAIL_SETTINGS);
+  }
+
+  openEmailInvoiceDetailModal = () => {
+    this.dispatcher.setModalType(InvoiceDetailModalType.EMAIL_INVOICE);
+  };
+
+  openCancelModal = () => {
+    if (getIsPageEdited(this.store.getState())) {
+      this.dispatcher.setModalType(InvoiceDetailModalType.CANCEL);
+    } else {
+      this.redirectToInvoiceList();
+    }
+  };
+
+  openDeleteModal = () => this.dispatcher.setModalType(InvoiceDetailModalType.DELETE);
+
+  closeConfirmModal = () => {
+    this.setCloseModalType();
+  }
+
+  closeEmailSettingsModal = () => {
+    this.setCloseModalType();
+    this.dispatcher.setShowEmailModalAfterSave(false);
+    this.dispatcher.resetOpenSendEmailParam();
+  }
+
+  closeEmailInvoiceDetailModal = () => {
+    this.setCloseModalType();
+    this.dispatcher.setShowEmailModalAfterSave(false);
+    this.dispatcher.resetEmailInvoiceDetail();
+    this.dispatcher.resetOpenSendEmailParam();
+  }
+
+  setCloseModalType = () => this.dispatcher.setModalType('');
+
+  displaySuccessMessage = message => this.dispatcher.setAlert({ type: 'success', message });
+
+  displayFailureAlert = message => this.dispatcher.setAlert({ type: 'danger', message });
+
+  dismissAlert = () => this.dispatcher.dismissAlert();
+
+  dismissModalAlert = () => this.dispatcher.dismissModalAlert();
 
   render = () => {
     const invoiceItemView = (
       <InvoiceItemView
         onUpdateInvoiceOption={this.updateInvoiceOption}
         onUpdateTaxInclusive={this.updateIsTaxInclusive}
-        onSaveButtonClick={this.saveInvoice}
-        onCancelButtonClick={this.openCancelModal}
-        onDeleteButtonClick={this.openDeleteModal}
-        onModalClose={this.closeModal}
-        onCancelModalConfirm={this.confirmCancelModal}
-        onDeleteModalConfirm={this.deleteInvoice}
         onAddTableLine={this.addTableLine}
         onChangeTableRow={this.changeTableRow}
         onRemoveTableRow={this.removeTableRow}
         onLineInputBlur={this.lineCalculation}
         onDismissAlert={this.dismissAlert}
+        onSaveButtonClick={this.saveInvoice}
+        onSaveAndEmailButtonClick={this.saveAndEmailInvoice}
+        onCancelButtonClick={this.openCancelModal}
+        onDeleteButtonClick={this.openDeleteModal}
+        confirmModalListeners={{
+          onCancelModalConfirm: this.redirectToInvoiceList,
+          onDeleteModalConfirm: this.deleteInvoice,
+          onCloseConfirmModal: this.closeConfirmModal,
+        }}
+        emailSettingsModalListeners={{
+          onConfirm: this.openSalesSettingsTabAndCloseModal,
+          onCloseModal: this.closeEmailSettingsModal,
+          onDismissAlert: this.dismissModalAlert,
+        }}
+        emailInvoiceDetailModalListeners={{
+          onConfirm: this.sendEmail,
+          onCloseModal: this.closeEmailInvoiceDetailModal,
+          onEmailInvoiceDetailChange: this.updateEmailInvoiceDetail,
+          onDismissAlert: this.dismissModalAlert,
+        }}
       />
     );
 
@@ -462,37 +464,27 @@ export default class InvoiceItemModule {
     this.store.unsubscribeAll();
   }
 
-  setLoadingState = (isLoading) => {
-    const intent = SET_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
-  }
-
   setInitialState = (context) => {
-    const intent = SET_INITIAL_STATE;
-
-    this.store.dispatch({
-      intent,
-      context,
-    });
+    this.dispatcher.setInitialState(context);
   }
 
   handlers = {
     SAVE_ACTION: this.saveInvoice,
   };
 
+  updateURLFromState = (state) => {
+    const params = getRouteURLParams(state);
+    this.replaceURLParams(params);
+  }
+
   run(context) {
     this.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
+    this.store.subscribe(this.updateURLFromState);
   }
 
   resetState = () => {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
+    this.dispatcher.resetState();
   };
 }
