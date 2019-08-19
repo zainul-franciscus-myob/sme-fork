@@ -81,6 +81,7 @@ export const createWagePayItemModal = (state, {
     },
   },
   wagePayItems,
+  isPageEdited: true,
 });
 
 export const updateWagePayItemModal = (state, {
