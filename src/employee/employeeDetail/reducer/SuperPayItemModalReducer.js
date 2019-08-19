@@ -94,6 +94,7 @@ export const createSuperPayItemModal = (state, {
       ],
     },
   },
+  isPageEdited: true,
   superPayItemOptions,
 });
 

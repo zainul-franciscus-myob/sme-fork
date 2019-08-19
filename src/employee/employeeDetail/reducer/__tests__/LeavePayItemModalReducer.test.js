@@ -103,6 +103,7 @@ describe('LeavePayItemModalReducer', () => {
             ],
           },
         },
+        isPageEdited: true,
         leavePayItemOptions: [{ payItemId: '1', name: 'new' }],
       };
 

@@ -160,5 +160,6 @@ export const saveSuperFundModal = (state, { selectedSuperFundId, superFundOption
       selectedSuperFundId,
     },
   },
+  isPageEdited: true,
   superFundOptions,
 });

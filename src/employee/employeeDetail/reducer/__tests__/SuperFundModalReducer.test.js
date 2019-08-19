@@ -271,6 +271,7 @@ describe('superFundModalReducer', () => {
             selectedSuperFundId: '2',
           },
         },
+        isPageEdited: true,
         superFundOptions: ['new'],
       };
 

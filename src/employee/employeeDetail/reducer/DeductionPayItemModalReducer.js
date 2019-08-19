@@ -62,6 +62,7 @@ export const createDeductionPayItemModal = (state, {
       ],
     },
   },
+  isPageEdited: true,
   deductionPayItemOptions,
 });
 

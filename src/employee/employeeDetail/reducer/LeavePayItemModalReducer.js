@@ -215,5 +215,6 @@ export const createLeavePayItem = (state, { leavePayItem, leavePayItemOptions })
       ],
     },
   },
+  isPageEdited: true,
   leavePayItemOptions,
 });
