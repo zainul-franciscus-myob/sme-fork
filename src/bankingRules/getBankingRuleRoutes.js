@@ -1,3 +1,4 @@
+import BankingRuleInvoiceModule from './bankingRuleInvoice/BankingRuleInvoiceModule';
 import BankingRuleListModule from './bankingRuleList/BankingRuleListModule';
 import BankingRuleReceiveMoneyModule from './bankingRuleReceiveMoney/BankingRuleReceiveMoneyModule';
 import BankingRuleSpendMoneyModule from './bankingRuleSpendMoney/BankingRuleSpendMoneyModule';
@@ -24,6 +25,13 @@ const getBankingRuleRoutes = ({
       name: 'bankingRuleReceiveMoney',
       path: '/receiveMoney/:bankingRuleId',
       module: new BankingRuleReceiveMoneyModule({
+        integration, setRootView, pushMessage,
+      }),
+    },
+    {
+      name: 'bankingRuleInvoice',
+      path: '/invoice/:bankingRuleId',
+      module: new BankingRuleInvoiceModule({
         integration, setRootView, pushMessage,
       }),
     },

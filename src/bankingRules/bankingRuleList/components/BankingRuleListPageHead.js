@@ -18,6 +18,11 @@ const items = [
     label="Spend money transaction"
     value={BankingRuleTypes.SPEND_MONEY}
   />,
+  <Dropdown.Item
+    key={BankingRuleTypes.INVOICE}
+    label="Invoice"
+    value={BankingRuleTypes.INVOICE}
+  />,
 ];
 
 const BankingRuleListPageHead = ({ onSelectBankingRule }) => (

@@ -1,4 +1,5 @@
 {
+  "title": "Receive Money Banking Rule",
   "name": "Receive Money Banking Rule",
   "isInactiveRule": true,
   "applyToAllAccounts": "One bank account",

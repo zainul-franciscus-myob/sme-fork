@@ -30,6 +30,7 @@ export const getIsStatusDisplayed = state => state.appliedFilterOptions.showInac
 const mapBankingRuleType = type => ({
   'Spend money': BankingRuleTypes.SPEND_MONEY,
   'Receive money': BankingRuleTypes.RECEIVE_MONEY,
+  Invoice: BankingRuleTypes.INVOICE,
 }[type]);
 
 export const getSelectedBankingRuleUrl = (state, bankingRuleType) => `/#/${getRegion(state)}/${getBusinessId(state)}/bankingRule/${bankingRuleType}/new`;
