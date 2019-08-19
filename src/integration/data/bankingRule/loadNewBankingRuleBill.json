@@ -1,0 +1,42 @@
+{
+  "title": "Create bill rule",
+  "name": "",
+  "isInactiveRule": false,
+  "applyToAllAccounts": "All bank accounts",
+  "accountId": "",
+  "supplierId": "",
+  "conditions": {
+    "containsWords": {
+      "value": ""
+    },
+    "exactWords": {
+      "value": ""
+    }
+  },
+  "bankAccounts": [
+    {
+      "id": "123",
+      "displayName": "My Bank",
+      "accountType": "Asset",
+      "taxCodeId": "1",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Other Bank",
+      "accountType": "Asset",
+      "taxCodeId": "2",
+      "displayId": "2-123"
+    }
+  ],
+  "suppliers": [
+    {
+      "displayName": "A-Z Stationery Supplies",
+      "id": "1"
+    },
+    {
+      "displayName": "Cow Feed",
+      "id": "2"
+    }
+  ]
+}

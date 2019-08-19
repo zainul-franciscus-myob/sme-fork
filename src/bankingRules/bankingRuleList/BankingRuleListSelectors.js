@@ -31,6 +31,7 @@ const mapBankingRuleType = type => ({
   'Spend money': BankingRuleTypes.SPEND_MONEY,
   'Receive money': BankingRuleTypes.RECEIVE_MONEY,
   Invoice: BankingRuleTypes.INVOICE,
+  Bill: BankingRuleTypes.BILL,
 }[type]);
 
 export const getSelectedBankingRuleUrl = (state, bankingRuleType) => `/#/${getRegion(state)}/${getBusinessId(state)}/bankingRule/${bankingRuleType}/new`;

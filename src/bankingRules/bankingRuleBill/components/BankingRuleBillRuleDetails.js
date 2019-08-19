@@ -6,13 +6,13 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsInactiveRule, getName } from '../bankingRuleSpendMoneySelectors';
+import { getIsInactiveRule, getName } from '../bankingRuleBillSelectors';
 import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
-import styles from './BankingRuleSpendMoneyView.module.css';
+import styles from './BankingRuleBillView.module.css';
 
-const BankingRuleSpendMoneyRuleDetails = ({
+const BankingRuleBillRuleDetails = ({
   name,
   isInactiveRule,
   onRuleDetailsChange,
@@ -40,4 +40,4 @@ const mapStateToProps = state => ({
   isInactiveRule: getIsInactiveRule(state),
 });
 
-export default connect(mapStateToProps)(BankingRuleSpendMoneyRuleDetails);
+export default connect(mapStateToProps)(BankingRuleBillRuleDetails);

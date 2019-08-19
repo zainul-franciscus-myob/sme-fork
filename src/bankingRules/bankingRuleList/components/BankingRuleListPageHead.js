@@ -9,6 +9,16 @@ import BankingRuleTypes from '../BankingRuleTypes';
 
 const items = [
   <Dropdown.Item
+    key={BankingRuleTypes.BILL}
+    label="Bill"
+    value={BankingRuleTypes.BILL}
+  />,
+  <Dropdown.Item
+    key={BankingRuleTypes.INVOICE}
+    label="Invoice"
+    value={BankingRuleTypes.INVOICE}
+  />,
+  <Dropdown.Item
     key={BankingRuleTypes.RECEIVE_MONEY}
     label="Receive money transaction"
     value={BankingRuleTypes.RECEIVE_MONEY}
@@ -17,11 +27,6 @@ const items = [
     key={BankingRuleTypes.SPEND_MONEY}
     label="Spend money transaction"
     value={BankingRuleTypes.SPEND_MONEY}
-  />,
-  <Dropdown.Item
-    key={BankingRuleTypes.INVOICE}
-    label="Invoice"
-    value={BankingRuleTypes.INVOICE}
   />,
 ];
 

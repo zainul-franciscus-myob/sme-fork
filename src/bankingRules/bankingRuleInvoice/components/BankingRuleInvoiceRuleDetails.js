@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsInactiveRule, getName } from '../bankingRuleInvoiceSelectors';
-import RequiredTooltip from './RequiredTooltip';
+import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './BankingRuleInvoiceView.module.css';

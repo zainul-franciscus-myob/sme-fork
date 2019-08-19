@@ -9,7 +9,7 @@ import {
   getCustomers,
 } from '../bankingRuleInvoiceSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
-import RequiredTooltip from './RequiredTooltip';
+import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import styles from './BankingRuleInvoiceView.module.css';
 
 const handleComboboxChange = (key, handler) => (item) => {
