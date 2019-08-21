@@ -1,11 +1,13 @@
 import {
-  Alert, Columns, LineItemTemplate, Spinner,
+  Alert, LineItemTemplate, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getAlertMessage, getIsLoading, getModalType } from '../generalJournalDetailSelectors';
+import {
+  getAlertMessage, getIsLoading, getModalType, getPageTitle,
+} from '../generalJournalDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import GeneralJournalDetailActions from './GeneralJournalDetailActions';
@@ -24,6 +26,7 @@ const GeneralJournalDetailView = ({
   onDismissAlert,
   isCreating,
   isLoading,
+  pageTitle,
   modalType,
   onUpdateRow,
   onAddRow,
@@ -31,9 +34,7 @@ const GeneralJournalDetailView = ({
   onRowInputBlur,
 }) => {
   const templateOptions = (
-    <Columns type="three">
-      <GeneralJournalDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
-    </Columns>
+    <GeneralJournalDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
   );
 
   const actions = (
@@ -74,7 +75,7 @@ const GeneralJournalDetailView = ({
 
   const view = (
     <LineItemTemplate
-      pageHead="General journal entry"
+      pageHead={pageTitle}
       options={templateOptions}
       actions={actions}
       alert={alertComponent}
@@ -97,6 +98,7 @@ const GeneralJournalDetailView = ({
 GeneralJournalDetailView.propTypes = {
   isCreating: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  pageTitle: PropTypes.string.isRequired,
   alertMessage: PropTypes.string.isRequired,
   modalType: PropTypes.string.isRequired,
   onUpdateHeaderOptions: PropTypes.func.isRequired,
@@ -117,6 +119,7 @@ const mapStateToProps = state => ({
   alertMessage: getAlertMessage(state),
   modalType: getModalType(state),
   isLoading: getIsLoading(state),
+  pageTitle: getPageTitle(state),
 });
 
 export default connect(mapStateToProps)(GeneralJournalDetailView);

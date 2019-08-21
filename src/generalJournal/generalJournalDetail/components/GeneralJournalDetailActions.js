@@ -18,7 +18,7 @@ const GeneralJournalDetailActions = ({
         Cancel
       </Button>,
       <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
-          Save
+        Record
       </Button>,
     ]}
     secondary={[

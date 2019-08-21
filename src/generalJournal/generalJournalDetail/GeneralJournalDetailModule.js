@@ -64,13 +64,16 @@ export default class GeneralJournalDetailModule {
       ...(!this.isCreating && { generalJournalId: this.generalJournalId }),
     };
 
-    const onSuccess = ({ generalJournal, newLine, totals }) => {
+    const onSuccess = ({
+      generalJournal, newLine, totals, pageTitle,
+    }) => {
       this.setLoadingState(false);
       this.store.dispatch({
         intent,
         generalJournal,
         totals,
         newLine,
+        pageTitle,
         isLoading: false,
       });
     };

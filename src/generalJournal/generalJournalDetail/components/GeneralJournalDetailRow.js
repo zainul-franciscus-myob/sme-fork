@@ -1,4 +1,4 @@
-import { Input, LineItemTable } from '@myob/myob-widgets';
+import { Input, LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -76,8 +76,9 @@ const GeneralJournalDetailRow = (props) => {
         step="0.01"
         onBlur={onRowInputBlur(index)}
       />
-      <Input
-        type="text"
+      <TextArea
+        rows={1}
+        autoSize
         label="Description"
         hideLabel
         name="description"

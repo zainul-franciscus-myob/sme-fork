@@ -51,6 +51,7 @@ const getDefaultState = () => ({
     totalOutOfBalance: '$0.00',
   },
   modalType: '',
+  pageTitle: '',
   alertMessage: '',
   isLoading: true,
   isSubmitting: false,
@@ -120,6 +121,7 @@ const loadGeneralJournalDetail = (state, action) => ({
   newLine: { ...state.newLine, ...action.newLine },
   totals: action.totals,
   isLoading: false,
+  pageTitle: action.pageTitle,
 });
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
@@ -198,6 +200,7 @@ const loadNewGeneralJournal = (state, action) => ({
   },
   newLine: { ...state.newLine, ...action.newLine },
   isLoading: false,
+  pageTitle: action.pageTitle,
 });
 
 const setLoadingState = (state, action) => ({

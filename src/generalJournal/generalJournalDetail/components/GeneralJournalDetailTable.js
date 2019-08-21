@@ -1,10 +1,9 @@
 import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getIndexOfLastLine, getIsOutOfBalanced, getTableData, getTotals,
+  getIndexOfLastLine, getIsOutOfBalanced, getTableData, getTaxCodeLabel, getTaxLabel, getTotals,
 } from '../generalJournalDetailSelectors';
 import GeneralJournalDetailRow from './GeneralJournalDetailRow';
 
@@ -24,7 +23,7 @@ class GeneralJournalDetailTable extends React.Component {
     onRowInputBlur(index);
   }
 
-  renderRow = (index, data, onChange) => {
+  renderRow = (index, data, onChange, labels) => {
     const {
       indexOfLastLine,
     } = this.props;
@@ -35,6 +34,7 @@ class GeneralJournalDetailTable extends React.Component {
       <GeneralJournalDetailRow
         index={index}
         key={index}
+        labels={labels}
         onChange={onChange}
         isNewLineRow={isNewLineRow}
         onRowInputBlur={this.onRowInputBlur}
@@ -43,10 +43,6 @@ class GeneralJournalDetailTable extends React.Component {
   };
 
   render() {
-    const labels = [
-      'Account', 'Debit ($)', 'Credit ($)', 'Line description', 'Tax code',
-    ];
-
     const {
       tableData,
       amountTotals: {
@@ -57,13 +53,63 @@ class GeneralJournalDetailTable extends React.Component {
       },
       onRemoveRow,
       isOutOfBalance,
+      taxLabel,
+      taxCodeLabel,
     } = this.props;
+
+    const columns = [
+      {
+        label: 'Account',
+        requiredLabel: 'Required',
+        styles: { width: '35.2rem', align: 'left' },
+      },
+      {
+        label: 'Debit ($)',
+        styles: { width: '12.5rem', align: 'right' },
+      },
+      {
+        label: 'Credit ($)',
+        styles: { width: '12.5rem', align: 'right' },
+      },
+      {
+        label: 'Description',
+        styles: {},
+      },
+      {
+        label: taxCodeLabel,
+        requiredLabel: 'Required',
+        styles: { width: '8rem', align: 'left' },
+      },
+    ];
+
+    const labels = columns.map(({ label }) => label);
+
+    const headerItems = columns.map(({ label, requiredLabel }) => (
+      <LineItemTable.HeaderItem
+        key={label}
+        columnName={label}
+        requiredLabel={requiredLabel}
+      >
+        {label}
+      </LineItemTable.HeaderItem>
+    ));
+
+    const columnConfig = [
+      {
+        config: columns.map(({ label, styles }) => ({
+          styles,
+          columnName: label,
+        })),
+      },
+    ];
 
     return (
       <LineItemTable
         onAddRow={this.onAddRow}
         onRowChange={this.onChange}
         labels={labels}
+        columnConfig={columnConfig}
+        headerItems={headerItems}
         renderRow={this.renderRow}
         data={tableData}
         onRemoveRow={onRemoveRow}
@@ -71,7 +117,7 @@ class GeneralJournalDetailTable extends React.Component {
         <LineItemTable.Total>
           <LineItemTable.Totals title="Total debit" amount={totalDebit} />
           <LineItemTable.Totals title="Total credit" amount={totalCredit} />
-          <LineItemTable.Totals title="Tax" amount={totalTax} />
+          <LineItemTable.Totals title={taxLabel} amount={totalTax} />
           <LineItemTable.Totals totalAmount type={isOutOfBalance && 'danger'} title="Out of balance" amount={totalOutOfBalance} />
         </LineItemTable.Total>
       </LineItemTable>
@@ -79,27 +125,13 @@ class GeneralJournalDetailTable extends React.Component {
   }
 }
 
-GeneralJournalDetailTable.propTypes = {
-  tableData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  indexOfLastLine: PropTypes.number.isRequired,
-  isOutOfBalance: PropTypes.bool.isRequired,
-  amountTotals: PropTypes.shape({
-    totalDebit: PropTypes.string,
-    totalCredit: PropTypes.string,
-    totalTax: PropTypes.string,
-    totalOutOfBalance: PropTypes.string,
-  }).isRequired,
-  onUpdateRow: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRemoveRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   amountTotals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
   tableData: getTableData(state),
   isOutOfBalance: getIsOutOfBalanced(state),
+  taxLabel: getTaxLabel(state),
+  taxCodeLabel: getTaxCodeLabel(state),
 });
 
 export default connect(mapStateToProps)(GeneralJournalDetailTable);
