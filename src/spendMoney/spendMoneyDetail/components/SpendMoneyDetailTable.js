@@ -24,7 +24,7 @@ class SpendMoneyDetailTable extends React.Component {
     onRowInputBlur(index);
   }
 
-  renderRow = (index, data, onChange) => {
+  renderRow = (index, data, onChange, labels) => {
     const {
       indexOfLastLine,
     } = this.props;
@@ -35,6 +35,7 @@ class SpendMoneyDetailTable extends React.Component {
       <SpendMoneyDetailRow
         index={index}
         key={index}
+        labels={labels}
         onChange={onChange}
         isNewLineRow={isNewLineRow}
         onRowInputBlur={this.onRowInputBlur}
@@ -44,8 +45,14 @@ class SpendMoneyDetailTable extends React.Component {
 
   render() {
     const labels = [
-      'Account', 'Amount ($)', 'Line description', 'Tax code',
+      'Account', 'Amount ($)', 'Description', 'Tax code',
     ];
+
+    const headerItems = labels.map(label => (
+      <LineItemTable.HeaderItem columnName={label} requiredLabel={label !== 'Description' ? 'Required' : null}>
+        {label}
+      </LineItemTable.HeaderItem>
+    ));
 
     const {
       tableData,
@@ -57,19 +64,40 @@ class SpendMoneyDetailTable extends React.Component {
       onRemoveRow,
     } = this.props;
 
+    const columnConfig = [
+      {
+        config: [
+          {
+            columnName: 'Account',
+            styles: { width: '35.2rem', align: 'left' },
+          },
+          {
+            columnName: 'Amount ($)',
+            styles: { width: '12.5rem', align: 'right' },
+          },
+          {
+            columnName: 'Tax code',
+            styles: { width: '8rem', align: 'left' },
+          },
+        ],
+      },
+    ];
+
     return (
       <LineItemTable
         onAddRow={this.onAddRow}
         onRowChange={this.onChange}
         labels={labels}
+        columnConfig={columnConfig}
+        headerItems={headerItems}
         renderRow={this.renderRow}
         data={tableData}
         onRemoveRow={onRemoveRow}
       >
         <LineItemTable.Total>
-          <LineItemTable.Totals title="Net amount" amount={netAmount} />
+          <LineItemTable.Totals title="Subtotal" amount={netAmount} />
           <LineItemTable.Totals title="Tax" amount={totalTax} />
-          <LineItemTable.Totals totalAmount title="Total amount" amount={totalAmount} />
+          <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
         </LineItemTable.Total>
       </LineItemTable>
     );

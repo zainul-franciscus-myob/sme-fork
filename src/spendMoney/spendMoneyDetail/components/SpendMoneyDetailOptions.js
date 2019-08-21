@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import { getHeaderOptions } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
+import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import styles from './SpendMoneyDetailOptions.module.css';
 
 class SpendMoneyDetailOptions extends Component {
@@ -65,7 +66,8 @@ class SpendMoneyDetailOptions extends Component {
     const primary = (
       <React.Fragment>
         <AccountCombobox
-          label="Pay from"
+          label="Bank account"
+          labelAccessory={(<RequiredTooltip />)}
           hideLabel={false}
           items={payFromAccounts}
           selectedId={selectedPayFromAccountId}
@@ -76,22 +78,24 @@ class SpendMoneyDetailOptions extends Component {
             items={payToContacts}
             selectedId={selectedPayToContactId}
             onChange={this.handleComboBoxChange('selectedPayToContactId')}
-            label="Pay to"
+            label="Contact (payee)"
+            labelAccessory={(<RequiredTooltip />)}
             name="Pay To Contacts"
             hideLabel={false}
             hintText="Select contact"
           />
         </div>
         <CheckboxGroup
-          label="Reportable"
           hideLabel
+          label="Report to ATO via TPAR"
           renderCheckbox={() => (
-            <Checkbox name="isReportable" label="Reportable" checked={isReportable} onChange={this.handleCheckboxChange} />
+            <Checkbox name="isReportable" label="Report to ATO via TPAR" checked={isReportable} onChange={this.handleCheckboxChange} />
           )}
         />
         <TextArea
           name="description"
-          label="Description"
+          label="Description of transaction"
+          rows={1}
           autoSize
           maxLength={255}
           placeholder="Max 255 characters"
@@ -104,9 +108,17 @@ class SpendMoneyDetailOptions extends Component {
 
     const secondary = (
       <React.Fragment>
-        <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} />
+        <Input
+          name="referenceId"
+          label="Reference number"
+          labelAccessory={(<RequiredTooltip />)}
+          maxLength={8}
+          value={referenceId}
+          onChange={this.handleInputChange}
+        />
         <DatePicker
           label="Date"
+          labelAccessory={(<RequiredTooltip />)}
           name="Date"
           value={date}
           onSelect={this.handleDateChange}

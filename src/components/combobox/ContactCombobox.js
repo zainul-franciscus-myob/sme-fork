@@ -12,8 +12,8 @@ const ContactCombobox = (props) => {
   } = props;
 
   const metaData = [
-    { columnName: 'displayId', columnWidth: '10rem' },
     { columnName: 'displayName', columnWidth: '20rem', showData: true },
+    { columnName: 'displayId', columnWidth: '10rem' },
     { columnName: 'contactType', columnWidth: '10rem' },
   ];
 

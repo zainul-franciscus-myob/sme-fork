@@ -1,4 +1,4 @@
-import { Input, LineItemTable } from '@myob/myob-widgets';
+import { Input, LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -61,10 +61,11 @@ const SpendMoneyDetailRow = (props) => {
         step="0.01"
         onBlur={onRowInputBlur(index)}
       />
-      <Input
-        type="text"
+      <TextArea
         label="Description"
         hideLabel
+        rows={1}
+        autoSize
         name="description"
         value={description}
         onChange={onChange}
