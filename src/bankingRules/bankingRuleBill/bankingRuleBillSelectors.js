@@ -9,7 +9,8 @@ export const getBusinessId = state => state.businessId;
 export const getBankingRuleId = state => state.bankingRuleId;
 export const getRegion = state => state.region;
 export const getIsLoading = state => state.isLoading;
-export const getModalType = state => state.modalType;
+export const getModal = state => state.modal;
+export const getModalUrl = state => ((state.modal || {}).url);
 export const getIsPagedEdited = state => state.isPageEdited;
 export const getAlertMessage = state => state.alertMessage;
 export const getIsAlertShown = createSelector(
@@ -56,4 +57,10 @@ export const getBankingRuleListUrl = (state) => {
   const region = getRegion(state);
 
   return `/#/${region}/${businessId}/bankingRule`;
+};
+
+export const getSaveUrl = (state) => {
+  const modalUrl = getModalUrl(state);
+  const bankingRuleListUrl = getBankingRuleListUrl(state);
+  return modalUrl || bankingRuleListUrl;
 };

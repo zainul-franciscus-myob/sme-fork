@@ -1,5 +1,5 @@
 const ModalType = {
-  CANCEL: 'CANCEL',
+  UNSAVED: 'UNSAVED',
   DELETE: 'DELETE',
 };
 

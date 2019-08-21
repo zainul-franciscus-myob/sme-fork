@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsAlertShown, getIsLoading, getModalType, getPageTitle,
+  getIsAlertShown, getIsLoading, getModal, getPageTitle,
 } from '../bankingRuleInvoiceSelectors';
 import Actions from './BankingRuleInvoiceActions';
 import BankingRuleInvoiceAlert from './BankingRuleInvoiceAlert';
@@ -15,7 +15,7 @@ import RuleDetails from './BankingRuleInvoiceRuleDetails';
 const BankingRuleInvoiceView = ({
   isLoading,
   isAlertShown,
-  modalType,
+  modal,
   pageTitle,
   onRuleDetailsChange,
   onRuleConditionsChange,
@@ -25,6 +25,7 @@ const BankingRuleInvoiceView = ({
   onDismissModal,
   onConfirmDeleteButtonClick,
   onConfirmCancelButtonClick,
+  onConfirmSave,
   onDismissAlert,
 }) => (isLoading ? <LoadingPageState /> : (
   <React.Fragment>
@@ -33,9 +34,11 @@ const BankingRuleInvoiceView = ({
       {isAlertShown && <BankingRuleInvoiceAlert onDismissAlert={onDismissAlert} /> }
       <Card>
         {
-          modalType && (
+          modal && (
             <ModalContainer
+              modal={modal}
               onDismissModal={onDismissModal}
+              onConfirmSave={onConfirmSave}
               onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
               onConfirmCancelButtonClick={onConfirmCancelButtonClick}
             />
@@ -57,7 +60,7 @@ const BankingRuleInvoiceView = ({
 
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
-  modalType: getModalType(state),
+  modal: getModal(state),
   pageTitle: getPageTitle(state),
   isAlertShown: getIsAlertShown(state),
 });

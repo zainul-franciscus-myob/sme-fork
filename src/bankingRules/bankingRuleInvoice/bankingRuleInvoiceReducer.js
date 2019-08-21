@@ -1,10 +1,11 @@
 import {
+  CLOSE_MODAL,
   LOAD_BANKING_RULE_INVOICE,
   LOAD_NEW_BANKING_RULE_INVOICE,
+  OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_IS_PAGE_EDITED,
   SET_LOADING_STATE,
-  SET_MODAL_TYPE,
   UPDATE_FORM,
 } from './BankingRuleInvoiceIntents';
 import {
@@ -38,7 +39,7 @@ const getDefaultState = () => ({
   isLoading: false,
   isPageEdited: false,
   alertMessage: '',
-  modalType: '',
+  modal: undefined,
 });
 
 const resetState = () => (getDefaultState());
@@ -80,9 +81,14 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
-const setModalType = (state, action) => ({
+const openModal = (state, action) => ({
   ...state,
-  modalType: action.modalType,
+  modal: action.modal,
+});
+
+const closeModal = state => ({
+  ...state,
+  modal: undefined,
 });
 
 const setAlertMessage = (state, action) => ({
@@ -99,7 +105,8 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitalState,
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
-  [SET_MODAL_TYPE]: setModalType,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [SET_IS_PAGE_EDITED]: setIsPagedEdited,
   [LOAD_NEW_BANKING_RULE_INVOICE]: loadBankingRuleInvoice,

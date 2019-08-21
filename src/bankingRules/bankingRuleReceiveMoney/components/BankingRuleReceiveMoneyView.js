@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsAlertShown, getIsLoading, getModalType, getPageTitle,
+  getIsAlertShown, getIsLoading, getModal, getPageTitle,
 } from '../bankingRuleReceiveMoneySelectors';
 import Actions from './BankingRuleReceiveMoneyActions';
 import BankingRuleReceiveMoneyAlert from './BankingRuleReceiveMoneyAlert';
@@ -15,7 +15,7 @@ import RuleDetails from './BankingRuleReceiveMoneyRuleDetails';
 const BankingRuleReceiveMoneyView = ({
   isLoading,
   isAlertShown,
-  modalType,
+  modal,
   pageTitle,
   onRuleDetailsChange,
   onRuleConditionsChange,
@@ -29,6 +29,7 @@ const BankingRuleReceiveMoneyView = ({
   onDismissModal,
   onConfirmDeleteButtonClick,
   onConfirmCancelButtonClick,
+  onConfirmSave,
   onDismissAlert,
 }) => (isLoading ? <LoadingPageState /> : (
   <React.Fragment>
@@ -37,9 +38,11 @@ const BankingRuleReceiveMoneyView = ({
       {isAlertShown && <BankingRuleReceiveMoneyAlert onDismissAlert={onDismissAlert} /> }
       <Card>
         {
-          modalType && (
+          modal && (
             <ModalContainer
+              modal={modal}
               onDismissModal={onDismissModal}
+              onConfirmSave={onConfirmSave}
               onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
               onConfirmCancelButtonClick={onConfirmCancelButtonClick}
             />
@@ -65,7 +68,7 @@ const BankingRuleReceiveMoneyView = ({
 
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
-  modalType: getModalType(state),
+  modal: getModal(state),
   pageTitle: getPageTitle(state),
   isAlertShown: getIsAlertShown(state),
 });

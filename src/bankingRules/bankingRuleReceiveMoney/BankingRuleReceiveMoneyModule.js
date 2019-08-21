@@ -5,6 +5,8 @@ import { SUCCESSFULLY_DELETED_BANKING_RULE_RECEIVE_MONEY, SUCCESSFULLY_SAVED_BAN
 import {
   getBankingRuleListUrl,
   getIsPagedEdited,
+  getModalUrl,
+  getSaveUrl,
 } from './bankingRuleReceiveMoneySelectors';
 import BankingRuleReceiveMoneyView from './components/BankingRuleReceiveMoneyView';
 import ModalType from './ModalType';
@@ -37,11 +39,12 @@ export default class BankingRuleReceiveMoneyModule {
         onRowChange={this.changeTableRow}
         onRemoveRow={this.removeTableRow}
         onSaveButtonClick={this.saveBankingRule}
-        onCancelButtonClick={this.openCancelModal}
+        onCancelButtonClick={this.cancelBankingRule}
         onDeleteButtonClick={this.openDeleteModal}
         onDismissModal={this.dismissModal}
         onConfirmDeleteButtonClick={this.deleteBankingRule}
-        onConfirmCancelButtonClick={this.redirectToBankingRuleList}
+        onConfirmCancelButtonClick={this.redirectToModalUrl}
+        onConfirmSave={this.saveBankingRule}
         onDismissAlert={this.dispatcher.dismissAlert}
       />
     );
@@ -70,6 +73,7 @@ export default class BankingRuleReceiveMoneyModule {
   }
 
   saveBankingRule = () => {
+    const state = this.store.getState();
     this.dispatcher.setLoadingState(true);
 
     const onSuccess = ({ message }) => {
@@ -80,12 +84,14 @@ export default class BankingRuleReceiveMoneyModule {
         content: message,
       });
 
-      this.redirectToBankingRuleList();
+      const url = getSaveUrl(state);
+      this.redirectToUrl(url);
     };
 
     const onFailure = ({ message }) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.displayAlert(message);
+      this.dismissModal();
     };
 
     this.integrator.saveBankingRule(onSuccess, onFailure);
@@ -114,7 +120,20 @@ export default class BankingRuleReceiveMoneyModule {
 
   redirectToBankingRuleList = () => {
     const state = this.store.getState();
-    window.location.href = getBankingRuleListUrl(state);
+    const url = getBankingRuleListUrl(state);
+    this.redirectToUrl(url);
+  }
+
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+    this.redirectToUrl(url);
+  }
+
+  redirectToUrl = (url) => {
+    if (url) {
+      window.location.href = url;
+    }
   }
 
   addTableRow = (row) => {
@@ -143,22 +162,29 @@ export default class BankingRuleReceiveMoneyModule {
   };
 
   openDeleteModal = () => {
-    this.dispatcher.setModalType(ModalType.DELETE);
+    const state = this.store.getState();
+    const url = getBankingRuleListUrl(state);
+    this.dispatcher.openModal({ type: ModalType.DELETE, url });
   }
 
-  openCancelModal = () => {
+  openUnsavedModal = (url) => {
+    this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
+  }
+
+  cancelBankingRule = () => {
     const state = this.store.getState();
     const isPageEdited = getIsPagedEdited(state);
+    const url = getBankingRuleListUrl(state);
 
     if (isPageEdited) {
-      this.dispatcher.setModalType(ModalType.CANCEL);
+      this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
     } else {
       this.redirectToBankingRuleList();
     }
   }
 
   dismissModal = () => {
-    this.dispatcher.setModalType('');
+    this.dispatcher.closeModal();
   }
 
   unsubscribeFromStore = () => {
@@ -177,4 +203,13 @@ export default class BankingRuleReceiveMoneyModule {
   resetState = () => {
     this.dispatcher.resetState();
   };
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getIsPagedEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
+  }
 }

@@ -1,37 +1,33 @@
-import { connect } from 'react-redux';
 import React from 'react';
 
-import { getModalType } from '../bankingRuleSpendMoneySelectors';
-import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import ModalType from '../ModalType';
+import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const BankingRuleSpendMoneyModal = ({
-  modalType,
+  modal: { type = '' },
   onDismissModal,
+  onConfirmSave,
   onConfirmDeleteButtonClick,
   onConfirmCancelButtonClick,
-}) => ({
-  [ModalType.DELETE]: (
-    <DeleteModal
-      onConfirm={onConfirmDeleteButtonClick}
+}) => {
+  if (type === ModalType.DELETE) {
+    return (
+      <DeleteModal
+        onConfirm={onConfirmDeleteButtonClick}
+        onCancel={onDismissModal}
+        title="Delete this rule?"
+        description="Deleting this rule will remove it forever. No transactions that have already been created or matched by this rule will be deleted."
+      />
+    );
+  }
+  return (
+    <UnsavedModal
+      onConfirmSave={onConfirmSave}
+      onConfirmUnsave={onConfirmCancelButtonClick}
       onCancel={onDismissModal}
-      title="Delete banking rule"
-      description="Are you sure you want to delete this banking rule?"
     />
-  ),
-  [ModalType.CANCEL]: (
-    <CancelModal
-      onConfirm={onConfirmCancelButtonClick}
-      onCancel={onDismissModal}
-      title="Cancel banking rule"
-      description="Are you sure you want to cancel the alterations?"
-    />
-  ),
-}[modalType]);
+  );
+};
 
-const mapStateToProps = state => ({
-  modalType: getModalType(state),
-});
-
-export default connect(mapStateToProps)(BankingRuleSpendMoneyModal);
+export default BankingRuleSpendMoneyModal;

@@ -1,14 +1,15 @@
 import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../SystemIntents';
-import {
+  CLOSE_MODAL,
+  OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_IS_PAGE_EDITED,
   SET_LOADING_STATE,
-  SET_MODAL_TYPE,
   UPDATE_FORM,
 } from './BankingRuleBillIntents';
+import {
+  RESET_STATE,
+  SET_INITIAL_STATE,
+} from '../../SystemIntents';
 
 const createBankingRuleBillDispatcher = store => ({
   setInitialState: (context) => {
@@ -31,10 +32,19 @@ const createBankingRuleBillDispatcher = store => ({
     });
   },
 
-  setModalType: (modalType) => {
+  openModal: ({ type, url }) => {
     store.dispatch({
-      intent: SET_MODAL_TYPE,
-      modalType,
+      intent: OPEN_MODAL,
+      modal: {
+        type,
+        url,
+      },
+    });
+  },
+
+  closeModal: () => {
+    store.dispatch({
+      intent: CLOSE_MODAL,
     });
   },
 

@@ -1,14 +1,15 @@
 import {
   ADD_TABLE_ROW,
   CHANGE_TABLE_ROW,
+  CLOSE_MODAL,
   FORMAT_AMOUNT,
   LOAD_BANKING_RULE_RECEIVE_MONEY,
   LOAD_NEW_BANKING_RULE_RECEIVE_MONEY,
+  OPEN_MODAL,
   REMOVE_TABLE_ROW,
   SET_ALERT_MESSAGE,
   SET_IS_PAGE_EDITED,
   SET_LOADING_STATE,
-  SET_MODAL_TYPE,
   UPDATE_FORM,
 } from './BankingRuleReceiveMoneyIntents';
 import {
@@ -56,7 +57,7 @@ const getDefaultState = () => ({
   isLoading: false,
   isPageEdited: false,
   alertMessage: '',
-  modalType: '',
+  modal: undefined,
 });
 
 const resetState = () => (getDefaultState());
@@ -237,9 +238,14 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
-const setModalType = (state, action) => ({
+const openModal = (state, action) => ({
   ...state,
-  modalType: action.modalType,
+  modal: action.modal,
+});
+
+const closeModal = state => ({
+  ...state,
+  modal: undefined,
 });
 
 const setAlertMessage = (state, action) => ({
@@ -256,7 +262,8 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitalState,
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
-  [SET_MODAL_TYPE]: setModalType,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [SET_IS_PAGE_EDITED]: setIsPagedEdited,
   [LOAD_NEW_BANKING_RULE_RECEIVE_MONEY]: loadBankingRuleReceiveMoney,
