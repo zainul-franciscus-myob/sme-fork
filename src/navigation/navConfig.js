@@ -41,6 +41,7 @@ export const activeMapping = {
   'linkedAccounts/linkedAccounts': 'business',
   'bankingRule/bankingRuleList': 'banking',
   'bankReconciliation/bankReconciliation': 'banking',
+  'payRun/payRun': 'payroll',
 };
 
 export const featuresConfig = {

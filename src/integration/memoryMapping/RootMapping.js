@@ -28,6 +28,7 @@ import LinkedAccountsMapping from './LinkedAccountsMapping';
 import NavigationMapping from './NavigationMapping';
 import PayItemMapping from './PayItemMapping';
 import PayRefundMapping from './PayRefundMapping';
+import PayRunMapping from './PayRunMapping';
 import PayrollSettingsMapping from './PayrollSettingsMapping';
 import QuoteItemMapping from './QuoteItemMapping';
 import QuoteMapping from './QuoteMapping';
@@ -95,6 +96,7 @@ const RootMapping = Object.freeze({
   ...BankingRuleReceiveMoneyMapping,
   ...BankingRuleInvoiceMapping,
   ...BankingRuleBillMapping,
+  ...PayRunMapping,
 });
 
 export default RootMapping;

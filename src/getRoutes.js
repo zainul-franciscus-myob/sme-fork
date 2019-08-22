@@ -19,6 +19,7 @@ import getLinkedAccountsRoutes from './linkedAccounts/getLinkedAccountsRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
 import getPayItemRoutes from './payItem/getPayItemRoutes';
 import getPayRefundRoutes from './payRefund/getPayRefundRoutes';
+import getPayRunRoutes from './payRun/getPayRunRoutes';
 import getPayrollSettingsRoutes from './payrollSettings/getPayrollSettingsRoutes';
 import getPrepareBasOrIasRoutes from './prepareBasOrIas/getPrepareBasOrIasRoutes';
 import getQuoteRoutes from './quote/getQuoteRoutes';
@@ -268,6 +269,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/bankReconciliation',
     subRoutes: getBankReconciliationRoutes({
       integration, setRootView,
+    }),
+  },
+  {
+    name: 'payRun',
+    rootPath: '/:region/:businessId/payRun',
+    subRoutes: getPayRunRoutes({
+      integration, setRootView, pushMessage,
     }),
   },
 ];
