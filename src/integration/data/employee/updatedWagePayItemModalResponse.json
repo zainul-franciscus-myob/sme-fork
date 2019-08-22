@@ -1,17 +1,39 @@
 {
   "message": "Great Work! You've done it well!",
   "wagePayItem": {
-    "id": "2",
-    "name": "Base salary - Updated",
+    "id": "11",
+    "name": "Updated base salary",
     "type": "WagesPayrollCategory",
     "displayType": "Salary"
   },
   "wagePayItems": [
     {
-      "id": "1",
-      "name": "Base salary - Updated",
+      "id": "11",
+      "name": "Updated base salary",
       "type": "WagesPayrollCategory",
-      "displayType": "Salary"
+      "displayType": "Salary",
+      "payBasis": "Salary"
+    },
+    {
+      "id": "12",
+      "name": "Base hourly",
+      "type": "WagesPayrollCategory",
+      "displayType": "Hourly",
+      "payBasis": "Hourly"
+    },
+    {
+      "id": "13",
+      "name": "Annual leave",
+      "type": "WagesPayrollCategory",
+      "displayType": "Hourly",
+      "payBasis": "Hourly"
+    },
+    {
+      "id": "14",
+      "name": "Overtime (1.5x)",
+      "type": "WagesPayrollCategory",
+      "displayType": "Hourly",
+      "payBasis": "Hourly"
     }
   ]
 }

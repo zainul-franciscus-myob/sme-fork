@@ -74,12 +74,6 @@ export const getStateOptions = createSelector(
     .find(country => country.value === selectedcountry) || {}).states,
 );
 
-export const getEmployeePayload = ({ contactDetail, payrollDetails, paymentDetails }) => ({
-  contactDetail,
-  payrollDetails,
-  paymentDetails,
-});
-
 export const getIsActionsDisabled = state => state.isSubmitting;
 
 export const getAlert = state => state.alert;

@@ -17,6 +17,7 @@ import {
   LOAD_NEW_SUPER_FUND,
   LOAD_NEW_SUPER_PAY_ITEM_MODAL,
   LOAD_NEW_WAGE_PAY_ITEM_MODAL,
+  LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE,
   LOAD_SUPER_PAY_ITEM_MODAL,
   LOAD_TAX_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
@@ -45,6 +46,7 @@ import loadNewDeductionPayItemModalResponse
 import loadNewLeavePayItemModalResponse from '../data/employee/loadNewLeavePayItemModalResponse';
 import loadNewSuperPayItemModalResponse from '../data/employee/loadNewSuperPayItemModalResponse';
 import loadNewWagePayItemModalResponse from '../data/employee/loadNewWagePayItemModalResponse';
+import loadStandardPayWageAmountRuleResponse from '../data/employee/loadStandardPayWageAmountRuleResponse';
 import loadSuperPayItemModalResponse from '../data/employee/loadSuperPayItemModalResponse';
 import loadWagePayItemModalResponse from '../data/employee/loadWagePayItemModalResponse';
 import newEmployeeDetailResponse from '../data/employee/employeeDetailNewEntry';
@@ -71,6 +73,10 @@ const updateEmployee = ({ onSuccess }) => { onSuccess(successResponse); };
 const deleteEmployee = ({ onSuccess }) => { onSuccess(successResponse); };
 
 const createEmployee = ({ onSuccess }) => { onSuccess(successEmployeeCreateResponse); };
+
+const loadStandardPayWageAmountRule = ({ onSuccess }) => (
+  onSuccess(loadStandardPayWageAmountRuleResponse)
+);
 
 const loadTaxPayItemModalDetails = ({ onSuccess }) => onSuccess(taxPayItemResponse);
 
@@ -131,6 +137,7 @@ const EmployeeListMapping = {
   [UPDATE_EMPLOYEE]: updateEmployee,
   [DELETE_EMPLOYEE]: deleteEmployee,
   [CREATE_EMPLOYEE]: createEmployee,
+  [LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE]: loadStandardPayWageAmountRule,
   [LOAD_TAX_PAY_ITEM_MODAL]: loadTaxPayItemModalDetails,
   [UPDATE_TAX_PAY_ITEM_MODAL]: updateTaxPayItemModalDetails,
   [CREATE_WAGE_PAY_ITEM_MODAL]: createWagePayItemModal,

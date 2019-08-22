@@ -1,17 +1,33 @@
 {
   "message": "Great Work! You've done it well!",
   "leavePayItem": {
-    "payItemId": "87",
-    "name": "Annual leave accrual"
+    "payItemId": "54",
+    "name": "Newly added leave"
   },
   "leavePayItemOptions": [
     {
-      "payItemId": "87",
-      "name": "Annual leave accrual"
+      "id": "51",
+      "name": "Leave percent",
+      "type": "EntitlementPayrollCategory",
+      "calculationBasis": "Percent"
     },
     {
-      "payItemId": "89",
-      "name": "Sick leave"
+      "id": "52",
+      "name": "Leave fixed hours",
+      "type": "EntitlementPayrollCategory",
+      "calculationBasis": "FixedHours"
+    },
+    {
+      "id": "53",
+      "name": "Leave user entered",
+      "type": "EntitlementPayrollCategory",
+      "calculationBasis": "UserEntered"
+    },
+    {
+      "id": "54",
+      "name": "Newly added leave",
+      "type": "EntitlementPayrollCategory",
+      "calculationBasis": "UserEntered"
     }
   ]
 }

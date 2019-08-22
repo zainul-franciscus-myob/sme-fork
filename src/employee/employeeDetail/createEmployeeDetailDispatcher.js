@@ -30,6 +30,7 @@ import {
   LOAD_EMPLOYEE_DETAIL,
   LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_SUPER_FUND,
+  LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE,
   LOAD_SUPER_PAY_ITEM_MODAL,
   LOAD_TAX_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
@@ -46,6 +47,7 @@ import {
   REMOVE_LEAVE_PAY_ITEM_MODAL_EXEMPTION,
   REMOVE_LEAVE_PAY_ITEM_MODAL_LINKED_WAGE,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
+  REMOVE_PAYROLL_STANDARD_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
   REMOVE_PAYROLL_WAGE_PAY_ITEM,
@@ -67,6 +69,8 @@ import {
   SET_LOADING_STATE,
   SET_MAIN_TAB,
   SET_PAGE_EDITED_STATE,
+  SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT,
+  SET_PAYROLL_STANDARD_PAY_ITEM_INPUT,
   SET_SUBMITTING_STATE,
   SET_SUB_TAB,
   SET_SUPER_FUND_MODAL_ALERT_MESSAGE,
@@ -109,8 +113,7 @@ import {
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
   UPDATE_WAGE_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL_AMOUNT,
-  UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS,
-  UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT,
+  UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS, UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT,
 } from '../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -313,6 +316,35 @@ const createEmployeeDetailDispatcher = store => ({
   updatePayrollWagePayCycle: ({ value }) => {
     const intent = UPDATE_PAYROLL_WAGE_PAY_CYCLE;
     store.dispatch({ intent, value });
+  },
+
+  loadPayrollStandardPayWageAmountRule: (payItemId, rule) => {
+    const intent = LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE;
+    store.dispatch({ intent, payItemId, rule });
+  },
+
+  setPayrollStandardPayDetailsItemInput: ({ key, value }) => {
+    const intent = SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT;
+    store.dispatch({ intent, key, value });
+  },
+
+  setPayrollStandardPayItemInput: ({ payItemId, key, value }) => {
+    const intent = SET_PAYROLL_STANDARD_PAY_ITEM_INPUT;
+    store.dispatch({
+      intent, payItemId, key, value,
+    });
+  },
+
+  removePayrollStandardPayItem: (payItemId) => {
+    const intent = REMOVE_PAYROLL_STANDARD_PAY_ITEM;
+    store.dispatch({ intent, payItemId });
+  },
+
+  setPayrollStandardPayItemIsLoadingState: (payItemId, isLoading) => {
+    const intent = SET_PAYROLL_STANDARD_PAY_ITEM_INPUT;
+    store.dispatch({
+      intent, payItemId, key: 'isLoading', value: isLoading,
+    });
   },
 
   openTaxPayItemModal: () => {

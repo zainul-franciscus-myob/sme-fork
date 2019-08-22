@@ -1,29 +1,39 @@
 {
   "message": "Great Work! You've done it well!",
   "deductionPayItem": {
-    "id": "1",
-    "name": "Update advance repayment",
+    "id": "41",
+    "name": "Updated deduction percent",
     "type": "DeductionPayrollCategory",
     "displayType": "Fixed dollar"
   },
   "deductionPayItemOptions": [
     {
-      "id": "1",
-      "name": "Update advance repayment",
+      "id": "41",
+      "name": "Updated deduction percent",
       "type": "DeductionPayrollCategory",
-      "displayType": "Fixed dollar"
+      "displayType": "Fixed dollar",
+      "calculationBasis": "FixedDollar"
     },
     {
-      "id": "2",
-      "name": "Deduction child care tax exempt",
+      "id": "42",
+      "name": "Deduction fixed dollar",
       "type": "DeductionPayrollCategory",
-      "displayType": "Fixed dollar"
+      "displayType": "Fixed dollar",
+      "calculationBasis": "FixedDollar"
     },
     {
-      "id": "3",
-      "name": "Employee purchase",
+      "id": "43",
+      "name": "Deduction user entered",
       "type": "DeductionPayrollCategory",
-      "displayType": "Fixed dollar"
+      "displayType": "User entered",
+      "calculationBasis": "UserEntered"
+    },
+    {
+      "id": "44",
+      "name": "Other deduction",
+      "type": "DeductionPayrollCategory",
+      "displayType": "Percent",
+      "calculationBasis": "Percent"
     }
   ]
 }

@@ -3,11 +3,10 @@ import { format } from 'date-fns';
 
 import { getStartDate, getTerminationDate } from './EmployeeDetailSelectors';
 
-const getLeavePayItemOptions = state => state.leavePayItemOptions;
+export const getLeavePayItemOptions = state => state.leavePayItemOptions;
 
-export const getAllocatedLeavePayItems = (
-  state => state.payrollDetails.leaveDetails.allocatedLeavePayItems
-);
+export const getAllocatedLeavePayItems = state => state.payrollDetails.leaveDetails
+  .allocatedLeavePayItems;
 
 const getAllocatedLeaveItemModal = state => state.payrollDetails.leaveDetails.modal;
 
@@ -39,7 +38,7 @@ export const getFilteredLeavePayItemOptions = createSelector(
   (leavePayItemOptions, allocatedLeavePayItems) => leavePayItemOptions
     .filter((leavePayItemOption) => {
       const listedItem = allocatedLeavePayItems
-        .find(leavePayItem => leavePayItem.payItemId === leavePayItemOption.payItemId);
+        .find(leavePayItem => leavePayItem.payItemId === leavePayItemOption.id);
       return !listedItem;
     }),
 );

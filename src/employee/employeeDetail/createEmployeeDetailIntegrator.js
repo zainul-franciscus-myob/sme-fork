@@ -16,6 +16,7 @@ import {
   LOAD_NEW_SUPER_FUND,
   LOAD_NEW_SUPER_PAY_ITEM_MODAL,
   LOAD_NEW_WAGE_PAY_ITEM_MODAL,
+  LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE,
   LOAD_SUPER_PAY_ITEM_MODAL,
   LOAD_TAX_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
@@ -29,7 +30,6 @@ import {
 import {
   getBusinessId,
   getEmployeeId,
-  getEmployeePayload,
   getIsCreating,
 } from './selectors/EmployeeDetailSelectors';
 import {
@@ -37,6 +37,7 @@ import {
   getDeductionPayItemModalPayload,
   getIsDeductionPayItemModalCreating,
 } from './selectors/DeductionPayItemModalSelectors';
+import { getEmployeePayload } from './selectors/EmployeePayloadSelectors';
 import {
   getIsLeavePayItemModalCreating,
   getLeavePayItemId,
@@ -107,6 +108,23 @@ const createEmployeeDetailIntegrator = (store, integration) => ({
 
     integration.write({
       intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadPayrollStandardPayWageAmountRule: ({ payItemId, onSuccess, onFailure }) => {
+    const intent = LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE;
+
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+
+    const urlParams = { businessId, payItemId };
+
+    integration.read({
+      intent,
+      allowParallelRequests: true,
       urlParams,
       onSuccess,
       onFailure,

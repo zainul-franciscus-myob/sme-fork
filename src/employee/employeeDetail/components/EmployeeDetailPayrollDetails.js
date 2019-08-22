@@ -2,26 +2,43 @@ import { Tabs } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
+import { getDeductionPayItemModal } from '../selectors/DeductionPayItemModalSelectors';
+import { getLeavePayItemModal } from '../selectors/LeavePayItemModalSelectors';
 import { getSubTab } from '../selectors/EmployeeDetailSelectors';
+import { getSuperPayItemModal } from '../selectors/SuperPayItemModalSelectors';
+import { getTaxPayItemModal } from '../selectors/PayrollTaxSelectors';
+import { getWagePayItemModal } from '../selectors/WagePayItemModalSelectors';
 import {
   payrollDetailsSubTabIds,
   payrollDetailsSubTabItems,
 } from '../tabItems';
+import DeductionPayItemModal from './DeductionPayItemModal/DeductionPayItemModal';
 import EmploymentDetails from './EmploymentDetails';
+import LeavePayItemModal from './LeavePayItemModal/LeavePayItemModal';
 import PayrollDeductionDetails from './PayrollDeductionDetails/PayrollDeductionDetails';
 import PayrollDetailSuperannuation from './PayrollSuperDetails/PayrollDetailSuperannuation';
 import PayrollLeaveDetail from './PayrollLeaveDetail';
+import PayrollStandardPayDetails from './PayrollStandardPayDetails/PayrollStandardPayDetails';
 import PayrollTaxDetails from './PayrollTaxDetails/PayrollTaxDetails';
 import PayrollWageDetails from './PayrollWageDetails/PayrollWageDetails';
+import SuperPayItemModal from './SuperPayItemModal/SuperPayItemModal';
+import TaxPayItemModal from './PayrollTaxDetails/TaxPayItemModal';
+import WagePayItemModal from './WagePayItemModal/WagePayItemModal';
 
 const EmployeeDetailPayrollDetails = ({
   selectedTab,
+  leavePayItemModal,
+  deductionPayItemModal,
+  superPayItemModal,
+  taxPayItemModal,
+  wagePayItemModal,
   onSubTabSelected,
   onEmploymentDetailsChange,
   onEmploymentPaySlipDeliveryChange,
   onAddPayrollDeductionPayItem,
   onRemovePayrollDeductionPayItem,
   onPayrollLeaveListeners,
+  onPayrollStandardPayListeners,
   onUpdatePayrollDetailSuperannuationDetails,
   onAddPayrollSuperPayItem,
   onRemovePayrollSuperPayItem,
@@ -68,7 +85,6 @@ const EmployeeDetailPayrollDetails = ({
       onAddPayrollDeductionPayItem={onAddPayrollDeductionPayItem}
       onRemovePayrollDeductionPayItem={onRemovePayrollDeductionPayItem}
       onOpenDeductionPayItemModal={onOpenDeductionPayItemModal}
-      deductionPayItemModalListeners={deductionPayItemModalListeners}
     />
   );
 
@@ -82,7 +98,6 @@ const EmployeeDetailPayrollDetails = ({
       onOpenSuperFundModal={onOpenSuperFundModal}
       superFundModalListeners={superFundModalListeners}
       onOpenSuperPayItemModal={onOpenSuperPayItemModal}
-      superPayItemModalListeners={superPayItemModalListeners}
     />
   );
 
@@ -112,6 +127,10 @@ const EmployeeDetailPayrollDetails = ({
     />
   );
 
+  const StandardPay = () => (
+    <PayrollStandardPayDetails listeners={onPayrollStandardPayListeners} />
+  );
+
   const Content = {
     [payrollDetailsSubTabIds.employmentDetails]: Employment,
     [payrollDetailsSubTabIds.salaryAndWages]: Wages,
@@ -119,6 +138,7 @@ const EmployeeDetailPayrollDetails = ({
     [payrollDetailsSubTabIds.deductions]: Deductions,
     [payrollDetailsSubTabIds.superannuation]: Superannuation,
     [payrollDetailsSubTabIds.taxes]: Taxes,
+    [payrollDetailsSubTabIds.standardPay]: StandardPay,
   }[selectedTab];
 
   return (
@@ -129,12 +149,22 @@ const EmployeeDetailPayrollDetails = ({
         onSelected={onSubTabSelected}
       />
       <Content />
+      {leavePayItemModal && <LeavePayItemModal {...leavePayItemModalListeners} />}
+      {deductionPayItemModal && <DeductionPayItemModal {...deductionPayItemModalListeners} />}
+      {superPayItemModal && <SuperPayItemModal {...superPayItemModalListeners} />}
+      {taxPayItemModal && <TaxPayItemModal {...taxPayItemModalListeners} />}
+      {wagePayItemModal && <WagePayItemModal {...wagePayItemModalListeners} />}
     </Fragment>
   );
 };
 
 const mapStateToProps = state => ({
   selectedTab: getSubTab(state),
+  leavePayItemModal: getLeavePayItemModal(state),
+  deductionPayItemModal: getDeductionPayItemModal(state),
+  superPayItemModal: getSuperPayItemModal(state),
+  taxPayItemModal: getTaxPayItemModal(state),
+  wagePayItemModal: getWagePayItemModal(state),
 });
 
 export default connect(mapStateToProps)(EmployeeDetailPayrollDetails);

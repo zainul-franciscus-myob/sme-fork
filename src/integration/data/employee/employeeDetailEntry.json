@@ -31,22 +31,42 @@
     "leaveDetails": {
       "allocatedLeavePayItems": [
         {
-          "id": 112,
-          "payItemId": 87,
-          "name": "Sick Leave Accrual",
+          "id": "511",
+          "payItemId": "51",
+          "name": "Leave percent",
           "carryOver": "43.434",
           "yearToDate": "10.5",
           "total": "53.5"
+        },
+        {
+          "id": "521",
+          "payItemId": "53",
+          "name": "Leave user entered",
+          "carryOver": "0.50",
+          "yearToDate": "0.50",
+          "total": "10.90"
         }
       ]
     },
     "deductionDetails": {
       "deductionPayItems": [
         {
-          "id": "1",
-          "name": "Advance repayment",
+          "id": "41",
+          "name": "Deduction percent",
           "type": "DeductionPayrollCategory",
           "displayType": "Percent"
+        },
+        {
+          "id": "42",
+          "name": "Deduction fixed dollar",
+          "type": "DeductionPayrollCategory",
+          "displayType": "Fixed dollar"
+        },
+        {
+          "id": "43",
+          "name": "Deduction user entered",
+          "type": "DeductionPayrollCategory",
+          "displayType": "User entered"
         }
       ]
     },
@@ -55,10 +75,22 @@
       "employeeMembershipNumber": "123",
       "allocatedPayItems": [
         {
-          "id": "1",
-          "name": "Super 1",
+          "id": "31",
+          "name": "Super deduction before tax",
           "type": "SuperannuationDeductionBeforeTaxPayrollCategory",
           "displayType": "Deduct before tax"
+        },
+        {
+          "id": "32",
+          "name": "Super deduction after tax",
+          "type": "SuperannuationDeductionAfterTaxPayrollCategory",
+          "displayType": "Deduct after tax"
+        },
+        {
+          "id": "33",
+          "name": "Super expense",
+          "type": "SuperannuationExpensePayrollCategory",
+          "displayType": "Expense"
         }
       ]
     },
@@ -70,7 +102,7 @@
       "withholdingVariationRate": "23.1234",
       "taxPayItems": [
         {
-          "id": "34",
+          "id": "21",
           "type": "TaxPayrollCategory"
         }
       ]
@@ -78,14 +110,51 @@
     "wage": {
       "selectedPayBasis": "Salary",
       "annualSalary": "38000000000",
-      "hourlyRate": "100000",
+      "hourlyRate": "20",
       "selectedPayCycle": "Monthly",
       "payPeriodHours": "152.0",
       "selectedWageExpenseAccount": "2",
       "allocatedWagePayItems": [
         {
-          "id": "1",
+          "id": "11",
           "type": "WagesPayrollCategory"
+        },
+        {
+          "id": "12",
+          "type": "WagesPayrollCategory"
+        },
+        {
+          "id": "13",
+          "type": "WagesPayrollCategory"
+        }
+      ]
+    },
+    "employerExpenseDetails": {
+      "expensePayItems": []
+    },
+    "standardPayDetails": {
+      "description": "With great power comes great responsibility",
+      "standardPayItems": [
+        {
+          "id": "1",
+          "payItemId": "12",
+          "hours": "5.00",
+          "appliedHours": "5.00",
+          "amount": "10.00"
+        },
+        {
+          "id": "2",
+          "payItemId": "13",
+          "hours": "10.00",
+          "appliedHours": "10.00",
+          "amount": "20.00"
+        },
+        {
+          "id": "4",
+          "payItemId": "61",
+          "hours": "30.123",
+          "appliedHours": "30.123",
+          "amount": "4.00"
         }
       ]
     }
@@ -251,32 +320,52 @@
   ],
   "deductionPayItemOptions": [
     {
-      "id": "1",
-      "name": "Advance repayment",
+      "id": "41",
+      "name": "Deduction percent",
       "type": "DeductionPayrollCategory",
-      "displayType": "Percent"
+      "displayType": "Percent",
+      "calculationBasis": "Percent"
     },
     {
-      "id": "2",
-      "name": "Deduction child care tax exempt",
+      "id": "42",
+      "name": "Deduction fixed dollar",
       "type": "DeductionPayrollCategory",
-      "displayType": "Fixed dollar"
+      "displayType": "Fixed dollar",
+      "calculationBasis": "FixedDollar"
     },
     {
-      "id": "3",
-      "name": "Employee purchase",
+      "id": "43",
+      "name": "Deduction user entered",
       "type": "DeductionPayrollCategory",
-      "displayType": "Fixed dollar"
+      "displayType": "User entered",
+      "calculationBasis": "UserEntered"
+    },
+    {
+      "id": "44",
+      "name": "Other deduction",
+      "type": "DeductionPayrollCategory",
+      "displayType": "Percent",
+      "calculationBasis": "Percent"
     }
   ],
   "leavePayItemOptions": [
     {
-      "payItemId": "87",
-      "name": "Annual leave accrual"
+      "id": "51",
+      "name": "Leave percent",
+      "type": "EntitlementPayrollCategory",
+      "calculationBasis": "Percent"
     },
     {
-      "payItemId": "89",
-      "name": "Sick leave"
+      "id": "52",
+      "name": "Leave fixed hours",
+      "type": "EntitlementPayrollCategory",
+      "calculationBasis": "FixedHours"
+    },
+    {
+      "id": "53",
+      "name": "Leave user entered",
+      "type": "EntitlementPayrollCategory",
+      "calculationBasis": "UserEntered"
     }
   ],
   "superFundOptions": [
@@ -295,22 +384,32 @@
   ],
   "superPayItemOptions": [
     {
-      "id": "1",
-      "name": "Super 1",
+      "id": "31",
+      "name": "Super deduction before tax",
       "type": "SuperannuationDeductionBeforeTaxPayrollCategory",
-      "displayType": "Deduct before tax"
+      "displayType": "Deduct before tax",
+      "calculationBasis": "PercentOfPayrollCategory"
     },
     {
-      "id": "2",
-      "name": "Super 2",
+      "id": "32",
+      "name": "Super deduction after tax",
       "type": "SuperannuationDeductionAfterTaxPayrollCategory",
-      "displayType": "Deduct after tax"
+      "displayType": "Deduct after tax",
+      "calculationBasis": "FixedDollar"
     },
     {
-      "id": "3",
-      "name": "Super 3",
+      "id": "33",
+      "name": "Super expense",
       "type": "SuperannuationExpensePayrollCategory",
-      "displayType": "Expense"
+      "displayType": "Expense",
+      "calculationBasis": "UserEntered"
+    },
+    {
+      "id": "34",
+      "name": "Other super expense",
+      "type": "SuperannuationExpensePayrollCategory",
+      "displayType": "Expense",
+      "calculationBasis": "FixedDollar"
     }
   ],
   "taxTableOptions": [
@@ -335,9 +434,10 @@
   ],
   "taxPayItemOptions": [
     {
+      "id": "21",
       "name": "PAYG Withholding",
-      "id": "34",
-      "type": "TaxPayrollCategory"
+      "type": "TaxPayrollCategory",
+      "calculationBasis": "Percent"
     }
   ],
   "wageExpenseAccounts": [
@@ -356,18 +456,54 @@
   ],
   "wagePayItems": [
     {
-      "id": "1",
+      "id": "11",
       "name": "Base salary",
       "type": "WagesPayrollCategory",
-      "displayType": "Salary"
+      "displayType": "Salary",
+      "payBasis": "Salary"
     },
     {
-      "id": "2",
+      "id": "12",
+      "name": "Base hourly",
+      "type": "WagesPayrollCategory",
+      "displayType": "Hourly",
+      "payBasis": "Hourly"
+    },
+    {
+      "id": "13",
       "name": "Annual leave",
       "type": "WagesPayrollCategory",
-      "displayType": "Salary"
+      "displayType": "Hourly",
+      "payBasis": "Hourly"
+    },
+    {
+      "id": "14",
+      "name": "Overtime (1.5x)",
+      "type": "WagesPayrollCategory",
+      "displayType": "Hourly",
+      "payBasis": "Hourly"
     }
   ],
-  "baseSalaryWagePayItemId": "1",
-  "baseHourlyWagePayItemId": "2"
+  "expensePayItemOptions": [
+    {
+      "id": "61",
+      "name": "Employer expense percent",
+      "type": "ExpensePayrollCategory",
+      "calculationBasis": "Percent"
+    },
+    {
+      "id": "62",
+      "name": "Employer expense fixed hour",
+      "type": "ExpensePayrollCategory",
+      "calculationBasis": "FixedHours"
+    },
+    {
+      "id": "63",
+      "name": "Employer expense user enter",
+      "type": "ExpensePayrollCategory",
+      "calculationBasis": "UserEntered"
+    }
+  ],
+  "baseSalaryWagePayItemId": "11",
+  "baseHourlyWagePayItemId": "12"
 }

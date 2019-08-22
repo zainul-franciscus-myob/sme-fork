@@ -17,6 +17,7 @@ import {
   LOAD_NEW_SUPER_FUND,
   LOAD_NEW_SUPER_PAY_ITEM_MODAL,
   LOAD_NEW_WAGE_PAY_ITEM_MODAL,
+  LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE,
   LOAD_SUPER_PAY_ITEM_MODAL,
   LOAD_TAX_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
@@ -57,6 +58,10 @@ const EmployeeListMapping = {
   [DELETE_EMPLOYEE]: {
     method: 'DELETE',
     getPath: ({ businessId, employeeId }) => `/${businessId}/employee/delete_employee/${employeeId}`,
+  },
+  [LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE]: {
+    method: 'GET',
+    getPath: ({ businessId, payItemId }) => `/${businessId}/employee/load_standard_pay_wage_amount_rule/${payItemId}`,
   },
   [LOAD_TAX_PAY_ITEM_MODAL]: {
     method: 'GET',

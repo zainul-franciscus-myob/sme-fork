@@ -57,7 +57,7 @@ export const addAllocatedLeaveItem = (state, action) => {
   const updatedLeaveItems = [
     ...state.payrollDetails.leaveDetails.allocatedLeavePayItems,
     {
-      payItemId: leaveItem.payItemId, name: leaveItem.name, carryOver: '0',
+      payItemId: leaveItem.id, name: leaveItem.name, carryOver: '0',
     },
   ];
   const partialAllocatedLeave = { allocatedLeavePayItems: updatedLeaveItems };

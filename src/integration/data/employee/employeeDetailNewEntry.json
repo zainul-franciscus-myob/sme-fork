@@ -26,7 +26,7 @@
       "withholdingVariationRate": "0.00",
       "taxPayItems": [
         {
-          "id": "34",
+          "id": "21",
           "type": "TaxPayrollCategory"
         }
       ]
@@ -39,9 +39,16 @@
       "payPeriodHours": "38.0",
       "selectedWageExpenseAccount": "1",
       "allocatedWagePayItems": [{
-        "id": "1",
+        "id": "11",
         "type": "WagesPayrollCategory"
       }]
+    },
+    "employerExpenseDetails": {
+      "expensePayItems": []
+    },
+    "standardPayDetails": {
+      "description": "Pay employee",
+      "standardPayItems": []
     }
   },
   "paymentDetails": {
@@ -204,32 +211,52 @@
   ],
   "deductionPayItemOptions": [
     {
-      "id": "1",
-      "name": "Advance repayment",
+      "id": "41",
+      "name": "Deduction percent",
       "type": "DeductionPayrollCategory",
-      "displayType": "Percent"
+      "displayType": "Percent",
+      "calculationBasis": "Percent"
     },
     {
-      "id": "2",
-      "name": "Deduction child care tax exempt",
+      "id": "42",
+      "name": "Deduction fixed dollar",
       "type": "DeductionPayrollCategory",
-      "displayType": "Fixed dollar"
+      "displayType": "Fixed dollar",
+      "calculationBasis": "FixedDollar"
     },
     {
-      "id": "3",
-      "name": "Employee purchase",
+      "id": "43",
+      "name": "Deduction user entered",
       "type": "DeductionPayrollCategory",
-      "displayType": "Fixed dollar"
+      "displayType": "User entered",
+      "calculationBasis": "UserEntered"
+    },
+    {
+      "id": "44",
+      "name": "Other deduction",
+      "type": "DeductionPayrollCategory",
+      "displayType": "Percent",
+      "calculationBasis": "Percent"
     }
   ],
   "leavePayItemOptions": [
     {
-      "payItemId": "87",
-      "name": "Annual leave accrual"
+      "id": "51",
+      "name": "Leave percent",
+      "type": "EntitlementPayrollCategory",
+      "calculationBasis": "Percent"
     },
     {
-      "payItemId": "89",
-      "name": "Sick leave"
+      "id": "52",
+      "name": "Leave fixed hours",
+      "type": "EntitlementPayrollCategory",
+      "calculationBasis": "FixedHours"
+    },
+    {
+      "id": "53",
+      "name": "Leave user entered",
+      "type": "EntitlementPayrollCategory",
+      "calculationBasis": "UserEntered"
     }
   ],
   "superFundOptions": [
@@ -248,22 +275,32 @@
   ],
   "superPayItemOptions": [
     {
-      "id": "1",
-      "name": "Super 1",
+      "id": "31",
+      "name": "Super deduction before tax",
       "type": "SuperannuationDeductionBeforeTaxPayrollCategory",
-      "displayType": "Deduct before tax"
+      "displayType": "Deduct before tax",
+      "calculationBasis": "PercentOfPayrollCategory"
     },
     {
-      "id": "2",
-      "name": "Super 2",
+      "id": "32",
+      "name": "Super deduction after tax",
       "type": "SuperannuationDeductionAfterTaxPayrollCategory",
-      "displayType": "Deduct after tax"
+      "displayType": "Deduct after tax",
+      "calculationBasis": "FixedDollar"
     },
     {
-      "id": "3",
-      "name": "Super 3",
+      "id": "33",
+      "name": "Super expense",
       "type": "SuperannuationExpensePayrollCategory",
-      "displayType": "Expense"
+      "displayType": "Expense",
+      "calculationBasis": "UserEntered"
+    },
+    {
+      "id": "34",
+      "name": "Other super expense",
+      "type": "SuperannuationExpensePayrollCategory",
+      "displayType": "Expense",
+      "calculationBasis": "FixedDollar"
     }
   ],
   "taxTableOptions": [
@@ -288,9 +325,10 @@
   ],
   "taxPayItemOptions": [
     {
+      "id": "21",
       "name": "PAYG Withholding",
-      "id": "34",
-      "type": "TaxPayrollCategory"
+      "type": "TaxPayrollCategory",
+      "calculationBasis": "Percent"
     }
   ],
   "wageExpenseAccounts": [
@@ -309,24 +347,54 @@
   ],
   "wagePayItems": [
     {
-      "id": "1",
+      "id": "11",
       "name": "Base salary",
       "type": "WagesPayrollCategory",
-      "displayType": "Salary"
+      "displayType": "Salary",
+      "payBasis": "Salary"
     },
     {
-      "id": "2",
+      "id": "12",
+      "name": "Base hourly",
+      "type": "WagesPayrollCategory",
+      "displayType": "Hourly",
+      "payBasis": "Hourly"
+    },
+    {
+      "id": "13",
       "name": "Annual leave",
       "type": "WagesPayrollCategory",
-      "displayType": "Hourly"
+      "displayType": "Hourly",
+      "payBasis": "Hourly"
     },
     {
-      "id": "3",
-      "name": "Flex leave",
+      "id": "14",
+      "name": "Overtime (1.5x)",
       "type": "WagesPayrollCategory",
-      "displayType": "Hourly"
+      "displayType": "Hourly",
+      "payBasis": "Hourly"
     }
   ],
-  "baseSalaryWagePayItemId": "1",
-  "baseHourlyWagePayItemId": "2"
+  "expensePayItemOptions": [
+    {
+      "id": "61",
+      "name": "Employer expense percent",
+      "type": "ExpensePayrollCategory",
+      "calculationBasis": "Percent"
+    },
+    {
+      "id": "62",
+      "name": "Employer expense fixed hour",
+      "type": "ExpensePayrollCategory",
+      "calculationBasis": "FixedHours"
+    },
+    {
+      "id": "63",
+      "name": "Employer expense user enter",
+      "type": "ExpensePayrollCategory",
+      "calculationBasis": "UserEntered"
+    }
+  ],
+  "baseSalaryWagePayItemId": "11",
+  "baseHourlyWagePayItemId": "12"
 }

@@ -30,6 +30,7 @@ import {
   LOAD_EMPLOYEE_DETAIL,
   LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_SUPER_FUND,
+  LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE,
   LOAD_SUPER_PAY_ITEM_MODAL,
   LOAD_TAX_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
@@ -46,6 +47,7 @@ import {
   REMOVE_LEAVE_PAY_ITEM_MODAL_EXEMPTION,
   REMOVE_LEAVE_PAY_ITEM_MODAL_LINKED_WAGE,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
+  REMOVE_PAYROLL_STANDARD_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
   REMOVE_PAYROLL_WAGE_PAY_ITEM,
@@ -67,6 +69,8 @@ import {
   SET_LOADING_STATE,
   SET_MAIN_TAB,
   SET_PAGE_EDITED_STATE,
+  SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT,
+  SET_PAYROLL_STANDARD_PAY_ITEM_INPUT,
   SET_SUBMITTING_STATE,
   SET_SUB_TAB,
   SET_SUPER_FUND_MODAL_ALERT_MESSAGE,
@@ -231,6 +235,12 @@ import {
   updateSelfManagedFundAbn,
   updateSuperFundDetail,
 } from './SuperFundModalReducer';
+import {
+  loadPayrollStandardPayWageAmountRule,
+  removePayrollStandardPayItem,
+  setPayrollStandardPayDetailsItemInput,
+  setPayrollStandardPayItemInput,
+} from './PayrollStandardPayReducer';
 import { mainTabIds } from '../tabItems';
 import { shouldDefaultPayslipEmail } from '../selectors/EmployeeDetailSelectors';
 import createReducer from '../../../store/createReducer';
@@ -298,6 +308,14 @@ export const getDefaultState = () => ({
       selectedWageExpenseAccount: '',
       allocatedWagePayItems: [],
     },
+    employerExpenseDetails: {
+      expensePayItems: [],
+    },
+    standardPayDetails: {
+      description: '',
+      standardPayItems: [],
+      wageAmountRules: {},
+    },
   },
   paymentDetails: {
     paymentMethod: '',
@@ -325,6 +343,7 @@ export const getDefaultState = () => ({
   baseSalaryWagePayItemId: '',
   baseHourlyWagePayItemId: '',
   wagePayItems: [],
+  expensePayItemOptions: [],
   wagePayItemModal: undefined,
   taxPayItemModal: undefined,
   deductionPayItemModal: undefined,
@@ -399,6 +418,14 @@ const loadEmployeeDetail = (state, action) => ({
       ...state.payrollDetails.leaveDetails,
       ...action.payrollDetails.leaveDetails,
     },
+    employerExpenseDetails: {
+      ...state.payrollDetails.employerExpenseDetails,
+      ...action.payrollDetails.employerExpenseDetails,
+    },
+    standardPayDetails: {
+      ...state.payrollDetails.standardPayDetails,
+      ...action.payrollDetails.standardPayDetails,
+    },
   },
   paymentDetails: {
     ...state.paymentDetails,
@@ -424,6 +451,7 @@ const loadEmployeeDetail = (state, action) => ({
   baseHourlyWagePayItemId: action.baseHourlyWagePayItemId,
   wagePayItems: action.wagePayItems,
   leavePayItemOptions: action.leavePayItemOptions,
+  expensePayItemOptions: action.expensePayItemOptions,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -577,6 +605,10 @@ const handlers = {
   [UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE]: updatePayrollWageHoursInPayCycle,
   [UPDATE_PAYROLL_WAGE_ANNUAL_SALARY]: updatePayrollWageAnnualSalary,
   [UPDATE_PAYROLL_WAGE_PAY_CYCLE]: updatePayrollWagePayCycle,
+  [LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE]: loadPayrollStandardPayWageAmountRule,
+  [SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT]: setPayrollStandardPayDetailsItemInput,
+  [SET_PAYROLL_STANDARD_PAY_ITEM_INPUT]: setPayrollStandardPayItemInput,
+  [REMOVE_PAYROLL_STANDARD_PAY_ITEM]: removePayrollStandardPayItem,
   [OPEN_TAX_PAY_ITEM_MODAL]: openTaxPayItemModal,
   [CLOSE_TAX_PAY_ITEM_MODAL]: closeTaxPayItemModal,
   [SET_TAX_PAY_ITEM_MODAL_LOADING_STATE]: setTaxPayItemModalLoading,

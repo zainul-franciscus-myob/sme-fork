@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const getTaxPayItemOptions = state => state.taxPayItemOptions;
+export const getTaxPayItemOptions = state => state.taxPayItemOptions;
 
 export const getTaxPayItems = state => (
   state.payrollDetails.tax.taxPayItems

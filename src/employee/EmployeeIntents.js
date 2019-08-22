@@ -43,6 +43,11 @@ export const UPDATE_PAYROLL_WAGE_ANNUAL_SALARY = Symbol('Update payroll wage ann
 export const UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE = Symbol('Update payroll wage hours in a pay cycle');
 export const UPDATE_PAYROLL_WAGE_PAY_CYCLE = Symbol('Update payroll wage pay cycle');
 
+export const LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE = Symbol('Load standard pay wage amount rule');
+export const SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT = Symbol('Set standard pay details input');
+export const SET_PAYROLL_STANDARD_PAY_ITEM_INPUT = Symbol('Set standard pay item input');
+export const REMOVE_PAYROLL_STANDARD_PAY_ITEM = Symbol('Remove standard pay item');
+
 export const OPEN_TAX_PAY_ITEM_MODAL = Symbol('Open tax pay item modal');
 export const CLOSE_TAX_PAY_ITEM_MODAL = Symbol('Close tax pay item modal');
 export const LOAD_TAX_PAY_ITEM_MODAL = Symbol('Load tax pay item modal');

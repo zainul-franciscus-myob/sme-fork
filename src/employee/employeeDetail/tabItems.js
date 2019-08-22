@@ -18,6 +18,7 @@ export const payrollDetailsSubTabIds = {
   superannuation: 'superannuation',
   taxes: 'taxes',
   wages: 'wages',
+  standardPay: 'standardPay',
 };
 
 export const payrollDetailsSubTabItems = [
@@ -27,4 +28,5 @@ export const payrollDetailsSubTabItems = [
   { id: payrollDetailsSubTabIds.deductions, label: 'Deductions' },
   { id: payrollDetailsSubTabIds.superannuation, label: 'Superannuation' },
   { id: payrollDetailsSubTabIds.taxes, label: 'Taxes' },
+  { id: payrollDetailsSubTabIds.standardPay, label: 'Standard pay' },
 ];

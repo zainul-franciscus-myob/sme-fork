@@ -14,7 +14,8 @@ export const getAllocatedPayItems = state => (
 
 export const getSuperFundOptions = state => state.superFundOptions;
 
-const getSuperPayItemOptions = state => state.superPayItemOptions;
+export const getSuperPayItemOptions = state => state.superPayItemOptions;
+
 export const getFilteredSuperPayItemOptions = createSelector(
   getSuperPayItemOptions,
   getAllocatedPayItems,

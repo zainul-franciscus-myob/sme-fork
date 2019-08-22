@@ -1,14 +1,10 @@
 import { FieldGroup, Icons, Tooltip } from '@myob/myob-widgets';
-import { connect } from 'react-redux';
 import React from 'react';
 
-import { getWagePayItemModal } from '../../selectors/WagePayItemModalSelectors';
 import AddWagePayItemTable from './AddWagePayItemTable';
 import WageDetails from './WageDetails';
-import WagePayItemModal from '../WagePayItemModal/WagePayItemModal';
 
 const PayrollWageDetails = ({
-  wagePayItemModal,
   onAddPayrollWagePayItem,
   onRemovePayrollWagePayItem,
   onPayrollWageDetailsChange,
@@ -18,7 +14,6 @@ const PayrollWageDetails = ({
   onPayrollWageHoursInPayCycleBlur,
   onPayrollWageSelectedPayCycleChange,
   onOpenWagePayItemModal,
-  wagePayItemModalListeners,
 }) => {
   const fieldGroupLabel = (
     <div>
@@ -31,7 +26,6 @@ const PayrollWageDetails = ({
 
   return (
     <>
-      { wagePayItemModal && <WagePayItemModal {...wagePayItemModalListeners} /> }
       <WageDetails
         onPayrollWageDetailsChange={onPayrollWageDetailsChange}
         onPayrollWagePayBasisChange={onPayrollWagePayBasisChange}
@@ -52,8 +46,4 @@ const PayrollWageDetails = ({
   );
 };
 
-const mapStateToProps = state => ({
-  wagePayItemModal: getWagePayItemModal(state),
-});
-
-export default connect(mapStateToProps)(PayrollWageDetails);
+export default PayrollWageDetails;

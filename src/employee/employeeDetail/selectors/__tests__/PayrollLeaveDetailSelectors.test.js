@@ -7,14 +7,14 @@ import {
 describe('PayrollLeaveDetailSelectors', () => {
   describe('getFilteredLeavePayItemOptions', () => {
     it('should not contain allocated leave that has already been added to employee', () => {
-      const payItemOptions = [{ payItemId: '1' }, { payItemId: '2' }];
+      const payItemOptions = [{ id: '1' }, { id: '2' }];
       const payItems = [{ payItemId: '1' }];
 
       const actual = getFilteredLeavePayItemOptions
         .resultFunc(payItemOptions, payItems);
 
-      expect(actual.find(item => item.payItemId === '1')).toBeFalsy();
-      expect(actual.find(item => item.payItemId === '2')).toBeTruthy();
+      expect(actual.find(item => item.id === '1')).toBeFalsy();
+      expect(actual.find(item => item.id === '2')).toBeTruthy();
     });
   });
   describe('formatDate', () => {

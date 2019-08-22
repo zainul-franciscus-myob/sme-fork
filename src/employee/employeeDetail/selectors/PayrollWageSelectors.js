@@ -1,6 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-const getWagePayItems = state => state.wagePayItems;
+export const getWagePayItems = state => state.wagePayItems;
 
 export const getAllocatedWagePayItems = state => state.payrollDetails.wage.allocatedWagePayItems;
 
@@ -15,9 +15,9 @@ export const getFilteredWagePayItemOptions = createSelector(
 
 const getIsSelectedPayBasisSalary = state => state.payrollDetails.wage.selectedPayBasis === 'Salary';
 
-const getBaseSalaryWagePayItemId = state => state.baseSalaryWagePayItemId;
+export const getBaseSalaryWagePayItemId = state => state.baseSalaryWagePayItemId;
 
-const getBaseHourlyWagePayItemId = state => state.baseHourlyWagePayItemId;
+export const getBaseHourlyWagePayItemId = state => state.baseHourlyWagePayItemId;
 
 const isPayItemRemovable = ({ id }, isSelectedPayBasisSalary, baseSalaryWagePayItemId,
   baseHourlyWagePayItemId) => {
@@ -56,15 +56,29 @@ export const getSelectedWagePayItems = createSelector(
     })),
 );
 
+const getSelectedPayCycle = state => state.payrollDetails.wage.selectedPayCycle;
+export const getPayPeriodHours = state => state.payrollDetails.wage.payPeriodHours;
+const getWagePayCycleOptions = state => state.wagePayCycleOptions;
+export const getHourlyRate = state => state.payrollDetails.wage.hourlyRate;
+
 export const getWageDetails = createStructuredSelector({
   selectedPayBasis: state => state.payrollDetails.wage.selectedPayBasis,
   isSelectedPayBasisSalary: getIsSelectedPayBasisSalary,
   annualSalary: state => state.payrollDetails.wage.annualSalary,
-  hourlyRate: state => state.payrollDetails.wage.hourlyRate,
-  selectedPayCycle: state => state.payrollDetails.wage.selectedPayCycle,
-  payPeriodHours: state => state.payrollDetails.wage.payPeriodHours,
+  hourlyRate: getHourlyRate,
+  selectedPayCycle: getSelectedPayCycle,
+  payPeriodHours: getPayPeriodHours,
   wageExpenseAccounts: state => state.wageExpenseAccounts,
   selectedWageExpenseAccount: state => state.payrollDetails.wage.selectedWageExpenseAccount,
-  wagePayCycleOptions: state => state.wagePayCycleOptions,
+  wagePayCycleOptions: getWagePayCycleOptions,
   wagePayBasisOptions: state => state.wagePayBasisOptions,
 });
+
+export const getWagePayCycleDisplayName = createSelector(
+  getSelectedPayCycle,
+  getWagePayCycleOptions,
+  (selectedPayCycle, wagePayCycleOptions) => {
+    const selected = wagePayCycleOptions.find(option => option.id === selectedPayCycle) || {};
+    return selected.displayName;
+  },
+);
