@@ -68,13 +68,16 @@ export default class SpendMoneyDetailModule {
       ...(!this.isCreating && { spendMoneyId: this.spendMoneyId }),
     };
 
-    const onSuccess = ({ spendMoney, newLine, totals }) => {
+    const onSuccess = ({
+      spendMoney, newLine, totals, pageTitle,
+    }) => {
       this.setLoadingState(false);
       this.store.dispatch({
         intent,
         spendMoney,
         totals,
         newLine,
+        pageTitle,
         isLoading: false,
       });
     };

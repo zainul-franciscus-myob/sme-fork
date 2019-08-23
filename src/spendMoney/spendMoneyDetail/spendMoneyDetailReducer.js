@@ -59,6 +59,7 @@ const getDefaultState = () => ({
   isPageEdited: false,
   businessId: '',
   region: '',
+  pageTitle: '',
 });
 
 const pageEdited = { isPageEdited: true };
@@ -155,6 +156,7 @@ const loadNewSpendMoney = (state, action) => ({
   },
   newLine: { ...state.newLine, ...action.newLine },
   isLoading: false,
+  pageTitle: action.pageTitle,
 });
 
 const loadSpendMoneyDetail = (state, action) => ({
@@ -167,6 +169,7 @@ const loadSpendMoneyDetail = (state, action) => ({
   newLine: { ...state.newLine, ...action.newLine },
   totals: action.totals,
   isLoading: false,
+  pageTitle: action.pageTitle,
 });
 
 const loadReferenceId = (state, action) => ({

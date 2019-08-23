@@ -1,10 +1,9 @@
 import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getIndexOfLastLine, getTableData, getTotals,
+  getIndexOfLastLine, getTableData, getTaxCodeLabel, getTaxLabel, getTotals,
 } from '../spendMoneyDetailSelectors';
 import SpendMoneyDetailRow from './SpendMoneyDetailRow';
 
@@ -44,16 +43,6 @@ class SpendMoneyDetailTable extends React.Component {
   };
 
   render() {
-    const labels = [
-      'Account', 'Amount ($)', 'Description', 'Tax code',
-    ];
-
-    const headerItems = labels.map(label => (
-      <LineItemTable.HeaderItem columnName={label} requiredLabel={label !== 'Description' ? 'Required' : null}>
-        {label}
-      </LineItemTable.HeaderItem>
-    ));
-
     const {
       tableData,
       amountTotals: {
@@ -62,24 +51,50 @@ class SpendMoneyDetailTable extends React.Component {
         totalAmount,
       },
       onRemoveRow,
+      taxLabel,
+      taxCodeLabel,
     } = this.props;
+
+    const columns = [
+      {
+        label: 'Account',
+        requiredLabel: 'Required',
+        styles: { width: '35.2rem', align: 'left' },
+      },
+      {
+        label: 'Amount ($)',
+        requiredLabel: 'Required',
+        styles: { width: '12.5rem', align: 'right' },
+      },
+      {
+        label: 'Description',
+        styles: {},
+      },
+      {
+        label: taxCodeLabel,
+        requiredLabel: 'Required',
+        styles: { width: '8rem', align: 'left' },
+      },
+    ];
+
+    const labels = columns.map(({ label }) => label);
+
+    const headerItems = columns.map(({ label, requiredLabel }) => (
+      <LineItemTable.HeaderItem
+        key={label}
+        columnName={label}
+        requiredLabel={requiredLabel}
+      >
+        {label}
+      </LineItemTable.HeaderItem>
+    ));
 
     const columnConfig = [
       {
-        config: [
-          {
-            columnName: 'Account',
-            styles: { width: '35.2rem', align: 'left' },
-          },
-          {
-            columnName: 'Amount ($)',
-            styles: { width: '12.5rem', align: 'right' },
-          },
-          {
-            columnName: 'Tax code',
-            styles: { width: '8rem', align: 'left' },
-          },
-        ],
+        config: columns.map(({ label, styles }) => ({
+          styles,
+          columnName: label,
+        })),
       },
     ];
 
@@ -96,7 +111,7 @@ class SpendMoneyDetailTable extends React.Component {
       >
         <LineItemTable.Total>
           <LineItemTable.Totals title="Subtotal" amount={netAmount} />
-          <LineItemTable.Totals title="Tax" amount={totalTax} />
+          <LineItemTable.Totals title={taxLabel} amount={totalTax} />
           <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
         </LineItemTable.Total>
       </LineItemTable>
@@ -104,25 +119,12 @@ class SpendMoneyDetailTable extends React.Component {
   }
 }
 
-SpendMoneyDetailTable.propTypes = {
-  tableData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  indexOfLastLine: PropTypes.number.isRequired,
-  amountTotals: PropTypes.shape({
-    totalDebit: PropTypes.string,
-    totalCredit: PropTypes.string,
-    totalTax: PropTypes.string,
-    totalOutOfBalance: PropTypes.string,
-  }).isRequired,
-  onUpdateRow: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-  onRemoveRow: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   amountTotals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
   tableData: getTableData(state),
+  taxLabel: getTaxLabel(state),
+  taxCodeLabel: getTaxCodeLabel(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailTable);

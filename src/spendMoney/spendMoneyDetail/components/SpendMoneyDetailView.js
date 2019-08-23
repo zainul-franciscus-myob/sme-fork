@@ -2,10 +2,11 @@ import {
   Alert, LineItemTemplate, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getAlertMessage, getIsLoading, getModalType } from '../spendMoneyDetailSelectors';
+import {
+  getAlertMessage, getIsLoading, getModalType, getPageTitle,
+} from '../spendMoneyDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import SpendMoneyDetailActions from './SpendMoneyDetailActions';
@@ -23,6 +24,7 @@ const SpendMoneyDetailView = ({
   onDismissAlert,
   isCreating,
   isLoading,
+  pageTitle,
   onDeleteModal,
   modalType,
   onUpdateRow,
@@ -75,7 +77,7 @@ const SpendMoneyDetailView = ({
   const view = (
     <React.Fragment>
       <LineItemTemplate
-        pageHead="Spend money entry"
+        pageHead={pageTitle}
         options={templateOptions}
         actions={actions}
         alert={alertComponent}
@@ -97,29 +99,11 @@ const SpendMoneyDetailView = ({
   );
 };
 
-SpendMoneyDetailView.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  alertMessage: PropTypes.string.isRequired,
-  modalType: PropTypes.string.isRequired,
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
-  onCancelModal: PropTypes.func.isRequired,
-  onDeleteModal: PropTypes.func.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  onUpdateRow: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRemoveRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   alertMessage: getAlertMessage(state),
   modalType: getModalType(state),
   isLoading: getIsLoading(state),
+  pageTitle: getPageTitle(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailView);

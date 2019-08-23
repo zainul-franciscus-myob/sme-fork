@@ -79,7 +79,6 @@ class SpendMoneyDetailOptions extends Component {
             selectedId={selectedPayToContactId}
             onChange={this.handleComboBoxChange('selectedPayToContactId')}
             label="Contact (payee)"
-            labelAccessory={(<RequiredTooltip />)}
             name="Pay To Contacts"
             hideLabel={false}
             hintText="Select contact"

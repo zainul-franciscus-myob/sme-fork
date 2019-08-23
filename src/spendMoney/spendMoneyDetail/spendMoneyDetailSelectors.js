@@ -1,5 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import getRegionToDialectText from '../../dialect/getRegionToDialectText';
+
 const getReferenceId = state => state.spendMoney.referenceId;
 const getSelectedPayFromId = state => state.spendMoney.selectedPayFromAccountId;
 const getSelectedPayToContactId = state => state.spendMoney.selectedPayToContactId;
@@ -130,3 +132,6 @@ export const getIsActionsDisabled = state => state.isSubmitting;
 export const isPageEdited = state => state.isPageEdited;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
+export const getPageTitle = state => state.pageTitle;
+export const getTaxCodeLabel = state => getRegionToDialectText(state.region)('Tax code');
+export const getTaxLabel = state => getRegionToDialectText(state.region)('Tax');
