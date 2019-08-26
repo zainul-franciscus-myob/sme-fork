@@ -9,6 +9,7 @@ import { getAllocatedPayItems as getAllocatedSuperPayItems, getSuperPayItemOptio
 import { getTaxPayItems as getAllocatedTaxPayItems, getTaxPayItemOptions } from './PayrollTaxSelectors';
 import {
   getHourlyRate,
+  getIsSelectedPayBasisSalary,
   getPayPeriodHours,
   getWagePayCycleDisplayName,
   getWagePayItems as getWagePayItemOptions,
@@ -217,6 +218,7 @@ export const getLeaveTableRows = createSelector(
     showTableRows: entries.length > 0,
   }),
 );
+
 export const getStandardPayItemByPayItemId = (state, payItemId) => {
   const standardPayItems = getStandardPayItems(state);
 
@@ -224,11 +226,14 @@ export const getStandardPayItemByPayItemId = (state, payItemId) => {
     .find(({ payItemId: standardPayItemId }) => payItemId === standardPayItemId);
 };
 
-export const getStandardPayItemListToApplyRule = createSelector(
-  getWagePayItemEntries,
-  wagePayItems => wagePayItems
-    .filter(({ hours }) => hours !== getStandardPayFormattedHours(0)),
-);
+export const getStandardPayItemsToApplyAmountRule = (state) => {
+  const entries = getWagePayItemEntries(state);
+
+  return entries
+    .filter(({ hourFieldType, hours }) => (
+      hourFieldType === fieldTypes.input && hours !== getStandardPayFormattedHours(0)
+    ));
+};
 
 export const getIsAmountRuleApplied = (state, { payItemId, payItemType, value }) => {
   if (payItemType !== payItemTypes.wages) {
@@ -265,6 +270,19 @@ export const calculateWagePayItemAmount = ({
   }
 
   return 0;
+};
+
+export const getShouldResetPayrollStandardHourlyWagePayItems = (state, key) => {
+  switch (key) {
+    case 'annualSalary':
+    case 'hourlyRate':
+      return true;
+    case 'selectedPayCycle':
+    case 'payPeriodHours':
+      return !getIsSelectedPayBasisSalary(state);
+    default:
+      return false;
+  }
 };
 
 export const getCalculatedWagePayItemAmount = (state, payItemId, wagePayItem) => {

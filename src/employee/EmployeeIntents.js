@@ -42,6 +42,7 @@ export const UPDATE_PAYROLL_WAGE_HOURLY_RATE = Symbol('Update payroll wage hourl
 export const UPDATE_PAYROLL_WAGE_ANNUAL_SALARY = Symbol('Update payroll wage annual salary');
 export const UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE = Symbol('Update payroll wage hours in a pay cycle');
 export const UPDATE_PAYROLL_WAGE_PAY_CYCLE = Symbol('Update payroll wage pay cycle');
+export const UPDATE_PAYROLL_WAGE_APPLIED_DETAILS = Symbol('Update payroll wage applied details');
 
 export const LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE = Symbol('Load standard pay wage amount rule');
 export const SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT = Symbol('Set standard pay details input');

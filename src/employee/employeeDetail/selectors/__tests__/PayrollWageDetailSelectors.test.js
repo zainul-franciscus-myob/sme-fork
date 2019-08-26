@@ -1,4 +1,10 @@
-import { getFilteredWagePayItemOptions, getSelectedWagePayItems } from '../PayrollWageSelectors';
+import {
+  getBaseWagePayItemIdByPayBasis,
+  getFilteredWagePayItemOptions,
+  getIsSalaryByPayBasis,
+  getIsWageDetailsInputChangedOnBlur,
+  getSelectedWagePayItems,
+} from '../PayrollWageSelectors';
 
 describe('PayrollWageSelectors', () => {
   describe('getFilteredWagePayItemOptions', () => {
@@ -90,6 +96,68 @@ describe('PayrollWageSelectors', () => {
         baseSalaryWagePayItemId,
         baseHourlyWagePayItemId,
       );
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getIsSalaryByPayBasis', () => {
+    it.each([
+      ['Salary', true],
+      ['Hourly', false],
+    ])('when payBasis is %s should return %s', (payBasis, expected) => {
+      const actual = getIsSalaryByPayBasis(payBasis);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getBaseWagePayItemIdByPayBasis', () => {
+    it.each([
+      ['Salary', '11'],
+      ['Hourly', '12'],
+    ])('when payBasis is %s should return %s', (payBasis, expected) => {
+      const state = {
+        baseSalaryWagePayItemId: '11',
+        baseHourlyWagePayItemId: '12',
+      };
+
+      const actual = getBaseWagePayItemIdByPayBasis(state, payBasis);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getIsWageDetailsInputChangedOnBlur', () => {
+    it.each([
+      ['annualSalary', '1', 'appliedAnnualSalary', '0', true],
+      ['annualSalary', '1', 'appliedAnnualSalary', '1', false],
+      ['hourlyRate', '1', 'appliedHourlyRate', '0', true],
+      ['hourlyRate', '1', 'appliedHourlyRate', '1', false],
+      ['payPeriodHours', '1', 'appliedPayPeriodHours', '0', true],
+      ['payPeriodHours', '1', 'appliedPayPeriodHours', '1', false],
+      ['selectedPayCycle', 'weekly', 'appliedSelectedPayCycle', 'weekly', true],
+      ['selectedPayCycle', 'weekly', 'appliedSelectedPayCycle', 'monthly', true],
+      ['random', 'a', 'appliedRandom', 'a', true],
+    ])('should check whether %s is changed on blur', (
+      key, value, appliedKey, appliedValue, expected,
+    ) => {
+      const state = {
+        payrollDetails: {
+          wage: {
+            annualSalary: 'annualSalary',
+            hourlyRate: 'hourlyRate',
+            payPeriodHours: 'payPeriodHours',
+            appliedAnnualSalary: 'appliedAnnualSalary',
+            appliedHourlyRate: 'appliedHourlyRate',
+            appliedPayPeriodHours: 'appliedPayPeriodHours',
+            [key]: value,
+            [appliedKey]: appliedValue,
+          },
+        },
+      };
+
+      const actual = getIsWageDetailsInputChangedOnBlur(state, key);
 
       expect(actual).toEqual(expected);
     });

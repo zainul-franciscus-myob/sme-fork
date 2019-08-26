@@ -3,6 +3,8 @@ import {
   fieldTypes,
   getAmountFieldType,
   getHoursFieldType,
+  getShouldResetPayrollStandardHourlyWagePayItems,
+  getStandardPayItemsToApplyAmountRule,
 } from '../PayrollStandardPaySelectors';
 import payItemTypes from '../../payItemTypes';
 
@@ -75,6 +77,64 @@ describe('PayrollStandardPaySelectors', () => {
       });
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getShouldResetPayrollStandardHourlyWagePayItems', () => {
+    it.each([
+      ['annualSalary', 'Salary', true],
+      ['annualSalary', 'Hourly', true],
+      ['hourlyRate', 'Salary', true],
+      ['hourlyRate', 'Hourly', true],
+      ['selectedPayCycle', 'Salary', false],
+      ['selectedPayCycle', 'Hourly', true],
+      ['payPeriodHours', 'Salary', false],
+      ['payPeriodHours', 'Hourly', true],
+      ['selectedPayBasis', 'Hourly', false],
+    ])('when key is %s and pay basis is %s, should return %s', (
+      key, selectedPayBasis, expected,
+    ) => {
+      const state = {
+        payrollDetails: {
+          wage: {
+            selectedPayBasis,
+          },
+        },
+      };
+
+      const actual = getShouldResetPayrollStandardHourlyWagePayItems(state, key);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getStandardPayItemsToApplyAmountRule', () => {
+    it('should get hourly wage pay item for standard pay', () => {
+      const state = {
+        payrollDetails: {
+          wage: {
+            allocatedWagePayItems: [
+              { id: '11' },
+              { id: '12' },
+            ],
+          },
+          standardPayDetails: {
+            standardPayItems: [
+              { payItemId: '11', hours: '1.00' },
+              { payItemId: '12', hours: '1.00' },
+            ],
+          },
+        },
+        wagePayItems: [
+          { id: '11', type: 'WagesPayrollCategory', payBasis: 'Salary' },
+          { id: '12', type: 'WagesPayrollCategory', payBasis: 'Hourly' },
+        ],
+      };
+
+      const actual = getStandardPayItemsToApplyAmountRule(state);
+
+      expect(actual.find(({ payItemId }) => payItemId === '11')).toBeUndefined();
+      expect(actual.find(({ payItemId }) => payItemId === '12')).toBeDefined();
     });
   });
 });

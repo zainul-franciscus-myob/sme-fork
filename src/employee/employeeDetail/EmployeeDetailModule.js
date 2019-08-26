@@ -5,13 +5,22 @@ import {
   SUCCESSFULLY_DELETED_EMPLOYEE,
   SUCCESSFULLY_SAVED_EMPLOYEE,
 } from '../EmployeeMessageTypes';
-import { getBaseHourlyWagePayItemId, getBaseSalaryWagePayItemId } from './selectors/PayrollWageSelectors';
+import {
+  getBaseHourlyWagePayItemId,
+  getBaseSalaryWagePayItemId,
+  getBaseWagePayItemIdByPayBasis,
+  getIsBaseWagePayItemId,
+  getIsSalaryByPayBasis,
+  getIsWageDetailsInputChangedOnBlur,
+  getPayPeriodHours,
+} from './selectors/PayrollWageSelectors';
 import {
   getCalculatedWagePayItemAmount,
   getIsAmountRuleApplied,
+  getShouldResetPayrollStandardHourlyWagePayItems,
   getStandardPayFormattedAmount,
   getStandardPayFormattedHours,
-  getStandardPayItemListToApplyRule,
+  getStandardPayItemsToApplyAmountRule,
   getStandardPayWageAmountRuleById,
   getStandardPayWageAmountRuleFromModal,
 } from './selectors/PayrollStandardPaySelectors';
@@ -204,37 +213,84 @@ export default class EmployeeDetailModule {
     this.createOrUpdateEmployee(onSuccess);
   };
 
-  updatePayrollWagePayBasis = ({ value }) => {
+  updatePayrollWagePayBasisAndStandardPayItems = ({ value }) => {
     this.dispatcher.updatePayrollWagePayBasis({ value });
 
     const state = this.store.getState();
-    const payItemId = value === 'Salary'
-      ? getBaseHourlyWagePayItemId(state)
-      : getBaseSalaryWagePayItemId(state);
-    this.dispatcher.removePayrollStandardPayItem(payItemId);
+    const payItemIdToAdd = getBaseWagePayItemIdByPayBasis(state, value);
+    this.setStandardPayWagePayItem(payItemIdToAdd);
+
+    const originalPayBasis = getIsSalaryByPayBasis(value) ? 'Hourly' : 'Salary';
+    const payItemIdToRemove = getBaseWagePayItemIdByPayBasis(originalPayBasis);
+    this.dispatcher.removePayrollStandardPayItem(payItemIdToRemove);
   }
 
-  updatePayrollWageAnnualSalary = ({ value }) => {
-    this.dispatcher.updatePayrollWageAnnualSalary({ value });
+  updatePayrollWageDetailsAndStandardPayItems = ({ key, value }) => {
+    if (key === 'annualSalary') {
+      // Update annualSalary and recalculate hourlyRate
+      this.dispatcher.updatePayrollWageAnnualSalary({ value });
+    }
+
+    if (key === 'hourlyRate') {
+      // Update hourlyRate and recalculate annualSalary
+      this.dispatcher.updatePayrollWageHourlyRate({ value });
+    }
+
+    if (key === 'selectedPayCycle') {
+      // Update selectedPayCycle and recalculate payPeriodHours
+      // If Hourly, recalculate annualSalary
+      // If Salary, recalculate hourlyRate
+      this.dispatcher.updatePayrollWagePayCycle({ value });
+    }
+
+    if (key === 'payPeriodHours') {
+      // Update payPeriodHours and recalculate based on condition
+      // If Hourly, recalculate annualSalary
+      // If Salary, recalculate hourlyRate
+      this.dispatcher.updatePayrollWageHoursInPayCycle({ value });
+    }
 
     const state = this.store.getState();
-    const standardPayItems = getStandardPayItemListToApplyRule(state);
-    standardPayItems.forEach(({ payItemId }) => {
-      this.loadAndApplyStandardPayAmountRule(payItemId);
-    });
+    const isInputChanged = getIsWageDetailsInputChangedOnBlur(state, key);
+
+    // Standard pay item 'Base Salary' and 'Base Hourly' wage pay item hours
+    // must be updated and have its amount recalculated
+    // upon any action that cause payPeriodHours to be updated.
+    if (isInputChanged) {
+      this.setStandardPayWagePayItem(getBaseSalaryWagePayItemId(state));
+      this.setStandardPayWagePayItem(getBaseHourlyWagePayItemId(state));
+    }
+
+    // Standard pay item of pay basis type Hourly have its amount recalculated
+    // upon any action that cause annualSalary to be updated.
+    if (isInputChanged && getShouldResetPayrollStandardHourlyWagePayItems(state, key)) {
+      this.resetPayrollStandardPayHourlyWagePayItemAmount();
+    }
+
+    this.dispatcher.updatePayrollWageAppliedDetails();
   }
 
-  removePayrollWagePayItem = (id) => {
+  addPayrollWagePayItem = (payItem) => {
+    this.dispatcher.addPayrollWagePayItem(payItem);
+
+    const state = this.store.getState();
+    const isBaseWagePayItemId = getIsBaseWagePayItemId(state);
+    if (isBaseWagePayItemId) {
+      this.setStandardPayWagePayItem(payItem.id);
+    }
+  }
+
+  removePayrollWagePayItemAndStandardPayItem = (id) => {
     this.dispatcher.removePayrollWagePayItem(id);
     this.dispatcher.removePayrollStandardPayItem(id);
   }
 
-  removePayrollDeductionPayItem = (id) => {
+  removePayrollDeductionPayItemAndStandardPayItem = (id) => {
     this.dispatcher.removePayrollDeductionPayItem(id);
     this.dispatcher.removePayrollStandardPayItem(id);
   }
 
-  removePayrollSuperPayItem = (id) => {
+  removePayrollSuperPayItemAndStandardPayItem = (id) => {
     this.dispatcher.removePayrollSuperPayItem(id);
     this.dispatcher.removePayrollStandardPayItem(id);
   }
@@ -258,7 +314,7 @@ export default class EmployeeDetailModule {
     this.integrator.loadPayrollStandardPayWageAmountRule({ payItemId, onSuccess, onFailure });
   }
 
-  formatPayrollStandardPayItemInput = ({
+  formatPayrollStandardPayItemInputAndApplyAmountRule = ({
     payItemId, payItemType, key, value,
   }) => {
     if (key === 'amount') {
@@ -303,6 +359,23 @@ export default class EmployeeDetailModule {
     const state = this.store.getState();
     const amount = getCalculatedWagePayItemAmount(state, payItemId, wageAmountRule);
     this.dispatcher.setPayrollStandardPayItemInput({ payItemId, key: 'amount', value: amount });
+  }
+
+  setStandardPayWagePayItem = (payItemId) => {
+    const state = this.store.getState();
+    const payPeriodHours = getPayPeriodHours(state);
+    this.dispatcher.setPayrollStandardPayItemInput({ payItemId, key: 'hours', value: payPeriodHours });
+    this.dispatcher.setPayrollStandardPayItemInput({ payItemId, key: 'appliedHours', value: payPeriodHours });
+
+    this.loadAndApplyStandardPayAmountRule(payItemId);
+  }
+
+  resetPayrollStandardPayHourlyWagePayItemAmount = () => {
+    const state = this.store.getState();
+    const standardPayItems = getStandardPayItemsToApplyAmountRule(state);
+    standardPayItems.forEach(({ payItemId }) => {
+      this.loadAndApplyStandardPayAmountRule(payItemId);
+    });
   }
 
   openPayItemModal = ({ payItemId, payItemType }) => {
@@ -660,7 +733,7 @@ export default class EmployeeDetailModule {
         onEmploymentDetailsChange={this.dispatcher.updatePayrollEmploymentDetails}
         onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
         onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
-        onRemovePayrollDeductionPayItem={this.removePayrollDeductionPayItem}
+        onRemovePayrollDeductionPayItem={this.removePayrollDeductionPayItemAndStandardPayItem}
         onPayrollLeaveListeners={{
           onAddAllocatedLeaveItem: this.dispatcher.addAllocatedLeaveItem,
           onRemoveAllocatedLeaveItem: this.dispatcher.openAllocatedLeaveItemModal,
@@ -672,14 +745,14 @@ export default class EmployeeDetailModule {
         onPayrollStandardPayListeners={{
           onDetailChange: this.dispatcher.setPayrollStandardPayDetailsItemInput,
           onPayItemChange: this.dispatcher.setPayrollStandardPayItemInput,
-          onPayItemBlur: this.formatPayrollStandardPayItemInput,
+          onPayItemBlur: this.formatPayrollStandardPayItemInputAndApplyAmountRule,
           onPayItemClick: this.openPayItemModal,
         }}
         onUpdatePayrollDetailSuperannuationDetails={
           this.dispatcher.updatePayrollDetailSuperannuationDetails
         }
         onAddPayrollSuperPayItem={this.dispatcher.addPayrollSuperPayItem}
-        onRemovePayrollSuperPayItem={this.removePayrollSuperPayItem}
+        onRemovePayrollSuperPayItem={this.removePayrollSuperPayItemAndStandardPayItem}
         onOpenDeductionPayItemModal={this.openDeductionPayItemModal}
         wagePayItemModalListeners={{
           onDetailsChange: this.dispatcher.updateWagePayItemModalDetails,
@@ -743,14 +816,14 @@ export default class EmployeeDetailModule {
         onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}
         onPayrollTaxDetailsChange={this.dispatcher.updatePayrollTaxDetails}
         onPayrollTaxAmountBlur={this.dispatcher.formatAmountInput}
-        onAddPayrollWagePayItem={this.dispatcher.addPayrollWagePayItem}
-        onRemovePayrollWagePayItem={this.removePayrollWagePayItem}
+        onAddPayrollWagePayItem={this.addPayrollWagePayItem}
+        onRemovePayrollWagePayItem={this.removePayrollWagePayItemAndStandardPayItem}
         onPayrollWageDetailsChange={this.dispatcher.updatePayrollWageDetails}
-        onPayrollWagePayBasisChange={this.updatePayrollWagePayBasis}
-        onPayrollWageAnnualSalaryBlur={this.updatePayrollWageAnnualSalary}
-        onPayrollWageHourlyRateBlur={this.dispatcher.updatePayrollWageHourlyRate}
-        onPayrollWageHoursInPayCycleBlur={this.dispatcher.updatePayrollWageHoursInPayCycle}
-        onPayrollWageSelectedPayCycleChange={this.dispatcher.updatePayrollWagePayCycle}
+        onPayrollWagePayBasisChange={this.updatePayrollWagePayBasisAndStandardPayItems}
+        onPayrollWageAnnualSalaryBlur={this.updatePayrollWageDetailsAndStandardPayItems}
+        onPayrollWageHourlyRateBlur={this.updatePayrollWageDetailsAndStandardPayItems}
+        onPayrollWageHoursInPayCycleBlur={this.updatePayrollWageDetailsAndStandardPayItems}
+        onPayrollWageSelectedPayCycleChange={this.updatePayrollWageDetailsAndStandardPayItems}
         onTaxPayItemClick={this.loadTaxPayItemModal}
         taxPayItemModalListeners={{
           onTaxPayItemModalDetailChange: this.dispatcher.updateTaxPayItemModalDetails,

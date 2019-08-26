@@ -136,6 +136,13 @@
       "description": "With great power comes great responsibility",
       "standardPayItems": [
         {
+          "id": "6",
+          "payItemId": "11",
+          "hours": "152.0",
+          "appliedHours": "152.0",
+          "amount": "90"
+        },
+        {
           "id": "1",
           "payItemId": "12",
           "hours": "5.00",

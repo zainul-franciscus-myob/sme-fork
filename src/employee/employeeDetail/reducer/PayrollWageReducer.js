@@ -1,3 +1,4 @@
+import { getAnnualSalary, getHourlyRate, getPayPeriodHours } from '../selectors/PayrollWageSelectors';
 import formatNumberWithDecimalScaleRange from '../../../valueFormatters/formatNumberWithDecimalScaleRange';
 
 const formatAnnualSalary = annualSalary => Number(annualSalary).toFixed(2);
@@ -152,4 +153,14 @@ export const updatePayrollWagePayCycle = (state, { value }) => {
     * payCycleMultiplier[selectedPayCycle] / payCycleMultiplier[value];
 
   return updateHoursAndPayAmounts(state, value, updatedPayPeriodHours);
+};
+
+export const updatePayrollWageAppliedDetails = (state) => {
+  const appliedAnnualSalary = getAnnualSalary(state);
+  const appliedHourlyRate = getHourlyRate(state);
+  const appliedPayPeriodHours = getPayPeriodHours(state);
+
+  return setPayrollWageState(state, {
+    appliedAnnualSalary, appliedHourlyRate, appliedPayPeriodHours,
+  });
 };

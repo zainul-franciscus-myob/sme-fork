@@ -102,6 +102,7 @@ import {
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
   UPDATE_PAYROLL_TAX_DETAILS,
   UPDATE_PAYROLL_WAGE_ANNUAL_SALARY,
+  UPDATE_PAYROLL_WAGE_APPLIED_DETAILS,
   UPDATE_PAYROLL_WAGE_DETAILS,
   UPDATE_PAYROLL_WAGE_HOURLY_RATE,
   UPDATE_PAYROLL_WAGE_HOURS_IN_PAY_CYCLE,
@@ -113,7 +114,8 @@ import {
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
   UPDATE_WAGE_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL_AMOUNT,
-  UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS, UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT,
+  UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS,
+  UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT,
 } from '../EmployeeIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -316,6 +318,11 @@ const createEmployeeDetailDispatcher = store => ({
   updatePayrollWagePayCycle: ({ value }) => {
     const intent = UPDATE_PAYROLL_WAGE_PAY_CYCLE;
     store.dispatch({ intent, value });
+  },
+
+  updatePayrollWageAppliedDetails: () => {
+    const intent = UPDATE_PAYROLL_WAGE_APPLIED_DETAILS;
+    store.dispatch({ intent });
   },
 
   loadPayrollStandardPayWageAmountRule: (payItemId, rule) => {

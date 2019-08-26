@@ -13,7 +13,7 @@ export const getFilteredWagePayItemOptions = createSelector(
     )),
 );
 
-const getIsSelectedPayBasisSalary = state => state.payrollDetails.wage.selectedPayBasis === 'Salary';
+export const getIsSelectedPayBasisSalary = state => state.payrollDetails.wage.selectedPayBasis === 'Salary';
 
 export const getBaseSalaryWagePayItemId = state => state.baseSalaryWagePayItemId;
 
@@ -59,12 +59,13 @@ export const getSelectedWagePayItems = createSelector(
 const getSelectedPayCycle = state => state.payrollDetails.wage.selectedPayCycle;
 export const getPayPeriodHours = state => state.payrollDetails.wage.payPeriodHours;
 const getWagePayCycleOptions = state => state.wagePayCycleOptions;
+export const getAnnualSalary = state => state.payrollDetails.wage.annualSalary;
 export const getHourlyRate = state => state.payrollDetails.wage.hourlyRate;
 
 export const getWageDetails = createStructuredSelector({
   selectedPayBasis: state => state.payrollDetails.wage.selectedPayBasis,
   isSelectedPayBasisSalary: getIsSelectedPayBasisSalary,
-  annualSalary: state => state.payrollDetails.wage.annualSalary,
+  annualSalary: getAnnualSalary,
   hourlyRate: getHourlyRate,
   selectedPayCycle: getSelectedPayCycle,
   payPeriodHours: getPayPeriodHours,
@@ -82,3 +83,32 @@ export const getWagePayCycleDisplayName = createSelector(
     return selected.displayName;
   },
 );
+
+export const getIsBaseWagePayItemId = (state, payItemId) => (
+  payItemId === getBaseSalaryWagePayItemId(state) || getBaseHourlyWagePayItemId(state)
+);
+
+export const getIsSalaryByPayBasis = payBasis => payBasis === 'Salary';
+export const getBaseWagePayItemIdByPayBasis = (state, payBasis) => (
+  getIsSalaryByPayBasis(payBasis)
+    ? getBaseSalaryWagePayItemId(state)
+    : getBaseHourlyWagePayItemId(state)
+);
+
+const getAppliedAnnualSalary = state => state.payrollDetails.wage.appliedAnnualSalary;
+const getAppliedHourlyRate = state => state.payrollDetails.wage.appliedHourlyRate;
+const getAppliedPayPeriodHours = state => state.payrollDetails.wage.appliedPayPeriodHours;
+export const getIsWageDetailsInputChangedOnBlur = (state, key) => {
+  switch (key) {
+    case 'annualSalary':
+      return getAnnualSalary(state) !== getAppliedAnnualSalary(state);
+    case 'hourlyRate':
+      return getHourlyRate(state) !== getAppliedHourlyRate(state);
+    case 'selectedPayCycle':
+      return true;
+    case 'payPeriodHours':
+      return getPayPeriodHours(state) !== getAppliedPayPeriodHours(state);
+    default:
+      return true;
+  }
+};

@@ -48,7 +48,14 @@
     },
     "standardPayDetails": {
       "description": "Pay employee",
-      "standardPayItems": []
+      "standardPayItems": [
+        {
+          "payItemId": "11",
+          "hours": "38.00",
+          "appliedHours": "38.00",
+          "amount": "0.00"
+        }
+      ]
     }
   },
   "paymentDetails": {
