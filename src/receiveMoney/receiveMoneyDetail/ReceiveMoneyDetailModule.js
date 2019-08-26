@@ -64,13 +64,16 @@ export default class ReceiveMoneyDetailModule {
       ...(!this.isCreating && { receiveMoneyId: this.receiveMoneyId }),
     };
 
-    const onSuccess = ({ receiveMoney, newLine, totals }) => {
+    const onSuccess = ({
+      receiveMoney, newLine, totals, pageTitle,
+    }) => {
       this.setLoadingState(false);
       this.store.dispatch({
         intent,
         receiveMoney,
         totals,
         newLine,
+        pageTitle,
         isLoading: false,
       });
     };

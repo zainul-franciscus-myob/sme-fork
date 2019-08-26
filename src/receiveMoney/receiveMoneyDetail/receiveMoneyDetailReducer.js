@@ -54,6 +54,7 @@ const getDefaultState = () => ({
   modalType: '',
   alertMessage: '',
   isLoading: true,
+  pageTitle: '',
   isSubmitting: false,
   isPageEdited: false,
   businessId: '',
@@ -89,6 +90,7 @@ const loadReceiveMoneyDetail = (state, action) => ({
   newLine: { ...state.newLine, ...action.newLine },
   totals: action.totals,
   isLoading: false,
+  pageTitle: action.pageTitle,
 });
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
@@ -165,6 +167,7 @@ const loadNewReceiveMoney = (state, action) => ({
   },
   newLine: { ...state.newLine, ...action.newLine },
   isLoading: false,
+  pageTitle: action.pageTitle,
 });
 
 const setLoadingState = (state, action) => ({

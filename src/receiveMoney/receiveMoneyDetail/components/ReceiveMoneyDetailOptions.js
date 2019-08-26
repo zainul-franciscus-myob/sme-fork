@@ -1,5 +1,5 @@
 import {
-  DatePicker, Input, InputLabel, RadioButton, TextArea,
+  DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import { getHeaderOptions } from '../receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
-import styles from './ReceiveMoneyDetailOptions.module.css';
+import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 
 class ReceiveMoneyDetailOptions extends Component {
   handleInputChange = (e) => {
@@ -54,42 +54,11 @@ class ReceiveMoneyDetailOptions extends Component {
       },
     } = this.props;
 
-    return (
+    const primary = (
       <React.Fragment>
-        <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} />
-        <div>
-          <DatePicker
-            label="Date"
-            name="Date"
-            value={date}
-            onSelect={this.handleDateChange}
-          />
-        </div>
-        <div className="form-group">
-          <InputLabel label="Amounts are" id="isTaxInclusive" />
-          <div className={styles.radioGroup}>
-            <div>
-              <RadioButton
-                name="isTaxInclusive"
-                label="Tax inclusive"
-                value="true"
-                checked={isTaxInclusive}
-                onChange={this.handleRadioChange}
-              />
-            </div>
-            <div>
-              <RadioButton
-                name="isTaxInclusive"
-                label="Tax exclusive"
-                value="false"
-                checked={!isTaxInclusive}
-                onChange={this.handleRadioChange}
-              />
-            </div>
-          </div>
-        </div>
         <AccountCombobox
-          label="Deposit into"
+          label="Bank account"
+          labelAccessory={<RequiredTooltip />}
           hideLabel={false}
           items={depositIntoAccounts}
           selectedId={selectedDepositIntoAccountId}
@@ -99,23 +68,55 @@ class ReceiveMoneyDetailOptions extends Component {
           items={payFromContacts}
           selectedId={selectedPayFromContactId}
           onChange={this.handleComboBoxChange('selectedPayFromContactId')}
-          label="Pay from"
+          label="Contact (payer)"
           name="Pay From Contacts"
           hideLabel={false}
-          hintText="Select contact"
         />
-        <div />
         <TextArea
           name="description"
-          label="Description"
+          label="Description of transaction"
+          rows={1}
           autoSize
           maxLength={255}
-          placeholder="Max 255 characters"
           resize="vertical"
           value={description}
           onChange={this.handleInputChange}
         />
       </React.Fragment>
+    );
+
+    const secondary = (
+      <React.Fragment>
+        <Input
+          name="referenceId"
+          maxLength={8}
+          label="Reference number"
+          labelAccessory={<RequiredTooltip />}
+          value={referenceId}
+          onChange={this.handleInputChange}
+        />
+        <DatePicker
+          label="Date"
+          labelAccessory={<RequiredTooltip />}
+          name="Date"
+          value={date}
+          onSelect={this.handleDateChange}
+        />
+        <RadioButtonGroup
+          label="Amounts are"
+          name="isTaxInclusive"
+          renderRadios={({ value, ...props }) => (
+            <React.Fragment>
+              <RadioButton {...props} checked={isTaxInclusive} onChange={this.handleRadioChange} value="true" label="Tax inclusive" />
+              <RadioButton {...props} checked={!isTaxInclusive} onChange={this.handleRadioChange} value="false" label="Tax exclusive" />
+            </React.Fragment>
+          )}
+        />
+      </React.Fragment>
+    );
+
+    return (
+      <DetailHeader primary={primary} secondary={secondary} />
     );
   }
 }

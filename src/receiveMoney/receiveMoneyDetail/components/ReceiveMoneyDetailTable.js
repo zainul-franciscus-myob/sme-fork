@@ -1,10 +1,9 @@
 import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getIndexOfLastLine, getTableData, getTotals,
+  getIndexOfLastLine, getTableData, getTaxCodeLabel, getTaxLabel, getTotals,
 } from '../receiveMoneyDetailSelectors';
 import ReceiveMoneyDetailRow from './ReceiveMoneyDetailRow';
 
@@ -24,7 +23,7 @@ class ReceiveMoneyDetailTable extends React.Component {
     onRowInputBlur(index);
   }
 
-  renderRow = (index, data, onChange) => {
+  renderRow = (index, data, onChange, labels) => {
     const {
       indexOfLastLine,
     } = this.props;
@@ -35,6 +34,7 @@ class ReceiveMoneyDetailTable extends React.Component {
       <ReceiveMoneyDetailRow
         index={index}
         key={index}
+        labels={labels}
         onChange={onChange}
         isNewLineRow={isNewLineRow}
         onRowInputBlur={this.onRowInputBlur}
@@ -43,10 +43,6 @@ class ReceiveMoneyDetailTable extends React.Component {
   };
 
   render() {
-    const labels = [
-      'Account', 'Amount ($)', 'Line description', 'Tax code',
-    ];
-
     const {
       tableData,
       amountTotals: {
@@ -55,46 +51,80 @@ class ReceiveMoneyDetailTable extends React.Component {
         totalAmount,
       },
       onRemoveRow,
+      taxLabel,
+      taxCodeLabel,
     } = this.props;
+
+    const columns = [
+      {
+        label: 'Account',
+        requiredLabel: 'required',
+        styles: { width: '35.2rem', align: 'left' },
+      },
+      {
+        label: 'Amount ($)',
+        requiredLabel: 'required',
+        styles: { width: '12.5rem', align: 'right' },
+      },
+      {
+        label: 'Description',
+        styles: {},
+      },
+      {
+        label: taxCodeLabel,
+        requiredLabel: 'required',
+        styles: { width: '8.4rem', align: 'left' },
+      },
+    ];
+
+    const labels = columns.map(({ label }) => label);
+
+    const headerItems = columns.map(({ label, requiredLabel }) => (
+      <LineItemTable.HeaderItem
+        key={label}
+        columnName={label}
+        requiredLabel={requiredLabel}
+      >
+        {label}
+      </LineItemTable.HeaderItem>
+    ));
+
+    const columnConfig = [
+      {
+        config: columns.map(({ label, styles }) => ({
+          styles,
+          columnName: label,
+        })),
+      },
+    ];
 
     return (
       <LineItemTable
         onAddRow={this.onAddRow}
         onRowChange={this.onChange}
         labels={labels}
+        columnConfig={columnConfig}
+        headerItems={headerItems}
         renderRow={this.renderRow}
         data={tableData}
         onRemoveRow={onRemoveRow}
       >
         <LineItemTable.Total>
-          <LineItemTable.Totals title="Net amount" amount={netAmount} />
-          <LineItemTable.Totals title="Tax" amount={totalTax} />
-          <LineItemTable.Totals totalAmount title="Total amount" amount={totalAmount} />
+          <LineItemTable.Totals title="Subtotal" amount={netAmount} />
+          <LineItemTable.Totals title={taxLabel} amount={totalTax} />
+          <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
         </LineItemTable.Total>
       </LineItemTable>
     );
   }
 }
 
-ReceiveMoneyDetailTable.propTypes = {
-  tableData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  indexOfLastLine: PropTypes.number.isRequired,
-  amountTotals: PropTypes.shape({
-    totalDebit: PropTypes.string,
-    totalCredit: PropTypes.string,
-    totalTax: PropTypes.string,
-    totalOutOfBalance: PropTypes.string,
-  }).isRequired,
-  onUpdateRow: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRemoveRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   amountTotals: getTotals(state),
   indexOfLastLine: getIndexOfLastLine(state),
   tableData: getTableData(state),
+  taxLabel: getTaxLabel(state),
+  taxCodeLabel: getTaxCodeLabel(state),
 });
 
 export default connect(mapStateToProps)(ReceiveMoneyDetailTable);
