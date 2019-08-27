@@ -12,9 +12,16 @@ const InvoiceServiceActions = ({
   onSaveButtonClick,
   onSaveAndEmailButtonClick,
   onDeleteButtonClick,
+  onPayInvoiceButtonClick,
 }) => (
   <ButtonRow
     primary={[
+      (!isCreating
+        && (
+        <Button key="payInvoice" name="payInvoice" type="secondary" onClick={onPayInvoiceButtonClick}>
+          Record payment
+        </Button>
+        )),
       <Button key="saveAndEmail" name="saveAndEmail" type="secondary" onClick={onSaveAndEmailButtonClick} disabled={isActionsDisabled}>
         Save and email
       </Button>,

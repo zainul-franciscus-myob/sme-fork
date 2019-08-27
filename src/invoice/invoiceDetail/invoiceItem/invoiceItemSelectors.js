@@ -171,6 +171,8 @@ export const getModalAlert = state => state.modalAlert;
 
 export const getTotals = state => state.totals;
 
+export const getAmountDue = state => state.totals.displayAmountDue.replace(/^\$/, '');
+
 const getInvoiceLinesCount = state => getInvoice(state).lines.length;
 
 export const getInvoiceLinesTableData = createSelector(
@@ -202,9 +204,11 @@ export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 
 export const getIsTableEmpty = state => getInvoiceLinesCount(state) === 0;
 
+export const getAmountPaid = state => state.invoice.amountPaid;
+
 export const getTotalsPayloadForTaxInclusiveChange = (state) => {
   const { lines, isTaxInclusive } = getInvoice(state);
-  const { amountPaid } = getTotals(state);
+  const { amountPaid } = getAmountPaid(state);
 
   return {
     lines,

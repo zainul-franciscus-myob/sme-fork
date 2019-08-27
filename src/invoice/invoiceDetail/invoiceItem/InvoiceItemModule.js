@@ -11,7 +11,9 @@ import {
 import { SUCCESSFULLY_DELETED_INVOICE_ITEM, SUCCESSFULLY_EMAILED_INVOICE, SUCCESSFULLY_SAVED_INVOICE_ITEM } from '../invoiceMessageTypes';
 import {
   areLinesCalculating,
+  getAmountDue,
   getBusinessId,
+  getCustomerId,
   getHasEmailReplyDetails,
   getInvoiceId,
   getIsAnAmountLineInput,
@@ -300,6 +302,27 @@ export default class InvoiceItemModule {
     });
   };
 
+  getQueryFromParams = (params = {}) => {
+    const encode = encodeURIComponent;
+    const query = Object.keys(params)
+      .map(key => `${encode(key)}=${encode(params[key])}`)
+      .join('&');
+    return `?${query}`;
+  };
+
+  openInvoicePayment = () => {
+    const state = this.store.getState();
+    const redirectParams = {
+      customerId: getCustomerId(state),
+      paymentAmount: getAmountDue(state),
+      applyPaymentToInvoiceId: getInvoiceId(state),
+    };
+    const urlParams = this.getQueryFromParams(redirectParams);
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+    window.location.href = `/#/${region}/${businessId}/invoicePayment/new${urlParams}`;
+  }
+
   openInvoiceAndQuoteSettingsTab = () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
@@ -418,6 +441,10 @@ export default class InvoiceItemModule {
 
   dismissModalAlert = () => this.dispatcher.dismissModalAlert();
 
+  updateAmountNewInvoicePaymentAmount = amount => (
+    this.dispatcher.updateAmountNewInvoicePaymentAmount(amount)
+  );
+
   render = () => {
     const invoiceItemView = (
       <InvoiceItemView
@@ -448,6 +475,8 @@ export default class InvoiceItemModule {
           onEmailInvoiceDetailChange: this.updateEmailInvoiceDetail,
           onDismissAlert: this.dismissModalAlert,
         }}
+        onChangeAmountToPay={this.updateAmountNewInvoicePaymentAmount}
+        onPayInvoiceButtonClick={this.openInvoicePayment}
       />
     );
 

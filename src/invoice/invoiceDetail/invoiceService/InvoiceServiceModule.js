@@ -7,7 +7,9 @@ import {
   SUCCESSFULLY_SAVED_INVOICE_SERVICE,
 } from '../invoiceMessageTypes';
 import {
+  getAmountDue,
   getBusinessId,
+  getContactId,
   getInvoiceId,
   getIsCreating,
   getIsTableEmpty,
@@ -133,6 +135,27 @@ export default class InvoiceServiceModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/invoice`;
+  }
+
+  getQueryFromParams = (params = {}) => {
+    const encode = encodeURIComponent;
+    const query = Object.keys(params)
+      .map(key => `${encode(key)}=${encode(params[key])}`)
+      .join('&');
+    return `?${query}`;
+  };
+
+  openInvoicePayment = () => {
+    const state = this.store.getState();
+    const redirectParams = {
+      customerId: getContactId(state),
+      paymentAmount: getAmountDue(state),
+      applyPaymentToInvoiceId: getInvoiceId(state),
+    };
+    const urlParams = this.getQueryFromParams(redirectParams);
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+    window.location.href = `/#/${region}/${businessId}/invoicePayment/new${urlParams}`;
   }
 
   openInvoiceAndQuoteSettingsTab = () => {
@@ -274,6 +297,10 @@ export default class InvoiceServiceModule {
 
   dismissAlert = () => this.dispatcher.dismissAlert();
 
+  updateAmountNewInvoicePaymentAmount = (amount) => {
+    this.dispatcher.updateAmountNewInvoicePaymentAmount(amount);
+  }
+
   render = () => {
     const invoiceServiceView = (
       <InvoiceServiceView
@@ -303,6 +330,8 @@ export default class InvoiceServiceModule {
           onEmailInvoiceDetailChange: this.updateEmailInvoiceDetail,
           onDismissAlert: this.dismissModalAlert,
         }}
+        onChangeAmountToPay={this.updateAmountNewInvoicePaymentAmount}
+        onPayInvoiceButtonClick={this.openInvoicePayment}
       />
     );
 

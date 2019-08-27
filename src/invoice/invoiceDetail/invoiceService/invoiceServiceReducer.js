@@ -6,6 +6,7 @@ import {
   GET_CALCULATED_INVOICE_DETAIL_TOTALS,
   REMOVE_INVOICE_SERVICE_LINE,
   RESET_TOTALS,
+  UPDATE_INVOICE_PAYMENT_AMOUNT,
   UPDATE_INVOICE_SERVICE_HEADER_OPTIONS,
   UPDATE_INVOICE_SERVICE_LINE,
 } from './InvoiceServiceIntents';
@@ -308,6 +309,14 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
+const updatePaymentAmount = (state, action) => ({
+  ...state,
+  invoice: {
+    ...state.invoice,
+    amountPaid: action.amount,
+  },
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitalState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
@@ -328,6 +337,7 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [SET_MODAL_ALERT]: setModalAlert,
   [SET_MODAL_TYPE]: setModalType,
+  [UPDATE_INVOICE_PAYMENT_AMOUNT]: updatePaymentAmount,
 };
 
 const invoiceServiceReducer = createReducer(getDefaultState(), handlers);

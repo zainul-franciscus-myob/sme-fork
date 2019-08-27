@@ -1,5 +1,9 @@
 import {
-  getEntries, getSaveContent, getTableEmptyMessage, getTotalReceived,
+  getEntries,
+  getSaveContent,
+  getTableEmptyMessage,
+  getTotalReceived,
+  getWasRedirectedFromInvoiceDetail,
 } from '../invoicePaymentDetailSelectors';
 
 describe('invoicePaymentDetailSelectors', () => {
@@ -229,6 +233,21 @@ describe('invoicePaymentDetailSelectors', () => {
 
     it('otherwise returns default', () => {
       expect(getTableEmptyMessage(state)).toEqual('There are no invoices.');
+    });
+  });
+
+  describe('getWasRedirectedFromInvoiceDetail', () => {
+    it('returns true when the invoice payment id is set from context', () => {
+      const state = {
+        applyPaymentToInvoiceId: '1234',
+      };
+      expect(getWasRedirectedFromInvoiceDetail(state)).toBe(true);
+    });
+    it('returns false when the invoice payment id is the default blank string', () => {
+      const state = {
+        applyPaymentToInvoiceId: '',
+      };
+      expect(getWasRedirectedFromInvoiceDetail(state)).toBe(false);
     });
   });
 });

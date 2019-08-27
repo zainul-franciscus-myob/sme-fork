@@ -15,3 +15,4 @@ export const REMOVE_LINE = Symbol('Remove line');
 export const RESET_TOTALS = Symbol('Reset the totals');
 export const FORMAT_LINE_AMOUNT = Symbol('Format the line amount');
 export const CALCULATE_LINE = Symbol('Calculate line');
+export const UPDATE_INVOICE_PAYMENT_AMOUNT = Symbol('Update the payment amount for a new invoice');

@@ -11,7 +11,14 @@ const InvoiceItemActions = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   areButtonsDisabled,
+  onPayInvoiceButtonClick,
 }) => {
+  const recordPaymentButton = (
+    <Button key="payInvoice" name="payInvoice" type="secondary" onClick={onPayInvoiceButtonClick}>
+      Record payment
+    </Button>
+  );
+
   const saveAndEmailButton = (
     <Button
       key="saveAndEmail"
@@ -62,7 +69,7 @@ const InvoiceItemActions = ({
 
   return (
     <ButtonRow
-      primary={[saveAndEmailButton, cancelButton, saveButton]}
+      primary={[!isCreating && recordPaymentButton, saveAndEmailButton, cancelButton, saveButton]}
       secondary={[!isCreating && deleteButton]}
     />
   );

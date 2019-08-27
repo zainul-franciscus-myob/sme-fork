@@ -2,10 +2,13 @@ import {
   Checkbox, CheckboxGroup, Columns, DatePicker, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getIsCreating, getOptions } from '../invoicePaymentDetailSelectors';
+import {
+  getIsCreating,
+  getOptions,
+  getWasRedirectedFromInvoiceDetail,
+} from '../invoicePaymentDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import styles from './InvoicePaymentDetailOptions.module.css';
@@ -23,6 +26,7 @@ const InvoicePaymentDetailOptions = ({
   onUpdateInvoicePaymentDetails,
   onUpdateShowPaidInvoices,
   onUpdateCustomer,
+  wasRedirectedFromInvoiceDetail,
 }) => {
   const handleInputChange = (e) => {
     const { value, name } = e.target;
@@ -53,7 +57,7 @@ const InvoicePaymentDetailOptions = ({
         items={customers}
         selectedId={customerId}
         onChange={handleCustomerComboBoxChange}
-        disabled={!isCreating}
+        disabled={!isCreating || wasRedirectedFromInvoiceDetail}
       />
       <AccountCombobox
         label="Deposit into"
@@ -100,24 +104,10 @@ const InvoicePaymentDetailOptions = ({
   );
 };
 
-InvoicePaymentDetailOptions.propTypes = {
-  customers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  accounts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  customerId: PropTypes.string.isRequired,
-  accountId: PropTypes.string.isRequired,
-  referenceId: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  isCreating: PropTypes.bool.isRequired,
-  showPaidInvoices: PropTypes.bool.isRequired,
-  onUpdateInvoicePaymentDetails: PropTypes.func.isRequired,
-  onUpdateShowPaidInvoices: PropTypes.func.isRequired,
-  onUpdateCustomer: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   ...getOptions(state),
   isCreating: getIsCreating(state),
+  wasRedirectedFromInvoiceDetail: getWasRedirectedFromInvoiceDetail(state),
 });
 
 export default connect(mapStateToProps)(InvoicePaymentDetailOptions);

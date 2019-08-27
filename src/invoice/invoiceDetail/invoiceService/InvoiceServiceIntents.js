@@ -9,3 +9,4 @@ export const FORMAT_INVOICE_SERVICE_LINE = Symbol('Format invoice service line')
 export const REMOVE_INVOICE_SERVICE_LINE = Symbol('Remove invoice service line');
 export const CREATE_INVOICE_SERVICE_DETAIL = Symbol('Create a new invoice service');
 export const UPDATE_INVOICE_SERVICE_DETAIL = Symbol('Update a new invoice service');
+export const UPDATE_INVOICE_PAYMENT_AMOUNT = Symbol('Update the payment amount for a new invoice');

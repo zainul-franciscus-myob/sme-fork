@@ -1,10 +1,12 @@
 import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getTableData, getTotalsAndAmounts } from '../invoiceServiceSelectors';
+import {
+  getAmountPaid, getIsCreating, getTableData, getTotalsAndAmounts,
+} from '../invoiceServiceSelectors';
 import InvoiceServiceTableRow from './InvoiceServiceTableRow';
+import LineItemTableTotalsInput from '../../../../components/LineItemTable/LineItemTableTotalsInput';
 
 const labels = ['Description', 'Account', 'Tax code', 'Amount ($)'];
 
@@ -34,6 +36,8 @@ const renderRow = onRowInputBlurHandler => (index, data, onChange) => (
 
 const onTableRemoveRow = handler => index => handler(index);
 
+const onAmountInputChange = handler => e => handler(e.target.value);
+
 const InvoiceServiceTable = ({
   tableData,
   totalsAndAmounts,
@@ -41,6 +45,9 @@ const InvoiceServiceTable = ({
   onAddRow,
   onRowInputBlur,
   onRemoveRow,
+  isCreating,
+  createAmountToPay,
+  onChangeAmountToPay,
 }) => {
   const {
     subTotal,
@@ -49,6 +56,16 @@ const InvoiceServiceTable = ({
     amountPaid,
     amountDue,
   } = totalsAndAmounts;
+
+  const amountPaidInputLine = () => (isCreating ? (
+    <LineItemTableTotalsInput
+      label="Amount paid"
+      value={createAmountToPay}
+      handler={onAmountInputChange(onChangeAmountToPay)}
+    />
+  ) : (
+    <LineItemTable.Totals title="Amount paid" amount={amountPaid} />
+  ));
 
   return (
     <LineItemTable
@@ -63,25 +80,18 @@ const InvoiceServiceTable = ({
         <LineItemTable.Totals title="Subtotal" amount={subTotal} />
         <LineItemTable.Totals title="Tax" amount={totalTax} />
         <LineItemTable.Totals title="Invoice total" amount={totalAmount} />
-        <LineItemTable.Totals title="Amount paid" amount={amountPaid} />
+        {amountPaidInputLine()}
         <LineItemTable.Totals title="Balance due" amount={amountDue} />
       </LineItemTable.Total>
     </LineItemTable>
   );
 };
 
-InvoiceServiceTable.propTypes = {
-  tableData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  totalsAndAmounts: PropTypes.shape().isRequired,
-  onUpdateRow: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-  onRemoveRow: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   tableData: getTableData(state),
   totalsAndAmounts: getTotalsAndAmounts(state),
+  isCreating: getIsCreating(state),
+  createAmountToPay: getAmountPaid(state),
 });
 
 export default connect(mapStateToProps)(InvoiceServiceTable);

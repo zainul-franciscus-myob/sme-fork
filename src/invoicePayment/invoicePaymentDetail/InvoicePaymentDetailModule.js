@@ -117,6 +117,11 @@ export default class InvoicePaymentDetailModule {
       onSuccess,
       onFailure,
     });
+
+    const customerId = getCustomerId(state);
+    if (customerId !== '') {
+      this.updateCustomer(customerId);
+    }
   };
 
   updateInvoicePaymentDetails = (name, value) => {

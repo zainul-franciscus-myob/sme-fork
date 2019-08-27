@@ -7,6 +7,7 @@ import {
   SET_LINE_AMOUNT_DIRTY,
   TABLE_ROW_CHANGE,
   UPDATE_INVOICE_ITEM_OPTION,
+  UPDATE_INVOICE_PAYMENT_AMOUNT,
   UPDATE_LINES,
 } from './InvoiceItemIntents';
 import {
@@ -175,6 +176,13 @@ const createInvoiceItemDispatcher = store => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
+    });
+  },
+
+  updateAmountNewInvoicePaymentAmount: (amount) => {
+    store.dispatch({
+      intent: UPDATE_INVOICE_PAYMENT_AMOUNT,
+      amount,
     });
   },
 });

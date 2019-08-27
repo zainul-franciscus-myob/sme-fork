@@ -96,3 +96,5 @@ export const getTableEmptyMessage = (state) => {
 
   return 'There are no invoices.';
 };
+
+export const getWasRedirectedFromInvoiceDetail = state => state.applyPaymentToInvoiceId !== '';

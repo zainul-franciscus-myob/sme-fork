@@ -31,6 +31,8 @@ const InvoiceItemView = ({
   confirmModalListeners,
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
+  onChangeAmountToPay,
+  onPayInvoiceButtonClick,
 }) => {
   const modal = modalType && (
     <InvoiceDetailModal
@@ -72,6 +74,8 @@ const InvoiceItemView = ({
       onChangeTableRow={onChangeTableRow}
       onRemoveTableRow={onRemoveTableRow}
       onLineInputBlur={onLineInputBlur}
+      onChangeAmountToPay={onChangeAmountToPay}
+      onPayInvoiceButtonClick={onPayInvoiceButtonClick}
     />
   );
 

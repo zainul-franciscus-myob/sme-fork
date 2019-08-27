@@ -30,6 +30,8 @@ const getDefaultState = () => ({
   isSubmitting: false,
   isPageEdited: false,
   modalType: '',
+  paymentAmount: '',
+  applyPaymentToInvoiceId: '',
 });
 
 const resetState = () => (getDefaultState());
@@ -110,7 +112,10 @@ const setTableLoadingState = (state, action) => ({
 
 const loadInvoiceList = (state, { entries }) => ({
   ...state,
-  entries,
+  entries: entries.map(entry => ({
+    ...entry,
+    paidAmount: state.applyPaymentToInvoiceId === entry.id ? state.paymentAmount : '',
+  })),
 });
 
 const formatAmountInput = (state, action) => ({

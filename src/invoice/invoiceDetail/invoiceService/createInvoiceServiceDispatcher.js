@@ -2,7 +2,9 @@ import {
   ADD_INVOICE_SERVICE_LINE,
   FORMAT_INVOICE_SERVICE_LINE,
   GET_CALCULATED_INVOICE_DETAIL_TOTALS,
-  REMOVE_INVOICE_SERVICE_LINE, RESET_TOTALS,
+  REMOVE_INVOICE_SERVICE_LINE,
+  RESET_TOTALS,
+  UPDATE_INVOICE_PAYMENT_AMOUNT,
   UPDATE_INVOICE_SERVICE_HEADER_OPTIONS,
   UPDATE_INVOICE_SERVICE_LINE,
 } from './InvoiceServiceIntents';
@@ -159,6 +161,13 @@ const createInvoiceServiceDispatcher = store => ({
     store.dispatch({
       intent: SET_MODAL_TYPE,
       modalType,
+    });
+  },
+
+  updateAmountNewInvoicePaymentAmount: (amount) => {
+    store.dispatch({
+      intent: UPDATE_INVOICE_PAYMENT_AMOUNT,
+      amount,
     });
   },
 });

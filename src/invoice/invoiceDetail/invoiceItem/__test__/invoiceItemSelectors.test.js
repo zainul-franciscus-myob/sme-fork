@@ -1,4 +1,5 @@
 import {
+  getAmountDue,
   getDisplayDaysForMonth,
   getExpirationTermsLabel,
   getExpiredDate,
@@ -274,6 +275,16 @@ describe('InvoiceItemSelectors', () => {
         },
       };
       expect(getShowExpirationDaysAmountInput(state)).toBeTruthy();
+    });
+  });
+  describe('getAmountDue', () => {
+    it('removes the currency symbol from the total amount due', () => {
+      const state = {
+        totals: {
+          displayAmountDue: '$152.85',
+        },
+      };
+      expect(getAmountDue(state)).toEqual('152.85');
     });
   });
 });

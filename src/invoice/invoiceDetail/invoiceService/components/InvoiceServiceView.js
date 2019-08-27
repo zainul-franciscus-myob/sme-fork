@@ -33,6 +33,8 @@ const InvoiceServiceView = ({
   confirmModalListeners,
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
+  onChangeAmountToPay,
+  onPayInvoiceButtonClick,
 }) => {
   const templateOptions = (
     <InvoiceServiceOptions
@@ -53,6 +55,7 @@ const InvoiceServiceView = ({
       onSaveAndEmailButtonClick={onSaveAndEmailButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
+      onPayInvoiceButtonClick={onPayInvoiceButtonClick}
     />
   );
 
@@ -81,6 +84,7 @@ const InvoiceServiceView = ({
         onAddRow={onAddRow}
         onRemoveRow={onRemoveRow}
         onRowInputBlur={onRowInputBlur}
+        onChangeAmountToPay={onChangeAmountToPay}
       />
     </LineItemTemplate>
   );

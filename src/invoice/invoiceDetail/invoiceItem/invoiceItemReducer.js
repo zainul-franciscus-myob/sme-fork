@@ -9,6 +9,7 @@ import {
   SET_LINE_AMOUNT_DIRTY,
   TABLE_ROW_CHANGE,
   UPDATE_INVOICE_ITEM_OPTION,
+  UPDATE_INVOICE_PAYMENT_AMOUNT,
   UPDATE_LINES,
 } from './InvoiceItemIntents';
 import {
@@ -79,6 +80,7 @@ const getDefaultState = () => ({
     issueDate: '',
     purchaseOrderNumber: '',
     isAllowOnlinePayments: false,
+    amountPaid: '0.00',
   },
   emailInvoice: {
     ...getEmailInvoiceDefaultState(),
@@ -109,7 +111,6 @@ const getDefaultState = () => ({
     displayTotalAmount: '$0.00',
     displayAmountDue: '$0.00',
     displayAmountPaid: '$0.00',
-    amountPaid: '0.00',
   },
   comments: [],
 });
@@ -372,6 +373,13 @@ const updateEmailInvoiceDetail = (state, action) => ({
   },
 });
 
+const updatePaymentAmount = (state, action) => ({
+  ...state,
+  invoice: {
+    ...state.invoice,
+    amountPaid: action.amount,
+  },
+});
 
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
@@ -395,6 +403,7 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [SET_MODAL_ALERT]: setModalAlert,
   [SET_MODAL_TYPE]: setModalType,
+  [UPDATE_INVOICE_PAYMENT_AMOUNT]: updatePaymentAmount,
 };
 
 const invoiceItemReducer = createReducer(getDefaultState(), handlers);

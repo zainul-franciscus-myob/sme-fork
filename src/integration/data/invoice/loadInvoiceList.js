@@ -20,7 +20,7 @@ export default {
   totalDue: '$100.00',
   entries: [
     {
-      id: '1',
+      id: '123',
       referenceId: '00000045',
       purchaseOrder: 'some text',
       customer: 'Bob Kelso',
