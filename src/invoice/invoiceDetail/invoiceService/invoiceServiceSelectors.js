@@ -39,13 +39,17 @@ const formatCurrency = (amount) => {
   return amount < 0 ? `-$${formattedAmount}` : `$${formattedAmount}`;
 };
 
-export const getAmountDue = (totalAmount, amountPaid) => (
+const calculateAmountDue = (totalAmount, amountPaid) => (
   (Number(totalAmount) - Number(amountPaid)).toFixed(2)
 );
 
 export const getAmountPaid = state => state.invoice.amountPaid;
 
 const getTotals = state => state.totals;
+
+export const getAmountDue = state => (
+  calculateAmountDue(getTotals(state).totalAmount, getAmountPaid(state))
+);
 
 export const getTotalsAndAmounts = createSelector(
   getTotals,
@@ -55,7 +59,7 @@ export const getTotalsAndAmounts = createSelector(
     totalTax: formatCurrency(totals.totalTax),
     totalAmount: formatCurrency(totals.totalAmount),
     amountPaid: formatCurrency(amountPaid),
-    amountDue: formatCurrency(getAmountDue(totals.totalAmount, amountPaid)),
+    amountDue: formatCurrency(calculateAmountDue(totals.totalAmount, amountPaid)),
   }),
 );
 
