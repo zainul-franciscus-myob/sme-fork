@@ -85,7 +85,7 @@ export const getWagePayCycleDisplayName = createSelector(
 );
 
 export const getIsBaseWagePayItemId = (state, payItemId) => (
-  payItemId === getBaseSalaryWagePayItemId(state) || getBaseHourlyWagePayItemId(state)
+  payItemId === getBaseSalaryWagePayItemId(state) || payItemId === getBaseHourlyWagePayItemId(state)
 );
 
 export const getIsSalaryByPayBasis = payBasis => payBasis === 'Salary';

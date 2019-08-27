@@ -1,6 +1,7 @@
 import {
   getBaseWagePayItemIdByPayBasis,
   getFilteredWagePayItemOptions,
+  getIsBaseWagePayItemId,
   getIsSalaryByPayBasis,
   getIsWageDetailsInputChangedOnBlur,
   getSelectedWagePayItems,
@@ -158,6 +159,23 @@ describe('PayrollWageSelectors', () => {
       };
 
       const actual = getIsWageDetailsInputChangedOnBlur(state, key);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getIsBaseWagePayItemId', () => {
+    it.each([
+      ['11', true],
+      ['12', true],
+      ['13', false],
+    ])('should check if payItemId is base salary or base hourly payItemId', (payItemId, expected) => {
+      const state = {
+        baseSalaryWagePayItemId: '11',
+        baseHourlyWagePayItemId: '12',
+      };
+
+      const actual = getIsBaseWagePayItemId(state, payItemId);
 
       expect(actual).toEqual(expected);
     });
