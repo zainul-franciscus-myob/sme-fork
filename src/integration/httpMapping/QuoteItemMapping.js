@@ -1,5 +1,6 @@
 import {
   CREATE_ITEM_QUOTE,
+  LOAD_DUPLICATE_ITEM_QUOTE,
   LOAD_NEW_ITEM_QUOTE,
   REMOVE_TABLE_ROW,
   UPDATE_ITEM_QUOTE,
@@ -13,6 +14,10 @@ const QuoteItemMapping = {
   [LOAD_NEW_ITEM_QUOTE]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/quote/load_new_item_quote`,
+  },
+  [LOAD_DUPLICATE_ITEM_QUOTE]: {
+    method: 'GET',
+    getPath: ({ businessId, duplicatedQuoteId }) => `/${businessId}/quote/load_duplicate_item_quote/${duplicatedQuoteId}`,
   },
   [CREATE_ITEM_QUOTE]: {
     method: 'POST',

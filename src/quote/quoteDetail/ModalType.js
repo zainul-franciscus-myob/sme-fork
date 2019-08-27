@@ -2,6 +2,8 @@ const ModalType = {
   DELETE: 'DELETE',
   CANCEL: 'CANCEL',
   UNSAVED: 'UNSAVED',
+  SAVE_AND_CREATE_NEW: 'SAVE_AND_CREATE_NEW',
+  SAVE_AND_DUPLICATE: 'SAVE_AND_DUPLICATE',
 };
 
 export default ModalType;

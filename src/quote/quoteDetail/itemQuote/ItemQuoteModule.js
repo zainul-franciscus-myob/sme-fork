@@ -19,11 +19,19 @@ import {
   UPDATE_LINE_TAX_CODE,
   UPDATE_TAX_INCLUSIVE,
 } from './ItemQuoteIntents';
-import { DELETE_QUOTE_DETAIL, LOAD_CUSTOMER_ADDRESS, SET_ALERT } from '../../QuoteIntents';
+import {
+  DELETE_QUOTE_DETAIL,
+  LOAD_CUSTOMER_ADDRESS,
+  SET_ALERT,
+  UPDATE_QUOTE_ID_AFTER_CREATE,
+} from '../../QuoteIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_ITEM_QUOTE, SUCCESSFULLY_SAVED_ITEM_QUOTE } from '../quoteMessageTypes';
 import {
   getBusinessId,
+  getCreateDuplicateQuoteURL,
+  getCreateInvoiceFromQuoteURL,
+  getCreateNewItemQuoteURL,
   getCustomerId,
   getIsCreating,
   getIsLineAmountInputDirty,
@@ -35,11 +43,13 @@ import {
   getPayloadForUpdateLineItem,
   getPayloadForUpdateLineTaxCode,
   getQuoteId,
+  getQuoteListURL,
   getQuotePayload,
-  getRegion,
+  getShouldReload,
 } from './ItemQuoteSelectors';
 import ItemQuoteView from './components/ItemQuoteView';
 import ModalType from '../ModalType';
+import SaveActionType from '../SaveActionType';
 import Store from '../../../store/Store';
 import itemQuoteReducer from './itemQuoteReducer';
 import keyMap from '../../../hotKeys/keyMap';
@@ -47,29 +57,13 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ItemQuoteModule {
   constructor({
-    integration, setRootView, pushMessage,
+    integration, setRootView, pushMessage, reload,
   }) {
     this.integration = integration;
     this.store = new Store(itemQuoteReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
-  }
-
-  redirectToQuoteList = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    window.location.href = `/#/${region}/${businessId}/quote`;
-  };
-
-  redirectToCreateInvoice = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-    const quoteId = getQuoteId(state);
-
-    window.location.href = `/#/${region}/${businessId}/invoice/newItem?quoteId=${quoteId}`;
+    this.reload = reload;
   }
 
   loadCustomerAddress = () => {
@@ -84,7 +78,7 @@ export default class ItemQuoteModule {
       this.setCustomerAddress(address);
     };
     const onFailure = ({ message }) => {
-      this.displayAlert(message);
+      this.displayFailureAlert(message);
       this.setCustomerAddress('');
     };
 
@@ -200,7 +194,7 @@ export default class ItemQuoteModule {
     const onFailure = ({ message }) => {
       this.setIsLineAmountInputDirty(false);
       this.setIsCalculating(false);
-      this.displayAlert(message);
+      this.displayFailureAlert(message);
     };
 
     this.integration.write({
@@ -230,7 +224,7 @@ export default class ItemQuoteModule {
 
     const onFailure = ({ message }) => {
       this.setSubmittingState(false);
-      this.displayAlert(message);
+      this.displayFailureAlert(message);
     };
 
     this.integration.write({
@@ -244,11 +238,42 @@ export default class ItemQuoteModule {
 
   saveQuote = () => {
     const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_ITEM_QUOTE,
-        content: message,
-      });
+      this.pushSuccessfulSaveMessage(message);
       this.redirectToQuoteList();
+    };
+
+    this.createOrUpdateQuote({ onSuccess });
+  }
+
+  executeSaveAndAction = saveAndAction => (saveAndAction === SaveActionType.SAVE_AND_CREATE_NEW
+    ? this.displaySaveAndCreateNewConfirmationModal()
+    : this.displaySaveAndDuplicateConfirmationModal())
+
+  saveAndCreateNewQuote = () => {
+    const onSuccess = ({ message }) => {
+      const state = this.store.getState();
+      this.pushSuccessfulSaveMessage(message);
+
+      if (getShouldReload(state)) {
+        this.reload();
+      } else {
+        this.redirectToURL(getCreateNewItemQuoteURL(state));
+      }
+    };
+
+    this.createOrUpdateQuote({ onSuccess });
+  }
+
+  saveAndDuplicateQuote = () => {
+    const onSuccess = (successResponse) => {
+      if (getIsCreating(this.store.getState())) {
+        this.store.dispatch({
+          intent: UPDATE_QUOTE_ID_AFTER_CREATE,
+          quoteId: successResponse.id,
+        });
+      }
+      this.pushSuccessfulSaveMessage(successResponse.message);
+      this.redirectToURL(getCreateDuplicateQuoteURL(this.store.getState()));
     };
 
     this.createOrUpdateQuote({ onSuccess });
@@ -260,6 +285,13 @@ export default class ItemQuoteModule {
     };
 
     this.createOrUpdateQuote({ onSuccess });
+  }
+
+  pushSuccessfulSaveMessage = (message) => {
+    this.pushMessage({
+      type: SUCCESSFULLY_SAVED_ITEM_QUOTE,
+      content: message,
+    });
   }
 
   deleteQuote = () => {
@@ -276,7 +308,7 @@ export default class ItemQuoteModule {
 
     const onFailure = ({ message }) => {
       this.setSubmittingState(false);
-      this.displayAlert(message);
+      this.displayFailureAlert(message);
     };
 
     const state = this.store.getState();
@@ -293,6 +325,16 @@ export default class ItemQuoteModule {
       onFailure,
     });
   };
+
+  redirectToURL = (url) => {
+    window.location.href = url;
+  }
+
+  redirectToQuoteList = () => this.redirectToURL(getQuoteListURL(this.store.getState()));
+
+  redirectToCreateInvoice = () => this.redirectToURL(
+    getCreateInvoiceFromQuoteURL(this.store.getState()),
+  );
 
   cancelQuote = () => {
     this.redirectToQuoteList();
@@ -331,14 +373,31 @@ export default class ItemQuoteModule {
     }
   }
 
+  displaySaveAndCreateNewConfirmationModal = () => {
+    this.store.dispatch({
+      intent: SET_MODAL,
+      modalType: ModalType.SAVE_AND_CREATE_NEW,
+    });
+  }
+
+  displaySaveAndDuplicateConfirmationModal = () => {
+    this.store.dispatch({
+      intent: SET_MODAL,
+      modalType: ModalType.SAVE_AND_DUPLICATE,
+    });
+  }
+
   dismissModal = () => this.store.dispatch({
     intent: SET_MODAL,
     modalType: undefined,
   });
 
-  displayAlert = message => this.store.dispatch({
+  displayFailureAlert = message => this.store.dispatch({
     intent: SET_ALERT,
-    alertMessage: message,
+    alert: {
+      type: 'danger',
+      message,
+    },
   });
 
   dismissAlert = () => this.store.dispatch({
@@ -372,11 +431,12 @@ export default class ItemQuoteModule {
     });
   };
 
-  setInitialState = (context, payload) => {
+  setInitialState = (context, payload, message) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
       payload,
+      message,
     });
   };
 
@@ -400,6 +460,7 @@ export default class ItemQuoteModule {
           onChangeTableRow={this.changeTableRow}
           onRemoveTableRow={this.removeTableRow}
           onSaveButtonClick={this.saveQuote}
+          onSaveAndButtonClick={this.executeSaveAndAction}
           onDeleteButtonClick={this.displayDeleteModal}
           onCancelButtonClick={this.displayCancelModal}
           onConvertToInvoiceButtonClick={this.displayUnsavedModal}
@@ -409,6 +470,8 @@ export default class ItemQuoteModule {
           onConfirmCancelButtonClick={this.cancelQuote}
           onConfirmSaveButtonClick={this.saveQuoteAndRedirectToInvoice}
           onConfirmUnsaveButtonClick={this.redirectToCreateInvoice}
+          onConfirmSaveAndCreateNewButtonClick={this.saveAndCreateNewQuote}
+          onConfirmSaveAndDuplicateButtonClick={this.saveAndDuplicateQuote}
         />
       </Provider>
     );
@@ -420,8 +483,10 @@ export default class ItemQuoteModule {
     SAVE_ACTION: this.saveQuote,
   };
 
-  run = ({ context, payload }) => {
-    this.setInitialState(context, payload);
+  run = ({
+    context, payload, message,
+  }) => {
+    this.setInitialState(context, payload, message);
     setupHotKeys(keyMap, this.handlers);
     this.render();
   };

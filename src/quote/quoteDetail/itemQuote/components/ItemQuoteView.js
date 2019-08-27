@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getModalType, getPageTitle, getTotalAmount,
+  getAlert, getIsCreating, getModalType, getPageTitle, getTotalAmount,
 } from '../ItemQuoteSelectors';
 import ItemQuoteActions from './ItemQuoteActions';
-import ItemQuoteModal from './ItemQuoteModal';
 import ItemQuoteOptions from './ItemQuoteOptions';
 import ItemQuoteTable from './ItemQuoteTable';
+import QuoteDetailModal from '../../components/QuoteDetailModal';
 import QuotePageHead from '../../components/QuotePageHead';
 
 const ItemQuoteView = ({
-  alertMessage,
+  alert,
   modalType,
   onUpdateQuoteOption,
   onTableRowAmountInputBlur,
@@ -20,6 +20,7 @@ const ItemQuoteView = ({
   onChangeTableRow,
   onRemoveTableRow,
   onSaveButtonClick,
+  onSaveAndButtonClick,
   onDeleteButtonClick,
   onCancelButtonClick,
   onConvertToInvoiceButtonClick,
@@ -28,6 +29,8 @@ const ItemQuoteView = ({
   onConfirmCancelButtonClick,
   onConfirmSaveButtonClick,
   onConfirmUnsaveButtonClick,
+  onConfirmSaveAndCreateNewButtonClick,
+  onConfirmSaveAndDuplicateButtonClick,
   onDismissModal,
   pageTitle,
   isCreating,
@@ -36,15 +39,16 @@ const ItemQuoteView = ({
   const actions = (
     <ItemQuoteActions
       onSaveButtonClick={onSaveButtonClick}
+      onSaveAndButtonClick={onSaveAndButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}
     />
   );
 
-  const alert = alertMessage && (
-    <Alert type="danger" onDismiss={onDismissAlert}>
-      {alertMessage}
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
     </Alert>
   );
 
@@ -58,25 +62,28 @@ const ItemQuoteView = ({
     />
   );
 
+  const modal = (
+    <QuoteDetailModal
+      modalType={modalType}
+      onDismissModal={onDismissModal}
+      onConfirmCancelButtonClick={onConfirmCancelButtonClick}
+      onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
+      onConfirmSaveButtonClick={onConfirmSaveButtonClick}
+      onConfirmUnsaveButtonClick={onConfirmUnsaveButtonClick}
+      onConfirmSaveAndCreateNewButtonClick={onConfirmSaveAndCreateNewButtonClick}
+      onConfirmSaveAndDuplicateButtonClick={onConfirmSaveAndDuplicateButtonClick}
+    />
+  );
+
   return (
     <React.Fragment>
-      {
-      modalType && (
-      <ItemQuoteModal
-        onDismissModal={onDismissModal}
-        onConfirmCancelButtonClick={onConfirmCancelButtonClick}
-        onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
-        onConfirmSaveButtonClick={onConfirmSaveButtonClick}
-        onConfirmUnsaveButtonClick={onConfirmUnsaveButtonClick}
-      />
-      )
-    }
       <LineItemTemplate
         pageHead={pageHead}
         options={options}
         actions={actions}
-        alert={alert}
+        alert={alertComponent}
       >
+        { modalType && modal }
         <ItemQuoteTable
           onAddTableRow={onAddTableRow}
           onChangeTableRow={onChangeTableRow}
@@ -90,7 +97,7 @@ const ItemQuoteView = ({
 
 const mapStateToProps = state => ({
   modalType: getModalType(state),
-  alertMessage: getAlertMessage(state),
+  alert: getAlert(state),
   pageTitle: getPageTitle(state),
   totalAmount: getTotalAmount(state),
   isCreating: getIsCreating(state),

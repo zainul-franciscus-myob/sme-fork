@@ -13,6 +13,11 @@ export default class Router {
     }).usePlugin(browserPlugin({ useHash: true }));
   }
 
+  reload = () => {
+    const currentRoute = this.router.getState();
+    this.router.navigate(currentRoute.name, currentRoute.params, { reload: true });
+  }
+
   replaceURLParams = (params) => {
     const currentRoute = this.router.getState();
 
@@ -64,6 +69,7 @@ export default class Router {
 
     this.router.subscribe(({ route }) => {
       const { module, action } = moduleMapping[route.name];
+
       beforeAll({
         module,
         routeProps: {

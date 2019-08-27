@@ -8,6 +8,7 @@ const ServiceQuoteActions = ({
   isCreating,
   isActionsDisabled,
   onSaveButtonClick,
+  onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   onConvertToInvoiceButtonClick,
@@ -16,6 +17,7 @@ const ServiceQuoteActions = ({
     isCreating={isCreating}
     isActionsDisabled={isActionsDisabled}
     onSaveButtonClick={onSaveButtonClick}
+    onSaveAndButtonClick={onSaveAndButtonClick}
     onCancelButtonClick={onCancelButtonClick}
     onDeleteButtonClick={onDeleteButtonClick}
     onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}

@@ -8,12 +8,15 @@ import {
   OPEN_MODAL,
   REMOVE_SERVICE_QUOTE_LINE,
   RESET_TOTALS,
-  SET_ALERT_MESSAGE,
   SET_SUBMITTING_STATE,
   UPDATE_SERVICE_QUOTE_HEADER_OPTIONS,
   UPDATE_SERVICE_QUOTE_LINE,
 } from './ServiceQuoteIntents';
-import { LOAD_CUSTOMER_ADDRESS, SET_LOADING_STATE } from '../../QuoteIntents';
+import {
+  LOAD_CUSTOMER_ADDRESS,
+  SET_ALERT, SET_LOADING_STATE,
+  UPDATE_QUOTE_ID_AFTER_CREATE,
+} from '../../QuoteIntents';
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
@@ -25,6 +28,7 @@ const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
 const getDefaultState = () => ({
   isLoading: true,
+  layout: '',
   quote: {
     id: '',
     customerId: '',
@@ -59,9 +63,10 @@ const getDefaultState = () => ({
   },
   businessId: '',
   region: '',
+  quoteId: '',
   isPageEdited: false,
   modalType: '',
-  alertMessage: '',
+  alert: undefined,
   isSubmitting: false,
   comments: [],
   pageTitle: '',
@@ -72,12 +77,18 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
+const setInitialAlert = message => ({
+  type: 'success',
+  message: message.content,
+});
+
 const setInitalState = (state, action) => {
   const defaultState = getDefaultState();
 
   return ({
     ...defaultState,
     ...action.context,
+    layout: action.layout,
     quote: {
       ...defaultState.quote,
       ...action.quote,
@@ -88,10 +99,16 @@ const setInitalState = (state, action) => {
     totals: action.totals,
     comments: action.comments,
     pageTitle: action.pageTitle,
+    alert: action.message ? setInitialAlert(action.message) : defaultState.alert,
   });
 };
 
 const resetState = () => (getDefaultState());
+
+const updateQuoteIdAfterCreate = (state, action) => ({
+  ...state,
+  quoteId: action.quoteId,
+});
 
 const updateServiceQuoteHeaderOptions = (state, action) => ({
   ...state,
@@ -107,17 +124,14 @@ const getUpdatedLines = (index, lines, newLine) => lines.map((line, lineIndex) =
 ));
 
 const isAccountLineItem = lineKey => lineKey === 'allocatedAccountId';
-const isAmountLineItem = lineKey => lineKey === 'amount';
-const limitToTwoDecimals = value => value.replace(/^(\d*)\.(\d{0,2})(\d*)/, '$1.$2');
 const updateServiceQuoteLine = (state, action) => {
   const line = getLineByIndex(state, { index: action.index });
-  const value = isAmountLineItem(action.key) ? limitToTwoDecimals(action.value) : action.value;
   const newLine = {
     ...line,
     taxCodeId: isAccountLineItem(action.key)
       ? getDefaultTaxCodeId({ accountId: action.value, accounts: line.accounts })
       : line.taxCodeId,
-    [action.key]: value,
+    [action.key]: action.value,
   };
 
   return ({
@@ -174,9 +188,9 @@ const closeModal = state => ({
   modalType: '',
 });
 
-const setAlertMessage = (state, action) => ({
+const setAlert = (state, action) => ({
   ...state,
-  alertMessage: action.alertMessage,
+  alert: action.alert,
 });
 
 const setSubmittingState = (state, action) => ({
@@ -192,26 +206,24 @@ const loadCustomerAddress = (state, action) => ({
   },
 });
 
-const formatLineAmount = amount => parseFloat(amount).toFixed(2);
-const formatServiceQuoteLine = (state, action) => {
-  const line = getLineByIndex(state, { index: action.index });
-  if (line) {
-    const newLine = {
-      ...line,
-      amount: line.amount && formatLineAmount(line.amount),
-    };
-
-    return {
-      ...state,
-      quote: {
-        ...state.quote,
-        lines: getUpdatedLines(action.index, state.quote.lines, newLine),
-      },
-    };
-  }
-
-  return state;
+const formatLineAmount = (amount) => {
+  const realNumber = Number(amount);
+  return (Number.isNaN(realNumber) ? '' : parseFloat(amount).toFixed(2));
 };
+const formatServiceQuoteLine = (state, action) => ({
+  ...state,
+  quote: {
+    ...state.quote,
+    lines: state.quote.lines.map(
+      (line, lineIndex) => (lineIndex === action.index
+        ? {
+          ...line,
+          amount: line.amount && formatLineAmount(line.amount),
+        }
+        : line),
+    ),
+  },
+});
 
 const resetTotals = state => ({
   ...state,
@@ -224,12 +236,13 @@ const handlers = {
   [RESET_STATE]: resetState,
   [UPDATE_SERVICE_QUOTE_HEADER_OPTIONS]: updateServiceQuoteHeaderOptions,
   [UPDATE_SERVICE_QUOTE_LINE]: updateServiceQuoteLine,
+  [UPDATE_QUOTE_ID_AFTER_CREATE]: updateQuoteIdAfterCreate,
   [ADD_SERVICE_QUOTE_LINE]: addServiceQuoteLine,
   [REMOVE_SERVICE_QUOTE_LINE]: removeServiceQuoteLine,
   [GET_SERVICE_QUOTE_CALCULATED_TOTALS]: getCalculatedTotals,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
-  [SET_ALERT_MESSAGE]: setAlertMessage,
+  [SET_ALERT]: setAlert,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [LOAD_CUSTOMER_ADDRESS]: loadCustomerAddress,
   [FORMAT_SERVICE_QUOTE_LINE]: formatServiceQuoteLine,

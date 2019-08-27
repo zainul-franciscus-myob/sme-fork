@@ -5,6 +5,7 @@ import React from 'react';
 
 import { getQuoteLine } from '../ServiceQuoteSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
+import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => item => onChange({
@@ -13,6 +14,15 @@ const onComboboxChange = (name, onChange) => item => onChange({
     value: item.id,
   },
 });
+
+const onAmountInputChange = (name, onChange) => (e) => {
+  onChange({
+    target: {
+      name,
+      value: e.target.rawValue,
+    },
+  });
+};
 
 const onRowInputBlurHandler = (onRowInputBlur, index) => () => onRowInputBlur(index);
 
@@ -35,28 +45,30 @@ const ServiceQuoteTableRow = ({
       {...feelixInjectedProps}
     >
       <Input
-        label="Description"
+        label="Line description"
         hideLabel
         name="description"
         value={description}
         onChange={onChange}
       />
       <AccountCombobox
+        label="Allocate to"
         onChange={onComboboxChange('allocatedAccountId', onChange)}
         items={accounts}
         selectedId={allocatedAccountId}
         hintText="Select an account"
       />
-      <Input
-        label="Amount"
-        type="number"
+      <AmountInput
+        label="Amount ($)"
         hideLabel
         name="amount"
         value={amount}
-        onChange={onChange}
+        onChange={onAmountInputChange('amount', onChange)}
         onBlur={onRowInputBlurHandler(onRowInputBlur, index)}
+        textAlign="right"
       />
       <TaxCodeCombobox
+        label="Tax code"
         onChange={onComboboxChange('taxCodeId', onChange)}
         items={taxCodes}
         selectedId={taxCodeId}

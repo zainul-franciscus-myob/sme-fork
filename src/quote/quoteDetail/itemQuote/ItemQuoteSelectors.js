@@ -16,6 +16,7 @@ import TaxState from './TaxState';
 export const getBusinessId = state => state.businessId;
 export const getQuoteId = state => state.quoteId;
 export const getRegion = state => state.region;
+export const getLayout = state => state.layout;
 export const getCustomers = state => state.customers;
 export const getQuoteNumber = state => state.quote.quoteNumber;
 export const getPurchaseOrder = state => state.quote.purchaseOrder;
@@ -106,7 +107,7 @@ export const getQuoteLineByIndex = (state, { index }) => (
 export const getItems = state => state.items;
 export const getTaxCodes = state => state.taxCodes;
 export const getQuotePayload = state => state.quote;
-export const getAlertMessage = state => state.alertMessage;
+export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
 
 export const getIsNewLine = (state, { index }) => state.quote.lines.length <= index;
@@ -144,6 +145,7 @@ export const getPayloadForCalculateAmountInputs = (state, index, key) => ({
 });
 
 export const getIsCreating = state => state.quoteId === 'newItem';
+export const getShouldReload = state => state.quoteId === 'newItem' && !state.duplicatedQuoteId;
 export const getIsCalculating = state => state.isCalculating;
 export const getIsLineAmountInputDirty = state => state.isLineAmountInputDirty;
 export const getIsPageEdited = state => state.isPageEdited;
@@ -222,4 +224,30 @@ export const getPageTitle = state => state.pageTitle;
 export const getTotalAmount = createSelector(
   getTotals,
   ({ totalAmount }) => totalAmount,
+);
+
+export const getQuoteListURL = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/quote`,
+);
+
+export const getCreateInvoiceFromQuoteURL = createSelector(
+  getRegion,
+  getBusinessId,
+  getQuoteId,
+  (region, businessId, quoteId) => `/#/${region}/${businessId}/invoice/newItem?quoteId=${quoteId}`,
+);
+
+export const getCreateNewItemQuoteURL = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/quote/newItem`,
+);
+
+export const getCreateDuplicateQuoteURL = createSelector(
+  getRegion,
+  getBusinessId,
+  getQuoteId,
+  (region, businessId, quoteId) => `/#/${region}/${businessId}/quote/newItem?duplicatedQuoteId=${quoteId}`,
 );

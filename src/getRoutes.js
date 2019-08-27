@@ -36,7 +36,7 @@ import getTransferMoneyRoutes from './transferMoney/getTransferMoneyRoutes';
 import getUserRoutes from './user/getUserRoutes';
 
 const getRoutes = ({
-  integration, setRootView, popMessages, pushMessage, replaceURLParams,
+  integration, setRootView, popMessages, pushMessage, replaceURLParams, reload,
 }) => [
   {
     name: 'businessList',
@@ -96,7 +96,7 @@ const getRoutes = ({
     name: 'quote',
     rootPath: '/:region/:businessId/quote',
     subRoutes: getQuoteRoutes({
-      integration, setRootView, pushMessage, popMessages,
+      integration, setRootView, pushMessage, popMessages, replaceURLParams, reload,
     }),
   },
   {

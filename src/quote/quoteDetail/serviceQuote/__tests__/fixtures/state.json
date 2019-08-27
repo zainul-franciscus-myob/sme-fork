@@ -1,4 +1,5 @@
 {
+  "layout": "service",
   "isLoading": true,
   "quote": {
     "id": "1",
@@ -67,5 +68,6 @@
     }
   ],
   "region": "au",
-  "businessId": "businessId"
+  "businessId": "businessId",
+  "quoteId": "1"
 }

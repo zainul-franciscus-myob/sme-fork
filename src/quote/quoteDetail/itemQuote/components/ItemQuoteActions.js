@@ -9,6 +9,7 @@ const ItemQuoteActions = ({
   isSubmitting,
   isCalculating,
   onSaveButtonClick,
+  onSaveAndButtonClick,
   onDeleteButtonClick,
   onCancelButtonClick,
   onConvertToInvoiceButtonClick,
@@ -17,6 +18,7 @@ const ItemQuoteActions = ({
     isCreating={isCreating}
     isActionsDisabled={isSubmitting || isCalculating}
     onSaveButtonClick={onSaveButtonClick}
+    onSaveAndButtonClick={onSaveAndButtonClick}
     onCancelButtonClick={onCancelButtonClick}
     onDeleteButtonClick={onDeleteButtonClick}
     onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}

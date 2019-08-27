@@ -1,10 +1,28 @@
-import { Button, ButtonRow, Separator } from '@myob/myob-widgets';
+import {
+  Button, ButtonRow, Dropdown, Icons, Separator,
+} from '@myob/myob-widgets';
 import React from 'react';
+
+import SaveActionType from '../SaveActionType';
+
+const dropdownActionItems = [
+  <Dropdown.Item
+    key={SaveActionType.SAVE_AND_CREATE_NEW}
+    label="Save and create new"
+    value={SaveActionType.SAVE_AND_CREATE_NEW}
+  />,
+  <Dropdown.Item
+    key={SaveActionType.SAVE_AND_DUPLICATE}
+    label="Save and duplicate"
+    value={SaveActionType.SAVE_AND_DUPLICATE}
+  />,
+];
 
 const QuoteDetailActions = ({
   isCreating,
   isActionsDisabled,
   onSaveButtonClick,
+  onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   onConvertToInvoiceButtonClick,
@@ -33,6 +51,17 @@ const QuoteDetailActions = ({
       >
         Cancel
       </Button>,
+      <Dropdown
+        key="saveAnd"
+        onSelect={onSaveAndButtonClick}
+        toggle={(
+          <Dropdown.Toggle>
+            Save and...
+            <Icons.Caret />
+          </Dropdown.Toggle>
+        )}
+        items={dropdownActionItems}
+      />,
       <Button
         key="save"
         name="save"

@@ -1,4 +1,10 @@
-import { getExpiredDate, getQuoteOptions } from '../ServiceQuoteSelectors';
+import {
+  getCreateDuplicateQuoteURL,
+  getCreateInvoiceFromQuoteURL,
+  getCreateNewServiceQuoteURL,
+  getExpiredDate,
+  getQuoteOptions,
+} from '../ServiceQuoteSelectors';
 import state from './fixtures/state.json';
 
 describe('ServiceQuoteSelectors', () => {
@@ -152,6 +158,33 @@ describe('ServiceQuoteSelectors', () => {
 
         expect(actual).toBe(expected);
       });
+    });
+  });
+
+  describe('getCreateInvoiceFromQuoteURL', () => {
+    it('returns the correct URL to create an invoice from quote', () => {
+      const expected = '/#/au/businessId/invoice/newService?quoteId=1';
+      const actual = getCreateInvoiceFromQuoteURL(state);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getCreateNewServiceQuoteURL', () => {
+    it('returns the correct URL to create a new quote from another quote CRUD page', () => {
+      const expected = '/#/au/businessId/quote/newService';
+      const actual = getCreateNewServiceQuoteURL(state);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getCreateDuplicateQuoteURL', () => {
+    it('returns the correct URL to create a duplicate quote from another quote CRUD page', () => {
+      const expected = '/#/au/businessId/quote/newService?duplicatedQuoteId=1';
+      const actual = getCreateDuplicateQuoteURL(state);
+
+      expect(expected).toEqual(actual);
     });
   });
 });

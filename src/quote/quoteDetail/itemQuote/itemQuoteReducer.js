@@ -12,7 +12,11 @@ import {
   SET_SUBMITTING_STATE,
   UPDATE_ITEM_QUOTE_OPTION,
 } from './ItemQuoteIntents';
-import { LOAD_CUSTOMER_ADDRESS, SET_ALERT } from '../../QuoteIntents';
+import {
+  LOAD_CUSTOMER_ADDRESS,
+  SET_ALERT,
+  UPDATE_QUOTE_ID_AFTER_CREATE,
+} from '../../QuoteIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
 
@@ -58,7 +62,7 @@ const getDefaultState = () => ({
     totalTax: '$0.00',
     totalAmount: '$0.00',
   },
-  alertMessage: '',
+  alert: undefined,
   isLineAmountInputDirty: false,
   isSubmitting: false,
   isPageEdited: false,
@@ -75,7 +79,12 @@ const setModal = (state, action) => ({
 
 const setAlert = (state, action) => ({
   ...state,
-  alertMessage: action.alertMessage,
+  alert: action.alert,
+});
+
+const setInitialAlert = message => ({
+  type: 'success',
+  message: message.content,
 });
 
 const setSubmittingState = (state, action) => ({
@@ -89,6 +98,7 @@ const setInitialState = (state, action) => {
   return ({
     ...defaultState,
     ...action.context,
+    layout: action.layout,
     quote: {
       ...defaultState.quote,
       ...action.payload.quote,
@@ -101,6 +111,7 @@ const setInitialState = (state, action) => {
     totals: action.payload.totals,
     comments: action.payload.comments,
     pageTitle: action.payload.pageTitle,
+    alert: action.message ? setInitialAlert(action.message) : defaultState.alert,
   });
 };
 
@@ -112,6 +123,11 @@ const loadCustomerAddress = (state, action) => ({
     ...state.quote,
     address: action.address,
   },
+});
+
+const updateQuoteIdAfterCreate = (state, action) => ({
+  ...state,
+  quoteId: action.quoteId,
 });
 
 const updateQuoteOption = (state, action) => ({
@@ -225,6 +241,7 @@ const handlers = {
   [FORMAT_LINE_AMOUNT_INPUTS]: formatLineAmountInputs,
   [RESET_STATE]: resetState,
   [UPDATE_ITEM_QUOTE_OPTION]: updateQuoteOption,
+  [UPDATE_QUOTE_ID_AFTER_CREATE]: updateQuoteIdAfterCreate,
   [ADD_TABLE_ROW]: addTableRow,
   [CHANGE_TABLE_ROW]: changeTableRow,
   [REMOVE_TABLE_ROW]: removeTableRow,

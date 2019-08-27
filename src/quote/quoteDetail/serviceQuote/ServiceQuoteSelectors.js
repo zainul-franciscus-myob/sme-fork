@@ -9,6 +9,7 @@ export const getIsLoading = state => state.isLoading;
 export const getQuoteId = state => state.quoteId;
 export const getTotals = state => state.totals;
 export const getRegion = state => state.region;
+export const getLayout = state => state.layout;
 export const getCustomerId = state => state.quote.customerId;
 const getNewLine = state => state.newLine;
 export const getLineByIndex = (state, props) => state.quote.lines[props.index];
@@ -93,6 +94,7 @@ export const getIsCreating = createSelector(
   getQuoteId,
   quoteId => quoteId === 'newService',
 );
+export const getShouldReload = state => state.quoteId === 'newService' && !state.duplicatedQuoteId;
 
 const getQuote = state => state.quote;
 const getCustomerOptions = state => state.customerOptions;
@@ -236,7 +238,7 @@ export const getQuotePayload = createSelector(
   }),
 );
 
-export const getAlertMessage = state => state.alertMessage;
+export const getAlert = state => state.alert;
 export const getIsActionsDisabled = state => state.isSubmitting;
 
 export const getIsTableEmpty = createSelector(
@@ -249,4 +251,30 @@ export const getPageTitle = state => state.pageTitle;
 export const getTotalAmount = createSelector(
   getTotals,
   ({ totalAmount }) => totalAmount,
+);
+
+export const getQuoteListURL = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/quote`,
+);
+
+export const getCreateInvoiceFromQuoteURL = createSelector(
+  getRegion,
+  getBusinessId,
+  getQuoteId,
+  (region, businessId, quoteId) => `/#/${region}/${businessId}/invoice/newService?quoteId=${quoteId}`,
+);
+
+export const getCreateNewServiceQuoteURL = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/quote/newService`,
+);
+
+export const getCreateDuplicateQuoteURL = createSelector(
+  getRegion,
+  getBusinessId,
+  getQuoteId,
+  (region, businessId, quoteId) => `/#/${region}/${businessId}/quote/newService?duplicatedQuoteId=${quoteId}`,
 );

@@ -1,4 +1,7 @@
 import {
+  getCreateDuplicateQuoteURL,
+  getCreateInvoiceFromQuoteURL,
+  getCreateNewItemQuoteURL,
   getEmptyQuoteLines,
   getExpiredDate,
   getIsTaxInclusive,
@@ -199,6 +202,40 @@ describe('ItemQuoteSelectors', () => {
       const actual = getPayloadForUpdateIsTaxInclusive(state);
 
       expect(actual.isTaxInclusive).toEqual(false);
+    });
+  });
+
+  const getURLState = {
+    region: 'au',
+    businessId: 'businessId',
+    quoteId: '1',
+    layout: 'item',
+  };
+
+  describe('getCreateInvoiceFromQuoteURL', () => {
+    it('returns the correct URL to create an invoice from quote', () => {
+      const expected = '/#/au/businessId/invoice/newItem?quoteId=1';
+      const actual = getCreateInvoiceFromQuoteURL(getURLState);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getCreateNewItemQuoteURL', () => {
+    it('returns the correct URL to create a new quote', () => {
+      const expected = '/#/au/businessId/quote/newItem';
+      const actual = getCreateNewItemQuoteURL(getURLState);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getCreateDuplicateQuoteURL', () => {
+    it('returns the correct URL to create a duplicate quote from another quote CRUD page', () => {
+      const expected = '/#/au/businessId/quote/newItem?duplicatedQuoteId=1';
+      const actual = getCreateDuplicateQuoteURL(getURLState);
+
+      expect(expected).toEqual(actual);
     });
   });
 });

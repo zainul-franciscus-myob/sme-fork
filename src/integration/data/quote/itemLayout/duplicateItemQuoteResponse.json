@@ -1,0 +1,130 @@
+{
+  "layout": "item",
+  "pageTitle": "Quote BL00000123",
+  "quote": {
+    "customerId": "1",
+    "customerName": "A-Z Stationery Supplies",
+    "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
+    "expirationTerm": "OnADayOfTheMonth",
+    "expirationDays": "4",
+    "chargeForLatePayment": 0,
+    "discountForEarlyPayment": 0,
+    "numberOfDaysForDiscount": 1,
+    "isTaxInclusive": true,
+    "quoteNumber": "BL00000123",
+    "purchaseOrder": "IN00000123",
+    "issueDate": "2018-11-02",
+    "note": "I'm a dupe",
+    "lines": [
+      {
+        "units": "2",
+        "itemId": "3",
+        "description": "Cooler Medium",
+        "unitPrice": "100.00",
+        "discount": "0",
+        "displayDiscount": "0",
+        "taxCodeId": "2",
+        "amount": "850.910100",
+        "displayAmount": "850.91"
+      },
+      {
+        "units": "2",
+        "itemId": "4",
+        "description": "Cooler Large",
+        "unitPrice": "520.00",
+        "discount": "10",
+        "displayDiscount": "10",
+        "taxCodeId": "3",
+        "amount": "850.910100",
+        "displayAmount": "850.91"
+      }
+    ]
+  },
+  "customers": [
+    {
+      "contactType": "Customer",
+      "displayName": "A-Z Stationery Supplies",
+      "id": "1",
+      "displayId": "CUS000001"
+    },
+    {
+      "contactType": "Customer",
+      "displayName": "Cow Feed",
+      "id": "2",
+      "displayId": "CUS000003"
+    }
+  ],
+  "expirationTerms": [
+    {
+      "value": "OnADayOfTheMonth",
+      "name": "Due on a date of this month"
+    },
+    {
+      "value": "Prepaid",
+      "name": "Prepaid"
+    },
+    {
+      "value": "InAGivenNumberOfDays",
+      "name": "Due in a number of days after the issue date"
+    },
+    {
+      "value": "CashOnDelivery",
+      "name": "Cash on delivery"
+    },
+    {
+      "value": "DayOfMonthAfterEOM",
+      "name": "Due on a date of next month"
+    },
+    {
+      "value": "NumberOfDaysAfterEOM",
+      "name": "Due in a number of days after the end of the month"
+    }
+  ],
+  "items": [
+    {
+      "id": "3",
+      "itemId": "100",
+      "description": "Cooler Large"
+    },
+    {
+      "id": "4",
+      "itemId": "101",
+      "description": "Cooler Medium"
+    }
+  ],
+  "taxCodes": [
+    {
+      "id": "2",
+      "displayName": "GST",
+      "description": "Goods & Service Tax",
+      "displayRate": "10%"
+    },
+    {
+      "id": "3",
+      "displayName": "FRE",
+      "description": "GST FREE",
+      "displayRate": "5%"
+    }
+  ],
+  "newLine": {
+    "units": "",
+    "itemId": "",
+    "description": "",
+    "unitPrice": "",
+    "discount": "",
+    "displayDiscount": "",
+    "taxCodeId": "",
+    "amount": "",
+    "displayAmount": ""
+  },
+  "totals": {
+    "subTotal": "$1000.00",
+    "totalTax": "$5.00",
+    "totalAmount": "$1000.00"
+  },
+  "comments": [
+    { "value": "Happy Holiday!" },
+    { "value": "Great doing business" },
+    { "value": "don't call us we'll call you" }
+  ]
+}

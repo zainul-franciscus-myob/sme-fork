@@ -40,6 +40,7 @@ async function main(integrationType) {
     popMessages: inbox.popMessages,
     pushMessage: inbox.pushMessage,
     replaceURLParams: router.replaceURLParams,
+    reload: router.reload,
   });
 
   const moduleList = routes.reduce((acc, route) => {

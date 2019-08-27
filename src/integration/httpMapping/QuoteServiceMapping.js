@@ -1,6 +1,7 @@
 import {
   CREATE_SERVICE_QUOTE,
   GET_SERVICE_QUOTE_CALCULATED_TOTALS,
+  LOAD_DUPLICATE_SERVICE_QUOTE,
   LOAD_NEW_SERVICE_QUOTE,
   UPDATE_SERVICE_QUOTE,
 } from '../../quote/quoteDetail/serviceQuote/ServiceQuoteIntents';
@@ -9,6 +10,10 @@ const QuoteServiceMapping = {
   [LOAD_NEW_SERVICE_QUOTE]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/quote/load_new_service_quote`,
+  },
+  [LOAD_DUPLICATE_SERVICE_QUOTE]: {
+    method: 'GET',
+    getPath: ({ businessId, duplicatedQuoteId }) => `/${businessId}/quote/load_duplicate_service_quote/${duplicatedQuoteId}`,
   },
   [CREATE_SERVICE_QUOTE]: {
     method: 'POST',

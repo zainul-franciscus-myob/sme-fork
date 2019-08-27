@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage,
+  getAlert,
   getIsCreating,
   getModalType,
   getPageTitle,
@@ -24,6 +24,7 @@ const ServiceQuoteView = ({
   onRemoveRow,
   onRowInputBlur,
   onSaveButtonClick,
+  onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   onConvertToInvoiceButtonClick,
@@ -33,7 +34,9 @@ const ServiceQuoteView = ({
   onCancelModal,
   onConfirmSaveButtonClick,
   onConfirmUnsaveButtonClick,
-  alertMessage,
+  onConfirmSaveAndCreateNewButtonClick,
+  onConfirmSaveAndDuplicateButtonClick,
+  alert,
   onDismissAlert,
   onDeleteModal,
   pageTitle,
@@ -45,15 +48,16 @@ const ServiceQuoteView = ({
     <ServiceQuoteActions
       isCreating={isCreating}
       onSaveButtonClick={onSaveButtonClick}
+      onSaveAndButtonClick={onSaveAndButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
       onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}
     />
   );
 
-  const alertComponent = alertMessage && (
-    <Alert type="danger" onDismiss={onDismissAlert}>
-      {alertMessage}
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
     </Alert>
   );
 
@@ -65,6 +69,8 @@ const ServiceQuoteView = ({
       onConfirmDeleteButtonClick={onDeleteModal}
       onConfirmSaveButtonClick={onConfirmSaveButtonClick}
       onConfirmUnsaveButtonClick={onConfirmUnsaveButtonClick}
+      onConfirmSaveAndCreateNewButtonClick={onConfirmSaveAndCreateNewButtonClick}
+      onConfirmSaveAndDuplicateButtonClick={onConfirmSaveAndDuplicateButtonClick}
     />
   );
 
@@ -99,7 +105,7 @@ const ServiceQuoteView = ({
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   modalType: getModalType(state),
-  alertMessage: getAlertMessage(state),
+  alert: getAlert(state),
   pageTitle: getPageTitle(state),
   totalAmount: getTotalAmount(state),
 });
