@@ -59,6 +59,7 @@ const InvoiceItemView = ({
       onSaveAndEmailButtonClick={onSaveAndEmailButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
+      onPayInvoiceButtonClick={onPayInvoiceButtonClick}
     />
   );
 
