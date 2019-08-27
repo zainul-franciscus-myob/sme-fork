@@ -273,10 +273,11 @@ export default class EmployeeDetailModule {
   addPayrollWagePayItem = (payItem) => {
     this.dispatcher.addPayrollWagePayItem(payItem);
 
+    const { id } = payItem;
     const state = this.store.getState();
-    const isBaseWagePayItemId = getIsBaseWagePayItemId(state);
+    const isBaseWagePayItemId = getIsBaseWagePayItemId(state, id);
     if (isBaseWagePayItemId) {
-      this.setStandardPayWagePayItem(payItem.id);
+      this.setStandardPayWagePayItem(id);
     }
   }
 
