@@ -18,7 +18,7 @@ const InvoiceServiceActions = ({
     primary={[
       (!isCreating
         && (
-        <Button key="payInvoice" name="payInvoice" type="secondary" onClick={onPayInvoiceButtonClick}>
+        <Button key="payInvoice" name="payInvoice" type="secondary" onClick={onPayInvoiceButtonClick} disabled={isActionsDisabled}>
           Record payment
         </Button>
         )),

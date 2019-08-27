@@ -203,6 +203,29 @@ export default class InvoiceServiceModule {
     });
   }
 
+  saveInvoiceAndRedirectToInvoicePayment = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+
+    const onSuccess = () => {
+      this.dispatcher.setSubmittingState(false);
+      this.openInvoicePayment();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.displayFailureAlert(message);
+    };
+
+    this.dispatcher.setSubmittingState(true);
+
+    this.integrator.saveInvoiceServiceDetail({
+      isCreating,
+      onSuccess,
+      onFailure,
+    });
+  }
+
   deleteInvoice = () => {
     this.dispatcher.setSubmittingState(true);
     this.closeConfirmModal();
@@ -270,6 +293,14 @@ export default class InvoiceServiceModule {
 
   openDeleteModal = () => this.dispatcher.setModalType(InvoiceDetailModalType.DELETE);
 
+  openApplyPaymentModal = () => {
+    if (isPageEdited(this.store.getState())) {
+      this.dispatcher.setModalType(InvoiceDetailModalType.APPLY_PAYMENT_UNSAVED_CHANGES);
+    } else {
+      this.openInvoicePayment();
+    }
+  };
+
   closeConfirmModal = () => {
     this.setCloseModalType();
   }
@@ -331,7 +362,12 @@ export default class InvoiceServiceModule {
           onDismissAlert: this.dismissModalAlert,
         }}
         onChangeAmountToPay={this.updateAmountNewInvoicePaymentAmount}
-        onPayInvoiceButtonClick={this.openInvoicePayment}
+        onPayInvoiceButtonClick={this.openApplyPaymentModal}
+        applyPaymentUnsavedChangesListeners={{
+          onConfirmSave: this.saveInvoiceAndRedirectToInvoicePayment,
+          onConfirmUnsave: this.openInvoicePayment,
+          onCancel: this.setCloseModalType,
+        }}
       />
     );
 

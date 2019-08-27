@@ -35,6 +35,7 @@ const InvoiceServiceView = ({
   emailInvoiceDetailModalListeners,
   onChangeAmountToPay,
   onPayInvoiceButtonClick,
+  applyPaymentUnsavedChangesListeners,
 }) => {
   const templateOptions = (
     <InvoiceServiceOptions
@@ -68,6 +69,7 @@ const InvoiceServiceView = ({
       emailInvoiceDetail={emailInvoiceDetail}
       isActionsDisabled={isActionsDisabled}
       alert={modalAlert}
+      applyPaymentUnsavedChangesListeners={applyPaymentUnsavedChangesListeners}
     />
   );
 

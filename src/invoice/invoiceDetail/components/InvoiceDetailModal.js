@@ -5,6 +5,7 @@ import DeleteModal from '../../../components/modal/DeleteModal';
 import EmailInvoiceModal from './EmailInvoiceModal';
 import EmailSettingsModal from './EmailSettingsModal';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const InvoiceDetailModal = ({
   modalType,
@@ -14,6 +15,7 @@ const InvoiceDetailModal = ({
   confirmModalListeners,
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
+  applyPaymentUnsavedChangesListeners,
 }) => {
   if (modalType === InvoiceDetailModalType.EMAIL_INVOICE) {
     return (
@@ -49,6 +51,16 @@ const InvoiceDetailModal = ({
         onConfirm={confirmModalListeners.onDeleteModalConfirm}
         title="Delete invoice"
         description="Are you sure you want to delete this invoice?"
+      />
+    );
+  }
+
+  if (modalType === InvoiceDetailModalType.APPLY_PAYMENT_UNSAVED_CHANGES) {
+    return (
+      <UnsavedModal
+        onConfirmSave={applyPaymentUnsavedChangesListeners.onConfirmSave}
+        onConfirmUnsave={applyPaymentUnsavedChangesListeners.onConfirmUnsave}
+        onCancel={applyPaymentUnsavedChangesListeners.onCancel}
       />
     );
   }
