@@ -749,6 +749,12 @@ export default class EmployeeDetailModule {
           onPayItemBlur: this.formatPayrollStandardPayItemInputAndApplyAmountRule,
           onPayItemClick: this.openPayItemModal,
         }}
+        onPayrollPayHistoryListeners={{
+          onFilterChange: this.dispatcher.setPayrollPayHistoryFilterOptions,
+          onPayItemChange: this.dispatcher.setPayrollPayHistoryItemInput,
+          onPayItemBlur: this.dispatcher.formatPayrollPayHistoryItemInput,
+          onPayItemClick: this.openPayItemModal,
+        }}
         onUpdatePayrollDetailSuperannuationDetails={
           this.dispatcher.updatePayrollDetailSuperannuationDetails
         }

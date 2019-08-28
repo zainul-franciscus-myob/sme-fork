@@ -24,6 +24,7 @@ import {
   CREATE_SUPER_PAY_ITEM_MODAL,
   CREATE_WAGE_PAY_ITEM_MODAL,
   FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
+  FORMAT_PAYROLL_PAY_HISTORY_ITEM_INPUT,
   FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
@@ -69,6 +70,8 @@ import {
   SET_LOADING_STATE,
   SET_MAIN_TAB,
   SET_PAGE_EDITED_STATE,
+  SET_PAYROLL_PAY_HISTORY_FILTER_OPTIONS,
+  SET_PAYROLL_PAY_HISTORY_ITEM_INPUT,
   SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT,
   SET_PAYROLL_STANDARD_PAY_ITEM_INPUT,
   SET_SUBMITTING_STATE,
@@ -351,6 +354,29 @@ const createEmployeeDetailDispatcher = store => ({
     const intent = SET_PAYROLL_STANDARD_PAY_ITEM_INPUT;
     store.dispatch({
       intent, payItemId, key: 'isLoading', value: isLoading,
+    });
+  },
+
+  setPayrollPayHistoryFilterOptions: ({ key, value }) => {
+    const intent = SET_PAYROLL_PAY_HISTORY_FILTER_OPTIONS;
+    store.dispatch({ intent, key, value });
+  },
+
+  setPayrollPayHistoryItemInput: ({
+    payItemId, payItemType, key, value,
+  }) => {
+    const intent = SET_PAYROLL_PAY_HISTORY_ITEM_INPUT;
+    store.dispatch({
+      intent, payItemId, payItemType, key, value,
+    });
+  },
+
+  formatPayrollPayHistoryItemInput: ({
+    payItemId, payItemType, key, value,
+  }) => {
+    const intent = FORMAT_PAYROLL_PAY_HISTORY_ITEM_INPUT;
+    store.dispatch({
+      intent, payItemId, payItemType, key, value,
     });
   },
 

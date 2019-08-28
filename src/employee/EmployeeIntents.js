@@ -49,6 +49,10 @@ export const SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT = Symbol('Set standard pay d
 export const SET_PAYROLL_STANDARD_PAY_ITEM_INPUT = Symbol('Set standard pay item input');
 export const REMOVE_PAYROLL_STANDARD_PAY_ITEM = Symbol('Remove standard pay item');
 
+export const SET_PAYROLL_PAY_HISTORY_FILTER_OPTIONS = Symbol('Set pay history filter options');
+export const SET_PAYROLL_PAY_HISTORY_ITEM_INPUT = Symbol('Set pay history item input');
+export const FORMAT_PAYROLL_PAY_HISTORY_ITEM_INPUT = Symbol('Set pay history item input');
+
 export const OPEN_TAX_PAY_ITEM_MODAL = Symbol('Open tax pay item modal');
 export const CLOSE_TAX_PAY_ITEM_MODAL = Symbol('Close tax pay item modal');
 export const LOAD_TAX_PAY_ITEM_MODAL = Symbol('Load tax pay item modal');

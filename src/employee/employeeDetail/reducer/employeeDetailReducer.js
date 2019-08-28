@@ -24,6 +24,7 @@ import {
   CREATE_SUPER_PAY_ITEM_MODAL,
   CREATE_WAGE_PAY_ITEM_MODAL,
   FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
+  FORMAT_PAYROLL_PAY_HISTORY_ITEM_INPUT,
   FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
@@ -69,6 +70,8 @@ import {
   SET_LOADING_STATE,
   SET_MAIN_TAB,
   SET_PAGE_EDITED_STATE,
+  SET_PAYROLL_PAY_HISTORY_FILTER_OPTIONS,
+  SET_PAYROLL_PAY_HISTORY_ITEM_INPUT,
   SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT,
   SET_PAYROLL_STANDARD_PAY_ITEM_INPUT,
   SET_SUBMITTING_STATE,
@@ -238,6 +241,12 @@ import {
   updateSuperFundDetail,
 } from './SuperFundModalReducer';
 import {
+  formatPayrollPayHistoryItemInput,
+  setPayrollPayHistoryFilterOptions,
+  setPayrollPayHistoryItemInput,
+} from './PayrollPayHistoryReducer';
+import { getCurrentMonth } from '../selectors/PayrollPayHistorySelectors';
+import {
   loadPayrollStandardPayWageAmountRule,
   removePayrollStandardPayItem,
   setPayrollStandardPayDetailsItemInput,
@@ -321,6 +330,12 @@ export const getDefaultState = () => ({
       standardPayItems: [],
       wageAmountRules: {},
     },
+    payHistoryDetails: {
+      filterOptions: {
+        period: getCurrentMonth(),
+      },
+      payHistoryItems: [],
+    },
   },
   paymentDetails: {
     paymentMethod: '',
@@ -349,6 +364,7 @@ export const getDefaultState = () => ({
   baseHourlyWagePayItemId: '',
   wagePayItems: [],
   expensePayItemOptions: [],
+  payHistoryPeriodOptions: [],
   wagePayItemModal: undefined,
   taxPayItemModal: undefined,
   deductionPayItemModal: undefined,
@@ -431,6 +447,10 @@ const loadEmployeeDetail = (state, action) => ({
       ...state.payrollDetails.standardPayDetails,
       ...action.payrollDetails.standardPayDetails,
     },
+    payHistoryDetails: {
+      ...state.payrollDetails.payHistoryDetails,
+      ...action.payrollDetails.payHistoryDetails,
+    },
   },
   paymentDetails: {
     ...state.paymentDetails,
@@ -457,6 +477,7 @@ const loadEmployeeDetail = (state, action) => ({
   wagePayItems: action.wagePayItems,
   leavePayItemOptions: action.leavePayItemOptions,
   expensePayItemOptions: action.expensePayItemOptions,
+  payHistoryPeriodOptions: action.payHistoryPeriodOptions,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -615,6 +636,9 @@ const handlers = {
   [SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT]: setPayrollStandardPayDetailsItemInput,
   [SET_PAYROLL_STANDARD_PAY_ITEM_INPUT]: setPayrollStandardPayItemInput,
   [REMOVE_PAYROLL_STANDARD_PAY_ITEM]: removePayrollStandardPayItem,
+  [SET_PAYROLL_PAY_HISTORY_FILTER_OPTIONS]: setPayrollPayHistoryFilterOptions,
+  [SET_PAYROLL_PAY_HISTORY_ITEM_INPUT]: setPayrollPayHistoryItemInput,
+  [FORMAT_PAYROLL_PAY_HISTORY_ITEM_INPUT]: formatPayrollPayHistoryItemInput,
   [OPEN_TAX_PAY_ITEM_MODAL]: openTaxPayItemModal,
   [CLOSE_TAX_PAY_ITEM_MODAL]: closeTaxPayItemModal,
   [SET_TAX_PAY_ITEM_MODAL_LOADING_STATE]: setTaxPayItemModalLoading,

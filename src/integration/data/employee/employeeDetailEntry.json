@@ -164,6 +164,68 @@
           "amount": "4.00"
         }
       ]
+    },
+    "payHistoryDetails": {
+      "payHistoryItems": [
+        {
+          "id": "1",
+          "payItemId": "11",
+          "payItemType": "WagesPayrollCategory",
+          "lines": [
+            {
+              "total": "3000.00",
+              "activity": 2500.50,
+              "month": "July"
+            },
+            {
+              "total": "4000.00",
+              "activity": 2500,
+              "month": "August"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "payItemId": "53",
+          "payItemType": "EntitlementPayrollCategory",
+          "lines": [
+            {
+              "total": "1000.00",
+              "activity": 2500,
+              "month": "August"
+            },
+            {
+              "total": "500.00",
+              "activity": 500,
+              "month": "September"
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "payItemId": "44",
+          "payItemType": "DeductionPayrollCategory",
+          "lines": [
+            {
+              "total": "0.00",
+              "activity": 300,
+              "month": "August"
+            }
+          ]
+        },
+        {
+          "id": "61",
+          "payItemId": "61",
+          "payItemType": "ExpensePayrollCategory",
+          "lines": [
+            {
+              "total": "200.00",
+              "activity": 200,
+              "month": "August"
+            }
+          ]
+        }
+      ]
     }
   },
   "paymentDetails": {
@@ -509,6 +571,76 @@
       "name": "Employer expense user enter",
       "type": "ExpensePayrollCategory",
       "calculationBasis": "UserEntered"
+    }
+  ],
+  "payHistoryPeriodOptions": [
+    {
+      "name": "July",
+      "value": "July"
+    },
+    {
+      "name": "August",
+      "value": "August"
+    },
+    {
+      "name": "September",
+      "value": "September"
+    },
+    {
+      "name": "October",
+      "value": "October"
+    },
+    {
+      "name": "November",
+      "value": "November"
+    },
+    {
+      "name": "December",
+      "value": "December"
+    },
+    {
+      "name": "January",
+      "value": "January"
+    },
+    {
+      "name": "February",
+      "value": "February"
+    },
+    {
+      "name": "March",
+      "value": "March"
+    },
+    {
+      "name": "April",
+      "value": "April"
+    },
+    {
+      "name": "May",
+      "value": "May"
+    },
+    {
+      "name": "June",
+      "value": "June"
+    },
+    {
+      "name": "1st Quarter",
+      "value": "Quarter1"
+    },
+    {
+      "name": "2nd Quarter",
+      "value": "Quarter2"
+    },
+    {
+      "name": "3rd Quarter",
+      "value": "Quarter3"
+    },
+    {
+      "name": "4th Quarter",
+      "value": "Quarter4"
+    },
+    {
+      "name": "Year-to-Date",
+      "value": "YearToDate"
     }
   ],
   "baseSalaryWagePayItemId": "11",

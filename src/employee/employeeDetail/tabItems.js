@@ -19,6 +19,7 @@ export const payrollDetailsSubTabIds = {
   taxes: 'taxes',
   wages: 'wages',
   standardPay: 'standardPay',
+  payHistory: 'payHistory',
 };
 
 export const payrollDetailsSubTabItems = [
@@ -29,4 +30,5 @@ export const payrollDetailsSubTabItems = [
   { id: payrollDetailsSubTabIds.superannuation, label: 'Superannuation' },
   { id: payrollDetailsSubTabIds.taxes, label: 'Taxes' },
   { id: payrollDetailsSubTabIds.standardPay, label: 'Standard pay' },
+  { id: payrollDetailsSubTabIds.payHistory, label: 'Pay history' },
 ];

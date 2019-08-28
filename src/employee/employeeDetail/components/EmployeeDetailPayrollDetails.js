@@ -18,6 +18,7 @@ import LeavePayItemModal from './LeavePayItemModal/LeavePayItemModal';
 import PayrollDeductionDetails from './PayrollDeductionDetails/PayrollDeductionDetails';
 import PayrollDetailSuperannuation from './PayrollSuperDetails/PayrollDetailSuperannuation';
 import PayrollLeaveDetail from './PayrollLeaveDetail';
+import PayrollPayHistoryDetails from './PayrollPayHistoryDetails/PayrollPayHistoryDetails';
 import PayrollStandardPayDetails from './PayrollStandardPayDetails/PayrollStandardPayDetails';
 import PayrollTaxDetails from './PayrollTaxDetails/PayrollTaxDetails';
 import PayrollWageDetails from './PayrollWageDetails/PayrollWageDetails';
@@ -39,6 +40,7 @@ const EmployeeDetailPayrollDetails = ({
   onRemovePayrollDeductionPayItem,
   onPayrollLeaveListeners,
   onPayrollStandardPayListeners,
+  onPayrollPayHistoryListeners,
   onUpdatePayrollDetailSuperannuationDetails,
   onAddPayrollSuperPayItem,
   onRemovePayrollSuperPayItem,
@@ -131,6 +133,10 @@ const EmployeeDetailPayrollDetails = ({
     <PayrollStandardPayDetails listeners={onPayrollStandardPayListeners} />
   );
 
+  const PayHistory = () => (
+    <PayrollPayHistoryDetails listeners={onPayrollPayHistoryListeners} />
+  );
+
   const Content = {
     [payrollDetailsSubTabIds.employmentDetails]: Employment,
     [payrollDetailsSubTabIds.salaryAndWages]: Wages,
@@ -139,6 +145,7 @@ const EmployeeDetailPayrollDetails = ({
     [payrollDetailsSubTabIds.superannuation]: Superannuation,
     [payrollDetailsSubTabIds.taxes]: Taxes,
     [payrollDetailsSubTabIds.standardPay]: StandardPay,
+    [payrollDetailsSubTabIds.payHistory]: PayHistory,
   }[selectedTab];
 
   return (

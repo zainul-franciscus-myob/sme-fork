@@ -1,3 +1,4 @@
+import { getPayHistoryDetailsPayload } from './PayrollPayHistorySelectors';
 import { getStandardPayDetailsPayload } from './PayrollStandardPaySelectors';
 
 // Importing from getStandardPayDetailsPayload in EmployeeDetailSelector.js is causing
@@ -8,12 +9,14 @@ import { getStandardPayDetailsPayload } from './PayrollStandardPaySelectors';
 export const getEmployeePayload = (state) => {
   const { contactDetail, payrollDetails, paymentDetails } = state;
   const standardPayDetails = getStandardPayDetailsPayload(state);
+  const payHistoryDetails = getPayHistoryDetailsPayload(state);
 
   return ({
     contactDetail,
     payrollDetails: {
       ...payrollDetails,
       standardPayDetails,
+      payHistoryDetails,
     },
     paymentDetails,
   });
