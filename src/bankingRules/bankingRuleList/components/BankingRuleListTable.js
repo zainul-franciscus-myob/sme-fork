@@ -7,24 +7,35 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsFilterStateChanged,
   getIsStatusDisplayed,
   getIsTableEmpty,
   getIsTableLoading,
   getOrder,
 } from '../BankingRuleListSelectors';
 import BankingRuleListTableBody from './BankingRuleListTableBody';
+import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../components/TableView/TableView';
 
-const emptyView = (
-  <PageState
-    title="Set up bank feed rules"
-    description={(
-      <p>
-        Create rules to automatically match bank transactions to your bills,
-        invoices and other transactions
-      </p>
-    )}
-  />
+const emptyView = isFilterSateChanged => (
+  isFilterSateChanged
+    ? (
+      <NoResultPageState
+        title="No results found :("
+        description="Perhaps check spelling or remove filters and try again"
+      />
+    )
+    : (
+      <PageState
+        title="Set up bank feed rules"
+        description={(
+          <p>
+              Create rules to automatically match bank transactions to your bills,
+              invoices and other transactions
+          </p>
+          )}
+      />
+    )
 );
 
 const tableConfig = {
@@ -40,6 +51,7 @@ const BankingRuleListTable = ({
   isTableLoading,
   onSort,
   order,
+  isFilterStateChanged,
 }) => {
   const header = (
     <Table.Header>
@@ -66,7 +78,7 @@ const BankingRuleListTable = ({
     <TableView
       isLoading={isTableLoading}
       isEmpty={isTableEmpty}
-      emptyView={emptyView}
+      emptyView={emptyView(isFilterStateChanged)}
       header={header}
     >
       <BankingRuleListTableBody tableConfig={tableConfig} />
@@ -79,6 +91,7 @@ const mapStateToProps = state => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   isStatusDisplayed: getIsStatusDisplayed(state),
+  isFilterStateChanged: getIsFilterStateChanged(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleListTable);

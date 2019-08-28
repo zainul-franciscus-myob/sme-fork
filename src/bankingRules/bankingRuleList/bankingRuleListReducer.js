@@ -36,7 +36,7 @@ const loadBankingRuleList = (state, action) => ({
   entries: action.entries,
 });
 
-const sortAndFilterBankinRuleList = (state, action) => ({
+const sortAndFilterBankingRuleList = (state, action) => ({
   ...state,
   entries: action.entries,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
@@ -80,7 +80,7 @@ const resetState = () => (getDefaultState());
 
 const handlers = {
   [LOAD_BANKING_RULE_LIST]: loadBankingRuleList,
-  [SORT_AND_FILTER_BANKING_RULE_LIST]: sortAndFilterBankinRuleList,
+  [SORT_AND_FILTER_BANKING_RULE_LIST]: sortAndFilterBankingRuleList,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [SET_SORT_ORDER]: setSortOrder,

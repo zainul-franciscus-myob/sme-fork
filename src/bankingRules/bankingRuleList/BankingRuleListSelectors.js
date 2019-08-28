@@ -11,6 +11,7 @@ export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 export const getFilterOptions = state => state.filterOptions;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getAlert = state => state.alert;
+export const getIsFilterStateChanged = state => state.appliedFilterOptions.keywords !== '';
 const getEntries = state => state.entries;
 
 export const getOrder = createSelector(
