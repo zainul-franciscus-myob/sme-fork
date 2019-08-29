@@ -507,7 +507,7 @@ export default class InvoiceItemModule {
           onDismissAlert: this.dismissModalAlert,
         }}
         onChangeAmountToPay={this.updateAmountNewInvoicePaymentAmount}
-        onPayInvoiceButtonClick={this.openInvoicePayment}
+        onPayInvoiceButtonClick={this.openApplyPaymentModal}
         applyPaymentUnsavedChangesListeners={{
           onConfirmSave: this.saveInvoiceAndRedirectToInvoicePayment,
           onConfirmUnsave: this.openInvoicePayment,
