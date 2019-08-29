@@ -280,9 +280,6 @@ export default class InvoiceItemModule {
   };
 
   saveInvoiceAndRedirectToInvoicePayment = () => {
-    const state = this.store.getState();
-    const isCreating = getIsCreating(state);
-
     const onSuccess = () => {
       this.dispatcher.setSubmittingState(false);
       this.openInvoicePayment();
@@ -295,8 +292,7 @@ export default class InvoiceItemModule {
 
     this.dispatcher.setSubmittingState(true);
 
-    this.integrator.saveInvoiceServiceDetail({
-      isCreating,
+    this.integrator.updateInvoice({
       onSuccess,
       onFailure,
     });
