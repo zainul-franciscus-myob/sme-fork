@@ -97,9 +97,31 @@ describe('PayrollPayHistorySelectors', () => {
       expect(actual).toEqual(expected);
     });
 
-    it('should return pay history entry when there is pay history item', () => {
+    it('should return pay history entry when there is pay history item with activity value', () => {
       const payHistoryItem = {
-        id: 'id', payItemId: 'payItemId', month: 'July', activity: 100, total: '100.00',
+        id: 'id', payItemId: 'payItemId', month: 'July', activity: 100, total: '0.00',
+      };
+      const payItemOption = { id: 'payItemId', type: 'payItemType', name: 'name' };
+
+      const expected = {
+        id: 'id',
+        payItemId: 'payItemId',
+        payItemType: 'payItemType',
+        name: 'name',
+        hours: '0.00',
+        amount: '0.00',
+        isHours: false,
+        isAmount: true,
+      };
+
+      const actual = buildPayHistoryEntry(payHistoryItem, undefined, payItemOption);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return pay history entry when there is pay history item with total value', () => {
+      const payHistoryItem = {
+        id: 'id', payItemId: 'payItemId', month: 'July', activity: 0, total: '100.00',
       };
       const payItemOption = { id: 'payItemId', type: 'payItemType', name: 'name' };
 
@@ -117,6 +139,17 @@ describe('PayrollPayHistorySelectors', () => {
       const actual = buildPayHistoryEntry(payHistoryItem, undefined, payItemOption);
 
       expect(actual).toEqual(expected);
+    });
+
+    it('should not return pay history entry when pay history does not have activity nor total value', () => {
+      const payHistoryItem = {
+        id: 'id', payItemId: 'payItemId', month: 'July', activity: 0, total: '0.00',
+      };
+      const payItemOption = { id: 'payItemId', type: 'payItemType', name: 'name' };
+
+      const actual = buildPayHistoryEntry(payHistoryItem, undefined, payItemOption);
+
+      expect(actual).toBeUndefined();
     });
 
     it('should shows Activity (hrs) input when pay item type is entitlement', () => {

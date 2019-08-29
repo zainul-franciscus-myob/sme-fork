@@ -102,8 +102,23 @@ const getIsPayHistoryItemsDisabled = createSelector(
   },
 );
 
+const getDefaultTotal = payItemType => (
+  payItemType === payItemTypes.entitlement
+    ? getPayHistoryFormattedHours(0)
+    : getPayHistoryFormattedAmount(0)
+);
+
+const canBuildPayHistoryEntry = (payHistoryItem, allocatedPayItem, payItemOption) => {
+  const { type } = payItemOption;
+  const hasPayHistoryItem = payHistoryItem && (
+    payHistoryItem.activity || payHistoryItem.total !== getDefaultTotal(type)
+  );
+
+  return allocatedPayItem || hasPayHistoryItem;
+};
+
 export const buildPayHistoryEntry = (payHistoryItem, allocatedPayItem, payItemOption) => {
-  if (allocatedPayItem || (payHistoryItem && payHistoryItem.activity)) {
+  if (canBuildPayHistoryEntry(payHistoryItem, allocatedPayItem, payItemOption)) {
     const { id: payItemId, type: payItemType, name } = payItemOption;
     const { id, total } = payHistoryItem || {};
 
