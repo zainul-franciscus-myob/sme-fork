@@ -1,5 +1,6 @@
-import { Input } from '@myob/myob-widgets';
 import React from 'react';
+
+import AmountInput from '../autoFormatter/AmountInput/AmountInput';
 
 const LineItemTableTotalsInput = (props) => {
   const { label, value, handler } = props;
@@ -9,7 +10,7 @@ const LineItemTableTotalsInput = (props) => {
         <h4>{label}</h4>
       </td>
       <td className="line-item__amount">
-        <Input
+        <AmountInput
           hideLabel
           textAlign="right"
           name={label}

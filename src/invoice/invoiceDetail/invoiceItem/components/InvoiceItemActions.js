@@ -14,7 +14,13 @@ const InvoiceItemActions = ({
   onPayInvoiceButtonClick,
 }) => {
   const recordPaymentButton = (
-    <Button key="payInvoice" name="payInvoice" type="secondary" onClick={onPayInvoiceButtonClick}>
+    <Button
+      key="payInvoice"
+      name="payInvoice"
+      type="secondary"
+      onClick={onPayInvoiceButtonClick}
+      disabled={areButtonsDisabled}
+    >
       Record payment
     </Button>
   );

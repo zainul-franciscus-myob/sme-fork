@@ -33,6 +33,7 @@ const InvoiceItemView = ({
   emailInvoiceDetailModalListeners,
   onChangeAmountToPay,
   onPayInvoiceButtonClick,
+  applyPaymentUnsavedChangesListeners,
 }) => {
   const modal = modalType && (
     <InvoiceDetailModal
@@ -43,6 +44,7 @@ const InvoiceItemView = ({
       emailInvoiceDetail={emailInvoiceDetail}
       isActionsDisabled={isActionsDisabled}
       alert={modalAlert}
+      applyPaymentUnsavedChangesListeners={applyPaymentUnsavedChangesListeners}
     />
   );
 
