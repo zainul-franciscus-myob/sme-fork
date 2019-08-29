@@ -61,6 +61,7 @@ const InvoiceDetailModal = ({
         onConfirmSave={applyPaymentUnsavedChangesListeners.onConfirmSave}
         onConfirmUnsave={applyPaymentUnsavedChangesListeners.onConfirmUnsave}
         onCancel={applyPaymentUnsavedChangesListeners.onCancel}
+        isActionsDisabled={isActionsDisabled}
       />
     );
   }
