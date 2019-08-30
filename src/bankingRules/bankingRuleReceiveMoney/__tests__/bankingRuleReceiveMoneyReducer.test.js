@@ -237,6 +237,10 @@ describe('bankingRuleReceiveMoneyReducer', () => {
           id: 2,
           value: '',
         },
+        equalAmounts: {
+          id: 3,
+          value: '',
+        },
       },
       allocations: [],
     };
@@ -267,6 +271,21 @@ describe('bankingRuleReceiveMoneyReducer', () => {
 
       expect(actual.conditions.containsWords).toEqual({
         id: 1,
+        value: 'a',
+      });
+    });
+
+    it('updates equal amounts condition', () => {
+      const action = {
+        intent: UPDATE_FORM,
+        key: 'equalAmounts',
+        value: 'a',
+      };
+
+      const actual = bankingRuleReceiveMoneyReducer(state, action);
+
+      expect(actual.conditions.equalAmounts).toEqual({
+        id: 3,
         value: 'a',
       });
     });

@@ -1,4 +1,7 @@
 import {
+  Checkbox,
+  CheckboxGroup,
+  Columns,
   FieldSet,
   RadioButtonGroup,
   TextArea,
@@ -11,10 +14,13 @@ import {
   getAllocationType,
   getContactId,
   getContacts,
+  getIsPaymentReportable,
+  getIsPaymentReportableCheckboxDisabled,
   getTransactionDescription,
 } from '../bankingRuleSpendMoneySelectors';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import Table from './BankingRuleSpendMoneyAllocationTable';
+import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleRadioButtonChange from '../../../components/handlers/handleRadioButtonChange';
@@ -30,6 +36,8 @@ const BankingRuleSpendMoneyTransactionSection = ({
   onAddRow,
   onRowChange,
   onRemoveRow,
+  isPaymentReportable,
+  isPaymentReportableCheckboxDisabled,
 }) => (
   <React.Fragment>
     <FieldSet
@@ -37,13 +45,28 @@ const BankingRuleSpendMoneyTransactionSection = ({
       label="Create transaction with this information"
       renderField={() => (
         <React.Fragment>
-          <ContactCombobox
-            items={contacts}
-            selectedId={contactId}
-            label="Contact"
-            hideLabel={false}
-            onChange={handleComboboxChange('contactId', onRuleConditionsChange)}
-          />
+          <Columns>
+            <ContactCombobox
+              items={contacts}
+              selectedId={contactId}
+              label="Contact"
+              hideLabel={false}
+              onChange={handleComboboxChange('contactId', onRuleConditionsChange)}
+            />
+            <CheckboxGroup
+              hideLabel
+              label="Report to ATO via TPAR"
+              renderCheckbox={() => (
+                <Checkbox
+                  name="isPaymentReportable"
+                  label="Report to ATO via TPAR"
+                  checked={isPaymentReportable}
+                  onChange={handleCheckboxChange(onRuleConditionsChange)}
+                  disabled={isPaymentReportableCheckboxDisabled}
+                />
+              )}
+            />
+          </Columns>
           <TextArea
             resize="vertical"
             name="transactionDescription"
@@ -76,6 +99,8 @@ const mapStateToProps = state => ({
   contactId: getContactId(state),
   contacts: getContacts(state),
   transactionDescription: getTransactionDescription(state),
+  isPaymentReportable: getIsPaymentReportable(state),
+  isPaymentReportableCheckboxDisabled: getIsPaymentReportableCheckboxDisabled(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleSpendMoneyTransactionSection);

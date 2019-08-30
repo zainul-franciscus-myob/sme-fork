@@ -28,6 +28,7 @@ const BankingRuleReceiveMoneyDescriptionSection = ({
   containsWords,
   exactWords,
   onRuleConditionsChange,
+  equalAmounts,
 }) => (
   <React.Fragment>
     <RadioButtonGroup
@@ -85,6 +86,26 @@ const BankingRuleReceiveMoneyDescriptionSection = ({
             maxLength={200}
           />
         </Columns>
+      )}
+    />
+
+    <FieldSet
+      className={`${styles.formSubGroup} ${styles.form}`}
+      label="When the amount equals"
+      renderField={() => (
+        <Input
+          name="equalAmounts"
+          value={equalAmounts}
+          label="Any of these values"
+          labelAccessory={(
+            <Tooltip triggerContent={<Icons.Info />}>
+              Seperate each value with a comma
+            </Tooltip>
+            )}
+          onChange={handleInputChange(onRuleConditionsChange)}
+          placeholder="Eg. 10.000, 59.99"
+          maxLength={200}
+        />
       )}
     />
   </React.Fragment>

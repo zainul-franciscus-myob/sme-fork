@@ -42,6 +42,10 @@ export const activeMapping = {
   'bankingRule/bankingRuleList': 'banking',
   'bankReconciliation/bankReconciliation': 'banking',
   'payRun/payRun': 'payroll',
+  'bankingRule/bankingRuleSpendMoney': 'banking',
+  'bankingRule/bankingRuleReceiveMoney': 'banking',
+  'bankingRule/bankingRuleInvoice': 'banking',
+  'bankingRule/bankingRuleBill': 'banking',
 };
 
 export const featuresConfig = {

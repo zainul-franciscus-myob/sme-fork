@@ -33,6 +33,10 @@ const getDefaultState = () => ({
       id: undefined,
       value: '',
     },
+    equalAmounts: {
+      id: undefined,
+      value: '',
+    },
   },
   bankAccounts: [],
   suppliers: [],
@@ -56,8 +60,9 @@ const loadBankingRuleBill = (state, action) => ({
   ...action.bankingRule,
 });
 
+const isCondition = key => ['exactWords', 'containsWords', 'equalAmounts'].includes(key);
 const updateForm = (state, action) => {
-  if (action.key === 'exactWords' || action.key === 'containsWords') {
+  if (isCondition(action.key)) {
     return {
       ...state,
       conditions: {

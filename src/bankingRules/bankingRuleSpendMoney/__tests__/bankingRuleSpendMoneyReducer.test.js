@@ -237,6 +237,10 @@ describe('bankingRuleSpendMoneyReducer', () => {
           id: 2,
           value: '',
         },
+        equalAmounts: {
+          id: 3,
+          value: '',
+        },
       },
       allocations: [],
     };
@@ -271,6 +275,21 @@ describe('bankingRuleSpendMoneyReducer', () => {
       });
     });
 
+    it('updates equal amounts condition', () => {
+      const action = {
+        intent: UPDATE_FORM,
+        key: 'equalAmounts',
+        value: 'a',
+      };
+
+      const actual = bankingRuleSpendMoneyReducer(state, action);
+
+      expect(actual.conditions.equalAmounts).toEqual({
+        id: 3,
+        value: 'a',
+      });
+    });
+
     it('empties allocations when change allocation type', () => {
       const modifiedState = {
         ...state,
@@ -301,6 +320,26 @@ describe('bankingRuleSpendMoneyReducer', () => {
       const actual = bankingRuleSpendMoneyReducer(state, action);
 
       expect(actual.a).toEqual('b');
+    });
+
+    it('updates isPaymentReportable flag with selected contact default when contactId is changed', () => {
+      const isPaymentReportableState = {
+        isPaymentReportable: true,
+        contacts: [{
+          id: '1',
+          isPaymentReportable: false,
+        }],
+      };
+      const action = {
+        intent: UPDATE_FORM,
+        key: 'contactId',
+        value: '1',
+      };
+
+      const result = bankingRuleSpendMoneyReducer(isPaymentReportableState, action);
+
+      expect(result.contactId).toEqual('1');
+      expect(result.isPaymentReportable).toEqual(false);
     });
   });
 });

@@ -27,6 +27,10 @@
     "exactWords": {
       "id": 2,
       "value": "happy"
+    },
+    "equalAmounts": {
+      "id": 3,
+      "value": "50.99, 100.000"
     }
   },
   "bankAccounts": [
@@ -72,7 +76,15 @@
       "contactType": "Supplier",
       "displayName": "Cow Feed",
       "id": "2",
-      "displayId": "CUS000003"
+      "displayId": "CUS000003",
+      "isPaymentReportable": false
+    },
+    {
+      "contactType": "Supplier",
+      "displayName": "Chicken Feed",
+      "id": "3",
+      "displayId": "CUS000004",
+      "isPaymentReportable": true
     }
   ],
   "taxCodes": [

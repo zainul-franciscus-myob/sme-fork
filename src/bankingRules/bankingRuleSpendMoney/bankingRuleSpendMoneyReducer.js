@@ -44,6 +44,10 @@ const getDefaultState = () => ({
       id: undefined,
       value: '',
     },
+    equalAmounts: {
+      id: undefined,
+      value: '',
+    },
   },
   allocationAccounts: [],
   bankAccounts: [],
@@ -58,6 +62,7 @@ const getDefaultState = () => ({
   isPageEdited: false,
   alertMessage: '',
   modal: undefined,
+  isPaymentReportable: false,
 });
 
 const resetState = () => (getDefaultState());
@@ -205,8 +210,19 @@ const formatAmount = (state, { index }) => {
   };
 };
 
+const isCondition = key => ['exactWords', 'containsWords', 'equalAmounts'].includes(key);
+const isContact = key => key === 'contactId';
+const updateContactId = (state, action) => {
+  const contact = state.contacts.find(({ id }) => id === action.value);
+
+  return {
+    ...state,
+    contactId: contact.id,
+    isPaymentReportable: contact.isPaymentReportable,
+  };
+};
 const updateForm = (state, action) => {
-  if (action.key === 'exactWords' || action.key === 'containsWords') {
+  if (isCondition(action.key)) {
     return {
       ...state,
       conditions: {
@@ -225,6 +241,10 @@ const updateForm = (state, action) => {
       [action.key]: action.value,
       allocations: [],
     };
+  }
+
+  if (isContact(action.key)) {
+    return updateContactId(state, action);
   }
 
   return {

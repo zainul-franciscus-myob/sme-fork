@@ -26,21 +26,34 @@ export const getTaxCodes = state => state.taxCodes;
 export const getSupplierId = state => state.supplierId;
 export const getSuppliers = state => state.suppliers;
 
+const getContainsWordsValue = createSelector(
+  getConditions,
+  conditions => conditions.containsWords.value,
+);
+const getExactWordsValue = createSelector(
+  getConditions,
+  conditions => conditions.exactWords.value,
+);
+const getEqualAmountsValue = createSelector(
+  getConditions,
+  conditions => conditions.equalAmounts.value,
+);
 export const getDescriptionSection = createStructuredSelector({
   applyToAllAccounts: getApplyToAllAccounts,
   accountId: getAccountId,
   bankAccounts: getBankAccounts,
-  containsWords: state => getConditions(state).containsWords.value,
-  exactWords: state => getConditions(state).exactWords.value,
+  containsWords: getContainsWordsValue,
+  exactWords: getExactWordsValue,
+  equalAmounts: getEqualAmountsValue,
 });
 
-export const getSaveBankingRuleContent = state => ({
-  name: getName(state),
-  isInactiveRule: getIsInactiveRule(state),
-  applyToAllAccounts: getApplyToAllAccounts(state),
-  accountId: getAccountId(state),
-  supplierId: getSupplierId(state),
-  conditions: getConditions(state),
+export const getSaveBankingRuleContent = createStructuredSelector({
+  name: getName,
+  isInactiveRule: getIsInactiveRule,
+  applyToAllAccounts: getApplyToAllAccounts,
+  accountId: getAccountId,
+  supplierId: getSupplierId,
+  conditions: getConditions,
 });
 
 export const getNewBankingRuleParams = state => ({

@@ -5,7 +5,7 @@
   "applyToAllAccounts": "One bank account",
   "transactionDescription": "This is a description",
   "accountId": "123",
-  "contactId": "1",
+  "contactId": "2",
   "allocationType": "Percent",
   "allocations": [
       {
@@ -27,8 +27,13 @@
       "exactWords": {
           "id": 2,
           "value": "happy"
+      },
+      "equalAmounts": {
+        "id": 3,
+        "value": "50.99, 100.000"
       }
   },
+  "isReportable": true,
   "bankAccounts": [
     {
       "id": "123",
@@ -72,7 +77,15 @@
       "contactType": "Supplier",
       "displayName": "Cow Feed",
       "id": "2",
-      "displayId": "CUS000003"
+      "displayId": "CUS000003",
+      "isPaymentReportable": false
+    },
+    {
+      "contactType": "Supplier",
+      "displayName": "Chicken Feed",
+      "id": "3",
+      "displayId": "CUS000004",
+      "isPaymentReportable": true
     }
   ],
   "taxCodes": [

@@ -13,6 +13,10 @@
     "exactWords": {
         "id": 2,
         "value": "happy"
+    },
+    "equalAmounts": {
+      "id": 3,
+      "value": "50.99, 100.000"
     }
   },
   "bankAccounts": [

@@ -14,6 +14,9 @@
     },
     "exactWords": {
       "value": ""
+    },
+    "equalAmounts": {
+      "value": ""
     }
   },
   "bankAccounts": [
@@ -59,7 +62,15 @@
       "contactType": "Supplier",
       "displayName": "Cow Feed",
       "id": "2",
-      "displayId": "CUS000003"
+      "displayId": "CUS000003",
+      "isPaymentReportable": false
+    },
+    {
+      "contactType": "Supplier",
+      "displayName": "Chicken Feed",
+      "id": "3",
+      "displayId": "CUS000004",
+      "isPaymentReportable": true
     }
   ],
   "taxCodes": [

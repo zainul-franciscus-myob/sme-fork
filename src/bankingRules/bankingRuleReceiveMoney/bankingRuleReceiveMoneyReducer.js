@@ -44,6 +44,10 @@ const getDefaultState = () => ({
       id: undefined,
       value: '',
     },
+    equalAmounts: {
+      id: undefined,
+      value: '',
+    },
   },
   allocationAccounts: [],
   bankAccounts: [],
@@ -205,8 +209,9 @@ const formatAmount = (state, { index }) => {
   };
 };
 
+const isCondition = key => ['exactWords', 'containsWords', 'equalAmounts'].includes(key);
 const updateForm = (state, action) => {
-  if (action.key === 'exactWords' || action.key === 'containsWords') {
+  if (isCondition(action.key)) {
     return {
       ...state,
       conditions: {

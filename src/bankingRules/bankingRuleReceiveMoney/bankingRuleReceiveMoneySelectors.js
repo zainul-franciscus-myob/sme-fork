@@ -62,12 +62,25 @@ export const getIsPercentageRed = createSelector(
   percentageRemaining => percentageRemaining === 0,
 );
 
+const getContainsWordsValue = createSelector(
+  getConditions,
+  conditions => conditions.containsWords.value,
+);
+const getExactWordsValue = createSelector(
+  getConditions,
+  conditions => conditions.exactWords.value,
+);
+const getEqualAmountsValue = createSelector(
+  getConditions,
+  conditions => conditions.equalAmounts.value,
+);
 export const getDescriptionSection = createStructuredSelector({
   applyToAllAccounts: getApplyToAllAccounts,
   accountId: getAccountId,
   bankAccounts: getBankAccounts,
-  containsWords: state => getConditions(state).containsWords.value,
-  exactWords: state => getConditions(state).exactWords.value,
+  containsWords: getContainsWordsValue,
+  exactWords: getExactWordsValue,
+  equalAmounts: getEqualAmountsValue,
 });
 
 export const getTableData = createSelector(
@@ -105,16 +118,16 @@ export const getIsInputField = (state, { index }) => {
   return isLast;
 };
 
-export const getSaveBankingRuleContent = state => ({
-  name: getName(state),
-  isInactiveRule: getIsInactiveRule(state),
-  applyToAllAccounts: getApplyToAllAccounts(state),
-  transactionDescription: getTransactionDescription(state),
-  accountId: getAccountId(state),
-  contactId: getContactId(state),
-  allocationType: getAllocationType(state),
-  allocations: getAllocations(state),
-  conditions: getConditions(state),
+export const getSaveBankingRuleContent = createStructuredSelector({
+  name: getName,
+  isInactiveRule: getIsInactiveRule,
+  applyToAllAccounts: getApplyToAllAccounts,
+  transactionDescription: getTransactionDescription,
+  accountId: getAccountId,
+  contactId: getContactId,
+  allocationType: getAllocationType,
+  allocations: getAllocations,
+  conditions: getConditions,
 });
 
 export const getNewBankingRuleParams = state => ({
