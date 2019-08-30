@@ -1,18 +1,35 @@
 import {
   buildPayHistoryEntries,
   buildPayHistoryEntry,
+  getAssignedMonthForPeriod,
   getCombinedTableRows,
   getExpenseTableRows,
   getFormattedActivity,
   getIsFutureMonth,
   getLeaveTableRows,
-  getMonthFromPeriod,
+  getMonthsInPeriod,
   getPayHistoryDetailsPayload,
   getUpdatedPayHistoryItems,
+  getUpdatedPayHistoryItemsFromFilterOptions,
 } from '../PayrollPayHistorySelectors';
 
 describe('PayrollPayHistorySelectors', () => {
-  describe('getMonthFromPeriod', () => {
+  describe('getMonthsInPeriod', () => {
+    it.each([
+      ['Quarter1', ['July', 'August', 'September']],
+      ['Quarter2', ['October', 'November', 'December']],
+      ['Quarter3', ['January', 'February', 'March']],
+      ['Quarter4', ['April', 'May', 'June']],
+      ['YearToDate', ['July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April', 'May', 'June']],
+      ['July', ['July']],
+    ])('should get months in period', (period, expected) => {
+      const actual = getMonthsInPeriod(period);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getAssignedMonthForPeriod', () => {
     it.each([
       ['July', 'July'],
       ['August', 'August'],
@@ -31,8 +48,10 @@ describe('PayrollPayHistorySelectors', () => {
       ['Quarter3', 'January'],
       ['Quarter4', 'April'],
       ['YearToDate', 'July'],
-    ])('should get month from pay history period filter', (period, expected) => {
-      const actual = getMonthFromPeriod(period);
+    ])('should get assigned month from pay history period filter', (
+      period, expected,
+    ) => {
+      const actual = getAssignedMonthForPeriod(period);
 
       expect(actual).toEqual(expected);
     });
@@ -626,11 +645,222 @@ describe('PayrollPayHistorySelectors', () => {
     });
   });
 
+  describe('getUpdatedPayHistoryItemsFromFilterOptions', () => {
+    describe('getGroupedPayHistoryItems', () => {
+      it('should create pay history group from months in period', () => {
+        const currentPeriod = 'July';
+        const nextPeriod = 'Quarter1';
+        const payItemId = '11';
+        const payItemType = 'WagesPayrollCategory';
+        const groupLine = { total: '6000.00', activity: 5001, month: 'group' };
+        const lines = [
+          { total: '3000.00', activity: 2500.50, month: 'July' },
+          { total: '3000.00', activity: 2500.50, month: 'August' },
+          { total: '3000.00', activity: 2500.50, month: 'April' },
+        ];
+        const state = {
+          payrollDetails: {
+            payHistoryDetails: {
+              filterOptions: { period: currentPeriod },
+              payHistoryItems: [
+                {
+                  id: '1', payItemId, payItemType, lines,
+                },
+              ],
+            },
+          },
+        };
+
+        const expected = [
+          {
+            id: '1',
+            payItemId,
+            payItemType,
+            lines: [...lines, groupLine],
+          },
+        ];
+
+        const actual = getUpdatedPayHistoryItemsFromFilterOptions(state, nextPeriod);
+
+        expect(actual).toEqual(expected);
+      });
+
+      it('should create new pay history group', () => {
+        const currentPeriod = 'July';
+        const nextPeriod = 'Quarter1';
+        const payItemId = '11';
+        const payItemType = 'WagesPayrollCategory';
+        const state = {
+          payrollDetails: {
+            payHistoryDetails: {
+              filterOptions: { period: currentPeriod },
+              payHistoryItems: [
+                {
+                  id: '1', payItemId, payItemType, lines: [],
+                },
+              ],
+            },
+          },
+        };
+
+        const expected = [
+          {
+            id: '1',
+            payItemId,
+            payItemType,
+            lines: [{ total: '0.00', activity: 0, month: 'group' }],
+          },
+        ];
+
+        const actual = getUpdatedPayHistoryItemsFromFilterOptions(state, nextPeriod);
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe('getUngroupedPayHistoryItems', () => {
+      it('should update the total of the first month of the group', () => {
+        const currentPeriod = 'Quarter1';
+        const nextPeriod = 'July';
+        const payItemId = '11';
+        const payItemType = 'WagesPayrollCategory';
+        const state = {
+          payrollDetails: {
+            payHistoryDetails: {
+              filterOptions: { period: currentPeriod },
+              payHistoryItems: [
+                {
+                  id: '1',
+                  payItemId,
+                  payItemType,
+                  lines: [
+                    { total: '3000.00', activity: 2500.50, month: 'July' },
+                    { total: '3000.00', activity: 2500.50, month: 'August' },
+                    { total: '3000.00', activity: 2500.50, month: 'November' },
+                    { total: '9000.00', activity: 5001, month: 'group' },
+                  ],
+                },
+              ],
+            },
+          },
+        };
+
+        const expected = [
+          {
+            id: '1',
+            payItemId,
+            payItemType,
+            lines: [
+              { total: '6000.00', activity: 2500.50, month: 'July' },
+              { total: '3000.00', activity: 2500.50, month: 'August' },
+              { total: '3000.00', activity: 2500.50, month: 'November' },
+            ],
+          },
+        ];
+
+        const actual = getUpdatedPayHistoryItemsFromFilterOptions(state, nextPeriod);
+
+        expect(actual).toEqual(expected);
+      });
+
+      it('should create line for the first month of the group', () => {
+        const currentPeriod = 'Quarter1';
+        const nextPeriod = 'July';
+        const payItemId = '11';
+        const payItemType = 'WagesPayrollCategory';
+        const state = {
+          payrollDetails: {
+            payHistoryDetails: {
+              filterOptions: { period: currentPeriod },
+              payHistoryItems: [
+                {
+                  id: '1',
+                  payItemId,
+                  payItemType,
+                  lines: [
+                    { total: '3000.00', activity: 2500.50, month: 'August' },
+                    { total: '9000.00', activity: 5001, month: 'group' },
+                  ],
+                },
+              ],
+            },
+          },
+        };
+
+        const expected = [
+          {
+            id: '1',
+            payItemId,
+            payItemType,
+            lines: [
+              { total: '3000.00', activity: 2500.50, month: 'August' },
+              { total: '6000.00', activity: 0, month: 'July' },
+            ],
+          },
+        ];
+
+        const actual = getUpdatedPayHistoryItemsFromFilterOptions(state, nextPeriod);
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe('getUngroupedPayHistoryItems and getGroupedPayHistoryItems', () => {
+      it('should ungroup the current period group and group a new period group', () => {
+        const currentPeriod = 'Quarter1';
+        const nextPeriod = 'YearToDate';
+        const payItemId = '11';
+        const payItemType = 'WagesPayrollCategory';
+        const state = {
+          payrollDetails: {
+            payHistoryDetails: {
+              filterOptions: { period: currentPeriod },
+              payHistoryItems: [
+                {
+                  id: '1',
+                  payItemId,
+                  payItemType,
+                  lines: [
+                    { total: '3000.00', activity: 2500.50, month: 'July' },
+                    { total: '3000.00', activity: 2500.50, month: 'August' },
+                    { total: '3000.00', activity: 2500.50, month: 'November' },
+                    { total: '9000.00', activity: 5001, month: 'group' },
+                  ],
+                },
+              ],
+            },
+          },
+        };
+
+        const expected = [
+          {
+            id: '1',
+            payItemId,
+            payItemType,
+            lines: [
+              { total: '6000.00', activity: 2500.50, month: 'July' },
+              { total: '3000.00', activity: 2500.50, month: 'August' },
+              { total: '3000.00', activity: 2500.50, month: 'November' },
+              { total: '12000.00', activity: 7501.5, month: 'group' },
+            ],
+          },
+        ];
+
+        const actual = getUpdatedPayHistoryItemsFromFilterOptions(state, nextPeriod);
+
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
+
   describe('getPayHistoryDetailsPayload', () => {
     it('should return pay history items for save', () => {
       const state = {
         payrollDetails: {
           payHistoryDetails: {
+            filterOptions: {
+              period: 'July',
+            },
             payHistoryItems: [
               {
                 id: '1',
@@ -674,6 +904,9 @@ describe('PayrollPayHistorySelectors', () => {
       const state = {
         payrollDetails: {
           payHistoryDetails: {
+            filterOptions: {
+              period: 'July',
+            },
             payHistoryItems: [
               {
                 id: '1',
@@ -694,6 +927,50 @@ describe('PayrollPayHistorySelectors', () => {
 
       const expected = {
         payHistoryItems: [],
+      };
+
+      const actual = getPayHistoryDetailsPayload(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should upgroup pay history items before save', () => {
+      const state = {
+        payrollDetails: {
+          payHistoryDetails: {
+            filterOptions: {
+              period: 'Quarter1',
+            },
+            payHistoryItems: [
+              {
+                id: '1',
+                payItemId: '11',
+                payItemType: 'WagesPayrollCategory',
+                lines: [
+                  { total: '1100.00', activity: 1000, month: 'July' },
+                  { total: '1100.00', activity: 1000, month: 'August' },
+                  { total: '1100.00', activity: 1000, month: 'September' },
+                  { total: '3350.00', activity: 3000, month: 'group' },
+                ],
+              },
+            ],
+          },
+        },
+      };
+
+      const expected = {
+        payHistoryItems: [
+          {
+            id: '1',
+            payItemId: '11',
+            payItemType: 'WagesPayrollCategory',
+            lines: [
+              { month: 'July', adjustment: 150 },
+              { month: 'August', adjustment: 100 },
+              { month: 'September', adjustment: 100 },
+            ],
+          },
+        ],
       };
 
       const actual = getPayHistoryDetailsPayload(state);

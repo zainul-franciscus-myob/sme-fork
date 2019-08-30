@@ -1,6 +1,7 @@
 import {
   getFormattedActivity,
   getUpdatedPayHistoryItems,
+  getUpdatedPayHistoryItemsFromFilterOptions,
 } from '../selectors/PayrollPayHistorySelectors';
 
 const setPayrollPayHistoryState = (state, partialPayHistoryDetails) => ({
@@ -19,13 +20,18 @@ const setPayrollPayHistoryAndPageEdited = (state, partialPayHistoryDetails) => (
   isPageEdited: true,
 });
 
-export const setPayrollPayHistoryFilterOptions = (state, { key, value }) => {
+export const setPayrollPayHistoryFilterOptions = (state, { value: period }) => {
   const updatedFilterOptions = {
     ...state.payrollDetails.payHistoryDetails.filterOptions,
-    [key]: value,
+    period,
   };
 
-  return setPayrollPayHistoryState(state, { filterOptions: updatedFilterOptions });
+  const updatedPayHistoryItems = getUpdatedPayHistoryItemsFromFilterOptions(state, period);
+
+  return setPayrollPayHistoryState(state, {
+    filterOptions: updatedFilterOptions,
+    payHistoryItems: updatedPayHistoryItems,
+  });
 };
 
 export const setPayrollPayHistoryItemInput = (state, { payItemId, payItemType, value: total }) => (
