@@ -628,16 +628,16 @@ describe('PayrollPayHistorySelectors', () => {
   });
 
   describe('getFormattedActivity', () => {
-    it('should allow up to 2 decimals for Activity (hrs)', () => {
-      const expected = '1.12';
+    it('should allow up to 3 decimals for Activity (hrs)', () => {
+      const expected = '1.123';
 
       const actual = getFormattedActivity({ key: 'hours', value: '1.1234' });
 
       expect(actual).toEqual(expected);
     });
 
-    it('should allow up to 3 decimals for Activity ($)', () => {
-      const expected = '1.123';
+    it('should allow up to 2 decimals for Activity ($)', () => {
+      const expected = '1.12';
 
       const actual = getFormattedActivity({ key: 'amount', value: '1.1234' });
 

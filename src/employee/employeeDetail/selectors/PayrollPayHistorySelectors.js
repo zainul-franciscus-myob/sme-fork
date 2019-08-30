@@ -33,11 +33,11 @@ const financialYear = {
 };
 
 const getPayHistoryFormattedHours = amount => (
-  formatNumberWithDecimalScaleRange(amount, 2, 2)
+  formatNumberWithDecimalScaleRange(amount, 2, 3)
 );
 
 const getPayHistoryFormattedAmount = amount => (
-  formatNumberWithDecimalScaleRange(amount, 2, 3)
+  formatNumberWithDecimalScaleRange(amount, 2, 2)
 );
 
 const getPeriod = state => state.payrollDetails.payHistoryDetails.filterOptions.period;
