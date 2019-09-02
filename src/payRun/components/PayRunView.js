@@ -1,45 +1,42 @@
-import { Alert, BaseTemplate, PageHead } from '@myob/myob-widgets';
+import { Alert, BaseTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading, getStep } from '../selectors/PayRunSelectors';
+import {
+  getAlert, getIsLoading, getModal, getStep,
+} from '../PayRunSelectors';
 import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
-import PayRunActions from './PayRunActions';
-import StartPayRunView from './StartPayRunView';
+import ModalContainer from './ModalContainer';
 
 const PayRunView = ({
+  stepViews,
+  step,
   isLoading,
   alert,
-  step,
+  modal,
   onDismissAlert,
-  onNextButtonClick,
-  onPayPeriodChange,
+  onDismissModal,
+  onGoBack,
 }) => {
+  const modalcontainer = modal && (
+    <ModalContainer
+      modal={modal}
+      onDismissModal={onDismissModal}
+      onGoBack={onGoBack}
+    />
+  );
+
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
     </Alert>
   );
 
-  const stepView = [
-    <StartPayRunView
-      onPayPeriodChange={onPayPeriodChange}
-    />,
-    <div>Step 2 - WIP</div>,
-  ][step];
-
-  const title = [
-    'Create pay run',
-  ][step];
-
   const view = (
     <BaseTemplate>
-      <PageHead title={title} />
       { alertComponent }
-      { stepView }
-      <PayRunActions
-        onNextButtonClick={onNextButtonClick}
-      />
+      { modalcontainer }
+      { stepViews[step] }
     </BaseTemplate>
   );
 
@@ -50,6 +47,7 @@ const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   alert: getAlert(state),
   step: getStep(state),
+  modal: getModal(state),
 });
 
 export default connect(mapStateToProps)(PayRunView);

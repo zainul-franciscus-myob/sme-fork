@@ -1,5 +1,5 @@
 import {
-  DatePicker, FieldGroup, FormHorizontal, Select,
+  DatePicker, FieldGroup, FormHorizontal, PageHead, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,10 +7,11 @@ import React from 'react';
 import {
   getRegularPayCycleOptions,
   getStartPayRun,
-} from '../selectors/PayRunSelectors';
-import FormCard from '../../components/FormCard/FormCard';
-import handleDatePickerChange from '../../components/handlers/handleDatePickerChange';
-import handleSelectChange from '../../components/handlers/handleSelectChange';
+} from '../StartPayRunSelectors';
+import FormCard from '../../../components/FormCard/FormCard';
+import PayRunActions from '../../components/PayRunActions';
+import handleDatePickerChange from '../../../components/handlers/handleDatePickerChange';
+import handleSelectChange from '../../../components/handlers/handleSelectChange';
 import styles from './StartPayRunView.module.css';
 
 const StartPayRunView = ({
@@ -22,8 +23,10 @@ const StartPayRunView = ({
   },
   regularPayCycleOptions,
   onPayPeriodChange,
+  onNextButtonClick,
 }) => (
   <div className={styles.startPayRun}>
+    <PageHead title="Create pay run" />
     <FormHorizontal>
       <FormCard>
         <FieldGroup label="Select pay period">
@@ -45,6 +48,9 @@ const StartPayRunView = ({
         </FieldGroup>
       </FormCard>
     </FormHorizontal>
+    <PayRunActions
+      onNextButtonClick={onNextButtonClick}
+    />
   </div>
 );
 

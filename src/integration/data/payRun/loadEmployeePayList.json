@@ -1,0 +1,20 @@
+[
+  {
+    "employeeId": "21",
+    "name": "Mary Jones",
+    "gross": 1500,
+    "payg": 100,
+    "deduction": 300,
+    "netPay": 700,
+    "super": 150
+  },
+  {
+    "employeeId": "22",
+    "name": "John Smith",
+    "gross": 2250.55,
+    "payg": 125,
+    "deduction": 315,
+    "netPay": 1005.15,
+    "super": 200
+  }
+]

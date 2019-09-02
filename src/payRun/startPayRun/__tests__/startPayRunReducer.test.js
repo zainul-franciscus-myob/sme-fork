@@ -1,8 +1,8 @@
 import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../../PayRunIntents';
-import payRunReducer from '../payRunReducer';
+import payRunReducer from '../../payRunReducer';
 import startNewPayRun from '../../../integration/data/payRun/startNewPayRun.json';
 
-describe('payRunReducer', () => {
+describe('startPayRunReducer', () => {
   describe('startNewPayRun', () => {
     it('should set default start date', () => {
       const state = {
@@ -25,8 +25,8 @@ describe('payRunReducer', () => {
           paymentDate: '2019-08-01',
           payPeriodStart: '2019-07-26',
           payPeriodEnd: '2019-08-01',
+          regularPayCycleOptions: startNewPayRun.regularPayCycleOptions,
         },
-        regularPayCycleOptions: startNewPayRun.regularPayCycleOptions,
       };
 
       const actual = payRunReducer(state, action);

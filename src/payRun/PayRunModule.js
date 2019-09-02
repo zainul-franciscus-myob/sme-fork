@@ -1,11 +1,13 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import EmployeePayListModule from './employeePayList/EmployeePayListModule';
 import PayRunView from './components/PayRunView';
+import StartPayRunModule from './startPayRun/StartPayRunModule';
 import Store from '../store/Store';
-import createPayRunDispatcher from './createPayRunDispatcher';
+import createPayRunDispatchers from './createPayRunDispatchers';
 import createPayRunIntegrator from './createPayRunIntegrator';
-import payRunReducer from './reducer/payRunReducer';
+import payRunReducer from './payRunReducer';
 
 export default class PayRunModule {
   constructor({
@@ -17,8 +19,20 @@ export default class PayRunModule {
     this.setRootView = setRootView;
     this.store = new Store(payRunReducer);
     this.pushMessage = pushMessage;
-    this.dispatcher = createPayRunDispatcher(this.store);
+    this.dispatcher = createPayRunDispatchers(this.store);
     this.integrator = createPayRunIntegrator(this.store, integration);
+    this.subModules = {
+      startPayRunModule: new StartPayRunModule({
+        integration,
+        store: this.store,
+        pushMessage,
+      }),
+      employeePayListModule: new EmployeePayListModule({
+        integration,
+        store: this.store,
+        pushMessage,
+      }),
+    };
   }
 
   startNewPayRun = () => {
@@ -36,28 +50,22 @@ export default class PayRunModule {
     this.integrator.startNewPayRun({ onSuccess, onFailure });
   };
 
-  loadEmployeePays = () => {
-    this.dispatcher.setLoadingState(true);
-
-    const onSuccess = () => {
-      this.dispatcher.setLoadingState(false);
-      this.dispatcher.nextStep();
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
-      this.dispatcher.setAlert({ type: 'danger', message });
-    };
-
-    this.integrator.loadEmployeePays({ onSuccess, onFailure });
+  goBack = () => {
+    this.dispatcher.previousStep();
+    this.dispatcher.closeModal();
   };
 
   render = () => {
+    const stepViews = Object
+      .keys(this.subModules)
+      .map(module => this.subModules[module].getView());
+
     const payRunView = (
       <PayRunView
-        onPayPeriodChange={this.dispatcher.setPayPeriodDetails}
-        onNextButtonClick={this.loadEmployeePays}
+        stepViews={stepViews}
         onDismissAlert={this.dispatcher.dismissAlert}
+        onDismissModal={this.dispatcher.closeModal}
+        onGoBack={this.goBack}
       />
     );
 

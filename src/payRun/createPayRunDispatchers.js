@@ -1,13 +1,15 @@
 import {
+  CLOSE_MODAL,
   NEXT_STEP,
+  OPEN_MODAL,
+  PREVIOUS_STEP,
   SET_ALERT,
   SET_LOADING_STATE,
-  SET_PAY_PERIOD_DETAILS,
   START_NEW_PAY_RUN,
 } from './PayRunIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 
-const createPayRunDispatcher = store => ({
+const createPayRunDispatchers = store => ({
   setInitialState: (context) => {
     const intent = SET_INITIAL_STATE;
     store.dispatch({ intent, context });
@@ -28,6 +30,23 @@ const createPayRunDispatcher = store => ({
     store.dispatch({ intent, alert: undefined });
   },
 
+  openModal: ({ type }) => {
+    const intent = OPEN_MODAL;
+    store.dispatch({
+      intent,
+      modal: {
+        type,
+      },
+    });
+  },
+
+  closeModal: () => {
+    const intent = CLOSE_MODAL;
+    store.dispatch({
+      intent,
+    });
+  },
+
   setLoadingState: (isLoading) => {
     const intent = SET_LOADING_STATE;
     store.dispatch({ intent, isLoading });
@@ -38,15 +57,15 @@ const createPayRunDispatcher = store => ({
     store.dispatch({ intent, ...response });
   },
 
-  setPayPeriodDetails: ({ key, value }) => {
-    const intent = SET_PAY_PERIOD_DETAILS;
-    store.dispatch({ intent, key, value });
-  },
-
   nextStep: () => {
     const intent = NEXT_STEP;
     store.dispatch({ intent });
   },
+
+  previousStep: () => {
+    const intent = PREVIOUS_STEP;
+    store.dispatch({ intent });
+  },
 });
 
-export default createPayRunDispatcher;
+export default createPayRunDispatchers;
