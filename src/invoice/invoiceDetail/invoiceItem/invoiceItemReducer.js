@@ -19,7 +19,6 @@ import {
   SET_ALERT,
   SET_MODAL_ALERT,
   SET_MODAL_TYPE,
-  SET_SHOW_EMAIL_MODAL_AFTER_SAVE,
   SET_SUBMITTING_STATE,
   UPDATE_EMAIL_INVOICE_DETAIL,
   UPDATE_INVOICE_ID_AFTER_CREATE,
@@ -29,6 +28,7 @@ import {
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import SaveActionType from '../SaveActionType';
 import createReducer from '../../../store/createReducer';
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
@@ -61,10 +61,9 @@ const getDefaultState = () => ({
   isPageEdited: false,
   alert: undefined,
   modalAlert: undefined,
-  shouldShowEmailModalAfterSave: false,
   modalType: InvoiceDetailModalType.NONE,
   invoiceId: '',
-  openSendEmail: false,
+  saveActionType: SaveActionType.SAVE,
   invoice: {
     customerId: '',
     address: '',
@@ -115,8 +114,8 @@ const getDefaultState = () => ({
   comments: [],
 });
 
-const getModalType = (openSendEmailModal, emailInvoice) => {
-  if (openSendEmailModal === 'true') {
+const getModalType = (shouldOpenEmailModal, emailInvoice) => {
+  if (shouldOpenEmailModal) {
     return emailInvoice.hasEmailReplyDetails
       ? InvoiceDetailModalType.EMAIL_INVOICE
       : InvoiceDetailModalType.EMAIL_SETTINGS;
@@ -124,10 +123,14 @@ const getModalType = (openSendEmailModal, emailInvoice) => {
   return InvoiceDetailModalType.NONE;
 };
 
-const getModalAlert = alertMessage => alertMessage && ({
-  type: 'success',
-  message: alertMessage.content,
-});
+const setModalAndPageAlert = (shouldOpenEmailModal, alertMessage) => {
+  const alert = ({
+    type: 'success',
+    message: alertMessage.content,
+  });
+
+  return shouldOpenEmailModal ? { modalAlert: alert } : { pageAlert: alert };
+};
 
 const setEmailInvoiceDetail = emailInvoice => ({
   ...getEmailInvoiceDefaultState,
@@ -135,6 +138,10 @@ const setEmailInvoiceDetail = emailInvoice => ({
   toEmail: emailInvoice.toEmail.length > 0 ? emailInvoice.toEmail : [''],
   ccToEmail: emailInvoice.ccToEmail.length > 0 ? emailInvoice.ccToEmail : [''],
 });
+
+const getShouldOpenEmailModal = (openSendEmailParam, invoiceId) => (
+  invoiceId !== 'newItem' && openSendEmailParam === 'true'
+);
 
 const setInitialState = (state, action) => {
   const {
@@ -156,11 +163,12 @@ const setInitialState = (state, action) => {
     message,
   } = action.context;
 
-  const modalType = getModalType(
-    openSendEmail,
-    emailInvoice,
-  );
-  const modalAlert = getModalAlert(message);
+  const shouldOpenEmailModal = getShouldOpenEmailModal(openSendEmail, invoiceId);
+  const modalType = getModalType(shouldOpenEmailModal, emailInvoice);
+  const { modalAlert, pageAlert } = message
+    ? setModalAndPageAlert(shouldOpenEmailModal, message)
+    : {};
+
   const defaultState = getDefaultState();
 
   return {
@@ -194,6 +202,7 @@ const setInitialState = (state, action) => {
     comments,
     modalType,
     modalAlert,
+    alert: pageAlert,
   };
 };
 
@@ -345,11 +354,6 @@ const formatLineAmount = (state, action) => {
   };
 };
 
-const setShowEmailModalAfterSave = (state, action) => ({
-  ...state,
-  shouldShowEmailModalAfterSave: action.shouldShowEmailModalAfterSave,
-});
-
 const resetEmailInvoiceDetail = state => ({
   ...state,
   emailInvoice: state.emailInvoiceDefaultState,
@@ -395,7 +399,6 @@ const handlers = {
   [REMOVE_LINE]: removeLine,
   [RESET_TOTALS]: resetTotals,
   [FORMAT_LINE_AMOUNT]: formatLineAmount,
-  [SET_SHOW_EMAIL_MODAL_AFTER_SAVE]: setShowEmailModalAfterSave,
   [RESET_EMAIL_INVOICE_DETAIL]: resetEmailInvoiceDetail,
   [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,

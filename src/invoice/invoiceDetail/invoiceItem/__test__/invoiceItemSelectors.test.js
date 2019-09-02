@@ -1,8 +1,14 @@
 import {
   getAmountDue,
+  getCreateDuplicateInvoiceURL,
+  getCreateNewInvoiceItemURL,
   getDisplayDaysForMonth,
   getExpirationTermsLabel,
   getExpiredDate,
+  getInvoiceListURL,
+  getInvoiceReadUpdateWithEmailModalURL,
+  getInvoiceUrlParams,
+  getNewInvoiceUrlParams,
   getPaymentTermsPopoverLabel,
   getShowExpirationDaysAmountInput,
   getShowExpiryDaysOptions,
@@ -285,6 +291,73 @@ describe('InvoiceItemSelectors', () => {
         },
       };
       expect(getAmountDue(state)).toEqual('152.85');
+    });
+  });
+
+  describe('getNewInvoiceUrlParams', () => {
+    it('returns the correct params for creating a new invoice', () => {
+      const state = { businessId: 'abc' };
+      const actual = getNewInvoiceUrlParams(state);
+      const expected = { businessId: 'abc' };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getInvoiceUrlParams', () => {
+    it('returns params that include businessId and invoiceId', () => {
+      const state = {
+        businessId: 'abc',
+        invoiceId: '1',
+      };
+      const actual = getInvoiceUrlParams(state);
+      const expected = {
+        businessId: 'abc',
+        invoiceId: '1',
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  const getURLState = {
+    region: 'au',
+    businessId: 'abc',
+    invoiceId: '1',
+  };
+  describe('getInvoiceListURL', () => {
+    it('returns the correct URL for invoice list page', () => {
+      const expected = '/#/au/abc/invoice';
+      const actual = getInvoiceListURL(getURLState);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getInvoiceReadUpdateViewWithEmailModalURL', () => {
+    it('returns the correct URL for invoice read/update screen', () => {
+      const expected = '/#/au/abc/invoice/1?openSendEmail=true';
+      const actual = getInvoiceReadUpdateWithEmailModalURL(getURLState);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getCreateNewInvoiceServiceURL', () => {
+    it('returns the correct URL to create a new invoice from another invoice CRUD page', () => {
+      const expected = '/#/au/abc/invoice/newItem';
+      const actual = getCreateNewInvoiceItemURL(getURLState);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getCreateDuplicateInvoiceURL', () => {
+    it('returns the correct URL to create a duplicate invoice from another invoice CRUD page', () => {
+      const expected = '/#/au/abc/invoice/newItem?duplicatedInvoiceId=1';
+      const actual = getCreateDuplicateInvoiceURL(getURLState);
+
+      expect(expected).toEqual(actual);
     });
   });
 });

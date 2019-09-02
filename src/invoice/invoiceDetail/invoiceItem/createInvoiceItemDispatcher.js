@@ -17,7 +17,6 @@ import {
   SET_ALERT,
   SET_MODAL_ALERT,
   SET_MODAL_TYPE,
-  SET_SHOW_EMAIL_MODAL_AFTER_SAVE,
   SET_SUBMITTING_STATE,
   UPDATE_EMAIL_INVOICE_DETAIL,
   UPDATE_INVOICE_ID_AFTER_CREATE,
@@ -96,13 +95,6 @@ const createInvoiceItemDispatcher = store => ({
   resetTotals: () => {
     store.dispatch({
       intent: RESET_TOTALS,
-    });
-  },
-
-  setShowEmailModalAfterSave: (isShow) => {
-    store.dispatch({
-      intent: SET_SHOW_EMAIL_MODAL_AFTER_SAVE,
-      shouldShowEmailModalAfterSave: isShow,
     });
   },
 

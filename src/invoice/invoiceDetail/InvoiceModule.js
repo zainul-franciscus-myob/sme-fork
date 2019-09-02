@@ -1,15 +1,17 @@
 import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
-import { LOAD_INVOICE_DETAIL } from '../InvoiceIntents';
 import {
+  LOAD_DUPLICATE_INVOICE_ITEM_DETAIL,
   LOAD_NEW_INVOICE_ITEM_DETAIL,
   LOAD_NEW_INVOICE_ITEM_DETAIL_FROM_QUOTE,
 } from './invoiceItem/InvoiceItemIntents';
 import {
+  LOAD_DUPLICATE_INVOICE_SERVICE_DETAIL,
   LOAD_NEW_INVOICE_SERVICE_DETAIL,
   LOAD_NEW_INVOICE_SERVICE_DETAIL_FROM_QUOTE,
 } from './invoiceService/InvoiceServiceIntents';
+import { LOAD_INVOICE_DETAIL } from '../InvoiceIntents';
 import { SUCCESSFULLY_EMAILED_INVOICE, SUCCESSFULLY_SAVED_INVOICE_ITEM, SUCCESSFULLY_SAVED_INVOICE_SERVICE } from './invoiceMessageTypes';
 import InvoiceItemModule from './invoiceItem/InvoiceItemModule';
 import InvoiceServiceModule from './invoiceService/InvoiceServiceModule';
@@ -21,7 +23,7 @@ const messageTypes = [
 ];
 export default class InvoiceModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, replaceURLParams,
+    integration, setRootView, pushMessage, popMessages, replaceURLParams, reload,
   }) {
     this.module = undefined;
     this.integration = integration;
@@ -30,6 +32,7 @@ export default class InvoiceModule {
     this.pushMessage = pushMessage;
     this.messageTypes = messageTypes;
     this.replaceURLParams = replaceURLParams;
+    this.reload = reload;
   }
 
   unsubscribeFromStore = () => {
@@ -45,6 +48,7 @@ export default class InvoiceModule {
       setRootView: this.setRootView,
       pushMessage: this.pushMessage,
       replaceURLParams: this.replaceURLParams,
+      reload: this.reload,
     };
     if (layout === 'service') {
       this.module = new InvoiceServiceModule(moduleParams);
@@ -54,20 +58,37 @@ export default class InvoiceModule {
     this.module.run({ context, payload, message });
   };
 
+  getLoadNewInvoiceServiceIntent = (context) => {
+    if (context.quoteId) {
+      return LOAD_NEW_INVOICE_SERVICE_DETAIL_FROM_QUOTE;
+    } if (context.duplicatedInvoiceId) {
+      return LOAD_DUPLICATE_INVOICE_SERVICE_DETAIL;
+    }
+    return LOAD_NEW_INVOICE_SERVICE_DETAIL;
+  }
+
+  getLoadNewInvoiceItemIntent = (context) => {
+    if (context.quoteId) {
+      return LOAD_NEW_INVOICE_ITEM_DETAIL_FROM_QUOTE;
+    } if (context.duplicatedInvoiceId) {
+      return LOAD_DUPLICATE_INVOICE_ITEM_DETAIL;
+    }
+    return LOAD_NEW_INVOICE_ITEM_DETAIL;
+  }
+
   loadInvoice = (context, message) => {
-    const { businessId, invoiceId, quoteId } = context;
+    const {
+      businessId, invoiceId, quoteId, duplicatedInvoiceId,
+    } = context;
     const urlParams = {
       businessId,
       invoiceId,
       quoteId,
+      duplicatedInvoiceId,
     };
 
-    const newServiceIntent = quoteId
-      ? LOAD_NEW_INVOICE_SERVICE_DETAIL_FROM_QUOTE
-      : LOAD_NEW_INVOICE_SERVICE_DETAIL;
-    const newItemIntent = quoteId
-      ? LOAD_NEW_INVOICE_ITEM_DETAIL_FROM_QUOTE
-      : LOAD_NEW_INVOICE_ITEM_DETAIL;
+    const newServiceIntent = this.getLoadNewInvoiceServiceIntent(context);
+    const newItemIntent = this.getLoadNewInvoiceItemIntent(context);
 
     const intent = {
       newService: newServiceIntent,

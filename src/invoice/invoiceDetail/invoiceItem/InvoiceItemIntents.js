@@ -1,5 +1,6 @@
 export const LOAD_NEW_INVOICE_ITEM_DETAIL = Symbol('Load a new invoice item detail');
 export const LOAD_NEW_INVOICE_ITEM_DETAIL_FROM_QUOTE = Symbol('Load a new invoice item detail from a quote');
+export const LOAD_DUPLICATE_INVOICE_ITEM_DETAIL = Symbol('Load duplicate invoice item detail');
 export const CREATE_INVOICE_ITEM_DETAIL = Symbol('Create a new invoice item detail');
 export const UPDATE_INVOICE_ITEM_DETAIL = Symbol('Update an invoice item detail');
 export const UPDATE_INVOICE_ITEM_OPTION = Symbol('Update invoice item option');

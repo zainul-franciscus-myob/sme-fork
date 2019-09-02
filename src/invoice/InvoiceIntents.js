@@ -17,6 +17,7 @@ export const SEND_EMAIL = Symbol('Send email');
 export const RESET_EMAIL_INVOICE_DETAIL = Symbol('Reset email invoice detail');
 export const RESET_OPEN_SEND_EMAIL = Symbol('Reset open send email');
 
+
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_MODAL_ALERT = Symbol('Set modal alert');

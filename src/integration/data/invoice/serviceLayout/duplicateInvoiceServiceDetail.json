@@ -1,21 +1,20 @@
 {
   "layout": "service",
-  "pageTitle": "Create quote",
-  "quote": {
-    "id": "5",
-    "customerId": "1",
-    "customerName": "A-Z Stationery Supplies",
-    "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
+  "invoice": {
+    "contactId": "2",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": "4",
-    "chargeForLatePayment": 0,
-    "discountForEarlyPayment": 0,
-    "numberOfDaysForDiscount": 1,
-    "isTaxInclusive": true,
-    "quoteNumber": "BL00000123",
-    "purchaseOrderNumber": "IN00000123",
+    "chargeForLatePayment": 123.12,
+    "discountForEarlyPayment": 3546.34,
+    "numberOfDaysForDiscount": 10,
+    "taxInclusive": true,
+    "number": "00000124",
+    "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
     "issueDate": "2018-11-02",
-    "notesToCustomer": "I'm a dupe",
+    "orderNumber": "123",
+    "notes": "Thank you!",
+    "amountPaid": "10.00",
+    "isAllowOnlinePayments": true,
     "lines": [
       {
         "id": "345",
@@ -104,20 +103,69 @@
             "displayRate": "5%"
           }
         ]
+      },
+      {
+        "id": "347",
+        "description": "Yak blow dry - 1/2 an hour",
+        "allocatedAccountId": "123",
+        "amount": "12.50",
+        "taxCodeId": "124",
+        "accounts": [
+          {
+            "id": "123",
+            "displayName": "My Sales Account 1",
+            "accountType": "Sales",
+            "taxCodeId": "123",
+            "displayId": "4-123"
+          },
+          {
+            "id": "456",
+            "displayName": "Sales Account 2",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "4-456"
+          },
+          {
+            "id": "789",
+            "displayName": "Expense Account",
+            "accountType": "Assets",
+            "taxCodeId": "124",
+            "displayId": "6-789"
+          }
+        ],
+        "taxCodes": [
+          {
+            "id": "123",
+            "displayName": "GST",
+            "description": "Goods & Service Tax",
+            "displayRate": "10%"
+          },
+          {
+            "id": "124",
+            "displayName": "FRE",
+            "description": "GST FREE",
+            "displayRate": "5%"
+          }
+        ]
       }
     ]
   },
-  "customerOptions": [
+  "payDirect": {
+    "isRegistered": false,
+    "baseUrl": "https://paydirectonline.myob.com/payments",
+    "serialNumber": "000000000000"
+  },
+  "contactOptions": [
     {
       "name": "A-Z Stationery Supplies",
       "value": "1"
     },
     {
-      "name": "Cow Feed",
+      "name": "Patrick Bateman",
       "value": "2"
     }
   ],
-  "expirationTerms": [
+  "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",
       "name": "Due on a date of this month"
@@ -143,20 +191,6 @@
       "name": "Due in a number of days after the end of the month"
     }
   ],
-  "taxCodes": [
-    {
-      "id": "2",
-      "displayName": "GST",
-      "description": "Goods & Service Tax",
-      "displayRate": "10%"
-    },
-    {
-      "id": "3",
-      "displayName": "FRE",
-      "description": "GST FREE",
-      "displayRate": "5%"
-    }
-  ],
   "newLine": {
     "description": "",
     "allocatedAccountId": "",
@@ -179,22 +213,31 @@
       },
       {
         "id": "789",
-        "displayName": "Expense Accou t",
+        "displayName": "Expense Account",
         "accountType": "Assets",
         "taxCodeId": "124",
         "displayId": "6-789"
       }
+    ],
+    "taxCodes": [
+      {
+        "id": "123",
+        "displayName": "GST",
+        "description": "Goods & Service Tax",
+        "displayRate": "10%"
+      },
+      {
+        "id": "124",
+        "displayName": "FRE",
+        "description": "GST FREE",
+        "displayRate": "5%"
+      }
     ]
   },
   "totals": {
-    "subTotal": "$1000.00",
-    "totalTax": "$5.00",
-    "totalAmount": "$1000.00"
+    "subTotal": "48.50",
+    "totalTax": "4.39",
+    "totalAmount": "48.30"
   },
-  "comments": [
-    { "value": "Happy Holiday!" },
-    { "value": "Great doing business" },
-    { "value": "don't call us we'll call you" }
-  ]
+  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"]
 }
-

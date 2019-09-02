@@ -5,6 +5,7 @@ import DeleteModal from '../../../components/modal/DeleteModal';
 import EmailInvoiceModal from './EmailInvoiceModal';
 import EmailSettingsModal from './EmailSettingsModal';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import InvoiceDetailSaveAndConfirmModal from './InvoiceDetailSaveAndConfirmModal';
 import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const InvoiceDetailModal = ({
@@ -13,6 +14,7 @@ const InvoiceDetailModal = ({
   isActionsDisabled,
   alert,
   confirmModalListeners,
+  saveAndConfirmModalListeners,
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
   applyPaymentUnsavedChangesListeners,
@@ -44,13 +46,24 @@ const InvoiceDetailModal = ({
     );
   }
 
-  if (modalType === InvoiceDetailModalType.DELETE) {
+  if (modalType === InvoiceDetailModalType.SAVE_AND_CREATE_NEW) {
     return (
-      <DeleteModal
-        onCancel={confirmModalListeners.onCloseConfirmModal}
-        onConfirm={confirmModalListeners.onDeleteModalConfirm}
-        title="Delete invoice"
-        description="Are you sure you want to delete this invoice?"
+      <InvoiceDetailSaveAndConfirmModal
+        title="Save and create new"
+        description="This will save your current invoice and create a new invoice. This means you will no longer be able to change the customer."
+        onCancel={saveAndConfirmModalListeners.onCloseModal}
+        onConfirmSave={saveAndConfirmModalListeners.onConfirmSaveAndCreateNew}
+      />
+    );
+  }
+
+  if (modalType === InvoiceDetailModalType.SAVE_AND_DUPLICATE) {
+    return (
+      <InvoiceDetailSaveAndConfirmModal
+        title="Save and duplicate"
+        description="This will save your current invoice and create a new invoice with the same information. This means you'll no longer be able to change the customer."
+        onCancel={saveAndConfirmModalListeners.onCloseModal}
+        onConfirmSave={saveAndConfirmModalListeners.onConfirmSaveAndDuplicate}
       />
     );
   }
@@ -62,6 +75,17 @@ const InvoiceDetailModal = ({
         onConfirmUnsave={applyPaymentUnsavedChangesListeners.onConfirmUnsave}
         onCancel={applyPaymentUnsavedChangesListeners.onCancel}
         isActionsDisabled={isActionsDisabled}
+      />
+    );
+  }
+
+  if (modalType === InvoiceDetailModalType.DELETE) {
+    return (
+      <DeleteModal
+        onCancel={confirmModalListeners.onCloseConfirmModal}
+        onConfirm={confirmModalListeners.onDeleteModalConfirm}
+        title="Delete invoice"
+        description="Are you sure you want to delete this invoice?"
       />
     );
   }

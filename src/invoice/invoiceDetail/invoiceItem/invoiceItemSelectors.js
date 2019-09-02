@@ -8,12 +8,10 @@ import ExpirationTerm from './enums/ExpirationTerm';
 import TaxState from './enums/TaxState';
 
 export const getBusinessId = state => state.businessId;
-
 export const getInvoiceId = state => state.invoiceId;
-
 export const getQuoteId = state => state.quoteId;
-
 export const getRegion = state => state.region;
+
 
 const getCustomers = state => state.customers;
 
@@ -358,3 +356,39 @@ const getOpenSendEmail = state => state.openSendEmail;
 export const getRouteURLParams = createStructuredSelector({
   openSendEmail: getOpenSendEmail,
 });
+
+export const getNewInvoiceUrlParams = state => ({
+  businessId: getBusinessId(state),
+});
+export const getInvoiceUrlParams = state => ({
+  businessId: getBusinessId(state),
+  invoiceId: getInvoiceId(state),
+});
+
+export const getShouldReload = state => state.invoiceId === 'newItem' && !state.duplicatedInvoiceId;
+
+export const getInvoiceListURL = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/invoice`,
+);
+
+export const getInvoiceReadUpdateWithEmailModalURL = createSelector(
+  getRegion,
+  getBusinessId,
+  getInvoiceId,
+  (region, businessId, invoiceId) => `/#/${region}/${businessId}/invoice/${invoiceId}?openSendEmail=true`,
+);
+
+export const getCreateNewInvoiceItemURL = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/invoice/newItem`,
+);
+
+export const getCreateDuplicateInvoiceURL = createSelector(
+  getRegion,
+  getBusinessId,
+  getInvoiceId,
+  (region, businessId, invoiceId) => `/#/${region}/${businessId}/invoice/newItem?duplicatedInvoiceId=${invoiceId}`,
+);

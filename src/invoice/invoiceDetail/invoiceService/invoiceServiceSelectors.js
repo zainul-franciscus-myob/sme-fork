@@ -311,3 +311,31 @@ export const getEmailInvoicePayload = (state) => {
   const { hasEmailReplyDetails, ...restOfEmailInvoice } = state.emailInvoice;
   return restOfEmailInvoice;
 };
+
+export const getShouldReload = state => state.invoiceId === 'newService' && !state.duplicatedInvoiceId;
+
+export const getInvoiceListURL = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/invoice`,
+);
+
+export const getInvoiceReadUpdateWithEmailModalURL = createSelector(
+  getRegion,
+  getBusinessId,
+  getInvoiceId,
+  (region, businessId, invoiceId) => `/#/${region}/${businessId}/invoice/${invoiceId}?openSendEmail=true`,
+);
+
+export const getCreateNewInvoiceServiceURL = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}/invoice/newService`,
+);
+
+export const getCreateDuplicateInvoiceURL = createSelector(
+  getRegion,
+  getBusinessId,
+  getInvoiceId,
+  (region, businessId, invoiceId) => `/#/${region}/${businessId}/invoice/newService?duplicatedInvoiceId=${invoiceId}`,
+);

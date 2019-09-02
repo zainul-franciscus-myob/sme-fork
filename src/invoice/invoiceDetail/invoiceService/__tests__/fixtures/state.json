@@ -124,6 +124,7 @@
     "totalTax": "-4.45",
     "totalAmount": "128.00"
   },
+  "region": "au",
   "businessId": "abc",
   "invoiceId": "1"
 }

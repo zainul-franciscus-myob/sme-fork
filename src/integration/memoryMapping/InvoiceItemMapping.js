@@ -1,11 +1,16 @@
 import {
-  CALCULATE_LINE, CREATE_INVOICE_ITEM_DETAIL,
+  CALCULATE_LINE,
+  CREATE_INVOICE_ITEM_DETAIL,
+  LOAD_DUPLICATE_INVOICE_ITEM_DETAIL,
   LOAD_NEW_INVOICE_ITEM_DETAIL,
   LOAD_NEW_INVOICE_ITEM_DETAIL_FROM_QUOTE,
-  REMOVE_LINE, UPDATE_INVOICE_ITEM_DETAIL,
+  REMOVE_LINE,
+  UPDATE_INVOICE_ITEM_DETAIL,
   UPDATE_INVOICE_ITEM_TAX_INCLUSIVE,
-  UPDATE_LINE_ITEM, UPDATE_LINE_TAX_CODE,
+  UPDATE_LINE_ITEM,
+  UPDATE_LINE_TAX_CODE,
 } from '../../invoice/invoiceDetail/invoiceItem/InvoiceItemIntents';
+import duplicateInvoiceItemDetail from '../data/invoice/itemLayout/duplicateInvoiceItemDetail';
 import invoiceItemChangeItem from '../data/invoice/itemLayout/invoiceItemChangeItem';
 import invoiceItemNewDetail from '../data/invoice/itemLayout/invoiceItemNewDetail';
 import invoiceItemNewDetailFromQuote from '../data/invoice/itemLayout/invoiceItemNewDetailFromQuote';
@@ -16,6 +21,8 @@ const loadNewInvoiceItemDetail = ({ onSuccess }) => onSuccess(invoiceItemNewDeta
 const loadNewInvoiceItemDetailFromQuote = ({ onSuccess }) => onSuccess(
   invoiceItemNewDetailFromQuote,
 );
+
+const loadDuplicateInvoiceItemDetail = ({ onSuccess }) => onSuccess(duplicateInvoiceItemDetail);
 
 const updateInvoiceItemTaxInclusive = ({ onSuccess }) => onSuccess(invoiceItemChangeItem);
 
@@ -37,6 +44,7 @@ const calculateLine = ({ onSuccess }) => onSuccess(invoiceItemChangeItem);
 const InvoiceItemMapping = {
   [LOAD_NEW_INVOICE_ITEM_DETAIL]: loadNewInvoiceItemDetail,
   [LOAD_NEW_INVOICE_ITEM_DETAIL_FROM_QUOTE]: loadNewInvoiceItemDetailFromQuote,
+  [LOAD_DUPLICATE_INVOICE_ITEM_DETAIL]: loadDuplicateInvoiceItemDetail,
   [UPDATE_INVOICE_ITEM_TAX_INCLUSIVE]: updateInvoiceItemTaxInclusive,
   [CREATE_INVOICE_ITEM_DETAIL]: createInvoiceItemDetail,
   [UPDATE_INVOICE_ITEM_DETAIL]: updateInvoiceItemDetail,

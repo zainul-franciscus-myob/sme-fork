@@ -1,0 +1,127 @@
+{
+  "layout": "item",
+  "invoice": {
+    "customerId": "1",
+    "expirationTerm": "OnADayOfTheMonth",
+    "expirationDays": 10,
+    "chargeForLatePayment": "123.12",
+    "discountForEarlyPayment": "546.34",
+    "numberOfDaysForDiscount": 10,
+    "isTaxInclusive": true,
+    "invoiceNumber": "IN00000124",
+    "purchaseOrderNumber": "PO123",
+    "isAllowOnlinePayments": false,
+    "note": "Thank you! Footloose",
+    "address": "Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n",
+    "issueDate": "2019-02-28T00:00:00",
+    "lines": [
+      {
+        "id": "1",
+        "units": "2",
+        "itemId": "3",
+        "description": "Cooler Large",
+        "unitPrice": "520",
+        "discount": "10",
+        "displayDiscount": "10.00",
+        "taxCodeId": "2",
+        "amount": "850.9111",
+        "displayAmount": "850.91",
+        "accountId": "92"
+      }
+    ]
+  },
+  "payDirect": {
+    "isRegistered": false,
+    "baseUrl": "https://paydirectonline.myob.com/payments",
+    "serialNumber": "000000000000"
+  },
+  "customers": [
+    {
+      "name": "Cameron, James",
+      "value": "1"
+    },
+    {
+      "name": "Kev",
+      "value": "2"
+    }
+  ],
+  "expirationTerms": [
+    {
+      "value": "OnADayOfTheMonth",
+      "name": "Due on a date of this month"
+    },
+    {
+      "value": "Prepaid",
+      "name": "Prepaid"
+    },
+    {
+      "value": "InAGivenNumberOfDays",
+      "name": "Due in a number of days after the issue date"
+    },
+    {
+      "value": "CashOnDelivery",
+      "name": "Cash on delivery"
+    },
+    {
+      "value": "DayOfMonthAfterEOM",
+      "name": "Due on a date of next month"
+    },
+    {
+      "value": "NumberOfDaysAfterEOM",
+      "name": "Due in a number of days after the end of the month"
+    }
+  ],
+  "items": [
+    {
+      "id": "3",
+      "itemId": "100",
+      "description": "Cooler Large"
+    },
+    {
+      "id": "4",
+      "itemId": "101",
+      "description": "Cooler Medium"
+    }
+  ],
+  "taxCodes": [
+    {
+      "id": "1",
+      "displayName": "GST",
+      "description": "Goods & Services Tax",
+      "displayRate": "10%"
+    },
+    {
+      "id": "2",
+      "displayName": "ABN",
+      "description": "No ABN Withholding",
+      "displayRate": "47%"
+    },
+    {
+      "id": "3",
+      "displayName": "FOO",
+      "description": "Consolidated",
+      "displayRate": "5%"
+    }
+  ],
+  "totals": {
+    "displaySubTotal": "$999.01",
+    "displayTotalTax": "$2.1",
+    "displayTotalAmount": "$1,001.11",
+    "displayAmountPaid": "$1000.00",
+    "amountPaid": "1000.00",
+    "displayAmountDue": "$1,200.05"
+  },
+  "newLine": {
+    "units": "",
+    "itemId": "",
+    "description": "",
+    "unitPrice": "",
+    "discount": "",
+    "displayDiscount": "",
+    "taxCodeId": "",
+    "amount": "",
+    "displayAmount": ""
+  },
+  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
+  "serialNumber": "000000000000"
+}

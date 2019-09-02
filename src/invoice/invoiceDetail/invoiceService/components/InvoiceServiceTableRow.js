@@ -63,6 +63,7 @@ const InvoiceServiceTableRow = ({
         hideLabel
         name="amount"
         value={amount}
+        textAlign="right"
         onChange={onAmountInputFieldChange}
         onBlur={onRowInputBlur}
       />

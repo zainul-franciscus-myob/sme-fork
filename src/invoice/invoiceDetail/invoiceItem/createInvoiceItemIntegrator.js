@@ -1,7 +1,13 @@
 import { CREATE_INVOICE_ITEM_DETAIL, UPDATE_INVOICE_ITEM_DETAIL } from './InvoiceItemIntents';
 import { DELETE_INVOICE_DETAIL, LOAD_CONTACT_ADDRESS, SEND_EMAIL } from '../../InvoiceIntents';
 import {
-  getBusinessId, getCustomerId, getEmailInvoicePayload, getInvoiceId, getInvoicePayload,
+  getBusinessId,
+  getCustomerId,
+  getEmailInvoicePayload,
+  getInvoiceId,
+  getInvoicePayload,
+  getInvoiceUrlParams,
+  getNewInvoiceUrlParams,
 } from './invoiceItemSelectors';
 
 const createInvoiceItemIntegrator = (store, integration) => ({
@@ -38,31 +44,13 @@ const createInvoiceItemIntegrator = (store, integration) => ({
     });
   },
 
-  createInvoice: ({ onSuccess, onFailure }) => {
+  saveInvoiceItemDetail: ({ isCreating, onSuccess, onFailure }) => {
     const state = store.getState();
-    const intent = CREATE_INVOICE_ITEM_DETAIL;
+    const intent = isCreating ? CREATE_INVOICE_ITEM_DETAIL : UPDATE_INVOICE_ITEM_DETAIL;
+    const urlParams = isCreating
+      ? getNewInvoiceUrlParams(state)
+      : getInvoiceUrlParams(state);
     const content = getInvoicePayload(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  updateInvoice: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-    const intent = UPDATE_INVOICE_ITEM_DETAIL;
-    const content = getInvoicePayload(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-      invoiceId: getInvoiceId(state),
-    };
 
     integration.write({
       intent,

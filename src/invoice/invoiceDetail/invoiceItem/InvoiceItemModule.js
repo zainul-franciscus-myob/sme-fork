@@ -13,9 +13,13 @@ import {
   areLinesCalculating,
   getAmountDue,
   getBusinessId,
+  getCreateDuplicateInvoiceURL,
+  getCreateNewInvoiceItemURL,
   getCustomerId,
   getHasEmailReplyDetails,
   getInvoiceId,
+  getInvoiceListURL,
+  getInvoiceReadUpdateWithEmailModalURL,
   getIsAnAmountLineInput,
   getIsCreating,
   getIsLineAmountDirty,
@@ -24,7 +28,7 @@ import {
   getNewLineIndex,
   getRegion,
   getRouteURLParams,
-  getShouldShowEmailModalAfterSave,
+  getShouldReload,
   getTotalsPayloadForCalculation,
   getTotalsPayloadForLineItemChange,
   getTotalsPayloadForLineRemoval,
@@ -33,6 +37,7 @@ import {
 } from './invoiceItemSelectors';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import InvoiceItemView from './components/InvoiceItemView';
+import SaveActionType from '../SaveActionType';
 import Store from '../../../store/Store';
 import createInvoiceItemDispatcher from './createInvoiceItemDispatcher';
 import createInvoiceItemIntegrator from './createInvoiceItemIntegrator';
@@ -42,12 +47,13 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class InvoiceItemModule {
   constructor({
-    integration, setRootView, pushMessage, replaceURLParams,
+    integration, setRootView, pushMessage, replaceURLParams, reload,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.replaceURLParams = replaceURLParams;
+    this.reload = reload;
     this.store = new Store(invoiceItemReducer);
     this.integrator = createInvoiceItemIntegrator(this.store, this.integration);
     this.dispatcher = createInvoiceItemDispatcher(this.store);
@@ -215,69 +221,73 @@ export default class InvoiceItemModule {
     );
   };
 
-  redirectToInvoiceReadUpdateView = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-    const invoiceId = getInvoiceId(state);
+  createOrUpdateInvoice = ({ onSuccess }) => {
+    this.dispatcher.setSubmittingState(true);
 
-    window.location.href = `/#/${region}/${businessId}/invoice/${invoiceId}?openSendEmail=true`;
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.displayFailureAlert(message);
+    };
+
+    this.integrator.saveInvoiceItemDetail({
+      isCreating: getIsCreating(this.store.getState()),
+      onSuccess,
+      onFailure,
+    });
   }
 
-  redirectToInvoiceList = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    window.location.href = `/#/${region}/${businessId}/invoice`;
-  };
-
-  createInvoice = () => {
-    this.dispatcher.setSubmittingState(true);
-
-    const onSuccess = ({ message, id }) => {
-      this.dispatcher.setSubmittingState(false);
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_INVOICE_ITEM,
-        content: message,
-      });
-      this.dispatcher.saveInvoiceIdForCreate(id);
-      this.transitionAfterSave();
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
-      this.displayFailureAlert(message);
-    };
-
-    this.integrator.createInvoice({
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  updateInvoice = () => {
-    this.dispatcher.setSubmittingState(true);
-
+  saveInvoice = () => {
     const onSuccess = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_INVOICE_ITEM,
-        content: message,
-      });
-      this.transitionAfterSave();
+      this.pushSuccessfulSaveMessage(message);
+      this.redirectToInvoiceList();
     };
 
-    const onFailure = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
-      this.displayFailureAlert(message);
+    this.createOrUpdateInvoice({ onSuccess });
+  }
+
+  executeSaveAndAction = saveAction => (saveAction === SaveActionType.SAVE_AND_CREATE_NEW
+    ? this.openSaveAndCreateNewModal()
+    : this.openSaveAndDuplicateModal())
+
+  saveAndCreateNewInvoice = () => {
+    const onSuccess = ({ message }) => {
+      const state = this.store.getState();
+      this.pushSuccessfulSaveMessage(message);
+
+      if (getShouldReload(state)) {
+        this.reload();
+      } else {
+        this.redirectToURL(getCreateNewInvoiceItemURL(state));
+      }
     };
 
-    this.integrator.updateInvoice({
-      onSuccess,
-      onFailure,
-    });
-  };
+    this.createOrUpdateInvoice({ onSuccess });
+  }
+
+  saveAndDuplicateInvoice = () => {
+    const onSuccess = (successResponse) => {
+      if (getIsCreating(this.store.getState())) {
+        this.dispatcher.saveInvoiceIdForCreate(successResponse.id);
+      }
+      this.pushSuccessfulSaveMessage(successResponse.message);
+      this.redirectToURL(getCreateDuplicateInvoiceURL(this.store.getState()));
+    };
+
+    this.createOrUpdateInvoice({ onSuccess });
+  }
+
+  saveAndEmailInvoice = () => {
+    const onSuccess = (successResponse) => {
+      if (getIsCreating(this.store.getState())) {
+        this.dispatcher.saveInvoiceIdForCreate(successResponse.id);
+      }
+      this.pushSuccessfulSaveMessage(successResponse.message);
+      this.redirectToURL(getInvoiceReadUpdateWithEmailModalURL(this.store.getState()));
+    };
+
+    this.createOrUpdateInvoice({ onSuccess });
+  }
 
   saveInvoiceAndRedirectToInvoicePayment = () => {
     const onSuccess = () => {
@@ -285,17 +295,7 @@ export default class InvoiceItemModule {
       this.openInvoicePayment();
     };
 
-    const onFailure = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
-      this.displayFailureAlert(message);
-    };
-
-    this.dispatcher.setSubmittingState(true);
-
-    this.integrator.updateInvoice({
-      onSuccess,
-      onFailure,
-    });
+    this.createOrUpdateInvoice({ onSuccess });
   }
 
   deleteInvoice = () => {
@@ -320,6 +320,38 @@ export default class InvoiceItemModule {
       onFailure,
     });
   };
+
+  updateEmailInvoiceDetail = ({ key, value }) => {
+    this.dispatcher.updateEmailInvoiceDetail(key, value);
+  }
+
+  sendEmail = () => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_EMAILED_INVOICE,
+        content: message,
+      });
+      this.redirectToInvoiceList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.closeEmailInvoiceDetailModal();
+      this.displayFailureAlert(message);
+    };
+
+    this.integrator.sendEmail({
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  updateAmountNewInvoicePaymentAmount = amount => (
+    this.dispatcher.updateAmountNewInvoicePaymentAmount(amount)
+  );
 
   getQueryFromParams = (params = {}) => {
     const encode = encodeURIComponent;
@@ -356,54 +388,12 @@ export default class InvoiceItemModule {
     this.closeEmailSettingsModal();
   }
 
-  transitionAfterSave = () => {
-    const state = this.store.getState();
-    if (getShouldShowEmailModalAfterSave(state)) {
-      this.redirectToInvoiceReadUpdateView();
-    } else {
-      this.redirectToInvoiceList();
-    }
+  redirectToURL = (url) => {
+    window.location.href = url;
   }
 
-  saveInvoice = () => {
-    const state = this.store.getState();
-    const isCreating = getIsCreating(state);
-    return isCreating
-      ? this.createInvoice()
-      : this.updateInvoice();
-  };
-
-  saveAndEmailInvoice = () => {
-    this.dispatcher.setShowEmailModalAfterSave(true);
-    this.saveInvoice();
-  }
-
-  updateEmailInvoiceDetail = ({ key, value }) => {
-    this.dispatcher.updateEmailInvoiceDetail(key, value);
-  }
-
-  sendEmail = () => {
-    this.dispatcher.setSubmittingState(true);
-
-    const onSuccess = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
-      this.pushMessage({
-        type: SUCCESSFULLY_EMAILED_INVOICE,
-        content: message,
-      });
-      this.redirectToInvoiceList();
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
-      this.closeEmailInvoiceDetailModal();
-      this.displayFailureAlert(message);
-    };
-
-    this.integrator.sendEmail({
-      onSuccess,
-      onFailure,
-    });
+  redirectToInvoiceList = () => {
+    this.redirectToURL(getInvoiceListURL(this.store.getState()));
   }
 
   openEmailInvoiceModal = () => {
@@ -421,7 +411,15 @@ export default class InvoiceItemModule {
 
   openEmailInvoiceDetailModal = () => {
     this.dispatcher.setModalType(InvoiceDetailModalType.EMAIL_INVOICE);
-  };
+  }
+
+  openSaveAndCreateNewModal = () => {
+    this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AND_CREATE_NEW);
+  }
+
+  openSaveAndDuplicateModal = () => {
+    this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AND_DUPLICATE);
+  }
 
   openCancelModal = () => {
     if (getIsPageEdited(this.store.getState())) {
@@ -447,13 +445,11 @@ export default class InvoiceItemModule {
 
   closeEmailSettingsModal = () => {
     this.setCloseModalType();
-    this.dispatcher.setShowEmailModalAfterSave(false);
     this.dispatcher.resetOpenSendEmailParam();
   }
 
   closeEmailInvoiceDetailModal = () => {
     this.setCloseModalType();
-    this.dispatcher.setShowEmailModalAfterSave(false);
     this.dispatcher.resetEmailInvoiceDetail();
     this.dispatcher.resetOpenSendEmailParam();
   }
@@ -468,9 +464,12 @@ export default class InvoiceItemModule {
 
   dismissModalAlert = () => this.dispatcher.dismissModalAlert();
 
-  updateAmountNewInvoicePaymentAmount = amount => (
-    this.dispatcher.updateAmountNewInvoicePaymentAmount(amount)
-  );
+  pushSuccessfulSaveMessage = (message) => {
+    this.pushMessage({
+      type: SUCCESSFULLY_SAVED_INVOICE_ITEM,
+      content: message,
+    });
+  }
 
   render = () => {
     const invoiceItemView = (
@@ -483,6 +482,7 @@ export default class InvoiceItemModule {
         onLineInputBlur={this.lineCalculation}
         onDismissAlert={this.dismissAlert}
         onSaveButtonClick={this.saveInvoice}
+        onSaveAndButtonClick={this.executeSaveAndAction}
         onSaveAndEmailButtonClick={this.saveAndEmailInvoice}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
@@ -490,6 +490,11 @@ export default class InvoiceItemModule {
           onCancelModalConfirm: this.redirectToInvoiceList,
           onDeleteModalConfirm: this.deleteInvoice,
           onCloseConfirmModal: this.closeConfirmModal,
+        }}
+        saveAndConfirmModalListeners={{
+          onCloseModal: this.closeConfirmModal,
+          onConfirmSaveAndCreateNew: this.saveAndCreateNewInvoice,
+          onConfirmSaveAndDuplicate: this.saveAndDuplicateInvoice,
         }}
         emailSettingsModalListeners={{
           onConfirm: this.openSalesSettingsTabAndCloseModal,

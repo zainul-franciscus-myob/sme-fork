@@ -7,7 +7,7 @@ import {
   SORT_AND_FILTER_INVOICE_LIST,
 } from '../../invoice/InvoiceIntents';
 import contactAddress from '../data/invoice/contactAddress';
-import invoiceDetail from '../data/invoice/serviceLayout/invoiceServiceDetail';
+import invoiceDetail from '../data/invoice/itemLayout/invoiceItemDetail';
 import invoiceListFilterResponse from '../data/invoice/filterInvoiceList';
 import invoiceListLoadResponse from '../data/invoice/loadInvoiceList';
 import successMessage from '../data/success';

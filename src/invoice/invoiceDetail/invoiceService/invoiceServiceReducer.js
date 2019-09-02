@@ -17,7 +17,6 @@ import {
   SET_ALERT,
   SET_MODAL_ALERT,
   SET_MODAL_TYPE,
-  SET_SHOW_EMAIL_MODAL_AFTER_SAVE,
   SET_SUBMITTING_STATE,
   UPDATE_EMAIL_INVOICE_DETAIL,
   UPDATE_INVOICE_ID_AFTER_CREATE,
@@ -28,6 +27,7 @@ import {
 } from '../../../SystemIntents';
 import { getDefaultTaxCodeId, getLineByIndex } from './invoiceServiceSelectors';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import SaveActionType from '../SaveActionType';
 import createReducer from '../../../store/createReducer';
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
@@ -48,7 +48,6 @@ const getEmailInvoiceDefaultState = () => ({
 
 const getDefaultState = () => ({
   invoiceId: '',
-  openSendEmail: false,
   invoice: {
     id: '',
     contactId: '',
@@ -97,12 +96,12 @@ const getDefaultState = () => ({
   alert: undefined,
   modalAlert: undefined,
   isSubmitting: false,
-  shouldShowEmailModalAfterSave: false,
+  saveActionType: SaveActionType.SAVE,
   comments: [],
 });
 
-const getModalType = (openSendEmailModal, emailInvoice) => {
-  if (openSendEmailModal === 'true') {
+const getModalType = (shouldOpenEmailModal, emailInvoice) => {
+  if (shouldOpenEmailModal) {
     return emailInvoice.hasEmailReplyDetails
       ? InvoiceDetailModalType.EMAIL_INVOICE
       : InvoiceDetailModalType.EMAIL_SETTINGS;
@@ -110,10 +109,14 @@ const getModalType = (openSendEmailModal, emailInvoice) => {
   return InvoiceDetailModalType.NONE;
 };
 
-const getModalAlert = alertMessage => alertMessage && ({
-  type: 'success',
-  message: alertMessage.content,
-});
+const setModalAndPageAlert = (shouldOpenEmailModal, alertMessage) => {
+  const alert = ({
+    type: 'success',
+    message: alertMessage.content,
+  });
+
+  return shouldOpenEmailModal ? { modalAlert: alert } : { pageAlert: alert };
+};
 
 const setEmailInvoiceDetail = emailInvoice => ({
   ...getEmailInvoiceDefaultState,
@@ -122,13 +125,24 @@ const setEmailInvoiceDetail = emailInvoice => ({
   ccToEmail: emailInvoice.ccToEmail.length > 0 ? emailInvoice.ccToEmail : [''],
 });
 
-const setInitalState = (state, action) => {
+const getShouldOpenEmailModal = (openSendEmailParam, invoiceId) => (
+  invoiceId !== 'newService' && openSendEmailParam === 'true'
+);
+
+const setInitialState = (state, action) => {
   const defaultState = getDefaultState();
-  const modalType = getModalType(
+
+  const shouldOpenEmailModal = getShouldOpenEmailModal(
     action.context.openSendEmail,
+    action.context.invoiceId,
+  );
+  const modalType = getModalType(
+    shouldOpenEmailModal,
     action.emailInvoice,
   );
-  const modalAlert = getModalAlert(action.message);
+  const { modalAlert, pageAlert } = action.message
+    ? setModalAndPageAlert(shouldOpenEmailModal, action.message)
+    : {};
 
   return ({
     ...defaultState,
@@ -151,6 +165,7 @@ const setInitalState = (state, action) => {
     comments: action.comments || defaultState.comments,
     modalType,
     modalAlert,
+    alert: pageAlert,
   });
 };
 
@@ -261,11 +276,6 @@ const removeInvoiceServiceLine = (state, action) => ({
   },
 });
 
-const setShowEmailModalAfterSave = (state, action) => ({
-  ...state,
-  shouldShowEmailModalAfterSave: action.shouldShowEmailModalAfterSave,
-});
-
 const resetEmailInvoiceDetail = state => ({
   ...state,
   emailInvoice: state.emailInvoiceDefaultState,
@@ -318,7 +328,7 @@ const updatePaymentAmount = (state, action) => ({
 });
 
 const handlers = {
-  [SET_INITIAL_STATE]: setInitalState,
+  [SET_INITIAL_STATE]: setInitialState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [RESET_STATE]: resetState,
   [UPDATE_INVOICE_SERVICE_HEADER_OPTIONS]: updateInvoiceServiceHeaderOptions,
@@ -329,7 +339,6 @@ const handlers = {
   [ADD_INVOICE_SERVICE_LINE]: addInvoiceServiceLine,
   [FORMAT_INVOICE_SERVICE_LINE]: formatInvoiceServiceLine,
   [REMOVE_INVOICE_SERVICE_LINE]: removeInvoiceServiceLine,
-  [SET_SHOW_EMAIL_MODAL_AFTER_SAVE]: setShowEmailModalAfterSave,
   [RESET_EMAIL_INVOICE_DETAIL]: resetEmailInvoiceDetail,
   [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,

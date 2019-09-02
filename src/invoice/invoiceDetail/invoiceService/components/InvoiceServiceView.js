@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getEmailInvoiceDetail, getIsActionsDisabled, getIsCreating, getModalAlert, getModalType,
+  getAlert, getEmailInvoiceDetail, getIsActionsDisabled, getModalAlert, getModalType,
 } from '../invoiceServiceSelectors';
 import InvoiceDetailModal from '../../components/InvoiceDetailModal';
 import InvoiceServiceActions from './InvoiceServiceActions';
@@ -14,7 +14,6 @@ import InvoiceServiceOptions from './InvoiceServiceOptions';
 import InvoiceServiceTable from './InvoiceServiceTable';
 
 const InvoiceServiceView = ({
-  isCreating,
   onUpdateHeaderOptions,
   onUpdateRow,
   onAddRow,
@@ -24,6 +23,7 @@ const InvoiceServiceView = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onSaveAndEmailButtonClick,
+  onSaveAndButtonClick,
   alert,
   onDismissAlert,
   modalType,
@@ -31,6 +31,7 @@ const InvoiceServiceView = ({
   isActionsDisabled,
   modalAlert,
   confirmModalListeners,
+  saveAndConfirmModalListeners,
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
   onChangeAmountToPay,
@@ -51,9 +52,9 @@ const InvoiceServiceView = ({
 
   const actions = (
     <InvoiceServiceActions
-      isCreating={isCreating}
       onSaveButtonClick={onSaveButtonClick}
       onSaveAndEmailButtonClick={onSaveAndEmailButtonClick}
+      onSaveAndButtonClick={onSaveAndButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
       onPayInvoiceButtonClick={onPayInvoiceButtonClick}
@@ -64,6 +65,7 @@ const InvoiceServiceView = ({
     <InvoiceDetailModal
       modalType={modalType}
       confirmModalListeners={confirmModalListeners}
+      saveAndConfirmModalListeners={saveAndConfirmModalListeners}
       emailSettingsModalListeners={emailSettingsModalListeners}
       emailInvoiceDetailModalListeners={emailInvoiceDetailModalListeners}
       emailInvoiceDetail={emailInvoiceDetail}
@@ -95,7 +97,6 @@ const InvoiceServiceView = ({
 };
 
 const mapStateToProps = state => ({
-  isCreating: getIsCreating(state),
   alert: getAlert(state),
   modalAlert: getModalAlert(state),
   modalType: getModalType(state),

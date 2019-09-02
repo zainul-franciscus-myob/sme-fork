@@ -2,7 +2,7 @@ import InvoiceListModule from './invoiceList/InvoiceListModule';
 import InvoiceModule from './invoiceDetail/InvoiceModule';
 
 const getInvoiceRoutes = ({
-  integration, setRootView, popMessages, pushMessage, replaceURLParams,
+  integration, setRootView, popMessages, pushMessage, replaceURLParams, reload,
 }) => {
   const routes = [
     {
@@ -15,9 +15,9 @@ const getInvoiceRoutes = ({
     {
       name: 'invoiceDetail',
       path: '/:invoiceId',
-      allowedParams: ['quoteId', 'openSendEmail'],
+      allowedParams: ['quoteId', 'openSendEmail', 'duplicatedInvoiceId'],
       module: new InvoiceModule({
-        integration, setRootView, pushMessage, popMessages, replaceURLParams,
+        integration, setRootView, pushMessage, popMessages, replaceURLParams, reload,
       }),
     },
   ];

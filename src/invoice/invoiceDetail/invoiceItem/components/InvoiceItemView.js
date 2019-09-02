@@ -15,6 +15,7 @@ const InvoiceItemView = ({
   onUpdateInvoiceOption,
   onUpdateTaxInclusive,
   onSaveButtonClick,
+  onSaveAndButtonClick,
   onSaveAndEmailButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
@@ -29,6 +30,7 @@ const InvoiceItemView = ({
   emailInvoiceDetail,
   isActionsDisabled,
   confirmModalListeners,
+  saveAndConfirmModalListeners,
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
   onChangeAmountToPay,
@@ -39,6 +41,7 @@ const InvoiceItemView = ({
     <InvoiceDetailModal
       modalType={modalType}
       confirmModalListeners={confirmModalListeners}
+      saveAndConfirmModalListeners={saveAndConfirmModalListeners}
       emailSettingsModalListeners={emailSettingsModalListeners}
       emailInvoiceDetailModalListeners={emailInvoiceDetailModalListeners}
       emailInvoiceDetail={emailInvoiceDetail}
@@ -58,6 +61,7 @@ const InvoiceItemView = ({
   const actions = (
     <InvoiceItemActions
       onSaveButtonClick={onSaveButtonClick}
+      onSaveAndButtonClick={onSaveAndButtonClick}
       onSaveAndEmailButtonClick={onSaveAndEmailButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}

@@ -1,11 +1,15 @@
 import {
   getContactUrlParams,
+  getCreateDuplicateInvoiceURL,
+  getCreateNewInvoiceServiceURL,
   getDisplayDaysForMonth,
   getEmailInvoicePayload,
   getExpirationTermsLabel,
   getExpiredDate,
+  getInvoiceListURL,
   getInvoiceOptions,
   getInvoicePayload,
+  getInvoiceReadUpdateWithEmailModalURL,
   getInvoiceUrlParams,
   getNewInvoiceUrlParams,
   getPaymentTermsPopoverLabel,
@@ -430,6 +434,42 @@ describe('InvoiceServiceSelectors', () => {
       };
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getInvoiceListURL', () => {
+    it('returns the correct URL for invoice list page', () => {
+      const expected = '/#/au/abc/invoice';
+      const actual = getInvoiceListURL(state);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getInvoiceReadUpdateViewWithEmailModalURL', () => {
+    it('returns the correct URL for invoice read/update screen', () => {
+      const expected = '/#/au/abc/invoice/1?openSendEmail=true';
+      const actual = getInvoiceReadUpdateWithEmailModalURL(state);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getCreateNewInvoiceServiceURL', () => {
+    it('returns the correct URL to create a new invoice from another invoice CRUD page', () => {
+      const expected = '/#/au/abc/invoice/newService';
+      const actual = getCreateNewInvoiceServiceURL(state);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getCreateDuplicateInvoiceURL', () => {
+    it('returns the correct URL to create a duplicate invoice from another invoice CRUD page', () => {
+      const expected = '/#/au/abc/invoice/newService?duplicatedInvoiceId=1';
+      const actual = getCreateDuplicateInvoiceURL(state);
+
+      expect(expected).toEqual(actual);
     });
   });
 });
