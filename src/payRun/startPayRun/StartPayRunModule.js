@@ -22,6 +22,7 @@ export default class StartPayRunModule {
     const onSuccess = (employeePays) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.loadEmployeePays(employeePays);
+      this.dispatcher.dismissAlert();
       this.dispatcher.nextStep();
     };
 
