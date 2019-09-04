@@ -130,7 +130,20 @@
       ]
     },
     "employerExpenseDetails": {
-      "expensePayItems": []
+      "expensePayItems": [
+        {
+          "id": "1",
+          "name": "Expense percent",
+          "type": "NewExpenseWithEverything",
+          "displayType": "Percent"
+        },
+        {
+          "id": "2",
+          "name": "Work Cover",
+          "type": "WorkCoverExpense",
+          "displayType": "Percent"
+        }
+      ]
     },
     "standardPayDetails": {
       "description": "With great power comes great responsibility",

@@ -1,17 +1,22 @@
 import {
   ADD_ALLOCATED_LEAVE_ITEM,
   ADD_DEDUCTION_PAY_ITEM_MODAL_ITEM,
+  ADD_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE,
+  ADD_EXPENSE_PAY_ITEM_MODAL_EXEMPTION_PAY_ITEM,
   ADD_LEAVE_PAY_ITEM_MODAL_EMPLOYEE,
   ADD_LEAVE_PAY_ITEM_MODAL_EXEMPTION,
   ADD_LEAVE_PAY_ITEM_MODAL_LINKED_WAGE,
   ADD_PAYROLL_DEDUCTION_PAY_ITEM,
+  ADD_PAYROLL_EXPENSE_PAY_ITEM,
   ADD_PAYROLL_SUPER_PAY_ITEM,
   ADD_PAYROLL_TAX_PAY_ITEM,
   ADD_PAYROLL_WAGE_PAY_ITEM,
   ADD_SUPER_PAY_ITEM_MODAL_ITEM,
   ADD_WAGE_PAY_ITEM_MODAL_EMPLOYEE,
   ADD_WAGE_PAY_ITEM_MODAL_EXEMPTION,
+  CHANGE_EXPENSE_PAY_ITEM_MODAL_INPUT,
   CLOSE_DEDUCTION_PAY_ITEM_MODAL,
+  CLOSE_EXPENSE_PAY_ITEM_MODAL,
   CLOSE_LEAVE_PAY_ITEM_MODAL,
   CLOSE_MODAL,
   CLOSE_SUPER_FUND_MODAL,
@@ -19,16 +24,19 @@ import {
   CLOSE_TAX_PAY_ITEM_MODAL,
   CLOSE_WAGE_PAY_ITEM_MODAL,
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
+  CREATE_EXPENSE_PAY_ITEM_MODAL,
   CREATE_LEAVE_PAY_ITEM,
   CREATE_SUPER_FUND,
   CREATE_SUPER_PAY_ITEM_MODAL,
   CREATE_WAGE_PAY_ITEM_MODAL,
   FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
+  FORMAT_EXPENSE_PAY_ITEM_MODAL_AMOUNT_INPUT,
   FORMAT_PAYROLL_PAY_HISTORY_ITEM_INPUT,
   FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
+  LOAD_EXPENSE_PAY_ITEM_MODAL,
   LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_SUPER_FUND,
   LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE,
@@ -36,6 +44,7 @@ import {
   LOAD_TAX_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
   OPEN_DEDUCTION_PAY_ITEM_MODAL,
+  OPEN_EXPENSE_PAY_ITEM_MODAL,
   OPEN_LEAVE_PAY_ITEM_MODAL,
   OPEN_MODAL,
   OPEN_SUPER_FUND_MODAL,
@@ -44,10 +53,13 @@ import {
   OPEN_WAGE_PAY_ITEM_MODAL,
   REMOVE_ALLOCATED_LEAVE_ITEM,
   REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM,
+  REMOVE_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE,
+  REMOVE_EXPENSE_PAY_ITEM_MODAL_EXEMPTION_PAY_ITEM,
   REMOVE_LEAVE_PAY_ITEM_MODAL_EMPLOYEE,
   REMOVE_LEAVE_PAY_ITEM_MODAL_EXEMPTION,
   REMOVE_LEAVE_PAY_ITEM_MODAL_LINKED_WAGE,
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
+  REMOVE_PAYROLL_EXPENSE_PAY_ITEM,
   REMOVE_PAYROLL_STANDARD_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
@@ -64,6 +76,9 @@ import {
   SET_DEDUCTION_PAY_ITEM_MODAL_INPUT,
   SET_DEDUCTION_PAY_ITEM_MODAL_LOADING_STATE,
   SET_DEDUCTION_PAY_ITEM_MODAL_SUBMITTING_STATE,
+  SET_EXPENSE_PAY_ITEM_MODAL_ALERT,
+  SET_EXPENSE_PAY_ITEM_MODAL_LOADING_STATE,
+  SET_EXPENSE_PAY_ITEM_MODAL_SUBMITTING_STATE,
   SET_LEAVE_PAY_ITEM_MODAL_ALERT,
   SET_LEAVE_PAY_ITEM_MODAL_LOADING_STATE,
   SET_LEAVE_PAY_ITEM_MODAL_SUBMITTING_STATE,
@@ -95,6 +110,7 @@ import {
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
+  UPDATE_EXPENSE_PAY_ITEM_MODAL,
   UPDATE_LEAVE_PAY_ITEM,
   UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS,
   UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS,
@@ -281,6 +297,16 @@ const createEmployeeDetailDispatcher = store => ({
   formatAmountInput: ({ key, value }) => {
     const intent = FORMAT_PAYROLL_TAX_AMOUNT;
     store.dispatch({ intent, key, value });
+  },
+
+  addPayrollExpensePayItem: (payItem) => {
+    const intent = ADD_PAYROLL_EXPENSE_PAY_ITEM;
+    store.dispatch({ intent, payItem });
+  },
+
+  removePayrollExpensePayItem: (id) => {
+    const intent = REMOVE_PAYROLL_EXPENSE_PAY_ITEM;
+    store.dispatch({ intent, id });
   },
 
   addPayrollWagePayItem: (payItem) => {
@@ -497,6 +523,77 @@ const createEmployeeDetailDispatcher = store => ({
 
   removeWagePayItemModalExemptionFromSelectedList: (id) => {
     const intent = REMOVE_WAGE_PAY_ITEM_MODAL_EXEMPTION;
+    store.dispatch({ intent, id });
+  },
+
+  createExpensePayItemModal: (response) => {
+    const intent = CREATE_EXPENSE_PAY_ITEM_MODAL;
+    store.dispatch({ intent, response });
+  },
+
+  updateExpensePayItemModal: (response) => {
+    const intent = UPDATE_EXPENSE_PAY_ITEM_MODAL;
+    store.dispatch({ intent, response });
+  },
+
+  setExpensePayItemModalSubmittingState: (isSubmitting) => {
+    const intent = SET_EXPENSE_PAY_ITEM_MODAL_SUBMITTING_STATE;
+    store.dispatch({ intent, isSubmitting });
+  },
+
+  openExpensePayItemModal: (id) => {
+    const intent = OPEN_EXPENSE_PAY_ITEM_MODAL;
+    store.dispatch({ intent, id });
+  },
+
+  setExpensePayItemModalLoadingState: (isLoading) => {
+    const intent = SET_EXPENSE_PAY_ITEM_MODAL_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  loadExpensePayItemModal: (response) => {
+    const intent = LOAD_EXPENSE_PAY_ITEM_MODAL;
+    store.dispatch({ intent, response });
+  },
+
+  closeExpensePayItemModal: () => {
+    const intent = CLOSE_EXPENSE_PAY_ITEM_MODAL;
+    store.dispatch({ intent });
+  },
+
+  dismissExpensePayItemModalAlert: () => {
+    const intent = SET_EXPENSE_PAY_ITEM_MODAL_ALERT;
+    store.dispatch({ intent, alert: undefined });
+  },
+
+  changeExpensePayItemModalAlert: ({ key, value }) => {
+    const intent = CHANGE_EXPENSE_PAY_ITEM_MODAL_INPUT;
+    store.dispatch({ intent, key, value });
+  },
+
+  formatExpensePayItemModalAmountInput: () => {
+    const intent = FORMAT_EXPENSE_PAY_ITEM_MODAL_AMOUNT_INPUT;
+    store.dispatch({ intent });
+  },
+
+  addExpensePayItemModalAllocatedEmployee: ({ value }) => {
+    const intent = ADD_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE;
+    store.dispatch({ intent, id: value });
+  },
+
+  removeExpensePayItemModalAllocatedEmployee: (id) => {
+    const intent = REMOVE_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE;
+    store.dispatch({ intent, id });
+  },
+
+
+  addExpensePayItemModalExemptionPayItem: ({ value }) => {
+    const intent = ADD_EXPENSE_PAY_ITEM_MODAL_EXEMPTION_PAY_ITEM;
+    store.dispatch({ intent, id: value });
+  },
+
+  removeExpensePayItemModalExemptionPayItem: (id) => {
+    const intent = REMOVE_EXPENSE_PAY_ITEM_MODAL_EXEMPTION_PAY_ITEM;
     store.dispatch({ intent, id });
   },
 

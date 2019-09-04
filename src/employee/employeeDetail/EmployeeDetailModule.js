@@ -33,6 +33,7 @@ import {
   isPageEdited,
 } from './selectors/EmployeeDetailSelectors';
 import { getIsDeductionPayItemModalCreating } from './selectors/DeductionPayItemModalSelectors';
+import { getIsExpensePayItemModalCreating } from './selectors/ExpensePayItemModalSelectors';
 import { getIsLeavePayItemModalCreating } from './selectors/LeavePayItemModalSelectors';
 import {
   getIsSuperPayItemModalCreating,
@@ -471,6 +472,50 @@ export default class EmployeeDetailModule {
     this.integrator.loadDeductionPayItemModal({ onSuccess, onFailure });
   }
 
+  saveExpensePayItemModal = () => {
+    this.dispatcher.setExpensePayItemModalLoadingState(true);
+    this.dispatcher.setExpensePayItemModalSubmittingState(true);
+
+    const onSuccess = (response) => {
+      const state = this.store.getState();
+      const isCreating = getIsExpensePayItemModalCreating(state);
+
+      if (isCreating) {
+        this.dispatcher.createExpensePayItemModal(response);
+      } else {
+        this.dispatcher.updateExpensePayItemModal(response);
+      }
+
+      this.dispatcher.closeExpensePayItemModal();
+      this.dispatcher.setAlert({ type: 'success', message: response.message });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setExpensePayItemModalLoadingState(false);
+      this.dispatcher.setExpensePayItemModalSubmittingState(false);
+      this.dispatcher.setExpensePayItemModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.createOrUpdateExpensePayItemModal({ onSuccess, onFailure });
+  }
+
+  openExpensePayItemModal = (id) => {
+    this.dispatcher.openExpensePayItemModal(id);
+    this.dispatcher.setExpensePayItemModalLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setExpensePayItemModalLoadingState(false);
+      this.dispatcher.loadExpensePayItemModal(response);
+    };
+
+    const onFailure = (response) => {
+      this.dispatcher.closeExpensePayItemModal();
+      this.dispatcher.setAlert({ type: 'danger', message: response.message });
+    };
+
+    this.integrator.loadExpensePayItemModal({ onSuccess, onFailure });
+  }
+
   saveDeductionPayItemModal = () => {
     this.dispatcher.setDeductionPayItemModalLoadingState(true);
     this.dispatcher.setDeductionPayItemModalSubmittingState(true);
@@ -733,6 +778,9 @@ export default class EmployeeDetailModule {
         }}
         onEmploymentDetailsChange={this.dispatcher.updatePayrollEmploymentDetails}
         onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
+        onRemovePayrollExpensePayItem={this.dispatcher.removePayrollExpensePayItem}
+        onAddPayrollExpensePayItem={this.dispatcher.addPayrollExpensePayItem}
+        onOpenExpensePayItemModal={this.openExpensePayItemModal}
         onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
         onRemovePayrollDeductionPayItem={this.removePayrollDeductionPayItemAndStandardPayItem}
         onPayrollLeaveListeners={{
@@ -772,6 +820,17 @@ export default class EmployeeDetailModule {
           onSave: this.saveWagePayItemModal,
           onCancel: this.dispatcher.closeWagePayItemModal,
           onDismissAlert: this.dispatcher.dismissWagePayItemModalAlert,
+        }}
+        expensePayItemModalListeners={{
+          onDismissAlert: this.dispatcher.dismissExpensePayItemModalAlert,
+          onSave: this.saveExpensePayItemModal,
+          onCancel: this.dispatcher.closeExpensePayItemModal,
+          onChangeExpensePayItemInput: this.dispatcher.changeExpensePayItemModalAlert,
+          onBlurExpensePayItemAmountInput: this.dispatcher.formatExpensePayItemModalAmountInput,
+          onAddAllocatedEmployee: this.dispatcher.addExpensePayItemModalAllocatedEmployee,
+          onRemoveAllocatedEmployee: this.dispatcher.removeExpensePayItemModalAllocatedEmployee,
+          onAddExemptionPayItem: this.dispatcher.addExpensePayItemModalExemptionPayItem,
+          onRemoveExemptionPayItem: this.dispatcher.removeExpensePayItemModalExemptionPayItem,
         }}
         onOpenWagePayItemModal={this.onOpenWagePayItemModal}
         deductionPayItemModalListeners={{

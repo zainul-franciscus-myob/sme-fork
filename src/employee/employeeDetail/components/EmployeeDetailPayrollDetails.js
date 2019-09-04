@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
 import { getDeductionPayItemModal } from '../selectors/DeductionPayItemModalSelectors';
+import { getExpensePayItemModal } from '../selectors/ExpensePayItemModalSelectors';
 import { getLeavePayItemModal } from '../selectors/LeavePayItemModalSelectors';
 import { getSubTab } from '../selectors/EmployeeDetailSelectors';
 import { getSuperPayItemModal } from '../selectors/SuperPayItemModalSelectors';
@@ -14,9 +15,11 @@ import {
 } from '../tabItems';
 import DeductionPayItemModal from './DeductionPayItemModal/DeductionPayItemModal';
 import EmploymentDetails from './EmploymentDetails';
+import ExpensePayItemModal from './ExpensePayItemModal/ExpensePayItemModal';
 import LeavePayItemModal from './LeavePayItemModal/LeavePayItemModal';
 import PayrollDeductionDetails from './PayrollDeductionDetails/PayrollDeductionDetails';
 import PayrollDetailSuperannuation from './PayrollSuperDetails/PayrollDetailSuperannuation';
+import PayrollExpenseDetails from './PayrollExpenseDetails/PayrollExpenseDetails';
 import PayrollLeaveDetail from './PayrollLeaveDetail';
 import PayrollPayHistoryDetails from './PayrollPayHistoryDetails/PayrollPayHistoryDetails';
 import PayrollStandardPayDetails from './PayrollStandardPayDetails/PayrollStandardPayDetails';
@@ -30,6 +33,7 @@ const EmployeeDetailPayrollDetails = ({
   selectedTab,
   leavePayItemModal,
   deductionPayItemModal,
+  expensePayItemModal,
   superPayItemModal,
   taxPayItemModal,
   wagePayItemModal,
@@ -38,6 +42,9 @@ const EmployeeDetailPayrollDetails = ({
   onEmploymentPaySlipDeliveryChange,
   onAddPayrollDeductionPayItem,
   onRemovePayrollDeductionPayItem,
+  onAddPayrollExpensePayItem,
+  onRemovePayrollExpensePayItem,
+  onOpenExpensePayItemModal,
   onPayrollLeaveListeners,
   onPayrollStandardPayListeners,
   onPayrollPayHistoryListeners,
@@ -46,6 +53,7 @@ const EmployeeDetailPayrollDetails = ({
   onRemovePayrollSuperPayItem,
   onOpenDeductionPayItemModal,
   wagePayItemModalListeners,
+  expensePayItemModalListeners,
   onOpenWagePayItemModal,
   deductionPayItemModalListeners,
   onAddPayrollTaxPayItem,
@@ -87,6 +95,14 @@ const EmployeeDetailPayrollDetails = ({
       onAddPayrollDeductionPayItem={onAddPayrollDeductionPayItem}
       onRemovePayrollDeductionPayItem={onRemovePayrollDeductionPayItem}
       onOpenDeductionPayItemModal={onOpenDeductionPayItemModal}
+    />
+  );
+
+  const Expenses = () => (
+    <PayrollExpenseDetails
+      onAddPayrollExpensePayItem={onAddPayrollExpensePayItem}
+      onRemovePayrollExpensePayItem={onRemovePayrollExpensePayItem}
+      onOpenExpensePayItemModal={onOpenExpensePayItemModal}
     />
   );
 
@@ -142,6 +158,7 @@ const EmployeeDetailPayrollDetails = ({
     [payrollDetailsSubTabIds.salaryAndWages]: Wages,
     [payrollDetailsSubTabIds.leave]: Leave,
     [payrollDetailsSubTabIds.deductions]: Deductions,
+    [payrollDetailsSubTabIds.expenses]: Expenses,
     [payrollDetailsSubTabIds.superannuation]: Superannuation,
     [payrollDetailsSubTabIds.taxes]: Taxes,
     [payrollDetailsSubTabIds.standardPay]: StandardPay,
@@ -160,6 +177,7 @@ const EmployeeDetailPayrollDetails = ({
       {deductionPayItemModal && <DeductionPayItemModal {...deductionPayItemModalListeners} />}
       {superPayItemModal && <SuperPayItemModal {...superPayItemModalListeners} />}
       {taxPayItemModal && <TaxPayItemModal {...taxPayItemModalListeners} />}
+      {expensePayItemModal && <ExpensePayItemModal {...expensePayItemModalListeners} />}
       {wagePayItemModal && <WagePayItemModal {...wagePayItemModalListeners} />}
     </Fragment>
   );
@@ -169,6 +187,7 @@ const mapStateToProps = state => ({
   selectedTab: getSubTab(state),
   leavePayItemModal: getLeavePayItemModal(state),
   deductionPayItemModal: getDeductionPayItemModal(state),
+  expensePayItemModal: getExpensePayItemModal(state),
   superPayItemModal: getSuperPayItemModal(state),
   taxPayItemModal: getTaxPayItemModal(state),
   wagePayItemModal: getWagePayItemModal(state),

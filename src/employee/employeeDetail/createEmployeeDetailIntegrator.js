@@ -1,6 +1,7 @@
 import {
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_EMPLOYEE,
+  CREATE_EXPENSE_PAY_ITEM_MODAL,
   CREATE_LEAVE_PAY_ITEM,
   CREATE_SUPER_FUND,
   CREATE_SUPER_PAY_ITEM_MODAL,
@@ -9,9 +10,11 @@ import {
   LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
+  LOAD_EXPENSE_PAY_ITEM_MODAL,
   LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_NEW_EMPLOYEE_DETAIL,
+  LOAD_NEW_EXPENSE_PAY_ITEM_MODAL,
   LOAD_NEW_LEAVE_PAY_ITEM,
   LOAD_NEW_SUPER_FUND,
   LOAD_NEW_SUPER_PAY_ITEM_MODAL,
@@ -22,6 +25,7 @@ import {
   LOAD_WAGE_PAY_ITEM_MODAL,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EMPLOYEE,
+  UPDATE_EXPENSE_PAY_ITEM_MODAL,
   UPDATE_LEAVE_PAY_ITEM,
   UPDATE_SUPER_PAY_ITEM_MODAL,
   UPDATE_TAX_PAY_ITEM_MODAL,
@@ -38,6 +42,11 @@ import {
   getIsDeductionPayItemModalCreating,
 } from './selectors/DeductionPayItemModalSelectors';
 import { getEmployeePayload } from './selectors/EmployeePayloadSelectors';
+import {
+  getExpensePayItemModalId,
+  getIsExpensePayItemModalCreating,
+  getSaveExpensePayItemModalPayload,
+} from './selectors/ExpensePayItemModalSelectors';
 import {
   getIsLeavePayItemModalCreating,
   getLeavePayItemId,
@@ -162,6 +171,51 @@ const createEmployeeDetailIntegrator = (store, integration) => ({
       onFailure,
     });
   },
+
+  loadExpensePayItemModal: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const isCreating = getIsExpensePayItemModalCreating(state);
+
+    const intent = isCreating
+      ? LOAD_NEW_EXPENSE_PAY_ITEM_MODAL
+      : LOAD_EXPENSE_PAY_ITEM_MODAL;
+
+    const businessId = getBusinessId(state);
+    const payItemId = isCreating ? undefined : getExpensePayItemModalId(state);
+
+    const urlParams = { businessId, payItemId };
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  createOrUpdateExpensePayItemModal: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const isCreating = getIsExpensePayItemModalCreating(state);
+
+    const intent = isCreating
+      ? CREATE_EXPENSE_PAY_ITEM_MODAL
+      : UPDATE_EXPENSE_PAY_ITEM_MODAL;
+
+    const businessId = getBusinessId(state);
+    const payItemId = isCreating ? undefined : getExpensePayItemModalId(state);
+    const urlParams = { businessId, payItemId };
+
+    const content = getSaveExpensePayItemModalPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
 
   loadWagePayItemModal: ({ onSuccess, onFailure }) => {
     const state = store.getState();

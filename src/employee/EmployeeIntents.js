@@ -67,6 +67,25 @@ export const REMOVE_ALLOCATED_LEAVE_ITEM = Symbol('Remove an allocated leave ite
 export const UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER = Symbol('Update an allocated leave item carry over amount');
 export const SET_ALLOCATED_LEAVE_ITEM_MODAL = Symbol('Set allocated leave item modal');
 
+export const SET_EXPENSE_PAY_ITEM_MODAL_ALERT = Symbol('Set expense pay item modal alert');
+export const CHANGE_EXPENSE_PAY_ITEM_MODAL_INPUT = Symbol('Change expense pay item modal input');
+export const FORMAT_EXPENSE_PAY_ITEM_MODAL_AMOUNT_INPUT = Symbol('Format expense pay item modal amount input');
+export const ADD_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE = Symbol('Add expense pay item modal allocated employee');
+export const REMOVE_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE = Symbol('Remove expense pay item modal allocated employee');
+export const ADD_EXPENSE_PAY_ITEM_MODAL_EXEMPTION_PAY_ITEM = Symbol('Add expense pay item modal exemption pay item');
+export const REMOVE_EXPENSE_PAY_ITEM_MODAL_EXEMPTION_PAY_ITEM = Symbol('Remove expense pay item modal exemption pay item');
+export const OPEN_EXPENSE_PAY_ITEM_MODAL = Symbol('Open expense pay item modal');
+export const SET_EXPENSE_PAY_ITEM_MODAL_LOADING_STATE = Symbol('Set expense pay item modal loading state');
+export const LOAD_NEW_EXPENSE_PAY_ITEM_MODAL = Symbol('Load new expense pay item modal');
+export const LOAD_EXPENSE_PAY_ITEM_MODAL = Symbol('Load expense pay item modal');
+export const CLOSE_EXPENSE_PAY_ITEM_MODAL = Symbol('Close expense pay item modal');
+export const SET_EXPENSE_PAY_ITEM_MODAL_SUBMITTING_STATE = Symbol('Set expense pay item modal submitting state');
+export const CREATE_EXPENSE_PAY_ITEM_MODAL = Symbol('Create expense pay item modal');
+export const UPDATE_EXPENSE_PAY_ITEM_MODAL = Symbol('Update expense pay item modal');
+
+export const ADD_PAYROLL_EXPENSE_PAY_ITEM = Symbol('Add payroll pay item');
+export const REMOVE_PAYROLL_EXPENSE_PAY_ITEM = Symbol('Remove payroll pay item');
+
 export const OPEN_WAGE_PAY_ITEM_MODAL = Symbol('Open wage pay item modal');
 export const SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE = Symbol('Set wage pay item modal loading state');
 export const SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE = Symbol('Set wage pay item modal submitting state');

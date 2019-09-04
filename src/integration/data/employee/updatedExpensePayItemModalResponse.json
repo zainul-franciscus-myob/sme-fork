@@ -1,0 +1,23 @@
+{
+  "message": "Great Work! You've done it well!",
+  "expensePayItem": {
+    "id": "42",
+    "name": "Workcover - 2",
+    "type": "SuperannuationExpensePayrollCategory",
+    "displayType": "Fixed Hour"
+  },
+  "expensePayItems": [
+    {
+      "id": "42",
+      "name": "Workcover - 2",
+      "type": "SuperannuationExpensePayrollCategory",
+      "displayType": "Fixed Hour"
+    },
+    {
+      "id": "41",
+      "name": "Workcover",
+      "type": "SuperannuationExpensePayrollCategory",
+      "displayType": "Percent"
+    }
+  ]
+}
