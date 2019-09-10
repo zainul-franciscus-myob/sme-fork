@@ -1,23 +1,32 @@
 {
   "message": "Great Work! You've done it well!",
   "expensePayItem": {
-    "id": "42",
-    "name": "Workcover - 2",
-    "type": "SuperannuationExpensePayrollCategory",
+    "id": "62",
+    "name": "Employer expense fixed hour - Updated",
+    "type": "ExpensePayrollCategory",
     "displayType": "Fixed Hour"
   },
   "expensePayItems": [
     {
-      "id": "42",
-      "name": "Workcover - 2",
-      "type": "SuperannuationExpensePayrollCategory",
-      "displayType": "Fixed Hour"
+      "id": "61",
+      "name": "Employer expense percent",
+      "type": "ExpensePayrollCategory",
+      "displayType": "Percent",
+      "calculationBasis": "Percent"
     },
     {
-      "id": "41",
-      "name": "Workcover",
-      "type": "SuperannuationExpensePayrollCategory",
-      "displayType": "Percent"
+      "id": "62",
+      "name": "Employer expense fixed hour - Updated",
+      "type": "ExpensePayrollCategory",
+      "displayType": "Fixed Hour",
+      "calculationBasis": "FixedHours"
+    },
+    {
+      "id": "63",
+      "name": "Employer expense user enter",
+      "type": "ExpensePayrollCategory",
+      "displayType": "User-Entered",
+      "calculationBasis": "UserEntered"
     }
   ]
 }

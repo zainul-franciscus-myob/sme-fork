@@ -355,7 +355,7 @@ describe('PayrollPayHistorySelectors', () => {
   });
 
   describe('getExpensePayItemEntries', () => {
-    it('should return allocated super (expense) pay items', () => {
+    it('should return allocated employer expense and super (expense) pay items', () => {
       const state = {
         payrollDetails: {
           superannuationDetails: {
@@ -364,18 +364,16 @@ describe('PayrollPayHistorySelectors', () => {
               { id: '33' },
             ],
           },
+          employerExpenseDetails: {
+            expensePayItems: [
+              { id: '61' },
+            ],
+          },
           payHistoryDetails: {
             filterOptions: {
               period: 'July',
             },
-            payHistoryItems: [
-              {
-                id: '1',
-                payItemId: '61',
-                payItemType: 'ExpensePayrollCategory',
-                lines: [{ month: 'July', activity: 10, total: '10.00' }],
-              },
-            ],
+            payHistoryItems: [],
           },
         },
         superPayItemOptions: [
@@ -407,12 +405,11 @@ describe('PayrollPayHistorySelectors', () => {
       const expected = {
         entries: [
           {
-            id: '1',
             payItemId: '61',
             payItemType: 'ExpensePayrollCategory',
             name: 'Employer expense percent',
-            hours: '10.00',
-            amount: '10.00',
+            hours: '0.00',
+            amount: '0.00',
             isHours: false,
             isAmount: true,
           },
@@ -900,7 +897,54 @@ describe('PayrollPayHistorySelectors', () => {
       expect(actual).toEqual(expected);
     });
 
-    it('should not return pay history item that has 0 adjustment and adjustment', () => {
+    it('should return pay history item that has pre-existing record', () => {
+      const state = {
+        payrollDetails: {
+          payHistoryDetails: {
+            filterOptions: {
+              period: 'July',
+            },
+            payHistoryItems: [
+              {
+                id: '1',
+                payItemId: '11',
+                payItemType: 'WagesPayrollCategory',
+                lines: [
+                  {
+                    total: '0.00',
+                    activity: 0,
+                    month: 'July',
+                    hasPayHistory: true,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      };
+
+      const expected = {
+        payHistoryItems: [
+          {
+            id: '1',
+            payItemId: '11',
+            payItemType: 'WagesPayrollCategory',
+            lines: [
+              {
+                adjustment: 0,
+                month: 'July',
+              },
+            ],
+          },
+        ],
+      };
+
+      const actual = getPayHistoryDetailsPayload(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should not return new pay history item that has 0 adjustment', () => {
       const state = {
         payrollDetails: {
           payHistoryDetails: {

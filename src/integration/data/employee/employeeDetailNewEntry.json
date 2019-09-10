@@ -390,18 +390,21 @@
       "id": "61",
       "name": "Employer expense percent",
       "type": "ExpensePayrollCategory",
+      "displayType": "Percent",
       "calculationBasis": "Percent"
     },
     {
       "id": "62",
       "name": "Employer expense fixed hour",
       "type": "ExpensePayrollCategory",
+      "displayType": "Fixed Hour",
       "calculationBasis": "FixedHours"
     },
     {
       "id": "63",
       "name": "Employer expense user enter",
       "type": "ExpensePayrollCategory",
+      "displayType": "User-Entered",
       "calculationBasis": "UserEntered"
     }
   ],

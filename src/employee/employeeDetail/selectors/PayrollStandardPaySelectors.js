@@ -4,6 +4,10 @@ import {
   getDeductionPayItems as getAllocatedDeductionPayItems,
   getDeductionPayItemOptions,
 } from './PayrollDeductionDetailSelectors';
+import {
+  getExpensePayItems as getAllocatedExpensePayItems,
+  getExpensePayItemOptions,
+} from './PayrollExpenseDetailSelectors';
 import { getAllocatedLeavePayItems, getLeavePayItemOptions } from './PayrollLeaveDetailSelectors';
 import { getAllocatedPayItems as getAllocatedSuperPayItems, getSuperPayItemOptions } from './PayrollSuperSelectors';
 import { getTaxPayItems as getAllocatedTaxPayItems, getTaxPayItemOptions } from './PayrollTaxSelectors';
@@ -76,7 +80,7 @@ export const getAmountFieldType = (payItemType, calculationBasis) => {
   }
 };
 
-const buildPayItemEntry = (standardPayItems, payItemOptions, allocatedPayItemId) => {
+export const buildPayItemEntry = (standardPayItems, payItemOptions, allocatedPayItemId) => {
   const { hours, amount, ...rest } = standardPayItems
     .find(({ payItemId: standardPayItemId }) => standardPayItemId === allocatedPayItemId) || {};
 
@@ -147,13 +151,12 @@ const getLeavePayItemEntries = createSelector(
     )),
 );
 
-const getExpensePayItemOptions = state => state.expensePayItemOptions;
 const getEmployerExpensePayItemEntries = createSelector(
   getStandardPayItems,
+  getAllocatedExpensePayItems,
   getExpensePayItemOptions,
-  (standardPayItems, payItemOptions) => standardPayItems
-    .filter(({ payItemId }) => payItemOptions.find(({ id }) => id === payItemId))
-    .map(({ payItemId: allocatedPayItemId }) => buildPayItemEntry(
+  (standardPayItems, allocatedPayItems, payItemOptions) => allocatedPayItems
+    .map(({ id: allocatedPayItemId }) => buildPayItemEntry(
       standardPayItems, payItemOptions, allocatedPayItemId,
     )),
 );

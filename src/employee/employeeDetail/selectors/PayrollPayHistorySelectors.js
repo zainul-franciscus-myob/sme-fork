@@ -5,6 +5,10 @@ import {
   getDeductionPayItems as getAllocatedDeductionPayItems,
   getDeductionPayItemOptions,
 } from './PayrollDeductionDetailSelectors';
+import {
+  getExpensePayItems as getAllocatedExpensePayItems,
+  getExpensePayItemOptions,
+} from './PayrollExpenseDetailSelectors';
 import { getAllocatedLeavePayItems, getLeavePayItemOptions } from './PayrollLeaveDetailSelectors';
 import { getAllocatedPayItems as getAllocatedSuperPayItems, getSuperPayItemOptions } from './PayrollSuperSelectors';
 import { getTaxPayItems as getAllocatedTaxPayItems, getTaxPayItemOptions } from './PayrollTaxSelectors';
@@ -225,12 +229,12 @@ const getLeavePayItemEntries = createSelector(
   },
 );
 
-const getExpensePayItemOptions = state => state.expensePayItemOptions;
 const getEmployerExpensePayItemEntries = createSelector(
   getFilteredPayHistoryItems,
+  getAllocatedExpensePayItems,
   getExpensePayItemOptions,
-  (payHistoryItems, payItemOptions) => (
-    buildPayHistoryEntries(payHistoryItems, [], payItemOptions)
+  (payHistoryItems, allocatedPayItems, payItemOptions) => (
+    buildPayHistoryEntries(payHistoryItems, allocatedPayItems, payItemOptions)
   ),
 );
 
@@ -477,11 +481,13 @@ export const getUpdatedPayHistoryItemsFromFilterOptions = (state, nextPeriod) =>
 };
 
 const getPayHistoryItemLinesPayload = lines => lines.reduce((accumulator, line) => {
-  const { month, activity, total: strTotal } = line;
+  const {
+    month, activity, total: strTotal, hasPayHistory,
+  } = line;
   const total = Number(strTotal);
   const adjustment = total - activity;
 
-  return activity || adjustment
+  return hasPayHistory || adjustment
     ? [...accumulator, { month, adjustment }]
     : accumulator;
 }, []);

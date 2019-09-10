@@ -132,16 +132,16 @@
     "employerExpenseDetails": {
       "expensePayItems": [
         {
-          "id": "1",
-          "name": "Expense percent",
-          "type": "NewExpenseWithEverything",
+          "id": "61",
+          "name": "Employer expense percent",
+          "type": "ExpensePayrollCategory",
           "displayType": "Percent"
         },
         {
-          "id": "2",
-          "name": "Work Cover",
-          "type": "WorkCoverExpense",
-          "displayType": "Percent"
+          "id": "62",
+          "name": "Employer expense fixed hour",
+          "type": "ExpensePayrollCategory",
+          "displayType": "Fixed Hour"
         }
       ]
     },
@@ -188,12 +188,14 @@
             {
               "total": "3000.00",
               "activity": 2500.50,
-              "month": "July"
+              "month": "July",
+              "hasPayHistory": true
             },
             {
               "total": "4000.00",
               "activity": 2500,
-              "month": "August"
+              "month": "August",
+              "hasPayHistory": true
             }
           ]
         },
@@ -205,12 +207,14 @@
             {
               "total": "1000.00",
               "activity": 2500,
-              "month": "August"
+              "month": "August",
+              "hasPayHistory": true
             },
             {
               "total": "500.00",
-              "activity": 500,
-              "month": "September"
+              "activity": 0,
+              "month": "September",
+              "hasPayHistory": true
             }
           ]
         },
@@ -222,7 +226,8 @@
             {
               "total": "0.00",
               "activity": 300,
-              "month": "August"
+              "month": "August",
+              "hasPayHistory": true
             }
           ]
         },
@@ -234,7 +239,8 @@
             {
               "total": "200.00",
               "activity": 200,
-              "month": "August"
+              "month": "August",
+              "hasPayHistory": true
             }
           ]
         }
@@ -571,18 +577,21 @@
       "id": "61",
       "name": "Employer expense percent",
       "type": "ExpensePayrollCategory",
+      "displayType": "Percent",
       "calculationBasis": "Percent"
     },
     {
       "id": "62",
       "name": "Employer expense fixed hour",
       "type": "ExpensePayrollCategory",
+      "displayType": "Fixed Hour",
       "calculationBasis": "FixedHours"
     },
     {
       "id": "63",
       "name": "Employer expense user enter",
       "type": "ExpensePayrollCategory",
+      "displayType": "User-Entered",
       "calculationBasis": "UserEntered"
     }
   ],

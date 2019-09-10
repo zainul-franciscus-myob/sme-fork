@@ -389,6 +389,7 @@ export default class EmployeeDetailModule {
         this.openDeductionPayItemModal(payItemId);
         break;
       case payItemTypes.expense:
+        this.openExpensePayItemModal(payItemId);
         break;
       case payItemTypes.superDeductionBeforeTax:
       case payItemTypes.superDeductionAfterTax:
