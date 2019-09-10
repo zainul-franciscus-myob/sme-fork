@@ -33,7 +33,7 @@
         "value": "50.99, 100.000"
       }
   },
-  "isReportable": true,
+  "isPaymentReportable": true,
   "bankAccounts": [
     {
       "id": "123",

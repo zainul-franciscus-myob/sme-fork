@@ -62,9 +62,8 @@ const getDefaultState = () => ({
   isPageEdited: false,
   alertMessage: '',
   modal: undefined,
-  isPaymentReportable: false,
+  isPaymentReportable: undefined,
 });
-
 const resetState = () => (getDefaultState());
 
 const setInitalState = (state, action) => ({
