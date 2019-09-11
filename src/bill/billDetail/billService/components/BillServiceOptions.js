@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
 import { getBillOptions } from '../billServiceSelectors';
-import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
+import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import styles from './BillServiceOptions.module.css';
 
 const onComboBoxChange = handler => (option) => {

@@ -2,33 +2,14 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  ADD_LINE,
   CALCULATE_LINE,
-  CLOSE_MODAL,
-  CREATE_BILL,
-  DELETE_BILL,
-  FORMAT_LINE_AMOUNT,
-  OPEN_MODAL,
   REMOVE_LINE,
-  RESET_TOTALS,
-  SET_ADDRESS,
-  SET_ALERT_MESSAGE,
-  SET_ARE_LINES_CALCULATING,
-  SET_LINE_AMOUNT_DIRTY,
-  SET_SUBMITTING_STATE,
-  TABLE_ROW_CHANGE,
-  UPDATE_BILL,
-  UPDATE_BILL_OPTION,
-  UPDATE_LINES,
   UPDATE_LINE_ITEM,
   UPDATE_LINE_TAX_CODE,
   UPDATE_TAX_INCLUSIVE,
 } from './BillItemIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_BILL_ITEM, SUCCESSFULLY_SAVED_BILL_ITEM } from '../billMessageTypes';
 import {
-  getBillId,
-  getBillPayload,
   getBusinessId,
   getIsAnAmountInput,
   getIsCreating,
@@ -40,12 +21,15 @@ import {
   getLinesForItemChange,
   getNewLineIndex,
   getRegion,
-  getSupplierId,
 } from './billItemSelectors';
 import BillItemView from './components/BillItemView';
 import ModalTypes from './ModalType';
-import Store from '../../store/Store';
+import Store from '../../../store/Store';
 import billItemReducer from './billItemReducer';
+import createBillItemDispatcher from './createBillItemDispatcher';
+import createBillItemIntegrator from './createBillItemIntegrator';
+import keyMap from '../../../hotKeys/keyMap';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BillItemModule {
   constructor({
@@ -56,27 +40,16 @@ export default class BillItemModule {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.replaceURLParams = replaceURLParams;
+    this.dispatcher = createBillItemDispatcher(this.store);
+    this.integrator = createBillItemIntegrator(this.store, this.integration);
   }
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
 
-  setInitialState = (context) => {
-    const intent = SET_INITIAL_STATE;
-
-    this.store.dispatch({
-      intent,
-      context,
-    });
-  };
-
   addTableLine = (line) => {
-    this.store.dispatch({
-      intent: ADD_LINE,
-      line,
-    });
-
+    this.dispatcher.addTableLine(line);
     const state = this.store.getState();
 
     if (line.itemId) {
@@ -85,46 +58,29 @@ export default class BillItemModule {
   };
 
   updateLines = (content, intent) => {
-    const state = this.store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    this.setAreLinesCalculating(true);
+    this.dispatcher.setAreLinesCalculating(true);
 
     const onSuccess = (response) => {
-      this.setLineAmountDirty(false);
-      this.setAreLinesCalculating(false);
-      this.store.dispatch({
-        intent: UPDATE_LINES,
-        ...response,
-      });
+      this.dispatcher.setLineAmountDirty(false);
+      this.dispatcher.setAreLinesCalculating(false);
+      this.dispatcher.updateLines(response);
     };
     const onFailure = ({ message }) => {
-      this.setLineAmountDirty(false);
-      this.setAreLinesCalculating(false);
-      this.displayAlert(message);
+      this.dispatcher.setLineAmountDirty(false);
+      this.dispatcher.setAreLinesCalculating(false);
+      this.dispatcher.displayAlert(message);
     };
 
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
+    this.integrator.updateLines({
+      content, intent, onSuccess, onFailure,
     });
   };
 
   changeTableRow = (index, key, value) => {
-    this.store.dispatch({
-      intent: TABLE_ROW_CHANGE,
-      index,
-      key,
-      value,
-    });
+    this.dispatcher.changeTableRow(index, key, value);
 
     if (getIsAnAmountInput(key)) {
-      this.setLineAmountDirty(true);
+      this.dispatcher.setLineAmountDirty(true);
     }
 
     if (key === 'itemId') {
@@ -146,30 +102,19 @@ export default class BillItemModule {
     const { areLinesCalculating } = this.store.getState();
 
     if (!areLinesCalculating) {
-      this.store.dispatch({
-        intent: REMOVE_LINE,
-        index,
-      });
-
+      this.dispatcher.removeTableRow(index);
       const state = this.store.getState();
 
       if (!getIsTableEmpty(state)) {
         this.updateLines(getLinesAndTaxInclusive(state), REMOVE_LINE);
       } else {
-        this.store.dispatch({
-          intent: RESET_TOTALS,
-        });
+        this.dispatcher.resetTotals();
       }
     }
   };
 
   lineCalculation = ({ index, key }) => {
-    this.store.dispatch({
-      intent: FORMAT_LINE_AMOUNT,
-      index,
-      key,
-    });
-
+    this.dispatcher.formatLineAmount(index, key);
     const state = this.store.getState();
 
     const isLineAmountDirty = getIsLineAmountDirty(state);
@@ -197,12 +142,7 @@ export default class BillItemModule {
     const isLineAmountDirty = getIsLineAmountDirty(state);
 
     if (!isLineAmountDirty) {
-      this.store.dispatch({
-        intent: UPDATE_BILL_OPTION,
-        key,
-        value,
-      });
-
+      this.dispatcher.updateBillOption({ key, value });
       const newState = this.store.getState();
 
       if (!getIsTableEmpty(state)) {
@@ -211,61 +151,24 @@ export default class BillItemModule {
     }
   };
 
-  setContactAddress = address => this.store.dispatch({
-    intent: SET_ADDRESS,
-    address,
-  });
-
   updateBillOption = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_BILL_OPTION,
-      key,
-      value,
-    });
+    this.dispatcher.updateBillOption({ key, value });
 
     if (key === 'supplierId') {
-      const state = this.store.getState();
-      const urlParams = {
-        businessId: getBusinessId(state),
-        supplierId: getSupplierId(state),
-      };
-
       const onSuccess = ({ address }) => {
-        this.setContactAddress(address);
+        this.dispatcher.loadSupplierAddress(address);
       };
       const onFailure = ({ message }) => {
-        this.displayAlert(message);
-        this.setContactAddress('');
+        this.dispatcher.displayAlert(message);
+        this.dispatcher.loadSupplierAddress('');
       };
 
-      this.integration.read({
-        intent: SET_ADDRESS,
-        urlParams,
-        onSuccess,
-        onFailure,
-      });
+      this.integrator.loadSupplierAddress({ onSuccess, onFailure });
     }
   };
 
-  setSubmittingState = (isSubmitting) => {
-    const intent = SET_SUBMITTING_STATE;
-
-    this.store.dispatch({
-      intent,
-      isSubmitting,
-    });
-  };
-
   createBill = () => {
-    const intent = CREATE_BILL;
-    const state = this.store.getState();
-    const content = getBillPayload(state);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    this.setSubmittingState(true);
+    this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -276,30 +179,15 @@ export default class BillItemModule {
     };
 
     const onFailure = ({ message }) => {
-      this.setSubmittingState(false);
-      this.displayAlert(message);
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.displayAlert(message);
     };
 
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.createBill({ onSuccess, onFailure });
   };
 
   updateBill = () => {
-    const intent = UPDATE_BILL;
-    const state = this.store.getState();
-    const content = getBillPayload(state);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      billId: getBillId(state),
-    };
-
-    this.setSubmittingState(true);
+    this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -310,22 +198,16 @@ export default class BillItemModule {
     };
 
     const onFailure = ({ message }) => {
-      this.setSubmittingState(false);
-      this.displayAlert(message);
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.displayAlert(message);
     };
 
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.updateBill({ onSuccess, onFailure });
   };
 
   deleteBill = () => {
-    this.setSubmittingState(true);
-    this.closeModal();
+    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.closeModal();
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -336,34 +218,18 @@ export default class BillItemModule {
     };
 
     const onFailure = ({ message }) => {
-      this.setSubmittingState(false);
-      this.displayAlert(message);
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.displayAlert(message);
     };
 
-    const state = this.store.getState();
-    const billId = getBillId(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-      billId,
-    };
-
-    this.integration.write({
-      intent: DELETE_BILL,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.deleteBill({ onSuccess, onFailure });
   };
 
   openCancelModal = () => {
-    const intent = OPEN_MODAL;
     const state = this.store.getState();
 
     if (getIsPageEdited(state)) {
-      this.store.dispatch({
-        intent,
-        modalType: ModalTypes.CancelModal,
-      });
+      this.dispatcher.openModal(ModalTypes.CancelModal);
     } else {
       this.redirectToBillList();
     }
@@ -377,44 +243,11 @@ export default class BillItemModule {
     window.location.href = `/#/${region}/${businessId}/bill`;
   };
 
-  openDeleteModal = () => {
-    const intent = OPEN_MODAL;
-
-    this.store.dispatch({
-      intent,
-      modalType: ModalTypes.DeleteModal,
-    });
-  };
+  openDeleteModal = () => this.dispatcher.openModal(ModalTypes.DeleteModal);
 
   confirmCancelModal = () => {
     this.redirectToBillList();
   };
-
-  closeModal = () => {
-    this.store.dispatch({
-      intent: CLOSE_MODAL,
-    });
-  };
-
-  setLineAmountDirty = isLineAmountDirty => this.store.dispatch({
-    intent: SET_LINE_AMOUNT_DIRTY,
-    isLineAmountDirty,
-  });
-
-  setAreLinesCalculating = areLinesCalculating => this.store.dispatch({
-    intent: SET_ARE_LINES_CALCULATING,
-    areLinesCalculating,
-  })
-
-  displayAlert = errorMessage => this.store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: errorMessage,
-  });
-
-  dismissAlert = () => this.store.dispatch({
-    intent: SET_ALERT_MESSAGE,
-    alertMessage: '',
-  });
 
   saveBill = () => {
     const state = this.store.getState();
@@ -431,14 +264,14 @@ export default class BillItemModule {
           onSaveButtonClick={this.saveBill}
           onCancelButtonClick={this.openCancelModal}
           onDeleteButtonClick={this.openDeleteModal}
-          onModalClose={this.closeModal}
+          onModalClose={this.dispatcher.closeModal}
           onCancelModalConfirm={this.confirmCancelModal}
           onDeleteModalConfirm={this.deleteBill}
           onAddTableLine={this.addTableLine}
           onChangeTableRow={this.changeTableRow}
           onRemoveTableRow={this.removeTableRow}
           onLineInputBlur={this.lineCalculation}
-          onDismissAlert={this.dismissAlert}
+          onDismissAlert={this.dispatcher.dismissAlert}
         />
       </Provider>
     );
@@ -446,15 +279,15 @@ export default class BillItemModule {
     this.setRootView(wrappedView);
   };
 
+  handlers = {
+    SAVE_ACTION: this.saveBill,
+  };
+
   run(context) {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
   }
 
-  resetState = () => {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
-  };
+  resetState = () => this.dispatcher.resetState();
 }

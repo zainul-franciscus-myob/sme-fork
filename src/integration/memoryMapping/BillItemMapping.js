@@ -1,17 +1,17 @@
 import {
   CALCULATE_LINE,
   CREATE_BILL,
-  DELETE_BILL,
+  LOAD_NEW_BILL_ITEM_DETAIL,
   REMOVE_LINE,
-  SET_ADDRESS,
   UPDATE_BILL, UPDATE_LINE_ITEM,
   UPDATE_LINE_TAX_CODE,
   UPDATE_TAX_INCLUSIVE,
-} from '../../bill/billItem/BillItemIntents';
+} from '../../bill/billDetail/billItem/BillItemIntents';
 import billItemChangeItem from '../data/bill/billItemChangeItem';
-import billItemSupplierAddress from '../data/bill/billItemSupplierAddress';
+import billItemNewDetail from '../data/bill/billItemNewDetail.json';
 import successResponse from '../data/success';
 
+const loadNewItemBillDetail = ({ onSuccess }) => onSuccess(billItemNewDetail);
 const changeLineItem = ({ onSuccess }) => onSuccess(billItemChangeItem);
 const changeLineTaxCode = ({ onSuccess }) => onSuccess(billItemChangeItem);
 const changeTaxInclusive = ({ onSuccess }) => onSuccess(billItemChangeItem);
@@ -26,21 +26,18 @@ const calculateLine = ({ onSuccess, content }) => onSuccess({
   },
 });
 const removeLine = ({ onSuccess }) => onSuccess(billItemChangeItem);
-const deleteBill = ({ onSuccess }) => onSuccess(successResponse);
-const setAddress = ({ onSuccess }) => onSuccess(billItemSupplierAddress);
 const createBill = ({ onSuccess }) => onSuccess(successResponse);
 const updateBill = ({ onSuccess }) => onSuccess(successResponse);
 
 const BillItemMapping = {
+  [LOAD_NEW_BILL_ITEM_DETAIL]: loadNewItemBillDetail,
   [UPDATE_LINE_ITEM]: changeLineItem,
   [UPDATE_LINE_TAX_CODE]: changeLineTaxCode,
   [UPDATE_TAX_INCLUSIVE]: changeTaxInclusive,
   [CALCULATE_LINE]: calculateLine,
   [REMOVE_LINE]: removeLine,
-  [SET_ADDRESS]: setAddress,
   [CREATE_BILL]: createBill,
   [UPDATE_BILL]: updateBill,
-  [DELETE_BILL]: deleteBill,
 };
 
 export default BillItemMapping;

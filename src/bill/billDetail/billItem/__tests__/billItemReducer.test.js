@@ -3,7 +3,7 @@ import dateFormat from 'dateformat';
 import {
   FORMAT_LINE_AMOUNT, REMOVE_LINE, TABLE_ROW_CHANGE, UPDATE_BILL_OPTION,
 } from '../BillItemIntents';
-import { SET_INITIAL_STATE } from '../../../SystemIntents';
+import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import billItemReducer from '../billItemReducer';
 
 

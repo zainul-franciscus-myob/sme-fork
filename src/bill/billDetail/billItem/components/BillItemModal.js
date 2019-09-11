@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import CancelModal from '../../../components/modal/CancelModal';
-import DeleteModal from '../../../components/modal/DeleteModal';
+import CancelModal from '../../../../components/modal/CancelModal';
+import DeleteModal from '../../../../components/modal/DeleteModal';
 import ModalTypes from '../ModalType';
 
 

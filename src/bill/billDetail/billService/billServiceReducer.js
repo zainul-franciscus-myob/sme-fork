@@ -2,24 +2,26 @@ import dateFormat from 'dateformat';
 
 import {
   ADD_BILL_SERVICE_LINE,
-  CLOSE_MODAL,
   FORMAT_BILL_SERVICE_LINE,
   GET_CALCULATED_BILL_DETAIL_TOTALS,
-  LOAD_CUSTOMER_ADDRESS,
-  OPEN_MODAL,
   REMOVE_BILL_SERVICE_LINE,
   RESET_TOTALS,
-  SET_ALERT_MESSAGE,
-  SET_SUBMITTING_STATE,
   UPDATE_BILL_SERVICE_HEADER_OPTIONS,
   UPDATE_BILL_SERVICE_LINE,
-} from '../BillIntents';
+} from './BillServiceIntents';
+import {
+  CLOSE_MODAL,
+  LOAD_SUPPLIER_ADDRESS,
+  OPEN_MODAL,
+  SET_ALERT_MESSAGE,
+  SET_SUBMITTING_STATE,
+} from '../../BillIntents';
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
-} from '../../SystemIntents';
+} from '../../../SystemIntents';
 import { getDefaultTaxCodeId, getLineByIndex } from './billServiceSelectors';
-import createReducer from '../../store/createReducer';
+import createReducer from '../../../store/createReducer';
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
@@ -179,7 +181,7 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const loadContactAddress = (state, action) => ({
+const loadSupplierAddress = (state, action) => ({
   ...state,
   bill: {
     ...state.bill,
@@ -220,7 +222,7 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,
-  [LOAD_CUSTOMER_ADDRESS]: loadContactAddress,
+  [LOAD_SUPPLIER_ADDRESS]: loadSupplierAddress,
   [UPDATE_BILL_SERVICE_HEADER_OPTIONS]: updateBillServiceHeaderOptions,
   [UPDATE_BILL_SERVICE_LINE]: updateBillServiceLine,
   [ADD_BILL_SERVICE_LINE]: addBillServiceLine,

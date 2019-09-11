@@ -1,5 +1,5 @@
 import BillListModule from './billList/BillListModule';
-import BillModule from './BillModule';
+import BillModule from './billDetail/BillModule';
 
 const getBillRoutes = ({
   integration, setRootView, pushMessage, popMessages, replaceURLParams,

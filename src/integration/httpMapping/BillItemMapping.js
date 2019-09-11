@@ -1,16 +1,19 @@
 import {
   CALCULATE_LINE,
   CREATE_BILL,
-  DELETE_BILL,
+  LOAD_NEW_BILL_ITEM_DETAIL,
   REMOVE_LINE,
-  SET_ADDRESS,
   UPDATE_BILL,
   UPDATE_LINE_ITEM,
   UPDATE_LINE_TAX_CODE,
   UPDATE_TAX_INCLUSIVE,
-} from '../../bill/billItem/BillItemIntents';
+} from '../../bill/billDetail/billItem/BillItemIntents';
 
 const BillItemMapping = {
+  [LOAD_NEW_BILL_ITEM_DETAIL]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/bill/load_new_bill_item_detail`,
+  },
   [CREATE_BILL]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/bill/create_bill_item_detail`,
@@ -18,10 +21,6 @@ const BillItemMapping = {
   [UPDATE_BILL]: {
     method: 'PUT',
     getPath: ({ businessId, billId }) => `/${businessId}/bill/update_bill_item_detail/${billId}`,
-  },
-  [DELETE_BILL]: {
-    method: 'DELETE',
-    getPath: ({ businessId, billId }) => `/${businessId}/bill/delete_bill_detail/${billId}`,
   },
   [UPDATE_LINE_ITEM]: {
     method: 'POST',
@@ -42,10 +41,6 @@ const BillItemMapping = {
   [REMOVE_LINE]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_item_totals/remove_line`,
-  },
-  [SET_ADDRESS]: {
-    method: 'GET',
-    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_contact_address/${supplierId}`,
   },
 };
 

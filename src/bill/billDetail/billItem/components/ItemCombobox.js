@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Combobox from '../../../components/Feelix/ComboBox/Combobox';
+import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 
 const metaData = [
   { columnName: 'itemId', columnWidth: '5rem', showData: true },

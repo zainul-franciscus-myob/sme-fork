@@ -18,7 +18,7 @@ import {
   SUCCESSFULLY_DELETED_BILL_SERVICE,
   SUCCESSFULLY_SAVED_BILL_ITEM,
   SUCCESSFULLY_SAVED_BILL_SERVICE,
-} from '../billMessageTypes';
+} from '../billDetail/billMessageTypes';
 import {
   flipSortOrder,
   getBusinessId,

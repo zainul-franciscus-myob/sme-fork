@@ -27,7 +27,7 @@ import {
   getSupplierId,
   getSuppliers,
 } from '../billItemSelectors';
-import ContactCombobox from '../../../components/combobox/ContactCombobox';
+import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import TaxState from '../TaxState';
 import styles from './BillItemOptions.module.css';
 

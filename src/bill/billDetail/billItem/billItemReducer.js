@@ -7,7 +7,6 @@ import {
   OPEN_MODAL,
   REMOVE_LINE,
   RESET_TOTALS,
-  SET_ADDRESS,
   SET_ALERT_MESSAGE,
   SET_ARE_LINES_CALCULATING,
   SET_LINE_AMOUNT_DIRTY,
@@ -16,8 +15,11 @@ import {
   UPDATE_BILL_OPTION,
   UPDATE_LINES,
 } from './BillItemIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import createReducer from '../../store/createReducer';
+import {
+  LOAD_SUPPLIER_ADDRESS,
+} from '../../BillIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import createReducer from '../../../store/createReducer';
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
@@ -166,7 +168,7 @@ const updateBillOption = (state, action) => ({
   },
 });
 
-const setAddress = (state, action) => ({
+const loadSupplierAddress = (state, action) => ({
   ...state,
   bill: {
     ...state.bill,
@@ -238,7 +240,7 @@ const handlers = {
   [TABLE_ROW_CHANGE]: changeTableRow,
   [REMOVE_LINE]: removeLine,
   [UPDATE_BILL_OPTION]: updateBillOption,
-  [SET_ADDRESS]: setAddress,
+  [LOAD_SUPPLIER_ADDRESS]: loadSupplierAddress,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [OPEN_MODAL]: openModal,

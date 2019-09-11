@@ -9,6 +9,7 @@ import BankingRuleSpendMoneyMapping from './BankingRuleSpendMoneyMapping';
 import BillItemMapping from './BillItemMapping';
 import BillMapping from './BillMapping';
 import BillPaymentMapping from './BillPaymentMapping';
+import BillServiceMapping from './BillServiceMapping';
 import BusinessMapping from './BusinessMapping';
 import ContactMapping from './ContactMapping';
 import CustomerReturnMapping from './CustomerReturnMapping';
@@ -73,6 +74,7 @@ const RootMapping = Object.freeze({
   ...BillPaymentMapping,
   ...BillMapping,
   ...BillItemMapping,
+  ...BillServiceMapping,
   ...CustomerReturnMapping,
   ...SalesSettingsMapping,
   ...PayrollSettingsMapping,

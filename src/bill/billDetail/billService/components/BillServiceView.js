@@ -13,8 +13,8 @@ import {
 import BillServiceActions from './BillServiceActions';
 import BillServiceOptions from './BillServiceOptions';
 import BillServiceTable from './BillServiceTable';
-import CancelModal from '../../../components/modal/CancelModal';
-import DeleteModal from '../../../components/modal/DeleteModal';
+import CancelModal from '../../../../components/modal/CancelModal';
+import DeleteModal from '../../../../components/modal/DeleteModal';
 
 const BillServiceView = ({
   onUpdateHeaderOptions,
