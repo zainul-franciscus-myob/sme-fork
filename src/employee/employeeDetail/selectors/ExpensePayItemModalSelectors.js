@@ -11,7 +11,7 @@ const getTitle = state => getExpensePayItemModal(state).title;
 export const getModalTitle = createSelector(
   getIsExpensePayItemModalCreating,
   getTitle,
-  (isCreating, title) => (isCreating ? 'Create wage pay item' : (title || 'Wage pay item')),
+  (isCreating, title) => (isCreating ? 'Create expense pay item' : (title || 'Expense pay item')),
 );
 
 export const getAlert = state => getExpensePayItemModal(state).alert;
@@ -38,7 +38,7 @@ export const getIsPrintOnPaySlip = state => getExpensePayItemModal(state).isPrin
 
 export const getThreshold = state => getExpensePayItemModal(state).threshold;
 
-export const getCalculationBasis = state => getExpensePayItemModal(state).CalculationBasis;
+export const getCalculationBasis = state => getExpensePayItemModal(state).calculationBasis;
 
 export const getCalculationBasisPercentage = state => getExpensePayItemModal(state)
   .calculationBasisPercentage;
