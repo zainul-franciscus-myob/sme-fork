@@ -1,0 +1,48 @@
+import React from 'react';
+
+import RecordPayRunView from './components/RecordPayRunView';
+import createPayRunDispatchers from '../createPayRunDispatchers';
+import createRecordPayRunIntegrator from './createRecordPayRunIntegrator';
+
+export default class RecordPayRunModule {
+  constructor({
+    integration,
+    store,
+    pushMessage,
+  }) {
+    this.integration = integration;
+    this.pushMessage = pushMessage;
+    this.dispatcher = createPayRunDispatchers(store);
+    this.integrator = createRecordPayRunIntegrator(store, integration);
+  }
+
+  recordPayments = () => {
+    this.dispatcher.setLoadingState(true);
+
+    const onSuccess = () => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.dismissAlert();
+      // this.dispatcher.nextStep(); -- To be added on step 4
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.recordPayments({ onSuccess, onFailure });
+  }
+
+  openPreviousStepModal = () => this.dispatcher.openModal({
+    type: 'previousStep',
+  });
+
+  getView() {
+    return (
+      <RecordPayRunView
+        onRecordButtonClick={this.recordPayments}
+        onPreviousButtonClick={this.openPreviousStepModal}
+      />
+    );
+  }
+}

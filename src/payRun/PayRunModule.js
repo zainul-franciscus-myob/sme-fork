@@ -3,6 +3,7 @@ import React from 'react';
 
 import EmployeePayListModule from './employeePayList/EmployeePayListModule';
 import PayRunView from './components/PayRunView';
+import RecordPayRunModule from './recordPayRun/RecordPayRunModule';
 import StartPayRunModule from './startPayRun/StartPayRunModule';
 import Store from '../store/Store';
 import createPayRunDispatchers from './createPayRunDispatchers';
@@ -32,6 +33,11 @@ export default class PayRunModule {
         store: this.store,
         pushMessage,
       }),
+      recordPayRunModule: new RecordPayRunModule({
+        integration,
+        store: this.store,
+        pushMessage,
+      }),
     };
   }
 
@@ -52,6 +58,7 @@ export default class PayRunModule {
 
   goBack = () => {
     this.dispatcher.previousStep();
+    this.dispatcher.dismissAlert();
     this.dispatcher.closeModal();
   };
 

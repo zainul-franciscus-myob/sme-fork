@@ -9,7 +9,7 @@ import {
   getStartPayRun,
 } from '../StartPayRunSelectors';
 import FormCard from '../../../components/FormCard/FormCard';
-import PayRunActions from '../../components/PayRunActions';
+import StartPayRunActions from './StartPayRunActions';
 import handleDatePickerChange from '../../../components/handlers/handleDatePickerChange';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 import styles from './StartPayRunView.module.css';
@@ -48,7 +48,7 @@ const StartPayRunView = ({
         </FieldGroup>
       </FormCard>
     </FormHorizontal>
-    <PayRunActions
+    <StartPayRunActions
       onNextButtonClick={onNextButtonClick}
     />
   </div>

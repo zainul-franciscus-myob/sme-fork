@@ -1,4 +1,4 @@
-import { LOAD_EMPLOYEE_PAYS, START_NEW_PAY_RUN } from '../../payRun/PayRunIntents';
+import { LOAD_EMPLOYEE_PAYS, RECORD_PAYMENTS, START_NEW_PAY_RUN } from '../../payRun/PayRunIntents';
 
 const PayRunMapping = {
   [START_NEW_PAY_RUN]: {
@@ -12,6 +12,10 @@ const PayRunMapping = {
     getPath: ({ businessId }) => (
       `/${businessId}/payRun/load_employee_pays`
     ),
+  },
+  [RECORD_PAYMENTS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/payRun/record_payments`,
   },
 };
 

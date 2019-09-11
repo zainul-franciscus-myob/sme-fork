@@ -1,21 +1,22 @@
 import { PageHead } from '@myob/myob-widgets';
 import React from 'react';
 
-import EmployeePayHeader from './EmployeePayHeader';
+import EmployeePayActions from './EmployeePayActions';
+import EmployeePayHeader from '../../components/EmployeePayHeader';
 import EmployeePayTable from './EmployeePayTable';
-import PayRunActions from '../../components/PayRunActions';
 
 const PayRunListEmployees = ({
   onSelectRow,
   onSelectAllRows,
   onPreviousButtonClick,
+  onNextButtonClick,
 }) => (
   <React.Fragment>
     <PageHead title="Calculate pays" />
     <EmployeePayHeader />
     <EmployeePayTable onSelectRow={onSelectRow} onSelectAllRows={onSelectAllRows} />
-    <PayRunActions
-      onNextButtonClick={() => {}}
+    <EmployeePayActions
+      onNextButtonClick={onNextButtonClick}
       onPreviousButtonClick={onPreviousButtonClick}
     />
   </React.Fragment>

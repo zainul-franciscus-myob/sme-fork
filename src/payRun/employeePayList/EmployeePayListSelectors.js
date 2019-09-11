@@ -1,27 +1,6 @@
 import { createSelector } from 'reselect';
-import dateFormat from 'dateformat';
 
 import formatAmount from '../../valueFormatters/formatAmount';
-
-const formatDate = date => dateFormat(new Date(date), 'ddd dd/mm/yyyy');
-
-const getPaymentFrequency = state => state.startPayRun.paymentFrequency;
-const getPaymentDate = state => formatDate(state.startPayRun.paymentDate);
-const getPayPeriodStart = state => formatDate(state.startPayRun.payPeriodStart);
-const getPayPeriodEnd = state => formatDate(state.startPayRun.payPeriodEnd);
-
-export const getEmployeeHeader = createSelector(
-  getPaymentFrequency,
-  getPaymentDate,
-  getPayPeriodStart,
-  getPayPeriodEnd,
-  (paymentFrequency, paymentDate, payPeriodStart, payPeriodEnd) => ({
-    paymentFrequency,
-    paymentDate,
-    payPeriodStart,
-    payPeriodEnd,
-  }),
-);
 
 const getEmployeePayLines = state => state.employeePayList.lines;
 

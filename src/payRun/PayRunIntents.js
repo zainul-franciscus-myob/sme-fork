@@ -7,6 +7,7 @@ export const CLOSE_MODAL = Symbol('Close modal');
 
 export const START_NEW_PAY_RUN = Symbol('Start new pay run');
 export const LOAD_EMPLOYEE_PAYS = Symbol('Load employee pays');
+export const RECORD_PAYMENTS = Symbol('Record payments');
 export const SET_PAY_PERIOD_DETAILS = Symbol('Set pay period details');
 
 export const UPDATE_IS_EMPLOYEE_SELECTED = Symbol('Update is employee selected');

@@ -24,6 +24,7 @@ export default class EmployeePayListModule {
         onSelectRow={this.dispatcher.updateIsEmployeeSelected}
         onSelectAllRows={this.dispatcher.updateAreAllEmployeesSelected}
         onPreviousButtonClick={this.openPreviousStepModal}
+        onNextButtonClick={this.dispatcher.nextStep}
       />
     );
   }

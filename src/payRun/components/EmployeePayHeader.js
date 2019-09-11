@@ -2,8 +2,8 @@ import { ReadOnly } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getEmployeeHeader } from '../EmployeePayListSelectors';
-import FormCard from '../../../components/FormCard/FormCard';
+import { getEmployeeHeader } from '../PayRunSelectors';
+import FormCard from '../../components/FormCard/FormCard';
 import styles from './EmployeePayHeader.module.css';
 
 const EmployeePayHeader = ({ employeeHeader }) => (
