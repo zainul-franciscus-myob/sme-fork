@@ -23,15 +23,23 @@
     "payToContacts": [
       {
         "contactType": "Customer",
-        "displayName": "A-Z Stationery Supplies",
+        "displayName": "A-Z Stationery Customer",
         "id": "1",
-        "displayId": "CUS000001"
+        "displayId": "CUS000001",
+        "isReportable": false
       },
       {
         "contactType": "Supplier",
-        "displayName": "Cow Feed",
+        "displayName": "Cow Feed Supplier",
         "id": "2",
-        "displayId": "CUS000003"
+        "displayId": "CUS000003",
+        "isReportable": true
+      },
+      {
+        "contactType": "Other",
+        "displayName": "Other contact",
+        "id": "3",
+        "displayId": "CUS000004"
       }
     ]
   },

@@ -27,7 +27,7 @@ import {
   UPLOAD_ATTACHMENT_FAILED,
 } from '../SpendMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getDefaultTaxCodeId } from './spendMoneyDetailSelectors';
+import { getDefaultTaxCodeId, getIsContactReportable, getIsReportable } from './spendMoneyDetailSelectors';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -37,7 +37,7 @@ const getDefaultState = () => ({
     originalReferenceId: '',
     date: '',
     isTaxInclusive: false,
-    isReportable: false,
+    isReportable: undefined,
     description: '',
     selectedPayFromAccountId: '',
     selectedPayToContactId: '',
@@ -145,14 +145,21 @@ const deleteLine = (state, action) => ({
   },
 });
 
-const updateHeader = (state, action) => ({
-  ...state,
-  ...pageEdited,
-  spendMoney: {
-    ...state.spendMoney,
-    [action.key]: action.value,
-  },
-});
+const updateHeader = (state, { key, value }) => {
+  const isReportable = key === 'selectedPayToContactId'
+    ? getIsContactReportable(state, value)
+    : getIsReportable(state);
+
+  return ({
+    ...state,
+    ...pageEdited,
+    spendMoney: {
+      ...state.spendMoney,
+      isReportable,
+      [key]: value,
+    },
+  });
+};
 
 const loadNewSpendMoney = (state, action) => ({
   ...state,

@@ -2,7 +2,6 @@ import {
   Checkbox, CheckboxGroup, DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { getHeaderOptions } from '../spendMoneyDetailSelectors';
@@ -60,6 +59,7 @@ class SpendMoneyDetailOptions extends Component {
         payFromAccounts,
         selectedPayToContactId,
         selectedPayFromAccountId,
+        isReportableDisabled,
       },
     } = this.props;
 
@@ -88,7 +88,13 @@ class SpendMoneyDetailOptions extends Component {
           hideLabel
           label="Report to ATO via TPAR"
           renderCheckbox={() => (
-            <Checkbox name="isReportable" label="Report to ATO via TPAR" checked={isReportable} onChange={this.handleCheckboxChange} />
+            <Checkbox
+              name="isReportable"
+              label="Report to ATO via TPAR"
+              checked={isReportable}
+              onChange={this.handleCheckboxChange}
+              disabled={isReportableDisabled}
+            />
           )}
         />
         <TextArea
@@ -144,17 +150,5 @@ class SpendMoneyDetailOptions extends Component {
 const mapStateToProps = state => ({
   headerOptions: getHeaderOptions(state),
 });
-
-SpendMoneyDetailOptions.propTypes = {
-  headerOptions: PropTypes.shape({
-    referenceId: PropTypes.string,
-    date: PropTypes.string,
-    gstReportingMethod: PropTypes.string,
-    isEndOfYearAdjustment: PropTypes.bool,
-    isTaxInclusive: PropTypes.bool,
-    description: PropTypes.string,
-  }).isRequired,
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
-};
 
 export default connect(mapStateToProps)(SpendMoneyDetailOptions);

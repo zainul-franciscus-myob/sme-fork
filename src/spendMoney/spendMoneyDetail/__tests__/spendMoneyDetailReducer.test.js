@@ -1,5 +1,6 @@
 import {
   ADD_ATTACHMENTS,
+  UPDATE_SPEND_MONEY_HEADER,
   UPLOAD_ATTACHMENT,
   UPLOAD_ATTACHMENT_FAILED,
 } from '../../SpendMoneyIntents';
@@ -133,6 +134,54 @@ describe('spendMoneyDetailReducer', () => {
       const actual = spendMoneyReducer(state, action);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('updateHeader', () => {
+    describe('selectedPayToContactId', () => {
+      it('should update selectedPayToContactId and isReportable', () => {
+        const state = {
+          spendMoney: {
+            isReportable: false,
+            selectedPayToContactId: '2',
+            payToContacts: [
+              { id: '1', isReportable: true },
+              { id: '2', isReportable: false },
+            ],
+          },
+        };
+
+        const action = {
+          intent: UPDATE_SPEND_MONEY_HEADER,
+          key: 'selectedPayToContactId',
+          value: '1',
+        };
+
+        const actual = spendMoneyReducer(state, action);
+
+        expect(actual.spendMoney.selectedPayToContactId).toEqual('1');
+        expect(actual.spendMoney.isReportable).toBeTruthy();
+      });
+    });
+
+    describe('isReportable', () => {
+      it('should update value', () => {
+        const state = {
+          spendMoney: {
+            isReportable: false,
+          },
+        };
+
+        const action = {
+          intent: UPDATE_SPEND_MONEY_HEADER,
+          key: 'isReportable',
+          value: true,
+        };
+
+        const actual = spendMoneyReducer(state, action);
+
+        expect(actual.spendMoney.isReportable).toBeTruthy();
+      });
     });
   });
 });

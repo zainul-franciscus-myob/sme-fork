@@ -9,7 +9,7 @@ const getPayFromAccounts = state => state.spendMoney.payFromAccounts;
 const getPayToContacts = state => state.spendMoney.payToContacts;
 const getDate = state => state.spendMoney.date;
 const getDescription = state => state.spendMoney.description;
-const getIsReportable = state => state.spendMoney.isReportable;
+export const getIsReportable = state => state.spendMoney.isReportable;
 const getIsTaxInclusive = state => state.spendMoney.isTaxInclusive;
 
 const getHeadersProperties = createStructuredSelector({
@@ -24,18 +24,33 @@ const getHeadersProperties = createStructuredSelector({
   isTaxInclusive: getIsTaxInclusive,
 });
 
-export const getHeaderOptions = createSelector(getHeadersProperties, (headerProps) => {
-  const {
-    payFromAccounts = [], payToContacts = [],
-    ...headerOptions
-  } = headerProps;
+export const getIsReportableDisabled = createSelector(
+  getPayToContacts,
+  getSelectedPayToContactId,
+  (contacts, contactId) => {
+    const { contactType } = contacts.find(({ id }) => id === contactId) || {};
 
-  return {
-    payFromAccounts,
-    payToContacts,
-    ...headerOptions,
-  };
-});
+    return contactType !== 'Supplier';
+  },
+);
+
+export const getHeaderOptions = createSelector(
+  getHeadersProperties,
+  getIsReportableDisabled,
+  (headerProps, isReportableDisabled) => {
+    const {
+      payFromAccounts = [], payToContacts = [],
+      ...headerOptions
+    } = headerProps;
+
+    return {
+      payFromAccounts,
+      payToContacts,
+      ...headerOptions,
+      isReportableDisabled,
+    };
+  },
+);
 
 export const getAlertMessage = state => state.alertMessage;
 export const getModalType = state => state.modalType;
@@ -159,3 +174,11 @@ export const getFilesForUpload = (state, files) => (
     attachment => attachment.file === file,
   ).state === 'queued')
 );
+
+export const getIsContactReportable = (state, contactId) => {
+  const contacts = getPayToContacts(state);
+
+  const { isReportable } = contacts.find(({ id }) => id === contactId) || { };
+
+  return isReportable;
+};
