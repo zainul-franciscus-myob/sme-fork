@@ -70,6 +70,7 @@ export const getIndexOfLastLine = state => state.spendMoney.lines.length - 1;
 export const getSpendMoney = state => state.spendMoney;
 
 export const getSpendMoneyId = state => state.spendMoney.id;
+export const getSpendMoneyUid = state => state.spendMoney.uid;
 
 export const getTotals = state => state.totals;
 
@@ -108,6 +109,7 @@ export const getSpendMoneyForUpdatePayload = (state) => {
     payFromAccounts,
     payToContacts,
     originalReferenceId,
+    uid,
     lines,
     ...rest
   } = getSpendMoney(state);
@@ -135,3 +137,25 @@ export const getRegion = state => state.region;
 export const getPageTitle = state => state.pageTitle;
 export const getTaxCodeLabel = state => getRegionToDialectText(state.region)('Tax code');
 export const getTaxLabel = state => getRegionToDialectText(state.region)('Tax');
+export const getAttachments = createSelector(
+  state => state.attachments,
+  attachments => attachments.map(attachment => ({
+    id: attachment.id,
+    name: attachment.name,
+    size: attachment.size,
+    loaded: attachment.uploadProgress ? Math.round(attachment.size * attachment.uploadProgress) : 0,
+    state: attachment.state || 'default',
+    error: attachment.error,
+    canRemove: !['queued', 'loading'].includes(attachment.state),
+    isInProgress: attachment.isInProgress,
+  })),
+);
+
+export const getAttachmentCount = state => state.attachments.length;
+export const getHasAttachment = state => state.attachments.length > 0;
+
+export const getFilesForUpload = (state, files) => (
+  files.filter(file => state.attachments.find(
+    attachment => attachment.file === file,
+  ).state === 'queued')
+);

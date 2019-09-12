@@ -1,6 +1,7 @@
 {
   "spendMoney": {
     "id": "789",
+    "uid": "feaece10-b112-4d1e-8e62-26291ae0ce44",
     "referenceId": "SM1234567",
     "date": "2018-11-02",
     "isTaxInclusive": false,
@@ -163,5 +164,17 @@
       }
     ]
   },
-  "pageTitle": "Spend money transaction SM1234567"
+  "pageTitle": "Spend money transaction SM1234567",
+  "attachments": [
+    {
+      "id": "6ea58e30-d5c9-4030-84ae-715f266becd4",
+      "name": "Invoice.pdf",
+      "size": 1000000
+    },
+    {
+      "id": "6ea58e30-d5c9-4030-84ae-715f266becd5",
+      "name": "Another invoice.pdf",
+      "size": 2000000
+    }
+  ]
 }

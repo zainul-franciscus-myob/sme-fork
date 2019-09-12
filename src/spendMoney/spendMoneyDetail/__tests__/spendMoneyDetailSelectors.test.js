@@ -1,5 +1,7 @@
 import {
+  getAttachments,
   getCalculatedTotalsPayload,
+  getFilesForUpload,
   getLineDataByIndexSelector,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
@@ -108,6 +110,102 @@ describe('spendMoneySelectors', () => {
       expect(actual.lines[0].taxCodes).toBeUndefined();
       expect(actual.lines[1].accounts).toBeUndefined();
       expect(actual.lines[1].taxCodes).toBeUndefined();
+    });
+  });
+
+  describe('getAttachments', () => {
+    it('get attachment list', () => {
+      const state = {
+        attachments: [
+          {
+            id: '1',
+            name: 'name.pdf',
+            size: 1234,
+            state: 'queued',
+            error: 'too large file',
+            isInProgress: true,
+          },
+          {
+            id: '2',
+            name: 'name2.pdf',
+            size: 1234,
+            isInProgress: false,
+          },
+          {
+            id: '3',
+            name: 'name3.pdf',
+            size: 1000,
+            uploadProgress: 0.5,
+            state: 'loading',
+          },
+        ],
+      };
+
+      const expected = [
+        {
+          id: '1',
+          name: 'name.pdf',
+          size: 1234,
+          loaded: 0,
+          state: 'queued',
+          error: 'too large file',
+          canRemove: false,
+          isInProgress: true,
+        },
+        {
+          id: '2',
+          name: 'name2.pdf',
+          size: 1234,
+          loaded: 0,
+          state: 'default',
+          canRemove: true,
+          isInProgress: false,
+        },
+        {
+          id: '3',
+          name: 'name3.pdf',
+          size: 1000,
+          loaded: 500,
+          state: 'loading',
+          canRemove: false,
+        },
+      ];
+
+      const actual = getAttachments(state);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getFilesForUpload', () => {
+    it('get files for upload', () => {
+      const files = [
+        { file: 'invalid' },
+        { file: 'valid' },
+      ];
+
+      const state = {
+        attachments: [
+          {
+            file: files[0],
+            state: 'failed',
+          },
+          {
+            file: files[1],
+            state: 'queued',
+          },
+          {
+            file: { file: 'unknown' },
+            state: 'queued',
+          },
+        ],
+      };
+
+      const expected = [files[1]];
+
+      const actual = getFilesForUpload(state, files);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

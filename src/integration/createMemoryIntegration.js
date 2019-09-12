@@ -29,6 +29,18 @@ const createMemoryIntegration = () => ({
         });
       });
   },
+  writeFormData: async ({
+    intent, params, content, onSuccess, onFailure,
+  }) => {
+    const integrationFunction = RootMapping[intent];
+    Promise.resolve()
+      .then(sleep(200))
+      .then(() => {
+        integrationFunction({
+          params, content, onSuccess, onFailure,
+        });
+      });
+  },
 });
 
 export default createMemoryIntegration;

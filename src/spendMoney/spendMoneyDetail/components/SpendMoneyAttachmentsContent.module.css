@@ -1,0 +1,14 @@
+.attachments {
+  padding: var(--flx-padding-card-body);
+  border-width: var(--flx-border-width-small);
+  border-radius: var(--flx-border-radius-button);
+  opacity: 100;
+  border-style: dashed;
+  border-color: var(--flx-palette-storm-17);
+}
+
+.inProgress {
+  cursor: progress;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+}

@@ -1,6 +1,7 @@
 {
   "spendMoney": {
     "referenceId": "SM0000002",
+    "uid": "feaece10-b112-4d1e-8e62-26291ae0ce44",
     "isTaxInclusive": true,
     "selectedPayFromAccountId": "123",
     "payFromAccounts": [

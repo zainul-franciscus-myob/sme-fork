@@ -4,8 +4,8 @@ import {
   GET_CALCULATED_TOTALS,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
-  LOAD_SPEND_MONEY_DETAIL,
-  UPDATE_SPEND_MONEY,
+  LOAD_SPEND_MONEY_DETAIL, OPEN_ATTACHMENT, REMOVE_ATTACHMENT,
+  UPDATE_SPEND_MONEY, UPLOAD_ATTACHMENT,
 } from '../../spendMoney/SpendMoneyIntents';
 
 const SpendMoneyMapping = {
@@ -36,6 +36,18 @@ const SpendMoneyMapping = {
   [GET_CALCULATED_TOTALS]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/calculate_totals`,
+  },
+  [UPLOAD_ATTACHMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/spendMoney/upload_attachment`,
+  },
+  [REMOVE_ATTACHMENT]: {
+    method: 'DELETE',
+    getPath: ({ businessId, documentId }) => `/${businessId}/spendMoney/delete_attachment/${documentId}`,
+  },
+  [OPEN_ATTACHMENT]: {
+    method: 'GET',
+    getPath: ({ businessId, documentId }) => `/${businessId}/spendMoney/load_attachment_detail/${documentId}`,
   },
 };
 

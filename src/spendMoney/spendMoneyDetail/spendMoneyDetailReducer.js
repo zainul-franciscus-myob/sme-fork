@@ -1,7 +1,9 @@
 import dateFormat from 'dateformat';
 
 import {
+  ADD_ATTACHMENTS,
   ADD_SPEND_MONEY_LINE,
+  APPEND_ALERT_MESSAGE,
   CLOSE_MODAL,
   DELETE_SPEND_MONEY_LINE,
   FORMAT_SPEND_MONEY_LINE,
@@ -10,16 +12,21 @@ import {
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
   OPEN_MODAL,
+  OPEN_REMOVE_ATTACHMENT_MODAL,
+  REMOVE_ATTACHMENT,
+  REMOVE_ATTACHMENT_BY_INDEX,
   RESET_TOTALS,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
+  SET_OPERATION_IN_PROGRESS_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
+  UPDATE_UPLOAD_PROGRESS,
+  UPLOAD_ATTACHMENT,
+  UPLOAD_ATTACHMENT_FAILED,
 } from '../SpendMoneyIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getDefaultTaxCodeId } from './spendMoneyDetailSelectors';
 import createReducer from '../../store/createReducer';
 
@@ -60,6 +67,7 @@ const getDefaultState = () => ({
   businessId: '',
   region: '',
   pageTitle: '',
+  attachments: [],
 });
 
 const pageEdited = { isPageEdited: true };
@@ -170,6 +178,7 @@ const loadSpendMoneyDetail = (state, action) => ({
   totals: action.totals,
   isLoading: false,
   pageTitle: action.pageTitle,
+  attachments: action.attachments,
 });
 
 const loadReferenceId = (state, action) => ({
@@ -221,6 +230,72 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
+const isMoreThan10MB = size => size > 10000000;
+
+const buildAttachmentState = size => (
+  isMoreThan10MB(size) ? { state: 'failed', error: 'File is more than 10MB' } : { state: 'queued' }
+);
+
+const addAttachments = (state, { files }) => ({
+  ...state,
+  attachments: [
+    ...state.attachments,
+    ...files.map(file => ({
+      name: file.name,
+      size: file.size,
+      ...buildAttachmentState(file.size),
+      file,
+    })),
+  ],
+});
+
+const updateAttachment = (state, file, partialAttachment) => ({
+  ...state,
+  attachments: state.attachments.map(attachment => (
+    attachment.file === file ? { ...attachment, ...partialAttachment } : attachment
+  )),
+});
+
+const uploadAttachment = (state, { id, name, file }) => (
+  updateAttachment(state, file, { id, name, state: 'finished' })
+);
+
+const uploadAttachmentFailed = (state, { message, file }) => (
+  updateAttachment(state, file, { error: message, state: 'failed' })
+);
+
+const uploadAttachmentProgress = (state, { file, uploadProgress }) => (
+  updateAttachment(state, file, { state: 'loading', uploadProgress })
+);
+
+const setOperationInProgressState = (state, { id, isInProgress }) => ({
+  ...state,
+  attachments: state.attachments.map(attachment => (
+    attachment.id === id ? { ...attachment, isInProgress } : attachment
+  )),
+});
+
+const openRemoveAttachmentModal = (state, { id }) => ({
+  ...state,
+  modalType: 'deleteAttachment',
+  pendingDeleteId: id,
+});
+
+const removeAttachmentByIndex = (state, { index }) => ({
+  ...state,
+  attachments: state.attachments.filter((attachment, i) => index !== i),
+});
+
+const removeAttachment = (state, { id }) => ({
+  ...state,
+  attachments: state.attachments.filter(attachment => attachment.id !== id),
+});
+
+const appendAlert = (state, { alertMessage }) => ({
+  ...state,
+  alertMessage: state.alertMessage ? `${state.alertMessage}; ${alertMessage}` : alertMessage,
+});
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -239,6 +314,15 @@ const handlers = {
   [RESET_TOTALS]: resetTotals,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
+  [ADD_ATTACHMENTS]: addAttachments,
+  [UPLOAD_ATTACHMENT]: uploadAttachment,
+  [UPDATE_UPLOAD_PROGRESS]: uploadAttachmentProgress,
+  [UPLOAD_ATTACHMENT_FAILED]: uploadAttachmentFailed,
+  [OPEN_REMOVE_ATTACHMENT_MODAL]: openRemoveAttachmentModal,
+  [REMOVE_ATTACHMENT_BY_INDEX]: removeAttachmentByIndex,
+  [REMOVE_ATTACHMENT]: removeAttachment,
+  [APPEND_ALERT_MESSAGE]: appendAlert,
+  [SET_OPERATION_IN_PROGRESS_STATE]: setOperationInProgressState,
 };
 const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 

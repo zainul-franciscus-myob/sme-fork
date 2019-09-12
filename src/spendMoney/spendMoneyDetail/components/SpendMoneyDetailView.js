@@ -1,14 +1,16 @@
-import {
-  Alert, LineItemTemplate, Spinner,
-} from '@myob/myob-widgets';
+import { Alert, LineItemTemplate, Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsLoading, getModalType, getPageTitle,
+  getAlertMessage,
+  getIsLoading,
+  getModalType,
+  getPageTitle,
 } from '../spendMoneyDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
+import SpendMoneyAttachments from './SpendMoneyAttachments';
 import SpendMoneyDetailActions from './SpendMoneyDetailActions';
 import SpendMoneyDetailOptions from './SpendMoneyDetailOptions';
 import SpendMoneyDetailTable from './SpendMoneyDetailTable';
@@ -31,6 +33,10 @@ const SpendMoneyDetailView = ({
   onAddRow,
   onRemoveRow,
   onRowInputBlur,
+  onAddAttachments,
+  onRemoveAttachment,
+  onDeleteAttachmentModal,
+  onOpenAttachment,
 }) => {
   const templateOptions = (
     <SpendMoneyDetailOptions
@@ -72,6 +78,15 @@ const SpendMoneyDetailView = ({
         description="Are you sure you want delete this spend money transaction?"
       />
     );
+  } else if (modalType === 'deleteAttachment') {
+    modal = (
+      <DeleteModal
+        onCancel={onCloseModal}
+        onConfirm={onDeleteAttachmentModal}
+        title="Delete attachment"
+        description="Are you sure you want delete this attachment?"
+      />
+    );
   }
 
   const view = (
@@ -91,6 +106,11 @@ const SpendMoneyDetailView = ({
         />
 
       </LineItemTemplate>
+      <SpendMoneyAttachments
+        onAddAttachments={onAddAttachments}
+        onRemoveAttachment={onRemoveAttachment}
+        onOpenAttachment={onOpenAttachment}
+      />
     </React.Fragment>
   );
 

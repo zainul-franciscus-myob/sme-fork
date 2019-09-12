@@ -34,6 +34,47 @@ const abortRequest = (intent) => {
   }
 };
 
+const doFetch = (intent, urlParams, allowParallelRequests, headers, body) => {
+  if (!allowParallelRequests) {
+    abortRequest(intent);
+  }
+
+  const controller = new AbortController();
+  abortMapping[intent] = controller;
+
+  const { baseUrl } = config;
+  const requestSpec = RootMapping[intent];
+  const requestOptions = {
+    method: requestSpec.method,
+    headers,
+    body,
+    signal: controller.signal,
+  };
+
+  const intentUrlPath = requestSpec.getPath(urlParams);
+  const url = `${baseUrl}${intentUrlPath}`;
+
+  return fetch(url, requestOptions);
+};
+
+const sendXHRRequest = (method, url, headers, body, onSuccess, onFailure, onProgress) => {
+  const xhr = new XMLHttpRequest();
+  xhr.responseType = 'json';
+  if (xhr.upload && onProgress) {
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) {
+        onProgress(e.loaded / e.total);
+      }
+    };
+  }
+  xhr.onload = () => (xhr.status >= 400 ? onFailure(xhr.response) : onSuccess(xhr.response));
+  xhr.open(method, url, true);
+  Object.keys(headers).forEach((key) => {
+    xhr.setRequestHeader(key, headers[key]);
+  });
+  xhr.send(body);
+};
+
 const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
   read: async ({
     intent,
@@ -77,31 +118,39 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     onSuccess,
     onFailure,
   }) => {
-    if (!allowParallelRequests) {
-      abortRequest(intent);
-    }
-
-    const controller = new AbortController();
-    abortMapping[intent] = controller;
-
-    const { baseUrl } = config;
-    const requestSpec = RootMapping[intent];
     const additionalHeaders = await getAdditionalHeaders();
-    const requestOptions = {
-      method: requestSpec.method,
-      headers: { ...getDefaultHttpHeaders(), ...additionalHeaders },
-      body: JSON.stringify(content),
-      signal: controller.signal,
-    };
-
-    const intentUrlPath = requestSpec.getPath(urlParams);
-    const url = `${baseUrl}${intentUrlPath}`;
+    const headers = { ...getDefaultHttpHeaders(), ...additionalHeaders };
+    const body = JSON.stringify(content);
 
     handleResponse(
-      fetch(url, requestOptions),
+      doFetch(intent, urlParams, allowParallelRequests, headers, body),
       onSuccess,
       onFailure,
     );
+  },
+  writeFormData: async ({
+    intent,
+    urlParams,
+    content,
+    onSuccess,
+    onFailure,
+    onProgress,
+  }) => {
+    const additionalHeaders = await getAdditionalHeaders();
+    const headers = {
+      ...getDefaultHttpHeaders(),
+      ...additionalHeaders,
+      'Content-Type': 'multipart/form-data',
+    };
+    const body = new FormData();
+    Object.keys(content).forEach(key => body.append(key, content[key] || ''));
+
+    const { baseUrl } = config;
+    const requestSpec = RootMapping[intent];
+    const intentUrlPath = requestSpec.getPath(urlParams);
+    const url = `${baseUrl}${intentUrlPath}`;
+
+    sendXHRRequest(requestSpec.method, url, headers, body, onSuccess, onFailure, onProgress);
   },
 });
 

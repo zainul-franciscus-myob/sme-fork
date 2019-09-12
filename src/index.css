@@ -1,7 +1,11 @@
 :root {
   --flx-palette-storm-11: #e8eaec;
+  --flx-palette-storm-17: #dcdfe1;
+
+  /* border */
   --flx-border-button-secondary: 1px solid #c5c9ce;
   --flx-border-radius-button: 0.4rem;
+  --flx-border-width-small: 2px;
 
   /* text color */
   --flx-color-alert-error-link: #ce2554;
@@ -18,6 +22,7 @@
   --flx-spacing-x-small: 1.2rem;
 
   /* padding */
+  --flx-padding-card-body: 1.6rem;
   --flx-padding-input-y: 0.4rem;
   --flx-padding-input-x: 1rem;
 
