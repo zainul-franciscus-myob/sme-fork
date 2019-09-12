@@ -29,7 +29,7 @@ const createBillServiceIntegrator = (store, integration) => ({
     const state = store.getState();
     const urlParams = {
       businessId: getBusinessId(state),
-      contactId: getContactId(state),
+      supplierId: getContactId(state),
     };
 
     integration.read({
