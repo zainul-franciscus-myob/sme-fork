@@ -1,20 +1,28 @@
 import { Button, ButtonRow } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
+
+import { getIsSubmitting } from '../../PayRunSelectors';
 
 const EmployeePayActions = ({
   onNextButtonClick,
   onPreviousButtonClick,
+  isSubmitting,
 }) => (
   <ButtonRow
     primary={[
-      <Button key="previous" name="previous" type="secondary" onClick={onPreviousButtonClick}>
+      <Button key="previous" name="previous" type="secondary" disabled={isSubmitting} onClick={onPreviousButtonClick}>
           Previous
       </Button>,
-      <Button key="save" name="save" type="primary" onClick={onNextButtonClick}>
+      <Button key="save" name="save" type="primary" disabled={isSubmitting} onClick={onNextButtonClick}>
           Next
       </Button>,
     ]}
   />
 );
 
-export default EmployeePayActions;
+const mapStateToProps = state => ({
+  isSubmitting: getIsSubmitting(state),
+});
+
+export default connect(mapStateToProps)(EmployeePayActions);

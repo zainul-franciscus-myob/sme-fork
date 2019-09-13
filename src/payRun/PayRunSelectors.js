@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import dateFormat from 'dateformat';
 
 export const getIsLoading = state => state.isLoading;
+export const getIsSubmitting = state => state.isSubmitting;
 export const getBusinessId = state => state.businessId;
 export const getAlert = state => state.alert;
 export const getStep = state => state.step;

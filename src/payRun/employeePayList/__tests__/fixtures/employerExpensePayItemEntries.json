@@ -1,0 +1,14 @@
+[
+  {
+    "payItemId": "9",
+    "payItemName": "Coffee Reimbursement",
+    "type": "Expense",
+    "amount": "10000.00"
+  },
+  {
+    "payItemId": "10",
+    "payItemName": "Mortgage repayment",
+    "type": "SuperannuationExpense",
+    "amount": "10000.00"
+  }
+]

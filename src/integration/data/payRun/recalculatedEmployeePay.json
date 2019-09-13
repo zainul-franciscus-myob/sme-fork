@@ -1,0 +1,60 @@
+{
+  "employeeId": "21",
+  "name": "Mary Jones",
+  "gross": 2500,
+  "payg": 200,
+  "deduction": 300,
+  "netPay": 1000,
+  "super": 350,
+  "payItems": [
+    {
+      "payItemId": "1",
+      "payItemName": "Salary Wage",
+      "type": "SalaryWage",
+      "amount": "100000.00",
+      "hours": "0.00"
+    },
+    {
+      "payItemId": "2",
+      "payItemName": "Hourly Wage",
+      "type": "HourlyWage",
+      "amount": "0.00",
+      "hours": "38.50"
+    },
+    {
+      "payItemId": "3",
+      "payItemName": "Child support deduction",
+      "type": "Deduction",
+      "amount": "100.00",
+      "hours": "0.00"
+    },
+    {
+      "payItemId": "4",
+      "payItemName": "Superannuation deduction before tax",
+      "type": "SuperannuationDeductionBeforeTax",
+      "amount": "200.00",
+      "hours": "0.00"
+    },
+    {
+      "payItemId": "5",
+      "payItemName": "Superannuation deduction after tax",
+      "type": "SuperannuationDeductionAfterTax",
+      "amount": "100.00",
+      "hours": "0.00"
+    },
+    {
+      "payItemId": "6",
+      "payItemName": "Child support deduction",
+      "type": "Deduction",
+      "amount": "5000.00",
+      "hours": "0.00"
+    },
+    {
+      "payItemId": "7",
+      "payItemName": "Annual Leave",
+      "type": "Entitlement",
+      "amount": "0.00",
+      "hours": "30.00"
+    }
+  ]
+}

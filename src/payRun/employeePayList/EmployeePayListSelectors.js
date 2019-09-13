@@ -57,3 +57,86 @@ export const getTotals = createSelector(
     };
   },
 );
+
+const isWageDeductionTaxPayItem = payItemType => [
+  'SalaryWage',
+  'HourlyWage',
+  'Deduction',
+  'SuperannuationDeductionBeforeTax',
+  'SuperannuationDeductionAfterTax',
+  'Tax',
+].includes(payItemType);
+const isLeavePayItem = payItemType => payItemType === 'Entitlement';
+const isEmployerExpensePayItem = payItemType => ['Expense', 'SuperannuationExpense'].includes(payItemType);
+
+const getEmployeeLineByEmployeeId = (state, employeeId) => state.employeePayList.lines.find(
+  line => line.employeeId === employeeId,
+);
+const getCombinedPayItemEntryShape = (payItem) => {
+  if (payItem.type !== 'HourlyWage') {
+    const { hours, ...restOfPayItem } = payItem;
+    return restOfPayItem;
+  }
+  return payItem;
+};
+export const getCombinedPayItemEntries = createSelector(
+  (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
+  line => line.payItems
+    .filter(payItem => isWageDeductionTaxPayItem(payItem.type))
+    .map(payItem => getCombinedPayItemEntryShape(payItem)),
+);
+
+export const getLeavePayItemEntries = createSelector(
+  (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
+  line => line.payItems.filter(payItem => isLeavePayItem(payItem.type)),
+);
+
+const getEmployerExpensePayItemShape = (payItem) => {
+  const { hours, ...restOfPayItem } = payItem;
+  return restOfPayItem;
+};
+export const getEmployerExpensePayItemEntries = createSelector(
+  (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
+  (state, props) => state.employeePayList.lines.find(line => line.employeeId === props.employeeId),
+  line => line.payItems
+    .filter(payItem => isEmployerExpensePayItem(payItem.type))
+    .map(payItem => getEmployerExpensePayItemShape(payItem)),
+);
+
+export const getShouldShowCombinedPayItemTableRows = () => true;
+export const getShouldShowLeavePayItemTableRows = createSelector(
+  (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
+  line => line.payItems.some(payItem => isLeavePayItem(payItem.type)),
+);
+export const getShouldShowExpensePayItemTableRows = createSelector(
+  (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
+  line => line.payItems.some(payItem => isEmployerExpensePayItem(payItem.type)),
+);
+
+const getPayItemLineForRecalculatePayload = (payItem) => {
+  const { payItemName, isSubmitting, ...restOfPayItem } = payItem;
+  return restOfPayItem;
+};
+
+export const getRecalculatePayPayload = ({
+  state, employeeId, payItemId, key,
+}) => {
+  const editedField = key;
+  const editedEmployeeLine = getEmployeeLineByEmployeeId(state, employeeId);
+  const editedPayItem = editedEmployeeLine.payItems.find(
+    payItem => payItem.payItemId === payItemId,
+  );
+
+  return {
+    employeeId,
+    paymentFrequency: state.startPayRun.paymentFrequency,
+    paymentDate: state.startPayRun.paymentDate,
+    payPeriodStart: state.startPayRun.payPeriodStart,
+    payPeriodEnd: state.startPayRun.payPeriodEnd,
+    payItems: editedEmployeeLine.payItems.map(
+      payItem => getPayItemLineForRecalculatePayload(payItem),
+    ),
+    editedField,
+    editedPayItem: getPayItemLineForRecalculatePayload(editedPayItem),
+  };
+};

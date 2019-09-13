@@ -1,0 +1,45 @@
+[
+  {
+    "payItemId": "1",
+    "payItemName": "Salary Wage",
+    "type": "SalaryWage",
+    "amount": "100000.00"
+  },
+  {
+    "payItemId": "2",
+    "payItemName": "Hourly Wage",
+    "type": "HourlyWage",
+    "amount": "0.00",
+    "hours": "38.50"
+  },
+  {
+    "payItemId": "3",
+    "payItemName": "Child support deduction",
+    "type": "Deduction",
+    "amount": "100.00"
+  },
+  {
+    "payItemId": "4",
+    "payItemName": "Superannuation deduction before tax",
+    "type": "SuperannuationDeductionBeforeTax",
+    "amount": "200.00"
+  },
+  {
+    "payItemId": "5",
+    "payItemName": "Superannuation deduction after tax",
+    "type": "SuperannuationDeductionAfterTax",
+    "amount": "100.00"
+  },
+  {
+    "payItemId": "6",
+    "payItemName": "Child support deduction",
+    "type": "Deduction",
+    "amount": "5000.00"
+  },
+  {
+    "payItemId": "11",
+    "payItemName": "PayGWithholding",
+    "type": "Tax",
+    "amount": "222.00"
+  }
+]

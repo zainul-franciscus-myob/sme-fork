@@ -5,6 +5,7 @@ import {
   PREVIOUS_STEP,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
   START_NEW_PAY_RUN,
 } from './PayRunIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
@@ -50,6 +51,11 @@ const createPayRunDispatchers = store => ({
   setLoadingState: (isLoading) => {
     const intent = SET_LOADING_STATE;
     store.dispatch({ intent, isLoading });
+  },
+
+  setSubmittingState: (isSubmitting) => {
+    const intent = SET_SUBMITTING_STATE;
+    store.dispatch({ intent, isSubmitting });
   },
 
   startNewPayRun: (response) => {

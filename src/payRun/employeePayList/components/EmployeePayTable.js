@@ -9,6 +9,7 @@ import {
   getIsAllSelected,
   getIsPartiallySelected, getNumberOfSelected, getTotals,
 } from '../EmployeePayListSelectors';
+import EmployeeRecalculatePayTable from './EmployeeRecalculatePayTable';
 import FormCard from '../../../components/FormCard/FormCard';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import styles from './EmployeePayTable.module.css';
@@ -26,8 +27,6 @@ const tableConfig = {
 
 const handleEmployeeCheckboxChange = (handler, id) => () => handler(id);
 
-const AccordionContent = 'Accordion content goes here...';
-
 const EmployeePayTable = ({
   lines,
   isAllSelected,
@@ -36,6 +35,8 @@ const EmployeePayTable = ({
   numberOfSelected,
   onSelectRow,
   onSelectAllRows,
+  onEmployeePayItemChange,
+  onEmployeePayItemBlur,
 }) => (
   <div className={styles.employeePayTable}>
     <FormCard>
@@ -92,7 +93,11 @@ const EmployeePayTable = ({
                   </Table.Row>
                 )}
               >
-                {AccordionContent}
+                <EmployeeRecalculatePayTable
+                  employeeId={line.employeeId}
+                  onEmployeePayItemChange={onEmployeePayItemChange}
+                  onEmployeePayItemBlur={onEmployeePayItemBlur}
+                />
               </Table.CollapsibleRow>
             ))}
             <Table.CollapsibleRow

@@ -5,6 +5,7 @@ import {
   PREVIOUS_STEP,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
 } from './PayRunIntents';
 import {
   EMPLOYEE_PAY_LIST,
@@ -21,6 +22,7 @@ import wrapHandlers from '../store/wrapHandlers';
 
 const getDefaultState = () => ({
   isLoading: false,
+  isSubmitting: false,
   alert: undefined,
   step: 0,
   modal: undefined,
@@ -33,6 +35,11 @@ const resetState = () => ({ ...getDefaultState() });
 const setLoadingState = (state, { isLoading }) => ({
   ...state,
   isLoading,
+});
+
+const setSubmittingState = (state, { isSubmitting }) => ({
+  ...state,
+  isSubmitting,
 });
 
 const setInitialState = (state, { context }) => ({
@@ -71,6 +78,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
+  [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,

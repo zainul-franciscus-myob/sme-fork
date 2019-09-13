@@ -1,0 +1,16 @@
+[
+  {
+    "payItemId": "7",
+    "payItemName": "Annual Leave",
+    "type": "Entitlement",
+    "amount": "0.00",
+    "hours": "30.00"
+  },
+  {
+    "payItemId": "8",
+    "payItemName": "Sick Leave",
+    "type": "Entitlement",
+    "amount": "0.00",
+    "hours": "10.00"
+  }
+]
