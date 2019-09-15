@@ -15,6 +15,6 @@ const getPaymentInformation = state => ({
 
 export const getRecordPayContents = state => ({
   dateOccurred: convertToDateString(Date.now()),
-  employeePayLines: state.employeePayList.lines,
+  employeePayLines: state.employeePayList.lines.filter(line => line.isSelected),
   ...getPaymentInformation(state),
 });

@@ -11,10 +11,8 @@ describe('RecordPayRunSelectors', () => {
 
     const lines = [
       {
-        employeeId: '21',
-      },
-      {
         employeeId: '22',
+        isSelected: true,
       },
     ];
 
@@ -23,7 +21,16 @@ describe('RecordPayRunSelectors', () => {
         ...paymentDates,
       },
       employeePayList: {
-        lines,
+        lines: [
+          {
+            employeeId: '21',
+            isSelected: false,
+          },
+          {
+            employeeId: '22',
+            isSelected: true,
+          },
+        ],
       },
     };
 
