@@ -500,7 +500,7 @@ const getUpdatedPayHistoryItemPayload = payHistoryItems => (
 
     const updatedLines = getPayHistoryItemLinesPayload(lines);
 
-    return updatedLines.length
+    return id || updatedLines.length
       ? [...accumulator, {
         id, payItemId, payItemType, lines: updatedLines,
       }]

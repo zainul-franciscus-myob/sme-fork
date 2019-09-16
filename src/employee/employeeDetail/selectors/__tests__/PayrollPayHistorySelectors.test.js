@@ -944,6 +944,39 @@ describe('PayrollPayHistorySelectors', () => {
       expect(actual).toEqual(expected);
     });
 
+    it('should return pay history item that has pre-existing record with 0 adjustment', () => {
+      const state = {
+        payrollDetails: {
+          payHistoryDetails: {
+            filterOptions: {
+              period: 'July',
+            },
+            payHistoryItems: [
+              {
+                payItemId: '11',
+                payItemType: 'WagesPayrollCategory',
+                lines: [
+                  {
+                    total: '0.00',
+                    activity: 0,
+                    month: 'July',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      };
+
+      const expected = {
+        payHistoryItems: [],
+      };
+
+      const actual = getPayHistoryDetailsPayload(state);
+
+      expect(actual).toEqual(expected);
+    });
+
     it('should not return new pay history item that has 0 adjustment', () => {
       const state = {
         payrollDetails: {
@@ -953,7 +986,6 @@ describe('PayrollPayHistorySelectors', () => {
             },
             payHistoryItems: [
               {
-                id: '1',
                 payItemId: '11',
                 payItemType: 'WagesPayrollCategory',
                 lines: [
