@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AlertType from '../types/AlertType';
 import StartPayRunView from './components/StartPayRunView';
 import createStartPayRunDispatchers from './createStartPayRunDispatchers';
 import createStartPayRunIntegrator from './createStartPayRunIntegrator';
@@ -28,7 +29,7 @@ export default class StartPayRunModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setLoadingState(false);
-      this.dispatcher.setAlert({ type: 'danger', message });
+      this.dispatcher.setAlert({ type: AlertType.ERROR, message });
     };
 
     this.integrator.loadEmployeePays({ onSuccess, onFailure });

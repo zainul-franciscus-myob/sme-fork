@@ -7,13 +7,13 @@ import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../PayRunIntents';
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
-export const getStartPayRunDefaultState = {
+export const getStartPayRunDefaultState = () => ({
   paymentFrequency: 'Weekly',
   paymentDate: convertToDateString(Date.now()),
   payPeriodStart: '2019-01-01',
   payPeriodEnd: convertToDateString(Date.now()),
   regularPayCycleOptions: [],
-};
+});
 
 const calculateStartDate = (payCycle, endDateString) => {
   let startDate;

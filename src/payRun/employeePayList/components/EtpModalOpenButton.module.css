@@ -1,0 +1,7 @@
+.button {
+  margin-right: var(--flx-spacing-x-small);
+}
+
+.selected {
+  font-weight: bold;
+}

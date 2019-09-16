@@ -1,14 +1,19 @@
 import {
   getCombinedPayItemEntries,
   getEmployerExpensePayItemEntries,
+  getIsEtpAlertForLineShown,
+  getIsEtpSelectionForLineShown,
   getIsPartiallySelected,
+  getIsValidEtp,
   getLeavePayItemEntries,
   getRecalculatePayPayload,
   getShouldShowCombinedPayItemTableRows,
   getShouldShowExpensePayItemTableRows,
   getShouldShowLeavePayItemTableRows,
   getTotals,
+  getValidateEtpContent,
 } from '../EmployeePayListSelectors';
+import EtpCode from '../types/EtpCode';
 import combinedPayItemEntries from './fixtures/combinedPayItemEntries';
 import employeePayList from './fixtures/stateWithEmployeePayItems';
 import employerExpensePayItemEntries from './fixtures/employerExpensePayItemEntries';
@@ -107,6 +112,211 @@ describe('EmployeePayListSelectors', () => {
       const actual = getTotals(state);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getValidateEtpContent', () => {
+    it('builds content', () => {
+      const state = {
+        employeePayList: {
+          lines: [
+            {
+              employeeId: '1',
+              name: 'Tony',
+              payItems: [
+                {
+                  payItemId: '1',
+                  amount: '1.00',
+                  stpCategory: 'something else',
+                },
+              ],
+            },
+            {
+              employeeId: '2',
+              name: 'Edward',
+              etpCode: EtpCode.B,
+              payItems: [
+                {
+                  payItemId: '2',
+                  amount: '2.00',
+                  stpCategory: 'ETPTaxableComponent',
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const actual = getValidateEtpContent(state);
+
+      expect(actual).toEqual([
+        {
+          employeeId: '1',
+          name: 'Tony',
+          etpCode: undefined,
+          payItems: [
+            {
+              payItemId: '1',
+              amount: '1.00',
+              stpCategory: 'something else',
+            },
+          ],
+        },
+        {
+          employeeId: '2',
+          name: 'Edward',
+          etpCode: EtpCode.B,
+          payItems: [
+            {
+              payItemId: '2',
+              amount: '2.00',
+              stpCategory: 'ETPTaxableComponent',
+            },
+          ],
+        },
+      ]);
+    });
+  });
+
+  describe('getIsEtpSelectionForLineShown', () => {
+    const line = {
+      payItems: [
+        {
+          stpCategory: 'ETPTaxableComponent',
+          amount: '1.00',
+        },
+      ],
+      etpCode: undefined,
+    };
+
+
+    [
+      {
+        stpCategory: 'ETPTaxableComponent',
+      },
+      {
+        stpCategory: 'ETPTaxFreeComponent',
+      },
+      {
+        stpCategory: 'ETPTaxWithholding',
+      },
+    ].forEach((test) => {
+      it(`true when has ${test.stpCategory}, non empty amount and no etpCode`, () => {
+        const modifiedLine = {
+          ...line,
+          payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: test.stpCategory })),
+        };
+        const actual = getIsEtpAlertForLineShown(modifiedLine);
+
+        expect(actual).toEqual(true);
+      });
+    });
+
+    it('true when has existing etpCode', () => {
+      const modifiedLine = {
+        ...line,
+        etpCode: EtpCode.B,
+      };
+
+      const actual = getIsEtpSelectionForLineShown(modifiedLine);
+
+      expect(actual).toEqual(true);
+    });
+
+    it('false when has empty etp pay item', () => {
+      const modifiedLine = {
+        ...line,
+        payItems: line.payItems.map(payItem => ({ ...payItem, amount: '0.00' })),
+      };
+
+      const actual = getIsEtpSelectionForLineShown(modifiedLine);
+
+      expect(actual).toEqual(false);
+    });
+
+    it('false when has no etp pay items', () => {
+      const modifiedLine = {
+        ...line,
+        payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: 'something else' })),
+      };
+
+      const actual = getIsEtpSelectionForLineShown(modifiedLine);
+
+      expect(actual).toEqual(false);
+    });
+  });
+
+  describe('getIsEtpAlertForLineShown', () => {
+    const line = {
+      payItems: [
+        {
+          stpCategory: 'ETPTaxableComponent',
+          amount: '1.00',
+        },
+      ],
+      etpCode: undefined,
+    };
+
+    [
+      {
+        stpCategory: 'ETPTaxableComponent',
+      },
+      {
+        stpCategory: 'ETPTaxFreeComponent',
+      },
+      {
+        stpCategory: 'ETPTaxWithholding',
+      },
+    ].forEach((test) => {
+      it(`true when has ${test.stpCategory} and non empty amount`, () => {
+        const modifiedLine = {
+          ...line,
+          payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: test.stpCategory })),
+        };
+        const actual = getIsEtpAlertForLineShown(modifiedLine);
+
+        expect(actual).toEqual(true);
+      });
+    });
+
+    it('false when has empty etp pay item', () => {
+      const modifiedLine = {
+        ...line,
+        payItems: line.payItems.map(payItem => ({ ...payItem, amount: '0.00' })),
+      };
+
+      const actual = getIsEtpAlertForLineShown(modifiedLine);
+
+      expect(actual).toEqual(false);
+    });
+
+    it('false when has no etp pay items', () => {
+      const modifiedLine = {
+        ...line,
+        payItems: line.payItems.map(payItem => ({ ...payItem, stpCategory: 'something else' })),
+      };
+
+      const actual = getIsEtpAlertForLineShown(modifiedLine);
+
+      expect(actual).toEqual(false);
+    });
+  });
+
+  describe('getIsValidEtp', () => {
+    it('true when empty names', () => {
+      const invalidEtpNames = [];
+
+      const actual = getIsValidEtp({ invalidEtpNames });
+
+      expect(actual).toEqual(true);
+    });
+
+    it('false when has names', () => {
+      const invalidEtpNames = ['Tony'];
+
+      const actual = getIsValidEtp({ invalidEtpNames });
+
+      expect(actual).toEqual(false);
     });
   });
 

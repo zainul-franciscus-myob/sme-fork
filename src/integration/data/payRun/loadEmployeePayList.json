@@ -12,6 +12,7 @@
         "payItemId": "1",
         "payItemName": "Salary Wage",
         "type": "SalaryWage",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "100000.00",
         "hours": "0.00"
       },
@@ -19,6 +20,7 @@
         "payItemId": "2",
         "payItemName": "Hourly Wage",
         "type": "HourlyWage",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "0.00",
         "hours": "38.50"
       },
@@ -26,6 +28,7 @@
         "payItemId": "3",
         "payItemName": "Child support deduction",
         "type": "Deduction",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "100.00",
         "hours": "0.00"
       },
@@ -33,6 +36,7 @@
         "payItemId": "4",
         "payItemName": "Superannuation deduction before tax",
         "type": "SuperannuationDeductionBeforeTax",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "200.00",
         "hours": "0.00"
       },
@@ -40,6 +44,7 @@
         "payItemId": "5",
         "payItemName": "Superannuation deduction after tax",
         "type": "SuperannuationDeductionAfterTax",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "100.00",
         "hours": "0.00"
       },
@@ -47,6 +52,7 @@
         "payItemId": "6",
         "payItemName": "Child support deduction",
         "type": "Deduction",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "5000.00",
         "hours": "0.00"
       },
@@ -54,6 +60,7 @@
         "payItemId": "7",
         "payItemName": "Annual Leave",
         "type": "Entitlement",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "0.00",
         "hours": "30.00"
       },
@@ -61,6 +68,7 @@
         "payItemId": "8",
         "payItemName": "Sick Leave",
         "type": "Entitlement",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "0.00",
         "hours": "10.00"
       },
@@ -68,6 +76,7 @@
         "payItemId": "9",
         "payItemName": "Coffee Reimbursement",
         "type": "Expense",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "10000.00",
         "hours": "0.00"
       },
@@ -75,6 +84,7 @@
         "payItemId": "10",
         "payItemName": "Mortgage repayment",
         "type": "SuperannuationExpense",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "10000.00",
         "hours": "0.00"
       },
@@ -82,6 +92,7 @@
         "payItemId": "11",
         "payItemName": "PayGWithholding",
         "type": "Tax",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "222.00",
         "hours": "0.00"
       }
@@ -100,6 +111,7 @@
         "payItemId": "21",
         "payItemName": "Salary Wage",
         "type": "SalaryWage",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "200000.00",
         "hours": "0.00"
       },
@@ -107,6 +119,7 @@
         "payItemId": "22",
         "payItemName": "Hourly Wage",
         "type": "HourlyWage",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "0.00",
         "hours": "100.50"
       },
@@ -114,6 +127,7 @@
         "payItemId": "33",
         "payItemName": "Child support deduction",
         "type": "Deduction",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "200.00",
         "hours": "0.00"
       },
@@ -121,6 +135,7 @@
         "payItemId": "44",
         "payItemName": "Annual Leave",
         "type": "Entitlement",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "0.00",
         "hours": "50.00"
       },
@@ -128,6 +143,7 @@
         "payItemId": "55",
         "payItemName": "Sick Leave",
         "type": "Entitlement",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "0.00",
         "hours": "40.00"
       },
@@ -135,6 +151,7 @@
         "payItemId": "66",
         "payItemName": "Hot Chocolate Reimbursement",
         "type": "Expense",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "1000000.00",
         "hours": "0.00"
       },
@@ -142,6 +159,7 @@
         "payItemId": "77",
         "payItemName": "PayGWithholding",
         "type": "Tax",
+        "stpCategory": "ETPTaxableComponent",
         "amount": "222333.00",
         "hours": "0.00"
       }

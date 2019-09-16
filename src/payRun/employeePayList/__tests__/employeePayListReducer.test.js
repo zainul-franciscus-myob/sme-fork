@@ -1,4 +1,15 @@
-import { FORMAT_EMPLOYEE_PAY_ITEM, UPDATE_ARE_ALL_EMPLOYEES_SELECTED, UPDATE_IS_EMPLOYEE_SELECTED } from '../../PayRunIntents';
+import {
+  CHANGE_ETP_CODE,
+  CHANGE_ETP_CODE_CATEGORY,
+  CLOSE_ETP_MODAL,
+  FORMAT_EMPLOYEE_PAY_ITEM,
+  OPEN_ETP_MODAL,
+  SAVE_ETP,
+  UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
+  UPDATE_IS_EMPLOYEE_SELECTED,
+} from '../../PayRunIntents';
+import EtpCode from '../types/EtpCode';
+import EtpCodeCategory from '../types/EtpCodeCategory';
 import payRunReducer from '../../payRunReducer';
 
 describe('employeePayListReducer', () => {
@@ -59,6 +70,124 @@ describe('employeePayListReducer', () => {
 
       const actual = payRunReducer(state, action);
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('OPEN_ETP_MODAL', () => {
+    it('opens etp modal with given employee id', () => {
+      const state = {
+        employeePayList: {
+          etp: {},
+        },
+      };
+
+      const action = {
+        intent: OPEN_ETP_MODAL,
+        employeeId: '1',
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual.employeePayList.etp).toEqual({
+        employeeId: '1',
+        isOpen: true,
+      });
+    });
+  });
+
+  describe('CLOSE_ETP_MODAL', () => {
+    it('resets etp modal to default closed state', () => {
+      const state = {
+        employeePayList: {
+          etp: {},
+        },
+      };
+
+      const action = {
+        intent: CLOSE_ETP_MODAL,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual.employeePayList.etp).toEqual({
+        employeeId: '',
+        isOpen: false,
+      });
+    });
+  });
+
+  describe('CHANGE_ETP_CODE', () => {
+    it('changes etp code', () => {
+      const state = {
+        employeePayList: {
+          etp: {
+            code: EtpCode.B,
+          },
+        },
+      };
+
+      const action = {
+        intent: CHANGE_ETP_CODE,
+        etpCode: EtpCode.D,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual.employeePayList.etp.code).toEqual(EtpCode.D);
+    });
+  });
+
+  describe('CHANGE_ETP_CODE_CATEGORY', () => {
+    it('changes etp code', () => {
+      const state = {
+        employeePayList: {
+          etp: {
+            category: EtpCodeCategory.LIFE,
+          },
+        },
+      };
+
+      const action = {
+        intent: CHANGE_ETP_CODE_CATEGORY,
+        etpCodeCategory: EtpCodeCategory.DEATH,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual.employeePayList.etp.category).toEqual(
+        EtpCodeCategory.DEATH,
+      );
+    });
+  });
+
+  describe('SAVE_ETP', () => {
+    it('saves etp code to the corresponding employee', () => {
+      const state = {
+        employeePayList: {
+          lines: [
+            {
+              employeeId: '1',
+            },
+          ],
+          etp: {
+            employeeId: '1',
+            code: EtpCode.B,
+          },
+        },
+      };
+
+      const action = {
+        intent: SAVE_ETP,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual.employeePayList.lines).toEqual([
+        {
+          employeeId: '1',
+          etpCode: EtpCode.B,
+        },
+      ]);
     });
   });
 

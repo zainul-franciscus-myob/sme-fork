@@ -7,9 +7,12 @@ import React from 'react';
 import {
   getFormattedEmployeePayLines,
   getIsAllSelected,
-  getIsPartiallySelected, getNumberOfSelected, getTotals,
+  getIsPartiallySelected,
+  getNumberOfSelected,
+  getTotals,
 } from '../EmployeePayListSelectors';
 import EmployeeRecalculatePayTable from './EmployeeRecalculatePayTable';
+import EtpModalOpenButton from './EtpModalOpenButton';
 import FormCard from '../../../components/FormCard/FormCard';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import styles from './EmployeePayTable.module.css';
@@ -35,6 +38,7 @@ const EmployeePayTable = ({
   numberOfSelected,
   onSelectRow,
   onSelectAllRows,
+  onOpenEtpModal,
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
 }) => (
@@ -93,6 +97,7 @@ const EmployeePayTable = ({
                   </Table.Row>
                 )}
               >
+                <EtpModalOpenButton line={line} onOpenEtpModal={onOpenEtpModal} />
                 <EmployeeRecalculatePayTable
                   employeeId={line.employeeId}
                   onEmployeePayItemChange={onEmployeePayItemChange}

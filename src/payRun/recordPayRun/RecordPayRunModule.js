@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AlertType from '../types/AlertType';
 import RecordPayRunView from './components/RecordPayRunView';
 import createPayRunDispatchers from '../createPayRunDispatchers';
 import createRecordPayRunIntegrator from './createRecordPayRunIntegrator';
@@ -27,7 +28,7 @@ export default class RecordPayRunModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setLoadingState(false);
-      this.dispatcher.setAlert({ type: 'danger', message });
+      this.dispatcher.setAlert({ type: AlertType.ERROR, message });
     };
 
     this.integrator.recordPayments({ onSuccess, onFailure });

@@ -58,6 +58,45 @@ export const getTotals = createSelector(
   },
 );
 
+export const getEtpCodeCategory = state => state.employeePayList.etp.category;
+export const getEtpCode = state => state.employeePayList.etp.code;
+export const getIsEtpOpen = state => state.employeePayList.etp.isOpen;
+export const getEtpEmployeeId = state => state.employeePayList.etp.employeeId;
+export const getIsEtpCodeCategorySelected = createSelector(
+  getEtpCodeCategory,
+  Boolean,
+);
+
+const isEtpCategory = stpCategory => ['ETPTaxableComponent', 'ETPTaxFreeComponent', 'ETPTaxWithholding'].includes(stpCategory);
+const getIsNonEmptyEtpLine = ({ payItems }) => payItems.some(({ stpCategory, amount }) => (
+  isEtpCategory(stpCategory) && Number(amount) !== 0
+));
+export const getIsEtpAlertForLineShown = ({ payItems, etpCode }) => (
+  !etpCode && getIsNonEmptyEtpLine({ payItems })
+);
+
+const getIsUpdateableEtpLine = ({ etpCode }) => Boolean(etpCode);
+export const getIsEtpSelectionForLineShown = line => (
+  getIsUpdateableEtpLine(line) || getIsEtpAlertForLineShown(line)
+);
+
+export const getIsValidEtp = ({ invalidEtpNames }) => invalidEtpNames.length === 0;
+export const getInvalidEtpNames = state => state.employeePayList.invalidEtpNames;
+
+export const getValidateEtpContent = createSelector(
+  getEmployeePayLines,
+  lines => lines.map(({
+    employeeId, name, etpCode, payItems,
+  }) => ({
+    employeeId,
+    name,
+    etpCode,
+    payItems: payItems.map(({ payItemId, amount, stpCategory }) => (
+      { payItemId, amount, stpCategory }
+    )),
+  })),
+);
+
 const isWageDeductionTaxPayItem = payItemType => [
   'SalaryWage',
   'HourlyWage',

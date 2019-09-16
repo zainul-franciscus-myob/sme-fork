@@ -26,8 +26,8 @@ const getDefaultState = () => ({
   alert: undefined,
   step: 0,
   modal: undefined,
-  [START_PAY_RUN]: getStartPayRunDefaultState,
-  [EMPLOYEE_PAY_LIST]: getEmployeePayListDefaultState,
+  [START_PAY_RUN]: getStartPayRunDefaultState(),
+  [EMPLOYEE_PAY_LIST]: getEmployeePayListDefaultState(),
 });
 
 const resetState = () => ({ ...getDefaultState() });

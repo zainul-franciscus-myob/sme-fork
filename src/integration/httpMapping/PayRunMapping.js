@@ -1,5 +1,9 @@
 import {
-  LOAD_EMPLOYEE_PAYS, RECALCULATE_PAY, RECORD_PAYMENTS, START_NEW_PAY_RUN,
+  LOAD_EMPLOYEE_PAYS,
+  RECALCULATE_PAY,
+  RECORD_PAYMENTS,
+  START_NEW_PAY_RUN,
+  VALIDATE_ETP,
 } from '../../payRun/PayRunIntents';
 
 const PayRunMapping = {
@@ -24,6 +28,10 @@ const PayRunMapping = {
   [RECORD_PAYMENTS]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/payRun/record_payments`,
+  },
+  [VALIDATE_ETP]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/payRun/validate_etp`,
   },
 };
 

@@ -1,10 +1,11 @@
-import { Alert, BaseTemplate } from '@myob/myob-widgets';
+import { BaseTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAlert, getIsLoading, getModal, getStep,
 } from '../PayRunSelectors';
+import AlertContainer from './AlertContainer';
 import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import ModalContainer from './ModalContainer';
 
@@ -27,9 +28,7 @@ const PayRunView = ({
   );
 
   const alertComponent = alert && (
-    <Alert type={alert.type} onDismiss={onDismissAlert}>
-      {alert.message}
-    </Alert>
+    <AlertContainer onDismissAlert={onDismissAlert} />
   );
 
   const view = (
