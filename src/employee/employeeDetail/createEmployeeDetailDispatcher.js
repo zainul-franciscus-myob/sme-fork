@@ -566,7 +566,12 @@ const createEmployeeDetailDispatcher = store => ({
     store.dispatch({ intent, alert: undefined });
   },
 
-  changeExpensePayItemModalAlert: ({ key, value }) => {
+  setExpensePayItemModalAlert: (alert) => {
+    const intent = SET_EXPENSE_PAY_ITEM_MODAL_ALERT;
+    store.dispatch({ intent, alert });
+  },
+
+  changeExpensePayItemModalInput: ({ key, value }) => {
     const intent = CHANGE_EXPENSE_PAY_ITEM_MODAL_INPUT;
     store.dispatch({ intent, key, value });
   },

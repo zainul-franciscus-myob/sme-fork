@@ -826,7 +826,7 @@ export default class EmployeeDetailModule {
           onDismissAlert: this.dispatcher.dismissExpensePayItemModalAlert,
           onSave: this.saveExpensePayItemModal,
           onCancel: this.dispatcher.closeExpensePayItemModal,
-          onChangeExpensePayItemInput: this.dispatcher.changeExpensePayItemModalAlert,
+          onChangeExpensePayItemInput: this.dispatcher.changeExpensePayItemModalInput,
           onBlurExpensePayItemAmountInput: this.dispatcher.formatExpensePayItemModalAmountInput,
           onAddAllocatedEmployee: this.dispatcher.addExpensePayItemModalAllocatedEmployee,
           onRemoveAllocatedEmployee: this.dispatcher.removeExpensePayItemModalAllocatedEmployee,
