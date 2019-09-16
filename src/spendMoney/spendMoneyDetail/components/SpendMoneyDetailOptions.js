@@ -60,6 +60,7 @@ class SpendMoneyDetailOptions extends Component {
         selectedPayToContactId,
         selectedPayFromAccountId,
         isReportableDisabled,
+        shouldShowReportable,
       },
     } = this.props;
 
@@ -81,29 +82,32 @@ class SpendMoneyDetailOptions extends Component {
             label="Contact (payee)"
             name="Pay To Contacts"
             hideLabel={false}
-            hintText="Select contact"
           />
         </div>
-        <CheckboxGroup
-          hideLabel
-          label="Report to ATO via TPAR"
-          renderCheckbox={() => (
-            <Checkbox
-              name="isReportable"
-              label="Report to ATO via TPAR"
-              checked={isReportable}
-              onChange={this.handleCheckboxChange}
-              disabled={isReportableDisabled}
-            />
-          )}
-        />
+        {
+          shouldShowReportable
+          && (
+          <CheckboxGroup
+            hideLabel
+            label="Report to ATO via TPAR"
+            renderCheckbox={() => (
+              <Checkbox
+                name="isReportable"
+                label="Report to ATO via TPAR"
+                checked={isReportable}
+                onChange={this.handleCheckboxChange}
+                disabled={isReportableDisabled}
+              />
+            )}
+          />
+          )
+        }
         <TextArea
           name="description"
           label="Description of transaction"
           rows={1}
           autoSize
           maxLength={255}
-          placeholder="Max 255 characters"
           resize="vertical"
           value={description}
           onChange={this.handleInputChange}

@@ -34,10 +34,13 @@ export const getIsReportableDisabled = createSelector(
   },
 );
 
+const getShouldShowReportable = state => state.region.toLowerCase() === 'au';
+
 export const getHeaderOptions = createSelector(
   getHeadersProperties,
   getIsReportableDisabled,
-  (headerProps, isReportableDisabled) => {
+  getShouldShowReportable,
+  (headerProps, isReportableDisabled, shouldShowReportable) => {
     const {
       payFromAccounts = [], payToContacts = [],
       ...headerOptions
@@ -48,6 +51,7 @@ export const getHeaderOptions = createSelector(
       payToContacts,
       ...headerOptions,
       isReportableDisabled,
+      shouldShowReportable,
     };
   },
 );

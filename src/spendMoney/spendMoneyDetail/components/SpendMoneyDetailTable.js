@@ -73,7 +73,7 @@ class SpendMoneyDetailTable extends React.Component {
       {
         label: taxCodeLabel,
         requiredLabel: 'Required',
-        styles: { width: '8rem', align: 'left' },
+        styles: { width: '8.4rem', align: 'left' },
       },
     ];
 
