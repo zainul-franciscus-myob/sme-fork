@@ -110,6 +110,7 @@ import {
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
+  UPDATE_EMPLOYEE,
   UPDATE_EXPENSE_PAY_ITEM_MODAL,
   UPDATE_LEAVE_PAY_ITEM,
   UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS,
@@ -251,6 +252,11 @@ const createEmployeeDetailDispatcher = store => ({
 
   loadEmployeeDetails: (response) => {
     const intent = LOAD_EMPLOYEE_DETAIL;
+    store.dispatch({ intent, ...response });
+  },
+
+  updateEmployeeDetail: (response) => {
+    const intent = UPDATE_EMPLOYEE;
     store.dispatch({ intent, ...response });
   },
 

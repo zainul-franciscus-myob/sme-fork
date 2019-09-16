@@ -63,6 +63,7 @@ import updateDeductionPayItemModalResponse
   from '../data/employee/updatedDeductionPayItemModalResponse';
 import updateExpensePayItemModalResponse from '../data/employee/updatedExpensePayItemModalResponse';
 import updateSuperPayItemModalResponse from '../data/employee/updateSuperPayItemModalResponse';
+import updatedEmployeeDetailResponse from '../data/employee/updateEmployeeDetailResponse';
 import updatedLeavePayItemModalResponse from '../data/employee/updatedLeavePayItemModalResponse';
 import updatedWagePayItemModalResponse from '../data/employee/updatedWagePayItemModalResponse';
 
@@ -74,7 +75,7 @@ const loadEmployeeDetail = ({ onSuccess }) => { onSuccess(employeeDetailLoadResp
 
 const loadNewEmployeeDetail = ({ onSuccess }) => { onSuccess(newEmployeeDetailResponse); };
 
-const updateEmployee = ({ onSuccess }) => { onSuccess(successResponse); };
+const updateEmployee = ({ onSuccess }) => { onSuccess(updatedEmployeeDetailResponse); };
 
 const deleteEmployee = ({ onSuccess }) => { onSuccess(successResponse); };
 

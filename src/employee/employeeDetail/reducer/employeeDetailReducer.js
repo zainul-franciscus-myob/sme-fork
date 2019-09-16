@@ -110,6 +110,7 @@ import {
   UPDATE_BANK_ACCOUNT_DETAILS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
+  UPDATE_EMPLOYEE,
   UPDATE_EXPENSE_PAY_ITEM_MODAL,
   UPDATE_LEAVE_PAY_ITEM,
   UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS,
@@ -446,53 +447,59 @@ const setSubTab = (state, action) => ({
   subTab: action.selectedTab,
 });
 
+const loadContactDetail = (state, action) => ({
+  ...state.contactDetail,
+  ...action.contactDetail,
+});
+
+const loadPayrollDetail = (state, action) => ({
+  ...state.payrollDetails,
+  ...action.payrollDetails,
+  employmentDetails: {
+    ...state.payrollDetails.employmentDetails,
+    ...action.payrollDetails.employmentDetails,
+  },
+  deductionDetails: {
+    ...state.payrollDetails.deductionDetails,
+    ...action.payrollDetails.deductionDetails,
+  },
+  superannuationDetails: {
+    ...state.payrollDetails.superannuationDetails,
+    ...action.payrollDetails.superannuationDetails,
+  },
+  tax: {
+    ...state.payrollDetails.tax,
+    ...action.payrollDetails.tax,
+  },
+  wage: loadWagePayrollDetails(state.payrollDetails.wage, action.payrollDetails.wage),
+  leaveDetails: {
+    ...state.payrollDetails.leaveDetails,
+    ...action.payrollDetails.leaveDetails,
+  },
+  employerExpenseDetails: {
+    ...state.payrollDetails.employerExpenseDetails,
+    ...action.payrollDetails.employerExpenseDetails,
+  },
+  standardPayDetails: {
+    ...state.payrollDetails.standardPayDetails,
+    ...action.payrollDetails.standardPayDetails,
+  },
+  payHistoryDetails: {
+    ...state.payrollDetails.payHistoryDetails,
+    ...action.payrollDetails.payHistoryDetails,
+  },
+});
+
+const loadPaymentDetail = (state, action) => ({
+  ...state.paymentDetails,
+  ...action.paymentDetails,
+});
+
 const loadEmployeeDetail = (state, action) => ({
   ...state,
-  contactDetail: {
-    ...state.contactDetail,
-    ...action.contactDetail,
-  },
-  payrollDetails: {
-    ...state.payrollDetails,
-    ...action.payrollDetails,
-    employmentDetails: {
-      ...state.payrollDetails.employmentDetails,
-      ...action.payrollDetails.employmentDetails,
-    },
-    deductionDetails: {
-      ...state.payrollDetails.deductionDetails,
-      ...action.payrollDetails.deductionDetails,
-    },
-    superannuationDetails: {
-      ...state.payrollDetails.superannuationDetails,
-      ...action.payrollDetails.superannuationDetails,
-    },
-    tax: {
-      ...state.payrollDetails.tax,
-      ...action.payrollDetails.tax,
-    },
-    wage: loadWagePayrollDetails(state.payrollDetails.wage, action.payrollDetails.wage),
-    leaveDetails: {
-      ...state.payrollDetails.leaveDetails,
-      ...action.payrollDetails.leaveDetails,
-    },
-    employerExpenseDetails: {
-      ...state.payrollDetails.employerExpenseDetails,
-      ...action.payrollDetails.employerExpenseDetails,
-    },
-    standardPayDetails: {
-      ...state.payrollDetails.standardPayDetails,
-      ...action.payrollDetails.standardPayDetails,
-    },
-    payHistoryDetails: {
-      ...state.payrollDetails.payHistoryDetails,
-      ...action.payrollDetails.payHistoryDetails,
-    },
-  },
-  paymentDetails: {
-    ...state.paymentDetails,
-    ...action.paymentDetails,
-  },
+  contactDetail: loadContactDetail(state, action),
+  payrollDetails: loadPayrollDetail(state, action),
+  paymentDetails: loadPaymentDetail(state, action),
   genderOptions: action.genderOptions,
   employmentBasisOptions: action.employmentBasisOptions,
   employmentCategoryOptions: action.employmentCategoryOptions,
@@ -515,6 +522,13 @@ const loadEmployeeDetail = (state, action) => ({
   leavePayItemOptions: action.leavePayItemOptions,
   expensePayItemOptions: action.expensePayItemOptions,
   payHistoryPeriodOptions: action.payHistoryPeriodOptions,
+});
+
+const updateEmployeeDetail = (state, action) => ({
+  ...state,
+  contactDetail: loadContactDetail(state, action),
+  payrollDetails: loadPayrollDetail(state, action),
+  paymentDetails: loadPaymentDetail(state, action),
 });
 
 const pageEdited = { isPageEdited: true };
@@ -641,6 +655,7 @@ const handlers = {
   [SET_MAIN_TAB]: setMainTab,
   [SET_SUB_TAB]: setSubTab,
   [LOAD_EMPLOYEE_DETAIL]: loadEmployeeDetail,
+  [UPDATE_EMPLOYEE]: updateEmployeeDetail,
   [UPDATE_CONTACT_DETAILS]: updateContactDetails,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,

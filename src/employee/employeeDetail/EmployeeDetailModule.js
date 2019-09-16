@@ -164,6 +164,7 @@ export default class EmployeeDetailModule {
         this.redirectToReadEmployee(response.employeeId);
       } else {
         this.dispatcher.setIsPageEdited(false);
+        this.dispatcher.updateEmployeeDetail(response);
         this.dispatcher.setAlert({
           type: 'success',
           message: response.message,
