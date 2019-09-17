@@ -1,7 +1,9 @@
 import {
   Alert,
+  BaseTemplate,
+  Card,
+  PageHead,
   Spinner,
-  StandardTemplate,
   Tabs,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -62,18 +64,14 @@ const EmployeeDetailView = ({
   );
 
   const view = (
-    <StandardTemplate
-      alert={alertComponent}
-      sticky="none"
-      pageHead={pageHeadTitle}
-      subHeadChildren={subHeadTabs}
-    >
+    <BaseTemplate>
+      { alertComponent }
+      <PageHead title={pageHeadTitle} />
+      { subHeadTabs }
       { modalComponent }
-
-      { tabViews[selectedTab].getView() }
-
+      <Card body={tabViews[selectedTab].getView()} />
       { actions }
-    </StandardTemplate>
+    </BaseTemplate>
   );
 
   return isLoading ? <Spinner /> : view;
