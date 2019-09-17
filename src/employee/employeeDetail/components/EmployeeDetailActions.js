@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getIsActionsDisabled, getIsCreating } from '../selectors/EmployeeDetailSelectors';
+import { getIsActionsDisabled, getIsCreating } from '../EmployeeDetailSelectors';
 
 const EmployeeDetailActions = ({
   onCancelButtonClick,
