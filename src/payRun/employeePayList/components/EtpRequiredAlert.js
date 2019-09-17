@@ -4,8 +4,8 @@ import React from 'react';
 
 import { getInvalidEtpNames } from '../EmployeePayListSelectors';
 
-const EtpRequiredAlert = ({ invalidEtpNames, onDismiss }) => (
-  <Alert type="danger" onDismiss={onDismiss}>
+const EtpRequiredAlert = ({ invalidEtpNames, onDismissAlert }) => (
+  <Alert type="danger" onDismiss={onDismissAlert}>
     {'Looks like your processing a an Employment Termination Payment (ETP). Add an ETP benefit code for'}
     <ul>
       {

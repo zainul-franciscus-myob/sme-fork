@@ -2,39 +2,45 @@ import { Alert, Button } from '@myob/myob-widgets';
 import React from 'react';
 
 import {
-  getIsEtpAlertForLineShown,
-  getIsEtpSelectionForLineShown,
+  formatEtpCode,
+  isEtpAlertForLineShown,
+  isEtpSelectionForLineShown,
 } from '../EmployeePayListSelectors';
 import styles from './EtpModalOpenButton.module.css';
 
 const handleEtpButtonClick = (employeeId, handler) => () => handler({ employeeId });
 
-const EtpModalOpenButton = ({ line, onOpenEtpModal }) => (
-  <React.Fragment>
-    {getIsEtpAlertForLineShown(line) && (
+const EtpModalOpenButton = ({ line, onOpenEtpModal }) => {
+  const selectedEtpCode = (
+    <span>
+      <span className={styles.selected}>
+        {formatEtpCode(line)}
+      </span>
+      {' selected'}
+    </span>
+  );
+
+  return (
+    <React.Fragment>
+      {isEtpAlertForLineShown(line) && (
       <Alert type="warning">
         Select an Employment Termination Payment (ETP) benefit code
       </Alert>
-    )}
-    <div>
-      {(getIsEtpAlertForLineShown(line)
-      || getIsEtpSelectionForLineShown(line)) && (
-      <Button
-        className={styles.button}
-        type="secondary"
-        onClick={handleEtpButtonClick(line.employeeId, onOpenEtpModal)}
-      >
-        Select STP code
-      </Button>
       )}
-      <span>
-        <span className={styles.selected}>
-          {line.etpCode ? `Code ${line.etpCode}` : 'None'}
-        </span>
-        {' selected'}
-      </span>
-    </div>
-  </React.Fragment>
-);
+      {isEtpSelectionForLineShown(line) && (
+      <div>
+        <Button
+          className={styles.button}
+          type="secondary"
+          onClick={handleEtpButtonClick(line.employeeId, onOpenEtpModal)}
+        >
+        Select STP code
+        </Button>
+        {selectedEtpCode}
+      </div>
+      )}
+    </React.Fragment>
+  );
+};
 
 export default EtpModalOpenButton;

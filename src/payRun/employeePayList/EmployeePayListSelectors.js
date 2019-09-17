@@ -66,22 +66,27 @@ export const getIsEtpCodeCategorySelected = createSelector(
   getEtpCodeCategory,
   Boolean,
 );
-
-const isEtpCategory = stpCategory => ['ETPTaxableComponent', 'ETPTaxFreeComponent', 'ETPTaxWithholding'].includes(stpCategory);
-const getIsNonEmptyEtpLine = ({ payItems }) => payItems.some(({ stpCategory, amount }) => (
-  isEtpCategory(stpCategory) && Number(amount) !== 0
-));
-export const getIsEtpAlertForLineShown = ({ payItems, etpCode }) => (
-  !etpCode && getIsNonEmptyEtpLine({ payItems })
-);
-
-const getIsUpdateableEtpLine = ({ etpCode }) => Boolean(etpCode);
-export const getIsEtpSelectionForLineShown = line => (
-  getIsUpdateableEtpLine(line) || getIsEtpAlertForLineShown(line)
-);
-
-export const getIsValidEtp = ({ invalidEtpNames }) => invalidEtpNames.length === 0;
 export const getInvalidEtpNames = state => state.employeePayList.invalidEtpNames;
+
+const isEtpPayItem = ({ stpCategory }) => ['ETPTaxableComponent', 'ETPTaxFreeComponent', 'ETPTaxWithholding'].includes(stpCategory);
+const isEmptyPayItem = ({ amount }) => Number(amount) === 0;
+const isUpdateableEtpCode = ({ etpCode }) => Boolean(etpCode);
+
+const isNonEmptyEtpLine = ({ payItems }) => payItems.some(payItem => (
+  isEtpPayItem(payItem) && !isEmptyPayItem(payItem)
+));
+
+export const isEtpAlertForLineShown = line => (
+  isNonEmptyEtpLine(line) && !isUpdateableEtpCode(line)
+);
+
+export const isEtpSelectionForLineShown = line => (
+  isUpdateableEtpCode(line) || isNonEmptyEtpLine(line)
+);
+
+export const isValidEtp = ({ invalidEtpNames }) => invalidEtpNames.length === 0;
+
+export const formatEtpCode = ({ etpCode }) => (etpCode ? `Code ${etpCode}` : 'None');
 
 export const getValidateEtpContent = createSelector(
   getEmployeePayLines,
@@ -91,9 +96,11 @@ export const getValidateEtpContent = createSelector(
     employeeId,
     name,
     etpCode,
-    payItems: payItems.map(({ payItemId, amount, stpCategory }) => (
-      { payItemId, amount, stpCategory }
-    )),
+    payItems: payItems
+      .filter(isEtpPayItem)
+      .map(({ payItemId, amount, stpCategory }) => (
+        { payItemId, amount, stpCategory }
+      )),
   })),
 );
 

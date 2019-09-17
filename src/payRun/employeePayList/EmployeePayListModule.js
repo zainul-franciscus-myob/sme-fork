@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getIsValidEtp } from './EmployeePayListSelectors';
+import { isValidEtp } from './EmployeePayListSelectors';
 import AlertType from '../types/AlertType';
 import PayRunListEmployees from './components/PayRunListEmployees';
 import createEmployeePayListDispatcher from './createEmployeePayListDispatcher';
@@ -33,7 +33,7 @@ export default class EmployeePayListModule {
 
   nextStep = () => {
     const onSuccess = (invalidEtpNames) => {
-      if (getIsValidEtp({ invalidEtpNames })) {
+      if (isValidEtp({ invalidEtpNames })) {
         this.dispatcher.nextStep();
       } else {
         this.dispatcher.validateEtp({ invalidEtpNames });
