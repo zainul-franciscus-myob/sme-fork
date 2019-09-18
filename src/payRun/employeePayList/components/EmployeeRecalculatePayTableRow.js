@@ -36,6 +36,7 @@ const EmployeeRecalculatePayTableRow = ({
     type,
     hours,
     amount,
+    shouldShowHours,
     isSubmitting,
   },
   onChange,
@@ -74,7 +75,7 @@ const EmployeeRecalculatePayTableRow = ({
       <Table.RowItem {...tableConfig.name} indentLevel={1}>
         {payItemName}
       </Table.RowItem>
-      {hours && (<Table.RowItem {...tableConfig.hours}>{hourRowItem}</Table.RowItem>)}
+      {shouldShowHours && (<Table.RowItem {...tableConfig.hours}>{hourRowItem}</Table.RowItem>)}
       <Table.RowItem {...tableConfig.amount}>{amountRowItem}</Table.RowItem>
     </Table.Row>
   );

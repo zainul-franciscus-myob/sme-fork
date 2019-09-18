@@ -120,35 +120,36 @@ const isEmployerExpensePayItem = payItemType => ['Expense', 'SuperannuationExpen
 const getEmployeeLineByEmployeeId = (state, employeeId) => state.employeePayList.lines.find(
   line => line.employeeId === employeeId,
 );
-const getCombinedPayItemEntryShape = (payItem) => {
-  if (payItem.type !== 'HourlyWage') {
-    const { hours, ...restOfPayItem } = payItem;
-    return restOfPayItem;
-  }
-  return payItem;
-};
+
 export const getCombinedPayItemEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
   line => line.payItems
     .filter(payItem => isWageDeductionTaxPayItem(payItem.type))
-    .map(payItem => getCombinedPayItemEntryShape(payItem)),
+    .map(payItem => ({
+      ...payItem,
+      shouldShowHours: payItem.type === 'HourlyWage',
+    })),
 );
 
 export const getLeavePayItemEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
-  line => line.payItems.filter(payItem => isLeavePayItem(payItem.type)),
+  line => line.payItems
+    .filter(payItem => isLeavePayItem(payItem.type))
+    .map(payItem => ({
+      ...payItem,
+      shouldShowHours: true,
+    })),
 );
 
-const getEmployerExpensePayItemShape = (payItem) => {
-  const { hours, ...restOfPayItem } = payItem;
-  return restOfPayItem;
-};
 export const getEmployerExpensePayItemEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
   (state, props) => state.employeePayList.lines.find(line => line.employeeId === props.employeeId),
   line => line.payItems
     .filter(payItem => isEmployerExpensePayItem(payItem.type))
-    .map(payItem => getEmployerExpensePayItemShape(payItem)),
+    .map(payItem => ({
+      ...payItem,
+      shouldShowHours: false,
+    })),
 );
 
 export const getShouldShowCombinedPayItemTableRows = () => true;
