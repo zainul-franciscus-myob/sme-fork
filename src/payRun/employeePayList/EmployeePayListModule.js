@@ -35,6 +35,7 @@ export default class EmployeePayListModule {
     const onSuccess = (invalidEtpNames) => {
       if (isValidEtp({ invalidEtpNames })) {
         this.dispatcher.nextStep();
+        this.dispatcher.dismissAlert();
       } else {
         this.dispatcher.validateEtp({ invalidEtpNames });
         this.dispatcher.setAlert({ type: AlertType.ETP_REQUIRED });
