@@ -124,6 +124,7 @@ describe('EmployeePayListSelectors', () => {
             employeeId: '2',
             name: 'Edward',
             etpCode: EtpCode.B,
+            isSelected: true,
             payItems: [
               {
                 payItemId: '2',
@@ -147,7 +148,7 @@ describe('EmployeePayListSelectors', () => {
         stpCategory: 'ETPTaxWithholding',
       },
     ].forEach((test) => {
-      it(`builds content with employees that have pay items with ${test.stpCategory}`, () => {
+      it(`builds content with selected employees that have pay items with ${test.stpCategory}`, () => {
         const modifiedState = {
           ...state,
           employeePayList: {
@@ -183,7 +184,7 @@ describe('EmployeePayListSelectors', () => {
       });
     });
 
-    it('builds content with employees that have no etp pay items', () => {
+    it('builds content with selected employees that have no etp pay items', () => {
       const modifiedState = {
         ...state,
         employeePayList: {
@@ -210,6 +211,25 @@ describe('EmployeePayListSelectors', () => {
           payItems: [],
         },
       ]);
+    });
+
+    it('excludes employees not selected', () => {
+      const modifiedState = {
+        ...state,
+        employeePayList: {
+          ...state.employeePayList,
+          lines: [
+            ...state.employeePayList.lines.map(line => ({
+              ...line,
+              isSelected: false,
+            })),
+          ],
+        },
+      };
+
+      const actual = getValidateEtpContent(modifiedState);
+
+      expect(actual).toEqual([]);
     });
   });
 

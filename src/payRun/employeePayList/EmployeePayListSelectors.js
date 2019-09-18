@@ -88,20 +88,26 @@ export const isValidEtp = ({ invalidEtpNames }) => invalidEtpNames.length === 0;
 
 export const formatEtpCode = ({ etpCode }) => (etpCode ? `Code ${etpCode}` : 'None');
 
+const isLineSelected = ({ isSelected }) => Boolean(isSelected);
+
+const getEtpValidationLine = ({
+  employeeId, name, etpCode, payItems,
+}) => ({
+  employeeId,
+  name,
+  etpCode,
+  payItems: payItems
+    .filter(isEtpPayItem)
+    .map(({ payItemId, amount, stpCategory }) => (
+      { payItemId, amount, stpCategory }
+    )),
+});
+
 export const getValidateEtpContent = createSelector(
   getEmployeePayLines,
-  lines => lines.map(({
-    employeeId, name, etpCode, payItems,
-  }) => ({
-    employeeId,
-    name,
-    etpCode,
-    payItems: payItems
-      .filter(isEtpPayItem)
-      .map(({ payItemId, amount, stpCategory }) => (
-        { payItemId, amount, stpCategory }
-      )),
-  })),
+  lines => lines
+    .filter(isLineSelected)
+    .map(getEtpValidationLine),
 );
 
 export const getIsPayItemLineDirty = state => state.employeePayList.isPayItemLineDirty;
