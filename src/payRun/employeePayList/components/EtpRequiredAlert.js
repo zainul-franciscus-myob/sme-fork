@@ -6,7 +6,7 @@ import { getInvalidEtpNames } from '../EmployeePayListSelectors';
 
 const EtpRequiredAlert = ({ invalidEtpNames, onDismissAlert }) => (
   <Alert type="danger" onDismiss={onDismissAlert}>
-    {'Looks like your processing a an Employment Termination Payment (ETP). Add an ETP benefit code for'}
+    {'Looks like you\'re processing an Employment Termination Payment (ETP). Add an ETP benefit code for'}
     <ul>
       {
       invalidEtpNames.map(name => (
