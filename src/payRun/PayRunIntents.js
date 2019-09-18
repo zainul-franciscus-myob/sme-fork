@@ -19,6 +19,7 @@ export const CHANGE_ETP_CODE_CATEGORY = Symbol('Change ETP code category');
 export const CHANGE_ETP_CODE = Symbol('Change ETP code');
 export const VALIDATE_ETP = Symbol('Validate ETP');
 export const SAVE_ETP = Symbol('SAVE_ETP');
+export const SET_PAY_ITEM_LINE_DIRTY = Symbol('Set pay item line dirty');
 export const UPDATE_EMPLOYEE_PAY_ITEM = Symbol('Update employee pay item');
 export const FORMAT_EMPLOYEE_PAY_ITEM = Symbol('Format employee pay item');
 export const RECALCULATE_PAY = Symbol('Recalculate pay');

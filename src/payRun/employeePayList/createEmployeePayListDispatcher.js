@@ -5,6 +5,7 @@ import {
   FORMAT_EMPLOYEE_PAY_ITEM,
   OPEN_ETP_MODAL,
   SAVE_ETP,
+  SET_PAY_ITEM_LINE_DIRTY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_EMPLOYEE_PAY_ITEM,
@@ -63,6 +64,13 @@ const createEmployeePayListDispatcher = store => ({
     store.dispatch({
       intent: VALIDATE_ETP,
       invalidEtpNames,
+    });
+  },
+
+  setPayItemLineDirty: (isDirty) => {
+    store.dispatch({
+      intent: SET_PAY_ITEM_LINE_DIRTY,
+      isDirty,
     });
   },
 

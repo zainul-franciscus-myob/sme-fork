@@ -6,6 +6,7 @@ import {
   LOAD_EMPLOYEE_PAYS,
   OPEN_ETP_MODAL,
   SAVE_ETP,
+  SET_PAY_ITEM_LINE_DIRTY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_EMPLOYEE_PAY_ITEM,
@@ -15,6 +16,7 @@ import {
 import formatNumberWithDecimalScaleRange from '../../valueFormatters/formatNumberWithDecimalScaleRange';
 
 export const getEmployeePayListDefaultState = () => ({
+  isPayItemLineDirty: false,
   lines: [],
   invalidEtpNames: [],
   etp: {
@@ -106,6 +108,11 @@ const validateEtp = (state, { invalidEtpNames }) => ({
   invalidEtpNames,
 });
 
+const setPayItemLineDirty = (state, action) => ({
+  ...state,
+  isPayItemLineDirty: action.isDirty,
+});
+
 const getUpdatedPayItems = (payItems, payItemId, key, value) => payItems.map(payItem => (
   payItem.payItemId === payItemId
     ? {
@@ -183,6 +190,7 @@ export const employeePayListHandlers = {
   [CLOSE_ETP_MODAL]: closeEtpModal,
   [SAVE_ETP]: saveEtp,
   [VALIDATE_ETP]: validateEtp,
+  [SET_PAY_ITEM_LINE_DIRTY]: setPayItemLineDirty,
   [UPDATE_EMPLOYEE_PAY_ITEM]: updateEmployeePayItem,
   [FORMAT_EMPLOYEE_PAY_ITEM]: formatEmployeePayItem,
   [UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION]: updateEmployeeLineAfterRecalculation,

@@ -104,6 +104,8 @@ export const getValidateEtpContent = createSelector(
   })),
 );
 
+export const getIsPayItemLineDirty = state => state.employeePayList.isPayItemLineDirty;
+
 const isWageDeductionTaxPayItem = payItemType => [
   'SalaryWage',
   'HourlyWage',

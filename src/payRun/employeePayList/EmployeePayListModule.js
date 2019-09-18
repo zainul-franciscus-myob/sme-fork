@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isValidEtp } from './EmployeePayListSelectors';
+import { getIsPayItemLineDirty, isValidEtp } from './EmployeePayListSelectors';
 import AlertType from '../types/AlertType';
 import PayRunListEmployees from './components/PayRunListEmployees';
 import createEmployeePayListDispatcher from './createEmployeePayListDispatcher';
@@ -49,21 +49,44 @@ export default class EmployeePayListModule {
     this.integrator.validateEtp({ onSuccess, onFailure });
   }
 
-  formatPayItemAndSendRecalculatePayRequest = ({
+  changeEmployeePayItem = ({
     employeeId, payItemId, key, value,
   }) => {
-    this.dispatcher.formatEmployeePayItem({
+    this.dispatcher.setPayItemLineDirty(true);
+    this.dispatcher.updateEmployeePayItem({
       employeeId, payItemId, key, value,
     });
+  }
 
+  updateEmployeePay = ({
+    employeeId, payItemId, key, value,
+  }) => {
+    const state = this.store.getState();
+    const isPayItemLineDirty = getIsPayItemLineDirty(state);
+
+    if (isPayItemLineDirty) {
+      this.dispatcher.formatEmployeePayItem({
+        employeeId, payItemId, key, value,
+      });
+      this.recalculateEmployeePay({
+        employeeId, payItemId, key,
+      });
+    }
+  }
+
+  recalculateEmployeePay = ({
+    employeeId, payItemId, key,
+  }) => {
     this.dispatcher.setSubmittingState(true);
     const onSuccess = (recalculatedEmployeePay) => {
       this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setPayItemLineDirty(false);
       this.dispatcher.updateEmployeeLineAfterRecalculation({ employeeId, recalculatedEmployeePay });
     };
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setPayItemLineDirty(false);
       this.dispatcher.setAlert({ type: AlertType.ERROR, message });
     };
 
@@ -77,8 +100,8 @@ export default class EmployeePayListModule {
       <PayRunListEmployees
         onSelectRow={this.dispatcher.updateIsEmployeeSelected}
         onSelectAllRows={this.dispatcher.updateAreAllEmployeesSelected}
-        onEmployeePayItemChange={this.dispatcher.updateEmployeePayItem}
-        onEmployeePayItemBlur={this.formatPayItemAndSendRecalculatePayRequest}
+        onEmployeePayItemChange={this.changeEmployeePayItem}
+        onEmployeePayItemBlur={this.updateEmployeePay}
         onPreviousButtonClick={this.openPreviousStepModal}
         onChangeEtpCodeCategory={this.changeEtpCodeCategory}
         onChangeEtpCode={this.changeEtpCode}
