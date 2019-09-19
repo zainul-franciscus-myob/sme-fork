@@ -1,11 +1,10 @@
 import {
-  Button, Icons, Table, Tooltip,
+  Button, Combobox, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilteredWagePayItemOptions, getSelectedWagePayItems } from '../../selectors/PayrollWageSelectors';
-import Combobox from '../../../../../components/Feelix/ComboBox/Combobox';
 import styles from './AddWagePayItemTable.module.css';
 
 const tableConfig = {

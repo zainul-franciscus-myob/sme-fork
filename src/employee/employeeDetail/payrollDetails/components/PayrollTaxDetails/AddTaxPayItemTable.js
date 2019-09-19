@@ -1,9 +1,8 @@
 import {
-  Button, Icons, Table, Tooltip,
+  Button, Combobox, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import Combobox from '../../../../../components/Feelix/ComboBox/Combobox';
 import styles from './AddTaxPayItemTable.module.css';
 
 const tableConfig = {

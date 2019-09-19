@@ -3,11 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "//FeelixDependencies": {
-    "ComboBox": [
-      "classnames",
-      "match-sorter",
-      "downshift"
-    ],
     "Accordian": [
       "classnames",
       "react-collapsible",
@@ -17,17 +12,15 @@
   },
   "dependencies": {
     "@myob/ldal": "0.2.4",
-    "@myob/myob-styles": "5.4.0",
-    "@myob/myob-widgets": "5.4.1",
+    "@myob/myob-styles": "5.7.0",
+    "@myob/myob-widgets": "5.7.0",
     "abortcontroller-polyfill": "1.2.1",
     "classnames": "2.2.5",
     "cleave.js": "1.5.2",
     "copy-to-clipboard": "3.2.0",
     "date-fns": "1.30.1",
     "dateformat": "3.0.3",
-    "downshift": "3.2.7",
     "hotkeys-js": "3.6.11",
-    "match-sorter": "2.2.1",
     "prop-types": "15.6.2",
     "react": "16.8.6",
     "react-collapsible": "2.6.0",

@@ -1,5 +1,5 @@
 import {
-  DatePicker, DetailHeader, Input, RadioButtonGroup, ReadOnly, TextArea,
+  Combobox, DatePicker, DetailHeader, Input, RadioButtonGroup, ReadOnly, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
@@ -28,7 +28,6 @@ import {
   getShowExpirationDaysAmountInput,
   getShowExpiryDaysOptions,
 } from '../ItemQuoteSelectors';
-import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import ExpiryDate from '../../components/ExpiryDate';
 import TaxState from '../TaxState';

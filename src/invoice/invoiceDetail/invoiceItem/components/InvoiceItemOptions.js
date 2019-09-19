@@ -1,4 +1,5 @@
 import {
+  Combobox,
   DatePicker,
   DetailHeader,
   Input,
@@ -12,7 +13,6 @@ import {
   getComments,
   getInvoiceOptions,
 } from '../invoiceItemSelectors';
-import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import InvoiceDetailOnlinePaymentMethod from '../../components/InvoiceDetailOnlinePaymentMethod';
 import InvoiceItemPaymentTerms from './InvoiceItemPaymentTerms';

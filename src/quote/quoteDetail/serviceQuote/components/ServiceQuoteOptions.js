@@ -1,11 +1,10 @@
 import {
-  DatePicker, DetailHeader, Input, RadioButtonGroup, ReadOnly, TextArea,
+  Combobox, DatePicker, DetailHeader, Input, RadioButtonGroup, ReadOnly, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
 import { getQuoteOptions } from '../ServiceQuoteSelectors';
-import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import ExpiryDate from '../../components/ExpiryDate';
 import styles from './ServiceQuoteOptions.module.css';

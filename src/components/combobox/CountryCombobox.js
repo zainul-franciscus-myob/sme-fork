@@ -1,7 +1,7 @@
+import { Combobox } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Combobox from '../Feelix/ComboBox/Combobox';
 import countryList from '../../sharedData/countryList';
 
 const CountryCombobox = (props) => {

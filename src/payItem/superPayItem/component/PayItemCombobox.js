@@ -1,6 +1,5 @@
+import { Combobox } from '@myob/myob-widgets';
 import React from 'react';
-
-import Combobox from '../../../components/Feelix/ComboBox/Combobox';
 
 const PayItemCombobox = (props) => {
   const {

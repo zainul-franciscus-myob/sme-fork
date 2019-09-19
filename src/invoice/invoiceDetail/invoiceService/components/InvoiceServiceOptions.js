@@ -1,11 +1,10 @@
 import {
-  DatePicker, DetailHeader, Input, RadioButtonGroup, TextArea,
+  Combobox, DatePicker, DetailHeader, Input, RadioButtonGroup, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getComments, getInvoiceOptions } from '../invoiceServiceSelectors';
-import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import InvoiceDetailOnlinePaymentMethod from '../../components/InvoiceDetailOnlinePaymentMethod';
 import InvoiceServicePaymentTerms from './InvoiceServicePaymentTerms';

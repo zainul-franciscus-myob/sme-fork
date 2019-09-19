@@ -1,10 +1,9 @@
 import {
-  Button, Icons, PageState, Table, Tooltip,
+  Button, Combobox, Icons, PageState, Table, Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
-import Combobox from '../../../../components/Feelix/ComboBox/Combobox';
 import styles from './PayrollLeaveDetailTable.module.css';
 
 const tableConfig = {

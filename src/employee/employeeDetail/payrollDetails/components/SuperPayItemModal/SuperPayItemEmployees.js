@@ -1,11 +1,10 @@
 import {
-  Button, FieldGroup, Icons, Table, Tooltip,
+  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getEmployees, getFilteredEmployeeOptions } from '../../selectors/SuperPayItemModalSelectors';
-import Combobox from '../../../../../components/Feelix/ComboBox/Combobox';
 import styles from './SuperPayItemEmployees.module.css';
 
 const tableConfig = {

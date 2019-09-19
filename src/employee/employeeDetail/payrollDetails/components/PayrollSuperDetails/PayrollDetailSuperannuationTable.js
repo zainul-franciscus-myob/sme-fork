@@ -1,5 +1,6 @@
 import {
   Button,
+  Combobox,
   FieldGroup,
   Icons,
   PageState,
@@ -13,7 +14,6 @@ import {
   getAllocatedPayItems,
   getFilteredSuperPayItemOptions,
 } from '../../selectors/PayrollSuperSelectors';
-import Combobox from '../../../../../components/Feelix/ComboBox/Combobox';
 import styles from './PayrollDetailSuperannuationTable.module.css';
 
 const tableConfig = {

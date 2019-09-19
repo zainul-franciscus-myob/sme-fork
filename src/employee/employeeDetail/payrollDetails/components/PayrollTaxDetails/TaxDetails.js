@@ -1,8 +1,7 @@
-import { FieldGroup, FormHorizontal } from '@myob/myob-widgets';
+import { Combobox, FieldGroup, FormHorizontal } from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
-import Combobox from '../../../../../components/Feelix/ComboBox/Combobox';
 import TfnInput from '../../../../../components/autoFormatter/TfnInput/TfnInput';
 import handleAmountInputChange from '../../../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../../../components/handlers/handleComboboxChange';

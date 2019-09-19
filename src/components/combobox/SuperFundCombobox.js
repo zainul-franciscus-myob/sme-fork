@@ -1,6 +1,5 @@
+import { Combobox } from '@myob/myob-widgets';
 import React from 'react';
-
-import Combobox from '../Feelix/ComboBox/Combobox';
 
 const SuperFundCombobox = (props) => {
   const {
