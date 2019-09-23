@@ -1,4 +1,4 @@
-import { Alert, LineItemTemplate, Spinner } from '@myob/myob-widgets';
+import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -6,6 +6,7 @@ import { getAlert, getIsLoading, getIsModalActive } from '../BankReconciliationS
 import BankReconciliationActions from './BankReconciliationActions';
 import BankReconciliationOptions from './BankReconciliationOptions';
 import BankReconciliationTable from './BankReconciliationTable';
+import PageView from '../../components/PageView/PageView';
 import UndoBankReconciliationModal from './UndoBankReconciliationModal';
 
 const BankReconciliationView = ({
@@ -63,7 +64,7 @@ const BankReconciliationView = ({
     </LineItemTemplate>
   );
 
-  return (isLoading ? <Spinner /> : view);
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

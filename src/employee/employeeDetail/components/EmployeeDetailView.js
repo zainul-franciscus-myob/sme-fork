@@ -3,7 +3,6 @@ import {
   BaseTemplate,
   Card,
   PageHead,
-  Spinner,
   Tabs,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -19,6 +18,7 @@ import {
 import { mainTabItems } from '../tabItems';
 import ConfirmModal from './ConfirmModal';
 import EmployeeDetailActions from './EmployeeDetailActions';
+import PageView from '../../../components/PageView/PageView';
 
 const EmployeeDetailView = ({
   tabViews,
@@ -74,7 +74,7 @@ const EmployeeDetailView = ({
     </BaseTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

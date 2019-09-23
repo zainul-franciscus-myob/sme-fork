@@ -1,13 +1,13 @@
 import {
   Alert,
   PageHead,
-  Spinner,
   StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAlert, getIsLoading } from '../supplierReturnListSelectors';
+import PageView from '../../../components/PageView/PageView';
 import SupplierReturnListFilterOptions from './SupplierReturnListFilterOptions';
 import SupplierReturnListTable from './SupplierReturnListTable';
 import style from './SupplierReturnListView.module.css';
@@ -53,7 +53,7 @@ const SupplierReturnListView = ({
     </StandardTemplate>
   );
 
-  return isLoading ? <Spinner /> : supplierReturnListView;
+  return <PageView isLoading={isLoading} view={supplierReturnListView} />;
 };
 
 const mapStateToProps = state => ({

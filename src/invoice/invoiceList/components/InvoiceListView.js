@@ -1,5 +1,5 @@
 import {
-  Alert, Button, PageHead, Spinner, StandardTemplate,
+  Alert, Button, PageHead, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -10,6 +10,7 @@ import {
 } from '../invoiceListSelectors';
 import InvoiceListFilterOptions from './InvoiceListFilterOptions';
 import InvoiceListTable from './InvoiceListTable';
+import PageView from '../../../components/PageView/PageView';
 import style from './InvoiceListView.module.css';
 
 const InvoiceListView = (props) => {
@@ -20,6 +21,7 @@ const InvoiceListView = (props) => {
     onSort,
     isLoading,
     onCreateButtonClick,
+    onDismissAlert,
   } = props;
 
   const filterBar = (
@@ -36,7 +38,7 @@ const InvoiceListView = (props) => {
   );
 
   const alertComponent = alert && (
-    <Alert type={alert.type} onDismiss={props.onDismissAlert}>
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
     </Alert>
   );
@@ -49,9 +51,7 @@ const InvoiceListView = (props) => {
     </StandardTemplate>
   );
 
-  const view = isLoading ? (<Spinner />) : invoiceListView;
-
-  return view;
+  return <PageView isLoading={isLoading} view={invoiceListView} />;
 };
 
 const mapStateToProps = state => ({

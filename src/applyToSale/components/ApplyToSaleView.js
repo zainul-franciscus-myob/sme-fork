@@ -1,4 +1,4 @@
-import { Alert, LineItemTemplate, Spinner } from '@myob/myob-widgets';
+import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -7,6 +7,7 @@ import ApplyToSaleActions from './ApplyToSaleActions';
 import ApplyToSaleModal from './ApplyToSaleModal';
 import ApplyToSaleOptions from './ApplyToSaleOptions';
 import ApplyToSaleTable from './ApplyToSaleTable';
+import PageView from '../../components/PageView/PageView';
 
 const ApplyToSaleView = ({
   isLoading,
@@ -58,7 +59,7 @@ const ApplyToSaleView = ({
     </LineItemTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

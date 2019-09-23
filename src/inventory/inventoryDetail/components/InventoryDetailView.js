@@ -1,5 +1,5 @@
 import {
-  Alert, FormTemplate, Spinner,
+  Alert, FormTemplate,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ import DeleteModal from '../../../components/modal/DeleteModal';
 import FormCard from '../../../components/FormCard/FormCard';
 import InventoryDetailActions from './InventoryDetailActions';
 import ItemDetails from './ItemDetails';
+import PageView from '../../../components/PageView/PageView';
 import SellingDetails from './SellingDetails';
 
 const InventoryDetailView = ({
@@ -79,9 +80,7 @@ const InventoryDetailView = ({
     </FormTemplate>
   );
 
-  const view = isLoading ? (<Spinner />) : itemDetailView;
-
-  return view;
+  return <PageView isLoading={isLoading} view={itemDetailView} />;
 };
 
 InventoryDetailView.propTypes = {

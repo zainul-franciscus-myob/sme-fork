@@ -1,5 +1,5 @@
 import {
-  Alert, LineItemTemplate, Spinner,
+  Alert, LineItemTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,6 +9,7 @@ import {
 } from '../receiveMoneyDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
+import PageView from '../../../components/PageView/PageView';
 import ReceiveMoneyDetailActions from './ReceiveMoneyDetailActions';
 import ReceiveMoneyDetailOptions from './ReceiveMoneyDetailOptions';
 import ReceiveMoneyDetailTable from './ReceiveMoneyDetailTable';
@@ -91,9 +92,7 @@ const ReceiveMoneyDetailView = ({
     </React.Fragment>
   );
 
-  return (
-    isLoading ? <Spinner /> : view
-  );
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

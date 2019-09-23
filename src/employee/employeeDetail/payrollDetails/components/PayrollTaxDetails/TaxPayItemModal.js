@@ -11,7 +11,7 @@ import {
   getTaxPayItemModalLoading, getTaxPayItemModalSubmitting,
 } from '../../selectors/PayrollTaxSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
-import LoadingPageState from '../../../../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../../../../components/PageView/PageView';
 import handleComboboxChange from '../../../../../components/handlers/handleComboboxChange';
 import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
 
@@ -34,11 +34,7 @@ const TaxPayItemModal = ({
   );
 
   const view = (
-    <Modal
-      title="PAYG Withholding"
-      size="small"
-      onCancel={onCloseModal}
-    >
+    <>
       <Modal.Body>
         {alertView}
         <AccountCombobox
@@ -88,19 +84,18 @@ const TaxPayItemModal = ({
           Save
         </Button>
       </Modal.Footer>
-    </Modal>
+    </>
   );
 
-  const loadingView = (
+  return (
     <Modal
       title="PAYG Withholding"
       size="small"
+      onCancel={onCloseModal}
     >
-      <LoadingPageState />
+      <PageView isLoading={isLoading} view={view} />
     </Modal>
   );
-
-  return isLoading ? loadingView : view;
 };
 
 const mapStateToProps = state => ({

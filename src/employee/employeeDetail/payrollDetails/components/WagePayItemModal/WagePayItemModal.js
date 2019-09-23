@@ -8,7 +8,7 @@ import {
   getIsLoading,
   getModalTitle,
 } from '../../selectors/WagePayItemModalSelectors';
-import LoadingPageState from '../../../../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../../../../components/PageView/PageView';
 import WagePayItemDetails from './WagePayItemDetails';
 import WagePayItemEmployeeAllocation from './WagePayItemEmployeeAllocation';
 import WagePayItemExemptions from './WagePayItemExemptions';
@@ -61,7 +61,7 @@ const WagePayItemModal = ({
       canClose={!isActionDisabled}
     >
       <Modal.Body>
-        { isLoading ? <LoadingPageState /> : view}
+        <PageView isLoading={isLoading} view={view} />
       </Modal.Body>
       <Modal.Footer>
         <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>

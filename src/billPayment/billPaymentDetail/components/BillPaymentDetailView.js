@@ -1,5 +1,5 @@
 import {
-  Alert, LineItemTemplate, Spinner,
+  Alert, LineItemTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ import BillPaymentDetailTable from './BillPaymentDetailTable';
 import BillPaymentOptions from './BillPaymentDetailOptions';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
+import PageView from '../../../components/PageView/PageView';
 
 const BillPaymentDetailView = ({
   isLoading,
@@ -65,23 +66,21 @@ const BillPaymentDetailView = ({
   );
 
   const view = (
-    <React.Fragment>
-      <LineItemTemplate
-        pageHead="Bill payment"
-        options={<BillPaymentOptions onUpdateHeaderOption={onUpdateHeaderOption} />}
-        actions={actions}
-        alert={alertComponent}
-      >
-        {modal}
-        <BillPaymentDetailTable
-          onUpdateTableInputField={onUpdateTableInputField}
-          onAmountInputBlur={onAmountInputBlur}
-        />
-      </LineItemTemplate>
-    </React.Fragment>
+    <LineItemTemplate
+      pageHead="Bill payment"
+      options={<BillPaymentOptions onUpdateHeaderOption={onUpdateHeaderOption} />}
+      actions={actions}
+      alert={alertComponent}
+    >
+      {modal}
+      <BillPaymentDetailTable
+        onUpdateTableInputField={onUpdateTableInputField}
+        onAmountInputBlur={onAmountInputBlur}
+      />
+    </LineItemTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 BillPaymentDetailView.propTypes = {

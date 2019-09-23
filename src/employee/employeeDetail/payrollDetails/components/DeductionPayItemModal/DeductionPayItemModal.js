@@ -9,7 +9,8 @@ import DeductionPayItemDetails from './DeductionPayItemDetails';
 import DeductionPayItemEmployees from './DeductionPayItemEmployees';
 import DeductionPayItemExemptions from './DeductionPayItemExemptions';
 import DeductionPayItemInformation from './DeductionPayItemInformation';
-import LoadingPageState from '../../../../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../../../../components/PageView/PageView';
+
 
 const DeductionPayItemModal = ({
   title,
@@ -56,7 +57,7 @@ const DeductionPayItemModal = ({
       canClose={!isActionDisabled}
     >
       <Modal.Body>
-        { isLoading ? <LoadingPageState /> : view}
+        <PageView isLoading={isLoading} view={view} />
       </Modal.Body>
       <Modal.Footer>
         <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>

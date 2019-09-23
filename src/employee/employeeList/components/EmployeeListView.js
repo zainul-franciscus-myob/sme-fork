@@ -2,7 +2,6 @@ import {
   Alert,
   Button,
   PageHead,
-  Spinner,
   StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -15,6 +14,7 @@ import {
 } from '../EmployeeListSelectors';
 import EmployeeListFilterOptions from './EmployeeListFilterOptions';
 import EmployeeListTable from './EmployeeListTable';
+import PageView from '../../../components/PageView/PageView';
 import style from './EmployeeListView.module.css';
 
 const EmployeeListView = ({
@@ -53,7 +53,7 @@ const EmployeeListView = ({
     </StandardTemplate>
   );
 
-  return isLoading ? <Spinner /> : employeeListView;
+  return <PageView isLoading={isLoading} view={employeeListView} />;
 };
 
 EmployeeListView.defaultProps = {

@@ -1,5 +1,5 @@
 import {
-  Alert, FormTemplate, Spinner, Tabs,
+  Alert, FormTemplate, Tabs,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,10 +7,15 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsLoading, getIsSubmitting, getPendingTab, getSelectedTab, getShowActions,
+  getIsLoading,
+  getIsSubmitting,
+  getPendingTab,
+  getSelectedTab,
+  getShowActions,
 } from '../SalesSettingsDetailSelectors';
 import { mainTabIds, mainTabItems } from '../tabItems';
 import CancelModal from '../../../components/modal/CancelModal';
+import PageView from '../../../components/PageView/PageView';
 import SalesSettingsDetailActions from './SalesSettingsDetailActions';
 import SalesSettingsEmailDetails from './SalesSettingsEmailDetails';
 import SalesSettingsLayoutDetails from './SalesSettingsLayoutDetails';
@@ -98,7 +103,7 @@ const SalesSettingsDetailView = ({
     </React.Fragment>
   );
 
-  return (isLoading || isSubmitting) ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} isSubmitting={isSubmitting} view={view} />;
 };
 
 SalesSettingsDetailView.propTypes = {

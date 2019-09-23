@@ -1,10 +1,11 @@
 import {
-  Alert, Button, ButtonRow, PageHead, Spinner, StandardTemplate,
+  Alert, Button, ButtonRow, PageHead, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAlert, getIsLoading } from '../userListSelectors';
+import PageView from '../../../components/PageView/PageView';
 import UserListTable from './UserListTable';
 import style from './UserListView.module.css';
 
@@ -43,9 +44,7 @@ const UserListView = (props) => {
     </StandardTemplate>
   );
 
-  const view = isLoading ? (<Spinner />) : userListView;
-
-  return view;
+  return <PageView isLoading={isLoading} view={userListView} />;
 };
 
 const mapStateToProps = state => ({

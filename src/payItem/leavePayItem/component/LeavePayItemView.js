@@ -1,5 +1,5 @@
 import {
-  Alert, FormHorizontal, Spinner, StandardTemplate,
+  Alert, FormHorizontal, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -14,6 +14,7 @@ import LeavePayItemExemptions from './LeavePayItemExemptions';
 import LeavePayItemInfo from './LeavePayItemInfo';
 import LeavePayItemLinkedWages from './LeavePayItemLinkedWages';
 import LeavePayItemModal from './LeavePayItemModal';
+import PageView from '../../../components/PageView/PageView';
 import styles from './LeavePayItemView.module.css';
 
 const LeavePayItemView = (props) => {
@@ -101,7 +102,7 @@ const LeavePayItemView = (props) => {
     </StandardTemplate>
   );
 
-  return (isLoading ? <Spinner /> : view);
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

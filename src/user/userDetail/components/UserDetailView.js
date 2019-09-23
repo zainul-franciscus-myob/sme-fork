@@ -1,7 +1,6 @@
 import {
   Alert,
   FormTemplate,
-  Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -13,6 +12,7 @@ import {
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import FormCard from '../../../components/FormCard/FormCard';
+import PageView from '../../../components/PageView/PageView';
 import UserDetailAccessGroup from './UserDetailAccessGroup';
 import UserDetailButtons from './UserDetailButtons';
 import UserDetailDetailsGroup from './UserDetailDetailsGroup';
@@ -79,9 +79,7 @@ const UserDetailView = ({
     </FormTemplate>
   );
 
-  return (
-    isLoading ? <Spinner /> : view
-  );
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 UserDetailView.propTypes = {

@@ -1,4 +1,4 @@
-import { Alert, Spinner, StandardTemplate } from '@myob/myob-widgets';
+import { Alert, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -6,6 +6,7 @@ import React from 'react';
 import { getAlertMessage, getIsLoading, getModalType } from '../transferMoneyDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
+import PageView from '../../../components/PageView/PageView';
 import TransferMoneyDetailActions from './TranferMoneyDetailActions';
 import TransferMoneyDetailForm from './TransferMoneyDetailForm';
 
@@ -72,7 +73,7 @@ const TransferMoneyDetailView = ({
     </StandardTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 TransferMoneyDetailView.propTypes = {

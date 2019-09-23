@@ -1,5 +1,5 @@
 import {
-  Button, ButtonRow, Spinner, StandardTemplate,
+  Button, ButtonRow, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,7 +7,7 @@ import React from 'react';
 import { getIsLoading } from '../../selectors/employmentClassificationListSelectors';
 import EmploymentClassificationListFilterOptions from './EmploymentClassificationListFilterOptions';
 import EmploymentClassificationListTable from './EmploymentClassificationListTable';
-import styles from './EmploymentClassificationListView.module.css';
+import PageView from '../../../components/PageView/PageView';
 
 const EmploymentClassificationListView = (props) => {
   const {
@@ -23,12 +23,6 @@ const EmploymentClassificationListView = (props) => {
       onClickRowButton,
     },
   } = props;
-
-  const spinner = (
-    <div className={styles.contentSpinner}>
-      <Spinner />
-    </div>
-  );
 
   const actions = (
     <ButtonRow>
@@ -62,7 +56,7 @@ const EmploymentClassificationListView = (props) => {
       subHeadChildren={subHeadChildren}
       filterBar={isLoading ? undefined : filterBar}
     >
-      { isLoading ? spinner : view }
+      <PageView isLoading={isLoading} view={view} />
     </StandardTemplate>
   );
 };

@@ -1,6 +1,5 @@
 import {
   Alert,
-  Spinner,
   StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -13,6 +12,7 @@ import {
 import BankingRuleListFilterOptions from './BankingRuleListFilterOptions';
 import BankingRuleListPageHead from './BankingRuleListPageHead';
 import BankingRuleListTable from './BankingRuleListTable';
+import PageView from '../../../components/PageView/PageView';
 
 const BankingRuleListView = ({
   alert,
@@ -49,7 +49,7 @@ const BankingRuleListView = ({
     </StandardTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

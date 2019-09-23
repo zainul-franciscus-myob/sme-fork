@@ -1,5 +1,5 @@
 import {
-  Alert, Columns, LineItemTemplate, Select, Spinner,
+  Alert, Columns, LineItemTemplate, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ import {
 } from '../IncomeAllocationSelectors';
 import IncomeAllocationActions from './IncomeAllocationActions';
 import IncomeAllocationTable from './IncomeAllocationTable';
+import PageView from '../../components/PageView/PageView';
 
 const onSelectChange = handler => (e) => {
   const { value } = e.target;
@@ -74,7 +75,7 @@ const IncomeAllocationView = ({
     </LineItemTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 IncomeAllocationView.defaultProps = {

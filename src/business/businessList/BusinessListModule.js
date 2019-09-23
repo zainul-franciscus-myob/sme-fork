@@ -1,4 +1,3 @@
-import { Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import {
@@ -9,6 +8,7 @@ import {
   RESET_STATE,
 } from '../../SystemIntents';
 import BusinessListView from './components/BusinessListView';
+import PageView from '../../components/PageView/PageView';
 import Store from '../../store/Store';
 import businessListReducer from './businessListReducer';
 
@@ -57,7 +57,7 @@ export default class BusinessModule {
         businesses={businesses}
       />
     );
-    const view = isLoading ? <Spinner /> : businessListView;
+    const view = <PageView isLoading={isLoading} view={businessListView} />;
     this.setRootView(view);
   };
 

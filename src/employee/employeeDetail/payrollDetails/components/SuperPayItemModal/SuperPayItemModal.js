@@ -7,7 +7,7 @@ import React from 'react';
 import {
   getAlert, getIsActionDisabled, getIsLoading, getModalTitle,
 } from '../../selectors/SuperPayItemModalSelectors';
-import LoadingPageState from '../../../../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../../../../components/PageView/PageView';
 import SuperPayItemDetail from './SuperPayItemDetail';
 import SuperPayItemEmployees from './SuperPayItemEmployees';
 import SuperPayItemExemptions from './SuperPayItemExemptions';
@@ -49,7 +49,7 @@ const SuperPayItemModal = ({
       canClose={!isActionDisabled}
     >
       <Modal.Body>
-        { isLoading ? <LoadingPageState /> : view}
+        <PageView isLoading={isLoading} view={view} />
       </Modal.Body>
       <Modal.Footer>
         <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>

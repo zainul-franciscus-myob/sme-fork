@@ -1,5 +1,5 @@
 import {
-  Alert, FormHorizontal, Spinner, StandardTemplate,
+  Alert, FormHorizontal, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,6 +7,7 @@ import React from 'react';
 import {
   getAlert, getIsCreating, getIsLoading, getModalType, getSuperPayItemOriginalName,
 } from '../superPayItemSelectors';
+import PageView from '../../../components/PageView/PageView';
 import SuperPayItemActions from './SuperPayItemActions';
 import SuperPayItemDetail from './SuperPayItemDetail';
 import SuperPayItemEmployees from './SuperPayItemEmployees';
@@ -87,7 +88,7 @@ const SuperPayItemView = (props) => {
     </StandardTemplate>
   );
 
-  return (isLoading ? <Spinner /> : view);
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

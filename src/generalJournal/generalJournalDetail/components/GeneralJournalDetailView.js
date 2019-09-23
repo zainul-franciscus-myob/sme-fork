@@ -1,5 +1,5 @@
 import {
-  Alert, LineItemTemplate, Spinner,
+  Alert, LineItemTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ import DeleteModal from '../../../components/modal/DeleteModal';
 import GeneralJournalDetailActions from './GeneralJournalDetailActions';
 import GeneralJournalDetailOptions from './GeneralJournalDetailOptions';
 import GeneralJournalDetailTable from './GeneralJournalDetailTable';
+import PageView from '../../../components/PageView/PageView';
 
 const GeneralJournalDetailView = ({
   onUpdateHeaderOptions,
@@ -90,9 +91,7 @@ const GeneralJournalDetailView = ({
     </LineItemTemplate>
   );
 
-  return (
-    isLoading ? <Spinner /> : view
-  );
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 GeneralJournalDetailView.propTypes = {

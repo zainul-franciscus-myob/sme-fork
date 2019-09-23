@@ -1,5 +1,5 @@
 import {
-  Alert, BulkActions, Button, PageHead, Spinner, StandardTemplate,
+  Alert, BulkActions, Button, PageHead, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -18,6 +18,7 @@ import BankTransactionFilterOptions from './BankTransactionFilterOptions';
 import BankTransactionTable from './BankTransactionTable';
 import BankingModal from './BankingModal';
 import BulkAllocationPopover from './BulkAllocationPopover';
+import PageView from '../../components/PageView/PageView';
 import style from './BankingView.module.css';
 
 const BankingView = (props) => {
@@ -170,9 +171,7 @@ const BankingView = (props) => {
     </div>
   );
 
-  const view = isLoading ? (<Spinner />) : transactionListView;
-
-  return view;
+  return <PageView isLoading={isLoading} view={transactionListView} />;
 };
 
 const mapStateToProps = state => ({

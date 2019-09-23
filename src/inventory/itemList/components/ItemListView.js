@@ -2,7 +2,6 @@ import {
   Alert,
   Button,
   PageHead,
-  Spinner,
   StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -13,6 +12,7 @@ import {
 } from '../itemListSelectors';
 import ItemListFilterOptions from './ItemListFilterOptions';
 import ItemListTable from './ItemListTable';
+import PageView from '../../../components/PageView/PageView';
 import style from './ItemListView.module.css';
 
 const ItemListView = ({
@@ -51,9 +51,7 @@ const ItemListView = ({
     </StandardTemplate>
   );
 
-  const view = isLoading ? (<Spinner />) : itemListView;
-
-  return view;
+  return <PageView isLoading={isLoading} view={itemListView} />;
 };
 
 const mapStateToProps = state => ({

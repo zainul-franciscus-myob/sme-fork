@@ -1,4 +1,4 @@
-import { FormHorizontal, Spinner, StandardTemplate } from '@myob/myob-widgets';
+import { FormHorizontal, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,6 +16,7 @@ import ExemptionsSection from './ExemptionsSection';
 import ExpensePayItemActions from './ExpensePayItemActions';
 import ExpensePayItemAlert from './ExpensePayItemAlert';
 import ExpensePayItemModal from './ExpensePayItemModal';
+import PageView from '../../../components/PageView/PageView';
 import styles from './ExpensePayItemView.module.css';
 
 const ExpensePayItemView = ({
@@ -83,7 +84,7 @@ const ExpensePayItemView = ({
     </StandardTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

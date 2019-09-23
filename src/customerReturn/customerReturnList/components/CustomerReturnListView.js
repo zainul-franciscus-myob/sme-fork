@@ -1,7 +1,6 @@
 import {
   Alert,
   PageHead,
-  Spinner,
   StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -11,6 +10,7 @@ import React from 'react';
 import { getAlert, getIsLoading } from '../CustomerReturnListSelectors';
 import CustomerReturnListFilterOptions from './CustomerReturnListFilterOptions';
 import CustomerReturnListTable from './CustomerReturnListTable';
+import PageView from '../../../components/PageView/PageView';
 import style from './CustomerReturnListView.module.css';
 
 const CustomerReturnListView = ({
@@ -54,7 +54,7 @@ const CustomerReturnListView = ({
     </StandardTemplate>
   );
 
-  return isLoading ? <Spinner /> : customerReturnListView;
+  return <PageView isLoading={isLoading} view={customerReturnListView} />;
 };
 
 CustomerReturnListView.defaultProps = {

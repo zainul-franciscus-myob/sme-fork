@@ -1,5 +1,5 @@
 import {
-  FormTemplate, PageHead, Spinner,
+  FormTemplate, PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,6 +9,7 @@ import Alert from './Alert';
 import LinkedAccountsActions from './LinkedAccountsActions';
 import LinkedAccountsContent from './LinkedAccountsContent';
 import LinkedAccountsTabs from './LinkedAccountsTabs';
+import PageView from '../../components/PageView/PageView';
 
 const LinkedAccountsView = ({
   alert,
@@ -48,7 +49,7 @@ const LinkedAccountsView = ({
     </FormTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

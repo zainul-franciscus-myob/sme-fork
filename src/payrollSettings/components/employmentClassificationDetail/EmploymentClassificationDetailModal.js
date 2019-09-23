@@ -12,7 +12,7 @@ import {
   getTitle,
 } from '../../selectors/employmentClassificationDetailSelectors';
 import EmploymentClassificationDetailAlert from './EmploymentClassificationDetailAlert';
-import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../../components/PageView/PageView';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 
 const EmploymentClassificationDetailModal = ({
@@ -38,11 +38,7 @@ const EmploymentClassificationDetailModal = ({
   );
 
   const view = (
-    <Modal
-      title={title}
-      size="small"
-      onCancel={onCancelEmploymentClassificationDetailModal}
-    >
+    <>
       <Modal.Body>
         {alertView}
         <Input
@@ -69,19 +65,18 @@ const EmploymentClassificationDetailModal = ({
         </Button>
         <Button type="primary" onClick={onSaveEmploymentClassificationDetail}>Save</Button>
       </Modal.Footer>
-    </Modal>
+    </>
   );
 
-  const loadingView = (
+  return (
     <Modal
       title={title}
       size="small"
+      onCancel={onCancelEmploymentClassificationDetailModal}
     >
-      <LoadingPageState />
+      <PageView isLoading={isLoading} view={view} />
     </Modal>
   );
-
-  return isLoading ? loadingView : view;
 };
 
 const mapStateToProps = state => ({

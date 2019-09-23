@@ -1,5 +1,5 @@
 import {
-  Alert, LineItemTemplate, Spinner,
+  Alert, LineItemTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,6 +16,7 @@ import DeleteModal from '../../../components/modal/DeleteModal';
 import InvoicePaymentDetailActions from './InvoicePaymentDetailActions';
 import InvoicePaymentDetailOptions from './InvoicePaymentDetailOptions';
 import InvoicePaymentDetailTable from './InvoicePaymentDetailTable';
+import PageView from '../../../components/PageView/PageView';
 
 const InvoicePaymentDetailView = ({
   alertMessage,
@@ -63,7 +64,7 @@ const InvoicePaymentDetailView = ({
     />,
   }[modalType];
 
-  return isLoading ? <Spinner /> : (
+  const view = (
     <React.Fragment>
       {modal}
       <LineItemTemplate
@@ -85,6 +86,8 @@ const InvoicePaymentDetailView = ({
       </LineItemTemplate>
     </React.Fragment>
   );
+
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 InvoicePaymentDetailView.propTypes = {

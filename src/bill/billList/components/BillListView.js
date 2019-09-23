@@ -1,5 +1,5 @@
 import {
-  Alert, Button, PageHead, Spinner, StandardTemplate,
+  Alert, Button, PageHead, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,6 +7,7 @@ import React from 'react';
 import { getAlert, getIsLoading } from '../billListSelectors';
 import BillListFilterOptions from './BillListFilterOptions';
 import BillListTable from './BillListTable';
+import PageView from '../../../components/PageView/PageView';
 import style from './BillListView.module.css';
 
 const BillListView = (props) => {
@@ -49,9 +50,7 @@ const BillListView = (props) => {
     </StandardTemplate>
   );
 
-  const view = isLoading ? (<Spinner />) : billListView;
-
-  return view;
+  return <PageView isLoading={isLoading} view={billListView} />;
 };
 
 const mapStateToProps = state => ({

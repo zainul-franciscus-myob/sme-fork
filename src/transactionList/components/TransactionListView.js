@@ -1,5 +1,5 @@
 import {
-  Alert, Spinner, StandardTemplate,
+  Alert, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,6 +7,7 @@ import React from 'react';
 import {
   getAlert, getIsLoading,
 } from '../transactionListSelectors';
+import PageView from '../../components/PageView/PageView';
 import TransactionListFilterOptions from './TransactionListFilterOptions';
 import TransactionListPageHead from './TransactionListPageHead';
 import TransactionListTable from './TransactionListTable';
@@ -43,20 +44,16 @@ const TransactionListView = (props) => {
   );
 
   const transactionListView = (
-    <React.Fragment>
-      <StandardTemplate alert={alertComponent} pageHead={pageHead} filterBar={filterBar} sticky="none">
-        <div className={style.list}>
-          <TransactionListTable
-            onSort={onSort}
-          />
-        </div>
-      </StandardTemplate>
-    </React.Fragment>
+    <StandardTemplate alert={alertComponent} pageHead={pageHead} filterBar={filterBar} sticky="none">
+      <div className={style.list}>
+        <TransactionListTable
+          onSort={onSort}
+        />
+      </div>
+    </StandardTemplate>
   );
 
-  const view = isLoading ? (<Spinner />) : transactionListView;
-
-  return view;
+  return <PageView isLoading={isLoading} view={transactionListView} />;
 };
 
 const mapStateToProps = state => ({

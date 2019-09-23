@@ -1,5 +1,5 @@
 import {
-  Alert, FormTemplate, PageHead, Spinner,
+  Alert, FormTemplate, PageHead,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -16,6 +16,7 @@ import ContactHeader from './ContactHeader';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import FormCard from '../../../components/FormCard/FormCard';
 import MoreDetails from './MoreDetails';
+import PageView from '../../../components/PageView/PageView';
 import ShippingAddress from './ShippingAddress';
 
 const ContactDetailView = ({
@@ -93,9 +94,7 @@ const ContactDetailView = ({
     </FormTemplate>
   );
 
-  return (
-    isLoading ? <Spinner /> : view
-  );
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 ContactDetailView.propTypes = {

@@ -1,5 +1,5 @@
 import {
-  Alert, Button, ButtonRow, FormTemplate, Spinner,
+  Alert, Button, ButtonRow, FormTemplate,
 } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import BusinessDetailsSection from './BusinessDetailsSection';
 import ContactDetailsSection from './ContactDetailsSection';
 import FinancialYearSection from './FinancialYearSection';
 import FormCard from '../../../components/FormCard/FormCard';
+import PageView from '../../../components/PageView/PageView';
 
 const BusinessDetailView = ({
   isLoading,
@@ -38,9 +39,7 @@ const BusinessDetailView = ({
       </ButtonRow>
     </FormTemplate>
   );
-  return (
-    isLoading ? <Spinner /> : view
-  );
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 BusinessDetailView.defaultProps = {

@@ -1,6 +1,6 @@
 
 import {
-  FieldGroup, FormHorizontal, Icons, ReadOnly, Select, Spinner, Tooltip,
+  FieldGroup, FormHorizontal, Icons, ReadOnly, Select, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -12,6 +12,7 @@ import {
   getTaxPayItemDetail,
 } from '../PayItemListSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import PageView from '../../../components/PageView/PageView';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 import style from './TaxPayItemView.module.css';
@@ -76,7 +77,7 @@ const TaxPayItemView = ({
     </div>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

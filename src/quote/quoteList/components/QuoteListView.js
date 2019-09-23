@@ -1,5 +1,5 @@
 import {
-  Alert, Button, PageHead, Spinner, StandardTemplate,
+  Alert, Button, PageHead, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -8,6 +8,7 @@ import {
   getAlert,
   getIsLoading,
 } from '../quoteListSelector';
+import PageView from '../../../components/PageView/PageView';
 import QuoteListFilterOptions from './QuoteListFilterOptions';
 import QuoteListTable from './QuoteListTable';
 import style from './QuoteListView.module.css';
@@ -50,9 +51,7 @@ const QuoteListView = (props) => {
     </StandardTemplate>
   );
 
-  const view = isLoading ? (<Spinner />) : quoteListView;
-
-  return view;
+  return <PageView isLoading={isLoading} view={quoteListView} />;
 };
 
 const mapStateToProps = state => ({

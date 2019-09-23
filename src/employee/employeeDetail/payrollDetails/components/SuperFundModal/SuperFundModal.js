@@ -7,7 +7,7 @@ import {
   getIsActionDisabled,
   getIsLoading, getIsPaySuperEnabled,
 } from '../../selectors/SuperFundModalSelectors';
-import LoadingPageState from '../../../../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../../../../components/PageView/PageView';
 import SuperFundNoPaySuperView from './superFundNoPaySuper/SuperFundNoPaySuperView';
 import SuperFundWithPaySuperView from './superFundWithPaySuper/SuperFundWithPaySuperView';
 
@@ -41,7 +41,7 @@ const SuperFundModal = ({
       canClose={!isActionDisabled}
     >
       <Modal.Body>
-        { isLoading ? <LoadingPageState /> : view}
+        <PageView isLoading={isLoading} view={view} />
       </Modal.Body>
       <Modal.Footer>
         <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>

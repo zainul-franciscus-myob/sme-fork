@@ -11,7 +11,7 @@ import {
 } from '../selectors/InTraySelectors';
 import InTrayListFilterOptions from './inTrayList/InTrayListFilterOptions';
 import InTrayListTable from './inTrayList/InTrayListTable';
-import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../components/PageView/PageView';
 import UploadOptionsModal from './uploadOptions/UploadOptionsModal';
 import modalTypes from '../modalTypes';
 
@@ -67,7 +67,7 @@ const InTrayView = ({
     </React.Fragment>
   );
 
-  return isLoading ? (<LoadingPageState />) : inTrayView;
+  return <PageView isLoading={isLoading} view={inTrayView} />;
 };
 
 const mapStateToProps = state => ({

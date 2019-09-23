@@ -1,5 +1,5 @@
 import {
-  Alert, LineItemTemplate, Spinner,
+  Alert, LineItemTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -10,6 +10,7 @@ import {
   getIsLoading,
   getModalType,
 } from '../SupplierReturnPurchaseSelector';
+import PageView from '../../components/PageView/PageView';
 import SupplierReturnPurchaseActions from './SupplierReturnPurchaseActions';
 import SupplierReturnPurchaseModal from './SupplierReturnPurchaseModal';
 import SupplierReturnPurchaseOptions from './SupplierReturnPurchaseOptions';
@@ -57,24 +58,22 @@ const SupplierReturnPurchaseView = ({
   const pageHead = isCreating ? 'Apply to purchase' : 'Applied to purchase';
 
   const view = (
-    <React.Fragment>
-      <LineItemTemplate
-        pageHead={pageHead}
-        options={(
-          <SupplierReturnPurchaseOptions onUpdatePurchaseOptions={onUpdatePurchaseOptions} />)}
-        actions={actions}
-        alert={alertComponent}
-      >
-        {modal}
-        <SupplierReturnPurchaseTable
-          onUpdateTableAmountFields={onUpdateTableAmountFields}
-          onFormatAmountInput={onFormatAmountInput}
-        />
-      </LineItemTemplate>
-    </React.Fragment>
+    <LineItemTemplate
+      pageHead={pageHead}
+      options={(
+        <SupplierReturnPurchaseOptions onUpdatePurchaseOptions={onUpdatePurchaseOptions} />)}
+      actions={actions}
+      alert={alertComponent}
+    >
+      {modal}
+      <SupplierReturnPurchaseTable
+        onUpdateTableAmountFields={onUpdateTableAmountFields}
+        onFormatAmountInput={onFormatAmountInput}
+      />
+    </LineItemTemplate>
   );
 
-  return isLoading ? <Spinner /> : view;
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

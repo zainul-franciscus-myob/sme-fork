@@ -1,5 +1,5 @@
 import {
-  Alert, FormHorizontal, Spinner, StandardTemplate,
+  Alert, FormHorizontal, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -13,6 +13,7 @@ import DetailsView from './DetailsView';
 import EmployeeAllocationView from './EmployeeAllocationView';
 import ExemptionsView from './ExemptionsView';
 import InformationView from './InformationView';
+import PageView from '../../../../components/PageView/PageView';
 import styles from './DeductionPayItemView.module.css';
 
 const DeductionPayItemView = ({
@@ -80,7 +81,7 @@ const DeductionPayItemView = ({
       />
     </StandardTemplate>
   );
-  return (isLoading ? <Spinner /> : view);
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

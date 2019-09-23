@@ -1,5 +1,5 @@
 import {
-  Alert, Button, PageHead, Spinner, StandardTemplate,
+  Alert, Button, PageHead, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,6 +9,7 @@ import {
 } from '../contactListSelector';
 import ContactListFilterOptions from './ContactListFilterOptions';
 import ContactListTable from './ContactListTable';
+import PageView from '../../../components/PageView/PageView';
 import style from './ContactListView.module.css';
 
 const ContactListView = (props) => {
@@ -51,9 +52,7 @@ const ContactListView = (props) => {
     </StandardTemplate>
   );
 
-  const view = isLoading ? (<Spinner />) : contactListView;
-
-  return view;
+  return <PageView isLoading={isLoading} view={contactListView} />;
 };
 
 const mapStateToProps = state => ({

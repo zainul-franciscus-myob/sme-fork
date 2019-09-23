@@ -1,14 +1,14 @@
 import {
-  Button, ButtonRow, Spinner, StandardTemplate,
+  Button, ButtonRow, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getIsLoading } from '../../selectors/superFundListSelectors';
+import PageView from '../../../components/PageView/PageView';
 import SuperFundListFilterOptions from './SuperFundListFilterOptions';
 import SuperFundListTable from './SuperFundListTable';
-import styles from './SuperFundListView.module.css';
 
 const SuperFundListView = (props) => {
   const {
@@ -23,12 +23,6 @@ const SuperFundListView = (props) => {
       onSort,
     },
   } = props;
-
-  const spinner = (
-    <div className={styles.contentSpinner}>
-      <Spinner />
-    </div>
-  );
 
   const actions = (
     <ButtonRow>
@@ -62,7 +56,7 @@ const SuperFundListView = (props) => {
       subHeadChildren={subHeadChildren}
       filterBar={isLoading ? undefined : filterBar}
     >
-      { isLoading ? spinner : view }
+      <PageView isLoading={isLoading} view={view} />
     </StandardTemplate>
   );
 };

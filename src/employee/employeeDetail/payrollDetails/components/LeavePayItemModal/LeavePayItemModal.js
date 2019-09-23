@@ -15,7 +15,7 @@ import LeavePayItemEmployees from './LeavePayItemEmployees';
 import LeavePayItemExemptions from './LeavePayItemExemptions';
 import LeavePayItemInfo from './LeavePayItemInfo';
 import LeavePayItemLinkedWages from './LeavePayItemLinkedWages';
-import LoadingPageState from '../../../../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../../../../components/PageView/PageView';
 
 const LeavePayItemModal = (props) => {
   const {
@@ -78,7 +78,7 @@ const LeavePayItemModal = (props) => {
       canClose={!isActionDisabled}
     >
       <Modal.Body>
-        { isLoading ? <LoadingPageState /> : view}
+        <PageView isLoading={isLoading} view={view} />
       </Modal.Body>
       <Modal.Footer>
         <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>

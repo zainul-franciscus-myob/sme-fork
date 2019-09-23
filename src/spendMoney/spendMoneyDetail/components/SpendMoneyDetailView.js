@@ -1,4 +1,4 @@
-import { Alert, LineItemTemplate, Spinner } from '@myob/myob-widgets';
+import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -10,6 +10,7 @@ import {
 } from '../spendMoneyDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
+import PageView from '../../../components/PageView/PageView';
 import SpendMoneyAttachments from './SpendMoneyAttachments';
 import SpendMoneyDetailActions from './SpendMoneyDetailActions';
 import SpendMoneyDetailOptions from './SpendMoneyDetailOptions';
@@ -115,7 +116,7 @@ const SpendMoneyDetailView = ({
   );
 
   return (
-    isLoading ? <Spinner /> : view
+    <PageView isLoading={isLoading} view={view} />
   );
 };
 

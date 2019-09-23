@@ -1,10 +1,11 @@
-import { Alert, FormTemplate, Spinner } from '@myob/myob-widgets';
+import { Alert, FormTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAlert, getIsCreating, getIsLoading, getModalType,
 } from '../receiveRefundSelectors';
+import PageView from '../../../components/PageView/PageView';
 import ReceiveRefundModal from './ReceiveRefundModal';
 import RefundActions from './ReceiveRefundActions';
 import RefundDetail from './ReceiveRefundDetail';
@@ -54,7 +55,7 @@ const ReceiveRefundView = (props) => {
     </FormTemplate>
   );
 
-  return (isLoading ? <Spinner /> : view);
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({

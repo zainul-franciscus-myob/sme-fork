@@ -8,8 +8,8 @@ import {
 import Actions from './BankingRuleReceiveMoneyActions';
 import BankingRuleReceiveMoneyAlert from './BankingRuleReceiveMoneyAlert';
 import BankingRuleReceiveMoneyRuleConditions from './BankingRuleReceiveMoneyRuleConditions';
-import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
 import ModalContainer from './BankingRuleReceiveMoneyModal';
+import PageView from '../../../components/PageView/PageView';
 import RuleDetails from './BankingRuleReceiveMoneyRuleDetails';
 
 const BankingRuleReceiveMoneyView = ({
@@ -31,8 +31,8 @@ const BankingRuleReceiveMoneyView = ({
   onConfirmCancelButtonClick,
   onConfirmSave,
   onDismissAlert,
-}) => (isLoading ? <LoadingPageState /> : (
-  <React.Fragment>
+}) => {
+  const view = (
     <BaseTemplate>
       <PageHead title={pageTitle} />
       {isAlertShown && <BankingRuleReceiveMoneyAlert onDismissAlert={onDismissAlert} /> }
@@ -63,8 +63,10 @@ const BankingRuleReceiveMoneyView = ({
         onDeleteButtonClick={onDeleteButtonClick}
       />
     </BaseTemplate>
-  </React.Fragment>
-));
+  );
+
+  return <PageView isLoading={isLoading} view={view} />;
+};
 
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
