@@ -137,10 +137,11 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     onProgress,
   }) => {
     const additionalHeaders = await getAdditionalHeaders();
+
     const headers = {
-      ...getDefaultHttpHeaders(),
+      Accept: 'application/json',
+      'x-myobapi-requestid': uuid(),
       ...additionalHeaders,
-      'Content-Type': 'multipart/form-data',
     };
     const body = new FormData();
     Object.keys(content).forEach(key => body.append(key, content[key] || ''));

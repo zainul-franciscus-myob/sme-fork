@@ -133,7 +133,7 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     integration.writeFormData({
       intent: UPLOAD_ATTACHMENT,
       content: {
-        relationshipKey: 'SpendMoneyId',
+        relationshipKey: 'SpendMoneyUID',
         relationshipValue: getSpendMoneyUid(state),
         file,
       },
