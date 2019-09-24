@@ -4,11 +4,12 @@ import '@myob/myob-styles/dist/styles/myob-clean.css';
 import ReactDOM from 'react-dom';
 
 import { initializeAuth } from './Auth';
-import { initializeConfig } from './Config';
+import Config, { initializeConfig } from './Config';
 import Inbox from './inbox';
 import NavigationModule from './navigation/NavigationModule';
 import Router from './router/Router';
 import getRoutes from './getRoutes';
+import loadTelemetry from './telemetry/telemetry';
 import unbindAllKeys from './hotKeys/unbindAllKeys';
 
 async function main(integrationType) {
@@ -64,11 +65,14 @@ async function main(integrationType) {
     });
   };
 
+  const telemetry = loadTelemetry(Config.SEGMENT_WRITE_KEY);
+
   const beforeAll = ({ module, routeProps }) => {
     unbindAllKeys();
     unsubscribeAllModulesFromStore();
     module.resetState();
     nav.run({ ...routeProps, onPageTransition: module.handlePageTransition });
+    telemetry(routeProps);
   };
 
   router.start({

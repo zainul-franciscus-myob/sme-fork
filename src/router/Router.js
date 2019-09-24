@@ -69,7 +69,6 @@ export default class Router {
 
     this.router.subscribe(({ route }) => {
       const { module, action } = moduleMapping[route.name];
-
       beforeAll({
         module,
         routeProps: {

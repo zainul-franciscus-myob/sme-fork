@@ -3,5 +3,6 @@
   "AUTHENTICATION_WEB_CLIENT_ID": "sme-web",
   "AUTHENTICATION_BFF_CLIENT_ID": "sme-web-bff",
   "BASE_URL": "https://localhost:3000",
-  "BFF_BASE_URL": "http://localhost:5000"
+  "BFF_BASE_URL": "http://localhost:5000",
+  "SEGMENT_WRITE_KEY" : ""
 }

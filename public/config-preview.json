@@ -3,5 +3,6 @@
   "AUTHENTICATION_WEB_CLIENT_ID": "sme-web",
   "AUTHENTICATION_BFF_CLIENT_ID": "sme-web-bff",
   "BASE_URL": "https://dcmn8bko5e58g.cloudfront.net",
-  "BFF_BASE_URL": "https://preview-sme-web-bff.svc.platform.myob.com"
+  "BFF_BASE_URL": "https://preview-sme-web-bff.svc.platform.myob.com",
+  "SEGMENT_WRITE_KEY" : "0iB7tIgXNiRlfDkNKaRkEzUEDvBjREso"
 }

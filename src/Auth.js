@@ -17,6 +17,8 @@ export const initializeAuth = () => {
   authenticationContext.handleOAuth2Callback();
 };
 
+export const getUser = () => authenticationContext.getUser();
+
 export const login = () => {
   const isLoggedIn = authenticationContext.getUser();
   if (!isLoggedIn) {

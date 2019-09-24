@@ -3,5 +3,6 @@
   "AUTHENTICATION_WEB_CLIENT_ID": "sme-web",
   "AUTHENTICATION_BFF_CLIENT_ID": "sme-web-bff",
   "BASE_URL": "https://d3bsacsmo4aaj9.cloudfront.net",
-  "BFF_BASE_URL": "https://pdv-sme-web-bff.svc.platform.myobdev.com"
+  "BFF_BASE_URL": "https://pdv-sme-web-bff.svc.platform.myobdev.com",
+  "SEGMENT_WRITE_KEY" : "S4ETDh2ZYW4NmSEMaq1CbirFqm4nHoUn"
 }
