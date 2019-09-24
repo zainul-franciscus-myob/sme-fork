@@ -1,10 +1,16 @@
 import {
+  ADD_IN_TRAY_LIST_ENTRY,
   CLOSE_MODAL,
+  CREATE_IN_TRAY_DOCUMENT,
+  DELETE_IN_TRAY_DOCUMENT,
   GENERATE_IN_TRAY_EMAIL,
   LOAD_IN_TRAY,
   OPEN_MODAL,
+  REMOVE_IN_TRAY_LIST_ENTRY,
   SET_ALERT,
   SET_CONFIRMING_EMAIL_GENERATION,
+  SET_IN_TRAY_DELETE_MODAL,
+  SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE,
   SET_IN_TRAY_LIST_FILTER_OPTIONS,
   SET_IN_TRAY_LIST_SORT_ORDER,
   SET_IN_TRAY_LIST_TABLE_LOADING_STATE,
@@ -90,6 +96,41 @@ const createInTrayDispatcher = store => ({
   setInTrayListTableLoadingState: (isTableLoading) => {
     const intent = SET_IN_TRAY_LIST_TABLE_LOADING_STATE;
     store.dispatch({ intent, isTableLoading });
+  },
+
+  createInTrayDocument: (uploadId, entry) => {
+    const intent = CREATE_IN_TRAY_DOCUMENT;
+    store.dispatch({ intent, uploadId, entry });
+  },
+
+  deleteInTrayDocument: (id) => {
+    const intent = DELETE_IN_TRAY_DOCUMENT;
+    store.dispatch({ intent, id });
+  },
+
+  addInTrayListEntry: (entry) => {
+    const intent = ADD_IN_TRAY_LIST_ENTRY;
+    store.dispatch({ intent, entry });
+  },
+
+  removeInTrayListEntry: (uploadId) => {
+    const intent = REMOVE_IN_TRAY_LIST_ENTRY;
+    store.dispatch({ intent, uploadId });
+  },
+
+  setInTrayListEntrySubmittingState: (id, isSubmitting) => {
+    const intent = SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE;
+    store.dispatch({ intent, id, isSubmitting });
+  },
+
+  openInTrayDeleteModal: (entry) => {
+    const intent = SET_IN_TRAY_DELETE_MODAL;
+    store.dispatch({ intent, entry });
+  },
+
+  closeInTrayDeleteModal: () => {
+    const intent = SET_IN_TRAY_DELETE_MODAL;
+    store.dispatch({ intent, entry: undefined });
   },
 
   setConfirmingEmailGeneration: (isConfirmingEmailGeneration) => {

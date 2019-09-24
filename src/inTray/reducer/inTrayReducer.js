@@ -1,12 +1,18 @@
 import { format as dateFormat } from 'date-fns';
 
 import {
+  ADD_IN_TRAY_LIST_ENTRY,
   CLOSE_MODAL,
+  CREATE_IN_TRAY_DOCUMENT,
+  DELETE_IN_TRAY_DOCUMENT,
   GENERATE_IN_TRAY_EMAIL,
   LOAD_IN_TRAY,
   OPEN_MODAL,
+  REMOVE_IN_TRAY_LIST_ENTRY,
   SET_ALERT,
   SET_CONFIRMING_EMAIL_GENERATION,
+  SET_IN_TRAY_DELETE_MODAL,
+  SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE,
   SET_IN_TRAY_LIST_FILTER_OPTIONS,
   SET_IN_TRAY_LIST_SORT_ORDER,
   SET_IN_TRAY_LIST_TABLE_LOADING_STATE,
@@ -17,17 +23,22 @@ import {
 } from '../InTrayIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
-  generateInTrayEmail,
-  setConfirmingEmailGeneration,
-  setUploadOptionsAlert,
-  setUploadOptionsLoadingState,
-} from './uploadOptionsReducer';
-import {
+  addInTrayListEntry,
+  createInTrayDocument,
+  deleteInTrayDocument,
+  removeInTrayListEntry,
+  setInTrayListEntrySubmittingState,
   setInTrayListFilterOption,
   setInTrayListSortOrder,
   setInTrayListTableLoadingState,
   sortAndFilterInTrayList,
 } from './inTrayListReducer';
+import {
+  generateInTrayEmail,
+  setConfirmingEmailGeneration,
+  setUploadOptionsAlert,
+  setUploadOptionsLoadingState,
+} from './uploadOptionsReducer';
 import createReducer from '../../store/createReducer';
 
 const convertToDateString = time => dateFormat(Number(time), 'YYYY-MM-DD');
@@ -59,6 +70,7 @@ const getDefaultState = () => ({
     orderBy: '',
     entries: [],
   },
+  deleteModal: undefined,
 });
 
 const loadInTray = (state, action) => ({
@@ -99,6 +111,11 @@ const closeModal = state => ({
   modalType: '',
 });
 
+const setInTrayDeleteModal = (state, { entry }) => ({
+  ...state,
+  deleteModal: entry,
+});
+
 const handlers = {
   [LOAD_IN_TRAY]: loadInTray,
   [RESET_STATE]: resetState,
@@ -117,6 +134,14 @@ const handlers = {
   [SET_IN_TRAY_LIST_FILTER_OPTIONS]: setInTrayListFilterOption,
   [SET_IN_TRAY_LIST_SORT_ORDER]: setInTrayListSortOrder,
   [SET_IN_TRAY_LIST_TABLE_LOADING_STATE]: setInTrayListTableLoadingState,
+
+  [CREATE_IN_TRAY_DOCUMENT]: createInTrayDocument,
+  [DELETE_IN_TRAY_DOCUMENT]: deleteInTrayDocument,
+  [ADD_IN_TRAY_LIST_ENTRY]: addInTrayListEntry,
+  [REMOVE_IN_TRAY_LIST_ENTRY]: removeInTrayListEntry,
+  [SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE]: setInTrayListEntrySubmittingState,
+
+  [SET_IN_TRAY_DELETE_MODAL]: setInTrayDeleteModal,
 };
 
 const inTrayReducer = createReducer(getDefaultState(), handlers);

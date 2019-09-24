@@ -13,3 +13,11 @@ export const SORT_AND_FILTER_IN_TRAY_LIST = Symbol('Sort and filter in tray docu
 export const SET_IN_TRAY_LIST_FILTER_OPTIONS = Symbol('Set in tray document list filter options');
 export const SET_IN_TRAY_LIST_SORT_ORDER = Symbol('Set in tray document list sort order');
 export const SET_IN_TRAY_LIST_TABLE_LOADING_STATE = Symbol('Set in tray document list table loading state');
+
+export const CREATE_IN_TRAY_DOCUMENT = Symbol('Create in tray document');
+export const DELETE_IN_TRAY_DOCUMENT = Symbol('Delete in tray document');
+export const DOWNLOAD_IN_TRAY_DOCUMENT = Symbol('Download in tray document');
+export const ADD_IN_TRAY_LIST_ENTRY = Symbol('Add in tray list entry');
+export const REMOVE_IN_TRAY_LIST_ENTRY = Symbol('Remove in tray list entry');
+export const SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE = Symbol('Set in tray list entry submitting state');
+export const SET_IN_TRAY_DELETE_MODAL = Symbol('Set in tray entry delete modal');

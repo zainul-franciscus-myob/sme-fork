@@ -1,4 +1,7 @@
 import {
+  CREATE_IN_TRAY_DOCUMENT,
+  DELETE_IN_TRAY_DOCUMENT,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
   GENERATE_IN_TRAY_EMAIL,
   LOAD_IN_TRAY,
   SORT_AND_FILTER_IN_TRAY_LIST,
@@ -16,6 +19,18 @@ const InTrayMapping = {
   [SORT_AND_FILTER_IN_TRAY_LIST]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/inTray/filter_in_tray_list`,
+  },
+  [CREATE_IN_TRAY_DOCUMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/inTray/create_in_tray_document`,
+  },
+  [DELETE_IN_TRAY_DOCUMENT]: {
+    method: 'DELETE',
+    getPath: ({ businessId, documentId }) => `/${businessId}/inTray/delete_in_tray_document/${documentId}`,
+  },
+  [DOWNLOAD_IN_TRAY_DOCUMENT]: {
+    method: 'GET',
+    getPath: ({ businessId, documentId }) => `/${businessId}/inTray/download_in_tray_document/${documentId}`,
   },
 };
 

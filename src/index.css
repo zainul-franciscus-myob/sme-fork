@@ -1,6 +1,8 @@
 :root {
+  --flx-palette-storm-06: #f3f4f5;
   --flx-palette-storm-11: #e8eaec;
   --flx-palette-storm-17: #dcdfe1;
+  --flx-palette-storm-72: #687480;
 
   /* border */
   --flx-border-button-secondary: 1px solid #c5c9ce;

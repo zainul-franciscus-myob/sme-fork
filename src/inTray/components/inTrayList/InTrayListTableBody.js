@@ -1,55 +1,131 @@
 import {
-  Icons, Spinner, Table, Tooltip,
+  Dropdown, Icons, Spinner, Table, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
-import { getEntries } from '../../selectors/InTrayListSelectors';
+import { getTableEntries } from '../../selectors/InTrayListSelectors';
+import actionTypes from '../../actionTypes';
 import styles from './InTrayListTableBody.module.css';
 
-const getThumbnail = (ocrStatus, thumbnailUri, alt) => (
-  <div className={styles.thumbnail}>
-    { ocrStatus === 'InProgress' && (
-      <div className={styles.spinner}>
-        <Spinner size="small" />
-      </div>
-    ) }
-    <img src={thumbnailUri} alt={alt} />
+const handleActionSelect = (handlers, id) => (action) => {
+  const { onDelete, onDownload } = handlers;
+
+  if (action === actionTypes.delete) {
+    onDelete(id);
+  }
+
+  if (action === actionTypes.download) {
+    onDownload(id);
+  }
+};
+
+const ThumbnailComponent = ({ isUploading, thumbnailUri, alt }) => {
+  const thumbnailClass = classNames({
+    [styles.thumbnail]: true,
+    [styles.thumbnailEmpty]: isUploading,
+  });
+
+  return (
+    <div className={thumbnailClass}>
+      {thumbnailUri && <img src={thumbnailUri} alt={alt} />}
+    </div>
+  );
+};
+
+const LoadingComponent = () => (
+  <div className={styles.loading}>
+    <Spinner size="small" />
+    <span>Processing</span>
   </div>
 );
 
-const getInvoiceRowItem = value => value || (
+const SubmittingComponent = () => (
+  <div className={styles.loading}>
+    <Spinner size="small" />
+  </div>
+);
+
+const UploadDateComponent = ({
+  uploadedDate, isUploading, isOcrInProgress, isSubmitting,
+}) => {
+  if (isUploading || isOcrInProgress) {
+    return LoadingComponent();
+  }
+
+  if (isSubmitting) {
+    return SubmittingComponent();
+  }
+
+  return uploadedDate;
+};
+
+const InvoiceComponent = value => value || (
   <Tooltip triggerContent={<Icons.Info />}>
-        Information not available
+    Information not available
   </Tooltip>
 );
 
-const InTrayListTableBody = ({ tableConfig, entries }) => {
+const ActionComponent = (handlers, id) => (
+  <Dropdown
+    right
+    items={[
+      <Dropdown.Item key={actionTypes.download} label="Download" value={actionTypes.download} />,
+      <Dropdown.Item key={actionTypes.delete} label="Delete" value={actionTypes.delete} />,
+    ]}
+    onSelect={handleActionSelect(handlers, id)}
+    toggle={(
+      <Dropdown.Toggle size="xs">
+        <Icons.More />
+      </Dropdown.Toggle>
+      )}
+  />
+);
+
+const InTrayListTableBody = ({
+  tableConfig,
+  entries,
+  onDelete,
+  onDownload,
+}) => {
   const rows = entries.map((entry) => {
     const {
       id,
+      uploadId,
       thumbnailUri,
-      ocrStatus,
       uploadedDate,
       invoiceNumber,
       issuedDate,
       totalAmount,
+      isUploading,
+      isOcrInProgress,
+      isSubmitting,
+      showInvoiceDetails,
+      showActions,
     } = entry;
 
     return (
-      <Table.Row key={id}>
+      <Table.Row key={`${id}-${uploadId}`}>
         <Table.RowItem {...tableConfig.thumbnail}>
-          {getThumbnail(ocrStatus, thumbnailUri, uploadedDate)}
+          {ThumbnailComponent({ isUploading, thumbnailUri, uploadedDate })}
         </Table.RowItem>
-        <Table.RowItem {...tableConfig.uploadedDate}>{uploadedDate}</Table.RowItem>
+        <Table.RowItem {...tableConfig.uploadedDate}>
+          { UploadDateComponent({
+            uploadedDate, isUploading, isOcrInProgress, isSubmitting,
+          })}
+        </Table.RowItem>
         <Table.RowItem {...tableConfig.invoiceNumber}>
-          {getInvoiceRowItem(invoiceNumber)}
+          {showInvoiceDetails && InvoiceComponent(invoiceNumber)}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.issuedDate}>
-          {getInvoiceRowItem(issuedDate)}
+          {showInvoiceDetails && InvoiceComponent(issuedDate)}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.totalAmount}>
-          {getInvoiceRowItem(totalAmount)}
+          {showInvoiceDetails && InvoiceComponent(totalAmount)}
+        </Table.RowItem>
+        <Table.RowItem {...tableConfig.action} cellRole="actions">
+          {showActions && ActionComponent({ onDelete, onDownload }, id)}
         </Table.RowItem>
       </Table.Row>
     );
@@ -63,7 +139,7 @@ const InTrayListTableBody = ({ tableConfig, entries }) => {
 };
 
 const mapStateToProps = state => ({
-  entries: getEntries(state),
+  entries: getTableEntries(state),
 });
 
 export default connect(mapStateToProps)(InTrayListTableBody);

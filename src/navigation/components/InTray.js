@@ -7,7 +7,7 @@ import {
   getIsInTrayActive,
 } from '../NavigationSelectors';
 
-const InTray = ({ url, isActive }) => <Navigation.Link active={isActive} url={url} label="In tray" />;
+const InTray = ({ url, isActive }) => <Navigation.Link active={isActive} url={url} label="In Tray" />;
 
 const mapStateToProps = state => ({
   isActive: getIsInTrayActive(state),

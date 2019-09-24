@@ -75,6 +75,27 @@ const sendXHRRequest = (method, url, headers, body, onSuccess, onFailure, onProg
   xhr.send(body);
 };
 
+const writeFormData = async ({
+  intent, urlParams, content, onSuccess, onFailure, onProgress, getAdditionalHeaders,
+}) => {
+  const additionalHeaders = await getAdditionalHeaders();
+
+  const headers = {
+    Accept: 'application/json',
+    'x-myobapi-requestid': uuid(),
+    ...additionalHeaders,
+  };
+  const body = new FormData();
+  Object.keys(content).forEach(key => body.append(key, content[key] || ''));
+
+  const { baseUrl } = config;
+  const requestSpec = RootMapping[intent];
+  const intentUrlPath = requestSpec.getPath(urlParams);
+  const url = `${baseUrl}${intentUrlPath}`;
+
+  sendXHRRequest(requestSpec.method, url, headers, body, onSuccess, onFailure, onProgress);
+};
+
 const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
   read: async ({
     intent,
@@ -136,22 +157,37 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     onFailure,
     onProgress,
   }) => {
-    const additionalHeaders = await getAdditionalHeaders();
+    writeFormData({
+      intent, urlParams, content, onSuccess, onFailure, onProgress, getAdditionalHeaders,
+    });
+  },
+  writeManyFormData: async ({
+    intent,
+    urlParams,
+    contents,
+    onProgress,
+    onSuccess,
+    onFailure,
+    onComplete,
+  }) => {
+    const requests = contents.map((content, index) => new Promise(resolve => writeFormData({
+      intent,
+      urlParams,
+      content,
+      allowParallelRequests: true,
+      onProgress,
+      onSuccess: (response) => {
+        onSuccess(response, index);
+        resolve({ success: true, response });
+      },
+      onFailure: (response) => {
+        onFailure(response, index);
+        resolve({ success: false, response });
+      },
+      getAdditionalHeaders,
+    })));
 
-    const headers = {
-      Accept: 'application/json',
-      'x-myobapi-requestid': uuid(),
-      ...additionalHeaders,
-    };
-    const body = new FormData();
-    Object.keys(content).forEach(key => body.append(key, content[key] || ''));
-
-    const { baseUrl } = config;
-    const requestSpec = RootMapping[intent];
-    const intentUrlPath = requestSpec.getPath(urlParams);
-    const url = `${baseUrl}${intentUrlPath}`;
-
-    sendXHRRequest(requestSpec.method, url, headers, body, onSuccess, onFailure, onProgress);
+    Promise.all(requests).then(onComplete);
   },
 });
 

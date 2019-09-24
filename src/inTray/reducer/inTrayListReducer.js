@@ -1,3 +1,10 @@
+import {
+  getAddedEntries,
+  getFilteredEntriesByKey,
+  getUpdatedEntriesByKey,
+  getUploadedEntry,
+} from '../selectors/InTrayListSelectors';
+
 const updateInTrayListState = (state, inTrayListState) => ({
   ...state,
   inTrayList: {
@@ -28,4 +35,35 @@ export const setInTrayListSortOrder = (state, action) => updateInTrayListState(s
 export const setInTrayListTableLoadingState = (state, action) => updateInTrayListState(
   state,
   { isTableLoading: action.isTableLoading },
+);
+
+export const createInTrayDocument = (state, { uploadId, entry }) => {
+  const uploadedEntry = getUploadedEntry(uploadId, entry);
+
+  return updateInTrayListState(
+    state,
+    { entries: getUpdatedEntriesByKey(state, 'uploadId', uploadId, uploadedEntry) },
+  );
+};
+
+export const deleteInTrayDocument = (state, { id }) => updateInTrayListState(
+  state,
+  { entries: getFilteredEntriesByKey(state, 'id', id) },
+);
+
+export const addInTrayListEntry = (state, { entry }) => updateInTrayListState(
+  state,
+  { entries: getAddedEntries(state, entry) },
+);
+
+export const removeInTrayListEntry = (state, { uploadId }) => updateInTrayListState(
+  state,
+  { entries: getFilteredEntriesByKey(state, 'uploadId', uploadId) },
+);
+
+export const setInTrayListEntrySubmittingState = (state, { id, isSubmitting }) => (
+  updateInTrayListState(
+    state,
+    { entries: getUpdatedEntriesByKey(state, 'id', id, { isSubmitting }) },
+  )
 );

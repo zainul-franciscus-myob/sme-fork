@@ -1,4 +1,11 @@
-import { GENERATE_IN_TRAY_EMAIL, LOAD_IN_TRAY, SORT_AND_FILTER_IN_TRAY_LIST } from './InTrayIntents';
+import {
+  CREATE_IN_TRAY_DOCUMENT,
+  DELETE_IN_TRAY_DOCUMENT,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
+  GENERATE_IN_TRAY_EMAIL,
+  LOAD_IN_TRAY,
+  SORT_AND_FILTER_IN_TRAY_LIST,
+} from './InTrayIntents';
 import {
   getAppliedFilterOptions,
   getFilterOptions,
@@ -73,6 +80,57 @@ const createInTrayIntegrator = (store, integration) => ({
         sortOrder,
         orderBy,
       },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  createInTrayDocuments: ({
+    onProgress, onSuccess, onFailure, onComplete, entries,
+  }) => {
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    integration.writeManyFormData({
+      intent: CREATE_IN_TRAY_DOCUMENT,
+      contents: entries.map(({ file }) => ({ file })),
+      urlParams,
+      onProgress,
+      onSuccess,
+      onFailure,
+      onComplete,
+    });
+  },
+
+  deleteInTrayDocument: ({ onSuccess, onFailure, id }) => {
+    const intent = DELETE_IN_TRAY_DOCUMENT;
+
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId, documentId: id };
+
+    integration.write({
+      intent,
+      allowParallelRequests: true,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  downloadInTrayDocument: ({ onSuccess, onFailure, id }) => {
+    const intent = DOWNLOAD_IN_TRAY_DOCUMENT;
+
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId, documentId: id };
+
+    integration.write({
+      intent,
+      allowParallelRequests: true,
+      urlParams,
       onSuccess,
       onFailure,
     });

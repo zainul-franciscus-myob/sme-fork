@@ -4,7 +4,13 @@ import copy from 'copy-to-clipboard';
 
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
-import { getNewSortOrder } from './selectors/InTrayListSelectors';
+import {
+  getIsEntryLoading,
+  getNewSortOrder,
+  getUploadCompleteAlert,
+  getUploadingEntry,
+  getUploadingErrorMessage,
+} from './selectors/InTrayListSelectors';
 import InTrayView from './components/InTrayView';
 import Store from '../store/Store';
 import createInTrayDispatcher from './createInTrayDispatcher';
@@ -37,6 +43,11 @@ export default class InTrayModule {
   }
 
   filterInTrayList = () => {
+    const state = this.store.getState();
+    if (getIsEntryLoading(state)) {
+      return;
+    }
+
     this.dispatcher.setInTrayListTableLoadingState(true);
 
     const onSuccess = (response) => {
@@ -53,9 +64,13 @@ export default class InTrayModule {
   }
 
   sortInTrayList = (orderBy) => {
+    const state = this.store.getState();
+    if (getIsEntryLoading(state)) {
+      return;
+    }
+
     this.dispatcher.setInTrayListTableLoadingState(true);
 
-    const state = this.store.getState();
     const sortOrder = getNewSortOrder(orderBy)(state);
     this.dispatcher.setInTrayListSortOrder(orderBy, sortOrder);
 
@@ -73,6 +88,102 @@ export default class InTrayModule {
       orderBy, sortOrder, onSuccess, onFailure,
     });
   }
+
+  uploadInTrayFiles = (files) => {
+    const entries = files.reverse().reduce((acc, file, index) => {
+      const errorMessage = getUploadingErrorMessage(file);
+      if (errorMessage) {
+        return acc;
+      }
+
+      const entry = getUploadingEntry(index);
+      const { uploadId } = entry;
+
+      this.dispatcher.addInTrayListEntry(entry);
+
+      return [...acc, { uploadId, file }];
+    }, []);
+
+    if (entries.length) {
+      this.createInTrayDocuments(entries);
+    }
+  }
+
+  createInTrayDocuments = (entries) => {
+    const onProgress = () => { };
+
+    const onSuccess = ({ entry }, index) => {
+      const { uploadId } = entries[index] || { uploadId: 'none' };
+
+      this.dispatcher.createInTrayDocument(uploadId, entry);
+    };
+
+    const onFailure = (response, index) => {
+      const { uploadId } = entries[index] || { uploadId: 'none' };
+
+      this.dispatcher.removeInTrayListEntry(uploadId);
+    };
+
+    const onComplete = (results) => {
+      const alert = getUploadCompleteAlert(results);
+
+      this.dispatcher.setAlert(alert);
+    };
+
+    this.integrator.createInTrayDocuments({
+      onProgress,
+      onSuccess,
+      onFailure,
+      onComplete,
+      entries,
+    });
+  }
+
+  deleteInTrayDocument = (id) => {
+    const state = this.store.getState();
+    if (getIsEntryLoading(state)) {
+      return;
+    }
+
+    this.dispatcher.closeInTrayDeleteModal();
+    this.dispatcher.setInTrayListEntrySubmittingState(id, true);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setAlert({ message, type: 'success' });
+      this.dispatcher.deleteInTrayDocument(id);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setInTrayListEntrySubmittingState(id, false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.deleteInTrayDocument({
+      id,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  downloadInTrayDocument = (id) => {
+    this.dispatcher.setInTrayListEntrySubmittingState(id, true);
+
+    const onSuccess = ({ fileUrl }) => {
+      this.dispatcher.setInTrayListEntrySubmittingState(id, false);
+      window.open(fileUrl, '_blank');
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setInTrayListEntrySubmittingState(id, false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.downloadInTrayDocument({
+      onSuccess,
+      onFailure,
+      id,
+    });
+  };
 
   openMoreUploadOptionsDialog = () => {
     this.dispatcher.openModal(modalTypes.uploadOptions);
@@ -118,11 +229,19 @@ export default class InTrayModule {
         inTrayListeners={{
           onDismissAlert: this.dispatcher.dismissAlert,
           onUploadOptionsButtonClicked: this.openMoreUploadOptionsDialog,
+          onUploadButtonClick: this.uploadInTrayFiles,
         }}
         inTrayListListeners={{
           onUpdateFilterOptions: this.dispatcher.setInTrayListFilterOptions,
           onApplyFilter: this.filterInTrayList,
           onSort: this.sortInTrayList,
+          onUpload: this.uploadInTrayFiles,
+          onDownload: this.downloadInTrayDocument,
+          onDelete: this.dispatcher.openInTrayDeleteModal,
+        }}
+        deleteModalListeners={{
+          onConfirmClose: this.dispatcher.closeInTrayDeleteModal,
+          onConfirmDelete: this.deleteInTrayDocument,
         }}
         uploadOptionsModalListeners={{
           onCancel: this.onCloseUploadOptionsModal,
