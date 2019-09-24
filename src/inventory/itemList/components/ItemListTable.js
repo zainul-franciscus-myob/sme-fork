@@ -44,7 +44,6 @@ const ItemListTable = ({
       isEmpty={isTableEmpty}
       header={header}
     >
-      {header}
       <ItemListTableBody
         tableConfig={tableConfig}
       />

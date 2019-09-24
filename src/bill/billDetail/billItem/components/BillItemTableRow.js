@@ -11,7 +11,7 @@ import {
   getTaxCodes,
 } from '../billItemSelectors';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
-import ItemCombobox from './ItemCombobox';
+import ItemCombobox from '../../../../components/combobox/ItemCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => (item) => {
