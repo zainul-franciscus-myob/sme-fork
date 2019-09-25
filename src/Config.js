@@ -1,6 +1,6 @@
 import { fetch } from 'whatwg-fetch';
 
-const configURL = `${process.env.REACT_APP_BASE_CONFIG_URL}/config-${process.env.REACT_APP_BUILD_NUMBER || 'dev'}.json`;
+const configURL = `${window.location.origin}/config-${process.env.REACT_APP_BUILD_NUMBER || 'dev'}.json`;
 
 const Config = {};
 

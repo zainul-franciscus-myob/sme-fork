@@ -10,8 +10,8 @@ export const initializeAuth = () => {
     clientId: Config.AUTHENTICATION_WEB_CLIENT_ID,
     loginResource: Config.AUTHENTICATION_BFF_CLIENT_ID,
     storageLocation: 'localStorage',
-    redirectUri: Config.BASE_URL,
-    postLogoutRedirectUri: Config.BASE_URL,
+    redirectUri: window.location.origin,
+    postLogoutRedirectUri: window.location.href,
   });
 
   authenticationContext.handleOAuth2Callback();

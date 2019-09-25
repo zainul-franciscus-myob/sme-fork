@@ -63,9 +63,6 @@ SME Web
   - Application Config : `touch public/config-foo.json`
   - Environment : `touch config.foo`
 
-  Alternatively you can easily override values for once offs
-  `REACT_APP_BASE_CONFIG_URL=my-custom-override yarn run start`
-
 ## Environment variables
 
 #### `REACT_APP_INTEGRATION_TYPE`
