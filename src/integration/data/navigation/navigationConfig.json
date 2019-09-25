@@ -32,6 +32,7 @@
     "linkedAccounts",
     "bankingRule",
     "inTray",
-    "bankReconciliation"
+    "bankReconciliation",
+    "accountList"
   ]
 }

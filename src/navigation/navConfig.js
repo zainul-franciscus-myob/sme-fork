@@ -46,6 +46,7 @@ export const activeMapping = {
   'bankingRule/bankingRuleReceiveMoney': 'banking',
   'bankingRule/bankingRuleInvoice': 'banking',
   'bankingRule/bankingRuleBill': 'banking',
+  'account/accountList': 'business',
 };
 
 export const featuresConfig = {
@@ -162,5 +163,8 @@ export const featuresConfig = {
   },
   bankReconciliation: {
     routeName: 'bankReconciliation/bankReconciliation',
+  },
+  accountList: {
+    routeName: 'account/accountList',
   },
 };

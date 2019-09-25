@@ -109,6 +109,7 @@ export const getBusinessUrls = createSelector(
     salesSettings: enabledUrls.salesSettings,
     prepareBasOrIas: enabledUrls.prepareBasOrIas,
     linkedAccounts: enabledUrls.linkedAccounts,
+    accountList: enabledUrls.accountList,
   }),
 );
 

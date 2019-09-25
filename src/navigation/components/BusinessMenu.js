@@ -15,6 +15,7 @@ const isSeparatorRequired = urls => (
     || urls.salesSettings
     || urls.prepareBasOrIas
     || urls.linkedAccounts
+    || urls.accountList
 );
 
 const getMenuLink = (url, label, onMenuLinkClick) => (
@@ -34,6 +35,7 @@ const getItems = ({ urls, onMenuLinkClick, taxCodesLabel }) => [
   urls.salesSettings && getMenuLink(urls.salesSettings, 'Invoice and quote settings', onMenuLinkClick),
   urls.prepareBasOrIas && getMenuLink(urls.prepareBasOrIas, 'Prepare BAS or IAS', onMenuLinkClick),
   urls.linkedAccounts && getMenuLink(urls.linkedAccounts, 'Manage linked accounts', onMenuLinkClick),
+  urls.accountList && getMenuLink(urls.accountList, 'Account list', onMenuLinkClick),
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
   <Navigation.MenuLink key="logout" url="#/logout" label="Logout" icon={<Icons.SignOut />} onClick={handleMenuLinkClick(onMenuLinkClick, '#/logout')} />,
 ].filter(Boolean);

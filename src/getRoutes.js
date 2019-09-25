@@ -1,3 +1,4 @@
+import getAccountRoutes from './account/getAccountRoutes';
 import getApplyToSaleRoutes from './applyToSale/getApplyToSaleRoutes';
 import getBankReconciliationRoutes from './bankReconciliation/getBankReconciliationRoutes';
 import getBankingRoutes from './banking/getBankingRoutes';
@@ -276,6 +277,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/payRun',
     subRoutes: getPayRunRoutes({
       integration, setRootView, pushMessage,
+    }),
+  },
+  {
+    name: 'account',
+    rootPath: '/:region/:businessId/account',
+    subRoutes: getAccountRoutes({
+      integration, setRootView,
     }),
   },
 ];

@@ -1,0 +1,8 @@
+.systemAccount {
+  font-weight: var(--flx-font-weight-bold);
+  font-size: var(--flx-font-size-heading-medium);
+}
+
+.headerAccount {
+  font-weight: var(--flx-font-weight-bold);
+}
