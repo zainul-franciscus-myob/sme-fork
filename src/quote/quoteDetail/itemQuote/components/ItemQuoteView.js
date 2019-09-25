@@ -32,6 +32,9 @@ const ItemQuoteView = ({
   onConfirmSaveAndCreateNewButtonClick,
   onConfirmSaveAndDuplicateButtonClick,
   onDismissModal,
+  onExportPdfButtonClick,
+  onConfirmExportPdfButtonClick,
+  onChangeExportPdfForm,
   pageTitle,
   isCreating,
   totalAmount,
@@ -43,6 +46,7 @@ const ItemQuoteView = ({
       onDeleteButtonClick={onDeleteButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}
+      onExportPdfButtonClick={onExportPdfButtonClick}
     />
   );
 
@@ -72,6 +76,8 @@ const ItemQuoteView = ({
       onConfirmUnsaveButtonClick={onConfirmUnsaveButtonClick}
       onConfirmSaveAndCreateNewButtonClick={onConfirmSaveAndCreateNewButtonClick}
       onConfirmSaveAndDuplicateButtonClick={onConfirmSaveAndDuplicateButtonClick}
+      onConfirmExportPdfButtonClick={onConfirmExportPdfButtonClick}
+      onChangeExportPdfForm={onChangeExportPdfForm}
     />
   );
 

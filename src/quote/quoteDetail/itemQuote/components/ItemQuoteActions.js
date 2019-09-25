@@ -13,6 +13,7 @@ const ItemQuoteActions = ({
   onDeleteButtonClick,
   onCancelButtonClick,
   onConvertToInvoiceButtonClick,
+  onExportPdfButtonClick,
 }) => (
   <QuoteDetailActions
     isCreating={isCreating}
@@ -22,6 +23,7 @@ const ItemQuoteActions = ({
     onCancelButtonClick={onCancelButtonClick}
     onDeleteButtonClick={onDeleteButtonClick}
     onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}
+    onExportPdfButtonClick={onExportPdfButtonClick}
   />
 );
 

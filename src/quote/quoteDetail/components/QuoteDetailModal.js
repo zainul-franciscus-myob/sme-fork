@@ -2,6 +2,7 @@ import React from 'react';
 
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
+import ExportPdfModal from './ExportPdfModal';
 import ModalType from '../ModalType';
 import QuoteDetailSaveAndConfirmModal from './QuoteDetailSaveAndConfirmModal';
 import UnsavedModal from '../../../components/modal/UnsavedModal';
@@ -15,6 +16,8 @@ const QuoteDetailModal = ({
   onConfirmUnsaveButtonClick,
   onConfirmSaveAndCreateNewButtonClick,
   onConfirmSaveAndDuplicateButtonClick,
+  onConfirmExportPdfButtonClick,
+  onChangeExportPdfForm,
 }) => ({
   [ModalType.DELETE]: (
     <DeleteModal
@@ -55,6 +58,13 @@ const QuoteDetailModal = ({
       onConfirmSave={onConfirmSaveAndDuplicateButtonClick}
     />
   ),
-}[modalType] || null);
+  [ModalType.EXPORT_PDF]: (
+    <ExportPdfModal
+      onCancel={onDismissModal}
+      onConfirmExportPdfButtonClick={onConfirmExportPdfButtonClick}
+      onChangeExportPdfForm={onChangeExportPdfForm}
+    />
+  ),
+}[modalType]);
 
 export default QuoteDetailModal;

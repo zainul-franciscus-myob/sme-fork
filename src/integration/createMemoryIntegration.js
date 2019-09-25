@@ -30,6 +30,18 @@ const createMemoryIntegration = () => ({
         });
       });
   },
+  readFile: async ({
+    intent, params, onSuccess, onFailure, urlParams,
+  }) => {
+    const integrationFunction = RootMapping[intent];
+    Promise.resolve()
+      .then(sleep(200))
+      .then(() => {
+        integrationFunction({
+          urlParams, params, onSuccess, onFailure,
+        });
+      });
+  },
   write: async ({
     intent, params, content, onSuccess, onFailure,
   }) => {

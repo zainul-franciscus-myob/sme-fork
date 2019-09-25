@@ -251,3 +251,14 @@ export const getCreateDuplicateQuoteURL = createSelector(
   getQuoteId,
   (region, businessId, quoteId) => `/#/${region}/${businessId}/quote/newItem?duplicatedQuoteId=${quoteId}`,
 );
+
+export const getExportPdfForms = state => (state.exportPdf.forms);
+
+export const getExportPdfQuoteUrlParams = state => ({
+  businessId: state.businessId,
+  quoteId: state.quoteId,
+});
+
+export const getExportPdfQuoteParams = state => ({
+  formName: state.exportPdf.selectedForm,
+});

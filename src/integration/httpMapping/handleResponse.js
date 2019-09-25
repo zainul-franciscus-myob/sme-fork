@@ -1,35 +1,22 @@
-const handleError = (error, onRejected) => error.name !== 'AbortError' && onRejected(error);
+const handleError = (error, onFailure) => error.name !== 'AbortError' && onFailure(error);
 
-const handleResponse = async (fetchedPromise, onFulfilled, onRejected) => {
-  let response;
-  let payload;
+class BadResponseStatusCodeError extends Error {}
 
+const handleResponse = async (fetchedPromise, responseParser, onSuccess, onFailure) => {
   try {
-    response = await fetchedPromise;
-  } catch (error) {
-    handleError(error, onRejected);
-    return;
-  }
+    const response = await fetchedPromise;
 
-  if (response.status >= 400) {
-    try {
+    if (response.status >= 400) {
       const responseBody = await response.json();
-      onRejected({ message: responseBody.message });
-    } catch (error) {
-      handleError(error, onRejected);
-      return;
+      throw new BadResponseStatusCodeError(responseBody.message);
     }
-    return;
-  }
 
-  try {
-    payload = await response.json();
+    const payload = await responseParser(response);
+
+    onSuccess(payload);
   } catch (error) {
-    handleError(error, onRejected);
-    return;
+    handleError(error, onFailure);
   }
-
-  onFulfilled(payload);
 };
 
 export default handleResponse;

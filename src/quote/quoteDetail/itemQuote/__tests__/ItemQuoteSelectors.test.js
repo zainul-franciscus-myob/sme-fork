@@ -4,6 +4,7 @@ import {
   getCreateNewItemQuoteURL,
   getEmptyQuoteLines,
   getExpiredDate,
+  getExportPdfForms,
   getIsTaxInclusive,
   getPayloadForUpdateIsTaxInclusive,
   getQuoteLineByIndex,
@@ -236,6 +237,30 @@ describe('ItemQuoteSelectors', () => {
       const actual = getCreateDuplicateQuoteURL(getURLState);
 
       expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getExportPdfForms', () => {
+    it('gets export pdf forms', () => {
+      const state = {
+        exportPdf: {
+          forms: [
+            {
+              name: 'a',
+              label: 'apple',
+            },
+          ],
+        },
+      };
+
+      const actual = getExportPdfForms(state);
+
+      expect(actual).toEqual([
+        {
+          name: 'a',
+          label: 'apple',
+        },
+      ]);
     });
   });
 });

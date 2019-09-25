@@ -1,5 +1,6 @@
 import {
   ADD_TABLE_ROW,
+  CHANGE_EXPORT_PDF_FORM,
   CHANGE_TABLE_ROW,
   FORMAT_LINE_AMOUNT_INPUTS,
   REMOVE_TABLE_ROW,
@@ -167,6 +168,22 @@ describe('itemQuoteReducer', () => {
       const actual = itemQuoteReducer(state, action);
 
       expect(actual.quote.lines[1].units).toEqual('0');
+    });
+  });
+
+  describe('CHANGE_EXPORT_PDF_FORM', () => {
+    it('changes selected form', () => {
+      const state = {
+        exportPdf: {
+          selectedForm: 'a',
+        },
+      };
+
+      const action = { intent: CHANGE_EXPORT_PDF_FORM, selectedForm: 'b' };
+
+      const actual = itemQuoteReducer(state, action);
+
+      expect(actual).toEqual({ exportPdf: { selectedForm: 'b' } });
     });
   });
 });

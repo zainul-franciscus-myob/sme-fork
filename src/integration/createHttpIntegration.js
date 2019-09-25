@@ -100,7 +100,7 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
   read: async ({
     intent,
     urlParams,
-    allowParallelRequests,
+    allowParallelRequests = false,
     params,
     onSuccess,
     onFailure,
@@ -127,6 +127,42 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
 
     handleResponse(
       fetch(url, requestOptions),
+      async response => response.json(),
+      onSuccess,
+      onFailure,
+    );
+  },
+  readFile: async ({
+    intent,
+    urlParams,
+    allowParallelRequests = false,
+    params,
+    onSuccess,
+    onFailure,
+  }) => {
+    if (!allowParallelRequests) {
+      abortRequest(intent);
+    }
+
+    const controller = new AbortController();
+    abortMapping[intent] = controller;
+
+    const { baseUrl } = config;
+    const requestSpec = RootMapping[intent];
+    const additionalHeaders = await getAdditionalHeaders();
+    const requestOptions = {
+      method: requestSpec.method,
+      headers: { ...getDefaultHttpHeaders(), ...additionalHeaders },
+      signal: controller.signal,
+    };
+
+    const intentUrlPath = requestSpec.getPath(urlParams);
+    const query = getQueryFromParams(params);
+    const url = `${baseUrl}${intentUrlPath}${query}`;
+
+    handleResponse(
+      fetch(url, requestOptions),
+      async response => response.blob(),
       onSuccess,
       onFailure,
     );
@@ -145,6 +181,7 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
 
     handleResponse(
       doFetch(intent, urlParams, allowParallelRequests, headers, body),
+      async response => response.json(),
       onSuccess,
       onFailure,
     );

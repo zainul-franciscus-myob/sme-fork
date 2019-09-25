@@ -4,6 +4,7 @@ const ModalType = {
   UNSAVED: 'UNSAVED',
   SAVE_AND_CREATE_NEW: 'SAVE_AND_CREATE_NEW',
   SAVE_AND_DUPLICATE: 'SAVE_AND_DUPLICATE',
+  EXPORT_PDF: 'EXPORT_PDF',
 };
 
 export default ModalType;

@@ -3,6 +3,7 @@ import dateFormat from 'dateformat';
 import {
   ADD_TABLE_ROW,
   CALCULATE_LINES,
+  CHANGE_EXPORT_PDF_FORM,
   CHANGE_TABLE_ROW,
   FORMAT_LINE_AMOUNT_INPUTS,
   REMOVE_TABLE_ROW,
@@ -70,6 +71,10 @@ const getDefaultState = () => ({
   modalType: undefined,
   comments: [],
   pageTitle: '',
+  exportPdf: {
+    forms: [],
+    selectedForm: '',
+  },
 });
 
 const setModal = (state, action) => ({
@@ -112,6 +117,10 @@ const setInitialState = (state, action) => {
     comments: action.payload.comments,
     pageTitle: action.payload.pageTitle,
     alert: action.message ? setInitialAlert(action.message) : defaultState.alert,
+    exportPdf: {
+      ...defaultState.exportPdf,
+      ...action.payload.exportPdf,
+    },
   });
 };
 
@@ -230,6 +239,14 @@ const formatLineAmountInputs = (state, action) => {
   };
 };
 
+const changeExportPdfForm = (state, action) => ({
+  ...state,
+  exportPdf: {
+    ...state.exportPdf,
+    selectedForm: action.selectedForm,
+  },
+});
+
 const handlers = {
   [SET_IS_CALCULATING]: setIsCalculating,
   [SET_IS_LINE_AMOUNT_INPUT_DIRTY]: setIsLineAmountInputDirty,
@@ -246,6 +263,7 @@ const handlers = {
   [CHANGE_TABLE_ROW]: changeTableRow,
   [REMOVE_TABLE_ROW]: removeTableRow,
   [CALCULATE_LINES]: calculateLines,
+  [CHANGE_EXPORT_PDF_FORM]: changeExportPdfForm,
 };
 
 const itemQuoteReducer = createReducer(getDefaultState(), handlers);

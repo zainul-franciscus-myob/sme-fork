@@ -112,5 +112,18 @@
     { "value": "Happy Holiday!" },
     { "value": "Great doing business" },
     { "value": "don't call us we'll call you" }
-  ]
+  ],
+  "exportPdf": {
+    "forms" : [
+      {
+        "name": "a",
+        "label": "apple"
+      },
+      {
+        "name": "b",
+        "label": "banana"
+      }
+    ],
+    "selectedForm": ""
+  }
 }

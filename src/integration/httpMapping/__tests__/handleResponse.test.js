@@ -1,55 +1,57 @@
 import handleResponse from '../handleResponse';
 
 describe('handleResponse', () => {
-  let fail;
-  let done;
+  const responseParser = jest.fn().mockResolvedValue({});
+  const fail = jest.fn();
+  const done = jest.fn();
+
   beforeEach(() => {
-    fail = jest.fn();
-    done = jest.fn();
+    jest.clearAllMocks();
   });
 
-  describe('when promise is rejected', () => {
-    it('should reject', async () => {
-      const rejectedPromise = Promise.reject(Error('TEST'));
+  describe('when promise is failed', () => {
+    it('should fail', async () => {
+      const failedPromise = Promise.reject(Error('TEST'));
 
-      await handleResponse(rejectedPromise, done, fail);
+      await handleResponse(failedPromise, responseParser, done, fail);
 
       expect(fail).toBeCalled();
     });
   });
 
   describe('when response HTTP status code is >= 400', () => {
-    it('should reject', async () => {
+    it('should fail', async () => {
       const httpErrorCodePromise = Promise.resolve({
         status: 400,
       });
 
-      await handleResponse(httpErrorCodePromise, done, fail);
+      await handleResponse(httpErrorCodePromise, responseParser, done, fail);
 
       expect(fail).toBeCalled();
     });
   });
 
-  describe('when response JSON cannot be parsed', () => {
-    it('should reject', async () => {
-      const invalidJsonResponsePromise = Promise.resolve({
-        json: () => Promise.reject(Error('TEST when JSON is invalid / unparseable')),
+  describe('when fails to parse response', () => {
+    it('should fail', async () => {
+      const goodResponsePromise = Promise.resolve({
+        status: 200,
       });
 
-      await handleResponse(invalidJsonResponsePromise, done, fail);
+      const failingResponseParser = jest.fn().mockRejectedValue(new Error());
+
+      await handleResponse(goodResponsePromise, failingResponseParser, done, fail);
 
       expect(fail).toBeCalled();
     });
   });
 
   describe('when a good response is received', () => {
-    it('should fulfill', async () => {
+    it('should succeed', async () => {
       const goodResponsePromise = Promise.resolve({
-        json: () => Promise.resolve({}),
         status: 200,
       });
 
-      await handleResponse(goodResponsePromise, done, fail);
+      await handleResponse(goodResponsePromise, responseParser, done, fail);
 
       expect(done).toBeCalled();
     });

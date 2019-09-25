@@ -1,5 +1,6 @@
 import {
   DELETE_QUOTE_DETAIL,
+  EXPORT_QUOTE_PDF,
   LOAD_CUSTOMER_ADDRESS,
   LOAD_QUOTE_DETAIL,
   LOAD_QUOTE_LIST,
@@ -16,6 +17,7 @@ const loadQuoteList = ({ onSuccess }) => onSuccess(quoteListLoadResponse);
 const loadQuoteDetail = ({ onSuccess }) => onSuccess(quoteDetailEntry);
 const loadCustomerAddress = ({ onSuccess }) => onSuccess(customerAddress);
 const deleteQuoteDetail = ({ onSuccess }) => onSuccess(successResponse);
+const exportQuotePdf = ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' }));
 
 const QuoteMapping = {
   [LOAD_QUOTE_LIST]: loadQuoteList,
@@ -23,6 +25,7 @@ const QuoteMapping = {
   [LOAD_QUOTE_DETAIL]: loadQuoteDetail,
   [DELETE_QUOTE_DETAIL]: deleteQuoteDetail,
   [LOAD_CUSTOMER_ADDRESS]: loadCustomerAddress,
+  [EXPORT_QUOTE_PDF]: exportQuotePdf,
 };
 
 export default QuoteMapping;
