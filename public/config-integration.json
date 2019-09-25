@@ -4,5 +4,5 @@
   "AUTHENTICATION_BFF_CLIENT_ID": "sme-web-bff",
   "BASE_URL": "https://d1p5ekyfd2onsr.cloudfront.net",
   "BFF_BASE_URL": "https://integration-sme-web-bff.svc.platform.myobdev.com",
-  "SEGMENT_WRITE_KEY" : "S4ETDh2ZYW4NmSEMaq1CbirFqm4nHoUn"
+  "SEGMENT_WRITE_KEY" : "tJUkEx77fYC0a3OtpUZY1JXG8s0KkWub"
 }
