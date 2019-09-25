@@ -93,6 +93,8 @@ export default class InTrayModule {
     const entries = files.reverse().reduce((acc, file, index) => {
       const errorMessage = getUploadingErrorMessage(file);
       if (errorMessage) {
+        this.dispatcher.setAlert({ message: errorMessage, type: 'danger' });
+
         return acc;
       }
 
