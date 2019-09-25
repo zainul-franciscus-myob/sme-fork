@@ -30,6 +30,7 @@ const getDefaultState = () => ({
   entries: [],
   alert: undefined,
   isLoading: true,
+  isFilteredList: false,
   isTableLoading: false,
   businessId: '',
   region: '',
@@ -65,7 +66,9 @@ const setTableLoadingState = (state, action) => ({
 const sortAndFilterItemList = (state, action) => ({
   ...state,
   entries: action.entries,
+  isFilteredList: action.isFilteredList,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
+  showHiddenColumns: state.filterOptions.showInactive,
 });
 
 const updateFilterOptions = (state, action) => ({

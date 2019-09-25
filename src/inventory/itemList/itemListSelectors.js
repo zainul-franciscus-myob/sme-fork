@@ -10,6 +10,8 @@ export const getTableEntries = ({ entries }) => entries;
 
 export const getRegion = state => state.region;
 
+export const getShowHiddenColumns = state => state.showHiddenColumns;
+
 const getEntryLink = (entry, businessId, region) => {
   const {
     id,
@@ -17,19 +19,28 @@ const getEntryLink = (entry, businessId, region) => {
   return `/#/${region}/${businessId}/inventory/${id}`;
 };
 
+const getEntryStatus = ({ isActive }) => (isActive ? 'Active' : 'Inactive');
+
+const getShouldDisplayBadge = ({ isActive }, showHiddenColumns) => showHiddenColumns && !isActive;
+
 export const getFormattedTableEntries = createSelector(
   getTableEntries,
   getBusinessId,
   getRegion,
-  (entries, businessId, region) => entries.map(entry => ({
+  getShowHiddenColumns,
+  (entries, businessId, region, showHiddenColumns) => entries.map(entry => ({
     ...entry,
     link: getEntryLink(entry, businessId, region),
+    status: getEntryStatus(entry),
+    shouldDisplayBadge: getShouldDisplayBadge(entry, showHiddenColumns),
   })),
 );
 
 export const getIsTableEmpty = state => state.entries.length === 0;
 
 export const getIsTableLoading = state => state.isTableLoading;
+
+export const getIsFilteredList = state => state.isFilteredList;
 
 export const getIsLoading = state => state.isLoading;
 

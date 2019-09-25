@@ -23,6 +23,7 @@ import {
   getBusinessId,
   getFilterOptions,
   getFlipSortOrder,
+  getIsFilteredList,
   getOrderBy,
   getRegion,
   getSortOrder,
@@ -103,6 +104,7 @@ export default class ItemListModule {
     const state = this.store.getState();
     const intent = SORT_AND_FILTER_ITEM_LIST;
     const filterOptions = getAppliedFilterOptions(state);
+    const isFilteredList = getIsFilteredList(state);
     const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
 
     this.setSortOrder(orderBy, newSortOrder);
@@ -116,6 +118,7 @@ export default class ItemListModule {
       this.store.dispatch({
         intent,
         filterOptions,
+        isFilteredList,
         ...response,
       });
     };
@@ -154,6 +157,7 @@ export default class ItemListModule {
       this.store.dispatch({
         intent,
         filterOptions,
+        isFilteredList: true,
         ...response,
       });
     };

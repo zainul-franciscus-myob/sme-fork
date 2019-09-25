@@ -6,11 +6,11 @@
       "value": "All"
     },
     {
-      "name": "Sold",
+      "name": "Items I sell",
       "value": "Sold"
     },
     {
-      "name": "Bought",
+      "name": "Items I buy",
       "value": "Bought"
     }
   ],

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getFilterOptions, getTypeOptions } from '../itemListSelectors';
+import styles from './ItemListView.module.css';
 
 class ItemListFilterOptions extends React.Component {
   onSelectChange = (e) => {
@@ -46,14 +47,14 @@ class ItemListFilterOptions extends React.Component {
 
     return (
       <FilterBar onApply={onApplyFilter}>
-        <Select name="type" label="Type" value={type} onChange={this.onSelectChange}>
+        <Select name="type" label="Item type" value={type} onChange={this.onSelectChange}>
           {typeOptions.map(({ label, value }) => (
             <Select.Option value={value} label={label} key={value} />
           ))}
         </Select>
-        <Search label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+        <Search name="keyword" className={styles.searchBox} label="Search" placeholder="" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
         <FilterBar.Item>
-          <Checkbox id="Check_Box" name="showInactive" label="Show inactive items" checked={showInactive} onChange={this.onCheckboxChange} />
+          <Checkbox id="Check_Box" name="showInactive" label="Show inactive" checked={showInactive} onChange={this.onCheckboxChange} />
         </FilterBar.Item>
       </FilterBar>
     );
