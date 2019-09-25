@@ -16,7 +16,7 @@ export const tabItems = [
   { id: tabIds.liability, label: 'Liabilities' },
   { id: tabIds.equity, label: 'Equity' },
   { id: tabIds.income, label: 'Income' },
-  { id: tabIds.costOfSales, label: 'Cost of Sales' },
+  { id: tabIds.costOfSales, label: 'Cost of sales' },
   { id: tabIds.expense, label: 'Expenses' },
   { id: tabIds.otherIncome, label: 'Other income' },
   { id: tabIds.otherExpense, label: 'Other expenses' },

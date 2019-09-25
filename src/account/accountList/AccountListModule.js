@@ -61,6 +61,7 @@ export default class AccountListModule {
   render = () => {
     const accountView = (
       <AccountListView
+        onDismissAlert={this.dispatcher.dismissAlert}
         onUpdateFilterOptions={this.dispatcher.setAccountListFilterOptions}
         onApplyFilter={this.filterAccountList}
         onTabSelect={this.setTab}

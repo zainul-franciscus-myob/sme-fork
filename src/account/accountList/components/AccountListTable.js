@@ -13,7 +13,7 @@ const tableConfig = {
   accountNumber: { width: '18rem', valign: 'middle' },
   accountName: { width: 'flex-1', valign: 'middle' },
   status: { width: '10rem', valign: 'middle' },
-  type: { width: '20rem', valign: 'middle' },
+  type: { width: 'flex-1', valign: 'middle' },
   taxCode: { width: '10rem', valign: 'middle' },
   linked: { width: '8rem', valign: 'middle' },
   level: { width: '8rem', valign: 'middle' },
