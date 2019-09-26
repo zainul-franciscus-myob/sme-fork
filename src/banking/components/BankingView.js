@@ -128,7 +128,7 @@ const BankingView = (props) => {
     <div className={isEntryLoading ? style.entryLoading : ''}>
       <StandardTemplate sticky="none" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
         {modal}
-        { showBulkActions && bulkActions}
+        {showBulkActions && bulkActions}
         <div className={style.list}>
           <BankTransactionTable
             onSort={onSort}

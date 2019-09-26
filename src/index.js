@@ -1,4 +1,3 @@
-
 import './index.css';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
 import ReactDOM from 'react-dom';
@@ -9,12 +8,14 @@ import Inbox from './inbox';
 import NavigationModule from './navigation/NavigationModule';
 import Router from './router/Router';
 import getRoutes from './getRoutes';
+import initializeLeanEngage from './leanEngage/initializeLeanEngage';
 import loadTelemetry from './telemetry/telemetry';
 import unbindAllKeys from './hotKeys/unbindAllKeys';
 
 async function main(integrationType) {
   await initializeConfig();
   initializeAuth();
+  initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
   const createIntegration = (await import(`./integration/create${integrationType}Integration.js`)).default;
   const root = document.getElementById('root');

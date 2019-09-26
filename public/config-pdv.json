@@ -3,5 +3,6 @@
   "AUTHENTICATION_WEB_CLIENT_ID": "sme-web",
   "AUTHENTICATION_BFF_CLIENT_ID": "sme-web-bff",
   "BFF_BASE_URL": "https://pdv-sme-web-bff.svc.platform.myobdev.com",
-  "SEGMENT_WRITE_KEY" : "tJUkEx77fYC0a3OtpUZY1JXG8s0KkWub"
+  "SEGMENT_WRITE_KEY" : "tJUkEx77fYC0a3OtpUZY1JXG8s0KkWub",
+  "LEAN_ENGAGE_APP_ID" : "514c0ce1-4aee-4839-bc2e-7b64eac9c51b"
 }
