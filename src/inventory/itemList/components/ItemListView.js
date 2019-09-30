@@ -18,7 +18,7 @@ import PageView from '../../../components/PageView/PageView';
 import style from './ItemListView.module.css';
 
 const tableConfig = {
-  referenceId: { width: '11rem', valign: 'top' },
+  referenceId: { width: '12.8rem', valign: 'top' },
   name: { width: 'flex-1', valign: 'top' },
   sellingPrice: { width: '14.5rem', valign: 'top', align: 'right' },
   status: { width: '9rem', align: 'left' },
