@@ -30,11 +30,14 @@ describe('Telemetry', () => {
     const groupMock = jest.fn();
 
     document.title = 'sme-web';
+    global.window = Object.create(window);
 
-    window.location = {
-      origin: 'locahost',
-      pathname: '/',
-    };
+    Object.defineProperty(window, 'location', {
+      value: {
+        hash: '#/au/a-business-id/home',
+        href: 'http://localhost/#/au/a-business-id/home',
+      },
+    });
     getUser.mockImplementation(() => ({
       userId: 'mockuserId',
     }));
@@ -50,7 +53,7 @@ describe('Telemetry', () => {
       };
     });
 
-    it('should call page', () => {
+    it('should call page with the expected payload', () => {
       telemetry(route);
       expect(pageMock.mock.calls.length).toBe(1);
       expect(pageMock.mock.calls[0]).toEqual([

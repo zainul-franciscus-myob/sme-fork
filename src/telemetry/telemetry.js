@@ -18,13 +18,22 @@ const identifyUser = (currentUserId) => {
   return currentUserId;
 };
 
-const recordPageVisit = (currentRouteName, routeParams, userId, businessId) => {
-  const routeRegion = routeParams.region ? `${routeParams.region}/` : '';
+const getUrl = (businessId) => {
+  const url = window.location.href;
+  return (businessId ? url.replace(`/${businessId}`, '') : url).replace('/#', '');
+};
+
+const getPath = (businessId) => {
+  const path = window.location.hash;
+  return (businessId ? path.replace(`/${businessId}`, '') : path).replace('#', '');
+};
+
+const recordPageVisit = (currentRouteName, userId, businessId) => {
   const pageViewProperties = {
     name: currentRouteName,
     title: document.title,
-    url: `${window.location.origin}${window.location.pathname}${routeRegion}${currentRouteName}`,
-    path: `${window.location.pathname}${routeRegion}${currentRouteName}`,
+    url: getUrl(businessId),
+    path: getPath(businessId),
     userId,
   };
 
@@ -50,7 +59,7 @@ const loadTelemetry = (segmentWriteKey) => {
     if (window.analytics) {
       userId = identifyUser(userId);
       businessId = associateUserWithGroup(businessId, routeParams);
-      recordPageVisit(currentRouteName, routeParams, userId, businessId);
+      recordPageVisit(currentRouteName, userId, businessId);
     }
   };
 };
