@@ -1,5 +1,5 @@
 import { getUser } from '../Auth';
-import initilizeSegment from './initilizeSegment';
+import initilizeSegment from './initializeSegment';
 
 const associateUserWithGroup = (currentBusinessId, { businessId }) => {
   if (businessId && currentBusinessId !== businessId) {
@@ -46,7 +46,7 @@ const recordPageVisit = (currentRouteName, userId, businessId) => {
   window.analytics.page(currentRouteName, pageViewProperties, pageViewOptions);
 };
 
-const loadTelemetry = (segmentWriteKey) => {
+const initializeHttpTelemetry = (segmentWriteKey) => {
   initilizeSegment();
   if (window.analytics && !window.analytics.initialize && segmentWriteKey) {
     window.analytics.load(segmentWriteKey);
@@ -64,4 +64,4 @@ const loadTelemetry = (segmentWriteKey) => {
   };
 };
 
-export default loadTelemetry;
+export default initializeHttpTelemetry;

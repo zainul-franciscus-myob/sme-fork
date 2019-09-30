@@ -1,5 +1,5 @@
 import { getUser } from '../../Auth';
-import loadTelemetry from '../telemetry';
+import initializeHttpTelemetry from '../initializeHttpTelemetry';
 
 jest.mock('../../Auth');
 
@@ -18,7 +18,7 @@ describe('Telemetry', () => {
   describe('initialisation', () => {
     it('will not crash if analytics is not setup', () => {
       window.analytics = undefined;
-      const module = loadTelemetry(segmentWriteKey);
+      const module = initializeHttpTelemetry(segmentWriteKey);
       expect(module).not.toBe(undefined);
     });
   });
@@ -43,7 +43,7 @@ describe('Telemetry', () => {
     }));
 
     beforeEach(() => {
-      telemetry = loadTelemetry(segmentWriteKey);
+      telemetry = initializeHttpTelemetry(segmentWriteKey);
       jest.clearAllMocks();
       window.analytics = {
         initialize: true,

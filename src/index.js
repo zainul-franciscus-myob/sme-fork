@@ -8,14 +8,11 @@ import Inbox from './inbox';
 import NavigationModule from './navigation/NavigationModule';
 import Router from './router/Router';
 import getRoutes from './getRoutes';
-import initializeLeanEngage from './leanEngage/initializeLeanEngage';
-import loadTelemetry from './telemetry/telemetry';
 import unbindAllKeys from './hotKeys/unbindAllKeys';
 
-async function main(integrationType) {
+async function main(integrationType, telemetryType, leanEngageType) {
   await initializeConfig();
   initializeAuth();
-  initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
   const createIntegration = (await import(`./integration/create${integrationType}Integration.js`)).default;
   const root = document.getElementById('root');
@@ -66,7 +63,10 @@ async function main(integrationType) {
     });
   };
 
-  const telemetry = loadTelemetry(Config.SEGMENT_WRITE_KEY);
+  const initializeTelemetry = (await import(`./telemetry/initialize${telemetryType}Telemetry`)).default;
+  const telemetry = initializeTelemetry(Config.SEGMENT_WRITE_KEY);
+  const initializeLeanEngage = (await import(`./leanEngage/initialize${leanEngageType}LeanEngage`)).default;
+  const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
   const beforeAll = ({ module, routeProps }) => {
     unbindAllKeys();
@@ -74,6 +74,7 @@ async function main(integrationType) {
     module.resetState();
     nav.run({ ...routeProps, onPageTransition: module.handlePageTransition });
     telemetry(routeProps);
+    startLeanEngage(routeProps);
   };
 
   router.start({
@@ -85,4 +86,6 @@ async function main(integrationType) {
 
 main(
   process.env.REACT_APP_INTEGRATION_TYPE,
+  process.env.REACT_APP_TELEMETRY_TYPE,
+  process.env.REACT_APP_LEAN_ENGAGE_TYPE,
 );

@@ -1,4 +1,4 @@
-import { getUser } from '../Auth';
+import { getUser, isLoggedIn } from '../Auth';
 import getLeanEnagageFields from './getLeanEngageFields';
 
 /*
@@ -25,7 +25,13 @@ const start = appId => leanengage('start', getLeanEnagageFields(getUser(), appId
 
 const initializeLeanEngage = (appId) => {
   init(window, document, 'script', '//www.leanengage.com/leanengage.v1.js', 'leanengage');
-  start(appId);
+
+  const startLeanEnage = ({ routeParams: { businessId } }) => {
+    if (businessId && isLoggedIn()) {
+      start(appId);
+    }
+  };
+  return startLeanEnage;
 };
 
 export default initializeLeanEngage;
