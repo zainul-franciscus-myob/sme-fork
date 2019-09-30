@@ -4,6 +4,7 @@ export const DELETE_BILL_DETAIL = Symbol('Delete a bill entry');
 export const LOAD_SUPPLIER_ADDRESS = Symbol('Load supplier address');
 export const SORT_AND_FILTER_BILL_LIST = Symbol('Sort and filter bill list');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
+export const LOAD_DEFAULT_BILL_LAYOUT = Symbol('Load default bill layout');
 export const SET_SORT_ORDER = Symbol('Set sort order for bill list');
 export const SET_ALERT = Symbol('Set the alert of the page');
 

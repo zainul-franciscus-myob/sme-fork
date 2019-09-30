@@ -88,7 +88,7 @@ export const getExpiredDate = createSelector(
 
 export const getIsCreating = createSelector(
   getBillId,
-  billId => billId === 'newService',
+  billId => billId === 'new',
 );
 
 const getBill = state => state.bill;
@@ -145,20 +145,80 @@ const getContactName = (contacts, contactId) => {
   return selectedContact.name;
 };
 
+export const getInTrayDocumentId = state => state.inTrayDocumentId;
 
 export const getBillPayload = createSelector(
   getBill,
   getContactOptions,
   getContactId,
-  (bill, contacts, contactId) => ({
+  getInTrayDocumentId,
+  (bill, contacts, contactId, inTrayDocumentId) => ({
     ...bill,
     contactName: getContactName(contacts, contactId),
     lines: getBillServiceLinesForPayload(bill.lines),
+    inTrayDocumentId,
   }),
 );
 
 export const getAlertMessage = state => state.alertMessage;
 export const getIsActionsDisabled = state => state.isSubmitting;
+
+export const getIsCreatingFromInTray = state => getIsCreating(state) && state.inTrayDocumentId;
+
+export const getPageTitle = state => (getIsCreatingFromInTray(state) ? 'Create bill from In Tray' : 'Bill');
+
+export const isContactIncludedInContactOptions = (state, contactId) => {
+  const contact = getContactOptions(state).find(({ value }) => value === contactId);
+  return contact !== undefined;
+};
+
+export const getInTrayPrefillDetails = state => state.inTrayPrefillDetails;
+
+export const isAlreadyPrefilledFromInTray = state => getInTrayPrefillDetails(state) === undefined;
+
+export const getContactIdToPrefillFromInTray = (state) => {
+  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
+
+  const prefillContactId = inTrayPrefillDetails.bill.contactId;
+  const originalContactId = inTrayPrefillDetails.originalBill.contactId;
+  const currentContactId = state.bill.contactId;
+
+  const isContactIdEdited = currentContactId !== originalContactId;
+  return isContactIdEdited ? currentContactId : prefillContactId;
+};
+
+export const getOrderNumberToPrefillFromInTray = (state) => {
+  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
+
+  const prefillOrderNumber = inTrayPrefillDetails.bill.orderNumber;
+  const originalOrderNumber = inTrayPrefillDetails.originalBill.orderNumber;
+  const currentOrderNumber = state.bill.orderNumber;
+
+  const isOrderNumberEdited = currentOrderNumber !== originalOrderNumber;
+  return isOrderNumberEdited ? currentOrderNumber : prefillOrderNumber;
+};
+
+export const getIssueDateToPrefillFromInTray = (state) => {
+  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
+
+  const prefillIssueDate = inTrayPrefillDetails.bill.issueDate;
+  const originalIssueDate = inTrayPrefillDetails.originalBill.issueDate;
+  const currentIssueDate = state.bill.issueDate;
+
+  const isIssueDateEdited = currentIssueDate !== originalIssueDate;
+  return isIssueDateEdited ? currentIssueDate : prefillIssueDate;
+};
+
+export const getTaxInclusiveToPrefillFromInTray = (state) => {
+  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
+
+  const prefillTaxInclusive = inTrayPrefillDetails.bill.taxInclusive;
+  const originalTaxInclusive = inTrayPrefillDetails.originalBill.taxInclusive;
+  const currentTaxInclusive = state.bill.taxInclusive;
+
+  const isTaxInclusiveEdited = currentTaxInclusive !== originalTaxInclusive;
+  return isTaxInclusiveEdited ? currentTaxInclusive : prefillTaxInclusive;
+};
 
 export const getIsTableEmpty = createSelector(
   getLength,

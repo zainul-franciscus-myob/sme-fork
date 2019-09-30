@@ -36,13 +36,6 @@ export const getTotalDue = state => state.totalDue;
 
 export const flipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
 
-const getDefaultLayout = state => state.layout;
-
-export const getNewBillUrlParam = createSelector(
-  getDefaultLayout,
-  layout => (layout === 'service' ? 'newService' : 'newItem'),
-);
-
 const getEntryLink = (entry, businessId, region) => {
   const { id } = entry;
 

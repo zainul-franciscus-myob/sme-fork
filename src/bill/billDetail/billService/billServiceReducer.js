@@ -4,6 +4,8 @@ import {
   ADD_BILL_SERVICE_LINE,
   FORMAT_BILL_SERVICE_LINE,
   GET_CALCULATED_BILL_DETAIL_TOTALS,
+  PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY,
+  PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY_ON_SUPPLIER_SELECT,
   REMOVE_BILL_SERVICE_LINE,
   RESET_TOTALS,
   UPDATE_BILL_SERVICE_HEADER_OPTIONS,
@@ -20,10 +22,21 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
-import { getDefaultTaxCodeId, getLineByIndex } from './billServiceSelectors';
+import {
+  getContactIdToPrefillFromInTray,
+  getDefaultTaxCodeId,
+  getInTrayPrefillDetails,
+  getIssueDateToPrefillFromInTray,
+  getLineByIndex,
+  getOrderNumberToPrefillFromInTray,
+  getTaxInclusiveToPrefillFromInTray,
+  isContactIncludedInContactOptions,
+} from './billServiceSelectors';
 import createReducer from '../../../store/createReducer';
 
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
+
+const defaultIssueDate = () => convertToDateString(Date.now());
 
 const getDefaultState = () => ({
   bill: {
@@ -38,7 +51,7 @@ const getDefaultState = () => ({
     isReportable: false,
     number: '',
     address: '',
-    issueDate: convertToDateString(Date.now()),
+    issueDate: defaultIssueDate(),
     orderNumber: '',
     notes: '',
     journalMemo: '',
@@ -65,6 +78,8 @@ const getDefaultState = () => ({
   modalType: '',
   alertMessage: '',
   isSubmitting: false,
+  inTrayDocumentId: '',
+  inTrayPrefillDetails: undefined,
 });
 
 const setInitalState = (state, action) => {
@@ -144,6 +159,85 @@ const addBillServiceLine = (state, action) => ({
     ],
   },
 });
+
+const getPrefilledNewLineFromInTray = (state, newLine) => ({
+  ...state.newLine,
+  amount: newLine.amount,
+});
+
+const prefillFromInTray = (state, bill, newLine) => ({
+  ...state,
+  isPageEdited: true,
+  bill: {
+    ...state.bill,
+    ...bill,
+    lines: [
+      ...state.bill.lines,
+      getPrefilledNewLineFromInTray(state, newLine),
+    ],
+  },
+});
+
+const storeToPrefillLater = (state, bill, newLine) => {
+  const {
+    contactId: originalContactId,
+    orderNumber: originalOrderNumber,
+    issueDate: originalIssueDate,
+    taxInclusive: originalTaxInclusive,
+  } = state.bill;
+
+  return {
+    ...state,
+    inTrayPrefillDetails: {
+      bill,
+      newLine,
+      originalBill: {
+        contactId: originalContactId,
+        orderNumber: originalOrderNumber,
+        issueDate: originalIssueDate,
+        taxInclusive: originalTaxInclusive,
+      },
+    },
+  };
+};
+
+const prefillNewBillFromInTray = (state, { bill, newLine }) => {
+  const prefillImmediately = isContactIncludedInContactOptions(state, bill.contactId);
+
+  if (prefillImmediately) {
+    return prefillFromInTray(state, bill, newLine);
+  }
+  return storeToPrefillLater(state, bill, newLine);
+};
+
+const inTrayPrefillCompleted = { inTrayPrefillDetails: undefined };
+
+const prefillNewBillFromInTrayOnSupplierSelect = (state) => {
+  const contactId = getContactIdToPrefillFromInTray(state);
+  const orderNumber = getOrderNumberToPrefillFromInTray(state);
+  const issueDate = getIssueDateToPrefillFromInTray(state);
+  const taxInclusive = getTaxInclusiveToPrefillFromInTray(state);
+
+  const currentLines = state.bill.lines;
+  const linesAdded = currentLines.length > 0;
+  const lines = linesAdded
+    ? [...currentLines]
+    : [getPrefilledNewLineFromInTray(state, getInTrayPrefillDetails(state).newLine)];
+
+  return {
+    ...state,
+    isPageEdited: true,
+    bill: {
+      ...state.bill,
+      contactId,
+      orderNumber,
+      issueDate,
+      taxInclusive,
+      lines,
+    },
+    ...inTrayPrefillCompleted,
+  };
+};
 
 const removeLine = (lines, index) => lines.filter((line, i) => i !== index);
 
@@ -230,6 +324,9 @@ const handlers = {
   [FORMAT_BILL_SERVICE_LINE]: formatBillServiceLine,
   [GET_CALCULATED_BILL_DETAIL_TOTALS]: getCalculatedTotals,
   [RESET_TOTALS]: resetTotals,
+  [PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY]: prefillNewBillFromInTray,
+  [PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY_ON_SUPPLIER_SELECT]:
+  prefillNewBillFromInTrayOnSupplierSelect,
   [SET_SUBMITTING_STATE]: setSubmittingState,
 };
 

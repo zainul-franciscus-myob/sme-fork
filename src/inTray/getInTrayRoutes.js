@@ -1,13 +1,13 @@
 import InTrayModule from './InTrayModule';
 
 const getInTrayRoutes = ({
-  integration, setRootView,
+  integration, setRootView, popMessages,
 }) => {
   const routes = [
     {
       name: 'inTray',
       path: '/',
-      module: new InTrayModule({ integration, setRootView }),
+      module: new InTrayModule({ integration, setRootView, popMessages }),
     },
   ];
 

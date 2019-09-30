@@ -42,7 +42,7 @@ describe('billItemReducer', () => {
         intent: SET_INITIAL_STATE,
         context: {
           context: {
-            billId: 'newItem',
+            billId: 'new',
           },
           payload: {
             bill: {},

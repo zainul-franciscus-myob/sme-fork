@@ -5,8 +5,10 @@ import { SUCCESSFULLY_DELETED_BILL_SERVICE, SUCCESSFULLY_SAVED_BILL_SERVICE } fr
 import {
   getBusinessId,
   getIsCreating,
+  getIsCreatingFromInTray,
   getIsTableEmpty,
   getRegion,
+  isAlreadyPrefilledFromInTray,
   isPageEdited,
 } from './billServiceSelectors';
 import BillServiceView from './components/BillServiceView';
@@ -61,6 +63,12 @@ export default class BillServiceModule {
 
     if (key === 'contactId') {
       this.loadSupplierAddress();
+
+      const state = this.store.getState();
+      if (getIsCreatingFromInTray(state)
+        && !isAlreadyPrefilledFromInTray(state)) {
+        this.dispatcher.prefillDataFromInTrayOnSupplierSelect();
+      }
     }
   }
 
@@ -86,11 +94,29 @@ export default class BillServiceModule {
     window.location.href = `/#/${region}/${businessId}/bill`;
   }
 
+  redirectToInTray = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/inTray`;
+  }
+
+  redirectOnSaveOrCancel = () => {
+    const state = this.store.getState();
+
+    if (getIsCreatingFromInTray(state)) {
+      this.redirectToInTray();
+    } else {
+      this.redirectToBillList();
+    }
+  }
+
   openCancelModal = () => {
     if (isPageEdited(this.store.getState())) {
       this.dispatcher.openModal('cancel');
     } else {
-      this.redirectToBillList();
+      this.redirectOnSaveOrCancel();
     }
   };
 
@@ -139,7 +165,7 @@ export default class BillServiceModule {
         type: SUCCESSFULLY_SAVED_BILL_SERVICE,
         content: message,
       });
-      this.redirectToBillList();
+      this.redirectOnSaveOrCancel();
     };
 
     const onFailure = ({ message }) => {
@@ -167,7 +193,7 @@ export default class BillServiceModule {
         onSaveButtonClick={this.saveBill}
         onCancelButtonClick={this.openCancelModal}
         onCloseModal={this.dispatcher.closeModal}
-        onCancelModal={this.redirectToBillList}
+        onCancelModal={this.redirectOnSaveOrCancel}
         onDeleteButtonClick={this.openDeleteModal}
         onDeleteModal={this.deleteBillEntry}
         onDismissAlert={this.dispatcher.dismissAlert}
@@ -186,7 +212,30 @@ export default class BillServiceModule {
     this.store.unsubscribeAll();
   }
 
-  setInitialState = (context, payload) => this.dispatcher.setInitialState(context, payload);
+  setInitialState = (context, payload) => {
+    this.dispatcher.setInitialState(context, payload);
+
+    const state = this.store.getState();
+    if (getIsCreatingFromInTray(state)) {
+      this.prefillBillFromInTrayOnInit();
+    }
+  }
+
+  prefillBillFromInTrayOnInit() {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.prefillDataFromInTray(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.displayAlert(message);
+    };
+
+    this.integrator.prefillDataFromInTray({ onSuccess, onFailure });
+  }
 
   handlers = {
     SAVE_ACTION: this.saveBill,

@@ -66,7 +66,7 @@ const getDefaultState = () => ({
 });
 
 const setIssueDate = (context, payload) => {
-  if (context.billId === 'newItem') {
+  if (context.billId === 'new') {
     return convertToDateString(Date.now());
   }
   return payload.bill.issueDate;

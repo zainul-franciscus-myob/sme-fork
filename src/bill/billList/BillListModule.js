@@ -23,7 +23,6 @@ import {
   flipSortOrder,
   getBusinessId,
   getFilterOptions,
-  getNewBillUrlParam,
   getOrderBy,
   getRegion,
   getSortOrder,
@@ -239,9 +238,8 @@ export default class BillListModule {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
-    const newBillUrlParam = getNewBillUrlParam(state);
 
-    window.location.href = `/#/${region}/${businessId}/bill/${newBillUrlParam}`;
+    window.location.href = `/#/${region}/${businessId}/bill/new`;
   };
 
   readMessages = () => {

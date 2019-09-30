@@ -51,7 +51,7 @@ export const getIsPageEdited = state => state.isPageEdited;
 export const getAreLinesCalculating = state => state.areLinesCalculating;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getModalType = state => state.modalType;
-export const getIsCreating = state => state.billId === 'newItem';
+export const getIsCreating = state => state.billId === 'new';
 export const getNewLineIndex = state => state.bill.lines.length - 1;
 export const getTotals = state => state.totals;
 export const getExpirationDays = state => state.bill.expirationDays;

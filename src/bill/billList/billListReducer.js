@@ -19,7 +19,6 @@ const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
 
 const getDefaultState = () => ({
-  layout: '',
   filterOptions: {
     status: '',
     supplierId: '',

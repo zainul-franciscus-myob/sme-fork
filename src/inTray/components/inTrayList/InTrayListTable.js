@@ -27,6 +27,7 @@ const InTrayListTable = ({
   onUpload,
   onDownload,
   onDelete,
+  onCreateBill,
 }) => {
   const emptyView = (
     <NoResultPageState
@@ -53,7 +54,12 @@ const InTrayListTable = ({
     tableBodyView = emptyView;
   } else {
     tableBodyView = (
-      <InTrayListTableBody tableConfig={tableConfig} onDelete={onDelete} onDownload={onDownload} />
+      <InTrayListTableBody
+        tableConfig={tableConfig}
+        onDelete={onDelete}
+        onDownload={onDownload}
+        onCreateBill={onCreateBill}
+      />
     );
   }
 

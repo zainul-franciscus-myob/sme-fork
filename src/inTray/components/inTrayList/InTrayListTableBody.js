@@ -10,7 +10,7 @@ import actionTypes from '../../actionTypes';
 import styles from './InTrayListTableBody.module.css';
 
 const handleActionSelect = (handlers, id) => (action) => {
-  const { onDelete, onDownload } = handlers;
+  const { onDelete, onDownload, onCreateBill } = handlers;
 
   if (action === actionTypes.delete) {
     onDelete(id);
@@ -18,6 +18,10 @@ const handleActionSelect = (handlers, id) => (action) => {
 
   if (action === actionTypes.download) {
     onDownload(id);
+  }
+
+  if (action === actionTypes.createBill) {
+    onCreateBill(id);
   }
 };
 
@@ -71,6 +75,7 @@ const ActionComponent = (handlers, id) => (
   <Dropdown
     right
     items={[
+      <Dropdown.Item key={actionTypes.createBill} label="Create bill" value={actionTypes.createBill} />,
       <Dropdown.Item key={actionTypes.download} label="Download" value={actionTypes.download} />,
       <Dropdown.Item key={actionTypes.delete} label="Delete" value={actionTypes.delete} />,
     ]}
@@ -88,6 +93,7 @@ const InTrayListTableBody = ({
   entries,
   onDelete,
   onDownload,
+  onCreateBill,
 }) => {
   const rows = entries.map((entry) => {
     const {
@@ -125,7 +131,7 @@ const InTrayListTableBody = ({
           {showInvoiceDetails && InvoiceComponent(totalAmount)}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.action} cellRole="actions">
-          {showActions && ActionComponent({ onDelete, onDownload }, id)}
+          {showActions && ActionComponent({ onDelete, onDownload, onCreateBill }, id)}
         </Table.RowItem>
       </Table.Row>
     );

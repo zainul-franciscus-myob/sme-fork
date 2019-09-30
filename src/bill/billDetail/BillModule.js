@@ -6,6 +6,7 @@ import { LOAD_NEW_BILL_ITEM_DETAIL } from './billItem/BillItemIntents';
 import { LOAD_NEW_BILL_SERVICE_DETAIL } from './billService/BillServiceIntents';
 import BillItemModule from './billItem/BillItemModule';
 import BillServiceModule from './billService/BillServiceModule';
+import createBillIntegrator from './createBillIntegrator';
 
 export default class BillModule {
   constructor({
@@ -16,6 +17,7 @@ export default class BillModule {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.replaceURLParams = replaceURLParams;
+    this.integrator = createBillIntegrator(this.integration);
   }
 
   unsubscribeFromStore = () => {
@@ -40,16 +42,12 @@ export default class BillModule {
     this.module.run({ context, payload });
   }
 
-  loadBill = (context) => {
+  loadBill = (context, intent) => {
     const { businessId, billId } = context;
     const urlParams = {
       businessId,
       billId,
     };
-    const intent = {
-      newService: LOAD_NEW_BILL_SERVICE_DETAIL,
-      newItem: LOAD_NEW_BILL_ITEM_DETAIL,
-    }[billId] || LOAD_BILL_DETAIL;
 
     const onSuccess = payload => this.loadBillModule(context, payload);
     const onFailure = () => console.log('Failed to get initial load');
@@ -62,9 +60,28 @@ export default class BillModule {
     });
   }
 
+  checkBillIdAndLoadBill = (context) => {
+    const { billId, businessId } = context;
+
+    if (billId === 'new') {
+      const onSuccess = (payload) => {
+        const intent = payload.layout === 'service'
+          ? LOAD_NEW_BILL_SERVICE_DETAIL
+          : LOAD_NEW_BILL_ITEM_DETAIL;
+        this.loadBill(context, intent);
+      };
+
+      const onFailure = () => console.log('Failed to determine default bill layout');
+
+      this.integrator.loadDefaultBillLayout({ businessId, onSuccess, onFailure });
+    } else {
+      this.loadBill(context, LOAD_BILL_DETAIL);
+    }
+  };
+
   run(context) {
     this.setRootView(<Spinner />);
-    this.loadBill(context);
+    this.checkBillIdAndLoadBill(context);
   }
 
   resetState = () => {

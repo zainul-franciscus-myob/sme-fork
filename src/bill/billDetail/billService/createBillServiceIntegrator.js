@@ -1,6 +1,7 @@
 import {
   CREATE_BILL_SERVICE_DETAIL,
   GET_CALCULATED_BILL_DETAIL_TOTALS,
+  PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY,
   UPDATE_BILL_SERVICE_DETAIL,
 } from './BillServiceIntents';
 import {
@@ -9,6 +10,7 @@ import {
 } from '../../BillIntents';
 import {
   getBillId, getBillPayload, getBusinessId, getCalculatedTotalsPayload, getContactId,
+  getInTrayDocumentId,
 } from './billServiceSelectors';
 
 const createBillServiceIntegrator = (store, integration) => ({
@@ -34,6 +36,21 @@ const createBillServiceIntegrator = (store, integration) => ({
 
     integration.read({
       intent: LOAD_SUPPLIER_ADDRESS,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  prefillDataFromInTray({ onSuccess, onFailure }) {
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+      inTrayDocumentId: getInTrayDocumentId(state),
+    };
+
+    integration.read({
+      intent: PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY,
       urlParams,
       onSuccess,
       onFailure,

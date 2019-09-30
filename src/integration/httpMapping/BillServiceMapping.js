@@ -2,6 +2,7 @@ import {
   CREATE_BILL_SERVICE_DETAIL,
   GET_CALCULATED_BILL_DETAIL_TOTALS,
   LOAD_NEW_BILL_SERVICE_DETAIL,
+  PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY,
   UPDATE_BILL_SERVICE_DETAIL,
 } from '../../bill/billDetail/billService/BillServiceIntents';
 
@@ -17,6 +18,11 @@ const BillServiceMapping = {
   [UPDATE_BILL_SERVICE_DETAIL]: {
     method: 'PUT',
     getPath: ({ businessId, billId }) => `/${businessId}/bill/update_bill_service_detail/${billId}`,
+  },
+  [PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY]: {
+    method: 'GET',
+    getPath:
+      ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/prefill_new_bill_service_from_in_tray/${inTrayDocumentId}`,
   },
   [GET_CALCULATED_BILL_DETAIL_TOTALS]: {
     method: 'POST',

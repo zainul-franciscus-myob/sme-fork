@@ -9,6 +9,7 @@ import {
   getAlertMessage,
   getIsCreating,
   getModalType,
+  getPageTitle,
 } from '../billServiceSelectors';
 import BillServiceActions from './BillServiceActions';
 import BillServiceOptions from './BillServiceOptions';
@@ -27,6 +28,7 @@ const BillServiceView = ({
   onDeleteButtonClick,
   isCreating,
   modalType,
+  pageTitle,
   onCloseModal,
   onCancelModal,
   alertMessage,
@@ -78,7 +80,12 @@ const BillServiceView = ({
   }
 
   const view = (
-    <LineItemTemplate pageHead="Bill" alert={alertComponent} options={templateOptions} actions={actions}>
+    <LineItemTemplate
+      pageHead={pageTitle}
+      alert={alertComponent}
+      options={templateOptions}
+      actions={actions}
+    >
       { modal }
       <BillServiceTable
         onUpdateRow={onUpdateRow}
@@ -114,6 +121,7 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
+  pageTitle: getPageTitle(state),
 });
 
 export default connect(mapStateToProps)(BillServiceView);

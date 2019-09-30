@@ -3,6 +3,11 @@ import React from 'react';
 import copy from 'copy-to-clipboard';
 
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
+import {
+  SUCCESSFULLY_SAVED_BILL_ITEM,
+  SUCCESSFULLY_SAVED_BILL_SERVICE,
+} from '../bill/billDetail/billMessageTypes';
+import { getBusinessId, getRegion } from '../bill/billDetail/billService/billServiceSelectors';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
 import {
   getIsEntryLoading,
@@ -18,11 +23,18 @@ import createInTrayIntegrator from './createInTrayIntegrator';
 import inTrayReducer from './reducer/inTrayReducer';
 import modalTypes from './modalTypes';
 
+const messageTypes = [
+  SUCCESSFULLY_SAVED_BILL_SERVICE,
+  SUCCESSFULLY_SAVED_BILL_ITEM,
+];
+
 export default class InTrayModule {
-  constructor({ integration, setRootView }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.integration = integration;
     this.store = new Store(inTrayReducer);
     this.setRootView = setRootView;
+    this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
     this.dispatcher = createInTrayDispatcher(this.store);
     this.integrator = createInTrayIntegrator(this.store, integration);
   }
@@ -187,6 +199,14 @@ export default class InTrayModule {
     });
   };
 
+  redirectToCreateBill = (id) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/bill/new?inTrayDocumentId=${id}`;
+  }
+
   openMoreUploadOptionsDialog = () => {
     this.dispatcher.openModal(modalTypes.uploadOptions);
   }
@@ -240,6 +260,7 @@ export default class InTrayModule {
           onUpload: this.uploadInTrayFiles,
           onDownload: this.downloadInTrayDocument,
           onDelete: this.dispatcher.openInTrayDeleteModal,
+          onCreateBill: this.redirectToCreateBill,
         }}
         deleteModalListeners={{
           onConfirmClose: this.dispatcher.closeInTrayDeleteModal,
@@ -283,9 +304,22 @@ export default class InTrayModule {
     });
   }
 
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlert({
+        type: 'success',
+        message,
+      });
+    }
+  };
+
   run = (context) => {
     this.setInitialState(context);
     this.render();
+    this.readMessages();
     this.loadInTray();
   }
 }

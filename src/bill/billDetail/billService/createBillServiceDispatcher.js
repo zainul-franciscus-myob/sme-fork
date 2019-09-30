@@ -2,6 +2,8 @@ import {
   ADD_BILL_SERVICE_LINE,
   FORMAT_BILL_SERVICE_LINE,
   GET_CALCULATED_BILL_DETAIL_TOTALS,
+  PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY,
+  PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY_ON_SUPPLIER_SELECT,
   REMOVE_BILL_SERVICE_LINE,
   RESET_TOTALS,
   UPDATE_BILL_SERVICE_HEADER_OPTIONS,
@@ -92,6 +94,15 @@ const createBillServiceDispatcher = store => ({
   loadSupplierAddress: address => store.dispatch({
     intent: LOAD_SUPPLIER_ADDRESS,
     address,
+  }),
+
+  prefillDataFromInTray: response => store.dispatch({
+    intent: PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY,
+    ...response,
+  }),
+
+  prefillDataFromInTrayOnSupplierSelect: () => store.dispatch({
+    intent: PREFILL_NEW_BILL_SERVICE_FROM_IN_TRAY_ON_SUPPLIER_SELECT,
   }),
 
   resetTotals: () => store.dispatch({ intent: RESET_TOTALS }),

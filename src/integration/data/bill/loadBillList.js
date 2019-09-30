@@ -1,5 +1,4 @@
 export default {
-  layout: 'service',
   supplierFilters: [
     { name: 'All suppliers', value: 'All' },
     { name: 'Cameron James', value: '1' },

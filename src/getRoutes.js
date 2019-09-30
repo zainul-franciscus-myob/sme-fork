@@ -248,7 +248,7 @@ const getRoutes = ({
     name: 'inTray',
     rootPath: '/:region/:businessId/inTray',
     subRoutes: getInTrayRoutes({
-      integration, setRootView,
+      integration, setRootView, popMessages,
     }),
   },
   {
