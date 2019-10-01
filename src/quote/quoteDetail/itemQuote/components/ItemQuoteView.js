@@ -66,7 +66,7 @@ const ItemQuoteView = ({
     />
   );
 
-  const modal = (
+  const modal = modalType && (
     <QuoteDetailModal
       modalType={modalType}
       onDismissModal={onDismissModal}
@@ -89,7 +89,7 @@ const ItemQuoteView = ({
         actions={actions}
         alert={alertComponent}
       >
-        { modalType && modal }
+        { modal }
         <ItemQuoteTable
           onAddTableRow={onAddTableRow}
           onChangeTableRow={onChangeTableRow}

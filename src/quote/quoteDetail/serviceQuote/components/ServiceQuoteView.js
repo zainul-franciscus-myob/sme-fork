@@ -61,7 +61,7 @@ const ServiceQuoteView = ({
     </Alert>
   );
 
-  const modal = (
+  const modal = modalType && (
     <QuoteDetailModal
       modalType={modalType}
       onDismissModal={onCloseModal}
