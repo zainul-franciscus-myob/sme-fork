@@ -10,14 +10,15 @@
 
 ### Background
 
-[Solution Options Document](https://myobconfluence.atlassian.net/wiki/spaces/SA/pages/935604053/SLW+Telemetry+Solution+Options)
+[Solution Options Document](https://myobconfluence.atlassian.net/wiki/spaces/SA/pages/935604053/SLW+Telemetry+Solution+Options)  
+[Tranquility Requirements](https://myobconfluence.atlassian.net/wiki/spaces/ProdT/pages/1000767832/Requirements+-+Martech+CAT#Requirements-Martech/CAT-UpdatePath)  
 
-The [Telemetry Data Dictionary](https://myobconfluence.atlassian.net/wiki/spaces/ProdT/pages/240167622/Telemetry+Data+Dictionary) space for MYOB advises not to marry telemetry concerns to UI components.
-The option we chose abides this advice. Therefor, the telemetry package is found over in the [BFF](https://github.com/MYOB-Technology/sme-web-bff/tree/master/src/telemetry).
+The [Telemetry Data Dictionary](https://myobconfluence.atlassian.net/wiki/spaces/ProdT/pages/240167622/Telemetry+Data+Dictionary) space for MYOB advises  
+> Do not rely on tracking page URLs or button clicks to represent an action preformed on the platform. Instead, track an action directly by putting a telemetry call in the appropriate place in your application's controllers.  
+
+The option we chose abides this advice. Therefore, the telemetry [event tracking](https://segment.com/docs/spec/track/) is found over in the [BFF](https://github.com/MYOB-Technology/sme-web-bff/tree/master/src/telemetry). [Page tracking](https://segment.com/docs/spec/page/) is found _only_ in the router ([Relevant PR](https://github.com/MYOB-Technology/sme-web/pull/1189)). 
 
 You can find the initial Pull Request [here](https://github.com/MYOB-Technology/sme-web-bff/pull/221) that provides some background on the finer details of implementation options within the Express framework.
-
-![telemetry-diagram](images/telemetry-compared.jpg)
 
 ### Implementation Reference
 
@@ -32,13 +33,14 @@ This means we track the User's _intent_ of an action, and not whether it ultimat
 
 #### Segment Environments
 
-We deploy the BFF as many differing stacks, but we only support 2 Segment Environments.
+There are just two segment environments: Staging and Prod. A [segment source](https://segment.com/docs/sources/) exists for the client and server and for each environment. Ask #product_telemetry to get access to these sources:  
+*Prod*
+- [sme-platform-web-prod](https://app.segment.com/myob/sources/sme-platform-web-prod/overview)
+- [sme-platform-web-clientside-prod](https://app.segment.com/myob/sources/sme-platform-web-clientside-prod/overview)  
 
-| Segment Staging  | Segment Production |
-| ---------------- | ------------------ |
-| Dev BFF          | Preview BFF        |
-| Integration BFF  | Prod BFF           |
-| PDV BFF          |                    |
+*Staging*  
+- [sme-platform-web-staging](https://app.segment.com/myob/sources/sme-platform-web-staging/overview)
+- [sme-platform-web-clientside-staging](https://app.segment.com/myob/sources/sme-platform-web-clientside-staging/overview)
 
 
 ### Working with Telemetry
