@@ -11,6 +11,7 @@ import {
   hasPayrollUrls,
   hasPurchasesUrls,
   hasSalesUrls,
+  isLinkUserPage,
 } from '../NavigationSelectors';
 import BankingMenu from './BankingMenu';
 import BusinessMenu from './BusinessMenu';
@@ -84,7 +85,7 @@ const NavigationBar = ({
 };
 
 const mapStateToProps = state => ({
-  shouldDisplayBusinessMenu: hasBusinessId(state),
+  shouldDisplayBusinessMenu: hasBusinessId(state) && !isLinkUserPage(state),
   shouldDisplayBankingMenu: hasBankingUrls(state),
   shouldDisplayContactMenu: hasContactUrls(state),
   shouldDisplayJournalMenu: hasJournalUrls(state),

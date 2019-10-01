@@ -3,7 +3,7 @@ import React from 'react';
 
 import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
 import { featuresConfig } from './navConfig';
-import { getBusinessId } from './NavigationSelectors';
+import { getBusinessId, isLinkUserPage } from './NavigationSelectors';
 import NavigationBar from './components/NavigationBar';
 import Store from '../store/Store';
 import navReducer from './navReducer';
@@ -28,9 +28,9 @@ export default class NavigationModule {
     this.mainContentElement.removeAttribute('tabindex');
   }
 
-  getBusinessInfo = () => {
+  getBusinessInfo = ({ currentRouteName }) => {
     const businessId = getBusinessId(this.store.getState());
-    if (!businessId) {
+    if (!businessId || isLinkUserPage({ currentRouteName })) {
       return;
     }
 
@@ -58,9 +58,9 @@ export default class NavigationModule {
     });
   };
 
-  buildUrls = (routeParams) => {
+  buildUrls = (currentRouteName, routeParams) => {
     const hasPrimaryRoutes = Object.keys(routeParams).includes('businessId');
-    if (!hasPrimaryRoutes) {
+    if (!hasPrimaryRoutes || isLinkUserPage({ currentRouteName })) {
       return {};
     }
 
@@ -74,7 +74,7 @@ export default class NavigationModule {
   }
 
   buildAndSetRoutingInfo = ({ currentRouteName, routeParams }) => {
-    const urls = this.buildUrls(routeParams);
+    const urls = this.buildUrls(currentRouteName, routeParams);
     this.store.dispatch({
       intent: SET_ROUTE_INFO,
       urls,
@@ -112,7 +112,7 @@ export default class NavigationModule {
 
   run = ({ routeParams, currentRouteName, onPageTransition }) => {
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
-    this.getBusinessInfo();
+    this.getBusinessInfo({ currentRouteName });
     this.setOnPageTransition(onPageTransition);
     this.render();
   }

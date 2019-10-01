@@ -16,6 +16,11 @@ export const hasBusinessId = createSelector(
   businessId => businessId !== '',
 );
 
+export const isLinkUserPage = ({ currentRouteName }) => {
+  const currentBaseRoute = currentRouteName.split('/');
+  return currentBaseRoute && currentBaseRoute[0] === 'linkUser';
+};
+
 export const getActiveNav = createSelector(
   getCurrentRouteName,
   currentRouteName => activeMapping[currentRouteName] || '',

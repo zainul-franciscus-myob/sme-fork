@@ -4,7 +4,8 @@ import uuid from 'uuid/v4';
 
 import Config from '../Config';
 import RootMapping from './httpMapping/RootMapping';
-import handleResponse from './httpMapping/handleResponse';
+import handleForbiddenResponse from './httpHandlers/handleForbiddenResponse';
+import handleResponse from './httpHandlers/handleResponse';
 
 const config = {
   baseUrl: Config.BFF_BASE_URL,
@@ -125,12 +126,16 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     const query = getQueryFromParams(params);
     const url = `${baseUrl}${intentUrlPath}${query}`;
 
-    handleResponse(
-      fetch(url, requestOptions),
-      async response => response.json(),
+    const fetchedPromise = fetch(url, requestOptions);
+    const responseParser = async response => response.json();
+
+    handleResponse({
+      fetchedPromise,
+      responseParser,
       onSuccess,
       onFailure,
-    );
+      onForbidden: handleForbiddenResponse(urlParams),
+    });
   },
   readFile: async ({
     intent,
@@ -160,12 +165,16 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     const query = getQueryFromParams(params);
     const url = `${baseUrl}${intentUrlPath}${query}`;
 
-    handleResponse(
-      fetch(url, requestOptions),
-      async response => response.blob(),
+    const fetchedPromise = fetch(url, requestOptions);
+    const responseParser = async response => response.blob();
+
+    handleResponse({
+      fetchedPromise,
+      responseParser,
       onSuccess,
       onFailure,
-    );
+      onForbidden: handleForbiddenResponse(urlParams),
+    });
   },
   write: async ({
     intent,
@@ -179,12 +188,16 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     const headers = { ...getDefaultHttpHeaders(), ...additionalHeaders };
     const body = JSON.stringify(content);
 
-    handleResponse(
-      doFetch(intent, urlParams, allowParallelRequests, headers, body),
-      async response => response.json(),
+    const fetchedPromise = doFetch(intent, urlParams, allowParallelRequests, headers, body);
+    const responseParser = async response => response.json();
+
+    handleResponse({
+      fetchedPromise,
+      responseParser,
       onSuccess,
       onFailure,
-    );
+      onForbidden: handleForbiddenResponse(urlParams),
+    });
   },
   writeFormData: async ({
     intent,

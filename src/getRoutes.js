@@ -16,6 +16,7 @@ import getIncomeAllocationRoutes from './IncomeAllocation/getIncomeAllocationRou
 import getInventoryRoutes from './inventory/getInventoryRoutes';
 import getInvoicePaymentRoutes from './invoicePayment/getInvoicePaymentRoutes';
 import getInvoiceRoutes from './invoice/getInvoiceRoutes';
+import getLinkUserRoutes from './linkUser/getLinkUserRoutes';
 import getLinkedAccountsRoutes from './linkedAccounts/getLinkedAccountsRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
 import getPayItemRoutes from './payItem/getPayItemRoutes';
@@ -283,6 +284,13 @@ const getRoutes = ({
     name: 'account',
     rootPath: '/:region/:businessId/account',
     subRoutes: getAccountRoutes({
+      integration, setRootView,
+    }),
+  },
+  {
+    name: 'linkUser',
+    rootPath: '/:region/:businessId/linkUser',
+    subRoutes: getLinkUserRoutes({
       integration, setRootView,
     }),
   },
