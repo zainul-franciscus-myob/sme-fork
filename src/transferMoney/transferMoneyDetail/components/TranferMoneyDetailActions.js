@@ -1,5 +1,4 @@
 import { Button, ButtonRow } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -12,30 +11,26 @@ const TransferMoneyDetailActions = ({
   onCancel,
   onDelete,
 }) => (
-  <ButtonRow>
-    {!isCreating && (
-      <Button name="delete" type="secondary" onClick={onDelete} disabled={isActionsDisabled}>
-        Delete
-      </Button>
-    )}
-    <Button name="cancel" type="secondary" onClick={onCancel} disabled={isActionsDisabled}>
-      Cancel
-    </Button>
-    {isCreating && (
-      <Button name="save" type="primary" onClick={onSave} disabled={isActionsDisabled}>
-        Save
-      </Button>
-    )}
-  </ButtonRow>
+  <ButtonRow
+    primary={[
+      <Button key="cancel" name="cancel" type={isCreating ? 'secondary' : 'primary'} onClick={onCancel} disabled={isActionsDisabled}>
+        { isCreating ? 'Cancel' : 'Go back'}
+      </Button>,
+      isCreating && (
+        <Button key="save" name="save" type="primary" onClick={onSave} disabled={isActionsDisabled}>
+          Record
+        </Button>
+      ),
+    ]}
+    secondary={[
+      !isCreating && (
+        <Button key="delete" name="delete" type="secondary" onClick={onDelete} disabled={isActionsDisabled}>
+          Delete
+        </Button>
+      ),
+    ]}
+  />
 );
-
-TransferMoneyDetailActions.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  isActionsDisabled: PropTypes.bool.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   isActionsDisabled: getIsActionsDisabled(state),

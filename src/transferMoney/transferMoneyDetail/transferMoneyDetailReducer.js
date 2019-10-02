@@ -38,7 +38,6 @@ const getDefaultState = () => ({
 
 const pageEdited = { isPageEdited: true };
 const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
-const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
 
 const loadTransferMoneyDetail = (state, { transferMoney }) => ({
   ...state,
@@ -70,11 +69,16 @@ const updateForm = (state, action) => ({
   },
 });
 
+const safeParseNumber = (number) => {
+  const realNumber = Number(number);
+  return Number.isNaN(realNumber) ? '0' : number;
+};
+
 const formatAmount = state => ({
   ...state,
   transferMoney: {
     ...state.transferMoney,
-    amount: formatStringNumber(state.transferMoney.amount),
+    amount: safeParseNumber(state.transferMoney.amount),
   },
 });
 

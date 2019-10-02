@@ -1,129 +1,126 @@
 import {
-  Columns, DatePicker, Input, TextArea,
+  Columns, DatePicker, DetailHeader, Input, Separator, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 
 import { getBalance, getTransferMoneyProperties } from '../transferMoneyDetailSelectors';
+import AccountBalances from './TransferMoneyAccountBalance';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
+import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
+import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
+import handleDateChange from '../../../components/handlers/handleDateChange';
+import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './TransferMoneyDetailForm.module.css';
 
-class TransferMoneyDetailForm extends Component {
-  handleInputChange = (e) => {
-    const { onUpdateForm } = this.props;
-    const { value, name } = e.target;
+const TransferMoneyDetailForm = ({
+  transferMoney: {
+    referenceId, accounts, date, amount, description,
+    selectedTransferFromAccountId,
+    selectedTransferToAccountId,
+  },
+  balance: {
+    transferFrom,
+    transferTo,
+  },
+  onAmountInputBlur,
+  onUpdateForm,
+  isCreating,
+}) => {
+  const primary = (
+    <React.Fragment>
+      <AmountInput
+        className={styles.amount}
+        label="Amount ($)"
+        labelAccessory={(<RequiredTooltip />)}
+        name="amount"
+        value={amount}
+        onChange={handleAmountInputChange(onUpdateForm)}
+        onBlur={onAmountInputBlur}
+        numeralIntegerScale={13}
+        decimalScale={5}
+        disabled={!isCreating}
+        textAlign="right"
+      />
+      <TextArea
+        name="description"
+        label="Description of transaction"
+        autoSize
+        rows={1}
+        maxLength={255}
+        resize="vertical"
+        value={description}
+        onChange={handleInputChange(onUpdateForm)}
+        disabled={!isCreating}
+      />
+    </React.Fragment>
+  );
 
-    onUpdateForm({ key: name, value });
-  }
+  const secondary = (
+    <React.Fragment>
+      <Input
+        type="text"
+        name="referenceId"
+        label="Reference number"
+        labelAccessory={(<RequiredTooltip />)}
+        value={referenceId}
+        onChange={handleInputChange(onUpdateForm)}
+        disabled={!isCreating}
+        maxLength={8}
+      />
+      <DatePicker
+        label="Date"
+        name="date"
+        labelAccessory={(<RequiredTooltip />)}
+        disabled={!isCreating}
+        value={date}
+        onSelect={handleDateChange('date', onUpdateForm)}
+      />
+    </React.Fragment>
+  );
 
-  handleDateChange = ({ value }) => {
-    const { onUpdateForm } = this.props;
-    const key = 'date';
-
-    onUpdateForm({ key, value });
-  }
-
-  handleComboBoxChange = key => (item) => {
-    const { onUpdateForm } = this.props;
-
-    onUpdateForm({ key, value: item.id });
-  }
-
-  render = () => {
-    const {
-      transferMoney: {
-        referenceId, accounts, date, amount, description,
-        selectedTransferFromAccountId,
-        selectedTransferToAccountId,
-      },
-      balance: {
-        transferFrom,
-        transferTo,
-      },
-      onAmountInputBlur,
-      isCreating,
-    } = this.props;
-
-    const descriptionPlaceholder = isCreating ? 'Max 255 characters' : '';
-
-    return (
-      <Columns type="three">
-        <Input name="referenceId" label="Reference" value={referenceId} onChange={this.handleInputChange} disabled={!isCreating} />
-        <div className={`${!isCreating && styles.datePicker}`}>
-          <DatePicker
-            label="Date"
-            name="date"
-            disabled={!isCreating}
-            value={date}
-            onSelect={this.handleDateChange}
-          />
-        </div>
-        <Input type="number" label="Amount ($)" name="amount" value={amount} onChange={this.handleInputChange} step="0.01" onBlur={onAmountInputBlur} disabled={!isCreating} />
-        <div className="form-group">
-          <AccountCombobox
-            label="Transfer from"
-            hideLabel={false}
-            items={accounts}
-            selectedId={selectedTransferFromAccountId}
-            onChange={this.handleComboBoxChange('selectedTransferFromAccountId')}
-            disabled={!isCreating}
-            hintText="Select account"
-          />
-          <div className={styles.balance}>
-            {isCreating && <div>{`Current balance ${transferFrom.currentBalance}`}</div>}
-            {isCreating && <div><strong>{`Balance after transfer ${transferFrom.calculatedBalance}`}</strong></div>}
-          </div>
-        </div>
-        <div className="form-group">
-          <AccountCombobox
-            label="Transfer to"
-            hideLabel={false}
-            items={accounts}
-            selectedId={selectedTransferToAccountId}
-            onChange={this.handleComboBoxChange('selectedTransferToAccountId')}
-            disabled={!isCreating}
-            hintText="Select account"
-          />
-          <div className={styles.balance}>
-            {isCreating && <div>{`Current balance ${transferTo.currentBalance}`}</div>}
-            {isCreating && <div><strong>{`Balance after transfer ${transferTo.calculatedBalance}`}</strong></div>}
-          </div>
-        </div>
-        <div />
-        <TextArea
-          name="description"
-          label="Description"
-          autoSize
-          maxLength={255}
-          placeholder={descriptionPlaceholder}
-          resize="vertical"
-          value={description}
-          onChange={this.handleInputChange}
+  return (
+    <React.Fragment>
+      <DetailHeader primary={primary} secondary={secondary} />
+      <Separator />
+      <Columns type="two">
+        <AccountCombobox
+          label="Bank account from"
+          hideLabel={false}
+          labelAccessory={(<RequiredTooltip />)}
+          items={accounts}
+          selectedId={selectedTransferFromAccountId}
+          onChange={handleComboboxChange('selectedTransferFromAccountId', onUpdateForm)}
           disabled={!isCreating}
         />
+        <AccountCombobox
+          label="Bank account to"
+          hideLabel={false}
+          labelAccessory={(<RequiredTooltip />)}
+          items={accounts}
+          selectedId={selectedTransferToAccountId}
+          onChange={handleComboboxChange('selectedTransferToAccountId', onUpdateForm)}
+          disabled={!isCreating}
+        />
+        {
+            isCreating && (
+              <React.Fragment>
+                <AccountBalances
+                  currentBalance={transferFrom.currentBalance}
+                  calculatedBalance={transferFrom.calculatedBalance}
+                />
+                <AccountBalances
+                  currentBalance={transferTo.currentBalance}
+                  calculatedBalance={transferTo.calculatedBalance}
+                />
+              </React.Fragment>
+            )
+          }
       </Columns>
-    );
-  }
-}
-
-TransferMoneyDetailForm.propTypes = {
-  onUpdateForm: PropTypes.func.isRequired,
-  onAmountInputBlur: PropTypes.func.isRequired,
-  transferMoney: PropTypes.shape({
-    referenceId: PropTypes.string,
-    accounts: PropTypes.arrayOf(PropTypes.shape()),
-    date: PropTypes.string,
-    amount: PropTypes.string,
-    selectedTransferFromAccountId: PropTypes.string,
-    selectedTransferToAccountId: PropTypes.string,
-    description: PropTypes.string,
-  }).isRequired,
-  balance: PropTypes.shape({
-    transferFrom: PropTypes.shape(),
-    transferTo: PropTypes.shape(),
-  }).isRequired,
-  isCreating: PropTypes.bool.isRequired,
+    </React.Fragment>
+  );
 };
 
 const mapStateToProps = state => ({

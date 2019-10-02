@@ -1,3 +1,14 @@
-.balance {
-  margin-top: 0.5rem;
+.balances {
+  margin-top: var(--flx-spacing-small);
+}
+
+.balanceRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+  .amount {
+    max-width: 16.8rem;
+  }
 }

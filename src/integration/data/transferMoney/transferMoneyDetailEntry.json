@@ -20,5 +20,6 @@
   ],
   "selectedTransferFromAccountId": "123",
   "selectedTransferToAccountId": "456",
-  "description": "Money transfer"
+  "description": "Money transfer",
+  "pageTitle": "Transfer money transaction TM00023"
 }

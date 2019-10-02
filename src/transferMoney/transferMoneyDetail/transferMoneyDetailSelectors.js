@@ -104,3 +104,4 @@ export const getModalType = state => state.modalType;
 export const getIsLoading = state => state.isLoading;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
+export const getPageTitle = state => state.transferMoney.pageTitle;

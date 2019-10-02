@@ -1,12 +1,16 @@
-import { Alert, StandardTemplate } from '@myob/myob-widgets';
+import {
+  Alert, Card, PageHead,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getAlertMessage, getIsLoading, getModalType } from '../transferMoneyDetailSelectors';
+import {
+  getAlertMessage, getIsLoading, getModalType, getPageTitle,
+} from '../transferMoneyDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import PageView from '../../../components/PageView/PageView';
+import SmallScreenTemplate from '../../../components/SmallScreenTemplate/SmallScreenTemplate';
 import TransferMoneyDetailActions from './TranferMoneyDetailActions';
 import TransferMoneyDetailForm from './TransferMoneyDetailForm';
 
@@ -24,6 +28,7 @@ const TransferMoneyDetailView = ({
   onDelete,
   onDeleteModal,
   isLoading,
+  pageTitle,
 }) => {
   const actions = (
     <TransferMoneyDetailActions
@@ -62,40 +67,29 @@ const TransferMoneyDetailView = ({
   }
 
   const view = (
-    <StandardTemplate pageHead="Transfer money" alert={alertComponent} sticky="none">
+    <SmallScreenTemplate>
+      { alertComponent }
       { modal }
-      <TransferMoneyDetailForm
-        isCreating={isCreating}
-        onUpdateForm={onUpdateForm}
-        onAmountInputBlur={onAmountInputBlur}
-      />
+      <PageHead title={pageTitle} />
+      <Card>
+        <TransferMoneyDetailForm
+          isCreating={isCreating}
+          onUpdateForm={onUpdateForm}
+          onAmountInputBlur={onAmountInputBlur}
+        />
+      </Card>
       { actions }
-    </StandardTemplate>
+    </SmallScreenTemplate>
   );
 
   return <PageView isLoading={isLoading} view={view} />;
-};
-
-TransferMoneyDetailView.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  alertMessage: PropTypes.string.isRequired,
-  modalType: PropTypes.string.isRequired,
-  onUpdateForm: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onCancelModal: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onDeleteModal: PropTypes.func.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  onAmountInputBlur: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   alertMessage: getAlertMessage(state),
   modalType: getModalType(state),
   isLoading: getIsLoading(state),
+  pageTitle: getPageTitle(state),
 });
 
 export default connect(mapStateToProps)(TransferMoneyDetailView);
