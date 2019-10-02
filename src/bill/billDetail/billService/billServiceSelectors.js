@@ -220,6 +220,8 @@ export const getTaxInclusiveToPrefillFromInTray = (state) => {
   return isTaxInclusiveEdited ? currentTaxInclusive : prefillTaxInclusive;
 };
 
+export const getInTrayDocument = state => state.inTrayDocument;
+
 export const getIsTableEmpty = createSelector(
   getLength,
   len => len === 0,

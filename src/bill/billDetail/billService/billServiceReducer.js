@@ -80,6 +80,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
   inTrayDocumentId: '',
   inTrayPrefillDetails: undefined,
+  inTrayDocument: undefined,
 });
 
 const setInitalState = (state, action) => {
@@ -165,7 +166,9 @@ const getPrefilledNewLineFromInTray = (state, newLine) => ({
   amount: newLine.amount,
 });
 
-const prefillFromInTray = (state, bill, newLine) => ({
+const prefillFromInTray = ({
+  state, bill, newLine, document,
+}) => ({
   ...state,
   isPageEdited: true,
   bill: {
@@ -176,9 +179,12 @@ const prefillFromInTray = (state, bill, newLine) => ({
       getPrefilledNewLineFromInTray(state, newLine),
     ],
   },
+  inTrayDocument: document,
 });
 
-const storeToPrefillLater = (state, bill, newLine) => {
+const storeToPrefillLater = ({
+  state, bill, newLine, document,
+}) => {
   const {
     contactId: originalContactId,
     orderNumber: originalOrderNumber,
@@ -198,16 +204,21 @@ const storeToPrefillLater = (state, bill, newLine) => {
         taxInclusive: originalTaxInclusive,
       },
     },
+    inTrayDocument: document,
   };
 };
 
-const prefillNewBillFromInTray = (state, { bill, newLine }) => {
+const prefillNewBillFromInTray = (state, { bill, newLine, document }) => {
   const prefillImmediately = isContactIncludedInContactOptions(state, bill.contactId);
 
   if (prefillImmediately) {
-    return prefillFromInTray(state, bill, newLine);
+    return prefillFromInTray({
+      state, bill, newLine, document,
+    });
   }
-  return storeToPrefillLater(state, bill, newLine);
+  return storeToPrefillLater({
+    state, bill, newLine, document,
+  });
 };
 
 const inTrayPrefillCompleted = { inTrayPrefillDetails: undefined };

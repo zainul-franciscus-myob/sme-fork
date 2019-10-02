@@ -1,5 +1,5 @@
 import {
-  Alert, Columns, LineItemTemplate,
+  Alert, BaseTemplate, Card, Columns, PageHead, Separator,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,15 +7,18 @@ import React from 'react';
 
 import {
   getAlertMessage,
+  getInTrayDocument,
   getIsCreating,
   getModalType,
   getPageTitle,
 } from '../billServiceSelectors';
 import BillServiceActions from './BillServiceActions';
+import BillServiceInTrayDocumentView from './BillServiceInTrayDocumentView';
 import BillServiceOptions from './BillServiceOptions';
 import BillServiceTable from './BillServiceTable';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
+import styles from './BillServiceView.module.css';
 
 const BillServiceView = ({
   onUpdateHeaderOptions,
@@ -28,6 +31,7 @@ const BillServiceView = ({
   onDeleteButtonClick,
   isCreating,
   modalType,
+  inTrayDocument,
   pageTitle,
   onCloseModal,
   onCancelModal,
@@ -35,27 +39,35 @@ const BillServiceView = ({
   onDismissAlert,
   onDeleteModal,
 }) => {
-  const templateOptions = (
-    <Columns type="three">
-      <BillServiceOptions
-        onUpdateHeaderOptions={onUpdateHeaderOptions}
-      />
-    </Columns>
+  const alertComponent = alertMessage && (
+    <Alert type="danger" onDismiss={onDismissAlert}>
+      {alertMessage}
+    </Alert>
   );
 
-  const actions = (
+  const alertAndPageHead = (
+    <div>
+      {alertComponent}
+      <PageHead title={pageTitle} />
+    </div>);
+
+  const filterOptions = (
+    <div className={styles.filterOptions}>
+      <Columns type="three">
+        <BillServiceOptions
+          onUpdateHeaderOptions={onUpdateHeaderOptions}
+        />
+      </Columns>
+    </div>
+  );
+
+  const buttonActions = (
     <BillServiceActions
       isCreating={isCreating}
       onSaveButtonClick={onSaveButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
     />
-  );
-
-  const alertComponent = alertMessage && (
-    <Alert type="danger" onDismiss={onDismissAlert}>
-      {alertMessage}
-    </Alert>
   );
 
   let modal;
@@ -79,21 +91,33 @@ const BillServiceView = ({
     );
   }
 
+  const viewDocumentSection = inTrayDocument && (
+    <BillServiceInTrayDocumentView />
+  );
+
   const view = (
-    <LineItemTemplate
-      pageHead={pageTitle}
-      alert={alertComponent}
-      options={templateOptions}
-      actions={actions}
-    >
-      { modal }
-      <BillServiceTable
-        onUpdateRow={onUpdateRow}
-        onAddRow={onAddRow}
-        onRemoveRow={onRemoveRow}
-        onRowInputBlur={onRowInputBlur}
-      />
-    </LineItemTemplate>
+    <BaseTemplate stickyHeaderChildren={alertAndPageHead}>
+
+      {viewDocumentSection}
+
+      <Card>
+        {filterOptions}
+
+        <Separator />
+
+        {modal}
+
+        <BillServiceTable
+          onUpdateRow={onUpdateRow}
+          onAddRow={onAddRow}
+          onRemoveRow={onRemoveRow}
+          onRowInputBlur={onRowInputBlur}
+        />
+      </Card>
+
+      {buttonActions}
+
+    </BaseTemplate>
   );
 
   return view;
@@ -121,6 +145,7 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
+  inTrayDocument: getInTrayDocument(state),
   pageTitle: getPageTitle(state),
 });
 

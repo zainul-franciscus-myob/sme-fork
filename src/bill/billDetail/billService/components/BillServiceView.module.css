@@ -1,0 +1,3 @@
+.filterOptions :global .flx-col {
+  grid-gap: var(--flx-grid-gap);
+}

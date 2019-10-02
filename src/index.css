@@ -31,6 +31,9 @@
   /* typography */
   --flx-font-weight-bold: 600;
   --flx-font-size-heading-medium: 1.6rem;
+
+  /* grid gaps */
+  --flx-grid-gap: 0.8rem 1.6rem;
 }
 
 body {
