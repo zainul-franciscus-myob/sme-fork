@@ -1,6 +1,9 @@
+import getForbiddenHandler from './getForbiddenHandler';
 import isLinkUserPage from './isLinkUserPage';
 
-const UNLINKED_USER = 'UnlinkedUser';
+const errorCode = {
+  UNLINKED_USER: 'UnlinkedUser',
+};
 
 const getQueryFromParams = (params = {}) => {
   const encode = encodeURIComponent;
@@ -27,17 +30,22 @@ const handleUnlinkedUser = ({ businessId }) => {
   }
 };
 
-const errorCodes = ({
-  [UNLINKED_USER]: handleUnlinkedUser,
+const handleDefault = ({ businessId }) => {
+  window.location.href = `/#/au/${businessId}/permissionDenied`;
+};
+
+const handleMap = ({
+  [errorCode.UNLINKED_USER]: handleUnlinkedUser,
 });
 
-const handleForbiddenResponse = urlParams => (error) => {
-  const { forbiddenErrorCode } = error;
-  const handler = errorCodes[forbiddenErrorCode];
+const handleForbiddenResponse = urlParams => (responseBody) => {
+  const handler = getForbiddenHandler({
+    responseBody,
+    handleMap,
+    handleDefault,
+  });
 
-  if (handler) {
-    handler(urlParams);
-  }
+  handler(urlParams);
 };
 
 export default handleForbiddenResponse;

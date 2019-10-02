@@ -23,6 +23,7 @@ import getPayItemRoutes from './payItem/getPayItemRoutes';
 import getPayRefundRoutes from './payRefund/getPayRefundRoutes';
 import getPayRunRoutes from './payRun/getPayRunRoutes';
 import getPayrollSettingsRoutes from './payrollSettings/getPayrollSettingsRoutes';
+import getPermissionDeniedRoutes from './permissionDenied/getPermissionDeniedRoutes';
 import getPrepareBasOrIasRoutes from './prepareBasOrIas/getPrepareBasOrIasRoutes';
 import getQuoteRoutes from './quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
@@ -292,6 +293,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/linkUser',
     subRoutes: getLinkUserRoutes({
       integration, setRootView,
+    }),
+  },
+  {
+    name: 'permissionDenied',
+    rootPath: '/:region/:businessId/permissionDenied',
+    subRoutes: getPermissionDeniedRoutes({
+      setRootView,
     }),
   },
 ];
