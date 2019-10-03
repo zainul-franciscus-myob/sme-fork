@@ -138,7 +138,8 @@ export const getTaxCodesLabel = createSelector(
 );
 
 export const getInTrayUrl = state => getEnabledUrls(state).inTray;
-
 export const getIsInTrayActive = state => getActiveNav(state) === 'inTray';
-
 export const hasInTrayUrl = state => Boolean(getInTrayUrl(state));
+
+export const getReportsUrl = state => getEnabledUrls(state).reports;
+export const hasReportsUrl = state => Boolean(getReportsUrl(state));

@@ -3,6 +3,7 @@
   "AUTHENTICATION_WEB_CLIENT_ID": "sme-web",
   "AUTHENTICATION_BFF_CLIENT_ID": "sme-web-bff",
   "BFF_BASE_URL": "https://development-sme-web-bff.svc.platform.myobdev.com",
+  "MY_REPORTS_URL": "https://d89ua7au1ez9y.cloudfront.net",
   "SEGMENT_WRITE_KEY" : "",
   "LEAN_ENGAGE_APP_ID" : "514c0ce1-4aee-4839-bc2e-7b64eac9c51b"
 }

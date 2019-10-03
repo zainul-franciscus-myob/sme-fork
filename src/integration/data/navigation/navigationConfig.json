@@ -33,6 +33,7 @@
     "bankingRule",
     "inTray",
     "bankReconciliation",
-    "accountList"
+    "accountList",
+    "reports"
   ]
 }

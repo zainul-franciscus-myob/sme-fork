@@ -167,4 +167,7 @@ export const featuresConfig = {
   accountList: {
     routeName: 'account/accountList',
   },
+  reports: {
+    routeName: 'reports',
+  },
 };

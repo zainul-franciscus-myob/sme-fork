@@ -4,6 +4,7 @@ import React from 'react';
 import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
 import { featuresConfig } from './navConfig';
 import { getBusinessId, isLinkUserPage } from './NavigationSelectors';
+import Config from '../Config';
 import NavigationBar from './components/NavigationBar';
 import Store from '../store/Store';
 import navReducer from './navReducer';
@@ -19,6 +20,7 @@ export default class NavigationModule {
     this.replaceURLParamsAndReload = replaceURLParamsAndReload;
     this.mainContentElement = mainContentElement;
     this.onPageTransition = undefined;
+    this.reportsBaseUrl = Config.MY_REPORTS_URL;
   }
 
   moveFocusToMainContent = () => {
@@ -58,6 +60,11 @@ export default class NavigationModule {
     });
   };
 
+  buildReportsUrl = (routeParams) => {
+    const { businessId } = routeParams;
+    return `${this.reportsBaseUrl}/#/${businessId}/reports`;
+  }
+
   buildUrls = (currentRouteName, routeParams) => {
     const hasPrimaryRoutes = Object.keys(routeParams).includes('businessId');
     if (!hasPrimaryRoutes || isLinkUserPage({ currentRouteName })) {
@@ -66,8 +73,11 @@ export default class NavigationModule {
 
     return Object.entries(featuresConfig)
       .map(([key, feature]) => {
-        const url = `/#${this.constructPath(feature.routeName, { ...routeParams, ...feature.params })}`;
+        if (key === 'reports') {
+          return { [key]: this.buildReportsUrl(routeParams) };
+        }
 
+        const url = `/#${this.constructPath(feature.routeName, { ...routeParams, ...feature.params })}`;
         return { [key]: url };
       })
       .reduce((acc, obj) => ({ ...acc, ...obj }), {});

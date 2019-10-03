@@ -10,6 +10,7 @@ import {
   hasJournalUrls,
   hasPayrollUrls,
   hasPurchasesUrls,
+  hasReportsUrl,
   hasSalesUrls,
   isLinkUserPage,
 } from '../NavigationSelectors';
@@ -21,6 +22,7 @@ import JournalMenu from './JournalMenu';
 import Logout from './Logout';
 import PayrollMenu from './PayrollMenu';
 import PurchasesMenu from './PurchasesMenu';
+import Reports from './Reports';
 import SalesMenu from './SalesMenu';
 import SwitchBusiness from './SwitchBusiness';
 import styles from './NavigationBar.module.css';
@@ -28,7 +30,8 @@ import styles from './NavigationBar.module.css';
 const getPrimary = ({
   onMenuSelect, onMenuLinkClick,
   shouldDisplaySalesMenu, shouldDisplayPurchasesMenu, shouldDisplayBankingMenu,
-  shouldDisplayContactMenu, shouldDisplayJournalMenu, shouldDisplayPayrollMenu, shouldDisplayInTray,
+  shouldDisplayContactMenu, shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
+  shouldDisplayInTray, shouldDisplayReports,
 }) => [
   shouldDisplaySalesMenu && <SalesMenu key="SalesMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayPurchasesMenu && <PurchasesMenu key="PurchasesMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
@@ -36,6 +39,7 @@ const getPrimary = ({
   shouldDisplayContactMenu && <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayJournalMenu && <JournalMenu key="JournalMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayPayrollMenu && <PayrollMenu key="PayrollMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayReports && <Reports key="Reports" onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayInTray && <InTray key="InTray" onMenuLinkClick={onMenuLinkClick} />,
 ].filter(Boolean);
 
@@ -53,6 +57,7 @@ const NavigationBar = ({
   shouldDisplayBankingMenu, shouldDisplayContactMenu,
   shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
   shouldDisplayPurchasesMenu, shouldDisplayInTray,
+  shouldDisplayReports,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
@@ -64,6 +69,7 @@ const NavigationBar = ({
     shouldDisplayJournalMenu,
     shouldDisplayPayrollMenu,
     shouldDisplayInTray,
+    shouldDisplayReports,
   });
   const secondary = getSecondary({ onMenuSelect, onMenuLinkClick, shouldDisplayBusinessMenu });
   const brand = (
@@ -93,6 +99,7 @@ const mapStateToProps = state => ({
   shouldDisplayPayrollMenu: hasPayrollUrls(state),
   shouldDisplayPurchasesMenu: hasPurchasesUrls(state),
   shouldDisplayInTray: hasInTrayUrl(state),
+  shouldDisplayReports: hasReportsUrl(state),
 });
 
 export default connect(mapStateToProps)(NavigationBar);
