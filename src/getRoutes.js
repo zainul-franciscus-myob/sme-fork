@@ -16,6 +16,7 @@ import getIncomeAllocationRoutes from './IncomeAllocation/getIncomeAllocationRou
 import getInventoryRoutes from './inventory/getInventoryRoutes';
 import getInvoicePaymentRoutes from './invoicePayment/getInvoicePaymentRoutes';
 import getInvoiceRoutes from './invoice/getInvoiceRoutes';
+import getLinkBillRoutes from './linkBill/getLinkBillRoutes';
 import getLinkUserRoutes from './linkUser/getLinkUserRoutes';
 import getLinkedAccountsRoutes from './linkedAccounts/getLinkedAccountsRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
@@ -278,6 +279,13 @@ const getRoutes = ({
     name: 'payRun',
     rootPath: '/:region/:businessId/payRun',
     subRoutes: getPayRunRoutes({
+      integration, setRootView, pushMessage,
+    }),
+  },
+  {
+    name: 'linkBill',
+    rootPath: '/:region/:businessId/linkBill',
+    subRoutes: getLinkBillRoutes({
       integration, setRootView, pushMessage,
     }),
   },

@@ -38,6 +38,7 @@ const InTrayView = ({
     onUpload,
     onDownload,
     onDelete,
+    onLinkToExistingBill,
     onCreateBill,
   },
   uploadOptionsModalListeners,
@@ -88,6 +89,7 @@ const InTrayView = ({
           onUpload={onUpload}
           onDownload={onDownload}
           onDelete={onDelete}
+          onLinkToExistingBill={onLinkToExistingBill}
           onCreateBill={onCreateBill}
         />
       </StandardTemplate>

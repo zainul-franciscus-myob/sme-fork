@@ -1,0 +1,44 @@
+{
+  "bills": [
+    {
+      "id": "1",
+      "issueDate": "02/12/2018",
+      "supplierName": "Daenerys Targaryen",
+      "supplierInvoiceNumber": "PO111",
+      "amount": "10000.00",
+      "isPaid": false
+    },
+    {
+      "id": "2",
+      "issueDate": "02/12/2018",
+      "supplierName": "Daenerys Targaryen",
+      "supplierInvoiceNumber": "PO112",
+      "amount": "20000.00",
+      "isPaid": false
+    },
+    {
+      "id": "3",
+      "issueDate": "02/12/2018",
+      "supplierName": "Daenerys Targaryen",
+      "supplierInvoiceNumber": "PO113",
+      "amount": "30000.00",
+      "isPaid": false
+    },
+    {
+      "id": "4",
+      "issueDate": "02/12/2018",
+      "supplierName": "Daenerys Targaryen",
+      "supplierInvoiceNumber": "PO114",
+      "amount": "10000.00",
+      "isPaid": false
+    },
+    {
+      "id": "5",
+      "issueDate": "02/12/2018",
+      "supplierName": "Daenerys Targaryen",
+      "supplierInvoiceNumber": "PO115",
+      "amount": "50000.00",
+      "isPaid": false
+    }
+  ]
+}

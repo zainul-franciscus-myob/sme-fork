@@ -1,0 +1,75 @@
+{
+  "document": {
+    "id": "1",
+    "thumbnailUri": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
+    "documentUrl": "http://localhost:5000/",
+    "uploadedOn": "01/09/2019"
+  },
+  "matchedSupplierId": "All",
+  "supplierFilterOptions": [
+    {
+      "displayName": "All Suppliers",
+      "id": "All"
+    },
+    {
+      "displayName": "Jon Snow",
+      "id": "1"
+    },
+    {
+      "displayName": "Daenerys Targaryen",
+      "id": "2"
+    },
+    {
+      "displayName": "Sansa Stark",
+      "id": "3"
+    },
+    {
+      "displayName": "Tyrion Lannister",
+      "id": "4"
+    }
+  ],
+  "sortOrder": "asc",
+  "orderBy": "issueDate",
+  "bills": [
+    {
+      "id": "1",
+      "issueDate": "02/12/2018",
+      "supplierName": "Jon Snow",
+      "supplierInvoiceNumber": "PO111",
+      "amount": "10000.00",
+      "isPaid": false
+    },
+    {
+      "id": "2",
+      "issueDate": "02/12/2018",
+      "supplierName": "Jon Snow",
+      "supplierInvoiceNumber": "PO112",
+      "amount": "20000.00",
+      "isPaid": false
+    },
+    {
+      "id": "3",
+      "issueDate": "02/12/2018",
+      "supplierName": "Jon Snow",
+      "supplierInvoiceNumber": "PO113",
+      "amount": "30000.00",
+      "isPaid": false
+    },
+    {
+      "id": "4",
+      "issueDate": "02/12/2018",
+      "supplierName": "Jon Snow",
+      "supplierInvoiceNumber": "PO114",
+      "amount": "10000.00",
+      "isPaid": false
+    },
+    {
+      "id": "5",
+      "issueDate": "02/12/2018",
+      "supplierName": "Jon Snow",
+      "supplierInvoiceNumber": "PO115",
+      "amount": "50000.00",
+      "isPaid": false
+    }
+  ]
+}

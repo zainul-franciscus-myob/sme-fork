@@ -3,11 +3,15 @@ import React from 'react';
 import copy from 'copy-to-clipboard';
 
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
+import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from './inTrayMessageTypes';
 import {
   SUCCESSFULLY_SAVED_BILL_ITEM,
   SUCCESSFULLY_SAVED_BILL_SERVICE,
 } from '../bill/billDetail/billMessageTypes';
-import { getBusinessId, getRegion } from '../bill/billDetail/billService/billServiceSelectors';
+import {
+  getBusinessId,
+  getRegion,
+} from './selectors/InTraySelectors';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
 import {
   getIsEntryLoading,
@@ -24,6 +28,7 @@ import inTrayReducer from './reducer/inTrayReducer';
 import modalTypes from './modalTypes';
 
 const messageTypes = [
+  SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL,
   SUCCESSFULLY_SAVED_BILL_SERVICE,
   SUCCESSFULLY_SAVED_BILL_ITEM,
 ];
@@ -32,6 +37,8 @@ export default class InTrayModule {
   constructor({ integration, setRootView, popMessages }) {
     this.integration = integration;
     this.store = new Store(inTrayReducer);
+    this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
@@ -245,6 +252,14 @@ export default class InTrayModule {
     this.dispatcher.setUploadOptionsAlert('success', 'Copied!');
   }
 
+  redirectToLinkToExistingBill = (id) => {
+    const state = this.store.getState();
+    const region = getRegion(state);
+    const businessId = getBusinessId(state);
+
+    window.location.href = `/#/${region}/${businessId}/linkBill/${id}`;
+  }
+
   render = () => {
     const inTrayView = (
       <InTrayView
@@ -260,6 +275,7 @@ export default class InTrayModule {
           onUpload: this.uploadInTrayFiles,
           onDownload: this.downloadInTrayDocument,
           onDelete: this.dispatcher.openInTrayDeleteModal,
+          onLinkToExistingBill: this.redirectToLinkToExistingBill,
           onCreateBill: this.redirectToCreateBill,
         }}
         deleteModalListeners={{

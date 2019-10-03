@@ -27,6 +27,7 @@ const InTrayListTable = ({
   onUpload,
   onDownload,
   onDelete,
+  onLinkToExistingBill,
   onCreateBill,
 }) => {
   const emptyView = (
@@ -58,6 +59,7 @@ const InTrayListTable = ({
         tableConfig={tableConfig}
         onDelete={onDelete}
         onDownload={onDownload}
+        onLinkToExistingBill={onLinkToExistingBill}
         onCreateBill={onCreateBill}
       />
     );

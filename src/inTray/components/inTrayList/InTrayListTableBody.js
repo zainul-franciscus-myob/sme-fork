@@ -10,18 +10,22 @@ import actionTypes from '../../actionTypes';
 import styles from './InTrayListTableBody.module.css';
 
 const handleActionSelect = (handlers, id) => (action) => {
-  const { onDelete, onDownload, onCreateBill } = handlers;
+  const {
+    onDelete, onDownload, onLinkToExistingBill, onCreateBill,
+  } = handlers;
 
-  if (action === actionTypes.delete) {
-    onDelete(id);
-  }
-
-  if (action === actionTypes.download) {
-    onDownload(id);
-  }
-
-  if (action === actionTypes.createBill) {
-    onCreateBill(id);
+  switch (action) {
+    case actionTypes.linkToExistingBill:
+      onLinkToExistingBill(id);
+      break;
+    case actionTypes.createBill:
+      onCreateBill(id);
+      break;
+    case actionTypes.download:
+      onDownload(id);
+      break;
+    default:
+      onDelete(id);
   }
 };
 
@@ -75,7 +79,9 @@ const ActionComponent = (handlers, id) => (
   <Dropdown
     right
     items={[
+      <Dropdown.Item key={actionTypes.linkToExistingBill} label="Link to existing bill" value={actionTypes.linkToExistingBill} />,
       <Dropdown.Item key={actionTypes.createBill} label="Create bill" value={actionTypes.createBill} />,
+      <Dropdown.Separator key="separator" />,
       <Dropdown.Item key={actionTypes.download} label="Download" value={actionTypes.download} />,
       <Dropdown.Item key={actionTypes.delete} label="Delete" value={actionTypes.delete} />,
     ]}
@@ -93,6 +99,7 @@ const InTrayListTableBody = ({
   entries,
   onDelete,
   onDownload,
+  onLinkToExistingBill,
   onCreateBill,
 }) => {
   const rows = entries.map((entry) => {
@@ -131,7 +138,9 @@ const InTrayListTableBody = ({
           {showInvoiceDetails && InvoiceComponent(totalAmount)}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.action} cellRole="actions">
-          {showActions && ActionComponent({ onDelete, onDownload, onCreateBill }, id)}
+          {showActions && ActionComponent({
+            onDelete, onDownload, onLinkToExistingBill, onCreateBill,
+          }, id)}
         </Table.RowItem>
       </Table.Row>
     );
