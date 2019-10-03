@@ -11,7 +11,7 @@ export const getRegion = state => state.region;
 export const getThumbnailUri = state => state.document.thumbnailUri;
 export const getDocumentUrl = state => state.document.documentUrl;
 export const getDocumentUploadDate = state => state.document.uploadedOn;
-export const getDocumentId = state => state.document.id;
+export const getDocumentId = state => state.documentId;
 
 export const getSupplierFilterOptions = state => state.supplierFilterOptions;
 export const getFilterOptions = state => state.filterOptions;
