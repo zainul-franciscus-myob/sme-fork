@@ -9,6 +9,31 @@ const associateUserWithGroup = (currentBusinessId, { businessId }) => {
   return currentBusinessId;
 };
 
+const getCookie = (cname) => {
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cookieMap = decodedCookie
+    .split(';')
+    .reduce((cmap, value) => {
+      const [key, val] = value.trim().split('=');
+      // eslint-disable-next-line no-param-reassign
+      cmap[key] = val;
+      return cmap;
+    }, {});
+  return cookieMap[cname];
+};
+
+const getGoogleAnalyticsClientId = () => {
+  try {
+    const ga = getCookie('_gid');
+    if (ga) {
+      return ga.split('.').slice(-2).join('.');
+    }
+    return '';
+  } catch {
+    return '';
+  }
+};
+
 const identifyUser = (currentUserId) => {
   const user = getUser();
   if (user && currentUserId !== user.userId) {
@@ -40,6 +65,9 @@ const recordPageVisit = (currentRouteName, userId, businessId) => {
   const pageViewOptions = {
     context: {
       groupId: businessId,
+      'Google Analytics': {
+        clientId: getGoogleAnalyticsClientId(),
+      },
     },
   };
 
