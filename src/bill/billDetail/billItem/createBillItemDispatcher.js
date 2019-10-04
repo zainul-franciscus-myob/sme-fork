@@ -3,6 +3,8 @@ import {
   CLOSE_MODAL,
   FORMAT_LINE_AMOUNT,
   OPEN_MODAL,
+  PREFILL_NEW_BILL_ITEM_FROM_IN_TRAY,
+  PREFILL_NEW_BILL_ITEM_FROM_IN_TRAY_ON_SUPPLIER_SELECT,
   REMOVE_LINE,
   RESET_TOTALS,
   SET_ALERT_MESSAGE,
@@ -68,6 +70,15 @@ const createBillItemDispatcher = store => ({
   loadSupplierAddress: address => store.dispatch({
     intent: LOAD_SUPPLIER_ADDRESS,
     address,
+  }),
+
+  prefillDataFromInTray: response => store.dispatch({
+    intent: PREFILL_NEW_BILL_ITEM_FROM_IN_TRAY,
+    ...response,
+  }),
+
+  prefillDataFromInTrayOnSupplierSelect: () => store.dispatch({
+    intent: PREFILL_NEW_BILL_ITEM_FROM_IN_TRAY_ON_SUPPLIER_SELECT,
   }),
 
   updateBillOption: ({ key, value }) => store.dispatch({

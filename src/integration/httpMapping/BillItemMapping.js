@@ -2,6 +2,7 @@ import {
   CALCULATE_LINE,
   CREATE_BILL,
   LOAD_NEW_BILL_ITEM_DETAIL,
+  PREFILL_NEW_BILL_ITEM_FROM_IN_TRAY,
   REMOVE_LINE,
   UPDATE_BILL,
   UPDATE_LINE_ITEM,
@@ -41,6 +42,11 @@ const BillItemMapping = {
   [REMOVE_LINE]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_item_totals/remove_line`,
+  },
+  [PREFILL_NEW_BILL_ITEM_FROM_IN_TRAY]: {
+    method: 'GET',
+    getPath:
+      ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/prefill_new_bill_item_from_in_tray/${inTrayDocumentId}`,
   },
 };
 

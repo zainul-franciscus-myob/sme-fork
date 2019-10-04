@@ -12,8 +12,8 @@ import {
   getModalType,
   getPageTitle,
 } from '../billServiceSelectors';
+import BillInTrayDocumentView from '../../components/BillInTrayDocumentView';
 import BillServiceActions from './BillServiceActions';
-import BillServiceInTrayDocumentView from './BillServiceInTrayDocumentView';
 import BillServiceOptions from './BillServiceOptions';
 import BillServiceTable from './BillServiceTable';
 import CancelModal from '../../../../components/modal/CancelModal';
@@ -92,7 +92,9 @@ const BillServiceView = ({
   }
 
   const viewDocumentSection = inTrayDocument && (
-    <BillServiceInTrayDocumentView />
+    <BillInTrayDocumentView
+      inTrayDocument={inTrayDocument}
+    />
   );
 
   const view = (

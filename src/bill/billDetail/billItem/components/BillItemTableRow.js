@@ -9,6 +9,7 @@ import {
   getItems,
   getShouldLineSelectItem,
   getTaxCodes,
+  isBillLineFoundHavingAmountWithoutItem,
 } from '../billItemSelectors';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import ItemCombobox from '../../../../components/combobox/ItemCombobox';
@@ -43,6 +44,7 @@ const BillItemTableRow = ({
   isLineDisabled,
   onLineInputBlur,
   shouldLineSelectItem,
+  isLineFoundHavingAmountWithoutItem,
   ...feelixInjectedProps
 }) => (
   <LineItemTable.Row
@@ -56,7 +58,7 @@ const BillItemTableRow = ({
       value={billLine.units}
       onChange={onAmountInputChange('units', onChange)}
       onBlur={onInputBlur(onLineInputBlur, index, 'units')}
-      disabled={isLineDisabled || shouldLineSelectItem}
+      disabled={isLineDisabled || shouldLineSelectItem || isLineFoundHavingAmountWithoutItem}
       decimalScale={6}
     />
     <ItemCombobox
@@ -72,7 +74,7 @@ const BillItemTableRow = ({
       label="Description"
       value={billLine.description}
       onChange={onChange}
-      disabled={isLineDisabled || shouldLineSelectItem}
+      disabled={isLineDisabled || shouldLineSelectItem || isLineFoundHavingAmountWithoutItem}
     />
     <AmountInput
       label="Unit Price"
@@ -82,7 +84,7 @@ const BillItemTableRow = ({
       onChange={onAmountInputChange('unitPrice', onChange)}
       onBlur={onInputBlur(onLineInputBlur, index, 'unitPrice')}
       textAlign="right"
-      disabled={isLineDisabled || shouldLineSelectItem}
+      disabled={isLineDisabled || shouldLineSelectItem || isLineFoundHavingAmountWithoutItem}
       decimalScale={6}
     />
     <AmountInput
@@ -93,13 +95,13 @@ const BillItemTableRow = ({
       onChange={onAmountInputChange('discount', onChange)}
       onBlur={onInputBlur(onLineInputBlur, index, 'discount')}
       textAlign="right"
-      disabled={isLineDisabled || shouldLineSelectItem}
+      disabled={isLineDisabled || shouldLineSelectItem || isLineFoundHavingAmountWithoutItem}
     />
     <TaxCodeCombobox
       items={taxCodes}
       selectedId={billLine.taxCodeId}
       onChange={onComboboxChange('taxCodeId', onChange)}
-      disabled={isLineDisabled || shouldLineSelectItem}
+      disabled={isLineDisabled || shouldLineSelectItem || isLineFoundHavingAmountWithoutItem}
     />
     <AmountInput
       label="Amount"
@@ -109,7 +111,7 @@ const BillItemTableRow = ({
       onChange={onAmountInputChange('amount', onChange)}
       onBlur={onInputBlur(onLineInputBlur, index, 'amount')}
       textAlign="right"
-      disabled={isLineDisabled || shouldLineSelectItem}
+      disabled={isLineDisabled || shouldLineSelectItem || isLineFoundHavingAmountWithoutItem}
     />
   </LineItemTable.Row>
 );
@@ -129,6 +131,7 @@ const mapStateToProps = (state, props) => ({
   items: getItems(state),
   taxCodes: getTaxCodes(state),
   shouldLineSelectItem: getShouldLineSelectItem(state, props),
+  isLineFoundHavingAmountWithoutItem: isBillLineFoundHavingAmountWithoutItem(state, props),
 });
 
 export default connect(mapStateToProps)(BillItemTableRow);

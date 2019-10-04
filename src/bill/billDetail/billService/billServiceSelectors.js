@@ -176,48 +176,12 @@ export const getInTrayPrefillDetails = state => state.inTrayPrefillDetails;
 
 export const isAlreadyPrefilledFromInTray = state => getInTrayPrefillDetails(state) === undefined;
 
-export const getContactIdToPrefillFromInTray = (state) => {
-  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
+export const shouldPrefillANewLineFromInTray = (state) => {
+  const linesAdded = getBill(state).lines.length > 0;
 
-  const prefillContactId = inTrayPrefillDetails.bill.contactId;
-  const originalContactId = inTrayPrefillDetails.originalBill.contactId;
-  const currentContactId = state.bill.contactId;
+  const amountFromInTrayDoc = getInTrayPrefillDetails(state).newLine.amount;
 
-  const isContactIdEdited = currentContactId !== originalContactId;
-  return isContactIdEdited ? currentContactId : prefillContactId;
-};
-
-export const getOrderNumberToPrefillFromInTray = (state) => {
-  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
-
-  const prefillOrderNumber = inTrayPrefillDetails.bill.orderNumber;
-  const originalOrderNumber = inTrayPrefillDetails.originalBill.orderNumber;
-  const currentOrderNumber = state.bill.orderNumber;
-
-  const isOrderNumberEdited = currentOrderNumber !== originalOrderNumber;
-  return isOrderNumberEdited ? currentOrderNumber : prefillOrderNumber;
-};
-
-export const getIssueDateToPrefillFromInTray = (state) => {
-  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
-
-  const prefillIssueDate = inTrayPrefillDetails.bill.issueDate;
-  const originalIssueDate = inTrayPrefillDetails.originalBill.issueDate;
-  const currentIssueDate = state.bill.issueDate;
-
-  const isIssueDateEdited = currentIssueDate !== originalIssueDate;
-  return isIssueDateEdited ? currentIssueDate : prefillIssueDate;
-};
-
-export const getTaxInclusiveToPrefillFromInTray = (state) => {
-  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
-
-  const prefillTaxInclusive = inTrayPrefillDetails.bill.taxInclusive;
-  const originalTaxInclusive = inTrayPrefillDetails.originalBill.taxInclusive;
-  const currentTaxInclusive = state.bill.taxInclusive;
-
-  const isTaxInclusiveEdited = currentTaxInclusive !== originalTaxInclusive;
-  return isTaxInclusiveEdited ? currentTaxInclusive : prefillTaxInclusive;
+  return !linesAdded && amountFromInTrayDoc;
 };
 
 export const getInTrayDocument = state => state.inTrayDocument;

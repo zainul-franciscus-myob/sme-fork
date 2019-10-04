@@ -23,14 +23,11 @@ import {
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
 import {
-  getContactIdToPrefillFromInTray,
   getDefaultTaxCodeId,
   getInTrayPrefillDetails,
-  getIssueDateToPrefillFromInTray,
   getLineByIndex,
-  getOrderNumberToPrefillFromInTray,
-  getTaxInclusiveToPrefillFromInTray,
   isContactIncludedInContactOptions,
+  shouldPrefillANewLineFromInTray,
 } from './billServiceSelectors';
 import createReducer from '../../../store/createReducer';
 
@@ -168,45 +165,39 @@ const getPrefilledNewLineFromInTray = (state, newLine) => ({
 
 const prefillFromInTray = ({
   state, bill, newLine, document,
-}) => ({
-  ...state,
-  isPageEdited: true,
-  bill: {
-    ...state.bill,
-    ...bill,
-    lines: [
-      ...state.bill.lines,
-      getPrefilledNewLineFromInTray(state, newLine),
-    ],
-  },
-  inTrayDocument: document,
-});
-
-const storeToPrefillLater = ({
-  state, bill, newLine, document,
 }) => {
-  const {
-    contactId: originalContactId,
-    orderNumber: originalOrderNumber,
-    issueDate: originalIssueDate,
-    taxInclusive: originalTaxInclusive,
-  } = state.bill;
+  const lines = newLine.amount
+    ? [...state.bill.lines, getPrefilledNewLineFromInTray(state, newLine)]
+    : [...state.bill.lines];
 
   return {
     ...state,
-    inTrayPrefillDetails: {
-      bill,
-      newLine,
-      originalBill: {
-        contactId: originalContactId,
-        orderNumber: originalOrderNumber,
-        issueDate: originalIssueDate,
-        taxInclusive: originalTaxInclusive,
-      },
+    isPageEdited: true,
+    bill: {
+      ...state.bill,
+      ...bill,
+      lines,
     },
     inTrayDocument: document,
   };
 };
+
+const storeInTrayPrefillDetails = ({
+  state, bill, newLine, document,
+}) => ({
+  ...state,
+  inTrayPrefillDetails: {
+    bill,
+    newLine,
+    originalBill: {
+      contactId: state.bill.contactId,
+      orderNumber: state.bill.orderNumber,
+      issueDate: state.bill.issueDate,
+      taxInclusive: state.bill.taxInclusive,
+    },
+  },
+  inTrayDocument: document,
+});
 
 const prefillNewBillFromInTray = (state, { bill, newLine, document }) => {
   const prefillImmediately = isContactIncludedInContactOptions(state, bill.contactId);
@@ -216,12 +207,56 @@ const prefillNewBillFromInTray = (state, { bill, newLine, document }) => {
       state, bill, newLine, document,
     });
   }
-  return storeToPrefillLater({
+  return storeInTrayPrefillDetails({
     state, bill, newLine, document,
   });
 };
 
-const inTrayPrefillCompleted = { inTrayPrefillDetails: undefined };
+const getContactIdToPrefillFromInTray = (state) => {
+  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
+
+  const prefillContactId = inTrayPrefillDetails.bill.contactId;
+  const originalContactId = inTrayPrefillDetails.originalBill.contactId;
+  const currentContactId = state.bill.contactId;
+
+  const isContactIdEdited = currentContactId !== originalContactId;
+  return isContactIdEdited ? currentContactId : prefillContactId;
+};
+
+const getOrderNumberToPrefillFromInTray = (state) => {
+  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
+
+  const prefillOrderNumber = inTrayPrefillDetails.bill.orderNumber;
+  const originalOrderNumber = inTrayPrefillDetails.originalBill.orderNumber;
+  const currentOrderNumber = state.bill.orderNumber;
+
+  const isOrderNumberEdited = currentOrderNumber !== originalOrderNumber;
+  return isOrderNumberEdited ? currentOrderNumber : prefillOrderNumber;
+};
+
+const getTaxInclusiveToPrefillFromInTray = (state) => {
+  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
+
+  const prefillTaxInclusive = inTrayPrefillDetails.bill.taxInclusive;
+  const originalTaxInclusive = inTrayPrefillDetails.originalBill.taxInclusive;
+  const currentTaxInclusive = state.bill.taxInclusive;
+
+  const isTaxInclusiveEdited = currentTaxInclusive !== originalTaxInclusive;
+  return isTaxInclusiveEdited || prefillTaxInclusive === undefined
+    ? currentTaxInclusive
+    : prefillTaxInclusive;
+};
+
+const getIssueDateToPrefillFromInTray = (state) => {
+  const inTrayPrefillDetails = getInTrayPrefillDetails(state);
+
+  const prefillIssueDate = inTrayPrefillDetails.bill.issueDate;
+  const originalIssueDate = inTrayPrefillDetails.originalBill.issueDate;
+  const currentIssueDate = state.bill.issueDate;
+
+  const isIssueDateEdited = currentIssueDate !== originalIssueDate;
+  return isIssueDateEdited ? currentIssueDate : prefillIssueDate;
+};
 
 const prefillNewBillFromInTrayOnSupplierSelect = (state) => {
   const contactId = getContactIdToPrefillFromInTray(state);
@@ -230,10 +265,12 @@ const prefillNewBillFromInTrayOnSupplierSelect = (state) => {
   const taxInclusive = getTaxInclusiveToPrefillFromInTray(state);
 
   const currentLines = state.bill.lines;
-  const linesAdded = currentLines.length > 0;
-  const lines = linesAdded
-    ? [...currentLines]
-    : [getPrefilledNewLineFromInTray(state, getInTrayPrefillDetails(state).newLine)];
+  const lines = shouldPrefillANewLineFromInTray(state)
+    ? [...currentLines,
+      getPrefilledNewLineFromInTray(state, getInTrayPrefillDetails(state).newLine)]
+    : [...currentLines];
+
+  const inTrayPrefillCompleted = { inTrayPrefillDetails: undefined };
 
   return {
     ...state,

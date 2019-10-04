@@ -1,5 +1,6 @@
 import {
   CREATE_BILL,
+  PREFILL_NEW_BILL_ITEM_FROM_IN_TRAY,
   UPDATE_BILL,
 } from './BillItemIntents';
 import {
@@ -7,7 +8,7 @@ import {
   LOAD_SUPPLIER_ADDRESS,
 } from '../../BillIntents';
 import {
-  getBillId, getBillPayload, getBusinessId, getSupplierId,
+  getBillId, getBillPayload, getBusinessId, getInTrayDocumentId, getSupplierId,
 } from './billItemSelectors';
 
 const createBillItemIntegrator = (store, integration) => ({
@@ -78,6 +79,22 @@ const createBillItemIntegrator = (store, integration) => ({
       onFailure,
     });
   },
+
+  prefillDataFromInTray({ onSuccess, onFailure }) {
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+      inTrayDocumentId: getInTrayDocumentId(state),
+    };
+
+    integration.read({
+      intent: PREFILL_NEW_BILL_ITEM_FROM_IN_TRAY,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
 
   updateLines: ({
     content, intent, onSuccess, onFailure,

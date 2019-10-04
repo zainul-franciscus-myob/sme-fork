@@ -18,3 +18,7 @@ export const SET_LINE_AMOUNT_DIRTY = Symbol('Set line amount dirty');
 export const SET_ARE_LINES_CALCULATING = Symbol('Set are lines calculating');
 export const FORMAT_LINE_AMOUNT = Symbol('Format the line amount');
 export const RESET_TOTALS = Symbol('Reset the totals');
+export const PREFILL_NEW_BILL_ITEM_FROM_IN_TRAY = Symbol('Prefill new bill item from in-tray');
+export const PREFILL_NEW_BILL_ITEM_FROM_IN_TRAY_ON_SUPPLIER_SELECT = Symbol(
+  'Prefill new bill item from in-tray on supplier select',
+);

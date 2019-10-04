@@ -1,15 +1,13 @@
 import {
   Button, Card, Icons,
 } from '@myob/myob-widgets';
-import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInTrayDocument } from '../billServiceSelectors';
-import styles from './BillServiceInTrayDocumentView.module.css';
+import styles from './BillInTrayDocumentView.module.css';
 
 const openNewTab = url => () => window.open(url);
 
-const BillServiceInTrayDocumentView = ({
+const BillInTrayDocumentView = ({
   inTrayDocument,
 }) => {
   const documentBody = (
@@ -44,8 +42,4 @@ const BillServiceInTrayDocumentView = ({
   );
 };
 
-const mapStateToProps = state => ({
-  inTrayDocument: getInTrayDocument(state),
-});
-
-export default connect(mapStateToProps)(BillServiceInTrayDocumentView);
+export default BillInTrayDocumentView;

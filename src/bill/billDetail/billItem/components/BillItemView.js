@@ -1,20 +1,27 @@
-import { Alert, LineItemTemplate } from '@myob/myob-widgets';
+import {
+  Alert, BaseTemplate, Card, PageHead, Separator,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  getAlertMessage,
+  getAlertMessage, getInTrayDocument,
   getModalType,
+  getPageTitle,
 } from '../billItemSelectors';
+import BillInTrayDocumentView from '../../components/BillInTrayDocumentView';
 import BillItemActions from './BillItemActions';
 import BillItemModal from './BillItemModal';
 import BillItemOptions from './BillItemOptions';
 import BillItemTable from './BillItemTable';
+import styles from './BillItemView.module.css';
 
 const BillItemView = ({
   alertMessage,
   modalType,
+  pageTitle,
+  inTrayDocument,
   onUpdateBillOption,
   onUpdateTaxInclusive,
   onSaveButtonClick,
@@ -28,46 +35,80 @@ const BillItemView = ({
   onRemoveTableRow,
   onDismissAlert,
   onLineInputBlur,
-}) => (
-  <React.Fragment>
-    { modalType && (
-      <BillItemModal
-        modalType={modalType}
-        onModalClose={onModalClose}
-        onCancelModalConfirm={onCancelModalConfirm}
-        onDeleteModalConfirm={onDeleteModalConfirm}
+}) => {
+  const alertComponent = alertMessage && (
+    <Alert type="danger" onDismiss={onDismissAlert}>
+      {alertMessage}
+    </Alert>
+  );
+
+  const alertAndPageHead = (
+    <div>
+      {alertComponent}
+      <PageHead title={pageTitle} />
+    </div>
+  );
+
+  const filterOptions = (
+    <div className={styles.filterOptions}>
+      <BillItemOptions
+        onUpdateBillOption={onUpdateBillOption}
+        onUpdateTaxInclusive={onUpdateTaxInclusive}
       />
-    )}
-    <LineItemTemplate
-      pageHead="Bill"
-      options={(
-        <BillItemOptions
-          onUpdateBillOption={onUpdateBillOption}
-          onUpdateTaxInclusive={onUpdateTaxInclusive}
+    </div>
+  );
+
+  const buttonActions = (
+    <BillItemActions
+      onSaveButtonClick={onSaveButtonClick}
+      onCancelButtonClick={onCancelButtonClick}
+      onDeleteButtonClick={onDeleteButtonClick}
+    />
+  );
+
+  const modal = modalType && (
+  <BillItemModal
+    modalType={modalType}
+    onModalClose={onModalClose}
+    onCancelModalConfirm={onCancelModalConfirm}
+    onDeleteModalConfirm={onDeleteModalConfirm}
+  />
+  );
+
+  const viewDocumentSection = inTrayDocument && (
+    <BillInTrayDocumentView
+      inTrayDocument={inTrayDocument}
+    />
+  );
+
+  const view = (
+    <BaseTemplate stickyHeaderChildren={alertAndPageHead}>
+
+      {viewDocumentSection}
+
+      <Card>
+        {filterOptions}
+
+        <Separator />
+
+        {modal}
+
+        <BillItemTable
+          onAddTableLine={onAddTableLine}
+          onChangeTableRow={onChangeTableRow}
+          onRemoveTableRow={onRemoveTableRow}
+          onLineInputBlur={onLineInputBlur}
         />
-      )}
-      actions={(
-        <BillItemActions
-          onSaveButtonClick={onSaveButtonClick}
-          onCancelButtonClick={onCancelButtonClick}
-          onDeleteButtonClick={onDeleteButtonClick}
-        />
-      )}
-      alert={alertMessage && (
-        <Alert type="danger" onDismiss={onDismissAlert}>
-          {alertMessage}
-        </Alert>
-      )}
-    >
-      <BillItemTable
-        onAddTableLine={onAddTableLine}
-        onChangeTableRow={onChangeTableRow}
-        onRemoveTableRow={onRemoveTableRow}
-        onLineInputBlur={onLineInputBlur}
-      />
-    </LineItemTemplate>
-  </React.Fragment>
-);
+
+      </Card>
+
+      {buttonActions}
+
+    </BaseTemplate>
+  );
+
+  return view;
+};
 
 BillItemView.propTypes = {
   alertMessage: PropTypes.string.isRequired,
@@ -90,6 +131,8 @@ BillItemView.propTypes = {
 const mapStateToProps = state => ({
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
+  pageTitle: getPageTitle(state),
+  inTrayDocument: getInTrayDocument(state),
 });
 
 export default connect(mapStateToProps)(BillItemView);

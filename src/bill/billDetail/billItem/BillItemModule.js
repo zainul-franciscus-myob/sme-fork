@@ -13,6 +13,7 @@ import {
   getBusinessId,
   getIsAnAmountInput,
   getIsCreating,
+  getIsCreatingFromInTray,
   getIsLineAmountDirty,
   getIsPageEdited,
   getIsTableEmpty,
@@ -21,6 +22,7 @@ import {
   getLinesForItemChange,
   getNewLineIndex,
   getRegion,
+  isAlreadyPrefilledFromInTray,
 } from './billItemSelectors';
 import BillItemView from './components/BillItemView';
 import ModalTypes from './ModalType';
@@ -151,19 +153,29 @@ export default class BillItemModule {
     }
   };
 
+  loadSupplierAddress = () => {
+    const onSuccess = ({ address }) => {
+      this.dispatcher.loadSupplierAddress(address);
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.displayAlert(message);
+      this.dispatcher.loadSupplierAddress('');
+    };
+
+    this.integrator.loadSupplierAddress({ onSuccess, onFailure });
+  };
+
   updateBillOption = ({ key, value }) => {
     this.dispatcher.updateBillOption({ key, value });
 
     if (key === 'supplierId') {
-      const onSuccess = ({ address }) => {
-        this.dispatcher.loadSupplierAddress(address);
-      };
-      const onFailure = ({ message }) => {
-        this.dispatcher.displayAlert(message);
-        this.dispatcher.loadSupplierAddress('');
-      };
+      this.loadSupplierAddress();
 
-      this.integrator.loadSupplierAddress({ onSuccess, onFailure });
+      const state = this.store.getState();
+      if (getIsCreatingFromInTray(state)
+        && !isAlreadyPrefilledFromInTray(state)) {
+        this.dispatcher.prefillDataFromInTrayOnSupplierSelect();
+      }
     }
   };
 
@@ -175,7 +187,7 @@ export default class BillItemModule {
         type: SUCCESSFULLY_SAVED_BILL_ITEM,
         content: message,
       });
-      this.redirectToBillList();
+      this.redirectOnSaveOrCancel();
     };
 
     const onFailure = ({ message }) => {
@@ -225,6 +237,24 @@ export default class BillItemModule {
     this.integrator.deleteBill({ onSuccess, onFailure });
   };
 
+  redirectToInTray = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/inTray`;
+  }
+
+  redirectOnSaveOrCancel = () => {
+    const state = this.store.getState();
+
+    if (getIsCreatingFromInTray(state)) {
+      this.redirectToInTray();
+    } else {
+      this.redirectToBillList();
+    }
+  }
+
   openCancelModal = () => {
     const state = this.store.getState();
 
@@ -246,7 +276,7 @@ export default class BillItemModule {
   openDeleteModal = () => this.dispatcher.openModal(ModalTypes.DeleteModal);
 
   confirmCancelModal = () => {
-    this.redirectToBillList();
+    this.redirectOnSaveOrCancel();
   };
 
   saveBill = () => {
@@ -283,8 +313,34 @@ export default class BillItemModule {
     SAVE_ACTION: this.saveBill,
   };
 
-  run(context) {
+  setInitialState = (context) => {
     this.dispatcher.setInitialState(context);
+
+    const state = this.store.getState();
+    if (getIsCreatingFromInTray(state)) {
+      this.prefillBillFromInTrayOnInit();
+    }
+  }
+
+  prefillBillFromInTrayOnInit() {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.prefillDataFromInTray(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.displayAlert(message);
+    };
+
+    this.integrator.prefillDataFromInTray({ onSuccess, onFailure });
+  }
+
+
+  run(context) {
+    this.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
   }

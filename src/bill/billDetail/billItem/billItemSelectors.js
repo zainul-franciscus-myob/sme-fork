@@ -25,6 +25,8 @@ export const getIsAnAmountInput = key => ['units', 'unitPrice', 'discount', 'amo
 
 export const getAlertMessage = state => state.alertMessage;
 
+const getBill = state => state.bill;
+
 export const getBillLinesArray = createSelector(
   state => state.bill.lines.length,
   len => Array(len).fill({}),
@@ -39,12 +41,16 @@ export const getBillLineByIndex = (state, { index }) => (
   state.bill.lines[index] ? state.bill.lines[index] : state.newLine
 );
 
+export const getInTrayDocumentId = state => state.inTrayDocumentId;
+
 export const getBillPayload = (state) => {
   const selectedSupplier = state.suppliers.find(supplier => supplier.id === state.bill.supplierId);
   const supplierName = selectedSupplier ? `${selectedSupplier.displayName}` : '';
+  const inTrayDocumentId = getInTrayDocumentId(state);
   return {
     ...state.bill,
     supplierName,
+    inTrayDocumentId,
   };
 };
 export const getIsPageEdited = state => state.isPageEdited;
@@ -147,5 +153,34 @@ export const getLinesAndTaxInclusive = state => ({
   lines: state.bill.lines,
   isTaxInclusive: state.bill.isTaxInclusive,
 });
+
+export const getIsCreatingFromInTray = state => getIsCreating(state) && state.inTrayDocumentId;
+
+export const getPageTitle = state => (getIsCreatingFromInTray(state) ? 'Create bill from In Tray' : 'Bill');
+
+export const isContactIncludedInContactOptions = (state, supplierId) => {
+  const contact = getSuppliers(state).find(({ id }) => id === supplierId);
+  return contact !== undefined;
+};
+
+export const getInTrayPrefillDetails = state => state.inTrayPrefillDetails;
+
+export const isAlreadyPrefilledFromInTray = state => getInTrayPrefillDetails(state) === undefined;
+
+export const shouldPrefillANewLineFromInTray = (state) => {
+  const linesAdded = getBill(state).lines.length > 0;
+
+  const amountFromInTrayDoc = getInTrayPrefillDetails(state).newLine.amount;
+
+  return !linesAdded && amountFromInTrayDoc;
+};
+
+export const getInTrayDocument = state => state.inTrayDocument;
+
+export const isBillLineFoundHavingAmountWithoutItem = (state, { index }) => {
+  // bill from in-tray scenario
+  const line = state.bill.lines[index];
+  return line && line.amount && !line.itemId;
+};
 
 export const getShouldLineSelectItem = (state, { index }) => state.bill.lines.length <= index;

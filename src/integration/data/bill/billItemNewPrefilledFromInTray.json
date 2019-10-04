@@ -1,0 +1,17 @@
+{
+  "bill": {
+    "supplierId": "2",
+    "invoiceNumber": "1234",
+    "issueDate": "2018-11-02",
+    "isTaxInclusive": true
+  },
+  "newLine": {
+    "amount": "48.66",
+    "displayAmount": "48.66"
+  },
+  "document": {
+    "thumbnailUrl": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
+    "fileUrl": "https://www.myob.com/content/dam/myob-website/images/logos/brand-logos/MYOB_logo_RGB_1475x779.png",
+    "uploadedDate": "04/04/2019"
+  }
+}
