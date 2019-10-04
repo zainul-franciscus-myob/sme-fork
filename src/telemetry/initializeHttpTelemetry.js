@@ -43,14 +43,26 @@ const identifyUser = (currentUserId) => {
   return currentUserId;
 };
 
+const removeAccessToken = (path) => {
+  const index = path.indexOf('access_token');
+  if (index === -1) {
+    return path;
+  }
+  return path.substr(0, index);
+};
+
 const getUrl = (businessId) => {
   const url = window.location.href;
-  return (businessId ? url.replace(`/${businessId}`, '') : url).replace('/#', '');
+  const urlWithoutBusinessId = businessId ? url.replace(`/${businessId}`, '') : url;
+  const urlWithoutHash = urlWithoutBusinessId.replace('/#', '');
+  return removeAccessToken(urlWithoutHash);
 };
 
 const getPath = (businessId) => {
   const path = window.location.hash;
-  return (businessId ? path.replace(`/${businessId}`, '') : path).replace('#', '');
+  const pathWithoutBusinessId = businessId ? path.replace(`/${businessId}`, '') : path;
+  const pathWithoutHash = pathWithoutBusinessId.replace('#', '');
+  return removeAccessToken(pathWithoutHash);
 };
 
 const recordPageVisit = (currentRouteName, userId, businessId) => {

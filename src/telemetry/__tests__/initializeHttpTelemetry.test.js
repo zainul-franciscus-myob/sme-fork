@@ -36,8 +36,8 @@ describe('Telemetry', () => {
 
     Object.defineProperty(window, 'location', {
       value: {
-        hash: '#/au/a-business-id/home',
-        href: 'http://localhost/#/au/a-business-id/home',
+        hash: '#/au/a-business-id/homeaccess_token="XYZ"',
+        href: 'http://localhost/#/au/a-business-id/home?access_token="ABCD"',
       },
     });
     getUser.mockImplementation(() => ({
@@ -63,7 +63,7 @@ describe('Telemetry', () => {
         {
           name: 'home',
           title: 'sme-web',
-          url: 'http://localhost/au/home',
+          url: 'http://localhost/au/home?',
           path: '/au/home',
           userId: 'mockuserId',
         },
