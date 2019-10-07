@@ -50,6 +50,7 @@ const doFetch = (intent, urlParams, allowParallelRequests, headers, body) => {
     headers,
     body,
     signal: controller.signal,
+    credentials: 'include',
   };
 
   const intentUrlPath = requestSpec.getPath(urlParams);
@@ -60,6 +61,7 @@ const doFetch = (intent, urlParams, allowParallelRequests, headers, body) => {
 
 const sendXHRRequest = (method, url, headers, body, onSuccess, onFailure, onProgress) => {
   const xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
   xhr.responseType = 'json';
   if (xhr.upload && onProgress) {
     xhr.upload.onprogress = (e) => {
@@ -120,6 +122,7 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
       method: requestSpec.method,
       headers: { ...getDefaultHttpHeaders(), ...additionalHeaders },
       signal: controller.signal,
+      credentials: 'include',
     };
 
     const intentUrlPath = requestSpec.getPath(urlParams);
@@ -159,6 +162,7 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
       method: requestSpec.method,
       headers: { ...getDefaultHttpHeaders(), ...additionalHeaders },
       signal: controller.signal,
+      credentials: 'include',
     };
 
     const intentUrlPath = requestSpec.getPath(urlParams);
