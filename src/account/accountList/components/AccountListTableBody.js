@@ -8,7 +8,11 @@ import styles from './AccountListTableBody.module.css';
 
 const StatusRowItem = ({ tableConfig, isInactive }) => (
   <Table.RowItem columnName={tableConfig.status.columnName}>
-    {isInactive && (<Label type="boxed" color="light-grey" size="small">Inactive</Label>)}
+    {
+      isInactive
+        ? <Label type="boxed" color="light-grey" size="small">Inactive</Label>
+        : <span className={styles.empty} />
+    }
   </Table.RowItem>
 );
 
