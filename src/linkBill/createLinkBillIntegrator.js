@@ -52,13 +52,15 @@ const createLinkBillIntegrator = (store, integration) => ({
   },
 
   sortLinkBillList: ({
-    sortKey, sortOrder, onSuccess, onFailure,
+    onSuccess, onFailure,
   }) => {
     const intent = SORT_AND_FILTER_BILL_LIST;
     const state = store.getState();
     const urlParams = {
       businessId: getBusinessId(state),
     };
+    const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
     const filterOptions = getAppliedFilterOptions(state);
 
     integration.read({
@@ -67,7 +69,7 @@ const createLinkBillIntegrator = (store, integration) => ({
       params: {
         ...filterOptions,
         sortOrder,
-        sortKey,
+        orderBy,
       },
       onSuccess,
       onFailure,
