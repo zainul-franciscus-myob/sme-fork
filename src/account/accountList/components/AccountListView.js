@@ -1,5 +1,5 @@
 import {
-  Alert, Button, PageHead, StandardTemplate, Tabs,
+  Alert, Button, PageHead, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -12,6 +12,7 @@ import { tabItems } from '../tabItems';
 import AccountListFilterOptions from './AccountListFilterOptions';
 import AccountListTable from './AccountListTable';
 import PageView from '../../../components/PageView/PageView';
+import Tabs from '../../../components/Tabs/Tabs';
 
 const AccountListView = ({
   alert,
@@ -30,7 +31,7 @@ const AccountListView = ({
   );
 
   const pageHead = (
-    <PageHead title="Account list">
+    <PageHead title="Accounts">
       <Button type="secondary" onClick={onEditLinkedAccountButtonClick}>Edit linked accounts</Button>
     </PageHead>
   );

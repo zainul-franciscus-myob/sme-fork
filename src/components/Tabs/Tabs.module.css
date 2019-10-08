@@ -1,0 +1,13 @@
+.select {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .tabs {
+    display: none;
+  }
+
+  .select {
+    display: unset;
+  }
+}

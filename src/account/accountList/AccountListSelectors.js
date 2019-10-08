@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import getRegionToDialectText from '../../dialect/getRegionToDialectText';
+
 export const getBusinessId = state => state.businessId;
 
 const getRegion = state => state.region;
@@ -19,6 +21,8 @@ export const getAppliedFilterOptionsShowInactive = state => state.appliedFilterO
 export const getAppliedFilterOptionsType = state => state.appliedFilterOptions.type;
 
 const getEntries = state => state.entries;
+
+export const getTableTaxCodeHeader = state => getRegionToDialectText(state.region)('Tax code header');
 
 export const getIsTableEmpty = state => state.entries.length === 0;
 

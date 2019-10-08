@@ -7,7 +7,7 @@ import { getAppliedFilterOptionsShowInactive, getTableEntries } from '../Account
 import styles from './AccountListTableBody.module.css';
 
 const StatusRowItem = ({ tableConfig, isInactive }) => (
-  <Table.RowItem {...tableConfig.status}>
+  <Table.RowItem columnName={tableConfig.status.columnName}>
     {isInactive && (<Label type="boxed" color="light-grey" size="small">Inactive</Label>)}
   </Table.RowItem>
 );
@@ -18,11 +18,13 @@ const AccountRowItem = ({
   const className = classNames({
     [styles.systemAccount]: isSystem,
     [styles.headerAccount]: isHeader,
+    [styles.indent]: indentLevel > 0,
+    [styles.empty]: value === '' || value === undefined,
   });
 
-  return (
-    <Table.RowItem {...config} indentLevel={indentLevel}>
-      <span className={className}>{value}</span>
+  return !config.isHidden && (
+    <Table.RowItem columnName={config.columnName} {...config.styles}>
+      <span title={value} className={className} data-indent-level={indentLevel}>{value}</span>
     </Table.RowItem>
   );
 };

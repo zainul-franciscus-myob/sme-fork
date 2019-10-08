@@ -3,22 +3,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAppliedFilterOptionsShowInactive, getIsTableEmpty, getIsTableLoading,
+  getAppliedFilterOptionsShowInactive, getIsTableEmpty, getIsTableLoading, getTableTaxCodeHeader,
 } from '../AccountListSelectors';
 import AccountListTableBody from './AccountListTableBody';
 import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../components/TableView/TableView';
 
-const tableConfig = {
-  accountNumber: { width: '18rem', valign: 'middle' },
-  accountName: { width: 'flex-1', valign: 'middle' },
-  status: { width: '10rem', valign: 'middle' },
-  type: { width: 'flex-1', valign: 'middle' },
-  taxCode: { width: '10rem', valign: 'middle' },
-  linked: { width: '8rem', valign: 'middle' },
-  level: { width: '8rem', valign: 'middle' },
-  balance: { width: '18rem', valign: 'middle', align: 'right' },
-};
 
 const emptyView = (
   <NoResultPageState
@@ -27,23 +17,41 @@ const emptyView = (
   />
 );
 
+const HeaderItem = ({ config }) => !config.isHidden && (
+  <Table.HeaderItem columnName={config.columnName} {...config.styles}>
+    {config.columnName}
+  </Table.HeaderItem>
+);
+
 const AccountListTable = (props) => {
   const {
     isTableLoading,
     isTableEmpty,
     showInactive,
+    taxCodeHeader,
   } = props;
+
+  const tableConfig = {
+    accountNumber: { columnName: 'Account number', styles: { width: 'flex-2', valign: 'middle' } },
+    accountName: { columnName: 'Account name', styles: { width: 'flex-3', valign: 'middle' } },
+    status: { columnName: 'Status', styles: { valign: 'middle' }, isHidden: !showInactive },
+    type: { columnName: 'Account type', styles: { width: 'flex-2', valign: 'middle' } },
+    taxCode: { columnName: taxCodeHeader, styles: { valign: 'middle' } },
+    linked: { columnName: 'Linked', styles: { valign: 'middle' } },
+    level: { columnName: 'Level', styles: { valign: 'middle' } },
+    balance: { columnName: 'Current balance ($)', styles: { width: 'flex-2', valign: 'middle', align: 'right' } },
+  };
 
   const header = (
     <Table.Header>
-      <Table.HeaderItem {...tableConfig.accountNumber} columnName="accountNumber">Account number</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.accountName} columnName="accountName">Account name</Table.HeaderItem>
-      { showInactive && <Table.HeaderItem {...tableConfig.status} columnName="status">Status</Table.HeaderItem>}
-      <Table.HeaderItem {...tableConfig.type} columnName="type">Type</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.taxCode} columnName="taxCode">Tax code</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.linked} columnName="linked">Linked</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.level} columnName="level">Level</Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.balance} columnName="balance">Current balance ($)</Table.HeaderItem>
+      <HeaderItem config={tableConfig.accountNumber} />
+      <HeaderItem config={tableConfig.accountName} />
+      <HeaderItem config={tableConfig.status} />
+      <HeaderItem config={tableConfig.type} />
+      <HeaderItem config={tableConfig.taxCode} />
+      <HeaderItem config={tableConfig.linked} />
+      <HeaderItem config={tableConfig.level} />
+      <HeaderItem config={tableConfig.balance} />
     </Table.Header>
   );
 
@@ -63,6 +71,7 @@ const mapStateToProps = state => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   showInactive: getAppliedFilterOptionsShowInactive(state),
+  taxCodeHeader: getTableTaxCodeHeader(state),
 });
 
 export default connect(mapStateToProps)(AccountListTable);
