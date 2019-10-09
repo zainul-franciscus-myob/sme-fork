@@ -15,7 +15,7 @@ import {
 import createReducer from '../../store/createReducer';
 import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
-const getDefaultDateRange = addMonths(new Date(), -3);
+const getDefaultDateRange = () => addMonths(new Date(), -3);
 
 const getInitialState = () => ({
   layout: '',
