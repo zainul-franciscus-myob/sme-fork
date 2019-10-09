@@ -1,5 +1,3 @@
-import dateFormat from 'dateformat';
-
 import {
   ADD_GENERAL_JOURNAL_LINE,
   CLOSE_MODAL,
@@ -21,6 +19,7 @@ import {
 } from '../../SystemIntents';
 import { getDefaultTaxCodeId } from './generalJournalDetailSelectors';
 import createReducer from '../../store/createReducer';
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   generalJournal: {
@@ -124,8 +123,6 @@ const loadGeneralJournalDetail = (state, action) => ({
   pageTitle: action.pageTitle,
 });
 
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
-
 const updateGeneralJournalLine = (line, { lineKey, lineValue }) => {
   const updatedLine = {
     ...line,
@@ -195,7 +192,7 @@ const loadNewGeneralJournal = (state, action) => ({
   generalJournal: {
     ...state.generalJournal,
     ...action.generalJournal,
-    date: convertToDateString(Date.now()),
+    date: formatIsoDate(new Date()),
     originalReferenceId: action.generalJournal.referenceId,
   },
   newLine: { ...state.newLine, ...action.newLine },

@@ -1,5 +1,3 @@
-import { format as dateFormat } from 'date-fns';
-
 import {
   CLOSE_MODAL,
   FORMAT_AMOUNT_INPUT,
@@ -17,8 +15,7 @@ import {
 } from '../BillPaymentIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
-
-const convertToDateString = time => dateFormat(Number(time), 'YYYY-MM-DD');
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   region: '',
@@ -32,7 +29,7 @@ const getDefaultState = () => ({
   referenceId: '',
   originalReferenceId: '',
   description: '',
-  date: convertToDateString(Date.now()),
+  date: formatIsoDate(new Date()),
   entries: [],
   totalPaid: '',
   isLoading: true,

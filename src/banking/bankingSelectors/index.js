@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
-import { format } from 'date-fns';
 
 import { businessEventTypes } from '../businessEventTypes';
 import { tabIds } from '../tabItems';
+import formatSlashDate from '../../valueFormatters/formatDate/formatSlashDate';
 
 export const getOrderBy = ({ orderBy }) => orderBy;
 
@@ -62,7 +62,7 @@ export const getBankEntryByIndexSelector = () => createSelector(
       ...entry,
       deposit: entry.deposit && formatAmount(entry.deposit),
       withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
-      displayDate: format(entry.date, 'DD/MM/YYYY'),
+      displayDate: formatSlashDate(entry.date),
       accountList,
       isLineDisabled: entry.isLoading,
     });

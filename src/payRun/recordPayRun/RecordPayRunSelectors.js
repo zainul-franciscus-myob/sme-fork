@@ -1,6 +1,4 @@
-import dateFormat from 'dateformat';
-
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 export const getNumberOfSelected = state => (
   state.employeePayList.lines.filter(line => line.isSelected).length
@@ -14,7 +12,7 @@ const getPaymentInformation = state => ({
 });
 
 export const getRecordPayContents = state => ({
-  dateOccurred: convertToDateString(Date.now()),
+  dateOccurred: formatIsoDate(new Date()),
   employeePayLines: state.employeePayList.lines.filter(line => line.isSelected),
   ...getPaymentInformation(state),
 });

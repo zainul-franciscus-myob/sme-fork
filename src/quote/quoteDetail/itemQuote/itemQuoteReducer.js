@@ -1,5 +1,3 @@
-import dateFormat from 'dateformat';
-
 import {
   ADD_TABLE_ROW,
   CALCULATE_LINES,
@@ -20,8 +18,7 @@ import {
 } from '../../QuoteIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
-
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
+import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   businessId: '',
@@ -39,7 +36,7 @@ const getDefaultState = () => ({
     isTaxInclusive: false,
     quoteNumber: '',
     purchaseOrder: '',
-    issueDate: convertToDateString(Date.now()),
+    issueDate: formatIsoDate(new Date()),
     note: '',
     lines: [],
   },

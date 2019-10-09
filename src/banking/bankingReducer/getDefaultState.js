@@ -1,10 +1,10 @@
-import { format } from 'date-fns';
+import { addMonths } from 'date-fns';
 
 import { getDefaultOpenPosition } from '../bankingSelectors';
 import { tabIds } from '../tabItems';
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
-const convertToDateString = time => format(new Date(Number(time)), 'YYYY-MM-DD');
-const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
+const getDefaultDateRange = () => addMonths(new Date(), -3);
 
 const getDefaultState = () => ({
   entries: [],
@@ -30,15 +30,15 @@ const getDefaultState = () => ({
   filterOptions: {
     transactionType: 'All',
     bankAccount: '',
-    dateFrom: convertToDateString(getDefaultDateRange()),
-    dateTo: convertToDateString(Date.now()),
+    dateFrom: formatIsoDate(getDefaultDateRange()),
+    dateTo: formatIsoDate(new Date()),
     keywords: '',
   },
   appliedFilterOptions: {
     transactionType: 'All',
     bankAccount: '',
-    dateFrom: convertToDateString(getDefaultDateRange()),
-    dateTo: convertToDateString(Date.now()),
+    dateFrom: formatIsoDate(getDefaultDateRange()),
+    dateTo: formatIsoDate(new Date()),
     keywords: '',
   },
   orderBy: '',

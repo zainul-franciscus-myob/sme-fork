@@ -1,5 +1,3 @@
-import { format as dateFormat } from 'date-fns';
-
 import {
   CLOSE_MODAL,
   FORMAT_AMOUNT,
@@ -19,6 +17,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import { getIsAllSelected } from './BankReconciliationSelectors';
 import createReducer from '../store/createReducer';
+import formatIsoDate from '../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   isLoading: true,
@@ -26,7 +25,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
   isModalActive: false,
   alert: undefined,
-  statementDate: dateFormat(Number(Date.now()), 'YYYY-MM-DD'),
+  statementDate: formatIsoDate(new Date()),
   selectedAccountId: '',
   closingBankStatementBalance: '',
   calculatedClosingBalance: 0,
@@ -141,7 +140,7 @@ const setSortOrder = (state, { orderBy }) => ({
 
 const updateReconciliationResult = state => ({
   ...state,
-  lastReconcileDate: dateFormat(Number(Date.now()), 'YYYY-MM-DD'),
+  lastReconcileDate: formatIsoDate(new Date()),
   entries: state.entries.filter(entry => !entry.isChecked),
 });
 

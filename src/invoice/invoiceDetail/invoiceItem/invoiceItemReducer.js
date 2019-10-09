@@ -1,5 +1,3 @@
-import dateFormat from 'dateformat';
-
 import {
   ADD_LINE,
   FORMAT_LINE_AMOUNT,
@@ -30,12 +28,11 @@ import {
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import SaveActionType from '../SaveActionType';
 import createReducer from '../../../store/createReducer';
-
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
+import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
 const buildIssueDate = (invoiceId, issueDate) => {
   if (invoiceId === 'newItem') {
-    return convertToDateString(Date.now());
+    return formatIsoDate(new Date());
   }
   return issueDate;
 };

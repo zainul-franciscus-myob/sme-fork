@@ -1,5 +1,3 @@
-import dateFormat from 'dateformat';
-
 import {
   ADD_BILL_SERVICE_LINE,
   FORMAT_BILL_SERVICE_LINE,
@@ -30,10 +28,7 @@ import {
   shouldPrefillANewLineFromInTray,
 } from './billServiceSelectors';
 import createReducer from '../../../store/createReducer';
-
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
-
-const defaultIssueDate = () => convertToDateString(Date.now());
+import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   bill: {
@@ -48,7 +43,7 @@ const getDefaultState = () => ({
     isReportable: false,
     number: '',
     address: '',
-    issueDate: defaultIssueDate(),
+    issueDate: formatIsoDate(new Date()),
     orderNumber: '',
     notes: '',
     journalMemo: '',

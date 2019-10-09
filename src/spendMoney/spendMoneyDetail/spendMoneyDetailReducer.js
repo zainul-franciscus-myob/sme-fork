@@ -1,5 +1,3 @@
-import dateFormat from 'dateformat';
-
 import {
   ADD_ATTACHMENTS,
   ADD_SPEND_MONEY_LINE,
@@ -29,6 +27,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getDefaultTaxCodeId, getIsContactReportable, getIsReportable } from './spendMoneyDetailSelectors';
 import createReducer from '../../store/createReducer';
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   spendMoney: {
@@ -73,8 +72,6 @@ const getDefaultState = () => ({
 const pageEdited = { isPageEdited: true };
 
 const resetState = () => (getDefaultState());
-
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
 const isAccountLineItem = lineKey => lineKey === 'accountId';
 const updateSpendMoneyLine = (line, { lineKey, lineValue }) => {
@@ -166,7 +163,7 @@ const loadNewSpendMoney = (state, action) => ({
   spendMoney: {
     ...state.spendMoney,
     ...action.spendMoney,
-    date: convertToDateString(Date.now()),
+    date: formatIsoDate(new Date()),
     originalReferenceId: action.spendMoney.referenceId,
   },
   newLine: { ...state.newLine, ...action.newLine },

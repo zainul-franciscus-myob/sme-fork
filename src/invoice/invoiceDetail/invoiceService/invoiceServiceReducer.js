@@ -1,5 +1,3 @@
-import dateFormat from 'dateformat';
-
 import {
   ADD_INVOICE_SERVICE_LINE,
   FORMAT_INVOICE_SERVICE_LINE,
@@ -29,8 +27,7 @@ import { getDefaultTaxCodeId, getLineByIndex } from './invoiceServiceSelectors';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import SaveActionType from '../SaveActionType';
 import createReducer from '../../../store/createReducer';
-
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
+import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
 const getEmailInvoiceDefaultState = () => ({
   hasEmailReplyDetails: false,
@@ -59,7 +56,7 @@ const getDefaultState = () => ({
     taxInclusive: true,
     number: '',
     address: '',
-    issueDate: convertToDateString(Date.now()),
+    issueDate: formatIsoDate(new Date()),
     orderNumber: '',
     notes: '',
     amountPaid: '0.00',

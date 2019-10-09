@@ -1,10 +1,11 @@
-import { addDays, format } from 'date-fns';
+import { addDays } from 'date-fns';
 import { createSelector } from 'reselect';
 
 import { businessEventFeatures } from '../businessEventTypes';
 import {
   formatAmount, getBusinessId, getEntries, getFilterOptions, getRegion,
 } from './index';
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 export const getMatchTransactionFilterOptions = state => state.openEntry.match.filterOptions;
 
@@ -39,8 +40,6 @@ export const getOrder = createSelector(
   }),
 );
 
-const convertToDateString = date => format(date, 'YYYY-MM-DD');
-
 export const getDefaultMatchTransactionFilterOptions = (accountId, line) => {
   const {
     date: dateString,
@@ -50,8 +49,8 @@ export const getDefaultMatchTransactionFilterOptions = (accountId, line) => {
   } = line;
 
   const date = new Date(dateString);
-  const dateFrom = convertToDateString(addDays(date, -5));
-  const dateTo = convertToDateString(addDays(date, 5));
+  const dateFrom = formatIsoDate(addDays(date, -5));
+  const dateTo = formatIsoDate(addDays(date, 5));
 
   const amount = (withdrawal || deposit);
   const amountFrom = amount - 0.1;

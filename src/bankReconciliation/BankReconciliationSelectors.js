@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
-import { format } from 'date-fns';
 
 import { businessEventFeatures } from '../banking/businessEventTypes';
+import formatSlashDate from '../valueFormatters/formatDate/formatSlashDate';
 
 export const getIsLoading = state => state.isLoading;
 export const getIsTableLoading = state => state.isTableLoading;
@@ -55,7 +55,8 @@ export const getOptions = createStructuredSelector({
   closingBankStatementBalance: state => state.closingBankStatementBalance,
   calculatedClosingBalance: state => formatCurrency(state.calculatedClosingBalance),
   outOfBalance: state => getFormattedOutOfBalance(state),
-  lastReconcileDate: state => state.lastReconcileDate && format(state.lastReconcileDate, 'DD/MM/YYYY'),
+  lastReconcileDate: state => (
+    state.lastReconcileDate && formatSlashDate(new Date(state.lastReconcileDate))),
   accounts: state => state.accounts,
 });
 
@@ -80,7 +81,7 @@ export const getEntries = createSelector(
   (businessId, region, entries) => entries.map(entry => ({
     journalLineId: entry.journalLineId,
     link: getEntryLink(entry, businessId, region),
-    date: format(entry.date, 'DD/MM/YYYY'),
+    date: formatSlashDate(new Date(entry.date)),
     referenceId: entry.referenceId,
     isChecked: entry.isChecked,
     description: entry.description,

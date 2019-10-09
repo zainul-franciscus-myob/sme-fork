@@ -1,4 +1,4 @@
-import dateFormat from 'dateformat';
+import { addMonths } from 'date-fns';
 
 import {
   LOAD_TRANSACTION_LIST,
@@ -13,23 +13,23 @@ import {
   SET_INITIAL_STATE,
 } from '../SystemIntents';
 import createReducer from '../store/createReducer';
+import formatIsoDate from '../valueFormatters/formatDate/formatIsoDate';
 
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
-const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
+const getDefaultDateRange = () => addMonths(new Date(), -3);
 
 const getDefaultState = () => ({
   entries: [],
   sourceJournalFilters: [],
   filterOptions: {
     sourceJournal: '',
-    dateFrom: convertToDateString(getDefaultDateRange()),
-    dateTo: convertToDateString(Date.now()),
+    dateFrom: formatIsoDate(getDefaultDateRange()),
+    dateTo: formatIsoDate(new Date()),
     keywords: '',
   },
   appliedFilterOptions: {
     sourceJournal: '',
-    dateFrom: convertToDateString(getDefaultDateRange()),
-    dateTo: convertToDateString(Date.now()),
+    dateFrom: formatIsoDate(getDefaultDateRange()),
+    dateTo: formatIsoDate(new Date()),
     keywords: '',
   },
   sortOrder: '',

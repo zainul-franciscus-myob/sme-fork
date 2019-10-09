@@ -1,17 +1,15 @@
 import {
   addDays, getDaysInMonth, subDays, subMonths,
 } from 'date-fns';
-import dateFormat from 'dateformat';
 
 import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../PayRunIntents';
-
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 export const getStartPayRunDefaultState = () => ({
   paymentFrequency: 'Weekly',
-  paymentDate: convertToDateString(Date.now()),
+  paymentDate: formatIsoDate(new Date()),
   payPeriodStart: '2019-01-01',
-  payPeriodEnd: convertToDateString(Date.now()),
+  payPeriodEnd: formatIsoDate(new Date()),
   regularPayCycleOptions: [],
 });
 
@@ -33,7 +31,7 @@ const calculateStartDate = (payCycle, endDateString) => {
     startDate = subDays(endDate, Math.round(days / 2) - 1);
   }
 
-  return convertToDateString(startDate);
+  return formatIsoDate(startDate);
 };
 
 const startNewPayRun = (state, { startPayRun, regularPayCycleOptions }) => ({
@@ -49,7 +47,7 @@ const setPayPeriodDetails = (state, { key, value }) => {
     startPayRunPartial = {
       [key]: key === 'payPeriodStart'
         ? calculateStartDate(state.paymentFrequency, state.payPeriodEnd)
-        : convertToDateString(Date.now()),
+        : formatIsoDate(new Date()),
     };
   } else if (key === 'paymentFrequency') {
     startPayRunPartial = {

@@ -1,5 +1,3 @@
-import { format as dateFormat } from 'date-fns';
-
 import {
   CLOSE_MODAL,
   FORMAT_AMOUNT_INPUT,
@@ -16,8 +14,7 @@ import {
 } from './SupplierReturnPurchaseIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import createReducer from '../store/createReducer';
-
-const convertToDateString = time => dateFormat(Number(time), 'YYYY-MM-DD');
+import formatIsoDate from '../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   supplierReturnPurchase: {
@@ -26,7 +23,7 @@ const getDefaultState = () => ({
     description: '',
     referenceId: '',
     originalReferenceId: '',
-    date: convertToDateString(Date.now()),
+    date: formatIsoDate(new Date()),
     includeClosedPurchases: false,
     purchases: [],
     debitAmount: '',

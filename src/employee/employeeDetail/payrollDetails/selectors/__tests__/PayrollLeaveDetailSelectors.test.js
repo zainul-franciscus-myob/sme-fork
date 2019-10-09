@@ -1,5 +1,4 @@
 import {
-  formatDate,
   getFilteredLeavePayItemOptions,
   getLeavePayItems,
 } from '../PayrollLeaveDetailSelectors';
@@ -17,14 +16,7 @@ describe('PayrollLeaveDetailSelectors', () => {
       expect(actual.find(item => item.id === '2')).toBeTruthy();
     });
   });
-  describe('formatDate', () => {
-    it('returns the date formatted as DD/MM/YYYY', () => {
-      const date = '2019-08-06';
-      const expectedDate = '06/08/2019';
-      const actualDate = formatDate(date);
-      expect(actualDate).toEqual(expectedDate);
-    });
-  });
+
   describe('getLeavePayItems', () => {
     it('calculates the sum of the carry over and year to date amounts', () => {
       const state = {

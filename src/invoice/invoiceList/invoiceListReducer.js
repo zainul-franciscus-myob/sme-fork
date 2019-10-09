@@ -1,4 +1,4 @@
-import dateFormat from 'dateformat';
+import { addMonths } from 'date-fns';
 
 import {
   LOAD_INVOICE_LIST,
@@ -13,21 +13,20 @@ import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
-
-const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
+const getDefaultDateRange = addMonths(new Date(), -3);
 
 const getInitialState = () => ({
   layout: '',
   filterOptions: {
-    dateFrom: convertToDateString(getDefaultDateRange()),
-    dateTo: convertToDateString(Date.now()),
+    dateFrom: formatIsoDate(getDefaultDateRange()),
+    dateTo: formatIsoDate(new Date()),
     keywords: '',
   },
   appliedFilterOptions: {
-    dateFrom: convertToDateString(getDefaultDateRange()),
-    dateTo: convertToDateString(Date.now()),
+    dateFrom: formatIsoDate(getDefaultDateRange()),
+    dateTo: formatIsoDate(new Date()),
     keywords: '',
   },
   customerFilterOptions: [],

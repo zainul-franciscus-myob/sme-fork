@@ -1,5 +1,3 @@
-import { format as dateFormat } from 'date-fns';
-
 import {
   CLOSE_MODAL,
   LOAD_RECEIVE_REFUND,
@@ -11,8 +9,7 @@ import {
 } from '../ReceiveRefundIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
-
-const convertToDateString = time => dateFormat(Number(time), 'YYYY-MM-DD');
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   businessId: '',
@@ -21,7 +18,7 @@ const getDefaultState = () => ({
   refundId: '',
   refund: {
     referenceId: '',
-    date: convertToDateString(Date.now()),
+    date: formatIsoDate(new Date()),
     contactName: '',
     accountId: '',
     accountName: '',

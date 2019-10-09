@@ -3,15 +3,15 @@ import {
   addMonths,
   eachDay,
   endOfMonth,
-  format,
   getDaysInMonth,
   setDate,
   startOfMonth,
 } from 'date-fns';
 import { createSelector } from 'reselect';
-import dateFormat from 'dateformat';
 
 import TaxState from './TaxState';
+import formatDate from '../../../valueFormatters/formatDate/formatDate';
+import formatSlashDate from '../../../valueFormatters/formatDate/formatSlashDate';
 
 export const getBusinessId = state => state.businessId;
 export const getQuoteId = state => state.quoteId;
@@ -67,7 +67,6 @@ const getExpiredDateNumberOfDaysAfterEOM = (issueDate, expirationDays) => {
   return addDays(date, expirationDays);
 };
 
-const formatExpiredDate = date => dateFormat(date, 'dd/mm/yyyy');
 const calculateDate = (issueDate, expirationTerm, expirationDays) => {
   if (expirationTerm === 'OnADayOfTheMonth') {
     return getExpiredDateOnADayOfTheMonth(issueDate, expirationDays);
@@ -91,7 +90,7 @@ export const getExpiredDate = createSelector(
   getExpirationDays,
   (issueDate, expirationTerm, expirationDays) => {
     const calculatedDate = calculateDate(issueDate, expirationTerm, expirationDays);
-    return formatExpiredDate(calculatedDate);
+    return formatSlashDate(new Date(calculatedDate));
   },
 );
 
@@ -184,8 +183,8 @@ export const getDisplayDaysForMonth = createSelector(
       : nextMonth;
 
     return eachDay(startOfMonth(month), endOfMonth(month)).map(day => ({
-      name: format(day, 'Do'),
-      value: format(day, 'D'),
+      name: formatDate(day, 'Do'),
+      value: formatDate(day, 'D'),
     }));
   },
 );

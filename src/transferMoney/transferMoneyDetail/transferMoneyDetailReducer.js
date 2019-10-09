@@ -1,5 +1,3 @@
-import dateFormat from 'dateformat';
-
 import {
   CLOSE_MODAL,
   FORMAT_AMOUNT,
@@ -15,6 +13,7 @@ import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   transferMoney: {
@@ -37,7 +36,6 @@ const getDefaultState = () => ({
 });
 
 const pageEdited = { isPageEdited: true };
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
 const loadTransferMoneyDetail = (state, { transferMoney }) => ({
   ...state,
@@ -54,7 +52,7 @@ const loadNewTransferMoney = (state, { transferMoney }) => ({
   transferMoney: {
     ...state.transferMoney,
     ...transferMoney,
-    date: convertToDateString(Date.now()),
+    date: formatIsoDate(new Date()),
     originalReferenceId: transferMoney.referenceId,
   },
   isLoading: false,

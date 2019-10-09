@@ -1,10 +1,9 @@
-import dateFormat from 'dateformat';
-
 import {
   FORMAT_LINE_AMOUNT, REMOVE_LINE, TABLE_ROW_CHANGE, UPDATE_BILL_OPTION,
 } from '../BillItemIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import billItemReducer from '../billItemReducer';
+import formatIsoDate from '../../../../valueFormatters/formatDate/formatIsoDate';
 
 
 describe('billItemReducer', () => {
@@ -53,7 +52,7 @@ describe('billItemReducer', () => {
       const actual = reducer(state, action);
 
       const expectedBill = {
-        issueDate: dateFormat(Number(Date.now()), 'yyyy-mm-dd'),
+        issueDate: formatIsoDate(new Date()),
       };
 
       expect(actual.bill).toEqual(expectedBill);

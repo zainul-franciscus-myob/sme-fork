@@ -1,5 +1,3 @@
-import dateFormat from 'dateformat';
-
 import {
   ADD_RECEIVE_MONEY_LINE,
   CLOSE_MODAL,
@@ -21,6 +19,7 @@ import {
 } from '../../SystemIntents';
 import { getDefaultTaxCodeId } from './receiveMoneyDetailSelectors';
 import createReducer from '../../store/createReducer';
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   receiveMoney: {
@@ -93,8 +92,6 @@ const loadReceiveMoneyDetail = (state, action) => ({
   pageTitle: action.pageTitle,
 });
 
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
-
 const isAccountLineItem = lineKey => lineKey === 'accountId';
 const updateReceiveMoneyLine = (line, { lineKey, lineValue }) => {
   const updatedLine = {
@@ -162,7 +159,7 @@ const loadNewReceiveMoney = (state, action) => ({
   receiveMoney: {
     ...state.receiveMoney,
     ...action.receiveMoney,
-    date: convertToDateString(Date.now()),
+    date: formatIsoDate(new Date()),
     originalReferenceId: action.receiveMoney.referenceId,
   },
   newLine: { ...state.newLine, ...action.newLine },

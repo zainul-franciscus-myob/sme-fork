@@ -1,4 +1,4 @@
-import { format as dateFormat } from 'date-fns';
+import { addMonths } from 'date-fns';
 
 import {
   ADD_IN_TRAY_LIST_ENTRY,
@@ -40,10 +40,9 @@ import {
   setUploadOptionsLoadingState,
 } from './uploadOptionsReducer';
 import createReducer from '../../store/createReducer';
+import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
-const convertToDateString = time => dateFormat(Number(time), 'YYYY-MM-DD');
-
-const getDefaultDateRange = () => new Date().setMonth(new Date().getMonth() - 3);
+const getDefaultDateRange = () => addMonths(new Date(), -3);
 
 const getDefaultState = () => ({
   isLoading: true,
@@ -57,13 +56,13 @@ const getDefaultState = () => ({
   inTrayList: {
     isTableLoading: false,
     filterOptions: {
-      invoiceDateFrom: convertToDateString(getDefaultDateRange()),
-      invoiceDateTo: convertToDateString(Date.now()),
+      invoiceDateFrom: formatIsoDate(getDefaultDateRange()),
+      invoiceDateTo: formatIsoDate(new Date()),
       keywords: '',
     },
     appliedFilterOptions: {
-      invoiceDateFrom: convertToDateString(getDefaultDateRange()),
-      invoiceDateTo: convertToDateString(Date.now()),
+      invoiceDateFrom: formatIsoDate(getDefaultDateRange()),
+      invoiceDateTo: formatIsoDate(new Date()),
       keywords: '',
     },
     sortOrder: '',

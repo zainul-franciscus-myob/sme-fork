@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect/lib/index';
-import { format } from 'date-fns';
 
 import { getStartDate, getTerminationDate } from './EmploymentDetailsSelectors';
+import formatSlashDate from '../../../../valueFormatters/formatDate/formatSlashDate';
 
 export const getLeavePayItemOptions = state => state.leavePayItemOptions;
 
@@ -10,10 +10,6 @@ export const getAllocatedLeavePayItems = state => state.payrollDetails.leaveDeta
 
 const getAllocatedLeaveItemModal = state => state.payrollDetails.leaveDetails.modal;
 
-export const formatDate = date => format(
-  new Date(date),
-  'DD/MM/YYYY',
-);
 
 const getNumberOrZero = value => (Number.isNaN(Number(value)) ? 0 : Number(value));
 
@@ -56,8 +52,8 @@ export const getLeaveDetail = createSelector(
     allocatedLeavePayItemOptions,
     allocatedLeavePayItemModal,
   ) => ({
-    startDate: startDate ? formatDate(startDate) : '-',
-    terminationDate: terminationDate ? formatDate(terminationDate) : '-',
+    startDate: startDate ? formatSlashDate(new Date(startDate)) : '-',
+    terminationDate: terminationDate ? formatSlashDate(new Date(terminationDate)) : '-',
     showAllocatedLeavePayItems: !terminationDate,
     allocatedLeavePayItems,
     allocatedLeavePayItemOptions,

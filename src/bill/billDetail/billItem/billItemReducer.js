@@ -1,5 +1,3 @@
-import dateFormat from 'dateformat';
-
 import {
   ADD_LINE,
   CLOSE_MODAL,
@@ -27,8 +25,8 @@ import {
   shouldPrefillANewLineFromInTray,
 } from './billItemSelectors';
 import createReducer from '../../../store/createReducer';
+import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
 
 const getDefaultState = () => ({
   layout: '',
@@ -77,7 +75,7 @@ const getDefaultState = () => ({
 
 const setIssueDate = (context, payload) => {
   if (context.billId === 'new') {
-    return convertToDateString(Date.now());
+    return formatIsoDate(new Date());
   }
   return payload.bill.issueDate;
 };

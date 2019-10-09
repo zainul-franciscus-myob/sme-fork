@@ -1,5 +1,3 @@
-import { format as dateFormat } from 'date-fns';
-
 import {
   FORMAT_TABLE_AMOUNT_INPUT,
   LOAD_APPLY_TO_SALE,
@@ -17,8 +15,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import createReducer from '../store/createReducer';
 import formatAmount from './formatAmount';
-
-const convertToDateString = time => dateFormat(Number(time), 'YYYY-MM-DD');
+import formatIsoDate from '../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   region: '',
@@ -96,7 +93,7 @@ const loadNewApplyToSale = (state, action) => ({
   description: action.applyToSale.description,
   reference: action.applyToSale.reference,
   originalReferenceId: action.applyToSale.reference,
-  date: convertToDateString(Date.now()),
+  date: formatIsoDate(new Date()),
   includeClosedSales: action.applyToSale.includeClosedSales,
   invoices: action.applyToSale.invoices,
 });

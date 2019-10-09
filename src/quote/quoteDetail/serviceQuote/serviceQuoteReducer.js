@@ -1,5 +1,3 @@
-import dateFormat from 'dateformat';
-
 import {
   ADD_SERVICE_QUOTE_LINE,
   CLOSE_MODAL,
@@ -23,8 +21,7 @@ import {
 } from '../../../SystemIntents';
 import { getDefaultTaxCodeId, getLineByIndex } from './ServiceQuoteSelectors';
 import createReducer from '../../../store/createReducer';
-
-const convertToDateString = time => dateFormat(Number(time), 'yyyy-mm-dd');
+import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   isLoading: true,
@@ -41,7 +38,7 @@ const getDefaultState = () => ({
     taxInclusive: true,
     quoteNumber: '',
     address: '',
-    issueDate: convertToDateString(Date.now()),
+    issueDate: formatIsoDate(new Date()),
     purchaseOrderNumber: '',
     notesToCustomer: '',
     lines: [],
