@@ -2,9 +2,10 @@
 import { Aside, Button, Separator } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 
-// import AsideHeader from '../Aside/AsideHeader';
 import FilterItem from './FilterItem';
+import styles from './FilterMore.module.css';
 
 class FilterMore extends React.Component {
   static propTypes = {
@@ -84,14 +85,14 @@ class FilterMore extends React.Component {
           <Button
             onClick={this.handleToggle}
             type="secondary"
-            className="filter-bar__toggle"
+            className={classNames('filter-bar__toggle', styles.unwrap)}
           >
             {this.props.filterButtonName}
           </Button>
         </FilterItem>
         {this.state.showMoreFilters ? (
           /* SME-WEB: Add form to enable submit on hitting Enter key */
-          <form onSubmit={this.handleSubmit(this.props.onApply)} className="flx-side-panel">
+          <form onSubmit={this.handleSubmit(this.props.onApply)} className={classNames('flx-side-panel', styles.filterMore)}>
             <Aside
               header={(
                 <Aside.Header

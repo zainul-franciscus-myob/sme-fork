@@ -1,0 +1,9 @@
+.filterMore :global(.flx-aside) {
+  min-width: unset;
+}
+
+@media (max-width: 320px) {
+  .unwrap {
+    white-space: unset;
+  }
+}
