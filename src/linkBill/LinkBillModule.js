@@ -101,7 +101,7 @@ export default class LinkBillModule {
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.setAlert({
-        type: 'success',
+        type: 'danger',
         message,
       });
     };
