@@ -26,8 +26,9 @@
 }
 
 .bankFeed {
-  flex: 1 1 0;
+  width: 50%;
   padding: var(--flx-spacing-small);
+  overflow-wrap: break-word;
 }
 
 .bankFeed h2 {
@@ -38,7 +39,7 @@
 .bankFeedImage {
   display: flex;
   align-items: flex-end;
-  flex: 1 1 0;
+  width: 50%;
 }
 
 .bankFeedImage img {
