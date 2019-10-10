@@ -7,10 +7,21 @@
   font-weight: var(--flx-font-weight-bold);
 }
 
-.indent[data-indent-level='1'] { padding-left: 2rem; }
-.indent[data-indent-level='2'] { padding-left: 4rem; }
-.indent[data-indent-level='3'] { padding-left: 6rem; }
-.indent[data-indent-level='4'] { padding-left: 8rem; }
+.indent[data-indent-level="1"] {
+  padding-left: 2rem;
+}
+
+.indent[data-indent-level="2"] {
+  padding-left: 4rem;
+}
+
+.indent[data-indent-level="3"] {
+  padding-left: 6rem;
+}
+
+.indent[data-indent-level="4"] {
+  padding-left: 8rem;
+}
 
 @media (max-width: 768px) {
   .indent[data-indent-level] {
@@ -25,7 +36,7 @@
    * Expect the feature coming in after version 5.7.0
    */
   .empty::before {
-    content: '-';
+    content: "-";
   }
 
   .systemAccount {
@@ -38,7 +49,7 @@
   }
 }
 
-@media (min-width: 769px) {
+@media (pointer: coarse) and (min-width: 768px) {
   :global(.table-data__cell--nowrap) {
     min-width: 0;
     overflow: hidden;

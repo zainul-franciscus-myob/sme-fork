@@ -5,6 +5,9 @@ import React from 'react';
 import {
   getAppliedFilterOptionsShowInactive, getIsTableEmpty, getIsTableLoading, getTableTaxCodeHeader,
 } from '../AccountListSelectors';
+import {
+  withStatus, withoutStatus,
+} from './AccountListWidthConfig';
 import AccountListTableBody from './AccountListTableBody';
 import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../components/TableView/TableView';
@@ -32,15 +35,19 @@ const AccountListTable = (props) => {
   } = props;
 
   const tableConfig = {
-    accountNumber: { columnName: 'Account number', styles: { width: 'flex-2', valign: 'middle' } },
-    accountName: { columnName: 'Account name', styles: { width: 'flex-3', valign: 'middle' } },
+    accountNumber: { columnName: 'Account number', styles: { valign: 'middle' } },
+    accountName: { columnName: 'Account name', styles: { valign: 'middle' } },
     status: { columnName: 'Status', styles: { valign: 'middle' }, isHidden: !showInactive },
-    type: { columnName: 'Account type', styles: { width: 'flex-2', valign: 'middle' } },
+    type: { columnName: 'Account type', styles: { valign: 'middle' } },
     taxCode: { columnName: taxCodeHeader, styles: { valign: 'middle' } },
     linked: { columnName: 'Linked', styles: { valign: 'middle' } },
     level: { columnName: 'Level', styles: { valign: 'middle' } },
-    balance: { columnName: 'Current balance ($)', styles: { width: 'flex-2', valign: 'middle', align: 'right' } },
+    balance: { columnName: 'Current balance ($)', styles: { valign: 'middle', align: 'right' } },
   };
+
+  const responsiveWidths = (showInactive)
+    ? withStatus(tableConfig)
+    : withoutStatus(tableConfig);
 
   const header = (
     <Table.Header>
@@ -61,6 +68,7 @@ const AccountListTable = (props) => {
       isEmpty={isTableEmpty}
       emptyView={emptyView}
       header={header}
+      responsiveWidths={responsiveWidths}
     >
       <AccountListTableBody tableConfig={tableConfig} />
     </TableView>
