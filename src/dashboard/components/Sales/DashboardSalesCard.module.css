@@ -1,0 +1,45 @@
+.emptyTableView {
+  text-align: center;
+  padding: 6rem 0;
+}
+
+.chart {
+  height: 30rem;
+  padding: 0.8rem 0.8rem 0 0.8rem;
+  border-radius: 0.4rem;
+  background-color: #f3f4f5;
+}
+
+/*
+  @Feelix-Override:
+  Feelix has set "display": "flex" to only occur on a minimum width of 768px, I'm overriding this
+  so that the "actions" are always aligned to the right of the header
+*/
+.summary :global(.page-head) {
+  display: flex;
+}
+
+.summary :global(.page-head__title > h1) {
+  font-size: var(--flx-font-size-heading-large);
+}
+
+.summary > hr {
+  margin-top: var(--flx-spacing-tiny);
+}
+
+/* Medium & Large devices (tablets & desktop) */
+@media only screen and (min-width: 768px) {
+  .container {
+    display: flex;
+  }
+
+  .summary {
+    width: 70%;
+    padding-right: var(--flx-spacing-small);
+  }
+
+  .chart {
+    width: 30%;
+    height: unset;
+  }
+}

@@ -9,6 +9,7 @@ const getDefaultState = () => ({
   enabledFeatures: [],
   urls: {},
   routeParams: {},
+  currentRouteName: '',
 });
 
 const loadBusinessDetails = (state, action) => ({

@@ -1,39 +1,3 @@
-:root {
-  --flx-palette-storm-06: #f3f4f5;
-  --flx-palette-storm-11: #e8eaec;
-  --flx-palette-storm-17: #dcdfe1;
-  --flx-palette-storm-72: #687480;
-
-  /* border */
-  --flx-border-button-secondary: 1px solid #c5c9ce;
-  --flx-border-radius-button: 0.4rem;
-  --flx-border-width-small: 2px;
-
-  /* text color */
-  --flx-color-alert-error-link: #ce2554;
-
-  /* widths */
-  --flx-width-field-xs: 10.6rem;
-  --flx-width-field-s: 16.8rem;
-  --flx-width-field-m: 22.9rem;
-  --flx-width-field-l: 29rem;
-  --flx-width-field-xl: 35.2rem;
-
-  /* spacing */
-  --flx-spacing-tiny: 0.8rem;
-  --flx-spacing-x-small: 1.2rem;
-  --flx-spacing-small: 1.6rem;
-
-  /* padding */
-  --flx-padding-card-body: 1.6rem;
-  --flx-padding-input-y: 0.4rem;
-  --flx-padding-input-x: 1rem;
-
-  /* typography */
-  --flx-font-weight-bold: 600;
-  --flx-font-size-heading-medium: 1.6rem;
-}
-
 body {
   margin: 0;
   padding: 0;

@@ -14,6 +14,7 @@ import BillServiceMapping from './BillServiceMapping';
 import BusinessMapping from './BusinessMapping';
 import ContactMapping from './ContactMapping';
 import CustomerReturnMapping from './CustomerReturnMapping';
+import DashboardMapping from './DashboardMapping';
 import DeductionPayItemMapping from './DeductionPayItemMapping';
 import EmployeeMapping from './EmployeeMapping';
 import ExpensePayItemMapping from './ExpensePayItemMapping';
@@ -105,6 +106,7 @@ const RootMapping = Object.freeze({
   ...LinkBillMapping,
   ...AccountMapping,
   ...LinkUserMapping,
+  ...DashboardMapping,
 });
 
 export default RootMapping;

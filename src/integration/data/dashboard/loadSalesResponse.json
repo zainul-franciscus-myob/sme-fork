@@ -1,0 +1,112 @@
+{
+  "sales": {
+    "layout": "item",
+    "isEmpty": false,
+    "month": "October",
+    "unpaidTotal": "$103,393.00",
+    "overDueTotal": "$14,000.00",
+    "salesTotal": "$99,999.00",
+    "entries": [
+      {
+        "id": "1",
+        "description": "96 days overdue",
+        "amount": "$999,999,99",
+        "contactId": "1",
+        "contactName": "MYOB Mind Your Own Business"
+      },
+      {
+        "id": "2",
+        "description": "47 days overdue",
+        "amount": "$999,999,99",
+        "contactId": "2",
+        "contactName": "Bluebowls homewares"
+      },
+      {
+        "id": "3",
+        "description": "13 days overdue",
+        "amount": "$999,999,99",
+        "contactId": "3",
+        "contactName": "ClearWater Pty Ltd"
+      }
+    ],
+    "chart": {
+      "labels": ["Apr", "May", "Jun", "July", "Aug", "Sep"],
+      "previousYearSales": [
+        {
+          "x": 4,
+          "y": 600,
+          "name": "April 2018",
+          "description": "$600"
+        },
+        {
+          "x": 5,
+          "y": 1000,
+          "name": "May 2018",
+          "description": "$1,000"
+        },
+        {
+          "x": 6,
+          "y": 350,
+          "name": "June 2018",
+          "description": "$350"
+        },
+        {
+          "x": 7,
+          "y": 700,
+          "name": "July 2018",
+          "description": "$700"
+        },
+        {
+          "x": 8,
+          "y": 800,
+          "name": "August 2018",
+          "description": "$800"
+        },
+        {
+          "x": 9,
+          "y": 900,
+          "name": "September 2018",
+          "description": "$900"
+        }
+      ],
+      "currentYearSales": [
+        {
+          "x": 4,
+          "y": 800,
+          "name": "April 201",
+          "description": "$800"
+        },
+        {
+          "x": 5,
+          "y": 1100,
+          "name": "May 2019",
+          "description": "$1,100"
+        },
+        {
+          "x": 6,
+          "y": 400,
+          "name": "June 2019",
+          "description": "$400"
+        },
+        {
+          "x": 7,
+          "y": 700,
+          "name": "July 2019",
+          "description": "$700"
+        },
+        {
+          "x": 8,
+          "y": 500,
+          "name": "August 2019",
+          "description": "$500"
+        },
+        {
+          "x": 9,
+          "y": 100,
+          "name": "September 2019",
+          "description": "$100"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+.totalHeader {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: var(--flx-spacing-small);
+}
+
+.totalHeader > a {
+  color: unset;
+}
+
+.totalHeader > a:hover {
+  text-decoration: none;
+}
+
+.headerItem {
+  margin-right: var(--flx-spacing-large);
+}
+
+.headerItemClickable:hover * {
+  color: var(--flx-palette-dusk-100);
+}
+
+.headerItem__content {
+  margin-bottom: var(--flx-spacing-x-small);
+}
+
+.headerItemClickable:hover .headerItem__content {
+  text-decoration: underline;
+}

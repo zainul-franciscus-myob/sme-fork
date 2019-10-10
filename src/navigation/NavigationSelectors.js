@@ -35,6 +35,23 @@ const getEnabledUrls = createSelector(
   ),
 );
 
+export const noOpRouteNames = [
+  'linkUser/linkUser',
+  'businessList/businessList',
+];
+
+export const getMenuLogoUrl = createSelector(
+  getCurrentRouteName,
+  getBusinessId,
+  (currentRouteName, businessId) => (currentUrl) => {
+    const shouldNavigate = noOpRouteNames.every(
+      routeName => routeName !== currentRouteName,
+    );
+
+    return shouldNavigate ? `#/au/${businessId}/dashboard` : currentUrl;
+  },
+);
+
 export const getSalesUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({

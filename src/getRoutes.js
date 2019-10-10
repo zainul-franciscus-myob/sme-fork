@@ -9,6 +9,7 @@ import getBusinessListRoutes from './business/getBusinessListRoutes';
 import getBusinessRoutes from './business/getBusinessRoutes';
 import getContactRoutes from './contact/getContactRoutes';
 import getCustomerReturnRoutes from './customerReturn/getCustomerReturnRoutes';
+import getDashboardRoutes from './dashboard/getDashboardRoutes';
 import getEmployeeRoutes from './employee/getEmployeeRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getInTrayRoutes from './inTray/getInTrayRoutes';
@@ -308,6 +309,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/permissionDenied',
     subRoutes: getPermissionDeniedRoutes({
       setRootView,
+    }),
+  },
+  {
+    name: 'dashboard',
+    rootPath: '/:region/:businessId/dashboard',
+    subRoutes: getDashboardRoutes({
+      integration, setRootView,
     }),
   },
 ];

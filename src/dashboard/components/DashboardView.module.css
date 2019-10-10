@@ -1,0 +1,57 @@
+.body {
+  max-width: 768px;
+  margin: auto;
+}
+
+.secondary > img {
+  display: none;
+}
+
+/* Large devices (desktop) */
+@media screen and (min-width: 1200px) {
+  .summaryHeader {
+    grid-area: firstColumn;
+    align-self: self-end;
+  }
+
+  .primary {
+    min-width: 0;
+    grid-area: firstColumn;
+  }
+
+  .primary :global(.flx-card) {
+    margin-bottom: var(--card-margin-bottom);
+  }
+
+  .secondary {
+    position: relative;
+    grid-area: secondColumn;
+  }
+
+  /*
+    Using a z-index: 1 is to allow the last card in the second column to be placed on top of the
+    image that positioned absolute at the bottom right.
+  */
+  .secondary > .lastCard {
+    position: relative;
+    z-index: 1;
+  }
+
+  .secondary > img {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-bottom: var(--card-margin-bottom);
+  }
+
+  .body {
+    --card-margin-bottom: 1.6rem;
+
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas: "firstColumn secondColumn";
+    max-width: 100%;
+    column-gap: var(--card-margin-bottom);
+  }
+}

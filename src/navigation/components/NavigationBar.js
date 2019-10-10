@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getMenuLogoUrl,
   hasBankingUrls,
   hasBusinessId,
   hasContactUrls,
@@ -58,6 +59,7 @@ const NavigationBar = ({
   shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
   shouldDisplayPurchasesMenu, shouldDisplayInTray,
   shouldDisplayReports,
+  menuLogoUrl,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
@@ -79,7 +81,7 @@ const NavigationBar = ({
           Skip to main content
         </Button>
       </div>
-      <Navigation.Brand url="#/business" width="7.3rem"><MYOBLogo /></Navigation.Brand>
+      <Navigation.Brand url={menuLogoUrl} width="7.3rem"><MYOBLogo /></Navigation.Brand>
     </>
   );
 
@@ -100,6 +102,7 @@ const mapStateToProps = state => ({
   shouldDisplayPurchasesMenu: hasPurchasesUrls(state),
   shouldDisplayInTray: hasInTrayUrl(state),
   shouldDisplayReports: hasReportsUrl(state),
+  menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
 });
 
 export default connect(mapStateToProps)(NavigationBar);

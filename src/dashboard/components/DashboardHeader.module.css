@@ -1,0 +1,97 @@
+.header {
+  max-width: 768px;
+  margin: auto;
+}
+
+.header h1 {
+  margin-bottom: 0;
+  font-weight: var(--flx-font-weight-bold);
+}
+
+.text {
+  padding-bottom: var(--flx-spacing-small);
+}
+
+/*
+  This css was taken from the Feelix's styling of their Card component.
+  We chose not to use the feelix <Card /> component, as that would require our component
+  to make a decision on when to render the component given a device width.
+*/
+.card {
+  display: flex;
+  margin-bottom: var(--flx-spacing-tiny);
+  background-color: var(--flx-background-color-card);
+  border-radius: var(--flx-border-radius-card);
+  box-shadow: var(--flx-shadow-card);
+}
+
+.bankFeed {
+  flex: 1 1 0;
+  padding: var(--flx-spacing-small);
+}
+
+.bankFeed h2 {
+  margin-bottom: var(--flx-spacing-tiny);
+  font-weight: var(--flx-font-weight-normal);
+}
+
+.bankFeedImage {
+  display: flex;
+  align-items: flex-end;
+  flex: 1 1 0;
+}
+
+.bankFeedImage img {
+  width: 100%;
+}
+
+/* Medium devices (tablets) */
+@media screen and (min-width: 768px) {
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    column-gap: 1.6rem;
+  }
+
+  .card {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    margin-bottom: 0;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .card > img {
+    width: unset;
+    padding-right: var(--flx-spacing-large);
+  }
+
+  .bankFeed {
+    align-self: flex-end;
+    text-align: right;
+  }
+
+  .bankFeed h2 {
+    margin-bottom: 0;
+  }
+
+  .bankFeedImage {
+    padding: 0 var(--flx-spacing-tiny);
+  }
+
+  .greetings {
+    align-self: flex-end;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .header {
+    max-width: 100%;
+  }
+
+  .bankFeedImage {
+    padding: 0 var(--flx-spacing-xx-large);
+  }
+}

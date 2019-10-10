@@ -1,4 +1,4 @@
-import { isLinkUserPage } from '../NavigationSelectors';
+import { getMenuLogoUrl, isLinkUserPage, noOpRouteNames } from '../NavigationSelectors';
 
 describe('NavigationSelectors', () => {
   describe('isLinkUserPage', () => {
@@ -12,6 +12,33 @@ describe('NavigationSelectors', () => {
       const currentRouteName = 'spendMoney/spendMoneyDetail';
       const actual = isLinkUserPage({ currentRouteName });
       expect(actual).toEqual(false);
+    });
+  });
+  describe('getMenuLogoUrl', () => {
+    it('should return current url if current route name is no op', () => {
+      const state = {
+        currentRouteName: noOpRouteNames[0],
+        routeParams: {
+          businessId: 'businessId',
+        },
+      };
+      const currentUrl = 'currentUrl';
+      const actual = getMenuLogoUrl(state)(currentUrl);
+      expect(actual).toEqual(currentUrl);
+    });
+
+    it('should return dashboardUrl if current route name is operational', () => {
+      const businessId = 'businessId';
+      const currentRouteName = 'bills';
+      const state = {
+        currentRouteName,
+        routeParams: {
+          businessId,
+        },
+      };
+      const currentUrl = 'currentUrl';
+      const actual = getMenuLogoUrl(state)(currentUrl);
+      expect(actual).toEqual(`#/au/${businessId}/dashboard`);
     });
   });
 });
