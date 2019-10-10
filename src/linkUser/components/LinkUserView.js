@@ -8,7 +8,9 @@ import {
   getAlertMessage,
   getBusinessName,
   getIsLoading,
+  getPassword,
   getUserEmail,
+  getUserId,
 } from '../LinkUserSelectors';
 import LinkUserActions from './LinkUserActions';
 import PageView from '../../components/PageView/PageView';
@@ -18,6 +20,8 @@ const LinkUserView = ({
   isLoading,
   businessName,
   userEmail,
+  userId,
+  password,
   alertMessage,
   onUserInformationUpdate,
   onLinkUser,
@@ -42,8 +46,8 @@ const LinkUserView = ({
         as?
       </p>
       <FormHorizontal layout="primary">
-        <Input name="userId" label="User ID" maxLength={35} onChange={handleInputChange(onUserInformationUpdate)} />
-        <Input name="password" label="Password" type="password" onChange={handleInputChange(onUserInformationUpdate)} />
+        <Input name="userId" label="User ID" maxLength={35} value={userId} onChange={handleInputChange(onUserInformationUpdate)} />
+        <Input name="password" label="Password" type="password" value={password} onChange={handleInputChange(onUserInformationUpdate)} />
       </FormHorizontal>
       <Alert type="info">
         From now on, when you sign in to MYOB as
@@ -76,6 +80,8 @@ const mapStateToProps = state => ({
   businessName: getBusinessName(state),
   userEmail: getUserEmail(state),
   alertMessage: getAlertMessage(state),
+  userId: getUserId(state),
+  password: getPassword(state),
 });
 
 export default connect(mapStateToProps)(LinkUserView);

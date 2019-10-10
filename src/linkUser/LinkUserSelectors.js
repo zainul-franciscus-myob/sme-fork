@@ -3,6 +3,8 @@ export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getBusinessName = state => state.businessName;
 export const getUserEmail = state => state.userEmail;
+export const getUserId = state => state.userId;
+export const getPassword = state => state.password;
 export const getAlertMessage = state => state.alertMessage;
 export const getRedirectURL = (state) => {
   const { redirectURL } = state;
@@ -11,6 +13,6 @@ export const getRedirectURL = (state) => {
 };
 
 export const getContent = state => ({
-  userId: state.userId,
-  password: state.password,
+  userId: getUserId(state),
+  password: getPassword(state),
 });
