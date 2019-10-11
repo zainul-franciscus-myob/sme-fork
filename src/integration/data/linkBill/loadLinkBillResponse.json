@@ -33,6 +33,7 @@
   "bills": [
     {
       "id": "1",
+      "businessEventUid": "1abc",
       "issueDate": "02/12/2018",
       "supplierName": "Jon Snow",
       "supplierInvoiceNumber": "PO111",
@@ -41,6 +42,7 @@
     },
     {
       "id": "2",
+      "businessEventUid": "2abc",
       "issueDate": "02/12/2018",
       "supplierName": "Jon Snow",
       "supplierInvoiceNumber": "PO112",
@@ -49,6 +51,7 @@
     },
     {
       "id": "3",
+      "businessEventUid": "3abc",
       "issueDate": "02/12/2018",
       "supplierName": "Jon Snow",
       "supplierInvoiceNumber": "PO113",
@@ -57,6 +60,7 @@
     },
     {
       "id": "4",
+      "businessEventUid": "4abc",
       "issueDate": "02/12/2018",
       "supplierName": "Jon Snow",
       "supplierInvoiceNumber": "PO114",
@@ -65,6 +69,7 @@
     },
     {
       "id": "5",
+      "businessEventUid": "5abc",
       "issueDate": "02/12/2018",
       "supplierName": "Jon Snow",
       "supplierInvoiceNumber": "PO115",

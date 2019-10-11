@@ -27,7 +27,6 @@ export const getInTrayListUrl = createSelector(
   (region, businessId) => `/#/${region}/${businessId}/intray`,
 );
 export const getIsAnyBillSelected = state => state.bills.some(bill => bill.isSelected);
-export const getSelectedBillId = state => state.bills.find(bill => bill.isSelected).id;
 
 export const getOrder = state => ({
   column: getOrderBy(state),
@@ -40,11 +39,13 @@ export const getNewSortOrder = orderBy => state => (orderBy === getOrderBy(state
   ? flipSortOrder(state)
   : 'asc');
 
-export const getLinkDocumentToBillPayload = createSelector(
-  getSelectedBillId,
-  getDocumentId,
-  (billId, documentId) => ({
+export const getLinkDocumentToBillPayload = (state) => {
+  const selectedBill = state.bills.find(bill => bill.isSelected);
+  const { billId, businessEventUid } = selectedBill;
+
+  return {
     billId,
-    documentId,
-  }),
-);
+    businessEventUid,
+    documentId: getDocumentId(state),
+  };
+};
