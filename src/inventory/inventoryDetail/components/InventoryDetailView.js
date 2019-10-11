@@ -1,12 +1,11 @@
 import {
-  Alert, FormTemplate,
+  Alert, FormTemplate, Label, PageHead,
 } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsLoading, getModalType, getOriginalName,
+  getAlertMessage, getIsCreating, getIsInactive, getIsLoading, getModalType, getOriginalName,
 } from '../inventoryDetailSelectors';
 import BuyingDetails from './BuyingDetails';
 import CancelModal from '../../../components/modal/CancelModal';
@@ -19,10 +18,13 @@ import SellingDetails from './SellingDetails';
 
 const InventoryDetailView = ({
   isLoading,
+  isInactive,
   originalName,
   onItemDetailsChange,
   onSellingDetailsChange,
   onBuyingDetailsChange,
+  onEnableForSellingChange,
+  onEnableForBuyingChange,
   onSaveButtonClick,
   alertMessage,
   onDismissAlert,
@@ -55,7 +57,7 @@ const InventoryDetailView = ({
     );
   }
 
-  const pageHead = isCreating ? 'New item' : originalName;
+  const pageHead = isCreating ? 'Create item' : <PageHead title={originalName} tag={isInactive && <Label type="boxed">Inactive</Label>} />;
 
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -63,41 +65,37 @@ const InventoryDetailView = ({
     </Alert>
   );
 
+  const pageFooter = (
+    <InventoryDetailActions
+      onSaveButtonClick={onSaveButtonClick}
+      onCancelButtonClick={onCancelButtonClick}
+      onDeleteButtonClick={onDeleteButtonClick}
+    />
+  );
+
   const itemDetailView = (
-    <FormTemplate pageHead={pageHead} alert={alertComponent}>
+    <FormTemplate
+      sticky="none"
+      pageHead={pageHead}
+      alert={alertComponent}
+      actions={pageFooter}
+    >
       {modal}
       <FormCard>
         <ItemDetails onItemDetailsChange={onItemDetailsChange} />
-        <SellingDetails onSellingDetailsChange={onSellingDetailsChange} />
-        <BuyingDetails onBuyingDetailsChange={onBuyingDetailsChange} />
+        <SellingDetails
+          onSellingDetailsChange={onSellingDetailsChange}
+          onEnableStateChange={onEnableForSellingChange}
+        />
+        <BuyingDetails
+          onBuyingDetailsChange={onBuyingDetailsChange}
+          onEnableStateChange={onEnableForBuyingChange}
+        />
       </FormCard>
-      <InventoryDetailActions
-        isCreating={isCreating}
-        onSaveButtonClick={onSaveButtonClick}
-        onCancelButtonClick={onCancelButtonClick}
-        onDeleteButtonClick={onDeleteButtonClick}
-      />
     </FormTemplate>
   );
 
   return <PageView isLoading={isLoading} view={itemDetailView} />;
-};
-
-InventoryDetailView.propTypes = {
-  originalName: PropTypes.string.isRequired,
-  onItemDetailsChange: PropTypes.func.isRequired,
-  onSellingDetailsChange: PropTypes.func.isRequired,
-  onBuyingDetailsChange: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  alertMessage: PropTypes.string.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
-  modalType: PropTypes.string.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
-  onDeleteModal: PropTypes.func.isRequired,
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onCancelModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -105,6 +103,8 @@ const mapStateToProps = state => ({
   alertMessage: getAlertMessage(state),
   modalType: getModalType(state),
   isLoading: getIsLoading(state),
+  isInactive: getIsInactive(state),
+  isCreating: getIsCreating(state),
 });
 
 export default connect(mapStateToProps)(InventoryDetailView);

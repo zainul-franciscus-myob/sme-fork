@@ -1,39 +1,63 @@
 import {
-  Checkbox, CheckboxGroup, Field, FieldGroup, Input, TextArea,
+  Checkbox, CheckboxGroup, FieldGroup, Input, TextArea,
 } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getItemDetails,
 } from '../inventoryDetailSelectors';
-
-const onInputChange = handler => (e) => {
-  const { value, name } = e.target;
-  handler({ key: name, value });
-};
-
-const onCheckboxChange = handler => (e) => {
-  const { checked, name } = e.target;
-  handler({ key: name, value: checked });
-};
+import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
+import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
+import handleInputChange from '../../../components/handlers/handleInputChange';
+import styles from './InventoryDetailView.module.css';
 
 const ItemDetails = ({
-  referenceId,
   name,
   description,
   useItemDescription,
-  onItemDetailsChange,
+  referenceId,
   isInactive,
+  onItemDetailsChange,
 }) => (
   <FieldGroup label="Item Details">
     <Input
+      name="name"
+      label="Name"
+      labelAccessory={(<RequiredTooltip />)}
+      value={name}
+      maxLength={30}
+      onChange={handleInputChange(onItemDetailsChange)}
+    />
+    <TextArea
+      name="description"
+      label="Description"
+      resize="vertical"
+      value={description}
+      maxLength={255}
+      onChange={handleInputChange(onItemDetailsChange)}
+    />
+    <CheckboxGroup
+      hideLabel
+      label="useItemDescription"
+      renderCheckbox={props => (
+        <Checkbox
+          {...props}
+          name="useItemDescription"
+          label="Use item description on sales and purchases"
+          checked={useItemDescription}
+          onChange={handleCheckboxChange(onItemDetailsChange)}
+        />
+      )}
+    />
+    <Input
+      className={styles.referenceId}
       name="referenceId"
-      label="Reference"
+      label="Item ID"
+      labelAccessory={(<RequiredTooltip />)}
       value={referenceId}
       maxLength={30}
-      onChange={onInputChange(onItemDetailsChange)}
+      onChange={handleInputChange(onItemDetailsChange)}
     />
     <CheckboxGroup
       label="isInactive"
@@ -43,49 +67,12 @@ const ItemDetails = ({
           name="isInactive"
           label="Inactive item"
           checked={isInactive}
-          onChange={onCheckboxChange(onItemDetailsChange)}
-        />
-      )}
-    />
-    <Input
-      name="name"
-      label="Name"
-      value={name}
-      maxLength={30}
-      onChange={onInputChange(onItemDetailsChange)}
-    />
-    <TextArea
-      name="description"
-      label="Description"
-      resize="vertical"
-      value={description}
-      maxLength={255}
-      onChange={onInputChange(onItemDetailsChange)}
-    />
-    <Field
-      label="Use item description on sales and purchases"
-      hideLabel
-      renderField={props => (
-        <Checkbox
-          {...props}
-          name="useItemDescription"
-          label="Use item description on sales and purchases"
-          checked={useItemDescription}
-          onChange={onCheckboxChange(onItemDetailsChange)}
+          onChange={handleCheckboxChange(onItemDetailsChange)}
         />
       )}
     />
   </FieldGroup>
 );
-
-ItemDetails.propTypes = {
-  referenceId: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  useItemDescription: PropTypes.bool.isRequired,
-  onItemDetailsChange: PropTypes.func.isRequired,
-  isInactive: PropTypes.bool.isRequired,
-};
 
 const mapStateToProps = state => getItemDetails(state);
 

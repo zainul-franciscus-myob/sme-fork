@@ -3,6 +3,8 @@ import {
   LOAD_INVENTORY_DETAIL,
   LOAD_NEW_INVENTORY_DETAIL,
   OPEN_MODAL, SET_ALERT_MESSAGE,
+  SET_ENABLE_FOR_BUYING,
+  SET_ENABLE_FOR_SELLING,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BUYING_DETAILS,
@@ -10,6 +12,7 @@ import {
   UPDATE_SELLING_DETAILS,
 } from '../InventoryIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import { getIsCreating } from './inventoryDetailSelectors';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -26,7 +29,7 @@ const getDefaultState = () => ({
       sellingPrice: '',
       allocateToAccountId: '',
       taxCodeId: '',
-      isTaxInclusive: false,
+      isTaxInclusive: true,
     },
     buyingDetails: {
       unitOfMeasure: '',
@@ -35,6 +38,8 @@ const getDefaultState = () => ({
       taxCodeId: '',
     },
   },
+  isEnableForSelling: false,
+  isEnableForBuying: false,
   sellingAccounts: [],
   buyingAccounts: [],
   taxCodes: [],
@@ -49,21 +54,36 @@ const getDefaultState = () => ({
 
 const resetState = () => (getDefaultState());
 
-const loadInventoryDetail = (state, action) => ({
+const loadInventoryDetail = (state, action) => {
+  const isCreating = getIsCreating(state);
+  return {
+    ...state,
+    ...action,
+    isEnableForSelling: isCreating ? false : !!action.item.sellingDetails,
+    isEnableForBuying: isCreating ? false : !!action.item.buyingDetails,
+    item: {
+      ...state.item,
+      ...action.item,
+      sellingDetails: {
+        ...state.item.sellingDetails,
+        ...action.item.sellingDetails,
+      },
+      buyingDetails: {
+        ...state.item.buyingDetails,
+        ...action.item.buyingDetails,
+      },
+    },
+  };
+};
+
+const setEnableForSelling = (state, action) => ({
   ...state,
-  ...action,
-  item: {
-    ...state.item,
-    ...action.item,
-    sellingDetails: {
-      ...state.item.sellingDetails,
-      ...action.item.sellingDetails,
-    },
-    buyingDetails: {
-      ...state.item.buyingDetails,
-      ...action.item.buyingDetails,
-    },
-  },
+  isEnableForSelling: action.isEnableForSelling,
+});
+
+const setEnableForBuying = (state, action) => ({
+  ...state,
+  isEnableForBuying: action.isEnableForBuying,
 });
 
 const setLoadingState = (state, action) => ({
@@ -159,6 +179,8 @@ const handlers = {
   [UPDATE_SELLING_DETAILS]: updateSellingDetails,
   [UPDATE_BUYING_DETAILS]: updateBuyingDetails,
   [SET_ALERT_MESSAGE]: setAlertMessage,
+  [SET_ENABLE_FOR_BUYING]: setEnableForBuying,
+  [SET_ENABLE_FOR_SELLING]: setEnableForSelling,
 };
 
 const inventoryDetailReducer = createReducer(getDefaultState(), handlers);

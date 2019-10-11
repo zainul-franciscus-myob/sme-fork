@@ -1,80 +1,102 @@
 import {
-  FieldGroup, Input,
+  Checkbox, CheckboxGroup,
+  FieldGroup, Input, Tooltip,
 } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getBuyingDetails,
+  getBuyingDetails, getIsEnableForBuying,
 } from '../inventoryDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
-
-const handleComboboxChange = (key, onBuyingDetailsChange) => (item) => {
-  onBuyingDetailsChange({ key, value: item.id });
-};
-
-const handleInputChange = handler => (e) => {
-  const { value, name } = e.target;
-  handler({ key: name, value });
-};
+import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
+import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
+import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
+import handleInputChange from '../../../components/handlers/handleInputChange';
+import styles from './InventoryDetailView.module.css';
 
 const BuyingDetails = ({
-  buyingAccounts,
-  taxCodes,
+  enabled,
   buyingPrice,
   unitOfMeasure,
+  buyingAccounts,
+  allocateToAccountId,
+  taxCodes,
+  taxCodeId,
   taxLabel,
   onBuyingDetailsChange,
-  allocateToAccountId,
-  taxCodeId,
+  onEnableStateChange,
 }) => (
   <FieldGroup label="Buying Details">
+    <CheckboxGroup
+      hideLabel
+      label="isBuyItem"
+      renderCheckbox={props => (
+        <Checkbox
+          {...props}
+          onChange={handleCheckboxChange(onEnableStateChange)}
+          name="isBuyItem"
+          label="I buy this item"
+          checked={enabled}
+        />
+      )}
+    />
+    <AmountInput
+      className={styles.price}
+      label="Buying price ($)"
+      labelAccessory={(<RequiredTooltip />)}
+      name="buyingPrice"
+      value={buyingPrice}
+      onChange={handleAmountInputChange(onBuyingDetailsChange)}
+      numeralIntegerScale={13}
+      decimalScale={5}
+      disabled={!enabled}
+      textAlign="right"
+    />
+    <Input
+      className={styles.unitOfMeasure}
+      name="unitOfMeasure"
+      label="Unit of measure"
+      disabled={!enabled}
+      value={unitOfMeasure}
+      labelAccessory={(
+        <Tooltip>
+          Eg. boxes, cans, hours, kg
+          (max 5 characters)
+        </Tooltip>
+      )}
+      onChange={handleInputChange(onBuyingDetailsChange)}
+      maxLength={5}
+    />
     <AccountCombobox
-      label="Allocated to"
-      hideLabel={false}
+      label="Account for tracking purchase"
+      disabled={!enabled}
+      labelAccessory={(<RequiredTooltip />)}
       items={buyingAccounts}
       selectedId={allocateToAccountId}
       allowClearSelection
       onChange={handleComboboxChange('allocateToAccountId', onBuyingDetailsChange)}
     />
-    <Input
-      type="number"
-      name="buyingPrice"
-      label="Buying price ($)"
-      value={buyingPrice}
-      onChange={handleInputChange(onBuyingDetailsChange)}
-    />
-    <TaxCodeCombobox
-      items={taxCodes}
-      selectedId={taxCodeId}
-      label={taxLabel}
-      allowClearSelection
-      onChange={handleComboboxChange('taxCodeId', onBuyingDetailsChange)}
-      hideLabel={false}
-    />
-    <Input
-      name="unitOfMeasure"
-      label="Unit of measure"
-      value={unitOfMeasure}
-      onChange={handleInputChange(onBuyingDetailsChange)}
-      maxLength={5}
-    />
+    <div className={styles.taxCode}>
+      <TaxCodeCombobox
+        items={taxCodes}
+        disabled={!enabled}
+        selectedId={taxCodeId}
+        labelAccessory={(<RequiredTooltip />)}
+        label={taxLabel}
+        allowClearSelection
+        onChange={handleComboboxChange('taxCodeId', onBuyingDetailsChange)}
+      />
+    </div>
   </FieldGroup>
 );
 
-BuyingDetails.propTypes = {
-  buyingAccounts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  taxCodes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  buyingPrice: PropTypes.string.isRequired,
-  unitOfMeasure: PropTypes.string.isRequired,
-  taxLabel: PropTypes.string.isRequired,
-  onBuyingDetailsChange: PropTypes.func.isRequired,
-  allocateToAccountId: PropTypes.string.isRequired,
-  taxCodeId: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = state => getBuyingDetails(state);
+const mapStateToProps = state => ({
+  ...getBuyingDetails(state),
+  enabled: getIsEnableForBuying(state),
+});
 
 export default connect(mapStateToProps)(BuyingDetails);

@@ -8,6 +8,12 @@ const getTaxCodes = state => state.taxCodes;
 const getTaxLabel = state => getRegionToDialectText(state.region)('Tax code');
 const getItemSellingDetails = state => (state.item.sellingDetails || {});
 const getItemBuyingDetails = state => (state.item.buyingDetails || {});
+const getItemId = state => state.itemId;
+
+export const getIsCreating = createSelector(
+  getItemId,
+  itemId => itemId === 'new',
+);
 
 export const getItemDetails = createStructuredSelector({
   referenceId: state => state.item.referenceId,
@@ -46,9 +52,17 @@ export const getBuyingDetails = createSelector(
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getOriginalName = state => state.item.originalName;
-export const getItem = state => state.item;
+export const getItem = (state) => {
+  const item = { ...state.item };
+  if (!state.isEnableForSelling) item.sellingDetails = {};
+  if (!state.isEnableForBuying) item.buyingDetails = {};
+  return item;
+};
 export const getAlertMessage = state => state.alertMessage;
 export const getModalType = state => state.modalType;
 export const isPageEdited = state => state.isPageEdited;
 export const getIsActionsDisabled = state => state.isSubmitting;
+export const getIsInactive = state => state.item.isInactive;
 export const getIsLoading = state => state.isLoading;
+export const getIsEnableForSelling = state => state.isEnableForSelling;
+export const getIsEnableForBuying = state => state.isEnableForBuying;

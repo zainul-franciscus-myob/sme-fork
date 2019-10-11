@@ -17,3 +17,5 @@ export const SET_ALERT = Symbol('Set the Alert of the page');
 export const SORT_AND_FILTER_ITEM_LIST = Symbol('Sort and filter list of items');
 export const SET_SORT_ORDER = Symbol('Set sort order for item list');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
+export const SET_ENABLE_FOR_SELLING = Symbol('Set enable for selling state');
+export const SET_ENABLE_FOR_BUYING = Symbol('Set enable for buying state');

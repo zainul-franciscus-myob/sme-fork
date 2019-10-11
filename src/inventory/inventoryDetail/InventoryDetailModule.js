@@ -9,6 +9,8 @@ import {
   LOAD_NEW_INVENTORY_DETAIL,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
+  SET_ENABLE_FOR_BUYING,
+  SET_ENABLE_FOR_SELLING,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BUYING_DETAILS,
@@ -21,7 +23,7 @@ import {
 } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_ITEM, SUCCESSFULLY_SAVED_ITEM } from '../InventoryMessageTypes';
 import {
-  getBusinessId, getItem, getRegion, isPageEdited,
+  getBusinessId, getIsCreating, getItem, getRegion, isPageEdited,
 } from './inventoryDetailSelectors';
 import InventoryDetailView from './components/InventoryDetailView';
 import Store from '../../store/Store';
@@ -40,7 +42,9 @@ export default class InventoryDetailModule {
   }
 
   saveItem = () => {
-    if (this.isCreating) {
+    const isCreating = getIsCreating(this.store.getState());
+
+    if (isCreating) {
       this.createInventoryDetail();
     } else {
       this.updateInventoryDetail();
@@ -50,6 +54,8 @@ export default class InventoryDetailModule {
   render = () => {
     const inventoryDetailView = (
       <InventoryDetailView
+        onEnableForSellingChange={this.setEnableForSellingState}
+        onEnableForBuyingChange={this.setEnableForBuyingState}
         onItemDetailsChange={this.updateItemDetails}
         onSellingDetailsChange={this.updateSellingDetails}
         onBuyingDetailsChange={this.updateBuyingDetails}
@@ -60,7 +66,6 @@ export default class InventoryDetailModule {
         onDeleteModal={this.deleteInventoryDetail}
         onCancelModal={this.redirectToInventoryList}
         onDismissAlert={this.dismissAlert}
-        isCreating={this.isCreating}
       />
     );
 
@@ -94,14 +99,17 @@ export default class InventoryDetailModule {
   };
 
   loadInventoryDetail = () => {
-    const intent = this.isCreating
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+
+    const intent = isCreating
       ? LOAD_NEW_INVENTORY_DETAIL
       : LOAD_INVENTORY_DETAIL;
 
     this.setLoadingState(true);
 
     const urlParams = {
-      businessId: getBusinessId(this.store.getState()),
+      businessId: getBusinessId(state),
       itemId: this.itemId,
     };
 
@@ -122,6 +130,20 @@ export default class InventoryDetailModule {
       urlParams,
       onSuccess,
       onFailure,
+    });
+  }
+
+  setEnableForSellingState = ({ value }) => {
+    this.store.dispatch({
+      intent: SET_ENABLE_FOR_SELLING,
+      isEnableForSelling: value,
+    });
+  }
+
+  setEnableForBuyingState = ({ value }) => {
+    this.store.dispatch({
+      intent: SET_ENABLE_FOR_BUYING,
+      isEnableForBuying: value,
     });
   }
 
@@ -290,7 +312,6 @@ export default class InventoryDetailModule {
     this.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.itemId = context.itemId;
-    this.isCreating = context.itemId === 'new';
     this.render();
     this.loadInventoryDetail();
   }

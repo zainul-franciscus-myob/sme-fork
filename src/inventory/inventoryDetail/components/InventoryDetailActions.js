@@ -1,9 +1,8 @@
 import { Button, ButtonRow } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsActionsDisabled } from '../inventoryDetailSelectors';
+import { getIsActionsDisabled, getIsCreating } from '../inventoryDetailSelectors';
 
 const InventoryDetailActions = ({
   isCreating,
@@ -31,16 +30,9 @@ const InventoryDetailActions = ({
   />
 );
 
-InventoryDetailActions.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  isActionsDisabled: PropTypes.bool.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   isActionsDisabled: getIsActionsDisabled(state),
+  isCreating: getIsCreating(state),
 });
 
 export default connect(mapStateToProps)(InventoryDetailActions);
