@@ -1,30 +1,27 @@
 import { Bar } from 'react-chartjs-2';
-import { connect } from 'react-redux';
 import {
   flxColorHeadingsDarker, flxPaletteAzure, flxPaletteStorm17, flxPaletteStorm28,
 } from '@myob/myob-styles/dist/design-tokens/js/design-tokens';
 import React from 'react';
-
-import { getSalesChart } from '../../selectors/DashboardSalesSelectors';
 
 const previousYearColumnColor = flxPaletteStorm17;
 const previousYearColumnHoverColor = flxPaletteStorm28;
 const currentYearColumnColor = '#5C94E6';
 const currentYearColumnHoverColor = flxPaletteAzure;
 
-const getData = ({ currentYearSales, previousYearSales, labels }) => ({
+const getData = ({ currentYearData, previousYearData, labels }) => ({
   labels,
   datasets: [
     {
       label: 'Last year',
       backgroundColor: previousYearColumnColor,
       hoverBackgroundColor: previousYearColumnHoverColor,
-      data: previousYearSales,
+      data: previousYearData,
       xAxisID: 'bar-x-axis-1',
     },
     {
       label: 'This year',
-      data: currentYearSales,
+      data: currentYearData,
       backgroundColor: currentYearColumnColor,
       hoverBackgroundColor: currentYearColumnHoverColor,
       xAxisID: 'bar-x-axis-1',
@@ -32,7 +29,7 @@ const getData = ({ currentYearSales, previousYearSales, labels }) => ({
   ],
 });
 
-const getOptions = data => ({
+const getOptions = (title, data) => ({
   responsive: true,
   maintainAspectRatio: false,
   scales: {
@@ -59,7 +56,7 @@ const getOptions = data => ({
   },
   title: {
     display: true,
-    text: 'Total sales',
+    text: title,
     fontSize: 16,
     padding: 16,
     fontColor: flxColorHeadingsDarker,
@@ -100,19 +97,20 @@ const getOptions = data => ({
   },
 });
 
-const DashboardSalesChart = ({
-  currentYearSales,
-  previousYearSales,
-  labels,
+const SalesOrPurchaseSummaryChart = ({
+  title,
+  data: {
+    currentYearData,
+    previousYearData,
+    labels,
+  },
 }) => {
-  const data = getData({ currentYearSales, previousYearSales, labels });
-  const options = getOptions(data);
+  const data = getData({ currentYearData, previousYearData, labels });
+  const options = getOptions(title, data);
 
   return (
     <Bar data={data} options={options} />
   );
 };
 
-const mapStateToProps = state => getSalesChart(state);
-
-export default connect(mapStateToProps)(DashboardSalesChart);
+export default SalesOrPurchaseSummaryChart;

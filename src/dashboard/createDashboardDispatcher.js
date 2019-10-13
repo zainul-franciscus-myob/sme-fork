@@ -1,8 +1,11 @@
 import {
   LOAD_DASHBOARD,
+  LOAD_PURCHASE,
   LOAD_SALES,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_PURCHASE_ERROR_STATE,
+  SET_PURCHASE_LOADING_STATE,
   SET_SALES_ERROR_STATE,
   SET_SALES_LOADING_STATE,
 } from './DashboardIntents';
@@ -56,6 +59,21 @@ const createDashboardDispatcher = store => ({
 
   setSalesErrorState: (hasError) => {
     const intent = SET_SALES_ERROR_STATE;
+    store.dispatch({ intent, hasError });
+  },
+
+  loadPurchase: (payload) => {
+    const intent = LOAD_PURCHASE;
+    store.dispatch({ intent, ...payload });
+  },
+
+  setPurchaseLoadingState: (isLoading) => {
+    const intent = SET_PURCHASE_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  setPurchaseErrorState: (hasError) => {
+    const intent = SET_PURCHASE_ERROR_STATE;
     store.dispatch({ intent, hasError });
   },
 });

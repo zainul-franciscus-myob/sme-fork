@@ -1,0 +1,23 @@
+.overdue {
+  color: var(--flx-color-alert-error-link);
+}
+
+/*
+  @Feelix-Override:
+  Feelix defaults to "display": "none" when below 768px, removing the table header,
+  we don't want this to happen
+*/
+.tableHeader :global(.table-data--header) {
+  display: flex;
+}
+
+/* Small devices (mobiles) */
+@media only screen and (max-width: 768px) {
+  /*
+    @Feelix-Override:
+    On a mobile screen, we want to reduce the margin between the text rows for the table
+  */
+  .table :global(.table-data__cell) {
+    margin-bottom: 0.2rem;
+  }
+}

@@ -23,7 +23,7 @@ const DashboardSalesCard = ({
   isEmpty,
   isTableEmpty,
   onLinkClick,
-  onSalesReload,
+  onReload,
   hasError,
   isLoading,
 }) => {
@@ -71,7 +71,7 @@ const DashboardSalesCard = ({
     />
   );
 
-  if (hasError) return <ErrorCard onTry={onSalesReload} />;
+  if (hasError) return <ErrorCard onTry={onReload} />;
 
   const view = isEmpty ? emptyView : salesView;
 

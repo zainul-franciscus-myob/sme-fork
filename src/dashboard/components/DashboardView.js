@@ -11,8 +11,8 @@ import {
 import DashboardBankAccountCard from './DashboardBankAccountCard';
 import DashboardBusinessTrackingCard from './DashboardBusinessTrackingCard';
 import DashboardHeader from './DashboardHeader';
-import DashboardPurchaseCard from './DashboardPurchaseCard';
-import DashboardSalesCard from './Sales/DashboardSalesCard';
+import DashboardPurchaseCard from './purchase/DashboardPurchaseCard';
+import DashboardSalesCard from './sales/DashboardSalesCard';
 import PageView from '../../components/PageView/PageView';
 import footerImage from './footer-right-illustration.svg';
 import styles from './DashboardView.module.css';
@@ -24,6 +24,7 @@ const DashboardView = ({
   onDismissAlert,
   onLinkClick,
   onSalesReload,
+  onPurchaseReload,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -36,8 +37,8 @@ const DashboardView = ({
   const body = (
     <div className={styles.body}>
       <div className={styles.primary}>
-        <DashboardSalesCard onLinkClick={onLinkClick} onSalesReload={onSalesReload} />
-        <DashboardPurchaseCard />
+        <DashboardSalesCard onLinkClick={onLinkClick} onReload={onSalesReload} />
+        <DashboardPurchaseCard onLinkClick={onLinkClick} onReload={onPurchaseReload} />
         <DashboardBusinessTrackingCard />
       </div>
       <div className={styles.secondary}>

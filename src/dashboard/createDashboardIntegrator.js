@@ -1,5 +1,6 @@
-import { LOAD_DASHBOARD, LOAD_SALES } from './DashboardIntents';
+import { LOAD_DASHBOARD, LOAD_PURCHASE, LOAD_SALES } from './DashboardIntents';
 import { getBusinessId } from './selectors/DashboardSelectors';
+import { getLoadPurchaseParams } from './selectors/DashboardPurchaseSelectors';
 import { getLoadSalesParams } from './selectors/DashboardSalesSelectors';
 
 const createDashboardIntegrator = (store, integration) => ({
@@ -27,6 +28,24 @@ const createDashboardIntegrator = (store, integration) => ({
 
     const urlParams = { businessId };
     const params = getLoadSalesParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadPurchase: ({ onSuccess, onFailure }) => {
+    const intent = LOAD_PURCHASE;
+
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+
+    const urlParams = { businessId };
+    const params = getLoadPurchaseParams(state);
 
     integration.read({
       intent,

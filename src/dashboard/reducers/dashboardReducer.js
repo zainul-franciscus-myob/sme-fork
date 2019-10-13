@@ -5,6 +5,7 @@ import {
 } from '../DashboardIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
+import dashboardPurchaseReducerHandlers from './dashboardPurchaseReducer';
 import dashboardSalesReducerHandlers from './dashboardSalesReducer';
 
 
@@ -21,6 +22,18 @@ const getDefaultState = () => ({
 
   sales: {
     layout: '',
+    month: '',
+    isEmpty: true,
+    isLoading: true,
+    unpaidTotal: '',
+    overDueTotal: '',
+    salesTotal: '',
+    entries: [],
+    chart: [],
+    hasError: false,
+  },
+
+  purchase: {
     month: '',
     isEmpty: true,
     isLoading: true,
@@ -66,6 +79,7 @@ const handlers = {
   [LOAD_DASHBOARD]: loadDashboard,
 
   ...dashboardSalesReducerHandlers,
+  ...dashboardPurchaseReducerHandlers,
 };
 
 const dashboardReducer = createReducer(getDefaultState(), handlers);

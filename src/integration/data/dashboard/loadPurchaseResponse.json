@@ -1,11 +1,10 @@
 {
-  "sales": {
-    "layout": "item",
+  "purchase": {
     "isEmpty": false,
     "month": "October",
     "unpaidTotal": "$103,393.00",
     "overDueTotal": "$14,000.00",
-    "salesTotal": "$99,999.00",
+    "purchaseTotal": "$99,999.00",
     "entries": [
       {
         "id": "1",

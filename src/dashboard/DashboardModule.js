@@ -48,6 +48,23 @@ export default class DashboardModule {
     this.integrator.loadSales({ onSuccess, onFailure });
   }
 
+  loadPurchase = () => {
+    this.dispatcher.setPurchaseErrorState(false);
+    this.dispatcher.setPurchaseLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setPurchaseLoadingState(false);
+      this.dispatcher.loadPurchase(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setPurchaseLoadingState(false);
+      this.dispatcher.setPurchaseErrorState(true);
+    };
+
+    this.integrator.loadPurchase({ onSuccess, onFailure });
+  }
+
   redirectToUrl = (url) => {
     window.location.href = url;
   }
@@ -58,6 +75,7 @@ export default class DashboardModule {
         onDismissAlert={this.dispatcher.dismissAlert}
         onLinkClick={this.redirectToUrl}
         onSalesReload={this.loadSales}
+        onPurchaseReload={this.loadPurchase}
       />
     );
 
@@ -84,5 +102,6 @@ export default class DashboardModule {
 
     this.loadDashboard();
     this.loadSales();
+    this.loadPurchase();
   }
 }
