@@ -25,12 +25,9 @@ const getCookie = (cname) => {
 const getGoogleAnalyticsClientId = () => {
   try {
     const ga = getCookie('_gid');
-    if (ga) {
-      return ga.split('.').slice(-2).join('.');
-    }
-    return '';
+    return ga && ga.split('.').slice(-2).join('.');
   } catch {
-    return '';
+    return undefined;
   }
 };
 
@@ -73,15 +70,18 @@ const recordPageVisit = (currentRouteName, userId, businessId) => {
     path: getPath(businessId),
     userId,
   };
-
   const pageViewOptions = {
     context: {
       groupId: businessId,
-      'Google Analytics': {
-        clientId: getGoogleAnalyticsClientId(),
-      },
     },
   };
+
+  const googleAnalyticsClientId = getGoogleAnalyticsClientId();
+  if (googleAnalyticsClientId) {
+    pageViewOptions.context['Google Analytics'] = {
+      clientId: googleAnalyticsClientId,
+    };
+  }
 
   window.analytics.page(currentRouteName, pageViewProperties, pageViewOptions);
 };
