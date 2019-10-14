@@ -1,16 +1,13 @@
-import { FormHorizontal, ReadOnly, Tooltip } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
+import {
+  Columns, ReadOnly, Tooltip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFormattedTransfer } from '../bankingSelectors/transferMoneySelectors';
 import AccountCombobox from '../../components/combobox/AccountCombobox';
+import handleComboBoxChange from '../../components/handlers/handleComboboxChange';
 import style from './TransferMoneyBody.module.css';
-
-
-const handleComboBoxChange = (key, handler) => (item) => {
-  handler({ key, value: item.id });
-};
 
 const TransferMoneyBody = ({
   transferFrom,
@@ -22,13 +19,13 @@ const TransferMoneyBody = ({
   amount,
   onUpdateTransfer,
 }) => (
-  <FormHorizontal>
-    <div className={style.transferMoneyBody}>
+  <div className={style.transferMoney}>
+    <Columns type="three">
       {
       transferDisplayType === 'transferFrom'
         ? (
           <AccountCombobox
-            label={<Tooltip triggerContent="Transfer from *">Required</Tooltip>}
+            label={<Tooltip triggerContent="Bank account from *">Required</Tooltip>}
             hideLabel={false}
             items={accountList}
             selectedId={transferFrom}
@@ -36,13 +33,13 @@ const TransferMoneyBody = ({
             hintText="Select an account"
           />
         )
-        : <ReadOnly name="TransferFrom" label="Transfer from">{transferFromDisplayName}</ReadOnly>
-    }
+        : <ReadOnly name="TransferFrom" label="Bank account from">{transferFromDisplayName}</ReadOnly>
+      }
       {
       transferDisplayType === 'transferTo'
         ? (
           <AccountCombobox
-            label={<Tooltip triggerContent="Transfer to *">Required</Tooltip>}
+            label={<Tooltip triggerContent="Bank account to *">Required</Tooltip>}
             hideLabel={false}
             items={accountList}
             selectedId={transferTo}
@@ -50,23 +47,12 @@ const TransferMoneyBody = ({
             hintText="Select an account"
           />
         )
-        : <ReadOnly name="TransferTo" label="Transfer to">{transferToDisplayName}</ReadOnly>
-    }
-      <ReadOnly name="Amount" label="Amount">{amount}</ReadOnly>
-    </div>
-  </FormHorizontal>
+        : <ReadOnly name="TransferTo" label="Bank account to">{transferToDisplayName}</ReadOnly>
+      }
+      <ReadOnly name="Amount" label="Amount ($)">{amount}</ReadOnly>
+    </Columns>
+  </div>
 );
-
-TransferMoneyBody.propTypes = {
-  transferFrom: PropTypes.string.isRequired,
-  transferTo: PropTypes.string.isRequired,
-  transferDisplayType: PropTypes.string.isRequired,
-  transferFromDisplayName: PropTypes.string.isRequired,
-  transferToDisplayName: PropTypes.string.isRequired,
-  accountList: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  amount: PropTypes.string.isRequired,
-  onUpdateTransfer: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => getFormattedTransfer(state);
 

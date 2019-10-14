@@ -17,7 +17,7 @@ describe('transferMoneyHandlers', () => {
           transfer: {
             transferFrom: '1',
             transferTo: '',
-            amount: '$10.00',
+            amount: '10.00',
           },
         },
       };
@@ -49,7 +49,7 @@ describe('transferMoneyHandlers', () => {
           transfer: {
             transferFrom: '',
             transferTo: '1',
-            amount: '$20.00',
+            amount: '20.00',
           },
         },
       };

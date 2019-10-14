@@ -1,5 +1,5 @@
 import { allocateTransaction } from './index';
-import { formatCurrency, getFilterOptions } from '../bankingSelectors';
+import { formatAmount, getFilterOptions } from '../bankingSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
 import { tabIds } from '../tabItems';
 
@@ -18,7 +18,7 @@ export const loadNewTransferMoney = (state, action) => {
 
   const { bankAccount } = getFilterOptions(state);
 
-  const amount = formatCurrency(Number(openedEntry.withdrawal || openedEntry.deposit));
+  const amount = formatAmount(Number(openedEntry.withdrawal || openedEntry.deposit));
 
   const transfer = {
     transferFrom: isWithdrawal ? bankAccount : '',

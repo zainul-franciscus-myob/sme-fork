@@ -787,10 +787,9 @@ export default class BankingModule {
   saveTransferMoney = () => {
     const state = this.store.getState();
 
-    this.dispatcher.collapseTransactionLine();
-
     const isCreating = getIsOpenEntryCreating(state);
     if (!isCreating) {
+      this.dispatcher.collapseTransactionLine();
       return;
     }
 
@@ -820,7 +819,9 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-  }
+
+    this.dispatcher.collapseTransactionLine();
+  };
 
   selectAllTransactions = () => {
     const state = this.store.getState();

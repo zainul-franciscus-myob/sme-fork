@@ -1,7 +1,9 @@
-.transferMoneyBody :global(.combobox) {
-  max-width: 35.2rem;
-}
+@media (max-width: 767px) {
+  .transferMoney :global(.flx-col) {
+    display: block;
+  }
 
-.transferMoneyBody :global(.form-group__label-group) {
-  max-width: 12rem;
+  .transferMoney :global(.flx-col) > div {
+    margin-bottom: 1.6rem;
+  }
 }
