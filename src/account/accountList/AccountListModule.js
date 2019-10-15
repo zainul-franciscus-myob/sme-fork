@@ -1,8 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { ACCOUNT_LIST_ROUTE } from '../getAccountRoutes';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getLinkedAccountUrl } from './AccountListSelectors';
+import { getAppliedFilterOptions, getLinkedAccountUrl } from './AccountListSelectors';
+import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import AccountListView from './components/AccountListView';
 import Store from '../../store/Store';
 import accountListReducer from './accountListReducer';
@@ -23,14 +25,14 @@ export default class AccountListModule {
 
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(false);
-      this.dispatcher.loadAccountList(payload);
+      this.dispatcher.filterAccountList(payload);
     };
 
     const onFailure = () => {
       console.log('Failed to load account list');
     };
 
-    this.integrator.loadAccountList({ onSuccess, onFailure });
+    this.integrator.filterAccountList({ onSuccess, onFailure });
   }
 
   filterAccountList = () => {
@@ -89,16 +91,21 @@ export default class AccountListModule {
     this.store.unsubscribeAll();
   }
 
-  setInitialState = (context) => {
+  setInitialState = (context, settings) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
+      settings,
     });
   }
 
   run = (context) => {
-    this.setInitialState(context);
+    const settings = loadSettings(context.businessId, ACCOUNT_LIST_ROUTE);
+    this.setInitialState(context, settings);
     this.render();
+    this.store.subscribe(state => (
+      saveSettings(context.businessId, ACCOUNT_LIST_ROUTE, getAppliedFilterOptions(state))
+    ));
     this.loadAccountList();
   }
 }

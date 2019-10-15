@@ -1,5 +1,4 @@
 import {
-  LOAD_ACCOUNT_LIST,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TAB,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
@@ -28,11 +27,6 @@ const createAccountListDispatcher = store => ({
       intent,
       alert: undefined,
     });
-  },
-
-  loadAccountList: (payload) => {
-    const intent = LOAD_ACCOUNT_LIST;
-    store.dispatch({ intent, ...payload });
   },
 
   filterAccountList: (response) => {
