@@ -1,14 +1,11 @@
-import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
-import style from './BankingView.module.css';
+import styles from './ExpandedRowItem.module.css';
 
-const ExpandedRowItem = ({ entry, ...props }) => (
-  <Table.RowItem {...props}>
-    <div title={entry.allocateOrMatch} className={style.ellipsisText}>
-      {entry.allocateOrMatch}
-    </div>
-  </Table.RowItem>
+const ExpandedRowItem = ({ entry }) => (
+  <div title={entry.allocateOrMatch} className={styles.expanded}>
+    {entry.allocateOrMatch}
+  </div>
 );
 
 export default ExpandedRowItem;

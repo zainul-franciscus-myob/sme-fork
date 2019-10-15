@@ -1,0 +1,24 @@
+.unallocated {
+  display: flex;
+  padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
+}
+
+.unallocated :global(.btn-link) {
+  padding-top: 0.2rem;
+  padding-bottom: 0.3rem;
+}
+
+.allocating {
+  display: flex;
+  padding: 0.3rem var(--flx-spacing-x-small);
+}
+
+.allocating :global(.form-group) {
+  width: 100%;
+  margin-bottom: var(--flx-spacing-clear);
+  max-width: var(--flx-width-field-xl);
+}
+
+.allocating :global(.form-group__label-group) {
+  display: none;
+}

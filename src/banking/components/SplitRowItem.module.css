@@ -1,0 +1,10 @@
+.splitAllocation {
+  display: flex;
+}
+
+.splitInfo {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-gap: var(--flx-spacing-x-tiny);
+  padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
+}

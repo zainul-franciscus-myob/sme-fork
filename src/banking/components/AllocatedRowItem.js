@@ -1,10 +1,11 @@
 import {
-  Button, Icons, Label, Table, Tooltip,
+  Button, Icons, Label, Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
 import AccountCombobox from '../../components/combobox/AccountCombobox';
-import style from './BankingView.module.css';
+import AllocatedButton from './AllocatedButton';
+import styles from './AllocatedRowItem.module.css';
 
 const AllocatedRowItem = ({
   entry,
@@ -12,7 +13,6 @@ const AllocatedRowItem = ({
   onBlur,
   onAllocate,
   onUnallocate,
-  ...props
 }) => {
   const {
     allocateOrMatch,
@@ -22,54 +22,49 @@ const AllocatedRowItem = ({
   } = entry;
 
   const label = isReportable && (
-    <div className={style.reportableTooltip}>
-      <Tooltip
-        triggerContent={<Label type="boxed" color="purple" size="small">R</Label>}
-      >
-        Reportable payment
-      </Tooltip>
-    </div>
+    <Tooltip
+      className={styles.reportable}
+      triggerContent={<Label type="boxed" color="blue" size="small">R</Label>}
+    >
+      Reportable payment
+    </Tooltip>
   );
 
-  const removeButton = (
-    <Button type="secondary" className={style.unallocate} size="xs" onClick={onUnallocate}>
-      <Icons.Remove />
+  const unmatchButton = (
+    <Button type="secondary" size="xs" onClick={onUnallocate}>
+      <Icons.UnLink />
     </Button>
   );
 
   const focusedView = (
-    <AccountCombobox
-      items={accountList}
-      onChange={onAllocate}
-      onBlur={onBlur}
-      autoFocus
-      preventTabbingOnSelect
-    />
-  );
-
-  const defaultView = (
-    <div className={style.buttonLinkWrapper}>
-      <button type="button" className={`btn btn-link ${style.allocateButton}`} onClick={onFocus} onFocus={onFocus}>
-        <div className="btn-link__container">
-          <span className="btn-link__content" title={allocateOrMatch}>
-            {allocateOrMatch}
-          </span>
-        </div>
-      </button>
+    <div className={styles.allocating}>
+      <AccountCombobox
+        items={accountList}
+        label="Allocate to"
+        hideLabel
+        onChange={onAllocate}
+        onBlur={onBlur}
+        autoFocus
+        preventTabbingOnSelect
+      />
     </div>
   );
 
-  const view = isFocused ? focusedView : defaultView;
-
-  return (
-    <Table.RowItem {...props}>
-      <div className={style.unallocatedRowItem}>
-        { view }
-        { label }
-        { removeButton }
+  const defaultView = (
+    <div className={styles.allocated}>
+      <div className={styles.allocationInfo}>
+        <AllocatedButton onClick={onFocus} onFocus={onFocus}>
+          {allocateOrMatch}
+        </AllocatedButton>
+        <Tooltip className={styles.unmatch} triggerContent={unmatchButton}>
+          Unmatch
+        </Tooltip>
       </div>
-    </Table.RowItem>
+      {label}
+    </div>
   );
+
+  return isFocused ? focusedView : defaultView;
 };
 
 export default AllocatedRowItem;

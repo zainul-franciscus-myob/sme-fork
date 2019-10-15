@@ -1,6 +1,11 @@
-.list {
+.popover {
+  z-index: 5;
+}
+
+.openEntry.isLoading {
+  min-height: 22rem;
   position: relative;
-  min-height: 60vh;
+  background: var(--flx-palette-white);
 }
 
 .openEntryEmpty {
@@ -26,185 +31,14 @@
   min-height: 15rem;
 }
 
-.allocateButton {
-  color: #1b2830;
-  margin-right: 0.5rem;
-}
-
 .paymentFooter {
   align-items: center;
   display: flex;
   padding-right: 2rem;
 }
 
-.splitButton :global(.btn-link__content) {
-  max-width: 20rem;
-}
-
-.allocateButton :global(.btn-link__content),
-.splitButton :global(.btn-link__content) {
-  color: #1b2830;
-  text-align: left;
-}
-
-.allocateButton :global(.btn-link__content),
-.splitButton :global(.btn-link__content),
-.ellipsisText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.allocateButton :global(.btn-link__content) {
-  line-height: initial;
-  max-width: 15rem;
-}
-
-.reportableTooltip {
-  display: flex;
-  padding-right: 0.5rem;
-}
-
-.buttonLinkWrapper {
-  min-height: 3.2rem;
-  padding-top: 0.1rem;
-}
-
-.reportableTooltip > span {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.list [data-label=allocateOrMatch],
-.list [data-label=allocateOrMatchHeader] {
-  border-left: 0.2rem solid #dcdfe1;
-}
-
-.taxCode :global(.svg-icon-caret) {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.openEntry :global(.flx-tabs) {
-  flex-direction: row-reverse;
-}
-
-.list :global(.table-data__row) {
-  grid-gap: 0;
-}
-
 .openEntry .amountInput {
   width: 12rem;
-}
-
-.openEntry :global(.table-data__container) {
-  max-height: 27rem;
-  overflow-y: auto;
-}
-
-.entryLoading :global(.filter-bar__item button) {
-  cursor: progress;
-  opacity: 0.65;
-  filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
-.entryLoading :global(.table-data__header button) {
-  color: #969ea7;
-  cursor: progress;
-}
-
-.list :global(.combobox table) {
-  white-space: initial;
-}
-
-.list :global(.is-open) :global(.btn-link) {
-  color: white;
-}
-
-.list [data-label=allocateOrMatch] :global(.combobox) {
-  width: 17rem;
-}
-
-.list :global(.collapsible .table-data__row) {
-  padding-right: 0;
-}
-
-.list :global(.table-data__actions:last-child) {
-  padding-right: 0;
-  width: 6.6rem;
-}
-
-.list :global(.combobox .btn) {
-  border-color: #c5c9ce;
-  padding: 0.6rem 0.6rem 0.5rem;
-}
-
-.list [data-label=allocateOrMatch],
-.list [data-label=taxCode],
-.list :global(.table-data__actions:last-child) {
-  background-color: #f3f4f5;
-  align-self: stretch;
-}
-
-.list :global(.is-open .table-data__actions:last-child) {
-  background-color: #515e6d;
-}
-
-.unallocatedRowItem,
-.buttonLinkWrapper {
-  display: flex;
-}
-
-.unallocatedRowItem button {
-  border-color: transparent;
-  background: none;
-}
-
-.list [data-label=allocateOrMatch] {
-  padding: 0.2rem 1.2rem;
-}
-
-.list :global(.is-open) [data-label=allocateOrMatch],
-.list :global(.is-open) [data-label=taxCode] {
-  background: unset;
-}
-
-.list :global(.table-data__row) > :global(.table-data__cell)[data-label=allocateOrMatch] {
-  overflow: initial;
-  text-overflow: initial;
-}
-
-.list :global(.is-open .table-data__cell[data-label=allocateOrMatch]) {
-  padding: 0.8rem 1.2rem;
-}
-
-.allocateButton:global(.btn-link):hover :global(.btn-link__content) {
-  box-shadow: 0 0.1rem 0 #1b2830;
-}
-
-/* https://developer.paciellogroup.com/blog/2012/05/html5-accessibility-chops-hidden-and-aria-hidden/ */
-.unallocate {
-  clip-path: inset(100%);
-  clip: rect(0.1rem, 0.1rem, 0.1rem, 0.1rem);
-  height: 0.1rem;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 0.1rem;
-}
-
-/* https://developer.paciellogroup.com/blog/2012/05/html5-accessibility-chops-hidden-and-aria-hidden/ */
-.unallocate:focus,
-.list [data-label=allocateOrMatch]:hover .unallocate,
-.list [data-label=allocateOrMatch]:focus .unallocate {
-  position: relative;
-  clip-path: initial;
-  clip: auto;
-  width: auto;
-  height: auto;
-  overflow: auto;
 }
 
 .balances {
@@ -225,10 +59,6 @@
   margin-right: 0.5rem;
 }
 
-.openEntry.isLoading {
-  min-height: 22rem;
-}
-
 .checkbox {
   display: flex;
   align-items: center;
@@ -236,6 +66,21 @@
   margin-top: 2rem;
 }
 
-.popover {
-  z-index: 5;
+.openEntry :global(.flx-tabs) {
+  flex-direction: row-reverse;
+}
+
+.entryLoading :global(.filter-bar__item button) {
+  cursor: progress;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.bankTransactionView :global(.flx-template__body) > :global(.flx-card) {
+  background: transparent;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
 }

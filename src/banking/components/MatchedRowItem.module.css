@@ -1,0 +1,9 @@
+.matchInfo {
+  display: flex;
+  padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
+}
+
+.matchInfo :global(.btn-link) {
+  padding-top: 0.2rem;
+  padding-bottom: 0.3rem;
+}

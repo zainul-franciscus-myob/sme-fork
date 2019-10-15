@@ -1,10 +1,9 @@
 import {
-  Spinner, Table,
+  Card, Spinner,
 } from '@myob/myob-widgets';
 import React from 'react';
 
 import { tabIds } from '../tabItems';
-import BankTransactionExpansionToggle from './BankTransactionExpansionToggle';
 import BankTransactionTableRow from './BankTransactionTableRow';
 import BankTransactionTabs from './BankTransactionTabs';
 import MatchTransactionBody from './MatchTransactionBody';
@@ -12,18 +11,17 @@ import OpenEntryFooter from './OpenEntryFooter';
 import PaymentAllocationBody from './PaymentAllocationBody';
 import PaymentAllocationFooter from './PaymentAllocationFooter';
 import SplitAllocationBody from './SplitAllocationBody';
-import TableCollapsibleRow from '../../components/Feelix/Accordion/TableCollapsibleRow';
 import TransferMoneyBody from './TransferMoneyBody';
-import style from './BankingView.module.css';
+import styles from './BankingView.module.css';
 
 /* eslint-disable react/no-array-index-key */
 
 const BankTransactionTableBody = (props) => {
   const {
-    tableConfig,
     entries,
     entrySelectStatus,
     isOpenEntryLoading,
+    onHeaderClick,
     onSplitRowItemClick,
     onMatchRowItemClick,
     onMatchedToBlur,
@@ -60,7 +58,7 @@ const BankTransactionTableBody = (props) => {
   } = props;
 
   const spinner = (
-    <div className={style.spinner}>
+    <div className={styles.spinner}>
       <Spinner size="medium" />
     </div>
   );
@@ -118,56 +116,47 @@ const BankTransactionTableBody = (props) => {
   }[activeTabId];
 
   const openEntry = (
-    <React.Fragment>
-      <BankTransactionTabs
-        selected={activeTabId}
-        onSelected={onTabChange}
-      />
-      <Content {...contentProps} />
-    </React.Fragment>
-  );
-
-  const openEntryFooter = (
-    <OpenEntryFooter {...footerProps}>
-      {activeTabId === tabIds.payment ? <PaymentAllocationFooter /> : null}
-    </OpenEntryFooter>
+    <Card
+      body={(
+        <Card.Body child={(
+          <React.Fragment>
+            <BankTransactionTabs
+              selected={activeTabId}
+              onSelected={onTabChange}
+            />
+            <Content {...contentProps} />
+          </React.Fragment>
+          )}
+        />)}
+      footer={(
+        <Card.Footer child={(
+          <OpenEntryFooter {...footerProps}>
+            {activeTabId === tabIds.payment ? <PaymentAllocationFooter /> : null}
+          </OpenEntryFooter>
+        )}
+        />)}
+    />
   );
 
   const rows = entries.map((entry, index) => {
-    const entryClassName = `${style.openEntry} ${isOpenEntryLoading ? style.isLoading : ''}`;
+    const entryClassName = `${styles.openEntry} ${isOpenEntryLoading ? styles.isLoading : ''}`;
 
     return (
-      <TableCollapsibleRow
+      <BankTransactionTableRow
         key={index}
-        renderExpansionToggle={
-          ({ getButtonProps, isOpen }) => (
-            <BankTransactionExpansionToggle
-              index={index}
-              getButtonProps={getButtonProps}
-              isOpen={isOpen}
-            />
-          )
-        }
-        expansionToggle
-        footer={!isOpenEntryLoading ? openEntryFooter : null}
-        header={(
-          <Table.Row isSelected={entrySelectStatus[index]}>
-            <BankTransactionTableRow
-              onSplitRowItemClick={onSplitRowItemClick}
-              onMatchRowItemClick={onMatchRowItemClick}
-              onMatchedToFocus={onMatchedToFocus}
-              onMatchedToBlur={onMatchedToBlur}
-              onUnmatchedBlur={onUnmatchedBlur}
-              onUnmatchedFocus={onUnmatchedFocus}
-              onAllocate={onAllocate}
-              onUnallocate={onUnallocate}
-              tableConfig={tableConfig}
-              index={index}
-              isExpanded={index === openPosition}
-              onSelectTransaction={onSelectTransaction}
-            />
-          </Table.Row>
-        )}
+        onHeaderClick={onHeaderClick}
+        onSplitRowItemClick={onSplitRowItemClick}
+        onMatchRowItemClick={onMatchRowItemClick}
+        onMatchedToFocus={onMatchedToFocus}
+        onMatchedToBlur={onMatchedToBlur}
+        onUnmatchedBlur={onUnmatchedBlur}
+        onUnmatchedFocus={onUnmatchedFocus}
+        onAllocate={onAllocate}
+        onUnallocate={onUnallocate}
+        index={index}
+        isExpanded={index === openPosition}
+        isSelected={entrySelectStatus[index]}
+        onSelectTransaction={onSelectTransaction}
       >
         {openPosition === index
           && (
@@ -175,14 +164,14 @@ const BankTransactionTableBody = (props) => {
             { isOpenEntryLoading ? spinner : openEntry }
           </div>
           )}
-      </TableCollapsibleRow>
+      </BankTransactionTableRow>
     );
   });
 
   return (
-    <Table.Body>
+    <React.Fragment>
       {rows}
-    </Table.Body>
+    </React.Fragment>
   );
 };
 

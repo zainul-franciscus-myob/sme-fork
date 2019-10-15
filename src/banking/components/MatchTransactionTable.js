@@ -4,7 +4,7 @@ import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../bankingSelectors/matchTransactionSelectors';
 import MatchTransactionTableBody from './MatchTransactionTableBody';
-import style from './BankingView.module.css';
+import styles from './BankingView.module.css';
 
 const tableConfig = {
   radioButton: { width: '4rem', valign: 'top' },
@@ -15,13 +15,13 @@ const tableConfig = {
 };
 
 const emptyView = (
-  <div className={style.openEntryEmpty}>
+  <div className={styles.openEntryEmpty}>
     No results.
   </div>
 );
 
 const spinnerView = (
-  <div className={style.bankingTableSpinner}>
+  <div className={styles.bankingTableSpinner}>
     <Spinner size="medium" />
   </div>
 );

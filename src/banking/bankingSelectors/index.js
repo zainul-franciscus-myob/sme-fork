@@ -62,7 +62,7 @@ export const getBankEntryByIndexSelector = () => createSelector(
       ...entry,
       deposit: entry.deposit && formatAmount(entry.deposit),
       withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
-      displayDate: formatSlashDate(entry.date),
+      displayDate: formatSlashDate(new Date(entry.date)),
       accountList,
       isLineDisabled: entry.isLoading,
     });

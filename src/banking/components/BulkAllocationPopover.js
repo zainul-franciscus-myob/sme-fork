@@ -9,7 +9,7 @@ import {
 } from '../bankingSelectors/bulkAllocationSelectors';
 import AccountCombobox from '../../components/combobox/AccountCombobox';
 import TaxCodeCombobox from '../../components/combobox/TaxCodeCombobox';
-import style from './BankingView.module.css';
+import styles from './BankingView.module.css';
 
 const onComboBoxChange = (handler, key) => (item) => {
   const { id } = item;
@@ -57,7 +57,7 @@ const BulkAllocationPopover = ({
       footer={<Popover.Footer child={footer} />}
       closeOnOuterAction
       preferPlace="below"
-      appendTarget={`.${style.popover}`}
+      appendTarget={`.${styles.popover}`}
     >
       <Button type="secondary">Allocate</Button>
     </Popover>

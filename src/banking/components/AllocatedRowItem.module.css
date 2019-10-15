@@ -1,0 +1,70 @@
+.allocated {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-gap: var(--flx-spacing-x-tiny);
+  padding: var(--flx-spacing-tiny) var(--flx-spacing-clear) var(--flx-spacing-tiny) var(--flx-spacing-x-small);
+}
+
+.allocating {
+  display: flex;
+  padding: 0.3rem var(--flx-spacing-x-small);
+}
+
+.unmatch :global(button) {
+  background: none;
+  border: none;
+  padding: var(--flx-spacing-clear) var(--flx-spacing-clear) var(--flx-spacing-clear) 0.6rem;
+}
+
+.allocating :global(.form-group) {
+  width: 100%;
+  margin-bottom: var(--flx-spacing-clear);
+  max-width: var(--flx-width-field-xl);
+}
+
+.allocating :global(.form-group__label-group) {
+  display: none;
+}
+
+.reportable {
+  display: flex;
+}
+
+.allocationInfo {
+  position: relative;
+}
+
+.unmatch {
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.unmatch:focus {
+  opacity: 1;
+}
+
+.allocated:hover .unmatch {
+  opacity: 1;
+}
+
+.unmatch :global(button:hover:not(.active):not([disabled])) {
+  background: none;
+  box-shadow: var(--flx-spacing-xx-tiny) 0 3px 0 var(--flx-palette-storm-06);
+  padding: var(--flx-spacing-clear) var(--flx-spacing-clear) var(--flx-spacing-clear) 0.6rem;
+  border: none;
+}
+
+@media (pointer: coarse) {
+  .unmatch {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .allocating :global(.form-group) {
+    max-width: initial;
+  }
+}

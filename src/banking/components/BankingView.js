@@ -19,7 +19,7 @@ import BankTransactionTable from './BankTransactionTable';
 import BankingModal from './BankingModal';
 import BulkAllocationPopover from './BulkAllocationPopover';
 import PageView from '../../components/PageView/PageView';
-import style from './BankingView.module.css';
+import styles from './BankingView.module.css';
 
 const BankingView = (props) => {
   const {
@@ -120,53 +120,51 @@ const BankingView = (props) => {
       />
       <Button type="secondary" onClick={onSaveBulkUnallocation}>Unallocate</Button>
       <BulkActions.Counter count={selectedCount} />
-      <div className={style.popover} />
+      <div className={styles.popover} />
     </BulkActions>
   );
 
   const transactionListView = (
-    <div className={isEntryLoading ? style.entryLoading : ''}>
+    <div className={`${isEntryLoading ? styles.entryLoading : ''} ${styles.bankTransactionView}`}>
       <StandardTemplate sticky="none" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
         {modal}
         {showBulkActions && bulkActions}
-        <div className={style.list}>
-          <BankTransactionTable
-            onSort={onSort}
-            onAllocate={onAllocate}
-            onUnallocate={onUnallocate}
-            onMatchedToBlur={onMatchedToBlur}
-            onMatchedToFocus={onMatchedToFocus}
-            onSplitRowItemClick={onSplitRowItemClick}
-            onMatchRowItemClick={onMatchRowItemClick}
-            onUnmatchedFocus={onUnmatchedFocus}
-            onUnmatchedBlur={onUnmatchedBlur}
-            onHeaderClick={onHeaderClick}
-            onTabChange={onTabChange}
-            onSaveSplitAllocation={onSaveSplitAllocation}
-            onCancelSplitAllocation={onCancelSplitAllocation}
-            onUnallocateSplitAllocation={onUnallocateSplitAllocation}
-            onUpdateSplitAllocationHeader={onUpdateSplitAllocationHeader}
-            onAddSplitAllocationLine={onAddSplitAllocationLine}
-            onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
-            onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
-            onApplyMatchTransactionOptions={onApplyMatchTransactionOptions}
-            onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
-            onSortMatchTransactions={onSortMatchTransactions}
-            onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
-            onSaveMatchTransaction={onSaveMatchTransaction}
-            onCancelMatchTransaction={onCancelMatchTransaction}
-            onUnmatchTransaction={onUnmatchTransaction}
-            onUpdatePaymentAllocationOptions={onUpdatePaymentAllocationOptions}
-            onUpdatePaymentAllocationLine={onUpdatePaymentAllocationLine}
-            onSavePaymentAllocation={onSavePaymentAllocation}
-            onCancelPaymentAllocation={onCancelPaymentAllocation}
-            onSaveTransferMoney={onSaveTransferMoney}
-            onCancelTransferMoney={onCancelTransferMoney}
-            onUpdateTransfer={onUpdateTransfer}
-            onSelectTransaction={onSelectTransaction}
-            onSelectAllTransactions={onSelectAllTransactions}
-          />
-        </div>
+        <BankTransactionTable
+          onSort={onSort}
+          onAllocate={onAllocate}
+          onUnallocate={onUnallocate}
+          onMatchedToBlur={onMatchedToBlur}
+          onMatchedToFocus={onMatchedToFocus}
+          onSplitRowItemClick={onSplitRowItemClick}
+          onMatchRowItemClick={onMatchRowItemClick}
+          onUnmatchedFocus={onUnmatchedFocus}
+          onUnmatchedBlur={onUnmatchedBlur}
+          onHeaderClick={onHeaderClick}
+          onTabChange={onTabChange}
+          onSaveSplitAllocation={onSaveSplitAllocation}
+          onCancelSplitAllocation={onCancelSplitAllocation}
+          onUnallocateSplitAllocation={onUnallocateSplitAllocation}
+          onUpdateSplitAllocationHeader={onUpdateSplitAllocationHeader}
+          onAddSplitAllocationLine={onAddSplitAllocationLine}
+          onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
+          onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
+          onApplyMatchTransactionOptions={onApplyMatchTransactionOptions}
+          onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
+          onSortMatchTransactions={onSortMatchTransactions}
+          onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
+          onSaveMatchTransaction={onSaveMatchTransaction}
+          onCancelMatchTransaction={onCancelMatchTransaction}
+          onUnmatchTransaction={onUnmatchTransaction}
+          onUpdatePaymentAllocationOptions={onUpdatePaymentAllocationOptions}
+          onUpdatePaymentAllocationLine={onUpdatePaymentAllocationLine}
+          onSavePaymentAllocation={onSavePaymentAllocation}
+          onCancelPaymentAllocation={onCancelPaymentAllocation}
+          onSaveTransferMoney={onSaveTransferMoney}
+          onCancelTransferMoney={onCancelTransferMoney}
+          onUpdateTransfer={onUpdateTransfer}
+          onSelectTransaction={onSelectTransaction}
+          onSelectAllTransactions={onSelectAllTransactions}
+        />
       </StandardTemplate>
     </div>
   );

@@ -5,7 +5,7 @@ import React from 'react';
 
 import { getTableOptions } from '../bankingSelectors/paymentAllocationSelectors';
 import PaymentAllocationTableBody from './PaymentAllocationTableBody';
-import style from './BankingView.module.css';
+import styles from './BankingView.module.css';
 
 const tableConfig = {
   referenceId: { width: '15rem', valign: 'top' },
@@ -18,13 +18,13 @@ const tableConfig = {
 };
 
 const emptyView = tableEmptyMessage => (
-  <div className={style.openEntryEmpty}>
+  <div className={styles.openEntryEmpty}>
     {tableEmptyMessage}
   </div>
 );
 
 const spinnerView = (
-  <div className={style.bankingTableSpinner}>
+  <div className={styles.bankingTableSpinner}>
     <Spinner size="medium" />
   </div>
 );

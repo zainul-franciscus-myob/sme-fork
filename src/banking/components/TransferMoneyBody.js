@@ -7,7 +7,7 @@ import React from 'react';
 import { getFormattedTransfer } from '../bankingSelectors/transferMoneySelectors';
 import AccountCombobox from '../../components/combobox/AccountCombobox';
 import handleComboBoxChange from '../../components/handlers/handleComboboxChange';
-import style from './TransferMoneyBody.module.css';
+import styles from './TransferMoneyBody.module.css';
 
 const TransferMoneyBody = ({
   transferFrom,
@@ -19,7 +19,7 @@ const TransferMoneyBody = ({
   amount,
   onUpdateTransfer,
 }) => (
-  <div className={style.transferMoney}>
+  <div className={styles.transferMoney}>
     <Columns type="three">
       {
       transferDisplayType === 'transferFrom'

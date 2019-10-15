@@ -1,20 +1,16 @@
-import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
-import style from './BankingView.module.css';
+import AllocatedButton from './AllocatedButton';
+import styles from './SplitRowItem.module.css';
 
-const SplitRowItem = ({ entry, onClick, ...props }) => (
-  <Table.RowItem {...props}>
-    <div className={style.splitButton}>
-      <button type="button" className={`btn btn-link ${style.allocateButton}`} onClick={onClick}>
-        <div className="btn-link__container">
-          <span className="btn-link__content" title={entry.allocateOrMatch}>
-            {entry.allocateOrMatch}
-          </span>
-        </div>
-      </button>
+const SplitRowItem = ({ entry, onClick }) => (
+  <div className={styles.splitAllocation}>
+    <div className={styles.splitInfo}>
+      <AllocatedButton onClick={onClick}>
+        {entry.allocateOrMatch}
+      </AllocatedButton>
     </div>
-  </Table.RowItem>
+  </div>
 );
 
 export default SplitRowItem;

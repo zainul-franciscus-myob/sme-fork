@@ -1,6 +1,4 @@
-import {
-  Checkbox, HeaderSort, Table,
-} from '@myob/myob-widgets';
+import { PageState, Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -14,31 +12,29 @@ import {
 } from '../bankingSelectors';
 import {
   getBulkSelectStatus,
-  getEntrySelectStatus, getIsBulkLoading,
+  getEntrySelectStatus,
+  getIsBulkLoading,
 } from '../bankingSelectors/bulkAllocationSelectors';
-import AccordionTable from '../../components/Feelix/Accordion/AccordionTable';
 import BankTransactionTableBody from './BankTransactionTableBody';
-import TableView from '../../components/TableView/TableView';
-
-const tableConfig = {
-  date: { width: '11rem' },
-  description: { width: 'flex-1' },
-  withdrawal: { width: '15rem', align: 'right' },
-  deposit: { width: '13rem', align: 'right' },
-  allocateOrMatch: { width: '28rem', columnName: 'allocateOrMatch' },
-  taxCode: { width: '13rem', columnName: 'taxCode' },
-};
+import BankTransactionTableHeader from './BankTransactionTableHeader';
 
 const emptyView = header => (
-  <TableView
-    isEmpty
-    emptyMessage="There are no transactions for the selected filter options."
-    header={header}
-  />
+  <React.Fragment>
+    {header}
+    <PageState
+      title="There are no transactions for the selected filter options."
+    />
+  </React.Fragment>
 );
 
 const spinnerView = header => (
-  <TableView isLoading header={header} />
+  <React.Fragment>
+    {header}
+    <PageState
+      title={<Spinner size="medium" />}
+      description="Loading"
+    />
+  </React.Fragment>
 );
 
 const BankTransactionTable = ({
@@ -88,90 +84,66 @@ const BankTransactionTable = ({
   onSelectAllTransactions,
 }) => {
   const header = (
-    <Table.Header>
-      <Table.HeaderItem width="auto">
-        <Checkbox
-          name="bulkSelect"
-          label="Bulk select"
-          hideLabel
-          onChange={onSelectAllTransactions}
-          checked={bulkSelectStatus === 'checked'}
-          indeterminate={bulkSelectStatus === 'indeterminate'}
-          disabled={isBulkLoading}
-        />
-      </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.date}>
-        <HeaderSort title="Date" sortName="Date" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.description}>
-        <HeaderSort title="Description" sortName="Description" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.withdrawal}>
-        <HeaderSort title="Withdrawal ($)" sortName="Withdrawal" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.deposit}>
-        <HeaderSort title="Deposit ($)" sortName="Deposit" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.allocateOrMatch} columnName="allocateOrMatchHeader">
-        <HeaderSort title="Allocate or Match" sortName="AllocateOrMatch" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.taxCode} columnName="taxCodeHeader">
-        <HeaderSort title="Tax" sortName="TaxCode" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-    </Table.Header>
-  );
+    <BankTransactionTableHeader
+      onSelectAllTransactions={onSelectAllTransactions}
+      bulkSelectStatus={bulkSelectStatus}
+      isBulkLoading={isBulkLoading}
+      onSort={onSort}
+      order={order}
+    />);
 
   if (isTableLoading) {
     return spinnerView(header);
-  } if (isTableEmpty) {
+  }
+  if (isTableEmpty) {
     return emptyView(header);
   }
-  const body = BankTransactionTableBody({
-    entries,
-    entrySelectStatus,
-    tableConfig,
-    isOpenEntryLoading,
-    activeTabId,
-    onSplitRowItemClick,
-    onMatchRowItemClick,
-    onMatchedToBlur,
-    onMatchedToFocus,
-    onAllocate,
-    onUnallocate,
-    onUnmatchedFocus,
-    onUnmatchedBlur,
-    openPosition,
-    onTabChange,
-    onSaveSplitAllocation,
-    onCancelSplitAllocation,
-    onUnallocateSplitAllocation,
-    onUpdateSplitAllocationHeader,
-    onAddSplitAllocationLine,
-    onUpdateSplitAllocationLine,
-    onDeleteSplitAllocationLine,
-    onApplyMatchTransactionOptions,
-    onUpdateMatchTransactionOptions,
-    onSortMatchTransactions,
-    onUpdateMatchTransactionSelection,
-    onSaveMatchTransaction,
-    onCancelMatchTransaction,
-    onUnmatchTransaction,
-    onUpdatePaymentAllocationOptions,
-    onUpdatePaymentAllocationLine,
-    onSavePaymentAllocation,
-    onCancelPaymentAllocation,
-    onSaveTransferMoney,
-    onCancelTransferMoney,
-    onUpdateTransfer,
-    onSelectTransaction,
-  });
-  return (
-    <AccordionTable
+  const body = (
+    <BankTransactionTableBody
+      entries={entries}
+      entrySelectStatus={entrySelectStatus}
+      isOpenEntryLoading={isOpenEntryLoading}
+      activeTabId={activeTabId}
+      onHeaderClick={onHeaderClick}
+      onSplitRowItemClick={onSplitRowItemClick}
+      onMatchRowItemClick={onMatchRowItemClick}
+      onMatchedToBlur={onMatchedToBlur}
+      onMatchedToFocus={onMatchedToFocus}
+      onAllocate={onAllocate}
+      onUnallocate={onUnallocate}
+      onUnmatchedFocus={onUnmatchedFocus}
+      onUnmatchedBlur={onUnmatchedBlur}
       openPosition={openPosition}
-      handleHeaderClick={onHeaderClick}
-      header={header}
-      body={body}
-    />
+      onTabChange={onTabChange}
+      onSaveSplitAllocation={onSaveSplitAllocation}
+      onCancelSplitAllocation={onCancelSplitAllocation}
+      onUnallocateSplitAllocation={onUnallocateSplitAllocation}
+      onUpdateSplitAllocationHeader={onUpdateSplitAllocationHeader}
+      onAddSplitAllocationLine={onAddSplitAllocationLine}
+      onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
+      onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
+      onApplyMatchTransactionOptions={onApplyMatchTransactionOptions}
+      onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
+      onSortMatchTransactions={onSortMatchTransactions}
+      onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
+      onSaveMatchTransaction={onSaveMatchTransaction}
+      onCancelMatchTransaction={onCancelMatchTransaction}
+      onUnmatchTransaction={onUnmatchTransaction}
+      onUpdatePaymentAllocationOptions={onUpdatePaymentAllocationOptions}
+      onUpdatePaymentAllocationLine={onUpdatePaymentAllocationLine}
+      onSavePaymentAllocation={onSavePaymentAllocation}
+      onCancelPaymentAllocation={onCancelPaymentAllocation}
+      onSaveTransferMoney={onSaveTransferMoney}
+      onCancelTransferMoney={onCancelTransferMoney}
+      onUpdateTransfer={onUpdateTransfer}
+      onSelectTransaction={onSelectTransaction}
+    />);
+
+  return (
+    <React.Fragment>
+      {header}
+      {body}
+    </React.Fragment>
   );
 };
 

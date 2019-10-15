@@ -1,110 +1,52 @@
 import {
-  Checkbox, Spinner, Table,
+  Button, Checkbox, Icons,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getBankEntryByIndexSelector } from '../bankingSelectors';
 import { getIsBulkLoading } from '../bankingSelectors/bulkAllocationSelectors';
-import AllocatedRowItem from './AllocatedRowItem';
-import ExpandedRowItem from './ExpandedRowItem';
-import MatchedRowItem from './MatchedRowItem';
-import SplitRowItem from './SplitRowItem';
-import UnmatchedRowItem from './UnmatchedRowItem';
-import style from './BankingView.module.css';
-
-const getMatchedOrAllocatedRowItem = ({
-  entry,
-  onSplitRowItemClick,
-  onMatchRowItemClick,
-  onMatchedToFocus,
-  onMatchedToBlur,
-  onUnmatchedBlur,
-  onUnmatchedFocus,
-  onAllocate,
-  onUnallocate,
-  tableConfig,
-  index,
-  isExpanded,
-}) => {
-  const {
-    type,
-    isLoading,
-  } = entry;
-
-  if (isLoading) {
-    return (
-      <Table.RowItem {...tableConfig.allocateOrMatch}>
-        <Spinner size="small" />
-      </Table.RowItem>
-    );
-  }
-
-  if (isExpanded) {
-    return (
-      <ExpandedRowItem
-        entry={entry}
-        {...tableConfig.allocateOrMatch}
-      />
-    );
-  }
-
-  if (type === 'matched') {
-    return (
-      <MatchedRowItem
-        entry={entry}
-        onClick={() => onMatchRowItemClick(index)}
-        {...tableConfig.allocateOrMatch}
-      />
-    );
-  }
-
-  if (type === 'splitAllocation' || type === 'payment' || type === 'transfer') {
-    return (
-      <SplitRowItem
-        index={index}
-        entry={entry}
-        onClick={() => onSplitRowItemClick(index)}
-        {...tableConfig.allocateOrMatch}
-      />
-    );
-  }
-
-  if (type === 'singleAllocation') {
-    return (
-      <AllocatedRowItem
-        {...tableConfig.allocateOrMatch}
-        entry={entry}
-        onUnallocate={() => onUnallocate(index)}
-        onAllocate={item => onAllocate(index, item)}
-        onFocus={() => onMatchedToFocus(index)}
-        onBlur={() => onMatchedToBlur(index)}
-      />
-    );
-  }
-
-  return (
-    <UnmatchedRowItem
-      {...tableConfig.allocateOrMatch}
-      entry={entry}
-      onAllocate={item => onAllocate(index, item)}
-      onFocus={() => onUnmatchedFocus(index)}
-      onBlur={() => onUnmatchedBlur(index)}
-    />
-  );
-};
+import MatchedOrAllocated from './MatchedOrAllocated';
+import styles from './BankTransactionTable.module.css';
 
 const onCheckboxChange = (handler, index) => (e) => {
   const { checked } = e.target;
   handler({ index, value: checked });
 };
 
+const onClickChevronButton = (handler, index) => () => handler(index);
+
+const BankingTableRowField = ({ title, children, className }) => (
+  <div className={className}>
+    <span className={styles.label}>
+      <strong>
+        {title}
+        :
+      </strong>
+    </span>
+    {children}
+  </div>
+);
+
+const BankingTableDescription = ({ description, note }) => (
+  <div>
+    {description}
+    {note && (
+    <div className={styles.note}>
+      Note
+      :
+      {note}
+    </div>
+    )}
+  </div>
+);
+
 const BankTransactionTableRow = ({
   index,
   entry,
+  onHeaderClick,
   onSplitRowItemClick,
   onMatchRowItemClick,
-  tableConfig,
   onAllocate,
   onUnallocate,
   onMatchedToBlur,
@@ -112,50 +54,74 @@ const BankTransactionTableRow = ({
   onUnmatchedFocus,
   onUnmatchedBlur,
   isExpanded,
+  isSelected,
   isBulkLoading,
   onSelectTransaction,
+  children,
 }) => {
-  const matchedOrAllocatedRowItem = getMatchedOrAllocatedRowItem({
-    entry,
-    onSplitRowItemClick,
-    onMatchRowItemClick,
-    tableConfig,
-    onAllocate,
-    onUnallocate,
-    onMatchedToBlur,
-    onMatchedToFocus,
-    onUnmatchedFocus,
-    onUnmatchedBlur,
-    index,
-    isExpanded,
-  });
+  const matchedOrAllocatedRowItem = (
+    <MatchedOrAllocated
+      entry={entry}
+      onSplitRowItemClick={onSplitRowItemClick}
+      onMatchRowItemClick={onMatchRowItemClick}
+      onAllocate={onAllocate}
+      onUnallocate={onUnallocate}
+      onMatchedToBlur={onMatchedToBlur}
+      onMatchedToFocus={onMatchedToFocus}
+      onUnmatchedFocus={onUnmatchedFocus}
+      onUnmatchedBlur={onUnmatchedBlur}
+      index={index}
+      isExpanded={isExpanded}
+    />
+  );
+
+  const expandIcon = isExpanded ? <Icons.UpChevron /> : <Icons.DownChevron />;
+
+  const openedClassName = isExpanded ? styles.expanded : '';
+  const selectedClassName = isSelected ? styles.selected : '';
 
   return (
-    <React.Fragment>
-      <Table.RowItem width="auto" cellRole="checkbox" valign="middle">
-        <Checkbox
-          name={`${index}-select`}
-          label={`Select row ${index}`}
-          hideLabel
-          onChange={onCheckboxChange(onSelectTransaction, index)}
-          checked={entry.selected}
-          disabled={isBulkLoading}
-        />
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.date}>{entry.displayDate}</Table.RowItem>
-      <Table.RowItem {...tableConfig.description}>
-        <div className={style.ellipsisText} title={entry.description}>
-          {entry.description}
+    <div className={`${styles.row} ${openedClassName} ${selectedClassName}`}>
+      <div className={styles.columns}>
+        <div className={styles.selectionColumn}>
+          <Checkbox
+            name={`${index}-select`}
+            label={`Select row ${index}`}
+            hideLabel
+            onChange={onCheckboxChange(onSelectTransaction, index)}
+            checked={entry.selected}
+            disabled={isBulkLoading}
+          />
         </div>
-        {entry.note
-        && (<div className={style.ellipsisText} title={entry.note}>{entry.note}</div>)
-        }
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.withdrawal}>{entry.withdrawal}</Table.RowItem>
-      <Table.RowItem {...tableConfig.deposit}>{entry.deposit}</Table.RowItem>
-      {matchedOrAllocatedRowItem}
-      <Table.RowItem {...tableConfig.taxCode}>{entry.taxCode}</Table.RowItem>
-    </React.Fragment>
+        <div className={styles.infoColumn}>
+          <BankingTableRowField title="Date" className={styles.date}>
+            {entry.displayDate}
+          </BankingTableRowField>
+          <div className={styles.description}>
+            <BankingTableDescription description={entry.description} note={entry.note} />
+            <BankingTableRowField title="Amount" className={styles.amount}>
+              {entry.deposit || `-${entry.withdrawal}`}
+            </BankingTableRowField>
+            <BankingTableRowField title="Withdrawal" className={styles.withdrawalOrDeposit}>
+              {entry.withdrawal}
+            </BankingTableRowField>
+            <BankingTableRowField title="Deposit" className={styles.withdrawalOrDeposit}>
+              {entry.deposit}
+            </BankingTableRowField>
+          </div>
+        </div>
+        <div className={styles.allocationColumn}>
+          {matchedOrAllocatedRowItem}
+          <div className={styles.taxCode}>{entry.taxCode}</div>
+          <div className={styles.action}>
+            <Button type="secondary" size="xs" onClick={onClickChevronButton(onHeaderClick, index)}>
+              {expandIcon}
+            </Button>
+          </div>
+        </div>
+      </div>
+      {children}
+    </div>
   );
 };
 
