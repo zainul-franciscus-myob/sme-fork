@@ -5,7 +5,7 @@ import { getPurchaseChart } from '../../selectors/DashboardPurchaseSelectors';
 import SalesOrPurchaseSummaryChart from '../SalesOrPurchaseSummaryChart';
 
 const DashboardPurchaseChart = ({ data }) => (
-  <SalesOrPurchaseSummaryChart title="Total purchase" data={data} />
+  <SalesOrPurchaseSummaryChart title="Total purchases" data={data} />
 );
 
 const mapStateToProps = state => ({

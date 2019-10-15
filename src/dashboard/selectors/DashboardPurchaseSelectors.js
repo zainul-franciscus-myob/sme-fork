@@ -1,4 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
+import { startOfMonth } from 'date-fns';
 
 import { getBusinessId, getRegion } from './DashboardSelectors';
 import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
@@ -29,14 +30,31 @@ export const getBillListLink = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/bill`,
 );
 
-const getPurchaseTotalLabel = state => `Purchase for ${getPurchaseMonth(state)}`;
+export const getUnpaidTotalLink = createSelector(
+  getBillListLink,
+  link => `${link}?status=Open`,
+);
+
+export const getPurchaseTotalLink = createSelector(
+  getBillListLink,
+  (link) => {
+    const today = new Date();
+    const dateFrom = formatIsoDate(startOfMonth(today));
+    const dateTo = formatIsoDate(today);
+
+    return `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}`;
+  },
+);
+
+const getPurchaseTotalLabel = state => `Purchases for ${getPurchaseMonth(state)}`;
 
 export const getPurchaseTotalSummary = createStructuredSelector({
   unpaidTotal: state => state.purchase.unpaidTotal,
   overDueTotal: state => state.purchase.overDueTotal,
   purchaseTotal: state => state.purchase.purchaseTotal,
   purchaseTotalLabel: getPurchaseTotalLabel,
-  billListLink: getBillListLink,
+  unpaidTotalLink: getUnpaidTotalLink,
+  purchaseTotalLink: getPurchaseTotalLink,
 });
 
 const getBillLink = (region, businessId, billId) => `/#/${region}/${businessId}/bill/${billId}`;

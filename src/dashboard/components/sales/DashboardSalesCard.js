@@ -60,7 +60,7 @@ const DashboardSalesCard = ({
   );
 
   const actions = [
-    <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createInvoiceLink)}>Create your first invoice</Button>,
+    <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createInvoiceLink)}>Create invoice</Button>,
   ];
 
   const emptyView = (

@@ -16,10 +16,10 @@ const HeaderItem = ({ title, content, clickable }) => (
 
 const DashboardTotalSummary = ({ items = [] }) => {
   const body = items.map(({ title, content, link }) => {
-    const headerItem = <HeaderItem title={title} content={content} clickable={link} />;
+    const headerItem = <HeaderItem key={title} title={title} content={content} clickable={link} />;
 
     return link
-      ? <a href={link}>{headerItem}</a>
+      ? <a key={title} href={link}>{headerItem}</a>
       : headerItem;
   });
 
