@@ -1,24 +1,18 @@
 import {
-  Button, Icons, Label,
+  Button, Icons, Label, TotalsHeader,
 } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getContactHeaderDetails } from '../contactDetailSelectors';
 import styles from './ContactHeader.module.css';
 
-// eslint-disable-next-line react/prop-types
-const PaymentChip = ({ label, value, color }) => (
-  <div className={styles.chip}>
-    <Label size="small" color={color}>{label}</Label>
-    <Label size="large" color={color}>{value}</Label>
-  </div>
-);
-
 const ContactHeader = (props) => {
   const {
+    isCreating,
+    title,
     contactType,
+    status,
     averageDaysToPay,
     balanceDue,
     overDue,
@@ -27,49 +21,66 @@ const ContactHeader = (props) => {
     onRemindersButtonClick,
   } = props;
 
+
+  if (isCreating) {
+    return (
+      <TotalsHeader
+        title="Create contact"
+      />
+    );
+  }
+
+  const headerRight = showPaymentSummary && (
+    [
+      <TotalsHeader.TotalItem
+        key={1}
+        label="Avg days to pay"
+        count={averageDaysToPay}
+      />,
+      <TotalsHeader.TotalItem
+        key={2}
+        label="Balance due"
+        count={balanceDue}
+      />,
+      <TotalsHeader.TotalItem
+        key={3}
+        label="Balance due"
+        count={overDue}
+        className={styles.overdue}
+      />,
+    ]
+  );
+
+  const headerLeft = showReminders && (
+    <Button
+      type="link"
+      icon={<Icons.OpenExternalLink />}
+      onClick={onRemindersButtonClick}
+    >
+      Reminder settings
+    </Button>
+  );
+
   return (
-    <div className={styles.header}>
-      <div className={styles.headerLeft}>
-        <div>
-          <Label>{contactType}</Label>
-        </div>
-        {
-          showReminders && (
-            <Button
-              type="link"
-              icon={<Icons.OpenExternalLink />}
-              onClick={onRemindersButtonClick}
-            >
-              Reminder settings
-            </Button>
-          )
-        }
-      </div>
-      <div className={styles.headerRight}>
-        {
-          showPaymentSummary && (
-            <React.Fragment>
-              <PaymentChip label="Avg days to pay" value={averageDaysToPay} />
-              <PaymentChip label="Balance due" value={balanceDue} />
-              <PaymentChip label="Overdue" value={overDue} color="red" />
-            </React.Fragment>
-          )
-        }
-      </div>
-    </div>
+    <TotalsHeader
+      title={title}
+      subtitle={contactType}
+      actions={
+        headerLeft
+      }
+      totalItems={headerRight}
+      tag={(
+        <Label type="boxed" color="light-grey">
+          {status}
+        </Label>
+      )}
+    />
   );
 };
 
-ContactHeader.propTypes = {
-  contactType: PropTypes.string.isRequired,
-  averageDaysToPay: PropTypes.string.isRequired,
-  balanceDue: PropTypes.string.isRequired,
-  overDue: PropTypes.string.isRequired,
-  showReminders: PropTypes.bool.isRequired,
-  showPaymentSummary: PropTypes.bool.isRequired,
-  onRemindersButtonClick: PropTypes.func.isRequired,
-};
 
-const mapStateToProps = state => getContactHeaderDetails(state);
+const mapStateToProps = state => ({
+  ...getContactHeaderDetails(state),
+});
 
 export default connect(mapStateToProps)(ContactHeader);

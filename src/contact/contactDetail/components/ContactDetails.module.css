@@ -1,0 +1,19 @@
+.companyName {
+  max-width: var(--flx-width-field-l);
+}
+
+.firstName {
+  max-width: var(--flx-width-field-l);
+}
+
+.lastName {
+  max-width: var(--flx-width-field-l);
+}
+
+.abn {
+  max-width: var(--flx-width-field-s);
+}
+
+.contactId {
+  max-width: var(--flx-width-field-s);
+}

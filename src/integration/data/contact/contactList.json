@@ -2,7 +2,7 @@
   "type": "All",
   "typeFilters": [
     {
-      "name": "All Contacts",
+      "name": "All",
       "value": "All"
     },
     {
@@ -14,56 +14,13 @@
       "value": "Customer"
     },
     {
-      "name": "Other",
+      "name": "Personal",
       "value": "Other"
     }
   ],
   "sortOrder": "asc",
   "orderBy": "Name",
   "entries": [
-    {
-      "id": "1",
-      "referenceId": "SUP00001",
-      "name": "The builder, Bob",
-      "type": "Supplier",
-      "phoneNumber": "02 98918911",
-      "email": "Curbys@aol.com",
-      "outstandingBalance": "825.00",
-      "overdue": "0.00",
-      "isActive": true
-    },
-    {
-      "id": "3",
-      "referenceId": "CUS00003",
-      "name": "Witherow, Matt",
-      "type": "Customer",
-      "phoneNumber": "03 95463920",
-      "email": "matt_witherow@hotmail.com",
-      "outstandingBalance": "10,000.25",
-      "overdue": "10,000.25",
-      "isActive": true
-    },
-    {
-      "id": "2",
-      "referenceId": "SUP00002",
-      "name": "Curbys Super Stands",
-      "type": "Supplier",
-      "phoneNumber": "07 83948389",
-      "email": "Curbys@super.stands",
-      "outstandingBalance": "9,534.99",
-      "overdue": "9,534.99",
-      "isActive": true
-    },
-    {
-      "id": "20",
-      "referenceId": "GEN00020",
-      "name": "Shahid, Hamza",
-      "type": "Other",
-      "phoneNumber": "03 847588393",
-      "email": "hamza.shahid@example.com",
-      "outstandingBalance": "948.00",
-      "overdue": "0.00",
-      "isActive": true
-    }
+
   ]
 }

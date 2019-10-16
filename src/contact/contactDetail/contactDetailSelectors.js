@@ -16,11 +16,9 @@ const getIsCompany = state => state.contact.designation === 'Company';
 
 const getIsSupplier = state => state.contact.selectedContactType === 'Supplier';
 
-const getAbnLink = state => (
-  state.contact.abn
-    ? `https://abr.business.gov.au/ABN/View?id=${state.contact.abn}`
-    : 'https://abr.business.gov.au/'
-);
+const getAbnLink = state => (state.contact.abn
+  ? `https://abr.business.gov.au/ABN/View?id=${state.contact.abn}`
+  : 'https://abr.business.gov.au/');
 
 export const getContactDetails = createStructuredSelector({
   selectedContactType: state => state.contact.selectedContactType,
@@ -42,27 +40,48 @@ export const getMoreDetails = createStructuredSelector({
   notes: state => state.contact.notes,
 });
 
-export const getTitle = state => state.readonly.title;
-
-export const getStatus = state => state.readonly.status;
-
 export const getContactHeaderDetails = createStructuredSelector({
   contactType: state => state.readonly.contactType,
   averageDaysToPay: state => state.readonly.averageDaysToPay,
   balanceDue: state => state.readonly.balanceDue,
   overDue: state => state.readonly.overDue,
   showReminders: state => state.readonly.contactType === 'Customer',
-  showPaymentSummary: state => state.readonly.contactType === 'Customer' || state.readonly.contactType === 'Supplier',
+  showPaymentSummary: state => state.readonly.contactType === 'Customer'
+    || state.readonly.contactType === 'Supplier',
+  isCreating: getIsCreating,
+  title: state => state.readonly.title,
+  status: state => state.readonly.status,
 });
 
 const MAX_PHONE_NUMBERS = 3;
+
+const compareStateByValue = ({ value: stateA }, { value: stateB }) => stateA.localeCompare(stateB);
+
+const findStatesInCountry = (selectedCountry) => {
+  const matchingCountry = countryList.find(
+    country => country.value === selectedCountry,
+  );
+
+  if (!matchingCountry) {
+    return [];
+  }
+
+  const { states } = matchingCountry;
+
+  if (!states) {
+    return [];
+  }
+
+  return states;
+};
 
 const formatAddress = (address) => {
   const numberOfAddedPhoneNumbers = address.phoneNumbers.length;
   const phoneNumbers = numberOfAddedPhoneNumbers === 0 ? [''] : address.phoneNumbers;
   const hasAddPhoneButton = numberOfAddedPhoneNumbers < MAX_PHONE_NUMBERS;
-  const stateOptions = (countryList
-    .find(country => country.value === address.country) || {}).states || [];
+  const stateOptions = findStatesInCountry(address.country).sort(
+    compareStateByValue,
+  );
   const isStateDropdown = stateOptions.length > 0;
 
   return {
@@ -70,7 +89,7 @@ const formatAddress = (address) => {
     phoneNumbers,
     hasAddPhoneButton,
     isStateDropdown,
-    stateOptions: stateOptions || [],
+    stateOptions,
   };
 };
 

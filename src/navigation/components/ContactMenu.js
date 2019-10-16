@@ -15,7 +15,7 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
 );
 
 const getItems = (urls, onMenuLinkClick) => [
-  urls.createContact && getMenuLink(urls.createContact, 'Add contact', onMenuLinkClick),
+  urls.createContact && getMenuLink(urls.createContact, 'Create contact', onMenuLinkClick),
   urls.contactList && getMenuLink(urls.contactList, 'View contacts', onMenuLinkClick),
 ].filter(Boolean);
 

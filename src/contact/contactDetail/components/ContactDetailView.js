@@ -1,12 +1,11 @@
 import {
-  Alert, FormTemplate, PageHead,
+  Alert, FormTemplate,
 } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getIsLoading, getModalType, getStatus, getTitle,
+  getAlertMessage, getIsCreating, getIsLoading, getModalType,
 } from '../contactDetailSelectors';
 import BillingAddress from './BillingAddress';
 import CancelModal from '../../../components/modal/CancelModal';
@@ -24,8 +23,6 @@ const ContactDetailView = ({
   isLoading,
   modalType,
   alertMessage,
-  title,
-  status,
   onContactDetailsChange,
   onBillingAddressChange,
   onShippingAddressChange,
@@ -65,17 +62,21 @@ const ContactDetailView = ({
     );
   }
 
-  const pageHead = isCreating ? 'Create contact' : title;
-
   const view = (
     <FormTemplate
-      pageHead={(
-        <PageHead title={pageHead} tag={status} />
-      )}
+      pageHead={<ContactHeader onRemindersButtonClick={onRemindersButtonClick} />}
       alert={alertComponent}
+      sticky="none"
+      actions={(
+        <ContactDetailActions
+          isCreating={isCreating}
+          onSaveButtonClick={onSaveButtonClick}
+          onCancelButtonClick={onCancelButtonClick}
+          onDeleteButtonClick={onDeleteButtonClick}
+        />
+      )}
     >
       {modal}
-      {!isCreating && <ContactHeader onRemindersButtonClick={onRemindersButtonClick} />}
       <FormCard>
         <ContactDetails
           isCreating={isCreating}
@@ -85,36 +86,11 @@ const ContactDetailView = ({
         <ShippingAddress onAddressChange={onShippingAddressChange} />
         <MoreDetails onContactDetailsChange={onContactDetailsChange} />
       </FormCard>
-      <ContactDetailActions
-        isCreating={isCreating}
-        onSaveButtonClick={onSaveButtonClick}
-        onCancelButtonClick={onCancelButtonClick}
-        onDeleteButtonClick={onDeleteButtonClick}
-      />
+
     </FormTemplate>
   );
 
   return <PageView isLoading={isLoading} view={view} />;
-};
-
-ContactDetailView.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  modalType: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
-  alertMessage: PropTypes.string.isRequired,
-  onContactDetailsChange: PropTypes.func.isRequired,
-  onShippingAddressChange: PropTypes.func.isRequired,
-  onBillingAddressChange: PropTypes.func.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
-  onCancelModal: PropTypes.func.isRequired,
-  onDeleteModal: PropTypes.func.isRequired,
-  onRemindersButtonClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -122,8 +98,6 @@ const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
-  title: getTitle(state),
-  status: getStatus(state),
 });
 
 export default connect(mapStateToProps)(ContactDetailView);

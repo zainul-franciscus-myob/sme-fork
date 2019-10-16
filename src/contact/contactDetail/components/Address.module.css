@@ -1,0 +1,39 @@
+.addressGroup {
+  padding-bottom: var(--flx-spacing-large);
+}
+
+.country :global(.form-group__input-group) {
+  max-width: var(--flx-width-field-l);
+}
+
+.address :global(.form-group__input-group) {
+  max-width: var(--flx-width-field-l);
+}
+
+.city {
+  max-width: var(--flx-width-field-l);
+}
+
+.state {
+  max-width: var(--flx-width-field-xs);
+}
+
+.postcode {
+  max-width: var(--flx-width-field-xs);
+}
+
+.contactPerson {
+  max-width: var(--flx-width-field-l);
+}
+
+.email {
+  max-width: var(--flx-width-field-l);
+}
+
+.phone {
+  max-width: var(--flx-width-field-m);
+}
+
+.fax {
+  max-width: var(--flx-width-field-m);
+}

@@ -1,11 +1,13 @@
 import {
-  Checkbox, FilterBar, Search, Select,
+  Checkbox, Search, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getFilterOptions, getTypeFilterOptions } from '../contactListSelector';
+import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
+import styles from './ContactListFilterOptions.module.css';
 
 class ContactListFilterOptions extends React.Component {
   onSearchBoxChange = (e) => {
@@ -14,7 +16,7 @@ class ContactListFilterOptions extends React.Component {
     const { onUpdateFilters } = this.props;
 
     onUpdateFilters({ filterName, value });
-  }
+  };
 
   onSelectChange = (e) => {
     const filterName = 'type';
@@ -22,40 +24,56 @@ class ContactListFilterOptions extends React.Component {
     const { onUpdateFilters } = this.props;
 
     onUpdateFilters({ filterName, value });
-  }
+  };
 
   onCheckboxChange = (e) => {
     const filterName = 'showInactive';
     const { onUpdateFilters } = this.props;
     const value = e.target.checked;
     onUpdateFilters({ filterName, value });
-  }
+  };
 
   render = () => {
     const {
-      filterOptions: {
-        type,
-        keywords,
-        showInactive,
-      },
+      filterOptions: { type, keywords, showInactive },
       typeFilterOptions,
       onApplyFilter,
     } = this.props;
 
     return (
       <FilterBar onApply={onApplyFilter}>
-        <Select name="type" label="Contact type" value={type} onChange={this.onSelectChange}>
+        <Select
+          name="type"
+          label="Contact type"
+          value={type}
+          onChange={this.onSelectChange}
+        >
           {typeFilterOptions.map(({ label, value }) => (
             <Select.Option value={value} label={label} key={value} />
           ))}
         </Select>
-        <Search id="Search_Box" name="keywords" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+        <Search
+          id="Search_Box"
+          name="keywords"
+          label="Search"
+          placeholder=""
+          maxLength={255}
+          value={keywords}
+          onChange={this.onSearchBoxChange}
+          className={styles.search}
+        />
         <FilterBar.Item>
-          <Checkbox id="Check_Box" name="showInactive" label="Show inactive contacts" checked={showInactive} onChange={this.onCheckboxChange} />
+          <Checkbox
+            id="Check_Box"
+            name="showInactive"
+            label="Show inactive"
+            checked={showInactive}
+            onChange={this.onCheckboxChange}
+          />
         </FilterBar.Item>
       </FilterBar>
     );
-  }
+  };
 }
 
 ContactListFilterOptions.propTypes = {
@@ -66,10 +84,12 @@ ContactListFilterOptions.propTypes = {
     keywords: PropTypes.string,
     showInactive: PropTypes.bool,
   }).isRequired,
-  typeFilterOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string,
-  })).isRequired,
+  typeFilterOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 const mapStateToProps = state => ({

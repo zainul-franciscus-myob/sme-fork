@@ -1,5 +1,4 @@
 const countryList = [
-  { name: 'Blank', value: '' },
   { name: 'Afghanistan', value: 'Afghanistan' },
   { name: 'Aland Islands', value: 'Aland Islands' },
   { name: 'Albania', value: 'Albania' },
@@ -17,7 +16,6 @@ const countryList = [
     name: 'Australia',
     value: 'Australia',
     states: [
-      { name: 'Blank', value: '' },
       { name: 'AAT', value: 'AAT' },
       { name: 'ACT', value: 'ACT' },
       { name: 'VIC', value: 'VIC' },

@@ -212,10 +212,12 @@ export default class ContactDetailModule {
     const urlParams = {
       businessId: getBusinessId(this.store.getState()),
     };
+    const params = {
+      region: getRegion(this.store.getState()),
+    };
 
     const onSuccess = (payload) => {
       this.setLoadingState(false);
-
       this.store.dispatch({
         intent,
         ...payload,
@@ -230,6 +232,7 @@ export default class ContactDetailModule {
     this.integration.read({
       intent,
       urlParams,
+      params,
       onSuccess,
       onFailure,
     });

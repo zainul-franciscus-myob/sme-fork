@@ -3,6 +3,7 @@ import {
 } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import classnames from 'classnames';
 
 import styles from './PhoneNumberList.module.css';
 
@@ -57,6 +58,7 @@ class PhoneNumberList extends React.Component {
     const {
       phoneNumbers,
       hasAddPhoneButton,
+      inputClassName,
     } = this.props;
 
     return (
@@ -71,7 +73,7 @@ class PhoneNumberList extends React.Component {
                 <div className={styles.phoneNumber}>
                   <input
                     id={id}
-                    className="form-control"
+                    className={classnames('form-control', inputClassName)}
                     label="Phone number"
                     hidelabel="true"
                     value={phoneNumber}

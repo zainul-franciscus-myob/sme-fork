@@ -13,6 +13,8 @@ import React from 'react';
 
 import { getContactDetails } from '../contactDetailSelectors';
 import AbnInput from '../../../components/autoFormatter/AbnInput/AbnInput';
+import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
+import style from './ContactDetails.module.css';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -54,7 +56,7 @@ const ContactDetails = ({
 }) => (
   <FieldGroup label="Details">
     <RadioButtonGroup
-      label="Contact type"
+      label={<RequiredTooltip label="Contact type" />}
       name="contactType"
       onChange={onRadioButtonChange('selectedContactType', onContactDetailsChange)}
       renderRadios={({ id, value, ...props }) => contactTypes.map(item => (
@@ -78,14 +80,37 @@ const ContactDetails = ({
       isCompany && (
         <Input
           name="companyName"
-          label="Company name"
+          label={<RequiredTooltip label="Company name" />}
+          className={style.companyName}
           value={companyName}
           onChange={onInputChange(onContactDetailsChange)}
         />
       )
     }
     {
-      !isCreating && isSupplier && (
+      !isCompany && (
+        <Input
+          name="firstName"
+          label="First name"
+          className={style.firstName}
+          value={firstName}
+          onChange={onInputChange(onContactDetailsChange)}
+        />
+      )
+    }
+    {
+      !isCompany && (
+        <Input
+          name="lastName"
+          label={<RequiredTooltip label="Surname or family name" />}
+          className={style.lastName}
+          value={lastName}
+          onChange={onInputChange(onContactDetailsChange)}
+        />
+      )
+    }
+    {
+      isSupplier && (
       <CheckboxGroup
         label="Reportable"
         hideLabel
@@ -93,7 +118,7 @@ const ContactDetails = ({
           <Checkbox
             id="isReportable"
             name="isReportable"
-            label="Reportable contractor"
+            label="Report payments to ATO via TPAR"
             labelAccessory={(
               <Tooltip>
                 These are payments made to reportable contractors.
@@ -107,27 +132,13 @@ const ContactDetails = ({
       />
       )
     }
-    {
-      !isCompany && (
-        <Input
-          name="firstName"
-          label="First name"
-          value={firstName}
-          onChange={onInputChange(onContactDetailsChange)}
-        />
-      )
-    }
-    {
-      !isCompany && (
-        <Input
-          name="lastName"
-          label="Surname or family name"
-          value={lastName}
-          onChange={onInputChange(onContactDetailsChange)}
-        />
-      )
-    }
-    <AbnInput name="abn" label="ABN" value={abn} onChange={onAbnInputChange(onContactDetailsChange)} />
+    <AbnInput
+      name="abn"
+      label="ABN"
+      value={abn}
+      onChange={onAbnInputChange(onContactDetailsChange)}
+      className={style.abn}
+    />
     <Field
       label="ABN lookup"
       hideLabel
@@ -141,7 +152,8 @@ const ContactDetails = ({
     />
     <Input
       name="referenceId"
-      label="Contact ID"
+      label={<RequiredTooltip label="Contact ID" />}
+      className={style.contactId}
       value={referenceId}
       onChange={onInputChange(onContactDetailsChange)}
     />
