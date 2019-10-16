@@ -2,6 +2,7 @@
   "sales": {
     "layout": "item",
     "isEmpty": false,
+    "financialYearStartDate": "2019-07-01",
     "month": "October",
     "unpaidTotal": "$103,393.00",
     "overDueTotal": "$14,000.00",

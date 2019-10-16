@@ -1,5 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
-import { startOfMonth } from 'date-fns';
+import { endOfMonth, startOfMonth } from 'date-fns';
 
 import { getBusinessId, getRegion } from './DashboardSelectors';
 import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
@@ -11,6 +11,8 @@ const getSalesEntries = state => state.sales.entries;
 const getSalesMonth = state => state.sales.month;
 
 export const getIsEmpty = state => state.sales.isEmpty;
+
+export const getFinancialYearStartDate = state => state.sales.financialYearStartDate;
 
 export const getIsTableEmpty = state => state.sales.entries.length === 0;
 
@@ -39,7 +41,22 @@ export const getInvoiceListLink = createSelector(
 
 export const getUnpaidTotalLink = createSelector(
   getInvoiceListLink,
-  link => `${link}?status=Open`,
+  getFinancialYearStartDate,
+  (link, financialYearStartDate) => {
+    const dateTo = formatIsoDate(endOfMonth(new Date()));
+
+    return `${link}?dateFrom=${financialYearStartDate}&dateTo=${dateTo}&status=Open`;
+  },
+);
+
+export const getOverDueTotalLink = createSelector(
+  getInvoiceListLink,
+  getFinancialYearStartDate,
+  (link, financialYearStartDate) => {
+    const dateTo = formatIsoDate(endOfMonth(new Date()));
+
+    return `${link}?dateFrom=${financialYearStartDate}&dateTo=${dateTo}&status=Open&orderBy=DateDue&sortOrder=desc`;
+  },
 );
 
 export const getPurchaseTotalLink = createSelector(
@@ -62,6 +79,7 @@ export const getSalesTotalSummary = createStructuredSelector({
   salesTotalLabel: getSalesTotalLabel,
   unpaidTotalLink: getUnpaidTotalLink,
   purchaseTotalLink: getPurchaseTotalLink,
+  overDueTotalLink: getOverDueTotalLink,
 });
 
 const getInvoiceLink = (region, businessId, invoiceId) => `/#/${region}/${businessId}/invoice/${invoiceId}`;
