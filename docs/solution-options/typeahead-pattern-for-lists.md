@@ -98,4 +98,6 @@ record id to represent associated item but we want to display meaningful text on
 - We are going to paginate lists in PAPI which may have limitation on page size 
 
 ## Result
-**TBD**
+Confirmed with PACMAN team the option 3 and option 4 are achievable and acceptable in PAPI. And phoenix team had
+a vote and decide to use the option 3 (Let PAPI returns associated entity details instead of just returning id) if
+we are going to apply typeahead pattern in our project.
