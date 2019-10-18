@@ -28,6 +28,10 @@
     grid-area: secondColumn;
   }
 
+  .secondary :global(.flx-card) {
+    margin-bottom: var(--card-margin-bottom);
+  }
+
   /*
     Using a z-index: 1 is to allow the last card in the second column to be placed on top of the
     image that positioned absolute at the bottom right.

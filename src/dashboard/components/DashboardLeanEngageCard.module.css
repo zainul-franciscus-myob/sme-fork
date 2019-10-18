@@ -1,0 +1,12 @@
+.dogImage {
+  padding: 0 var(--flx-spacing-large);
+}
+
+.dogImage img {
+  width: 100%;
+}
+
+.content {
+  padding-top: var(--flx-spacing-large);
+  text-align: center;
+}

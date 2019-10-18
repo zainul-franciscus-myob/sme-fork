@@ -11,6 +11,7 @@ import {
 import DashboardBankAccountCard from './DashboardBankAccountCard';
 import DashboardBusinessTrackingCard from './DashboardBusinessTrackingCard';
 import DashboardHeader from './DashboardHeader';
+import DashboardLeanEngageCard from './DashboardLeanEngageCard';
 import DashboardPurchaseCard from './purchase/DashboardPurchaseCard';
 import DashboardSalesCard from './sales/DashboardSalesCard';
 import PageView from '../../components/PageView/PageView';
@@ -42,8 +43,9 @@ const DashboardView = ({
         <DashboardBusinessTrackingCard />
       </div>
       <div className={styles.secondary}>
+        <DashboardBankAccountCard />
         <div className={styles.lastCard}>
-          <DashboardBankAccountCard />
+          <DashboardLeanEngageCard />
         </div>
         <img src={footerImage} alt="" />
       </div>
