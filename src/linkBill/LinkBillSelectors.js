@@ -41,10 +41,10 @@ export const getNewSortOrder = orderBy => state => (orderBy === getOrderBy(state
 
 export const getLinkDocumentToBillPayload = (state) => {
   const selectedBill = state.bills.find(bill => bill.isSelected);
-  const { billId, businessEventUid } = selectedBill;
+  const { id, businessEventUid } = selectedBill;
 
   return {
-    billId,
+    id,
     businessEventUid,
     documentId: getDocumentId(state),
   };
