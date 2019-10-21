@@ -11,6 +11,7 @@ import {
 import { tabItems } from '../tabItems';
 import AccountListFilterOptions from './AccountListFilterOptions';
 import AccountListTable from './AccountListTable';
+import AccountListTableHeader from './AccountListTableHeader';
 import Button from '../../../components/Button/Button';
 import PageView from '../../../components/PageView/PageView';
 import Tabs from '../../../components/Tabs/Tabs';
@@ -52,14 +53,16 @@ const AccountListView = ({
     />
   );
 
+  const tableHeader = <AccountListTableHeader />;
+
   const accountView = (
     <React.Fragment>
       <StandardTemplate
-        sticky="none"
         alert={alertComponent}
         pageHead={pageHead}
         filterBar={filterBar}
         subHeadChildren={tabs}
+        tableHeader={tableHeader}
       >
         <AccountListTable />
       </StandardTemplate>

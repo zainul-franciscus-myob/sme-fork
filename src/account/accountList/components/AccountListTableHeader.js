@@ -1,29 +1,20 @@
+import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAppliedFilterOptionsShowInactive,
-  getIsTableEmpty,
-  getIsTableLoading,
   getTableTaxCodeHeader,
 } from '../AccountListSelectors';
-import { withStatus, withoutStatus } from './AccountListWidthConfig';
-import AccountListTableBody from './AccountListTableBody';
-import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
-import TableView from '../../../components/TableView/TableView';
 
-
-const emptyView = (
-  <NoResultPageState
-    title="No accounts found. :("
-    description="Try a different search term, or show the inactive accounts."
-  />
+const HeaderItem = ({ config }) => !config.isHidden && (
+  <Table.HeaderItem columnName={config.columnName} {...config.styles}>
+    {config.columnName}
+  </Table.HeaderItem>
 );
 
-const AccountListTable = (props) => {
+const AccountListTableHeader = (props) => {
   const {
-    isTableLoading,
-    isTableEmpty,
     showInactive,
     taxCodeHeader,
   } = props;
@@ -39,27 +30,25 @@ const AccountListTable = (props) => {
     balance: { columnName: 'Current balance ($)', styles: { valign: 'middle', align: 'right' } },
   };
 
-  const responsiveWidths = (showInactive)
-    ? withStatus(tableConfig)
-    : withoutStatus(tableConfig);
-
   return (
-    <TableView
-      isLoading={isTableLoading}
-      isEmpty={isTableEmpty}
-      emptyView={emptyView}
-      responsiveWidths={responsiveWidths}
-    >
-      <AccountListTableBody tableConfig={tableConfig} />
-    </TableView>
+    <Table>
+      <Table.Header>
+        <HeaderItem config={tableConfig.accountNumber} />
+        <HeaderItem config={tableConfig.accountName} />
+        <HeaderItem config={tableConfig.status} />
+        <HeaderItem config={tableConfig.type} />
+        <HeaderItem config={tableConfig.taxCode} />
+        <HeaderItem config={tableConfig.linked} />
+        <HeaderItem config={tableConfig.level} />
+        <HeaderItem config={tableConfig.balance} />
+      </Table.Header>
+    </Table>
   );
 };
 
 const mapStateToProps = state => ({
-  isTableLoading: getIsTableLoading(state),
-  isTableEmpty: getIsTableEmpty(state),
   showInactive: getAppliedFilterOptionsShowInactive(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
 });
 
-export default connect(mapStateToProps)(AccountListTable);
+export default connect(mapStateToProps)(AccountListTableHeader);

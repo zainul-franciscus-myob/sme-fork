@@ -22,7 +22,7 @@ export const getAppliedFilterOptionsType = state => state.appliedFilterOptions.t
 
 const getEntries = state => state.entries;
 
-export const getTableTaxCodeHeader = state => getRegionToDialectText(state.region)('Tax code header');
+export const getTableTaxCodeHeader = state => getRegionToDialectText(state.region)('Tax code');
 
 export const getIsTableEmpty = state => state.entries.length === 0;
 
