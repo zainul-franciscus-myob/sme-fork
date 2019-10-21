@@ -29,7 +29,9 @@ const DashboardSalesCard = ({
 }) => {
   const table = <DashboardSalesTable onLinkClick={onLinkClick} />;
 
-  const emptyTable = (<div className={styles.emptyTableView}>No overdue invoices</div>);
+  const emptyTable = (
+    <div className={styles.emptyTableView}>No overdue invoices - looking good!</div>
+  );
 
   const tableView = isTableEmpty ? emptyTable : table;
 

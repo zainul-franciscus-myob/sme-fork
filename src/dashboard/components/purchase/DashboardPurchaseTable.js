@@ -10,15 +10,15 @@ import styles from './DashboardPurchaseTable.module.css';
 const tableConfig = {
   headerTitle: {},
   description: {
-    width: '14rem',
     columnName: 'description',
+    width: '15rem',
   },
   contactName: {
-    width: '20rem',
     columnName: 'contactName',
   },
   amount: {
     columnName: 'amount',
+    width: '13rem',
     align: 'right',
   },
   action: { width: '3.2rem', columnName: 'action', valign: 'middle' },

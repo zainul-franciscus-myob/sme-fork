@@ -10,15 +10,16 @@ import styles from './DashboardSalesTable.module.css';
 const tableConfig = {
   headerTitle: {},
   description: {
-    width: '14rem',
     columnName: 'description',
+    width: '15rem',
   },
   contactName: {
-    width: '20rem',
     columnName: 'contactName',
+    width: 'flex-2',
   },
   amount: {
     columnName: 'amount',
+    width: '13rem',
     align: 'right',
   },
   action: { width: '3.2rem', columnName: 'action', valign: 'middle' },
@@ -38,9 +39,7 @@ const DashboardSalesTable = ({
     id, description, contactName, amount, contactLink, invoiceLink,
   }) => (
     <Table.Row key={id}>
-      <Table.RowItem {...tableConfig.description}>
-        <span className={styles.overdue}>{description}</span>
-      </Table.RowItem>
+      <Table.RowItem {...tableConfig.description}>{description}</Table.RowItem>
       <Table.RowItem {...tableConfig.contactName}>{contactName}</Table.RowItem>
       <Table.RowItem {...tableConfig.amount}>{amount}</Table.RowItem>
       <Table.RowItem {...tableConfig.action} cellRole="actions">

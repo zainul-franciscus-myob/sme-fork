@@ -1,7 +1,3 @@
-.overdue {
-  color: var(--flx-color-alert-error-link);
-}
-
 /*
   @Feelix-Override:
   Feelix defaults to "display": "none" when below 768px, removing the table header,
@@ -9,6 +5,15 @@
 */
 .tableHeader :global(.table-data--header) {
   display: flex;
+}
+
+/*
+  @Feelix-Override:
+  Show ellipsis in red color for overdue column.
+  We should pass className to Table.RowItem after Feelix upgrade.
+*/
+.table :global(.table-data__cell:first-child) {
+  color: var(--flx-color-alert-error-link);
 }
 
 /* Small devices (mobiles) */
