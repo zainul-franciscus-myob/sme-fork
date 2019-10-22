@@ -12,18 +12,16 @@ import {
 } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
+const defaultFilterOptions = {
+  keywords: '',
+  showInactive: false,
+  type: 'all',
+};
 
 const getDefaultState = () => ({
-  filterOptions: {
-    keywords: '',
-    showInactive: false,
-    type: 'all',
-  },
-  appliedFilterOptions: {
-    keywords: '',
-    showInactive: false,
-    type: 'all',
-  },
+  defaultFilterOptions,
+  filterOptions: defaultFilterOptions,
+  appliedFilterOptions: defaultFilterOptions,
   typeFilters: [],
   entries: [],
   alert: undefined,
@@ -44,6 +42,10 @@ const loadContactList = (state, action) => ({
   orderBy: action.orderBy,
   filterOptions: {
     ...state.filterOptions,
+    type: action.type,
+  },
+  defaultFilterOptions: {
+    ...state.defaultFilterOptions,
     type: action.type,
   },
   appliedFilterOptions: {

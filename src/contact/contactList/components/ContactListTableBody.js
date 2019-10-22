@@ -10,7 +10,7 @@ const inActiveRow = ({ tableConfig, entry }) => (
     columnName={tableConfig.isActive.columnName}
     {...tableConfig.isActive.style}
   >
-    {entry.isActive && (
+    {!entry.isActive && (
       <Label type="boxed" color="light-grey" size="small">
         Inactive
       </Label>

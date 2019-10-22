@@ -12,6 +12,7 @@ import React from 'react';
 
 import {
   getAlert,
+  getIsDefaultFilters,
   getIsLoading,
   getOrder,
   getShowHiddenColumns,
@@ -63,6 +64,7 @@ const tableConfig = {
 const ContactListView = (props) => {
   const {
     isLoading,
+    isDefaultFilters,
     alert,
     onDismissAlert,
     onAddContactButtonClick,
@@ -78,7 +80,7 @@ const ContactListView = (props) => {
       {alert.message}
     </Alert>
   );
-  const emptyTableView = (
+  const emptyTableView = isDefaultFilters ? (
     <NoResultPageState
       title="Save the details of people or businesses you deal with."
       description={
@@ -94,6 +96,11 @@ const ContactListView = (props) => {
           Create contact
         </Button>,
       ]}
+    />
+  ) : (
+    <NoResultPageState
+      title="No results found"
+      description="Perhaps check spelling or remove filters and try again"
     />
   );
   const filterBar = (
@@ -218,6 +225,7 @@ const ContactListView = (props) => {
 const mapStateToProps = state => ({
   alert: getAlert(state),
   isLoading: getIsLoading(state),
+  isDefaultFilters: getIsDefaultFilters(state),
   order: getOrder(state),
   showHiddenColumns: getShowHiddenColumns(state),
 });

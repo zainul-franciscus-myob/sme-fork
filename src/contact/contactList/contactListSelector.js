@@ -38,6 +38,18 @@ export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
 
+export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilterOptions;
+
+export const getIsDefaultFilters = createSelector(
+  getAppliedFilterOptions,
+  getDefaultFilterOptions,
+  (appliedFlterOptions, defaultFilterOptions) => (
+    !Object.keys(appliedFlterOptions)
+      .map(key => defaultFilterOptions[key] === appliedFlterOptions[key])
+      .includes(false)
+  ),
+);
+
 export const getTypeFilterOptions = ({ typeFilters }) => typeFilters.map(
   filter => ({
     label: filter.name,
