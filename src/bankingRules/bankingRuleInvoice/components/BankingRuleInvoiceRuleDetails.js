@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsInactiveRule, getName } from '../bankingRuleInvoiceSelectors';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './BankingRuleInvoiceView.module.css';
@@ -20,7 +19,7 @@ const BankingRuleInvoiceRuleDetails = ({
   <FieldGroup label="Rule details" className={styles.form}>
     <Input
       name="name"
-      labelAccessory={(<RequiredTooltip />)}
+      requiredLabel="This is required"
       label="Rule name"
       value={name}
       onChange={handleInputChange(onRuleDetailsChange)}

@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@myob/ldal": "0.2.4",
-    "@myob/myob-styles": "5.7.0",
-    "@myob/myob-widgets": "5.7.0",
+    "@myob/myob-styles": "5.8.0",
+    "@myob/myob-widgets": "5.8.0",
     "abortcontroller-polyfill": "1.2.1",
     "chart.js": "2.8.0",
     "classnames": "2.2.5",

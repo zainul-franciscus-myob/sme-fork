@@ -10,7 +10,6 @@ import {
 } from '../inventoryDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
@@ -47,7 +46,7 @@ const BuyingDetails = ({
     <AmountInput
       className={styles.price}
       label="Buying price ($)"
-      labelAccessory={(<RequiredTooltip />)}
+      requiredLabel="This is required"
       name="buyingPrice"
       value={buyingPrice}
       onChange={handleAmountInputChange(onBuyingDetailsChange)}
@@ -74,7 +73,7 @@ const BuyingDetails = ({
     <AccountCombobox
       label="Account for tracking purchase"
       disabled={!enabled}
-      labelAccessory={(<RequiredTooltip />)}
+      requiredLabel="This is required"
       items={buyingAccounts}
       selectedId={allocateToAccountId}
       allowClearSelection
@@ -85,7 +84,7 @@ const BuyingDetails = ({
         items={taxCodes}
         disabled={!enabled}
         selectedId={taxCodeId}
-        labelAccessory={(<RequiredTooltip />)}
+        requiredLabel="This is required"
         label={taxLabel}
         allowClearSelection
         onChange={handleComboboxChange('taxCodeId', onBuyingDetailsChange)}

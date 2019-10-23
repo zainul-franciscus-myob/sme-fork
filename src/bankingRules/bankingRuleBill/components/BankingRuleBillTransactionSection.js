@@ -8,7 +8,6 @@ import {
   getSupplierId,
   getSuppliers,
 } from '../bankingRuleBillSelectors';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import SupplierCombobox from '../../../components/combobox/SupplierCombobox';
 import styles from './BankingRuleBillView.module.css';
 
@@ -33,7 +32,7 @@ const BankingRuleBillTransactionSection = ({
           items={suppliers}
           selectedId={supplierId}
           label="Supplier"
-          labelAccessory={(<RequiredTooltip />)}
+          requiredLabel="This is required"
           hideLabel={false}
           onChange={handleComboboxChange('supplierId', onRuleConditionsChange)}
         />

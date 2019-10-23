@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { getHeaderOptions } from '../generalJournalDetailSelectors';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 
 class GeneralJournalDetailOptions extends Component {
   handleInputChange = (e) => {
@@ -67,14 +66,14 @@ class GeneralJournalDetailOptions extends Component {
       <React.Fragment>
         <DatePicker
           label="Date"
-          labelAccessory={<RequiredTooltip />}
+          requiredLabel="This is required"
           name="Date"
           value={date}
           onSelect={this.handleDateChange}
         />
         <RadioButtonGroup
           label="Display in GST report as:"
-          labelAccessory={<RequiredTooltip />}
+          requiredLabel="This is required"
           name="gstReportingMethod"
           renderRadios={({ value, ...props }) => (
             <React.Fragment>
@@ -102,7 +101,7 @@ class GeneralJournalDetailOptions extends Component {
           maxLength={8}
           name="referenceId"
           label="Reference number"
-          labelAccessory={<RequiredTooltip />}
+          requiredLabel="This is required"
           value={referenceId}
           onChange={this.handleInputChange}
         />

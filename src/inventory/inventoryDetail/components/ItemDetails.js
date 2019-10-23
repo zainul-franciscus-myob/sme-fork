@@ -7,7 +7,6 @@ import React from 'react';
 import {
   getItemDetails,
 } from '../inventoryDetailSelectors';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './InventoryDetailView.module.css';
@@ -24,7 +23,7 @@ const ItemDetails = ({
     <Input
       name="name"
       label="Name"
-      labelAccessory={(<RequiredTooltip />)}
+      requiredLabel="This is required"
       value={name}
       maxLength={30}
       onChange={handleInputChange(onItemDetailsChange)}
@@ -54,7 +53,7 @@ const ItemDetails = ({
       className={styles.referenceId}
       name="referenceId"
       label="Item ID"
-      labelAccessory={(<RequiredTooltip />)}
+      requiredLabel="This is required"
       value={referenceId}
       maxLength={30}
       onChange={handleInputChange(onItemDetailsChange)}

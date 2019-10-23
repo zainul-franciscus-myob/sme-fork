@@ -9,7 +9,6 @@ import {
   getCustomers,
 } from '../bankingRuleInvoiceSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import styles from './BankingRuleInvoiceView.module.css';
 
 const handleComboboxChange = (key, handler) => (item) => {
@@ -33,7 +32,7 @@ const BankingRuleInvoiceTransactionSection = ({
           items={customers}
           selectedId={customerId}
           label="Customer"
-          labelAccessory={(<RequiredTooltip />)}
+          requiredLabel="This is required"
           hideLabel={false}
           onChange={handleComboboxChange('customerId', onRuleConditionsChange)}
         />

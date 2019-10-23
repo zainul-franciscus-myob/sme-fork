@@ -8,7 +8,6 @@ import React, { Component } from 'react';
 import { getHeaderOptions } from '../receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 
 class ReceiveMoneyDetailOptions extends Component {
   handleInputChange = (e) => {
@@ -58,8 +57,8 @@ class ReceiveMoneyDetailOptions extends Component {
       <React.Fragment>
         <AccountCombobox
           label="Bank account"
-          labelAccessory={<RequiredTooltip />}
           hideLabel={false}
+          requiredLabel="This is required"
           items={depositIntoAccounts}
           selectedId={selectedDepositIntoAccountId}
           onChange={this.handleComboBoxChange('selectedDepositIntoAccountId')}
@@ -91,13 +90,13 @@ class ReceiveMoneyDetailOptions extends Component {
           name="referenceId"
           maxLength={8}
           label="Reference number"
-          labelAccessory={<RequiredTooltip />}
+          requiredLabel="This is required"
           value={referenceId}
           onChange={this.handleInputChange}
         />
         <DatePicker
           label="Date"
-          labelAccessory={<RequiredTooltip />}
+          requiredLabel="This is required"
           name="Date"
           value={date}
           onSelect={this.handleDateChange}

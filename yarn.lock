@@ -1135,15 +1135,15 @@
   resolved "https://npm.cloudsmith.io/myob/npm/@myob/ldal/-/ldal-0.2.4.tgz#17cf7f18196150a8aeb9bdf880c9eced274092ee"
   integrity sha512-YtTcUfYbRLD2YgjPqkiN2PLMiDtnAPV6AZ+o+BqGgElOak6QWv/aqMrPBkJfj8dPVhFcxpZ2iV7RowswE+k5sg==
 
-"@myob/myob-styles@5.7.0":
-  version "5.7.0"
-  resolved "https://npm.cloudsmith.io/myob/npm/@myob/myob-styles/-/5.7.0/myob-styles-5.7.0.tgz#1cdf1d5e15154ee3e663b7e6f012e582bb174618"
-  integrity sha512-NPBiV4a5H/4s+Yv/Rulnen4SUuNDhITcixng9ZyCt2G54MfYxznRjPBk+1Lt670KKbmOTqz7Mu4ym/a1sNdyRQ==
+"@myob/myob-styles@5.8.0":
+  version "5.8.0"
+  resolved "https://npm.cloudsmith.io/myob/npm/@myob/myob-styles/-/5.8.0/myob-styles-5.8.0.tgz#14e6e811441c068a5cd53ba33b741fb6af8a9cdf"
+  integrity sha512-22TOa5F5VzBGumalfZqEA3gPtDYeF85cRXEK2QeFTZ8hS/lDCFiJqcFdEo6x7iCrsaqDp9Iu6ZZUqNEj/NJjWA==
 
-"@myob/myob-widgets@5.7.0":
-  version "5.7.0"
-  resolved "https://npm.cloudsmith.io/myob/npm/@myob/myob-widgets/-/5.7.0/myob-widgets-5.7.0.tgz#74fd479cb5d27ccd7a72a1f13f5e34f975257335"
-  integrity sha512-YR24jEPQ9wgZI1ytHGudtUyX/f0BD8y2KNp5WVzogLXv4SkOgY0yhOeUMu+VDKOMmtaN8xukXgEZ340HohOTdg==
+"@myob/myob-widgets@5.8.0":
+  version "5.8.0"
+  resolved "https://npm.cloudsmith.io/myob/npm/@myob/myob-widgets/-/5.8.0/myob-widgets-5.8.0.tgz#75e4b7fd9e4c1a36e67ff4653d86ca20e47b336d"
+  integrity sha512-g7Evf/C0f2saJWwUrejeQStbxoBt4KxT4sNX9hwvQdmGaZM0eKgRMyrfuwStmn7zWYQtbIe26AVgRNnCcz+7cw==
   dependencies:
     accounting "0.4.1"
     classnames "2.2.5"

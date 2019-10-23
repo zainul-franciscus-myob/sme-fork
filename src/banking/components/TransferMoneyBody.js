@@ -1,5 +1,5 @@
 import {
-  Columns, ReadOnly, Tooltip,
+  Columns, ReadOnly,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -25,7 +25,8 @@ const TransferMoneyBody = ({
       transferDisplayType === 'transferFrom'
         ? (
           <AccountCombobox
-            label={<Tooltip triggerContent="Bank account from *">Required</Tooltip>}
+            label="Bank account from"
+            requiredLabel="This is required"
             hideLabel={false}
             items={accountList}
             selectedId={transferFrom}
@@ -39,7 +40,8 @@ const TransferMoneyBody = ({
       transferDisplayType === 'transferTo'
         ? (
           <AccountCombobox
-            label={<Tooltip triggerContent="Bank account to *">Required</Tooltip>}
+            label="Bank account to"
+            requiredLabel="This is required"
             hideLabel={false}
             items={accountList}
             selectedId={transferTo}

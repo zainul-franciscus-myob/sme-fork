@@ -7,7 +7,6 @@ import React, { Component } from 'react';
 import { getHeaderOptions } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import styles from './SpendMoneyDetailOptions.module.css';
 
 class SpendMoneyDetailOptions extends Component {
@@ -68,7 +67,7 @@ class SpendMoneyDetailOptions extends Component {
       <React.Fragment>
         <AccountCombobox
           label="Bank account"
-          labelAccessory={(<RequiredTooltip />)}
+          requiredLabel="This is required"
           hideLabel={false}
           items={payFromAccounts}
           selectedId={selectedPayFromAccountId}
@@ -120,14 +119,14 @@ class SpendMoneyDetailOptions extends Component {
         <Input
           name="referenceId"
           label="Reference number"
-          labelAccessory={(<RequiredTooltip />)}
+          requiredLabel="This is required"
           maxLength={8}
           value={referenceId}
           onChange={this.handleInputChange}
         />
         <DatePicker
           label="Date"
-          labelAccessory={(<RequiredTooltip />)}
+          requiredLabel="This is required"
           name="Date"
           value={date}
           onSelect={this.handleDateChange}

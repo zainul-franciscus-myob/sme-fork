@@ -13,7 +13,6 @@ import React from 'react';
 
 import { getContactDetails } from '../contactDetailSelectors';
 import AbnInput from '../../../components/autoFormatter/AbnInput/AbnInput';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import style from './ContactDetails.module.css';
 
 const onInputChange = handler => (e) => {
@@ -56,7 +55,7 @@ const ContactDetails = ({
 }) => (
   <FieldGroup label="Details">
     <RadioButtonGroup
-      label={<RequiredTooltip label="Contact type" />}
+      requiredLabel="This is required"
       name="contactType"
       onChange={onRadioButtonChange('selectedContactType', onContactDetailsChange)}
       renderRadios={({ id, value, ...props }) => contactTypes.map(item => (
@@ -80,7 +79,8 @@ const ContactDetails = ({
       isCompany && (
         <Input
           name="companyName"
-          label={<RequiredTooltip label="Company name" />}
+          label="Company name"
+          requiredLabel="This is required"
           className={style.companyName}
           value={companyName}
           onChange={onInputChange(onContactDetailsChange)}
@@ -102,7 +102,8 @@ const ContactDetails = ({
       !isCompany && (
         <Input
           name="lastName"
-          label={<RequiredTooltip label="Surname or family name" />}
+          label="Surname or family name"
+          requiredLabel="This is required"
           className={style.lastName}
           value={lastName}
           onChange={onInputChange(onContactDetailsChange)}
@@ -152,7 +153,8 @@ const ContactDetails = ({
     />
     <Input
       name="referenceId"
-      label={<RequiredTooltip label="Contact ID" />}
+      label="Contact ID"
+      requiredLabel="This is required"
       className={style.contactId}
       value={referenceId}
       onChange={onInputChange(onContactDetailsChange)}

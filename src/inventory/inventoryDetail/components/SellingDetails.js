@@ -11,7 +11,6 @@ import {
 } from '../inventoryDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
@@ -56,7 +55,7 @@ const SellingDetails = ({
     <AmountInput
       className={styles.price}
       label="Selling price ($)"
-      labelAccessory={(<RequiredTooltip />)}
+      requiredLabel="This is required"
       name="sellingPrice"
       value={sellingPrice}
       onChange={handleAmountInputChange(onSellingDetailsChange)}
@@ -91,7 +90,7 @@ const SellingDetails = ({
     <AccountCombobox
       label="Account for tracking sales"
       items={sellingAccounts}
-      labelAccessory={(<RequiredTooltip />)}
+      requiredLabel="This is required"
       selectedId={allocateToAccountId}
       allowClearSelection
       disabled={!enabled}
@@ -100,7 +99,7 @@ const SellingDetails = ({
     <div className={styles.taxCode}>
       <TaxCodeCombobox
         items={taxCodes}
-        labelAccessory={(<RequiredTooltip />)}
+        requiredLabel="This is required"
         selectedId={taxCodeId}
         label={taxLabel}
         allowClearSelection

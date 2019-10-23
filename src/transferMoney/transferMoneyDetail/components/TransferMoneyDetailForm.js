@@ -8,7 +8,6 @@ import { getBalance, getTransferMoneyProperties } from '../transferMoneyDetailSe
 import AccountBalances from './TransferMoneyAccountBalance';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
-import RequiredTooltip from '../../../components/RequiredTooltip/RequiredTooltip';
 import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleDateChange from '../../../components/handlers/handleDateChange';
@@ -34,7 +33,7 @@ const TransferMoneyDetailForm = ({
       <AmountInput
         className={styles.amount}
         label="Amount ($)"
-        labelAccessory={(<RequiredTooltip />)}
+        requiredLabel="This is required"
         name="amount"
         value={amount}
         onChange={handleAmountInputChange(onUpdateForm)}
@@ -64,7 +63,7 @@ const TransferMoneyDetailForm = ({
         type="text"
         name="referenceId"
         label="Reference number"
-        labelAccessory={(<RequiredTooltip />)}
+        requiredLabel="This is required"
         value={referenceId}
         onChange={handleInputChange(onUpdateForm)}
         disabled={!isCreating}
@@ -73,7 +72,7 @@ const TransferMoneyDetailForm = ({
       <DatePicker
         label="Date"
         name="date"
-        labelAccessory={(<RequiredTooltip />)}
+        requiredLabel="This is required"
         disabled={!isCreating}
         value={date}
         onSelect={handleDateChange('date', onUpdateForm)}
@@ -89,7 +88,7 @@ const TransferMoneyDetailForm = ({
         <AccountCombobox
           label="Bank account from"
           hideLabel={false}
-          labelAccessory={(<RequiredTooltip />)}
+          requiredLabel="This is required"
           items={accounts}
           selectedId={selectedTransferFromAccountId}
           onChange={handleComboboxChange('selectedTransferFromAccountId', onUpdateForm)}
@@ -98,7 +97,7 @@ const TransferMoneyDetailForm = ({
         <AccountCombobox
           label="Bank account to"
           hideLabel={false}
-          labelAccessory={(<RequiredTooltip />)}
+          requiredLabel="This is required"
           items={accounts}
           selectedId={selectedTransferToAccountId}
           onChange={handleComboboxChange('selectedTransferToAccountId', onUpdateForm)}
