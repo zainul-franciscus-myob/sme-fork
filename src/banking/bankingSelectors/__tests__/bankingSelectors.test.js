@@ -46,22 +46,22 @@ describe('bankingSelector', () => {
   });
 
   describe('getCalculatedAllocatedBalances', () => {
-    it('should reduce amount from unallocated when account is under withdrawal', () => {
-      const expected = { bankBalance: 1000, myobBalance: 1100, unallocated: 400 };
+    it('should reduce amount from unallocated when account is under deposit', () => {
+      const expected = { bankBalance: 1000, myobBalance: 1100, unallocated: 900 };
       const state = {
-        entries: [{ withdrawal: 100, deposit: undefined }],
-        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 500 },
+        entries: [{ deposit: 100, withdrawal: undefined }],
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
       };
       const result = getCalculatedAllocatedBalances(state, 0);
 
       expect(result).toEqual(expected);
     });
 
-    it('should add amount to unallocated when account is under deposit', () => {
-      const expected = { bankBalance: 1000, myobBalance: 900, unallocated: 600 };
+    it('should add amount to unallocated when account is under withdrawal', () => {
+      const expected = { bankBalance: 1000, myobBalance: 900, unallocated: 1100 };
       const state = {
-        entries: [{ withdrawal: undefined, deposit: 100 }],
-        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 500 },
+        entries: [{ deposit: undefined, withdrawal: 100 }],
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
       };
       const result = getCalculatedAllocatedBalances(state, 0);
 
@@ -71,14 +71,14 @@ describe('bankingSelector', () => {
 
   describe('getBalancesForBulkResult', () => {
     it('should update balances with all allocated lines', () => {
-      const expected = { bankBalance: 1000, myobBalance: 950, unallocated: 50 };
+      const expected = { bankBalance: 1000, myobBalance: 950, unallocated: 1050 };
       const state = {
         entries: [
           { transactionId: '1', withdrawal: 100, deposit: undefined },
           { transactionId: '2', withdrawal: undefined, deposit: 50 },
           { transactionId: '3', withdrawal: 150, deposit: undefined },
         ],
-        balances: { bankBalance: 1000, myobBalance: 900, unallocated: 100 },
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
       };
       const allocatedEntries = [
         { transactionId: '1' },
@@ -90,14 +90,14 @@ describe('bankingSelector', () => {
     });
 
     it('should update balances with all unallocated lines', () => {
-      const expected = { bankBalance: 1000, myobBalance: 850, unallocated: 150 };
+      const expected = { bankBalance: 1000, myobBalance: 1050, unallocated: 950 };
       const state = {
         entries: [
           { transactionId: '1', withdrawal: 100, deposit: undefined },
           { transactionId: '2', withdrawal: undefined, deposit: 50 },
           { transactionId: '3', withdrawal: 150, deposit: undefined },
         ],
-        balances: { bankBalance: 1000, myobBalance: 900, unallocated: 100 },
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
       };
       const allocatedEntries = [
         { transactionId: '1' },
@@ -110,22 +110,22 @@ describe('bankingSelector', () => {
   });
 
   describe('getCalculatedUnallocatedBalances', () => {
-    it('should add amount to unallocated when amount is under withdrawal', () => {
-      const expected = { bankBalance: 1000, myobBalance: 900, unallocated: 600 };
+    it('should add amount to unallocated when amount is under deposit', () => {
+      const expected = { bankBalance: 1000, myobBalance: 900, unallocated: 1100 };
       const state = {
-        entries: [{ withdrawal: 100, deposit: undefined }],
-        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 500 },
+        entries: [{ deposit: 100, withdrawal: undefined }],
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
       };
       const result = getCalculatedUnallocatedBalances(state, 0);
 
       expect(result).toEqual(expected);
     });
 
-    it('should reduce amount from unallocated when amount is under deposit', () => {
-      const expected = { bankBalance: 1000, myobBalance: 1100, unallocated: 400 };
+    it('should reduce amount from unallocated when amount is under withdrawal', () => {
+      const expected = { bankBalance: 1000, myobBalance: 1100, unallocated: 900 };
       const state = {
-        entries: [{ withdrawal: undefined, deposit: 100 }],
-        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 500 },
+        entries: [{ deposit: undefined, withdrawal: 100 }],
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
       };
       const result = getCalculatedUnallocatedBalances(state, 0);
 

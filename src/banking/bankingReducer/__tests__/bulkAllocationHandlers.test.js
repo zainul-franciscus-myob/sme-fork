@@ -189,7 +189,7 @@ describe('bulkAllocationHandlers', () => {
   describe('bulkAllocateTransactions', () => {
     it('should set allocation result to entries', () => {
       const state = {
-        balances: { bankBalance: 1000, myobBalance: 900, unallocated: 100 },
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
         entries: [
           {
             transactionId: '1',
@@ -216,7 +216,7 @@ describe('bulkAllocationHandlers', () => {
       };
 
       const expected = {
-        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 0 },
+        balances: { bankBalance: 1000, myobBalance: 900, unallocated: 1100 },
         entries: [
           {
             transactionId: '1',
@@ -264,7 +264,7 @@ describe('bulkAllocationHandlers', () => {
   describe('bulkUnallocateTransactions', () => {
     it('should set allocation result to entries', () => {
       const state = {
-        balances: { bankBalance: 1000, myobBalance: 900, unallocated: 100 },
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
         entries: [
           {
             transactionId: '1',
@@ -289,7 +289,7 @@ describe('bulkAllocationHandlers', () => {
       };
 
       const expected = {
-        balances: { bankBalance: 1000, myobBalance: 800, unallocated: 200 },
+        balances: { bankBalance: 1000, myobBalance: 1100, unallocated: 900 },
         entries: [
           {
             transactionId: '1',

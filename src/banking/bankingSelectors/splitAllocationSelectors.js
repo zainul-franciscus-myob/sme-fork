@@ -71,7 +71,7 @@ export const getTotals = createSelector(
   getTotalDollarAmount,
   getTotalAmount,
   (totalAllocated, total) => {
-    const totalAllocatedPercent = ((totalAllocated / total) * 100);
+    const totalAllocatedPercent = total !== 0 ? ((totalAllocated / total) * 100) : 100;
     const totalUnallocated = (total - totalAllocated);
     const totalUnallocatedPercent = 100 - totalAllocatedPercent;
 

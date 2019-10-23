@@ -9,6 +9,8 @@ describe('splitAllocationSelectors', () => {
       ['partly allocated split allocation', [{ amount: 500 }, { amount: 100 }], 1000, '$600.00 (60.00%)', '$400.00 (40.00%)'],
       ['negative allocation', [{ amount: -500 }], 1000, '-$500.00 (-50.00%)', '$1,500.00 (150.00%)'],
       ['calculated decimal values', [{ amount: 33 }, { amount: 67.7 }], 295, '$100.70 (34.14%)', '$194.30 (65.86%)'],
+      ['zero total amount and zero allocation', [{ amount: 0 }], 0, '$0.00 (100.00%)', '$0.00 (0.00%)'],
+      ['zero total amount and non zero allocation', [{ amount: 33 }], 0, '$33.00 (100.00%)', '-$33.00 (0.00%)'],
     ].forEach((args) => {
       const [scenario, ...rest] = args;
 

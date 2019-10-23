@@ -223,7 +223,7 @@ const getCalculatedBalances = (state, amount) => {
 export const getCalculatedAllocatedBalances = (state, index) => {
   const line = getBankTransactionLineByIndex(state, index);
   const { withdrawal, deposit } = line;
-  const amount = (-withdrawal || deposit);
+  const amount = (withdrawal || -deposit);
 
   return getCalculatedBalances(state, amount);
 };
@@ -235,7 +235,7 @@ export const getBalancesForBulkResult = (state, resultEntries, isAllocate) => {
     .filter(entry => allocatedIds.includes(entry.transactionId))
     .reduce((total, entry) => {
       const { withdrawal, deposit } = entry;
-      const entryAmount = isAllocate ? (-withdrawal || deposit) : (withdrawal || -deposit);
+      const entryAmount = isAllocate ? (withdrawal || -deposit) : (-withdrawal || deposit);
 
       return total + entryAmount;
     }, 0);
@@ -246,7 +246,7 @@ export const getBalancesForBulkResult = (state, resultEntries, isAllocate) => {
 export const getCalculatedUnallocatedBalances = (state, index) => {
   const line = getBankTransactionLineByIndex(state, index);
   const { withdrawal, deposit } = line;
-  const amount = (withdrawal || -deposit);
+  const amount = (-withdrawal || deposit);
 
   return getCalculatedBalances(state, amount);
 };
