@@ -1,18 +1,13 @@
 {
-  "layout": "service",
   "invoice": {
+    "layout": "service",
     "expirationTerm": "InAGivenNumberOfDays",
     "expirationDays": "0",
-    "taxInclusive": true,
-    "number": "00000123",
+    "isTaxInclusive": true,
+    "invoiceNumber": "00000123",
     "amountPaid": "0.00",
     "isAllowOnlinePayments": false,
     "lines": []
-  },
-  "payDirect": {
-    "isRegistered": false,
-    "baseUrl": "https://paydirectonline.myob.com/payments",
-    "serialNumber": "000000000000"
   },
   "contactOptions": [
     {
@@ -55,7 +50,7 @@
     "allocatedAccountId": "",
     "amount": "",
     "taxCodeId": "",
-    "accounts": [
+    "accountOptions": [
       {
         "id": "123",
         "displayName": "My Sales Account 1",
@@ -78,7 +73,7 @@
         "displayId": "6-789"
       }
     ],
-    "taxCodes": [
+    "taxCodeOptions": [
       {
         "id": "123",
         "displayName": "GST",
@@ -93,5 +88,6 @@
       }
     ]
   },
-  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"]
+  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
+  "serialNumber": "000000000000"
 }

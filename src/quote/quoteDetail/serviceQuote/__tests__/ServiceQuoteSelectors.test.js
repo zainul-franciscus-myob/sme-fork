@@ -163,7 +163,7 @@ describe('ServiceQuoteSelectors', () => {
 
   describe('getCreateInvoiceFromQuoteURL', () => {
     it('returns the correct URL to create an invoice from quote', () => {
-      const expected = '/#/au/businessId/invoice/newService?quoteId=1';
+      const expected = '/#/au/businessId/invoice/new?quoteId=1';
       const actual = getCreateInvoiceFromQuoteURL(state);
 
       expect(expected).toEqual(actual);

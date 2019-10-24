@@ -1,7 +1,7 @@
 {
-  "layout": "item",
   "invoice": {
-    "customerId": "1",
+    "layout": "item",
+    "contactId": "1",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": 10,
     "chargeForLatePayment": "123.12",
@@ -30,11 +30,6 @@
       }
     ]
   },
-  "payDirect": {
-    "isRegistered": false,
-    "baseUrl": "https://paydirectonline.myob.com/payments",
-    "serialNumber": "000000000000"
-  },
   "customers": [
     {
       "name": "Cameron, James",
@@ -45,7 +40,7 @@
       "value": "2"
     }
   ],
-  "expirationTerms": [
+  "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",
       "name": "Due on a date of this month"
@@ -71,7 +66,7 @@
       "name": "Due in a number of days after the end of the month"
     }
   ],
-  "items": [
+  "itemOptions": [
     {
       "id": "3",
       "itemId": "100",
@@ -83,7 +78,7 @@
       "description": "Cooler Medium"
     }
   ],
-  "taxCodes": [
+  "taxCodeOptions": [
     {
       "id": "1",
       "displayName": "GST",
@@ -104,12 +99,9 @@
     }
   ],
   "totals": {
-    "displaySubTotal": "$999.01",
-    "displayTotalTax": "$2.1",
-    "displayTotalAmount": "$1,001.11",
-    "displayAmountPaid": "$1000.00",
-    "amountPaid": "1000.00",
-    "displayAmountDue": "$1,200.05"
+    "subTotal": "48.50",
+    "totalTax": "4.39",
+    "totalAmount": "48.30"
   },
   "newLine": {
     "units": "",

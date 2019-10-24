@@ -7,3 +7,22 @@
 .onlinePaymentCheckboxGroup > * {
   display: inline-block;
 }
+
+.status {
+  padding: 0.5rem;
+}
+
+.spinner {
+  width: 1rem;
+  padding: 0.2rem;
+}
+
+@media (min-width: 768px) {
+  .status {
+    padding-top: 2rem;
+  }
+
+  .spinner {
+    padding-top: 1.4rem;
+  }
+}

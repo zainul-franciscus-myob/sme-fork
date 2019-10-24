@@ -215,7 +215,7 @@ describe('ItemQuoteSelectors', () => {
 
   describe('getCreateInvoiceFromQuoteURL', () => {
     it('returns the correct URL to create an invoice from quote', () => {
-      const expected = '/#/au/businessId/invoice/newItem?quoteId=1';
+      const expected = '/#/au/businessId/invoice/new?quoteId=1';
       const actual = getCreateInvoiceFromQuoteURL(getURLState);
 
       expect(expected).toEqual(actual);

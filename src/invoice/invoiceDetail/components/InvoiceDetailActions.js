@@ -1,19 +1,23 @@
 import {
   Button, ButtonRow, Dropdown, Icons, Separator,
 } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import { getIsActionsDisabled, getIsCreating } from '../selectors/invoiceDetailSelectors';
 import SaveActionType from '../SaveActionType';
 
 const InvoiceDetailActions = ({
   isCreating,
   areButtonsDisabled,
-  onSaveButtonClick,
-  onSaveAndEmailButtonClick,
-  onPayInvoiceButtonClick,
-  onSaveAndButtonClick,
-  onCancelButtonClick,
-  onDeleteButtonClick,
+  listeners: {
+    onSaveButtonClick,
+    onSaveAndButtonClick,
+    onSaveAndEmailButtonClick,
+    onPayInvoiceButtonClick,
+    onCancelButtonClick,
+    onDeleteButtonClick,
+  },
 }) => {
   const recordPaymentButton = (
     <Button key="payInvoice" name="payInvoice" type="secondary" onClick={onPayInvoiceButtonClick}>
@@ -113,4 +117,9 @@ const InvoiceDetailActions = ({
   );
 };
 
-export default InvoiceDetailActions;
+const mapStateToProps = state => ({
+  isCreating: getIsCreating(state),
+  isActionsDisabled: getIsActionsDisabled(state),
+});
+
+export default connect(mapStateToProps)(InvoiceDetailActions);

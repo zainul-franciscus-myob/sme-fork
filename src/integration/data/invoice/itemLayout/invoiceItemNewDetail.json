@@ -1,7 +1,7 @@
 {
-  "layout": "item",
   "invoice": {
-    "customerId": "",
+    "layout": "item",
+    "contactId": "",
     "expirationTerm": "DayOfMonthAfterEOM",
     "expirationDays": 4,
     "isTaxInclusive": true,
@@ -13,12 +13,7 @@
     "lines": [],
     "amountPaid": "0.00"
   },
-  "payDirect": {
-    "isRegistered": false,
-    "baseUrl": "https://paydirectonline.myob.com/payments",
-    "serialNumber": "000000000000"
-  },
-  "customers": [
+  "contactOptions": [
     {
       "name": "A-Z Stationery Supplies",
       "value": "1"
@@ -28,7 +23,7 @@
       "value": "2"
     }
   ],
-  "expirationTerms": [
+  "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",
       "name": "Due on a date of this month"
@@ -54,7 +49,7 @@
       "name": "Due in a number of days after the end of the month"
     }
   ],
-  "items": [
+  "itemOptions": [
     {
       "id": "3",
       "itemId": "100",
@@ -66,7 +61,7 @@
       "description": "Cooler Medium"
     }
   ],
-  "taxCodes": [
+  "taxCodeOptions": [
     {
       "id": "123",
       "displayName": "GST",
@@ -80,14 +75,6 @@
       "displayRate": "5%"
     }
   ],
-  "totals": {
-    "displaySubTotal": "$0.00",
-    "displayTotalTax": "$0.00",
-    "displayTotalAmount": "$0.00",
-    "displayAmountPaid": "$1000.00",
-    "amountPaid": "1000.00",
-    "displayAmountDue": "$1,200.05"
-  },
   "newLine": {
     "units": "",
     "itemId": "",

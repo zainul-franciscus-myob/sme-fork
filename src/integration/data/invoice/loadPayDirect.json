@@ -1,0 +1,6 @@
+{
+  "payDirect": {
+    "isRegistered": true,
+    "baseUrl": "https://paydirectonline.myob.com/payments"
+  }
+}

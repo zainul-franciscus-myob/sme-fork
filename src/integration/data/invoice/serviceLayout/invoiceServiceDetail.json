@@ -1,21 +1,21 @@
 {
-  "layout": "service",
   "invoice": {
     "id": "123",
+    "layout": "service",
     "contactId": "2",
+    "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
+    "note": "Thank you!",
+    "invoiceNumber": "00000123",
+    "purchaseOrderNumber": "123",
+    "issueDate": "2018-11-02",
+    "isAllowOnlinePayments": true,
+    "isTaxInclusive": true,
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": "4",
     "chargeForLatePayment": 123.12,
     "discountForEarlyPayment": 3546.34,
     "numberOfDaysForDiscount": 10,
-    "taxInclusive": true,
-    "number": "00000123",
-    "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
-    "issueDate": "2018-11-02",
-    "orderNumber": "123",
-    "notes": "Thank you!",
     "amountPaid": "10.00",
-    "isAllowOnlinePayments": true,
     "lines": [
       {
         "id": "345",
@@ -23,7 +23,7 @@
         "allocatedAccountId": "123",
         "amount": "48.50",
         "taxCodeId": "124",
-        "accounts": [
+        "accountOptions": [
           {
             "id": "123",
             "displayName": "My Sales Account 1",
@@ -46,7 +46,7 @@
             "displayId": "6-789"
           }
         ],
-        "taxCodes": [
+        "taxCodeOptions": [
           {
             "id": "123",
             "displayName": "GST",
@@ -67,7 +67,7 @@
         "allocatedAccountId": "456",
         "amount": "50.00",
         "taxCodeId": "123",
-        "accounts": [
+        "accountOptions": [
           {
             "id": "123",
             "displayName": "My Sales Account 1",
@@ -90,7 +90,7 @@
             "displayId": "6-789"
           }
         ],
-        "taxCodes": [
+        "taxCodeOptions": [
           {
             "id": "123",
             "displayName": "GST",
@@ -111,7 +111,7 @@
         "allocatedAccountId": "123",
         "amount": "12.50",
         "taxCodeId": "124",
-        "accounts": [
+        "accountOptions": [
           {
             "id": "123",
             "displayName": "My Sales Account 1",
@@ -134,7 +134,7 @@
             "displayId": "6-789"
           }
         ],
-        "taxCodes": [
+        "taxCodeOptions": [
           {
             "id": "123",
             "displayName": "GST",
@@ -164,11 +164,7 @@
     "toName": "Geoff Speirs",
     "attachments": []
   },
-  "payDirect": {
-    "isRegistered": false,
-    "baseUrl": "https://paydirectonline.myob.com/payments",
-    "serialNumber": "000000000000"
-  },
+  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
   "contactOptions": [
     {
       "name": "Cow Feed",
@@ -177,28 +173,28 @@
   ],
   "expirationTermOptions": [
     {
-      "value": "OnADayOfTheMonth",
-      "name": "Due on a date of this month"
+      "name": "Due on a date of this month",
+      "value": "OnADayOfTheMonth"
     },
     {
-      "value": "Prepaid",
-      "name": "Prepaid"
+      "name": "Prepaid",
+      "value": "Prepaid"
     },
     {
-      "value": "InAGivenNumberOfDays",
-      "name": "Due in a number of days after the issue date"
+      "name": "Due in a number of days after the issue date",
+      "value": "InAGivenNumberOfDays"
     },
     {
-      "value": "CashOnDelivery",
-      "name": "Cash on delivery"
+      "name": "Cash on delivery",
+      "value": "CashOnDelivery"
     },
     {
-      "value": "DayOfMonthAfterEOM",
-      "name": "Due on a date of next month"
+      "name": "Due on a date of next month",
+      "value": "DayOfMonthAfterEOM"
     },
     {
-      "value": "NumberOfDaysAfterEOM",
-      "name": "Due in a number of days after the end of the month"
+      "name": "Due in a number of days after the end of the month",
+      "value": "NumberOfDaysAfterEOM"
     }
   ],
   "newLine": {
@@ -206,7 +202,7 @@
     "allocatedAccountId": "",
     "amount": "",
     "taxCodeId": "",
-    "accounts": [
+    "accountOptions": [
       {
         "id": "123",
         "displayName": "My Sales Account 1",
@@ -229,7 +225,7 @@
         "displayId": "6-789"
       }
     ],
-    "taxCodes": [
+    "taxCodeOptions": [
       {
         "id": "123",
         "displayName": "GST",
@@ -249,5 +245,5 @@
     "totalTax": "4.39",
     "totalAmount": "48.30"
   },
-  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"]
+  "serialNumber": "000000000000"
 }

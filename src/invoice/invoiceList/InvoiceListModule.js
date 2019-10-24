@@ -15,18 +15,15 @@ import {
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
 import {
-  SUCCESSFULLY_DELETED_INVOICE_ITEM,
-  SUCCESSFULLY_DELETED_INVOICE_SERVICE,
+  SUCCESSFULLY_DELETED_INVOICE,
   SUCCESSFULLY_EMAILED_INVOICE,
-  SUCCESSFULLY_SAVED_INVOICE_ITEM,
-  SUCCESSFULLY_SAVED_INVOICE_SERVICE,
+  SUCCESSFULLY_SAVED_INVOICE,
 } from '../invoiceDetail/invoiceMessageTypes';
 import {
   getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getFlipSortOrder,
-  getNewInvoicelUrlParam,
   getOrderBy,
   getRegion,
   getSortOrder,
@@ -36,11 +33,9 @@ import Store from '../../store/Store';
 import invoiceListReducer from './invoiceListReducer';
 
 const messageTypes = [
-  SUCCESSFULLY_SAVED_INVOICE_SERVICE,
-  SUCCESSFULLY_DELETED_INVOICE_SERVICE,
-  SUCCESSFULLY_SAVED_INVOICE_ITEM,
-  SUCCESSFULLY_DELETED_INVOICE_ITEM,
+  SUCCESSFULLY_DELETED_INVOICE,
   SUCCESSFULLY_EMAILED_INVOICE,
+  SUCCESSFULLY_SAVED_INVOICE,
 ];
 
 export default class InvoiceListModule {
@@ -188,9 +183,8 @@ export default class InvoiceListModule {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
-    const newInvoiceUrlParam = getNewInvoicelUrlParam(state);
 
-    window.location.href = `/#/${region}/${businessId}/invoice/${newInvoiceUrlParam}`;
+    window.location.href = `/#/${region}/${businessId}/invoice/new`;
   };
 
   render = () => {

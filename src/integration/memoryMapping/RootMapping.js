@@ -22,10 +22,8 @@ import GeneralJournalMapping from './GeneralJournalMapping';
 import InTrayMapping from './InTrayMapping';
 import IncomeAllocationMapping from './IncomeAllocationMapping';
 import InventoryMapping from './InventoryMapping';
-import InvoiceItemMapping from './InvoiceItemMapping';
 import InvoiceMapping from './InvoiceMapping';
 import InvoicePaymentMapping from './InvoicePaymentMapping';
-import InvoiceServiceMapping from './InvoiceServiceMapping';
 import LeavePayItemMapping from './LeavePayItemMapping';
 import LinkBillMapping from './LinkBillMapping';
 import LinkUserMapping from './LinkUserMapping';
@@ -64,8 +62,6 @@ const RootMapping = Object.freeze({
   ...QuoteItemMapping,
   ...QuoteServiceMapping,
   ...InvoiceMapping,
-  ...InvoiceItemMapping,
-  ...InvoiceServiceMapping,
   ...ReceiveMoneyMapping,
   ...SpendMoneyMapping,
   ...TaxMapping,

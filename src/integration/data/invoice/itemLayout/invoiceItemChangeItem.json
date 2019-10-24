@@ -17,10 +17,7 @@
     ]
   },
   "totals": {
-    "displaySubTotal": "$2,000.00",
-    "displayTotalTax": "$200.05",
-    "displayTotalAmount": "$2,200.05",
-    "displayAmountPaid": "$1000.00",
-    "amountPaid": "1000.00",
-    "displayAmountDue": "$1,200.05"
+    "subTotal": "110.00",
+    "totalTax": "11.00",
+    "totalAmount": "2002.00"
   }}

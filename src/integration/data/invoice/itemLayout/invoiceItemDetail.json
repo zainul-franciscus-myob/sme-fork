@@ -1,19 +1,21 @@
 {
-  "layout": "item",
   "invoice": {
-    "customerId": "1",
+    "id": "123",
+    "layout": "item",
+    "contactId": "1",
+    "address": "Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n",
+    "invoiceNumber": "IN00000123",
+    "note": "Thank you! Footloose",
+    "purchaseOrderNumber": "PO123",
+    "issueDate": "2019-02-28T00:00:00",
+    "isAllowOnlinePayments": false,
+    "isTaxInclusive": true,
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": 10,
-    "chargeForLatePayment": "123.12",
-    "discountForEarlyPayment": "546.34",
+    "chargeForLatePayment": 123.12,
+    "discountForEarlyPayment": 546.34,
     "numberOfDaysForDiscount": 10,
-    "isTaxInclusive": true,
-    "invoiceNumber": "IN00000123",
-    "purchaseOrderNumber": "PO123",
-    "isAllowOnlinePayments": false,
-    "note": "Thank you! Footloose",
-    "address": "Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n",
-    "issueDate": "2019-02-28T00:00:00",
+    "amountPaid": "10.00",
     "lines": [
       {
         "id": "1",
@@ -43,12 +45,8 @@
     "toName": "Geoff Speirs",
     "attachments": []
   },
-  "payDirect": {
-    "isRegistered": false,
-    "baseUrl": "https://paydirectonline.myob.com/payments",
-    "serialNumber": "000000000000"
-  },
-  "customers": [
+  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
+  "contactOptions": [
     {
       "name": "Cameron, James",
       "value": "1"
@@ -58,7 +56,7 @@
       "value": "2"
     }
   ],
-  "expirationTerms": [
+  "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",
       "name": "Due on a date of this month"
@@ -84,7 +82,7 @@
       "name": "Due in a number of days after the end of the month"
     }
   ],
-  "items": [
+  "itemOptions": [
     {
       "id": "3",
       "itemId": "100",
@@ -96,7 +94,7 @@
       "description": "Cooler Medium"
     }
   ],
-  "taxCodes": [
+  "taxCodeOptions": [
     {
       "id": "1",
       "displayName": "GST",
@@ -117,12 +115,9 @@
     }
   ],
   "totals": {
-    "displaySubTotal": "$999.01",
-    "displayTotalTax": "$2.1",
-    "displayTotalAmount": "$1,001.11",
-    "displayAmountPaid": "$1000.00",
-    "amountPaid": "1000.00",
-    "displayAmountDue": "$1,200.05"
+    "subTotal": "48.50",
+    "totalTax": "4.39",
+    "totalAmount": "48.30"
   },
   "newLine": {
     "units": "",
@@ -135,6 +130,5 @@
     "amount": "",
     "displayAmount": ""
   },
-  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
   "serialNumber": "000000000000"
 }

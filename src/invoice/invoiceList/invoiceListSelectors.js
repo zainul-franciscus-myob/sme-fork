@@ -56,13 +56,6 @@ export const getOrder = ({ sortOrder, orderBy }) => ({
   descending: sortOrder === 'desc',
 });
 
-const getDefaultLayout = state => state.layout;
-
-export const getNewInvoicelUrlParam = createSelector(
-  getDefaultLayout,
-  layout => (layout === 'service' ? 'newService' : 'newItem'),
-);
-
 export const getOrderBy = state => state.orderBy;
 
 export const getCustomerFilterOptions = state => state.customerFilterOptions;

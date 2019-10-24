@@ -264,7 +264,7 @@ export const getCreateInvoiceFromQuoteURL = createSelector(
   getRegion,
   getBusinessId,
   getQuoteId,
-  (region, businessId, quoteId) => `/#/${region}/${businessId}/invoice/newService?quoteId=${quoteId}`,
+  (region, businessId, quoteId) => `/#/${region}/${businessId}/invoice/new?quoteId=${quoteId}`,
 );
 
 export const getCreateNewServiceQuoteURL = createSelector(

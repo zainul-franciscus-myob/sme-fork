@@ -4,8 +4,6 @@ import { endOfMonth, startOfMonth } from 'date-fns';
 import { getBusinessId, getRegion } from './DashboardSelectors';
 import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
-const getSalesLayout = state => state.sales.layout;
-
 const getSalesEntries = state => state.sales.entries;
 
 const getSalesMonth = state => state.sales.month;
@@ -25,12 +23,7 @@ export const getIsLoading = state => state.sales.isLoading;
 export const getCreateInvoiceLink = createSelector(
   getBusinessId,
   getRegion,
-  getSalesLayout,
-  (businessId, region, layout) => {
-    const newInvoiceParam = layout === 'service' ? 'newService' : 'newItem';
-
-    return `/#/${region}/${businessId}/invoice/${newInvoiceParam}`;
-  },
+  (businessId, region) => `/#/${region}/${businessId}/invoice/new`,
 );
 
 export const getInvoiceListLink = createSelector(

@@ -1,6 +1,5 @@
 {
   "sales": {
-    "layout": "item",
     "isEmpty": false,
     "financialYearStartDate": "2019-07-01",
     "month": "October",

@@ -1,0 +1,91 @@
+import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import SaveActionType from '../SaveActionType';
+import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
+
+const getDefaultState = () => ({
+  businessId: '',
+  region: '',
+  invoiceId: '',
+  quoteId: undefined,
+  duplicatedInvoiceId: undefined,
+  layout: '',
+  openSendEmail: undefined,
+  isLoading: true,
+  alert: undefined,
+  modalType: InvoiceDetailModalType.NONE,
+  modalAlert: undefined,
+  isPageEdited: false,
+  isSubmitting: false,
+  saveActionType: SaveActionType.SAVE,
+  invoice: {
+    id: '',
+    layout: '',
+    contactId: '',
+    address: '',
+    note: '',
+    invoiceNumber: '',
+    purchaseOrderNumber: '',
+    issueDate: formatIsoDate(new Date()),
+    isAllowOnlinePayments: false,
+    isTaxInclusive: true,
+    expirationTerm: '',
+    expirationDays: '',
+    chargeForLatePayment: 0,
+    discountForEarlyPayment: 0,
+    numberOfDaysForDiscount: 0,
+    amountPaid: '0.00',
+    lines: [],
+  },
+  newLine: {
+    description: '',
+    amount: '',
+    taxCodeId: '',
+
+    // Service layout
+    allocatedAccountId: '',
+    accountOptions: [],
+    taxCodeOptions: [],
+
+    // Item layout
+    units: '',
+    itemId: '',
+    unitPrice: '',
+    discount: '',
+    displayDiscount: '',
+    displayAmount: '',
+  },
+  totals: {
+    subTotal: '0.00',
+    totalTax: '0.00',
+    totalAmount: '0.00',
+  },
+  comments: [],
+  serialNumber: '',
+  contactOptions: [],
+  expirationTermOptions: [],
+  itemOptions: [],
+  taxCodeOptions: [],
+  emailInvoice: {
+    hasEmailReplyDetails: false,
+    isEmailMeACopy: false,
+    businessName: '',
+    ccToEmail: [''],
+    fromEmail: '',
+    fromName: '',
+    messageBody: '',
+    subject: '',
+    toEmail: [''],
+    toName: '',
+    attachments: [],
+  },
+  payDirect: {
+    isLoading: true,
+    isServiceAvailable: false,
+    isRegistered: false,
+    baseUrl: '',
+  },
+  isLineAmountDirty: false,
+  areLinesCalculating: false,
+});
+
+export default getDefaultState;

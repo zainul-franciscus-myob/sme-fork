@@ -2,8 +2,8 @@ import React from 'react';
 
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
-import EmailInvoiceModal from './EmailInvoiceModal';
-import EmailSettingsModal from './EmailSettingsModal';
+import EmailInvoiceModal from './email/EmailInvoiceModal';
+import EmailSettingsModal from './email/EmailSettingsModal';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import InvoiceDetailSaveAndConfirmModal from './InvoiceDetailSaveAndConfirmModal';
 import UnsavedModal from '../../../components/modal/UnsavedModal';

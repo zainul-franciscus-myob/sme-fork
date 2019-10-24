@@ -18,7 +18,6 @@ import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 const getDefaultDateRange = () => addMonths(new Date(), -3);
 
 const getInitialState = () => ({
-  layout: '',
   filterOptions: {
     dateFrom: formatIsoDate(getDefaultDateRange()),
     dateTo: formatIsoDate(new Date()),
@@ -48,7 +47,6 @@ const setInitialState = (state, action) => ({
 
 const loadInvoiceList = (state, action) => ({
   ...state,
-  layout: action.layout,
   entries: action.entries,
   sortOrder: action.sortOrder,
   orderBy: action.orderBy,

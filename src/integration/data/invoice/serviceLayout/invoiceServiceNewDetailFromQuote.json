@@ -1,14 +1,14 @@
 {
-  "layout": "service",
   "invoice": {
+    "layout": "service",
     "contactId": "2",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": "4",
-    "taxInclusive": true,
-    "number": "00000123",
+    "isTaxInclusive": true,
+    "invoiceNumber": "00000123",
     "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
     "issueDate": "2018-11-02",
-    "notes": "Thank you!",
+    "note": "Thank you!",
     "amountPaid": "0.00",
     "isAllowOnlinePayments": false,
     "lines": [
@@ -18,7 +18,7 @@
         "allocatedAccountId": "123",
         "amount": "48.50",
         "taxCodeId": "124",
-        "accounts": [
+        "accountOptions": [
           {
             "id": "123",
             "displayName": "My Sales Account 1",
@@ -41,7 +41,7 @@
             "displayId": "6-789"
           }
         ],
-        "taxCodes": [
+        "taxCodeOptions": [
           {
             "id": "123",
             "displayName": "GST",
@@ -62,7 +62,7 @@
         "allocatedAccountId": "456",
         "amount": "50.00",
         "taxCodeId": "123",
-        "accounts": [
+        "accountOptions": [
           {
             "id": "123",
             "displayName": "My Sales Account 1",
@@ -85,7 +85,7 @@
             "displayId": "6-789"
           }
         ],
-        "taxCodes": [
+        "taxCodeOptions": [
           {
             "id": "123",
             "displayName": "GST",
@@ -106,7 +106,7 @@
         "allocatedAccountId": "123",
         "amount": "12.50",
         "taxCodeId": "124",
-        "accounts": [
+        "accountOptions": [
           {
             "id": "123",
             "displayName": "My Sales Account 1",
@@ -129,7 +129,7 @@
             "displayId": "6-789"
           }
         ],
-        "taxCodes": [
+        "taxCodeOptions": [
           {
             "id": "123",
             "displayName": "GST",
@@ -158,11 +158,6 @@
     "toEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
     "toName": "Geoff Speirs",
     "attachments": []
-  },
-  "payDirect": {
-    "isRegistered": false,
-    "baseUrl": "https://paydirectonline.myob.com/payments",
-    "serialNumber": "000000000000"
   },
   "contactOptions": [
     {
@@ -205,7 +200,7 @@
     "allocatedAccountId": "",
     "amount": "",
     "taxCodeId": "",
-    "accounts": [
+    "accountOptions": [
       {
         "id": "123",
         "displayName": "My Sales Account 1",
@@ -228,7 +223,7 @@
         "displayId": "6-789"
       }
     ],
-    "taxCodes": [
+    "taxCodeOptions": [
       {
         "id": "123",
         "displayName": "GST",
@@ -248,5 +243,6 @@
     "totalTax": "4.39",
     "totalAmount": "48.30"
   },
-  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"]
+  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
+  "serialNumber": "000000000000"
 }
