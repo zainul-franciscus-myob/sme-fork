@@ -1,0 +1,24 @@
+{
+  "banking": {
+    "bankFeedAccountId": "7",
+    "currentBalance": "$100.00",
+    "lastReconcileDate": "11/12/2019",
+    "unallocatedTransactionsTotal": "10",
+    "bankBalanceDate": "15/12/2019",
+    "bankLatestClosingBalance": "$50.00",
+    "bankFeedAccounts": [
+      {
+        "id": "4",
+        "accountType": "Asset",
+        "displayId": "1-1110",
+        "displayName": "Business Bank Account #11"
+      },
+      {
+        "id": "7",
+        "accountType": "Asset",
+        "displayId": "1-1140",
+        "displayName": "Petty Cash/Cash On Hand"
+      }
+    ]
+  }
+}

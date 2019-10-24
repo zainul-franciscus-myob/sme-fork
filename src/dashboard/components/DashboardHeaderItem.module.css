@@ -1,0 +1,19 @@
+.headerItem {
+  margin-right: var(--flx-spacing-large);
+}
+
+.headerItemClickable:hover * {
+  color: var(--flx-palette-dusk-100);
+}
+
+.headerItem__content {
+  margin-bottom: var(--flx-spacing-x-small);
+}
+
+.headerItemClickable:hover .headerItem__content {
+  text-decoration: underline;
+}
+
+.labelAccessory {
+  margin: 0 0.5rem;
+}

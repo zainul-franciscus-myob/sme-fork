@@ -1,0 +1,21 @@
+.container :global(.form-group) {
+  margin-bottom: var(--flx-spacing-tiny);
+}
+
+.container :global(.page-head__title) > :global(h1) {
+  font-size: var(--flx-font-size-heading-large);
+}
+
+.container > hr {
+  margin-top: var(--flx-spacing-tiny);
+}
+
+.balances {
+  padding-left: 0;
+  margin: var(--flx-spacing-medium) 0;
+}
+
+.reconcileDate {
+  font-weight: bold;
+  margin-left: var(--flx-spacing-tiny);
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="67px" viewBox="0 0 80 67" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
+    <title>illustration/product/device/20 intray folders papers</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="21.7253611 0 24.5072671 4.48879694 55.277916 4.48879694 58.0613104 0 79.7866716 0 79.7866716 21.5424013 0 21.5424013 0 0"></polygon>
+    </defs>
+    <g id="ES---Symbol-artboards" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Responsive---Manage-Panel---a" transform="translate(-32.000000, -197.000000)">
+            <g id="Group-3" transform="translate(32.000000, 194.000000)">
+                <g id="illustration/product/device/20-intray-folders-papers" transform="translate(0.000000, 4.000000)">
+                    <path d="M74.9994713,38.790403 L4.78720029,38.790403" id="Stroke-4" stroke="#C5C9CE" stroke-width="2.95506191" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M74.9994713,34.0032027 L4.78720029,30.0138691" id="Stroke-6" stroke="#C5C9CE" stroke-width="2.95506191" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M74.9994713,30.0138691 L5.58506701,21.2373352" id="Stroke-8" stroke="#C5C9CE" stroke-width="2.95506191" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M75.797338,23.6309354 C48.3083095,18.7901979 10.3722673,0.492800613 10.3722673,0.492800613" id="Stroke-10" stroke="#C5C9CE" stroke-width="2.95506191" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <polygon id="Fill-12" fill="#FFFFFF" points="21.5081075 43.5776033 24.2621945 48.0664002 54.7251368 48.0664002 57.4806973 43.5776033 78.9888049 43.5776033 78.9888049 65.1200046 0 65.1200046 0 43.5776033"></polygon>
+                    <g id="illustration/product/swatches/dusk" transform="translate(0.000000, 43.577603)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <use id="Mask" fill="#EC0677" xlink:href="#path-1"></use>
+                        <g mask="url(#mask-2)" fill="#8241AA" id="swatch_dusk">
+                            <g transform="translate(0.000000, -11.170134)">
+                                <rect x="0" y="0" width="79.7866716" height="39.0954691"></rect>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

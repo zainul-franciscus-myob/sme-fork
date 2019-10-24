@@ -1,0 +1,10 @@
+{
+  "banking": {
+    "bankFeedAccountId": "7",
+    "currentBalance": "$100.00",
+    "lastReconcileDate": "11/12/2019",
+    "unallocatedTransactionsTotal": "10",
+    "bankBalanceDate": "15/12/2019",
+    "bankLatestClosingBalance": "$50.00"
+  }
+}

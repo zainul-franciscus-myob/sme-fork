@@ -65,6 +65,29 @@ export default class DashboardModule {
     this.integrator.loadPurchase({ onSuccess, onFailure });
   }
 
+  loadBanking = () => {
+    this.dispatcher.setBankingErrorState(false);
+    this.dispatcher.setBankingLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setBankingLoadingState(false);
+      this.dispatcher.loadBanking(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setBankingLoadingState(false);
+      this.dispatcher.setBankingErrorState(true);
+    };
+
+    this.integrator.loadBanking({ onSuccess, onFailure });
+  }
+
+  updateBankFeedAccount = (bankFeedAccount) => {
+    const { id } = bankFeedAccount;
+    this.dispatcher.setBankFeedAccount(id);
+    this.loadBanking();
+  }
+
   redirectToUrl = (url) => {
     window.location.href = url;
   }
@@ -76,6 +99,8 @@ export default class DashboardModule {
         onLinkClick={this.redirectToUrl}
         onSalesReload={this.loadSales}
         onPurchaseReload={this.loadPurchase}
+        onBankingReload={this.loadBanking}
+        onBankFeedAccountChange={this.updateBankFeedAccount}
       />
     );
 
@@ -103,5 +128,6 @@ export default class DashboardModule {
     this.loadDashboard();
     this.loadSales();
     this.loadPurchase();
+    this.loadBanking();
   }
 }

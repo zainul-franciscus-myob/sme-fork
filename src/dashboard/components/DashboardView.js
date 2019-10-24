@@ -8,7 +8,7 @@ import {
   getAlert,
   getIsLoading,
 } from '../selectors/DashboardSelectors';
-import DashboardBankAccountCard from './DashboardBankAccountCard';
+import DashboardBankingCard from './banking/DashboardBankingCard';
 import DashboardBusinessTrackingCard from './DashboardBusinessTrackingCard';
 import DashboardHeader from './DashboardHeader';
 import DashboardLeanEngageCard from './DashboardLeanEngageCard';
@@ -26,6 +26,8 @@ const DashboardView = ({
   onLinkClick,
   onSalesReload,
   onPurchaseReload,
+  onBankingReload,
+  onBankFeedAccountChange,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -43,7 +45,11 @@ const DashboardView = ({
         <DashboardBusinessTrackingCard />
       </div>
       <div className={styles.secondary}>
-        <DashboardBankAccountCard />
+        <DashboardBankingCard
+          onReload={onBankingReload}
+          onLinkClick={onLinkClick}
+          onBankFeedAccountChange={onBankFeedAccountChange}
+        />
         <div className={styles.lastCard}>
           <DashboardLeanEngageCard />
         </div>

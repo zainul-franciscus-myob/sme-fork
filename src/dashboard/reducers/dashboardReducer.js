@@ -5,6 +5,7 @@ import {
 } from '../DashboardIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
+import dashboardBankingReducerHandlers from './dashboardBankingReducer';
 import dashboardPurchaseReducerHandlers from './dashboardPurchaseReducer';
 import dashboardSalesReducerHandlers from './dashboardSalesReducer';
 
@@ -46,6 +47,18 @@ const getDefaultState = () => ({
     chart: [],
     hasError: false,
   },
+
+  banking: {
+    isLoading: true,
+    hasError: false,
+    bankFeedAccountId: '',
+    bankFeedAccounts: [],
+    unallocatedTransactionsTotal: '',
+    bankLatestClosingBalance: '',
+    bankBalanceDate: '',
+    currentBalance: '',
+    lastReconcileDate: '',
+  },
 });
 
 const setInitialState = (state, { context }) => ({
@@ -82,6 +95,7 @@ const handlers = {
 
   ...dashboardSalesReducerHandlers,
   ...dashboardPurchaseReducerHandlers,
+  ...dashboardBankingReducerHandlers,
 };
 
 const dashboardReducer = createReducer(getDefaultState(), handlers);

@@ -1,22 +1,22 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import HeaderItem from './DashboardHeaderItem';
 import styles from './DashboardTotalSummary.module.css';
 
-const HeaderItem = ({ title, content, clickable }) => (
-  <div className={classNames(styles.headerItem, { [styles.headerItemClickable]: clickable })}>
-    <div>
-      {title}
-    </div>
-    <div>
-      <h2 className={styles.headerItem__content}>{content}</h2>
-    </div>
-  </div>
-);
-
-const DashboardTotalSummary = ({ items = [] }) => {
-  const body = items.map(({ title, content, link }) => {
-    const headerItem = <HeaderItem key={title} title={title} content={content} clickable={link} />;
+const DashboardTotalSummary = ({ items = [], className = '' }) => {
+  const body = items.map(({
+    title, content, link, labelAccessory,
+  }) => {
+    const headerItem = (
+      <HeaderItem
+        key={title}
+        title={title}
+        content={content}
+        clickable={link}
+        labelAccessory={labelAccessory}
+      />
+    );
 
     return link
       ? <a key={title} href={link}>{headerItem}</a>
@@ -24,7 +24,7 @@ const DashboardTotalSummary = ({ items = [] }) => {
   });
 
   return (
-    <div className={styles.totalHeader}>
+    <div className={classNames(styles.totalHeader, className)}>
       { body }
     </div>
   );

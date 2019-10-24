@@ -1,8 +1,12 @@
 import {
   LOAD_DASHBOARD,
+  LOAD_DEFAULT_BANKING,
   LOAD_PURCHASE,
   LOAD_SALES,
   SET_ALERT,
+  SET_BANKING_ERROR_STATE,
+  SET_BANKING_LOADING_STATE,
+  SET_BANK_FEED_ACCOUNT_ID,
   SET_LOADING_STATE,
   SET_PURCHASE_ERROR_STATE,
   SET_PURCHASE_LOADING_STATE,
@@ -75,6 +79,26 @@ const createDashboardDispatcher = store => ({
   setPurchaseErrorState: (hasError) => {
     const intent = SET_PURCHASE_ERROR_STATE;
     store.dispatch({ intent, hasError });
+  },
+
+  loadBanking: (payload) => {
+    const intent = LOAD_DEFAULT_BANKING;
+    store.dispatch({ intent, ...payload });
+  },
+
+  setBankingLoadingState: (isLoading) => {
+    const intent = SET_BANKING_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  setBankingErrorState: (hasError) => {
+    const intent = SET_BANKING_ERROR_STATE;
+    store.dispatch({ intent, hasError });
+  },
+
+  setBankFeedAccount: (bankFeedAccountId) => {
+    const intent = SET_BANK_FEED_ACCOUNT_ID;
+    store.dispatch({ intent, bankFeedAccountId });
   },
 });
 

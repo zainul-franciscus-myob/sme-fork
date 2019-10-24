@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  padding: var(--flx-spacing-small);
+  border-radius: var(--flx-border-radius-card);
+  background-color: var(--flx-palette-storm-06);
+}
+
+.container :global(img) {
+  margin-right: var(--flx-spacing-small);
+}
+
+.title {
+  margin-bottom: 0;
+}
+
+.transactionCount {
+  margin-bottom: 0;
+  font-weight: bold;
+}
