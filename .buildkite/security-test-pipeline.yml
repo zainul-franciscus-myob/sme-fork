@@ -1,0 +1,8 @@
+steps:
+
+  - name: ':white_check_mark: Running Checkmarx'
+    command: ./ops/bin/checkmarx
+    branches: master
+    agents:
+      queue: cacc-prod-dflt
+    soft_fail: true

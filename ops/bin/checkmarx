@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "--- Running checkmarx"
+team=$(aws ssm get-parameter --name "/ops/smep/checkmarx/team-id" --with-decryption --query "Parameter.Value" --output text 2>/dev/null)
+CHECKMARX_TEAM_ID="$team" cxscan -v
