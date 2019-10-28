@@ -16,10 +16,10 @@ const PayItemExpensesTable = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem>
-        <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortExpensesList} />
+        <HeaderSort title="Pay item name" sortName="Name" activeSort={order} onSort={onSortExpensesList} />
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortExpensesList} />
+        <HeaderSort title="Calculation basis" sortName="DisplayType" activeSort={order} onSort={onSortExpensesList} />
       </Table.HeaderItem>
     </Table.Header>
   );

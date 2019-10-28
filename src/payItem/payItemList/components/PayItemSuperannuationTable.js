@@ -16,10 +16,10 @@ const PayItemSuperannuationTable = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem>
-        <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortSuperannuationList} />
+        <HeaderSort title="Pay item name" sortName="Name" activeSort={order} onSort={onSortSuperannuationList} />
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortSuperannuationList} />
+        <HeaderSort title="Contribution type" sortName="DisplayType" activeSort={order} onSort={onSortSuperannuationList} />
       </Table.HeaderItem>
       <Table.HeaderItem>
         <HeaderSort title="ATO reporting category" sortName="StpCategory" activeSort={order} onSort={onSortSuperannuationList} />

@@ -27,7 +27,7 @@ const TaxPayItemView = ({
   const view = (
     <div className={style.formWidth}>
       <FormHorizontal>
-        <FieldGroup label="PAYG Withholding">
+        <FieldGroup label="PAYG withholding">
           <AccountCombobox
             label="Linked payables account"
             hideLabel={false}
@@ -37,7 +37,7 @@ const TaxPayItemView = ({
             labelAccessory={(
               <Tooltip triggerContent={<Icons.Info />}>
               This account will track the amount of PAYG that is withheld from employee pays.
-              We recommend to use the default one we suggested for you.
+              We recommend using the default.
               </Tooltip>
           )}
           />
@@ -48,7 +48,7 @@ const TaxPayItemView = ({
             onChange={handleSelectChange(onTaxDetailChange)}
             labelAccessory={(
               <Tooltip triggerContent={<Icons.Info />}>
-              Select the ATO reporting category if you&apos;re using Single Touch Payroll.
+              Select the ATO reporting category for Single Touch Payroll.
               </Tooltip>
           )}
           >

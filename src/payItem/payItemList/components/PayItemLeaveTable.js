@@ -16,10 +16,10 @@ const PayItemLeaveList = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem>
-        <HeaderSort title="Name" sortName="Name" activeSort={order} onSort={onSortLeaveList} />
+        <HeaderSort title="Pay item name" sortName="Name" activeSort={order} onSort={onSortLeaveList} />
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="Type" sortName="DisplayType" activeSort={order} onSort={onSortLeaveList} />
+        <HeaderSort title="Calculation basis" sortName="DisplayType" activeSort={order} onSort={onSortLeaveList} />
       </Table.HeaderItem>
     </Table.Header>
   );
