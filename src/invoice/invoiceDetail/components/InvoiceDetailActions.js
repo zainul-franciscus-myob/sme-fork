@@ -9,7 +9,7 @@ import SaveActionType from '../SaveActionType';
 
 const InvoiceDetailActions = ({
   isCreating,
-  areButtonsDisabled,
+  isActionsDisabled,
   listeners: {
     onSaveButtonClick,
     onSaveAndButtonClick,
@@ -20,7 +20,13 @@ const InvoiceDetailActions = ({
   },
 }) => {
   const recordPaymentButton = (
-    <Button key="payInvoice" name="payInvoice" type="secondary" onClick={onPayInvoiceButtonClick}>
+    <Button
+      key="payInvoice"
+      name="payInvoice"
+      type="secondary"
+      onClick={onPayInvoiceButtonClick}
+      disabled={isActionsDisabled}
+    >
       Record payment
     </Button>
   );
@@ -31,7 +37,7 @@ const InvoiceDetailActions = ({
       name="saveAndEmail"
       type="secondary"
       onClick={onSaveAndEmailButtonClick}
-      disabled={areButtonsDisabled}
+      disabled={isActionsDisabled}
     >
     Save and email
     </Button>
@@ -57,7 +63,7 @@ const InvoiceDetailActions = ({
       key="saveAnd"
       onSelect={onSaveAndButtonClick}
       toggle={(
-        <Dropdown.Toggle>
+        <Dropdown.Toggle disabled={isActionsDisabled}>
             Save and...
           <Icons.Caret />
         </Dropdown.Toggle>
@@ -72,7 +78,7 @@ const InvoiceDetailActions = ({
       name="save"
       type="primary"
       onClick={onSaveButtonClick}
-      disabled={areButtonsDisabled}
+      disabled={isActionsDisabled}
     >
     Save
     </Button>
@@ -84,7 +90,7 @@ const InvoiceDetailActions = ({
       name="cancel"
       type="secondary"
       onClick={onCancelButtonClick}
-      disabled={areButtonsDisabled}
+      disabled={isActionsDisabled}
     >
     Cancel
     </Button>
@@ -96,7 +102,7 @@ const InvoiceDetailActions = ({
       name="delete"
       type="secondary"
       onClick={onDeleteButtonClick}
-      disabled={areButtonsDisabled}
+      disabled={isActionsDisabled}
     >
       Delete
     </Button>
