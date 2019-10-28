@@ -55,6 +55,7 @@ const ContactDetails = ({
 }) => (
   <FieldGroup label="Details">
     <RadioButtonGroup
+      label="Contact type"
       requiredLabel="This is required"
       name="contactType"
       onChange={onRadioButtonChange('selectedContactType', onContactDetailsChange)}
