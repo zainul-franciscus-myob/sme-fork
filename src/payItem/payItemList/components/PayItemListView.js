@@ -4,7 +4,6 @@ import {
   ButtonRow,
   PageHead,
   StandardTemplate,
-  Tabs,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -18,6 +17,7 @@ import PayItemExpensesTable from './PayItemExpensesTable';
 import PayItemLeaveTable from './PayItemLeaveTable';
 import PayItemSuperannuationTable from './PayItemSuperannuationTable';
 import PayItemWagesTable from './PayItemWagesTable';
+import Tabs from '../../../components/Tabs/Tabs';
 import TaxPayItemView from './TaxPayItemView';
 import style from './PayItemListView.module.css';
 
