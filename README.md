@@ -1,15 +1,12 @@
+# SME Web UI
+
+(S)mall to (M)edium (E)nterprise Web (U)ser (I)nterface.
+
+It is designed to work hand-in-hand with [sme-web-bff](https://github.com/MYOB-Technology/sme-web-bff), but is not strictly dependent on it for the purposes of local development.
 
 [![Build status](https://badge.buildkite.com/136ac15e403f9d3be9d1dd3910781e553a17a63b4c44866346.svg?branch=master)](https://buildkite.com/myob/sme-web)
 
-The SME Web Client is the primary frontend codebase, which implements the user interface for the SME Web product
-
-> This project was bootstrapped with [Create React App].
-
-It is designed to work hand-in-hand with [MYOB-Technology/sme-web-bff], but is not strictly dependent on it for the purposes of local development.
-
-SME Web
-=================
-
+## Contents
   * Getting Started
     * Review the [social contract].
     * Review the [contributions process].
@@ -34,7 +31,9 @@ SME Web
     > At this stage there are no guarantees that this web client will use the same node version as the BFF.
 
 2.  Install project dependencies
-        yarn install
+```sh
+yarn install
+```
 
 ## Run tests
 
@@ -91,13 +90,10 @@ The `MemoryIntegration` is used in local development to stub out back-end server
 
 In the location `src/components/Feelix/**` there are a number of wrapped components that should be favoured for use over the Feelix counterpart. These include additional behaviours and bugfixes on top of the base components.
 
-
 [social contract]: https://myobconfluence.atlassian.net/wiki/spaces/SA/pages/800688620/Web+Stream+Social+Contract
 [contributions process]: CONTRIBUTING.md
 [system architecture]: https://myobconfluence.atlassian.net/wiki/spaces/SA/pages/815661633/Working+on+SME-web
 [Editors]: docs/linting-and-styles.md#code-editors
 [Linting]: docs/linting-and-styles.md#linting
-[create react app]: https://github.com/facebookincubator/create-react-app
 [node]: https://nodejs.org/en/
 [nvm]: https://github.com/creationix/nvm
-[myob-technology/sme-web-bff]: https://github.com/MYOB-Technology/sme-web-bff
