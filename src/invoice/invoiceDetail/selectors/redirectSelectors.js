@@ -76,3 +76,10 @@ export const getCreateDuplicateInvoiceUrl = (state) => {
 
   return `${createNewUrl}?duplicatedInvoiceId=${invoiceId}`;
 };
+
+export const getInvoiceReadWithExportPdfModalUrl = (state) => {
+  const baseUrl = getBaseUrl(state);
+  const invoiceId = getInvoiceId(state);
+
+  return `${baseUrl}/invoice/${invoiceId}?openExportPdf=true`;
+};

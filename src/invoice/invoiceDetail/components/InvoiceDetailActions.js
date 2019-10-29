@@ -15,6 +15,7 @@ const InvoiceDetailActions = ({
     onSaveAndButtonClick,
     onSaveAndEmailButtonClick,
     onPayInvoiceButtonClick,
+    onExportPdfButtonClick,
     onCancelButtonClick,
     onDeleteButtonClick,
   },
@@ -28,6 +29,18 @@ const InvoiceDetailActions = ({
       disabled={isActionsDisabled}
     >
       Record payment
+    </Button>
+  );
+
+  const exportPdfButton = (
+    <Button
+      key="exportPdf"
+      name="exportPdf"
+      type="secondary"
+      onClick={onExportPdfButtonClick}
+      disabled={isActionsDisabled}
+    >
+      Export PDF
     </Button>
   );
 
@@ -112,6 +125,7 @@ const InvoiceDetailActions = ({
     <ButtonRow
       primary={[
         recordPaymentButton,
+        exportPdfButton,
         saveAndEmailButton,
         separator,
         cancelButton,

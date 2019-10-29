@@ -17,12 +17,12 @@ import {
   getAreLinesCalculating,
   getIsCreating,
   getIsLineAmountDirty,
+  getIsPageEdited,
   getIsServiceLayout,
   getIsTableEmpty,
   getRouteURLParams,
   getShouldReload,
   getShowOnlinePayment,
-  isPageEdited,
 } from './selectors/invoiceDetailSelectors';
 import {
   getCreateDuplicateInvoiceUrl,
@@ -31,6 +31,7 @@ import {
   getInvoiceListUrl,
   getInvoicePaymentUrl,
   getInvoiceReadWithEmailModalUrl,
+  getInvoiceReadWithExportPdfModalUrl,
 } from './selectors/redirectSelectors';
 import {
   getInvoiceItemCalculateAmountChangePayload,
@@ -41,6 +42,7 @@ import {
   getIsAnAmountLineInput,
   getNewLineIndex,
 } from './selectors/itemLayoutSelectors';
+import { getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import InvoiceDetailModalType from './InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
 import SaveActionType from './SaveActionType';
@@ -146,6 +148,21 @@ export default class InvoiceDetailModule {
     this.createOrUpdateInvoice({ onSuccess });
   }
 
+  saveAndExportPdf = () => {
+    const onSuccess = ({ message, id }) => {
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+      if (isCreating) {
+        this.dispatcher.updateInvoiceIdAfterCreate(id);
+      }
+
+      this.pushSuccessfulSaveMessage(message);
+      this.redirectToReadInvoiceWithExportPdfModal();
+    };
+
+    this.createOrUpdateInvoice({ onSuccess });
+  }
+
   saveAndRedirectToInvoicePayment = () => {
     const onSuccess = () => {
       this.dispatcher.setSubmittingState(false);
@@ -221,6 +238,13 @@ export default class InvoiceDetailModule {
   redirectToReadInvoiceWithEmailModal = () => {
     const state = this.store.getState();
     const url = getInvoiceReadWithEmailModalUrl(state);
+
+    this.redirectToUrl(url);
+  }
+
+  redirectToReadInvoiceWithExportPdfModal = () => {
+    const state = this.store.getState();
+    const url = getInvoiceReadWithExportPdfModalUrl(state);
 
     this.redirectToUrl(url);
   }
@@ -451,7 +475,7 @@ export default class InvoiceDetailModule {
   };
 
   openCancelModal = () => {
-    if (isPageEdited(this.store.getState())) {
+    if (getIsPageEdited(this.store.getState())) {
       this.dispatcher.setModalType(InvoiceDetailModalType.CANCEL);
     } else {
       this.redirectToInvoiceList();
@@ -480,7 +504,7 @@ export default class InvoiceDetailModule {
   }
 
   payInvoice = () => {
-    if (isPageEdited(this.store.getState())) {
+    if (getIsPageEdited(this.store.getState())) {
       this.dispatcher.setModalType(InvoiceDetailModalType.APPLY_PAYMENT_UNSAVED_CHANGES);
     } else {
       this.redirectToInvoicePayment();
@@ -526,6 +550,30 @@ export default class InvoiceDetailModule {
   closeEmailSettingsModal = () => {
     this.closeModal();
     this.dispatcher.resetOpenSendEmailParam();
+  }
+
+  exportPdf = () => {
+    const onSuccess = (data) => {
+      this.closeModal();
+      window.open(URL.createObjectURL(data), '_blank');
+    };
+
+    const onFailure = () => {
+      this.displayFailureAlert('Failed to export PDF');
+      this.closeModal();
+    };
+
+    this.integrator.exportPdf({ onSuccess, onFailure });
+  }
+
+  openExportPdfModalOrSaveAndExportPdf = () => {
+    const state = this.store.getState();
+    const shouldSaveAndExport = getShouldSaveAndExportPdf(state);
+    if (shouldSaveAndExport) {
+      this.saveAndExportPdf();
+    } else {
+      this.dispatcher.setModalType(InvoiceDetailModalType.EXPORT_PDF);
+    }
   }
 
   pushSuccessfulSaveMessage = (message) => {
@@ -599,6 +647,7 @@ export default class InvoiceDetailModule {
           onSaveAndButtonClick: this.executeSaveAndAction,
           onSaveAndEmailButtonClick: this.saveAndEmailInvoice,
           onPayInvoiceButtonClick: this.payInvoice,
+          onExportPdfButtonClick: this.openExportPdfModalOrSaveAndExportPdf,
           onCancelButtonClick: this.openCancelModal,
           onDeleteButtonClick: this.openDeleteModal,
         }}
@@ -627,6 +676,11 @@ export default class InvoiceDetailModule {
           onConfirmSave: this.saveAndRedirectToInvoicePayment,
           onConfirmUnsave: this.redirectToInvoicePayment,
           onCancel: this.closeModal,
+        }}
+        exportPdfModalListeners={{
+          onCancel: this.closeModal,
+          onConfirm: this.exportPdf,
+          onChange: this.dispatcher.updateExportPdfDetail,
         }}
       />
     );

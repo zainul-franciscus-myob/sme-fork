@@ -10,11 +10,12 @@ export const getInvoiceId = state => state.invoiceId;
 export const getQuoteIdQueryParam = state => state.quoteId;
 export const getDuplicatedInvoiceIdQueryParam = state => state.duplicatedInvoiceId;
 export const getOpenSendEmailQueryParam = state => state.openSendEmail;
+export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 export const getLayoutQueryParam = state => state.layout;
 
 export const getIsLoading = state => state.isLoading;
 export const getIsActionsDisabled = state => state.isSubmitting;
-export const isPageEdited = state => state.isPageEdited;
+export const getIsPageEdited = state => state.isPageEdited;
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
 export const getModalAlert = state => state.modalAlert;
@@ -125,15 +126,28 @@ const getShouldOpenEmailModal = (state) => {
   return !isCreating && openSendEmail === 'true';
 };
 
-export const getLoadInvoiceDetailModalType = (state, emailInvoice) => {
-  const { hasEmailReplyDetails } = emailInvoice || {};
-  const shouldOpenEmailModal = getShouldOpenEmailModal(state);
+const getShouldOpenExportPdfModal = (state) => {
+  const isCreating = getIsCreating(state);
+  const openExportPdf = getOpenExportPdfQueryParam(state);
 
+  return !isCreating && openExportPdf === 'true';
+};
+
+export const getLoadInvoiceDetailModalType = (state, emailInvoice) => {
+  const shouldOpenEmailModal = getShouldOpenEmailModal(state);
   if (shouldOpenEmailModal) {
+    const { hasEmailReplyDetails } = emailInvoice || {};
+
     return hasEmailReplyDetails
       ? InvoiceDetailModalType.EMAIL_INVOICE
       : InvoiceDetailModalType.EMAIL_SETTINGS;
   }
+
+  const shouldOpenExportPdfModal = getShouldOpenExportPdfModal(state);
+  if (shouldOpenExportPdfModal) {
+    return InvoiceDetailModalType.EXPORT_PDF;
+  }
+
   return InvoiceDetailModalType.NONE;
 };
 

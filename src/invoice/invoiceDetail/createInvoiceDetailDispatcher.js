@@ -22,6 +22,7 @@ import {
   SET_PAY_DIRECT_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_EMAIL_INVOICE_DETAIL,
+  UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_INVOICE_DETAIL_HEADER_OPTIONS,
   UPDATE_INVOICE_ID_AFTER_CREATE,
   UPDATE_INVOICE_ITEM_LINE,
@@ -122,6 +123,10 @@ const createInvoiceDetailDispatcher = store => ({
   resetEmailInvoiceDetail: () => store.dispatch({ intent: RESET_EMAIL_INVOICE_DETAIL }),
 
   resetOpenSendEmailParam: () => store.dispatch({ intent: RESET_OPEN_SEND_EMAIL }),
+
+  updateExportPdfDetail: ({ key, value }) => store.dispatch({
+    intent: UPDATE_EXPORT_PDF_DETAIL, key, value,
+  }),
 });
 
 export default createInvoiceDetailDispatcher;

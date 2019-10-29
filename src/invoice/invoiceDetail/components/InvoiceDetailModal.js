@@ -4,6 +4,7 @@ import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import EmailInvoiceModal from './email/EmailInvoiceModal';
 import EmailSettingsModal from './email/EmailSettingsModal';
+import ExportPdfModal from './ExportPdfModal';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import InvoiceDetailSaveAndConfirmModal from './InvoiceDetailSaveAndConfirmModal';
 import UnsavedModal from '../../../components/modal/UnsavedModal';
@@ -18,6 +19,7 @@ const InvoiceDetailModal = ({
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
   applyPaymentUnsavedChangesListeners,
+  exportPdfModalListeners,
 }) => {
   if (modalType === InvoiceDetailModalType.EMAIL_INVOICE) {
     return (
@@ -77,6 +79,10 @@ const InvoiceDetailModal = ({
         isActionsDisabled={isActionsDisabled}
       />
     );
+  }
+
+  if (modalType === InvoiceDetailModalType.EXPORT_PDF) {
+    return <ExportPdfModal listeners={exportPdfModalListeners} />;
   }
 
   if (modalType === InvoiceDetailModalType.DELETE) {

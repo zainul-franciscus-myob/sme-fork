@@ -1,6 +1,7 @@
 import {
   CREATE_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
+  EXPORT_INVOICE_PDF,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_CONTACT_ADDRESS,
   LOAD_PAY_DIRECT,
@@ -17,6 +18,7 @@ import {
   getLoadInvoiceUrlParams,
   getLoadPayDirectUrlParams,
 } from './selectors/integratorSelectors';
+import { getExportPdfQueryParams, getExportPdfUrlParams } from './selectors/exportPdfSelectors';
 import { getInvoiceItemCalculatedLinesUrlParams } from './selectors/itemLayoutSelectors';
 import {
   getInvoiceServiceCalculatedTotalsPayload,
@@ -118,6 +120,18 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
 
     integration.write({
       intent, urlParams, content, onSuccess, onFailure,
+    });
+  },
+
+  exportPdf: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = EXPORT_INVOICE_PDF;
+    const urlParams = getExportPdfUrlParams(state);
+    const params = getExportPdfQueryParams(state);
+
+    integration.readFile({
+      intent, urlParams, params, onSuccess, onFailure,
     });
   },
 });

@@ -10,6 +10,7 @@ const getDefaultState = () => ({
   duplicatedInvoiceId: undefined,
   layout: '',
   openSendEmail: undefined,
+  openExportPdf: undefined,
   isLoading: true,
   alert: undefined,
   modalType: InvoiceDetailModalType.NONE,
@@ -77,6 +78,10 @@ const getDefaultState = () => ({
     toEmail: [''],
     toName: '',
     attachments: [],
+  },
+  exportPdf: {
+    templateOptions: [],
+    template: '',
   },
   payDirect: {
     isLoading: true,

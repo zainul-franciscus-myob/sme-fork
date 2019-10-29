@@ -5,6 +5,7 @@ import {
   CALCULATE_INVOICE_ITEM_TAX_INCLUSIVE_CHANGE,
   CREATE_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
+  EXPORT_INVOICE_PDF,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_CONTACT_ADDRESS,
   LOAD_INVOICE_DETAIL,
@@ -67,6 +68,7 @@ const InvoiceMapping = {
   ),
   [CALCULATE_INVOICE_ITEM_LINE_INPUT_CHANGE]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
+  [EXPORT_INVOICE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 
 export default InvoiceMapping;

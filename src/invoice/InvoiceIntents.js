@@ -51,3 +51,6 @@ export const SEND_EMAIL = Symbol('Send email');
 export const UPDATE_EMAIL_INVOICE_DETAIL = Symbol('Update email invoice detail');
 export const RESET_EMAIL_INVOICE_DETAIL = Symbol('Reset email invoice detail');
 export const RESET_OPEN_SEND_EMAIL = Symbol('Reset open send email');
+
+export const EXPORT_INVOICE_PDF = Symbol('Export invoice pdf');
+export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');

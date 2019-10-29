@@ -23,6 +23,7 @@ import {
   SET_PAY_DIRECT_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_EMAIL_INVOICE_DETAIL,
+  UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_INVOICE_DETAIL_HEADER_OPTIONS,
   UPDATE_INVOICE_ID_AFTER_CREATE,
   UPDATE_INVOICE_ITEM_LINE,
@@ -55,6 +56,7 @@ import {
 } from '../selectors/invoiceDetailSelectors';
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { resetEmailInvoiceDetail, resetOpenSendEmailParam, updateEmailInvoiceDetail } from './EmailReducer';
+import { updateExportPdfDetail } from './ExportPdfReducer';
 import createReducer from '../../../store/createReducer';
 import getDefaultState from './getDefaultState';
 
@@ -101,6 +103,10 @@ const loadInvoiceDetail = (state, action) => {
     emailInvoiceDefaultState: {
       ...state.emailInvoiceDefaultState,
       ...getLoadInvoiceDetailEmailInvoice(action.emailInvoice),
+    },
+    exportPdf: {
+      ...state.exportPdf,
+      ...action.exportPdf,
     },
     modalType,
     modalAlert,
@@ -164,6 +170,8 @@ const handlers = {
   [UPDATE_EMAIL_INVOICE_DETAIL]: updateEmailInvoiceDetail,
   [RESET_EMAIL_INVOICE_DETAIL]: resetEmailInvoiceDetail,
   [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,
+
+  [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

@@ -5,6 +5,7 @@ import {
   CALCULATE_INVOICE_ITEM_TAX_INCLUSIVE_CHANGE,
   CREATE_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
+  EXPORT_INVOICE_PDF,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_CONTACT_ADDRESS,
   LOAD_INVOICE_DETAIL,
@@ -92,6 +93,10 @@ const InvoiceMapping = {
   [SEND_EMAIL]: {
     method: 'POST',
     getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/send_invoice_email/${invoiceId}`,
+  },
+  [EXPORT_INVOICE_PDF]: {
+    method: 'GET',
+    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/export_invoice_pdf/${invoiceId}`,
   },
 };
 

@@ -34,6 +34,7 @@ const InvoiceDetailView = ({
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
   applyPaymentUnsavedChangesListeners,
+  exportPdfModalListeners,
 }) => {
   const templateOptions = (
     <InvoiceDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
@@ -60,6 +61,7 @@ const InvoiceDetailView = ({
       isActionsDisabled={isActionsDisabled}
       alert={modalAlert}
       applyPaymentUnsavedChangesListeners={applyPaymentUnsavedChangesListeners}
+      exportPdfModalListeners={exportPdfModalListeners}
     />
   );
 
