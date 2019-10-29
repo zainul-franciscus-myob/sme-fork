@@ -1,15 +1,17 @@
-import { HeaderSort, Table } from '@myob/myob-widgets';
+import {
+  Button, HeaderSort, Icons, Table,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getExpensesOrder, getIsExpensesTableEmpty, getIsTableLoading } from '../PayItemListSelectors';
-import EmptyView from './EmptyView';
 import ExpensesTableBody from './PayItemExpensesTableBody';
+import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../components/TableView/TableView';
 
 const PayItemExpensesTable = ({
   order,
-  listeners: { onSortExpensesList },
+  listeners: { onSortExpensesList, onCreatePayItemButtonClick },
   isTableLoading,
   isExpensesTableEmpty,
 }) => {
@@ -24,12 +26,31 @@ const PayItemExpensesTable = ({
     </Table.Header>
   );
 
+  const emptyViewActions = [
+    <Button
+      key={1}
+      type="link"
+      icon={<Icons.Add />}
+      onClick={onCreatePayItemButtonClick}
+    >
+      Create a pay item
+    </Button>,
+  ];
+
+  const emptyView = (
+    <NoResultPageState
+      title="You have no expense pay items"
+      description="To track benefits (other than superannuation) you pay on behalf of your employees."
+      actions={emptyViewActions}
+    />
+  );
+
   return (
     <TableView
       header={header}
       isLoading={isTableLoading}
       isEmpty={isExpensesTableEmpty}
-      emptyView={<EmptyView payItem="expenses" />}
+      emptyView={emptyView}
     >
       <ExpensesTableBody />
     </TableView>

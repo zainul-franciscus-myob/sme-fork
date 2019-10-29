@@ -1,15 +1,17 @@
-import { HeaderSort, Table } from '@myob/myob-widgets';
+import {
+  Button, HeaderSort, Icons, Table,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsLeaveTableEmpty, getIsTableLoading, getLeaveOrder } from '../PayItemListSelectors';
-import EmptyView from './EmptyView';
 import LeaveTableBody from './PayItemLeaveTableBody';
+import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../components/TableView/TableView';
 
 const PayItemLeaveList = ({
   order,
-  listeners: { onSortLeaveList },
+  listeners: { onSortLeaveList, onCreatePayItemButtonClick },
   isTableLoading,
   isLeaveTableEmpty,
 }) => {
@@ -24,12 +26,31 @@ const PayItemLeaveList = ({
     </Table.Header>
   );
 
+  const emptyViewActions = [
+    <Button
+      key={1}
+      type="link"
+      icon={<Icons.Add />}
+      onClick={onCreatePayItemButtonClick}
+    >
+      Create a pay item
+    </Button>,
+  ];
+
+  const emptyView = (
+    <NoResultPageState
+      title="You have no leave pay items"
+      description="Make sure to check what leave items each employee is entitled to."
+      actions={emptyViewActions}
+    />
+  );
+
   return (
     <TableView
       header={header}
       isLoading={isTableLoading}
       isEmpty={isLeaveTableEmpty}
-      emptyView={<EmptyView payItem="leave" />}
+      emptyView={emptyView}
     >
       <LeaveTableBody />
     </TableView>

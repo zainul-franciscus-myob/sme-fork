@@ -1,15 +1,17 @@
-import { HeaderSort, Table } from '@myob/myob-widgets';
+import {
+  Button, HeaderSort, Icons, Table,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsSuperannuationTableEmpty, getIsTableLoading, getSuperannuationOrder } from '../PayItemListSelectors';
-import EmptyView from './EmptyView';
+import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 import SuperannuationTableBody from './PayItemSuperannuationTableBody';
 import TableView from '../../../components/TableView/TableView';
 
 const PayItemSuperannuationTable = ({
   order,
-  listeners: { onSortSuperannuationList },
+  listeners: { onSortSuperannuationList, onCreatePayItemButtonClick },
   isTableLoading,
   isSuperannuationTableEmpty,
 }) => {
@@ -27,8 +29,24 @@ const PayItemSuperannuationTable = ({
     </Table.Header>
   );
 
-  const additionalMessage = 'You also need to sign up for Pay Super so you can pay super directly from MYOB';
-  const emptyView = <EmptyView payItem="superannuation funds" additionalMessage={additionalMessage} />;
+  const emptyViewActions = [
+    <Button
+      key={1}
+      type="link"
+      icon={<Icons.Add />}
+      onClick={onCreatePayItemButtonClick}
+    >
+      Create a pay item
+    </Button>,
+  ];
+
+  const emptyView = (
+    <NoResultPageState
+      title="You have no superannuation pay items"
+      description="This makes it super-easy to calculate and track your employees' super payments."
+      actions={emptyViewActions}
+    />
+  );
 
   return (
     <TableView
