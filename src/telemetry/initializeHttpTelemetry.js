@@ -24,7 +24,7 @@ const getCookie = (cname) => {
 
 const getGoogleAnalyticsClientId = () => {
   try {
-    const ga = getCookie('_gid');
+    const ga = getCookie('_ga');
     return ga && ga.split('.').slice(-2).join('.');
   } catch {
     return undefined;

@@ -30,7 +30,7 @@ describe('Telemetry', () => {
     const groupMock = jest.fn();
 
     document.title = 'sme-web';
-    document.cookie = encodeURIComponent('_ga=GA1.2.912270860.1568003222; _gid=GA1.2.593164909.1569991666; ajs_group_id="c958be75-6093-4777-8eae-a3fc99284540"; optimizelyEndUserId=oeu1569991459421r0.9908169548370924; _hjid=2295a85f-2dc4-434b-bf1d-0783262c350a; _hjIncludedInSample=1;');
+    document.cookie = encodeURIComponent('_gid=GA1.2.912270860.1568003222; _ga=GA1.2.593164909.1569991666; ajs_group_id="c958be75-6093-4777-8eae-a3fc99284540"; optimizelyEndUserId=oeu1569991459421r0.9908169548370924; _hjid=2295a85f-2dc4-434b-bf1d-0783262c350a; _hjIncludedInSample=1;');
 
     global.window = Object.create(window);
 
