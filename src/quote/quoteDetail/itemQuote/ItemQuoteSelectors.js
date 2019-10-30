@@ -17,6 +17,7 @@ export const getBusinessId = state => state.businessId;
 export const getQuoteId = state => state.quoteId;
 export const getRegion = state => state.region;
 export const getLayout = state => state.layout;
+export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 export const getCustomers = state => state.customers;
 export const getQuoteNumber = state => state.quote.quoteNumber;
 export const getPurchaseOrder = state => state.quote.purchaseOrder;
@@ -251,13 +252,40 @@ export const getCreateDuplicateQuoteURL = createSelector(
   (region, businessId, quoteId) => `/#/${region}/${businessId}/quote/newItem?duplicatedQuoteId=${quoteId}`,
 );
 
-export const getExportPdfForms = state => (state.exportPdf.forms);
+export const getQuoteReadWithExportPdfModalUrl = (state) => {
+  const region = getRegion(state);
+  const businessId = getBusinessId(state);
+  const quoteId = getQuoteId(state);
+
+  return `/#/${region}/${businessId}/quote/${quoteId}?openExportPdf=true`;
+};
+
+export const getRouteUrlParams = state => ({
+  openExportPdf: getOpenExportPdfQueryParam(state),
+});
+
+export const getExportPdfTemplateOptions = state => state.exportPdf.templateOptions;
+export const getExportPdfTemplate = state => state.exportPdf.template;
 
 export const getExportPdfQuoteUrlParams = state => ({
-  businessId: state.businessId,
-  quoteId: state.quoteId,
+  businessId: getBusinessId(state),
+  quoteId: getQuoteId(state),
 });
 
 export const getExportPdfQuoteParams = state => ({
-  formName: state.exportPdf.selectedForm,
+  formName: getExportPdfTemplate(state),
 });
+
+export const getShouldSaveAndExportPdf = (state) => {
+  const isCreating = getIsCreating(state);
+  const isPageEdited = getIsPageEdited(state);
+
+  return isCreating || isPageEdited;
+};
+
+export const getShouldOpenExportPdfModal = (state) => {
+  const isCreating = getIsCreating(state);
+  const openExportPdf = getOpenExportPdfQueryParam(state);
+
+  return !isCreating && openExportPdf === 'true';
+};

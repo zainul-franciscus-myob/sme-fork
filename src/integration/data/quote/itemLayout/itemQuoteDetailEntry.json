@@ -114,7 +114,7 @@
     { "value": "don't call us we'll call you" }
   ],
   "exportPdf": {
-    "forms" : [
+    "templateOptions" : [
       {
         "name": "a",
         "label": "apple"
@@ -124,6 +124,6 @@
         "label": "banana"
       }
     ],
-    "selectedForm": ""
+    "template": "a"
   }
 }

@@ -9,6 +9,8 @@ import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const QuoteDetailModal = ({
   modalType,
+  template,
+  templateOptions,
   onDismissModal,
   onConfirmCancelButtonClick,
   onConfirmDeleteButtonClick,
@@ -60,6 +62,8 @@ const QuoteDetailModal = ({
   ),
   [ModalType.EXPORT_PDF]: (
     <ExportPdfModal
+      template={template}
+      templateOptions={templateOptions}
       onCancel={onDismissModal}
       onConfirmExportPdfButtonClick={onConfirmExportPdfButtonClick}
       onChangeExportPdfForm={onChangeExportPdfForm}

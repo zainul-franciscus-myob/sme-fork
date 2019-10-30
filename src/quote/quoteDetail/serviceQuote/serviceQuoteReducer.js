@@ -11,6 +11,7 @@ import {
   UPDATE_SERVICE_QUOTE_LINE,
 } from './ServiceQuoteIntents';
 import {
+  CHANGE_EXPORT_PDF_TEMPLATE,
   LOAD_CUSTOMER_ADDRESS,
   SET_ALERT, SET_LOADING_STATE,
   UPDATE_QUOTE_ID_AFTER_CREATE,
@@ -19,13 +20,15 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
-import { getDefaultTaxCodeId, getLineByIndex } from './ServiceQuoteSelectors';
+import { getDefaultTaxCodeId, getLineByIndex, getShouldOpenExportPdfModal } from './ServiceQuoteSelectors';
+import ModalType from '../ModalType';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   isLoading: true,
   layout: '',
+  openExportPdf: false,
   quote: {
     id: '',
     customerId: '',
@@ -67,6 +70,10 @@ const getDefaultState = () => ({
   isSubmitting: false,
   comments: [],
   pageTitle: '',
+  exportPdf: {
+    templateOptions: [],
+    template: '',
+  },
 });
 
 const setLoadingState = (state, action) => ({
@@ -79,13 +86,18 @@ const setInitialAlert = message => ({
   message: message.content,
 });
 
-const setInitalState = (state, action) => {
+const setInitialState = (state, action) => {
   const defaultState = getDefaultState();
+
+  const shouldOpenExportPdfModal = getShouldOpenExportPdfModal(action.context);
+  const modalType = shouldOpenExportPdfModal ? ModalType.EXPORT_PDF : undefined;
 
   return ({
     ...defaultState,
     ...action.context,
     layout: action.layout,
+    openExportPdf: defaultState.openExportPdf,
+    modalType,
     quote: {
       ...defaultState.quote,
       ...action.quote,
@@ -97,6 +109,10 @@ const setInitalState = (state, action) => {
     comments: action.comments,
     pageTitle: action.pageTitle,
     alert: action.message ? setInitialAlert(action.message) : defaultState.alert,
+    exportPdf: {
+      ...defaultState.exportPdf,
+      ...action.exportPdf,
+    },
   });
 };
 
@@ -227,9 +243,17 @@ const resetTotals = state => ({
   totals: getDefaultState().totals,
 });
 
+const changeExportPdfForm = (state, action) => ({
+  ...state,
+  exportPdf: {
+    ...state.exportPdf,
+    template: action.template,
+  },
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
-  [SET_INITIAL_STATE]: setInitalState,
+  [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [UPDATE_SERVICE_QUOTE_HEADER_OPTIONS]: updateServiceQuoteHeaderOptions,
   [UPDATE_SERVICE_QUOTE_LINE]: updateServiceQuoteLine,
@@ -244,6 +268,7 @@ const handlers = {
   [LOAD_CUSTOMER_ADDRESS]: loadCustomerAddress,
   [FORMAT_SERVICE_QUOTE_LINE]: formatServiceQuoteLine,
   [RESET_TOTALS]: resetTotals,
+  [CHANGE_EXPORT_PDF_TEMPLATE]: changeExportPdfForm,
 };
 
 const serviceQuoteReducer = createReducer(getDefaultState(), handlers);

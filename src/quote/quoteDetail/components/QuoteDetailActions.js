@@ -26,15 +26,6 @@ const QuoteDetailActions = ({
       label="Save and duplicate"
       value={SaveActionType.SAVE_AND_DUPLICATE}
     />,
-    // @TODO temporarily hide export pdf button
-    false && !isCreating
-    && (
-    <Dropdown.Item
-      key={SaveActionType.SAVE_AND_EXPORT_PDF}
-      label="Save and export PDF"
-      value={SaveActionType.SAVE_AND_EXPORT_PDF}
-    />
-    ),
   ];
 
   return (
@@ -50,8 +41,6 @@ const QuoteDetailActions = ({
         >
         Convert to invoice
         </Button>),
-        // @TODO temporarily hide export pdf button
-        false && !isCreating && (
         <Button
           key="exportPdf"
           name="exportPdf"
@@ -60,8 +49,7 @@ const QuoteDetailActions = ({
           disabled={isActionsDisabled}
         >
           Export PDF
-        </Button>
-        ),
+        </Button>,
         !isCreating && (
         <Separator key="separator" direction="vertical" />
         ),

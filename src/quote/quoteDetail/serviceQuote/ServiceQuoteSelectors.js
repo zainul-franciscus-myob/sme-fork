@@ -12,6 +12,7 @@ export const getQuoteId = state => state.quoteId;
 export const getTotals = state => state.totals;
 export const getRegion = state => state.region;
 export const getLayout = state => state.layout;
+export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 export const getCustomerId = state => state.quote.customerId;
 const getNewLine = state => state.newLine;
 export const getLineByIndex = (state, props) => state.quote.lines[props.index];
@@ -223,7 +224,7 @@ export const getCalculatedTotalsPayload = createSelector(
   }),
 );
 
-export const isPageEdited = state => state.isPageEdited;
+export const getIsPageEdited = state => state.isPageEdited;
 export const getModalType = state => state.modalType;
 
 const getServiceQuoteLinesForPayload = lines => lines.map((line) => {
@@ -279,3 +280,41 @@ export const getCreateDuplicateQuoteURL = createSelector(
   getQuoteId,
   (region, businessId, quoteId) => `/#/${region}/${businessId}/quote/newService?duplicatedQuoteId=${quoteId}`,
 );
+
+export const getRouteUrlParams = state => ({
+  openExportPdf: getOpenExportPdfQueryParam(state),
+});
+
+export const getExportPdfTemplateOptions = state => state.exportPdf.templateOptions;
+export const getExportPdfTemplate = state => state.exportPdf.template;
+
+export const getExportPdfQuoteUrlParams = state => ({
+  businessId: getBusinessId(state),
+  quoteId: getQuoteId(state),
+});
+
+export const getExportPdfQuoteParams = state => ({
+  formName: getExportPdfTemplate(state),
+});
+
+export const getShouldSaveAndExportPdf = (state) => {
+  const isCreating = getIsCreating(state);
+  const isPageEdited = getIsPageEdited(state);
+
+  return isCreating || isPageEdited;
+};
+
+export const getShouldOpenExportPdfModal = (state) => {
+  const isCreating = getIsCreating(state);
+  const openExportPdf = getOpenExportPdfQueryParam(state);
+
+  return !isCreating && openExportPdf === 'true';
+};
+
+export const getQuoteReadWithExportPdfModalUrl = (state) => {
+  const region = getRegion(state);
+  const businessId = getBusinessId(state);
+  const quoteId = getQuoteId(state);
+
+  return `/#/${region}/${businessId}/quote/${quoteId}?openExportPdf=true`;
+};

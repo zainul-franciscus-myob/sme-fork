@@ -2,7 +2,7 @@ import QuoteDetailModule from './quoteDetail/QuoteDetailModule';
 import QuoteListModule from './quoteList/QuoteListModule';
 
 const getQuoteRoutes = ({
-  integration, setRootView, pushMessage, popMessages, reload,
+  integration, setRootView, pushMessage, popMessages, reload, replaceURLParams,
 }) => {
   const routes = [
     {
@@ -17,7 +17,7 @@ const getQuoteRoutes = ({
       path: '/:quoteId',
       allowedParams: ['duplicatedQuoteId'],
       module: new QuoteDetailModule({
-        integration, setRootView, pushMessage, popMessages, reload,
+        integration, setRootView, pushMessage, popMessages, reload, replaceURLParams,
       }),
     },
   ];

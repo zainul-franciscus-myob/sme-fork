@@ -16,4 +16,3 @@ export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SET_MODAL = Symbol('Set modal type');
 export const SET_IS_CALCULATING = Symbol('Set is calculating');
 export const SET_IS_LINE_AMOUNT_INPUT_DIRTY = Symbol('Set is line amount input dirty');
-export const CHANGE_EXPORT_PDF_FORM = Symbol(' Change export pdf form');

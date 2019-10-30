@@ -1,21 +1,25 @@
 import { Button, Modal, Select } from '@myob/myob-widgets';
-import { connect } from 'react-redux';
 import React from 'react';
 
-import { getExportPdfForms } from '../itemQuote/ItemQuoteSelectors';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 
 const ExportPdfModal = ({
-  onCancel, onConfirmExportPdfButtonClick, onChangeExportPdfForm, forms,
+  template,
+  templateOptions,
+  onCancel,
+  onConfirmExportPdfButtonClick,
+  onChangeExportPdfForm,
 }) => (
   <Modal title="Export PDF" onCancel={onCancel}>
     <Modal.Body>
       <Select
         label="Select form"
+        name="template"
+        value={template}
         onChange={handleSelectChange(onChangeExportPdfForm)}
       >
-        {forms.map(form => (
-          <Select.Option value={form.name} label={form.label} />
+        {templateOptions.map(({ name, label }) => (
+          <Select.Option key={name} value={name} label={label} />
         )) }
       </Select>
     </Modal.Body>
@@ -36,8 +40,4 @@ const ExportPdfModal = ({
   </Modal>
 );
 
-const mapStateToProps = state => ({
-  forms: getExportPdfForms(state),
-});
-
-export default connect(mapStateToProps)(ExportPdfModal);
+export default ExportPdfModal;

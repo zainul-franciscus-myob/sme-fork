@@ -6,6 +6,8 @@ import React from 'react';
 
 import {
   getAlert,
+  getExportPdfTemplate,
+  getExportPdfTemplateOptions,
   getIsCreating,
   getModalType,
   getPageTitle,
@@ -18,6 +20,8 @@ import ServiceQuoteOptions from './ServiceQuoteOptions';
 import ServiceQuoteTable from './ServiceQuoteTable';
 
 const ServiceQuoteView = ({
+  template,
+  templateOptions,
   onUpdateHeaderOptions,
   onUpdateRow,
   onAddRow,
@@ -39,10 +43,13 @@ const ServiceQuoteView = ({
   alert,
   onDismissAlert,
   onDeleteModal,
+  onExportPdfButtonClick,
+  onConfirmExportPdfButtonClick,
+  onChangeExportPdfForm,
   pageTitle,
   totalAmount,
 }) => {
-  const templateOptions = <ServiceQuoteOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />;
+  const options = <ServiceQuoteOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />;
 
   const actions = (
     <ServiceQuoteActions
@@ -52,6 +59,7 @@ const ServiceQuoteView = ({
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
       onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}
+      onExportPdfButtonClick={onExportPdfButtonClick}
     />
   );
 
@@ -64,6 +72,8 @@ const ServiceQuoteView = ({
   const modal = modalType && (
     <QuoteDetailModal
       modalType={modalType}
+      template={template}
+      templateOptions={templateOptions}
       onDismissModal={onCloseModal}
       onConfirmCancelButtonClick={onCancelModal}
       onConfirmDeleteButtonClick={onDeleteModal}
@@ -71,6 +81,8 @@ const ServiceQuoteView = ({
       onConfirmUnsaveButtonClick={onConfirmUnsaveButtonClick}
       onConfirmSaveAndCreateNewButtonClick={onConfirmSaveAndCreateNewButtonClick}
       onConfirmSaveAndDuplicateButtonClick={onConfirmSaveAndDuplicateButtonClick}
+      onConfirmExportPdfButtonClick={onConfirmExportPdfButtonClick}
+      onChangeExportPdfForm={onChangeExportPdfForm}
     />
   );
 
@@ -86,7 +98,7 @@ const ServiceQuoteView = ({
     <LineItemTemplate
       pageHead={pageHead}
       alert={alertComponent}
-      options={templateOptions}
+      options={options}
       actions={actions}
     >
       { modal }
@@ -108,6 +120,8 @@ const mapStateToProps = state => ({
   alert: getAlert(state),
   pageTitle: getPageTitle(state),
   totalAmount: getTotalAmount(state),
+  template: getExportPdfTemplate(state),
+  templateOptions: getExportPdfTemplateOptions(state),
 });
 
 export default connect(mapStateToProps)(ServiceQuoteView);

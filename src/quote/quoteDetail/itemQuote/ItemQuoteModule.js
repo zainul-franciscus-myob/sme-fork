@@ -4,7 +4,6 @@ import React from 'react';
 import {
   ADD_TABLE_ROW,
   CALCULATE_LINES,
-  CHANGE_EXPORT_PDF_FORM,
   CHANGE_TABLE_ROW,
   CREATE_ITEM_QUOTE,
   FORMAT_LINE_AMOUNT_INPUTS,
@@ -21,6 +20,7 @@ import {
   UPDATE_TAX_INCLUSIVE,
 } from './ItemQuoteIntents';
 import {
+  CHANGE_EXPORT_PDF_TEMPLATE,
   DELETE_QUOTE_DETAIL,
   EXPORT_QUOTE_PDF,
   LOAD_CUSTOMER_ADDRESS,
@@ -49,7 +49,10 @@ import {
   getQuoteId,
   getQuoteListURL,
   getQuotePayload,
+  getQuoteReadWithExportPdfModalUrl,
+  getRouteUrlParams,
   getShouldReload,
+  getShouldSaveAndExportPdf,
 } from './ItemQuoteSelectors';
 import ItemQuoteView from './components/ItemQuoteView';
 import ModalType from '../ModalType';
@@ -61,13 +64,14 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ItemQuoteModule {
   constructor({
-    integration, setRootView, pushMessage, reload,
+    integration, setRootView, pushMessage, reload, replaceURLParams,
   }) {
     this.integration = integration;
     this.store = new Store(itemQuoteReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.reload = reload;
+    this.replaceURLParams = replaceURLParams;
   }
 
   loadCustomerAddress = () => {
@@ -210,6 +214,10 @@ export default class ItemQuoteModule {
     });
   };
 
+  updateQuoteIdAfterCreate = (quoteId) => {
+    this.store.dispatch({ intent: UPDATE_QUOTE_ID_AFTER_CREATE, quoteId });
+  }
+
   createOrUpdateQuote = ({ onSuccess }) => {
     this.setSubmittingState(true);
 
@@ -252,7 +260,6 @@ export default class ItemQuoteModule {
   executeSaveAndAction = saveAndAction => ({
     [SaveActionType.SAVE_AND_CREATE_NEW]: this.displaySaveAndCreateNewConfirmationModal,
     [SaveActionType.SAVE_AND_DUPLICATE]: this.displaySaveAndDuplicateConfirmationModal,
-    [SaveActionType.SAVE_AND_EXPORT_PDF]: this.saveAndExportPdf,
   }[saveAndAction]())
 
   saveAndCreateNewQuote = () => {
@@ -271,14 +278,11 @@ export default class ItemQuoteModule {
   }
 
   saveAndDuplicateQuote = () => {
-    const onSuccess = (successResponse) => {
+    const onSuccess = ({ message, id }) => {
       if (getIsCreating(this.store.getState())) {
-        this.store.dispatch({
-          intent: UPDATE_QUOTE_ID_AFTER_CREATE,
-          quoteId: successResponse.id,
-        });
+        this.updateQuoteIdAfterCreate(id);
       }
-      this.pushSuccessfulSaveMessage(successResponse.message);
+      this.pushSuccessfulSaveMessage(message);
       this.redirectToURL(getCreateDuplicateQuoteURL(this.store.getState()));
     };
 
@@ -286,8 +290,14 @@ export default class ItemQuoteModule {
   }
 
   saveAndExportPdf = () => {
-    const onSuccess = () => {
-      this.displayExportPdfModal();
+    const onSuccess = ({ message, id }) => {
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+      if (isCreating) {
+        this.updateQuoteIdAfterCreate(id);
+      }
+      this.pushSuccessfulSaveMessage(message);
+      this.redirectToReadQuoteWithExportPdfModal();
     };
 
     this.createOrUpdateQuote({ onSuccess });
@@ -368,8 +378,8 @@ export default class ItemQuoteModule {
 
   changeExportPdfForm = ({ value }) => {
     this.store.dispatch({
-      intent: CHANGE_EXPORT_PDF_FORM,
-      selectedForm: value,
+      intent: CHANGE_EXPORT_PDF_TEMPLATE,
+      template: value,
     });
   }
 
@@ -382,6 +392,13 @@ export default class ItemQuoteModule {
   redirectToCreateInvoice = () => this.redirectToURL(
     getCreateInvoiceFromQuoteURL(this.store.getState()),
   );
+
+  redirectToReadQuoteWithExportPdfModal = () => {
+    const state = this.store.getState();
+    const url = getQuoteReadWithExportPdfModalUrl(state);
+
+    this.redirectToURL(url);
+  }
 
   cancelQuote = () => {
     this.redirectToQuoteList();
@@ -494,6 +511,21 @@ export default class ItemQuoteModule {
     });
   }
 
+  exportPdfOrSaveAndExportPdf = () => {
+    const state = this.store.getState();
+    const shouldSaveAndExportPdf = getShouldSaveAndExportPdf(state);
+    if (shouldSaveAndExportPdf) {
+      this.saveAndExportPdf();
+    } else {
+      this.displayExportPdfModal();
+    }
+  }
+
+  updateURLFromState = (state) => {
+    const params = getRouteUrlParams(state);
+    this.replaceURLParams(params);
+  }
+
   resetState = () => {
     this.store.dispatch({
       intent: RESET_STATE,
@@ -526,7 +558,7 @@ export default class ItemQuoteModule {
           onConfirmUnsaveButtonClick={this.redirectToCreateInvoice}
           onConfirmSaveAndCreateNewButtonClick={this.saveAndCreateNewQuote}
           onConfirmSaveAndDuplicateButtonClick={this.saveAndDuplicateQuote}
-          onExportPdfButtonClick={this.displayExportPdfModal}
+          onExportPdfButtonClick={this.exportPdfOrSaveAndExportPdf}
           onConfirmExportPdfButtonClick={this.exportQuotePdf}
           onChangeExportPdfForm={this.changeExportPdfForm}
         />
@@ -546,5 +578,7 @@ export default class ItemQuoteModule {
     this.setInitialState(context, payload, message);
     setupHotKeys(keyMap, this.handlers);
     this.render();
+
+    this.store.subscribe(this.updateURLFromState);
   };
 }

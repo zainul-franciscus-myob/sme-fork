@@ -1,11 +1,11 @@
 import {
   ADD_TABLE_ROW,
-  CHANGE_EXPORT_PDF_FORM,
   CHANGE_TABLE_ROW,
   FORMAT_LINE_AMOUNT_INPUTS,
   REMOVE_TABLE_ROW,
   UPDATE_ITEM_QUOTE_OPTION,
 } from '../ItemQuoteIntents';
+import { CHANGE_EXPORT_PDF_TEMPLATE } from '../../../QuoteIntents';
 import itemQuoteReducer from '../itemQuoteReducer';
 
 describe('itemQuoteReducer', () => {
@@ -172,18 +172,18 @@ describe('itemQuoteReducer', () => {
   });
 
   describe('CHANGE_EXPORT_PDF_FORM', () => {
-    it('changes selected form', () => {
+    it('changes selected template', () => {
       const state = {
         exportPdf: {
-          selectedForm: 'a',
+          template: 'a',
         },
       };
 
-      const action = { intent: CHANGE_EXPORT_PDF_FORM, selectedForm: 'b' };
+      const action = { intent: CHANGE_EXPORT_PDF_TEMPLATE, template: 'b' };
 
       const actual = itemQuoteReducer(state, action);
 
-      expect(actual).toEqual({ exportPdf: { selectedForm: 'b' } });
+      expect(actual).toEqual({ exportPdf: { template: 'b' } });
     });
   });
 });

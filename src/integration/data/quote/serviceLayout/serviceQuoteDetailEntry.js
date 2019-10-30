@@ -230,4 +230,17 @@ export default {
     { value: 'Great doing business' },
     { value: "don't call us we'll call you" },
   ],
+  exportPdf: {
+    templateOptions: [
+      {
+        name: 'a',
+        label: 'apple',
+      },
+      {
+        name: 'b',
+        label: 'banana',
+      },
+    ],
+    template: 'a',
+  },
 };

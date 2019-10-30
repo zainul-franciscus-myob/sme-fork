@@ -3,7 +3,13 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsCreating, getModalType, getPageTitle, getTotalAmount,
+  getAlert,
+  getExportPdfTemplate,
+  getExportPdfTemplateOptions,
+  getIsCreating,
+  getModalType,
+  getPageTitle,
+  getTotalAmount,
 } from '../ItemQuoteSelectors';
 import ItemQuoteActions from './ItemQuoteActions';
 import ItemQuoteOptions from './ItemQuoteOptions';
@@ -14,6 +20,8 @@ import QuotePageHead from '../../components/QuotePageHead';
 const ItemQuoteView = ({
   alert,
   modalType,
+  template,
+  templateOptions,
   onUpdateQuoteOption,
   onTableRowAmountInputBlur,
   onAddTableRow,
@@ -69,6 +77,8 @@ const ItemQuoteView = ({
   const modal = modalType && (
     <QuoteDetailModal
       modalType={modalType}
+      template={template}
+      templateOptions={templateOptions}
       onDismissModal={onDismissModal}
       onConfirmCancelButtonClick={onConfirmCancelButtonClick}
       onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
@@ -107,6 +117,8 @@ const mapStateToProps = state => ({
   pageTitle: getPageTitle(state),
   totalAmount: getTotalAmount(state),
   isCreating: getIsCreating(state),
+  template: getExportPdfTemplate(state),
+  templateOptions: getExportPdfTemplateOptions(state),
 });
 
 export default connect(mapStateToProps)(ItemQuoteView);

@@ -16,7 +16,9 @@ import {
   UPDATE_SERVICE_QUOTE_LINE,
 } from './ServiceQuoteIntents';
 import {
+  CHANGE_EXPORT_PDF_TEMPLATE,
   DELETE_QUOTE_DETAIL,
+  EXPORT_QUOTE_PDF,
   LOAD_CUSTOMER_ADDRESS,
   SET_ALERT,
   UPDATE_QUOTE_ID_AFTER_CREATE,
@@ -33,13 +35,18 @@ import {
   getCreateInvoiceFromQuoteURL,
   getCreateNewServiceQuoteURL,
   getCustomerId,
+  getExportPdfQuoteParams,
+  getExportPdfQuoteUrlParams,
   getIsCreating,
+  getIsPageEdited,
   getIsTableEmpty,
   getQuoteId,
   getQuoteListURL,
   getQuotePayload,
+  getQuoteReadWithExportPdfModalUrl,
+  getRouteUrlParams,
   getShouldReload,
-  isPageEdited,
+  getShouldSaveAndExportPdf,
 } from './ServiceQuoteSelectors';
 import ModalType from '../ModalType';
 import SaveActionType from '../SaveActionType';
@@ -51,12 +58,13 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ServiceQuoteModule {
   constructor({
-    integration, setRootView, pushMessage, reload,
+    integration, setRootView, pushMessage, reload, replaceURLParams,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.reload = reload;
+    this.replaceURLParams = replaceURLParams;
     this.store = new Store(serviceQuoteReducer);
   }
 
@@ -168,6 +176,10 @@ export default class ServiceQuoteModule {
     this.getCalculatedTotals();
   }
 
+  updateQuoteIdAfterCreate = (quoteId) => {
+    this.store.dispatch({ intent: UPDATE_QUOTE_ID_AFTER_CREATE, quoteId });
+  }
+
   createOrUpdateQuote = ({ onSuccess }) => {
     this.setSubmittingState(true);
 
@@ -208,9 +220,10 @@ export default class ServiceQuoteModule {
     this.createOrUpdateQuote({ onSuccess });
   }
 
-  executeSaveAndAction = saveAndAction => (saveAndAction === SaveActionType.SAVE_AND_CREATE_NEW
-    ? this.openSaveAndCreateNewConfirmationModal()
-    : this.openSaveAndDuplicateConfirmationModal())
+  executeSaveAndAction = saveAndAction => ({
+    [SaveActionType.SAVE_AND_CREATE_NEW]: this.openSaveAndCreateNewConfirmationModal,
+    [SaveActionType.SAVE_AND_DUPLICATE]: this.openSaveAndDuplicateConfirmationModal,
+  }[saveAndAction]())
 
   saveAndCreateNewQuote = () => {
     const onSuccess = ({ message }) => {
@@ -228,15 +241,26 @@ export default class ServiceQuoteModule {
   }
 
   saveAndDuplicateQuote = () => {
-    const onSuccess = (successResponse) => {
+    const onSuccess = ({ message, id }) => {
       if (getIsCreating(this.store.getState())) {
-        this.store.dispatch({
-          intent: UPDATE_QUOTE_ID_AFTER_CREATE,
-          quoteId: successResponse.id,
-        });
+        this.updateQuoteIdAfterCreate(id);
       }
-      this.pushSuccessfulSaveMessage(successResponse.message);
+      this.pushSuccessfulSaveMessage(message);
       this.redirectToURL(getCreateDuplicateQuoteURL(this.store.getState()));
+    };
+
+    this.createOrUpdateQuote({ onSuccess });
+  }
+
+  saveAndExportPdf = () => {
+    const onSuccess = ({ message, id }) => {
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+      if (isCreating) {
+        this.updateQuoteIdAfterCreate(id);
+      }
+      this.pushSuccessfulSaveMessage(message);
+      this.redirectToReadQuoteWithExportPdfModal();
     };
 
     this.createOrUpdateQuote({ onSuccess });
@@ -290,6 +314,48 @@ export default class ServiceQuoteModule {
     });
   }
 
+  exportQuotePdf = () => {
+    const state = this.store.getState();
+    const urlParams = getExportPdfQuoteUrlParams(state);
+    const params = getExportPdfQuoteParams(state);
+
+    const onSuccess = (data) => {
+      this.setSubmittingState(false);
+      this.closeModal();
+      window.open(URL.createObjectURL(data), '_blank');
+    };
+
+    const onFailure = () => {
+      this.displayFailureAlert('Failed to export PDF');
+      this.setSubmittingState(false);
+    };
+
+    this.integration.readFile({
+      intent: EXPORT_QUOTE_PDF,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  exportPdfOrSaveAndExportPdf = () => {
+    const state = this.store.getState();
+    const shouldSaveAndExportPdf = getShouldSaveAndExportPdf(state);
+    if (shouldSaveAndExportPdf) {
+      this.saveAndExportPdf();
+    } else {
+      this.displayExportPdfModal();
+    }
+  }
+
+  changeExportPdfForm = ({ value }) => {
+    this.store.dispatch({
+      intent: CHANGE_EXPORT_PDF_TEMPLATE,
+      template: value,
+    });
+  }
+
   redirectToURL = (url) => {
     window.location.href = url;
   }
@@ -300,9 +366,16 @@ export default class ServiceQuoteModule {
     getCreateInvoiceFromQuoteURL(this.store.getState()),
   );
 
+  redirectToReadQuoteWithExportPdfModal = () => {
+    const state = this.store.getState();
+    const url = getQuoteReadWithExportPdfModalUrl(state);
+
+    this.redirectToURL(url);
+  }
+
   openCancelModal = () => {
     const intent = OPEN_MODAL;
-    if (isPageEdited(this.store.getState())) {
+    if (getIsPageEdited(this.store.getState())) {
       this.store.dispatch({
         intent,
         modalType: ModalType.CANCEL,
@@ -319,7 +392,7 @@ export default class ServiceQuoteModule {
 
   openUnsavedModal = () => {
     const intent = OPEN_MODAL;
-    if (isPageEdited(this.store.getState())) {
+    if (getIsPageEdited(this.store.getState())) {
       this.store.dispatch({
         intent,
         modalType: ModalType.UNSAVED,
@@ -340,6 +413,13 @@ export default class ServiceQuoteModule {
     this.store.dispatch({
       intent: OPEN_MODAL,
       modalType: ModalType.SAVE_AND_DUPLICATE,
+    });
+  }
+
+  displayExportPdfModal = () => {
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modalType: ModalType.EXPORT_PDF,
     });
   }
 
@@ -364,6 +444,11 @@ export default class ServiceQuoteModule {
     isSubmitting,
   });
 
+  updateURLFromState = (state) => {
+    const params = getRouteUrlParams(state);
+    this.replaceURLParams(params);
+  }
+
   render = () => {
     const serviceQuoteView = (
       <ServiceQuoteView
@@ -385,6 +470,9 @@ export default class ServiceQuoteModule {
         onCancelModal={this.redirectToQuoteList}
         onDeleteModal={this.deleteServiceQuoteEntry}
         onDismissAlert={this.dismissAlert}
+        onExportPdfButtonClick={this.exportPdfOrSaveAndExportPdf}
+        onConfirmExportPdfButtonClick={this.exportQuotePdf}
+        onChangeExportPdfForm={this.changeExportPdfForm}
       />
     );
 
@@ -420,6 +508,8 @@ export default class ServiceQuoteModule {
     this.setInitialState(context, payload, message);
     setupHotKeys(keyMap, this.handlers);
     this.render();
+
+    this.store.subscribe(this.updateURLFromState);
   }
 
   resetState = () => {

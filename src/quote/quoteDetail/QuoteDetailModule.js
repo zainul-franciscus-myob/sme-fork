@@ -15,13 +15,14 @@ const messageTypes = [
 
 export default class QuoteDetailModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, reload,
+    integration, setRootView, pushMessage, popMessages, reload, replaceURLParams,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
     this.reload = reload;
+    this.replaceURLParams = replaceURLParams;
     this.messageTypes = messageTypes;
   }
 
@@ -38,6 +39,7 @@ export default class QuoteDetailModule {
       setRootView: this.setRootView,
       pushMessage: this.pushMessage,
       reload: this.reload,
+      replaceURLParams: this.replaceURLParams,
     };
     if (layout === 'service') {
       this.module = new ServiceQuoteModule(moduleParams);

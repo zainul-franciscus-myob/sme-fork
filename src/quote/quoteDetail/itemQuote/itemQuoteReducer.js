@@ -1,7 +1,6 @@
 import {
   ADD_TABLE_ROW,
   CALCULATE_LINES,
-  CHANGE_EXPORT_PDF_FORM,
   CHANGE_TABLE_ROW,
   FORMAT_LINE_AMOUNT_INPUTS,
   REMOVE_TABLE_ROW,
@@ -12,11 +11,14 @@ import {
   UPDATE_ITEM_QUOTE_OPTION,
 } from './ItemQuoteIntents';
 import {
+  CHANGE_EXPORT_PDF_TEMPLATE,
   LOAD_CUSTOMER_ADDRESS,
   SET_ALERT,
   UPDATE_QUOTE_ID_AFTER_CREATE,
 } from '../../QuoteIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { getShouldOpenExportPdfModal } from './ItemQuoteSelectors';
+import ModalType from '../ModalType';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
@@ -24,6 +26,7 @@ const getDefaultState = () => ({
   businessId: '',
   quoteId: '',
   layout: '',
+  openExportPdf: false,
   quote: {
     customerId: '',
     customerName: '',
@@ -69,8 +72,8 @@ const getDefaultState = () => ({
   comments: [],
   pageTitle: '',
   exportPdf: {
-    forms: [],
-    selectedForm: '',
+    templateOptions: [],
+    template: '',
   },
 });
 
@@ -97,10 +100,15 @@ const setSubmittingState = (state, action) => ({
 const setInitialState = (state, action) => {
   const defaultState = getDefaultState();
 
+  const shouldOpenExportPdfModal = getShouldOpenExportPdfModal(action.context);
+  const modalType = shouldOpenExportPdfModal ? ModalType.EXPORT_PDF : undefined;
+
   return ({
     ...defaultState,
     ...action.context,
     layout: action.layout,
+    openExportPdf: defaultState.openExportPdf,
+    modalType,
     quote: {
       ...defaultState.quote,
       ...action.payload.quote,
@@ -240,7 +248,7 @@ const changeExportPdfForm = (state, action) => ({
   ...state,
   exportPdf: {
     ...state.exportPdf,
-    selectedForm: action.selectedForm,
+    template: action.template,
   },
 });
 
@@ -260,7 +268,7 @@ const handlers = {
   [CHANGE_TABLE_ROW]: changeTableRow,
   [REMOVE_TABLE_ROW]: removeTableRow,
   [CALCULATE_LINES]: calculateLines,
-  [CHANGE_EXPORT_PDF_FORM]: changeExportPdfForm,
+  [CHANGE_EXPORT_PDF_TEMPLATE]: changeExportPdfForm,
 };
 
 const itemQuoteReducer = createReducer(getDefaultState(), handlers);
