@@ -1,3 +1,25 @@
 .total {
   text-align: end;
 }
+
+.total div {
+  margin-left: var(--flx-spacing-small);
+}
+
+.total .totalOverdue {
+  font-weight: bold;
+}
+
+.total .hasOverdue {
+  color: var(--flx-color-alert-error-link);
+}
+
+.supplier {
+  width: 29rem;
+}
+
+@media (min-width: 768px) {
+  .total div {
+    display: inline-block;
+  }
+}

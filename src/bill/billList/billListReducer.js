@@ -1,5 +1,3 @@
-import { addMonths } from 'date-fns';
-
 import {
   LOAD_BILL_LIST,
   SET_ALERT,
@@ -12,19 +10,22 @@ import {
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import { getDefaultDateRange } from './billListSelectors';
 import createReducer from '../../store/createReducer';
 import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
-const getDefaultDateRange = () => addMonths(new Date(), -3);
+const defaultFilterOptions = {
+  status: '',
+  supplierId: '',
+  dateFrom: formatIsoDate(getDefaultDateRange()),
+  dateTo: formatIsoDate(new Date()),
+  keywords: '',
+};
 
 const getDefaultState = () => ({
-  filterOptions: {
-    status: '',
-    supplierId: '',
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-    keywords: '',
-  },
+  filterOptions: defaultFilterOptions,
+  appliedFilterOptions: defaultFilterOptions,
+  defaultFilterOptions,
   supplierFilters: [],
   statusFilters: [],
   sortOrder: '',
@@ -39,9 +40,22 @@ const getDefaultState = () => ({
 
 const resetState = () => (getDefaultState());
 
-const setInitialState = (state, action) => ({
+const setInitialState = (state, {
+  context,
+  settings = { filterOptions: defaultFilterOptions, sortOrder: '', orderBy: '' },
+}) => ({
   ...state,
-  ...action.context,
+  ...context,
+  filterOptions: {
+    ...state.filterOptions,
+    ...settings.filterOptions,
+  },
+  appliedFilterOptions: {
+    ...state.appliedFilterOptions,
+    ...settings.filterOptions,
+  },
+  sortOrder: settings.sortOrder,
+  orderBy: settings.orderBy,
 });
 
 const loadBillList = (state, { status, supplierId, ...action }) => ({
@@ -49,6 +63,11 @@ const loadBillList = (state, { status, supplierId, ...action }) => ({
   ...action,
   filterOptions: {
     ...state.filterOptions,
+    status,
+    supplierId,
+  },
+  appliedFilterOptions: {
+    ...state.appliedFilterOptions,
     status,
     supplierId,
   },
@@ -83,6 +102,9 @@ const sortAndFilterBillList = (state, action) => ({
   entries: action.entries,
   total: action.total,
   totalDue: action.totalDue,
+  appliedFilterOptions: action.isSort
+    ? state.appliedFilterOptions
+    : state.filterOptions,
 });
 
 const setAlert = (state, action) => ({

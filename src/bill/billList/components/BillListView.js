@@ -45,6 +45,7 @@ const BillListView = (props) => {
       <div className={style.list}>
         <BillListTable
           onSort={onSort}
+          onCreateButtonClick={onCreateButtonClick}
         />
       </div>
     </StandardTemplate>

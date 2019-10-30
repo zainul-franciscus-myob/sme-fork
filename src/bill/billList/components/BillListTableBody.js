@@ -1,9 +1,10 @@
-import { PropTypes } from 'prop-types';
-import { Table } from '@myob/myob-widgets';
+import { Badge, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classnames from 'classnames';
 
 import { getTableEntries } from '../billListSelectors';
+import styles from './BillListTableBody.module.css';
 
 const BillListTableBody = (props) => {
   const {
@@ -12,16 +13,24 @@ const BillListTableBody = (props) => {
   } = props;
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
+      <Table.RowItem {...tableConfig.dateIssued}>{entry.dateIssued}</Table.RowItem>
       <Table.RowItem {...tableConfig.number}>
         <a href={entry.link}>{entry.number}</a>
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.invoiceNumber}>{entry.invoiceNumber}</Table.RowItem>
       <Table.RowItem {...tableConfig.supplier}>{entry.supplier}</Table.RowItem>
-      <Table.RowItem {...tableConfig.dateIssued}>{entry.dateIssued}</Table.RowItem>
+      <Table.RowItem {...tableConfig.invoiceNumber}>{entry.invoiceNumber}</Table.RowItem>
       <Table.RowItem {...tableConfig.billAmount}>{entry.billAmount}</Table.RowItem>
-      <Table.RowItem {...tableConfig.balanceDue}>{entry.balanceDue}</Table.RowItem>
-      <Table.RowItem {...tableConfig.status}>{entry.status}</Table.RowItem>
-      <Table.RowItem {...tableConfig.dateClosed}>{entry.dateClosed}</Table.RowItem>
+      <Table.RowItem {...tableConfig.balanceDue}>{entry.balanceDueDisplayValue}</Table.RowItem>
+      <Table.RowItem
+        className={classnames({ [styles.overdue]: entry.isOverdue })}
+        {...tableConfig.dateDue}
+      >
+        {entry.dateDue}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.attachment}>{entry.hasAttachment ? <Icons.GenericDocument /> : ''}</Table.RowItem>
+      <Table.RowItem {...tableConfig.status}>
+        <Badge color={entry.badgeColor}>{entry.status}</Badge>
+      </Table.RowItem>
     </Table.Row>
   ));
 
@@ -30,23 +39,6 @@ const BillListTableBody = (props) => {
       {rows}
     </Table.Body>
   );
-};
-
-const entriesShape = {
-  balanceDue: PropTypes.string.isRequired,
-  billAmount: PropTypes.string.isRequired,
-  dateClosed: PropTypes.string.isRequired,
-  dateIssued: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  invoiceNumber: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
-  supplier: PropTypes.string.isRequired,
-};
-
-BillListTableBody.propTypes = {
-  tableConfig: PropTypes.shape({}).isRequired,
-  entries: PropTypes.arrayOf(PropTypes.shape(entriesShape)).isRequired,
 };
 
 const mapStateToProps = state => ({

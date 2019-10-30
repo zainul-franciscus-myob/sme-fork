@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { BILL_LIST_ROUTE } from '../getBillRoutes';
 import {
   LOAD_BILL_LIST,
   SET_ALERT,
@@ -10,9 +11,7 @@ import {
   SORT_AND_FILTER_BILL_LIST,
   UPDATE_FILTER_OPTIONS,
 } from '../BillIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_BILL_ITEM,
   SUCCESSFULLY_DELETED_BILL_SERVICE,
@@ -21,12 +20,15 @@ import {
 } from '../billDetail/billMessageTypes';
 import {
   flipSortOrder,
+  getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
   getOrderBy,
   getRegion,
+  getSettings,
   getSortOrder,
 } from './billListSelectors';
+import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import BillListView from './components/BillListView';
 import Store from '../../store/Store';
 import billListReducer from './billListReducer';
@@ -84,6 +86,8 @@ export default class BillListModule {
     };
 
     const filterOptions = getFilterOptions(state);
+    const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
 
     const onFailure = () => {
       console.log('Failed to load contact list entries');
@@ -93,8 +97,9 @@ export default class BillListModule {
       intent,
       urlParams,
       params: {
-        dateFrom: filterOptions.dateFrom,
-        dateTo: filterOptions.dateTo,
+        ...filterOptions,
+        sortOrder,
+        orderBy,
       },
       onSuccess,
       onFailure,
@@ -205,7 +210,7 @@ export default class BillListModule {
       this.setAlert({ message, type: 'danger' });
     };
 
-    const filterOptions = getFilterOptions(state);
+    const filterOptions = getAppliedFilterOptions(state);
     this.integration.read({
       intent,
       urlParams,
@@ -255,17 +260,22 @@ export default class BillListModule {
   };
 
   run(context) {
-    this.setInitialState(context);
+    const settings = loadSettings(context.businessId, BILL_LIST_ROUTE);
+    this.setInitialState(context, settings);
     this.render();
     this.readMessages();
     this.setLoadingState(true);
+    this.store.subscribe(state => (
+      saveSettings(context.businessId, BILL_LIST_ROUTE, getSettings(state))
+    ));
     this.loadBillList();
   }
 
-  setInitialState = (context) => {
+  setInitialState = (context, settings) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
+      settings,
     });
   };
 
