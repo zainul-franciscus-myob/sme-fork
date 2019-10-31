@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getShowActionButtonForTax, getTab,
+  getAlert, getModal, getShowActionButtonForTax, getTab,
 } from '../PayItemListSelectors';
 import { tabIds, tabItems } from '../tabItems';
 import PayItemDeductionsTable from './PayItemDeductionsTable';
@@ -19,6 +19,7 @@ import PayItemSuperannuationTable from './PayItemSuperannuationTable';
 import PayItemWagesTable from './PayItemWagesTable';
 import Tabs from '../../../components/Tabs/Tabs';
 import TaxPayItemView from './TaxPayItemView';
+import UnsavedModal from '../../../components/modal/UnsavedModal';
 import style from './PayItemListView.module.css';
 
 const PayItemListView = ({
@@ -26,6 +27,10 @@ const PayItemListView = ({
   selectedTab,
   showActionButtonForTax,
   listeners,
+  onConfirmSave,
+  onConfirmCancelButtonClick,
+  onDismissModal,
+  modal,
 }) => {
   const { onCreatePayItemButtonClick, onSaveTaxPayItemButtonClick } = listeners;
 
@@ -64,6 +69,14 @@ const PayItemListView = ({
     </ButtonRow>
   );
 
+  const unsavedModal = (
+    <UnsavedModal
+      onConfirmSave={onConfirmSave}
+      onConfirmUnsave={onConfirmCancelButtonClick}
+      onCancel={onDismissModal}
+    />
+  );
+
   const pageHead = <PageHead title="Pay items" />;
 
   const subHeadChildren = (
@@ -84,6 +97,7 @@ const PayItemListView = ({
       subHeadChildren={subHeadChildren}
       alert={alertComponent}
     >
+      {modal && unsavedModal}
       <div className={style.list}>
         <Content listeners={listeners} />
       </div>
@@ -98,6 +112,7 @@ const mapStateToProps = state => ({
   selectedTab: getTab(state),
   showActionButtonForTax: getShowActionButtonForTax(state),
   alert: getAlert(state),
+  modal: getModal(state),
 });
 
 export default connect(mapStateToProps)(PayItemListView);

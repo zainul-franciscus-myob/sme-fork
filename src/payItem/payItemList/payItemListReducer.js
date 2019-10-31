@@ -1,10 +1,12 @@
 import {
+  CLOSE_MODAL,
   LOAD_DEDUCTIONS_LIST,
   LOAD_EXPENSES_LIST,
   LOAD_LEAVE_LIST,
   LOAD_SUPERANNUATION_LIST,
   LOAD_TAX_PAY_ITEM,
   LOAD_WAGES_LIST,
+  OPEN_MODAL,
   SET_ALERT,
   SET_DEDUCTIONS_SORT_ORDER,
   SET_EXPENSES_SORT_ORDER,
@@ -66,6 +68,7 @@ const getDefaultState = () => ({
     atoReportingCategoryList: [],
   },
   alert: undefined,
+  isPageEdited: false,
 });
 
 const setInitialState = (state, action) => ({
@@ -184,6 +187,11 @@ const sortDeductionsList = (state, action) => ({
   },
 });
 
+const openModal = (state, action) => ({
+  ...state,
+  modal: action.modal,
+});
+
 const setDeductionsSortOrder = (state, action) => ({
   ...state,
   deductions: {
@@ -239,11 +247,17 @@ const updateTaxPayItemDetail = (state, action) => ({
       [action.key]: action.value,
     },
   },
+  isPageEdited: true,
 });
 
 const setTableLoadingState = (state, action) => ({
   ...state,
   isTableLoading: action.isTableLoading,
+});
+
+const closeModal = state => ({
+  ...state,
+  modal: undefined,
 });
 
 const setAlert = (state, action) => ({
@@ -275,6 +289,8 @@ const handlers = {
   [SET_EXPENSES_SORT_ORDER]: setExpensesSortOrder,
   [LOAD_TAX_PAY_ITEM]: loadTaxPayItem,
   [UPDATE_TAX_PAY_ITEM_DETAIL]: updateTaxPayItemDetail,
+  [CLOSE_MODAL]: closeModal,
+  [OPEN_MODAL]: openModal,
 };
 
 const payItemListReducer = createReducer(getDefaultState(), handlers);

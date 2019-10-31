@@ -2,10 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../SystemIntents';
-import {
+  CLOSE_MODAL,
+  OPEN_MODAL,
   SET_ALERT,
   SET_DEDUCTIONS_SORT_ORDER,
   SET_EXPENSES_SORT_ORDER,
@@ -23,6 +21,10 @@ import {
   UPDATE_TAX_PAY_ITEM,
   UPDATE_TAX_PAY_ITEM_DETAIL,
 } from '../PayItemIntents';
+import {
+  RESET_STATE,
+  SET_INITIAL_STATE,
+} from '../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_EXPENSE_PAY_ITEM,
   SUCCESSFULLY_SAVED_EXPENSE_PAY_ITEM,
@@ -42,7 +44,9 @@ import {
 } from '../wagePayItem/WagePayItemMessageTypes';
 import {
   getBusinessId,
+  getIsPageEdited,
   getLoadTabContentIntent,
+  getModalUrl,
   getNewDeductionsSortOrder,
   getNewExpensesSortOrder,
   getNewLeaveSortOrder,
@@ -51,10 +55,12 @@ import {
   getRegion,
   getSaveTaxPayItemPayload,
   getTab,
+  getTabUrl,
   getUrlParams,
   getUrlTabParams,
 } from './PayItemListSelectors';
 import { tabIds } from './tabItems';
+import ModalType from './ModalType';
 import PayItemListView from './components/PayItemListView';
 import Store from '../../store/Store';
 import payItemListReducer from './payItemListReducer';
@@ -105,8 +111,14 @@ export default class PayItemListModule {
   })
 
   setTabAndLoadContent = (selectedTab) => {
-    this.setTab(selectedTab);
-    this.loadTabContentList();
+    const state = this.store.getState();
+    const url = getTabUrl(state, selectedTab);
+    if (getIsPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.setTab(selectedTab);
+      this.loadTabContentList();
+    }
   }
 
   setAlert = ({ message, type }) => {
@@ -286,6 +298,9 @@ export default class PayItemListModule {
         message,
       });
       this.setSubmittingState(false);
+
+      const url = getModalUrl(state);
+      this.redirectToUrl(url);
     };
 
     const onFailure = ({ message }) => {
@@ -294,6 +309,7 @@ export default class PayItemListModule {
         type: 'danger',
         message,
       });
+      this.dismissModal();
     };
 
     const intent = UPDATE_TAX_PAY_ITEM;
@@ -344,6 +360,9 @@ export default class PayItemListModule {
           onSaveTaxPayItemButtonClick: this.saveTaxPayItem,
           onTaxDetailChange: this.updateTaxPayItemDetail,
         }}
+        onDismissModal={this.dismissModal}
+        onConfirmCancelButtonClick={this.redirectToModalUrl}
+        onConfirmSave={this.saveTaxPayItem}
       />
     );
 
@@ -367,6 +386,36 @@ export default class PayItemListModule {
     });
   }
 
+  redirectToUrl = (url) => {
+    window.location.href = url;
+  }
+
+  openModal= ({ type, url }) => {
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modal: {
+        type,
+        url,
+      },
+    });
+  }
+
+  openUnsavedModal = (url) => {
+    this.openModal({ type: ModalType.UNSAVED, url });
+  }
+
+  dismissModal = () => {
+    this.store.dispatch({
+      intent: CLOSE_MODAL,
+    });
+  }
+
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+    this.redirectToUrl(url);
+  }
+
   updateURLFromState = state => this.replaceURLParams(getUrlTabParams(state))
 
   run(context) {
@@ -382,5 +431,14 @@ export default class PayItemListModule {
     this.store.dispatch({
       intent,
     });
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
   }
 }

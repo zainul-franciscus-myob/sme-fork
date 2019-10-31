@@ -15,6 +15,10 @@ export const getRegion = state => state.region;
 export const getIsLoading = state => state.isLoading;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getAlert = state => state.alert;
+export const getIsPageEdited = state => state.isPageEdited;
+export const getModal = state => state.modal;
+export const getModalUrl = state => ((state.modal || {}).url);
+export const getTabUrl = (state, tab) => `/#/${state.region}/${state.businessId}/payItem?tab=${tab}`;
 
 export const getWagesOrderBy = state => state.wages.orderBy;
 export const getWagesSortOrder = state => state.wages.sortOrder;

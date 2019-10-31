@@ -6,7 +6,7 @@ const UnsavedModal = ({
   onConfirmUnsave,
   onCancel,
   title = 'Unsaved changes',
-  description = "You have unsaved changes. Your changes will be lost if you don't save them.",
+  description = "Looks like you've made changes. Do you want to save these changes?",
   isActionsDisabled = false,
 }) => (
   <Modal
