@@ -1,0 +1,9 @@
+.readonly {
+  padding: 1rem 0;
+  margin-left: 1rem;
+}
+
+.readonly :global(.boxed) {
+  color: var(--flx-color-reverse-text);
+  background-color: var(--flx-palette-storm-83);
+}

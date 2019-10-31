@@ -7,6 +7,7 @@ import getRegionToDialectText from '../dialect/getRegionToDialectText';
 
 export const getBusinessName = state => state.businessName;
 const getEnabledFeatures = state => state.enabledFeatures;
+export const getIsReadOnly = state => state.isReadOnly;
 const getCurrentRouteName = state => state.currentRouteName;
 const getUrls = state => state.urls;
 

@@ -1,11 +1,14 @@
-import { Icons, Navigation } from '@myob/myob-widgets';
+import {
+  Icons, Label, Navigation, Tooltip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getActiveNav, getBusinessName, getBusinessUrls, getTaxCodesLabel,
+  getActiveNav, getBusinessName, getBusinessUrls, getIsReadOnly, getTaxCodesLabel,
 } from '../NavigationSelectors';
 import handleMenuLinkClick from './handlers/handleMenuLinkClick';
+import styles from './BusinessMenu.module.css';
 
 const isSeparatorRequired = urls => (
   urls.businessDetails
@@ -40,11 +43,27 @@ const getItems = ({ urls, onMenuLinkClick, taxCodesLabel }) => [
   <Navigation.MenuLink key="logout" url="#/logout" label="Logout" icon={<Icons.SignOut />} onClick={handleMenuLinkClick(onMenuLinkClick, '#/logout')} />,
 ].filter(Boolean);
 
+const ReadonlyStatus = () => (
+  <span className={styles.readonly}>
+    <Tooltip
+      placement="bottom"
+      triggerContent={<Label type="boxed" size="small">Read only</Label>}
+    >
+      You have read only permission. Contact your administrator if you think this is a mistake.
+    </Tooltip>
+  </span>
+);
+
 const BusinessMenu = ({
-  businessName, urls, activeNav, onMenuSelect, onMenuLinkClick, taxCodesLabel,
+  businessName, urls, activeNav, onMenuSelect, onMenuLinkClick, taxCodesLabel, isReadOnly,
 }) => (
   <Navigation.Menu
-    label={businessName}
+    label={(
+      <>
+        {businessName}
+        {isReadOnly && <ReadonlyStatus />}
+      </>
+    )}
     icon={<Icons.Caret />}
     items={getItems({ urls, onMenuLinkClick, taxCodesLabel })}
     onSelect={onMenuSelect}
@@ -57,6 +76,7 @@ const mapStateToProps = state => ({
   businessName: getBusinessName(state),
   activeNav: getActiveNav(state),
   taxCodesLabel: getTaxCodesLabel(state),
+  isReadOnly: getIsReadOnly(state),
 });
 
 export default connect(mapStateToProps)(BusinessMenu);

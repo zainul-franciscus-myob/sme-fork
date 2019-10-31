@@ -7,6 +7,7 @@ import createReducer from '../store/createReducer';
 const getDefaultState = () => ({
   businessName: '',
   enabledFeatures: [],
+  isReadOnly: false,
   urls: {},
   routeParams: {},
   currentRouteName: '',
@@ -16,6 +17,7 @@ const loadBusinessDetails = (state, action) => ({
   ...state,
   businessName: action.businessName,
   enabledFeatures: action.enabledFeatures,
+  isReadOnly: action.isReadOnly,
 });
 
 const setRouteInfo = (state, action) => ({
