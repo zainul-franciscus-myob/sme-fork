@@ -18,7 +18,7 @@ const tableConfig = {
   dateIssued: { columnName: 'Date', valign: 'top' },
   number: { columnName: 'Bill no', valign: 'top' },
   supplier: { columnName: 'Supplier', valign: 'top' },
-  invoiceNumber: { columnName: 'Supplier invoice no', valign: 'top' },
+  invoiceNumber: { columnName: 'Supplier inv no', valign: 'top' },
   billAmount: { columnName: 'Amount ($)', valign: 'top', align: 'right' },
   balanceDue: { columnName: 'Balance due ($)', valign: 'top', align: 'right' },
   dateDue: { columnName: 'Due date', valign: 'top' },

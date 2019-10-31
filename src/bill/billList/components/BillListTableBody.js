@@ -1,4 +1,4 @@
-import { Badge, Icons, Table } from '@myob/myob-widgets';
+import { Icons, Label, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
@@ -29,7 +29,7 @@ const BillListTableBody = (props) => {
       </Table.RowItem>
       <Table.RowItem {...tableConfig.attachment}>{entry.hasAttachment ? <Icons.GenericDocument /> : ''}</Table.RowItem>
       <Table.RowItem {...tableConfig.status}>
-        <Badge color={entry.badgeColor}>{entry.status}</Badge>
+        <Label type="boxed" color={entry.badgeColor}>{entry.status}</Label>
       </Table.RowItem>
     </Table.Row>
   ));
