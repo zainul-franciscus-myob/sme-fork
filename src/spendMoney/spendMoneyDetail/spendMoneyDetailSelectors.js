@@ -57,7 +57,8 @@ export const getHeaderOptions = createSelector(
 );
 
 export const getAlertMessage = state => state.alertMessage;
-export const getModalType = state => state.modalType;
+export const getModalUrl = state => ((state.modal || {}).url);
+export const getModal = state => state.modal;
 export const getIsLoading = state => state.isLoading;
 
 export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
@@ -150,6 +151,7 @@ export const getCalculatedTotalsPayload = (state) => {
 };
 
 export const getIsActionsDisabled = state => state.isSubmitting;
+export const getIsSubmitting = state => state.isSubmitting;
 export const isPageEdited = state => state.isPageEdited;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
@@ -185,4 +187,16 @@ export const getIsContactReportable = (state, contactId) => {
   const { isReportable } = contacts.find(({ id }) => id === contactId) || { };
 
   return isReportable;
+};
+
+export const getTransactionListUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `/#/${region}/${businessId}/transactionList`,
+);
+
+export const getSaveUrl = (state) => {
+  const modalUrl = getModalUrl(state);
+  const transactionListUrl = getTransactionListUrl(state);
+  return modalUrl || transactionListUrl;
 };

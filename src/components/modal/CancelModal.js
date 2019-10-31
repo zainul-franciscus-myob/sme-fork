@@ -14,8 +14,8 @@ const CancelModal = ({
       {description}
     </Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancel}>No, go back</Button>
-      <Button type="delete" onClick={onConfirm}>Yes, Cancel</Button>
+      <Button type="secondary" onClick={onCancel}>Go back</Button>
+      <Button type="delete" onClick={onConfirm}>Discard</Button>
     </Modal.Footer>
   </Modal>
 );

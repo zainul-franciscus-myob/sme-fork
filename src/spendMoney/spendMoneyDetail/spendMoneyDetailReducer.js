@@ -58,8 +58,8 @@ const getDefaultState = () => ({
     totalTax: '$0.00',
     totalAmount: '$0.00',
   },
-  modalType: '',
   alertMessage: '',
+  modal: undefined,
   isLoading: true,
   isSubmitting: false,
   isPageEdited: false,
@@ -211,12 +211,12 @@ const setAlertMessage = (state, action) => ({
 
 const openModal = (state, action) => ({
   ...state,
-  modalType: action.modalType,
+  modal: action.modal,
 });
 
 const closeModal = state => ({
   ...state,
-  modalType: '',
+  modal: undefined,
 });
 
 const getCalculateTotals = (state, action) => ({
@@ -279,10 +279,13 @@ const setOperationInProgressState = (state, { id, isInProgress }) => ({
   )),
 });
 
-const openRemoveAttachmentModal = (state, { id }) => ({
+const openRemoveAttachmentModal = (state, { id, modal }) => ({
   ...state,
-  modalType: 'deleteAttachment',
   pendingDeleteId: id,
+  modal: {
+    ...state.modal,
+    ...modal,
+  },
 });
 
 const removeAttachmentByIndex = (state, { index }) => ({

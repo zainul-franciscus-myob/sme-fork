@@ -1,16 +1,17 @@
-import { Button, FileChip } from '@myob/myob-widgets';
+import {
+  Button, Columns, DropZone, FileChip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAttachments } from '../spendMoneyDetailSelectors';
-import SpendMoneyFileBrowser from './SpendMoneyFileBrowser';
 import styles from './SpendMoneyAttachmentsContent.module.css';
 
 const wrapAttachmentHandler = (handler, index) => () => handler(index);
 
 const description = (
   <p>
-    Upload your file as&nbsp;
+    Your files need to be&nbsp;
     <strong>PDF</strong>
     ,&nbsp;
     <strong>TIFF</strong>
@@ -18,7 +19,7 @@ const description = (
     <strong>JPEG</strong>
     &nbsp;or&nbsp;
     <strong>PNG</strong>
-    &nbsp;and make sure it&#39;s&nbsp;
+    &nbsp;and&nbsp;
     <strong>below 10MB</strong>
     .
   </p>
@@ -30,38 +31,44 @@ const SpendMoneyAttachmentsContent = ({
   onRemoveAttachment,
   onOpenAttachment,
 }) => (
-  <>
-    <div className={styles.attachments}>
-      <SpendMoneyFileBrowser
-        accept=".pdf, .tiff, .jpeg, .jpg, .png"
-        onAddAttachments={onAddAttachments}
-      />
-      {
-        attachments.map(({
-          name, state, id, canRemove, isInProgress, ...otherProps
-        }, index) => (
-          <div key={id || index} className={isInProgress ? styles.inProgress : ''}>
-            <FileChip
-              name={
-                id ? (
-                  <Button
-                    type="link"
-                    onClick={wrapAttachmentHandler(onOpenAttachment, index)}
-                  >
-                    {name}
-                  </Button>
-                ) : name
-              }
-              state={state}
-              {...otherProps}
-              onRemove={canRemove ? wrapAttachmentHandler(onRemoveAttachment, index) : undefined}
-            />
-          </div>
-        ))
-      }
+  <div className={styles.dropzone}>
+    <DropZone
+      onDrop={onAddAttachments}
+      onFileSelected={onAddAttachments}
+    >
+      <div className={styles.columns}>
+        <Columns type="two">
+          {
+            attachments.map(({
+              name, state, id, canRemove, isInProgress, ...otherProps
+            }, index) => (
+              <div key={id || index} className={isInProgress ? styles.inProgress : ''}>
+                <FileChip
+                  name={
+                    id ? (
+                      <Button
+                        type="link"
+                        onClick={wrapAttachmentHandler(onOpenAttachment, index)}
+                      >
+                        {name}
+                      </Button>
+                    ) : name
+                  }
+                  state={state}
+                  {...otherProps}
+                  onRemove={
+                    canRemove ? wrapAttachmentHandler(onRemoveAttachment, index) : undefined}
+                />
+              </div>
+            ))
+          }
+        </Columns>
+      </div>
+    </DropZone>
+    <div className={styles.description}>
+      {description}
     </div>
-    {description}
-  </>
+  </div>
 );
 
 const mapStateToProps = state => ({

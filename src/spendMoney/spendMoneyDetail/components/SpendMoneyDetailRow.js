@@ -1,12 +1,12 @@
-import { Input, LineItemTable, TextArea } from '@myob/myob-widgets';
+import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
   getLineDataByIndexSelector, getNewLineData,
 } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
 const eventWrapper = (name, onChange) => (item) => {
@@ -14,6 +14,15 @@ const eventWrapper = (name, onChange) => (item) => {
     target: {
       name,
       value: item.id,
+    },
+  });
+};
+
+const onAmountInputChange = (name, onChange) => (e) => {
+  onChange({
+    target: {
+      name,
+      value: e.target.rawValue,
     },
   });
 };
@@ -46,23 +55,24 @@ const SpendMoneyDetailRow = (props) => {
       {...feelixInjectedProps}
     >
       <AccountCombobox
+        label="Accounts"
+        hideLabel={false}
         items={accounts}
         selectedId={accountId}
         onChange={eventWrapper('accountId', onChange)}
       />
-      <Input
-        type="number"
+      <AmountInput
         label="Amount"
         hideLabel
         name="amount"
         value={amount}
-        disabled={isNewLineRow}
-        onChange={onChange}
-        step="0.01"
+        onChange={onAmountInputChange('amount', onChange)}
         onBlur={onRowInputBlur(index)}
+        disabled={isNewLineRow}
       />
       <TextArea
         label="Description"
+        maxLength={255}
         hideLabel
         rows={1}
         autoSize
@@ -72,21 +82,14 @@ const SpendMoneyDetailRow = (props) => {
         disabled={isNewLineRow}
       />
       <TaxCodeCombobox
+        label="Tax code"
+        hideLabel={false}
         items={taxCodes}
         selectedId={taxCodeId}
         onChange={eventWrapper('taxCodeId', onChange)}
         disabled={isNewLineRow}
       />
     </LineItemTable.Row>);
-};
-
-SpendMoneyDetailRow.propTypes = {
-  index: PropTypes.number.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  isNewLineRow: PropTypes.bool.isRequired,
-  lineData: PropTypes.shape({}).isRequired,
-  newLineData: PropTypes.shape({}).isRequired,
 };
 
 const makeMapRowStateToProps = () => {

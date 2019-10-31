@@ -23,6 +23,7 @@ import {
   UPLOAD_ATTACHMENT_FAILED,
 } from '../SpendMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import ModalType from './components/ModalType';
 
 const createSpendMoneyDispatcher = store => ({
   setInitialState: (context) => {
@@ -74,9 +75,14 @@ const createSpendMoneyDispatcher = store => ({
     store.dispatch({ intent, isSubmitting });
   },
 
-  openModal: (modalType) => {
-    const intent = OPEN_MODAL;
-    store.dispatch({ intent, modalType });
+  openModal: ({ type, url }) => {
+    store.dispatch({
+      intent: OPEN_MODAL,
+      modal: {
+        type,
+        url,
+      },
+    });
   },
 
   closeModal: () => {
@@ -143,7 +149,11 @@ const createSpendMoneyDispatcher = store => ({
 
   openRemoveAttachmentModal: (id) => {
     const intent = OPEN_REMOVE_ATTACHMENT_MODAL;
-    store.dispatch({ intent, id });
+    store.dispatch({
+      intent,
+      id,
+      modal: { type: ModalType.DELETE_ATTACHMENT },
+    });
   },
 
   removeAttachment: (id) => {

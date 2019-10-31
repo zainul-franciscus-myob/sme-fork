@@ -6,14 +6,17 @@ import {
   SUCCESSFULLY_SAVED_SPEND_MONEY,
 } from '../spendMoneyMessageTypes';
 import {
-  getBusinessId,
   getFilesForUpload,
   getIsTableEmpty,
-  getRegion,
+  getModalUrl,
+  getSaveUrl,
+  getTransactionListUrl,
   isPageEdited,
   isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
+import ModalType from './components/ModalType';
 import SpendMoneyDetailView from './components/SpendMoneyDetailView';
+import SpendMoneyElementId from './SpendMoneyElementId';
 import Store from '../../store/Store';
 import createSpendMoneyDispatcher from './createSpendMoneyDispatcher';
 import createSpendMoneyIntegrator from './createSpendMoneyIntegrator';
@@ -85,7 +88,10 @@ export default class SpendMoneyDetailModule {
         content: response.message,
       });
       this.dispatcher.setSubmittingState(false);
-      this.redirectToTransactionList();
+
+      const state = this.store.getState();
+      const url = getSaveUrl(state);
+      this.redirectToUrl(url);
     },
 
     onFailure: (error) => {
@@ -108,20 +114,41 @@ export default class SpendMoneyDetailModule {
 
   openCancelModal = () => {
     if (isPageEdited(this.store.getState())) {
-      this.dispatcher.openModal('cancel');
+      const state = this.store.getState();
+      const transactionListUrl = getTransactionListUrl(state);
+      this.dispatcher.openModal({ type: ModalType.CANCEL, url: transactionListUrl });
     } else {
       this.redirectToTransactionList();
     }
   };
 
-  openDeleteModal = () => this.dispatcher.openModal('delete');
+  openDeleteModal = () => {
+    const state = this.store.getState();
+    const transactionListUrl = getTransactionListUrl(state);
+    this.dispatcher.openModal({ type: ModalType.DELETE, url: transactionListUrl });
+  }
+
+  openUnsavedModal = (url) => {
+    this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
+  }
+
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+    this.redirectToUrl(url);
+  }
+
+  redirectToUrl = (url) => {
+    if (url) {
+      window.location.href = url;
+    }
+  }
 
   redirectToTransactionList = () => {
     const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
+    const transactionListUrl = getTransactionListUrl(state);
 
-    window.location.href = `/#/${region}/${businessId}/transactionList`;
+    window.location.href = transactionListUrl;
   };
 
   unsubscribeFromStore = () => {
@@ -287,6 +314,11 @@ export default class SpendMoneyDetailModule {
     });
   };
 
+  focusSpendMoneyAttachments = () => {
+    const element = document.getElementById(SpendMoneyElementId.ATTACHMENTS_ELEMENT_ID);
+    element.scrollIntoView();
+  }
+
   render = () => {
     const spendMoneyView = (
       <SpendMoneyDetailView
@@ -296,8 +328,8 @@ export default class SpendMoneyDetailModule {
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.dispatcher.closeModal}
-        onCancelModal={this.redirectToTransactionList}
-        onDeleteModal={this.deleteSpendMoneyTransaction}
+        onConfirmCancelButtonClick={this.redirectToModalUrl}
+        onConfirmDeleteButtonClick={this.deleteSpendMoneyTransaction}
         onDismissAlert={this.dispatcher.dismissAlert}
         isCreating={this.isCreating}
         onUpdateRow={this.updateSpendMoneyLine}
@@ -308,6 +340,7 @@ export default class SpendMoneyDetailModule {
         onRemoveAttachment={this.openDeleteAttachmentModal}
         onDeleteAttachmentModal={this.removeAttachment}
         onOpenAttachment={this.openAttachment}
+        onFocusAttachments={this.focusSpendMoneyAttachments}
       />
     );
 
@@ -344,5 +377,14 @@ export default class SpendMoneyDetailModule {
 
   resetState() {
     this.dispatcher.resetState();
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (isPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
   }
 }

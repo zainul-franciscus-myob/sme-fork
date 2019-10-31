@@ -1,11 +1,14 @@
 import {
-  AccordionTable, Badge, FieldGroup, StandardTemplate, Table,
+  Badge, FieldGroup, StandardTemplate, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAttachmentCount, getHasAttachment } from '../spendMoneyDetailSelectors';
+import AccordionTable from '../../../components/Feelix/Accordion/AccordionTable';
 import SpendMoneyAttachmentsContent from './SpendMoneyAttachmentsContent';
+import SpendMoneyElementId from '../SpendMoneyElementId';
+import TableCollapsibleRow from '../../../components/Feelix/Accordion/TableCollapsibleRow';
 import styles from './SpendMoneyAttachments.module.css';
 
 const SpendMoneyAttachments = ({
@@ -16,11 +19,15 @@ const SpendMoneyAttachments = ({
   onOpenAttachment,
 }) => (
   <StandardTemplate sticky="none">
-    <FieldGroup label="More information">
+    <FieldGroup
+      label={<span id={SpendMoneyElementId.ATTACHMENTS_ELEMENT_ID}>More information</span>}
+    >
       <AccordionTable
+        expansionToggle
+        openPosition={0}
         body={(
           <Table.Body>
-            <Table.CollapsibleRow
+            <TableCollapsibleRow
               key="attachments"
               header={(
                 <Table.Row>
@@ -42,7 +49,7 @@ const SpendMoneyAttachments = ({
                 onRemoveAttachment={onRemoveAttachment}
                 onOpenAttachment={onOpenAttachment}
               />
-            </Table.CollapsibleRow>
+            </TableCollapsibleRow>
           </Table.Body>
         )}
       />

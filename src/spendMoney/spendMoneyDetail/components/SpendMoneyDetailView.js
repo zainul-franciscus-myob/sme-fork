@@ -1,35 +1,41 @@
-import { Alert, LineItemTemplate } from '@myob/myob-widgets';
+import {
+  Alert, Icons, LineItemTemplate, TotalsHeader,
+} from '@myob/myob-widgets';
+import { Button } from '@myob/myob-widgets/lib/components/Button/Button';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAlertMessage,
+  getAttachmentCount,
   getIsLoading,
-  getModalType,
+  getIsSubmitting,
+  getModal,
   getPageTitle,
 } from '../spendMoneyDetailSelectors';
-import CancelModal from '../../../components/modal/CancelModal';
-import DeleteModal from '../../../components/modal/DeleteModal';
 import PageView from '../../../components/PageView/PageView';
 import SpendMoneyAttachments from './SpendMoneyAttachments';
 import SpendMoneyDetailActions from './SpendMoneyDetailActions';
 import SpendMoneyDetailOptions from './SpendMoneyDetailOptions';
 import SpendMoneyDetailTable from './SpendMoneyDetailTable';
+import SpendMoneyModal from './SpendMoneyModal';
 
 const SpendMoneyDetailView = ({
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
-  onCancelModal,
+  onConfirmCancelButtonClick,
   onCloseModal,
   alertMessage,
   onDismissAlert,
   isCreating,
   isLoading,
+  isSubmitting,
   pageTitle,
-  onDeleteModal,
-  modalType,
+  attachmentCount,
+  onConfirmDeleteButtonClick,
+  modal,
   onUpdateRow,
   onAddRow,
   onRemoveRow,
@@ -38,6 +44,7 @@ const SpendMoneyDetailView = ({
   onRemoveAttachment,
   onDeleteAttachmentModal,
   onOpenAttachment,
+  onFocusAttachments,
 }) => {
   const templateOptions = (
     <SpendMoneyDetailOptions
@@ -60,45 +67,39 @@ const SpendMoneyDetailView = ({
     </Alert>
   );
 
-  let modal;
-  if (modalType === 'cancel') {
-    modal = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onCancelModal}
-        title="Cancel spend money alterations"
-        description="Are you sure you want to cancel the alterations in this spend money?"
-      />
-    );
-  } else if (modalType === 'delete') {
-    modal = (
-      <DeleteModal
-        onCancel={onCloseModal}
-        onConfirm={onDeleteModal}
-        title="Delete transaction"
-        description="Are you sure you want delete this spend money transaction?"
-      />
-    );
-  } else if (modalType === 'deleteAttachment') {
-    modal = (
-      <DeleteModal
-        onCancel={onCloseModal}
-        onConfirm={onDeleteAttachmentModal}
-        title="Delete attachment"
-        description="Are you sure you want delete this attachment?"
-      />
-    );
-  }
+  const pageHeadActions = [
+    <Button type="link" onClick={onFocusAttachments} icon={<Icons.File />}>
+      {`Attachments (${attachmentCount})`}
+    </Button>,
+  ];
+
+  const pageHead = (
+    <TotalsHeader
+      title={pageTitle}
+      actions={pageHeadActions}
+    />
+  );
 
   const view = (
     <React.Fragment>
       <LineItemTemplate
-        pageHead={pageTitle}
+        pageHead={pageHead}
         options={templateOptions}
         actions={actions}
         alert={alertComponent}
       >
-        { modal }
+        {
+          modal && (
+          <SpendMoneyModal
+            modal={modal}
+            onDismissModal={onCloseModal}
+            onConfirmSave={onSaveButtonClick}
+            onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
+            onConfirmCancelButtonClick={onConfirmCancelButtonClick}
+            onDeleteAttachmentModal={onDeleteAttachmentModal}
+          />
+          )
+        }
         <SpendMoneyDetailTable
           onUpdateRow={onUpdateRow}
           onAddRow={onAddRow}
@@ -116,15 +117,17 @@ const SpendMoneyDetailView = ({
   );
 
   return (
-    <PageView isLoading={isLoading} view={view} />
+    <PageView isSubmitting={isSubmitting} isLoading={isLoading} view={view} />
   );
 };
 
 const mapStateToProps = state => ({
   alertMessage: getAlertMessage(state),
-  modalType: getModalType(state),
+  modal: getModal(state),
   isLoading: getIsLoading(state),
+  isSubmitting: getIsSubmitting(state),
   pageTitle: getPageTitle(state),
+  attachmentCount: getAttachmentCount(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailView);
