@@ -1,92 +1,532 @@
-import { Spinner } from '@myob/myob-widgets';
+import { Provider } from 'react-redux';
 import React from 'react';
 
-import { LOAD_BILL_DETAIL } from '../BillIntents';
-import { LOAD_NEW_BILL_ITEM_DETAIL } from './billItem/BillItemIntents';
-import { LOAD_NEW_BILL_SERVICE_DETAIL } from './billService/BillServiceIntents';
-import BillItemModule from './billItem/BillItemModule';
-import BillServiceModule from './billService/BillServiceModule';
+import { SUCCESSFULLY_DELETED_BILL, SUCCESSFULLY_SAVED_BILL } from './types/BillMessageTypes';
+import {
+  getCreateNewBillUrl,
+  getDuplicateBillUrl,
+  getFinalRedirectUrl,
+} from './selectors/BillRedirectSelectors';
+import {
+  getIsCreating,
+  getIsCreatingFromInTray,
+  getIsLineAmountPendingCalculation,
+  getIsLinesEmpty,
+  getIsPageEdited,
+  getLayout,
+  getNewLineIndex,
+} from './selectors/billSelectors';
+import {
+  getIsLineAccountIdKey,
+  getIsLineAmountKey,
+  getIsLineItemIdKey,
+  getIsLineTaxCodeIdKey,
+} from './selectors/BillModuleSelectors';
+import BillView from './components/BillView';
+import LayoutType from './types/LayoutType';
+import ModalType from './types/ModalType';
+import SaveActionType from './types/SaveActionType';
+import Store from '../../store/Store';
+import billReducer from './billReducer';
+import createBillDispatcher from './createBillDispatcher';
 import createBillIntegrator from './createBillIntegrator';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
-export default class BillModule {
+class BillModule {
   constructor({
-    integration, setRootView, pushMessage, replaceURLParams,
+    integration, setRootView, pushMessage, reload, popMessages,
   }) {
-    this.module = undefined;
-    this.integration = integration;
+    this.reload = reload;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
-    this.replaceURLParams = replaceURLParams;
-    this.integrator = createBillIntegrator(this.integration);
+    this.popMessages = popMessages;
+    this.store = new Store(billReducer);
+    this.dispatcher = createBillDispatcher(this.store);
+    this.integrator = createBillIntegrator(this.store, integration);
   }
 
-  unsubscribeFromStore = () => {
-    if (this.module) {
-      this.module.unsubscribeFromStore();
-    }
+  finalRedirect = () => {
+    const state = this.store.getState();
+    const finalRedirectUrl = getFinalRedirectUrl(state);
+
+    window.location.href = finalRedirectUrl;
   }
 
-  loadBillModule = (context, payload) => {
-    const { layout } = payload;
-    const moduleParams = {
-      integration: this.integration,
-      setRootView: this.setRootView,
-      pushMessage: this.pushMessage,
-      replaceUrlParams: this.replaceURLParams,
-    };
-    if (layout === 'service') {
-      this.module = new BillServiceModule(moduleParams);
-    } else {
-      this.module = new BillItemModule(moduleParams);
-    }
-    this.module.run({ context, payload });
-  }
-
-  loadBill = (context, intent) => {
-    const { businessId, billId } = context;
-    const urlParams = {
-      businessId,
-      billId,
+  prefillBillFromInTray() {
+    const onSuccess = (response) => {
+      this.dispatcher.stopLoading();
+      this.dispatcher.prefillDataFromInTray(response);
     };
 
-    const onSuccess = payload => this.loadBillModule(context, payload);
-    const onFailure = () => console.log('Failed to get initial load');
+    const onFailure = () => {
+      console.log('Failed to load');
+    };
 
-    this.integration.read({
-      intent,
-      urlParams,
-      onSuccess,
+    this.integrator.prefillDataFromInTray({ onSuccess, onFailure });
+  }
+
+  loadBill = () => {
+    const onSuccess = (response) => {
+      const state = this.store.getState();
+      const isCreatingFromInTray = getIsCreatingFromInTray(state);
+
+      this.dispatcher.loadBill(response);
+
+      // @TODO avoid this sequential call. Create dedicated load with intray data in BFF
+      if (isCreatingFromInTray) {
+        this.prefillBillFromInTray();
+      } else {
+        this.dispatcher.stopLoading();
+      }
+    };
+
+    const onFailure = () => {
+      console.log('Failed to load bill');
+    };
+
+    this.dispatcher.startLoading();
+    this.integrator.loadBill({ onSuccess, onFailure });
+  }
+
+  saveBillAnd = ({ onSuccess }) => {
+    const handleSuccess = (response) => {
+      this.dispatcher.stopBlocking();
+      onSuccess(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.stopBlocking();
+      this.dispatcher.openDangerAlert({ message });
+    };
+
+    this.dispatcher.startBlocking();
+
+    this.integrator.saveBill({
+      onSuccess: handleSuccess,
       onFailure,
+    });
+  };
+
+  saveBill = () => {
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_BILL,
+        content: message,
+      });
+
+      this.finalRedirect();
+    };
+
+    this.saveBillAnd({ onSuccess });
+  };
+
+  saveAndCreateNewBill = () => {
+    this.dispatcher.closeModal();
+
+    const redirectToCreateNewBill = () => {
+      const state = this.store.getState();
+      const url = getCreateNewBillUrl(state);
+      window.location.href = url;
+      this.reload();
+    };
+
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_BILL,
+        content: message,
+      });
+
+      redirectToCreateNewBill();
+    };
+
+    this.saveBillAnd({ onSuccess });
+  };
+
+  saveAndDuplicateBill = () => {
+    this.dispatcher.closeModal();
+
+    const redirectToDuplicateBill = () => {
+      const state = this.store.getState();
+      const url = getDuplicateBillUrl(state);
+      window.location.href = url;
+    };
+
+    const onSuccess = ({ message, id }) => {
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+
+      if (isCreating) {
+        this.dispatcher.updateBillId(id);
+      }
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_BILL,
+        content: message,
+      });
+
+      redirectToDuplicateBill();
+    };
+
+    this.saveBillAnd({ onSuccess });
+  };
+
+  deleteBill = () => {
+    this.dispatcher.closeModal();
+    this.dispatcher.startBlocking();
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.stopBlocking();
+      this.pushMessage({
+        type: SUCCESSFULLY_DELETED_BILL,
+        content: message,
+      });
+      this.finalRedirect();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.stopBlocking();
+      this.dispatcher.openDangerAlert({ message });
+    };
+
+    this.integrator.deleteBill({ onSuccess, onFailure });
+  };
+
+  cancelBill = () => {
+    this.finalRedirect();
+  };
+
+  openSaveAndModal = (saveActionType) => {
+    const modalType = {
+      [SaveActionType.SAVE_AND_CREATE_NEW]: ModalType.SaveAndCreateNew,
+      [SaveActionType.SAVE_AND_DUPLICATE]: ModalType.SaveAndDuplicate,
+    }[saveActionType];
+
+    this.dispatcher.openModal({ modalType });
+  }
+
+  openCancelModal = () => {
+    const state = this.store.getState();
+    const isPageEdited = getIsPageEdited(state);
+
+    if (isPageEdited) {
+      this.dispatcher.openModal({
+        modalType: ModalType.CancelModal,
+      });
+    } else {
+      this.finalRedirect();
+    }
+  };
+
+  openDeleteModal = () => {
+    this.dispatcher.openModal({
+      modalType: ModalType.DeleteModal,
+    });
+  };
+
+  closeModal = () => {
+    this.dispatcher.closeModal();
+  };
+
+  closeAlert = () => {
+    this.dispatcher.closeAlert();
+  };
+
+  updateBillOption = ({ key, value }) => {
+    this.dispatcher.updateBillOption({ key, value });
+
+    const state = this.store.getState();
+    const isUpdateTaxInclusive = key === 'isTaxInclusive';
+    const isUpdateSupplierId = key === 'supplierId';
+    const isLinesEmpty = getIsLinesEmpty(state);
+    const layout = getLayout(state);
+
+    if (isUpdateTaxInclusive && !isLinesEmpty) {
+      const handler = {
+        [LayoutType.SERVICE]: this.serviceCalculate,
+        [LayoutType.ITEM]: this.itemCalculateUpdateIsTaxInclusive,
+      }[layout];
+
+      handler();
+    }
+
+    if (isUpdateSupplierId) {
+      this.loadSupplierAddress();
+    }
+  };
+
+  formatBillServiceLines = () => {
+    this.dispatcher.formatBillServiceLines();
+    this.serviceCalculate();
+  }
+
+  formatBillItemLines = ({ index, key }) => {
+    const state = this.store.getState();
+    const isLineAmountPendingCalculation = getIsLineAmountPendingCalculation(state);
+
+    if (isLineAmountPendingCalculation) {
+      this.itemCalculateUpdateLineAmount({ index, key });
+    }
+  }
+
+  addBillServiceLine = ({ accountId }) => {
+    this.dispatcher.addBillServiceLine({ accountId });
+  }
+
+  addBillItemLine = ({ itemId }) => {
+    this.dispatcher.addBillItemLine({ itemId });
+
+    const state = this.store.getState();
+    const newLineIndex = getNewLineIndex(state);
+    this.itemCalculateUpdateLineItem({ index: newLineIndex, itemId });
+  }
+
+  updateBillServiceLine = ({ index, key, value }) => {
+    this.dispatcher.updateBillServiceLine({ index, key, value });
+
+    const shouldCalculateTotals = getIsLineTaxCodeIdKey(key) || getIsLineAccountIdKey(key);
+
+    if (shouldCalculateTotals) {
+      this.serviceCalculate();
+    }
+  }
+
+  updateBillItemLine = ({ index, key, value }) => {
+    this.dispatcher.updateBillItemLine({ index, key, value });
+
+    const isLineAmountKey = getIsLineAmountKey(key);
+    const isLineTaxCodeIdKey = getIsLineTaxCodeIdKey(key);
+    const isLineItemIdKey = getIsLineItemIdKey(key);
+
+    if (isLineAmountKey) {
+      this.dispatcher.lineAmountPendingCalculation();
+    }
+
+    if (isLineItemIdKey) {
+      this.itemCalculateUpdateLineItem({ index, itemId: value });
+    }
+
+    if (isLineTaxCodeIdKey) {
+      this.itemCalculateUpdateLineTaxCode();
+    }
+  }
+
+  removeBillServiceLine = ({ index }) => {
+    this.dispatcher.removeBillLine({ index });
+
+    const state = this.store.getState();
+    const isLinesEmpty = getIsLinesEmpty(state);
+
+    if (isLinesEmpty) {
+      this.dispatcher.resetTotals();
+    } else {
+      this.serviceCalculate();
+    }
+  }
+
+  removeBillItemLine = ({ index }) => {
+    this.dispatcher.removeBillLine({ index });
+
+    const state = this.store.getState();
+    const isLinesEmpty = getIsLinesEmpty(state);
+
+    if (isLinesEmpty) {
+      this.dispatcher.resetTotals();
+    } else {
+      this.itemCalculateRemoveLine();
+    }
+  }
+
+  itemCalculateRemoveLine = () => {
+    this.dispatcher.startBlocking();
+
+    const onSuccess = (response) => {
+      this.dispatcher.itemCalculate(response);
+      this.dispatcher.stopBlocking();
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.openDangerAlert({ message });
+      this.dispatcher.stopBlocking();
+    };
+
+    this.integrator.itemCalculateRemoveLine({ onSuccess, onFailure });
+  }
+
+  itemCalculateUpdateIsTaxInclusive = () => {
+    const state = this.store.getState();
+    const isLineAmountPendingCalculation = getIsLineAmountPendingCalculation(state);
+
+    // when a user is editing a line amount field
+    // they can click the isTaxInclusive input
+    // this will cause two calculate request to fire,
+    // one being the calculate line amount,
+    // and the other being the calculate tax inclusive
+    // to avoid this, we check that the user is not editing
+    // an amount input in the line
+    if (!isLineAmountPendingCalculation) {
+      this.dispatcher.startBlocking();
+
+      const onSuccess = (response) => {
+        this.dispatcher.itemCalculate(response);
+        this.dispatcher.stopBlocking();
+      };
+
+      const onFailure = ({ message }) => {
+        this.dispatcher.openDangerAlert({ message });
+        this.dispatcher.stopBlocking();
+      };
+
+      this.integrator.itemCalculateUpdateIsTaxInclusive({ onSuccess, onFailure });
+    }
+  }
+
+  itemCalculateUpdateLineTaxCode = () => {
+    this.dispatcher.startBlocking();
+
+    const onSuccess = (response) => {
+      this.dispatcher.itemCalculate(response);
+      this.dispatcher.stopBlocking();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.openDangerAlert({ message });
+      this.dispatcher.stopBlocking();
+    };
+
+    this.integrator.itemCalculateUpdateLineTaxCode({
+      onSuccess, onFailure,
     });
   }
 
-  checkBillIdAndLoadBill = (context) => {
-    const { billId, businessId } = context;
+  itemCalculateUpdateLineItem = ({ index, itemId }) => {
+    this.dispatcher.startBlocking();
 
-    if (billId === 'new') {
-      const onSuccess = (payload) => {
-        const intent = payload.layout === 'service'
-          ? LOAD_NEW_BILL_SERVICE_DETAIL
-          : LOAD_NEW_BILL_ITEM_DETAIL;
-        this.loadBill(context, intent);
-      };
+    const onSuccess = (response) => {
+      this.dispatcher.itemCalculate(response);
+      this.dispatcher.stopBlocking();
+    };
 
-      const onFailure = () => console.log('Failed to determine default bill layout');
+    const onFailure = ({ message }) => {
+      this.dispatcher.openDangerAlert({ message });
+      this.dispatcher.stopBlocking();
+    };
 
-      this.integrator.loadDefaultBillLayout({ businessId, onSuccess, onFailure });
-    } else {
-      this.loadBill(context, LOAD_BILL_DETAIL);
-    }
-  };
-
-  run(context) {
-    this.setRootView(<Spinner />);
-    this.checkBillIdAndLoadBill(context);
+    this.integrator.itemCalculateUpdateLineItem({
+      index, itemId, onSuccess, onFailure,
+    });
   }
 
-  resetState = () => {
-    if (this.module) {
-      this.module.resetState();
+  itemCalculateUpdateLineAmount = ({ index, key }) => {
+    this.dispatcher.startBlocking();
+
+    const onSuccess = (response) => {
+      this.dispatcher.itemCalculate(response);
+      this.dispatcher.stopBlocking();
+      this.dispatcher.lineAmountCalculated();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.openDangerAlert({ message });
+      this.dispatcher.stopBlocking();
+      this.dispatcher.lineAmountCalculated();
+    };
+
+    this.integrator.itemCalculateUpdateLineAmount({
+      index, key, onSuccess, onFailure,
+    });
+  }
+
+  serviceCalculate = () => {
+    this.dispatcher.startBlocking();
+
+    const onSuccess = (response) => {
+      this.dispatcher.serviceCalculate(response);
+      this.dispatcher.stopBlocking();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.openDangerAlert({ message });
+      this.dispatcher.stopBlocking();
+    };
+
+    this.integrator.serviceCalculate({ onSuccess, onFailure });
+  }
+
+  loadSupplierAddress = () => {
+    this.dispatcher.startBlocking();
+
+    const onSuccess = (response) => {
+      this.dispatcher.loadSupplierAddress(response);
+      this.dispatcher.stopBlocking();
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.openDangerAlert({ message });
+      this.dispatcher.stopBlocking();
+    };
+
+    this.integrator.loadSupplierAddress({ onSuccess, onFailure });
+  }
+
+  readMessages = () => {
+    const messageTypes = [SUCCESSFULLY_SAVED_BILL];
+    const [successMessage] = this.popMessages(messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.openSuccessAlert({
+        message,
+      });
     }
   };
+
+
+  render = () => {
+    const view = (
+      <Provider store={this.store}>
+        <BillView
+          onSaveButtonClick={this.saveBill}
+          onSaveAndButtonClick={this.openSaveAndModal}
+          onCancelButtonClick={this.openCancelModal}
+          onDeleteButtonClick={this.openDeleteModal}
+          onModalClose={this.closeModal}
+          onCancelModalConfirm={this.cancelBill}
+          onDeleteModalConfirm={this.deleteBill}
+          onConfirmSaveAndCreateNewButtonClick={this.saveAndCreateNewBill}
+          onConfirmSaveAndDuplicateButtonClick={this.saveAndDuplicateBill}
+          onDismissAlert={this.closeAlert}
+          onUpdateBillOption={this.updateBillOption}
+          onServiceRowInputBlur={this.formatBillServiceLines}
+          onAddServiceRow={this.addBillServiceLine}
+          onServiceRowChange={this.updateBillServiceLine}
+          onRemoveServiceRow={this.removeBillServiceLine}
+          onItemRowInputBlur={this.formatBillItemLines}
+          onAddItemRow={this.addBillItemLine}
+          onItemRowChange={this.updateBillItemLine}
+          onRemoveItemRow={this.removeBillItemLine}
+        />
+      </Provider>
+    );
+    this.setRootView(view);
+  }
+
+  setInitialState = (context) => {
+    this.dispatcher.setInitialState(context);
+  }
+
+  resetState = () => this.dispatcher.resetState();
+
+  unsubscribeFromStore = () => {
+    this.store.unsubscribeAll();
+  }
+
+  run(context) {
+    this.setInitialState(context);
+    setupHotKeys(keyMap, {
+      SAVE_ACTION: this.saveBill,
+    });
+    this.render();
+    this.readMessages();
+    this.loadBill();
+  }
 }
+
+export default BillModule;

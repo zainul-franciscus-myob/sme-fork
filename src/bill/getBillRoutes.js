@@ -4,7 +4,7 @@ import BillModule from './billDetail/BillModule';
 export const BILL_LIST_ROUTE = 'billList';
 
 const getBillRoutes = ({
-  integration, setRootView, pushMessage, popMessages, replaceURLParams,
+  integration, setRootView, pushMessage, popMessages, replaceURLParams, reload,
 }) => {
   const routes = [
     {
@@ -18,7 +18,7 @@ const getBillRoutes = ({
       name: 'billDetail',
       path: '/:billId',
       module: new BillModule({
-        integration, setRootView, pushMessage, replaceURLParams,
+        integration, setRootView, pushMessage, replaceURLParams, reload, popMessages,
       }),
     },
   ];

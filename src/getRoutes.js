@@ -161,7 +161,7 @@ const getRoutes = ({
     name: 'bill',
     rootPath: '/:region/:businessId/bill',
     subRoutes: getBillRoutes({
-      integration, setRootView, popMessages, pushMessage, replaceURLParams,
+      integration, setRootView, popMessages, pushMessage, replaceURLParams, reload,
     }),
   },
   {

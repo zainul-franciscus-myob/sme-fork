@@ -1,33 +1,36 @@
-import {
-  Button, Card, Icons,
-} from '@myob/myob-widgets';
+import { Card, Icons } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import { getInTrayDocumentFileUrl, getInTrayDocumentUploadedDate, getIntrayDocumentThumbnailUrl } from '../selectors/billSelectors';
+import LinkButton from '../../../components/Button/LinkButton';
 import styles from './BillInTrayDocumentView.module.css';
 
-const openNewTab = url => () => window.open(url);
-
 const BillInTrayDocumentView = ({
-  inTrayDocument,
+  inTrayDocumentThumbnailUrl,
+  inTrayDocumentUploadedDate,
+  inTrayDocumentFileUrl,
+
 }) => {
   const documentBody = (
     <Card.Body
       child={(
         <div className={styles.documentView}>
           <div className={styles.thumbnail}>
-            <img src={inTrayDocument.thumbnailUrl} alt="Document thumbnail" />
+            <img src={inTrayDocumentThumbnailUrl} alt="Document thumbnail" />
           </div>
           <div className={styles.pdf}>
-            <div><strong>{`Document uploaded ${inTrayDocument.uploadedDate}`}</strong></div>
+            <div><strong>{`Document uploaded ${inTrayDocumentUploadedDate}`}</strong></div>
             <div>
-              <Button
-                type="link"
+              <LinkButton
                 icon={<Icons.Show />}
+                href={inTrayDocumentFileUrl}
+                type="link"
+                isOpenInNewTab
                 iconLeft
-                onClick={openNewTab(inTrayDocument.fileUrl)}
               >
                 View
-              </Button>
+              </LinkButton>
             </div>
           </div>
         </div>
@@ -42,4 +45,10 @@ const BillInTrayDocumentView = ({
   );
 };
 
-export default BillInTrayDocumentView;
+const mapStateToProps = state => ({
+  inTrayDocumentFileUrl: getInTrayDocumentFileUrl(state),
+  inTrayDocumentThumbnailUrl: getIntrayDocumentThumbnailUrl(state),
+  inTrayDocumentUploadedDate: getInTrayDocumentUploadedDate(state),
+});
+
+export default connect(mapStateToProps)(BillInTrayDocumentView);

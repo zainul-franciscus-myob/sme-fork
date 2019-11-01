@@ -1,0 +1,15 @@
+.details {
+  display: flex;
+}
+
+.input {
+  flex-basis: 7.5rem;
+}
+
+.inputValue {
+  padding-left: 1.5rem;
+}
+
+.popover :global(.flx-popover) {
+  display: inline-block;
+}

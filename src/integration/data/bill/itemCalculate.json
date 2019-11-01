@@ -1,0 +1,23 @@
+{
+  "bill": {
+    "isTaxInclusive": true,
+    "lines": [
+      {
+        "id": "1",
+        "units": "2",
+        "itemId": "3",
+        "description": "Cooler Large",
+        "unitPrice": "5200",
+        "discount": "100",
+        "taxCodeId": "1203",
+        "amount": "8500.9101"
+      }
+    ]
+  },
+  "totals": {
+    "subTotal": "$4000.00",
+    "totalTax": "$400.05",
+    "totalAmount": "$4200.05",
+    "amountDue": "$77.7"
+  }
+}

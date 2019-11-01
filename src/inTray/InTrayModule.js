@@ -5,9 +5,8 @@ import copy from 'copy-to-clipboard';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from './inTrayMessageTypes';
 import {
-  SUCCESSFULLY_SAVED_BILL_ITEM,
-  SUCCESSFULLY_SAVED_BILL_SERVICE,
-} from '../bill/billDetail/billMessageTypes';
+  SUCCESSFULLY_SAVED_BILL,
+} from '../bill/billDetail/types/BillMessageTypes';
 import {
   getBusinessId,
   getRegion,
@@ -29,8 +28,7 @@ import modalTypes from './modalTypes';
 
 const messageTypes = [
   SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL,
-  SUCCESSFULLY_SAVED_BILL_SERVICE,
-  SUCCESSFULLY_SAVED_BILL_ITEM,
+  SUCCESSFULLY_SAVED_BILL,
 ];
 
 export default class InTrayModule {

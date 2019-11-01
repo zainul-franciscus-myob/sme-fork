@@ -1,0 +1,95 @@
+{
+  "layout": "item",
+  "bill": {
+    "supplierId": "",
+    "supplierAddress": "",
+    "supplierInvoiceNumber": "",
+    "expirationTerm": "",
+    "expirationDays": "",
+    "isTaxInclusive": true,
+    "isReportable": false,
+    "billNumber": "00000123",
+    "issueDate": "",
+    "orderNumber": "",
+    "status": "",
+    "amountPaid": "0.00",
+    "displayAmountPaid": "$0.00",
+    "lines": []
+  },
+ "itemOptions": [
+    {
+      "id": "3",
+      "itemId": "100",
+      "description": "Cooler Large"
+    },
+    {
+      "id": "4",
+      "itemId": "101",
+      "description": "Cooler Medium"
+    }
+  ],
+  "taxCodeOptions": [
+    {
+      "id": "123",
+      "displayName": "GST",
+      "description": "Goods & Service Tax",
+      "displayRate": "10%"
+    },
+    {
+      "id": "124",
+      "displayName": "FRE",
+      "description": "GST FREE",
+      "displayRate": "5%"
+    }
+  ],
+  "supplierOptions": [
+    {
+      "displayName": "Cow Feed",
+      "id": "2"
+    }
+  ],
+  "expirationTermOptions": [
+    {
+      "value": "OnADayOfTheMonth",
+      "name": "On a day of the month"
+    },
+    {
+      "value": "InAGivenNumberOfDays",
+      "name": "In a given no. of days"
+    },
+    {
+      "value": "DayOfMonthAfterEOM",
+      "name": "Day of month after EOM"
+    },
+    {
+      "value": "NumberOfDaysAfterEOM",
+      "name": "No. of days after EOM"
+    },
+    {
+      "value": "Prepaid",
+      "name": "Prepaid"
+    },
+    {
+      "value": "CashOnDelivery",
+      "name": "C.O.D."
+    }
+  ],
+  "newLine": {
+    "id": "",
+    "units": "",
+    "itemId": "",
+    "description": "",
+    "unitPrice": "",
+    "discount": "",
+    "amount": "",
+    "taxCodeId": "",
+    "displayAmount": "",
+    "displayDiscount": ""
+  },
+  "totals": {
+    "subTotal": "$0.00",
+    "totalTax": "$0.00",
+    "totalAmount": "$0.00",
+    "amountDue": "$0.00"
+  }
+}

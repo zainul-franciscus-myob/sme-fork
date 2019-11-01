@@ -11,13 +11,10 @@ import {
   SORT_AND_FILTER_BILL_LIST,
   UPDATE_FILTER_OPTIONS,
 } from '../BillIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
-  SUCCESSFULLY_DELETED_BILL_ITEM,
-  SUCCESSFULLY_DELETED_BILL_SERVICE,
-  SUCCESSFULLY_SAVED_BILL_ITEM,
-  SUCCESSFULLY_SAVED_BILL_SERVICE,
-} from '../billDetail/billMessageTypes';
+  RESET_STATE, SET_INITIAL_STATE,
+} from '../../SystemIntents';
+import { SUCCESSFULLY_DELETED_BILL, SUCCESSFULLY_SAVED_BILL } from '../billDetail/types/BillMessageTypes';
 import {
   flipSortOrder,
   getAppliedFilterOptions,
@@ -34,10 +31,8 @@ import Store from '../../store/Store';
 import billListReducer from './billListReducer';
 
 const messageTypes = [
-  SUCCESSFULLY_SAVED_BILL_SERVICE,
-  SUCCESSFULLY_DELETED_BILL_SERVICE,
-  SUCCESSFULLY_DELETED_BILL_ITEM,
-  SUCCESSFULLY_SAVED_BILL_ITEM,
+  SUCCESSFULLY_DELETED_BILL,
+  SUCCESSFULLY_SAVED_BILL,
 ];
 
 export default class BillListModule {

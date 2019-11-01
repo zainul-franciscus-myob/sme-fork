@@ -3,8 +3,8 @@ import {
   getInvoiceItemCalculateLineChangePayload,
   getInvoiceItemCalculateTaxCodeChangePayload,
   getInvoiceItemCalculateTaxInclusiveChangePayload,
+  getIsAnAmountLineInput,
 } from '../itemLayoutSelectors';
-import { getIsAnAmountInput } from '../../../../bill/billDetail/billItem/billItemSelectors';
 
 describe('itemLayoutSelectors', () => {
   describe('getIsAnAmountLineInput', () => {
@@ -21,7 +21,7 @@ describe('itemLayoutSelectors', () => {
       ['displayAmount', false],
       ['accountId', false],
     ])('when key is %s, should return %s', (key, expected) => {
-      const actual = getIsAnAmountInput(key);
+      const actual = getIsAnAmountLineInput(key);
 
       expect(actual).toEqual(expected);
     });
