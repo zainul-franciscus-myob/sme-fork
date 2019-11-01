@@ -15,7 +15,7 @@
   width: 100%;
   height: 100vh;
   background-color: var(--flx-background-color-modal-backdrop);
-  z-index: 1;
+  z-index: 200; /* To be larger than .collapsible__header z-index which is 101 */
 }
 
 .imageViewer__close {
