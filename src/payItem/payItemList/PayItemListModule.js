@@ -2,16 +2,10 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  CLOSE_MODAL,
-  OPEN_MODAL,
-  SET_ALERT,
   SET_DEDUCTIONS_SORT_ORDER,
   SET_EXPENSES_SORT_ORDER,
   SET_LEAVE_SORT_ORDER,
-  SET_SUBMITTING_STATE,
   SET_SUPERANNUATION_SORT_ORDER,
-  SET_TAB,
-  SET_TABLE_LOADING_STATE,
   SET_WAGES_SORT_ORDER,
   SORT_DEDUCTIONS_LIST,
   SORT_EXPENSES_LIST,
@@ -19,12 +13,7 @@ import {
   SORT_SUPERANNUATION_LIST,
   SORT_WAGES_LIST,
   UPDATE_TAX_PAY_ITEM,
-  UPDATE_TAX_PAY_ITEM_DETAIL,
 } from '../PayItemIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_EXPENSE_PAY_ITEM,
   SUCCESSFULLY_SAVED_EXPENSE_PAY_ITEM,
@@ -63,6 +52,7 @@ import { tabIds } from './tabItems';
 import ModalType from './ModalType';
 import PayItemListView from './components/PayItemListView';
 import Store from '../../store/Store';
+import createPayItemListDispatcher from './createPayItemListDispatcher';
 import payItemListReducer from './payItemListReducer';
 
 const messageTypes = [
@@ -88,6 +78,7 @@ export default class PayItemListModule {
     this.replaceURLParams = replaceURLParams;
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
+    this.dispatcher = createPayItemListDispatcher(this.store);
   }
 
   readMessages = () => {
@@ -105,10 +96,9 @@ export default class PayItemListModule {
     }
   }
 
-  setTab = selectedTab => this.store.dispatch({
-    intent: SET_TAB,
-    selectedTab,
-  })
+  setTab = (selectedTab) => {
+    this.dispatcher.setTab(selectedTab);
+  }
 
   setTabAndLoadContent = (selectedTab) => {
     const state = this.store.getState();
@@ -122,44 +112,24 @@ export default class PayItemListModule {
   }
 
   setAlert = ({ message, type }) => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: {
-        message,
-        type,
-      },
-    });
+    this.dispatcher.setAlert({ message, type });
   }
 
   dismissAlert = () => {
-    this.store.dispatch({
-      intent: SET_ALERT,
-      alert: undefined,
-    });
+    this.dispatcher.dismissAlert();
   }
 
   setTableLoadingState = (isTableLoading) => {
-    const intent = SET_TABLE_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isTableLoading,
-    });
+    this.dispatcher.setTableLoadingState(isTableLoading);
   }
 
   setSubmittingState = (isSubmitting) => {
-    const intent = SET_SUBMITTING_STATE;
-    this.store.dispatch({
-      intent,
-      isSubmitting,
-    });
-  }
+    this.dispatcher.setSubmittingState(isSubmitting);
+  };
 
-  setSortOrder = (intent, orderBy, sortOrder) => this.store.dispatch({
-    intent,
-    orderBy,
-    sortOrder,
-  })
+  setSortOrder = (intent, orderBy, sortOrder) => {
+    this.dispatcher.setSortOrder(intent, orderBy, sortOrder);
+  };
 
   loadTabContentList = () => {
     const state = this.store.getState();
@@ -169,10 +139,7 @@ export default class PayItemListModule {
 
     const onSuccess = (payload) => {
       this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...payload,
-      });
+      this.dispatcher.loadTabContentList(payload, intent);
     };
 
     const onFailure = (error) => {
@@ -202,11 +169,7 @@ export default class PayItemListModule {
 
     const onSuccess = (payload) => {
       this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...payload,
-        isSort: true,
-      });
+      this.dispatcher.sortList(payload, intent);
     };
 
     const onFailure = (error) => {
@@ -322,11 +285,9 @@ export default class PayItemListModule {
     });
   }
 
-  updateTaxPayItemDetail = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_TAX_PAY_ITEM_DETAIL,
-    key,
-    value,
-  })
+  updateTaxPayItemDetail = ({ key, value }) => {
+    this.dispatcher.updateTaxPayItemDetail({ key, value });
+  }
 
   redirectToCreatePayItem = () => {
     const state = this.store.getState();
@@ -378,26 +339,12 @@ export default class PayItemListModule {
     this.store.unsubscribeAll();
   }
 
-  setInitialState = (context) => {
-    const intent = SET_INITIAL_STATE;
-    this.store.dispatch({
-      intent,
-      context,
-    });
-  }
-
   redirectToUrl = (url) => {
     window.location.href = url;
   }
 
   openModal= ({ type, url }) => {
-    this.store.dispatch({
-      intent: OPEN_MODAL,
-      modal: {
-        type,
-        url,
-      },
-    });
+    this.dispatcher.openModal({ type, url });
   }
 
   openUnsavedModal = (url) => {
@@ -405,9 +352,7 @@ export default class PayItemListModule {
   }
 
   dismissModal = () => {
-    this.store.dispatch({
-      intent: CLOSE_MODAL,
-    });
+    this.dispatcher.closeModal();
   }
 
   redirectToModalUrl = () => {
@@ -419,7 +364,7 @@ export default class PayItemListModule {
   updateURLFromState = state => this.replaceURLParams(getUrlTabParams(state))
 
   run(context) {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     this.store.subscribe(this.updateURLFromState);
     this.render();
     this.readMessages();
@@ -427,10 +372,7 @@ export default class PayItemListModule {
   }
 
   resetState = () => {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
+    this.dispatcher.resetState();
   }
 
   handlePageTransition = (url) => {
