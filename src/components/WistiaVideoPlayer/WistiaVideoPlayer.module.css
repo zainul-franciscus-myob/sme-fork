@@ -1,0 +1,19 @@
+.wistiaVideoPlayer {
+  position: relative;
+  padding: 56.25% 0 0 0;
+  margin: 16px 0;
+}
+
+.wistiaVideoPlayer__wrapper {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.wistiaVideoPlayer__embed {
+  height: 100%;
+  width: 100%;
+}

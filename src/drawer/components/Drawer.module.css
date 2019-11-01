@@ -1,0 +1,45 @@
+.drawer {
+  --drawer-width: 390px;
+  --drawer-transition-length: 500ms;
+
+  width: var(--drawer-width);
+  transition: margin-left var(--drawer-transition-length) ease, transform var(--drawer-transition-length) ease;
+  height: 100vh;
+}
+
+.drawer--close {
+  margin-left: calc(var(--drawer-width) * -1);
+}
+
+/*
+  @Feelix-Override:
+  To create square border as per design, instead of the rounded border that comes with the Aside component
+*/
+.drawer :global(.flx-aside__container) {
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+@media (max-width: 1600px) {
+  .drawer {
+    position: fixed;
+    overflow-y: auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  .drawer--close {
+    transform: translateX(calc(var(--drawer-width) * -1));
+  }
+}
+
+@media (max-width: 768px) {
+  .drawer {
+    --drawer-width: 100%;
+
+    box-shadow: none;
+  }
+
+  .drawer--close {
+    transform: translateX(-100%);
+  }
+}

@@ -18,6 +18,7 @@ import {
 import BankingMenu from './BankingMenu';
 import BusinessMenu from './BusinessMenu';
 import ContactMenu from './ContactMenu';
+import Help from './Help';
 import InTray from './InTray';
 import JournalMenu from './JournalMenu';
 import Logout from './Logout';
@@ -45,20 +46,21 @@ const getPrimary = ({
 ].filter(Boolean);
 
 const getSecondary = ({
-  onMenuSelect, onMenuLinkClick, shouldDisplayBusinessMenu,
+  onMenuSelect, onMenuLinkClick, shouldDisplayBusinessMenu, shouldDisplayHelpMenu, onHelpLinkClick,
 }) => [
   shouldDisplayBusinessMenu && <SwitchBusiness key="SwitchBusiness" />,
   shouldDisplayBusinessMenu && <BusinessMenu key="BusinessMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayHelpMenu && <Help key="Help" onMenuLinkClick={onHelpLinkClick} />,
   !shouldDisplayBusinessMenu && <Logout key="Logout" onMenuLinkClick={onMenuLinkClick} />,
 ].filter(Boolean);
 
 const NavigationBar = ({
-  onMenuSelect, onMenuLinkClick,
+  onMenuSelect, onMenuLinkClick, onHelpLinkClick,
   onSkipToMainContentClick, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
   shouldDisplayBankingMenu, shouldDisplayContactMenu,
   shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
   shouldDisplayPurchasesMenu, shouldDisplayInTray,
-  shouldDisplayReports,
+  shouldDisplayReports, shouldDisplayHelpMenu,
   menuLogoUrl,
 }) => {
   const primaryMenuItems = getPrimary({
@@ -73,7 +75,13 @@ const NavigationBar = ({
     shouldDisplayInTray,
     shouldDisplayReports,
   });
-  const secondary = getSecondary({ onMenuSelect, onMenuLinkClick, shouldDisplayBusinessMenu });
+  const secondary = getSecondary({
+    onMenuSelect,
+    onMenuLinkClick,
+    onHelpLinkClick,
+    shouldDisplayBusinessMenu,
+    shouldDisplayHelpMenu,
+  });
   const brand = (
     <>
       <div className={styles.skipNavigationContainer}>
@@ -102,6 +110,7 @@ const mapStateToProps = state => ({
   shouldDisplayPurchasesMenu: hasPurchasesUrls(state),
   shouldDisplayInTray: hasInTrayUrl(state),
   shouldDisplayReports: hasReportsUrl(state),
+  shouldDisplayHelpMenu: hasBusinessId(state),
   menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
 });
 

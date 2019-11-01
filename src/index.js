@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 
 import { initializeAuth } from './Auth';
 import Config, { initializeConfig } from './Config';
+import DrawerModule from './drawer/DrawerModule';
 import Inbox from './inbox';
 import NavigationModule from './navigation/NavigationModule';
 import Router from './router/Router';
@@ -26,6 +27,12 @@ async function main(integrationType, telemetryType, leanEngageType) {
   const setNavigationView = (component) => {
     ReactDOM.unmountComponentAtNode(navNode);
     ReactDOM.render(component, navNode);
+  };
+
+  const drawerNode = document.getElementById('drawer');
+  const setDrawerView = (component) => {
+    ReactDOM.unmountComponentAtNode(drawerNode);
+    ReactDOM.render(component, drawerNode);
   };
 
   const router = new Router({
@@ -50,12 +57,18 @@ async function main(integrationType, telemetryType, leanEngageType) {
 
   const { constructPath, replaceURLParamsAndReload } = router;
 
+  const drawer = new DrawerModule({
+    integration,
+    setDrawerView,
+  });
+
   const nav = new NavigationModule({
     integration,
     setNavigationView,
     constructPath,
     replaceURLParamsAndReload,
     mainContentElement: root,
+    toggleHelp: drawer.toggleDrawer,
   });
 
   const unsubscribeAllModulesFromStore = () => {
@@ -73,7 +86,12 @@ async function main(integrationType, telemetryType, leanEngageType) {
     unbindAllKeys();
     unsubscribeAllModulesFromStore();
     module.resetState();
-    nav.run({ ...routeProps, onPageTransition: module.handlePageTransition });
+    drawer.run(routeProps);
+    nav.run({
+      ...routeProps,
+      onPageTransition: module.handlePageTransition,
+      toggleHelp: drawer.toggleDrawer,
+    });
     telemetry(routeProps);
     startLeanEngage(routeProps);
   };

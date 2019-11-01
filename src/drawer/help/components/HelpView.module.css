@@ -1,0 +1,18 @@
+.asideHeader {
+  position: relative;
+}
+
+/*
+  @Feelix-Override:
+    The Aside component has the title showed on the left side by default.
+    We need to move it to the center per design requirement.
+    This comment applies to both `flx-aside__header-row` and `flx-aside__close`
+*/
+.asideHeader :global(.flx-aside__header-row) {
+  justify-content: center;
+}
+
+.asideHeader :global(.flx-aside__close) {
+  position: absolute;
+  right: 0;
+}

@@ -11,7 +11,12 @@ import navReducer from './navReducer';
 
 export default class NavigationModule {
   constructor({
-    integration, setNavigationView, constructPath, replaceURLParamsAndReload, mainContentElement,
+    integration,
+    setNavigationView,
+    constructPath,
+    replaceURLParamsAndReload,
+    mainContentElement,
+    toggleHelp,
   }) {
     this.integration = integration;
     this.setNavigationView = setNavigationView;
@@ -20,6 +25,7 @@ export default class NavigationModule {
     this.replaceURLParamsAndReload = replaceURLParamsAndReload;
     this.mainContentElement = mainContentElement;
     this.onPageTransition = undefined;
+    this.toggleHelp = toggleHelp;
     this.reportsBaseUrl = Config.MY_REPORTS_URL;
   }
 
@@ -107,6 +113,7 @@ export default class NavigationModule {
         onSkipToMainContentClick={this.moveFocusToMainContent}
         onMenuSelect={this.redirectToPage}
         onMenuLinkClick={this.onPageTransition}
+        onHelpLinkClick={this.toggleHelp}
       />
     );
 
@@ -123,7 +130,9 @@ export default class NavigationModule {
     this.onPageTransition = onPageTransition;
   }
 
-  run = ({ routeParams, currentRouteName, onPageTransition }) => {
+  run = ({
+    routeParams, currentRouteName, onPageTransition,
+  }) => {
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     this.getBusinessInfo({ currentRouteName });
     this.setOnPageTransition(onPageTransition);

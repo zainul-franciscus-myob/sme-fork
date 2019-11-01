@@ -1,0 +1,11 @@
+.question {
+  font-weight: var(--flx-font-weight-bold);
+}
+
+/*
+  @Feelix-Override:
+    To remove lines between rows in the Accordion Table, as per design
+*/
+.quickAnswersWrapper :global(.table-data__row) {
+  box-shadow: unset;
+}

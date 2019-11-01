@@ -1,0 +1,11 @@
+.image {
+  width: 100%;
+}
+
+.imageWrapper {
+  margin: 16px 0;
+}
+
+.richText p {
+  margin-bottom: 8px;
+}

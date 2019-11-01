@@ -11,6 +11,8 @@
     ]
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "13.4.0",
+    "@contentful/rich-text-types": "13.4.0",
     "@myob/ldal": "0.2.4",
     "@myob/myob-styles": "5.8.0",
     "@myob/myob-widgets": "5.8.0",

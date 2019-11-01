@@ -1,0 +1,35 @@
+@value imageDisplayRatio: 75%; /* stylelint-disable-line */
+
+.clickableImage {
+  border: none;
+}
+
+.clickableImage img {
+  max-width: 100%;
+}
+
+.imageViewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--flx-background-color-modal-backdrop);
+  z-index: 1;
+}
+
+.imageViewer__close {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background-color: transparent;
+}
+
+.image--fixed-width {
+  width: imageDisplayRatio;
+}
+
+.image--fixed-height {
+  height: imageDisplayRatio;
+}

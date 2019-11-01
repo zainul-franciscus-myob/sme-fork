@@ -19,6 +19,7 @@ import DeductionPayItemMapping from './DeductionPayItemMapping';
 import EmployeeMapping from './EmployeeMapping';
 import ExpensePayItemMapping from './ExpensePayItemMapping';
 import GeneralJournalMapping from './GeneralJournalMapping';
+import HelpMapping from './HelpMapping';
 import InTrayMapping from './InTrayMapping';
 import IncomeAllocationMapping from './IncomeAllocationMapping';
 import InventoryMapping from './InventoryMapping';
@@ -103,6 +104,7 @@ const RootMapping = Object.freeze({
   ...AccountMapping,
   ...LinkUserMapping,
   ...DashboardMapping,
+  ...HelpMapping,
 });
 
 export default RootMapping;

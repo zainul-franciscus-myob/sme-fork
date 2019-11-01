@@ -1,0 +1,1128 @@
+{
+  "entry": {
+    "sys": {
+      "space": {
+        "sys": {
+          "type": "Link",
+          "linkType": "Space",
+          "id": "xuu1rc2scjxi"
+        }
+      },
+      "id": "2QZpwc3kDeN6jOecJoRdes",
+      "type": "Entry",
+      "createdAt": "2019-10-22T11:40:17.609Z",
+      "updatedAt": "2019-10-25T02:39:51.321Z",
+      "environment": {
+        "sys": {
+          "id": "master",
+          "type": "Link",
+          "linkType": "Environment"
+        }
+      },
+      "revision": 11,
+      "contentType": {
+        "sys": {
+          "type": "Link",
+          "linkType": "ContentType",
+          "id": "helpConcept"
+        }
+      },
+      "locale": "en-NZ"
+    },
+    "fields": {
+      "pageId": "transactionList/transactionList",
+      "publishDate": "2019-08-01T00:00+10:00",
+      "title": "Choice Kitchen Sunk",
+      "richTextHelpConcept": {
+        "data": {},
+        "content": [
+          {
+            "data": {},
+            "content": [
+              {
+                "data": {},
+                "marks": [],
+                "value": "The Kitchen SUNK for Side-by-Side in-product help.\r",
+                "nodeType": "text"
+              }
+            ],
+            "nodeType": "paragraph"
+          },
+          {
+            "data": {},
+            "content": [
+              {
+                "data": {},
+                "marks": [],
+                "value": "Here is an image:",
+                "nodeType": "text"
+              }
+            ],
+            "nodeType": "paragraph"
+          },
+          {
+            "data": {
+              "target": {
+                "sys": {
+                  "space": {
+                    "sys": {
+                      "type": "Link",
+                      "linkType": "Space",
+                      "id": "xuu1rc2scjxi"
+                    }
+                  },
+                  "id": "6Od9v3wzLOysiMum0Wkmme",
+                  "type": "Asset",
+                  "createdAt": "2019-08-30T05:07:25.321Z",
+                  "updatedAt": "2019-08-30T05:07:25.321Z",
+                  "environment": {
+                    "sys": {
+                      "id": "master",
+                      "type": "Link",
+                      "linkType": "Environment"
+                    }
+                  },
+                  "revision": 1,
+                  "locale": "en-NZ"
+                },
+                "fields": {
+                  "title": "Woman with black hat",
+                  "description": "Woman wearing a black hat",
+                  "file": {
+                    "url": "//images.ctfassets.net/xuu1rc2scjxi/6Od9v3wzLOysiMum0Wkmme/05204d4b1aa9ef09756a7b051329e5ef/cameron-kirby-88711.jpg",
+                    "details": {
+                      "size": 7316629,
+                      "image": {
+                        "width": 3000,
+                        "height": 2000
+                      }
+                    },
+                    "fileName": "cameron-kirby-88711.jpg",
+                    "contentType": "image/jpeg"
+                  }
+                }
+              }
+            },
+            "content": [],
+            "nodeType": "embedded-asset-block"
+          },
+          {
+            "data": {},
+            "content": [
+              {
+                "data": {},
+                "marks": [],
+                "value": "Here is a video: ",
+                "nodeType": "text"
+              }
+            ],
+            "nodeType": "paragraph"
+          },
+          {
+            "data": {},
+            "content": [
+              {
+                "data": {},
+                "marks": [],
+                "value": "",
+                "nodeType": "text"
+              },
+              {
+                "data": {
+                  "uri": "https://myob-tv.wistia.com/medias/o0bmi3r3ng"
+                },
+                "content": [
+                  {
+                    "data": {},
+                    "marks": [],
+                    "value": "https://myob-tv.wistia.com/medias/o0bmi3r3ng",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "hyperlink"
+              },
+              {
+                "data": {},
+                "marks": [],
+                "value": "\n",
+                "nodeType": "text"
+              }
+            ],
+            "nodeType": "paragraph"
+          },
+          {
+            "data": {},
+            "content": [
+              {
+                "data": {},
+                "marks": [],
+                "value": "Here is a normal link:",
+                "nodeType": "text"
+              }
+            ],
+            "nodeType": "paragraph"
+          },
+          {
+            "data": {},
+            "content": [
+              {
+                "data": {},
+                "marks": [],
+                "value": "",
+                "nodeType": "text"
+              },
+              {
+                "data": {
+                  "uri": "https://myob.com/"
+                },
+                "content": [
+                  {
+                    "data": {},
+                    "marks": [],
+                    "value": "https://myob.com/",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "hyperlink"
+              },
+              {
+                "data": {},
+                "marks": [],
+                "value": "",
+                "nodeType": "text"
+              }
+            ],
+            "nodeType": "paragraph"
+          }
+        ],
+        "nodeType": "document"
+      },
+      "userType": "sme",
+      "productType": "slw",
+      "userType2": [
+        "sme",
+        "advisor"
+      ],
+      "productType2": [
+        "slw",
+        "arl"
+      ]
+    }
+  },
+  "linkedEntries": [
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "xuu1rc2scjxi"
+          }
+        },
+        "id": "3v1Cgue2BkOv2TUuzytC5h",
+        "type": "Entry",
+        "createdAt": "2019-10-23T02:41:22.227Z",
+        "updatedAt": "2019-10-23T05:10:12.623Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "revision": 2,
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "quickAnswers"
+          }
+        },
+        "locale": "en-AU"
+      },
+      "fields": {
+        "question": "What's a kitchen sink?",
+        "publishDate": "2019-10-02T00:00+11:00",
+        "helpConceptReference": [
+          {
+            "sys": {
+              "space": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Space",
+                  "id": "xuu1rc2scjxi"
+                }
+              },
+              "id": "2QZpwc3kDeN6jOecJoRdes",
+              "type": "Entry",
+              "createdAt": "2019-10-22T11:40:17.609Z",
+              "updatedAt": "2019-10-25T02:39:51.321Z",
+              "environment": {
+                "sys": {
+                  "id": "master",
+                  "type": "Link",
+                  "linkType": "Environment"
+                }
+              },
+              "revision": 11,
+              "contentType": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "ContentType",
+                  "id": "helpConcept"
+                }
+              },
+              "locale": "en-AU"
+            },
+            "fields": {
+              "pageId": "transactionList/transactionList",
+              "publishDate": "2019-08-01T00:00+10:00",
+              "title": "The Kitchen Sink - Main Test (sme, slw) (au & nz) ",
+              "richTextHelpConcept": {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "The Kitchen Sink for Side-by-Side in-product help.\r",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Here is an image:",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {
+                      "target": {
+                        "sys": {
+                          "space": {
+                            "sys": {
+                              "type": "Link",
+                              "linkType": "Space",
+                              "id": "xuu1rc2scjxi"
+                            }
+                          },
+                          "id": "6Od9v3wzLOysiMum0Wkmme",
+                          "type": "Asset",
+                          "createdAt": "2019-08-30T05:07:25.321Z",
+                          "updatedAt": "2019-08-30T05:07:25.321Z",
+                          "environment": {
+                            "sys": {
+                              "id": "master",
+                              "type": "Link",
+                              "linkType": "Environment"
+                            }
+                          },
+                          "revision": 1,
+                          "locale": "en-AU"
+                        },
+                        "fields": {
+                          "title": "Woman with black hat",
+                          "description": "Woman wearing a black hat",
+                          "file": {
+                            "url": "//images.ctfassets.net/xuu1rc2scjxi/6Od9v3wzLOysiMum0Wkmme/05204d4b1aa9ef09756a7b051329e5ef/cameron-kirby-88711.jpg",
+                            "details": {
+                              "size": 7316629,
+                              "image": {
+                                "width": 3000,
+                                "height": 2000
+                              }
+                            },
+                            "fileName": "cameron-kirby-88711.jpg",
+                            "contentType": "image/jpeg"
+                          }
+                        }
+                      }
+                    },
+                    "content": [],
+                    "nodeType": "embedded-asset-block"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Here is a video: ",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "",
+                        "nodeType": "text"
+                      },
+                      {
+                        "data": {
+                          "uri": "https://myob-tv.wistia.com/medias/o0bmi3r3ng"
+                        },
+                        "content": [
+                          {
+                            "data": {},
+                            "marks": [],
+                            "value": "https://myob-tv.wistia.com/medias/o0bmi3r3ng",
+                            "nodeType": "text"
+                          }
+                        ],
+                        "nodeType": "hyperlink"
+                      },
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "\n",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Here is a normal link:",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "",
+                        "nodeType": "text"
+                      },
+                      {
+                        "data": {
+                          "uri": "https://myob.com/"
+                        },
+                        "content": [
+                          {
+                            "data": {},
+                            "marks": [],
+                            "value": "https://myob.com/",
+                            "nodeType": "text"
+                          }
+                        ],
+                        "nodeType": "hyperlink"
+                      },
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "document"
+              },
+              "userType": "sme",
+              "productType": "slw",
+              "userType2": [
+                "sme",
+                "advisor"
+              ],
+              "productType2": [
+                "slw",
+                "arl"
+              ]
+            }
+          },
+          {
+            "sys": {
+              "space": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Space",
+                  "id": "xuu1rc2scjxi"
+                }
+              },
+              "id": "6D1t2M7ruwUCdL5AgSbTtw",
+              "type": "Entry",
+              "createdAt": "2019-10-23T02:23:26.897Z",
+              "updatedAt": "2019-10-23T03:46:52.182Z",
+              "environment": {
+                "sys": {
+                  "id": "master",
+                  "type": "Link",
+                  "linkType": "Environment"
+                }
+              },
+              "revision": 4,
+              "contentType": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "ContentType",
+                  "id": "helpConcept"
+                }
+              },
+              "locale": "en-AU"
+            },
+            "fields": {
+              "pageId": "BankTransactionCoding",
+              "publishDate": "2019-08-01T00:00+10:00",
+              "title": "The Kitchen Sink (Advisors, SLW)",
+              "richTextHelpConcept": {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Ok so you're an advisor so no help for you!",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "document"
+              },
+              "userType": "advisor",
+              "productType": "slw"
+            }
+          }
+        ],
+        "richTextAnswers": {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "marks": [],
+                  "value": "It's a container where you put all your dirty dishes :D",
+                  "nodeType": "text"
+                }
+              ],
+              "nodeType": "paragraph"
+            }
+          ],
+          "nodeType": "document"
+        },
+        "userType": "advisor"
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "xuu1rc2scjxi"
+          }
+        },
+        "id": "4tCGwRTnpMEW141xrRqGur",
+        "type": "Entry",
+        "createdAt": "2019-10-23T02:42:22.173Z",
+        "updatedAt": "2019-10-23T02:42:22.174Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "revision": 1,
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "quickAnswers"
+          }
+        },
+        "locale": "en-AU"
+      },
+      "fields": {
+        "question": "Have you tried the extra shiney kitchen sink?",
+        "publishDate": "2019-10-02T00:00+11:00",
+        "helpConceptReference": [
+          {
+            "sys": {
+              "space": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Space",
+                  "id": "xuu1rc2scjxi"
+                }
+              },
+              "id": "2QZpwc3kDeN6jOecJoRdes",
+              "type": "Entry",
+              "createdAt": "2019-10-22T11:40:17.609Z",
+              "updatedAt": "2019-10-25T02:39:51.321Z",
+              "environment": {
+                "sys": {
+                  "id": "master",
+                  "type": "Link",
+                  "linkType": "Environment"
+                }
+              },
+              "revision": 11,
+              "contentType": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "ContentType",
+                  "id": "helpConcept"
+                }
+              },
+              "locale": "en-AU"
+            },
+            "fields": {
+              "pageId": "transactionList/transactionList",
+              "publishDate": "2019-08-01T00:00+10:00",
+              "title": "The Kitchen Sink - Main Test (sme, slw) (au & nz) ",
+              "richTextHelpConcept": {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "The Kitchen Sink for Side-by-Side in-product help.\r",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Here is an image:",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {
+                      "target": {
+                        "sys": {
+                          "space": {
+                            "sys": {
+                              "type": "Link",
+                              "linkType": "Space",
+                              "id": "xuu1rc2scjxi"
+                            }
+                          },
+                          "id": "6Od9v3wzLOysiMum0Wkmme",
+                          "type": "Asset",
+                          "createdAt": "2019-08-30T05:07:25.321Z",
+                          "updatedAt": "2019-08-30T05:07:25.321Z",
+                          "environment": {
+                            "sys": {
+                              "id": "master",
+                              "type": "Link",
+                              "linkType": "Environment"
+                            }
+                          },
+                          "revision": 1,
+                          "locale": "en-AU"
+                        },
+                        "fields": {
+                          "title": "Woman with black hat",
+                          "description": "Woman wearing a black hat",
+                          "file": {
+                            "url": "//images.ctfassets.net/xuu1rc2scjxi/6Od9v3wzLOysiMum0Wkmme/05204d4b1aa9ef09756a7b051329e5ef/cameron-kirby-88711.jpg",
+                            "details": {
+                              "size": 7316629,
+                              "image": {
+                                "width": 3000,
+                                "height": 2000
+                              }
+                            },
+                            "fileName": "cameron-kirby-88711.jpg",
+                            "contentType": "image/jpeg"
+                          }
+                        }
+                      }
+                    },
+                    "content": [],
+                    "nodeType": "embedded-asset-block"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Here is a video: ",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "",
+                        "nodeType": "text"
+                      },
+                      {
+                        "data": {
+                          "uri": "https://myob-tv.wistia.com/medias/o0bmi3r3ng"
+                        },
+                        "content": [
+                          {
+                            "data": {},
+                            "marks": [],
+                            "value": "https://myob-tv.wistia.com/medias/o0bmi3r3ng",
+                            "nodeType": "text"
+                          }
+                        ],
+                        "nodeType": "hyperlink"
+                      },
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "\n",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Here is a normal link:",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "",
+                        "nodeType": "text"
+                      },
+                      {
+                        "data": {
+                          "uri": "https://myob.com/"
+                        },
+                        "content": [
+                          {
+                            "data": {},
+                            "marks": [],
+                            "value": "https://myob.com/",
+                            "nodeType": "text"
+                          }
+                        ],
+                        "nodeType": "hyperlink"
+                      },
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "document"
+              },
+              "userType": "sme",
+              "productType": "slw",
+              "userType2": [
+                "sme",
+                "advisor"
+              ],
+              "productType2": [
+                "slw",
+                "arl"
+              ]
+            }
+          }
+        ],
+        "richTextAnswers": {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "marks": [],
+                  "value": "Yes, it's a sink!",
+                  "nodeType": "text"
+                }
+              ],
+              "nodeType": "paragraph"
+            }
+          ],
+          "nodeType": "document"
+        },
+        "userType": "advisor"
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "xuu1rc2scjxi"
+          }
+        },
+        "id": "6AyYrMNkUgrGKQM7c1lFVg",
+        "type": "Entry",
+        "createdAt": "2019-10-23T02:43:11.449Z",
+        "updatedAt": "2019-10-23T02:43:11.449Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "revision": 1,
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "quickAnswers"
+          }
+        },
+        "locale": "en-AU"
+      },
+      "fields": {
+        "question": "How to install a tap into your sink",
+        "publishDate": "2019-10-02T00:00+11:00",
+        "helpConceptReference": [
+          {
+            "sys": {
+              "space": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "Space",
+                  "id": "xuu1rc2scjxi"
+                }
+              },
+              "id": "2QZpwc3kDeN6jOecJoRdes",
+              "type": "Entry",
+              "createdAt": "2019-10-22T11:40:17.609Z",
+              "updatedAt": "2019-10-25T02:39:51.321Z",
+              "environment": {
+                "sys": {
+                  "id": "master",
+                  "type": "Link",
+                  "linkType": "Environment"
+                }
+              },
+              "revision": 11,
+              "contentType": {
+                "sys": {
+                  "type": "Link",
+                  "linkType": "ContentType",
+                  "id": "helpConcept"
+                }
+              },
+              "locale": "en-AU"
+            },
+            "fields": {
+              "pageId": "transactionList/transactionList",
+              "publishDate": "2019-08-01T00:00+10:00",
+              "title": "The Kitchen Sink - Main Test (sme, slw) (au & nz) ",
+              "richTextHelpConcept": {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "The Kitchen Sink for Side-by-Side in-product help.\r",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Here is an image:",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {
+                      "target": {
+                        "sys": {
+                          "space": {
+                            "sys": {
+                              "type": "Link",
+                              "linkType": "Space",
+                              "id": "xuu1rc2scjxi"
+                            }
+                          },
+                          "id": "6Od9v3wzLOysiMum0Wkmme",
+                          "type": "Asset",
+                          "createdAt": "2019-08-30T05:07:25.321Z",
+                          "updatedAt": "2019-08-30T05:07:25.321Z",
+                          "environment": {
+                            "sys": {
+                              "id": "master",
+                              "type": "Link",
+                              "linkType": "Environment"
+                            }
+                          },
+                          "revision": 1,
+                          "locale": "en-AU"
+                        },
+                        "fields": {
+                          "title": "Woman with black hat",
+                          "description": "Woman wearing a black hat",
+                          "file": {
+                            "url": "//images.ctfassets.net/xuu1rc2scjxi/6Od9v3wzLOysiMum0Wkmme/05204d4b1aa9ef09756a7b051329e5ef/cameron-kirby-88711.jpg",
+                            "details": {
+                              "size": 7316629,
+                              "image": {
+                                "width": 3000,
+                                "height": 2000
+                              }
+                            },
+                            "fileName": "cameron-kirby-88711.jpg",
+                            "contentType": "image/jpeg"
+                          }
+                        }
+                      }
+                    },
+                    "content": [],
+                    "nodeType": "embedded-asset-block"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Here is a video: ",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "",
+                        "nodeType": "text"
+                      },
+                      {
+                        "data": {
+                          "uri": "https://myob-tv.wistia.com/medias/o0bmi3r3ng"
+                        },
+                        "content": [
+                          {
+                            "data": {},
+                            "marks": [],
+                            "value": "https://myob-tv.wistia.com/medias/o0bmi3r3ng",
+                            "nodeType": "text"
+                          }
+                        ],
+                        "nodeType": "hyperlink"
+                      },
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "\n",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Here is a normal link:",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  },
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "",
+                        "nodeType": "text"
+                      },
+                      {
+                        "data": {
+                          "uri": "https://myob.com/"
+                        },
+                        "content": [
+                          {
+                            "data": {},
+                            "marks": [],
+                            "value": "https://myob.com/",
+                            "nodeType": "text"
+                          }
+                        ],
+                        "nodeType": "hyperlink"
+                      },
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "document"
+              },
+              "userType": "sme",
+              "productType": "slw",
+              "userType2": [
+                "sme",
+                "advisor"
+              ],
+              "productType2": [
+                "slw",
+                "arl"
+              ]
+            }
+          }
+        ],
+        "richTextAnswers": {
+          "data": {},
+          "content": [
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "marks": [],
+                          "value": "Buy tap",
+                          "nodeType": "text"
+                        }
+                      ],
+                      "nodeType": "paragraph"
+                    }
+                  ],
+                  "nodeType": "list-item"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "marks": [],
+                          "value": "Install it",
+                          "nodeType": "text"
+                        }
+                      ],
+                      "nodeType": "paragraph"
+                    }
+                  ],
+                  "nodeType": "list-item"
+                },
+                {
+                  "data": {},
+                  "content": [
+                    {
+                      "data": {},
+                      "content": [
+                        {
+                          "data": {},
+                          "marks": [],
+                          "value": "Celebrate with refreshing water from tap",
+                          "nodeType": "text"
+                        }
+                      ],
+                      "nodeType": "paragraph"
+                    }
+                  ],
+                  "nodeType": "list-item"
+                }
+              ],
+              "nodeType": "ordered-list"
+            },
+            {
+              "data": {},
+              "content": [
+                {
+                  "data": {},
+                  "marks": [],
+                  "value": "",
+                  "nodeType": "text"
+                }
+              ],
+              "nodeType": "paragraph"
+            }
+          ],
+          "nodeType": "document"
+        },
+        "userType": "advisor"
+      }
+    }
+  ]
+}
