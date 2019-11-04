@@ -37,3 +37,11 @@ export const getRecordPaymentUrl = createSelector(
   getRegion,
   (businessId, region) => `/#/${region}/${businessId}/billPayment/new`,
 );
+
+export const getReadBillWithExportPdfModalUrl = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const billId = getBillId(state);
+
+  return `/#/${region}/${businessId}/bill/${billId}?openExportPdf=true`;
+};

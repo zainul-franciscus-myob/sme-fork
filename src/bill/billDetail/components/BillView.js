@@ -31,6 +31,7 @@ const BillView = ({
   onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
+  onExportPdfButtonClick,
   onModalClose,
   onCancelModalConfirm,
   onDeleteModalConfirm,
@@ -46,6 +47,7 @@ const BillView = ({
   onAddItemRow,
   onItemRowChange,
   onRemoveItemRow,
+  exportPdfModalListeners,
 }) => {
   const table = {
     item: (
@@ -88,6 +90,7 @@ const BillView = ({
           onConfirmSaveAndDuplicateButtonClick={
             onConfirmSaveAndDuplicateButtonClick
           }
+          exportPdfModalListeners={exportPdfModalListeners}
         />
       )}
 
@@ -104,6 +107,7 @@ const BillView = ({
         onSaveAndButtonClick={onSaveAndButtonClick}
         onCancelButtonClick={onCancelButtonClick}
         onDeleteButtonClick={onDeleteButtonClick}
+        onExportPdfButtonClick={onExportPdfButtonClick}
       />
     </BaseTemplate>
   );

@@ -1,5 +1,5 @@
 import {
-  Button, ButtonRow, Dropdown, Icons,
+  Button, ButtonRow, Dropdown, Icons, Separator,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -14,7 +14,22 @@ const BillActions = ({
   onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
+  onExportPdfButtonClick,
 }) => {
+  const exportPdfButton = (
+    <Button
+      key="exportPdf"
+      name="exportPdf"
+      type="secondary"
+      onClick={onExportPdfButtonClick}
+      disabled={isBlocking}
+    >
+      Export PDF
+    </Button>
+  );
+
+  const separator = (<Separator key="separator" direction="vertical" />);
+
   const dropdownActionItems = [
     <Dropdown.Item
       key={SaveActionType.SAVE_AND_CREATE_NEW}
@@ -81,6 +96,8 @@ const BillActions = ({
   return (
     <ButtonRow
       primary={[
+        exportPdfButton,
+        separator,
         cancelButton,
         saveAndButton,
         saveButton,

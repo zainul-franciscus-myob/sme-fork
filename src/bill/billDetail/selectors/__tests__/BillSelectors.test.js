@@ -1,10 +1,12 @@
 import {
   getBillLine,
   getIsNewLine,
+  getLoadBillModalType,
   getNewLineIndex,
   getPageTitle,
   getTableData,
 } from '../billSelectors';
+import ModalType from '../../types/ModalType';
 
 describe('BillSelectors', () => {
   describe('getNewLineIndex', () => {
@@ -192,5 +194,23 @@ describe('BillSelectors', () => {
         },
       );
     });
+  });
+
+  describe('getLoadBillModalType', () => {
+    it.each([
+      [ModalType.None, false, undefined],
+      [ModalType.ExportPdf, false, 'true'],
+      [ModalType.None, true, undefined],
+      [ModalType.None, true, 'true'],
+    ], ('should return modal type %s', (expected, isCreating, openExportPdf) => {
+      const customState = {
+        billId: isCreating ? 'new' : '1',
+        openExportPdf,
+      };
+
+      const actual = getLoadBillModalType(customState);
+
+      expect(actual).toEqual(expected);
+    }));
   });
 });

@@ -1,5 +1,6 @@
 import {
   DELETE_BILL,
+  EXPORT_BILL_PDF,
   ITEM_CALCULATE_REMOVE_LINE,
   ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE,
   ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
@@ -25,6 +26,7 @@ import {
   getServiceCalculateContent,
   getServiceCalculateUrlParams,
 } from './selectors/BillIntegratorSelectors';
+import { getExportPdfQueryParams, getExportPdfUrlParams } from './selectors/exportPdfSelectors';
 
 const createBillIntegrator = (store, integration) => ({
   loadBill: ({ onSuccess, onFailure }) => {
@@ -176,6 +178,18 @@ const createBillIntegrator = (store, integration) => ({
       urlParams,
       onSuccess,
       onFailure,
+    });
+  },
+
+  exportPdf: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = EXPORT_BILL_PDF;
+    const urlParams = getExportPdfUrlParams(state);
+    const params = getExportPdfQueryParams(state);
+
+    integration.readFile({
+      intent, urlParams, params, onSuccess, onFailure,
     });
   },
 });

@@ -4,6 +4,7 @@ import React from 'react';
 import { getModalType } from '../selectors/billSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
+import ExportPdfModal from './ExportPdfModal';
 import ModalType from '../types/ModalType';
 import SaveAndCreateNewModal from './SaveAndCreateNewModal';
 import SaveAndDuplicateModal from './SaveAndDuplicateModal';
@@ -15,6 +16,7 @@ const BillModal = ({
   onDeleteModalConfirm,
   onConfirmSaveAndDuplicateButtonClick,
   onConfirmSaveAndCreateNewButtonClick,
+  exportPdfModalListeners,
 }) => ({
   [ModalType.CancelModal]: (<CancelModal
     onConfirm={onCancelModalConfirm}
@@ -36,7 +38,7 @@ const BillModal = ({
     onConfirmSaveAndDuplicateButtonClick={onConfirmSaveAndDuplicateButtonClick}
     onCancel={onModalClose}
   />),
-
+  [ModalType.ExportPdf]: (<ExportPdfModal listeners={exportPdfModalListeners} />),
 }[modalType]);
 
 const mapStateToProps = state => ({

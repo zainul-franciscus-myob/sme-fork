@@ -3,4 +3,6 @@ export default {
   DeleteModal: 'delete',
   SaveAndCreateNew: 'saveAndCreateNew',
   SaveAndDuplicate: 'saveAndDuplicate',
+  ExportPdf: 'exportPdf',
+  None: '',
 };

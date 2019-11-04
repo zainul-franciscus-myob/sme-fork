@@ -6,6 +6,7 @@ import {
   getCreateNewBillUrl,
   getDuplicateBillUrl,
   getFinalRedirectUrl,
+  getReadBillWithExportPdfModalUrl,
 } from './selectors/BillRedirectSelectors';
 import {
   getIsCreating,
@@ -15,6 +16,7 @@ import {
   getIsPageEdited,
   getLayout,
   getNewLineIndex,
+  getRouteUrlParams,
 } from './selectors/billSelectors';
 import {
   getIsLineAccountIdKey,
@@ -22,6 +24,7 @@ import {
   getIsLineItemIdKey,
   getIsLineTaxCodeIdKey,
 } from './selectors/BillModuleSelectors';
+import { getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import BillView from './components/BillView';
 import LayoutType from './types/LayoutType';
 import ModalType from './types/ModalType';
@@ -35,12 +38,13 @@ import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 class BillModule {
   constructor({
-    integration, setRootView, pushMessage, reload, popMessages,
+    integration, setRootView, pushMessage, reload, popMessages, replaceURLParams,
   }) {
     this.reload = reload;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
+    this.replaceURLParams = replaceURLParams;
     this.store = new Store(billReducer);
     this.dispatcher = createBillDispatcher(this.store);
     this.integrator = createBillIntegrator(this.store, integration);
@@ -169,6 +173,31 @@ class BillModule {
 
     this.saveBillAnd({ onSuccess });
   };
+
+  saveAndExportPdf = () => {
+    const redirectToReadBillWithExportModal = () => {
+      const state = this.store.getState();
+      const url = getReadBillWithExportPdfModalUrl(state);
+      window.location.href = url;
+    };
+
+    const onSuccess = ({ message, id }) => {
+      const state = this.store.getState();
+      const isCreating = getIsCreating(state);
+      if (isCreating) {
+        this.dispatcher.updateBillId(id);
+      }
+
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_BILL,
+        content: message,
+      });
+
+      redirectToReadBillWithExportModal();
+    };
+
+    this.saveBillAnd({ onSuccess });
+  }
 
   deleteBill = () => {
     this.dispatcher.closeModal();
@@ -466,6 +495,35 @@ class BillModule {
     this.integrator.loadSupplierAddress({ onSuccess, onFailure });
   }
 
+  exportPdf = () => {
+    const onSuccess = (data) => {
+      this.closeModal();
+      window.open(URL.createObjectURL(data), '_blank');
+    };
+
+    const onFailure = () => {
+      this.dispatcher.openDangerAlert({ message: 'Failed to export PDF' });
+      this.closeModal();
+    };
+
+    this.integrator.exportPdf({ onSuccess, onFailure });
+  }
+
+  openExportPdfModalOrSaveAndExportPdf = () => {
+    const state = this.store.getState();
+    const shouldSaveAndExport = getShouldSaveAndExportPdf(state);
+    if (shouldSaveAndExport) {
+      this.saveAndExportPdf();
+    } else {
+      this.dispatcher.openModal({ modalType: ModalType.ExportPdf });
+    }
+  }
+
+  updateUrlFromState = (state) => {
+    const params = getRouteUrlParams(state);
+    this.replaceURLParams(params);
+  }
+
   readMessages = () => {
     const messageTypes = [SUCCESSFULLY_SAVED_BILL];
     const [successMessage] = this.popMessages(messageTypes);
@@ -478,7 +536,6 @@ class BillModule {
     }
   };
 
-
   render = () => {
     const view = (
       <Provider store={this.store}>
@@ -487,6 +544,7 @@ class BillModule {
           onSaveAndButtonClick={this.openSaveAndModal}
           onCancelButtonClick={this.openCancelModal}
           onDeleteButtonClick={this.openDeleteModal}
+          onExportPdfButtonClick={this.openExportPdfModalOrSaveAndExportPdf}
           onModalClose={this.closeModal}
           onCancelModalConfirm={this.cancelBill}
           onDeleteModalConfirm={this.deleteBill}
@@ -502,6 +560,11 @@ class BillModule {
           onAddItemRow={this.addBillItemLine}
           onItemRowChange={this.updateBillItemLine}
           onRemoveItemRow={this.removeBillItemLine}
+          exportPdfModalListeners={{
+            onCancel: this.closeModal,
+            onConfirm: this.exportPdf,
+            onChange: this.dispatcher.updateExportPdfDetail,
+          }}
         />
       </Provider>
     );
@@ -525,6 +588,7 @@ class BillModule {
     });
     this.render();
     this.readMessages();
+    this.store.subscribe(this.updateUrlFromState);
     this.loadBill();
   }
 }

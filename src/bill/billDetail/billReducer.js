@@ -23,8 +23,10 @@ import {
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
   UPDATE_BILL_SERVICE_LINE,
+  UPDATE_EXPORT_PDF_DETAIL,
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import { getLoadBillModalType } from './selectors/billSelectors';
 import createReducer from '../../store/createReducer';
 import formatAmount from '../../valueFormatters/formatAmount';
 import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
@@ -34,6 +36,7 @@ const getDefaultState = () => ({
   businessId: '',
   billId: '',
   duplicatedBillId: '',
+  openExportPdf: undefined,
   region: '',
   layout: '',
   bill: {
@@ -87,10 +90,18 @@ const getDefaultState = () => ({
   inTrayDocumentId: '',
   inTrayPrefillDetails: undefined,
   inTrayDocument: undefined,
+  exportPdf: {
+    templateOptions: [],
+    template: '',
+  },
 });
 
 const loadBill = (state, action) => {
+  const defaultState = getDefaultState();
+
   const isCreating = state.billId === 'new';
+
+  const modalType = getLoadBillModalType(state);
 
   return ({
     ...state,
@@ -101,6 +112,12 @@ const loadBill = (state, action) => {
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
     },
+    exportPdf: {
+      ...state.exportPdf,
+      ...action.response.exportPdf,
+    },
+    openExportPdf: defaultState.openExportPdf,
+    modalType,
   });
 };
 
@@ -355,6 +372,14 @@ const updateBillId = (state, action) => ({
   billId: action.id,
 });
 
+const updateExportPdfDetail = (state, { value }) => ({
+  ...state,
+  exportPdf: {
+    ...state.exportPdf,
+    template: value,
+  },
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -382,6 +407,7 @@ const handlers = {
   [PREFILL_NEW_BILL_FROM_IN_TRAY]: prefillNewBillFromInTray,
   [RESET_TOTALS]: resetTotals,
   [UPDATE_BILL_ID]: updateBillId,
+  [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

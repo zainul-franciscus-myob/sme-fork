@@ -34,3 +34,6 @@ export const ITEM_CALCULATE_REMOVE_LINE = Symbol('Item calculate remove line');
 export const ITEM_CALCULATE_UPDATE_LINE_TAX_CODE = Symbol('Item calculate update line tax code');
 export const ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE = Symbol('Item calculate update is tax inclusive');
 export const ITEM_CALCULATE_UPDATE_LINE_AMOUNT = Symbol('Item calculate update line amount');
+
+export const EXPORT_BILL_PDF = Symbol('Export bill pdf');
+export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');

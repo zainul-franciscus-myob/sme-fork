@@ -111,5 +111,18 @@
     "totalTax": "$4.39",
     "totalAmount": "$48.30",
     "amountDue": "$88.88"
+  },
+  "exportPdf": {
+    "template": "Template 1",
+    "templateOptions" : [
+      {
+        "name": "Template 1",
+        "label": "Template 1"
+      },
+      {
+        "name": "Template 2",
+        "label": "Template 2"
+      }
+    ]
   }
 }

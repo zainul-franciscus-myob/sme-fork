@@ -1,6 +1,7 @@
 import {
   CREATE_BILL,
   DELETE_BILL,
+  EXPORT_BILL_PDF,
   ITEM_CALCULATE_REMOVE_LINE,
   ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE,
   ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
@@ -71,6 +72,10 @@ const BillDetailMapping = {
   [PREFILL_NEW_BILL_FROM_IN_TRAY]: {
     method: 'GET',
     getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/prefill_new_bill_from_in_tray/${inTrayDocumentId}`,
+  },
+  [EXPORT_BILL_PDF]: {
+    method: 'GET',
+    getPath: ({ businessId, billId }) => `/${businessId}/bill/export_bill_pdf/${billId}`,
   },
 };
 

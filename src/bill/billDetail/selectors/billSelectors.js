@@ -1,6 +1,6 @@
-
 import { createSelector } from 'reselect';
 
+import ModalType from '../types/ModalType';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 export const getBillId = state => state.billId;
@@ -8,6 +8,8 @@ export const getBillId = state => state.billId;
 export const getDuplicatedBillId = state => state.duplicatedBillId;
 
 export const getInTrayDocumentId = state => state.inTrayDocumentId;
+
+export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 
 export const getIsCreating = createSelector(
   getBillId,
@@ -153,3 +155,23 @@ export const getNewLineIndex = createSelector(
   getBillLinesLength,
   billLinesLength => billLinesLength - 1,
 );
+
+const getShouldOpenExportPdfModal = (state) => {
+  const isCreating = getIsCreating(state);
+  const openExportPdf = getOpenExportPdfQueryParam(state);
+
+  return !isCreating && openExportPdf === 'true';
+};
+
+export const getLoadBillModalType = (state) => {
+  const shouldOpenExportPdfModal = getShouldOpenExportPdfModal(state);
+  if (shouldOpenExportPdfModal) {
+    return ModalType.ExportPdf;
+  }
+
+  return ModalType.None;
+};
+
+export const getRouteUrlParams = state => ({
+  openExportPdf: getOpenExportPdfQueryParam(state),
+});

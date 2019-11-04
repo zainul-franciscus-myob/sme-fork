@@ -21,6 +21,7 @@ import {
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
   UPDATE_BILL_SERVICE_LINE,
+  UPDATE_EXPORT_PDF_DETAIL,
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -207,6 +208,12 @@ const createBillDispatcher = store => ({
     store.dispatch({
       intent: UPDATE_BILL_ID,
       id,
+    });
+  },
+
+  updateExportPdfDetail: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_EXPORT_PDF_DETAIL, key, value,
     });
   },
 });
