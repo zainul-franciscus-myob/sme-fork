@@ -125,7 +125,8 @@ export const getItemCalculateContentForUpdateLineAmount = (state, { index, key }
 export const getServiceCalculateContent = createSelector(
   getLines,
   getIsTaxInclusive,
-  (lines, isTaxInclusive) => ({ lines, isTaxInclusive }),
+  getAmountPaid,
+  (lines, isTaxInclusive, amountPaid) => ({ lines, isTaxInclusive, amountPaid }),
 );
 
 export const getSaveBillContent = createSelector(
