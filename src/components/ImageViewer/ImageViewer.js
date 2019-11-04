@@ -17,11 +17,6 @@ const ImageViewer = ({ mediaSrc, title, className }) => {
   const closeViewer = () => setOpenInViewer(false);
   const openViewer = () => setOpenInViewer(true);
 
-  const imageViewerCloseRef = useCallback((node) => {
-    if (node === null) return;
-    node.focus();
-  }, []);
-
   const closeImageViewer = (event) => {
     event.preventDefault(); // disable tab on the help view while image viewer is open
     if (event.key === 'Escape' || event.code === 'Escape') {
@@ -29,6 +24,16 @@ const ImageViewer = ({ mediaSrc, title, className }) => {
       setOpenInViewer(false);
     }
   };
+
+  const imageViewerCloseRef = useCallback((node) => {
+    if (node === null) return;
+    node.focus();
+    // Hotkeys-js is using native dom event to bind keypress event.
+    // If we use React Synthetic event here, it would be called
+    // after the global native keypress handler get called
+    // TODO: refactor the following line after we have a better way to handle global keypress event
+    node.addEventListener('keydown', closeImageViewer);
+  }, []);
 
   const imageRef = useCallback((node) => {
     if (node === null) return;
@@ -50,7 +55,6 @@ const ImageViewer = ({ mediaSrc, title, className }) => {
     <div role="dialog" className={styles.imageViewer}>
       <button
         ref={imageViewerCloseRef}
-        onKeyDown={closeImageViewer}
         type="button"
         className={styles.imageViewer__close}
         onClick={closeViewer}

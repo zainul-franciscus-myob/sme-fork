@@ -63,26 +63,6 @@ describe('ImageViewer', () => {
       expect(imageViewer).toHaveLength(0);
     });
 
-    it('closes viewer on pressing escape', () => {
-      act(() => {
-        ReactDOM.render(<ImageViewer mediaSrc="src" title="title" />, container);
-      });
-      const clickableImageButton = container.getElementsByClassName(
-        clickableImageClass,
-      )[0];
-      ReactTestUtils.Simulate.click(clickableImageButton);
-
-      const imageViewerCloseButton = document.getElementsByClassName(
-        imageViewerCloseClass,
-      )[0];
-      ReactTestUtils.Simulate.keyDown(imageViewerCloseButton, {
-        key: 'Escape',
-      });
-
-      const imageViewer = document.getElementsByClassName(imageViewerClass);
-      expect(imageViewer).toHaveLength(0);
-    });
-
     it('should still focus on pressing tab', () => {
       act(() => {
         ReactDOM.render(<ImageViewer mediaSrc="src" title="title" />, container);

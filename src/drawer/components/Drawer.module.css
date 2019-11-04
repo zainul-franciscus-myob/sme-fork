@@ -12,6 +12,15 @@
 }
 
 /*
+  @Feelix-Override
+  Make aside scrollable by default. So when accordion is open, the scrollable maitain the same.
+  So won't squash the image.
+*/
+.drawer :global(.flx-aside__body) {
+  overflow-y: scroll;
+}
+
+/*
   @Feelix-Override:
   To create square border as per design, instead of the rounded border that comes with the Aside component
 */
@@ -23,7 +32,6 @@
 @media (max-width: 1600px) {
   .drawer {
     position: fixed;
-    overflow-y: auto;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   }
 
