@@ -1,4 +1,4 @@
-import { SORT_AND_FILTER_ACCOUNT_LIST } from '../AccountListIntents';
+import { SORT_AND_FILTER_ACCOUNT_LIST } from '../AccountIntents';
 import {
   getBusinessId,
   getFilterOptions,

@@ -1,0 +1,378 @@
+{
+  "accountClassifications": [
+    {
+      "displayName": "Asset",
+      "value": "Asset",
+      "accountNumberPrefix": "1-",
+      "type": [
+        { "displayName": "Bank", "value": "Bank" },
+        { "displayName": "Account receivable", "value": "AccountReceivable" },
+        { "displayName": "Other current asset", "value": "OtherCurrentAsset" },
+        { "displayName": "Fixed asset", "value": "FixedAsset" },
+        { "displayName": "Other asset", "value": "OtherAsset" }
+      ]
+    },
+    {
+      "displayName": "Liability",
+      "value": "Liability",
+      "accountNumberPrefix": "2-",
+      "type": [
+        { "displayName": "Credit card", "value": "CreditCard" },
+        { "displayName": "Accounts payable", "value": "AccountsPayable" },
+        {
+          "displayName": "Other current liability",
+          "value": "OtherCurrentLiability"
+        },
+        { "displayName": "Long term liability", "value": "LongTermLiability" },
+        { "displayName": "Other liability", "value": "OtherLiability" }
+      ]
+    },
+    { "displayName": "Equity", "accountNumberPrefix": "3-", "value": "Equity" },
+    { "displayName": "Income", "accountNumberPrefix": "4-", "value": "Income" },
+    {
+      "displayName": "Cost of sales",
+      "accountNumberPrefix": "5-",
+      "value": "CostOfSales"
+    },
+    {
+      "displayName": "Expense",
+      "accountNumberPrefix": "6-",
+      "value": "Expense"
+    },
+    {
+      "displayName": "Other income",
+      "accountNumberPrefix": "8-",
+      "value": "OtherIncome"
+    },
+    {
+      "displayName": "Other expense",
+      "accountNumberPrefix": "9-",
+      "value": "OtherExpense"
+    }
+  ],
+  "cashFlowClassifications": [
+    { "displayName": "Operating", "value": "Operating" },
+    { "displayName": "Investing", "value": "Investing" },
+    { "displayName": "Financing", "value": "Financing" }
+  ],
+  "headerAccounts": [
+    {
+      "id": "1",
+      "displayName": "Assets",
+      "accountClassification": "Asset",
+      "level": 1
+    },
+    {
+      "id": "2",
+      "displayName": "Current Assets",
+      "accountClassification": "Asset",
+      "level": 2
+    },
+    {
+      "id": "3",
+      "displayName": "Bank Accounts",
+      "accountClassification": "Asset",
+      "level": 3
+    },
+    {
+      "id": "8",
+      "displayName": "Clearing Accounts",
+      "accountClassification": "Asset",
+      "level": 3
+    },
+    {
+      "id": "12",
+      "displayName": "Other Current Assets",
+      "accountClassification": "Asset",
+      "level": 3
+    },
+    {
+      "id": "18",
+      "displayName": "Non-Current Assets",
+      "accountClassification": "Asset",
+      "level": 2
+    },
+    {
+      "id": "19",
+      "displayName": "Furniture",
+      "accountClassification": "Asset",
+      "level": 3
+    },
+    {
+      "id": "22",
+      "displayName": "Office Equipment",
+      "accountClassification": "Asset",
+      "level": 3
+    },
+    {
+      "id": "25",
+      "displayName": "Computers",
+      "accountClassification": "Asset",
+      "level": 3
+    },
+    {
+      "id": "28",
+      "displayName": "Motor Vehicles",
+      "accountClassification": "Asset",
+      "level": 3
+    },
+    {
+      "id": "31",
+      "displayName": "Low Value Pool",
+      "accountClassification": "Asset",
+      "level": 3
+    },
+    {
+      "id": "34",
+      "displayName": "Liabilities",
+      "accountClassification": "Liability",
+      "level": 1
+    },
+    {
+      "id": "35",
+      "displayName": "Current Liabilities",
+      "accountClassification": "Liability",
+      "level": 2
+    },
+    {
+      "id": "36",
+      "displayName": "Credit Cards",
+      "accountClassification": "Liability",
+      "level": 3
+    },
+    {
+      "id": "43",
+      "displayName": "GST Liabilities",
+      "accountClassification": "Liability",
+      "level": 3
+    },
+    {
+      "id": "46",
+      "displayName": "Other Tax/Withholding Liab.",
+      "accountClassification": "Liability",
+      "level": 3
+    },
+    {
+      "id": "53",
+      "displayName": "Payroll Liabilities",
+      "accountClassification": "Liability",
+      "level": 3
+    },
+    {
+      "id": "63",
+      "displayName": "Other Current Liabilities",
+      "accountClassification": "Liability",
+      "level": 3
+    },
+    {
+      "id": "68",
+      "displayName": "Non-Current Liabilities",
+      "accountClassification": "Liability",
+      "level": 2
+    },
+    {
+      "id": "71",
+      "displayName": "Equity",
+      "accountClassification": "Equity",
+      "level": 1
+    },
+    {
+      "id": "142",
+      "displayName": "Eckwiddy Hedda",
+      "accountClassification": "Equity",
+      "level": 2
+    },
+    {
+      "id": "143",
+      "displayName": "Egwadee Haedah",
+      "accountClassification": "Equity",
+      "level": 2
+    },
+    {
+      "id": "77",
+      "displayName": "Income",
+      "accountClassification": "Income",
+      "level": 1
+    },
+    {
+      "id": "81",
+      "displayName": "Cost Of Sales",
+      "accountClassification": "CostOfSales",
+      "level": 1
+    },
+    {
+      "id": "82",
+      "displayName": "Expenses",
+      "accountClassification": "Expense",
+      "level": 1
+    },
+    {
+      "id": "83",
+      "displayName": "General Expenses",
+      "accountClassification": "Expense",
+      "level": 2
+    },
+    {
+      "id": "107",
+      "displayName": "Payroll Expenses",
+      "accountClassification": "Expense",
+      "level": 2
+    },
+    {
+      "id": "117",
+      "displayName": "Depreciation Expenses",
+      "accountClassification": "Expense",
+      "level": 2
+    },
+    {
+      "id": "123",
+      "displayName": "Motor Vehicle Expenses",
+      "accountClassification": "Expense",
+      "level": 2
+    },
+    {
+      "id": "128",
+      "displayName": "Insurance Expenses",
+      "accountClassification": "Expense",
+      "level": 2
+    },
+    {
+      "id": "132",
+      "displayName": "Other Income",
+      "accountClassification": "OtherIncome",
+      "level": 1
+    },
+    {
+      "id": "135",
+      "displayName": "Other Expenses",
+      "accountClassification": "OtherExpense",
+      "level": 1
+    }
+  ],
+  "taxCodes": [
+    {
+      "id": "9",
+      "displayName": "ABN",
+      "displayRate": "-47%",
+      "description": "No ABN Withholding"
+    },
+    {
+      "id": "3",
+      "displayName": "CAP",
+      "displayRate": "10%",
+      "description": "Capital Acquisitions"
+    },
+    {
+      "id": "10",
+      "displayName": "EXP",
+      "displayRate": "0%",
+      "description": "GST Free Exports"
+    },
+    {
+      "id": "2",
+      "displayName": "FRE",
+      "displayRate": "0%",
+      "description": "GST Free"
+    },
+    {
+      "id": "6",
+      "displayName": "GNR",
+      "displayRate": "0%",
+      "description": "GST (Non-Registered)"
+    },
+    {
+      "id": "1",
+      "displayName": "GST",
+      "displayRate": "10%",
+      "description": "Goods & Services Tax"
+    },
+    {
+      "id": "14",
+      "displayName": "GW",
+      "displayRate": "0%",
+      "description": "Consolidated WEG & WET"
+    },
+    {
+      "id": "7",
+      "displayName": "INP",
+      "displayRate": "10%",
+      "description": "Input Taxed"
+    },
+    {
+      "id": "8",
+      "displayName": "ITS",
+      "displayRate": "0%",
+      "description": "Input Taxed Sales"
+    },
+    {
+      "id": "15",
+      "displayName": "LCG",
+      "displayRate": "0%",
+      "description": "Consolidated LCT & GST"
+    },
+    {
+      "id": "13",
+      "displayName": "LCT",
+      "displayRate": "33%",
+      "description": "Luxury Car Tax"
+    },
+    {
+      "id": "4",
+      "displayName": "N-T",
+      "displayRate": "0%",
+      "description": "Not Reportable"
+    },
+    {
+      "id": "5",
+      "displayName": "VWH",
+      "displayRate": "-20%",
+      "description": "Voluntary Withholdings"
+    },
+    {
+      "id": "11",
+      "displayName": "WEG",
+      "displayRate": "12.9%",
+      "description": "GST on Wine Equalisation Tax"
+    },
+    {
+      "id": "12",
+      "displayName": "WET",
+      "displayRate": "29%",
+      "description": "Wine Equalisation Tax"
+    }
+  ],
+  "isFlexAccount": false,
+  "readonly": { "linkedAccount": "", "currentBalance": "$500.00" },
+  "isHeader": false,
+  "account": {
+    "id": "142",
+    "accountClassification": "Asset",
+    "accountType": "OtherAsset",
+    "parentAccountId": "1",
+    "accountNumber": "1-3456",
+    "accountName": "Business Bank Account",
+    "openingBalance": "20.04",
+    "taxCodeId": "2",
+    "notes": "Test Bank Account desc",
+    "classification": "Operating",
+    "isActive": false,
+    "isSubtotalReportable": false,
+    "level":2,
+    "bankingDetails": {
+      "id": 72,
+      "bankCode": "COM",
+      "accountNumberAu": "123 456 7",
+      "accountNumberNz": "02-0112-0107400-00",
+      "accountNameAu": "TIM",
+      "accountNameNz": "TIM",
+      "bsb": "123456",
+      "statementParticulars": "POOP",
+      "statementCode": "123",
+      "statementReference": "TIM REF",
+      "companyTradingName": "TIM COMPANY",
+      "createABABank": true,
+      "directEntryUserId": "123456",
+      "isSelfBalancingTransaction": true
+    }
+  }
+}

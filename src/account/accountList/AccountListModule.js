@@ -3,7 +3,11 @@ import React from 'react';
 
 import { ACCOUNT_LIST_ROUTE } from '../getAccountRoutes';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getAppliedFilterOptions, getLinkedAccountUrl } from './AccountListSelectors';
+import {
+  SUCCESSFULLY_DELETED_ACCOUNT,
+  SUCCESSFULLY_SAVED_ACCOUNT,
+} from '../AccountMessageTypes';
+import { getAppliedFilterOptions, getLinkedAccountUrl, getNewAccountUrl } from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import AccountListView from './components/AccountListView';
 import Store from '../../store/Store';
@@ -11,11 +15,16 @@ import accountListReducer from './accountListReducer';
 import createAccountListDispatcher from './createAccountListDispatcher';
 import createAccountListIntegrator from './createAccountListIntegrator';
 
+const messageTypes = [
+  SUCCESSFULLY_DELETED_ACCOUNT, SUCCESSFULLY_SAVED_ACCOUNT,
+];
 export default class AccountListModule {
-  constructor({ integration, setRootView }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.integration = integration;
     this.store = new Store(accountListReducer);
     this.setRootView = setRootView;
+    this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
     this.dispatcher = createAccountListDispatcher(this.store);
     this.integrator = createAccountListIntegrator(this.store, integration);
   }
@@ -60,6 +69,10 @@ export default class AccountListModule {
     window.location.href = getLinkedAccountUrl(this.store.getState());
   }
 
+  redirectToNewAccount= () => {
+    window.location.href = getNewAccountUrl(this.store.getState());
+  }
+
   render = () => {
     const accountView = (
       <AccountListView
@@ -68,6 +81,7 @@ export default class AccountListModule {
         onApplyFilter={this.filterAccountList}
         onTabSelect={this.setTab}
         onEditLinkedAccountButtonClick={this.redirectToLinkedAccounts}
+        onCreateAccountButtonClick={this.redirectToNewAccount}
       />
     );
 
@@ -99,10 +113,26 @@ export default class AccountListModule {
     });
   }
 
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const {
+        content: message,
+      } = successMessage;
+
+      this.dispatcher.setAlert({
+        type: 'success',
+        message,
+      });
+    }
+  }
+
   run = (context) => {
     const settings = loadSettings(context.businessId, ACCOUNT_LIST_ROUTE);
     this.setInitialState(context, settings);
     this.render();
+    this.readMessages();
     this.store.subscribe(state => (
       saveSettings(context.businessId, ACCOUNT_LIST_ROUTE, getAppliedFilterOptions(state))
     ));

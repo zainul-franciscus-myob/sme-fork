@@ -25,6 +25,7 @@ const AccountListView = ({
   onApplyFilter,
   onTabSelect,
   onEditLinkedAccountButtonClick,
+  onCreateAccountButtonClick,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -35,6 +36,7 @@ const AccountListView = ({
   const pageHead = (
     <PageHead title="Accounts">
       <Button type="secondary" onClick={onEditLinkedAccountButtonClick}>Edit linked accounts</Button>
+      <Button type="primary" onClick={onCreateAccountButtonClick}>Create account</Button>
     </PageHead>
   );
 

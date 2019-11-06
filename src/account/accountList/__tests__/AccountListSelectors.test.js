@@ -10,10 +10,10 @@ describe('AccountListSelectors', () => {
 
       const expected = [
         {
-          id: 'id-1', level: 1, displayLevel: 'Level 1',
+          id: 'id-1', level: 1, displayLevel: 'Level 1', link: '/#/undefined/undefined/account/id-1',
         },
         {
-          id: 'id-2', level: 2, displayLevel: 'Level 2', indentLevel: 1,
+          id: 'id-2', level: 2, displayLevel: 'Level 2', indentLevel: 1, link: '/#/undefined/undefined/account/id-2',
         },
       ];
 

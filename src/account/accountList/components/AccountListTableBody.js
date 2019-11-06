@@ -17,7 +17,7 @@ const StatusRowItem = ({ tableConfig, isInactive }) => (
 );
 
 const AccountRowItem = ({
-  config, value, indentLevel, isSystem, isHeader,
+  config, value, indentLevel, isSystem, isHeader, title,
 }) => {
   const className = classNames({
     [styles.systemAccount]: isSystem,
@@ -28,7 +28,7 @@ const AccountRowItem = ({
 
   return !config.isHidden && (
     <Table.RowItem columnName={config.columnName} {...config.styles}>
-      <span title={value} className={className} data-indent-level={indentLevel}>{value}</span>
+      <span title={title} className={className} data-indent-level={indentLevel}>{value}</span>
     </Table.RowItem>
   );
 };
@@ -44,6 +44,7 @@ const AccountListTableBody = ({
       type,
       taxCode,
       linked,
+      link,
       displayLevel,
       balance,
       isSystem,
@@ -57,13 +58,15 @@ const AccountListTableBody = ({
         <AccountRowItem
           config={tableConfig.accountNumber}
           value={accountNumber}
+          title={accountNumber}
           indentLevel={indentLevel}
           isSystem={isSystem}
           isHeader={isHeader}
         />
         <AccountRowItem
           config={tableConfig.accountName}
-          value={accountName}
+          value={<a href={link}>{accountName}</a>}
+          title={accountName}
           isSystem={isSystem}
           isHeader={isHeader}
         />
@@ -71,16 +74,19 @@ const AccountListTableBody = ({
         <AccountRowItem
           config={tableConfig.type}
           value={type}
+          title={type}
         />
         <AccountRowItem
           config={tableConfig.taxCode}
           value={taxCode}
+          title={taxCode}
           isSystem={isSystem}
           isHeader={isHeader}
         />
         <AccountRowItem
           config={tableConfig.linked}
           value={linked}
+          title={linked}
           isSystem={isSystem}
           isHeader={isHeader}
         />

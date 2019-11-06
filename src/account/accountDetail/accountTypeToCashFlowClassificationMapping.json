@@ -1,0 +1,12 @@
+{
+  "AccountReceivable": "Operating",
+  "OtherCurrentAsset": "Operating",
+  "FixedAsset": "Investing",
+  "OtherAsset": "Operating",
+  "CreditCard": "Operating",
+  "AccountsPayable": "Operating",
+  "OtherCurrentLiability": "Operating",
+  "LongTermLiability": "Financing",
+  "OtherLiability": "Operating",
+  "Equity": "Financing"
+}

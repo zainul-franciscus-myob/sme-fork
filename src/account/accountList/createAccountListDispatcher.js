@@ -5,7 +5,7 @@ import {
   SET_ALERT,
   SET_LOADING_STATE,
   SORT_AND_FILTER_ACCOUNT_LIST,
-} from '../AccountListIntents';
+} from '../AccountIntents';
 
 const createAccountListDispatcher = store => ({
   setLoadingState: (isLoading) => {

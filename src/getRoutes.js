@@ -294,7 +294,7 @@ const getRoutes = ({
     name: 'account',
     rootPath: '/:region/:businessId/account',
     subRoutes: getAccountRoutes({
-      integration, setRootView,
+      integration, setRootView, popMessages, pushMessage,
     }),
   },
   {

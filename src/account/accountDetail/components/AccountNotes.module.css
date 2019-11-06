@@ -1,0 +1,3 @@
+.notes :global(.form-control) {
+  max-width: var(--flx-width-field-xl);
+}

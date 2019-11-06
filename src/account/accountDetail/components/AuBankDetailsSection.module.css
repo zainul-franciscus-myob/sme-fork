@@ -1,0 +1,23 @@
+.bsb {
+  max-width: var(--flx-width-field-xs);
+}
+
+.number {
+  max-width: var(--flx-width-field-s);
+}
+
+.name {
+  max-width: var(--flx-width-field-xl);
+}
+
+.companyName {
+  max-width: var(--flx-width-field-xl);
+}
+
+.code {
+  max-width: var(--flx-width-field-s);
+}
+
+.userId {
+  max-width: var(--flx-width-field-s);
+}

@@ -1,0 +1,3 @@
+.taxCode :global(.form-group__input-group) {
+  max-width: var(--flx-width-field-s);
+}
