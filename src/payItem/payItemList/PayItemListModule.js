@@ -340,7 +340,9 @@ export default class PayItemListModule {
   }
 
   redirectToUrl = (url) => {
-    window.location.href = url;
+    if (url) {
+      window.location.href = url;
+    }
   }
 
   openModal= ({ type, url }) => {
