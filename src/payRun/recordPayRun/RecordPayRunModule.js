@@ -23,7 +23,7 @@ export default class RecordPayRunModule {
     const onSuccess = () => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.dismissAlert();
-      // this.dispatcher.nextStep(); -- To be added on step 4
+      this.dispatcher.nextStep();
     };
 
     const onFailure = ({ message }) => {

@@ -1,5 +1,5 @@
 import {
-  DatePicker, FieldGroup, FormHorizontal, PageHead, Select,
+  DatePicker, FieldGroup, FormHorizontal, PageHead, Select, Stepper,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -14,6 +14,34 @@ import handleDatePickerChange from '../../../components/handlers/handleDatePicke
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 import styles from './StartPayRunView.module.css';
 
+const PayRunSteps = [
+  {
+    number: '1',
+    title: 'Select pay period',
+    type: 'incomplete',
+  },
+  {
+    number: '2',
+    title: 'Calculate pays',
+    type: 'incomplete',
+  },
+  {
+    number: '3',
+    title: 'Record and report',
+    type: 'incomplete',
+  },
+  {
+    number: '4',
+    title: 'Prepare pay slips',
+    type: 'incomplete',
+  },
+  {
+    number: '5',
+    title: 'Done!',
+    type: 'incomplete',
+  },
+];
+
 const StartPayRunView = ({
   startPayRun: {
     paymentFrequency,
@@ -27,9 +55,12 @@ const StartPayRunView = ({
 }) => (
   <div className={styles.startPayRun}>
     <PageHead title="Create pay run" />
+    <div className={styles.stepper}>
+      <Stepper activeStepNumber="1" steps={PayRunSteps} />
+    </div>
     <FormHorizontal>
       <FormCard>
-        <FieldGroup label="Select pay period">
+        <FieldGroup label="Select pay run details">
           <Select
             name="paymentFrequency"
             label="Pay cycle"

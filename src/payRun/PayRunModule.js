@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import EmployeePayListModule from './employeePayList/EmployeePayListModule';
+import PayRunDoneModule from './payRunDone/PayRunDoneModule';
 import PayRunView from './components/PayRunView';
 import RecordPayRunModule from './recordPayRun/RecordPayRunModule';
 import StartPayRunModule from './startPayRun/StartPayRunModule';
@@ -37,6 +38,10 @@ export default class PayRunModule {
         integration,
         store: this.store,
         pushMessage,
+      }),
+      payRunDoneModule: new PayRunDoneModule({
+        integration,
+        store: this.store,
       }),
     };
   }
