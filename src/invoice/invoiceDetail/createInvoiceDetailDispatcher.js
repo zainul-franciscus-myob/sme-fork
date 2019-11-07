@@ -1,4 +1,5 @@
 import {
+  ADD_EMAIL_ATTACHMENTS,
   ADD_INVOICE_ITEM_LINE,
   ADD_INVOICE_SERVICE_LINE,
   FORMAT_INVOICE_ITEM_LINE,
@@ -8,13 +9,15 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_INVOICE_DETAIL,
   LOAD_PAY_DIRECT,
+  REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_ITEM_LINE,
   REMOVE_INVOICE_SERVICE_LINE,
   RESET_EMAIL_INVOICE_DETAIL,
   RESET_INVOICE_ITEM_TOTALS,
   RESET_INVOICE_SERVICE_TOTALS,
   RESET_OPEN_SEND_EMAIL,
-  SET_ALERT, SET_INVOICE_ITEM_LINE_DIRTY,
+  SET_ALERT,
+  SET_INVOICE_ITEM_LINE_DIRTY,
   SET_INVOICE_ITEM_SUBMITTING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
@@ -22,6 +25,7 @@ import {
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_INVOICE_DETAIL,
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_INVOICE_DETAIL_HEADER_OPTIONS,
@@ -29,6 +33,8 @@ import {
   UPDATE_INVOICE_ITEM_LINE,
   UPDATE_INVOICE_PAYMENT_AMOUNT,
   UPDATE_INVOICE_SERVICE_LINE,
+  UPLOAD_EMAIL_ATTACHMENT,
+  UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../InvoiceIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -54,6 +60,10 @@ const createInvoiceDetailDispatcher = store => ({
   }),
 
   dismissModalAlert: () => store.dispatch({ intent: SET_MODAL_ALERT }),
+
+  displayModalAlert: ({ type, message }) => store.dispatch({
+    intent: SET_MODAL_ALERT, modalAlert: { type, message },
+  }),
 
   loadInvoice: (payload, message) => store.dispatch({
     intent: LOAD_INVOICE_DETAIL, ...payload, message,
@@ -126,6 +136,31 @@ const createInvoiceDetailDispatcher = store => ({
   }),
 
   resetEmailInvoiceDetail: () => store.dispatch({ intent: RESET_EMAIL_INVOICE_DETAIL }),
+
+  addEmailAttachments: (files) => {
+    const intent = ADD_EMAIL_ATTACHMENTS;
+    store.dispatch({ intent, files });
+  },
+
+  uploadEmailAttachment: ({ response, file }) => {
+    const intent = UPLOAD_EMAIL_ATTACHMENT;
+    store.dispatch({ intent, ...response, file });
+  },
+
+  uploadEmailAttachmentFailed: ({ message, file }) => {
+    const intent = UPLOAD_EMAIL_ATTACHMENT_FAILED;
+    store.dispatch({ intent, message, file });
+  },
+
+  updateEmailAttachmentUploadProgress: ({ uploadProgress, file }) => {
+    const intent = UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS;
+    store.dispatch({ intent, uploadProgress, file });
+  },
+
+  removeEmailAttachment: (index) => {
+    const intent = REMOVE_EMAIL_ATTACHMENT;
+    store.dispatch({ intent, index });
+  },
 
   resetOpenSendEmailParam: () => store.dispatch({ intent: RESET_OPEN_SEND_EMAIL }),
 

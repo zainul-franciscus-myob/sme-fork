@@ -5,7 +5,13 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsActionsDisabled, getIsLoading, getIsServiceLayout, getModalAlert, getModalType,
+  getAlert,
+  getIsActionsDisabled,
+  getIsLoading,
+  getIsServiceLayout,
+  getModalAlert,
+  getModalType,
+  getTemplateOptions,
 } from '../selectors/invoiceDetailSelectors';
 import { getEmailInvoiceDetail } from '../selectors/emailSelectors';
 import InvoiceDetailActions from './InvoiceDetailActions';
@@ -21,6 +27,7 @@ const InvoiceDetailView = ({
   alert,
   modalType,
   emailInvoiceDetail,
+  templateOptions,
   isActionsDisabled,
   isServiceLayout,
   modalAlert,
@@ -36,7 +43,7 @@ const InvoiceDetailView = ({
   applyPaymentUnsavedChangesListeners,
   exportPdfModalListeners,
 }) => {
-  const templateOptions = (
+  const options = (
     <InvoiceDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
   );
 
@@ -58,6 +65,7 @@ const InvoiceDetailView = ({
       emailSettingsModalListeners={emailSettingsModalListeners}
       emailInvoiceDetailModalListeners={emailInvoiceDetailModalListeners}
       emailInvoiceDetail={emailInvoiceDetail}
+      templateOptions={templateOptions}
       isActionsDisabled={isActionsDisabled}
       alert={modalAlert}
       applyPaymentUnsavedChangesListeners={applyPaymentUnsavedChangesListeners}
@@ -73,7 +81,7 @@ const InvoiceDetailView = ({
     <LineItemTemplate
       pageHead={<InvoiceDetailHeader />}
       alert={alertComponent}
-      options={templateOptions}
+      options={options}
       actions={actions}
     >
       {modal}
@@ -92,6 +100,7 @@ const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   isActionsDisabled: getIsActionsDisabled(state),
   isServiceLayout: getIsServiceLayout(state),
+  templateOptions: getTemplateOptions(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailView);

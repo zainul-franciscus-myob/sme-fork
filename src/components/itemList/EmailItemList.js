@@ -12,7 +12,7 @@ const RemoveEmailButton = ({ onClick }) => (
   </Button>
 );
 
-const renderItems = (label, items) => ({
+const renderItems = (label, items, onKeyDown) => ({
   onAddItem,
   onRemoveItem,
   onItemValueChange,
@@ -30,6 +30,7 @@ const renderItems = (label, items) => ({
                 name="emailItem"
                 value={item}
                 onChange={onItemValueChange(i)}
+                onKeyDown={onKeyDown}
               />
               {
             i !== 0
@@ -59,11 +60,12 @@ const EmailItemList = ({
   label,
   items,
   onItemChange,
+  onKeyDown = () => {},
 }) => (
   <ItemList
     items={items}
     onItemChange={onItemChange}
-    renderItems={renderItems(label, items)}
+    renderItems={renderItems(label, items, onKeyDown)}
   />
 );
 

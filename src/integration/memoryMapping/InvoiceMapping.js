@@ -18,6 +18,7 @@ import {
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
+  UPLOAD_EMAIL_ATTACHMENT,
 } from '../../invoice/InvoiceIntents';
 import contactAddress from '../data/invoice/contactAddress';
 import duplicateInvoiceItemDetail from '../data/invoice/itemLayout/duplicateInvoiceItemDetail';
@@ -33,6 +34,7 @@ import invoiceServiceNewDetailFromQuote from '../data/invoice/serviceLayout/invo
 import invoiceServiceTotals from '../data/invoice/serviceLayout/totalsResponse';
 import payDirect from '../data/invoice/loadPayDirect';
 import successResponse from '../data/success';
+import uploadEmailAttachmentResponse from '../data/invoice/uploadEmailAttachmentResponse';
 
 const SERVICE_LAYOUT = 'service';
 
@@ -67,6 +69,7 @@ const InvoiceMapping = {
     invoiceItemChangeItem,
   ),
   [CALCULATE_INVOICE_ITEM_LINE_INPUT_CHANGE]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
+  [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) => onSuccess(uploadEmailAttachmentResponse),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [EXPORT_INVOICE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };

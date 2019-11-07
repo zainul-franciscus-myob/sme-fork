@@ -12,6 +12,7 @@ import UnsavedModal from '../../../components/modal/UnsavedModal';
 const InvoiceDetailModal = ({
   modalType,
   emailInvoiceDetail,
+  templateOptions,
   isActionsDisabled,
   alert,
   confirmModalListeners,
@@ -24,13 +25,16 @@ const InvoiceDetailModal = ({
   if (modalType === InvoiceDetailModalType.EMAIL_INVOICE) {
     return (
       <EmailInvoiceModal
+        emailInvoiceDetail={emailInvoiceDetail}
+        templateOptions={templateOptions}
+        isActionsDisabled={isActionsDisabled}
+        alert={alert}
         onCancel={emailInvoiceDetailModalListeners.onCloseModal}
         onConfirm={emailInvoiceDetailModalListeners.onConfirm}
         onEmailInvoiceDetailChange={emailInvoiceDetailModalListeners.onEmailInvoiceDetailChange}
-        emailInvoiceDetail={emailInvoiceDetail}
-        isActionsDisabled={isActionsDisabled}
-        alert={alert}
         onDismissAlert={emailInvoiceDetailModalListeners.onDismissAlert}
+        onAddAttachments={emailInvoiceDetailModalListeners.onAddAttachments}
+        onRemoveAttachment={emailInvoiceDetailModalListeners.onRemoveAttachment}
       />
     );
   }

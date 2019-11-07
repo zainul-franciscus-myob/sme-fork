@@ -3,7 +3,6 @@ import {
 } from './invoiceDetailSelectors';
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
-export const getExportPdfTemplateOptions = state => state.exportPdf.templateOptions;
 
 export const getExportPdfUrlParams = (state) => {
   const businessId = getBusinessId(state);

@@ -1,4 +1,5 @@
 import {
+  ADD_EMAIL_ATTACHMENTS,
   ADD_INVOICE_ITEM_LINE,
   ADD_INVOICE_SERVICE_LINE,
   FORMAT_INVOICE_ITEM_LINE,
@@ -8,6 +9,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_INVOICE_DETAIL,
   LOAD_PAY_DIRECT,
+  REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_ITEM_LINE,
   REMOVE_INVOICE_SERVICE_LINE,
   RESET_EMAIL_INVOICE_DETAIL,
@@ -23,6 +25,7 @@ import {
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_INVOICE_DETAIL,
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_INVOICE_DETAIL_HEADER_OPTIONS,
@@ -30,8 +33,20 @@ import {
   UPDATE_INVOICE_ITEM_LINE,
   UPDATE_INVOICE_PAYMENT_AMOUNT,
   UPDATE_INVOICE_SERVICE_LINE,
+  UPLOAD_EMAIL_ATTACHMENT,
+  UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../../InvoiceIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import {
+  addAttachments,
+  removeEmailAttachment,
+  resetEmailInvoiceDetail,
+  resetOpenSendEmailParam,
+  updateEmailInvoiceDetail,
+  uploadEmailAttachment,
+  uploadEmailAttachmentFailed,
+  uploadEmailAttachmentUploadProgress,
+} from './EmailReducer';
 import {
   addInvoiceItemLine,
   formatInvoiceItemLine,
@@ -56,7 +71,6 @@ import {
   getLoadInvoiceDetailModalType,
 } from '../selectors/invoiceDetailSelectors';
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
-import { resetEmailInvoiceDetail, resetOpenSendEmailParam, updateEmailInvoiceDetail } from './EmailReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
 import createReducer from '../../../store/createReducer';
 import getDefaultState from './getDefaultState';
@@ -101,11 +115,11 @@ const loadInvoiceDetail = (state, action) => {
     taxCodeOptions: action.taxCodeOptions || state.taxCodeOptions,
     emailInvoice: {
       ...state.emailInvoice,
-      ...getLoadInvoiceDetailEmailInvoice(action.emailInvoice),
+      ...getLoadInvoiceDetailEmailInvoice(action.emailInvoice, action.invoice.invoiceNumber),
     },
     emailInvoiceDefaultState: {
       ...state.emailInvoiceDefaultState,
-      ...getLoadInvoiceDetailEmailInvoice(action.emailInvoice),
+      ...getLoadInvoiceDetailEmailInvoice(action.emailInvoice, action.invoice.invoiceNumber),
     },
     exportPdf: {
       ...state.exportPdf,
@@ -174,6 +188,11 @@ const handlers = {
   [UPDATE_EMAIL_INVOICE_DETAIL]: updateEmailInvoiceDetail,
   [RESET_EMAIL_INVOICE_DETAIL]: resetEmailInvoiceDetail,
   [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,
+  [ADD_EMAIL_ATTACHMENTS]: addAttachments,
+  [UPLOAD_EMAIL_ATTACHMENT]: uploadEmailAttachment,
+  [UPLOAD_EMAIL_ATTACHMENT_FAILED]: uploadEmailAttachmentFailed,
+  [UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS]: uploadEmailAttachmentUploadProgress,
+  [REMOVE_EMAIL_ATTACHMENT]: removeEmailAttachment,
 
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
 };

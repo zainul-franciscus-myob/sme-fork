@@ -7,7 +7,9 @@ import {
   LOAD_PAY_DIRECT,
   SEND_EMAIL,
   UPDATE_INVOICE_DETAIL,
+  UPLOAD_EMAIL_ATTACHMENT,
 } from '../InvoiceIntents';
+import { getBusinessId, getIsCreating } from './selectors/invoiceDetailSelectors';
 import {
   getCreateOrUpdateInvoicePayload,
   getCreateOrUpdateInvoiceUrlParams,
@@ -24,7 +26,6 @@ import {
   getInvoiceServiceCalculatedTotalsPayload,
   getInvoiceServiceCalculatedTotalsUrlParams,
 } from './selectors/serviceLayoutSelectors';
-import { getIsCreating } from './selectors/invoiceDetailSelectors';
 import { getSendEmailPayload, getSendEmailUrlParams } from './selectors/emailSelectors';
 
 const createInvoiceDetailIntegrator = (store, integration) => ({
@@ -120,6 +121,24 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
 
     integration.write({
       intent, urlParams, content, onSuccess, onFailure,
+    });
+  },
+
+  uploadEmailAttachment: ({
+    onSuccess, onFailure, onProgress, file,
+  }) => {
+    const state = store.getState();
+    integration.writeFormData({
+      intent: UPLOAD_EMAIL_ATTACHMENT,
+      content: {
+        file,
+      },
+      urlParams: {
+        businessId: getBusinessId(state),
+      },
+      onSuccess,
+      onFailure,
+      onProgress,
     });
   },
 

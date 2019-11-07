@@ -33,6 +33,7 @@ import {
   getInvoiceReadWithEmailModalUrl,
   getInvoiceReadWithExportPdfModalUrl,
 } from './selectors/redirectSelectors';
+import { getFilesForUpload, getIsEmailModalOpen } from './selectors/emailSelectors';
 import {
   getInvoiceItemCalculateAmountChangePayload,
   getInvoiceItemCalculateLineChangePayload,
@@ -527,8 +528,7 @@ export default class InvoiceDetailModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
-      this.closeEmailInvoiceDetailModal();
-      this.displayFailureAlert(message);
+      this.dispatcher.displayModalAlert({ type: 'danger', message });
     };
 
     this.integrator.sendEmail({
@@ -540,6 +540,39 @@ export default class InvoiceDetailModule {
   updateEmailInvoiceDetail = ({ key, value }) => {
     this.dispatcher.updateEmailInvoiceDetail(key, value);
   }
+
+  addEmailAttachments = (files) => {
+    this.dispatcher.addEmailAttachments(files);
+
+    this.uploadEmailAttachments(files);
+  };
+
+  uploadEmailAttachments = (files) => {
+    const state = this.store.getState();
+
+    getFilesForUpload(state, files).forEach(file => this.uploadEmailAttachment(file));
+  };
+
+  uploadEmailAttachment = (file) => {
+    const onSuccess = (response) => {
+      this.dispatcher.uploadEmailAttachment({ response, file });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.uploadEmailAttachmentFailed({ message, file });
+    };
+
+    const onProgress = (uploadProgress) => {
+      this.dispatcher.updateEmailAttachmentUploadProgress({ uploadProgress, file });
+    };
+
+    this.integrator.uploadEmailAttachment({
+      onSuccess,
+      onFailure,
+      onProgress,
+      file,
+    });
+  };
 
   closeEmailInvoiceDetailModal = () => {
     this.closeModal();
@@ -607,8 +640,12 @@ export default class InvoiceDetailModule {
     this.store.unsubscribeAll();
   }
 
+  saveHandler = () => (
+    getIsEmailModalOpen(this.store.getState()) ? this.sendEmail() : this.saveInvoice()
+  );
+
   handlers = {
-    SAVE_ACTION: this.saveInvoice,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {
@@ -675,6 +712,8 @@ export default class InvoiceDetailModule {
           onCloseModal: this.closeEmailInvoiceDetailModal,
           onEmailInvoiceDetailChange: this.updateEmailInvoiceDetail,
           onDismissAlert: this.dispatcher.dismissModalAlert,
+          onAddAttachments: this.addEmailAttachments,
+          onRemoveAttachment: this.dispatcher.removeEmailAttachment,
         }}
         applyPaymentUnsavedChangesListeners={{
           onConfirmSave: this.saveAndRedirectToInvoicePayment,

@@ -2,8 +2,8 @@ import { Button, Modal, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getExportPdfTemplate, getExportPdfTemplateOptions } from '../selectors/exportPdfSelectors';
-import { getIsModalActionDisabled } from '../selectors/invoiceDetailSelectors';
+import { getExportPdfTemplate } from '../selectors/exportPdfSelectors';
+import { getIsModalActionDisabled, getTemplateOptions } from '../selectors/invoiceDetailSelectors';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 
 const ExportPdfModal = ({
@@ -33,7 +33,7 @@ const ExportPdfModal = ({
 
 const mapStateToProps = state => ({
   template: getExportPdfTemplate(state),
-  templateOptions: getExportPdfTemplateOptions(state),
+  templateOptions: getTemplateOptions(state),
   isActionDisabled: getIsModalActionDisabled(state),
 });
 

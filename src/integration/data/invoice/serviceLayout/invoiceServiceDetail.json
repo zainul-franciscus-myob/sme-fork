@@ -162,21 +162,20 @@
     "subject": "Hot Chocolate is life",
     "toEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
     "toName": "Geoff Speirs",
-    "attachments": []
+    "includeInvoiceNumberInEmail": true,
+    "attachments": [],
+    "templateName": "a"
   },
-  "exportPdf": {
-    "template": "a",
-    "templateOptions" : [
-      {
-        "name": "a",
-        "label": "apple"
-      },
-      {
-        "name": "b",
-        "label": "banana"
-      }
-    ]
-  },
+  "templateOptions" : [
+    {
+      "name": "a",
+      "label": "apple"
+    },
+    {
+      "name": "b",
+      "label": "banana"
+    }
+  ],
   "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
   "contactOptions": [
     {
@@ -258,5 +257,8 @@
     "totalTax": "4.39",
     "totalAmount": "48.30"
   },
-  "serialNumber": "000000000000"
+  "serialNumber": "000000000000",
+  "exportPdf": {
+    "template": "a"
+  }
 }

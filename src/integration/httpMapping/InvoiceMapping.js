@@ -18,6 +18,7 @@ import {
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
+  UPLOAD_EMAIL_ATTACHMENT,
 } from '../../invoice/InvoiceIntents';
 
 const InvoiceMapping = {
@@ -89,6 +90,10 @@ const InvoiceMapping = {
   [CALCULATE_INVOICE_ITEM_LINE_INPUT_CHANGE]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/invoice/calculate_invoice_item_totals/change_line_amount`,
+  },
+  [UPLOAD_EMAIL_ATTACHMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/invoice/upload_email_attachment`,
   },
   [SEND_EMAIL]: {
     method: 'POST',

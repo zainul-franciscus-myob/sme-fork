@@ -49,6 +49,8 @@ export const getSerialNumber = state => state.serialNumber;
 export const getAreLinesCalculating = state => state.areLinesCalculating;
 export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 
+export const getTemplateOptions = state => state.templateOptions;
+
 export const getIsCreating = createSelector(getInvoiceId, invoiceId => invoiceId === 'new');
 
 export const getIsServiceLayout = createSelector(
@@ -159,12 +161,13 @@ export const getLoadInvoiceDetailModalAndPageAlert = (state, alertMessage) => {
   return shouldOpenEmailModal ? { modalAlert: alert } : { pageAlert: alert };
 };
 
-export const getLoadInvoiceDetailEmailInvoice = emailInvoice => (
+export const getLoadInvoiceDetailEmailInvoice = (emailInvoice, invoiceNumber) => (
   emailInvoice
     ? {
       ...emailInvoice,
       toEmail: emailInvoice.toEmail.length > 0 ? emailInvoice.toEmail : [''],
       ccToEmail: emailInvoice.ccToEmail.length > 0 ? emailInvoice.ccToEmail : [''],
+      subject: emailInvoice.includeInvoiceNumberInEmail ? `Invoice ${invoiceNumber}; ${emailInvoice.subject}` : emailInvoice.subject,
     }
     : {}
 );

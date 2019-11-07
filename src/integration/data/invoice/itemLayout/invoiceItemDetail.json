@@ -43,21 +43,20 @@
     "subject": "Hot Chocolate is life",
     "toEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
     "toName": "Geoff Speirs",
+    "includeInvoiceNumberInEmail": true,
     "attachments": []
   },
-  "exportPdf": {
-    "template": "a",
-    "templateOptions" : [
-      {
-        "name": "a",
-        "label": "apple"
-      },
-      {
-        "name": "b",
-        "label": "banana"
-      }
-    ]
-  },
+  "defaultTemplate": "a",
+  "templateOptions" : [
+    {
+      "name": "a",
+      "label": "apple"
+    },
+    {
+      "name": "b",
+      "label": "banana"
+    }
+  ],
   "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
   "contactOptions": [
     {

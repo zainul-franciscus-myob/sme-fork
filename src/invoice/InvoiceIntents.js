@@ -52,6 +52,11 @@ export const SEND_EMAIL = Symbol('Send email');
 export const UPDATE_EMAIL_INVOICE_DETAIL = Symbol('Update email invoice detail');
 export const RESET_EMAIL_INVOICE_DETAIL = Symbol('Reset email invoice detail');
 export const RESET_OPEN_SEND_EMAIL = Symbol('Reset open send email');
+export const ADD_EMAIL_ATTACHMENTS = Symbol('Add email attachments');
+export const UPLOAD_EMAIL_ATTACHMENT = Symbol('Upload email attachment');
+export const UPLOAD_EMAIL_ATTACHMENT_FAILED = Symbol('Upload email attachment failed');
+export const UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS = Symbol('Update email attachment upload progress');
+export const REMOVE_EMAIL_ATTACHMENT = Symbol('Remove email attachment');
 
 export const EXPORT_INVOICE_PDF = Symbol('Export invoice pdf');
 export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');

@@ -79,9 +79,9 @@ const getDefaultState = () => ({
     toEmail: [''],
     toName: '',
     attachments: [],
+    templateName: '',
   },
   exportPdf: {
-    templateOptions: [],
     template: '',
   },
   payDirect: {
@@ -92,6 +92,7 @@ const getDefaultState = () => ({
   },
   isLineAmountDirty: false,
   areLinesCalculating: false,
+  templateOptions: [],
 });
 
 export default getDefaultState;
