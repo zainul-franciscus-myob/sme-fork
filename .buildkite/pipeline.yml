@@ -14,6 +14,7 @@ steps:
 
   - name: ':package: :hatched_chick: Build Development Javascript'
     command: ./ops/bin/build development
+    branches: master
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
@@ -22,6 +23,7 @@ steps:
 
   - name: ':package: :hatched_chick: Build Integration Javascript'
     command: ./ops/bin/build integration
+    branches: master
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
@@ -30,6 +32,7 @@ steps:
 
   - name: ':package: :hatched_chick: Build PDV Javascript'
     command: ./ops/bin/build pdv
+    branches: master
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
@@ -38,6 +41,7 @@ steps:
 
   - name: ':package: :hatched_chick: Build Preview Javascript'
     command: ./ops/bin/build preview
+    branches: master
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
@@ -46,6 +50,7 @@ steps:
 
   - name: ':package: :hatched_chick: Build Production Javascript'
     command: ./ops/bin/build production
+    branches: master
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
