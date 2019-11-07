@@ -1,6 +1,7 @@
 import {
   LOAD_HELP_CONTENT,
   LOAD_HELP_CONTENT_FAILURE,
+  LOAD_HELP_USER_SETTINGS,
   SET_LOADING_STATE,
 } from './HelpIntents';
 import { SET_INITIAL_STATE } from '../../SystemIntents';
@@ -17,6 +18,12 @@ const createHelpDispatcher = store => ({
     store.dispatch({
       intent: SET_LOADING_STATE,
       isLoading,
+    });
+  },
+  loadHelpUserSettings: (userHelpSettings) => {
+    store.dispatch({
+      intent: LOAD_HELP_USER_SETTINGS,
+      userHelpSettings,
     });
   },
   loadHelpContent: ({ entry, linkedEntries }) => {

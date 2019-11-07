@@ -4,8 +4,42 @@
 
 /*
   @Feelix-Override:
-    To remove lines between rows in the Accordion Table, as per design
+    To achieve what design want
 */
-.quickAnswersWrapper :global(.table-data__row) {
+.quickAnswersWrapper :global(.collapsible.is-open) {
   box-shadow: unset;
+}
+
+.quickAnswersWrapper :global(.collapsible .table-data__row) {
+  box-shadow: unset;
+  background-color: transparent;
+  border-radius: var(--flx-border-radius-card);
+}
+
+.quickAnswersWrapper :global(.collapsible .btn.btn-default) {
+  border: none;
+  background: none;
+  box-shadow: unset;
+}
+
+.quickAnswersWrapper :global(.collapsible.is-open .collapsible__header),
+.quickAnswersWrapper :global(.collapsible.is-open .collapsible__header:hover) {
+  background-color: transparent;
+}
+
+.quickAnswersWrapper :global(.collapsible.is-open .collapsible__header .table-data__row),
+.quickAnswersWrapper :global(.collapsible.is-open .collapsible__header .table-data__row:hover) {
+  background-color: var(--flx-background-color-table-row-hover);
+  color: var(--flx-palette-thunder);
+}
+
+.quickAnswersWrapper :global(.collapsible.is-open .collapsible__header .btn-default:hover),
+.quickAnswersWrapper :global(.collapsible.is-open .collapsible__header .btn-default:focus) {
+  border: none;
+  background: none;
+  box-shadow: unset;
+}
+
+.quickAnswersWrapper :global(.collapsible.is-open .collapsible__header .btn-default:not(:hover) svg.svg-icon) {
+  fill: var(--flx-palette-storm-50);
 }

@@ -1,27 +1,34 @@
 import {
-  LOAD_HELP_CONTENT, LOAD_HELP_CONTENT_FAILURE, SET_LOADING_STATE,
+  LOAD_HELP_CONTENT,
+  LOAD_HELP_CONTENT_FAILURE,
+  LOAD_HELP_USER_SETTINGS,
+  SET_LOADING_STATE,
 } from './HelpIntents';
 import { SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
-  document: undefined,
-  answers: undefined,
-  isLoading: false,
-  currentRouteName: undefined,
-  region: undefined,
-  businessId: undefined,
+  userHelpSettings: undefined,
 });
 
 const setInitialState = (state, { currentRouteName, routeParams }) => ({
-  ...getDefaultState(),
+  ...state,
+  document: undefined,
+  answers: undefined,
+  isLoading: false,
+  businessId: routeParams.businessId,
+  region: routeParams.region,
   currentRouteName,
-  ...routeParams,
 });
 
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
+});
+
+const loadHelpUserSettings = (state, action) => ({
+  ...state,
+  userHelpSettings: action.userHelpSettings,
 });
 
 const loadHelpContent = (state, action) => ({
@@ -39,6 +46,7 @@ const loadHelpContentFailure = state => ({
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
+  [LOAD_HELP_USER_SETTINGS]: loadHelpUserSettings,
   [LOAD_HELP_CONTENT]: loadHelpContent,
   [LOAD_HELP_CONTENT_FAILURE]: loadHelpContentFailure,
 };

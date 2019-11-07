@@ -1,3 +1,4 @@
+import { Icons } from '@myob/myob-widgets';
 import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 
@@ -38,8 +39,9 @@ const ImageViewer = ({ mediaSrc, title, className }) => {
   const imageRef = useCallback((node) => {
     if (node === null) return;
     const { naturalHeight, naturalWidth } = node;
-    const { innerWidth: containerWidth, innerHeight: containerHeight } = window;
+    const { innerWidth: containerWidth, innerHeight: windowHeight } = window;
 
+    const containerHeight = windowHeight - Number.parseFloat(styles.imageViewerHeaderHeight);
     const widthRatio = Number.parseFloat(styles.imageDisplayRatio) * 0.01;
     const shouldUseFixHeight = !isElementContained({
       widthRatio,
@@ -53,24 +55,27 @@ const ImageViewer = ({ mediaSrc, title, className }) => {
 
   const viewer = openInViewer && (
     <div role="dialog" className={styles.imageViewer}>
-      <button
-        ref={imageViewerCloseRef}
-        type="button"
-        className={styles.imageViewer__close}
-        onClick={closeViewer}
-      >
+      <div className={styles.imageViewer__header}>
+        <button
+          ref={imageViewerCloseRef}
+          type="button"
+          className={styles.imageViewer__close}
+          onClick={closeViewer}
+        >
+          <Icons.Cross />
+        </button>
+      </div>
+      <div className={styles.imageViewer__content}>
         <img
           src={mediaSrc}
           alt={title}
           ref={imageRef}
-          className={
-            classNames(
-              { [styles['image--fixed-height']]: useFixedHeight },
-              { [styles['image--fixed-width']]: !useFixedHeight },
-            )
-          }
+          className={classNames(
+            { [styles['image--fixed-height']]: useFixedHeight },
+            { [styles['image--fixed-width']]: !useFixedHeight },
+          )}
         />
-      </button>
+      </div>
     </div>
   );
 

@@ -1,14 +1,14 @@
 .drawer {
-  --drawer-width: 390px;
+  --drawer-width: 100%;
   --drawer-transition-length: 500ms;
 
+  position: fixed;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   width: var(--drawer-width);
-  transition: margin-left var(--drawer-transition-length) ease, transform var(--drawer-transition-length) ease;
   height: 100vh;
-}
-
-.drawer--close {
-  margin-left: calc(var(--drawer-width) * -1);
+  transition:
+    margin-left var(--drawer-transition-length) ease,
+    transform var(--drawer-transition-length) ease;
 }
 
 /*
@@ -29,25 +29,46 @@
   margin-bottom: 0;
 }
 
-@media (max-width: 1600px) {
+/*
+  @Feelix-Override:
+  To remove extra white space under accordion header in mobile view
+*/
+.drawer :global(.table-data__row .table-data__cell) {
+  margin-bottom: 0;
+}
+
+.drawer--close {
+  transform: translateX(-100%);
+}
+
+@media (min-width: 768px) {
   .drawer {
-    position: fixed;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    --drawer-width: 390px;
   }
 
   .drawer--close {
     transform: translateX(calc(var(--drawer-width) * -1));
   }
+
+  /*
+    @Feelix-Override:
+    To put white space back in non-mobile view
+  */
+  .drawer :global(.table-data__row .table-data__cell) {
+    margin-bottom: 8px;
+  }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1600px) {
   .drawer {
-    --drawer-width: 100%;
-
     box-shadow: none;
+    position: relative;
   }
 
   .drawer--close {
-    transform: translateX(-100%);
+    margin-left: calc(var(--drawer-width) * -1);
+
+    /* make sure browser use GPU to repaint the view, for better animation performance */
+    transform: translateZ(0);
   }
 }

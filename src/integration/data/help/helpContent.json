@@ -30,7 +30,7 @@
       "locale": "en-NZ"
     },
     "fields": {
-      "pageId": "transactionList/transactionList",
+      "pageId": "dashboard/dashboard",
       "publishDate": "2019-08-01T00:00+10:00",
       "title": "Choice Kitchen Sunk",
       "richTextHelpConcept": {

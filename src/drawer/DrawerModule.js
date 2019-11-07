@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getShowDrawer } from './DrawerSelectors';
 import Drawer from './components/Drawer';
 import HelpModule from './help/HelpModule';
 import Store from '../store/Store';
@@ -19,6 +20,7 @@ export default class DrawerModule {
     this.subModules = {
       helpModule: new HelpModule({
         integration,
+        drawerStore: this.store,
         drawerDispatcher: this.dispatcher,
       }),
     };
@@ -26,6 +28,10 @@ export default class DrawerModule {
 
   toggleDrawer = () => {
     this.dispatcher.toggleDrawer();
+    if (getShowDrawer(this.store.getState())) {
+      // TODO: Add logic to decide which sub-module action to be called
+      this.subModules.helpModule.loadHelpContent();
+    }
   }
 
   closeDrawer = () => {
@@ -54,7 +60,7 @@ export default class DrawerModule {
     this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
-    // TODO: add condition for which module to run on route change
+    // TODO: add condition for which sub-module to run on route change
     this.subModules.helpModule.run(context);
   }
 }
