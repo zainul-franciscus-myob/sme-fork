@@ -5,6 +5,7 @@ import React from 'react';
 
 import AccountCombobox from '../../components/combobox/AccountCombobox';
 import AllocatedButton from './AllocatedButton';
+import AutoAllocated from './AutoAllocated';
 import styles from './AllocatedRowItem.module.css';
 
 const AllocatedRowItem = ({
@@ -19,6 +20,7 @@ const AllocatedRowItem = ({
     isFocused,
     accountList,
     isReportable,
+    appliedRule,
   } = entry;
 
   const label = isReportable && (
@@ -53,6 +55,7 @@ const AllocatedRowItem = ({
   const defaultView = (
     <div className={styles.allocated}>
       <div className={styles.allocationInfo}>
+        { appliedRule && <AutoAllocated /> }
         <AllocatedButton onClick={onFocus} onFocus={onFocus}>
           {allocateOrMatch}
         </AllocatedButton>

@@ -1,0 +1,3 @@
+.remaining :global(.line-item__totals h4) {
+  color: var(--flx-color-alert-error-link);
+}

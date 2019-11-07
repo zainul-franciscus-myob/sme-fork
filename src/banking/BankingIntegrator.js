@@ -1,5 +1,6 @@
 import {
   ALLOCATE_TRANSACTION,
+  APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
   FETCH_BANK_FEEDS_TRANSACTIONS,
@@ -449,6 +450,22 @@ const createBankingIntegrator = (store, integration) => ({
       intent,
       urlParams,
       content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  applyRuleToTransactions: ({
+    bankingRuleId, onSuccess, onFailure,
+  }) => {
+    const intent = APPLY_RULE_TO_TRANSACTIONS;
+    const state = store.getState();
+
+    const urlParams = { bankingRuleId, businessId: getBusinessId(state) };
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

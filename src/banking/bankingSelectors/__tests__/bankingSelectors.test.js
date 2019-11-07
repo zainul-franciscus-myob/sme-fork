@@ -1,11 +1,13 @@
 import { businessEventTypes } from '../../businessEventTypes';
 import {
+  getBalancesForApplyRule,
   getBalancesForBulkResult,
   getCalculatedAllocatedBalances,
   getCalculatedUnallocatedBalances,
   getDisplayBalances,
   getIsAllocated,
   getOpenEntryDefaultTabId,
+  getShowCreateBankingRuleButton,
 } from '../index';
 import { tabIds } from '../../tabItems';
 
@@ -198,6 +200,49 @@ describe('bankingSelector', () => {
 
         expect(result.balanceTooltip).toEqual(expectedBalanceTooltip);
       });
+    });
+  });
+
+  describe('getShowCreateBankingRuleButton', () => {
+    it.each([
+      ['allocate', true],
+      ['match', false],
+      ['payment', true],
+      ['transfer', false],
+    ])('should decide whether to show create banking rule button', (tabId, expected) => {
+      const state = {
+        openEntry: {
+          activeTabId: tabId,
+        },
+      };
+
+      const actual = getShowCreateBankingRuleButton(state);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getBalancesForApplyRule', () => {
+    fit('should update balances with all applied transaction lines', () => {
+      const expected = { bankBalance: 1000, myobBalance: 1250, unallocated: 750 };
+      const state = {
+        entries: [
+          { transactionId: '1', withdrawal: 100, deposit: undefined },
+          { transactionId: '2', withdrawal: undefined, deposit: 50 },
+          { transactionId: '3', withdrawal: 150, deposit: undefined },
+        ],
+        balances: { bankBalance: 1000, myobBalance: 1000, unallocated: 1000 },
+      };
+
+      const applyResults = [
+        { transactionId: '1', type: 'singleAllocation' },
+        { transactionId: '2', type: 'mathPaymentRule' },
+        { transactionId: '3', type: 'splitAllocation' },
+      ];
+
+      const result = getBalancesForApplyRule(state, applyResults);
+
+      expect(result).toEqual(expected);
     });
   });
 });

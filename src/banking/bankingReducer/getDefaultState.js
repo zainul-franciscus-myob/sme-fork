@@ -3,6 +3,7 @@ import { addMonths } from 'date-fns';
 import { getDefaultOpenPosition } from '../bankingSelectors';
 import { tabIds } from '../tabItems';
 import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
+import getBankingRuleDefaultState from '../bankingRule/bankingRuleReducers/getDefaultState';
 
 const getDefaultDateRange = () => addMonths(new Date(), -3);
 
@@ -109,6 +110,7 @@ const getDefaultState = () => ({
     username: '',
     password: '',
   },
+  bankingRuleModal: getBankingRuleDefaultState(),
 });
 
 export default getDefaultState;

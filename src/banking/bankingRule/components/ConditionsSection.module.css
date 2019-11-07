@@ -1,0 +1,20 @@
+@media screen and (min-width: 1200px) {
+  .field {
+    width: var(--flx-width-field-s);
+  }
+
+  .matcher {
+    width: var(--flx-width-field-s);
+  }
+
+  .value {
+    width: var(--flx-width-field-xl);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .operator {
+    text-align: right;
+    padding-right: var(--flx-spacing-tiny);
+  }
+}

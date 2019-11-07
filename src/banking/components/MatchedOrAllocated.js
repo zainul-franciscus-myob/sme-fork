@@ -39,7 +39,7 @@ export default ({
     );
   }
 
-  if (type === 'matched') {
+  if (type === 'matched' || type === 'paymentRuleMatched') {
     return (
       <MatchedRowItem
         entry={entry}

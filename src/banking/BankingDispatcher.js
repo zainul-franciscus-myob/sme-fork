@@ -1,6 +1,7 @@
 import {
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
+  APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
   CLEAR_BANK_FEEDS_LOGIN,
@@ -119,6 +120,13 @@ const createBankingDispatcher = store => ({
   bulkUnallocateTransactions: ({ entries }) => {
     store.dispatch({
       intent: BULK_UNALLOCATE_TRANSACTIONS,
+      entries,
+    });
+  },
+
+  applyRuleToTransactions: (entries) => {
+    store.dispatch({
+      intent: APPLY_RULE_TO_TRANSACTIONS,
       entries,
     });
   },
@@ -262,6 +270,13 @@ const createBankingDispatcher = store => ({
     store.dispatch({
       intent: OPEN_MODAL,
       modalType: 'bulkUnallocate',
+    });
+  },
+
+  openBankingRuleModal: () => {
+    store.dispatch({
+      intent: OPEN_MODAL,
+      modalType: 'bankingRule',
     });
   },
 

@@ -33,6 +33,9 @@
 
 .allocationInfo {
   position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr 1.8rem;
+  grid-gap: var(--flx-spacing-x-tiny);
 }
 
 .unmatch {

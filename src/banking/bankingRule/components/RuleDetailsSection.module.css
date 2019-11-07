@@ -1,0 +1,13 @@
+@media screen and (min-width: 1200px) {
+  .ruleType {
+    width: var(--flx-width-field-m);
+  }
+
+  .ruleName {
+    width: var(--flx-width-field-xl);
+  }
+
+  .bankFeedAccount {
+    width: var(--flx-width-field-xl);
+  }
+}

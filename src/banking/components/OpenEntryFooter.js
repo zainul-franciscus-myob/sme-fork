@@ -3,14 +3,16 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsOpenEntryCreating } from '../bankingSelectors';
+import { getIsOpenEntryCreating, getShowCreateBankingRuleButton } from '../bankingSelectors';
 
 const OpenEntryFooter = ({
   isCreating,
+  showCreateBankingRuleButton,
   children,
   onSave,
   onCancel,
   onUnmatch,
+  onCreateRule,
 }) => (
   <ButtonRow
     primary={[
@@ -27,6 +29,12 @@ const OpenEntryFooter = ({
         && (
           <Button key="unmatch" name="unmatch" type="secondary" onClick={onUnmatch}>
             Unmatch
+          </Button>
+        )),
+      (showCreateBankingRuleButton
+        && (
+          <Button key="bankingRule" name="bankingRule" type="secondary" onClick={onCreateRule}>
+            Create rule
           </Button>
         )),
     ]}
@@ -47,6 +55,7 @@ OpenEntryFooter.propTypes = {
 
 const mapStateToProps = state => ({
   isCreating: getIsOpenEntryCreating(state),
+  showCreateBankingRuleButton: getShowCreateBankingRuleButton(state),
 });
 
 export default connect(mapStateToProps)(OpenEntryFooter);

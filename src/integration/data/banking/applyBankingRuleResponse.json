@@ -1,0 +1,26 @@
+[
+  {
+    "transactionId": "2",
+    "allocateOrMatch": "Water",
+    "journalId": "8373",
+    "journalLineId": "1559",
+    "sourceJournal": "CashPayment",
+    "type": "singleAllocation",
+    "taxCode": "GST",
+    "isReportable": false,
+    "appliedRule": {
+      "ruleType": "Bill",
+      "ruleName": "Water Rule"
+    }
+  },
+  {
+    "transactionId": "3",
+    "allocateOrMatch": "Possible invoice match found",
+    "type": "paymentRuleMatched",
+    "appliedRule": {
+      "ruleType": "Invoice",
+      "ruleName": "Suggestion rule",
+      "contactId": "2"
+    }
+  }
+]

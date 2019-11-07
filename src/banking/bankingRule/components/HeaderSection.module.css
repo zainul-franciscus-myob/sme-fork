@@ -1,0 +1,17 @@
+@media screen and (min-width: 850px) {
+  .date {
+    width: var(--flx-width-field-xs);
+  }
+
+  .account {
+    width: var(--flx-width-field-m);
+  }
+
+  .amount {
+    width: var(--flx-width-field-l);
+  }
+
+  .description {
+    width: 13.5rem;
+  }
+}

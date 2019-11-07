@@ -1,5 +1,6 @@
 import {
   ALLOCATE_TRANSACTION,
+  APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
   FETCH_BANK_FEEDS_TRANSACTIONS,
@@ -18,6 +19,12 @@ import {
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
 } from '../../banking/BankingIntents';
+import {
+  CREATE_BANKING_RULE_BILL,
+  CREATE_BANKING_RULE_INVOICE,
+  CREATE_BANKING_RULE_RECEIVE_MONEY,
+  CREATE_BANKING_RULE_SPEND_MONEY,
+} from '../../banking/bankingRule/BankingRuleIntents';
 
 const BankingMapping = {
   [LOAD_BANK_TRANSACTIONS]: {
@@ -91,6 +98,26 @@ const BankingMapping = {
   [FETCH_BANK_FEEDS_TRANSACTIONS]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/fetch_bank_transactions`,
+  },
+  [CREATE_BANKING_RULE_BILL]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/create_banking_rule_bill`,
+  },
+  [CREATE_BANKING_RULE_SPEND_MONEY]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/create_banking_rule_spend_money`,
+  },
+  [CREATE_BANKING_RULE_RECEIVE_MONEY]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/create_banking_rule_receive_money`,
+  },
+  [CREATE_BANKING_RULE_INVOICE]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/create_banking_rule_invoice`,
+  },
+  [APPLY_RULE_TO_TRANSACTIONS]: {
+    method: 'POST',
+    getPath: ({ businessId, bankingRuleId }) => `/${businessId}/banking/apply_banking_rule/${bankingRuleId}`,
   },
 };
 

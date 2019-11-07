@@ -1,4 +1,5 @@
 import { allocateTransaction } from './index';
+import { getAppliedPaymentRuleContactId } from '../bankingSelectors';
 import { getCustomers, getPaymentAllocationEntries, getSuppliers } from '../bankingSelectors/paymentAllocationSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
 import { tabIds } from '../tabItems';
@@ -37,6 +38,8 @@ export const loadPaymentAllocationOptions = (state, action) => {
 
   const openedEntry = state.entries[action.index];
 
+  const contactId = getAppliedPaymentRuleContactId(openedEntry);
+
   const isBillPayment = !!openedEntry.withdrawal;
 
   const totalAmount = Number(openedEntry.withdrawal || openedEntry.deposit);
@@ -45,6 +48,10 @@ export const loadPaymentAllocationOptions = (state, action) => {
 
   const payment = {
     ...defaultState.openEntry.payment,
+    filterOptions: {
+      ...defaultState.openEntry.payment.filterOptions,
+      contactId,
+    },
     totalAmount,
     contacts,
     isBillPayment,

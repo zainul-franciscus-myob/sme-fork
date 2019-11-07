@@ -82,6 +82,7 @@ const BankTransactionTable = ({
   onUpdateTransfer,
   onSelectTransaction,
   onSelectAllTransactions,
+  onOpenBankingRuleModal,
 }) => {
   const header = (
     <BankTransactionTableHeader
@@ -137,6 +138,7 @@ const BankTransactionTable = ({
       onCancelTransferMoney={onCancelTransferMoney}
       onUpdateTransfer={onUpdateTransfer}
       onSelectTransaction={onSelectTransaction}
+      onOpenBankingRuleModal={onOpenBankingRuleModal}
     />);
 
   return (

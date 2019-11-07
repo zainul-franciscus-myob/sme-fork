@@ -171,6 +171,7 @@ export const getOpenEntryDefaultTabId = ({ type, sourceJournal }) => {
   if (
     sourceJournal === businessEventTypes.billPayment
     || sourceJournal === businessEventTypes.invoicePayment
+    || type === 'paymentRuleMatched'
   ) {
     return tabIds.payment;
   }
@@ -181,10 +182,18 @@ export const getOpenEntryDefaultTabId = ({ type, sourceJournal }) => {
   return tabIds.match;
 };
 
+export const getShowCreateBankingRuleButton = state => (
+  [tabIds.allocate, tabIds.payment].includes(state.openEntry.activeTabId)
+);
+
 export const getBankTransactionLineByIndex = (state, index) => {
   const entries = getEntries(state);
   return entries[index];
 };
+
+export const getAppliedPaymentRuleContactId = ({ appliedRule = {} }) => (
+  ['Invoice', 'Bill'].includes(appliedRule.ruleType) ? appliedRule.contactId : ''
+);
 
 export const getIsAllocated = ({ type, journalId }) => (
   !!((type === 'singleAllocation'
@@ -240,6 +249,21 @@ export const getBalancesForBulkResult = (state, resultEntries, isAllocate) => {
       return total + entryAmount;
     }, 0);
 
+  return getCalculatedBalances(state, amount);
+};
+
+export const getBalancesForApplyRule = (state, applyResults) => {
+  const { entries } = state;
+  const allocatedIds = applyResults
+    .filter(({ type }) => type === 'singleAllocation' || type === 'splitAllocation')
+    .map(allocatedEntry => allocatedEntry.transactionId);
+  const amount = entries
+    .filter(entry => allocatedIds.includes(entry.transactionId))
+    .reduce((total, entry) => {
+      const { withdrawal, deposit } = entry;
+      const entryAmount = -withdrawal || deposit;
+      return total + entryAmount;
+    }, 0);
   return getCalculatedBalances(state, amount);
 };
 
@@ -302,7 +326,7 @@ export const getTabItems = createSelector(
     const isTransferDisabled = sourceJournal !== businessEventTypes.transferMoney
     && sourceJournal !== '';
 
-    const isBillPayment = !!withdrawal;
+    const isBillPayment = Boolean(withdrawal);
 
     return [
       {
@@ -329,4 +353,51 @@ export const getTabItems = createSelector(
       },
     ];
   },
+);
+
+export const getDisplayName = (id, accountList) => {
+  const selectedAccount = accountList.find(
+    account => account.id === id,
+  );
+
+  if (!selectedAccount) {
+    return id;
+  }
+
+  const {
+    displayId,
+    displayName,
+  } = selectedAccount || {};
+
+  return `${displayId} ${displayName}`;
+};
+
+const getTaxCodes = state => state.taxCodes;
+
+export const getBankingRuleInitState = createSelector(
+  getOpenTransactionLine,
+  getOpenEntryActiveTabId,
+  getWithdrawalAccounts,
+  getDepositAccounts,
+  getContacts,
+  getTaxCodes,
+  getBankAccounts,
+  (
+    openTransactionLine,
+    activeTabId,
+    withdrawalAccounts,
+    depositAccounts,
+    contacts,
+    taxCodes,
+    bankAccounts,
+  ) => ({
+    description: openTransactionLine.description,
+    isWithdrawal: Boolean(openTransactionLine.withdrawal),
+    activeTabId,
+    withdrawalAccounts,
+    depositAccounts,
+    contacts,
+    taxCodes,
+    bankAccounts,
+  }),
 );

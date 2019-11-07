@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import BankFeedsLoginModal from './BankFeedsLoginModal';
@@ -14,6 +13,7 @@ const BankingModal = ({
   onCancelUnallocateModal,
   onConfirmUnallocateModal,
   onUpdateBankFeedsLoginDetails,
+  onRenderBankingRuleModal,
 }) => {
   let modal;
   if (modalType === 'cancel') {
@@ -42,19 +42,10 @@ const BankingModal = ({
         description="Are you sure you want to unallocate the selected bank transactions?"
       />
     );
+  } else if (modalType === 'bankingRule') {
+    modal = onRenderBankingRuleModal();
   }
-
   return modal;
-};
-
-
-BankingModal.propTypes = {
-  modalType: PropTypes.string.isRequired,
-  onCloseCancelModal: PropTypes.func.isRequired,
-  onConfirmCancelModal: PropTypes.func.isRequired,
-  onCancelBankFeedsLogin: PropTypes.func.isRequired,
-  onConfirmBankFeedsLogin: PropTypes.func.isRequired,
-  onUpdateBankFeedsLoginDetails: PropTypes.func.isRequired,
 };
 
 export default BankingModal;

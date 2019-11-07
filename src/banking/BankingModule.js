@@ -2,7 +2,9 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  getAppliedPaymentRuleContactId,
   getBankTransactionLineByIndex,
+  getBankingRuleInitState,
   getDefaultOpenPosition,
   getFilterOptions,
   getIsAllocated,
@@ -25,6 +27,7 @@ import {
 } from './bankingSelectors/bulkAllocationSelectors';
 import { getPaymentAllocationContactId } from './bankingSelectors/paymentAllocationSelectors';
 import { tabIds } from './tabItems';
+import BankingRuleModule from './bankingRule/BankingRuleModule';
 import BankingView from './components/BankingView';
 import Store from '../store/Store';
 import bankingReducer from './bankingReducer';
@@ -41,6 +44,14 @@ export default class BankingModule {
     this.setRootView = setRootView;
     this.dispatcher = createBankingDispatcher(this.store);
     this.integrator = createBankingIntegrator(this.store, integration);
+    this.bankingRuleModule = new BankingRuleModule(
+      {
+        integration,
+        store: this.store,
+        onCancel: this.dispatcher.closeModal,
+        onSaveSuccess: this.applyRuleToTransaction,
+      },
+    );
   }
 
   render = () => {
@@ -60,6 +71,7 @@ export default class BankingModule {
       closeModal,
       updateBankFeedsLoginDetails,
       updateBulkAllocationOption,
+      openBankingRuleModal,
     } = this.dispatcher;
 
     const transactionListView = (
@@ -112,6 +124,8 @@ export default class BankingModule {
         onSaveBulkUnallocation={this.openBulkUnallocateModal}
         onCancelUnallocateModal={closeModal}
         onConfirmUnallocateModal={this.bulkUnallocateTransactions}
+        onOpenBankingRuleModal={openBankingRuleModal}
+        onRenderBankingRuleModal={this.renderBankingRuleModal}
       />
     );
 
@@ -122,6 +136,38 @@ export default class BankingModule {
     );
     this.setRootView(wrappedView);
   }
+
+  applyRuleToTransaction = ({ message, bankingRuleId }) => {
+    this.dispatcher.closeModal();
+    this.dispatcher.collapseTransactionLine();
+    this.dispatcher.setLoadingState(true);
+
+    const onSuccess = (entries) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.applyRuleToTransactions(entries);
+      this.dispatcher.setAlert({
+        type: 'success',
+        message,
+      });
+    };
+
+    const onFailure = (payload) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message: payload.message,
+      });
+    };
+
+    this.integrator.applyRuleToTransactions({
+      onSuccess, onFailure, bankingRuleId,
+    });
+  }
+
+  renderBankingRuleModal = () => {
+    const initState = getBankingRuleInitState(this.store.getState());
+    return this.bankingRuleModule.getView(initState);
+  };
 
   allocateTransaction = (index, selectedAccount) => {
     this.dispatcher.focusEntry(index + 1);
@@ -677,6 +723,10 @@ export default class BankingModule {
       this.loadPaymentAllocation(index);
     } else {
       this.dispatcher.loadPaymentAllocationOptions(index);
+      const contactId = getAppliedPaymentRuleContactId(line);
+      if (contactId) {
+        this.loadPaymentAllocationLines();
+      }
     }
   }
 

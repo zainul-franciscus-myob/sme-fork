@@ -28,6 +28,7 @@ const BankingView = (props) => {
     alert,
     selectedCount,
     showBulkActions,
+    getBankingRuleModal,
     onUpdateFilters,
     onApplyFilter,
     onSort,
@@ -78,6 +79,8 @@ const BankingView = (props) => {
     onSaveBulkUnallocation,
     onCancelUnallocateModal,
     onConfirmUnallocateModal,
+    onOpenBankingRuleModal,
+    onRenderBankingRuleModal,
   } = props;
 
   const filterBar = (
@@ -102,6 +105,7 @@ const BankingView = (props) => {
   const modal = (modalType
     && (<BankingModal
       modalType={modalType}
+      getBankingRuleModal={getBankingRuleModal}
       onCloseCancelModal={onCloseModal}
       onConfirmCancelModal={onCancelModal}
       onCancelBankFeedsLogin={onCancelBankFeedsLogin}
@@ -109,6 +113,7 @@ const BankingView = (props) => {
       onUpdateBankFeedsLoginDetails={onUpdateBankFeedsLoginDetails}
       onConfirmUnallocateModal={onConfirmUnallocateModal}
       onCancelUnallocateModal={onCancelUnallocateModal}
+      onRenderBankingRuleModal={onRenderBankingRuleModal}
     />
     ));
 
@@ -164,6 +169,7 @@ const BankingView = (props) => {
           onUpdateTransfer={onUpdateTransfer}
           onSelectTransaction={onSelectTransaction}
           onSelectAllTransactions={onSelectAllTransactions}
+          onOpenBankingRuleModal={onOpenBankingRuleModal}
         />
       </StandardTemplate>
     </div>

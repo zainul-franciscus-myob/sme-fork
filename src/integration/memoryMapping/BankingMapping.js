@@ -1,5 +1,6 @@
 import {
   ALLOCATE_TRANSACTION,
+  APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
   FETCH_BANK_FEEDS_TRANSACTIONS,
@@ -18,10 +19,18 @@ import {
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
 } from '../../banking/BankingIntents';
+import {
+  CREATE_BANKING_RULE_BILL,
+  CREATE_BANKING_RULE_INVOICE,
+  CREATE_BANKING_RULE_RECEIVE_MONEY,
+  CREATE_BANKING_RULE_SPEND_MONEY,
+} from '../../banking/bankingRule/BankingRuleIntents';
 import allocatedBankTransaction from '../data/banking/allocatedBankTransaction';
+import applyBankingRuleResponse from '../data/banking/applyBankingRuleResponse.json';
 import bankTransactions from '../data/banking/loadBankTransactions';
 import bulkAllocatedBankTransaction from '../data/banking/bulkAllocatedBankTransaction';
 import bulkUnallocatedBankTransaction from '../data/banking/bulkUnallocatedBankTransaction';
+import createBankingRuleResponse from '../data/banking/createBankingRuleResponse';
 import filteredBankTransactions from '../data/banking/sortAndFilterBankTransactions';
 import filteredMatchTransactions from '../data/banking/sortAndFilterMatchTransactions';
 import loadReceiveMoney from '../data/banking/loadReceiveMoney';
@@ -58,6 +67,8 @@ const saveTransferMoney = ({ onSuccess }) => onSuccess(saveTransferMoneyPayload)
 const fetchBankFeedsTransactions = ({ onSuccess }) => onSuccess(success);
 const saveBulkAllocation = ({ onSuccess }) => onSuccess(bulkAllocatedBankTransaction);
 const saveBulkUnallocation = ({ onSuccess }) => onSuccess(bulkUnallocatedBankTransaction);
+const createBankingRule = ({ onSuccess }) => onSuccess(createBankingRuleResponse);
+const applyBankingRule = ({ onSuccess }) => onSuccess(applyBankingRuleResponse);
 
 const BankingMappings = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
@@ -78,6 +89,11 @@ const BankingMappings = {
   [LOAD_TRANSFER_MONEY]: loadTransferMoney,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,
   [FETCH_BANK_FEEDS_TRANSACTIONS]: fetchBankFeedsTransactions,
+  [CREATE_BANKING_RULE_SPEND_MONEY]: createBankingRule,
+  [CREATE_BANKING_RULE_RECEIVE_MONEY]: createBankingRule,
+  [CREATE_BANKING_RULE_INVOICE]: createBankingRule,
+  [CREATE_BANKING_RULE_BILL]: createBankingRule,
+  [APPLY_RULE_TO_TRANSACTIONS]: applyBankingRule,
 };
 
 export default BankingMappings;

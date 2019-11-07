@@ -1,6 +1,7 @@
 import {
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
+  APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
   CLEAR_BANK_FEEDS_LOGIN,
@@ -62,6 +63,9 @@ import {
   updateSplitAllocationLine,
 } from './splitAllocationHandlers';
 import {
+  appliedTransactions,
+} from './applyRuleResultHandlers';
+import {
   bulkAllocateTransactions,
   bulkUnallocateTransactions,
   selectAllTransactions,
@@ -99,8 +103,10 @@ import {
   updatePaymentAllocationLine,
   updatePaymentAllocationOptions,
 } from './paymentAllocationHandler';
+import bankingRuleHandlers from '../bankingRule/bankingRuleReducers';
 import createReducer from '../../store/createReducer';
 import getDefaultState from './getDefaultState';
+import wrapHandlers from '../../store/wrapHandlers';
 
 const resetState = () => (getDefaultState());
 
@@ -297,6 +303,8 @@ const handlers = {
   [BULK_ALLOCATE_TRANSACTIONS]: bulkAllocateTransactions,
   [BULK_UNALLOCATE_TRANSACTIONS]: bulkUnallocateTransactions,
   [SET_BULK_LOADING_STATE]: setBulkLoading,
+  [APPLY_RULE_TO_TRANSACTIONS]: appliedTransactions,
+  ...wrapHandlers('bankingRuleModal', bankingRuleHandlers),
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

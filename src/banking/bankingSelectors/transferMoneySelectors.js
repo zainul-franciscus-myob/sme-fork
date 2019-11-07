@@ -1,25 +1,8 @@
 import {
-  getEntries, getFilterOptions, getIsOpenEntryCreating, getOpenTransactionLine,
+  getDisplayName, getEntries, getFilterOptions, getIsOpenEntryCreating, getOpenTransactionLine,
 } from '.';
 
 const getTransfer = state => state.openEntry.transfer;
-
-const getDisplayName = (id, accountList) => {
-  const selectedAccount = accountList.find(
-    account => account.id === id,
-  );
-
-  if (!selectedAccount) {
-    return id;
-  }
-
-  const {
-    displayId,
-    displayName,
-  } = selectedAccount || {};
-
-  return `${displayId} ${displayName}`;
-};
 
 export const getFormattedTransfer = (state) => {
   const accountList = state.transferAccounts;

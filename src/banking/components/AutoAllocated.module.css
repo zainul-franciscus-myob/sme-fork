@@ -1,0 +1,5 @@
+.wand {
+  padding-right: var(--flx-spacing-x-tiny);
+  display: flex;
+  align-items: center;
+}
