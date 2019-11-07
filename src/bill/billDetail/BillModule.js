@@ -545,13 +545,16 @@ class BillModule {
   }
 
   exportPdf = () => {
+    this.dispatcher.startModalBlocking();
     const onSuccess = (data) => {
+      this.dispatcher.stopModalBlocking();
       this.closeModal();
       window.open(URL.createObjectURL(data), '_blank');
     };
 
     const onFailure = () => {
       this.dispatcher.openDangerAlert({ message: 'Failed to export PDF' });
+      this.dispatcher.stopModalBlocking();
       this.closeModal();
     };
 

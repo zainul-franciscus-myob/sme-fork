@@ -18,6 +18,7 @@ import {
   SET_INVOICE_ITEM_SUBMITTING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
+  SET_MODAL_SUBMITTING_STATE,
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -47,6 +48,10 @@ const createInvoiceDetailDispatcher = store => ({
   dismissAlert: () => store.dispatch({ intent: SET_ALERT }),
 
   setModalType: modalType => store.dispatch({ intent: SET_MODAL_TYPE, modalType }),
+
+  setModalSubmittingState: isModalSubmitting => store.dispatch({
+    intent: SET_MODAL_SUBMITTING_STATE, isModalSubmitting,
+  }),
 
   dismissModalAlert: () => store.dispatch({ intent: SET_MODAL_ALERT }),
 

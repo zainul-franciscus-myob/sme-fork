@@ -12,3 +12,5 @@ export const UPDATE_QUOTE_ID_AFTER_CREATE = Symbol('Update quote id after create
 export const DELETE_QUOTE_DETAIL = Symbol('Delete quote detail');
 export const EXPORT_QUOTE_PDF = Symbol('Export quote PDF');
 export const CHANGE_EXPORT_PDF_TEMPLATE = Symbol(' Change export pdf template');
+
+export const SET_MODAL_SUBMITTING_STATE = Symbol('Set modal submitting state');

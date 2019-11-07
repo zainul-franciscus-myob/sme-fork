@@ -9,6 +9,7 @@ import {
   getExportPdfTemplate,
   getExportPdfTemplateOptions,
   getIsCreating,
+  getIsModalActionDisabled,
   getModalType,
   getPageTitle,
   getTotalAmount,
@@ -22,6 +23,7 @@ import ServiceQuoteTable from './ServiceQuoteTable';
 const ServiceQuoteView = ({
   template,
   templateOptions,
+  isModalActionDisabled,
   onUpdateHeaderOptions,
   onUpdateRow,
   onAddRow,
@@ -74,6 +76,7 @@ const ServiceQuoteView = ({
       modalType={modalType}
       template={template}
       templateOptions={templateOptions}
+      isActionDisabled={isModalActionDisabled}
       onDismissModal={onCloseModal}
       onConfirmCancelButtonClick={onCancelModal}
       onConfirmDeleteButtonClick={onDeleteModal}
@@ -122,6 +125,7 @@ const mapStateToProps = state => ({
   totalAmount: getTotalAmount(state),
   template: getExportPdfTemplate(state),
   templateOptions: getExportPdfTemplateOptions(state),
+  isModalActionDisabled: getIsModalActionDisabled(state),
 });
 
 export default connect(mapStateToProps)(ServiceQuoteView);

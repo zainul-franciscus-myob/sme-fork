@@ -73,6 +73,8 @@ export const getPageTitle = createSelector(
 
 export const getIsBlocking = state => state.isBlocking;
 
+export const getIsModalBlocking = state => state.isModalBlocking;
+
 export const getIsLineWithoutItemFromInTray = () => false;
 
 export const getInTrayDocumentFileUrl = state => state.inTrayDocument.fileUrl;

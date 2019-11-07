@@ -21,6 +21,7 @@ import {
   EXPORT_QUOTE_PDF,
   LOAD_CUSTOMER_ADDRESS,
   SET_ALERT,
+  SET_MODAL_SUBMITTING_STATE,
   UPDATE_QUOTE_ID_AFTER_CREATE,
 } from '../../QuoteIntents';
 import {
@@ -315,18 +316,22 @@ export default class ServiceQuoteModule {
   }
 
   exportQuotePdf = () => {
+    this.setModalSubmittingState(true);
+
     const state = this.store.getState();
     const urlParams = getExportPdfQuoteUrlParams(state);
     const params = getExportPdfQuoteParams(state);
 
     const onSuccess = (data) => {
       this.setSubmittingState(false);
+      this.setModalSubmittingState(false);
       this.closeModal();
       window.open(URL.createObjectURL(data), '_blank');
     };
 
     const onFailure = () => {
       this.displayFailureAlert('Failed to export PDF');
+      this.setModalSubmittingState(false);
       this.setSubmittingState(false);
     };
 
@@ -425,6 +430,10 @@ export default class ServiceQuoteModule {
 
   closeModal = () => this.store.dispatch({
     intent: CLOSE_MODAL,
+  });
+
+  setModalSubmittingState = isModalSubmitting => this.store.dispatch({
+    intent: SET_MODAL_SUBMITTING_STATE, isModalSubmitting,
   });
 
   displayFailureAlert = errorMessage => this.store.dispatch({

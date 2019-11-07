@@ -4,6 +4,7 @@ export const SET_ALERT = Symbol('Set alert state');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_MODAL_ALERT = Symbol('Set modal alert');
 export const SET_MODAL_TYPE = Symbol('Set modal type');
+export const SET_MODAL_SUBMITTING_STATE = Symbol('Set modal submitting state');
 export const OPEN_MODAL = Symbol('Open Modal');
 export const CLOSE_MODAL = Symbol('Close Modal');
 

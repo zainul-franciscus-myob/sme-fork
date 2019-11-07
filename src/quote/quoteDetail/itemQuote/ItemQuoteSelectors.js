@@ -18,6 +18,7 @@ export const getQuoteId = state => state.quoteId;
 export const getRegion = state => state.region;
 export const getLayout = state => state.layout;
 export const getOpenExportPdfQueryParam = state => state.openExportPdf;
+export const getIsModalActionDisabled = state => state.isModalSubmitting;
 export const getCustomers = state => state.customers;
 export const getQuoteNumber = state => state.quote.quoteNumber;
 export const getPurchaseOrder = state => state.quote.purchaseOrder;

@@ -11,6 +11,7 @@ const QuoteDetailModal = ({
   modalType,
   template,
   templateOptions,
+  isActionDisabled,
   onDismissModal,
   onConfirmCancelButtonClick,
   onConfirmDeleteButtonClick,
@@ -64,6 +65,7 @@ const QuoteDetailModal = ({
     <ExportPdfModal
       template={template}
       templateOptions={templateOptions}
+      isActionDisabled={isActionDisabled}
       onCancel={onDismissModal}
       onConfirmExportPdfButtonClick={onConfirmExportPdfButtonClick}
       onChangeExportPdfForm={onChangeExportPdfForm}

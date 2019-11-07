@@ -14,6 +14,7 @@ import {
   CHANGE_EXPORT_PDF_TEMPLATE,
   LOAD_CUSTOMER_ADDRESS,
   SET_ALERT, SET_LOADING_STATE,
+  SET_MODAL_SUBMITTING_STATE,
   UPDATE_QUOTE_ID_AFTER_CREATE,
 } from '../../QuoteIntents';
 import {
@@ -66,6 +67,7 @@ const getDefaultState = () => ({
   quoteId: '',
   isPageEdited: false,
   modalType: '',
+  isModalSubmitting: false,
   alert: undefined,
   isSubmitting: false,
   comments: [],
@@ -201,6 +203,8 @@ const closeModal = state => ({
   modalType: '',
 });
 
+const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
+
 const setAlert = (state, action) => ({
   ...state,
   alert: action.alert,
@@ -263,6 +267,7 @@ const handlers = {
   [GET_SERVICE_QUOTE_CALCULATED_TOTALS]: getCalculatedTotals,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
+  [SET_MODAL_SUBMITTING_STATE]: setModalSubmittingState,
   [SET_ALERT]: setAlert,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [LOAD_CUSTOMER_ADDRESS]: loadCustomerAddress,

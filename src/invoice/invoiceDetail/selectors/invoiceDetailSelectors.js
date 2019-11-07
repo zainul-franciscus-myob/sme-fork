@@ -19,6 +19,7 @@ export const getIsPageEdited = state => state.isPageEdited;
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
 export const getModalAlert = state => state.modalAlert;
+export const getIsModalActionDisabled = state => state.isModalSubmitting;
 
 export const getInvoice = state => state.invoice;
 export const getLayout = state => state.invoice.layout;

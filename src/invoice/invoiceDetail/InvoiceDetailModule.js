@@ -553,13 +553,17 @@ export default class InvoiceDetailModule {
   }
 
   exportPdf = () => {
+    this.dispatcher.setModalSubmittingState(true);
+
     const onSuccess = (data) => {
+      this.dispatcher.setModalSubmittingState(false);
       this.closeModal();
       window.open(URL.createObjectURL(data), '_blank');
     };
 
     const onFailure = () => {
       this.displayFailureAlert('Failed to export PDF');
+      this.dispatcher.setModalSubmittingState(false);
       this.closeModal();
     };
 

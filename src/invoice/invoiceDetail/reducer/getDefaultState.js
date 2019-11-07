@@ -15,6 +15,7 @@ const getDefaultState = () => ({
   alert: undefined,
   modalType: InvoiceDetailModalType.NONE,
   modalAlert: undefined,
+  isModalSubmitting: false,
   isPageEdited: false,
   isSubmitting: false,
   saveActionType: SaveActionType.SAVE,

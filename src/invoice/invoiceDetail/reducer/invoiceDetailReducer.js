@@ -19,6 +19,7 @@ import {
   SET_INVOICE_ITEM_SUBMITTING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
+  SET_MODAL_SUBMITTING_STATE,
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -73,6 +74,8 @@ const setAlert = (state, { alert }) => ({ ...state, alert });
 const setModalType = (state, { modalType }) => ({ ...state, modalType });
 
 const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
+
+const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
 
 const loadInvoiceDetail = (state, action) => {
   const modalType = getLoadInvoiceDetailModalType(state, action.emailInvoice);
@@ -141,6 +144,7 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [SET_MODAL_TYPE]: setModalType,
   [SET_MODAL_ALERT]: setModalAlert,
+  [SET_MODAL_SUBMITTING_STATE]: setModalSubmittingState,
 
   [LOAD_INVOICE_DETAIL]: loadInvoiceDetail,
   [LOAD_CONTACT_ADDRESS]: loadContactAddress,

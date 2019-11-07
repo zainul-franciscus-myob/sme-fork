@@ -15,9 +15,11 @@ import {
   SERVICE_CALCULATE,
   START_BLOCKING,
   START_LOADING,
+  START_MODAL_BLOCKING,
   START_PENDING_CALCULATION,
   STOP_BLOCKING,
   STOP_LOADING,
+  STOP_MODAL_BLOCKING,
   STOP_PENDING_CALCULATION,
   UPDATE_BILL_ID,
   UPDATE_BILL_ITEM_LINE,
@@ -94,6 +96,7 @@ const getDefaultState = () => ({
   isPageEdited: false,
   isPendingCalculation: false,
   modalType: undefined,
+  isModalBlocking: false,
   alert: undefined,
   inTrayDocumentId: '',
   inTrayPrefillDetails: undefined,
@@ -320,6 +323,16 @@ const stopBlocking = state => ({
   isBlocking: false,
 });
 
+const startModalBlocking = state => ({
+  ...state,
+  isModalBlocking: true,
+});
+
+const stopModalBlocking = state => ({
+  ...state,
+  isModalBlocking: false,
+});
+
 const itemCalculate = (state, action) => ({
   ...state,
   bill: {
@@ -401,6 +414,8 @@ const handlers = {
   [STOP_LOADING]: stopLoading,
   [START_BLOCKING]: startBlocking,
   [STOP_BLOCKING]: stopBlocking,
+  [START_MODAL_BLOCKING]: startModalBlocking,
+  [STOP_MODAL_BLOCKING]: stopModalBlocking,
   [ADD_BILL_SERVICE_LINE]: addBillServiceLine,
   [ADD_BILL_ITEM_LINE]: addBillItemLine,
   [UPDATE_BILL_SERVICE_LINE]: updateBillServiceLine,

@@ -14,6 +14,7 @@ export const getRegion = state => state.region;
 export const getLayout = state => state.layout;
 export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 export const getCustomerId = state => state.quote.customerId;
+export const getIsModalActionDisabled = state => state.isModalSubmitting;
 const getNewLine = state => state.newLine;
 export const getLineByIndex = (state, props) => state.quote.lines[props.index];
 

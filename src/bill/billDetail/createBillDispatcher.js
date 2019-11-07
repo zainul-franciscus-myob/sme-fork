@@ -14,9 +14,11 @@ import {
   SERVICE_CALCULATE,
   START_BLOCKING,
   START_LOADING,
+  START_MODAL_BLOCKING,
   START_PENDING_CALCULATION,
   STOP_BLOCKING,
   STOP_LOADING,
+  STOP_MODAL_BLOCKING,
   STOP_PENDING_CALCULATION,
   UPDATE_BILL_ID,
   UPDATE_BILL_ITEM_LINE,
@@ -111,6 +113,18 @@ const createBillDispatcher = store => ({
   stopBlocking: () => {
     store.dispatch({
       intent: STOP_BLOCKING,
+    });
+  },
+
+  startModalBlocking: () => {
+    store.dispatch({
+      intent: START_MODAL_BLOCKING,
+    });
+  },
+
+  stopModalBlocking: () => {
+    store.dispatch({
+      intent: STOP_MODAL_BLOCKING,
     });
   },
 

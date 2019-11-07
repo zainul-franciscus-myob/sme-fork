@@ -7,6 +7,7 @@ import {
   getExportPdfTemplate,
   getExportPdfTemplateOptions,
   getIsCreating,
+  getIsModalActionDisabled,
   getModalType,
   getPageTitle,
   getTotalAmount,
@@ -22,6 +23,7 @@ const ItemQuoteView = ({
   modalType,
   template,
   templateOptions,
+  isModalActionDisabled,
   onUpdateQuoteOption,
   onTableRowAmountInputBlur,
   onAddTableRow,
@@ -79,6 +81,7 @@ const ItemQuoteView = ({
       modalType={modalType}
       template={template}
       templateOptions={templateOptions}
+      isActionDisabled={isModalActionDisabled}
       onDismissModal={onDismissModal}
       onConfirmCancelButtonClick={onConfirmCancelButtonClick}
       onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
@@ -119,6 +122,7 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   template: getExportPdfTemplate(state),
   templateOptions: getExportPdfTemplateOptions(state),
+  isModalActionDisabled: getIsModalActionDisabled(state),
 });
 
 export default connect(mapStateToProps)(ItemQuoteView);
