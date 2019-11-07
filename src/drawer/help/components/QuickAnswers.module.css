@@ -1,13 +1,49 @@
 .question {
   font-weight: var(--flx-font-weight-bold);
+  width: 100%;
 }
 
 /*
   @Feelix-Override:
     To achieve what design want
 */
-.quickAnswersWrapper :global(.collapsible.is-open) {
-  box-shadow: unset;
+.question:global(.btn-clear:hover:not([disabled])) {
+  background-color: var(--flx-palette-storm-06);
+}
+
+.question :global(.btn__container) {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.question :global(.btn__content) {
+  width: 280px;
+  display: block;
+  white-space: normal;
+  text-align: left;
+  color: var(--flx-palette-thunder);
+}
+
+.question :global(.btn__icon svg) {
+  display: block;
+}
+
+.question--open {
+  background-color: var(--flx-palette-storm-06);
+}
+
+.question--open svg {
+  transform: rotate(-180deg);
+}
+
+.question__toggle svg {
+  transition: 300ms ease transform;
+  transform-origin: center;
+}
+
+.answer {
+  box-shadow: none;
 }
 
 .quickAnswersWrapper :global(.collapsible .table-data__row) {

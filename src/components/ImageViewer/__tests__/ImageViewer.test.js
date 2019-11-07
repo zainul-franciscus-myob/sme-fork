@@ -73,14 +73,14 @@ describe('ImageViewer', () => {
       )[0];
       ReactTestUtils.Simulate.click(clickableImageButton);
 
-      const imageViewerCloseButton = document.getElementsByClassName(
-        imageViewerCloseClass,
+      const imageViwer = document.getElementsByClassName(
+        imageViewerClass,
       )[0];
-      ReactTestUtils.Simulate.keyDown(imageViewerCloseButton, {
+      ReactTestUtils.Simulate.keyDown(imageViwer, {
         key: 'Tab',
       });
 
-      const imageViewer = document.getElementsByClassName(imageViewerCloseClass)[0];
+      const imageViewer = document.getElementsByClassName(imageViewerClass)[0];
       const focusedElement = document.activeElement;
       expect(imageViewer).toBe(focusedElement);
     });

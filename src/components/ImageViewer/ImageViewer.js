@@ -54,10 +54,12 @@ const ImageViewer = ({ mediaSrc, title, className }) => {
   }, []);
 
   const viewer = openInViewer && (
-    <div role="dialog" className={styles.imageViewer}>
+    // ImageViewer need to be focused to listen to keydown event
+    // Accessibility is not necessary in ImageViewer
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+    <div role="dialog" className={styles.imageViewer} ref={imageViewerCloseRef} tabIndex="0">
       <div className={styles.imageViewer__header}>
         <button
-          ref={imageViewerCloseRef}
           type="button"
           className={styles.imageViewer__close}
           onClick={closeViewer}

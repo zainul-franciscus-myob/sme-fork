@@ -1,36 +1,48 @@
-import { AccordionTable, Table } from '@myob/myob-widgets';
+import {
+  Button, Card, Icons, ToggleContent,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
 import { getQuickAnswers } from '../HelpSelectors';
 import RichText from './RichText';
 import styles from './QuickAnswers.module.css';
 
-const QuickAnswers = ({ answers }) => (
-  <AccordionTable
-    expansionToggle
-    body={(
-      <Table.Body className={styles.quickAnswersWrapper}>
-        {answers.map(({ fields: { question, richTextAnswers }, sys: { id } }) => (
-          <Table.CollapsibleRow
-            key={id}
-            header={(
-              <Table.Row>
-                <Table.RowItem textWrap="wrap">
-                  <span className={styles.question}>
-                    {question}
-                  </span>
-                </Table.RowItem>
-                <Table.RowItem width="0">
-                </Table.RowItem>
-              </Table.Row>
-            )}
-          >
-            {richTextAnswers && <RichText document={richTextAnswers} />}
-          </Table.CollapsibleRow>))}
-      </Table.Body>
+const QuickAnswer = ({ question, richTextAnswers }) => (
+  <ToggleContent
+    renderContent={({ show, toggle }) => (
+      <Button
+        type="clear"
+        onClick={toggle}
+        className={classNames(styles.question, {
+          [styles['question--open']]: show,
+        })}
+        iconRight
+        icon={(
+          <span className={classNames(styles.question__toggle)}>
+            <Icons.DownChevron />
+          </span>
+        )}
+      >
+        {question}
+      </Button>
     )}
-  />
+  >
+    <Card classes={styles.answer}>
+      {richTextAnswers && <RichText document={richTextAnswers} />}
+    </Card>
+  </ToggleContent>
+);
+
+const QuickAnswers = ({ answers }) => answers.map(
+  ({ fields: { question, richTextAnswers }, sys: { id } }) => (
+    <QuickAnswer
+      key={id}
+      question={question}
+      richTextAnswers={richTextAnswers}
+    />
+  ),
 );
 
 const mapStateToProps = state => ({
