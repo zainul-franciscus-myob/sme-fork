@@ -2,16 +2,19 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  CLOSE_MODAL,
   LOAD_BUSINESS_DETAIL,
+  OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
+  SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BUSINESS_DETAIL,
 } from '../BusinessIntents';
 import {
   RESET_STATE,
 } from '../../SystemIntents';
-import { getBusinessForUpdate } from './businessDetailSelectors';
+import { getBusinessForUpdate, getIsPageEdited, getModalUrl } from './businessDetailSelectors';
 import BusinessDetailsView from './components/BusinessDetailView';
 import Store from '../../store/Store';
 import businessDetailReducer from './businessDetailReducer';
@@ -35,12 +38,13 @@ export default class BusinessDetailModule {
       businessId: this.businessId,
     };
 
-    const onSuccess = ({ businessDetails }) => {
+    const onSuccess = ({ businessDetails, pageTitle }) => {
       this.setLoadingState(false);
 
       this.store.dispatch({
         intent,
         businessDetails,
+        pageTitle,
       });
     };
 
@@ -67,6 +71,7 @@ export default class BusinessDetailModule {
 
   onChange = ({ key, value }) => {
     const intent = UPDATE_BUSINESS_DETAIL;
+    this.setIsPageEdited(true);
 
     this.store.dispatch({
       intent,
@@ -76,16 +81,21 @@ export default class BusinessDetailModule {
   }
 
   updateBusinessDetail = () => {
+    const onSuccess = ({ message }) => {
+      this.setSubmittingState(false);
+      this.setIsPageEdited(false);
+      this.displayAlert({ message, type: 'success' });
+    };
+    this.saveBusinessDetails(onSuccess);
+  };
+
+  saveBusinessDetails = (onSuccess) => {
     this.setSubmittingState(true);
 
     const intent = UPDATE_BUSINESS_DETAIL;
     const content = getBusinessForUpdate(this.store.getState());
     const urlParams = {
       businessId: this.businessId,
-    };
-    const onSuccess = ({ message }) => {
-      this.setSubmittingState(false);
-      this.displayAlert({ message, type: 'success' });
     };
     const onFailure = (error) => {
       this.setSubmittingState(false);
@@ -98,7 +108,7 @@ export default class BusinessDetailModule {
       onSuccess,
       onFailure,
     });
-  };
+  }
 
   displayAlert = ({ message, type }) => {
     this.store.dispatch({
@@ -143,6 +153,9 @@ export default class BusinessDetailModule {
         onChange={this.onChange}
         onSaveButtonClick={this.updateBusinessDetail}
         onDismissAlert={this.dismissAlert}
+        onConfirmSave={this.updateAndRedirectToUrl}
+        onConfirmCancel={this.redirectToModalUrl}
+        onConfirmClose={this.closeModal}
       />
     );
 
@@ -157,6 +170,55 @@ export default class BusinessDetailModule {
   handlers = {
     SAVE_ACTION: this.updateBusinessDetail,
   };
+
+  redirectToUrl = (url) => {
+    if (url) {
+      window.location.href = url;
+    }
+  }
+
+  openUnsavedModal = (url) => {
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modal: { url },
+    });
+  };
+
+  closeModal = () => {
+    this.store.dispatch({
+      intent: CLOSE_MODAL,
+    });
+  };
+
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+
+    this.redirectToUrl(url);
+  };
+
+  updateAndRedirectToUrl = () => {
+    const onSuccess = () => {
+      this.redirectToModalUrl();
+    };
+    this.saveBusinessDetails(onSuccess);
+  };
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
+  }
+
+  setIsPageEdited = (isPageEdited) => {
+    this.store.dispatch({
+      intent: SET_PAGE_EDITED_STATE,
+      isPageEdited,
+    });
+  }
 
   run(context) {
     this.businessId = context.businessId;

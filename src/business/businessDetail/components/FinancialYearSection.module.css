@@ -1,0 +1,7 @@
+.fiscalYear {
+  width: var(--flx-width-field-xs);
+}
+
+.lastMonthInFiscalYear {
+  width: var(--flx-width-field-s);
+}
