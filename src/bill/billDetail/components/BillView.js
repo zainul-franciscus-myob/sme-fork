@@ -39,6 +39,7 @@ const BillView = ({
   onConfirmSaveAndCreateNewButtonClick,
   onDismissAlert,
   onUpdateBillOption,
+  onAmountPaidBlur,
   onServiceRowInputBlur,
   onAddServiceRow,
   onServiceRowChange,
@@ -54,6 +55,7 @@ const BillView = ({
       <BillItemTable
         onRowInputBlur={onItemRowInputBlur}
         onUpdateBillOption={onUpdateBillOption}
+        onAmountPaidBlur={onAmountPaidBlur}
         onAddRow={onAddItemRow}
         onRowChange={onItemRowChange}
         onRemoveRow={onRemoveItemRow}
@@ -63,6 +65,7 @@ const BillView = ({
       <BillServiceTable
         onRowInputBlur={onServiceRowInputBlur}
         onUpdateBillOption={onUpdateBillOption}
+        onAmountPaidBlur={onAmountPaidBlur}
         onAddRow={onAddServiceRow}
         onRowChange={onServiceRowChange}
         onRemoveRow={onRemoveServiceRow}

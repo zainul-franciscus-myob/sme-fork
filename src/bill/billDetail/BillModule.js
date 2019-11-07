@@ -9,21 +9,24 @@ import {
   getReadBillWithExportPdfModalUrl,
 } from './selectors/BillRedirectSelectors';
 import {
-  getIsCreating,
-  getIsCreatingFromInTray,
-  getIsLineAmountPendingCalculation,
-  getIsLinesEmpty,
-  getIsPageEdited,
-  getLayout,
-  getNewLineIndex,
-  getRouteUrlParams,
-} from './selectors/billSelectors';
-import {
+  getIsAmountPaidKey,
   getIsLineAccountIdKey,
   getIsLineAmountKey,
   getIsLineItemIdKey,
   getIsLineTaxCodeIdKey,
+  getIsSupplierIdKey,
+  getIsTaxInclusiveKey,
 } from './selectors/BillModuleSelectors';
+import {
+  getIsCreating,
+  getIsCreatingFromInTray,
+  getIsLinesEmpty,
+  getIsPageEdited,
+  getIsPendingCalculation,
+  getLayout,
+  getNewLineIndex,
+  getRouteUrlParams,
+} from './selectors/billSelectors';
 import { getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import BillView from './components/BillView';
 import LayoutType from './types/LayoutType';
@@ -38,9 +41,8 @@ import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 class BillModule {
   constructor({
-    integration, setRootView, pushMessage, reload, popMessages, replaceURLParams,
+    integration, setRootView, pushMessage, popMessages, replaceURLParams,
   }) {
-    this.reload = reload;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
@@ -132,7 +134,6 @@ class BillModule {
       const state = this.store.getState();
       const url = getCreateNewBillUrl(state);
       window.location.href = url;
-      this.reload();
     };
 
     const onSuccess = ({ message }) => {
@@ -264,12 +265,13 @@ class BillModule {
     this.dispatcher.updateBillOption({ key, value });
 
     const state = this.store.getState();
-    const isUpdateTaxInclusive = key === 'isTaxInclusive';
-    const isUpdateSupplierId = key === 'supplierId';
+    const isTaxInclusiveKey = getIsTaxInclusiveKey(key);
+    const isSupplierIdKey = getIsSupplierIdKey(key);
+    const isAmountPaidKey = getIsAmountPaidKey(key);
     const isLinesEmpty = getIsLinesEmpty(state);
     const layout = getLayout(state);
 
-    if (isUpdateTaxInclusive && !isLinesEmpty) {
+    if (isTaxInclusiveKey && !isLinesEmpty) {
       const handler = {
         [LayoutType.SERVICE]: this.serviceCalculate,
         [LayoutType.ITEM]: this.itemCalculateUpdateIsTaxInclusive,
@@ -278,22 +280,47 @@ class BillModule {
       handler();
     }
 
-    if (isUpdateSupplierId) {
+    if (isSupplierIdKey) {
       this.loadSupplierAddress();
+    }
+
+    if (isAmountPaidKey) {
+      this.dispatcher.startPendingCalculation();
     }
   };
 
-  formatBillServiceLines = () => {
-    this.dispatcher.formatBillServiceLines();
-    this.serviceCalculate();
+  calculateBillServiceLines = () => {
+    const state = this.store.getState();
+    const isPendingCalculation = getIsPendingCalculation(state);
+
+    if (isPendingCalculation) {
+      this.dispatcher.formatBillServiceLines();
+      this.serviceCalculate();
+    }
   }
 
-  formatBillItemLines = ({ index, key }) => {
+  calculateBillItemLines = ({ index, key }) => {
     const state = this.store.getState();
-    const isLineAmountPendingCalculation = getIsLineAmountPendingCalculation(state);
+    const isPendingCalculation = getIsPendingCalculation(state);
 
-    if (isLineAmountPendingCalculation) {
+    if (isPendingCalculation) {
       this.itemCalculateUpdateLineAmount({ index, key });
+    }
+  }
+
+  calculateAmountPaid = () => {
+    const state = this.store.getState();
+    const isPendingCalculation = getIsPendingCalculation(state);
+    const isLinesEmpty = getIsLinesEmpty(state);
+    const layout = getLayout(state);
+
+    if (isPendingCalculation && !isLinesEmpty) {
+      const handler = {
+        [LayoutType.ITEM]: this.itemCalculateUpdateAmountPaid,
+        [LayoutType.SERVICE]: this.serviceCalculate,
+      }[layout];
+
+      handler();
     }
   }
 
@@ -312,7 +339,12 @@ class BillModule {
   updateBillServiceLine = ({ index, key, value }) => {
     this.dispatcher.updateBillServiceLine({ index, key, value });
 
+    const isLineAmountKey = getIsLineAmountKey(key);
     const shouldCalculateTotals = getIsLineTaxCodeIdKey(key) || getIsLineAccountIdKey(key);
+
+    if (isLineAmountKey) {
+      this.dispatcher.startPendingCalculation();
+    }
 
     if (shouldCalculateTotals) {
       this.serviceCalculate();
@@ -327,7 +359,7 @@ class BillModule {
     const isLineItemIdKey = getIsLineItemIdKey(key);
 
     if (isLineAmountKey) {
-      this.dispatcher.lineAmountPendingCalculation();
+      this.dispatcher.startPendingCalculation();
     }
 
     if (isLineItemIdKey) {
@@ -380,9 +412,24 @@ class BillModule {
     this.integrator.itemCalculateRemoveLine({ onSuccess, onFailure });
   }
 
+  itemCalculateUpdateAmountPaid = () => {
+    this.dispatcher.startBlocking();
+
+    const onSuccess = (response) => {
+      this.dispatcher.itemCalculate(response);
+      this.dispatcher.stopBlocking();
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.openDangerAlert({ message });
+      this.dispatcher.stopBlocking();
+    };
+
+    this.integrator.itemCalculateUpdateAmountPaid({ onSuccess, onFailure });
+  }
+
   itemCalculateUpdateIsTaxInclusive = () => {
     const state = this.store.getState();
-    const isLineAmountPendingCalculation = getIsLineAmountPendingCalculation(state);
+    const isPendingCalculation = getIsPendingCalculation(state);
 
     // when a user is editing a line amount field
     // they can click the isTaxInclusive input
@@ -391,7 +438,7 @@ class BillModule {
     // and the other being the calculate tax inclusive
     // to avoid this, we check that the user is not editing
     // an amount input in the line
-    if (!isLineAmountPendingCalculation) {
+    if (!isPendingCalculation) {
       this.dispatcher.startBlocking();
 
       const onSuccess = (response) => {
@@ -450,13 +497,13 @@ class BillModule {
     const onSuccess = (response) => {
       this.dispatcher.itemCalculate(response);
       this.dispatcher.stopBlocking();
-      this.dispatcher.lineAmountCalculated();
+      this.dispatcher.stopPendingCalculation();
     };
 
     const onFailure = ({ message }) => {
       this.dispatcher.openDangerAlert({ message });
       this.dispatcher.stopBlocking();
-      this.dispatcher.lineAmountCalculated();
+      this.dispatcher.stopPendingCalculation();
     };
 
     this.integrator.itemCalculateUpdateLineAmount({
@@ -470,11 +517,13 @@ class BillModule {
     const onSuccess = (response) => {
       this.dispatcher.serviceCalculate(response);
       this.dispatcher.stopBlocking();
+      this.dispatcher.stopPendingCalculation();
     };
 
     const onFailure = ({ message }) => {
       this.dispatcher.openDangerAlert({ message });
       this.dispatcher.stopBlocking();
+      this.dispatcher.stopPendingCalculation();
     };
 
     this.integrator.serviceCalculate({ onSuccess, onFailure });
@@ -552,11 +601,12 @@ class BillModule {
           onConfirmSaveAndDuplicateButtonClick={this.saveAndDuplicateBill}
           onDismissAlert={this.closeAlert}
           onUpdateBillOption={this.updateBillOption}
-          onServiceRowInputBlur={this.formatBillServiceLines}
+          onAmountPaidBlur={this.calculateAmountPaid}
+          onServiceRowInputBlur={this.calculateBillServiceLines}
           onAddServiceRow={this.addBillServiceLine}
           onServiceRowChange={this.updateBillServiceLine}
           onRemoveServiceRow={this.removeBillServiceLine}
-          onItemRowInputBlur={this.formatBillItemLines}
+          onItemRowInputBlur={this.calculateBillItemLines}
           onAddItemRow={this.addBillItemLine}
           onItemRowChange={this.updateBillItemLine}
           onRemoveItemRow={this.removeBillItemLine}

@@ -3,6 +3,7 @@ import {
   DELETE_BILL,
   EXPORT_BILL_PDF,
   ITEM_CALCULATE_REMOVE_LINE,
+  ITEM_CALCULATE_UPDATE_AMOUNT_PAID,
   ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE,
   ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
   ITEM_CALCULATE_UPDATE_LINE_ITEM,
@@ -38,6 +39,7 @@ const BillDetailMapping = {
   [ITEM_CALCULATE_UPDATE_LINE_AMOUNT]: ({ onSuccess }) => onSuccess(billItemCalculate),
   [ITEM_CALCULATE_UPDATE_LINE_ITEM]: ({ onSuccess }) => onSuccess(billItemCalculate),
   [ITEM_CALCULATE_UPDATE_LINE_TAX_CODE]: ({ onSuccess }) => onSuccess(billItemCalculate),
+  [ITEM_CALCULATE_UPDATE_AMOUNT_PAID]: ({ onSuccess }) => onSuccess(billItemCalculate),
   [EXPORT_BILL_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 

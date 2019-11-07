@@ -23,6 +23,7 @@ const BillItemTable = ({
   onRowInputBlur,
   taxCodeLabel,
   onUpdateBillOption,
+  onAmountPaidBlur,
 }) => {
   const itemIdLabel = 'Item ID';
   const itemNameLabel = 'Item name';
@@ -93,7 +94,7 @@ const BillItemTable = ({
         },
         {
           columnName: taxCodeLabel,
-          styles: { width: '8rem' },
+          styles: { width: '9rem' },
         },
       ],
     },
@@ -109,6 +110,7 @@ const BillItemTable = ({
       onRowChange={onRowChange}
       onRemoveRow={onRemoveRow}
       onUpdateBillOption={onUpdateBillOption}
+      onAmountPaidBlur={onAmountPaidBlur}
     />
   );
 };

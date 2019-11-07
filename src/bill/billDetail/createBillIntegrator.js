@@ -2,6 +2,7 @@ import {
   DELETE_BILL,
   EXPORT_BILL_PDF,
   ITEM_CALCULATE_REMOVE_LINE,
+  ITEM_CALCULATE_UPDATE_AMOUNT_PAID,
   ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE,
   ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
   ITEM_CALCULATE_UPDATE_LINE_ITEM,
@@ -162,6 +163,20 @@ const createBillIntegrator = (store, integration) => ({
 
     integration.write({
       intent: ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  itemCalculateUpdateAmountPaid: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const urlParams = getItemCalculateUrlParams(state);
+    const content = getItemCalculateContent(state);
+
+    integration.write({
+      intent: ITEM_CALCULATE_UPDATE_AMOUNT_PAID,
       urlParams,
       content,
       onSuccess,

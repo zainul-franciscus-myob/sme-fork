@@ -5,8 +5,6 @@ import {
   CLOSE_MODAL,
   FORMAT_BILL_SERVICE_LINES,
   ITEM_CALCULATE,
-  LINE_AMOUNT_CALCULATED,
-  LINE_AMOUNT_PENDING_CALCULATION,
   LOAD_BILL,
   LOAD_SUPPLIER_ADDRESS,
   OPEN_ALERT,
@@ -17,8 +15,10 @@ import {
   SERVICE_CALCULATE,
   START_BLOCKING,
   START_LOADING,
+  START_PENDING_CALCULATION,
   STOP_BLOCKING,
   STOP_LOADING,
+  STOP_PENDING_CALCULATION,
   UPDATE_BILL_ID,
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
@@ -53,6 +53,14 @@ const getDefaultState = () => ({
     lines: [],
     status: '',
     amountPaid: '',
+
+    // arl compatibility fields
+    // used for update, but not visible
+    note: '',
+    journalMemo: '',
+    chargeForLatePayment: 0,
+    discountForEarlyPayment: 0,
+    numberOfDaysForDiscount: 0,
   },
   supplierOptions: [],
   expirationTermOptions: [],
@@ -84,7 +92,7 @@ const getDefaultState = () => ({
   },
   isLoading: false,
   isPageEdited: false,
-  isLineAmountPendingCalculation: false,
+  isPendingCalculation: false,
   modalType: undefined,
   alert: undefined,
   inTrayDocumentId: '',
@@ -322,14 +330,14 @@ const itemCalculate = (state, action) => ({
   totals: action.response.totals,
 });
 
-const lineAmountPendingCalculation = state => ({
+const startPendingCalculation = state => ({
   ...state,
-  isLineAmountPendingCalculation: true,
+  isPendingCalculation: true,
 });
 
-const lineAmountCalculated = state => ({
+const stopPendingCalculation = state => ({
   ...state,
-  isLineAmountPendingCalculation: false,
+  isPendingCalculation: false,
 });
 
 const getPrefilledNewLineFromInTray = (state, newLine) => ({
@@ -402,8 +410,8 @@ const handlers = {
   [SERVICE_CALCULATE]: serviceCalculate,
   [LOAD_SUPPLIER_ADDRESS]: loadSupplierAddress,
   [ITEM_CALCULATE]: itemCalculate,
-  [LINE_AMOUNT_CALCULATED]: lineAmountCalculated,
-  [LINE_AMOUNT_PENDING_CALCULATION]: lineAmountPendingCalculation,
+  [STOP_PENDING_CALCULATION]: stopPendingCalculation,
+  [START_PENDING_CALCULATION]: startPendingCalculation,
   [PREFILL_NEW_BILL_FROM_IN_TRAY]: prefillNewBillFromInTray,
   [RESET_TOTALS]: resetTotals,
   [UPDATE_BILL_ID]: updateBillId,

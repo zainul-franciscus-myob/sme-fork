@@ -23,6 +23,7 @@ const BillServiceTable = ({
   onRowInputBlur,
   onUpdateBillOption,
   onRowChange,
+  onAmountPaidBlur,
 }) => {
   const descriptionLabel = 'Description';
   const accountLabel = 'Account';
@@ -55,7 +56,7 @@ const BillServiceTable = ({
       config: [
         {
           columnName: accountLabel,
-          styles: { width: '35.2ren' },
+          styles: { width: '35.2rem' },
         },
         {
           columnName: amountLabel,
@@ -63,7 +64,7 @@ const BillServiceTable = ({
         },
         {
           columnName: taxCodeLabel,
-          styles: { width: '8rem' },
+          styles: { width: '9rem' },
         },
       ],
     },
@@ -79,6 +80,7 @@ const BillServiceTable = ({
       onRemoveRow={onRemoveRow}
       headerItems={headerItems}
       onUpdateBillOption={onUpdateBillOption}
+      onAmountPaidBlur={onAmountPaidBlur}
     />
   );
 };

@@ -94,10 +94,14 @@ export const getDisplayDaysForMonth = (state) => {
   const month = ['OnADayOfTheMonth', 'DayOfMonthAfterEOM'].includes(getExpirationTerm(state))
     ? currentMonth
     : nextMonth;
-  return eachDay(startOfMonth(month), endOfMonth(month)).map(day => ({
-    name: formatDate(day, 'Do'),
-    value: formatDate(day, 'D'),
-  }));
+  return eachDay(startOfMonth(month), endOfMonth(month)).map((day, index, { length }) => {
+    const isLast = index === length - 1;
+
+    return ({
+      name: isLast ? 'Last day' : formatDate(day, 'Do'),
+      value: formatDate(day, 'D'),
+    });
+  });
 };
 
 export const getShowExpirationDaysAmountInput = state => [

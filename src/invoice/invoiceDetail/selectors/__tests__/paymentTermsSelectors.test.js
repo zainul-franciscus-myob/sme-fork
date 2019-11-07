@@ -93,7 +93,8 @@ describe('paymentTermsSelectors', () => {
     });
   });
 
-  describe('getDisplayDaysForCurrentMonth', () => {
+
+  describe('getDisplayDaysForMonth', () => {
     it.each([
       ['1st', '1'],
       ['2nd', '2'],
@@ -109,9 +110,7 @@ describe('paymentTermsSelectors', () => {
       const actualDay = displayDays.find(dayItem => dayItem.value === day);
       expect(actualDay.name).toEqual(displayDay);
     });
-  });
 
-  describe('getDisplayDaysForNextMonth', () => {
     it.each([
       ['1st', '1'],
       ['2nd', '2'],
@@ -126,6 +125,18 @@ describe('paymentTermsSelectors', () => {
       const displayDays = getDisplayDaysForMonth(invoiceState);
       const actualDay = displayDays.find(dayItem => dayItem.value === day);
       expect(actualDay.name).toEqual(displayDay);
+    });
+
+    it('returns the last index with the name "Last day"', () => {
+      const state = {
+        invoice: {
+          expirationTerm: 'DayOfMonthAfterEOM',
+        },
+      };
+
+      const displayDays = getDisplayDaysForMonth(state);
+
+      expect(displayDays[displayDays.length - 1].name).toEqual('Last day');
     });
   });
 

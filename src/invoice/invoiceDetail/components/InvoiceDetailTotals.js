@@ -20,7 +20,7 @@ const InvoiceDetailTotals = ({
     <LineItemTableTotalsInput
       label="Amount paid"
       value={amountPaid}
-      handler={onAmountInputChange(onChange)}
+      onChange={onAmountInputChange(onChange)}
     />
   ) : (
     <LineItemTable.Totals title="Amount paid" amount={amountPaid} />

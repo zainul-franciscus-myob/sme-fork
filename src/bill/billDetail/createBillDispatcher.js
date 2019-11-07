@@ -4,10 +4,9 @@ import {
   CLOSE_ALERT,
   CLOSE_MODAL,
   FORMAT_BILL_SERVICE_LINES,
-  ITEM_CALCULATE, LINE_AMOUNT_CALCULATED,
-  LINE_AMOUNT_PENDING_CALCULATION, LOAD_BILL,
-  LOAD_SUPPLIER_ADDRESS,
-  OPEN_ALERT,
+  ITEM_CALCULATE,
+  LOAD_BILL,
+  LOAD_SUPPLIER_ADDRESS, OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_NEW_BILL_FROM_IN_TRAY,
   REMOVE_BILL_LINE,
@@ -15,8 +14,10 @@ import {
   SERVICE_CALCULATE,
   START_BLOCKING,
   START_LOADING,
+  START_PENDING_CALCULATION,
   STOP_BLOCKING,
   STOP_LOADING,
+  STOP_PENDING_CALCULATION,
   UPDATE_BILL_ID,
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
@@ -179,15 +180,15 @@ const createBillDispatcher = store => ({
     });
   },
 
-  lineAmountPendingCalculation: () => {
+  startPendingCalculation: () => {
     store.dispatch({
-      intent: LINE_AMOUNT_PENDING_CALCULATION,
+      intent: START_PENDING_CALCULATION,
     });
   },
 
-  lineAmountCalculated: () => {
+  stopPendingCalculation: () => {
     store.dispatch({
-      intent: LINE_AMOUNT_CALCULATED,
+      intent: STOP_PENDING_CALCULATION,
     });
   },
 

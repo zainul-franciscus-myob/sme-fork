@@ -3,6 +3,7 @@ import {
   DELETE_BILL,
   EXPORT_BILL_PDF,
   ITEM_CALCULATE_REMOVE_LINE,
+  ITEM_CALCULATE_UPDATE_AMOUNT_PAID,
   ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE,
   ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
   ITEM_CALCULATE_UPDATE_LINE_ITEM,
@@ -51,7 +52,11 @@ const BillDetailMapping = {
   },
   [ITEM_CALCULATE_REMOVE_LINE]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/item_caluclate_remove_line`,
+    getPath: ({ businessId }) => `/${businessId}/bill/item_calculate_remove_line`,
+  },
+  [ITEM_CALCULATE_UPDATE_AMOUNT_PAID]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/bill/item_calculate_update_amount_paid`,
   },
   [SERVICE_CALCULATE]: {
     method: 'POST',

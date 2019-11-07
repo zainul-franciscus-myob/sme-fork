@@ -25,13 +25,15 @@ const BillTableTotals = ({
   totalTax,
   totalTaxLabel,
   onUpdateBillOption,
+  onAmountPaidBlur,
 }) => {
   const amountPaidInputLine = (isCreating ? (
     <LineItemTableTotalsInput
       label="Amount paid"
       name="amountPaid"
       value={amountPaid}
-      handler={handleAmountInputChange(onUpdateBillOption)}
+      onChange={handleAmountInputChange(onUpdateBillOption)}
+      onBlur={onAmountPaidBlur}
     />
   ) : (
     <LineItemTable.Totals title="Amount paid" amount={displayAmountPaid} />

@@ -70,100 +70,110 @@ describe('BillPaymentTermsSelectors', () => {
       ['CashOnDelivery', false],
       ['Prepaid', false],
     ])('returns true when the expiry days input should be displayed', (expirationTerm, expected) => {
-      const invoiceState = {
+      const state = {
         bill: {
           expirationTerm,
         },
       };
-      const actual = getShowExpiryDaysOptions(invoiceState);
+      const actual = getShowExpiryDaysOptions(state);
       expect(actual).toBe(expected);
     });
   });
 
   describe('getExpirationTermsLabel', () => {
     it('returns the label for the expiration terms popover input', () => {
-      const invoiceState = {
+      const state = {
         bill: {
           expirationTerm: 'InAGivenNumberOfDays',
         },
       };
       const expected = 'days after the issue date';
-      const actual = getExpirationTermsLabel(invoiceState);
+      const actual = getExpirationTermsLabel(state);
       expect(actual).toEqual(expected);
     });
   });
 
-  describe('getDisplayDaysForCurrentMonth', () => {
+  describe('getDisplayDaysForMonth', () => {
     it.each([
       ['1st', '1'],
       ['2nd', '2'],
       ['10th', '10'],
       ['21st', '21'],
     ])('returns a display value for days of the current month when the term is On a day of the month', (displayDay, day) => {
-      const invoiceState = {
+      const state = {
         bill: {
           expirationTerm: 'OnADayOfTheMonth',
         },
       };
-      const displayDays = getDisplayDaysForMonth(invoiceState);
+      const displayDays = getDisplayDaysForMonth(state);
       const actualDay = displayDays.find(dayItem => dayItem.value === day);
       expect(actualDay.name).toEqual(displayDay);
     });
-  });
 
-  describe('getDisplayDaysForNextMonth', () => {
     it.each([
       ['1st', '1'],
       ['2nd', '2'],
       ['10th', '10'],
       ['21st', '21'],
     ])('returns a display value for days of the next month when term is day of next month', (displayDay, day) => {
-      const invoiceState = {
+      const state = {
         bill: {
           expirationTerm: 'DayOfMonthAfterEOM',
         },
       };
-      const displayDays = getDisplayDaysForMonth(invoiceState);
+      const displayDays = getDisplayDaysForMonth(state);
       const actualDay = displayDays.find(dayItem => dayItem.value === day);
       expect(actualDay.name).toEqual(displayDay);
+    });
+
+    it('returns the last index with the name "Last day"', () => {
+      const state = {
+        bill: {
+          expirationTerm: 'DayOfMonthAfterEOM',
+        },
+      };
+
+      const displayDays = getDisplayDaysForMonth(state);
+
+      expect(displayDays[displayDays.length - 1].name).toEqual('Last day');
     });
   });
 
   describe('getShowExpiryDays', () => {
     it('returns true when the payment term is Due on a date of this month', () => {
-      const invoiceState = {
+      const state = {
         bill: {
           expirationTerm: 'OnADayOfTheMonth',
         },
       };
-      expect(getShowExpirationDaysAmountInput(invoiceState)).toBeFalsy();
+      expect(getShowExpirationDaysAmountInput(state)).toBeFalsy();
     });
 
     it('returns true when the payment term is Due on a date of next month', () => {
-      const invoiceState = {
+      const state = {
         bill: {
           expirationTerm: 'DayOfMonthAfterEOM',
         },
       };
-      expect(getShowExpirationDaysAmountInput(invoiceState)).toBeFalsy();
+      expect(getShowExpirationDaysAmountInput(state)).toBeFalsy();
     });
 
     it('returns false when the payment term is due in a number of days after the issue date', () => {
-      const invoiceState = {
+      const state = {
         bill: {
           expirationTerm: 'InAGivenNumberOfDays',
         },
       };
-      expect(getShowExpirationDaysAmountInput(invoiceState)).toBeTruthy();
+      expect(getShowExpirationDaysAmountInput(state)).toBeTruthy();
     });
 
     it('returns false when the payment term is due in a number of days after the end of the month', () => {
-      const invoiceState = {
+      const state = {
         bill: {
           expirationTerm: 'NumberOfDaysAfterEOM',
         },
       };
-      expect(getShowExpirationDaysAmountInput(invoiceState)).toBeTruthy();
+      expect(getShowExpirationDaysAmountInput(state)).toBeTruthy();
     });
   });
 

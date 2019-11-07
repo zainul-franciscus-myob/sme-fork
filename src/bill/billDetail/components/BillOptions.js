@@ -88,6 +88,9 @@ const BillOptions = ({
         requiredLabel="This is required"
         onSelect={handleDateChange('issueDate', onUpdateBillOption)}
       />
+      <BillPaymentTerms
+        onUpdateBillOption={onUpdateBillOption}
+      />
       <BooleanRadioButtonGroup
         name="isTaxInclusive"
         label="Amounts are"
@@ -96,9 +99,6 @@ const BillOptions = ({
         falseLabel={taxExclusiveLabel}
         handler={onUpdateBillOption}
         disabled={isBlocking}
-      />
-      <BillPaymentTerms
-        onUpdateBillOption={onUpdateBillOption}
       />
     </React.Fragment>
   );

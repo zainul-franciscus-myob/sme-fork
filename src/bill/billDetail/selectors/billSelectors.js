@@ -24,7 +24,7 @@ export const getIsCreatingFromInTray = createSelector(
 
 export const getIsLoading = state => state.isLoading;
 
-export const getIsLineAmountPendingCalculation = state => state.isLineAmountPendingCalculation;
+export const getIsPendingCalculation = state => state.isPendingCalculation;
 
 export const getTotalTaxLabel = state => getRegionToDialectText(state.region)('Tax');
 
