@@ -326,7 +326,12 @@ export default class ServiceQuoteModule {
       this.setSubmittingState(false);
       this.setModalSubmittingState(false);
       this.closeModal();
-      window.open(URL.createObjectURL(data), '_blank');
+
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(data);
+      } else {
+        window.open(URL.createObjectURL(data), '_blank');
+      }
     };
 
     const onFailure = () => {
