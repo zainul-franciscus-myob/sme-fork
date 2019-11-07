@@ -50,8 +50,8 @@ export default class AccountDetailModule {
         onDeleteButtonClick={this.dispatcher.openDeleteModal}
         onCancelButtonClick={this.openCancelModal}
         onCloseModal={this.dispatcher.closeModal}
-        onSaveButtonClick={this.dispatcher.updateOrCreateAccount}
-        onDeleteModal={this.dispatcher.deleteAccount}
+        onSaveButtonClick={this.updateOrCreateAccount}
+        onDeleteModal={this.deleteAccount}
         onCancelModal={this.redirectToAccountList}
       />
     );
@@ -90,12 +90,6 @@ export default class AccountDetailModule {
   loadAccountDetail = () => {
     const state = this.store.getState();
     const isCreating = getIsCreating(state);
-    if (isCreating) {
-      this.integrator.loadNewAccount();
-      return;
-    }
-
-    this.dispatcher.setLoadingState(true);
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.loadAccountDetail(payload);
@@ -105,6 +99,12 @@ export default class AccountDetailModule {
       console.log('Failed to load account');
     };
 
+    if (isCreating) {
+      this.integrator.loadNewAccount(onSuccess, onFailure);
+      return;
+    }
+
+    this.dispatcher.setLoadingState(true);
     this.integrator.loadAccountDetail(onSuccess, onFailure);
   };
 
@@ -149,7 +149,6 @@ export default class AccountDetailModule {
   deleteAccount = () => {
     this.dispatcher.setSubmittingState(true);
     this.dispatcher.closeModal();
-
     const onSuccess = ({ message }) => {
       this.pushMessage({
         type: SUCCESSFULLY_DELETED_ACCOUNT,
@@ -163,18 +162,22 @@ export default class AccountDetailModule {
       this.dispatcher.displayAlert(error.message);
     };
 
-    this.integrator.deleteAccount({
+    this.integrator.deleteAccount(
       onSuccess,
       onFailure,
-    });
+    );
   };
 
   handlers = {
     SAVE_ACTION: this.updateOrCreateAccount,
   };
 
+  resetState = () => {
+    this.dispatcher.resetState();
+  };
+
   run(context) {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadAccountDetail();

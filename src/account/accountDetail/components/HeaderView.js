@@ -9,20 +9,20 @@ import ShowSubTotal from './ShowSubTotal';
 
 const HeaderView = ({
   onAccountTypeChange,
-  onAccountDetailsChange,
+  onAccountChange,
   onAccountNumberChange,
   onAccountNumberBlur,
 }) => (
   <React.Fragment>
     <HeaderAccountTypeSection onChange={onAccountTypeChange} />
-    <ParentHeaderSelect onChange={onAccountDetailsChange} />
+    <ParentHeaderSelect onChange={onAccountChange} />
     <AccountNumber
       onChange={onAccountNumberChange}
       onBlur={onAccountNumberBlur}
     />
-    <AccountName onChange={onAccountDetailsChange} />
-    <AccountNotes onChange={onAccountDetailsChange} />
-    <ShowSubTotal onChange={onAccountDetailsChange} />
+    <AccountName onChange={onAccountChange} />
+    <AccountNotes onChange={onAccountChange} />
+    <ShowSubTotal onChange={onAccountChange} />
   </React.Fragment>
 );
 

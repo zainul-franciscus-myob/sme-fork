@@ -1,5 +1,6 @@
 import {
   CLOSE_MODAL,
+  LOAD_ACCOUNT_DETAIL,
   OPEN_MODAL,
   PAD_ACCOUNT_NUMBER,
   SET_ALERT,
@@ -25,6 +26,14 @@ const createAccountDetailDispatcher = store => ({
     });
   },
 
+  loadAccountDetail: (payload) => {
+    const intent = LOAD_ACCOUNT_DETAIL;
+    store.dispatch({
+      intent,
+      ...payload,
+    });
+  },
+
   padAccountNumberValue: ({ key, value }) => {
     const intent = PAD_ACCOUNT_NUMBER;
     store.dispatch({
@@ -43,7 +52,7 @@ const createAccountDetailDispatcher = store => ({
     });
   },
 
-  updateAccountDetail: ({ key, value }) => {
+  updateAccountDetails: ({ key, value }) => {
     const intent = UPDATE_ACCOUNT_DETAILS;
     store.dispatch({
       intent,
@@ -142,7 +151,7 @@ const createAccountDetailDispatcher = store => ({
   },
   resetState() {
     const intent = RESET_STATE;
-    this.store.dispatch({
+    store.dispatch({
       intent,
     });
   },

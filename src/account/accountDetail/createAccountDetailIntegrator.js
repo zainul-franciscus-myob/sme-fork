@@ -47,7 +47,13 @@ const createAccountListIntegrator = (store, integration) => ({
     const urlParams = {
       businessId: getBusinessId(state),
     };
-    this.saveAccount(intent, content, urlParams, onSuccess, onFailure);
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
   },
 
   updateAccount: (onSuccess, onFailure) => {
@@ -58,10 +64,6 @@ const createAccountListIntegrator = (store, integration) => ({
       businessId: getBusinessId(state),
       accountId: getAccountId(state),
     };
-    this.saveAccount(intent, content, urlParams, onSuccess, onFailure);
-  },
-
-  saveAccount: (intent, content, urlParams, onSuccess, onFailure) => {
     integration.write({
       intent,
       urlParams,

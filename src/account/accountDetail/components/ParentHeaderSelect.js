@@ -14,7 +14,7 @@ const buildParentAccounts = headerAccounts => headerAccounts.map(({ displayName,
   <Select.Option value={id} label={displayName} key={id} />
 ));
 
-const AccountCashFlowClassification = ({
+const ParentHeaderSelect = ({
   parentAccounts,
   parentAccount,
   onChange,
@@ -41,4 +41,4 @@ const mapStateToProps = state => ({
   isSelectDisabled: getIsParentHeaderDisabled(state),
 });
 
-export default connect(mapStateToProps)(AccountCashFlowClassification);
+export default connect(mapStateToProps)(ParentHeaderSelect);
