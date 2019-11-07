@@ -1,9 +1,13 @@
 import {
   CHANGE_EMPLOYMENT_CLASSIFICATION_DETAIL,
+  CHANGE_GENERAL_PAYROLL_INFORMATION,
+  CLOSE_MODAL,
   LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
+  LOAD_GENERAL_PAYROLL_INFORMATION,
   LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_SUPER_FUND_LIST,
+  OPEN_MODAL,
   SET_ALERT,
   SET_EMPLOYMENT_CLASSIFICATION_DETAIL_ALERT,
   SET_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
@@ -12,6 +16,8 @@ import {
   SET_EMPLOYMENT_CLASSIFICATION_LIST_LOADING_STATE,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE,
+  SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE,
+  SET_IS_PAGE_EDITED,
   SET_MODAL_TYPE,
   SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
   SET_SUPER_FUND_LIST_FILTER_OPTIONS,
@@ -68,6 +74,12 @@ const createPayrollSettingsDispatcher = store => ({
     store.dispatch({
       intent: SET_MODAL_TYPE,
       modalType: '',
+    });
+  },
+
+  closeModal: () => {
+    store.dispatch({
+      intent: CLOSE_MODAL,
     });
   },
 
@@ -252,6 +264,48 @@ const createPayrollSettingsDispatcher = store => ({
     store.dispatch({
       intent: LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL,
       employmentClassification,
+    });
+  },
+
+
+  setGeneralPayrollInformationIsLoading: (isLoading) => {
+    const intent = SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE;
+    store.dispatch({
+      intent,
+      isLoading,
+    });
+  },
+
+  loadGeneralPayrollInformation: (generalPayrollInformation) => {
+    store.dispatch({
+      intent: LOAD_GENERAL_PAYROLL_INFORMATION,
+      generalPayrollInformation,
+    });
+  },
+
+  changeGeneralPayrollInformation: ({ key, value }) => {
+    store.dispatch({
+      intent: CHANGE_GENERAL_PAYROLL_INFORMATION,
+      key,
+      value,
+    });
+  },
+
+  openModal: ({ type, url, year }) => {
+    store.dispatch({
+      intent: OPEN_MODAL,
+      modal: {
+        type,
+        url,
+        year,
+      },
+    });
+  },
+
+  setIsPageEdited: (isPageEdited) => {
+    store.dispatch({
+      intent: SET_IS_PAGE_EDITED,
+      isPageEdited,
     });
   },
 });

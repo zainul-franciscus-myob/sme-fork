@@ -1,5 +1,5 @@
 import {
-  Alert, StandardTemplate, Tabs,
+  Alert, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,8 +9,10 @@ import { tabIds, tabItems } from '../tabItems';
 import EmployeeClassificationListView from './employmentClassificationList/EmploymentClassificationListView';
 import EmploymentClassificationDetailModal
   from './employmentClassificationDetail/EmploymentClassificationDetailModal';
+import GeneralPayrollInformationView from './generalPayrollInformation/GeneralPayrollInformationView';
 import ModalType from '../ModalType';
 import SuperFundListView from './superFundList/SuperFundListView';
+import Tabs from '../../components/Tabs/Tabs';
 
 const EmptyView = ({ pageHead, alert, tabs }) => (
   <StandardTemplate sticky="none" pageHead={pageHead} alert={alert} subHeadChildren={tabs} />
@@ -26,6 +28,7 @@ const PayrollSettingsView = (props) => {
     superFundListeners,
     employmentClassificationListeners,
     employmentClassificationDetailListeners,
+    generalPayrollInformationListeners,
   } = props;
 
   const alertComponent = alert && (
@@ -43,7 +46,7 @@ const PayrollSettingsView = (props) => {
   }[modalType];
 
   const View = {
-    [tabIds.general]: EmptyView,
+    [tabIds.general]: GeneralPayrollInformationView,
     [tabIds.classification]: EmployeeClassificationListView,
     [tabIds.superFundList]: SuperFundListView,
     [tabIds.paySlips]: EmptyView,
@@ -52,6 +55,7 @@ const PayrollSettingsView = (props) => {
   const listeners = {
     [tabIds.superFundList]: superFundListeners,
     [tabIds.classification]: employmentClassificationListeners,
+    [tabIds.general]: generalPayrollInformationListeners,
   }[selectedTab];
 
   return (

@@ -1,6 +1,8 @@
 export const SET_TAB = Symbol('Set tab');
 export const SET_ALERT = Symbol('Set alert');
 export const SET_MODAL_TYPE = Symbol('Set modal type');
+export const OPEN_MODAL = Symbol('Open modal');
+export const CLOSE_MODAL = Symbol('Close modal');
 
 export const LOAD_SUPER_FUND_LIST = Symbol('Load superannuation funds');
 export const SORT_AND_FILTER_SUPER_FUND_LIST = Symbol('Sort and filter superannuation funds');
@@ -27,3 +29,8 @@ export const LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL = Symbol('Load employment cla
 export const CREATE_EMPLOYMENT_CLASSIFICATION = Symbol('Create employment classification');
 export const UPDATE_EMPLOYMENT_CLASSIFICATION = Symbol('Update employment classification');
 export const DELETE_EMPLOYMENT_CLASSIFICATION = Symbol('Delete employment classification');
+export const LOAD_GENERAL_PAYROLL_INFORMATION = Symbol('Load general payroll information');
+export const UPDATE_GENERAL_PAYROLL_INFORMATION = Symbol('Submit general payroll infromation');
+export const CHANGE_GENERAL_PAYROLL_INFORMATION = Symbol('Change general payroll information');
+export const SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE = Symbol('Set general payroll information loading state');
+export const SET_IS_PAGE_EDITED = Symbol('Set is page edited');

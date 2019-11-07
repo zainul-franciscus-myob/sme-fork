@@ -3,11 +3,13 @@ import {
   DELETE_EMPLOYMENT_CLASSIFICATION,
   LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
+  LOAD_GENERAL_PAYROLL_INFORMATION,
   LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_SUPER_FUND_LIST,
   SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST,
   SORT_AND_FILTER_SUPER_FUND_LIST,
   UPDATE_EMPLOYMENT_CLASSIFICATION,
+  UPDATE_GENERAL_PAYROLL_INFORMATION,
 } from '../../payrollSettings/PayrollSettingsIntents';
 
 const PayrollSettingsMapping = {
@@ -46,6 +48,14 @@ const PayrollSettingsMapping = {
   [DELETE_EMPLOYMENT_CLASSIFICATION]: {
     method: 'DELETE',
     getPath: ({ businessId, employmentClassificationId }) => `/${businessId}/payrollSettings/delete_employment_classification/${employmentClassificationId}`,
+  },
+  [LOAD_GENERAL_PAYROLL_INFORMATION]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/payrollSettings/load_general_payroll_information`,
+  },
+  [UPDATE_GENERAL_PAYROLL_INFORMATION]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/payrollSettings/update_general_payroll_information`,
   },
 };
 

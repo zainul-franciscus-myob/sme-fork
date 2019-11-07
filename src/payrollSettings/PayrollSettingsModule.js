@@ -3,7 +3,14 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_SUPER_FUND, SUCCESSFULLY_SAVED_SUPER_FUND } from './PayrollSettingsMessageTypes';
 import {
-  getBusinessId, getRegion, getTab, getURLParams,
+  getBusinessId,
+  getCurrentYear,
+  getIsCurrentYearProvided,
+  getIsPageEdited,
+  getModalUrl,
+  getRegion,
+  getTabUrl,
+  getURLParams,
 } from './selectors/payrollSettingsSelectors';
 import { getIsCreating } from './selectors/employmentClassificationDetailSelectors';
 import { getNewEmploymentClassificationSortOrder } from './selectors/employmentClassificationListSelectors';
@@ -46,18 +53,21 @@ export default class PayrollSettingsModule {
   updateURLFromState = state => this.replaceURLParams(getURLParams(state))
 
   setTab = (selectedTab) => {
-    this.dispatcher.setTab(selectedTab);
-
     const state = this.store.getState();
-    const tab = getTab(state);
-
-    this.loadTabContent(tab);
+    const url = getTabUrl(state, selectedTab);
+    if (getIsPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.dispatcher.setTab(selectedTab);
+      this.loadTabContent(selectedTab);
+    }
   }
 
   loadTabContent = (selectedTab) => {
     const loadData = {
       [tabIds.superFundList]: this.loadSuperFundList,
       [tabIds.classification]: this.loadEmploymentClassificationList,
+      [tabIds.general]: this.loadGeneralPayrollInformation,
     }[selectedTab] || (() => {});
 
     loadData();
@@ -204,6 +214,27 @@ export default class PayrollSettingsModule {
     this.integrator.loadNewEmploymentClassificationDetail({ onSuccess, onFailure });
   }
 
+  loadGeneralPayrollInformation = () => {
+    this.dispatcher.setGeneralPayrollInformationIsLoading(true);
+
+    const onSuccess = (generalPayrollInformation) => {
+      this.dispatcher.loadGeneralPayrollInformation(generalPayrollInformation);
+      this.dispatcher.setGeneralPayrollInformationIsLoading(false);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.dismissModal();
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+
+      this.dispatcher.setGeneralPayrollInformationIsLoading(false);
+    };
+
+    this.integrator.loadGeneralPayrollInformation({ onSuccess, onFailure });
+  }
+
   openEmployeeClassificationDetailModal = (id) => {
     this.dispatcher.setModalType(ModalType.EMPLOYMENT_CLASSIFICATION_DETAIL);
     this.dispatcher.setEmploymentClassificationDetailInitialState({ id });
@@ -277,12 +308,72 @@ export default class PayrollSettingsModule {
     this.integrator.deleteEmploymentClassification({ onSuccess, onFailure });
   }
 
+  submitGeneralPayrollInformation = () => {
+    this.dispatcher.setGeneralPayrollInformationIsLoading(true);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setGeneralPayrollInformationIsLoading(false);
+      const state = this.store.getState();
+      const url = getModalUrl(state);
+
+      if (url) {
+        this.redirectToModalUrl();
+      } else {
+        this.dispatcher.closeModal();
+        this.dispatcher.setAlert({
+          type: 'success',
+          message,
+        });
+      }
+
+      this.dispatcher.setIsPageEdited(false);
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.setGeneralPayrollInformationIsLoading(false);
+      this.dispatcher.closeModal();
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.submitGeneralPayrollInformation({ onSuccess, onFailure });
+  }
+
+  saveGeneralPayrollInformation = () => {
+    const state = this.store.getState();
+    if (getIsCurrentYearProvided(state)) {
+      this.submitGeneralPayrollInformation();
+    } else {
+      const url = getModalUrl(state);
+      this.dispatcher.closeModal();
+      this.dispatcher.openModal({
+        type: ModalType.PAYROLL_YEAR_WARNING,
+        year: getCurrentYear(state),
+        url,
+      });
+    }
+  }
+
   resetState = () => {
     this.dispatcher.resetState();
   };
 
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+    this.redirectToUrl(url);
+    this.dispatcher.setIsPageEdited(false);
+  }
+
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
+  }
+
+  redirectToUrl = (url) => {
+    if (url) {
+      window.location.href = url;
+    }
   }
 
   run(context) {
@@ -290,7 +381,11 @@ export default class PayrollSettingsModule {
     this.store.subscribe(this.updateURLFromState);
     this.render();
     this.readMessages();
-    this.setTab(context.tab);
+    this.setTab(tabIds.general);
+  }
+
+  openUnsavedModal = (url) => {
+    this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
   }
 
   render = () => {
@@ -303,6 +398,14 @@ export default class PayrollSettingsModule {
           onUpdateFilterOptions: this.dispatcher.setSuperFundListFilterOptions,
           onApplyFilter: this.filterSuperFundList,
           onSort: this.sortSuperFundList,
+        }}
+        generalPayrollInformationListeners={{
+          onGeneralPayrollInformationChange: this.dispatcher.changeGeneralPayrollInformation,
+          onGeneralPayrollInformationSave: this.saveGeneralPayrollInformation,
+          onDismissModal: this.dispatcher.closeModal,
+          onConfirmCancelButtonClick: this.redirectToModalUrl,
+          onConfirmSave: this.saveGeneralPayrollInformation,
+          onWarningConfirmSave: this.submitGeneralPayrollInformation,
         }}
         employmentClassificationListeners={{
           onCreateButtonClick: this.openNewEmployeeClassificationDetailModal,
@@ -329,5 +432,14 @@ export default class PayrollSettingsModule {
       </Provider>
     );
     this.setRootView(wrappedView);
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
   }
 }

@@ -3,11 +3,13 @@ import {
   DELETE_EMPLOYMENT_CLASSIFICATION,
   LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
+  LOAD_GENERAL_PAYROLL_INFORMATION,
   LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_SUPER_FUND_LIST,
   SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST,
   SORT_AND_FILTER_SUPER_FUND_LIST,
   UPDATE_EMPLOYMENT_CLASSIFICATION,
+  UPDATE_GENERAL_PAYROLL_INFORMATION,
 } from './PayrollSettingsIntents';
 import {
   getAppliedFilterOptions,
@@ -15,7 +17,11 @@ import {
   getOrderBy,
   getSortOrder,
 } from './selectors/superFundListSelectors';
-import { getBusinessId } from './selectors/payrollSettingsSelectors';
+import {
+  getBusinessId,
+  getGeneralPayrollInformationUrlParams,
+  getUpdateGeneralPayrollInformationContent,
+} from './selectors/payrollSettingsSelectors';
 import {
   getEmploymentClassificationAppliedFilterOptions,
   getEmploymentClassificationFilterOptions,
@@ -188,6 +194,40 @@ const createPayrollSettingsIntegrator = (store, integration) => ({
     integration.read({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadGeneralPayrollInformation: ({
+    onSuccess, onFailure,
+  }) => {
+    const intent = LOAD_GENERAL_PAYROLL_INFORMATION;
+
+    const state = store.getState();
+    const urlParams = getGeneralPayrollInformationUrlParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  submitGeneralPayrollInformation: ({
+    onSuccess, onFailure,
+  }) => {
+    const intent = UPDATE_GENERAL_PAYROLL_INFORMATION;
+
+    const state = store.getState();
+    const urlParams = getGeneralPayrollInformationUrlParams(state);
+    const content = getUpdateGeneralPayrollInformationContent(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
       onSuccess,
       onFailure,
     });

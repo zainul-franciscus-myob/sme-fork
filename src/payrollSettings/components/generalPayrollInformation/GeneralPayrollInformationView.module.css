@@ -1,0 +1,7 @@
+.formWidth :global(.form-group) {
+  max-width: 75.4rem;
+}
+
+.formWidth :global(.form-group__input-group) {
+  max-width: var(--flx-width-field-s);
+}

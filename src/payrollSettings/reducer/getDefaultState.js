@@ -35,6 +35,14 @@ const getDefaultState = () => ({
     alert: undefined,
     isLoading: false,
   },
+  generalPayrollInformation: {
+    currentYear: '',
+    hoursInWorkWeek: '',
+    withholdingPayerNumber: '',
+    roundNetPay: '',
+    taxTableRevisionDate: '',
+  },
+  isPageEdited: false,
 });
 
 export default getDefaultState;

@@ -16,12 +16,47 @@ export const getTab = createSelector(
     const tabIdKeys = Object.keys(tabIds);
     const isValidTab = tabIdKeys.includes(stateTab);
 
-    return isValidTab ? stateTab : tabIds.superFundList;
+    return isValidTab ? stateTab : tabIds.general;
   },
 );
+
+export const getTabUrl = (state, tab) => `/#/${state.region}/${state.businessId}/payrollSettings?tab=${tab}`;
+
+export const getIsPageEdited = state => state.isPageEdited;
 
 export const getURLParams = createStructuredSelector({
   tab: getTab,
 });
 
+export const getGeneralPayrollInformationUrlParams = state => ({
+  businessId: getBusinessId(state),
+});
+
 export const getModalType = state => state.modalType;
+export const getModal = state => state.modal;
+export const getModalUrl = state => ((state.modal || {}).url);
+
+export const getIsCurrentYearProvided = state => (
+  state.generalPayrollInformation.isCurrentYearProvided
+);
+export const getCurrentYear = state => state.generalPayrollInformation.currentYear;
+export const getIsLoading = state => state.generalPayrollInformation.isLoading;
+
+export const getGeneralPayrollInformation = createStructuredSelector({
+  currentYear: getCurrentYear,
+  hoursInWorkWeek: state => state.generalPayrollInformation.hoursInWorkWeek,
+  withholdingPayerNumber: state => state.generalPayrollInformation.withholdingPayerNumber,
+  roundNetPay: state => state.generalPayrollInformation.roundNetPay,
+  taxTableRevisionDate: state => state.generalPayrollInformation.taxTableRevisionDate,
+  isCurrentYearProvided: state => state.generalPayrollInformation.isCurrentYearProvided,
+});
+
+export const getUpdateGeneralPayrollInformationContent = createStructuredSelector({
+  currentYear: getCurrentYear,
+  hoursInWorkWeek: state => state.generalPayrollInformation.hoursInWorkWeek,
+  withholdingPayerNumber: state => state.generalPayrollInformation.withholdingPayerNumber,
+  roundNetPay: state => state.generalPayrollInformation.roundNetPay,
+  useTimesheets: state => state.generalPayrollInformation.useTimesheets,
+  useTimesheetsAction: state => state.generalPayrollInformation.useTimesheetsAction,
+  useTimesheetsWeekStarts: state => state.generalPayrollInformation.useTimesheetsWeekStarts,
+});

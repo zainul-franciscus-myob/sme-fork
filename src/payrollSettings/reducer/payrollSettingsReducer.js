@@ -1,9 +1,13 @@
 import {
   CHANGE_EMPLOYMENT_CLASSIFICATION_DETAIL,
+  CHANGE_GENERAL_PAYROLL_INFORMATION,
+  CLOSE_MODAL,
   LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_EMPLOYMENT_CLASSIFICATION_LIST,
+  LOAD_GENERAL_PAYROLL_INFORMATION,
   LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL,
   LOAD_SUPER_FUND_LIST,
+  OPEN_MODAL,
   SET_ALERT,
   SET_EMPLOYMENT_CLASSIFICATION_DETAIL_ALERT,
   SET_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
@@ -12,6 +16,8 @@ import {
   SET_EMPLOYMENT_CLASSIFICATION_LIST_LOADING_STATE,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE,
+  SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE,
+  SET_IS_PAGE_EDITED,
   SET_MODAL_TYPE,
   SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
   SET_SUPER_FUND_LIST_FILTER_OPTIONS,
@@ -76,6 +82,62 @@ const setModalType = (state, action) => ({
   modalType: action.modalType,
 });
 
+const openModal = (state, action) => ({
+  ...state,
+  modal: action.modal,
+});
+
+const closeModal = state => ({
+  ...state,
+  modal: undefined,
+});
+
+const setIsPageEdited = (state, action) => ({
+  ...state,
+  isPageEdited: action.isPageEdited,
+});
+
+const changeGeneralPayrollInformation = (state, action) => ({
+  ...state,
+  generalPayrollInformation: {
+    ...state.generalPayrollInformation,
+    [action.key]: action.value,
+  },
+  isPageEdited: true,
+});
+
+const getDefaultCurrentYear = () => {
+  let defaultCurrentYear;
+  const today = new Date();
+  const presentMonth = today.getMonth();
+  const presentYear = today.getFullYear();
+  if (presentMonth >= 0 && presentMonth <= 5) {
+    defaultCurrentYear = presentYear;
+  } else {
+    defaultCurrentYear = presentYear + 1;
+  }
+  return defaultCurrentYear;
+};
+
+export const loadGeneralPayrollInformation = (state, action) => ({
+  ...state,
+  generalPayrollInformation: {
+    ...state.generalPayrollInformation,
+    ...action.generalPayrollInformation,
+    isCurrentYearProvided: action.generalPayrollInformation.currentYear,
+    currentYear: action.generalPayrollInformation.currentYear === null
+      ? getDefaultCurrentYear() : action.generalPayrollInformation.currentYear,
+  },
+});
+
+export const setGeneralPayrollInformationIsLoading = (state, action) => ({
+  ...state,
+  generalPayrollInformation: {
+    ...state.generalPayrollInformation,
+    isLoading: action.isLoading,
+  },
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -103,6 +165,12 @@ const handlers = {
   [LOAD_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL]: loadNewEmploymentClassificationDetail,
   [LOAD_EMPLOYMENT_CLASSIFICATION_DETAIL]: loadEmploymentClassificationDetail,
   [CHANGE_EMPLOYMENT_CLASSIFICATION_DETAIL]: changeEmploymentClassificationDetail,
+  [LOAD_GENERAL_PAYROLL_INFORMATION]: loadGeneralPayrollInformation,
+  [CHANGE_GENERAL_PAYROLL_INFORMATION]: changeGeneralPayrollInformation,
+  [CLOSE_MODAL]: closeModal,
+  [OPEN_MODAL]: openModal,
+  [SET_IS_PAGE_EDITED]: setIsPageEdited,
+  [SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE]: setGeneralPayrollInformationIsLoading,
 };
 
 const payrollSettingsReducer = createReducer(getDefaultState(), handlers);
