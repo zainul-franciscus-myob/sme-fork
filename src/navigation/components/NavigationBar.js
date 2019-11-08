@@ -96,7 +96,9 @@ const NavigationBar = ({
   const primary = primaryMenuItems.length ? primaryMenuItems : [''];
 
   return (
-    <Navigation brand={brand} primary={primary} secondary={secondary} />
+    <div className={styles.navigation}>
+      <Navigation brand={brand} primary={primary} secondary={secondary} />
+    </div>
   );
 };
 
