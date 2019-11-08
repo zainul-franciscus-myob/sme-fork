@@ -39,7 +39,7 @@ const getDefaultState = () => ({
     notes: '',
     cashFlowClassification: '',
     isActive: true,
-    bankingDetails: undefined,
+    bankingDetails: {},
   },
   header: {
     id: '',

@@ -6,7 +6,7 @@ import {
   UPDATE_ACCOUNT,
 } from '../AccountIntents';
 import {
-  getAccount,
+  getAccountForRequest,
   getAccountId,
   getBusinessId,
 } from './accountDetailSelectors';
@@ -43,7 +43,7 @@ const createAccountListIntegrator = (store, integration) => ({
   createAccount: (onSuccess, onFailure) => {
     const intent = CREATE_ACCOUNT;
     const state = store.getState();
-    const content = getAccount(state);
+    const content = getAccountForRequest(state);
     const urlParams = {
       businessId: getBusinessId(state),
     };
@@ -59,7 +59,7 @@ const createAccountListIntegrator = (store, integration) => ({
   updateAccount: (onSuccess, onFailure) => {
     const intent = UPDATE_ACCOUNT;
     const state = store.getState();
-    const content = getAccount(state);
+    const content = getAccountForRequest(state);
     const urlParams = {
       businessId: getBusinessId(state),
       accountId: getAccountId(state),

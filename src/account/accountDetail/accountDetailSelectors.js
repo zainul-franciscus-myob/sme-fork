@@ -71,8 +71,8 @@ export const getStatementCode = state => state.detail.bankingDetails.statementCo
 export const getBankTradingName = state => state.detail.bankingDetails.companyTradingName;
 export const getCreateABABank = state => state.detail.bankingDetails.createABABank;
 export const getDirectEntryUserId = state => state.detail.bankingDetails.directEntryUserId;
-export const getSelfBalancingTransaction = state => state
-  .detail.bankingDetails.isSelfBalancingTransaction;
+export const getSelfBalancingTransaction = state => state.detail.bankingDetails
+  .isSelfBalancingTransaction;
 export const getStatementParticulars = state => state.detail.bankingDetails.statementParticulars;
 export const getStatementReference = state => state.detail.bankingDetails.statementReference;
 
@@ -171,7 +171,8 @@ export const getParentAccountsForType = createSelector(
 
 export const getShowBankDetails = createSelector(
   getAccountType,
-  type => ['Bank', 'CreditCard'].includes(type),
+  getIsHeader,
+  (type, isHeader) => !isHeader && ['Bank', 'CreditCard'].includes(type),
 );
 
 export const getAccountClassificationsForDetail = createSelector(
@@ -185,6 +186,18 @@ export const getAccountClassificationsForDetail = createSelector(
     return classifications.filter(
       classification => classification.value === accountClassification,
     );
+  },
+);
+
+export const getAccountForRequest = createSelector(
+  getAccount,
+  getShowBankDetails,
+  (account, showBankDetails) => {
+    if (showBankDetails) {
+      return account;
+    }
+    const { bankingDetails, ...request } = account;
+    return request;
   },
 );
 
