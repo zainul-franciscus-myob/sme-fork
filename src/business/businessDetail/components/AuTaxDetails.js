@@ -1,4 +1,4 @@
-import { Input, Tooltip } from '@myob/myob-widgets';
+import { Icons, Input, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -31,9 +31,10 @@ const AuTaxDetails = ({
       className={styles.input}
       name="gstBranchNumber"
       label="GST branch number"
-      tooltip={(
-        <Tooltip>
-          A number given by the ATO if you&#39;ve separately registered a branch of your business.
+      labelAccessory={(
+        <Tooltip triggerContent={<Icons.Info />}>
+          If you have registered each branch of your business separately for GST,
+          enter the number given by the ATO for this branch
         </Tooltip>
       )}
       value={gstBranchNumber}
