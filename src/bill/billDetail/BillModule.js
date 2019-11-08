@@ -314,6 +314,8 @@ class BillModule {
     const isLinesEmpty = getIsLinesEmpty(state);
     const layout = getLayout(state);
 
+    this.dispatcher.formatAmountPaid();
+
     if (isPendingCalculation && !isLinesEmpty) {
       const handler = {
         [LayoutType.ITEM]: this.itemCalculateUpdateAmountPaid,

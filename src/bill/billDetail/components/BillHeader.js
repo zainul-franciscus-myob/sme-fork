@@ -1,5 +1,5 @@
 import {
-  Button, Icons, Label, TotalsHeader,
+  TotalsHeader,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,19 +9,12 @@ import {
   getDisplayAmountPaid,
   getIsCreating,
   getPageTitle,
-  getStatus,
   getTotalAmount,
 } from '../selectors/billSelectors';
-import {
-  getRecordPaymentUrl,
-} from '../selectors/BillRedirectSelectors';
-import LinkButton from '../../../components/Button/LinkButton';
 
 const BillHeader = ({
   isCreating,
   pageTitle,
-  status,
-  recordPaymentUrl,
   displayTotalAmount,
   displayAmountPaid,
   displayAmountDue,
@@ -55,28 +48,6 @@ const BillHeader = ({
           count={displayAmountDue}
         />,
       ]}
-      tag={(
-        <Label type="boxed">
-          {status}
-        </Label>
-      )}
-      actions={[
-        <Button
-          key="activityHistory"
-          type="link"
-          icon={<Icons.History />}
-        >
-Activity history
-        </Button>,
-        <LinkButton
-          key="recordPayment"
-          type="link"
-          icon={<Icons.Dollar />}
-          href={recordPaymentUrl}
-        >
-Record payment
-        </LinkButton>,
-      ]}
     />
   );
 };
@@ -84,8 +55,6 @@ Record payment
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   pageTitle: getPageTitle(state),
-  status: getStatus(state),
-  recordPaymentUrl: getRecordPaymentUrl(state),
   displayTotalAmount: getTotalAmount(state),
   displayAmountPaid: getDisplayAmountPaid(state),
   displayAmountDue: getAmountDue(state),

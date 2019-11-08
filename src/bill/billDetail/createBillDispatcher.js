@@ -3,10 +3,11 @@ import {
   ADD_BILL_SERVICE_LINE,
   CLOSE_ALERT,
   CLOSE_MODAL,
+  FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   ITEM_CALCULATE,
-  LOAD_BILL,
-  LOAD_SUPPLIER_ADDRESS, OPEN_ALERT,
+  LOAD_BILL, LOAD_SUPPLIER_ADDRESS,
+  OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_NEW_BILL_FROM_IN_TRAY,
   REMOVE_BILL_LINE,
@@ -170,6 +171,12 @@ const createBillDispatcher = store => ({
   formatBillServiceLines: () => {
     store.dispatch({
       intent: FORMAT_BILL_SERVICE_LINES,
+    });
+  },
+
+  formatAmountPaid: () => {
+    store.dispatch({
+      intent: FORMAT_AMOUNT_PAID,
     });
   },
 

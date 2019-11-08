@@ -1,6 +1,6 @@
-import { Combobox } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import Combobox from './Combobox';
 
 const TaxCodeCombobox = (props) => {
   const {
@@ -44,21 +44,6 @@ const TaxCodeCombobox = (props) => {
       {...otherProps}
     />
   );
-};
-
-TaxCodeCombobox.defaultProps = {
-  items: [],
-  selectedId: null,
-  disabled: false,
-  allowClearSelection: false,
-};
-
-TaxCodeCombobox.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({})),
-  selectedId: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  allowClearSelection: PropTypes.bool,
 };
 
 export default TaxCodeCombobox;

@@ -114,6 +114,7 @@ const BillItemTableRow = ({
         selectedId={taxCodeId}
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
         disabled={isBlocking || isNewLine || isLineWithoutItemFromInTray}
+        left
       />
     </LineItemTable.Row>
   );

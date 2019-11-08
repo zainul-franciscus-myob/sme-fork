@@ -82,6 +82,7 @@ const BillPaymentTerms = ({
   return (
     <Field
       label="Due date"
+      requiredLabel="This is required"
       renderField={() => (
         <div className={styles.popover}>
           {/* @TODO: fix the jank of the popover closing when user update input */}

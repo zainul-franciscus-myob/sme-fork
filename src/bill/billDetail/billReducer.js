@@ -3,6 +3,7 @@ import {
   ADD_BILL_SERVICE_LINE,
   CLOSE_ALERT,
   CLOSE_MODAL,
+  FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   ITEM_CALCULATE,
   LOAD_BILL,
@@ -300,6 +301,14 @@ const formatBillServiceLines = (state) => {
   };
 };
 
+const formatAmountPaid = state => ({
+  ...state,
+  bill: {
+    ...state.bill,
+    amountPaid: formatAmount(state.bill.amountPaid),
+  },
+});
+
 const serviceCalculate = (state, action) => ({
   ...state,
   totals: action.response.totals,
@@ -431,6 +440,7 @@ const handlers = {
   [RESET_TOTALS]: resetTotals,
   [UPDATE_BILL_ID]: updateBillId,
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
+  [FORMAT_AMOUNT_PAID]: formatAmountPaid,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

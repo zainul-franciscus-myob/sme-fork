@@ -32,12 +32,6 @@ export const getDuplicateBillUrl = createSelector(
   (region, businessId, billId) => `/#/${region}/${businessId}/bill/new?duplicatedBillId=${billId}`,
 );
 
-export const getRecordPaymentUrl = createSelector(
-  getBusinessId,
-  getRegion,
-  (businessId, region) => `/#/${region}/${businessId}/billPayment/new`,
-);
-
 export const getReadBillWithExportPdfModalUrl = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);

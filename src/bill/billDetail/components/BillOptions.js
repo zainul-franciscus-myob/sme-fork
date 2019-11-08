@@ -74,6 +74,7 @@ const BillOptions = ({
         value={billNumber}
         requiredLabel="This is required"
         onChange={handleInputChange(onUpdateBillOption)}
+        maxLength={8}
       />
       <Input
         name="supplierInvoiceNumber"

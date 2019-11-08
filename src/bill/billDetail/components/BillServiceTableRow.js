@@ -75,6 +75,7 @@ const BillServiceTableRow = ({
         items={taxCodeOptions}
         selectedId={taxCodeId}
         disabled={isNewLine || isBlocking}
+        left
       />
     </LineItemTable.Row>
   );

@@ -1,5 +1,6 @@
 import {
   ADD_BILL_SERVICE_LINE,
+  FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   ITEM_CALCULATE,
   LOAD_BILL,
@@ -517,6 +518,26 @@ describe('billReducer', () => {
           amountDue: '4.00',
         },
       });
+    });
+  });
+
+  describe('FORMAT_AMOUNT_PAID', () => {
+    const state = {
+      bill: {
+        amountPaid: '0',
+      },
+    };
+
+    const action = {
+      intent: FORMAT_AMOUNT_PAID,
+    };
+
+    const actual = billReducer(state, action);
+
+    expect(actual).toEqual({
+      bill: {
+        amountPaid: '0.00',
+      },
     });
   });
 });

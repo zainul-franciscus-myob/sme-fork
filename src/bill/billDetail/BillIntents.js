@@ -22,6 +22,7 @@ export const REMOVE_BILL_LINE = Symbol('Remove bill line');
 export const PREFILL_NEW_BILL_FROM_IN_TRAY = Symbol('Prefill new bill from in tray');
 export const RESET_TOTALS = Symbol('Reset totals');
 export const UPDATE_BILL_ID = Symbol('Update bill id');
+export const FORMAT_AMOUNT_PAID = Symbol('Format amount paid');
 
 export const ADD_BILL_SERVICE_LINE = Symbol('Add bill service line');
 export const UPDATE_BILL_SERVICE_LINE = Symbol('Update bill service line');

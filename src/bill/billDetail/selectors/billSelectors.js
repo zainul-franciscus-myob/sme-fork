@@ -42,8 +42,6 @@ export const getAmountDue = state => state.totals.amountDue;
 
 export const getBillNumber = state => state.bill.billNumber;
 
-export const getStatus = state => state.bill.status;
-
 export const getBusinessId = state => state.businessId;
 
 export const getRegion = state => state.region;
