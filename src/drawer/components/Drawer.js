@@ -6,7 +6,7 @@ import { getShowDrawer } from '../DrawerSelectors';
 import styles from './Drawer.module.css';
 
 const Drawer = ({ showDrawer, children }) => (
-  <div className={classNames(styles.drawer, { [styles['drawer--close']]: !showDrawer })}>
+  <div className={classNames(styles.drawer, { [styles['drawer--open']]: showDrawer })}>
     {children}
   </div>
 );

@@ -13,7 +13,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background-color: var(--flx-background-color-modal-backdrop);
   z-index: 200; /* To be larger than .collapsible__header z-index which is 101 */

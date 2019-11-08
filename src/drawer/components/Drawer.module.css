@@ -1,14 +1,19 @@
 .drawer {
   --drawer-width: 100%;
+
+  /*
+    potentially we can use calc(var(--drawer-width) * -1) to get --animate-drawer-offset
+    but Edge can't animate things when we use calc
+   */
+  --animate-drawer-offset: -100%;
   --drawer-transition-length: 500ms;
 
   position: fixed;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  width: var(--drawer-width);
   height: 100vh;
-  transition:
-    margin-left var(--drawer-transition-length) ease,
-    transform var(--drawer-transition-length) ease;
+  width: var(--drawer-width);
+  margin-left: var(--animate-drawer-offset);
+  transition: margin-left var(--drawer-transition-length) ease, transform var(--drawer-transition-length) ease;
 }
 
 /*
@@ -37,17 +42,15 @@
   margin-bottom: 0;
 }
 
-.drawer--close {
-  transform: translateX(-100%);
+.drawer--open {
+  margin-left: 0;
+  transform: translateZ(0);
 }
 
 @media (min-width: 768px) {
   .drawer {
     --drawer-width: 390px;
-  }
-
-  .drawer--close {
-    transform: translateX(calc(var(--drawer-width) * -1));
+    --animate-drawer-offset: -390px;
   }
 
   /*
@@ -63,12 +66,5 @@
   .drawer {
     box-shadow: none;
     position: relative;
-  }
-
-  .drawer--close {
-    margin-left: calc(var(--drawer-width) * -1);
-
-    /* make sure browser use GPU to repaint the view, for better animation performance */
-    transform: translateZ(0);
   }
 }
