@@ -1,11 +1,10 @@
-import { Button, Card, Icons } from '@myob/myob-widgets';
+import { Card, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getDocumentUploadDate, getDocumentUrl, getThumbnailUri } from '../LinkBillSelectors';
+import LinkButton from '../../components/Button/LinkButton';
 import styles from './LinkBillDocumentView.module.css';
-
-const openNewTab = url => window.open(url);
 
 const LinkBillDocumentView = ({
   thumbnailUri,
@@ -22,9 +21,15 @@ const LinkBillDocumentView = ({
           <div className={styles.pdf}>
             <div><strong>{`Document uploaded ${dateUploaded}`}</strong></div>
             <div>
-              <Button type="link" icon={<Icons.Show />} iconLeft onClick={() => openNewTab(documentUrl)}>
+              <LinkButton
+                icon={<Icons.Show />}
+                href={documentUrl}
+                type="link"
+                isOpenInNewTab
+                iconLeft
+              >
                 View
-              </Button>
+              </LinkButton>
             </div>
           </div>
         </div>
