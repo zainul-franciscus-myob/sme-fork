@@ -47,7 +47,7 @@ const AuBankDetailsSection = ({
       name="bsb"
       label="BSB"
       value={bsb}
-      onChange={handleFormattedInputChange(onChange)}
+      onChange={handleInputChange(onChange)}
     />
     <AccountNumberInput
       className={style.number}
