@@ -33,6 +33,7 @@ import {
   getInvoiceReadWithEmailModalUrl,
   getInvoiceReadWithExportPdfModalUrl,
 } from './selectors/redirectSelectors';
+import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import { getFilesForUpload, getIsEmailModalOpen } from './selectors/emailSelectors';
 import {
   getInvoiceItemCalculateAmountChangePayload,
@@ -43,7 +44,6 @@ import {
   getIsAnAmountLineInput,
   getNewLineIndex,
 } from './selectors/itemLayoutSelectors';
-import { getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import InvoiceDetailModalType from './InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
 import SaveActionType from './SaveActionType';
@@ -52,6 +52,7 @@ import createInvoiceDetailDispatcher from './createInvoiceDetailDispatcher';
 import createInvoiceDetailIntegrator from './createInvoiceDetailIntegrator';
 import invoiceDetailReducer from './reducer/invoiceDetailReducer';
 import keyMap from '../../hotKeys/keyMap';
+import openBlob from '../../blobOpener/openBlob';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 const messageTypes = [
@@ -591,7 +592,10 @@ export default class InvoiceDetailModule {
     const onSuccess = (data) => {
       this.dispatcher.setModalSubmittingState(false);
       this.closeModal();
-      window.open(URL.createObjectURL(data), '_blank');
+
+      const state = this.store.getState();
+      const filename = getExportPdfFilename(state);
+      openBlob(data, filename);
     };
 
     const onFailure = () => {

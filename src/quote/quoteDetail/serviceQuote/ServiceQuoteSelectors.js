@@ -3,6 +3,7 @@ import {
 } from 'date-fns';
 import { createSelector } from 'reselect';
 
+import { getQuoteNumber } from '../itemQuote/ItemQuoteSelectors';
 import formatDate from '../../../valueFormatters/formatDate/formatDate';
 import formatSlashDate from '../../../valueFormatters/formatDate/formatSlashDate';
 
@@ -318,4 +319,10 @@ export const getQuoteReadWithExportPdfModalUrl = (state) => {
   const quoteId = getQuoteId(state);
 
   return `/#/${region}/${businessId}/quote/${quoteId}?openExportPdf=true`;
+};
+
+export const getExportPdfFilename = (state) => {
+  const quoteNumber = getQuoteNumber(state);
+
+  return `${quoteNumber}.pdf`;
 };

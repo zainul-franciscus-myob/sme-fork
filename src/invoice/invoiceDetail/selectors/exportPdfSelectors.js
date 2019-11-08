@@ -1,5 +1,5 @@
 import {
-  getBusinessId, getInvoiceId, getIsCreating, getIsPageEdited,
+  getBusinessId, getInvoiceId, getInvoiceNumber, getIsCreating, getIsPageEdited,
 } from './invoiceDetailSelectors';
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
@@ -20,4 +20,10 @@ export const getShouldSaveAndExportPdf = (state) => {
   const isPageEdited = getIsPageEdited(state);
 
   return isCreating || isPageEdited;
+};
+
+export const getExportPdfFilename = (state) => {
+  const invoiceNumber = getInvoiceNumber(state);
+
+  return `${invoiceNumber}.pdf`;
 };

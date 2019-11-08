@@ -1,5 +1,5 @@
 import {
-  getBillId, getBusinessId, getIsCreating, getIsPageEdited,
+  getBillId, getBillNumber, getBusinessId, getIsCreating, getIsPageEdited,
 } from './billSelectors';
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
@@ -21,4 +21,10 @@ export const getShouldSaveAndExportPdf = (state) => {
   const isPageEdited = getIsPageEdited(state);
 
   return isCreating || isPageEdited;
+};
+
+export const getExportPdfFilename = (state) => {
+  const billNumber = getBillNumber(state);
+
+  return `${billNumber}.pdf`;
 };

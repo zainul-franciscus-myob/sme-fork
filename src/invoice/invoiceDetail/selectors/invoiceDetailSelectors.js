@@ -26,7 +26,7 @@ export const getLayout = state => state.invoice.layout;
 export const getContactId = state => state.invoice.contactId;
 const getAddress = state => state.invoice.address;
 const getNote = state => state.invoice.note;
-const getInvoiceNumber = state => state.invoice.invoiceNumber;
+export const getInvoiceNumber = state => state.invoice.invoiceNumber;
 const getPurchaseOrderNumber = state => state.invoice.purchaseOrderNumber;
 export const getIssueDate = state => state.invoice.issueDate;
 export const getIsTaxInclusive = state => state.invoice.isTaxInclusive;

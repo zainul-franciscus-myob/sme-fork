@@ -36,6 +36,7 @@ import {
   getCreateInvoiceFromQuoteURL,
   getCreateNewItemQuoteURL,
   getCustomerId,
+  getExportPdfFilename,
   getExportPdfQuoteParams,
   getExportPdfQuoteUrlParams,
   getIsCreating,
@@ -61,6 +62,7 @@ import SaveActionType from '../SaveActionType';
 import Store from '../../../store/Store';
 import itemQuoteReducer from './itemQuoteReducer';
 import keyMap from '../../../hotKeys/keyMap';
+import openBlob from '../../../blobOpener/openBlob';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ItemQuoteModule {
@@ -362,7 +364,9 @@ export default class ItemQuoteModule {
       this.setSubmittingState(false);
       this.setModalSubmittingState(false);
       this.dismissModal();
-      window.open(URL.createObjectURL(data), '_blank');
+
+      const filename = getExportPdfFilename(state);
+      openBlob(data, filename);
     };
 
     const onFailure = () => {

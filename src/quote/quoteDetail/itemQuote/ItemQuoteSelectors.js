@@ -290,3 +290,9 @@ export const getShouldOpenExportPdfModal = (state) => {
 
   return !isCreating && openExportPdf === 'true';
 };
+
+export const getExportPdfFilename = (state) => {
+  const quoteNumber = getQuoteNumber(state);
+
+  return `${quoteNumber}.pdf`;
+};

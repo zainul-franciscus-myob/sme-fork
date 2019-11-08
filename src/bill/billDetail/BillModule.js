@@ -8,6 +8,7 @@ import {
   getFinalRedirectUrl,
   getReadBillWithExportPdfModalUrl,
 } from './selectors/BillRedirectSelectors';
+import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import {
   getIsAmountPaidKey,
   getIsLineAccountIdKey,
@@ -27,7 +28,6 @@ import {
   getNewLineIndex,
   getRouteUrlParams,
 } from './selectors/billSelectors';
-import { getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import BillView from './components/BillView';
 import LayoutType from './types/LayoutType';
 import ModalType from './types/ModalType';
@@ -37,6 +37,7 @@ import billReducer from './billReducer';
 import createBillDispatcher from './createBillDispatcher';
 import createBillIntegrator from './createBillIntegrator';
 import keyMap from '../../hotKeys/keyMap';
+import openBlob from '../../blobOpener/openBlob';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 class BillModule {
@@ -551,7 +552,10 @@ class BillModule {
     const onSuccess = (data) => {
       this.dispatcher.stopModalBlocking();
       this.closeModal();
-      window.open(URL.createObjectURL(data), '_blank');
+
+      const state = this.store.getState();
+      const filename = getExportPdfFilename(state);
+      openBlob(data, filename);
     };
 
     const onFailure = () => {

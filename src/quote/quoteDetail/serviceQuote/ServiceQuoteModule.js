@@ -36,6 +36,7 @@ import {
   getCreateInvoiceFromQuoteURL,
   getCreateNewServiceQuoteURL,
   getCustomerId,
+  getExportPdfFilename,
   getExportPdfQuoteParams,
   getExportPdfQuoteUrlParams,
   getIsCreating,
@@ -54,6 +55,7 @@ import SaveActionType from '../SaveActionType';
 import ServiceQuoteView from './components/ServiceQuoteView';
 import Store from '../../../store/Store';
 import keyMap from '../../../hotKeys/keyMap';
+import openBlob from '../../../blobOpener/openBlob';
 import serviceQuoteReducer from './serviceQuoteReducer';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
@@ -327,11 +329,8 @@ export default class ServiceQuoteModule {
       this.setModalSubmittingState(false);
       this.closeModal();
 
-      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveOrOpenBlob(data);
-      } else {
-        window.open(URL.createObjectURL(data), '_blank');
-      }
+      const filename = getExportPdfFilename(state);
+      openBlob(data, filename);
     };
 
     const onFailure = () => {
