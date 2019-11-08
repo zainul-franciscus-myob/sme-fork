@@ -6,8 +6,8 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
+import Icon from '../../components/Icon/Icon';
 import styles from './ErrorCard.module.css';
-import unableToLoadImg from './unable-to-load.svg';
 
 export default ({ onTry }) => (
   <Card>
@@ -20,11 +20,7 @@ export default ({ onTry }) => (
           </Button>,
         ]}
         image={(
-          <img
-            className={styles.errorImage}
-            src={unableToLoadImg}
-            alt="something went wrong"
-          />
+          <Icon.Error className={styles.errorImage} />
         )}
       />
     </div>
