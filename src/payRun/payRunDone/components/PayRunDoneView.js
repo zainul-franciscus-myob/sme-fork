@@ -1,61 +1,40 @@
 import {
-  Button, ButtonRow, PageHead, Stepper,
+  Button, ButtonRow, Card, Icons, PageHead, PageState, Stepper,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-// import Jordan's Stepper from ''
+import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
-import FormCard from '../../../components/FormCard/FormCard';
+import formatSlashDate from '../../../valueFormatters/formatDate/formatSlashDate';
 import payRunDoneImage from './PayRunDone.svg';
 import styles from './PayRunDoneView.module.css';
 
-const PayRunSteps = [
-  {
-    number: '1',
-    title: 'Select pay period',
-    type: 'complete',
-  },
-  {
-    number: '2',
-    title: 'Calculate pays',
-    type: 'complete',
-  },
-  {
-    number: '3',
-    title: 'Record and report',
-    type: 'complete',
-  },
-  {
-    number: '4',
-    title: 'Prepare pay slips',
-    type: 'complete',
-  },
-  {
-    number: '5',
-    title: 'Done!',
-    type: 'incomplete',
-  },
+const actions = [
+  <Button key={1} type="link" icon={<Icons.SignOut />}>Pay employees via bank file</Button>,
+  <Button key={2} type="link" icon={<Icons.SignOut />}>Payroll reporting (STP)</Button>,
 ];
 
-const PayRunDoneView = ({ onCloseButtonClick }) => (
+const PayRunDoneView = ({
+  onCloseButtonClick,
+  paymentDate,
+  stepNumber,
+  payRunSteps,
+}) => (
   <React.Fragment>
     <PageHead title="Pay run done!" />
     <div className={styles.stepper}>
-      <Stepper activeStepNumber="5" steps={PayRunSteps} />
+      <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
     </div>
     <EmployeePayHeader />
-    <FormCard>
-      <div align="center" vertical-align="middle">
-        <h3><img src={payRunDoneImage} alt="Pay Run Finished!" /></h3>
-        <h3>Well done! This pay run is finished!</h3>
-        <p>Make sure your employees are paid by DATEOFPAYMENT.</p>
-        <p>
-          <a href="localhost">Pay employees via bank file</a>
-          <a href="localhost">Payroll reporting (STP)</a>
-        </p>
-      </div>
-    </FormCard>
+    <Card>
+      <PageState
+        title="Well done! This pay run is finished!"
+        actions={actions}
+        description={`Make sure your employees are paid by ${paymentDate}.`}
+        image={<img src={payRunDoneImage} alt="Pay Run Finished!" />}
+      />
+    </Card>
     <ButtonRow
       primary={[
         <Button key="close" name="close" type="primary" onClick={onCloseButtonClick}>
@@ -66,4 +45,12 @@ const PayRunDoneView = ({ onCloseButtonClick }) => (
   </React.Fragment>
 );
 
-export default connect()(PayRunDoneView);
+
+const mapStateToProps = state => ({
+  paymentDate: formatSlashDate(state.startPayRun.paymentDate),
+  stepNumber: getStepNumber(state),
+  payRunSteps: getStepperSteps(state),
+});
+
+
+export default connect(mapStateToProps)(PayRunDoneView);
