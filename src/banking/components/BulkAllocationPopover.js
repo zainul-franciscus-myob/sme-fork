@@ -1,4 +1,4 @@
-import { Button, ButtonRow, Popover } from '@myob/myob-widgets';
+import { Button, ButtonRow } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -8,6 +8,7 @@ import {
   getTaxCodes,
 } from '../bankingSelectors/bulkAllocationSelectors';
 import AccountCombobox from '../../components/combobox/AccountCombobox';
+import Popover from '../../components/Feelix/Popover/Popover';
 import TaxCodeCombobox from '../../components/combobox/TaxCodeCombobox';
 import styles from './BankingView.module.css';
 

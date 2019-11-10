@@ -1,6 +1,4 @@
-import {
-  Button, Field, Popover, Select,
-} from '@myob/myob-widgets';
+import { Button, Field, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -17,6 +15,7 @@ import {
   getExpirationTermOptions,
 } from '../selectors/billSelectors';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import Popover from '../../../components/Feelix/Popover/Popover';
 import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 import styles from './BillPaymentTerms.module.css';
