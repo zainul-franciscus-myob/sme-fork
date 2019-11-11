@@ -1,14 +1,22 @@
-import PayRunModule from './PayRunModule';
+import PayRunModule from './payRunCreate/PayRunModule';
+import PayrunListModule from './payRunList/PayRunListModule';
 
 const getPayRunRoutes = ({
-  integration, setRootView, pushMessage,
+  integration, setRootView, pushMessage, popMessages, replaceURLParams,
 }) => {
   const routes = [
     {
-      name: 'payRun',
-      path: '/',
+      name: 'payRunCreate',
+      path: '/new',
       module: new PayRunModule({
         integration, setRootView, pushMessage,
+      }),
+    },
+    {
+      name: 'payRunList',
+      path: '/',
+      module: new PayrunListModule({
+        integration, setRootView, popMessages, replaceURLParams,
       }),
     },
   ];

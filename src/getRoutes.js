@@ -23,7 +23,6 @@ import getLinkedAccountsRoutes from './linkedAccounts/getLinkedAccountsRoutes';
 import getLogoutRoute from './logout/getLogoutRoute';
 import getPayItemRoutes from './payItem/getPayItemRoutes';
 import getPayRefundRoutes from './payRefund/getPayRefundRoutes';
-import getPayRunListRoutes from './payRunList/getPayRunListRoutes';
 import getPayRunRoutes from './payRun/getPayRunRoutes';
 import getPayrollSettingsRoutes from './payrollSettings/getPayrollSettingsRoutes';
 import getPermissionDeniedRoutes from './permissionDenied/getPermissionDeniedRoutes';
@@ -281,13 +280,6 @@ const getRoutes = ({
     name: 'payRun',
     rootPath: '/:region/:businessId/payRun',
     subRoutes: getPayRunRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'payRunList',
-    rootPath: '/:region/:businessId/payRuns',
-    subRoutes: getPayRunListRoutes({
       integration, setRootView, popMessages, pushMessage,
     }),
   },

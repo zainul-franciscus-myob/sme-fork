@@ -1,7 +1,7 @@
 import {
   LOAD_PAY_RUN_LIST,
   SORT_AND_FILTER_PAY_RUN_LIST,
-} from '../../payRunList/PayRunListIntents';
+} from '../../payRun/payRunList/PayRunListIntents';
 
 const PayRunListMapping = {
   [LOAD_PAY_RUN_LIST]: {

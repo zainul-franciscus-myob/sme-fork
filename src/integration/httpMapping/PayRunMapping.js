@@ -4,7 +4,7 @@ import {
   RECORD_PAYMENTS,
   START_NEW_PAY_RUN,
   VALIDATE_ETP,
-} from '../../payRun/PayRunIntents';
+} from '../../payRun/payRunCreate/PayRunIntents';
 
 const PayRunMapping = {
   [START_NEW_PAY_RUN]: {

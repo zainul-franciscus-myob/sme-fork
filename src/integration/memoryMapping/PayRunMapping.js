@@ -4,7 +4,7 @@ import {
   RECORD_PAYMENTS,
   START_NEW_PAY_RUN,
   VALIDATE_ETP,
-} from '../../payRun/PayRunIntents';
+} from '../../payRun/payRunCreate/PayRunIntents';
 import loadEmployeePayList from '../data/payRun/loadEmployeePayList';
 import recalculatedEmployeePay from '../data/payRun/recalculatedEmployeePay';
 import startNewPayRun from '../data/payRun/startNewPayRun';
