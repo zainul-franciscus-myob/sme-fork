@@ -18,6 +18,7 @@ const getItems = (urls, onMenuLinkClick) => [
   urls.employeeList && getMenuLink(urls.employeeList, 'Employees', onMenuLinkClick),
   urls.payrollSettings && getMenuLink(urls.payrollSettings, 'Payroll settings', onMenuLinkClick),
   urls.payItemList && getMenuLink(urls.payItemList, 'Pay items', onMenuLinkClick),
+  urls.payRunList && getMenuLink(urls.payRunList, 'Pay runs', onMenuLinkClick),
 ].filter(Boolean);
 
 const PayrollMenu = ({

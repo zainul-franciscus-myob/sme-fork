@@ -30,6 +30,7 @@ export const activeMapping = {
   'customerReturn/customerReturnApplyToSale': 'sales',
   'payRefund/payRefund': 'banking',
   'applyToSale/applyToSale': 'sales',
+  'payRunList/payRunList': 'payroll',
   'payItem/payItemList': 'payroll',
   'payItem/superPayItem': 'payroll',
   'payItem/wagePayItem': 'payroll',
@@ -148,6 +149,9 @@ export const featuresConfig = {
   },
   payItemList: {
     routeName: 'payItem/payItemList',
+  },
+  payRunList: {
+    routeName: 'payRunList/payRunList',
   },
   prepareBasOrIas: {
     routeName: 'prepareBasOrIas/prepareBasOrIas',
