@@ -6,12 +6,12 @@ import {
 const PayRunListMapping = {
   [LOAD_PAY_RUN_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payRuns/load_pay_run_list`,
+    getPath: ({ businessId }) => `/${businessId}/payRun/load_pay_run_list`,
   },
 
   [SORT_AND_FILTER_PAY_RUN_LIST]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/payRuns/filter_pay_run_list`,
+    getPath: ({ businessId }) => `/${businessId}/payRun/filter_pay_run_list`,
   },
 };
 
