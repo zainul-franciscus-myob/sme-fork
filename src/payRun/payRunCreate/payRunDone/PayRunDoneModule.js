@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getPayRunListUrl } from './payRunDoneSelector';
 import PayRunDoneView from './components/PayRunDoneView';
 
 export default class PayRunDoneModule {
@@ -12,7 +13,8 @@ export default class PayRunDoneModule {
   }
 
   closePayRun = () => {
-    window.location.reload();
+    const state = this.store.getState();
+    window.location.href = getPayRunListUrl(state);
   }
 
   getView() {
