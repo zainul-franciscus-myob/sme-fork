@@ -1,4 +1,4 @@
-import { getStepNumber, getStepperSteps } from '../PayRunSelectors';
+import { getPayOnDate, getStepNumber, getStepperSteps } from '../PayRunSelectors';
 
 describe('PayRunSelectors', () => {
   describe('getStepNumber', () => {
@@ -110,6 +110,18 @@ describe('PayRunSelectors', () => {
       ];
 
       expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('getPayOnDate', () => {
+    it('should get and format the payment date', () => {
+      const state = {
+        startPayRun: {
+          paymentDate: '2019-10-26',
+        },
+      };
+
+      expect(getPayOnDate(state)).toEqual('26/10/2019');
     });
   });
 });

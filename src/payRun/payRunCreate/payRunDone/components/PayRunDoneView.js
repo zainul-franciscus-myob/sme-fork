@@ -4,9 +4,8 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
+import { getPayOnDate, getStepNumber, getStepperSteps } from '../../PayRunSelectors';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
-import formatSlashDate from '../../../../valueFormatters/formatDate/formatSlashDate';
 import payRunDoneImage from './PayRunDone.svg';
 import styles from './PayRunDoneView.module.css';
 
@@ -47,7 +46,7 @@ const PayRunDoneView = ({
 
 
 const mapStateToProps = state => ({
-  paymentDate: formatSlashDate(state.startPayRun.paymentDate),
+  paymentDate: getPayOnDate(state),
   stepNumber: getStepNumber(state),
   payRunSteps: getStepperSteps(state),
 });

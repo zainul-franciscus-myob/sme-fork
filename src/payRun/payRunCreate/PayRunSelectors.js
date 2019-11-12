@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import formatDate from '../../valueFormatters/formatDate/formatDate';
+import formatSlashDate from '../../valueFormatters/formatDate/formatSlashDate';
 
 export const getIsLoading = state => state.isLoading;
 export const getIsSubmitting = state => state.isSubmitting;
@@ -27,6 +28,8 @@ export const getEmployeeHeader = createSelector(
     payPeriodEnd,
   }),
 );
+
+export const getPayOnDate = state => (formatSlashDate(new Date(state.startPayRun.paymentDate)));
 
 const initialStepperSteps = [
   {
