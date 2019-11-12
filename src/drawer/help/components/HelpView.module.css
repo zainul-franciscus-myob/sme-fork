@@ -16,3 +16,26 @@
   position: absolute;
   right: 0;
 }
+
+/*
+  @Feelix-Override:
+    To achieve the margin as per design
+*/
+.asideHeader + :global(.flx-card__body.flx-aside__body) {
+  margin-top: 8px;
+  padding-top: 0;
+}
+
+h3 {
+  margin: 8px 0;
+}
+
+.topHrBreak hr {
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.bottomHrBreak hr {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}

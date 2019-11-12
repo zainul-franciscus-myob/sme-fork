@@ -20,16 +20,14 @@ const QuickAnswer = ({ question, richTextAnswers }) => (
         })}
         iconRight
         icon={(
-          <span className={classNames(styles.question__toggle)}>
-            <Icons.DownChevron />
-          </span>
+          <Icons.DownChevron />
         )}
       >
         {question}
       </Button>
     )}
   >
-    <Card classes={styles.answer}>
+    <Card classes={[styles.answer]}>
       {richTextAnswers && <RichText document={richTextAnswers} />}
     </Card>
   </ToggleContent>

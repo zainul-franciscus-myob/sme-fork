@@ -3,6 +3,7 @@ import {
   LOAD_HELP_CONTENT_FAILURE,
   LOAD_HELP_USER_SETTINGS,
   SET_LOADING_STATE,
+  UPDATE_SEARCH_VALUE,
 } from './HelpIntents';
 import { SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -36,6 +37,12 @@ const createHelpDispatcher = store => ({
   loadHelpContentFailure: () => {
     store.dispatch({
       intent: LOAD_HELP_CONTENT_FAILURE,
+    });
+  },
+  updateSearchValue: (value) => {
+    store.dispatch({
+      intent: UPDATE_SEARCH_VALUE,
+      value,
     });
   },
 });

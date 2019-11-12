@@ -3,28 +3,47 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getHelpTitle, getIsHelpFailedOrEmpty, getIsLoading, getRichTextContent,
+  getHelpOnThisPageLinks, getHelpTitle, getIsHelpFailedOrEmpty, getIsLoading, getRichTextContent,
 } from '../HelpSelectors';
 import HelpFailureView from './HelpFailureView';
+import HelpLeanEngage from './HelpLeanEngage';
+import HelpOnThisPage from './HelpOnThisPage';
+import HelpSearch from './HelpSearch';
 import PageView from '../../../components/PageView/PageView';
 import QuickAnswers from './QuickAnswers';
 import RichText from './RichText';
+import StaticLinksSection from './StaticLinksSection';
 import styles from './HelpView.module.css';
 
 const HelpView = ({
   helpTitle,
-  document,
+  richTextHelpContent,
+  helpOnThisPageLinks,
   closeHelp,
   isLoading,
   isHelpFailedOrEmpty,
+  onSearchChange,
+  onSearchClick,
 }) => {
   const failureOrEmptyView = (<HelpFailureView />);
 
   const helpView = (
     <>
+      <HelpSearch
+        onSearchChange={onSearchChange}
+        onSearchClick={onSearchClick}
+      />
+      <div className={styles.topHrBreak}><hr /></div>
+
       {helpTitle && <h3>{helpTitle}</h3>}
-      {document && <RichText document={document} />}
+      {richTextHelpContent && <RichText document={richTextHelpContent} />}
       <QuickAnswers />
+      <HelpLeanEngage />
+      <div className={styles.bottomHrBreak}><hr /></div>
+
+      {helpOnThisPageLinks && <HelpOnThisPage document={helpOnThisPageLinks} />}
+
+      <StaticLinksSection />
     </>
   );
 
@@ -39,7 +58,8 @@ const HelpView = ({
 
 const mapStateToProps = state => ({
   helpTitle: getHelpTitle(state),
-  document: getRichTextContent(state),
+  richTextHelpContent: getRichTextContent(state),
+  helpOnThisPageLinks: getHelpOnThisPageLinks(state),
   isLoading: getIsLoading(state),
   isHelpFailedOrEmpty: getIsHelpFailedOrEmpty(state),
 });

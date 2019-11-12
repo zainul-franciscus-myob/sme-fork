@@ -1,10 +1,14 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getShowDrawer } from '../DrawerSelectors';
 import {
-  isHelpContentLoaded, isUserHelpSettingsLoaded, shouldLoadHelpContent,
+  getSearchLink,
+  getSearchValue,
+  isHelpContentLoaded,
+  isUserHelpSettingsLoaded,
+  shouldLoadHelpContent,
 } from './HelpSelectors';
+import { getShowDrawer } from '../DrawerSelectors';
 import HelpView from './components/HelpView';
 import Store from '../../store/Store';
 import createHelpDispatcher from './createHelpDispatcher';
@@ -27,6 +31,8 @@ export default class HelpModule {
     const view = (
       <HelpView
         closeHelp={this.closeHelp}
+        onSearchChange={this.dispatcher.updateSearchValue}
+        onSearchClick={this.openSearchPage}
       />
     );
 
@@ -37,6 +43,14 @@ export default class HelpModule {
     );
 
     return wrappedView;
+  }
+
+  openSearchPage = () => {
+    const state = this.store.getState();
+    if (getSearchValue(state)) {
+      const url = getSearchLink(state);
+      window.open(url, '_blank');
+    }
   }
 
   closeHelp = () => {

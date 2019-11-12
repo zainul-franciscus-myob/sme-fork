@@ -9,7 +9,6 @@
   --drawer-transition-length: 500ms;
 
   position: fixed;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   height: 100vh;
   width: var(--drawer-width);
   margin-left: var(--animate-drawer-offset);
@@ -45,6 +44,7 @@
 .drawer--open {
   margin-left: 0;
   transform: translateZ(0);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 @media (min-width: 768px) {

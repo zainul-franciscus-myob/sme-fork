@@ -37,7 +37,7 @@
   transform: rotate(-180deg);
 }
 
-.question__toggle svg {
+.question svg {
   transition: 300ms ease transform;
   transform-origin: center;
 }

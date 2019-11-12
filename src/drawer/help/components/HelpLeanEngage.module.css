@@ -1,0 +1,12 @@
+.helpLeanEngage {
+  margin-top: 1rem;
+}
+
+.helpLeanEngage > h4 {
+  margin-bottom: 0;
+}
+
+.helpLeanEngage > * {
+  display: inline-block;
+  margin-right: 2rem;
+}
