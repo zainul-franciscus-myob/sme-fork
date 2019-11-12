@@ -44,9 +44,9 @@
     "toEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
     "toName": "Geoff Speirs",
     "includeInvoiceNumberInEmail": true,
-    "attachments": []
+    "attachments": [],
+    "templateName": "a"
   },
-  "defaultTemplate": "a",
   "templateOptions" : [
     {
       "name": "a",
@@ -142,5 +142,8 @@
     "amount": "",
     "displayAmount": ""
   },
-  "serialNumber": "000000000000"
+  "serialNumber": "000000000000",
+  "exportPdf": {
+    "template": "a"
+  }
 }

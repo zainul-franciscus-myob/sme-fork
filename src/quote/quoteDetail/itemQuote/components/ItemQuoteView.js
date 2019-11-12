@@ -4,12 +4,14 @@ import React from 'react';
 
 import {
   getAlert,
+  getEmailQuoteDetail,
   getExportPdfTemplate,
-  getExportPdfTemplateOptions,
   getIsCreating,
   getIsModalActionDisabled,
+  getModalAlert,
   getModalType,
   getPageTitle,
+  getTemplateOptions,
   getTotalAmount,
 } from '../ItemQuoteSelectors';
 import ItemQuoteActions from './ItemQuoteActions';
@@ -35,6 +37,7 @@ const ItemQuoteView = ({
   onCancelButtonClick,
   onConvertToInvoiceButtonClick,
   onDismissAlert,
+  onDismissModalAlert,
   onConfirmDeleteButtonClick,
   onConfirmCancelButtonClick,
   onConfirmSaveButtonClick,
@@ -43,11 +46,21 @@ const ItemQuoteView = ({
   onConfirmSaveAndDuplicateButtonClick,
   onDismissModal,
   onExportPdfButtonClick,
+  onSaveAndEmailButtonClick,
   onConfirmExportPdfButtonClick,
   onChangeExportPdfForm,
   pageTitle,
   isCreating,
   totalAmount,
+  emailQuoteDetail,
+  modalAlert,
+  onEmailQuoteDetailChange,
+  onConfirmEmailQuoteButtonClick,
+  onCancelEmailQuoteButtonClick,
+  onAddAttachments,
+  onRemoveAttachment,
+  onConfirmEmailSettingButtonClick,
+  onCloseEmailSettingButtonClick,
 }) => {
   const actions = (
     <ItemQuoteActions
@@ -57,6 +70,7 @@ const ItemQuoteView = ({
       onCancelButtonClick={onCancelButtonClick}
       onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}
       onExportPdfButtonClick={onExportPdfButtonClick}
+      onSaveAndEmailButtonClick={onSaveAndEmailButtonClick}
     />
   );
 
@@ -82,7 +96,10 @@ const ItemQuoteView = ({
       template={template}
       templateOptions={templateOptions}
       isActionDisabled={isModalActionDisabled}
+      emailQuoteDetail={emailQuoteDetail}
+      modalAlert={modalAlert}
       onDismissModal={onDismissModal}
+      onDismissAlert={onDismissModalAlert}
       onConfirmCancelButtonClick={onConfirmCancelButtonClick}
       onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
       onConfirmSaveButtonClick={onConfirmSaveButtonClick}
@@ -90,7 +107,14 @@ const ItemQuoteView = ({
       onConfirmSaveAndCreateNewButtonClick={onConfirmSaveAndCreateNewButtonClick}
       onConfirmSaveAndDuplicateButtonClick={onConfirmSaveAndDuplicateButtonClick}
       onConfirmExportPdfButtonClick={onConfirmExportPdfButtonClick}
+      onConfirmEmailQuoteButtonClick={onConfirmEmailQuoteButtonClick}
       onChangeExportPdfForm={onChangeExportPdfForm}
+      onEmailQuoteDetailChange={onEmailQuoteDetailChange}
+      onCancelEmailQuoteButtonClick={onCancelEmailQuoteButtonClick}
+      onAddAttachments={onAddAttachments}
+      onRemoveAttachment={onRemoveAttachment}
+      onConfirmEmailSettingButtonClick={onConfirmEmailSettingButtonClick}
+      onCloseEmailSettingButtonClick={onCloseEmailSettingButtonClick}
     />
   );
 
@@ -121,8 +145,10 @@ const mapStateToProps = state => ({
   totalAmount: getTotalAmount(state),
   isCreating: getIsCreating(state),
   template: getExportPdfTemplate(state),
-  templateOptions: getExportPdfTemplateOptions(state),
+  templateOptions: getTemplateOptions(state),
   isModalActionDisabled: getIsModalActionDisabled(state),
+  emailQuoteDetail: getEmailQuoteDetail(state),
+  modalAlert: getModalAlert(state),
 });
 
 export default connect(mapStateToProps)(ItemQuoteView);

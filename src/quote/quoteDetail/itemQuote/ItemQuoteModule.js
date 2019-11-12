@@ -2,6 +2,25 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  ADD_EMAIL_ATTACHMENTS,
+  CHANGE_EXPORT_PDF_TEMPLATE,
+  DELETE_QUOTE_DETAIL,
+  EXPORT_QUOTE_PDF,
+  LOAD_CUSTOMER_ADDRESS,
+  REMOVE_EMAIL_ATTACHMENT,
+  RESET_EMAIL_QUOTE_DETAIL,
+  RESET_OPEN_SEND_EMAIL,
+  SEND_EMAIL,
+  SET_ALERT,
+  SET_MODAL_ALERT,
+  SET_MODAL_SUBMITTING_STATE,
+  UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
+  UPDATE_EMAIL_QUOTE_DETAIL,
+  UPDATE_QUOTE_ID_AFTER_CREATE,
+  UPLOAD_EMAIL_ATTACHMENT,
+  UPLOAD_EMAIL_ATTACHMENT_FAILED,
+} from '../../QuoteIntents';
+import {
   ADD_TABLE_ROW,
   CALCULATE_LINES,
   CHANGE_TABLE_ROW,
@@ -19,17 +38,12 @@ import {
   UPDATE_LINE_TAX_CODE,
   UPDATE_TAX_INCLUSIVE,
 } from './ItemQuoteIntents';
-import {
-  CHANGE_EXPORT_PDF_TEMPLATE,
-  DELETE_QUOTE_DETAIL,
-  EXPORT_QUOTE_PDF,
-  LOAD_CUSTOMER_ADDRESS,
-  SET_ALERT,
-  SET_MODAL_SUBMITTING_STATE,
-  UPDATE_QUOTE_ID_AFTER_CREATE,
-} from '../../QuoteIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_ITEM_QUOTE, SUCCESSFULLY_SAVED_ITEM_QUOTE } from '../quoteMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_ITEM_QUOTE,
+  SUCCESSFULLY_EMAILED_QUOTE,
+  SUCCESSFULLY_SAVED_ITEM_QUOTE,
+} from '../quoteMessageTypes';
 import {
   getBusinessId,
   getCreateDuplicateQuoteURL,
@@ -39,7 +53,10 @@ import {
   getExportPdfFilename,
   getExportPdfQuoteParams,
   getExportPdfQuoteUrlParams,
+  getFilesForUpload,
+  getInvoiceAndQuoteSettingsUrl,
   getIsCreating,
+  getIsEmailModalOpen,
   getIsLineAmountInputDirty,
   getIsPageEdited,
   getNewLineIndex,
@@ -51,8 +68,11 @@ import {
   getQuoteId,
   getQuoteListURL,
   getQuotePayload,
+  getQuoteReadWithEmailModalUrl,
   getQuoteReadWithExportPdfModalUrl,
   getRouteUrlParams,
+  getSendEmailPayload,
+  getSendEmailUrlParams,
   getShouldReload,
   getShouldSaveAndExportPdf,
 } from './ItemQuoteSelectors';
@@ -409,6 +429,13 @@ export default class ItemQuoteModule {
     this.redirectToURL(url);
   }
 
+  redirectToReadQuoteWithEmailModal = () => {
+    const state = this.store.getState();
+    const url = getQuoteReadWithEmailModalUrl(state);
+
+    this.redirectToURL(url);
+  }
+
   cancelQuote = () => {
     this.redirectToQuoteList();
   }
@@ -534,6 +561,128 @@ export default class ItemQuoteModule {
     }
   }
 
+  saveAndEmailQuote = () => {
+    const onSuccess = (successResponse) => {
+      if (getIsCreating(this.store.getState())) {
+        this.updateQuoteIdAfterCreate(successResponse.id);
+      }
+      this.pushSuccessfulSaveMessage(successResponse.message);
+      this.redirectToReadQuoteWithEmailModal();
+    };
+
+    this.createOrUpdateQuote({ onSuccess });
+  }
+
+  updateEmailQuoteDetail = ({ key, value }) => {
+    this.store.dispatch({
+      intent: UPDATE_EMAIL_QUOTE_DETAIL, key, value,
+    });
+  }
+
+  addEmailAttachments = (files) => {
+    const intent = ADD_EMAIL_ATTACHMENTS;
+    this.store.dispatch({ intent, files });
+
+    this.uploadEmailAttachments(files);
+  };
+
+  uploadEmailAttachments = (files) => {
+    const state = this.store.getState();
+
+    getFilesForUpload(state, files).forEach(file => this.uploadEmailAttachment(file));
+  };
+
+  uploadEmailAttachment = (file) => {
+    const onSuccess = (response) => {
+      const intent = UPLOAD_EMAIL_ATTACHMENT;
+      this.store.dispatch({ intent, ...response, file });
+    };
+
+    const onFailure = ({ message }) => {
+      const intent = UPLOAD_EMAIL_ATTACHMENT_FAILED;
+      this.store.dispatch({ intent, message, file });
+    };
+
+    const onProgress = (uploadProgress) => {
+      const intent = UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS;
+      this.store.dispatch({ intent, uploadProgress, file });
+    };
+
+    const state = this.store.getState();
+    this.integration.writeFormData({
+      intent: UPLOAD_EMAIL_ATTACHMENT,
+      content: {
+        file,
+      },
+      urlParams: {
+        businessId: getBusinessId(state),
+      },
+      onSuccess,
+      onFailure,
+      onProgress,
+    });
+  };
+
+  removeEmailAttachment = (index) => {
+    const intent = REMOVE_EMAIL_ATTACHMENT;
+    this.store.dispatch({ intent, index });
+  };
+
+  closeEmailQuoteDetailModal = () => {
+    this.dismissModal();
+    this.store.dispatch({ intent: RESET_OPEN_SEND_EMAIL });
+    this.store.dispatch({ intent: RESET_EMAIL_QUOTE_DETAIL });
+  }
+
+  closeEmailSettingsModal = () => {
+    this.dismissModal();
+    this.store.dispatch({ intent: RESET_OPEN_SEND_EMAIL });
+  }
+
+  redirectToInvoiceAndQuoteSettings = () => {
+    const state = this.store.getState();
+    const url = getInvoiceAndQuoteSettingsUrl(state);
+
+    this.redirectToURL(url);
+  }
+
+  openSalesSettingsTabAndCloseModal = () => {
+    this.closeEmailSettingsModal();
+    this.redirectToInvoiceAndQuoteSettings();
+  }
+
+  sendEmail = () => {
+    this.setModalSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.setModalSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_EMAILED_QUOTE,
+        content: message,
+      });
+      this.redirectToQuoteList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.setModalSubmittingState(false);
+      this.store.dispatch({
+        intent: SET_MODAL_ALERT, modalAlert: { type: 'danger', message },
+      });
+    };
+
+    const state = this.store.getState();
+
+    const intent = SEND_EMAIL;
+    const urlParams = getSendEmailUrlParams(state);
+    const content = getSendEmailPayload(state);
+
+    this.integration.write({
+      intent, urlParams, content, onSuccess, onFailure,
+    });
+  }
+
+  dismissModalAlert = () => this.store.dispatch({ intent: SET_MODAL_ALERT });
+
   updateURLFromState = (state) => {
     const params = getRouteUrlParams(state);
     this.replaceURLParams(params);
@@ -564,6 +713,7 @@ export default class ItemQuoteModule {
           onCancelButtonClick={this.displayCancelModal}
           onConvertToInvoiceButtonClick={this.displayUnsavedModal}
           onDismissAlert={this.dismissAlert}
+          onDismissModalAlert={this.dismissModalAlert}
           onDismissModal={this.dismissModal}
           onConfirmDeleteButtonClick={this.deleteQuote}
           onConfirmCancelButtonClick={this.cancelQuote}
@@ -572,8 +722,16 @@ export default class ItemQuoteModule {
           onConfirmSaveAndCreateNewButtonClick={this.saveAndCreateNewQuote}
           onConfirmSaveAndDuplicateButtonClick={this.saveAndDuplicateQuote}
           onExportPdfButtonClick={this.exportPdfOrSaveAndExportPdf}
+          onSaveAndEmailButtonClick={this.saveAndEmailQuote}
           onConfirmExportPdfButtonClick={this.exportQuotePdf}
           onChangeExportPdfForm={this.changeExportPdfForm}
+          onEmailQuoteDetailChange={this.updateEmailQuoteDetail}
+          onConfirmEmailQuoteButtonClick={this.sendEmail}
+          onCancelEmailQuoteButtonClick={this.closeEmailQuoteDetailModal}
+          onAddAttachments={this.addEmailAttachments}
+          onRemoveAttachment={this.removeEmailAttachment}
+          onConfirmEmailSettingButtonClick={this.openSalesSettingsTabAndCloseModal}
+          onCloseEmailSettingButtonClick={this.closeEmailSettingsModal}
         />
       </Provider>
     );
@@ -581,8 +739,12 @@ export default class ItemQuoteModule {
     this.setRootView(wrappedView);
   };
 
+  saveHandler = () => (
+    getIsEmailModalOpen(this.store.getState()) ? this.sendEmail() : this.saveQuote()
+  );
+
   handlers = {
-    SAVE_ACTION: this.saveQuote,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run = ({

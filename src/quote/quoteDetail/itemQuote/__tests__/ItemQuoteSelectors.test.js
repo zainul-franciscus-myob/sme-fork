@@ -2,12 +2,17 @@ import {
   getCreateDuplicateQuoteURL,
   getCreateInvoiceFromQuoteURL,
   getCreateNewItemQuoteURL,
+  getEmailAttachments,
   getEmptyQuoteLines,
   getExpiredDate,
+  getFilesForUpload,
   getIsTaxInclusive,
+  getLoadQuoteDetailModalType,
   getPayloadForUpdateIsTaxInclusive,
   getQuoteLineByIndex,
+  getSendEmailPayload,
 } from '../ItemQuoteSelectors';
+import ModalType from '../../ModalType';
 
 describe('ItemQuoteSelectors', () => {
   describe('getIsTaxInclusive', () => {
@@ -236,6 +241,200 @@ describe('ItemQuoteSelectors', () => {
       const actual = getCreateDuplicateQuoteURL(getURLState);
 
       expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getLoadQuoteDetailModalType', () => {
+    it.each([
+      [ModalType.NONE, false, undefined, undefined, { hasEmailReplyDetails: true }],
+      [ModalType.EMAIL_INVOICE, false, 'true', undefined, { hasEmailReplyDetails: true }],
+      [ModalType.EMAIL_SETTINGS, false, 'true', undefined, { hasEmailReplyDetails: false }],
+      [ModalType.EXPORT_PDF, false, undefined, 'true', { hasEmailReplyDetails: true }],
+      [ModalType.NONE, true, undefined, undefined, { hasEmailReplyDetails: true }],
+      [ModalType.NONE, true, 'true', undefined, { hasEmailReplyDetails: true }],
+      [ModalType.NONE, true, 'true', undefined, { hasEmailReplyDetails: false }],
+      [ModalType.NONE, true, undefined, 'true', { hasEmailReplyDetails: true }],
+    ], ('should return modal type %s', (
+      expected, isCreating, openSendEmail, openExportPdf, emailQuote,
+    ) => {
+      const customState = {
+        invoiceId: isCreating ? 'new' : '1',
+        openSendEmail,
+        openExportPdf,
+      };
+
+      const actual = getLoadQuoteDetailModalType(customState, emailQuote);
+
+      expect(actual).toEqual(expected);
+    }));
+  });
+
+  describe('getSendEmailPayload', () => {
+    it('returns the right shape for the email quote payload', () => {
+      const state = {
+        emailQuote: {
+          hasEmailReplyDetails: true,
+          ccToEmail: [
+            'geoff.spires@myob.com', 'tom.xu@myob.com',
+          ],
+          fromEmail: 'tom.xu@myob.com',
+          fromName: 'Tom Xu',
+          messageBody: 'Thank you for your patronage!',
+          subject: 'Thank you!',
+          toEmail: [
+            'geoff.spires@myob.com', 'tom.xu@myob.com',
+          ],
+          templateName: 'INV Item print',
+          includeQuoteNumberInEmail: true,
+          attachments: [
+            {
+              keyName: 'some/key',
+              uploadPassword: 'some/password',
+              file: { name: 'emailAttachment', size: 1000, type: 'image/svg+xml' },
+              state: 'finished',
+            },
+            {
+              file: { name: 'failedEmailAttachment', size: 2000, type: 'image/svg+xml' },
+              state: 'failed',
+            },
+          ],
+        },
+      };
+
+      const expected = {
+        ccToEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
+        fromEmail: 'tom.xu@myob.com',
+        fromName: 'Tom Xu',
+        messageBody: 'Thank you for your patronage!',
+        subject: 'Thank you!',
+        toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
+        templateName: 'INV Item print',
+        attachments: [{
+          filename: 'emailAttachment',
+          mimeType: 'image/svg+xml',
+          keyName: 'some/key',
+          uploadPassword: 'some/password',
+        }],
+      };
+
+      const actual = getSendEmailPayload(state);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getEmailAttachments', () => {
+    it('returns attachments with name and size', () => {
+      const attachmentState = {
+        emailQuote: {
+          attachments: [{
+            keyName: 'some/key',
+            file: { name: 'emailAttachment', size: 1000 },
+            state: 'queued',
+          }],
+        },
+      };
+
+      const actual = getEmailAttachments(attachmentState);
+
+      const expected = [{
+        keyName: 'some/key',
+        name: 'emailAttachment',
+        size: 1000,
+        loaded: 0,
+        state: 'queued',
+        error: undefined,
+        canRemove: false,
+      }];
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('calculates loaded size', () => {
+      const attachmentState = {
+        emailQuote: {
+          attachments: [{
+            keyName: 'some/key',
+            file: { name: 'emailAttachment', size: 1000 },
+            uploadProgress: 0.5,
+            state: 'loading',
+          }],
+        },
+      };
+
+      const actual = getEmailAttachments(attachmentState);
+
+      const expected = [{
+        keyName: 'some/key',
+        name: 'emailAttachment',
+        size: 1000,
+        loaded: 500,
+        state: 'loading',
+        error: undefined,
+        canRemove: false,
+      }];
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('sets canRemove to true if the state is not loading or queued', () => {
+      const attachmentState = {
+        emailQuote: {
+          attachments: [{
+            keyName: 'some/key',
+            file: { name: 'emailAttachment', size: 1000 },
+            state: 'finished',
+          }],
+        },
+      };
+
+      const actual = getEmailAttachments(attachmentState);
+
+      const expected = [{
+        keyName: 'some/key',
+        name: 'emailAttachment',
+        size: 1000,
+        loaded: 0,
+        state: 'finished',
+        error: undefined,
+        canRemove: true,
+      }];
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getFilesForUpload', () => {
+    it('get files for upload', () => {
+      const files = [
+        { file: 'invalid' },
+        { file: 'valid' },
+      ];
+
+      const filesForUploadState = {
+        emailQuote: {
+          attachments: [
+            {
+              file: files[0],
+              state: 'failed',
+            },
+            {
+              file: files[1],
+              state: 'queued',
+            },
+            {
+              file: { file: 'unknown' },
+              state: 'queued',
+            },
+          ],
+        },
+      };
+
+      const expected = [files[1]];
+
+      const actual = getFilesForUpload(filesForUploadState, files);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

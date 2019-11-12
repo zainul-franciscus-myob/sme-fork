@@ -4,7 +4,9 @@ import {
   LOAD_CUSTOMER_ADDRESS,
   LOAD_QUOTE_DETAIL,
   LOAD_QUOTE_LIST,
+  SEND_EMAIL,
   SORT_AND_FILTER_QUOTE_LIST,
+  UPLOAD_EMAIL_ATTACHMENT,
 } from '../../quote/QuoteIntents';
 
 const QuoteMapping = {
@@ -31,6 +33,14 @@ const QuoteMapping = {
   [EXPORT_QUOTE_PDF]: {
     method: 'GET',
     getPath: ({ businessId, quoteId }) => `/${businessId}/quote/export_quote_pdf/${quoteId}`,
+  },
+  [UPLOAD_EMAIL_ATTACHMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/quote/upload_email_attachment`,
+  },
+  [SEND_EMAIL]: {
+    method: 'POST',
+    getPath: ({ businessId, quoteId }) => `/${businessId}/quote/send_quote_email/${quoteId}`,
   },
 };
 

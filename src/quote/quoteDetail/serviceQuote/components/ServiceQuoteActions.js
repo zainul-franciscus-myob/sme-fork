@@ -13,6 +13,7 @@ const ServiceQuoteActions = ({
   onDeleteButtonClick,
   onConvertToInvoiceButtonClick,
   onExportPdfButtonClick,
+  onSaveAndEmailButtonClick,
 }) => (
   <QuoteDetailActions
     isCreating={isCreating}
@@ -23,6 +24,7 @@ const ServiceQuoteActions = ({
     onDeleteButtonClick={onDeleteButtonClick}
     onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}
     onExportPdfButtonClick={onExportPdfButtonClick}
+    onSaveAndEmailButtonClick={onSaveAndEmailButtonClick}
   />
 );
 

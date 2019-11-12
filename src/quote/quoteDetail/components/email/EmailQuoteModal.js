@@ -3,15 +3,15 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import EmailInvoiceAttachmentsContent from './EmailInvoiceAttachmentsContent';
 import EmailItemList from '../../../../components/itemList/EmailItemList';
+import EmailQuoteAttachmentsContent from './EmailQuoteAttachmentsContent';
 import EnterKeyFocusableWrapper
   from '../../../../components/EnterKeyFocusableWrapper/EnterKeyFocusableWrapper';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 import handleTextAreaChange from '../../../../components/handlers/handleTextAreaChange';
-import styles from './EmailInvoiceModal.module.css';
+import styles from './EmailQuoteModal.module.css';
 
 const handleItemChange = (handler, key) => (emails) => {
   handler({
@@ -20,14 +20,14 @@ const handleItemChange = (handler, key) => (emails) => {
   });
 };
 
-const EmailInvoiceModal = ({
+const EmailQuoteModal = ({
   alert,
-  emailInvoiceDetail,
+  emailQuoteDetail,
   templateOptions,
-  isActionsDisabled,
+  isActionDisabled,
   onCancel,
   onConfirm,
-  onEmailInvoiceDetailChange,
+  onEmailQuoteDetailChange,
   onDismissAlert,
   onRemoveAttachment,
   onAddAttachments,
@@ -36,15 +36,15 @@ const EmailInvoiceModal = ({
     <div className={styles.formWidth}>
       <EmailItemList
         label="To"
-        items={emailInvoiceDetail.emailToAddresses}
+        items={emailQuoteDetail.emailToAddresses}
         requiredLabel="Required"
-        onItemChange={handleItemChange(onEmailInvoiceDetailChange, 'toEmail')}
+        onItemChange={handleItemChange(onEmailQuoteDetailChange, 'toEmail')}
         onKeyDown={onKeyDown}
       />
       <EmailItemList
         label="CC"
-        items={emailInvoiceDetail.ccEmailToAddresses}
-        onItemChange={handleItemChange(onEmailInvoiceDetailChange, 'ccToEmail')}
+        items={emailQuoteDetail.ccEmailToAddresses}
+        onItemChange={handleItemChange(onEmailQuoteDetailChange, 'ccToEmail')}
         onKeyDown={onKeyDown}
       />
       <CheckboxGroup
@@ -54,8 +54,8 @@ const EmailInvoiceModal = ({
           <Checkbox
             name="isEmailMeACopy"
             label="Email me a copy"
-            checked={emailInvoiceDetail.isEmailMeACopy}
-            onChange={handleCheckboxChange(onEmailInvoiceDetailChange)}
+            checked={emailQuoteDetail.isEmailMeACopy}
+            onChange={handleCheckboxChange(onEmailQuoteDetailChange)}
           />
         )}
       />
@@ -63,18 +63,18 @@ const EmailInvoiceModal = ({
       <Input
         name="subject"
         label="Subject"
-        value={emailInvoiceDetail.subject}
-        onChange={handleInputChange(onEmailInvoiceDetailChange)}
+        value={emailQuoteDetail.subject}
+        onChange={handleInputChange(onEmailQuoteDetailChange)}
         onKeyDown={onKeyDown}
       />
       <TextArea
         name="messageBody"
         label="Message"
-        value={emailInvoiceDetail.messageBody}
-        onChange={handleTextAreaChange(onEmailInvoiceDetailChange)}
+        value={emailQuoteDetail.messageBody}
+        onChange={handleTextAreaChange(onEmailQuoteDetailChange)}
         rows={10}
       />
-      <EmailInvoiceAttachmentsContent
+      <EmailQuoteAttachmentsContent
         onRemoveAttachment={onRemoveAttachment}
         onAddAttachments={onAddAttachments}
       />
@@ -82,8 +82,8 @@ const EmailInvoiceModal = ({
       <Select
         label="Template"
         name="templateName"
-        value={emailInvoiceDetail.templateName}
-        onChange={handleSelectChange(onEmailInvoiceDetailChange)}
+        value={emailQuoteDetail.templateName}
+        onChange={handleSelectChange(onEmailQuoteDetailChange)}
         requiredLabel="This is required"
       >
         {templateOptions.map(({ name, label }) => (
@@ -95,7 +95,7 @@ const EmailInvoiceModal = ({
 
   return (
     <Modal
-      title="Email invoice"
+      title="Email quote"
       onCancel={onCancel}
       canClose={false}
     >
@@ -110,11 +110,11 @@ const EmailInvoiceModal = ({
         />
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCancel} disabled={isActionsDisabled}>Cancel</Button>
-        <Button type="primary" onClick={onConfirm} disabled={isActionsDisabled}>Send invoice</Button>
+        <Button type="secondary" onClick={onCancel} disabled={isActionDisabled}>Cancel</Button>
+        <Button type="primary" onClick={onConfirm} disabled={isActionDisabled}>Send quote</Button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-export default EmailInvoiceModal;
+export default EmailQuoteModal;

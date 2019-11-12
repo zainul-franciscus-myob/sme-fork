@@ -14,6 +14,7 @@ const QuoteDetailActions = ({
   onDeleteButtonClick,
   onConvertToInvoiceButtonClick,
   onExportPdfButtonClick,
+  onSaveAndEmailButtonClick,
 }) => {
   const dropdownActionItems = [
     <Dropdown.Item
@@ -49,6 +50,15 @@ const QuoteDetailActions = ({
           disabled={isActionsDisabled}
         >
           Export PDF
+        </Button>,
+        <Button
+          key="saveAndEmail"
+          name="saveAndEmail"
+          type="secondary"
+          onClick={onSaveAndEmailButtonClick}
+          disabled={isActionsDisabled}
+        >
+          Save and email
         </Button>,
         !isCreating && (
         <Separator key="separator" direction="vertical" />

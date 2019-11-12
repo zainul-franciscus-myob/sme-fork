@@ -230,17 +230,30 @@ export default {
     { value: 'Great doing business' },
     { value: "don't call us we'll call you" },
   ],
+  emailQuote: {
+    hasEmailReplyDetails: true,
+    isEmailMeACopy: false,
+    ccToEmail: ['t-pain@myob.com', 'hamzzz@myob.com'],
+    fromEmail: 'tom.xu@myob.com',
+    fromName: 'Tom Xu',
+    messageBody: "Let's make some hot chocolate!!",
+    subject: 'Hot Chocolate is life',
+    toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
+    includeQuoteNumberInEmail: true,
+    attachments: [],
+    templateName: 'a',
+  },
+  templateOptions: [
+    {
+      name: 'a',
+      label: 'apple',
+    },
+    {
+      name: 'b',
+      label: 'banana',
+    },
+  ],
   exportPdf: {
-    templateOptions: [
-      {
-        name: 'a',
-        label: 'apple',
-      },
-      {
-        name: 'b',
-        label: 'banana',
-      },
-    ],
     template: 'a',
   },
 };

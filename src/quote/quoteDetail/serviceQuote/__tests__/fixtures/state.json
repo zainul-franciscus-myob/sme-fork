@@ -69,5 +69,32 @@
   ],
   "region": "au",
   "businessId": "businessId",
-  "quoteId": "1"
+  "quoteId": "1",
+  "emailQuote": {
+    "hasEmailReplyDetails": true,
+    "ccToEmail": [
+      "geoff.spires@myob.com", "tom.xu@myob.com"
+    ],
+    "fromEmail": "tom.xu@myob.com",
+    "fromName": "Tom Xu",
+    "messageBody": "Thank you for your patronage!",
+    "subject": "Thank you!",
+    "toEmail": [
+      "geoff.spires@myob.com", "tom.xu@myob.com"
+    ],
+    "templateName": "INV Item print",
+    "includeQuoteNumberInEmail": true,
+    "attachments": [
+      {
+        "keyName": "some/key",
+        "uploadPassword": "some/password",
+        "file": { "name": "emailAttachment", "size": 1000, "type": "image/svg+xml" },
+        "state": "finished"
+      },
+      {
+        "file": { "name": "failedEmailAttachment", "size": 2000, "type": "image/svg+xml" },
+        "state": "failed"
+      }
+    ]
+  }
 }

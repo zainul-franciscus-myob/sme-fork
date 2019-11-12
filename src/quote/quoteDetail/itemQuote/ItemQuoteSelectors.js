@@ -9,6 +9,7 @@ import {
 } from 'date-fns';
 import { createSelector } from 'reselect';
 
+import ModalType from '../ModalType';
 import TaxState from './TaxState';
 import formatDate from '../../../valueFormatters/formatDate/formatDate';
 import formatSlashDate from '../../../valueFormatters/formatDate/formatSlashDate';
@@ -265,7 +266,8 @@ export const getRouteUrlParams = state => ({
   openExportPdf: getOpenExportPdfQueryParam(state),
 });
 
-export const getExportPdfTemplateOptions = state => state.exportPdf.templateOptions;
+export const getTemplateOptions = state => state.templateOptions;
+
 export const getExportPdfTemplate = state => state.exportPdf.template;
 
 export const getExportPdfQuoteUrlParams = state => ({
@@ -295,4 +297,132 @@ export const getExportPdfFilename = (state) => {
   const quoteNumber = getQuoteNumber(state);
 
   return `${quoteNumber}.pdf`;
+};
+
+// Email Quote
+
+export const getQuoteReadWithEmailModalUrl = (state) => {
+  const region = getRegion(state);
+  const businessId = getBusinessId(state);
+  const quoteId = getQuoteId(state);
+
+  return `/#/${region}/${businessId}/quote/${quoteId}?openSendEmail=true`;
+};
+
+export const getOpenSendEmailQueryParam = state => state.openSendEmail;
+
+export const getShouldOpenEmailModal = (state) => {
+  const isCreating = getIsCreating(state);
+  const openSendEmail = getOpenSendEmailQueryParam(state);
+
+  return !isCreating && openSendEmail === 'true';
+};
+
+export const getLoadQuoteDetailModalType = (context, emailQuote) => {
+  const shouldOpenEmailModal = getShouldOpenEmailModal(context);
+  if (shouldOpenEmailModal) {
+    const { hasEmailReplyDetails } = emailQuote || {};
+
+    return hasEmailReplyDetails
+      ? ModalType.EMAIL_QUOTE
+      : ModalType.EMAIL_SETTINGS;
+  }
+
+  const shouldOpenExportPdfModal = getShouldOpenExportPdfModal(context);
+  if (shouldOpenExportPdfModal) {
+    return ModalType.EXPORT_PDF;
+  }
+
+  return ModalType.NONE;
+};
+
+export const getModalAlert = state => state.modalAlert;
+
+const getEmailToAddresses = state => state.emailQuote.toEmail;
+const getCcEmailToAddresses = state => state.emailQuote.ccToEmail;
+const getIsEmailMeACopy = state => state.emailQuote.isEmailMeACopy;
+const getEmailSubject = state => state.emailQuote.subject;
+const getEmailMessageBody = state => state.emailQuote.messageBody;
+const getEmailTemplateName = state => state.emailQuote.templateName;
+
+export const getEmailQuoteDetail = createSelector(
+  getEmailToAddresses,
+  getCcEmailToAddresses,
+  getIsEmailMeACopy,
+  getEmailSubject,
+  getEmailMessageBody,
+  getEmailTemplateName,
+  (emailToAddresses,
+    ccEmailToAddresses,
+    isEmailMeACopy,
+    subject,
+    messageBody,
+    emailTemplateName) => ({
+    emailToAddresses,
+    ccEmailToAddresses,
+    isEmailMeACopy,
+    subject,
+    messageBody,
+    emailTemplateName,
+  }),
+);
+
+export const getSendEmailUrlParams = (state) => {
+  const businessId = getBusinessId(state);
+  const quoteId = getQuoteId(state);
+
+  return { businessId, quoteId };
+};
+
+export const getSendEmailPayload = (state) => {
+  const {
+    hasEmailReplyDetails,
+    includeQuoteNumberInEmail,
+    attachments,
+    ...restOfEmailQuote
+  } = state.emailQuote;
+
+  return {
+    ...restOfEmailQuote,
+    attachments: attachments
+      .filter(attachment => attachment.state === 'finished')
+      .map(({ file, keyName, uploadPassword }) => ({
+        filename: file.name,
+        mimeType: file.type,
+        keyName,
+        uploadPassword,
+      })),
+  };
+};
+
+export const getEmailAttachments = createSelector(
+  state => state.emailQuote.attachments,
+  attachments => attachments.map(attachment => ({
+    keyName: attachment.keyName,
+    name: attachment.file.name,
+    size: attachment.file.size,
+    loaded: attachment.uploadProgress
+      ? Math.round(attachment.file.size * attachment.uploadProgress)
+      : 0,
+    state: attachment.state,
+    error: attachment.error,
+    canRemove: !['queued', 'loading'].includes(attachment.state),
+  })),
+);
+
+export const getFilesForUpload = (state, files) => (
+  files.filter(file => state.emailQuote.attachments.find(
+    attachment => attachment.file === file,
+  ).state === 'queued')
+);
+
+export const getIsEmailModalOpen = state => (
+  state.modalType === ModalType.EMAIL_QUOTE
+);
+
+export const getInvoiceAndQuoteSettingsUrl = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/salesSettings`;
 };

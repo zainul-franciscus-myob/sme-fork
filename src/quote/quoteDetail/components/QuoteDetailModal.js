@@ -2,6 +2,8 @@ import React from 'react';
 
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
+import EmailQuoteModal from './email/EmailQuoteModal';
+import EmailSettingsModal from './email/EmailSettingsModal';
 import ExportPdfModal from './ExportPdfModal';
 import ModalType from '../ModalType';
 import QuoteDetailSaveAndConfirmModal from './QuoteDetailSaveAndConfirmModal';
@@ -12,6 +14,8 @@ const QuoteDetailModal = ({
   template,
   templateOptions,
   isActionDisabled,
+  emailQuoteDetail,
+  modalAlert,
   onDismissModal,
   onConfirmCancelButtonClick,
   onConfirmDeleteButtonClick,
@@ -20,7 +24,15 @@ const QuoteDetailModal = ({
   onConfirmSaveAndCreateNewButtonClick,
   onConfirmSaveAndDuplicateButtonClick,
   onConfirmExportPdfButtonClick,
+  onConfirmEmailQuoteButtonClick,
   onChangeExportPdfForm,
+  onEmailQuoteDetailChange,
+  onDismissAlert,
+  onAddAttachments,
+  onRemoveAttachment,
+  onCancelEmailQuoteButtonClick,
+  onConfirmEmailSettingButtonClick,
+  onCloseEmailSettingButtonClick,
 }) => ({
   [ModalType.DELETE]: (
     <DeleteModal
@@ -69,6 +81,30 @@ const QuoteDetailModal = ({
       onCancel={onDismissModal}
       onConfirmExportPdfButtonClick={onConfirmExportPdfButtonClick}
       onChangeExportPdfForm={onChangeExportPdfForm}
+    />
+  ),
+  [ModalType.EMAIL_QUOTE]: (
+    <EmailQuoteModal
+      emailQuoteDetail={emailQuoteDetail}
+      templateOptions={templateOptions}
+      isActionDisabled={isActionDisabled}
+      alert={modalAlert}
+      onCancel={onCancelEmailQuoteButtonClick}
+      onConfirm={onConfirmEmailQuoteButtonClick}
+      onEmailQuoteDetailChange={onEmailQuoteDetailChange}
+      onDismissAlert={onDismissAlert}
+      onAddAttachments={onAddAttachments}
+      onRemoveAttachment={onRemoveAttachment}
+    />
+  ),
+  [ModalType.EMAIL_SETTINGS]: (
+    <EmailSettingsModal
+      onCancel={onCloseEmailSettingButtonClick}
+      onConfirm={onConfirmEmailSettingButtonClick}
+      title="Enter email reply details in settings"
+      description="Looks like there are no email reply details for you business in Invoice and quote settings. You'll need to enter these details before you can send this email."
+      alert={modalAlert}
+      onDismissAlert={onDismissAlert}
     />
   ),
 }[modalType]);

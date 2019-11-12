@@ -1,17 +1,17 @@
-import {
-  Alert, LineItemTemplate,
-} from '@myob/myob-widgets';
+import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAlert,
+  getEmailQuoteDetail,
   getExportPdfTemplate,
-  getExportPdfTemplateOptions,
   getIsCreating,
   getIsModalActionDisabled,
+  getModalAlert,
   getModalType,
   getPageTitle,
+  getTemplateOptions,
   getTotalAmount,
 } from '../ServiceQuoteSelectors';
 import QuoteDetailModal from '../../components/QuoteDetailModal';
@@ -44,12 +44,23 @@ const ServiceQuoteView = ({
   onConfirmSaveAndDuplicateButtonClick,
   alert,
   onDismissAlert,
+  onDismissModalAlert,
   onDeleteModal,
   onExportPdfButtonClick,
+  onSaveAndEmailButtonClick,
   onConfirmExportPdfButtonClick,
   onChangeExportPdfForm,
   pageTitle,
   totalAmount,
+  emailQuoteDetail,
+  modalAlert,
+  onEmailQuoteDetailChange,
+  onConfirmEmailQuoteButtonClick,
+  onCancelEmailQuoteButtonClick,
+  onAddAttachments,
+  onRemoveAttachment,
+  onConfirmEmailSettingButtonClick,
+  onCloseEmailSettingButtonClick,
 }) => {
   const options = <ServiceQuoteOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />;
 
@@ -62,6 +73,7 @@ const ServiceQuoteView = ({
       onDeleteButtonClick={onDeleteButtonClick}
       onConvertToInvoiceButtonClick={onConvertToInvoiceButtonClick}
       onExportPdfButtonClick={onExportPdfButtonClick}
+      onSaveAndEmailButtonClick={onSaveAndEmailButtonClick}
     />
   );
 
@@ -77,7 +89,10 @@ const ServiceQuoteView = ({
       template={template}
       templateOptions={templateOptions}
       isActionDisabled={isModalActionDisabled}
+      emailQuoteDetail={emailQuoteDetail}
+      modalAlert={modalAlert}
       onDismissModal={onCloseModal}
+      onDismissAlert={onDismissModalAlert}
       onConfirmCancelButtonClick={onCancelModal}
       onConfirmDeleteButtonClick={onDeleteModal}
       onConfirmSaveButtonClick={onConfirmSaveButtonClick}
@@ -85,7 +100,14 @@ const ServiceQuoteView = ({
       onConfirmSaveAndCreateNewButtonClick={onConfirmSaveAndCreateNewButtonClick}
       onConfirmSaveAndDuplicateButtonClick={onConfirmSaveAndDuplicateButtonClick}
       onConfirmExportPdfButtonClick={onConfirmExportPdfButtonClick}
+      onConfirmEmailQuoteButtonClick={onConfirmEmailQuoteButtonClick}
       onChangeExportPdfForm={onChangeExportPdfForm}
+      onEmailQuoteDetailChange={onEmailQuoteDetailChange}
+      onCancelEmailQuoteButtonClick={onCancelEmailQuoteButtonClick}
+      onAddAttachments={onAddAttachments}
+      onRemoveAttachment={onRemoveAttachment}
+      onConfirmEmailSettingButtonClick={onConfirmEmailSettingButtonClick}
+      onCloseEmailSettingButtonClick={onCloseEmailSettingButtonClick}
     />
   );
 
@@ -124,8 +146,10 @@ const mapStateToProps = state => ({
   pageTitle: getPageTitle(state),
   totalAmount: getTotalAmount(state),
   template: getExportPdfTemplate(state),
-  templateOptions: getExportPdfTemplateOptions(state),
+  templateOptions: getTemplateOptions(state),
   isModalActionDisabled: getIsModalActionDisabled(state),
+  emailQuoteDetail: getEmailQuoteDetail(state),
+  modalAlert: getModalAlert(state),
 });
 
 export default connect(mapStateToProps)(ServiceQuoteView);

@@ -1,4 +1,21 @@
 import {
+  ADD_EMAIL_ATTACHMENTS,
+  CHANGE_EXPORT_PDF_TEMPLATE,
+  LOAD_CUSTOMER_ADDRESS,
+  REMOVE_EMAIL_ATTACHMENT,
+  RESET_EMAIL_QUOTE_DETAIL,
+  RESET_OPEN_SEND_EMAIL,
+  SET_ALERT,
+  SET_LOADING_STATE,
+  SET_MODAL_ALERT,
+  SET_MODAL_SUBMITTING_STATE,
+  UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
+  UPDATE_EMAIL_QUOTE_DETAIL,
+  UPDATE_QUOTE_ID_AFTER_CREATE,
+  UPLOAD_EMAIL_ATTACHMENT,
+  UPLOAD_EMAIL_ATTACHMENT_FAILED,
+} from '../../QuoteIntents';
+import {
   ADD_SERVICE_QUOTE_LINE,
   CLOSE_MODAL,
   FORMAT_SERVICE_QUOTE_LINE,
@@ -10,19 +27,13 @@ import {
   UPDATE_SERVICE_QUOTE_HEADER_OPTIONS,
   UPDATE_SERVICE_QUOTE_LINE,
 } from './ServiceQuoteIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
-  CHANGE_EXPORT_PDF_TEMPLATE,
-  LOAD_CUSTOMER_ADDRESS,
-  SET_ALERT, SET_LOADING_STATE,
-  SET_MODAL_SUBMITTING_STATE,
-  UPDATE_QUOTE_ID_AFTER_CREATE,
-} from '../../QuoteIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
-import { getDefaultTaxCodeId, getLineByIndex, getShouldOpenExportPdfModal } from './ServiceQuoteSelectors';
-import ModalType from '../ModalType';
+  getDefaultTaxCodeId,
+  getLineByIndex,
+  getLoadQuoteDetailModalType,
+  getShouldOpenEmailModal,
+} from './ServiceQuoteSelectors';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
@@ -72,10 +83,23 @@ const getDefaultState = () => ({
   isSubmitting: false,
   comments: [],
   pageTitle: '',
+  emailQuote: {
+    hasEmailReplyDetails: false,
+    isEmailMeACopy: false,
+    ccToEmail: [''],
+    fromEmail: '',
+    fromName: '',
+    messageBody: '',
+    subject: '',
+    toEmail: [''],
+    attachments: [],
+    templateName: '',
+  },
+  templateOptions: [],
   exportPdf: {
-    templateOptions: [],
     template: '',
   },
+  modalAlert: undefined,
 });
 
 const setLoadingState = (state, action) => ({
@@ -83,16 +107,32 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
-const setInitialAlert = message => ({
-  type: 'success',
-  message: message.content,
-});
+const getLoadQuoteDetailEmailQuote = (emailQuote, quoteNumber) => (
+  emailQuote
+    ? {
+      ...emailQuote,
+      toEmail: emailQuote.toEmail.length > 0 ? emailQuote.toEmail : [''],
+      ccToEmail: emailQuote.ccToEmail.length > 0 ? emailQuote.ccToEmail : [''],
+      subject: emailQuote.includeQuoteNumberInEmail ? `Quote ${quoteNumber}; ${emailQuote.subject}` : emailQuote.subject,
+    }
+    : {}
+);
+
+const getLoadQuoteDetailModalAndPageAlert = (state, alertMessage) => {
+  const shouldOpenEmailModal = getShouldOpenEmailModal(state);
+  const alert = ({ type: 'success', message: alertMessage.content });
+
+  return shouldOpenEmailModal ? { modalAlert: alert } : { pageAlert: alert };
+};
 
 const setInitialState = (state, action) => {
   const defaultState = getDefaultState();
 
-  const shouldOpenExportPdfModal = getShouldOpenExportPdfModal(action.context);
-  const modalType = shouldOpenExportPdfModal ? ModalType.EXPORT_PDF : undefined;
+  const modalType = getLoadQuoteDetailModalType(action.context, action.emailQuote);
+
+  const { modalAlert, pageAlert } = action.message
+    ? getLoadQuoteDetailModalAndPageAlert(action.context, action.message)
+    : {};
 
   return ({
     ...defaultState,
@@ -110,11 +150,21 @@ const setInitialState = (state, action) => {
     totals: action.totals,
     comments: action.comments,
     pageTitle: action.pageTitle,
-    alert: action.message ? setInitialAlert(action.message) : defaultState.alert,
+    emailQuote: {
+      ...defaultState.emailQuote,
+      ...getLoadQuoteDetailEmailQuote(action.emailQuote, action.quote.quoteNumber),
+    },
+    emailQuoteDefaultState: {
+      ...defaultState.emailQuoteDefaultState,
+      ...getLoadQuoteDetailEmailQuote(action.emailQuote, action.quote.quoteNumber),
+    },
     exportPdf: {
       ...defaultState.exportPdf,
       ...action.exportPdf,
     },
+    templateOptions: action.templateOptions,
+    modalAlert,
+    alert: pageAlert,
   });
 };
 
@@ -255,6 +305,77 @@ const changeExportPdfForm = (state, action) => ({
   },
 });
 
+const updateEmailQuoteDetail = (state, action) => ({
+  ...state,
+  emailQuote: {
+    ...state.emailQuote,
+    [action.key]: action.value,
+  },
+});
+
+const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
+
+const resetOpenSendEmailParam = state => ({
+  ...state,
+  openSendEmail: 'false',
+});
+
+const resetEmailQuoteDetail = state => ({
+  ...state,
+  emailQuote: state.emailQuoteDefaultState,
+});
+
+const isMoreThan25MB = size => size > 25000000;
+
+const buildAttachmentState = size => (
+  isMoreThan25MB(size) ? { state: 'failed', error: 'File is more than 25MB' } : { state: 'queued' }
+);
+
+const addAttachments = (state, { files }) => ({
+  ...state,
+  emailQuote: {
+    ...state.emailQuote,
+    attachments: [
+      ...state.emailQuote.attachments,
+      ...files.map(file => ({
+        ...buildAttachmentState(file.size),
+        file,
+      })),
+    ],
+  },
+
+});
+
+const updateEmailAttachment = (state, file, partialAttachment) => ({
+  ...state,
+  emailQuote: {
+    ...state.emailQuote,
+    attachments: state.emailQuote.attachments.map(attachment => (
+      attachment.file === file ? { ...attachment, ...partialAttachment } : attachment
+    )),
+  },
+});
+
+const uploadEmailAttachment = (state, { keyName, uploadPassword, file }) => (
+  updateEmailAttachment(state, file, { keyName, uploadPassword, state: 'finished' })
+);
+
+const uploadEmailAttachmentFailed = (state, { message, file }) => (
+  updateEmailAttachment(state, file, { error: message, state: 'failed' })
+);
+
+const uploadEmailAttachmentUploadProgress = (state, { file, uploadProgress }) => (
+  updateEmailAttachment(state, file, { state: 'loading', uploadProgress })
+);
+
+const removeEmailAttachment = (state, { index }) => ({
+  ...state,
+  emailQuote: {
+    ...state.emailQuote,
+    attachments: state.emailQuote.attachments.filter((attachment, i) => index !== i),
+  },
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -274,6 +395,15 @@ const handlers = {
   [FORMAT_SERVICE_QUOTE_LINE]: formatServiceQuoteLine,
   [RESET_TOTALS]: resetTotals,
   [CHANGE_EXPORT_PDF_TEMPLATE]: changeExportPdfForm,
+  [UPDATE_EMAIL_QUOTE_DETAIL]: updateEmailQuoteDetail,
+  [SET_MODAL_ALERT]: setModalAlert,
+  [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,
+  [RESET_EMAIL_QUOTE_DETAIL]: resetEmailQuoteDetail,
+  [ADD_EMAIL_ATTACHMENTS]: addAttachments,
+  [UPLOAD_EMAIL_ATTACHMENT]: uploadEmailAttachment,
+  [UPLOAD_EMAIL_ATTACHMENT_FAILED]: uploadEmailAttachmentFailed,
+  [UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS]: uploadEmailAttachmentUploadProgress,
+  [REMOVE_EMAIL_ATTACHMENT]: removeEmailAttachment,
 };
 
 const serviceQuoteReducer = createReducer(getDefaultState(), handlers);
