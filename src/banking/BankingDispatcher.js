@@ -17,6 +17,7 @@ import {
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_MODAL,
+  RESET_BULK_ALLOCATION,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
@@ -38,6 +39,7 @@ import {
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
+  UNSELECT_TRANSACTIONS,
   UPDATE_BULK_ALLOCATION_OPTIONS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
@@ -79,6 +81,12 @@ const createBankingDispatcher = store => ({
     store.dispatch({
       intent: SET_BULK_LOADING_STATE,
       isLoading,
+    });
+  },
+
+  resetBulkAllocation: () => {
+    store.dispatch({
+      intent: RESET_BULK_ALLOCATION,
     });
   },
 
@@ -439,6 +447,12 @@ const createBankingDispatcher = store => ({
     });
   },
 
+  unselectTransactions: () => {
+    store.dispatch({
+      intent: UNSELECT_TRANSACTIONS,
+    });
+  },
+
   updateBulkAllocationOption: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_BULK_ALLOCATION_OPTIONS,
@@ -459,7 +473,6 @@ const createBankingDispatcher = store => ({
       intent: RESET_STATE,
     });
   },
-
 });
 
 export default createBankingDispatcher;

@@ -21,20 +21,19 @@ const BankingTableRowField = ({ title, children, className }) => (
     <span className={styles.label}>
       <strong>
         {title}
-        :
       </strong>
     </span>
     {children}
   </div>
 );
 
-const BankingTableDescription = ({ description, note }) => (
-  <div>
+const BankingTableDescription = ({ description, note, className }) => (
+  <div className={className}>
     {description}
     {note && (
     <div className={styles.note}>
-      Note
-      :
+      Note:
+      {' '}
       {note}
     </div>
     )}
@@ -80,6 +79,46 @@ const BankTransactionTableRow = ({
   const openedClassName = isExpanded ? styles.expanded : '';
   const selectedClassName = isSelected ? styles.selected : '';
 
+  const amount = entry.deposit ? `$${entry.deposit}` : `-$${entry.withdrawal}`;
+
+  const desktopInfoColumn = (
+    <div className={styles.infoColumn}>
+      <BankingTableRowField title="Date:" className={styles.date}>
+        {entry.displayDate}
+      </BankingTableRowField>
+      <div className={styles.description}>
+        <BankingTableDescription description={entry.description} note={entry.note} />
+        <BankingTableRowField title="Amount:" className={styles.amount}>
+          {entry.deposit || `-${entry.withdrawal}`}
+        </BankingTableRowField>
+        <BankingTableRowField title="Withdrawal" className={styles.withdrawalOrDeposit}>
+          {entry.withdrawal}
+        </BankingTableRowField>
+        <BankingTableRowField title="Deposit" className={styles.withdrawalOrDeposit}>
+          {entry.deposit}
+        </BankingTableRowField>
+      </div>
+    </div>
+  );
+
+  const mobileInfoColumn = (
+    <div className={styles.mobileInfoColumn}>
+      <BankingTableDescription
+        className={styles.mobileDescription}
+        description={entry.description}
+        note={entry.note}
+      />
+      <div className={styles.description}>
+        <BankingTableRowField className={styles.date}>
+          {entry.displayDate}
+        </BankingTableRowField>
+        <BankingTableRowField className={styles.amount}>
+          {amount}
+        </BankingTableRowField>
+      </div>
+    </div>
+  );
+
   return (
     <div className={`${styles.row} ${openedClassName} ${selectedClassName}`}>
       <div className={styles.columns}>
@@ -93,23 +132,8 @@ const BankTransactionTableRow = ({
             disabled={isBulkLoading}
           />
         </div>
-        <div className={styles.infoColumn}>
-          <BankingTableRowField title="Date" className={styles.date}>
-            {entry.displayDate}
-          </BankingTableRowField>
-          <div className={styles.description}>
-            <BankingTableDescription description={entry.description} note={entry.note} />
-            <BankingTableRowField title="Amount" className={styles.amount}>
-              {entry.deposit || `-${entry.withdrawal}`}
-            </BankingTableRowField>
-            <BankingTableRowField title="Withdrawal" className={styles.withdrawalOrDeposit}>
-              {entry.withdrawal}
-            </BankingTableRowField>
-            <BankingTableRowField title="Deposit" className={styles.withdrawalOrDeposit}>
-              {entry.deposit}
-            </BankingTableRowField>
-          </div>
-        </div>
+        { mobileInfoColumn }
+        { desktopInfoColumn }
         <div className={styles.allocationColumn}>
           {matchedOrAllocatedRowItem}
           <div className={styles.taxCode}>{entry.taxCode}</div>

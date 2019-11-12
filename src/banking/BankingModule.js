@@ -72,6 +72,7 @@ export default class BankingModule {
       closeModal,
       updateBulkAllocationOption,
       openBankingRuleModal,
+      resetBulkAllocation,
     } = this.dispatcher;
 
     const transactionListView = (
@@ -119,6 +120,7 @@ export default class BankingModule {
         onUpdateBulkAllocationOption={updateBulkAllocationOption}
         onSaveBulkAllocation={this.saveBulkAllocation}
         onSaveBulkUnallocation={this.openBulkUnallocateModal}
+        onCloseBulkAllocation={resetBulkAllocation}
         onCancelUnallocateModal={closeModal}
         onConfirmUnallocateModal={this.bulkUnallocateTransactions}
         onOpenBankingRuleModal={openBankingRuleModal}
@@ -214,6 +216,7 @@ export default class BankingModule {
 
     const onSuccess = (payload) => {
       this.dispatcher.setBulkLoadingState(false);
+      this.dispatcher.unselectTransactions();
       this.dispatcher.bulkAllocateTransactions(payload);
       this.dispatcher.setAlert({
         type: 'success',

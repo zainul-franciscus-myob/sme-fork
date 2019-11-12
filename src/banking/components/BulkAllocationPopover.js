@@ -23,6 +23,7 @@ const BulkAllocationPopover = ({
   bulkAllocationOptions,
   onUpdateBulkAllocationOption,
   onSaveBulkAllocation,
+  onCloseBulkAllocation,
 }) => {
   const body = (
     <React.Fragment>
@@ -33,16 +34,20 @@ const BulkAllocationPopover = ({
         hintText="Select an account"
         items={bulkAllocationAccounts}
         selectedId={bulkAllocationOptions.accountId}
+        requiredLabel="This field is required"
         onChange={onComboBoxChange(onUpdateBulkAllocationOption, 'accountId')}
       />
-      <TaxCodeCombobox
-        label="Tax code"
-        hideLabel={false}
-        name="taxCodeId"
-        items={taxCodes}
-        selectedId={bulkAllocationOptions.taxCodeId}
-        onChange={onComboBoxChange(onUpdateBulkAllocationOption, 'taxCodeId')}
-      />
+      <div className={styles.taxComboBoxWidth}>
+        <TaxCodeCombobox
+          label="Tax code"
+          hideLabel={false}
+          name="taxCodeId"
+          items={taxCodes}
+          selectedId={bulkAllocationOptions.taxCodeId}
+          requiredLabel="This field is required"
+          onChange={onComboBoxChange(onUpdateBulkAllocationOption, 'taxCodeId')}
+        />
+      </div>
     </React.Fragment>
   );
 
@@ -59,8 +64,9 @@ const BulkAllocationPopover = ({
       closeOnOuterAction
       preferPlace="below"
       appendTarget={`.${styles.popover}`}
+      onOuterAction={onCloseBulkAllocation}
     >
-      <Button type="secondary">Allocate</Button>
+      <Button type="secondary" className={styles.allocateButton}>Allocate</Button>
     </Popover>
   );
 };

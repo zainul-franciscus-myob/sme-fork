@@ -71,6 +71,7 @@ const BankingView = (props) => {
     onUpdateBulkAllocationOption,
     onSaveBulkAllocation,
     onSaveBulkUnallocation,
+    onCloseBulkAllocation,
     onCancelUnallocateModal,
     onConfirmUnallocateModal,
     onOpenBankingRuleModal,
@@ -115,6 +116,7 @@ const BankingView = (props) => {
       <BulkAllocationPopover
         onUpdateBulkAllocationOption={onUpdateBulkAllocationOption}
         onSaveBulkAllocation={onSaveBulkAllocation}
+        onCloseBulkAllocation={onCloseBulkAllocation}
       />
       <Button type="secondary" onClick={onSaveBulkUnallocation}>Unallocate</Button>
       <BulkActions.Counter count={selectedCount} />

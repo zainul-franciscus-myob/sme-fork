@@ -53,5 +53,7 @@ export const UPDATE_BULK_ALLOCATION_OPTIONS = Symbol('Update bulk allocation opt
 export const BULK_ALLOCATE_TRANSACTIONS = Symbol('Bulk allocate transactions');
 export const BULK_UNALLOCATE_TRANSACTIONS = Symbol('Bulk unallocate transactions');
 export const SET_BULK_LOADING_STATE = Symbol('Set bulk loading state for bulk allocation');
+export const RESET_BULK_ALLOCATION = Symbol('Reset the state of the bulk allocation options');
 
 export const APPLY_RULE_TO_TRANSACTIONS = Symbol('Apply baning rule to transactions');
+export const UNSELECT_TRANSACTIONS = Symbol('Unselect transactions');

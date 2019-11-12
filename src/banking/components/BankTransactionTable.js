@@ -1,4 +1,4 @@
-import { PageState, Spinner } from '@myob/myob-widgets';
+import { Card, PageState, Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -21,19 +21,23 @@ import BankTransactionTableHeader from './BankTransactionTableHeader';
 const emptyView = header => (
   <React.Fragment>
     {header}
-    <PageState
-      title="There are no transactions for the selected filter options."
-    />
+    <Card>
+      <PageState
+        title="There are no transactions for the selected filter options."
+      />
+    </Card>
   </React.Fragment>
 );
 
 const spinnerView = header => (
   <React.Fragment>
     {header}
-    <PageState
-      title={<Spinner size="medium" />}
-      description="Loading"
-    />
+    <Card>
+      <PageState
+        title={<Spinner size="medium" />}
+        description="Loading"
+      />
+    </Card>
   </React.Fragment>
 );
 

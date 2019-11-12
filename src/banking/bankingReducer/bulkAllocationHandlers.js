@@ -29,6 +29,14 @@ export const selectAllTransactions = (state) => {
   };
 };
 
+export const unselectTransactions = state => ({
+  ...state,
+  entries: state.entries.map(entry => ({
+    ...entry,
+    selected: false,
+  })),
+});
+
 const getDefaultTaxCodeId = (accountId, accounts) => {
   const account = accounts.find(({ id }) => id === accountId);
   return account === undefined ? '' : account.taxCodeId;
@@ -109,4 +117,12 @@ export const setBulkLoading = (state, action) => ({
     ...entry,
     isLoading: entry.selected ? action.isLoading : entry.isLoading,
   })),
+});
+
+export const resetBulkAllocation = state => ({
+  ...state,
+  bulkAllocationOptions: {
+    accountId: '',
+    taxCodeId: '',
+  },
 });
