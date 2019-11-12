@@ -1,18 +1,18 @@
 import { addMonths } from 'date-fns';
 
 import {
-  LOAD_PAY_RUN_LIST,
+  RESET_STATE,
+  SET_INITIAL_STATE,
+} from '../../SystemIntents';
+import {
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_PAY_RUN_LIST,
+  UPDATE_APPLIED_FILTER_OPTIONS,
   UPDATE_FILTER_OPTIONS,
 } from './PayRunListIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
@@ -59,11 +59,6 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const loadPayRunList = (state, action) => ({
-  ...state,
-  entries: action.entries,
-});
-
 const updateFilterOptions = (state, action) => ({
   ...state,
   filterOptions: {
@@ -77,10 +72,17 @@ const setSortOrder = (state, action) => ({
   sortOrder: action.sortOrder,
 });
 
+const updateAppliedFilterOptions = (state, action) => ({
+  ...state,
+  filtersTouched: true,
+  appliedFilterOptions: {
+    ...action.filterOptions,
+  },
+});
+
 const sortAndFilterPayRunList = (state, action) => ({
   ...state,
   entries: action.entries,
-  filtersTouched: true,
   sortOrder: action.sortOrder,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
@@ -91,10 +93,10 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
-  [LOAD_PAY_RUN_LIST]: loadPayRunList,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [SET_SORT_ORDER]: setSortOrder,
   [SORT_AND_FILTER_PAY_RUN_LIST]: sortAndFilterPayRunList,
+  [UPDATE_APPLIED_FILTER_OPTIONS]: updateAppliedFilterOptions,
 };
 
 const payRunListReducer = createReducer(getDefaultState(), handlers);

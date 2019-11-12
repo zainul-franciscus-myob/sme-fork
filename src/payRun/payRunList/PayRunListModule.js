@@ -2,17 +2,17 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  LOAD_PAY_RUN_LIST,
+  RESET_STATE,
+  SET_INITIAL_STATE,
+} from '../../SystemIntents';
+import {
   SET_ALERT,
   SET_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_PAY_RUN_LIST,
+  UPDATE_APPLIED_FILTER_OPTIONS,
   UPDATE_FILTER_OPTIONS,
 } from './PayRunListIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../SystemIntents';
 import {
   getAppliedFilterOptions,
   getBusinessId,
@@ -81,27 +81,50 @@ export default class PayrunListModule {
     });
   }
 
-  filterPayRunList = () => {
+  loadPayRunList = () => {
     const state = this.store.getState();
     const filterOptions = getFilterOptions(state);
+
     this.fetchPayRunList({
       filterOptions,
       isSort: false,
+      setLoadingFunc: isLoading => this.setIsLoading(isLoading),
     });
+  }
+
+  filterPayRunList = () => {
+    const state = this.store.getState();
+    const filterOptions = getFilterOptions(state);
+
+    this.fetchPayRunList({
+      filterOptions,
+      isSort: false,
+      setLoadingFunc: isLoading => this.setTableLoadingState(isLoading),
+    });
+    this.updateAppliedFilterOptions(filterOptions);
   }
 
   sortPayRunList = () => {
     const state = this.store.getState();
     const filterOptions = getAppliedFilterOptions(state);
+
     this.fetchPayRunList({
       filterOptions,
       isSort: true,
+      setLoadingFunc: isLoading => this.setTableLoadingState(isLoading),
     });
   }
 
-  fetchPayRunList = ({ filterOptions, isSort }) => {
+  setAlert = (alert) => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert,
+    });
+  }
+
+  fetchPayRunList = ({ filterOptions, isSort, setLoadingFunc }) => {
     const state = this.store.getState();
-    this.setTableLoadingState(true);
+    setLoadingFunc(true);
     const intent = SORT_AND_FILTER_PAY_RUN_LIST;
 
     const urlParams = {
@@ -109,7 +132,7 @@ export default class PayrunListModule {
     };
 
     const onSuccess = ({ entries, sortOrder }) => {
-      this.setTableLoadingState(false);
+      setLoadingFunc(false);
       this.store.dispatch({
         intent,
         entries,
@@ -136,6 +159,14 @@ export default class PayrunListModule {
       },
       onSuccess,
       onFailure,
+    });
+  }
+
+  updateAppliedFilterOptions = (filterOptions) => {
+    const intent = UPDATE_APPLIED_FILTER_OPTIONS;
+    this.store.dispatch({
+      intent,
+      filterOptions,
     });
   }
 
@@ -183,31 +214,6 @@ export default class PayrunListModule {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
       isLoading,
-    });
-  }
-
-  loadPayRunList = () => {
-    const state = this.store.getState();
-    this.setIsLoading(true);
-    const urlParams = { businessId: state.businessId };
-    const intent = LOAD_PAY_RUN_LIST;
-
-    const onSuccess = (entries) => {
-      this.setIsLoading(false);
-      this.store.dispatch({
-        intent,
-        entries,
-      });
-    };
-    const onFailure = () => {
-      console.log('Failed to load pay run list entries.');
-    };
-
-    this.integration.read({
-      onSuccess,
-      urlParams,
-      onFailure,
-      intent,
     });
   }
 
