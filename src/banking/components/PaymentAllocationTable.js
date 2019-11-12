@@ -8,13 +8,21 @@ import PaymentAllocationTableBody from './PaymentAllocationTableBody';
 import styles from './BankingView.module.css';
 
 const tableConfig = {
-  referenceId: { width: '15rem', valign: 'top' },
-  status: { width: 'flex-1', valign: 'top' },
-  date: { width: '11rem', valign: 'top' },
-  amount: { width: '17rem', valign: 'top', align: 'right' },
-  discountAmount: { width: '17rem', valign: 'top', align: 'right' },
-  balanceDue: { width: '15rem', valign: 'top', align: 'right' },
-  appliedAmount: { width: '17rem', valign: 'top', align: 'right' },
+  referenceId: { columnName: 'Bill Number', valign: 'top' },
+  status: { columnName: 'Status', valign: 'top' },
+  date: { columnName: 'Date', valign: 'top' },
+  amount: {
+    columnName: 'Bill amount ($)', valign: 'top', align: 'right',
+  },
+  discountAmount: {
+    columnName: 'Discount given ($)', valign: 'top', align: 'right',
+  },
+  balanceDue: {
+    columnName: 'Balance due ($)', valign: 'top', align: 'right',
+  },
+  appliedAmount: {
+    columnName: 'Amount paid ($)', valign: 'top', align: 'right',
+  },
 };
 
 const emptyView = tableEmptyMessage => (
@@ -35,7 +43,6 @@ const PaymentAllocationTable = (props) => {
     isTableLoading,
     isTableEmpty,
     referenceIdLabel,
-    amountLabel,
     amountPaidLabel,
     tableEmptyMessage,
     onUpdatePaymentAllocationLine,
@@ -60,13 +67,13 @@ const PaymentAllocationTable = (props) => {
       <Table.Header>
         <Table.HeaderItem {...tableConfig.referenceId}>{referenceIdLabel}</Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.status}>Status</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.date}>Date</Table.HeaderItem>
-        <Table.HeaderItem {...tableConfig.amount}>{amountLabel}</Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.date}>Issue Date</Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.amount}>Total amount ($)</Table.HeaderItem>
         {
           isCreating
             ? (
               <Table.HeaderItem {...tableConfig.discountAmount}>
-                Discount given ($)
+                Discount ($)
               </Table.HeaderItem>
             )
             : null

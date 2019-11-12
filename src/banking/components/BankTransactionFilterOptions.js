@@ -1,5 +1,5 @@
 import {
-  DatePicker, FilterBar, Search, Select,
+  DatePicker, Search, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,6 +9,7 @@ import {
   getShouldDisplayDateRange,
   getTransactionTypes,
 } from '../bankingSelectors';
+import FilterBar from '../../components/Feelix/FilterBar/FilterBar';
 
 class BankTransactionFilterOptions extends React.Component {
   onDateChange = filterName => ({ value }) => {

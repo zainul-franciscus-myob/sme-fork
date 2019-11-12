@@ -1,4 +1,4 @@
-import { Input, LineItemTable } from '@myob/myob-widgets';
+import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -74,13 +74,14 @@ const SplitAllocationRow = (props) => {
         onChange={handleAmountChange(onChange)}
         textAlign="right"
       />
-      <Input
+      <TextArea
         type="text"
         label="Description"
         hideLabel
         name="description"
         value={description}
         onChange={onChange}
+        autoSize
       />
       <TaxCodeCombobox
         items={taxCodes}

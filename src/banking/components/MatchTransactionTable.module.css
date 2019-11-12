@@ -1,0 +1,5 @@
+/* Feelix Override */
+.table :global(.table-data__row) {
+  padding-left: 4.2rem;
+  padding-right: 4.2rem;
+}

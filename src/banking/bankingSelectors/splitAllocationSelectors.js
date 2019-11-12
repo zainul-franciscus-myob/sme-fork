@@ -63,7 +63,7 @@ export const getOptions = createSelector(
     contactId,
     isReportable,
     showIsReportable: isSpendMoney,
-    contactLabel: isSpendMoney ? 'Payment to' : 'Payment from',
+    contactLabel: isSpendMoney ? 'payee' : 'payer',
   }),
 );
 

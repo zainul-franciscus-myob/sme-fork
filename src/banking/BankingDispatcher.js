@@ -51,6 +51,7 @@ import {
   UPDATE_TRANSFER_MONEY,
 } from './BankingIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
+import ModalTypes from './ModalTypes';
 
 const createBankingDispatcher = store => ({
   focusEntry: (index) => {
@@ -259,21 +260,28 @@ const createBankingDispatcher = store => ({
   openCancelModal: () => {
     store.dispatch({
       intent: OPEN_MODAL,
-      modalType: 'cancel',
+      modalType: ModalTypes.CANCEL,
     });
   },
 
   openBulkUnallocateModal: () => {
     store.dispatch({
       intent: OPEN_MODAL,
-      modalType: 'bulkUnallocate',
+      modalType: ModalTypes.BULK_UNALLOCATE,
     });
   },
 
   openBankingRuleModal: () => {
     store.dispatch({
       intent: OPEN_MODAL,
-      modalType: 'bankingRule',
+      modalType: ModalTypes.BANKING_RULE,
+    });
+  },
+
+  openUnmatchTransactionModal: () => {
+    store.dispatch({
+      intent: OPEN_MODAL,
+      modalType: ModalTypes.UNMATCH_TRANSACTION,
     });
   },
 

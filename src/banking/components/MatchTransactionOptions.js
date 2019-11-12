@@ -1,5 +1,5 @@
 import {
-  DatePicker, FilterBar, Search,
+  DatePicker, Search,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import React from 'react';
 
 import { getMatchTransactionFilterOptions } from '../bankingSelectors/matchTransactionSelectors';
 import AmountInput from '../../components/autoFormatter/AmountInput/AmountInput';
+import FilterBar from '../../components/Feelix/FilterBar/FilterBar';
 import styles from './BankingView.module.css';
 
 const handleDateChange = (handler, key) => ({ value }) => {
@@ -37,7 +38,7 @@ const MatchTransactionOptions = (props) => {
   } = props;
 
   return (
-    <React.Fragment>
+    <div className={styles.filterOptions}>
       <FilterBar onApply={onApplyMatchTransactionOptions}>
         <DatePicker name="dateFrom" label="Date from" value={dateFrom} onSelect={handleDateChange(onUpdateMatchTransactionOptions, 'dateFrom')} />
         <DatePicker name="dateTo" label="Date to" value={dateTo} onSelect={handleDateChange(onUpdateMatchTransactionOptions, 'dateTo')} />
@@ -45,7 +46,7 @@ const MatchTransactionOptions = (props) => {
         <AmountInput label="Amount to ($)" name="amountTo" className={styles.amountInput} value={amountTo} onChange={handleAmountChange(onUpdateMatchTransactionOptions)} />
         <Search name="keywords" label="Search" id="search" placeholder="Search" maxLength={255} value={keywords} onChange={handleInputChange(onUpdateMatchTransactionOptions)} />
       </FilterBar>
-    </React.Fragment>
+    </div>
   );
 };
 

@@ -252,12 +252,10 @@ describe('paymentAllocationSelector', () => {
 
         const {
           referenceIdLabel,
-          amountLabel,
           amountPaidLabel,
         } = actual;
 
         expect(referenceIdLabel).toEqual('Bill number');
-        expect(amountLabel).toEqual('Bill amount ($)');
         expect(amountPaidLabel).toEqual('Amount paid ($)');
       });
 
@@ -358,12 +356,10 @@ describe('paymentAllocationSelector', () => {
 
         const {
           referenceIdLabel,
-          amountLabel,
           amountPaidLabel,
         } = actual;
 
         expect(referenceIdLabel).toEqual('Invoice number');
-        expect(amountLabel).toEqual('Invoice amount ($)');
         expect(amountPaidLabel).toEqual('Amount received ($)');
       });
 

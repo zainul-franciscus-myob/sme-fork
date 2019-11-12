@@ -72,7 +72,6 @@ const BankingView = (props) => {
     onSaveBulkAllocation,
     onSaveBulkUnallocation,
     onCloseBulkAllocation,
-    onCancelUnallocateModal,
     onConfirmUnallocateModal,
     onOpenBankingRuleModal,
     onRenderBankingRuleModal,
@@ -103,10 +102,9 @@ const BankingView = (props) => {
     && (<BankingModal
       modalType={modalType}
       getBankingRuleModal={getBankingRuleModal}
-      onCloseCancelModal={onCloseModal}
+      onCloseModal={onCloseModal}
       onConfirmCancelModal={onCancelModal}
       onConfirmUnallocateModal={onConfirmUnallocateModal}
-      onCancelUnallocateModal={onCancelUnallocateModal}
       onRenderBankingRuleModal={onRenderBankingRuleModal}
     />
     ));

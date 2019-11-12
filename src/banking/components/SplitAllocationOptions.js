@@ -27,29 +27,32 @@ const SplitAllocationOptions = (props) => {
   } = props;
 
   return (
-    <Columns type="three">
-      <ContactCombobox
-        items={contacts}
-        selectedId={contactId}
-        onChange={handleComboBoxChange('contactId', onUpdateSplitAllocationHeader)}
-        label={contactLabel}
-        name="contact"
-        hideLabel={false}
-        hintText="Select contact"
-      />
-      {showIsReportable && (
-        <div className="form-group">
-          <div className={styles.checkbox}>
-            <Checkbox
-              name="isReportable"
-              label="Reportable"
-              checked={isReportable}
-              onChange={handleCheckboxChange(onUpdateSplitAllocationHeader)}
-            />
+    <div className={styles.filterOptions}>
+      <Columns type="three">
+        <ContactCombobox
+          items={contacts}
+          selectedId={contactId}
+          onChange={handleComboBoxChange('contactId', onUpdateSplitAllocationHeader)}
+          label={`Contact (${contactLabel})`}
+          name="contact"
+          hideLabel={false}
+          hintText="Select contact"
+          requiredLabel="This is required"
+        />
+        {showIsReportable && (
+          <div className="form-group">
+            <div className={styles.checkbox}>
+              <Checkbox
+                name="isReportable"
+                label="Reportable"
+                checked={isReportable}
+                onChange={handleCheckboxChange(onUpdateSplitAllocationHeader)}
+              />
+            </div>
           </div>
-        </div>
-      )}
-    </Columns>
+        )}
+      </Columns>
+    </div>
   );
 };
 SplitAllocationOptions.defaultProps = {

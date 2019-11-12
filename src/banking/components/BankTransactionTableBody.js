@@ -120,24 +120,31 @@ const BankTransactionTableBody = (props) => {
 
   const openEntry = (
     <Card
+      classes={[styles.openEntryCard]}
       body={(
-        <Card.Body child={(
-          <React.Fragment>
-            <BankTransactionTabs
-              selected={activeTabId}
-              onSelected={onTabChange}
-            />
-            <Content {...contentProps} />
-          </React.Fragment>
+        <Card.Body
+          classes={[styles.openEntryCardBody]}
+          child={(
+            <React.Fragment>
+              <BankTransactionTabs
+                selected={activeTabId}
+                onSelected={onTabChange}
+              />
+              <Content {...contentProps} />
+            </React.Fragment>
           )}
-        />)}
+        />
+      )}
       footer={(
-        <Card.Footer child={(
-          <OpenEntryFooter {...footerProps}>
-            {activeTabId === tabIds.payment ? <PaymentAllocationFooter /> : null}
-          </OpenEntryFooter>
+        <Card.Footer
+          classes={[styles.openEntryCardFooter]}
+          child={(
+            <OpenEntryFooter {...footerProps}>
+              {activeTabId === tabIds.payment ? <PaymentAllocationFooter /> : null}
+            </OpenEntryFooter>
         )}
-        />)}
+        />
+      )}
     />
   );
 

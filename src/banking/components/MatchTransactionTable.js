@@ -1,4 +1,6 @@
-import { HeaderSort, Spinner, Table } from '@myob/myob-widgets';
+import {
+  HeaderSort, RadioButton, Spinner, Table,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -7,11 +9,15 @@ import MatchTransactionTableBody from './MatchTransactionTableBody';
 import styles from './BankingView.module.css';
 
 const tableConfig = {
-  radioButton: { width: '4rem', valign: 'top' },
-  date: { width: '11rem', valign: 'top' },
-  referenceId: { width: '12.4rem', valign: 'top' },
-  description: { width: 'flex-1', valign: 'top' },
-  amount: { width: '15rem', valign: 'top', align: 'right' },
+  date: { columnName: 'Date', width: '11rem', valign: 'top' },
+  referenceId: { columnName: 'Reference', width: '12.4rem', valign: 'top' },
+  description: { columnName: 'Description', width: 'flex-1', valign: 'top' },
+  amount: {
+    columnName: 'Amount ($)', width: '15rem', valign: 'top', align: 'right',
+  },
+  radioButton: {
+    cellRole: 'checkbox', valign: 'middle', width: 'auto',
+  },
 };
 
 const emptyView = (
@@ -51,7 +57,14 @@ const MatchTransactionTable = (props) => {
 
   const header = (
     <Table.Header>
-      <Table.HeaderItem {...tableConfig.radioButton} />
+      <Table.HeaderItem {...tableConfig.radioButton}>
+        <RadioButton
+          name="selectedJournalLineId"
+          label="Match"
+          hideLabel
+          disabled
+        />
+      </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.date}>
         <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSortMatchTransactions} />
       </Table.HeaderItem>
@@ -68,7 +81,7 @@ const MatchTransactionTable = (props) => {
   );
 
   return (
-    <Table>
+    <Table className={styles.matchTransactionTable}>
       {header}
       {view}
     </Table>

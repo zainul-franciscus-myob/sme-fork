@@ -9,35 +9,63 @@ import {
 } from '../bankingSelectors/splitAllocationSelectors';
 import SplitAllocationRow from './SplitAllocationRow';
 
+const accountLabel = 'Account';
+const amountLabelDollar = 'Amount ($)';
+const amountLabelPercent = 'Amount (%)';
+const lineDescription = 'Line description';
+const taxLabel = 'Tax code';
+const requiredLabel = 'This is required';
+
+
 const columnConfig = [
   {
     config: [
       {
-        columnName: 'Account',
+        columnName: accountLabel,
+        styles: { width: '35.2rem' },
+      },
+      {
+        columnName: amountLabelDollar,
+        styles: { width: '12.5rem', align: 'right' },
+      },
+      {
+        columnName: amountLabelPercent,
+        styles: { width: '12.5rem', align: 'right' },
+      },
+      {
+        columnName: lineDescription,
         styles: {},
       },
       {
-        columnName: 'Amount ($)',
-        styles: { width: '12rem', align: 'right' },
-      },
-      {
-        columnName: 'Amount (%)',
-        styles: { width: '12rem', align: 'right' },
-      },
-      {
-        columnName: 'Description',
-        styles: {},
-      },
-      {
-        columnName: 'Tax code',
-        styles: { width: '8rem' },
+        columnName: taxLabel,
+        styles: { width: '8.4rem' },
       },
     ],
   },
 ];
 
+
+const headerItems = [
+  <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
+    {accountLabel}
+  </LineItemTable.HeaderItem>,
+  <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
+    {amountLabelDollar}
+  </LineItemTable.HeaderItem>,
+  <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
+    {amountLabelPercent}
+  </LineItemTable.HeaderItem>,
+  <LineItemTable.HeaderItem>
+    {lineDescription}
+  </LineItemTable.HeaderItem>,
+  <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
+    {taxLabel}
+  </LineItemTable.HeaderItem>,
+];
+
+
 const labels = [
-  'Account', 'Amount ($)', 'Amount (%)', 'Line description', 'Tax code',
+  accountLabel, amountLabelDollar, amountLabelPercent, lineDescription, taxLabel,
 ];
 
 const onRowChange = handler => (index, key, value) => handler(index, key, value);
@@ -80,6 +108,7 @@ const SplitAllocationTable = (props) => {
       onRowChange={onRowChange(onUpdateSplitAllocationLine)}
       onRemoveRow={onDeleteSplitAllocationLine}
       columnConfig={columnConfig}
+      headerItems={headerItems}
     >
       <LineItemTable.Total>
         <LineItemTable.Totals title="Total allocated" amount={totalAllocated} />

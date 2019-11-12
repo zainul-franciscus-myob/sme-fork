@@ -83,7 +83,7 @@ export default class BankingModule {
         onSort={this.confirmBefore(this.sortBankTransactions)}
         onDismissAlert={dismissAlert}
         onAllocate={this.allocateTransaction}
-        onUnallocate={this.unallocateTransaction}
+        onUnallocate={this.openUnmatchTransactionModal(this.unallocateTransaction)}
         onSplitRowItemClick={this.confirmBefore(this.toggleLine)}
         onMatchRowItemClick={this.confirmBefore(this.toggleLine)}
         onMatchedToBlur={blurEntry}
@@ -94,7 +94,9 @@ export default class BankingModule {
         onTabChange={this.confirmBefore(this.changeOpenEntryTab)}
         onSaveSplitAllocation={this.saveSplitAllocation}
         onCancelSplitAllocation={this.confirmBefore(collapseTransactionLine)}
-        onUnallocateSplitAllocation={this.confirmBefore(this.unallocateOpenEntryTransaction)}
+        onUnallocateSplitAllocation={
+          this.openUnmatchTransactionModal(this.unallocateOpenEntryTransaction)
+        }
         onUpdateSplitAllocationHeader={updateSplitAllocationHeader}
         onAddSplitAllocationLine={this.addSplitAllocationLine}
         onUpdateSplitAllocationLine={updateSplitAllocationLine}
@@ -111,7 +113,7 @@ export default class BankingModule {
         onSaveTransferMoney={this.saveTransferMoney}
         onCancelTransferMoney={this.confirmBefore(collapseTransactionLine)}
         onCancelPaymentAllocation={this.confirmBefore(collapseTransactionLine)}
-        onUnmatchTransaction={this.confirmBefore(this.unallocateOpenEntryTransaction)}
+        onUnmatchTransaction={this.openUnmatchTransactionModal(this.unallocateOpenEntryTransaction)}
         onUpdateTransfer={updateTransferMoney}
         onCancelModal={this.cancelModal}
         onCloseModal={closeModal}
@@ -237,6 +239,11 @@ export default class BankingModule {
       onFailure,
     });
   };
+
+  openUnmatchTransactionModal = onConfirm => (index) => {
+    this.afterCancel = () => onConfirm(index);
+    this.dispatcher.openUnmatchTransactionModal();
+  }
 
   unallocateTransaction = (index) => {
     this.dispatcher.setEntryLoadingState(index, true);

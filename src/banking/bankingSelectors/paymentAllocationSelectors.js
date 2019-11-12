@@ -125,7 +125,6 @@ export const getTableOptions = createSelector(
       isTableLoading,
       isTableEmpty,
       referenceIdLabel: isBillPayment ? 'Bill number' : 'Invoice number',
-      amountLabel: isBillPayment ? 'Bill amount ($)' : 'Invoice amount ($)',
       amountPaidLabel: isBillPayment ? 'Amount paid ($)' : 'Amount received ($)',
       tableEmptyMessage,
     };
