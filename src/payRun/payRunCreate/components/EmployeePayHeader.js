@@ -10,16 +10,16 @@ const EmployeePayHeader = ({ employeeHeader }) => (
   <FormCard>
     <div className={styles.employeesHeader}>
       <ReadOnly label="Pay cycle" name="paymentFrequency">
-        {employeeHeader.paymentFrequency}
+        <h3 className={styles.noBottomMargin}>{employeeHeader.paymentFrequency}</h3>
       </ReadOnly>
       <ReadOnly label="Pay period start" name="payPeriodStart">
-        {employeeHeader.payPeriodStart}
+        <h3 className={styles.noBottomMargin}>{employeeHeader.payPeriodStart}</h3>
       </ReadOnly>
       <ReadOnly label="Pay period end" name="payPeriodEnd">
-        {employeeHeader.payPeriodEnd}
+        <h3 className={styles.noBottomMargin}>{employeeHeader.payPeriodEnd}</h3>
       </ReadOnly>
       <ReadOnly label="Date of payment" name="paymentDate">
-        {employeeHeader.paymentDate}
+        <h3 className={styles.noBottomMargin}>{employeeHeader.paymentDate}</h3>
       </ReadOnly>
     </div>
   </FormCard>

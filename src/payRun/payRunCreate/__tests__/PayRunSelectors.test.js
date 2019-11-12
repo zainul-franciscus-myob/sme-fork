@@ -1,4 +1,6 @@
-import { getPayOnDate, getStepNumber, getStepperSteps } from '../PayRunSelectors';
+import {
+  getEmployeeHeader, getPayOnDate, getStepNumber, getStepperSteps,
+} from '../PayRunSelectors';
 
 describe('PayRunSelectors', () => {
   describe('getStepNumber', () => {
@@ -122,6 +124,28 @@ describe('PayRunSelectors', () => {
       };
 
       expect(getPayOnDate(state)).toEqual('26/10/2019');
+    });
+  });
+
+  describe('getEmployeeHeader', () => {
+    it('should get and format the Pay Run dates', () => {
+      const state = {
+        startPayRun: {
+          paymentFrequency: 'weekly',
+          paymentDate: '2019-10-28',
+          payPeriodStart: '2019-10-21',
+          payPeriodEnd: '2019-10-27',
+        },
+      };
+
+      const expected = {
+        paymentFrequency: 'weekly',
+        paymentDate: 'Mon 28/10/2019',
+        payPeriodStart: 'Mon 21/10/2019',
+        payPeriodEnd: 'Sun 27/10/2019',
+      };
+
+      expect(getEmployeeHeader(state)).toEqual(expected);
     });
   });
 });

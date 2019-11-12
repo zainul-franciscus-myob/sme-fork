@@ -3,5 +3,9 @@
 }
 
 .employeesHeader :global(.form-group) {
-  margin-right: var(--flx-spacing-x-small);
+  margin-right: var(--flx-spacing-xx-large);
+}
+
+.noBottomMargin {
+  margin-bottom: 0;
 }

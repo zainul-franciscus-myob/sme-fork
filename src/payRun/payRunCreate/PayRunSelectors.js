@@ -12,9 +12,9 @@ export const getModal = state => state.modal;
 export const getIsFirstStep = state => state.step === 0;
 
 const getPaymentFrequency = state => state.startPayRun.paymentFrequency;
-const getPaymentDate = state => formatDate(state.startPayRun.paymentDate);
-const getPayPeriodStart = state => formatDate(state.startPayRun.payPeriodStart);
-const getPayPeriodEnd = state => formatDate(state.startPayRun.payPeriodEnd);
+const getPaymentDate = state => formatDate(new Date(state.startPayRun.paymentDate), 'ddd DD/MM/YYYY');
+const getPayPeriodStart = state => formatDate(new Date(state.startPayRun.payPeriodStart), 'ddd DD/MM/YYYY');
+const getPayPeriodEnd = state => formatDate(new Date(state.startPayRun.payPeriodEnd), 'ddd DD/MM/YYYY');
 
 export const getEmployeeHeader = createSelector(
   getPaymentFrequency,
