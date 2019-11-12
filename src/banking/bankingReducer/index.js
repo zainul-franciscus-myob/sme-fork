@@ -4,7 +4,6 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
-  CLEAR_BANK_FEEDS_LOGIN,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
@@ -18,7 +17,6 @@ import {
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_MODAL,
-  RESET_FILTER_OPTIONS,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
@@ -29,7 +27,6 @@ import {
   SET_BULK_LOADING_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
-  SET_FETCHING_TRANSACTIONS_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_MATCH_TRANSACTION_SORT_ORDER,
@@ -41,7 +38,6 @@ import {
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
-  UPDATE_BANK_FEEDS_LOGIN,
   UPDATE_BULK_ALLOCATION_OPTIONS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
@@ -72,12 +68,6 @@ import {
   selectTransaction, setBulkLoading,
   updateBulkAllocationOptions,
 } from './bulkAllocationHandlers';
-import {
-  clearBankFeedsLoginDetails,
-  resetFilterOptions,
-  setIsFetchingTransactionsState,
-  updateBankFeedsLoginDetails,
-} from './bankFeedsLoginHandlers';
 import { collapseTransactionLine, setOpenEntryLoadingState, setOpenPosition } from './openEntryHandlers';
 import { getCalculatedAllocatedBalances, getCalculatedUnallocatedBalances } from '../bankingSelectors';
 import {
@@ -293,10 +283,6 @@ const handlers = {
   [LOAD_NEW_TRANSFER_MONEY]: loadNewTransferMoney,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,
   [UPDATE_TRANSFER_MONEY]: updateTransferMoney,
-  [UPDATE_BANK_FEEDS_LOGIN]: updateBankFeedsLoginDetails,
-  [CLEAR_BANK_FEEDS_LOGIN]: clearBankFeedsLoginDetails,
-  [SET_FETCHING_TRANSACTIONS_STATE]: setIsFetchingTransactionsState,
-  [RESET_FILTER_OPTIONS]: resetFilterOptions,
   [SELECT_TRANSACTION]: selectTransaction,
   [SELECT_ALL_TRANSACTIONS]: selectAllTransactions,
   [UPDATE_BULK_ALLOCATION_OPTIONS]: updateBulkAllocationOptions,

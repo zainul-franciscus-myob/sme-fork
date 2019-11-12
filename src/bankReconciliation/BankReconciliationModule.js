@@ -6,6 +6,7 @@ import {
   CREATE_BANK_RECONCILIATION,
   FORMAT_AMOUNT,
   LOAD_BANK_RECONCILIATION,
+  LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT,
   OPEN_MODAL,
   SELECT_ALL,
   SELECT_ROW,
@@ -21,7 +22,7 @@ import {
 } from './BankReconciliationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import {
-  getBusinessId,
+  getAccountId,
   getCreateBankReconciliationPayload,
   getSortAndFilterParams,
   getStatementDate,
@@ -43,19 +44,22 @@ export default class BankReconciliationModule {
   loadBankReconciliation = () => {
     const state = this.store.getState();
 
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
+    const urlParams = getUrlParams(state);
+    const accountId = getAccountId(state);
 
     const params = {
       statementDate: getStatementDate(state),
     };
 
+    const intent = accountId
+      ? LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT
+      : LOAD_BANK_RECONCILIATION;
+
     const onSuccess = (response) => {
       this.setLoadingState(false);
 
       this.store.dispatch({
-        intent: LOAD_BANK_RECONCILIATION,
+        intent,
         ...response,
       });
     };
@@ -65,7 +69,7 @@ export default class BankReconciliationModule {
     };
 
     this.integration.read({
-      intent: LOAD_BANK_RECONCILIATION,
+      intent,
       urlParams,
       params,
       onSuccess,

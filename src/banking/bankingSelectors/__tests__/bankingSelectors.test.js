@@ -180,10 +180,10 @@ describe('bankingSelector', () => {
     });
 
     [
-      ['should return balance date', '01/01/2019', '01/01/2019'],
+      ['should return balance date', '01/01/2019', 'Closing account balance as at 01/01/2019'],
       [
         'should return unavailable balance message', '',
-        'Your bank hasn\'t provided a statement balance, so we can\'t show these amounts.',
+        'Your bank hasn\'t provided the account\'s balance, so we can\'t show these amounts.',
       ],
     ].forEach((args) => {
       const [name, bankBalanceDate, expectedBalanceTooltip] = args;

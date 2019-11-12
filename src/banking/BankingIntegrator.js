@@ -3,7 +3,6 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
-  FETCH_BANK_FEEDS_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_PAYMENT_ALLOCATION,
@@ -31,7 +30,6 @@ import {
   getSortOrder,
   getUnallocationPayload,
 } from './bankingSelectors';
-import { getBankFeedsLoginDetails } from './bankingSelectors/bankFeedsLoginSelectors';
 import {
   getBulkAllocationPayload,
   getBulkUnallocationPayload,
@@ -431,24 +429,6 @@ const createBankingIntegrator = (store, integration) => ({
       intent,
       urlParams,
       allowParallelRequests: true,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  confirmBankFeedsLogin: ({
-    onSuccess, onFailure,
-  }) => {
-    const intent = FETCH_BANK_FEEDS_TRANSACTIONS;
-    const state = store.getState();
-
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getBankFeedsLoginDetails(state);
-
-    integration.write({
-      intent,
-      urlParams,
       content,
       onSuccess,
       onFailure,

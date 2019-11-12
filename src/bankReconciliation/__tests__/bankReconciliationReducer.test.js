@@ -1,7 +1,38 @@
 import { SELECT_ALL, SELECT_ROW, SET_SORT_ORDER } from '../BankReconciliationIntents';
+import { SET_INITIAL_STATE } from '../../SystemIntents';
 import bankReconciliationDetailReducer from '../bankReconciliationReducer';
 
 describe('bankReconciliationReducer', () => {
+  describe('setInitialState', () => {
+    it('should map bankAccount to selectedAccountId if it exists', () => {
+      const state = {};
+
+      const action = {
+        intent: SET_INITIAL_STATE,
+        context: {
+          bankAccount: '123',
+        },
+      };
+
+      const { selectedAccountId } = bankReconciliationDetailReducer(state, action);
+
+      expect(selectedAccountId).toEqual('123');
+    });
+
+    it('should leave selectedAccountId empty if bankAccount doesnt exist', () => {
+      const state = {};
+
+      const action = {
+        intent: SET_INITIAL_STATE,
+        context: {},
+      };
+
+      const { selectedAccountId } = bankReconciliationDetailReducer(state, action);
+
+      expect(selectedAccountId).toEqual('');
+    });
+  });
+
   describe('selectRow', () => {
     it('should select a Withdrawal row', () => {
       const state = {

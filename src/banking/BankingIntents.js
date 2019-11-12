@@ -47,12 +47,6 @@ export const LOAD_NEW_TRANSFER_MONEY = Symbol('Load a new transfer money');
 export const UPDATE_TRANSFER_MONEY = Symbol('Update the transfer money');
 export const SAVE_TRANSFER_MONEY = Symbol('Save transfer money');
 
-export const UPDATE_BANK_FEEDS_LOGIN = Symbol('Update bank feeds login details');
-export const CLEAR_BANK_FEEDS_LOGIN = Symbol('Clears bank feeds login details');
-export const FETCH_BANK_FEEDS_TRANSACTIONS = Symbol('Fetch the new bank feeds transactions');
-export const SET_FETCHING_TRANSACTIONS_STATE = Symbol('Sets fetching bank feeds transactions flag state');
-export const RESET_FILTER_OPTIONS = Symbol('Resets filter options');
-
 export const SELECT_TRANSACTION = Symbol('Select bank transaction');
 export const SELECT_ALL_TRANSACTIONS = Symbol('Select all bank transactions');
 export const UPDATE_BULK_ALLOCATION_OPTIONS = Symbol('Update bulk allocation options');

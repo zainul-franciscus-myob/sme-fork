@@ -1,0 +1,33 @@
+@media only screen and (min-width: 500px) {
+  /* Feelix Override */
+  .pageHead :global(.flx-btn-row__secondary-group) {
+    display: flex;
+    flex-wrap: unset;
+  }
+
+  .pageHead :global(.form-group) {
+    flex-basis: 66.66%;
+  }
+
+  .pageHead :global(.btn-link) {
+    flex-basis: 33.33%;
+    margin-top: 0.5rem;
+  }
+}
+
+/*
+  Feelix Parity:
+  Using 900px as this is when the <TotalsHeader /> component breaks.
+*/
+@media only screen and (min-width: 900px) {
+  .pageHead :global(.form-group) {
+    flex-basis: unset;
+    margin-bottom: 0;
+    width: var(--flx-width-field-xl);
+  }
+
+  .pageHead :global(.btn-link) {
+    flex-basis: unset;
+    margin-top: 2.1rem;
+  }
+}

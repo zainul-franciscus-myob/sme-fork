@@ -12,7 +12,7 @@ export const getRegion = state => state.region;
 export const getAlert = state => state.alert;
 export const getIsModalActive = state => state.isModalActive;
 
-const getAccountId = state => state.selectedAccountId;
+export const getAccountId = state => state.selectedAccountId;
 export const getUrlParams = state => ({
   businessId: getBusinessId(state),
   accountId: getAccountId(state),

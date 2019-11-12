@@ -16,6 +16,7 @@ import {
   getOpenEntryDefaultTabId,
   getOpenPosition,
 } from './bankingSelectors';
+import { getBankReconciliationUrl } from './bankingSelectors/redirectSelectors';
 import {
   getDefaultMatchTransactionFilterOptions,
   getMatchTransactionFlipSortOrder,
@@ -69,7 +70,6 @@ export default class BankingModule {
       updatePaymentAllocationLine,
       updateTransferMoney,
       closeModal,
-      updateBankFeedsLoginDetails,
       updateBulkAllocationOption,
       openBankingRuleModal,
     } = this.dispatcher;
@@ -78,6 +78,7 @@ export default class BankingModule {
       <BankingView
         onUpdateFilters={updateFilterOptions}
         onApplyFilter={this.confirmBefore(this.filterBankTransactions)}
+        onBankAccountChange={this.bankAccountChange}
         onSort={this.confirmBefore(this.sortBankTransactions)}
         onDismissAlert={dismissAlert}
         onAllocate={this.allocateTransaction}
@@ -113,10 +114,6 @@ export default class BankingModule {
         onUpdateTransfer={updateTransferMoney}
         onCancelModal={this.cancelModal}
         onCloseModal={closeModal}
-        onGetBankTransactions={this.confirmBefore(this.openBankFeedsLoginModal)}
-        onUpdateBankFeedsLoginDetails={updateBankFeedsLoginDetails}
-        onCancelBankFeedsLogin={this.closeBankFeedsLoginModal}
-        onConfirmBankFeedsLogin={this.confirmBankFeedsLogin}
         onSelectTransaction={this.selectTransaction}
         onSelectAllTransactions={this.selectAllTransactions}
         onUpdateBulkAllocationOption={updateBulkAllocationOption}
@@ -126,6 +123,7 @@ export default class BankingModule {
         onConfirmUnallocateModal={this.bulkUnallocateTransactions}
         onOpenBankingRuleModal={openBankingRuleModal}
         onRenderBankingRuleModal={this.renderBankingRuleModal}
+        onRedirectToReconciliation={this.redirectToReconciliation}
       />
     );
 
@@ -298,6 +296,11 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
+  }
+
+  bankAccountChange = ({ value }) => {
+    this.dispatcher.updateFilterOptions({ filterName: 'bankAccount', value });
+    this.confirmBefore(this.filterBankTransactions)();
   }
 
   filterBankTransactions = () => {
@@ -552,44 +555,9 @@ export default class BankingModule {
     this.dispatcher.openCancelModal();
   };
 
-  openBankFeedsLoginModal = () => {
-    this.dispatcher.collapseTransactionLine();
-    this.dispatcher.openBankFeedsLoginModal();
-  };
-
-  closeBankFeedsLoginModal = () => {
-    this.dispatcher.closeModal();
-    this.dispatcher.clearBankFeedsLogin();
-  }
-
   openBulkUnallocateModal = () => {
     this.dispatcher.openBulkUnallocateModal();
   };
-
-  confirmBankFeedsLogin = () => {
-    const onSuccess = ({ message }) => {
-      this.dispatcher.setIsFetchingTransactions(false);
-      this.dispatcher.resetFilters();
-      this.dispatcher.setAlert({
-        type: 'success',
-        message,
-      });
-      this.filterBankTransactions();
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setIsFetchingTransactions(false);
-      this.dispatcher.setAlert({
-        type: 'danger',
-        message,
-      });
-    };
-
-    this.dispatcher.setIsFetchingTransactions(true);
-    this.integrator.confirmBankFeedsLogin({ onSuccess, onFailure });
-
-    this.closeBankFeedsLoginModal();
-  }
 
   cancelModal = () => {
     this.dispatcher.closeModal();
@@ -905,6 +873,12 @@ export default class BankingModule {
       this.dispatcher.selectTransaction({ index, value });
     }
   };
+
+  redirectToReconciliation = () => {
+    const state = this.store.getState();
+    const bankReconciliationUrl = getBankReconciliationUrl(state);
+    window.location.href = bankReconciliationUrl;
+  }
 
   resetState = () => {
     this.dispatcher.resetState();

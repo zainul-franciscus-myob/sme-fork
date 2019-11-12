@@ -1,6 +1,5 @@
 import React from 'react';
 
-import BankFeedsLoginModal from './BankFeedsLoginModal';
 import BulkUnallocateModal from './BulkUnallocateModal';
 import CancelModal from '../../components/modal/CancelModal';
 
@@ -8,11 +7,8 @@ const BankingModal = ({
   modalType,
   onCloseCancelModal,
   onConfirmCancelModal,
-  onCancelBankFeedsLogin,
-  onConfirmBankFeedsLogin,
   onCancelUnallocateModal,
   onConfirmUnallocateModal,
-  onUpdateBankFeedsLoginDetails,
   onRenderBankingRuleModal,
 }) => {
   let modal;
@@ -23,14 +19,6 @@ const BankingModal = ({
         onConfirm={onConfirmCancelModal}
         title="Cancel bank transaction alterations"
         description="Are you sure you want to cancel the alterations for this bank transaction?"
-      />
-    );
-  } else if (modalType === 'bankFeedsLogin') {
-    modal = (
-      <BankFeedsLoginModal
-        onCancelBankFeedsLogin={onCancelBankFeedsLogin}
-        onConfirmBankFeedsLogin={onConfirmBankFeedsLogin}
-        onUpdateBankFeedsLoginDetails={onUpdateBankFeedsLoginDetails}
       />
     );
   } else if (modalType === 'bulkUnallocate') {

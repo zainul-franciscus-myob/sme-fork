@@ -41,24 +41,6 @@
   width: 12rem;
 }
 
-.balances {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.unallocated {
-  font-weight: bold;
-}
-
-.balanceItem {
-  margin-right: 2rem;
-}
-
-.balanceTooltip {
-  margin-right: 0.5rem;
-}
-
 .checkbox {
   display: flex;
   align-items: center;

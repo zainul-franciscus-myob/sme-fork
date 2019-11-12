@@ -73,6 +73,8 @@ const getIsTransactionTypeApproved = state => state.filterOptions.transactionTyp
 
 export const getShouldDisplayDateRange = state => getIsTransactionTypeApproved(state);
 
+export const getBankAccount = state => state.filterOptions.bankAccount;
+
 export const getFilterOptions = createSelector(
   state => state.filterOptions,
   getIsTransactionTypeApproved,
@@ -285,8 +287,7 @@ export const getDisplayBalances = createSelector(
       bankBalanceDate,
     } = balances;
 
-    const balanceTooltip = bankBalanceDate
-      || 'Your bank hasn\'t provided a statement balance, so we can\'t show these amounts.';
+    const balanceTooltip = bankBalanceDate ? `Closing account balance as at ${bankBalanceDate}` : 'Your bank hasn\'t provided the account\'s balance, so we can\'t show these amounts.';
 
     if (getIsBalancesInvalid(balances)) {
       return {

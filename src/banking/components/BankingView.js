@@ -1,5 +1,5 @@
 import {
-  Alert, BulkActions, Button, PageHead, StandardTemplate,
+  Alert, BulkActions, Button, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -8,13 +8,11 @@ import {
   getAlert, getIsEntryLoading, getIsLoading, getModalType,
 } from '../bankingSelectors';
 import {
-  getIsFetchingTransactions,
-} from '../bankingSelectors/bankFeedsLoginSelectors';
-import {
   selectedCountSelector,
   showBulkActionsSelector,
 } from '../bankingSelectors/bulkAllocationSelectors';
 import BankTransactionFilterOptions from './BankTransactionFilterOptions';
+import BankTransactionPageHead from './BankTransactionPageHead';
 import BankTransactionTable from './BankTransactionTable';
 import BankingModal from './BankingModal';
 import BulkAllocationPopover from './BulkAllocationPopover';
@@ -31,6 +29,7 @@ const BankingView = (props) => {
     getBankingRuleModal,
     onUpdateFilters,
     onApplyFilter,
+    onBankAccountChange,
     onSort,
     onAllocate,
     onUnallocate,
@@ -67,11 +66,6 @@ const BankingView = (props) => {
     onCancelModal,
     onCloseModal,
     onUpdateTransfer,
-    onGetBankTransactions,
-    onUpdateBankFeedsLoginDetails,
-    onCancelBankFeedsLogin,
-    onConfirmBankFeedsLogin,
-    isFetchingTransactions,
     onSelectTransaction,
     onSelectAllTransactions,
     onUpdateBulkAllocationOption,
@@ -81,6 +75,7 @@ const BankingView = (props) => {
     onConfirmUnallocateModal,
     onOpenBankingRuleModal,
     onRenderBankingRuleModal,
+    onRedirectToReconciliation,
   } = props;
 
   const filterBar = (
@@ -90,16 +85,17 @@ const BankingView = (props) => {
     />
   );
 
+  const pageHead = (
+    <BankTransactionPageHead
+      onBankAccountChange={onBankAccountChange}
+      onRedirectToReconciliation={onRedirectToReconciliation}
+    />
+  );
+
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
     </Alert>
-  );
-
-  const pageHead = (
-    <PageHead title="Bank Transactions">
-      <Button type="secondary" disabled={isFetchingTransactions} onClick={onGetBankTransactions}>Get bank transactions</Button>
-    </PageHead>
   );
 
   const modal = (modalType
@@ -108,9 +104,6 @@ const BankingView = (props) => {
       getBankingRuleModal={getBankingRuleModal}
       onCloseCancelModal={onCloseModal}
       onConfirmCancelModal={onCancelModal}
-      onCancelBankFeedsLogin={onCancelBankFeedsLogin}
-      onConfirmBankFeedsLogin={onConfirmBankFeedsLogin}
-      onUpdateBankFeedsLoginDetails={onUpdateBankFeedsLoginDetails}
       onConfirmUnallocateModal={onConfirmUnallocateModal}
       onCancelUnallocateModal={onCancelUnallocateModal}
       onRenderBankingRuleModal={onRenderBankingRuleModal}
@@ -181,7 +174,6 @@ const BankingView = (props) => {
 const mapStateToProps = state => ({
   alert: getAlert(state),
   isLoading: getIsLoading(state),
-  isFetchingTransactions: getIsFetchingTransactions(state),
   isEntryLoading: getIsEntryLoading(state),
   modalType: getModalType(state),
   selectedCount: selectedCountSelector(state),

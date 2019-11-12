@@ -135,11 +135,11 @@
   "transactionType": "CurrentTransactions",
   "transactionTypes": [
     {
-      "name": "Unallocated transactions",
+      "name": "Unallocated",
       "value": "CurrentTransactions"
     },
     {
-      "name": "Allocated transactions",
+      "name": "Allocated",
       "value": "Approved"
     }
   ],

@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   FORMAT_AMOUNT,
   LOAD_BANK_RECONCILIATION,
+  LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT,
   OPEN_MODAL,
   SELECT_ALL,
   SELECT_ROW,
@@ -46,10 +47,15 @@ const setTableLoadingState = (state, action) => ({
   isTableLoading: action.isTableLoading,
 });
 
-const setInitialState = (state, action) => ({
-  ...state,
-  ...action.context,
-});
+const setInitialState = (state, action) => {
+  const { bankAccount, ...rest } = action.context;
+
+  return {
+    ...state,
+    ...rest,
+    selectedAccountId: bankAccount || '',
+  };
+};
 
 const setSubmittingState = (state, action) => ({
   ...state,
@@ -150,6 +156,7 @@ const handlers = {
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_BANK_RECONCILIATION]: loadBankReconciliation,
+  [LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT]: loadBankReconciliation,
   [SORT_AND_FILTER_BANK_RECONCILIATION]: loadBankReconciliation,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,

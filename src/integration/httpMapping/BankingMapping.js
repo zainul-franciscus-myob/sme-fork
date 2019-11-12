@@ -3,7 +3,6 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
-  FETCH_BANK_FEEDS_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_PAYMENT_ALLOCATION,
@@ -94,10 +93,6 @@ const BankingMapping = {
   [SAVE_TRANSFER_MONEY]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/create_transfer_money`,
-  },
-  [FETCH_BANK_FEEDS_TRANSACTIONS]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/banking/fetch_bank_transactions`,
   },
   [CREATE_BANKING_RULE_BILL]: {
     method: 'POST',

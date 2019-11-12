@@ -3,7 +3,6 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
-  FETCH_BANK_FEEDS_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_PAYMENT_ALLOCATION,
@@ -42,7 +41,6 @@ import paymentAllocationLines from '../data/banking/loadPaymentLines';
 import saveTransferMoneyPayload from '../data/banking/saveTransferMoney';
 import savedMatchTransaction from '../data/banking/saveMatchTransaction';
 import savedPaymentAllocation from '../data/banking/savePaymentAllocation';
-import success from '../data/success';
 import transferMoneyPayload from '../data/banking/loadTransferMoney';
 import unallocatedBankTransaction from '../data/banking/unallocatedBankTransaction';
 
@@ -64,7 +62,6 @@ const loadPaymentAllocation = ({ onSuccess }) => onSuccess(paymentAllocation);
 const savePaymentAllocation = ({ onSuccess }) => onSuccess(savedPaymentAllocation);
 const loadTransferMoney = ({ onSuccess }) => onSuccess(transferMoneyPayload);
 const saveTransferMoney = ({ onSuccess }) => onSuccess(saveTransferMoneyPayload);
-const fetchBankFeedsTransactions = ({ onSuccess }) => onSuccess(success);
 const saveBulkAllocation = ({ onSuccess }) => onSuccess(bulkAllocatedBankTransaction);
 const saveBulkUnallocation = ({ onSuccess }) => onSuccess(bulkUnallocatedBankTransaction);
 const createBankingRule = ({ onSuccess }) => onSuccess(createBankingRuleResponse);
@@ -88,7 +85,6 @@ const BankingMappings = {
   [SAVE_PAYMENT_ALLOCATION]: savePaymentAllocation,
   [LOAD_TRANSFER_MONEY]: loadTransferMoney,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,
-  [FETCH_BANK_FEEDS_TRANSACTIONS]: fetchBankFeedsTransactions,
   [CREATE_BANKING_RULE_SPEND_MONEY]: createBankingRule,
   [CREATE_BANKING_RULE_RECEIVE_MONEY]: createBankingRule,
   [CREATE_BANKING_RULE_INVOICE]: createBankingRule,
