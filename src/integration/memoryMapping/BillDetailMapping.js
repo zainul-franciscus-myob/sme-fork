@@ -16,7 +16,7 @@ import {
   SERVICE_CALCULATE,
   UPDATE_BILL,
 } from '../../bill/billDetail/BillIntents';
-import billItemCalculate from '../data/bill/billItemCalculate';
+import itemCalculate from '../data/bill/itemCalculate';
 import loadItemBill from '../data/bill/loadItemBill';
 import loadNewItemBill from '../data/bill/loadNewItemBill';
 import loadSupplierAddress from '../data/bill/loadSupplierAddress';
@@ -34,12 +34,12 @@ const BillDetailMapping = {
   [UPDATE_BILL]: ({ onSuccess }) => onSuccess(successResponse),
   [SERVICE_CALCULATE]: ({ onSuccess }) => onSuccess(serviceCalculate),
   [LOAD_SUPPLIER_ADDRESS]: ({ onSuccess }) => onSuccess(loadSupplierAddress),
-  [ITEM_CALCULATE_REMOVE_LINE]: ({ onSuccess }) => onSuccess(billItemCalculate),
-  [ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE]: ({ onSuccess }) => onSuccess(billItemCalculate),
-  [ITEM_CALCULATE_UPDATE_LINE_AMOUNT]: ({ onSuccess }) => onSuccess(billItemCalculate),
-  [ITEM_CALCULATE_UPDATE_LINE_ITEM]: ({ onSuccess }) => onSuccess(billItemCalculate),
-  [ITEM_CALCULATE_UPDATE_LINE_TAX_CODE]: ({ onSuccess }) => onSuccess(billItemCalculate),
-  [ITEM_CALCULATE_UPDATE_AMOUNT_PAID]: ({ onSuccess }) => onSuccess(billItemCalculate),
+  [ITEM_CALCULATE_REMOVE_LINE]: ({ onSuccess }) => onSuccess(itemCalculate),
+  [ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE]: ({ onSuccess }) => onSuccess(itemCalculate),
+  [ITEM_CALCULATE_UPDATE_LINE_AMOUNT]: ({ onSuccess }) => onSuccess(itemCalculate),
+  [ITEM_CALCULATE_UPDATE_LINE_ITEM]: ({ onSuccess }) => onSuccess(itemCalculate),
+  [ITEM_CALCULATE_UPDATE_LINE_TAX_CODE]: ({ onSuccess }) => onSuccess(itemCalculate),
+  [ITEM_CALCULATE_UPDATE_AMOUNT_PAID]: ({ onSuccess }) => onSuccess(itemCalculate),
   [EXPORT_BILL_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 
