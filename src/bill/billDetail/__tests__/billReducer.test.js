@@ -536,7 +536,8 @@ describe('billReducer', () => {
 
     expect(actual).toEqual({
       bill: {
-        amountPaid: '0.00',
+        amountPaid: '0',
+        displayAmountPaid: '0.00',
       },
     });
   });

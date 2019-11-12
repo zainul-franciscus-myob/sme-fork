@@ -305,7 +305,7 @@ const formatAmountPaid = state => ({
   ...state,
   bill: {
     ...state.bill,
-    amountPaid: formatAmount(state.bill.amountPaid),
+    displayAmountPaid: formatAmount(state.bill.amountPaid),
   },
 });
 
