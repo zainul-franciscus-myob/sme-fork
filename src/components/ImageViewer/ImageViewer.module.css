@@ -3,6 +3,7 @@
 
 .clickableImage {
   border: none;
+  background: transparent;
 }
 
 .clickableImage img {
