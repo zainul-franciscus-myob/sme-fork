@@ -1,8 +1,10 @@
 import {
   CREATE_CONTACT,
+  CREATE_CONTACT_MODAL,
   DELETE_CONTACT,
   LOAD_CONTACT_DETAIL,
   LOAD_CONTACT_LIST,
+  LOAD_CONTACT_MODAL,
   LOAD_NEW_CONTACT,
   SORT_AND_FILTER_CONTACT_LIST,
   UPDATE_CONTACT,
@@ -10,6 +12,8 @@ import {
 import contactDetailLoadResponse from '../data/contact/contactDetailEntry';
 import contactListFilterResponse from '../data/contact/filterContactList';
 import contactListLoadResponse from '../data/contact/contactList';
+import createContactModalResponse from '../data/contact/createContactModalResponse';
+import loadNewContactModalResponse from '../data/contact/loadNewContactModalResponse';
 import newContactDetailResponse from '../data/contact/contactDetailNewEntry';
 import success from '../data/success';
 
@@ -29,6 +33,8 @@ const ContactListMapping = {
   [DELETE_CONTACT]: deleteContact,
   [UPDATE_CONTACT]: updateContact,
   [CREATE_CONTACT]: createContact,
+  [LOAD_CONTACT_MODAL]: ({ onSuccess }) => onSuccess(loadNewContactModalResponse),
+  [CREATE_CONTACT_MODAL]: ({ onSuccess }) => onSuccess(createContactModalResponse),
 };
 
 export default ContactListMapping;

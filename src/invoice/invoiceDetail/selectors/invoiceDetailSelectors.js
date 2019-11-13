@@ -16,6 +16,7 @@ export const getLayoutQueryParam = state => state.layout;
 export const getIsLoading = state => state.isLoading;
 export const getIsActionsDisabled = state => state.isSubmitting;
 export const getIsPageEdited = state => state.isPageEdited;
+export const getIsContactLoading = state => state.isContactLoading;
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
 export const getModalAlert = state => state.modalAlert;
@@ -62,8 +63,11 @@ const getCommentOptions = state => state.comments.map(comment => ({ value: comme
 
 export const getIsCustomerDisabled = createSelector(
   getIsCreating,
+  getIsContactLoading,
   getQuoteIdQueryParam,
-  (isCreating, quoteId) => !isCreating || (isCreating && Boolean(quoteId)),
+  (isCreating, isContactLoading, quoteId) => (
+    !isCreating || isContactLoading || (isCreating && Boolean(quoteId))
+  ),
 );
 
 export const getShowOnlinePayment = createSelector(getRegion, region => region === 'au');
@@ -172,6 +176,14 @@ export const getLoadInvoiceDetailEmailInvoice = (emailInvoice, invoiceNumber) =>
     : {}
 );
 
+export const getUpdatedContactOptions = (state, updatedOption) => {
+  const contactOptions = getContactOptions(state);
+
+  return contactOptions.some(option => option.value === updatedOption.value)
+    ? contactOptions.map(option => (option.value === updatedOption.value ? updatedOption : option))
+    : [updatedOption, ...contactOptions];
+};
+
 export const getIsTableEmpty = createSelector(getLength, len => len === 0);
 
 export const getRouteURLParams = state => ({
@@ -183,4 +195,11 @@ export const getShouldReload = (state) => {
   const duplicatedInvoiceId = getDuplicatedInvoiceIdQueryParam(state);
 
   return isCreating && !duplicatedInvoiceId;
+};
+
+export const getContactModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region, contactType: 'Customer' };
 };

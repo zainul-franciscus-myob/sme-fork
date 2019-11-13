@@ -42,6 +42,7 @@ const InvoiceDetailOptions = ({
   isTaxInclusiveDisabled,
   onUpdateHeaderOptions,
   showOnlinePayment,
+  onAddContactButtonClick,
 }) => {
   const primary = (
     <div>
@@ -49,6 +50,10 @@ const InvoiceDetailOptions = ({
         items={contactOptions}
         selectedId={contactId}
         onChange={onComboBoxChange(onUpdateHeaderOptions)}
+        addNewItem={{
+          label: 'Create customer',
+          onAddNew: onAddContactButtonClick,
+        }}
         label="Customer"
         name="contactId"
         hideLabel={false}

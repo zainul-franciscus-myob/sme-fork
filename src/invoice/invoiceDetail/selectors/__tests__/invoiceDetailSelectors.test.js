@@ -4,6 +4,7 @@ import {
   getLoadInvoiceDetailEmailInvoice,
   getLoadInvoiceDetailModalType,
   getShouldReload,
+  getUpdatedContactOptions,
 } from '../invoiceDetailSelectors';
 import InvoiceDetailModalType from '../../InvoiceDetailModalType';
 
@@ -248,6 +249,28 @@ describe('invoiceDetailSelectors', () => {
       const actual = getLoadInvoiceDetailEmailInvoice(emailInvoice, '123');
 
       expect(actual.subject).toEqual('Invoice 123; Hot Chocolate is life');
+    });
+  });
+
+  describe('getUpdatedContactOptions', () => {
+    it('should contain newly added contact option', () => {
+      const option1 = { value: '1', name: 'Option 1' };
+      const option2 = { value: '2', name: 'Option 2' };
+      const expected = [option2, option1];
+
+      const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should contain updated contact option', () => {
+      const option1 = { value: '1', name: 'Option 1' };
+      const option2 = { value: '1', name: 'Updated option 1' };
+      const expected = [option2];
+
+      const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

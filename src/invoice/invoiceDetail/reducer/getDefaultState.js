@@ -18,6 +18,7 @@ const getDefaultState = () => ({
   isModalSubmitting: false,
   isPageEdited: false,
   isSubmitting: false,
+  isContactLoading: false,
   saveActionType: SaveActionType.SAVE,
   invoice: {
     id: '',

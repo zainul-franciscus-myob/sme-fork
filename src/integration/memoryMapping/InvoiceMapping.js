@@ -8,6 +8,7 @@ import {
   EXPORT_INVOICE_PDF,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_CONTACT_ADDRESS,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_LIST,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
@@ -32,6 +33,7 @@ import invoiceServiceDetail from '../data/invoice/serviceLayout/invoiceServiceDe
 import invoiceServiceNewDetail from '../data/invoice/serviceLayout/invoiceServiceNewDetail';
 import invoiceServiceNewDetailFromQuote from '../data/invoice/serviceLayout/invoiceServiceNewDetailFromQuote';
 import invoiceServiceTotals from '../data/invoice/serviceLayout/totalsResponse';
+import loadAddedContactResponse from '../data/invoice/loadAddedContactResponse';
 import payDirect from '../data/invoice/loadPayDirect';
 import successResponse from '../data/success';
 import uploadEmailAttachmentResponse from '../data/invoice/uploadEmailAttachmentResponse';
@@ -58,6 +60,7 @@ const InvoiceMapping = {
   [UPDATE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_CONTACT_ADDRESS]: ({ onSuccess }) => onSuccess(contactAddress),
+  [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedContactResponse),
   [LOAD_PAY_DIRECT]: ({ onSuccess }) => onSuccess(payDirect),
   [GET_INVOICE_SERVICE_CALCULATED_TOTALS]: ({ onSuccess }) => onSuccess(invoiceServiceTotals),
   [REMOVE_INVOICE_ITEM_LINE]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),

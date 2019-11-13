@@ -7,6 +7,7 @@ import {
   GET_INVOICE_ITEM_CALCULATED_LINES,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_CONTACT_ADDRESS,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_PAY_DIRECT,
   REMOVE_EMAIL_ATTACHMENT,
@@ -17,6 +18,7 @@ import {
   RESET_INVOICE_SERVICE_TOTALS,
   RESET_OPEN_SEND_EMAIL,
   SET_ALERT,
+  SET_CONTACT_LOADING_STATE,
   SET_INVOICE_ITEM_LINE_DIRTY,
   SET_INVOICE_ITEM_SUBMITTING_STATE,
   SET_LOADING_STATE,
@@ -69,6 +71,7 @@ import {
   getLoadInvoiceDetailEmailInvoice,
   getLoadInvoiceDetailModalAndPageAlert,
   getLoadInvoiceDetailModalType,
+  getUpdatedContactOptions,
 } from '../selectors/invoiceDetailSelectors';
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
@@ -142,6 +145,18 @@ const updateInvoiceState = (state, partialInvoice) => ({
 
 const loadContactAddress = (state, { address }) => updateInvoiceState(state, { address });
 
+const loadContactAfterCreate = (state, { contactId, address, option }) => ({
+  ...state,
+  invoice: {
+    ...state.invoice,
+    contactId,
+    address,
+  },
+  contactOptions: getUpdatedContactOptions(state, option),
+});
+
+const setContactLoadingState = (state, { isContactLoading }) => ({ ...state, isContactLoading });
+
 const updateInvoiceIdAfterCreate = (state, { invoiceId }) => ({ ...state, invoiceId });
 
 const setInvoiceDetailHeaderOptions = (state, { key, value }) => updateInvoiceState(
@@ -162,6 +177,8 @@ const handlers = {
 
   [LOAD_INVOICE_DETAIL]: loadInvoiceDetail,
   [LOAD_CONTACT_ADDRESS]: loadContactAddress,
+  [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,
   [UPDATE_INVOICE_DETAIL_HEADER_OPTIONS]: setInvoiceDetailHeaderOptions,
   [UPDATE_INVOICE_PAYMENT_AMOUNT]: updatePaymentAmount,

@@ -102,6 +102,12 @@ export const getLoadContactAddressUrlParams = (state) => {
   return { businessId, contactId };
 };
 
+export const getLoadAddedContactUrlParams = (state, contactId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, contactId };
+};
+
 export const getLoadPayDirectUrlParams = (state) => {
   const businessId = getBusinessId(state);
 

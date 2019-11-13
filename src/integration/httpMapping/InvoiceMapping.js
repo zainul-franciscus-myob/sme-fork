@@ -8,6 +8,7 @@ import {
   EXPORT_INVOICE_PDF,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_CONTACT_ADDRESS,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_LIST,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
@@ -62,6 +63,10 @@ const InvoiceMapping = {
   [LOAD_CONTACT_ADDRESS]: {
     method: 'GET',
     getPath: ({ businessId, contactId }) => `/${businessId}/invoice/load_contact_address/${contactId}`,
+  },
+  [LOAD_CONTACT_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, contactId }) => `/${businessId}/invoice/load_contact/${contactId}`,
   },
   [LOAD_PAY_DIRECT]: {
     method: 'GET',

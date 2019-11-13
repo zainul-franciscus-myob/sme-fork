@@ -4,6 +4,7 @@ import {
   EXPORT_INVOICE_PDF,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_CONTACT_ADDRESS,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_PAY_DIRECT,
   SEND_EMAIL,
   UPDATE_INVOICE_DETAIL,
@@ -14,6 +15,7 @@ import {
   getCreateOrUpdateInvoicePayload,
   getCreateOrUpdateInvoiceUrlParams,
   getDeleteInvoiceUrlParams,
+  getLoadAddedContactUrlParams,
   getLoadContactAddressUrlParams,
   getLoadInvoiceIntent,
   getLoadInvoiceQueryParams,
@@ -70,6 +72,17 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
 
     const intent = LOAD_CONTACT_ADDRESS;
     const urlParams = getLoadContactAddressUrlParams(state);
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
+    });
+  },
+
+  loadContactAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_CONTACT_AFTER_CREATE;
+    const urlParams = getLoadAddedContactUrlParams(state, id);
 
     integration.read({
       intent, urlParams, onSuccess, onFailure,

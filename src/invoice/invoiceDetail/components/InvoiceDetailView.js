@@ -1,6 +1,4 @@
-import {
-  Alert, LineItemTemplate,
-} from '@myob/myob-widgets';
+import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -42,9 +40,14 @@ const InvoiceDetailView = ({
   emailInvoiceDetailModalListeners,
   applyPaymentUnsavedChangesListeners,
   exportPdfModalListeners,
+  contactModal,
+  onAddContactButtonClick,
 }) => {
   const options = (
-    <InvoiceDetailOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />
+    <InvoiceDetailOptions
+      onUpdateHeaderOptions={onUpdateHeaderOptions}
+      onAddContactButtonClick={onAddContactButtonClick}
+    />
   );
 
   const alertComponent = alert && (
@@ -84,6 +87,7 @@ const InvoiceDetailView = ({
       options={options}
       actions={actions}
     >
+      {contactModal}
       {modal}
       {table}
     </LineItemTemplate>

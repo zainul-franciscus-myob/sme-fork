@@ -7,6 +7,7 @@ import {
   GET_INVOICE_ITEM_CALCULATED_LINES,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_CONTACT_ADDRESS,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_PAY_DIRECT,
   REMOVE_EMAIL_ATTACHMENT,
@@ -17,6 +18,7 @@ import {
   RESET_INVOICE_SERVICE_TOTALS,
   RESET_OPEN_SEND_EMAIL,
   SET_ALERT,
+  SET_CONTACT_LOADING_STATE,
   SET_INVOICE_ITEM_LINE_DIRTY,
   SET_INVOICE_ITEM_SUBMITTING_STATE,
   SET_LOADING_STATE,
@@ -70,6 +72,14 @@ const createInvoiceDetailDispatcher = store => ({
   }),
 
   loadContactAddress: address => store.dispatch({ intent: LOAD_CONTACT_ADDRESS, address }),
+
+  loadContactAfterCreate: (contactId, payload) => store.dispatch({
+    intent: LOAD_CONTACT_AFTER_CREATE, contactId, ...payload,
+  }),
+
+  setContactLoadingState: isContactLoading => store.dispatch({
+    intent: SET_CONTACT_LOADING_STATE, isContactLoading,
+  }),
 
   loadPayDirect: payDirect => store.dispatch({ intent: LOAD_PAY_DIRECT, payDirect }),
 

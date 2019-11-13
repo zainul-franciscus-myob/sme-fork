@@ -96,7 +96,7 @@ class PhoneNumberList extends React.Component {
           renderField={
             () => (
               <Button type="link" icon={<Icons.Add />} onClick={this.onAddPhoneNumber}>
-                Add phone number
+                Add another phone number
               </Button>
             )
           }

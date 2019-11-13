@@ -1,0 +1,19 @@
+.addressGroup {
+  padding-bottom: var(--flx-spacing-large);
+}
+
+.state {
+  max-width: var(--flx-width-field-xs);
+}
+
+.postcode {
+  max-width: var(--flx-width-field-xs);
+}
+
+.phone {
+  max-width: var(--flx-width-field-m);
+}
+
+.fax {
+  max-width: var(--flx-width-field-m);
+}

@@ -14,7 +14,7 @@ import {
   SUCCESSFULLY_SAVED_INVOICE,
 } from './invoiceMessageTypes';
 import {
-  getAreLinesCalculating,
+  getAreLinesCalculating, getContactModalContext,
   getIsCreating,
   getIsLineAmountDirty,
   getIsPageEdited,
@@ -44,6 +44,7 @@ import {
   getIsAnAmountLineInput,
   getNewLineIndex,
 } from './selectors/itemLayoutSelectors';
+import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import InvoiceDetailModalType from './InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
 import SaveActionType from './SaveActionType';
@@ -74,6 +75,8 @@ export default class InvoiceDetailModule {
     this.store = new Store(invoiceDetailReducer);
     this.dispatcher = createInvoiceDetailDispatcher(this.store);
     this.integrator = createInvoiceDetailIntegrator(this.store, integration);
+
+    this.contactModalModule = new ContactModalModule({ integration });
   }
 
   loadInvoice = (message) => {
@@ -617,6 +620,34 @@ export default class InvoiceDetailModule {
     }
   }
 
+  openContactModal = () => {
+    const state = this.store.getState();
+    const context = getContactModalContext(state);
+
+    this.contactModalModule.run({
+      context,
+      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+      onSaveSuccess: this.loadContactAfterCreate,
+    });
+  }
+
+  loadContactAfterCreate = ({ message, id }) => {
+    this.contactModalModule.resetState();
+    this.dispatcher.setAlert({ type: 'success', message });
+    this.dispatcher.setContactLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setContactLoadingState(false);
+      this.dispatcher.loadContactAfterCreate(id, payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setContactLoadingState(false);
+    };
+
+    this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
+  }
+
   pushSuccessfulSaveMessage = (message) => {
     this.pushMessage({
       type: SUCCESSFULLY_SAVED_INVOICE,
@@ -669,6 +700,8 @@ export default class InvoiceDetailModule {
   }
 
   render = () => {
+    const contactModal = this.contactModalModule.render();
+
     const invoiceDetailView = (
       <InvoiceDetailView
         onDismissAlert={this.dispatcher.dismissAlert}
@@ -729,6 +762,8 @@ export default class InvoiceDetailModule {
           onConfirm: this.exportPdf,
           onChange: this.dispatcher.updateExportPdfDetail,
         }}
+        contactModal={contactModal}
+        onAddContactButtonClick={this.openContactModal}
       />
     );
 

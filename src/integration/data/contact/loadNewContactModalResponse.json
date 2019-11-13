@@ -1,0 +1,16 @@
+{
+  "contact": {
+    "designation": "Individual",
+    "shippingAddress": {
+      "country": "Australia"
+    },
+    "billingAddress": {
+      "country": "Australia"
+    }
+  },
+  "contactTypeOptions": [
+    { "name": "Customer", "value": "Customer" },
+    { "name": "Supplier", "value": "Supplier" },
+    { "name": "General", "value": "Other" }
+  ]
+}
