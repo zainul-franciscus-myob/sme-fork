@@ -12,7 +12,7 @@
         "payItemId": "1",
         "payItemName": "Salary Wage",
         "type": "SalaryWage",
-        "stpCategory": "ETPTaxableComponent",
+        "stpCategory": "GrossPayments",
         "amount": "100000.00",
         "hours": "0.00"
       },
@@ -20,81 +20,73 @@
         "payItemId": "2",
         "payItemName": "Hourly Wage",
         "type": "HourlyWage",
-        "stpCategory": "ETPTaxableComponent",
-        "amount": "0.00",
+        "stpCategory": "GrossPayments",
+        "amount": "20000",
         "hours": "38.50"
       },
       {
         "payItemId": "3",
-        "payItemName": "Child support deduction",
-        "type": "Deduction",
-        "stpCategory": "ETPTaxableComponent",
-        "amount": "100.00",
+        "payItemName": "Annual leave",
+        "type": "HourlyWage",
+        "stpCategory": "GrossPayments",
+        "amount": "0.00",
         "hours": "0.00"
       },
       {
         "payItemId": "4",
-        "payItemName": "Superannuation deduction before tax",
-        "type": "SuperannuationDeductionBeforeTax",
-        "stpCategory": "ETPTaxableComponent",
-        "amount": "200.00",
+        "payItemName": "Sick leave",
+        "type": "HourlyWage",
+        "stpCategory": "GrossPayments",
+        "amount": "0.00",
         "hours": "0.00"
       },
       {
         "payItemId": "5",
-        "payItemName": "Superannuation deduction after tax",
-        "type": "SuperannuationDeductionAfterTax",
-        "stpCategory": "ETPTaxableComponent",
+        "payItemName": "Child support deduction",
+        "type": "Deduction",
+        "stpCategory": "NotReportable",
         "amount": "100.00",
         "hours": "0.00"
       },
       {
+        "payItemId": "5",
+        "payItemName": "Superannuation deduction before tax",
+        "type": "SuperannuationDeductionBeforeTax",
+        "stpCategory": "NotReportable",
+        "amount": "200.00",
+        "hours": "0.00"
+      },
+      {
         "payItemId": "6",
-        "payItemName": "Child support deduction",
-        "type": "Deduction",
-        "stpCategory": "ETPTaxableComponent",
-        "amount": "5000.00",
+        "payItemName": "Superannuation deduction after tax",
+        "type": "SuperannuationDeductionAfterTax",
+        "stpCategory": "NotReportable",
+        "amount": "100.00",
         "hours": "0.00"
       },
       {
         "payItemId": "7",
-        "payItemName": "Annual Leave",
+        "payItemName": "Random deduction",
+        "type": "Deduction",
+        "stpCategory": "NotReportable",
+        "amount": "5000.00",
+        "hours": "0.00"
+      },
+      {
+        "payItemId": "8",
+        "payItemName": "Annual leave accrual",
         "type": "Entitlement",
-        "stpCategory": "ETPTaxableComponent",
+        "stpCategory": "NotReportable",
         "amount": "0.00",
         "hours": "30.00"
       },
       {
-        "payItemId": "8",
-        "payItemName": "Sick Leave",
-        "type": "Entitlement",
-        "stpCategory": "ETPTaxableComponent",
-        "amount": "0.00",
-        "hours": "10.00"
-      },
-      {
         "payItemId": "9",
-        "payItemName": "Coffee Reimbursement",
-        "type": "Expense",
-        "stpCategory": "ETPTaxableComponent",
-        "amount": "10000.00",
-        "hours": "0.00"
-      },
-      {
-        "payItemId": "10",
-        "payItemName": "Mortgage repayment",
-        "type": "SuperannuationExpense",
-        "stpCategory": "ETPTaxableComponent",
-        "amount": "10000.00",
-        "hours": "0.00"
-      },
-      {
-        "payItemId": "11",
-        "payItemName": "PayGWithholding",
-        "type": "Tax",
-        "stpCategory": "ETPTaxableComponent",
-        "amount": "222.00",
-        "hours": "0.00"
+        "payItemName": "Sick leave accrual",
+        "type": "Entitlement",
+        "stpCategory": "NotReportable",
+        "amount": "0.00",
+        "hours": "30.00"
       }
     ]
   },

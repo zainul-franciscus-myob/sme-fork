@@ -19,7 +19,7 @@ const HoursOrAmountInputField = ({
     hideLabel
     textAlign="right"
     value={value}
-    disabled={isSubmitting || (type === 'Entitlement' && name === 'amount')}
+    disabled={isSubmitting || ((type === 'Entitlement' || type === 'HourlyWage') && name === 'amount')}
     onChange={handleInputChange(onChange, employeeId, payItemId)}
     onBlur={handleInputChange(onBlur, employeeId, payItemId)}
     numeralIntegerScale={13}
@@ -51,7 +51,6 @@ const EmployeeRecalculatePayTableRow = ({
       employeeId={employeeId}
       payItemId={payItemId}
       type={type}
-      isSubmitting={isSubmitting}
       onChange={onChange}
       onBlur={onBlur}
     />);
