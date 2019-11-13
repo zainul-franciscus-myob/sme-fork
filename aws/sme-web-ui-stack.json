@@ -4,6 +4,12 @@
   "Parameters": {
     "BucketName": {
       "Type": "String"
+    },
+    "AcmCertificate": {
+      "Type": "String"
+    },
+    "Aliases": {
+      "Type": "CommaDelimitedList"
     }
   },
   "Resources":
@@ -46,7 +52,14 @@
               "ViewerProtocolPolicy" : "redirect-to-https"
             },
             "PriceClass" : "PriceClass_100",
-            "ViewerCertificate": { "CloudFrontDefaultCertificate" : "true" },
+            "ViewerCertificate": {
+		    "SslSupportMethod": "sni-only",
+		    "AcmCertificateArn": {
+			 "Ref": "AcmCertificate"
+		     },
+                    "MinimumProtocolVersion" : "TLSv1.1_2016" 
+            },
+            "Aliases": { "Ref" : "Aliases" },
             "WebACLId" : { "Ref" : "WebACL" }
         }
       },
@@ -71,6 +84,14 @@
           {
             "Type" : "IPV4",
             "Value" : "59.100.228.148/30"
+          },
+          {
+            "Type" : "IPV4",
+            "Value" : "13.211.0.152/32"
+          },
+          {
+            "Type" : "IPV4",
+            "Value" : "3.24.57.175/32"
           },
           {
             "Type" : "IPV4",

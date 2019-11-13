@@ -2,5 +2,14 @@
   {
     "ParameterKey": "BucketName",
     "ParameterValue": "myob-sme-web-ui-preview-bucket"
+  },
+  {
+    "ParameterKey": "AcmCertificate",
+    "ParameterValue": "arn:aws:acm:us-east-1:590476131038:certificate/11677eb0-fc35-44ae-a625-c22d014b377c"
+  },
+  {
+    "ParameterKey": "Aliases",
+    "ParameterValue": "app.myob.com"
   }
+
 ]

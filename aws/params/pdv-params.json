@@ -2,5 +2,13 @@
   {
     "ParameterKey": "BucketName",
     "ParameterValue": "myob-sme-web-ui-pdv-bucket"
+  },
+  {
+    "ParameterKey": "AcmCertificate",
+    "ParameterValue": "arn:aws:acm:us-east-1:590476131038:certificate/d69bdde4-085d-4819-88e2-12fecff8562a"
+  },
+  {
+    "ParameterKey": "Aliases",
+    "ParameterValue": "pdv-sme-web.app.myob.com"
   }
 ]

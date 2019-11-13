@@ -2,5 +2,13 @@
   {
     "ParameterKey": "BucketName",
     "ParameterValue": "myob-sme-web-ui-integration-bucket"
+  },
+  {
+    "ParameterKey": "AcmCertificate",
+    "ParameterValue": "arn:aws:acm:us-east-1:590476131038:certificate/65502041-62e7-4f2e-bc49-746e554637b2"
+  },
+  {
+    "ParameterKey": "Aliases",
+    "ParameterValue": "crabdance.app.myob.com,integration-sme-web.app.myob.com"
   }
 ]
