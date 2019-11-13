@@ -34,10 +34,13 @@ import {
   getGeneralJournalForCreatePayload,
   getGeneralJournalId,
   getIsTableEmpty,
-  getRegion,
+  getModalUrl,
+  getSaveUrl,
+  getTransactionListUrl,
   isPageEdited,
 } from './generalJournalDetailSelectors';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
+import ModalType from './components/ModalType';
 import Store from '../../store/Store';
 import generalJournalDetailReducer from './generalJournalDetailReducer';
 import keyMap from '../../hotKeys/keyMap';
@@ -145,13 +148,18 @@ export default class GeneralJournalDetailModule {
   }
 
   saveGeneralJournalEntry(intent, content, urlParams) {
+    this.setSubmittingState(true);
+
     const onSuccess = (response) => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
         content: response.message,
       });
       this.setSubmittingState(false);
-      this.redirectToTransactionList();
+
+      const state = this.store.getState();
+      const url = getSaveUrl(state);
+      this.redirectToUrl(url);
     };
 
     const onFailure = (error) => {
@@ -166,7 +174,6 @@ export default class GeneralJournalDetailModule {
       onSuccess,
       onFailure,
     });
-    this.setSubmittingState(true);
   }
 
   updateHeaderOptions = ({ key, value }) => {
@@ -283,9 +290,14 @@ export default class GeneralJournalDetailModule {
   openCancelModal = () => {
     const intent = OPEN_MODAL;
     if (isPageEdited(this.store.getState())) {
+      const state = this.store.getState();
+      const transactionListUrl = getTransactionListUrl(state);
       this.store.dispatch({
         intent,
-        modalType: 'cancel',
+        modal: {
+          type: ModalType.CANCEL,
+          url: transactionListUrl,
+        },
       });
     } else {
       this.redirectToTransactionList();
@@ -293,13 +305,27 @@ export default class GeneralJournalDetailModule {
   };
 
   openDeleteModal = () => {
-    const intent = OPEN_MODAL;
+    const state = this.store.getState();
+    const transactionListUrl = getTransactionListUrl(state);
 
     this.store.dispatch({
-      intent,
-      modalType: 'delete',
+      intent: OPEN_MODAL,
+      modal: {
+        type: ModalType.DELETE,
+        url: transactionListUrl,
+      },
     });
-  };
+  }
+
+  openUnsavedModal = (url) => {
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modal: {
+        type: ModalType.UNSAVED,
+        url,
+      },
+    });
+  }
 
   closeModal = () => {
     const intent = CLOSE_MODAL;
@@ -320,10 +346,18 @@ export default class GeneralJournalDetailModule {
 
   redirectToTransactionList= () => {
     const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
+    const transactionListUrl = getTransactionListUrl(state);
+    this.redirectToUrl(transactionListUrl);
+  }
 
-    window.location.href = `/#/${region}/${businessId}/transactionList`;
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+    this.redirectToUrl(url);
+  }
+
+  redirectToUrl = (url) => {
+    window.location.href = url;
   }
 
   render = () => {
@@ -335,9 +369,9 @@ export default class GeneralJournalDetailModule {
           ? this.createGeneralJournalEntry : this.updateGeneralJournalEntry}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
-        onCloseModal={this.closeModal}
-        onDeleteModal={this.deleteGeneralJournal}
-        onCancelModal={this.redirectToTransactionList}
+        onDismissModal={this.closeModal}
+        onConfirmDeleteButtonClick={this.deleteGeneralJournal}
+        onConfirmCancelButtonClick={this.redirectToModalUrl}
         onDismissAlert={this.dismissAlert}
         onUpdateRow={this.updateGeneralJournalLine}
         onAddRow={this.addGeneralJournalLine}
@@ -398,4 +432,13 @@ export default class GeneralJournalDetailModule {
      intent,
    });
  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (isPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
+  }
 }

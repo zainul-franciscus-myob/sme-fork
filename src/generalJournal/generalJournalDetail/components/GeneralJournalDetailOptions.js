@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { getHeaderOptions } from '../generalJournalDetailSelectors';
+import { getHeaderOptions, getTaxExclusiveLabel, getTaxInclusiveLabel } from '../generalJournalDetailSelectors';
 
 class GeneralJournalDetailOptions extends Component {
   handleInputChange = (e) => {
@@ -57,6 +57,8 @@ class GeneralJournalDetailOptions extends Component {
         gstReportingMethod,
         isEndOfYearAdjustment,
       },
+      taxInclusiveLabel,
+      taxExclusiveLabel,
     } = this.props;
 
     const isPurchase = gstReportingMethod === 'purchase';
@@ -128,8 +130,8 @@ class GeneralJournalDetailOptions extends Component {
           name="isTaxInclusive"
           renderRadios={({ value, ...props }) => (
             <React.Fragment>
-              <RadioButton {...props} checked={isTaxInclusive} onChange={this.handleRadioChange} value="true" label="Tax inclusive" />
-              <RadioButton {...props} checked={!isTaxInclusive} onChange={this.handleRadioChange} value="false" label="Tax exclusive" />
+              <RadioButton {...props} checked={isTaxInclusive} onChange={this.handleRadioChange} value="true" label={taxInclusiveLabel} />
+              <RadioButton {...props} checked={!isTaxInclusive} onChange={this.handleRadioChange} value="false" label={taxExclusiveLabel} />
             </React.Fragment>
           )}
         />
@@ -144,6 +146,8 @@ class GeneralJournalDetailOptions extends Component {
 
 const mapStateToProps = state => ({
   headerOptions: getHeaderOptions(state),
+  taxInclusiveLabel: getTaxInclusiveLabel(state),
+  taxExclusiveLabel: getTaxExclusiveLabel(state),
 });
 
 GeneralJournalDetailOptions.propTypes = {

@@ -29,8 +29,12 @@
 /*
   Feelix Override:
   Adjusting the z-index of the navigation href as it overlays onto top of the module,
-  due to having a greater z-index. The z-index of the modal is currently 1500.
+  due to having a greater z-index. The z-index of the modal is currently 1050.
+
+  I chose 1010, because there's a comment in Feelix explaining that the navbar menu link
+  has it's z-index of 2001, because of the dropdown. From what I can see, the z-index of
+  the dropdown-menu is 1000, so that's why I've set the below z-index as it is.
 */
 .navigation :global(.flx-navbar__menu-items > .open > .flx-navbar__menu-link) {
-  z-index: 1400;
+  z-index: 1010;
 }
