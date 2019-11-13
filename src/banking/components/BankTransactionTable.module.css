@@ -99,10 +99,8 @@
   border: var(--flx-border-button-secondary);
 }
 
-.expanded {
+.expandedHeader {
   color: var(--flx-palette-white);
-  margin: var(--flx-spacing-x-tiny) 0;
-  border-radius: var(--flx-border-radius-card);
 }
 
 .expanded .columns {
@@ -258,7 +256,7 @@
   }
 
   .expanded {
-    margin-bottom: var(--flx-spacing-x-tiny);
+    margin: var(--flx-spacing-x-tiny) 0;
   }
 
   .expanded .allocationColumn {

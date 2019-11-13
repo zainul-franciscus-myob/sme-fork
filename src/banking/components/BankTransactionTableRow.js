@@ -78,6 +78,7 @@ const BankTransactionTableRow = ({
 
   const openedClassName = isExpanded ? styles.expanded : '';
   const selectedClassName = isSelected ? styles.selected : '';
+  const openedExpandedHeader = isExpanded ? styles.expandedHeader : '';
 
   const amount = entry.deposit ? `$${entry.deposit}` : `-$${entry.withdrawal}`;
 
@@ -121,7 +122,7 @@ const BankTransactionTableRow = ({
 
   return (
     <div className={`${styles.row} ${openedClassName} ${selectedClassName}`}>
-      <div className={styles.columns}>
+      <div className={`${styles.columns} ${openedExpandedHeader}`}>
         <div className={styles.selectionColumn}>
           <Checkbox
             name={`${index}-select`}

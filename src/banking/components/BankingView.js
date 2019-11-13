@@ -105,6 +105,7 @@ const BankingView = (props) => {
       onCloseModal={onCloseModal}
       onConfirmCancelModal={onCancelModal}
       onConfirmUnallocateModal={onConfirmUnallocateModal}
+      onConfirmUnmatchTransactionModal={onCancelModal}
       onRenderBankingRuleModal={onRenderBankingRuleModal}
     />
     ));
