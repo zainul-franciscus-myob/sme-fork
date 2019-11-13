@@ -15,7 +15,7 @@ export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 export const getLayoutQueryParam = state => state.layout;
 
 export const getIsLoading = state => state.isLoading;
-export const getIsActionsDisabled = state => state.isSubmitting;
+export const getIsActionsDisabled = state => state.isSubmitting || state.areLinesCalculating;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getIsContactLoading = state => state.isContactLoading;
 export const getAlert = state => state.alert;
