@@ -30,7 +30,6 @@ export const activeMapping = {
   'customerReturn/customerReturnApplyToSale': 'sales',
   'payRefund/payRefund': 'banking',
   'applyToSale/applyToSale': 'sales',
-  'payRunList/payRunList': 'payroll',
   'payItem/payItemList': 'payroll',
   'payItem/superPayItem': 'payroll',
   'payItem/wagePayItem': 'payroll',
@@ -42,7 +41,7 @@ export const activeMapping = {
   'linkedAccounts/linkedAccounts': 'business',
   'bankingRule/bankingRuleList': 'banking',
   'bankReconciliation/bankReconciliation': 'banking',
-  'payRun/payRun': 'payroll',
+  'payRun/payRunList': 'payroll',
   'bankingRule/bankingRuleSpendMoney': 'banking',
   'bankingRule/bankingRuleReceiveMoney': 'banking',
   'bankingRule/bankingRuleInvoice': 'banking',
@@ -151,7 +150,7 @@ export const featuresConfig = {
     routeName: 'payItem/payItemList',
   },
   payRunList: {
-    routeName: 'payRunList/payRunList',
+    routeName: 'payRun/payRunList',
   },
   prepareBasOrIas: {
     routeName: 'prepareBasOrIas/prepareBasOrIas',

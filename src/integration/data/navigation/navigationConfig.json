@@ -20,6 +20,7 @@
     "userList",
     "employeeList",
     "billPayment",
+    "payRunList",
     "billList",
     "invoicePayment",
     "customerReturnList",
