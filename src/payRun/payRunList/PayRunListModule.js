@@ -156,6 +156,7 @@ export default class PayrunListModule {
       params: {
         ...filterOptions,
         sortOrder,
+        orderBy: 'PaymentDate',
       },
       onSuccess,
       onFailure,
