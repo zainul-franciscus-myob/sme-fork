@@ -104,15 +104,20 @@ const ConditionsSection = ({
   <FieldGroup label="When money received on the bank statement matches these conditions">
     {
       conditions.map(({ predicates, field }, index) => (
-        <BulkAdd>
-          <BulkAdd.Rows
-            data={predicates}
-            renderRow={renderPredicate(index, field, onFieldChange(index, onConditionChange))}
-            onRowChange={onRowChange(index, onPredicateChange)}
-            onAddRow={onAddRow(index, onPredicateAdd)}
-            onRemoveRow={onRemoveRow(index, onPredicateRemove)}
-          />
-        </BulkAdd>
+        <div>
+          { index > 0 && (
+            <div className={styles.conditionSeparator}>AND</div>
+          )}
+          <BulkAdd>
+            <BulkAdd.Rows
+              data={predicates}
+              renderRow={renderPredicate(index, field, onFieldChange(index, onConditionChange))}
+              onRowChange={onRowChange(index, onPredicateChange)}
+              onAddRow={onAddRow(index, onPredicateAdd)}
+              onRemoveRow={onRemoveRow(index, onPredicateRemove)}
+            />
+          </BulkAdd>
+        </div>
       ))
     }
     <Field

@@ -18,3 +18,7 @@
     padding-right: var(--flx-spacing-tiny);
   }
 }
+
+.conditionSeparator {
+  padding: var(--flx-spacing-x-tiny) var(--flx-spacing-small);
+}
