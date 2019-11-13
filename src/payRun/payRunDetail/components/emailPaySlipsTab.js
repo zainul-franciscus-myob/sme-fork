@@ -17,6 +17,7 @@ const tableConfig = {
   email: { width: '30rem', columnName: 'Email' },
   paySlipEmailed: { width: '16rem', columnName: 'Pay Slip emailed', align: 'center' },
   bankFile: { width: '16rem', columnName: 'Bank file', align: 'center' },
+  viewPaySlip: { columnName: 'View pay slip', align: 'center' },
 };
 
 const EmailPaySlipsTab = ({
@@ -29,7 +30,6 @@ const EmailPaySlipsTab = ({
   const bulkActions = (
     <BulkActions>
       <Button type="secondary">Email</Button>
-      <Button type="secondary">View pay slips (PDF)</Button>
       <BulkActions.Counter
         count={selectedCount}
         label={selectedCount > 1 ? 'employees selected' : 'employee selected'}
@@ -73,6 +73,9 @@ const EmailPaySlipsTab = ({
       <Table.HeaderItem {...tableConfig.bankFile}>
         {tableConfig.bankFile.columnName}
       </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.viewPaySlip}>
+        {tableConfig.viewPaySlip.columnName}
+      </Table.HeaderItem>
     </Table.Header>
   );
 
@@ -101,6 +104,9 @@ const EmailPaySlipsTab = ({
       </Table.RowItem>
       <Table.RowItem {...tableConfig.bankFile}>
         {employee.hasBankFile && <Icons.Tick />}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.viewPaySlip}>
+        <Button type="link" icon={<Icons.GenericDocument />} />
       </Table.RowItem>
     </Table.Row>
   ));
