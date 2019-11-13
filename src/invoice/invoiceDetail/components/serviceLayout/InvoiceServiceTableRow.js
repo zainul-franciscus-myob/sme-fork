@@ -52,13 +52,6 @@ const InvoiceServiceTableRow = ({
         items={accountOptions}
         selectedId={allocatedAccountId}
       />
-      <TaxCodeCombobox
-        label="Tax code"
-        hideLabel
-        onChange={handleOnComboboxChange(onComboboxChange, 'taxCodeId')}
-        items={taxCodeOptions}
-        selectedId={taxCodeId}
-      />
       <AmountInput
         label="Amount"
         hideLabel
@@ -67,6 +60,13 @@ const InvoiceServiceTableRow = ({
         textAlign="right"
         onChange={onAmountInputFieldChange}
         onBlur={onRowInputBlur}
+      />
+      <TaxCodeCombobox
+        label="Tax code"
+        hideLabel
+        onChange={handleOnComboboxChange(onComboboxChange, 'taxCodeId')}
+        items={taxCodeOptions}
+        selectedId={taxCodeId}
       />
     </LineItemTable.Row>
   );
