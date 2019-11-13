@@ -6,6 +6,7 @@ import {
   OPEN_ETP_MODAL,
   SAVE_ETP,
   SET_PAY_ITEM_LINE_DIRTY,
+  SET_TOTAL_NET_PAY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_EMPLOYEE_PAY_ITEM,
@@ -45,6 +46,15 @@ const createEmployeePayListDispatcher = store => ({
     store.dispatch({
       intent: OPEN_ETP_MODAL,
       employeeId,
+    });
+  },
+
+
+  setTotalNetPay: (totalNetPay) => {
+    const intent = SET_TOTAL_NET_PAY;
+    store.dispatch({
+      intent,
+      totalNetPay,
     });
   },
 

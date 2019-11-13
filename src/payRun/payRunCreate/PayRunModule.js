@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getStep } from './PayRunSelectors';
 import EmployeePayListModule from './employeePayList/EmployeePayListModule';
 import PayRunDoneModule from './payRunDone/PayRunDoneModule';
 import PayRunView from './components/PayRunView';
@@ -62,6 +63,9 @@ export default class PayRunModule {
   };
 
   goBack = () => {
+    if (getStep(this.store.getState()) === 2) {
+      this.dispatcher.setTotalNetPay(null);
+    }
     this.dispatcher.previousStep();
     this.dispatcher.dismissAlert();
     this.dispatcher.closeModal();

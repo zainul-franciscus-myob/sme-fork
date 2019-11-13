@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getIsPayItemLineDirty, isValidEtp } from './EmployeePayListSelectors';
+import { getIsPayItemLineDirty, getTotals, isValidEtp } from './EmployeePayListSelectors';
 import AlertType from '../types/AlertType';
 import PayRunListEmployees from './components/PayRunListEmployees';
 import createEmployeePayListDispatcher from './createEmployeePayListDispatcher';
@@ -34,7 +34,11 @@ export default class EmployeePayListModule {
   nextStep = () => {
     const onSuccess = (invalidEtpNames) => {
       if (isValidEtp({ invalidEtpNames })) {
+        const state = this.store.getState();
+        const { netPay } = getTotals(state);
+        this.dispatcher.setTotalNetPay(netPay);
         this.dispatcher.nextStep();
+
         this.dispatcher.dismissAlert();
       } else {
         this.dispatcher.validateEtp({ invalidEtpNames });

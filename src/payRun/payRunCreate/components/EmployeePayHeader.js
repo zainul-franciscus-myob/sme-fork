@@ -5,7 +5,7 @@ import { getEmployeeHeader } from '../PayRunSelectors';
 import PayHeader from '../../components/PayHeader';
 
 const EmployeePayHeader = ({ employeeHeader }) => {
-  const items = [
+  const initItems = [
     {
       label: 'Pay cycle',
       name: 'paymentFrequency',
@@ -27,6 +27,17 @@ const EmployeePayHeader = ({ employeeHeader }) => {
       value: employeeHeader.paymentDate,
     },
   ];
+
+  const items = employeeHeader.totalNetPay
+    ? [
+      ...initItems,
+      {
+        label: 'Total net pay',
+        name: 'totalNetPay',
+        value: employeeHeader.totalNetPay,
+      },
+    ]
+    : initItems;
 
   return <PayHeader items={items} />;
 };

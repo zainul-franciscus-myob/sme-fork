@@ -6,6 +6,7 @@ import {
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  SET_TOTAL_NET_PAY,
 } from './PayRunIntents';
 import {
   EMPLOYEE_PAY_LIST,
@@ -74,6 +75,14 @@ const previousStep = state => ({
   step: state.step - 1,
 });
 
+const setTotalNetPay = (state, { totalNetPay }) => {
+  const result = {
+    ...state,
+    totalNetPay,
+  };
+  return result;
+};
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -84,6 +93,7 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [NEXT_STEP]: nextStep,
   [PREVIOUS_STEP]: previousStep,
+  [SET_TOTAL_NET_PAY]: setTotalNetPay,
   ...wrapHandlers(START_PAY_RUN, startPayRunHandlers),
   ...wrapHandlers(EMPLOYEE_PAY_LIST, employeePayListHandlers),
 };

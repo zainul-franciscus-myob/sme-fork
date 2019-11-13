@@ -6,6 +6,7 @@ import {
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  SET_TOTAL_NET_PAY,
   START_NEW_PAY_RUN,
 } from './PayRunIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -45,6 +46,14 @@ const createPayRunDispatchers = store => ({
     const intent = CLOSE_MODAL;
     store.dispatch({
       intent,
+    });
+  },
+
+  setTotalNetPay: (totalNetPay) => {
+    const intent = SET_TOTAL_NET_PAY;
+    store.dispatch({
+      intent,
+      totalNetPay,
     });
   },
 

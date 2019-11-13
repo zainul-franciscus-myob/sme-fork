@@ -15,17 +15,20 @@ const getPaymentFrequency = state => state.startPayRun.paymentFrequency;
 const getPaymentDate = state => formatDate(new Date(state.startPayRun.paymentDate), 'ddd DD/MM/YYYY');
 const getPayPeriodStart = state => formatDate(new Date(state.startPayRun.payPeriodStart), 'ddd DD/MM/YYYY');
 const getPayPeriodEnd = state => formatDate(new Date(state.startPayRun.payPeriodEnd), 'ddd DD/MM/YYYY');
+const getTotalNetPay = state => state.totalNetPay;
 
 export const getEmployeeHeader = createSelector(
   getPaymentFrequency,
   getPaymentDate,
   getPayPeriodStart,
   getPayPeriodEnd,
-  (paymentFrequency, paymentDate, payPeriodStart, payPeriodEnd) => ({
+  getTotalNetPay,
+  (paymentFrequency, paymentDate, payPeriodStart, payPeriodEnd, totalNetPay) => ({
     paymentFrequency,
     paymentDate,
     payPeriodStart,
     payPeriodEnd,
+    totalNetPay,
   }),
 );
 
