@@ -7,11 +7,13 @@ import {
   DELETE_QUOTE_DETAIL,
   EXPORT_QUOTE_PDF,
   LOAD_CUSTOMER_ADDRESS,
+  LOAD_CUSTOMER_AFTER_CREATE,
   REMOVE_EMAIL_ATTACHMENT,
   RESET_EMAIL_QUOTE_DETAIL,
   RESET_OPEN_SEND_EMAIL,
   SEND_EMAIL,
   SET_ALERT,
+  SET_CUSTOMER_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
@@ -46,6 +48,7 @@ import {
 } from '../quoteMessageTypes';
 import {
   getBusinessId,
+  getContactModalContext,
   getCreateDuplicateQuoteURL,
   getCreateInvoiceFromQuoteURL,
   getCreateNewItemQuoteURL,
@@ -59,6 +62,7 @@ import {
   getIsEmailModalOpen,
   getIsLineAmountInputDirty,
   getIsPageEdited,
+  getLoadCustomerUrlParams,
   getNewLineIndex,
   getPayloadForCalculateAmountInputs,
   getPayloadForRemoveTableRow,
@@ -76,6 +80,7 @@ import {
   getShouldReload,
   getShouldSaveAndExportPdf,
 } from './ItemQuoteSelectors';
+import ContactModalModule from '../../../contact/contactModal/ContactModalModule';
 import ItemQuoteView from './components/ItemQuoteView';
 import ModalType from '../ModalType';
 import SaveActionType from '../SaveActionType';
@@ -95,6 +100,8 @@ export default class ItemQuoteModule {
     this.pushMessage = pushMessage;
     this.reload = reload;
     this.replaceURLParams = replaceURLParams;
+
+    this.contactModalModule = new ContactModalModule({ integration });
   }
 
   loadCustomerAddress = () => {
@@ -496,6 +503,14 @@ export default class ItemQuoteModule {
     intent: SET_MODAL_SUBMITTING_STATE, isModalSubmitting,
   });
 
+  displaySuccessAlert = message => this.store.dispatch({
+    intent: SET_ALERT,
+    alert: {
+      type: 'success',
+      message,
+    },
+  });
+
   displayFailureAlert = message => this.store.dispatch({
     intent: SET_ALERT,
     alert: {
@@ -681,6 +696,49 @@ export default class ItemQuoteModule {
     });
   }
 
+  openContactModal = () => {
+    const state = this.store.getState();
+    const context = getContactModalContext(state);
+
+    this.contactModalModule.run({
+      context,
+      onLoadFailure: message => this.displayFailureAlert(message),
+      onSaveSuccess: this.loadCustomerAfterCreate,
+    });
+  }
+
+  loadCustomerAfterCreate = ({ message, id }) => {
+    this.contactModalModule.resetState();
+    this.displaySuccessAlert(message);
+    this.setCustomerLoadingState(true);
+
+    const intent = LOAD_CUSTOMER_AFTER_CREATE;
+
+    const state = this.store.getState();
+    const urlParams = getLoadCustomerUrlParams(state, id);
+
+    const onSuccess = (payload) => {
+      this.setCustomerLoadingState(false);
+      this.store.dispatch({
+        intent: LOAD_CUSTOMER_AFTER_CREATE, customerId: id, ...payload,
+      });
+    };
+
+    const onFailure = () => {
+      this.setCustomerLoadingState(false);
+    };
+
+    this.integration.read({
+      intent, urlParams, onSuccess, onFailure,
+    });
+  }
+
+  setCustomerLoadingState=(isCustomerLoading) => {
+    this.store.dispatch({
+      intent: SET_CUSTOMER_LOADING_STATE, isCustomerLoading,
+    });
+  }
+
   dismissModalAlert = () => this.store.dispatch({ intent: SET_MODAL_ALERT });
 
   updateURLFromState = (state) => {
@@ -699,6 +757,8 @@ export default class ItemQuoteModule {
   };
 
   render = () => {
+    const contactModal = this.contactModalModule.render();
+
     const wrappedView = (
       <Provider store={this.store}>
         <ItemQuoteView
@@ -732,6 +792,8 @@ export default class ItemQuoteModule {
           onRemoveAttachment={this.removeEmailAttachment}
           onConfirmEmailSettingButtonClick={this.openSalesSettingsTabAndCloseModal}
           onCloseEmailSettingButtonClick={this.closeEmailSettingsModal}
+          contactModal={contactModal}
+          onAddCustomerButtonClick={this.openContactModal}
         />
       </Provider>
     );

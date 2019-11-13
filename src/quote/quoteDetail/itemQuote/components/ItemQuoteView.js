@@ -61,6 +61,8 @@ const ItemQuoteView = ({
   onRemoveAttachment,
   onConfirmEmailSettingButtonClick,
   onCloseEmailSettingButtonClick,
+  contactModal,
+  onAddCustomerButtonClick,
 }) => {
   const actions = (
     <ItemQuoteActions
@@ -80,7 +82,12 @@ const ItemQuoteView = ({
     </Alert>
   );
 
-  const options = <ItemQuoteOptions onUpdateQuoteOption={onUpdateQuoteOption} />;
+  const options = (
+    <ItemQuoteOptions
+      onAddCustomerButtonClick={onAddCustomerButtonClick}
+      onUpdateQuoteOption={onUpdateQuoteOption}
+    />
+  );
 
   const pageHead = (
     <QuotePageHead
@@ -126,6 +133,7 @@ const ItemQuoteView = ({
         actions={actions}
         alert={alertComponent}
       >
+        { contactModal }
         { modal }
         <ItemQuoteTable
           onAddTableRow={onAddTableRow}

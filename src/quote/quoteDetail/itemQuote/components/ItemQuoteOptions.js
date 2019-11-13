@@ -19,6 +19,7 @@ import {
   getExpiredDate,
   getIsCalculating,
   getIsCreating,
+  getIsCustomerLoading,
   getIsTaxInclusive,
   getIssueDate,
   getNote,
@@ -92,6 +93,8 @@ const ItemQuoteOptions = ({
   popoverLabel,
   customerLink,
   customerName,
+  isCustomerLoading,
+  onAddCustomerButtonClick,
 }) => {
   const customer = isCreating
     ? (
@@ -102,6 +105,11 @@ const ItemQuoteOptions = ({
         onChange={onCustomerChange(onUpdateQuoteOption)}
         label="Customer"
         hideLabel={false}
+        disabled={isCustomerLoading}
+        addNewItem={{
+          label: 'Create customer',
+          onAddNew: onAddCustomerButtonClick,
+        }}
       />
     )
     : <ReadOnly name="customer" label="Customer"><a href={customerLink}>{customerName}</a></ReadOnly>;
@@ -201,6 +209,7 @@ const mapStateToProps = state => ({
   popoverLabel: getPopoverLabel(state),
   customerLink: getCustomerLink(state),
   customerName: getCustomerName(state),
+  isCustomerLoading: getIsCustomerLoading(state),
 });
 
 export default connect(mapStateToProps)(ItemQuoteOptions);

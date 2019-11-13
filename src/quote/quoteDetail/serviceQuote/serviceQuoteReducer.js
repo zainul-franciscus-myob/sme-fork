@@ -2,10 +2,12 @@ import {
   ADD_EMAIL_ATTACHMENTS,
   CHANGE_EXPORT_PDF_TEMPLATE,
   LOAD_CUSTOMER_ADDRESS,
+  LOAD_CUSTOMER_AFTER_CREATE,
   REMOVE_EMAIL_ATTACHMENT,
   RESET_EMAIL_QUOTE_DETAIL,
   RESET_OPEN_SEND_EMAIL,
   SET_ALERT,
+  SET_CUSTOMER_LOADING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -33,12 +35,14 @@ import {
   getLineByIndex,
   getLoadQuoteDetailModalType,
   getShouldOpenEmailModal,
+  getUpdatedCustomerOptions,
 } from './ServiceQuoteSelectors';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   isLoading: true,
+  isCustomerLoading: false,
   layout: '',
   openExportPdf: false,
   quote: {
@@ -273,6 +277,18 @@ const loadCustomerAddress = (state, action) => ({
   },
 });
 
+const loadCustomerAfterCreate = (state, { customerId, address, option }) => ({
+  ...state,
+  quote: {
+    ...state.quote,
+    customerId,
+    address,
+  },
+  customerOptions: getUpdatedCustomerOptions(state, option),
+});
+
+const setCustomerLoadingState = (state, { isCustomerLoading }) => ({ ...state, isCustomerLoading });
+
 const formatLineAmount = (amount) => {
   const realNumber = Number(amount);
   return (Number.isNaN(realNumber) ? '' : parseFloat(amount).toFixed(2));
@@ -392,6 +408,8 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [LOAD_CUSTOMER_ADDRESS]: loadCustomerAddress,
+  [LOAD_CUSTOMER_AFTER_CREATE]: loadCustomerAfterCreate,
+  [SET_CUSTOMER_LOADING_STATE]: setCustomerLoadingState,
   [FORMAT_SERVICE_QUOTE_LINE]: formatServiceQuoteLine,
   [RESET_TOTALS]: resetTotals,
   [CHANGE_EXPORT_PDF_TEMPLATE]: changeExportPdfForm,

@@ -426,3 +426,26 @@ export const getInvoiceAndQuoteSettingsUrl = (state) => {
 
   return `/#/${region}/${businessId}/salesSettings`;
 };
+
+export const getContactModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region, contactType: 'Customer' };
+};
+
+export const getIsCustomerLoading = state => state.isCustomerLoading;
+
+export const getLoadCustomerUrlParams = (state, customerId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, customerId };
+};
+
+export const getUpdatedCustomerOptions = (state, updatedOption) => {
+  const customerOptions = getCustomers(state);
+
+  return customerOptions.some(option => option.id === updatedOption.id)
+    ? customerOptions.map(option => (option.id === updatedOption.id ? updatedOption : option))
+    : [updatedOption, ...customerOptions];
+};

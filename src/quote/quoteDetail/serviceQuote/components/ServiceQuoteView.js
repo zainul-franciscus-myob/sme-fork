@@ -61,8 +61,15 @@ const ServiceQuoteView = ({
   onRemoveAttachment,
   onConfirmEmailSettingButtonClick,
   onCloseEmailSettingButtonClick,
+  contactModal,
+  onAddCustomerButtonClick,
 }) => {
-  const options = <ServiceQuoteOptions onUpdateHeaderOptions={onUpdateHeaderOptions} />;
+  const options = (
+    <ServiceQuoteOptions
+      onUpdateHeaderOptions={onUpdateHeaderOptions}
+      onAddCustomerButtonClick={onAddCustomerButtonClick}
+    />
+  );
 
   const actions = (
     <ServiceQuoteActions
@@ -126,6 +133,7 @@ const ServiceQuoteView = ({
       options={options}
       actions={actions}
     >
+      { contactModal }
       { modal }
       <ServiceQuoteTable
         onUpdateRow={onUpdateRow}

@@ -10,7 +10,7 @@ import {
   getLoadQuoteDetailModalType,
   getPayloadForUpdateIsTaxInclusive,
   getQuoteLineByIndex,
-  getSendEmailPayload,
+  getSendEmailPayload, getUpdatedCustomerOptions,
 } from '../ItemQuoteSelectors';
 import ModalType from '../../ModalType';
 
@@ -433,6 +433,52 @@ describe('ItemQuoteSelectors', () => {
       const expected = [files[1]];
 
       const actual = getFilesForUpload(filesForUploadState, files);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getUpdatedCustomerOptions', () => {
+    it('should contain newly added contact option', () => {
+      const option1 = {
+        id: '1',
+        contactType: 'Customer',
+        displayId: 'OPTION1',
+        displayName: 'Option 1',
+      };
+      const option2 = {
+        value: '2',
+        name: 'Option 2',
+        id: '2',
+        contactType: 'Customer',
+        displayId: 'OPTION2',
+        displayName: 'Option 2',
+      };
+      const expected = [option2, option1];
+
+      const actual = getUpdatedCustomerOptions({ customers: [option1] }, option2);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should contain updated contact option', () => {
+      const option1 = {
+        id: '1',
+        contactType: 'Customer',
+        displayId: 'OPTION1',
+        displayName: 'Option 1',
+      };
+      const option2 = {
+        value: '1',
+        name: 'Option 1',
+        id: '1',
+        contactType: 'Customer',
+        displayId: 'OPTION1',
+        displayName: 'Option 1',
+      };
+      const expected = [option2];
+
+      const actual = getUpdatedCustomerOptions({ customers: [option1] }, option2);
 
       expect(actual).toEqual(expected);
     });

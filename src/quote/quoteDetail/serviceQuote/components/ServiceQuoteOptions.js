@@ -67,6 +67,8 @@ const ServiceQuoteOptions = (props) => {
     popoverLabel,
     customerLink,
     customerName,
+    isCustomerLoading,
+    onAddCustomerButtonClick,
   } = props;
 
   const customer = isCreating
@@ -78,6 +80,11 @@ const ServiceQuoteOptions = (props) => {
         label="Customer"
         name="customerId"
         hideLabel={false}
+        disabled={isCustomerLoading}
+        addNewItem={{
+          label: 'Create customer',
+          onAddNew: onAddCustomerButtonClick,
+        }}
       />
     )
     : <ReadOnly name="customer" label="Customer"><a href={customerLink}>{customerName}</a></ReadOnly>;

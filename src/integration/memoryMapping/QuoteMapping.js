@@ -2,6 +2,7 @@ import {
   DELETE_QUOTE_DETAIL,
   EXPORT_QUOTE_PDF,
   LOAD_CUSTOMER_ADDRESS,
+  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_QUOTE_DETAIL,
   LOAD_QUOTE_LIST,
   SEND_EMAIL,
@@ -9,6 +10,7 @@ import {
   UPLOAD_EMAIL_ATTACHMENT,
 } from '../../quote/QuoteIntents';
 import customerAddress from '../data/quote/customerAddress';
+import loadCustomerResponse from '../data/quote/loadCustomerResponse';
 import quoteDetailEntry from '../data/quote/itemLayout/itemQuoteDetailEntry';
 import quoteListFilterResponse from '../data/quote/filterQuoteList';
 import quoteListLoadResponse from '../data/quote/loadQuoteList';
@@ -30,6 +32,7 @@ const QuoteMapping = {
   [LOAD_QUOTE_DETAIL]: loadQuoteDetail,
   [DELETE_QUOTE_DETAIL]: deleteQuoteDetail,
   [LOAD_CUSTOMER_ADDRESS]: loadCustomerAddress,
+  [LOAD_CUSTOMER_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadCustomerResponse),
   [EXPORT_QUOTE_PDF]: exportQuotePdf,
   [SEND_EMAIL]: sendEmail,
   [UPLOAD_EMAIL_ATTACHMENT]: uploadAttachment,

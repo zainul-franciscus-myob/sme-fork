@@ -10,6 +10,7 @@ import formatSlashDate from '../../../valueFormatters/formatDate/formatSlashDate
 
 export const getBusinessId = state => state.businessId;
 export const getIsLoading = state => state.isLoading;
+export const getIsCustomerLoading = state => state.isCustomerLoading;
 export const getQuoteId = state => state.quoteId;
 export const getTotals = state => state.totals;
 export const getRegion = state => state.region;
@@ -186,11 +187,13 @@ export const getQuoteOptions = createSelector(
   getPopoverLabel,
   gettaxInclusive,
   getCustomerLink,
+  getIsCustomerLoading,
   (
     quote, customerOptions, expirationTerms, isCreating,
     comments, showExpiryDaysOptions, expirationTermsLabel, displayDaysForMonth,
     showExpirationDaysAmountInput, popoverLabel, taxInclusive,
     customerLink,
+    isCustomerLoading,
   ) => {
     const { lines, issueDate, ...quoteWithoutLines } = quote;
 
@@ -208,6 +211,7 @@ export const getQuoteOptions = createSelector(
       popoverLabel,
       taxInclusive,
       customerLink,
+      isCustomerLoading,
     };
   },
 );
@@ -455,4 +459,25 @@ export const getInvoiceAndQuoteSettingsUrl = (state) => {
   const region = getRegion(state);
 
   return `/#/${region}/${businessId}/salesSettings`;
+};
+
+export const getContactModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region, contactType: 'Customer' };
+};
+
+export const getLoadCustomerUrlParams = (state, customerId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, customerId };
+};
+
+export const getUpdatedCustomerOptions = (state, updatedOption) => {
+  const customerOptions = getCustomerOptions(state);
+
+  return customerOptions.some(option => option.value === updatedOption.value)
+    ? customerOptions.map(option => (option.value === updatedOption.value ? updatedOption : option))
+    : [updatedOption, ...customerOptions];
 };

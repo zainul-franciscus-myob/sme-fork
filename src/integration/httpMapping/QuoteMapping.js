@@ -2,6 +2,7 @@ import {
   DELETE_QUOTE_DETAIL,
   EXPORT_QUOTE_PDF,
   LOAD_CUSTOMER_ADDRESS,
+  LOAD_CUSTOMER_AFTER_CREATE,
   LOAD_QUOTE_DETAIL,
   LOAD_QUOTE_LIST,
   SEND_EMAIL,
@@ -29,6 +30,10 @@ const QuoteMapping = {
   [LOAD_CUSTOMER_ADDRESS]: {
     method: 'GET',
     getPath: ({ businessId, customerId }) => `/${businessId}/quote/load_contact_address/${customerId}`,
+  },
+  [LOAD_CUSTOMER_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, customerId }) => `/${businessId}/quote/load_contact/${customerId}`,
   },
   [EXPORT_QUOTE_PDF]: {
     method: 'GET',

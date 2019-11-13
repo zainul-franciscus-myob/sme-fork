@@ -1,11 +1,11 @@
 import {
   ADD_EMAIL_ATTACHMENTS,
   CHANGE_EXPORT_PDF_TEMPLATE,
-  LOAD_CUSTOMER_ADDRESS,
+  LOAD_CUSTOMER_ADDRESS, LOAD_CUSTOMER_AFTER_CREATE,
   REMOVE_EMAIL_ATTACHMENT,
   RESET_EMAIL_QUOTE_DETAIL,
   RESET_OPEN_SEND_EMAIL,
-  SET_ALERT,
+  SET_ALERT, SET_CUSTOMER_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
@@ -27,7 +27,7 @@ import {
   UPDATE_ITEM_QUOTE_OPTION,
 } from './ItemQuoteIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getLoadQuoteDetailModalType, getShouldOpenEmailModal } from './ItemQuoteSelectors';
+import { getLoadQuoteDetailModalType, getShouldOpenEmailModal, getUpdatedCustomerOptions } from './ItemQuoteSelectors';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
@@ -77,6 +77,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
   isPageEdited: false,
   isCalculating: false,
+  isCustomerLoading: false,
   modalType: undefined,
   isModalSubmitting: false,
   comments: [],
@@ -189,6 +190,19 @@ const loadCustomerAddress = (state, action) => ({
     address: action.address,
   },
 });
+
+const loadCustomerAfterCreate = (state, { customerId, address, option }) => ({
+  ...state,
+  quote: {
+    ...state.quote,
+    customerId,
+    address,
+  },
+  customers: getUpdatedCustomerOptions(state, option),
+});
+
+const setCustomerLoadingState = (state, { isCustomerLoading }) => ({ ...state, isCustomerLoading });
+
 
 const updateQuoteIdAfterCreate = (state, action) => ({
   ...state,
@@ -383,6 +397,8 @@ const handlers = {
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_CUSTOMER_ADDRESS]: loadCustomerAddress,
+  [LOAD_CUSTOMER_AFTER_CREATE]: loadCustomerAfterCreate,
+  [SET_CUSTOMER_LOADING_STATE]: setCustomerLoadingState,
   [FORMAT_LINE_AMOUNT_INPUTS]: formatLineAmountInputs,
   [RESET_STATE]: resetState,
   [UPDATE_ITEM_QUOTE_OPTION]: updateQuoteOption,
