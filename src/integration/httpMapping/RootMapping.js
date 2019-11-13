@@ -31,6 +31,7 @@ import LinkedAccountsMapping from './LinkedAccountsMapping';
 import NavigationMapping from './NavigationMapping';
 import PayItemMapping from './PayItemMapping';
 import PayRefundMapping from './PayRefundMapping';
+import PayRunDetailMapping from './PayRunDetailMapping';
 import PayRunListMapping from './PayRunListMapping';
 import PayRunMapping from './PayRunMapping';
 import PayrollSettingsMapping from './PayrollSettingsMapping';
@@ -104,6 +105,7 @@ const RootMapping = Object.freeze({
   ...LinkUserMapping,
   ...DashboardMapping,
   ...HelpMapping,
+  ...PayRunDetailMapping,
 });
 
 export default RootMapping;

@@ -1,0 +1,26 @@
+{
+  "totalNetPay": "$5,893.45",
+  "paymentPeriodStart": "Mon 28/02/2019",
+  "paymentPeriodEnd": "Mon 28/02/2019",
+  "paymentDate": "Mon 28/02/2019",
+  "printPaySlipEmployees": [
+    {
+      "id": 2,
+      "transactionId": 297,
+      "name": "Lionel Messi",
+      "netPay": 61.77,
+      "hasBankFile": true
+    }
+  ],
+  "emailPaySlipEmployees": [
+    {
+      "id": 2,
+      "transactionId": 297,
+      "name": "Lionel Messi",
+      "email": "lionel.messi@fcbarcelona.com",
+      "netPay": 61.77,
+      "hasPaySlipEmailSent": false,
+      "hasBankFile": true
+    }
+  ]
+}
