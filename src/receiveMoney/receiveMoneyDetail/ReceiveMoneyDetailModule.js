@@ -31,12 +31,15 @@ import {
   getBusinessId,
   getCalculatedTotalsPayload,
   getIsTableEmpty,
+  getModalUrl,
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyForUpdatePayload,
   getReceiveMoneyId,
-  getRegion,
+  getSaveUrl,
+  getTransactionListUrl,
   isPageEdited,
 } from './receiveMoneyDetailSelectors';
+import ModalType from './components/ModalType';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
 import Store from '../../store/Store';
 import keyMap from '../../hotKeys/keyMap';
@@ -147,7 +150,10 @@ export default class ReceiveMoneyDetailModule {
         content: response.message,
       });
       this.setSubmittingState(false);
-      this.redirectToTransactionList();
+
+      const state = this.store.getState();
+      const url = getSaveUrl(state);
+      this.redirectToUrl(url);
     };
 
     const onFailure = (error) => {
@@ -278,9 +284,14 @@ export default class ReceiveMoneyDetailModule {
   openCancelModal = () => {
     const intent = OPEN_MODAL;
     if (isPageEdited(this.store.getState())) {
+      const state = this.store.getState();
+      const transactionListUrl = getTransactionListUrl(state);
       this.store.dispatch({
         intent,
-        modalType: 'cancel',
+        modal: {
+          type: ModalType.CANCEL,
+          url: transactionListUrl,
+        },
       });
     } else {
       this.redirectToTransactionList();
@@ -288,13 +299,28 @@ export default class ReceiveMoneyDetailModule {
   };
 
   openDeleteModal = () => {
+    const state = this.store.getState();
+    const transactionListUrl = getTransactionListUrl(state);
     const intent = OPEN_MODAL;
 
     this.store.dispatch({
       intent,
-      modalType: 'delete',
+      modal: {
+        type: ModalType.DELETE,
+        url: transactionListUrl,
+      },
     });
   };
+
+  openUnsavedModal = (url) => {
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modal: {
+        type: ModalType.UNSAVED,
+        url,
+      },
+    });
+  }
 
   closeModal = () => {
     const intent = CLOSE_MODAL;
@@ -324,11 +350,19 @@ export default class ReceiveMoneyDetailModule {
 
   redirectToTransactionList = () => {
     const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    window.location.href = `/#/${region}/${businessId}/transactionList`;
+    const transactionListUrl = getTransactionListUrl(state);
+    this.redirectToUrl(transactionListUrl);
   };
+
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+    this.redirectToUrl(url);
+  }
+
+  redirectToUrl = (url) => {
+    window.location.href = url;
+  }
 
   render = () => {
     const receiveMoneyView = (
@@ -339,9 +373,9 @@ export default class ReceiveMoneyDetailModule {
           ? this.createReceiveMoneyEntry : this.updateReceiveMoneyEntry}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
-        onCloseModal={this.closeModal}
-        onDeleteModal={this.deleteReceiveMoney}
-        onCancelModal={this.redirectToTransactionList}
+        onDismissModal={this.closeModal}
+        onConfirmDeleteButtonClick={this.deleteReceiveMoney}
+        onConfirmCancelButtonClick={this.redirectToModalUrl}
         onDismissAlert={this.dismissAlert}
         onUpdateRow={this.updateReceiveMoneyLine}
         onAddRow={this.addReceiveMoneyLine}
@@ -400,5 +434,14 @@ export default class ReceiveMoneyDetailModule {
     this.store.dispatch({
       intent,
     });
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (isPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
   }
 }

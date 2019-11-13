@@ -29,7 +29,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
   isPageEdited: false,
   isLoading: true,
-  modalType: '',
+  modal: undefined,
   alertMessage: '',
   businessId: '',
   region: '',
@@ -97,12 +97,12 @@ const setAlertMessage = (state, action) => ({
 
 const openModal = (state, action) => ({
   ...state,
-  modalType: action.modalType,
+  modal: action.modal,
 });
 
 const closeModal = state => ({
   ...state,
-  modalType: '',
+  modal: undefined,
 });
 
 const resetState = () => (getDefaultState());

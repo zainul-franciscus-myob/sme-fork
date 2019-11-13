@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsLoading, getModalType, getPageTitle,
+  getAlertMessage, getIsLoading, getModal, getPageTitle,
 } from '../transferMoneyDetailSelectors';
-import CancelModal from '../../../components/modal/CancelModal';
-import DeleteModal from '../../../components/modal/DeleteModal';
 import PageView from '../../../components/PageView/PageView';
 import SmallScreenTemplate from '../../../components/SmallScreenTemplate/SmallScreenTemplate';
 import TransferMoneyDetailActions from './TranferMoneyDetailActions';
 import TransferMoneyDetailForm from './TransferMoneyDetailForm';
+import TransferMoneyDetailModal from './TransferMoneyDetailModal';
 
 const TransferMoneyDetailView = ({
   onUpdateForm,
@@ -21,12 +20,12 @@ const TransferMoneyDetailView = ({
   onDismissAlert,
   onSave,
   isCreating,
-  modalType,
-  onCancelModal,
-  onCloseModal,
+  modal,
+  onConfirmCancelButtonClick,
+  onDismissModal,
   onCancel,
   onDelete,
-  onDeleteModal,
+  onConfirmDeleteButtonClick,
   isLoading,
   pageTitle,
 }) => {
@@ -45,31 +44,20 @@ const TransferMoneyDetailView = ({
     </Alert>
   );
 
-  let modal;
-  if (modalType === 'cancel') {
-    modal = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onCancelModal}
-        title="Cancel transfer money"
-        description="Are you sure you want to cancel this transfer money?"
-      />
-    );
-  } else if (modalType === 'delete') {
-    modal = (
-      <DeleteModal
-        onCancel={onCloseModal}
-        onConfirm={onDeleteModal}
-        title="Delete transfer money"
-        description="Are you sure you want to delete this transfer money entry?"
-      />
-    );
-  }
-
   const view = (
     <SmallScreenTemplate>
       { alertComponent }
-      { modal }
+      {
+        modal && (
+          <TransferMoneyDetailModal
+            modal={modal}
+            onDismissModal={onDismissModal}
+            onConfirmSave={onSave}
+            onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
+            onConfirmCancelButtonClick={onConfirmCancelButtonClick}
+          />
+        )
+      }
       <PageHead title={pageTitle} />
       <Card>
         <TransferMoneyDetailForm
@@ -87,7 +75,7 @@ const TransferMoneyDetailView = ({
 
 const mapStateToProps = state => ({
   alertMessage: getAlertMessage(state),
-  modalType: getModalType(state),
+  modal: getModal(state),
   isLoading: getIsLoading(state),
   pageTitle: getPageTitle(state),
 });

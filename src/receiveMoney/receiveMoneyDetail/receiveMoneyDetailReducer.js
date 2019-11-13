@@ -50,7 +50,7 @@ const getDefaultState = () => ({
     totalTax: '$0.00',
     totalAmount: '$0.00',
   },
-  modalType: '',
+  modal: undefined,
   alertMessage: '',
   isLoading: true,
   pageTitle: '',
@@ -184,12 +184,12 @@ const setAlertMessage = (state, action) => ({
 
 const openModal = (state, action) => ({
   ...state,
-  modalType: action.modalType,
+  modal: action.modal,
 });
 
 const closeModal = state => ({
   ...state,
-  modalType: '',
+  modal: undefined,
 });
 
 const getCalculateTotals = (state, action) => ({

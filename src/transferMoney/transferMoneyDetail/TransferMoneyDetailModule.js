@@ -19,8 +19,11 @@ import {
 } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoneyMessageTypes';
 import {
-  getBusinessId, getCreateTransferMoneyPayload, getRegion, isPageEdited,
+  getBusinessId, getCreateTransferMoneyPayload, getModalUrl,
+  getSaveUrl,
+  getTransactionListUrl, isPageEdited,
 } from './transferMoneyDetailSelectors';
+import ModalType from './components/ModalType';
 import Store from '../../store/Store';
 import TransferMoneyDetailView from './components/TransferMoneyDetailView';
 import keyMap from '../../hotKeys/keyMap';
@@ -90,11 +93,19 @@ export default class TransferMoneyDetailModule {
 
   redirectToTransactionList = () => {
     const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    window.location.href = `/#/${region}/${businessId}/transactionList`;
+    const transactionListUrl = getTransactionListUrl(state);
+    this.redirectToUrl(transactionListUrl);
   };
+
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+    this.redirectToUrl(url);
+  }
+
+  redirectToUrl = (url) => {
+    window.location.href = url;
+  }
 
   displayAlert = errorMessage => this.store.dispatch({
     intent: SET_ALERT_MESSAGE,
@@ -116,7 +127,9 @@ export default class TransferMoneyDetailModule {
         type: SUCCESSFULLY_SAVED_TRANSFER_MONEY,
         content: response.message,
       });
-      this.redirectToTransactionList();
+
+      const url = getSaveUrl(state);
+      this.redirectToUrl(url);
     };
 
     const onFailure = (error) => {
@@ -162,17 +175,47 @@ export default class TransferMoneyDetailModule {
     });
   }
 
-  openDeleteModal = () => this.store.dispatch({
-    intent: OPEN_MODAL,
-    modalType: 'delete',
-  })
+  openDeleteModal = () => {
+    const state = this.store.getState();
+    const transactionListUrl = getTransactionListUrl(state);
 
-  openCancelModal = () => (isPageEdited(this.store.getState())
-    ? this.store.dispatch({
+    this.store.dispatch({
       intent: OPEN_MODAL,
-      modalType: 'cancel',
-    })
-    : this.redirectToTransactionList())
+      modal: {
+        type: ModalType.DELETE,
+        url: transactionListUrl,
+      },
+    });
+  }
+
+  openCancelModal = () => {
+    const intent = OPEN_MODAL;
+
+    if (isPageEdited(this.store.getState())) {
+      const state = this.store.getState();
+      const transactionListUrl = getTransactionListUrl(state);
+
+      this.store.dispatch({
+        intent,
+        modal: {
+          type: ModalType.CANCEL,
+          url: transactionListUrl,
+        },
+      });
+    } else {
+      this.redirectToTransactionList();
+    }
+  }
+
+  openUnsavedModal = (url) => {
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modal: {
+        type: ModalType.UNSAVED,
+        url,
+      },
+    });
+  }
 
   closeModal = () => this.store.dispatch({ intent: CLOSE_MODAL })
 
@@ -192,9 +235,9 @@ export default class TransferMoneyDetailModule {
         isCreating={this.isCreating}
         onCancel={this.openCancelModal}
         onDelete={this.openDeleteModal}
-        onCancelModal={this.redirectToTransactionList}
-        onDeleteModal={this.deleteTransferMoney}
-        onCloseModal={this.closeModal}
+        onConfirmCancelButtonClick={this.redirectToModalUrl}
+        onConfirmDeleteButtonClick={this.deleteTransferMoney}
+        onDismissModal={this.closeModal}
       />);
 
     const wrappedView = (
@@ -223,5 +266,14 @@ export default class TransferMoneyDetailModule {
     this.render();
     this.setLoadingState(true);
     this.loadTransferMoney();
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (isPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
   }
 }

@@ -38,7 +38,6 @@ export const getHeaderOptions = createSelector(getHeadersProperties, (headerProp
 });
 
 export const getAlertMessage = state => state.alertMessage;
-export const getModalType = state => state.modalType;
 export const getIsLoading = state => state.isLoading;
 
 export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
@@ -148,3 +147,18 @@ export const getRegion = state => state.region;
 export const getPageTitle = state => state.pageTitle;
 export const getTaxCodeLabel = state => getRegionToDialectText(state.region)('Tax code');
 export const getTaxLabel = state => getRegionToDialectText(state.region)('Tax');
+
+export const getModal = state => state.modal;
+export const getModalUrl = state => ((state.modal || {}).url);
+
+export const getTransactionListUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `/#/${region}/${businessId}/transactionList`,
+);
+
+export const getSaveUrl = (state) => {
+  const modalUrl = getModalUrl(state);
+  const transactionListUrl = getTransactionListUrl(state);
+  return modalUrl || transactionListUrl;
+};

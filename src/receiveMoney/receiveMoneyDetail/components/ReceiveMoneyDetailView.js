@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsLoading, getModalType, getPageTitle,
+  getAlertMessage, getIsLoading, getModal, getPageTitle,
 } from '../receiveMoneyDetailSelectors';
-import CancelModal from '../../../components/modal/CancelModal';
-import DeleteModal from '../../../components/modal/DeleteModal';
 import PageView from '../../../components/PageView/PageView';
 import ReceiveMoneyDetailActions from './ReceiveMoneyDetailActions';
+import ReceiveMoneyDetailModal from './ReceiveMoneyDetailModal';
 import ReceiveMoneyDetailOptions from './ReceiveMoneyDetailOptions';
 import ReceiveMoneyDetailTable from './ReceiveMoneyDetailTable';
 
@@ -19,15 +18,15 @@ const ReceiveMoneyDetailView = ({
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
-  onCancelModal,
-  onCloseModal,
-  onDeleteModal,
+  onDismissModal,
+  onConfirmCancelButtonClick,
+  onConfirmDeleteButtonClick,
   alertMessage,
   onDismissAlert,
   isCreating,
   isLoading,
   pageTitle,
-  modalType,
+  modal,
   onUpdateRow,
   onAddRow,
   onRemoveRow,
@@ -52,27 +51,6 @@ const ReceiveMoneyDetailView = ({
     </Alert>
   );
 
-  let modal;
-  if (modalType === 'cancel') {
-    modal = (
-      <CancelModal
-        onCancel={onCloseModal}
-        onConfirm={onCancelModal}
-        title="Cancel receive money alterations"
-        description="Are you sure you want to cancel the alterations in this receive money?"
-      />
-    );
-  } else if (modalType === 'delete') {
-    modal = (
-      <DeleteModal
-        onCancel={onCloseModal}
-        onConfirm={onDeleteModal}
-        title="Delete transaction"
-        description="Are you sure you want to delete this receive money transaction?"
-      />
-    );
-  }
-
   const view = (
     <React.Fragment>
       <LineItemTemplate
@@ -81,7 +59,17 @@ const ReceiveMoneyDetailView = ({
         actions={actions}
         alert={alertComponent}
       >
-        { modal }
+        {
+          modal && (
+            <ReceiveMoneyDetailModal
+              modal={modal}
+              onDismissModal={onDismissModal}
+              onConfirmSave={onSaveButtonClick}
+              onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
+              onConfirmCancelButtonClick={onConfirmCancelButtonClick}
+            />
+          )
+        }
         <ReceiveMoneyDetailTable
           onUpdateRow={onUpdateRow}
           onAddRow={onAddRow}
@@ -97,7 +85,7 @@ const ReceiveMoneyDetailView = ({
 
 const mapStateToProps = state => ({
   alertMessage: getAlertMessage(state),
-  modalType: getModalType(state),
+  modal: getModal(state),
   isLoading: getIsLoading(state),
   pageTitle: getPageTitle(state),
 });
