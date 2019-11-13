@@ -235,6 +235,33 @@ describe('billReducer', () => {
 
       expect(actual.isPageEdited).toEqual(true);
     });
+
+    [
+      'DayOfMonthAfterEOM',
+      'OnADayOfTheMonth',
+    ].forEach((expirationTerm) => {
+      it(`sets expirationDays to 1, when is currently 0 and expirationTerms is changed to ${expirationTerm}`, () => {
+        const state = {
+          bill: {
+            expirationDays: '0',
+            expirationTerm: 'InAGivenNumberOfDays',
+          },
+        };
+
+        const action = {
+          intent: UPDATE_BILL_OPTION,
+          key: 'expirationTerm',
+          value: expirationTerm,
+        };
+
+        const actual = billReducer(state, action);
+
+        expect(actual.bill).toEqual({
+          expirationDays: '1',
+          expirationTerm,
+        });
+      });
+    });
   });
 
   describe('ADD_BILL_SERVICE_LINE', () => {

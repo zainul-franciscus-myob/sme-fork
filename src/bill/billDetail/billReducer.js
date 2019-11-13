@@ -137,14 +137,22 @@ const setInitialState = (state, action) => ({ ...state, ...action.context });
 
 const resetState = () => getDefaultState();
 
-const updateBillOption = (state, action) => ({
-  ...state,
-  bill: {
-    ...state.bill,
-    [action.key]: action.value,
-  },
-  isPageEdited: true,
-});
+const updateBillOption = (state, action) => {
+  const isUpdatingExpirationTermToDayOfMonth = action.key === 'expirationTerm' && ['DayOfMonthAfterEOM', 'OnADayOfTheMonth'].includes(action.value);
+  const isExpirationDays0 = state.bill.expirationDays === '0';
+  const shouldSetExpirationDaysTo1 = isUpdatingExpirationTermToDayOfMonth
+  && isExpirationDays0;
+
+  return ({
+    ...state,
+    bill: {
+      ...state.bill,
+      expirationDays: shouldSetExpirationDaysTo1 ? '1' : state.bill.expirationDays,
+      [action.key]: action.value,
+    },
+    isPageEdited: true,
+  });
+};
 
 const closeModal = state => ({
   ...state,
