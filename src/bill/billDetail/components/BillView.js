@@ -27,6 +27,7 @@ const BillView = ({
   isModalShown,
   isLoading,
   layout,
+  contactModal,
   onSaveButtonClick,
   onSaveAndButtonClick,
   onCancelButtonClick,
@@ -49,6 +50,7 @@ const BillView = ({
   onItemRowChange,
   onRemoveItemRow,
   exportPdfModalListeners,
+  onAddSupplierButtonClick,
 }) => {
   const table = {
     item: (
@@ -97,10 +99,13 @@ const BillView = ({
         />
       )}
 
+      {contactModal}
+
       {hasInTrayDocument && <BillInTrayDocumentView />}
       <Card>
         <BillOptions
           onUpdateBillOption={onUpdateBillOption}
+          onAddSupplierButtonClick={onAddSupplierButtonClick}
         />
         <Separator />
         {table}

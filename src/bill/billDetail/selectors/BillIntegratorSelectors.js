@@ -146,3 +146,9 @@ export const getSaveBillContent = createSelector(
     };
   },
 );
+
+export const getLoadSupplierUrlParams = (state, supplierId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, supplierId };
+};

@@ -5,6 +5,7 @@ import {
   getNewLineIndex,
   getPageTitle,
   getTableData,
+  getUpdatedSupplierOptions,
 } from '../billSelectors';
 import ModalType from '../../types/ModalType';
 
@@ -212,5 +213,27 @@ describe('BillSelectors', () => {
 
       expect(actual).toEqual(expected);
     }));
+  });
+
+  describe('getUpdatedSupplierOptions', () => {
+    it('should contain newly added contact option', () => {
+      const option1 = { id: '1', displayName: 'Option 1' };
+      const option2 = { id: '2', displayName: 'Option 2' };
+      const expected = [option2, option1];
+
+      const actual = getUpdatedSupplierOptions({ supplierOptions: [option1] }, option2);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should contain updated contact option', () => {
+      const option1 = { id: '1', displayName: 'Option 1' };
+      const option2 = { id: '1', displayName: 'Updated option 1' };
+      const expected = [option2];
+
+      const actual = getUpdatedSupplierOptions({ supplierOptions: [option1] }, option2);
+
+      expect(actual).toEqual(expected);
+    });
   });
 });

@@ -175,3 +175,27 @@ export const getLoadBillModalType = (state) => {
 export const getRouteUrlParams = state => ({
   openExportPdf: getOpenExportPdfQueryParam(state),
 });
+
+export const getIsSupplierBlocking = state => state.isSupplierBlocking;
+
+
+export const getIsSupplierDisabled = createSelector(
+  getIsCreating,
+  getIsSupplierBlocking,
+  (isCreating, isSupplierBlocking) => !isCreating || isSupplierBlocking,
+);
+
+export const getUpdatedSupplierOptions = (state, updatedOption) => {
+  const supplierOptions = getSupplierOptions(state);
+
+  return supplierOptions.some(option => option.id === updatedOption.id)
+    ? supplierOptions.map(option => (option.id === updatedOption.id ? updatedOption : option))
+    : [updatedOption, ...supplierOptions];
+};
+
+export const getCreateSupplierContactModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region, contactType: 'Supplier' };
+};

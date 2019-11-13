@@ -7,8 +7,8 @@ import React from 'react';
 import {
   getBillNumber,
   getIsBlocking,
-  getIsCreating,
   getIsReportable,
+  getIsSupplierDisabled,
   getIsTaxInclusive,
   getIssueDate,
   getRegion,
@@ -38,11 +38,12 @@ const BillOptions = ({
   isBlocking,
   supplierOptions,
   supplierId,
-  isCreating,
   supplierAddress,
   isReportable,
   region,
+  isSupplierDisabled,
   onUpdateBillOption,
+  onAddSupplierButtonClick,
 }) => {
   const primary = (
     <React.Fragment>
@@ -54,7 +55,11 @@ const BillOptions = ({
         name="supplierId"
         requiredLabel="This is required"
         hideLabel={false}
-        disabled={!isCreating}
+        disabled={isSupplierDisabled}
+        addNewItem={{
+          label: 'Create supplier',
+          onAddNew: onAddSupplierButtonClick,
+        }}
       />
       <ReadOnly className={styles.address}>{supplierAddress}</ReadOnly>
       <BillReportableCheckbox
@@ -120,11 +125,11 @@ const mapStateToProps = state => ({
   issueDate: getIssueDate(state),
   isReportable: getIsReportable(state),
   isTaxInclusive: getIsTaxInclusive(state),
-  isCreating: getIsCreating(state),
   isBlocking: getIsBlocking(state),
   taxInclusiveLabel: getTaxInclusiveLabel(state),
   taxExclusiveLabel: getTaxExclusiveLabel(state),
   region: getRegion(state),
+  isSupplierDisabled: getIsSupplierDisabled(state),
 });
 
 export default connect(mapStateToProps)(BillOptions);

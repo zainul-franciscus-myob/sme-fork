@@ -8,6 +8,7 @@ import {
   ITEM_CALCULATE_UPDATE_LINE_ITEM,
   ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
   LOAD_SUPPLIER_ADDRESS,
+  LOAD_SUPPLIER_AFTER_CREATE,
   PREFILL_NEW_BILL_FROM_IN_TRAY,
   SERVICE_CALCULATE,
 } from './BillIntents';
@@ -20,6 +21,7 @@ import {
   getLoadBillIntent,
   getLoadBillUrlParams,
   getLoadSupplierAddressUrlParams,
+  getLoadSupplierUrlParams,
   getPrefillNewBillFromInTrayUrlParams,
   getSaveBillContent,
   getSaveBillIntent,
@@ -93,6 +95,17 @@ const createBillIntegrator = (store, integration) => ({
       urlParams,
       onSuccess,
       onFailure,
+    });
+  },
+
+  loadSupplierAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_SUPPLIER_AFTER_CREATE;
+    const urlParams = getLoadSupplierUrlParams(state, id);
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
     });
   },
 

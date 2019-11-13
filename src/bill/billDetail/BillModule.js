@@ -8,6 +8,17 @@ import {
   getFinalRedirectUrl,
   getReadBillWithExportPdfModalUrl,
 } from './selectors/BillRedirectSelectors';
+import {
+  getCreateSupplierContactModalContext,
+  getIsCreating,
+  getIsCreatingFromInTray,
+  getIsLinesEmpty,
+  getIsPageEdited,
+  getIsPendingCalculation,
+  getLayout,
+  getNewLineIndex,
+  getRouteUrlParams,
+} from './selectors/billSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import {
   getIsAmountPaidKey,
@@ -18,17 +29,8 @@ import {
   getIsSupplierIdKey,
   getIsTaxInclusiveKey,
 } from './selectors/BillModuleSelectors';
-import {
-  getIsCreating,
-  getIsCreatingFromInTray,
-  getIsLinesEmpty,
-  getIsPageEdited,
-  getIsPendingCalculation,
-  getLayout,
-  getNewLineIndex,
-  getRouteUrlParams,
-} from './selectors/billSelectors';
 import BillView from './components/BillView';
+import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import LayoutType from './types/LayoutType';
 import ModalType from './types/ModalType';
 import SaveActionType from './types/SaveActionType';
@@ -51,6 +53,8 @@ class BillModule {
     this.store = new Store(billReducer);
     this.dispatcher = createBillDispatcher(this.store);
     this.integrator = createBillIntegrator(this.store, integration);
+
+    this.contactModalModule = new ContactModalModule({ integration });
   }
 
   finalRedirect = () => {
@@ -577,6 +581,34 @@ class BillModule {
     }
   }
 
+  openSupplierModal = () => {
+    const state = this.store.getState();
+    const context = getCreateSupplierContactModalContext(state);
+
+    this.contactModalModule.run({
+      context,
+      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+      onSaveSuccess: this.loadSupplierAfterCreate,
+    });
+  };
+
+  loadSupplierAfterCreate = ({ message, id }) => {
+    this.contactModalModule.resetState();
+    this.dispatcher.openSuccessAlert({ message });
+    this.dispatcher.startSupplierBlocking();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.stopSupplierBlocking();
+      this.dispatcher.loadSupplierAfterCreate(id, payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.stopSupplierBlocking();
+    };
+
+    this.integrator.loadSupplierAfterCreate({ id, onSuccess, onFailure });
+  };
+
   updateUrlFromState = (state) => {
     const params = getRouteUrlParams(state);
     this.replaceURLParams(params);
@@ -595,6 +627,8 @@ class BillModule {
   };
 
   render = () => {
+    const contactModal = this.contactModalModule.render();
+
     const view = (
       <Provider store={this.store}>
         <BillView
@@ -624,6 +658,8 @@ class BillModule {
             onConfirm: this.exportPdf,
             onChange: this.dispatcher.updateExportPdfDetail,
           }}
+          contactModal={contactModal}
+          onAddSupplierButtonClick={this.openSupplierModal}
         />
       </Provider>
     );

@@ -12,6 +12,7 @@ import {
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
   LOAD_SUPPLIER_ADDRESS,
+  LOAD_SUPPLIER_AFTER_CREATE,
   PREFILL_NEW_BILL_FROM_IN_TRAY,
   SERVICE_CALCULATE,
   UPDATE_BILL,
@@ -20,6 +21,7 @@ import itemCalculate from '../data/bill/itemCalculate';
 import loadItemBill from '../data/bill/loadItemBill';
 import loadNewItemBill from '../data/bill/loadNewItemBill';
 import loadSupplierAddress from '../data/bill/loadSupplierAddress';
+import loadSupplierResponse from '../data/bill/loadSupplierResponse';
 import prefillNewBillFromInTray from '../data/bill/prefillNewBillFromInTray';
 import serviceCalculate from '../data/bill/serviceCalculate';
 import successResponse from '../data/success';
@@ -34,6 +36,7 @@ const BillDetailMapping = {
   [UPDATE_BILL]: ({ onSuccess }) => onSuccess(successResponse),
   [SERVICE_CALCULATE]: ({ onSuccess }) => onSuccess(serviceCalculate),
   [LOAD_SUPPLIER_ADDRESS]: ({ onSuccess }) => onSuccess(loadSupplierAddress),
+  [LOAD_SUPPLIER_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadSupplierResponse),
   [ITEM_CALCULATE_REMOVE_LINE]: ({ onSuccess }) => onSuccess(itemCalculate),
   [ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE]: ({ onSuccess }) => onSuccess(itemCalculate),
   [ITEM_CALCULATE_UPDATE_LINE_AMOUNT]: ({ onSuccess }) => onSuccess(itemCalculate),

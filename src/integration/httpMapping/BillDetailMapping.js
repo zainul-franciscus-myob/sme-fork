@@ -12,6 +12,7 @@ import {
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
   LOAD_SUPPLIER_ADDRESS,
+  LOAD_SUPPLIER_AFTER_CREATE,
   PREFILL_NEW_BILL_FROM_IN_TRAY,
   SERVICE_CALCULATE,
   UPDATE_BILL,
@@ -33,6 +34,10 @@ const BillDetailMapping = {
   [LOAD_SUPPLIER_ADDRESS]: {
     method: 'GET',
     getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier_address/${supplierId}`,
+  },
+  [LOAD_SUPPLIER_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier/${supplierId}`,
   },
   [ITEM_CALCULATE_UPDATE_LINE_ITEM]: {
     method: 'POST',

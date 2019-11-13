@@ -6,7 +6,9 @@ import {
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   ITEM_CALCULATE,
-  LOAD_BILL, LOAD_SUPPLIER_ADDRESS,
+  LOAD_BILL,
+  LOAD_SUPPLIER_ADDRESS,
+  LOAD_SUPPLIER_AFTER_CREATE,
   OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_NEW_BILL_FROM_IN_TRAY,
@@ -17,10 +19,12 @@ import {
   START_LOADING,
   START_MODAL_BLOCKING,
   START_PENDING_CALCULATION,
+  START_SUPPLIER_BLOCKING,
   STOP_BLOCKING,
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
   STOP_PENDING_CALCULATION,
+  STOP_SUPPLIER_BLOCKING,
   UPDATE_BILL_ID,
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
@@ -193,6 +197,14 @@ const createBillDispatcher = store => ({
       response,
     });
   },
+
+  loadSupplierAfterCreate: (supplierId, payload) => store.dispatch({
+    intent: LOAD_SUPPLIER_AFTER_CREATE, supplierId, ...payload,
+  }),
+
+  startSupplierBlocking: () => store.dispatch({ intent: START_SUPPLIER_BLOCKING }),
+
+  stopSupplierBlocking: () => store.dispatch({ intent: STOP_SUPPLIER_BLOCKING }),
 
   itemCalculate: (response) => {
     store.dispatch({

@@ -8,6 +8,7 @@ import {
   ITEM_CALCULATE,
   LOAD_BILL,
   LOAD_SUPPLIER_ADDRESS,
+  LOAD_SUPPLIER_AFTER_CREATE,
   OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_NEW_BILL_FROM_IN_TRAY,
@@ -18,10 +19,12 @@ import {
   START_LOADING,
   START_MODAL_BLOCKING,
   START_PENDING_CALCULATION,
+  START_SUPPLIER_BLOCKING,
   STOP_BLOCKING,
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
   STOP_PENDING_CALCULATION,
+  STOP_SUPPLIER_BLOCKING,
   UPDATE_BILL_ID,
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
@@ -29,7 +32,7 @@ import {
   UPDATE_EXPORT_PDF_DETAIL,
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getLoadBillModalType } from './selectors/billSelectors';
+import { getLoadBillModalType, getUpdatedSupplierOptions } from './selectors/billSelectors';
 import createReducer from '../../store/createReducer';
 import formatAmount from '../../valueFormatters/formatAmount';
 import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
@@ -96,6 +99,7 @@ const getDefaultState = () => ({
   isLoading: false,
   isPageEdited: false,
   isPendingCalculation: false,
+  isSupplierBlocking: false,
   modalType: undefined,
   isModalBlocking: false,
   alert: undefined,
@@ -330,6 +334,20 @@ const loadSupplierAddress = (state, action) => ({
   },
 });
 
+const loadSupplierAfterCreate = (state, { supplierId, supplierAddress, option }) => ({
+  ...state,
+  bill: {
+    ...state.bill,
+    supplierId,
+    supplierAddress,
+  },
+  supplierOptions: getUpdatedSupplierOptions(state, option),
+});
+
+const startSupplierBlocking = state => ({ ...state, isSupplierBlocking: true });
+
+const stopSupplierBlocking = state => ({ ...state, isSupplierBlocking: false });
+
 const startBlocking = state => ({
   ...state,
   isBlocking: true,
@@ -441,6 +459,9 @@ const handlers = {
   [FORMAT_BILL_SERVICE_LINES]: formatBillServiceLines,
   [SERVICE_CALCULATE]: serviceCalculate,
   [LOAD_SUPPLIER_ADDRESS]: loadSupplierAddress,
+  [LOAD_SUPPLIER_AFTER_CREATE]: loadSupplierAfterCreate,
+  [START_SUPPLIER_BLOCKING]: startSupplierBlocking,
+  [STOP_SUPPLIER_BLOCKING]: stopSupplierBlocking,
   [ITEM_CALCULATE]: itemCalculate,
   [STOP_PENDING_CALCULATION]: stopPendingCalculation,
   [START_PENDING_CALCULATION]: startPendingCalculation,
