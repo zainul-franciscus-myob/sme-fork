@@ -20,7 +20,7 @@ import NoSTPPageStateImage from './images/no-stp-page-state-image.svg';
 import TableView from '../../../components/TableView/TableView';
 
 const tableConfig = {
-  date: { width: '22rem', valign: 'top', columnName: 'Date' },
+  date: { width: '22rem', valign: 'top', columnName: 'Date of payment' },
   payPeriod: { width: 'flex-1', valign: 'top', columnName: 'Pay period' },
   employees: {
     width: 'flex-1',

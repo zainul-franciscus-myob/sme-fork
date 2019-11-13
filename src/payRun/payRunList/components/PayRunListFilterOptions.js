@@ -24,8 +24,8 @@ const PayRunListFilterOptions = (props) => {
   return (
     <FilterBar onApply={onApplyFilter}>
       <FilterBar.Group>
-        <DatePicker label="From" name="dateFrom" value={dateFrom} onSelect={onDatePickerChange('dateFrom')} />
-        <DatePicker label="To" name="dateTo" value={dateTo} onSelect={onDatePickerChange('dateTo')} />
+        <DatePicker label="Payment from" name="dateFrom" value={dateFrom} onSelect={onDatePickerChange('dateFrom')} />
+        <DatePicker label="Payment to" name="dateTo" value={dateTo} onSelect={onDatePickerChange('dateTo')} />
       </FilterBar.Group>
     </FilterBar>
   );
