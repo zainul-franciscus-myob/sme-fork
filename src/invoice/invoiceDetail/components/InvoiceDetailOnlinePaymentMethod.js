@@ -20,7 +20,7 @@ const InvoiceDetailOnlinePaymentMethod = ({
   hasSetUpOnlinePayments,
   onUpdateAllowOnlinePayments,
 }) => {
-  const label = 'Set up';
+  const label = 'Allow online payments';
 
   if (isLoading) {
     return (
@@ -72,9 +72,11 @@ const InvoiceDetailOnlinePaymentMethod = ({
       label={label}
       renderField={() => (
         <>
-          <Button type="link" icon={<Icons.OpenExternalLink />} iconLeft onClick={openNewTab(setUpOnlinePaymentsLink)}>
-            Set up online payments
-          </Button>
+          <div>
+            <Button type="link" icon={<Icons.OpenExternalLink />} iconLeft onClick={openNewTab(setUpOnlinePaymentsLink)}>
+              Set up
+            </Button>
+          </div>
           <img src={OnlinePaymentMethodsImage} alt="Online payment methods" className={styles.onlinePaymentMethodsImage} />
         </>
       )}
