@@ -1,5 +1,5 @@
 import {
-  Combobox, DatePicker, DetailHeader, Input, RadioButtonGroup, TextArea,
+  Combobox, DatePicker, DetailHeader, Input, RadioButtonGroup, ReadOnly, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -12,21 +12,6 @@ import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleTextAreaChange from '../../../components/handlers/handleTextAreaChange';
 import styles from './InvoiceDetailOptions.module.css';
-
-const onComboBoxChange = handler => (option) => {
-  const key = 'contactId';
-  const { value } = option;
-
-  handler({ key, value });
-};
-
-const onIsTaxInclusiveChange = handler => (e) => {
-  handler({ key: 'isTaxInclusive', value: e.value === 'Tax inclusive' });
-};
-
-const onNoteChange = handler => ({ value }) => {
-  handler({ key: 'note', value });
-};
 
 const InvoiceDetailOptions = ({
   contactId,
@@ -42,8 +27,33 @@ const InvoiceDetailOptions = ({
   isTaxInclusiveDisabled,
   onUpdateHeaderOptions,
   showOnlinePayment,
+  taxInclusiveLabel,
+  taxExclusiveLabel,
   onAddContactButtonClick,
 }) => {
+  const onComboBoxChange = handler => (option) => {
+    const key = 'contactId';
+    const { value } = option;
+
+    handler({ key, value });
+  };
+
+  const onIsTaxInclusiveChange = handler => (e) => {
+    handler({ key: 'isTaxInclusive', value: e.value === taxInclusiveLabel });
+  };
+
+  const onNoteChange = handler => ({ value }) => {
+    handler({ key: 'note', value });
+  };
+
+  const requiredLabel = 'This is required';
+
+  const billingAddress = address && (
+    <ReadOnly label="Billing address" className={styles.address}>
+      {address}
+    </ReadOnly>
+  );
+
   const primary = (
     <div>
       <CustomerCombobox
@@ -58,11 +68,12 @@ const InvoiceDetailOptions = ({
         name="contactId"
         hideLabel={false}
         disabled={isCustomerDisabled}
+        requiredLabel={requiredLabel}
       />
-      <span className={styles.address}>{address}</span>
+      {billingAddress}
       <Combobox
         name="note"
-        label="Message to customer"
+        label="Notes to customer"
         hideLabel={false}
         metaData={[
           { columnName: 'value', showData: true },
@@ -74,8 +85,9 @@ const InvoiceDetailOptions = ({
         value={note}
         resize="vertical"
         name="note"
-        label="Message to customer"
+        label="Notes to customer"
         hideLabel
+        rows={3}
         onChange={handleTextAreaChange(onUpdateHeaderOptions)}
         maxLength={255}
       />
@@ -89,6 +101,7 @@ const InvoiceDetailOptions = ({
         label="Invoice number"
         value={invoiceNumber}
         onChange={handleInputChange(onUpdateHeaderOptions)}
+        requiredLabel={requiredLabel}
       />
       <Input
         name="purchaseOrderNumber"
@@ -99,26 +112,24 @@ const InvoiceDetailOptions = ({
       />
       <DatePicker
         label="Issue date"
+        requiredLabel={requiredLabel}
         name="issueDate"
         value={issueDate}
         onSelect={handleDateChange('issueDate', onUpdateHeaderOptions)}
       />
-
       <InvoiceDetailOptionsPaymentTerms
         onUpdateInvoiceOption={onUpdateHeaderOptions}
       />
-
       {showOnlinePayment && (
         <InvoiceDetailOnlinePaymentMethod
           onUpdateAllowOnlinePayments={onUpdateHeaderOptions}
         />
       )}
-
       <RadioButtonGroup
         label="Amounts are"
         name="isTaxInclusive"
-        value={isTaxInclusive ? 'Tax inclusive' : 'Tax exclusive'}
-        options={['Tax inclusive', 'Tax exclusive']}
+        value={isTaxInclusive ? taxInclusiveLabel : taxExclusiveLabel}
+        options={[taxInclusiveLabel, taxExclusiveLabel]}
         onChange={onIsTaxInclusiveChange(onUpdateHeaderOptions)}
         disabled={isTaxInclusiveDisabled}
       />
@@ -126,7 +137,9 @@ const InvoiceDetailOptions = ({
   );
 
   return (
-    <DetailHeader primary={primary} secondary={secondary} />
+    <div className={styles.options}>
+      <DetailHeader primary={primary} secondary={secondary} />
+    </div>
   );
 };
 

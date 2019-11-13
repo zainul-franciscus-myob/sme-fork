@@ -1,4 +1,4 @@
-import { Input, LineItemTable } from '@myob/myob-widgets';
+import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -39,13 +39,11 @@ const InvoiceServiceTableRow = ({
       id={index}
       {...feelixInjectedProps}
     >
-      <Input
-        label="Description"
-        hideLabel
+      <TextArea
         name="description"
+        autoSize
         value={description}
         onChange={onChange}
-        maxLength={255}
       />
       <AccountCombobox
         label="Account"

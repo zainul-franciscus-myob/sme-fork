@@ -1,4 +1,4 @@
-import { Input, LineItemTable } from '@myob/myob-widgets';
+import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -42,23 +42,8 @@ const InvoiceItemTableRow = ({
   shouldLineSelectItem,
   ...feelixInjectedProps
 }) => (
-  <LineItemTable.Row
-    {...feelixInjectedProps}
-    id={index}
-    index={index}
-  >
-    <AmountInput
-      name="units"
-      label="Units"
-      value={invoiceLine.units}
-      onChange={onAmountInputChange('units', onChange)}
-      onBlur={onInputBlur(onLineInputBlur, index, 'units')}
-      disabled={isLineDisabled || shouldLineSelectItem}
-      decimalScale={6}
-    />
-
+  <LineItemTable.Row {...feelixInjectedProps} id={index} index={index}>
     <ItemCombobox
-      label="Item"
       name="itemId"
       items={itemOptions}
       selectedId={invoiceLine.itemId}
@@ -66,17 +51,24 @@ const InvoiceItemTableRow = ({
       disabled={isLineDisabled}
     />
 
-    <Input
+    <TextArea
       name="description"
-      label="Description"
+      autoSize
       value={invoiceLine.description}
       onChange={onChange}
       disabled={isLineDisabled || shouldLineSelectItem}
     />
 
     <AmountInput
-      label="Unit Price"
-      hideLabel
+      name="units"
+      value={invoiceLine.units}
+      onChange={onAmountInputChange('units', onChange)}
+      onBlur={onInputBlur(onLineInputBlur, index, 'units')}
+      disabled={isLineDisabled || shouldLineSelectItem}
+      decimalScale={6}
+    />
+
+    <AmountInput
       name="unitPrice"
       value={invoiceLine.unitPrice}
       onChange={onAmountInputChange('unitPrice', onChange)}
@@ -87,8 +79,6 @@ const InvoiceItemTableRow = ({
     />
 
     <AmountInput
-      label="Discount"
-      hideLabel
       name="discount"
       value={invoiceLine.displayDiscount}
       onChange={onAmountInputChange('discount', onChange)}
@@ -98,8 +88,6 @@ const InvoiceItemTableRow = ({
     />
 
     <AmountInput
-      label="Amount"
-      hideLabel
       name="amount"
       value={invoiceLine.displayAmount}
       onChange={onAmountInputChange('amount', onChange)}
@@ -109,14 +97,12 @@ const InvoiceItemTableRow = ({
     />
 
     <TaxCodeCombobox
-      label="Tax code"
-      hideLabel
       items={taxCodeOptions}
       selectedId={invoiceLine.taxCodeId}
       onChange={onComboboxChange('taxCodeId', onChange)}
       disabled={isLineDisabled || shouldLineSelectItem}
+      left
     />
-
   </LineItemTable.Row>
 );
 

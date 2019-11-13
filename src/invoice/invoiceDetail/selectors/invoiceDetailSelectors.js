@@ -3,6 +3,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import InvoiceLayout from '../InvoiceLayout';
 import formatCurrency from '../../../valueFormatters/formatCurrency';
+import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
@@ -72,6 +73,17 @@ export const getIsCustomerDisabled = createSelector(
 
 export const getShowOnlinePayment = createSelector(getRegion, region => region === 'au');
 
+const createRegionDialectSelector = text => createSelector(
+  getRegion,
+  region => getRegionToDialectText(region)(text),
+);
+
+export const getTaxCodeLabel = createRegionDialectSelector('Tax code');
+
+export const getTaxInclusiveLabel = createRegionDialectSelector('Tax inclusive');
+
+export const getTaxExclusiveLabel = createRegionDialectSelector('Tax exclusive');
+
 export const getInvoiceDetailOptions = createStructuredSelector({
   contactId: getContactId,
   invoiceNumber: getInvoiceNumber,
@@ -85,23 +97,29 @@ export const getInvoiceDetailOptions = createStructuredSelector({
   isCustomerDisabled: getIsCustomerDisabled,
   isTaxInclusiveDisabled: getAreLinesCalculating,
   showOnlinePayment: getShowOnlinePayment,
+  taxInclusiveLabel: getTaxInclusiveLabel,
+  taxExclusiveLabel: getTaxExclusiveLabel,
 });
 
 export const calculateAmountDue = (totalAmount, amountPaid) => (
   (Number(totalAmount) - Number(amountPaid)).toFixed(2)
 );
 
+export const getTaxLabel = createRegionDialectSelector('Tax');
+
 export const getInvoiceDetailTotals = createSelector(
   getTotals,
   getAmountPaid,
   getIsCreating,
-  (totals, amountPaid, isCreating) => ({
+  getTaxLabel,
+  (totals, amountPaid, isCreating, taxLabel) => ({
     subTotal: formatCurrency(totals.subTotal),
     totalTax: formatCurrency(totals.totalTax),
     totalAmount: formatCurrency(totals.totalAmount),
     amountPaid: isCreating ? amountPaid : formatCurrency(amountPaid),
     amountDue: formatCurrency(calculateAmountDue(totals.totalAmount, amountPaid)),
     isCreating,
+    taxLabel,
   }),
 );
 

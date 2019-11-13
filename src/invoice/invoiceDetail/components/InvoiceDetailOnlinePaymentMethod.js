@@ -20,7 +20,7 @@ const InvoiceDetailOnlinePaymentMethod = ({
   hasSetUpOnlinePayments,
   onUpdateAllowOnlinePayments,
 }) => {
-  const label = 'Allow online payments';
+  const label = 'Set up';
 
   if (isLoading) {
     return (

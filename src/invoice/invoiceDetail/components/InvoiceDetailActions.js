@@ -52,7 +52,7 @@ const InvoiceDetailActions = ({
       onClick={onSaveAndEmailButtonClick}
       disabled={isActionsDisabled}
     >
-    Save and email
+    Record and email
     </Button>
   );
 
@@ -61,12 +61,12 @@ const InvoiceDetailActions = ({
   const dropdownActionItems = [
     <Dropdown.Item
       key={SaveActionType.SAVE_AND_CREATE_NEW}
-      label="Save and create new"
+      label="Record and create new"
       value={SaveActionType.SAVE_AND_CREATE_NEW}
     />,
     <Dropdown.Item
       key={SaveActionType.SAVE_AND_DUPLICATE}
-      label="Save and duplicate"
+      label="Record and duplicate"
       value={SaveActionType.SAVE_AND_DUPLICATE}
     />,
   ];
@@ -77,7 +77,7 @@ const InvoiceDetailActions = ({
       onSelect={onSaveAndButtonClick}
       toggle={(
         <Dropdown.Toggle disabled={isActionsDisabled}>
-            Save and...
+            Record and...
           <Icons.Caret />
         </Dropdown.Toggle>
         )}
@@ -93,7 +93,7 @@ const InvoiceDetailActions = ({
       onClick={onSaveButtonClick}
       disabled={isActionsDisabled}
     >
-    Save
+    Record
     </Button>
   );
 

@@ -139,6 +139,8 @@ describe('invoiceDetailSelectors', () => {
         isCustomerDisabled: true,
         isTaxInclusiveDisabled: false,
         showOnlinePayment: true,
+        taxExclusiveLabel: 'Tax exclusive',
+        taxInclusiveLabel: 'Tax inclusive',
       };
       const actual = getInvoiceDetailOptions(state);
 

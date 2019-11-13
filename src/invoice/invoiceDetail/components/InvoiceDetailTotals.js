@@ -15,6 +15,7 @@ const InvoiceDetailTotals = ({
   amountDue,
   isCreating,
   onChange,
+  taxLabel,
 }) => {
   const amountPaidInputLine = isCreating ? (
     <LineItemTableTotalsInput
@@ -29,10 +30,10 @@ const InvoiceDetailTotals = ({
   return (
     <LineItemTable.Total>
       <LineItemTable.Totals title="Subtotal" amount={subTotal} />
-      <LineItemTable.Totals title="Tax" amount={totalTax} />
-      <LineItemTable.Totals title="Invoice total" amount={totalAmount} />
+      <LineItemTable.Totals title={taxLabel} amount={totalTax} />
+      <LineItemTable.Totals title="Total amount" totalAmount amount={totalAmount} />
       {amountPaidInputLine}
-      <LineItemTable.Totals title="Balance due" amount={amountDue} />
+      <LineItemTable.Totals title="Balance due" totalAmount amount={amountDue} />
     </LineItemTable.Total>
   );
 };
