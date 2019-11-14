@@ -178,7 +178,7 @@ export default class BankingModule {
 
     const onSuccess = (payload) => {
       this.dispatcher.setEntryLoadingState(index, false);
-      this.dispatcher.allocateTransaction(index, payload);
+      this.dispatcher.allocateTransaction(index, { payload, selectedAccount });
     };
 
     const onFailure = ({ message }) => {

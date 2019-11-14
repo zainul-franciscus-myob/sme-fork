@@ -1,11 +1,10 @@
-import {
-  Card, Spinner,
-} from '@myob/myob-widgets';
+import { Card } from '@myob/myob-widgets';
 import React from 'react';
 
 import { tabIds } from '../tabItems';
 import BankTransactionTableRow from './BankTransactionTableRow';
 import BankTransactionTabs from './BankTransactionTabs';
+import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import MatchTransactionBody from './MatchTransactionBody';
 import OpenEntryFooter from './OpenEntryFooter';
 import PaymentAllocationBody from './PaymentAllocationBody';
@@ -60,7 +59,7 @@ const BankTransactionTableBody = (props) => {
 
   const spinner = (
     <div className={styles.spinner}>
-      <Spinner size="medium" />
+      <LoadingPageState size="medium" />
     </div>
   );
 

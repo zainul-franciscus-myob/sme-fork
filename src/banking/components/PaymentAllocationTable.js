@@ -1,11 +1,12 @@
-import { Spinner, Table } from '@myob/myob-widgets';
+import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getTableOptions } from '../bankingSelectors/paymentAllocationSelectors';
+import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import PaymentAllocationTableBody from './PaymentAllocationTableBody';
-import styles from './BankingView.module.css';
+import styles from './BankTransactionOpenEntryTable.module.css';
 
 const tableConfig = {
   referenceId: { columnName: 'Bill Number', valign: 'top' },
@@ -33,7 +34,7 @@ const emptyView = tableEmptyMessage => (
 
 const spinnerView = (
   <div className={styles.bankingTableSpinner}>
-    <Spinner size="medium" />
+    <LoadingPageState size="medium" />
   </div>
 );
 
@@ -63,7 +64,7 @@ const PaymentAllocationTable = (props) => {
   }
 
   return (
-    <Table>
+    <Table className={styles.paymentAllocationTable}>
       <Table.Header>
         <Table.HeaderItem {...tableConfig.referenceId}>{referenceIdLabel}</Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.status}>Status</Table.HeaderItem>

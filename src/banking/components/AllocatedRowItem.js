@@ -48,6 +48,7 @@ const AllocatedRowItem = ({
         onBlur={onBlur}
         autoFocus
         preventTabbingOnSelect
+        selectedId={entry.selectedAccountId}
       />
     </div>
   );

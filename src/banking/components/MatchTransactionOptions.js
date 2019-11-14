@@ -44,7 +44,7 @@ const MatchTransactionOptions = (props) => {
         <DatePicker name="dateTo" label="Date to" value={dateTo} onSelect={handleDateChange(onUpdateMatchTransactionOptions, 'dateTo')} />
         <AmountInput label="Amount from ($)" name="amountFrom" className={styles.amountInput} value={amountFrom} onChange={handleAmountChange(onUpdateMatchTransactionOptions)} />
         <AmountInput label="Amount to ($)" name="amountTo" className={styles.amountInput} value={amountTo} onChange={handleAmountChange(onUpdateMatchTransactionOptions)} />
-        <Search name="keywords" label="Search" id="search" placeholder="Search" maxLength={255} value={keywords} onChange={handleInputChange(onUpdateMatchTransactionOptions)} />
+        <Search name="keywords" label="Search" id="search" maxLength={255} value={keywords} onChange={handleInputChange(onUpdateMatchTransactionOptions)} />
       </FilterBar>
     </div>
   );

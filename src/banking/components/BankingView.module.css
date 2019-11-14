@@ -12,13 +12,6 @@
   background: var(--flx-palette-white);
 }
 
-.openEntryEmpty {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 10vh;
-}
-
 /*
   Feelix Override: the below five stylings are to achieve making the card footer grey
   among adding a border outline
@@ -40,6 +33,7 @@
 .openEntryCardFooter {
   padding: 0;
   background-color: var(--flx-palette-storm-06);
+  border-top: 1px solid var(--flx-palette-storm-28);
   border-bottom-left-radius: var(--flx-border-radius-card);
   border-bottom-right-radius: var(--flx-border-radius-card);
 }
@@ -48,8 +42,7 @@
   padding: var(--flx-padding-card-body);
 }
 
-.spinner,
-.bankingTableSpinner {
+.spinner {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -59,11 +52,6 @@
   align-items: center;
   flex-direction: column;
   justify-content: center;
-}
-
-.bankingTableSpinner {
-  position: relative;
-  min-height: 15rem;
 }
 
 .paymentFooter {
@@ -92,17 +80,11 @@
   display: flex;
   align-items: center;
   height: 3rem;
-  margin-top: var(--flx-spacing-large);
+  margin-top: 2.7rem;
 }
 
 .openEntry :global(.flx-tabs) {
   flex-direction: row-reverse;
-}
-
-/* Feelix Override */
-.matchTransactionTable :global(.table-data__body) {
-  max-height: 30rem;
-  overflow: scroll;
 }
 
 .entryLoading :global(.filter-bar__item button) {
@@ -130,15 +112,12 @@
     grid-template-columns: var(--flx-width-field-xl) auto;
   }
 
+  .splitAllocationFilterOptions {
+    display: grid;
+    grid-template-columns: var(--flx-width-field-xl) auto;
+  }
+
   .checkbox {
     padding-left: 12px;
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  /* Feelix Override - magically missing some styling that should be coming through when in responsive view */
-  .matchTransactionTable :global(.table-data__row) {
-    padding-left: 4.2rem;
-    padding-right: 4.2rem;
   }
 }

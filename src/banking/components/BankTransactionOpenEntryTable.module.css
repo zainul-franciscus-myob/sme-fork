@@ -1,0 +1,46 @@
+.openEntryEmpty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh;
+}
+
+.bankingTableSpinner {
+  position: relative;
+  min-height: 15rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Feelix Override */
+.paymentAllocationTable :global(.table-data__body) {
+  max-height: 28rem;
+  overflow-y: scroll;
+}
+
+/* Feelix Override */
+.matchTransactionTable :global(.table-data__body) {
+  max-height: 28rem;
+  overflow-y: scroll;
+}
+
+/* Feelix Override */
+.matchTransactionTable :global(.table-data__header .table-data__cell:first-child) {
+  padding-left: 3.7rem;
+  padding-right: 0;
+}
+
+/* Feelix Override */
+.matchTransactionTable :global(.table-data__header .table-data__cell:first-child > .radio) {
+  display: none;
+}
+
+@media only screen and (max-width: 767px) {
+  /* Feelix Override - magically missing some styling that should be coming through when in responsive view */
+  .matchTransactionTable :global(.table-data__row) {
+    padding-left: 4.2rem;
+    padding-right: 4.2rem;
+  }
+}

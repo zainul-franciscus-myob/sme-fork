@@ -1,0 +1,7 @@
+.status {
+  width: var(--flx-width-field-s);
+}
+
+.search {
+  width: var(--flx-width-field-m);
+}

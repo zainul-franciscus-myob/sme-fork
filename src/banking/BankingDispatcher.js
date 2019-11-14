@@ -107,11 +107,12 @@ const createBankingDispatcher = store => ({
   },
 
 
-  allocateTransaction: (index, payload) => {
+  allocateTransaction: (index, { payload, selectedAccount }) => {
     store.dispatch({
       intent: ALLOCATE_TRANSACTION,
       index,
       ...payload,
+      selectedAccount,
     });
   },
 

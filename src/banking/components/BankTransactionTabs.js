@@ -2,8 +2,8 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { Tabs } from '../../components/Feelix/Tabs/Tabs';
 import { getTabItems } from '../bankingSelectors';
+import Tabs from '../../components/Tabs/Tabs';
 
 const BankTransactionTabs = ({
   tabItems,

@@ -1,17 +1,24 @@
 import {
-  HeaderSort, RadioButton, Spinner, Table,
+  HeaderSort, RadioButton, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../bankingSelectors/matchTransactionSelectors';
+import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import MatchTransactionTableBody from './MatchTransactionTableBody';
-import styles from './BankingView.module.css';
+import styles from './BankTransactionOpenEntryTable.module.css';
 
 const tableConfig = {
-  date: { columnName: 'Date', width: '11rem', valign: 'top' },
-  referenceId: { columnName: 'Reference', width: '12.4rem', valign: 'top' },
-  description: { columnName: 'Description', width: 'flex-1', valign: 'top' },
+  date: {
+    columnName: 'Date', width: '11rem', valign: 'top', align: 'left',
+  },
+  referenceId: {
+    columnName: 'Reference', width: '12.4rem', valign: 'top', align: 'left',
+  },
+  description: {
+    columnName: 'Description', width: 'flex-1', valign: 'top', align: 'left',
+  },
   amount: {
     columnName: 'Amount ($)', width: '15rem', valign: 'top', align: 'right',
   },
@@ -28,7 +35,7 @@ const emptyView = (
 
 const spinnerView = (
   <div className={styles.bankingTableSpinner}>
-    <Spinner size="medium" />
+    <LoadingPageState size="medium" />
   </div>
 );
 

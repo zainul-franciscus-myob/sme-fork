@@ -73,6 +73,10 @@
   color: var(--flx-palette-storm-72);
 }
 
+.openedNote {
+  color: var(--flx-palette-white);
+}
+
 .withdrawalOrDeposit {
   display: none;
 }
@@ -156,21 +160,6 @@
   }
 }
 
-@media (min-width: 768px) {
-  .date {
-    padding: var(--flx-spacing-tiny) var(--flx-spacing-x-small) var(--flx-spacing-tiny) 4rem;
-    border-bottom: var(--flx-border-thin);
-  }
-
-  .infoColumn {
-    display: unset;
-  }
-
-  .mobileInfoColumn {
-    display: none;
-  }
-}
-
 @media (min-width: 1024px) {
   .header {
     display: block;
@@ -224,6 +213,10 @@
     padding: var(--flx-spacing-tiny) var(--flx-spacing-x-small);
   }
 
+  .mobileInfoColumn {
+    display: none;
+  }
+
   .allocationColumn {
     border-left: var(--flx-border-thin);
     border-bottom-left-radius: 0;
@@ -246,13 +239,9 @@
     padding: var(--flx-spacing-clear);
   }
 
-  .amount {
-    display: none;
-  }
-
   .withdrawalOrDeposit {
-    display: block;
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .expanded {

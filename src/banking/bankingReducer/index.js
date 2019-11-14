@@ -219,6 +219,7 @@ export const allocateTransaction = (state, action) => ({
           sourceJournal: action.sourceJournal,
           type: action.type,
           taxCode: action.taxCode,
+          selectedAccountId: action.selectedAccount ? action.selectedAccount.id : undefined,
         }
         : entry
     ),

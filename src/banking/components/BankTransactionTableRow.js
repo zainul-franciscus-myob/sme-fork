@@ -3,6 +3,7 @@ import {
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
 import { getBankEntryByIndexSelector } from '../bankingSelectors';
 import { getIsBulkLoading } from '../bankingSelectors/bulkAllocationSelectors';
@@ -27,15 +28,17 @@ const BankingTableRowField = ({ title, children, className }) => (
   </div>
 );
 
-const BankingTableDescription = ({ description, note, className }) => (
+const BankingTableDescription = ({
+  isExpanded, description, note, className,
+}) => (
   <div className={className}>
     {description}
     {note && (
-    <div className={styles.note}>
-      Note:
-      {' '}
-      {note}
-    </div>
+      <div className={classNames(styles.note, { [styles.openedNote]: isExpanded })}>
+        Note:
+        {' '}
+        {note}
+      </div>
     )}
   </div>
 );
@@ -76,10 +79,6 @@ const BankTransactionTableRow = ({
 
   const expandIcon = isExpanded ? <Icons.UpChevron /> : <Icons.DownChevron />;
 
-  const openedClassName = isExpanded ? styles.expanded : '';
-  const selectedClassName = isSelected ? styles.selected : '';
-  const openedExpandedHeader = isExpanded ? styles.expandedHeader : '';
-
   const amount = entry.deposit ? `$${entry.deposit}` : `-$${entry.withdrawal}`;
 
   const desktopInfoColumn = (
@@ -88,10 +87,11 @@ const BankTransactionTableRow = ({
         {entry.displayDate}
       </BankingTableRowField>
       <div className={styles.description}>
-        <BankingTableDescription description={entry.description} note={entry.note} />
-        <BankingTableRowField title="Amount:" className={styles.amount}>
-          {entry.deposit || `-${entry.withdrawal}`}
-        </BankingTableRowField>
+        <BankingTableDescription
+          isExpanded={isExpanded}
+          description={entry.description}
+          note={entry.note}
+        />
         <BankingTableRowField title="Withdrawal" className={styles.withdrawalOrDeposit}>
           {entry.withdrawal}
         </BankingTableRowField>
@@ -106,6 +106,7 @@ const BankTransactionTableRow = ({
     <div className={styles.mobileInfoColumn}>
       <BankingTableDescription
         className={styles.mobileDescription}
+        isExpanded={isExpanded}
         description={entry.description}
         note={entry.note}
       />
@@ -120,9 +121,24 @@ const BankTransactionTableRow = ({
     </div>
   );
 
+  const tableRowClassName = classNames(
+    styles.row,
+    {
+      [styles.expanded]: isExpanded,
+      [styles.selected]: isSelected,
+    },
+  );
+
+  const columnsClassName = classNames(
+    styles.columns,
+    {
+      [styles.expandedHeader]: isExpanded,
+    },
+  );
+
   return (
-    <div className={`${styles.row} ${openedClassName} ${selectedClassName}`}>
-      <div className={`${styles.columns} ${openedExpandedHeader}`}>
+    <div className={tableRowClassName}>
+      <div className={columnsClassName}>
         <div className={styles.selectionColumn}>
           <Checkbox
             name={`${index}-select`}

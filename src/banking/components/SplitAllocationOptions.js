@@ -1,4 +1,4 @@
-import { Checkbox, Columns } from '@myob/myob-widgets';
+import { Checkbox } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -27,31 +27,29 @@ const SplitAllocationOptions = (props) => {
   } = props;
 
   return (
-    <div className={styles.filterOptions}>
-      <Columns type="three">
-        <ContactCombobox
-          items={contacts}
-          selectedId={contactId}
-          onChange={handleComboBoxChange('contactId', onUpdateSplitAllocationHeader)}
-          label={`Contact (${contactLabel})`}
-          name="contact"
-          hideLabel={false}
-          hintText="Select contact"
-          requiredLabel="This is required"
-        />
-        {showIsReportable && (
-          <div className="form-group">
-            <div className={styles.checkbox}>
-              <Checkbox
-                name="isReportable"
-                label="Reportable"
-                checked={isReportable}
-                onChange={handleCheckboxChange(onUpdateSplitAllocationHeader)}
-              />
-            </div>
-          </div>
-        )}
-      </Columns>
+    <div className={styles.splitAllocationFilterOptions}>
+      <ContactCombobox
+        items={contacts}
+        selectedId={contactId}
+        onChange={handleComboBoxChange('contactId', onUpdateSplitAllocationHeader)}
+        label={`Contact (${contactLabel})`}
+        name="contact"
+        hideLabel={false}
+        hintText="Select contact"
+        requiredLabel="This is required"
+      />
+      {showIsReportable && (
+      <div className="form-group">
+        <div className={styles.checkbox}>
+          <Checkbox
+            name="isReportable"
+            label="Reportable"
+            checked={isReportable}
+            onChange={handleCheckboxChange(onUpdateSplitAllocationHeader)}
+          />
+        </div>
+      </div>
+      )}
     </div>
   );
 };
