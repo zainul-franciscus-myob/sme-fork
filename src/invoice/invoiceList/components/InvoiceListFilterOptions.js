@@ -1,19 +1,23 @@
 import {
-  DatePicker, FilterBar, Search, Select,
+  DatePicker, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import classnames from 'classnames';
 
 import {
   getCustomerFilterOptions,
   getFilterOptions,
+  getHasOverdue,
   getStatusFilterOptions,
   getTotal,
   getTotalDue,
+  getTotalOverdue,
 } from '../invoiceListSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
-import style from './InvoiceListView.module.css';
+import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
+import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
+import styles from './InvoiceListView.module.css';
 
 class InvoiceListFilterOptions extends React.Component {
   onComboBoxChange = (item) => {
@@ -51,54 +55,46 @@ class InvoiceListFilterOptions extends React.Component {
       statusFilterOptions,
       total,
       totalDue,
+      totalOverdue,
+      hasOverdue,
     } = this.props;
 
     return (
       <Fragment>
         <FilterBar onApply={onApplyFilter}>
-          <CustomerCombobox
-            items={customerFilterOptions}
-            selectedId={customerId}
-            onChange={this.onComboBoxChange}
-            label="Customer"
-            name="Customer"
-            hideLabel={false}
-          />
-          <Select name="status" label="Status" value={status} onChange={this.onSelectChange}>
-            {statusFilterOptions.map(({ name, value }) => (
-              <Select.Option value={value} label={name} key={value} />
-            ))}
-          </Select>
-          <FilterBar.Group>
-            <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
-            <DatePicker name="issuedTo" label="Issued to" value={dateTo} onSelect={this.onDateChange('dateTo')} />
-          </FilterBar.Group>
-          <Search name="search" label="Search" id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+          <div className={styles.status}>
+            <Select name="status" label="Status" value={status} onChange={this.onSelectChange}>
+              {statusFilterOptions.map(({ name, value }) => (
+                <Select.Option value={value} label={name} key={value} />
+              ))}
+            </Select>
+          </div>
+          <div className={styles.customer}>
+            <CustomerCombobox
+              items={customerFilterOptions}
+              selectedId={customerId}
+              onChange={this.onComboBoxChange}
+              label="Customer"
+              name="Customer"
+              hideLabel={false}
+            />
+          </div>
+          <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
+          <DatePicker name="issuedTo" label="Issued to" value={dateTo} onSelect={this.onDateChange('dateTo')} />
+          <div className={styles.search}>
+            <FilterBarSearch name="search" label="Search" id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+          </div>
         </FilterBar>
         <hr />
-        <div className={style.totals}>
-          <span className={style.totalItem}>{`Total: ${total}`}</span>
-          <span className={style.totalDueItem}>{`Total Due: ${totalDue}`}</span>
+        <div className={styles.totals}>
+          <div className={styles.totalItem}>{`Total: ${total}`}</div>
+          <div className={styles.totalDueItem}>{`Total Due: ${totalDue}`}</div>
+          <div className={classnames(styles.totalOverdue, { [styles.hasOverdue]: hasOverdue })}>{`Overdue: ${totalOverdue}`}</div>
         </div>
       </Fragment>
     );
   }
 }
-
-InvoiceListFilterOptions.propTypes = {
-  filterOptions: PropTypes.shape({
-    customerId: PropTypes.string,
-    dateFrom: PropTypes.string,
-    dateTo: PropTypes.string,
-    keywords: PropTypes.string,
-  }).isRequired,
-  onApplyFilter: PropTypes.func.isRequired,
-  onUpdateFilter: PropTypes.func.isRequired,
-  customerFilterOptions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  statusFilterOptions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  total: PropTypes.string.isRequired,
-  totalDue: PropTypes.string.isRequired,
-};
 
 const mapStateToProps = state => ({
   filterOptions: getFilterOptions(state),
@@ -106,6 +102,8 @@ const mapStateToProps = state => ({
   statusFilterOptions: getStatusFilterOptions(state),
   total: getTotal(state),
   totalDue: getTotalDue(state),
+  totalOverdue: getTotalOverdue(state),
+  hasOverdue: getHasOverdue(state),
 });
 
 export default connect(mapStateToProps)(InvoiceListFilterOptions);

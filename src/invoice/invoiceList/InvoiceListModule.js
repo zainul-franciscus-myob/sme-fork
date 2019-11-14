@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { INVOICE_LIST_ROUTE } from '../getInvoiceRoutes';
 import {
   LOAD_INVOICE_LIST,
   SET_ALERT,
@@ -26,8 +27,10 @@ import {
   getFlipSortOrder,
   getOrderBy,
   getRegion,
+  getSettings,
   getSortOrder,
 } from './invoiceListSelectors';
+import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import InvoiceListView from './components/InvoiceListView';
 import Store from '../../store/Store';
 import invoiceListReducer from './invoiceListReducer';
@@ -51,6 +54,8 @@ export default class InvoiceListModule {
     const state = this.store.getState();
     const intent = LOAD_INVOICE_LIST;
     const filterOptions = getFilterOptions(state);
+    const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
     const urlParams = {
       businessId: getBusinessId(state),
     };
@@ -74,6 +79,8 @@ export default class InvoiceListModule {
       intent,
       params: {
         ...filterOptions,
+        orderBy,
+        sortOrder,
       },
       urlParams,
       onSuccess,
@@ -249,10 +256,11 @@ export default class InvoiceListModule {
     });
   };
 
-  setInitialState = (context) => {
+  setInitialState = (context, settings) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
+      settings,
     });
   }
 
@@ -264,10 +272,14 @@ export default class InvoiceListModule {
   }
 
   run(context) {
-    this.setInitialState(context);
+    const settings = loadSettings(context.businessId, INVOICE_LIST_ROUTE);
+    this.setInitialState(context, settings);
     this.render();
     this.readMessages();
     this.setLoadingState(true);
+    this.store.subscribe(state => (
+      saveSettings(context.businessId, INVOICE_LIST_ROUTE, getSettings(state))
+    ));
     this.loadInvoiceList();
   }
 

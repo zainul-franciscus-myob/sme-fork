@@ -1,83 +1,135 @@
 import { addDays, subDays } from 'date-fns';
 
-import { getTableEntries } from '../invoiceListSelectors';
+import { getIsDefaultFilters } from '../../../contact/contactList/contactListSelector';
+import { getTableEntries, getTotalOverdue } from '../invoiceListSelectors';
+import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
-describe('getTableEntries', () => {
-  it('returns overdue status when an open invoice due date is in the past', () => {
-    const dueDateInPast = subDays(new Date(), 20);
-    const overdueState = {
-      entries: [{
-        status: 'Open',
-        dateDue: dueDateInPast,
-      }],
-    };
-    const expectedDisplayStatus = 'Overdue';
-    const actual = getTableEntries(overdueState);
+describe('contactListSelector', () => {
+  describe('getTableEntries', () => {
+    it('returns green status colour when the status is closed', () => {
+      const closedState = {
+        entries: [{
+          status: 'Closed',
+        }],
+      };
+      const expectedStatusColour = 'green';
+      const actual = getTableEntries(closedState);
 
-    expect(actual[0].displayStatus).toEqual(expectedDisplayStatus);
+      expect(actual[0].statusColor).toEqual(expectedStatusColour);
+    });
+
+    it('returns grey status colour when the status is open', () => {
+      const openState = {
+        entries: [{
+          status: 'Open',
+        }],
+      };
+      const expectedStatusColour = 'light-grey';
+      const actual = getTableEntries(openState);
+
+      expect(actual[0].statusColor).toEqual(expectedStatusColour);
+    });
+
+    it('returns red status colour when the status is open and has overdue', () => {
+      const overdueState = {
+        entries: [{
+          status: 'Open',
+          dateDue: '06/06/1999',
+          dateDueDisplay: '06/06/1999',
+        }],
+      };
+      const expectedStatusColour = 'red';
+      const actual = getTableEntries(overdueState);
+
+      expect(actual[0].statusColor).toEqual(expectedStatusColour);
+    });
+
+    it('returns red due date colour when the status is open and has overdue', () => {
+      const overdueState = {
+        entries: [{
+          status: 'Open',
+          dateDue: '06/06/1999',
+          dateDueDisplay: '06/06/1999',
+        }],
+      };
+      const expectedDueDateColour = 'red';
+      const actual = getTableEntries(overdueState);
+
+      expect(actual[0].dueDateColor).toEqual(expectedDueDateColour);
+    });
+
+    it('returns black due date colour when displayDateDue is COD', () => {
+      const overdueState = {
+        entries: [{
+          status: 'Open',
+          dateDue: '06/06/1999',
+          dateDueDisplay: 'COD',
+        }],
+      };
+      const expectedDueDateColour = 'black';
+      const actual = getTableEntries(overdueState);
+
+      expect(actual[0].dueDateColor).toEqual(expectedDueDateColour);
+    });
   });
 
-  it('does not transform open status of an invoice', () => {
-    const dueDateInFuture = addDays(new Date(), 20);
-    const openState = {
-      entries: [{
-        status: 'Open',
-        dateDue: dueDateInFuture,
-      }],
-    };
-    const expectedDisplayStatus = 'Open';
-    const actual = getTableEntries(openState);
+  describe('getIsDefaultFilters', () => {
+    it('should retrun false when default filters arent applied', () => {
+      const state = {
+        defaultFilterOptions: { keywords: 'not', type: 'abc' },
+        appliedFilterOptions: { keywords: 'the same', type: 'abc' },
+      };
+      const expected = false;
+      const actual = getIsDefaultFilters(state);
 
-    expect(actual[0].displayStatus).toEqual(expectedDisplayStatus);
+      expect(actual).toEqual(expected);
+    });
+    it('should retrun true when default filters are applied', () => {
+      const state = {
+        defaultFilterOptions: { keywords: 'the same', type: 'abc' },
+        appliedFilterOptions: { keywords: 'the same', type: 'abc' },
+      };
+      const expected = true;
+      const actual = getIsDefaultFilters(state);
+
+      expect(actual).toEqual(expected);
+    });
   });
 
-  it('does not transform closed status', () => {
-    const dueDateInFuture = addDays(new Date(), 20);
-    const closedState = {
-      entries: [{
-        status: 'Closed',
-        dateDue: dueDateInFuture,
-      }],
+  it('getTotalOverdue', () => {
+    const today = new Date();
+    const state = {
+      entries: [
+        {
+          invoiceDue: 500,
+          status: 'Open',
+          dateDue: formatIsoDate(addDays(today, 1)),
+        },
+        {
+          invoiceDue: 1000,
+          status: 'Open',
+          dateDue: formatIsoDate(subDays(today, 1)),
+        },
+        {
+          invoiceDue: 2000,
+          status: 'Credit',
+          dateDue: formatIsoDate(subDays(today, 1)),
+        },
+        {
+          invoiceDue: 2500,
+          status: 'Open',
+          dateDue: 'COD',
+        },
+        {
+          invoiceDue: 3000,
+          status: 'Open',
+          dateDue: 'Prepaid',
+        },
+      ],
     };
-    const expectedDisplayStatus = 'Closed';
-    const actual = getTableEntries(closedState);
 
-    expect(actual[0].displayStatus).toEqual(expectedDisplayStatus);
-  });
+    const actual = getTotalOverdue(state);
 
-  it('returns green badge colour when the status is closed', () => {
-    const closedState = {
-      entries: [{
-        status: 'Closed',
-      }],
-    };
-    const expectedBadgeColour = 'green';
-    const actual = getTableEntries(closedState);
-
-    expect(actual[0].badgeColour).toEqual(expectedBadgeColour);
-  });
-
-  it('returns grey badge colour when the status is open', () => {
-    const openState = {
-      entries: [{
-        status: 'Open',
-      }],
-    };
-    const expectedBadgeColour = 'light-grey';
-    const actual = getTableEntries(openState);
-
-    expect(actual[0].badgeColour).toEqual(expectedBadgeColour);
-  });
-
-  it('returns red badge colour when the status is overdue', () => {
-    const overdueState = {
-      entries: [{
-        status: 'Overdue',
-      }],
-    };
-    const expectedBadgeColour = 'red';
-    const actual = getTableEntries(overdueState);
-
-    expect(actual[0].badgeColour).toEqual(expectedBadgeColour);
+    expect(actual).toEqual('$1,000.00');
   });
 });

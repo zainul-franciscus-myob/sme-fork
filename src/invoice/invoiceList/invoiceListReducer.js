@@ -17,17 +17,18 @@ import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultDateRange = () => addMonths(new Date(), -3);
 
+const defaultFilterOptions = {
+  dateFrom: formatIsoDate(getDefaultDateRange()),
+  dateTo: formatIsoDate(new Date()),
+  keywords: '',
+  customerId: 'All',
+  status: 'All',
+};
+
 const getInitialState = () => ({
-  filterOptions: {
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-    keywords: '',
-  },
-  appliedFilterOptions: {
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-    keywords: '',
-  },
+  defaultFilterOptions,
+  filterOptions: defaultFilterOptions,
+  appliedFilterOptions: defaultFilterOptions,
   customerFilterOptions: [],
   statusFilterOptions: [],
   total: '',
@@ -40,9 +41,22 @@ const getInitialState = () => ({
 
 const resetState = () => (getInitialState());
 
-const setInitialState = (state, action) => ({
+const setInitialState = (state, {
+  context,
+  settings = { filterOptions: defaultFilterOptions, sortOrder: '', orderBy: '' },
+}) => ({
   ...state,
-  ...action.context,
+  ...context,
+  filterOptions: {
+    ...state.filterOptions,
+    ...settings.filterOptions,
+  },
+  appliedFilterOptions: {
+    ...state.appliedFilterOptions,
+    ...settings.filterOptions,
+  },
+  sortOrder: settings.sortOrder,
+  orderBy: settings.orderBy,
 });
 
 const loadInvoiceList = (state, action) => ({

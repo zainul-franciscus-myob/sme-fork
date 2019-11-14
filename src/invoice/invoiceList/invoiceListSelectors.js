@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 import { isPast } from 'date-fns';
 
+import formatCurrency from '../../valueFormatters/formatCurrency';
+
 export const getBusinessId = ({ businessId }) => businessId;
 
 export const getRegion = state => state.region;
@@ -19,13 +21,19 @@ const getEntryLink = (entry, businessId, region) => {
   return `/#/${region}/${businessId}/invoice/${id}`;
 };
 
-const getEntryBadgeColour = status => (
-  { Closed: 'green', Open: 'light-grey', Overdue: 'red' }[status]
+const isOverdue = ({ dateDue, status, dateDueDisplay }) => (
+  !['COD', 'Prepaid'].includes(dateDueDisplay) && isPast(dateDue) && status === 'Open'
 );
 
-const getEntryStatus = ({ dateDue, status }) => ((status === 'Open' && isPast(dateDue))
-  ? 'Overdue'
-  : status);
+const getDueDateColor = entry => (
+  isOverdue(entry) ? 'red' : 'black'
+);
+
+const getStatusColor = entry => (
+  isOverdue(entry) ? 'red' : {
+    Closed: 'green', Open: 'light-grey', Credit: 'blue',
+  }[entry.status]
+);
 
 export const getTableEntries = createSelector(
   getEntries,
@@ -35,8 +43,8 @@ export const getTableEntries = createSelector(
     entry => ({
       ...entry,
       link: getEntryLink(entry, businessId, region),
-      displayStatus: getEntryStatus(entry),
-      badgeColour: getEntryBadgeColour(getEntryStatus(entry)),
+      dueDateColor: getDueDateColor(entry),
+      statusColor: getStatusColor(entry),
     }),
   ),
 );
@@ -67,3 +75,38 @@ export const getAlert = state => state.alert;
 export const getTotal = state => state.total;
 
 export const getTotalDue = state => state.totalDue;
+
+export const getTotalOverdue = createSelector(
+  getEntries,
+  entries => formatCurrency(entries
+    .filter(entry => isOverdue(entry))
+    .reduce((total, entry) => (total + entry.invoiceDue), 0)),
+);
+
+export const getHasOverdue = createSelector(
+  getTotalOverdue,
+  totalOverdue => totalOverdue !== '$0.00',
+);
+
+export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilterOptions;
+
+export const getIsDefaultFilters = createSelector(
+  getAppliedFilterOptions,
+  getDefaultFilterOptions,
+  (appliedFilterOptions, defaultFilterOptions) => (
+    !Object.keys(appliedFilterOptions)
+      .map(key => defaultFilterOptions[key] === appliedFilterOptions[key])
+      .includes(false)
+  ),
+);
+
+export const getSettings = createSelector(
+  getAppliedFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  (filterOptions, sortOrder, orderBy) => ({
+    filterOptions,
+    sortOrder,
+    orderBy,
+  }),
+);

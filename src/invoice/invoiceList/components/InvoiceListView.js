@@ -10,8 +10,20 @@ import {
 } from '../invoiceListSelectors';
 import InvoiceListFilterOptions from './InvoiceListFilterOptions';
 import InvoiceListTable from './InvoiceListTable';
+import InvoiceListTableHeader from './InvoiceListTableHeader';
 import PageView from '../../../components/PageView/PageView';
 import style from './InvoiceListView.module.css';
+
+const tableConfig = {
+  dateIssued: { columnName: 'dateIssued', valign: 'top' },
+  number: { columnName: 'number', valign: 'top' },
+  customer: { columnName: 'customer', valign: 'top' },
+  purchaseOrder: { columnName: 'purchaseOrder', valign: 'top' },
+  invoiceAmount: { columnName: 'invoiceAmount', valign: 'top', align: 'right' },
+  invoiceDue: { columnName: 'invoiceDue', valign: 'top', align: 'right' },
+  dateDue: { columnName: 'dateDue', valign: 'top', align: 'left' },
+  status: { columnName: 'status', valign: 'middle', align: 'left' },
+};
 
 const InvoiceListView = (props) => {
   const {
@@ -43,10 +55,20 @@ const InvoiceListView = (props) => {
     </Alert>
   );
 
+  const tableHeader = (
+    <InvoiceListTableHeader tableConfig={tableConfig} onSort={onSort} />
+  );
+
   const invoiceListView = (
-    <StandardTemplate sticky="none" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
+    <StandardTemplate
+      sticky="all"
+      alert={alertComponent}
+      pageHead={pageHead}
+      filterBar={filterBar}
+      tableHeader={tableHeader}
+    >
       <div className={style.list}>
-        <InvoiceListTable onSort={onSort} />
+        <InvoiceListTable tableConfig={tableConfig} onCreateButtonClick={onCreateButtonClick} />
       </div>
     </StandardTemplate>
   );

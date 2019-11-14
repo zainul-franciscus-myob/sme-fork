@@ -7,6 +7,15 @@
   text-align: right;
 }
 
+.totals .totalOverdue {
+  margin-right: 2rem;
+  font-weight: bold;
+}
+
+.totals .hasOverdue {
+  color: var(--flx-color-alert-error-link);
+}
+
 .totalItem {
   margin-right: 2rem;
 }
@@ -14,4 +23,23 @@
 .totalDueItem {
   margin-right: 2rem;
   font-weight: bold;
+}
+
+.status {
+  width: 11rem;
+}
+
+.customer {
+  width: var(--flx-width-field-l);
+}
+
+.search {
+  width: var(--flx-width-field-m);
+}
+
+@media (min-width: 768px) {
+  .totals {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
