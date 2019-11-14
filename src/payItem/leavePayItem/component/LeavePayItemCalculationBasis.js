@@ -70,12 +70,13 @@ const LeavePayItemCalculationBasis = ({
     {showAmount && (
       <React.Fragment>
         <AmountInput
-          label="Dollar $"
+          label="Hours"
           name="calculationBasisAmount"
           value={calculationBasisAmount}
           onChange={handleAmountChange(onCalculationBasisChange)}
           onBlur={handleAmountChange(onCalculationBasisAmountChange)}
           numeralIntegerScale={13}
+          decimalScale={3}
         />
         <Select
           name="calculationBasisPeriod"
