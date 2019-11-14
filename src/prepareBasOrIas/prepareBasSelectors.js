@@ -5,14 +5,15 @@ import getRegionToDialectText from '../dialect/getRegionToDialectText';
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 
+const pathMapping = {
+  au: 'bas',
+  nz: 'egst',
+};
+
 export const getLodgeStatementLink = createSelector(
   getBusinessId,
   getRegion,
-  (businessId, region) => (
-    region.toLowerCase() === 'nz'
-      ? 'https://lodge.myob.com/#/dashboard/arl/nz/egst/'
-      : `https://lodge.myob.com/#/dashboard/arl/${region}/bas/${businessId}?client=sme-web`
-  ),
+  (businessId, region) => `https://lodge.myob.com/#/dashboard/arl/${region}/${pathMapping[region.toLowerCase()]}/${businessId}?client=sme-web`,
 );
 
 export const getPageHead = createSelector(

@@ -10,7 +10,7 @@ describe('prepareBasSelectors', () => {
 
       const actual = getLodgeStatementLink(state);
 
-      expect(actual).toEqual('https://lodge.myob.com/#/dashboard/arl/nz/egst/');
+      expect(actual).toEqual('https://lodge.myob.com/#/dashboard/arl/NZ/egst/123?client=sme-web');
     });
 
     it('au region', () => {
