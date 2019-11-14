@@ -19,6 +19,13 @@ import YearInput from '../../../components/autoFormatter/YearInput/YearInput';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import style from './GeneralPayrollInformationView.module.css';
 
+const isCurrentYearEditable = (currentYearIsProvided) => {
+  if (currentYearIsProvided == null) {
+    return true;
+  }
+  return false;
+};
+
 const GeneralPayrollInformationView = (props) => {
   const {
     currentYear,
@@ -48,26 +55,33 @@ const GeneralPayrollInformationView = (props) => {
     </>
   );
 
+  let currentYearField;
+  if (isCurrentYearEditable(isCurrentYearProvided)) {
+    currentYearField = (
+      <YearInput
+        label="Payroll year ends 30 June"
+        name="currentYear"
+        value={currentYear}
+        onChange={handleInputChange(onGeneralPayrollInformationChange)}
+      />
+    );
+  } else {
+    currentYearField = (
+      <ReadOnly
+        label="Payroll year ends 30 June"
+        name="taxTableRevisionDate"
+      >
+        {currentYear}
+      </ReadOnly>
+    );
+  }
+
   const view = (
     <>
       <div className={style.formWidth}>
         <FormHorizontal>
           <FieldGroup label="Payroll">
-            {isCurrentYearProvided !== null ? (
-              <ReadOnly
-                label="Payroll year ends 30 June"
-                name="taxTableRevisionDate"
-              >
-                {currentYear}
-              </ReadOnly>
-            ) : (
-              <YearInput
-                label="Payroll year ends 30 June"
-                name="currentYear"
-                value={currentYear}
-                onChange={handleInputChange(onGeneralPayrollInformationChange)}
-              />
-            )}
+            {currentYearField}
             <AmountInput
               label="Full-time employee weekly hours"
               name="hoursInWorkWeek"

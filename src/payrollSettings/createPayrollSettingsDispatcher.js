@@ -17,6 +17,7 @@ import {
   SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE,
   SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE,
+  SET_IS_CURRENT_YEAR_PROVIDED,
   SET_IS_PAGE_EDITED,
   SET_MODAL_TYPE,
   SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
@@ -288,6 +289,13 @@ const createPayrollSettingsDispatcher = store => ({
       intent: CHANGE_GENERAL_PAYROLL_INFORMATION,
       key,
       value,
+    });
+  },
+
+  setIsCurrentYearProvided: (isCurrentYearProvided) => {
+    store.dispatch({
+      intent: SET_IS_CURRENT_YEAR_PROVIDED,
+      isCurrentYearProvided,
     });
   },
 

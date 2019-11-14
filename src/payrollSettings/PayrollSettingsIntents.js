@@ -34,3 +34,4 @@ export const UPDATE_GENERAL_PAYROLL_INFORMATION = Symbol('Submit general payroll
 export const CHANGE_GENERAL_PAYROLL_INFORMATION = Symbol('Change general payroll information');
 export const SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE = Symbol('Set general payroll information loading state');
 export const SET_IS_PAGE_EDITED = Symbol('Set is page edited');
+export const SET_IS_CURRENT_YEAR_PROVIDED = Symbol('Set whether the current year is provided');

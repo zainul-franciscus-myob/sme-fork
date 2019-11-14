@@ -326,6 +326,7 @@ export default class PayrollSettingsModule {
         });
       }
 
+      this.dispatcher.setIsCurrentYearProvided(true);
       this.dispatcher.setIsPageEdited(false);
     };
     const onFailure = ({ message }) => {

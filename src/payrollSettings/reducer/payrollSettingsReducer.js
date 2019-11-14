@@ -17,6 +17,7 @@ import {
   SET_EMPLOYMENT_CLASSIFICATION_LIST_SORT_ORDER,
   SET_EMPLOYMENT_CLASSIFICATION_LIST_TABLE_LOADING_STATE,
   SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE,
+  SET_IS_CURRENT_YEAR_PROVIDED,
   SET_IS_PAGE_EDITED,
   SET_MODAL_TYPE,
   SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
@@ -119,6 +120,14 @@ const getDefaultCurrentYear = () => {
   return defaultCurrentYear;
 };
 
+export const setIsCurrentYearProvided = (state, action) => ({
+  ...state,
+  generalPayrollInformation: {
+    ...state.generalPayrollInformation,
+    isCurrentYearProvided: action.isCurrentYearProvided,
+  },
+});
+
 export const loadGeneralPayrollInformation = (state, action) => ({
   ...state,
   generalPayrollInformation: {
@@ -171,6 +180,7 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [SET_IS_PAGE_EDITED]: setIsPageEdited,
   [SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE]: setGeneralPayrollInformationIsLoading,
+  [SET_IS_CURRENT_YEAR_PROVIDED]: setIsCurrentYearProvided,
 };
 
 const payrollSettingsReducer = createReducer(getDefaultState(), handlers);
