@@ -7,15 +7,15 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getLodgeStatementLink,
+  getLodgeStatementLink, getPageHead,
 } from '../prepareBasSelectors';
 
 const openNewTab = url => () => window.open(url);
 
-const PrepareBasView = ({ lodgeStatementLink }) => (
+const PrepareBasView = ({ lodgeStatementLink, pageHead }) => (
   <StandardTemplate
     sticky="none"
-    pageHead="Prepare BAS or IAS"
+    pageHead={pageHead}
   >
     <Button type="link" icon={<Icons.OpenExternalLink />} iconRight onClick={openNewTab(lodgeStatementLink)}>
       Lodge statement
@@ -26,6 +26,7 @@ const PrepareBasView = ({ lodgeStatementLink }) => (
 
 const mapStateToProps = state => ({
   lodgeStatementLink: getLodgeStatementLink(state),
+  pageHead: getPageHead(state),
 });
 
 export default connect(mapStateToProps)(PrepareBasView);

@@ -156,6 +156,11 @@ export const getTaxCodesLabel = createSelector(
   region => getRegionToDialectText(region)('Tax codes'),
 );
 
+export const getPrepareBasOrIasLabel = createSelector(
+  getRegion,
+  region => getRegionToDialectText(region)('Prepare BAS or IAS'),
+);
+
 export const getInTrayUrl = state => getEnabledUrls(state).inTray;
 export const getIsInTrayActive = state => getActiveNav(state) === 'inTray';
 export const hasInTrayUrl = state => Boolean(getInTrayUrl(state));

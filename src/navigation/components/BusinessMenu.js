@@ -5,7 +5,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getActiveNav, getBusinessName, getBusinessUrls, getIsReadOnly, getTaxCodesLabel,
+  getActiveNav,
+  getBusinessName,
+  getBusinessUrls,
+  getIsReadOnly,
+  getPrepareBasOrIasLabel,
+  getTaxCodesLabel,
 } from '../NavigationSelectors';
 import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 import styles from './BusinessMenu.module.css';
@@ -30,13 +35,18 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
   />
 );
 
-const getItems = ({ urls, onMenuLinkClick, taxCodesLabel }) => [
+const getItems = ({
+  urls,
+  onMenuLinkClick,
+  taxCodesLabel,
+  prepareBasOrIasLabel,
+}) => [
   urls.businessDetails && getMenuLink(urls.businessDetails, 'Business details', onMenuLinkClick),
   urls.incomeAllocation && getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
   urls.taxList && getMenuLink(urls.taxList, taxCodesLabel, onMenuLinkClick),
   urls.userList && getMenuLink(urls.userList, 'Users', onMenuLinkClick),
   urls.salesSettings && getMenuLink(urls.salesSettings, 'Invoice and quote settings', onMenuLinkClick),
-  urls.prepareBasOrIas && getMenuLink(urls.prepareBasOrIas, 'Prepare BAS or IAS', onMenuLinkClick),
+  urls.prepareBasOrIas && getMenuLink(urls.prepareBasOrIas, prepareBasOrIasLabel, onMenuLinkClick),
   urls.linkedAccounts && getMenuLink(urls.linkedAccounts, 'Manage linked accounts', onMenuLinkClick),
   urls.accountList && getMenuLink(urls.accountList, 'Accounts', onMenuLinkClick),
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
@@ -55,7 +65,14 @@ const ReadonlyStatus = () => (
 );
 
 const BusinessMenu = ({
-  businessName, urls, activeNav, onMenuSelect, onMenuLinkClick, taxCodesLabel, isReadOnly,
+  businessName,
+  urls,
+  activeNav,
+  onMenuSelect,
+  onMenuLinkClick,
+  taxCodesLabel,
+  isReadOnly,
+  prepareBasOrIasLabel,
 }) => (
   <Navigation.Menu
     label={(
@@ -65,7 +82,9 @@ const BusinessMenu = ({
       </>
     )}
     icon={<Icons.Caret />}
-    items={getItems({ urls, onMenuLinkClick, taxCodesLabel })}
+    items={getItems({
+      urls, onMenuLinkClick, taxCodesLabel, prepareBasOrIasLabel,
+    })}
     onSelect={onMenuSelect}
     active={activeNav === 'business'}
   />
@@ -77,6 +96,7 @@ const mapStateToProps = state => ({
   activeNav: getActiveNav(state),
   taxCodesLabel: getTaxCodesLabel(state),
   isReadOnly: getIsReadOnly(state),
+  prepareBasOrIasLabel: getPrepareBasOrIasLabel(state),
 });
 
 export default connect(mapStateToProps)(BusinessMenu);
