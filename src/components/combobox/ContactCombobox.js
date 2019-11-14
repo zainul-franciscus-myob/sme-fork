@@ -1,5 +1,4 @@
 import { Combobox } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 const ContactCombobox = (props) => {
@@ -13,7 +12,7 @@ const ContactCombobox = (props) => {
   const metaData = [
     { columnName: 'displayName', columnWidth: '20rem', showData: true },
     { columnName: 'displayId', columnWidth: '15rem' },
-    { columnName: 'contactType', columnWidth: '10rem' },
+    { columnName: 'displayContactType', columnWidth: '10rem' },
   ];
 
   const selectedItem = items
@@ -32,12 +31,6 @@ const ContactCombobox = (props) => {
 
 ContactCombobox.defaultProps = {
   selectedId: null,
-};
-
-ContactCombobox.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  selectedId: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
 };
 
 export default ContactCombobox;

@@ -55,6 +55,6 @@
   "contactTypes": [
     { "name": "Customer", "value": "Customer" },
     { "name": "Supplier", "value": "Supplier" },
-    { "name": "General", "value": "Other" }
+    { "name": "Personal", "value": "Other" }
   ]
 }

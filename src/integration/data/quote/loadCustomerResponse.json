@@ -3,6 +3,7 @@
   "option": {
     "id": "89",
     "contactType": "Customer",
+    "displayContactType": "Customer",
     "displayId": "CUS000001",
     "displayName": "Newman Delaney",
     "name": "Newman Delaney",

@@ -146,12 +146,14 @@
   "contacts": [
     {
       "contactType": "Supplier",
+      "displayContactType": "Supplier",
       "displayName": "A-Z Stationery Supplies",
       "id": "1",
       "displayId": "SUP000001"
     },
     {
       "contactType": "Customer",
+      "displayContactType": "Customer",
       "displayName": "Clemons, Iga",
       "id": "3",
       "displayId": "CUS000001"
@@ -160,12 +162,14 @@
   "suppliers": [
     {
       "contactType": "Supplier",
+      "displayContactType": "Supplier",
       "displayName": "A-Z Stationery Supplies",
       "id": "1",
       "displayId": "SUP000001"
     },
     {
       "contactType": "Supplier",
+      "displayContactType": "Supplier",
       "displayName": "Macro Vending",
       "id": "2",
       "displayId": "SUP000003"
@@ -174,12 +178,14 @@
   "customers": [
     {
       "contactType": "Customer",
+      "displayContactType": "Customer",
       "displayName": "Clemons, Iga",
       "id": "3",
       "displayId": "CUS000001"
     },
     {
       "contactType": "Customer",
+      "displayContactType": "Customer",
       "displayName": "Collins, Faye",
       "id": "2",
       "displayId": "CUS000003"
