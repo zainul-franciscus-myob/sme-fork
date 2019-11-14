@@ -11,9 +11,9 @@ import TableView from '../../../components/TableView/TableView';
 const tableConfig = {
   employee: { width: '30rem', columnName: 'Employee' },
   padding: { width: 'flex-1', columnName: '' },
-  netPay: { width: '16rem', columnName: 'Net Pay ($)', align: 'right' },
+  netPay: { width: '16rem', columnName: 'Net pay ($)', align: 'right' },
   bankFile: { width: '16rem', columnName: 'Bank file', align: 'center' },
-  viewPaySlip: { columnName: 'View pay slip', align: 'center' },
+  viewPaySlip: { columnName: 'View PDF', align: 'center' },
 };
 
 const PrintPaySlipsTab = ({
@@ -28,7 +28,7 @@ const PrintPaySlipsTab = ({
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           {tableConfig.netPay.columnName}
           <Tooltip>
-            {"This is your employees' take home pay"}
+            {"This is your employee's take home pay"}
           </Tooltip>
         </div>
       </Table.HeaderItem>
