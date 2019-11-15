@@ -12,12 +12,12 @@ import TableView from '../../../components/TableView/TableView';
 
 const tableConfig = {
   checkbox: { width: '5rem' },
-  employee: { width: 'flex-1', columnName: 'Employee' },
-  netPay: { width: '16rem', columnName: 'Net pay ($)', align: 'right' },
-  email: { width: '30rem', columnName: 'Email' },
-  paySlipEmailed: { width: '16rem', columnName: 'Pay slip emailed', align: 'center' },
-  bankFile: { width: '16rem', columnName: 'Bank file', align: 'center' },
-  viewPaySlip: { columnName: 'View PDF', align: 'center' },
+  employee: { width: 'flex-3', columnName: 'Employee' },
+  netPay: { width: 'flex-2', columnName: 'Net pay ($)', align: 'right' },
+  email: { width: 'flex-3', columnName: 'Email' },
+  paySlipEmailed: { width: 'flex-2', columnName: 'Pay slip emailed', align: 'center' },
+  bankFile: { width: 'flex-1', columnName: 'Bank file', align: 'center' },
+  viewPaySlip: { width: 'flex-1', columnName: 'View PDF', align: 'center' },
 };
 
 const EmailPaySlipsTab = ({
