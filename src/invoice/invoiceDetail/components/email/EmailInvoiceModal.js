@@ -66,6 +66,7 @@ const EmailInvoiceModal = ({
         value={emailInvoiceDetail.subject}
         onChange={handleInputChange(onEmailInvoiceDetailChange)}
         onKeyDown={onKeyDown}
+        maxLength={255}
       />
       <TextArea
         name="messageBody"
@@ -73,6 +74,7 @@ const EmailInvoiceModal = ({
         value={emailInvoiceDetail.messageBody}
         onChange={handleTextAreaChange(onEmailInvoiceDetailChange)}
         rows={10}
+        maxLength={4000}
       />
       <EmailInvoiceAttachmentsContent
         onRemoveAttachment={onRemoveAttachment}

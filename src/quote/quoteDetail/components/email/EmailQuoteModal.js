@@ -66,6 +66,7 @@ const EmailQuoteModal = ({
         value={emailQuoteDetail.subject}
         onChange={handleInputChange(onEmailQuoteDetailChange)}
         onKeyDown={onKeyDown}
+        maxLength={255}
       />
       <TextArea
         name="messageBody"
@@ -73,6 +74,7 @@ const EmailQuoteModal = ({
         value={emailQuoteDetail.messageBody}
         onChange={handleTextAreaChange(onEmailQuoteDetailChange)}
         rows={10}
+        maxLength={4000}
       />
       <EmailQuoteAttachmentsContent
         onRemoveAttachment={onRemoveAttachment}

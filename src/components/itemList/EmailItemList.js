@@ -32,6 +32,7 @@ const renderItems = (label, items, requiredLabel, onKeyDown) => ({
                 value={item}
                 onChange={onItemValueChange(i)}
                 onKeyDown={onKeyDown}
+                maxLength={255}
               />
               {
             i !== 0
