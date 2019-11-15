@@ -100,6 +100,7 @@ const EmployeePayTable = ({
                 <EtpModalOpenButton line={line} onOpenEtpModal={onOpenEtpModal} />
                 <EmployeeRecalculatePayTable
                   employeeId={line.employeeId}
+                  employeeName={line.name}
                   onEmployeePayItemChange={onEmployeePayItemChange}
                   onEmployeePayItemBlur={onEmployeePayItemBlur}
                 />

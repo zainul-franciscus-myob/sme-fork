@@ -13,6 +13,7 @@ const tableConfig = {
 
 const EmployeeRecalculatePayTable = ({
   employeeId,
+  employeeName,
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
 }) => (
@@ -26,18 +27,21 @@ const EmployeeRecalculatePayTable = ({
       <EmployeeRecalculatePayCombinedPayItems
         tableConfig={tableConfig}
         employeeId={employeeId}
+        employeeName={employeeName}
         onEmployeePayItemChange={onEmployeePayItemChange}
         onEmployeePayItemBlur={onEmployeePayItemBlur}
       />
       <EmployeeRecalculatePayLeavePayItems
         tableConfig={tableConfig}
         employeeId={employeeId}
+        employeeName={employeeName}
         onEmployeePayItemChange={onEmployeePayItemChange}
         onEmployeePayItemBlur={onEmployeePayItemBlur}
       />
       <EmployeeRecalculatePayEmployerExpensePayItems
         tableConfig={tableConfig}
         employeeId={employeeId}
+        employeeName={employeeName}
         onEmployeePayItemChange={onEmployeePayItemChange}
         onEmployeePayItemBlur={onEmployeePayItemBlur}
       />

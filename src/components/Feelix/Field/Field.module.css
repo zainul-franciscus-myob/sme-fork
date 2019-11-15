@@ -1,0 +1,71 @@
+.warning :global(.help-inline) {
+  color: var(--flx-palette-crown);
+}
+
+.warning :global(.form-control) {
+  background-color: rgba(230, 197, 67, 0.05);
+  color: var(--flx-palette-crown);
+  border-color: rgba(230, 197, 67, 0.6);
+}
+
+.warning :global(.input-group-addon) {
+  background-color: var(--flx-palette-white);
+  color: var(--flx-palette-storm-100);
+}
+
+.warningInline :global(.tooltip-icon) {
+  --flx-icon-padding: 3.2rem;
+  --flx-icon-position-y: 0.65rem;
+  --flx-icon-position-x: 0.8rem;
+
+  position: absolute;
+  top: var(--flx-icon-position-y);
+  right: var(--flx-icon-position-x);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 5;
+}
+
+.warningInline :global(.form-group__input-group) {
+  position: relative;
+}
+
+.warningInline :global(.text-align-right) {
+  padding-left: var(--flx-icon-padding);
+}
+
+.warningInline :global(.flx-datepicker__input-icon) {
+  display: none;
+}
+
+.warningInline :global(select.form-control) {
+  background-image: none;
+}
+
+.warningInline :global(.form-control:not(.text-align-right)) {
+  padding-right: var(--flx-icon-padding);
+}
+
+.warningInline :global(.text-align-right) + :global(.tooltip-icon) {
+  right: auto;
+  left: var(--flx-icon-position-x);
+}
+
+.warningInline :global(.combobox + .tooltip-icon) {
+  right: 4rem;
+}
+
+.warning :global(.form-control:focus) {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-color: rgba(230, 197, 67, 0.6);
+}
+
+.warningInline :global(.tooltip-icon .svg-icon-warning) {
+  fill: var(--flx-fill-warning-icon-inner);
+}
+
+.warningInline :global(.tooltip-icon .svg-icon-warning path:first-child) {
+  fill: var(--flx-fill-warning-icon-outer);
+}

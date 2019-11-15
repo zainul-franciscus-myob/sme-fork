@@ -9,6 +9,7 @@ import EmployeeRecalculatePayTableRows from './EmployeeRecalculatePayTableRows';
 const EmployeeRecalculatePayLeavePayItems = ({
   tableConfig,
   employeeId,
+  employeeName,
   entries,
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
@@ -19,6 +20,7 @@ const EmployeeRecalculatePayLeavePayItems = ({
     title="Leave accrual"
     tableConfig={tableConfig}
     employeeId={employeeId}
+    employeeName={employeeName}
     entries={entries}
     onChange={onEmployeePayItemChange}
     onBlur={onEmployeePayItemBlur}

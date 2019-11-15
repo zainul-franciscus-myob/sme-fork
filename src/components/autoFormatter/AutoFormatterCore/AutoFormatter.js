@@ -1,7 +1,9 @@
-import { Field } from '@myob/myob-widgets';
+// import { Field } from '@myob/myob-widgets';
 import Cleave from 'cleave.js/react';
 import React from 'react';
 import classnames from 'classnames';
+
+import Field from '../../Feelix/Field/Field';
 
 const Input = ({
   label,
@@ -10,6 +12,9 @@ const Input = ({
   hideLabel,
   labelAccessory,
   errorMessage,
+  errorMessageInline,
+  warningMessage,
+  warningMessageInline,
   className,
   ...inputBoxProps
 }) => (
@@ -19,6 +24,9 @@ const Input = ({
     hideLabel={hideLabel}
     labelAccessory={labelAccessory}
     errorMessage={errorMessage}
+    errorMessageInline={errorMessageInline}
+    warningMessage={warningMessage}
+    warningMessageInline={warningMessageInline}
     renderField={({ errorId, ...props }) => (
       <Cleave
         {...props}

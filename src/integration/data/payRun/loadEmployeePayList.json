@@ -49,7 +49,7 @@
         "hours": "0.00"
       },
       {
-        "payItemId": "5",
+        "payItemId": "6",
         "payItemName": "Superannuation deduction before tax",
         "type": "SuperannuationDeductionBeforeTax",
         "stpCategory": "NotReportable",
@@ -57,7 +57,7 @@
         "hours": "0.00"
       },
       {
-        "payItemId": "6",
+        "payItemId": "7",
         "payItemName": "Superannuation deduction after tax",
         "type": "SuperannuationDeductionAfterTax",
         "stpCategory": "NotReportable",
@@ -65,7 +65,7 @@
         "hours": "0.00"
       },
       {
-        "payItemId": "7",
+        "payItemId": "8",
         "payItemName": "Random deduction",
         "type": "Deduction",
         "stpCategory": "NotReportable",
@@ -73,7 +73,7 @@
         "hours": "0.00"
       },
       {
-        "payItemId": "8",
+        "payItemId": "9",
         "payItemName": "Annual leave accrual",
         "type": "Entitlement",
         "stpCategory": "NotReportable",
@@ -81,7 +81,7 @@
         "hours": "30.00"
       },
       {
-        "payItemId": "9",
+        "payItemId": "10",
         "payItemName": "Sick leave accrual",
         "type": "Entitlement",
         "stpCategory": "NotReportable",

@@ -9,6 +9,7 @@ const EmployeeRecalculatePayTableRows = ({
   tableConfig,
   entries,
   employeeId,
+  employeeName,
   onChange,
   onBlur,
   shouldShowTableRows,
@@ -24,6 +25,7 @@ const EmployeeRecalculatePayTableRows = ({
       key={entry.payItemId}
       tableConfig={tableConfig}
       employeeId={employeeId}
+      employeeName={employeeName}
       entry={entry}
       onChange={onChange}
       onBlur={onBlur}

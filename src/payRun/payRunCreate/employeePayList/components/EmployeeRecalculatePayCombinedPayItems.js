@@ -7,6 +7,7 @@ import EmployeeRecalculatePayTableRows from './EmployeeRecalculatePayTableRows';
 const EmployeeRecalculatePayCombinedPayItems = ({
   tableConfig,
   employeeId,
+  employeeName,
   entries,
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
@@ -17,6 +18,7 @@ const EmployeeRecalculatePayCombinedPayItems = ({
     title="Wages, deductions and taxes"
     tableConfig={tableConfig}
     employeeId={employeeId}
+    employeeName={employeeName}
     entries={entries}
     onChange={onEmployeePayItemChange}
     onBlur={onEmployeePayItemBlur}

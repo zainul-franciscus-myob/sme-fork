@@ -9,9 +9,25 @@ const handleInputChange = (handler, employeeId, payItemId) => (e) => {
     employeeId, payItemId, key: name, value: rawValue,
   });
 };
+const getWarningMessage = (leaveWarning, name) => (
+  leaveWarning && leaveWarning.projectedLeaveBalance < 0
+    ? `Paying this leave will result in a negative leave balance ${leaveWarning.projectedLeaveBalance} hours for ${name}.`
+    : null
+);
 
 const HoursOrAmountInputField = ({
-  name, label, value, decimalScale, employeeId, payItemId, type, isSubmitting, onChange, onBlur,
+  name,
+  label,
+  value,
+  decimalScale,
+  employeeId,
+  employeeName,
+  payItemId,
+  type,
+  isSubmitting,
+  onChange,
+  onBlur,
+  leaveWarning,
 }) => (
   <AmountInput
     name={name}
@@ -24,12 +40,15 @@ const HoursOrAmountInputField = ({
     onBlur={handleInputChange(onBlur, employeeId, payItemId)}
     numeralIntegerScale={13}
     decimalScale={decimalScale}
+    warningMessage={getWarningMessage(leaveWarning, employeeName)}
+    warningMessageInline
   />
 );
 
 const EmployeeRecalculatePayTableRow = ({
   tableConfig,
   employeeId,
+  employeeName,
   entry: {
     payItemId,
     payItemName,
@@ -38,6 +57,7 @@ const EmployeeRecalculatePayTableRow = ({
     amount,
     shouldShowHours,
     isSubmitting,
+    leaveWarning,
   },
   onChange,
   onBlur,
@@ -49,7 +69,9 @@ const EmployeeRecalculatePayTableRow = ({
       value={hours}
       decimalScale={3}
       employeeId={employeeId}
+      employeeName={employeeName}
       payItemId={payItemId}
+      leaveWarning={leaveWarning}
       type={type}
       onChange={onChange}
       onBlur={onBlur}
