@@ -18,7 +18,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
-const formatAmount = value => (Number(value) || 0).toFixed(2);
+const formatAmount = value => (Number(value) || 0).toFixed(3);
 
 const removeTrailingZeroes = number => String(Number(number));
 

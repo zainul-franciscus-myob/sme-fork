@@ -19,7 +19,7 @@ import {
 } from '../../../EmployeeIntents';
 import { getAllocatedLeavePayItems } from '../selectors/PayrollLeaveDetailSelectors';
 
-const formatAmount = value => (Number(value) || 0).toFixed(2);
+const formatAmount = value => (Number(value) || 0).toFixed(3);
 
 const removeTrailingZeroes = number => String(Number(number));
 
