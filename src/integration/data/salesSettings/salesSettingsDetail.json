@@ -13,6 +13,8 @@
     "quoteEmailSubject": "Quote from Clearwater Pty Ltd",
     "quoteEmailBody": "Please contact us immediately if you are unable to detach or download your Quote. Thank you.",
     "isQuoteNumberIncluded": true,
+    "statementEmailSubject": "Statement from Clearwater Pty Ltd",
+    "statementEmailBody": "Please contact us immediately if you are unable to detach or download your Statement. Thank you.",
     "pdfOption": "IncludeLink"
   },
   "payDirect": {

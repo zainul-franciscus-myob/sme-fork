@@ -27,6 +27,8 @@ const SalesSettingsEmailDetails = (props) => {
     quoteEmailSubject,
     quoteEmailBody,
     isQuoteNumberIncluded,
+    statementEmailSubject,
+    statementEmailBody,
     onUpdateEmailSettings,
   } = props;
 
@@ -101,11 +103,29 @@ const SalesSettingsEmailDetails = (props) => {
     </Card>
   );
 
+  const statementEmail = (
+    <Card>
+      <FieldGroup label="Default statement email">
+        <p>Customise the default email text sent with your statements.</p>
+        <Input name="statementEmailSubject" label="Subject" value={statementEmailSubject} onChange={onInputChange(onUpdateEmailSettings)} />
+        <TextArea
+          name="statementEmailBody"
+          label="Message"
+          autoSize
+          resize="vertical"
+          value={statementEmailBody}
+          onChange={onInputChange(onUpdateEmailSettings)}
+        />
+      </FieldGroup>
+    </Card>
+  );
+
   return (
     <React.Fragment>
       { emailSignature }
       { quoteEmail }
       { invoiceEmail }
+      { statementEmail }
     </React.Fragment>
   );
 };

@@ -26,6 +26,8 @@ const getDefaultState = () => ({
     quoteEmailSubject: '',
     quoteEmailBody: '',
     isQuoteNumberIncluded: false,
+    statementEmailSubject: '',
+    statementEmailBody: '',
     pdfOption: '',
   },
   payDirect: {

@@ -3,8 +3,11 @@ import React from 'react';
 
 import {
   LOAD_SALES_SETTINGS,
-  SAVE_EMAIL_SETTINGS, SAVE_TAB_DATA, SET_ALERT,
-  SET_LOADING_STATE, SET_PENDING_TAB,
+  SAVE_EMAIL_SETTINGS,
+  SAVE_TAB_DATA,
+  SET_ALERT,
+  SET_LOADING_STATE,
+  SET_PENDING_TAB,
   SET_SUBMITTING_STATE,
   SET_TAB,
   UPDATE_EMAIL_SETTINGS,
@@ -13,12 +16,17 @@ import {
 } from '../SalesSettingsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
-  getBusinessId, getIsPageEdited,
+  getBusinessId,
+  getIsPageEdited,
+  getSelectedTab,
   getTabData,
 } from './SalesSettingsDetailSelectors';
+import { mainTabIds } from './tabItems';
 import SalesSettingsView from './components/SalesSettingsDetailView';
 import Store from '../../store/Store';
+import keyMap from '../../hotKeys/keyMap';
 import salesSettingsReducer from './salesSettingsDetailReducer';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class SalesSettingsModule {
   constructor({ integration, setRootView }) {
@@ -232,8 +240,27 @@ export default class SalesSettingsModule {
     this.setRootView(wrappedView);
   };
 
+  saveHandler = () => {
+    const selectTab = getSelectedTab(this.store.getState());
+
+    const handler = {
+      [mainTabIds.layoutAndTheme]: this.updateSalesSettings,
+      [mainTabIds.payments]: this.updateSalesSettings,
+      [mainTabIds.emailDefaults]: this.saveEmailSettings,
+    }[selectTab];
+
+    if (handler) {
+      handler();
+    }
+  };
+
+  handlers = {
+    SAVE_ACTION: this.saveHandler,
+  };
+
   run = (context) => {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.setLoadingState(true);
     this.loadSalesSettings();
