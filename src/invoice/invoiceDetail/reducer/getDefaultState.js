@@ -3,6 +3,7 @@ import SaveActionType from '../SaveActionType';
 import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
+  isAccountLoading: false,
   businessId: '',
   region: '',
   invoiceId: '',

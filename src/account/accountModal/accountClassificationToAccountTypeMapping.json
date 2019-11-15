@@ -1,0 +1,10 @@
+{
+  "Asset": "OtherAsset",
+  "Liability": "OtherLiability",
+  "Equity": "Equity",
+  "Income": "Income",
+  "CostOfSales": "CostOfSales",
+  "Expense": "Expense",
+  "OtherIncome": "OtherIncome",
+  "OtherExpense": "OtherExpense"
+}

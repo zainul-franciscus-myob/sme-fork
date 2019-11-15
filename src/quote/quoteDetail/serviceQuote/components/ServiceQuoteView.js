@@ -21,6 +21,8 @@ import ServiceQuoteOptions from './ServiceQuoteOptions';
 import ServiceQuoteTable from './ServiceQuoteTable';
 
 const ServiceQuoteView = ({
+  accountModal,
+  onAddAccount,
   template,
   templateOptions,
   isModalActionDisabled,
@@ -135,7 +137,9 @@ const ServiceQuoteView = ({
     >
       { contactModal }
       { modal }
+      { accountModal }
       <ServiceQuoteTable
+        onAddAccount={onAddAccount}
         onUpdateRow={onUpdateRow}
         onAddRow={onAddRow}
         onRemoveRow={onRemoveRow}

@@ -1,10 +1,13 @@
 import {
+  getAccountModalContext,
   getCreateDuplicateQuoteURL,
   getCreateInvoiceFromQuoteURL,
   getCreateNewServiceQuoteURL,
   getEmailAttachments,
   getExpiredDate,
   getFilesForUpload,
+  getIsAccountComboboxDisabled,
+  getLoadAddedAccountUrlParams,
   getLoadQuoteDetailModalType,
   getQuoteOptions,
   getSendEmailPayload,
@@ -193,7 +196,47 @@ describe('ServiceQuoteSelectors', () => {
       expect(expected).toEqual(actual);
     });
   });
+  describe('getLoadAddedAcountUrlParams', () => {
+    it('gets businessId and retruns it with accountId', () => {
+      const actual = getLoadAddedAccountUrlParams(state, 'accountId');
 
+      expect(actual).toEqual({
+        accountId: 'accountId', businessId: 'businessId',
+      });
+    });
+  });
+
+  describe('getIsAccountComboboxDisabled', () => {
+    it('returns true when account is loading', () => {
+      const loadingState = {
+        isAccountLoading: true,
+      };
+
+      const actual = getIsAccountComboboxDisabled(loadingState);
+
+      expect(actual).toEqual(true);
+    });
+    it('returns false when account is not loading', () => {
+      const loadingState = {
+        isAccountLoading: false,
+      };
+
+      const actual = getIsAccountComboboxDisabled(loadingState);
+
+      expect(actual).toEqual(false);
+    });
+  });
+  describe('getAccountModalContext', () => {
+    it('returns region and businesID from state', () => {
+      const contextState = {
+        region: 'Spain', businessId: 'manzana',
+      };
+
+      const actual = getAccountModalContext(contextState);
+
+      expect(actual).toEqual({ region: 'Spain', businessId: 'manzana' });
+    });
+  });
   describe('getLoadQuoteDetailModalType', () => {
     it.each([
       [ModalType.NONE, false, undefined, undefined, { hasEmailReplyDetails: true }],

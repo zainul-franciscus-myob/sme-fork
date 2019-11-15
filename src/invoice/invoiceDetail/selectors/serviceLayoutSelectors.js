@@ -24,6 +24,8 @@ export const getInvoiceServiceCalculatedTotalsUrlParams = (state) => {
   return { businessId };
 };
 
+export const getIsAccountComboboxDisabled = state => state.isAccountLoading;
+
 export const getInvoiceServiceCalculatedTotalsPayload = (state) => {
   const isTaxInclusive = getIsTaxInclusive(state);
   const lines = getLines(state);

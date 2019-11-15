@@ -21,6 +21,7 @@ import InvoiceServiceTable from './serviceLayout/InvoiceServiceTable';
 import PageView from '../../../components/PageView/PageView';
 
 const InvoiceDetailView = ({
+  accountModal,
   isLoading,
   alert,
   modalType,
@@ -87,6 +88,7 @@ const InvoiceDetailView = ({
       options={options}
       actions={actions}
     >
+      {accountModal}
       {contactModal}
       {modal}
       {table}

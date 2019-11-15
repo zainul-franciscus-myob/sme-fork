@@ -8,11 +8,12 @@ import ServiceQuoteTableRow from './ServiceQuoteTableRow';
 
 const labels = ['Line description', 'Allocate to', 'Amount ($)', 'Tax code'];
 
-const renderRow = onRowInputBlurHandler => (index, data, onChange) => (
+const renderRow = (onRowInputBlurHandler, onAddAccount) => (index, data, onChange) => (
   <ServiceQuoteTableRow
     index={index}
     key={index}
     onChange={onChange}
+    onAddAccount={onAddAccount}
     onRowInputBlur={onRowInputBlurHandler}
   />
 );
@@ -24,6 +25,7 @@ const onTableAddRow = handler => ({ id, ...partialLine }) => handler(partialLine
 const onTableRemoveRow = handler => index => handler(index);
 
 const ServiceQuoteTable = ({
+  onAddAccount,
   tableData,
   totals,
   onUpdateRow,
@@ -40,7 +42,7 @@ const ServiceQuoteTable = ({
   return (
     <LineItemTable
       labels={labels}
-      renderRow={renderRow(onRowInputBlur)}
+      renderRow={renderRow(onRowInputBlur, onAddAccount)}
       data={tableData}
       onAddRow={onTableAddRow(onAddRow)}
       onRowChange={onRowChange(onUpdateRow)}

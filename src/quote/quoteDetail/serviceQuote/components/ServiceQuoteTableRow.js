@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getQuoteLine } from '../ServiceQuoteSelectors';
+import { getIsAccountComboboxDisabled, getQuoteLine } from '../ServiceQuoteSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
@@ -27,7 +27,13 @@ const onAmountInputChange = (name, onChange) => (e) => {
 const onRowInputBlurHandler = (onRowInputBlur, index) => () => onRowInputBlur(index);
 
 const ServiceQuoteTableRow = ({
-  quoteLine, index, onChange, onRowInputBlur, ...feelixInjectedProps
+  quoteLine,
+  index,
+  onChange,
+  onRowInputBlur,
+  onAddAccount,
+  isAccountComboboxDisabled,
+  ...feelixInjectedProps
 }) => {
   const {
     description,
@@ -57,6 +63,8 @@ const ServiceQuoteTableRow = ({
         items={accounts}
         selectedId={allocatedAccountId}
         hintText="Select an account"
+        addNewAccount={() => onAddAccount(onComboboxChange('allocatedAccountId', onChange))}
+        disabled={isAccountComboboxDisabled}
       />
       <AmountInput
         label="Amount ($)"
@@ -85,6 +93,7 @@ ServiceQuoteTableRow.propTypes = {
 
 const mapStateToProps = (state, props) => ({
   quoteLine: getQuoteLine(state, props),
+  isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),
 });
 
 export default connect(mapStateToProps)(ServiceQuoteTableRow);

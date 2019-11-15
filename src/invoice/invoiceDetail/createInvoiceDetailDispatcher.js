@@ -6,6 +6,7 @@ import {
   FORMAT_INVOICE_SERVICE_LINE,
   GET_INVOICE_ITEM_CALCULATED_LINES,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
@@ -17,6 +18,7 @@ import {
   RESET_INVOICE_ITEM_TOTALS,
   RESET_INVOICE_SERVICE_TOTALS,
   RESET_OPEN_SEND_EMAIL,
+  SET_ACCOUNT_LOADING_STATE,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_INVOICE_ITEM_LINE_DIRTY,
@@ -49,6 +51,14 @@ const createInvoiceDetailDispatcher = store => ({
 
   setSubmittingState: isSubmitting => store.dispatch({
     intent: SET_SUBMITTING_STATE, isSubmitting,
+  }),
+
+  loadAccountAfterCreate: payload => store.dispatch({
+    intent: LOAD_ACCOUNT_AFTER_CREATE, ...payload,
+  }),
+
+  setAccountLoadingState: isAccountLoading => store.dispatch({
+    intent: SET_ACCOUNT_LOADING_STATE, isAccountLoading,
   }),
 
   setAlert: ({ type, message }) => store.dispatch({ intent: SET_ALERT, alert: { type, message } }),

@@ -4,7 +4,7 @@ import {
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
 } from '../../../InvoiceIntents';
-import { getCreateOrUpdateInvoicePayload, getLoadInvoiceIntent } from '../integratorSelectors';
+import { getCreateOrUpdateInvoicePayload, getLoadAddedAccountUrlParams, getLoadInvoiceIntent } from '../integratorSelectors';
 
 describe('integratorSelectors', () => {
   describe('getLoadInvoiceIntent', () => {
@@ -224,6 +224,19 @@ describe('integratorSelectors', () => {
       const actual = getCreateOrUpdateInvoicePayload(state);
 
       expect(actual).toEqual(expected);
+    });
+  });
+  describe('getLoadAddedAccountUrlParams', () => {
+    const state = {
+      businessId: 'batman',
+    };
+
+    it('gets businessId and retruns it with accountId', () => {
+      const actual = getLoadAddedAccountUrlParams(state, 'accountId');
+
+      expect(actual).toEqual({
+        accountId: 'accountId', businessId: 'batman',
+      });
     });
   });
 });

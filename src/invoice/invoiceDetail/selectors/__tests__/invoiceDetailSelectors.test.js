@@ -1,4 +1,5 @@
 import {
+  getAccountModalContext,
   getInvoiceDetailOptions,
   getInvoiceDetailTotals,
   getLoadInvoiceDetailEmailInvoice,
@@ -251,6 +252,13 @@ describe('invoiceDetailSelectors', () => {
       const actual = getLoadInvoiceDetailEmailInvoice(emailInvoice, '123');
 
       expect(actual.subject).toEqual('Invoice 123; Hot Chocolate is life');
+    });
+  });
+  describe('getAccountModalContext', () => {
+    it('returns region and businesID from state', () => {
+      const actual = getAccountModalContext(state);
+
+      expect(actual).toEqual({ region: 'au', businessId: 'abc' });
     });
   });
 

@@ -22,9 +22,11 @@ import {
   CLOSE_MODAL,
   FORMAT_SERVICE_QUOTE_LINE,
   GET_SERVICE_QUOTE_CALCULATED_TOTALS,
+  LOAD_ACCOUNT_AFTER_CREATE,
   OPEN_MODAL,
   REMOVE_SERVICE_QUOTE_LINE,
   RESET_TOTALS,
+  SET_ACCOUNT_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_SERVICE_QUOTE_HEADER_OPTIONS,
   UPDATE_SERVICE_QUOTE_LINE,
@@ -42,6 +44,7 @@ import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   isLoading: true,
+  isAccountLoading: false,
   isCustomerLoading: false,
   layout: '',
   openExportPdf: false,
@@ -321,6 +324,26 @@ const changeExportPdfForm = (state, action) => ({
   },
 });
 
+export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
+  ...state,
+  quote: {
+    ...state.quote,
+    lines: state.quote.lines.map(line => ({
+      ...line,
+      accounts: [account, ...line.accounts],
+    })),
+  },
+  newLine: {
+    ...state.newLine,
+    accounts: [account, ...state.newLine.accounts],
+  },
+  isPageEdited: true,
+});
+
+export const setAccountLoadingState = (state, { isAccountLoading }) => (
+  { ...state, isAccountLoading }
+);
+
 const updateEmailQuoteDetail = (state, action) => ({
   ...state,
   emailQuote: {
@@ -413,6 +436,8 @@ const handlers = {
   [FORMAT_SERVICE_QUOTE_LINE]: formatServiceQuoteLine,
   [RESET_TOTALS]: resetTotals,
   [CHANGE_EXPORT_PDF_TEMPLATE]: changeExportPdfForm,
+  [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
+  [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
   [UPDATE_EMAIL_QUOTE_DETAIL]: updateEmailQuoteDetail,
   [SET_MODAL_ALERT]: setModalAlert,
   [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,

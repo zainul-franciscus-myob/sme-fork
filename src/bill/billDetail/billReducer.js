@@ -6,6 +6,7 @@ import {
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   ITEM_CALCULATE,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
@@ -15,6 +16,7 @@ import {
   REMOVE_BILL_LINE,
   RESET_TOTALS,
   SERVICE_CALCULATE,
+  SET_ACCOUNT_LOADING_STATE,
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
@@ -39,6 +41,7 @@ import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   today: new Date(),
+  isAccountLoading: false,
   businessId: '',
   billId: '',
   duplicatedBillId: '',
@@ -436,6 +439,19 @@ const updateExportPdfDetail = (state, { value }) => ({
   },
 });
 
+export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
+  ...state,
+  accountOptions: [
+    account,
+    ...state.accountOptions,
+  ],
+  isPageEdited: true,
+});
+
+export const setAccountLoadingState = (state, { isAccountLoading }) => (
+  { ...state, isAccountLoading }
+);
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -470,6 +486,8 @@ const handlers = {
   [UPDATE_BILL_ID]: updateBillId,
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
   [FORMAT_AMOUNT_PAID]: formatAmountPaid,
+  [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
+  [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

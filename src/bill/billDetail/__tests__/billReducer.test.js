@@ -3,9 +3,11 @@ import {
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   ITEM_CALCULATE,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   REMOVE_BILL_LINE,
   SERVICE_CALCULATE,
+  SET_ACCOUNT_LOADING_STATE,
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
   UPDATE_BILL_SERVICE_LINE,
@@ -566,6 +568,59 @@ describe('billReducer', () => {
         amountPaid: '0',
         displayAmountPaid: '0.00',
       },
+    });
+  });
+  describe('SET_ACCOUNT_LOADING_STATE', () => {
+    it('sets state to true', () => {
+      const state = {
+        isAccountLoading: false,
+      };
+
+      const action = {
+        intent: SET_ACCOUNT_LOADING_STATE,
+        isAccountLoading: true,
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual).toEqual({
+        isAccountLoading: true,
+      });
+    });
+    it('sets state to false', () => {
+      const state = {
+        isAccountLoading: true,
+      };
+
+      const action = {
+        intent: SET_ACCOUNT_LOADING_STATE,
+        isAccountLoading: false,
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual).toEqual({
+        isAccountLoading: false,
+      });
+    });
+  });
+  describe('LOAD_ACCOUNT_AFTER_CREATE', () => {
+    it('merges new account payload into state', () => {
+      const state = {
+        accountOptions: [{ thisIsAnAccount: true }],
+      };
+
+      const action = {
+        intent: LOAD_ACCOUNT_AFTER_CREATE,
+        thisIsAnAccount: false,
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual).toEqual({
+        accountOptions: [{ thisIsAnAccount: false }, { thisIsAnAccount: true }],
+        isPageEdited: true,
+      });
     });
   });
 });

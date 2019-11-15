@@ -3,6 +3,7 @@ import {
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_PAY_DIRECT,
@@ -15,6 +16,7 @@ import {
   getCreateOrUpdateInvoicePayload,
   getCreateOrUpdateInvoiceUrlParams,
   getDeleteInvoiceUrlParams,
+  getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
   getLoadContactAddressUrlParams,
   getLoadInvoiceIntent,
@@ -40,6 +42,16 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
 
     integration.read({
       intent, urlParams, params, onSuccess, onFailure,
+    });
+  },
+  loadAccountAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_ACCOUNT_AFTER_CREATE;
+    const urlParams = getLoadAddedAccountUrlParams(state, id);
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
     });
   },
 

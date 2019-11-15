@@ -1,6 +1,7 @@
 import {
   CREATE_SERVICE_QUOTE,
   GET_SERVICE_QUOTE_CALCULATED_TOTALS,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_DUPLICATE_SERVICE_QUOTE,
   LOAD_NEW_SERVICE_QUOTE,
   UPDATE_SERVICE_QUOTE,
@@ -26,6 +27,10 @@ const QuoteServiceMapping = {
   [UPDATE_SERVICE_QUOTE]: {
     method: 'PUT',
     getPath: ({ businessId, quoteId }) => `/${businessId}/quote/update_service_quote_detail/${quoteId}`,
+  },
+  [LOAD_ACCOUNT_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, accountId }) => `/${businessId}/quote/load_account/${accountId}`,
   },
 };
 

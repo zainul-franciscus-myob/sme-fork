@@ -16,6 +16,7 @@ const InvoiceServiceTable = ({
     onRowInputBlur,
     onRemoveRow,
     onChangeAmountToPay,
+    onAddAccount,
   },
 }) => {
   const descriptionLabel = 'Description';
@@ -76,12 +77,13 @@ const InvoiceServiceTable = ({
     })
   );
 
-  const renderRow = onRowInputBlurHandler => (index, data, onChange) => (
+  const renderRow = (onRowInputBlurHandler, onAddAccountClick) => (index, data, onChange) => (
     <InvoiceServiceTableRow
       index={index}
       key={index}
       onChange={onChange}
       onComboboxChange={onChange}
+      onAddAccount={onAddAccountClick}
       onAmountInputFieldChange={onAmountInputFieldChange(onChange)}
       onRowInputBlur={() => onRowInputBlurHandler(index)}
       labels={labels}
@@ -94,7 +96,7 @@ const InvoiceServiceTable = ({
       labels={labels}
       columnConfig={columnConfig}
       headerItems={headerItems}
-      renderRow={renderRow(onRowInputBlur)}
+      renderRow={renderRow(onRowInputBlur, onAddAccount)}
       data={tableData}
       onAddRow={onTableAddRow(onAddRow)}
       onRowChange={onRowChange(onUpdateRow)}

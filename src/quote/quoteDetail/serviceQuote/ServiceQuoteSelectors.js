@@ -333,6 +333,21 @@ export const getExportPdfFilename = (state) => {
   return `${quoteNumber}.pdf`;
 };
 
+export const getIsAccountComboboxDisabled = state => state.isAccountLoading;
+
+export const getAccountModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getLoadAddedAccountUrlParams = (state, accountId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, accountId };
+};
+
 // Email Quote
 
 export const getQuoteReadWithEmailModalUrl = (state) => {

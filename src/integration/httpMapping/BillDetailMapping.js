@@ -8,6 +8,7 @@ import {
   ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
   ITEM_CALCULATE_UPDATE_LINE_ITEM,
   ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
@@ -86,6 +87,10 @@ const BillDetailMapping = {
   [EXPORT_BILL_PDF]: {
     method: 'GET',
     getPath: ({ businessId, billId }) => `/${businessId}/bill/export_bill_pdf/${billId}`,
+  },
+  [LOAD_ACCOUNT_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, accountId }) => `/${businessId}/bill/load_account/${accountId}`,
   },
 };
 

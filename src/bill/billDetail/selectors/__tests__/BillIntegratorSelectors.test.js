@@ -2,6 +2,7 @@ import {
   CREATE_BILL, LOAD_BILL, LOAD_NEW_BILL, LOAD_NEW_DUPLICATE_BILL, UPDATE_BILL,
 } from '../../BillIntents';
 import {
+  getLoadAddedAccountUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
   getSaveBillContent,
@@ -178,6 +179,19 @@ describe('IntegratorSelectors', () => {
       const actual = getSaveBillContent(modifiedState);
 
       expect(actual.supplierName).toEqual('');
+    });
+  });
+  describe('getLoadAddedAccountUrlParams', () => {
+    const state = {
+      businessId: 'batman',
+    };
+
+    it('gets businessId and retruns it with accountId', () => {
+      const actual = getLoadAddedAccountUrlParams(state, 'accountId');
+
+      expect(actual).toEqual({
+        accountId: 'accountId', businessId: 'batman',
+      });
     });
   });
 });

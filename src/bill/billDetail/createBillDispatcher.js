@@ -6,6 +6,7 @@ import {
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   ITEM_CALCULATE,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
@@ -15,6 +16,7 @@ import {
   REMOVE_BILL_LINE,
   RESET_TOTALS,
   SERVICE_CALCULATE,
+  SET_ACCOUNT_LOADING_STATE,
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
@@ -40,6 +42,15 @@ const createBillDispatcher = store => ({
       context,
     });
   },
+  loadAccountAfterCreate: payload => store.dispatch({
+    intent: LOAD_ACCOUNT_AFTER_CREATE,
+    ...payload,
+  }),
+
+  setAccountLoadingState: isAccountLoading => store.dispatch({
+    intent: SET_ACCOUNT_LOADING_STATE,
+    isAccountLoading,
+  }),
 
   resetState: () => {
     store.dispatch({

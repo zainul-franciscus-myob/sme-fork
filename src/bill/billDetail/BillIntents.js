@@ -44,3 +44,6 @@ export const ITEM_CALCULATE_UPDATE_AMOUNT_PAID = Symbol('Item calculate update a
 
 export const EXPORT_BILL_PDF = Symbol('Export bill pdf');
 export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');
+
+export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
+export const SET_ACCOUNT_LOADING_STATE = Symbol('Set account loading state');

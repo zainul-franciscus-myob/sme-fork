@@ -175,6 +175,14 @@ export const getLoadBillModalType = (state) => {
 export const getRouteUrlParams = state => ({
   openExportPdf: getOpenExportPdfQueryParam(state),
 });
+export const getIsAccountComboboxDisabled = state => state.isAccountLoading;
+
+export const getAccountModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
 
 export const getIsSupplierBlocking = state => state.isSupplierBlocking;
 

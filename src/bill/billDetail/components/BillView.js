@@ -22,6 +22,8 @@ import BillServiceTable from './BillServiceTable';
 import PageView from '../../../components/PageView/PageView';
 
 const BillView = ({
+  onAddAccount,
+  accountModal,
   hasInTrayDocument,
   isAlertShown,
   isModalShown,
@@ -71,6 +73,7 @@ const BillView = ({
         onAddRow={onAddServiceRow}
         onRowChange={onServiceRowChange}
         onRemoveRow={onRemoveServiceRow}
+        onAddAccount={onAddAccount}
       />
     ),
   }[layout];
@@ -84,6 +87,7 @@ const BillView = ({
         </div>
 )}
     >
+      {accountModal}
       {isModalShown && (
         <BillModal
           onModalClose={onModalClose}

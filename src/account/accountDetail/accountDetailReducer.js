@@ -16,7 +16,7 @@ import {
 } from '../AccountIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import accountClassificationToAccountTypeMapping from './accountClassificationToAccountTypeMapping.json';
-import accountTypeToCashFlowClassificationMapping from './accountTypeToCashFlowClassificationMapping.json';
+import accountTypeToCashFlowClassificationMapping from '../accountTypeToCashFlowClassificationMapping.json';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({

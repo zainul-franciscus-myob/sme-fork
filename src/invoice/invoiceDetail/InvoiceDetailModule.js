@@ -14,7 +14,9 @@ import {
   SUCCESSFULLY_SAVED_INVOICE,
 } from './invoiceMessageTypes';
 import {
-  getAreLinesCalculating, getContactModalContext,
+  getAccountModalContext,
+  getAreLinesCalculating,
+  getContactModalContext,
   getIsCreating,
   getIsLineAmountDirty,
   getIsPageEdited,
@@ -44,6 +46,7 @@ import {
   getIsAnAmountLineInput,
   getNewLineIndex,
 } from './selectors/itemLayoutSelectors';
+import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import InvoiceDetailModalType from './InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
@@ -76,8 +79,39 @@ export default class InvoiceDetailModule {
     this.dispatcher = createInvoiceDetailDispatcher(this.store);
     this.integrator = createInvoiceDetailIntegrator(this.store, integration);
 
+    this.accountModalModule = new AccountModalModule({
+      integration,
+    });
     this.contactModalModule = new ContactModalModule({ integration });
   }
+
+  openAccountModal = (onChange) => {
+    const state = this.store.getState();
+    const accountModalContext = getAccountModalContext(state);
+    this.accountModalModule.run({
+      context: accountModalContext,
+      onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
+      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+    });
+  };
+
+  loadAccountAfterCreate = ({ message, id }, onChange) => {
+    this.dispatcher.setAlert({ type: 'success', message });
+    this.dispatcher.setAccountLoadingState(true);
+    this.accountModalModule.close();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setAccountLoadingState(false);
+      this.dispatcher.loadAccountAfterCreate(payload);
+      onChange(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setAccountLoadingState(false);
+    };
+
+    this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
+  };
 
   loadInvoice = (message) => {
     this.dispatcher.setLoadingState(true);
@@ -700,10 +734,12 @@ export default class InvoiceDetailModule {
   }
 
   render = () => {
+    const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
 
     const invoiceDetailView = (
       <InvoiceDetailView
+        accountModal={accountModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         serviceLayoutListeners={{
@@ -712,6 +748,7 @@ export default class InvoiceDetailModule {
           onUpdateRow: this.updateInvoiceServiceLine,
           onRowInputBlur: this.formatInvoiceServiceLineAndCalculateTotals,
           onChangeAmountToPay: this.dispatcher.updateInvoicePaymentAmount,
+          onAddAccount: this.openAccountModal,
         }}
         itemLayoutListeners={{
           onAddTableLine: this.addInvoiceItemLine,

@@ -1,8 +1,10 @@
 import {
   CREATE_ACCOUNT,
+  CREATE_ACCOUNT_MODAL,
   DELETE_ACCOUNT,
   LOAD_ACCOUNT_DETAIL,
   LOAD_NEW_ACCOUNT,
+  LOAD_NEW_ACCOUNT_MODAL,
   SORT_AND_FILTER_ACCOUNT_LIST,
   UPDATE_ACCOUNT,
 } from '../../account/AccountIntents';
@@ -31,6 +33,14 @@ const AccountMapping = {
   [DELETE_ACCOUNT]: {
     method: 'DELETE',
     getPath: ({ businessId, accountId }) => `/${businessId}/account/delete_account/${accountId}`,
+  },
+  [LOAD_NEW_ACCOUNT_MODAL]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/account/load_quick_account_modal`,
+  },
+  [CREATE_ACCOUNT_MODAL]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/account/create_account_modal`,
   },
 };
 

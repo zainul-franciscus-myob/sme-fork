@@ -36,6 +36,8 @@ export const UPDATE_INVOICE_SERVICE_LINE = Symbol('Update invoice service line')
 export const FORMAT_INVOICE_SERVICE_LINE = Symbol('Format invoice service line');
 export const GET_INVOICE_SERVICE_CALCULATED_TOTALS = Symbol('Get calculated invoice detail totals');
 export const RESET_INVOICE_SERVICE_TOTALS = Symbol('Reset invoice service totals');
+export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
+export const SET_ACCOUNT_LOADING_STATE = Symbol('Set account loading state');
 
 export const ADD_INVOICE_ITEM_LINE = Symbol('Add invoice item line');
 export const REMOVE_INVOICE_ITEM_LINE = Symbol('Remove invoice item line');

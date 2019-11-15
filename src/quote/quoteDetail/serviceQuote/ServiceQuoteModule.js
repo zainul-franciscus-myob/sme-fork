@@ -28,9 +28,11 @@ import {
   CREATE_SERVICE_QUOTE,
   FORMAT_SERVICE_QUOTE_LINE,
   GET_SERVICE_QUOTE_CALCULATED_TOTALS,
+  LOAD_ACCOUNT_AFTER_CREATE,
   OPEN_MODAL,
   REMOVE_SERVICE_QUOTE_LINE,
   RESET_TOTALS,
+  SET_ACCOUNT_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_SERVICE_QUOTE,
   UPDATE_SERVICE_QUOTE_HEADER_OPTIONS,
@@ -43,6 +45,7 @@ import {
   SUCCESSFULLY_SAVED_SERVICE_QUOTE,
 } from '../quoteMessageTypes';
 import {
+  getAccountModalContext,
   getBusinessId,
   getCalculatedTotalsPayload,
   getContactModalContext,
@@ -59,6 +62,7 @@ import {
   getIsEmailModalOpen,
   getIsPageEdited,
   getIsTableEmpty,
+  getLoadAddedAccountUrlParams,
   getLoadCustomerUrlParams,
   getQuoteId,
   getQuoteListURL,
@@ -71,6 +75,7 @@ import {
   getShouldReload,
   getShouldSaveAndExportPdf,
 } from './ServiceQuoteSelectors';
+import AccountModalModule from '../../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../../contact/contactModal/ContactModalModule';
 import ModalType from '../ModalType';
 import SaveActionType from '../SaveActionType';
@@ -92,8 +97,51 @@ export default class ServiceQuoteModule {
     this.replaceURLParams = replaceURLParams;
     this.store = new Store(serviceQuoteReducer);
 
+    this.accountModalModule = new AccountModalModule({
+      integration,
+    });
     this.contactModalModule = new ContactModalModule({ integration });
   }
+
+  setAccountLoadingState= isAccountLoading => this.store.dispatch({
+    intent: SET_ACCOUNT_LOADING_STATE, isAccountLoading,
+  });
+
+  loadAccountAfterCreate = ({ message, id }, onChange) => {
+    this.accountModalModule.close();
+    this.displaySuccessAlert(message);
+    this.setAccountLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.setAccountLoadingState(false);
+      this.store.dispatch({
+        intent: LOAD_ACCOUNT_AFTER_CREATE, ...payload,
+      });
+
+      onChange(payload);
+    };
+
+    const onFailure = () => {
+      this.setAccountLoadingState(false);
+    };
+
+    const state = this.store.getState();
+    const intent = LOAD_ACCOUNT_AFTER_CREATE;
+    const urlParams = getLoadAddedAccountUrlParams(state, id);
+    this.integration.read({
+      intent, urlParams, onSuccess, onFailure,
+    });
+  };
+
+  openAccountModal = (onChange) => {
+    const state = this.store.getState();
+    const accountModalContext = getAccountModalContext(state);
+    this.accountModalModule.run({
+      context: accountModalContext,
+      onSaveSuccess: payload => this.loadAccountAfterCreate({ ...payload }, onChange),
+      onLoadFailure: message => this.displayFailureAlert(message),
+    });
+  };
 
   resetTotals = () => this.store.dispatch({ intent: RESET_TOTALS });
 
@@ -484,6 +532,14 @@ export default class ServiceQuoteModule {
     },
   });
 
+  displaySuccessAlert = message => this.store.dispatch({
+    intent: SET_ALERT,
+    alert: {
+      type: 'success',
+      message,
+    },
+  });
+
   dismissAlert = () => this.store.dispatch({
     intent: SET_ALERT,
   });
@@ -664,10 +720,13 @@ export default class ServiceQuoteModule {
   dismissModalAlert = () => this.store.dispatch({ intent: SET_MODAL_ALERT });
 
   render = () => {
+    const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
 
     const serviceQuoteView = (
       <ServiceQuoteView
+        accountModal={accountModal}
+        onAddAccount={this.openAccountModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onUpdateRow={this.updateTableLine}
         onAddRow={this.addTableLine}

@@ -31,6 +31,26 @@ export const addInvoiceServiceLine = (state, action) => ({
   },
 });
 
+export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
+  ...state,
+  invoice: {
+    ...state.invoice,
+    lines: state.invoice.lines.map(line => ({
+      ...line,
+      accountOptions: [account, ...line.accountOptions],
+    })),
+  },
+  newLine: {
+    ...state.newLine,
+    accountOptions: [account, ...state.newLine.accountOptions],
+  },
+  isPageEdited: true,
+});
+
+export const setAccountLoadingState = (state, { isAccountLoading }) => (
+  { ...state, isAccountLoading }
+);
+
 export const removeInvoiceServiceLine = (state, action) => ({
   ...state,
   isPageEdited: true,

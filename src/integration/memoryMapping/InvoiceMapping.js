@@ -7,6 +7,7 @@ import {
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
@@ -33,6 +34,7 @@ import invoiceServiceDetail from '../data/invoice/serviceLayout/invoiceServiceDe
 import invoiceServiceNewDetail from '../data/invoice/serviceLayout/invoiceServiceNewDetail';
 import invoiceServiceNewDetailFromQuote from '../data/invoice/serviceLayout/invoiceServiceNewDetailFromQuote';
 import invoiceServiceTotals from '../data/invoice/serviceLayout/totalsResponse';
+import loadAddedAccountResponse from '../data/invoice/serviceLayout/loadAddedAccountResponse';
 import loadAddedContactResponse from '../data/invoice/loadAddedContactResponse';
 import payDirect from '../data/invoice/loadPayDirect';
 import successResponse from '../data/success';
@@ -45,15 +47,19 @@ const InvoiceMapping = {
   [SORT_AND_FILTER_INVOICE_LIST]: ({ onSuccess }) => onSuccess(invoiceListFilterResponse),
 
   [LOAD_NEW_INVOICE_DETAIL]: ({ params = {}, onSuccess }) => onSuccess(
-    params.layout === SERVICE_LAYOUT ? invoiceServiceNewDetail : invoiceItemNewDetail,
+    params.layout === SERVICE_LAYOUT
+      ? invoiceServiceNewDetail
+      : invoiceItemNewDetail,
   ),
   [LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE]: ({ params = {}, onSuccess }) => onSuccess(
     params.layout === SERVICE_LAYOUT
-      ? invoiceServiceNewDetailFromQuote : invoiceItemNewDetailFromQuote,
+      ? invoiceServiceNewDetailFromQuote
+      : invoiceItemNewDetailFromQuote,
   ),
   [LOAD_NEW_DUPLICATE_INVOICE_DETAIL]: ({ params = {}, onSuccess }) => onSuccess(
     params.layout === SERVICE_LAYOUT
-      ? duplicateInvoiceServiceDetail : duplicateInvoiceItemDetail,
+      ? duplicateInvoiceServiceDetail
+      : duplicateInvoiceItemDetail,
   ),
   [CREATE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess({ ...successResponse, id: '1' }),
   [LOAD_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(invoiceServiceDetail),
@@ -75,6 +81,7 @@ const InvoiceMapping = {
   [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) => onSuccess(uploadEmailAttachmentResponse),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [EXPORT_INVOICE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
 };
 
 export default InvoiceMapping;

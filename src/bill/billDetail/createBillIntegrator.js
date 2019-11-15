@@ -7,6 +7,7 @@ import {
   ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
   ITEM_CALCULATE_UPDATE_LINE_ITEM,
   ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
   PREFILL_NEW_BILL_FROM_IN_TRAY,
@@ -18,6 +19,7 @@ import {
   getItemCalculateContentForUpdateLineAmount,
   getItemCalculateContentForUpdateLineItem,
   getItemCalculateUrlParams,
+  getLoadAddedAccountUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
   getLoadSupplierAddressUrlParams,
@@ -218,6 +220,16 @@ const createBillIntegrator = (store, integration) => ({
 
     integration.readFile({
       intent, urlParams, params, onSuccess, onFailure,
+    });
+  },
+  loadAccountAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_ACCOUNT_AFTER_CREATE;
+    const urlParams = getLoadAddedAccountUrlParams(state, id);
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
     });
   },
 });

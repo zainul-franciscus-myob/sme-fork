@@ -7,6 +7,7 @@ import {
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
@@ -107,6 +108,10 @@ const InvoiceMapping = {
   [EXPORT_INVOICE_PDF]: {
     method: 'GET',
     getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/export_invoice_pdf/${invoiceId}`,
+  },
+  [LOAD_ACCOUNT_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, accountId }) => `/${businessId}/invoice/load_account/${accountId}`,
   },
 };
 

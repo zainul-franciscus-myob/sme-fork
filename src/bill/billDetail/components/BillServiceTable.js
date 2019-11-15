@@ -6,12 +6,13 @@ import { getTaxCodeLabel } from '../selectors/billSelectors';
 import BillLineItemTable from './BillLineItemTable';
 import BillServiceTableRow from './BillServiceTableRow';
 
-const renderRow = onRowInputBlur => (index, _, onChange, labels) => (
+const renderRow = (onRowInputBlur, onAddAccount) => (index, _, onChange, labels) => (
   <BillServiceTableRow
     index={index}
     key={index}
     onChange={onChange}
     onRowInputBlur={onRowInputBlur}
+    onAddAccount={onAddAccount}
     labels={labels}
   />
 );
@@ -24,6 +25,7 @@ const BillServiceTable = ({
   onUpdateBillOption,
   onRowChange,
   onAmountPaidBlur,
+  onAddAccount,
 }) => {
   const descriptionLabel = 'Description';
   const accountLabel = 'Account';
@@ -73,7 +75,7 @@ const BillServiceTable = ({
   return (
     <BillLineItemTable
       labels={labels}
-      renderRow={renderRow(onRowInputBlur)}
+      renderRow={renderRow(onRowInputBlur, onAddAccount)}
       columnConfig={columnConfig}
       onAddRow={onAddRow}
       onRowChange={onRowChange}

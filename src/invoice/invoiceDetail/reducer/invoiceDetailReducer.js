@@ -6,6 +6,7 @@ import {
   FORMAT_INVOICE_SERVICE_LINE,
   GET_INVOICE_ITEM_CALCULATED_LINES,
   GET_INVOICE_SERVICE_CALCULATED_TOTALS,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
@@ -17,6 +18,7 @@ import {
   RESET_INVOICE_ITEM_TOTALS,
   RESET_INVOICE_SERVICE_TOTALS,
   RESET_OPEN_SEND_EMAIL,
+  SET_ACCOUNT_LOADING_STATE,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_INVOICE_ITEM_LINE_DIRTY,
@@ -63,8 +65,10 @@ import {
   addInvoiceServiceLine,
   formatInvoiceServiceLine,
   getInvoiceServiceCalculatedTotals,
+  loadAccountAfterCreate,
   removeInvoiceServiceLine,
   resetInvoiceServiceTotals,
+  setAccountLoadingState,
   updateInvoiceServiceLine,
 } from './ServiceLayoutReducer';
 import {
@@ -187,6 +191,8 @@ const handlers = {
   [REMOVE_INVOICE_SERVICE_LINE]: removeInvoiceServiceLine,
   [UPDATE_INVOICE_SERVICE_LINE]: updateInvoiceServiceLine,
   [FORMAT_INVOICE_SERVICE_LINE]: formatInvoiceServiceLine,
+  [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
+  [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
   [GET_INVOICE_SERVICE_CALCULATED_TOTALS]: getInvoiceServiceCalculatedTotals,
   [RESET_INVOICE_SERVICE_TOTALS]: resetInvoiceServiceTotals,
 

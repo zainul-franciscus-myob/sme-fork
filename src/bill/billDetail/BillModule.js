@@ -3,12 +3,7 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_BILL, SUCCESSFULLY_SAVED_BILL } from './types/BillMessageTypes';
 import {
-  getCreateNewBillUrl,
-  getDuplicateBillUrl,
-  getFinalRedirectUrl,
-  getReadBillWithExportPdfModalUrl,
-} from './selectors/BillRedirectSelectors';
-import {
+  getAccountModalContext,
   getCreateSupplierContactModalContext,
   getIsCreating,
   getIsCreatingFromInTray,
@@ -19,6 +14,12 @@ import {
   getNewLineIndex,
   getRouteUrlParams,
 } from './selectors/billSelectors';
+import {
+  getCreateNewBillUrl,
+  getDuplicateBillUrl,
+  getFinalRedirectUrl,
+  getReadBillWithExportPdfModalUrl,
+} from './selectors/BillRedirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import {
   getIsAmountPaidKey,
@@ -29,6 +30,7 @@ import {
   getIsSupplierIdKey,
   getIsTaxInclusiveKey,
 } from './selectors/BillModuleSelectors';
+import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import BillView from './components/BillView';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import LayoutType from './types/LayoutType';
@@ -53,9 +55,39 @@ class BillModule {
     this.store = new Store(billReducer);
     this.dispatcher = createBillDispatcher(this.store);
     this.integrator = createBillIntegrator(this.store, integration);
-
+    this.accountModalModule = new AccountModalModule({
+      integration,
+    });
     this.contactModalModule = new ContactModalModule({ integration });
   }
+
+  openAccountModal = (onChange) => {
+    const state = this.store.getState();
+    const accountModalContext = getAccountModalContext(state);
+    this.accountModalModule.run({
+      context: accountModalContext,
+      onSaveSuccess: payload => this.loadAccountAfterCreate(payload, onChange),
+      onLoadFailure: message => this.dispatcher.openDangerAlert({ message }),
+    });
+  };
+
+  loadAccountAfterCreate = ({ message, id }, onChange) => {
+    this.dispatcher.openSuccessAlert({ message });
+    this.dispatcher.setAccountLoadingState(true);
+    this.accountModalModule.close();
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setAccountLoadingState(false);
+      this.dispatcher.loadAccountAfterCreate(payload);
+      onChange(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setAccountLoadingState(false);
+    };
+    this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
+  };
+
 
   finalRedirect = () => {
     const state = this.store.getState();
@@ -627,11 +659,14 @@ class BillModule {
   };
 
   render = () => {
+    const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
 
     const view = (
       <Provider store={this.store}>
         <BillView
+          accountModal={accountModal}
+          onAddAccount={this.openAccountModal}
           onSaveButtonClick={this.saveBill}
           onSaveAndButtonClick={this.openSaveAndModal}
           onCancelButtonClick={this.openCancelModal}

@@ -39,6 +39,12 @@ export const getLoadInvoiceIntent = (state) => {
   return LOAD_INVOICE_DETAIL;
 };
 
+export const getLoadAddedAccountUrlParams = (state, accountId) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, accountId };
+};
+
 export const getLoadInvoiceUrlParams = (state) => {
   const isCreating = getIsCreating(state);
 

@@ -215,6 +215,13 @@ export const getShouldReload = (state) => {
   return isCreating && !duplicatedInvoiceId;
 };
 
+export const getAccountModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
 export const getContactModalContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);

@@ -13,3 +13,5 @@ export const LOAD_DUPLICATE_SERVICE_QUOTE = Symbol('Load duplicate service quote
 export const FORMAT_SERVICE_QUOTE_LINE = Symbol('Format service quote line');
 export const CREATE_SERVICE_QUOTE = Symbol('Create a new service quote');
 export const RESET_TOTALS = Symbol('Reset totals');
+export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
+export const SET_ACCOUNT_LOADING_STATE = Symbol('Set account loading state');

@@ -23,3 +23,6 @@ export const UPDATE_ACCOUNT = Symbol('Update an existing account');
 export const DELETE_ACCOUNT = Symbol('Delete an account');
 
 export const UPDATE_BANKING_DETAILS = Symbol('Ubdate banking details');
+
+export const CREATE_ACCOUNT_MODAL = Symbol('Create account via modal');
+export const LOAD_NEW_ACCOUNT_MODAL = Symbol('Load data for quick add account modal');

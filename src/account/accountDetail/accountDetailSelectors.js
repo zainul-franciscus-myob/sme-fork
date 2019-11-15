@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import accountTypeToCashFlowClassificationMapping from './accountTypeToCashFlowClassificationMapping.json';
+import accountTypeToCashFlowClassificationMapping from '../accountTypeToCashFlowClassificationMapping.json';
 import getRegionToDialectText from '../../dialect/getRegionToDialectText';
 
 export const getAccountId = state => state.accountId;

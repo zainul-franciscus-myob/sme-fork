@@ -2,7 +2,7 @@ import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInvoiceLine } from '../../selectors/serviceLayoutSelectors';
+import { getInvoiceLine, getIsAccountComboboxDisabled } from '../../selectors/serviceLayoutSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
@@ -22,6 +22,8 @@ const InvoiceServiceTableRow = ({
   onComboboxChange,
   onAmountInputFieldChange,
   onRowInputBlur,
+  onAddAccount,
+  isAccountComboboxDisabled,
   ...feelixInjectedProps
 }) => {
   const {
@@ -51,6 +53,10 @@ const InvoiceServiceTableRow = ({
         onChange={handleOnComboboxChange(onComboboxChange, 'allocatedAccountId')}
         items={accountOptions}
         selectedId={allocatedAccountId}
+        addNewAccount={() => onAddAccount(
+          handleOnComboboxChange(onComboboxChange, 'allocatedAccountId'),
+        )}
+        disabled={isAccountComboboxDisabled}
       />
       <AmountInput
         label="Amount"
@@ -74,6 +80,7 @@ const InvoiceServiceTableRow = ({
 
 const mapStateToProps = (state, props) => ({
   invoiceLine: getInvoiceLine(state, props),
+  isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),
 });
 
 export default connect(mapStateToProps)(InvoiceServiceTableRow);

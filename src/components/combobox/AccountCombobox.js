@@ -8,6 +8,7 @@ const AccountCombobox = (props) => {
     selectedId,
     onChange,
     allowClearSelection,
+    addNewAccount,
     ...otherProps
   } = props;
 
@@ -20,7 +21,11 @@ const AccountCombobox = (props) => {
   const clearSelectionText = 'None';
 
   const clearSelectionItem = { displayId: clearSelectionText };
-  const formattedItems = items && items.map(({ displayName, ...rest }) => ({ ...rest, displayName: ` ${displayName}` }));
+  const formattedItems = items
+    && items.map(({ displayName, ...rest }) => ({
+      ...rest,
+      displayName: ` ${displayName}`,
+    }));
 
   const completedItems = allowClearSelection
     ? [clearSelectionItem, ...formattedItems]
@@ -42,6 +47,7 @@ const AccountCombobox = (props) => {
       items={completedItems}
       selected={selectedItem}
       onChange={onComboboxChange}
+      addNewItem={addNewAccount && { onAddNew: addNewAccount, label: 'Create account' }}
       {...otherProps}
     />
   );

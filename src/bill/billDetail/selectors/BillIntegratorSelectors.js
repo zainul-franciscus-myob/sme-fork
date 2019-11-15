@@ -129,6 +129,11 @@ export const getServiceCalculateContent = createSelector(
   (lines, isTaxInclusive, amountPaid) => ({ lines, isTaxInclusive, amountPaid }),
 );
 
+export const getLoadAddedAccountUrlParams = (state, accountId) => {
+  const businessId = getBusinessId(state);
+  return { businessId, accountId };
+};
+
 export const getSaveBillContent = createSelector(
   state => state.bill,
   state => state.inTrayDocumentId,
