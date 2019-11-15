@@ -38,10 +38,11 @@ class ContactListFilterOptions extends React.Component {
       filterOptions: { type, keywords, showInactive },
       typeFilterOptions,
       onApplyFilter,
+      onResetFilter,
     } = this.props;
 
     return (
-      <FilterBar onApply={onApplyFilter}>
+      <FilterBar onApply={onApplyFilter} onReset={onResetFilter}>
         <Select
           name="type"
           label="Contact type"

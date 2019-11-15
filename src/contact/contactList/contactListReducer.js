@@ -1,5 +1,6 @@
 import {
   LOAD_CONTACT_LIST,
+  RESET_FILTERS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -84,6 +85,13 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
+const resetFilters = state => ({
+  ...state,
+  filterOptions: {
+    ...state.defaultFilterOptions,
+  },
+});
+
 const setSortOrder = (state, action) => ({
   ...state,
   sortOrder: action.sortOrder,
@@ -105,6 +113,7 @@ const handlers = {
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [SET_SORT_ORDER]: setSortOrder,
   [SET_INITIAL_STATE]: setInitialState,
+  [RESET_FILTERS]: resetFilters,
 };
 
 const contactListReducer = createReducer(getDefaultState(), handlers);

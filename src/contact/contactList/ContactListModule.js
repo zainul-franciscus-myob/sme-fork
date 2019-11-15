@@ -3,6 +3,7 @@ import React from 'react';
 
 import {
   LOAD_CONTACT_LIST,
+  RESET_FILTERS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -44,6 +45,7 @@ export default class ContactListModule {
         onDismissAlert={this.dismissAlert}
         onUpdateFilters={this.updateFilterOptions}
         onApplyFilter={this.filterContactList}
+        onResetFilter={this.resetFilters}
         onSort={this.sortContactList}
       />
     );
@@ -245,6 +247,14 @@ export default class ContactListModule {
       onFailure,
     });
   };
+
+  resetFilters = () => {
+    this.store.dispatch({
+      intent: RESET_FILTERS,
+    });
+
+    this.filterContactList();
+  }
 
   dismissAlert = () => {
     const intent = SET_ALERT;

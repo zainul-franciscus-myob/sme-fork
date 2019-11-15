@@ -17,7 +17,6 @@ export const CREATE_CONTACT = Symbol('Create a contact');
 export const DELETE_CONTACT = Symbol('Delete a contact');
 export const OPEN_MODAL = Symbol('Open a modal');
 export const CLOSE_MODAL = Symbol('Close a modal');
-
 export const LOAD_CONTACT_MODAL = Symbol('Load contact modal ');
 export const CREATE_CONTACT_MODAL = Symbol('Create contact modal');
 export const SET_CONTACT_MODAL_DETAILS = Symbol('Update contact modal details');
@@ -25,3 +24,4 @@ export const SET_SHOW_CONTACT_MODAL_BILLING_ADDRESS = Symbol('Set show contact m
 export const SET_CONTACT_MODAL_BILLING_ADDRESS = Symbol('Set contact modal  billing address input');
 export const SET_SHOW_CONTACT_MODAL_SHIPPING_ADDRESS = Symbol('Set show contact modal shipping address section');
 export const SET_CONTACT_MODAL_SHIPPING_ADDRESS = Symbol('Set contact modal shipping address input');
+export const RESET_FILTERS = Symbol('Reset filters');

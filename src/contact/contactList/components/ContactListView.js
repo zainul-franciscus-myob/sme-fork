@@ -70,6 +70,7 @@ const ContactListView = (props) => {
     onAddContactButtonClick,
     onUpdateFilters,
     onApplyFilter,
+    onResetFilter,
     onSort,
     order,
     showHiddenColumns,
@@ -107,6 +108,7 @@ const ContactListView = (props) => {
     <ContactListFilterOptions
       onUpdateFilters={onUpdateFilters}
       onApplyFilter={onApplyFilter}
+      onResetFilter={onResetFilter}
     />
   );
 
