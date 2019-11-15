@@ -8,6 +8,7 @@ import React from 'react';
 import {
   getAlertMessage,
   getAttachmentCount,
+  getIsCreating,
   getIsLoading,
   getIsSubmitting,
   getModal,
@@ -67,11 +68,11 @@ const SpendMoneyDetailView = ({
     </Alert>
   );
 
-  const pageHeadActions = [
+  const pageHeadActions = !isCreating ? [
     <Button type="link" onClick={onFocusAttachments} icon={<Icons.File />}>
       {`Attachments (${attachmentCount})`}
     </Button>,
-  ];
+  ] : [];
 
   const pageHead = (
     <TotalsHeader
@@ -126,6 +127,7 @@ const mapStateToProps = state => ({
   modal: getModal(state),
   isLoading: getIsLoading(state),
   isSubmitting: getIsSubmitting(state),
+  isCreating: getIsCreating(state),
   pageTitle: getPageTitle(state),
   attachmentCount: getAttachmentCount(state),
 });
