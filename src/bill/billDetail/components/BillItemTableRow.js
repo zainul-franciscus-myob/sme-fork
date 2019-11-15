@@ -45,6 +45,7 @@ const BillItemTableRow = ({
   isLineWithoutItemFromInTray,
   onChange,
   onRowInputBlur,
+  onAddItemButtonClick,
   ...feelixInjectedProps
 }) => {
   const {
@@ -64,6 +65,7 @@ const BillItemTableRow = ({
       {...feelixInjectedProps}
     >
       <ItemCombobox
+        addNewItem={() => onAddItemButtonClick(handleComboboxChange(onChange, 'itemId'))}
         items={itemOptions}
         selectedId={itemId}
         onChange={handleComboboxChange(onChange, 'itemId')}

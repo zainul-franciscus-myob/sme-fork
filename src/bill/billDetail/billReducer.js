@@ -8,6 +8,7 @@ import {
   ITEM_CALCULATE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
   OPEN_ALERT,
@@ -439,6 +440,14 @@ const updateExportPdfDetail = (state, { value }) => ({
   },
 });
 
+const loadItemOption = (state, action) => ({
+  ...state,
+  itemOptions: [
+    action.response,
+    ...state.itemOptions,
+  ],
+});
+
 export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   ...state,
   accountOptions: [
@@ -486,6 +495,7 @@ const handlers = {
   [UPDATE_BILL_ID]: updateBillId,
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
   [FORMAT_AMOUNT_PAID]: formatAmountPaid,
+  [LOAD_ITEM_OPTION]: loadItemOption,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
 };

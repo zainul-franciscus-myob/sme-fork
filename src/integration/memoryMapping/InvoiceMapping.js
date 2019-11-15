@@ -12,6 +12,7 @@ import {
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_LIST,
+  LOAD_ITEM_OPTION,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
@@ -36,6 +37,7 @@ import invoiceServiceNewDetailFromQuote from '../data/invoice/serviceLayout/invo
 import invoiceServiceTotals from '../data/invoice/serviceLayout/totalsResponse';
 import loadAddedAccountResponse from '../data/invoice/serviceLayout/loadAddedAccountResponse';
 import loadAddedContactResponse from '../data/invoice/loadAddedContactResponse';
+import loadItemOption from '../data/invoice/loadItemOption';
 import payDirect from '../data/invoice/loadPayDirect';
 import successResponse from '../data/success';
 import uploadEmailAttachmentResponse from '../data/invoice/uploadEmailAttachmentResponse';
@@ -82,6 +84,7 @@ const InvoiceMapping = {
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [EXPORT_INVOICE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
+  [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),
 };
 
 export default InvoiceMapping;

@@ -10,6 +10,7 @@ import {
   ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_ITEM_OPTION,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
   LOAD_SUPPLIER_ADDRESS,
@@ -21,6 +22,7 @@ import {
 import itemCalculate from '../data/bill/itemCalculate';
 import loadAddedAccountResponse from '../data/invoice/serviceLayout/loadAddedAccountResponse';
 import loadItemBill from '../data/bill/loadItemBill';
+import loadItemOption from '../data/bill/loadItemOption';
 import loadNewItemBill from '../data/bill/loadNewItemBill';
 import loadSupplierAddress from '../data/bill/loadSupplierAddress';
 import loadSupplierResponse from '../data/bill/loadSupplierResponse';
@@ -46,6 +48,7 @@ const BillDetailMapping = {
   [ITEM_CALCULATE_UPDATE_LINE_TAX_CODE]: ({ onSuccess }) => onSuccess(itemCalculate),
   [ITEM_CALCULATE_UPDATE_AMOUNT_PAID]: ({ onSuccess }) => onSuccess(itemCalculate),
   [EXPORT_BILL_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
 };
 

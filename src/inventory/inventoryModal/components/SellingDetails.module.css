@@ -1,0 +1,11 @@
+.price {
+  width: var(--flx-width-field-s);
+}
+
+.unitOfMeasure :global(.form-group__input-group) {
+  width: var(--flx-width-field-xs);
+}
+
+.taxCodeOptions {
+  width: var(--flx-width-field-s);
+}

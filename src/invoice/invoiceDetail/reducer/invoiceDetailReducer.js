@@ -10,6 +10,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
+  LOAD_ITEM_OPTION,
   LOAD_PAY_DIRECT,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_ITEM_LINE,
@@ -169,6 +170,14 @@ const setInvoiceDetailHeaderOptions = (state, { key, value }) => updateInvoiceSt
 
 const updatePaymentAmount = (state, { amountPaid }) => updateInvoiceState(state, { amountPaid });
 
+const loadItemOption = (state, action) => ({
+  ...state,
+  itemOptions: [
+    action.response,
+    ...state.itemOptions,
+  ],
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -182,6 +191,7 @@ const handlers = {
   [LOAD_INVOICE_DETAIL]: loadInvoiceDetail,
   [LOAD_CONTACT_ADDRESS]: loadContactAddress,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
+  [LOAD_ITEM_OPTION]: loadItemOption,
   [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,
   [UPDATE_INVOICE_DETAIL_HEADER_OPTIONS]: setInvoiceDetailHeaderOptions,

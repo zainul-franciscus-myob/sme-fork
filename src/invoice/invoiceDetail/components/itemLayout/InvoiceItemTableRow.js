@@ -39,11 +39,16 @@ const InvoiceItemTableRow = ({
   itemOptions,
   isLineDisabled,
   onLineInputBlur,
+  onAddItemButtonClick,
   shouldLineSelectItem,
   ...feelixInjectedProps
 }) => (
   <LineItemTable.Row {...feelixInjectedProps} id={index} index={index}>
     <ItemCombobox
+      addNewItem={{
+        label: 'Create item',
+        onAddNew: () => onAddItemButtonClick(onComboboxChange('itemId', onChange)),
+      }}
       name="itemId"
       items={itemOptions}
       selectedId={invoiceLine.itemId}

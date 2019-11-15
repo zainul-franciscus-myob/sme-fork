@@ -8,6 +8,7 @@ import {
   ITEM_CALCULATE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
   OPEN_ALERT,
@@ -259,6 +260,13 @@ const createBillDispatcher = store => ({
   updateExportPdfDetail: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_EXPORT_PDF_DETAIL, key, value,
+    });
+  },
+
+  loadItemOption: (response) => {
+    store.dispatch({
+      intent: LOAD_ITEM_OPTION,
+      response,
     });
   },
 });

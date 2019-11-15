@@ -5,6 +5,7 @@ import {
   ITEM_CALCULATE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_ITEM_OPTION,
   REMOVE_BILL_LINE,
   SERVICE_CALCULATE,
   SET_ACCOUNT_LOADING_STATE,
@@ -15,6 +16,45 @@ import {
 import billReducer from '../billReducer';
 
 describe('billReducer', () => {
+  describe('LOAD_ITEM_OPTION', () => {
+    it('puts the item option at the top of item options', () => {
+      const state = {
+        itemOptions: [
+          {
+            id: '1',
+            itemId: 'a',
+            description: 'A',
+          },
+        ],
+      };
+
+      const action = {
+        intent: LOAD_ITEM_OPTION,
+        response: {
+          id: '2',
+          itemId: 'b',
+          description: 'B',
+        },
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.itemOptions).toEqual([
+        {
+          id: '2',
+          itemId: 'b',
+          description: 'B',
+        },
+        {
+          id: '1',
+          itemId: 'a',
+          description: 'A',
+        },
+
+      ]);
+    });
+  });
+
   describe('LOAD_BILL', () => {
     it('sets issueDate to today when is creating', () => {
       const state = {

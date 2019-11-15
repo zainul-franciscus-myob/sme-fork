@@ -6,13 +6,14 @@ import { getTaxCodeLabel } from '../selectors/billSelectors';
 import BillItemTableRow from './BillItemTableRow';
 import BillLineItemTable from './BillLineItemTable';
 
-const renderRow = onRowInputBlur => (index, _, onChange, labels) => (
+const renderRow = ({ onRowInputBlur, onAddItemButtonClick }) => (index, _, onChange, labels) => (
   <BillItemTableRow
     index={index}
     key={index}
     onChange={onChange}
     onRowInputBlur={onRowInputBlur}
     labels={labels}
+    onAddItemButtonClick={onAddItemButtonClick}
   />
 );
 
@@ -24,6 +25,7 @@ const BillItemTable = ({
   taxCodeLabel,
   onUpdateBillOption,
   onAmountPaidBlur,
+  onAddItemButtonClick,
 }) => {
   const itemIdLabel = 'Item ID';
   const itemNameLabel = 'Item name';
@@ -105,7 +107,7 @@ const BillItemTable = ({
       labels={labels}
       columnConfig={columnConfig}
       headerItems={headerItems}
-      renderRow={renderRow(onRowInputBlur)}
+      renderRow={renderRow({ onRowInputBlur, onAddItemButtonClick })}
       onAddRow={onAddRow}
       onRowChange={onRowChange}
       onRemoveRow={onRemoveRow}

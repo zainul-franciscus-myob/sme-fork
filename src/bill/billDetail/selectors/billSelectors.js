@@ -172,6 +172,15 @@ export const getLoadBillModalType = (state) => {
   return ModalType.None;
 };
 
+export const getContextForInventoryModal = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return ({
+    businessId, region, isBuying: true, isSelling: false,
+  });
+};
+
 export const getRouteUrlParams = state => ({
   openExportPdf: getOpenExportPdfQueryParam(state),
 });

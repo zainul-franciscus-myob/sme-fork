@@ -17,12 +17,14 @@ const AmountInput = ({
   numeralPositiveOnly,
   onChange,
   value,
+  requiredLabel,
   ...props
 }) => (
   <AutoFormatter
     {...props}
     onChange={handleOnChange(onChange, value)}
     value={value}
+    requiredLabel={requiredLabel}
     options={{
       numeral: true,
       numeralThousandsGroupStyle: 'thousand',

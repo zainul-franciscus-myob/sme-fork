@@ -17,6 +17,7 @@ const InvoiceItemTable = ({
     onRemoveTableRow,
     onLineInputBlur,
     onChangeAmountToPay,
+    onAddItemButtonClick,
   },
   taxCodeLabel,
 }) => {
@@ -93,6 +94,7 @@ const InvoiceItemTable = ({
       key={index}
       onChange={onChange}
       onLineInputBlur={onLineInputBlur}
+      onAddItemButtonClick={onAddItemButtonClick}
       labels={labels}
     />
   );

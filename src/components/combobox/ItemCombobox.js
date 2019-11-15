@@ -11,6 +11,7 @@ const ItemCombobox = (props) => {
     items = [],
     selectedId,
     onChange,
+    addNewItem,
     ...otherProps
   } = props;
 
@@ -23,6 +24,7 @@ const ItemCombobox = (props) => {
       items={items}
       selected={selectedItem}
       onChange={onChange}
+      addNewItem={addNewItem && { label: 'Create item', onAddNew: addNewItem }}
       {...otherProps}
     />
   );

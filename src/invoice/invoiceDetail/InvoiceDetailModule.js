@@ -17,6 +17,7 @@ import {
   getAccountModalContext,
   getAreLinesCalculating,
   getContactModalContext,
+  getContextForInventoryModal,
   getIsCreating,
   getIsLineAmountDirty,
   getIsPageEdited,
@@ -48,6 +49,7 @@ import {
 } from './selectors/itemLayoutSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import InvoiceDetailModalType from './InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
 import SaveActionType from './SaveActionType';
@@ -83,6 +85,7 @@ export default class InvoiceDetailModule {
       integration,
     });
     this.contactModalModule = new ContactModalModule({ integration });
+    this.inventoryModalModule = new InventoryModalModule({ integration });
   }
 
   openAccountModal = (onChange) => {
@@ -660,14 +663,14 @@ export default class InvoiceDetailModule {
 
     this.contactModalModule.run({
       context,
-      onLoadFailure: message => this.dispatcher.setAlert({ type: 'danger', message }),
+      onLoadFailure: message => this.displayFailureAlert(message),
       onSaveSuccess: this.loadContactAfterCreate,
     });
   }
 
   loadContactAfterCreate = ({ message, id }) => {
     this.contactModalModule.resetState();
-    this.dispatcher.setAlert({ type: 'success', message });
+    this.displaySuccessAlert(message);
     this.dispatcher.setContactLoadingState(true);
 
     const onSuccess = (payload) => {
@@ -690,6 +693,8 @@ export default class InvoiceDetailModule {
   }
 
   displayFailureAlert = message => this.dispatcher.setAlert({ type: 'danger', message });
+
+  displaySuccessAlert = message => this.dispatcher.setAlert({ type: 'success', message })
 
   readMessages = () => {
     const [message] = this.popMessages(this.messageTypes);
@@ -733,13 +738,54 @@ export default class InvoiceDetailModule {
     }
   }
 
+  loadItemOption = ({ itemId }, onChangeItemTableRow) => {
+    const onSuccess = (response) => {
+      this.dispatcher.loadItemOption(response);
+      onChangeItemTableRow({ id: itemId });
+    };
+
+    const onFailure = ({ message }) => {
+      this.displayFailureAlert(message);
+    };
+
+    // @TODO block item option while loading
+
+    this.integrator.loadItemOption({ onSuccess, onFailure, itemId });
+  };
+
+  saveItem = ({ message, itemId }, onChangeItemTableRow) => {
+    this.displaySuccessAlert(message);
+    this.loadItemOption({ itemId }, onChangeItemTableRow);
+    this.inventoryModalModule.resetState();
+  }
+
+  failLoadItem = ({ message }) => {
+    this.displayFailureAlert(message);
+    this.inventoryModalModule.resetState();
+  }
+
+  openInventoryModalModule = (onChangeItemTableRow) => {
+    const state = this.store.getState();
+    const context = getContextForInventoryModal(state);
+
+    this.inventoryModalModule.run({
+      context,
+      onSaveSuccess: (response) => {
+        this.saveItem(response, onChangeItemTableRow);
+      },
+      onLoadFailure: this.failLoadItem,
+    });
+  }
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
+    const inventoryModal = this.inventoryModalModule.render();
 
     const invoiceDetailView = (
       <InvoiceDetailView
         accountModal={accountModal}
+        inventoryModal={inventoryModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         serviceLayoutListeners={{
@@ -756,6 +802,7 @@ export default class InvoiceDetailModule {
           onChangeTableRow: this.updateInvoiceItemLine,
           onLineInputBlur: this.formatInvoiceItemLine,
           onChangeAmountToPay: this.dispatcher.updateInvoicePaymentAmount,
+          onAddItemButtonClick: this.openInventoryModalModule,
         }}
         invoiceActionListeners={{
           onSaveButtonClick: this.saveInvoice,

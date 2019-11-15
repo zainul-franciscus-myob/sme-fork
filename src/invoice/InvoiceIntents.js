@@ -64,3 +64,5 @@ export const REMOVE_EMAIL_ATTACHMENT = Symbol('Remove email attachment');
 
 export const EXPORT_INVOICE_PDF = Symbol('Export invoice pdf');
 export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');
+
+export const LOAD_ITEM_OPTION = Symbol('Load item option');

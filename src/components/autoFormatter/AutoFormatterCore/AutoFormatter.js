@@ -1,4 +1,3 @@
-// import { Field } from '@myob/myob-widgets';
 import Cleave from 'cleave.js/react';
 import React from 'react';
 import classnames from 'classnames';
@@ -16,6 +15,7 @@ const Input = ({
   warningMessage,
   warningMessageInline,
   className,
+  requiredLabel,
   ...inputBoxProps
 }) => (
   <Field
@@ -24,6 +24,7 @@ const Input = ({
     hideLabel={hideLabel}
     labelAccessory={labelAccessory}
     errorMessage={errorMessage}
+    requiredLabel={requiredLabel}
     errorMessageInline={errorMessageInline}
     warningMessage={warningMessage}
     warningMessageInline={warningMessageInline}

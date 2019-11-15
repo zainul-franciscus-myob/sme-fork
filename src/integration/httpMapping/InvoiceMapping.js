@@ -12,6 +12,7 @@ import {
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_LIST,
+  LOAD_ITEM_OPTION,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
@@ -108,6 +109,10 @@ const InvoiceMapping = {
   [EXPORT_INVOICE_PDF]: {
     method: 'GET',
     getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/export_invoice_pdf/${invoiceId}`,
+  },
+  [LOAD_ITEM_OPTION]: {
+    method: 'GET',
+    getPath: ({ businessId, itemId }) => `/${businessId}/invoice/load_item_option/${itemId}`,
   },
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',

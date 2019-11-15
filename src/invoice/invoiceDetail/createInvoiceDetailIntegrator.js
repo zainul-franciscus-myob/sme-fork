@@ -6,6 +6,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_ITEM_OPTION,
   LOAD_PAY_DIRECT,
   SEND_EMAIL,
   UPDATE_INVOICE_DETAIL,
@@ -22,6 +23,7 @@ import {
   getLoadInvoiceIntent,
   getLoadInvoiceQueryParams,
   getLoadInvoiceUrlParams,
+  getLoadItemOptionUrlParams,
   getLoadPayDirectUrlParams,
 } from './selectors/integratorSelectors';
 import { getExportPdfQueryParams, getExportPdfUrlParams } from './selectors/exportPdfSelectors';
@@ -176,6 +178,19 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
 
     integration.readFile({
       intent, urlParams, params, onSuccess, onFailure,
+    });
+  },
+
+  loadItemOption: ({ onSuccess, onFailure, itemId }) => {
+    const state = store.getState();
+    const intent = LOAD_ITEM_OPTION;
+    const urlParams = getLoadItemOptionUrlParams(state, { itemId });
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   },
 });

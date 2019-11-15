@@ -4,6 +4,7 @@ import React from 'react';
 import { SUCCESSFULLY_DELETED_BILL, SUCCESSFULLY_SAVED_BILL } from './types/BillMessageTypes';
 import {
   getAccountModalContext,
+  getContextForInventoryModal,
   getCreateSupplierContactModalContext,
   getIsCreating,
   getIsCreatingFromInTray,
@@ -33,6 +34,7 @@ import {
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import BillView from './components/BillView';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import LayoutType from './types/LayoutType';
 import ModalType from './types/ModalType';
 import SaveActionType from './types/SaveActionType';
@@ -59,6 +61,7 @@ class BillModule {
       integration,
     });
     this.contactModalModule = new ContactModalModule({ integration });
+    this.inventoryModalModule = new InventoryModalModule({ integration });
   }
 
   openAccountModal = (onChange) => {
@@ -658,13 +661,58 @@ class BillModule {
     }
   };
 
+  loadItemOption = ({ itemId }, onChangeItemTableRow) => {
+    const onSuccess = (response) => {
+      this.dispatcher.stopBlocking();
+      this.dispatcher.loadItemOption(response);
+      onChangeItemTableRow({ id: itemId });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.stopBlocking();
+      this.dispatcher.openDangerAlert({ message });
+    };
+
+    this.dispatcher.startBlocking();
+
+    this.integrator.loadItemOption({ onSuccess, onFailure, itemId });
+  };
+
+  saveItem = ({ message, itemId }, onChangeItemTableRow) => {
+    this.dispatcher.openSuccessAlert({ message });
+    this.loadItemOption({ itemId }, onChangeItemTableRow);
+    this.inventoryModalModule.resetState();
+  }
+
+  failLoadItem = ({ message }) => {
+    this.dispatcher.openDangerAlert({ message });
+    this.inventoryModalModule.resetState();
+  }
+
+  openInventoryModal = (onChangeItemTableRow) => {
+    const state = this.store.getState();
+    const context = getContextForInventoryModal(state);
+
+    this.inventoryModalModule.run({
+      context,
+      onSaveSuccess: (response) => {
+        this.saveItem(response, onChangeItemTableRow);
+      },
+      onLoadFailure: this.failLoadItem,
+    });
+  }
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
+    const inventoryModal = this.inventoryModalModule.render();
 
     const view = (
       <Provider store={this.store}>
         <BillView
+          inventoryModal={inventoryModal}
+          onAddItemButtonClick={this.openInventoryModal}
+          onLoadItemOption={this.loadItemOption}
           accountModal={accountModal}
           onAddAccount={this.openAccountModal}
           onSaveButtonClick={this.saveBill}

@@ -22,6 +22,7 @@ import HelpMapping from './HelpMapping';
 import InTrayMapping from './InTrayMapping';
 import IncomeAllocationMapping from './IncomeAllocationMapping';
 import InventoryMapping from './InventoryMapping';
+import InventoryModalMapping from './InventoryModalMapping';
 import InvoiceMapping from './InvoiceMapping';
 import InvoicePaymentMapping from './InvoicePaymentMapping';
 import LeavePayItemMApping from './LeavePayItemMapping';
@@ -105,6 +106,7 @@ const RootMapping = Object.freeze({
   ...LinkUserMapping,
   ...DashboardMapping,
   ...HelpMapping,
+  ...InventoryModalMapping,
   ...PayRunDetailMapping,
 });
 

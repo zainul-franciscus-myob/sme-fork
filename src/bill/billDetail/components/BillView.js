@@ -29,6 +29,7 @@ const BillView = ({
   isModalShown,
   isLoading,
   layout,
+  inventoryModal,
   contactModal,
   onSaveButtonClick,
   onSaveAndButtonClick,
@@ -52,6 +53,7 @@ const BillView = ({
   onItemRowChange,
   onRemoveItemRow,
   exportPdfModalListeners,
+  onAddItemButtonClick,
   onAddSupplierButtonClick,
 }) => {
   const table = {
@@ -63,6 +65,7 @@ const BillView = ({
         onAddRow={onAddItemRow}
         onRowChange={onItemRowChange}
         onRemoveRow={onRemoveItemRow}
+        onAddItemButtonClick={onAddItemButtonClick}
       />
     ),
     service: (
@@ -87,7 +90,9 @@ const BillView = ({
         </div>
 )}
     >
+      {inventoryModal}
       {accountModal}
+      {contactModal}
       {isModalShown && (
         <BillModal
           onModalClose={onModalClose}
@@ -103,7 +108,6 @@ const BillView = ({
         />
       )}
 
-      {contactModal}
 
       {hasInTrayDocument && <BillInTrayDocumentView />}
       <Card>

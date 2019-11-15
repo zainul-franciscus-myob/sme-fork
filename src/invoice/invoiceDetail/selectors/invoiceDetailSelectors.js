@@ -228,3 +228,12 @@ export const getContactModalContext = (state) => {
 
   return { businessId, region, contactType: 'Customer' };
 };
+
+export const getContextForInventoryModal = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return ({
+    businessId, region, isBuying: false, isSelling: true,
+  });
+};

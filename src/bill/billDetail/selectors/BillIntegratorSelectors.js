@@ -99,6 +99,11 @@ export const getItemCalculateUrlParams = createSelector(
   businessId => ({ businessId }),
 );
 
+export const getLoadItemOptionUrlParams = (state, { itemId }) => ({
+  businessId: getBusinessId(state),
+  itemId,
+});
+
 export const getItemCalculateContent = createSelector(
   getLines,
   getIsTaxInclusive,

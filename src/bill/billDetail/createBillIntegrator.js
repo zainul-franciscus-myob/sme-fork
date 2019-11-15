@@ -8,6 +8,7 @@ import {
   ITEM_CALCULATE_UPDATE_LINE_ITEM,
   ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
   PREFILL_NEW_BILL_FROM_IN_TRAY,
@@ -22,6 +23,7 @@ import {
   getLoadAddedAccountUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
+  getLoadItemOptionUrlParams,
   getLoadSupplierAddressUrlParams,
   getLoadSupplierUrlParams,
   getPrefillNewBillFromInTrayUrlParams,
@@ -199,7 +201,7 @@ const createBillIntegrator = (store, integration) => ({
     });
   },
 
-  prefillDataFromInTray({ onSuccess, onFailure }) {
+  prefillDataFromInTray: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const urlParams = getPrefillNewBillFromInTrayUrlParams(state);
 
@@ -222,6 +224,20 @@ const createBillIntegrator = (store, integration) => ({
       intent, urlParams, params, onSuccess, onFailure,
     });
   },
+
+  loadItemOption: ({ onSuccess, onFailure, itemId }) => {
+    const state = store.getState();
+    const intent = LOAD_ITEM_OPTION;
+    const urlParams = getLoadItemOptionUrlParams(state, { itemId });
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
   loadAccountAfterCreate: ({ id, onSuccess, onFailure }) => {
     const state = store.getState();
 

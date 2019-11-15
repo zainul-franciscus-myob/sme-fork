@@ -10,6 +10,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
+  LOAD_ITEM_OPTION,
   LOAD_PAY_DIRECT,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_ITEM_LINE,
@@ -187,6 +188,13 @@ const createInvoiceDetailDispatcher = store => ({
   updateExportPdfDetail: ({ key, value }) => store.dispatch({
     intent: UPDATE_EXPORT_PDF_DETAIL, key, value,
   }),
+
+  loadItemOption: (response) => {
+    store.dispatch({
+      intent: LOAD_ITEM_OPTION,
+      response,
+    });
+  },
 });
 
 export default createInvoiceDetailDispatcher;

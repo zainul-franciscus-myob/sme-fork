@@ -22,6 +22,7 @@ import PageView from '../../../components/PageView/PageView';
 
 const InvoiceDetailView = ({
   accountModal,
+  inventoryModal,
   isLoading,
   alert,
   modalType,
@@ -90,6 +91,7 @@ const InvoiceDetailView = ({
     >
       {accountModal}
       {contactModal}
+      {inventoryModal}
       {modal}
       {table}
     </LineItemTemplate>
