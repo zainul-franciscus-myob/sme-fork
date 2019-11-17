@@ -62,6 +62,7 @@ const ItemQuoteView = ({
   onConfirmEmailSettingButtonClick,
   onCloseEmailSettingButtonClick,
   contactModal,
+  inventoryModal,
   onAddCustomerButtonClick,
   onAddItemButtonClick,
 }) => {
@@ -135,6 +136,7 @@ const ItemQuoteView = ({
         alert={alertComponent}
       >
         { contactModal }
+        { inventoryModal }
         { modal }
         <ItemQuoteTable
           onAddTableRow={onAddTableRow}

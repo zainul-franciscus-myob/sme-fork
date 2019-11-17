@@ -21,10 +21,10 @@ const InvoiceItemTable = ({
   },
   taxCodeLabel,
 }) => {
-  const itemIdLabel = 'Item id';
+  const itemIdLabel = 'Item ID';
   const itemNameLabel = 'Item name';
   const unitLabel = 'Units';
-  const unitPriceLabel = 'Unit Price';
+  const unitPriceLabel = 'Unit price';
   const discountLabel = 'Discount (%)';
   const amountLabel = 'Amount ($)';
   const requiredLabel = 'This is required';
