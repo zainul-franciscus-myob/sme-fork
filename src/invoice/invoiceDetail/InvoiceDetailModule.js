@@ -741,14 +741,16 @@ export default class InvoiceDetailModule {
   loadItemOption = ({ itemId }, onChangeItemTableRow) => {
     const onSuccess = (response) => {
       this.dispatcher.loadItemOption(response);
+      this.dispatcher.setInvoiceItemSubmittingState(false);
       onChangeItemTableRow({ id: itemId });
     };
 
     const onFailure = ({ message }) => {
+      this.dispatcher.setInvoiceItemSubmittingState(false);
       this.displayFailureAlert(message);
     };
 
-    // @TODO block item option while loading
+    this.dispatcher.setInvoiceItemSubmittingState(true);
 
     this.integrator.loadItemOption({ onSuccess, onFailure, itemId });
   };

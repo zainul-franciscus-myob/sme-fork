@@ -2,6 +2,7 @@ import {
   ADD_TABLE_ROW,
   CHANGE_TABLE_ROW,
   FORMAT_LINE_AMOUNT_INPUTS,
+  LOAD_ITEM_OPTION,
   REMOVE_TABLE_ROW,
   UPDATE_ITEM_QUOTE_OPTION,
 } from '../ItemQuoteIntents';
@@ -11,6 +12,45 @@ import itemQuoteReducer from '../itemQuoteReducer';
 import serviceQuoteReducer from '../../serviceQuote/serviceQuoteReducer';
 
 describe('itemQuoteReducer', () => {
+  describe('LOAD_ITEM_OPTION', () => {
+    it('puts the item option at the top of item options', () => {
+      const state = {
+        items: [
+          {
+            id: '1',
+            itemId: 'a',
+            description: 'A',
+          },
+        ],
+      };
+
+      const action = {
+        intent: LOAD_ITEM_OPTION,
+        response: {
+          id: '2',
+          itemId: 'b',
+          description: 'B',
+        },
+      };
+
+      const actual = itemQuoteReducer(state, action);
+
+      expect(actual.items).toEqual([
+        {
+          id: '2',
+          itemId: 'b',
+          description: 'B',
+        },
+        {
+          id: '1',
+          itemId: 'a',
+          description: 'A',
+        },
+
+      ]);
+    });
+  });
+
   describe('updateQuoteOption', () => {
     it('updates quote with given key and value', () => {
       const state = {

@@ -28,6 +28,7 @@ import {
   CHANGE_TABLE_ROW,
   CREATE_ITEM_QUOTE,
   FORMAT_LINE_AMOUNT_INPUTS,
+  LOAD_ITEM_OPTION,
   REMOVE_TABLE_ROW,
   SET_IS_CALCULATING,
   SET_IS_LINE_AMOUNT_INPUT_DIRTY,
@@ -49,6 +50,7 @@ import {
 import {
   getBusinessId,
   getContactModalContext,
+  getContextForInventoryModal,
   getCreateDuplicateQuoteURL,
   getCreateInvoiceFromQuoteURL,
   getCreateNewItemQuoteURL,
@@ -63,6 +65,7 @@ import {
   getIsLineAmountInputDirty,
   getIsPageEdited,
   getLoadCustomerUrlParams,
+  getLoadItemOptionUrlParams,
   getNewLineIndex,
   getPayloadForCalculateAmountInputs,
   getPayloadForRemoveTableRow,
@@ -81,6 +84,7 @@ import {
   getShouldSaveAndExportPdf,
 } from './ItemQuoteSelectors';
 import ContactModalModule from '../../../contact/contactModal/ContactModalModule';
+import InventoryModalModule from '../../../inventory/inventoryModal/InventoryModalModule';
 import ItemQuoteView from './components/ItemQuoteView';
 import ModalType from '../ModalType';
 import SaveActionType from '../SaveActionType';
@@ -102,6 +106,7 @@ export default class ItemQuoteModule {
     this.replaceURLParams = replaceURLParams;
 
     this.contactModalModule = new ContactModalModule({ integration });
+    this.inventoryModalModule = new InventoryModalModule({ integration });
   }
 
   loadCustomerAddress = () => {
@@ -746,6 +751,61 @@ export default class ItemQuoteModule {
     this.replaceURLParams(params);
   }
 
+  loadItemOption = ({ itemId }, onChangeItemTableRow) => {
+    const state = this.store.getState();
+    const intent = LOAD_ITEM_OPTION;
+    const urlParams = getLoadItemOptionUrlParams(state, { itemId });
+
+    const onSuccess = (response) => {
+      this.store.dispatch({
+        intent: LOAD_ITEM_OPTION,
+        response,
+      });
+
+      onChangeItemTableRow({ id: itemId });
+      this.setIsCalculating(false);
+    };
+
+    const onFailure = ({ message }) => {
+      this.displayFailureAlert(message);
+      this.setIsCalculating(false);
+    };
+
+
+    this.setIsCalculating(true);
+
+    this.integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  saveItem = ({ message, itemId }, onChangeItemTableRow) => {
+    this.displaySuccessAlert(message);
+    this.loadItemOption({ itemId }, onChangeItemTableRow);
+    this.inventoryModalModule.resetState();
+  }
+
+  failLoadItem = ({ message }) => {
+    this.displayFailureAlert(message);
+    this.inventoryModalModule.resetState();
+  }
+
+  openInventoryModal = (onChangeItemTableRow) => {
+    const state = this.store.getState();
+    const context = getContextForInventoryModal(state);
+
+    this.inventoryModalModule.run({
+      context,
+      onSaveSuccess: (response) => {
+        this.saveItem(response, onChangeItemTableRow);
+      },
+      onLoadFailure: this.failLoadItem,
+    });
+  }
+
   resetState = () => {
     this.store.dispatch({
       intent: RESET_STATE,
@@ -758,10 +818,12 @@ export default class ItemQuoteModule {
 
   render = () => {
     const contactModal = this.contactModalModule.render();
+    const inventoryModal = this.inventoryModalModule.render();
 
     const wrappedView = (
       <Provider store={this.store}>
         <ItemQuoteView
+          inventoryModal={inventoryModal}
           onUpdateQuoteOption={this.updateQuoteOption}
           onTableRowAmountInputBlur={this.updateLineAmountInputs}
           onAddTableRow={this.addTableRow}
@@ -794,6 +856,7 @@ export default class ItemQuoteModule {
           onCloseEmailSettingButtonClick={this.closeEmailSettingsModal}
           contactModal={contactModal}
           onAddCustomerButtonClick={this.openContactModal}
+          onAddItemButtonClick={this.openInventoryModal}
         />
       </Provider>
     );

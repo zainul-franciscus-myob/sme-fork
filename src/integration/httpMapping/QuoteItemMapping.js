@@ -1,6 +1,7 @@
 import {
   CREATE_ITEM_QUOTE,
   LOAD_DUPLICATE_ITEM_QUOTE,
+  LOAD_ITEM_OPTION,
   LOAD_NEW_ITEM_QUOTE,
   REMOVE_TABLE_ROW,
   UPDATE_ITEM_QUOTE,
@@ -46,6 +47,10 @@ const QuoteItemMapping = {
   [REMOVE_TABLE_ROW]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/quote/calculate_item_quote_totals/remove_line`,
+  },
+  [LOAD_ITEM_OPTION]: {
+    method: 'GET',
+    getPath: ({ businessId, itemId }) => `/${businessId}/quote/load_item_option/${itemId}`,
   },
 };
 

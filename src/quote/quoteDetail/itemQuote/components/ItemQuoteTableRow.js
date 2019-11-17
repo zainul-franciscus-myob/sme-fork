@@ -38,6 +38,7 @@ const ItemQuoteTableRow = ({
   isNewLine,
   isCalculating,
   onTableRowAmountInputBlur,
+  onAddItemButtonClick,
   ...feelixInjectedProps
 }) => (
   <LineItemTable.Row
@@ -47,6 +48,7 @@ const ItemQuoteTableRow = ({
     onRemove={isCalculating ? undefined : feelixInjectedProps.onRemove}
   >
     <ItemCombobox
+      addNewItem={() => onAddItemButtonClick(onComboboxChange('itemId', onChange))}
       items={items}
       selectedId={quoteLine.itemId}
       onChange={onComboboxChange('itemId', onChange)}

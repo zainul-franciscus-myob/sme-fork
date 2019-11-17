@@ -449,3 +449,17 @@ export const getUpdatedCustomerOptions = (state, updatedOption) => {
     ? customerOptions.map(option => (option.id === updatedOption.id ? updatedOption : option))
     : [updatedOption, ...customerOptions];
 };
+
+export const getContextForInventoryModal = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return ({
+    businessId, region, isBuying: false, isSelling: true,
+  });
+};
+
+export const getLoadItemOptionUrlParams = (state, { itemId }) => ({
+  businessId: getBusinessId(state),
+  itemId,
+});

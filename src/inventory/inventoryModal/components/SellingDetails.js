@@ -44,7 +44,6 @@ const SellingDetails = (
 
 ) => (
   <FieldGroup label="Selling details">
-    {/* check with design */}
     <Checkbox label="I sell this item" checked={isSelling} name="isSelling" onChange={handleCheckboxChange(onUpdateIsSelling)} />
     <div className={styles.price}>
       <AmountInput label="Selling price ($)" name="price" value={price} requiredLabel="This is required" onChange={handleAmountInputChange(onUpdateSellingOption)} />

@@ -1,5 +1,6 @@
 export const LOAD_NEW_ITEM_QUOTE = Symbol('Load new item quote');
 export const LOAD_DUPLICATE_ITEM_QUOTE = Symbol('Load duplicate item quote');
+export const LOAD_ITEM_OPTION = Symbol('Load item option');
 export const UPDATE_ITEM_QUOTE_OPTION = Symbol('Update item quote option');
 export const CREATE_ITEM_QUOTE = Symbol('Create item quote');
 export const UPDATE_ITEM_QUOTE = Symbol('Update item quote');

@@ -5,12 +5,13 @@ import React from 'react';
 import { getEmptyQuoteLines, getTotals } from '../ItemQuoteSelectors';
 import ItemQuoteTableRow from './ItemQuoteTableRow';
 
-const renderRow = onTableRowAmountInputBlur => (index, data, onChange) => (
+const renderRow = (onTableRowAmountInputBlur, onAddItemButtonClick) => (index, data, onChange) => (
   <ItemQuoteTableRow
     index={index}
     key={index}
     onChange={onChange}
     onTableRowAmountInputBlur={onTableRowAmountInputBlur}
+    onAddItemButtonClick={onAddItemButtonClick}
   />
 );
 
@@ -21,11 +22,12 @@ const ItemQuoteTable = ({
   onChangeTableRow,
   onRemoveTableRow,
   onTableRowAmountInputBlur,
+  onAddItemButtonClick,
 }) => (
   <LineItemTable
     labels={['Item number', 'Item name', 'Units', 'Unit price ($)', 'Discount (%)', 'Amount ($)', 'Tax code']}
     data={emptyQuoteLines}
-    renderRow={renderRow(onTableRowAmountInputBlur)}
+    renderRow={renderRow(onTableRowAmountInputBlur, onAddItemButtonClick)}
     onAddRow={onAddTableRow}
     onRowChange={onChangeTableRow}
     onRemoveRow={onRemoveTableRow}

@@ -84,7 +84,6 @@ const BillPaymentTerms = ({
       requiredLabel="This is required"
       renderField={() => (
         <div className={styles.popover}>
-          {/* @TODO: fix the jank of the popover closing when user update input */}
           <Popover body={popoverBody} closeOnOuterAction>
             <Button type="secondary" onClick={onClickPaymentTerms}>{paymentTermsPopoverLabel}</Button>
           </Popover>

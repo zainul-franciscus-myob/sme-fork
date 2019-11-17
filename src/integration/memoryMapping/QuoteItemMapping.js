@@ -1,6 +1,7 @@
 import {
   CREATE_ITEM_QUOTE,
   LOAD_DUPLICATE_ITEM_QUOTE,
+  LOAD_ITEM_OPTION,
   LOAD_NEW_ITEM_QUOTE,
   REMOVE_TABLE_ROW,
   UPDATE_ITEM_QUOTE,
@@ -11,6 +12,7 @@ import {
 } from '../../quote/quoteDetail/itemQuote/ItemQuoteIntents';
 import duplicateItemQuoteReponse from '../data/quote/itemLayout/duplicateItemQuoteResponse';
 import itemQuoteDetailNewEntry from '../data/quote/itemLayout/itemQuoteDetailNewEntry';
+import itemQuoteLoadItemOption from '../data/quote/itemLayout/itemQuoteLoadItemOption';
 import itemQuoteRemoveTableRow from '../data/quote/itemLayout/itemQuoteRemoveTableRow';
 import itemQuoteUpdateLineAmountInputs from '../data/quote/itemLayout/itemQuoteUpdateLineAmountInputs';
 import itemQuoteUpdateLineItem from '../data/quote/itemLayout/itemQuoteUpdateLineItem';
@@ -27,6 +29,7 @@ const updateLineTaxCode = ({ onSuccess }) => onSuccess(itemQuoteUpdateLineTaxCod
 const updateTaxInclusive = ({ onSuccess }) => onSuccess(itemQuoteUpdateTaxInclusive);
 const updateLineAmountInputs = ({ onSuccess }) => onSuccess(itemQuoteUpdateLineAmountInputs);
 const removeTableRow = ({ onSuccess }) => onSuccess(itemQuoteRemoveTableRow);
+const loadItemOption = ({ onSuccess }) => onSuccess(itemQuoteLoadItemOption);
 
 const QuoteItemMapping = {
   [LOAD_NEW_ITEM_QUOTE]: loadNewItemQuoteDetail,
@@ -38,6 +41,7 @@ const QuoteItemMapping = {
   [UPDATE_TAX_INCLUSIVE]: updateTaxInclusive,
   [UPDATE_LINE_AMOUNT_INPUTS]: updateLineAmountInputs,
   [REMOVE_TABLE_ROW]: removeTableRow,
+  [LOAD_ITEM_OPTION]: loadItemOption,
 };
 
 export default QuoteItemMapping;

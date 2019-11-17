@@ -19,6 +19,7 @@ import {
   CALCULATE_LINES,
   CHANGE_TABLE_ROW,
   FORMAT_LINE_AMOUNT_INPUTS,
+  LOAD_ITEM_OPTION,
   REMOVE_TABLE_ROW,
   SET_IS_CALCULATING,
   SET_IS_LINE_AMOUNT_INPUT_DIRTY,
@@ -388,7 +389,16 @@ const removeEmailAttachment = (state, { index }) => ({
   },
 });
 
+const loadItemOption = (state, action) => ({
+  ...state,
+  items: [
+    action.response,
+    ...state.items,
+  ],
+});
+
 const handlers = {
+  [LOAD_ITEM_OPTION]: loadItemOption,
   [SET_IS_CALCULATING]: setIsCalculating,
   [SET_IS_LINE_AMOUNT_INPUT_DIRTY]: setIsLineAmountInputDirty,
   [SET_MODAL]: setModal,

@@ -63,6 +63,7 @@ const ItemQuoteView = ({
   onCloseEmailSettingButtonClick,
   contactModal,
   onAddCustomerButtonClick,
+  onAddItemButtonClick,
 }) => {
   const actions = (
     <ItemQuoteActions
@@ -140,6 +141,7 @@ const ItemQuoteView = ({
           onChangeTableRow={onChangeTableRow}
           onRemoveTableRow={onRemoveTableRow}
           onTableRowAmountInputBlur={onTableRowAmountInputBlur}
+          onAddItemButtonClick={onAddItemButtonClick}
         />
       </LineItemTemplate>
     </React.Fragment>
