@@ -1,0 +1,9 @@
+/**
+  @Feelix-Override:
+    To achieve the paddings that design requires for when the PageState is empty, and no image is display,
+    and when only of of the tables is empty and not both.
+**/
+.emptyBankAccountsPageState :global(.flx-page-state) {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}

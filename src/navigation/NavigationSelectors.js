@@ -133,6 +133,7 @@ export const getBusinessUrls = createSelector(
     salesSettings: enabledUrls.salesSettings,
     prepareBasOrIas: enabledUrls.prepareBasOrIas,
     linkedAccounts: enabledUrls.linkedAccounts,
+    bankFeeds: enabledUrls.bankFeeds,
     accountList: enabledUrls.accountList,
   }),
 );

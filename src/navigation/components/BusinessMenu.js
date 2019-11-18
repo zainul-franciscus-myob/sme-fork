@@ -48,6 +48,7 @@ const getItems = ({
   urls.salesSettings && getMenuLink(urls.salesSettings, 'Invoice and quote settings', onMenuLinkClick),
   urls.prepareBasOrIas && getMenuLink(urls.prepareBasOrIas, prepareBasOrIasLabel, onMenuLinkClick),
   urls.linkedAccounts && getMenuLink(urls.linkedAccounts, 'Manage linked accounts', onMenuLinkClick),
+  urls.bankFeeds && getMenuLink(urls.bankFeeds, 'Manage bank feeds', onMenuLinkClick),
   urls.accountList && getMenuLink(urls.accountList, 'Accounts', onMenuLinkClick),
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
   <Navigation.MenuLink key="logout" url="#/logout" label="Logout" icon={<Icons.SignOut />} onClick={handleMenuLinkClick(onMenuLinkClick, '#/logout')} />,

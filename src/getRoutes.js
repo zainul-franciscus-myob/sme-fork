@@ -1,5 +1,6 @@
 import getAccountRoutes from './account/getAccountRoutes';
 import getApplyToSaleRoutes from './applyToSale/getApplyToSaleRoutes';
+import getBankFeedsRoutes from './bankFeeds/getBankFeedsRoutes';
 import getBankReconciliationRoutes from './bankReconciliation/getBankReconciliationRoutes';
 import getBankingRoutes from './banking/getBankingRoutes';
 import getBankingRuleRoutes from './bankingRules/getBankingRuleRoutes';
@@ -315,6 +316,13 @@ const getRoutes = ({
     name: 'dashboard',
     rootPath: '/:region/:businessId/dashboard',
     subRoutes: getDashboardRoutes({
+      integration, setRootView,
+    }),
+  },
+  {
+    name: 'bankFeeds',
+    rootPath: '/:region/:businessId/bankFeeds',
+    subRoutes: getBankFeedsRoutes({
       integration, setRootView,
     }),
   },

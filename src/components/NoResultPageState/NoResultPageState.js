@@ -7,13 +7,22 @@ const NoResultPageState = ({
   title,
   description,
   actions,
-}) => (
-  <PageState
-    title={title}
-    description={description}
-    image={<img src={noResultFoundImage} alt="No result found" />}
-    actions={actions}
-  />
-);
+  showNoResultImage = true,
+}) => {
+  const noResultImage = (
+    <img src={noResultFoundImage} alt="No result found" />
+  );
+
+  const pageStateProps = {
+    title,
+    description,
+    actions,
+    image: showNoResultImage ? noResultImage : undefined,
+  };
+
+  return (
+    <PageState {...pageStateProps} />
+  );
+};
 
 export default NoResultPageState;
