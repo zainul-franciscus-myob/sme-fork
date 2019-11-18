@@ -36,8 +36,8 @@ const TaxPayItemView = ({
             onChange={handleComboboxChange('accountId', onTaxDetailChange)}
             labelAccessory={(
               <Tooltip triggerContent={<Icons.Info />}>
-              This account will track the amount of PAYG that is withheld from employee pays.
-              We recommend using the default.
+              This account will track the amount of PAYG that is withheld from employees.
+              We recommend using the default one we suggested for you.
               </Tooltip>
           )}
           />
