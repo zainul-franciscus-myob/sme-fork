@@ -19,10 +19,7 @@ const AuTaxDetails = ({
     <AbnInput
       className={styles.input}
       name="abn"
-      label={
-        <Tooltip triggerContent="ABN">required</Tooltip>
-      }
-      requiredLabel="required"
+      label="ABN"
       value={abn}
       maxLength={14}
       onChange={onInputChange(onChange)}

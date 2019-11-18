@@ -17,7 +17,6 @@ const NzTaxDetails = ({ irdNumber, nzbn, onChange }) => (
       name="irdNumber"
       label="IRD Number/GST Number"
       value={irdNumber}
-      requiredLabel="required"
       onChange={onInputChange(onChange)}
     />
     <Input
