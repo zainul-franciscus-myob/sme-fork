@@ -19,7 +19,7 @@ const PayRunView = ({
   onDismissModal,
   onGoBack,
 }) => {
-  const modalcontainer = modal && (
+  const modalContainer = modal && (
     <ModalContainer
       modal={modal}
       onDismissModal={onDismissModal}
@@ -34,7 +34,7 @@ const PayRunView = ({
   const view = (
     <BaseTemplate>
       { alertComponent }
-      { modalcontainer }
+      { modalContainer }
       { stepViews[step] }
     </BaseTemplate>
   );
