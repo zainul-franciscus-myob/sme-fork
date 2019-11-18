@@ -72,7 +72,3 @@ export default class InventoryModalModule {
     );
   }
 }
-
-// TODO
-// styling
-// checkbox buying/selling checkbox

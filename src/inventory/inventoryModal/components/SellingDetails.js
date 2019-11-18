@@ -1,5 +1,5 @@
 import {
-  Checkbox, FieldGroup, Icons, Input, Tooltip,
+  Checkbox, CheckboxGroup, FieldGroup, Icons, Input, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -44,10 +44,12 @@ const SellingDetails = (
 
 ) => (
   <FieldGroup label="Selling details">
-    <Checkbox label="I sell this item" checked={isSelling} name="isSelling" onChange={handleCheckboxChange(onUpdateIsSelling)} />
-    <div className={styles.price}>
-      <AmountInput label="Selling price ($)" name="price" value={price} requiredLabel="This is required" onChange={handleAmountInputChange(onUpdateSellingOption)} />
-    </div>
+    <CheckboxGroup
+      renderCheckbox={() => (
+        <Checkbox label="I sell this item" checked={isSelling} name="isSelling" onChange={handleCheckboxChange(onUpdateIsSelling)} />
+      )}
+    />
+    <AmountInput className={styles.price} label="Selling price ($)" name="price" value={price} requiredLabel="This is required" onChange={handleAmountInputChange(onUpdateSellingOption)} />
     <BooleanRadioButtonGroup
       label="Selling price is"
       // rename due to conflicting isTaxInclusive on underlying page
@@ -57,20 +59,19 @@ const SellingDetails = (
       falseLabel={taxExclusiveLabel}
       handler={onUpdateSellingOption}
     />
-    <div className={styles.unitOfMeasure}>
-      <Input
-        label="Unit of measure"
-        name="unitOfMeasure"
-        value={unitOfMeasure}
-        labelAccessory={(
-          <Tooltip triggerContent={<Icons.Info />}>
+    <Input
+      className={styles.unitOfMeasure}
+      label="Unit of measure"
+      name="unitOfMeasure"
+      value={unitOfMeasure}
+      labelAccessory={(
+        <Tooltip triggerContent={<Icons.Info />}>
           Eg. boxes, cans, hours, kg (max 5 characters)
-          </Tooltip>
+        </Tooltip>
       )}
-        onChange={handleAmountInputChange(onUpdateSellingOption)}
-        maxLength={5}
-      />
-    </div>
+      onChange={handleAmountInputChange(onUpdateSellingOption)}
+      maxLength={5}
+    />
     <AccountCombobox
       name="accountId"
       label="Account for tracking sales"

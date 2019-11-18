@@ -1,5 +1,5 @@
 import {
-  Button, Checkbox, FieldGroup, Icons, Input, Modal, TextArea,
+  Button, Checkbox, CheckboxGroup, FieldGroup, Icons, Input, Modal, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -49,18 +49,24 @@ const InventoryModalView = ({
   const view = (
     <React.Fragment>
       <Modal.Body>
-        <div>
-          {isAlertShown && <InventoryModalAlert onDismissAlert={onDismissAlert} />}
-        </div>
+        {isAlertShown && <InventoryModalAlert onDismissAlert={onDismissAlert} />}
         <FieldGroup label="Item details">
           <Input label="Name" name="name" requiredLabel="This is required" value={name} onChange={handleInputChange(onUpdateItemOption)} />
           <TextArea label="Description" name="description" value={description} onChange={handleInputChange(onUpdateItemOption)} />
-          <Checkbox label="Use description on transaction instead of name" name="useDescription" checked={useDescription} onChange={handleCheckboxChange(onUpdateItemOption)} />
-          <div className={styles.itemId}>
-            <Input label="Item ID" name="displayId" requiredLabel="This is required" value={itemId} onChange={handleInputChange(onUpdateItemOption)} />
-          </div>
-          {!isSelling && <Button type="link" icon={<Icons.Add />} onClick={onOpenSellingDetails}>Add selling details</Button> }
+          <CheckboxGroup renderCheckbox={() => (
+            <Checkbox label="Use description on transaction instead of name" name="useDescription" checked={useDescription} onChange={handleCheckboxChange(onUpdateItemOption)} />
+          )}
+          />
+          <Input className={styles.itemId} label="Item ID" name="displayId" requiredLabel="This is required" value={itemId} onChange={handleInputChange(onUpdateItemOption)} />
         </FieldGroup>
+
+        {!isSelling
+        && (
+        <FieldGroup>
+          <Button type="link" icon={<Icons.Add />} onClick={onOpenSellingDetails}>Add selling details</Button>
+        </FieldGroup>
+        )
+      }
 
         {isSelling && (
         <SellingDetails

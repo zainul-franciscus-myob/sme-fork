@@ -1,5 +1,5 @@
 import {
-  Checkbox, FieldGroup, Icons, Input, Tooltip,
+  Checkbox, CheckboxGroup, FieldGroup, Icons, Input, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -35,24 +35,25 @@ const BuyingDetails = ({
   onUpdateIsBuying,
 }) => (
   <FieldGroup label="Buying details">
-    <Checkbox label="I buy this item" checked={isBuying} name="isBuying" onChange={handleCheckboxChange(onUpdateIsBuying)} />
-    <div className={styles.price}>
-      <AmountInput label="Buying price ($)" name="price" value={price} requiredLabel="This is required" onChange={handleAmountInputChange(onUpdateBuyingOption)} />
-    </div>
-    <div className={styles.unitOfMeasure}>
-      <Input
-        label="Unit of measure"
-        name="unitOfMeasure"
-        value={unitOfMeasure}
-        labelAccessory={(
-          <Tooltip triggerContent={<Icons.Info />}>
-          Eg. boxes, cans, hours, kg (max 5 characters)
-          </Tooltip>
+    <CheckboxGroup
+      renderCheckbox={() => (
+        <Checkbox label="I buy this item" checked={isBuying} name="isBuying" onChange={handleCheckboxChange(onUpdateIsBuying)} />
       )}
-        onChange={handleInputChange(onUpdateBuyingOption)}
-        maxLength={5}
-      />
-    </div>
+    />
+    <AmountInput className={styles.price} label="Buying price ($)" name="price" value={price} requiredLabel="This is required" onChange={handleAmountInputChange(onUpdateBuyingOption)} />
+    <Input
+      className={styles.unitOfMeasure}
+      label="Unit of measure"
+      name="unitOfMeasure"
+      value={unitOfMeasure}
+      labelAccessory={(
+        <Tooltip triggerContent={<Icons.Info />}>
+          Eg. boxes, cans, hours, kg (max 5 characters)
+        </Tooltip>
+      )}
+      onChange={handleInputChange(onUpdateBuyingOption)}
+      maxLength={5}
+    />
     <AccountCombobox
       name="accountId"
       label="Account for tracking purchases"
@@ -60,7 +61,6 @@ const BuyingDetails = ({
       requiredLabel="This is required"
       items={accountOptions}
       onChange={handleComboboxChange('accountId', onUpdateBuyingOption)}
-
     />
     <div className={styles.taxCodeOptions}>
       <TaxCodeCombobox
