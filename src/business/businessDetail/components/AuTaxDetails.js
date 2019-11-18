@@ -20,7 +20,7 @@ const AuTaxDetails = ({
       className={styles.input}
       name="abn"
       label={
-        <Tooltip triggerContent="ABN *">required</Tooltip>
+        <Tooltip triggerContent="ABN">required</Tooltip>
       }
       requiredLabel="required"
       value={abn}
@@ -33,8 +33,8 @@ const AuTaxDetails = ({
       label="GST branch number"
       labelAccessory={(
         <Tooltip triggerContent={<Icons.Info />}>
-          If you have registered each branch of your business separately for GST,
-          enter the number given by the ATO for this branch
+          {`If you've registered each branch of your business separately for GST,
+          enter the number given by the ATO for this branch`}
         </Tooltip>
       )}
       value={gstBranchNumber}

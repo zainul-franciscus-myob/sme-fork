@@ -193,7 +193,7 @@ export default class BusinessDetailModule {
   redirectToModalUrl = () => {
     const state = this.store.getState();
     const url = getModalUrl(state);
-
+    this.closeModal();
     this.redirectToUrl(url);
   };
 
