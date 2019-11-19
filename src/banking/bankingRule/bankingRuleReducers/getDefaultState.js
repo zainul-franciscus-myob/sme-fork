@@ -10,7 +10,6 @@ const getDefaultState = () => ({
     allocationType: 'Percent',
     allocations: [],
     conditions: [],
-    isPaymentReportable: false,
   },
   isSaving: false,
   bankAccounts: [],

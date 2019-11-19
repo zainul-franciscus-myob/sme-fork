@@ -40,7 +40,12 @@ export const updateRuleDetails = (state, action) => {
     newState.bankingRule.allocations = [];
   }
   if (action.key === 'contactId') {
-    newState.bankingRule.isPaymentReportable = false;
+    const contact = state.contacts.find(({ id }) => id === action.value);
+    if (contact && contact.contactType === 'Supplier') {
+      newState.bankingRule.isPaymentReportable = false;
+    } else {
+      newState.bankingRule.isPaymentReportable = undefined;
+    }
   }
   return newState;
 };
