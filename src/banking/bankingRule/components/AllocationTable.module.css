@@ -1,3 +1,7 @@
 .remaining :global(.line-item__totals h4) {
   color: var(--flx-color-alert-error-link);
 }
+
+.allocationTable :global(.line-item-table [data-label="Account"]) {
+  flex: 1 1;
+}

@@ -139,3 +139,8 @@ export const getShouldShowAllocationSection = createSelector(
   getRuleType,
   ruleType => [RuleTypes.spendMoney, RuleTypes.receiveMoney].includes(ruleType),
 );
+
+export const getTaxCodeLabel = createSelector(
+  getRegion,
+  region => (region === 'au' ? 'Tax code' : 'GST code'),
+);
