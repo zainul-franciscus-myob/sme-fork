@@ -72,7 +72,6 @@ const BankFeedsView = ({
       {alertComponent}
       <PageHead title="Manage bank feeds">
         <LinkButton
-          type="link"
           href={manageBankFeedsLink}
           icon={<Icons.OpenExternalLink />}
           iconRight

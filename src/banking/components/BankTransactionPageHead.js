@@ -1,5 +1,5 @@
 import {
-  Button, Icons, Tooltip, TotalsHeader,
+  Icons, Tooltip, TotalsHeader,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,7 +7,9 @@ import React from 'react';
 import {
   getBankAccount, getBankAccounts, getDisplayBalances,
 } from '../bankingSelectors';
+import { getBankReconciliationUrl } from '../bankingSelectors/redirectSelectors';
 import AccountCombobox from '../../components/combobox/AccountCombobox';
+import LinkButton from '../../components/Button/LinkButton';
 import styles from './BankTransactionsPageHead.module.css';
 
 const onComboBoxChange = onBankAccountChange => (item) => {
@@ -16,6 +18,7 @@ const onComboBoxChange = onBankAccountChange => (item) => {
 };
 
 const BankTransactionPageHead = ({
+  bankReconciliationUrl,
   bankAccount,
   bankAccounts,
   balances: {
@@ -25,7 +28,6 @@ const BankTransactionPageHead = ({
     balanceTooltip,
   },
   onBankAccountChange,
-  onRedirectToReconciliation,
 }) => {
   const totalItems = [
     <Tooltip>{balanceTooltip}</Tooltip>,
@@ -54,9 +56,13 @@ const BankTransactionPageHead = ({
       label="Bank account"
       hideLabel={false}
     />,
-    <Button key="reconcile" type="link" onClick={onRedirectToReconciliation} icon={<Icons.Compliance />}>
+    <LinkButton
+      className={styles.reconcileLink}
+      href={bankReconciliationUrl}
+      icon={<Icons.Compliance />}
+    >
       Reconcile
-    </Button>,
+    </LinkButton>,
   ];
   return (
     <div className={styles.pageHead}>
@@ -73,6 +79,7 @@ const mapStateToProps = state => ({
   bankAccount: getBankAccount(state),
   bankAccounts: getBankAccounts(state),
   balances: getDisplayBalances(state),
+  bankReconciliationUrl: getBankReconciliationUrl(state),
 });
 
 export default connect(mapStateToProps)(BankTransactionPageHead);

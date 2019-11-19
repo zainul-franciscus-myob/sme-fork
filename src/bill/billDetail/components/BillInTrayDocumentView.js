@@ -25,9 +25,7 @@ const BillInTrayDocumentView = ({
               <LinkButton
                 icon={<Icons.Show />}
                 href={inTrayDocumentFileUrl}
-                type="link"
                 isOpenInNewTab
-                iconLeft
               >
                 View
               </LinkButton>

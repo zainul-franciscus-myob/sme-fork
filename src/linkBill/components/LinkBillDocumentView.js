@@ -24,9 +24,7 @@ const LinkBillDocumentView = ({
               <LinkButton
                 icon={<Icons.Show />}
                 href={documentUrl}
-                type="link"
                 isOpenInNewTab
-                iconLeft
               >
                 View
               </LinkButton>

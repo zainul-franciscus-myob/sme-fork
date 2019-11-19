@@ -17,7 +17,6 @@ const BankFeedsEmptyView = ({
   const emptyViewActions = [
     <LinkButton
       key={1}
-      type="link"
       icon={<Icons.Info />}
       href={learnMoreBankFeedsLink}
       isOpenInNewTab
@@ -26,7 +25,6 @@ const BankFeedsEmptyView = ({
     </LinkButton>,
     <LinkButton
       key={2}
-      type="link"
       icon={<Icons.Add />}
       href={manageBankFeedsLink}
       isOpenInNewTab

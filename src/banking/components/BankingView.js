@@ -75,7 +75,6 @@ const BankingView = (props) => {
     onConfirmUnallocateModal,
     onOpenBankingRuleModal,
     onRenderBankingRuleModal,
-    onRedirectToReconciliation,
   } = props;
 
   const filterBar = (
@@ -88,7 +87,6 @@ const BankingView = (props) => {
   const pageHead = (
     <BankTransactionPageHead
       onBankAccountChange={onBankAccountChange}
-      onRedirectToReconciliation={onRedirectToReconciliation}
     />
   );
 

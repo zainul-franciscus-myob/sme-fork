@@ -16,7 +16,6 @@ import {
   getOpenEntryDefaultTabId,
   getOpenPosition,
 } from './bankingSelectors';
-import { getBankReconciliationUrl } from './bankingSelectors/redirectSelectors';
 import {
   getDefaultMatchTransactionFilterOptions,
   getMatchTransactionFlipSortOrder,
@@ -127,7 +126,6 @@ export default class BankingModule {
         onConfirmUnallocateModal={this.bulkUnallocateTransactions}
         onOpenBankingRuleModal={openBankingRuleModal}
         onRenderBankingRuleModal={this.renderBankingRuleModal}
-        onRedirectToReconciliation={this.redirectToReconciliation}
       />
     );
 
@@ -883,12 +881,6 @@ export default class BankingModule {
       this.dispatcher.selectTransaction({ index, value });
     }
   };
-
-  redirectToReconciliation = () => {
-    const state = this.store.getState();
-    const bankReconciliationUrl = getBankReconciliationUrl(state);
-    window.location.href = bankReconciliationUrl;
-  }
 
   resetState = () => {
     this.dispatcher.resetState();

@@ -28,7 +28,6 @@ const CreditCardsTable = ({
   const emptyViewActions = [
     <LinkButton
       key={1}
-      type="link"
       icon={<Icons.Add />}
       href={manageBankFeedsLink}
       isOpenInNewTab
