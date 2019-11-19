@@ -1,5 +1,5 @@
 import {
-  Alert, Button, ButtonRow, PageHead, StandardTemplate,
+  Alert, Button, ButtonRow, Icons, PageHead, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -24,12 +24,18 @@ const UserListView = (props) => {
     </Alert>
   );
 
+  const openMyMyob = () => {
+    window.open('https://my.myob.com', '_blank', 'noopener noreferrer');
+  };
+
   const pageHead = (
     <PageHead title="Users">
-      <a href="https://my.myob.com" target="_blank" rel="noopener noreferrer">Manage online access</a>
+      <Button type="link" icon={<Icons.OpenExternalLink />} onClick={openMyMyob} iconRight>Manage user access via my.MYOB</Button>
       <ButtonRow>
-        <Button type="secondary" onClick={onCreateUser(true)}>Invite advisor</Button>
-        <Button onClick={onCreateUser(false)}>Invite user</Button>
+        <Button type="secondary" onClick={onCreateUser(true)}>
+          Create advisor
+        </Button>
+        <Button onClick={onCreateUser(false)}>Create user</Button>
       </ButtonRow>
     </PageHead>
   );

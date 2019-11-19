@@ -1,9 +1,11 @@
+import { Badge, Table } from '@myob/myob-widgets';
 import { PropTypes } from 'prop-types';
-import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getTableEntries } from '../userListSelectors';
+
+const getStatusBadge = status => (status ? null : <Badge color="light-grey">{status}</Badge>);
 
 const UserListTableBody = (props) => {
   const {
@@ -16,9 +18,11 @@ const UserListTableBody = (props) => {
       <Table.RowItem {...tableConfig.name}>
         <a href={entry.link}>{entry.name}</a>
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.email}>{entry.email}</Table.RowItem>
       <Table.RowItem {...tableConfig.advisor}>{entry.advisor}</Table.RowItem>
-      <Table.RowItem {...tableConfig.status}>{entry.status}</Table.RowItem>
+      <Table.RowItem {...tableConfig.email}>{entry.email}</Table.RowItem>
+      <Table.RowItem {...tableConfig.status}>
+        <Badge color="light-grey">{getStatusBadge(entry.status)}</Badge>
+      </Table.RowItem>
     </Table.Row>
   ));
 

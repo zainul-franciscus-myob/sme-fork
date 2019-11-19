@@ -8,10 +8,10 @@ import TableView from '../../../components/TableView/TableView';
 import UserListTableBody from './UserListTableBody';
 
 const tableConfig = {
-  name: { width: 'flex-1', valign: 'top' },
+  name: { width: '31.2rem', valign: 'top' },
   email: { width: 'flex-1', valign: 'top' },
-  advisor: { width: '15rem', valign: 'top' },
-  status: { width: '15rem', valign: 'top' },
+  advisor: { width: '11rem', valign: 'top' },
+  status: { width: '11rem', valign: 'top' },
 };
 
 const UserListTable = ({
@@ -25,11 +25,11 @@ const UserListTable = ({
       <Table.HeaderItem {...tableConfig.name}>
         <HeaderSort title="Name" sortName="UserName" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.advisor}>
+        <HeaderSort title="User type" sortName="IsAdvisor" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.email}>
         <HeaderSort title="Email" sortName="Email" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.advisor}>
-        <HeaderSort title="Advisor" sortName="IsAdvisor" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.status}>
         <HeaderSort title="Status" sortName="IsActive" activeSort={order} onSort={onSort} />
