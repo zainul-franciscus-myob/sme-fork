@@ -12,7 +12,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
-  modalType: '',
+  modal: undefined,
   businessId: '',
   userId: '',
   region: '',
@@ -52,12 +52,12 @@ const updateUserDetails = (state, action) => ({
 
 const openModal = (state, action) => ({
   ...state,
-  modalType: action.modalType,
+  modal: action.modal,
 });
 
 const closeModal = state => ({
   ...state,
-  modalType: '',
+  modal: undefined,
 });
 
 const loadUserDetail = (state, action) => ({

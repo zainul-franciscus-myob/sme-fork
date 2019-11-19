@@ -5,20 +5,12 @@ import {
   Input,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getUserDetails } from '../userDetailSelectors';
-
-const onInputChange = handler => (e) => {
-  const { value, name } = e.target;
-  handler({ key: name, value });
-};
-
-const onCheckboxChange = handler => (e) => {
-  const { checked, name } = e.target;
-  handler({ key: name, value: checked });
-};
+import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
+import handleInputChange from '../../../components/handlers/handleInputChange';
+import styles from './UserDetailDetailsGroup.module.css';
 
 const UserDetailDetailsGroup = ({
   userName,
@@ -32,28 +24,34 @@ const UserDetailDetailsGroup = ({
     <Input
       name="userName"
       label="Name"
+      requiredLabel={isCreating ? 'This is required' : ''}
       value={userName}
-      onChange={onInputChange(onUserDetailsChange)}
+      className={styles.textInput}
+      onChange={handleInputChange(onUserDetailsChange)}
       disabled={!isCreating}
     />
     <Input
       name="email"
       label="Email"
+      requiredLabel={isCreating ? 'This is required' : ''}
       value={email}
-      onChange={onInputChange(onUserDetailsChange)}
+      className={styles.textInput}
+      onChange={handleInputChange(onUserDetailsChange)}
+      disabled={!isCreating}
     />
     {
       !isCreating
       && (
         <CheckboxGroup
-          label=""
+          label="isInactive"
+          hideLabel
           renderCheckbox={() => (
             <Checkbox
               key="isInactive"
               name="isInactive"
               label="Inactive user"
               checked={isInactive}
-              onChange={onCheckboxChange(onUserDetailsChange)}
+              onChange={handleCheckboxChange(onUserDetailsChange)}
               disabled={!isCreating && isAdmin}
             />)
           }
@@ -62,15 +60,6 @@ const UserDetailDetailsGroup = ({
     }
   </FieldGroup>
 );
-
-UserDetailDetailsGroup.propTypes = {
-  userName: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
-  onUserDetailsChange: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool.isRequired,
-  isInactive: PropTypes.bool.isRequired,
-};
 
 const mapStateToProps = state => getUserDetails(state);
 

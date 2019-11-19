@@ -3,7 +3,6 @@ import {
   ButtonRow,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getIsActionsDisabled, getIsCreating } from '../userDetailSelectors';
@@ -21,7 +20,7 @@ const UserDetailButtons = ({
         Cancel
       </Button>,
       <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
-        {isCreating ? 'Save and invite' : 'Save'}
+        {isCreating ? 'Save and send invitation' : 'Save'}
       </Button>,
     ]}
     secondary={[
@@ -40,14 +39,6 @@ const UserDetailButtons = ({
     ]}
   />
 );
-
-UserDetailButtons.propTypes = {
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool.isRequired,
-  isActionsDisabled: PropTypes.bool.isRequired,
-};
 
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),

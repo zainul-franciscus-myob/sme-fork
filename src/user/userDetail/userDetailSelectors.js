@@ -5,13 +5,14 @@ import { LOAD_NEW_ADVISOR_DETAIL, LOAD_NEW_USER_DETAIL, LOAD_USER_DETAIL } from 
 const NEW_USER_PATH_COMPONENT = 'new';
 const NEW_ADVISOR_PATH_COMPONENT = 'new-advisor';
 
-export const getModalType = state => state.modalType;
+export const getModal = state => state.modal;
 export const isPageEdited = state => state.isPageEdited;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getUser = state => state.user;
 export const getUserId = state => state.userId;
 export const getIsAdvisor = state => state.user.isAdvisor;
+export const getIsInactive = state => state.user.isInactive;
 export const getIsLoading = state => state.isLoading;
 
 export const getIsCreating = state => [
@@ -26,11 +27,25 @@ export const getLoadUserIntent = state => (
   }[getUserId(state)] || LOAD_USER_DETAIL
 );
 
-export const getPageHead = (state) => {
-  const userType = getIsAdvisor(state) ? 'advisor' : 'user';
-  const prefix = getIsCreating(state) ? 'Invite' : 'Edit';
-  return `${prefix} ${userType}`;
-};
+export const getTitle = createSelector(
+  getIsCreating,
+  getIsAdvisor,
+  getUser,
+  (isCreating, isAdvisor, user) => {
+    if (isCreating) {
+      return `Create ${isAdvisor ? 'advisor' : 'user'}`;
+    }
+
+    return user.userName;
+  },
+);
+
+export const getSubtitle = createSelector(
+  getIsCreating,
+  getIsAdvisor,
+  (isCreating, isAdvisor) => (!isCreating && isAdvisor ? 'Advisor' : ''),
+);
+export const getStatusTag = state => (getIsInactive(state) ? 'Inactive' : '');
 
 export const getUserForCreate = (state) => {
   const { roles, ...userWithoutRoles } = state.user;
@@ -63,3 +78,12 @@ export const getUserDetails = createSelector(
 
 export const getAlertMessage = state => state.alertMessage;
 export const getIsActionsDisabled = state => state.isSubmitting;
+
+export const getRedirectUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  getModal,
+  (businessId, region, modal) => (
+    modal && modal.url ? modal.url : `/#/${region}/${businessId}/user`
+  ),
+);

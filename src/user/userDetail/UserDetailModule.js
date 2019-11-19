@@ -17,13 +17,15 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_USER, SUCCESSFULLY_SAVED_USER } from '../UserMessageTypes';
 import {
   getBusinessId,
-  getIsCreating, getLoadUserIntent,
-  getRegion,
+  getIsCreating,
+  getLoadUserIntent,
+  getRedirectUrl,
   getUserForCreate,
   getUserForUpdate,
   getUserId,
   isPageEdited,
 } from './userDetailSelectors';
+import ModalType from './components/ModalType';
 import Store from '../../store/Store';
 import UserDetailView from './components/UserDetailView';
 import keyMap from '../../hotKeys/keyMap';
@@ -51,9 +53,9 @@ export default class UserDetailModule {
     const userDetailView = (
       <UserDetailView
         onCloseModal={this.closeModal}
-        onCancelModal={this.redirectToUserList}
         onDeleteModal={this.deleteUser}
-        onCancelButtonClick={this.openCancelModal}
+        onCancelButtonClick={this.cancelUserDetail}
+        onConfirmCancelButtonClick={this.redirect}
         onUserDetailsChange={this.updateUserDetails}
         onUserRolesChange={this.updateSelectedRoles}
         onSaveButtonClick={this.createOrUpdateUser}
@@ -102,22 +104,26 @@ export default class UserDetailModule {
     });
   };
 
-  openCancelModal = () => {
+  openUnsavedModal = (url) => {
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modal: { type: ModalType.UNSAVED, url },
+    });
+  };
+
+  cancelUserDetail = () => {
     const state = this.store.getState();
     if (isPageEdited(state)) {
-      this.store.dispatch({
-        intent: OPEN_MODAL,
-        modalType: 'cancel',
-      });
+      this.openUnsavedModal();
     } else {
-      this.redirectToUserList();
+      this.redirect();
     }
   };
 
   openDeleteModal = () => {
     this.store.dispatch({
       intent: OPEN_MODAL,
-      modalType: 'delete',
+      modal: { type: ModalType.DELETE },
     });
   };
 
@@ -169,7 +175,7 @@ export default class UserDetailModule {
         content: message,
       });
       this.setSubmittingState(false);
-      this.redirectToUserList();
+      this.redirect();
     };
 
     const onFailure = (error) => {
@@ -197,7 +203,7 @@ export default class UserDetailModule {
         type: SUCCESSFULLY_DELETED_USER,
         content: message,
       });
-      this.redirectToUserList();
+      this.redirect();
     };
 
     const onFailure = (error) => {
@@ -238,12 +244,14 @@ export default class UserDetailModule {
     });
   };
 
-  redirectToUserList = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
+  redirectToUrl = (url) => {
+    window.location.href = url;
+  };
 
-    window.location.href = `/#/${region}/${businessId}/user`;
+  redirect = () => {
+    const state = this.store.getState();
+
+    this.redirectToUrl(getRedirectUrl(state));
   };
 
   unsubscribeFromStore = () => {
@@ -280,5 +288,14 @@ export default class UserDetailModule {
     setupHotKeys(keyMap, this.handlers);
     this.setLoadingState(true);
     this.loadUser();
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (isPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
   }
 }

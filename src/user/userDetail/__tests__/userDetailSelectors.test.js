@@ -1,4 +1,4 @@
-import { getUserForCreate } from '../userDetailSelectors';
+import { getTitle, getUserForCreate } from '../userDetailSelectors';
 
 describe('User Detail Selectors', () => {
   describe('getUserForCreate', () => {
@@ -79,6 +79,49 @@ describe('User Detail Selectors', () => {
       const actual = getUserForCreate(state);
 
       expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getTitle', () => {
+    it('shows create user when creating a user', () => {
+      const state = {
+        userId: 'new',
+        user: {
+          userName: 'rivneg',
+          isAdvisor: false,
+        },
+      };
+
+      const actual = getTitle(state);
+
+      expect(actual).toEqual('Create user');
+    });
+
+    it('shows create advisor when creating a advisor', () => {
+      const state = {
+        userId: 'new-advisor',
+        user: {
+          userName: 'rivneg',
+          isAdvisor: true,
+        },
+      };
+
+      const actual = getTitle(state);
+
+      expect(actual).toEqual('Create advisor');
+    });
+
+    it('shows name when updating', () => {
+      const state = {
+        userId: '1',
+        user: {
+          userName: 'rivneg',
+        },
+      };
+
+      const actual = getTitle(state);
+
+      expect(actual).toEqual('rivneg');
     });
   });
 });
