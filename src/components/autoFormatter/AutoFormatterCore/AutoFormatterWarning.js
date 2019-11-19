@@ -1,7 +1,8 @@
-import { Field } from '@myob/myob-widgets';
 import Cleave from 'cleave.js/react';
 import React from 'react';
 import classnames from 'classnames';
+
+import FieldWarningPopup from '../../FieldWarningPopup/FieldWarningPopup';
 
 const Input = ({
   label,
@@ -11,17 +12,19 @@ const Input = ({
   labelAccessory,
   errorMessage,
   errorMessageInline,
+  warningBody,
   className,
   requiredLabel,
   ...inputBoxProps
 }) => (
-  <Field
+  <FieldWarningPopup
     label={label}
     id={id}
     hideLabel={hideLabel}
     labelAccessory={labelAccessory}
     errorMessage={errorMessage}
     errorMessageInline={errorMessageInline}
+    warningBody={warningBody}
     requiredLabel={requiredLabel}
     renderField={({ errorId, ...props }) => (
       <Cleave

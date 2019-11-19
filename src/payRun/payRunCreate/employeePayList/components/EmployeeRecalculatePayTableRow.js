@@ -1,7 +1,11 @@
 import { Table } from '@myob/myob-widgets';
 import React from 'react';
+import classnames from 'classnames';
 
+import { getLeaveWarning } from '../EmployeePayListSelectors';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import HoursInput from '../../../../components/autoFormatter/HoursInput/HoursInput';
+import styles from './EmployeeRecalculatePayTableRow.module.css';
 
 const handleInputChange = (handler, employeeId, payItemId) => (e) => {
   const { name, rawValue } = e.target;
@@ -9,41 +13,79 @@ const handleInputChange = (handler, employeeId, payItemId) => (e) => {
     employeeId, payItemId, key: name, value: rawValue,
   });
 };
+
+const LeaveWarningLine = ({
+  label,
+  value,
+}) => (
+  <>
+    <br />
+    {`${label}: `}
+    <strong>
+      {`${value} hrs`}
+    </strong>
+  </>
+);
+
 const getWarningMessage = (leaveWarning, name) => (
-  leaveWarning && leaveWarning.projectedLeaveBalance < 0
-    ? `Paying this leave will result in a negative leave balance ${leaveWarning.projectedLeaveBalance} hours for ${name}.`
+  leaveWarning
+    ? (
+      <p>
+        {`Paying this leave will result in a negative leave balance for ${name}.`}
+        <br />
+        <LeaveWarningLine label="Current balance" value={leaveWarning.currentLeaveBalance} />
+        <LeaveWarningLine label="Accrued this pay" value={leaveWarning.leaveAccruedThisPay} />
+        <LeaveWarningLine label="Leave being paid" value={leaveWarning.leaveBeingPaid} />
+        <LeaveWarningLine label="Projected balance" value={leaveWarning.projectedLeaveBalance} />
+      </p>
+    )
     : null
 );
 
-const HoursOrAmountInputField = ({
-  name,
-  label,
+const AmountInputField = ({
   value,
-  decimalScale,
   employeeId,
-  employeeName,
   payItemId,
   type,
   isSubmitting,
   onChange,
   onBlur,
+}) => (
+  <div className={classnames({ [styles.hidden]: type === 'Entitlement' })}>
+    <AmountInput
+      name="amount"
+      label="Amount"
+      hideLabel
+      textAlign="right"
+      value={value}
+      disabled={isSubmitting || (type === 'Entitlement' || type === 'HourlyWage')}
+      onChange={handleInputChange(onChange, employeeId, payItemId)}
+      onBlur={handleInputChange(onBlur, employeeId, payItemId)}
+    />
+  </div>
+);
+
+const HoursInputField = ({
+  value,
+  employeeId,
+  employeeName,
+  payItemId,
+  onChange,
+  onBlur,
   leaveWarning,
 }) => (
-  <AmountInput
-    name={name}
-    label={label}
+  <HoursInput
+    name="hours"
+    label="Hours"
     hideLabel
     textAlign="right"
     value={value}
-    disabled={isSubmitting || ((type === 'Entitlement' || type === 'HourlyWage') && name === 'amount')}
     onChange={handleInputChange(onChange, employeeId, payItemId)}
     onBlur={handleInputChange(onBlur, employeeId, payItemId)}
-    numeralIntegerScale={13}
-    decimalScale={decimalScale}
-    warningMessage={getWarningMessage(leaveWarning, employeeName)}
-    warningMessageInline
+    warningBody={getWarningMessage(getLeaveWarning(value, leaveWarning), employeeName)}
   />
 );
+
 
 const EmployeeRecalculatePayTableRow = ({
   tableConfig,
@@ -63,26 +105,19 @@ const EmployeeRecalculatePayTableRow = ({
   onBlur,
 }) => {
   const hourRowItem = (
-    <HoursOrAmountInputField
-      name="hours"
-      label="Hours"
+    <HoursInputField
       value={hours}
-      decimalScale={3}
       employeeId={employeeId}
       employeeName={employeeName}
       payItemId={payItemId}
-      leaveWarning={leaveWarning}
-      type={type}
       onChange={onChange}
       onBlur={onBlur}
+      leaveWarning={leaveWarning}
     />);
 
   const amountRowItem = (
-    <HoursOrAmountInputField
-      name="amount"
-      label="Amount"
+    <AmountInputField
       value={amount}
-      decimalScale={2}
       employeeId={employeeId}
       payItemId={payItemId}
       type={type}

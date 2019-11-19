@@ -4,6 +4,7 @@ import {
   getEmployerExpensePayItemEntries,
   getIsPartiallySelected,
   getLeavePayItemEntries,
+  getLeaveWarning,
   getRecalculatePayPayload,
   getShouldShowCombinedPayItemTableRows,
   getShouldShowExpensePayItemTableRows,
@@ -483,6 +484,62 @@ describe('EmployeePayListSelectors', () => {
       const expectedPayload = expectedRecalculatePayPayload;
 
       expect(actualPayload).toEqual(expectedPayload);
+    });
+  });
+
+  describe('getLeaveWarning', () => {
+    const leaveWarning = {
+      currentLeaveBalance: 10,
+      leaveAccruedThisPay: 15.50,
+      leaveBeingPaid: 38,
+      projectedLeaveBalance: -12.50,
+    };
+
+    it('should return null if inputHours is less than 0', () => {
+      const actual = getLeaveWarning(-10.00, leaveWarning);
+      expect(actual).toEqual(null);
+    });
+
+    it('should return null if inputHours is 0', () => {
+      const actual = getLeaveWarning(0, leaveWarning);
+      expect(actual).toEqual(null);
+    });
+
+    describe('inputHours is greater than 0', () => {
+      it('should return null if leave warning is null', () => {
+        const actual = getLeaveWarning(10.00, null);
+        expect(actual).toEqual(null);
+      });
+
+      describe('leave warning is not null', () => {
+        it('should format the warning hours if the project balance is less than 0', () => {
+          const actual = getLeaveWarning(10.00, leaveWarning);
+          const expected = {
+            currentLeaveBalance: '10.00',
+            leaveAccruedThisPay: '15.50',
+            leaveBeingPaid: '38.00',
+            projectedLeaveBalance: '-12.50',
+          };
+
+          expect(actual).toEqual(expected);
+        });
+
+        it('should return null if the project balance is 0', () => {
+          const actual = getLeaveWarning(
+            10.00,
+            { ...leaveWarning, ...{ projectedLeaveBalance: 0 } },
+          );
+          expect(actual).toEqual(null);
+        });
+
+        it('should return null if the project balance is greater than 0', () => {
+          const actual = getLeaveWarning(
+            10.00,
+            { ...leaveWarning, ...{ projectedLeaveBalance: 2 } },
+          );
+          expect(actual).toEqual(null);
+        });
+      });
     });
   });
 });

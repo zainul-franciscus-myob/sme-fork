@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import formatAmount from '../../../valueFormatters/formatAmount';
+import formatNumberWithDecimalScaleRange from '../../../valueFormatters/formatNumberWithDecimalScaleRange';
 
 const getEmployeePayLines = state => state.employeePayList.lines;
 
@@ -194,4 +195,17 @@ export const getRecalculatePayPayload = ({
     editedField,
     editedPayItem: getPayItemLineForRecalculatePayload(editedPayItem),
   };
+};
+
+const formatHours = hours => formatNumberWithDecimalScaleRange(hours, 2, 3);
+export const getLeaveWarning = (inputHours, leaveWarning) => {
+  if (inputHours > 0 && leaveWarning && leaveWarning.projectedLeaveBalance < 0) {
+    return {
+      currentLeaveBalance: formatHours(leaveWarning.currentLeaveBalance),
+      leaveAccruedThisPay: formatHours(leaveWarning.leaveAccruedThisPay),
+      leaveBeingPaid: formatHours(leaveWarning.leaveBeingPaid),
+      projectedLeaveBalance: formatHours(leaveWarning.projectedLeaveBalance),
+    };
+  }
+  return null;
 };
