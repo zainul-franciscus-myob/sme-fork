@@ -1,6 +1,6 @@
 import {
   Checkbox, CheckboxGroup,
-  FieldGroup, Input, RadioButtonGroup, Tooltip,
+  FieldGroup, Input, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -11,19 +11,13 @@ import {
 } from '../inventoryDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import BooleanRadioButtonGroup from '../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './InventoryDetailView.module.css';
-
-const handleTaxInclusiveChange = onSellingDetailsChange => ({ value }) => {
-  onSellingDetailsChange({
-    key: 'isTaxInclusive',
-    value: value === 'Tax inclusive',
-  });
-};
 
 const SellingDetails = ({
   enabled,
@@ -35,6 +29,8 @@ const SellingDetails = ({
   taxCodes,
   taxCodeId,
   taxLabel,
+  taxInclusiveLabel,
+  taxExclusiveLabel,
   onSellingDetailsChange,
   onEnableStateChange,
 }) => (
@@ -64,13 +60,14 @@ const SellingDetails = ({
       disabled={!enabled}
       textAlign="right"
     />
-    <RadioButtonGroup
+    <BooleanRadioButtonGroup
       label="Selling price is"
       name="isTaxInclusive"
-      options={['Tax inclusive', 'Tax exclusive']}
+      value={isTaxInclusive}
+      trueLabel={taxInclusiveLabel}
+      falseLabel={taxExclusiveLabel}
       disabled={!enabled}
-      onChange={handleTaxInclusiveChange(onSellingDetailsChange)}
-      value={isTaxInclusive ? 'Tax inclusive' : 'Tax exclusive'}
+      handler={onSellingDetailsChange}
     />
     <Input
       className={styles.unitOfMeasure}

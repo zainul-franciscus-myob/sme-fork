@@ -5,6 +5,8 @@ import getRegionToDialectText from '../../dialect/getRegionToDialectText';
 const getSellingAccounts = state => state.sellingAccounts;
 const getBuyingAccounts = state => state.buyingAccounts;
 const getTaxCodes = state => state.taxCodes;
+const getTaxInclusiveLabel = state => getRegionToDialectText(state.region)('Tax inclusive');
+const getTaxExclusiveLabel = state => getRegionToDialectText(state.region)('Tax exclusive');
 const getTaxLabel = state => getRegionToDialectText(state.region)('Tax code');
 const getItemSellingDetails = state => (state.item.sellingDetails || {});
 const getItemBuyingDetails = state => (state.item.buyingDetails || {});
@@ -28,11 +30,15 @@ export const getSellingDetails = createSelector(
   getSellingAccounts,
   getTaxCodes,
   getTaxLabel,
-  (sellingDetails, sellingAccounts, taxCodes, taxLabel) => ({
+  getTaxExclusiveLabel,
+  getTaxInclusiveLabel,
+  (sellingDetails, sellingAccounts, taxCodes, taxLabel, taxExclusiveLabel, taxInclusiveLabel) => ({
     ...sellingDetails,
     sellingAccounts,
     taxCodes,
     taxLabel,
+    taxExclusiveLabel,
+    taxInclusiveLabel,
   }),
 );
 
