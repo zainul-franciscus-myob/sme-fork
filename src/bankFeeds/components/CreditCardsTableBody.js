@@ -16,16 +16,28 @@ const CreditCardsTableBody = ({
 }) => {
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
-      <Table.RowItem columnName={tableConfig.financialInstitution.columnName}>
+      <Table.RowItem
+        columnName={tableConfig.financialInstitution.columnName}
+        {...tableConfig.financialInstitution.styles}
+      >
         {entry.financialInstitution}
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.cardName.columnName}>
+      <Table.RowItem
+        columnName={tableConfig.cardName.columnName}
+        {...tableConfig.cardName.styles}
+      >
         {entry.cardName}
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.cardNumber.columnName}>
+      <Table.RowItem
+        columnName={tableConfig.cardNumber.columnName}
+        {...tableConfig.cardNumber.styles}
+      >
         {entry.cardNumber}
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.linkedAccount.columnName} textWrap="wrap">
+      <Table.RowItem
+        columnName={tableConfig.linkedAccount.columnName}
+        {...tableConfig.linkedAccount.styles}
+      >
         <AccountCombobox
           label="linked account"
           hideLabel
@@ -34,10 +46,16 @@ const CreditCardsTableBody = ({
           onChange={handleComboboxChange(entry.id, onCreditCardLinkedAccountChange)}
         />
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.status.columnName}>
+      <Table.RowItem
+        columnName={tableConfig.status.columnName}
+        {...tableConfig.status.styles}
+      >
         {entry.status}
       </Table.RowItem>
-      <Table.RowItem width="auto" cellRole="actions" valign="middle">
+      <Table.RowItem
+        cellRole="actions"
+        {...tableConfig.removeButton.styles}
+      >
         <Button
           type="clear"
           icon={<Icons.Remove />}

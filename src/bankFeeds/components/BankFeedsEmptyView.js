@@ -19,7 +19,6 @@ const BankFeedsEmptyView = ({
       key={1}
       icon={<Icons.Info />}
       href={learnMoreBankFeedsLink}
-      isOpenInNewTab
     >
       Learn more
     </LinkButton>,

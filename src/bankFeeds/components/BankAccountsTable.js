@@ -12,12 +12,13 @@ import getBankAccountsTableResponsiveConfig from './getBankAccountsTableResponsi
 import styles from './BankAccountsTable.module.css';
 
 export const tableConfig = {
-  financialInstitution: { columnName: 'Financial institution', styles: { width: 'flex-1', valign: 'middle' } },
-  accountName: { columnName: 'Account name', styles: { width: 'flex-1', valign: 'middle' } },
-  BSB: { columnName: 'BSB', styles: { width: 'flex-1', valign: 'middle' } },
-  accountNumber: { columnName: 'Account number', styles: { width: 'flex-1', valign: 'middle' } },
-  linkedAccount: { columnName: 'Linked account', styles: { width: '290px', valign: 'middle' } },
-  status: { columnName: 'Status', styles: { width: 'flex-1', valign: 'middle' } },
+  financialInstitution: { columnName: 'Financial institution', styles: { valign: 'middle' } },
+  accountName: { columnName: 'Account name', styles: { valign: 'middle' } },
+  BSB: { columnName: 'BSB', styles: { valign: 'middle' } },
+  accountNumber: { columnName: 'Account number', styles: { valign: 'middle' } },
+  linkedAccount: { columnName: 'Linked account', styles: { valign: 'middle', textWrap: 'wrap' } },
+  status: { columnName: 'Status', styles: { valign: 'middle' } },
+  removeButton: { styles: { width: '3.6rem', valign: 'middle' } },
 };
 
 const BankAccountsTable = ({

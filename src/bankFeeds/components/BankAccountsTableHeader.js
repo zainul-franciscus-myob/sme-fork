@@ -37,7 +37,7 @@ const BankAccountsTableHeader = ({
       >
         {tableConfig.status.columnName}
       </Table.HeaderItem>
-      <Table.HeaderItem width="42px">
+      <Table.HeaderItem {...tableConfig.removeButton.styles}>
       </Table.HeaderItem>
     </Table.Header>
   </Table>

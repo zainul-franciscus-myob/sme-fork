@@ -16,19 +16,34 @@ const BankAccountsTableBody = ({
 }) => {
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
-      <Table.RowItem columnName={tableConfig.financialInstitution.columnName}>
+      <Table.RowItem
+        columnName={tableConfig.financialInstitution.columnName}
+        {...tableConfig.financialInstitution.styles}
+      >
         {entry.financialInstitution}
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.accountName.columnName}>
+      <Table.RowItem
+        columnName={tableConfig.accountName.columnName}
+        {...tableConfig.accountName.styles}
+      >
         {entry.accountName}
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.BSB.columnName}>
+      <Table.RowItem
+        columnName={tableConfig.BSB.columnName}
+        {...tableConfig.BSB.styles}
+      >
         {entry.BSB}
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.accountNumber.columnName}>
+      <Table.RowItem
+        columnName={tableConfig.accountNumber.columnName}
+        {...tableConfig.accountNumber.styles}
+      >
         {entry.accountNumber}
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.linkedAccount.columnName} textWrap="wrap">
+      <Table.RowItem
+        columnName={tableConfig.linkedAccount.columnName}
+        {...tableConfig.linkedAccount.styles}
+      >
         <AccountCombobox
           label="linked account"
           hideLabel
@@ -37,10 +52,16 @@ const BankAccountsTableBody = ({
           onChange={handleComboboxChange(entry.id, onBankAccountLinkedAccountChange)}
         />
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.status.columnName}>
+      <Table.RowItem
+        columnName={tableConfig.status.columnName}
+        {...tableConfig.status.styles}
+      >
         {entry.status}
       </Table.RowItem>
-      <Table.RowItem width="auto" cellRole="actions" valign="middle">
+      <Table.RowItem
+        cellRole="actions"
+        {...tableConfig.removeButton.styles}
+      >
         <Button
           type="clear"
           icon={<Icons.Remove />}
