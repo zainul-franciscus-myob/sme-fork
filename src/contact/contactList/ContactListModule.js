@@ -45,8 +45,9 @@ export default class ContactListModule {
         onDismissAlert={this.dismissAlert}
         onUpdateFilters={this.updateFilterOptions}
         onApplyFilter={this.filterContactList}
-        onResetFilter={this.resetFilters}
         onSort={this.sortContactList}
+        // Disabled until decision on whether Reset link will be on all list screens
+        // onResetFilter={this.resetFilters}
       />
     );
 
