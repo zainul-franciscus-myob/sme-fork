@@ -40,7 +40,7 @@ const BuyingDetails = ({
         <Checkbox label="I buy this item" checked={isBuying} name="isBuying" onChange={handleCheckboxChange(onUpdateIsBuying)} />
       )}
     />
-    <AmountInput className={styles.price} label="Buying price ($)" name="price" value={price} requiredLabel="This is required" onChange={handleAmountInputChange(onUpdateBuyingOption)} />
+    <AmountInput className={styles.price} textAlign="right" label="Buying price ($)" name="price" value={price} requiredLabel="This is required" onChange={handleAmountInputChange(onUpdateBuyingOption)} />
     <Input
       className={styles.unitOfMeasure}
       label="Unit of measure"

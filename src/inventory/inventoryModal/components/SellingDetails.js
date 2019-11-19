@@ -49,7 +49,7 @@ const SellingDetails = (
         <Checkbox label="I sell this item" checked={isSelling} name="isSelling" onChange={handleCheckboxChange(onUpdateIsSelling)} />
       )}
     />
-    <AmountInput className={styles.price} label="Selling price ($)" name="price" value={price} requiredLabel="This is required" onChange={handleAmountInputChange(onUpdateSellingOption)} />
+    <AmountInput className={styles.price} textAlign="right" label="Selling price ($)" name="price" value={price} requiredLabel="This is required" onChange={handleAmountInputChange(onUpdateSellingOption)} />
     <BooleanRadioButtonGroup
       label="Selling price is"
       // rename due to conflicting isTaxInclusive on underlying page

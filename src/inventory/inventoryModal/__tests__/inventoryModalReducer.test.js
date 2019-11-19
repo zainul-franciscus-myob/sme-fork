@@ -135,6 +135,51 @@ describe('inventoryModalReducer', () => {
         },
       });
     });
+    it('updates taxCodeId according to selected accountOption', () => {
+      const state = {
+        item: {
+          sellingDetails: {},
+        },
+        sellingAccountOptions: [
+          {
+            id: '1',
+            taxCodeId: '2',
+          },
+          {
+            id: '3',
+            taxCodeId: '4',
+          },
+        ],
+      };
+      const action = {
+        intent: UPDATE_SELLING_OPTION,
+        key: 'accountId',
+        value: '3',
+      };
+
+      const actual = inventoryModalReducer(state, action);
+
+      expect(actual.item.sellingDetails.accountId).toEqual('3');
+      expect(actual.item.sellingDetails.taxCodeId).toEqual('4');
+    });
+    it('updates taxCodeId with value', () => {
+      const state = {
+        item: {
+          sellingDetails: {
+            taxCodeId: '1',
+          },
+        },
+      };
+      const action = {
+        intent: UPDATE_SELLING_OPTION,
+        key: 'taxCodeId',
+        value: '3',
+      };
+
+      const actual = inventoryModalReducer(state, action);
+
+      expect(actual.item.sellingDetails.taxCodeId).toEqual('3');
+    });
   });
 
   describe('UPDATE_BUYING_OPTION', () => {
@@ -158,6 +203,52 @@ describe('inventoryModalReducer', () => {
       expect(actual.item.buyingDetails).toEqual({
         a: 'b',
       });
+    });
+
+    it('updates taxCodeId according to selected accountOption', () => {
+      const state = {
+        item: {
+          buyingDetails: {},
+        },
+        buyingAccountOptions: [
+          {
+            id: '1',
+            taxCodeId: '2',
+          },
+          {
+            id: '3',
+            taxCodeId: '4',
+          },
+        ],
+      };
+      const action = {
+        intent: UPDATE_BUYING_OPTION,
+        key: 'accountId',
+        value: '3',
+      };
+
+      const actual = inventoryModalReducer(state, action);
+
+      expect(actual.item.buyingDetails.accountId).toEqual('3');
+      expect(actual.item.buyingDetails.taxCodeId).toEqual('4');
+    });
+    it('updates taxCodeId with value', () => {
+      const state = {
+        item: {
+          buyingDetails: {
+            taxCodeId: '1',
+          },
+        },
+      };
+      const action = {
+        intent: UPDATE_BUYING_OPTION,
+        key: 'taxCodeId',
+        value: '3',
+      };
+
+      const actual = inventoryModalReducer(state, action);
+
+      expect(actual.item.buyingDetails.taxCodeId).toEqual('3');
     });
   });
 
