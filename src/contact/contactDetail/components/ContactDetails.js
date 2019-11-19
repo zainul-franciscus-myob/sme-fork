@@ -4,13 +4,14 @@ import {
   FieldGroup,
   Input,
   RadioButton,
-  RadioButtonGroup, Tooltip,
+  RadioButtonGroup,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getContactDetails } from '../contactDetailSelectors';
 import AbnSection from './AbnSection';
+import IsReportableSection from './IsReportableSection';
 import style from './ContactDetails.module.css';
 
 const onInputChange = handler => (e) => {
@@ -35,10 +36,8 @@ const ContactDetails = ({
   isInactive,
   companyName,
   isCompany,
-  isSupplier,
   firstName,
   lastName,
-  isReportable,
   contactTypes,
   onContactDetailsChange,
 }) => (
@@ -100,29 +99,7 @@ const ContactDetails = ({
         />
       )
     }
-    {
-      isSupplier && (
-      <CheckboxGroup
-        label="Reportable"
-        hideLabel
-        renderCheckbox={() => (
-          <Checkbox
-            id="isReportable"
-            name="isReportable"
-            label="Report payments to ATO via TPAR"
-            labelAccessory={(
-              <Tooltip>
-                These are payments made to reportable contractors.
-                They will be reported to the ATO in TPAR reports.
-              </Tooltip>
-            )}
-            checked={isReportable}
-            onChange={onCheckboxChange(onContactDetailsChange)}
-          />
-        )}
-      />
-      )
-    }
+    <IsReportableSection onContactDetailsChange={onContactDetailsChange} />
     <AbnSection onContactDetailsChange={onContactDetailsChange} />
     <Input
       name="referenceId"

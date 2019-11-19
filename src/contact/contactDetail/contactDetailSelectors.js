@@ -14,9 +14,11 @@ export const getIsLoading = state => state.isLoading;
 
 const getIsCompany = state => state.contact.designation === 'Company';
 
-const getIsSupplier = state => state.contact.selectedContactType === 'Supplier';
+export const getIsSupplier = state => state.contact.selectedContactType === 'Supplier';
 
 export const getAbn = state => state.contact.abn;
+
+export const getIsReportable = state => state.contact.isReportable;
 
 export const getAbnLink = state => (state.contact.abn
   ? `https://abr.business.gov.au/ABN/View?id=${state.contact.abn}`
