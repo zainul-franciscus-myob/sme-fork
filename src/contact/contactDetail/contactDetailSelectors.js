@@ -16,7 +16,9 @@ const getIsCompany = state => state.contact.designation === 'Company';
 
 const getIsSupplier = state => state.contact.selectedContactType === 'Supplier';
 
-const getAbnLink = state => (state.contact.abn
+export const getAbn = state => state.contact.abn;
+
+export const getAbnLink = state => (state.contact.abn
   ? `https://abr.business.gov.au/ABN/View?id=${state.contact.abn}`
   : 'https://abr.business.gov.au/');
 
@@ -27,12 +29,10 @@ export const getContactDetails = createStructuredSelector({
   isInactive: state => state.contact.isInactive,
   isReportable: state => state.contact.isReportable,
   companyName: state => state.contact.companyName,
-  abn: state => state.contact.abn,
   firstName: state => state.contact.firstName,
   lastName: state => state.contact.lastName,
   isCompany: getIsCompany,
   isSupplier: getIsSupplier,
-  abnLink: getAbnLink,
   contactTypes: state => state.contactTypes,
 });
 

@@ -1,18 +1,16 @@
 import {
-  Button,
   Checkbox,
-  CheckboxGroup, Field,
-  FieldGroup, Icons,
+  CheckboxGroup,
+  FieldGroup,
   Input,
   RadioButton,
   RadioButtonGroup, Tooltip,
 } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getContactDetails } from '../contactDetailSelectors';
-import AbnInput from '../../../components/autoFormatter/AbnInput/AbnInput';
+import AbnSection from './AbnSection';
 import style from './ContactDetails.module.css';
 
 const onInputChange = handler => (e) => {
@@ -29,13 +27,6 @@ const onCheckboxChange = handler => (e) => {
   handler({ key: name, value: checked });
 };
 
-const onAbnInputChange = handler => (e) => {
-  const { name, rawValue } = e.target;
-  handler({ key: name, value: rawValue });
-};
-
-const openNewTab = url => () => window.open(url);
-
 const ContactDetails = ({
   selectedContactType,
   designation,
@@ -43,8 +34,6 @@ const ContactDetails = ({
   referenceId,
   isInactive,
   companyName,
-  abn,
-  abnLink,
   isCompany,
   isSupplier,
   firstName,
@@ -134,24 +123,7 @@ const ContactDetails = ({
       />
       )
     }
-    <AbnInput
-      name="abn"
-      label="ABN"
-      value={abn}
-      onChange={onAbnInputChange(onContactDetailsChange)}
-      className={style.abn}
-    />
-    <Field
-      label="ABN lookup"
-      hideLabel
-      renderField={
-        () => (
-          <Button type="link" icon={<Icons.OpenExternalLink />} iconRight onClick={openNewTab(abnLink)}>
-            Open ABN lookup website
-          </Button>
-        )
-      }
-    />
+    <AbnSection onContactDetailsChange={onContactDetailsChange} />
     <Input
       name="referenceId"
       label="Contact ID"
@@ -174,24 +146,6 @@ const ContactDetails = ({
     />
   </FieldGroup>
 );
-
-ContactDetails.propTypes = {
-  selectedContactType: PropTypes.string.isRequired,
-  designation: PropTypes.string.isRequired,
-  isCreating: PropTypes.bool.isRequired,
-  referenceId: PropTypes.string.isRequired,
-  isInactive: PropTypes.bool.isRequired,
-  companyName: PropTypes.string.isRequired,
-  abn: PropTypes.string.isRequired,
-  abnLink: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  isCompany: PropTypes.bool.isRequired,
-  isSupplier: PropTypes.bool.isRequired,
-  isReportable: PropTypes.bool.isRequired,
-  contactTypes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  onContactDetailsChange: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => getContactDetails(state);
 
