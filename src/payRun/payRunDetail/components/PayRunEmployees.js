@@ -13,6 +13,7 @@ const PayRunEmployees = ({
   emailTabEmployees,
   printTabListeners,
   printTabEmployees,
+  onEmployeeNameClick,
 }) => {
   const tabItems = [
     { id: 'email-pay-slips', label: 'Email pay slips' },
@@ -24,11 +25,13 @@ const PayRunEmployees = ({
       employees={emailTabEmployees}
       selectAll={emailTabListeners.selectAll}
       selectItem={emailTabListeners.selectItem}
+      onEmployeeNameClick={onEmployeeNameClick}
     />,
     'print-pay-slips': <PrintPaySlipsTab
       employees={printTabEmployees}
       selectAll={printTabListeners.selectAll}
       selectItem={printTabListeners.selectItem}
+      onEmployeeNameClick={onEmployeeNameClick}
     />,
   }[selectedTab];
 

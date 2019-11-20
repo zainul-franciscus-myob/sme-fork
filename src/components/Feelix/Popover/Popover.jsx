@@ -42,8 +42,12 @@ export default class Popover extends React.Component {
     const { isOpen: newIsOpen } = this.props;
 
     if (controlled && isOpen !== newIsOpen) {
-      this.togglePopover(newIsOpen);
+      this.setPopoverIsOpen(newIsOpen);
     }
+  }
+
+  setPopoverIsOpen(popoverIsOpen) {
+    this.setState({ popoverIsOpen });
   }
 
   togglePopover(toState) {

@@ -24,6 +24,7 @@ const EmailPaySlipsTab = ({
   employees,
   selectAll,
   selectItem,
+  onEmployeeNameClick,
 }) => {
   const selectedCount = employees.filter(e => e.isSelected).length;
 
@@ -91,7 +92,7 @@ const EmailPaySlipsTab = ({
         />
       </Table.RowItem>
       <Table.RowItem {...tableConfig.employee}>
-        <a href={employee.link}>{employee.name}</a>
+        <Button type="link" onClick={() => { onEmployeeNameClick(employee.transactionId, employee.name); }}>{employee.name}</Button>
       </Table.RowItem>
       <Table.RowItem {...tableConfig.netPay}>
         {employee.netPay}

@@ -1,0 +1,92 @@
+{
+  "balance": "-$31,954.87",
+  "dateOfPayment": "05/07/2018",
+  "referenceNumber": "EP",
+  "isDeletable": true,
+  "isEditable": true,
+  "transactionDesc": "Paycheque",
+  "id": 243,
+  "employeeBankStatementDesc": "PAY FOR 5/07/2003",
+  "accountName": "1-1190 Electronic clearing account",
+  "totalNetPayment": "$661.54",
+  "employeeId": 21,
+  "employeeFirstName": "Mary",
+  "employeeLastName": "Jones",
+  "paymentMethod": "Electronic",
+  "isElectronicallyProcessed": false,
+  "payPeriodEnd": "05/07/2018",
+  "payPeriodStart": "29/06/2018",
+  "parentBusinessEventId": 321,
+  "parentBusinessEventDisplayId": "EP000015",
+  "lines": [
+    {
+      "categoryName": "Wages, deductions and taxes",
+      "items": [
+        {
+          "name": "Base Salary",
+          "amount": "$961.54",
+          "hours": 0.67,
+          "payItemId": 6
+        },
+        {
+          "name": "Hourly Wage",
+          "amount": "$861.54",
+          "hours": 0.67,
+          "payItemId": 7
+        },
+        {
+          "name": "Deductions",
+          "amount": "$961.54",
+          "hours": null,
+          "payItemId": 8
+        },
+        {
+          "name": "Super before tax",
+          "amount": "$961.54",
+          "hours": null,
+          "payItemId": 9
+        },
+        {
+          "name": "Super after tax",
+          "amount": "$961.54",
+          "hours": null,
+          "payItemId": 10
+        },
+        {
+          "name": "PAYG withholding",
+          "amount": "$961.54",
+          "hours": null,
+          "payItemId": 11
+        }
+      ]
+    },
+    {
+      "categoryName": "Leave accrual",
+      "items": [
+        {
+          "name": "Entitlement",
+          "amount": "$961.54",
+          "hours": 0.67,
+          "payItemId": 12
+        }
+      ]
+    },
+    {
+      "categoryName": "Employer expenses",
+      "items": [
+        {
+          "name": "Expenses",
+          "hours": 0.67,
+          "amount": null,
+          "payItemId": 13
+        },
+        {
+          "name": "Super expenses",
+          "hours": 0.67,
+          "amount": null,
+          "payItemId": 14
+        }
+      ]
+    }
+  ]
+}

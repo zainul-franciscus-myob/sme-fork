@@ -2,12 +2,18 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  CLOSE_MODAL,
   EMAIL_TAB_SELECT_ALL,
   EMAIL_TAB_SELECT_ITEM,
+  LOAD_EMPLOYEE_PAY_DETAIL,
   LOAD_PAY_RUN_DETAILS,
+  OPEN_MODAL,
   PRINT_TAB_SELECT_ALL,
   PRINT_TAB_SELECT_ITEM,
+  SET_DELETE_POPOVER_IS_OPEN,
+  SET_IS_MODAL_LOADING,
   SET_LOADING_STATE,
+  SET_MODAL_EMPLOYEE_DETAILS,
   SET_TAB,
 } from './payRunDetailIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -37,7 +43,11 @@ export default class PayRunDetailModule {
           selectAll: this.printTabSelectAll,
           selectItem: this.printTabSelectItem,
         }}
+        onCancelButtonClick={this.hidePayDetailModal}
         onBackButtonClick={this.redirectToPayRunList}
+        onEmployeeNameClick={this.openPayDetailModal}
+        onDeletePopoverCancel={this.closeDeletePopover}
+        onDeleteButtonClick={this.openDeletePopover}
       />
     );
 
@@ -92,6 +102,72 @@ export default class PayRunDetailModule {
     window.location.href = getPayRunListUrl(state);
   }
 
+  openPayDetailModal = (transactionId, employeeName) => {
+    this.setEmployeeDetails({ employeeName });
+    this.loadEmployeePayDetail(transactionId);
+    this.showPayDetailModal();
+  };
+
+  closeDeletePopover = () => {
+    this.store.dispatch({
+      intent: SET_DELETE_POPOVER_IS_OPEN,
+      deletePopoverIsOpen: false,
+    });
+  }
+
+  openDeletePopover = () => {
+    this.store.dispatch({
+      intent: SET_DELETE_POPOVER_IS_OPEN,
+      deletePopoverIsOpen: true,
+    });
+  }
+
+  loadEmployeePayDetail = (transactionId) => {
+    this.setIsModalLoading(true);
+    const state = this.store.getState();
+    const urlParams = { ...getUrlParams(state), transactionId };
+
+    const onSuccess = (employeeDetails) => {
+      this.setEmployeeDetails(employeeDetails);
+      this.setIsModalLoading(false);
+    };
+
+    const onFailure = message => console.log(message);
+
+    this.integration.read({
+      onSuccess,
+      onFailure,
+      urlParams,
+      intent: LOAD_EMPLOYEE_PAY_DETAIL,
+    });
+  };
+
+  setEmployeeDetails = (employeeDetails) => {
+    this.store.dispatch({
+      intent: SET_MODAL_EMPLOYEE_DETAILS,
+      employeeDetails,
+    });
+  }
+
+  setIsModalLoading =(isModalLoading) => {
+    this.store.dispatch({
+      intent: SET_IS_MODAL_LOADING,
+      isModalLoading,
+    });
+  }
+
+  showPayDetailModal = () => {
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+    });
+  }
+
+  hidePayDetailModal = () => {
+    this.store.dispatch({
+      intent: CLOSE_MODAL,
+    });
+  }
+
   resetState = () => {
     this.store.dispatch({
       intent: RESET_STATE,
@@ -130,7 +206,7 @@ export default class PayRunDetailModule {
       });
       this.setIsLoading(false);
     };
-    const onFailure = () => {};
+    const onFailure = message => console.log(message);
 
     this.integration.read({
       onSuccess,

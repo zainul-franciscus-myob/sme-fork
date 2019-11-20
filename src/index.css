@@ -3,6 +3,10 @@ body {
   padding: 0;
 }
 
+div.Popover {
+  z-index: 1051;
+}
+
 textarea {
   min-height: 3rem;
 }

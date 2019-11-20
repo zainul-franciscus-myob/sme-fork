@@ -18,6 +18,7 @@ const tableConfig = {
 
 const PrintPaySlipsTab = ({
   employees,
+  onEmployeeNameClick,
 }) => {
   const tableHeader = (
     <Table.Header>
@@ -46,7 +47,7 @@ const PrintPaySlipsTab = ({
   const rows = employees.map(employee => (
     <Table.Row key={employee.id}>
       <Table.RowItem {...tableConfig.employee}>
-        <a href={employee.link}>{employee.name}</a>
+        <Button type="link" onClick={() => { onEmployeeNameClick(employee.transactionId, employee.name); }}>{employee.name}</Button>
       </Table.RowItem>
       <Table.RowItem {...tableConfig.netPay}>
         {employee.netPay}
