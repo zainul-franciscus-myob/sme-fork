@@ -1,3 +1,12 @@
+### TAGGING AT RISK FEELIX CHANGES
+
+Use the `@Feelix` comment above any code that is at risk to breaking after a Feelix upgrade.
+
+Examples of things that are at risk are:
+
+* Hooking into Feelix's CSS classes and modifying them (e.g. using the `:global` CSS module syntax)
+* Building components using Feelix classes for styling (e.g. `src/components/Button/LinkButton.js`)
+
 ### FEELIX UPGRADE PROCESS
 
 1. **Bump Feelix version to the new version in `package.json`**
@@ -18,7 +27,11 @@
       the same as before the import change.
     * If any bug is found, feed this back to Particle
 
-3. **Once the branch is merged into master:**
+3. **Do a project-wide search for `@FEELIX` and manually inspect these instances for unintended behavior
+
+3. **Do a project-wide search for `:global` and manually inspect these instances for unintended behavior
+
+4. **Once the branch is merged into master:**
   - The QA team tests basic behavioural workflows on all the screens to ensure there has been no breaking change as a result of the Feelix upgrade. They will raise bug cards as needed, and we will feed these issues back to Particle.
 
 ### ACTIONS AS A RESULT OF CHANGE

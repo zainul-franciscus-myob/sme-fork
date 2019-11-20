@@ -29,6 +29,7 @@
   }
 
   /*
+   * @FEELIX
    * This is a temporary solution:
    * Once Feelix allows className prop on Table.RowItem
    * we can apply the class directly to the Table.RowItem

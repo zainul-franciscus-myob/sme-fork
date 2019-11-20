@@ -1,5 +1,5 @@
 /*
-  @Feelix-Override:
+  @FEELIX:
   Feelix defaults to "display": "none" when below 768px, removing the table header,
   we don't want this to happen
 */
@@ -8,7 +8,7 @@
 }
 
 /*
-  @Feelix-Override:
+  @FEELIX:
   Show ellipsis in red color for overdue column.
   We should pass className to Table.RowItem after Feelix upgrade.
 */
@@ -19,7 +19,7 @@
 /* Small devices (mobiles) */
 @media only screen and (max-width: 768px) {
   /*
-    @Feelix-Override:
+    @FEELIX:
     On a mobile screen, we want to reduce the margin between the text rows for the table
   */
   .table :global(.table-data__cell) {

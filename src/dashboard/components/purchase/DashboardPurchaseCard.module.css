@@ -11,7 +11,7 @@
 }
 
 /*
-  @Feelix-Override:
+  @FEELIX:
   Feelix has set "display": "flex" to only occur on a minimum width of 768px, I'm overriding this
   so that the "actions" are always aligned to the right of the header
 */

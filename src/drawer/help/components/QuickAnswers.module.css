@@ -4,7 +4,7 @@
 }
 
 /*
-  @Feelix-Override:
+  @FEELIX:
     To achieve what design want
 */
 .question:global(.btn-clear:hover:not([disabled])) {

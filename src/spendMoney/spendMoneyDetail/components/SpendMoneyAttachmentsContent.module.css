@@ -19,14 +19,14 @@
   font-size: 1.2rem;
 }
 
-/* @Feelix-Override */
+/* @FEELIX */
 @media only screen and (max-width: 500px) {
   .dropzone :global(.file-browser-label-wrapper) {
     display: unset;
   }
 }
 
-/* @Feelix-Override */
+/* @FEELIX */
 @media only screen and (min-width: 500px) {
   .columns :global(.flx-col) {
     grid-gap: 0.8rem;

@@ -4,7 +4,7 @@
 }
 
 /**
-  Feelix Override: To achieve the margin that design wants
+  @FEELIX: To achieve the margin that design wants
 **/
 .helpSearch :global(.form-group) {
   flex: 1 1 0;

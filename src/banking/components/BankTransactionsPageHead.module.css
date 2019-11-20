@@ -1,5 +1,5 @@
 @media only screen and (min-width: 500px) {
-  /* Feelix Override */
+  /* @FEELIX */
   .pageHead :global(.flx-btn-row__secondary-group) {
     display: flex;
     flex-wrap: unset;

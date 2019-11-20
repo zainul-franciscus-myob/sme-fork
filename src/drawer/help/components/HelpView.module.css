@@ -3,7 +3,7 @@
 }
 
 /*
-  @Feelix-Override:
+  @FEELIX:
     The Aside component has the title showed on the left side by default.
     We need to move it to the center per design requirement.
     This comment applies to both `flx-aside__header-row` and `flx-aside__close`
@@ -18,7 +18,7 @@
 }
 
 /*
-  @Feelix-Override:
+  @FEELIX:
     To achieve the margin as per design
 */
 .asideHeader + :global(.flx-card__body.flx-aside__body) {
