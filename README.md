@@ -64,6 +64,8 @@ yarn install
 
 ## Environment variables
 
+While developing locally with the react app dev server, environment variables are set up using `.env.development`, and can be overridden locally by creating a `.env.development.local` file. See the [react docs](https://create-react-app.dev/docs/adding-custom-environment-variables/) for more information on configuring your development environment.
+
 #### `REACT_APP_INTEGRATION_TYPE`
 
   Which integration class to use.<br/>

@@ -1,3 +1,5 @@
+# When running the react-app dev server, use the `.env.development` or `.env.development.local`.
+
 REACT_APP_INTEGRATION_TYPE=${REACT_APP_INTEGRATION_TYPE:=Memory} \
 HTTPS=${HTTPS:=true} \
 REACT_APP_TELEMETRY_TYPE=${REACT_APP_TELEMETRY_TYPE:=NoOp} \
