@@ -10,56 +10,17 @@ import {
   getRemainingPercentage,
   getShowRemainingPercentage,
   getTableData,
+  getTaxCodeLabel,
 } from '../bankingRuleSpendMoneySelectors';
 import TableRow from './BankingRuleSpendMoneyAllocationTableRow';
 import styles from './BankingRuleSpendMoneyView.module.css';
 
-const columnConfig = allocationLabel => [
-  {
-    config: [
-      {
-        columnName: 'Account',
-        styles: { },
-      },
-      {
-        columnName: allocationLabel,
-        styles: { width: '12.8rem' },
-      },
-      {
-        columnName: 'Taxcode',
-        styles: { width: '10.6rem' },
-      },
-    ],
-  },
-];
 
-const labels = allocationLabel => [
-  'Account', allocationLabel, 'Taxcode',
-];
-
-const headerItems = allocationLabel => [
-  (
-    <LineItemTable.HeaderItem key="account" requiredLabel="required">
-      Account
-    </LineItemTable.HeaderItem>
-  ),
-  (
-    <LineItemTable.HeaderItem key={allocationLabel} requiredLabel="required">
-      {allocationLabel}
-    </LineItemTable.HeaderItem>
-  ),
-  (
-    <LineItemTable.HeaderItem key="taxcode">
-      Taxcode
-    </LineItemTable.HeaderItem>
-  ),
-];
-
-const renderRow = (onRowInputBlur, allocationLabel) => (index, data, onChange) => (
+const renderRow = onRowInputBlur => (index, _, onChange, labels) => (
   <TableRow
     index={index}
     key={index}
-    labels={labels(allocationLabel)}
+    labels={labels}
     onRowInputBlur={onRowInputBlur}
     onChange={onChange}
   />
@@ -68,6 +29,7 @@ const renderRow = (onRowInputBlur, allocationLabel) => (index, data, onChange) =
 const BankingRuleSpendMoneyAllocationTable = ({
   tableData,
   allocationLabel,
+  taxCodeLabel,
   remainingPercentage,
   isPercentageRed,
   showRemainingPercentage,
@@ -76,18 +38,61 @@ const BankingRuleSpendMoneyAllocationTable = ({
   onRowChange,
   onRemoveRow,
 }) => {
+  const accountLabel = 'Account';
+
+  const columnConfig = [
+    {
+      config: [
+        {
+          columnName: accountLabel,
+          styles: {},
+        },
+        {
+          columnName: allocationLabel,
+          styles: { width: '12.8rem' },
+        },
+        {
+          columnName: taxCodeLabel,
+          styles: { width: '10.6rem' },
+        },
+      ],
+    },
+  ];
+
+  const labels = [
+    accountLabel, allocationLabel, taxCodeLabel,
+  ];
+
+  const headerItems = [
+    (
+      <LineItemTable.HeaderItem key={accountLabel} requiredLabel="required">
+        {accountLabel}
+      </LineItemTable.HeaderItem>
+    ),
+    (
+      <LineItemTable.HeaderItem key={allocationLabel} requiredLabel="required">
+        {allocationLabel}
+      </LineItemTable.HeaderItem>
+    ),
+    (
+      <LineItemTable.HeaderItem key={taxCodeLabel}>
+        {taxCodeLabel}
+      </LineItemTable.HeaderItem>
+    ),
+  ];
+
   const remainingClassName = isPercentageRed ? '' : styles.remaining;
   return (
     <div className={remainingClassName}>
       <LineItemTable
-        labels={labels(allocationLabel)}
-        renderRow={renderRow(onRowInputBlur, allocationLabel)}
+        labels={labels}
+        renderRow={renderRow(onRowInputBlur)}
         data={tableData}
         onAddRow={onAddRow}
         onRowChange={onRowChange}
         onRemoveRow={onRemoveRow}
-        columnConfig={columnConfig(allocationLabel)}
-        headerItems={headerItems(allocationLabel)}
+        columnConfig={columnConfig}
+        headerItems={headerItems}
       >
         {
         showRemainingPercentage && (
@@ -104,6 +109,7 @@ const BankingRuleSpendMoneyAllocationTable = ({
 const mapStateToProps = state => ({
   tableData: getTableData(state),
   allocationLabel: getAllocationLabel(state),
+  taxCodeLabel: getTaxCodeLabel(state),
   remainingPercentage: getRemainingPercentage(state),
   isPercentageRed: getIsPercentageRed(state),
   showRemainingPercentage: getShowRemainingPercentage(state),

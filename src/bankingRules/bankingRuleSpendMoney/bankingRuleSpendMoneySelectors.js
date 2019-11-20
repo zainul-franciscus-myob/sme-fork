@@ -2,6 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import { allocationTypeOptions } from './AllocationTypes';
 import formatNumberWithDecimalScaleRange from '../../valueFormatters/formatNumberWithDecimalScaleRange';
+import getRegionToDialectText from '../../dialect/getRegionToDialectText';
 
 const getApplyToAllAccounts = state => state.applyToAllAccounts;
 const getAllocations = state => state.allocations;
@@ -162,3 +163,5 @@ export const getSaveUrl = (state) => {
   const bankingRuleListUrl = getBankingRuleListUrl(state);
   return modalUrl || bankingRuleListUrl;
 };
+
+export const getTaxCodeLabel = state => getRegionToDialectText(state.region)('Tax code');

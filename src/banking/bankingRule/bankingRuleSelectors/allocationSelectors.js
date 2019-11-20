@@ -6,6 +6,7 @@ import {
 import AllocationTypes from '../AllocationTypes';
 import RuleTypes from '../RuleTypes';
 import formatNumberWithDecimalScaleRange from '../../../valueFormatters/formatNumberWithDecimalScaleRange';
+import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 export const getTaxCodes = createSelector(
   getBankingRuleModal,
@@ -140,7 +141,4 @@ export const getShouldShowAllocationSection = createSelector(
   ruleType => [RuleTypes.spendMoney, RuleTypes.receiveMoney].includes(ruleType),
 );
 
-export const getTaxCodeLabel = createSelector(
-  getRegion,
-  region => (region === 'au' ? 'Tax code' : 'GST code'),
-);
+export const getTaxCodeLabel = state => getRegionToDialectText(state.region)('Tax code');
