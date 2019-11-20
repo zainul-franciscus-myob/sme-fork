@@ -10,11 +10,13 @@ import Inbox from './inbox';
 import NavigationModule from './navigation/NavigationModule';
 import Router from './router/Router';
 import getRoutes from './getRoutes';
+import stopResizeAnimation from './stopResizeAnimation';
 import unbindAllKeys from './hotKeys/unbindAllKeys';
 
 async function main(integrationType, telemetryType, leanEngageType) {
   await initializeConfig();
   initializeAuth();
+  stopResizeAnimation();
 
   const createIntegration = (await import(`./integration/create${integrationType}Integration.js`)).default;
   const root = document.getElementById('root');

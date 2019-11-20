@@ -41,3 +41,8 @@ textarea {
   border: 0;
   white-space: nowrap;
 }
+
+.resize-animation-stopper * {
+  animation: none !important;
+  transition: none !important;
+}
