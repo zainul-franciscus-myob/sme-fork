@@ -11,6 +11,7 @@ const getDate = state => state.spendMoney.date;
 const getDescription = state => state.spendMoney.description;
 export const getIsReportable = state => state.spendMoney.isReportable;
 const getIsTaxInclusive = state => state.spendMoney.isTaxInclusive;
+export const getRegion = state => state.region;
 
 const getHeadersProperties = createStructuredSelector({
   referenceId: getReferenceId,
@@ -22,6 +23,7 @@ const getHeadersProperties = createStructuredSelector({
   description: getDescription,
   isReportable: getIsReportable,
   isTaxInclusive: getIsTaxInclusive,
+  region: getRegion,
 });
 
 export const getIsReportableDisabled = createSelector(
@@ -155,7 +157,6 @@ export const getIsActionsDisabled = state => state.isSubmitting;
 export const getIsSubmitting = state => state.isSubmitting;
 export const isPageEdited = state => state.isPageEdited;
 export const getBusinessId = state => state.businessId;
-export const getRegion = state => state.region;
 export const getPageTitle = state => state.pageTitle;
 export const getTaxCodeLabel = state => getRegionToDialectText(state.region)('Tax code');
 export const getTaxLabel = state => getRegionToDialectText(state.region)('Tax');

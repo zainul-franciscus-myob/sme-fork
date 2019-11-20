@@ -14,11 +14,13 @@ import {
   getContacts,
   getIsPaymentReportable,
   getIsPaymentReportableCheckboxDisabled,
+  getRegion,
   getTransactionDescription,
 } from '../bankingRuleSpendMoneySelectors';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
-import IsReportableSection from './IsReportableSection';
+import ReportableCheckbox from '../../../components/ReportableCheckbox/ReportableCheckbox';
 import Table from './BankingRuleSpendMoneyAllocationTable';
+import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleRadioButtonChange from '../../../components/handlers/handleRadioButtonChange';
@@ -29,6 +31,9 @@ const BankingRuleSpendMoneyTransactionSection = ({
   contactId,
   contacts,
   transactionDescription,
+  region,
+  isPaymentReportable,
+  isPaymentReportableCheckboxDisabled,
   onRowInputBlur,
   onRuleConditionsChange,
   onAddRow,
@@ -49,7 +54,14 @@ const BankingRuleSpendMoneyTransactionSection = ({
               hideLabel={false}
               onChange={handleComboboxChange('contactId', onRuleConditionsChange)}
             />
-            <IsReportableSection onRuleConditionsChange={onRuleConditionsChange} />
+            <ReportableCheckbox
+              label="Report to ATO via TPAR"
+              name="isPaymentReportable"
+              checked={isPaymentReportable}
+              onChange={handleCheckboxChange(onRuleConditionsChange)}
+              disabled={isPaymentReportableCheckboxDisabled}
+              region={region}
+            />
           </Columns>
           <TextArea
             resize="vertical"
@@ -85,6 +97,7 @@ const mapStateToProps = state => ({
   transactionDescription: getTransactionDescription(state),
   isPaymentReportable: getIsPaymentReportable(state),
   isPaymentReportableCheckboxDisabled: getIsPaymentReportableCheckboxDisabled(state),
+  region: getRegion(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleSpendMoneyTransactionSection);

@@ -1,5 +1,5 @@
 import {
-  Checkbox, CheckboxGroup, DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, TextArea,
+  DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import { getHeaderOptions } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
+import ReportableCheckbox from '../../../components/ReportableCheckbox/ReportableCheckbox';
 import styles from './SpendMoneyDetailOptions.module.css';
 
 class SpendMoneyDetailOptions extends Component {
@@ -60,6 +61,7 @@ class SpendMoneyDetailOptions extends Component {
         selectedPayFromAccountId,
         isReportableDisabled,
         shouldShowReportable,
+        region,
       },
     } = this.props;
 
@@ -86,19 +88,14 @@ class SpendMoneyDetailOptions extends Component {
         {
           shouldShowReportable
           && (
-          <CheckboxGroup
-            hideLabel
-            label="Report to ATO via TPAR"
-            renderCheckbox={() => (
-              <Checkbox
-                name="isReportable"
-                label="Report to ATO via TPAR"
-                checked={isReportable}
-                onChange={this.handleCheckboxChange}
-                disabled={isReportableDisabled}
-              />
-            )}
-          />
+            <ReportableCheckbox
+              label="Report to ATO via TPAR"
+              region={region}
+              name="isReportable"
+              checked={isReportable}
+              onChange={this.handleCheckboxChange}
+              disabled={isReportableDisabled}
+            />
           )
         }
         <TextArea

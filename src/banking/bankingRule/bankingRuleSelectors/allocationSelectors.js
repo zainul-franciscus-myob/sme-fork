@@ -123,7 +123,7 @@ const getSelectedContact = createSelector(
   (contacts, contactId) => contacts.find(({ id }) => id === contactId) || {},
 );
 
-const getRegion = state => state.region;
+export const getRegion = state => state.region;
 
 export const getShouldShowReportableCheckbox = createSelector(
   getSelectedContact,

@@ -20,9 +20,10 @@ import {
   getTaxInclusiveLabel,
 } from '../selectors/billSelectors';
 import BillPaymentTerms from './BillPaymentTerms';
-import BillReportableCheckbox from './BillReportableCheckbox';
 import BooleanRadioButtonGroup from '../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
+import ReportableCheckbox from '../../../components/ReportableCheckbox/ReportableCheckbox';
 import SupplierCombobox from '../../../components/combobox/SupplierCombobox';
+import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
@@ -62,11 +63,12 @@ const BillOptions = ({
         }}
       />
       <ReadOnly className={styles.address}>{supplierAddress}</ReadOnly>
-      <BillReportableCheckbox
-        isReportable={isReportable}
+      <ReportableCheckbox
+        label="Report to ATO via TPAR"
+        checked={isReportable}
         region={region}
         name="isReportable"
-        onUpdateBillOption={onUpdateBillOption}
+        onChange={handleCheckboxChange(onUpdateBillOption)}
       />
     </React.Fragment>
   );

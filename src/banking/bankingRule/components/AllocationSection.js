@@ -1,5 +1,5 @@
 import {
-  Checkbox, CheckboxGroup, Columns, FieldGroup, RadioButtonGroup, TextArea,
+  Columns, FieldGroup, RadioButtonGroup, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -11,11 +11,13 @@ import {
   getContacts,
   getDescription,
   getIsPaymentReportable,
+  getRegion,
   getShouldShowReportableCheckbox,
 } from '../bankingRuleSelectors';
 import AllocationTable from './AllocationTable';
 import AllocationTypes from '../AllocationTypes';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
+import ReportableCheckbox from '../../../components/ReportableCheckbox/ReportableCheckbox';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
@@ -34,6 +36,7 @@ const AllocationSection = (
     contactId,
     description,
     allocationType,
+    region,
     isPaymentReportable,
     shouldShowPaymentReportableCheckbox,
   },
@@ -49,23 +52,17 @@ const AllocationSection = (
           onChange={handleComboboxChange('contactId', onDetailsChange)}
         />
       </div>
-      {
-        shouldShowPaymentReportableCheckbox
-        && (
-        <CheckboxGroup
-          hideLabel
-          label="Report to ATO via TPAR"
-          renderCheckbox={() => (
-            <Checkbox
-              name="isPaymentReportable"
-              label="Report to ATO via TPAR"
-              checked={isPaymentReportable}
-              onChange={handleCheckboxChange(onDetailsChange)}
-            />
-          )}
-        />
-        )
-      }
+      {shouldShowPaymentReportableCheckbox
+      && (
+      <ReportableCheckbox
+        name="isPaymentReportable"
+        label="Report to ATO via TPAR"
+        checked={isPaymentReportable}
+        onChange={handleCheckboxChange(onDetailsChange)}
+        region={region}
+      />
+      ) }
+
     </Columns>
     <div className={styles.description}>
       <TextArea
@@ -102,6 +99,7 @@ const mapStateToProps = state => ({
   allocations: getAllocations(state),
   isPaymentReportable: getIsPaymentReportable(state),
   shouldShowPaymentReportableCheckbox: getShouldShowReportableCheckbox(state),
+  region: getRegion(state),
 });
 
 export default connect(mapStateToProps)(AllocationSection);
