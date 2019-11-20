@@ -5,23 +5,23 @@ import React from 'react';
 
 import { getTableEntries } from '../userListSelectors';
 
-const getStatusBadge = status => (status ? null : <Badge color="light-grey">{status}</Badge>);
-
 const UserListTableBody = (props) => {
   const {
     tableConfig,
     entries,
   } = props;
 
-  const rows = entries.map(entry => (
-    <Table.Row key={entry.id}>
+  const rows = entries.map(({
+    id, link, name, advisor, email, status,
+  }) => (
+    <Table.Row key={id}>
       <Table.RowItem {...tableConfig.name}>
-        <a href={entry.link}>{entry.name}</a>
+        <a href={link}>{name}</a>
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.advisor}>{entry.advisor}</Table.RowItem>
-      <Table.RowItem {...tableConfig.email}>{entry.email}</Table.RowItem>
+      <Table.RowItem {...tableConfig.advisor}>{advisor}</Table.RowItem>
+      <Table.RowItem {...tableConfig.email}>{email}</Table.RowItem>
       <Table.RowItem {...tableConfig.status}>
-        <Badge color="light-grey">{getStatusBadge(entry.status)}</Badge>
+        <Badge color="light-grey">{status}</Badge>
       </Table.RowItem>
     </Table.Row>
   ));
