@@ -1,6 +1,4 @@
 import {
-  Checkbox,
-  CheckboxGroup,
   Columns,
   FieldSet,
   RadioButtonGroup,
@@ -19,8 +17,8 @@ import {
   getTransactionDescription,
 } from '../bankingRuleSpendMoneySelectors';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
+import IsReportableSection from './IsReportableSection';
 import Table from './BankingRuleSpendMoneyAllocationTable';
-import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleRadioButtonChange from '../../../components/handlers/handleRadioButtonChange';
@@ -36,8 +34,6 @@ const BankingRuleSpendMoneyTransactionSection = ({
   onAddRow,
   onRowChange,
   onRemoveRow,
-  isPaymentReportable,
-  isPaymentReportableCheckboxDisabled,
 }) => (
   <React.Fragment>
     <FieldSet
@@ -53,19 +49,7 @@ const BankingRuleSpendMoneyTransactionSection = ({
               hideLabel={false}
               onChange={handleComboboxChange('contactId', onRuleConditionsChange)}
             />
-            <CheckboxGroup
-              hideLabel
-              label="Report to ATO via TPAR"
-              renderCheckbox={() => (
-                <Checkbox
-                  name="isPaymentReportable"
-                  label="Report to ATO via TPAR"
-                  checked={isPaymentReportable}
-                  onChange={handleCheckboxChange(onRuleConditionsChange)}
-                  disabled={isPaymentReportableCheckboxDisabled}
-                />
-              )}
-            />
+            <IsReportableSection onRuleConditionsChange={onRuleConditionsChange} />
           </Columns>
           <TextArea
             resize="vertical"
