@@ -181,6 +181,7 @@ export default class UserDetailModule {
     const onFailure = (error) => {
       this.setSubmittingState(false);
       this.displayAlert(error.message);
+      this.closeModal();
     };
 
     this.integration.write({
