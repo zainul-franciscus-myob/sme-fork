@@ -1,11 +1,15 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-export const getOrder = ({ sortOrder }) => ({
-  column: 'date',
+export const getOrder = ({ sortOrder, orderBy }) => ({
+  column: orderBy,
   descending: sortOrder === 'desc',
 });
 
 export const getSortOrder = ({ sortOrder }) => sortOrder;
+
+export const getFlipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
+
+export const getOrderBy = ({ orderBy }) => orderBy;
 
 export const getAlert = ({ alert }) => alert;
 

@@ -4,6 +4,7 @@ import {
   LOAD_TRANSACTION_LIST,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_TRANSACTION_LIST,
   UPDATE_FILTER_OPTIONS,
@@ -33,6 +34,7 @@ const getDefaultState = () => ({
     keywords: '',
   },
   sortOrder: '',
+  orderBy: '',
   alert: undefined,
   isLoading: true,
   isTableLoading: false,
@@ -47,6 +49,7 @@ const loadTransactionList = (state, action) => ({
   sourceJournalFilters: action.sourceJournalFilters,
   entries: action.entries,
   sortOrder: action.sortOrder,
+  orderBy: action.orderBy,
   filterOptions: {
     ...state.filterOptions,
     sourceJournal: action.sourceJournal,
@@ -60,8 +63,13 @@ const loadTransactionList = (state, action) => ({
 const sortAndFilterTransactionList = (state, action) => ({
   ...state,
   entries: action.entries,
-  sortOrder: action.sortOrder,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
+});
+
+const setSortOrder = (state, action) => ({
+  ...state,
+  sortOrder: action.sortOrder,
+  orderBy: action.orderBy,
 });
 
 const updateFilterOptions = (state, action) => ({
@@ -109,6 +117,7 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
+  [SET_SORT_ORDER]: setSortOrder,
 };
 
 const transactionListReducer = createReducer(getDefaultState(), handlers);

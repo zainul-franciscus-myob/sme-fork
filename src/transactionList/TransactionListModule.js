@@ -5,6 +5,7 @@ import {
   LOAD_TRANSACTION_LIST,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_TRANSACTION_LIST,
   UPDATE_FILTER_OPTIONS,
@@ -24,7 +25,14 @@ import { SUCCESSFULLY_DELETED_RECEIVE_REFUND } from '../receiveRefund/ReceiveRef
 import { SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY } from '../spendMoney/spendMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoney/transferMoneyMessageTypes';
 import {
-  getAppliedFilterOptions, getBusinessId, getFilterOptions, getRegion, getSortOrder, getURLParams,
+  getAppliedFilterOptions,
+  getBusinessId,
+  getFilterOptions,
+  getFlipSortOrder,
+  getOrderBy,
+  getRegion,
+  getSortOrder,
+  getURLParams,
 } from './transactionListSelectors';
 import Store from '../store/Store';
 import TransactionListView from './components/TransactionListView';
@@ -80,19 +88,11 @@ export default class TransactionListModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({
-      entries,
-      sourceJournalFilters,
-      sortOrder,
-      sourceJournal,
-    }) => {
+    const onSuccess = (response) => {
       this.setLoadingState(false);
       this.store.dispatch({
         intent,
-        entries,
-        sourceJournalFilters,
-        sourceJournal,
-        sortOrder,
+        ...response,
       });
     };
 
@@ -150,9 +150,21 @@ export default class TransactionListModule {
     });
   };
 
-  sortTransactionList = () => {
+  setSortOrder = (orderBy, newSortOrder) => {
+    this.store.dispatch({
+      intent: SET_SORT_ORDER,
+      sortOrder: newSortOrder,
+      orderBy,
+    });
+  };
+
+  sortTransactionList = (orderBy) => {
     const state = this.store.getState();
     this.setTableLoadingState(true);
+
+    const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
+    this.setSortOrder(orderBy, newSortOrder);
+
     const intent = SORT_AND_FILTER_TRANSACTION_LIST;
 
     const urlParams = {
@@ -171,7 +183,6 @@ export default class TransactionListModule {
 
     const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
 
-    const newSortOrder = getSortOrder(state) === 'desc' ? 'asc' : 'desc';
     const filterOptions = getAppliedFilterOptions(state);
     this.integration.read({
       intent,
@@ -179,6 +190,7 @@ export default class TransactionListModule {
       params: {
         ...filterOptions,
         sortOrder: newSortOrder,
+        orderBy,
       },
       onSuccess,
       onFailure,

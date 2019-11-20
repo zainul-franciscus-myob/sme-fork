@@ -10,9 +10,9 @@ import TransactionListTableBody from './TransactionListTableBody';
 
 const tableConfig = {
   date: { width: '11rem', valign: 'top' },
-  referenceId: { width: '12.4rem', valign: 'top' },
+  referenceId: { width: '13rem', valign: 'top' },
   description: { width: 'flex-1', valign: 'top' },
-  sourceJournal: { width: '14.0rem', valign: 'top' },
+  sourceJournal: { width: '15.5rem', valign: 'top' },
   displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
 };
 
@@ -26,12 +26,20 @@ const TransactionListTable = ({
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.date}>
-        <HeaderSort title="Date" sortName="date" activeSort={order} onSort={onSort} />
+        <HeaderSort title="Date" sortName="Date" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.referenceId}>Reference </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.description}>Description </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.sourceJournal}>Source Journal </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.displayAmount}>Amount ($)</Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.referenceId}>
+        <HeaderSort title="Reference no" sortName="Reference" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.description}>
+        <HeaderSort title="Description" sortName="Description" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.sourceJournal}>
+        <HeaderSort title="Source journal" sortName="SourceJournal" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.displayAmount}>
+        <HeaderSort title="Amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
+      </Table.HeaderItem>
     </Table.Header>
   );
 
