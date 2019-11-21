@@ -36,7 +36,7 @@ export default class NavigationModule {
     this.mainContentElement.removeAttribute('tabindex');
   }
 
-  getBusinessInfo = ({ currentRouteName }) => {
+  loadBusinessInfo = ({ currentRouteName }) => {
     const businessId = getBusinessId(this.store.getState());
     if (!businessId || isLinkUserPage({ currentRouteName })) {
       return;
@@ -133,8 +133,12 @@ export default class NavigationModule {
   run = ({
     routeParams, currentRouteName, onPageTransition,
   }) => {
+    const previousBusinessId = getBusinessId(this.store.getState());
+    const currentBusinessId = routeParams.businessId;
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
-    this.getBusinessInfo({ currentRouteName });
+    if (previousBusinessId !== currentBusinessId) {
+      this.loadBusinessInfo({ currentRouteName });
+    }
     this.setOnPageTransition(onPageTransition);
     this.render();
   }
