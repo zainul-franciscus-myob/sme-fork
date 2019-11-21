@@ -15,5 +15,7 @@ export default {
     lastMonthInFinancialYear: '2',
     openingBalanceDate: '2014-04-01T00:00:00',
     serialNumber: '612312344567',
+    hasLockPeriod: true,
+    lockDate: '2019-11-11',
   },
 };

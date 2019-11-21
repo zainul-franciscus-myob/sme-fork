@@ -11,12 +11,14 @@ import BusinessDetailsSection from './BusinessDetailsSection';
 import ContactDetailsSection from './ContactDetailsSection';
 import FinancialYearSection from './FinancialYearSection';
 import FormCard from '../../../components/FormCard/FormCard';
+import LockDateSection from './LockDateSection';
 import PageView from '../../../components/PageView/PageView';
 import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const BusinessDetailView = ({
   isLoading,
   onChange,
+  onLockDateDetailChange,
   onSaveButtonClick,
   onConfirmSave,
   onConfirmCancel,
@@ -54,6 +56,7 @@ const BusinessDetailView = ({
         <BusinessDetailsSection onChange={onChange} />
         <ContactDetailsSection onChange={onChange} />
         <FinancialYearSection onChange={onChange} />
+        <LockDateSection onChange={onLockDateDetailChange} />
       </FormCard>
     </FormTemplate>
   );

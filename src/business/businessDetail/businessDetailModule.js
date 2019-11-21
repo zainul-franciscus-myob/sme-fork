@@ -7,13 +7,13 @@ import {
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
+  SET_LOCK_DATE_AUTO_POPULATED_STATE,
   SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BUSINESS_DETAIL,
+  UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
-import {
-  RESET_STATE,
-} from '../../SystemIntents';
+import { RESET_STATE } from '../../SystemIntents';
 import { getBusinessForUpdate, getIsPageEdited, getModalUrl } from './businessDetailSelectors';
 import BusinessDetailsView from './components/BusinessDetailView';
 import Store from '../../store/Store';
@@ -69,8 +69,7 @@ export default class BusinessDetailModule {
     });
   };
 
-  onChange = ({ key, value }) => {
-    const intent = UPDATE_BUSINESS_DETAIL;
+  createChangeHandler = intent => ({ key, value }) => {
     this.setIsPageEdited(true);
 
     this.store.dispatch({
@@ -84,6 +83,7 @@ export default class BusinessDetailModule {
     const onSuccess = ({ message }) => {
       this.setSubmittingState(false);
       this.setIsPageEdited(false);
+      this.setIsLockDateAutoPopulated(false);
       this.displayAlert({ message, type: 'success' });
     };
     this.saveBusinessDetails(onSuccess);
@@ -150,7 +150,8 @@ export default class BusinessDetailModule {
   render = () => {
     const businessDetailsView = (
       <BusinessDetailsView
-        onChange={this.onChange}
+        onChange={this.createChangeHandler(UPDATE_BUSINESS_DETAIL)}
+        onLockDateDetailChange={this.createChangeHandler(UPDATE_LOCK_DATE_DETAIL)}
         onSaveButtonClick={this.updateBusinessDetail}
         onDismissAlert={this.dismissAlert}
         onConfirmSave={this.updateAndRedirectToUrl}
@@ -217,6 +218,13 @@ export default class BusinessDetailModule {
     this.store.dispatch({
       intent: SET_PAGE_EDITED_STATE,
       isPageEdited,
+    });
+  }
+
+  setIsLockDateAutoPopulated = (isLockDateAutoPopulated) => {
+    this.store.dispatch({
+      intent: SET_LOCK_DATE_AUTO_POPULATED_STATE,
+      isLockDateAutoPopulated,
     });
   }
 
