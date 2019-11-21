@@ -1,11 +1,12 @@
 import {
-  DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, TextArea,
+  DatePicker, DetailHeader, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import { getHeaderOptions } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import BooleanRadioButtonGroup from '../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import ContactCombobox from '../../../components/combobox/ContactCombobox';
 import ReportableCheckbox from '../../../components/ReportableCheckbox/ReportableCheckbox';
 import styles from './SpendMoneyDetailOptions.module.css';
@@ -61,8 +62,11 @@ class SpendMoneyDetailOptions extends Component {
         selectedPayFromAccountId,
         isReportableDisabled,
         shouldShowReportable,
+        taxInclusiveLabel,
+        taxExclusiveLabel,
         region,
       },
+      onUpdateHeaderOptions,
     } = this.props;
 
     const primary = (
@@ -128,15 +132,13 @@ class SpendMoneyDetailOptions extends Component {
           value={date}
           onSelect={this.handleDateChange}
         />
-        <RadioButtonGroup
-          label="Amounts are"
+        <BooleanRadioButtonGroup
           name="isTaxInclusive"
-          renderRadios={({ value, ...props }) => (
-            <React.Fragment>
-              <RadioButton {...props} checked={isTaxInclusive} onChange={this.handleRadioChange} value="true" label="Tax inclusive" />
-              <RadioButton {...props} checked={!isTaxInclusive} onChange={this.handleRadioChange} value="false" label="Tax exclusive" />
-            </React.Fragment>
-          )}
+          label="Amounts are"
+          value={isTaxInclusive}
+          trueLabel={taxInclusiveLabel}
+          falseLabel={taxExclusiveLabel}
+          handler={onUpdateHeaderOptions}
         />
       </React.Fragment>
     );
