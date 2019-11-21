@@ -3,50 +3,8 @@ import emptyViewTypes from '../emptyViewTypes';
 
 describe('payRunListSelectors', () => {
   describe('getEmptyState', () => {
-    describe('filters touched is true', () => {
-      it('should return No Pay Runs Filtered if STP is registered', () => {
-        const state = {
-          filtersTouched: true,
-          stpRegistrationStatus: 'registered',
-        };
-        const expected = emptyViewTypes.noPayRunsFiltered;
-
-        expect(getEmptyState(state)).toEqual(expected);
-      });
-
-      it('should return No Pay Runs Filtered if STP is not registered', () => {
-        const state = {
-          filtersTouched: true,
-          stpRegistrationStatus: 'notRegistered',
-        };
-        const expected = emptyViewTypes.noPayRunsFiltered;
-
-        expect(getEmptyState(state)).toEqual(expected);
-      });
-
-      it('should return No Pay Runs Filtered if STP is lost connection', () => {
-        const state = {
-          filtersTouched: true,
-          stpRegistrationStatus: 'lostConnection',
-        };
-        const expected = emptyViewTypes.noPayRunsFiltered;
-
-        expect(getEmptyState(state)).toEqual(expected);
-      });
-    });
-
-    describe('filters touched is false', () => {
-      it('should return No Pay Runs if STP is registered', () => {
-        const state = {
-          filtersTouched: false,
-          stpRegistrationStatus: 'registered',
-        };
-        const expected = emptyViewTypes.noPayRuns;
-
-        expect(getEmptyState(state)).toEqual(expected);
-      });
-
-      it('should return No Pay Runs Filtered if filters touched is true and STP is lost connection', () => {
+    describe('STP is not registered', () => {
+      it('should return notStpRegistered if filters touched is false', () => {
         const state = {
           filtersTouched: false,
           stpRegistrationStatus: 'notRegistered',
@@ -56,12 +14,56 @@ describe('payRunListSelectors', () => {
         expect(getEmptyState(state)).toEqual(expected);
       });
 
-      it('should return No Pay Runs Filtered if filters touched is true and STP is lost connection', () => {
+      it('should return notStpRegistered if filters touched is true', () => {
+        const state = {
+          filtersTouched: true,
+          stpRegistrationStatus: 'notRegistered',
+        };
+        const expected = emptyViewTypes.notStpRegistered;
+
+        expect(getEmptyState(state)).toEqual(expected);
+      });
+    });
+
+    describe('STP connection lost', () => {
+      it('should return stpConnectionLost if filters touched is false', () => {
         const state = {
           filtersTouched: false,
           stpRegistrationStatus: 'lostConnection',
         };
         const expected = emptyViewTypes.stpConnectionLost;
+
+        expect(getEmptyState(state)).toEqual(expected);
+      });
+
+      it('should return notStpRegistered if filters touched is true', () => {
+        const state = {
+          filtersTouched: true,
+          stpRegistrationStatus: 'lostConnection',
+        };
+        const expected = emptyViewTypes.stpConnectionLost;
+
+        expect(getEmptyState(state)).toEqual(expected);
+      });
+    });
+
+    describe('STP is registered', () => {
+      it('should return noPayRuns if filters touched is false', () => {
+        const state = {
+          filtersTouched: false,
+          stpRegistrationStatus: 'registered',
+        };
+        const expected = emptyViewTypes.noPayRuns;
+
+        expect(getEmptyState(state)).toEqual(expected);
+      });
+
+      it('should return noPayRunsFiltered if filters touched is true', () => {
+        const state = {
+          filtersTouched: true,
+          stpRegistrationStatus: 'registered',
+        };
+        const expected = emptyViewTypes.noPayRunsFiltered;
 
         expect(getEmptyState(state)).toEqual(expected);
       });

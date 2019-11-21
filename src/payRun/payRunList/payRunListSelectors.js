@@ -36,16 +36,12 @@ export const getTableEntries = createSelector(
 );
 
 export const getEmptyState = (state) => {
-  if (state.filtersTouched) {
-    return emptyViewTypes.noPayRunsFiltered;
-  }
-
   switch (state.stpRegistrationStatus) {
     case 'notRegistered':
       return emptyViewTypes.notStpRegistered;
     case 'lostConnection':
       return emptyViewTypes.stpConnectionLost;
     default:
-      return emptyViewTypes.noPayRuns;
+      return state.filtersTouched ? emptyViewTypes.noPayRunsFiltered : emptyViewTypes.noPayRuns;
   }
 };
