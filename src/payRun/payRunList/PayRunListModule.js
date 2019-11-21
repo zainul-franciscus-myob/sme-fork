@@ -131,13 +131,14 @@ export default class PayrunListModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({ entries, sortOrder }) => {
+    const onSuccess = ({ entries, sortOrder, stpRegistrationStatus }) => {
       setLoadingFunc(false);
       this.store.dispatch({
         intent,
         entries,
         isSort,
         sortOrder,
+        stpRegistrationStatus,
       });
     };
 

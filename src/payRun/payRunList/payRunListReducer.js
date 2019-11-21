@@ -22,6 +22,7 @@ const getDefaultState = () => ({
   entries: [],
   filtersTouched: false,
   sortOrder: 'desc',
+  stpRegistrationStatus: 'notRegistered',
   alert: undefined,
   isLoading: true,
   isTableLoading: false,
@@ -84,6 +85,7 @@ const sortAndFilterPayRunList = (state, action) => ({
   ...state,
   entries: action.entries,
   sortOrder: action.sortOrder,
+  stpRegistrationStatus: action.stpRegistrationStatus,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 

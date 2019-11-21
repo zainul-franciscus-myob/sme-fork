@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import emptyViewTypes from './emptyViewTypes';
+
 export const getAlert = ({ alert }) => alert;
 
 export const getBusinessId = state => state.businessId;
@@ -14,8 +16,8 @@ export const getOrder = ({ sortOrder }) => ({
   column: 'date',
   descending: sortOrder === 'desc',
 });
-export const getFiltersTouched = ({ filtersTouched }) => filtersTouched;
 export const getIsTableLoading = state => state.isTableLoading;
+export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
 export const getIsLoading = state => state.isLoading;
 export const getEntries = state => state.entries;
@@ -32,3 +34,18 @@ export const getTableEntries = createSelector(
     }),
   ),
 );
+
+export const getEmptyState = (state) => {
+  if (state.filtersTouched) {
+    return emptyViewTypes.noPayRunsFiltered;
+  }
+
+  switch (state.stpRegistrationStatus) {
+    case 'notRegistered':
+      return emptyViewTypes.notStpRegistered;
+    case 'lostConnection':
+      return emptyViewTypes.stpConnectionLost;
+    default:
+      return emptyViewTypes.noPayRuns;
+  }
+};

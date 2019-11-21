@@ -1,22 +1,20 @@
 import {
-  Button,
   Dropdown,
   HeaderSort,
   Icons,
-  PageState,
   Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getFiltersTouched,
+  getEmptyState,
+  getIsTableEmpty,
   getIsTableLoading,
   getOrder,
   getTableEntries,
 } from '../payRunListSelectors';
-import NoPayRunsPageStateImage from './images/no-pay-runs-page-state-image.svg';
-import NoSTPPageStateImage from './images/no-stp-page-state-image.svg';
+import PayRunListEmptyView from './PayRunListEmptyView';
 import TableView from '../../../components/TableView/TableView';
 
 const tableConfig = {
@@ -41,7 +39,8 @@ const PayRunListTable = ({
   onSort,
   sortOrder,
   entries,
-  filtersTouched,
+  isTableEmpty,
+  emptyState,
 }) => {
   const header = (
     <Table.Header>
@@ -54,7 +53,7 @@ const PayRunListTable = ({
       <Table.HeaderItem {...tableConfig.employees}>
         {tableConfig.employees.columnName}
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.actions}></Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.actions} />
     </Table.Header>
   );
 
@@ -91,42 +90,12 @@ const PayRunListTable = ({
     </Table.Row>
   ));
 
-  const filterEmptyView = (
-    <PageState
-      title="There are no pay runs for the selected filter options."
-    />
-  );
-
-  // This will be used until endpoints required to determine
-  // whether the business has STP enabled are ready for integration.
-  // eslint-disable-next-line no-unused-vars
-  const noSTPEmptyView = (
-    <PageState
-      title="Sign up to Single Touch Payroll to see your past pay runs"
-      actions={[<Button key={1} type="link" icon={<Icons.Add />}>Sign up for Single Touch Payroll</Button>]}
-      description="You can still view and edit past runs from your list of
-        transactions. You can view pay slips from the pay advice report."
-      image={<img src={NoSTPPageStateImage} style={{ width: '60%' }} alt="no invoice" />}
-    />
-  );
-
-  const noPayRunsEmptyView = (
-    <PageState
-      title="You have not recorded any pay runs yet"
-      description="Your pay runs will show here once they are recorded."
-      image={<img src={NoPayRunsPageStateImage} style={{ width: '60%' }} alt="no invoice" />}
-    />
-  );
-
-  const isTableEmpty = entries.length === 0;
-  const emptyView = filtersTouched ? filterEmptyView : noPayRunsEmptyView;
-
   return (
     <TableView
       header={header}
       isLoading={isTableLoading}
       isEmpty={isTableEmpty}
-      emptyView={emptyView}
+      emptyView={<PayRunListEmptyView emptyState={emptyState} />}
       emptyMessage="Empty table"
     >
       <Table.Body>
@@ -139,7 +108,8 @@ const PayRunListTable = ({
 const mapStateToProps = state => ({
   entries: getTableEntries(state),
   sortOrder: getOrder(state),
-  filtersTouched: getFiltersTouched(state),
+  isTableEmpty: getIsTableEmpty(state),
+  emptyState: getEmptyState(state),
   isTableLoading: getIsTableLoading(state),
 });
 
