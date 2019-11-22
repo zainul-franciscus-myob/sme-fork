@@ -47,6 +47,7 @@ const CreditCardsTableBody = ({
         />
       </Table.RowItem>
       <Table.RowItem
+        textWrap="wrap"
         columnName={tableConfig.status.columnName}
         {...tableConfig.status.styles}
       >
