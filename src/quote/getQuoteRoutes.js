@@ -15,7 +15,7 @@ const getQuoteRoutes = ({
     {
       name: 'quoteDetail',
       path: '/:quoteId',
-      allowedParams: ['duplicatedQuoteId'],
+      allowedParams: ['layout', 'duplicatedQuoteId'],
       module: new QuoteDetailModule({
         integration, setRootView, pushMessage, popMessages, reload, replaceURLParams,
       }),

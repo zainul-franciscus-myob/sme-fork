@@ -2,7 +2,7 @@ import { DropZone, FileChip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getEmailAttachments } from '../../serviceQuote/ServiceQuoteSelectors';
+import { getEmailAttachments } from '../../selectors/EmailSelectors';
 import styles from './EmailQuoteAttachmentsContent.module.css';
 
 const EmailQuoteAttachmentsContent = ({

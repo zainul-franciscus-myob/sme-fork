@@ -37,9 +37,7 @@ import PayRunDetailMapping from './PayRunDetailMapping';
 import PayRunListMapping from './PayRunListMapping';
 import PayRunMapping from './PayRunMapping';
 import PayrollSettingsMapping from './PayrollSettingsMapping';
-import QuoteItemMapping from './QuoteItemMapping';
 import QuoteMapping from './QuoteMapping';
-import QuoteServiceMapping from './QuoteServiceMapping';
 import ReceiveMoneyMapping from './ReceiveMoneyMapping';
 import ReceiveRefundMapping from './ReceiveRefundMapping';
 import SaleSettingMapping from './SalesSettingsMapping';
@@ -62,8 +60,6 @@ const RootMapping = Object.freeze({
   ...IncomeAllocationMapping,
   ...NavigationMapping,
   ...QuoteMapping,
-  ...QuoteServiceMapping,
-  ...QuoteItemMapping,
   ...InvoiceMapping,
   ...ReceiveMoneyMapping,
   ...SpendMoneyMapping,

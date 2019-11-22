@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect';
 
-export const convertToUnixTime = date => new Date(date).getTime().toString();
-
 export const getAlert = ({ alert }) => alert;
 
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
@@ -42,10 +40,3 @@ export const getTableEntries = createSelector(
 );
 
 export const getTotal = state => state.total;
-
-const getDefaultLayout = state => state.layout;
-
-export const getNewQuoteUrlParam = createSelector(
-  getDefaultLayout,
-  layout => (layout === 'service' ? 'newService' : 'newItem'),
-);

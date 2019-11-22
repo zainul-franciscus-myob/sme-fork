@@ -10,21 +10,16 @@ import {
   SORT_AND_FILTER_QUOTE_LIST,
   UPDATE_FILTER_OPTIONS,
 } from '../QuoteIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../SystemIntents';
-import {
-  SUCCESSFULLY_DELETED_ITEM_QUOTE,
-  SUCCESSFULLY_DELETED_SERVICE_QUOTE,
+  SUCCESSFULLY_DELETED_QUOTE,
   SUCCESSFULLY_EMAILED_QUOTE,
-  SUCCESSFULLY_SAVED_ITEM_QUOTE,
-  SUCCESSFULLY_SAVED_SERVICE_QUOTE,
-} from '../quoteDetail/quoteMessageTypes';
+  SUCCESSFULLY_SAVED_QUOTE,
+} from '../quoteDetail/QuoteMessageTypes';
 import {
   getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
-  getNewQuoteUrlParam,
   getOrderBy,
   getRegion,
   getSortOrder,
@@ -34,10 +29,8 @@ import Store from '../../store/Store';
 import quoteListReducer from './quoteListReducer';
 
 const messageTypes = [
-  SUCCESSFULLY_SAVED_SERVICE_QUOTE,
-  SUCCESSFULLY_DELETED_SERVICE_QUOTE,
-  SUCCESSFULLY_SAVED_ITEM_QUOTE,
-  SUCCESSFULLY_DELETED_ITEM_QUOTE,
+  SUCCESSFULLY_SAVED_QUOTE,
+  SUCCESSFULLY_DELETED_QUOTE,
   SUCCESSFULLY_EMAILED_QUOTE,
 ];
 
@@ -250,9 +243,8 @@ export default class QuoteListModule {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
-    const newQuoteUrlParam = getNewQuoteUrlParam(state);
 
-    window.location.href = `/#/${region}/${businessId}/quote/${newQuoteUrlParam}`;
+    window.location.href = `/#/${region}/${businessId}/quote/new`;
   }
 
   render = () => {

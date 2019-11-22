@@ -1,8 +1,8 @@
 {
-  "layout": "item",
   "pageTitle": "Create quote",
   "quote": {
-    "customerId": "",
+    "layout": "item",
+    "contactId": "",
     "address": "",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": "4",
@@ -11,27 +11,21 @@
     "numberOfDaysForDiscount": 1,
     "isTaxInclusive": true,
     "quoteNumber": "BL00000123",
-    "purchaseOrder": "",
+    "purchaseOrderNumber": "",
     "note": "",
     "lines": []
   },
-  "customers": [
+  "contactOptions": [
     {
-      "contactType": "Customer",
-      "displayContactType": "Customer",
-      "displayName": "A-Z Stationery Supplies",
-      "id": "1",
-      "displayId": "CUS000001"
+      "name": "A-Z Stationery Supplies",
+      "value": "1"
     },
     {
-      "contactType": "Customer",
-      "displayContactType": "Customer",
-      "displayName": "Cow Feed",
-      "id": "2",
-      "displayId": "CUS000003"
+      "name": "Cow Feed",
+      "value": "2"
     }
   ],
-  "expirationTerms": [
+  "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",
       "name": "Due on a date of this month"
@@ -57,7 +51,7 @@
       "name": "Due in a number of days after the end of the month"
     }
   ],
-  "items": [
+  "itemOptions": [
     {
       "id": "3",
       "itemId": "100",
@@ -69,7 +63,7 @@
       "description": "Cooler Medium"
     }
   ],
-  "taxCodes": [
+  "taxCodeOptions": [
     {
       "id": "123",
       "displayName": "GST",
@@ -99,7 +93,7 @@
     "totalTax": "$0.00",
     "totalAmount": "$0.00"
   },
-  "comments": [
+  "commentOptions": [
     { "value": "Happy Holiday!" },
     { "value": "Great doing business" },
     { "value": "don't call us we'll call you" }

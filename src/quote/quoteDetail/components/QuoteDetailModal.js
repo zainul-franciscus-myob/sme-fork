@@ -1,5 +1,14 @@
+import { connect } from 'react-redux';
 import React from 'react';
 
+import { getEmailQuoteDetail } from '../selectors/EmailSelectors';
+import {
+  getExportPdfTemplate,
+  getIsModalActionDisabled,
+  getModalAlert,
+  getModalType,
+  getTemplateOptions,
+} from '../selectors/QuoteDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import EmailQuoteModal from './email/EmailQuoteModal';
@@ -16,23 +25,25 @@ const QuoteDetailModal = ({
   isActionDisabled,
   emailQuoteDetail,
   modalAlert,
-  onDismissModal,
-  onConfirmCancelButtonClick,
-  onConfirmDeleteButtonClick,
-  onConfirmSaveButtonClick,
-  onConfirmUnsaveButtonClick,
-  onConfirmSaveAndCreateNewButtonClick,
-  onConfirmSaveAndDuplicateButtonClick,
-  onConfirmExportPdfButtonClick,
-  onConfirmEmailQuoteButtonClick,
-  onChangeExportPdfForm,
-  onEmailQuoteDetailChange,
-  onDismissAlert,
-  onAddAttachments,
-  onRemoveAttachment,
-  onCancelEmailQuoteButtonClick,
-  onConfirmEmailSettingButtonClick,
-  onCloseEmailSettingButtonClick,
+  listeners: {
+    onDismissModal,
+    onConfirmCancelButtonClick,
+    onConfirmDeleteButtonClick,
+    onConfirmSaveButtonClick,
+    onConfirmUnsaveButtonClick,
+    onConfirmSaveAndCreateNewButtonClick,
+    onConfirmSaveAndDuplicateButtonClick,
+    onConfirmExportPdfButtonClick,
+    onConfirmEmailQuoteButtonClick,
+    onChangeExportPdfTemplate,
+    onEmailQuoteDetailChange,
+    onDismissAlert,
+    onAddAttachments,
+    onRemoveAttachment,
+    onCancelEmailQuoteButtonClick,
+    onConfirmEmailSettingButtonClick,
+    onCloseEmailSettingButtonClick,
+  },
 }) => ({
   [ModalType.DELETE]: (
     <DeleteModal
@@ -80,7 +91,7 @@ const QuoteDetailModal = ({
       isActionDisabled={isActionDisabled}
       onCancel={onDismissModal}
       onConfirmExportPdfButtonClick={onConfirmExportPdfButtonClick}
-      onChangeExportPdfForm={onChangeExportPdfForm}
+      onChangeExportPdfForm={onChangeExportPdfTemplate}
     />
   ),
   [ModalType.EMAIL_QUOTE]: (
@@ -109,4 +120,13 @@ const QuoteDetailModal = ({
   ),
 }[modalType]);
 
-export default QuoteDetailModal;
+const mapStateToProps = state => ({
+  modalType: getModalType(state),
+  template: getExportPdfTemplate(state),
+  templateOptions: getTemplateOptions(state),
+  isActionDisabled: getIsModalActionDisabled(state),
+  emailQuoteDetail: getEmailQuoteDetail(state),
+  modalAlert: getModalAlert(state),
+});
+
+export default connect(mapStateToProps)(QuoteDetailModal);

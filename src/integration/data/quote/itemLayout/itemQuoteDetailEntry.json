@@ -1,9 +1,10 @@
 {
-  "layout": "item",
   "pageTitle": "Quote BL00000123",
   "quote": {
-    "customerId": "1",
-    "customerName": "A-Z Stationery Supplies",
+    "id": "5",
+    "layout": "item",
+    "contactId": "1",
+    "contactName": "A-Z Stationery Supplies",
     "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": "4",
@@ -12,7 +13,7 @@
     "numberOfDaysForDiscount": 1,
     "isTaxInclusive": true,
     "quoteNumber": "BL00000123",
-    "purchaseOrder": "IN00000123",
+    "purchaseOrderNumber": "IN00000123",
     "issueDate": "2018-11-02",
     "note": "hello",
     "lines": [
@@ -40,7 +41,7 @@
       }
     ]
   },
-  "expirationTerms": [
+  "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",
       "name": "Due on a date of this month"
@@ -66,7 +67,7 @@
       "name": "Due in a number of days after the end of the month"
     }
   ],
-  "items": [
+  "itemOptions": [
     {
       "id": "3",
       "itemId": "100",
@@ -78,7 +79,7 @@
       "description": "Cooler Medium"
     }
   ],
-  "taxCodes": [
+  "taxCodeOptions": [
     {
       "id": "2",
       "displayName": "GST",
@@ -108,7 +109,7 @@
     "totalTax": "$5.00",
     "totalAmount": "$1000.00"
   },
-  "comments": [
+  "commentOptions": [
     { "value": "Happy Holiday!" },
     { "value": "Great doing business" },
     { "value": "don't call us we'll call you" }

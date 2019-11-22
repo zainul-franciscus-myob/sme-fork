@@ -1,20 +1,24 @@
 import {
   Button, ButtonRow, Dropdown, Icons, Separator,
 } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import { getIsActionsDisabled, getIsCreating } from '../selectors/QuoteDetailSelectors';
 import SaveActionType from '../SaveActionType';
 
 const QuoteDetailActions = ({
   isCreating,
   isActionsDisabled,
-  onSaveButtonClick,
-  onSaveAndButtonClick,
-  onCancelButtonClick,
-  onDeleteButtonClick,
-  onConvertToInvoiceButtonClick,
-  onExportPdfButtonClick,
-  onSaveAndEmailButtonClick,
+  listeners: {
+    onSaveButtonClick,
+    onSaveAndButtonClick,
+    onCancelButtonClick,
+    onDeleteButtonClick,
+    onConvertToInvoiceButtonClick,
+    onExportPdfButtonClick,
+    onSaveAndEmailButtonClick,
+  },
 }) => {
   const dropdownActionItems = [
     <Dropdown.Item
@@ -76,7 +80,7 @@ const QuoteDetailActions = ({
           key="saveAnd"
           onSelect={onSaveAndButtonClick}
           toggle={(
-            <Dropdown.Toggle>
+            <Dropdown.Toggle disabled={isActionsDisabled}>
             Save and...
               <Icons.Caret />
             </Dropdown.Toggle>
@@ -110,4 +114,9 @@ const QuoteDetailActions = ({
   );
 };
 
-export default QuoteDetailActions;
+const mapStateToProps = state => ({
+  isCreating: getIsCreating(state),
+  isActionsDisabled: getIsActionsDisabled(state),
+});
+
+export default connect(mapStateToProps)(QuoteDetailActions);
