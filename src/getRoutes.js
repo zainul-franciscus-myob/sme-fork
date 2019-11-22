@@ -10,6 +10,7 @@ import getBusinessListRoutes from './business/getBusinessListRoutes';
 import getBusinessRoutes from './business/getBusinessRoutes';
 import getContactRoutes from './contact/getContactRoutes';
 import getCustomerReturnRoutes from './customerReturn/getCustomerReturnRoutes';
+import getCustomerStatementRoutes from './customerStatement/getCustomerStatementRoutes';
 import getDashboardRoutes from './dashboard/getDashboardRoutes';
 import getEmployeeRoutes from './employee/getEmployeeRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
@@ -323,6 +324,13 @@ const getRoutes = ({
     name: 'bankFeeds',
     rootPath: '/:region/:businessId/bankFeeds',
     subRoutes: getBankFeedsRoutes({
+      integration, setRootView,
+    }),
+  },
+  {
+    name: 'customerStatement',
+    rootPath: '/:region/:businessId/customerStatement',
+    subRoutes: getCustomerStatementRoutes({
       integration, setRootView,
     }),
   },

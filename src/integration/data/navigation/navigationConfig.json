@@ -36,7 +36,8 @@
     "bankReconciliation",
     "accountList",
     "reports",
-    "bankFeeds"
+    "bankFeeds",
+    "customerStatementList"
   ],
   "isReadOnly": true
 }

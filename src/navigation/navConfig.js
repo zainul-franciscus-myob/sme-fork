@@ -28,6 +28,7 @@ export const activeMapping = {
   'receiveRefund/receiveRefund': 'banking',
   'customerReturn/customerReturnPayRefund': 'sales',
   'customerReturn/customerReturnApplyToSale': 'sales',
+  'customerStatement/customerStatementList': 'sales',
   'payRefund/payRefund': 'banking',
   'applyToSale/applyToSale': 'sales',
   'payItem/payItemList': 'payroll',
@@ -176,5 +177,8 @@ export const featuresConfig = {
   },
   bankFeeds: {
     routeName: 'bankFeeds/bankFeeds',
+  },
+  customerStatementList: {
+    routeName: 'customerStatement/customerStatementList',
   },
 };

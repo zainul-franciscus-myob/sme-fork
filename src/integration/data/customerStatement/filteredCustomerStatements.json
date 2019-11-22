@@ -1,0 +1,28 @@
+{
+  "customerStatements": [
+    {
+      "id": "1",
+      "name": "The builder, Bob",
+      "contactPerson": "Jack Grave",
+      "phoneNumber": "02 98918911",
+      "email": "Curbys@aol.com",
+      "balance": "825.00"
+    },
+    {
+      "id": "2",
+      "name": "The builder, Stone",
+      "contactPerson": "Jack Dope",
+      "phoneNumber": "02 98918911",
+      "email": "Curbys@aol.com",
+      "balance": "1110.95"
+    },
+    {
+      "id": "3",
+      "name": "The builder, Jack",
+      "contactPerson": "Super Man",
+      "phoneNumber": "02 98928912",
+      "email": "Curbys@aol.com",
+      "balance": "123456.12"
+    }
+  ]
+}

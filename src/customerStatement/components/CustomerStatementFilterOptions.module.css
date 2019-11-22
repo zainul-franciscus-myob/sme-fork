@@ -1,0 +1,7 @@
+.statementType {
+  width: var(--flx-width-field-xs);
+}
+
+.customerCombobox :global(.form-group__input-group) {
+  width: var(--flx-width-field-m);
+}

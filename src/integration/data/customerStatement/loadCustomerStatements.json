@@ -1,0 +1,61 @@
+{
+  "customerStatements": [
+    {
+      "id": "1",
+      "name": "The builder, Bob",
+      "contactPerson": "Jack Grave",
+      "phoneNumber": "02 98918911",
+      "email": "Curbys@aol.com",
+      "balance": "825.00",
+      "payerUid": "db577195-7a07-445f-8d05-02443527a71f"
+    },
+    {
+      "id": "2",
+      "name": "The builder, Stone",
+      "contactPerson": "Jack Dope",
+      "phoneNumber": "02 98918911",
+      "email": "Curbys@aol.com",
+      "balance": "1110.95",
+      "payerUid": "db577195-7a07-445f-8d05-02443527a71f"
+    }
+  ],
+  "customerOptions": [
+    {
+      "name": "All",
+      "value": "All"
+    },
+    {
+      "name": "A-Z Stationery Supplies",
+      "value": "1"
+    },
+    {
+      "name": "Cow Feed",
+      "value": "2"
+    }
+  ],
+  "activityTemplateOptions": [
+    {
+      "name": "Template 1",
+      "label": "Activity Template 1"
+    },
+    {
+      "name": "Template 2",
+      "label": "Activity Template 2"
+    }
+  ],
+  "invoiceTemplateOptions": [
+    {
+      "name": "Template 1",
+      "label": "Invoice Template 1"
+    },
+    {
+      "name": "Template 2",
+      "label": "Invoice Template 2"
+    }
+  ],
+  "defaultActivityTemplateOption": "Template Activity 1",
+  "defaultInvoiceTemplateOption": "Template Invoice 1",
+  "fromEmail": "some-email@asd.com",
+  "defaultEmailSubject": "This is the default subject for the users email",
+  "defaultEmailMessage": "This is the default message for the users email"
+}

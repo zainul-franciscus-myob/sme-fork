@@ -61,6 +61,7 @@ export const getSalesUrls = createSelector(
     invoicePayment: enabledUrls.invoicePayment,
     inventory: enabledUrls.inventory,
     customerReturnList: enabledUrls.customerReturnList,
+    customerStatementList: enabledUrls.customerStatementList,
   }),
 );
 export const hasSalesUrls = createSelector(
