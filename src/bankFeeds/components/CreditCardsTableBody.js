@@ -17,12 +17,14 @@ const CreditCardsTableBody = ({
   const rows = entries.map(entry => (
     <Table.Row key={entry.id}>
       <Table.RowItem
+        textWrap="wrap"
         columnName={tableConfig.financialInstitution.columnName}
         {...tableConfig.financialInstitution.styles}
       >
         {entry.financialInstitution}
       </Table.RowItem>
       <Table.RowItem
+        textWrap="wrap"
         columnName={tableConfig.cardName.columnName}
         {...tableConfig.cardName.styles}
       >
