@@ -17,6 +17,7 @@ describe('RecordPayRunSelectors', () => {
     ];
 
     const state = {
+      payRunId: '21e38491-f9ad-4a06-9da0-540ec07cf551',
       startPayRun: {
         ...paymentDates,
       },
@@ -36,6 +37,7 @@ describe('RecordPayRunSelectors', () => {
 
     const actual = getRecordPayContents(state);
 
+    expect(actual.payRunId).toEqual(state.payRunId);
     expect(actual.paymentFrequency).toEqual(paymentDates.paymentFrequency);
     expect(actual.paymentDate).toEqual(paymentDates.paymentDate);
     expect(actual.payPeriodStart).toEqual(paymentDates.payPeriodStart);

@@ -1,3 +1,5 @@
+import uuid from 'uuid/v4';
+
 import {
   CLOSE_MODAL,
   NEXT_STEP,
@@ -22,6 +24,7 @@ import createReducer from '../../store/createReducer';
 import wrapHandlers from '../../store/wrapHandlers';
 
 const getDefaultState = () => ({
+  payRunId: uuid(),
   isLoading: false,
   isSubmitting: false,
   alert: undefined,
@@ -75,13 +78,10 @@ const previousStep = state => ({
   step: state.step - 1,
 });
 
-const setTotalNetPay = (state, { totalNetPay }) => {
-  const result = {
-    ...state,
-    totalNetPay,
-  };
-  return result;
-};
+const setTotalNetPay = (state, { totalNetPay }) => ({
+  ...state,
+  totalNetPay,
+});
 
 const handlers = {
   [RESET_STATE]: resetState,

@@ -12,6 +12,7 @@ const getPaymentInformation = state => ({
 });
 
 export const getRecordPayContents = state => ({
+  payRunId: state.payRunId,
   dateOccurred: formatIsoDate(new Date()),
   employeePayLines: state.employeePayList.lines.filter(line => line.isSelected),
   ...getPaymentInformation(state),
