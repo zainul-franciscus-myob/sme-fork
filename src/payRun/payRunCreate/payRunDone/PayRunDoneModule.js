@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getPayRunListUrl } from './payRunDoneSelector';
+import { getPayRunListUrl } from '../PayRunSelectors';
 import PayRunDoneView from './components/PayRunDoneView';
 
 export default class PayRunDoneModule {

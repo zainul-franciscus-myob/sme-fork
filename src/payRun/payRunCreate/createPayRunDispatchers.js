@@ -4,6 +4,7 @@ import {
   OPEN_MODAL,
   PREVIOUS_STEP,
   SET_ALERT,
+  SET_EMPLOYEE_PAYMENTS,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TOTAL_NET_PAY,
@@ -70,6 +71,11 @@ const createPayRunDispatchers = store => ({
   startNewPayRun: (response) => {
     const intent = START_NEW_PAY_RUN;
     store.dispatch({ intent, ...response });
+  },
+
+  setEmployeePayments: (response) => {
+    const intent = SET_EMPLOYEE_PAYMENTS;
+    store.dispatch({ intent, response });
   },
 
   nextStep: () => {

@@ -25,3 +25,4 @@ export const FORMAT_EMPLOYEE_PAY_ITEM = Symbol('Format employee pay item');
 export const RECALCULATE_PAY = Symbol('Recalculate pay');
 export const UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION = Symbol('Update employee line after recalculation');
 export const SET_TOTAL_NET_PAY = Symbol('Set total net pay');
+export const SET_EMPLOYEE_PAYMENTS = Symbol('Store employee payments returned from record payments request');

@@ -20,12 +20,12 @@ import styles from './EmployeePayTable.module.css';
 const netPayTooltip = <Tooltip>This is your employees&apos; take home pay</Tooltip>;
 
 const tableConfig = {
-  employee: { width: 'flex-1', columnName: 'Employee' },
-  payg: { width: '10.8rem', columnName: 'Gross ($}', align: 'right' },
-  gross: { width: '10.8rem', columnName: 'PAYG ($)', align: 'right' },
-  deduction: { width: '16.8rem', columnName: 'Deductions ($)', align: 'right' },
-  netPay: { width: '16.8rem', columnName: 'Net pay ($)', align: 'right' },
-  super: { width: '16.8rem', columnName: 'Super ($)', align: 'right' },
+  employee: { width: 'flex-2', columnName: 'Employee' },
+  payg: { width: 'flex-1', columnName: 'Gross ($}', align: 'right' },
+  gross: { width: 'flex-1', columnName: 'PAYG ($)', align: 'right' },
+  deduction: { width: 'flex-1', columnName: 'Deductions ($)', align: 'right' },
+  netPay: { width: 'flex-1', columnName: 'Net pay ($)', align: 'right' },
+  super: { width: 'flex-1', columnName: 'Super ($)', align: 'right' },
 };
 
 const handleEmployeeCheckboxChange = (handler, id) => () => handler(id);
@@ -51,7 +51,7 @@ const EmployeePayTable = ({
         expansionToggle
         header={(
           <Table.Header>
-            <Table.HeaderItem width="auto">
+            <Table.HeaderItem width="5rem">
               <Checkbox
                 name="bulk-select"
                 label="Bulk select"
@@ -79,7 +79,7 @@ const EmployeePayTable = ({
                 key={`expansion-toggle-${line.employeeId}`}
                 header={(
                   <Table.Row key={line.employeeId}>
-                    <Table.RowItem width="auto" cellRole="checkbox" valign="middle">
+                    <Table.RowItem width="5rem">
                       <Checkbox
                         name={`${line.employeeId}-select`}
                         label={`Select row ${line.employeeId}`}

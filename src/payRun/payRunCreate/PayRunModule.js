@@ -5,6 +5,7 @@ import { getStep } from './PayRunSelectors';
 import EmployeePayListModule from './employeePayList/EmployeePayListModule';
 import PayRunDoneModule from './payRunDone/PayRunDoneModule';
 import PayRunView from './components/PayRunView';
+import PreparePaySlipsModule from './preparePaySlips/PreparePaySlipsModule';
 import RecordPayRunModule from './recordPayRun/RecordPayRunModule';
 import StartPayRunModule from './startPayRun/StartPayRunModule';
 import Store from '../../store/Store';
@@ -36,6 +37,11 @@ export default class PayRunModule {
         pushMessage,
       }),
       recordPayRunModule: new RecordPayRunModule({
+        integration,
+        store: this.store,
+        pushMessage,
+      }),
+      preparePaySlipModule: new PreparePaySlipsModule({
         integration,
         store: this.store,
         pushMessage,

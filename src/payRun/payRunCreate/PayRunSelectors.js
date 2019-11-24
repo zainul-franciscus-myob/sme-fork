@@ -65,6 +65,11 @@ const initialStepperSteps = [
 const isStepCompleted = (stepIndex, activeStepIndex) => (stepIndex < activeStepIndex);
 const completeTheStep = step => ({ ...step, type: 'complete' });
 
+export const getPayRunListUrl = (state) => {
+  const { businessId, region } = state;
+  return `/#/${region}/${businessId}/payRun`;
+};
+
 export const getStepperSteps = (state) => {
   const activeStepIndex = getStep(state);
 

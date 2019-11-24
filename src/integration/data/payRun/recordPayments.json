@@ -1,0 +1,42 @@
+{
+  "printPaySlipEmployees": [
+    {
+      "transactionId": 2,
+      "employeeId": 297,
+      "name": "Fin Adventurelad",
+      "email": "finlovesswords@fcbarcelona.com",
+      "netPay": "61.77",
+      "hasPaySlipEmailSent": false,
+      "hasBankFile": true
+    },
+    {
+      "transactionId": 4,
+      "employeeId": 299,
+      "name": "Princess Bubblegum",
+      "email": "pbubs@fcbarcelona.com",
+      "netPay": "61.77",
+      "hasPaySlipEmailSent": false,
+      "hasBankFile": false
+    }
+  ],
+  "emailPaySlipEmployees": [
+    {
+      "transactionId": 3,
+      "employeeId": 298,
+      "name": "Jake Magicdog",
+      "email": "jake.criminaldog@fcbarcelona.com",
+      "netPay": "61.77",
+      "hasPaySlipEmailSent": true,
+      "hasBankFile": false
+    },
+    {
+      "transactionId": 4,
+      "employeeId": 299,
+      "name": "Princess Bubblegum",
+      "email": "pbubs@fcbarcelona.com",
+      "netPay": "61.77",
+      "hasPaySlipEmailSent": false,
+      "hasBankFile": false
+    }
+  ]
+}

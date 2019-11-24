@@ -20,9 +20,10 @@ export default class RecordPayRunModule {
   recordPayments = () => {
     this.dispatcher.setLoadingState(true);
 
-    const onSuccess = () => {
+    const onSuccess = (response) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.dismissAlert();
+      this.dispatcher.setEmployeePayments(response);
       this.dispatcher.nextStep();
     };
 
