@@ -58,12 +58,12 @@ const getAppliedQueryParams = (state) => {
   return getParams(sortOrder, orderBy, appliedFilterOptions);
 };
 
-export const getExportPdfQueryParams = (state, templateOption) => ({
+export const getDownloadPdfQueryParams = (state, templateOption) => ({
   ...getAppliedQueryParams(state),
   templateOption,
-  customerUids: state.customerStatements.filter(({ isSelected }) => isSelected)
-    .map(({ payerUid }) => payerUid)
-    .join('&customerUids='),
+  customerUids: state.customerStatements
+    .filter(({ isSelected }) => isSelected)
+    .map(({ payerUid }) => payerUid),
 });
 
 const getSelectedTemplateOptionForEmail = (state) => {

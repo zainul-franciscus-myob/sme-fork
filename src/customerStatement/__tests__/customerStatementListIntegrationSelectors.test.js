@@ -1,4 +1,6 @@
-import { getExportPdfQueryParams, getQueryParams, getSendEmailContent } from '../selectors/customerStatementListIntegrationSelectors';
+import {
+  getDownloadPdfQueryParams, getQueryParams, getSendEmailContent,
+} from '../selectors/customerStatementListIntegrationSelectors';
 import StatementType from '../StatementType';
 
 describe('customerStatementListIntegrationSelectors', () => {
@@ -162,10 +164,18 @@ describe('customerStatementListIntegrationSelectors', () => {
     });
   });
 
-  describe('getExportPdfQueryParams', () => {
-    it('should build an array of strings for customerUids for the query params', () => {
+  describe('getDownloadPdfQueryParams', () => {
+    it('should build an array of objects for containing the query parameters', () => {
       const state = {
-        appliedFilterOptions: {},
+        appliedFilterOptions: {
+          statementType: 'Invoice',
+          statementDate: 'some-date',
+          includeInvoices: true,
+          selectedCustomerId: '',
+          showZeroAmount: false,
+        },
+        sortOrder: 'asc',
+        orderBy: 'name',
         customerStatements: [
           {
             payerUid: '1',
@@ -173,7 +183,7 @@ describe('customerStatementListIntegrationSelectors', () => {
           },
           {
             payerUid: '2',
-            isSelected: true,
+            isSelected: false,
           },
           {
             payerUid: '3',
@@ -184,11 +194,18 @@ describe('customerStatementListIntegrationSelectors', () => {
 
       const templateOption = 'default-template';
 
-      const actual = getExportPdfQueryParams(state, templateOption);
+      const actual = getDownloadPdfQueryParams(state, templateOption);
 
       const expected = {
-        customerUids: '1&customerUids=2&customerUids=3',
+        statementType: 'Invoice',
+        statementDate: 'some-date',
+        includeInvoices: true,
+        selectedCustomerId: '',
+        showZeroAmount: false,
+        sortOrder: 'asc',
+        orderBy: 'name',
         templateOption,
+        customerUids: ['1', '3'],
       };
 
       expect(actual).toEqual(expected);

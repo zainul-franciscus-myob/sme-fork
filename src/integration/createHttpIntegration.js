@@ -11,11 +11,20 @@ const config = {
   baseUrl: Config.BFF_BASE_URL,
 };
 
-const getQueryFromParams = (params = {}) => {
+const encodeQuerySegment = (key, value) => {
   const encode = encodeURIComponent;
+  if (Array.isArray(value)) {
+    return value
+      .map(segment => `${encode(key)}=${encode(segment)}`)
+      .join('&');
+  }
+  return `${encode(key)}=${encode(value)}`;
+};
+
+const getQueryFromParams = (params = {}) => {
   const query = Object.keys(params)
     .filter(key => params[key] !== undefined)
-    .map(key => `${encode(key)}=${encode(params[key])}`)
+    .map(key => encodeQuerySegment(key, params[key]))
     .join('&');
   return query && `?${query}`;
 };
