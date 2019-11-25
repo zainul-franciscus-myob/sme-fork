@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import getRegionToDialectText from '../../dialect/getRegionToDialectText';
+
 export const getBusinessId = state => state.businessId;
 
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
@@ -9,6 +11,8 @@ export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilt
 export const getTableEntries = ({ entries }) => entries;
 
 export const getRegion = state => state.region;
+
+export const getTitle = state => getRegionToDialectText(state.region)('Tax');
 
 export const getShowHiddenColumns = state => state.showHiddenColumns;
 

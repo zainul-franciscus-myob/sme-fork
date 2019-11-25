@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getOrder, getShowHiddenColumns,
+  getOrder, getShowHiddenColumns, getTitle,
 } from '../itemListSelectors';
 import StickyTableHeader from '../../../components/StickyTable/StickyTableHeader';
 
@@ -14,6 +14,7 @@ const ItemListTableHeader = ({
   onSort,
   order,
   showHiddenColumns,
+  title,
 }) => (
   <StickyTableHeader>
     <Table.HeaderItem {...tableConfig.referenceId}>
@@ -29,7 +30,7 @@ const ItemListTableHeader = ({
       <HeaderSort title="Selling price($)" sortName="SellPrice" activeSort={order} onSort={onSort} />
     </Table.HeaderItem>
     <Table.HeaderItem {...tableConfig.tax}>
-      <HeaderSort title="Tax" sortName="IsSellPriceTaxInclusive" activeSort={order} onSort={onSort} />
+      <HeaderSort title={title} sortName="IsSellPriceTaxInclusive" activeSort={order} onSort={onSort} />
     </Table.HeaderItem>
   </StickyTableHeader>
 );
@@ -37,6 +38,7 @@ const ItemListTableHeader = ({
 const mapStateToProps = state => ({
   order: getOrder(state),
   showHiddenColumns: getShowHiddenColumns(state),
+  title: getTitle(state),
 });
 
 export default connect(mapStateToProps)(ItemListTableHeader);
