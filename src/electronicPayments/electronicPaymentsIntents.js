@@ -1,0 +1,13 @@
+export const SET_LOADING_STATE = Symbol('Set loading state');
+export const SET_ALERT = Symbol('Set alert');
+export const UPDATE_FILTER_OPTIONS = Symbol('Update filter options');
+export const UPDATE_APPLIED_FILTER_OPTIONS = Symbol('Update applied filter options');
+export const LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS = Symbol('Load accounts and electronic payments');
+export const UPDATE_SELECTED_ACCOUNT_ID = Symbol('Update selected account id');
+export const SORT_AND_FILTER_ELECTRONIC_PAYMENTS = Symbol('Sort and filter electronic payments');
+export const SET_SORT_ORDER = Symbol('Set the sort order');
+export const SELECT_ALL_ELECTRONIC_PAYMENTS = Symbol('Select all electronic payments');
+export const SELECT_ITEM_ELECTRONIC_PAYMENT = Symbol('Select one electronic payment');
+export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
+export const RECORD_AND_DOWNLOAD_BANK_FILE = Symbol('Record and download bank file');
+export const UPDATE_BANK_FILE_DETAILS = Symbol('Update bank file details');

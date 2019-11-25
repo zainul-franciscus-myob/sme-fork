@@ -12,6 +12,7 @@ import getContactRoutes from './contact/getContactRoutes';
 import getCustomerReturnRoutes from './customerReturn/getCustomerReturnRoutes';
 import getCustomerStatementRoutes from './customerStatement/getCustomerStatementRoutes';
 import getDashboardRoutes from './dashboard/getDashboardRoutes';
+import getElectronicPaymentsRoutes from './electronicPayments/getElectronicPaymentsRoutes';
 import getEmployeeRoutes from './employee/getEmployeeRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getInTrayRoutes from './inTray/getInTrayRoutes';
@@ -324,6 +325,13 @@ const getRoutes = ({
     name: 'bankFeeds',
     rootPath: '/:region/:businessId/bankFeeds',
     subRoutes: getBankFeedsRoutes({
+      integration, setRootView,
+    }),
+  },
+  {
+    name: 'electronicPayments',
+    rootPath: '/:region/:businessId/electronicPayments',
+    subRoutes: getElectronicPaymentsRoutes({
       integration, setRootView,
     }),
   },

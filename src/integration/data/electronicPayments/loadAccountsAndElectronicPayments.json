@@ -1,0 +1,45 @@
+{
+  "electronicPayments": [
+     {
+        "id": 1,
+        "date": "02/12/2018",
+        "referenceNumber": "23",
+        "name": "Leonard Dunn",
+        "paymentTypeDisplay": "Pay employees",
+        "paymentType": "PayEmployees",
+        "amount": 408.05,
+        "accountId": 1,
+        "businessEventId": 1
+     },
+     {
+        "id": 2,
+        "date": "05/12/2018",
+        "referenceNumber": "24",
+        "name": "Eliza Fuller",
+        "paymentTypeDisplay": "Pay employees",
+        "paymentType": "PayEmployees",
+        "amount": 828.55,
+        "accountId": 2,
+        "businessEventId": 2
+     }
+  ],
+  "accounts": [
+    {
+      "id": "1",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134",
+      "balance": "$100,000.00"
+    },
+    {
+      "id": "2",
+      "displayName": "Expense 2",
+      "accountType": "Expense",
+      "displayId": "6-135",
+      "balance": "$100,020.00"
+    }
+  ],
+  "dateOfPayment": "25/11/2019",
+  "referenceNumber": "EP000001",
+  "transactionDescription": "Electronic Payment"
+}
