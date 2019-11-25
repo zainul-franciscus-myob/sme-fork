@@ -1,4 +1,5 @@
 import {
+  ADD_ATTACHMENTS,
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
   APPLY_RULE_TO_TRANSACTIONS,
@@ -7,6 +8,7 @@ import {
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
+  LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_NEW_SPLIT_ALLOCATION,
@@ -17,6 +19,9 @@ import {
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_MODAL,
+  OPEN_REMOVE_ATTACHMENT_MODAL,
+  REMOVE_ATTACHMENT,
+  REMOVE_ATTACHMENT_BY_INDEX,
   RESET_BULK_ALLOCATION,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
@@ -25,6 +30,7 @@ import {
   SELECT_ALL_TRANSACTIONS,
   SELECT_TRANSACTION,
   SET_ALERT,
+  SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
@@ -33,6 +39,7 @@ import {
   SET_MATCH_TRANSACTION_SORT_ORDER,
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
+  SET_OPERATION_IN_PROGRESS_STATE,
   SET_PAYMENT_ALLOCATION_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
@@ -49,8 +56,26 @@ import {
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
   UPDATE_TRANSFER_MONEY,
+  UPDATE_UPLOAD_PROGRESS,
+  UPLOAD_ATTACHMENT,
+  UPLOAD_ATTACHMENT_FAILED,
 } from '../BankingIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import {
+  addAttachments,
+  collapseTransactionLine,
+  loadAttachments,
+  openRemoveAttachmentModal,
+  removeAttachment,
+  removeAttachmentByIndex,
+  setAttachemntsLoadingState,
+  setOpenEntryLoadingState,
+  setOpenPosition,
+  setOperationInProgressState,
+  uploadAttachment,
+  uploadAttachmentFailed,
+  uploadAttachmentProgress,
+} from './openEntryHandlers';
 import {
   addSplitAllocationLine,
   deleteSplitAllocationLine,
@@ -60,9 +85,7 @@ import {
   updateSplitAllocationHeader,
   updateSplitAllocationLine,
 } from './splitAllocationHandlers';
-import {
-  appliedTransactions,
-} from './applyRuleResultHandlers';
+import { appliedTransactions } from './applyRuleResultHandlers';
 import {
   bulkAllocateTransactions,
   bulkUnallocateTransactions,
@@ -73,8 +96,10 @@ import {
   unselectTransactions,
   updateBulkAllocationOptions,
 } from './bulkAllocationHandlers';
-import { collapseTransactionLine, setOpenEntryLoadingState, setOpenPosition } from './openEntryHandlers';
-import { getCalculatedAllocatedBalances, getCalculatedUnallocatedBalances } from '../bankingSelectors';
+import {
+  getCalculatedAllocatedBalances,
+  getCalculatedUnallocatedBalances,
+} from '../bankingSelectors';
 import {
   loadMatchTransactions,
   saveMatchTransaction,
@@ -299,6 +324,16 @@ const handlers = {
   [SET_BULK_LOADING_STATE]: setBulkLoading,
   [APPLY_RULE_TO_TRANSACTIONS]: appliedTransactions,
   [UNSELECT_TRANSACTIONS]: unselectTransactions,
+  [SET_ATTACHMENTS_LOADING_STATE]: setAttachemntsLoadingState,
+  [LOAD_ATTACHMENTS]: loadAttachments,
+  [ADD_ATTACHMENTS]: addAttachments,
+  [UPLOAD_ATTACHMENT]: uploadAttachment,
+  [UPDATE_UPLOAD_PROGRESS]: uploadAttachmentProgress,
+  [UPLOAD_ATTACHMENT_FAILED]: uploadAttachmentFailed,
+  [OPEN_REMOVE_ATTACHMENT_MODAL]: openRemoveAttachmentModal,
+  [REMOVE_ATTACHMENT_BY_INDEX]: removeAttachmentByIndex,
+  [REMOVE_ATTACHMENT]: removeAttachment,
+  [SET_OPERATION_IN_PROGRESS_STATE]: setOperationInProgressState,
   ...wrapHandlers('bankingRuleModal', bankingRuleHandlers),
 };
 

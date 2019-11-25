@@ -57,3 +57,14 @@ export const RESET_BULK_ALLOCATION = Symbol('Reset the state of the bulk allocat
 
 export const APPLY_RULE_TO_TRANSACTIONS = Symbol('Apply baning rule to transactions');
 export const UNSELECT_TRANSACTIONS = Symbol('Unselect transactions');
+
+export const LOAD_ATTACHMENTS = Symbol('Load attachments');
+export const SET_ATTACHMENTS_LOADING_STATE = Symbol('Set attachments loading state');
+export const ADD_ATTACHMENTS = Symbol('Add attachments');
+export const UPLOAD_ATTACHMENT = Symbol('Upload attachment');
+export const UPDATE_UPLOAD_PROGRESS = Symbol('Update upload progress');
+export const UPLOAD_ATTACHMENT_FAILED = Symbol('Upload attachment failed');
+export const OPEN_REMOVE_ATTACHMENT_MODAL = Symbol('Open remove attachment modal');
+export const REMOVE_ATTACHMENT = Symbol('Remove attachment');
+export const REMOVE_ATTACHMENT_BY_INDEX = Symbol('Remove attachment by index');
+export const SET_OPERATION_IN_PROGRESS_STATE = Symbol('Set operation in progress state');

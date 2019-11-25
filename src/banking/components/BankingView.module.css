@@ -6,7 +6,7 @@
   width: 32rem;
 }
 
-.openEntry.isLoading {
+.openEntry .spinnerContainer {
   min-height: 22rem;
   position: relative;
   background: var(--flx-palette-white);

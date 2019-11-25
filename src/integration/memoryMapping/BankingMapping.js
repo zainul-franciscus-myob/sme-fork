@@ -3,12 +3,14 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
+  LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
+  REMOVE_ATTACHMENT,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
@@ -17,6 +19,7 @@ import {
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
+  UPLOAD_ATTACHMENT,
 } from '../../banking/BankingIntents';
 import {
   CREATE_BANKING_RULE_BILL,
@@ -26,6 +29,7 @@ import {
 } from '../../banking/bankingRule/BankingRuleIntents';
 import allocatedBankTransaction from '../data/banking/allocatedBankTransaction';
 import applyBankingRuleResponse from '../data/banking/applyBankingRuleResponse.json';
+import attachments from '../data/banking/loadAttachmentsResponse';
 import bankTransactions from '../data/banking/loadBankTransactions';
 import bulkAllocatedBankTransaction from '../data/banking/bulkAllocatedBankTransaction';
 import bulkUnallocatedBankTransaction from '../data/banking/bulkUnallocatedBankTransaction';
@@ -41,8 +45,10 @@ import paymentAllocationLines from '../data/banking/loadPaymentLines';
 import saveTransferMoneyPayload from '../data/banking/saveTransferMoney';
 import savedMatchTransaction from '../data/banking/saveMatchTransaction';
 import savedPaymentAllocation from '../data/banking/savePaymentAllocation';
+import successResponse from '../data/success';
 import transferMoneyPayload from '../data/banking/loadTransferMoney';
 import unallocatedBankTransaction from '../data/banking/unallocatedBankTransaction';
+import uploadAttachmentResponse from '../data/banking/uploadAttachmentResponse';
 
 const loadBankTransactions = ({ onSuccess }) => onSuccess(bankTransactions);
 const filterBankTransactions = ({ onSuccess }) => onSuccess(filteredBankTransactions);
@@ -66,6 +72,9 @@ const saveBulkAllocation = ({ onSuccess }) => onSuccess(bulkAllocatedBankTransac
 const saveBulkUnallocation = ({ onSuccess }) => onSuccess(bulkUnallocatedBankTransaction);
 const createBankingRule = ({ onSuccess }) => onSuccess(createBankingRuleResponse);
 const applyBankingRule = ({ onSuccess }) => onSuccess(applyBankingRuleResponse);
+const loadAttachments = ({ onSuccess }) => onSuccess(attachments);
+const uploadAttachment = ({ onSuccess }) => onSuccess(uploadAttachmentResponse);
+const removeAttachment = ({ onSuccess }) => onSuccess(successResponse);
 
 const BankingMappings = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
@@ -90,6 +99,9 @@ const BankingMappings = {
   [CREATE_BANKING_RULE_INVOICE]: createBankingRule,
   [CREATE_BANKING_RULE_BILL]: createBankingRule,
   [APPLY_RULE_TO_TRANSACTIONS]: applyBankingRule,
+  [LOAD_ATTACHMENTS]: loadAttachments,
+  [UPLOAD_ATTACHMENT]: uploadAttachment,
+  [REMOVE_ATTACHMENT]: removeAttachment,
 };
 
 export default BankingMappings;

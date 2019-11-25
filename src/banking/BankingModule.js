@@ -21,6 +21,7 @@ import {
   getMatchTransactionFlipSortOrder,
   getMatchTransactionOrderBy,
 } from './bankingSelectors/matchTransactionSelectors';
+import { getFilesForUpload } from './bankingSelectors/attachmentsSelectors';
 import {
   getIsAllSelected,
   getIsEditedEntryInBulkSelection,
@@ -126,6 +127,9 @@ export default class BankingModule {
         onConfirmUnallocateModal={this.bulkUnallocateTransactions}
         onOpenBankingRuleModal={openBankingRuleModal}
         onRenderBankingRuleModal={this.renderBankingRuleModal}
+        onAddAttachments={this.addAttachments}
+        onRemoveAttachment={this.openDeleteAttachmentModal}
+        onDeleteAttachmentModal={this.removeAttachment}
       />
     );
 
@@ -401,6 +405,7 @@ export default class BankingModule {
     const tabId = getOpenEntryDefaultTabId(line);
 
     this.loadOpenEntryTab(index, tabId);
+    this.loadAttachments();
   }
 
   changeOpenEntryTab = (tabId) => {
@@ -880,6 +885,98 @@ export default class BankingModule {
     } else {
       this.dispatcher.selectTransaction({ index, value });
     }
+  };
+
+  loadAttachments = () => {
+    const onSuccess = (payload) => {
+      this.dispatcher.setAttachemntsLoadingState(false);
+      this.dispatcher.loadAttachments(payload);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAttachemntsLoadingState(false);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.dispatcher.setAttachemntsLoadingState(true);
+
+    this.integrator.loadAttachments({
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  addAttachments = (files) => {
+    this.dispatcher.addAttachments(files);
+
+    this.uploadAttachments(files);
+  };
+
+  uploadAttachments = (files) => {
+    const state = this.store.getState();
+
+    getFilesForUpload(state, files).forEach(file => this.uploadAttachment(file));
+  };
+
+  uploadAttachment = (file) => {
+    const onSuccess = (response) => {
+      this.dispatcher.uploadAttachment({ response, file });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.uploadAttachmentFailed({ message, file });
+    };
+
+    const onProgress = (uploadProgress) => {
+      this.dispatcher.updateUploadProgress({ uploadProgress, file });
+    };
+
+    this.integrator.uploadAttachment({
+      onSuccess,
+      onFailure,
+      onProgress,
+      file,
+    });
+  };
+
+  openDeleteAttachmentModal = (index) => {
+    const state = this.store.getState();
+    const { id } = state.openEntry.attachments[index];
+
+    if (id) {
+      this.dispatcher.openRemoveAttachmentModal(id);
+    } else {
+      this.dispatcher.removeAttachmentByIndex(index);
+    }
+  };
+
+  removeAttachment = () => {
+    this.dispatcher.closeModal();
+    const state = this.store.getState();
+    const id = state.openEntry.pendingDeleteId;
+
+    this.dispatcher.setOperationInProgressState(id, true);
+
+    const onSuccess = () => {
+      this.dispatcher.setOperationInProgressState(id, false);
+      this.dispatcher.removeAttachment(id);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setOperationInProgressState(id, false);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.removeAttachment({
+      onSuccess,
+      onFailure,
+    });
   };
 
   resetState = () => {

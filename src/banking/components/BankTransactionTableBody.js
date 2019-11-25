@@ -1,4 +1,4 @@
-import { Card } from '@myob/myob-widgets';
+import { Card, Separator } from '@myob/myob-widgets';
 import React from 'react';
 
 import { tabIds } from '../tabItems';
@@ -7,6 +7,7 @@ import BankTransactionTabs from './BankTransactionTabs';
 import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import MatchTransactionBody from './MatchTransactionBody';
 import OpenEntryFooter from './OpenEntryFooter';
+import OpenEntrySecondaryContent from './OpenEntrySecondaryContent';
 import PaymentAllocationBody from './PaymentAllocationBody';
 import PaymentAllocationFooter from './PaymentAllocationFooter';
 import SplitAllocationBody from './SplitAllocationBody';
@@ -55,11 +56,15 @@ const BankTransactionTableBody = (props) => {
     onUpdateTransfer,
     onSelectTransaction,
     onOpenBankingRuleModal,
+    onAddAttachments,
+    onRemoveAttachment,
   } = props;
 
   const spinner = (
-    <div className={styles.spinner}>
-      <LoadingPageState size="medium" />
+    <div className={styles.spinnerContainer}>
+      <div className={styles.spinner}>
+        <LoadingPageState size="medium" />
+      </div>
     </div>
   );
 
@@ -117,6 +122,16 @@ const BankTransactionTableBody = (props) => {
     },
   }[activeTabId];
 
+  const openEntryPrimaryContent = isOpenEntryLoading ? spinner : (
+    <>
+      <BankTransactionTabs
+        selected={activeTabId}
+        onSelected={onTabChange}
+      />
+      <Content {...contentProps} />
+    </>
+  );
+
   const openEntry = (
     <Card
       classes={[styles.openEntryCard]}
@@ -124,13 +139,14 @@ const BankTransactionTableBody = (props) => {
         <Card.Body
           classes={[styles.openEntryCardBody]}
           child={(
-            <React.Fragment>
-              <BankTransactionTabs
-                selected={activeTabId}
-                onSelected={onTabChange}
+            <>
+              { openEntryPrimaryContent }
+              <Separator />
+              <OpenEntrySecondaryContent
+                onAddAttachments={onAddAttachments}
+                onRemoveAttachment={onRemoveAttachment}
               />
-              <Content {...contentProps} />
-            </React.Fragment>
+            </>
           )}
         />
       )}
@@ -147,35 +163,31 @@ const BankTransactionTableBody = (props) => {
     />
   );
 
-  const rows = entries.map((entry, index) => {
-    const entryClassName = `${styles.openEntry} ${isOpenEntryLoading ? styles.isLoading : ''}`;
-
-    return (
-      <BankTransactionTableRow
-        key={index}
-        onHeaderClick={onHeaderClick}
-        onSplitRowItemClick={onSplitRowItemClick}
-        onMatchRowItemClick={onMatchRowItemClick}
-        onMatchedToFocus={onMatchedToFocus}
-        onMatchedToBlur={onMatchedToBlur}
-        onUnmatchedBlur={onUnmatchedBlur}
-        onUnmatchedFocus={onUnmatchedFocus}
-        onAllocate={onAllocate}
-        onUnallocate={onUnallocate}
-        index={index}
-        isExpanded={index === openPosition}
-        isSelected={entrySelectStatus[index]}
-        onSelectTransaction={onSelectTransaction}
-      >
-        {openPosition === index
+  const rows = entries.map((entry, index) => (
+    <BankTransactionTableRow
+      key={index}
+      onHeaderClick={onHeaderClick}
+      onSplitRowItemClick={onSplitRowItemClick}
+      onMatchRowItemClick={onMatchRowItemClick}
+      onMatchedToFocus={onMatchedToFocus}
+      onMatchedToBlur={onMatchedToBlur}
+      onUnmatchedBlur={onUnmatchedBlur}
+      onUnmatchedFocus={onUnmatchedFocus}
+      onAllocate={onAllocate}
+      onUnallocate={onUnallocate}
+      index={index}
+      isExpanded={index === openPosition}
+      isSelected={entrySelectStatus[index]}
+      onSelectTransaction={onSelectTransaction}
+    >
+      {openPosition === index
           && (
-          <div className={entryClassName}>
-            { isOpenEntryLoading ? spinner : openEntry }
+          <div className={styles.openEntry}>
+            { openEntry }
           </div>
           )}
-      </BankTransactionTableRow>
-    );
-  });
+    </BankTransactionTableRow>
+  ));
 
   return (
     <React.Fragment>

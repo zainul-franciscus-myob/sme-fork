@@ -2,6 +2,7 @@ import React from 'react';
 
 import BulkUnallocateModal from './BulkUnallocateModal';
 import CancelModal from '../../components/modal/CancelModal';
+import DeleteModal from '../../components/modal/DeleteModal';
 import ModalTypes from '../ModalTypes';
 import UnmatchTransactionModal from './UnmatchTransactionModal';
 
@@ -12,6 +13,7 @@ const BankingModal = ({
   onConfirmUnallocateModal,
   onRenderBankingRuleModal,
   onConfirmUnmatchTransactionModal,
+  onDeleteAttachmentModal,
 }) => {
   let modal;
   if (modalType === ModalTypes.CANCEL) {
@@ -39,6 +41,15 @@ const BankingModal = ({
       <UnmatchTransactionModal
         onCancel={onCloseModal}
         onConfirm={onConfirmUnmatchTransactionModal}
+      />
+    );
+  } else if (modalType === ModalTypes.DELETE_ATTACHMENT) {
+    modal = (
+      <DeleteModal
+        onCancel={onCloseModal}
+        onConfirm={onDeleteAttachmentModal}
+        title="Delete attachment"
+        description="Are you sure you want delete this attachment?"
       />
     );
   }

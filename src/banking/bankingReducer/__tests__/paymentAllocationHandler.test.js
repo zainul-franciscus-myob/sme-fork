@@ -28,6 +28,9 @@ describe('paymentAllocationHandler', () => {
       const transaction = { transactionId: '78', withdrawal: 3300 };
       const state = {
         entries: [transaction],
+        openEntry: {
+          attachments: [],
+        },
         suppliers,
         customers,
       };
@@ -54,6 +57,9 @@ describe('paymentAllocationHandler', () => {
       const transaction = { transactionId: '78', deposit: 3300 };
       const state = {
         entries: [transaction],
+        openEntry: {
+          attachments: [],
+        },
         suppliers,
         customers,
       };
@@ -84,6 +90,9 @@ describe('paymentAllocationHandler', () => {
       const transaction = { transactionId: '78', withdrawal: 3300 };
       const state = {
         entries: [transaction],
+        openEntry: {
+          attachments: [],
+        },
         suppliers,
         customers,
       };
@@ -109,6 +118,9 @@ describe('paymentAllocationHandler', () => {
       const transaction = { transactionId: '78', deposit: 3300 };
       const state = {
         entries: [transaction],
+        openEntry: {
+          attachments: [],
+        },
         suppliers,
         customers,
       };

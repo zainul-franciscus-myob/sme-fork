@@ -6,6 +6,9 @@ describe('transferMoneyHandlers', () => {
     it('should load transfer money data in the open entry for a withdrawal transaction', () => {
       const state = {
         entries: [{ withdrawal: '10.00' }],
+        openEntry: {
+          attachments: [],
+        },
         filterOptions: { bankAccount: '1' },
       };
 
@@ -38,6 +41,9 @@ describe('transferMoneyHandlers', () => {
     it('should load transfer money data in the open entry for a deposit transaction', () => {
       const state = {
         entries: [{ deposit: '20.00' }],
+        openEntry: {
+          attachments: [],
+        },
         filterOptions: { bankAccount: '1' },
       };
 

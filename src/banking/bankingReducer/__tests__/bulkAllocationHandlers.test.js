@@ -1,5 +1,6 @@
 import {
-  bulkAllocateTransactions, bulkUnallocateTransactions,
+  bulkAllocateTransactions,
+  bulkUnallocateTransactions,
   selectAllTransactions,
   selectTransaction,
   updateBulkAllocationOptions,

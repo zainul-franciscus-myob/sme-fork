@@ -75,6 +75,9 @@ const BankingView = (props) => {
     onConfirmUnallocateModal,
     onOpenBankingRuleModal,
     onRenderBankingRuleModal,
+    onAddAttachments,
+    onRemoveAttachment,
+    onDeleteAttachmentModal,
   } = props;
 
   const filterBar = (
@@ -105,6 +108,7 @@ const BankingView = (props) => {
       onConfirmUnallocateModal={onConfirmUnallocateModal}
       onConfirmUnmatchTransactionModal={onCancelModal}
       onRenderBankingRuleModal={onRenderBankingRuleModal}
+      onDeleteAttachmentModal={onDeleteAttachmentModal}
     />
     ));
 
@@ -162,6 +166,8 @@ const BankingView = (props) => {
           onSelectTransaction={onSelectTransaction}
           onSelectAllTransactions={onSelectAllTransactions}
           onOpenBankingRuleModal={onOpenBankingRuleModal}
+          onAddAttachments={onAddAttachments}
+          onRemoveAttachment={onRemoveAttachment}
         />
       </StandardTemplate>
     </div>

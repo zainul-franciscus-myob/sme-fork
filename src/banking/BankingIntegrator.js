@@ -3,12 +3,14 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
+  LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
+  REMOVE_ATTACHMENT,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
@@ -17,6 +19,7 @@ import {
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
+  UPLOAD_ATTACHMENT,
 } from './BankingIntents';
 import {
   getAllocationPayload,
@@ -446,6 +449,76 @@ const createBankingIntegrator = (store, integration) => ({
     integration.read({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadAttachments: ({
+    onSuccess, onFailure,
+  }) => {
+    const state = store.getState();
+    const index = getOpenPosition(state);
+    const intent = LOAD_ATTACHMENTS;
+
+    const {
+      transactionUid, journalUid, sourceJournal,
+    } = getBankTransactionLineByIndex(state, index);
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const params = {
+      transactionUid,
+      journalUid,
+      sourceJournal,
+    };
+
+    integration.read({
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  uploadAttachment: ({
+    onSuccess, onFailure, onProgress, file,
+  }) => {
+    const state = store.getState();
+    const index = getOpenPosition(state);
+
+    const { transactionUid } = getBankTransactionLineByIndex(state, index);
+
+    integration.writeFormData({
+      intent: UPLOAD_ATTACHMENT,
+      content: {
+        relationshipKey: 'BankFeedTransactionUID',
+        relationshipValue: transactionUid,
+        file,
+      },
+      urlParams: {
+        businessId: getBusinessId(state),
+      },
+      onSuccess,
+      onFailure,
+      onProgress,
+    });
+  },
+
+  removeAttachment: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const id = state.openEntry.pendingDeleteId;
+
+    integration.write({
+      intent: REMOVE_ATTACHMENT,
+      allowParallelRequests: true,
+      urlParams: {
+        businessId: getBusinessId(state),
+        documentId: id,
+      },
       onSuccess,
       onFailure,
     });

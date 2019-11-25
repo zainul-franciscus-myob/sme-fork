@@ -55,6 +55,7 @@ const getDefaultState = () => ({
   openEntry: {
     isEdited: false,
     isCreating: false,
+    isAttachmentsLoading: false,
     activeTabId: tabIds.allocate,
     allocate: {
       id: '',
@@ -105,6 +106,7 @@ const getDefaultState = () => ({
       transferTo: '',
       amount: '',
     },
+    attachments: [],
   },
   loginDetails: {
     username: '',

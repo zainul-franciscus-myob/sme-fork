@@ -3,12 +3,14 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
+  LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
+  REMOVE_ATTACHMENT,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
@@ -17,6 +19,7 @@ import {
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
+  UPLOAD_ATTACHMENT,
 } from '../../banking/BankingIntents';
 import {
   CREATE_BANKING_RULE_BILL,
@@ -113,6 +116,18 @@ const BankingMapping = {
   [APPLY_RULE_TO_TRANSACTIONS]: {
     method: 'POST',
     getPath: ({ businessId, bankingRuleId }) => `/${businessId}/banking/apply_banking_rule/${bankingRuleId}`,
+  },
+  [LOAD_ATTACHMENTS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/banking/load_attachments`,
+  },
+  [UPLOAD_ATTACHMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/upload_attachment`,
+  },
+  [REMOVE_ATTACHMENT]: {
+    method: 'DELETE',
+    getPath: ({ businessId, documentId }) => `/${businessId}/banking/delete_attachment/${documentId}`,
   },
 };
 

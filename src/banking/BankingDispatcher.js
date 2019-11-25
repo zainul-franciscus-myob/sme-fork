@@ -1,4 +1,5 @@
 import {
+  ADD_ATTACHMENTS,
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
   APPLY_RULE_TO_TRANSACTIONS,
@@ -7,6 +8,7 @@ import {
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
+  LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_NEW_SPLIT_ALLOCATION,
@@ -17,6 +19,9 @@ import {
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_MODAL,
+  OPEN_REMOVE_ATTACHMENT_MODAL,
+  REMOVE_ATTACHMENT,
+  REMOVE_ATTACHMENT_BY_INDEX,
   RESET_BULK_ALLOCATION,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
@@ -25,6 +30,7 @@ import {
   SELECT_ALL_TRANSACTIONS,
   SELECT_TRANSACTION,
   SET_ALERT,
+  SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
@@ -33,6 +39,7 @@ import {
   SET_MATCH_TRANSACTION_SORT_ORDER,
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
+  SET_OPERATION_IN_PROGRESS_STATE,
   SET_PAYMENT_ALLOCATION_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
@@ -49,6 +56,9 @@ import {
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
   UPDATE_TRANSFER_MONEY,
+  UPDATE_UPLOAD_PROGRESS,
+  UPLOAD_ATTACHMENT,
+  UPLOAD_ATTACHMENT_FAILED,
 } from './BankingIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import ModalTypes from './ModalTypes';
@@ -468,6 +478,64 @@ const createBankingDispatcher = store => ({
       key,
       value,
     });
+  },
+
+  setAttachemntsLoadingState: (isAttachmentsLoading) => {
+    store.dispatch({
+      intent: SET_ATTACHMENTS_LOADING_STATE,
+      isAttachmentsLoading,
+    });
+  },
+
+  loadAttachments: (attachments) => {
+    store.dispatch({
+      intent: LOAD_ATTACHMENTS,
+      attachments,
+    });
+  },
+
+  addAttachments: (files) => {
+    const intent = ADD_ATTACHMENTS;
+    store.dispatch({ intent, files });
+  },
+
+  uploadAttachment: ({ response, file }) => {
+    const intent = UPLOAD_ATTACHMENT;
+    store.dispatch({ intent, ...response, file });
+  },
+
+  uploadAttachmentFailed: ({ message, file }) => {
+    const intent = UPLOAD_ATTACHMENT_FAILED;
+    store.dispatch({ intent, message, file });
+  },
+
+  updateUploadProgress: ({ uploadProgress, file }) => {
+    const intent = UPDATE_UPLOAD_PROGRESS;
+    store.dispatch({ intent, uploadProgress, file });
+  },
+
+  openRemoveAttachmentModal: (id) => {
+    const intent = OPEN_REMOVE_ATTACHMENT_MODAL;
+    store.dispatch({
+      intent,
+      id,
+      modal: { type: ModalTypes.DELETE_ATTACHMENT },
+    });
+  },
+
+  removeAttachment: (id) => {
+    const intent = REMOVE_ATTACHMENT;
+    store.dispatch({ intent, id });
+  },
+
+  removeAttachmentByIndex: (index) => {
+    const intent = REMOVE_ATTACHMENT_BY_INDEX;
+    store.dispatch({ intent, index });
+  },
+
+  setOperationInProgressState: (id, isInProgress) => {
+    const intent = SET_OPERATION_IN_PROGRESS_STATE;
+    store.dispatch({ intent, id, isInProgress });
   },
 
   setInitialState: (context) => {
