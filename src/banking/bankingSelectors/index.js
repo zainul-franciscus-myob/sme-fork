@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { businessEventTypes } from '../businessEventTypes';
 import { tabIds } from '../tabItems';
 import formatSlashDate from '../../valueFormatters/formatDate/formatSlashDate';
+import getRegionToDialectText from '../../dialect/getRegionToDialectText';
 
 export const getOrderBy = ({ orderBy }) => orderBy;
 
@@ -374,6 +375,8 @@ export const getDisplayName = (id, accountList) => {
 };
 
 const getTaxCodes = state => state.taxCodes;
+
+export const getTitle = state => getRegionToDialectText(state.region)('Tax');
 
 export const getBankingRuleInitState = createSelector(
   getOpenTransactionLine,

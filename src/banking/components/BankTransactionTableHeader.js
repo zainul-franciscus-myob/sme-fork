@@ -1,8 +1,10 @@
 import {
   Card, Checkbox, HeaderSort,
 } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import { getTitle } from '../bankingSelectors';
 import styles from './BankTransactionTable.module.css';
 
 const BankTransactionTableHeaderColumn = ({
@@ -28,6 +30,7 @@ const BankTransactionTableHeader = ({
   isBulkLoading,
   onSort,
   order,
+  title,
 }) => (
   <Card classes={[styles.header]}>
     <div className={styles.columns}>
@@ -82,7 +85,7 @@ const BankTransactionTableHeader = ({
           onSort={onSort}
         />
         <BankTransactionTableHeaderColumn
-          title="Tax"
+          title={title}
           className={styles.taxCode}
           sortName="TaxCode"
           activeSort={order}
@@ -93,4 +96,9 @@ const BankTransactionTableHeader = ({
   </Card>
 );
 
-export default BankTransactionTableHeader;
+const mapStateToProps = state => ({
+  title: getTitle(state),
+});
+
+
+export default connect(mapStateToProps)(BankTransactionTableHeader);
