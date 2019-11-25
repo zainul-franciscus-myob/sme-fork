@@ -2,7 +2,9 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  CLOSE_MODAL,
   LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS,
+  OPEN_MODAL,
   RECORD_AND_DOWNLOAD_BANK_FILE,
   SELECT_ALL_ELECTRONIC_PAYMENTS,
   SELECT_ITEM_ELECTRONIC_PAYMENT,
@@ -20,15 +22,17 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import {
   getAppliedFilterOptions,
   getBusinessId,
+  getDateOfPayment,
   getFilterOptions,
   getOrderBy,
   getRecordAndDownloadBankFileContent,
   getSortOrder,
 } from './ElectronicPaymentsSelector';
 import ElectronicPaymentsView from './components/ElectronicPaymentsView';
+import ModalType from './ModalType';
 import Store from '../store/Store';
 import electronicPaymentReducer from './electronicPaymentsReducer';
-
+import formatIsoDate from '../valueFormatters/formatDate/formatIsoDate';
 
 export default class ElectronicPaymentsModule {
   constructor({
@@ -37,7 +41,6 @@ export default class ElectronicPaymentsModule {
   }) {
     this.setRootView = setRootView;
     this.store = new Store(electronicPaymentReducer);
-    // this.dispatcher = createElectronicPaymentsDispatcher(this.store);
     this.integration = integration;
   }
 
@@ -202,7 +205,7 @@ export default class ElectronicPaymentsModule {
   recordAndDownloadBankFile = () => {
     const state = this.store.getState();
     const intent = RECORD_AND_DOWNLOAD_BANK_FILE;
-
+    this.closeModal();
     const content = getRecordAndDownloadBankFileContent(state);
     const onSuccess = ({ message }) => {
       this.setAlert({
@@ -281,8 +284,11 @@ export default class ElectronicPaymentsModule {
         selectItem={this.selectItem}
         onSort={this.sortElectronicPayments}
         onDismissAlert={this.dismissAlert}
-        onRecordAndDownloadBankFile={this.recordAndDownloadBankFile}
+        onRecordAndDownloadBankFile={this.openModal}
         onInputChange={this.updateInputField}
+        onCancelButtonClick={this.closeModal}
+        onRecordButtonClick={this.recordAndDownloadBankFile}
+        onContinueButtonClick={this.recordAndDownloadBankFile}
       />
     );
 
@@ -301,6 +307,22 @@ export default class ElectronicPaymentsModule {
   resetState = () => {
     this.store.dispatch({
       intent: RESET_STATE,
+    });
+  }
+
+  openModal = () => {
+    const state = this.store.getState();
+    const modalType = formatIsoDate(new Date(getDateOfPayment(state))) === formatIsoDate(new Date())
+      ? ModalType.RECORD_AND_CREATE_BANK_FILE : ModalType.DATE_MISMATCH;
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modal: { type: modalType },
+    });
+  }
+
+  closeModal = () => {
+    this.store.dispatch({
+      intent: CLOSE_MODAL,
     });
   }
 }

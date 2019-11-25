@@ -1,7 +1,9 @@
 import { addDays, addMonths } from 'date-fns';
 
 import {
+  CLOSE_MODAL,
   LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS,
+  OPEN_MODAL,
   SELECT_ALL_ELECTRONIC_PAYMENTS,
   SELECT_ITEM_ELECTRONIC_PAYMENT,
   SET_ALERT,
@@ -52,7 +54,7 @@ const loadAccountsAndElectronicPayments = (state, action) => ({
   ...state,
   accounts: action.response.accounts || [],
   referenceNumber: action.response.referenceNumber || '',
-  bankStatementDescription: action.response.referenceNumber || '',
+  bankStatementDescription: action.response.bankStatementDescription || '',
   transactionDescription: action.response.transactionDescription || '',
   dateOfPayment: action.response.dateOfPayment || '',
   electronicPayments: action.response.electronicPayments
@@ -131,6 +133,16 @@ const setAlert = (state, action) => ({
 
 const resetState = () => (getDefaultState());
 
+const openModal = (state, action) => ({
+  ...state,
+  modal: action.modal,
+});
+
+const closeModal = state => ({
+  ...state,
+  modal: undefined,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_ALERT]: setAlert,
@@ -146,6 +158,8 @@ const handlers = {
   [SELECT_ALL_ELECTRONIC_PAYMENTS]: selectAllElectronicPayments,
   [SELECT_ITEM_ELECTRONIC_PAYMENT]: selectElectronicPaymentItem,
   [UPDATE_BANK_FILE_DETAILS]: updateBankFileDetails,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
 };
 
 const payRunDetailReducer = createReducer(getDefaultState(), handlers);

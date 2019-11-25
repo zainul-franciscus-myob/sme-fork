@@ -86,8 +86,8 @@ const ElectronicPaymentsTable = ({
 
   return (
     <>
-      {(selectedCount !== 0) && bulkActions}
       <Separator />
+      {(selectedCount !== 0) && bulkActions}
       <TableView
         header={header}
         isEmpty={electronicPayments.length === 0}

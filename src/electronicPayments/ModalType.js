@@ -1,0 +1,6 @@
+const ModalType = {
+  DATE_MISMATCH: 'DATE_MISMATCH',
+  RECORD_AND_CREATE_BANK_FILE: 'RECORD_AND_CREATE_BANK_FILE',
+};
+
+export default ModalType;

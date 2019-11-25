@@ -43,6 +43,8 @@ export const getOrder = createSelector(
   }),
 );
 
+export const getModal = state => state.modal;
+
 export const getRecordAndDownloadBankFileContent = state => ({
   bankStatementDescription: state.bankStatementDescription,
   transactionDescription: state.transactionDescription,

@@ -11,3 +11,5 @@ export const SELECT_ITEM_ELECTRONIC_PAYMENT = Symbol('Select one electronic paym
 export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
 export const RECORD_AND_DOWNLOAD_BANK_FILE = Symbol('Record and download bank file');
 export const UPDATE_BANK_FILE_DETAILS = Symbol('Update bank file details');
+export const OPEN_MODAL = Symbol('Open modal');
+export const CLOSE_MODAL = Symbol('Close modal');

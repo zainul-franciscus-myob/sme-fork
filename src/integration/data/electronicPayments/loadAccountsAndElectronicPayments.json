@@ -39,7 +39,8 @@
       "balance": "$100,020.00"
     }
   ],
-  "dateOfPayment": "25/11/2019",
+  "dateOfPayment": "2019-11-25",
   "referenceNumber": "EP000001",
-  "transactionDescription": "Electronic Payment"
+  "transactionDescription": "Electronic Payment",
+  "bankStatementDescription": "Payment EP000001"
 }

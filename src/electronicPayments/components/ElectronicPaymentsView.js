@@ -24,6 +24,7 @@ import {
   getFilterOptions,
   getIsLoading,
   getIsTableLoading,
+  getModal,
   getOrder,
   getReferenceNumber,
   getSelectedAccountId,
@@ -33,6 +34,7 @@ import {
 import AccountCombobox from '../../components/combobox/AccountCombobox';
 import ElectronicPaymentsTable from './ElectronicPaymentsTable';
 import PageView from '../../components/PageView/PageView';
+import RecordAndCreateFileModal from './RecordAndCreateFileModal';
 import handleComboboxChange from '../../components/handlers/handleComboboxChange';
 import handleDateChange from '../../components/handlers/handleDateChange';
 import handleInputChange from '../../components/handlers/handleInputChange';
@@ -64,6 +66,10 @@ const ElectronicPaymentsView = ({
     dateFrom,
     dateTo,
   },
+  modal,
+  onCancelButtonClick,
+  onRecordButtonClick,
+  onContinueButtonClick,
 }) => {
   const onDatePickerChange = filterName => ({ value }) => {
     onUpdateFilterBarOptions({ filterName, value });
@@ -144,7 +150,20 @@ const ElectronicPaymentsView = ({
   const view = (
     <BaseTemplate>
       {alertComponent}
-      <Alert type="info">Make sure the employee&apos;s BSB and account number is correct. You may not be able to recover a payment made to the wrong account.</Alert>
+      {modal && (
+        <RecordAndCreateFileModal
+          modal={modal}
+          onCancelButtonClick={onCancelButtonClick}
+          onRecordButtonClick={onRecordButtonClick}
+          onContinueButtonClick={onContinueButtonClick}
+        />
+      )}
+      { !alertComponent && (
+        <Alert type="info">
+          Make sure the employee&apos;s BSB and account number is correct.
+          You may not be able to recover a payment made to the wrong account.
+        </Alert>
+      )}
       <PageHead title="Create bank file to pay employees" />
       <Card>
         <FilterBar onApply={onApplyFilter}>
@@ -167,9 +186,11 @@ const ElectronicPaymentsView = ({
           order={order}
         />
       </Card>
-      <ButtonRow>
-        <Button onClick={onRecordAndDownloadBankFile}>Record and download bank file</Button>
-      </ButtonRow>
+      <div style={{ marginTop: '12px' }}>
+        <ButtonRow>
+          <Button onClick={onRecordAndDownloadBankFile}>Record and download bank file</Button>
+        </ButtonRow>
+      </div>
     </BaseTemplate>
   );
   return (
@@ -192,6 +213,7 @@ const mapStateToProps = state => ({
   referenceNumber: getReferenceNumber(state),
   dateOfPayment: getDateOfPayment(state),
   bankStatementDescription: getBankStatementDescription(state),
+  modal: getModal(state),
 });
 
 export default connect(mapStateToProps)(ElectronicPaymentsView);
