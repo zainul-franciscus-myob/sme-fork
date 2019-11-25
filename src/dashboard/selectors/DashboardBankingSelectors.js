@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
 
 import { getBusinessId, getRegion } from './DashboardSelectors';
 import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
@@ -16,6 +16,8 @@ export const getLastReconcileDate = state => state.banking.lastReconcileDate;
 export const getBankBalanceDate = state => state.banking.bankBalanceDate;
 
 export const getCurrentBalance = state => state.banking.currentBalance;
+
+export const getBankFeedBalance = state => state.banking.bankFeedBalance;
 
 export const getBankLatestClosingBalance = state => state.banking.bankLatestClosingBalance;
 
@@ -36,3 +38,9 @@ export const getBankingLink = createSelector(
   getSelectedBankFeedAccount,
   (businessId, region, bankAccount) => `/#/${region}/${businessId}/banking?bankAccount=${bankAccount}`,
 );
+
+
+export const getBankfeedAmount = createStructuredSelector({
+  bankFeedBalance: getBankFeedBalance,
+  isLoading: getIsLoading,
+});

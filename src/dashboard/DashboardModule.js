@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getShouldShowBanking, getShouldShowPurchases, getShouldShowSales } from './selectors/DashboardSelectors';
 import DashboardView from './components/DashboardView';
 import Store from '../store/Store';
 import createDashboardDispatcher from './createDashboardDispatcher';
@@ -22,6 +23,9 @@ export default class DashboardModule {
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.loadDashboard(payload);
+      this.loadSales();
+      this.loadPurchase();
+      this.loadBanking();
     };
 
     const onFailure = () => {
@@ -32,6 +36,10 @@ export default class DashboardModule {
   }
 
   loadSales = () => {
+    if (!getShouldShowSales(this.store.getState())) {
+      return;
+    }
+
     this.dispatcher.setSalesErrorState(false);
     this.dispatcher.setSalesLoadingState(true);
 
@@ -49,6 +57,10 @@ export default class DashboardModule {
   }
 
   loadPurchase = () => {
+    if (!getShouldShowPurchases(this.store.getState())) {
+      return;
+    }
+
     this.dispatcher.setPurchaseErrorState(false);
     this.dispatcher.setPurchaseLoadingState(true);
 
@@ -66,6 +78,10 @@ export default class DashboardModule {
   }
 
   loadBanking = () => {
+    if (!getShouldShowBanking(this.store.getState())) {
+      return;
+    }
+
     this.dispatcher.setBankingErrorState(false);
     this.dispatcher.setBankingLoadingState(true);
 
@@ -126,8 +142,5 @@ export default class DashboardModule {
     this.render();
 
     this.loadDashboard();
-    this.loadSales();
-    this.loadPurchase();
-    this.loadBanking();
   }
 }

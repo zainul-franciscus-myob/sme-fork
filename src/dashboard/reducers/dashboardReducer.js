@@ -15,6 +15,7 @@ const getDefaultState = () => ({
   regionId: '',
   alert: undefined,
   isLoading: true,
+  enabled: [],
 
   greeting: '',
   businessName: '',
@@ -83,6 +84,7 @@ const loadDashboard = (state, action) => ({
   businessName: action.businessName,
   inspirationalQuote: action.inspirationalQuote,
   bankFeedBalance: action.bankFeedBalance,
+  enabled: action.enabled,
 });
 
 const handlers = {

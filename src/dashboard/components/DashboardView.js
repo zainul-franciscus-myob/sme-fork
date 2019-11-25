@@ -1,12 +1,15 @@
-import {
-  Alert, BaseTemplate,
-} from '@myob/myob-widgets';
+import { Alert, BaseTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAlert,
   getIsLoading,
+  getShouldShowBanking,
+  getShouldShowLeanEngage,
+  getShouldShowPurchases,
+  getShouldShowSales,
+  getShouldShowTracking,
 } from '../selectors/DashboardSelectors';
 import DashboardBankingCard from './banking/DashboardBankingCard';
 import DashboardBusinessTrackingCard from './DashboardBusinessTrackingCard';
@@ -18,7 +21,6 @@ import PageView from '../../components/PageView/PageView';
 import footerImage from './footer-right-illustration.svg';
 import styles from './DashboardView.module.css';
 
-
 const DashboardView = ({
   alert,
   isLoading,
@@ -28,6 +30,11 @@ const DashboardView = ({
   onPurchaseReload,
   onBankingReload,
   onBankFeedAccountChange,
+  shouldShowBanking,
+  shouldShowSales,
+  shouldShowPurchases,
+  shouldShowLeanEngage,
+  shouldShowTracking,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -40,18 +47,31 @@ const DashboardView = ({
   const body = (
     <div className={styles.body}>
       <div className={styles.primary}>
-        <DashboardSalesCard onLinkClick={onLinkClick} onReload={onSalesReload} />
-        <DashboardPurchaseCard onLinkClick={onLinkClick} onReload={onPurchaseReload} />
-        <DashboardBusinessTrackingCard />
+        {shouldShowSales && (
+          <DashboardSalesCard
+            onLinkClick={onLinkClick}
+            onReload={onSalesReload}
+          />
+        )}
+        {shouldShowPurchases && (
+          <DashboardPurchaseCard
+            onLinkClick={onLinkClick}
+            onReload={onPurchaseReload}
+          />
+        )}
+        {shouldShowTracking && <DashboardBusinessTrackingCard />}
       </div>
       <div className={styles.secondary}>
-        <DashboardBankingCard
-          onReload={onBankingReload}
-          onLinkClick={onLinkClick}
-          onBankFeedAccountChange={onBankFeedAccountChange}
-        />
-        <div className={styles.lastCard}>
-          <DashboardLeanEngageCard />
+        <div className={styles.secondaryCards}>
+          {shouldShowBanking && (
+            <DashboardBankingCard
+              onReload={onBankingReload}
+              onLinkClick={onLinkClick}
+              onBankFeedAccountChange={onBankFeedAccountChange}
+            />
+          )}
+
+          {shouldShowLeanEngage && <DashboardLeanEngageCard />}
         </div>
         <img src={footerImage} alt="" />
       </div>
@@ -70,6 +90,11 @@ const DashboardView = ({
 };
 
 const mapStateToProps = state => ({
+  shouldShowBanking: getShouldShowBanking(state),
+  shouldShowSales: getShouldShowSales(state),
+  shouldShowPurchases: getShouldShowPurchases(state),
+  shouldShowLeanEngage: getShouldShowLeanEngage(state),
+  shouldShowTracking: getShouldShowTracking(state),
   isLoading: getIsLoading(state),
   alert: getAlert(state),
 });
