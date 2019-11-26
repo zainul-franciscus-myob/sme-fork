@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import {
   formatAmount, formatCurrency, getContacts, getEntries, getFilterOptions,
 } from './index';
+import getRegionToDialectText from '../../dialect/getRegionToDialectText';
 
 const getAllocate = state => state.openEntry.allocate;
 
@@ -21,6 +22,8 @@ const getLines = state => state.openEntry.allocate.lines;
 const getLinesLength = state => state.openEntry.allocate.lines.length;
 
 export const getIndexOfLastLine = state => state.openEntry.allocate.lines.length - 1;
+
+export const getTaxLabel = state => getRegionToDialectText(state.region)('Tax code');
 
 export const getTotalPercentageAmount = createSelector(
   getLines,
