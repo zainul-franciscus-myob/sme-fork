@@ -41,21 +41,15 @@ const getDefaultState = () => ({
     lines: [],
   },
   newLine: {
-    description: '',
-    amount: '',
-    taxCodeId: '',
-
-    // Service layout
-    allocatedAccountId: '',
-    accountOptions: [],
-    taxCodeOptions: [],
-
-    // Item layout
     units: '',
     itemId: '',
+    description: '',
     unitPrice: '',
+    taxCodeId: '',
+    accountId: '',
     discount: '',
     displayDiscount: '',
+    amount: '',
     displayAmount: '',
   },
   totals: {
@@ -63,12 +57,21 @@ const getDefaultState = () => ({
     totalTax: '0.00',
     totalAmount: '0.00',
   },
+  itemTemplate: {
+    defaultTemplate: '',
+    templateOptions: [],
+  },
+  serviceTemplate: {
+    defaultTemplate: '',
+    templateOptions: [],
+  },
   comments: [],
   serialNumber: '',
   contactOptions: [],
-  expirationTermOptions: [],
-  itemOptions: [],
+  accountOptions: [],
   taxCodeOptions: [],
+  itemOptions: [],
+  expirationTermOptions: [],
   emailInvoice: {
     hasEmailReplyDetails: false,
     isEmailMeACopy: false,
@@ -94,7 +97,6 @@ const getDefaultState = () => ({
   },
   isLineAmountDirty: false,
   areLinesCalculating: false,
-  templateOptions: [],
 });
 
 export default getDefaultState;

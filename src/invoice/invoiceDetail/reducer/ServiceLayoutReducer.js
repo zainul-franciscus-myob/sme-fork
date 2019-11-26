@@ -2,13 +2,13 @@ import { getDefaultTaxCodeId } from '../selectors/invoiceDetailSelectors';
 import { getLineByIndex } from '../selectors/serviceLayoutSelectors';
 import getDefaultState from './getDefaultState';
 
-const isAccountLineItem = lineKey => lineKey === 'allocatedAccountId';
+const isAccountLineItem = lineKey => lineKey === 'accountId';
 
 const getUpdatedLines = (index, lines, newLine) => lines.map((line, lineIndex) => (
   lineIndex === index ? newLine : line
 ));
 
-const removeLine = (lines, index) => lines.filter((line, i) => i !== index);
+const removeLine = (lines, index) => lines.filter((_, i) => i !== index);
 
 const formatLineAmount = amount => (Number(amount) ? parseFloat(amount).toFixed(2) : '');
 
@@ -22,8 +22,8 @@ export const addInvoiceServiceLine = (state, action) => ({
       {
         ...state.newLine,
         taxCodeId: getDefaultTaxCodeId({
-          ...state.newLine,
-          accountId: action.line.allocatedAccountId,
+          accountOptions: state.accountOptions,
+          accountId: action.line.accountId,
         }),
         ...action.line,
       },
@@ -33,17 +33,7 @@ export const addInvoiceServiceLine = (state, action) => ({
 
 export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   ...state,
-  invoice: {
-    ...state.invoice,
-    lines: state.invoice.lines.map(line => ({
-      ...line,
-      accountOptions: [account, ...line.accountOptions],
-    })),
-  },
-  newLine: {
-    ...state.newLine,
-    accountOptions: [account, ...state.newLine.accountOptions],
-  },
+  accountOptions: [account, ...state.accountOptions],
   isPageEdited: true,
 });
 
@@ -65,7 +55,7 @@ export const updateInvoiceServiceLine = (state, action) => {
   const newLine = {
     ...line,
     taxCodeId: isAccountLineItem(action.key)
-      ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: line.accountOptions })
+      ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
       : line.taxCodeId,
     [action.key]: action.value,
   };

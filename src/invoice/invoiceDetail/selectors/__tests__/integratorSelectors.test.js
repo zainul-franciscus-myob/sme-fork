@@ -83,46 +83,9 @@ describe('integratorSelectors', () => {
             {
               id: '345',
               description: 'Yak shaving - 1/2 an hour',
-              allocatedAccountId: '123',
+              accountId: '123',
               amount: '48.50',
               taxCodeId: '124',
-              accountOptions: [
-                {
-                  id: '123',
-                  displayName: 'My Sales Account 1',
-                  accountType: 'Sales',
-                  taxCodeId: '123',
-                  displayId: '4-123',
-                },
-                {
-                  id: '456',
-                  displayName: 'Sales Account 2',
-                  accountType: 'Assets',
-                  taxCodeId: '124',
-                  displayId: '4-456',
-                },
-                {
-                  id: '789',
-                  displayName: 'Expense Account',
-                  accountType: 'Assets',
-                  taxCodeId: '124',
-                  displayId: '6-789',
-                },
-              ],
-              taxCodeOptions: [
-                {
-                  id: '123',
-                  displayName: 'GST',
-                  description: 'Goods & Service Tax',
-                  displayRate: '10%',
-                },
-                {
-                  id: '124',
-                  displayName: 'FRE',
-                  description: 'GST FREE',
-                  displayRate: '5%',
-                },
-              ],
             },
           ],
         },
@@ -130,6 +93,43 @@ describe('integratorSelectors', () => {
           {
             name: 'Cow Feed',
             value: '2',
+          },
+        ],
+        accountOptions: [
+          {
+            id: '123',
+            displayName: 'My Sales Account 1',
+            accountType: 'Sales',
+            taxCodeId: '123',
+            displayId: '4-123',
+          },
+          {
+            id: '456',
+            displayName: 'Sales Account 2',
+            accountType: 'Assets',
+            taxCodeId: '124',
+            displayId: '4-456',
+          },
+          {
+            id: '789',
+            displayName: 'Expense Account',
+            accountType: 'Assets',
+            taxCodeId: '124',
+            displayId: '6-789',
+          },
+        ],
+        taxCodeOptions: [
+          {
+            id: '123',
+            displayName: 'GST',
+            description: 'Goods & Service Tax',
+            displayRate: '10%',
+          },
+          {
+            id: '124',
+            displayName: 'FRE',
+            description: 'GST FREE',
+            displayRate: '5%',
           },
         ],
       };
@@ -156,7 +156,7 @@ describe('integratorSelectors', () => {
           {
             id: '345',
             description: 'Yak shaving - 1/2 an hour',
-            allocatedAccountId: '123',
+            accountId: '123',
             amount: '48.50',
             taxCodeId: '124',
           },

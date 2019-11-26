@@ -5,9 +5,11 @@ import {
   getLoadInvoiceDetailEmailInvoice,
   getLoadInvoiceDetailModalType,
   getShouldReload,
+  getTemplateOptions,
   getUpdatedContactOptions,
 } from '../invoiceDetailSelectors';
 import InvoiceDetailModalType from '../../InvoiceDetailModalType';
+import InvoiceLayout from '../../InvoiceLayout';
 
 describe('invoiceDetailSelectors', () => {
   const state = {
@@ -31,7 +33,7 @@ describe('invoiceDetailSelectors', () => {
         {
           id: '345',
           description: 'Yak shaving - 1/2 an hour',
-          allocatedAccountId: '123',
+          accountId: '123',
           amount: '48.50',
           taxCodeId: '124',
           accounts: [
@@ -115,6 +117,14 @@ describe('invoiceDetailSelectors', () => {
         name: 'C.O.D.',
       },
     ],
+    serviceTemplate: {
+      defaultTemplate: 'a',
+      templateOptions: [{ name: 'a', label: 'a' }],
+    },
+    itemTemplate: {
+      defaultTemplate: 'b',
+      templateOptions: [{ name: 'b', label: 'b' }],
+    },
     region: 'au',
     businessId: 'abc',
     invoiceId: '1',
@@ -281,6 +291,55 @@ describe('invoiceDetailSelectors', () => {
       const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
 
       expect(actual).toEqual(expected);
+    });
+  });
+  describe('getTemplateOptions', () => {
+    it('uses service template options when layout is service', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          layout: InvoiceLayout.SERVICE,
+        },
+      };
+
+      const actual = getTemplateOptions(modifiedState);
+
+      expect(actual).toEqual([
+        { name: 'a', label: 'a' },
+      ]);
+    });
+
+    it('uses item template options when layout is item', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          layout: InvoiceLayout.ITEM,
+        },
+      };
+
+      const actual = getTemplateOptions(modifiedState);
+
+      expect(actual).toEqual([
+        { name: 'b', label: 'b' },
+      ]);
+    });
+
+    it('uses service template options by default', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          layout: undefined,
+        },
+      };
+
+      const actual = getTemplateOptions(modifiedState);
+
+      expect(actual).toEqual([
+        { name: 'a', label: 'a' },
+      ]);
     });
   });
 });

@@ -2,6 +2,7 @@ import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
+import { getAccountOptions, getTaxCodeOptions } from '../../selectors/invoiceDetailSelectors';
 import { getInvoiceLine, getIsAccountComboboxDisabled } from '../../selectors/serviceLayoutSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
@@ -14,9 +15,10 @@ const handleOnComboboxChange = (handler, name) => item => handler({
   },
 });
 
-
 const InvoiceServiceTableRow = ({
   invoiceLine,
+  accountOptions,
+  taxCodeOptions,
   index,
   onChange,
   onComboboxChange,
@@ -28,9 +30,7 @@ const InvoiceServiceTableRow = ({
 }) => {
   const {
     description,
-    accountOptions,
-    allocatedAccountId,
-    taxCodeOptions,
+    accountId,
     taxCodeId,
     amount,
   } = invoiceLine;
@@ -50,11 +50,11 @@ const InvoiceServiceTableRow = ({
       <AccountCombobox
         label="Account"
         hideLabel
-        onChange={handleOnComboboxChange(onComboboxChange, 'allocatedAccountId')}
+        onChange={handleOnComboboxChange(onComboboxChange, 'accountId')}
         items={accountOptions}
-        selectedId={allocatedAccountId}
+        selectedId={accountId}
         addNewAccount={() => onAddAccount(
-          handleOnComboboxChange(onComboboxChange, 'allocatedAccountId'),
+          handleOnComboboxChange(onComboboxChange, 'accountId'),
         )}
         disabled={isAccountComboboxDisabled}
       />
@@ -80,6 +80,8 @@ const InvoiceServiceTableRow = ({
 
 const mapStateToProps = (state, props) => ({
   invoiceLine: getInvoiceLine(state, props),
+  accountOptions: getAccountOptions(state),
+  taxCodeOptions: getTaxCodeOptions(state),
   isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),
 });
 

@@ -12,12 +12,10 @@ import {
   getInvoice,
   getInvoiceId,
   getIsCreating,
-  getIsServiceLayout,
   getLayoutQueryParam,
   getLines,
   getQuoteIdQueryParam,
 } from './invoiceDetailSelectors';
-import { getInvoiceServiceLinesForPayload } from './serviceLayoutSelectors';
 
 export const getLoadInvoiceIntent = (state) => {
   const isCreating = getIsCreating(state);
@@ -81,11 +79,7 @@ export const getCreateOrUpdateInvoicePayload = (state) => {
   const contactId = getContactId(state);
   const { name: contactName } = contacts.find(({ value }) => contactId === value) || {};
 
-  const isServiceLayout = getIsServiceLayout(state);
-  const invoiceLines = getLines(state);
-  const lines = isServiceLayout
-    ? getInvoiceServiceLinesForPayload(invoiceLines)
-    : invoiceLines;
+  const lines = getLines(state);
 
   return {
     ...invoice,

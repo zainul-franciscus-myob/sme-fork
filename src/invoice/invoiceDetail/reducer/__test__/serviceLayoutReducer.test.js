@@ -40,14 +40,9 @@ describe('invoiceReducer', () => {
     });
   });
   describe('LOAD_ACCOUNT_AFTER_CREATE', () => {
-    it('merges new account payload into state newLine', () => {
+    it('merges new account payload into account options', () => {
       const state = {
-        invoice: {
-          lines: [],
-        },
-        newLine: {
-          accountOptions: [{ thisIsAnAccount: true }],
-        },
+        accountOptions: [{ thisIsAnAccount: true }],
       };
 
       const action = {
@@ -57,52 +52,14 @@ describe('invoiceReducer', () => {
 
       const actual = invoiceReducer(state, action);
 
-      expect(actual.newLine).toEqual({
-        accountOptions: [{ thisIsAnAccount: false }, { thisIsAnAccount: true }],
-      });
-    });
-    it('merges new account payload into state all lines', () => {
-      const state = {
-        invoice: {
-          lines: [
-            { accountOptions: [{ thisIsAnAccount: true }] },
-            { accountOptions: [{ thisIsAnAccount: true }] },
-          ],
-        },
-        newLine: { accountOptions: [] },
-      };
-
-      const action = {
-        intent: LOAD_ACCOUNT_AFTER_CREATE,
-        thisIsAnAccount: false,
-      };
-
-      const actual = invoiceReducer(state, action);
-      expect(actual.invoice).toEqual({
-        lines: [
-          {
-            accountOptions: [
-              { thisIsAnAccount: false },
-              { thisIsAnAccount: true },
-            ],
-          },
-          {
-            accountOptions: [
-              { thisIsAnAccount: false },
-              { thisIsAnAccount: true },
-            ],
-          },
-        ],
-      });
+      expect(actual.accountOptions).toEqual([
+        { thisIsAnAccount: false },
+        { thisIsAnAccount: true },
+      ]);
     });
     it('sets page state to edited', () => {
       const state = {
-        invoice: {
-          lines: [],
-        },
-        newLine: {
-          accountOptions: [{ thisIsAnAccount: true }],
-        },
+        accountOptions: [{ thisIsAnAccount: true }],
       };
 
       const action = {

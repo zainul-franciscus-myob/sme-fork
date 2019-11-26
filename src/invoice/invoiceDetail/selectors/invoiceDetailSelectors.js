@@ -46,12 +46,18 @@ export const getContactOptions = state => state.contactOptions;
 export const getExpirationTermOptions = state => state.expirationTermOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 export const getItemOptions = state => state.itemOptions;
+export const getAccountOptions = state => state.accountOptions;
 export const getSerialNumber = state => state.serialNumber;
 
 export const getAreLinesCalculating = state => state.areLinesCalculating;
 export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 
-export const getTemplateOptions = state => state.templateOptions;
+export const getTemplateOptions = (state) => {
+  if (state.invoice.layout === InvoiceLayout.ITEM) {
+    return state.itemTemplate.templateOptions;
+  }
+  return state.serviceTemplate.templateOptions;
+};
 
 export const getIsCreating = createSelector(getInvoiceId, invoiceId => invoiceId === 'new');
 

@@ -32,14 +32,8 @@ export const getInvoiceServiceCalculatedTotalsPayload = (state) => {
 
   return ({
     isTaxInclusive,
-    lines: lines.map(({ allocatedAccountId, amount, taxCodeId }) => ({
-      allocatedAccountId, amount, taxCodeId,
+    lines: lines.map(({ accountId, amount, taxCodeId }) => ({
+      accountId, amount, taxCodeId,
     })),
   });
 };
-
-export const getInvoiceServiceLinesForPayload = lines => lines.map((line) => {
-  const { accountOptions, taxCodeOptions, ...rest } = line;
-
-  return rest;
-});

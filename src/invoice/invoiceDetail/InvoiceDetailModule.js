@@ -49,11 +49,11 @@ import {
 } from './selectors/itemLayoutSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import DebugStore from '../../store/DebugStore';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import InvoiceDetailModalType from './InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
 import SaveActionType from './SaveActionType';
-import Store from '../../store/Store';
 import createInvoiceDetailDispatcher from './createInvoiceDetailDispatcher';
 import createInvoiceDetailIntegrator from './createInvoiceDetailIntegrator';
 import invoiceDetailReducer from './reducer/invoiceDetailReducer';
@@ -77,7 +77,7 @@ export default class InvoiceDetailModule {
     this.replaceURLParams = replaceURLParams;
     this.reload = reload;
 
-    this.store = new Store(invoiceDetailReducer);
+    this.store = new DebugStore(invoiceDetailReducer);
     this.dispatcher = createInvoiceDetailDispatcher(this.store);
     this.integrator = createInvoiceDetailIntegrator(this.store, integration);
 
@@ -384,7 +384,7 @@ export default class InvoiceDetailModule {
   updateInvoiceServiceLine = ({ index, key, value }) => {
     this.dispatcher.updateInvoiceServiceLine(index, key, value);
 
-    const taxKeys = ['allocatedAccountId', 'taxCodeId'];
+    const taxKeys = ['accountId', 'taxCodeId'];
     if (taxKeys.includes(key)) {
       this.getInvoiceServiceCalculatedTotals();
     }
