@@ -19,7 +19,7 @@ const getItems = (urls, onMenuLinkClick) => [
   urls.invoiceList && getMenuLink(urls.invoiceList, 'Invoices', onMenuLinkClick),
   urls.invoicePayment && getMenuLink(urls.invoicePayment, 'Invoice payment', onMenuLinkClick),
   urls.customerReturnList && getMenuLink(urls.customerReturnList, 'Customer returns', onMenuLinkClick),
-  urls.customerReturnList && getMenuLink(urls.customerStatementList, 'Customer statements', onMenuLinkClick),
+  urls.customerStatementList && getMenuLink(urls.customerStatementList, 'Customer statements', onMenuLinkClick),
   urls.inventory && getMenuLink(urls.inventory, 'Items', onMenuLinkClick),
 ].filter(Boolean);
 
