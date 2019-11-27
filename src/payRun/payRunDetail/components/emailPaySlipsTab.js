@@ -25,6 +25,7 @@ const EmailPaySlipsTab = ({
   selectAll,
   selectItem,
   onEmployeeNameClick,
+  exportPdf,
 }) => {
   const selectedCount = employees.filter(e => e.isSelected).length;
 
@@ -107,7 +108,7 @@ const EmailPaySlipsTab = ({
         {employee.hasBankFile && <Icons.Tick />}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.viewPaySlip}>
-        <Button type="link" icon={<Icons.GenericDocument />} />
+        <Button type="link" icon={<Icons.GenericDocument />} onClick={() => { exportPdf(employee.transactionId); }} />
       </Table.RowItem>
     </Table.Row>
   ));

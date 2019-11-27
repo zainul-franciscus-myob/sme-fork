@@ -16,10 +16,12 @@ import {
   SET_MODAL_EMPLOYEE_DETAILS,
   SET_TAB,
 } from './payRunDetailIntents';
+import { EXPORT_TRANSACTION_PDF } from '../payRunIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getPayRunListUrl, getUrlParams } from './payRunDetailSelector';
+import { getBusinessId, getPayRunListUrl, getUrlParams } from './payRunDetailSelector';
 import PayRunDetailView from './components/payRunDetailView';
 import Store from '../../store/Store';
+import openBlob from '../../blobOpener/openBlob';
 import payRunDetailReducer from './payRunDetailReducer';
 
 export default class PayRunDetailModule {
@@ -48,6 +50,7 @@ export default class PayRunDetailModule {
         onEmployeeNameClick={this.openPayDetailModal}
         onDeletePopoverCancel={this.closeDeletePopover}
         onDeleteButtonClick={this.openDeletePopover}
+        exportPdf={this.exportPdf}
       />
     );
 
@@ -213,6 +216,27 @@ export default class PayRunDetailModule {
       onFailure,
       urlParams,
       intent,
+    });
+  }
+
+  exportPdf = (transactionId) => {
+    const intent = EXPORT_TRANSACTION_PDF;
+    const state = this.store.getState();
+    const onSuccess = (data) => {
+      const filename = `payslip-${transactionId}.pdf`;
+      openBlob(data, filename);
+    };
+    const onFailure = () => {
+      console.log('Failed to download PDF.');
+    };
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId, transactionId };
+
+    this.integration.readFile({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   }
 

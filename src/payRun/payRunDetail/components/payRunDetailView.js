@@ -35,6 +35,7 @@ const PayRunDetailView = ({
   deletePopoverIsOpen,
   onDeletePopoverCancel,
   onDeletePopoverDelete,
+  exportPdf,
 }) => {
   const employeeCard = (
     <Card>
@@ -43,6 +44,7 @@ const PayRunDetailView = ({
         emailTabListeners={emailTabListeners}
         printTabListeners={printTabListeners}
         onEmployeeNameClick={onEmployeeNameClick}
+        exportPdf={exportPdf}
       />
     </Card>
   );

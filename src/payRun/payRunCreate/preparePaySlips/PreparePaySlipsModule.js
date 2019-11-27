@@ -5,9 +5,12 @@ import {
   EMAIL_TAB_SELECT_ITEM,
   SET_TAB,
 } from './PreparePaySlipsIntents';
+import { EXPORT_TRANSACTION_PDF } from '../../payRunIntents';
+import { getBusinessId } from './PreparePaySlipsSelectors';
 import { getPayRunListUrl } from '../PayRunSelectors';
 import PreparePaySlipsView from './components/PreparePaySlipsView';
 import createPayRunDispatchers from '../createPayRunDispatchers';
+import openBlob from '../../../blobOpener/openBlob';
 
 export default class PreparePaySlipsModule {
   constructor({
@@ -30,6 +33,7 @@ export default class PreparePaySlipsModule {
     return (
       <PreparePaySlipsView
         setSelectedTab={this.setSelectedTab}
+        exportPdf={this.exportPdf}
         emailTabListeners={{
           selectAll: this.emailTabSelectAll,
           selectItem: this.emailTabSelectItem,
@@ -59,6 +63,27 @@ export default class PreparePaySlipsModule {
       intent: EMAIL_TAB_SELECT_ITEM,
       isSelected,
       item,
+    });
+  }
+
+  exportPdf = (transactionId) => {
+    const intent = EXPORT_TRANSACTION_PDF;
+    const state = this.store.getState();
+    const onSuccess = (data) => {
+      const filename = `payslip-${transactionId}.pdf`;
+      openBlob(data, filename);
+    };
+    const onFailure = () => {
+      console.log('Failed to download PDF.');
+    };
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId, transactionId };
+
+    this.integration.readFile({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
     });
   }
 }

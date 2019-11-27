@@ -14,3 +14,4 @@ export const getIsModalLoading = state => state.isModalLoading;
 export const getModalEmployeeDetails = state => state.employeeDetails;
 export const getEmployeeDetailModal = state => state.modal;
 export const getDeletePopoverIsOpen = state => state.deletePopoverIsOpen;
+export const getBusinessId = state => state.businessId;

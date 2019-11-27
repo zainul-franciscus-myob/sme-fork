@@ -1,3 +1,4 @@
+import { EXPORT_TRANSACTION_PDF } from '../../payRun/payRunIntents';
 import {
   LOAD_EMPLOYEE_PAYS,
   RECALCULATE_PAY,
@@ -17,6 +18,7 @@ const PayRunMapping = {
   [VALIDATE_ETP]: ({ onSuccess }) => onSuccess(validateEtp),
   [RECALCULATE_PAY]: ({ onSuccess }) => onSuccess(recalculatedEmployeePay),
   [RECORD_PAYMENTS]: ({ onSuccess }) => onSuccess(recordPayments),
+  [EXPORT_TRANSACTION_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 
 export default PayRunMapping;

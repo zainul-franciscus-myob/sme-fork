@@ -19,6 +19,7 @@ const tableConfig = {
 const PrintPaySlipsTab = ({
   employees,
   onEmployeeNameClick,
+  exportPdf,
 }) => {
   const tableHeader = (
     <Table.Header>
@@ -58,7 +59,7 @@ const PrintPaySlipsTab = ({
         {employee.hasBankFile && <Icons.Tick />}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.viewPaySlip}>
-        <Button type="link" icon={<Icons.GenericDocument />} />
+        <Button type="link" icon={<Icons.GenericDocument />} onClick={() => { exportPdf(employee.transactionId); }} />
       </Table.RowItem>
     </Table.Row>
   ));

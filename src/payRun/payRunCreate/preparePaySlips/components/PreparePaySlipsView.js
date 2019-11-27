@@ -17,6 +17,7 @@ const PreparePaySlipsView = ({
   emailTabListeners,
   printTabListeners,
   setSelectedTab,
+  exportPdf,
 }) => {
   const employeeCard = (
     <Card>
@@ -24,6 +25,7 @@ const PreparePaySlipsView = ({
         setSelectedTab={setSelectedTab}
         emailTabListeners={emailTabListeners}
         printTabListeners={printTabListeners}
+        exportPdf={exportPdf}
       />
     </Card>
   );

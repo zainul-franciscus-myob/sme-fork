@@ -1,3 +1,4 @@
+import { EXPORT_TRANSACTION_PDF } from '../../payRun/payRunIntents';
 import {
   LOAD_EMPLOYEE_PAYS,
   RECALCULATE_PAY,
@@ -32,6 +33,12 @@ const PayRunMapping = {
   [VALIDATE_ETP]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/payRun/validate_etp`,
+  },
+  [EXPORT_TRANSACTION_PDF]: {
+    method: 'GET',
+    getPath: ({ businessId, transactionId }) => (
+      `/${businessId}/payRun/load_employee_pay_pdf/${transactionId}`
+    ),
   },
 };
 
