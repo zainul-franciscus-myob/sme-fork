@@ -1,13 +1,16 @@
-import {
-  Button, Icons, PageHead, PageState,
-} from '@myob/myob-widgets';
+import { Button, Icons, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getCreateBillLink, getHasError, getIsEmpty, getIsLoading, getIsTableEmpty,
+  getCreateBillLink,
+  getHasError,
+  getIsEmpty,
+  getIsLoading,
+  getIsTableEmpty,
 } from '../../selectors/DashboardPurchaseSelectors';
 import CardView from '../../../components/CardView/CardView';
+import DashboardCardHeader from '../DashboardCardHeader';
 import DashboardPurchaseChart from './DashboardPurchaseChart';
 import DashboardPurchaseTable from './DashboardPurchaseTable';
 import DashboardPurchaseTotalSummary from './DashboardPurchaseTotalSummary';
@@ -41,11 +44,11 @@ const DashboardPurchaseCard = ({
 
   const summary = (
     <div className={styles.summary}>
-      <PageHead title="Purchases">
+      <DashboardCardHeader title="Purchases">
         <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createBillLink)}>
           Create bill
         </Button>
-      </PageHead>
+      </DashboardCardHeader>
       <hr />
       <DashboardPurchaseTotalSummary />
       {tableView}

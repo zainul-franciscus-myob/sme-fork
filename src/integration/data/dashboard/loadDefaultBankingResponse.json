@@ -1,5 +1,6 @@
 {
   "banking": {
+    "bankFeedBalance": "$8,365",
     "bankFeedAccountId": "7",
     "currentBalance": "$100.00",
     "lastReconcileDate": "11/12/2019",

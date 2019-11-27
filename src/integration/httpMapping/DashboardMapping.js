@@ -1,5 +1,11 @@
 import {
-  LOAD_ACCOUNT_BANKING, LOAD_DASHBOARD, LOAD_DEFAULT_BANKING, LOAD_PURCHASE, LOAD_SALES,
+  LOAD_ACCOUNT_BANKING,
+  LOAD_DASHBOARD,
+  LOAD_DEFAULT_BANKING,
+  LOAD_PURCHASE,
+  LOAD_SALES,
+  LOAD_TRACKING,
+  LOAD_TRACKING_DETAIL,
 } from '../../dashboard/DashboardIntents';
 
 const DashboardMapping = {
@@ -14,6 +20,14 @@ const DashboardMapping = {
   [LOAD_PURCHASE]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/dashboard/load_purchase`,
+  },
+  [LOAD_TRACKING]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/dashboard/load_tracking`,
+  },
+  [LOAD_TRACKING_DETAIL]: {
+    method: 'GET',
+    getPath: ({ businessId, financialYear }) => `/${businessId}/dashboard/load_tracking_detail/${financialYear}`,
   },
   [LOAD_DEFAULT_BANKING]: {
     method: 'GET',

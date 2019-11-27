@@ -2,10 +2,6 @@
   margin-bottom: var(--flx-spacing-tiny);
 }
 
-.container :global(.page-head__title) > :global(h1) {
-  font-size: var(--flx-font-size-heading-large);
-}
-
 .container > hr {
   margin-top: var(--flx-spacing-tiny);
 }

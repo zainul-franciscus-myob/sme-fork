@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+}
+
+.legendTitle {
+  display: none;
+}
+
+.amounts {
+  display: flex;
+  flex: 1;
+  flex-direction: column-reverse;
+}
+
+.incomeExpenses {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.incomeExpenses > * {
+  flex: 1 1;
+}
+
+.legendItem {
+  display: flex;
+  flex-direction: row;
+  padding-left: 0.6rem;
+}
+
+.legendItem h2 {
+  margin-bottom: var(--flx-spacing-x-small);
+  white-space: nowrap;
+}
+
+.legendItemPointer {
+  display: none;
+}
+
+.negative {
+  color: var(--flx-color-alert-error-link);
+}
+
+.income {
+  margin-top: -1rem;
+  height: 0.3rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2rem 0 0 var(--flx-palette-dusk-100);
+}
+
+.expense {
+  margin-top: -1rem;
+  height: 0.3rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2rem 0 0 var(--flx-palette-dusk-70);
+}
+
+.profit {
+  margin-top: 1rem;
+  border: none;
+  border-top: 0.3rem dashed var(--flx-palette-berry);
+}
+
+/* Medium & Large devices (tablets & desktop) */
+@media only screen and (min-width: 768px) {
+  .amounts {
+    flex-direction: row;
+    flex: 0 1 auto;
+  }
+
+  .legendTitle {
+    white-space: nowrap;
+    display: block;
+    flex: 1 0 0%;
+  }
+
+  .legendItemPointer {
+    display: block;
+    width: 1.5rem;
+    margin-right: 0.8rem;
+  }
+
+  .container {
+    flex-wrap: wrap;
+    margin-left: var(--flx-spacing-small);
+    margin-right: var(--flx-spacing-large);
+  }
+}

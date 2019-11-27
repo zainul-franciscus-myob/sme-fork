@@ -3,6 +3,8 @@ import {
   LOAD_DEFAULT_BANKING,
   LOAD_PURCHASE,
   LOAD_SALES,
+  LOAD_TRACKING,
+  LOAD_TRACKING_DETAIL,
   SET_ALERT,
   SET_BANKING_ERROR_STATE,
   SET_BANKING_LOADING_STATE,
@@ -12,6 +14,10 @@ import {
   SET_PURCHASE_LOADING_STATE,
   SET_SALES_ERROR_STATE,
   SET_SALES_LOADING_STATE,
+  SET_TRACKING_DETAIL_LOADING_STATE,
+  SET_TRACKING_ERROR_STATE,
+  SET_TRACKING_LOADING_STATE,
+  SET_TRACKING_OPTIONS,
 } from './DashboardIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 
@@ -79,6 +85,36 @@ const createDashboardDispatcher = store => ({
   setPurchaseErrorState: (hasError) => {
     const intent = SET_PURCHASE_ERROR_STATE;
     store.dispatch({ intent, hasError });
+  },
+
+  loadTracking: (payload) => {
+    const intent = LOAD_TRACKING;
+    store.dispatch({ intent, ...payload });
+  },
+
+  loadTrackingDetail: (payload) => {
+    const intent = LOAD_TRACKING_DETAIL;
+    store.dispatch({ intent, ...payload });
+  },
+
+  setTrackingLoadingState: (isLoading) => {
+    const intent = SET_TRACKING_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  setTrackingDetailLoadingState: (isDetailLoading) => {
+    const intent = SET_TRACKING_DETAIL_LOADING_STATE;
+    store.dispatch({ intent, isDetailLoading });
+  },
+
+  setTrackingErrorState: (hasError) => {
+    const intent = SET_TRACKING_ERROR_STATE;
+    store.dispatch({ intent, hasError });
+  },
+
+  setTrackingOptions: ({ key, value }) => {
+    const intent = SET_TRACKING_OPTIONS;
+    store.dispatch({ intent, key, value });
   },
 
   loadBanking: (payload) => {

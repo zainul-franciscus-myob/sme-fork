@@ -29,6 +29,8 @@ textarea {
 }
 
 .sr-only {
+  top: -1px;
+  left: -1px;
   position: absolute;
   width: 1px;
   height: 1px;

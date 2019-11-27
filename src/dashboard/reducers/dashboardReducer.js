@@ -1,13 +1,10 @@
-import {
-  LOAD_DASHBOARD,
-  SET_ALERT,
-  SET_LOADING_STATE,
-} from '../DashboardIntents';
+import { LOAD_DASHBOARD, SET_ALERT, SET_LOADING_STATE } from '../DashboardIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 import dashboardBankingReducerHandlers from './dashboardBankingReducer';
 import dashboardPurchaseReducerHandlers from './dashboardPurchaseReducer';
 import dashboardSalesReducerHandlers from './dashboardSalesReducer';
+import dashboardTrackingReducerHandlers from './dashboardTrackingReducer';
 
 
 const getDefaultState = () => ({
@@ -47,6 +44,19 @@ const getDefaultState = () => ({
     entries: [],
     chart: [],
     hasError: false,
+  },
+
+  tracking: {
+    isLoading: true,
+    isDetailLoading: false,
+    hasError: false,
+    isEmpty: true,
+    financialYear: '',
+    incomeAmount: '',
+    expenseAmount: '',
+    profitAmount: '',
+    chart: {},
+    financialYearOptions: [],
   },
 
   banking: {
@@ -97,6 +107,7 @@ const handlers = {
 
   ...dashboardSalesReducerHandlers,
   ...dashboardPurchaseReducerHandlers,
+  ...dashboardTrackingReducerHandlers,
   ...dashboardBankingReducerHandlers,
 };
 

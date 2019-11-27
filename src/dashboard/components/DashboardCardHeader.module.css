@@ -1,0 +1,3 @@
+.header :global(.page-head__title) > :global(h1) {
+  font-size: var(--flx-font-size-heading-large);
+}

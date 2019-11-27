@@ -1,13 +1,16 @@
-import {
-  Button, Icons, PageHead, PageState,
-} from '@myob/myob-widgets';
+import { Button, Icons, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getCreateInvoiceLink, getHasError, getIsEmpty, getIsLoading, getIsTableEmpty,
+  getCreateInvoiceLink,
+  getHasError,
+  getIsEmpty,
+  getIsLoading,
+  getIsTableEmpty,
 } from '../../selectors/DashboardSalesSelectors';
 import CardView from '../../../components/CardView/CardView';
+import DashboardCardHeader from '../DashboardCardHeader';
 import DashboardSalesChart from './DashboardSalesChart';
 import DashboardSalesTable from './DashboardSalesTable';
 import DashboardSalesTotalSummary from './DashboardSalesTotalSummary';
@@ -43,11 +46,11 @@ const DashboardSalesCard = ({
 
   const summary = (
     <div className={styles.summary}>
-      <PageHead title="Sales">
+      <DashboardCardHeader title="Sales">
         <Button type="link" icon={<Icons.Add />} onClick={handleLinkClick(onLinkClick, createInvoiceLink)}>
           Create invoice
         </Button>
-      </PageHead>
+      </DashboardCardHeader>
       <hr />
       <DashboardSalesTotalSummary />
       {tableView}

@@ -1,10 +1,21 @@
 import {
-  LOAD_ACCOUNT_BANKING, LOAD_DASHBOARD, LOAD_DEFAULT_BANKING, LOAD_PURCHASE, LOAD_SALES,
+  LOAD_ACCOUNT_BANKING,
+  LOAD_DASHBOARD,
+  LOAD_DEFAULT_BANKING,
+  LOAD_PURCHASE,
+  LOAD_SALES,
+  LOAD_TRACKING,
+  LOAD_TRACKING_DETAIL,
 } from './DashboardIntents';
 import { getBusinessId } from './selectors/DashboardSelectors';
 import { getLoadBankingParams } from './selectors/DashboardBankingSelectors';
 import { getLoadPurchaseParams } from './selectors/DashboardPurchaseSelectors';
 import { getLoadSalesParams } from './selectors/DashboardSalesSelectors';
+import {
+  getLoadTrackingDetailUrlParams,
+  getLoadTrackingParams,
+  getLoadTrackingUrlParams,
+} from './selectors/DashboardTrackingSelectors';
 
 const createDashboardIntegrator = (store, integration) => ({
   loadDashboard: ({ onSuccess, onFailure }) => {
@@ -54,6 +65,36 @@ const createDashboardIntegrator = (store, integration) => ({
       intent,
       urlParams,
       params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadTracking: ({ onSuccess, onFailure }) => {
+    const intent = LOAD_TRACKING;
+
+    const state = store.getState();
+    const urlParams = getLoadTrackingUrlParams(state);
+    const params = getLoadTrackingParams();
+
+    integration.read({
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadTrackingDetail: ({ onSuccess, onFailure }) => {
+    const intent = LOAD_TRACKING_DETAIL;
+
+    const state = store.getState();
+    const urlParams = getLoadTrackingDetailUrlParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

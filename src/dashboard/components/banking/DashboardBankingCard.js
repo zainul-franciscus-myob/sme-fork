@@ -1,6 +1,4 @@
-import {
-  PageHead, PageState, Tooltip,
-} from '@myob/myob-widgets';
+import { PageState, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -17,6 +15,7 @@ import {
 } from '../../selectors/DashboardBankingSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import CardView from '../../../components/CardView/CardView';
+import DashboardCardHeader from '../DashboardCardHeader';
 import DashboardTotalSummary from '../DashboardTotalSummary';
 import DashboardUnallocations from './DashboardBankingUnallocations';
 import ErrorCard from '../ErrorCard';
@@ -49,7 +48,7 @@ const DashboardBankingCard = ({
 
   const bankingView = (
     <div className={styles.container}>
-      <PageHead title="Manage your day-to-day" />
+      <DashboardCardHeader title="Manage your day-to-day" />
       <hr />
       <AccountCombobox
         label="Bank account"

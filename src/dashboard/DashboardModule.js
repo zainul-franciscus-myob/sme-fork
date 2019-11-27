@@ -25,6 +25,7 @@ export default class DashboardModule {
       this.dispatcher.loadDashboard(payload);
       this.loadSales();
       this.loadPurchase();
+      this.loadTracking();
       this.loadBanking();
     };
 
@@ -77,6 +78,45 @@ export default class DashboardModule {
     this.integrator.loadPurchase({ onSuccess, onFailure });
   }
 
+  loadTracking = () => {
+    this.dispatcher.setTrackingErrorState(false);
+    this.dispatcher.setTrackingLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setTrackingLoadingState(false);
+      this.dispatcher.loadTracking(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setTrackingLoadingState(false);
+      this.dispatcher.setTrackingErrorState(true);
+    };
+
+    this.integrator.loadTracking({ onSuccess, onFailure });
+  }
+
+  loadTrackingDetail = () => {
+    this.dispatcher.setTrackingErrorState(false);
+    this.dispatcher.setTrackingDetailLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setTrackingDetailLoadingState(false);
+      this.dispatcher.loadTrackingDetail(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setTrackingDetailLoadingState(false);
+      this.dispatcher.setTrackingErrorState(true);
+    };
+
+    this.integrator.loadTrackingDetail({ onSuccess, onFailure });
+  }
+
+  setTrackingOptions = ({ key, value }) => {
+    this.dispatcher.setTrackingOptions({ key, value });
+    this.loadTrackingDetail();
+  }
+
   loadBanking = () => {
     if (!getShouldShowBanking(this.store.getState())) {
       return;
@@ -115,6 +155,8 @@ export default class DashboardModule {
         onLinkClick={this.redirectToUrl}
         onSalesReload={this.loadSales}
         onPurchaseReload={this.loadPurchase}
+        onTrackingReload={this.loadTracking}
+        onTrackingChange={this.setTrackingOptions}
         onBankingReload={this.loadBanking}
         onBankFeedAccountChange={this.updateBankFeedAccount}
       />

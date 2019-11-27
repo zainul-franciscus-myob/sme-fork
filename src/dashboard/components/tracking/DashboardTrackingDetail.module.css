@@ -1,0 +1,15 @@
+.chartContainer {
+  padding: 2rem 1rem;
+  border-radius: 0.4rem;
+  background-color: #f3f4f5;
+}
+
+.chart {
+  height: 20rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .financialYear {
+    width: 30rem;
+  }
+}

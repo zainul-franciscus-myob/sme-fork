@@ -11,6 +11,13 @@ export const LOAD_PURCHASE = Symbol('Load purchase');
 export const SET_PURCHASE_LOADING_STATE = Symbol('Set purchase loading state');
 export const SET_PURCHASE_ERROR_STATE = Symbol('Set purchase error state');
 
+export const LOAD_TRACKING = Symbol('Load business tracking');
+export const LOAD_TRACKING_DETAIL = Symbol('Load business tracking financial year detail');
+export const SET_TRACKING_LOADING_STATE = Symbol('Set business tracking loading state');
+export const SET_TRACKING_DETAIL_LOADING_STATE = Symbol('Set business tracking detail loading state');
+export const SET_TRACKING_ERROR_STATE = Symbol('Set business tracking error state');
+export const SET_TRACKING_OPTIONS = Symbol('Set business tracking financial year');
+
 export const LOAD_DEFAULT_BANKING = Symbol('Load default banking');
 export const LOAD_ACCOUNT_BANKING = Symbol('Load banking by account id');
 export const SET_BANKING_LOADING_STATE = Symbol('Set banking loading state');
