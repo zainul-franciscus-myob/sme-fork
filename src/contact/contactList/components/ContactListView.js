@@ -4,7 +4,6 @@ import {
   HeaderSort,
   Icons,
   PageHead,
-  StandardTemplate,
   Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -14,6 +13,7 @@ import {
   getAlert,
   getIsDefaultFilters,
   getIsLoading,
+  getLoadMoreButtonStatus,
   getOrder,
   getShowHiddenColumns,
 } from '../contactListSelector';
@@ -22,6 +22,7 @@ import ContactListFilterOptions from './ContactListFilterOptions';
 import ContactListTable from './ContactListTable';
 import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 import PageView from '../../../components/PageView/PageView';
+import PaginatedListTemplate from '../../../components/PaginatedListTemplate/PaginatedListTemplate';
 import style from './ContactListView.module.css';
 
 const inActiveRowHeader = ({ order, onSort, tableConfig }) => (
@@ -66,12 +67,14 @@ const ContactListView = (props) => {
     isLoading,
     isDefaultFilters,
     alert,
+    loadMoreButtonStatus,
     onDismissAlert,
     onAddContactButtonClick,
     onUpdateFilters,
     onApplyFilter,
     onResetFilter,
     onSort,
+    onLoadMoreButtonClick,
     order,
     showHiddenColumns,
   } = props;
@@ -204,20 +207,25 @@ const ContactListView = (props) => {
       </Table.Header>
     </Table>
   );
+
+  const contactListTable = (
+    <ContactListTable
+      tableConfig={tableConfig}
+      emptyTableView={emptyTableView}
+    />
+  );
+
   const contactListView = (
     <div className={style.contacts}>
-      <StandardTemplate
-        alert={alertComponent}
-        sticky="all"
+      <PaginatedListTemplate
+        alertComponent={alertComponent}
         pageHead={pageHead}
         filterBar={filterBar}
         tableHeader={tableHeader}
-      >
-        <ContactListTable
-          tableConfig={tableConfig}
-          emptyTableView={emptyTableView}
-        />
-      </StandardTemplate>
+        listTable={contactListTable}
+        onLoadMoreButtonClick={onLoadMoreButtonClick}
+        loadMoreButtonStatus={loadMoreButtonStatus}
+      />
     </div>
   );
 
@@ -230,6 +238,7 @@ const mapStateToProps = state => ({
   isDefaultFilters: getIsDefaultFilters(state),
   order: getOrder(state),
   showHiddenColumns: getShowHiddenColumns(state),
+  loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 
 export default connect(mapStateToProps)(ContactListView);

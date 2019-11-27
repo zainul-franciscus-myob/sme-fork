@@ -3,9 +3,11 @@ import React from 'react';
 
 import {
   LOAD_CONTACT_LIST,
+  LOAD_CONTACT_LIST_NEXT_PAGE,
   RESET_FILTERS,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_CONTACT_LIST,
@@ -16,7 +18,12 @@ import {
 } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT } from '../ContactMessageTypes';
 import {
-  getAppliedFilterOptions, getBusinessId, getFilterOptions, getOrderBy, getRegion, getSortOrder,
+  getAppliedFilterOptions,
+  getBusinessId,
+  getFilterContactListParams,
+  getLoadContactListNextPageParams,
+  getOrderBy,
+  getRegion,
 } from './contactListSelector';
 import ContactListView from './components/ContactListView';
 import Store from '../../store/Store';
@@ -46,6 +53,7 @@ export default class ContactListModule {
         onUpdateFilters={this.updateFilterOptions}
         onApplyFilter={this.filterContactList}
         onSort={this.sortContactList}
+        onLoadMoreButtonClick={this.loadContactListNextPage}
         // Disabled until decision on whether Reset link will be on all list screens
         // onResetFilter={this.resetFilters}
       />
@@ -65,12 +73,17 @@ export default class ContactListModule {
       businessId: getBusinessId(this.store.getState()),
     };
 
+    const params = {
+      offset: 0,
+    };
+
     const onSuccess = ({
       entries,
       typeFilters,
       type,
       sortOrder,
       orderBy,
+      pagination,
     }) => {
       this.setLoadingState(false);
       this.store.dispatch({
@@ -80,6 +93,7 @@ export default class ContactListModule {
         type,
         sortOrder,
         orderBy,
+        pagination,
       });
     };
 
@@ -90,6 +104,7 @@ export default class ContactListModule {
     this.integration.read({
       intent,
       urlParams,
+      params,
       onSuccess,
       onFailure,
     });
@@ -149,6 +164,14 @@ export default class ContactListModule {
     });
   };
 
+  setNextPageLoadingState = (isNextPageLoading) => {
+    const intent = SET_NEXT_PAGE_LOADING_STATE;
+    this.store.dispatch({
+      intent,
+      isNextPageLoading,
+    });
+  };
+
   updateFilterOptions = ({ filterName, value }) => this.store.dispatch({
     intent: UPDATE_FILTER_OPTIONS,
     filterName,
@@ -177,13 +200,22 @@ export default class ContactListModule {
       businessId: getBusinessId(state),
     };
 
+    const filterOptions = getAppliedFilterOptions(state);
+    const params = {
+      ...filterOptions,
+      sortOrder: newSortOrder,
+      orderBy,
+      offset: 0,
+    };
+
     const intent = SORT_AND_FILTER_CONTACT_LIST;
-    const onSuccess = ({ entries }) => {
+    const onSuccess = ({ entries, pagination }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
         isSort: true,
+        pagination,
       });
     };
 
@@ -192,16 +224,11 @@ export default class ContactListModule {
       this.setAlert({ message, type: 'danger' });
     };
 
-    const filterOptions = getAppliedFilterOptions(state);
 
     this.integration.read({
       intent,
       urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: newSortOrder,
-        orderBy,
-      },
+      params,
       onSuccess,
       onFailure,
     });
@@ -217,13 +244,15 @@ export default class ContactListModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({ entries, sortOrder }) => {
+    const onSuccess = ({
+      entries, pagination,
+    }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
         isSort: false,
-        sortOrder,
+        pagination,
       });
     };
 
@@ -232,18 +261,50 @@ export default class ContactListModule {
       this.setAlert({ message, type: 'danger' });
     };
 
-    const filterOptions = getFilterOptions(state);
-    const sortOrder = getSortOrder(state);
-    const orderBy = getOrderBy(state);
+
+    const params = getFilterContactListParams(state);
 
     this.integration.read({
       intent,
       urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder,
-        orderBy,
-      },
+      params,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  loadContactListNextPage = () => {
+    const state = this.store.getState();
+    this.setNextPageLoadingState(true);
+
+    const intent = LOAD_CONTACT_LIST_NEXT_PAGE;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    const params = getLoadContactListNextPageParams(state);
+
+    const onSuccess = ({
+      entries, pagination,
+    }) => {
+      this.setNextPageLoadingState(false);
+      this.store.dispatch({
+        intent,
+        entries,
+        pagination,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setNextPageLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
+
+
+    this.integration.read({
+      intent,
+      urlParams,
+      params,
       onSuccess,
       onFailure,
     });

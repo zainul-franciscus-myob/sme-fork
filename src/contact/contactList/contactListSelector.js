@@ -61,6 +61,45 @@ export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
 export const getIsTableLoading = state => state.isTableLoading;
 
+export const getisNextPageLoading = state => state.isNextPageLoading;
+
 export const getIsLoading = state => state.isLoading;
 
 export const getShowHiddenColumns = state => state.showHiddenColumns;
+
+export const getLoadMoreButtonStatus = state => state.loadMoreButtonStatus;
+
+export const getOffset = state => state.pagination.offset;
+
+export const getLoadContactListParams = () => ({
+  offset: 0,
+});
+
+export const getSortContactListParams = state => getAppliedFilterOptions(state);
+
+export const getFilterContactListParams = (state) => {
+  const filterOptions = getFilterOptions(state);
+  const sortOrder = getSortOrder(state);
+  const orderBy = getOrderBy(state);
+
+  return {
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+    offset: 0,
+  };
+};
+
+export const getLoadContactListNextPageParams = (state) => {
+  const filterOptions = getFilterOptions(state);
+  const sortOrder = getSortOrder(state);
+  const orderBy = getOrderBy(state);
+  const offset = getOffset(state);
+
+  return {
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+    offset,
+  };
+};

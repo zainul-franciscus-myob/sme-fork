@@ -4,6 +4,7 @@ import {
   DELETE_CONTACT,
   LOAD_CONTACT_DETAIL,
   LOAD_CONTACT_LIST,
+  LOAD_CONTACT_LIST_NEXT_PAGE,
   LOAD_CONTACT_MODAL,
   LOAD_NEW_CONTACT,
   SORT_AND_FILTER_CONTACT_LIST,
@@ -18,6 +19,10 @@ const ContactListMapping = {
   [LOAD_CONTACT_LIST]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/contact/load_contact_list`,
+  },
+  [LOAD_CONTACT_LIST_NEXT_PAGE]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/contact/filter_contact_list`,
   },
   [LOAD_NEW_CONTACT]: {
     method: 'GET',

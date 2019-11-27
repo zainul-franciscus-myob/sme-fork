@@ -6,6 +6,9 @@ export const SET_TABLE_LOADING_STATE = Symbol('Set Table loading state');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
 export const SORT_AND_FILTER_CONTACT_LIST = Symbol('Sort and filter list of contacts');
 export const SET_SORT_ORDER = Symbol('Set sort order for contact list');
+export const LOAD_CONTACT_LIST_NEXT_PAGE = Symbol('Load contact list next page');
+export const SET_NEXT_PAGE_LOADING_STATE = Symbol('Set next page loading state');
+
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const LOAD_CONTACT_DETAIL = Symbol('Load an existing contact');
 export const LOAD_NEW_CONTACT = Symbol('Load a new contact');
