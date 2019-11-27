@@ -20,6 +20,7 @@ import DataImportExportMapping from './DataImportExportMapping';
 import DeductionPayItemMapping from './DeductionPayItemMapping';
 import ElectronicPaymentsMapping from './ElectronicPaymentsMapping';
 import EmployeeMapping from './EmployeeMapping';
+import EmployeeTransactionModalMapping from './EmployeeTransactionModalMapping';
 import ExpensePayItemMapping from './ExpensePayItemMapping';
 import GeneralJournalMapping from './GeneralJournalMapping';
 import HelpMapping from './HelpMapping';
@@ -113,6 +114,7 @@ const RootMapping = Object.freeze({
   ...DataImportExportMapping,
   ...ElectronicPaymentsMapping,
   ...CustomerStatementMapping,
+  ...EmployeeTransactionModalMapping,
 });
 
 export default RootMapping;

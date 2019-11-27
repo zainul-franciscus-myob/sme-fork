@@ -15,7 +15,6 @@ import {
   getModalEmployeeDetails,
 } from '../payRunDetailSelector';
 import { getIsLoading } from '../../payRunList/payRunListSelectors';
-import EmployeePayDetailModal from '../../components/EmployeePayDetailModal';
 import PageView from '../../../components/PageView/PageView';
 import PayRunDetailHeader from './PayRunDetailHeader';
 import PayRunEmployees from './PayRunEmployees';
@@ -27,14 +26,8 @@ const PayRunDetailView = ({
   printTabListeners,
   onBackButtonClick,
   onEmployeeNameClick,
-  onCancelButtonClick,
-  onDeleteButtonClick,
-  employeeDetails,
   modal,
-  isModalLoading,
-  deletePopoverIsOpen,
-  onDeletePopoverCancel,
-  onDeletePopoverDelete,
+  employeeTransactionModal,
   exportPdf,
 }) => {
   const employeeCard = (
@@ -60,18 +53,7 @@ const PayRunDetailView = ({
         </Button>
       </ButtonRow>
       {
-        modal
-        && (
-          <EmployeePayDetailModal
-            onBackButtonClick={onCancelButtonClick}
-            onDeleteButtonClick={onDeleteButtonClick}
-            employeeDetails={employeeDetails}
-            isLoading={isModalLoading}
-            onDeletePopoverCancel={onDeletePopoverCancel}
-            onDeletePopoverDelete={onDeletePopoverDelete}
-            deletePopoverIsOpen={deletePopoverIsOpen}
-          />
-        )
+        modal && employeeTransactionModal
       }
     </BaseTemplate>
   );
