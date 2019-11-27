@@ -5,10 +5,7 @@ import {
   ButtonRow,
   Card,
   DatePicker,
-  DetailHeader,
   FilterBar,
-  FormHorizontal,
-  Input,
   PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -31,13 +28,11 @@ import {
   getTotalPayment,
   getTransactionDescription,
 } from '../ElectronicPaymentsSelector';
-import AccountCombobox from '../../components/combobox/AccountCombobox';
+import ElectronicPaymentsDetailHeader from './ElectronicPaymentsDetailHeader';
 import ElectronicPaymentsTable from './ElectronicPaymentsTable';
 import PageView from '../../components/PageView/PageView';
 import RecordAndCreateFileModal from './RecordAndCreateFileModal';
-import handleComboboxChange from '../../components/handlers/handleComboboxChange';
-import handleDateChange from '../../components/handlers/handleDateChange';
-import handleInputChange from '../../components/handlers/handleInputChange';
+import styles from './ElectronicPayments.module.css';
 
 const ElectronicPaymentsView = ({
   alert,
@@ -75,67 +70,10 @@ const ElectronicPaymentsView = ({
     onUpdateFilterBarOptions({ filterName, value });
   };
 
-  const primary = (
-    <div>
-      <AccountCombobox
-        items={accounts}
-        selectedId={selectedAccountId}
-        onChange={handleComboboxChange('id', onAccountChange)}
-        label="Account *"
-        hideLabel={false}
-      />
-      <FormHorizontal>
-        <h5>
-          <span>
-            Balance
-          </span>
-          <span style={{ float: 'right' }}>
-            {balanceValue}
-          </span>
-        </h5>
-      </FormHorizontal>
-      <Input
-        name="transactionDescription"
-        label="Description of transaction"
-        value={transactionDescription}
-        onChange={handleInputChange(onInputChange)}
-      />
-    </div>
-  );
-
-  const secondary = (
-    <div>
-      <Input
-        name="referenceNumber"
-        label="Reference number *"
-        value={referenceNumber}
-        onChange={handleInputChange(onInputChange)}
-      />
-      <DatePicker
-        name="dateOfPayment"
-        label="Date of payment *"
-        value={dateOfPayment}
-        onSelect={handleDateChange('dateOfPayment', onInputChange)}
-      />
-      <Input
-        name="bankStatementDescription"
-        label="Description of your bank statement *"
-        value={bankStatementDescription}
-        onChange={handleInputChange(onInputChange)}
-      />
-    </div>
-  );
-
-  const totalPaymentStyle = {
-    paddingTop: '1.6rem',
-    paddingRight: '1.6rem',
-    textAlign: 'right',
-  };
-
   const totalPaymentFooter = (
-    <div style={totalPaymentStyle}>
+    <div className={styles.totalPaymentsFooter}>
       <h4>
-        <span style={{ paddingRight: '3rem' }}>Total payment</span>
+        <span className={styles.totalPaymentsFooterLabel}>Total payment</span>
         <span>{totalPayment}</span>
       </h4>
     </div>
@@ -176,7 +114,17 @@ const ElectronicPaymentsView = ({
       <Card
         footer={totalPaymentFooter}
       >
-        <DetailHeader primary={primary} secondary={secondary} />
+        <ElectronicPaymentsDetailHeader
+          accounts={accounts}
+          selectedAccountId={selectedAccountId}
+          onAccountChange={onAccountChange}
+          balanceValue={balanceValue}
+          onInputChange={onInputChange}
+          transactionDescription={transactionDescription}
+          referenceNumber={referenceNumber}
+          dateOfPayment={dateOfPayment}
+          bankStatementDescription={bankStatementDescription}
+        />
         <ElectronicPaymentsTable
           electronicPayments={electronicPayments}
           onSort={onSort}

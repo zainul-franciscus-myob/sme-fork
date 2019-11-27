@@ -5,7 +5,7 @@ import {
 } from '../../electronicPayments/ElectronicPaymentsIntents';
 import filterElectronicPaySummaryList from '../data/electronicPayments/filterElectronicPaySummaryList';
 import loadAccountsAndElectronicPayments from '../data/electronicPayments/loadAccountsAndElectronicPayments';
-import successResponse from '../data/success.json';
+import recordElectronicPaymentsAndDownloadBankFile from '../data/electronicPayments/recordElectronicPaymentsAndDownloadBankFile';
 
 const ElectronicPaymentsMapping = {
   [LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS]:
@@ -13,7 +13,7 @@ const ElectronicPaymentsMapping = {
   [SORT_AND_FILTER_ELECTRONIC_PAYMENTS]:
     ({ onSuccess }) => onSuccess(filterElectronicPaySummaryList),
   [RECORD_AND_DOWNLOAD_BANK_FILE]:
-    ({ onSuccess }) => onSuccess(successResponse),
+    ({ onSuccess }) => onSuccess(recordElectronicPaymentsAndDownloadBankFile),
 };
 
 export default ElectronicPaymentsMapping;

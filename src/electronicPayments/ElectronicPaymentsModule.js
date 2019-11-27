@@ -34,6 +34,29 @@ import Store from '../store/Store';
 import electronicPaymentReducer from './electronicPaymentsReducer';
 import formatIsoDate from '../valueFormatters/formatDate/formatIsoDate';
 
+const downloadAsFile = (content, filename) => {
+  /**
+   * This approach was implemented after discussions with both frontend and backend team
+   * members. Due to the significant amount of effort required for the backend team to decouple
+   * the 'record electronic payment' and 'download bank file' pieces of functionality. This
+   * method allows the bank file content to be passed through to the frontend as part of the
+   * 'record electronic payments' endpoint response.
+   *
+   * Unfortunately this is the only method which would allow both the file to be downloaded
+   * without user intervention and for the filename to be controlled.
+   */
+  const base64EncodedContent = btoa(content);
+  const dataURL = `data:application/octet-stream;charset=utf-8;base64,${base64EncodedContent}`;
+
+  const dataButton = document.createElement('a');
+  dataButton.setAttribute('download', filename);
+  dataButton.setAttribute('href', dataURL);
+
+  document.body.appendChild(dataButton);
+  dataButton.click();
+  document.body.removeChild(dataButton);
+};
+
 export default class ElectronicPaymentsModule {
   constructor({
     setRootView,
@@ -80,52 +103,38 @@ export default class ElectronicPaymentsModule {
     });
   }
 
-  applyFilter = () => {
-    this.filterEletronicPayments();
-  }
-
   filterEletronicPayments = () => {
     const state = this.store.getState();
     const filterOptions = getFilterOptions(state);
 
     this.fetchElectronicPayments({
       filterOptions,
-      isSort: false,
     });
     this.updateAppliedFilterOptions(filterOptions);
   }
 
-  fetchElectronicPayments = ({ filterOptions, isSort }) => {
+  fetchElectronicPayments = ({ filterOptions }) => {
     this.setIsTableLoading(true);
     const state = this.store.getState();
     const intent = SORT_AND_FILTER_ELECTRONIC_PAYMENTS;
     const urlParams = {
       businessId: getBusinessId(state),
     };
-    const onSuccess = ({ entries, sortOrder }) => {
+    const onSuccess = ({ entries }) => {
       this.store.dispatch({
         intent,
         entries,
-        isSort,
-        sortOrder,
       });
       this.setIsTableLoading(false);
     };
     const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
-
-    let sortOrder;
-    if (isSort) {
-      sortOrder = getSortOrder(state) === 'desc' ? 'asc' : 'desc';
-    } else {
-      sortOrder = getSortOrder(state);
-    }
 
     this.integration.read({
       intent,
       urlParams,
       params: {
         ...filterOptions,
-        sortOrder,
+        sortOrder: getSortOrder(state),
         orderBy: getOrderBy(state),
       },
       onSuccess,
@@ -138,6 +147,11 @@ export default class ElectronicPaymentsModule {
       intent: UPDATE_APPLIED_FILTER_OPTIONS,
       filterOptions,
     });
+  }
+
+  getFirstAccountId = (accounts) => {
+    const firstAccountId = accounts && accounts[0] && accounts[0].id;
+    return firstAccountId;
   }
 
   loadAccountsAndElectronicPayments = () => {
@@ -155,8 +169,7 @@ export default class ElectronicPaymentsModule {
         response,
       });
 
-      const firstAccountId = response && response.accounts
-        && response.accounts[0] && response.accounts[0].id;
+      const firstAccountId = this.getFirstAccountId(response && response.accounts);
       this.store.dispatch({
         intent: UPDATE_SELECTED_ACCOUNT_ID,
         value: firstAccountId,
@@ -198,7 +211,6 @@ export default class ElectronicPaymentsModule {
 
     this.fetchElectronicPayments({
       filterOptions,
-      isSort: true,
     });
   }
 
@@ -207,11 +219,17 @@ export default class ElectronicPaymentsModule {
     const intent = RECORD_AND_DOWNLOAD_BANK_FILE;
     this.closeModal();
     const content = getRecordAndDownloadBankFileContent(state);
-    const onSuccess = ({ message }) => {
+    const onSuccess = (response) => {
+      downloadAsFile(
+        response.content,
+        response.filename,
+      );
+
       this.setAlert({
         type: 'success',
-        message,
+        message: response.message,
       });
+      this.filterEletronicPayments();
     };
 
     const onFailure = ({ message }) => {
@@ -221,8 +239,13 @@ export default class ElectronicPaymentsModule {
       });
     };
 
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
     this.integration.write({
       intent,
+      urlParams,
       content,
       onSuccess,
       onFailure,
@@ -278,7 +301,7 @@ export default class ElectronicPaymentsModule {
     const view = (
       <ElectronicPaymentsView
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
-        onApplyFilter={this.applyFilter}
+        onApplyFilter={this.filterEletronicPayments}
         onAccountChange={this.updateSelectedAccountId}
         selectAll={this.selectAll}
         selectItem={this.selectItem}

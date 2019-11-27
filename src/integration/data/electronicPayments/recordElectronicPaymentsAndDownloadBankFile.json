@@ -1,0 +1,5 @@
+{
+  "message": "Payment recorded and bank file created! Upload the bank file to your bank to make payments.",
+  "content": "0                 01NAB       CLEARWATER PTY LTD        000123PAYMENT     220819                                        \n1062-123123456789 500000012535BANK                                              062-001987654321CLEARWATER PTY  00000000\n7999-999            000001253500000125350000000000                        000001                                        ",
+  "filename": "electronic-payment.ABA"
+}

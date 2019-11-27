@@ -2,28 +2,26 @@
   "entries":
   [
     {
-      "id": 3,
-      "date": "06/12/2018",
-      "referenceNumber": "25",
-      "name": "Adora Starchild",
-      "paymentType": "Pay employees",
-      "amount": 828.55
-   },
-   {
       "id": 2,
       "date": "05/12/2018",
       "referenceNumber": "24",
       "name": "Eliza Fuller",
-      "paymentType": "Pay employees",
-      "amount": 828.55
+      "paymentTypeDisplay": "Pay employees",
+      "paymentType": "PayEmployees",
+      "amount": 828.55,
+      "accountId": 2,
+      "businessEventId": 2
    },
    {
-    "id": 1,
-    "date": "02/12/2018",
-    "referenceNumber": "23",
-    "name": "Leonard Dunn",
-    "paymentType": "Pay employees",
-    "amount": 408.05
-    }
+      "id": 1,
+      "date": "02/12/2018",
+      "referenceNumber": "23",
+      "name": "Leonard Dunn",
+      "paymentTypeDisplay": "Pay employees",
+      "paymentType": "PayEmployees",
+      "amount": 408.05,
+      "accountId": 1,
+      "businessEventId": 1
+   }
   ]
 }
