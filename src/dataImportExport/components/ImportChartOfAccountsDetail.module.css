@@ -1,0 +1,22 @@
+/** @Feelix-Override:
+  To achieve the height that design wants for the FileChip
+*/
+.importFile :global(.flx-chip.flx-chip--file) {
+  padding: 0.8rem;
+}
+
+/**
+  The value 33.1866197183% is to allow the component to be aligned with the right side of the label within
+  the FormHorizontal, but at the same time extend its width to the rest of the width of the form - unlike
+  other form elements which only extend to half of the rest of the form width as per FormHorizontal layout=primary
+  behaviour. This behaviour is desired by design.
+ */
+@media (min-width: 768px) {
+  .importFile {
+    margin-left: 33.1866197183%;
+  }
+
+  .importInfoAlert {
+    margin-left: 33.1866197183%;
+  }
+}

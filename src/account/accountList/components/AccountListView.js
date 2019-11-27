@@ -1,5 +1,5 @@
 import {
-  Alert, PageHead, StandardTemplate,
+  Alert, ButtonRow, PageHead, Separator, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -26,6 +26,7 @@ const AccountListView = ({
   onTabSelect,
   onEditLinkedAccountButtonClick,
   onCreateAccountButtonClick,
+  onImportChartOfAccountsClick,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -35,8 +36,12 @@ const AccountListView = ({
 
   const pageHead = (
     <PageHead title="Accounts">
-      <Button type="secondary" onClick={onEditLinkedAccountButtonClick}>Edit linked accounts</Button>
-      <Button type="primary" onClick={onCreateAccountButtonClick}>Create account</Button>
+      <ButtonRow>
+        <Button type="secondary" onClick={onEditLinkedAccountButtonClick}>Edit linked accounts</Button>
+        <Separator direction="vertical" />
+        <Button type="secondary" onClick={onImportChartOfAccountsClick}>Import chart of accounts</Button>
+        <Button type="primary" onClick={onCreateAccountButtonClick}>Create account</Button>
+      </ButtonRow>
     </PageHead>
   );
 

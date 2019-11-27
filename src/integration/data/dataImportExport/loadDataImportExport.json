@@ -1,0 +1,78 @@
+{
+  "import": {
+    "dataTypes": [
+      {
+        "name": "Chart of accounts",
+        "value": "chartOfAccounts"
+      }
+    ],
+    "chartOfAccounts": {
+      "duplicateRecordsOptions": [
+        {
+          "name": "Update existing data",
+          "value": "UpdateExisting"
+        },
+        {
+          "name": "Reject duplicates",
+          "value": "Reject"
+        }
+      ]
+    }
+  },
+  "export": {
+    "dataTypes": [
+      {
+        "name": "Chart of accounts",
+        "value": "chartOfAccounts"
+      }
+    ],
+    "chartOfAccounts": {
+      "financialYears": [
+        {
+          "name": "This year (FY 2019)",
+          "value": "2019-07-01"
+        },
+        {
+          "name": "Last year (FY 2018)",
+          "value": "2018-07-01"
+        },
+        {
+          "name": "FY 2017",
+          "value": "2017-07-01"
+        },
+        {
+          "name": "FY 2016",
+          "value": "2016-07-01"
+        },
+        {
+          "name": "FY 2015",
+          "value": "2015-07-01"
+        },
+        {
+          "name": "FY 2014",
+          "value": "2014-07-01"
+        },
+        {
+          "name": "FY 2013",
+          "value": "2013-07-01"
+        }
+      ],
+      "financialYear": "2019-07-01",
+      "accountBalanceTransactionOptions": [
+        {
+          "name": "All transactions",
+          "value": "All"
+        },
+        {
+          "name": "Exclude year end adjustments",
+          "value": "NonYearEndAdjustment"
+        },
+        {
+          "name": "Year end adjustments only",
+          "value": "YearEndAdjustment"
+        }
+      ],
+      "accountBalanceTransaction": "All"
+    }
+  }
+}

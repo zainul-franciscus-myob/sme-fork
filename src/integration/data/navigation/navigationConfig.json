@@ -37,6 +37,7 @@
     "accountList",
     "reports",
     "bankFeeds",
+    "dataImportExport",
     "customerStatementList"
   ],
   "isReadOnly": true

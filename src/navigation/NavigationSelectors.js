@@ -130,6 +130,7 @@ export const getBusinessUrls = createSelector(
     incomeAllocation: enabledUrls.incomeAllocation,
     businessDetails: enabledUrls.businessDetails,
     taxList: enabledUrls.taxList,
+    dataImportExport: enabledUrls.dataImportExport,
     userList: enabledUrls.userList,
     salesSettings: enabledUrls.salesSettings,
     prepareBasOrIas: enabledUrls.prepareBasOrIas,

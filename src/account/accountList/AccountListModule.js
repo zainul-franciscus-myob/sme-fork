@@ -7,7 +7,9 @@ import {
   SUCCESSFULLY_DELETED_ACCOUNT,
   SUCCESSFULLY_SAVED_ACCOUNT,
 } from '../AccountMessageTypes';
-import { getAppliedFilterOptions, getLinkedAccountUrl, getNewAccountUrl } from './AccountListSelectors';
+import {
+  getAppliedFilterOptions, getImportChartOfAccountsUrl, getLinkedAccountUrl, getNewAccountUrl,
+} from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import AccountListView from './components/AccountListView';
 import Store from '../../store/Store';
@@ -69,6 +71,10 @@ export default class AccountListModule {
     window.location.href = getLinkedAccountUrl(this.store.getState());
   }
 
+  redirectToImportChartOfAccounts = () => {
+    window.location.href = getImportChartOfAccountsUrl(this.store.getState());
+  }
+
   redirectToNewAccount= () => {
     window.location.href = getNewAccountUrl(this.store.getState());
   }
@@ -81,6 +87,7 @@ export default class AccountListModule {
         onApplyFilter={this.filterAccountList}
         onTabSelect={this.setTab}
         onEditLinkedAccountButtonClick={this.redirectToLinkedAccounts}
+        onImportChartOfAccountsClick={this.redirectToImportChartOfAccounts}
         onCreateAccountButtonClick={this.redirectToNewAccount}
       />
     );

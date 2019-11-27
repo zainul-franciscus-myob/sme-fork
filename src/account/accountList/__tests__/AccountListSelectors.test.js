@@ -1,4 +1,4 @@
-import { getTableEntries } from '../AccountListSelectors';
+import { getImportChartOfAccountsUrl, getTableEntries } from '../AccountListSelectors';
 
 describe('AccountListSelectors', () => {
   describe('getTableEntries', () => {
@@ -18,6 +18,19 @@ describe('AccountListSelectors', () => {
       ];
 
       const actual = getTableEntries.resultFunc(entries);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getImportChartOfAccountsUrl', () => {
+    it('should return the url to the Import/Export data page where chartOfAccounts is defaulted for both import and export', () => {
+      const state = {
+        businessId: 'abc',
+        region: 'au',
+      };
+      const actual = getImportChartOfAccountsUrl(state);
+      const expected = '/#/au/abc/dataImportExport?importType=chartOfAccounts&exportType=chartOfAccounts';
 
       expect(actual).toEqual(expected);
     });

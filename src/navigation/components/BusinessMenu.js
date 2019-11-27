@@ -44,6 +44,7 @@ const getItems = ({
   urls.businessDetails && getMenuLink(urls.businessDetails, 'Business details', onMenuLinkClick),
   urls.incomeAllocation && getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
   urls.taxList && getMenuLink(urls.taxList, taxCodesLabel, onMenuLinkClick),
+  urls.dataImportExport && getMenuLink(urls.dataImportExport, 'Import/Export data', onMenuLinkClick),
   urls.userList && getMenuLink(urls.userList, 'Users', onMenuLinkClick),
   urls.salesSettings && getMenuLink(urls.salesSettings, 'Invoice and quote settings', onMenuLinkClick),
   urls.prepareBasOrIas && getMenuLink(urls.prepareBasOrIas, prepareBasOrIasLabel, onMenuLinkClick),

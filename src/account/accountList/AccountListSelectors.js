@@ -60,3 +60,10 @@ export const getNewAccountUrl = (state) => {
 
   return `/#/${region}/${businessId}/account/new`;
 };
+
+export const getImportChartOfAccountsUrl = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/dataImportExport?importType=chartOfAccounts&exportType=chartOfAccounts`;
+};

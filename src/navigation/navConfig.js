@@ -49,6 +49,7 @@ export const activeMapping = {
   'bankingRule/bankingRuleBill': 'banking',
   'account/accountList': 'business',
   'bankFeeds/bankFeeds': 'business',
+  'dataImportExport/dataImportExport': 'business',
 };
 
 export const featuresConfig = {
@@ -177,6 +178,9 @@ export const featuresConfig = {
   },
   bankFeeds: {
     routeName: 'bankFeeds/bankFeeds',
+  },
+  dataImportExport: {
+    routeName: 'dataImportExport/dataImportExport',
   },
   customerStatementList: {
     routeName: 'customerStatement/customerStatementList',

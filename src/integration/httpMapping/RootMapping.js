@@ -16,6 +16,7 @@ import ContactMapping from './ContactMapping';
 import CustomerReturnMapping from './CustomerReturnMapping';
 import CustomerStatementMapping from './CustomerStatementMapping';
 import DashboardMapping from './DashboardMapping';
+import DataImportExportMapping from './DataImportExportMapping';
 import DeductionPayItemMapping from './DeductionPayItemMapping';
 import ElectronicPaymentsMapping from './ElectronicPaymentsMapping';
 import EmployeeMapping from './EmployeeMapping';
@@ -108,6 +109,7 @@ const RootMapping = Object.freeze({
   ...InventoryModalMapping,
   ...PayRunDetailMapping,
   ...BankFeedsMapping,
+  ...DataImportExportMapping,
   ...ElectronicPaymentsMapping,
   ...CustomerStatementMapping,
 });
