@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getFilterOptions, getSourceJournalFilterOptions } from '../transactionListSelectors';
+import { getFilterOptions, getSourceJournalFilterOptions } from '../journalTransactionListSelectors';
 
-class TransactionListFilterOptions extends React.Component {
+class JournalTransactionListFilterOptions extends React.Component {
   onDatePickerChange = filterName => ({ value }) => {
     const { onUpdateFilters } = this.props;
     onUpdateFilters({ filterName, value });
@@ -43,22 +43,22 @@ class TransactionListFilterOptions extends React.Component {
 
     return (
       <FilterBar onApply={onApplyFilter}>
+        <FilterBar.Group>
+          <DatePicker label="From" name="dateFrom" value={dateFrom} onSelect={this.onDatePickerChange('dateFrom')} />
+          <DatePicker label="To" name="dateTo" value={dateTo} onSelect={this.onDatePickerChange('dateTo')} />
+        </FilterBar.Group>
         <Select name="SourceJournal" label="Source Journal" value={sourceJournal} onChange={this.onSelectChange}>
           {sourceJournalFilterOptions.map(({ label, value }) => (
             <Select.Option value={value} label={label} key={value} />
           ))}
         </Select>
-        <FilterBar.Group>
-          <DatePicker label="From" name="dateFrom" value={dateFrom} onSelect={this.onDatePickerChange('dateFrom')} />
-          <DatePicker label="To" name="dateTo" value={dateTo} onSelect={this.onDatePickerChange('dateTo')} />
-        </FilterBar.Group>
         <Search label="Description" name="description" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
       </FilterBar>
     );
   }
 }
 
-TransactionListFilterOptions.propTypes = {
+JournalTransactionListFilterOptions.propTypes = {
   onApplyFilter: PropTypes.func.isRequired,
   onUpdateFilters: PropTypes.func.isRequired,
   filterOptions: PropTypes.shape({}).isRequired,
@@ -70,4 +70,4 @@ const mapStateToProps = state => ({
   sourceJournalFilterOptions: getSourceJournalFilterOptions(state),
 });
 
-export default connect(mapStateToProps)(TransactionListFilterOptions);
+export default connect(mapStateToProps)(JournalTransactionListFilterOptions);

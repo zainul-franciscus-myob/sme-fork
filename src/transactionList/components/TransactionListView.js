@@ -1,39 +1,27 @@
 import {
-  Alert, StandardTemplate,
+  Alert,
+  PageHead,
+  Tabs,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getAlert, getIsLoading,
-} from '../transactionListSelectors';
-import PageView from '../../components/PageView/PageView';
-import TransactionListFilterOptions from './TransactionListFilterOptions';
-import TransactionListPageHead from './TransactionListPageHead';
-import TransactionListTable from './TransactionListTable';
-import style from './TransactionListView.module.css';
+import { getActiveTab, getAlert } from '../transactionListSelectors';
+import { tabItems } from '../tabItems';
 
-const TransactionListView = (props) => {
-  const {
-    isLoading,
-    alert,
-    onUpdateFilters,
-    onApplyFilter,
-    onSort,
-    onAddTransaction,
-    onDismissAlert,
-  } = props;
-
-  const filterBar = (
-    <TransactionListFilterOptions
-      onUpdateFilters={onUpdateFilters}
-      onApplyFilter={onApplyFilter}
-    />
-  );
-
-  const pageHead = (
-    <TransactionListPageHead
-      onAddTransaction={onAddTransaction}
+const TransactionListView = ({
+  tabViews,
+  selectedTab,
+  onTabSelected,
+  alert,
+  onDismissAlert,
+  pageHeadTitle,
+}) => {
+  const tabs = (
+    <Tabs
+      items={tabItems}
+      selected={selectedTab}
+      onSelected={onTabSelected}
     />
   );
 
@@ -43,22 +31,16 @@ const TransactionListView = (props) => {
     </Alert>
   );
 
-  const transactionListView = (
-    <StandardTemplate alert={alertComponent} pageHead={pageHead} filterBar={filterBar} sticky="none">
-      <div className={style.list}>
-        <TransactionListTable
-          onSort={onSort}
-        />
-      </div>
-    </StandardTemplate>
+  const pageHead = (
+    <PageHead title={pageHeadTitle} />
   );
 
-  return <PageView isLoading={isLoading} view={transactionListView} />;
+  return tabViews[selectedTab].getView({ pageHead, alert: alertComponent, subHead: tabs });
 };
 
 const mapStateToProps = state => ({
+  selectedTab: getActiveTab(state),
   alert: getAlert(state),
-  isLoading: getIsLoading(state),
 });
 
 export default connect(mapStateToProps)(TransactionListView);

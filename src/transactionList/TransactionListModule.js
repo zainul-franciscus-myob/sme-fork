@@ -2,18 +2,10 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  LOAD_TRANSACTION_LIST,
-  SET_ALERT,
-  SET_LOADING_STATE,
-  SET_SORT_ORDER,
-  SET_TABLE_LOADING_STATE,
-  SORT_AND_FILTER_TRANSACTION_LIST,
-  UPDATE_FILTER_OPTIONS,
-} from './TransactionListIntents';
-import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../SystemIntents';
+import { SET_ALERT, SET_TAB } from './TransactionListIntents';
 import { SUCCESSFULLY_DELETED_APPLY_TO_SALE } from '../applyToSale/ApplyToSaleMessageType';
 import { SUCCESSFULLY_DELETED_BILL_PAYMENT, SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../billPayment/BillPaymentMessageTypes';
 import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../generalJournal/GeneralJournalMessageTypes';
@@ -24,16 +16,8 @@ import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } 
 import { SUCCESSFULLY_DELETED_RECEIVE_REFUND } from '../receiveRefund/ReceiveRefundMessageTypes';
 import { SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY } from '../spendMoney/spendMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoney/transferMoneyMessageTypes';
-import {
-  getAppliedFilterOptions,
-  getBusinessId,
-  getFilterOptions,
-  getFlipSortOrder,
-  getOrderBy,
-  getRegion,
-  getSortOrder,
-  getURLParams,
-} from './transactionListSelectors';
+import { tabItemIds } from './tabItems';
+import JournalTransactionModule from './journalTransaction/JournalTransactionModule';
 import Store from '../store/Store';
 import TransactionListView from './components/TransactionListView';
 import transactionListReducer from './transactionListReducer';
@@ -59,152 +43,22 @@ export default class TransactionListModule {
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
     this.replaceURLParams = replaceURLParams;
+    this.subModules = {
+      [tabItemIds.journal]: new JournalTransactionModule({
+        integration,
+        setAlert: this.setAlert,
+        store: this.store,
+        replaceURLParams,
+      }),
+    };
   }
-
-  render = () => {
-    const transactionListView = (
-      <TransactionListView
-        onUpdateFilters={this.updateFilterOptions}
-        onApplyFilter={this.filterTransactionList}
-        onSort={this.sortTransactionList}
-        onDismissAlert={this.dismissAlert}
-        onAddTransaction={this.redirectToAddTransaction}
-      />
-    );
-
-    const wrappedView = (
-      <Provider store={this.store}>
-        {transactionListView}
-      </Provider>
-    );
-    this.setRootView(wrappedView);
-  };
-
-  loadTransactionList = () => {
-    const state = this.store.getState();
-
-    const intent = LOAD_TRANSACTION_LIST;
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const onSuccess = (response) => {
-      this.setLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...response,
-      });
-    };
-
-    const onFailure = () => {
-      console.log('Failed to load transaction list entries');
-    };
-
-    const filterOptions = getFilterOptions(state);
-
-    this.integration.read({
-      intent,
-      params: {
-        ...filterOptions,
-      },
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  filterTransactionList = () => {
-    const state = this.store.getState();
-    this.setTableLoadingState(true);
-
-    const intent = SORT_AND_FILTER_TRANSACTION_LIST;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const onSuccess = ({ entries, sortOrder }) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        entries,
-        isSort: false,
-        sortOrder,
-      });
-    };
-
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
-
-    const filterOptions = getFilterOptions(state);
-    const sortOrder = getSortOrder(state);
-
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder,
-      },
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  setSortOrder = (orderBy, newSortOrder) => {
-    this.store.dispatch({
-      intent: SET_SORT_ORDER,
-      sortOrder: newSortOrder,
-      orderBy,
-    });
-  };
-
-  sortTransactionList = (orderBy) => {
-    const state = this.store.getState();
-    this.setTableLoadingState(true);
-
-    const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
-    this.setSortOrder(orderBy, newSortOrder);
-
-    const intent = SORT_AND_FILTER_TRANSACTION_LIST;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const onSuccess = ({ entries, sortOrder }) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        entries,
-        isSort: true,
-        sortOrder,
-      });
-    };
-
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
-
-    const filterOptions = getAppliedFilterOptions(state);
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: newSortOrder,
-        orderBy,
-      },
-      onSuccess,
-      onFailure,
-    });
-  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
-
     if (successMessage) {
       const {
         content: message,
       } = successMessage;
-
       this.setAlert({
         type: 'success',
         message,
@@ -223,78 +77,47 @@ export default class TransactionListModule {
     });
   }
 
-  redirectToAddTransaction = (transactionType) => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
+  setTab = (tabId) => {
+    const intent = SET_TAB;
+    this.store.dispatch({
+      intent,
+      tabId,
+    });
+  }
 
-    window.location.href = `/#/${region}/${businessId}/${transactionType}/new`;
+  setInitialState = (context) => {
+    const intent = SET_INITIAL_STATE;
+
+    this.store.dispatch({
+      intent,
+      context,
+    });
+  }
+
+  render = () => {
+    const wrappedView = (
+      <Provider store={this.store}>
+        <TransactionListView
+          tabViews={this.subModules}
+          onTabSelected={this.setTab}
+          pageHeadTitle="Find transactions"
+        />
+      </Provider>
+    );
+    this.setRootView(wrappedView);
   };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
 
-  setLoadingState = (isLoading) => {
-    const intent = SET_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
-  };
-
-  setTableLoadingState = (isTableLoading) => {
-    const intent = SET_TABLE_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isTableLoading,
-    });
-  };
-
-  updateFilterOptions = ({ filterName, value }) => {
-    const intent = UPDATE_FILTER_OPTIONS;
-    this.store.dispatch({
-      intent,
-      filterName,
-      value,
-    });
-  };
-
-  dismissAlert = () => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: undefined,
-    });
-  };
-
-  setInitialState = (context) => {
-    const intent = SET_INITIAL_STATE;
-
-    const {
-      sourceJournal = '',
-      ...rest
-    } = context;
-
-    this.store.dispatch({
-      intent,
-      sourceJournal,
-      context: rest,
-    });
-  }
-
-  updateURLFromState = (state) => {
-    const params = getURLParams(state);
-    this.replaceURLParams(params);
-  }
-
   run(context) {
     this.setInitialState(context);
     this.render();
     this.readMessages();
-    this.setLoadingState(true);
-    this.loadTransactionList();
-    this.store.subscribe(this.updateURLFromState);
+    Object.values(this.subModules).forEach(
+      subModule => subModule.run(context),
+    );
   }
 
   resetState() {

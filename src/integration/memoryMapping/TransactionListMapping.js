@@ -1,7 +1,7 @@
 import {
   LOAD_TRANSACTION_LIST,
   SORT_AND_FILTER_TRANSACTION_LIST,
-} from '../../transactionList/TransactionListIntents';
+} from '../../transactionList/journalTransaction/JournalTransactionListIntents';
 import transactionListFilterResponse from '../data/transactionList/filterTransactionList.json';
 import transactionListLoadResponse from '../data/transactionList/loadTransactionList.json';
 

@@ -2,6 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { tabItemIds } from '../../tabItems';
+import JournalTransactionListView from '../../journalTransaction/components/JournalTransactionListView';
 import Store from '../../../store/Store';
 import TrasnactionListView from '../TransactionListView';
 import transactionListReducer from '../../transactionListReducer';
@@ -21,6 +23,13 @@ describe('TransactionListView', () => {
           onDismissAlert={() => {}}
           onCreateNewEntry={() => {}}
           onAddTransaction={() => {}}
+          tabViews={{
+            [tabItemIds.journal]: {
+              getView() {
+                return <JournalTransactionListView />;
+              },
+            },
+          }}
         />
       </Provider>
     );

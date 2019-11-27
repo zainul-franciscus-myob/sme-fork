@@ -3,11 +3,11 @@ import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTableEntries } from '../transactionListSelectors';
+import { getTableEntries } from '../journalTransactionListSelectors';
 
 /* eslint-disable react/no-array-index-key */
 
-const TransactionListTableBody = (props) => {
+const JournalTransactionListTableBody = (props) => {
   const {
     tableConfig,
     entries,
@@ -32,7 +32,7 @@ const TransactionListTableBody = (props) => {
   );
 };
 
-TransactionListTableBody.propTypes = {
+JournalTransactionListTableBody.propTypes = {
   tableConfig: PropTypes.shape({}).isRequired,
   entries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
@@ -41,4 +41,4 @@ const mapStateToProps = state => ({
   entries: getTableEntries(state),
 });
 
-export default connect(mapStateToProps)(TransactionListTableBody);
+export default connect(mapStateToProps)(JournalTransactionListTableBody);

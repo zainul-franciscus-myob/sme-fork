@@ -1,9 +1,14 @@
 import {
   UPDATE_FILTER_OPTIONS,
-} from '../TransactionListIntents';
-import transactionListReducer from '../transactionListReducer';
+} from '../JournalTransactionListIntents';
+import createReducer from '../../../store/createReducer';
+import getDefaultState from '../getDefaultState';
+import reducerHandlers from '../journalTransactionListReducer';
+
 
 describe('transactionListReducer', () => {
+  const journalTransactionListReducer = createReducer(getDefaultState(), reducerHandlers);
+
   describe('filterOptions', () => {
     it('can update state with Date Strings when dates change in the filter options', () => {
       const state = {
@@ -26,7 +31,7 @@ describe('transactionListReducer', () => {
         },
       };
 
-      const actual = transactionListReducer(state, action);
+      const actual = journalTransactionListReducer(state, action);
 
       expect(actual).toEqual(expected);
     });
@@ -54,7 +59,7 @@ describe('transactionListReducer', () => {
         },
       };
 
-      const actual = transactionListReducer(state, action);
+      const actual = journalTransactionListReducer(state, action);
       expect(actual).toEqual(expected);
     });
   });

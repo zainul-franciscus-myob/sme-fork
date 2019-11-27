@@ -1,7 +1,7 @@
 import {
   LOAD_TRANSACTION_LIST,
   SORT_AND_FILTER_TRANSACTION_LIST,
-} from '../../transactionList/TransactionListIntents';
+} from '../../transactionList/journalTransaction/JournalTransactionListIntents';
 
 const TransactionListMapping = {
   [SORT_AND_FILTER_TRANSACTION_LIST]: {
