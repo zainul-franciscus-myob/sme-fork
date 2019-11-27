@@ -5,6 +5,7 @@ import React from 'react';
 import { getIsDetailLoading, getIsEmpty } from '../../selectors/DashboardTrackingSelectors';
 import DashboardTrackingChart from './DashboardTrackingChart';
 import DashboardTrackingLegend from './DashboardTrackingLegend';
+import emptyStateImage from './tracking-empty-state.svg';
 import styles from './DashboardTrackingDetail.module.css';
 
 const DashboardTrackingDetail = ({
@@ -17,9 +18,13 @@ const DashboardTrackingDetail = ({
 
   if (isEmpty) {
     return (
-      <PageState
-        description="See how your business is performing with income, expenses and profit at a glance."
-      />
+      <div className={styles.empty}>
+        <PageState
+          title="No information to show"
+          description="Try selecting a different financial year,  or start entering transactions for the selected year."
+          image={<img src={emptyStateImage} style={{ width: '50%' }} alt="No information to show" />}
+        />
+      </div>
     );
   }
 

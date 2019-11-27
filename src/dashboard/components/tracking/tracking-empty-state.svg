@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="99px" height="94px" viewBox="0 0 99 94" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Slice 1</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="illustration/product/device/48-chart-graph">
+            <g id="Group-4">
+                <path d="M99,89.5007347 C99,91.984 76.8384084,94 49.5,94 C22.1631968,94 0,91.984 0,89.5007347 C0,87.016 22.1631968,85 49.5,85 C76.8384084,85 99,87.016 99,89.5007347" id="Fill-1" fill="#F3F4F5"></path>
+                <polygon id="Fill-4" fill="#DCDFE1" points="5 62 94 62 94 0 5 0"></polygon>
+                <line x1="50" y1="63" x2="50" y2="90" id="Stroke-5" stroke="#DCDFE1" stroke-width="3.20000005" stroke-linecap="round" stroke-linejoin="round"></line>
+                <polyline id="Stroke-7" stroke="#DCDFE1" stroke-width="3.20000005" stroke-linecap="round" stroke-linejoin="round" points="23 90 49.9984061 63 77 90"></polyline>
+                <polygon id="Fill-10" fill="#ED0677" points="26 51 37 51 37 43 26 43"></polygon>
+                <polygon id="Fill-11" fill="#969EA7" points="38 51 49 51 49 32 38 32"></polygon>
+                <polygon id="Fill-12" fill="#ED0677" points="51 51 62 51 62 37 51 37"></polygon>
+                <polygon id="Fill-13" fill="#969EA7" points="64 51 75 51 75 24 64 24"></polygon>
+                <path d="M32,30.5008781 C32,31.8812785 30.8812785,33 29.4991219,33 C28.1204777,33 27,31.8812785 27,30.5008781 C27,29.1187215 28.1204777,28 29.4991219,28 C30.8812785,28 32,29.1187215 32,30.5008781" id="Fill-14" fill="#ED0677"></path>
+                <path d="M44,19.4991219 C44,20.8795223 42.8812785,22 41.4991219,22 C40.1204777,22 39,20.8795223 39,19.4991219 C39,18.1187215 40.1204777,17 41.4991219,17 C42.8812785,17 44,18.1187215 44,19.4991219" id="Fill-16" fill="#ED0677"></path>
+                <path d="M59,24.4991219 C59,25.8795223 57.8812785,27 56.5008781,27 C55.1204777,27 54,25.8795223 54,24.4991219 C54,23.1187215 55.1204777,22 56.5008781,22 C57.8812785,22 59,23.1187215 59,24.4991219" id="Fill-18" fill="#ED0677"></path>
+                <path d="M72,8.49912188 C72,9.8795223 70.8812785,11 69.5008781,11 C68.1204777,11 67,9.8795223 67,8.49912188 C67,7.11872146 68.1204777,6 69.5008781,6 C70.8812785,6 72,7.11872146 72,8.49912188" id="Fill-20" fill="#ED0677"></path>
+                <polyline id="Stroke-22" stroke="#ED0677" stroke-width="1.44000002" stroke-linecap="round" stroke-linejoin="round" points="30 30 41.2485352 19.6303711 56.6289063 24.8151855 69.8999023 8.625"></polyline>
+                <line x1="16" y1="51" x2="84" y2="51" id="Stroke-28" stroke="#969EA7" stroke-width="1.60000002" stroke-linecap="round" stroke-linejoin="round"></line>
+            </g>
+        </g>
+    </g>
+</svg>
