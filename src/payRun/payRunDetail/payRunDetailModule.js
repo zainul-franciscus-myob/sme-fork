@@ -5,22 +5,20 @@ import {
   CLOSE_MODAL,
   EMAIL_TAB_SELECT_ALL,
   EMAIL_TAB_SELECT_ITEM,
+  LOAD_EMPLOYEE_PAY_DETAIL,
   LOAD_PAY_RUN_DETAILS,
   OPEN_MODAL,
   PRINT_TAB_SELECT_ALL,
   PRINT_TAB_SELECT_ITEM,
+  SET_DELETE_POPOVER_IS_OPEN,
+  SET_IS_MODAL_LOADING,
   SET_LOADING_STATE,
+  SET_MODAL_EMPLOYEE_DETAILS,
   SET_TAB,
 } from './payRunDetailIntents';
 import { EXPORT_TRANSACTION_PDF } from '../payRunIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import {
-  getBusinessId,
-  getModalContext,
-  getPayRunListUrl,
-  getUrlParams,
-} from './payRunDetailSelector';
-import EmployeeTransactionModalModule from '../../sharedSubModules/employeeTransactionModal/EmployeeTransactionModalModule';
+import { getBusinessId, getPayRunListUrl, getUrlParams } from './payRunDetailSelector';
 import PayRunDetailView from './components/payRunDetailView';
 import Store from '../../store/Store';
 import openBlob from '../../blobOpener/openBlob';
@@ -33,20 +31,11 @@ export default class PayRunDetailModule {
     this.integration = integration;
     this.store = new Store(payRunDetailReducer);
     this.setRootView = setRootView;
-    this.subModules = {
-      employeePayModal: new EmployeeTransactionModalModule({
-        integration,
-        store: this.store,
-      }),
-    };
   }
 
   render = () => {
-    const employeePayModalView = this.subModules.employeePayModal.getView(this.hidePayDetailModal);
-
     const payRunDetailView = (
       <PayRunDetailView
-        employeeTransactionModal={employeePayModalView}
         setSelectedTab={this.setSelectedTab}
         emailTabListeners={{
           selectAll: this.emailTabSelectAll,
@@ -59,6 +48,8 @@ export default class PayRunDetailModule {
         onCancelButtonClick={this.hidePayDetailModal}
         onBackButtonClick={this.redirectToPayRunList}
         onEmployeeNameClick={this.openPayDetailModal}
+        onDeletePopoverCancel={this.closeDeletePopover}
+        onDeleteButtonClick={this.openDeletePopover}
         exportPdf={this.exportPdf}
       />
     );
@@ -115,11 +106,58 @@ export default class PayRunDetailModule {
   }
 
   openPayDetailModal = (transactionId, employeeName) => {
-    const state = this.store.getState();
-    const modalContext = getModalContext({ state, transactionId, employeeName });
-    this.subModules.employeePayModal.run(modalContext);
+    this.setEmployeeDetails({ employeeName });
+    this.loadEmployeePayDetail(transactionId);
     this.showPayDetailModal();
   };
+
+  closeDeletePopover = () => {
+    this.store.dispatch({
+      intent: SET_DELETE_POPOVER_IS_OPEN,
+      deletePopoverIsOpen: false,
+    });
+  }
+
+  openDeletePopover = () => {
+    this.store.dispatch({
+      intent: SET_DELETE_POPOVER_IS_OPEN,
+      deletePopoverIsOpen: true,
+    });
+  }
+
+  loadEmployeePayDetail = (transactionId) => {
+    this.setIsModalLoading(true);
+    const state = this.store.getState();
+    const urlParams = { ...getUrlParams(state), transactionId };
+
+    const onSuccess = (employeeDetails) => {
+      this.setEmployeeDetails(employeeDetails);
+      this.setIsModalLoading(false);
+    };
+
+    const onFailure = message => console.log(message);
+
+    this.integration.read({
+      onSuccess,
+      onFailure,
+      urlParams,
+      intent: LOAD_EMPLOYEE_PAY_DETAIL,
+    });
+  };
+
+  setEmployeeDetails = (employeeDetails) => {
+    this.store.dispatch({
+      intent: SET_MODAL_EMPLOYEE_DETAILS,
+      employeeDetails,
+    });
+  }
+
+  setIsModalLoading =(isModalLoading) => {
+    this.store.dispatch({
+      intent: SET_IS_MODAL_LOADING,
+      isModalLoading,
+    });
+  }
 
   showPayDetailModal = () => {
     this.store.dispatch({
