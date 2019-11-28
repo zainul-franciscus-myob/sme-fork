@@ -155,7 +155,7 @@ describe('customerStatementListSelectors', () => {
 
       const fileName = getFileName(state);
 
-      expect(fileName).toEqual('some-uid.pdf');
+      expect(fileName).toEqual('some-uid.zip');
     });
 
     it('should not use the payerUid of the customer statement to build the file name if none are selected', () => {
@@ -170,7 +170,7 @@ describe('customerStatementListSelectors', () => {
 
       const fileName = getFileName(state);
 
-      expect(fileName).not.toEqual('some-uid.pdf');
+      expect(fileName).not.toEqual('some-uid.zip');
     });
   });
 

@@ -136,7 +136,7 @@ export const getFileName = (state) => {
     customerStatement => customerStatement.isSelected,
   );
 
-  return selectedCustomerStatement ? `${selectedCustomerStatement.payerUid}.pdf` : 'customer-statement.pdf';
+  return selectedCustomerStatement ? `${selectedCustomerStatement.payerUid}.zip` : 'customer-statement.zip';
 };
 
 export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilterOptions;
