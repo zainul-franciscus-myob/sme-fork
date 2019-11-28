@@ -11,6 +11,7 @@ import JournalTransactionListFilterOptions from './JournalTransactionListFilterO
 import JournalTransactionListTable from './JournalTransactionListTable';
 import JournalTransactionListTableHeader from './JournalTransactionListTableHeader';
 import PageView from '../../../components/PageView/PageView';
+import style from './JournalTransactionListView.module.css';
 
 export const tableConfig = {
   date: { width: '11rem', valign: 'top' },
@@ -24,6 +25,7 @@ const JournalTransactionListView = (props) => {
   const {
     isLoading,
     onUpdateFilters,
+    onUpdateMultiFilters,
     onApplyFilter,
     onSort,
     pageHead,
@@ -34,6 +36,7 @@ const JournalTransactionListView = (props) => {
   const filterBar = (
     <JournalTransactionListFilterOptions
       onUpdateFilters={onUpdateFilters}
+      onUpdateMultiFilters={onUpdateMultiFilters}
       onApplyFilter={onApplyFilter}
     />
   );
@@ -52,7 +55,9 @@ const JournalTransactionListView = (props) => {
         />
       )}
     >
-      <JournalTransactionListTable tableConfig={tableConfig} />
+      <div className={style.list}>
+        <JournalTransactionListTable tableConfig={tableConfig} />
+      </div>
     </StandardTemplate>
   );
 

@@ -119,7 +119,7 @@ const handlers = {
   [Periods.lastMonth]: getLastMonth,
 };
 
-const getDateRangeByPeriodAndRegion = region => date => (period) => {
+const getDateRangeByPeriodAndRegion = (region, date, period) => {
   const { dateFrom, dateTo } = handlers[period](date, region);
   return {
     period,

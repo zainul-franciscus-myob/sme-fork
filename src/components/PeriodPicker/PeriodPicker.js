@@ -20,9 +20,7 @@ const PeriodPicker = ({
       onChange({ period: value, dateFrom, dateTo });
       return;
     }
-    onChange(getDateRangeByPeriodAndRegion(region)(
-      new Date(),
-    )(value));
+    onChange(getDateRangeByPeriodAndRegion(region, new Date(), value));
   });
 
   const onDateChange = key => ({ value }) => {

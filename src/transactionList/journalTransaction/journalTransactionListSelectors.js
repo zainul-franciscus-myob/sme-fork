@@ -1,6 +1,10 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import { tabItemIds } from '../tabItems';
+
 const getJournalState = state => state.journalTransactions;
+
+export const getIsActive = state => state.activeTab === tabItemIds.journal;
 
 export const getOrder = createSelector(
   getJournalState,
@@ -29,6 +33,12 @@ export const getFilterOptions = createSelector(
   getJournalState,
   ({ filterOptions }) => filterOptions,
 );
+
+export const getRequestFilterOptions = createSelector(
+  getFilterOptions,
+  ({ period, ...requestFilterOptions }) => requestFilterOptions,
+);
+
 export const getAppliedFilterOptions = createSelector(
   getJournalState,
   ({ appliedFilterOptions }) => appliedFilterOptions,
@@ -112,3 +122,32 @@ const getAppliedSourceJournal = createSelector(
 export const getURLParams = createStructuredSelector({
   sourceJournal: getAppliedSourceJournal,
 });
+
+const isPropertyValueSameAsDefault = (appliedFilterOptions, defaultFilterOptions) => key => (
+  defaultFilterOptions[key] === appliedFilterOptions[key]
+);
+
+const getDefaultFilterOptions = createSelector(
+  getJournalState,
+  state => state.defaultFilterOptions,
+);
+
+export const getIsDefaultFilters = createSelector(
+  getAppliedFilterOptions,
+  getDefaultFilterOptions,
+  (appliedFilterOptions, defaultFilterOptions) => (
+    Object.keys(appliedFilterOptions)
+      .every(isPropertyValueSameAsDefault(appliedFilterOptions, defaultFilterOptions))
+  ),
+);
+
+export const getSettings = createSelector(
+  getAppliedFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  (filterOptions, sortOrder, orderBy) => ({
+    filterOptions,
+    sortOrder,
+    orderBy,
+  }),
+);

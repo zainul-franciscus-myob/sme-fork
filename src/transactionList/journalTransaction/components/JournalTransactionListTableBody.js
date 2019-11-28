@@ -1,4 +1,3 @@
-import { PropTypes } from 'prop-types';
 import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -30,11 +29,6 @@ const JournalTransactionListTableBody = (props) => {
       {rows}
     </Table.Body>
   );
-};
-
-JournalTransactionListTableBody.propTypes = {
-  tableConfig: PropTypes.shape({}).isRequired,
-  entries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -15,6 +15,8 @@ import wrapHandlers from '../store/wrapHandlers';
 const getDefaultState = () => ({
   activeTab: tabItemIds.journal,
   alert: undefined,
+  region: undefined,
+  businessId: undefined,
   journalTransactions: getJournalDefaultState(),
 });
 

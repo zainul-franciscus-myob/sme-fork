@@ -6,20 +6,46 @@ import {
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_TRANSACTION_LIST,
   UPDATE_FILTER_OPTIONS,
+  UPDATE_MULTI_FILTER_OPTIONS,
 } from './JournalTransactionListIntents';
+import { defaultFilterOptions } from './getDefaultState';
+import Periods from '../../components/PeriodPicker/Periods';
+import getDateRangeByPeriodAndRegion from '../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
 
-const setInitialState = (state, action) => ({
-  ...state,
-  ...action.context,
-  filterOptions: {
-    ...state.filterOptions,
-    sourceJournal: action.sourceJournal,
-  },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    sourceJournal: action.sourceJournal,
-  },
+const getDefaultFilterOptionsForRegion = region => ({
+  ...defaultFilterOptions,
+  ...getDateRangeByPeriodAndRegion(
+    region,
+    new Date(),
+    Periods.thisMonth,
+  ),
 });
+
+const setInitialState = (state, {
+  context: { region },
+  sourceJournal,
+  settings = { sortOrder: 'desc', orderBy: 'Date' },
+}) => {
+  const defaultFilterOptionsForRegion = getDefaultFilterOptionsForRegion(region);
+  return {
+    ...state,
+    defaultFilterOptions: defaultFilterOptionsForRegion,
+    filterOptions: {
+      ...state.filterOptions,
+      ...defaultFilterOptionsForRegion,
+      sourceJournal,
+      ...settings.filterOptions,
+    },
+    appliedFilterOptions: {
+      ...state.appliedFilterOptions,
+      ...defaultFilterOptionsForRegion,
+      sourceJournal,
+      ...settings.filterOptions,
+    },
+    sortOrder: settings.sortOrder,
+    orderBy: settings.orderBy,
+  };
+};
 
 const loadTransactionList = (state, action) => ({
   ...state,
@@ -29,11 +55,11 @@ const loadTransactionList = (state, action) => ({
   orderBy: action.orderBy,
   filterOptions: {
     ...state.filterOptions,
-    sourceJournal: action.sourceJournal,
+    ...action.filterOptions,
   },
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
-    sourceJournal: action.sourceJournal,
+    ...action.filterOptions,
   },
 });
 
@@ -57,6 +83,19 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
+const addUpdateToFilterOption = (filterOptions, { filterName, value }) => ({
+  ...filterOptions,
+  [filterName]: value,
+});
+
+const updateMultiFilterOptions = (state, action) => ({
+  ...state,
+  filterOptions: {
+    ...state.filterOptions,
+    ...action.filterUpdates.reduce(addUpdateToFilterOption, {}),
+  },
+});
+
 const setTableLoadingState = (state, action) => ({
   ...state,
   isTableLoading: action.isTableLoading,
@@ -71,6 +110,7 @@ const handlers = {
   [LOAD_TRANSACTION_LIST]: loadTransactionList,
   [SORT_AND_FILTER_TRANSACTION_LIST]: sortAndFilterTransactionList,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [UPDATE_MULTI_FILTER_OPTIONS]: updateMultiFilterOptions,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SORT_ORDER]: setSortOrder,

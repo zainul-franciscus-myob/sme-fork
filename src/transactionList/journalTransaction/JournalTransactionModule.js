@@ -8,19 +8,25 @@ import {
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_TRANSACTION_LIST,
   UPDATE_FILTER_OPTIONS,
+  UPDATE_MULTI_FILTER_OPTIONS,
 } from './JournalTransactionListIntents';
 import {
   getAppliedFilterOptions,
   getBusinessId,
-  getFilterOptions,
   getFlipSortOrder,
+  getIsActive,
   getOrderBy,
   getRegion,
+  getRequestFilterOptions,
+  getSettings,
   getSortOrder,
   getURLParams,
 } from './journalTransactionListSelectors';
+import { loadSettings, saveSettings } from '../../store/localStorageDriver';
+import { tabItemIds } from '../tabItems';
 import TransactionListView from './components/JournalTransactionListView';
 
+const SETTING_KEY = tabItemIds.journal;
 export default class JournalTransactionModule {
   constructor({
     integration, store, setAlert, replaceURLParams,
@@ -37,6 +43,7 @@ export default class JournalTransactionModule {
         onSort={this.sortTransactionList}
         onAddTransaction={this.redirectToAddTransaction}
         onUpdateFilters={this.updateFilterOptions}
+        onUpdateMultiFilters={this.updateMultiFilterOptions}
         onApplyFilter={this.filterTransactionList}
         pageHead={pageHead}
         subHead={subHead}
@@ -48,6 +55,10 @@ export default class JournalTransactionModule {
   loadTransactionList = () => {
     const state = this.store.getState();
 
+    const filterOptions = getRequestFilterOptions(state);
+    const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
+
     const intent = LOAD_TRANSACTION_LIST;
     const urlParams = {
       businessId: getBusinessId(state),
@@ -58,19 +69,20 @@ export default class JournalTransactionModule {
       this.store.dispatch({
         intent,
         ...response,
+        filterOptions,
+        sortOrder,
+        orderBy,
       });
     };
 
-    const onFailure = () => {
-      console.log('Failed to load transaction list entries');
-    };
-
-    const filterOptions = getFilterOptions(state);
+    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
 
     this.integration.read({
       intent,
       params: {
         ...filterOptions,
+        sortOrder,
+        orderBy,
       },
       urlParams,
       onSuccess,
@@ -100,7 +112,7 @@ export default class JournalTransactionModule {
 
     const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
 
-    const filterOptions = getFilterOptions(state);
+    const filterOptions = getRequestFilterOptions(state);
     const sortOrder = getSortOrder(state);
 
     this.integration.read({
@@ -199,12 +211,22 @@ export default class JournalTransactionModule {
     });
   };
 
+  updateMultiFilterOptions = (filterUpdates) => {
+    const intent = UPDATE_MULTI_FILTER_OPTIONS;
+    this.store.dispatch({
+      intent,
+      filterUpdates,
+    });
+  };
+
   updateURLFromState = (state) => {
     const params = getURLParams(state);
-    this.replaceURLParams(params);
+    if (getIsActive(state)) {
+      this.replaceURLParams(params);
+    }
   }
 
-  setInitialState = (context) => {
+  setInitialState = (context, settings) => {
     const intent = SET_INITIAL_STATE;
 
     const {
@@ -216,12 +238,17 @@ export default class JournalTransactionModule {
       intent,
       sourceJournal,
       context: rest,
+      settings,
     });
   }
 
   run(context) {
-    this.setInitialState(context);
+    const settings = loadSettings(context.businessId, SETTING_KEY);
+    this.setInitialState(context, settings);
+    this.store.subscribe((state) => {
+      this.updateURLFromState(state);
+      saveSettings(context.businessId, SETTING_KEY, getSettings(state));
+    });
     this.loadTransactionList();
-    this.store.subscribe(this.updateURLFromState);
   }
 }

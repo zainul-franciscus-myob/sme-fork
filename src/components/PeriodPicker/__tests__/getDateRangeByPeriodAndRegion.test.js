@@ -3,7 +3,7 @@ import getDateRangeByPeriodAndRegion from '../getDateRangeByPeriodAndRegion';
 
 describe('getDateRangeByPeriodAndRegion', () => {
   describe('au', () => {
-    const getPeriodOptionByIdAu = getDateRangeByPeriodAndRegion('au');
+    const getPeriodOptionByIdAu = date => period => getDateRangeByPeriodAndRegion('au', date, period);
     describe('This financial quarter period', () => {
       describe('dateFrom', () => {
         it('should be start of Jan if between Jan and Mar', () => {
@@ -184,7 +184,7 @@ describe('getDateRangeByPeriodAndRegion', () => {
     });
   });
   describe('nz', () => {
-    const getPeriodOptionByIdNz = getDateRangeByPeriodAndRegion('nz');
+    const getPeriodOptionByIdNz = date => period => getDateRangeByPeriodAndRegion('nz', date, period);
     describe('This financial quarter period', () => {
       describe('dateFrom', () => {
         it('should be start of Jan if between Jan and Mar', () => {

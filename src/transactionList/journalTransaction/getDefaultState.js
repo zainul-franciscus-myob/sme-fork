@@ -1,26 +1,22 @@
-import { addMonths } from 'date-fns';
-
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
-
-const getDefaultDateRange = () => addMonths(new Date(), -3);
+export const defaultFilterOptions = {
+  sourceJournal: 'All',
+  keywords: '',
+};
 
 const getDefaultState = () => ({
   entries: [],
   sourceJournalFilters: [],
+  defaultFilterOptions: {
+    ...defaultFilterOptions,
+  },
   filterOptions: {
-    sourceJournal: '',
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-    keywords: '',
+    ...defaultFilterOptions,
   },
   appliedFilterOptions: {
-    sourceJournal: '',
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-    keywords: '',
+    ...defaultFilterOptions,
   },
-  sortOrder: '',
-  orderBy: '',
+  sortOrder: 'desc',
+  orderBy: 'Date',
   isLoading: true,
   isTableLoading: false,
 });
