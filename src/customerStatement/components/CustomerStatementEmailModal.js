@@ -47,8 +47,8 @@ const CustomerStatementPDFModal = ({
       />
       <Separator />
       <Select name="selectedTemplateOption" label="Template" onChange={handleSelectChange(onUpdateEmailOptions)}>
-        {templateOptions.map(({ name, label }) => (
-          <Select.Option value={name} label={label} />
+        {templateOptions.map(({ name }) => (
+          <Select.Option value={name} label={name} />
         ))}
       </Select>
     </Modal.Body>
