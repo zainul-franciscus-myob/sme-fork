@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+
 export const getAlert = ({ alert }) => alert;
 export const getEntries = state => state.entries;
 
@@ -67,7 +69,19 @@ export const getIsLoading = state => state.isLoading;
 
 export const getShowHiddenColumns = state => state.showHiddenColumns;
 
-export const getLoadMoreButtonStatus = state => state.loadMoreButtonStatus;
+export const getLoadMoreButtonStatus = (state) => {
+  const noNextPage = state.pagination && !state.pagination.hasNextPage;
+
+  if (state.isTableLoading || noNextPage) {
+    return LoadMoreButtonStatuses.HIDDEN;
+  }
+
+  if (state.isNextPageLoading) {
+    return LoadMoreButtonStatuses.LOADING;
+  }
+
+  return LoadMoreButtonStatuses.SHOWN;
+};
 
 export const getOffset = state => state.pagination.offset;
 

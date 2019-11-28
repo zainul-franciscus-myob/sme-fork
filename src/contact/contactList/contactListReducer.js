@@ -40,9 +40,6 @@ const getDefaultState = () => ({
 
 const resetState = () => (getDefaultState());
 
-const loadMoreButtonStatusBasedOnHasNextPage = hasNextPage => (
-  hasNextPage ? LoadMoreButtonStatuses.SHOWN : LoadMoreButtonStatuses.HIDDEN);
-
 const loadContactList = (state, action) => ({
   ...state,
   entries: action.entries,
@@ -53,7 +50,6 @@ const loadContactList = (state, action) => ({
     hasNextPage: action.pagination.hasNextPage,
     offset: action.pagination.offset,
   },
-  loadMoreButtonStatus: loadMoreButtonStatusBasedOnHasNextPage(action.pagination.hasNextPage),
   filterOptions: {
     ...state.filterOptions,
     type: action.type,
@@ -71,8 +67,6 @@ const loadContactList = (state, action) => ({
 const setTableLoadingState = (state, action) => ({
   ...state,
   isTableLoading: action.isTableLoading,
-  loadMoreButtonStatus:
-    action.isTableLoading ? LoadMoreButtonStatuses.HIDDEN : LoadMoreButtonStatuses.SHOWN,
 });
 
 const setLoadingState = (state, action) => ({
@@ -82,10 +76,7 @@ const setLoadingState = (state, action) => ({
 
 const setNextPageLoadingState = (state, action) => ({
   ...state,
-  loadMoreButtonStatus:
-    action.isNextPageLoading
-      ? LoadMoreButtonStatuses.LOADING
-      : loadMoreButtonStatusBasedOnHasNextPage(state.pagination.hasNextPage),
+  isNextPageLoading: action.isNextPageLoading,
 });
 
 const setAlert = (state, action) => ({
@@ -102,7 +93,6 @@ const sortAndFilterContactList = (state, action) => ({
     hasNextPage: action.pagination.hasNextPage,
     offset: action.pagination.offset,
   },
-  loadMoreButtonStatus: loadMoreButtonStatusBasedOnHasNextPage(action.pagination.hasNextPage),
 });
 
 const updateFilterOptions = (state, action) => ({
@@ -150,7 +140,6 @@ const loadContactListNextPage = (state, action) => {
       hasNextPage: action.pagination.hasNextPage,
       offset: action.pagination.offset,
     },
-    loadMoreButtonStatus: loadMoreButtonStatusBasedOnHasNextPage(action.pagination.hasNextPage),
   });
 };
 

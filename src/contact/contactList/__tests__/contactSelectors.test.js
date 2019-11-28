@@ -1,10 +1,12 @@
 import {
   getIsDefaultFilters,
   getIsTableEmpty,
+  getLoadMoreButtonStatus,
   getOrder,
   getTableEntries,
   getTypeFilterOptions,
 } from '../contactListSelector';
+import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 
 describe('contactListSelector', () => {
   describe('getIsDefaultFilters', () => {
@@ -105,6 +107,51 @@ describe('contactListSelector', () => {
       const actual = getTableEntries(state);
 
       expect(actual).toEqual(expected);
+    });
+  });
+  describe('getLoadMoreButtonStatus', () => {
+    it('should return LOADING when isNextPageLoading is true', () => {
+      const state = {
+        isNextPageLoading: true,
+      };
+
+      const actual = getLoadMoreButtonStatus(state);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.LOADING);
+    });
+    it('should return HIDDEN when isTableLoading is true', () => {
+      const state = {
+        isTableLoading: true,
+      };
+
+      const actual = getLoadMoreButtonStatus(state);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.HIDDEN);
+    });
+    it('should return SHOWN when there is a next page and neither next page nor table is loading', () => {
+      const state = {
+        pagination: {
+          hasNextPage: true,
+        },
+        isNextPageLoading: false,
+        isTableLoading: false,
+      };
+
+      const actual = getLoadMoreButtonStatus(state);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.SHOWN);
+    });
+    it('should return HIDDEN when there is no next page and next page is not loading', () => {
+      const state = {
+        pagination: {
+          hasNextPage: false,
+        },
+        isNextPageLoading: false,
+      };
+
+      const actual = getLoadMoreButtonStatus(state);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.HIDDEN);
     });
   });
 });
