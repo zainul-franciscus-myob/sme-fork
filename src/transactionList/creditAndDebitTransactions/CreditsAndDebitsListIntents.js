@@ -1,0 +1,10 @@
+export const SET_INITIAL_STATE = Symbol('Set init state');
+export const SET_LOADING_STATE = Symbol('Set loading state');
+export const LOAD_CREDITS_AND_DEBITS_LIST = Symbol('Load list of credits and debits');
+export const SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST = Symbol('Sort and filter list of credits and debits');
+export const SET_TABLE_LOADING_STATE = Symbol('Set Table loading state');
+export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
+export const SET_SORT_ORDER = Symbol('Set sort order');
+export const UPDATE_PERIOD_DATE_RANGE = Symbol('Update period date range');
+export const SET_NEXT_PAGE_LOADING_STATE = Symbol('Set loading next page state');
+export const LOAD_NEXT_PAGE = Symbol('Load next page');

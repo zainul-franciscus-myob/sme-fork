@@ -1,0 +1,91 @@
+{
+  "entries": [
+    {
+      "id": "401",
+      "displayDate": "03/12/2018",
+      "referenceId": "135",
+      "description": "James Cameron",
+      "displayDebit": "",
+      "displayCredit": "1000.00",
+      "displayAccountName": "1-2000 Water Expense",
+      "businessEventType": "CashPayment",
+      "sourceJournal": "Cash Payments"
+    },
+    {
+      "id": "402",
+      "displayDate": "03/12/2018",
+      "referenceId": "135",
+      "description": "James Cameron",
+      "displayDebit": "200.00",
+      "displayCredit": "",
+      "displayAccountName": "1-2000 Water Expense",
+      "businessEventType": "CashPayment",
+      "sourceJournal": "Cash Payments"
+    },
+    {
+      "id": "401",
+      "displayDate": "03/12/2018",
+      "referenceId": "135",
+      "description": "James Cameron",
+      "displayDebit": "",
+      "displayCredit": "1000.00",
+      "displayAccountName": "1-2000 Water Expense",
+      "businessEventType": "CashPayment",
+      "sourceJournal": "Cash Payments"
+    }
+  ],
+  "pagination": {
+    "offset": 3,
+    "hasNextPage": true
+  },
+  "accountList": [
+    {
+      "id": "4",
+      "displayId": "1-1110",
+      "displayName": "Vehicle Account #11",
+      "accountType": "Asset"
+    },
+    {
+      "id": "5",
+      "displayId": "1-1110",
+      "displayName": "Kitchen Account #2",
+      "accountType": "Asset"
+    },
+    {
+      "id": "6",
+      "displayId": "1-1110",
+      "displayName": "Lounge Account #6",
+      "accountType": "Expense"
+    }
+  ],
+  "sourceJournalFilters": [
+    {
+      "name": "All",
+      "value": "All"
+    },
+    {
+      "name": "General",
+      "value": "General"
+    },
+    {
+      "name": "Sales",
+      "value": "Sale"
+    },
+    {
+      "name": "Purchases",
+      "value": "Purchase"
+    },
+    {
+      "name": "Cash Payments",
+      "value": "CashPayment"
+    },
+    {
+      "name": "Cash Receipts",
+      "value": "CashReceipt"
+    },
+    {
+      "name": "Inventory",
+      "value": "Inventory"
+    }
+  ]
+}

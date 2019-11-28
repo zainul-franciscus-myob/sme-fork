@@ -17,6 +17,7 @@ import { SUCCESSFULLY_DELETED_RECEIVE_REFUND } from '../receiveRefund/ReceiveRef
 import { SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY } from '../spendMoney/spendMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoney/transferMoneyMessageTypes';
 import { tabItemIds } from './tabItems';
+import CreditsAndDebitsModule from './creditAndDebitTransactions/CreditsAndDebitsModule';
 import JournalTransactionModule from './journalTransaction/JournalTransactionModule';
 import Store from '../store/Store';
 import TransactionListView from './components/TransactionListView';
@@ -44,6 +45,12 @@ export default class TransactionListModule {
     this.messageTypes = messageTypes;
     this.replaceURLParams = replaceURLParams;
     this.subModules = {
+      [tabItemIds.debitsAndCredits]: new CreditsAndDebitsModule({
+        integration,
+        setAlert: this.setAlert,
+        store: this.store,
+        replaceURLParams,
+      }),
       [tabItemIds.journal]: new JournalTransactionModule({
         integration,
         setAlert: this.setAlert,

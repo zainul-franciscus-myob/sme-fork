@@ -7,24 +7,15 @@ import LoadMoreButton from './LoadMoreButton';
 
 const PaginatedListTemplate = (props) => {
   const {
-    alertComponent,
-    pageHead,
-    filterBar,
-    tableHeader,
     listTable,
     onLoadMoreButtonClick,
     loadMoreButtonStatus,
+    ...rest
   } = props;
 
   return (
     <div>
-      <StandardTemplate
-        alert={alertComponent}
-        sticky="all"
-        pageHead={pageHead}
-        filterBar={filterBar}
-        tableHeader={tableHeader}
-      >
+      <StandardTemplate sticky="all" {...rest}>
         {listTable}
       </StandardTemplate>
 

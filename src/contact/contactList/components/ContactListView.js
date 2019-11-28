@@ -218,7 +218,7 @@ const ContactListView = (props) => {
   const contactListView = (
     <div className={style.contacts}>
       <PaginatedListTemplate
-        alertComponent={alertComponent}
+        alert={alertComponent}
         pageHead={pageHead}
         filterBar={filterBar}
         tableHeader={tableHeader}

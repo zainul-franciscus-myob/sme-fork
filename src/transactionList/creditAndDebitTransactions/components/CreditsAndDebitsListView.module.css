@@ -1,0 +1,8 @@
+.list {
+  position: relative;
+  min-height: 60vh;
+}
+
+.search {
+  width: 16rem;
+}
