@@ -3,14 +3,13 @@ import createPayRunDispatchers from '../createPayRunDispatchers';
 
 const createStartPayRunDispatchers = store => ({
   ...createPayRunDispatchers(store),
+
   loadEmployeePays: (employeePays) => {
-    const intent = LOAD_EMPLOYEE_PAYS;
-    store.dispatch({ intent, employeePays });
+    store.dispatch({ intent: LOAD_EMPLOYEE_PAYS, employeePays });
   },
 
   setPayPeriodDetails: ({ key, value }) => {
-    const intent = SET_PAY_PERIOD_DETAILS;
-    store.dispatch({ intent, key, value });
+    store.dispatch({ intent: SET_PAY_PERIOD_DETAILS, key, value });
   },
 });
 

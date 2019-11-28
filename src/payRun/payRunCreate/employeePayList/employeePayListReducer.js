@@ -16,6 +16,7 @@ import {
 import formatNumberWithDecimalScaleRange from '../../../valueFormatters/formatNumberWithDecimalScaleRange';
 
 export const getEmployeePayListDefaultState = () => ({
+  stpRegistrationStatus: 'notRegistered',
   isPayItemLineDirty: false,
   lines: [],
   invalidEtpNames: [],
@@ -29,7 +30,8 @@ export const getEmployeePayListDefaultState = () => ({
 
 const loadEmployeePays = (state, { employeePays }) => ({
   ...state,
-  lines: employeePays.map(employeePay => ({
+  stpRegistrationStatus: employeePays.stpRegistrationStatus,
+  lines: employeePays.employeePays.map(employeePay => ({
     ...employeePay,
     isSelected: true,
     payItems: employeePay.payItems.map(

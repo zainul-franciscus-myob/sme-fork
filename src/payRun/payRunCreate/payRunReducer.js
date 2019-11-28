@@ -14,6 +14,7 @@ import {
 import {
   EMPLOYEE_PAY_LIST,
   PREPARE_PAY_SLIPS,
+  RECORD_PAY_RUN,
   START_PAY_RUN,
 } from './payRunSteps';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -25,7 +26,14 @@ import {
   getPreparePaySlipsDefaultState,
   preparePaySlipsHandlers,
 } from './preparePaySlips/preparePaySlipsReducer';
-import { getStartPayRunDefaultState, startPayRunHandlers } from './startPayRun/startPayRunReducer';
+import {
+  getRecordPayRunDefaultState,
+  recordPayRunHandlers,
+} from './recordPayRun/recordPayRunReducer';
+import {
+  getStartPayRunDefaultState,
+  startPayRunHandlers,
+} from './startPayRun/startPayRunReducer';
 import createReducer from '../../store/createReducer';
 import wrapHandlers from '../../store/wrapHandlers';
 
@@ -42,6 +50,7 @@ const getDefaultState = () => ({
   },
   [START_PAY_RUN]: getStartPayRunDefaultState(),
   [EMPLOYEE_PAY_LIST]: getEmployeePayListDefaultState(),
+  [RECORD_PAY_RUN]: getRecordPayRunDefaultState(),
   [PREPARE_PAY_SLIPS]: getPreparePaySlipsDefaultState(),
 });
 
@@ -119,6 +128,7 @@ const handlers = {
   [SET_EMPLOYEE_PAYMENTS]: setEmployeePayments,
   ...wrapHandlers(START_PAY_RUN, startPayRunHandlers),
   ...wrapHandlers(EMPLOYEE_PAY_LIST, employeePayListHandlers),
+  ...wrapHandlers(RECORD_PAY_RUN, recordPayRunHandlers),
   ...wrapHandlers(PREPARE_PAY_SLIPS, preparePaySlipsHandlers),
 };
 

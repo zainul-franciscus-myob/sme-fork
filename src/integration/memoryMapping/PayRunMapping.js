@@ -3,6 +3,7 @@ import {
   LOAD_EMPLOYEE_PAYS,
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
+  RECORD_STP_DECLARATION,
   START_NEW_PAY_RUN,
   VALIDATE_ETP,
 } from '../../payRun/payRunCreate/PayRunIntents';
@@ -18,6 +19,7 @@ const PayRunMapping = {
   [VALIDATE_ETP]: ({ onSuccess }) => onSuccess(validateEtp),
   [RECALCULATE_PAY]: ({ onSuccess }) => onSuccess(recalculatedEmployeePay),
   [RECORD_PAYMENTS]: ({ onSuccess }) => onSuccess(recordPayments),
+  [RECORD_STP_DECLARATION]: ({ onSuccess }) => onSuccess({}),
   [EXPORT_TRANSACTION_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 

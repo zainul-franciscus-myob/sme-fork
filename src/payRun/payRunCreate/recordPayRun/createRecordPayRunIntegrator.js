@@ -1,6 +1,10 @@
-import { RECORD_PAYMENTS } from '../PayRunIntents';
+import { RECORD_PAYMENTS, RECORD_STP_DECLARATION } from '../PayRunIntents';
 import { getBusinessId } from '../PayRunSelectors';
-import { getRecordPayContents } from './RecordPayRunSelectors';
+import {
+  getPayRunId,
+  getRecordPayContents,
+  getRecordStpDeclarationContents,
+} from './RecordPayRunSelectors';
 
 const createRecordPayRunIntegrator = (store, integration) => ({
   recordPayments: ({ onSuccess, onFailure }) => {
@@ -11,6 +15,25 @@ const createRecordPayRunIntegrator = (store, integration) => ({
     const content = getRecordPayContents(state);
 
     const urlParams = { businessId };
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  recordStpDeclaration: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = RECORD_STP_DECLARATION;
+
+    const businessId = getBusinessId(state);
+    const payRunId = getPayRunId(state);
+    const content = getRecordStpDeclarationContents(state);
+
+    const urlParams = { businessId, payRunId };
 
     integration.write({
       intent,
