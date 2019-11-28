@@ -28,8 +28,8 @@ const CustomerStatementPDFModal = ({
       {`You have selected ${customersSelected} customer statements.`}
       <Separator />
       <Select name="selectedTemplateOption" label="Template" onChange={handleSelectChange(onUpdateTemplateOption)}>
-        {templateOptions.map(({ name, label }) => (
-          <Select.Option value={name} label={label} />
+        {templateOptions.map(({ name }) => (
+          <Select.Option value={name} label={name} />
         ))}
       </Select>
     </Modal.Body>

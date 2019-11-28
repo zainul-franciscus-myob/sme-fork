@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilterOptions } from '../selectors/customerStatementListSelectors';
+import { getCustomerOptions, getFilterOptions, getTemplateAdditionalOptions } from '../selectors/customerStatementListSelectors';
 import CustomerCombobox from '../../components/combobox/CustomerCombobox';
 import FilterBar from '../../components/Feelix/FilterBar/FilterBar';
 import StatementType from '../StatementType';
@@ -21,23 +21,28 @@ const handleComboboxChange = (key, handler) => (item) => {
 };
 
 const CustomerStatementFilterOptions = ({
-  statementType,
-  statementDate,
-  fromDate,
-  toDate,
-  includeInvoices,
-  selectedCustomerId,
-  showZeroAmount,
+  templateAdditionalOptions: {
+    statementType,
+    statementDate,
+    fromDate,
+    toDate,
+    includeInvoices,
+  },
+  filterOptions: {
+    selectedCustomerId,
+    showZeroAmount,
+  },
   customerOptions,
   onApplyFilters,
   onUpdateFilters,
+  onUpdateTemplateAdditionalOptions,
 }) => {
   const statementTypeSelect = (
     <Select
       name="statementType"
       label="Statement type"
       value={statementType}
-      onChange={handleSelectChange(onUpdateFilters)}
+      onChange={handleSelectChange(onUpdateTemplateAdditionalOptions)}
       className={styles.statementType}
     >
       <Select.Option value={StatementType.INVOICE} label="Invoice" />
@@ -83,7 +88,7 @@ const CustomerStatementFilterOptions = ({
           name="statementDate"
           label="Statement date"
           value={statementDate}
-          onSelect={handleDateChange('statementDate', onUpdateFilters)}
+          onSelect={handleDateChange('statementDate', onUpdateTemplateAdditionalOptions)}
         />
         <CheckboxGroup
           label="Include invoices"
@@ -94,7 +99,7 @@ const CustomerStatementFilterOptions = ({
                 name="includeInvoices"
                 label="Only include invoices up to statement date"
                 checked={includeInvoices}
-                onChange={handleCheckboxChange(onUpdateFilters)}
+                onChange={handleCheckboxChange(onUpdateTemplateAdditionalOptions)}
                 {...props}
               />
             </div>
@@ -114,13 +119,13 @@ const CustomerStatementFilterOptions = ({
           name="fromDate"
           label="From date"
           value={fromDate}
-          onSelect={handleDateChange('fromDate', onUpdateFilters)}
+          onSelect={handleDateChange('fromDate', onUpdateTemplateAdditionalOptions)}
         />
         <DatePicker
           name="toDate"
           label="To date"
           value={toDate}
-          onSelect={handleDateChange('toDate', onUpdateFilters)}
+          onSelect={handleDateChange('toDate', onUpdateTemplateAdditionalOptions)}
         />
         {customerCombobox}
         {balanceCheckbox}
@@ -135,6 +140,10 @@ const CustomerStatementFilterOptions = ({
   );
 };
 
-const mapStatetoProps = state => getFilterOptions(state);
+const mapStatetoProps = state => ({
+  templateAdditionalOptions: getTemplateAdditionalOptions(state),
+  filterOptions: getFilterOptions(state),
+  customerOptions: getCustomerOptions(state),
+});
 
 export default connect(mapStatetoProps)(CustomerStatementFilterOptions);

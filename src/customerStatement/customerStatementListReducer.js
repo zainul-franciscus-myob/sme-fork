@@ -17,6 +17,7 @@ import {
   UNSELECT_ALL_CUSTOMER_STATEMENTS,
   UPDATE_EMAIL_OPTIONS,
   UPDATE_FILTER_OPTIONS,
+  UPDATE_TEMPLATE_ADDITIONAL_OPTIONS,
   UPDATE_TEMPLATE_OPTION,
 } from './CustomerStatementIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
@@ -27,13 +28,16 @@ import formatIsoDate from '../valueFormatters/formatDate/formatIsoDate';
 const getDefaultDateRange = () => addMonths(new Date(), -3);
 
 const defaultFilterOptions = {
+  selectedCustomerId: 'All',
+  showZeroAmount: false,
+};
+
+const defaultTemplateAdditionalOptions = {
   statementType: StatementType.INVOICE,
   statementDate: formatIsoDate(new Date()),
   fromDate: formatIsoDate(getDefaultDateRange()),
   toDate: formatIsoDate(new Date()),
   includeInvoices: true,
-  selectedCustomerId: '',
-  showZeroAmount: false,
 };
 
 const defaultSortingOption = {
@@ -44,7 +48,9 @@ const defaultSortingOption = {
 const getDefaultState = () => ({
   businessId: '',
   region: '',
+  defaultFilterOptions,
   filterOptions: defaultFilterOptions,
+  templateAdditionalOptions: defaultTemplateAdditionalOptions,
   appliedFilterOptions: defaultFilterOptions,
   ...defaultSortingOption,
   emailModalOptions: {
@@ -72,6 +78,7 @@ const setInitialState = (state, {
   context,
   settings = {
     filterOptions: defaultFilterOptions,
+    templateAdditionalOptions: defaultTemplateAdditionalOptions,
     sortOrder: defaultSortingOption.sortOrder,
     orderBy: defaultSortingOption.orderBy,
   },
@@ -81,6 +88,10 @@ const setInitialState = (state, {
   filterOptions: {
     ...state.filterOptions,
     ...settings.filterOptions,
+  },
+  templateAdditionalOptions: {
+    ...state.templateAdditionalOptions,
+    ...settings.templateAdditionalOptions,
   },
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
@@ -125,6 +136,14 @@ const updateFilterOptions = (state, action) => ({
   ...state,
   filterOptions: {
     ...state.filterOptions,
+    [action.key]: action.value,
+  },
+});
+
+const updateTemplateAdditionalOptions = (state, action) => ({
+  ...state,
+  templateAdditionalOptions: {
+    ...state.templateAdditionalOptions,
     [action.key]: action.value,
   },
 });
@@ -250,6 +269,7 @@ const handlers = ({
   [LOAD_CUSTOMER_STATEMENTS]: loadCustomerStatements,
   [SORT_AND_FILTER_CUSTOMER_STATEMENTS]: sortAndFilterCustomerStatementList,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [UPDATE_TEMPLATE_ADDITIONAL_OPTIONS]: updateTemplateAdditionalOptions,
   [UPDATE_TEMPLATE_OPTION]: updateTemplateOption,
   [UPDATE_EMAIL_OPTIONS]: updateEmailOption,
   [TOGGLE_ALL_CUSTOMER_STATEMENTS]: toggleAllCustomerStatements,

@@ -1,4 +1,4 @@
-import { createSelector, createStructuredSelector } from 'reselect';
+import { createSelector } from 'reselect';
 
 import StatementType from '../StatementType';
 
@@ -6,14 +6,15 @@ const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getIsLoading = state => state.isLoading;
 
-export const getStatementType = state => state.filterOptions.statementType;
-export const getAppliedStatementType = state => state.appliedFilterOptions.statementType;
-export const getStatementDate = state => state.filterOptions.statementDate;
-export const getFromDate = state => state.filterOptions.fromDate;
-export const getToDate = state => state.filterOptions.toDate;
-export const getIncludeInvoices = state => state.filterOptions.includeInvoices;
+export const getStatementType = state => state.templateAdditionalOptions.statementType;
+export const getStatementDate = state => state.templateAdditionalOptions.statementDate;
+export const getFromDate = state => state.templateAdditionalOptions.fromDate;
+export const getToDate = state => state.templateAdditionalOptions.toDate;
+export const getIncludeInvoices = state => state.templateAdditionalOptions.includeInvoices;
+
 export const getSelectedCustomerId = state => state.filterOptions.selectedCustomerId;
 export const getShowZeroAmount = state => state.filterOptions.showZeroAmount;
+
 export const getCustomerOptions = state => state.customerOptions;
 export const getEmailSubject = state => state.emailModalOptions.subject;
 export const getEmailMessage = state => state.emailModalOptions.message;
@@ -22,7 +23,7 @@ export const getAlert = state => state.alert;
 export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 
 export const getDefaultTemplateOption = state => (
-  getAppliedStatementType(state) === StatementType.INVOICE
+  getStatementType(state) === StatementType.INVOICE
     ? state.defaultInvoiceTemplateOption
     : state.defaultActivityTemplateOption
 );
@@ -37,7 +38,7 @@ const getActivityTemplateOptions = state => state.activityTemplateOptions;
 const getInvoiceTemplateOptions = state => state.invoiceTemplateOptions;
 
 export const getTemplateOptions = createSelector(
-  getAppliedStatementType,
+  getStatementType,
   getActivityTemplateOptions,
   getInvoiceTemplateOptions,
   (statementType, activityTemplateOptions, invoiceTemplateOptions) => (
@@ -45,16 +46,29 @@ export const getTemplateOptions = createSelector(
   ),
 );
 
-export const getFilterOptions = createStructuredSelector({
-  statementType: getStatementType,
-  statementDate: getStatementDate,
-  fromDate: getFromDate,
-  toDate: getToDate,
-  includeInvoices: getIncludeInvoices,
-  selectedCustomerId: getSelectedCustomerId,
-  showZeroAmount: getShowZeroAmount,
-  customerOptions: getCustomerOptions,
-});
+export const getTemplateAdditionalOptions = createSelector(
+  getStatementType,
+  getStatementDate,
+  getFromDate,
+  getToDate,
+  getIncludeInvoices,
+  (statementType, statementDate, fromDate, toDate, includeInvoices) => ({
+    statementType,
+    statementDate,
+    fromDate,
+    toDate,
+    includeInvoices,
+  }),
+);
+
+export const getFilterOptions = createSelector(
+  getShowZeroAmount,
+  getSelectedCustomerId,
+  (showZeroAmount, selectedCustomerId) => ({
+    showZeroAmount,
+    selectedCustomerId,
+  }),
+);
 
 export const getAreActionsDisabled = state => state.areActionsDisabled;
 export const getIsTableLoading = state => state.isTableLoading;
@@ -106,11 +120,33 @@ export const getNewSortOrder = (state, orderBy) => (orderBy === getOrderBy(state
 
 export const getSettings = createSelector(
   getAppliedFilterOptions,
+  getTemplateAdditionalOptions,
   getSortOrder,
   getOrderBy,
-  (filterOptions, sortOrder, orderBy) => ({
+  (filterOptions, templateAdditionalOptions, sortOrder, orderBy) => ({
     filterOptions,
+    templateAdditionalOptions,
     sortOrder,
     orderBy,
   }),
+);
+
+export const getFileName = (state) => {
+  const selectedCustomerStatement = state.customerStatements.find(
+    customerStatement => customerStatement.isSelected,
+  );
+
+  return selectedCustomerStatement ? `${selectedCustomerStatement.payerUid}.pdf` : 'customer-statement.pdf';
+};
+
+export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilterOptions;
+
+export const getIsDefaultFilters = createSelector(
+  getAppliedFilterOptions,
+  getDefaultFilterOptions,
+  (appliedFlterOptions, defaultFilterOptions) => (
+    !Object.keys(appliedFlterOptions)
+      .map(key => defaultFilterOptions[key] === appliedFlterOptions[key])
+      .includes(false)
+  ),
 );

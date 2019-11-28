@@ -1,5 +1,10 @@
 import {
-  getCustomersSelected, getDefaultTemplateOption, getSelectedTemplateOption, getTemplateOptions,
+  getCustomersSelected,
+  getDefaultTemplateOption,
+  getFileName,
+  getIsDefaultFilters,
+  getSelectedTemplateOption,
+  getTemplateOptions,
 } from '../selectors/customerStatementListSelectors';
 import StatementType from '../StatementType';
 
@@ -35,7 +40,7 @@ describe('customerStatementListSelectors', () => {
       ];
 
       const state = {
-        appliedFilterOptions: {
+        templateAdditionalOptions: {
           statementType: StatementType.ACTIVITY,
         },
         activityTemplateOptions,
@@ -57,7 +62,7 @@ describe('customerStatementListSelectors', () => {
       ];
 
       const state = {
-        appliedFilterOptions: {
+        templateAdditionalOptions: {
           statementType: StatementType.INVOICE,
         },
         invoiceTemplateOptions,
@@ -74,7 +79,7 @@ describe('customerStatementListSelectors', () => {
   describe('getDefaultTemplateOption', () => {
     it('should get the default invoice template option given a statement type of invoice', () => {
       const state = {
-        appliedFilterOptions: {
+        templateAdditionalOptions: {
           statementType: StatementType.INVOICE,
         },
         defaultInvoiceTemplateOption: 'default-template',
@@ -89,7 +94,7 @@ describe('customerStatementListSelectors', () => {
 
     it('should get the default invoice template option given a statement type of invoice', () => {
       const state = {
-        appliedFilterOptions: {
+        templateAdditionalOptions: {
           statementType: StatementType.ACTIVITY,
         },
         defaultInvoiceTemplateOption: 'default-template',
@@ -107,7 +112,7 @@ describe('customerStatementListSelectors', () => {
   describe('getSelectedTemplateOption', () => {
     it('should use the selectedTemplateOption if it exists', () => {
       const state = {
-        appliedFilterOptions: {
+        templateAdditionalOptions: {
           statementType: StatementType.INVOICE,
         },
         selectedTemplateOption: 'default-template',
@@ -122,7 +127,7 @@ describe('customerStatementListSelectors', () => {
 
     it('should use the defaultTemplateOption if no selectedTemplateOption exists', () => {
       const state = {
-        appliedFilterOptions: {
+        templateAdditionalOptions: {
           statementType: StatementType.INVOICE,
         },
         selectedTemplateOption: '',
@@ -134,6 +139,74 @@ describe('customerStatementListSelectors', () => {
       const expected = 'default-invoice-template';
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getFileName', () => {
+    it('should use the payerUid of the customer statement to build the file name', () => {
+      const state = {
+        customerStatements: [
+          {
+            isSelected: true,
+            payerUid: 'some-uid',
+          },
+        ],
+      };
+
+      const fileName = getFileName(state);
+
+      expect(fileName).toEqual('some-uid.pdf');
+    });
+
+    it('should not use the payerUid of the customer statement to build the file name if none are selected', () => {
+      const state = {
+        customerStatements: [
+          {
+            isSelected: false,
+            payerUid: 'some-uid',
+          },
+        ],
+      };
+
+      const fileName = getFileName(state);
+
+      expect(fileName).not.toEqual('some-uid.pdf');
+    });
+  });
+
+  describe('getIsDefaultFilters', () => {
+    it('should return true if the current state is reflective of the default filters', () => {
+      const state = {
+        defaultFilterOptions: {
+          selectedCustomerId: 'All',
+          showZeroAmount: false,
+        },
+        appliedFilterOptions: {
+          selectedCustomerId: 'All',
+          showZeroAmount: false,
+        },
+      };
+
+      const actual = getIsDefaultFilters(state);
+
+      expect(actual).toEqual(true);
+    });
+
+    it('should return false if the current state is not reflective of the default filters', () => {
+      const state = {
+        defaultFilterOptions: {
+          selectedCustomerId: 'All',
+          showZeroAmount: false,
+        },
+        appliedFilterOptions: {
+          selectedCustomerId: '1',
+          showZeroAmount: true,
+        },
+      };
+
+      const actual = getIsDefaultFilters(state);
+
+      expect(actual).toEqual(false);
     });
   });
 });

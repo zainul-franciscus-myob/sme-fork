@@ -1,53 +1,21 @@
 import {
-  getDownloadPdfQueryParams, getQueryParams, getSendEmailContent,
+  getDownloadPdfQueryParams, getQueryParamsForList, getSendEmailContent,
 } from '../selectors/customerStatementListIntegrationSelectors';
 import StatementType from '../StatementType';
 
 describe('customerStatementListIntegrationSelectors', () => {
-  describe('getQueryParams', () => {
-    it('should get the correct query params for a statement type of invoice', () => {
+  describe('getQueryParamsForList', () => {
+    it('should get the correct query params', () => {
       const state = {
         filterOptions: {
-          statementType: StatementType.INVOICE,
-          statementDate: 'some-date',
-          includeInvoices: true,
           selectedCustomerId: '123',
           showZeroAmount: false,
         },
       };
 
-      const actual = getQueryParams(state);
+      const actual = getQueryParamsForList(state);
 
       const expected = {
-        statementType: StatementType.INVOICE,
-        statementDate: 'some-date',
-        includeInvoices: true,
-        selectedCustomerId: '123',
-        showZeroAmount: false,
-      };
-
-      expect(actual).toEqual(expected);
-    });
-
-    it('should get the correct query params for a statement type of activity', () => {
-      const state = {
-        filterOptions: {
-          statementType: StatementType.ACTIVITY,
-          fromDate: 'from-date',
-          toDate: 'to-date',
-          includeInvoices: true,
-          selectedCustomerId: '123',
-          showZeroAmount: false,
-        },
-      };
-
-      const actual = getQueryParams(state);
-
-      const expected = {
-        statementType: StatementType.ACTIVITY,
-        fromDate: 'from-date',
-        toDate: 'to-date',
-        includeInvoices: true,
         selectedCustomerId: '123',
         showZeroAmount: false,
       };
@@ -59,11 +27,9 @@ describe('customerStatementListIntegrationSelectors', () => {
   describe('getSendEmailContent', () => {
     it('should build the correct content shape for an invoice statement type', () => {
       const state = {
-        appliedFilterOptions: {
+        templateAdditionalOptions: {
           statementType: StatementType.INVOICE,
           statementDate: 'some-date',
-          includeInvoices: true,
-          showZeroAmount: false,
         },
         emailModalOptions: {
           fromEmail: 'from-email',
@@ -100,8 +66,6 @@ describe('customerStatementListIntegrationSelectors', () => {
         templateOption: 'default',
         statementType: 'Invoice',
         statementDate: 'some-date',
-        includeInvoices: true,
-        showZeroAmount: false,
       };
 
       expect(actual).toEqual(expected);
@@ -109,12 +73,10 @@ describe('customerStatementListIntegrationSelectors', () => {
 
     it('should build the correct content shape for an activity statement type', () => {
       const state = {
-        appliedFilterOptions: {
+        templateAdditionalOptions: {
           statementType: StatementType.INVOICE,
           fromDate: 'some-date',
           toDate: 'some-date',
-          includeInvoices: true,
-          showZeroAmount: false,
         },
         emailModalOptions: {
           fromEmail: 'from-email',
@@ -156,8 +118,6 @@ describe('customerStatementListIntegrationSelectors', () => {
         statementType: 'Invoice',
         fromDate: 'some-date',
         toDate: 'some-date',
-        includeInvoices: true,
-        showZeroAmount: false,
       };
 
       expect(actual).toEqual(expected);
@@ -167,12 +127,10 @@ describe('customerStatementListIntegrationSelectors', () => {
   describe('getDownloadPdfQueryParams', () => {
     it('should build an array of objects for containing the query parameters', () => {
       const state = {
-        appliedFilterOptions: {
+        templateAdditionalOptions: {
           statementType: 'Invoice',
           statementDate: 'some-date',
           includeInvoices: true,
-          selectedCustomerId: '',
-          showZeroAmount: false,
         },
         sortOrder: 'asc',
         orderBy: 'name',
@@ -200,8 +158,6 @@ describe('customerStatementListIntegrationSelectors', () => {
         statementType: 'Invoice',
         statementDate: 'some-date',
         includeInvoices: true,
-        selectedCustomerId: '',
-        showZeroAmount: false,
         sortOrder: 'asc',
         orderBy: 'name',
         templateOption,

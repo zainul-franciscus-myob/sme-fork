@@ -15,6 +15,7 @@ import {
   UNSELECT_ALL_CUSTOMER_STATEMENTS,
   UPDATE_EMAIL_OPTIONS,
   UPDATE_FILTER_OPTIONS,
+  UPDATE_TEMPLATE_ADDITIONAL_OPTIONS,
   UPDATE_TEMPLATE_OPTION,
 } from './CustomerStatementIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
@@ -48,6 +49,12 @@ const createCustomerStatementListDispatcher = store => ({
 
   updateFilterOptions: ({ key, value }) => store.dispatch({
     intent: UPDATE_FILTER_OPTIONS,
+    key,
+    value,
+  }),
+
+  updateTemplateAdditionalOptions: ({ key, value }) => store.dispatch({
+    intent: UPDATE_TEMPLATE_ADDITIONAL_OPTIONS,
     key,
     value,
   }),

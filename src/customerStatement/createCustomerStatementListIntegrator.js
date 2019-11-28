@@ -7,7 +7,7 @@ import {
 import {
   getBusinessId,
   getDownloadPdfQueryParams,
-  getQueryParams,
+  getQueryParamsForList,
   getSendEmailContent,
 } from './selectors/customerStatementListIntegrationSelectors';
 
@@ -19,7 +19,7 @@ const createCustomerStatementListIntegrator = (store, integration) => ({
       businessId: getBusinessId(state),
     };
 
-    const params = getQueryParams(state);
+    const params = getQueryParamsForList(state);
 
     integration.read({
       intent: LOAD_CUSTOMER_STATEMENTS,
@@ -37,7 +37,7 @@ const createCustomerStatementListIntegrator = (store, integration) => ({
       businessId: getBusinessId(state),
     };
 
-    const params = getQueryParams(state);
+    const params = getQueryParamsForList(state);
 
     integration.read({
       intent: SORT_AND_FILTER_CUSTOMER_STATEMENTS,

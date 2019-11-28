@@ -16,6 +16,7 @@ const CustomerStatementListView = ({
   alert,
   onApplyFilters,
   onUpdateFilters,
+  onUpdateTemplateAdditionalOptions,
   onToggleAllCustomerStatements,
   onSelectCustomerStatement,
   onSelectPdfDropdown,
@@ -34,6 +35,7 @@ const CustomerStatementListView = ({
     <CustomerStatementFilterOptions
       onApplyFilters={onApplyFilters}
       onUpdateFilters={onUpdateFilters}
+      onUpdateTemplateAdditionalOptions={onUpdateTemplateAdditionalOptions}
     />
   );
   const table = (

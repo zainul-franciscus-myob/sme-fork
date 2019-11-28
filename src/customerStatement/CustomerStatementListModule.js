@@ -5,6 +5,7 @@ import { CUSTOMER_STATEMENT_LIST_ROUTE } from './getCustomerStatementRoutes';
 import {
   getAppliedFilterOptions,
   getDefaultTemplateOption,
+  getFileName,
   getFilterOptions,
   getNewSortOrder,
   getSelectedTemplateOption,
@@ -101,7 +102,7 @@ export default class CustomerStatementListModule {
         message: 'Success! Your customer statements have been downloaded.',
         type: 'success',
       });
-      openBlob(data, 'customer-statements', '_self');
+      openBlob(data, getFileName(state), '_self');
     };
 
     const onFailure = ({ message }) => {
@@ -126,7 +127,7 @@ export default class CustomerStatementListModule {
         message: 'Success! Your customer statements have been downloaded.',
         type: 'success',
       });
-      openBlob(data, 'customer-statements', '_self');
+      openBlob(data, getFileName(state), '_self');
     };
 
     const onFailure = ({ message }) => {
@@ -169,6 +170,7 @@ export default class CustomerStatementListModule {
       <CustomerStatementListView
         onApplyFilters={this.filterCustomerStatementList}
         onUpdateFilters={this.dispatcher.updateFilterOptions}
+        onUpdateTemplateAdditionalOptions={this.dispatcher.updateTemplateAdditionalOptions}
         onToggleAllCustomerStatements={this.dispatcher.toggleAllCustomerStatements}
         onSelectCustomerStatement={this.dispatcher.selectCustomerStatement}
         onSelectPdfDropdown={this.selectPdfOption}

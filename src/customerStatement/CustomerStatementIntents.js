@@ -13,6 +13,7 @@ export const SORT_AND_FILTER_CUSTOMER_STATEMENTS = Symbol('Filter customer state
 export const SEND_EMAIL = Symbol('Send email');
 export const DOWNLOAD_PDF = Symbol('Download PDF');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter options');
+export const UPDATE_TEMPLATE_ADDITIONAL_OPTIONS = Symbol('Update template additional options');
 export const UPDATE_TEMPLATE_OPTION = Symbol('Update template option');
 export const UPDATE_EMAIL_OPTIONS = Symbol('Update email options');
 export const TOGGLE_ALL_CUSTOMER_STATEMENTS = Symbol('Toggle all customer statements');

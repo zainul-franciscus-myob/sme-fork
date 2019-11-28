@@ -1,13 +1,13 @@
-import { Card } from '@myob/myob-widgets';
+import { Card, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsTableEmpty, getIsTableLoading } from '../selectors/customerStatementListSelectors';
+import { getIsDefaultFilters, getIsTableEmpty, getIsTableLoading } from '../selectors/customerStatementListSelectors';
 import CustomerStatementListTableActions from './CustomerStatementListTableActions';
 import CustomerStatementListTableBody from './CustomerStatementListTableBody';
 import CustomerStatementListTableHeader from './CustomerStatementListTableHeader';
-import NoResultPageState from '../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../components/TableView/TableView';
+import emptyResults from './no-results-state.svg';
 
 const name = 'Customer name';
 const contactPerson = 'Contact person';
@@ -50,16 +50,28 @@ const tableConfig = {
 const CustomerStatementListTable = ({
   isTableLoading,
   isTableEmpty,
+  isDefaultFilters,
   onToggleAllCustomerStatements,
   onSelectCustomerStatement,
   onSelectPdfDropdown,
   onClickEmailButton,
   onSort,
 }) => {
-  const emptyView = (
-    <NoResultPageState
+  const noResultImage = (
+    <img src={emptyResults} alt="No result found" />
+  );
+
+  const emptyView = isDefaultFilters ? (
+    <PageState
       title="You have no statements"
       description="Statements will display once invoices are created"
+      image={noResultImage}
+    />
+  ) : (
+    <PageState
+      title="No statements found"
+      description="Perhaps remove the filters and try again"
+      image={noResultImage}
     />
   );
 
@@ -103,6 +115,7 @@ const CustomerStatementListTable = ({
 const mapStateToProps = state => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
+  isDefaultFilters: getIsDefaultFilters(state),
 });
 
 export default connect(mapStateToProps)(CustomerStatementListTable);

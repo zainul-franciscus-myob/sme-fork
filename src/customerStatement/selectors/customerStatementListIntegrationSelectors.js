@@ -1,36 +1,12 @@
 import { getDefaultTemplateOption } from './customerStatementListSelectors';
-import StatementType from '../StatementType';
 
 export const getBusinessId = state => state.businessId;
 
-const getParams = (sortOrder, orderBy, filterOptions) => {
-  const {
-    statementType,
-    statementDate,
-    fromDate,
-    toDate,
-    includeInvoices,
-    selectedCustomerId,
-    showZeroAmount,
-  } = filterOptions;
-
-  if (statementType === StatementType.INVOICE) {
-    return {
-      statementType,
-      statementDate,
-      includeInvoices,
-      selectedCustomerId,
-      showZeroAmount,
-      sortOrder,
-      orderBy,
-    };
-  }
+export const getQueryParamsForList = (state) => {
+  const { sortOrder, orderBy, filterOptions } = state;
+  const { selectedCustomerId, showZeroAmount } = filterOptions;
 
   return {
-    statementType,
-    fromDate,
-    toDate,
-    includeInvoices,
     selectedCustomerId,
     showZeroAmount,
     sortOrder,
@@ -38,28 +14,10 @@ const getParams = (sortOrder, orderBy, filterOptions) => {
   };
 };
 
-export const getQueryParams = (state) => {
-  const {
-    sortOrder,
-    orderBy,
-    filterOptions,
-  } = state;
-
-  return getParams(sortOrder, orderBy, filterOptions);
-};
-
-const getAppliedQueryParams = (state) => {
-  const {
-    sortOrder,
-    orderBy,
-    appliedFilterOptions,
-  } = state;
-
-  return getParams(sortOrder, orderBy, appliedFilterOptions);
-};
-
 export const getDownloadPdfQueryParams = (state, templateOption) => ({
-  ...getAppliedQueryParams(state),
+  ...state.templateAdditionalOptions,
+  sortOrder: state.sortOrder,
+  orderBy: state.orderBy,
   templateOption,
   customerUids: state.customerStatements
     .filter(({ isSelected }) => isSelected)
@@ -73,7 +31,7 @@ const getSelectedTemplateOptionForEmail = (state) => {
 };
 
 export const getSendEmailContent = state => ({
-  ...state.appliedFilterOptions,
+  ...state.templateAdditionalOptions,
   fromEmail: state.emailModalOptions.fromEmail,
   subject: state.emailModalOptions.subject,
   message: state.emailModalOptions.message,
