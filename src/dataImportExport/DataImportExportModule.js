@@ -94,7 +94,7 @@ export default class DataImportExportModule {
       this.emptyDataTypeForTab(TabItem.IMPORT);
       this.dispatcher.setSubmittingState(false);
       this.closeModal();
-      this.displayInfoAlert(response.message);
+      this.displaySuccessMessage(response.message);
     };
 
     const onFailure = (response) => {
@@ -130,11 +130,6 @@ export default class DataImportExportModule {
   displaySuccessMessage = successMessage => this.dispatcher.setAlert({
     message: successMessage,
     type: 'success',
-  });
-
-  displayInfoAlert = message => this.dispatcher.setAlert({
-    message,
-    type: 'info',
   });
 
   displayFailureAlert = errorMessage => this.dispatcher.setAlert({
