@@ -117,13 +117,14 @@ export default class JournalTransactionModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({ entries, sortOrder }) => {
+    const onSuccess = ({ entries, sortOrder, pagination }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
         isSort: false,
         sortOrder,
+        pagination,
       });
     };
 
@@ -165,13 +166,14 @@ export default class JournalTransactionModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({ entries, sortOrder }) => {
+    const onSuccess = ({ entries, sortOrder, pagination }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
         isSort: true,
         sortOrder,
+        pagination,
       });
     };
 
