@@ -2,8 +2,10 @@ import React from 'react';
 
 import {
   LOAD_TRANSACTION_LIST,
+  LOAD_TRANSACTION_LIST_NEXT_PAGE,
   SET_INITIAL_STATE,
   SET_LOADING_STATE,
+  SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_TRANSACTION_LIST,
@@ -15,6 +17,8 @@ import {
   getBusinessId,
   getFlipSortOrder,
   getIsActive,
+  getIsLoaded,
+  getLoadTransactionListNextPageParams,
   getOrderBy,
   getRegion,
   getRequestFilterOptions,
@@ -38,6 +42,9 @@ export default class JournalTransactionModule {
   }
 
   getView({ pageHead, alert, subHead }) {
+    if (!getIsLoaded(this.store.getState())) {
+      this.loadTransactionList();
+    }
     return (
       <TransactionListView
         onSort={this.sortTransactionList}
@@ -45,6 +52,7 @@ export default class JournalTransactionModule {
         onUpdateFilters={this.updateFilterOptions}
         onUpdateMultiFilters={this.updateMultiFilterOptions}
         onApplyFilter={this.filterTransactionList}
+        onLoadMoreButtonClick={this.loadTransactionListNextPage}
         pageHead={pageHead}
         subHead={subHead}
         alert={alert}
@@ -83,12 +91,21 @@ export default class JournalTransactionModule {
         ...filterOptions,
         sortOrder,
         orderBy,
+        offset: 0,
       },
       urlParams,
       onSuccess,
       onFailure,
     });
   }
+
+  setNextPageLoadingState = (isNextPageLoading) => {
+    const intent = SET_NEXT_PAGE_LOADING_STATE;
+    this.store.dispatch({
+      intent,
+      isNextPageLoading,
+    });
+  };
 
   filterTransactionList = () => {
     const state = this.store.getState();
@@ -168,7 +185,44 @@ export default class JournalTransactionModule {
         ...filterOptions,
         sortOrder: newSortOrder,
         orderBy,
+        offset: 0,
       },
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  loadTransactionListNextPage = () => {
+    const state = this.store.getState();
+    this.setNextPageLoadingState(true);
+
+    const intent = LOAD_TRANSACTION_LIST_NEXT_PAGE;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    const params = getLoadTransactionListNextPageParams(state);
+
+    const onSuccess = ({
+      entries, pagination,
+    }) => {
+      this.setNextPageLoadingState(false);
+      this.store.dispatch({
+        intent,
+        entries,
+        pagination,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setNextPageLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    this.integration.read({
+      intent,
+      urlParams,
+      params,
       onSuccess,
       onFailure,
     });
@@ -249,6 +303,5 @@ export default class JournalTransactionModule {
       this.updateURLFromState(state);
       saveSettings(context.businessId, SETTING_KEY, getSettings(state));
     });
-    this.loadTransactionList();
   }
 }

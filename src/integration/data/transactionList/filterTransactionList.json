@@ -1,7 +1,7 @@
 {
   "sortOrder": "asc",
   "entries": [{
-      "id": "1",
+      "id": "996",
       "displayDate": "30/04/2016",
       "referenceId": "GJ0000001",
       "description": "doing general business",
@@ -10,7 +10,7 @@
       "businessEventType": "GeneralAccounting"
     },
     {
-      "id": "3",
+      "id": "997",
       "displayDate": "30/06/2016",
       "referenceId": "SM0000003",
       "description": "Spending money",
@@ -19,7 +19,7 @@
       "businessEventType": "CashPayment"
     },
     {
-      "id": "2",
+      "id": "998",
       "displayDate": "30/07/2016",
       "referenceId": "RM0000004",
       "description": "cash something?",
@@ -27,5 +27,10 @@
       "displayAmount": "5.00",
       "businessEventType": "CashReceipt"
     }
-  ]
+  ],
+  "pagination": {
+    "offset": 3,
+    "hasNextPage": true
+  }
+
 }

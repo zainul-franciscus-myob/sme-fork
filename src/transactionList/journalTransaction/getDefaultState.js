@@ -15,10 +15,12 @@ const getDefaultState = () => ({
   appliedFilterOptions: {
     ...defaultFilterOptions,
   },
+  pagination: {},
   sortOrder: 'desc',
   orderBy: 'Date',
   isLoading: true,
   isTableLoading: false,
+  isNextPageLoading: false,
 });
 
 export default getDefaultState;

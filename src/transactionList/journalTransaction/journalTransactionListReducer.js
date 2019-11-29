@@ -1,7 +1,9 @@
 import {
   LOAD_TRANSACTION_LIST,
+  LOAD_TRANSACTION_LIST_NEXT_PAGE,
   SET_INITIAL_STATE,
   SET_LOADING_STATE,
+  SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_TRANSACTION_LIST,
@@ -24,26 +26,26 @@ const getDefaultFilterOptionsForRegion = region => ({
 const setInitialState = (state, {
   context: { region },
   sourceJournal,
-  settings = { sortOrder: 'desc', orderBy: 'Date' },
+  settings = { sortOrder: 'desc', orderBy: 'Date', filterOptions: {} },
 }) => {
   const defaultFilterOptionsForRegion = getDefaultFilterOptionsForRegion(region);
+  const filterOptions = {
+    ...state.filterOptions,
+    ...defaultFilterOptionsForRegion,
+    ...settings.filterOptions,
+    sourceJournal:
+      sourceJournal
+      || settings.filterOptions.sourceJournal
+      || state.filterOptions.sourceJournal,
+  };
   return {
     ...state,
     defaultFilterOptions: defaultFilterOptionsForRegion,
-    filterOptions: {
-      ...state.filterOptions,
-      ...defaultFilterOptionsForRegion,
-      sourceJournal,
-      ...settings.filterOptions,
-    },
-    appliedFilterOptions: {
-      ...state.appliedFilterOptions,
-      ...defaultFilterOptionsForRegion,
-      sourceJournal,
-      ...settings.filterOptions,
-    },
+    filterOptions,
+    applie1dFilterOptions: filterOptions,
     sortOrder: settings.sortOrder,
     orderBy: settings.orderBy,
+    isNextPageLoading: false,
   };
 };
 
@@ -61,12 +63,20 @@ const loadTransactionList = (state, action) => ({
     ...state.appliedFilterOptions,
     ...action.filterOptions,
   },
+  pagination: {
+    hasNextPage: action.pagination.hasNextPage,
+    offset: action.pagination.offset,
+  },
 });
 
 const sortAndFilterTransactionList = (state, action) => ({
   ...state,
   entries: action.entries,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
+  pagination: {
+    hasNextPage: action.pagination.hasNextPage,
+    offset: action.pagination.offset,
+  },
 });
 
 const setSortOrder = (state, action) => ({
@@ -106,6 +116,28 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
+const setIsNextPageLoadingState = (state, action) => ({
+  ...state,
+  isNextPageLoading: action.isNextPageLoading,
+});
+
+const loadTransactionListNextPage = (state, action) => {
+  const filterDuplicates = action.entries.filter(
+    ({ id }) => state.entries.every(entry => entry.id !== id),
+  );
+  return ({
+    ...state,
+    entries: [
+      ...state.entries,
+      ...filterDuplicates,
+    ],
+    pagination: {
+      hasNextPage: action.pagination.hasNextPage,
+      offset: action.pagination.offset,
+    },
+  });
+};
+
 const handlers = {
   [LOAD_TRANSACTION_LIST]: loadTransactionList,
   [SORT_AND_FILTER_TRANSACTION_LIST]: sortAndFilterTransactionList,
@@ -115,6 +147,8 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SORT_ORDER]: setSortOrder,
   [SET_INITIAL_STATE]: setInitialState,
+  [SET_NEXT_PAGE_LOADING_STATE]: setIsNextPageLoadingState,
+  [LOAD_TRANSACTION_LIST_NEXT_PAGE]: loadTransactionListNextPage,
 };
 
 export default handlers;

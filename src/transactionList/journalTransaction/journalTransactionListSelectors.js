@@ -1,6 +1,8 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { tabItemIds } from '../tabItems';
+import BusinessEventTypeMap from '../BusinessEventTypeMap';
+import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 
 const getJournalState = state => state.journalTransactions;
 
@@ -59,29 +61,14 @@ export const getEntries = createSelector(
   state => state.entries,
 );
 
-const BUSINESS_EVENT_TYPE_TO_FEATURE_MAP = {
-  GeneralAccounting: 'generalJournal',
-  CashPayment: 'spendMoney',
-  CashReceipt: 'receiveMoney',
-  TransferMoney: 'transferMoney',
-  ReceivePayment: 'invoicePayment',
-  PayBill: 'billPayment',
-  ReceiveRefund: 'receiveRefund',
-  SettlePurchaseReturn: 'appliedPurchaseReturn',
-  PayRefund: 'payRefund',
-  SettleSaleReturn: 'applyToSale',
-  Purchase: 'bill',
-  Sale: 'invoice',
-};
-
 const getEntryLink = (entry, businessId, region) => {
   const {
     id,
     businessEventType,
   } = entry;
-  const feature = BUSINESS_EVENT_TYPE_TO_FEATURE_MAP[businessEventType];
+  const feature = BusinessEventTypeMap[businessEventType];
 
-  return `/#/${region}/${businessId}/${feature}/${id}`;
+  return feature ? `/#/${region}/${businessId}/${feature}/${id}` : undefined;
 };
 
 export const getBusinessId = state => state.businessId;
@@ -112,6 +99,11 @@ export const getIsTableLoading = createSelector(
 export const getIsLoading = createSelector(
   getJournalState,
   state => state.isLoading,
+);
+
+export const getIsLoaded = createSelector(
+  getIsLoading,
+  isLoading => !isLoading,
 );
 
 const getAppliedSourceJournal = createSelector(
@@ -151,3 +143,40 @@ export const getSettings = createSelector(
     orderBy,
   }),
 );
+
+export const getLoadMoreButtonStatus = createSelector(
+  getJournalState,
+  (state) => {
+    const isLastPage = !state.pagination.hasNextPage;
+    const { isTableLoading } = state;
+
+    if (isLastPage || isTableLoading) {
+      return LoadMoreButtonStatuses.HIDDEN;
+    }
+
+    if (state.isNextPageLoading) {
+      return LoadMoreButtonStatuses.LOADING;
+    }
+
+    return LoadMoreButtonStatuses.SHOWN;
+  },
+);
+
+export const getOffset = createSelector(
+  getJournalState,
+  state => state.pagination.offset,
+);
+
+export const getLoadTransactionListNextPageParams = (state) => {
+  const filterOptions = getFilterOptions(state);
+  const sortOrder = getSortOrder(state);
+  const orderBy = getOrderBy(state);
+  const offset = getOffset(state);
+
+  return {
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+    offset,
+  };
+};

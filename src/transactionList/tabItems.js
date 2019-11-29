@@ -5,5 +5,5 @@ export const tabItemIds = {
 
 export const tabItems = [
   { id: tabItemIds.debitsAndCredits, label: 'Debits and Credits' },
-  { id: tabItemIds.journal, label: 'Transations' },
+  { id: tabItemIds.journal, label: 'Transactions' },
 ];

@@ -267,6 +267,19 @@
       "sourceJournal": "Sale",
       "displayAmount": "2000.00",
       "businessEventType": "ApplyToSale"
+    },
+    {
+      "id": "29",
+      "displayDate": "30/09/2016",
+      "referenceId": "ATS0001122",
+      "description": "Invalid transaction type",
+      "sourceJournal": "Inventory",
+      "displayAmount": "2000.00",
+      "businessEventType": "ApplyToSale"
     }
-  ]
+  ],
+  "pagination": {
+    "offset": 3,
+    "hasNextPage": true
+  }
 }

@@ -7,3 +7,5 @@ export const SET_TABLE_LOADING_STATE = Symbol('Set Table loading state');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter Options');
 export const UPDATE_MULTI_FILTER_OPTIONS = Symbol('Update multi filter Options');
 export const SET_SORT_ORDER = Symbol('Set sort order');
+export const LOAD_TRANSACTION_LIST_NEXT_PAGE = Symbol('Load transaction list next page');
+export const SET_NEXT_PAGE_LOADING_STATE = Symbol('Set next page loading state');

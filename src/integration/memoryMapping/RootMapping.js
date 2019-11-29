@@ -30,6 +30,7 @@ import InventoryMapping from './InventoryMapping';
 import InventoryModalMapping from './InventoryModalMapping';
 import InvoiceMapping from './InvoiceMapping';
 import InvoicePaymentMapping from './InvoicePaymentMapping';
+import JournalTransactionListMapping from './JournalTransactionListMapping';
 import LeavePayItemMapping from './LeavePayItemMapping';
 import LinkBillMapping from './LinkBillMapping';
 import LinkUserMapping from './LinkUserMapping';
@@ -51,7 +52,6 @@ import SuperPayItemMapping from './SuperPayItemMapping';
 import SupplierReturnMapping from './SupplierReturnMapping';
 import SupplierReturnPurchaseMapping from './SupplierReturnPurchaseMapping';
 import TaxMapping from './TaxMapping';
-import TransactionListMapping from './TransactionListMapping';
 import TransferMoneyMapping from './TransferMoneyMapping';
 import UserMapping from './UserMapping';
 import WagePayItemMapping from './WagePayItemMapping';
@@ -69,7 +69,7 @@ const RootMapping = Object.freeze({
   ...ReceiveMoneyMapping,
   ...SpendMoneyMapping,
   ...TaxMapping,
-  ...TransactionListMapping,
+  ...JournalTransactionListMapping,
   ...TransferMoneyMapping,
   ...InventoryMapping,
   ...UserMapping,
