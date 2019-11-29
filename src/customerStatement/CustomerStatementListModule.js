@@ -19,7 +19,7 @@ import Store from '../store/Store';
 import createCustomerStatementListDispatcher from './createCustomerStatementListDispatcher';
 import createCustomerStatementListIntegrator from './createCustomerStatementListIntegrator';
 import customerStatementListReducer from './customerStatementListReducer';
-import openBlob from '../blobOpener/openBlob';
+import openBlob from '../common/blobOpener/openBlob';
 
 export default class CustomerStatementListModule {
   constructor({ integration, setRootView }) {

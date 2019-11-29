@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-import formatDate from '../../valueFormatters/formatDate/formatDate';
-import formatSlashDate from '../../valueFormatters/formatDate/formatSlashDate';
+import formatDate from '../../common/valueFormatters/formatDate/formatDate';
+import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 
 export const getIsLoading = state => state.isLoading;
 export const getIsSubmitting = state => state.isSubmitting;

@@ -3,7 +3,7 @@ import {
 } from 'date-fns';
 
 import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../PayRunIntents';
-import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getStartPayRunDefaultState = () => ({
   paymentFrequency: 'Weekly',

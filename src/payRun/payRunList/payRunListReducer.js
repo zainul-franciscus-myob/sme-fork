@@ -14,7 +14,7 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from './PayRunListIntents';
 import createReducer from '../../store/createReducer';
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultDateRange = () => addMonths(new Date(), -3);
 

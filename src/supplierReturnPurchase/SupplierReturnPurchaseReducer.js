@@ -14,7 +14,7 @@ import {
 } from './SupplierReturnPurchaseIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import createReducer from '../store/createReducer';
-import formatIsoDate from '../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   supplierReturnPurchase: {

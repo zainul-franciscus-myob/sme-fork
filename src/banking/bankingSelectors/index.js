@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 import { businessEventTypes } from '../businessEventTypes';
 import { tabIds } from '../tabItems';
-import formatSlashDate from '../../valueFormatters/formatDate/formatSlashDate';
+import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 import getRegionToDialectText from '../../dialect/getRegionToDialectText';
 
 export const getOrderBy = ({ orderBy }) => orderBy;

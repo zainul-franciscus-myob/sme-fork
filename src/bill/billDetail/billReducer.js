@@ -37,8 +37,8 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getLoadBillModalType, getUpdatedSupplierOptions } from './selectors/billSelectors';
 import createReducer from '../../store/createReducer';
-import formatAmount from '../../valueFormatters/formatAmount';
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
+import formatAmount from '../../common/valueFormatters/formatAmount';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   today: new Date(),

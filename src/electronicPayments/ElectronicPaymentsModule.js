@@ -32,7 +32,7 @@ import ElectronicPaymentsView from './components/ElectronicPaymentsView';
 import ModalType from './ModalType';
 import Store from '../store/Store';
 import electronicPaymentReducer from './electronicPaymentsReducer';
-import formatIsoDate from '../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../common/valueFormatters/formatDate/formatIsoDate';
 
 const downloadAsFile = (content, filename) => {
   /**

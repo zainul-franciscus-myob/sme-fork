@@ -5,7 +5,7 @@ import { businessEventFeatures } from '../businessEventTypes';
 import {
   formatAmount, getBusinessId, getEntries, getFilterOptions, getRegion,
 } from './index';
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getMatchTransactionFilterOptions = state => state.openEntry.match.filterOptions;
 

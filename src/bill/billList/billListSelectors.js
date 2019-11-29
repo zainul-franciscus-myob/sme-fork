@@ -2,10 +2,10 @@ import { addMonths } from 'date-fns';
 import { createSelector } from 'reselect';
 
 import TableBodyType from './TableBodyType';
-import formatAmount from '../../valueFormatters/formatAmount';
-import formatCurrency from '../../valueFormatters/formatCurrency';
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
-import formatSlashDate from '../../valueFormatters/formatDate/formatSlashDate';
+import formatAmount from '../../common/valueFormatters/formatAmount';
+import formatCurrency from '../../common/valueFormatters/formatCurrency';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
+import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 
 export const getEntries = state => state.entries;
 

@@ -42,7 +42,7 @@ import createInvoiceDetailDispatcher from './createInvoiceDetailDispatcher';
 import createInvoiceDetailIntegrator from './createInvoiceDetailIntegrator';
 import invoiceDetailReducer from './reducer/invoiceDetailReducer';
 import keyMap from '../../hotKeys/keyMap';
-import openBlob from '../../blobOpener/openBlob';
+import openBlob from '../../common/blobOpener/openBlob';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 const messageTypes = [

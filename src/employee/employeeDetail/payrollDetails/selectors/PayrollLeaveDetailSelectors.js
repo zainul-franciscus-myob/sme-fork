@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect/lib/index';
 
 import { getStartDate, getTerminationDate } from './EmploymentDetailsSelectors';
-import formatSlashDate from '../../../../valueFormatters/formatDate/formatSlashDate';
+import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
 
 export const getLeavePayItemOptions = state => state.leavePayItemOptions;
 

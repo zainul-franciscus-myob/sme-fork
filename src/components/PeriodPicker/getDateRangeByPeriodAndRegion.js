@@ -12,7 +12,7 @@ import {
 } from 'date-fns';
 
 import Periods from './Periods';
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getCurrentDateRange = date => ({
   dateFrom: date,

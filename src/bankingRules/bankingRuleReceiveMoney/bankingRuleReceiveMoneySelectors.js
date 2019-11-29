@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { allocationTypeOptions } from './AllocationTypes';
-import formatNumberWithDecimalScaleRange from '../../valueFormatters/formatNumberWithDecimalScaleRange';
+import formatNumberWithDecimalScaleRange from '../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import getRegionToDialectText from '../../dialect/getRegionToDialectText';
 
 const getApplyToAllAccounts = state => state.applyToAllAccounts;

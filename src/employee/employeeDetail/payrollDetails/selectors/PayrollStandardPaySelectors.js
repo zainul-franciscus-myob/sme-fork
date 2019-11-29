@@ -20,7 +20,7 @@ import {
   getAllocatedWagePayItems as getWagePayItems,
 } from './PayrollWageSelectors';
 import { getWage as getWagePayItemModalWage } from './WagePayItemModalSelectors';
-import formatNumberWithDecimalScaleRange from '../../../../valueFormatters/formatNumberWithDecimalScaleRange';
+import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import payItemTypes from '../../payItemTypes';
 
 export const fieldTypes = {

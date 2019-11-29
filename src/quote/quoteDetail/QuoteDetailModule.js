@@ -52,7 +52,7 @@ import Store from '../../store/Store';
 import createQuoteDetailDispatcher from './createQuoteDetailDispatcher';
 import createQuoteDetailIntegrator from './createQuoteDetailIntegrator';
 import keyMap from '../../hotKeys/keyMap';
-import openBlob from '../../blobOpener/openBlob';
+import openBlob from '../../common/blobOpener/openBlob';
 import quoteDetailReducer from './reducer/quoteDetailReducer';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
 

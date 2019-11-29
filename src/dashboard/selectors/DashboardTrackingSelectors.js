@@ -2,8 +2,8 @@ import { createSelector } from 'reselect';
 import { getYear } from 'date-fns';
 
 import { getBusinessId } from './DashboardSelectors';
-import formatCurrency from '../../valueFormatters/formatCurrency';
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
+import formatCurrency from '../../common/valueFormatters/formatCurrency';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getIsLoading = state => state.tracking.isLoading;
 export const getIsDetailLoading = state => state.tracking.isDetailLoading;

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { isPast } from 'date-fns';
 
-import formatCurrency from '../../valueFormatters/formatCurrency';
+import formatCurrency from '../../common/valueFormatters/formatCurrency';
 
 export const getBusinessId = ({ businessId }) => businessId;
 

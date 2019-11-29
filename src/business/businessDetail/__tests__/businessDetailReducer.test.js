@@ -1,6 +1,6 @@
 import { UPDATE_LOCK_DATE_DETAIL } from '../../BusinessIntents';
 import businessDetailsReducer from '../businessDetailReducer';
-import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 describe('businessDetailReducer', () => {
   describe('updateLockDateDetail', () => {

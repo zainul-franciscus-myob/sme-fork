@@ -20,7 +20,7 @@ import {
   allocationTypeOptions,
 } from './AllocationTypes';
 import createReducer from '../../store/createReducer';
-import formatNumberWithDecimalScaleRange from '../../valueFormatters/formatNumberWithDecimalScaleRange';
+import formatNumberWithDecimalScaleRange from '../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 
 const getDefaultState = () => ({
   businessId: '',

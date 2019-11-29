@@ -1,6 +1,6 @@
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import SaveActionType from '../SaveActionType';
-import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
   businessId: '',

@@ -12,7 +12,7 @@ import {
 } from '../../SystemIntents';
 import { getDefaultDateRange } from './billListSelectors';
 import createReducer from '../../store/createReducer';
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 const defaultFilterOptions = {
   status: '',

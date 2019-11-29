@@ -5,7 +5,7 @@ import {
 } from './ruleDetailsSelectors';
 import AllocationTypes from '../AllocationTypes';
 import RuleTypes from '../RuleTypes';
-import formatNumberWithDecimalScaleRange from '../../../valueFormatters/formatNumberWithDecimalScaleRange';
+import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 export const getTaxCodes = createSelector(

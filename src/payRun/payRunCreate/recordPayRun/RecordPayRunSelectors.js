@@ -1,4 +1,4 @@
-import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getNumberOfSelected = state => (
   state.employeePayList.lines.filter(line => line.isSelected).length

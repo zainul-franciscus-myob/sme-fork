@@ -6,8 +6,8 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import {
   getExpirationDays, getExpirationTerm, getExpirationTermOptions, getIssueDate,
 } from './invoiceDetailSelectors';
-import formatDate from '../../../valueFormatters/formatDate/formatDate';
-import formatSlashDate from '../../../valueFormatters/formatDate/formatSlashDate';
+import formatDate from '../../../common/valueFormatters/formatDate/formatDate';
+import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 
 const getExpiredDateOnADayOfTheMonth = (issueDate, expirationDays) => {
   const date = new Date(issueDate);

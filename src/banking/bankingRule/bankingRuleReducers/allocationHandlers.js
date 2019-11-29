@@ -1,6 +1,6 @@
 import { getAllocationAccounts } from '../bankingRuleSelectors';
 import AllocationTypes from '../AllocationTypes';
-import formatNumberWithDecimalScaleRange from '../../../valueFormatters/formatNumberWithDecimalScaleRange';
+import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 
 const newAllocationLine = {
   accountId: '',

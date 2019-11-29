@@ -21,7 +21,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getBusinessId, getPayRunListUrl, getUrlParams } from './payRunDetailSelector';
 import PayRunDetailView from './components/payRunDetailView';
 import Store from '../../store/Store';
-import openBlob from '../../blobOpener/openBlob';
+import openBlob from '../../common/blobOpener/openBlob';
 import payRunDetailReducer from './payRunDetailReducer';
 
 export default class PayRunDetailModule {

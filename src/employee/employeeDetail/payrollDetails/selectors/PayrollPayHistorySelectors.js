@@ -16,7 +16,7 @@ import {
   getWagePayItems as getWagePayItemOptions,
   getAllocatedWagePayItems as getWagePayItems,
 } from './PayrollWageSelectors';
-import formatNumberWithDecimalScaleRange from '../../../../valueFormatters/formatNumberWithDecimalScaleRange';
+import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import payItemTypes from '../../payItemTypes';
 
 const groupedMonth = 'group';

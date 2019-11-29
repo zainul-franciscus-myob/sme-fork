@@ -7,8 +7,8 @@ import {
   getTotalOverdue,
 } from '../billListSelectors';
 import TableBodyType from '../TableBodyType';
-import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
-import formatSlashDate from '../../../valueFormatters/formatDate/formatSlashDate';
+import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
+import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 
 describe('billListSelectors', () => {
   describe('getTableEntries', () => {

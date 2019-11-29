@@ -43,7 +43,7 @@ import billReducer from './billReducer';
 import createBillDispatcher from './createBillDispatcher';
 import createBillIntegrator from './createBillIntegrator';
 import keyMap from '../../hotKeys/keyMap';
-import openBlob from '../../blobOpener/openBlob';
+import openBlob from '../../common/blobOpener/openBlob';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 class BillModule {

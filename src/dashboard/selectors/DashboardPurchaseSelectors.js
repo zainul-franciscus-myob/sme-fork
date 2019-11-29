@@ -2,7 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { endOfMonth, startOfMonth } from 'date-fns';
 
 import { getBusinessId, getRegion } from './DashboardSelectors';
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getPurchaseEntries = state => state.purchase.entries;
 

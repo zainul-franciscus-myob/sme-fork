@@ -10,7 +10,7 @@ import { getBusinessId } from './PreparePaySlipsSelectors';
 import { getPayRunListUrl } from '../PayRunSelectors';
 import PreparePaySlipsView from './components/PreparePaySlipsView';
 import createPayRunDispatchers from '../createPayRunDispatchers';
-import openBlob from '../../../blobOpener/openBlob';
+import openBlob from '../../../common/blobOpener/openBlob';
 
 export default class PreparePaySlipsModule {
   constructor({

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-import formatAmount from '../../../valueFormatters/formatAmount';
-import formatNumberWithDecimalScaleRange from '../../../valueFormatters/formatNumberWithDecimalScaleRange';
+import formatAmount from '../../../common/valueFormatters/formatAmount';
+import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 
 const getEmployeePayLines = state => state.employeePayList.lines;
 

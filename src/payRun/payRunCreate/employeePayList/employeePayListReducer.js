@@ -13,7 +13,7 @@ import {
   UPDATE_IS_EMPLOYEE_SELECTED,
   VALIDATE_ETP,
 } from '../PayRunIntents';
-import formatNumberWithDecimalScaleRange from '../../../valueFormatters/formatNumberWithDecimalScaleRange';
+import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 
 export const getEmployeePayListDefaultState = () => ({
   stpRegistrationStatus: 'notRegistered',

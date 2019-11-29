@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { getBusinessId, getRegion } from './DashboardSelectors';
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getHasError = state => state.banking.hasError;
 

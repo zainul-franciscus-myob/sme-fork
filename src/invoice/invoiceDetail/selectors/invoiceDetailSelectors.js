@@ -2,7 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import InvoiceLayout from '../InvoiceLayout';
-import formatCurrency from '../../../valueFormatters/formatCurrency';
+import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 export const getBusinessId = state => state.businessId;

@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { businessEventFeatures } from '../banking/businessEventTypes';
-import formatSlashDate from '../valueFormatters/formatDate/formatSlashDate';
+import formatSlashDate from '../common/valueFormatters/formatDate/formatSlashDate';
 
 export const getIsLoading = state => state.isLoading;
 export const getIsTableLoading = state => state.isTableLoading;

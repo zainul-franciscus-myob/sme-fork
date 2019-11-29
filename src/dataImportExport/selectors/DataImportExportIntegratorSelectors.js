@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { getImportChartOfAccountsFile } from './DataImportExportSelectors';
-import formatIsoDate from '../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getLoadDataImportExportParams = () => ({
   currentDate: formatIsoDate(new Date()),

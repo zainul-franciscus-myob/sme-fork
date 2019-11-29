@@ -2,7 +2,7 @@ import { addDays, subDays } from 'date-fns';
 
 import { getIsDefaultFilters } from '../../../contact/contactList/contactListSelector';
 import { getTableEntries, getTotalOverdue } from '../invoiceListSelectors';
-import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
+import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 describe('contactListSelector', () => {
   describe('getTableEntries', () => {

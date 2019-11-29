@@ -14,7 +14,7 @@ import TabItem from './types/TabItem';
 import createDataImportExportDispatcher from './createDataImportExportDispatcher';
 import createDataImportExportIntegrator from './createDataImportExportIntegrator';
 import dataImportExportReducer from './dataImportExportReducer';
-import openBlob from '../blobOpener/openBlob';
+import openBlob from '../common/blobOpener/openBlob';
 
 export default class DataImportExportModule {
   constructor({

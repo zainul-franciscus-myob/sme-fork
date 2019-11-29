@@ -8,7 +8,7 @@ import {
 } from '../../bankingSelectors';
 import ApplyTypes from '../ApplyTypes';
 import RuleTypes from '../RuleTypes';
-import formatSlashDate from '../../../valueFormatters/formatDate/formatSlashDate';
+import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 
 export const getBankingRuleModal = state => state.bankingRuleModal;
 

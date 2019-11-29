@@ -10,7 +10,7 @@ import {
   UPDATE_PAYROLL_WAGE_PAY_CYCLE,
 } from '../../../EmployeeIntents';
 import { getAnnualSalary, getHourlyRate, getPayPeriodHours } from '../selectors/PayrollWageSelectors';
-import formatNumberWithDecimalScaleRange from '../../../../valueFormatters/formatNumberWithDecimalScaleRange';
+import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 
 const formatAnnualSalary = annualSalary => Number(annualSalary).toFixed(2);
 const formatHourlyRate = hourlyRate => formatNumberWithDecimalScaleRange(hourlyRate, 2, 4);
