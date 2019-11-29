@@ -35,6 +35,7 @@ import getQuoteRoutes from './quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './receiveMoney/getReceiveMoneyRoutes';
 import getReceiveRefundRoutes from './receiveRefund/getReceiveRefundRoutes';
 import getSalesSettingsRoutes from './salesSettings/getSalesSettingsRoutes';
+import getSettingsRoutes from './settings/getSettingsRoutes';
 import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 import getSuperFundRoutes from './superFund/getSuperFundRoutes';
 import getSupplierReturnPurchaseRoutes from './supplierReturnPurchase/getSupplierReturnPurchaseRoutes';
@@ -186,6 +187,13 @@ const getRoutes = ({
     name: 'salesSettings',
     rootPath: '/:region/:businessId/salesSettings',
     subRoutes: getSalesSettingsRoutes({
+      integration, setRootView,
+    }),
+  },
+  {
+    name: 'settings',
+    rootPath: '/:region/:businessId/settings',
+    subRoutes: getSettingsRoutes({
       integration, setRootView,
     }),
   },

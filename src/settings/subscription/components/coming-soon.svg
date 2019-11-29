@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="126px" height="85px" viewBox="0 0 126 85" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path d="M107.34416,26.4236914 C107.06752,26.4236914 106.79872,26.4527986 106.52544,26.4651131 C105.0112,11.5991978 92.4504,0 77.17808,0 C63.23296,0 51.576,9.68372371 48.49936,22.6834231 C45.45968,20.5205382 41.75136,19.2364653 37.73616,19.2364653 C27.50272,19.2364653 19.20576,27.4972973 19.14304,37.7116667 C17.4384,36.9403273 15.55232,36.4992421 13.55872,36.4992421 C6.0704,36.4992421 -1.98951966e-13,42.5669626 -1.98951966e-13,50.0530968 C-1.98951966e-13,57.5381114 6.0704,63.605832 13.55872,63.605832 L107.34416,63.605832 C117.6168,63.605832 125.94288,55.2834271 125.94288,45.0153214 C125.94288,34.7472158 117.6168,26.4236914 107.34416,26.4236914" id="path-1"></path>
+    </defs>
+    <g id="Listing-pages---Eliza" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Generic-no-results-state" transform="translate(-598.000000, -356.000000)">
+            <g id="empty-states/with-icon/h3-multi-line/p-single-line/2-actions" transform="translate(444.000000, 356.000000)">
+                <g id="Group-2" transform="translate(154.000000, 0.000000)">
+                    <g id="illustration/product/scene-elements/clouds-2">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <use id="Mask" fill="#DCDFE1" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <g id="swatch/ui_storm_17%" mask="url(#mask-2)" fill="#DCDFE1" fill-rule="evenodd">
+                            <polygon points="0 0 126 0 126 64 0 64"></polygon>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
