@@ -6,13 +6,13 @@ const getDefaultState = () => ({
   sourceJournalFilters: [],
   accountList: [],
   filterOptions: {
-    accountId: '',
+    accountId: 'All',
     sourceJournal: 'All',
     keywords: '',
     period: Periods.thisMonth,
   },
   appliedFilterOptions: {
-    accountId: '',
+    accountId: 'All',
     sourceJournal: 'All',
     keywords: '',
     period: Periods.thisMonth,

@@ -1,5 +1,5 @@
 import {
-  FilterBar, Search, Select,
+  Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -8,6 +8,8 @@ import {
   getAccountList, getFilterOptions, getRegion, getSourceJournalFilterOptions,
 } from '../creditsAndDebitsListSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
+import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 import PeriodPicker from '../../../components/PeriodPicker/PeriodPicker';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
@@ -50,7 +52,7 @@ const CreditsAndDebitsListFilterOptions = ({
       selectedId={accountId}
       onChange={handleComboboxChange('accountId', onUpdateFilters)}
     />
-    <Search
+    <FilterBarSearch
       className={styles.search}
       label="Search"
       name="keywords"

@@ -120,11 +120,11 @@ export default class TransactionListModule {
 
   run(context) {
     this.setInitialState(context);
-    this.render();
-    this.readMessages();
     Object.values(this.subModules).forEach(
       subModule => subModule.run(context),
     );
+    this.render();
+    this.readMessages();
   }
 
   resetState() {

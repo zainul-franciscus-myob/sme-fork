@@ -40,6 +40,12 @@
   },
   "accountList": [
     {
+      "id": "All",
+      "displayId": "All",
+      "displayName": "",
+      "accountType": ""
+    },
+    {
       "id": "4",
       "displayId": "1-1110",
       "displayName": "Vehicle Account #11",

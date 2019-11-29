@@ -30,7 +30,7 @@ describe('creditsAndDebitsListReducer', () => {
 
       const filterOptions = {
         sourceJournal,
-        accountId: '',
+        accountId: 'All',
         dateFrom: '2019-11-01',
         dateTo: '2019-11-30',
         keywords: '',
@@ -75,7 +75,7 @@ describe('creditsAndDebitsListReducer', () => {
 
       const filterOptions = {
         sourceJournal: 'Foo',
-        accountId: '',
+        accountId: 'All',
         dateFrom: '2019-11-01',
         dateTo: '2019-11-30',
         keywords: '',

@@ -8,6 +8,7 @@ const FilterBarSearch = ({
   value,
   maxLength = 255,
   onChange,
+  className = styles.search,
 }) => (
   <Search
     name={name}
@@ -17,7 +18,7 @@ const FilterBarSearch = ({
     maxLength={maxLength}
     value={value}
     onChange={onChange}
-    className={styles.search}
+    className={className}
   />
 );
 
