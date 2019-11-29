@@ -98,20 +98,15 @@ const setNextPageLoadingState = (state, action) => ({
       : loadMoreButtonStatusBasedOnHasNextPage(state.pagination.hasNextPage),
 });
 
-const loadNextPage = (state, action) => {
-  const filterDuplicates = action.entries.filter(
-    ({ id }) => state.entries.every(entry => entry.id !== id),
-  );
-  return {
-    ...state,
-    entries: [
-      ...state.entries,
-      ...filterDuplicates,
-    ],
-    pagination: action.pagination,
-    loadMoreButtonStatus: loadMoreButtonStatusBasedOnHasNextPage(action.pagination.hasNextPage),
-  };
-};
+const loadNextPage = (state, action) => ({
+  ...state,
+  entries: [
+    ...state.entries,
+    ...action.entries,
+  ],
+  pagination: action.pagination,
+  loadMoreButtonStatus: loadMoreButtonStatusBasedOnHasNextPage(action.pagination.hasNextPage),
+});
 
 const handlers = {
   [LOAD_CREDITS_AND_DEBITS_LIST]: loadCreditsAndDebitsList,

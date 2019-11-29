@@ -4,6 +4,8 @@ import React from 'react';
 
 import { getTableEntries } from '../creditsAndDebitsListSelectors';
 
+/* eslint-disable react/no-array-index-key */
+
 const CreditsAndDebitsListTableBody = (props) => {
   const {
     tableConfig,
@@ -18,8 +20,8 @@ const CreditsAndDebitsListTableBody = (props) => {
     </Tooltip>
   ));
 
-  const rows = entries.map(entry => (
-    <Table.Row key={entry.id}>
+  const rows = entries.map((entry, index) => (
+    <Table.Row key={index}>
       <Table.RowItem {...tableConfig.date}>{entry.displayDate}</Table.RowItem>
       <Table.RowItem {...tableConfig.referenceId}>
         {getRefEntryLink(entry)}
