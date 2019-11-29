@@ -1,12 +1,11 @@
 import {
-  CALCULATE_INVOICE_ITEM_LINES_CHANGE,
-  CALCULATE_INVOICE_ITEM_LINE_INPUT_CHANGE,
-  CALCULATE_INVOICE_ITEM_LINE_TAX_CODE_CHANGE,
-  CALCULATE_INVOICE_ITEM_TAX_INCLUSIVE_CHANGE,
+  CALCULATE_LINE_TOTALS,
+  CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
+  CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE,
+  CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE,
   CREATE_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
-  GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -17,7 +16,6 @@ import {
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
   LOAD_PAY_DIRECT,
-  REMOVE_INVOICE_ITEM_LINE,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
@@ -34,7 +32,6 @@ import invoiceListLoadResponse from '../data/invoice/loadInvoiceList';
 import invoiceServiceDetail from '../data/invoice/serviceLayout/invoiceServiceDetail';
 import invoiceServiceNewDetail from '../data/invoice/serviceLayout/invoiceServiceNewDetail';
 import invoiceServiceNewDetailFromQuote from '../data/invoice/serviceLayout/invoiceServiceNewDetailFromQuote';
-import invoiceServiceTotals from '../data/invoice/serviceLayout/totalsResponse';
 import loadAddedAccountResponse from '../data/invoice/serviceLayout/loadAddedAccountResponse';
 import loadAddedContactResponse from '../data/invoice/loadAddedContactResponse';
 import loadItemOption from '../data/invoice/loadItemOption';
@@ -70,16 +67,12 @@ const InvoiceMapping = {
   [LOAD_CONTACT_ADDRESS]: ({ onSuccess }) => onSuccess(contactAddress),
   [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedContactResponse),
   [LOAD_PAY_DIRECT]: ({ onSuccess }) => onSuccess(payDirect),
-  [GET_INVOICE_SERVICE_CALCULATED_TOTALS]: ({ onSuccess }) => onSuccess(invoiceServiceTotals),
-  [REMOVE_INVOICE_ITEM_LINE]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
-  [CALCULATE_INVOICE_ITEM_TAX_INCLUSIVE_CHANGE]: ({ onSuccess }) => onSuccess(
+  [CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE]: ({ onSuccess }) => onSuccess(
     invoiceItemChangeItem,
   ),
-  [CALCULATE_INVOICE_ITEM_LINES_CHANGE]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
-  [CALCULATE_INVOICE_ITEM_LINE_TAX_CODE_CHANGE]: ({ onSuccess }) => onSuccess(
-    invoiceItemChangeItem,
-  ),
-  [CALCULATE_INVOICE_ITEM_LINE_INPUT_CHANGE]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
+  [CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
+  [CALCULATE_LINE_TOTALS]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
+  [CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE]: ({ onSuccess }) => onSuccess(invoiceItemChangeItem),
   [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) => onSuccess(uploadEmailAttachmentResponse),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [EXPORT_INVOICE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),

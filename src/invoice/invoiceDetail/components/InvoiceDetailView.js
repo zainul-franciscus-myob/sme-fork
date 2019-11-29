@@ -4,9 +4,9 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsActionsDisabled,
   getIsLoading,
   getIsServiceLayout,
+  getIsSubmitting,
   getModalAlert,
   getModalType,
   getTemplateOptions,
@@ -32,7 +32,6 @@ const InvoiceDetailView = ({
   isServiceLayout,
   modalAlert,
   onDismissAlert,
-  onUpdateHeaderOptions,
   serviceLayoutListeners,
   itemLayoutListeners,
   invoiceActionListeners,
@@ -43,12 +42,15 @@ const InvoiceDetailView = ({
   applyPaymentUnsavedChangesListeners,
   exportPdfModalListeners,
   contactModal,
+  onUpdateHeaderOptions,
   onAddContactButtonClick,
+  onUpdateInvoiceLayout,
 }) => {
   const options = (
     <InvoiceDetailOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
       onAddContactButtonClick={onAddContactButtonClick}
+      onUpdateInvoiceLayout={onUpdateInvoiceLayout}
     />
   );
 
@@ -106,7 +108,7 @@ const mapStateToProps = state => ({
   modalType: getModalType(state),
   emailInvoiceDetail: getEmailInvoiceDetail(state),
   isLoading: getIsLoading(state),
-  isActionsDisabled: getIsActionsDisabled(state),
+  isActionsDisabled: getIsSubmitting(state),
   isServiceLayout: getIsServiceLayout(state),
   templateOptions: getTemplateOptions(state),
 });

@@ -1,5 +1,5 @@
 import {
-  Combobox, DatePicker, DetailHeader, Input, RadioButtonGroup, ReadOnly, TextArea,
+  Combobox, DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, ReadOnly, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -8,6 +8,7 @@ import { getInvoiceDetailOptions } from '../selectors/invoiceDetailSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
 import InvoiceDetailOnlinePaymentMethod from './InvoiceDetailOnlinePaymentMethod';
 import InvoiceDetailOptionsPaymentTerms from './InvoiceDetailOptionsPaymentTerms';
+import InvoiceLayout from '../InvoiceLayout';
 import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleTextAreaChange from '../../../components/handlers/handleTextAreaChange';
@@ -24,12 +25,14 @@ const InvoiceDetailOptions = ({
   contactOptions,
   commentOptions,
   isCustomerDisabled,
-  isTaxInclusiveDisabled,
-  onUpdateHeaderOptions,
+  isSubmitting,
   showOnlinePayment,
   taxInclusiveLabel,
   taxExclusiveLabel,
+  layout,
+  onUpdateHeaderOptions,
   onAddContactButtonClick,
+  onUpdateInvoiceLayout,
 }) => {
   const onComboBoxChange = handler => (option) => {
     const key = 'contactId';
@@ -131,7 +134,27 @@ const InvoiceDetailOptions = ({
         value={isTaxInclusive ? taxInclusiveLabel : taxExclusiveLabel}
         options={[taxInclusiveLabel, taxExclusiveLabel]}
         onChange={onIsTaxInclusiveChange(onUpdateHeaderOptions)}
-        disabled={isTaxInclusiveDisabled}
+        disabled={isSubmitting}
+      />
+      <RadioButtonGroup
+        label="Layout"
+        value={layout}
+        onChange={onUpdateInvoiceLayout}
+        disabled={isSubmitting}
+        renderRadios={({ value, ...feelixProps }) => [
+          <RadioButton
+            {...feelixProps}
+            checked={value === InvoiceLayout.SERVICE}
+            value={InvoiceLayout.SERVICE}
+            label="Service"
+          />,
+          <RadioButton
+            {...feelixProps}
+            checked={value === InvoiceLayout.ITEM}
+            value={InvoiceLayout.ITEM}
+            label="Item + Service"
+          />,
+        ]}
       />
     </div>
   );

@@ -3,13 +3,11 @@ import SaveActionType from '../SaveActionType';
 import formatIsoDate from '../../../valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
-  isAccountLoading: false,
   businessId: '',
   region: '',
   invoiceId: '',
   quoteId: undefined,
   duplicatedInvoiceId: undefined,
-  layout: '',
   openSendEmail: undefined,
   openExportPdf: undefined,
   isLoading: true,
@@ -96,7 +94,6 @@ const getDefaultState = () => ({
     baseUrl: '',
   },
   isLineAmountDirty: false,
-  areLinesCalculating: false,
 });
 
 export default getDefaultState;

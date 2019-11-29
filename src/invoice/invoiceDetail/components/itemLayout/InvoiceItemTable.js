@@ -2,27 +2,26 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getItemLayoutTable,
-} from '../../selectors/itemLayoutSelectors';
-import { getTaxCodeLabel } from '../../selectors/invoiceDetailSelectors';
+import { getTableData, getTaxCodeLabel } from '../../selectors/invoiceDetailSelectors';
 import InvoiceDetailTotals from '../InvoiceDetailTotals';
 import InvoiceItemTableRow from './InvoiceItemTableRow';
 
 const InvoiceItemTable = ({
-  invoiceLines,
+  tableData,
   listeners: {
-    onAddTableLine,
-    onChangeTableRow,
-    onRemoveTableRow,
-    onLineInputBlur,
+    onAddRow,
+    onUpdateRow,
+    onRemoveRow,
+    onUpdateAmount,
     onChangeAmountToPay,
     onAddItemButtonClick,
+    onAddAccount,
   },
   taxCodeLabel,
 }) => {
   const itemIdLabel = 'Item ID';
-  const itemNameLabel = 'Item name';
+  const itemNameLabel = 'Description';
+  const accountLabel = 'Account';
   const unitLabel = 'Units';
   const unitPriceLabel = 'Unit price';
   const discountLabel = 'Discount (%)';
@@ -30,14 +29,13 @@ const InvoiceItemTable = ({
   const requiredLabel = 'This is required';
 
   const headerItems = [
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {itemIdLabel}
-    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{itemIdLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{itemNameLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem>{unitLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {unitPriceLabel}
+      {accountLabel}
     </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{unitLabel}</LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{unitPriceLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{discountLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
@@ -50,6 +48,7 @@ const InvoiceItemTable = ({
   const labels = [
     itemIdLabel,
     itemNameLabel,
+    accountLabel,
     unitLabel,
     unitPriceLabel,
     discountLabel,
@@ -66,6 +65,10 @@ const InvoiceItemTable = ({
         },
         {
           columnName: unitLabel,
+          styles: { width: '10rem' },
+        },
+        {
+          columnName: accountLabel,
           styles: { width: '10rem' },
         },
         {
@@ -88,14 +91,15 @@ const InvoiceItemTable = ({
     },
   ];
 
-  const renderRow = (index, data, onChange) => (
+  const renderRow = (index, _, onChange) => (
     <InvoiceItemTableRow
       index={index}
       key={index}
-      onChange={onChange}
-      onLineInputBlur={onLineInputBlur}
-      onAddItemButtonClick={onAddItemButtonClick}
       labels={labels}
+      onChange={onChange}
+      onUpdateAmount={onUpdateAmount}
+      onAddItemButtonClick={onAddItemButtonClick}
+      onAddAccount={onAddAccount}
     />
   );
 
@@ -105,10 +109,10 @@ const InvoiceItemTable = ({
       columnConfig={columnConfig}
       headerItems={headerItems}
       renderRow={renderRow}
-      data={invoiceLines}
-      onAddRow={onAddTableLine}
-      onRowChange={onChangeTableRow}
-      onRemoveRow={onRemoveTableRow}
+      data={tableData}
+      onAddRow={onAddRow}
+      onRowChange={onUpdateRow}
+      onRemoveRow={onRemoveRow}
     >
       <InvoiceDetailTotals onChange={onChangeAmountToPay} />
     </LineItemTable>
@@ -116,7 +120,7 @@ const InvoiceItemTable = ({
 };
 
 const mapStateToProps = state => ({
-  invoiceLines: getItemLayoutTable(state),
+  tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
 });
 

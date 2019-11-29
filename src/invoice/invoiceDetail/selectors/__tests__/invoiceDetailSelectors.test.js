@@ -2,6 +2,8 @@ import {
   getAccountModalContext,
   getInvoiceDetailOptions,
   getInvoiceDetailTotals,
+  getInvoiceLine,
+  getIsServiceLine,
   getLoadInvoiceDetailEmailInvoice,
   getLoadInvoiceDetailModalType,
   getShouldReload,
@@ -13,6 +15,7 @@ import InvoiceLayout from '../../InvoiceLayout';
 
 describe('invoiceDetailSelectors', () => {
   const state = {
+    isSubmitting: false,
     invoice: {
       id: '1',
       contactId: '3',
@@ -128,7 +131,6 @@ describe('invoiceDetailSelectors', () => {
     region: 'au',
     businessId: 'abc',
     invoiceId: '1',
-    areLinesCalculating: false,
   };
 
   describe('getInvoiceDetailOptions', () => {
@@ -148,7 +150,7 @@ describe('invoiceDetailSelectors', () => {
         ],
         commentOptions: [],
         isCustomerDisabled: true,
-        isTaxInclusiveDisabled: false,
+        isSubmitting: false,
         showOnlinePayment: true,
         taxExclusiveLabel: 'Tax exclusive',
         taxInclusiveLabel: 'Tax inclusive',
@@ -340,6 +342,109 @@ describe('invoiceDetailSelectors', () => {
       expect(actual).toEqual([
         { name: 'a', label: 'a' },
       ]);
+    });
+  });
+
+  describe('getIsServiceLine', () => {
+    it('returns false when is a new line', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: [],
+        },
+      };
+
+      const actual = getIsServiceLine(modifiedState, {
+        index: 0,
+      });
+
+      expect(actual).toEqual(false);
+    });
+
+    it('returns true when is is a service line', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: [
+            {
+              layout: InvoiceLayout.SERVICE,
+            },
+          ],
+        },
+      };
+
+      const actual = getIsServiceLine(modifiedState, {
+        index: 0,
+      });
+
+      expect(actual).toEqual(true);
+    });
+
+    it('returns false when is is an item line', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: [
+            {
+              layout: InvoiceLayout.ITEM,
+            },
+          ],
+        },
+      };
+
+      const actual = getIsServiceLine(modifiedState, {
+        index: 0,
+      });
+
+      expect(actual).toEqual(false);
+    });
+  });
+
+  describe('getInvoiceLine', () => {
+    describe('returns new line when not found at index', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: [],
+        },
+        newLine: {
+          pingu: '🐧',
+        },
+      };
+
+      const actual = getInvoiceLine(modifiedState, {
+        index: 0,
+      });
+
+      expect(actual).toEqual({
+        pingu: '🐧',
+      });
+    });
+
+    describe('returns line at index', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: [
+            {
+              freddo: '🐸',
+            },
+          ],
+        },
+      };
+
+      const actual = getInvoiceLine(modifiedState, {
+        index: 0,
+      });
+
+      expect(actual).toEqual({
+        freddo: '🐸',
+      });
     });
   });
 });

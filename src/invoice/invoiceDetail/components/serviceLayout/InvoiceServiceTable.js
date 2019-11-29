@@ -2,8 +2,7 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTableData } from '../../selectors/serviceLayoutSelectors';
-import { getTaxCodeLabel } from '../../selectors/invoiceDetailSelectors';
+import { getTableData, getTaxCodeLabel } from '../../selectors/invoiceDetailSelectors';
 import InvoiceDetailTotals from '../InvoiceDetailTotals';
 import InvoiceServiceTableRow from './InvoiceServiceTableRow';
 
@@ -13,7 +12,7 @@ const InvoiceServiceTable = ({
   listeners: {
     onUpdateRow,
     onAddRow,
-    onRowInputBlur,
+    onUpdateAmount,
     onRemoveRow,
     onChangeAmountToPay,
     onAddAccount,
@@ -64,43 +63,27 @@ const InvoiceServiceTable = ({
 
   const labels = [descriptionLabel, accountLabel, amountLabel, taxCodeLabel];
 
-  const onRowChange = handler => (index, key, value) => handler({ index, key, value });
-
-  const onTableAddRow = handler => ({ id, ...partialLine }) => handler(partialLine);
-
-  const onAmountInputFieldChange = handler => e => (
-    handler({
-      target: {
-        name: e.target.name,
-        value: e.target.rawValue,
-      },
-    })
-  );
-
-  const renderRow = (onRowInputBlurHandler, onAddAccountClick) => (index, data, onChange) => (
+  const renderRow = (index, _, onChange) => (
     <InvoiceServiceTableRow
       index={index}
       key={index}
-      onChange={onChange}
-      onComboboxChange={onChange}
-      onAddAccount={onAddAccountClick}
-      onAmountInputFieldChange={onAmountInputFieldChange(onChange)}
-      onRowInputBlur={() => onRowInputBlurHandler(index)}
       labels={labels}
+      onChange={onChange}
+      onUpdateAmount={onUpdateAmount}
+      onAddAccount={onAddAccount}
     />
   );
 
-  const onTableRemoveRow = handler => index => handler(index);
   return (
     <LineItemTable
       labels={labels}
       columnConfig={columnConfig}
       headerItems={headerItems}
-      renderRow={renderRow(onRowInputBlur, onAddAccount)}
+      renderRow={renderRow}
       data={tableData}
-      onAddRow={onTableAddRow(onAddRow)}
-      onRowChange={onRowChange(onUpdateRow)}
-      onRemoveRow={onTableRemoveRow(onRemoveRow)}
+      onAddRow={onAddRow}
+      onRowChange={onUpdateRow}
+      onRemoveRow={onRemoveRow}
     >
       <InvoiceDetailTotals onChange={onChangeAmountToPay} />
     </LineItemTable>

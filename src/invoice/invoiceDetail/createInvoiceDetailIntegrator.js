@@ -1,8 +1,11 @@
 import {
+  CALCULATE_LINE_TOTALS,
+  CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
+  CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE,
+  CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE,
   CREATE_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
-  GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -14,6 +17,11 @@ import {
 } from '../InvoiceIntents';
 import { getBusinessId, getIsCreating } from './selectors/invoiceDetailSelectors';
 import {
+  getCalculateLineTotalsContent,
+  getCalculateLineTotalsOnAmountChangeContent,
+  getCalculateLineTotalsOnItemChangeContent,
+  getCalculateLineTotalsOnTaxInclusiveChangeContent,
+  getCalculateLineTotalsUrlParams,
   getCreateOrUpdateInvoicePayload,
   getCreateOrUpdateInvoiceUrlParams,
   getDeleteInvoiceUrlParams,
@@ -21,17 +29,11 @@ import {
   getLoadAddedContactUrlParams,
   getLoadContactAddressUrlParams,
   getLoadInvoiceIntent,
-  getLoadInvoiceQueryParams,
   getLoadInvoiceUrlParams,
   getLoadItemOptionUrlParams,
   getLoadPayDirectUrlParams,
 } from './selectors/integratorSelectors';
 import { getExportPdfQueryParams, getExportPdfUrlParams } from './selectors/exportPdfSelectors';
-import { getInvoiceItemCalculatedLinesUrlParams } from './selectors/itemLayoutSelectors';
-import {
-  getInvoiceServiceCalculatedTotalsPayload,
-  getInvoiceServiceCalculatedTotalsUrlParams,
-} from './selectors/serviceLayoutSelectors';
 import { getSendEmailPayload, getSendEmailUrlParams } from './selectors/emailSelectors';
 
 const createInvoiceDetailIntegrator = (store, integration) => ({
@@ -40,12 +42,12 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
 
     const intent = getLoadInvoiceIntent(state);
     const urlParams = getLoadInvoiceUrlParams(state);
-    const params = getLoadInvoiceQueryParams(state);
 
     integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent, urlParams, onSuccess, onFailure,
     });
   },
+
   loadAccountAfterCreate: ({ id, onSuccess, onFailure }) => {
     const state = store.getState();
 
@@ -114,28 +116,69 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     });
   },
 
-  getInvoiceServiceCalculatedTotals: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const intent = GET_INVOICE_SERVICE_CALCULATED_TOTALS;
-    const urlParams = getInvoiceServiceCalculatedTotalsUrlParams(state);
-    const content = getInvoiceServiceCalculatedTotalsPayload(state);
-
-    integration.write({
-      intent, urlParams, content, onSuccess, onFailure,
-    });
-  },
-
-  getInvoiceItemCalculatedLines: ({
-    onSuccess, onFailure, intent, requestPayload,
+  calculateLineTotals: ({
+    onSuccess, onFailure,
   }) => {
     const state = store.getState();
 
-    const urlParams = getInvoiceItemCalculatedLinesUrlParams(state);
-    const content = requestPayload;
+    const urlParams = getCalculateLineTotalsUrlParams(state);
+    const content = getCalculateLineTotalsContent(state);
 
     integration.write({
-      intent, urlParams, content, onSuccess, onFailure,
+      intent: CALCULATE_LINE_TOTALS,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  calculateLineTotalsOnAmountChange: ({
+    onSuccess, onFailure, index, key,
+  }) => {
+    const state = store.getState();
+
+    const urlParams = getCalculateLineTotalsUrlParams(state);
+    const content = getCalculateLineTotalsOnAmountChangeContent(state, { index, key });
+
+    integration.write({
+      intent: CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  calculateLineTotalsOnItemChange: ({
+    onSuccess, onFailure, index, itemId,
+  }) => {
+    const state = store.getState();
+
+    const urlParams = getCalculateLineTotalsUrlParams(state);
+    const content = getCalculateLineTotalsOnItemChangeContent(state, { index, itemId });
+
+    integration.write({
+      intent: CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  calculateLineTotalsOnTaxInclusiveChange: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const urlParams = getCalculateLineTotalsUrlParams(state);
+    const content = getCalculateLineTotalsOnTaxInclusiveChangeContent(state);
+
+    integration.write({
+      intent: CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
     });
   },
 

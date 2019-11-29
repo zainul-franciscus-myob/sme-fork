@@ -1,11 +1,7 @@
 import {
   ADD_EMAIL_ATTACHMENTS,
-  ADD_INVOICE_ITEM_LINE,
-  ADD_INVOICE_SERVICE_LINE,
-  FORMAT_INVOICE_ITEM_LINE,
-  FORMAT_INVOICE_SERVICE_LINE,
-  GET_INVOICE_ITEM_CALCULATED_LINES,
-  GET_INVOICE_SERVICE_CALCULATED_TOTALS,
+  ADD_INVOICE_LINE,
+  CALCULATE_LINE_TOTALS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -13,17 +9,13 @@ import {
   LOAD_ITEM_OPTION,
   LOAD_PAY_DIRECT,
   REMOVE_EMAIL_ATTACHMENT,
-  REMOVE_INVOICE_ITEM_LINE,
-  REMOVE_INVOICE_SERVICE_LINE,
+  REMOVE_INVOICE_LINE,
   RESET_EMAIL_INVOICE_DETAIL,
-  RESET_INVOICE_ITEM_TOTALS,
-  RESET_INVOICE_SERVICE_TOTALS,
   RESET_OPEN_SEND_EMAIL,
-  SET_ACCOUNT_LOADING_STATE,
+  RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_INVOICE_ITEM_LINE_DIRTY,
-  SET_INVOICE_ITEM_SUBMITTING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -35,9 +27,9 @@ import {
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_INVOICE_DETAIL_HEADER_OPTIONS,
   UPDATE_INVOICE_ID_AFTER_CREATE,
-  UPDATE_INVOICE_ITEM_LINE,
+  UPDATE_INVOICE_LAYOUT,
+  UPDATE_INVOICE_LINE,
   UPDATE_INVOICE_PAYMENT_AMOUNT,
-  UPDATE_INVOICE_SERVICE_LINE,
   UPLOAD_EMAIL_ATTACHMENT,
   UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../InvoiceIntents';
@@ -56,10 +48,6 @@ const createInvoiceDetailDispatcher = store => ({
 
   loadAccountAfterCreate: payload => store.dispatch({
     intent: LOAD_ACCOUNT_AFTER_CREATE, ...payload,
-  }),
-
-  setAccountLoadingState: isAccountLoading => store.dispatch({
-    intent: SET_ACCOUNT_LOADING_STATE, isAccountLoading,
   }),
 
   setAlert: ({ type, message }) => store.dispatch({ intent: SET_ALERT, alert: { type, message } }),
@@ -110,47 +98,24 @@ const createInvoiceDetailDispatcher = store => ({
     intent: UPDATE_INVOICE_PAYMENT_AMOUNT, amountPaid,
   }),
 
-  addInvoiceServiceLine: line => store.dispatch({ intent: ADD_INVOICE_SERVICE_LINE, line }),
+  addInvoiceLine: line => store.dispatch({ intent: ADD_INVOICE_LINE, line }),
 
-  removeInvoiceServiceLine: index => store.dispatch({ intent: REMOVE_INVOICE_SERVICE_LINE, index }),
+  removeInvoiceLine: index => store.dispatch({ intent: REMOVE_INVOICE_LINE, index }),
 
-  formatInvoiceServiceLine: index => store.dispatch({ intent: FORMAT_INVOICE_SERVICE_LINE, index }),
 
-  updateInvoiceServiceLine: (index, key, value) => store.dispatch({
-    intent: UPDATE_INVOICE_SERVICE_LINE, index, key, value,
-  }),
-
-  getInvoiceServiceCalculatedTotals: totals => store.dispatch({
-    intent: GET_INVOICE_SERVICE_CALCULATED_TOTALS, totals,
-  }),
-
-  resetInvoiceServiceTotals: () => store.dispatch({ intent: RESET_INVOICE_SERVICE_TOTALS }),
-
-  addInvoiceItemLine: line => store.dispatch({ intent: ADD_INVOICE_ITEM_LINE, line }),
-
-  removeInvoiceItemLine: index => store.dispatch({ intent: REMOVE_INVOICE_ITEM_LINE, index }),
-
-  updateInvoiceItemLine: (index, key, value) => store.dispatch({
-    intent: UPDATE_INVOICE_ITEM_LINE, index, key, value,
-  }),
-
-  formatInvoiceItemLine: (index, key) => store.dispatch({
-    intent: FORMAT_INVOICE_ITEM_LINE, index, key,
+  updateInvoiceLine: (index, key, value) => store.dispatch({
+    intent: UPDATE_INVOICE_LINE, index, key, value,
   }),
 
   setInvoiceItemLineDirty: isLineAmountDirty => store.dispatch({
     intent: SET_INVOICE_ITEM_LINE_DIRTY, isLineAmountDirty,
   }),
 
-  setInvoiceItemSubmittingState: linesCalculating => store.dispatch({
-    intent: SET_INVOICE_ITEM_SUBMITTING_STATE, areLinesCalculating: linesCalculating,
+  calculateLineTotals: response => store.dispatch({
+    intent: CALCULATE_LINE_TOTALS, ...response,
   }),
 
-  getInvoiceItemCalculatedLines: response => store.dispatch({
-    intent: GET_INVOICE_ITEM_CALCULATED_LINES, ...response,
-  }),
-
-  resetInvoiceItemTotals: () => store.dispatch({ intent: RESET_INVOICE_ITEM_TOTALS }),
+  resetInvoiceItemTotals: () => store.dispatch({ intent: RESET_TOTALS }),
 
   updateEmailInvoiceDetail: (key, value) => store.dispatch({
     intent: UPDATE_EMAIL_INVOICE_DETAIL, key, value,
@@ -193,6 +158,13 @@ const createInvoiceDetailDispatcher = store => ({
     store.dispatch({
       intent: LOAD_ITEM_OPTION,
       response,
+    });
+  },
+
+  updateInvoiceLayout: (layout) => {
+    store.dispatch({
+      intent: UPDATE_INVOICE_LAYOUT,
+      layout,
     });
   },
 });

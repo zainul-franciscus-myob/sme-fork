@@ -12,10 +12,9 @@ export const getQuoteIdQueryParam = state => state.quoteId;
 export const getDuplicatedInvoiceIdQueryParam = state => state.duplicatedInvoiceId;
 export const getOpenSendEmailQueryParam = state => state.openSendEmail;
 export const getOpenExportPdfQueryParam = state => state.openExportPdf;
-export const getLayoutQueryParam = state => state.layout;
 
 export const getIsLoading = state => state.isLoading;
-export const getIsActionsDisabled = state => state.isSubmitting || state.areLinesCalculating;
+export const getIsSubmitting = state => state.isSubmitting;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getIsContactLoading = state => state.isContactLoading;
 export const getAlert = state => state.alert;
@@ -24,7 +23,7 @@ export const getModalAlert = state => state.modalAlert;
 export const getIsModalActionDisabled = state => state.isModalSubmitting;
 
 export const getInvoice = state => state.invoice;
-export const getLayout = state => state.invoice.layout;
+const getLayout = state => state.invoice.layout;
 export const getContactId = state => state.invoice.contactId;
 const getAddress = state => state.invoice.address;
 const getNote = state => state.invoice.note;
@@ -49,7 +48,6 @@ export const getItemOptions = state => state.itemOptions;
 export const getAccountOptions = state => state.accountOptions;
 export const getSerialNumber = state => state.serialNumber;
 
-export const getAreLinesCalculating = state => state.areLinesCalculating;
 export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 
 export const getTemplateOptions = (state) => {
@@ -101,10 +99,11 @@ export const getInvoiceDetailOptions = createStructuredSelector({
   contactOptions: getContactOptions,
   commentOptions: getCommentOptions,
   isCustomerDisabled: getIsCustomerDisabled,
-  isTaxInclusiveDisabled: getAreLinesCalculating,
+  isSubmitting: getIsSubmitting,
   showOnlinePayment: getShowOnlinePayment,
   taxInclusiveLabel: getTaxInclusiveLabel,
   taxExclusiveLabel: getTaxExclusiveLabel,
+  layout: getLayout,
 });
 
 export const calculateAmountDue = (totalAmount, amountPaid) => (
@@ -145,10 +144,6 @@ export const getAmountDue = state => (
   calculateAmountDue(getTotals(state).totalAmount, getAmountPaid(state))
 );
 
-export const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
-  const account = accountOptions.find(({ id }) => id === accountId);
-  return account === undefined ? '' : account.taxCodeId;
-};
 
 const getShouldOpenEmailModal = (state) => {
   const isCreating = getIsCreating(state);
@@ -208,7 +203,33 @@ export const getUpdatedContactOptions = (state, updatedOption) => {
     : [updatedOption, ...contactOptions];
 };
 
+export const getTableData = createSelector(getLength, len => Array(len).fill({}));
+
 export const getIsTableEmpty = createSelector(getLength, len => len === 0);
+
+export const getIsNewLine = (state, { index }) => {
+  const lineCount = getLength(state);
+  return lineCount <= index;
+};
+
+export const getNewLineIndex = state => getLength(state) - 1;
+
+// @TODO write a test for this
+export const getInvoiceLine = createSelector(
+  getNewLine,
+  (state, props) => state.invoice.lines[props.index],
+  (newLine, line) => line || newLine,
+);
+
+export const getIsServiceLine = (state, props) => {
+  const line = state.invoice.lines[props.index];
+
+  if (!line) {
+    return false;
+  }
+
+  return line.layout === InvoiceLayout.SERVICE;
+};
 
 export const getRouteURLParams = state => ({
   openSendEmail: getOpenSendEmailQueryParam(state),

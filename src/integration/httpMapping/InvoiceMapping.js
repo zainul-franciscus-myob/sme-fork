@@ -1,12 +1,11 @@
 import {
-  CALCULATE_INVOICE_ITEM_LINES_CHANGE,
-  CALCULATE_INVOICE_ITEM_LINE_INPUT_CHANGE,
-  CALCULATE_INVOICE_ITEM_LINE_TAX_CODE_CHANGE,
-  CALCULATE_INVOICE_ITEM_TAX_INCLUSIVE_CHANGE,
+  CALCULATE_LINE_TOTALS,
+  CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
+  CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE,
+  CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE,
   CREATE_INVOICE_DETAIL,
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
-  GET_INVOICE_SERVICE_CALCULATED_TOTALS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -17,7 +16,6 @@ import {
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
   LOAD_PAY_DIRECT,
-  REMOVE_INVOICE_ITEM_LINE,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
@@ -74,29 +72,21 @@ const InvoiceMapping = {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/invoice/load_pay_direct`,
   },
-  [GET_INVOICE_SERVICE_CALCULATED_TOTALS]: {
+  [CALCULATE_LINE_TOTALS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_invoice_service_detail_totals`,
+    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_line_totals`,
   },
-  [REMOVE_INVOICE_ITEM_LINE]: {
+  [CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_invoice_item_totals/remove_line`,
+    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_line_totals_on_tax_inclusive_change`,
   },
-  [CALCULATE_INVOICE_ITEM_TAX_INCLUSIVE_CHANGE]: {
+  [CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_invoice_item_totals/change_tax_inclusive`,
+    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_line_totals_on_item_change`,
   },
-  [CALCULATE_INVOICE_ITEM_LINES_CHANGE]: {
+  [CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_invoice_item_totals/change_line_item`,
-  },
-  [CALCULATE_INVOICE_ITEM_LINE_TAX_CODE_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_invoice_item_totals/change_line_tax_code`,
-  },
-  [CALCULATE_INVOICE_ITEM_LINE_INPUT_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_invoice_item_totals/change_line_amount`,
+    getPath: ({ businessId }) => `/${businessId}/invoice/calculate_line_totals_on_amount_change`,
   },
   [UPLOAD_EMAIL_ATTACHMENT]: {
     method: 'POST',

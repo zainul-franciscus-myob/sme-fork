@@ -2,27 +2,20 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  CALCULATE_INVOICE_ITEM_LINES_CHANGE,
-  CALCULATE_INVOICE_ITEM_LINE_INPUT_CHANGE,
-  CALCULATE_INVOICE_ITEM_LINE_TAX_CODE_CHANGE,
-  CALCULATE_INVOICE_ITEM_TAX_INCLUSIVE_CHANGE,
-  REMOVE_INVOICE_ITEM_LINE,
-} from '../InvoiceIntents';
-import {
   SUCCESSFULLY_DELETED_INVOICE,
   SUCCESSFULLY_EMAILED_INVOICE,
   SUCCESSFULLY_SAVED_INVOICE,
 } from './invoiceMessageTypes';
 import {
   getAccountModalContext,
-  getAreLinesCalculating,
   getContactModalContext,
   getContextForInventoryModal,
   getIsCreating,
   getIsLineAmountDirty,
   getIsPageEdited,
-  getIsServiceLayout,
+  getIsSubmitting,
   getIsTableEmpty,
+  getNewLineIndex,
   getRouteURLParams,
   getShouldReload,
   getShowOnlinePayment,
@@ -38,15 +31,6 @@ import {
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import { getFilesForUpload, getIsEmailModalOpen } from './selectors/emailSelectors';
-import {
-  getInvoiceItemCalculateAmountChangePayload,
-  getInvoiceItemCalculateLineChangePayload,
-  getInvoiceItemCalculateLineRemovalPayload,
-  getInvoiceItemCalculateTaxCodeChangePayload,
-  getInvoiceItemCalculateTaxInclusiveChangePayload,
-  getIsAnAmountLineInput,
-  getNewLineIndex,
-} from './selectors/itemLayoutSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import DebugStore from '../../store/DebugStore';
@@ -100,17 +84,17 @@ export default class InvoiceDetailModule {
 
   loadAccountAfterCreate = ({ message, id }, onChange) => {
     this.dispatcher.setAlert({ type: 'success', message });
-    this.dispatcher.setAccountLoadingState(true);
+    this.dispatcher.setSubmittingState(true);
     this.accountModalModule.close();
 
     const onSuccess = (payload) => {
-      this.dispatcher.setAccountLoadingState(false);
+      this.dispatcher.setSubmittingState(false);
       this.dispatcher.loadAccountAfterCreate(payload);
       onChange(payload);
     };
 
     const onFailure = () => {
-      this.dispatcher.setAccountLoadingState(false);
+      this.dispatcher.setSubmittingState(false);
     };
 
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
@@ -323,45 +307,17 @@ export default class InvoiceDetailModule {
     });
   }
 
-  updateInvoiceServiceIsTaxInclusive = ({ key, value }) => {
-    this.dispatcher.updateHeaderOptions(key, value);
-    this.getInvoiceServiceCalculatedTotals();
-  }
-
-  updateInvoiceItemIsTaxInclusive = ({ key, value }) => {
-    const state = this.store.getState();
-
-    const isLineAmountDirty = getIsLineAmountDirty(state);
-    const isTableEmpty = getIsTableEmpty(state);
-
-    if (!isLineAmountDirty) {
-      this.dispatcher.updateHeaderOptions(key, value);
-
-      const newState = this.store.getState();
-
-      if (!isTableEmpty) {
-        this.getInvoiceItemCalculatedLines(
-          getInvoiceItemCalculateTaxInclusiveChangePayload(newState),
-          CALCULATE_INVOICE_ITEM_TAX_INCLUSIVE_CHANGE,
-        );
-      }
-    }
-  }
-
-  updateIsTaxInclusive = ({ key, value }) => {
-    const state = this.store.getState();
-
-    const isServiceLayout = getIsServiceLayout(state);
-    if (isServiceLayout) {
-      this.updateInvoiceServiceIsTaxInclusive({ key, value });
-    } else {
-      this.updateInvoiceItemIsTaxInclusive({ key, value });
-    }
-  }
-
   updateHeaderOptions = ({ key, value }) => {
     if (key === 'isTaxInclusive') {
-      this.updateIsTaxInclusive({ key, value });
+      const state = this.store.getState();
+
+      const isLineAmountDirty = getIsLineAmountDirty(state);
+
+      if (!isLineAmountDirty) {
+        this.dispatcher.updateHeaderOptions(key, value);
+
+        this.calculateLineTotalsOnTaxInclusiveChange();
+      }
     } else {
       this.dispatcher.updateHeaderOptions(key, value);
 
@@ -371,148 +327,146 @@ export default class InvoiceDetailModule {
     }
   }
 
-  removeInvoiceServiceLineAndCalculateTotals = (index) => {
-    this.dispatcher.removeInvoiceServiceLine(index);
-    this.getInvoiceServiceCalculatedTotals();
+  updateInvoiceLayout = ({ value: layout }) => {
+    this.dispatcher.updateInvoiceLayout(layout);
   }
 
-  formatInvoiceServiceLineAndCalculateTotals = (index) => {
-    this.dispatcher.formatInvoiceServiceLine(index);
-    this.getInvoiceServiceCalculatedTotals();
-  }
-
-  updateInvoiceServiceLine = ({ index, key, value }) => {
-    this.dispatcher.updateInvoiceServiceLine(index, key, value);
-
-    const taxKeys = ['accountId', 'taxCodeId'];
-    if (taxKeys.includes(key)) {
-      this.getInvoiceServiceCalculatedTotals();
-    }
-  }
-
-  getInvoiceServiceCalculatedTotals = () => {
-    const state = this.store.getState();
-    if (getIsTableEmpty(state)) {
-      this.dispatcher.resetInvoiceServiceTotals();
-      return;
-    }
-
-    const onSuccess = ({ totals }) => {
-      this.dispatcher.getInvoiceServiceCalculatedTotals(totals);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
-      this.displayFailureAlert(message);
-    };
-
-    this.integrator.getInvoiceServiceCalculatedTotals({
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  getInvoiceItemCalculatedLines = (requestPayload, intent) => {
-    this.dispatcher.setInvoiceItemSubmittingState(true);
-
-    const onSuccess = (response) => {
-      this.dispatcher.setInvoiceItemLineDirty(false);
-      this.dispatcher.setInvoiceItemSubmittingState(false);
-      this.dispatcher.getInvoiceItemCalculatedLines(response);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setInvoiceItemLineDirty(false);
-      this.dispatcher.setInvoiceItemSubmittingState(false);
-      this.displayFailureAlert(message);
-    };
-
-    this.integrator.getInvoiceItemCalculatedLines({
-      intent,
-      requestPayload,
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  addOrUpdateInvoiceItemLine = ({ index, itemId }) => {
+  removeInvoiceLine = (index) => {
     const state = this.store.getState();
 
-    this.getInvoiceItemCalculatedLines(
-      getInvoiceItemCalculateLineChangePayload({ state, index, itemId }),
-      CALCULATE_INVOICE_ITEM_LINES_CHANGE,
-    );
-  };
-
-  addInvoiceItemLine = (line) => {
-    this.dispatcher.addInvoiceItemLine(line);
-
-    const { itemId } = line;
-    if (itemId) {
-      const state = this.store.getState();
-
-      this.addOrUpdateInvoiceItemLine({
-        index: getNewLineIndex(state),
-        itemId,
-      });
+    if (!getIsSubmitting(state)) {
+      this.dispatcher.removeInvoiceLine(index);
+      this.calculateLineTotals();
     }
   };
 
-  removeInvoiceItemLine = (index) => {
-    const state = this.store.getState();
+  updateInvoiceLine = (index, key, value) => {
+    this.dispatcher.updateInvoiceLine(index, key, value);
 
-    if (!getAreLinesCalculating(state)) {
-      this.dispatcher.removeInvoiceItemLine(index);
-
-      const newState = this.store.getState();
-      const isTableEmpty = getIsTableEmpty(newState);
-
-      if (isTableEmpty) {
-        this.dispatcher.resetInvoiceItemTotals();
-      } else {
-        this.getInvoiceItemCalculatedLines(
-          getInvoiceItemCalculateLineRemovalPayload(newState),
-          REMOVE_INVOICE_ITEM_LINE,
-        );
-      }
-    }
-  };
-
-  updateInvoiceItemLine = (index, key, value) => {
-    this.dispatcher.updateInvoiceItemLine(index, key, value);
-
-    if (getIsAnAmountLineInput(key)) {
+    if (['units', 'unitPrice', 'discount', 'amount'].includes(key)) {
       this.dispatcher.setInvoiceItemLineDirty(true);
     }
 
     if (key === 'itemId') {
-      this.addOrUpdateInvoiceItemLine({
+      this.calculateLineTotalsOnItemChange({
         index,
         itemId: value,
       });
     }
 
-    if (key === 'taxCodeId') {
-      const state = this.store.getState();
-      this.getInvoiceItemCalculatedLines(
-        getInvoiceItemCalculateTaxCodeChangePayload(state),
-        CALCULATE_INVOICE_ITEM_LINE_TAX_CODE_CHANGE,
-      );
+    if (['accountId', 'taxCodeId'].includes(key)) {
+      this.calculateLineTotals();
     }
-  };
+  }
 
-  formatInvoiceItemLine = ({ index, key }) => {
-    this.dispatcher.formatInvoiceItemLine(index, key);
+  calculateLineTotals = () => {
+    const state = this.store.getState();
 
+    const isTableEmpty = getIsTableEmpty(state);
+
+    if (isTableEmpty) {
+      this.dispatcher.resetInvoiceItemTotals();
+    } else {
+      this.dispatcher.setSubmittingState(true);
+
+      const onSuccess = (response) => {
+        this.dispatcher.calculateLineTotals(response);
+        this.dispatcher.setSubmittingState(false);
+      };
+
+      const onFailure = ({ message }) => {
+        this.displayFailureAlert(message);
+        this.dispatcher.setSubmittingState(false);
+      };
+
+      this.integrator.calculateLineTotals({ onSuccess, onFailure });
+    }
+  }
+
+  calculateLineTotalsOnTaxInclusiveChange = () => {
+    const state = this.store.getState();
+
+    const isTableEmpty = getIsTableEmpty(state);
+
+    if (isTableEmpty) {
+      this.dispatcher.resetInvoiceItemTotals();
+    } else {
+      this.dispatcher.setSubmittingState(true);
+
+      const onSuccess = (response) => {
+        this.dispatcher.calculateLineTotals(response);
+        this.dispatcher.setSubmittingState(false);
+      };
+
+      const onFailure = ({ message }) => {
+        this.displayFailureAlert(message);
+        this.dispatcher.setSubmittingState(false);
+      };
+
+      this.integrator.calculateLineTotalsOnTaxInclusiveChange({ onSuccess, onFailure });
+    }
+  }
+
+  // @TODO check this works for service
+  calculateLineTotalsOnAmountChange = ({ index, key }) => {
     const state = this.store.getState();
 
     const isLineAmountDirty = getIsLineAmountDirty(state);
-
     if (isLineAmountDirty) {
-      this.getInvoiceItemCalculatedLines(
-        getInvoiceItemCalculateAmountChangePayload(state, index, key),
-        CALCULATE_INVOICE_ITEM_LINE_INPUT_CHANGE,
-      );
+      this.dispatcher.setSubmittingState(true);
+
+      const onSuccess = (response) => {
+        this.dispatcher.calculateLineTotals(response);
+        this.dispatcher.setInvoiceItemLineDirty(false);
+        this.dispatcher.setSubmittingState(false);
+      };
+
+      const onFailure = ({ message }) => {
+        this.displayFailureAlert(message);
+        this.dispatcher.setInvoiceItemLineDirty(false);
+        this.dispatcher.setSubmittingState(false);
+      };
+
+      this.integrator.calculateLineTotalsOnAmountChange({
+        onSuccess, onFailure, index, key,
+      });
+    }
+  }
+
+  calculateLineTotalsOnItemChange = ({ index, itemId }) => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.calculateLineTotals(response);
+      this.dispatcher.setSubmittingState(false);
+    };
+
+    const onFailure = ({ message }) => {
+      this.displayFailureAlert(message);
+      this.dispatcher.setSubmittingState(false);
+    };
+
+    this.integrator.calculateLineTotalsOnItemChange({
+      onSuccess, onFailure, index, itemId,
+    });
+  };
+
+  addInvoiceLine = (line) => {
+    this.dispatcher.addInvoiceLine(line);
+
+    const { itemId, accountId } = line;
+
+    if (itemId) {
+      const state = this.store.getState();
+
+      this.calculateLineTotalsOnItemChange({
+        index: getNewLineIndex(state),
+        itemId,
+      });
+    }
+
+    if (accountId) {
+      this.calculateLineTotals();
     }
   };
 
@@ -741,16 +695,16 @@ export default class InvoiceDetailModule {
   loadItemOption = ({ itemId }, onChangeItemTableRow) => {
     const onSuccess = (response) => {
       this.dispatcher.loadItemOption(response);
-      this.dispatcher.setInvoiceItemSubmittingState(false);
+      this.dispatcher.setSubmittingState(false);
       onChangeItemTableRow({ id: itemId });
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setInvoiceItemSubmittingState(false);
+      this.dispatcher.setSubmittingState(false);
       this.displayFailureAlert(message);
     };
 
-    this.dispatcher.setInvoiceItemSubmittingState(true);
+    this.dispatcher.setSubmittingState(true);
 
     this.integrator.loadItemOption({ onSuccess, onFailure, itemId });
   };
@@ -789,22 +743,22 @@ export default class InvoiceDetailModule {
         accountModal={accountModal}
         inventoryModal={inventoryModal}
         onDismissAlert={this.dispatcher.dismissAlert}
-        onUpdateHeaderOptions={this.updateHeaderOptions}
         serviceLayoutListeners={{
-          onAddRow: this.dispatcher.addInvoiceServiceLine,
-          onRemoveRow: this.removeInvoiceServiceLineAndCalculateTotals,
-          onUpdateRow: this.updateInvoiceServiceLine,
-          onRowInputBlur: this.formatInvoiceServiceLineAndCalculateTotals,
+          onAddRow: this.addInvoiceLine,
+          onRemoveRow: this.removeInvoiceLine,
+          onUpdateRow: this.updateInvoiceLine,
+          onUpdateAmount: this.calculateLineTotalsOnAmountChange,
           onChangeAmountToPay: this.dispatcher.updateInvoicePaymentAmount,
           onAddAccount: this.openAccountModal,
         }}
         itemLayoutListeners={{
-          onAddTableLine: this.addInvoiceItemLine,
-          onRemoveTableRow: this.removeInvoiceItemLine,
-          onChangeTableRow: this.updateInvoiceItemLine,
-          onLineInputBlur: this.formatInvoiceItemLine,
+          onAddRow: this.addInvoiceLine,
+          onRemoveRow: this.removeInvoiceLine,
+          onUpdateRow: this.updateInvoiceLine,
+          onUpdateAmount: this.calculateLineTotalsOnAmountChange,
           onChangeAmountToPay: this.dispatcher.updateInvoicePaymentAmount,
           onAddItemButtonClick: this.openInventoryModalModule,
+          onAddAccount: this.openAccountModal,
         }}
         invoiceActionListeners={{
           onSaveButtonClick: this.saveInvoice,
@@ -849,7 +803,9 @@ export default class InvoiceDetailModule {
           onChange: this.dispatcher.updateExportPdfDetail,
         }}
         contactModal={contactModal}
+        onUpdateHeaderOptions={this.updateHeaderOptions}
         onAddContactButtonClick={this.openContactModal}
+        onUpdateInvoiceLayout={this.updateInvoiceLayout}
       />
     );
 

@@ -2,11 +2,16 @@ import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAreLinesCalculating, getItemOptions, getTaxCodeOptions } from '../../selectors/invoiceDetailSelectors';
 import {
-  getInvoiceLineByIndex,
-  getShouldLineSelectItem,
-} from '../../selectors/itemLayoutSelectors';
+  getAccountOptions,
+  getInvoiceLine,
+  getIsNewLine,
+  getIsServiceLine,
+  getIsSubmitting,
+  getItemOptions,
+  getTaxCodeOptions,
+} from '../../selectors/invoiceDetailSelectors';
+import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import ItemCombobox from '../../../../components/combobox/ItemCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
@@ -36,84 +41,106 @@ const InvoiceItemTableRow = ({
   onChange,
   invoiceLine,
   taxCodeOptions,
+  accountOptions,
   itemOptions,
-  isLineDisabled,
-  onLineInputBlur,
+  isSubmitting,
+  isNewLine,
+  isServiceLine,
+  onUpdateAmount,
   onAddItemButtonClick,
-  shouldLineSelectItem,
+  onAddAccount,
   ...feelixInjectedProps
-}) => (
-  <LineItemTable.Row {...feelixInjectedProps} id={index} index={index}>
-    <ItemCombobox
-      addNewItem={() => onAddItemButtonClick(onComboboxChange('itemId', onChange))}
-      name="itemId"
-      items={itemOptions}
-      selectedId={invoiceLine.itemId}
-      onChange={onComboboxChange('itemId', onChange)}
-      disabled={isLineDisabled}
-    />
+}) => {
+  const onChangeAccountId = onComboboxChange('accountId', onChange);
+  const onChangeItemId = onComboboxChange('itemId', onChange);
 
-    <TextArea
-      name="description"
-      autoSize
-      value={invoiceLine.description}
-      onChange={onChange}
-      disabled={isLineDisabled || shouldLineSelectItem}
-    />
+  return (
+    <LineItemTable.Row {...feelixInjectedProps} id={index} index={index}>
+      <ItemCombobox
+        addNewItem={() => onAddItemButtonClick(onChangeItemId)}
+        name="itemId"
+        items={itemOptions}
+        selectedId={invoiceLine.itemId}
+        onChange={onChangeItemId}
+        disabled={isSubmitting || isServiceLine}
+      />
 
-    <AmountInput
-      name="units"
-      value={invoiceLine.units}
-      onChange={onAmountInputChange('units', onChange)}
-      onBlur={onInputBlur(onLineInputBlur, index, 'units')}
-      disabled={isLineDisabled || shouldLineSelectItem}
-      decimalScale={6}
-    />
+      <TextArea
+        name="description"
+        autoSize
+        value={invoiceLine.description}
+        onChange={onChange}
+        disabled={isSubmitting || isNewLine}
+      />
 
-    <AmountInput
-      name="unitPrice"
-      value={invoiceLine.unitPrice}
-      onChange={onAmountInputChange('unitPrice', onChange)}
-      onBlur={onInputBlur(onLineInputBlur, index, 'unitPrice')}
-      textAlign="right"
-      disabled={isLineDisabled || shouldLineSelectItem}
-      decimalScale={6}
-    />
+      <AccountCombobox
+        label="Account"
+        hideLabel
+        onChange={onChangeAccountId}
+        items={accountOptions}
+        selectedId={invoiceLine.accountId}
+        addNewAccount={() => onAddAccount(
+          onChangeAccountId,
+        )}
+        disabled={isSubmitting}
+      />
 
-    <AmountInput
-      name="discount"
-      value={invoiceLine.displayDiscount}
-      onChange={onAmountInputChange('discount', onChange)}
-      onBlur={onInputBlur(onLineInputBlur, index, 'discount')}
-      textAlign="right"
-      disabled={isLineDisabled || shouldLineSelectItem}
-    />
+      <AmountInput
+        name="units"
+        value={invoiceLine.units}
+        onChange={onAmountInputChange('units', onChange)}
+        onBlur={onInputBlur(onUpdateAmount, index, 'units')}
+        disabled={isSubmitting || isNewLine || isServiceLine}
+        decimalScale={6}
+      />
 
-    <AmountInput
-      name="amount"
-      value={invoiceLine.displayAmount}
-      onChange={onAmountInputChange('amount', onChange)}
-      onBlur={onInputBlur(onLineInputBlur, index, 'amount')}
-      textAlign="right"
-      disabled={isLineDisabled || shouldLineSelectItem}
-    />
+      <AmountInput
+        name="unitPrice"
+        value={invoiceLine.unitPrice}
+        onChange={onAmountInputChange('unitPrice', onChange)}
+        onBlur={onInputBlur(onUpdateAmount, index, 'unitPrice')}
+        textAlign="right"
+        disabled={isSubmitting || isNewLine || isServiceLine}
+        decimalScale={6}
+      />
 
-    <TaxCodeCombobox
-      items={taxCodeOptions}
-      selectedId={invoiceLine.taxCodeId}
-      onChange={onComboboxChange('taxCodeId', onChange)}
-      disabled={isLineDisabled || shouldLineSelectItem}
-      left
-    />
-  </LineItemTable.Row>
-);
+      <AmountInput
+        name="discount"
+        value={invoiceLine.displayDiscount}
+        onChange={onAmountInputChange('discount', onChange)}
+        onBlur={onInputBlur(onUpdateAmount, index, 'discount')}
+        textAlign="right"
+        disabled={isSubmitting || isNewLine || isServiceLine}
+      />
+
+      <AmountInput
+        name="amount"
+        value={invoiceLine.displayAmount}
+        onChange={onAmountInputChange('amount', onChange)}
+        onBlur={onInputBlur(onUpdateAmount, index, 'amount')}
+        textAlign="right"
+        disabled={isSubmitting || isNewLine}
+      />
+
+      <TaxCodeCombobox
+        items={taxCodeOptions}
+        selectedId={invoiceLine.taxCodeId}
+        onChange={onComboboxChange('taxCodeId', onChange)}
+        disabled={isSubmitting || isNewLine}
+        left
+      />
+    </LineItemTable.Row>
+  );
+};
 
 const mapStateToProps = (state, props) => ({
-  invoiceLine: getInvoiceLineByIndex(state, props),
-  isLineDisabled: getAreLinesCalculating(state),
+  invoiceLine: getInvoiceLine(state, props),
+  isSubmitting: getIsSubmitting(state),
   itemOptions: getItemOptions(state),
+  isServiceLine: getIsServiceLine(state, props),
   taxCodeOptions: getTaxCodeOptions(state),
-  shouldLineSelectItem: getShouldLineSelectItem(state, props),
+  accountOptions: getAccountOptions(state),
+  isNewLine: getIsNewLine(state, props),
 });
 
 export default connect(mapStateToProps)(InvoiceItemTableRow);

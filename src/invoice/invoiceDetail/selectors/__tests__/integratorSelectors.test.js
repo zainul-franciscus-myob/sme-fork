@@ -4,7 +4,15 @@ import {
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
 } from '../../../InvoiceIntents';
-import { getCreateOrUpdateInvoicePayload, getLoadAddedAccountUrlParams, getLoadInvoiceIntent } from '../integratorSelectors';
+import {
+  getCalculateLineTotalsContent,
+  getCalculateLineTotalsOnAmountChangeContent,
+  getCalculateLineTotalsOnItemChangeContent,
+  getCalculateLineTotalsOnTaxInclusiveChangeContent,
+  getCreateOrUpdateInvoicePayload,
+  getLoadAddedAccountUrlParams,
+  getLoadInvoiceIntent,
+} from '../integratorSelectors';
 
 describe('integratorSelectors', () => {
   describe('getLoadInvoiceIntent', () => {
@@ -236,6 +244,98 @@ describe('integratorSelectors', () => {
 
       expect(actual).toEqual({
         accountId: 'accountId', businessId: 'batman',
+      });
+    });
+  });
+
+  describe('calculation payload', () => {
+    const lines = [
+      {
+        id: '1',
+        units: '2',
+        itemId: '3',
+        description: 'Cooler Large',
+        unitPrice: '520',
+        discount: '10',
+        displayDiscount: '10.00',
+        taxCodeId: '2',
+        amount: '850.9111',
+        displayAmount: '850.91',
+        accountId: '92',
+      },
+    ];
+    const state = {
+      invoice: {
+        isTaxInclusive: true,
+        amountPaid: '10.00',
+        lines,
+      },
+    };
+
+    describe('getCalculateLineTotalsOnTaxInclusiveChangeContent', () => {
+      it('should build payload for request', () => {
+        const expected = {
+          isTaxInclusive: true,
+          isLineAmountsTaxInclusive: false,
+          amountPaid: '10.00',
+          lines,
+        };
+
+        const actual = getCalculateLineTotalsOnTaxInclusiveChangeContent(state);
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe('getCalculateLineTotalsOnItemChangeContent', () => {
+      it('should build payload for request', () => {
+        const index = 0;
+        const itemId = '3';
+
+        const expected = {
+          index,
+          itemId,
+          isTaxInclusive: true,
+          amountPaid: '10.00',
+          lines,
+        };
+
+        const actual = getCalculateLineTotalsOnItemChangeContent(state, { index, itemId });
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe('getCalculateLineTotalsOnAmountChangeContent', () => {
+      it('should build payload for request', () => {
+        const index = 0;
+        const key = 'units';
+
+        const expected = {
+          index,
+          key,
+          isTaxInclusive: true,
+          amountPaid: '10.00',
+          lines,
+        };
+
+        const actual = getCalculateLineTotalsOnAmountChangeContent(state, { index, key });
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe('getCalculateLineTotalsContent', () => {
+      it('should build payload for request', () => {
+        const expected = {
+          isTaxInclusive: true,
+          amountPaid: '10.00',
+          lines,
+        };
+
+        const actual = getCalculateLineTotalsContent(state);
+
+        expect(actual).toEqual(expected);
       });
     });
   });

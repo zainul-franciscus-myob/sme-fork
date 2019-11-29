@@ -4,12 +4,12 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsActionsDisabled, getIsCreating } from '../selectors/invoiceDetailSelectors';
+import { getIsCreating, getIsSubmitting } from '../selectors/invoiceDetailSelectors';
 import SaveActionType from '../SaveActionType';
 
 const InvoiceDetailActions = ({
   isCreating,
-  isActionsDisabled,
+  isSubmitting,
   listeners: {
     onSaveButtonClick,
     onSaveAndButtonClick,
@@ -26,7 +26,7 @@ const InvoiceDetailActions = ({
       name="payInvoice"
       type="secondary"
       onClick={onPayInvoiceButtonClick}
-      disabled={isActionsDisabled}
+      disabled={isSubmitting}
     >
       Record payment
     </Button>
@@ -38,7 +38,7 @@ const InvoiceDetailActions = ({
       name="exportPdf"
       type="secondary"
       onClick={onExportPdfButtonClick}
-      disabled={isActionsDisabled}
+      disabled={isSubmitting}
     >
       Export PDF
     </Button>
@@ -50,7 +50,7 @@ const InvoiceDetailActions = ({
       name="saveAndEmail"
       type="secondary"
       onClick={onSaveAndEmailButtonClick}
-      disabled={isActionsDisabled}
+      disabled={isSubmitting}
     >
     Record and email
     </Button>
@@ -76,7 +76,7 @@ const InvoiceDetailActions = ({
       key="saveAnd"
       onSelect={onSaveAndButtonClick}
       toggle={(
-        <Dropdown.Toggle disabled={isActionsDisabled}>
+        <Dropdown.Toggle disabled={isSubmitting}>
             Record and...
           <Icons.Caret />
         </Dropdown.Toggle>
@@ -91,7 +91,7 @@ const InvoiceDetailActions = ({
       name="save"
       type="primary"
       onClick={onSaveButtonClick}
-      disabled={isActionsDisabled}
+      disabled={isSubmitting}
     >
     Record
     </Button>
@@ -103,7 +103,7 @@ const InvoiceDetailActions = ({
       name="cancel"
       type="secondary"
       onClick={onCancelButtonClick}
-      disabled={isActionsDisabled}
+      disabled={isSubmitting}
     >
     Cancel
     </Button>
@@ -115,7 +115,7 @@ const InvoiceDetailActions = ({
       name="delete"
       type="secondary"
       onClick={onDeleteButtonClick}
-      disabled={isActionsDisabled}
+      disabled={isSubmitting}
     >
       Delete
     </Button>
@@ -139,7 +139,7 @@ const InvoiceDetailActions = ({
 
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
-  isActionsDisabled: getIsActionsDisabled(state),
+  isSubmitting: getIsSubmitting(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailActions);

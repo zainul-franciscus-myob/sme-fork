@@ -1,11 +1,7 @@
 import {
   ADD_EMAIL_ATTACHMENTS,
-  ADD_INVOICE_ITEM_LINE,
-  ADD_INVOICE_SERVICE_LINE,
-  FORMAT_INVOICE_ITEM_LINE,
-  FORMAT_INVOICE_SERVICE_LINE,
-  GET_INVOICE_ITEM_CALCULATED_LINES,
-  GET_INVOICE_SERVICE_CALCULATED_TOTALS,
+  ADD_INVOICE_LINE,
+  CALCULATE_LINE_TOTALS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -13,17 +9,13 @@ import {
   LOAD_ITEM_OPTION,
   LOAD_PAY_DIRECT,
   REMOVE_EMAIL_ATTACHMENT,
-  REMOVE_INVOICE_ITEM_LINE,
-  REMOVE_INVOICE_SERVICE_LINE,
+  REMOVE_INVOICE_LINE,
   RESET_EMAIL_INVOICE_DETAIL,
-  RESET_INVOICE_ITEM_TOTALS,
-  RESET_INVOICE_SERVICE_TOTALS,
   RESET_OPEN_SEND_EMAIL,
-  SET_ACCOUNT_LOADING_STATE,
+  RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_INVOICE_ITEM_LINE_DIRTY,
-  SET_INVOICE_ITEM_SUBMITTING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -35,9 +27,9 @@ import {
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_INVOICE_DETAIL_HEADER_OPTIONS,
   UPDATE_INVOICE_ID_AFTER_CREATE,
-  UPDATE_INVOICE_ITEM_LINE,
+  UPDATE_INVOICE_LAYOUT,
+  UPDATE_INVOICE_LINE,
   UPDATE_INVOICE_PAYMENT_AMOUNT,
-  UPDATE_INVOICE_SERVICE_LINE,
   UPLOAD_EMAIL_ATTACHMENT,
   UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../../InvoiceIntents';
@@ -53,26 +45,6 @@ import {
   uploadEmailAttachmentUploadProgress,
 } from './EmailReducer';
 import {
-  addInvoiceItemLine,
-  formatInvoiceItemLine,
-  getInvoiceItemCalculatedLines,
-  removeInvoiceItemLine,
-  resetInvoiceItemTotals,
-  setInvoiceItemLineDirty,
-  setInvoiceItemSubmittingState,
-  updateInvoiceItemLine,
-} from './ItemLayoutReducer';
-import {
-  addInvoiceServiceLine,
-  formatInvoiceServiceLine,
-  getInvoiceServiceCalculatedTotals,
-  loadAccountAfterCreate,
-  removeInvoiceServiceLine,
-  resetInvoiceServiceTotals,
-  setAccountLoadingState,
-  updateInvoiceServiceLine,
-} from './ServiceLayoutReducer';
-import {
   getLoadInvoiceDetailEmailInvoice,
   getLoadInvoiceDetailModalAndPageAlert,
   getLoadInvoiceDetailModalType,
@@ -80,6 +52,7 @@ import {
 } from '../selectors/invoiceDetailSelectors';
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
+import InvoiceLayout from '../InvoiceLayout';
 import createReducer from '../../../store/createReducer';
 import getDefaultState from './getDefaultState';
 
@@ -178,6 +151,111 @@ const loadItemOption = (state, action) => ({
   ],
 });
 
+const updateInvoiceLayout = (state, action) => ({
+  ...state,
+  invoice: {
+    ...state.invoice,
+    layout: action.layout,
+    lines: state.invoice.lines.filter(line => line.layout === InvoiceLayout.SERVICE),
+  },
+});
+
+const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
+  const account = accountOptions.find(({ id }) => id === accountId);
+  return account === undefined ? '' : account.taxCodeId;
+};
+
+export const updateInvoiceLine = (state, action) => {
+  const isUpdateDiscount = action.key === 'discount';
+  const isUpdateAmount = action.key === 'amount';
+  const isUpdateAccountId = action.key === 'accountId';
+
+  return ({
+    ...state,
+    isPageEdited: true,
+    invoice: {
+      ...state.invoice,
+      lines: state.invoice.lines.map((line, index) => (index === action.index
+        ? {
+          ...line,
+          taxCodeId: isUpdateAccountId
+            ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
+            : line.taxCodeId,
+          displayDiscount: isUpdateDiscount ? action.value : line.displayDiscount,
+          displayAmount: isUpdateAmount ? action.value : line.displayAmount,
+          [action.key]: action.value,
+        }
+        : line)),
+    },
+  });
+};
+
+export const addInvoiceLine = (state, action) => {
+  const { accountId, description, itemId } = action.line;
+
+  return ({
+    ...state,
+    isPageEdited: true,
+    invoice: {
+      ...state.invoice,
+      lines: [
+        ...state.invoice.lines,
+        {
+          ...state.newLine,
+          accountId: accountId || state.newLine.accountId,
+          description: description || state.newLine.description,
+          itemId: itemId || state.newLine.itemId,
+          taxCodeId: accountId ? getDefaultTaxCodeId({
+            accountOptions: state.accountOptions,
+            accountId: action.line.accountId,
+          }) : state.newLine.taxCodeId,
+        },
+      ],
+    },
+  });
+};
+
+export const removeInvoiceLine = (state, action) => ({
+  ...state,
+  isPageEdited: true,
+  invoice: {
+    ...state.invoice,
+    lines: state.invoice.lines.filter((_, index) => index !== action.index),
+  },
+});
+
+export const resetTotals = state => ({
+  ...state,
+  totals: {
+    ...getDefaultState().totals,
+  },
+});
+
+export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
+  ...state,
+  accountOptions: [account, ...state.accountOptions],
+  isPageEdited: true,
+});
+
+export const setInvoiceItemLineDirty = (state, action) => ({
+  ...state,
+  isLineAmountDirty: action.isLineAmountDirty,
+});
+
+export const calculateLineTotals = (state, action) => ({
+  ...state,
+  isPageEdited: true,
+  invoice: {
+    ...state.invoice,
+    isTaxInclusive: action.invoice.isTaxInclusive,
+    lines: action.invoice.lines,
+  },
+  totals: {
+    ...state.totals,
+    ...action.totals,
+  },
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -196,24 +274,16 @@ const handlers = {
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,
   [UPDATE_INVOICE_DETAIL_HEADER_OPTIONS]: setInvoiceDetailHeaderOptions,
   [UPDATE_INVOICE_PAYMENT_AMOUNT]: updatePaymentAmount,
+  [UPDATE_INVOICE_LAYOUT]: updateInvoiceLayout,
 
-  [ADD_INVOICE_SERVICE_LINE]: addInvoiceServiceLine,
-  [REMOVE_INVOICE_SERVICE_LINE]: removeInvoiceServiceLine,
-  [UPDATE_INVOICE_SERVICE_LINE]: updateInvoiceServiceLine,
-  [FORMAT_INVOICE_SERVICE_LINE]: formatInvoiceServiceLine,
+  [ADD_INVOICE_LINE]: addInvoiceLine,
+  [REMOVE_INVOICE_LINE]: removeInvoiceLine,
+  [UPDATE_INVOICE_LINE]: updateInvoiceLine,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
-  [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
-  [GET_INVOICE_SERVICE_CALCULATED_TOTALS]: getInvoiceServiceCalculatedTotals,
-  [RESET_INVOICE_SERVICE_TOTALS]: resetInvoiceServiceTotals,
 
-  [ADD_INVOICE_ITEM_LINE]: addInvoiceItemLine,
-  [REMOVE_INVOICE_ITEM_LINE]: removeInvoiceItemLine,
-  [UPDATE_INVOICE_ITEM_LINE]: updateInvoiceItemLine,
-  [FORMAT_INVOICE_ITEM_LINE]: formatInvoiceItemLine,
   [SET_INVOICE_ITEM_LINE_DIRTY]: setInvoiceItemLineDirty,
-  [SET_INVOICE_ITEM_SUBMITTING_STATE]: setInvoiceItemSubmittingState,
-  [GET_INVOICE_ITEM_CALCULATED_LINES]: getInvoiceItemCalculatedLines,
-  [RESET_INVOICE_ITEM_TOTALS]: resetInvoiceItemTotals,
+  [CALCULATE_LINE_TOTALS]: calculateLineTotals,
+  [RESET_TOTALS]: resetTotals,
 
   [LOAD_PAY_DIRECT]: loadPayDirect,
   [SET_PAY_DIRECT_LOADING_STATE]: setPayDirectLoadingState,
