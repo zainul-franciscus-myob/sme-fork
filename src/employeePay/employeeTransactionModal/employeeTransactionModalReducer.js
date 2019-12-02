@@ -11,6 +11,7 @@ const getTransactionModalDefaultState = () => ({
   employeeName: '',
   transactionId: '',
   businessId: '',
+  region: '',
   employeeDetails: {
     employeeName: '',
     paymentMethod: '',

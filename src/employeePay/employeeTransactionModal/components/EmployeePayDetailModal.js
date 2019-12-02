@@ -11,6 +11,7 @@ import React from 'react';
 
 import {
   getDeletePopoverIsOpen,
+  getElectronicPaymentLink,
   getEmployeeName,
   getIsLoading,
   getIsModalOpen,
@@ -19,12 +20,7 @@ import {
 import DeleteButtonWithPopover from './DeleteButtonWithPopover';
 import EmployeePayDetailModalTable from './EmployeePayDetailModalTable';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
-
-const footerStyle = {
-  background: '#F3F4F5',
-  borderTop: '1px solid #DCDFE1',
-  padding: '16px',
-};
+import style from '../EmployeeTransactionModal.module.css';
 
 const EmployeePayDetailModal = ({
   onBackButtonClick,
@@ -36,6 +32,7 @@ const EmployeePayDetailModal = ({
   deletePopoverIsOpen,
   employeeName,
   isOpen,
+  electronicPaymentLink,
 }) => {
   const {
     paymentMethod,
@@ -92,23 +89,24 @@ const EmployeePayDetailModal = ({
     </>
   );
 
-  const netPayStyle = {
-    float: 'right',
-    padding: '1.5rem',
-  };
-  const netPayLabelStyle = {
-    paddingRight: '3rem',
-  };
-
   const modalDetail = (
     <>
       <DetailHeader primary={primary} secondary={secondary} />
       <Separator />
       <EmployeePayDetailModalTable payItemGroups={lines} />
-      <h4 style={netPayStyle}>
-        <span style={netPayLabelStyle}>Total net payment:</span>
-        <span>{totalNetPayment}</span>
-      </h4>
+      <div className={style.textContainer}>
+        <h4>
+          <span className={style.netPayLabel}>Total net payment:</span>
+          <span>{totalNetPayment}</span>
+        </h4>
+        <p className={style.zeroMargin}>
+          <span className={style.successTextColor}>
+            Electronic payment recorded&nbsp;
+          </span>
+          Reference number&nbsp;
+          <a href={electronicPaymentLink}>{referenceNumber}</a>
+        </p>
+      </div>
     </>
   );
 
@@ -118,7 +116,7 @@ const EmployeePayDetailModal = ({
       <Modal.Body>
         {isLoading ? <LoadingPageState /> : modalDetail}
       </Modal.Body>
-      <div style={footerStyle}>
+      <div className={style.footerStyle}>
         <ButtonRow
           secondary={[
             <DeleteButtonWithPopover
@@ -153,6 +151,7 @@ const mapStateToProps = state => ({
   employeeName: getEmployeeName(state),
   deletePopoverIsOpen: getDeletePopoverIsOpen(state),
   isOpen: getIsModalOpen(state),
+  electronicPaymentLink: getElectronicPaymentLink(state),
 });
 
 export default connect(mapStateToProps)(EmployeePayDetailModal);

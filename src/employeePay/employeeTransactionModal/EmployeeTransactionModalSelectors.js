@@ -7,3 +7,4 @@ export const getModalEmployeeDetails = state => state.employeeDetails;
 export const getIsLoading = state => state.isLoading;
 export const getDeletePopoverIsOpen = state => state.deletePopoverIsOpen;
 export const getIsModalOpen = state => state.isOpen;
+export const getElectronicPaymentLink = state => `/#/${state.region}/${state.businessId}/electronicPayments/${state.employeeDetails.referenceNumber}`;

@@ -55,7 +55,7 @@ Step 3: Define consumer modal open method
 -----------------------------------------
 Define a module method to call to trigger the modals display.
 
-This method needs to call the submodule `openModal` method, passing in the `transactionId`, `employeeName` and `businessId`.
+This method needs to call the submodule `openModal` method, passing in the `transactionId`, `employeeName`, `region` and `businessId`.
 ```js
     openEmployeeTransactionModal = (transactionId, employeeName) => {
     const state = this.store.getState();
@@ -63,6 +63,7 @@ This method needs to call the submodule `openModal` method, passing in the `tran
       transactionId,
       employeeName,
       businessId: getBusinessId(state),
+      region: getRegion(state),
     });
   }
 ```

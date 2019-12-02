@@ -58,8 +58,18 @@ export default class EmployeeTransactionModalModule {
     });
   }
 
-  openModal = ({ transactionId, businessId, employeeName }) => {
-    this.setInitialState({ transactionId, businessId, employeeName });
+  openModal = ({
+    transactionId,
+    businessId,
+    employeeName,
+    region,
+  }) => {
+    this.setInitialState({
+      transactionId,
+      businessId,
+      employeeName,
+      region,
+    });
     this.loadEmployeePayDetail();
     this.setIsOpen(true);
   }

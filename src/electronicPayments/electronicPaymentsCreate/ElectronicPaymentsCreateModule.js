@@ -26,6 +26,7 @@ import {
   getFilterOptions,
   getOrderBy,
   getRecordAndDownloadBankFileContent,
+  getRegion,
   getSortOrder,
 } from '../ElectronicPaymentsSelector';
 import ElectronicPaymentsCreateView from './components/ElectronicPaymentsCreateView';
@@ -348,6 +349,7 @@ export default class ElectronicPaymentsModule {
       transactionId,
       employeeName,
       businessId: getBusinessId(state),
+      region: getRegion(state),
     });
   }
 

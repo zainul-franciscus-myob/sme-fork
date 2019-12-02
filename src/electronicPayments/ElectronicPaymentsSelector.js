@@ -25,6 +25,7 @@ export const getBalanceValue = (state) => {
   return null;
 };
 export const getBusinessId = state => (state.businessId);
+export const getRegion = state => (state.region);
 export const getSortOrder = state => (state.sortOrder);
 export const getOrderBy = state => (state.orderBy);
 export const getTotalPayment = (state) => {

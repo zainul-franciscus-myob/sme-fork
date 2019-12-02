@@ -16,4 +16,5 @@ export const getModalContext = ({ transactionId, employeeName, state }) => ({
   transactionId,
   employeeName,
   businessId: getBusinessId(state),
+  region: state.region,
 });
