@@ -65,6 +65,8 @@ const ElectronicPaymentsCreateView = ({
   onCancelButtonClick,
   onRecordButtonClick,
   onContinueButtonClick,
+  onReferenceNumberClick,
+  employeeTransactionModal,
 }) => {
   const onDatePickerChange = filterName => ({ value }) => {
     onUpdateFilterBarOptions({ filterName, value });
@@ -88,6 +90,7 @@ const ElectronicPaymentsCreateView = ({
   const view = (
     <BaseTemplate>
       {alertComponent}
+      {employeeTransactionModal}
       {modal && (
         <RecordAndCreateFileModal
           modal={modal}
@@ -132,6 +135,7 @@ const ElectronicPaymentsCreateView = ({
           selectAll={selectAll}
           isTableLoading={isTableLoading}
           order={order}
+          onReferenceNumberClick={onReferenceNumberClick}
           renderCheckbox
         />
       </Card>

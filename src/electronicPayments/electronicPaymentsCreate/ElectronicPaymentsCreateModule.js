@@ -29,6 +29,7 @@ import {
   getSortOrder,
 } from '../ElectronicPaymentsSelector';
 import ElectronicPaymentsCreateView from './components/ElectronicPaymentsCreateView';
+import EmployeeTransactionModalModule from '../../employeePay/employeeTransactionModal/EmployeeTransactionModalModule';
 import ModalType from './ModalType';
 import Store from '../../store/Store';
 import electronicPaymentsCreateReducer from './electronicPaymentsCreateReducer';
@@ -65,6 +66,11 @@ export default class ElectronicPaymentsModule {
     this.setRootView = setRootView;
     this.store = new Store(electronicPaymentsCreateReducer);
     this.integration = integration;
+    this.subModules = {
+      employeePayModal: new EmployeeTransactionModalModule({
+        integration,
+      }),
+    };
   }
 
   run(context) {
@@ -298,8 +304,10 @@ export default class ElectronicPaymentsModule {
   }
 
   render = () => {
+    const employeeTransactionModal = this.subModules.employeePayModal.getView();
     const view = (
       <ElectronicPaymentsCreateView
+        employeeTransactionModal={employeeTransactionModal}
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
         onApplyFilter={this.filterElectronicPayments}
         onAccountChange={this.updateSelectedAccountId}
@@ -312,6 +320,7 @@ export default class ElectronicPaymentsModule {
         onCancelButtonClick={this.closeModal}
         onRecordButtonClick={this.recordAndDownloadBankFile}
         onContinueButtonClick={this.recordAndDownloadBankFile}
+        onReferenceNumberClick={this.openEmployeeTransactionModal}
       />
     );
 
@@ -330,6 +339,15 @@ export default class ElectronicPaymentsModule {
   resetState = () => {
     this.store.dispatch({
       intent: RESET_STATE,
+    });
+  }
+
+  openEmployeeTransactionModal = (transactionId, employeeName) => {
+    const state = this.store.getState();
+    this.subModules.employeePayModal.openModal({
+      transactionId,
+      employeeName,
+      businessId: getBusinessId(state),
     });
   }
 

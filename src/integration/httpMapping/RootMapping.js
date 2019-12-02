@@ -22,6 +22,7 @@ import DeductionPayItemMapping from './DeductionPayItemMapping';
 import ElectronicPaymentsCreateMapping from './ElectronicPaymentsCreateMapping';
 import ElectronicPaymentsReadMapping from './ElectronicPaymentsReadMapping';
 import EmployeeMapping from './EmployeeMapping';
+import EmployeeTransactionModalMapping from './EmployeeTransactionModalMapping';
 import ExpensePayItemMapping from './ExpensePayItemMapping';
 import GeneralJournalMapping from './GeneralJournalMapping';
 import HelpMapping from './HelpMapping';
@@ -115,6 +116,7 @@ const RootMapping = Object.freeze({
   ...ElectronicPaymentsCreateMapping,
   ...ElectronicPaymentsReadMapping,
   ...CustomerStatementMapping,
+  ...EmployeeTransactionModalMapping,
   ...CreditsAndDebitsListMapping,
 });
 

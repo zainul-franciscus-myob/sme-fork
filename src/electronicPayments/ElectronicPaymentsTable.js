@@ -16,6 +16,7 @@ const ElectronicPaymentsTable = ({
   selectAll,
   selectItem,
   electronicPayments,
+  onReferenceNumberClick,
   renderCheckbox,
 }) => {
   const selectedCount = electronicPayments.filter(e => e.isSelected).length;
@@ -81,7 +82,12 @@ const ElectronicPaymentsTable = ({
       )}
       <Table.RowItem columnName="Date">{row.date}</Table.RowItem>
       <Table.RowItem columnName="Reference number">
-        <Button type="link">{row.referenceNumber}</Button>
+        <Button
+          type="link"
+          onClick={() => { onReferenceNumberClick(row.referenceNumber, row.name); }}
+        >
+          {row.referenceNumber}
+        </Button>
       </Table.RowItem>
       <Table.RowItem columnName="Name">{row.name}</Table.RowItem>
       <Table.RowItem columnName="Payment type">{row.paymentTypeDisplay}</Table.RowItem>

@@ -6,12 +6,14 @@ export const getUrlParams = state => ({
   businessId: state.businessId,
   payRunId: state.payRunId,
 });
+export const getBusinessId = state => state.businessId;
+export const getPayRunId = state => state.payRunId;
 export const getPaymentPeriodStart = state => state.paymentPeriodStart;
 export const getPaymentPeriodEnd = state => state.paymentPeriodEnd;
 export const getPaymentDate = state => state.paymentDate;
 export const getTotalNetPay = state => state.totalNetPay;
-export const getIsModalLoading = state => state.isModalLoading;
-export const getModalEmployeeDetails = state => state.employeeDetails;
-export const getEmployeeDetailModal = state => state.modal;
-export const getDeletePopoverIsOpen = state => state.deletePopoverIsOpen;
-export const getBusinessId = state => state.businessId;
+export const getModalContext = ({ transactionId, employeeName, state }) => ({
+  transactionId,
+  employeeName,
+  businessId: getBusinessId(state),
+});

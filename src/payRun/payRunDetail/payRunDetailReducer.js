@@ -1,15 +1,10 @@
 import {
-  CLOSE_MODAL,
   EMAIL_TAB_SELECT_ALL,
   EMAIL_TAB_SELECT_ITEM,
   LOAD_PAY_RUN_DETAILS,
-  OPEN_MODAL,
   PRINT_TAB_SELECT_ALL,
   PRINT_TAB_SELECT_ITEM,
-  SET_DELETE_POPOVER_IS_OPEN,
-  SET_IS_MODAL_LOADING,
   SET_LOADING_STATE,
-  SET_MODAL_EMPLOYEE_DETAILS,
   SET_TAB,
 } from './payRunDetailIntents';
 import {
@@ -27,24 +22,10 @@ const getDefaultState = () => ({
   printTab: {
     employees: [],
   },
-  isModalLoading: true,
-  deletePopoverIsOpen: false,
   totalNetPay: '',
   paymentPeriodStart: '',
   paymentPeriodEnd: '',
   paymentDate: '',
-  employeeDetails: {
-    employeeName: '',
-    paymentMethod: '',
-    payPeriodStart: '',
-    payPeriodEnd: '',
-    dateOfPayment: '',
-    referenceNumber: '',
-    account: '',
-    balance: '',
-    employeeBankStatementDesc: '',
-    transactionDesc: '',
-  },
 });
 
 const resetState = () => (getDefaultState());
@@ -52,24 +33,6 @@ const resetState = () => (getDefaultState());
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
-});
-
-const setDeletePopoverIsOpen = (state, { deletePopoverIsOpen }) => ({
-  ...state,
-  deletePopoverIsOpen,
-});
-
-const setModalLoadingState = (state, { isModalLoading }) => ({
-  ...state,
-  isModalLoading,
-});
-
-const setModalEmployeeDetails = (state, { employeeDetails }) => ({
-  ...state,
-  employeeDetails: {
-    ...state.employeeDetails,
-    ...employeeDetails,
-  },
 });
 
 const setInitialState = (state, action) => ({
@@ -142,16 +105,6 @@ const loadPayRunDetails = (state, action) => ({
   },
 });
 
-const openPayDetailModal = state => ({
-  ...state,
-  modal: { type: 'PAY_DETAIL' },
-});
-
-const closePayDetailModal = state => ({
-  ...state,
-  modal: null,
-});
-
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -162,11 +115,6 @@ const handlers = {
   [PRINT_TAB_SELECT_ALL]: printTabSelectAll,
   [PRINT_TAB_SELECT_ITEM]: printTabSelectItem,
   [LOAD_PAY_RUN_DETAILS]: loadPayRunDetails,
-  [OPEN_MODAL]: openPayDetailModal,
-  [CLOSE_MODAL]: closePayDetailModal,
-  [SET_IS_MODAL_LOADING]: setModalLoadingState,
-  [SET_MODAL_EMPLOYEE_DETAILS]: setModalEmployeeDetails,
-  [SET_DELETE_POPOVER_IS_OPEN]: setDeletePopoverIsOpen,
 };
 
 const payRunDetailReducer = createReducer(getDefaultState(), handlers);
