@@ -35,10 +35,4 @@ export const getDateInputPostfix = state => ({
 
 export const getPayDirectLink = state => `${state.payDirect.url}?cdf=${state.businessId}&sn=${state.payDirect.serialNumber}`;
 
-export const getLayoutDescription = state => (
-  state.tabData.defaultSaleLayout === 'Item'
-    ? 'Use this layout if you\'ve created stock or service items and need to show quantities or hours.'
-    : 'Use this layout if you only sell date-based professional services and don\'t need quantities or items.'
-);
-
 export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&origin=global&businessId=${state.businessId}`;

@@ -1,6 +1,6 @@
 {
   "salesSettings": {
-    "defaultSaleLayout": "Item",
+    "defaultSaleLayout": "ItemAndService",
     "numberOfDaysForBalanceDue": "30",
     "paymentType": "NumberOfDaysAfterEOM"
   },
@@ -59,7 +59,7 @@
     { "name": "Last day", "value": "31" }
   ],
   "layout": [
-    { "name": "Service", "value": "Service" },
-    { "name": "Item", "value": "Item" }
+    { "name": "Services", "value": "Service" },
+    { "name": "Services and items", "value": "ItemAndService" }
   ]
 }
