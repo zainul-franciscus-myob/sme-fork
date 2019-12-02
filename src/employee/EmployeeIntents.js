@@ -21,6 +21,9 @@ export const UPDATE_PAYROLL_EMPLOYMENT_DETAIL = Symbol('Update Payroll employmen
 export const UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY = Symbol('Update Payroll employment payslip delivery');
 export const UPDATE_PAYMENT_DETAILS = Symbol('Update employee payment details');
 export const UPDATE_BANK_ACCOUNT_DETAILS = Symbol('Update employee bank account details');
+export const LOAD_EMPLOYEE_LIST_NEXT_PAGE = Symbol('Load employee list next page');
+export const START_LOADING_MORE = Symbol('Start loading more');
+export const STOP_LOADING_MORE = Symbol('Stop loading more');
 
 export const ADD_PAYROLL_DEDUCTION_PAY_ITEM = Symbol('Add deduction pay item');
 export const REMOVE_PAYROLL_DEDUCTION_PAY_ITEM = Symbol('Remove deduction pay item');

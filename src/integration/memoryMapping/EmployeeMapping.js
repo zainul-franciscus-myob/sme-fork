@@ -10,6 +10,7 @@ import {
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EMPLOYEE_DETAIL,
   LOAD_EMPLOYEE_LIST,
+  LOAD_EMPLOYEE_LIST_NEXT_PAGE,
   LOAD_EXPENSE_PAY_ITEM_MODAL,
   LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_DEDUCTION_PAY_ITEM_MODAL,
@@ -24,8 +25,8 @@ import {
   LOAD_TAX_PAY_ITEM_MODAL,
   LOAD_WAGE_PAY_ITEM_MODAL,
   SORT_AND_FILTER_EMPLOYEE_LIST,
-  UPDATE_DEDUCTION_PAY_ITEM_MODAL,
-  UPDATE_EMPLOYEE, UPDATE_EXPENSE_PAY_ITEM_MODAL,
+  UPDATE_DEDUCTION_PAY_ITEM_MODAL, UPDATE_EMPLOYEE,
+  UPDATE_EXPENSE_PAY_ITEM_MODAL,
   UPDATE_LEAVE_PAY_ITEM,
   UPDATE_SUPER_PAY_ITEM_MODAL,
   UPDATE_TAX_PAY_ITEM_MODAL,
@@ -41,6 +42,7 @@ import createSuperPayItemModalResponse from '../data/employee/createSuperPayItem
 import createWagePayItemModalResponse from '../data/employee/createWagePayItemModalResponse';
 import employeeDetailLoadResponse from '../data/employee/employeeDetailEntry';
 import employeeListFilterResponse from '../data/employee/filterEmployeeList';
+import employeeListNextPageResponse from '../data/employee/employeeListNextPage';
 import employeeListResponse from '../data/employee/employeeList';
 import loadDeductionPayItemModalResponse from '../data/employee/loadDeductionPayItemModalResponse';
 import loadExpensePayItemModalResponse from '../data/employee/loadExpensePayItemModalResponse';
@@ -80,6 +82,8 @@ const updateEmployee = ({ onSuccess }) => { onSuccess(updatedEmployeeDetailRespo
 const deleteEmployee = ({ onSuccess }) => { onSuccess(successResponse); };
 
 const createEmployee = ({ onSuccess }) => { onSuccess(successEmployeeCreateResponse); };
+
+const loadEmployeeListNextPage = ({ onSuccess }) => { onSuccess(employeeListNextPageResponse); };
 
 const loadStandardPayWageAmountRule = ({ onSuccess }) => (
   onSuccess(loadStandardPayWageAmountRuleResponse)
@@ -160,6 +164,7 @@ const EmployeeListMapping = {
   [UPDATE_EMPLOYEE]: updateEmployee,
   [DELETE_EMPLOYEE]: deleteEmployee,
   [CREATE_EMPLOYEE]: createEmployee,
+  [LOAD_EMPLOYEE_LIST_NEXT_PAGE]: loadEmployeeListNextPage,
   [LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE]: loadStandardPayWageAmountRule,
   [LOAD_TAX_PAY_ITEM_MODAL]: loadTaxPayItemModalDetails,
   [UPDATE_TAX_PAY_ITEM_MODAL]: updateTaxPayItemModalDetails,

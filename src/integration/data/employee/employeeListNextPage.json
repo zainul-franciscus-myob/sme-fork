@@ -1,0 +1,20 @@
+
+{
+    "pagination": {
+      "hasNextPage": false,
+      "offset": 50
+    },
+    "entries": [{
+    "id": "1",
+    "name": "Flinsdtone, Frank",
+    "email": "frank@flindstone.com",
+    "phone": "0400000000",
+    "isActive": true
+  }, {
+    "id": "2",
+    "name": "Rubble, Barkley",
+    "email": "barkley@rubble.com.au",
+    "phone": "0400000001",
+    "isActive": false
+  }]
+}

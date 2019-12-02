@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import LoadMoreButtonStatuses from './components/Pagination/LoadMoreButtonStatuses';
+
 export const getBusinessId = state => state.businessId;
 export const getIsLoading = state => state.isLoading;
 export const getRegion = state => state.region;
@@ -34,3 +36,47 @@ export const getNewSortOrder = orderBy => state => (orderBy === getOrderBy(state
 
 export const getAppliedFilterOptions = state => state.appliedFilterOptions;
 export const getIsTableEmpty = state => state.entries.length === 0;
+
+export const getLoadMoreButtonStatus = (state) => {
+  const isLastPage = !state.pagination.hasNextPage;
+  const { isTableLoading } = state;
+
+  if (isLastPage || isTableLoading) {
+    return LoadMoreButtonStatuses.HIDDEN;
+  }
+
+  if (state.isMoreLoading) {
+    return LoadMoreButtonStatuses.LOADING;
+  }
+
+  return LoadMoreButtonStatuses.SHOWN;
+};
+
+export const getOffset = state => state.pagination.offset;
+
+export const getFilterEmployeeListNextPageParams = (state) => {
+  const filterOptions = getFilterOptions(state);
+  const sortOrder = getSortOrder(state);
+  const orderBy = getOrderBy(state);
+
+  return {
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+    offset: 0,
+  };
+};
+
+export const getLoadEmployeeListNextPageParams = (state) => {
+  const filterOptions = getFilterOptions(state);
+  const sortOrder = getSortOrder(state);
+  const orderBy = getOrderBy(state);
+  const offset = getOffset(state);
+
+  return {
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+    offset,
+  };
+};

@@ -3,11 +3,14 @@ import React from 'react';
 
 import {
   LOAD_EMPLOYEE_LIST,
+  LOAD_EMPLOYEE_LIST_NEXT_PAGE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_EMPLOYEE_LIST,
+  START_LOADING_MORE,
+  STOP_LOADING_MORE,
   UPDATE_FILTER_BAR_OPTIONS,
 } from '../EmployeeIntents';
 import {
@@ -16,8 +19,12 @@ import {
 } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../EmployeeMessageTypes';
 import {
-  getAppliedFilterOptions, getBusinessId, getFilterOptions,
-  getNewSortOrder, getOrderBy, getRegion, getSortOrder,
+  getAppliedFilterOptions,
+  getBusinessId,
+  getFilterEmployeeListNextPageParams,
+  getLoadEmployeeListNextPageParams,
+  getNewSortOrder,
+  getRegion,
 } from './EmployeeListSelectors';
 import EmployeeListView from './components/EmployeeListView';
 import Store from '../../store/Store';
@@ -71,12 +78,13 @@ export default class EmployeeListModule {
     };
 
     const intent = SORT_AND_FILTER_EMPLOYEE_LIST;
-    const onSuccess = ({ entries }) => {
+    const onSuccess = ({ entries, pagination }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
         isSort: true,
+        pagination,
       });
     };
 
@@ -95,6 +103,7 @@ export default class EmployeeListModule {
         ...filterOptions,
         sortOrder: newSortOrder,
         orderBy,
+        offset: 0,
       },
       onSuccess,
       onFailure,
@@ -106,6 +115,10 @@ export default class EmployeeListModule {
 
     const urlParams = {
       businessId: getBusinessId(this.store.getState()),
+    };
+
+    const params = {
+      offset: 0,
     };
 
     const onSuccess = (response) => {
@@ -121,7 +134,7 @@ export default class EmployeeListModule {
     };
 
     this.integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent, urlParams, onSuccess, onFailure, params,
     });
   }
 
@@ -146,11 +159,12 @@ export default class EmployeeListModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({ entries }) => {
+    const onSuccess = ({ entries, pagination }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
+        pagination,
         isSort: false,
       });
     };
@@ -162,13 +176,41 @@ export default class EmployeeListModule {
       });
     };
 
-    const filterOptions = getFilterOptions(state);
-    const sortOrder = getSortOrder(state);
-    const orderBy = getOrderBy(state);
-    const params = {
-      ...filterOptions,
-      sortOrder,
-      orderBy,
+    const params = getFilterEmployeeListNextPageParams(state);
+
+    this.integration.read({
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  loadEmployeeListNextPage = () => {
+    const state = this.store.getState();
+    this.startLoadingMore();
+
+    const intent = LOAD_EMPLOYEE_LIST_NEXT_PAGE;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const params = getLoadEmployeeListNextPageParams(state);
+
+    const onSuccess = ({ entries, pagination }) => {
+      this.stopLoadingMore();
+      this.store.dispatch({
+        intent,
+        entries,
+        pagination,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.stopLoadingMore();
+      this.setAlert({ message, type: 'danger' });
     };
 
     this.integration.read({
@@ -177,6 +219,18 @@ export default class EmployeeListModule {
       params,
       onSuccess,
       onFailure,
+    });
+  }
+
+  startLoadingMore = () => {
+    this.store.dispatch({
+      intent: START_LOADING_MORE,
+    });
+  };
+
+  stopLoadingMore = () => {
+    this.store.dispatch({
+      intent: STOP_LOADING_MORE,
     });
   };
 
@@ -201,6 +255,7 @@ export default class EmployeeListModule {
         onApplyFilter={this.filterEmployeeList}
         onSort={this.sortEmployeeList}
         onDismissAlert={this.dismissAlert}
+        onLoadMoreButtonClick={this.loadEmployeeListNextPage}
       />
     );
 

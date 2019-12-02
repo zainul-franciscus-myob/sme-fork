@@ -1,4 +1,8 @@
 {
+  "pagination": {
+    "hasNextPage": false,
+    "offset": 50
+  },
   "entries": [{
     "id": "124",
     "name": "Stark, Ned",

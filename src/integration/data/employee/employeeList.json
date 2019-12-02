@@ -1,6 +1,10 @@
 {
   "sortOrder": "asc",
   "orderBy": "Name",
+  "pagination": {
+    "hasNextPage": false,
+   "offset": 50
+ },
   "entries": [{
     "id": "124",
     "name": "Another, One",
