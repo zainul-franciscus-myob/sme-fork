@@ -1,11 +1,15 @@
 import { SET_INITIAL_STATE, UPDATE_FILTER_OPTIONS } from '../CreditsAndDebitsListIntents';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import Periods from '../../../components/PeriodPicker/Periods';
 import createReducer from '../../../store/createReducer';
+import getDateRangeByPeriodAndRegion from '../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
 import getDefaultState from '../getDefaultState';
 import reducerHandlers from '../creditsAndDebitsListReducer';
 
 describe('creditsAndDebitsListReducer', () => {
   const creditsAndDebitsListReducer = createReducer(getDefaultState(), reducerHandlers);
+
+  const { dateFrom, dateTo } = getDateRangeByPeriodAndRegion('au', new Date(), Periods.thisMonth);
 
   describe('set init state', () => {
     it('should use deep link param for sourceJournal if applicable', () => {
@@ -31,8 +35,8 @@ describe('creditsAndDebitsListReducer', () => {
       const filterOptions = {
         sourceJournal,
         accountId: 'All',
-        dateFrom: '2019-11-01',
-        dateTo: '2019-11-30',
+        dateFrom,
+        dateTo,
         keywords: '',
         period: 'This month',
       };
@@ -76,8 +80,8 @@ describe('creditsAndDebitsListReducer', () => {
       const filterOptions = {
         sourceJournal: 'Foo',
         accountId: 'All',
-        dateFrom: '2019-11-01',
-        dateTo: '2019-11-30',
+        dateFrom,
+        dateTo,
         keywords: '',
         period: 'This month',
       };
