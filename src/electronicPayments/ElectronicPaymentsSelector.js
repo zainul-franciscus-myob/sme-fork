@@ -6,6 +6,7 @@ export const getAlert = ({ alert }) => alert;
 export const getIsLoading = state => (state.isLoading);
 export const getIsTableLoading = state => (state.isTableLoading);
 export const getElectronicPayments = state => (state.electronicPayments);
+export const getElectronicPaymentId = state => (state.electronicPaymentId);
 export const getAccounts = state => (state.accounts);
 
 export const getTransactionDescription = state => (state.transactionDescription);

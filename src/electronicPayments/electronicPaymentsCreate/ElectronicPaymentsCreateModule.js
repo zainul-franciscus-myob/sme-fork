@@ -17,8 +17,8 @@ import {
   UPDATE_BANK_FILE_DETAILS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_SELECTED_ACCOUNT_ID,
-} from './ElectronicPaymentsIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
+} from '../ElectronicPaymentsIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
   getAppliedFilterOptions,
   getBusinessId,
@@ -27,12 +27,12 @@ import {
   getOrderBy,
   getRecordAndDownloadBankFileContent,
   getSortOrder,
-} from './ElectronicPaymentsSelector';
-import ElectronicPaymentsView from './components/ElectronicPaymentsView';
+} from '../ElectronicPaymentsSelector';
+import ElectronicPaymentsCreateView from './components/ElectronicPaymentsCreateView';
 import ModalType from './ModalType';
-import Store from '../store/Store';
-import electronicPaymentReducer from './electronicPaymentsReducer';
-import formatIsoDate from '../common/valueFormatters/formatDate/formatIsoDate';
+import Store from '../../store/Store';
+import electronicPaymentsCreateReducer from './electronicPaymentsCreateReducer';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 const downloadAsFile = (content, filename) => {
   /**
@@ -63,7 +63,7 @@ export default class ElectronicPaymentsModule {
     integration,
   }) {
     this.setRootView = setRootView;
-    this.store = new Store(electronicPaymentReducer);
+    this.store = new Store(electronicPaymentsCreateReducer);
     this.integration = integration;
   }
 
@@ -103,7 +103,7 @@ export default class ElectronicPaymentsModule {
     });
   }
 
-  filterEletronicPayments = () => {
+  filterElectronicPayments = () => {
     const state = this.store.getState();
     const filterOptions = getFilterOptions(state);
 
@@ -177,7 +177,7 @@ export default class ElectronicPaymentsModule {
       this.setIsLoading(false);
       this.setIsTableLoading(false);
     };
-    const onFailure = () => {};
+    const onFailure = () => { };
 
     this.integration.read({
       urlParams,
@@ -229,7 +229,7 @@ export default class ElectronicPaymentsModule {
         type: 'success',
         message: response.message,
       });
-      this.filterEletronicPayments();
+      this.filterElectronicPayments();
     };
 
     const onFailure = ({ message }) => {
@@ -299,9 +299,9 @@ export default class ElectronicPaymentsModule {
 
   render = () => {
     const view = (
-      <ElectronicPaymentsView
+      <ElectronicPaymentsCreateView
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
-        onApplyFilter={this.filterEletronicPayments}
+        onApplyFilter={this.filterElectronicPayments}
         onAccountChange={this.updateSelectedAccountId}
         selectAll={this.selectAll}
         selectItem={this.selectItem}

@@ -6,12 +6,12 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import AccountCombobox from '../../components/combobox/AccountCombobox';
-import handleComboboxChange from '../../components/handlers/handleComboboxChange';
-import handleDateChange from '../../components/handlers/handleDateChange';
-import handleInputChange from '../../components/handlers/handleInputChange';
+import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
+import handleDateChange from '../../../components/handlers/handleDateChange';
+import handleInputChange from '../../../components/handlers/handleInputChange';
 
-const ElectronicPaymentsDetailHeader = ({
+const ElectronicPaymentsCreateDetailHeader = ({
   accounts,
   selectedAccountId,
   onAccountChange,
@@ -80,4 +80,4 @@ const ElectronicPaymentsDetailHeader = ({
   return (<DetailHeader primary={primary} secondary={secondary} />);
 };
 
-export default ElectronicPaymentsDetailHeader;
+export default ElectronicPaymentsCreateDetailHeader;

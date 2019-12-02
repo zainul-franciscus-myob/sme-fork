@@ -4,7 +4,7 @@ import {
   SORT_AND_FILTER_ELECTRONIC_PAYMENTS,
 } from '../../electronicPayments/ElectronicPaymentsIntents';
 
-const ElectronicPaymentsMapping = {
+const ElectronicPaymentsCreateMapping = {
   [LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/electronicPayments/load_accounts_and_transactions`,
@@ -19,4 +19,4 @@ const ElectronicPaymentsMapping = {
   },
 };
 
-export default ElectronicPaymentsMapping;
+export default ElectronicPaymentsCreateMapping;

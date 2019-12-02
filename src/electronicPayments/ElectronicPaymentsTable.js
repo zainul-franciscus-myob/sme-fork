@@ -7,7 +7,7 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import TableView from '../../components/TableView/TableView';
+import TableView from '../components/TableView/TableView';
 
 const ElectronicPaymentsTable = ({
   isTableLoading,
@@ -16,6 +16,7 @@ const ElectronicPaymentsTable = ({
   selectAll,
   selectItem,
   electronicPayments,
+  renderCheckbox,
 }) => {
   const selectedCount = electronicPayments.filter(e => e.isSelected).length;
 
@@ -31,20 +32,22 @@ const ElectronicPaymentsTable = ({
 
   const header = (
     <Table.Header>
-      <Table.HeaderItem width="3.5rem">
-        <Checkbox
-          name="bulk-select"
-          label="Bulk select"
-          hideLabel
-          onChange={e => selectAll(e.target.checked)}
-          checked={
-            electronicPayments.length !== 0 && selectedCount === electronicPayments.length
-          }
-          indeterminate={
-            selectedCount > 0 && selectedCount !== electronicPayments.length
-          }
-        />
-      </Table.HeaderItem>
+      {renderCheckbox && (
+        <Table.HeaderItem width="3.5rem">
+          <Checkbox
+            name="bulk-select"
+            label="Bulk select"
+            hideLabel
+            onChange={e => selectAll(e.target.checked)}
+            checked={
+              electronicPayments.length !== 0 && selectedCount === electronicPayments.length
+            }
+            indeterminate={
+              selectedCount > 0 && selectedCount !== electronicPayments.length
+            }
+          />
+        </Table.HeaderItem>
+      )}
       <Table.HeaderItem>
         <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
@@ -65,21 +68,23 @@ const ElectronicPaymentsTable = ({
 
   const rows = electronicPayments.map(row => (
     <Table.Row key={row.id}>
-      <Table.RowItem width="auto" cellRole="checkbox" valign="middle">
-        <Checkbox
-          name={`${row.id}-select`}
-          label={`Select row ${row.id}`}
-          hideLabel
-          onChange={e => selectItem(row, e.target.checked)}
-          checked={row.isSelected}
-        />
-      </Table.RowItem>
+      {renderCheckbox && (
+        <Table.RowItem width="auto" cellRole="checkbox" valign="middle">
+          <Checkbox
+            name={`${row.id}-select`}
+            label={`Select row ${row.id}`}
+            hideLabel
+            onChange={e => selectItem(row, e.target.checked)}
+            checked={row.isSelected}
+          />
+        </Table.RowItem>
+      )}
       <Table.RowItem columnName="Date">{row.date}</Table.RowItem>
       <Table.RowItem columnName="Reference number">
         <Button type="link">{row.referenceNumber}</Button>
       </Table.RowItem>
       <Table.RowItem columnName="Name">{row.name}</Table.RowItem>
-      <Table.RowItem columnName="Payment type">{row.paymentType}</Table.RowItem>
+      <Table.RowItem columnName="Payment type">{row.paymentTypeDisplay}</Table.RowItem>
       <Table.RowItem align="right" columnName="Amount">{row.amount}</Table.RowItem>
     </Table.Row>
   ));

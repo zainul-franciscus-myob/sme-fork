@@ -15,10 +15,10 @@ import {
   UPDATE_BANK_FILE_DETAILS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_SELECTED_ACCOUNT_ID,
-} from './ElectronicPaymentsIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
-import createReducer from '../store/createReducer';
-import formatIsoDate from '../common/valueFormatters/formatDate/formatIsoDate';
+} from '../ElectronicPaymentsIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import createReducer from '../../store/createReducer';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultDateRange = () => addDays(addMonths(new Date(), -1), 1);
 
@@ -162,6 +162,6 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
 };
 
-const payRunDetailReducer = createReducer(getDefaultState(), handlers);
+const electronicPaymentsCreateReducer = createReducer(getDefaultState(), handlers);
 
-export default payRunDetailReducer;
+export default electronicPaymentsCreateReducer;

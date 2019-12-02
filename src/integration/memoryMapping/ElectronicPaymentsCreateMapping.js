@@ -3,11 +3,11 @@ import {
   RECORD_AND_DOWNLOAD_BANK_FILE,
   SORT_AND_FILTER_ELECTRONIC_PAYMENTS,
 } from '../../electronicPayments/ElectronicPaymentsIntents';
-import filterElectronicPaySummaryList from '../data/electronicPayments/filterElectronicPaySummaryList';
-import loadAccountsAndElectronicPayments from '../data/electronicPayments/loadAccountsAndElectronicPayments';
+import filterElectronicPaySummaryList from '../data/electronicPaymentsCreate/filterElectronicPaySummaryList';
+import loadAccountsAndElectronicPayments from '../data/electronicPaymentsCreate/loadAccountsAndElectronicPayments';
 import recordElectronicPaymentsAndDownloadBankFile from '../data/electronicPayments/recordElectronicPaymentsAndDownloadBankFile';
 
-const ElectronicPaymentsMapping = {
+const ElectronicPaymentsCreateMapping = {
   [LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS]:
     ({ onSuccess }) => onSuccess(loadAccountsAndElectronicPayments),
   [SORT_AND_FILTER_ELECTRONIC_PAYMENTS]:
@@ -16,4 +16,4 @@ const ElectronicPaymentsMapping = {
     ({ onSuccess }) => onSuccess(recordElectronicPaymentsAndDownloadBankFile),
 };
 
-export default ElectronicPaymentsMapping;
+export default ElectronicPaymentsCreateMapping;

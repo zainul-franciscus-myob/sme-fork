@@ -27,14 +27,14 @@ import {
   getSelectedAccountId,
   getTotalPayment,
   getTransactionDescription,
-} from '../ElectronicPaymentsSelector';
-import ElectronicPaymentsDetailHeader from './ElectronicPaymentsDetailHeader';
-import ElectronicPaymentsTable from './ElectronicPaymentsTable';
-import PageView from '../../components/PageView/PageView';
+} from '../../ElectronicPaymentsSelector';
+import ElectronicPaymentsDetailHeader from './ElectronicPaymentsCreateDetailHeader';
+import ElectronicPaymentsTable from '../../ElectronicPaymentsTable';
+import PageView from '../../../components/PageView/PageView';
 import RecordAndCreateFileModal from './RecordAndCreateFileModal';
-import styles from './ElectronicPayments.module.css';
+import styles from '../../ElectronicPayments.module.css';
 
-const ElectronicPaymentsView = ({
+const ElectronicPaymentsCreateView = ({
   alert,
   onDismissAlert,
   isLoading,
@@ -132,6 +132,7 @@ const ElectronicPaymentsView = ({
           selectAll={selectAll}
           isTableLoading={isTableLoading}
           order={order}
+          renderCheckbox
         />
       </Card>
       <div style={{ marginTop: '12px' }}>
@@ -164,4 +165,4 @@ const mapStateToProps = state => ({
   modal: getModal(state),
 });
 
-export default connect(mapStateToProps)(ElectronicPaymentsView);
+export default connect(mapStateToProps)(ElectronicPaymentsCreateView);
