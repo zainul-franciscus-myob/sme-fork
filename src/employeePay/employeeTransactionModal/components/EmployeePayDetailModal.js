@@ -11,7 +11,6 @@ import React from 'react';
 
 import {
   getDeletePopoverIsOpen,
-  getElectronicPaymentLink,
   getEmployeeName,
   getIsLoading,
   getIsModalOpen,
@@ -32,7 +31,6 @@ const EmployeePayDetailModal = ({
   deletePopoverIsOpen,
   employeeName,
   isOpen,
-  electronicPaymentLink,
 }) => {
   const {
     paymentMethod,
@@ -99,13 +97,6 @@ const EmployeePayDetailModal = ({
           <span className={style.netPayLabel}>Total net payment:</span>
           <span>{totalNetPayment}</span>
         </h4>
-        <p className={style.zeroMargin}>
-          <span className={style.successTextColor}>
-            Electronic payment recorded&nbsp;
-          </span>
-          Reference number&nbsp;
-          <a href={electronicPaymentLink}>{referenceNumber}</a>
-        </p>
       </div>
     </>
   );
@@ -151,7 +142,6 @@ const mapStateToProps = state => ({
   employeeName: getEmployeeName(state),
   deletePopoverIsOpen: getDeletePopoverIsOpen(state),
   isOpen: getIsModalOpen(state),
-  electronicPaymentLink: getElectronicPaymentLink(state),
 });
 
 export default connect(mapStateToProps)(EmployeePayDetailModal);
