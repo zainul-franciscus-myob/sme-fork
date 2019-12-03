@@ -70,7 +70,7 @@ export const getSearchLink = createSelector(
       productFamily: 'MYOB Essentials',
       country: mapRegionToCountry(region),
     };
-    const baseUrl = 'https://www.myob.com/au/support/essentials/search';
+    const baseUrl = 'https://www.myob.com/au/support/myob/search';
     const queryParams = getQueryFromParams(searchParams);
     return `${baseUrl}${queryParams}`;
   },

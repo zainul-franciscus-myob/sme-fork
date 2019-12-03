@@ -8,7 +8,7 @@ describe('getSearchLink', () => {
 
   it('builds the search text and country as query params', () => {
     const actual = getSearchLink(state);
-    const expected = 'https://www.myob.com/au/support/essentials/search?q=Some%20text&engineName=help&page=1&productFamily=MYOB%20Essentials&country=Australia';
+    const expected = 'https://www.myob.com/au/support/myob/search?q=Some%20text&engineName=help&page=1&productFamily=MYOB%20Essentials&country=Australia';
 
     expect(actual).toEqual(expected);
   });
@@ -19,7 +19,7 @@ describe('getSearchLink', () => {
       region: 'nz',
     };
     const actual = getSearchLink(modifiedState);
-    const expected = 'https://www.myob.com/au/support/essentials/search?q=Some%20text&engineName=help&page=1&productFamily=MYOB%20Essentials&country=New%20Zealand';
+    const expected = 'https://www.myob.com/au/support/myob/search?q=Some%20text&engineName=help&page=1&productFamily=MYOB%20Essentials&country=New%20Zealand';
 
     expect(actual).toEqual(expected);
   });
