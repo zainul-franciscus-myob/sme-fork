@@ -69,14 +69,20 @@ const ElectronicPaymentsReadView = ({
           onReferenceNumberClick={onReferenceNumberClick}
         />
       </Card>
-      <ButtonRow>
-        <Button type="secondary" onClick={onGoBackClick}>
-        Go back
-        </Button>
-        <Button type="secondary" onClick={onDeleteButtonClick}>
-        Delete
-        </Button>
-      </ButtonRow>
+      <ButtonRow
+        secondary={[
+          <Button type="secondary" onClick={onDeleteButtonClick}>
+            Delete
+          </Button>,
+        ]}
+
+        primary={[
+          <Button type="secondary" onClick={onGoBackClick}>
+            Go back
+          </Button>,
+        ]}
+      />
+
     </BaseTemplate>
   );
 
