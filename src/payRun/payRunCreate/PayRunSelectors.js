@@ -70,6 +70,11 @@ export const getPayRunListUrl = (state) => {
   return `/#/${region}/${businessId}/payRun`;
 };
 
+export const getElectronicPaymentsCreateUrl = (state) => {
+  const { businessId, region } = state;
+  return `/#/${region}/${businessId}/electronicPayments`;
+};
+
 export const getStepperSteps = (state) => {
   const activeStepIndex = getStep(state);
 

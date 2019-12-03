@@ -36,6 +36,7 @@ export const activeMapping = {
   'payItem/wagePayItem': 'payroll',
   'payItem/deductionPayItemDetail': 'payroll',
   'payItem/expensePayItem': 'payroll',
+  'electronicPayments/electronicPayments': 'payroll',
   'prepareBasOrIas/prepareBasOrIas': 'business',
   'payItem/leavePayItem': 'payroll',
   'inTray/inTray': 'inTray',
@@ -154,6 +155,9 @@ export const featuresConfig = {
   },
   payRunList: {
     routeName: 'payRun/payRunList',
+  },
+  electronicPayments: {
+    routeName: 'electronicPayments/electronicPaymentsCreate',
   },
   prepareBasOrIas: {
     routeName: 'prepareBasOrIas/prepareBasOrIas',

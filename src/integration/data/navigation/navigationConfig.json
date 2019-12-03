@@ -28,6 +28,7 @@
     "payrollSettings",
     "supplierReturnList",
     "payItemList",
+    "electronicPayments",
     "inTray",
     "prepareBasOrIas",
     "linkedAccounts",
