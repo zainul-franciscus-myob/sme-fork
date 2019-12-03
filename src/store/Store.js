@@ -10,11 +10,10 @@ class Store {
   }
 
   subscribe = (subscriber) => {
-    const length = this.subscribers.push(subscriber);
-    const subscriptionIndex = length - 1;
+    this.subscribers.push(subscriber);
 
     const unsubscribe = () => {
-      this.subscribers = this.subscribers.filter((item, i) => i !== subscriptionIndex);
+      this.subscribers = this.subscribers.filter(item => item !== subscriber);
     };
 
     return unsubscribe;
