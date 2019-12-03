@@ -1,12 +1,20 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import ImportExportDataType from '../types/ImportExportDataType';
+import TabItem from '../types/TabItem';
 
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
 export const getIsLoading = state => state.isLoading;
 export const getIsSubmitting = state => state.isSubmitting;
-export const getIsActionDisabled = state => state.isSubmitting;
+
+export const getTab = state => state.selectedTab;
+// TO-DO: Remove disabling action on Import Tab once Import work is done.
+export const getIsActionDisabled = createSelector(
+  getIsSubmitting,
+  getTab,
+  (isSubmitting, tab) => isSubmitting || tab === TabItem.IMPORT,
+);
 
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
@@ -18,7 +26,6 @@ const getValidDataType = (dataType) => {
   return isValidDataType ? dataType : dataTypeValues[0];
 };
 
-export const getTab = state => state.selectedTab;
 export const getCurrentDataTypeInCurrentTab = createSelector(
   getTab,
   state => state,
