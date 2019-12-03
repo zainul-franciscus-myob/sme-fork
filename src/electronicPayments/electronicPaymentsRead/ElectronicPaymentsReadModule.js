@@ -2,22 +2,22 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  DELETE_ELECTRONIC_PAYMENT,
   LOAD_ELECTRONIC_PAYMENT_DETAILS,
 } from './ElectronicPaymentsReadIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
+  SET_ALERT,
   SET_LOADING_STATE,
-  SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
-  SORT_AND_FILTER_ELECTRONIC_PAYMENTS,
 } from '../ElectronicPaymentsIntents';
 import {
   getBusinessId,
   getElectronicPaymentId,
-  getOrderBy,
-  getSortOrder,
+  getRegion,
 } from '../ElectronicPaymentsSelector';
 import ElectronicPaymentsReadView from './components/ElectronicPaymentsReadView';
+import EmployeeTransactionModalModule from '../../employeePay/employeeTransactionModal/EmployeeTransactionModalModule';
 import Store from '../../store/Store';
 import electronicPaymentReadReducer from './electronicPaymentsReadReducer';
 
@@ -29,6 +29,9 @@ export default class ElectronicPaymentsReadModule {
     this.setRootView = setRootView;
     this.store = new Store(electronicPaymentReadReducer);
     this.integration = integration;
+    this.employeeTransactionModal = new EmployeeTransactionModalModule({
+      integration,
+    });
   }
 
   run(context) {
@@ -51,35 +54,7 @@ export default class ElectronicPaymentsReadModule {
     });
   }
 
-  fetchElectronicPayments = () => {
-    this.setIsTableLoading(true);
-    const state = this.store.getState();
-    const intent = SORT_AND_FILTER_ELECTRONIC_PAYMENTS;
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const onSuccess = ({ entries }) => {
-      this.store.dispatch({
-        intent,
-        entries,
-      });
-      this.setIsTableLoading(false);
-    };
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
-
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        sortOrder: getSortOrder(state),
-        orderBy: getOrderBy(state),
-      },
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  onGoBackClick = () => {
+  goBack = () => {
     window.history.back();
   }
 
@@ -107,21 +82,43 @@ export default class ElectronicPaymentsReadModule {
     });
   }
 
-    flipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
-
-    setSortOrder = (orderBy, newSortOrder) => {
-      this.store.dispatch({
-        intent: SET_SORT_ORDER,
-        sortOrder: newSortOrder,
-        orderBy,
-      });
-    }
-
-  sortElectronicPayments = (orderBy) => {
+  redirectToTransactionList = () => {
     const state = this.store.getState();
-    const newSortOrder = orderBy === getOrderBy(state) ? this.flipSortOrder(state) : 'asc';
-    this.setSortOrder(orderBy, newSortOrder);
-    this.fetchElectronicPayments();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    return `/#/${region}/${businessId}/transactionList`;
+  };
+
+  setAlertMessage = (alertMessage) => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alertMessage,
+    });
+  }
+
+  deleteElectronicPayment = () => {
+    this.setIsLoading(true);
+    const state = this.store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+      electronicPaymentId: getElectronicPaymentId(state),
+    };
+    const onSuccess = () => {
+      window.location.href = this.redirectToTransactionList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.setIsTableLoading(false);
+      this.setAlertMessage(message);
+    };
+
+    this.integration.write({
+      urlParams,
+      onSuccess,
+      onFailure,
+      intent: DELETE_ELECTRONIC_PAYMENT,
+    });
   }
 
   setInitialState = (context) => {
@@ -131,11 +128,25 @@ export default class ElectronicPaymentsReadModule {
     });
   };
 
+  openEmployeeTransactionModal = (transactionId, employeeName) => {
+    const state = this.store.getState();
+    this.employeeTransactionModal.openModal({
+      transactionId,
+      employeeName,
+      businessId: getBusinessId(state),
+      region: getRegion(state),
+    });
+  }
+
   render = () => {
+    const modalComponent = this.employeeTransactionModal.getView();
+
     const view = (
       <ElectronicPaymentsReadView
-        onSort={this.sortElectronicPayments}
-        onGoBackClick={this.onGoBackClick}
+        onGoBackClick={this.goBack}
+        onDeleteButtonClick={this.deleteElectronicPayment}
+        employeeTransactionModal={modalComponent}
+        onReferenceNumberClick={this.openEmployeeTransactionModal}
       />
     );
 

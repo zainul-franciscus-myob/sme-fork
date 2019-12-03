@@ -50,19 +50,19 @@ const ElectronicPaymentsTable = ({
         </Table.HeaderItem>
       )}
       <Table.HeaderItem>
-        <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
+        {order ? (<HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSort} />) : 'Date'}
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="Reference" sortName="DisplayId" activeSort={order} onSort={onSort} />
+        {order ? (<HeaderSort title="Reference" sortName="DisplayId" activeSort={order} onSort={onSort} />) : 'Reference'}
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="Name" sortName="ContactName" activeSort={order} onSort={onSort} />
+        {order ? (<HeaderSort title="Name" sortName="ContactName" activeSort={order} onSort={onSort} />) : 'Name'}
       </Table.HeaderItem>
       <Table.HeaderItem>
-        <HeaderSort title="Payment type" sortName="ElectronicPaymentTypeName" activeSort={order} onSort={onSort} />
+        {order ? (<HeaderSort title="Payment type" sortName="ElectronicPaymentTypeName" activeSort={order} onSort={onSort} />) : 'Payment type'}
       </Table.HeaderItem>
       <Table.HeaderItem align="right">
-        <HeaderSort title=" Amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
+        {order ? (<HeaderSort title=" Amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />) : 'Amount ($)'}
       </Table.HeaderItem>
     </Table.Header>
   );

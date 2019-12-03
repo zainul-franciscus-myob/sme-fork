@@ -52,6 +52,6 @@ export const getRecordAndDownloadBankFileContent = state => ({
   transactionDescription: state.transactionDescription,
   referenceNumber: state.referenceNumber,
   dateOfPayment: state.dateOfPayment,
-  accountId: state.selectedAccount,
-  paymentLines: getElectronicPayments(state),
+  accountId: state.selectedAccountId,
+  paymentLines: getElectronicPayments(state).filter(p => p.isSelected),
 });

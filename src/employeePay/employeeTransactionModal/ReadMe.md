@@ -16,7 +16,6 @@ class ConsumerModule {
   constructor({ setRootView, integration }) {
     this.employeeTransactionModal = new EmployeeTransactionModalModule({
       integration,
-      store: this.store,
     });
   }
 }
@@ -40,11 +39,11 @@ render = () => {
 
 inside view:
 ```js
-const MyConsumerView = (props) => {
+const MyConsumerView = ({employeeTransactionModal}) => {
   return (
     <BaseTemplate>
       ...
-      {props.employeeTransactionModal}
+      {employeeTransactionModal}
       ...
     </BaseTemplate>
   );

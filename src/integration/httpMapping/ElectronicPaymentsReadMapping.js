@@ -1,18 +1,16 @@
 import {
+  DELETE_ELECTRONIC_PAYMENT,
   LOAD_ELECTRONIC_PAYMENT_DETAILS,
 } from '../../electronicPayments/electronicPaymentsRead/ElectronicPaymentsReadIntents';
-import {
-  SORT_AND_FILTER_ELECTRONIC_PAYMENTS,
-} from '../../electronicPayments/ElectronicPaymentsIntents';
 
 const ElectronicPaymentsCreateMapping = {
   [LOAD_ELECTRONIC_PAYMENT_DETAILS]: {
     method: 'GET',
     getPath: ({ businessId, electronicPaymentId }) => `/${businessId}/electronicPayments/load_electronic_payments/${electronicPaymentId}`,
   },
-  [SORT_AND_FILTER_ELECTRONIC_PAYMENTS]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/electronicPayments/sort_and_filter_transactions`,
+  [DELETE_ELECTRONIC_PAYMENT]: {
+    method: 'DELETE',
+    getPath: ({ businessId, electronicPaymentId }) => `/${businessId}/electronicPayments/delete_electronic_payments/${electronicPaymentId}`,
   },
 };
 

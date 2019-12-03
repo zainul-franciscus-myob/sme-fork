@@ -16,7 +16,6 @@ import {
   getIsLoading,
   getIsTableLoading,
   getModal,
-  getOrder,
   getReferenceNumber,
   getTransactionDescription,
 } from '../../ElectronicPaymentsSelector';
@@ -34,10 +33,11 @@ const ElectronicPaymentsReadView = ({
   referenceNumber,
   dateOfPayment,
   bankStatementDescription,
-  onSort,
-  order,
   onGoBackClick,
+  onDeleteButtonClick,
   totalPayment,
+  employeeTransactionModal,
+  onReferenceNumberClick,
 }) => {
   const totalPaymentFooter = (
     <div className={styles.totalPaymentsFooter}>
@@ -50,6 +50,7 @@ const ElectronicPaymentsReadView = ({
 
   const view = (
     <BaseTemplate>
+      {employeeTransactionModal}
       <PageHead title="Create bank file to pay employees" />
       <Card
         footer={totalPaymentFooter}
@@ -64,16 +65,15 @@ const ElectronicPaymentsReadView = ({
         />
         <ElectronicPaymentsTable
           electronicPayments={electronicPayments}
-          onSort={onSort}
           isTableLoading={isTableLoading}
-          order={order}
+          onReferenceNumberClick={onReferenceNumberClick}
         />
       </Card>
       <ButtonRow>
         <Button type="secondary" onClick={onGoBackClick}>
         Go back
         </Button>
-        <Button type="secondary" onClick={() => { }}>
+        <Button type="secondary" onClick={onDeleteButtonClick}>
         Delete
         </Button>
       </ButtonRow>
@@ -98,7 +98,6 @@ const mapStateToProps = state => ({
   account: getAccount(state),
   balance: getBalance(state),
   totalPayment: getTotalPayment(state),
-  order: getOrder(state),
   isTableLoading: getIsTableLoading(state),
   alert: getAlert(state),
   transactionDescription: getTransactionDescription(state),
