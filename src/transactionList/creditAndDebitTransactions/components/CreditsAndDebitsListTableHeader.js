@@ -33,7 +33,12 @@ const CreditsAndDebitsListTableHeader = ({ order, onSort, tableConfig }) => (
         />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.displayAccountName}>
-        {tableConfig.displayAccountName.columnName}
+        <HeaderSort
+          title={tableConfig.displayAccountName.columnName}
+          sortName="AccountIdentifier"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.sourceJournal}>
         <HeaderSort

@@ -9,12 +9,13 @@ const FilterBarSearch = ({
   maxLength = 255,
   onChange,
   className = styles.search,
+  placeholder = 'Search',
 }) => (
   <Search
     name={name}
     id={name}
     label="Search"
-    placeholder="Search"
+    placeholder={placeholder}
     maxLength={maxLength}
     value={value}
     onChange={onChange}

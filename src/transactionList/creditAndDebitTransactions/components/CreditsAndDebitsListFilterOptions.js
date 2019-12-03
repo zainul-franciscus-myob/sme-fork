@@ -40,7 +40,7 @@ const CreditsAndDebitsListFilterOptions = ({
       dateTo={dateTo}
       onChange={onPeriodChange}
     />
-    <Select name="sourceJournal" label="Source Journal" value={sourceJournal} onChange={handleSelectChange(onUpdateFilters)}>
+    <Select name="sourceJournal" label="Source journal" value={sourceJournal} onChange={handleSelectChange(onUpdateFilters)}>
       {sourceJournalFilterOptions.map(({ label, value }) => (
         <Select.Option value={value} label={label} key={value} />
       ))}
@@ -55,6 +55,7 @@ const CreditsAndDebitsListFilterOptions = ({
     <FilterBarSearch
       className={styles.search}
       label="Search"
+      placeholder=""
       name="keywords"
       maxLength={255}
       value={keywords}

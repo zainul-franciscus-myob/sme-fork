@@ -56,7 +56,7 @@ const JournalTransactionListFilterOptions = ({
       />
       <Select
         name="SourceJournal"
-        label="Source Journal"
+        label="Source journal"
         value={sourceJournal}
         onChange={onSelectChange}
       >
@@ -67,7 +67,7 @@ const JournalTransactionListFilterOptions = ({
       <FilterBarSearch
         label="Search"
         name="search"
-        placeholder="Search"
+        placeholder=""
         maxLength={255}
         value={keywords}
         onChange={onSearchBoxChange}
