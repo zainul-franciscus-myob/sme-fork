@@ -71,7 +71,7 @@ export default class PreparePaySlipsModule {
     const state = this.store.getState();
     const onSuccess = (data) => {
       const filename = `payslip-${transactionId}.pdf`;
-      openBlob(data, filename);
+      openBlob({ blob: data, filename });
     };
     const onFailure = () => {
       console.log('Failed to download PDF.');

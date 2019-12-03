@@ -102,7 +102,11 @@ export default class CustomerStatementListModule {
         message: 'Success! Your customer statements have been downloaded.',
         type: 'success',
       });
-      openBlob(data, getFileName(state), '_self');
+      openBlob({
+        blob: data,
+        filename: getFileName(state),
+        shouldDownload: true,
+      });
     };
 
     const onFailure = ({ message }) => {
@@ -127,7 +131,11 @@ export default class CustomerStatementListModule {
         message: 'Success! Your customer statements have been downloaded.',
         type: 'success',
       });
-      openBlob(data, getFileName(state), '_self');
+      openBlob({
+        blob: data,
+        filename: getFileName(state),
+        shouldDownload: true,
+      });
     };
 
     const onFailure = ({ message }) => {

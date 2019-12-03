@@ -35,6 +35,7 @@ import ModalType from './ModalType';
 import Store from '../../store/Store';
 import electronicPaymentsCreateReducer from './electronicPaymentsCreateReducer';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
+import openBlob from '../../common/blobOpener/openBlob';
 
 const downloadAsFile = (content, filename) => {
   /**
@@ -50,13 +51,11 @@ const downloadAsFile = (content, filename) => {
   const base64EncodedContent = btoa(content);
   const dataURL = `data:application/octet-stream;charset=utf-8;base64,${base64EncodedContent}`;
 
-  const dataButton = document.createElement('a');
-  dataButton.setAttribute('download', filename);
-  dataButton.setAttribute('href', dataURL);
-
-  document.body.appendChild(dataButton);
-  dataButton.click();
-  document.body.removeChild(dataButton);
+  openBlob({
+    blob: dataURL,
+    filename,
+    shouldDownload: true,
+  });
 };
 
 export default class ElectronicPaymentsModule {

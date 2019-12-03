@@ -594,7 +594,7 @@ class BillModule {
 
       const state = this.store.getState();
       const filename = getExportPdfFilename(state);
-      openBlob(data, filename);
+      openBlob({ blob: data, filename });
     };
 
     const onFailure = () => {
