@@ -114,7 +114,7 @@ export default class DataImportExportModule {
       this.dispatcher.setSubmittingState(false);
       this.displaySuccessMessage('Export successful! A tab-delimited TXT file has been downloaded.');
 
-      openBlob(data, 'exportedChartOfAccounts.txt');
+      openBlob(data, 'exportedChartOfAccounts.txt', '_self');
     };
 
     const onFailure = (response) => {
