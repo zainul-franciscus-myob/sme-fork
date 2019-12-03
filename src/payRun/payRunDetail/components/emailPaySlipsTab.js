@@ -26,12 +26,13 @@ const EmailPaySlipsTab = ({
   selectItem,
   onEmployeeNameClick,
   exportPdf,
+  onEmailClick,
 }) => {
   const selectedCount = employees.filter(e => e.isSelected).length;
 
   const bulkActions = (
     <BulkActions>
-      <Button type="secondary">Email</Button>
+      <Button type="secondary" onClick={onEmailClick}>Email</Button>
       <BulkActions.Counter
         count={selectedCount}
         label={selectedCount > 1 ? 'employees selected' : 'employee selected'}

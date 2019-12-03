@@ -26,6 +26,7 @@ const getDefaultState = () => ({
   paymentPeriodStart: '',
   paymentPeriodEnd: '',
   paymentDate: '',
+  emailSettings: undefined,
 });
 
 const resetState = () => (getDefaultState());
@@ -103,6 +104,7 @@ const loadPayRunDetails = (state, action) => ({
       { ...e, isSelected: true }
     )),
   },
+  emailSettings: action.response.emailSettings,
 });
 
 const handlers = {

@@ -14,10 +14,14 @@ import { EXPORT_TRANSACTION_PDF } from '../payRunIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
   getBusinessId,
-  getModalContext,
+  getEmailPaySlipModalContext,
+  getEmailSettings,
+  getEmployeePayModalContext,
   getPayRunListUrl,
+  getSelectedEmployeesToEmail,
   getUrlParams,
 } from './payRunDetailSelector';
+import EmailPaySlipModalModule from '../../employeePay/emailPaySlipModal/EmailPaySlipModalModule';
 import EmployeeTransactionModalModule from '../../employeePay/employeeTransactionModal/EmployeeTransactionModalModule';
 import PayRunDetailView from './components/payRunDetailView';
 import Store from '../../store/Store';
@@ -31,41 +35,8 @@ export default class PayRunDetailModule {
     this.integration = integration;
     this.store = new Store(payRunDetailReducer);
     this.setRootView = setRootView;
-    this.subModules = {
-      employeePayModal: new EmployeeTransactionModalModule({
-        integration,
-      }),
-    };
-  }
-
-  render = () => {
-    const employeePayModalView = this.subModules.employeePayModal.getView();
-
-    const payRunDetailView = (
-      <PayRunDetailView
-        employeeTransactionModal={employeePayModalView}
-        setSelectedTab={this.setSelectedTab}
-        emailTabListeners={{
-          selectAll: this.emailTabSelectAll,
-          selectItem: this.emailTabSelectItem,
-        }}
-        printTabListeners={{
-          selectAll: this.printTabSelectAll,
-          selectItem: this.printTabSelectItem,
-        }}
-        onBackButtonClick={this.redirectToPayRunList}
-        onEmployeeNameClick={this.openPayDetailModal}
-        exportPdf={this.exportPdf}
-      />
-    );
-
-    const wrappedView = (
-      <Provider store={this.store}>
-        {payRunDetailView}
-      </Provider>
-    );
-
-    this.setRootView(wrappedView);
+    this.employeePayModal = new EmployeeTransactionModalModule({ integration });
+    this.emailPaySlipModal = new EmailPaySlipModalModule({ integration });
   }
 
   setSelectedTab = (newTabId) => {
@@ -73,14 +44,14 @@ export default class PayRunDetailModule {
       intent: SET_TAB,
       selectedTab: newTabId,
     });
-  }
+  };
 
   emailTabSelectAll = (isSelected) => {
     this.store.dispatch({
       intent: EMAIL_TAB_SELECT_ALL,
       isSelected,
     });
-  }
+  };
 
   emailTabSelectItem = (item, isSelected) => {
     this.store.dispatch({
@@ -88,14 +59,14 @@ export default class PayRunDetailModule {
       isSelected,
       item,
     });
-  }
+  };
 
   printTabSelectAll = (isSelected) => {
     this.store.dispatch({
       intent: PRINT_TAB_SELECT_ALL,
       isSelected,
     });
-  }
+  };
 
   printTabSelectItem = (item, isSelected) => {
     this.store.dispatch({
@@ -103,35 +74,43 @@ export default class PayRunDetailModule {
       isSelected,
       item,
     });
-  }
+  };
 
   redirectToPayRunList = () => {
     const state = this.store.getState();
     window.location.href = getPayRunListUrl(state);
-  }
+  };
 
   openPayDetailModal = (transactionId, employeeName) => {
     const state = this.store.getState();
-    const modalContext = getModalContext({ state, transactionId, employeeName });
-    this.subModules.employeePayModal.openModal(modalContext);
+    const modalContext = getEmployeePayModalContext({ state, transactionId, employeeName });
+    this.employeePayModal.openModal(modalContext);
+  };
+
+  openEmailPaySlipModal = () => {
+    const state = this.store.getState();
+    const employees = getSelectedEmployeesToEmail(state);
+    const emailSettings = getEmailSettings(state);
+    const context = getEmailPaySlipModalContext({ state, employees, emailSettings });
+    this.emailPaySlipModal.run({ context, onClose: this.loadPayRunDetails });
   };
 
   resetState = () => {
     this.store.dispatch({
       intent: RESET_STATE,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   setInitialState = (context) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
     });
-  }
+  };
 
   setIsLoading(isLoading) {
     this.store.dispatch({
@@ -141,6 +120,7 @@ export default class PayRunDetailModule {
   }
 
   loadPayRunDetails = () => {
+    console.log('Loading!');
     this.setIsLoading(true);
     const intent = LOAD_PAY_RUN_DETAILS;
 
@@ -162,7 +142,7 @@ export default class PayRunDetailModule {
       urlParams,
       intent,
     });
-  }
+  };
 
   exportPdf = (transactionId) => {
     const intent = EXPORT_TRANSACTION_PDF;
@@ -183,11 +163,40 @@ export default class PayRunDetailModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   run(context) {
     this.setInitialState(context);
     this.render();
     this.loadPayRunDetails();
   }
+
+  render = () => {
+    const employeePayModalView = this.employeePayModal.getView();
+    const emailPaySlipModalView = this.emailPaySlipModal.render();
+
+    const wrappedView = (
+      <Provider store={this.store}>
+        <PayRunDetailView
+          employeeTransactionModal={employeePayModalView}
+          emailPaySlipModal={emailPaySlipModalView}
+          setSelectedTab={this.setSelectedTab}
+          emailTabListeners={{
+            selectAll: this.emailTabSelectAll,
+            selectItem: this.emailTabSelectItem,
+            onEmailClick: this.openEmailPaySlipModal,
+          }}
+          printTabListeners={{
+            selectAll: this.printTabSelectAll,
+            selectItem: this.printTabSelectItem,
+          }}
+          onBackButtonClick={this.redirectToPayRunList}
+          onEmployeeNameClick={this.openPayDetailModal}
+          exportPdf={this.exportPdf}
+        />
+      </Provider>
+    );
+
+    this.setRootView(wrappedView);
+  };
 }

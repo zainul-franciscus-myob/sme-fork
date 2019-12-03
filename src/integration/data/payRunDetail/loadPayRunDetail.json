@@ -21,6 +21,30 @@
       "netPay": 61.77,
       "hasPaySlipEmailSent": false,
       "hasBankFile": true
+    },
+    {
+      "id": 3,
+      "transactionId": 298,
+      "name": "John Doe",
+      "email": "test@email.com",
+      "netPay": 1000.00,
+      "hasPaySlipEmailSent": false,
+      "hasBankFile": true
+    },
+    {
+      "id": 4,
+      "transactionId": 299,
+      "name": "Jane Marlon",
+      "email": "blah@test.com",
+      "netPay": 2000.00,
+      "hasPaySlipEmailSent": false,
+      "hasBankFile": true
     }
-  ]
+  ],
+  "emailSettings": {
+    "fromEmail": "alex.skoufis@myob.com",
+    "fromName": "Alex Skoufis",
+    "paySlipSubject": "Pay Slip From Clearwater Pty Ltd",
+    "paySlipBody": "Please contact us immediately if you are unable to detach or download your Pay Slip. Thank you."
+  }
 }

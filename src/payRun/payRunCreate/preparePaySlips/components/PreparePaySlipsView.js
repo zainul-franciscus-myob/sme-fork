@@ -16,6 +16,7 @@ const PreparePaySlipsView = ({
   onCancelClick,
   emailTabListeners,
   printTabListeners,
+  emailPaySlipModal,
   setSelectedTab,
   exportPdf,
 }) => {
@@ -31,6 +32,7 @@ const PreparePaySlipsView = ({
   );
   return (
   <>
+    {emailPaySlipModal}
     <PageHead title="Prepare pay slips" />
     <div className={styles.stepper}>
       <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />

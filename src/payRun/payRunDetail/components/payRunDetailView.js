@@ -21,6 +21,7 @@ const PayRunDetailView = ({
   onBackButtonClick,
   onEmployeeNameClick,
   employeeTransactionModal,
+  emailPaySlipModal,
   exportPdf,
 }) => {
   const employeeCard = (
@@ -37,6 +38,8 @@ const PayRunDetailView = ({
 
   const payRunDetailView = (
     <BaseTemplate>
+      {employeeTransactionModal}
+      {emailPaySlipModal}
       <PageHead title="Pay run details" />
       <PayRunDetailHeader />
       {employeeCard}
@@ -45,7 +48,6 @@ const PayRunDetailView = ({
           Go back
         </Button>
       </ButtonRow>
-      {employeeTransactionModal}
     </BaseTemplate>
   );
 

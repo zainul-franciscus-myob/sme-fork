@@ -36,7 +36,7 @@ const PayRunMapping = {
   [EXPORT_TRANSACTION_PDF]: {
     method: 'GET',
     getPath: ({ businessId, transactionId }) => (
-      `/${businessId}/payRun/load_employee_pay_pdf/${transactionId}`
+      `/${businessId}/employeePay/load_employee_pay_pdf/${transactionId}`
     ),
   },
 };

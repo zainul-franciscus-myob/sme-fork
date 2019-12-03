@@ -1,15 +1,12 @@
 import {
-  EMAIL_TAB_SELECT_ALL, EMAIL_TAB_SELECT_ITEM, SET_TAB,
+  EMAIL_TAB_SELECT_ALL, EMAIL_TAB_SELECT_ITEM, SET_EMPLOYEES_SENT, SET_TAB,
 } from './PreparePaySlipsIntents';
 
 export const getPreparePaySlipsDefaultState = () => ({
   selectedTab: 'email-pay-slips',
-  emailTab: {
-    employees: [],
-  },
-  printTab: {
-    employees: [],
-  },
+  emailPaySlipEmployees: [],
+  printPaySlipEmployees: [],
+  emailSettings: undefined,
 });
 
 export const setTab = (state, { selectedTab }) => ({
@@ -19,27 +16,30 @@ export const setTab = (state, { selectedTab }) => ({
 
 export const emailTabSelectAll = (state, { isSelected }) => ({
   ...state,
-  recordedPayments: {
-    ...state.recordedPayments,
-    emailPaySlipEmployees: state.recordedPayments.emailPaySlipEmployees.map(employee => ({
-      ...employee,
-      isSelected,
-    })),
-  },
+  emailPaySlipEmployees: state.emailPaySlipEmployees.map(employee => ({
+    ...employee,
+    isSelected,
+  })),
 });
 
 export const emailTabSelectItem = (state, { isSelected, item }) => ({
   ...state,
-  recordedPayments: {
-    ...state.recordedPayments,
-    emailPaySlipEmployees: state.recordedPayments.emailPaySlipEmployees.map(employee => (
-      employee === item ? { ...employee, isSelected } : employee
-    )),
-  },
+  emailPaySlipEmployees: state.emailPaySlipEmployees.map(employee => (
+    employee === item ? { ...employee, isSelected } : employee
+  )),
+});
+
+export const setEmployeesSent = (state, { employees }) => ({
+  ...state,
+  emailPaySlipEmployees: state.emailPaySlipEmployees.map(employee => (
+    employees.find(e => e.id === employee.employeeId)
+      ? { ...employee, hasPaySlipEmailSent: true } : employee
+  )),
 });
 
 export const preparePaySlipsHandlers = {
   [SET_TAB]: setTab,
   [EMAIL_TAB_SELECT_ALL]: emailTabSelectAll,
   [EMAIL_TAB_SELECT_ITEM]: emailTabSelectItem,
+  [SET_EMPLOYEES_SENT]: setEmployeesSent,
 };

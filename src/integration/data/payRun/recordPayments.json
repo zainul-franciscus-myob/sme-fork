@@ -26,7 +26,7 @@
       "name": "Jake Magicdog",
       "email": "jake.criminaldog@fcbarcelona.com",
       "netPay": "61.77",
-      "hasPaySlipEmailSent": true,
+      "hasPaySlipEmailSent": false,
       "hasBankFile": false
     },
     {
@@ -38,5 +38,11 @@
       "hasPaySlipEmailSent": false,
       "hasBankFile": false
     }
-  ]
+  ],
+  "emailSettings": {
+    "fromEmail": "alex.skoufis@myob.com",
+    "fromName": "Alex Skoufis",
+    "paySlipSubject": "Pay Slip From Clearwater Pty Ltd",
+    "paySlipBody": "Please contact us immediately if you are unable to detach or download your Pay Slip. Thank you."
+  }
 }

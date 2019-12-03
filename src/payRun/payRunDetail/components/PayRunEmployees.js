@@ -28,6 +28,7 @@ const PayRunEmployees = ({
       selectItem={emailTabListeners.selectItem}
       onEmployeeNameClick={onEmployeeNameClick}
       exportPdf={exportPdf}
+      onEmailClick={emailTabListeners.onEmailClick}
     />,
     'print-pay-slips': <PrintPaySlipsTab
       employees={printTabEmployees}

@@ -107,10 +107,9 @@ const setEmployeePayments = (state, { response }) => ({
   ...state,
   [PREPARE_PAY_SLIPS]: {
     ...state[PREPARE_PAY_SLIPS],
-    recordedPayments: {
-      printPaySlipEmployees: response.printPaySlipEmployees,
-      emailPaySlipEmployees: response.emailPaySlipEmployees,
-    },
+    printPaySlipEmployees: response.printPaySlipEmployees,
+    emailPaySlipEmployees: response.emailPaySlipEmployees,
+    emailSettings: response.emailSettings,
   },
 });
 
