@@ -38,3 +38,18 @@
 .navigation :global(.flx-navbar__menu-items > .open > .flx-navbar__menu-link) {
   z-index: 1010;
 }
+
+@media (min-width: 992px) {
+  /*
+    @FEELIX:
+    Adjusting the link line-height abd icon height to add space for the business avatar
+    and menu icons which are 24px
+  */
+  .navigation :global(.flx-navbar__menu-link) {
+    line-height: 2.7rem;
+  }
+
+  .navigation :global(.flx-navbar__menu-link .svg-icon) {
+    height: 2.4rem;
+  }
+}

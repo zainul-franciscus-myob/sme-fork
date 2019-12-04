@@ -47,13 +47,10 @@ export default class NavigationModule {
       businessId,
     };
     const onSuccess = ({
-      businessName, region, enabledFeatures, isReadOnly,
+      businessName, serialNumber, region, userEmail, enabledFeatures, isReadOnly,
     }) => {
       this.store.dispatch({
-        intent,
-        businessName,
-        enabledFeatures,
-        isReadOnly,
+        intent, businessName, serialNumber, userEmail, enabledFeatures, isReadOnly,
       });
       this.replaceURLParamsAndReload({ businessId, region: region.toLowerCase() });
     };
@@ -86,7 +83,8 @@ export default class NavigationModule {
           return { [key]: this.buildReportsUrl(routeParams) };
         }
 
-        const url = `/#${this.constructPath(feature.routeName, { ...routeParams, ...feature.params })}`;
+        const { region, businessId } = routeParams;
+        const url = `/#${this.constructPath(feature.routeName, { region, businessId, ...feature.params })}`;
         return { [key]: url };
       })
       .reduce((acc, obj) => ({ ...acc, ...obj }), {});

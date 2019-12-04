@@ -1,11 +1,10 @@
-import {
-  LOAD_NAVIGATION_CONFIG,
-  SET_ROUTE_INFO,
-} from './NavigationIntents';
+import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
 import createReducer from '../store/createReducer';
 
 const getDefaultState = () => ({
   businessName: '',
+  serialNumber: '',
+  userEmail: '',
   enabledFeatures: [],
   isReadOnly: false,
   urls: {},
@@ -16,6 +15,8 @@ const getDefaultState = () => ({
 const loadBusinessDetails = (state, action) => ({
   ...state,
   businessName: action.businessName,
+  serialNumber: action.serialNumber,
+  userEmail: action.userEmail,
   enabledFeatures: action.enabledFeatures,
   isReadOnly: action.isReadOnly,
 });

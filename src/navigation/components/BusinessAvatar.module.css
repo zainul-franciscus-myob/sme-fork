@@ -1,0 +1,16 @@
+.avatar {
+  display: inline-block;
+  margin-right: 1rem;
+  padding: 0 0.2rem;
+  min-width: 2.4rem;
+  height: 2.4rem;
+  line-height: 2.4rem;
+  font-size: smaller;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+  border-radius: 0.4rem;
+  color: var(--flx-palette-white);
+  background: var(--flx-palette-dusk-100);
+  background: linear-gradient(135deg, var(--flx-palette-dusk-dark) 0%, var(--flx-palette-dusk-100) 35%, var(--flx-palette-berry) 100%);
+}

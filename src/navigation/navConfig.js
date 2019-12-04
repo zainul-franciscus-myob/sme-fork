@@ -1,192 +1,125 @@
 export const activeMapping = {
+  'quote/quoteList': 'sales',
+  'quote/quoteDetail': 'sales',
+  'invoice/invoiceList': 'sales',
+  'invoice/invoiceDetail': 'sales',
+  'invoicePayment/invoicePaymentDetail': 'sales',
+  'customerReturn/customerReturnList': 'sales',
+  'customerReturn/customerReturnPayRefund': 'sales',
+  'customerReturn/customerReturnApplyToSale': 'sales',
+  'applyToSale/applyToSale': 'sales',
+  'inventory/itemList': 'sales',
+  'customerStatement/customerStatementList': 'sales',
+
+  'bill/billList': 'purchases',
+  'bill/billDetail': 'purchases',
+  'billPayment/billPaymentDetail': 'purchases',
+  'supplierReturn/supplierReturnList': 'purchases',
+  'supplierReturn/supplierReturnReceiveRefund': 'purchases',
+  'supplierReturn/supplierReturnPurchase': 'purchases',
+
+  'banking/bankTransactionList': 'banking',
+  'bankReconciliation/bankReconciliation': 'banking',
+  'bankingRule/bankingRuleList': 'banking',
+  'bankingRule/bankingRuleSpendMoney': 'banking',
+  'bankingRule/bankingRuleReceiveMoney': 'banking',
+  'bankingRule/bankingRuleInvoice': 'banking',
+  'bankingRule/bankingRuleBill': 'banking',
+  'bankFeeds/bankFeeds': 'banking',
   'spendMoney/spendMoneyDetail': 'banking',
+  'electronicPayments/electronicPaymentsCreate': 'banking',
   'receiveMoney/receiveMoneyDetail': 'banking',
   'transferMoney/transferMoneyDetail': 'banking',
   'transactionList/transactionList': 'banking',
-  'contact/contactDetail': 'contact',
-  'contact/contactList': 'contact',
+  'payRefund/payRefund': 'banking',
+  'receiveRefund/receiveRefund': 'banking',
+
+  'generalJournal/generalJournalDetail': 'accounting',
+  'account/accountList': 'accounting',
+  'linkedAccounts/linkedAccounts': 'accounting',
+  'tax/taxList': 'accounting',
+  'prepareBasOrIas/prepareBasOrIas': 'accounting',
+
   'employee/employeeList': 'payroll',
   'employee/employeeDetail': 'payroll',
-  'generalJournal/generalJournalDetail': 'journals',
-  'incomeAllocation/incomeAllocation': 'business',
-  'business/businessDetail': 'business',
-  'tax/taxList': 'business',
-  'quote/quoteList': 'sales',
-  'invoice/invoiceList': 'sales',
-  'banking/bankTransactionList': 'banking',
-  'inventory/itemList': 'sales',
-  'quote/quoteDetail': 'sales',
-  'user/userList': 'business',
-  'user/userDetail': 'business',
-  'billPayment/billPaymentDetail': 'purchases',
-  'bill/billList': 'purchases',
-  'invoicePayment/invoicePaymentDetail': 'sales',
-  'customerReturn/customerReturnList': 'sales',
-  'payrollSettings/payrollSettings': 'payroll',
-  'supplierReturn/supplierReturnList': 'purchases',
-  'supplierReturn/supplierReturnReceiveRefund': 'purchases',
-  'receiveRefund/receiveRefund': 'banking',
-  'customerReturn/customerReturnPayRefund': 'sales',
-  'customerReturn/customerReturnApplyToSale': 'sales',
-  'customerStatement/customerStatementList': 'sales',
-  'payRefund/payRefund': 'banking',
-  'applyToSale/applyToSale': 'sales',
+  'payRun/payRunList': 'payroll',
+  'payRun/payRunCreate': 'payroll',
   'payItem/payItemList': 'payroll',
   'payItem/superPayItem': 'payroll',
   'payItem/wagePayItem': 'payroll',
   'payItem/deductionPayItemDetail': 'payroll',
   'payItem/expensePayItem': 'payroll',
-  'electronicPayments/electronicPayments': 'payroll',
-  'prepareBasOrIas/prepareBasOrIas': 'business',
   'payItem/leavePayItem': 'payroll',
+  'payrollSettings/payrollSettings': 'payroll',
+
+  'contact/contactList': 'contact',
+  'contact/contactDetail': 'contact',
+
   'inTray/inTray': 'inTray',
-  'linkedAccounts/linkedAccounts': 'business',
-  'bankingRule/bankingRuleList': 'banking',
-  'bankReconciliation/bankReconciliation': 'banking',
-  'payRun/payRunList': 'payroll',
-  'bankingRule/bankingRuleSpendMoney': 'banking',
-  'bankingRule/bankingRuleReceiveMoney': 'banking',
-  'bankingRule/bankingRuleInvoice': 'banking',
-  'bankingRule/bankingRuleBill': 'banking',
-  'account/accountList': 'business',
-  'bankFeeds/bankFeeds': 'business',
+
+  'business/businessDetail': 'business',
+  'incomeAllocation/incomeAllocation': 'business',
+  'salesSettings/salesSettingsDetail': 'business',
+  'user/userList': 'business',
+  'user/userDetail': 'business',
   'dataImportExport/dataImportExport': 'business',
 };
 
 export const featuresConfig = {
-  spendMoney: {
-    routeName: 'spendMoney/spendMoneyDetail',
-    params: {
-      spendMoneyId: 'new',
-    },
-  },
-  receiveMoney: {
-    routeName: 'receiveMoney/receiveMoneyDetail',
-    params: {
-      receiveMoneyId: 'new',
-    },
-  },
-  transferMoney: {
-    routeName: 'transferMoney/transferMoneyDetail',
-    params: {
-      transferMoneyId: 'new',
-    },
-  },
-  transactionList: {
-    routeName: 'transactionList/transactionList',
-  },
-  createContact: {
-    routeName: 'contact/contactDetail',
-    params: {
-      contactId: 'new',
-    },
-  },
-  contactList: {
-    routeName: 'contact/contactList',
-  },
-  employeeList: {
-    routeName: 'employee/employeeList',
-  },
-  generalJournal: {
-    routeName: 'generalJournal/generalJournalDetail',
-    params: {
-      generalJournalId: 'new',
-    },
-  },
-  generalJournalList: {
-    routeName: 'transactionList/transactionList',
-    params: {
-      sourceJournal: 'General',
-    },
-  },
-  incomeAllocation: {
-    routeName: 'incomeAllocation/incomeAllocation',
-  },
-  businessDetails: {
-    routeName: 'business/businessDetail',
-  },
-  taxList: {
-    routeName: 'tax/taxList',
-  },
-  quoteList: {
-    routeName: 'quote/quoteList',
-  },
-  invoiceList: {
-    routeName: 'invoice/invoiceList',
-  },
-  bankTransactionList: {
-    routeName: 'banking/bankTransactionList',
-  },
-  inventory: {
-    routeName: 'inventory/itemList',
-  },
-  userList: {
-    routeName: 'user/userList',
-  },
-  billPayment: {
-    routeName: 'billPayment/billPaymentDetail',
-    params: {
-      billPaymentId: 'new',
-    },
-  },
-  billList: {
-    routeName: 'bill/billList',
-  },
-  customerReturnList: {
-    routeName: 'customerReturn/customerReturnList',
-  },
-  invoicePayment: {
-    routeName: 'invoicePayment/invoicePaymentDetail',
-    params: {
-      invoicePaymentId: 'new',
-    },
-  },
-  salesSettings: {
-    routeName: 'salesSettings/salesSettingsDetail',
-  },
-  payrollSettings: {
-    routeName: 'payrollSettings/payrollSettings',
-  },
-  supplierReturnList: {
-    routeName: 'supplierReturn/supplierReturnList',
-  },
-  payItemList: {
-    routeName: 'payItem/payItemList',
-  },
-  payRunList: {
-    routeName: 'payRun/payRunList',
-  },
-  electronicPayments: {
-    routeName: 'electronicPayments/electronicPaymentsCreate',
-  },
-  prepareBasOrIas: {
-    routeName: 'prepareBasOrIas/prepareBasOrIas',
-  },
-  inTray: {
-    routeName: 'inTray/inTray',
-  },
-  linkedAccounts: {
-    routeName: 'linkedAccounts/linkedAccounts',
-  },
-  bankingRule: {
-    routeName: 'bankingRule/bankingRuleList',
-  },
-  bankReconciliation: {
-    routeName: 'bankReconciliation/bankReconciliation',
-  },
-  accountList: {
-    routeName: 'account/accountList',
-  },
-  reports: {
-    routeName: 'reports',
-  },
-  bankFeeds: {
-    routeName: 'bankFeeds/bankFeeds',
-  },
-  dataImportExport: {
-    routeName: 'dataImportExport/dataImportExport',
-  },
-  customerStatementList: {
-    routeName: 'customerStatement/customerStatementList',
-  },
+  quoteList: { routeName: 'quote/quoteList' },
+  quoteCreate: { routeName: 'quote/quoteDetail', params: { quoteId: 'new' } },
+  invoiceList: { routeName: 'invoice/invoiceList' },
+  invoiceCreate: { routeName: 'invoice/invoiceDetail', params: { invoiceId: 'new' } },
+  invoicePaymentCreate: { routeName: 'invoicePayment/invoicePaymentDetail', params: { invoicePaymentId: 'new' } },
+  customerReturnList: { routeName: 'customerReturn/customerReturnList' },
+  customerStatementList: { routeName: 'customerStatement/customerStatementList' },
+  itemList: { routeName: 'inventory/itemList' },
+
+  billList: { routeName: 'bill/billList' },
+  billCreate: { routeName: 'bill/billDetail', params: { billId: 'new' } },
+  billPaymentCreate: { routeName: 'billPayment/billPaymentDetail', params: { billPaymentId: 'new' } },
+  supplierReturnList: { routeName: 'supplierReturn/supplierReturnList' },
+
+  bankTransactionList: { routeName: 'banking/bankTransactionList' },
+  bankReconciliation: { routeName: 'bankReconciliation/bankReconciliation' },
+  bankingRuleList: { routeName: 'bankingRule/bankingRuleList' },
+  bankFeeds: { routeName: 'bankFeeds/bankFeeds' },
+  electronicPaymentCreate: { routeName: 'electronicPayments/electronicPaymentsCreate' },
+  spendMoneyCreate: { routeName: 'spendMoney/spendMoneyDetail', params: { spendMoneyId: 'new' } },
+  receiveMoneyCreate: { routeName: 'receiveMoney/receiveMoneyDetail', params: { receiveMoneyId: 'new' } },
+  transferMoneyCreate: { routeName: 'transferMoney/transferMoneyDetail', params: { transferMoneyId: 'new' } },
+  transactionList: { routeName: 'transactionList/transactionList' },
+
+  generalJournalList: { routeName: 'transactionList/transactionList', params: { sourceJournal: 'General' } },
+  generalJournalCreate: { routeName: 'generalJournal/generalJournalDetail', params: { generalJournalId: 'new' } },
+  accountList: { routeName: 'account/accountList' },
+  linkedAccounts: { routeName: 'linkedAccounts/linkedAccounts' },
+  taxList: { routeName: 'tax/taxList' },
+  prepareBasOrIas: { routeName: 'prepareBasOrIas/prepareBasOrIas' },
+
+  employeeList: { routeName: 'employee/employeeList' },
+  employeeCreate: { routeName: 'employee/employeeDetail', params: { employeeId: 'new' } },
+  payRunList: { routeName: 'payRun/payRunList' },
+  payRunCreate: { routeName: 'payRun/payRunCreate' },
+  payItemList: { routeName: 'payItem/payItemList' },
+  timesheets: { routeName: '' },
+  superPaymentList: { routeName: '' },
+  stpReporting: { routeName: '' },
+
+  contactList: { routeName: 'contact/contactList' },
+  contactCreate: { routeName: 'contact/contactDetail', params: { contactId: 'new' } },
+
+  reports: { routeName: 'reports' },
+
+  inTrayList: { routeName: 'inTray/inTray' },
+
+  businessDetails: { routeName: 'business/businessDetail' },
+  incomeAllocation: { routeName: 'incomeAllocation/incomeAllocation' },
+  salesSettings: { routeName: 'salesSettings/salesSettingsDetail' },
+  payrollSettings: { routeName: 'payrollSettings/payrollSettings' },
+  userList: { routeName: 'user/userList' },
+  dataImportExport: { routeName: 'dataImportExport/dataImportExport' },
+  myMyobAccount: { routeName: '' },
+  subscriptions: { routeName: '' },
+  paymentDetails: { routeName: '' },
 };

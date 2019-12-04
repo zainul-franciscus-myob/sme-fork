@@ -7,3 +7,7 @@
   color: var(--flx-color-reverse-text);
   background-color: var(--flx-palette-storm-83);
 }
+
+:global(.dropdown-menu) .userEmail > :global(a) {
+  font-weight: var(--flx-font-weight-bold);
+}

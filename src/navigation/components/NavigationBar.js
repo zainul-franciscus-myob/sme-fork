@@ -4,53 +4,55 @@ import React from 'react';
 
 import {
   getMenuLogoUrl,
+  hasAccountingUrls,
+  hasAddUrls,
   hasBankingUrls,
   hasBusinessId,
   hasContactUrls,
   hasInTrayUrl,
-  hasJournalUrls,
   hasPayrollUrls,
   hasPurchasesUrls,
   hasReportsUrl,
   hasSalesUrls,
   isLinkUserPage,
 } from '../NavigationSelectors';
+import AccountingMenu from './AccountingMenu';
+import AddMenu from './AddMenu';
 import BankingMenu from './BankingMenu';
 import BusinessMenu from './BusinessMenu';
 import ContactMenu from './ContactMenu';
 import Help from './Help';
 import InTray from './InTray';
-import JournalMenu from './JournalMenu';
 import Logout from './Logout';
 import PayrollMenu from './PayrollMenu';
 import PurchasesMenu from './PurchasesMenu';
 import Reports from './Reports';
 import SalesMenu from './SalesMenu';
-import SwitchBusiness from './SwitchBusiness';
 import styles from './NavigationBar.module.css';
 
 const getPrimary = ({
   onMenuSelect, onMenuLinkClick,
   shouldDisplaySalesMenu, shouldDisplayPurchasesMenu, shouldDisplayBankingMenu,
-  shouldDisplayContactMenu, shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
+  shouldDisplayContactMenu, shouldDisplayAccountingMenu, shouldDisplayPayrollMenu,
   shouldDisplayInTray, shouldDisplayReports,
 }) => [
   shouldDisplaySalesMenu && <SalesMenu key="SalesMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayPurchasesMenu && <PurchasesMenu key="PurchasesMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayBankingMenu && <BankingMenu key="BankingMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplayContactMenu && <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplayJournalMenu && <JournalMenu key="JournalMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayAccountingMenu && <AccountingMenu key="AccountingMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayPayrollMenu && <PayrollMenu key="PayrollMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayContactMenu && <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayReports && <Reports key="Reports" onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayInTray && <InTray key="InTray" onMenuLinkClick={onMenuLinkClick} />,
 ].filter(Boolean);
 
 const getSecondary = ({
-  onMenuSelect, onMenuLinkClick, shouldDisplayBusinessMenu, shouldDisplayHelpMenu, onHelpLinkClick,
+  shouldDisplayBusinessMenu, shouldDisplayAddMenu, shouldDisplayHelpMenu,
+  onMenuSelect, onMenuLinkClick, onHelpLinkClick,
 }) => [
-  shouldDisplayBusinessMenu && <SwitchBusiness key="SwitchBusiness" />,
-  shouldDisplayBusinessMenu && <BusinessMenu key="BusinessMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayAddMenu && <AddMenu key="AddMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayHelpMenu && <Help key="Help" onMenuLinkClick={onHelpLinkClick} />,
+  shouldDisplayBusinessMenu && <BusinessMenu key="BusinessMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   !shouldDisplayBusinessMenu && <Logout key="Logout" onMenuLinkClick={onMenuLinkClick} />,
 ].filter(Boolean);
 
@@ -58,9 +60,10 @@ const NavigationBar = ({
   onMenuSelect, onMenuLinkClick, onHelpLinkClick,
   onSkipToMainContentClick, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
   shouldDisplayBankingMenu, shouldDisplayContactMenu,
-  shouldDisplayJournalMenu, shouldDisplayPayrollMenu,
+  shouldDisplayAccountingMenu, shouldDisplayPayrollMenu,
   shouldDisplayPurchasesMenu, shouldDisplayInTray,
   shouldDisplayReports, shouldDisplayHelpMenu,
+  shouldDisplayAddMenu,
   menuLogoUrl,
 }) => {
   const primaryMenuItems = getPrimary({
@@ -70,7 +73,7 @@ const NavigationBar = ({
     shouldDisplayPurchasesMenu,
     shouldDisplayBankingMenu,
     shouldDisplayContactMenu,
-    shouldDisplayJournalMenu,
+    shouldDisplayAccountingMenu,
     shouldDisplayPayrollMenu,
     shouldDisplayInTray,
     shouldDisplayReports,
@@ -80,6 +83,7 @@ const NavigationBar = ({
     onMenuLinkClick,
     onHelpLinkClick,
     shouldDisplayBusinessMenu,
+    shouldDisplayAddMenu,
     shouldDisplayHelpMenu,
   });
   const brand = (
@@ -106,12 +110,13 @@ const mapStateToProps = state => ({
   shouldDisplayBusinessMenu: hasBusinessId(state) && !isLinkUserPage(state),
   shouldDisplayBankingMenu: hasBankingUrls(state),
   shouldDisplayContactMenu: hasContactUrls(state),
-  shouldDisplayJournalMenu: hasJournalUrls(state),
+  shouldDisplayAccountingMenu: hasAccountingUrls(state),
   shouldDisplaySalesMenu: hasSalesUrls(state),
   shouldDisplayPayrollMenu: hasPayrollUrls(state),
   shouldDisplayPurchasesMenu: hasPurchasesUrls(state),
   shouldDisplayInTray: hasInTrayUrl(state),
   shouldDisplayReports: hasReportsUrl(state),
+  shouldDisplayAddMenu: hasAddUrls(state),
   shouldDisplayHelpMenu: hasBusinessId(state),
   menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
 });

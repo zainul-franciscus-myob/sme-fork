@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
 
-import {
-  activeMapping,
-} from './navConfig';
+import { activeMapping } from './navConfig';
 import getRegionToDialectText from '../dialect/getRegionToDialectText';
 
 export const getBusinessName = state => state.businessName;
+export const getSerialNumber = state => state.serialNumber;
+export const getUserEmail = state => state.userEmail;
 const getEnabledFeatures = state => state.enabledFeatures;
 export const getIsReadOnly = state => state.isReadOnly;
 const getCurrentRouteName = state => state.currentRouteName;
@@ -57,10 +57,12 @@ export const getSalesUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
     quoteList: enabledUrls.quoteList,
+    quoteCreate: enabledUrls.quoteCreate,
     invoiceList: enabledUrls.invoiceList,
-    invoicePayment: enabledUrls.invoicePayment,
-    inventory: enabledUrls.inventory,
+    invoiceCreate: enabledUrls.invoiceCreate,
+    invoicePaymentCreate: enabledUrls.invoicePaymentCreate,
     customerReturnList: enabledUrls.customerReturnList,
+    itemList: enabledUrls.itemList,
     customerStatementList: enabledUrls.customerStatementList,
   }),
 );
@@ -73,10 +75,11 @@ export const getPayrollUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
     employeeList: enabledUrls.employeeList,
-    payrollSettings: enabledUrls.payrollSettings,
-    payItemList: enabledUrls.payItemList,
+    employeeCreate: enabledUrls.employeeCreate,
     payRunList: enabledUrls.payRunList,
-    electronicPayments: enabledUrls.electronicPayments,
+    payRunCreate: enabledUrls.payRunCreate,
+    payItemList: enabledUrls.payItemList,
+    electronicPaymentCreate: enabledUrls.electronicPaymentCreate,
   }),
 );
 export const hasPayrollUrls = createSelector(
@@ -89,11 +92,13 @@ export const getBankingUrls = createSelector(
   enabledUrls => ({
     bankTransactionList: enabledUrls.bankTransactionList,
     bankReconciliation: enabledUrls.bankReconciliation,
-    spendMoney: enabledUrls.spendMoney,
-    receiveMoney: enabledUrls.receiveMoney,
-    transferMoney: enabledUrls.transferMoney,
+    bankingRuleList: enabledUrls.bankingRuleList,
+    bankFeeds: enabledUrls.bankFeeds,
+    electronicPaymentCreate: enabledUrls.electronicPaymentCreate,
+    spendMoneyCreate: enabledUrls.spendMoneyCreate,
+    receiveMoneyCreate: enabledUrls.receiveMoneyCreate,
+    transferMoneyCreate: enabledUrls.transferMoneyCreate,
     transactionList: enabledUrls.transactionList,
-    bankingRule: enabledUrls.bankingRule,
   }),
 );
 export const hasBankingUrls = createSelector(
@@ -104,8 +109,8 @@ export const hasBankingUrls = createSelector(
 export const getContactUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
-    createContact: enabledUrls.createContact,
     contactList: enabledUrls.contactList,
+    contactCreate: enabledUrls.contactCreate,
   }),
 );
 export const hasContactUrls = createSelector(
@@ -113,44 +118,66 @@ export const hasContactUrls = createSelector(
   urls => Object.values(urls).some(Boolean),
 );
 
-export const getJournalUrls = createSelector(
+export const getAccountingUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
-    generalJournal: enabledUrls.generalJournal,
     generalJournalList: enabledUrls.generalJournalList,
+    generalJournalCreate: enabledUrls.generalJournalCreate,
+    accountList: enabledUrls.accountList,
+    linkedAccounts: enabledUrls.linkedAccounts,
+    taxList: enabledUrls.taxList,
+    prepareBasOrIas: enabledUrls.prepareBasOrIas,
   }),
 );
-export const hasJournalUrls = createSelector(
-  getJournalUrls,
+
+export const hasAccountingUrls = createSelector(
+  getAccountingUrls,
   urls => Object.values(urls).some(Boolean),
 );
 
 export const getBusinessUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
-    incomeAllocation: enabledUrls.incomeAllocation,
     businessDetails: enabledUrls.businessDetails,
-    taxList: enabledUrls.taxList,
-    dataImportExport: enabledUrls.dataImportExport,
-    userList: enabledUrls.userList,
+    incomeAllocation: enabledUrls.incomeAllocation,
     salesSettings: enabledUrls.salesSettings,
-    prepareBasOrIas: enabledUrls.prepareBasOrIas,
-    linkedAccounts: enabledUrls.linkedAccounts,
-    bankFeeds: enabledUrls.bankFeeds,
-    accountList: enabledUrls.accountList,
+    payrollSettings: enabledUrls.payrollSettings,
+    userList: enabledUrls.userList,
+    dataImportExport: enabledUrls.dataImportExport,
   }),
 );
 
 export const getPurchasesUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({
-    billPayment: enabledUrls.billPayment,
     billList: enabledUrls.billList,
+    billCreate: enabledUrls.billCreate,
+    billPaymentCreate: enabledUrls.billPaymentCreate,
     supplierReturnList: enabledUrls.supplierReturnList,
+    itemList: enabledUrls.itemList,
   }),
 );
 export const hasPurchasesUrls = createSelector(
   getPurchasesUrls,
+  urls => Object.values(urls).some(Boolean),
+);
+
+export const getAddUrls = createSelector(
+  getEnabledUrls,
+  enabledUrls => ({
+    quoteCreate: enabledUrls.quoteCreate,
+    invoiceCreate: enabledUrls.invoiceCreate,
+    billCreate: enabledUrls.billCreate,
+    payRunCreate: enabledUrls.payRunCreate,
+    spendMoneyCreate: enabledUrls.spendMoneyCreate,
+    receiveMoneyCreate: enabledUrls.receiveMoneyCreate,
+    transferMoneyCreate: enabledUrls.transferMoneyCreate,
+    employeeCreate: enabledUrls.employeeCreate,
+    contactCreate: enabledUrls.contactCreate,
+  }),
+);
+export const hasAddUrls = createSelector(
+  getAddUrls,
   urls => Object.values(urls).some(Boolean),
 );
 
@@ -165,9 +192,29 @@ export const getPrepareBasOrIasLabel = createSelector(
   region => getRegionToDialectText(region)('Prepare BAS or IAS'),
 );
 
-export const getInTrayUrl = state => getEnabledUrls(state).inTray;
+export const getInTrayUrl = state => getEnabledUrls(state).inTrayList;
 export const getIsInTrayActive = state => getActiveNav(state) === 'inTray';
 export const hasInTrayUrl = state => Boolean(getInTrayUrl(state));
 
 export const getReportsUrl = state => getEnabledUrls(state).reports;
 export const hasReportsUrl = state => Boolean(getReportsUrl(state));
+
+export const getBusinessAbbreviation = createSelector(
+  getBusinessName,
+  (businessName = '') => businessName
+    .replace(/([A-Z])/g, ' $1')
+    .trim()
+    .split(/\s+/, 2)
+    .reduce((a, b) => {
+      const formattedB = b.toUpperCase();
+
+      if (formattedB === 'PTY' || formattedB === 'LTD') return a;
+
+      return formattedB[0] ? a + formattedB[0] : a;
+    }, ''),
+);
+
+export const getShowBusinessAvatar = createSelector(
+  getBusinessAbbreviation,
+  abbr => abbr.length > 0,
+);

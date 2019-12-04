@@ -1,0 +1,23 @@
+.menu {
+  margin-right: 1.6rem;
+}
+
+/*
+  @FEELIX:
+  Remove underline on hover and active menu item
+*/
+.menu :global(.flx-navbar__menu-link) {
+  border: none;
+}
+
+.icon:hover {
+  border-radius: 50%;
+  box-shadow: 0 0 0 8px var(--flx-background-color-application);
+  background-color: var(--flx-background-color-application);
+}
+
+.icon:active {
+  border-radius: 50%;
+  box-shadow: 0 0 0 8px #d8dee4;
+  background-color: #d8dee4;
+}
