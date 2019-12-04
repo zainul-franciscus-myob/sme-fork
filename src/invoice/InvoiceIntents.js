@@ -34,6 +34,7 @@ export const UPDATE_INVOICE_LAYOUT = Symbol('Update invoice layout');
 export const ADD_INVOICE_LINE = Symbol('Add invoice line');
 export const REMOVE_INVOICE_LINE = Symbol('Remove invoice line');
 export const UPDATE_INVOICE_LINE = Symbol('Update invoice line');
+export const FORMAT_INVOICE_LINE = Symbol('Format invoice line');
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
 
 export const SET_INVOICE_ITEM_LINE_DIRTY = Symbol('Set invoice item line amount dirty');

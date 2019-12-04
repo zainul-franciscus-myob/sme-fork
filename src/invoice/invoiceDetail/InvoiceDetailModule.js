@@ -328,7 +328,13 @@ export default class InvoiceDetailModule {
   }
 
   updateInvoiceLayout = ({ value: layout }) => {
-    this.dispatcher.updateInvoiceLayout(layout);
+    const state = this.store.getState();
+    const isLineAmountDirty = getIsLineAmountDirty(state);
+
+    if (!isLineAmountDirty) {
+      this.dispatcher.updateInvoiceLayout(layout);
+      this.calculateLineTotals();
+    }
   }
 
   removeInvoiceLine = (index) => {
@@ -357,6 +363,11 @@ export default class InvoiceDetailModule {
     if (['accountId', 'taxCodeId'].includes(key)) {
       this.calculateLineTotals();
     }
+  }
+
+  updateAmount = ({ index, key }) => {
+    this.dispatcher.formatInvoiceLine({ index, key });
+    this.calculateLineTotalsOnAmountChange({ index, key });
   }
 
   calculateLineTotals = () => {
@@ -407,7 +418,7 @@ export default class InvoiceDetailModule {
     }
   }
 
-  // @TODO check this works for service
+
   calculateLineTotalsOnAmountChange = ({ index, key }) => {
     const state = this.store.getState();
 
@@ -747,7 +758,7 @@ export default class InvoiceDetailModule {
           onAddRow: this.addInvoiceLine,
           onRemoveRow: this.removeInvoiceLine,
           onUpdateRow: this.updateInvoiceLine,
-          onUpdateAmount: this.calculateLineTotalsOnAmountChange,
+          onUpdateAmount: this.updateAmount,
           onChangeAmountToPay: this.dispatcher.updateInvoicePaymentAmount,
           onAddAccount: this.openAccountModal,
         }}
@@ -755,7 +766,7 @@ export default class InvoiceDetailModule {
           onAddRow: this.addInvoiceLine,
           onRemoveRow: this.removeInvoiceLine,
           onUpdateRow: this.updateInvoiceLine,
-          onUpdateAmount: this.calculateLineTotalsOnAmountChange,
+          onUpdateAmount: this.updateAmount,
           onChangeAmountToPay: this.dispatcher.updateInvoicePaymentAmount,
           onAddItemButtonClick: this.openInventoryModalModule,
           onAddAccount: this.openAccountModal,

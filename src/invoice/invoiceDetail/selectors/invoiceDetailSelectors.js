@@ -214,7 +214,6 @@ export const getIsNewLine = (state, { index }) => {
 
 export const getNewLineIndex = state => getLength(state) - 1;
 
-// @TODO write a test for this
 export const getInvoiceLine = createSelector(
   getNewLine,
   (state, props) => state.invoice.lines[props.index],

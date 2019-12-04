@@ -1,11 +1,13 @@
 import {
   ADD_INVOICE_LINE,
+  FORMAT_INVOICE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_OPTION,
   REMOVE_INVOICE_LINE,
   UPDATE_INVOICE_LAYOUT,
   UPDATE_INVOICE_LINE,
 } from '../../../InvoiceIntents';
+import InvoiceLayout from '../../InvoiceLayout';
 import invoiceDetailReducer from '../invoiceDetailReducer';
 
 describe('InvoiceDetailReducer', () => {
@@ -255,19 +257,13 @@ describe('InvoiceDetailReducer', () => {
       {
         key: 'accountId',
         line: {
-          accountId: '1',
+          accountId: '🐧',
         },
       },
       {
         key: 'itemId',
         line: {
-          itemId: '1',
-        },
-      },
-      {
-        key: 'description',
-        line: {
-          description: 'noot noot 🐧',
+          itemId: '🐸',
         },
       },
     ].forEach((test) => {
@@ -283,6 +279,30 @@ describe('InvoiceDetailReducer', () => {
       });
     });
 
+    [
+      {
+        key: 'accountId',
+        layout: InvoiceLayout.SERVICE,
+      },
+      {
+        key: 'itemId',
+        layout: InvoiceLayout.ITEM,
+      },
+    ].forEach((test) => {
+      it(`adds new line with layout ${test.layout} when given value for ${test.key}`, () => {
+        const modifiedAction = {
+          ...action,
+          line: {
+            [test.key]: '🦒',
+          },
+        };
+
+        const actual = invoiceDetailReducer(state, modifiedAction);
+
+        expect(actual.invoice.lines[2].layout).toEqual(test.layout);
+      });
+    });
+
     it('cannot add new line with other keys', () => {
       const modifiedState = {
         ...state,
@@ -290,7 +310,6 @@ describe('InvoiceDetailReducer', () => {
           taxCodeId: 'noop',
         },
       };
-
 
       const modifiedAction = {
         intent: ADD_INVOICE_LINE,
@@ -410,6 +429,31 @@ describe('InvoiceDetailReducer', () => {
       const actual = invoiceDetailReducer(state, action);
 
       expect(actual.isPageEdited).toEqual(true);
+    });
+  });
+
+  describe('FORMAT_INVOICE_LINE', () => {
+    it('sets units at index to 1 when empty', () => {
+      const state = {
+        invoice: {
+          lines: [
+            {},
+            {
+              units: '',
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: FORMAT_INVOICE_LINE,
+        index: 1,
+        key: 'units',
+      };
+
+      const actual = invoiceDetailReducer(state, action);
+
+      expect(actual.invoice.lines[1].units).toEqual('1');
     });
   });
 });

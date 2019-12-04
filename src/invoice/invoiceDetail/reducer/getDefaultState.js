@@ -43,6 +43,7 @@ const getDefaultState = () => ({
     itemId: '',
     description: '',
     unitPrice: '',
+    unitOfMeasure: '',
     taxCodeId: '',
     accountId: '',
     discount: '',

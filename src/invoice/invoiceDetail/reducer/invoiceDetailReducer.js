@@ -2,6 +2,7 @@ import {
   ADD_EMAIL_ATTACHMENTS,
   ADD_INVOICE_LINE,
   CALCULATE_LINE_TOTALS,
+  FORMAT_INVOICE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -165,7 +166,7 @@ const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
   return account === undefined ? '' : account.taxCodeId;
 };
 
-export const updateInvoiceLine = (state, action) => {
+const updateInvoiceLine = (state, action) => {
   const isUpdateDiscount = action.key === 'discount';
   const isUpdateAmount = action.key === 'amount';
   const isUpdateAccountId = action.key === 'accountId';
@@ -190,8 +191,28 @@ export const updateInvoiceLine = (state, action) => {
   });
 };
 
-export const addInvoiceLine = (state, action) => {
-  const { accountId, description, itemId } = action.line;
+const formatInvoiceLine = (state, action) => ({
+  ...state,
+  invoice: {
+    ...state.invoice,
+    lines: state.invoice.lines.map((line, index) => {
+      if (index === action.index) {
+        const isFormatUnits = action.key === 'units';
+        const isUnitsCleared = line.units === '';
+
+        return {
+          ...line,
+          units: isFormatUnits && isUnitsCleared ? '1' : line.units,
+        };
+      }
+
+      return line;
+    }),
+  },
+});
+
+const addInvoiceLine = (state, action) => {
+  const { accountId, itemId } = action.line;
 
   return ({
     ...state,
@@ -202,8 +223,8 @@ export const addInvoiceLine = (state, action) => {
         ...state.invoice.lines,
         {
           ...state.newLine,
+          layout: accountId ? InvoiceLayout.SERVICE : InvoiceLayout.ITEM,
           accountId: accountId || state.newLine.accountId,
-          description: description || state.newLine.description,
           itemId: itemId || state.newLine.itemId,
           taxCodeId: accountId ? getDefaultTaxCodeId({
             accountOptions: state.accountOptions,
@@ -215,7 +236,7 @@ export const addInvoiceLine = (state, action) => {
   });
 };
 
-export const removeInvoiceLine = (state, action) => ({
+const removeInvoiceLine = (state, action) => ({
   ...state,
   isPageEdited: true,
   invoice: {
@@ -224,25 +245,25 @@ export const removeInvoiceLine = (state, action) => ({
   },
 });
 
-export const resetTotals = state => ({
+const resetTotals = state => ({
   ...state,
   totals: {
     ...getDefaultState().totals,
   },
 });
 
-export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
+const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   ...state,
   accountOptions: [account, ...state.accountOptions],
   isPageEdited: true,
 });
 
-export const setInvoiceItemLineDirty = (state, action) => ({
+const setInvoiceItemLineDirty = (state, action) => ({
   ...state,
   isLineAmountDirty: action.isLineAmountDirty,
 });
 
-export const calculateLineTotals = (state, action) => ({
+const calculateLineTotals = (state, action) => ({
   ...state,
   isPageEdited: true,
   invoice: {
@@ -279,6 +300,7 @@ const handlers = {
   [ADD_INVOICE_LINE]: addInvoiceLine,
   [REMOVE_INVOICE_LINE]: removeInvoiceLine,
   [UPDATE_INVOICE_LINE]: updateInvoiceLine,
+  [FORMAT_INVOICE_LINE]: formatInvoiceLine,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
 
   [SET_INVOICE_ITEM_LINE_DIRTY]: setInvoiceItemLineDirty,

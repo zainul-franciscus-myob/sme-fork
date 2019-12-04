@@ -23,6 +23,7 @@ import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
+import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './SellingDetails.module.css';
 
 const SellingDetails = (
@@ -69,7 +70,7 @@ const SellingDetails = (
           Eg. boxes, cans, hours, kg (max 5 characters)
         </Tooltip>
       )}
-      onChange={handleAmountInputChange(onUpdateSellingOption)}
+      onChange={handleInputChange(onUpdateSellingOption)}
       maxLength={5}
     />
     <AccountCombobox

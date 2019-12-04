@@ -1,4 +1,4 @@
-import { LineItemTable, TextArea } from '@myob/myob-widgets';
+import { Input, LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -74,7 +74,7 @@ const InvoiceItemTableRow = ({
       />
 
       <AccountCombobox
-        label="Account"
+        label="accountId"
         hideLabel
         onChange={onChangeAccountId}
         items={accountOptions}
@@ -83,6 +83,14 @@ const InvoiceItemTableRow = ({
           onChangeAccountId,
         )}
         disabled={isSubmitting}
+      />
+
+      <Input
+        name="unitOfMeasure"
+        value={invoiceLine.unitOfMeasure}
+        onChange={onChange}
+        disabled={isSubmitting || isNewLine || isServiceLine}
+        maxLength={5}
       />
 
       <AmountInput

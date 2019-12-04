@@ -22,7 +22,8 @@ const InvoiceItemTable = ({
   const itemIdLabel = 'Item ID';
   const itemNameLabel = 'Description';
   const accountLabel = 'Account';
-  const unitLabel = 'Units';
+  const unitOfMeasureLabel = 'Unit';
+  const unitLabel = 'No. of units';
   const unitPriceLabel = 'Unit price';
   const discountLabel = 'Discount (%)';
   const amountLabel = 'Amount ($)';
@@ -34,6 +35,7 @@ const InvoiceItemTable = ({
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {accountLabel}
     </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{unitOfMeasureLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{unitLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{unitPriceLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{discountLabel}</LineItemTable.HeaderItem>,
@@ -49,6 +51,7 @@ const InvoiceItemTable = ({
     itemIdLabel,
     itemNameLabel,
     accountLabel,
+    unitOfMeasureLabel,
     unitLabel,
     unitPriceLabel,
     discountLabel,
@@ -61,7 +64,11 @@ const InvoiceItemTable = ({
       config: [
         {
           columnName: itemIdLabel,
-          styles: { width: '16.8rem' },
+          styles: { width: '10.6rem' },
+        },
+        {
+          columnName: unitOfMeasureLabel,
+          styles: { width: '6rem' },
         },
         {
           columnName: unitLabel,
@@ -69,19 +76,19 @@ const InvoiceItemTable = ({
         },
         {
           columnName: accountLabel,
-          styles: { width: '10rem' },
+          styles: { width: '16.8rem' },
         },
         {
           columnName: unitPriceLabel,
-          styles: { width: '12.8rem' },
+          styles: { width: '12.4rem' },
         },
         {
           columnName: discountLabel,
-          styles: { width: '10rem' },
+          styles: { width: '12.4rem' },
         },
         {
           columnName: amountLabel,
-          styles: { width: '12.8rem' },
+          styles: { width: '12.4rem' },
         },
         {
           columnName: taxCodeLabel,
