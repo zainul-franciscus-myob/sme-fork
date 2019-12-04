@@ -22,6 +22,8 @@ It is designed to work hand-in-hand with [sme-web-bff](https://github.com/MYOB-T
     * [Integrations](#usage-of-the-memoryintegration)
   * [General information](#general-information)
     * [Wrapped Feelix components](#wrapped-feelix-components)
+    * [New Relic Instrumentation](#New-Relic-Insturmentation)
+    
 
 ## Setup
 
@@ -99,3 +101,18 @@ In the location `src/components/Feelix/**` there are a number of wrapped compone
 [Linting]: docs/linting-and-styles.md#linting
 [node]: https://nodejs.org/en/
 [nvm]: https://github.com/creationix/nvm
+
+
+### New Relic Insturmentation
+
+We use New Relic Browser apps to monitor performance and error of the UI. The new relic app can be found here: 
+
+[Prod](https://rpm.newrelic.com/accounts/2512973/browser/217230545)
+
+[Preview](https://rpm.newrelic.com/accounts/2512973/browser/2179740885)
+
+[Pre-Prod](https://rpm.newrelic.com/accounts/2512973/browser/217230764)
+
+New Relic Account :  *sme-slw*. 
+
+New Relic Dashboards can be found [here](https://insights.newrelic.com/accounts/2512973/dashboards).
