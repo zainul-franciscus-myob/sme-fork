@@ -58,6 +58,7 @@ const GeneralPayrollInformationView = (props) => {
         name="currentYear"
         value={currentYear}
         onChange={handleInputChange(onGeneralPayrollInformationChange)}
+        testId="currentYearField"
       />
     );
   } else {
@@ -65,6 +66,7 @@ const GeneralPayrollInformationView = (props) => {
       <ReadOnly
         label="Payroll year ends 30 June"
         name="taxTableRevisionDate"
+        testId="currentYearField"
       >
         {currentYear}
       </ReadOnly>
