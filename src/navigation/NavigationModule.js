@@ -70,8 +70,8 @@ export default class NavigationModule {
   };
 
   buildReportsUrl = (routeParams) => {
-    const { businessId } = routeParams;
-    return `${this.reportsBaseUrl}/#/${businessId}/reports`;
+    const { region, businessId } = routeParams;
+    return `${this.reportsBaseUrl}/#/${region}/${businessId}/reports`;
   }
 
   buildUrls = (currentRouteName, routeParams) => {
