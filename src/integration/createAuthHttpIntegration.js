@@ -2,7 +2,7 @@ import { acquireToken } from '../Auth';
 import createHttpIntegration from './createHttpIntegration';
 
 const createAuthHttpIntegration = () => {
-  const getAuthHeaders = async () => {
+  const getAdditionalHeaders = async () => {
     const token = await acquireToken();
 
     return {
@@ -10,7 +10,9 @@ const createAuthHttpIntegration = () => {
     };
   };
 
-  return createHttpIntegration(getAuthHeaders);
+  return createHttpIntegration({
+    getAdditionalHeaders,
+  });
 };
 
 export default createAuthHttpIntegration;

@@ -41,6 +41,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     defaultRoute: 'businessList/businessList',
   });
   const inbox = new Inbox();
+
   const integration = createIntegration();
 
   const routes = getRoutes({
@@ -59,18 +60,18 @@ async function main(integrationType, telemetryType, leanEngageType) {
 
   const { constructPath, replaceURLParamsAndReload } = router;
 
-  const drawer = new DrawerModule({
+  const drawerModule = new DrawerModule({
     integration,
     setDrawerView,
   });
 
-  const nav = new NavigationModule({
+  const navigationModule = new NavigationModule({
     integration,
     setNavigationView,
     constructPath,
     replaceURLParamsAndReload,
     mainContentElement: root,
-    toggleHelp: drawer.toggleDrawer,
+    toggleHelp: drawerModule.toggleDrawer,
   });
 
   const unsubscribeAllModulesFromStore = () => {
@@ -88,11 +89,11 @@ async function main(integrationType, telemetryType, leanEngageType) {
     unbindAllKeys();
     unsubscribeAllModulesFromStore();
     module.resetState();
-    drawer.run(routeProps);
-    nav.run({
+    drawerModule.run(routeProps);
+    navigationModule.run({
       ...routeProps,
       onPageTransition: module.handlePageTransition,
-      toggleHelp: drawer.toggleDrawer,
+      toggleHelp: drawerModule.toggleDrawer,
     });
     telemetry(routeProps);
     startLeanEngage(routeProps);

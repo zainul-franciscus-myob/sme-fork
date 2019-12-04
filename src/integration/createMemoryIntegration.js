@@ -1,66 +1,64 @@
 import RootMapping from './memoryMapping/RootMapping';
 
-const sleep = duration => () => new Promise((resolve) => {
-  setTimeout(resolve, duration);
-});
+const sleep = duration => new Promise(resolve => setTimeout(resolve, duration));
 
-const writeFormData = async ({
-  intent, params, content, onSuccess, onFailure,
+const writeFormData = ({
+  intent, urlParams, content, onSuccess, onFailure,
 }) => {
   const integrationFunction = RootMapping[intent];
-  Promise.resolve()
-    .then(sleep(200))
+  sleep(200)
     .then(() => {
       integrationFunction({
-        params, content, onSuccess, onFailure,
+        urlParams, content, onSuccess, onFailure,
       });
     });
 };
 
 const createMemoryIntegration = () => ({
-  read: async ({
+  read: ({
     intent, params, onSuccess, onFailure, urlParams,
   }) => {
     const integrationFunction = RootMapping[intent];
-    Promise.resolve()
-      .then(sleep(200))
+    sleep(200)
       .then(() => {
         integrationFunction({
           urlParams, params, onSuccess, onFailure,
         });
       });
   },
-  readFile: async ({
+  readFile: ({
     intent, params, onSuccess, onFailure, urlParams,
   }) => {
     const integrationFunction = RootMapping[intent];
-    Promise.resolve()
-      .then(sleep(200))
+    sleep(200)
       .then(() => {
         integrationFunction({
           urlParams, params, onSuccess, onFailure,
         });
       });
   },
-  write: async ({
-    intent, params, content, onSuccess, onFailure,
+  write: ({
+    intent, urlParams, content, onSuccess, onFailure,
   }) => {
     const integrationFunction = RootMapping[intent];
-    Promise.resolve()
-      .then(sleep(200))
+    sleep(200)
       .then(() => {
         integrationFunction({
-          params, content, onSuccess, onFailure,
+          urlParams, content, onSuccess, onFailure,
         });
       });
   },
-  writeFormData,
-  writeManyFormData: async ({
-    intent, params, contents, onSuccess, onFailure, onComplete,
+  writeFormData: ({
+    intent, urlParams, content, onSuccess, onFailure,
+  }) => writeFormData({
+    intent, urlParams, content, onSuccess, onFailure,
+  }),
+  writeManyFormData: ({
+    intent, urlParams, contents, onSuccess, onFailure, onComplete,
   }) => {
     const requests = contents.map((content, index) => new Promise(resolve => writeFormData({
       intent,
-      params,
+      urlParams,
       content,
       onSuccess: (response) => {
         onSuccess(response, index);

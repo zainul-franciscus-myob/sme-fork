@@ -4,12 +4,15 @@ import uuid from 'uuid/v4';
 
 import Config from '../Config';
 import RootMapping from './httpMapping/RootMapping';
+import SubscriptionLoader from './httpHandlers/SubscriptionLoader';
 import handleForbiddenResponse from './httpHandlers/handleForbiddenResponse';
 import handleResponse from './httpHandlers/handleResponse';
 
 const config = {
   baseUrl: Config.BFF_BASE_URL,
 };
+
+const NO_OP = () => Promise.resolve();
 
 const encodeQuerySegment = (key, value) => {
   const encode = encodeURIComponent;
@@ -88,7 +91,13 @@ const sendXHRRequest = (method, url, headers, body, onSuccess, onFailure, onProg
 };
 
 const writeFormData = async ({
-  intent, urlParams, content, onSuccess, onFailure, onProgress, getAdditionalHeaders,
+  intent,
+  urlParams,
+  content,
+  onSuccess,
+  onFailure,
+  onProgress,
+  getAdditionalHeaders,
 }) => {
   const additionalHeaders = await getAdditionalHeaders();
 
@@ -108,7 +117,7 @@ const writeFormData = async ({
   sendXHRRequest(requestSpec.method, url, headers, body, onSuccess, onFailure, onProgress);
 };
 
-const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
+const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
   read: async ({
     intent,
     urlParams,
@@ -139,7 +148,7 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     const url = `${baseUrl}${intentUrlPath}${query}`;
 
     const fetchedPromise = fetch(url, requestOptions);
-    const responseParser = async response => response.json();
+    const responseParser = response => response.json();
 
     handleResponse({
       fetchedPromise,
@@ -179,7 +188,7 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     const url = `${baseUrl}${intentUrlPath}${query}`;
 
     const fetchedPromise = fetch(url, requestOptions);
-    const responseParser = async response => response.blob();
+    const responseParser = response => response.blob();
 
     handleResponse({
       fetchedPromise,
@@ -202,7 +211,7 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     const body = JSON.stringify(content);
 
     const fetchedPromise = doFetch(intent, urlParams, allowParallelRequests, headers, body);
-    const responseParser = async response => response.json();
+    const responseParser = response => response.json();
 
     handleResponse({
       fetchedPromise,
@@ -212,7 +221,7 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
       onForbidden: handleForbiddenResponse(urlParams),
     });
   },
-  writeFormData: async ({
+  writeFormData: ({
     intent,
     urlParams,
     content,
@@ -221,10 +230,16 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
     onProgress,
   }) => {
     writeFormData({
-      intent, urlParams, content, onSuccess, onFailure, onProgress, getAdditionalHeaders,
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+      onProgress,
+      getAdditionalHeaders,
     });
   },
-  writeManyFormData: async ({
+  writeManyFormData: ({
     intent,
     urlParams,
     contents,
@@ -254,4 +269,22 @@ const createHttpIntegration = (getAdditionalHeaders = () => ({})) => ({
   },
 });
 
-export default createHttpIntegration;
+const createDecoratedHttpIntegration = (initOptions) => {
+  const httpIntegration = createHttpIntegration(initOptions);
+  const subscriptionLoader = new SubscriptionLoader(httpIntegration, document);
+
+  return {
+    read: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
+      .then(httpIntegration.read(options)),
+    readFile: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
+      .then(httpIntegration.readFile(options)),
+    write: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
+      .then(httpIntegration.write(options)),
+    writeFormData: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
+      .then(httpIntegration.write(options)),
+    writeManyFormData: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
+      .then(httpIntegration.writeManyFormData(options)),
+  };
+};
+
+export default createDecoratedHttpIntegration;

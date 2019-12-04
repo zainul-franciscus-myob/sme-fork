@@ -49,6 +49,7 @@ import ReceiveMoneyMapping from './ReceiveMoneyMapping';
 import ReceiveRefundMapping from './ReceiveRefundMapping';
 import SaleSettingMapping from './SalesSettingsMapping';
 import SpendMoneyMapping from './SpendMoneyMapping';
+import SubscriptionMapping from './SubscriptionMapping';
 import SuperFundMapping from './SuperFundMapping';
 import SuperPayItemMapping from './SuperPayItemMapping';
 import SupplierReturnMapping from './SupplierReturnMapping';
@@ -116,6 +117,7 @@ const RootMapping = Object.freeze({
   ...ElectronicPaymentsCreateMapping,
   ...ElectronicPaymentsReadMapping,
   ...CustomerStatementMapping,
+  ...SubscriptionMapping,
   ...EmployeePayMapping,
   ...CreditsAndDebitsListMapping,
 });

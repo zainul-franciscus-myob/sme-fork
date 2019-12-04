@@ -49,6 +49,11 @@ yarn install
 ./ops/bin/start # yarn start
 ```
 
+## Run locally against a locally-running `sme-web-bff`
+```sh
+REACT_APP_INTEGRATION_TYPE=Http ./ops/bin/start
+```
+
 ## Build sme web
 
 ```sh
