@@ -5,16 +5,19 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAreActionsDisabled, getCustomersSelected, getIsSomeSelected, getIsTableLoading,
+  getAreActionsDisabled,
+  getCustomersSelected,
+  getIsDownloadPDFDisabled,
+  getIsSomeSelected,
 } from '../selectors/customerStatementListSelectors';
 import PDFType from '../PDFType';
 
 const CustomerStatementListTableActions = ({
-  isTableLoading,
   isSomeSelected,
+  isDownloadPDFDisabled,
   areActionsDisabled,
   customersSelected,
-  onSelectPdfDropdown,
+  onSelectPDFDropdown,
   onClickEmailButton,
 }) => {
   const items = [
@@ -22,21 +25,21 @@ const CustomerStatementListTableActions = ({
       key={PDFType.DEFAULT_TEMPLATE}
       label="Use default template"
       value={PDFType.DEFAULT_TEMPLATE}
-      disabled={isTableLoading || areActionsDisabled}
+      disabled={areActionsDisabled}
     />,
     <Dropdown.Item
       key={PDFType.CHOOSE_TEMPLATE}
       label="Choose template..."
       value={PDFType.CHOOSE_TEMPLATE}
-      disabled={isTableLoading || areActionsDisabled}
+      disabled={areActionsDisabled}
     />,
   ];
 
-  const pdfDropdown = (
+  const PDFDropdown = (
     <Dropdown
-      onSelect={onSelectPdfDropdown}
+      onSelect={onSelectPDFDropdown}
       toggle={(
-        <Dropdown.Toggle disabled={isTableLoading || areActionsDisabled}>
+        <Dropdown.Toggle disabled={areActionsDisabled || isDownloadPDFDisabled}>
           Download PDF
           {' '}
           <Icons.Caret />
@@ -46,19 +49,21 @@ const CustomerStatementListTableActions = ({
     />
   );
 
+  const PDFDisabledText = isDownloadPDFDisabled ? '(PDF\'s cannot be downloaded with 30 or more customers selected)' : '';
+
   return isSomeSelected && (
     <BulkActions>
-      {pdfDropdown}
-      <Button type="secondary" onClick={onClickEmailButton} disabled={isTableLoading || areActionsDisabled}>Email</Button>
+      {PDFDropdown}
+      <Button type="secondary" onClick={onClickEmailButton} disabled={areActionsDisabled}>Email</Button>
       <Separator direction="vertical" />
-      {`${customersSelected} customers selected`}
+      {`${customersSelected} customers selected ${PDFDisabledText}`}
     </BulkActions>
   );
 };
 
 const mapStateToProps = state => ({
-  isTableLoading: getIsTableLoading(state),
   isSomeSelected: getIsSomeSelected(state),
+  isDownloadPDFDisabled: getIsDownloadPDFDisabled(state),
   areActionsDisabled: getAreActionsDisabled(state),
   customersSelected: getCustomersSelected(state),
 });

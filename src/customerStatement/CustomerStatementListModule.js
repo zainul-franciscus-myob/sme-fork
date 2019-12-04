@@ -81,15 +81,15 @@ export default class CustomerStatementListModule {
     this.integrator.sortAndfilterCustomerStatementList({ onSuccess, onFailure });
   }
 
-  selectPdfOption = (pdfOption) => {
+  selectPDFOption = (pdfOption) => {
     if (pdfOption === PDFType.DEFAULT_TEMPLATE) {
-      this.downloadDefaultPdf();
+      this.downloadDefaultPDF();
     } else if (pdfOption === PDFType.CHOOSE_TEMPLATE) {
       this.dispatcher.openModal(ModalType.PDF);
     }
   }
 
-  downloadDefaultPdf = () => {
+  downloadDefaultPDF = () => {
     const state = this.store.getState();
     const templateOption = getDefaultTemplateOption(state);
 
@@ -114,10 +114,10 @@ export default class CustomerStatementListModule {
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 
-    this.integrator.downloadPdf({ onSuccess, onFailure, templateOption });
+    this.integrator.downloadPDF({ onSuccess, onFailure, templateOption });
   }
 
-  downloadPdf = () => {
+  downloadPDF = () => {
     const state = this.store.getState();
     const templateOption = getSelectedTemplateOption(state);
 
@@ -143,7 +143,7 @@ export default class CustomerStatementListModule {
       this.dispatcher.setModalAlertMessage(message);
     };
 
-    this.integrator.downloadPdf({ onSuccess, onFailure, templateOption });
+    this.integrator.downloadPDF({ onSuccess, onFailure, templateOption });
   }
 
   sendEmail = () => {
@@ -181,12 +181,12 @@ export default class CustomerStatementListModule {
         onUpdateTemplateAdditionalOptions={this.dispatcher.updateTemplateAdditionalOptions}
         onToggleAllCustomerStatements={this.dispatcher.toggleAllCustomerStatements}
         onSelectCustomerStatement={this.dispatcher.selectCustomerStatement}
-        onSelectPdfDropdown={this.selectPdfOption}
+        onSelectPDFDropdown={this.selectPDFOption}
         onClickEmailButton={this.openEmailModal}
         onDismissModal={this.dispatcher.closeModal}
         onDismissModalAlert={this.dismissModalAlert}
         onDismissAlert={this.dismissAlert}
-        onDownloadPdf={this.downloadPdf}
+        onDownloadPDF={this.downloadPDF}
         onUpdateTemplateOption={this.dispatcher.updateTemplateOption}
         onSendEmail={this.sendEmail}
         onUpdateEmailOptions={this.dispatcher.updateEmailOption}

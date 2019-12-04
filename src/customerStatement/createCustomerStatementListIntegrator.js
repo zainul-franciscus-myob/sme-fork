@@ -6,7 +6,7 @@ import {
 } from './CustomerStatementIntents';
 import {
   getBusinessId,
-  getDownloadPdfQueryParams,
+  getDownloadPDFQueryParams,
   getQueryParamsForList,
   getSendEmailContent,
 } from './selectors/customerStatementListIntegrationSelectors';
@@ -66,14 +66,14 @@ const createCustomerStatementListIntegrator = (store, integration) => ({
     });
   },
 
-  downloadPdf: ({ onSuccess, onFailure, templateOption }) => {
+  downloadPDF: ({ onSuccess, onFailure, templateOption }) => {
     const state = store.getState();
 
     const urlParams = {
       businessId: getBusinessId(state),
     };
 
-    const params = getDownloadPdfQueryParams(state, templateOption);
+    const params = getDownloadPDFQueryParams(state, templateOption);
 
     integration.readFile({
       intent: DOWNLOAD_PDF,

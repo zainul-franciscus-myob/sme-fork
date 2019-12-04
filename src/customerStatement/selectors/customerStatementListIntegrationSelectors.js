@@ -14,7 +14,7 @@ export const getQueryParamsForList = (state) => {
   };
 };
 
-export const getDownloadPdfQueryParams = (state, templateOption) => ({
+export const getDownloadPDFQueryParams = (state, templateOption) => ({
   ...state.templateAdditionalOptions,
   sortOrder: state.sortOrder,
   orderBy: state.orderBy,

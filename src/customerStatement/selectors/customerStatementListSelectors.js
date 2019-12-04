@@ -70,7 +70,7 @@ export const getFilterOptions = createSelector(
   }),
 );
 
-export const getAreActionsDisabled = state => state.areActionsDisabled;
+export const getAreActionsDisabled = state => state.areActionsDisabled || state.isTableLoading;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getIsTableEmpty = state => state.customerStatements.length === 0;
 
@@ -88,14 +88,14 @@ export const getCustomerStatements = createSelector(
 );
 
 export const getCustomersSelected = createSelector(
-  getCustomerStatements,
+  getStatements,
   customerStatements => customerStatements.filter(
     customerStatement => customerStatement.isSelected,
   ).length,
 );
 
 export const getIsAllSelected = createSelector(
-  getCustomerStatements,
+  getStatements,
   getIsTableEmpty,
   (customerStatements, isTableEmpty) => !isTableEmpty && customerStatements.every(
     customerStatement => customerStatement.isSelected,
@@ -103,8 +103,13 @@ export const getIsAllSelected = createSelector(
 );
 
 export const getIsSomeSelected = createSelector(
-  getCustomerStatements,
+  getStatements,
   customerStatements => customerStatements.some(customerStatement => customerStatement.isSelected),
+);
+
+export const getIsDownloadPDFDisabled = createSelector(
+  getCustomersSelected,
+  customersSelected => customersSelected >= 30,
 );
 
 export const getOrder = ({ sortOrder, orderBy }) => ({

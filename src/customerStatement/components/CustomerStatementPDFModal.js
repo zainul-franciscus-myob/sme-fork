@@ -14,7 +14,7 @@ const CustomerStatementPDFModal = ({
   onDismissModal,
   onDismissModalAlert,
   onUpdateTemplateOption,
-  onDownloadPdf,
+  onDownloadPDF,
 }) => (
   <Modal
     title="Download PDF"
@@ -35,7 +35,7 @@ const CustomerStatementPDFModal = ({
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onDismissModal} disabled={isModalSubmitting}>Cancel</Button>
-      <Button type="primary" onClick={onDownloadPdf} disabled={isModalSubmitting}>Download PDF</Button>
+      <Button type="primary" onClick={onDownloadPDF} disabled={isModalSubmitting}>Download PDF</Button>
     </Modal.Footer>
   </Modal>
 );

@@ -53,7 +53,7 @@ const CustomerStatementListTable = ({
   isDefaultFilters,
   onToggleAllCustomerStatements,
   onSelectCustomerStatement,
-  onSelectPdfDropdown,
+  onSelectPDFDropdown,
   onClickEmailButton,
   onSort,
 }) => {
@@ -93,7 +93,7 @@ const CustomerStatementListTable = ({
     <Card>
       <CustomerStatementListTableActions
         onClickEmailButton={onClickEmailButton}
-        onSelectPdfDropdown={onSelectPdfDropdown}
+        onSelectPDFDropdown={onSelectPDFDropdown}
       />
       <TableView
         isLoading={isTableLoading}

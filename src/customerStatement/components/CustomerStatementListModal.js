@@ -8,7 +8,7 @@ const CustomerStatementListModal = ({
   modal,
   onDismissModal,
   onDismissModalAlert,
-  onDownloadPdf,
+  onDownloadPDF,
   onUpdateTemplateOption,
   onSendEmail,
   onUpdateEmailOptions,
@@ -19,7 +19,7 @@ const CustomerStatementListModal = ({
       <CustomerStatementPDFModal
         modal={modal}
         onUpdateTemplateOption={onUpdateTemplateOption}
-        onDownloadPdf={onDownloadPdf}
+        onDownloadPDF={onDownloadPDF}
         onDismissModal={onDismissModal}
         onDismissModalAlert={onDismissModalAlert}
       />

@@ -19,12 +19,12 @@ const CustomerStatementListView = ({
   onUpdateTemplateAdditionalOptions,
   onToggleAllCustomerStatements,
   onSelectCustomerStatement,
-  onSelectPdfDropdown,
+  onSelectPDFDropdown,
   onClickEmailButton,
   onDismissModal,
   onDismissModalAlert,
   onDismissAlert,
-  onDownloadPdf,
+  onDownloadPDF,
   onUpdateTemplateOption,
   onSendEmail,
   onUpdateEmailOptions,
@@ -42,7 +42,7 @@ const CustomerStatementListView = ({
     <CustomerStatementListTable
       onToggleAllCustomerStatements={onToggleAllCustomerStatements}
       onSelectCustomerStatement={onSelectCustomerStatement}
-      onSelectPdfDropdown={onSelectPdfDropdown}
+      onSelectPDFDropdown={onSelectPDFDropdown}
       onClickEmailButton={onClickEmailButton}
       onSort={onSort}
     />
@@ -52,7 +52,7 @@ const CustomerStatementListView = ({
     <CustomerStatementListModal
       onDismissModal={onDismissModal}
       onDismissModalAlert={onDismissModalAlert}
-      onDownloadPdf={onDownloadPdf}
+      onDownloadPDF={onDownloadPDF}
       onUpdateTemplateOption={onUpdateTemplateOption}
       onSendEmail={onSendEmail}
       onUpdateEmailOptions={onUpdateEmailOptions}

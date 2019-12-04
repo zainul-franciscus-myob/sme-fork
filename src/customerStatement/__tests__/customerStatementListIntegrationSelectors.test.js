@@ -1,5 +1,5 @@
 import {
-  getDownloadPdfQueryParams, getQueryParamsForList, getSendEmailContent,
+  getDownloadPDFQueryParams, getQueryParamsForList, getSendEmailContent,
 } from '../selectors/customerStatementListIntegrationSelectors';
 import StatementType from '../StatementType';
 
@@ -124,7 +124,7 @@ describe('customerStatementListIntegrationSelectors', () => {
     });
   });
 
-  describe('getDownloadPdfQueryParams', () => {
+  describe('getDownloadPDFQueryParams', () => {
     it('should build an array of objects for containing the query parameters', () => {
       const state = {
         templateAdditionalOptions: {
@@ -152,7 +152,7 @@ describe('customerStatementListIntegrationSelectors', () => {
 
       const templateOption = 'default-template';
 
-      const actual = getDownloadPdfQueryParams(state, templateOption);
+      const actual = getDownloadPDFQueryParams(state, templateOption);
 
       const expected = {
         statementType: 'Invoice',
