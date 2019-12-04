@@ -167,16 +167,17 @@ export const getOffset = createSelector(
   state => state.pagination.offset,
 );
 
-export const getLoadTransactionListNextPageParams = (state) => {
-  const filterOptions = getFilterOptions(state);
-  const sortOrder = getSortOrder(state);
-  const orderBy = getOrderBy(state);
-  const offset = getOffset(state);
-
-  return {
-    ...filterOptions,
-    sortOrder,
-    orderBy,
-    offset,
-  };
-};
+export const getLoadTransactionListNextPageParams = createSelector(
+  getAppliedFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  getOffset,
+  (appliedFilterOptions, sortOrder, orderBy, offset) => (
+    {
+      ...appliedFilterOptions,
+      sortOrder,
+      orderBy,
+      offset,
+    }
+  ),
+);

@@ -20,7 +20,6 @@ import {
   getIsLoaded,
   getLoadTransactionListNextPageParams,
   getOrderBy,
-  getRegion,
   getRequestFilterOptions,
   getSettings,
   getSortOrder,
@@ -48,7 +47,6 @@ export default class JournalTransactionModule {
     return (
       <TransactionListView
         onSort={this.sortTransactionList}
-        onAddTransaction={this.redirectToAddTransaction}
         onUpdateFilters={this.updateFilterOptions}
         onUpdateMultiFilters={this.updateMultiFilterOptions}
         onApplyFilter={this.filterTransactionList}
@@ -228,14 +226,6 @@ export default class JournalTransactionModule {
       onSuccess,
       onFailure,
     });
-  };
-
-  redirectToAddTransaction = (transactionType) => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    window.location.href = `/#/${region}/${businessId}/${transactionType}/new`;
   };
 
   unsubscribeFromStore = () => {
