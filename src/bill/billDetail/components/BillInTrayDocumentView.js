@@ -1,16 +1,14 @@
-import { Card, Icons } from '@myob/myob-widgets';
+import { Button, Card, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInTrayDocumentFileUrl, getInTrayDocumentUploadedDate, getIntrayDocumentThumbnailUrl } from '../selectors/billSelectors';
-import LinkButton from '../../../components/Button/LinkButton';
+import { getInTrayDocumentUploadedDate, getIntrayDocumentThumbnailUrl } from '../selectors/billSelectors';
 import styles from './BillInTrayDocumentView.module.css';
 
 const BillInTrayDocumentView = ({
   inTrayDocumentThumbnailUrl,
   inTrayDocumentUploadedDate,
-  inTrayDocumentFileUrl,
-
+  toggleSplitView,
 }) => {
   const documentBody = (
     <Card.Body
@@ -22,13 +20,9 @@ const BillInTrayDocumentView = ({
           <div className={styles.pdf}>
             <div><strong>{`Document uploaded ${inTrayDocumentUploadedDate}`}</strong></div>
             <div>
-              <LinkButton
-                icon={<Icons.Show />}
-                href={inTrayDocumentFileUrl}
-                isOpenInNewTab
-              >
-                View
-              </LinkButton>
+              <Button onClick={toggleSplitView} type="link" icon={<Icons.Expand />}>
+                Open split view
+              </Button>
             </div>
           </div>
         </div>
@@ -38,13 +32,13 @@ const BillInTrayDocumentView = ({
 
   return (
     <Card
+      classes={[styles.card]}
       body={documentBody}
     />
   );
 };
 
 const mapStateToProps = state => ({
-  inTrayDocumentFileUrl: getInTrayDocumentFileUrl(state),
   inTrayDocumentThumbnailUrl: getIntrayDocumentThumbnailUrl(state),
   inTrayDocumentUploadedDate: getInTrayDocumentUploadedDate(state),
 });

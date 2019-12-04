@@ -216,3 +216,5 @@ export const getCreateSupplierContactModalContext = (state) => {
 
   return { businessId, region, contactType: 'Supplier' };
 };
+
+export const getShowSplitView = state => state.showSplitView;

@@ -1,0 +1,41 @@
+/* showDetail class add to MasterDetailLineItemTemplate when in the split view */
+
+/**
+  @FEELIX:
+    To make Line Item Table scrollable in the split view
+**/
+.showDetail :global(.line-item-table__inner) {
+  overflow-y: scroll;
+}
+
+/**
+  @FEELIX:
+    To make action buttons full width in the split view
+**/
+.showDetail :global(.flx-btn-row) {
+  display: block;
+}
+.showDetail :global(.flx-btn-row__primary-group),
+.showDetail :global(.flx-btn-row__secondary-group) {
+  flex: auto;
+  flex-direction: column;
+}
+.showDetail :global(.flx-btn-row__primary-group > *),
+.showDetail :global(.flx-btn-row__secondary-group > *) {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+  margin-left: 0;
+}
+.showDetail :global(.flx-btn-row__primary-group .btn-group .btn:first-child) {
+  width: 100%;
+}
+
+/**
+  @FEELIX:
+    To make sure there is gap between action buttons and master panel
+    As MasterDetailTemplate has removed the margin bottom for the card
+**/
+div.card:global.flx-card {
+  margin-bottom: 0.8rem;
+}

@@ -6,10 +6,6 @@
   white-space: pre-line;
 }
 
-.checkbox {
-  margin-top: 2rem;
-}
-
 /*
   Long labels cause undesirable wrapping with the Feelix DetailHeader on desktop.
   To thix this, we just increase the width.

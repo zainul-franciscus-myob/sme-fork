@@ -35,3 +35,7 @@
   max-width: var(--thumbnail-img-size);
   max-height: var(--thumbnail-img-size);
 }
+
+div.card:global.flx-card {
+  margin-bottom: 0.8rem;
+}

@@ -702,6 +702,10 @@ class BillModule {
     });
   }
 
+  toggleSplitView = () => {
+    this.dispatcher.toggleSplitView();
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
@@ -743,6 +747,7 @@ class BillModule {
           }}
           contactModal={contactModal}
           onAddSupplierButtonClick={this.openSupplierModal}
+          toggleSplitView={this.toggleSplitView}
         />
       </Provider>
     );

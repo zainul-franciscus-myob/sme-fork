@@ -1,6 +1,3 @@
-import {
-  BaseTemplate, Card, Separator,
-} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -10,15 +7,19 @@ import {
   getIsLoading,
   getIsModalShown,
   getLayout,
+  getShowSplitView,
 } from '../selectors/billSelectors';
 import BillActions from './BillActions';
 import BillAlert from './BillAlert';
+import BillDocumentViewer from './BillDocumentViewer';
 import BillHeader from './BillHeader';
 import BillInTrayDocumentView from './BillInTrayDocumentView';
 import BillItemTable from './BillItemTable';
 import BillModal from './BillModal';
-import BillOptions from './BillOptions';
+import BillPrimaryOptions from './BillPrimaryOptions';
+import BillSecondaryOptions from './BillSecondaryOptions';
 import BillServiceTable from './BillServiceTable';
+import MasterDetailLineItemTemplate from '../../../components/MasterDetailLineItemTemplate/MasterDetailLineItemTemplate';
 import PageView from '../../../components/PageView/PageView';
 
 const BillView = ({
@@ -27,6 +28,7 @@ const BillView = ({
   hasInTrayDocument,
   isAlertShown,
   isModalShown,
+  isSplitViewShown,
   isLoading,
   layout,
   inventoryModal,
@@ -55,6 +57,7 @@ const BillView = ({
   exportPdfModalListeners,
   onAddItemButtonClick,
   onAddSupplierButtonClick,
+  toggleSplitView,
 }) => {
   const table = {
     item: (
@@ -81,15 +84,21 @@ const BillView = ({
     ),
   }[layout];
 
-  const view = (
-    <BaseTemplate
-      stickyHeaderChildren={(
-        <div>
-          {isAlertShown && <BillAlert onDismissAlert={onDismissAlert} />}
-          <BillHeader />
-        </div>
-)}
-    >
+  const stickyHeader = (
+    <div>
+      {isAlertShown && <BillAlert onDismissAlert={onDismissAlert} />}
+      <BillHeader />
+    </div>
+  );
+
+  const detail = hasInTrayDocument && <BillDocumentViewer toggleSplitView={toggleSplitView} />;
+
+  const inTrayDocument = hasInTrayDocument && !isSplitViewShown && (
+    <BillInTrayDocumentView toggleSplitView={toggleSplitView} />
+  );
+
+  const subHeaderChildren = (
+    <div>
       {inventoryModal}
       {accountModal}
       {contactModal}
@@ -107,25 +116,36 @@ const BillView = ({
           exportPdfModalListeners={exportPdfModalListeners}
         />
       )}
+      {inTrayDocument}
+    </div>
+  );
 
-
-      {hasInTrayDocument && <BillInTrayDocumentView />}
-      <Card>
-        <BillOptions
+  const view = (
+    <MasterDetailLineItemTemplate
+      primaryOptions={(
+        <BillPrimaryOptions
           onUpdateBillOption={onUpdateBillOption}
           onAddSupplierButtonClick={onAddSupplierButtonClick}
         />
-        <Separator />
-        {table}
-      </Card>
-      <BillActions
-        onSaveButtonClick={onSaveButtonClick}
-        onSaveAndButtonClick={onSaveAndButtonClick}
-        onCancelButtonClick={onCancelButtonClick}
-        onDeleteButtonClick={onDeleteButtonClick}
-        onExportPdfButtonClick={onExportPdfButtonClick}
-      />
-    </BaseTemplate>
+      )}
+      secondaryOptions={
+        <BillSecondaryOptions onUpdateBillOption={onUpdateBillOption} />
+      }
+      table={table}
+      actions={(
+        <BillActions
+          onSaveButtonClick={onSaveButtonClick}
+          onSaveAndButtonClick={onSaveAndButtonClick}
+          onCancelButtonClick={onCancelButtonClick}
+          onDeleteButtonClick={onDeleteButtonClick}
+          onExportPdfButtonClick={onExportPdfButtonClick}
+        />
+      )}
+      subHeadChildren={subHeaderChildren}
+      detail={detail}
+      pageHead={stickyHeader}
+      showDetail={isSplitViewShown}
+    />
   );
 
   return (
@@ -142,6 +162,7 @@ const mapStateToProps = state => ({
   isAlertShown: getIsAlertShown(state),
   isLoading: getIsLoading(state),
   layout: getLayout(state),
+  isSplitViewShown: getShowSplitView(state),
 });
 
 export default connect(mapStateToProps)(BillView);

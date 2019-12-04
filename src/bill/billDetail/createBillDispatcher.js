@@ -28,6 +28,7 @@ import {
   STOP_MODAL_BLOCKING,
   STOP_PENDING_CALCULATION,
   STOP_SUPPLIER_BLOCKING,
+  TOGGLE_SPLIT_VIEW,
   UPDATE_BILL_ID,
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
@@ -267,6 +268,12 @@ const createBillDispatcher = store => ({
     store.dispatch({
       intent: LOAD_ITEM_OPTION,
       response,
+    });
+  },
+
+  toggleSplitView: () => {
+    store.dispatch({
+      intent: TOGGLE_SPLIT_VIEW,
     });
   },
 });

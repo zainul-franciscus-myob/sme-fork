@@ -48,3 +48,5 @@ export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');
 
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
 export const SET_ACCOUNT_LOADING_STATE = Symbol('Set account loading state');
+
+export const TOGGLE_SPLIT_VIEW = Symbol('Toggle split view');

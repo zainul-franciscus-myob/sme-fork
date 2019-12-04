@@ -28,6 +28,7 @@ import {
   STOP_MODAL_BLOCKING,
   STOP_PENDING_CALCULATION,
   STOP_SUPPLIER_BLOCKING,
+  TOGGLE_SPLIT_VIEW,
   UPDATE_BILL_ID,
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
@@ -114,6 +115,7 @@ const getDefaultState = () => ({
     templateOptions: [],
     template: '',
   },
+  showSplitView: false,
 });
 
 const loadBill = (state, action) => {
@@ -461,6 +463,11 @@ export const setAccountLoadingState = (state, { isAccountLoading }) => (
   { ...state, isAccountLoading }
 );
 
+export const toggleSplitView = state => ({
+  ...state,
+  showSplitView: !state.showSplitView,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -498,6 +505,7 @@ const handlers = {
   [LOAD_ITEM_OPTION]: loadItemOption,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
+  [TOGGLE_SPLIT_VIEW]: toggleSplitView,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);
