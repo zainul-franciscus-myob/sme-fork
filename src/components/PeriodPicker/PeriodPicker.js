@@ -42,13 +42,13 @@ const PeriodPicker = ({
         ))}
       </Select>
       <DatePicker
-        label="From"
+        label="Date from"
         name="dateFrom"
         value={dateFrom}
         onSelect={onDateChange('dateFrom')}
       />
       <DatePicker
-        label="To"
+        label="Date to"
         name="dateTo"
         value={dateTo}
         onSelect={onDateChange('dateTo')}

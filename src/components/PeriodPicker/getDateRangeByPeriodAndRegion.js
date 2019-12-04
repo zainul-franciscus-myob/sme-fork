@@ -105,7 +105,7 @@ const getLastFinancialYear = (date, region) => (
 const getLastMonth = date => (
   {
     dateFrom: startOfMonth(subMonths(date, 1)),
-    dateTo: startOfMonth(subMonths(date, 1)),
+    dateTo: endOfMonth(subMonths(date, 1)),
   }
 );
 

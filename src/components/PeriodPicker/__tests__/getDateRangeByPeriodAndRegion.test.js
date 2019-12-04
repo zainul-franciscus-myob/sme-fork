@@ -181,6 +181,14 @@ describe('getDateRangeByPeriodAndRegion', () => {
           expect(lastMonth.dateFrom).toBe('2019-01-01');
         });
       });
+      describe('dateTo', () => {
+        it('should be Jan 31 if in Feb', () => {
+          const getPeriodOptionsById = getPeriodOptionByIdAu(new Date('2019-02-28'));
+
+          const lastMonth = getPeriodOptionsById(Periods.lastMonth);
+          expect(lastMonth.dateTo).toBe('2019-01-31');
+        });
+      });
     });
   });
   describe('nz', () => {
