@@ -3,8 +3,8 @@
   "AUTHENTICATION_WEB_CLIENT_ID": "sme-web",
   "AUTHENTICATION_BFF_CLIENT_ID": "sme-web-bff",
   "BFF_BASE_URL": "http://localhost:5000",
-  "MANAGE_BANK_FEEDS_BASE_URL": "https://my.myob.com/pages/bankfeedsAdministrationRedirector.aspx",
   "MY_REPORTS_URL": "https://d89ua7au1ez9y.cloudfront.net",
+  "MANAGE_BANK_FEEDS_BASE_URL": "https://my.myob.com/pages/bankfeedsAdministrationRedirector.aspx",
   "SEGMENT_WRITE_KEY" : "",
   "LEAN_ENGAGE_APP_ID" : ""
 }
