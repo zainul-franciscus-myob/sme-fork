@@ -31,11 +31,15 @@ const getGoogleAnalyticsClientId = () => {
   }
 };
 
-const identifyUser = (currentUserId) => {
+const identifyUser = (currentUserId, currentBusinessId, { businessId }) => {
   const user = getUser();
-  if (user && currentUserId !== user.userId) {
-    window.analytics.identify(user.userId);
-    return user.userId;
+  if (user) {
+    const userChanged = currentUserId !== user.userId;
+    const businessChanged = currentBusinessId !== businessId;
+    if (userChanged || businessChanged) {
+      window.analytics.identify(user.userId, { businessId });
+      return user.userId;
+    }
   }
   return currentUserId;
 };
@@ -97,7 +101,7 @@ const initializeHttpTelemetry = (segmentWriteKey) => {
 
   return ({ currentRouteName, routeParams }) => {
     if (window.analytics) {
-      userId = identifyUser(userId);
+      userId = identifyUser(userId, businessId, routeParams);
       businessId = associateUserWithGroup(businessId, routeParams);
       recordPageVisit(currentRouteName, userId, businessId);
     }

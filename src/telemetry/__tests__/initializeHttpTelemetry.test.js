@@ -79,8 +79,8 @@ describe('Telemetry', () => {
 
     it('identifies the user', () => {
       telemetry(route);
-      expect(identifyMock.mock.calls.length).toBe(1);
-      expect(identifyMock.mock.calls[0]).toEqual(['mockuserId']);
+      expect(identifyMock).toHaveBeenCalledTimes(1);
+      expect(identifyMock).toBeCalledWith('mockuserId', { businessId: 'a-business-id' });
     });
 
     it('should call group', () => {
@@ -99,6 +99,16 @@ describe('Telemetry', () => {
       telemetry(route);
       telemetry(route);
       expect(identifyMock.mock.calls.length).toBe(1);
+    });
+
+    it('identifies again when business id changes', () => {
+      telemetry(route);
+      telemetry({
+        ...route,
+        routeParams: { ...routeParams, businessId: 'new-business-id' },
+      });
+      expect(identifyMock).toHaveBeenCalledTimes(2);
+      expect(identifyMock).toHaveBeenLastCalledWith('mockuserId', { businessId: 'new-business-id' });
     });
   });
 });
