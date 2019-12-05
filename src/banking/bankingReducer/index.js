@@ -124,8 +124,10 @@ import {
   updatePaymentAllocationLine,
   updatePaymentAllocationOptions,
 } from './paymentAllocationHandler';
+import TransactionTypes from '../TransactionTypes';
 import bankingRuleHandlers from '../bankingRule/bankingRuleReducers';
 import createReducer from '../../store/createReducer';
+import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 import getDefaultState from './getDefaultState';
 import wrapHandlers from '../../store/wrapHandlers';
 
@@ -136,7 +138,6 @@ const loadBankTransactions = (state, action) => ({
   bankAccounts: action.bankAccounts,
   withdrawalAccounts: action.withdrawalAccounts,
   depositAccounts: action.depositAccounts,
-  transactionTypes: action.transactionTypes,
   transferAccounts: action.transferAccounts,
   bulkAllocationAccounts: action.bulkAllocationAccounts,
   balances: action.balances,
@@ -154,12 +155,10 @@ const loadBankTransactions = (state, action) => ({
   filterOptions: {
     ...state.filterOptions,
     bankAccount: action.bankAccount,
-    transactionType: action.transactionType,
   },
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
     bankAccount: action.bankAccount,
-    transactionType: action.transactionType,
   },
 });
 
@@ -195,10 +194,47 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const setInitialState = (state, action) => ({
-  ...state,
-  ...action.context,
-});
+const getTransactionType = transactionType => (transactionType === 'Linked'
+  ? TransactionTypes.ALLOCATED
+  : TransactionTypes.UNALLOCATED);
+
+const setDate = (date, dateInState) => {
+  const dateObject = new Date(date);
+  return Number.isNaN(dateObject.getDate()) ? dateInState : formatIsoDate(dateObject);
+};
+
+const setInitialState = (state, action) => {
+  const transactionType = getTransactionType(action.context.transactionType);
+
+  const dates = transactionType === TransactionTypes.ALLOCATED ? {
+    dateFrom: setDate(action.context.dateFrom, state.filterOptions.dateFrom),
+    dateTo: setDate(action.context.dateTo, state.filterOptions.dateTo),
+  } : {};
+
+  const filterOptions = {
+    ...state.filterOptions,
+    ...dates,
+    transactionType,
+  };
+
+  const appliedDates = transactionType === TransactionTypes.ALLOCATED ? {
+    dateFrom: setDate(action.context.dateFrom, state.appliedFilterOptions.dateFrom),
+    dateTo: setDate(action.context.dateTo, state.appliedFilterOptions.dateTo),
+  } : {};
+
+  const appliedFilterOptions = {
+    ...state.appliedFilterOptions,
+    ...appliedDates,
+    transactionType,
+  };
+
+  return {
+    ...state,
+    ...action.context,
+    filterOptions,
+    appliedFilterOptions,
+  };
+};
 
 export const openModal = (state, action) => ({
   ...state,

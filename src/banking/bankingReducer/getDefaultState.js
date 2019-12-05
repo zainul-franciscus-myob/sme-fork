@@ -2,6 +2,7 @@ import { addMonths } from 'date-fns';
 
 import { getDefaultOpenPosition } from '../bankingSelectors';
 import { tabIds } from '../tabItems';
+import TransactionTypes from '../TransactionTypes';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 import getBankingRuleDefaultState from '../bankingRule/bankingRuleReducers/getDefaultState';
 
@@ -23,27 +24,36 @@ const getDefaultState = () => ({
     balanceTooltip: '',
   },
   bankAccounts: [],
-  transactionTypes: [],
+  transactionTypes: [
+    {
+      name: 'Unallocated',
+      value: TransactionTypes.UNALLOCATED,
+    },
+    {
+      name: 'Allocated',
+      value: TransactionTypes.ALLOCATED,
+    },
+  ],
   contacts: [],
   suppliers: [],
   customers: [],
   taxCodes: [],
   filterOptions: {
-    transactionType: 'All',
+    transactionType: TransactionTypes.UNALLOCATED,
     bankAccount: '',
     dateFrom: formatIsoDate(getDefaultDateRange()),
     dateTo: formatIsoDate(new Date()),
     keywords: '',
   },
   appliedFilterOptions: {
-    transactionType: 'All',
+    transactionType: TransactionTypes.UNALLOCATED,
     bankAccount: '',
     dateFrom: formatIsoDate(getDefaultDateRange()),
     dateTo: formatIsoDate(new Date()),
     keywords: '',
   },
-  orderBy: '',
-  sortOrder: '',
+  orderBy: 'Date',
+  sortOrder: 'desc',
   alert: undefined,
   isLoading: true,
   isTableLoading: false,

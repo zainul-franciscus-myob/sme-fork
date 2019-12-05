@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { businessEventTypes } from '../businessEventTypes';
 import { tabIds } from '../tabItems';
+import TransactionTypes from '../TransactionTypes';
 import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 import getRegionToDialectText from '../../dialect/getRegionToDialectText';
 
@@ -70,7 +71,9 @@ export const getBankEntryByIndexSelector = () => createSelector(
   },
 );
 
-const getIsTransactionTypeApproved = state => state.filterOptions.transactionType === 'Approved';
+const getIsTransactionTypeApproved = state => (
+  state.filterOptions.transactionType === TransactionTypes.ALLOCATED
+);
 
 export const getShouldDisplayDateRange = state => getIsTransactionTypeApproved(state);
 

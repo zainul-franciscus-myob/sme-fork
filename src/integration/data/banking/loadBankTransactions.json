@@ -132,17 +132,6 @@
     }
   ],
   "bankAccount": "123",
-  "transactionType": "CurrentTransactions",
-  "transactionTypes": [
-    {
-      "name": "Unallocated",
-      "value": "CurrentTransactions"
-    },
-    {
-      "name": "Allocated",
-      "value": "Approved"
-    }
-  ],
   "contacts": [
     {
       "contactType": "Supplier",
