@@ -3,6 +3,7 @@ import {
   DetailHeader,
   FormHorizontal,
   Input,
+  Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -69,10 +70,11 @@ const ElectronicPaymentsCreateDetailHeader = ({
       />
       <Input
         name="bankStatementDescription"
-        label="Description of your bank statement"
+        label="Description"
         requiredLabel="This field is required"
         value={bankStatementDescription}
         onChange={handleInputChange(onInputChange)}
+        labelAccessory={<Tooltip>Description on your bank statement</Tooltip>}
       />
     </div>
   );

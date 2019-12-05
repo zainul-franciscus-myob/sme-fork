@@ -84,7 +84,7 @@ const ElectronicPaymentsTable = ({
       <Table.RowItem columnName="Reference number">
         <Button
           type="link"
-          onClick={() => { onReferenceNumberClick(row.referenceNumber, row.name); }}
+          onClick={() => { onReferenceNumberClick(row.businessEventId, row.name); }}
         >
           {row.referenceNumber}
         </Button>

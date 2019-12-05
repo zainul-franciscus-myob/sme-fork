@@ -48,11 +48,10 @@ const downloadAsFile = (content, filename) => {
    * Unfortunately this is the only method which would allow both the file to be downloaded
    * without user intervention and for the filename to be controlled.
    */
-  const base64EncodedContent = btoa(content);
-  const dataURL = `data:application/octet-stream;charset=utf-8;base64,${base64EncodedContent}`;
+  const blob = new Blob([content], { type: 'text/plain' });
 
   openBlob({
-    blob: dataURL,
+    blob,
     filename,
     shouldDownload: true,
   });
@@ -235,7 +234,7 @@ export default class ElectronicPaymentsModule {
         type: 'success',
         message: response.message,
       });
-      this.filterElectronicPayments();
+      this.loadAccountsAndElectronicPayments();
     };
 
     const onFailure = ({ message }) => {

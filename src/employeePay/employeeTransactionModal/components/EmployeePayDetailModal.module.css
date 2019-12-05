@@ -10,12 +10,12 @@
 }
 
 .successTextColor {
-  color: var(--flx-color-alert-success-link)
+  color: var(--flx-color-alert-success-link);
 }
 
 .footerStyle {
-  background: #F3F4F5;
-  border-top: 1px solid #DCDFE1;
+  background: #f3f4f5;
+  border-top: 1px solid #dcdfe1;
   padding: 16px;
 }
 

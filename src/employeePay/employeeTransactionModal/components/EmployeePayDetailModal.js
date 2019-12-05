@@ -19,7 +19,7 @@ import {
 import DeleteButtonWithPopover from './DeleteButtonWithPopover';
 import EmployeePayDetailModalTable from './EmployeePayDetailModalTable';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
-import style from '../EmployeeTransactionModal.module.css';
+import style from './EmployeePayDetailModal.module.css';
 
 const EmployeePayDetailModal = ({
   onBackButtonClick,
