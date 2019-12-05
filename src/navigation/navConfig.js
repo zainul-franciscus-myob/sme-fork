@@ -109,7 +109,12 @@ export const featuresConfig = {
   contactList: { routeName: 'contact/contactList' },
   contactCreate: { routeName: 'contact/contactDetail', params: { contactId: 'new' } },
 
-  reports: { routeName: 'reports' },
+  reportsStandard: { routeName: 'reportsStandard', params: { type: 'standardReports' } },
+  reportsFavourite: { routeName: 'reportsFavourite', params: { type: 'favouriteReports' } },
+  reportsCustom: { routeName: 'reportsCustom', params: { type: 'customReports' } },
+  reportsException: { routeName: 'reportsException', params: { type: 'exceptionsReports' } },
+  reportsPackBuilder: { routeName: 'reportsPackBuilder', params: { type: 'reportPackBuilder' } },
+  reportsPdfStyleTemplates: { routeName: 'reportsPdfStyleTemplates' },
 
   inTrayList: { routeName: 'inTray/inTray' },
 
@@ -123,3 +128,12 @@ export const featuresConfig = {
   subscriptions: { routeName: '' },
   paymentDetails: { routeName: '' },
 };
+
+export const reportsMenuItems = [
+  'reportsStandard',
+  'reportsFavourite',
+  'reportsCustom',
+  'reportsException',
+  'reportsPackBuilder',
+  'reportsPdfStyleTemplates',
+];

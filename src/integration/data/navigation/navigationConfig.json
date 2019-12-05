@@ -47,7 +47,12 @@
     "contactList",
     "contactCreate",
 
-    "reports",
+    "reportsStandard",
+    "reportsFavourite",
+    "reportsCustom",
+    "reportsException",
+    "reportsPackBuilder",
+    "reportsPdfStyleTemplates",
 
     "inTrayList",
 

@@ -196,8 +196,21 @@ export const getInTrayUrl = state => getEnabledUrls(state).inTrayList;
 export const getIsInTrayActive = state => getActiveNav(state) === 'inTray';
 export const hasInTrayUrl = state => Boolean(getInTrayUrl(state));
 
-export const getReportsUrl = state => getEnabledUrls(state).reports;
-export const hasReportsUrl = state => Boolean(getReportsUrl(state));
+export const getReportsUrls = createSelector(
+  getEnabledUrls,
+  enabledUrls => ({
+    reportsStandard: enabledUrls.reportsStandard,
+    reportsFavourite: enabledUrls.reportsFavourite,
+    reportsCustom: enabledUrls.reportsCustom,
+    reportsException: enabledUrls.reportsException,
+    reportsPackBuilder: enabledUrls.reportsPackBuilder,
+    reportsPdfStyleTemplates: enabledUrls.reportsPdfStyleTemplates,
+  }),
+);
+export const hasReportsUrls = createSelector(
+  getReportsUrls,
+  urls => Object.values(urls).some(Boolean),
+);
 
 export const getBusinessAbbreviation = createSelector(
   getBusinessName,
