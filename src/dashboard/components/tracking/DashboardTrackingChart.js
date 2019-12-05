@@ -14,16 +14,21 @@ import { getChart } from '../../selectors/DashboardTrackingSelectors';
 const incomeLineColor = flxPaletteDusk100;
 const expenseLineColor = flxPaletteDusk70;
 const profitLineColor = flxPaletteBerry;
-const dataSetOptions = {
+
+const getDataSetOptions = color => ({
   fill: false,
   borderWidth: 3,
   lineTension: 0,
   spanGaps: true,
   borderCapStyle: 'round',
   borderJoinStyle: 'round',
-  pointHoverBorderWidth: 3,
-  pointHoverBackgroundColor: flxPaletteWhite,
-};
+  borderColor: color,
+  pointRadius: 5,
+  pointBackgroundColor: color,
+  pointHoverRadius: 10,
+  pointHoverBorderColor: color,
+  pointHoverBackgroundColor: color,
+});
 
 const getData = ({
   incomeData, expenseData, profitData, labels,
@@ -31,28 +36,22 @@ const getData = ({
   labels,
   datasets: [
     {
-      ...dataSetOptions,
+      ...getDataSetOptions(incomeLineColor),
       label: 'Income',
-      borderColor: incomeLineColor,
-      pointHoverBorderColor: incomeLineColor,
       data: incomeData,
       xAxisID: 'line-x-axis-1',
     },
     {
-      ...dataSetOptions,
+      ...getDataSetOptions(expenseLineColor),
       label: 'Expense',
       data: expenseData,
-      borderColor: expenseLineColor,
-      pointHoverBorderColor: expenseLineColor,
       xAxisID: 'line-x-axis-1',
     },
     {
-      ...dataSetOptions,
+      ...getDataSetOptions(profitLineColor),
       label: 'Net profit',
       data: profitData,
       borderWidth: 2,
-      borderColor: profitLineColor,
-      pointHoverBorderColor: profitLineColor,
       borderDash: [5, 5],
       xAxisID: 'line-x-axis-1',
     },
@@ -89,7 +88,7 @@ const getOptions = data => ({
           padding: 8,
           maxTicksLimit: 6,
           callback: (value) => {
-            const kValue = value / 100;
+            const kValue = value / 1000;
 
             return `${kValue}k`;
           },
@@ -102,11 +101,6 @@ const getOptions = data => ({
   },
   legend: {
     display: false,
-  },
-  elements: {
-    point: {
-      radius: 0,
-    },
   },
   tooltips: {
     displayColors: false,
