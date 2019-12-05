@@ -281,7 +281,7 @@ const createDecoratedHttpIntegration = (initOptions) => {
     write: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
       .then(httpIntegration.write(options)),
     writeFormData: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
-      .then(httpIntegration.write(options)),
+      .then(httpIntegration.writeFormData(options)),
     writeManyFormData: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
       .then(httpIntegration.writeManyFormData(options)),
   };
