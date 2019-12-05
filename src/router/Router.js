@@ -83,5 +83,7 @@ export default class Router {
     this.router.start();
   }
 
+  routeParams = () => this.router.getState().params;
+
   constructPath = (name, params) => this.router.buildPath(name, params)
 }

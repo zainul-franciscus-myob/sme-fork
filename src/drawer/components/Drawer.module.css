@@ -1,4 +1,7 @@
 .drawer {
+  position: absolute;
+  z-index: var(--flx-zindex-popover);
+
   --drawer-width: 100%;
 
   /*
@@ -8,7 +11,6 @@
   --animate-drawer-offset: -100%;
   --drawer-transition-length: 500ms;
 
-  position: fixed;
   height: 100vh;
   width: var(--drawer-width);
   margin-left: var(--animate-drawer-offset);
@@ -63,8 +65,5 @@
 }
 
 @media (min-width: 1600px) {
-  .drawer {
-    box-shadow: none;
-    position: relative;
-  }
+  .drawer { box-shadow: none; }
 }

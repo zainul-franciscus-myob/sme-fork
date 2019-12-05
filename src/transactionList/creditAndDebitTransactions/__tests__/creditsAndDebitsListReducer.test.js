@@ -6,7 +6,13 @@ import getDateRangeByPeriodAndRegion from '../../../components/PeriodPicker/getD
 import getDefaultState from '../getDefaultState';
 import reducerHandlers from '../creditsAndDebitsListReducer';
 
+jest.mock('../../../components/PeriodPicker/getDateRangeByPeriodAndRegion');
+
 describe('creditsAndDebitsListReducer', () => {
+  getDateRangeByPeriodAndRegion.mockReturnValue({
+    dateFrom: '2019-11-01',
+    dateTo: '2019-11-30',
+  });
   const creditsAndDebitsListReducer = createReducer(getDefaultState(), reducerHandlers);
 
   const { dateFrom, dateTo } = getDateRangeByPeriodAndRegion('au', new Date(), Periods.thisMonth);

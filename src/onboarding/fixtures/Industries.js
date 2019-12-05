@@ -1,0 +1,25 @@
+const Industries = [
+  { industry: 'Accommodation' },
+  { industry: 'Accounting and tax services' },
+  { industry: 'Administrative and support services' },
+  { industry: 'Agriculture and farming' },
+  { industry: 'Arts, entertainment and recreation services' },
+  { industry: 'Education and training' },
+  { industry: 'Electricity, gas, water and waste services' },
+  { industry: 'Financial and insurance services' },
+  { industry: 'Food, beverage and hospitality' },
+  { industry: 'Health care and social services' },
+  { industry: 'Information media and telecommunications' },
+  { industry: 'Manufacturing' },
+  { industry: 'Professional services' },
+  { industry: 'Rental, hiring and real estate services' },
+  { industry: 'Repair and maintenance' },
+  { industry: 'Retail' },
+  { industry: 'Scientific and technical services' },
+  { industry: 'Trades and construction' },
+  { industry: 'Transport, postal and warehousing' },
+  { industry: 'Wholesale trade' },
+  { industry: 'Other' },
+];
+
+export default Industries;

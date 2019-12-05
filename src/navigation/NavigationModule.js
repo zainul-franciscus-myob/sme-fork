@@ -15,7 +15,6 @@ export default class NavigationModule {
     setNavigationView,
     constructPath,
     replaceURLParamsAndReload,
-    mainContentElement,
     toggleHelp,
   }) {
     this.integration = integration;
@@ -23,17 +22,17 @@ export default class NavigationModule {
     this.constructPath = constructPath;
     this.store = new Store(navReducer);
     this.replaceURLParamsAndReload = replaceURLParamsAndReload;
-    this.mainContentElement = mainContentElement;
     this.onPageTransition = undefined;
     this.toggleHelp = toggleHelp;
     this.reportsBaseUrl = Config.MY_REPORTS_URL;
   }
 
   moveFocusToMainContent = () => {
-    this.mainContentElement.setAttribute('tabindex', '-1');
-    this.mainContentElement.focus();
-    this.mainContentElement.blur();
-    this.mainContentElement.removeAttribute('tabindex');
+    const mainElement = document.getElementById('main');
+    mainElement.setAttribute('tabindex', '-1');
+    mainElement.focus();
+    mainElement.blur();
+    mainElement.removeAttribute('tabindex');
   }
 
   loadBusinessInfo = ({ currentRouteName }) => {
@@ -105,23 +104,21 @@ export default class NavigationModule {
   }
 
   render = () => {
-    const view = (
-      <NavigationBar
-        constructPath={this.constructPath}
-        onSkipToMainContentClick={this.moveFocusToMainContent}
-        onMenuSelect={this.redirectToPage}
-        onMenuLinkClick={this.onPageTransition}
-        onHelpLinkClick={this.toggleHelp}
-      />
-    );
+    const {
+      constructPath, redirectToPage, onPageTransition, toggleHelp, store, moveFocusToMainContent,
+    } = this;
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
+    return (
+      <Provider store={store}>
+        <NavigationBar
+          constructPath={constructPath}
+          onMenuSelect={redirectToPage}
+          onMenuLinkClick={onPageTransition}
+          onHelpLinkClick={toggleHelp}
+          onSkipToMainContentClick={moveFocusToMainContent}
+        />
       </Provider>
     );
-
-    this.setNavigationView(wrappedView);
   }
 
   setOnPageTransition = (onPageTransition) => {
@@ -138,6 +135,5 @@ export default class NavigationModule {
       this.loadBusinessInfo({ currentRouteName });
     }
     this.setOnPageTransition(onPageTransition);
-    this.render();
   }
 }

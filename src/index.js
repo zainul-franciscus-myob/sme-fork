@@ -5,9 +5,8 @@ import ReactDOM from 'react-dom';
 
 import { initializeAuth } from './Auth';
 import Config, { initializeConfig } from './Config';
-import DrawerModule from './drawer/DrawerModule';
 import Inbox from './inbox';
-import NavigationModule from './navigation/NavigationModule';
+import RootModule from './root/rootModule';
 import Router from './router/Router';
 import getRoutes from './getRoutes';
 import stopResizeAnimation from './stopResizeAnimation';
@@ -19,30 +18,24 @@ async function main(integrationType, telemetryType, leanEngageType) {
   stopResizeAnimation();
 
   const createIntegration = (await import(`./integration/create${integrationType}Integration.js`)).default;
-  const root = document.getElementById('root');
-  const setRootView = (component) => {
-    ReactDOM.unmountComponentAtNode(root);
-    ReactDOM.render(component, root);
-  };
-
-  const navNode = document.getElementById('nav');
-  const setNavigationView = (component) => {
-    ReactDOM.unmountComponentAtNode(navNode);
-    ReactDOM.render(component, navNode);
-  };
-
-  const drawerNode = document.getElementById('drawer');
-  const setDrawerView = (component) => {
-    ReactDOM.unmountComponentAtNode(drawerNode);
-    ReactDOM.render(component, drawerNode);
-  };
+  const integration = createIntegration();
 
   const router = new Router({
     defaultRoute: 'businessList/businessList',
   });
   const inbox = new Inbox();
 
-  const integration = createIntegration();
+  const rootModule = new RootModule({
+    integration,
+    router,
+  });
+
+  const root = document.getElementById('root');
+
+  const setRootView = (component) => {
+    ReactDOM.unmountComponentAtNode(root);
+    ReactDOM.render(rootModule.render(component), root);
+  };
 
   const routes = getRoutes({
     integration,
@@ -57,22 +50,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
     const routeModules = route.subRoutes.map(({ module }) => module);
     return [...acc, ...routeModules];
   }, []);
-
-  const { constructPath, replaceURLParamsAndReload } = router;
-
-  const drawerModule = new DrawerModule({
-    integration,
-    setDrawerView,
-  });
-
-  const navigationModule = new NavigationModule({
-    integration,
-    setNavigationView,
-    constructPath,
-    replaceURLParamsAndReload,
-    mainContentElement: root,
-    toggleHelp: drawerModule.toggleDrawer,
-  });
 
   const unsubscribeAllModulesFromStore = () => {
     moduleList.forEach((module) => {
@@ -89,12 +66,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     unbindAllKeys();
     unsubscribeAllModulesFromStore();
     module.resetState();
-    drawerModule.run(routeProps);
-    navigationModule.run({
-      ...routeProps,
-      onPageTransition: module.handlePageTransition,
-      toggleHelp: drawerModule.toggleDrawer,
-    });
+    rootModule.run(routeProps, module.handlePageTransition);
     telemetry(routeProps);
     startLeanEngage(routeProps);
   };

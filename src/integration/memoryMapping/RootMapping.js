@@ -48,6 +48,7 @@ import QuoteMapping from './QuoteMapping';
 import ReceiveMoneyMapping from './ReceiveMoneyMapping';
 import ReceiveRefundMapping from './ReceiveRefundMapping';
 import SalesSettingsMapping from './SalesSettingsMapping';
+import SettingMapping from './SettingMapping';
 import SpendMoneyMapping from './SpendMoneyMapping';
 import SuperFundMapping from './SuperFundMapping';
 import SuperPayItemMapping from './SuperPayItemMapping';
@@ -119,6 +120,7 @@ const RootMapping = Object.freeze({
   ...CustomerStatementMapping,
   ...EmployeePayMapping,
   ...CreditsAndDebitsListMapping,
+  ...SettingMapping,
 });
 
 export default RootMapping;

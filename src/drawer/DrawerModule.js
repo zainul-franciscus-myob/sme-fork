@@ -39,17 +39,16 @@ export default class DrawerModule {
   }
 
   render = () => {
-    const view = this.subModules.helpModule.getView();
+    const { store, subModules } = this;
+    const view = subModules.helpModule.getView();
 
-    const wrappedView = (
-      <Provider store={this.store}>
+    return (
+      <Provider store={store}>
         <Drawer>
-          {view}
+          { view }
         </Drawer>
       </Provider>
     );
-
-    this.setDrawerView(wrappedView);
   }
 
   handlers = {
