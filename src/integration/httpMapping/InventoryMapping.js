@@ -4,6 +4,7 @@ import {
   LOAD_INVENTORY_DETAIL,
   LOAD_ITEM_LIST,
   LOAD_NEW_INVENTORY_DETAIL,
+  LOAD_NEXT_PAGE,
   SORT_AND_FILTER_ITEM_LIST,
   UPDATE_INVENTORY_DETAIL,
 } from '../../inventory/InventoryIntents';
@@ -34,6 +35,10 @@ const InventoryMapping = {
     getPath: ({ businessId }) => `/${businessId}/inventory/load_item_list`,
   },
   [SORT_AND_FILTER_ITEM_LIST]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/inventory/filter_item_list`,
+  },
+  [LOAD_NEXT_PAGE]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/inventory/filter_item_list`,
   },

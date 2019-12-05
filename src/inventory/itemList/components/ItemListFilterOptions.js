@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getFilterOptions, getTypeOptions } from '../itemListSelectors';
-import styles from './ItemListView.module.css';
+import styles from './ItemListFilterOptions.module.css';
 
 class ItemListFilterOptions extends React.Component {
   onSelectChange = (e) => {

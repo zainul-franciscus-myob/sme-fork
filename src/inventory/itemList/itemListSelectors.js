@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import getRegionToDialectText from '../../dialect/getRegionToDialectText';
 
 export const getBusinessId = state => state.businessId;
@@ -69,4 +70,36 @@ export const getTypeOptions = createSelector(
     label: filter.name,
     value: filter.value,
   })),
+);
+
+export const getLoadMoreButtonStatus = (state) => {
+  const isLastPage = !state.pagination.hasNextPage;
+  const { isTableLoading } = state;
+
+  if (isLastPage || isTableLoading) {
+    return LoadMoreButtonStatuses.HIDDEN;
+  }
+
+  if (state.isNextPageLoading) {
+    return LoadMoreButtonStatuses.LOADING;
+  }
+
+  return LoadMoreButtonStatuses.SHOWN;
+};
+
+export const getOffset = state => state.pagination.offset;
+
+export const getLoadNextPageParams = createSelector(
+  getAppliedFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  getOffset,
+  (appliedFilterOptions, sortOrder, orderBy, offset) => (
+    {
+      ...appliedFilterOptions,
+      sortOrder,
+      orderBy,
+      offset,
+    }
+  ),
 );

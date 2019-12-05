@@ -3,8 +3,10 @@ import React from 'react';
 
 import {
   LOAD_ITEM_LIST,
+  LOAD_NEXT_PAGE,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_ITEM_LIST,
@@ -24,6 +26,7 @@ import {
   getFilterOptions,
   getFlipSortOrder,
   getIsFilteredList,
+  getLoadNextPageParams,
   getOrderBy,
   getRegion,
   getSortOrder,
@@ -55,6 +58,7 @@ export default class ItemListModule {
         onDismissAlert={this.dismissAlert}
         onSort={this.sortItemList}
         onCreateItem={this.createItem}
+        onLoadMoreButtonClick={this.loadNextPage}
       />
     );
 
@@ -84,8 +88,9 @@ export default class ItemListModule {
       });
     };
 
-    const onFailure = () => {
-      console.error('Failed to load item list entries');
+    const onFailure = ({ message }) => {
+      this.setTableLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
     };
 
     this.setLoadingState(true);
@@ -178,6 +183,50 @@ export default class ItemListModule {
       },
       onSuccess,
       onFailure,
+    });
+  };
+
+  loadNextPage = () => {
+    const state = this.store.getState();
+    this.setNextPageLoadingState(true);
+
+    const intent = LOAD_NEXT_PAGE;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    const params = getLoadNextPageParams(state);
+
+    const onSuccess = ({
+      entries, pagination,
+    }) => {
+      this.setNextPageLoadingState(false);
+      this.store.dispatch({
+        intent,
+        entries,
+        pagination,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setNextPageLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    this.integration.read({
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  setNextPageLoadingState = (isNextPageLoading) => {
+    const intent = SET_NEXT_PAGE_LOADING_STATE;
+    this.store.dispatch({
+      intent,
+      isNextPageLoading,
     });
   };
 

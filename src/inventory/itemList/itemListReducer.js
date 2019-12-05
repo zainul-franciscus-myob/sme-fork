@@ -1,7 +1,9 @@
 import {
   LOAD_ITEM_LIST,
+  LOAD_NEXT_PAGE,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_ITEM_LIST,
@@ -34,6 +36,8 @@ const getDefaultState = () => ({
   isTableLoading: false,
   businessId: '',
   region: '',
+  pagination: {},
+  isNextPageLoading: false,
 });
 
 const loadItemList = (state, action) => ({
@@ -49,6 +53,10 @@ const loadItemList = (state, action) => ({
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
     type: action.type,
+  },
+  pagination: {
+    hasNextPage: action.pagination.hasNextPage,
+    offset: action.pagination.offset,
   },
 });
 
@@ -69,6 +77,10 @@ const sortAndFilterItemList = (state, action) => ({
   isFilteredList: action.isFilteredList,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
   showHiddenColumns: state.filterOptions.showInactive,
+  pagination: {
+    hasNextPage: action.pagination.hasNextPage,
+    offset: action.pagination.offset,
+  },
 });
 
 const updateFilterOptions = (state, action) => ({
@@ -96,6 +108,28 @@ const setAlert = (state, action) => ({
 
 const resetState = () => (getDefaultState());
 
+const setNextPageLoadingState = (state, action) => ({
+  ...state,
+  isNextPageLoading: action.isNextPageLoading,
+});
+
+const loadNextPage = (state, action) => {
+  const filterUniqueEntries = action.entries.filter(
+    ({ id }) => state.entries.every(entry => entry.id !== id),
+  );
+  return ({
+    ...state,
+    entries: [
+      ...state.entries,
+      ...filterUniqueEntries,
+    ],
+    pagination: {
+      hasNextPage: action.pagination.hasNextPage,
+      offset: action.pagination.offset,
+    },
+  });
+};
+
 const handlers = {
   [LOAD_ITEM_LIST]: loadItemList,
   [SORT_AND_FILTER_ITEM_LIST]: sortAndFilterItemList,
@@ -106,6 +140,8 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [SET_ALERT]: setAlert,
+  [SET_NEXT_PAGE_LOADING_STATE]: setNextPageLoadingState,
+  [LOAD_NEXT_PAGE]: loadNextPage,
 };
 
 const itemListReducer = createReducer(getDefaultState(), handlers);

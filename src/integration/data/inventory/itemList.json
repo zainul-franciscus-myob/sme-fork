@@ -42,5 +42,9 @@
       "tax": "Included",
       "isActive": true
     }
-  ]
+  ],
+  "pagination": {
+    "offset": 3,
+    "hasNextPage": true
+  }
 }
