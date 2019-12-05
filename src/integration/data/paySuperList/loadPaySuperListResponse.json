@@ -1,0 +1,86 @@
+{
+  "isRegistered": true,
+  "superPayments": [
+    {
+      "amount": "88,888.88",
+      "batchPaymentId": "13861",
+      "dateOccurred": "24/02/2017",
+      "employeeCount": 3,
+      "displayId": "PS000001",
+      "description": "Superannuation Payment",
+      "status": "Created"
+    },
+    {
+      "amount": "88,888.88",
+      "batchPaymentId": "13862",
+      "dateOccurred": "24/02/2017",
+      "employeeCount": 3,
+      "displayId": "PS000001",
+      "description": "Superannuation Payment",
+      "status": "PartiallyAuthorised"
+    },
+    {
+      "amount": "88,888.88",
+      "batchPaymentId": "13863",
+      "dateOccurred": "24/02/2017",
+      "employeeCount": 3,
+      "displayId": "PS000001",
+      "description": "Superannuation Payment",
+      "status": "Authorised"
+    },
+    {
+      "amount": "88,888.88",
+      "batchPaymentId": "13864",
+      "dateOccurred": "24/02/2017",
+      "employeeCount": 3,
+      "displayId": "PS000001",
+      "description": "Superannuation Payment",
+      "status": "RequestFunds"
+    },
+    {
+      "amount": "88,888.88",
+      "batchPaymentId": "13865",
+      "dateOccurred": "24/02/2017",
+      "employeeCount": 3,
+      "displayId": "PS000001",
+      "description": "Superannuation Payment",
+      "status": "FundsPaid"
+    },
+    {
+      "amount": "88,888.88",
+      "batchPaymentId": "13866",
+      "dateOccurred": "24/02/2017",
+      "employeeCount": 3,
+      "displayId": "PS000001",
+      "description": "Superannuation Payment",
+      "status": "FundsUnavailable"
+    },
+    {
+      "amount": "88,888.88",
+      "batchPaymentId": "13867",
+      "dateOccurred": "24/02/2017",
+      "employeeCount": 3,
+      "displayId": "PS000001",
+      "description": "Superannuation Payment",
+      "status": "FundsTransferError"
+    },
+    {
+      "amount": "88,888.88",
+      "batchPaymentId": "13868",
+      "dateOccurred": "24/02/2017",
+      "employeeCount": 3,
+      "displayId": "PS000001",
+      "description": "Superannuation Payment",
+      "status": "Completed"
+    },
+    {
+      "amount": "88,888.88",
+      "batchPaymentId": "13869",
+      "dateOccurred": "24/02/2017",
+      "employeeCount": 3,
+      "displayId": "PS000001",
+      "description": "Superannuation Payment",
+      "status": "PaymentDispersmentError"
+    }
+  ]
+}

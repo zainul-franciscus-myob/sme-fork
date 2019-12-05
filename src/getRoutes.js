@@ -28,6 +28,7 @@ import getLogoutRoute from './logout/getLogoutRoute';
 import getPayItemRoutes from './payItem/getPayItemRoutes';
 import getPayRefundRoutes from './payRefund/getPayRefundRoutes';
 import getPayRunRoutes from './payRun/getPayRunRoutes';
+import getPaySuperRoutes from './paySuper/getPaySuperRoutes';
 import getPayrollSettingsRoutes from './payrollSettings/getPayrollSettingsRoutes';
 import getPermissionDeniedRoutes from './permissionDenied/getPermissionDeniedRoutes';
 import getPrepareBasOrIasRoutes from './prepareBasOrIas/getPrepareBasOrIasRoutes';
@@ -293,6 +294,13 @@ const getRoutes = ({
     rootPath: '/:region/:businessId/payRun',
     subRoutes: getPayRunRoutes({
       integration, setRootView, popMessages, pushMessage,
+    }),
+  },
+  {
+    name: 'paySuper',
+    rootPath: '/:region/:businessId/paySuper',
+    subRoutes: getPaySuperRoutes({
+      integration, setRootView, popMessages,
     }),
   },
   {
