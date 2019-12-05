@@ -89,7 +89,7 @@ const getOptions = data => ({
           padding: 8,
           maxTicksLimit: 6,
           callback: (value) => {
-            const kValue = value / 1000;
+            const kValue = value / 100;
 
             return `${kValue}k`;
           },

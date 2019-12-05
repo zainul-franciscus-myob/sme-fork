@@ -11,7 +11,7 @@ describe('DashboardTrackingSelectors', () => {
         isExpensesNegative: true,
         isProfitNegative: false,
         financialYearLabel: 'Current',
-        financialYearDisplay: 2019,
+        financialYearDisplay: '2019-2020',
       };
 
       const actual = getLegend.resultFunc(1, -1, 1, '2019-07-01', [{ name: 'Current', value: '2019-07-01' }]);

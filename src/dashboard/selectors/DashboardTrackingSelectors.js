@@ -1,5 +1,5 @@
+import { addYears, getYear } from 'date-fns';
 import { createSelector } from 'reselect';
-import { getYear } from 'date-fns';
 
 import { getBusinessId } from './DashboardSelectors';
 import formatCurrency from '../../common/valueFormatters/formatCurrency';
@@ -32,7 +32,9 @@ export const getLegend = createSelector(
     const financialYearOption = financialYearOptions
       .find(({ value }) => value === financialYear) || {};
     const { name: financialYearLabel } = financialYearOption;
-    const financialYearDisplay = getYear(new Date(financialYear));
+
+    const date = new Date(financialYear);
+    const financialYearDisplay = `${getYear(date)}-${getYear(addYears(date, 1))}`;
 
     return {
       incomeAmount: formatCurrency(incomeAmount),
