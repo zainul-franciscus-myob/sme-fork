@@ -1,11 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { getImportChartOfAccountsFile } from './DataImportExportSelectors';
-import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
-
-export const getLoadDataImportExportParams = () => ({
-  currentDate: formatIsoDate(new Date()),
-});
 
 const getDuplicateRecordsOptionValue = (state) => {
   const selectedAction = state.import.chartOfAccounts.duplicateRecordsOption;

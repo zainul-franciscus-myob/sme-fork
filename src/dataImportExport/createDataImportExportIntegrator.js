@@ -1,18 +1,16 @@
 import { EXPORT_CHART_OF_ACCOUNTS, IMPORT_CHART_OF_ACCOUNTS, LOAD_DATA_IMPORT_EXPORT } from './DataImportExportIntents';
 import { getBusinessId } from '../linkedAccounts/LinkedAccountsSelectors';
-import { getExportChartOfAccountsQueryParams, getImportChartOfAccountsPayload, getLoadDataImportExportParams } from './selectors/DataImportExportIntegratorSelectors';
+import { getExportChartOfAccountsQueryParams, getImportChartOfAccountsPayload } from './selectors/DataImportExportIntegratorSelectors';
 
 const createDataImportExportIntegrator = (store, integration) => ({
   loadDataImportExport: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const businessId = getBusinessId(state);
     const urlParams = { businessId };
-    const params = getLoadDataImportExportParams();
 
     integration.read({
       intent: LOAD_DATA_IMPORT_EXPORT,
       urlParams,
-      params,
       onSuccess,
       onFailure,
     });
