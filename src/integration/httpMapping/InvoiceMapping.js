@@ -15,6 +15,7 @@ import {
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
+  LOAD_NEXT_PAGE,
   LOAD_PAY_DIRECT,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
@@ -31,7 +32,10 @@ const InvoiceMapping = {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/invoice/filter_invoice_list`,
   },
-
+  [LOAD_NEXT_PAGE]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/invoice/filter_invoice_list`,
+  },
   [LOAD_NEW_INVOICE_DETAIL]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/invoice/load_new_invoice_detail`,

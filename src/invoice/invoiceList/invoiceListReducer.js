@@ -2,8 +2,10 @@ import { addMonths } from 'date-fns';
 
 import {
   LOAD_INVOICE_LIST,
+  LOAD_NEXT_PAGE,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_INVOICE_LIST,
@@ -36,7 +38,12 @@ const getInitialState = () => ({
   alert: undefined,
   isLoading: true,
   isTableLoading: false,
+  isNextPageLoading: false,
   entries: [],
+  pagination: {
+    offset: 0,
+    hasNextPage: false,
+  },
 });
 
 const resetState = () => (getInitialState());
@@ -78,6 +85,7 @@ const loadInvoiceList = (state, action) => ({
   totalDue: action.totalDue,
   customerFilterOptions: action.customerFilters,
   statusFilterOptions: action.statusFilters,
+  pagination: action.pagination,
 });
 
 const updateFilterOptions = (state, action) => ({
@@ -100,6 +108,7 @@ const sortAndFilterInvoiceList = (state, action) => ({
   entries: action.entries,
   total: action.total,
   totalDue: action.totalDue,
+  pagination: action.pagination,
 });
 
 const setLoadingState = (state, action) => ({
@@ -117,6 +126,25 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
+const setIsNextPageLoadingState = (state, action) => ({
+  ...state,
+  isNextPageLoading: action.isNextPageLoading,
+});
+
+const loadNextPage = (state, action) => {
+  const filterUniqueEntries = action.entries.filter(
+    ({ id }) => state.entries.every(entry => entry.id !== id),
+  );
+  return ({
+    ...state,
+    entries: [
+      ...state.entries,
+      ...filterUniqueEntries,
+    ],
+    pagination: action.pagination,
+  });
+};
+
 const handlers = {
   [LOAD_INVOICE_LIST]: loadInvoiceList,
   [SORT_AND_FILTER_INVOICE_LIST]: sortAndFilterInvoiceList,
@@ -127,6 +155,8 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
+  [LOAD_NEXT_PAGE]: loadNextPage,
+  [SET_NEXT_PAGE_LOADING_STATE]: setIsNextPageLoadingState,
 };
 
 const invoiceListReducer = createReducer(getInitialState(), handlers);

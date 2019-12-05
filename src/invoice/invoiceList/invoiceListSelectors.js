@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { isPast } from 'date-fns';
 
+import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import formatCurrency from '../../common/valueFormatters/formatCurrency';
 
 export const getBusinessId = ({ businessId }) => businessId;
@@ -110,3 +111,34 @@ export const getSettings = createSelector(
     orderBy,
   }),
 );
+
+export const getLoadMoreButtonStatus = (state) => {
+  const isLastPage = !state.pagination.hasNextPage;
+  const { isTableLoading } = state;
+
+  if (isLastPage || isTableLoading) {
+    return LoadMoreButtonStatuses.HIDDEN;
+  }
+
+  if (state.isNextPageLoading) {
+    return LoadMoreButtonStatuses.LOADING;
+  }
+
+  return LoadMoreButtonStatuses.SHOWN;
+};
+
+export const getOffset = state => state.pagination.offset;
+
+export const getLoadNextPageParams = (state) => {
+  const filterOptions = getFilterOptions(state);
+  const sortOrder = getSortOrder(state);
+  const orderBy = getOrderBy(state);
+  const offset = getOffset(state);
+
+  return {
+    ...filterOptions,
+    sortOrder,
+    orderBy,
+    offset,
+  };
+};

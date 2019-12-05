@@ -4,8 +4,10 @@ import React from 'react';
 import { INVOICE_LIST_ROUTE } from '../getInvoiceRoutes';
 import {
   LOAD_INVOICE_LIST,
+  LOAD_NEXT_PAGE,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_INVOICE_LIST,
@@ -25,6 +27,7 @@ import {
   getBusinessId,
   getFilterOptions,
   getFlipSortOrder,
+  getLoadNextPageParams,
   getOrderBy,
   getRegion,
   getSettings,
@@ -100,7 +103,9 @@ export default class InvoiceListModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({ entries, total, totalDue }) => {
+    const onSuccess = ({
+      entries, total, totalDue, pagination,
+    }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
@@ -108,6 +113,7 @@ export default class InvoiceListModule {
         total,
         totalDue,
         filterOptions,
+        pagination,
       });
     };
 
@@ -123,6 +129,7 @@ export default class InvoiceListModule {
       params: {
         ...filterOptions,
         sortOrder: newSortOrder,
+        offset: 0,
         orderBy,
       },
       onSuccess,
@@ -144,6 +151,7 @@ export default class InvoiceListModule {
       entries,
       total,
       totalDue,
+      pagination,
     }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
@@ -152,6 +160,7 @@ export default class InvoiceListModule {
         filterOptions,
         total,
         totalDue,
+        pagination,
       });
     };
 
@@ -168,7 +177,44 @@ export default class InvoiceListModule {
         ...filterOptions,
         sortOrder: getSortOrder(state),
         orderBy: getOrderBy(state),
+        offset: 0,
       },
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  loadNextPage = () => {
+    const state = this.store.getState();
+    this.setNextPageLoadingState(true);
+
+    const intent = LOAD_NEXT_PAGE;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    const params = getLoadNextPageParams(state);
+
+    const onSuccess = ({
+      entries, pagination,
+    }) => {
+      this.setNextPageLoadingState(false);
+      this.store.dispatch({
+        intent,
+        entries,
+        pagination,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setNextPageLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    this.integration.read({
+      intent,
+      urlParams,
+      params,
       onSuccess,
       onFailure,
     });
@@ -202,6 +248,7 @@ export default class InvoiceListModule {
         onDismissAlert={this.dismissAlert}
         onSort={this.sortInvoiceList}
         onCreateButtonClick={this.redirectToCreateNewInvoice}
+        onLoadMoreButtonClick={this.loadNextPage}
       />
     );
 
@@ -270,6 +317,14 @@ export default class InvoiceListModule {
       intent,
     });
   }
+
+  setNextPageLoadingState = (isNextPageLoading) => {
+    const intent = SET_NEXT_PAGE_LOADING_STATE;
+    this.store.dispatch({
+      intent,
+      isNextPageLoading,
+    });
+  };
 
   run(context) {
     const settings = loadSettings(context.businessId, INVOICE_LIST_ROUTE);

@@ -1,10 +1,11 @@
 import { addDays, subDays } from 'date-fns';
 
 import { getIsDefaultFilters } from '../../../contact/contactList/contactListSelector';
-import { getTableEntries, getTotalOverdue } from '../invoiceListSelectors';
+import { getLoadMoreButtonStatus, getTableEntries, getTotalOverdue } from '../invoiceListSelectors';
+import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
-describe('contactListSelector', () => {
+describe('invoiceListReducer', () => {
   describe('getTableEntries', () => {
     it('returns green status colour when the status is closed', () => {
       const closedState = {
@@ -131,5 +132,46 @@ describe('contactListSelector', () => {
     const actual = getTotalOverdue(state);
 
     expect(actual).toEqual('$1,000.00');
+  });
+
+  describe('getLoadMoreButtonStatus', () => {
+    it('should return HIDDEN when page is loading', () => {
+      const state = {
+        isTableLoading: true,
+        pagination: {
+          hasNextPage: true,
+        },
+      };
+      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.HIDDEN);
+    });
+    it('should return HIDDEN when reach last page', () => {
+      const state = {
+        isTableLoading: false,
+        pagination: {
+          hasNextPage: false,
+        },
+      };
+      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.HIDDEN);
+    });
+    it('should return LOADING when loading next page', () => {
+      const state = {
+        isTableLoading: false,
+        isNextPageLoading: true,
+        pagination: {
+          hasNextPage: true,
+        },
+      };
+      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.LOADING);
+    });
+    it('should return SHOWN when page loaded and not last page', () => {
+      const state = {
+        isTableLoading: false,
+        isNextPageLoading: false,
+        pagination: {
+          hasNextPage: true,
+        },
+      };
+      expect(getLoadMoreButtonStatus(state)).toEqual(LoadMoreButtonStatuses.SHOWN);
+    });
   });
 });

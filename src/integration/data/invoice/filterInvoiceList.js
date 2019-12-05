@@ -27,4 +27,8 @@ export default {
       dateDue: '01/10/2019',
     },
   ],
+  pagination: {
+    offset: 50,
+    hasNextPage: false,
+  },
 };

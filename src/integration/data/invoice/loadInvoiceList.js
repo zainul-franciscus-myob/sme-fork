@@ -89,4 +89,8 @@ export default {
       dateDue: '2019-06-18T00:00:00.000',
     },
   ],
+  pagination: {
+    offset: 50,
+    hasNextPage: false,
+  },
 };

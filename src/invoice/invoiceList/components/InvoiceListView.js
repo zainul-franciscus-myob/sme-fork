@@ -1,5 +1,5 @@
 import {
-  Alert, Button, PageHead, StandardTemplate,
+  Alert, Button, PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,11 +7,13 @@ import React from 'react';
 import {
   getAlert,
   getIsLoading,
+  getLoadMoreButtonStatus,
 } from '../invoiceListSelectors';
 import InvoiceListFilterOptions from './InvoiceListFilterOptions';
 import InvoiceListTable from './InvoiceListTable';
 import InvoiceListTableHeader from './InvoiceListTableHeader';
 import PageView from '../../../components/PageView/PageView';
+import PaginatedListTemplate from '../../../components/PaginatedListTemplate/PaginatedListTemplate';
 import style from './InvoiceListView.module.css';
 
 const tableConfig = {
@@ -25,17 +27,17 @@ const tableConfig = {
   status: { columnName: 'status', valign: 'middle', align: 'left' },
 };
 
-const InvoiceListView = (props) => {
-  const {
-    alert,
-    onApplyFilter,
-    onUpdateFilter,
-    onSort,
-    isLoading,
-    onCreateButtonClick,
-    onDismissAlert,
-  } = props;
-
+const InvoiceListView = ({
+  alert,
+  onApplyFilter,
+  onUpdateFilter,
+  onSort,
+  isLoading,
+  onCreateButtonClick,
+  onDismissAlert,
+  onLoadMoreButtonClick,
+  loadMoreButtonStatus,
+}) => {
   const filterBar = (
     <InvoiceListFilterOptions
       onApplyFilter={onApplyFilter}
@@ -59,18 +61,22 @@ const InvoiceListView = (props) => {
     <InvoiceListTableHeader tableConfig={tableConfig} onSort={onSort} />
   );
 
+  const listTable = (
+    <div className={style.list}>
+      <InvoiceListTable tableConfig={tableConfig} onCreateButtonClick={onCreateButtonClick} />
+    </div>
+  );
+
   const invoiceListView = (
-    <StandardTemplate
-      sticky="all"
+    <PaginatedListTemplate
       alert={alertComponent}
       pageHead={pageHead}
       filterBar={filterBar}
       tableHeader={tableHeader}
-    >
-      <div className={style.list}>
-        <InvoiceListTable tableConfig={tableConfig} onCreateButtonClick={onCreateButtonClick} />
-      </div>
-    </StandardTemplate>
+      listTable={listTable}
+      onLoadMoreButtonClick={onLoadMoreButtonClick}
+      loadMoreButtonStatus={loadMoreButtonStatus}
+    />
   );
 
   return <PageView isLoading={isLoading} view={invoiceListView} />;
@@ -79,6 +85,7 @@ const InvoiceListView = (props) => {
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   alert: getAlert(state),
+  loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 
 export default connect(mapStateToProps)(InvoiceListView);

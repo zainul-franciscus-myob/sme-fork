@@ -13,6 +13,8 @@ export const SORT_AND_FILTER_INVOICE_LIST = Symbol('Sort and filter list of invo
 export const SET_SORT_ORDER = Symbol('Set sort order');
 export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter options of invoices');
+export const SET_NEXT_PAGE_LOADING_STATE = Symbol('Set loading next page state');
+export const LOAD_NEXT_PAGE = Symbol('Load next page');
 
 export const LOAD_NEW_INVOICE_DETAIL = Symbol('Load a new invoice');
 export const LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE = Symbol('Load a new invoice from a quote');
