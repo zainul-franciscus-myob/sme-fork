@@ -24,11 +24,15 @@ const createCreditsAndDebitsListIntegrator = (store, integration) => ({
     };
 
     const filterOptions = getFilterOptions(state);
+    const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
 
     integration.read({
       intent,
       params: {
         ...filterOptions,
+        sortOrder,
+        orderBy,
       },
       urlParams,
       onSuccess,
