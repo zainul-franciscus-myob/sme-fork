@@ -10,6 +10,7 @@ const getSpendMoneyRoutes = ({
       module: new SpendMoneyDetailModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Spend money',
     },
   ];
 

@@ -10,6 +10,7 @@ const getLinkedAccountsRoutes = ({
       module: new LinkedAccountsModule({
         integration, setRootView,
       }),
+      documentTitle: 'Linked accounts',
     },
   ];
 

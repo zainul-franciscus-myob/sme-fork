@@ -8,6 +8,7 @@ const getIncomeAllocationRoutes = ({
       name: 'incomeAllocation',
       path: '/',
       module: new IncomeAllocationModule({ integration, setRootView }),
+      documentTitle: 'Income allocation',
     },
   ];
 

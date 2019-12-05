@@ -8,6 +8,7 @@ const getDashboardRoutes = ({
       name: 'dashboard',
       path: '/',
       module: new DashboardModule({ integration, setRootView }),
+      documentTitle: 'Dashboard',
     },
   ];
 

@@ -10,6 +10,7 @@ const getSupplierReturnPurchaseRoutes = ({
       module: new SupplierReturnPurchaseModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Applied to purchase',
     },
   ];
 

@@ -8,6 +8,7 @@ const getInTrayRoutes = ({
       name: 'inTray',
       path: '/',
       module: new InTrayModule({ integration, setRootView, popMessages }),
+      documentTitle: 'In Tray',
     },
   ];
 

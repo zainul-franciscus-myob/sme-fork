@@ -56,6 +56,8 @@ export default class Router {
     window.location.reload();
   }
 
+  buildDocumentTitle = title => (title ? `MYOB - ${title}` : 'MYOB')
+
   start = (options) => {
     const {
       routes,
@@ -68,7 +70,9 @@ export default class Router {
     this.router.add(routerConfig);
 
     this.router.subscribe(({ route }) => {
-      const { module, action } = moduleMapping[route.name];
+      const { module, action, title } = moduleMapping[route.name];
+      document.title = this.buildDocumentTitle(title);
+
       beforeAll({
         module,
         routeProps: {

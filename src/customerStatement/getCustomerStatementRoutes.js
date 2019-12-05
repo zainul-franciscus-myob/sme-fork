@@ -8,6 +8,7 @@ const getCustomerStatementRoutes = ({ integration, setRootView }) => {
       name: CUSTOMER_STATEMENT_LIST_ROUTE,
       path: '/',
       module: new CustomerStatementListModule({ integration, setRootView }),
+      documentTitle: 'Customer statements',
     },
   ];
 

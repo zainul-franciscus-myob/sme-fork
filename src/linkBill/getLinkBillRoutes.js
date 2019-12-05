@@ -10,6 +10,7 @@ const getLinkBillRoutes = ({
       module: new LinkBillModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Link to existing bill',
     },
   ];
 

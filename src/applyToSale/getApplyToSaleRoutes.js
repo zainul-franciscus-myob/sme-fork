@@ -11,6 +11,7 @@ const getApplyToSaleRoutes = ({
       setRootView,
       pushMessage,
     }),
+    documentTitle: 'Apply to sale',
   },
 ];
 

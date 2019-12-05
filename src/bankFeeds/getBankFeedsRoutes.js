@@ -10,6 +10,7 @@ const getBankFeedsRoutes = ({
       module: new BankFeedsModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Bank feeds',
     },
   ];
 

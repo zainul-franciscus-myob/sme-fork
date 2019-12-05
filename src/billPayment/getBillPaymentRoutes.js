@@ -8,6 +8,7 @@ const getBillPaymentRoutes = ({
       name: 'billPaymentDetail',
       path: '/:billPaymentId',
       module: new BillPaymentDetailModule({ setRootView, integration, pushMessage }),
+      documentTitle: 'Bill payment',
     },
   ];
 

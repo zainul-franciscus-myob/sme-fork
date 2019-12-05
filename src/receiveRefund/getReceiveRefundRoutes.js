@@ -10,6 +10,7 @@ const getReceiveRefundRoutes = ({
       module: new ReceiveRefundModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Receive refund',
     },
   ];
 

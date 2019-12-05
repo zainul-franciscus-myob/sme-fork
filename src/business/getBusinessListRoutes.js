@@ -8,6 +8,7 @@ const getBusinessListRoutes = ({
       name: 'businessList',
       path: '/',
       module: new BusinessListModule({ setRootView, integration }),
+      documentTitle: 'My businesses',
     },
   ];
 

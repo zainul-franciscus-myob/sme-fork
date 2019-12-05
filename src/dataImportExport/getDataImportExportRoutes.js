@@ -11,6 +11,7 @@ const getDataImportExportRoutes = ({
       module: new DataImportExportModule({
         integration, setRootView, replaceURLParams,
       }),
+      documentTitle: 'Import/export data',
     },
   ];
 

@@ -10,6 +10,7 @@ const getReceiveMoneyRoutes = ({
       module: new ReceiveMoneyDetailModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Receive money',
     },
   ];
 

@@ -8,6 +8,7 @@ const getInvoicePaymentRoutes = ({
       name: 'invoicePaymentDetail',
       path: '/:invoicePaymentId',
       module: new InvoicePaymentDetailModule({ integration, setRootView, pushMessage }),
+      documentTitle: 'Invoice payment',
     },
   ];
 

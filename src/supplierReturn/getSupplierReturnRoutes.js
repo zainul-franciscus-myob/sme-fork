@@ -12,6 +12,7 @@ const getSupplierReturnRoutes = ({
       module: new SupplierReturnListModule({
         integration, setRootView, popMessages,
       }),
+      documentTitle: 'Supplier returns',
     },
     {
       name: 'supplierReturnReceiveRefund',
@@ -19,6 +20,7 @@ const getSupplierReturnRoutes = ({
       module: new ReceiveRefundModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Receive refund',
     },
     {
       name: 'supplierReturnPurchase',
@@ -26,6 +28,7 @@ const getSupplierReturnRoutes = ({
       module: new SupplierReturnPurchaseModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Apply to purchase',
     },
   ];
 

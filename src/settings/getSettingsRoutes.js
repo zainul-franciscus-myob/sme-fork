@@ -8,6 +8,7 @@ export default ({
       name: 'subscription',
       path: '/subscription',
       module: new SubscriptionModule({ setRootView }),
+      documentTitle: 'Settings',
     },
   ];
 

@@ -12,6 +12,7 @@ const getPayRunRoutes = ({
       module: new PayRunModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Pay run',
     },
     {
       name: 'payRunList',
@@ -19,6 +20,7 @@ const getPayRunRoutes = ({
       module: new PayrunListModule({
         integration, setRootView, popMessages, replaceURLParams,
       }),
+      documentTitle: 'Pay runs',
     },
     {
       name: 'payRunDetail',
@@ -26,6 +28,7 @@ const getPayRunRoutes = ({
       module: new PayRunDetailModule({
         integration, setRootView,
       }),
+      documentTitle: 'Pay run',
     },
   ];
 

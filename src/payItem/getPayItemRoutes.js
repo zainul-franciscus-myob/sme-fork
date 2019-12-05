@@ -16,6 +16,7 @@ const getPayItemRoutes = ({
       module: new PayItemListModule({
         integration, setRootView, popMessages, replaceURLParams,
       }),
+      documentTitle: 'Pay items',
     },
     {
       name: 'superPayItem',
@@ -23,16 +24,19 @@ const getPayItemRoutes = ({
       module: new SuperPayItemModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Superannuation pay item',
     },
     {
       name: 'deductionPayItemDetail',
       path: '/deduction/:payItemId',
       module: new DeductionPayItemDetailModule({ integration, setRootView, pushMessage }),
+      documentTitle: 'Deduction pay item',
     },
     {
       name: 'expensePayItem',
       path: '/expense/:expensePayItemId',
       module: new ExpensePayItemModule({ integration, setRootView, pushMessage }),
+      documentTitle: 'Expense pay item',
     },
     {
       name: 'wagePayItem',
@@ -40,6 +44,7 @@ const getPayItemRoutes = ({
       module: new WagePayItemModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Wage pay item',
     },
     {
       name: 'leavePayItem',
@@ -47,6 +52,7 @@ const getPayItemRoutes = ({
       module: new LeavePayItemModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Leave pay item',
     },
   ];
 

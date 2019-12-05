@@ -13,6 +13,7 @@ const getInvoiceRoutes = ({
       module: new InvoiceListModule(
         { integration, setRootView, popMessages },
       ),
+      documentTitle: 'Invoices',
     },
     {
       name: 'invoiceDetail',
@@ -21,6 +22,7 @@ const getInvoiceRoutes = ({
       module: new InvoiceDetailModule({
         integration, setRootView, pushMessage, popMessages, replaceURLParams, reload,
       }),
+      documentTitle: 'Invoice',
     },
   ];
 

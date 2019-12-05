@@ -11,6 +11,7 @@ const getEmployeeRoutes = ({
       module: new EmployeeListModule({
         integration, setRootView, popMessages,
       }),
+      documentTitle: 'Employees',
     },
     {
       name: 'employeeDetail',
@@ -19,6 +20,7 @@ const getEmployeeRoutes = ({
       module: new EmployeeDetailModule({
         integration, setRootView, popMessages, pushMessage, replaceURLParams,
       }),
+      documentTitle: 'Employee',
     },
   ];
 

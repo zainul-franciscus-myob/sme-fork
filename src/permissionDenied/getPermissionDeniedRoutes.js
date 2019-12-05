@@ -10,6 +10,7 @@ const getPermissionDeniedRoutes = ({
       module: new PermissionDeniedModule({
         setRootView,
       }),
+      documentTitle: 'Permission denied',
     },
   ];
 

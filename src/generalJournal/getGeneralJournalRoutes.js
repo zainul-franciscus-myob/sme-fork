@@ -10,6 +10,7 @@ const getGeneralJournalRoutes = ({
       module: new GeneralJournalDetailModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'General Journal',
     },
   ];
 

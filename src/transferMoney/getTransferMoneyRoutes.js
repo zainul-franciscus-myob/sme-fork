@@ -10,6 +10,7 @@ const getTransferMoneyRoutes = ({
       module: new TransferMoneyDetailModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Transfer money',
     },
   ];
 

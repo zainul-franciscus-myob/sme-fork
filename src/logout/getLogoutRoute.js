@@ -6,6 +6,7 @@ const getLogoutRoute = () => {
       name: 'logout',
       path: '/',
       module: new LogoutModule(),
+      documentTitle: 'Log out',
     },
   ];
 

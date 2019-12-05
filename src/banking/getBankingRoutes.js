@@ -10,6 +10,7 @@ const getBankingRoutes = ({
       module: new BankingModule({
         integration, setRootView,
       }),
+      documentTitle: 'Bank feed transactions',
     },
   ];
 

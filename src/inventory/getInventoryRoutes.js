@@ -9,6 +9,7 @@ const getInventoryRoutes = ({
       name: 'inventoryDetail',
       path: '/:itemId',
       module: new InventoryDetailModule({ integration, setRootView, pushMessage }),
+      documentTitle: 'Item',
     },
     {
       name: 'itemList',
@@ -16,6 +17,7 @@ const getInventoryRoutes = ({
       module: new ItemListModule({
         integration, setRootView, popMessages,
       }),
+      documentTitle: 'Items',
     },
   ];
 

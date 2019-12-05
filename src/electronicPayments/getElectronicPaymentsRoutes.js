@@ -12,6 +12,7 @@ const getElectronicPaymentsRoutes = ({
         integration,
         setRootView,
       }),
+      documentTitle: 'Bank file payment',
     },
     {
       name: 'electronicPaymentsRead',
@@ -20,6 +21,7 @@ const getElectronicPaymentsRoutes = ({
         integration,
         setRootView,
       }),
+      documentTitle: 'Bank file payment',
     },
   ];
   return routes;

@@ -10,6 +10,7 @@ const getSuperFundRoutes = ({
       module: new SuperFundModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Superannuation fund',
     },
   ];
 

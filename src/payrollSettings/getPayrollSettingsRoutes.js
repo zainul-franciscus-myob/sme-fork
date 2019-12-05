@@ -11,6 +11,7 @@ const getPayrollSettingsRoutes = ({
       module: new PayrollSettingsModule({
         integration, setRootView, popMessages, replaceURLParams,
       }),
+      documentTitle: 'Payroll settings',
     },
   ];
 

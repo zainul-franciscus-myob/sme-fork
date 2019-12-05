@@ -8,6 +8,7 @@ const getTaxRoutes = ({
       name: 'taxList',
       path: '/',
       module: new TaxListModule({ integration, setRootView }),
+      documentTitle: 'Tax codes',
     },
   ];
 

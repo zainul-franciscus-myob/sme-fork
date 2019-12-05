@@ -11,11 +11,13 @@ const getContactRoutes = ({
       module: new ContactListModule({
         integration, setRootView, popMessages,
       }),
+      documentTitle: 'Contacts',
     },
     {
       name: 'contactDetail',
       path: '/:contactId',
       module: new ContactDetailModule({ integration, setRootView, pushMessage }),
+      documentTitle: 'Contact',
     },
   ];
 

@@ -14,6 +14,7 @@ const getBankingRuleRoutes = ({
       module: new BankingRuleListModule({
         integration, setRootView, popMessages,
       }),
+      documentTitle: 'Bank feed rules',
     },
     {
       name: 'bankingRuleSpendMoney',
@@ -21,6 +22,7 @@ const getBankingRuleRoutes = ({
       module: new BankingRuleSpendMoneyModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Spend money banking rule',
     },
     {
       name: 'bankingRuleReceiveMoney',
@@ -28,6 +30,7 @@ const getBankingRuleRoutes = ({
       module: new BankingRuleReceiveMoneyModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Receive money banking rule',
     },
     {
       name: 'bankingRuleInvoice',
@@ -35,6 +38,7 @@ const getBankingRuleRoutes = ({
       module: new BankingRuleInvoiceModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Invoice banking rule',
     },
     {
       name: 'bankingRuleBill',
@@ -42,6 +46,7 @@ const getBankingRuleRoutes = ({
       module: new BankingRuleBillModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Bill banking rule',
     },
   ];
 

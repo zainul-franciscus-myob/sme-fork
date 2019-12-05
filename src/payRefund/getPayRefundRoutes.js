@@ -10,6 +10,7 @@ const getPayRefundRoutes = ({
       module: new PayRefundModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Pay refund',
     },
   ];
 

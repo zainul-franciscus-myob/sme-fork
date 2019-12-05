@@ -8,6 +8,7 @@ const getSalesSettingsRoutes = ({
       name: 'salesSettingsDetail',
       path: '/',
       module: new SalesSettingsDetailModule({ setRootView, integration }),
+      documentTitle: 'Invoice and quote settings',
     },
   ];
 

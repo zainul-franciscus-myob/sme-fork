@@ -8,6 +8,7 @@ const getBankReconciliationRoutes = ({
       name: 'bankReconciliation',
       path: '/',
       module: new BankReconciliationModule({ setRootView, integration }),
+      documentTitle: 'Bank reconciliation',
     },
   ];
 

@@ -11,11 +11,13 @@ const getUserRoutes = ({
       module: new UserListModule({
         integration, setRootView, popMessages,
       }),
+      documentTitle: 'Users',
     },
     {
       name: 'userDetail',
       path: '/:userId',
       module: new UserDetailModule({ integration, setRootView, pushMessage }),
+      documentTitle: 'User',
     },
   ];
 

@@ -12,6 +12,7 @@ const getCustomerReturnRoutes = ({
       module: new CustomerReturnListModule({
         integration, setRootView, popMessages,
       }),
+      documentTitle: 'Customer returns',
     },
     {
       name: 'customerReturnPayRefund',
@@ -19,6 +20,7 @@ const getCustomerReturnRoutes = ({
       module: new PayRefundModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Pay refund',
     },
     {
       name: 'customerReturnApplyToSale',
@@ -26,6 +28,7 @@ const getCustomerReturnRoutes = ({
       module: new ApplyToSaleModule({
         integration, setRootView, pushMessage,
       }),
+      documentTitle: 'Apply to sale',
     },
   ];
 

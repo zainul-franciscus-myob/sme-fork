@@ -11,6 +11,7 @@ const getQuoteRoutes = ({
       module: new QuoteListModule({
         integration, setRootView, popMessages,
       }),
+      documentTitle: 'Quotes',
     },
     {
       name: 'quoteDetail',
@@ -19,6 +20,7 @@ const getQuoteRoutes = ({
       module: new QuoteDetailModule({
         integration, setRootView, pushMessage, popMessages, reload, replaceURLParams,
       }),
+      documentTitle: 'Quote',
     },
   ];
 

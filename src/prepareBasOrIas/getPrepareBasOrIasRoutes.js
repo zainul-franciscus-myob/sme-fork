@@ -10,6 +10,7 @@ const getPrepareBasOrIasRoutes = ({
       module: new PrepareBasOrIasModule({
         integration, setRootView,
       }),
+      documentTitle: 'Prepare BAS or IAS',
     },
   ];
 

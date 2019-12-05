@@ -9,6 +9,7 @@ const getLinkUserRoutes = ({
       path: '/',
       allowedParams: ['redirectURL'],
       module: new LinkUserModule({ setRootView, integration }),
+      documentTitle: 'Link user',
     },
   ];
 

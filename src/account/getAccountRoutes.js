@@ -12,11 +12,13 @@ const getAccountRoutes = ({
       name: ACCOUNT_LIST_ROUTE,
       path: '/',
       module: new AccountListModule({ integration, setRootView, popMessages }),
+      documentTitle: 'Accounts',
     },
     {
       name: ACCOUNT_DETAIL_ROUTE,
       path: '/:accountId',
       module: new AccountDetailModule({ integration, setRootView, pushMessage }),
+      documentTitle: 'Account',
     },
   ];
 

@@ -13,6 +13,7 @@ const getBillRoutes = ({
       module: new BillListModule({
         integration, setRootView, popMessages,
       }),
+      documentTitle: 'Bills',
     },
     {
       name: 'billDetail',
@@ -20,6 +21,7 @@ const getBillRoutes = ({
       module: new BillModule({
         integration, setRootView, pushMessage, replaceURLParams, popMessages,
       }),
+      documentTitle: 'Bill',
     },
   ];
 

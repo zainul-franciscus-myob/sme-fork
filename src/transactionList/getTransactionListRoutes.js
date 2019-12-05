@@ -13,6 +13,7 @@ const getTransactionListRoutes = ({
       module: new TransactionListModule({
         integration, setRootView, popMessages, replaceURLParams,
       }),
+      documentTitle: 'Transactions',
     },
   ];
 
