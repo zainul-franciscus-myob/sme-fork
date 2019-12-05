@@ -1,9 +1,8 @@
 import { Line } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import {
-  flxPaletteBerry,
-  flxPaletteDusk100,
   flxPaletteDusk70,
+  flxPaletteStorm72,
   flxPaletteThunder,
   flxPaletteWhite,
 } from '@myob/myob-styles/dist/design-tokens/js/design-tokens';
@@ -11,9 +10,9 @@ import React from 'react';
 
 import { getChart } from '../../selectors/DashboardTrackingSelectors';
 
-const incomeLineColor = flxPaletteDusk100;
-const expenseLineColor = flxPaletteDusk70;
-const profitLineColor = flxPaletteBerry;
+const incomeLineColor = flxPaletteDusk70;
+const expenseLineColor = '#ffdc4b';
+const profitLineColor = flxPaletteStorm72;
 
 const getDataSetOptions = color => ({
   fill: false,
@@ -104,13 +103,11 @@ const getOptions = data => ({
   },
   tooltips: {
     displayColors: false,
-    backgroundColor: flxPaletteWhite,
-    borderColor: flxPaletteDusk100,
-    borderWidth: 2,
+    backgroundColor: flxPaletteThunder,
     titleFontStyle: 'normal',
-    titleFontColor: flxPaletteThunder,
+    titleFontColor: flxPaletteWhite,
     bodyFontStyle: 'normal',
-    bodyFontColor: flxPaletteThunder,
+    bodyFontColor: flxPaletteWhite,
     callbacks: {
       title: (tooltipItems) => {
         const [tooltipItem] = tooltipItems;

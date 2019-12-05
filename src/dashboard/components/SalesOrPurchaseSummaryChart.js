@@ -1,13 +1,13 @@
 import { Bar } from 'react-chartjs-2';
 import {
-  flxColorHeadingsDarker, flxPaletteAzure, flxPaletteStorm17, flxPaletteStorm28,
+  flxColorHeadingsDarker,
+  flxPaletteDusk70,
+  flxPaletteThunder,
 } from '@myob/myob-styles/dist/design-tokens/js/design-tokens';
 import React from 'react';
 
-const previousYearColumnColor = flxPaletteStorm17;
-const previousYearColumnHoverColor = flxPaletteStorm28;
-const currentYearColumnColor = '#5C94E6';
-const currentYearColumnHoverColor = flxPaletteAzure;
+const previousYearColumnColor = '#88b1ed';
+const currentYearColumnColor = flxPaletteDusk70;
 
 const getData = ({ currentYearData, previousYearData, labels }) => ({
   labels,
@@ -15,7 +15,6 @@ const getData = ({ currentYearData, previousYearData, labels }) => ({
     {
       label: 'Last year',
       backgroundColor: previousYearColumnColor,
-      hoverBackgroundColor: previousYearColumnHoverColor,
       data: previousYearData,
       xAxisID: 'bar-x-axis-1',
     },
@@ -23,7 +22,6 @@ const getData = ({ currentYearData, previousYearData, labels }) => ({
       label: 'This year',
       data: currentYearData,
       backgroundColor: currentYearColumnColor,
-      hoverBackgroundColor: currentYearColumnHoverColor,
       xAxisID: 'bar-x-axis-1',
     },
   ],
@@ -72,7 +70,7 @@ const getOptions = (title, data) => ({
   },
   tooltips: {
     displayColors: false,
-    backgroundColor: flxPaletteAzure,
+    backgroundColor: flxPaletteThunder,
     titleFontStyle: 'normal',
     bodyFontStyle: 'bold',
     callbacks: {

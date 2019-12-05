@@ -44,20 +44,20 @@
   margin-top: -1rem;
   height: 0.3rem;
   border-radius: 0.5rem;
-  box-shadow: 0 2rem 0 0 var(--flx-palette-dusk-100);
+  box-shadow: 0 2rem 0 0 var(--flx-palette-dusk-70);
 }
 
 .expense {
   margin-top: -1rem;
   height: 0.3rem;
   border-radius: 0.5rem;
-  box-shadow: 0 2rem 0 0 var(--flx-palette-dusk-70);
+  box-shadow: 0 2rem 0 0 #ffdc4b;
 }
 
 .profit {
   margin-top: 1rem;
   border: none;
-  border-top: 0.3rem dashed var(--flx-palette-berry);
+  border-top: 0.3rem dashed var(--flx-palette-storm-72);
 }
 
 /* Medium & Large devices (tablets & desktop) */
