@@ -101,6 +101,11 @@ const getOptions = data => ({
   legend: {
     display: false,
   },
+  layout: {
+    padding: {
+      top: 12,
+    },
+  },
   tooltips: {
     displayColors: false,
     backgroundColor: flxPaletteThunder,
