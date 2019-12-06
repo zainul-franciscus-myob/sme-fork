@@ -21,13 +21,14 @@ export default class SubscriptionLoader {
     return this.promises[businessId].then(() => this.refetchCookieIfMissing(businessId));
   };
 
-  refetchCookieIfMissing = async (businessId) => {
+  refetchCookieIfMissing = (businessId) => {
     // eslint-disable-next-line no-useless-escape
     const cookieIdentifier = new RegExp(`subscription-for-${businessId}\=.+`);
     const cookie = this.document.cookie.split(';').find(it => cookieIdentifier.test(it));
     if (!cookie) {
-      await this.fetchSubscription(businessId);
+      this.promises[businessId] = this.fetchSubscription(businessId);
     }
+    return this.promises[businessId];
   }
 
   fetchSubscription = businessId => new Promise((resolve, reject) => {
