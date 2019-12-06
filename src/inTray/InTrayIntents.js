@@ -21,3 +21,5 @@ export const ADD_IN_TRAY_LIST_ENTRY = Symbol('Add in tray list entry');
 export const REMOVE_IN_TRAY_LIST_ENTRY = Symbol('Remove in tray list entry');
 export const SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE = Symbol('Set in tray list entry submitting state');
 export const SET_IN_TRAY_DELETE_MODAL = Symbol('Set in tray entry delete modal');
+export const SET_ACTIVE_ENTRY_ROW = Symbol('Activate an entry in the table');
+export const UNSET_ACTIVE_ENTRY_ROW = Symbol('Deactivate an entry');

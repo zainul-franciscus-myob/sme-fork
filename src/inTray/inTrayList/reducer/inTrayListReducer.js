@@ -27,6 +27,14 @@ export const setInTrayListFilterOption = (state, action) => updateInTrayListStat
   },
 });
 
+export const setInTrayActiveEntry = (state, { entryId }) => updateInTrayListState(state, {
+  activeEntryId: entryId,
+});
+
+export const unsetInTrayActiveEntry = state => updateInTrayListState(state, {
+  activeEntryId: undefined,
+});
+
 export const setInTrayListSortOrder = (state, action) => updateInTrayListState(state, {
   orderBy: action.orderBy,
   sortOrder: action.sortOrder,

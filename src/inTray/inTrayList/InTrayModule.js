@@ -2,11 +2,11 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import copy from 'copy-to-clipboard';
 
-import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
-import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from './inTrayMessageTypes';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../inTrayMessageTypes';
 import {
   SUCCESSFULLY_SAVED_BILL,
-} from '../bill/billDetail/types/BillMessageTypes';
+} from '../../bill/billDetail/types/BillMessageTypes';
 import {
   getBusinessId,
   getRegion,
@@ -14,13 +14,15 @@ import {
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
 import {
   getIsEntryLoading,
+  getIsEntryUploadingDone,
   getNewSortOrder,
   getUploadCompleteAlert,
   getUploadingEntry,
   getUploadingErrorMessage,
 } from './selectors/InTrayListSelectors';
 import InTrayView from './components/InTrayView';
-import Store from '../store/Store';
+import Store from '../../store/Store';
+import actionTypes from './actionTypes';
 import createInTrayDispatcher from './createInTrayDispatcher';
 import createInTrayIntegrator from './createInTrayIntegrator';
 import inTrayReducer from './reducer/inTrayReducer';
@@ -58,6 +60,24 @@ export default class InTrayModule {
 
     this.integrator.loadInTray({ onSuccess, onFailure });
   }
+
+  handleActionSelect = id => (action) => {
+    switch (action) {
+      case actionTypes.linkToExistingBill:
+        this.redirectToLinkToExistingBill(id);
+        break;
+      case actionTypes.createBill:
+        this.redirectToCreateBill(id);
+        break;
+      case actionTypes.download:
+        this.downloadInTrayDocument(id);
+        break;
+      case actionTypes.delete:
+        this.dispatcher.openInTrayDeleteModal(id);
+        break;
+      default:
+    }
+  };
 
   filterInTrayList = () => {
     const state = this.store.getState();
@@ -258,6 +278,13 @@ export default class InTrayModule {
     window.location.href = `/#/${region}/${businessId}/linkBill/${id}`;
   }
 
+  activateEntryRow = (id) => {
+    const state = this.store.getState();
+    if (getIsEntryUploadingDone(state, id)) {
+      this.dispatcher.activeEntryRow(id);
+    }
+  }
+
   render = () => {
     const inTrayView = (
       <InTrayView
@@ -271,10 +298,10 @@ export default class InTrayModule {
           onApplyFilter: this.filterInTrayList,
           onSort: this.sortInTrayList,
           onUpload: this.uploadInTrayFiles,
-          onDownload: this.downloadInTrayDocument,
-          onDelete: this.dispatcher.openInTrayDeleteModal,
-          onLinkToExistingBill: this.redirectToLinkToExistingBill,
-          onCreateBill: this.redirectToCreateBill,
+          handleActionSelect: this.handleActionSelect,
+          onEntryActive: this.activateEntryRow,
+          onCloseDetail: this.dispatcher.removeActiveEntryRow,
+          onAddAttachments: this.uploadInTrayFiles,
         }}
         deleteModalListeners={{
           onConfirmClose: this.dispatcher.closeInTrayDeleteModal,

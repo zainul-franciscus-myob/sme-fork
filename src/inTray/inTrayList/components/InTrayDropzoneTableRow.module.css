@@ -1,0 +1,48 @@
+
+.dropzone{
+  display: block;
+}
+/* @FEELIX */
+.dropzone:global(.table-data__row){
+  /* Remove table row line. and reduce table row padding so dropzone takes more space. */
+  padding: .8rem;
+  box-shadow: none;
+}
+/* @FEELIX */
+.dropzone :global(.dropzone-border) {
+  /* Reduce size taken by dropzone */
+  padding: var(--flx-spacing-small);
+}
+
+/* @FEELIX */
+.dropzone :global(.dropzone-container) {
+  /* Inline layout for dropzone. */
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* @FEELIX */
+.dropzone :global(.file-browser) {
+  /* Spaces text away from icon */
+  margin-left: var(--flx-spacing-small);
+}
+
+/* @FEELIX */
+.dropzone :global(.file-browser-label-wrapper) {
+  /*  reduces size taken by label */
+  margin-bottom: 0;
+  display: block;
+}
+
+/* @FEELIX */
+.dropzone :global(.file-browser__label-text) {
+  /* Ensure text is centered. */
+  margin-right: 0;
+  vertical-align: middle;
+}
+
+.inProgress {
+  cursor: progress;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+}

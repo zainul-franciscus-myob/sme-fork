@@ -1,7 +1,9 @@
 import {
+  getActiveEntry,
   getAddedEntries,
   getFilteredEntriesByKey,
   getIsEntryLoading,
+  getIsEntryUploadingDone,
   getTableEntries,
   getUpdatedEntriesByKey,
   getUploadCompleteAlert,
@@ -314,6 +316,137 @@ describe('InTrayListSelectors', () => {
       const expected = { message: 'Failed! Failed!', type: 'danger' };
 
       const actual = getUploadCompleteAlert(results);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getActiveEntry', () => {
+    it('should return active entry when activeEntryId is set', () => {
+      const state = {
+        inTrayList: {
+          activeEntryId: '1',
+          entries: [
+            {
+              id: '1',
+              uploadedDate: '01/01/19',
+            },
+            {
+              id: '2',
+              uploadedDate: '02/02/19',
+            },
+          ],
+        },
+      };
+
+      const expected = { activeEntryId: '1', uploadedDate: '01/01/19' };
+
+      const actual = getActiveEntry(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return uploadedDate set to empty when activeEntryId is not set', () => {
+      const state = {
+        inTrayList: {
+          activeEntryId: undefined,
+          entries: [
+            {
+              id: '1',
+              uploadedDate: '01/01/19',
+            },
+            {
+              id: '2',
+              uploadedDate: '02/02/19',
+            },
+          ],
+        },
+      };
+
+      const expected = { activeEntryId: undefined, uploadedDate: '' };
+
+      const actual = getActiveEntry(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return uploadedDate set to empty when no uploadedDate found', () => {
+      const state = {
+        inTrayList: {
+          activeEntryId: '1',
+          entries: [
+            {
+              id: '1',
+            },
+            {
+              id: '2',
+              uploadedDate: '02/02/19',
+            },
+          ],
+        },
+      };
+
+      const expected = { activeEntryId: '1', uploadedDate: '' };
+
+      const actual = getActiveEntry(state);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getIsEntryUploadingDone', () => {
+    it('should return false when uploadStatus is inProgress', () => {
+      const state = {
+        inTrayList: {
+          entries: [
+            {
+              id: '1',
+              uploadStatus: uploadStatuses.inProgress,
+            },
+          ],
+        },
+      };
+
+      const expected = false;
+
+      const actual = getIsEntryUploadingDone(state, '1');
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return true when uploadStatus is done', () => {
+      const state = {
+        inTrayList: {
+          entries: [
+            {
+              id: '1',
+              uploadStatus: uploadStatuses.done,
+            },
+          ],
+        },
+      };
+
+      const expected = true;
+
+      const actual = getIsEntryUploadingDone(state, '1');
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return true when there is no uploadStatus', () => {
+      const state = {
+        inTrayList: {
+          entries: [
+            {
+              id: '1',
+            },
+          ],
+        },
+      };
+
+      const expected = true;
+
+      const actual = getIsEntryUploadingDone(state, '1');
 
       expect(actual).toEqual(expected);
     });

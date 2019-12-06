@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DeleteModal from '../../components/modal/DeleteModal';
+import DeleteModal from '../../../components/modal/DeleteModal';
 
 const onConfirmClick = (handler, entry) => () => {
   handler(entry);

@@ -1,4 +1,4 @@
-import InTrayModule from './InTrayModule';
+import InTrayModule from './inTrayList/InTrayModule';
 
 const getInTrayRoutes = ({
   integration, setRootView, popMessages,

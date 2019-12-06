@@ -4,18 +4,20 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsTableEmpty, getIsTableLoading, getOrder } from '../../selectors/InTrayListSelectors';
-import InTrayFileBrowser from '../InTrayFileBrowser';
+import { getIsTableEmpty, getIsTableLoading, getOrder } from '../selectors/InTrayListSelectors';
+import InTrayFileBrowser from './InTrayFileBrowser';
 import InTrayListTableBody from './InTrayListTableBody';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
 import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 
 const tableConfig = {
   thumbnail: { width: '8rem', valign: 'middle' },
-  uploadedDate: { width: 'flex-1', valign: 'middle' },
-  invoiceNumber: { width: 'flex-1', valign: 'middle' },
-  issuedDate: { width: 'flex-1', valign: 'middle' },
-  totalAmount: { width: 'flex-1', valign: 'middle', align: 'right' },
+  uploadedDate: { width: 'flex-1', valign: 'middle', columnName: 'Date uploaded' },
+  invoiceNumber: { width: 'flex-1', valign: 'middle', columnName: 'Supplier invoice no.' },
+  issuedDate: { width: 'flex-1', valign: 'middle', columnName: 'Issue date' },
+  totalAmount: {
+    width: 'flex-1', valign: 'middle', align: 'right', columnName: 'Total amount ($)',
+  },
   action: { width: 'auto', valign: 'middle' },
 };
 
@@ -25,10 +27,9 @@ const InTrayListTable = ({
   order,
   onSort,
   onUpload,
-  onDownload,
-  onDelete,
-  onLinkToExistingBill,
-  onCreateBill,
+  handleActionSelect,
+  onRowSelect,
+  onAddAttachments,
 }) => {
   const emptyView = (
     <NoResultPageState
@@ -57,29 +58,28 @@ const InTrayListTable = ({
     tableBodyView = (
       <InTrayListTableBody
         tableConfig={tableConfig}
-        onDelete={onDelete}
-        onDownload={onDownload}
-        onLinkToExistingBill={onLinkToExistingBill}
-        onCreateBill={onCreateBill}
+        onRowSelect={onRowSelect}
+        onAddAttachments={onAddAttachments}
+        handleActionSelect={handleActionSelect}
       />
     );
   }
 
   return (
-    <Table hasActions>
+    <Table hasActions hasCard>
       <Table.Header>
         <Table.HeaderItem {...tableConfig.thumbnail} columnName="thumbnail"></Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.uploadedDate}>
-          <HeaderSort title="Date uploaded" sortName="ReceivedOn" activeSort={order} onSort={onSort} />
+          <HeaderSort title={tableConfig.uploadedDate.columnName} sortName="ReceivedOn" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.invoiceNumber}>
-          <HeaderSort title="Supplier invoice no." sortName="InvoiceNumber" activeSort={order} onSort={onSort} />
+          <HeaderSort title={tableConfig.invoiceNumber.columnName} sortName="InvoiceNumber" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.issuedDate}>
-          <HeaderSort title="Issue date" sortName="InvoiceDate" activeSort={order} onSort={onSort} />
+          <HeaderSort title={tableConfig.issuedDate.columnName} sortName="InvoiceDate" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.totalAmount}>
-          <HeaderSort title="Total amount ($)" sortName="InvoiceAmount" activeSort={order} onSort={onSort} />
+          <HeaderSort title={tableConfig.totalAmount.columnName} sortName="InvoiceAmount" activeSort={order} onSort={onSort} />
         </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.action} />
       </Table.Header>

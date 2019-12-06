@@ -1,33 +1,18 @@
 import {
-  Dropdown, Icons, Spinner, Table, Tooltip,
+  Dropdown,
+  Icons,
+  Spinner,
+  Table,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getTableEntries } from '../../selectors/InTrayListSelectors';
-import actionTypes from '../../actionTypes';
+import { getTableEntries } from '../selectors/InTrayListSelectors';
+import InTrayDropzoneTableRow from './InTrayDropzoneTableRow';
+import actionTypes from '../actionTypes';
 import styles from './InTrayListTableBody.module.css';
-
-const handleActionSelect = (handlers, id) => (action) => {
-  const {
-    onDelete, onDownload, onLinkToExistingBill, onCreateBill,
-  } = handlers;
-
-  switch (action) {
-    case actionTypes.linkToExistingBill:
-      onLinkToExistingBill(id);
-      break;
-    case actionTypes.createBill:
-      onCreateBill(id);
-      break;
-    case actionTypes.download:
-      onDownload(id);
-      break;
-    default:
-      onDelete(id);
-  }
-};
 
 const ThumbnailComponent = ({ isUploading, thumbnailUri, alt }) => {
   const thumbnailClass = classNames({
@@ -56,7 +41,10 @@ const SubmittingComponent = () => (
 );
 
 const UploadDateComponent = ({
-  uploadedDate, isUploading, isOcrInProgress, isSubmitting,
+  uploadedDate,
+  isUploading,
+  isOcrInProgress,
+  isSubmitting,
 }) => {
   if (isUploading || isOcrInProgress) {
     return LoadingComponent();
@@ -70,37 +58,53 @@ const UploadDateComponent = ({
 };
 
 const InvoiceComponent = value => value || (
-  <Tooltip triggerContent={<Icons.Info />}>
-    Information not available
-  </Tooltip>
+<Tooltip triggerContent={<Icons.Info />}>Information not available</Tooltip>
 );
 
-const ActionComponent = (handlers, id) => (
-  <Dropdown
-    right
-    items={[
-      <Dropdown.Item key={actionTypes.linkToExistingBill} label="Link to existing bill" value={actionTypes.linkToExistingBill} />,
-      <Dropdown.Item key={actionTypes.createBill} label="Create bill" value={actionTypes.createBill} />,
-      <Dropdown.Separator key="separator" />,
-      <Dropdown.Item key={actionTypes.download} label="Download" value={actionTypes.download} />,
-      <Dropdown.Item key={actionTypes.delete} label="Delete" value={actionTypes.delete} />,
-    ]}
-    onSelect={handleActionSelect(handlers, id)}
-    toggle={(
-      <Dropdown.Toggle size="xs">
-        <Icons.More />
-      </Dropdown.Toggle>
-      )}
-  />
+const ActionComponent = ({ id, handleActionSelect }) => (
+  // Prevent onRowSelect from being triggered on dropdown click within table.
+  <div tabIndex="-1" role="button" onClick={(e) => { e.stopPropagation(); }} onKeyUp={() => {}}>
+    <Dropdown
+      right
+      items={[
+        <Dropdown.Item
+          key={actionTypes.linkToExistingBill}
+          label="Link to existing bill"
+          value={actionTypes.linkToExistingBill}
+        />,
+        <Dropdown.Item
+          key={actionTypes.createBill}
+          label="Create bill"
+          value={actionTypes.createBill}
+        />,
+        <Dropdown.Separator key="separator" />,
+        <Dropdown.Item
+          key={actionTypes.download}
+          label="Download document"
+          value={actionTypes.download}
+        />,
+        <Dropdown.Item
+          key={actionTypes.delete}
+          label="Delete document"
+          value={actionTypes.delete}
+        />,
+      ]}
+      onSelect={handleActionSelect(id)}
+      toggle={(
+        <Dropdown.Toggle size="xs">
+          <Icons.More />
+        </Dropdown.Toggle>
+)}
+    />
+  </div>
 );
 
 const InTrayListTableBody = ({
   tableConfig,
   entries,
-  onDelete,
-  onDownload,
-  onLinkToExistingBill,
-  onCreateBill,
+  handleActionSelect,
+  onRowSelect,
+  onAddAttachments,
 }) => {
   const rows = entries.map((entry) => {
     const {
@@ -116,16 +120,24 @@ const InTrayListTableBody = ({
       isSubmitting,
       showInvoiceDetails,
       showActions,
+      isActive,
     } = entry;
 
     return (
-      <Table.Row key={`${id}-${uploadId}`}>
+      <Table.Row
+        onRowSelect={() => onRowSelect(id)}
+        isActive={isActive}
+        key={`${id}-${uploadId}`}
+      >
         <Table.RowItem {...tableConfig.thumbnail}>
           {ThumbnailComponent({ isUploading, thumbnailUri, uploadedDate })}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.uploadedDate}>
-          { UploadDateComponent({
-            uploadedDate, isUploading, isOcrInProgress, isSubmitting,
+          {UploadDateComponent({
+            uploadedDate,
+            isUploading,
+            isOcrInProgress,
+            isSubmitting,
           })}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.invoiceNumber}>
@@ -138,9 +150,13 @@ const InTrayListTableBody = ({
           {showInvoiceDetails && InvoiceComponent(totalAmount)}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.action} cellRole="actions">
-          {showActions && ActionComponent({
-            onDelete, onDownload, onLinkToExistingBill, onCreateBill,
-          }, id)}
+          {showActions
+            && (
+            <ActionComponent
+              handleActionSelect={handleActionSelect}
+              id={id}
+            />
+            )}
         </Table.RowItem>
       </Table.Row>
     );
@@ -148,6 +164,9 @@ const InTrayListTableBody = ({
 
   return (
     <Table.Body>
+      <InTrayDropzoneTableRow
+        onAddAttachment={onAddAttachments}
+      />
       {rows}
     </Table.Body>
   );

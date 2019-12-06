@@ -9,6 +9,7 @@ import {
   LOAD_IN_TRAY,
   OPEN_MODAL,
   REMOVE_IN_TRAY_LIST_ENTRY,
+  SET_ACTIVE_ENTRY_ROW,
   SET_ALERT,
   SET_CONFIRMING_EMAIL_GENERATION,
   SET_IN_TRAY_DELETE_MODAL,
@@ -20,18 +21,21 @@ import {
   SET_UPLOAD_OPTIONS_ALERT,
   SET_UPLOAD_OPTIONS_LOADING_STATE,
   SORT_AND_FILTER_IN_TRAY_LIST,
-} from '../InTrayIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+  UNSET_ACTIVE_ENTRY_ROW,
+} from '../../InTrayIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   addInTrayListEntry,
   createInTrayDocument,
   deleteInTrayDocument,
   removeInTrayListEntry,
+  setInTrayActiveEntry,
   setInTrayListEntrySubmittingState,
   setInTrayListFilterOption,
   setInTrayListSortOrder,
   setInTrayListTableLoadingState,
   sortAndFilterInTrayList,
+  unsetInTrayActiveEntry,
 } from './inTrayListReducer';
 import {
   generateInTrayEmail,
@@ -39,8 +43,8 @@ import {
   setUploadOptionsAlert,
   setUploadOptionsLoadingState,
 } from './uploadOptionsReducer';
-import createReducer from '../../store/createReducer';
-import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
+import createReducer from '../../../store/createReducer';
+import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultDateRange = () => addMonths(new Date(), -3);
 
@@ -54,6 +58,7 @@ const getDefaultState = () => ({
   isUploadOptionsLoading: false,
   uploadOptionsAlert: undefined,
   inTrayList: {
+    attachments: [],
     isTableLoading: false,
     filterOptions: {
       invoiceDateFrom: formatIsoDate(getDefaultDateRange()),
@@ -68,6 +73,7 @@ const getDefaultState = () => ({
     sortOrder: '',
     orderBy: '',
     entries: [],
+    activeEntryId: undefined,
   },
   deleteModal: undefined,
 });
@@ -141,6 +147,8 @@ const handlers = {
   [SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE]: setInTrayListEntrySubmittingState,
 
   [SET_IN_TRAY_DELETE_MODAL]: setInTrayDeleteModal,
+  [SET_ACTIVE_ENTRY_ROW]: setInTrayActiveEntry,
+  [UNSET_ACTIVE_ENTRY_ROW]: unsetInTrayActiveEntry,
 };
 
 const inTrayReducer = createReducer(getDefaultState(), handlers);

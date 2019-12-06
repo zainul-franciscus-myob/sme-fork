@@ -1,5 +1,9 @@
 .fileBrowser :global(.file-browser-label-wrapper) {
   margin-bottom: 0;
+  display: block;
+}
+.fileBrowser :global(.btn) {
+  display: flex;
 }
 
 .submitting :global(.filter-bar__item button) {

@@ -7,6 +7,7 @@ import {
   LOAD_IN_TRAY,
   OPEN_MODAL,
   REMOVE_IN_TRAY_LIST_ENTRY,
+  SET_ACTIVE_ENTRY_ROW,
   SET_ALERT,
   SET_CONFIRMING_EMAIL_GENERATION,
   SET_IN_TRAY_DELETE_MODAL,
@@ -18,7 +19,8 @@ import {
   SET_UPLOAD_OPTIONS_ALERT,
   SET_UPLOAD_OPTIONS_LOADING_STATE,
   SORT_AND_FILTER_IN_TRAY_LIST,
-} from './InTrayIntents';
+  UNSET_ACTIVE_ENTRY_ROW,
+} from '../InTrayIntents';
 
 const createInTrayDispatcher = store => ({
   setLoadingState: (isLoading) => {
@@ -63,6 +65,22 @@ const createInTrayDispatcher = store => ({
       intent,
       ...response,
       isSort: false,
+    });
+  },
+
+  activeEntryRow: (entryId) => {
+    const intent = SET_ACTIVE_ENTRY_ROW;
+    store.dispatch({
+      intent,
+      entryId,
+    });
+  },
+
+  removeActiveEntryRow: (entryId) => {
+    const intent = UNSET_ACTIVE_ENTRY_ROW;
+    store.dispatch({
+      intent,
+      entryId,
     });
   },
 

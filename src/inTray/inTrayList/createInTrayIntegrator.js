@@ -5,7 +5,7 @@ import {
   GENERATE_IN_TRAY_EMAIL,
   LOAD_IN_TRAY,
   SORT_AND_FILTER_IN_TRAY_LIST,
-} from './InTrayIntents';
+} from '../InTrayIntents';
 import {
   getAppliedFilterOptions,
   getFilterOptions,

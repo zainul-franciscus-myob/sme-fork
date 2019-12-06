@@ -2,7 +2,7 @@ import { DatePicker, FilterBar, Search } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilterOptions } from '../../selectors/InTrayListSelectors';
+import { getFilterOptions } from '../selectors/InTrayListSelectors';
 import handleDatePickerChange from '../../../components/handlers/handleDatePickerChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 

@@ -4,9 +4,12 @@ import uploadStatuses from '../uploadStatuses';
 
 const uploadFileTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/tiff'];
 
+
 export const getIsLoading = state => state.inTrayList.isLoading;
 
 export const getIsTableLoading = state => state.inTrayList.isTableLoading;
+
+export const getActiveEntryId = state => state.inTrayList.activeEntryId;
 
 export const getFilterOptions = state => state.inTrayList.filterOptions;
 
@@ -18,13 +21,23 @@ export const getOrderBy = state => state.inTrayList.orderBy;
 
 export const getEntries = state => state.inTrayList.entries;
 
+const getEntryById = (entries, id) => entries.find(entry => entry.id === id);
+
+export const getIsEntryUploadingDone = (state, entryId) => {
+  const entry = getEntryById(getEntries(state), entryId);
+
+  const uploadState = entry && entry.uploadStatus;
+
+  return uploadState !== uploadStatuses.inProgress;
+};
+
 export const getTableEntries = createSelector(
   getEntries,
-  entries => entries.map((entry) => {
+  getActiveEntryId,
+  (entries, activeEntryId) => entries.map((entry) => {
     const { ocrStatus, uploadStatus, isSubmitting = false } = entry;
     const isUploading = uploadStatus === uploadStatuses.inProgress;
     const isOcrInProgress = ocrStatus === 'InProgress';
-
     return {
       ...entry,
       isUploading,
@@ -32,9 +45,12 @@ export const getTableEntries = createSelector(
       isSubmitting,
       showInvoiceDetails: !isOcrInProgress && !isUploading && !isSubmitting,
       showActions: !isUploading && !isSubmitting,
+      isActive: entry.id === activeEntryId,
     };
   }),
 );
+
+export const getIsDetailShown = state => (Boolean(getActiveEntryId(state)));
 
 export const getIsTableEmpty = state => (state.inTrayList.entries || []).length === 0;
 
@@ -120,3 +136,16 @@ export const getUploadCompleteAlert = (results) => {
 
   return { message: errorMessage, type: 'danger' };
 };
+
+export const getActiveEntry = createSelector(
+  getEntries,
+  getActiveEntryId,
+  (entries, activeEntryId) => {
+    const activeEntry = getEntryById(entries, activeEntryId);
+
+    return ({
+      activeEntryId,
+      uploadedDate: activeEntry && activeEntry.uploadedDate ? activeEntry.uploadedDate : '',
+    });
+  },
+);
