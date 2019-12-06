@@ -48,6 +48,7 @@ const AddMenu = ({
 }) => (
   <ImageIconMenu
     image={addIconImage}
+    tooltip="Create new"
     items={getItems(urls, onMenuLinkClick)}
     onSelect={onMenuSelect}
   />

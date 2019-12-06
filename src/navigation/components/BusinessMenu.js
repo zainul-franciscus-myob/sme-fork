@@ -3,6 +3,7 @@ import {
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
 import {
   getActiveNav,
@@ -41,7 +42,7 @@ const getDisabledMenuLink = label => (
 
 const UnlinkedMenuLink = ({ label, className }) => (
   // eslint-disable-next-line jsx-a11y/anchor-is-valid
-  <li className={className}><a role="button">{label}</a></li>
+  <li className={classNames(styles.unlink, className)}><a role="button">{label}</a></li>
 );
 
 const getItems = ({
@@ -56,12 +57,12 @@ const getItems = ({
   urls.userList && getMenuLink(urls.userList, 'Users', onMenuLinkClick),
   urls.dataImportExport && getMenuLink(urls.dataImportExport, 'Import and export data', onMenuLinkClick),
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
-  <UnlinkedMenuLink label={userEmail} className={styles.userEmail} />,
+  userEmail && <UnlinkedMenuLink label={userEmail} className={styles.userEmail} />,
   getDisabledMenuLink('my.MYOB account'),
   getDisabledMenuLink('Subscription details'),
   getDisabledMenuLink('Payment details'),
   <Navigation.Separator key="separator-links" />,
-  <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
+  serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
   <Navigation.MenuLink key="logout" url="#/logout" label="Logout" icon={<Icons.SignOut />} onClick={handleMenuLinkClick(onMenuLinkClick, '#/logout')} />,
 ].filter(Boolean);
 

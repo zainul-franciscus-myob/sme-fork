@@ -223,7 +223,7 @@ export const getBusinessAbbreviation = createSelector(
 
       if (formattedB === 'PTY' || formattedB === 'LTD') return a;
 
-      return formattedB[0] ? a + formattedB[0] : a;
+      return formattedB.length ? a + [...formattedB][0] : a;
     }, ''),
 );
 

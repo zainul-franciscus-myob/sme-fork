@@ -60,6 +60,7 @@ describe('NavigationSelectors', () => {
       ['should allow lower case as the first letter', 'camelCaseBusinessName', 'CC'],
       ['should ignore empty space at the beginning of the name', ' empty space in front', 'ES'],
       ['should return empty string when name is empty', '', ''],
+      ['because having emoji as your business name is so cool', '📚 🤓eek', '📚🤓'],
     ])('%s', (scenario, businessName, expected) => {
       const actual = getBusinessAbbreviation.resultFunc(businessName);
 

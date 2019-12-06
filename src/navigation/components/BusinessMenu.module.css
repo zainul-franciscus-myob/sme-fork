@@ -8,6 +8,20 @@
   background-color: var(--flx-palette-storm-83);
 }
 
-:global(.dropdown-menu) .userEmail > :global(a) {
+/*
+  @FEELIX:
+  Chaining our classname twice for a higher specificity to override Feelix
+*/
+.userEmail.userEmail > :global(a) {
   font-weight: var(--flx-font-weight-bold);
+}
+
+/*
+  @FEELIX:
+  Override Feelix hover color with its nav link color
+  Chaining our classname twice for a higher specificity to override Feelix
+*/
+.unlink.unlink :global(a:hover) {
+  color: #687484;
+  background-color: unset;
 }
