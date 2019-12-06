@@ -5,10 +5,8 @@ import React from 'react';
 import CreateRootDispatcher from './createRootDispatcher';
 import DrawerModule from '../drawer/DrawerModule';
 import NavigationModule from '../navigation/NavigationModule';
-import OnboardingModule from '../onboarding/onboardingModule';
 import RootReducer from './rootReducer';
 import RootView from './components/RootView';
-import SettingsService from './services/settingsService';
 import Store from '../store/Store';
 
 export default class RootModule {
@@ -31,27 +29,27 @@ export default class RootModule {
     this.store = new Store(RootReducer);
     this.dispatcher = new CreateRootDispatcher(this.store);
 
-    this.settingsClient = SettingsService(this.dispatcher, integration, this.store);
-
-    this.onboarding = new OnboardingModule({
-      integration,
-      router,
-      saveSettingsList: this.settingsClient.save,
-      store: this.store,
-    });
+    // this.settingsClient = SettingsService(this.dispatcher, integration, this.store);
+    //
+    // this.onboarding = new OnboardingModule({
+    //   integration,
+    //   router,
+    //   saveSettingsList: this.settingsClient.save,
+    //   store: this.store,
+    // });
   }
 
   render = (component) => {
     const navView = this.nav.render();
     const drawerView = this.drawer.render();
-    const onboardingView = this.onboarding.render();
+    // const onboardingView = this.onboarding.render();
 
     return (
       <Provider store={this.store}>
         <RootView
           drawer={drawerView}
           nav={navView}
-          onboarding={onboardingView}
+          // onboarding={onboardingView}
         >
           { component }
         </RootView>
@@ -60,12 +58,12 @@ export default class RootModule {
   };
 
   run = (routeProps, handlePageTransition) => {
-    const { routeParams } = routeProps;
-    const { businessId } = routeParams;
-    const currentBusinessId = this.store.getState().businessId;
-
-    this.dispatcher.setInitialState(routeParams);
-    if (businessId && businessId !== currentBusinessId) this.settingsClient.load(routeParams);
+    // const { routeParams } = routeProps;
+    // const { businessId } = routeParams;
+    // const currentBusinessId = this.store.getState().businessId;
+    //
+    // this.dispatcher.setInitialState(routeParams);
+    // if (businessId && businessId !== currentBusinessId) this.settingsClient.load(routeParams);
 
     this.drawer.run(routeProps);
     this.nav.run({
@@ -73,6 +71,6 @@ export default class RootModule {
       onPageTransition: handlePageTransition,
       toggleHelp: this.drawer.toggleDrawer,
     });
-    this.onboarding.run();
+    // this.onboarding.run();
   };
 }
