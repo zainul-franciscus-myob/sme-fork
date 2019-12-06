@@ -15,7 +15,7 @@ export default class RootModule {
   constructor({
     integration, router,
   }) {
-    const { constructPath, replaceURLParamsAndReload, routeParams } = router;
+    const { constructPath, replaceURLParamsAndReload } = router;
 
     this.drawer = new DrawerModule({
       integration,
@@ -35,7 +35,7 @@ export default class RootModule {
 
     this.onboarding = new OnboardingModule({
       integration,
-      routeParams,
+      router,
       saveSettingsList: this.settingsClient.save,
       store: this.store,
     });

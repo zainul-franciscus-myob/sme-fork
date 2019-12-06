@@ -11,14 +11,17 @@ class OnboardingModule {
   constructor({
     integration,
     saveSettingsList,
-    routeParams,
+    router,
   }) {
     this.store = new Store(OnboardingReducer);
     this.dispatcher = new CreateOnboardingDispatcher(this.store);
+    this.router = router;
 
-    this.loadFormData = OnboardingClient.loadFormData(this.dispatcher, integration, routeParams);
+    this.loadFormData = OnboardingClient.loadFormData(this.dispatcher, integration, router);
     this.saveSettingsList = saveSettingsList;
   }
+
+  getBusinessId = () => this.router.routeParams().businessId;
 
   render = () => {
     const { saveSettingsList, store } = this;
@@ -31,6 +34,8 @@ class OnboardingModule {
   }
 
   run = () => {
+    if (!this.getBusinessId()) return;
+
     this.dispatcher.setInitialState();
     this.loadFormData();
   }
