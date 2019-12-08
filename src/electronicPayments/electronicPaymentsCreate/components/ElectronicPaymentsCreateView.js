@@ -66,7 +66,7 @@ const ElectronicPaymentsCreateView = ({
   onRecordButtonClick,
   onContinueButtonClick,
   onReferenceNumberClick,
-  employeeTransactionModal,
+  employeePayModal,
 }) => {
   const onDatePickerChange = filterName => ({ value }) => {
     onUpdateFilterBarOptions({ filterName, value });
@@ -90,7 +90,7 @@ const ElectronicPaymentsCreateView = ({
   const view = (
     <BaseTemplate>
       {alertComponent}
-      {employeeTransactionModal}
+      {employeePayModal}
       {modal && (
         <RecordAndCreateFileModal
           modal={modal}

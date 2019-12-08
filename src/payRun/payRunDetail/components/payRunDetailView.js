@@ -20,7 +20,7 @@ const PayRunDetailView = ({
   printTabListeners,
   onBackButtonClick,
   onEmployeeNameClick,
-  employeeTransactionModal,
+  employeePayModal,
   emailPaySlipModal,
   exportPdf,
 }) => {
@@ -38,7 +38,7 @@ const PayRunDetailView = ({
 
   const payRunDetailView = (
     <BaseTemplate>
-      {employeeTransactionModal}
+      {employeePayModal}
       {emailPaySlipModal}
       <PageHead title="Pay run details" />
       <PayRunDetailHeader />

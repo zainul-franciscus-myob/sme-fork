@@ -30,7 +30,7 @@ import {
   getSortOrder,
 } from '../ElectronicPaymentsSelector';
 import ElectronicPaymentsCreateView from './components/ElectronicPaymentsCreateView';
-import EmployeeTransactionModalModule from '../../employeePay/employeeTransactionModal/EmployeeTransactionModalModule';
+import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import ModalType from './ModalType';
 import Store from '../../store/Store';
 import electronicPaymentsCreateReducer from './electronicPaymentsCreateReducer';
@@ -66,7 +66,7 @@ export default class ElectronicPaymentsModule {
     this.store = new Store(electronicPaymentsCreateReducer);
     this.integration = integration;
     this.subModules = {
-      employeePayModal: new EmployeeTransactionModalModule({
+      employeePayModal: new EmployeePayModalModule({
         integration,
       }),
     };
@@ -303,10 +303,10 @@ export default class ElectronicPaymentsModule {
   }
 
   render = () => {
-    const employeeTransactionModal = this.subModules.employeePayModal.getView();
+    const employeePayModal = this.subModules.employeePayModal.getView();
     const view = (
       <ElectronicPaymentsCreateView
-        employeeTransactionModal={employeeTransactionModal}
+        employeePayModal={employeePayModal}
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
         onApplyFilter={this.filterElectronicPayments}
         onAccountChange={this.updateSelectedAccountId}
@@ -319,7 +319,7 @@ export default class ElectronicPaymentsModule {
         onCancelButtonClick={this.closeModal}
         onRecordButtonClick={this.recordAndDownloadBankFile}
         onContinueButtonClick={this.recordAndDownloadBankFile}
-        onReferenceNumberClick={this.openEmployeeTransactionModal}
+        onReferenceNumberClick={this.openEmployeePayModal}
       />
     );
 
@@ -341,7 +341,7 @@ export default class ElectronicPaymentsModule {
     });
   }
 
-  openEmployeeTransactionModal = (transactionId, employeeName) => {
+  openEmployeePayModal = (transactionId, employeeName) => {
     const state = this.store.getState();
     this.subModules.employeePayModal.openModal({
       transactionId,

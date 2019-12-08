@@ -25,7 +25,7 @@
         {
           "name": "Base Salary",
           "amount": "$961.54",
-          "hours": 0.67,
+          "hours": null,
           "payItemId": 6
         },
         {
@@ -33,6 +33,12 @@
           "amount": "$861.54",
           "hours": 0.67,
           "payItemId": 7
+        },
+        {
+          "name": "Annual Leave",
+          "amount": "$961.54",
+          "hours": 7.60,
+          "payItemId": 12
         },
         {
           "name": "Deductions",
@@ -65,7 +71,7 @@
       "items": [
         {
           "name": "Entitlement",
-          "amount": "$961.54",
+          "amount": null,
           "hours": 0.67,
           "payItemId": 12
         }
@@ -76,14 +82,14 @@
       "items": [
         {
           "name": "Expenses",
-          "hours": 0.67,
-          "amount": null,
+          "hours": null,
+          "amount": "$961.54",
           "payItemId": 13
         },
         {
           "name": "Super expenses",
-          "hours": 0.67,
-          "amount": null,
+          "hours": null,
+          "amount": "$961.54",
           "payItemId": 14
         }
       ]

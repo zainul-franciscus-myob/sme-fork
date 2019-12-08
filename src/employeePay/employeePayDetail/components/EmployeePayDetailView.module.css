@@ -1,0 +1,23 @@
+.textContainer {
+  padding-right: 1.5rem;
+  padding-top: 1.5rem;
+  text-align: right;
+}
+
+.netPayLabel {
+  padding-right: 3rem;
+}
+
+.successTextColor {
+  color: var(--flx-color-alert-success-link);
+}
+
+.footerStyle {
+  background: #f3f4f5;
+  border-top: 1px solid #dcdfe1;
+  padding: 16px;
+}
+
+.zeroMargin {
+  margin: 0;
+}

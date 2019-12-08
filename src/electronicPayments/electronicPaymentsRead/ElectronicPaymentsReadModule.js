@@ -17,7 +17,7 @@ import {
   getRegion,
 } from '../ElectronicPaymentsSelector';
 import ElectronicPaymentsReadView from './components/ElectronicPaymentsReadView';
-import EmployeeTransactionModalModule from '../../employeePay/employeeTransactionModal/EmployeeTransactionModalModule';
+import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import Store from '../../store/Store';
 import electronicPaymentReadReducer from './electronicPaymentsReadReducer';
 
@@ -29,7 +29,7 @@ export default class ElectronicPaymentsReadModule {
     this.setRootView = setRootView;
     this.store = new Store(electronicPaymentReadReducer);
     this.integration = integration;
-    this.employeeTransactionModal = new EmployeeTransactionModalModule({
+    this.employeePayModal = new EmployeePayModalModule({
       integration,
     });
   }
@@ -128,9 +128,9 @@ export default class ElectronicPaymentsReadModule {
     });
   };
 
-  openEmployeeTransactionModal = (transactionId, employeeName) => {
+  openEmployeePayModal = (transactionId, employeeName) => {
     const state = this.store.getState();
-    this.employeeTransactionModal.openModal({
+    this.employeePayModal.openModal({
       transactionId,
       employeeName,
       businessId: getBusinessId(state),
@@ -139,14 +139,14 @@ export default class ElectronicPaymentsReadModule {
   }
 
   render = () => {
-    const modalComponent = this.employeeTransactionModal.getView();
+    const modalComponent = this.employeePayModal.getView();
 
     const view = (
       <ElectronicPaymentsReadView
         onGoBackClick={this.goBack}
         onDeleteButtonClick={this.deleteElectronicPayment}
-        employeeTransactionModal={modalComponent}
-        onReferenceNumberClick={this.openEmployeeTransactionModal}
+        employeePayModal={modalComponent}
+        onReferenceNumberClick={this.openEmployeePayModal}
       />
     );
 

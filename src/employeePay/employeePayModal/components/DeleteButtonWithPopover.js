@@ -2,6 +2,7 @@ import { Button, ButtonRow } from '@myob/myob-widgets';
 import React from 'react';
 
 import Popover from '../../../components/Feelix/Popover/Popover';
+import styles from './DeleteButtonWithPopover.module.css';
 
 const DeleteButtonWithPopover = ({
   onDelete,
@@ -46,7 +47,7 @@ const DeleteButtonWithPopover = ({
       footer={<Popover.Footer child={footer} />}
       preferPlace="above"
     >
-      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+      <div className={styles.deleteBtn}>
         <Button
           key="modal-go-delete-btn"
           id="modal-go-delete-btn"

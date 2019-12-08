@@ -36,7 +36,7 @@ const ElectronicPaymentsReadView = ({
   onGoBackClick,
   onDeleteButtonClick,
   totalPayment,
-  employeeTransactionModal,
+  employeePayModal,
   onReferenceNumberClick,
 }) => {
   const totalPaymentFooter = (
@@ -50,7 +50,7 @@ const ElectronicPaymentsReadView = ({
 
   const view = (
     <BaseTemplate>
-      {employeeTransactionModal}
+      {employeePayModal}
       <PageHead title="Create bank file to pay employees" />
       <Card
         footer={totalPaymentFooter}

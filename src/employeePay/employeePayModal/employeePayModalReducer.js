@@ -1,18 +1,18 @@
 import {
-  LOAD_EMPLOYEE_PAY_DETAIL,
+  LOAD_EMPLOYEE_PAY_MODAL,
   SET_DELETE_POPOVER_IS_OPEN,
   SET_INITIAL_MODAL_STATE,
   SET_IS_MODAL_LOADING,
   SET_MODAL_IS_OPEN,
-} from './EmployeeTransactionModalIntents';
+} from './EmployeePayModalIntents';
 import createReducer from '../../store/createReducer';
 
-const getTransactionModalDefaultState = () => ({
+const getDefaultState = () => ({
   employeeName: '',
   transactionId: '',
   businessId: '',
   region: '',
-  employeeDetails: {
+  employeePay: {
     employeeName: '',
     paymentMethod: '',
     payPeriodStart: '',
@@ -29,11 +29,11 @@ const getTransactionModalDefaultState = () => ({
   deletePopoverIsOpen: false,
 });
 
-const loadEmployeePayDetails = (state, action) => ({
+const loadEmployeePayDetails = (state, { response }) => ({
   ...state,
-  employeeDetails: {
-    ...state.employeeDetails,
-    ...action.employeeDetails,
+  employeePay: {
+    ...state.employeePay,
+    ...response,
   },
 });
 
@@ -44,7 +44,7 @@ const setModalLoadingState = (state, action) => ({
 
 const setInitialState = (state, action) => ({
   ...state,
-  ...getTransactionModalDefaultState(),
+  ...getDefaultState(),
   ...action.context,
 });
 
@@ -58,17 +58,14 @@ const setModalIsOpen = (state, { isOpen }) => ({
   isOpen,
 });
 
-const employeeTransactionModalHandlers = {
-  [LOAD_EMPLOYEE_PAY_DETAIL]: loadEmployeePayDetails,
+const handlers = {
+  [LOAD_EMPLOYEE_PAY_MODAL]: loadEmployeePayDetails,
   [SET_IS_MODAL_LOADING]: setModalLoadingState,
   [SET_DELETE_POPOVER_IS_OPEN]: setDeletePopoverIsOpen,
   [SET_INITIAL_MODAL_STATE]: setInitialState,
   [SET_MODAL_IS_OPEN]: setModalIsOpen,
 };
 
-const employeeTransactionModalReducer = createReducer(
-  getTransactionModalDefaultState(),
-  employeeTransactionModalHandlers,
-);
+const employeePayModalReducer = createReducer(getDefaultState(), handlers);
 
-export default employeeTransactionModalReducer;
+export default employeePayModalReducer;

@@ -2,22 +2,18 @@ import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
 const tableConfig = {
-  payItems: { columnName: 'Pay items', width: 'flex-1', valign: 'middle' },
+  payItems: {
+    columnName: 'Pay items', width: 'flex-1', valign: 'middle',
+  },
   hours: {
-    columnName: 'Hours',
-    width: '20rem',
-    valign: 'middle',
-    align: 'right',
+    columnName: 'Hours', width: '20rem', valign: 'middle', align: 'right',
   },
   amount: {
-    columnName: 'Amount ($)',
-    width: '20rem',
-    valign: 'middle',
-    align: 'right',
+    columnName: 'Amount ($)', width: '20rem', valign: 'middle', align: 'right',
   },
 };
 
-const EmployeePayDetailModalTable = ({
+const EmployeePayDetailTable = ({
   payItemGroups,
 }) => {
   const rowSections = payItemGroups.map((payItemGroup) => {
@@ -52,9 +48,7 @@ const EmployeePayDetailModalTable = ({
   return (
     <Table>
       <Table.Header>
-        <Table.HeaderItem
-          {...tableConfig.payItems}
-        >
+        <Table.HeaderItem {...tableConfig.payItems}>
           {tableConfig.payItems.columnName}
         </Table.HeaderItem>
         <Table.HeaderItem {...tableConfig.hours}>{tableConfig.hours.columnName}</Table.HeaderItem>
@@ -67,4 +61,4 @@ const EmployeePayDetailModalTable = ({
   );
 };
 
-export default EmployeePayDetailModalTable;
+export default EmployeePayDetailTable;

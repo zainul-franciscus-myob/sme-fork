@@ -6,7 +6,7 @@ Step 1: Register the submodule
 
 Import the submodule:
 ```js
-import EmployeeTransactionModalModule from '../employeePay/employeeTransactionModal/EmployeeTransactionModalModule';
+import EmployeePayModalModule from '../employeePay/employeePayModal/EmployeePayModalModule';
 ```
 
 and initialize within your modules constructor, keeping a reference as a class attribute.
@@ -14,7 +14,7 @@ and initialize within your modules constructor, keeping a reference as a class a
 ```js
 class ConsumerModule {
   constructor({ setRootView, integration }) {
-    this.employeeTransactionModal = new EmployeeTransactionModalModule({
+    this.employeePayModal = new EmployeePayModalModule({
       integration,
     });
   }
@@ -28,10 +28,10 @@ Using the submodules `getView` method, pass the modal component to your view, an
 render function:
 ```js
 render = () => {
-  const modalComponent = this.employeeTransactionModal.getView();
+  const modalComponent = this.employeePayModal.getView();
   return (
     <MyConsumerView
-      employeeTransactionModal={modalComponent}
+      employeePayModal={modalComponent}
     />
   );
 }
@@ -39,11 +39,11 @@ render = () => {
 
 inside view:
 ```js
-const MyConsumerView = ({employeeTransactionModal}) => {
+const MyConsumerView = ({employeePayModal}) => {
   return (
     <BaseTemplate>
       ...
-      {employeeTransactionModal}
+      {employeePayModal}
       ...
     </BaseTemplate>
   );
@@ -56,9 +56,9 @@ Define a module method to call to trigger the modals display.
 
 This method needs to call the submodule `openModal` method, passing in the `transactionId`, `employeeName`, `region` and `businessId`.
 ```js
-    openEmployeeTransactionModal = (transactionId, employeeName) => {
+    openEmployeePayModal = (transactionId, employeeName) => {
     const state = this.store.getState();
-    this.employeeTransactionModal.openModal({
+    this.employeePayModal.openModal({
       transactionId,
       employeeName,
       businessId: getBusinessId(state),

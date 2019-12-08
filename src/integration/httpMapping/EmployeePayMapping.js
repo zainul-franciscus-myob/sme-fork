@@ -1,7 +1,12 @@
-import { LOAD_EMPLOYEE_PAY_DETAIL } from '../../employeePay/employeeTransactionModal/EmployeeTransactionModalIntents';
+import { LOAD_EMPLOYEE_PAY_DETAIL } from '../../employeePay/employeePayDetail/EmployeePayDetailIntents';
+import { LOAD_EMPLOYEE_PAY_MODAL } from '../../employeePay/employeePayModal/EmployeePayModalIntents';
 import { SEND_PAY_SLIP_EMAIL } from '../../employeePay/emailPaySlipModal/EmailPaySlipModalIntents';
 
 const EmployeePayMapping = {
+  [LOAD_EMPLOYEE_PAY_MODAL]: {
+    method: 'GET',
+    getPath: ({ businessId, transactionId }) => `/${businessId}/employeePay/load_employee_transaction_detail/${transactionId}`,
+  },
   [LOAD_EMPLOYEE_PAY_DETAIL]: {
     method: 'GET',
     getPath: ({ businessId, transactionId }) => `/${businessId}/employeePay/load_employee_transaction_detail/${transactionId}`,

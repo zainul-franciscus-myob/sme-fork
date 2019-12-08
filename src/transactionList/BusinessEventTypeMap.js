@@ -11,6 +11,7 @@ const BusinessEventTypeMap = {
   SettleSaleReturn: 'applyToSale',
   Purchase: 'bill',
   Sale: 'invoice',
+  Payroll: 'employeePay',
 };
 
 export default BusinessEventTypeMap;

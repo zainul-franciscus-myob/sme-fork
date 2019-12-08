@@ -206,6 +206,24 @@
       "businessEventType": "CashReceipt"
     },
     {
+      "id": "30",
+      "displayDate": "30/07/2016",
+      "referenceId": "EP0000001",
+      "description": "CEO",
+      "sourceJournal": "Payroll",
+      "displayAmount": "1,000,000.00",
+      "businessEventType": "Payroll"
+    },
+    {
+      "id": "31",
+      "displayDate": "30/07/2016",
+      "referenceId": "EP0000002",
+      "description": "Cheap labor",
+      "sourceJournal": "Payroll",
+      "displayAmount": "2.00",
+      "businessEventType": "Payroll"
+    },
+    {
       "id": "20",
       "displayDate": "30/09/2016",
       "referenceId": "TM0000025",

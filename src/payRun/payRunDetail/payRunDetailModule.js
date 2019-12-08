@@ -22,7 +22,7 @@ import {
   getUrlParams,
 } from './payRunDetailSelector';
 import EmailPaySlipModalModule from '../../employeePay/emailPaySlipModal/EmailPaySlipModalModule';
-import EmployeeTransactionModalModule from '../../employeePay/employeeTransactionModal/EmployeeTransactionModalModule';
+import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import PayRunDetailView from './components/payRunDetailView';
 import Store from '../../store/Store';
 import openBlob from '../../common/blobOpener/openBlob';
@@ -35,7 +35,7 @@ export default class PayRunDetailModule {
     this.integration = integration;
     this.store = new Store(payRunDetailReducer);
     this.setRootView = setRootView;
-    this.employeePayModal = new EmployeeTransactionModalModule({ integration });
+    this.employeePayModal = new EmployeePayModalModule({ integration });
     this.emailPaySlipModal = new EmailPaySlipModalModule({ integration });
   }
 
@@ -178,7 +178,7 @@ export default class PayRunDetailModule {
     const wrappedView = (
       <Provider store={this.store}>
         <PayRunDetailView
-          employeeTransactionModal={employeePayModalView}
+          employeePayModal={employeePayModalView}
           emailPaySlipModal={emailPaySlipModalView}
           setSelectedTab={this.setSelectedTab}
           emailTabListeners={{

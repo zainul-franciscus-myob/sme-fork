@@ -14,6 +14,7 @@ import getCustomerStatementRoutes from './customerStatement/getCustomerStatement
 import getDashboardRoutes from './dashboard/getDashboardRoutes';
 import getDataImportExportRoutes from './dataImportExport/getDataImportExportRoutes';
 import getElectronicPaymentsRoutes from './electronicPayments/getElectronicPaymentsRoutes';
+import getEmployeePayRoutes from './employeePay/getEmployeePayRoutes';
 import getEmployeeRoutes from './employee/getEmployeeRoutes';
 import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
 import getInTrayRoutes from './inTray/getInTrayRoutes';
@@ -363,6 +364,13 @@ const getRoutes = ({
     name: 'customerStatement',
     rootPath: '/:region/:businessId/customerStatement',
     subRoutes: getCustomerStatementRoutes({
+      integration, setRootView,
+    }),
+  },
+  {
+    name: 'employeePay',
+    rootPath: '/:region/:businessId/employeePay',
+    subRoutes: getEmployeePayRoutes({
       integration, setRootView,
     }),
   },
