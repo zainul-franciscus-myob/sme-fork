@@ -1,13 +1,15 @@
-import { DropZone, Table } from '@myob/myob-widgets';
+import { DropZone } from '@myob/myob-widgets';
 import React from 'react';
 
-import styles from './InTrayDropzoneTableRow.module.css';
+import styles from './InTrayDropZone.module.css';
 
-const InTrayDropzoneTableRow = ({ onAddAttachment }) => (
-  <Table.Row className={styles.dropzone}>
+const InTrayDropZone = ({
+  onUpload,
+}) => (
+  <div className={styles.dropzone}>
     <DropZone
-      onDrop={onAddAttachment}
-      onFileSelected={onAddAttachment}
+      onDrop={onUpload}
+      onFileSelected={onUpload}
     />
     <div>
       <p>
@@ -24,8 +26,7 @@ const InTrayDropzoneTableRow = ({ onAddAttachment }) => (
         .
       </p>
     </div>
-  </Table.Row>
+  </div>
 );
 
-
-export default InTrayDropzoneTableRow;
+export default InTrayDropZone;

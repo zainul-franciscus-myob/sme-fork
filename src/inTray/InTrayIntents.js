@@ -23,3 +23,9 @@ export const SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE = Symbol('Set in tray list 
 export const SET_IN_TRAY_DELETE_MODAL = Symbol('Set in tray entry delete modal');
 export const SET_ACTIVE_ENTRY_ROW = Symbol('Activate an entry in the table');
 export const UNSET_ACTIVE_ENTRY_ROW = Symbol('Deactivate an entry');
+
+export const CREATE_IN_TRAY_MODAL_DOCUMENT = Symbol('Create in tray modal document');
+export const LOAD_IN_TRAY_MODAL = Symbol('Load in tray modal');
+export const SORT_AND_FILTER_IN_TRAY_MODAL = Symbol('Sort and filter in tray modal');
+export const VIEW_IN_TRAY_MODAL_DOCUMENT = Symbol('View in tray modal document');
+export const SELECT_DOCUMENT = Symbol('Select document');

@@ -13,6 +13,7 @@
     "orderNumber": "123",
     "amountPaid": "77.77",
     "displayAmountPaid": "$77.77",
+    "linkedDocumentId": "19eb4da0-8c52-4307-9ca7-74bd481f5b99",
     "lines": [
       {
         "id": "1",

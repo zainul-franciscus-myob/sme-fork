@@ -32,6 +32,7 @@ const BillView = ({
   isLoading,
   layout,
   inventoryModal,
+  inTrayModal,
   contactModal,
   onSaveButtonClick,
   onSaveAndButtonClick,
@@ -102,6 +103,7 @@ const BillView = ({
       {inventoryModal}
       {accountModal}
       {contactModal}
+      {inTrayModal}
       {isModalShown && (
         <BillModal
           onModalClose={onModalClose}

@@ -17,14 +17,14 @@ import PaginatedListTemplate from '../../../components/PaginatedListTemplate/Pag
 import style from './InvoiceListView.module.css';
 
 const tableConfig = {
-  dateIssued: { columnName: 'dateIssued', valign: 'top' },
-  number: { columnName: 'number', valign: 'top' },
-  customer: { columnName: 'customer', valign: 'top' },
-  purchaseOrder: { columnName: 'purchaseOrder', valign: 'top' },
-  invoiceAmount: { columnName: 'invoiceAmount', valign: 'top', align: 'right' },
-  invoiceDue: { columnName: 'invoiceDue', valign: 'top', align: 'right' },
-  dateDue: { columnName: 'dateDue', valign: 'top', align: 'left' },
-  status: { columnName: 'status', valign: 'middle', align: 'left' },
+  dateIssued: { columnName: 'Issue date', valign: 'top' },
+  number: { columnName: 'Invoice no', valign: 'top' },
+  customer: { columnName: 'Customer', valign: 'top' },
+  purchaseOrder: { columnName: 'Customer PO no', valign: 'top' },
+  invoiceAmount: { columnName: 'Amount ($)', valign: 'top', align: 'right' },
+  invoiceDue: { columnName: 'Balance due ($)', valign: 'top', align: 'right' },
+  dateDue: { columnName: 'Due date', valign: 'top', align: 'left' },
+  status: { columnName: 'Status', valign: 'middle', align: 'left' },
 };
 
 const InvoiceListView = ({

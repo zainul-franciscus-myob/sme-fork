@@ -80,7 +80,7 @@ const AccountModalView = ({
     </Modal>
   );
 
-  return isOpen ? modal : null;
+  return isOpen && modal;
 };
 
 const mapStateToProps = state => ({

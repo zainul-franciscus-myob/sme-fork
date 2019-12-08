@@ -1,0 +1,16 @@
+.fileBrowser :global(.file-browser-label-wrapper) {
+  margin-bottom: 0;
+}
+
+.submitting :global(.filter-bar__item button) {
+  cursor: progress;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.submitting :global(.table-data__header button) {
+  color: #969ea7;
+  cursor: progress;
+}

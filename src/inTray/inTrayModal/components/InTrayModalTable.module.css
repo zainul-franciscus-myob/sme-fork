@@ -1,0 +1,4 @@
+/* @FEELIX */
+.inTrayTable :global(.table-data__header .table-data__cell:first-child > .radio) {
+  display: none;
+}
