@@ -2,10 +2,12 @@ import { addDays, subDays } from 'date-fns';
 
 import {
   getDefaultDateRange,
+  getLoadMoreButtonStatus,
   getTableBodyState,
   getTableEntries,
   getTotalOverdue,
 } from '../billListSelectors';
+import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import TableBodyType from '../TableBodyType';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
@@ -257,6 +259,51 @@ describe('billListSelectors', () => {
       const actual = getTableBodyState(state);
 
       expect(actual).toEqual(TableBodyType.NO_RESULTS);
+    });
+  });
+
+  describe('getLoadMoreButtonStatus', () => {
+    it('sets status to hidden when hasNextPage is false', () => {
+      const state = {
+        pagination: {
+          hasNextPage: false,
+        },
+      };
+
+      const actual = getLoadMoreButtonStatus(state);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.HIDDEN);
+    });
+
+    it('sets status to HIDDEN when isTableLoading is true', () => {
+      const state = {
+        isTableLoading: true,
+      };
+
+      const actual = getLoadMoreButtonStatus(state);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.HIDDEN);
+    });
+    it('sets status to SHOWN when hasNextPage is true', () => {
+      const state = {
+        pagination: {
+          hasNextPage: true,
+        },
+      };
+
+      const actual = getLoadMoreButtonStatus(state);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.SHOWN);
+    });
+
+    it('sets sets status to LOADING when isLoadingMore is true', () => {
+      const state = {
+        isLoadingMore: true,
+
+      };
+      const actual = getLoadMoreButtonStatus(state);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.LOADING);
     });
   });
 });

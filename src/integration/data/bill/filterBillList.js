@@ -1,6 +1,9 @@
 export default {
   total: '$600.00',
   totalDue: '$56.34',
+  pagination: {
+    hasNextPage: false,
+  },
   entries: [
     {
       id: '1',
@@ -27,4 +30,5 @@ export default {
       hasAttachment: false,
     },
   ],
+
 };

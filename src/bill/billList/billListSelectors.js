@@ -1,6 +1,7 @@
 import { addMonths } from 'date-fns';
 import { createSelector } from 'reselect';
 
+import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import TableBodyType from './TableBodyType';
 import formatAmount from '../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../common/valueFormatters/formatCurrency';
@@ -143,3 +144,20 @@ export const getTableBodyState = createSelector(
     return TableBodyType.NO_RESULTS;
   },
 );
+
+export const getOffset = state => state.pagination.offset;
+
+export const getLoadMoreButtonStatus = (state) => {
+  const isTableLoading = getIsTableLoading(state);
+  const { isLoadingMore } = state;
+  const isLastPage = state.pagination && !state.pagination.hasNextPage;
+
+  if (isLastPage || isTableLoading) {
+    return LoadMoreButtonStatuses.HIDDEN;
+  }
+
+  if (isLoadingMore) {
+    return LoadMoreButtonStatuses.LOADING;
+  }
+  return LoadMoreButtonStatuses.SHOWN;
+};

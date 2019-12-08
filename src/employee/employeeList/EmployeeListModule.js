@@ -169,10 +169,10 @@ export default class EmployeeListModule {
       });
     };
 
-    const onFailure = (error) => {
+    const onFailure = ({ message }) => {
       this.setTableLoadingState(false);
       this.setAlert({
-        message: error.message, type: 'danger',
+        message, type: 'danger',
       });
     };
 

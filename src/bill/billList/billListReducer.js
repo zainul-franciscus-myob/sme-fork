@@ -7,6 +7,7 @@ import {
   SORT_AND_FILTER_BILL_LIST,
   UPDATE_FILTER_OPTIONS,
 } from '../BillIntents';
+import { LOAD_BILL_LIST_NEXT_PAGE, START_LOADING_MORE, STOP_LOADING_MORE } from '../billDetail/BillIntents';
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
@@ -36,6 +37,11 @@ const getDefaultState = () => ({
   isLoading: true,
   isTableLoading: false,
   alert: undefined,
+  isLoadingMore: false,
+  pagination: {
+    hasNextPage: false,
+    offset: 0,
+  },
 });
 
 const resetState = () => (getDefaultState());
@@ -73,6 +79,32 @@ const loadBillList = (state, { status, supplierId, ...action }) => ({
   },
 });
 
+const loadBillListNextPage = (state, action) => {
+  const allBillIds = state.entries.map(bill => bill.id);
+
+  const entries = action.entries.filter(bill => !allBillIds.includes(bill.id));
+  return ({
+    ...state,
+    entries: [
+      ...state.entries,
+      ...entries,
+    ],
+    pagination: {
+      ...action.pagination,
+    },
+  });
+};
+
+const startLoadingMore = state => ({
+  ...state,
+  isLoadingMore: true,
+});
+
+const stopLoadingMore = state => ({
+  ...state,
+  isLoadingMore: false,
+});
+
 const setTableLoadingState = (state, action) => ({
   ...state,
   isTableLoading: action.isTableLoading,
@@ -105,6 +137,9 @@ const sortAndFilterBillList = (state, action) => ({
   appliedFilterOptions: action.isSort
     ? state.appliedFilterOptions
     : state.filterOptions,
+  pagination: {
+    ...action.pagination,
+  },
 });
 
 const setAlert = (state, action) => ({
@@ -122,6 +157,9 @@ const handlers = {
   [SORT_AND_FILTER_BILL_LIST]: sortAndFilterBillList,
   [SET_SORT_ORDER]: setSortOrder,
   [SET_ALERT]: setAlert,
+  [LOAD_BILL_LIST_NEXT_PAGE]: loadBillListNextPage,
+  [START_LOADING_MORE]: startLoadingMore,
+  [STOP_LOADING_MORE]: stopLoadingMore,
 };
 
 const billListReducer = createReducer(getDefaultState(), handlers);

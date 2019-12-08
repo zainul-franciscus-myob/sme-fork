@@ -1,0 +1,32 @@
+{
+  "entries": [
+    {
+      "id": "123",
+      "number": "00000123",
+      "invoiceNumber": "123",
+      "supplier": "Loosefoot Jazz Theatre",
+      "dateIssued": "01/02/2019",
+      "billAmount": "123.00",
+      "balanceDue": "0.00",
+      "status": "Closed",
+      "dateDue": "2020-04-01",
+      "hasAttachment": false
+    },
+    {
+      "id": "124",
+      "number": "00000124",
+      "invoiceNumber": "124",
+      "supplier": "InBloom Floristry",
+      "dateIssued": "02/02/2019",
+      "billAmount": "124.00",
+      "balanceDue": "1.24",
+      "status": "Open",
+      "dateDue": "2020-04-02",
+      "hasAttachment": false
+    }
+  ],
+  "pagination": {
+    "hasNextPage": true
+  }
+}
+

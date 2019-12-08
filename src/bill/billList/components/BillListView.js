@@ -1,13 +1,16 @@
 import {
-  Alert, Button, HeaderSort, PageHead, StandardTemplate, Table,
+  Alert, Button, HeaderSort, PageHead, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading, getOrder } from '../billListSelectors';
+import {
+  getAlert, getIsLoading, getLoadMoreButtonStatus, getOrder,
+} from '../billListSelectors';
 import BillListFilterOptions from './BillListFilterOptions';
 import BillListTable from './BillListTable';
 import PageView from '../../../components/PageView/PageView';
+import PaginatedListTemplate from '../../../components/PaginatedListTemplate/PaginatedListTemplate';
 import style from './BillListView.module.css';
 import widthConfig from './widthConfig';
 
@@ -41,11 +44,13 @@ const BillListView = (props) => {
     isLoading,
     alert,
     order,
+    loadMoreButtonStatus,
     onDismissAlert,
     onUpdateFilters,
     onApplyFilter,
     onSort,
     onCreateButtonClick,
+    onLoadMoreButtonClick,
   } = props;
 
   const alertComponent = alert && (
@@ -87,21 +92,25 @@ const BillListView = (props) => {
     </Table>
   );
 
+  const billListTable = (
+    <div className={style.list}>
+      <BillListTable
+        tableConfig={tableConfig}
+        onCreateButtonClick={onCreateButtonClick}
+      />
+    </div>
+  );
+
   const billListView = (
-    <StandardTemplate
+    <PaginatedListTemplate
+      listTable={billListTable}
       alert={alertComponent}
-      sticky="all"
       pageHead={pageHead}
       filterBar={filterBar}
       tableHeader={tableHeader}
-    >
-      <div className={style.list}>
-        <BillListTable
-          tableConfig={tableConfig}
-          onCreateButtonClick={onCreateButtonClick}
-        />
-      </div>
-    </StandardTemplate>
+      onLoadMoreButtonClick={onLoadMoreButtonClick}
+      loadMoreButtonStatus={loadMoreButtonStatus}
+    />
   );
 
   return <PageView isLoading={isLoading} view={billListView} />;
@@ -111,6 +120,7 @@ const mapStateToProps = state => ({
   alert: getAlert(state),
   isLoading: getIsLoading(state),
   order: getOrder(state),
+  loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 
 export default connect(mapStateToProps)(BillListView);

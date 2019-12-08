@@ -11,6 +11,7 @@ import {
   SORT_AND_FILTER_BILL_LIST,
   UPDATE_FILTER_OPTIONS,
 } from '../BillIntents';
+import { LOAD_BILL_LIST_NEXT_PAGE, START_LOADING_MORE, STOP_LOADING_MORE } from '../billDetail/BillIntents';
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
@@ -20,6 +21,7 @@ import {
   getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
+  getOffset,
   getOrderBy,
   getRegion,
   getSettings,
@@ -54,6 +56,7 @@ export default class BillListModule {
         onSort={this.sortBillList}
         onDismissAlert={this.dismissAlert}
         onCreateButtonClick={this.redirectToCreateNewBill}
+        onLoadMoreButtonClick={this.loadBillListNextPage}
       />
     );
 
@@ -69,7 +72,7 @@ export default class BillListModule {
     const state = this.store.getState();
     const intent = LOAD_BILL_LIST;
     const urlParams = {
-      businessId: getBusinessId(this.store.getState()),
+      businessId: getBusinessId(state),
     };
 
     const onSuccess = (action) => {
@@ -95,6 +98,7 @@ export default class BillListModule {
         ...filterOptions,
         sortOrder,
         orderBy,
+        offset: 0,
       },
       onSuccess,
       onFailure,
@@ -130,12 +134,17 @@ export default class BillListModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = (action) => {
+    const onSuccess = ({
+      entries, pagination, totalDue, total,
+    }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         isSort: false,
-        ...action,
+        pagination,
+        entries,
+        totalDue,
+        total,
       });
     };
 
@@ -155,6 +164,8 @@ export default class BillListModule {
         ...filterOptions,
         sortOrder,
         orderBy,
+        offset: 0,
+
       },
       onSuccess,
       onFailure,
@@ -177,6 +188,61 @@ export default class BillListModule {
     value,
   });
 
+  startLoadingMore = () => {
+    this.store.dispatch({
+      intent: START_LOADING_MORE,
+    });
+  }
+
+  stopLoadingMore = () => {
+    this.store.dispatch({
+      intent: STOP_LOADING_MORE,
+    });
+  }
+
+  loadBillListNextPage = () => {
+    const state = this.store.getState();
+
+    const intent = LOAD_BILL_LIST_NEXT_PAGE;
+    this.startLoadingMore();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const onSuccess = ({ entries, pagination }) => {
+      this.stopLoadingMore();
+      this.store.dispatch({
+        intent,
+        entries,
+        pagination,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.stopLoadingMore();
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    const filterOptions = getFilterOptions(state);
+    const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
+    const offset = getOffset(state);
+
+    this.integration.read({
+      intent,
+      urlParams,
+      params: {
+        ...filterOptions,
+        sortOrder,
+        orderBy,
+        offset,
+      },
+      onSuccess,
+      onFailure,
+    });
+  }
+
   sortBillList = (orderBy) => {
     const state = this.store.getState();
     this.setTableLoadingState(true);
@@ -189,7 +255,9 @@ export default class BillListModule {
     };
 
     const intent = SORT_AND_FILTER_BILL_LIST;
-    const onSuccess = ({ entries, total, totalDue }) => {
+    const onSuccess = ({
+      entries, total, totalDue, pagination,
+    }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
@@ -197,6 +265,7 @@ export default class BillListModule {
         isSort: true,
         total,
         totalDue,
+        pagination,
       });
     };
 
@@ -213,6 +282,7 @@ export default class BillListModule {
         ...filterOptions,
         sortOrder: newSortOrder,
         orderBy,
+        offset: 0,
       },
       onSuccess,
       onFailure,
