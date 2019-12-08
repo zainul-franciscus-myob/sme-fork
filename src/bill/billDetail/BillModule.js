@@ -34,7 +34,6 @@ import {
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import BillView from './components/BillView';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
-import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import LayoutType from './types/LayoutType';
 import ModalType from './types/ModalType';
@@ -63,7 +62,6 @@ class BillModule {
     });
     this.contactModalModule = new ContactModalModule({ integration });
     this.inventoryModalModule = new InventoryModalModule({ integration });
-    this.inTrayModalModule = new InTrayModalModule({ integration });
   }
 
   openAccountModal = (onChange) => {
@@ -712,13 +710,11 @@ class BillModule {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
     const inventoryModal = this.inventoryModalModule.render();
-    const inTrayModal = this.inTrayModalModule.render();
 
     const view = (
       <Provider store={this.store}>
         <BillView
           inventoryModal={inventoryModal}
-          inTrayModal={inTrayModal}
           onAddItemButtonClick={this.openInventoryModal}
           onLoadItemOption={this.loadItemOption}
           accountModal={accountModal}
@@ -777,12 +773,6 @@ class BillModule {
     this.readMessages();
     this.store.subscribe(this.updateUrlFromState);
     this.loadBill();
-
-    this.inTrayModalModule.run({
-      context: getAccountModalContext(this.store.getState()),
-      onSaveSuccess: ({ id }) => console.log(id),
-      onLoadFailure: message => console.log(message),
-    });
   }
 }
 
