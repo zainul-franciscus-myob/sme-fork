@@ -1,34 +1,40 @@
-import { Button, HeaderSort, Table } from '@myob/myob-widgets';
+import {
+  Button, HeaderSort, Icons, Table,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsTableEmpty, getSuperPayments } from '../paySuperListSelector';
+import {
+  getIsTableEmpty, getIsTableLoading, getSortOrder, getSuperPayments,
+} from '../paySuperListSelector';
 import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 import PaymentStatus from '../../components/PaymentStatus';
 import TableView from '../../../components/TableView/TableView';
 
 const tableConfig = {
-  date: { columnName: 'Date' },
-  referenceNumber: { columnName: 'Reference number', width: 'flex-2' },
-  employees: { columnName: 'Employees', align: 'right' },
-  description: { columnName: 'Description', width: 'flex-3' },
-  amount: { columnName: 'Amount ($)', align: 'right' },
-  status: { columnName: 'Status', width: 'flex-2' },
+  date: { columnName: 'Date', sortName: 'date' },
+  referenceNumber: { columnName: 'Reference number', width: 'flex-2', sortName: 'referenceNumber' },
+  employees: { columnName: 'Employees', align: 'right', sortName: 'employees' },
+  description: { columnName: 'Description', width: 'flex-3', sortName: 'description' },
+  amount: { columnName: 'Amount ($)', align: 'right', sortName: 'amount' },
+  status: { columnName: 'Status', width: 'flex-2', sortName: 'status' },
 };
 
 const PaySuperListTable = ({
   superPayments,
   isTableEmpty,
+  isLoading,
   onSort,
   sortOrder,
   onReferenceNumberClick,
+  onCreateButtonClick,
 }) => {
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.date}>
         <HeaderSort
           title={tableConfig.date.columnName}
-          sortName={tableConfig.date.columnName}
+          sortName={tableConfig.date.sortName}
           activeSort={sortOrder}
           onSort={onSort}
         />
@@ -36,7 +42,7 @@ const PaySuperListTable = ({
       <Table.HeaderItem {...tableConfig.referenceNumber}>
         <HeaderSort
           title={tableConfig.referenceNumber.columnName}
-          sortName={tableConfig.referenceNumber.columnName}
+          sortName={tableConfig.referenceNumber.sortName}
           activeSort={sortOrder}
           onSort={onSort}
         />
@@ -44,7 +50,7 @@ const PaySuperListTable = ({
       <Table.HeaderItem {...tableConfig.employees}>
         <HeaderSort
           title={tableConfig.employees.columnName}
-          sortName={tableConfig.employees.columnName}
+          sortName={tableConfig.employees.sortName}
           activeSort={sortOrder}
           onSort={onSort}
         />
@@ -52,7 +58,7 @@ const PaySuperListTable = ({
       <Table.HeaderItem {...tableConfig.description}>
         <HeaderSort
           title={tableConfig.description.columnName}
-          sortName={tableConfig.description.columnName}
+          sortName={tableConfig.description.sortName}
           activeSort={sortOrder}
           onSort={onSort}
         />
@@ -60,7 +66,7 @@ const PaySuperListTable = ({
       <Table.HeaderItem {...tableConfig.amount}>
         <HeaderSort
           title={tableConfig.amount.columnName}
-          sortName={tableConfig.amount.columnName}
+          sortName={tableConfig.amount.sortName}
           activeSort={sortOrder}
           onSort={onSort}
         />
@@ -68,7 +74,7 @@ const PaySuperListTable = ({
       <Table.HeaderItem {...tableConfig.status}>
         <HeaderSort
           title={tableConfig.status.columnName}
-          sortName={tableConfig.status.columnName}
+          sortName={tableConfig.status.sortName}
           activeSort={sortOrder}
           onSort={onSort}
         />
@@ -100,9 +106,20 @@ const PaySuperListTable = ({
     </Table.Row>
   ));
 
+  const emptyViewActions = [
+    <Button
+      key={1}
+      type="link"
+      onClick={onCreateButtonClick}
+      icon={<Icons.Add />}
+    >
+        Create super payment
+    </Button>,
+  ];
   const emptyView = (
     <NoResultPageState
       title="No super payments found"
+      actions={emptyViewActions}
     />
   );
 
@@ -110,6 +127,7 @@ const PaySuperListTable = ({
     <TableView
       header={header}
       isEmpty={isTableEmpty}
+      isLoading={isLoading}
       emptyView={emptyView}
     >
       <Table.Header>
@@ -124,7 +142,9 @@ const PaySuperListTable = ({
 
 const mapStateToProps = state => ({
   isTableEmpty: getIsTableEmpty(state),
+  isLoading: getIsTableLoading(state),
   superPayments: getSuperPayments(state),
+  sortOrder: getSortOrder(state),
 });
 
 export default connect(mapStateToProps)(PaySuperListTable);

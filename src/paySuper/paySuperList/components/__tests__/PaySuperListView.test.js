@@ -1,4 +1,6 @@
-import { Button, PageHead, Table } from '@myob/myob-widgets';
+import {
+  Alert, Button, PageHead, Table,
+} from '@myob/myob-widgets';
 import { Provider } from 'react-redux';
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
@@ -100,6 +102,21 @@ describe('PaySuperListView', () => {
       const unregisteredPageState = testInstance.findByType(UnregisteredPageState);
 
       expect(unregisteredPageState).toBeDefined();
+    });
+  });
+
+  describe('Alerts', () => {
+    it('renders alerts when they\'re set', () => {
+      const testInstance = constructPaySuperListView({
+        alert: {
+          type: 'danger',
+          message: 'Danger, Will Robinson',
+        },
+      });
+
+      const alert = testInstance.findByType(Alert);
+
+      expect(alert).toBeDefined();
     });
   });
 });

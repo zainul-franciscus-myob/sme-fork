@@ -1,20 +1,25 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { LOAD_PAY_SUPER_LIST, SET_IS_LOADING } from './paySuperIntents';
+import {
+  LOAD_PAY_SUPER_LIST, SET_ALERT, SET_IS_LOADING, SET_IS_TABLE_LOADING, SET_SORT_ORDER,
+} from './paySuperIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getBusinessId } from './paySuperListSelector';
+import { SUCCESSFULLY_CREATED_SUPER_PAYMENT } from '../paySuperMessageTypes';
+import { getBusinessId, getSortOrder } from './paySuperListSelector';
 import PaySuperListView from './components/PaySuperListView';
 import Store from '../../store/Store';
 import paySuperListReducer from './paySuperListReducer';
 
 export default class PayrunListModule {
   constructor({
-    integration, setRootView,
+    integration, setRootView, popMessages,
   }) {
     this.integration = integration;
     this.store = new Store(paySuperListReducer);
     this.setRootView = setRootView;
+    this.popMessages = popMessages;
+    this.messageTypes = [SUCCESSFULLY_CREATED_SUPER_PAYMENT];
   }
 
   setInitialState = (context) => {
@@ -32,6 +37,37 @@ export default class PayrunListModule {
     });
   }
 
+  setIsTableLoading = (isTableLoading) => {
+    this.store.dispatch({
+      intent: SET_IS_TABLE_LOADING,
+      isTableLoading,
+    });
+  }
+
+  popAlert = () => {
+    const [alert] = this.popMessages(this.messageTypes);
+    if (alert) {
+      this.setAlert({
+        type: 'success',
+        message: alert.content,
+      });
+    }
+  };
+
+  setAlert = (alert) => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert,
+    });
+  }
+
+  dismissAlert = () => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert: null,
+    });
+  }
+
   loadPaySuperList = () => {
     const intent = LOAD_PAY_SUPER_LIST;
     const state = this.store.getState();
@@ -40,19 +76,27 @@ export default class PayrunListModule {
       businessId: getBusinessId(state),
     };
 
+    const sortOrder = getSortOrder(state);
+    const params = {
+      orderBy: sortOrder.column,
+      sortOrder: sortOrder.descending ? 'desc' : 'asc',
+    };
+
     const onSuccess = (response) => {
       this.store.dispatch({
         intent,
         response,
       });
       this.setIsLoading(false);
+      this.setIsTableLoading(false);
     };
 
-    const onFailure = ({ message }) => console.log(message);
+    const onFailure = ({ message }) => this.setAlert({ type: 'danger', message });
 
     this.integration.read({
       intent,
       urlParams,
+      params,
       onSuccess,
       onFailure,
     });
@@ -65,9 +109,29 @@ export default class PayrunListModule {
     window.location.href = `/#/${businessId}/paySuper/${batchPaymentId}`;
   }
 
+  setSortOrder = (orderByColumn) => {
+    this.store.dispatch({
+      intent: SET_SORT_ORDER,
+      orderBy: orderByColumn,
+    });
+  }
+
+  onSort = (sortColumn) => {
+    this.setSortOrder(sortColumn);
+    this.setIsTableLoading(true);
+    this.loadPaySuperList();
+  }
+
+  redirectToCreate = () => {}
+
   render = () => {
     const paySuperListView = (
-      <PaySuperListView onReferenceNumberClick={this.redirectToBatchDetail} />
+      <PaySuperListView
+        onReferenceNumberClick={this.redirectToBatchDetail}
+        onCreateButtonClick={this.redirectToCreate}
+        onSort={this.onSort}
+        alertDismiss={this.dismissAlert}
+      />
     );
 
     const wrappedView = (
@@ -82,6 +146,7 @@ export default class PayrunListModule {
   run = (context) => {
     this.setInitialState(context);
     this.render();
+    this.popAlert();
     this.loadPaySuperList();
   }
 

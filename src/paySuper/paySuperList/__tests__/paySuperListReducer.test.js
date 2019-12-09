@@ -1,4 +1,6 @@
-import { LOAD_PAY_SUPER_LIST, SET_IS_LOADING } from '../paySuperIntents';
+import {
+  LOAD_PAY_SUPER_LIST, SET_ALERT, SET_IS_LOADING, SET_IS_TABLE_LOADING, SET_SORT_ORDER,
+} from '../paySuperIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import paySuperListReducer, { getDefaultState } from '../paySuperListReducer';
 
@@ -55,6 +57,81 @@ describe('paySuperListReducer', () => {
     });
   });
 
+  describe('setIsTableLoading', () => {
+    it('sets is table loading', () => {
+      const state = {
+        isTableLoading: true,
+      };
+      const action = {
+        intent: SET_IS_TABLE_LOADING,
+        isTableLoading: false,
+      };
+
+      const result = paySuperListReducer(state, action);
+
+      expect(result).toEqual({ isTableLoading: false });
+    });
+  });
+
+  describe('setSortOrder', () => {
+    it('updates the orderBy column name and sets descending to true', () => {
+      const state = {
+        sortDescending: false,
+        orderBy: 'date',
+      };
+
+      const action = {
+        intent: SET_SORT_ORDER,
+        orderBy: 'amount',
+      };
+
+      const result = paySuperListReducer(state, action);
+
+      expect(result).toEqual({
+        sortDescending: true,
+        orderBy: 'amount',
+      });
+    });
+
+    it('toggles descending to false if the column name doesn\'t change', () => {
+      const state = {
+        sortDescending: true,
+        orderBy: 'date',
+      };
+
+      const action = {
+        intent: SET_SORT_ORDER,
+        orderBy: 'date',
+      };
+
+      const result = paySuperListReducer(state, action);
+
+      expect(result).toEqual({
+        sortDescending: false,
+        orderBy: 'date',
+      });
+    });
+
+    it('toggles descending to true if the column name doesn\'t change', () => {
+      const state = {
+        sortDescending: false,
+        orderBy: 'date',
+      };
+
+      const action = {
+        intent: SET_SORT_ORDER,
+        orderBy: 'date',
+      };
+
+      const result = paySuperListReducer(state, action);
+
+      expect(result).toEqual({
+        sortDescending: true,
+        orderBy: 'date',
+      });
+    });
+  });
+
   describe('loadPaySuperList', () => {
     it('stores the response data', () => {
       const response = {
@@ -71,6 +148,51 @@ describe('paySuperListReducer', () => {
 
       expect(newState).toEqual({
         ...response,
+      });
+    });
+  });
+
+  describe('alerts', () => {
+    it('can set alert', () => {
+      const state = {
+        alert: null,
+      };
+
+      const action = {
+        intent: SET_ALERT,
+        alert: {
+          type: 'danger',
+          message: 'Danger will robinson',
+        },
+      };
+
+      const newState = paySuperListReducer(state, action);
+
+      expect(newState).toEqual({
+        alert: {
+          type: 'danger',
+          message: 'Danger will robinson',
+        },
+      });
+    });
+
+    it('can dismiss alert', () => {
+      const state = {
+        alert: {
+          type: 'danger',
+          message: 'Danger will robinson',
+        },
+      };
+
+      const action = {
+        intent: SET_ALERT,
+        alert: null,
+      };
+
+      const newState = paySuperListReducer(state, action);
+
+      expect(newState).toEqual({
+        alert: null,
       });
     });
   });

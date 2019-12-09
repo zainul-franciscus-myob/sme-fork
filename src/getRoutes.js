@@ -301,7 +301,7 @@ const getRoutes = ({
     name: 'paySuper',
     rootPath: '/:region/:businessId/paySuper',
     subRoutes: getPaySuperRoutes({
-      integration, setRootView, popMessages,
+      integration, setRootView, popMessages, pushMessage,
     }),
   },
   {

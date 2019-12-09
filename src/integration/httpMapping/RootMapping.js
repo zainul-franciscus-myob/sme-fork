@@ -43,6 +43,7 @@ import PayRefundMapping from './PayRefundMapping';
 import PayRunDetailMapping from './PayRunDetailMapping';
 import PayRunListMapping from './PayRunListMapping';
 import PayRunMapping from './PayRunMapping';
+import PaySuperMapping from './PaySuperMapping';
 import PayrollSettingsMapping from './PayrollSettingsMapping';
 import QuoteMapping from './QuoteMapping';
 import ReceiveMoneyMapping from './ReceiveMoneyMapping';
@@ -105,6 +106,7 @@ const RootMapping = Object.freeze({
   ...BankingRuleInvoiceMapping,
   ...BankingRuleBillMapping,
   ...PayRunMapping,
+  ...PaySuperMapping,
   ...PayRunListMapping,
   ...AccountMapping,
   ...LinkBillMapping,

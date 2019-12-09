@@ -1,5 +1,6 @@
 {
   "isRegistered": true,
+  "sortOrder": "desc",
   "superPayments": [
     {
       "amount": "88,888.88",
