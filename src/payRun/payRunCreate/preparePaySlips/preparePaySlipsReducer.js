@@ -1,5 +1,5 @@
 import {
-  EMAIL_TAB_SELECT_ALL, EMAIL_TAB_SELECT_ITEM, SET_EMPLOYEES_SENT, SET_TAB,
+  EMAIL_TAB_SELECT_ALL, EMAIL_TAB_SELECT_ITEM, SET_EMPLOYEES_SENT, SET_PDF_LOADING_STATE, SET_TAB,
 } from './PreparePaySlipsIntents';
 
 export const getPreparePaySlipsDefaultState = () => ({
@@ -37,9 +37,18 @@ export const setEmployeesSent = (state, { employees }) => ({
   )),
 });
 
+const setPdfIsLoading = (state, { transactionId, isLoading }) => ({
+  ...state,
+  emailPaySlipEmployees: state.emailPaySlipEmployees.map(e => (
+    e.transactionId === transactionId ? { ...e, isLoading } : e)),
+  printPaySlipEmployees: state.printPaySlipEmployees.map(e => (
+    e.transactionId === transactionId ? { ...e, isLoading } : e)),
+});
+
 export const preparePaySlipsHandlers = {
   [SET_TAB]: setTab,
   [EMAIL_TAB_SELECT_ALL]: emailTabSelectAll,
   [EMAIL_TAB_SELECT_ITEM]: emailTabSelectItem,
   [SET_EMPLOYEES_SENT]: setEmployeesSent,
+  [SET_PDF_LOADING_STATE]: setPdfIsLoading,
 };

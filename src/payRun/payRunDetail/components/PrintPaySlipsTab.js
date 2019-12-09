@@ -1,6 +1,7 @@
 import {
   Button,
   Icons,
+  Spinner,
   Table,
   Tooltip,
 } from '@myob/myob-widgets';
@@ -13,7 +14,7 @@ const tableConfig = {
   padding: { width: 'flex-1', columnName: '' },
   netPay: { width: '16rem', columnName: 'Net pay ($)', align: 'right' },
   bankFile: { width: '16rem', columnName: 'Bank file', align: 'center' },
-  viewPaySlip: { columnName: 'View PDF', align: 'center' },
+  viewPaySlip: { columnName: 'View pay slip', align: 'center' },
 };
 
 const PrintPaySlipsTab = ({
@@ -59,7 +60,13 @@ const PrintPaySlipsTab = ({
         {employee.hasBankFile && <Icons.Tick />}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.viewPaySlip}>
-        <Button type="link" icon={<Icons.GenericDocument />} onClick={() => { exportPdf(employee.transactionId); }} />
+        {employee.isLoading ? <Spinner size="small" />
+          : (
+            <Button type="link" icon={<Icons.GenericDocument />} onClick={() => { exportPdf(employee.transactionId); }}>
+            View PDF
+            </Button>
+          )
+        }
       </Table.RowItem>
     </Table.Row>
   ));

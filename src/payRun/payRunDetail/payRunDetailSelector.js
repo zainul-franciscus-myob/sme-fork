@@ -1,6 +1,6 @@
 export const getSelectedTab = state => state.selectedTab;
-export const getEmailTabEmployees = state => state.emailTab.employees;
-export const getPrintTabEmployees = state => state.printTab.employees;
+export const getEmailTabEmployees = state => state.emailPaySlipEmployees;
+export const getPrintTabEmployees = state => state.printPaySlipEmployees;
 export const getPayRunListUrl = state => `/#/${state.region}/${state.businessId}/payRun`;
 export const getUrlParams = state => ({
   businessId: state.businessId,
@@ -18,7 +18,7 @@ export const getEmployeePayModalContext = ({ transactionId, employeeName, state 
   businessId: getBusinessId(state),
   region: state.region,
 });
-export const getSelectedEmployeesToEmail = state => state.emailTab.employees
+export const getSelectedEmployeesToEmail = state => state.emailPaySlipEmployees
   .filter(e => e.isSelected)
   .map(employee => ({
     id: employee.id,

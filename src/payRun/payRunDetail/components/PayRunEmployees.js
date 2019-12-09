@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getEmailTabEmployees, getPrintTabEmployees, getSelectedTab } from '../payRunDetailSelector';
-import EmailPaySlipsTab from './emailPaySlipsTab';
+import EmailPaySlipsTab from './EmailPaySlipsTab';
 import PrintPaySlipsTab from './PrintPaySlipsTab';
 
 const PayRunEmployees = ({

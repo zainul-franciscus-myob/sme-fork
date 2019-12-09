@@ -8,6 +8,7 @@ import {
   PRINT_TAB_SELECT_ALL,
   PRINT_TAB_SELECT_ITEM,
   SET_LOADING_STATE,
+  SET_PDF_LOADING_STATE,
   SET_TAB,
 } from './payRunDetailIntents';
 import { EXPORT_TRANSACTION_PDF } from '../payRunIntents';
@@ -23,7 +24,7 @@ import {
 } from './payRunDetailSelector';
 import EmailPaySlipModalModule from '../../employeePay/emailPaySlipModal/EmailPaySlipModalModule';
 import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
-import PayRunDetailView from './components/payRunDetailView';
+import PayRunDetailView from './components/PayRunDetailView';
 import Store from '../../store/Store';
 import openBlob from '../../common/blobOpener/openBlob';
 import payRunDetailReducer from './payRunDetailReducer';
@@ -119,8 +120,15 @@ export default class PayRunDetailModule {
     });
   }
 
+  setPdfIsLoading(transactionId, isLoading) {
+    this.store.dispatch({
+      intent: SET_PDF_LOADING_STATE,
+      transactionId,
+      isLoading,
+    });
+  }
+
   loadPayRunDetails = () => {
-    console.log('Loading!');
     this.setIsLoading(true);
     const intent = LOAD_PAY_RUN_DETAILS;
 
@@ -134,7 +142,10 @@ export default class PayRunDetailModule {
       });
       this.setIsLoading(false);
     };
-    const onFailure = message => console.log(message);
+
+    const onFailure = (message) => {
+      console.log(`Failed to load Pay Run details. ${message}`);
+    };
 
     this.integration.read({
       onSuccess,
@@ -147,13 +158,18 @@ export default class PayRunDetailModule {
   exportPdf = (transactionId) => {
     const intent = EXPORT_TRANSACTION_PDF;
     const state = this.store.getState();
+    this.setPdfIsLoading(transactionId, true);
+
     const onSuccess = (data) => {
       const filename = `payslip-${transactionId}.pdf`;
       openBlob({ blob: data, filename });
+      this.setPdfIsLoading(transactionId, false);
     };
-    const onFailure = () => {
-      console.log('Failed to download PDF.');
+
+    const onFailure = (message) => {
+      console.log(`Failed to download Pay Slip. ${message}`);
     };
+
     const businessId = getBusinessId(state);
     const urlParams = { businessId, transactionId };
 

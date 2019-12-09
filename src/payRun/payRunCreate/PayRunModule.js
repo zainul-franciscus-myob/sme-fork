@@ -61,8 +61,8 @@ export default class PayRunModule {
       this.dispatcher.startNewPayRun(response);
     };
 
-    const onFailure = () => {
-      console.log('Failed to start new pay run');
+    const onFailure = (message) => {
+      console.log(`Failed to start new Pay Run. ${message}`);
     };
 
     this.integrator.startNewPayRun({ onSuccess, onFailure });

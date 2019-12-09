@@ -2,7 +2,9 @@ import React from 'react';
 
 import {
   EMAIL_TAB_SELECT_ALL,
-  EMAIL_TAB_SELECT_ITEM, SET_EMPLOYEES_SENT,
+  EMAIL_TAB_SELECT_ITEM,
+  SET_EMPLOYEES_SENT,
+  SET_PDF_LOADING_STATE,
   SET_TAB,
 } from './PreparePaySlipsIntents';
 import { EXPORT_TRANSACTION_PDF } from '../../payRunIntents';
@@ -66,16 +68,29 @@ export default class PreparePaySlipsModule {
     });
   };
 
+  setPdfIsLoading(transactionId, isLoading) {
+    this.store.dispatch({
+      intent: SET_PDF_LOADING_STATE,
+      transactionId,
+      isLoading,
+    });
+  }
+
   exportPdf = (transactionId) => {
     const intent = EXPORT_TRANSACTION_PDF;
     const state = this.store.getState();
+    this.setPdfIsLoading(transactionId, true);
+
     const onSuccess = (data) => {
       const filename = `payslip-${transactionId}.pdf`;
       openBlob({ blob: data, filename });
+      this.setPdfIsLoading(transactionId, false);
     };
-    const onFailure = () => {
-      console.log('Failed to download PDF.');
+
+    const onFailure = (message) => {
+      console.log(`Failed to download Pay Slip. ${message}`);
     };
+
     const businessId = getBusinessId(state);
     const urlParams = { businessId, transactionId };
 
@@ -88,7 +103,6 @@ export default class PreparePaySlipsModule {
   };
 
   openEmailPaySlipModal = () => {
-    console.log('Email pressed');
     const state = this.store.getState();
     const employees = getSelectedEmployeesToEmail(state);
     const emailSettings = getEmailSettings(state);

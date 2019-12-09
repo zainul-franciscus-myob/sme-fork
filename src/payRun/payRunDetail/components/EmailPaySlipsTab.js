@@ -3,12 +3,13 @@ import {
   Button,
   Checkbox,
   Icons,
+  Spinner,
   Table,
   Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import TableView from '../../../../components/TableView/TableView';
+import TableView from '../../../components/TableView/TableView';
 
 const tableConfig = {
   checkbox: { width: '5rem' },
@@ -16,13 +17,15 @@ const tableConfig = {
   netPay: { width: 'flex-2', columnName: 'Net pay ($)', align: 'right' },
   email: { width: 'flex-3', columnName: 'Email' },
   paySlipEmailed: { width: 'flex-2', columnName: 'Pay slip emailed', align: 'center' },
-  viewPaySlip: { width: 'flex-1', columnName: 'View PDF', align: 'center' },
+  bankFile: { width: 'flex-1', columnName: 'Bank file', align: 'center' },
+  viewPaySlip: { width: 'flex-2', columnName: 'View pay slip', align: 'center' },
 };
 
 const EmailPaySlipsTab = ({
   employees,
   selectAll,
   selectItem,
+  onEmployeeNameClick,
   exportPdf,
   onEmailClick,
 }) => {
@@ -71,6 +74,9 @@ const EmailPaySlipsTab = ({
       <Table.HeaderItem {...tableConfig.paySlipEmailed}>
         {tableConfig.paySlipEmailed.columnName}
       </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.bankFile}>
+        {tableConfig.bankFile.columnName}
+      </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.viewPaySlip}>
         {tableConfig.viewPaySlip.columnName}
       </Table.HeaderItem>
@@ -89,7 +95,7 @@ const EmailPaySlipsTab = ({
         />
       </Table.RowItem>
       <Table.RowItem {...tableConfig.employee}>
-        {employee.name}
+        <Button type="link" onClick={() => { onEmployeeNameClick(employee.transactionId, employee.name); }}>{employee.name}</Button>
       </Table.RowItem>
       <Table.RowItem {...tableConfig.netPay}>
         {employee.netPay}
@@ -100,8 +106,17 @@ const EmailPaySlipsTab = ({
       <Table.RowItem {...tableConfig.paySlipEmailed}>
         {employee.hasPaySlipEmailSent && <Icons.Tick />}
       </Table.RowItem>
+      <Table.RowItem {...tableConfig.bankFile}>
+        {employee.hasBankFile && <Icons.Tick />}
+      </Table.RowItem>
       <Table.RowItem {...tableConfig.viewPaySlip}>
-        <Button type="link" icon={<Icons.GenericDocument />} onClick={() => { exportPdf(employee.transactionId); }} />
+        {employee.isLoading ? <Spinner size="small" />
+          : (
+            <Button type="link" icon={<Icons.GenericDocument />} onClick={() => { exportPdf(employee.transactionId); }}>
+            View PDF
+            </Button>
+          )
+        }
       </Table.RowItem>
     </Table.Row>
   ));
