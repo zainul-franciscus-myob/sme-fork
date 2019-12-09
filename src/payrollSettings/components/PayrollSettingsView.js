@@ -6,9 +6,10 @@ import React from 'react';
 
 import { getAlert, getModalType, getTab } from '../selectors/payrollSettingsSelectors';
 import { tabIds, tabItems } from '../tabItems';
-import EmployeeClassificationListView from './employmentClassificationList/EmploymentClassificationListView';
-import EmploymentClassificationDetailModal
-  from './employmentClassificationDetail/EmploymentClassificationDetailModal';
+// Temporarily hide the Classification tab
+// import EmployeeClassificationListView from
+// './employmentClassificationList/EmploymentClassificationListView';
+import EmploymentClassificationDetailModal from './employmentClassificationDetail/EmploymentClassificationDetailModal';
 import GeneralPayrollInformationView from './generalPayrollInformation/GeneralPayrollInformationView';
 import ModalType from '../ModalType';
 import SuperFundListView from './superFundList/SuperFundListView';
@@ -26,7 +27,7 @@ const PayrollSettingsView = (props) => {
     onSelectTab,
     onDismissAlert,
     superFundListeners,
-    employmentClassificationListeners,
+    // employmentClassificationListeners, <-- Temporarily hide the Classification tab
     employmentClassificationDetailListeners,
     generalPayrollInformationListeners,
   } = props;
@@ -47,14 +48,16 @@ const PayrollSettingsView = (props) => {
 
   const View = {
     [tabIds.general]: GeneralPayrollInformationView,
-    [tabIds.classification]: EmployeeClassificationListView,
+    // Temporarily hide the Classification tab
+    // [tabIds.classification]: EmployeeClassificationListView,
     [tabIds.superFundList]: SuperFundListView,
     [tabIds.paySlips]: EmptyView,
   }[selectedTab];
 
   const listeners = {
     [tabIds.superFundList]: superFundListeners,
-    [tabIds.classification]: employmentClassificationListeners,
+    // Temporarily hide the Classification tab
+    // [tabIds.classification]: employmentClassificationListeners,
     [tabIds.general]: generalPayrollInformationListeners,
   }[selectedTab];
 
