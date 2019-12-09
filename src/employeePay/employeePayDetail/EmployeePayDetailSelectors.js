@@ -13,3 +13,4 @@ export const getPageTitle = (state) => {
 
   return `${employeeFirstName} ${employeeLastName} ${referenceNumber}`;
 };
+export const getElectronicPaymentLink = state => `/#/${state.region}/${state.businessId}/electronicPayments/${state.employeePay.parentBusinessEventId}`;

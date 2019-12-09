@@ -212,7 +212,7 @@
       "description": "CEO",
       "sourceJournal": "Payroll",
       "displayAmount": "1,000,000.00",
-      "businessEventType": "Payroll"
+      "businessEventType": "EmployeePayment"
     },
     {
       "id": "31",
@@ -221,7 +221,7 @@
       "description": "Cheap labor",
       "sourceJournal": "Payroll",
       "displayAmount": "2.00",
-      "businessEventType": "Payroll"
+      "businessEventType": "EmployeePayment"
     },
     {
       "id": "20",

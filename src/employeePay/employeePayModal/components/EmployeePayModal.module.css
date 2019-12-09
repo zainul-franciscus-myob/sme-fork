@@ -1,4 +1,4 @@
-.textContainer {
+.footerContainer {
   float: right;
   padding-right: 1.5rem;
   padding-top: 1.5rem;
@@ -9,16 +9,23 @@
   padding-right: 3rem;
 }
 
-.successTextColor {
+.successColour {
   color: var(--flx-color-alert-success-link);
 }
 
-.footerStyle {
+.modalButtons {
   background: #f3f4f5;
   border-top: 1px solid #dcdfe1;
   padding: 16px;
 }
 
-.zeroMargin {
-  margin: 0;
+.electronicPaymentFooter {
+  padding-top: 10px;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.electronicPaymentFooter :global(.svg-icon-dollar) {
+  fill: var(--flx-color-alert-success-link);
 }

@@ -1,4 +1,5 @@
 import {
+  Icons,
   Modal,
   Separator,
 } from '@myob/myob-widgets';
@@ -7,6 +8,7 @@ import React from 'react';
 
 import {
   getDeletePopoverIsOpen,
+  getElectronicPaymentLink,
   getEmployeeName,
   getEmployeePay,
   getIsLoading,
@@ -16,7 +18,7 @@ import EmployeePayModalButtons from './EmployeePayModalButtons';
 import EmployeePayModalHeader from './EmployeePayModalHeader';
 import EmployeePayModalTable from './EmployeePayModalTable';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
-import style from './EmployeePayModal.module.css';
+import styles from './EmployeePayModal.module.css';
 
 const EmployeePayModal = ({
   onBackButtonClick,
@@ -28,6 +30,7 @@ const EmployeePayModal = ({
   deletePopoverIsOpen,
   employeeName,
   isOpen,
+  electronicPaymentLink,
 }) => {
   const {
     paymentMethod,
@@ -41,11 +44,26 @@ const EmployeePayModal = ({
     transactionDesc,
     lines,
     totalNetPayment,
+    parentBusinessEventId,
+    parentBusinessEventDisplayId,
   } = employeePay;
 
   if (!isOpen) {
     return null;
   }
+
+  const electronicPaymentFooter = (
+    <p className={styles.electronicPaymentFooter}>
+      <Icons.Dollar />
+      <span className={styles.successColour}>
+        &nbsp;Electronic payment recorded&nbsp;
+      </span>
+      Reference number&nbsp;
+      <span>
+        <a href={electronicPaymentLink}>{parentBusinessEventDisplayId}</a>
+      </span>
+    </p>
+  );
 
   const modalDetail = (
     <>
@@ -62,11 +80,12 @@ const EmployeePayModal = ({
       />
       <Separator />
       <EmployeePayModalTable payItemGroups={lines} />
-      <div className={style.textContainer}>
+      <div className={styles.footerContainer}>
         <h3>
-          <span className={style.netPayLabel}>Total net payment:</span>
+          <span className={styles.netPayLabel}>Total net payment:</span>
           <span>{totalNetPayment}</span>
         </h3>
+        {parentBusinessEventId && electronicPaymentFooter}
       </div>
     </>
   );
@@ -77,7 +96,7 @@ const EmployeePayModal = ({
       <Modal.Body>
         {isLoading ? <LoadingPageState /> : modalDetail}
       </Modal.Body>
-      <div className={style.footerStyle}>
+      <div className={styles.modalButtons}>
         <EmployeePayModalButtons
           deletePopoverIsOpen={deletePopoverIsOpen}
           onDeletePopoverDelete={onDeletePopoverDelete}
@@ -96,6 +115,7 @@ const mapStateToProps = state => ({
   employeeName: getEmployeeName(state),
   deletePopoverIsOpen: getDeletePopoverIsOpen(state),
   isOpen: getIsModalOpen(state),
+  electronicPaymentLink: getElectronicPaymentLink(state),
 });
 
 export default connect(mapStateToProps)(EmployeePayModal);
