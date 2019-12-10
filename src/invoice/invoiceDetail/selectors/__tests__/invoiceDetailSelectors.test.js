@@ -142,6 +142,34 @@ describe('invoiceDetailSelectors', () => {
         isTaxInclusive: true,
         address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
         issueDate: '2018-11-02',
+        expirationTerm: 'Prepaid',
+        expirationDays: 0,
+        expirationTermOptions: [
+          {
+            value: 'OnADayOfTheMonth',
+            name: 'On a day of the month',
+          },
+          {
+            value: 'InAGivenNumberOfDays',
+            name: 'In a given no. of days',
+          },
+          {
+            value: 'DayOfMonthAfterEOM',
+            name: 'Day of month after EOM',
+          },
+          {
+            value: 'NumberOfDaysAfterEOM',
+            name: 'No. of days after EOM',
+          },
+          {
+            value: 'Prepaid',
+            name: 'Prepaid',
+          },
+          {
+            value: 'CashOnDelivery',
+            name: 'C.O.D.',
+          },
+        ],
         note: 'Thank you!',
         contactOptions: [
           { name: 'Cow Feed 1', value: '1' },

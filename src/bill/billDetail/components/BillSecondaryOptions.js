@@ -6,6 +6,9 @@ import React from 'react';
 
 import {
   getBillNumber,
+  getExpirationDays,
+  getExpirationTerm,
+  getExpirationTermOptions,
   getIsBlocking,
   getIsTaxInclusive,
   getIssueDate,
@@ -13,8 +16,8 @@ import {
   getTaxExclusiveLabel,
   getTaxInclusiveLabel,
 } from '../selectors/billSelectors';
-import BillPaymentTerms from './BillPaymentTerms';
 import BooleanRadioButtonGroup from '../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
+import PaymentTerms from '../../../components/PaymentTerms/PaymentTerms';
 import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 
@@ -23,6 +26,9 @@ const BillSecondaryOptions = ({
   billNumber,
   supplierInvoiceNumber,
   issueDate,
+  expirationTerm,
+  expirationDays,
+  expirationTermOptions,
   isTaxInclusive,
   taxInclusiveLabel,
   taxExclusiveLabel,
@@ -51,8 +57,12 @@ const BillSecondaryOptions = ({
       requiredLabel="This is required"
       onSelect={handleDateChange('issueDate', onUpdateBillOption)}
     />
-    <BillPaymentTerms
-      onUpdateBillOption={onUpdateBillOption}
+    <PaymentTerms
+      onChange={onUpdateBillOption}
+      issueDate={issueDate}
+      expirationTermOptions={expirationTermOptions}
+      expirationDays={expirationDays}
+      expirationTerm={expirationTerm}
     />
     <BooleanRadioButtonGroup
       name="isTaxInclusive"
@@ -71,6 +81,9 @@ const mapStateToProps = state => ({
   billNumber: getBillNumber(state),
   supplierInvoiceNumber: getSupplierInvoiceNumber(state),
   issueDate: getIssueDate(state),
+  expirationTermOptions: getExpirationTermOptions(state),
+  expirationDays: getExpirationDays(state),
+  expirationTerm: getExpirationTerm(state),
   isTaxInclusive: getIsTaxInclusive(state),
   taxInclusiveLabel: getTaxInclusiveLabel(state),
   taxExclusiveLabel: getTaxExclusiveLabel(state),

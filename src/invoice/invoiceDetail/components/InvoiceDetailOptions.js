@@ -7,8 +7,8 @@ import React from 'react';
 import { getInvoiceDetailOptions } from '../selectors/invoiceDetailSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
 import InvoiceDetailOnlinePaymentMethod from './InvoiceDetailOnlinePaymentMethod';
-import InvoiceDetailOptionsPaymentTerms from './InvoiceDetailOptionsPaymentTerms';
 import InvoiceLayout from '../InvoiceLayout';
+import PaymentTerms from '../../../components/PaymentTerms/PaymentTerms';
 import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleTextAreaChange from '../../../components/handlers/handleTextAreaChange';
@@ -20,6 +20,9 @@ const InvoiceDetailOptions = ({
   address,
   purchaseOrderNumber,
   issueDate,
+  expirationTerm,
+  expirationDays,
+  expirationTermOptions,
   isTaxInclusive,
   note,
   contactOptions,
@@ -120,8 +123,12 @@ const InvoiceDetailOptions = ({
         value={issueDate}
         onSelect={handleDateChange('issueDate', onUpdateHeaderOptions)}
       />
-      <InvoiceDetailOptionsPaymentTerms
-        onUpdateInvoiceOption={onUpdateHeaderOptions}
+      <PaymentTerms
+        onChange={onUpdateHeaderOptions}
+        issueDate={issueDate}
+        expirationTermOptions={expirationTermOptions}
+        expirationDays={expirationDays}
+        expirationTerm={expirationTerm}
       />
       {showOnlinePayment && (
         <InvoiceDetailOnlinePaymentMethod

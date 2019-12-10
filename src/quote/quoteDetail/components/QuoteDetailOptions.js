@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 import { getQuoteDetailOptions } from '../selectors/QuoteDetailSelectors';
 import BooleanRadioButtonGroup from '../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
-import QuoteDetailOnlinePaymentMethod from './QuoteDetailOnlinePaymentMethod';
+import PaymentTerms from '../../../components/PaymentTerms/PaymentTerms';
 import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './QuoteDetailOptions.module.css';
@@ -34,6 +34,9 @@ const QuoteDetailOptions = (props) => {
     quoteNumber,
     purchaseOrderNumber,
     issueDate,
+    expirationTerm,
+    expirationDays,
+    expirationTermOptions,
     isTaxInclusive,
     note,
     contactOptions,
@@ -111,7 +114,13 @@ const QuoteDetailOptions = (props) => {
         value={issueDate}
         onSelect={handleDateChange('issueDate', onUpdateHeaderOptions)}
       />
-      <QuoteDetailOnlinePaymentMethod onChange={onUpdateHeaderOptions} />
+      <PaymentTerms
+        onChange={onUpdateHeaderOptions}
+        issueDate={issueDate}
+        expirationTermOptions={expirationTermOptions}
+        expirationDays={expirationDays}
+        expirationTerm={expirationTerm}
+      />
       <BooleanRadioButtonGroup
         name="isTaxInclusive"
         label="Amounts are"
