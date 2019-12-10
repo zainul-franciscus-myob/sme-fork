@@ -43,6 +43,7 @@ import PayRefundMapping from './PayRefundMapping';
 import PayRunDetailMapping from './PayRunDetailMapping';
 import PayRunListMapping from './PayRunListMapping';
 import PayRunMapping from './PayRunMapping';
+import PaySuperCreateMapping from './PaySuperCreateMapping';
 import PaySuperMapping from './PaySuperMapping';
 import PayrollSettingsMapping from './PayrollSettingsMapping';
 import QuoteMapping from './QuoteMapping';
@@ -124,6 +125,7 @@ const RootMapping = Object.freeze({
   ...EmployeePayMapping,
   ...CreditsAndDebitsListMapping,
   ...SettingMapping,
+  ...PaySuperCreateMapping,
 });
 
 export default RootMapping;

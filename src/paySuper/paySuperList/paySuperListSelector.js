@@ -17,3 +17,4 @@ export const getIsTableEmpty = state => (
 );
 export const getIsTableLoading = state => state.isTableLoading;
 export const getAlert = state => state.alert;
+export const getPaySuperCreateUrl = state => `/#/${state.region}/${state.businessId}/paySuper/new`;

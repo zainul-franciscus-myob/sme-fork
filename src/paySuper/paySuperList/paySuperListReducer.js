@@ -44,12 +44,12 @@ const setAlert = (state, { alert }) => ({
 });
 
 const sortColumnUnchanged = (clickedColumn, currentColumn) => clickedColumn === currentColumn;
-const DECENDING = true;
+const DESCENDING = true;
 
 const setSortOrder = (state, { orderBy }) => {
   const sortDescending = sortColumnUnchanged(orderBy, state.orderBy)
     ? !state.sortDescending
-    : DECENDING;
+    : DESCENDING;
 
   return {
     ...state,

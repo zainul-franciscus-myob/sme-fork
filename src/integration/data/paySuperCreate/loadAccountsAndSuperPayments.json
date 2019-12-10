@@ -1,0 +1,44 @@
+{
+  "superPayments": [
+    {
+      "amount": 179.68,
+      "date": "14/06/2019",
+      "employeeName": "Grey Skilmaster",
+      "employeePaymentEventId": 956,
+      "employeePaymentEventLineId": 4986,
+      "payItemName": "Superannuation Guarantee",
+      "superannuationFundId": 5,
+      "superannuationFundName": "Monday Superannuation Fund"
+    },
+    {
+      "amount": 210.22,
+      "date": "25/06/2019",
+      "employeeName": "John Smith",
+      "employeePaymentEventId": 957,
+      "employeePaymentEventLineId": 4987,
+      "payItemName": "Superannuation Guarantee",
+      "superannuationFundId": 6,
+      "superannuationFundName": "Friday Superannuation Fund"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "1",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134",
+      "balance": "$100,000.00"
+    },
+    {
+      "id": "2",
+      "displayName": "Expense 2",
+      "accountType": "Expense",
+      "displayId": "6-135",
+      "balance": "$100,020.00"
+    }
+  ],
+  "dateOfPayment": "2019-11-29",
+  "referenceNumber": "PS000001",
+  "transactionDescription": "Superannuation Payment",
+  "paySuperDescription": "Payment PS000001"
+}

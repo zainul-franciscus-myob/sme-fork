@@ -6,7 +6,11 @@ import {
 } from './paySuperIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { SUCCESSFULLY_CREATED_SUPER_PAYMENT } from '../paySuperMessageTypes';
-import { getBusinessId, getSortOrder } from './paySuperListSelector';
+import {
+  getBusinessId,
+  getPaySuperCreateUrl,
+  getSortOrder,
+} from './paySuperListSelector';
 import PaySuperListView from './components/PaySuperListView';
 import Store from '../../store/Store';
 import paySuperListReducer from './paySuperListReducer';
@@ -122,7 +126,10 @@ export default class PayrunListModule {
     this.loadPaySuperList();
   }
 
-  redirectToCreate = () => {}
+  redirectToCreate = () => {
+    const state = this.store.getState();
+    window.location.href = getPaySuperCreateUrl(state);
+  }
 
   render = () => {
     const paySuperListView = (
