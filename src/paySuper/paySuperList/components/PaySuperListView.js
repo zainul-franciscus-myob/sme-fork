@@ -15,13 +15,15 @@ const PaySuperListView = ({
   sticky = 'all',
   onReferenceNumberClick,
   onCreateButtonClick,
+  onSettingsButtonClick,
+  onRegisterButtonClick,
   onSort,
   alert,
   alertDismiss,
 }) => {
   const actionButtons = (
     <>
-      <Button type="secondary" testId="superPaymentSettingsButton">
+      <Button type="secondary" testId="superPaymentSettingsButton" onClick={onSettingsButtonClick}>
         Super payments settings
       </Button>
       <Button type="primary" testId="createSuperPaymentButton" onClick={onCreateButtonClick}>
@@ -60,7 +62,7 @@ const PaySuperListView = ({
             onSort={onSort}
           />
         )
-        : <UnregisteredPageState />
+        : <UnregisteredPageState onLinkClick={onRegisterButtonClick} />
       }
     </StandardTemplate>
   );

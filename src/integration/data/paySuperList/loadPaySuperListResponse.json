@@ -1,6 +1,7 @@
 {
   "isRegistered": true,
   "sortOrder": "desc",
+  "paySuperUrl": "https://bsd.super.myob.com/registrations/new?registration%5Bcfid%5D=business-id&registration%5Bserial_number%5D=serial-number-123",
   "superPayments": [
     {
       "amount": "88,888.88",

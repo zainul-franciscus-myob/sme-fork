@@ -36,6 +36,7 @@ const loadPaySuperList = (state, { response }) => ({
   ...state,
   isRegistered: response.isRegistered,
   superPayments: response.superPayments,
+  paySuperUrl: response.paySuperUrl,
 });
 
 const setAlert = (state, { alert }) => ({

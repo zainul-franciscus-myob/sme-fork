@@ -1,5 +1,5 @@
 import {
-  getBusinessId, getIsLoading, getIsTableEmpty, getSuperPayments,
+  getBusinessId, getIsLoading, getIsTableEmpty, getPaySuperUrl, getSuperPayments,
 } from '../paySuperListSelector';
 
 describe('paySuperListSelector', () => {
@@ -78,6 +78,19 @@ describe('paySuperListSelector', () => {
           color: 'orange',
         },
       }]);
+    });
+  });
+
+  describe('getPaySuperUrl', () => {
+    it('returns the pay super URL', () => {
+      const expectedPaySuperUrl = 'some-pay-super-url';
+      const state = {
+        paySuperUrl: expectedPaySuperUrl,
+      };
+
+      const paySuperUrl = getPaySuperUrl(state);
+
+      expect(paySuperUrl).toEqual(expectedPaySuperUrl);
     });
   });
 });

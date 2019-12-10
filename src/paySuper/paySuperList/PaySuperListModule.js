@@ -9,6 +9,7 @@ import { SUCCESSFULLY_CREATED_SUPER_PAYMENT } from '../paySuperMessageTypes';
 import {
   getBusinessId,
   getPaySuperCreateUrl,
+  getPaySuperUrl,
   getSortOrder,
 } from './paySuperListSelector';
 import PaySuperListView from './components/PaySuperListView';
@@ -126,6 +127,13 @@ export default class PayrunListModule {
     this.loadPaySuperList();
   }
 
+  redirectToPaySuper = () => {
+    const state = this.store.getState();
+    const paySuperUrl = getPaySuperUrl(state);
+
+    window.location.href = paySuperUrl;
+  }
+
   redirectToCreate = () => {
     const state = this.store.getState();
     window.location.href = getPaySuperCreateUrl(state);
@@ -136,6 +144,8 @@ export default class PayrunListModule {
       <PaySuperListView
         onReferenceNumberClick={this.redirectToBatchDetail}
         onCreateButtonClick={this.redirectToCreate}
+        onSettingsButtonClick={this.redirectToPaySuper}
+        onRegisterButtonClick={this.redirectToPaySuper}
         onSort={this.onSort}
         alertDismiss={this.dismissAlert}
       />

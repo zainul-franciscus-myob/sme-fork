@@ -137,6 +137,7 @@ describe('paySuperListReducer', () => {
       const response = {
         isRegistered: true,
         superPayments: [],
+        paySuperUrl: 'some-url',
       };
       const state = {};
       const action = {
