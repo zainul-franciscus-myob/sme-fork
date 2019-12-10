@@ -2,9 +2,24 @@
   "refund": {
     "referenceId": "00001827",
     "date": "20/12/2018",
-    "contactName": "Smith, James",
-    "accountName": "1-3456 Test Account",
+    "contactId": "1",
+    "accountId": "134",
     "amount": "12,345.80",
     "description": "Smith, James: Credit from 000000001"
-  }
+  },
+  "contactOptions": [
+    {
+      "name": "James Smith",
+      "value": "1"
+    }
+  ],
+  "accountOptions": [
+    {
+      "id": "134",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134",
+      "taxCodeId": "123"
+    }
+  ]
 }

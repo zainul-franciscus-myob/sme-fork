@@ -1,12 +1,19 @@
 {
   "refund": {
     "referenceId": "00001827",
-    "contactName": "Smith, James",
+    "contactId": "1",
+    "accountId": "134",
     "amount": "12345.80",
-    "description": "Smith, James: Credit from 000000001",
+    "description": "James Smith: Credit from 000000001",
     "customerReturnId": "123"
   },
-  "accounts": [
+  "contactOptions": [
+    {
+      "name": "James Smith",
+      "value": "1"
+    }
+  ],
+  "accountOptions": [
     {
       "id": "134",
       "displayName": "Expense 1",

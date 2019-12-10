@@ -1,19 +1,20 @@
-import { Alert, FormTemplate } from '@myob/myob-widgets';
+import { Alert, Card, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsCreating, getIsLoading, getModalType,
+  getAlert, getIsLoading, getModalType, getTitle,
 } from '../payRefundSelectors';
 import PageView from '../../../components/PageView/PageView';
 import PayRefundModal from './PayRefundModal';
 import RefundActions from './PayRefundActions';
 import RefundDetail from './PayRefundDetail';
+import SmallScreenTemplate from '../../../components/SmallScreenTemplate/SmallScreenTemplate';
 
 const PayRefundView = (props) => {
   const {
     alert,
-    isCreating,
+    title,
     isLoading,
     modalType,
     onDismissAlert,
@@ -24,10 +25,8 @@ const PayRefundView = (props) => {
     onSaveButtonClick,
     onCancelButtonClick,
     onDeleteButtonClick,
+    onGoBackButtonClick,
   } = props;
-
-  const pageHead = isCreating ? 'Record customer refund' : 'Customer refund';
-
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
@@ -44,15 +43,20 @@ const PayRefundView = (props) => {
   );
 
   const view = (
-    <FormTemplate pageHead={pageHead} alert={alertComponent}>
+    <SmallScreenTemplate>
+      {alertComponent}
       {modal}
-      <RefundDetail onRefundDetailsChange={onRefundDetailsChange} />
+      <PageHead title={title} />
+      <Card>
+        <RefundDetail onRefundDetailsChange={onRefundDetailsChange} />
+      </Card>
       <RefundActions
         onSaveButtonClick={onSaveButtonClick}
         onCancelButtonClick={onCancelButtonClick}
         onDeleteButtonClick={onDeleteButtonClick}
+        onGoBackButtonClick={onGoBackButtonClick}
       />
-    </FormTemplate>
+    </SmallScreenTemplate>
   );
 
   return <PageView isLoading={isLoading} view={view} />;
@@ -60,7 +64,7 @@ const PayRefundView = (props) => {
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
-  isCreating: getIsCreating(state),
+  title: getTitle(state),
   isLoading: getIsLoading(state),
   modalType: getModalType(state),
 });

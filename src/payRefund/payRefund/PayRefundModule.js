@@ -94,24 +94,13 @@ export default class PayRefundModule {
     if (isEdited) {
       this.dispatcher.openModal('cancel');
     } else {
-      this.redirectAfterCancel();
+      this.redirectToCustomerReturnList();
     }
   }
 
   confirmCancel = () => {
     this.dispatcher.closeModal();
-    this.redirectAfterCancel();
-  }
-
-  redirectAfterCancel = () => {
-    const state = this.store.getState();
-    const isCreating = getIsCreating(state);
-
-    if (isCreating) {
-      this.redirectToCustomerReturnList();
-    } else {
-      this.redirectToTransactionList();
-    }
+    this.redirectToCustomerReturnList();
   }
 
   redirectToCustomerReturnList = () => {
@@ -185,6 +174,7 @@ export default class PayRefundModule {
         onSaveButtonClick={this.createRefund}
         onCancelButtonClick={this.confirmBeforeCancel}
         onDeleteButtonClick={this.confirmBeforeDelete}
+        onGoBackButtonClick={this.redirectToTransactionList}
       />
     );
 

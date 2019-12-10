@@ -1,13 +1,16 @@
 import {
-  DatePicker, Input, ReadOnly, TextArea,
+  DatePicker, DetailHeader, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAccounts, getIsCreating, getRefund } from '../payRefundSelectors';
+import {
+  getAccountOptions, getContactOptions, getIsCreating, getRefund,
+} from '../payRefundSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
-import FormCard from '../../../components/FormCard/FormCard';
+import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
+import styles from './PayRefundDetail.module.css';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -31,63 +34,94 @@ const PayRefundDetail = (props) => {
   const {
     isCreating,
     refund,
-    accounts,
+    contactOptions,
+    accountOptions,
     onRefundDetailsChange,
   } = props;
 
   const {
     referenceId,
     date,
-    contactName,
+    contactId,
     accountId,
-    accountName,
     amount,
     description,
   } = refund;
 
-  const createView = (
-    <FormCard>
-      <ReadOnly name="contactName" label="Customer">{contactName}</ReadOnly>
-      <AccountCombobox
-        label="Account"
+  const requiredLabel = isCreating ? 'This is required' : undefined;
+  const primary = (
+    <>
+      <CustomerCombobox
+        items={contactOptions}
+        selectedId={contactId}
+        label="Customer"
+        name="Customer"
         hideLabel={false}
-        items={accounts}
+        disabled
+      />
+      <AccountCombobox
+        label="Bank account"
+        hideLabel={false}
+        items={accountOptions}
         selectedId={accountId}
         onChange={handleAccountComboboxChange(onRefundDetailsChange, 'accountId')}
+        requiredLabel={requiredLabel}
+        disabled={!isCreating}
       />
-      <AmountInput label="Amount" name="amount" value={amount} onChange={handleAmountChange(onRefundDetailsChange)} />
+      <AmountInput
+        label="Refund amount ($)"
+        name="amount"
+        value={amount}
+        onChange={handleAmountChange(onRefundDetailsChange)}
+        requiredLabel={requiredLabel}
+        className={styles.amount}
+        textAlign="right"
+        disabled={!isCreating}
+      />
       <TextArea
         name="description"
-        label="Description"
+        label="Description of transaction"
         autoSize
         resize="vertical"
         maxLength={255}
         value={description}
         onChange={onInputChange(onRefundDetailsChange)}
+        disabled={!isCreating}
+        rows={1}
       />
-      <Input name="referenceId" label="Reference" value={referenceId} onChange={onInputChange(onRefundDetailsChange)} />
-      <DatePicker name="date" label="Date" value={date} onSelect={handleDateChange(onRefundDetailsChange, 'date')} />
-    </FormCard>
+    </>
   );
 
-  const readonlyView = (
-    <FormCard>
-      <ReadOnly name="contactName" label="Customer">{contactName}</ReadOnly>
-      <ReadOnly name="account" label="Account">{accountName}</ReadOnly>
-      <ReadOnly name="amount" label="Amount">{amount}</ReadOnly>
-      <ReadOnly name="description" label="Description">{description}</ReadOnly>
-      <ReadOnly name="referenceId" label="Reference">{referenceId}</ReadOnly>
-      <ReadOnly name="date" label="Date">{date}</ReadOnly>
-    </FormCard>
+  const secondary = (
+    <>
+      <Input
+        name="referenceId"
+        label="Reference number"
+        value={referenceId}
+        onChange={onInputChange(onRefundDetailsChange)}
+        maxLength={8}
+        requiredLabel={requiredLabel}
+        disabled={!isCreating}
+      />
+      <DatePicker
+        name="date"
+        label="Date"
+        value={date}
+        onSelect={handleDateChange(onRefundDetailsChange, 'date')}
+        requiredLabel={requiredLabel}
+        disabled={!isCreating}
+      />
+    </>
   );
 
-  return isCreating ? createView : readonlyView;
+  return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   refund: getRefund(state),
-  accounts: getAccounts(state),
+  contactOptions: getContactOptions(state),
+  accountOptions: getAccountOptions(state),
 });
 
 export default connect(mapStateToProps)(PayRefundDetail);
