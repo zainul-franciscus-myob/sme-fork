@@ -461,9 +461,7 @@ const createBankingIntegrator = (store, integration) => ({
     const index = getOpenPosition(state);
     const intent = LOAD_ATTACHMENTS;
 
-    const {
-      transactionUid, journalUid, sourceJournal,
-    } = getBankTransactionLineByIndex(state, index);
+    const { transactionUid } = getBankTransactionLineByIndex(state, index);
 
     const urlParams = {
       businessId: getBusinessId(state),
@@ -471,8 +469,6 @@ const createBankingIntegrator = (store, integration) => ({
 
     const params = {
       transactionUid,
-      journalUid,
-      sourceJournal,
     };
 
     integration.read({
