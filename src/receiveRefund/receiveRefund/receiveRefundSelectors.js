@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 export const getBusinessId = state => state.businessId;
 
 export const getRegion = state => state.region;
@@ -18,11 +20,24 @@ export const getIsPageEdited = state => state.isPageEdited;
 
 export const getModalType = state => state.modalType;
 
-export const getAccounts = state => state.accounts;
+export const getContactOptions = state => state.contactOptions;
+
+export const getAccountOptions = state => state.accountOptions;
 
 export const getRefund = state => state.refund;
 
+const getReferenceId = state => state.refund.referenceId;
+
 const getOriginalReferenceId = state => state.originalReferenceId;
+
+export const getTitle = createSelector(
+  getIsCreating, getReferenceId,
+  (isCreating, referenceId) => (
+    isCreating
+      ? 'Record supplier debit as refund'
+      : `Supplier debit recorded as refund ${referenceId}`
+  ),
+);
 
 export const getRefundForCreate = (state) => {
   const originalReferenceId = getOriginalReferenceId(state);

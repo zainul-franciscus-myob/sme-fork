@@ -10,7 +10,14 @@ const ReceiveRefundActions = ({
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
+  onGoBackButtonClick,
 }) => {
+  const goBackButton = (
+    <Button key="goBack" name="goBack" type="primary" onClick={onGoBackButtonClick}>
+      Go back
+    </Button>
+  );
+
   const cancelButton = (
     <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isSubmitting}>
       Cancel
@@ -19,7 +26,7 @@ const ReceiveRefundActions = ({
 
   const saveButton = (
     <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting}>
-    Save
+      Record
     </Button>
   );
 
@@ -31,10 +38,11 @@ const ReceiveRefundActions = ({
 
   return (
     <ButtonRow
-      primary={[
-        cancelButton,
-        isCreating ? saveButton : undefined,
-      ]}
+      primary={
+        isCreating
+          ? [cancelButton, saveButton]
+          : [goBackButton]
+      }
       secondary={[
         isCreating ? undefined : deleteButton,
       ]}

@@ -4,7 +4,7 @@
     "contactId": "1",
     "accountId": "134",
     "amount": "12345.80",
-    "description": "James Smith: Credit from 000000001",
+    "description": "James Smith: Debit from 000000001",
     "customerReturnId": "123"
   },
   "contactOptions": [

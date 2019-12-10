@@ -1,12 +1,18 @@
 {
   "refund": {
     "referenceId": "00001827",
-    "contactName": "A-Z Stationary Supplies",
+    "contactId": "1",
     "amount": "12345.80",
-    "description": "A-Z Stationary Supplies: Credit from 000000001",
+    "description": "A-Z Stationary Supplies: Debit from 000000001",
     "supplierReturnId": "123"
   },
-  "accounts": [
+  "contactOptions": [
+    {
+      "name": "James Smith",
+      "value": "1"
+    }
+  ],
+  "accountOptions": [
     {
       "id": "134",
       "displayName": "Expense 1",

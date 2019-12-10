@@ -2,9 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { SUCCESSFULLY_DELETED_RECEIVE_REFUND, SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../ReceiveRefundMessageTypes';
-import {
-  getBusinessId, getIsCreating, getIsPageEdited, getRegion,
-} from './receiveRefundSelectors';
+import { getBusinessId, getIsPageEdited, getRegion } from './receiveRefundSelectors';
 import RefundView from './components/ReceiveRefundView';
 import Store from '../../store/Store';
 import createReceiveRefundDispatcher from './createReceiveRefundDispatcher';
@@ -94,24 +92,13 @@ export default class ReceiveRefundModule {
     if (isEdited) {
       this.dispatcher.openModal('cancel');
     } else {
-      this.redirectAfterCancel();
+      this.redirectToSupplierReturnList();
     }
   }
 
   confirmCancel = () => {
     this.dispatcher.closeModal();
-    this.redirectAfterCancel();
-  }
-
-  redirectAfterCancel = () => {
-    const state = this.store.getState();
-    const isCreating = getIsCreating(state);
-
-    if (isCreating) {
-      this.redirectToSupplierReturnList();
-    } else {
-      this.redirectToTransactionList();
-    }
+    this.redirectToSupplierReturnList();
   }
 
   redirectToSupplierReturnList = () => {
@@ -155,6 +142,7 @@ export default class ReceiveRefundModule {
         onSaveButtonClick={this.createRefund}
         onCancelButtonClick={this.confirmBeforeCancel}
         onDeleteButtonClick={this.confirmBeforeDelete}
+        onGoBackButtonClick={this.redirectToTransactionList}
       />
     );
 

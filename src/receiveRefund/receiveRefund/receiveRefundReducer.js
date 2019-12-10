@@ -19,15 +19,15 @@ const getDefaultState = () => ({
   refund: {
     referenceId: '',
     date: formatIsoDate(new Date()),
-    contactName: '',
+    contactId: '',
     accountId: '',
-    accountName: '',
     amount: '',
     description: '',
     supplierReturnId: '',
   },
   originalReferenceId: '',
-  accounts: [],
+  contactOptions: [],
+  accountOptions: [],
   isLoading: false,
   isPageEdited: false,
   isSubmitting: false,
@@ -75,7 +75,8 @@ const loadRefund = (state, action) => {
       ...state.refund,
       ...action.refund,
     },
-    accounts: action.accounts || defaultState.accounts,
+    contactOptions: action.contactOptions,
+    accountOptions: action.accountOptions,
     originalReferenceId: action.refund.referenceId || defaultState.originalReferenceId,
   };
 };
