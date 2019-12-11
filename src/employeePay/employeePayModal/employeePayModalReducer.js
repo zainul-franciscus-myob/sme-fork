@@ -5,6 +5,7 @@ import {
   SET_IS_MODAL_LOADING,
   SET_MODAL_IS_OPEN,
 } from './EmployeePayModalIntents';
+import { RESET_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -27,6 +28,10 @@ const getDefaultState = () => ({
   isLoading: true,
   isOpen: false,
   deletePopoverIsOpen: false,
+});
+
+const resetState = () => ({
+  ...getDefaultState(),
 });
 
 const loadEmployeePayDetails = (state, { response }) => ({
@@ -59,6 +64,7 @@ const setModalIsOpen = (state, { isOpen }) => ({
 });
 
 const handlers = {
+  [RESET_STATE]: resetState,
   [LOAD_EMPLOYEE_PAY_MODAL]: loadEmployeePayDetails,
   [SET_IS_MODAL_LOADING]: setModalLoadingState,
   [SET_DELETE_POPOVER_IS_OPEN]: setDeletePopoverIsOpen,

@@ -22,7 +22,7 @@ const getDefaultState = () => ({
     employeeLastName: '',
     isDeletable: true,
     lines: [],
-    parentBusinessEventId: 0,
+    parentBusinessEventId: undefined,
     payPeriodStart: '',
     payPeriodEnd: '',
     paymentMethod: '',

@@ -100,6 +100,7 @@ export default class PayRunDetailModule {
     this.store.dispatch({
       intent: RESET_STATE,
     });
+    this.employeePayModal.resetState();
   };
 
   unsubscribeFromStore = () => {

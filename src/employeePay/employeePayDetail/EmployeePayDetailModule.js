@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import EmployeePayDetailView from './components/EmployeePayDetailView';
 import Store from '../../store/Store';
 import createEmployeePayDetailDispatchers from './createEmployeePayDetailDispatchers';
@@ -38,16 +37,11 @@ export default class EmployeePayDetailModule {
   };
 
   setInitialState = (context) => {
-    this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
-    });
+    this.dispatcher.setInitialState(context);
   };
 
   resetState = () => {
-    this.store.dispatch({
-      intent: RESET_STATE,
-    });
+    this.dispatcher.resetState();
   };
 
   unsubscribeFromStore = () => {

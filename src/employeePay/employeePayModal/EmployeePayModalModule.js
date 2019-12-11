@@ -32,16 +32,10 @@ export default class EmployeePayModalModule {
   };
 
   openModal = ({
-    transactionId,
-    businessId,
-    employeeName,
-    region,
+    transactionId, businessId, employeeName, region,
   }) => {
     this.dispatcher.setInitialState({
-      transactionId,
-      businessId,
-      employeeName,
-      region,
+      transactionId, businessId, employeeName, region,
     });
     this.loadEmployeePayDetail();
     this.dispatcher.setIsOpen(true);
@@ -49,6 +43,10 @@ export default class EmployeePayModalModule {
 
   closeModal = () => {
     this.dispatcher.setIsOpen(false);
+  };
+
+  resetState = () => {
+    this.dispatcher.resetState();
   };
 
   getView() {
