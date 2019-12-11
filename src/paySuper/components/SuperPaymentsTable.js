@@ -92,7 +92,7 @@ const SuperPaymentsTable = ({
       <Table.RowItem columnName={tableConfig.date.columnName}>
         <Button
           type="link"
-          onClick={() => { onDateLinkClick(row.employeePaymentEventLineId, row.employeeName); }}
+          onClick={() => { onDateLinkClick(row.employeePaymentEventId, row.employeeName); }}
         >
           {row.date}
         </Button>
