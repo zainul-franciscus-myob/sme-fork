@@ -3,13 +3,12 @@
   "description": "Return McDonalds meal",
   "reference": "ATS111111",
   "date": "1976-11-22",
-  "includeClosedSales": false,
   "invoices": [
     {
       "invoiceId": 1,
       "issueDate": "28/11/1998",
       "invoiceNumber": "INV111111",
-      "status": "Unpaid",
+      "status": "Open",
       "totalAmount": 0,
       "discount": 0,
       "displayDiscount": "0.00",
@@ -20,7 +19,7 @@
       "invoiceId": 2,
       "issueDate": "28/11/1998",
       "invoiceNumber": "INV222222",
-      "status": "Unpaid",
+      "status": "Open",
       "totalAmount": 0,
       "discount": 0,
       "displayDiscount": "0.00",

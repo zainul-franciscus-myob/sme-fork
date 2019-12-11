@@ -1,8 +1,4 @@
-import {
-  getCreateApplyToSalePayload,
-  getInvoices,
-  getTotalAmountApplied,
-} from '../applyToSaleSelectors';
+import { getCreateApplyToSalePayload, getInvoices, getTotalAmountApplied } from '../applyToSaleSelectors';
 
 describe('applyToSaleSelectors', () => {
   describe('getInvoices', () => {
@@ -39,11 +35,11 @@ describe('applyToSaleSelectors', () => {
 
     [
       {
-        status: 'Unpaid',
+        status: 'Open',
         labelColour: 'light-grey',
       },
       {
-        status: 'Paid',
+        status: 'Closed',
         labelColour: 'green',
       },
     ].forEach((test) => {

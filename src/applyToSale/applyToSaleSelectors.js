@@ -10,7 +10,6 @@ const formatCurrency = (amount) => {
 
 export const getRegion = state => state.region;
 export const getBusinessId = state => state.businessId;
-export const getCustomerId = state => state.customerId;
 export const getCustomerReturnId = state => state.customerReturnId;
 export const getApplyToSaleId = state => state.applyToSaleId;
 export const getCustomerName = state => state.customerName;
@@ -18,7 +17,6 @@ export const getAmount = state => state.amount;
 export const getReference = state => state.reference;
 export const getDescription = state => state.description;
 export const getDate = state => state.date;
-export const getIncludeClosedSales = state => state.includeClosedSales;
 
 const getInvoiceLink = invoiceId => createSelector(
   getRegion,
@@ -26,8 +24,8 @@ const getInvoiceLink = invoiceId => createSelector(
   (region, businessId) => `/#/${region}/${businessId}/invoice/${invoiceId}`,
 );
 const getLabelColour = status => ({
-  Unpaid: 'light-grey',
-  Paid: 'green',
+  Open: 'light-grey',
+  Closed: 'green',
 }[status]);
 export const getInvoices = state => state.invoices.map(invoice => ({
   ...invoice,
@@ -60,7 +58,6 @@ export const getCreateApplyToSalePayload = state => ({
 export const getIsCreating = state => state.applyToSaleId === '';
 export const getIsSubmitting = state => state.isSubmitting;
 export const getIsLoading = state => state.isLoading;
-export const getIsTableLoading = state => state.isTableLoading;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getIsTableEmpty = createSelector(
   getInvoices,
@@ -68,3 +65,13 @@ export const getIsTableEmpty = createSelector(
 );
 export const getModalType = state => state.modalType;
 export const getAlertMessage = state => state.alertMessage;
+
+export const getTitle = createSelector(
+  getIsCreating,
+  getReference,
+  (isCreating, reference) => (
+    isCreating
+      ? 'Apply customer credit to sale'
+      : `Customer credit applied to sale ${reference}`
+  ),
+);

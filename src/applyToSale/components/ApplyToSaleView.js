@@ -2,7 +2,9 @@ import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlertMessage, getIsLoading, getModalType } from '../applyToSaleSelectors';
+import {
+  getAlertMessage, getIsLoading, getModalType, getTitle,
+} from '../applyToSaleSelectors';
 import ApplyToSaleActions from './ApplyToSaleActions';
 import ApplyToSaleModal from './ApplyToSaleModal';
 import ApplyToSaleOptions from './ApplyToSaleOptions';
@@ -13,12 +15,14 @@ const ApplyToSaleView = ({
   isLoading,
   modalType,
   alertMessage,
+  title,
   onUpdateApplyToSaleOption,
   onUpdateTableAmountInput,
   onBlurTableAmountInput,
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
+  onGoBackButtonClick,
   onDismissModal,
   onDismissAlert,
   onConfirmCancelButtonClick,
@@ -26,7 +30,7 @@ const ApplyToSaleView = ({
 }) => {
   const view = (
     <LineItemTemplate
-      pageHead="Apply to sale"
+      pageHead={title}
       options={(
         <ApplyToSaleOptions
           onUpdateApplyToSaleOption={onUpdateApplyToSaleOption}
@@ -37,6 +41,7 @@ const ApplyToSaleView = ({
           onSaveButtonClick={onSaveButtonClick}
           onCancelButtonClick={onCancelButtonClick}
           onDeleteButtonClick={onDeleteButtonClick}
+          onGoBackButtonClick={onGoBackButtonClick}
         />
       )}
       alert={alertMessage && (
@@ -66,6 +71,7 @@ const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
+  title: getTitle(state),
 });
 
 export default connect(mapStateToProps)(ApplyToSaleView);

@@ -13,7 +13,7 @@ const ReceiveRefundActions = ({
   onGoBackButtonClick,
 }) => {
   const goBackButton = (
-    <Button key="goBack" name="goBack" type="primary" onClick={onGoBackButtonClick}>
+    <Button key="goBack" name="goBack" type="primary" onClick={onGoBackButtonClick} disabled={isSubmitting}>
       Go back
     </Button>
   );

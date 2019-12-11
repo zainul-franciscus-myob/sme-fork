@@ -16,16 +16,16 @@ const ApplyToSaleModal = ({
     <DeleteModal
       onConfirm={onConfirmDeleteButtonClick}
       onCancel={onDismissModal}
-      title="Delete apply to sale"
-      description="Are you sure you want to delete?"
+      title="Delete this transaction?"
+      description="This can't be undone, or recovered later."
     />
   ),
   [ModalType.CANCEL]: (
     <CancelModal
       onConfirm={onConfirmCancelButtonClick}
       onCancel={onDismissModal}
-      title="Cancel apply to sale"
-      description="Are you sure you want to cancel the alterations?"
+      title="Discard unsaved changes?"
+      description="You've made changes that will be lost if you don't go back and save them."
     />
   ),
 }[modalType]);

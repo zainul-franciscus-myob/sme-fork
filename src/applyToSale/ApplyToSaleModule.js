@@ -6,13 +6,11 @@ import {
   DELETE_APPLY_TO_SALE,
   FORMAT_TABLE_AMOUNT_INPUT,
   LOAD_APPLY_TO_SALE,
-  LOAD_INVOICES,
   LOAD_NEW_APPLY_TO_SALE,
   SET_ALERT_MESSAGE,
   SET_IS_LOADING,
   SET_IS_PAGE_EDITED,
   SET_IS_SUBMITTING,
-  SET_IS_TABLE_LOADING,
   SET_MODAL_TYPE,
   UPDATE_APPLY_TO_SALE_OPTION,
   UPDATE_TABLE_AMOUNT_INPUT,
@@ -23,9 +21,7 @@ import {
   getApplyToSaleId,
   getBusinessId,
   getCreateApplyToSalePayload,
-  getCustomerId,
   getCustomerReturnId,
-  getIncludeClosedSales,
   getIsCreating,
   getIsPageEdited,
   getRegion,
@@ -74,42 +70,6 @@ export default class ApplyToSaleModule {
     this.integration.read({
       intent,
       urlParams,
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  loadInvoices = () => {
-    this.setIsTableLoading(true);
-
-    const state = this.store.getState();
-    const intent = LOAD_INVOICES;
-    const urlParams = {
-      businessId: getBusinessId(state),
-      customerId: getCustomerId(state),
-    };
-    const params = {
-      includeClosedSales: getIncludeClosedSales(state),
-    };
-
-    const onSuccess = ({ invoices }) => {
-      this.setIsTableLoading(false);
-
-      this.store.dispatch({
-        intent,
-        invoices,
-      });
-    };
-
-    const onFailure = ({ message }) => {
-      this.setIsTableLoading(false);
-      this.setAlertMessage(message);
-    };
-
-    this.integration.read({
-      intent,
-      urlParams,
-      params,
       onSuccess,
       onFailure,
     });
@@ -187,10 +147,6 @@ export default class ApplyToSaleModule {
       value,
     });
     this.setIsPageEdited(true);
-
-    if (key === 'includeClosedSales') {
-      this.loadInvoices();
-    }
   };
 
   updateTableAmountInput = ({ key, value, index }) => {
@@ -268,13 +224,6 @@ export default class ApplyToSaleModule {
     });
   }
 
-  setIsTableLoading = (isTableLoading) => {
-    this.store.dispatch({
-      intent: SET_IS_TABLE_LOADING,
-      isTableLoading,
-    });
-  }
-
   setIsSubmitting = (isSubmitting) => {
     this.store.dispatch({
       intent: SET_IS_SUBMITTING,
@@ -312,6 +261,7 @@ export default class ApplyToSaleModule {
           onSaveButtonClick={this.createApplyToSale}
           onCancelButtonClick={this.openCancelModal}
           onDeleteButtonClick={this.openDeleteModal}
+          onGoBackButtonClick={this.redirectToTransactionList}
           onDismissModal={this.dismissModal}
           onDismissAlert={this.dismissAlert}
           onConfirmCancelButtonClick={this.cancelApplyToSale}

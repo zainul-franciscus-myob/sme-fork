@@ -1,13 +1,11 @@
 import {
   FORMAT_TABLE_AMOUNT_INPUT,
   LOAD_APPLY_TO_SALE,
-  LOAD_INVOICES,
   LOAD_NEW_APPLY_TO_SALE,
   SET_ALERT_MESSAGE,
   SET_IS_LOADING,
   SET_IS_PAGE_EDITED,
   SET_IS_SUBMITTING,
-  SET_IS_TABLE_LOADING,
   SET_MODAL_TYPE,
   UPDATE_APPLY_TO_SALE_OPTION,
   UPDATE_TABLE_AMOUNT_INPUT,
@@ -29,14 +27,12 @@ const getDefaultState = () => ({
   reference: '',
   originalReferenceId: '',
   date: '',
-  includeClosedSales: false,
   invoices: [],
   modalType: '',
   alertMessage: '',
   isPageEdited: false,
   isSubmitting: false,
   isLoading: false,
-  isTableLoading: false,
 });
 
 const safeParseNumber = string => (Number(string) ? Number(string) : 0);
@@ -58,11 +54,6 @@ const resetState = () => getDefaultState();
 const setIsLoading = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
-});
-
-const setIsTableLoading = (state, action) => ({
-  ...state,
-  isTableLoading: action.isTableLoading,
 });
 
 const setIsPageEdited = (state, action) => ({
@@ -94,7 +85,6 @@ const loadNewApplyToSale = (state, action) => ({
   reference: action.applyToSale.reference,
   originalReferenceId: action.applyToSale.reference,
   date: formatIsoDate(new Date()),
-  includeClosedSales: action.applyToSale.includeClosedSales,
   invoices: action.applyToSale.invoices,
 });
 
@@ -104,13 +94,7 @@ const loadApplyToSale = (state, action) => ({
   description: action.applyToSale.description,
   reference: action.applyToSale.reference,
   date: action.applyToSale.date,
-  includeClosedSales: action.applyToSale.includeClosedSales,
   invoices: action.applyToSale.invoices,
-});
-
-const loadInvoices = (state, action) => ({
-  ...state,
-  invoices: action.invoices,
 });
 
 const updateApplyToSaleOption = (state, action) => ({
@@ -161,14 +145,12 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_IS_LOADING]: setIsLoading,
-  [SET_IS_TABLE_LOADING]: setIsTableLoading,
   [SET_IS_PAGE_EDITED]: setIsPageEdited,
   [SET_IS_SUBMITTING]: setIsSubmitting,
   [SET_MODAL_TYPE]: setModalType,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [LOAD_NEW_APPLY_TO_SALE]: loadNewApplyToSale,
   [LOAD_APPLY_TO_SALE]: loadApplyToSale,
-  [LOAD_INVOICES]: loadInvoices,
   [UPDATE_APPLY_TO_SALE_OPTION]: updateApplyToSaleOption,
   [UPDATE_TABLE_AMOUNT_INPUT]: updateTableAmountInput,
   [FORMAT_TABLE_AMOUNT_INPUT]: formatTableAmountInput,
