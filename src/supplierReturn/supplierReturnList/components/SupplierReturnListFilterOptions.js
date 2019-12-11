@@ -1,14 +1,13 @@
-import {
-  FilterBar, Search,
-} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getFilterOptions, getSupplierFilterOptions, getTotalAmount, getTotalDebitAmount,
-} from '../supplierReturnListSelectors';
+} from '../selectors/SupplierReturnListSelectors';
+import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
+import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 import SupplierCombobox from '../../../components/combobox/SupplierCombobox';
-import style from './SupplierReturnListFilterOptions.module.css';
+import styles from './SupplierReturnListFilterOptions.module.css';
 
 const onTextFieldChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
 
@@ -27,15 +26,17 @@ const SupplierReturnListFilterOptions = ({
 }) => (
   <React.Fragment>
     <FilterBar onApply={onApplyFilter}>
-      <SupplierCombobox
-        label="Supplier"
-        name="supplierId"
-        hideLabel={false}
-        items={supplierFilterOptions}
-        selectedId={supplierId}
-        onChange={onSupplierComboboxChange(onUpdateFilterBarOptions)}
-      />
-      <Search
+      <div className={styles.supplierCombobox}>
+        <SupplierCombobox
+          label="Supplier"
+          name="supplierId"
+          hideLabel={false}
+          items={supplierFilterOptions}
+          selectedId={supplierId}
+          onChange={onSupplierComboboxChange(onUpdateFilterBarOptions)}
+        />
+      </div>
+      <FilterBarSearch
         id="keywords"
         label="Search"
         name="keywords"
@@ -48,9 +49,9 @@ const SupplierReturnListFilterOptions = ({
 
     <hr />
 
-    <div className={style.totals}>
-      <span className={style.totalAmount}>{`Total amount: ${totalAmount}`}</span>
-      <span className={style.totalDebitAmount}>{`Total debit amount: ${totalDebitAmount}`}</span>
+    <div className={styles.totals}>
+      <span className={styles.totalAmount}>{`Total amount: ${totalAmount}`}</span>
+      <span className={styles.totalDebitAmount}>{`Total debit amount: ${totalDebitAmount}`}</span>
     </div>
 
   </React.Fragment>

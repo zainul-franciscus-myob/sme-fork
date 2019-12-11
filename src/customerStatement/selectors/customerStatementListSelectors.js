@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import StatementType from '../StatementType';
+import shallowCompare from '../../common/shallowCompare/shallowCompare';
 
 const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
@@ -149,9 +150,7 @@ export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilt
 export const getIsDefaultFilters = createSelector(
   getAppliedFilterOptions,
   getDefaultFilterOptions,
-  (appliedFlterOptions, defaultFilterOptions) => (
-    !Object.keys(appliedFlterOptions)
-      .map(key => defaultFilterOptions[key] === appliedFlterOptions[key])
-      .includes(false)
+  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
+    appliedFilterOptions, defaultFilterOptions,
   ),
 );

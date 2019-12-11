@@ -3,6 +3,7 @@ import { isPast } from 'date-fns';
 
 import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import formatCurrency from '../../common/valueFormatters/formatCurrency';
+import shallowCompare from '../../common/shallowCompare/shallowCompare';
 
 export const getBusinessId = ({ businessId }) => businessId;
 
@@ -94,10 +95,9 @@ export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilt
 export const getIsDefaultFilters = createSelector(
   getAppliedFilterOptions,
   getDefaultFilterOptions,
-  (appliedFilterOptions, defaultFilterOptions) => (
-    !Object.keys(appliedFilterOptions)
-      .map(key => defaultFilterOptions[key] === appliedFilterOptions[key])
-      .includes(false)
+  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
+    appliedFilterOptions,
+    defaultFilterOptions,
   ),
 );
 

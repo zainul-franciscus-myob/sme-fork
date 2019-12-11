@@ -3,11 +3,14 @@ import React from 'react';
 
 import {
   LOAD_SUPPLIER_RETURN_LIST,
+  LOAD_SUPPLIER_RETURN_LIST_NEXT_PAGE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
+  START_LOADING_MORE,
+  STOP_LOADING_MORE,
   UPDATE_FILTER_BAR_OPTIONS,
 } from '../SupplierReturnIntents';
 import {
@@ -16,15 +19,20 @@ import {
 } from '../../SystemIntents';
 import { SUCCESSFULLY_SAVED_PURCHASE_RETURN } from '../../supplierReturnPurchase/SupplierReturnPurchaseMessageTypes';
 import { SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../../receiveRefund/ReceiveRefundMessageTypes';
+import { SUPPLIER_RETURN_LIST } from '../getSupplierReturnRoutes';
 import {
-  getAppliedFilterOptions,
+  getAppliedParams,
   getBusinessId,
-  getFilterOptions,
-  getNewSortOrder,
-  getOrderBy,
+  getParams,
   getRegion,
-  getSortOrder,
-} from './supplierReturnListSelectors';
+  getSettings,
+  getURLParams,
+} from './selectors/SupplierReturnListIntegrationSelectors';
+import {
+  getNewSortOrder,
+  getOffset,
+} from './selectors/SupplierReturnListSelectors';
+import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import Store from '../../store/Store';
 import SupplierReturnListView from './components/SupplierReturnListView';
 import supplierReturnListReducer from './supplierReturnListReducer';
@@ -68,23 +76,8 @@ export default class SupplierReturnListModule {
     });
   }
 
-  redirectToCreateRefund = (id) => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    window.location.href = `/#/${region}/${businessId}/supplierReturn/${id}/receiveRefund/new`;
-  }
-
-  redirectToCreatePurchase = (id) => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    window.location.href = `/#/${region}/${businessId}/supplierReturn/${id}/applyToPurchase/new`;
-  }
-
   loadSupplierReturnList = () => {
+    const state = this.store.getState();
     const intent = LOAD_SUPPLIER_RETURN_LIST;
 
     const onSuccess = (response) => {
@@ -99,19 +92,23 @@ export default class SupplierReturnListModule {
       console.log('Failed to load supplier return list entries');
     };
 
-    const urlParams = {
-      businessId: getBusinessId(this.store.getState()),
+    const urlParams = getURLParams(state);
+
+    const params = {
+      ...getParams(state),
+      offset: 0,
     };
+
     this.integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent, urlParams, params, onSuccess, onFailure,
     });
   };
 
   filterSupplierReturnList = () => {
     const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
+    const params = getParams(state);
     const isSort = false;
-    this.getFilteredSupplierList(isSort, filterOptions);
+    this.getFilteredSupplierList(isSort, params);
   };
 
   sortSupplierReturnList = (orderBy) => {
@@ -120,14 +117,15 @@ export default class SupplierReturnListModule {
     this.setSortOrder(orderBy, newSortOrder);
 
     const isSort = true;
-    const filterOptions = getAppliedFilterOptions(state);
-    this.getFilteredSupplierList(isSort, filterOptions);
+    const params = getAppliedParams(state);
+    this.getFilteredSupplierList(isSort, params);
   };
 
-  getFilteredSupplierList = (isSort, filterOptions) => {
-    this.setTableLoadingState(true);
-
+  getFilteredSupplierList = (isSort, params) => {
+    const state = this.store.getState();
     const intent = SORT_AND_FILTER_SUPPLIER_RETURN_LIST;
+
+    this.setTableLoadingState(true);
 
     const onSuccess = (response) => {
       this.setTableLoadingState(false);
@@ -142,20 +140,61 @@ export default class SupplierReturnListModule {
       this.setDangerAlert(error.message);
     };
 
-    const state = this.store.getState();
-    const orderBy = getOrderBy(state);
-    const sortOrder = getSortOrder(state);
-    const params = {
-      ...filterOptions,
-      sortOrder,
-      orderBy,
+    const urlParams = getURLParams(state);
+    const paramsWithOffset = {
+      ...params,
+      offset: 0,
     };
+
+    this.integration.read({
+      intent,
+      urlParams,
+      params: paramsWithOffset,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  loadSupplierReturnListNextPage = () => {
+    const state = this.store.getState();
+
+    const intent = LOAD_SUPPLIER_RETURN_LIST_NEXT_PAGE;
+    this.startLoadingMore();
+
     const urlParams = {
       businessId: getBusinessId(state),
     };
 
+    const onSuccess = ({
+      entries, pagination, totalAmount, totalDebitAmount,
+    }) => {
+      this.stopLoadingMore();
+      this.store.dispatch({
+        intent,
+        entries,
+        pagination,
+        totalAmount,
+        totalDebitAmount,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.stopLoadingMore();
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    const params = getParams(state);
+    const offset = getOffset(state);
+
     this.integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
+      intent,
+      urlParams,
+      params: {
+        ...params,
+        offset,
+      },
+      onSuccess,
+      onFailure,
     });
   }
 
@@ -206,6 +245,7 @@ export default class SupplierReturnListModule {
         onSort={this.sortSupplierReturnList}
         onCreateRefundClick={this.redirectToCreateRefund}
         onCreatePurchaseClick={this.redirectToCreatePurchase}
+        onLoadMoreButtonClick={this.loadSupplierReturnListNextPage}
       />
     );
 
@@ -228,17 +268,50 @@ export default class SupplierReturnListModule {
     });
   }
 
-  setInitialState = (context) => {
+  startLoadingMore = () => {
     this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
+      intent: START_LOADING_MORE,
     });
   }
 
+  stopLoadingMore = () => {
+    this.store.dispatch({
+      intent: STOP_LOADING_MORE,
+    });
+  }
+
+  setInitialState = (context, settings) => {
+    this.store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+      settings,
+    });
+  }
+
+  redirectToCreateRefund = (id) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/supplierReturn/${id}/receiveRefund/new`;
+  }
+
+  redirectToCreatePurchase = (id) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/supplierReturn/${id}/applyToPurchase/new`;
+  }
+
   run(context) {
-    this.setInitialState(context);
+    const settings = loadSettings(context.businessId, SUPPLIER_RETURN_LIST);
+    this.setInitialState(context, settings);
     this.render();
     this.readMessages();
+    this.store.subscribe(states => (
+      saveSettings(context.businessId, SUPPLIER_RETURN_LIST, getSettings(states))
+    ));
     this.loadSupplierReturnList();
   }
 

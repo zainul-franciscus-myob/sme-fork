@@ -1,6 +1,5 @@
 import { addDays, subDays } from 'date-fns';
 
-import { getIsDefaultFilters } from '../../../contact/contactList/contactListSelector';
 import { getLoadMoreButtonStatus, getTableEntries, getTotalOverdue } from '../invoiceListSelectors';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -71,29 +70,6 @@ describe('invoiceListReducer', () => {
       const actual = getTableEntries(overdueState);
 
       expect(actual[0].dueDateColor).toEqual(expectedDueDateColour);
-    });
-  });
-
-  describe('getIsDefaultFilters', () => {
-    it('should retrun false when default filters arent applied', () => {
-      const state = {
-        defaultFilterOptions: { keywords: 'not', type: 'abc' },
-        appliedFilterOptions: { keywords: 'the same', type: 'abc' },
-      };
-      const expected = false;
-      const actual = getIsDefaultFilters(state);
-
-      expect(actual).toEqual(expected);
-    });
-    it('should retrun true when default filters are applied', () => {
-      const state = {
-        defaultFilterOptions: { keywords: 'the same', type: 'abc' },
-        appliedFilterOptions: { keywords: 'the same', type: 'abc' },
-      };
-      const expected = true;
-      const actual = getIsDefaultFilters(state);
-
-      expect(actual).toEqual(expected);
     });
   });
 

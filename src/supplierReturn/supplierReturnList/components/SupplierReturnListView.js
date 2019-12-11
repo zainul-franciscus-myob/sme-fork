@@ -1,29 +1,30 @@
 import {
   Alert,
   PageHead,
-  StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading } from '../supplierReturnListSelectors';
+import { getAlert, getIsLoading, getLoadMoreButtonStatus } from '../selectors/SupplierReturnListSelectors';
 import PageView from '../../../components/PageView/PageView';
+import PaginatedListTemplate from '../../../components/PaginatedListTemplate/PaginatedListTemplate';
 import SupplierReturnListFilterOptions from './SupplierReturnListFilterOptions';
 import SupplierReturnListTable from './SupplierReturnListTable';
-import style from './SupplierReturnListView.module.css';
 
 const SupplierReturnListView = ({
+  alert,
   isLoading,
+  loadMoreButtonStatus,
+  onSort,
   onUpdateFilterBarOptions,
   onApplyFilter,
-  alert,
   onDismissAlert,
-  onSort,
   onCreateRefundClick,
   onCreatePurchaseClick,
+  onLoadMoreButtonClick,
 }) => {
   const pageHead = (
-    <PageHead title="Supplier returns" />
+    <PageHead title="Purchase returns and debits" />
   );
 
   const alertComponent = alert && (
@@ -39,18 +40,24 @@ const SupplierReturnListView = ({
     />
   );
 
+  const table = (
+    <SupplierReturnListTable
+      onSort={onSort}
+      onCreateRefundClick={onCreateRefundClick}
+      onCreatePurchaseClick={onCreatePurchaseClick}
+    />
+  );
+
+
   const supplierReturnListView = (
-    <StandardTemplate alert={alertComponent} sticky="none" pageHead={pageHead} filterBar={filterBar}>
-
-      <div className={style.list}>
-        <SupplierReturnListTable
-          onSort={onSort}
-          onCreateRefundClick={onCreateRefundClick}
-          onCreatePurchaseClick={onCreatePurchaseClick}
-        />
-      </div>
-
-    </StandardTemplate>
+    <PaginatedListTemplate
+      alert={alertComponent}
+      pageHead={pageHead}
+      filterBar={filterBar}
+      listTable={table}
+      onLoadMoreButtonClick={onLoadMoreButtonClick}
+      loadMoreButtonStatus={loadMoreButtonStatus}
+    />
   );
 
   return <PageView isLoading={isLoading} view={supplierReturnListView} />;
@@ -59,6 +66,7 @@ const SupplierReturnListView = ({
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   alert: getAlert(state),
+  loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 
 export default connect(mapStateToProps)(SupplierReturnListView);

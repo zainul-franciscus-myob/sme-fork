@@ -2,7 +2,6 @@ import {
   getCustomersSelected,
   getDefaultTemplateOption,
   getFileName,
-  getIsDefaultFilters,
   getSelectedTemplateOption,
   getTemplateOptions,
 } from '../selectors/customerStatementListSelectors';
@@ -171,42 +170,6 @@ describe('customerStatementListSelectors', () => {
       const fileName = getFileName(state);
 
       expect(fileName).not.toEqual('some-uid.zip');
-    });
-  });
-
-  describe('getIsDefaultFilters', () => {
-    it('should return true if the current state is reflective of the default filters', () => {
-      const state = {
-        defaultFilterOptions: {
-          selectedCustomerId: 'All',
-          showZeroAmount: false,
-        },
-        appliedFilterOptions: {
-          selectedCustomerId: 'All',
-          showZeroAmount: false,
-        },
-      };
-
-      const actual = getIsDefaultFilters(state);
-
-      expect(actual).toEqual(true);
-    });
-
-    it('should return false if the current state is not reflective of the default filters', () => {
-      const state = {
-        defaultFilterOptions: {
-          selectedCustomerId: 'All',
-          showZeroAmount: false,
-        },
-        appliedFilterOptions: {
-          selectedCustomerId: '1',
-          showZeroAmount: true,
-        },
-      };
-
-      const actual = getIsDefaultFilters(state);
-
-      expect(actual).toEqual(false);
     });
   });
 });

@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import shallowCompare from '../../common/shallowCompare/shallowCompare';
 
 export const getAlert = ({ alert }) => alert;
 export const getEntries = state => state.entries;
@@ -45,10 +46,8 @@ export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilt
 export const getIsDefaultFilters = createSelector(
   getAppliedFilterOptions,
   getDefaultFilterOptions,
-  (appliedFlterOptions, defaultFilterOptions) => (
-    !Object.keys(appliedFlterOptions)
-      .map(key => defaultFilterOptions[key] === appliedFlterOptions[key])
-      .includes(false)
+  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
+    appliedFilterOptions, defaultFilterOptions,
   ),
 );
 

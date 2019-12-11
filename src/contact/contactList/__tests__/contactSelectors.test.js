@@ -1,5 +1,4 @@
 import {
-  getIsDefaultFilters,
   getIsTableEmpty,
   getLoadMoreButtonStatus,
   getOrder,
@@ -9,28 +8,6 @@ import {
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 
 describe('contactListSelector', () => {
-  describe('getIsDefaultFilters', () => {
-    it('should retrun false when default filters arent applied', () => {
-      const state = {
-        defaultFilterOptions: { keywords: 'not', type: 'abc' },
-        appliedFilterOptions: { keywords: 'the same', type: 'abc' },
-      };
-      const expected = false;
-      const actual = getIsDefaultFilters(state);
-
-      expect(actual).toEqual(expected);
-    });
-    it('should retrun true when default filters are applied', () => {
-      const state = {
-        defaultFilterOptions: { keywords: 'the same', type: 'abc' },
-        appliedFilterOptions: { keywords: 'the same', type: 'abc' },
-      };
-      const expected = true;
-      const actual = getIsDefaultFilters(state);
-
-      expect(actual).toEqual(expected);
-    });
-  });
   describe('getOrder', () => {
     it('when descending is true', () => {
       const state = {

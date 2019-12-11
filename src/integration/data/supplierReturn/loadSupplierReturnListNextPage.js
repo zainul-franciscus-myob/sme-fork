@@ -1,0 +1,46 @@
+export default {
+  entries: [
+    {
+      id: '1',
+      date: '01/03/2019',
+      purchaseOrderNumber: '126',
+      supplierInvoiceNumber: 'iv0001',
+      supplier: 'the reject shop',
+      amount: '100.00',
+      debitAmount: '56.34',
+    },
+    {
+      id: '2',
+      date: '01/04/2015',
+      purchaseOrderNumber: '918',
+      supplierInvoiceNumber: 'iv00123',
+      supplier: 'thin air warehouse',
+      amount: '100.00',
+      debitAmount: '56.34',
+    },
+    {
+      id: '3',
+      date: '01/03/2019',
+      purchaseOrderNumber: '1232',
+      supplierInvoiceNumber: 'iv0001',
+      supplier: 'the coles shop',
+      amount: '100.00',
+      debitAmount: '56.34',
+    },
+    {
+      id: '4',
+      date: '01/04/2015',
+      purchaseOrderNumber: '0181',
+      supplierInvoiceNumber: 'iv00123',
+      supplier: 'thin air man',
+      amount: '100.00',
+      debitAmount: '56.34',
+    },
+  ],
+  totalAmount: '$2960.50',
+  totalDebitAmount: '$10.00',
+  pagination: {
+    hasNextPage: false,
+    offset: 50,
+  },
+};

@@ -1,3 +1,7 @@
+.supplierCombobox :global(.form-group) { 
+  width: var(--flx-width-field-l);
+}
+
 .totals {
   text-align: right;
 }
@@ -7,6 +11,5 @@
 }
 
 .totalDebitAmount {
-  margin-right: 2rem;
-  font-weight: bold;
+  font-weight: 500;
 }

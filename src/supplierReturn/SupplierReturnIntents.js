@@ -2,6 +2,9 @@ export const SET_ALERT = Symbol('Set alert');
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
 export const SET_LOADING_STATE = Symbol('Set loading state');
+export const LOAD_SUPPLIER_RETURN_LIST_NEXT_PAGE = Symbol('Load supplier return list next page');
+export const START_LOADING_MORE = Symbol('Start loading more');
+export const STOP_LOADING_MORE = Symbol('Stop loading more');
 
 export const LOAD_SUPPLIER_RETURN_LIST = Symbol('Load supplier return list');
 export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');

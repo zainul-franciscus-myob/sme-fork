@@ -3,6 +3,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { tabItemIds } from '../tabItems';
 import BusinessEventTypeMap from '../BusinessEventTypeMap';
 import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import shallowCompare from '../../common/shallowCompare/shallowCompare';
 
 const getJournalState = state => state.journalTransactions;
 
@@ -115,10 +116,6 @@ export const getURLParams = createStructuredSelector({
   sourceJournal: getAppliedSourceJournal,
 });
 
-const isPropertyValueSameAsDefault = (appliedFilterOptions, defaultFilterOptions) => key => (
-  defaultFilterOptions[key] === appliedFilterOptions[key]
-);
-
 const getDefaultFilterOptions = createSelector(
   getJournalState,
   state => state.defaultFilterOptions,
@@ -127,9 +124,9 @@ const getDefaultFilterOptions = createSelector(
 export const getIsDefaultFilters = createSelector(
   getAppliedFilterOptions,
   getDefaultFilterOptions,
-  (appliedFilterOptions, defaultFilterOptions) => (
-    Object.keys(appliedFilterOptions)
-      .every(isPropertyValueSameAsDefault(appliedFilterOptions, defaultFilterOptions))
+  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
+    appliedFilterOptions,
+    defaultFilterOptions,
   ),
 );
 

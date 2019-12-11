@@ -2,8 +2,7 @@ import { Checkbox, FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilterOptions } from '../../supplierReturn/supplierReturnList/supplierReturnListSelectors';
-import { getSupplierFilterOptions } from '../LinkBillSelectors';
+import { getFilterOptions, getSupplierFilterOptions } from '../LinkBillSelectors';
 import SupplierCombobox from '../../components/combobox/SupplierCombobox';
 import handleCheckboxChange from '../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../components/handlers/handleComboboxChange';

@@ -6,9 +6,6 @@ export default {
     { name: 'The Crystal Palace', value: '3' },
     { name: 'Thin Air Warehouse', value: '4' },
   ],
-  sortOrder: 'asc',
-  orderBy: 'DateOccurred',
-  supplierId: 'All',
   totalAmount: '$2,100.00',
   totalDebitAmount: '$56.34',
   entries: [
@@ -31,4 +28,8 @@ export default {
       debitAmount: '56.34',
     },
   ],
+  pagination: {
+    hasNextPage: true,
+    offset: 0,
+  },
 };

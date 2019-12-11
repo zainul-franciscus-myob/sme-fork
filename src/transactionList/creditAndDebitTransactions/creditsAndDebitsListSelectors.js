@@ -3,6 +3,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import { tabItemIds as tabItems } from '../tabItems';
 import BusinessEventTypeMap from '../BusinessEventTypeMap';
 import getDefaultState from './getDefaultState';
+import shallowCompare from '../../common/shallowCompare/shallowCompare';
 
 const getCreditsAndDebitsState = state => state.creditsAndDebitsTransactions;
 
@@ -159,9 +160,6 @@ export const getIsDefaultFilters = createSelector(
   getAppliedFilterOptions,
   (appliedFilterOptions) => {
     const defaultFilterOptions = getDefaultFilterOptions();
-    return (
-      !Object.keys(defaultFilterOptions)
-        .some(key => defaultFilterOptions[key] !== appliedFilterOptions[key])
-    );
+    return shallowCompare(appliedFilterOptions, defaultFilterOptions);
   },
 );
