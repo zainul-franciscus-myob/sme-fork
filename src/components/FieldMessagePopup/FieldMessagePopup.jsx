@@ -1,21 +1,20 @@
+import { Icons, Tooltip } from '@myob/myob-widgets';
+import InputError from '@myob/myob-widgets/lib/components/Input/InputError';
+import InputLabel from '@myob/myob-widgets/lib/components/Input/InputLabel';
+import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import shortid from 'shortid';
 
-import InputLabel from '@myob/myob-widgets/lib/components/Input/InputLabel';
-import InputError from '@myob/myob-widgets/lib/components/Input/InputError';
-import { Tooltip, Icons } from '@myob/myob-widgets';
-
-import styles from './FieldWarningPopup.module.css';
-import HoverPopover from "./HoverPopover";
+import HoverPopover from './HoverPopover';
+import styles from './FieldMessagePopup.module.css';
 
 /**
- * FieldWarningPopup
+ * FieldMessagePopup
  *
  * @visibleName
  */
-class FieldWarningPopup extends React.Component {
+class FieldMessagePopup extends React.Component {
   static propTypes = {
     /**
      * Sets the id of the field element, the aria-describedby of the field and the for attribute on the label.
@@ -48,6 +47,10 @@ class FieldWarningPopup extends React.Component {
      *  If this is not null, it displays the node in the Popup in the field.
      */
     warningBody: PropTypes.node,
+    /**
+     *  If this is not null, it displays the node in the Popup in the field.
+     */
+    infoBody: PropTypes.node,
     /**
      * If this is not null, it shows the specified node component next to the label.
      */
@@ -101,29 +104,31 @@ class FieldWarningPopup extends React.Component {
   }
 
   renderLabel = () => {
-    const {hideLabel, label, labelAccessory, requiredLabel} = this.props;
+    const {
+      hideLabel, label, labelAccessory, requiredLabel,
+    } = this.props;
     const labelContent = requiredLabel ? (
       <Tooltip
         trigger={['click', 'hover']}
-        triggerContent={
+        triggerContent={(
           <span>
-            <InputLabel id={this.inputId} label={label}/>
+            <InputLabel id={this.inputId} label={label} />
             <span className="form-group__required-icon" aria-hidden="true">
               *
             </span>
           </span>
-        }
+)}
       >
         {requiredLabel}
       </Tooltip>
     ) : (
-      <InputLabel id={this.inputId} label={label}/>
+      <InputLabel id={this.inputId} label={label} />
     );
     return (
       <div
         className={classnames(
           { 'sr-only': hideLabel },
-          'form-group__label-group'
+          'form-group__label-group',
         )}
       >
         {labelContent}
@@ -135,8 +140,8 @@ class FieldWarningPopup extends React.Component {
         to let people using screen reader technology know the field is required */
           requiredLabel && (
             <span className="sr-only" id={this.requiredId}>
-            {requiredLabel}
-          </span>
+              {requiredLabel}
+            </span>
           )}
       </div>
     );
@@ -151,6 +156,7 @@ class FieldWarningPopup extends React.Component {
       errorMessage,
       errorMessageInline,
       warningBody,
+      infoBody,
       renderField,
       errorId,
       requiredLabel,
@@ -164,6 +170,8 @@ class FieldWarningPopup extends React.Component {
           'has-error--inline': errorMessage && errorMessageInline,
           [styles.warning]: !!warningBody && !errorMessage,
           [styles.warningInline]: !!warningBody && !errorMessage,
+          [styles.info]: !!infoBody && !errorMessage && !warningBody,
+          [styles.infoInline]: !!infoBody && !errorMessage && !warningBody,
         })}
       >
         {this.renderLabel()}
@@ -175,16 +183,21 @@ class FieldWarningPopup extends React.Component {
             requiredId: this.requiredId,
           })}
           {!!errorMessage && !errorMessageInline && (
-            <InputError id={this.errorId} message={errorMessage}/>
+            <InputError id={this.errorId} message={errorMessage} />
           )}
           {!!errorMessage && errorMessageInline && (
-            <Tooltip id={this.errorId} triggerContent={<Icons.Error/>}>
+            <Tooltip id={this.errorId} triggerContent={<Icons.Error />}>
               {errorMessage}
             </Tooltip>
           )}
           {!!warningBody && !errorMessage && (
-            <HoverPopover id={this.errorId}>
+            <HoverPopover id={this.errorId} icon={<Icons.Warning />}>
               {warningBody}
+            </HoverPopover>
+          )}
+          {!!infoBody && !warningBody && !errorMessage && (
+            <HoverPopover id={this.errorId} icon={<Icons.Info />}>
+              {infoBody}
             </HoverPopover>
           )}
         </div>
@@ -193,4 +206,4 @@ class FieldWarningPopup extends React.Component {
   }
 }
 
-export default FieldWarningPopup;
+export default FieldMessagePopup;

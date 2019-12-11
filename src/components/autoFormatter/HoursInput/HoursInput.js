@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AutoFormatterWarning from '../AutoFormatterCore/AutoFormatterWarning';
+import AutoFormatterWithMessage from '../AutoFormatterCore/AutoFormatterWithMessage';
 import buildAmountInputChangeEvent from './buildAmountInputChangeEvent';
 
 const handleOnChange = (handle, currentValue) => (event) => {
@@ -20,7 +20,7 @@ const HoursInput = ({
   requiredLabel,
   ...props
 }) => (
-  <AutoFormatterWarning
+  <AutoFormatterWithMessage
     {...props}
     onChange={handleOnChange(onChange, value)}
     value={value}

@@ -8,11 +8,16 @@
   border-color: #ebd068;
 }
 
+.info :global(.form-control) {
+  border: var(--flx-border-alert-info);
+}
+
 .warning :global(.input-group-addon) {
   background-color: var(--flx-palette-white);
   color: var(--flx-palette-storm-100);
 }
 
+.infoInline :global(.popover-icon),
 .warningInline :global(.popover-icon) {
   --flx-icon-padding: 3.2rem;
   --flx-icon-position-y: 0.65rem;
@@ -27,27 +32,39 @@
   z-index: 5;
 }
 
+.infoInline :global(.form-group__input-group),
 .warningInline :global(.form-group__input-group) {
   position: relative;
 }
 
+.infoInline :global(.text-align-right)
 .warningInline :global(.text-align-right) {
   padding-left: var(--flx-icon-padding);
 }
 
+.infoInline :global(.form-control:not(.text-align-right))
 .warningInline :global(.form-control:not(.text-align-right)) {
   padding-right: var(--flx-icon-padding);
 }
 
+.infoInline :global(.text-align-right) + :global(.popover-icon),
 .warningInline :global(.text-align-right) + :global(.popover-icon) {
   right: auto;
   left: var(--flx-icon-position-x);
 }
 
+.info :global(.form-control:focus),
 .warning :global(.form-control:focus) {
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+
+.warning :global(.form-control:focus) {
   border: var(--flx-border-alert-warning);
+}
+
+.info :global(.form-control:focus) {
+  border-color: var(--flx-palette-azure);
 }
 
 .warningInline :global(.popover-icon .svg-icon-warning) {
@@ -56,4 +73,12 @@
 
 .warningInline :global(.popover-icon .svg-icon-warning path:first-child) {
   fill: var(--flx-fill-warning-icon-outer);
+}
+
+.infoInline :global(.popover-icon .svg-icon-info) {
+  fill: var(--flx-fill-info-icon-inner);
+}
+
+.infoInline :global(.popover-icon .svg-icon-info path:first-child) {
+  fill: var(--flx-fill-info-icon-outer);
 }

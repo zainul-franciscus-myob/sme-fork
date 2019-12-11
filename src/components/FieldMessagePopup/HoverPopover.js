@@ -1,4 +1,4 @@
-import { Icons, Popover } from '@myob/myob-widgets';
+import { Popover } from '@myob/myob-widgets';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -6,11 +6,13 @@ export default class HoverPopover extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     children: PropTypes.node,
+    icon: PropTypes.node,
   };
 
   static defaultProps = {
     id: undefined,
     children: undefined,
+    icon: undefined,
   };
 
   constructor(props) {
@@ -26,7 +28,7 @@ export default class HoverPopover extends React.Component {
 
   render() {
     const { isOpen } = this.state;
-    const { id, children } = this.props;
+    const { id, children, icon } = this.props;
 
     return (
       <span id={id} className="popover-icon" onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
@@ -36,7 +38,7 @@ export default class HoverPopover extends React.Component {
           preferPlace="above"
           closeOnOuterAction
         >
-          <Icons.Warning />
+          {icon}
         </Popover>
       </span>
     );

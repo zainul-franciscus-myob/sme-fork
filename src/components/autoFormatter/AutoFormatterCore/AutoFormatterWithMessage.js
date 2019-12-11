@@ -2,7 +2,7 @@ import Cleave from 'cleave.js/react';
 import React from 'react';
 import classnames from 'classnames';
 
-import FieldWarningPopup from '../../FieldWarningPopup/FieldWarningPopup';
+import FieldMessagePopup from '../../FieldMessagePopup/FieldMessagePopup';
 
 const Input = ({
   label,
@@ -13,11 +13,12 @@ const Input = ({
   errorMessage,
   errorMessageInline,
   warningBody,
+  infoBody,
   className,
   requiredLabel,
   ...inputBoxProps
 }) => (
-  <FieldWarningPopup
+  <FieldMessagePopup
     label={label}
     id={id}
     hideLabel={hideLabel}
@@ -25,6 +26,7 @@ const Input = ({
     errorMessage={errorMessage}
     errorMessageInline={errorMessageInline}
     warningBody={warningBody}
+    infoBody={infoBody}
     requiredLabel={requiredLabel}
     renderField={({ errorId, ...props }) => (
       <Cleave
