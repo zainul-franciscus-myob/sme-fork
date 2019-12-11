@@ -1,5 +1,10 @@
 import {
-  LOAD_PAY_SUPER_LIST, SET_ALERT, SET_IS_LOADING, SET_IS_TABLE_LOADING, SET_SORT_ORDER,
+  LOAD_PAY_SUPER_LIST,
+  LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,
+  SET_ALERT,
+  SET_IS_LOADING,
+  SET_IS_TABLE_LOADING,
+  SET_SORT_ORDER,
 } from './paySuperIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
@@ -59,6 +64,17 @@ const setSortOrder = (state, { orderBy }) => {
   };
 };
 
+const updateSuperPaymentStatus = (state, { response }) => ({
+  ...state,
+  superPayments: state.superPayments.map((p) => {
+    const updatedPayment = response.find(r => r.batchPaymentId === p.batchPaymentId);
+    return {
+      ...p,
+      status: updatedPayment ? updatedPayment.status : p.status,
+    };
+  }),
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -67,6 +83,7 @@ const handlers = {
   [SET_IS_TABLE_LOADING]: setIsTableLoading,
   [SET_SORT_ORDER]: setSortOrder,
   [SET_ALERT]: setAlert,
+  [LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST]: updateSuperPaymentStatus,
 };
 
 const paySuperListReducer = createReducer(getDefaultState(), handlers);

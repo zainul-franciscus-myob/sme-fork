@@ -1,5 +1,10 @@
 import {
-  LOAD_PAY_SUPER_LIST, SET_ALERT, SET_IS_LOADING, SET_IS_TABLE_LOADING, SET_SORT_ORDER,
+  LOAD_PAY_SUPER_LIST,
+  LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,
+  SET_ALERT,
+  SET_IS_LOADING,
+  SET_IS_TABLE_LOADING,
+  SET_SORT_ORDER,
 } from '../paySuperIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import paySuperListReducer, { getDefaultState } from '../paySuperListReducer';
@@ -150,6 +155,59 @@ describe('paySuperListReducer', () => {
       expect(newState).toEqual({
         ...response,
       });
+    });
+  });
+
+  describe('updateSuperPaymentStatus', () => {
+    it('updates matching super payment statuses', () => {
+      const response = [
+        {
+          batchPaymentId: '1',
+          status: 'Created',
+        },
+      ];
+      const state = {
+        superPayments: [{
+          batchPaymentId: '1',
+          status: 'Authorised',
+        }],
+      };
+      const action = {
+        intent: LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,
+        response,
+      };
+
+      const newState = paySuperListReducer(state, action);
+
+      expect(newState).toEqual({
+        superPayments: [{
+          batchPaymentId: '1',
+          status: 'Created',
+        }],
+      });
+    });
+
+    it('does not update non-matching super payment statuses', () => {
+      const response = [
+        {
+          batchPaymentId: '2',
+          status: 'Created',
+        },
+      ];
+      const state = {
+        superPayments: [{
+          batchPaymentId: '1',
+          status: 'Authorised',
+        }],
+      };
+      const action = {
+        intent: LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,
+        response,
+      };
+
+      const newState = paySuperListReducer(state, action);
+
+      expect(newState).toEqual(state);
     });
   });
 

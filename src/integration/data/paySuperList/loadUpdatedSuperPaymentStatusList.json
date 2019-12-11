@@ -1,0 +1,10 @@
+[
+  {
+    "batchPaymentId": "13861",
+    "status": "Created"
+  },
+  {
+    "batchPaymentId": "13862",
+    "status": "Completed"
+  }
+]

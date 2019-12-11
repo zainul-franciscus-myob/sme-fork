@@ -2,7 +2,12 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  LOAD_PAY_SUPER_LIST, SET_ALERT, SET_IS_LOADING, SET_IS_TABLE_LOADING, SET_SORT_ORDER,
+  LOAD_PAY_SUPER_LIST,
+  LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,
+  SET_ALERT,
+  SET_IS_LOADING,
+  SET_IS_TABLE_LOADING,
+  SET_SORT_ORDER,
 } from './paySuperIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { SUCCESSFULLY_CREATED_SUPER_PAYMENT } from '../paySuperMessageTypes';
@@ -73,6 +78,31 @@ export default class PayrunListModule {
     });
   }
 
+  updateSuperPaymentStatus = () => {
+    const intent = LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST;
+    const state = this.store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const onSuccess = (response) => {
+      this.store.dispatch({
+        intent,
+        response,
+      });
+    };
+
+    const onFailure = ({ message }) => this.setAlert({ type: 'danger', message });
+
+    this.integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  }
+
   loadPaySuperList = () => {
     const intent = LOAD_PAY_SUPER_LIST;
     const state = this.store.getState();
@@ -94,6 +124,7 @@ export default class PayrunListModule {
       });
       this.setIsLoading(false);
       this.setIsTableLoading(false);
+      this.updateSuperPaymentStatus();
     };
 
     const onFailure = ({ message }) => this.setAlert({ type: 'danger', message });
