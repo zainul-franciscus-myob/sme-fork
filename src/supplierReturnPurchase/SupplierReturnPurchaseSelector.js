@@ -1,11 +1,11 @@
+import { createSelector } from 'reselect';
+
 export const getRegion = state => state.region;
 export const getIsLoading = state => state.isLoading;
 export const getAlertMessage = state => state.alertMessage;
 export const getDate = state => state.supplierReturnPurchase.date;
 export const getDebitAmount = state => state.supplierReturnPurchase.debitAmount;
 export const getDescription = state => state.supplierReturnPurchase.description;
-export const getIncludeClosedPurchases = state => state.supplierReturnPurchase
-  .includeClosedPurchases;
 export const getReferenceId = state => state.supplierReturnPurchase.referenceId;
 export const getSupplierName = state => state.supplierReturnPurchase.supplierName;
 export const getBusinessId = state => state.businessId;
@@ -14,13 +14,16 @@ export const getSupplierReturnId = state => state.supplierReturnId;
 export const getPurchaseReturnId = state => state.purchaseReturnId;
 export const getIsCreating = state => getSupplierReturnId(state) !== undefined;
 export const getIsSubmitting = state => state.isSubmitting;
-export const getIsTableLoading = state => state.isTableLoading;
 export const getModalType = state => state.modalType;
 export const getIsPageEdited = state => state.isPageEdited;
 
-export const getIsTableEmpty = state => state.supplierReturnPurchase.purchases.length === 0;
+export const getPageTitle = createSelector(
+  getIsCreating,
+  getReferenceId,
+  (isCreating, referenceId) => (isCreating ? 'Apply supplier debit to purchase' : `Supplier debit applied to purchase ${referenceId}`),
+);
 
-// TODO: - use create selectors in this file to remove unecessary rerenders.
+export const getIsTableEmpty = state => state.supplierReturnPurchase.purchases.length === 0;
 
 const formatAmount = amount => Intl
   .NumberFormat('en-AU', {
@@ -30,31 +33,48 @@ const formatAmount = amount => Intl
   })
   .format(amount);
 
-export const getTotalAmountApplied = (state) => {
-  const totalApplied = state.supplierReturnPurchase.purchases.reduce(
-    (acc, purchase) => {
-      const amountApplied = purchase.amountApplied !== '-' ? Number(purchase.amountApplied) : 0;
-      return acc + amountApplied;
-    }, 0,
-  );
-  const absoluteAmount = formatAmount(Math.abs(totalApplied).toFixed(2));
-  const formattedAmount = Number(totalApplied) < 0 ? `-$${absoluteAmount}` : `$${absoluteAmount}`;
-  return getIsCreating(state) ? formattedAmount : `$${state.supplierReturnPurchase.debitAmount}`;
-};
+export const getTotalAmountApplied = createSelector(
+  state => state.supplierReturnPurchase.purchases,
+  getDebitAmount,
+  getIsCreating,
+  (currentPurchases, debitAmount, isCreating) => {
+    const totalApplied = currentPurchases.reduce(
+      (acc, purchase) => {
+        const amountApplied = purchase.amountApplied !== '-' ? Number(purchase.amountApplied) : 0;
+        return acc + amountApplied;
+      }, 0,
+    );
+    const absoluteAmount = formatAmount(Math.abs(totalApplied).toFixed(2));
+    const formattedAmount = Number(totalApplied) < 0 ? `-$${absoluteAmount}` : `$${absoluteAmount}`;
 
-export const getPurchases = state => state.supplierReturnPurchase.purchases.map(
-  (purchase) => {
-    const discount = purchase.discount !== '-' ? Number(purchase.discount) : 0;
-    const calculatedOwed = formatAmount((Number(purchase.amount) - discount).toFixed(2));
-    const link = `/#/${state.region}/${state.businessId}/bill/${purchase.id}`;
-
-    return {
-      ...purchase,
-      owed: getIsCreating(state) ? calculatedOwed : purchase.owed,
-      amount: formatAmount(purchase.amount),
-      link,
-    };
+    return isCreating ? formattedAmount : `$${debitAmount}`;
   },
+);
+
+const getLabelColour = status => ({
+  Open: 'light-grey',
+  Closed: 'green',
+}[status]);
+export const getPurchases = createSelector(
+  state => state.supplierReturnPurchase.purchases,
+  getRegion,
+  getBusinessId,
+  getIsCreating,
+  (currentPurchases, region, businessId, isCreating) => currentPurchases.map(
+    (purchase) => {
+      const discount = purchase.discount !== '-' ? Number(purchase.discount) : 0;
+      const calculatedOwed = formatAmount((Number(purchase.amount) - discount).toFixed(2));
+      const link = `/#/${region}/${businessId}/bill/${purchase.id}`;
+
+      return {
+        ...purchase,
+        statusLabelColour: getLabelColour(purchase.status),
+        owed: isCreating ? calculatedOwed : purchase.owed,
+        amount: formatAmount(purchase.amount),
+        link,
+      };
+    },
+  ),
 );
 
 const hasAmountPaidApplied = amountApplied => amountApplied && amountApplied.length > 0 && amountApplied !== '0.00';

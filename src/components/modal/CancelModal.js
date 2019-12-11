@@ -1,17 +1,16 @@
 import { Button, Modal } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 const CancelModal = ({
-  onCancel, onConfirm, title, description,
+  onCancel, onConfirm,
 }) => (
   <Modal
-    title={title}
+    title="Discard unsaved changes"
     size="small"
     onCancel={onCancel}
   >
     <Modal.Body>
-      {description}
+      You&apos;ve made changes that will be lost if you don&apos;t go back and save them
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCancel}>Go back</Button>
@@ -19,12 +18,5 @@ const CancelModal = ({
     </Modal.Footer>
   </Modal>
 );
-
-CancelModal.propTypes = {
-  onConfirm: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-};
 
 export default CancelModal;

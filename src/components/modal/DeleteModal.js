@@ -1,9 +1,8 @@
 import { Button, Modal } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 const DeleteModal = ({
-  onCancel, onConfirm, title, description,
+  onCancel, onConfirm, title,
 }) => (
   <Modal
     title={title}
@@ -12,7 +11,7 @@ const DeleteModal = ({
     canClose={false}
   >
     <Modal.Body>
-      {description}
+      This can&apos;t be undone, or recovered later.
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCancel}>Go back</Button>
@@ -20,12 +19,5 @@ const DeleteModal = ({
     </Modal.Footer>
   </Modal>
 );
-
-DeleteModal.propTypes = {
-  onConfirm: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-};
 
 export default DeleteModal;

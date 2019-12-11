@@ -2,13 +2,11 @@ import {
   CLOSE_MODAL,
   FORMAT_AMOUNT_INPUT,
   LOAD_NEW_PURCHASE_RETURN,
-  LOAD_PURCHASES,
   LOAD_PURCHASE_RETURN,
   OPEN_MODAL,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
-  SET_TABLE_LOADING_STATE,
   UPDATE_PURCHASE_OPTION,
   UPDATE_TABLE_AMOUNT_FIELDS,
 } from './SupplierReturnPurchaseIntents';
@@ -24,14 +22,12 @@ const getDefaultState = () => ({
     referenceId: '',
     originalReferenceId: '',
     date: formatIsoDate(new Date()),
-    includeClosedPurchases: false,
     purchases: [],
     debitAmount: '',
   },
   isLoading: false,
   isSubmitting: false,
   isPagedEdited: false,
-  isTableLoading: false,
   modalType: '',
   alertMessage: '',
 });
@@ -49,14 +45,6 @@ const loadPurchaseReturn = (state, action) => ({
 });
 
 const loadNewPurchaseReturn = loadPurchaseReturn;
-
-const loadPurchases = (state, action) => ({
-  ...state,
-  supplierReturnPurchase: {
-    ...state.supplierReturnPurchase,
-    purchases: action.purchases,
-  },
-});
 
 const updatePurchaseOptions = (state, action) => ({
   ...state,
@@ -125,11 +113,6 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const setTableLoadingState = (state, action) => ({
-  ...state,
-  isTableLoading: action.isTableLoading,
-});
-
 const setAlertMessage = (state, action) => ({
   ...state,
   alertMessage: action.alertMessage,
@@ -140,11 +123,9 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
-  [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SET_ALERT]: setAlertMessage,
   [LOAD_NEW_PURCHASE_RETURN]: loadNewPurchaseReturn,
   [LOAD_PURCHASE_RETURN]: loadPurchaseReturn,
-  [LOAD_PURCHASES]: loadPurchases,
   [UPDATE_PURCHASE_OPTION]: updatePurchaseOptions,
   [UPDATE_TABLE_AMOUNT_FIELDS]: updateTableAmountFields,
   [FORMAT_AMOUNT_INPUT]: formatAmountInput,

@@ -5,3 +5,9 @@
   height: 3rem;
   margin-top: 2rem;
 }
+
+@media (min-width: 768px){
+  .debit {
+    width: 50%;
+  }
+}

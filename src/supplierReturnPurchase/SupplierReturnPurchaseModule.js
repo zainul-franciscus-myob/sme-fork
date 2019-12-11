@@ -7,13 +7,11 @@ import {
   DELETE_PURCHASE_RETURN,
   FORMAT_AMOUNT_INPUT,
   LOAD_NEW_PURCHASE_RETURN,
-  LOAD_PURCHASES,
   LOAD_PURCHASE_RETURN,
   OPEN_MODAL,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
-  SET_TABLE_LOADING_STATE,
   UPDATE_PURCHASE_OPTION,
   UPDATE_TABLE_AMOUNT_FIELDS,
 } from './SupplierReturnPurchaseIntents';
@@ -28,7 +26,6 @@ import {
   getIsPageEdited,
   getPurchaseReturnId,
   getRegion,
-  getSupplierId,
   getSupplierReturnId,
   getSupplierReturnPurchasePayload,
 } from './SupplierReturnPurchaseSelector';
@@ -144,43 +141,6 @@ export default class SupplerReturnPurchaseModule {
     });
   }
 
-  loadPurchases = (includeClosedPurchases) => {
-    this.setTableLoadingState(true);
-
-    const state = this.store.getState();
-
-    const intent = LOAD_PURCHASES;
-
-    const params = {
-      supplierId: getSupplierId(state),
-      includeClosedPurchases,
-    };
-
-    const onSuccess = (response) => {
-      this.setTableLoadingState(false);
-
-      this.store.dispatch({
-        intent,
-        ...response,
-      });
-    };
-
-    const onFailure = ({ message }) => {
-      this.setTableLoadingState(false);
-      this.displayAlert(message);
-    };
-
-    this.integration.read({
-      intent,
-      urlParams: {
-        businessId: getBusinessId(state),
-      },
-      params,
-      onSuccess,
-      onFailure,
-    });
-  }
-
   updateTableAmountFields = ({ key, value, index }) => {
     this.store.dispatch({
       intent: UPDATE_TABLE_AMOUNT_FIELDS,
@@ -205,10 +165,6 @@ export default class SupplerReturnPurchaseModule {
       key,
       value,
     });
-
-    if (key === 'includeClosedPurchases') {
-      this.loadPurchases(value);
-    }
   }
 
   confirmBeforeCancel = () => {
@@ -220,10 +176,8 @@ export default class SupplerReturnPurchaseModule {
         intent: OPEN_MODAL,
         modalType: 'cancel',
       });
-    } else if (getIsCreating(state)) {
-      this.redirectToSupplierReturnList();
     } else {
-      this.redirectToTransactionList();
+      this.redirectToSupplierReturnList();
     }
   }
 
@@ -235,15 +189,8 @@ export default class SupplerReturnPurchaseModule {
   }
 
   confirmCancel = () => {
-    const state = this.store.getState();
-
     this.closeModal();
-
-    if (getIsCreating(state)) {
-      this.redirectToSupplierReturnList();
-    } else {
-      this.redirectToTransactionList();
-    }
+    this.redirectToSupplierReturnList();
   }
 
   confirmDelete = () => {
@@ -254,13 +201,6 @@ export default class SupplerReturnPurchaseModule {
   closeModal = () => {
     this.store.dispatch({
       intent: CLOSE_MODAL,
-    });
-  }
-
-  setTableLoadingState = (isTableLoading) => {
-    this.store.dispatch({
-      intent: SET_TABLE_LOADING_STATE,
-      isTableLoading,
     });
   }
 
@@ -287,7 +227,8 @@ export default class SupplerReturnPurchaseModule {
         onUpdateTableAmountFields={this.updateTableAmountFields}
         onFormatAmountInput={this.formatAmountInput}
         onSaveButtonClick={this.createPurchaseReturn}
-        onCancelButtonClick={this.confirmBeforeCancel}
+        onCancelCreateButtonClick={this.confirmBeforeCancel}
+        onCancelUpdateButtonClick={this.redirectToTransactionList}
         onDeleteButtonClick={this.confirmBeforeDelete}
         onConfirmCancel={this.confirmCancel}
         onConfirmDelete={this.confirmDelete}

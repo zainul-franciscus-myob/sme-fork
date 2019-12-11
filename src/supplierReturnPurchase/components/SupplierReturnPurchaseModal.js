@@ -13,8 +13,6 @@ const SupplierReturnPurchaseModal = ({
     <CancelModal
       onCancel={onCloseModal}
       onConfirm={onConfirmCancel}
-      title="Cancel apply to purchase"
-      description="Are you sure you want to cancel the alterations in this apply to purchase?"
     />
   );
 
@@ -22,8 +20,7 @@ const SupplierReturnPurchaseModal = ({
     <DeleteModal
       onCancel={onCloseModal}
       onConfirm={onConfirmDelete}
-      title="Delete purchase return"
-      description="Are you sure you want to delete this purchase return?"
+      title="Delete this transaction?"
     />
   );
 

@@ -1,6 +1,37 @@
-import { getPurchases, getSupplierReturnPurchasePayload, getTotalAmountApplied } from '../SupplierReturnPurchaseSelector';
+import {
+  getPageTitle, getPurchases, getSupplierReturnPurchasePayload, getTotalAmountApplied,
+} from '../SupplierReturnPurchaseSelector';
 
 describe('SupplierReturnPurchaseSelector', () => {
+  describe('getPageTitle', () => {
+    it('returns the right page title for create', () => {
+      const state = {
+        supplierReturnPurchase: {
+          referenceId: '',
+        },
+        supplierReturnId: 1,
+      };
+
+      const actual = getPageTitle(state);
+      const expected = 'Apply supplier debit to purchase';
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('returns the right page title for read', () => {
+      const state = {
+        supplierReturnPurchase: {
+          referenceId: '123',
+        },
+      };
+
+      const actual = getPageTitle(state);
+      const expected = 'Supplier debit applied to purchase 123';
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
   describe('getTotalAmountApplied', () => {
     it('should calculate a positive total amount applied', () => {
       const state = {
@@ -90,6 +121,33 @@ describe('SupplierReturnPurchaseSelector', () => {
       const actual = getPurchases(state);
 
       expect(actual[0].owed).toEqual('100.00');
+    });
+
+    [
+      {
+        status: 'Open',
+        labelColour: 'light-grey',
+      },
+      {
+        status: 'Closed',
+        labelColour: 'green',
+      },
+    ].forEach((test) => {
+      it(`returns ${test.labelColour} colour for ${test.status} status`, () => {
+        const state = {
+          supplierReturnPurchase: {
+            purchases: [
+              {
+                status: test.status,
+              },
+            ],
+          },
+        };
+
+        const actual = getPurchases(state);
+
+        expect(actual[0].statusLabelColour).toEqual(test.labelColour);
+      });
     });
   });
 

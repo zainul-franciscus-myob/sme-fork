@@ -9,14 +9,17 @@ import {
   getIsCreating,
   getIsLoading,
   getModalType,
+  getPageTitle,
 } from '../SupplierReturnPurchaseSelector';
 import PageView from '../../components/PageView/PageView';
-import SupplierReturnPurchaseActions from './SupplierReturnPurchaseActions';
+import SupplierReturnPurchaseCreateActions from './SupplierReturnPurchaseCreateActions';
 import SupplierReturnPurchaseModal from './SupplierReturnPurchaseModal';
 import SupplierReturnPurchaseOptions from './SupplierReturnPurchaseOptions';
 import SupplierReturnPurchaseTable from './SupplierReturnPurchaseTable';
+import SupplierReturnPurchaseUpdateActions from './SupplierReturnPurchaseUpdateActions';
 
 const SupplierReturnPurchaseView = ({
+  pageTitle,
   isLoading,
   isCreating,
   modalType,
@@ -26,7 +29,8 @@ const SupplierReturnPurchaseView = ({
   onConfirmDelete,
   onDismissAlert,
   onSaveButtonClick,
-  onCancelButtonClick,
+  onCancelCreateButtonClick,
+  onCancelUpdateButtonClick,
   onDeleteButtonClick,
   onUpdatePurchaseOptions,
   onUpdateTableAmountFields,
@@ -47,19 +51,21 @@ const SupplierReturnPurchaseView = ({
     />
   );
 
-  const actions = (
-    <SupplierReturnPurchaseActions
+  const actions = isCreating ? (
+    <SupplierReturnPurchaseCreateActions
       onSaveButtonClick={onSaveButtonClick}
-      onCancelButtonClick={onCancelButtonClick}
+      onCancelButtonClick={onCancelCreateButtonClick}
+    />
+  ) : (
+    <SupplierReturnPurchaseUpdateActions
+      onCancelButtonClick={onCancelUpdateButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
     />
   );
 
-  const pageHead = isCreating ? 'Apply to purchase' : 'Applied to purchase';
-
   const view = (
     <LineItemTemplate
-      pageHead={pageHead}
+      pageHead={pageTitle}
       options={(
         <SupplierReturnPurchaseOptions onUpdatePurchaseOptions={onUpdatePurchaseOptions} />)}
       actions={actions}
@@ -77,6 +83,7 @@ const SupplierReturnPurchaseView = ({
 };
 
 const mapStateToProps = state => ({
+  pageTitle: getPageTitle(state),
   isLoading: getIsLoading(state),
   isCreating: getIsCreating(state),
   modalType: getModalType(state),
