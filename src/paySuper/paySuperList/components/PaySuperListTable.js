@@ -87,7 +87,7 @@ const PaySuperListTable = ({
         {payment.dateOccurred}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.referenceNumber}>
-        <Button type="link" onClick={() => { onReferenceNumberClick(payment.batchPaymentId); }}>
+        <Button type="link" onClick={() => { onReferenceNumberClick(payment.businessEventId); }}>
           {payment.displayId}
         </Button>
       </Table.RowItem>

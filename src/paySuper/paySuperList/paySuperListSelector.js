@@ -2,6 +2,7 @@ import paymentStatus from '../paymentStatus';
 
 export const getIsLoading = state => state.isLoading;
 export const getBusinessId = state => state.businessId;
+export const getRegion = state => state.region;
 export const getIsRegistered = state => state.isRegistered;
 export const getSortOrder = state => ({
   column: state.orderBy,

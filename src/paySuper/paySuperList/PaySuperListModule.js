@@ -15,6 +15,7 @@ import {
   getBusinessId,
   getPaySuperCreateUrl,
   getPaySuperUrl,
+  getRegion,
   getSortOrder,
 } from './paySuperListSelector';
 import PaySuperListView from './components/PaySuperListView';
@@ -138,11 +139,12 @@ export default class PayrunListModule {
     });
   }
 
-  redirectToBatchDetail = (batchPaymentId) => {
+  redirectToSuperPaymentDetail = (businessEventId) => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
+    const region = getRegion(state);
 
-    window.location.href = `/#/${businessId}/paySuper/${batchPaymentId}`;
+    window.location.href = `/#/${region}/${businessId}/paySuper/${businessEventId}`;
   }
 
   setSortOrder = (orderByColumn) => {
@@ -173,7 +175,7 @@ export default class PayrunListModule {
   render = () => {
     const paySuperListView = (
       <PaySuperListView
-        onReferenceNumberClick={this.redirectToBatchDetail}
+        onReferenceNumberClick={this.redirectToSuperPaymentDetail}
         onCreateButtonClick={this.redirectToCreate}
         onSettingsButtonClick={this.redirectToPaySuper}
         onRegisterButtonClick={this.redirectToPaySuper}

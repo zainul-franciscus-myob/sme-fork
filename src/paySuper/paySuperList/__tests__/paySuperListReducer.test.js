@@ -141,7 +141,18 @@ describe('paySuperListReducer', () => {
     it('stores the response data', () => {
       const response = {
         isRegistered: true,
-        superPayments: [],
+        superPayments: [
+          {
+            amount: '88,888.88',
+            batchPaymentId: '13861',
+            businessEventId: 26,
+            dateOccurred: '24/02/2017',
+            employeeCount: 3,
+            displayId: 'PS000001',
+            description: 'Superannuation Payment',
+            status: 'Authorised',
+          },
+        ],
         paySuperUrl: 'some-url',
       };
       const state = {};
