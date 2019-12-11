@@ -16,16 +16,13 @@ const ExpensePayItemModal = ({
     <DeleteModal
       onConfirm={onConfirmDeleteButtonClick}
       onCancel={onDismissModal}
-      title="Delete expense pay item"
-      description="Are you sure you want to delete?"
+      title="Delete this pay item?"
     />
   ),
   [ModalType.CANCEL]: (
     <CancelModal
       onConfirm={onConfirmCancelButtonClick}
       onCancel={onDismissModal}
-      title="Cancel expense pay item"
-      description="Are you sure you want to cancel the alterations?"
     />
   ),
 }[modalType]);

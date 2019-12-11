@@ -17,7 +17,6 @@ const BankingRuleReceiveMoneyModal = ({
         onConfirm={onConfirmDeleteButtonClick}
         onCancel={onDismissModal}
         title="Delete this rule?"
-        description="Deleting this rule will remove it forever. No transactions that have already been created or matched by this rule will be deleted."
       />
     );
   }

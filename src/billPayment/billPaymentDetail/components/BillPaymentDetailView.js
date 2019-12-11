@@ -1,13 +1,9 @@
-import {
-  Alert, LineItemTemplate,
-} from '@myob/myob-widgets';
+import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  getAlertMessage, getIsLoading, getModalType,
-} from '../BillPaymentDetailSelectors';
+import { getAlertMessage, getIsLoading, getModalType } from '../BillPaymentDetailSelectors';
 import BillPaymentActions from './BillPaymentDetailActions';
 import BillPaymentDetailTable from './BillPaymentDetailTable';
 import BillPaymentOptions from './BillPaymentDetailOptions';
@@ -36,8 +32,6 @@ const BillPaymentDetailView = ({
       <CancelModal
         onCancel={onCloseModal}
         onConfirm={onCancelModal}
-        title="Cancel bill payment"
-        description="Are you sure you want to cancel the alterations in this bill payment?"
       />
     );
   } else if (modalType === 'delete') {
@@ -45,8 +39,7 @@ const BillPaymentDetailView = ({
       <DeleteModal
         onCancel={onCloseModal}
         onConfirm={onDeleteModal}
-        title="Delete bill payment"
-        description="Are you sure you want delete this bill payment?"
+        title="Delete this payment?"
       />
     );
   }

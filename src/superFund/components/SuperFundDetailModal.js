@@ -17,8 +17,6 @@ const SuperFundDetailModal = ({
       <CancelModal
         onConfirm={onCancelModalConfirm}
         onCancel={onModalClose}
-        title="Cancel super fund alterations"
-        description="Are you sure you want to cancel the alterations in this super fund?"
       />
     );
   }
@@ -27,8 +25,7 @@ const SuperFundDetailModal = ({
     <DeleteModal
       onConfirm={onDeleteModalConfirm}
       onCancel={onModalClose}
-      title="Delete super fund"
-      description="Are you sure you want to delete super fund?"
+      title="Delete this super fund?"
     />
   );
 };

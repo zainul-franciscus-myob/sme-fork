@@ -5,7 +5,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getIsInactive, getIsLoading, getModalType, getOriginalName,
+  getAlertMessage,
+  getIsCreating,
+  getIsInactive,
+  getIsLoading,
+  getModalType,
+  getOriginalName,
 } from '../inventoryDetailSelectors';
 import BuyingDetails from './BuyingDetails';
 import CancelModal from '../../../components/modal/CancelModal';
@@ -42,8 +47,6 @@ const InventoryDetailView = ({
       <CancelModal
         onCancel={onCloseModal}
         onConfirm={onCancelModal}
-        title="Cancel item alterations"
-        description="Are you sure you want to cancel the alterations in this item?"
       />
     );
   } else if (modalType === 'delete') {
@@ -51,8 +54,7 @@ const InventoryDetailView = ({
       <DeleteModal
         onCancel={onCloseModal}
         onConfirm={onDeleteModal}
-        title="Delete item"
-        description="Are you sure you want to delete this item?"
+        title="Delete this item?"
       />
     );
   }

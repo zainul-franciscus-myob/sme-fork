@@ -16,8 +16,7 @@ const UserDetailModal = ({
       <DeleteModal
         onCancel={onCloseModal}
         onConfirm={onDeleteModal}
-        title="Delete user"
-        description="Are you sure you want to delete this user"
+        title="Delete this user?"
       />
     );
   }

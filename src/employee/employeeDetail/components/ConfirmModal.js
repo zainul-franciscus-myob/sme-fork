@@ -17,8 +17,7 @@ const ConfirmModal = ({
       <DeleteModal
         onCancel={onConfirmClose}
         onConfirm={onConfirmDelete}
-        title="Delete employee"
-        description="Are you sure you want to delete this employee?"
+        title="Delete this employee?"
       />
     );
   }

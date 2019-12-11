@@ -13,8 +13,6 @@ const WagePayItemModal = ({
     <CancelModal
       onCancel={onCloseModal}
       onConfirm={onConfirmCancel}
-      title="Cancel wage pay item"
-      description="Are you sure you want to cancel the alterations in this pay item?"
     />
   );
 
@@ -22,8 +20,7 @@ const WagePayItemModal = ({
     <DeleteModal
       onCancel={onCloseModal}
       onConfirm={onConfirmDelete}
-      title="Delete wage pay item"
-      description="Are you sure you want to delete this pay item?"
+      title="Delete this pay item?"
     />
   );
 

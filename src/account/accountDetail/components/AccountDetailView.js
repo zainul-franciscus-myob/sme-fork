@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage,
-  getIsCreating,
-  getIsHeader,
-  getIsLoading,
-  getModalType,
+  getAlertMessage, getIsCreating, getIsHeader, getIsLoading, getModalType,
 } from '../accountDetailSelectors';
 import AccountCategory from './AccountCategory';
 import AccountDetailActions from './AccountDetailActions';
@@ -57,8 +53,6 @@ const AccountDetailView = ({
       <CancelModal
         onCancel={onCloseModal}
         onConfirm={onCancelModal}
-        title="Cancel account alterations"
-        description="Are you sure you want to cancel the alterations in this account?"
       />
     );
   } else if (modalType === 'delete') {
@@ -66,8 +60,7 @@ const AccountDetailView = ({
       <DeleteModal
         onCancel={onCloseModal}
         onConfirm={onDeleteModal}
-        title="Delete account"
-        description="Are you sure you want to delete this account?"
+        title="Delete this account?"
       />
     );
   }

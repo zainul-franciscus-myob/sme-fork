@@ -727,6 +727,15 @@ export default class QuoteDetailModule {
     SAVE_ACTION: this.saveHandler,
   };
 
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
+  }
+
   run(context) {
     this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);

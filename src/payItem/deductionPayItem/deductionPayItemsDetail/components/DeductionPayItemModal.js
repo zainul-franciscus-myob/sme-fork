@@ -13,8 +13,6 @@ const DeductionPayItemModal = ({
     <CancelModal
       onCancel={onCloseModal}
       onConfirm={onConfirmCancel}
-      title="Cancel deduction pay item"
-      description="Are you sure you want to cancel the alterations in this pay item?"
     />
   );
 
@@ -22,8 +20,7 @@ const DeductionPayItemModal = ({
     <DeleteModal
       onCancel={onCloseModal}
       onConfirm={onConfirmDelete}
-      title="Delete deduction pay item"
-      description="Are you sure you want to delete this pay item?"
+      title="Delete this pay item?"
     />
   );
   return modalType === 'cancel' ? cancelModal : deleteModal;

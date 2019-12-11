@@ -23,14 +23,11 @@ const BillModal = ({
   [ModalType.CancelModal]: (<CancelModal
     onConfirm={onCancelModalConfirm}
     onCancel={onModalClose}
-    title="Cancel bill alterations"
-    description="Are you sure you want to cancel the alterations in this bill?"
   />),
   [ModalType.DeleteModal]: (<DeleteModal
     onConfirm={onDeleteModalConfirm}
     onCancel={onModalClose}
-    title="Delete bill"
-    description="Are you sure you want to delete bill?"
+    title="Delete this bill?"
   />),
   [ModalType.SaveAndCreateNew]: (<SaveAndCreateNewModal
     onConfirmSaveAndCreateNewButtonClick={onConfirmSaveAndCreateNewButtonClick}

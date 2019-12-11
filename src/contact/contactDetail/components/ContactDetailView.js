@@ -1,6 +1,4 @@
-import {
-  Alert, FormTemplate,
-} from '@myob/myob-widgets';
+import { Alert, FormTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -47,8 +45,6 @@ const ContactDetailView = ({
       <CancelModal
         onCancel={onCloseModal}
         onConfirm={onCancelModal}
-        title="Cancel contact alterations"
-        description="Are you sure you want to cancel the alterations in this contact?"
       />
     );
   } else if (modalType === 'delete') {
@@ -56,8 +52,7 @@ const ContactDetailView = ({
       <DeleteModal
         onCancel={onCloseModal}
         onConfirm={onDeleteModal}
-        title="Delete contact"
-        description="Are you sure you want to delete this contact transaction?"
+        title="Delete this contact?"
       />
     );
   }

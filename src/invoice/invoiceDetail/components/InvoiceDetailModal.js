@@ -81,6 +81,8 @@ const InvoiceDetailModal = ({
         onConfirmUnsave={applyPaymentUnsavedChangesListeners.onConfirmUnsave}
         onCancel={applyPaymentUnsavedChangesListeners.onCancel}
         isActionsDisabled={isActionsDisabled}
+        title="Record changes?"
+        description="Looks like you've made changes. Do you want to record these changes?"
       />
     );
   }
@@ -94,8 +96,7 @@ const InvoiceDetailModal = ({
       <DeleteModal
         onCancel={confirmModalListeners.onCloseConfirmModal}
         onConfirm={confirmModalListeners.onDeleteModalConfirm}
-        title="Delete invoice"
-        description="Are you sure you want to delete this invoice?"
+        title="Delete this invoice?"
       />
     );
   }
@@ -104,8 +105,6 @@ const InvoiceDetailModal = ({
     <CancelModal
       onCancel={confirmModalListeners.onCloseConfirmModal}
       onConfirm={confirmModalListeners.onCancelModalConfirm}
-      title="Cancel invoice alterations"
-      description="Are you sure you want to cancel the alterations in this invoice?"
     />
   );
 };

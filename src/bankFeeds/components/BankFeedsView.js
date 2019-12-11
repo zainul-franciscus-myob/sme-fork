@@ -45,8 +45,7 @@ const BankFeedsView = ({
     <DeleteModal
       onCancel={onCloseDeleteModal}
       onConfirm={onDeleteBankFeedAccountConfirm}
-      title="Delete bank feed account"
-      description="Are you sure you want to delete this bank feed?"
+      title="Delete this bank feed account?"
     />
   );
 

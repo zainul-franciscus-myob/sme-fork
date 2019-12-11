@@ -21,8 +21,6 @@ const BankingModal = ({
       <CancelModal
         onCancel={onCloseModal}
         onConfirm={onConfirmCancelModal}
-        title="Cancel bank transaction alterations"
-        description="Are you sure you want to cancel the alterations for this bank transaction?"
       />
     );
   } else if (modalType === ModalTypes.BULK_UNALLOCATE) {
@@ -48,8 +46,7 @@ const BankingModal = ({
       <DeleteModal
         onCancel={onCloseModal}
         onConfirm={onDeleteAttachmentModal}
-        title="Delete attachment"
-        description="Are you sure you want delete this attachment?"
+        title="Delete this attachment?"
       />
     );
   }

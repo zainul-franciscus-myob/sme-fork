@@ -1,6 +1,4 @@
-import {
-  Alert, FormTemplate, Tabs,
-} from '@myob/myob-widgets';
+import { Alert, FormTemplate, Tabs } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -83,8 +81,6 @@ const SalesSettingsDetailView = ({
         <CancelModal
           onConfirm={onModalConfirm}
           onCancel={onModalCancel}
-          title="Cancel setting alterations"
-          description="Are you sure you want to cancel the alterations for this setting?"
         />
       )}
       <FormTemplate

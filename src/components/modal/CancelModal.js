@@ -5,7 +5,7 @@ const CancelModal = ({
   onCancel, onConfirm,
 }) => (
   <Modal
-    title="Discard unsaved changes"
+    title="Discard unsaved changes?"
     size="small"
     onCancel={onCancel}
   >

@@ -19,7 +19,6 @@ const SpendMoneyModal = ({
         onConfirm={onConfirmDeleteButtonClick}
         onCancel={onDismissModal}
         title="Delete this transaction?"
-        description="This can't be undone, or recovered later."
       />
     );
   }
@@ -28,8 +27,6 @@ const SpendMoneyModal = ({
       <CancelModal
         onConfirm={onConfirmCancelButtonClick}
         onCancel={onDismissModal}
-        title="Discard unsaved changes?"
-        description="You've made changes that will be lost if you don't go back and save them."
       />
     );
   }
@@ -38,8 +35,7 @@ const SpendMoneyModal = ({
       <DeleteModal
         onCancel={onDismissModal}
         onConfirm={onDeleteAttachmentModal}
-        title="Delete attachment"
-        description="Are you sure you want delete this attachment?"
+        title="Delete this attachment?"
       />
     );
   }

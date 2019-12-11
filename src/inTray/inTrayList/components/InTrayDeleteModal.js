@@ -16,8 +16,7 @@ const InTrayDeleteModal = ({
   <DeleteModal
     onCancel={onConfirmClose}
     onConfirm={onConfirmClick(onConfirmDelete, entry)}
-    title="Delete document"
-    description="Are you sure you want to delete this document?"
+    title="Delete this document?"
   />
 );
 

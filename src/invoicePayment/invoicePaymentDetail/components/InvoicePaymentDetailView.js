@@ -1,16 +1,10 @@
-import {
-  Alert, LineItemTemplate,
-} from '@myob/myob-widgets';
+import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { CANCEL_MODAL, DELETE_MODAL } from '../../InvoicePaymentModalTypes';
-import {
-  getAlertMessage,
-  getIsLoading,
-  getModalType,
-} from '../invoicePaymentDetailSelectors';
+import { getAlertMessage, getIsLoading, getModalType } from '../invoicePaymentDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import InvoicePaymentDetailActions from './InvoicePaymentDetailActions';
@@ -53,14 +47,11 @@ const InvoicePaymentDetailView = ({
     [CANCEL_MODAL]: <CancelModal
       onCancel={onCloseModal}
       onConfirm={onConfirmCancel}
-      title="Cancel invoice payment alterations"
-      description="Are you sure you want to cancel the alterations in this invoice payment?"
     />,
     [DELETE_MODAL]: <DeleteModal
       onCancel={onCloseModal}
       onConfirm={onConfirmDelete}
-      title="Delete invoice payment"
-      description="Are you sure you want to delete this invoice payment transaction?"
+      title="Delete this payment?"
     />,
   }[modalType];
 

@@ -49,16 +49,13 @@ const QuoteDetailModal = ({
     <DeleteModal
       onConfirm={onConfirmDeleteButtonClick}
       onCancel={onDismissModal}
-      title="Delete quote"
-      description="Are you sure you want to delete quote?"
+      title="Delete this quote?"
     />
   ),
   [ModalType.CANCEL]: (
     <CancelModal
       onConfirm={onConfirmCancelButtonClick}
       onCancel={onDismissModal}
-      title="Cancel quote alterations"
-      description="Are you sure you want to cancel the alterations in this quote?"
     />
   ),
   [ModalType.UNSAVED]: (

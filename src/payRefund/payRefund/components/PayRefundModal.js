@@ -13,8 +13,6 @@ const PayRefundModal = ({
     <CancelModal
       onCancel={onCloseModal}
       onConfirm={onConfirmCancel}
-      title="Cancel pay refund"
-      description="Are you sure you want to cancel the alterations in this refund?"
     />
   );
 
@@ -22,8 +20,7 @@ const PayRefundModal = ({
     <DeleteModal
       onCancel={onCloseModal}
       onConfirm={onConfirmDelete}
-      title="Delete refund"
-      description="Are you sure you want to delete this refund?"
+      title="Delete this refund?"
     />
   );
 

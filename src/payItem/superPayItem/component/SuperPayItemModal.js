@@ -13,8 +13,6 @@ const SuperPayItemModal = ({
     <CancelModal
       onCancel={onCloseModal}
       onConfirm={onConfirmCancel}
-      title="Cancel superannuation pay item"
-      description="Are you sure you want to cancel the alterations in this pay item?"
     />
   );
 
@@ -22,8 +20,7 @@ const SuperPayItemModal = ({
     <DeleteModal
       onCancel={onCloseModal}
       onConfirm={onConfirmDelete}
-      title="Delete superannuation pay item"
-      description="Are you sure you want to delete this pay item?"
+      title="Delete this pay item?"
     />
   );
 

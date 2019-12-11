@@ -18,7 +18,6 @@ const TransferMoneyDetailModal = ({
         onConfirm={onConfirmDeleteButtonClick}
         onCancel={onDismissModal}
         title="Delete this transaction?"
-        description="This can't be undone, or recovered later."
       />
     );
   }
@@ -27,8 +26,6 @@ const TransferMoneyDetailModal = ({
       <CancelModal
         onConfirm={onConfirmCancelButtonClick}
         onCancel={onDismissModal}
-        title="Discard unsaved changes?"
-        description="You've made changes that will be lost if you don't go back and save them."
       />
     );
   }
