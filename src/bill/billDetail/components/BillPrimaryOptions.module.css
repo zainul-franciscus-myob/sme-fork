@@ -15,3 +15,11 @@
     width: 50rem;
   }
 }
+
+.prefilled :global(input) {
+  background-color: var(--flx-palette-azure-light);
+}
+
+.formControlWrapper {
+  margin-bottom: var(--flx-spacing-tiny)
+}

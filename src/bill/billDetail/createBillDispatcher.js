@@ -5,19 +5,24 @@ import {
   CLOSE_MODAL,
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
+  HIDE_PREFILL_INFO,
   ITEM_CALCULATE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_IN_TRAY_DOCUMENT,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
   OPEN_ALERT,
   OPEN_MODAL,
-  PREFILL_NEW_BILL_FROM_IN_TRAY,
+  PREFILL_BILL_FROM_IN_TRAY,
   REMOVE_BILL_LINE,
   RESET_TOTALS,
   SERVICE_CALCULATE,
   SET_ACCOUNT_LOADING_STATE,
+  SET_DOCUMENT_LOADING_STATE,
+  SET_IN_TRAY_DOCUMENT_ID,
+  SET_SHOW_SPLIT_VIEW,
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
@@ -28,7 +33,7 @@ import {
   STOP_MODAL_BLOCKING,
   STOP_PENDING_CALCULATION,
   STOP_SUPPLIER_BLOCKING,
-  TOGGLE_SPLIT_VIEW,
+  UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL_ID,
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
@@ -101,6 +106,14 @@ const createBillDispatcher = store => ({
       intent: OPEN_ALERT,
       message,
       type: 'success',
+    });
+  },
+
+  openInfoAlert: ({ message }) => {
+    store.dispatch({
+      intent: OPEN_ALERT,
+      message,
+      type: 'info',
     });
   },
 
@@ -240,7 +253,7 @@ const createBillDispatcher = store => ({
 
   prefillDataFromInTray: (response) => {
     store.dispatch({
-      intent: PREFILL_NEW_BILL_FROM_IN_TRAY,
+      intent: PREFILL_BILL_FROM_IN_TRAY,
       response,
     });
   },
@@ -271,9 +284,51 @@ const createBillDispatcher = store => ({
     });
   },
 
-  toggleSplitView: () => {
+  setShowSplitView: (showSplitView) => {
     store.dispatch({
-      intent: TOGGLE_SPLIT_VIEW,
+      intent: SET_SHOW_SPLIT_VIEW,
+      showSplitView,
+    });
+  },
+
+  setInTrayDocumentId: (inTrayDocumentId) => {
+    store.dispatch({
+      intent: SET_IN_TRAY_DOCUMENT_ID,
+      inTrayDocumentId,
+    });
+  },
+
+  // TODO: Split view with PDF viewer is not working, so not store the url for now
+  // loadInTrayDocumentUrl: (inTrayDocumentUrl) => {
+  //   store.dispatch({
+  //     intent: LOAD_IN_TRAY_DOCUMENT_URL,
+  //     inTrayDocumentUrl,
+  //   });
+  // },
+
+  unlinkInTrayDocument: () => {
+    store.dispatch({
+      intent: UNLINK_IN_TRAY_DOCUMENT,
+    });
+  },
+
+  setDocumentLoadingState: (isDocumentLoading) => {
+    store.dispatch({
+      intent: SET_DOCUMENT_LOADING_STATE,
+      isDocumentLoading,
+    });
+  },
+
+  hidePrefillInfo: () => {
+    store.dispatch({
+      intent: HIDE_PREFILL_INFO,
+    });
+  },
+
+  loadInTrayDocument: (inTrayDocument) => {
+    store.dispatch({
+      intent: LOAD_IN_TRAY_DOCUMENT,
+      inTrayDocument,
     });
   },
 });

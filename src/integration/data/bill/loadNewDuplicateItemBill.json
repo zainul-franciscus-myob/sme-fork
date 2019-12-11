@@ -1,7 +1,6 @@
 {
-  "layout": "service",
+  "layout": "item",
   "bill": {
-    "uid": "123e4567-e89b-12d3-a456-426655440000",
     "supplierId": "2",
     "supplierAddress": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
     "supplierInvoiceNumber": "inv012",
@@ -17,49 +16,41 @@
     "displayAmountPaid": "$77.77",
     "lines": [
       {
-        "id": "345",
-        "description": "Yak shaving - 1/2 an hour",
-        "accountId": "123",
-        "amount": "48.50",
-        "taxCodeId": "124"
+        "id": "1",
+        "units": "2",
+        "itemId": "3",
+        "description": "Cooler Large",
+        "unitPrice": "520",
+        "discount": "10",
+        "displayDiscount": "10.00",
+        "taxCodeId": "123",
+        "amount": "850.9101",
+        "displayAmount": "850.91"
       },
       {
-        "id": "346",
-        "description": "Yak shower - 1/2 an hour",
-        "accountId": "456",
-        "amount": "50.00",
-        "taxCodeId": "123"
-      },
-      {
-        "id": "347",
-        "description": "Yak blow dry - 1/2 an hour",
-        "accountId": "123",
-        "amount": "12.50",
-        "taxCodeId": "124"
+        "id": "2",
+        "units": "3",
+        "itemId": "4",
+        "description": "Cooler Extra Large",
+        "unitPrice": "2000",
+        "discount": "10",
+        "displayDiscount": "10.00",
+        "taxCodeId": "124",
+        "amount": "850.9101",
+        "displayAmount": "850.91"
       }
     ]
   },
-  "accountOptions": [
+ "itemOptions": [
     {
-      "id": "123",
-      "displayName": "My Sales Account 1",
-      "accountType": "Sales",
-      "taxCodeId": "123",
-      "displayId": "4-123"
+      "id": "3",
+      "itemId": "100",
+      "description": "Cooler Large"
     },
     {
-      "id": "456",
-      "displayName": "Sales Account 2",
-      "accountType": "Assets",
-      "taxCodeId": "124",
-      "displayId": "4-456"
-    },
-    {
-      "id": "789",
-      "displayName": "Expense Account",
-      "accountType": "Assets",
-      "taxCodeId": "124",
-      "displayId": "6-789"
+      "id": "4",
+      "itemId": "101",
+      "description": "Cooler Medium"
     }
   ],
   "taxCodeOptions": [
@@ -133,6 +124,5 @@
         "label": "Template 2"
       }
     ]
-  },
-  "inTrayDocumentId": "19eb4da0-8c52-4307-9ca7-74bd481f5b99"
+  }
 }

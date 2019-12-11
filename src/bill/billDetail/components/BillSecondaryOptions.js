@@ -1,8 +1,7 @@
-import {
-  DatePicker, Input,
-} from '@myob/myob-widgets';
+import { DatePicker, Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classnames from 'classnames';
 
 import {
   getBillNumber,
@@ -16,11 +15,12 @@ import {
   getTaxExclusiveLabel,
   getTaxInclusiveLabel,
 } from '../selectors/billSelectors';
+import { getPrefillStatus } from '../selectors/BillInTrayDocumentSelectors';
 import BooleanRadioButtonGroup from '../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import PaymentTerms from '../../../components/PaymentTerms/PaymentTerms';
 import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
-
+import styles from './BillSecondaryOptions.module.css';
 
 const BillSecondaryOptions = ({
   billNumber,
@@ -33,6 +33,7 @@ const BillSecondaryOptions = ({
   taxInclusiveLabel,
   taxExclusiveLabel,
   isBlocking,
+  prefillStatus,
   onUpdateBillOption,
 }) => (
   <React.Fragment>
@@ -47,16 +48,21 @@ const BillSecondaryOptions = ({
     <Input
       name="supplierInvoiceNumber"
       label="Supplier invoice number"
+      className={classnames({ [styles.prefilled]: prefillStatus.supplierInvoiceNumber })}
       value={supplierInvoiceNumber}
       onChange={handleInputChange(onUpdateBillOption)}
     />
-    <DatePicker
-      label="Issue date"
-      name="issueDate"
-      value={issueDate}
-      requiredLabel="This is required"
-      onSelect={handleDateChange('issueDate', onUpdateBillOption)}
-    />
+    <div className={
+      classnames(styles.formControlWrapper, { [styles.prefilled]: prefillStatus.issueDate })}
+    >
+      <DatePicker
+        label="Issue date"
+        name="issueDate"
+        value={issueDate}
+        requiredLabel="This is required"
+        onSelect={handleDateChange('issueDate', onUpdateBillOption)}
+      />
+    </div>
     <PaymentTerms
       onChange={onUpdateBillOption}
       issueDate={issueDate}
@@ -88,6 +94,7 @@ const mapStateToProps = state => ({
   taxInclusiveLabel: getTaxInclusiveLabel(state),
   taxExclusiveLabel: getTaxExclusiveLabel(state),
   isBlocking: getIsBlocking(state),
+  prefillStatus: getPrefillStatus(state),
 });
 
 export default connect(mapStateToProps)(BillSecondaryOptions);

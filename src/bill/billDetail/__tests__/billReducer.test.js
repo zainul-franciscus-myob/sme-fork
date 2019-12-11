@@ -6,6 +6,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_OPTION,
+  PREFILL_BILL_FROM_IN_TRAY,
   REMOVE_BILL_LINE,
   SERVICE_CALCULATE,
   SET_ACCOUNT_LOADING_STATE,
@@ -302,6 +303,48 @@ describe('billReducer', () => {
           expirationDays: '1',
           expirationTerm,
         });
+      });
+    });
+
+    it('updates prefill status when corresponding field changed', () => {
+      const state = {
+        bill: {},
+        prefillStatus: {
+          supplierId: true,
+        },
+      };
+
+      const action = {
+        intent: UPDATE_BILL_OPTION,
+        key: 'supplierId',
+        value: '2',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.prefillStatus).toEqual({
+        supplierId: false,
+      });
+    });
+
+    it('does not update prefill status when other field changed', () => {
+      const state = {
+        bill: {},
+        prefillStatus: {
+          supplierId: true,
+        },
+      };
+
+      const action = {
+        intent: UPDATE_BILL_OPTION,
+        key: 'other',
+        value: 'blah',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.prefillStatus).toEqual({
+        supplierId: true,
       });
     });
   });
@@ -661,6 +704,165 @@ describe('billReducer', () => {
         accountOptions: [{ thisIsAnAccount: false }, { thisIsAnAccount: true }],
         isPageEdited: true,
       });
+    });
+  });
+
+  describe('PREFILL_NEW_BILL_FROM_IN_TRAY', () => {
+    const document = {
+      thumbnailUrl: 'https://assets.digital.myob.com/images/favicons/apple-touch-icon.png',
+      uploadedDate: '04/04/2019',
+    };
+
+    const response = {
+      bill: {
+        supplierId: '2',
+        supplierInvoiceNumber: '1234',
+        issueDate: '2018-11-02',
+        isTaxInclusive: true,
+      },
+      newLine: {
+        amount: '500.77',
+        displayAmount: '500.77',
+      },
+      document,
+    };
+
+    const buildExpected = ({ bill, prefillStatus }) => ({
+      bill,
+      inTrayDocument: document,
+      newLine: {
+        id: '',
+      },
+      prefillStatus,
+      isPageEdited: true,
+      showPrefillInfo: true,
+    });
+
+    it('prefills bill', () => {
+      const state = {
+        bill: { lines: [] },
+        newLine: {
+          id: '',
+        },
+        isPageEdited: false,
+        inTrayDocument: undefined,
+      };
+
+      const action = {
+        intent: PREFILL_BILL_FROM_IN_TRAY,
+        response,
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual).toEqual(buildExpected({
+        bill: {
+          supplierId: '2',
+          supplierInvoiceNumber: '1234',
+          issueDate: '2018-11-02',
+          isTaxInclusive: true,
+          lines: [{
+            id: '',
+            amount: '500.77',
+            displayAmount: '500.77',
+          }],
+        },
+        prefillStatus: {
+          supplierId: true,
+          supplierInvoiceNumber: true,
+          issueDate: true,
+        },
+      }));
+    });
+
+    it('does not prefill bill when there is user input data except for issue date', () => {
+      const state = {
+        bill: {
+          supplierId: '1',
+          supplierInvoiceNumber: '123',
+          issueDate: '2018-10-02',
+          isTaxInclusive: false,
+          lines: [
+            { id: '1' },
+          ],
+        },
+        newLine: {
+          id: '',
+        },
+        isPageEdited: false,
+        inTrayDocument: undefined,
+      };
+
+      const action = {
+        intent: PREFILL_BILL_FROM_IN_TRAY,
+        response,
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual).toEqual(buildExpected({
+        bill: {
+          supplierId: '1',
+          supplierInvoiceNumber: '123',
+          issueDate: '2018-11-02',
+          isTaxInclusive: false,
+          lines: [
+            { id: '1' },
+          ],
+        },
+        prefillStatus: {
+          supplierId: false,
+          supplierInvoiceNumber: false,
+          issueDate: true,
+        },
+      }));
+    });
+
+    it('does not prefill bill when no ocr data available', () => {
+      const state = {
+        bill: {
+          issueDate: '2018-11-02',
+          lines: [],
+        },
+        newLine: {
+          id: '',
+        },
+        isPageEdited: false,
+        inTrayDocument: undefined,
+      };
+
+      const action = {
+        intent: PREFILL_BILL_FROM_IN_TRAY,
+        response: {
+          bill: {
+            supplierId: '',
+            supplierInvoiceNumber: '',
+            issueDate: '',
+            isTaxInclusive: true,
+          },
+          newLine: {
+            amount: '',
+            displayAmount: '',
+          },
+          document,
+        },
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual).toEqual(buildExpected({
+        bill: {
+          supplierId: '',
+          supplierInvoiceNumber: '',
+          issueDate: '2018-11-02',
+          lines: [],
+        },
+        prefillStatus: {
+          supplierId: false,
+          supplierInvoiceNumber: false,
+          issueDate: false,
+        },
+      }));
     });
   });
 });

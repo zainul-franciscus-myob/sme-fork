@@ -6,11 +6,9 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../inTrayMessageTypes';
 import {
   SUCCESSFULLY_SAVED_BILL,
+  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 } from '../../bill/billDetail/types/BillMessageTypes';
-import {
-  getBusinessId,
-  getRegion,
-} from './selectors/InTraySelectors';
+import { getBusinessId, getRegion } from './selectors/InTraySelectors';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
 import {
   getIsEntryLoading,
@@ -31,6 +29,7 @@ import modalTypes from './modalTypes';
 const messageTypes = [
   SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL,
   SUCCESSFULLY_SAVED_BILL,
+  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 ];
 
 export default class InTrayModule {
@@ -229,7 +228,7 @@ export default class InTrayModule {
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/bill/new?inTrayDocumentId=${id}`;
+    window.location.href = `/#/${region}/${businessId}/bill/new?inTrayDocumentId=${id}&source=inTray`;
   }
 
   openMoreUploadOptionsDialog = () => {
@@ -349,9 +348,10 @@ export default class InTrayModule {
     const [successMessage] = this.popMessages(this.messageTypes);
 
     if (successMessage) {
-      const { content: message } = successMessage;
+      const { content: message, type: messageType } = successMessage;
+      const type = messageType === SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK ? 'info' : 'success';
       this.dispatcher.setAlert({
-        type: 'success',
+        type,
         message,
       });
     }

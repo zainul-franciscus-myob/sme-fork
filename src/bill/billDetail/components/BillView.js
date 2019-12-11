@@ -2,13 +2,15 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getHasInTrayDocument,
   getIsAlertShown,
   getIsLoading,
   getIsModalShown,
   getLayout,
-  getShowSplitView,
 } from '../selectors/billSelectors';
+import {
+  getShowPrefillInfo,
+  getShowSplitView,
+} from '../selectors/BillInTrayDocumentSelectors';
 import BillActions from './BillActions';
 import BillAlert from './BillAlert';
 import BillDocumentViewer from './BillDocumentViewer';
@@ -19,19 +21,21 @@ import BillModal from './BillModal';
 import BillPrimaryOptions from './BillPrimaryOptions';
 import BillSecondaryOptions from './BillSecondaryOptions';
 import BillServiceTable from './BillServiceTable';
-import MasterDetailLineItemTemplate from '../../../components/MasterDetailLineItemTemplate/MasterDetailLineItemTemplate';
+import MasterDetailLineItemTemplate
+  from '../../../components/MasterDetailLineItemTemplate/MasterDetailLineItemTemplate';
 import PageView from '../../../components/PageView/PageView';
 
 const BillView = ({
   onAddAccount,
   accountModal,
-  hasInTrayDocument,
   isAlertShown,
   isModalShown,
   isSplitViewShown,
   isLoading,
+  showPrefillInfo,
   layout,
   inventoryModal,
+  inTrayModal,
   contactModal,
   onSaveButtonClick,
   onSaveAndButtonClick,
@@ -57,7 +61,12 @@ const BillView = ({
   exportPdfModalListeners,
   onAddItemButtonClick,
   onAddSupplierButtonClick,
-  toggleSplitView,
+  onPrefillButtonClick,
+  onOpenSplitViewButtonClick,
+  onCloseSplitViewButtonClick,
+  onUnlinkDocumentButtonClick,
+  onUnlinkDocumentConfirm,
+  onClosePrefillInfo,
 }) => {
   const table = {
     item: (
@@ -91,17 +100,14 @@ const BillView = ({
     </div>
   );
 
-  const detail = hasInTrayDocument && <BillDocumentViewer toggleSplitView={toggleSplitView} />;
-
-  const inTrayDocument = hasInTrayDocument && !isSplitViewShown && (
-    <BillInTrayDocumentView toggleSplitView={toggleSplitView} />
-  );
+  const detail = <BillDocumentViewer onCloseSplitViewButtonClick={onCloseSplitViewButtonClick} />;
 
   const subHeaderChildren = (
     <div>
       {inventoryModal}
       {accountModal}
       {contactModal}
+      {inTrayModal}
       {isModalShown && (
         <BillModal
           onModalClose={onModalClose}
@@ -114,14 +120,23 @@ const BillView = ({
             onConfirmSaveAndDuplicateButtonClick
           }
           exportPdfModalListeners={exportPdfModalListeners}
+          onUnlinkDocumentConfirm={onUnlinkDocumentConfirm}
         />
       )}
-      {inTrayDocument}
+      <BillInTrayDocumentView
+        onPrefillButtonClick={onPrefillButtonClick}
+        onOpenSplitViewButtonClick={onOpenSplitViewButtonClick}
+        onUnlinkDocumentButtonClick={onUnlinkDocumentButtonClick}
+      />
     </div>
   );
 
+  const prefillInfo = 'We\'ve used your document to fill in some details. Check the fields highlighted in blue.';
+
   const view = (
     <MasterDetailLineItemTemplate
+      optionInfo={showPrefillInfo && prefillInfo}
+      onDismissOptionInfo={onClosePrefillInfo}
       primaryOptions={(
         <BillPrimaryOptions
           onUpdateBillOption={onUpdateBillOption}
@@ -157,12 +172,12 @@ const BillView = ({
 };
 
 const mapStateToProps = state => ({
-  hasInTrayDocument: getHasInTrayDocument(state),
   isModalShown: getIsModalShown(state),
   isAlertShown: getIsAlertShown(state),
   isLoading: getIsLoading(state),
   layout: getLayout(state),
   isSplitViewShown: getShowSplitView(state),
+  showPrefillInfo: getShowPrefillInfo(state),
 });
 
 export default connect(mapStateToProps)(BillView);

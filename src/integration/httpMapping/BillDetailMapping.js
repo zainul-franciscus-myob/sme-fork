@@ -8,15 +8,19 @@ import {
   ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
   ITEM_CALCULATE_UPDATE_LINE_ITEM,
   ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
+  LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_IN_TRAY_DOCUMENT,
+  LOAD_IN_TRAY_DOCUMENT_URL,
   LOAD_ITEM_OPTION,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
-  PREFILL_NEW_BILL_FROM_IN_TRAY,
+  PREFILL_BILL_FROM_IN_TRAY,
   SERVICE_CALCULATE,
+  UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL,
 } from '../../bill/billDetail/BillIntents';
 
@@ -81,10 +85,6 @@ const BillDetailMapping = {
     method: 'PUT',
     getPath: ({ businessId, billId }) => `/${businessId}/bill/update_bill/${billId}`,
   },
-  [PREFILL_NEW_BILL_FROM_IN_TRAY]: {
-    method: 'GET',
-    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/prefill_new_bill_from_in_tray/${inTrayDocumentId}`,
-  },
   [EXPORT_BILL_PDF]: {
     method: 'GET',
     getPath: ({ businessId, billId }) => `/${businessId}/bill/export_bill_pdf/${billId}`,
@@ -96,6 +96,26 @@ const BillDetailMapping = {
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
     getPath: ({ businessId, accountId }) => `/${businessId}/bill/load_account/${accountId}`,
+  },
+  [PREFILL_BILL_FROM_IN_TRAY]: {
+    method: 'GET',
+    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/prefill_bill_from_in_tray/${inTrayDocumentId}`,
+  },
+  [LOAD_IN_TRAY_DOCUMENT_URL]: {
+    method: 'GET',
+    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/load_in_tray_document_url/${inTrayDocumentId}`,
+  },
+  [UNLINK_IN_TRAY_DOCUMENT]: {
+    method: 'DELETE',
+    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/unlink_in_tray_document/${inTrayDocumentId}`,
+  },
+  [LOAD_IN_TRAY_DOCUMENT]: {
+    method: 'GET',
+    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/load_in_tray_document/${inTrayDocumentId}`,
+  },
+  [LINK_IN_TRAY_DOCUMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/bill/link_in_tray_document`,
   },
 };
 

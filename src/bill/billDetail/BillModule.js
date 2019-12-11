@@ -1,9 +1,15 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_BILL, SUCCESSFULLY_SAVED_BILL } from './types/BillMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_BILL,
+  SUCCESSFULLY_SAVED_BILL,
+  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+} from './types/BillMessageTypes';
 import {
   getAccountModalContext,
+  getBillId,
+  getBillUid,
   getContextForInventoryModal,
   getCreateSupplierContactModalContext,
   getIsCreating,
@@ -23,6 +29,11 @@ import {
 } from './selectors/BillRedirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import {
+  getInTrayDocumentId,
+  getInTrayModalContext,
+  getShouldLinkInTrayDocument,
+} from './selectors/BillInTrayDocumentSelectors';
+import {
   getIsAmountPaidKey,
   getIsLineAccountIdKey,
   getIsLineAmountKey,
@@ -34,6 +45,7 @@ import {
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import BillView from './components/BillView';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import LayoutType from './types/LayoutType';
 import ModalType from './types/ModalType';
@@ -62,6 +74,7 @@ class BillModule {
     });
     this.contactModalModule = new ContactModalModule({ integration });
     this.inventoryModalModule = new InventoryModalModule({ integration });
+    this.inTrayModalModule = new InTrayModalModule({ integration });
   }
 
   openAccountModal = (onChange) => {
@@ -102,28 +115,30 @@ class BillModule {
   prefillBillFromInTray() {
     const onSuccess = (response) => {
       this.dispatcher.stopLoading();
+      this.dispatcher.setDocumentLoadingState(false);
       this.dispatcher.prefillDataFromInTray(response);
     };
 
-    const onFailure = () => {
-      console.log('Failed to load');
+    const onFailure = ({ message }) => {
+      this.dispatcher.setDocumentLoadingState(false);
+      this.dispatcher.openDangerAlert({ message });
     };
 
+    this.dispatcher.setDocumentLoadingState(true);
     this.integrator.prefillDataFromInTray({ onSuccess, onFailure });
   }
 
   loadBill = () => {
     const onSuccess = (response) => {
       const state = this.store.getState();
-      const isCreatingFromInTray = getIsCreatingFromInTray(state);
 
+      this.dispatcher.stopLoading();
       this.dispatcher.loadBill(response);
 
-      // @TODO avoid this sequential call. Create dedicated load with intray data in BFF
-      if (isCreatingFromInTray) {
+      if (getIsCreatingFromInTray(state)) {
         this.prefillBillFromInTray();
-      } else {
-        this.dispatcher.stopLoading();
+      } else if (!getIsCreating(state) && response.inTrayDocumentId) {
+        this.loadInTrayDocument();
       }
     };
 
@@ -135,10 +150,54 @@ class BillModule {
     this.integrator.loadBill({ onSuccess, onFailure });
   }
 
-  saveBillAnd = ({ onSuccess }) => {
-    const handleSuccess = (response) => {
+  linkAfterSave = (onSuccess, response) => {
+    const state = this.store.getState();
+
+    const handleSuccess = () => {
       this.dispatcher.stopBlocking();
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_BILL,
+        content: 'Bill successfully created from document',
+      });
       onSuccess(response);
+    };
+
+    const handleLinkFailure = () => {
+      this.dispatcher.stopBlocking();
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+        content: 'Bill created, but the document failed to link. Open the bill to link the document again',
+      });
+      onSuccess(response);
+    };
+
+    const linkContent = {
+      id: response.id,
+      uid: response.uid,
+      inTrayDocumentId: getInTrayDocumentId(state),
+    };
+
+    this.integrator.linkInTrayDocument({
+      onSuccess: handleSuccess,
+      onFailure: handleLinkFailure,
+      linkContent,
+    });
+  };
+
+  saveBillAnd = ({ onSuccess }) => {
+    const handleSaveSuccess = (response) => {
+      const state = this.store.getState();
+
+      if (getShouldLinkInTrayDocument(state)) {
+        this.linkAfterSave(onSuccess, response);
+      } else {
+        this.dispatcher.stopBlocking();
+        this.pushMessage({
+          type: SUCCESSFULLY_SAVED_BILL,
+          content: response.message,
+        });
+        onSuccess(response);
+      }
     };
 
     const onFailure = ({ message }) => {
@@ -149,20 +208,13 @@ class BillModule {
     this.dispatcher.startBlocking();
 
     this.integrator.saveBill({
-      onSuccess: handleSuccess,
+      onSuccess: handleSaveSuccess,
       onFailure,
     });
   };
 
   saveBill = () => {
-    const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_BILL,
-        content: message,
-      });
-
-      this.finalRedirect();
-    };
+    const onSuccess = () => this.finalRedirect();
 
     this.saveBillAnd({ onSuccess });
   };
@@ -176,14 +228,7 @@ class BillModule {
       window.location.href = url;
     };
 
-    const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_BILL,
-        content: message,
-      });
-
-      redirectToCreateNewBill();
-    };
+    const onSuccess = () => redirectToCreateNewBill();
 
     this.saveBillAnd({ onSuccess });
   };
@@ -197,18 +242,13 @@ class BillModule {
       window.location.href = url;
     };
 
-    const onSuccess = ({ message, id }) => {
+    const onSuccess = ({ id }) => {
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
 
       if (isCreating) {
         this.dispatcher.updateBillId(id);
       }
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_BILL,
-        content: message,
-      });
-
       redirectToDuplicateBill();
     };
 
@@ -222,18 +262,12 @@ class BillModule {
       window.location.href = url;
     };
 
-    const onSuccess = ({ message, id }) => {
+    const onSuccess = ({ id }) => {
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
       if (isCreating) {
         this.dispatcher.updateBillId(id);
       }
-
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_BILL,
-        content: message,
-      });
-
       redirectToReadBillWithExportModal();
     };
 
@@ -650,14 +684,16 @@ class BillModule {
   }
 
   readMessages = () => {
-    const messageTypes = [SUCCESSFULLY_SAVED_BILL];
+    const messageTypes = [SUCCESSFULLY_SAVED_BILL, SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK];
     const [successMessage] = this.popMessages(messageTypes);
 
     if (successMessage) {
-      const { content: message } = successMessage;
-      this.dispatcher.openSuccessAlert({
-        message,
-      });
+      const { content: message, type } = successMessage;
+      if (type === SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK) {
+        this.dispatcher.openInfoAlert({ message });
+      } else {
+        this.dispatcher.openSuccessAlert({ message });
+      }
     }
   };
 
@@ -702,19 +738,118 @@ class BillModule {
     });
   }
 
-  toggleSplitView = () => {
-    this.dispatcher.toggleSplitView();
+  // TODO: Split view with PDF viewer is not working, so not trigger it for now
+  loadDocumentUrl = () => {
+    const onSuccess = ({ fileUrl }) => {
+      // this.dispatcher.loadInTrayDocumentUrl(fileUrl);
+      window.open(fileUrl, '_blank');
+    };
+
+    const onFailure = ({ message }) => {
+      // this.dispatcher.setShowSplitView(false);
+      this.dispatcher.openDangerAlert({ message });
+    };
+
+    // this.dispatcher.setShowSplitView(true);
+    this.integrator.loadDocumentUrl({ onSuccess, onFailure });
+  };
+
+  closeSplitView = () => {
+    this.dispatcher.setShowSplitView(false);
+  };
+
+  openInTrayModal = () => {
+    const state = this.store.getState();
+    const modalContext = getInTrayModalContext(state);
+    this.inTrayModalModule.run({
+      context: modalContext,
+      onSaveSuccess: (id) => {
+        this.inTrayModalModule.close();
+        this.dispatcher.setInTrayDocumentId(id);
+
+        if (getIsCreating(state)) {
+          this.prefillBillFromInTray();
+          return;
+        }
+
+        const onSuccess = ({ message }) => {
+          this.dispatcher.openSuccessAlert({ message });
+          this.prefillBillFromInTray();
+        };
+
+        const onFailure = ({ message }) => {
+          this.dispatcher.openDangerAlert({ message });
+          this.dispatcher.unlinkInTrayDocument();
+        };
+
+        const linkContent = {
+          id: getBillId(state),
+          uid: getBillUid(state),
+          inTrayDocumentId: id,
+        };
+
+        this.dispatcher.setDocumentLoadingState(true);
+        this.integrator.linkInTrayDocument({ onSuccess, onFailure, linkContent });
+      },
+      onLoadFailure: message => this.dispatcher.openDangerAlert({ message }),
+    });
+  };
+
+  openUnlinkDocumentModal = () => {
+    this.dispatcher.openModal({
+      modalType: ModalType.UnlinkDocument,
+    });
+  };
+
+  unlinkInTrayDocument = () => {
+    const state = this.store.getState();
+    this.dispatcher.closeModal();
+
+    if (getIsCreating(state)) {
+      this.dispatcher.unlinkInTrayDocument();
+      return;
+    }
+
+    const onSuccess = () => {
+      this.dispatcher.setDocumentLoadingState(false);
+      this.dispatcher.unlinkInTrayDocument();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setDocumentLoadingState(false);
+      this.dispatcher.openDangerAlert({ message });
+    };
+
+    this.dispatcher.setDocumentLoadingState(true);
+    this.integrator.unlinkInTrayDocument({ onSuccess, onFailure });
+  };
+
+  loadInTrayDocument = () => {
+    const onSuccess = (payload) => {
+      this.dispatcher.setDocumentLoadingState(false);
+      this.dispatcher.loadInTrayDocument(payload);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setDocumentLoadingState(false);
+      this.dispatcher.openDangerAlert({ message });
+    };
+
+    this.dispatcher.setDocumentLoadingState(true);
+    this.integrator.loadInTrayDocument({ onSuccess, onFailure });
   };
 
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
     const inventoryModal = this.inventoryModalModule.render();
+    const inTrayModal = this.inTrayModalModule.render();
 
     const view = (
       <Provider store={this.store}>
         <BillView
           inventoryModal={inventoryModal}
+          inTrayModal={inTrayModal}
           onAddItemButtonClick={this.openInventoryModal}
           onLoadItemOption={this.loadItemOption}
           accountModal={accountModal}
@@ -740,6 +875,7 @@ class BillModule {
           onAddItemRow={this.addBillItemLine}
           onItemRowChange={this.updateBillItemLine}
           onRemoveItemRow={this.removeBillItemLine}
+          onPrefillButtonClick={this.openInTrayModal}
           exportPdfModalListeners={{
             onCancel: this.closeModal,
             onConfirm: this.exportPdf,
@@ -747,7 +883,11 @@ class BillModule {
           }}
           contactModal={contactModal}
           onAddSupplierButtonClick={this.openSupplierModal}
-          toggleSplitView={this.toggleSplitView}
+          onOpenSplitViewButtonClick={this.loadDocumentUrl}
+          onCloseSplitViewButtonClick={this.closeSplitView}
+          onUnlinkDocumentButtonClick={this.openUnlinkDocumentModal}
+          onUnlinkDocumentConfirm={this.unlinkInTrayDocument}
+          onClosePrefillInfo={this.dispatcher.hidePrefillInfo}
         />
       </Provider>
     );

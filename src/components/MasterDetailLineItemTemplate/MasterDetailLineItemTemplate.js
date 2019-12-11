@@ -1,4 +1,5 @@
 import {
+  Alert,
   Card,
   DetailHeader,
   MasterDetailTemplate,
@@ -10,6 +11,7 @@ import classnames from 'classnames';
 import styles from './MasterDetailLineItemTemplate.module.css';
 
 const MasterDetailLineItemTemplate = ({
+  optionInfo,
   primaryOptions,
   secondaryOptions,
   subHeadChildren,
@@ -19,6 +21,7 @@ const MasterDetailLineItemTemplate = ({
   pageHead,
   sticky,
   showDetail,
+  onDismissOptionInfo,
 }) => {
   const options = showDetail ? (
     <React.Fragment>
@@ -34,6 +37,11 @@ const MasterDetailLineItemTemplate = ({
         <React.Fragment>
           {subHeadChildren}
           <Card classes={styles.card}>
+            { optionInfo && (
+              <Alert type="info" onDismiss={onDismissOptionInfo}>
+                {optionInfo}
+              </Alert>
+            )}
             {options}
             <Separator />
             {table}

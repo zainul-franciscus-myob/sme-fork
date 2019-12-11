@@ -8,6 +8,7 @@ import ExportPdfModal from './ExportPdfModal';
 import ModalType from '../types/ModalType';
 import SaveAndCreateNewModal from './SaveAndCreateNewModal';
 import SaveAndDuplicateModal from './SaveAndDuplicateModal';
+import UnlinkDocumentModal from './UnlinkDocumentModal';
 
 const BillModal = ({
   modalType,
@@ -16,6 +17,7 @@ const BillModal = ({
   onDeleteModalConfirm,
   onConfirmSaveAndDuplicateButtonClick,
   onConfirmSaveAndCreateNewButtonClick,
+  onUnlinkDocumentConfirm,
   exportPdfModalListeners,
 }) => ({
   [ModalType.CancelModal]: (<CancelModal
@@ -39,6 +41,10 @@ const BillModal = ({
     onCancel={onModalClose}
   />),
   [ModalType.ExportPdf]: (<ExportPdfModal listeners={exportPdfModalListeners} />),
+  [ModalType.UnlinkDocument]: (<UnlinkDocumentModal
+    onConfirm={onUnlinkDocumentConfirm}
+    onCancel={onModalClose}
+  />),
 }[modalType]);
 
 const mapStateToProps = state => ({

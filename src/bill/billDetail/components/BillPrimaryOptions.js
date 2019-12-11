@@ -1,8 +1,7 @@
-import {
-  ReadOnly,
-} from '@myob/myob-widgets';
+import { ReadOnly } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classnames from 'classnames';
 
 import {
   getIsReportable,
@@ -12,6 +11,7 @@ import {
   getSupplierId,
   getSupplierOptions,
 } from '../selectors/billSelectors';
+import { getPrefillStatus } from '../selectors/BillInTrayDocumentSelectors';
 import ReportableCheckbox from '../../../components/ReportableCheckbox/ReportableCheckbox';
 import SupplierCombobox from '../../../components/combobox/SupplierCombobox';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
@@ -25,24 +25,29 @@ const BillPrimaryOptions = ({
   isReportable,
   region,
   isSupplierDisabled,
+  prefillStatus,
   onUpdateBillOption,
   onAddSupplierButtonClick,
 }) => (
   <React.Fragment>
-    <SupplierCombobox
-      items={supplierOptions}
-      selectedId={supplierId}
-      onChange={handleComboboxChange('supplierId', onUpdateBillOption)}
-      label="Supplier"
-      name="supplierId"
-      requiredLabel="This is required"
-      hideLabel={false}
-      disabled={isSupplierDisabled}
-      addNewItem={{
-        label: 'Create supplier',
-        onAddNew: onAddSupplierButtonClick,
-      }}
-    />
+    <div className={
+      classnames(styles.formControlWrapper, { [styles.prefilled]: prefillStatus.supplierId })}
+    >
+      <SupplierCombobox
+        items={supplierOptions}
+        selectedId={supplierId}
+        onChange={handleComboboxChange('supplierId', onUpdateBillOption)}
+        label="Supplier"
+        name="supplierId"
+        requiredLabel="This is required"
+        hideLabel={false}
+        disabled={isSupplierDisabled}
+        addNewItem={{
+          label: 'Create supplier',
+          onAddNew: onAddSupplierButtonClick,
+        }}
+      />
+    </div>
     {supplierAddress && <ReadOnly className={styles.address}>{supplierAddress}</ReadOnly>}
     <ReportableCheckbox
       label="Report to ATO via TPAR"
@@ -61,6 +66,7 @@ const mapStateToProps = state => ({
   isReportable: getIsReportable(state),
   region: getRegion(state),
   isSupplierDisabled: getIsSupplierDisabled(state),
+  prefillStatus: getPrefillStatus(state),
 });
 
 export default connect(mapStateToProps)(BillPrimaryOptions);

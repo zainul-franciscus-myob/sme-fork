@@ -12,10 +12,12 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from '../BillIntents';
 import { LOAD_BILL_LIST_NEXT_PAGE, START_LOADING_MORE, STOP_LOADING_MORE } from '../billDetail/BillIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../SystemIntents';
-import { SUCCESSFULLY_DELETED_BILL, SUCCESSFULLY_SAVED_BILL } from '../billDetail/types/BillMessageTypes';
+  SUCCESSFULLY_DELETED_BILL,
+  SUCCESSFULLY_SAVED_BILL,
+  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
+} from '../billDetail/types/BillMessageTypes';
 import {
   flipSortOrder,
   getAppliedFilterOptions,
@@ -35,6 +37,7 @@ import billListReducer from './billListReducer';
 const messageTypes = [
   SUCCESSFULLY_DELETED_BILL,
   SUCCESSFULLY_SAVED_BILL,
+  SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 ];
 
 export default class BillListModule {
@@ -316,9 +319,10 @@ export default class BillListModule {
     const [successMessage] = this.popMessages(this.messageTypes);
 
     if (successMessage) {
-      const { content: message } = successMessage;
+      const { content: message, type: messageType } = successMessage;
+      const type = messageType === SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK ? 'info' : 'success';
       this.setAlert({
-        type: 'success',
+        type,
         message,
       });
     }

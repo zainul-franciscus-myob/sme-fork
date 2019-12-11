@@ -7,15 +7,21 @@ import {
   ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
   ITEM_CALCULATE_UPDATE_LINE_ITEM,
   ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
+  LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_IN_TRAY_DOCUMENT,
+  LOAD_IN_TRAY_DOCUMENT_URL,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
-  PREFILL_NEW_BILL_FROM_IN_TRAY,
+  PREFILL_BILL_FROM_IN_TRAY,
   SERVICE_CALCULATE,
+  UNLINK_IN_TRAY_DOCUMENT,
 } from './BillIntents';
+import { getBusinessId } from './selectors/billSelectors';
 import {
   getDeleteBillUrlParams,
+  getInTrayDocumentUrlParams,
   getItemCalculateContent,
   getItemCalculateContentForUpdateLineAmount,
   getItemCalculateContentForUpdateLineItem,
@@ -26,7 +32,6 @@ import {
   getLoadItemOptionUrlParams,
   getLoadSupplierAddressUrlParams,
   getLoadSupplierUrlParams,
-  getPrefillNewBillFromInTrayUrlParams,
   getSaveBillContent,
   getSaveBillIntent,
   getSaveBillUrlParams,
@@ -203,10 +208,10 @@ const createBillIntegrator = (store, integration) => ({
 
   prefillDataFromInTray: ({ onSuccess, onFailure }) => {
     const state = store.getState();
-    const urlParams = getPrefillNewBillFromInTrayUrlParams(state);
+    const urlParams = getInTrayDocumentUrlParams(state);
 
     integration.read({
-      intent: PREFILL_NEW_BILL_FROM_IN_TRAY,
+      intent: PREFILL_BILL_FROM_IN_TRAY,
       urlParams,
       onSuccess,
       onFailure,
@@ -246,6 +251,55 @@ const createBillIntegrator = (store, integration) => ({
 
     integration.read({
       intent, urlParams, onSuccess, onFailure,
+    });
+  },
+
+  loadDocumentUrl: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.read({
+      intent: LOAD_IN_TRAY_DOCUMENT_URL,
+      urlParams: getInTrayDocumentUrlParams(state),
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  unlinkInTrayDocument: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.write({
+      intent: UNLINK_IN_TRAY_DOCUMENT,
+      urlParams: getInTrayDocumentUrlParams(state),
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadInTrayDocument: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.read({
+      intent: LOAD_IN_TRAY_DOCUMENT,
+      urlParams: getInTrayDocumentUrlParams(state),
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  linkInTrayDocument: ({
+    onSuccess, onFailure, linkContent,
+  }) => {
+    const state = store.getState();
+
+    integration.write({
+      intent: LINK_IN_TRAY_DOCUMENT,
+      content: linkContent,
+      urlParams: {
+        businessId: getBusinessId(state),
+      },
+      onSuccess,
+      onFailure,
     });
   },
 });

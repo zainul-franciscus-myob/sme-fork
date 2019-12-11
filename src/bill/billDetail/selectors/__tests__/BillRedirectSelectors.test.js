@@ -5,7 +5,7 @@ describe('BillRedirectSelectors', () => {
     it('returns intray url when is creating from intray', () => {
       const state = {
         billId: 'new',
-        inTrayDocumentId: 'b',
+        source: 'inTray',
         businessId: 'a',
         region: 'au',
       };

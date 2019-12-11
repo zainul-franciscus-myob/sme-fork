@@ -144,7 +144,7 @@ describe('BillSelectors', () => {
     it('returns be "Create bill from In Tray" when creating from intray', () => {
       const state = {
         billId: 'new',
-        inTrayDocumentId: 'a',
+        source: 'inTray',
         bill: {
           billNumber: '',
         },

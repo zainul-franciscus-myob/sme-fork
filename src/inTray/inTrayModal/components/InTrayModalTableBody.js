@@ -118,8 +118,7 @@ const InTrayModalTableBody = ({
         </Table.RowItem>
         <Table.RowItem {...tableConfig.action} cellRole="actions">
           {showActions && (
-            <Button type="link" onClick={handleViewButtonClick(onView, id)} onKeyUp={() => {}}>
-              <Icons.Show />
+            <Button type="link" onClick={handleViewButtonClick(onView, id)} onKeyUp={() => {}} icon={<Icons.Show />}>
               View
             </Button>
           )}

@@ -1,46 +1,91 @@
-import { Button, Card, Icons } from '@myob/myob-widgets';
+import {
+  Button, Card, Icons, Spinner,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInTrayDocumentUploadedDate, getIntrayDocumentThumbnailUrl } from '../selectors/billSelectors';
+import {
+  getHasInTrayDocumentId,
+  getInTrayDocument,
+  getIsDocumentLoading,
+} from '../selectors/BillInTrayDocumentSelectors';
+import Thumbnail from '../../../components/Thumbnail/Thumbnail';
 import styles from './BillInTrayDocumentView.module.css';
 
 const BillInTrayDocumentView = ({
-  inTrayDocumentThumbnailUrl,
-  inTrayDocumentUploadedDate,
-  toggleSplitView,
+  isDocumentLoading,
+  hasInTrayDocumentId,
+  inTrayDocument,
+  onPrefillButtonClick,
+  onOpenSplitViewButtonClick,
+  onUnlinkDocumentButtonClick,
 }) => {
-  const documentBody = (
-    <Card.Body
-      child={(
-        <div className={styles.documentView}>
-          <div className={styles.thumbnail}>
-            <img src={inTrayDocumentThumbnailUrl} alt="Document thumbnail" />
-          </div>
-          <div className={styles.pdf}>
-            <div><strong>{`Document uploaded ${inTrayDocumentUploadedDate}`}</strong></div>
-            <div>
-              <Button onClick={toggleSplitView} type="link" icon={<Icons.Expand />}>
-                Open split view
-              </Button>
-            </div>
-          </div>
+  const documentView = (
+    <div className={styles.documentView}>
+      <Thumbnail
+        thumbnailUri={inTrayDocument.thumbnailUrl}
+        alt="Document thumbnail"
+      />
+      <div className={styles.pdf}>
+        <div><strong>{`Document uploaded ${inTrayDocument.uploadedDate}`}</strong></div>
+        <div className={styles.buttonGroup}>
+          <Button onClick={onOpenSplitViewButtonClick} type="link" icon={<Icons.Show />}>
+            View
+          </Button>
+          {
+            /* Split view with PDF viewer is not working, so hide the button for now
+            <Button onClick={onOpenSplitViewButtonClick} type="link" icon={<Icons.Expand />}>
+              Open split view
+            </Button>
+            */
+          }
+          <Button onClick={onUnlinkDocumentButtonClick} type="link" icon={<Icons.UnLink />}>
+            Unlink
+          </Button>
         </div>
-      )}
-    />
+      </div>
+    </div>
   );
+
+  const noDocumentView = (
+    <div>
+      <Button type="link" onClick={onPrefillButtonClick} icon={<Icons.GenericDocument />}>
+        Prefill from a source document
+      </Button>
+    </div>
+  );
+
+  const spinnerView = (
+    <div className={styles.spinnerView}>
+      <Spinner size="small" />
+    </div>
+  );
+
+  let view;
+  if (isDocumentLoading) {
+    view = spinnerView;
+  } else if (hasInTrayDocumentId) {
+    view = documentView;
+  } else {
+    view = noDocumentView;
+  }
 
   return (
     <Card
       classes={[styles.card]}
-      body={documentBody}
+      body={(
+        <Card.Body
+          child={view}
+        />
+      )}
     />
   );
 };
 
 const mapStateToProps = state => ({
-  inTrayDocumentThumbnailUrl: getIntrayDocumentThumbnailUrl(state),
-  inTrayDocumentUploadedDate: getInTrayDocumentUploadedDate(state),
+  hasInTrayDocumentId: getHasInTrayDocumentId(state),
+  inTrayDocument: getInTrayDocument(state),
+  isDocumentLoading: getIsDocumentLoading(state),
 });
 
 export default connect(mapStateToProps)(BillInTrayDocumentView);

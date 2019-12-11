@@ -5,19 +5,25 @@ import {
   CLOSE_MODAL,
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
+  HIDE_PREFILL_INFO,
   ITEM_CALCULATE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_IN_TRAY_DOCUMENT,
+  LOAD_IN_TRAY_DOCUMENT_URL,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
   OPEN_ALERT,
   OPEN_MODAL,
-  PREFILL_NEW_BILL_FROM_IN_TRAY,
+  PREFILL_BILL_FROM_IN_TRAY,
   REMOVE_BILL_LINE,
   RESET_TOTALS,
   SERVICE_CALCULATE,
   SET_ACCOUNT_LOADING_STATE,
+  SET_DOCUMENT_LOADING_STATE,
+  SET_IN_TRAY_DOCUMENT_ID,
+  SET_SHOW_SPLIT_VIEW,
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
@@ -28,7 +34,7 @@ import {
   STOP_MODAL_BLOCKING,
   STOP_PENDING_CALCULATION,
   STOP_SUPPLIER_BLOCKING,
-  TOGGLE_SPLIT_VIEW,
+  UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL_ID,
   UPDATE_BILL_ITEM_LINE,
   UPDATE_BILL_OPTION,
@@ -41,6 +47,12 @@ import createReducer from '../../store/createReducer';
 import formatAmount from '../../common/valueFormatters/formatAmount';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
+const defaultPrefillStatus = {
+  supplierId: false,
+  supplierInvoiceNumber: false,
+  issueDate: false,
+};
+
 const getDefaultState = () => ({
   today: new Date(),
   isAccountLoading: false,
@@ -51,6 +63,7 @@ const getDefaultState = () => ({
   region: '',
   layout: '',
   bill: {
+    uid: '',
     supplierId: '',
     supplierAddress: '',
     supplierInvoiceNumber: '',
@@ -108,9 +121,12 @@ const getDefaultState = () => ({
   modalType: undefined,
   isModalBlocking: false,
   alert: undefined,
+  isDocumentLoading: false,
   inTrayDocumentId: '',
-  inTrayPrefillDetails: undefined,
   inTrayDocument: undefined,
+  inTrayDocumentUrl: '',
+  showPrefillInfo: false,
+  prefillStatus: defaultPrefillStatus,
   exportPdf: {
     templateOptions: [],
     template: '',
@@ -152,6 +168,7 @@ const updateBillOption = (state, action) => {
   const isExpirationDays0 = state.bill.expirationDays === '0';
   const shouldSetExpirationDaysTo1 = isUpdatingExpirationTermToDayOfMonth
   && isExpirationDays0;
+  const isPrefillFields = Object.keys(defaultPrefillStatus).includes(action.key);
 
   return ({
     ...state,
@@ -161,6 +178,8 @@ const updateBillOption = (state, action) => {
       [action.key]: action.value,
     },
     isPageEdited: true,
+    prefillStatus: isPrefillFields
+      ? { ...state.prefillStatus, [action.key]: false } : state.prefillStatus,
   });
 };
 
@@ -348,6 +367,10 @@ const loadSupplierAfterCreate = (state, { supplierId, supplierAddress, option })
     supplierAddress,
   },
   supplierOptions: getUpdatedSupplierOptions(state, option),
+  prefillStatus: {
+    ...state.prefillStatus,
+    supplierId: false,
+  },
 });
 
 const startSupplierBlocking = state => ({ ...state, isSupplierBlocking: true });
@@ -400,22 +423,34 @@ const getPrefilledNewLineFromInTray = (state, newLine) => ({
   displayAmount: newLine.amount,
 });
 
-const prefillNewBillFromInTray = (state, action) => {
+const prefillBillFromInTray = (state, action) => {
+  let { lines, isTaxInclusive } = state.bill;
+  const { supplierId, supplierInvoiceNumber, issueDate } = state.bill;
   const { bill, newLine, document } = action.response;
 
-  const lines = newLine.amount
-    ? [...state.bill.lines, getPrefilledNewLineFromInTray(state, newLine)]
-    : [...state.bill.lines];
+  if (newLine.amount && state.bill.lines.length === 0) {
+    lines = [getPrefilledNewLineFromInTray(state, newLine)];
+    ({ isTaxInclusive } = bill);
+  }
 
   return {
     ...state,
     isPageEdited: true,
     bill: {
       ...state.bill,
-      ...bill,
+      supplierId: supplierId || bill.supplierId,
+      supplierInvoiceNumber: supplierInvoiceNumber || bill.supplierInvoiceNumber,
+      issueDate: bill.issueDate ? bill.issueDate : issueDate,
+      isTaxInclusive,
       lines,
     },
+    prefillStatus: {
+      supplierId: !supplierId && Boolean(bill.supplierId),
+      supplierInvoiceNumber: !supplierInvoiceNumber && Boolean(bill.supplierInvoiceNumber),
+      issueDate: Boolean(bill.issueDate),
+    },
     inTrayDocument: document,
+    showPrefillInfo: true,
   };
 };
 
@@ -463,9 +498,43 @@ export const setAccountLoadingState = (state, { isAccountLoading }) => (
   { ...state, isAccountLoading }
 );
 
-export const toggleSplitView = state => ({
+export const setShowSplitView = (state, { showSplitView }) => ({
   ...state,
-  showSplitView: !state.showSplitView,
+  showSplitView,
+  inTrayDocumentUrl: showSplitView ? state.inTrayDocumentUrl : '',
+});
+
+export const setInTrayDocumentId = (state, { inTrayDocumentId }) => ({
+  ...state,
+  inTrayDocumentId,
+});
+
+export const loadInTrayDocumentUrl = (state, { inTrayDocumentUrl }) => ({
+  ...state,
+  inTrayDocumentUrl,
+});
+
+export const unlinkInTrayDocument = state => ({
+  ...state,
+  isDocumentLoading: false,
+  inTrayDocumentId: '',
+  inTrayDocument: undefined,
+  inTrayDocumentUrl: '',
+});
+
+export const setDocumentLoadingState = (state, { isDocumentLoading }) => ({
+  ...state,
+  isDocumentLoading,
+});
+
+export const hidePrefillInfo = state => ({
+  ...state,
+  showPrefillInfo: false,
+});
+
+export const loadInTrayDocument = (state, { inTrayDocument }) => ({
+  ...state,
+  inTrayDocument,
 });
 
 const handlers = {
@@ -497,7 +566,7 @@ const handlers = {
   [ITEM_CALCULATE]: itemCalculate,
   [STOP_PENDING_CALCULATION]: stopPendingCalculation,
   [START_PENDING_CALCULATION]: startPendingCalculation,
-  [PREFILL_NEW_BILL_FROM_IN_TRAY]: prefillNewBillFromInTray,
+  [PREFILL_BILL_FROM_IN_TRAY]: prefillBillFromInTray,
   [RESET_TOTALS]: resetTotals,
   [UPDATE_BILL_ID]: updateBillId,
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
@@ -505,7 +574,13 @@ const handlers = {
   [LOAD_ITEM_OPTION]: loadItemOption,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
-  [TOGGLE_SPLIT_VIEW]: toggleSplitView,
+  [SET_SHOW_SPLIT_VIEW]: setShowSplitView,
+  [SET_IN_TRAY_DOCUMENT_ID]: setInTrayDocumentId,
+  [LOAD_IN_TRAY_DOCUMENT_URL]: loadInTrayDocumentUrl,
+  [UNLINK_IN_TRAY_DOCUMENT]: unlinkInTrayDocument,
+  [SET_DOCUMENT_LOADING_STATE]: setDocumentLoadingState,
+  [HIDE_PREFILL_INFO]: hidePrefillInfo,
+  [LOAD_IN_TRAY_DOCUMENT]: loadInTrayDocument,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

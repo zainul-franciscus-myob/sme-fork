@@ -152,17 +152,15 @@ describe('IntegratorSelectors', () => {
           displayName: 'mayank',
         },
       ],
-      inTrayDocumentId: '5',
     };
 
-    it('append layout, supplierName and inTrayDocumentId to bill', () => {
+    it('append layout and supplierName to bill', () => {
       const actual = getSaveBillContent(state);
 
       expect(actual).toEqual({
         stuff: 'stuff',
         supplierId: '1',
         supplierName: 'mayank',
-        inTrayDocumentId: '5',
         layout: 'item',
       });
     });

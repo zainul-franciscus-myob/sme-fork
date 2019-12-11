@@ -5,9 +5,9 @@ import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 export const getBillId = state => state.billId;
 
-export const getDuplicatedBillId = state => state.duplicatedBillId;
+export const getBillUid = state => state.bill.uid;
 
-export const getInTrayDocumentId = state => state.inTrayDocumentId;
+export const getDuplicatedBillId = state => state.duplicatedBillId;
 
 export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 
@@ -18,8 +18,8 @@ export const getIsCreating = createSelector(
 
 export const getIsCreatingFromInTray = createSelector(
   getIsCreating,
-  state => state.inTrayDocumentId,
-  (isCreating, inTrayDocumentId) => isCreating && inTrayDocumentId,
+  state => state.source,
+  (isCreating, source) => isCreating && source === 'inTray',
 );
 
 export const getIsLoading = state => state.isLoading;
@@ -74,14 +74,6 @@ export const getIsBlocking = state => state.isBlocking;
 export const getIsModalBlocking = state => state.isModalBlocking;
 
 export const getIsLineWithoutItemFromInTray = () => false;
-
-export const getInTrayDocumentFileUrl = state => state.inTrayDocument.fileUrl;
-
-export const getIntrayDocumentThumbnailUrl = state => state.inTrayDocument.thumbnailUrl;
-
-export const getInTrayDocumentUploadedDate = state => state.inTrayDocument.uploadedDate;
-
-export const getHasInTrayDocument = state => Boolean(state.inTrayDocument);
 
 export const getModalType = state => state.modalType;
 
@@ -216,5 +208,3 @@ export const getCreateSupplierContactModalContext = (state) => {
 
   return { businessId, region, contactType: 'Supplier' };
 };
-
-export const getShowSplitView = state => state.showSplitView;

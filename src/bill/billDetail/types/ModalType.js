@@ -4,5 +4,6 @@ export default {
   SaveAndCreateNew: 'saveAndCreateNew',
   SaveAndDuplicate: 'saveAndDuplicate',
   ExportPdf: 'exportPdf',
+  UnlinkDocument: 'unlinkDocument',
   None: '',
 };

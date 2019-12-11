@@ -8,7 +8,6 @@ import {
   getBillId,
   getBusinessId,
   getDuplicatedBillId,
-  getInTrayDocumentId,
   getIsCreating,
   getIsTaxInclusive,
   getLayout,
@@ -16,6 +15,7 @@ import {
   getSupplierId,
   getSupplierOptions,
 } from './billSelectors';
+import { getInTrayDocumentId } from './BillInTrayDocumentSelectors';
 
 export const getSaveBillIntent = createSelector(
   getIsCreating,
@@ -88,12 +88,6 @@ export const getServiceCalculateUrlParams = createSelector(
   businessId => ({ businessId }),
 );
 
-export const getPrefillNewBillFromInTrayUrlParams = createSelector(
-  getBusinessId,
-  getInTrayDocumentId,
-  (businessId, inTrayDocumentId) => ({ businessId, inTrayDocumentId }),
-);
-
 export const getItemCalculateUrlParams = createSelector(
   getBusinessId,
   businessId => ({ businessId }),
@@ -141,17 +135,15 @@ export const getLoadAddedAccountUrlParams = (state, accountId) => {
 
 export const getSaveBillContent = createSelector(
   state => state.bill,
-  state => state.inTrayDocumentId,
   getSupplierOptions,
   getLayout,
-  (bill, inTrayDocumentId, supplierOptions, layout) => {
+  (bill, supplierOptions, layout) => {
     const selectedSupplier = supplierOptions.find(supplier => supplier.id === bill.supplierId);
     const supplierName = selectedSupplier ? selectedSupplier.displayName : '';
 
     return {
       ...bill,
       supplierName,
-      inTrayDocumentId,
       layout,
     };
   },
@@ -162,3 +154,9 @@ export const getLoadSupplierUrlParams = (state, supplierId) => {
 
   return { businessId, supplierId };
 };
+
+export const getInTrayDocumentUrlParams = createSelector(
+  getBusinessId,
+  getInTrayDocumentId,
+  (businessId, inTrayDocumentId) => ({ businessId, inTrayDocumentId }),
+);
