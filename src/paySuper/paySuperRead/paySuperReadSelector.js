@@ -3,6 +3,7 @@ import paymentStatus from '../paymentStatus';
 
 export const getIsLoading = state => state.isLoading;
 export const getBusinessId = state => state.businessId;
+export const getRegion = state => state.region;
 export const getTotalPayment = (state) => {
   const amountList = state.superPaymentLines.map(e => e.amount);
   const totalPayment = amountList
@@ -17,6 +18,7 @@ export const getStatus = state => state.status;
 export const getLabelStatus = state => paymentStatus[state.status];
 export const getSuperPaymentLines = state => state.superPaymentLines;
 export const getBatchPaymentId = state => state.batchPaymentId;
+export const getBusinessEventId = state => state.businessEventId;
 export const getPaySuperListUrl = (state) => {
   const { businessId, region } = state;
   return `/#/${region}/${businessId}/paySuper`;

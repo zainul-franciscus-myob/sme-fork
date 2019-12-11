@@ -1,4 +1,7 @@
-import { Table } from '@myob/myob-widgets';
+import {
+  Button,
+  Table,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,6 +19,7 @@ const tableConfig = {
 
 const PaySuperReadTable = ({
   superPaymentLines,
+  onDateClick,
 }) => {
   const header = (
     <Table.Header>
@@ -39,7 +43,7 @@ const PaySuperReadTable = ({
   const rows = superPaymentLines.map(payment => (
     <Table.Row key={payment.id}>
       <Table.RowItem {...tableConfig.date}>
-        <a href="localhost">{payment.date}</a>
+        <Button type="link" onClick={() => onDateClick(payment.employeePaymentEventId, payment.employeeName)}>{payment.date}</Button>
       </Table.RowItem>
       <Table.RowItem {...tableConfig.payItem}>
         {payment.payItem}

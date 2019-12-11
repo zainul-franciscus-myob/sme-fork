@@ -3,7 +3,13 @@ import React from 'react';
 
 import { LOAD_PAY_SUPER_READ, SET_IS_LOADING } from './paySuperReadIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getBatchPaymentId, getBusinessId, getPaySuperListUrl } from './paySuperReadSelector';
+import {
+  getBusinessEventId,
+  getBusinessId,
+  getPaySuperListUrl,
+  getRegion,
+} from './paySuperReadSelector';
+import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import PaySuperReadView from './components/PaySuperReadView';
 import Store from '../../store/Store';
 import paySuperReadReducer from './paySuperReadReducer';
@@ -15,6 +21,9 @@ export default class PaySuperReadModule {
     this.integration = integration;
     this.store = new Store(paySuperReadReducer);
     this.setRootView = setRootView;
+    this.employeePayModal = new EmployeePayModalModule({
+      integration,
+    });
   }
 
   setInitialState = (context) => {
@@ -42,8 +51,11 @@ export default class PaySuperReadModule {
   reversePaySuper = () => {}
 
   render = () => {
+    const modalComponent = this.employeePayModal.getView();
     const paySuperReadView = (
       <PaySuperReadView
+        employeePayModal={modalComponent}
+        onDateClick={this.openEmpoyeePayModal}
         onCancelClick={this.returnToList}
         onAuthoriseClick={this.authorisePaySuper}
         onReverseClick={this.reversePaySuper}
@@ -65,13 +77,23 @@ export default class PaySuperReadModule {
     this.loadPaySuperRead();
   }
 
+  openEmpoyeePayModal = (transactionId, employeeName) => {
+    const state = this.store.getState();
+    this.employeePayModal.openModal({
+      transactionId,
+      employeeName,
+      businessId: getBusinessId(state),
+      region: getRegion(state),
+    });
+  }
+
   loadPaySuperRead = () => {
     const intent = LOAD_PAY_SUPER_READ;
     const state = this.store.getState();
 
     const urlParams = {
       businessId: getBusinessId(state),
-      batchpaymentId: getBatchPaymentId(state),
+      businessEventId: getBusinessEventId(state),
     };
 
     const onSuccess = (response) => {

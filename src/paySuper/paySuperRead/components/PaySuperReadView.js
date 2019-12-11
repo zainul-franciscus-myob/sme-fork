@@ -36,7 +36,8 @@ const PaySuperReadView = ({
   totalPayment,
   labelStatus,
   status,
-
+  employeePayModal,
+  onDateClick,
 }) => {
   const title = <>Super payment {referenceNumber}<PaymentStatus size="large" paymentStatus={labelStatus} /></>;
   const totalPaymentFooter = (
@@ -49,6 +50,7 @@ const PaySuperReadView = ({
   );
   const view = (
     <BaseTemplate>
+      {employeePayModal}
       <PageHead title={title} />
       <Card
         footer={totalPaymentFooter}
@@ -61,6 +63,7 @@ const PaySuperReadView = ({
         />
         <PaySuperReadTable
           superPayments={batchPayments}
+          onDateClick={onDateClick}
         />
       </Card>
       <ActionButtons

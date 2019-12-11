@@ -3,6 +3,8 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 export const getDefaultState = () => ({
+  businessEventId: null,
+  batchPaymentId: '',
   businessId: null,
   status: '',
   displayId: '',
@@ -27,6 +29,7 @@ const setIsLoading = (state, { isLoading }) => ({
 
 const loadPaySuperRead = (state, { response }) => ({
   ...state,
+  batchPaymentId: response.batchPaymentId,
   status: response.status,
   referenceNumber: response.displayId,
   account: response.payFromAccount,

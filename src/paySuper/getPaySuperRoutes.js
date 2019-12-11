@@ -24,8 +24,7 @@ const getPaySuperRoutes = ({
     },
     {
       name: 'PaySuperRead',
-      // path: '/:paySuperId',
-      path: '/read',
+      path: '/:businessEventId',
       module: new PaySuperReadModule({
         integration,
         setRootView,
