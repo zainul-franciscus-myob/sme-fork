@@ -28,8 +28,8 @@ import { SUCCESSFULLY_CREATED_SUPER_PAYMENT } from '../paySuperMessageTypes';
 import {
   getAppliedFilterOptions,
   getAuthoriseWithCodeContent,
-  getBatchPaymentId,
   getBusinessId,
+  getCodeToAuthoriseContent,
   getFilterOptions,
   getOrderBy,
   getRecordPaySuperContent,
@@ -243,7 +243,7 @@ export default class PaySuperCreateModule {
   getCodeToAuthorise = () => {
     const state = this.store.getState();
     const intent = GET_CODE_TO_AUTHORISE;
-    const content = getBatchPaymentId(state);
+    const content = getCodeToAuthoriseContent(state);
     const onSuccess = (response) => {
       this.store.dispatch({
         intent: UPDATE_AUTHORISATION_INFORMATION,

@@ -73,3 +73,7 @@ export const getAuthoriseWithCodeContent = state => ({
   authorisationId: state.authorisationInfo.authorisationId,
   authorisationEmail: state.authorisationInfo.authorisationEmail,
 });
+
+export const getCodeToAuthoriseContent = state => ({
+  batchPaymentId: state.batchPaymentId,
+});
