@@ -12,6 +12,7 @@ const AuthoriseCodeModal = ({
   updateAuthorisationCode,
   onCancelButtonClick,
   onAuthoriseButtonClick,
+  onResendAuthorisationCodeClick,
 }) => (
   <Modal title="Authorise payment" onCancel={onCancelButtonClick}>
     <Modal.Body>
@@ -29,9 +30,7 @@ const AuthoriseCodeModal = ({
       <p>
         Still haven&apos;t received the SMS after 20 minutes? Make sure you&apos;re using the
         same mobile number you registered with us when signing up for this service.
-        <Button type="link">Learn more</Button>
-        &nbsp;or&nbsp;
-        <Button type="link">Resend authorisation code</Button>
+        <Button type="link" onClick={onResendAuthorisationCodeClick}>Resend authorisation code</Button>
       </p>
     </Modal.Body>
     <Modal.Footer>

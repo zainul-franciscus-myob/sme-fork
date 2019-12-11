@@ -13,6 +13,7 @@ const RecordAndAuthoriseModal = ({
   onAuthoriseButtonClick,
   onYesAuthoriseButtonClick,
   updateAuthorisationCode,
+  onResendAuthorisationCodeClick,
 }) => {
   if (type === ModalType.AUTHORISE_CODE) {
     return (
@@ -20,6 +21,7 @@ const RecordAndAuthoriseModal = ({
         onCancelButtonClick={onModalCancelButtonClick}
         onAuthoriseButtonClick={onAuthoriseButtonClick}
         updateAuthorisationCode={updateAuthorisationCode}
+        onResendAuthorisationCodeClick={onResendAuthorisationCodeClick}
       />
     );
   }

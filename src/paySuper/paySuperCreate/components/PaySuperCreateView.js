@@ -67,6 +67,7 @@ const PaySuperCreateView = ({
   onDoNotAuthoriseButtonClick,
   onAuthoriseButtonClick,
   onYesAuthoriseButtonClick,
+  onResendAuthorisationCodeClick,
   authorisationCode,
   updateAuthorisationCode,
   onDateLinkClick,
@@ -105,6 +106,7 @@ const PaySuperCreateView = ({
           authorisationCode={authorisationCode}
           updateAuthorisationCode={updateAuthorisationCode}
           onAuthoriseButtonClick={onAuthoriseButtonClick}
+          onResendAuthorisationCodeClick={onResendAuthorisationCodeClick}
         />
       )}
       <PageHead title="Create super payment" testId="paySuperCreateHeader" />

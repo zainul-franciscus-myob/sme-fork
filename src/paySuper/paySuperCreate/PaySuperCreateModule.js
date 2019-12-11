@@ -373,6 +373,7 @@ export default class PaySuperCreateModule {
         onDoNotAuthoriseButtonClick={this.goToSuperPaymentList}
         onAuthoriseButtonClick={this.authoriseSuperPayment}
         onYesAuthoriseButtonClick={this.getCodeToAuthorise}
+        onResendAuthorisationCodeClick={this.getCodeToAuthorise}
         updateAuthorisationCode={this.updateAuthorisationCode}
       />
     );
