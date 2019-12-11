@@ -1,32 +1,24 @@
 import { LOAD_SUBSCRIPTION } from '../SubscriptionLoaderIntents';
 import SubscriptionLoader from '../SubscriptionLoader';
 
-const createIntegration = (document) => {
+const createIntegration = () => {
   const integration = {
     readCalls: [],
   };
   integration.read = (options) => {
     integration.readCalls.push(options);
     options.onSuccess();
-    // eslint-disable-next-line no-param-reassign
-    document.cookie += `subscription-for-${options.urlParams.businessId}=yes;`;
   };
   return integration;
 };
 
-const createDocument = () => ({
-  cookie: '',
-});
-
 let integration;
-let document;
 let subscriptionLoader;
 
 describe('SubscriptionLoader', () => {
   beforeEach(() => {
-    document = createDocument();
-    integration = createIntegration(document);
-    subscriptionLoader = new SubscriptionLoader(integration, document);
+    integration = createIntegration();
+    subscriptionLoader = new SubscriptionLoader(integration);
   });
 
   describe('when loading data that is not specific to a business', () => {
@@ -50,7 +42,7 @@ describe('SubscriptionLoader', () => {
   });
 
   describe('when loading non-subscription data for a business', () => {
-    describe('and the cookie for this business has not been loaded', () => {
+    describe('and the subscription for this business has not been loaded', () => {
       it('requests to load the subscription tied to a promise', async () => {
         await subscriptionLoader.loadSubscriptionIfNeeded({
           intent: 'Load some data',
@@ -74,7 +66,7 @@ describe('SubscriptionLoader', () => {
       });
     });
 
-    describe('and the cookie for this business has been loaded', () => {
+    describe('and the subscription this business has been loaded', () => {
       beforeEach(() => {
         subscriptionLoader.loadSubscriptionIfNeeded({
           intent: 'Load some data',
@@ -90,28 +82,10 @@ describe('SubscriptionLoader', () => {
         expect(integration.readCalls.length).toBe(1);
       });
     });
-
-    describe('and the cookie for this business has been loaded, but missing', () => {
-      beforeEach(() => {
-        subscriptionLoader.loadSubscriptionIfNeeded({
-          intent: 'Load some data',
-          urlParams: { businessId: '12345' },
-        });
-        document.cookie = '';
-      });
-
-      it('requests to load the subscription tied to a new promise', async () => {
-        await subscriptionLoader.loadSubscriptionIfNeeded({
-          intent: 'Load more data',
-          urlParams: { businessId: '12345' },
-        });
-        expect(integration.readCalls[1].intent).toBe(LOAD_SUBSCRIPTION);
-      });
-    });
   });
 
   describe('when loading non-subscription data for two businesses', () => {
-    describe('and the cookie for one business has not been loaded', () => {
+    describe('and the subscription for one business has not been loaded', () => {
       beforeEach(async () => {
         await subscriptionLoader.loadSubscriptionIfNeeded({
           intent: 'Load some data',

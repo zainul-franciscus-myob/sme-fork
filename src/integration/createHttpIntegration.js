@@ -4,6 +4,7 @@ import uuid from 'uuid/v4';
 
 import Config from '../Config';
 import RootMapping from './httpMapping/RootMapping';
+import SubscriptionLoader from './httpHandlers/SubscriptionLoader';
 import handleForbiddenResponse from './httpHandlers/handleForbiddenResponse';
 import handleResponse from './httpHandlers/handleResponse';
 
@@ -270,13 +271,19 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
 
 const createDecoratedHttpIntegration = (initOptions) => {
   const httpIntegration = createHttpIntegration(initOptions);
+  const subscriptionLoader = new SubscriptionLoader(httpIntegration);
 
   return {
-    read: options => httpIntegration.read(options),
-    readFile: options => httpIntegration.readFile(options),
-    write: options => httpIntegration.write(options),
-    writeFormData: options => httpIntegration.writeFormData(options),
-    writeManyFormData: options => httpIntegration.writeManyFormData(options),
+    read: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
+      .then(() => httpIntegration.read(options)),
+    readFile: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
+      .then(() => httpIntegration.readFile(options)),
+    write: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
+      .then(() => httpIntegration.write(options)),
+    writeFormData: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
+      .then(() => httpIntegration.writeFormData(options)),
+    writeManyFormData: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
+      .then(() => httpIntegration.writeManyFormData(options)),
   };
 };
 
