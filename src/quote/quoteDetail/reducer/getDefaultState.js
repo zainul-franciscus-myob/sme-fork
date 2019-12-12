@@ -36,15 +36,13 @@ const getDefaultState = () => ({
     lines: [],
   },
   newLine: {
+    type: '',
     description: '',
     amount: '',
     taxCodeId: '',
-
     allocatedAccountId: '',
-    accountOptions: [],
-    taxCodeOptions: [],
-
     units: '',
+    unitOfMeasure: '',
     itemId: '',
     unitPrice: '',
     discount: '',
@@ -60,8 +58,16 @@ const getDefaultState = () => ({
   expirationTermOptions: [],
   commentOptions: [],
   itemOptions: [],
+  accountOptions: [],
   taxCodeOptions: [],
-  templateOptions: [],
+  itemTemplateOptions: {
+    templateOptions: [],
+    defaultTemplate: '',
+  },
+  serviceTemplateOptions: {
+    templateOptions: [],
+    defaultTemplate: '',
+  },
   emailQuote: {
     hasEmailReplyDetails: false,
     isEmailMeACopy: false,

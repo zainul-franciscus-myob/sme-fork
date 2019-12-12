@@ -1,6 +1,6 @@
 const QuoteLayout = {
   SERVICE: 'service',
-  ITEM: 'item',
+  ITEM_AND_SERVICE: 'itemAndService',
 };
 
 export default QuoteLayout;

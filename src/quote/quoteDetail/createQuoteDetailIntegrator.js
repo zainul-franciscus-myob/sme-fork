@@ -2,7 +2,6 @@ import {
   CREATE_QUOTE_DETAIL,
   DELETE_QUOTE_DETAIL,
   EXPORT_QUOTE_PDF,
-  GET_QUOTE_SERVICE_CALCULATED_TOTALS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -25,8 +24,6 @@ import {
   getLoadQuoteQueryParams,
   getLoadQuoteUrlParams,
   getQuoteItemCalculatedLinesUrlParams,
-  getQuoteServiceCalculatedTotalsPayload,
-  getQuoteServiceCalculatedTotalsUrlParams,
   getSendEmailPayload,
   getSendEmailUrlParams,
   getUploadEmailAttachmentUrlParams,
@@ -70,19 +67,7 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     });
   },
 
-  getQuoteServiceCalculatedTotals: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const intent = GET_QUOTE_SERVICE_CALCULATED_TOTALS;
-    const urlParams = getQuoteServiceCalculatedTotalsUrlParams(state);
-    const content = getQuoteServiceCalculatedTotalsPayload(state);
-
-    integration.write({
-      intent, urlParams, content, onSuccess, onFailure,
-    });
-  },
-
-  getQuoteItemCalculatedLines: ({
+  getQuoteCalculatedLines: ({
     intent, content, onSuccess, onFailure,
   }) => {
     const state = store.getState();

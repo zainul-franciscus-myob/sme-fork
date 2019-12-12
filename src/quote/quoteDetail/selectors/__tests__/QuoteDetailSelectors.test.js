@@ -3,9 +3,11 @@ import {
   getIsAccountComboboxDisabled,
   getLoadQuoteDetailModalType,
   getQuoteDetailOptions,
+  getTemplateOptions,
   getUpdatedContactOptions,
 } from '../QuoteDetailSelectors';
 import ModalType from '../../ModalType';
+import QuoteLayout from '../../QuoteLayout';
 
 describe('QuoteDetailSelectors', () => {
   describe('getQuoteDetailOptions', () => {
@@ -216,6 +218,72 @@ describe('QuoteDetailSelectors', () => {
       const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getTemplateOptions', () => {
+    it('should return item template options if the layout is item and service', () => {
+      const itemTemplateOptions = {
+        defaultTemplate: '',
+        templateOptions: [
+          {
+            name: 'item-related',
+            label: 'apple',
+          },
+        ],
+      };
+
+      const state = {
+        quote: {
+          layout: QuoteLayout.ITEM_AND_SERVICE,
+        },
+        itemTemplateOptions,
+        serviceTemplateOptions: {
+          defaultTemplate: '',
+          templateOptions: [
+            {
+              name: 'service-related',
+              label: 'apple',
+            },
+          ],
+        },
+      };
+
+      const actual = getTemplateOptions(state);
+
+      expect(actual).toEqual(itemTemplateOptions.templateOptions);
+    });
+
+    it('should return service template options if the layout is service', () => {
+      const serviceTemplateOptions = {
+        defaultTemplate: '',
+        templateOptions: [
+          {
+            name: 'service-related',
+            label: 'apple',
+          },
+        ],
+      };
+
+      const state = {
+        quote: {
+          layout: QuoteLayout.SERVICE,
+        },
+        itemTemplateOptions: {
+          defaultTemplate: '',
+          templateOptions: [
+            {
+              name: 'item-related',
+              label: 'apple',
+            },
+          ],
+        },
+        serviceTemplateOptions,
+      };
+
+      const actual = getTemplateOptions(state);
+
+      expect(actual).toEqual(serviceTemplateOptions.templateOptions);
     });
   });
 });

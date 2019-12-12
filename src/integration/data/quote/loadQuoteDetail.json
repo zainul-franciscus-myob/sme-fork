@@ -2,7 +2,7 @@
   "pageTitle": "Quote BL00000123",
   "quote": {
     "id": "5",
-    "layout": "item",
+    "layout": "itemAndService",
     "contactId": "1",
     "contactName": "A-Z Stationery Supplies",
     "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
@@ -18,8 +18,11 @@
     "note": "hello",
     "lines": [
       {
+        "type": "item",
         "units": "2",
+        "unitOfMeasure": "qty",
         "itemId": "3",
+        "allocatedAccountId": "123",
         "description": "Cooler Medium",
         "unitPrice": "100.00",
         "discount": "0",
@@ -29,12 +32,15 @@
         "displayAmount": "850.91"
       },
       {
-        "units": "2",
-        "itemId": "4",
-        "description": "Cooler Large",
-        "unitPrice": "520.00",
-        "discount": "10",
-        "displayDiscount": "10",
+        "type": "service",
+        "units": "",
+        "unitOfMeasure": "",
+        "itemId": "",
+        "allocatedAccountId": "123",
+        "description": "Buying some stuff",
+        "unitPrice": "",
+        "discount": "",
+        "displayDiscount": "",
         "taxCodeId": "3",
         "amount": "850.910100",
         "displayAmount": "850.91"
@@ -67,6 +73,29 @@
       "name": "Due in a number of days after the end of the month"
     }
   ],
+  "accountOptions": [
+    {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "taxCodeId": "123",
+      "displayId": "4-123"
+    },
+    {
+      "id": "456",
+      "displayName": "Sales Account 2",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "4-456"
+    },
+    {
+      "id": "789",
+      "displayName": "Expense Account",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "6-789"
+    }
+  ],
   "itemOptions": [
     {
       "id": "3",
@@ -94,8 +123,10 @@
     }
   ],
   "newLine": {
+    "type": "item",
     "units": "",
     "itemId": "",
+    "allocatedAccountId": "",
     "description": "",
     "unitPrice": "",
     "discount": "",
@@ -110,33 +141,61 @@
     "totalAmount": "$1000.00"
   },
   "commentOptions": [
-    { "value": "Happy Holiday!" },
-    { "value": "Great doing business" },
-    { "value": "don't call us we'll call you" }
+    {
+      "value": "Happy Holiday!"
+    },
+    {
+      "value": "Great doing business"
+    },
+    {
+      "value": "don't call us we'll call you"
+    }
   ],
   "emailQuote": {
     "hasEmailReplyDetails": true,
     "isEmailMeACopy": false,
-    "ccToEmail": [ "t-pain@myob.com","hamzzz@myob.com" ],
+    "ccToEmail": [
+      "t-pain@myob.com",
+      "hamzzz@myob.com"
+    ],
     "fromEmail": "tom.xu@myob.com",
     "fromName": "Tom Xu",
     "messageBody": "Let's make some hot chocolate!!",
     "subject": "Hot Chocolate is life",
-    "toEmail": [ "geoff.spires@myob.com","tom.xu@myob.com" ],
+    "toEmail": [
+      "geoff.spires@myob.com",
+      "tom.xu@myob.com"
+    ],
     "includeQuoteNumberInEmail": true,
     "attachments": [],
     "templateName": "a"
   },
-  "templateOptions" : [
-    {
-      "name": "a",
-      "label": "apple"
-    },
-    {
-      "name": "b",
-      "label": "banana"
-    }
-  ],
+  "itemTemplateOptions": {
+    "defaultTemplate": "a",
+    "templateOptions": [
+      {
+        "name": "a",
+        "label": "apple"
+      },
+      {
+        "name": "b",
+        "label": "banana"
+      }
+    ]
+  },
+  "serviceTemplateOptions": {
+    "defaultTemplate": "a",
+    "templateOptions": [
+        {
+          "name": "a",
+          "label": "apple"
+        },
+        {
+          "name": "b",
+          "label": "banana"
+        } 
+    ]
+  },
   "exportPdf": {
     "template": "a"
   }

@@ -20,25 +20,22 @@ export const UPDATE_QUOTE_DETAIL = Symbol('Update a quote');
 export const DELETE_QUOTE_DETAIL = Symbol('Delete a quote');
 export const UPDATE_QUOTE_ID_AFTER_CREATE = Symbol('Update quote id after create');
 export const UPDATE_QUOTE_DETAIL_HEADER_OPTIONS = Symbol('Update quote header options');
+export const UPDATE_LAYOUT = Symbol('Update layout');
 
-export const ADD_QUOTE_SERVICE_LINE = Symbol('Add a new quote service line');
-export const REMOVE_QUOTE_SERVICE_LINE = Symbol('Remove a quote service line');
-export const UPDATE_QUOTE_SERVICE_LINE = Symbol('Update a quote service line');
-export const FORMAT_QUOTE_SERVICE_LINE = Symbol('Format a quote service line');
-export const GET_QUOTE_SERVICE_CALCULATED_TOTALS = Symbol('Get quote service calculated totals');
-export const RESET_QUOTE_SERVICE_TOTALS = Symbol('Reset quote service totals');
+export const ADD_QUOTE_LINE = Symbol('Add quote line');
+export const UPDATE_QUOTE_LINE = Symbol('Update quote line');
+export const REMOVE_QUOTE_LINE = Symbol('Remove quote line');
+export const RESET_QUOTE_TOTALS = Symbol('Reset quote totals');
+export const FORMAT_QUOTE_LINE = Symbol('Format quote line');
 
-export const ADD_QUOTE_ITEM_LINE = Symbol('Add a new quote item line');
-export const REMOVE_QUOTE_ITEM_LINE = Symbol('Remove quote item line');
-export const UPDATE_QUOTE_ITEM_LINE = Symbol('Change quote item line');
-export const FORMAT_QUOTE_ITEM_LINE = Symbol('Format quote item line');
-export const CALCULATE_QUOTE_ITEM_ITEM_CHANGE = Symbol('Calculate quote item from item change');
-export const CALCULATE_QUOTE_ITEM_AMOUNT_CHANGE = Symbol('Calculate quote item from amount change');
-export const CALCULATE_QUOTE_ITEM_TAX_CODE_CHANGE = Symbol('Calculate quote item from tax code change');
-export const CALCULATE_QUOTE_ITEM_TAX_INCLUSIVE_CHANGE = Symbol('Calculate quote item from tax inclusive change');
-export const SET_QUOTE_ITEM_CALCULATED_LINES = Symbol('Set quote item lines from calculation');
-export const SET_QUOTE_ITEM_SUBMITTING_STATE = Symbol('Set is calculating');
-export const SET_QUOTE_ITEM_LINE_DIRTY = Symbol('Set is line amount input dirty');
+export const CALCULATE_QUOTE_LINE_TOTALS = Symbol('Calculate quote line totals');
+
+export const CALCULATE_QUOTE_ITEM_CHANGE = Symbol('Calculate quote item change');
+export const CALCULATE_QUOTE_AMOUNT_CHANGE = Symbol('Calculate quote amount change');
+export const CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE = Symbol('Calculate quote tax inclusive change');
+export const SET_QUOTE_CALCULATED_LINES = Symbol('Set quote item from calculation');
+export const SET_QUOTE_SUBMITTING_STATE = Symbol('Set is submitting');
+export const SET_QUOTE_LINE_DIRTY = Symbol('Set is line amount input dirty');
 
 export const LOAD_CONTACT_ADDRESS = Symbol('Load contact address');
 export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load contact after create');

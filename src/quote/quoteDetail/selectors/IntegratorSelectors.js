@@ -72,47 +72,30 @@ export const getDeleteQuoteUrlParams = (state) => {
   return { businessId, quoteId };
 };
 
-export const getQuoteServiceCalculatedTotalsUrlParams = (state) => {
-  const businessId = getBusinessId(state);
-
-  return { businessId };
-};
-
-export const getQuoteServiceCalculatedTotalsPayload = (state) => {
-  const quote = getQuote(state);
-
-  return {
-    isTaxInclusive: quote.isTaxInclusive,
-    lines: quote.lines.map(({ allocatedAccountId, amount, taxCodeId }) => ({
-      allocatedAccountId, amount, taxCodeId,
-    })),
-  };
-};
-
 export const getQuoteItemCalculatedLinesUrlParams = (state) => {
   const businessId = getBusinessId(state);
 
   return { businessId };
 };
 
-export const getCalculateQuoteItemItemChangePayload = (state, index, itemId) => ({
+export const getCalculateQuoteItemChangePayload = (state, index, itemId) => ({
   index,
   itemId,
   lines: getLines(state),
   isTaxInclusive: getIsTaxInclusive(state),
 });
 
-export const getCalculateQuoteItemLineRemovePayload = state => ({
+export const getCalculateQuoteLineRemovePayload = state => ({
   lines: getLines(state),
   isTaxInclusive: getIsTaxInclusive(state),
 });
 
-export const getCalculateQuoteItemTaxCodeChangePayload = state => ({
+export const getCalculateQuoteTaxCodeChangePayload = state => ({
   lines: getLines(state),
   isTaxInclusive: getIsTaxInclusive(state),
 });
 
-export const getCalculateQuoteItemIsTaxInclusiveChangePayload = (state) => {
+export const getCalculateQuoteIsTaxInclusiveChangePayload = (state) => {
   const currentLineIsTaxInclusiveState = !getIsTaxInclusive(state);
   return {
     lines: getLines(state),
@@ -120,7 +103,7 @@ export const getCalculateQuoteItemIsTaxInclusiveChangePayload = (state) => {
   };
 };
 
-export const getCalculateQuoteItemAmountChangePayload = (state, index, key) => ({
+export const getCalculateQuoteAmountChangePayload = (state, index, key) => ({
   index,
   key,
   lines: getLines(state),

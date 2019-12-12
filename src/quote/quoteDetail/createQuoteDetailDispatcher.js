@@ -1,12 +1,9 @@
 import {
   ADD_EMAIL_ATTACHMENTS,
-  ADD_QUOTE_ITEM_LINE,
-  ADD_QUOTE_SERVICE_LINE,
+  ADD_QUOTE_LINE,
   CHANGE_EXPORT_PDF_TEMPLATE,
   CLOSE_MODAL,
-  FORMAT_QUOTE_ITEM_LINE,
-  FORMAT_QUOTE_SERVICE_LINE,
-  GET_QUOTE_SERVICE_CALCULATED_TOTALS,
+  FORMAT_QUOTE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -14,27 +11,26 @@ import {
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
   REMOVE_EMAIL_ATTACHMENT,
-  REMOVE_QUOTE_ITEM_LINE,
-  REMOVE_QUOTE_SERVICE_LINE,
+  REMOVE_QUOTE_LINE,
   RESET_EMAIL_QUOTE_DETAIL,
   RESET_OPEN_SEND_EMAIL,
-  RESET_QUOTE_SERVICE_TOTALS,
+  RESET_QUOTE_TOTALS,
   SET_ACCOUNT_LOADING_STATE,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
-  SET_QUOTE_ITEM_CALCULATED_LINES,
-  SET_QUOTE_ITEM_LINE_DIRTY,
-  SET_QUOTE_ITEM_SUBMITTING_STATE,
+  SET_QUOTE_CALCULATED_LINES,
+  SET_QUOTE_LINE_DIRTY,
+  SET_QUOTE_SUBMITTING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_QUOTE_DETAIL,
+  UPDATE_LAYOUT,
   UPDATE_QUOTE_DETAIL_HEADER_OPTIONS,
   UPDATE_QUOTE_ID_AFTER_CREATE,
-  UPDATE_QUOTE_ITEM_LINE,
-  UPDATE_QUOTE_SERVICE_LINE,
+  UPDATE_QUOTE_LINE,
   UPLOAD_EMAIL_ATTACHMENT,
   UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../QuoteIntents';
@@ -81,44 +77,36 @@ const createQuoteDetailDispatcher = store => ({
     intent: UPDATE_QUOTE_DETAIL_HEADER_OPTIONS, key, value,
   }),
 
-  addQuoteServiceLine: line => store.dispatch({ intent: ADD_QUOTE_SERVICE_LINE, line }),
-
-  removeQuoteServiceLine: index => store.dispatch({ intent: REMOVE_QUOTE_SERVICE_LINE, index }),
-
-  updateQuoteServiceLine: (index, key, value) => store.dispatch({
-    intent: UPDATE_QUOTE_SERVICE_LINE, index, key, value,
+  updateLayout: ({ value }) => store.dispatch({
+    intent: UPDATE_LAYOUT, value,
   }),
 
-  formatQuoteServiceLine: index => store.dispatch({ intent: FORMAT_QUOTE_SERVICE_LINE, index }),
+  addQuoteLine: line => store.dispatch({ intent: ADD_QUOTE_LINE, line }),
 
-  getQuoteServiceCalculatedTotals: totals => store.dispatch({
-    intent: GET_QUOTE_SERVICE_CALCULATED_TOTALS, totals,
+  updateQuoteLine: (index, key, value) => store.dispatch({
+    intent: UPDATE_QUOTE_LINE, index, key, value,
   }),
 
-  resetQuoteServiceTotals: () => store.dispatch({ intent: RESET_QUOTE_SERVICE_TOTALS }),
-
-  addQuoteItemLine: row => store.dispatch({ intent: ADD_QUOTE_ITEM_LINE, row }),
-
-  removeQuoteItemLine: index => store.dispatch({ intent: REMOVE_QUOTE_ITEM_LINE, index }),
-
-  updateQuoteItemLine: (index, key, value) => store.dispatch({
-    intent: UPDATE_QUOTE_ITEM_LINE, index, key, value,
+  removeQuoteLine: index => store.dispatch({
+    intent: REMOVE_QUOTE_LINE, index,
   }),
 
-  formatQuoteItemLine: (index, key) => store.dispatch({
-    intent: FORMAT_QUOTE_ITEM_LINE, index, key,
+  formatQuoteLine: (index, key) => store.dispatch({
+    intent: FORMAT_QUOTE_LINE, index, key,
   }),
 
-  setQuoteItemSubmittingState: isCalculating => store.dispatch({
-    intent: SET_QUOTE_ITEM_SUBMITTING_STATE, isCalculating,
+  resetQuoteTotals: () => store.dispatch({ intent: RESET_QUOTE_TOTALS }),
+
+  setQuoteSubmittingState: isCalculating => store.dispatch({
+    intent: SET_QUOTE_SUBMITTING_STATE, isCalculating,
   }),
 
-  setQuoteItemLineDirty: isLineAmountInputDirty => store.dispatch({
-    intent: SET_QUOTE_ITEM_LINE_DIRTY, isLineAmountInputDirty,
+  setQuoteLineDirty: isLineAmountInputDirty => store.dispatch({
+    intent: SET_QUOTE_LINE_DIRTY, isLineAmountInputDirty,
   }),
 
-  setQuoteItemCalculatedLines: payload => store.dispatch({
-    intent: SET_QUOTE_ITEM_CALCULATED_LINES, ...payload,
+  setQuoteCalculatedLines: payload => store.dispatch({
+    intent: SET_QUOTE_CALCULATED_LINES, ...payload,
   }),
 
   loadContactAddress: address => store.dispatch({ intent: LOAD_CONTACT_ADDRESS, address }),

@@ -16,7 +16,7 @@ import QuoteDetailActions from './QuoteDetailActions';
 import QuoteDetailModal from './QuoteDetailModal';
 import QuoteDetailOptions from './QuoteDetailOptions';
 import QuoteDetailPageHead from './QuoteDetailPageHead';
-import QuoteItemTable from './itemLayout/QuoteItemTable';
+import QuoteItemAndServiceTable from './itemLayout/QuoteItemAndServiceTable';
 import QuoteLayout from '../QuoteLayout';
 import QuoteServiceTable from './serviceLayout/QuoteServiceTable';
 
@@ -33,9 +33,10 @@ const QuoteDetailView = ({
   layout,
   onDismissAlert,
   onUpdateHeaderOptions,
+  onUpdateLayout,
   onAddCustomerButtonClick,
   serviceLayoutListeners,
-  itemLayoutListeners,
+  itemAndServiceLayoutListeners,
   quoteActionListeners,
   modalListeners,
 }) => {
@@ -62,13 +63,16 @@ const QuoteDetailView = ({
   const options = (
     <QuoteDetailOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
+      onUpdateLayout={onUpdateLayout}
       onAddCustomerButtonClick={onAddCustomerButtonClick}
     />
   );
 
   const table = ({
     [QuoteLayout.SERVICE]: <QuoteServiceTable listeners={serviceLayoutListeners} />,
-    [QuoteLayout.ITEM]: <QuoteItemTable listeners={itemLayoutListeners} />,
+    [QuoteLayout.ITEM_AND_SERVICE]: (
+      <QuoteItemAndServiceTable listeners={itemAndServiceLayoutListeners} />
+    ),
   }[layout]);
 
   const view = (

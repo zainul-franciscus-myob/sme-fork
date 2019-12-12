@@ -88,8 +88,8 @@ const EmailQuoteModal = ({
         onChange={handleSelectChange(onEmailQuoteDetailChange)}
         requiredLabel="This is required"
       >
-        {templateOptions.map(({ name, label }) => (
-          <Select.Option value={name} label={label} key={name} />
+        {templateOptions.map(({ name }) => (
+          <Select.Option value={name} label={name} key={name} />
         ))}
       </Select>
     </div>

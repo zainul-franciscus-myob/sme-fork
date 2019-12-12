@@ -19,8 +19,8 @@ const ExportPdfModal = ({
         value={template}
         onChange={handleSelectChange(onChangeExportPdfForm)}
       >
-        {templateOptions.map(({ name, label }) => (
-          <Select.Option key={name} value={name} label={label} />
+        {templateOptions.map(({ name }) => (
+          <Select.Option key={name} value={name} label={name} />
         )) }
       </Select>
     </Modal.Body>

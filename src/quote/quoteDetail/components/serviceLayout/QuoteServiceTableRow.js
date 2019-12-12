@@ -1,9 +1,15 @@
 import { Input, LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getIsAccountComboboxDisabled, getQuoteLine } from '../../selectors/QuoteDetailSelectors';
+import {
+  getAccountOptions,
+  getIsAccountComboboxDisabled,
+  getIsCalculating,
+  getIsNewLine,
+  getQuoteLine,
+  getTaxCodeOptions,
+} from '../../selectors/QuoteDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
@@ -29,26 +35,29 @@ const onRowInputBlurHandler = (onRowInputBlur, index) => () => onRowInputBlur(in
 const QuoteServiceTableRow = ({
   quoteLine,
   index,
+  taxCodeOptions,
+  accountOptions,
   onChange,
   onRowInputBlur,
   onAddAccount,
   isAccountComboboxDisabled,
+  isNewLine,
+  isCalculating,
   ...feelixInjectedProps
 }) => {
   const {
     description,
-    accountOptions,
     allocatedAccountId,
-    taxCodeOptions,
     taxCodeId,
-    amount,
+    displayAmount,
   } = quoteLine;
 
   return (
     <LineItemTable.Row
+      {...feelixInjectedProps}
       index={index}
       id={index}
-      {...feelixInjectedProps}
+      onRemove={isCalculating ? undefined : feelixInjectedProps.onRemove}
     >
       <Input
         label="Line description"
@@ -56,6 +65,7 @@ const QuoteServiceTableRow = ({
         name="description"
         value={description}
         onChange={onChange}
+        disabled={isNewLine}
       />
       <AccountCombobox
         label="Allocate to"
@@ -64,36 +74,36 @@ const QuoteServiceTableRow = ({
         selectedId={allocatedAccountId}
         hintText="Select an account"
         addNewAccount={() => onAddAccount(onComboboxChange('allocatedAccountId', onChange))}
-        disabled={isAccountComboboxDisabled}
+        disabled={isAccountComboboxDisabled || isCalculating}
       />
       <AmountInput
         label="Amount ($)"
         hideLabel
         name="amount"
-        value={amount}
+        value={displayAmount}
         onChange={onAmountInputChange('amount', onChange)}
         onBlur={onRowInputBlurHandler(onRowInputBlur, index)}
         textAlign="right"
+        disabled={isNewLine || isCalculating}
       />
       <TaxCodeCombobox
         label="Tax code"
         onChange={onComboboxChange('taxCodeId', onChange)}
         items={taxCodeOptions}
         selectedId={taxCodeId}
+        disabled={isNewLine || isCalculating}
       />
     </LineItemTable.Row>
   );
 };
 
-QuoteServiceTableRow.propTypes = {
-  quoteLine: PropTypes.shape().isRequired,
-  index: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = (state, props) => ({
   quoteLine: getQuoteLine(state, props),
+  taxCodeOptions: getTaxCodeOptions(state),
+  accountOptions: getAccountOptions(state),
   isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),
+  isNewLine: getIsNewLine(state, props),
+  isCalculating: getIsCalculating(state),
 });
 
 export default connect(mapStateToProps)(QuoteServiceTableRow);

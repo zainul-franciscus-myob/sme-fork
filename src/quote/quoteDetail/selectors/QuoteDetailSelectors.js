@@ -1,6 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import ModalType from '../ModalType';
+import QuoteLayout from '../QuoteLayout';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 export const getBusinessId = state => state.businessId;
@@ -49,7 +50,19 @@ export const getExpirationTermOptions = state => state.expirationTermOptions;
 const getCommentOptions = state => state.commentOptions;
 export const getItemOptions = state => state.itemOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
-export const getTemplateOptions = state => state.templateOptions;
+export const getAccountOptions = state => state.accountOptions;
+
+const getServiceTemplateOptions = state => state.serviceTemplateOptions.templateOptions;
+const getItemTemplateOptions = state => state.itemTemplateOptions.templateOptions;
+
+export const getTemplateOptions = createSelector(
+  getLayout,
+  getServiceTemplateOptions,
+  getItemTemplateOptions,
+  (layout, serviceTemplateOptions, itemTemplateOptions) => (layout === QuoteLayout.SERVICE
+    ? serviceTemplateOptions
+    : itemTemplateOptions),
+);
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
 
@@ -91,6 +104,7 @@ export const getTaxExclusiveLabel = createSelector(
 );
 
 export const getQuoteDetailOptions = createStructuredSelector({
+  layout: getLayout,
   contactId: getContactId,
   contactName: getContactName,
   address: getAddress,
@@ -111,12 +125,6 @@ export const getQuoteDetailOptions = createStructuredSelector({
   taxInclusiveLabel: getTaxInclusiveLabel,
   taxExclusiveLabel: getTaxExclusiveLabel,
 });
-
-export const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
-  const account = accountOptions.find(({ id }) => id === accountId);
-  return account === undefined ? '' : account.taxCodeId;
-};
-
 
 export const getRouteUrlParams = state => ({
   openExportPdf: getOpenExportPdfQueryParam(state),

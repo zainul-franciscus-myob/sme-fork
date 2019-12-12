@@ -1,5 +1,5 @@
 import {
-  Combobox, DatePicker, DetailHeader, Input, ReadOnly, TextArea,
+  Combobox, DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, ReadOnly, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
@@ -8,8 +8,10 @@ import { getQuoteDetailOptions } from '../selectors/QuoteDetailSelectors';
 import BooleanRadioButtonGroup from '../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
 import PaymentTerms from '../../../components/PaymentTerms/PaymentTerms';
+import QuoteLayout from '../QuoteLayout';
 import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
+import handleRadioButtonChange from '../../../components/handlers/handleRadioButtonChange';
 import styles from './QuoteDetailOptions.module.css';
 
 const onComboBoxChange = handler => (option) => {
@@ -28,6 +30,7 @@ const handleNoteChange = handler => ({ value }) => {
 
 const QuoteDetailOptions = (props) => {
   const {
+    layout,
     contactId,
     contactName,
     address,
@@ -48,6 +51,7 @@ const QuoteDetailOptions = (props) => {
     taxInclusiveLabel,
     taxExclusiveLabel,
     onUpdateHeaderOptions,
+    onUpdateLayout,
     onAddCustomerButtonClick,
   } = props;
 
@@ -129,6 +133,27 @@ const QuoteDetailOptions = (props) => {
         falseLabel={taxExclusiveLabel}
         handler={onUpdateHeaderOptions}
         disabled={isCalculating}
+      />
+      <RadioButtonGroup
+        name="layout"
+        label="Layout"
+        value={layout}
+        disabled={isCalculating}
+        onChange={handleRadioButtonChange('layout', onUpdateLayout)}
+        renderRadios={({ value, ...feelixProps }) => [
+          <RadioButton
+            {...feelixProps}
+            checked={value === QuoteLayout.SERVICE}
+            value={QuoteLayout.SERVICE}
+            label="Service"
+          />,
+          <RadioButton
+            {...feelixProps}
+            checked={value === QuoteLayout.ITEM_AND_SERVICE}
+            value={QuoteLayout.ITEM_AND_SERVICE}
+            label="Item + Service"
+          />,
+        ]}
       />
     </Fragment>
   );

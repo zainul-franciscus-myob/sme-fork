@@ -1,12 +1,11 @@
 import {
-  CALCULATE_QUOTE_ITEM_AMOUNT_CHANGE,
-  CALCULATE_QUOTE_ITEM_ITEM_CHANGE,
-  CALCULATE_QUOTE_ITEM_TAX_CODE_CHANGE,
-  CALCULATE_QUOTE_ITEM_TAX_INCLUSIVE_CHANGE,
+  CALCULATE_QUOTE_AMOUNT_CHANGE,
+  CALCULATE_QUOTE_ITEM_CHANGE,
+  CALCULATE_QUOTE_LINE_TOTALS,
+  CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE,
   CREATE_QUOTE_DETAIL,
   DELETE_QUOTE_DETAIL,
   EXPORT_QUOTE_PDF,
-  GET_QUOTE_SERVICE_CALCULATED_TOTALS,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -15,7 +14,6 @@ import {
   LOAD_NEW_QUOTE_DETAIL,
   LOAD_QUOTE_DETAIL,
   LOAD_QUOTE_LIST,
-  REMOVE_QUOTE_ITEM_LINE,
   SEND_EMAIL,
   SORT_AND_FILTER_QUOTE_LIST,
   UPDATE_QUOTE_DETAIL,
@@ -56,29 +54,21 @@ const QuoteMapping = {
     method: 'DELETE',
     getPath: ({ businessId, quoteId }) => `/${businessId}/quote/delete_quote_detail/${quoteId}`,
   },
-  [GET_QUOTE_SERVICE_CALCULATED_TOTALS]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/quote/calculate_service_quote_detail_totals`,
-  },
-  [CALCULATE_QUOTE_ITEM_ITEM_CHANGE]: {
+  [CALCULATE_QUOTE_ITEM_CHANGE]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/quote/calculate_item_quote_totals/update_line_item`,
   },
-  [CALCULATE_QUOTE_ITEM_TAX_CODE_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/quote/calculate_item_quote_totals/update_line_tax_code`,
-  },
-  [CALCULATE_QUOTE_ITEM_TAX_INCLUSIVE_CHANGE]: {
+  [CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/quote/calculate_item_quote_totals/update_tax_inclusive`,
   },
-  [CALCULATE_QUOTE_ITEM_AMOUNT_CHANGE]: {
+  [CALCULATE_QUOTE_AMOUNT_CHANGE]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/quote/calculate_item_quote_totals/update_line_amounts`,
   },
-  [REMOVE_QUOTE_ITEM_LINE]: {
+  [CALCULATE_QUOTE_LINE_TOTALS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/quote/calculate_item_quote_totals/remove_line`,
+    getPath: ({ businessId }) => `/${businessId}/quote/calculate_line_totals`,
   },
   [LOAD_CONTACT_ADDRESS]: {
     method: 'GET',

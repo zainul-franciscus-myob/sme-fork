@@ -1,12 +1,9 @@
 import {
   ADD_EMAIL_ATTACHMENTS,
-  ADD_QUOTE_ITEM_LINE,
-  ADD_QUOTE_SERVICE_LINE,
+  ADD_QUOTE_LINE,
   CHANGE_EXPORT_PDF_TEMPLATE,
   CLOSE_MODAL,
-  FORMAT_QUOTE_ITEM_LINE,
-  FORMAT_QUOTE_SERVICE_LINE,
-  GET_QUOTE_SERVICE_CALCULATED_TOTALS,
+  FORMAT_QUOTE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
@@ -14,27 +11,26 @@ import {
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
   REMOVE_EMAIL_ATTACHMENT,
-  REMOVE_QUOTE_ITEM_LINE,
-  REMOVE_QUOTE_SERVICE_LINE,
+  REMOVE_QUOTE_LINE,
   RESET_EMAIL_QUOTE_DETAIL,
   RESET_OPEN_SEND_EMAIL,
-  RESET_QUOTE_SERVICE_TOTALS,
+  RESET_QUOTE_TOTALS,
   SET_ACCOUNT_LOADING_STATE,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
-  SET_QUOTE_ITEM_CALCULATED_LINES,
-  SET_QUOTE_ITEM_LINE_DIRTY,
-  SET_QUOTE_ITEM_SUBMITTING_STATE,
+  SET_QUOTE_CALCULATED_LINES,
+  SET_QUOTE_LINE_DIRTY,
+  SET_QUOTE_SUBMITTING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_QUOTE_DETAIL,
+  UPDATE_LAYOUT,
   UPDATE_QUOTE_DETAIL_HEADER_OPTIONS,
   UPDATE_QUOTE_ID_AFTER_CREATE,
-  UPDATE_QUOTE_ITEM_LINE,
-  UPDATE_QUOTE_SERVICE_LINE,
+  UPDATE_QUOTE_LINE,
   UPLOAD_EMAIL_ATTACHMENT,
   UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../../QuoteIntents';
@@ -50,27 +46,12 @@ import {
   uploadEmailAttachmentUploadProgress,
 } from './EmailReducer';
 import {
-  addQuoteItemLine,
-  formatQuoteItemLine,
-  removeQuoteItemLine,
-  setQuoteItemCalculatedLines,
-  setQuoteItemLineDirty,
-  setQuoteItemSubmittingState,
-  updateQuoteItemLine,
-} from './ItemLayoutReducer';
-import {
-  addQuoteServiceLine,
-  formatQuoteServiceLine,
-  getQuoteServiceCalculatedTotals,
-  removeQuoteServiceLine,
-  resetQuoteServiceTotals,
-  updateQuoteServiceLine,
-} from './ServiceLayoutReducer';
-import {
   getLoadQuoteDetailModalType,
   getShouldOpenEmailModal,
   getUpdatedContactOptions,
 } from '../selectors/QuoteDetailSelectors';
+import QuoteLayout from '../QuoteLayout';
+import QuoteLineLayout from '../QuoteLineLayout';
 import createReducer from '../../../store/createReducer';
 import getDefaultState from './getDefaultState';
 
@@ -135,8 +116,10 @@ const loadQuoteDetail = (state, action) => {
     contactOptions: action.contactOptions,
     expirationTermOptions: action.expirationTermOptions,
     commentOptions: action.commentOptions,
-    templateOptions: action.templateOptions,
+    itemTemplateOptions: action.itemTemplateOptions || state.itemTemplateOptions,
+    serviceTemplateOptions: action.serviceTemplateOptions || state.serviceTemplateOptions,
     itemOptions: action.itemOptions,
+    accountOptions: action.accountOptions,
     taxCodeOptions: action.taxCodeOptions,
     emailQuote: {
       ...state.emailQuote,
@@ -158,14 +141,163 @@ const updateQuoteIdAfterCreate = (state, action) => ({
   quoteId: action.quoteId,
 });
 
-export const updateQuoteDetailHeaderOptions = (state, action) => ({
+const getDefaultTemplate = (value, itemTemplateOptions, serviceTemplateOptions) => {
+  if (value === QuoteLayout.ITEM_AND_SERVICE) {
+    return itemTemplateOptions ? itemTemplateOptions.defaultTemplate : '';
+  }
+  return serviceTemplateOptions ? serviceTemplateOptions.defaultTemplate : '';
+};
+
+const updateQuoteLines = (layout, lines) => (layout === QuoteLayout.SERVICE
+  ? lines.filter(line => line.type === QuoteLineLayout.SERVICE)
+  : lines);
+
+const updateLayout = (state, { value }) => ({
   ...state,
   isPageEdited: true,
   quote: {
     ...state.quote,
-    [action.key]: action.value,
+    layout: value,
+    lines: updateQuoteLines(value, state.quote.lines),
+  },
+  newLine: {
+    ...state.newLine,
+    type: value === QuoteLayout.ITEM_AND_SERVICE ? QuoteLineLayout.ITEM : QuoteLineLayout.SERVICE,
+  },
+  emailQuote: {
+    ...state.emailQuote,
+    templateName: getDefaultTemplate(
+      value,
+      state.itemTemplateOptions,
+      state.serviceTemplateOptions,
+    ),
+  },
+  exportPdf: {
+    ...state.exportPdf,
+    template: getDefaultTemplate(value, state.itemTemplateOptions, state.serviceTemplateOptions),
   },
 });
+
+const updateQuoteDetailHeaderOptions = (state, { key, value }) => ({
+  ...state,
+  isPageEdited: true,
+  quote: {
+    ...state.quote,
+    [key]: value,
+  },
+});
+
+const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
+  const account = accountOptions.find(({ id }) => id === accountId);
+  return account === undefined ? '' : account.taxCodeId;
+};
+
+const addQuoteLine = (state, action) => {
+  const { id, ...partialLine } = action.line;
+  const type = action.line.allocatedAccountId
+    ? QuoteLineLayout.SERVICE
+    : QuoteLineLayout.ITEM;
+
+  const taxCodeId = action.line.allocatedAccountId ? getDefaultTaxCodeId({
+    accountOptions: state.accountOptions,
+    accountId: action.line.allocatedAccountId,
+  }) : '';
+
+  return {
+    ...state,
+    quote: {
+      ...state.quote,
+      lines: [
+        ...state.quote.lines,
+        {
+          ...state.newLine,
+          ...partialLine,
+          type,
+          taxCodeId,
+        },
+      ],
+    },
+    isPageEdited: true,
+  };
+};
+
+const updateQuoteLine = (state, action) => ({
+  ...state,
+  isPageEdited: true,
+  quote: {
+    ...state.quote,
+    lines: state.quote.lines.map((line, index) => {
+      if (index === action.index) {
+        return {
+          ...line,
+          displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
+          displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
+          taxCodeId: action.key === 'allocatedAccountId'
+            ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
+            : line.taxCodeId,
+          [action.key]: action.value,
+        };
+      }
+      return line;
+    }),
+  },
+});
+
+const removeQuoteLine = (state, action) => ({
+  ...state,
+  isPageEdited: true,
+  quote: {
+    ...state.quote,
+    lines: state.quote.lines.filter((_, index) => index !== action.index),
+  },
+});
+
+const resetQuoteTotals = state => ({
+  ...state,
+  totals: getDefaultState().totals,
+});
+
+const DEFAULT_UNITS = '1';
+const updateUnits = (state, index) => ({
+  ...state,
+  quote: {
+    ...state.quote,
+    lines: state.quote.lines.map((line, i) => ({
+      ...line,
+      units: index === i ? DEFAULT_UNITS : line.units,
+    })),
+  },
+});
+
+const formatQuoteLine = (state, { key, index }) => {
+  const currentUnits = state.quote.lines[index].units;
+
+  if (key === 'units' && Number(currentUnits) === 0) {
+    return updateUnits(state, index);
+  }
+
+  return state;
+};
+
+const setQuoteSubmittingState = (state, action) => ({
+  ...state,
+  isCalculating: action.isCalculating,
+});
+
+const setQuoteLineDirty = (state, action) => ({
+  ...state,
+  isLineAmountInputDirty: action.isLineAmountInputDirty,
+});
+
+const setQuoteCalculatedLines = (state, action) => ({
+  ...state,
+  quote: {
+    ...state.quote,
+    lines: action.quote.lines,
+  },
+  totals: action.totals,
+});
+
 
 const loadCustomerAddress = (state, action) => ({
   ...state,
@@ -189,17 +321,10 @@ const setCustomerLoadingState = (state, { isContactLoading }) => ({ ...state, is
 
 const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   ...state,
-  quote: {
-    ...state.quote,
-    lines: state.quote.lines.map(line => ({
-      ...line,
-      accountOptions: [account, ...line.accountOptions],
-    })),
-  },
-  newLine: {
-    ...state.newLine,
-    accountOptions: [account, ...state.newLine.accountOptions],
-  },
+  accountOptions: [
+    account,
+    ...state.accountOptions,
+  ],
   isPageEdited: true,
 });
 
@@ -237,21 +362,18 @@ const handlers = {
   [LOAD_QUOTE_DETAIL]: loadQuoteDetail,
   [UPDATE_QUOTE_ID_AFTER_CREATE]: updateQuoteIdAfterCreate,
   [UPDATE_QUOTE_DETAIL_HEADER_OPTIONS]: updateQuoteDetailHeaderOptions,
+  [UPDATE_LAYOUT]: updateLayout,
 
-  [ADD_QUOTE_SERVICE_LINE]: addQuoteServiceLine,
-  [REMOVE_QUOTE_SERVICE_LINE]: removeQuoteServiceLine,
-  [UPDATE_QUOTE_SERVICE_LINE]: updateQuoteServiceLine,
-  [FORMAT_QUOTE_SERVICE_LINE]: formatQuoteServiceLine,
-  [GET_QUOTE_SERVICE_CALCULATED_TOTALS]: getQuoteServiceCalculatedTotals,
-  [RESET_QUOTE_SERVICE_TOTALS]: resetQuoteServiceTotals,
+  [ADD_QUOTE_LINE]: addQuoteLine,
+  [UPDATE_QUOTE_LINE]: updateQuoteLine,
+  [REMOVE_QUOTE_LINE]: removeQuoteLine,
+  [FORMAT_QUOTE_LINE]: formatQuoteLine,
 
-  [ADD_QUOTE_ITEM_LINE]: addQuoteItemLine,
-  [REMOVE_QUOTE_ITEM_LINE]: removeQuoteItemLine,
-  [UPDATE_QUOTE_ITEM_LINE]: updateQuoteItemLine,
-  [FORMAT_QUOTE_ITEM_LINE]: formatQuoteItemLine,
-  [SET_QUOTE_ITEM_SUBMITTING_STATE]: setQuoteItemSubmittingState,
-  [SET_QUOTE_ITEM_LINE_DIRTY]: setQuoteItemLineDirty,
-  [SET_QUOTE_ITEM_CALCULATED_LINES]: setQuoteItemCalculatedLines,
+  [RESET_QUOTE_TOTALS]: resetQuoteTotals,
+
+  [SET_QUOTE_SUBMITTING_STATE]: setQuoteSubmittingState,
+  [SET_QUOTE_LINE_DIRTY]: setQuoteLineDirty,
+  [SET_QUOTE_CALCULATED_LINES]: setQuoteCalculatedLines,
 
   [LOAD_CONTACT_ADDRESS]: loadCustomerAddress,
   [LOAD_CONTACT_AFTER_CREATE]: loadCustomerAfterCreate,
