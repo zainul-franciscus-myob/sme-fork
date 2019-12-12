@@ -46,19 +46,19 @@ export default class PaySuperReadModule {
     window.location.href = getPaySuperListUrl(state);
   }
 
-  authorisePaySuper = () => {}
+  authorisePaySuperModal = () => {}
 
-  reversePaySuper = () => {}
+  reversePaySuperModal = () => {}
 
   render = () => {
     const modalComponent = this.employeePayModal.getView();
     const paySuperReadView = (
       <PaySuperReadView
         employeePayModal={modalComponent}
-        onDateClick={this.openEmpoyeePayModal}
         onCancelClick={this.returnToList}
-        onAuthoriseClick={this.authorisePaySuper}
-        onReverseClick={this.reversePaySuper}
+        onAuthoriseClick={this.authorisePaySuperModal}
+        onReverseClick={this.reversePaySuperModal}
+        onDateLinkClick={this.openEmployeePayModal}
       />
     );
 
@@ -77,7 +77,7 @@ export default class PaySuperReadModule {
     this.loadPaySuperRead();
   }
 
-  openEmpoyeePayModal = (transactionId, employeeName) => {
+  openEmployeePayModal = (transactionId, employeeName) => {
     const state = this.store.getState();
     this.employeePayModal.openModal({
       transactionId,

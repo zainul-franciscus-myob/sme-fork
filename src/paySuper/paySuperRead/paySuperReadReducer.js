@@ -11,7 +11,7 @@ export const getDefaultState = () => ({
   account: '',
   description: '',
   date: '',
-  superPaymentLines: [],
+  superPayments: [],
   isLoading: true,
 });
 
@@ -35,7 +35,7 @@ const loadPaySuperRead = (state, { response }) => ({
   account: response.payFromAccount,
   description: response.description,
   date: response.date,
-  superPaymentLines: response.superPaymentLines,
+  superPayments: response.superPayments,
 });
 
 const handlers = {

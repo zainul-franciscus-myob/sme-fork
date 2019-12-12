@@ -28,7 +28,7 @@ const SuperPaymentsTable = ({
   onDateLinkClick,
   renderCheckbox,
 }) => {
-  const selectedCount = superPayments.filter(e => e.isSelected).length;
+  const selectedCount = renderCheckbox && superPayments.filter(e => e.isSelected).length;
 
   const bulkActions = (
     <>
@@ -113,7 +113,7 @@ const SuperPaymentsTable = ({
   return (
     <>
       <Separator />
-      {(selectedCount !== 0) && bulkActions}
+      {renderCheckbox && (selectedCount !== 0) && bulkActions}
       <TableView
         header={header}
         isEmpty={superPayments.length === 0}

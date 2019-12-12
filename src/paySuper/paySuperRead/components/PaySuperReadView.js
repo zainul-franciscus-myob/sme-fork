@@ -14,17 +14,18 @@ import {
   getLabelStatus,
   getReferenceNumber,
   getStatus,
+  getSuperPayments,
   getTotalPayment,
 } from '../paySuperReadSelector';
 import ActionButtons from './ActionButtons';
 import PageView from '../../../components/PageView/PageView';
 import PaySuperReadDetailHeader from './paySuperReadDetailHeader';
-import PaySuperReadTable from './paySuperReadTable';
 import PaymentStatus from '../../components/PaymentStatus';
+import SuperPaymentsTable from '../../components/SuperPaymentsTable';
 import styles from './PaySuperRead.module.css';
 
 const PaySuperReadView = ({
-  batchPayments,
+  superPayments,
   account,
   description,
   referenceNumber,
@@ -33,11 +34,11 @@ const PaySuperReadView = ({
   onCancelClick,
   onAuthoriseClick,
   onReverseClick,
+  onDateLinkClick,
   totalPayment,
   labelStatus,
   status,
   employeePayModal,
-  onDateClick,
 }) => {
   const title = <>Super payment {referenceNumber}<PaymentStatus size="large" paymentStatus={labelStatus} /></>;
   const totalPaymentFooter = (
@@ -52,18 +53,16 @@ const PaySuperReadView = ({
     <BaseTemplate>
       {employeePayModal}
       <PageHead title={title} />
-      <Card
-        footer={totalPaymentFooter}
-      >
+      <Card footer={totalPaymentFooter}>
         <PaySuperReadDetailHeader
           account={account}
           description={description}
           referenceNumber={referenceNumber}
           date={date}
         />
-        <PaySuperReadTable
-          superPayments={batchPayments}
-          onDateClick={onDateClick}
+        <SuperPaymentsTable
+          superPayments={superPayments}
+          onDateLinkClick={onDateLinkClick}
         />
       </Card>
       <ActionButtons
@@ -86,6 +85,7 @@ const mapStateToProps = state => ({
   totalPayment: getTotalPayment(state),
   labelStatus: getLabelStatus(state),
   status: getStatus(state),
+  superPayments: getSuperPayments(state),
 });
 
 export default connect(mapStateToProps)(PaySuperReadView);

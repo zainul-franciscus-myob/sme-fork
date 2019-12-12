@@ -7,15 +7,18 @@ import React from 'react';
 const authoriseButtonStatus = ['Created', 'PartiallyAuthorized'];
 const reverseButtonStatus = ['FundsUnavailable', 'FundsTransferError', 'PaymentDispersementError'];
 const ActionButtons = ({
-  status, onCancelClick, onAuthorizeClick, onReverseClick,
+  status, onAuthorizeClick, onReverseClick, onCancelClick,
 }) => {
+  const CancelButton = (
+    <Button key="cancel" type="secondary" onClick={onCancelClick}>
+      Cancel
+    </Button>
+  );
   if (authoriseButtonStatus.includes(status)) {
     return (
       <ButtonRow
         primary={[
-          <Button key="cancel" type="secondary" onClick={onCancelClick}>
-            Cancel
-          </Button>,
+          CancelButton,
           <Button key="authorize" type="primary" onClick={onAuthorizeClick}>
             Authorize
           </Button>,
@@ -27,9 +30,7 @@ const ActionButtons = ({
     return (
       <ButtonRow
         primary={[
-          <Button key="cancel" type="secondary" onClick={onCancelClick}>
-            Cancel
-          </Button>,
+          CancelButton,
           <Button key="reverse" type="primary" onClick={onReverseClick}>
             Reverse
           </Button>,
@@ -40,9 +41,7 @@ const ActionButtons = ({
   return (
     <ButtonRow
       primary={[
-        <Button key="cancel" type="secondary" onClick={onCancelClick}>
-          Cancel
-        </Button>,
+        CancelButton,
       ]}
     />
   );
