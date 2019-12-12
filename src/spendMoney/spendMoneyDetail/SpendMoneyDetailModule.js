@@ -7,9 +7,13 @@ import {
 } from '../spendMoneyMessageTypes';
 import {
   getFilesForUpload,
+  getInTrayDocumentId,
+  getIsCreating,
   getIsTableEmpty,
+  getLoadSpendMoneyRequestParams,
   getModalUrl,
   getSaveUrl,
+  getSpendMoneyId,
   getTransactionListUrl,
   isPageEdited,
   isReferenceIdDirty,
@@ -31,23 +35,46 @@ export default class SpendMoneyDetailModule {
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
-    this.spendMoneyId = '';
     this.dispatcher = createSpendMoneyDispatcher(this.store);
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
   }
 
-  loadSpendMoney = () => {
-    const onSuccess = intent => (response) => {
+  prefillBillFromInTray(inTrayDocumentId) {
+    const onSuccess = (response) => {
       this.dispatcher.setLoadingState(false);
-      this.dispatcher.loadSpendMoney(intent, response);
+      this.dispatcher.prefillDataFromInTray(response);
     };
 
-    const onFailure = () => {
-      console.log('Failed to load spend money details');
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.displayAlert(message);
     };
+
+    this.dispatcher.setLoadingState(true);
+    this.integrator.prefillDataFromInTray({ onSuccess, onFailure, inTrayDocumentId });
+  }
+
+  loadSpendMoney = () => {
+    const state = this.store.getState();
+
+    const onSuccess = intent => (response) => {
+      this.dispatcher.loadSpendMoney(intent, response);
+      this.dispatcher.setLoadingState(false);
+      const inTrayDocumentId = getInTrayDocumentId(state);
+      if (inTrayDocumentId) {
+        this.prefillBillFromInTray(inTrayDocumentId);
+      }
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.displayAlert(message);
+    };
+
+    const params = getLoadSpendMoneyRequestParams(this.store.getState());
 
     this.integrator.loadSpendMoney({
-      onSuccess, onFailure, spendMoneyId: this.spendMoneyId, isCreating: this.isCreating,
+      onSuccess, onFailure, ...params,
     });
   };
 
@@ -70,7 +97,7 @@ export default class SpendMoneyDetailModule {
   };
 
   updateHeaderOptions = ({ key, value }) => {
-    if (key === 'selectedPayFromAccountId' && this.isCreating) {
+    if (key === 'selectedPayFromAccountId' && getIsCreating(this.store.getState())) {
       this.loadNextReferenceId(value);
     }
 
@@ -220,7 +247,7 @@ export default class SpendMoneyDetailModule {
     this.integrator.deleteSpendMoneyTransaction({
       onSuccess,
       onFailure,
-      spendMoneyId: this.spendMoneyId,
+      spendMoneyId: getSpendMoneyId(this.store.getState()),
     });
   };
 
@@ -319,11 +346,36 @@ export default class SpendMoneyDetailModule {
     element.scrollIntoView();
   }
 
+  closeSplitView = () => {
+    this.dispatcher.setShowSplitView(false);
+    this.dispatcher.clearInTrayDocumentUrl();
+  };
+
+  openSplitView = () => {
+    this.dispatcher.setShowSplitView(true);
+
+    const onSuccess = (blob) => {
+      const url = URL.createObjectURL(blob);
+      this.dispatcher.setInTrayDocumentUrl(url);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.displayAlert(message);
+    };
+
+    this.integrator.downloadInTrayDocument({
+      onSuccess,
+      onFailure,
+      inTrayDocumentId: getInTrayDocumentId(this.store.getState()),
+    });
+  };
+
   render = () => {
+    const isCreating = getIsCreating(this.store.getState());
     const spendMoneyView = (
       <SpendMoneyDetailView
         onUpdateHeaderOptions={this.updateHeaderOptions}
-        onSaveButtonClick={this.isCreating
+        onSaveButtonClick={isCreating
           ? this.createSpendMoneyEntry : this.updateSpendMoneyEntry}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
@@ -331,7 +383,7 @@ export default class SpendMoneyDetailModule {
         onConfirmCancelButtonClick={this.redirectToModalUrl}
         onConfirmDeleteButtonClick={this.deleteSpendMoneyTransaction}
         onDismissAlert={this.dispatcher.dismissAlert}
-        isCreating={this.isCreating}
+        isCreating={isCreating}
         onUpdateRow={this.updateSpendMoneyLine}
         onAddRow={this.addSpendMoneyLine}
         onRemoveRow={this.deleteSpendMoneyLine}
@@ -341,6 +393,9 @@ export default class SpendMoneyDetailModule {
         onDeleteAttachmentModal={this.removeAttachment}
         onOpenAttachment={this.openAttachment}
         onFocusAttachments={this.focusSpendMoneyAttachments}
+        onCloseSplitView={this.closeSplitView}
+        onOpenSplitView={this.openSplitView}
+        onClosePrefillInfo={this.dispatcher.hidePrefillInfo}
       />
     );
 
@@ -354,7 +409,7 @@ export default class SpendMoneyDetailModule {
   };
 
   saveSpendMoney = () => {
-    if (this.isCreating) {
+    if (getIsCreating(this.store.getState())) {
       this.createSpendMoneyEntry();
     } else {
       this.updateSpendMoneyEntry();
@@ -367,8 +422,6 @@ export default class SpendMoneyDetailModule {
 
   run(context) {
     this.dispatcher.setInitialState(context);
-    this.spendMoneyId = context.spendMoneyId;
-    this.isCreating = context.spendMoneyId === 'new';
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.dispatcher.setLoadingState(true);

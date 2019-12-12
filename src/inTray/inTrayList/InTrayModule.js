@@ -69,6 +69,9 @@ export default class InTrayModule {
       case actionTypes.createBill:
         this.redirectToCreateBill(id);
         break;
+      case actionTypes.createSpendMoney:
+        this.redirectToCreateSpendMoney(id);
+        break;
       case actionTypes.download:
         this.openInTrayDocument(id);
         break;
@@ -253,6 +256,14 @@ export default class InTrayModule {
     const region = getRegion(state);
 
     window.location.href = `/#/${region}/${businessId}/bill/new?inTrayDocumentId=${id}&source=inTray`;
+  }
+
+  redirectToCreateSpendMoney = (id) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/spendMoney/new?inTrayDocumentId=${id}`;
   }
 
   openMoreUploadOptionsDialog = () => {

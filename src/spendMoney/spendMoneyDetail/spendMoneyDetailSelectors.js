@@ -206,3 +206,39 @@ export const getSaveUrl = (state) => {
   const transactionListUrl = getTransactionListUrl(state);
   return modalUrl || transactionListUrl;
 };
+
+export const getInTrayDocumentId = state => state.inTrayDocumentId;
+
+export const getIsCreatingFromInTray = createSelector(
+  getIsCreating,
+  getInTrayDocumentId,
+  (isCreating, inTrayDocumentId) => isCreating && inTrayDocumentId,
+);
+
+export const getLoadSpendMoneyRequestParams = createStructuredSelector({
+  spendMoneyId: getSpendMoneyId,
+  isCreating: getIsCreating,
+});
+
+const getInTrayDocument = state => state.inTrayDocument;
+
+export const getInTrayDocumentUploadedDate = createSelector(
+  getInTrayDocument,
+  ({ uploadedDate }) => uploadedDate,
+);
+
+export const getIntrayDocumentThumbnailUrl = createSelector(
+  getInTrayDocument,
+  ({ thumbnailUrl }) => thumbnailUrl,
+);
+
+export const getInTrayDocumentFileUrl = createSelector(
+  getInTrayDocument,
+  ({ url }) => url,
+);
+
+export const getShowSplitView = state => state.showSplitView;
+
+export const getPrefillStatus = state => state.prefillStatus;
+
+export const getShowPrefillInfo = state => state.showPrefillInfo;

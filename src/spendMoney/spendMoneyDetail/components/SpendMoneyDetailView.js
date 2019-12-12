@@ -1,5 +1,5 @@
 import {
-  Alert, Icons, LineItemTemplate, TotalsHeader,
+  Alert, Icons, TotalsHeader,
 } from '@myob/myob-widgets';
 import { Button } from '@myob/myob-widgets/lib/components/Button/Button';
 import { connect } from 'react-redux';
@@ -9,16 +9,23 @@ import {
   getAlertMessage,
   getAttachmentCount,
   getIsCreating,
+  getIsCreatingFromInTray,
   getIsLoading,
   getIsSubmitting,
   getModal,
   getPageTitle,
+  getShowPrefillInfo,
+  getShowSplitView,
 } from '../spendMoneyDetailSelectors';
+import MasterDetailLineItemTemplate from '../../../components/MasterDetailLineItemTemplate/MasterDetailLineItemTemplate';
 import PageView from '../../../components/PageView/PageView';
 import SpendMoneyAttachments from './SpendMoneyAttachments';
 import SpendMoneyDetailActions from './SpendMoneyDetailActions';
-import SpendMoneyDetailOptions from './SpendMoneyDetailOptions';
+import SpendMoneyDetailPrimaryOptions from './SpendMoneyDetailPrimaryOptions';
+import SpendMoneyDetailSecondaryOptions from './SpendMoneyDetailSecondaryOptions';
 import SpendMoneyDetailTable from './SpendMoneyDetailTable';
+import SpendMoneyDocumentViewer from './SpendMoneyDocumentViewer';
+import SpendMoneyInTrayDocumentView from './SpendMoneyInTrayDocumentView';
 import SpendMoneyModal from './SpendMoneyModal';
 
 const SpendMoneyDetailView = ({
@@ -33,6 +40,9 @@ const SpendMoneyDetailView = ({
   isCreating,
   isLoading,
   isSubmitting,
+  hasInTrayDocument,
+  showSplitView,
+  showPrefillInfo,
   pageTitle,
   attachmentCount,
   onConfirmDeleteButtonClick,
@@ -46,9 +56,17 @@ const SpendMoneyDetailView = ({
   onDeleteAttachmentModal,
   onOpenAttachment,
   onFocusAttachments,
+  onCloseSplitView,
+  onOpenSplitView,
+  onClosePrefillInfo,
 }) => {
-  const templateOptions = (
-    <SpendMoneyDetailOptions
+  const primaryOptions = (
+    <SpendMoneyDetailPrimaryOptions
+      onUpdateHeaderOptions={onUpdateHeaderOptions}
+    />
+  );
+  const secondaryOptions = (
+    <SpendMoneyDetailSecondaryOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
     />
   );
@@ -75,46 +93,67 @@ const SpendMoneyDetailView = ({
   ] : [];
 
   const pageHead = (
-    <TotalsHeader
-      title={pageTitle}
-      actions={pageHeadActions}
+    <>
+      {alertComponent}
+      <TotalsHeader title={pageTitle} actions={pageHeadActions} />
+    </>
+  );
+
+  const table = (
+    <SpendMoneyDetailTable
+      onUpdateRow={onUpdateRow}
+      onAddRow={onAddRow}
+      onRemoveRow={onRemoveRow}
+      onRowInputBlur={onRowInputBlur}
     />
   );
 
-  const view = (
-    <React.Fragment>
-      <LineItemTemplate
-        pageHead={pageHead}
-        options={templateOptions}
-        actions={actions}
-        alert={alertComponent}
-      >
-        {
-          modal && (
-          <SpendMoneyModal
-            modal={modal}
-            onDismissModal={onCloseModal}
-            onConfirmSave={onSaveButtonClick}
-            onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
-            onConfirmCancelButtonClick={onConfirmCancelButtonClick}
-            onDeleteAttachmentModal={onDeleteAttachmentModal}
-          />
-          )
-        }
-        <SpendMoneyDetailTable
-          onUpdateRow={onUpdateRow}
-          onAddRow={onAddRow}
-          onRemoveRow={onRemoveRow}
-          onRowInputBlur={onRowInputBlur}
-        />
+  const inTrayDocumentView = hasInTrayDocument && !showSplitView && (
+    <SpendMoneyInTrayDocumentView onOpenSplitView={onOpenSplitView} />
+  );
 
-      </LineItemTemplate>
-      <SpendMoneyAttachments
-        onAddAttachments={onAddAttachments}
-        onRemoveAttachment={onRemoveAttachment}
-        onOpenAttachment={onOpenAttachment}
-      />
+  const subHeaderChildren = (
+    <React.Fragment>
+      {inTrayDocumentView}
+      {modal && (
+        <SpendMoneyModal
+          modal={modal}
+          onDismissModal={onCloseModal}
+          onConfirmSave={onSaveButtonClick}
+          onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
+          onConfirmCancelButtonClick={onConfirmCancelButtonClick}
+          onDeleteAttachmentModal={onDeleteAttachmentModal}
+        />
+      )}
     </React.Fragment>
+  );
+
+  const more = (
+    <SpendMoneyAttachments
+      onAddAttachments={onAddAttachments}
+      onRemoveAttachment={onRemoveAttachment}
+      onOpenAttachment={onOpenAttachment}
+    />
+  );
+
+  const detail = <SpendMoneyDocumentViewer onCloseSplitView={onCloseSplitView} />;
+
+  const prefillInfo = 'We\'ve used your document to fill in some details. Check the fields highlighted in blue.';
+
+  const view = (
+    <MasterDetailLineItemTemplate
+      optionInfo={showPrefillInfo && prefillInfo}
+      onDismissOptionInfo={onClosePrefillInfo}
+      primaryOptions={primaryOptions}
+      secondaryOptions={secondaryOptions}
+      table={table}
+      actions={actions}
+      subHeadChildren={subHeaderChildren}
+      detail={detail}
+      pageHead={pageHead}
+      showDetail={showSplitView}
+      more={more}
+    />
   );
 
   return (
@@ -130,6 +169,9 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   pageTitle: getPageTitle(state),
   attachmentCount: getAttachmentCount(state),
+  hasInTrayDocument: getIsCreatingFromInTray(state),
+  showSplitView: getShowSplitView(state),
+  showPrefillInfo: getShowPrefillInfo(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailView);

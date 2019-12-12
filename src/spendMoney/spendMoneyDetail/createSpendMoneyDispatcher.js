@@ -2,19 +2,24 @@ import {
   ADD_ATTACHMENTS,
   ADD_SPEND_MONEY_LINE,
   APPEND_ALERT_MESSAGE,
+  CLEAR_IN_TRAY_DOCUMENT_URL,
   CLOSE_MODAL,
   DELETE_SPEND_MONEY_LINE,
   FORMAT_SPEND_MONEY_LINE,
   GET_CALCULATED_TOTALS,
+  HIDE_PREFILL_INFO,
   LOAD_REFERENCE_ID,
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
+  PREFILL_DATA_FROM_IN_TRAY,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
   RESET_TOTALS,
   SET_ALERT_MESSAGE,
+  SET_IN_TRAY_DOCUMENT_URL,
   SET_LOADING_STATE,
   SET_OPERATION_IN_PROGRESS_STATE,
+  SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
@@ -42,10 +47,11 @@ const createSpendMoneyDispatcher = store => ({
   },
 
   loadSpendMoney: (intent, {
-    spendMoney, newLine, totals, pageTitle, attachments,
+    spendMoney, newLine, totals, pageTitle, attachments, document,
   }) => {
     store.dispatch({
       intent,
+      document,
       spendMoney,
       totals,
       newLine,
@@ -175,6 +181,32 @@ const createSpendMoneyDispatcher = store => ({
     const intent = SET_OPERATION_IN_PROGRESS_STATE;
     store.dispatch({ intent, id, isInProgress });
   },
+
+  setShowSplitView: (showSplitView) => {
+    const intent = SET_SHOW_SPLIT_VIEW;
+    store.dispatch({ intent, showSplitView });
+  },
+
+  setInTrayDocumentUrl: (inTrayDocumentUrl) => {
+    const intent = SET_IN_TRAY_DOCUMENT_URL;
+    store.dispatch({ intent, inTrayDocumentUrl });
+  },
+
+  clearInTrayDocumentUrl: () => {
+    const intent = CLEAR_IN_TRAY_DOCUMENT_URL;
+    store.dispatch({ intent });
+  },
+
+  prefillDataFromInTray: (response) => {
+    const intent = PREFILL_DATA_FROM_IN_TRAY;
+    store.dispatch({ intent, response });
+  },
+
+  hidePrefillInfo: () => {
+    const intent = HIDE_PREFILL_INFO;
+    store.dispatch({ intent });
+  },
+
 });
 
 export default createSpendMoneyDispatcher;

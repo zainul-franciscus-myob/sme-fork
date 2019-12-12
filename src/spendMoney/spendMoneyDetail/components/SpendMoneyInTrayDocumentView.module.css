@@ -1,0 +1,41 @@
+:root {
+  --thumbnail-size: 5.5rem;
+  --thumbnail-img-size: 5.4rem;
+}
+
+.documentView {
+  display: flex;
+  flex-direction: row;
+}
+
+.pdf {
+  flex: auto;
+  margin-left: 1rem;
+}
+
+.thumbnail {
+  flex: auto;
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  max-width: var(--thumbnail-size);
+  width: var(--thumbnail-size);
+  min-width: var(--thumbnail-size);
+  max-height: var(--thumbnail-size);
+  height: var(--thumbnail-size);
+  min-height: var(--thumbnail-size);
+  border-radius: var(--flx-border-radius-button);
+  border: var(--flx-border-button-secondary);
+  background-color: var(--flx-palette-storm-11);
+  overflow: hidden;
+}
+
+.thumbnail img {
+  max-width: var(--thumbnail-img-size);
+  max-height: var(--thumbnail-img-size);
+}
+
+div.card:global.flx-card {
+  margin-bottom: 0.8rem;
+}

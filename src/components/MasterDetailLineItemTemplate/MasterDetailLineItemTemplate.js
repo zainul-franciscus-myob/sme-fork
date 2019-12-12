@@ -21,6 +21,7 @@ const MasterDetailLineItemTemplate = ({
   pageHead,
   sticky,
   showDetail,
+  more,
   onDismissOptionInfo,
 }) => {
   const options = showDetail ? (
@@ -47,6 +48,7 @@ const MasterDetailLineItemTemplate = ({
             {table}
           </Card>
           {actions}
+          {more}
         </React.Fragment>
       )}
       detail={detail}

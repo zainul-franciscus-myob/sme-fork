@@ -1,3 +1,4 @@
 .documentViewer {
-  border: 0;
+  border: var(--flx-border-thin);
+  border-radius: var(--flx-border-radius-card);
 }

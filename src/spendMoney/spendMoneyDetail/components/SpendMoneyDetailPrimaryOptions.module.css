@@ -1,0 +1,8 @@
+.contactComboBox {
+  margin-bottom: var(--flx-spacing-tiny);
+}
+
+.prefilled input,
+.prefilled textarea {
+  background-color: var(--flx-palette-azure-light);
+}

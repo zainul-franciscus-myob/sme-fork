@@ -77,6 +77,11 @@ const ActionComponent = ({ id, handleActionSelect }) => (
           label="Create bill"
           value={actionTypes.createBill}
         />,
+        <Dropdown.Item
+          key={actionTypes.createSpendMoney}
+          label="Create spend money transaction"
+          value={actionTypes.createSpendMoney}
+        />,
         <Dropdown.Separator key="separator" />,
         <Dropdown.Item
           key={actionTypes.download}

@@ -1,5 +1,5 @@
 import {
-  Badge, FieldGroup, StandardTemplate, Table,
+  Badge, Card, FieldGroup, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -18,7 +18,7 @@ const SpendMoneyAttachments = ({
   onRemoveAttachment,
   onOpenAttachment,
 }) => (
-  <StandardTemplate sticky="none">
+  <Card classes={[styles.attachments]}>
     <FieldGroup
       label={<span id={SpendMoneyElementId.ATTACHMENTS_ELEMENT_ID}>More information</span>}
     >
@@ -54,7 +54,7 @@ const SpendMoneyAttachments = ({
         )}
       />
     </FieldGroup>
-  </StandardTemplate>
+  </Card>
 );
 
 const mapStateToProps = state => ({

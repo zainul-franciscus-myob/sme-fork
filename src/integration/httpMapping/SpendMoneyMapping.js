@@ -1,11 +1,16 @@
 import {
   CREATE_SPEND_MONEY,
   DELETE_SPEND_MONEY,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_CALCULATED_TOTALS,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
-  LOAD_SPEND_MONEY_DETAIL, OPEN_ATTACHMENT, REMOVE_ATTACHMENT,
-  UPDATE_SPEND_MONEY, UPLOAD_ATTACHMENT,
+  LOAD_SPEND_MONEY_DETAIL,
+  OPEN_ATTACHMENT,
+  PREFILL_DATA_FROM_IN_TRAY,
+  REMOVE_ATTACHMENT,
+  UPDATE_SPEND_MONEY,
+  UPLOAD_ATTACHMENT,
 } from '../../spendMoney/SpendMoneyIntents';
 
 const SpendMoneyMapping = {
@@ -48,6 +53,14 @@ const SpendMoneyMapping = {
   [OPEN_ATTACHMENT]: {
     method: 'GET',
     getPath: ({ businessId, documentId }) => `/${businessId}/spendMoney/load_attachment_detail/${documentId}`,
+  },
+  [DOWNLOAD_IN_TRAY_DOCUMENT]: {
+    method: 'GET',
+    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/spendMoney/download_in_tray_document/${inTrayDocumentId}`,
+  },
+  [PREFILL_DATA_FROM_IN_TRAY]: {
+    method: 'GET',
+    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/spendMoney/prefill_bill_from_in_tray/${inTrayDocumentId}`,
   },
 };
 

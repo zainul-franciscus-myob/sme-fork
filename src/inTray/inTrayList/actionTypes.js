@@ -3,6 +3,7 @@ const actionTypes = {
   download: 'download',
   linkToExistingBill: 'linkToExistingBill',
   createBill: 'createBill',
+  createSpendMoney: 'createSpendMoney',
 };
 
 export default actionTypes;

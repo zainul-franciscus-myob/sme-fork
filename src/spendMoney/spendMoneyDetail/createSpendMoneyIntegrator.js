@@ -1,11 +1,13 @@
 import {
   CREATE_SPEND_MONEY,
   DELETE_SPEND_MONEY,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_CALCULATED_TOTALS,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
   OPEN_ATTACHMENT,
+  PREFILL_DATA_FROM_IN_TRAY,
   REMOVE_ATTACHMENT,
   UPDATE_SPEND_MONEY,
   UPLOAD_ATTACHMENT,
@@ -172,6 +174,42 @@ const createSpendMoneyIntegrator = (store, integration) => ({
         businessId: getBusinessId(state),
         documentId: id,
       },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  downloadInTrayDocument: ({
+    onSuccess, onFailure, inTrayDocumentId,
+  }) => {
+    const intent = DOWNLOAD_IN_TRAY_DOCUMENT;
+
+    const urlParams = {
+      businessId: getBusinessId(store.getState()),
+      inTrayDocumentId,
+    };
+
+    integration.readFile({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  prefillDataFromInTray: ({
+    onSuccess, onFailure, inTrayDocumentId,
+  }) => {
+    const intent = PREFILL_DATA_FROM_IN_TRAY;
+
+    const urlParams = {
+      businessId: getBusinessId(store.getState()),
+      inTrayDocumentId,
+    };
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

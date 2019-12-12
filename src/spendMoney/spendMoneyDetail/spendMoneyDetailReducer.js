@@ -2,21 +2,26 @@ import {
   ADD_ATTACHMENTS,
   ADD_SPEND_MONEY_LINE,
   APPEND_ALERT_MESSAGE,
+  CLEAR_IN_TRAY_DOCUMENT_URL,
   CLOSE_MODAL,
   DELETE_SPEND_MONEY_LINE,
   FORMAT_SPEND_MONEY_LINE,
   GET_CALCULATED_TOTALS,
+  HIDE_PREFILL_INFO,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
+  PREFILL_DATA_FROM_IN_TRAY,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
   RESET_TOTALS,
   SET_ALERT_MESSAGE,
+  SET_IN_TRAY_DOCUMENT_URL,
   SET_LOADING_STATE,
   SET_OPERATION_IN_PROGRESS_STATE,
+  SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
@@ -28,6 +33,13 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getDefaultTaxCodeId, getIsContactReportable, getIsReportable } from './spendMoneyDetailSelectors';
 import createReducer from '../../store/createReducer';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
+
+const defaultPrefillStatus = {
+  selectedPayToContactId: false,
+  description: false,
+  date: false,
+  isTaxInclusive: false,
+};
 
 const getDefaultState = () => ({
   spendMoney: {
@@ -67,6 +79,10 @@ const getDefaultState = () => ({
   region: '',
   pageTitle: '',
   attachments: [],
+  inTrayDocument: {},
+  showSplitView: false,
+  prefillStatus: defaultPrefillStatus,
+  showPrefillInfo: false,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -147,7 +163,9 @@ const updateHeader = (state, { key, value }) => {
     ? getIsContactReportable(state, value)
     : getIsReportable(state);
 
-  return ({
+  const isPrefillFields = Object.keys(defaultPrefillStatus).includes(key);
+
+  return {
     ...state,
     ...pageEdited,
     spendMoney: {
@@ -155,7 +173,10 @@ const updateHeader = (state, { key, value }) => {
       isReportable,
       [key]: value,
     },
-  });
+    prefillStatus: isPrefillFields
+      ? { ...state.prefillStatus, [key]: false }
+      : state.prefillStatus,
+  };
 };
 
 const loadNewSpendMoney = (state, action) => ({
@@ -169,6 +190,7 @@ const loadNewSpendMoney = (state, action) => ({
   newLine: { ...state.newLine, ...action.newLine },
   isLoading: false,
   pageTitle: action.pageTitle,
+  inTrayDocument: { ...state.inTrayDocument, ...action.document },
 });
 
 const loadSpendMoneyDetail = (state, action) => ({
@@ -303,6 +325,75 @@ const appendAlert = (state, { alertMessage }) => ({
   alertMessage: state.alertMessage ? `${state.alertMessage}; ${alertMessage}` : alertMessage,
 });
 
+const setShowSplitView = (state, { showSplitView }) => ({
+  ...state,
+  showSplitView,
+});
+
+const setInTrayDocumentUrl = (state, { inTrayDocumentUrl }) => ({
+  ...state,
+  inTrayDocument: {
+    ...state.inTrayDocument,
+    url: inTrayDocumentUrl,
+  },
+});
+
+const clearInTrayDocumentUrl = state => ({
+  ...state,
+  inTrayDocument: {
+    ...state.inTrayDocument,
+    url: undefined,
+  },
+});
+
+const getPrefilledNewLineFromInTray = (state, newLine) => ({
+  ...state.newLine,
+  amount: newLine.amount,
+  displayAmount: newLine.amount,
+});
+
+const prefillDataFromInTray = (state, action) => {
+  const { spendMoney, document } = action.response;
+  const {
+    selectedPayToContactId,
+    description,
+    date,
+    isTaxInclusive,
+    lines,
+  } = state.spendMoney;
+  return {
+    ...state,
+    isPageEdited: true,
+    spendMoney: {
+      ...state.spendMoney,
+      selectedPayToContactId:
+        spendMoney.selectedPayToContactId || selectedPayToContactId,
+      description: spendMoney.description || description,
+      date: spendMoney.date || date,
+      isTaxInclusive: spendMoney.isTaxInclusive || isTaxInclusive,
+      lines: spendMoney.lines
+        ? spendMoney.lines.map(line => getPrefilledNewLineFromInTray(state, line))
+        : lines,
+    },
+    inTrayDocument: {
+      ...state.inTrayDocument,
+      ...document,
+    },
+    prefillStatus: {
+      selectedPayToContactId: Boolean(spendMoney.selectedPayToContactId),
+      description: Boolean(spendMoney.description),
+      date: Boolean(spendMoney.date),
+      isTaxInclusive: Boolean(spendMoney.isTaxInclusive),
+    },
+    showPrefillInfo: true,
+  };
+};
+
+const hidePrefillInfo = state => ({
+  ...state,
+  showPrefillInfo: false,
+});
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -330,6 +421,11 @@ const handlers = {
   [REMOVE_ATTACHMENT]: removeAttachment,
   [APPEND_ALERT_MESSAGE]: appendAlert,
   [SET_OPERATION_IN_PROGRESS_STATE]: setOperationInProgressState,
+  [SET_SHOW_SPLIT_VIEW]: setShowSplitView,
+  [SET_IN_TRAY_DOCUMENT_URL]: setInTrayDocumentUrl,
+  [CLEAR_IN_TRAY_DOCUMENT_URL]: clearInTrayDocumentUrl,
+  [PREFILL_DATA_FROM_IN_TRAY]: prefillDataFromInTray,
+  [HIDE_PREFILL_INFO]: hidePrefillInfo,
 };
 const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 

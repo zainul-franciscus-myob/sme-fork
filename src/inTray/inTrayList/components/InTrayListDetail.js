@@ -20,6 +20,11 @@ const items = [
     label="Create bill"
     value={actionTypes.createBill}
   />,
+  <Dropdown.Item
+    key={actionTypes.createSpendMoney}
+    label="Create spend money transaction"
+    value={actionTypes.createSpendMoney}
+  />,
 ];
 
 const InTrayListDetail = ({
