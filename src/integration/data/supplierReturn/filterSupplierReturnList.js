@@ -21,8 +21,4 @@ export default {
   ],
   totalAmount: '$2960.50',
   totalDebitAmount: '$10.00',
-  pagination: {
-    hasNextPage: true,
-    offset: 50,
-  },
 };

@@ -3,14 +3,11 @@ import React from 'react';
 
 import {
   LOAD_SUPPLIER_RETURN_LIST,
-  LOAD_SUPPLIER_RETURN_LIST_NEXT_PAGE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
-  START_LOADING_MORE,
-  STOP_LOADING_MORE,
   UPDATE_FILTER_BAR_OPTIONS,
 } from '../SupplierReturnIntents';
 import {
@@ -30,7 +27,6 @@ import {
 } from './selectors/SupplierReturnListIntegrationSelectors';
 import {
   getNewSortOrder,
-  getOffset,
 } from './selectors/SupplierReturnListSelectors';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import Store from '../../store/Store';
@@ -94,10 +90,7 @@ export default class SupplierReturnListModule {
 
     const urlParams = getURLParams(state);
 
-    const params = {
-      ...getParams(state),
-      offset: 0,
-    };
+    const params = getParams(state);
 
     this.integration.read({
       intent, urlParams, params, onSuccess, onFailure,
@@ -141,58 +134,11 @@ export default class SupplierReturnListModule {
     };
 
     const urlParams = getURLParams(state);
-    const paramsWithOffset = {
-      ...params,
-      offset: 0,
-    };
 
     this.integration.read({
       intent,
       urlParams,
-      params: paramsWithOffset,
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  loadSupplierReturnListNextPage = () => {
-    const state = this.store.getState();
-
-    const intent = LOAD_SUPPLIER_RETURN_LIST_NEXT_PAGE;
-    this.startLoadingMore();
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const onSuccess = ({
-      entries, pagination, totalAmount, totalDebitAmount,
-    }) => {
-      this.stopLoadingMore();
-      this.store.dispatch({
-        intent,
-        entries,
-        pagination,
-        totalAmount,
-        totalDebitAmount,
-      });
-    };
-
-    const onFailure = ({ message }) => {
-      this.stopLoadingMore();
-      this.setAlert({ message, type: 'danger' });
-    };
-
-    const params = getParams(state);
-    const offset = getOffset(state);
-
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...params,
-        offset,
-      },
+      params,
       onSuccess,
       onFailure,
     });
@@ -245,7 +191,6 @@ export default class SupplierReturnListModule {
         onSort={this.sortSupplierReturnList}
         onCreateRefundClick={this.redirectToCreateRefund}
         onCreatePurchaseClick={this.redirectToCreatePurchase}
-        onLoadMoreButtonClick={this.loadSupplierReturnListNextPage}
       />
     );
 
@@ -265,18 +210,6 @@ export default class SupplierReturnListModule {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
       isLoading,
-    });
-  }
-
-  startLoadingMore = () => {
-    this.store.dispatch({
-      intent: START_LOADING_MORE,
-    });
-  }
-
-  stopLoadingMore = () => {
-    this.store.dispatch({
-      intent: STOP_LOADING_MORE,
     });
   }
 

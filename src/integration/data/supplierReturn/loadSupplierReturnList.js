@@ -28,8 +28,4 @@ export default {
       debitAmount: '56.34',
     },
   ],
-  pagination: {
-    hasNextPage: true,
-    offset: 0,
-  },
 };

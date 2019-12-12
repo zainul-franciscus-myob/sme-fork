@@ -1,12 +1,9 @@
 import {
   LOAD_SUPPLIER_RETURN_LIST,
-  LOAD_SUPPLIER_RETURN_LIST_NEXT_PAGE,
   SET_ALERT, SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
-  START_LOADING_MORE,
-  STOP_LOADING_MORE,
   UPDATE_FILTER_BAR_OPTIONS,
 } from '../SupplierReturnIntents';
 import {
@@ -39,10 +36,6 @@ const getDefaultState = () => ({
   businessId: '',
   region: '',
   isLoadingMore: false,
-  pagination: {
-    hasNextPage: false,
-    offset: 0,
-  },
   ...defaultSortingOption,
 });
 
@@ -121,34 +114,6 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
-const loadSupplierReturnListNextPage = (state, action) => {
-  const allSupplierReturnIds = state.entries.map(entry => entry.id);
-
-  const entries = action.entries.filter(entry => !allSupplierReturnIds.includes(entry.id));
-  return ({
-    ...state,
-    entries: [
-      ...state.entries,
-      ...entries,
-    ],
-    pagination: {
-      ...action.pagination,
-    },
-    totalAmount: action.totalAmount,
-    totalDebitAmount: action.totalDebitAmount,
-  });
-};
-
-const startLoadingMore = state => ({
-  ...state,
-  isLoadingMore: true,
-});
-
-const stopLoadingMore = state => ({
-  ...state,
-  isLoadingMore: false,
-});
-
 const resetState = () => (getDefaultState());
 
 const handlers = {
@@ -161,9 +126,6 @@ const handlers = {
   [SORT_AND_FILTER_SUPPLIER_RETURN_LIST]: sortAndFilterSupplierReturnList,
   [SET_ALERT]: setAlert,
   [SET_SORT_ORDER]: setSortOrder,
-  [LOAD_SUPPLIER_RETURN_LIST_NEXT_PAGE]: loadSupplierReturnListNextPage,
-  [START_LOADING_MORE]: startLoadingMore,
-  [STOP_LOADING_MORE]: stopLoadingMore,
 };
 
 const supplierReturnListReducer = createReducer(getDefaultState(), handlers);

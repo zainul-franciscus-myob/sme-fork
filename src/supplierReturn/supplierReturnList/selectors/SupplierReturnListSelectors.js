@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 
-import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 
 const DESC = 'desc';
@@ -55,20 +54,3 @@ export const getIsDefaultFilters = createSelector(
     defaultFilterOptions, appliedFilterOptions,
   ),
 );
-
-export const getOffset = state => state.pagination.offset;
-
-export const getLoadMoreButtonStatus = (state) => {
-  const isTableLoading = getIsTableLoading(state);
-  const { isLoadingMore } = state;
-  const isLastPage = state.pagination && !state.pagination.hasNextPage;
-
-  if (isLastPage || isTableLoading) {
-    return LoadMoreButtonStatuses.HIDDEN;
-  }
-
-  if (isLoadingMore) {
-    return LoadMoreButtonStatuses.LOADING;
-  }
-  return LoadMoreButtonStatuses.SHOWN;
-};
