@@ -275,15 +275,20 @@ const createDecoratedHttpIntegration = (initOptions) => {
 
   return {
     read: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
-      .then(() => httpIntegration.read(options)),
+      .then(() => httpIntegration.read(options))
+      .catch(error => options.onFailure(error)),
     readFile: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
-      .then(() => httpIntegration.readFile(options)),
+      .then(() => httpIntegration.readFile(options))
+      .catch(error => options.onFailure(error)),
     write: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
-      .then(() => httpIntegration.write(options)),
+      .then(() => httpIntegration.write(options))
+      .catch(error => options.onFailure(error)),
     writeFormData: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
-      .then(() => httpIntegration.writeFormData(options)),
+      .then(() => httpIntegration.writeFormData(options))
+      .catch(error => options.onFailure(error)),
     writeManyFormData: options => subscriptionLoader.loadSubscriptionIfNeeded(options)
-      .then(() => httpIntegration.writeManyFormData(options)),
+      .then(() => httpIntegration.writeManyFormData(options))
+      .catch(error => options.onFailure(error)),
   };
 };
 
