@@ -10,6 +10,7 @@ import {
   SET_ACTIVE_ENTRY_ROW,
   SET_ALERT,
   SET_CONFIRMING_EMAIL_GENERATION,
+  SET_DOCUMENT_VIEWER_URL,
   SET_IN_TRAY_DELETE_MODAL,
   SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE,
   SET_IN_TRAY_LIST_FILTER_OPTIONS,
@@ -20,6 +21,7 @@ import {
   SET_UPLOAD_OPTIONS_LOADING_STATE,
   SORT_AND_FILTER_IN_TRAY_LIST,
   UNSET_ACTIVE_ENTRY_ROW,
+  UNSET_DOCUMENT_VIEWER_URL,
 } from '../InTrayIntents';
 
 const createInTrayDispatcher = store => ({
@@ -175,6 +177,19 @@ const createInTrayDispatcher = store => ({
   dismissUploadOptionsAlert: () => {
     const intent = SET_UPLOAD_OPTIONS_ALERT;
     store.dispatch({ intent, uploadOptionsAlert: undefined });
+  },
+
+  setDocumentViewerUrl: (documentViewerUrl) => {
+    store.dispatch({
+      intent: SET_DOCUMENT_VIEWER_URL,
+      documentViewerUrl,
+    });
+  },
+
+  unsetDocumentViewerUrl: () => {
+    store.dispatch({
+      intent: UNSET_DOCUMENT_VIEWER_URL,
+    });
   },
 });
 

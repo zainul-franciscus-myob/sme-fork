@@ -9,3 +9,5 @@ export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
 
 export const getDeleteModal = state => state.deleteModal;
+
+export const getDocumentViewerUrl = state => state.documentViewerUrl;

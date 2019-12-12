@@ -2,18 +2,17 @@ import {
   Aside,
   Button,
   ButtonRow,
-  Checkbox,
-  CheckboxGroup,
   Dropdown,
   Icons,
-  Search,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getActiveEntry } from '../selectors/InTrayListSelectors';
+import { getDocumentViewerUrl } from '../selectors/InTraySelectors';
+import DocumentViewer from '../../../components/DocumentViewer/DocumentViewer';
 import actionTypes from '../actionTypes';
-
+import styles from './InTrayListDetail.module.css';
 
 const items = [
   <Dropdown.Item
@@ -24,7 +23,7 @@ const items = [
 ];
 
 const InTrayListDetail = ({
-  onClose, handleActionSelect, activeEntryId, uploadedDate,
+  onClose, handleActionSelect, activeEntryId, uploadedDate, documentViewerUrl,
 }) => (
   <Aside
     header={(
@@ -60,21 +59,13 @@ const InTrayListDetail = ({
       </ButtonRow>
 )}
   >
-    <Search label="Clients" name="Clients" onChange={() => {}} />
-    <CheckboxGroup
-      label="Colors:"
-      renderCheckbox={props => (
-        <React.Fragment>
-          <Checkbox {...props} label="Red" name="red" />
-          <Checkbox {...props} label="Yellow" name="yello" />
-        </React.Fragment>
-      )}
-    />
+    <DocumentViewer src={documentViewerUrl} className={styles.documentViewer} />
   </Aside>
 );
 
 const mapStateToProps = state => ({
   ...getActiveEntry(state),
+  documentViewerUrl: getDocumentViewerUrl(state),
 });
 
 export default connect(mapStateToProps)(InTrayListDetail);

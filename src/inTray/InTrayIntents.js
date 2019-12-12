@@ -29,3 +29,5 @@ export const LOAD_IN_TRAY_MODAL = Symbol('Load in tray modal');
 export const SORT_AND_FILTER_IN_TRAY_MODAL = Symbol('Sort and filter in tray modal');
 export const VIEW_IN_TRAY_MODAL_DOCUMENT = Symbol('View in tray modal document');
 export const SELECT_DOCUMENT = Symbol('Select document');
+export const SET_DOCUMENT_VIEWER_URL = Symbol('Set document viewer url');
+export const UNSET_DOCUMENT_VIEWER_URL = Symbol('Unset document viewer url');

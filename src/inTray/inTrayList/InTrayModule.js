@@ -25,6 +25,7 @@ import createInTrayDispatcher from './createInTrayDispatcher';
 import createInTrayIntegrator from './createInTrayIntegrator';
 import inTrayReducer from './reducer/inTrayReducer';
 import modalTypes from './modalTypes';
+import openBlob from '../../common/blobOpener/openBlob';
 
 const messageTypes = [
   SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL,
@@ -69,7 +70,7 @@ export default class InTrayModule {
         this.redirectToCreateBill(id);
         break;
       case actionTypes.download:
-        this.downloadInTrayDocument(id);
+        this.openInTrayDocument(id);
         break;
       case actionTypes.delete:
         this.dispatcher.openInTrayDeleteModal(id);
@@ -203,12 +204,12 @@ export default class InTrayModule {
     });
   }
 
-  downloadInTrayDocument = (id) => {
+  downloadInTrayDocument = ({ id, onSuccess }) => {
     this.dispatcher.setInTrayListEntrySubmittingState(id, true);
 
-    const onSuccess = ({ fileUrl }) => {
+    const onSuccessWrapper = (blob) => {
       this.dispatcher.setInTrayListEntrySubmittingState(id, false);
-      window.open(fileUrl, '_blank');
+      onSuccess(blob);
     };
 
     const onFailure = ({ message }) => {
@@ -217,11 +218,34 @@ export default class InTrayModule {
     };
 
     this.integrator.downloadInTrayDocument({
-      onSuccess,
+      onSuccess: onSuccessWrapper,
       onFailure,
       id,
     });
   };
+
+  openInTrayDocument = (id) => {
+    const onSuccess = (blob) => {
+      openBlob({ blob, filename: `${id}.pdf` });
+    };
+
+    this.downloadInTrayDocument({
+      id,
+      onSuccess,
+    });
+  }
+
+  setDocumentViewerUrl = (id) => {
+    const onSuccess = (blob) => {
+      const url = URL.createObjectURL(blob);
+      this.dispatcher.setDocumentViewerUrl(url);
+    };
+
+    this.downloadInTrayDocument({
+      id,
+      onSuccess,
+    });
+  }
 
   redirectToCreateBill = (id) => {
     const state = this.store.getState();
@@ -281,7 +305,13 @@ export default class InTrayModule {
     const state = this.store.getState();
     if (getIsEntryUploadingDone(state, id)) {
       this.dispatcher.activeEntryRow(id);
+      this.setDocumentViewerUrl(id);
     }
+  }
+
+  deactivateEntryRow = (id) => {
+    this.dispatcher.removeActiveEntryRow(id);
+    this.dispatcher.unsetDocumentViewerUrl();
   }
 
   render = () => {
@@ -299,7 +329,7 @@ export default class InTrayModule {
           onUpload: this.uploadInTrayFiles,
           handleActionSelect: this.handleActionSelect,
           onEntryActive: this.activateEntryRow,
-          onCloseDetail: this.dispatcher.removeActiveEntryRow,
+          onCloseDetail: this.deactivateEntryRow,
           onAddAttachments: this.uploadInTrayFiles,
         }}
         deleteModalListeners={{

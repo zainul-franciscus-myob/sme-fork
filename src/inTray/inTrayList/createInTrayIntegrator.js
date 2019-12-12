@@ -127,7 +127,7 @@ const createInTrayIntegrator = (store, integration) => ({
     const businessId = getBusinessId(state);
     const urlParams = { businessId, documentId: id };
 
-    integration.write({
+    integration.readFile({
       intent,
       allowParallelRequests: true,
       urlParams,
