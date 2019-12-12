@@ -7,6 +7,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
+  LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
   LOAD_PAY_DIRECT,
   REMOVE_EMAIL_ATTACHMENT,
@@ -16,6 +17,8 @@ import {
   RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_INVOICE_HISTORY_LOADING,
+  SET_INVOICE_HISTORY_UNAVAILABLE,
   SET_INVOICE_ITEM_LINE_DIRTY,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
@@ -51,6 +54,9 @@ import {
   getLoadInvoiceDetailModalType,
   getUpdatedContactOptions,
 } from '../selectors/invoiceDetailSelectors';
+import {
+  loadInvoiceHistory, setInvoiceHistoryLoading, setInvoiceHistoryUnavailable,
+} from './InvoiceHistoryReducer';
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
 import InvoiceLayout from '../InvoiceLayout';
@@ -283,6 +289,7 @@ const calculateLineTotals = (state, action) => ({
   },
 });
 
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -326,6 +333,10 @@ const handlers = {
   [REMOVE_EMAIL_ATTACHMENT]: removeEmailAttachment,
 
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
+
+  [SET_INVOICE_HISTORY_LOADING]: setInvoiceHistoryLoading,
+  [SET_INVOICE_HISTORY_UNAVAILABLE]: setInvoiceHistoryUnavailable,
+  [LOAD_INVOICE_HISTORY]: loadInvoiceHistory,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

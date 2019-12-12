@@ -10,6 +10,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
+  LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
   LOAD_ITEM_OPTION,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
@@ -111,6 +112,10 @@ const InvoiceMapping = {
   [LOAD_ACCOUNT_AFTER_CREATE]: {
     method: 'GET',
     getPath: ({ businessId, accountId }) => `/${businessId}/invoice/load_account/${accountId}`,
+  },
+  [LOAD_INVOICE_HISTORY]: {
+    method: 'GET',
+    getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/load_invoice_history/${invoiceId}`,
   },
 };
 

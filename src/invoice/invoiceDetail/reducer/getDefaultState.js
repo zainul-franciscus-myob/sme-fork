@@ -1,4 +1,5 @@
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
+import InvoiceHistoryAccordionStatus from '../InvoiceHistoryAccordionStatus';
 import SaveActionType from '../SaveActionType';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -96,6 +97,8 @@ const getDefaultState = () => ({
     baseUrl: '',
   },
   isLineAmountDirty: false,
+  invoiceHistory: [],
+  invoiceHistoryAccordionStatus: InvoiceHistoryAccordionStatus.LOADING,
 });
 
 export default getDefaultState;

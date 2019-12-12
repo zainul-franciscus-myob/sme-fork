@@ -117,6 +117,17 @@ export const getCalculateLineTotalsUrlParams = state => ({
   businessId: getBusinessId(state),
 });
 
+export const getInvoiceHistoryUrlParams = (state) => {
+  const isCreating = getIsCreating(state);
+
+  const businessId = getBusinessId(state);
+  const invoiceId = isCreating ? undefined : getInvoiceId(state);
+
+  return {
+    businessId, invoiceId,
+  };
+};
+
 export const getCalculateLineTotalsContent = (state) => {
   const lines = getLines(state);
   const isTaxInclusive = getIsTaxInclusive(state);

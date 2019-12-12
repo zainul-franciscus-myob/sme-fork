@@ -9,6 +9,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
   LOAD_PAY_DIRECT,
   SEND_EMAIL,
@@ -25,6 +26,7 @@ import {
   getCreateOrUpdateInvoicePayload,
   getCreateOrUpdateInvoiceUrlParams,
   getDeleteInvoiceUrlParams,
+  getInvoiceHistoryUrlParams,
   getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
   getLoadContactAddressUrlParams,
@@ -234,6 +236,17 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
       urlParams,
       onSuccess,
       onFailure,
+    });
+  },
+
+  loadInvoiceHistory: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_INVOICE_HISTORY;
+    const urlParams = getInvoiceHistoryUrlParams(state);
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
     });
   },
 });

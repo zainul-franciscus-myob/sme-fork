@@ -1,0 +1,15 @@
+.errorIcon {
+ color: var(--flx-palette-berry);
+}
+
+.errorIcon svg{
+  fill: var(--flx-palette-berry);
+}
+
+.dollarIcon {
+ color: var(--flx-palette-golf);
+}
+
+.dollarIcon svg{
+  fill: var(--flx-palette-golf);
+}

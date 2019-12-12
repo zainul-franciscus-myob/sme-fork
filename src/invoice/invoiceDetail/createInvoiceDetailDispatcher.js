@@ -7,6 +7,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
+  LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
   LOAD_PAY_DIRECT,
   REMOVE_EMAIL_ATTACHMENT,
@@ -16,6 +17,8 @@ import {
   RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_INVOICE_HISTORY_LOADING,
+  SET_INVOICE_HISTORY_UNAVAILABLE,
   SET_INVOICE_ITEM_LINE_DIRTY,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
@@ -109,9 +112,7 @@ const createInvoiceDetailDispatcher = store => ({
   }),
 
   formatInvoiceLine: ({ index, key }) => store.dispatch({
-    intent: FORMAT_INVOICE_LINE,
-    index,
-    key,
+    intent: FORMAT_INVOICE_LINE, index, key,
   }),
 
   setInvoiceItemLineDirty: isLineAmountDirty => store.dispatch({
@@ -163,17 +164,27 @@ const createInvoiceDetailDispatcher = store => ({
 
   loadItemOption: (response) => {
     store.dispatch({
-      intent: LOAD_ITEM_OPTION,
-      response,
+      intent: LOAD_ITEM_OPTION, response,
     });
   },
 
   updateInvoiceLayout: (layout) => {
     store.dispatch({
-      intent: UPDATE_INVOICE_LAYOUT,
-      layout,
+      intent: UPDATE_INVOICE_LAYOUT, layout,
     });
   },
+
+  setInvoiceHistoryLoading: () => store.dispatch({
+    intent: SET_INVOICE_HISTORY_LOADING,
+  }),
+
+  loadInvoiceHistory: invoiceHistory => store.dispatch({
+    intent: LOAD_INVOICE_HISTORY, invoiceHistory,
+  }),
+
+  setInvoiceHistoryUnavailable: () => store.dispatch({
+    intent: SET_INVOICE_HISTORY_UNAVAILABLE,
+  }),
 });
 
 export default createInvoiceDetailDispatcher;

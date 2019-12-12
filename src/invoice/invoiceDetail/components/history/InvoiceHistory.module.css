@@ -1,0 +1,8 @@
+/* @FEELIX disables header row highlight on hover when invoice history unavailable*/
+.unavailable :global(.table-data__row:hover) {
+  background-color: unset !important;
+}
+
+.header > *{
+ padding: 0.5rem;
+}

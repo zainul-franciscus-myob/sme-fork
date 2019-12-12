@@ -1,0 +1,82 @@
+  {
+    "invoiceHistory": [
+      {
+        "status": "CREATED",
+        "date": "02/12/2019",
+        "time": "12:00pm",
+        "description": ""
+      },
+      {
+        "status": "VIEWED_ONLINE",
+        "date": "03/12/2019",
+        "time": "12:00pm",
+        "description": ""
+      },
+      {
+        "status": "DOWNLOADED",
+        "date": "04/12/2019",
+        "time": "12:00pm",
+        "description": ""
+      },
+      {
+        "status": "PRINTED",
+        "date": "05/12/2019",
+        "time": "12:00pm",
+        "description": ""
+      },
+      {
+        "status": "EXPORTED_TO_PDF",
+        "date": "06/12/2019",
+        "time": "12:00pm",
+        "description": ""
+      },
+      {
+        "status": "PAID_ONLINE",
+        "date": "07/12/2019",
+        "time": "12:00pm",
+        "description": "More details"
+      },
+      {
+        "status": "PAID_IN_BULK_ONLINE",
+        "date": "08/12/2019",
+        "time": "12:00pm",
+        "description": "Received $60"
+      },
+      {
+        "status": "PAYMENT_DECLINED",
+        "date": "09/12/2019",
+        "time": "12:00pm",
+        "description": "Payment unsuccessful"
+      },
+      {
+        "status": "BULK_PAYMENT_DECLINED",
+        "date": "10/12/2019",
+        "time": "12:00pm",
+        "description": "Payment unsuccessful"
+      },
+      {
+        "status": "PAYMENT_RECEIVED",
+        "date": "11/12/2019",
+        "time": "12:00pm",
+        "description": "Received $60"
+      },
+      {
+        "status": "INVOICE_REVERSED",
+        "date": "12/12/2019",
+        "time": "12:00pm",
+        "description": "Reference number"
+      },
+      {
+        "status": "EMAILED",
+        "date": "13/12/2019",
+        "time": "12:00pm",
+        "description": "To: fakeemail@gmail.com, notrealmail@realmail.com"
+      },
+      {
+        "status": "DELIVERY_FAILED",
+        "date": "14/12/2019",
+        "time": "12:00pm",
+        "description": "Couldn't send to fakeemail@gmail.com. Check the email address"
+      }
+    ]
+  }

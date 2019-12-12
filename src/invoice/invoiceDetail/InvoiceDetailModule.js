@@ -34,11 +34,11 @@ import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exp
 import { getFilesForUpload, getIsEmailModalOpen } from './selectors/emailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
-import DebugStore from '../../store/DebugStore';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import InvoiceDetailModalType from './InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
 import SaveActionType from './SaveActionType';
+import Store from '../../store/Store';
 import createInvoiceDetailDispatcher from './createInvoiceDetailDispatcher';
 import createInvoiceDetailIntegrator from './createInvoiceDetailIntegrator';
 import invoiceDetailReducer from './reducer/invoiceDetailReducer';
@@ -62,7 +62,7 @@ export default class InvoiceDetailModule {
     this.replaceURLParams = replaceURLParams;
     this.reload = reload;
 
-    this.store = new DebugStore(invoiceDetailReducer);
+    this.store = new Store(invoiceDetailReducer);
     this.dispatcher = createInvoiceDetailDispatcher(this.store);
     this.integrator = createInvoiceDetailIntegrator(this.store, integration);
 
@@ -709,6 +709,13 @@ export default class InvoiceDetailModule {
     if (showOnlinePayment) {
       this.loadPayDirect();
     }
+
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+
+    if (!isCreating) {
+      this.loadInvoiceHistory();
+    }
   }
 
   loadItemOption = ({ itemId }, onChangeItemTableRow) => {
@@ -749,6 +756,23 @@ export default class InvoiceDetailModule {
         this.saveItem(response, onChangeItemTableRow);
       },
       onLoadFailure: this.failLoadItem,
+    });
+  }
+
+  loadInvoiceHistory = () => {
+    this.dispatcher.setInvoiceHistoryLoading();
+
+    const onSuccess = ({ invoiceHistory }) => {
+      this.dispatcher.loadInvoiceHistory(invoiceHistory);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setInvoiceHistoryUnavailable();
+    };
+
+    this.integrator.loadInvoiceHistory({
+      onSuccess,
+      onFailure,
     });
   }
 

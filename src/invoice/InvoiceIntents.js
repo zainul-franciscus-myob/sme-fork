@@ -60,3 +60,7 @@ export const EXPORT_INVOICE_PDF = Symbol('Export invoice pdf');
 export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');
 
 export const LOAD_ITEM_OPTION = Symbol('Load item option');
+
+export const SET_INVOICE_HISTORY_LOADING = Symbol('Set invoice history loading state');
+export const SET_INVOICE_HISTORY_UNAVAILABLE = Symbol('Set invoice history unavailable');
+export const LOAD_INVOICE_HISTORY = Symbol('Load invoice history');

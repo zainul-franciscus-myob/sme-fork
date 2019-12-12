@@ -10,6 +10,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_INVOICE_DETAIL,
+  LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
   LOAD_ITEM_OPTION,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
@@ -34,6 +35,7 @@ import invoiceServiceNewDetail from '../data/invoice/serviceLayout/invoiceServic
 import invoiceServiceNewDetailFromQuote from '../data/invoice/serviceLayout/invoiceServiceNewDetailFromQuote';
 import loadAddedAccountResponse from '../data/invoice/serviceLayout/loadAddedAccountResponse';
 import loadAddedContactResponse from '../data/invoice/loadAddedContactResponse';
+import loadInvoiceHistory from '../data/invoice/invoiceHistory.json';
 import loadItemOption from '../data/invoice/loadItemOption';
 import payDirect from '../data/invoice/loadPayDirect';
 import successResponse from '../data/success';
@@ -78,6 +80,7 @@ const InvoiceMapping = {
   [EXPORT_INVOICE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
   [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),
+  [LOAD_INVOICE_HISTORY]: ({ onSuccess }) => onSuccess(loadInvoiceHistory),
 };
 
 export default InvoiceMapping;

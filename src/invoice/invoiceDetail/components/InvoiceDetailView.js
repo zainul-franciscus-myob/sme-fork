@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getAlert,
+  getIsCreating,
   getIsLoading,
   getIsServiceLayout,
   getIsSubmitting,
@@ -18,6 +19,7 @@ import InvoiceDetailModal from './InvoiceDetailModal';
 import InvoiceDetailOptions from './InvoiceDetailOptions';
 import InvoiceItemTable from './itemLayout/InvoiceItemTable';
 import InvoiceServiceTable from './serviceLayout/InvoiceServiceTable';
+import MoreInformation from './MoreInformation';
 import PageView from '../../../components/PageView/PageView';
 import UpgradeModal from './UpgradeModal';
 
@@ -25,6 +27,7 @@ const InvoiceDetailView = ({
   accountModal,
   inventoryModal,
   isLoading,
+  isCreating,
   alert,
   modalType,
   emailInvoiceDetail,
@@ -95,19 +98,22 @@ const InvoiceDetailView = ({
     : <InvoiceItemTable listeners={itemLayoutListeners} />;
 
   const view = (
-    <LineItemTemplate
-      pageHead={<InvoiceDetailHeader />}
-      alert={alertComponent}
-      options={options}
-      actions={actions}
-    >
-      {upgradeModal}
-      {accountModal}
-      {contactModal}
-      {inventoryModal}
-      {modal}
-      {table}
-    </LineItemTemplate>
+    <React.Fragment>
+      <LineItemTemplate
+        pageHead={<InvoiceDetailHeader />}
+        alert={alertComponent}
+        options={options}
+        actions={actions}
+      >
+        {accountModal}
+        {upgradeModal}
+        {contactModal}
+        {inventoryModal}
+        {modal}
+        {table}
+      </LineItemTemplate>
+      {!isCreating && <MoreInformation />}
+    </React.Fragment>
   );
 
   return <PageView isLoading={isLoading} view={view} />;
@@ -122,6 +128,7 @@ const mapStateToProps = state => ({
   isActionsDisabled: getIsSubmitting(state),
   isServiceLayout: getIsServiceLayout(state),
   templateOptions: getTemplateOptions(state),
+  isCreating: getIsCreating(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailView);
