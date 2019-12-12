@@ -1,8 +1,8 @@
 const businessRoles = [
-  { businessType: 'Accountant' },
-  { businessType: 'Bookkeeper' },
-  { businessType: 'Student' },
-  { businessType: 'Business owner' },
+  'Accountant',
+  'Bookkeeper',
+  'Student',
+  'Business owner',
 ];
 
 export default businessRoles;

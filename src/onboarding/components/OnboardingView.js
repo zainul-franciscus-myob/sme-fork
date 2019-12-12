@@ -6,10 +6,10 @@ import {
   MYOBLogo,
   StandardTemplate,
 } from '@myob/myob-widgets';
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
-import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
+import Industries from '../fixtures/Industries';
+import businessRoles from '../fixtures/businessRoles';
 import placeholder from '../assets/accountingyoga.svg';
 import styles from './OnboardingView.module.css';
 
@@ -29,6 +29,10 @@ class OnboardingView extends Component {
 
   setBusinessRole = businessRole => this.setState({ businessRole })
 
+  businessRoleItems = () => businessRoles.map(businessRole => ({ businessRole }));
+
+  industryItems = () => Industries.map(industry => ({ industry }))
+
   saveSettings = (event) => {
     event.preventDefault();
     const { businessName, industry, businessRole } = this.state;
@@ -38,10 +42,8 @@ class OnboardingView extends Component {
   };
 
   render() {
-    const { businessRoles, industries, isLoading } = this.props;
+    const { businessRoleItems, industryItems } = this;
     const { businessName, industry, businessRole } = this.state;
-
-    if (isLoading) return <LoadingPageState />;
 
     return (
       <div className={styles.fullScreen}>
@@ -74,7 +76,7 @@ class OnboardingView extends Component {
 
               <div>
                 <Combobox
-                  items={industries}
+                  items={industryItems()}
                   metaData={industryData}
                   defaultItem={{ industry }}
                   name="industry"
@@ -86,7 +88,7 @@ class OnboardingView extends Component {
 
               <div>
                 <Combobox
-                  items={businessRoles}
+                  items={businessRoleItems()}
                   metaData={businessRolesData}
                   defaultItem={{ businessRole }}
                   name="businessRole"
@@ -109,10 +111,4 @@ class OnboardingView extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  businessRoles: state.businessRoles,
-  industries: state.industries,
-  isLoading: state.isLoading,
-});
-
-export default connect(mapStateToProps)(OnboardingView);
+export default OnboardingView;
