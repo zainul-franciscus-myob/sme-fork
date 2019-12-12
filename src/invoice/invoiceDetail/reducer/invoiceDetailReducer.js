@@ -74,13 +74,19 @@ const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
 const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
 
 const loadInvoiceDetail = (state, action) => {
+  if (action.monthlyLimit) {
+    return {
+      ...state,
+      monthlyLimit: action.monthlyLimit,
+    };
+  }
   const modalType = getLoadInvoiceDetailModalType(state, action.emailInvoice);
 
   const { modalAlert, pageAlert } = action.message
     ? getLoadInvoiceDetailModalAndPageAlert(state, action.message)
     : {};
 
-  return ({
+  return {
     ...state,
     ...action,
     invoice: {
@@ -110,7 +116,7 @@ const loadInvoiceDetail = (state, action) => {
     modalType,
     modalAlert,
     alert: pageAlert,
-  });
+  };
 };
 
 const updateInvoiceState = (state, partialInvoice) => ({

@@ -83,3 +83,9 @@ export const getInvoiceReadWithExportPdfModalUrl = (state) => {
 
   return `${baseUrl}/invoice/${invoiceId}?openExportPdf=true`;
 };
+
+export const getSubscriptionSettingsUrl = (state) => {
+  const baseUrl = getBaseUrl(state);
+
+  return `${baseUrl}/settings/subscription`;
+};

@@ -48,6 +48,10 @@ export const getItemOptions = state => state.itemOptions;
 export const getAccountOptions = state => state.accountOptions;
 export const getSerialNumber = state => state.serialNumber;
 
+export const getIsUpgradeModalShowing = state => state.monthlyLimit
+  && state.monthlyLimit.used >= state.monthlyLimit.total;
+export const getMonthlyLimit = ({ monthlyLimit }) => monthlyLimit;
+
 export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 
 export const getTemplateOptions = (state) => {

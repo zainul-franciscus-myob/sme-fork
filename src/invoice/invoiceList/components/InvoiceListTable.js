@@ -12,7 +12,7 @@ const InvoiceListTable = ({
   isTableEmpty,
   isDefaultFilter,
   tableConfig,
-  onCreateButtonClick,
+  onCreateInvoiceButtonClick,
 }) => {
   const emptyTableView = isDefaultFilter ? (
     <NoResultPageState
@@ -21,7 +21,7 @@ const InvoiceListTable = ({
       actions={[
         <Button
           key={1}
-          onClick={onCreateButtonClick}
+          onClick={onCreateInvoiceButtonClick}
           type="link"
           icon={<Icons.Add />}
         >

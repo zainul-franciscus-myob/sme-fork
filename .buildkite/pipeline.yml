@@ -10,7 +10,7 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - wait
+  - wait:
 
   - name: ':package: :hatched_chick: Build Development Javascript'
     command: ./ops/bin/build development
@@ -57,7 +57,7 @@ steps:
       queue: cacc-prod-dflt
     artifact_paths: "build-production.tar.gz"
 
-  - wait
+  - wait:
 
   - name: ':rocket: :hatched_chick: Deploy Development App'
     command: ./ops/bin/deploy development
@@ -65,7 +65,8 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - block
+  - block:
+    branches: master
 
   - name: ':rocket: :eagle: Deploy Integration App'
     command: ./ops/bin/deploy integration
@@ -73,7 +74,8 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - block
+  - block:
+    branches: master
 
   - name: ':rocket: :eagle: Deploy PDV App'
     command: ./ops/bin/deploy pdv
@@ -81,7 +83,8 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - block
+  - block:
+    branches: master
 
   - name: ':rocket: :eagle: Deploy Preview App'
     command: ./ops/bin/deploy preview
@@ -89,7 +92,8 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - block
+  - block:
+    branches: master
 
   - name: ':rocket: :eagle: Deploy Production App'
     command: ./ops/bin/deploy production

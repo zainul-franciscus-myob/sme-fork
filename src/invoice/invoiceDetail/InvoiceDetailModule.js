@@ -28,6 +28,7 @@ import {
   getInvoicePaymentUrl,
   getInvoiceReadWithEmailModalUrl,
   getInvoiceReadWithExportPdfModalUrl,
+  getSubscriptionSettingsUrl,
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import { getFilesForUpload, getIsEmailModalOpen } from './selectors/emailSelectors';
@@ -229,6 +230,13 @@ export default class InvoiceDetailModule {
   redirectToInvoiceList = () => {
     const state = this.store.getState();
     const url = getInvoiceListUrl(state);
+
+    this.redirectToUrl(url);
+  }
+
+  redirectToSubscriptionSettings = () => {
+    const state = this.store.getState();
+    const url = getSubscriptionSettingsUrl(state);
 
     this.redirectToUrl(url);
   }
@@ -817,6 +825,8 @@ export default class InvoiceDetailModule {
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onAddContactButtonClick={this.openContactModal}
         onUpdateInvoiceLayout={this.updateInvoiceLayout}
+        onUpgradeModalDismiss={this.redirectToInvoiceList}
+        onUpgradeModalUpgradeButtonClick={this.redirectToSubscriptionSettings}
       />
     );
 

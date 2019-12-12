@@ -247,8 +247,8 @@ export default class InvoiceListModule {
         onUpdateFilter={this.updateFilterOptions}
         onDismissAlert={this.dismissAlert}
         onSort={this.sortInvoiceList}
-        onCreateButtonClick={this.redirectToCreateNewInvoice}
         onLoadMoreButtonClick={this.loadNextPage}
+        onCreateInvoiceButtonClick={this.redirectToCreateNewInvoice}
       />
     );
 

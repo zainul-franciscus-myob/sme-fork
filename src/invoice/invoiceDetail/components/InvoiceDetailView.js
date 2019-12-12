@@ -19,6 +19,7 @@ import InvoiceDetailOptions from './InvoiceDetailOptions';
 import InvoiceItemTable from './itemLayout/InvoiceItemTable';
 import InvoiceServiceTable from './serviceLayout/InvoiceServiceTable';
 import PageView from '../../../components/PageView/PageView';
+import UpgradeModal from './UpgradeModal';
 
 const InvoiceDetailView = ({
   accountModal,
@@ -45,6 +46,8 @@ const InvoiceDetailView = ({
   onUpdateHeaderOptions,
   onAddContactButtonClick,
   onUpdateInvoiceLayout,
+  onUpgradeModalDismiss,
+  onUpgradeModalUpgradeButtonClick,
 }) => {
   const options = (
     <InvoiceDetailOptions
@@ -80,6 +83,13 @@ const InvoiceDetailView = ({
     />
   );
 
+  const upgradeModal = (
+    <UpgradeModal
+      onUpgradeModalDismiss={onUpgradeModalDismiss}
+      onUpgradeModalUpgradeButtonClick={onUpgradeModalUpgradeButtonClick}
+    />
+  );
+
   const table = isServiceLayout
     ? <InvoiceServiceTable listeners={serviceLayoutListeners} />
     : <InvoiceItemTable listeners={itemLayoutListeners} />;
@@ -91,6 +101,7 @@ const InvoiceDetailView = ({
       options={options}
       actions={actions}
     >
+      {upgradeModal}
       {accountModal}
       {contactModal}
       {inventoryModal}

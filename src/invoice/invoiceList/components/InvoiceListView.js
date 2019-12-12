@@ -33,7 +33,7 @@ const InvoiceListView = ({
   onUpdateFilter,
   onSort,
   isLoading,
-  onCreateButtonClick,
+  onCreateInvoiceButtonClick,
   onDismissAlert,
   onLoadMoreButtonClick,
   loadMoreButtonStatus,
@@ -47,7 +47,7 @@ const InvoiceListView = ({
 
   const pageHead = (
     <PageHead title="Invoices">
-      <Button onClick={onCreateButtonClick}>Create invoice</Button>
+      <Button onClick={onCreateInvoiceButtonClick}>Create invoice</Button>
     </PageHead>
   );
 
@@ -63,7 +63,10 @@ const InvoiceListView = ({
 
   const listTable = (
     <div className={style.list}>
-      <InvoiceListTable tableConfig={tableConfig} onCreateButtonClick={onCreateButtonClick} />
+      <InvoiceListTable
+        tableConfig={tableConfig}
+        onCreateInvoiceButtonClick={onCreateInvoiceButtonClick}
+      />
     </div>
   );
 
