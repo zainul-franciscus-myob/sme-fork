@@ -155,7 +155,7 @@ const createQuoteDetailDispatcher = store => ({
 
   removeEmailAttachment: index => store.dispatch({ intent: REMOVE_EMAIL_ATTACHMENT, index }),
 
-  changeExportPdfTemplate: value => store.dispatch({
+  changeExportPdfTemplate: ({ value }) => store.dispatch({
     intent: CHANGE_EXPORT_PDF_TEMPLATE, template: value,
   }),
 });
