@@ -88,6 +88,7 @@ const SpendMoneyDetailRow = (props) => {
         selectedId={taxCodeId}
         onChange={eventWrapper('taxCodeId', onChange)}
         disabled={isNewLineRow}
+        left
       />
     </LineItemTable.Row>);
 };

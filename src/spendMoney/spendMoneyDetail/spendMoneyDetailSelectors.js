@@ -201,12 +201,6 @@ export const getTransactionListUrl = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/transactionList`,
 );
 
-export const getSaveUrl = (state) => {
-  const modalUrl = getModalUrl(state);
-  const transactionListUrl = getTransactionListUrl(state);
-  return modalUrl || transactionListUrl;
-};
-
 export const getInTrayDocumentId = state => state.inTrayDocumentId;
 
 export const getIsCreatingFromInTray = createSelector(
@@ -242,3 +236,22 @@ export const getShowSplitView = state => state.showSplitView;
 export const getPrefillStatus = state => state.prefillStatus;
 
 export const getShowPrefillInfo = state => state.showPrefillInfo;
+
+const getInTrayUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `/#/${region}/${businessId}/inTray`,
+);
+
+export const getSaveUrl = createSelector(
+  getIsCreatingFromInTray,
+  getModalUrl,
+  getTransactionListUrl,
+  getInTrayUrl,
+  (isCreatingFromInTray, modalUrl, transactionListUrl, inTrayUrl) => {
+    if (isCreatingFromInTray) {
+      return inTrayUrl;
+    }
+    return modalUrl || transactionListUrl;
+  },
+);
