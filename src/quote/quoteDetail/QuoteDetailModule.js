@@ -18,6 +18,7 @@ import {
   getIsPageEdited,
   getIsTableEmpty,
   getLineByIndex,
+  getModalUrl,
   getNewLineIndex,
   getRouteUrlParams,
   getShouldReload,
@@ -135,9 +136,13 @@ export default class QuoteDetailModule {
     this.createOrUpdateQuote({ onSuccess });
   }
 
-  saveAndRedirectToInvoice = () => {
+  saveUnsavedChanges = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+    this.dispatcher.closeModal();
+
     const onSuccess = () => {
-      this.redirectToCreateInvoice();
+      this.redirectToUrl(url);
     };
 
     this.createOrUpdateQuote({ onSuccess });
@@ -244,6 +249,13 @@ export default class QuoteDetailModule {
   redirectToInvoiceAndQuoteSettings = () => {
     const state = this.store.getState();
     const url = getInvoiceAndQuoteSettingsUrl(state);
+
+    this.redirectToUrl(url);
+  }
+
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
 
     this.redirectToUrl(url);
   }
@@ -472,28 +484,34 @@ export default class QuoteDetailModule {
 
   openCancelModal = () => {
     if (getIsPageEdited(this.store.getState())) {
-      this.dispatcher.openModal(ModalType.CANCEL);
+      this.dispatcher.openModal({ type: ModalType.CANCEL });
     } else {
       this.redirectToQuoteList();
     }
   };
 
-  openDeleteModal = () => this.dispatcher.openModal(ModalType.DELETE);
+  openDeleteModal = () => this.dispatcher.openModal({ type: ModalType.DELETE });
 
-  openUnsavedModal = () => {
-    if (getIsPageEdited(this.store.getState())) {
-      this.dispatcher.openModal(ModalType.UNSAVED);
+  openUnsavedModal = (url) => {
+    this.dispatcher.openModal({ type: ModalType.UNSAVED, url });
+  }
+
+  convertToInvoiceOrOpenUnsavedModal = () => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      const url = getCreateInvoiceFromQuoteUrl(state);
+      this.openUnsavedModal(url);
     } else {
       this.redirectToCreateInvoice();
     }
   }
 
   openSaveAndCreateNewConfirmationModal = () => {
-    this.dispatcher.openModal(ModalType.SAVE_AND_CREATE_NEW);
+    this.dispatcher.openModal({ type: ModalType.SAVE_AND_CREATE_NEW });
   }
 
   openSaveAndDuplicateConfirmationModal = () => {
-    this.dispatcher.openModal(ModalType.SAVE_AND_DUPLICATE);
+    this.dispatcher.openModal({ type: ModalType.SAVE_AND_DUPLICATE });
   }
 
   executeSaveAndAction = saveAndAction => ({
@@ -607,7 +625,7 @@ export default class QuoteDetailModule {
     if (shouldSaveAndExportPdf) {
       this.saveAndExportPdf();
     } else {
-      this.dispatcher.openModal(ModalType.EXPORT_PDF);
+      this.dispatcher.openModal({ type: ModalType.EXPORT_PDF });
     }
   }
 
@@ -654,7 +672,7 @@ export default class QuoteDetailModule {
             onSaveAndButtonClick: this.executeSaveAndAction,
             onCancelButtonClick: this.openCancelModal,
             onDeleteButtonClick: this.openDeleteModal,
-            onConvertToInvoiceButtonClick: this.openUnsavedModal,
+            onConvertToInvoiceButtonClick: this.convertToInvoiceOrOpenUnsavedModal,
             onExportPdfButtonClick: this.exportPdfOrSaveAndExportPdf,
             onSaveAndEmailButtonClick: this.saveAndEmailQuote,
           }}
@@ -662,8 +680,8 @@ export default class QuoteDetailModule {
             onDismissModal: this.dispatcher.closeModal,
             onConfirmCancelButtonClick: this.redirectToQuoteList,
             onConfirmDeleteButtonClick: this.deleteQuote,
-            onConfirmSaveButtonClick: this.saveAndRedirectToInvoice,
-            onConfirmUnsaveButtonClick: this.redirectToCreateInvoice,
+            onConfirmSaveButtonClick: this.saveUnsavedChanges,
+            onConfirmUnsaveButtonClick: this.redirectToModalUrl,
             onConfirmSaveAndCreateNewButtonClick: this.saveAndCreateNew,
             onConfirmSaveAndDuplicateButtonClick: this.saveAndDuplicate,
             onEmailQuoteDetailChange: this.dispatcher.updateEmailQuoteDetail,

@@ -7,7 +7,7 @@ import {
   getIsCreating,
   getIsLoading,
   getLayout,
-  getModalType,
+  getModal,
   getPageTitle,
   getTotalAmount,
 } from '../selectors/QuoteDetailSelectors';
@@ -26,7 +26,7 @@ const QuoteDetailView = ({
   inventoryModal,
   isLoading,
   alert,
-  modalType,
+  modal,
   isCreating,
   pageTitle,
   totalAmount,
@@ -48,7 +48,7 @@ const QuoteDetailView = ({
     </Alert>
   );
 
-  const modal = modalType && (
+  const modalComponent = modal && (
     <QuoteDetailModal listeners={modalListeners} />
   );
 
@@ -82,7 +82,7 @@ const QuoteDetailView = ({
       options={options}
       actions={actions}
     >
-      { modal }
+      { modalComponent }
       { contactModal }
       { accountModal }
       { inventoryModal }
@@ -96,7 +96,7 @@ const QuoteDetailView = ({
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   isLoading: getIsLoading(state),
-  modalType: getModalType(state),
+  modal: getModal(state),
   alert: getAlert(state),
   pageTitle: getPageTitle(state),
   totalAmount: getTotalAmount(state),

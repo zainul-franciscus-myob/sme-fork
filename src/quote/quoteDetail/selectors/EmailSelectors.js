@@ -55,5 +55,5 @@ export const getFilesForUpload = (state, files) => (
 );
 
 export const getIsEmailModalOpen = state => (
-  state.modalType === ModalType.EMAIL_QUOTE
+  state.modal && state.modal.type === ModalType.EMAIL_QUOTE
 );

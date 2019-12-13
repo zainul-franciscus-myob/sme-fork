@@ -10,7 +10,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
   isPageEdited: false,
   alert: undefined,
-  modalType: '',
+  modal: undefined,
   isModalSubmitting: false,
   modalAlert: undefined,
   isLineAmountInputDirty: false,

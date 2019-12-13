@@ -50,6 +50,7 @@ import {
   getShouldOpenEmailModal,
   getUpdatedContactOptions,
 } from '../selectors/QuoteDetailSelectors';
+import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineLayout from '../QuoteLineLayout';
 import createReducer from '../../../store/createReducer';
@@ -65,9 +66,9 @@ const setSubmittingState = (state, { isSubmitting }) => ({ ...state, isSubmittin
 
 const setAlert = (state, { alert }) => ({ ...state, alert });
 
-const openModal = (state, { modalType }) => ({ ...state, modalType });
+const openModal = (state, { modal }) => ({ ...state, modal });
 
-const closeModal = state => ({ ...state, modalType: '' });
+const closeModal = state => ({ ...state, modal: undefined });
 
 const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
 
@@ -95,6 +96,9 @@ const loadQuoteDetail = (state, action) => {
   const defaultState = getDefaultState();
 
   const modalType = getLoadQuoteDetailModalType(state, action.emailQuote);
+  const modal = modalType === ModalType.NONE
+    ? undefined
+    : { type: modalType };
 
   const { modalAlert, pageAlert } = action.message
     ? getLoadQuoteDetailModalAndPageAlert(state, action.message)
@@ -104,7 +108,7 @@ const loadQuoteDetail = (state, action) => {
     ...state,
     openExportPdf: defaultState.openExportPdf,
     alert: pageAlert,
-    modalType,
+    modal,
     modalAlert,
     pageTitle: action.pageTitle,
     quote: {

@@ -51,7 +51,7 @@ const createQuoteDetailDispatcher = store => ({
 
   dismissAlert: () => store.dispatch({ intent: SET_ALERT }),
 
-  openModal: modalType => store.dispatch({ intent: OPEN_MODAL, modalType }),
+  openModal: ({ type, url }) => store.dispatch({ intent: OPEN_MODAL, modal: { type, url } }),
 
   closeModal: () => store.dispatch({ intent: CLOSE_MODAL }),
 

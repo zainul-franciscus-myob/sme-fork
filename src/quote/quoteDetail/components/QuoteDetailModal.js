@@ -5,8 +5,8 @@ import { getEmailQuoteDetail } from '../selectors/EmailSelectors';
 import {
   getExportPdfTemplate,
   getIsModalActionDisabled,
+  getModal,
   getModalAlert,
-  getModalType,
   getTemplateOptions,
 } from '../selectors/QuoteDetailSelectors';
 import CancelModal from '../../../components/modal/CancelModal';
@@ -19,7 +19,7 @@ import QuoteDetailSaveAndConfirmModal from './QuoteDetailSaveAndConfirmModal';
 import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const QuoteDetailModal = ({
-  modalType,
+  modal: { type = '' },
   template,
   templateOptions,
   isActionDisabled,
@@ -115,10 +115,10 @@ const QuoteDetailModal = ({
       onDismissAlert={onDismissAlert}
     />
   ),
-}[modalType]);
+}[type]);
 
 const mapStateToProps = state => ({
-  modalType: getModalType(state),
+  modal: getModal(state),
   template: getExportPdfTemplate(state),
   templateOptions: getTemplateOptions(state),
   isActionDisabled: getIsModalActionDisabled(state),
