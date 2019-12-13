@@ -9,6 +9,7 @@ import {
   getInTrayDocument,
   getIsDocumentLoading,
 } from '../selectors/BillInTrayDocumentSelectors';
+import { getIsCreatingFromInTray } from '../selectors/billSelectors';
 import Thumbnail from '../../../components/Thumbnail/Thumbnail';
 import styles from './BillInTrayDocumentView.module.css';
 
@@ -16,6 +17,7 @@ const BillInTrayDocumentView = ({
   isDocumentLoading,
   hasInTrayDocumentId,
   inTrayDocument,
+  isCreatingFromInTray,
   onPrefillButtonClick,
   onOpenSplitViewButtonClick,
   onUnlinkDocumentButtonClick,
@@ -27,21 +29,16 @@ const BillInTrayDocumentView = ({
         alt="Document thumbnail"
       />
       <div className={styles.pdf}>
-        <div><strong>{`Document uploaded ${inTrayDocument.uploadedDate}`}</strong></div>
+        <div><h4>{`Source document uploaded ${inTrayDocument.uploadedDate}`}</h4></div>
         <div className={styles.buttonGroup}>
-          <Button onClick={onOpenSplitViewButtonClick} type="link" icon={<Icons.Show />}>
-            View
+          <Button onClick={onOpenSplitViewButtonClick} type="link" icon={<Icons.Expand />}>
+            Open split view
           </Button>
-          {
-            /* Split view with PDF viewer is not working, so hide the button for now
-            <Button onClick={onOpenSplitViewButtonClick} type="link" icon={<Icons.Expand />}>
-              Open split view
+          { !isCreatingFromInTray && (
+            <Button onClick={onUnlinkDocumentButtonClick} type="link" icon={<Icons.UnLink />}>
+              Unlink
             </Button>
-            */
-          }
-          <Button onClick={onUnlinkDocumentButtonClick} type="link" icon={<Icons.UnLink />}>
-            Unlink
-          </Button>
+          )}
         </div>
       </div>
     </div>
@@ -86,6 +83,7 @@ const mapStateToProps = state => ({
   hasInTrayDocumentId: getHasInTrayDocumentId(state),
   inTrayDocument: getInTrayDocument(state),
   isDocumentLoading: getIsDocumentLoading(state),
+  isCreatingFromInTray: getIsCreatingFromInTray(state),
 });
 
 export default connect(mapStateToProps)(BillInTrayDocumentView);

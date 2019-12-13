@@ -54,7 +54,7 @@ export const SET_ACCOUNT_LOADING_STATE = Symbol('Set account loading state');
 
 export const SET_SHOW_SPLIT_VIEW = Symbol('Set show split view');
 export const SET_IN_TRAY_DOCUMENT_ID = Symbol('Set in tray document id');
-export const LOAD_IN_TRAY_DOCUMENT_URL = Symbol('Load in tray document url');
+export const DOWNLOAD_IN_TRAY_DOCUMENT = Symbol('Download in tray document');
 export const UNLINK_IN_TRAY_DOCUMENT = Symbol('Unlink in tray document');
 export const SET_DOCUMENT_LOADING_STATE = Symbol('Set document loading state');
 export const HIDE_PREFILL_INFO = Symbol('Hide prefill info');

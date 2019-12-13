@@ -8,6 +8,10 @@
   margin-left: 1rem;
 }
 
+.pdf h4 {
+  margin: var(--flx-spacing-x-tiny) 0;
+}
+
 div.card:global.flx-card {
   margin-bottom: 0.8rem;
 }

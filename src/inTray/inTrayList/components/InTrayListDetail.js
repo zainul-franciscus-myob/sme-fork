@@ -12,7 +12,6 @@ import { getActiveEntry } from '../selectors/InTrayListSelectors';
 import { getDocumentViewerUrl } from '../selectors/InTraySelectors';
 import DocumentViewer from '../../../components/DocumentViewer/DocumentViewer';
 import actionTypes from '../actionTypes';
-import styles from './InTrayListDetail.module.css';
 
 const items = [
   <Dropdown.Item
@@ -64,7 +63,7 @@ const InTrayListDetail = ({
       </ButtonRow>
 )}
   >
-    <DocumentViewer src={documentViewerUrl} className={styles.documentViewer} />
+    <DocumentViewer src={documentViewerUrl} />
   </Aside>
 );
 

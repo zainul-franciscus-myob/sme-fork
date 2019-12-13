@@ -3,6 +3,7 @@ import {
   ADD_BILL_SERVICE_LINE,
   CLOSE_ALERT,
   CLOSE_MODAL,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   HIDE_PREFILL_INFO,
@@ -298,13 +299,12 @@ const createBillDispatcher = store => ({
     });
   },
 
-  // TODO: Split view with PDF viewer is not working, so not store the url for now
-  // loadInTrayDocumentUrl: (inTrayDocumentUrl) => {
-  //   store.dispatch({
-  //     intent: LOAD_IN_TRAY_DOCUMENT_URL,
-  //     inTrayDocumentUrl,
-  //   });
-  // },
+  downloadInTrayDocument: (inTrayDocumentUrl) => {
+    store.dispatch({
+      intent: DOWNLOAD_IN_TRAY_DOCUMENT,
+      inTrayDocumentUrl,
+    });
+  },
 
   unlinkInTrayDocument: () => {
     store.dispatch({

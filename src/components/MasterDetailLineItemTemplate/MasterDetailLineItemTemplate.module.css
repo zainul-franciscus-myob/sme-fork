@@ -39,3 +39,16 @@
 div.card:global.flx-card {
   margin-bottom: 0.8rem;
 }
+
+/**
+  @FEELIX:
+    To show aside view on the left hand side
+**/
+.showDetail :global(.flx-masterdetail) {
+  flex-direction: row-reverse;
+}
+
+.showDetail :global(.flx-masterdetail__master + .flx-masterdetail__detail) {
+  margin-left: 0;
+  margin-right: var(--flx-spacing-tiny);
+}

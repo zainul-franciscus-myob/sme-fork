@@ -55,7 +55,7 @@ const MasterDetailLineItemTemplate = ({
       pageHead={pageHead}
       sticky={sticky}
       showDetail={showDetail}
-      detailWidth="45%"
+      detailWidth="55%"
       containerClassName={classnames(styles.container, { [styles.showDetail]: showDetail })}
       sectionClassName={styles.section}
     />

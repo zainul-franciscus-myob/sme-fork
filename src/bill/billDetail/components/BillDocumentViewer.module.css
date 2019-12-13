@@ -1,4 +1,3 @@
-.actionButtonWrapper {
-  display: flex;
-  justify-content: flex-end;
+.buttonGroup > button + button {
+  margin-left: var(--flx-spacing-small);
 }

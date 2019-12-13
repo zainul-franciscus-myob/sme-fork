@@ -1,5 +1,6 @@
 import {
   DELETE_BILL,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
   ITEM_CALCULATE_REMOVE_LINE,
   ITEM_CALCULATE_UPDATE_AMOUNT_PAID,
@@ -10,7 +11,6 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_IN_TRAY_DOCUMENT,
-  LOAD_IN_TRAY_DOCUMENT_URL,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
@@ -254,11 +254,11 @@ const createBillIntegrator = (store, integration) => ({
     });
   },
 
-  loadDocumentUrl: ({ onSuccess, onFailure }) => {
+  downloadDocument: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
-    integration.read({
-      intent: LOAD_IN_TRAY_DOCUMENT_URL,
+    integration.readFile({
+      intent: DOWNLOAD_IN_TRAY_DOCUMENT,
       urlParams: getInTrayDocumentUrlParams(state),
       onSuccess,
       onFailure,

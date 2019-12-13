@@ -1,6 +1,7 @@
 import {
   CREATE_BILL,
   DELETE_BILL,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
   ITEM_CALCULATE_REMOVE_LINE,
   ITEM_CALCULATE_UPDATE_AMOUNT_PAID,
@@ -12,7 +13,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_IN_TRAY_DOCUMENT,
-  LOAD_IN_TRAY_DOCUMENT_URL,
   LOAD_ITEM_OPTION,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
@@ -27,7 +27,6 @@ import createBillResponse from '../data/bill/createBillResponse';
 import itemCalculate from '../data/bill/itemCalculate';
 import loadAddedAccountResponse from '../data/invoice/serviceLayout/loadAddedAccountResponse';
 import loadInTrayDocumentResponse from '../data/bill/loadInTrayDocumentResponse';
-import loadInTrayDocumentUrlResponse from '../data/bill/loadInTrayDocumentUrlResponse';
 import loadItemBill from '../data/bill/loadItemBill';
 import loadItemOption from '../data/bill/loadItemOption';
 import loadNewDuplicateItemBill from '../data/bill/loadNewDuplicateItemBill';
@@ -58,7 +57,7 @@ const BillDetailMapping = {
   [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
   [PREFILL_BILL_FROM_IN_TRAY]: ({ onSuccess }) => onSuccess(prefillBillFromInTray),
-  [LOAD_IN_TRAY_DOCUMENT_URL]: ({ onSuccess }) => onSuccess(loadInTrayDocumentUrlResponse),
+  [DOWNLOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [UNLINK_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(loadInTrayDocumentResponse),
   [LINK_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),

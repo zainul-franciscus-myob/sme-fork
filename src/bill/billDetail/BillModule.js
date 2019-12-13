@@ -29,6 +29,7 @@ import {
 } from './selectors/BillRedirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import {
+  getHasInTrayDocumentUrl,
   getInTrayDocumentId,
   getInTrayModalContext,
   getShouldLinkInTrayDocument,
@@ -738,20 +739,25 @@ class BillModule {
     });
   }
 
-  // TODO: Split view with PDF viewer is not working, so not trigger it for now
-  loadDocumentUrl = () => {
-    const onSuccess = ({ fileUrl }) => {
-      // this.dispatcher.loadInTrayDocumentUrl(fileUrl);
-      window.open(fileUrl, '_blank');
+  downloadDocument = () => {
+    const state = this.store.getState();
+
+    this.dispatcher.setShowSplitView(true);
+    if (getHasInTrayDocumentUrl(state)) {
+      return;
+    }
+
+    const onSuccess = (blob) => {
+      const url = URL.createObjectURL(blob);
+      this.dispatcher.downloadInTrayDocument(url);
     };
 
     const onFailure = ({ message }) => {
-      // this.dispatcher.setShowSplitView(false);
+      this.dispatcher.setShowSplitView(false);
       this.dispatcher.openDangerAlert({ message });
     };
 
-    // this.dispatcher.setShowSplitView(true);
-    this.integrator.loadDocumentUrl({ onSuccess, onFailure });
+    this.integrator.downloadDocument({ onSuccess, onFailure });
   };
 
   closeSplitView = () => {
@@ -883,7 +889,7 @@ class BillModule {
           }}
           contactModal={contactModal}
           onAddSupplierButtonClick={this.openSupplierModal}
-          onOpenSplitViewButtonClick={this.loadDocumentUrl}
+          onOpenSplitViewButtonClick={this.downloadDocument}
           onCloseSplitViewButtonClick={this.closeSplitView}
           onUnlinkDocumentButtonClick={this.openUnlinkDocumentModal}
           onUnlinkDocumentConfirm={this.unlinkInTrayDocument}

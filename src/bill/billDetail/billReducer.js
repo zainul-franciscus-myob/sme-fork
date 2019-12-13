@@ -3,6 +3,7 @@ import {
   ADD_BILL_SERVICE_LINE,
   CLOSE_ALERT,
   CLOSE_MODAL,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   HIDE_PREFILL_INFO,
@@ -10,7 +11,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_IN_TRAY_DOCUMENT,
-  LOAD_IN_TRAY_DOCUMENT_URL,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
@@ -124,7 +124,7 @@ const getDefaultState = () => ({
   isDocumentLoading: false,
   inTrayDocumentId: '',
   inTrayDocument: undefined,
-  inTrayDocumentUrl: '',
+  inTrayDocumentUrl: undefined,
   showPrefillInfo: false,
   prefillStatus: defaultPrefillStatus,
   exportPdf: {
@@ -430,7 +430,7 @@ const prefillBillFromInTray = (state, action) => {
 
   if (newLine.amount && state.bill.lines.length === 0) {
     lines = [getPrefilledNewLineFromInTray(state, newLine)];
-    ({ isTaxInclusive } = bill);
+    isTaxInclusive = bill.isTaxInclusive || isTaxInclusive;
   }
 
   return {
@@ -501,7 +501,6 @@ export const setAccountLoadingState = (state, { isAccountLoading }) => (
 export const setShowSplitView = (state, { showSplitView }) => ({
   ...state,
   showSplitView,
-  inTrayDocumentUrl: showSplitView ? state.inTrayDocumentUrl : '',
 });
 
 export const setInTrayDocumentId = (state, { inTrayDocumentId }) => ({
@@ -519,7 +518,10 @@ export const unlinkInTrayDocument = state => ({
   isDocumentLoading: false,
   inTrayDocumentId: '',
   inTrayDocument: undefined,
-  inTrayDocumentUrl: '',
+  inTrayDocumentUrl: undefined,
+  showPrefillInfo: false,
+  prefillStatus: defaultPrefillStatus,
+  showSplitView: false,
 });
 
 export const setDocumentLoadingState = (state, { isDocumentLoading }) => ({
@@ -576,7 +578,7 @@ const handlers = {
   [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
   [SET_SHOW_SPLIT_VIEW]: setShowSplitView,
   [SET_IN_TRAY_DOCUMENT_ID]: setInTrayDocumentId,
-  [LOAD_IN_TRAY_DOCUMENT_URL]: loadInTrayDocumentUrl,
+  [DOWNLOAD_IN_TRAY_DOCUMENT]: loadInTrayDocumentUrl,
   [UNLINK_IN_TRAY_DOCUMENT]: unlinkInTrayDocument,
   [SET_DOCUMENT_LOADING_STATE]: setDocumentLoadingState,
   [HIDE_PREFILL_INFO]: hidePrefillInfo,

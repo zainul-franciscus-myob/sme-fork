@@ -1,5 +1,0 @@
-.documentViewer {
-  /* Hide scroll bars when documentViewer is made 100% height */
-  height: calc(100% - 1rem);
-  width: 100%;
-}

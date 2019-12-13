@@ -11,7 +11,7 @@ const UnlinkDocumentModal = ({
     canClose={false}
   >
     <Modal.Body>
-      Unlinking this document will sent it back to the in tray.
+      Unlinking this document will return it to the In tray.
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCancel}>Go back</Button>

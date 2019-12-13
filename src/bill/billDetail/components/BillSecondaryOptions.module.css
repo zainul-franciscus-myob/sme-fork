@@ -1,6 +1,6 @@
 :global(input).prefilled,
 .prefilled :global(input) {
-  background-color: var(--flx-palette-azure-light);
+  background-color: #d5e3f9;
 }
 
 .formControlWrapper {

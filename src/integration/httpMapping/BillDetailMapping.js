@@ -1,6 +1,7 @@
 import {
   CREATE_BILL,
   DELETE_BILL,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
   ITEM_CALCULATE_REMOVE_LINE,
   ITEM_CALCULATE_UPDATE_AMOUNT_PAID,
@@ -12,7 +13,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_IN_TRAY_DOCUMENT,
-  LOAD_IN_TRAY_DOCUMENT_URL,
   LOAD_ITEM_OPTION,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
@@ -101,9 +101,9 @@ const BillDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/prefill_bill_from_in_tray/${inTrayDocumentId}`,
   },
-  [LOAD_IN_TRAY_DOCUMENT_URL]: {
+  [DOWNLOAD_IN_TRAY_DOCUMENT]: {
     method: 'GET',
-    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/load_in_tray_document_url/${inTrayDocumentId}`,
+    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/download_in_tray_document/${inTrayDocumentId}`,
   },
   [UNLINK_IN_TRAY_DOCUMENT]: {
     method: 'DELETE',

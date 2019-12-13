@@ -1,4 +1,6 @@
 .documentViewer {
   border: var(--flx-border-thin);
   border-radius: var(--flx-border-radius-card);
+  height: calc(100% - 1rem);
+  width: 100%;
 }

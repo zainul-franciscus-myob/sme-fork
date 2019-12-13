@@ -100,7 +100,12 @@ const BillView = ({
     </div>
   );
 
-  const detail = <BillDocumentViewer onCloseSplitViewButtonClick={onCloseSplitViewButtonClick} />;
+  const detail = (
+    <BillDocumentViewer
+      onCloseSplitViewButtonClick={onCloseSplitViewButtonClick}
+      onUnlinkDocumentButtonClick={onUnlinkDocumentButtonClick}
+    />
+  );
 
   const subHeaderChildren = (
     <div>
@@ -123,11 +128,13 @@ const BillView = ({
           onUnlinkDocumentConfirm={onUnlinkDocumentConfirm}
         />
       )}
-      <BillInTrayDocumentView
-        onPrefillButtonClick={onPrefillButtonClick}
-        onOpenSplitViewButtonClick={onOpenSplitViewButtonClick}
-        onUnlinkDocumentButtonClick={onUnlinkDocumentButtonClick}
-      />
+      {!isSplitViewShown && (
+        <BillInTrayDocumentView
+          onPrefillButtonClick={onPrefillButtonClick}
+          onOpenSplitViewButtonClick={onOpenSplitViewButtonClick}
+          onUnlinkDocumentButtonClick={onUnlinkDocumentButtonClick}
+        />
+      )}
     </div>
   );
 
