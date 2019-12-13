@@ -28,6 +28,8 @@ const handleNoteChange = handler => ({ value }) => {
   });
 };
 
+const requiredLabel = 'This is required';
+
 const QuoteDetailOptions = (props) => {
   const {
     layout,
@@ -69,6 +71,7 @@ const QuoteDetailOptions = (props) => {
           label: 'Create customer',
           onAddNew: onAddCustomerButtonClick,
         }}
+        requiredLabel={requiredLabel}
       />
     )
     : <ReadOnly name="customer" label="Customer"><a href={contactLink}>{contactName}</a></ReadOnly>;
