@@ -1,3 +1,7 @@
+import { createSelector } from 'reselect';
+
+import TableBodyType from './TableBodyType';
+
 export const getBusinessId = state => state.businessId;
 
 export const getRegion = state => state.region;
@@ -20,12 +24,65 @@ export const getOrderBy = state => state.orderBy;
 
 export const getSortOrder = state => state.sortOrder;
 
+export const getAppliedFilterOptions = state => state.appliedFilterOptions;
+
+export const getSettings = createSelector(
+  getAppliedFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  (filterOptions, sortOrder, orderBy) => ({
+    filterOptions,
+    sortOrder,
+    orderBy,
+  }),
+);
+
 export const getOrder = state => ({
   column: getOrderBy(state),
   descending: getSortOrder(state) === 'desc',
 });
 
-export const getTableEntries = state => state.entries;
+const getEntries = state => state.entries;
+
+const getEntryLink = (entry, businessId, region) => {
+  const { id } = entry;
+
+  return `/#/${region}/${businessId}/invoice/${id}`;
+};
+
+export const isDefaultFilters = ({
+  customerId,
+  keywords,
+}, defaultFilterOptions) => (
+  customerId === defaultFilterOptions.customerId && keywords === ''
+);
+
+const getDefaultFilterOptions = state => state.defaultFilterOptions;
+
+export const getTableBodyState = createSelector(
+  getAppliedFilterOptions,
+  getDefaultFilterOptions,
+  getEntries,
+  (appliedFilterOptions, defaultFilterOptions, entries) => {
+    if (entries.length > 0) {
+      return TableBodyType.TABLE;
+    }
+    if (isDefaultFilters(appliedFilterOptions, defaultFilterOptions)) {
+      return TableBodyType.EMPTY;
+    }
+    return TableBodyType.NO_RESULTS;
+  },
+);
+
+export const getTableEntries = createSelector(
+  getEntries,
+  getBusinessId,
+  getRegion,
+  (entries, businessId, region) => entries.map(entry => ({
+    ...entry,
+    link: getEntryLink(entry, businessId, region),
+  })),
+);
 
 export const getAlert = state => state.alert;
 
@@ -34,5 +91,3 @@ const flipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc')
 export const getNewSortOrder = orderBy => state => (orderBy === getOrderBy(state)
   ? flipSortOrder(state)
   : 'asc');
-
-export const getAppliedFilterOptions = state => state.appliedFilterOptions;

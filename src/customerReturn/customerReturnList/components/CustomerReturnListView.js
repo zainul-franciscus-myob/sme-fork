@@ -4,7 +4,6 @@ import {
   StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getAlert, getIsLoading } from '../CustomerReturnListSelectors';
@@ -24,7 +23,7 @@ const CustomerReturnListView = ({
   onCreateApplyToSaleClick,
 }) => {
   const pageHead = (
-    <PageHead title="Customer returns" />
+    <PageHead title="Sale returns and credits" />
   );
 
   const alertComponent = alert && (
@@ -55,19 +54,6 @@ const CustomerReturnListView = ({
   );
 
   return <PageView isLoading={isLoading} view={customerReturnListView} />;
-};
-
-CustomerReturnListView.defaultProps = {
-  alert: undefined,
-};
-
-CustomerReturnListView.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  onUpdateFilterBarOptions: PropTypes.func.isRequired,
-  onApplyFilter: PropTypes.func.isRequired,
-  alert: PropTypes.shape(),
-  onDismissAlert: PropTypes.func.isRequired,
-  onSort: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

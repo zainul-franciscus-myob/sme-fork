@@ -2,12 +2,14 @@ import ApplyToSaleModule from '../applyToSale/ApplyToSaleModule';
 import CustomerReturnListModule from './customerReturnList/CustomerReturnListModule';
 import PayRefundModule from '../payRefund/payRefund/PayRefundModule';
 
+export const CUSTOMER_RETURN_LIST_ROUTE = 'customerReturnList';
+
 const getCustomerReturnRoutes = ({
   integration, setRootView, popMessages, pushMessage,
 }) => {
   const routes = [
     {
-      name: 'customerReturnList',
+      name: CUSTOMER_RETURN_LIST_ROUTE,
       path: '/',
       module: new CustomerReturnListModule({
         integration, setRootView, popMessages,

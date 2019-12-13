@@ -6,7 +6,11 @@
   margin-right: 2rem;
 }
 
-.totalCreditAmount {
-  margin-right: 2rem;
-  font-weight: bold;
+.customerCombobox :global(.form-group) {
+  width: var(--flx-width-field-l);
 }
+
+.totalCreditAmount {
+  font-weight: 500;
+}
+

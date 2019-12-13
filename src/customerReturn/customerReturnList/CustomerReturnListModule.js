@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { CUSTOMER_RETURN_LIST_ROUTE } from '../getCustomerReturnRoutes';
 import {
   LOAD_CUSTOMER_RETURN_LIST,
   SET_ALERT,
@@ -18,8 +19,9 @@ import { SUCCESSFULLY_SAVED_APPLY_TO_SALE } from '../../applyToSale/ApplyToSaleM
 import { SUCCESSFULLY_SAVED_PAY_REFUND } from '../../payRefund/PayRefundMessageTypes';
 import {
   getAppliedFilterOptions, getBusinessId, getFilterOptions,
-  getNewSortOrder, getOrderBy, getRegion, getSortOrder,
+  getNewSortOrder, getOrderBy, getRegion, getSettings, getSortOrder,
 } from './CustomerReturnListSelectors';
+import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import CustomerReturnListView from './components/CustomerReturnListView';
 import Store from '../../store/Store';
 import customerReturnListReducer from './customerReturnListReducer';
@@ -258,17 +260,23 @@ export default class CustomerReturnListModule {
     });
   }
 
-  setInitialState = (context) => {
+  setInitialState = (context, settings) => {
     const intent = SET_INITIAL_STATE;
     this.store.dispatch({
       intent,
       context,
+      settings,
     });
   }
 
   run(context) {
-    this.setInitialState(context);
+    const settings = loadSettings(context.businessId, CUSTOMER_RETURN_LIST_ROUTE);
+    this.setInitialState(context, settings);
     this.render();
+    this.store.subscribe(state => (
+      saveSettings(context.businessId, CUSTOMER_RETURN_LIST_ROUTE, getSettings(state))
+    ));
+
     this.readMessages();
     this.loadCustomerReturnList();
   }

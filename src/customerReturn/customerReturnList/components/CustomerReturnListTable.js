@@ -1,25 +1,44 @@
 import {
-  HeaderSort, Table,
+  HeaderSort, PageState, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsTableEmpty, getIsTableLoading, getOrder } from '../CustomerReturnListSelectors';
+import {
+  getIsTableEmpty, getIsTableLoading, getOrder, getTableBodyState,
+} from '../CustomerReturnListSelectors';
 import CustomerReturnListTableBody from './CustomerReturnListTableBody';
+import TableBodyType from '../TableBodyType';
 import TableView from '../../../components/TableView/TableView';
+import noResultStateImage from './no-results-state.svg';
+import widthConfig from './widthConfig';
 
 const tableConfig = {
-  date: { width: '11rem', valign: 'top' },
-  invoiceNumber: { width: 'flex-1', valign: 'top' },
-  customerPurchaseOrderNo: { width: 'flex-1', valign: 'top' },
-  customer: { width: 'flex-1', valign: 'top' },
-  amount: { width: 'flex-1', valign: 'top', align: 'right' },
-  creditAmount: { width: '17rem', valign: 'top', align: 'right' },
-  payRefund: { width: 'flex-1', valign: 'top' },
-  applyToSale: { width: 'flex-1', valign: 'top' },
+  date: { columnName: 'Issue date', valign: 'top' },
+  invoiceNumber: { columnName: 'Invoice number', valign: 'top' },
+  customer: { columnName: 'Customer', valign: 'top' },
+  customerPurchaseOrderNo: { columnName: 'Customer PO No', valign: 'top' },
+  amount: { columnName: 'Amount ($)', valign: 'top', align: 'right' },
+  creditAmount: { columnName: 'Balance due ($)', valign: 'top', align: 'right' },
+  payRefund: { columnName: 'Record refund', valign: 'top' },
+  applyToSale: { columnName: 'Apply to sale', valign: 'top' },
 };
 
+const HeaderItem = ({
+  config, sortName, activeSort, onSort,
+}) => (
+  <Table.HeaderItem {...config}>
+    <HeaderSort
+      title={config.columnName}
+      sortName={sortName}
+      activeSort={activeSort}
+      onSort={onSort}
+    />
+  </Table.HeaderItem>
+);
+
 const CustomerReturnListTable = ({
+  tableBodyState,
   isTableLoading,
   isTableEmpty,
   order,
@@ -27,40 +46,44 @@ const CustomerReturnListTable = ({
   onCreateRefundClick,
   onCreateApplyToSaleClick,
 }) => {
+  const noResultsPageState = (
+    <PageState
+      title="No results found :("
+      description="Try different filters to find the customer you are looking for."
+      image={<img src={noResultStateImage} style={{ width: '60%' }} alt="No results found" />}
+    />
+  );
+
+  const emptyPageState = (
+    <PageState
+      title="No customer returns yet"
+      description="Create customer returns for goods returned by your customers, services not used or received by your customers, or credits given to your customers for invoice overpayments."
+    />
+  );
+
+  const emptyView = {
+    [TableBodyType.EMPTY]: emptyPageState,
+    [TableBodyType.NO_RESULTS]: noResultsPageState,
+  }[tableBodyState];
+
+  const responsiveWidths = widthConfig(tableConfig);
   const header = (
-    <Table.Header>
-      <Table.HeaderItem {...tableConfig.date}>
-        <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-
-      <Table.HeaderItem {...tableConfig.invoiceNumber}>
-        <HeaderSort title="Invoice no." sortName="DisplayId" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-
-      <Table.HeaderItem {...tableConfig.customerPurchaseOrderNo}>
-        <HeaderSort title="Cust PO No" sortName="PurchaseOrderReference" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-
-      <Table.HeaderItem {...tableConfig.customer}>
-        <HeaderSort title="Customer" sortName="CustomerName" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-
-      <Table.HeaderItem {...tableConfig.amount}>
-        <HeaderSort title="Amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-
-      <Table.HeaderItem {...tableConfig.creditAmount}>
-        <HeaderSort title="Credit amount ($)" sortName="BalanceDue" activeSort={order} onSort={onSort} />
-      </Table.HeaderItem>
-
-      <Table.HeaderItem {...tableConfig.payRefund}>
-        Pay refund
-      </Table.HeaderItem>
-
-      <Table.HeaderItem {...tableConfig.applyToSale}>
-        Apply to sale
-      </Table.HeaderItem>
-    </Table.Header>
+    <Table responsiveWidths={responsiveWidths}>
+      <Table.Header>
+        <HeaderItem config={tableConfig.date} sortName="DateOccurred" activeSort={order} onSort={onSort} />
+        <HeaderItem config={tableConfig.invoiceNumber} sortName="DisplayId" activeSort={order} onSort={onSort} />
+        <HeaderItem config={tableConfig.customer} sortName="CustomerName" activeSort={order} onSort={onSort} />
+        <HeaderItem config={tableConfig.customerPurchaseOrderNo} sortName="PurchaseOrderReference" activeSort={order} onSort={onSort} />
+        <HeaderItem config={tableConfig.amount} sortName="Amount" activeSort={order} onSort={onSort} />
+        <HeaderItem config={tableConfig.creditAmount} sortName="BalanceDue" activeSort={order} onSort={onSort} />
+        <Table.HeaderItem {...tableConfig.payRefund}>
+          {tableConfig.payRefund.columnName}
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.applyToSale}>
+          {tableConfig.applyToSale.columnName}
+        </Table.HeaderItem>
+      </Table.Header>
+    </Table>
   );
 
   return (
@@ -68,7 +91,7 @@ const CustomerReturnListTable = ({
       header={header}
       isLoading={isTableLoading}
       isEmpty={isTableEmpty}
-      emptyMessage="There are no customer returns."
+      emptyView={emptyView}
     >
       <CustomerReturnListTableBody
         tableConfig={tableConfig}
@@ -83,6 +106,7 @@ const mapStateToProps = state => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   order: getOrder(state),
+  tableBodyState: getTableBodyState(state),
 });
 
 export default connect(mapStateToProps)(CustomerReturnListTable);

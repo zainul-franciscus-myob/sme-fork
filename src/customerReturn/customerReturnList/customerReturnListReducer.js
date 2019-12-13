@@ -12,18 +12,23 @@ import {
 } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
+const defaultFilterOptions = {
+  customerId: 'All',
+  keywords: '',
+};
+
+const defaultSortingOption = {
+  sortOrder: 'asc',
+  orderBy: 'name',
+};
+
 const getDefaultState = () => ({
   alert: undefined,
   isLoading: true,
   isTableLoading: false,
-  filterOptions: {
-    customerId: '',
-    keywords: '',
-  },
-  appliedFilterOptions: {
-    customerId: '',
-    keywords: '',
-  },
+  filterOptions: defaultFilterOptions,
+  defaultFilterOptions,
+  appliedFilterOptions: defaultFilterOptions,
   sortOrder: '',
   orderBy: '',
   totalAmount: '',
@@ -34,17 +39,21 @@ const getDefaultState = () => ({
   region: '',
 });
 
-const loadCustomerReturnList = (state, { customerId, customerFilters, ...rest }) => ({
+const loadCustomerReturnList = (state, {
+  customerId, customerFilters, ...rest
+}) => ({
   ...state,
   ...rest,
   filterOptions: {
     ...state.filterOptions,
-    customerId,
+    customerId: state.filterOptions.customerId || customerFilters[0].value,
   },
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
-    customerId,
+    customerId: state.appliedFilterOptions.customerId || customerFilters[0].value,
   },
+  sortOrder: state.sortOrder || defaultSortingOption.sortOrder,
+  orderBy: state.orderBy || defaultSortingOption.orderBy,
   customerFilterOptions: customerFilters,
 });
 
@@ -88,9 +97,26 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
-const setInitalState = (state, action) => ({
+const setInitalState = (state, {
+  context,
+  settings = {
+    filterOptions: defaultFilterOptions,
+    sortOrder: defaultSortingOption.sortOrder,
+    orderBy: defaultSortingOption.orderBy,
+  },
+}) => ({
   ...state,
-  ...action.context,
+  ...context,
+  filterOptions: {
+    ...state.filterOptions,
+    ...settings.filterOptions,
+  },
+  appliedFilterOptions: {
+    ...state.appliedFilterOptions,
+    ...settings.filterOptions,
+  },
+  sortOrder: settings.sortOrder,
+  orderBy: settings.orderBy,
 });
 
 const resetState = () => (getDefaultState());

@@ -1,6 +1,6 @@
 export default {
   customerFilters: [
-    { name: 'All customers', value: 'All' },
+    { name: 'All', value: 'All' },
     { name: 'Cameron James', value: '1' },
     { name: 'John Smith', value: '2' },
     { name: 'Serena Jaramillo', value: '3' },
