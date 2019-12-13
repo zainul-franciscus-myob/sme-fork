@@ -14,7 +14,7 @@ const BankFeedBalanceAndImage = ({ bankFeedBalance, isLoading }) => {
 
   return (
     <div className={styles.bankFeed}>
-      <h2>Current bank feed balance</h2>
+      <h2>Equity</h2>
       {isLoading ? <Spinner size="small" /> : balance}
     </div>
   );
