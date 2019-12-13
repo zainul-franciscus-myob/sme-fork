@@ -55,6 +55,7 @@ const getDefaultState = () => ({
   orderBy: 'Date',
   sortOrder: 'desc',
   alert: undefined,
+  hasError: false,
   isLoading: true,
   isTableLoading: false,
   isBulkLoading: false,

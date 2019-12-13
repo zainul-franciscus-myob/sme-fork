@@ -1,5 +1,6 @@
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_LOADING_STATE = Symbol('Set loading state');
+export const SET_ERROR_STATE = Symbol('Set error state');
 export const SET_ALERT = Symbol('Set the Alert of the page');
 export const LOAD_BANK_TRANSACTIONS = Symbol('Load list of bank transactions');
 export const SORT_AND_FILTER_BANK_TRANSACTIONS = Symbol('Sort and filter list of bank transactions');

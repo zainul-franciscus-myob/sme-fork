@@ -301,7 +301,8 @@ export default class BankingModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load bank transactions');
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setErrorState(true);
     };
 
     this.integrator.loadBankTransactions({

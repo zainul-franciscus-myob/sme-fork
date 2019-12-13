@@ -2,6 +2,8 @@ import { createSelector } from 'reselect';
 
 import { businessEventTypes } from '../businessEventTypes';
 import { tabIds } from '../tabItems';
+import Config from '../../Config';
+import Region from '../Region';
 import TransactionTypes from '../TransactionTypes';
 import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 import getRegionToDialectText from '../../dialect/getRegionToDialectText';
@@ -93,6 +95,15 @@ export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 export const getIsTableLoading = state => state.isTableLoading;
 
 export const getIsLoading = state => state.isLoading;
+
+export const getHasError = state => state.hasError;
+
+export const getMyMyobLink = createSelector(
+  getRegion,
+  region => (
+    region === Region.nz ? Config.MY_MYOB_NZ_URL : Config.MY_MYOB_AU_URL
+  ),
+);
 
 export const getTransactionTypes = createSelector(
   state => state.transactionTypes,

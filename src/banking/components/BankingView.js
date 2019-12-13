@@ -5,22 +5,21 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsEntryLoading, getIsLoading, getModalType,
+  getAlert, getHasError, getIsEntryLoading, getIsLoading, getModalType,
 } from '../bankingSelectors';
-import {
-  selectedCountSelector,
-  showBulkActionsSelector,
-} from '../bankingSelectors/bulkAllocationSelectors';
+import { selectedCountSelector, showBulkActionsSelector } from '../bankingSelectors/bulkAllocationSelectors';
 import BankTransactionFilterOptions from './BankTransactionFilterOptions';
 import BankTransactionPageHead from './BankTransactionPageHead';
 import BankTransactionTable from './BankTransactionTable';
 import BankingModal from './BankingModal';
 import BulkAllocationPopover from './BulkAllocationPopover';
+import NoContentView from './NoContentView';
 import PageView from '../../components/PageView/PageView';
 import styles from './BankingView.module.css';
 
 const BankingView = (props) => {
   const {
+    hasError,
     isLoading,
     isEntryLoading,
     alert,
@@ -173,11 +172,16 @@ const BankingView = (props) => {
     </div>
   );
 
-  return <PageView isLoading={isLoading} view={transactionListView} />;
+  const errorView = <NoContentView />;
+
+  const view = hasError ? errorView : transactionListView;
+
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
+  hasError: getHasError(state),
   isLoading: getIsLoading(state),
   isEntryLoading: getIsEntryLoading(state),
   modalType: getModalType(state),

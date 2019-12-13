@@ -34,6 +34,7 @@ import {
   SET_BULK_LOADING_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
+  SET_ERROR_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_MATCH_TRANSACTION_SORT_ORDER,
@@ -189,6 +190,11 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
+const setErrorState = (state, action) => ({
+  ...state,
+  hasError: action.hasError,
+});
+
 const setAlert = (state, action) => ({
   ...state,
   alert: action.alert,
@@ -313,6 +319,7 @@ const handlers = {
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SET_LOADING_STATE]: setLoadingState,
+  [SET_ERROR_STATE]: setErrorState,
   [SET_ALERT]: setAlert,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,

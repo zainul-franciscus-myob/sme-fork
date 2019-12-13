@@ -34,6 +34,7 @@ import {
   SET_BULK_LOADING_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
+  SET_ERROR_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_MATCH_TRANSACTION_SORT_ORDER,
@@ -164,6 +165,14 @@ const createBankingDispatcher = store => ({
       },
     });
   },
+
+  setErrorState: (hasError) => {
+    store.dispatch({
+      intent: SET_ERROR_STATE,
+      hasError,
+    });
+  },
+
 
   setLoadingState: (isLoading) => {
     store.dispatch({
