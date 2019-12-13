@@ -19,7 +19,7 @@ const defaultFilterOptions = {
 
 const defaultSortingOption = {
   sortOrder: 'asc',
-  orderBy: 'name',
+  orderBy: 'DateOccurred',
 };
 
 const getDefaultState = () => ({
