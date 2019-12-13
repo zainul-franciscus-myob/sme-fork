@@ -13,12 +13,18 @@ const updateInTrayListState = (state, inTrayListState) => ({
   },
 });
 
-export const sortAndFilterInTrayList = (state, action) => updateInTrayListState(state, {
-  appliedFilterOptions: action.isSort
-    ? state.inTrayList.appliedFilterOptions
-    : state.inTrayList.filterOptions,
-  entries: action.entries,
-});
+export const sortAndFilterInTrayList = (state, action) => {
+  const { entries, isSort } = action;
+  const { activeEntryId } = state;
+  const isActiveEntryIdExist = entries.some(entry => entry.id === activeEntryId);
+  return updateInTrayListState(state, {
+    appliedFilterOptions: isSort
+      ? state.inTrayList.appliedFilterOptions
+      : state.inTrayList.filterOptions,
+    entries,
+    activeEntryId: isActiveEntryIdExist ? activeEntryId : undefined,
+  });
+};
 
 export const setInTrayListFilterOption = (state, action) => updateInTrayListState(state, {
   filterOptions: {
@@ -56,7 +62,10 @@ export const createInTrayDocument = (state, { uploadId, entry }) => {
 
 export const deleteInTrayDocument = (state, { id }) => updateInTrayListState(
   state,
-  { entries: getFilteredEntriesByKey(state, 'id', id) },
+  {
+    entries: getFilteredEntriesByKey(state, 'id', id),
+    activeEntryId: state.activeEntryId === id ? undefined : state.activeEntryId,
+  },
 );
 
 export const addInTrayListEntry = (state, { entry }) => updateInTrayListState(
