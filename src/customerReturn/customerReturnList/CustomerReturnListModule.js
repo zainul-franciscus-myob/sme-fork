@@ -89,8 +89,18 @@ export default class CustomerReturnListModule {
       console.log('Failed to load customer return list entries');
     };
 
+    const state = this.store.getState();
+    const filterOptions = getFilterOptions(state);
+    const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
+    const params = {
+      ...filterOptions,
+      sortOrder,
+      orderBy,
+    };
+
     this.integration.read({
-      intent, urlParams, onSuccess, onFailure,
+      intent, urlParams, params, onSuccess, onFailure,
     });
   };
 
