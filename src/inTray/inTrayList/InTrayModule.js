@@ -209,34 +209,22 @@ export default class InTrayModule {
     });
   }
 
-  downloadInTrayDocument = ({ id, onSuccess }) => {
+  openInTrayDocument = (id) => {
     this.dispatcher.setInTrayListEntrySubmittingState(id, true);
 
-    const onSuccessWrapper = (blob) => {
+    const onSuccess = (blob) => {
       this.dispatcher.setInTrayListEntrySubmittingState(id, false);
-      onSuccess(blob);
+      openBlob({ blob, filename: `${id}.pdf` });
     };
-
     const onFailure = ({ message }) => {
       this.dispatcher.setInTrayListEntrySubmittingState(id, false);
       this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
     this.integrator.downloadInTrayDocument({
-      onSuccess: onSuccessWrapper,
+      onSuccess,
       onFailure,
       id,
-    });
-  };
-
-  openInTrayDocument = (id) => {
-    const onSuccess = (blob) => {
-      openBlob({ blob, filename: `${id}.pdf` });
-    };
-
-    this.downloadInTrayDocument({
-      id,
-      onSuccess,
     });
   }
 
@@ -246,9 +234,14 @@ export default class InTrayModule {
       this.dispatcher.setDocumentViewerUrl(url);
     };
 
-    this.downloadInTrayDocument({
-      id,
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.downloadInTrayDocument({
       onSuccess,
+      onFailure,
+      id,
     });
   }
 
