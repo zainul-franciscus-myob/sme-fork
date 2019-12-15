@@ -14,9 +14,7 @@ export default class EmployeePayListModule {
     this.integrator = createEmployeePayListIntegrator(store, integration);
   }
 
-  openPreviousStepModal = () => this.dispatcher.openModal({
-    type: 'previousStep',
-  });
+  openPreviousStepModal = () => this.dispatcher.openPreviousStepModal();
 
   changeEtpCodeCategory = ({ value }) => this.dispatcher.changeEtpCodeCategory({
     etpCodeCategory: value,

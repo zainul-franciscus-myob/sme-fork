@@ -3,8 +3,8 @@ export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SET_ALERT = Symbol('Set alert');
 export const NEXT_STEP = Symbol('Next step');
 export const PREVIOUS_STEP = Symbol('Previous step');
-export const OPEN_MODAL = Symbol('Open modal');
-export const CLOSE_MODAL = Symbol('Close modal');
+export const OPEN_PREVIOUS_STEP_MODAL = Symbol('Open previous step modal');
+export const CLOSE_PREVIOUS_STEP_MODAL = Symbol('Close previous step modal');
 
 export const START_NEW_PAY_RUN = Symbol('Start new pay run');
 export const LOAD_EMPLOYEE_PAYS = Symbol('Load employee pays');

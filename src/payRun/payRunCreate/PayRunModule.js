@@ -74,7 +74,7 @@ export default class PayRunModule {
     }
     this.dispatcher.previousStep();
     this.dispatcher.dismissAlert();
-    this.dispatcher.closeModal();
+    this.dispatcher.closePreviousStepModal();
   };
 
   render = () => {
@@ -86,7 +86,7 @@ export default class PayRunModule {
       <PayRunView
         stepViews={stepViews}
         onDismissAlert={this.dispatcher.dismissAlert}
-        onDismissModal={this.dispatcher.closeModal}
+        onDismissModal={this.dispatcher.closePreviousStepModal}
         onGoBack={this.goBack}
       />
     );

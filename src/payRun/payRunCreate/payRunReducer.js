@@ -1,9 +1,9 @@
 import uuid from 'uuid/v4';
 
 import {
-  CLOSE_MODAL,
+  CLOSE_PREVIOUS_STEP_MODAL,
   NEXT_STEP,
-  OPEN_MODAL,
+  OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
   SET_ALERT,
   SET_EMPLOYEE_PAYMENTS,
@@ -43,7 +43,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
   alert: undefined,
   step: 0,
-  modal: undefined,
+  previousStepModalIsOpen: false,
   recordedPayments: {
     printPaySlipEmployees: [],
     emailPaySlipEmployees: [],
@@ -76,16 +76,14 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const openModal = (state, { type }) => ({
+const openPreviousStepModal = state => ({
   ...state,
-  modal: {
-    type,
-  },
+  previousStepModalIsOpen: true,
 });
 
-const closeModal = state => ({
+const closePreviousStepModal = state => ({
   ...state,
-  modal: undefined,
+  previousStepModalIsOpen: false,
 });
 
 const nextStep = state => ({
@@ -121,8 +119,8 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,
-  [OPEN_MODAL]: openModal,
-  [CLOSE_MODAL]: closeModal,
+  [OPEN_PREVIOUS_STEP_MODAL]: openPreviousStepModal,
+  [CLOSE_PREVIOUS_STEP_MODAL]: closePreviousStepModal,
   [NEXT_STEP]: nextStep,
   [PREVIOUS_STEP]: previousStep,
   [SET_TOTAL_NET_PAY]: setTotalNetPay,

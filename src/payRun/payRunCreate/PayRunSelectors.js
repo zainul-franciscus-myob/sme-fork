@@ -8,7 +8,7 @@ export const getIsSubmitting = state => state.isSubmitting;
 export const getBusinessId = state => state.businessId;
 export const getAlert = state => state.alert;
 export const getStep = state => state.step;
-export const getModal = state => state.modal;
+export const getPreviousStepModalIsOpen = state => state.previousStepModalIsOpen;
 export const getIsFirstStep = state => state.step === 0;
 
 const getPaymentFrequency = state => state.startPayRun.paymentFrequency;

@@ -1,7 +1,7 @@
 import {
-  CLOSE_MODAL,
+  CLOSE_PREVIOUS_STEP_MODAL,
   NEXT_STEP,
-  OPEN_MODAL,
+  OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
   SET_ALERT,
   SET_EMPLOYEE_PAYMENTS,
@@ -33,18 +33,15 @@ const createPayRunDispatchers = store => ({
     store.dispatch({ intent, alert: undefined });
   },
 
-  openModal: ({ type }) => {
-    const intent = OPEN_MODAL;
+  openPreviousStepModal: () => {
+    const intent = OPEN_PREVIOUS_STEP_MODAL;
     store.dispatch({
       intent,
-      modal: {
-        type,
-      },
     });
   },
 
-  closeModal: () => {
-    const intent = CLOSE_MODAL;
+  closePreviousStepModal: () => {
+    const intent = CLOSE_PREVIOUS_STEP_MODAL;
     store.dispatch({
       intent,
     });
