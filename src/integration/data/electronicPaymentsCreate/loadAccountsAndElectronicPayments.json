@@ -1,27 +1,60 @@
 {
   "electronicPayments": [
-     {
-        "id": 1,
-        "date": "02/12/2018",
-        "referenceNumber": "23",
-        "name": "Leonard Dunn",
-        "paymentTypeDisplay": "Pay employees",
-        "paymentType": "PayEmployees",
-        "amount": 408.05,
-        "accountId": 1,
-        "businessEventId": 1
-     },
-     {
-        "id": 2,
-        "date": "05/12/2018",
-        "referenceNumber": "24",
-        "name": "Eliza Fuller",
-        "paymentTypeDisplay": "Pay employees",
-        "paymentType": "PayEmployees",
-        "amount": 828.55,
-        "accountId": 2,
-        "businessEventId": 2
-     }
+    {
+      "id": 1,
+      "date": "02/12/2018",
+      "referenceNumber": "23",
+      "name": "Leonard Dunn",
+      "paymentTypeDisplay": "Pay employees",
+      "paymentType": "PayEmployees",
+      "amount": 408.05,
+      "accountId": 1,
+      "businessEventId": 1
+    },
+    {
+      "id": 2,
+      "date": "05/12/2018",
+      "referenceNumber": "24",
+      "name": "Eliza Fuller",
+      "paymentTypeDisplay": "Pay employees",
+      "paymentType": "PayEmployees",
+      "amount": 2828.55,
+      "accountId": 2,
+      "businessEventId": 2
+    },
+    {
+      "id": 3,
+      "date": "05/12/2018",
+      "referenceNumber": "90",
+      "name": "〜(￣△￣〜)",
+      "paymentTypeDisplay": "Spend money",
+      "paymentType": "SpendMoney",
+      "amount": 828.55,
+      "accountId": 2,
+      "businessEventId": 2
+    },
+    {
+      "id": 4,
+      "date": "05/12/2018",
+      "referenceNumber": "75",
+      "name": "¯\\(◉◡◔)/¯",
+      "paymentTypeDisplay": "Bill payment",
+      "paymentType": "PayBills",
+      "amount": 1828.55,
+      "accountId": 2,
+      "businessEventId": 2
+    },
+    {
+      "id": 5,
+      "date": "05/12/2018",
+      "referenceNumber": "9999",
+      "name": "(┛ಠ_ಠ)┛彡┻━┻",
+      "paymentTypeDisplay": "Pay liabilities",
+      "paymentType": "PayLiabilities",
+      "amount": 828.55,
+      "accountId": 2,
+      "businessEventId": 2
+    }
   ],
   "accounts": [
     {

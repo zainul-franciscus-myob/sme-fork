@@ -2,7 +2,7 @@ import ElectronicPaymentsCreateModule from './electronicPaymentsCreate/Electroni
 import ElectronicPaymentsReadModule from './electronicPaymentsRead/ElectronicPaymentsReadModule';
 
 const getElectronicPaymentsRoutes = ({
-  integration, setRootView,
+  integration, setRootView, pushMessage,
 }) => {
   const routes = [
     {
@@ -20,6 +20,7 @@ const getElectronicPaymentsRoutes = ({
       module: new ElectronicPaymentsReadModule({
         integration,
         setRootView,
+        pushMessage,
       }),
       documentTitle: 'Bank file payment',
     },

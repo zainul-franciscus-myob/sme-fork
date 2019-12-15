@@ -4,7 +4,7 @@ import DateMismatchModal from './DateMismatchModal';
 import ModalType from '../ModalType';
 import RecordAndDownloadWarningModal from './RecordAndDownloadWarningModal';
 
-const RecordAndCreateFileModal = ({
+const ElectronicPaymentsCreateModals = ({
   modal: { type = '' },
   onCancelButtonClick,
   onRecordButtonClick,
@@ -25,4 +25,4 @@ const RecordAndCreateFileModal = ({
     />
   );
 };
-export default RecordAndCreateFileModal;
+export default ElectronicPaymentsCreateModals;

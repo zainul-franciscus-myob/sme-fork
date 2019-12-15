@@ -2,20 +2,20 @@ import { addDays, addMonths } from 'date-fns';
 
 import {
   CLOSE_MODAL,
-  LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS,
+  LOAD_ACCOUNTS_AND_TRANSACTIONS,
   OPEN_MODAL,
-  SELECT_ALL_ELECTRONIC_PAYMENTS,
-  SELECT_ITEM_ELECTRONIC_PAYMENT,
+  SELECT_ALL_TRANSACTIONS,
+  SELECT_ITEM_TRANSACTIONS,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
-  SORT_AND_FILTER_ELECTRONIC_PAYMENTS,
+  SORT_AND_FILTER_TRANSACTIONS,
   UPDATE_APPLIED_FILTER_OPTIONS,
   UPDATE_BANK_FILE_DETAILS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_SELECTED_ACCOUNT_ID,
-} from '../ElectronicPaymentsIntents';
+} from './ElectronicPaymentsCreateIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
@@ -25,7 +25,7 @@ const getDefaultDateRange = () => addDays(addMonths(new Date(), -1), 1);
 const getDefaultState = () => ({
   isLoading: true,
   isTableLoading: true,
-  electronicPayments: [],
+  transactions: [],
   selectedAccountId: '',
   orderBy: 'DateOccurred',
   transactionDescription: '',
@@ -50,18 +50,19 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const loadAccountsAndElectronicPayments = (state, action) => ({
+const loadAccountsAndTransactions = (state, { response }) => ({
   ...state,
-  accounts: action.response.accounts || [],
-  referenceNumber: action.response.referenceNumber || '',
-  bankStatementDescription: action.response.bankStatementDescription || '',
-  transactionDescription: action.response.transactionDescription || '',
-  dateOfPayment: action.response.dateOfPayment || '',
-  electronicPayments: action.response.electronicPayments
-    ? action.response.electronicPayments.map(e => ({
+  accounts: response.accounts || [],
+  referenceNumber: response.referenceNumber || '',
+  bankStatementDescription: response.bankStatementDescription || '',
+  transactionDescription: response.transactionDescription || '',
+  dateOfPayment: response.dateOfPayment || '',
+  transactions: response.electronicPayments
+    ? response.electronicPayments.map(e => ({
       ...e,
       isSelected: false,
     })) : [],
+  selectedAccountId: response.accounts && response.accounts[0] && response.accounts[0].id,
 });
 
 const updateFilterOptions = (state, action) => ({
@@ -100,24 +101,24 @@ const setSortOrder = (state, action) => ({
   orderBy: action.orderBy,
 });
 
-const sortAndFilterElectronicPayments = (state, action) => ({
+const sortAndFilterTransactions = (state, action) => ({
   ...state,
-  electronicPayments: action.entries,
+  transactions: action.entries,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
-const selectAllElectronicPayments = (state, action) => ({
+const selectAllTransactions = (state, action) => ({
   ...state,
-  electronicPayments: state.electronicPayments.map(e => ({
+  transactions: state.transactions.map(e => ({
     ...e,
     isSelected: action.isSelected,
   })),
 });
 
-const selectElectronicPaymentItem = (state, action) => ({
+const selectItem = (state, action) => ({
   ...state,
-  electronicPayments: state.electronicPayments.map(e => (
-    e === action.item ? { ...action.item, isSelected: action.isSelected } : e
+  transactions: state.transactions.map(e => (
+    e.id === action.item.id ? { ...e, isSelected: action.isSelected } : e
   )),
 });
 
@@ -131,7 +132,7 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const openModal = (state, action) => ({
   ...state,
@@ -146,7 +147,7 @@ const closeModal = state => ({
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_ALERT]: setAlert,
-  [LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS]: loadAccountsAndElectronicPayments,
+  [LOAD_ACCOUNTS_AND_TRANSACTIONS]: loadAccountsAndTransactions,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [RESET_STATE]: resetState,
@@ -154,9 +155,9 @@ const handlers = {
   [UPDATE_APPLIED_FILTER_OPTIONS]: updateAppliedFilterOptions,
   [UPDATE_SELECTED_ACCOUNT_ID]: updateSelectedAccountId,
   [SET_SORT_ORDER]: setSortOrder,
-  [SORT_AND_FILTER_ELECTRONIC_PAYMENTS]: sortAndFilterElectronicPayments,
-  [SELECT_ALL_ELECTRONIC_PAYMENTS]: selectAllElectronicPayments,
-  [SELECT_ITEM_ELECTRONIC_PAYMENT]: selectElectronicPaymentItem,
+  [SORT_AND_FILTER_TRANSACTIONS]: sortAndFilterTransactions,
+  [SELECT_ALL_TRANSACTIONS]: selectAllTransactions,
+  [SELECT_ITEM_TRANSACTIONS]: selectItem,
   [UPDATE_BANK_FILE_DETAILS]: updateBankFileDetails,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,

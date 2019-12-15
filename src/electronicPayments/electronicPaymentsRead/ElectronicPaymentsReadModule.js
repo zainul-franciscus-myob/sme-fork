@@ -1,38 +1,74 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  DELETE_ELECTRONIC_PAYMENT,
-  LOAD_ELECTRONIC_PAYMENT_DETAILS,
-} from './ElectronicPaymentsReadIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import {
-  SET_ALERT,
-  SET_LOADING_STATE,
-  SET_TABLE_LOADING_STATE,
-} from '../ElectronicPaymentsIntents';
-import {
-  getBusinessId,
-  getElectronicPaymentId,
-  getRegion,
-} from '../ElectronicPaymentsSelector';
+import { SUCCESSFULLY_DELETED_ELECTRONIC_PAYMENT } from '../electronicPaymentMesssageTypes';
+import { getTransactionListUrl } from './ElectronicPaymentsReadSelector';
 import ElectronicPaymentsReadView from './components/ElectronicPaymentsReadView';
-import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import Store from '../../store/Store';
+import createElectronicPaymentsReadDispatcher from './createElectronicPaymentsReadDispatcher';
+import createElectronicPaymentsReadIntegrator from './createEelctronicPaymentsReadIntegrator';
 import electronicPaymentReadReducer from './electronicPaymentsReadReducer';
 
 export default class ElectronicPaymentsReadModule {
-  constructor({
-    setRootView,
-    integration,
-  }) {
+  constructor({ setRootView, integration, pushMessage }) {
     this.setRootView = setRootView;
-    this.store = new Store(electronicPaymentReadReducer);
     this.integration = integration;
-    this.employeePayModal = new EmployeePayModalModule({
-      integration,
-    });
+    this.pushMessage = pushMessage;
+    this.store = new Store(electronicPaymentReadReducer);
+    this.integrator = createElectronicPaymentsReadIntegrator(this.store, this.integration);
+    this.dispatcher = createElectronicPaymentsReadDispatcher(this.store);
   }
+
+  goBack = () => {
+    window.history.back();
+  };
+
+  loadElectronicPaymentDetails = () => {
+    this.dispatcher.setLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setElectronicPayment(response);
+      this.dispatcher.setLoadingState(false);
+    };
+
+    const onFailure = (message) => {
+      console.log(`Failed to load Electronic payment. ${message}`);
+    };
+
+    this.integrator.loadElectronicPaymentDetails({ onSuccess, onFailure });
+  };
+
+  deleteElectronicPayment = () => {
+    this.dispatcher.closeDeleteModal();
+    this.dispatcher.setLoadingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_DELETED_ELECTRONIC_PAYMENT,
+        content: message,
+      });
+      window.location.href = getTransactionListUrl(this.store.getState());
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setLoadingState(false);
+    };
+
+    this.integrator.deleteElectronicPayment({ onSuccess, onFailure });
+  };
+
+  setInitialState = (context) => {
+    this.dispatcher.setInitialState(context);
+  };
+
+  unsubscribeFromStore = () => {
+    this.store.unsubscribeAll();
+  };
+
+  resetState = () => {
+    this.dispatcher.resetState();
+  };
 
   run(context) {
     this.setInitialState(context);
@@ -40,131 +76,19 @@ export default class ElectronicPaymentsReadModule {
     this.loadElectronicPaymentDetails();
   }
 
-  setIsLoading(isLoading) {
-    this.store.dispatch({
-      intent: SET_LOADING_STATE,
-      isLoading,
-    });
-  }
-
-  setIsTableLoading(isTableLoading) {
-    this.store.dispatch({
-      intent: SET_TABLE_LOADING_STATE,
-      isTableLoading,
-    });
-  }
-
-  goBack = () => {
-    window.history.back();
-  }
-
-  loadElectronicPaymentDetails = () => {
-    this.setIsLoading(true);
-    const state = this.store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-      electronicPaymentId: getElectronicPaymentId(state),
-    };
-    const onSuccess = (response) => {
-      this.store.dispatch({
-        intent: LOAD_ELECTRONIC_PAYMENT_DETAILS,
-        response,
-      });
-      this.setIsLoading(false);
-      this.setIsTableLoading(false);
-    };
-    const onFailure = () => { };
-    this.integration.read({
-      urlParams,
-      onSuccess,
-      onFailure,
-      intent: LOAD_ELECTRONIC_PAYMENT_DETAILS,
-    });
-  }
-
-  redirectToTransactionList = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    return `/#/${region}/${businessId}/transactionList`;
-  };
-
-  setAlertMessage = (alertMessage) => {
-    this.store.dispatch({
-      intent: SET_ALERT,
-      alertMessage,
-    });
-  }
-
-  deleteElectronicPayment = () => {
-    this.setIsLoading(true);
-    const state = this.store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-      electronicPaymentId: getElectronicPaymentId(state),
-    };
-    const onSuccess = () => {
-      window.location.href = this.redirectToTransactionList();
-    };
-
-    const onFailure = ({ message }) => {
-      this.setIsTableLoading(false);
-      this.setAlertMessage(message);
-    };
-
-    this.integration.write({
-      urlParams,
-      onSuccess,
-      onFailure,
-      intent: DELETE_ELECTRONIC_PAYMENT,
-    });
-  }
-
-  setInitialState = (context) => {
-    this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
-    });
-  };
-
-  openEmployeePayModal = (transactionId, employeeName) => {
-    const state = this.store.getState();
-    this.employeePayModal.openModal({
-      transactionId,
-      employeeName,
-      businessId: getBusinessId(state),
-      region: getRegion(state),
-    });
-  }
-
   render = () => {
-    const modalComponent = this.employeePayModal.getView();
-
-    const view = (
-      <ElectronicPaymentsReadView
-        onGoBackClick={this.goBack}
-        onDeleteButtonClick={this.deleteElectronicPayment}
-        employeePayModal={modalComponent}
-        onReferenceNumberClick={this.openEmployeePayModal}
-      />
-    );
-
     const wrappedView = (
       <Provider store={this.store}>
-        {view}
+        <ElectronicPaymentsReadView
+          onGoBackClick={this.goBack}
+          onDeleteButtonClick={this.dispatcher.openDeleteModal}
+          onDeleteConfirmButtonClick={this.deleteElectronicPayment}
+          onDeleteCancelButtonClick={this.dispatcher.closeDeleteModal}
+          onDismissAlert={this.dispatcher.dismissAlert}
+        />
       </Provider>
     );
+
     this.setRootView(wrappedView);
-  }
-
-  unsubscribeFromStore = () => {
-    this.store.unsubscribeAll();
-  }
-
-  resetState = () => {
-    this.store.dispatch({
-      intent: RESET_STATE,
-    });
-  }
+  };
 }

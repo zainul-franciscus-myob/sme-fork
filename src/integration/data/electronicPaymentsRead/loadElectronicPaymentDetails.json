@@ -21,12 +21,45 @@
       "amount": 828.55,
       "accountId": 2,
       "businessEventId": 2
+    },
+    {
+      "id": 3,
+      "date": "05/12/2018",
+      "referenceNumber": "90",
+      "name": "〜(￣△￣〜)",
+      "paymentTypeDisplay": "Spend money",
+      "paymentType": "SpendMoney",
+      "amount": 828.55,
+      "accountId": 2,
+      "businessEventId": 2
+    },
+    {
+      "id": 4,
+      "date": "05/12/2018",
+      "referenceNumber": "75",
+      "name": "¯\\(◉◡◔)/¯",
+      "paymentTypeDisplay": "Bill payment",
+      "paymentType": "PayBills",
+      "amount": 1828.55,
+      "accountId": 2,
+      "businessEventId": 2
+    },
+    {
+      "id": 5,
+      "date": "05/12/2018",
+      "referenceNumber": "9999",
+      "name": "(┛ಠ_ಠ)┛彡┻━┻",
+      "paymentTypeDisplay": "Pay liabilities",
+      "paymentType": "PayLiabilities",
+      "amount": 828.55,
+      "accountId": 2,
+      "businessEventId": 2
     }
   ],
   "account": "6-134 Expense 1 Expense",
   "balance": "$100,000.00",
-  "dateOfPayment": "2019-11-25",
+  "dateOfPayment": "05/12/2019",
   "referenceNumber": "EP000001",
   "transactionDescription": "Electronic Payment",
-  "bankStatementDescription": "Payment EP000001"
+  "bankStatementDescription": "PAYMENT EP000001"
 }

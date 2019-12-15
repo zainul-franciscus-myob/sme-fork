@@ -1,15 +1,15 @@
 import {
-  LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS,
+  LOAD_ACCOUNTS_AND_TRANSACTIONS,
   RECORD_AND_DOWNLOAD_BANK_FILE,
-  SORT_AND_FILTER_ELECTRONIC_PAYMENTS,
-} from '../../electronicPayments/ElectronicPaymentsIntents';
+  SORT_AND_FILTER_TRANSACTIONS,
+} from '../../electronicPayments/electronicPaymentsCreate/ElectronicPaymentsCreateIntents';
 
 const ElectronicPaymentsCreateMapping = {
-  [LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS]: {
+  [LOAD_ACCOUNTS_AND_TRANSACTIONS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/electronicPayments/load_accounts_and_transactions`,
   },
-  [SORT_AND_FILTER_ELECTRONIC_PAYMENTS]: {
+  [SORT_AND_FILTER_TRANSACTIONS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/electronicPayments/sort_and_filter_transactions`,
   },

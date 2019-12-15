@@ -1,11 +1,6 @@
 import {
-  Alert,
   BaseTemplate,
-  Button,
-  ButtonRow,
   Card,
-  DatePicker,
-  FilterBar,
   PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -17,7 +12,6 @@ import {
   getBalanceValue,
   getBankStatementDescription,
   getDateOfPayment,
-  getElectronicPayments,
   getFilterOptions,
   getIsLoading,
   getIsTableLoading,
@@ -25,14 +19,18 @@ import {
   getOrder,
   getReferenceNumber,
   getSelectedAccountId,
+  getTableEntries,
   getTotalPayment,
   getTransactionDescription,
-} from '../../ElectronicPaymentsSelector';
-import ElectronicPaymentsDetailHeader from './ElectronicPaymentsCreateDetailHeader';
-import ElectronicPaymentsTable from '../../ElectronicPaymentsTable';
+} from '../ElectronicPaymentsCreateSelector';
+import ElectronicPaymentsCreateAlert from './ElectronicPaymentsCreateAlerts';
+import ElectronicPaymentsCreateButtons from './ElectronicPaymentsCreateButtons';
+import ElectronicPaymentsCreateFilter from './ElectronicPaymentsCreateFilter';
+import ElectronicPaymentsCreateModals from './ElectronicPaymentsCreateModals';
+import ElectronicPaymentsCreateTable from './ElectronicPaymentsCreateTable';
+import ElectronicPaymentsDetailHeader from './ElectronicPaymentsCreateHeader';
 import PageView from '../../../components/PageView/PageView';
-import RecordAndCreateFileModal from './RecordAndCreateFileModal';
-import styles from '../../ElectronicPayments.module.css';
+import styles from './ElectronicPaymentsCreateView.module.css';
 
 const ElectronicPaymentsCreateView = ({
   alert,
@@ -43,7 +41,7 @@ const ElectronicPaymentsCreateView = ({
   referenceNumber,
   dateOfPayment,
   bankStatementDescription,
-  electronicPayments,
+  transactions,
   accounts,
   onUpdateFilterBarOptions,
   onRecordAndDownloadBankFile,
@@ -65,58 +63,39 @@ const ElectronicPaymentsCreateView = ({
   onCancelButtonClick,
   onRecordButtonClick,
   onContinueButtonClick,
-  onReferenceNumberClick,
-  employeePayModal,
 }) => {
-  const onDatePickerChange = filterName => ({ value }) => {
-    onUpdateFilterBarOptions({ filterName, value });
-  };
-
   const totalPaymentFooter = (
     <div className={styles.totalPaymentsFooter}>
-      <h4>
+      <h3>
         <span className={styles.totalPaymentsFooterLabel}>Total payment</span>
         <span>{totalPayment}</span>
-      </h4>
+      </h3>
     </div>
   );
 
-  const alertComponent = alert && (
-    <Alert type={alert.type} onDismiss={onDismissAlert}>
-      {alert.message}
-    </Alert>
+  const modalComponent = modal && (
+    <ElectronicPaymentsCreateModals
+      modal={modal}
+      onCancelButtonClick={onCancelButtonClick}
+      onRecordButtonClick={onRecordButtonClick}
+      onContinueButtonClick={onContinueButtonClick}
+    />
   );
 
   const view = (
     <BaseTemplate>
-      {alertComponent}
-      {employeePayModal}
-      {modal && (
-        <RecordAndCreateFileModal
-          modal={modal}
-          onCancelButtonClick={onCancelButtonClick}
-          onRecordButtonClick={onRecordButtonClick}
-          onContinueButtonClick={onContinueButtonClick}
-        />
-      )}
-      { !alertComponent && (
-        <Alert type="info">
-          Make sure the employee&apos;s BSB and account number is correct.
-          You may not be able to recover a payment made to the wrong account.
-        </Alert>
-      )}
-      <PageHead title="Create bank file to pay employees" />
+      {modalComponent}
+      <ElectronicPaymentsCreateAlert alert={alert} onDismissAlert={onDismissAlert} />
+      <PageHead title="Record payment and download bank file" />
       <Card>
-        <FilterBar onApply={onApplyFilter}>
-          <FilterBar.Group>
-            <DatePicker label="Transactions from" name="datepicker-from" value={dateFrom} onSelect={onDatePickerChange('dateFrom')} />
-            <DatePicker label="Transactions to" name="datepicker-to" value={dateTo} onSelect={onDatePickerChange('dateTo')} />
-          </FilterBar.Group>
-        </FilterBar>
+        <ElectronicPaymentsCreateFilter
+          dateFrom={dateFrom}
+          dateTo={dateTo}
+          onUpdateFilterBarOptions={onUpdateFilterBarOptions}
+          onApplyFilter={onApplyFilter}
+        />
       </Card>
-      <Card
-        footer={totalPaymentFooter}
-      >
+      <Card footer={totalPaymentFooter}>
         <ElectronicPaymentsDetailHeader
           accounts={accounts}
           selectedAccountId={selectedAccountId}
@@ -128,22 +107,16 @@ const ElectronicPaymentsCreateView = ({
           dateOfPayment={dateOfPayment}
           bankStatementDescription={bankStatementDescription}
         />
-        <ElectronicPaymentsTable
-          electronicPayments={electronicPayments}
+        <ElectronicPaymentsCreateTable
+          transactions={transactions}
           onSort={onSort}
           selectItem={selectItem}
           selectAll={selectAll}
           isTableLoading={isTableLoading}
           order={order}
-          onReferenceNumberClick={onReferenceNumberClick}
-          renderCheckbox
         />
       </Card>
-      <div style={{ marginTop: '12px' }}>
-        <ButtonRow>
-          <Button onClick={onRecordAndDownloadBankFile}>Record and download bank file</Button>
-        </ButtonRow>
-      </div>
+      <ElectronicPaymentsCreateButtons onRecordAndDownloadBankFile={onRecordAndDownloadBankFile} />
     </BaseTemplate>
   );
   return (
@@ -153,7 +126,7 @@ const ElectronicPaymentsCreateView = ({
 
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
-  electronicPayments: getElectronicPayments(state),
+  transactions: getTableEntries(state),
   accounts: getAccounts(state),
   filterOptions: getFilterOptions(state),
   selectedAccountId: getSelectedAccountId(state),

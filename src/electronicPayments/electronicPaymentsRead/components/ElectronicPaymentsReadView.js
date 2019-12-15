@@ -1,61 +1,80 @@
 import {
-  BaseTemplate,
-  ButtonRow,
-  Card,
-  PageHead,
+  Alert, BaseTemplate, Card, PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { formatCurrency } from '../../../banking/bankingSelectors';
 import {
+  getAccount,
   getAlert,
+  getBalance,
   getBankStatementDescription,
   getDateOfPayment,
-  getElectronicPayments,
+  getIsDeleteModalOpen,
   getIsLoading,
-  getIsTableLoading,
-  getModal,
+  getPageTitle,
   getReferenceNumber,
+  getTableEntries,
+  getTotalPayment,
   getTransactionDescription,
-} from '../../ElectronicPaymentsSelector';
-import Button from '../../../components/Button/Button';
-import ElectronicPaymentsReadDetailHeader from './ElectronicPaymentsReadDetailHeader';
-import ElectronicPaymentsTable from '../../ElectronicPaymentsTable';
-import styles from '../../ElectronicPayments.module.css';
+} from '../ElectronicPaymentsReadSelector';
+import DeleteModal from '../../../components/modal/DeleteModal';
+import ElectronicPaymentsReadButtons from './ElectronicPaymentsReadButtons';
+import ElectronicPaymentsReadHeader from './ElectronicPaymentsReadHeader';
+import ElectronicPaymentsReadTable from './ElectronicPaymentsReadTable';
+import PageView from '../../../components/PageView/PageView';
+import styles from './ElectronicPaymentsReadView.module.css';
 
 const ElectronicPaymentsReadView = ({
+  pageTitle,
+  isLoading,
   electronicPayments,
-  isTableLoading,
   account,
   balance,
   transactionDescription,
   referenceNumber,
   dateOfPayment,
   bankStatementDescription,
+  totalPayment,
+  alertMessage,
+  isDeleteModalOpen,
   onGoBackClick,
   onDeleteButtonClick,
-  totalPayment,
-  employeePayModal,
-  onReferenceNumberClick,
+  onDeleteConfirmButtonClick,
+  onDeleteCancelButtonClick,
+  onDismissAlert,
 }) => {
+  const alert = alertMessage && (
+    <Alert type="danger" onDismiss={onDismissAlert}>
+      {alertMessage}
+    </Alert>
+  );
+
+  const deleteModal = isDeleteModalOpen && (
+  <DeleteModal
+    title="Delete this transaction?"
+    description="This can't be undone, or recovered later."
+    onCancel={onDeleteCancelButtonClick}
+    onConfirm={onDeleteConfirmButtonClick}
+  />
+  );
+
   const totalPaymentFooter = (
     <div className={styles.totalPaymentsFooter}>
-      <h4>
+      <h3>
         <span className={styles.totalPaymentsFooterLabel}>Total payment</span>
         <span>{totalPayment}</span>
-      </h4>
+      </h3>
     </div>
   );
 
   const view = (
     <BaseTemplate>
-      {employeePayModal}
-      <PageHead title="Create bank file to pay employees" />
-      <Card
-        footer={totalPaymentFooter}
-      >
-        <ElectronicPaymentsReadDetailHeader
+      {alert}
+      {deleteModal}
+      <PageHead title={pageTitle} />
+      <Card footer={totalPaymentFooter}>
+        <ElectronicPaymentsReadHeader
           account={account}
           balance={balance}
           transactionDescription={transactionDescription}
@@ -63,54 +82,33 @@ const ElectronicPaymentsReadView = ({
           dateOfPayment={dateOfPayment}
           bankStatementDescription={bankStatementDescription}
         />
-        <ElectronicPaymentsTable
+        <ElectronicPaymentsReadTable
           electronicPayments={electronicPayments}
-          isTableLoading={isTableLoading}
-          onReferenceNumberClick={onReferenceNumberClick}
         />
       </Card>
-      <ButtonRow
-        secondary={[
-          <Button type="secondary" onClick={onDeleteButtonClick}>
-            Delete
-          </Button>,
-        ]}
-
-        primary={[
-          <Button type="secondary" onClick={onGoBackClick}>
-            Go back
-          </Button>,
-        ]}
+      <ElectronicPaymentsReadButtons
+        onGoBackClick={onGoBackClick}
+        onDeleteButtonClick={onDeleteButtonClick}
       />
-
     </BaseTemplate>
   );
 
-  return view;
-};
-
-const getAccount = state => state.account;
-const getBalance = state => state.balance;
-export const getTotalPayment = (state) => {
-  const selectedAmountList = state.electronicPayments.map(e => e.amount);
-  const totalPayment = selectedAmountList
-    .reduce((paymentOne, paymentTwo) => (paymentOne + paymentTwo), 0);
-  return formatCurrency(totalPayment);
+  return <PageView isLoading={isLoading} view={view} />;
 };
 
 const mapStateToProps = state => ({
+  pageTitle: getPageTitle(state),
   isLoading: getIsLoading(state),
-  electronicPayments: getElectronicPayments(state),
+  electronicPayments: getTableEntries(state),
   account: getAccount(state),
   balance: getBalance(state),
-  totalPayment: getTotalPayment(state),
-  isTableLoading: getIsTableLoading(state),
-  alert: getAlert(state),
   transactionDescription: getTransactionDescription(state),
   referenceNumber: getReferenceNumber(state),
   dateOfPayment: getDateOfPayment(state),
   bankStatementDescription: getBankStatementDescription(state),
-  modal: getModal(state),
+  totalPayment: getTotalPayment(state),
+  alertMessage: getAlert(state),
+  isDeleteModalOpen: getIsDeleteModalOpen(state),
 });
 
 export default connect(mapStateToProps)(ElectronicPaymentsReadView);

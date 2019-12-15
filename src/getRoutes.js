@@ -357,7 +357,7 @@ const getRoutes = ({
     name: 'electronicPayments',
     rootPath: '/:region/:businessId/electronicPayments',
     subRoutes: getElectronicPaymentsRoutes({
-      integration, setRootView,
+      integration, setRootView, pushMessage,
     }),
   },
   {

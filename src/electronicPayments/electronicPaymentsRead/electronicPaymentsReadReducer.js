@@ -1,47 +1,66 @@
-import { LOAD_ELECTRONIC_PAYMENT_DETAILS } from './ElectronicPaymentsReadIntents';
-import { SET_INITIAL_STATE } from '../../SystemIntents';
 import {
-  SET_TABLE_LOADING_STATE,
-} from '../ElectronicPaymentsIntents';
+  LOAD_ELECTRONIC_PAYMENT_DETAILS,
+  SET_ALERT, SET_DELETE_MODAL_OPEN_STATE,
+  SET_LOADING_STATE,
+} from './ElectronicPaymentsReadIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
   isLoading: true,
-  isTableLoading: true,
-  electronicPayments: [],
+  transactions: [],
   transactionDescription: '',
   referenceNumber: '',
   dateOfPayment: '',
   bankStatementDescription: '',
   account: '',
   balance: '',
+  alert: '',
+  isDeleteModalOpen: false,
 });
 
-const setInitialState = (state, action) => ({
+const setInitialState = (state, { context }) => ({
   ...state,
-  ...action.context,
+  ...context,
 });
 
-const setTableLoadingState = (state, action) => ({
-  ...state,
-  isTableLoading: action.isTableLoading,
+const resetState = () => ({
+  ...getDefaultState(),
 });
 
-const loadElectronicPaymentDetails = (state, action) => ({
+const setLoadingState = (store, { isLoading }) => ({
+  ...store,
+  isLoading,
+});
+
+const setAlertMessage = (store, { message }) => ({
+  ...store,
+  alert: message,
+});
+
+const setDeleteModalOpenState = (store, { isOpen }) => ({
+  ...store,
+  isDeleteModalOpen: isOpen,
+});
+
+const loadElectronicPaymentDetails = (state, { response }) => ({
   ...state,
-  account: action.response.account || [],
-  balance: action.response.balance || '',
-  referenceNumber: action.response.referenceNumber || '',
-  bankStatementDescription: action.response.bankStatementDescription || '',
-  transactionDescription: action.response.transactionDescription || '',
-  dateOfPayment: action.response.dateOfPayment || '',
-  electronicPayments: action.response.electronicPayments || [],
+  account: response.account || [],
+  balance: response.balance || '',
+  referenceNumber: response.referenceNumber || '',
+  bankStatementDescription: response.bankStatementDescription || '',
+  transactionDescription: response.transactionDescription || '',
+  dateOfPayment: response.dateOfPayment || '',
+  transactions: response.electronicPayments || [],
 });
 
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
+  [RESET_STATE]: resetState,
+  [SET_LOADING_STATE]: setLoadingState,
+  [SET_ALERT]: setAlertMessage,
+  [SET_DELETE_MODAL_OPEN_STATE]: setDeleteModalOpenState,
   [LOAD_ELECTRONIC_PAYMENT_DETAILS]: loadElectronicPaymentDetails,
-  [SET_TABLE_LOADING_STATE]: setTableLoadingState,
 };
 
 const electronicPaymentsReadReducer = createReducer(getDefaultState(), handlers);

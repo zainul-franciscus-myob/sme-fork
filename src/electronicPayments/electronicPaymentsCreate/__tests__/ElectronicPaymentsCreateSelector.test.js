@@ -1,11 +1,11 @@
 import {
   getTotalPayment,
-} from '../ElectronicPaymentsSelector';
+} from '../ElectronicPaymentsCreateSelector';
 
-describe('ElectronicPaymentsSelector', () => {
+describe('ElectronicPaymentsCreateSelector', () => {
   describe('getTotalPayment', () => {
     const state = {
-      electronicPayments: [
+      transactions: [
         {
           id: 1,
           date: '02/12/2018',
@@ -36,8 +36,8 @@ describe('ElectronicPaymentsSelector', () => {
     it('calculates and formats selected payments', () => {
       const modifiedState = {
         ...state,
-        electronicPayments: [
-          ...state.electronicPayments,
+        transactions: [
+          ...state.transactions,
           {
             id: 3,
             date: '05/12/2018',
@@ -58,7 +58,7 @@ describe('ElectronicPaymentsSelector', () => {
     it('returns zero when no payments are selected', () => {
       const modifiedState = {
         ...state,
-        electronicPayments: [],
+        transactions: [],
       };
 
       const actual = getTotalPayment(modifiedState);

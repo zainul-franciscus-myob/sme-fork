@@ -11,8 +11,9 @@ import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
+import styles from './ElectronicPaymentsCreateHeader.module.css';
 
-const ElectronicPaymentsCreateDetailHeader = ({
+const ElectronicPaymentsCreateHeader = ({
   accounts,
   selectedAccountId,
   onAccountChange,
@@ -34,14 +35,14 @@ const ElectronicPaymentsCreateDetailHeader = ({
         hideLabel={false}
       />
       <FormHorizontal>
-        <h5>
+        <h4>
           <span>
             Balance
           </span>
-          <span style={{ float: 'right' }}>
+          <span className={styles.balanceAmount}>
             {balanceValue}
           </span>
-        </h5>
+        </h4>
       </FormHorizontal>
       <Input
         name="transactionDescription"
@@ -82,4 +83,4 @@ const ElectronicPaymentsCreateDetailHeader = ({
   return (<DetailHeader primary={primary} secondary={secondary} />);
 };
 
-export default ElectronicPaymentsCreateDetailHeader;
+export default ElectronicPaymentsCreateHeader;

@@ -2,39 +2,18 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  CLOSE_MODAL,
-  LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS,
-  OPEN_MODAL,
-  RECORD_AND_DOWNLOAD_BANK_FILE,
-  SELECT_ALL_ELECTRONIC_PAYMENTS,
-  SELECT_ITEM_ELECTRONIC_PAYMENT,
-  SET_ALERT,
-  SET_LOADING_STATE,
-  SET_SORT_ORDER,
-  SET_TABLE_LOADING_STATE,
-  SORT_AND_FILTER_ELECTRONIC_PAYMENTS,
-  UPDATE_APPLIED_FILTER_OPTIONS,
-  UPDATE_BANK_FILE_DETAILS,
-  UPDATE_FILTER_OPTIONS,
-  UPDATE_SELECTED_ACCOUNT_ID,
-} from '../ElectronicPaymentsIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import {
+  flipSortOrder,
   getAppliedFilterOptions,
-  getBusinessId,
-  getDateOfPayment,
   getFilterOptions,
+  getIsPaymentDateToday,
   getOrderBy,
-  getRecordAndDownloadBankFileContent,
-  getRegion,
-  getSortOrder,
-} from '../ElectronicPaymentsSelector';
+} from './ElectronicPaymentsCreateSelector';
 import ElectronicPaymentsCreateView from './components/ElectronicPaymentsCreateView';
-import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import ModalType from './ModalType';
 import Store from '../../store/Store';
+import createElectronicPaymentsCreateDispatcher from './createElectronicPaymentsCreateDispatcher';
+import createElectronicPaymentsCreateIntegrator from './createElectronicPaymentsCreateIntegrator';
 import electronicPaymentsCreateReducer from './electronicPaymentsCreateReducer';
-import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 import openBlob from '../../common/blobOpener/openBlob';
 
 const downloadAsFile = (content, filename) => {
@@ -58,312 +37,122 @@ const downloadAsFile = (content, filename) => {
 };
 
 export default class ElectronicPaymentsModule {
-  constructor({
-    setRootView,
-    integration,
-  }) {
+  constructor({ setRootView, integration }) {
     this.setRootView = setRootView;
-    this.store = new Store(electronicPaymentsCreateReducer);
     this.integration = integration;
-    this.subModules = {
-      employeePayModal: new EmployeePayModalModule({
-        integration,
-      }),
-    };
-  }
-
-  run(context) {
-    this.setInitialState(context);
-    this.render();
-    this.loadAccountsAndElectronicPayments();
-  }
-
-  setIsLoading(isLoading) {
-    this.store.dispatch({
-      intent: SET_LOADING_STATE,
-      isLoading,
-    });
-  }
-
-  setIsTableLoading(isTableLoading) {
-    this.store.dispatch({
-      intent: SET_TABLE_LOADING_STATE,
-      isTableLoading,
-    });
-  }
-
-  updateSelectedAccountId = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_SELECTED_ACCOUNT_ID,
-      key,
-      value,
-    });
-  }
-
-  updateFilterBarOptions = ({ filterName, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_FILTER_OPTIONS,
-      filterName,
-      value,
-    });
-  }
-
-  filterElectronicPayments = () => {
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
-
-    this.fetchElectronicPayments({
-      filterOptions,
-    });
-    this.updateAppliedFilterOptions(filterOptions);
-  }
-
-  fetchElectronicPayments = ({ filterOptions }) => {
-    this.setIsTableLoading(true);
-    const state = this.store.getState();
-    const intent = SORT_AND_FILTER_ELECTRONIC_PAYMENTS;
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const onSuccess = ({ entries }) => {
-      this.store.dispatch({
-        intent,
-        entries,
-      });
-      this.setIsTableLoading(false);
-    };
-    const onFailure = ({ message }) => this.setAlert({ message, type: 'danger' });
-
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: getSortOrder(state),
-        orderBy: getOrderBy(state),
-      },
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  updateAppliedFilterOptions = (filterOptions) => {
-    this.store.dispatch({
-      intent: UPDATE_APPLIED_FILTER_OPTIONS,
-      filterOptions,
-    });
-  }
-
-  getFirstAccountId = (accounts) => {
-    const firstAccountId = accounts && accounts[0] && accounts[0].id;
-    return firstAccountId;
+    this.store = new Store(electronicPaymentsCreateReducer);
+    this.dispatcher = createElectronicPaymentsCreateDispatcher(this.store);
+    this.integrator = createElectronicPaymentsCreateIntegrator(this.store, this.integration);
   }
 
   loadAccountsAndElectronicPayments = () => {
-    this.setIsLoading(true);
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
+    this.dispatcher.setIsLoading(true);
 
     const onSuccess = (response) => {
-      this.store.dispatch({
-        intent: LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS,
-        response,
-      });
-
-      const firstAccountId = this.getFirstAccountId(response && response.accounts);
-      this.store.dispatch({
-        intent: UPDATE_SELECTED_ACCOUNT_ID,
-        value: firstAccountId,
-      });
-      this.setIsLoading(false);
-      this.setIsTableLoading(false);
+      this.dispatcher.setIsLoading(false);
+      this.dispatcher.setIsTableLoading(false);
+      this.dispatcher.setAccountsAndTransaction(response);
     };
-    const onFailure = () => { };
 
-    this.integration.read({
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: getSortOrder(state),
-        orderBy: getOrderBy(state),
-      },
-      onSuccess,
-      onFailure,
-      intent: LOAD_ACCOUNTS_AND_ELECTRONIC_PAYMENTS,
-    });
-  }
+    const onFailure = (message) => {
+      console.log(`Failed to load accounts and transactions. ${message}`);
+    };
 
-  flipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
+    this.integrator.loadAccountsAndElectronicPayments({ onSuccess, onFailure });
+  };
 
-  setSortOrder = (orderBy, newSortOrder) => {
-    this.store.dispatch({
-      intent: SET_SORT_ORDER,
-      sortOrder: newSortOrder,
-      orderBy,
-    });
-  }
+  fetchTransactions = ({ filterOptions }) => {
+    this.dispatcher.setIsTableLoading(true);
 
-  sortElectronicPayments = (orderBy) => {
-    const state = this.store.getState();
-    const filterOptions = getAppliedFilterOptions(state);
+    const onSuccess = ({ entries }) => {
+      this.dispatcher.setIsTableLoading(false);
+      this.dispatcher.setTransactions(entries);
+    };
 
-    const newSortOrder = orderBy === getOrderBy(state) ? this.flipSortOrder(state) : 'asc';
-    this.setSortOrder(orderBy, newSortOrder);
+    const onFailure = ({ message }) => {
+      this.dispatcher.setIsTableLoading(false);
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
 
-    this.fetchElectronicPayments({
-      filterOptions,
-    });
-  }
+    this.integrator.fetchElectronicPayments({ filterOptions, onSuccess, onFailure });
+  };
 
   recordAndDownloadBankFile = () => {
-    const state = this.store.getState();
-    const intent = RECORD_AND_DOWNLOAD_BANK_FILE;
-    this.closeModal();
-    const content = getRecordAndDownloadBankFileContent(state);
-    const onSuccess = (response) => {
-      downloadAsFile(
-        response.content,
-        response.filename,
-      );
+    this.dispatcher.closeModal();
+    this.dispatcher.setIsLoading(true);
 
-      this.setAlert({
-        type: 'success',
-        message: response.message,
-      });
+    const onSuccess = (response) => {
+      const { content, filename, message } = response;
+      downloadAsFile(content, filename);
+      this.dispatcher.setAlert({ type: 'success', message });
       this.loadAccountsAndElectronicPayments();
     };
 
     const onFailure = ({ message }) => {
-      this.setAlert({
-        type: 'danger',
-        message,
-      });
+      this.dispatcher.setIsLoading(false);
+      this.dispatcher.setAlert({ type: 'danger', message });
     };
 
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  setInitialState = (context) => {
-    this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
-    });
+    this.integrator.recordAndDownloadBankFile({ onSuccess, onFailure });
   };
 
-  setAlert = (alert) => {
-    this.store.dispatch({
-      intent: SET_ALERT,
-      alert,
-    });
-  }
-
-  dismissAlert = () => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: undefined,
-    });
-  };
-
-  selectAll = (isSelected) => {
-    this.store.dispatch({
-      intent: SELECT_ALL_ELECTRONIC_PAYMENTS,
-      isSelected,
-    });
-  }
-
-  selectItem = (item, isSelected) => {
-    this.store.dispatch({
-      intent: SELECT_ITEM_ELECTRONIC_PAYMENT,
-      isSelected,
-      item,
-    });
-  }
-
-  updateInputField = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_BANK_FILE_DETAILS,
-      key,
-      value,
-    });
-  }
-
-  render = () => {
-    const employeePayModal = this.subModules.employeePayModal.getView();
-    const view = (
-      <ElectronicPaymentsCreateView
-        employeePayModal={employeePayModal}
-        onUpdateFilterBarOptions={this.updateFilterBarOptions}
-        onApplyFilter={this.filterElectronicPayments}
-        onAccountChange={this.updateSelectedAccountId}
-        selectAll={this.selectAll}
-        selectItem={this.selectItem}
-        onSort={this.sortElectronicPayments}
-        onDismissAlert={this.dismissAlert}
-        onRecordAndDownloadBankFile={this.openModal}
-        onInputChange={this.updateInputField}
-        onCancelButtonClick={this.closeModal}
-        onRecordButtonClick={this.recordAndDownloadBankFile}
-        onContinueButtonClick={this.recordAndDownloadBankFile}
-        onReferenceNumberClick={this.openEmployeePayModal}
-      />
-    );
-
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
-      </Provider>
-    );
-    this.setRootView(wrappedView);
-  }
-
-  unsubscribeFromStore = () => {
-    this.store.unsubscribeAll();
-  }
-
-  resetState = () => {
-    this.store.dispatch({
-      intent: RESET_STATE,
-    });
-  }
-
-  openEmployeePayModal = (transactionId, employeeName) => {
+  filterElectronicPayments = () => {
     const state = this.store.getState();
-    this.subModules.employeePayModal.openModal({
-      transactionId,
-      employeeName,
-      businessId: getBusinessId(state),
-      region: getRegion(state),
-    });
-  }
+    const filterOptions = getFilterOptions(state);
+    this.fetchTransactions({ filterOptions });
+    this.dispatcher.updateAppliedFilterOptions(filterOptions);
+  };
+
+  sortElectronicPayments = (orderBy) => {
+    const state = this.store.getState();
+    const newSortOrder = orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc';
+    this.dispatcher.setSortOrder(orderBy, newSortOrder);
+
+    const filterOptions = getAppliedFilterOptions(state);
+    this.fetchTransactions({ filterOptions });
+  };
 
   openModal = () => {
     const state = this.store.getState();
-    const modalType = formatIsoDate(new Date(getDateOfPayment(state))) === formatIsoDate(new Date())
+    const modalType = getIsPaymentDateToday(state)
       ? ModalType.RECORD_AND_CREATE_BANK_FILE : ModalType.DATE_MISMATCH;
-    this.store.dispatch({
-      intent: OPEN_MODAL,
-      modal: { type: modalType },
-    });
+    this.dispatcher.openModal(modalType);
+  };
+
+  unsubscribeFromStore = () => {
+    this.store.unsubscribeAll();
+  };
+
+  resetState = () => {
+    this.dispatcher.resetState();
+  };
+
+  run(context) {
+    this.dispatcher.setInitialState(context);
+    this.render();
+    this.loadAccountsAndElectronicPayments();
   }
 
-  closeModal = () => {
-    this.store.dispatch({
-      intent: CLOSE_MODAL,
-    });
-  }
+  render = () => {
+    const wrappedView = (
+      <Provider store={this.store}>
+        <ElectronicPaymentsCreateView
+          onUpdateFilterBarOptions={this.dispatcher.updateFilterBarOptions}
+          onApplyFilter={this.filterElectronicPayments}
+          onAccountChange={this.dispatcher.updateSelectedAccountId}
+          selectAll={this.dispatcher.selectAll}
+          selectItem={this.dispatcher.selectItem}
+          onSort={this.sortElectronicPayments}
+          onDismissAlert={this.dispatcher.dismissAlert}
+          onRecordAndDownloadBankFile={this.openModal}
+          onInputChange={this.dispatcher.updateInputField}
+          onCancelButtonClick={this.dispatcher.closeModal}
+          onRecordButtonClick={this.recordAndDownloadBankFile}
+          onContinueButtonClick={this.recordAndDownloadBankFile}
+        />
+      </Provider>
+    );
+
+    this.setRootView(wrappedView);
+  };
 }

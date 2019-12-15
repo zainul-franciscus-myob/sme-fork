@@ -1,13 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import { SET_ALERT, SET_TAB } from './TransactionListIntents';
 import { SUCCESSFULLY_DELETED_APPLY_TO_SALE } from '../applyToSale/ApplyToSaleMessageType';
 import { SUCCESSFULLY_DELETED_BILL_PAYMENT, SUCCESSFULLY_SAVED_BILL_PAYMENT } from '../billPayment/BillPaymentMessageTypes';
+import { SUCCESSFULLY_DELETED_ELECTRONIC_PAYMENT } from '../electronicPayments/electronicPaymentMesssageTypes';
 import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../generalJournal/GeneralJournalMessageTypes';
 import { SUCCESSFULLY_DELETED_INVOICE_PAYMENT, SUCCESSFULLY_SAVED_INVOICE_PAYMENT } from '../invoicePayment/InvoicePaymentMessageTypes';
 import { SUCCESSFULLY_DELETED_PAY_REFUND } from '../payRefund/PayRefundMessageTypes';
@@ -32,6 +30,7 @@ const messageTypes = [
   SUCCESSFULLY_SAVED_BILL_PAYMENT, SUCCESSFULLY_DELETED_BILL_PAYMENT,
   SUCCESSFULLY_DELETED_RECEIVE_REFUND, SUCCESSFULLY_DELETED_PURCHASE_RETURN,
   SUCCESSFULLY_DELETED_PAY_REFUND, SUCCESSFULLY_DELETED_APPLY_TO_SALE,
+  SUCCESSFULLY_DELETED_ELECTRONIC_PAYMENT,
 ];
 
 export default class TransactionListModule {
@@ -74,9 +73,8 @@ export default class TransactionListModule {
   }
 
   setAlert = ({ message, type }) => {
-    const intent = SET_ALERT;
     this.store.dispatch({
-      intent,
+      intent: SET_ALERT,
       alert: {
         message,
         type,
@@ -85,18 +83,15 @@ export default class TransactionListModule {
   }
 
   setTab = (tabId) => {
-    const intent = SET_TAB;
     this.store.dispatch({
-      intent,
+      intent: SET_TAB,
       tabId,
     });
   }
 
   setInitialState = (context) => {
-    const intent = SET_INITIAL_STATE;
-
     this.store.dispatch({
-      intent,
+      intent: SET_INITIAL_STATE,
       context,
     });
   }
@@ -128,9 +123,8 @@ export default class TransactionListModule {
   }
 
   resetState() {
-    const intent = RESET_STATE;
     this.store.dispatch({
-      intent,
+      intent: RESET_STATE,
     });
   }
 }
