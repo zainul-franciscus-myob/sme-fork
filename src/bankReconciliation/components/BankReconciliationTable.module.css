@@ -1,0 +1,29 @@
+/**
+  @FEELIX:
+  The dropdown toggle is hidden whenever a row is selected. This styling keeps it visible and actionable.
+**/
+.showToggle :global(.table-data__actions) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media screen and (min-width: 768px) {
+  /**
+    @FEELIX:
+    As there is a spread of normal table rows and collapsible table rows, the alignment of each 
+    becomes odd due to the addition of a toggle for collapsible rows.
+  **/
+  .tableRowToggle :global(.table-data__cell:last-child) {
+    padding-right: 5.4rem;
+  }
+
+  /**
+    @FEELIX:
+    Align the content inside the collapsible rows to that of the outer rows.
+    Used to override the class specificity Feelix is using.
+  **/
+  .collapsibleTableRowContent.collapsibleTableRowContent.collapsibleTableRowContent {
+    padding-left: 0.4rem;
+    padding-right: 4.8rem;
+  }
+}

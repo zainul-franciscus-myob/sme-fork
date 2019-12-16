@@ -1,6 +1,9 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { businessEventFeatures } from '../banking/businessEventTypes';
+import flat from '../common/flat/flat';
+import formatAmount from '../common/valueFormatters/formatAmount';
+import formatCurrency from '../common/valueFormatters/formatCurrency';
 import formatSlashDate from '../common/valueFormatters/formatDate/formatSlashDate';
 
 export const getIsLoading = state => state.isLoading;
@@ -25,20 +28,6 @@ export const getSortAndFilterParams = state => ({
   sortOrder: state.sortOrder,
   orderBy: state.orderBy,
 });
-
-const formatAmount = amount => Intl
-  .NumberFormat('en-AU', {
-    style: 'decimal',
-    minimumFractionDigits: '2',
-    maximumFractionDigits: '2',
-  })
-  .format(amount);
-
-const formatCurrency = (amount) => {
-  const formattedAmount = formatAmount(Math.abs(amount));
-
-  return amount < 0 ? `-$${formattedAmount}` : `$${formattedAmount}`;
-};
 
 export const getOutOfBalance = ({ calculatedClosingBalance, closingBankStatementBalance }) => {
   const outOfBalance = calculatedClosingBalance - (Number(closingBankStatementBalance) || 0);
@@ -78,16 +67,36 @@ export const getEntries = createSelector(
   getBusinessId,
   getRegion,
   state => state.entries,
-  (businessId, region, entries) => entries.map(entry => ({
-    journalLineId: entry.journalLineId,
-    link: getEntryLink(entry, businessId, region),
-    date: formatSlashDate(new Date(entry.date)),
-    referenceId: entry.referenceId,
-    isChecked: entry.isChecked,
-    description: entry.description,
-    deposit: entry.deposit && formatAmount(entry.deposit),
-    withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
-  })),
+  (businessId, region, entries) => entries.map((entry) => {
+    const { hasMatchedTransactions } = entry;
+    const matchedTransactions = hasMatchedTransactions ? entry.matchedTransactions.map(
+      transaction => ({
+        journalLineId: transaction.journalLineId,
+        link: getEntryLink(transaction, businessId, region),
+        date: formatSlashDate(new Date(transaction.date)),
+        referenceId: transaction.referenceId,
+        description: transaction.description,
+        deposit: transaction.deposit && formatAmount(transaction.deposit),
+        withdrawal: transaction.withdrawal && formatAmount(transaction.withdrawal),
+      }),
+    ) : [];
+
+    const link = hasMatchedTransactions ? '' : getEntryLink(entry, businessId, region);
+    const referenceId = hasMatchedTransactions ? '' : entry.referenceId;
+
+    return {
+      journalLineId: entry.journalLineId,
+      date: formatSlashDate(new Date(entry.date)),
+      isChecked: entry.isChecked,
+      description: entry.description,
+      deposit: entry.deposit && formatAmount(entry.deposit),
+      withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
+      link,
+      referenceId,
+      hasMatchedTransactions,
+      matchedTransactions,
+    };
+  }),
 );
 
 export const getIsAllSelected = state => state.entries.every(entry => entry.isChecked);
@@ -107,12 +116,22 @@ export const getHeaderSelectStatus = createSelector(
   },
 );
 
-export const getCreateBankReconciliationPayload = state => ({
-  statementDate: state.statementDate,
-  entries: state.entries
-    .filter(entry => entry.isChecked)
-    .map(entry => ({
-      journalLineId: entry.journalLineId,
-      journalTransactionId: entry.journalTransactionId,
-    })),
+const buildEntry = ({ journalLineId, journalTransactionId }) => ({
+  journalLineId,
+  journalTransactionId,
 });
+
+export const getCreateBankReconciliationPayload = (state) => {
+  const entries = state.entries
+    .filter(entry => entry.isChecked)
+    .map(entry => (entry.hasMatchedTransactions
+      ? entry.matchedTransactions.map(buildEntry)
+      : buildEntry(entry)));
+
+  const flattenedEntries = flat(entries, 1);
+
+  return {
+    statementDate: state.statementDate,
+    entries: flattenedEntries,
+  };
+};

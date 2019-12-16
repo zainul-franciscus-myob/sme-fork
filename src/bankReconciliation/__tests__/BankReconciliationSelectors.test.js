@@ -110,6 +110,20 @@ describe('BankReconciliationSelectors', () => {
             journalTransactionId: '2234',
             journalId: '11',
             sourceJournal: 'CashPayment',
+            hasMatchedTransactions: true,
+            matchedTransactions: [
+              {
+                date: '2019-01-01',
+                referenceId: '000000123',
+                journalLineId: '1123',
+                isChecked: true,
+                description: 'Payment ref-001',
+                withdrawal: 1200,
+                journalTransactionId: '2234',
+                journalId: '15',
+                sourceJournal: 'CashPayment',
+              },
+            ],
           },
           {
             date: '2019-01-01',
@@ -121,6 +135,7 @@ describe('BankReconciliationSelectors', () => {
             journalTransactionId: '2235',
             journalId: '12',
             sourceJournal: 'CashReceipt',
+            hasMatchedTransactions: false,
           },
         ],
       };
@@ -128,13 +143,24 @@ describe('BankReconciliationSelectors', () => {
       const expected = [
         {
           date: '01/01/2019',
-          link: '/#/au/123/spendMoney/11',
-          referenceId: '000000123',
+          link: '',
+          referenceId: '',
           journalLineId: '1123',
           isChecked: true,
           description: 'Payment ref-001',
           withdrawal: '1,200.00',
           deposit: undefined,
+          hasMatchedTransactions: true,
+          matchedTransactions: [
+            {
+              date: '01/01/2019',
+              link: '/#/au/123/spendMoney/15',
+              referenceId: '000000123',
+              journalLineId: '1123',
+              description: 'Payment ref-001',
+              withdrawal: '1,200.00',
+            },
+          ],
         },
         {
           date: '01/01/2019',
@@ -145,6 +171,8 @@ describe('BankReconciliationSelectors', () => {
           description: 'Payment ref-002',
           withdrawal: undefined,
           deposit: '1,300.00',
+          hasMatchedTransactions: false,
+          matchedTransactions: [],
         },
       ];
 
@@ -237,6 +265,62 @@ describe('BankReconciliationSelectors', () => {
           {
             journalLineId: '1123',
             journalTransactionId: '2234',
+          },
+        ],
+      };
+
+      const actual = getCreateBankReconciliationPayload(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('flattens match transactions in entries', () => {
+      const state = {
+        statementDate: '2019-05-01',
+        entries: [
+          {
+            journalLineId: '1123',
+            isChecked: true,
+            journalTransactionId: '2234',
+            hasMatchedTransactions: false,
+          },
+          {
+            journalLineId: '1124',
+            isChecked: false,
+            journalTransactionId: '2235',
+            hasMatchedTransactions: false,
+          },
+          {
+            isChecked: true,
+            hasMatchedTransactions: true,
+            matchedTransactions: [
+              {
+                journalLineId: '1125',
+                journalTransactionId: '2236',
+              },
+              {
+                journalLineId: '1126',
+                journalTransactionId: '2237',
+              },
+            ],
+          },
+        ],
+      };
+
+      const expected = {
+        statementDate: '2019-05-01',
+        entries: [
+          {
+            journalLineId: '1123',
+            journalTransactionId: '2234',
+          },
+          {
+            journalLineId: '1125',
+            journalTransactionId: '2236',
+          },
+          {
+            journalLineId: '1126',
+            journalTransactionId: '2237',
           },
         ],
       };

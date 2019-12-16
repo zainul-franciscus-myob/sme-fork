@@ -8,7 +8,7 @@ import manageCollapsibles from './AccordionCollapsibleManager';
 
 
 const AccordionTable = (props) => {
-  const { header, body } = props;
+  const { header, body, onRowSelect } = props;
 
   // The AccordionTable generates a new whole extra column to hold the dropdowns and/or the
   // expansion buttons. This method clone the table header adding a new `Headeritem` (column) at
@@ -59,7 +59,7 @@ const AccordionTable = (props) => {
   }
 
   return (
-    <Table>
+    <Table onRowSelect={onRowSelect}>
       {header && finalTableHeader}
       {cloneTableBody(body)}
     </Table>

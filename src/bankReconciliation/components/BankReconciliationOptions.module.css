@@ -1,4 +1,47 @@
+  /* @FEELIX */
 .outOfBalance,
 .outOfBalance :global(.form-group__label-group label) {
   color: #ce2554;
+}
+
+.closingBankStatementBalance {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--flx-spacing-x-small);
+}
+
+.labels {
+  padding-right: var(--flx-spacing-small);
+  text-align: right;
+  flex-basis: 66.66%;
+}
+
+.balances {
+  text-align: right;
+  flex-basis: 33.33%;
+}
+
+/* @FEELIX */
+.closingBankStatementBalance :global(.form-group) {
+  flex-basis: 33.33%;
+  margin-bottom: 0;
+}
+
+.closingBankStatementBalance :global(.form-group__label-group) {
+  display: none;
+}
+
+.closingBankStatementBalance :global(.form-group__input-group) {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  /*
+    @FEELIX:
+    Long labels cause undesirable wrapping with the Feelix DetailHeader on desktop.
+    To fix this, we just increase the width.
+  */
+  .options :global .flx-detail-header__secondary > * {
+    width: 40rem;
+  }
 }

@@ -1,8 +1,9 @@
 import {
-  Button, DatePicker, DetailHeader, Icons, Label, ReadOnly,
+  Button, DatePicker, DetailHeader, Icons, Label,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
 import {
   getIsActionDisabled,
@@ -14,7 +15,7 @@ import AmountInput from '../../components/autoFormatter/AmountInput/AmountInput'
 import handleAmountInputChange from '../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../components/handlers/handleComboboxChange';
 import handleDateChange from '../../components/handlers/handleDateChange';
-import style from './BankReconciliationOptions.module.css';
+import styles from './BankReconciliationOptions.module.css';
 
 const BankReconciliationOptions = ({
   options: {
@@ -59,30 +60,36 @@ const BankReconciliationOptions = ({
     </div>
   );
 
-  const outOfBalanceClassName = isOutOfBalance ? style.outOfBalance : '';
+  const outOfBalanceClassName = isOutOfBalance ? styles.outOfBalance : '';
   const secondary = (
     <div>
-      <AmountInput
-        name="closingBankStatementBalance"
-        label="Closing bank statement balance ($)"
-        decimalScale={2}
-        value={closingBankStatementBalance}
-        onChange={handleAmountInputChange(onUpdateHeaderOption)}
-        onBlur={handleAmountInputChange(onAmountInputBlur)}
-      />
-      <ReadOnly label="Calculated closing balance" name="calculatedClosingBalance">
-        {calculatedClosingBalance}
-      </ReadOnly>
-      <div className={outOfBalanceClassName}>
-        <ReadOnly label="Out of balance" name="outOfBalance" className={outOfBalanceClassName}>
-          {outOfBalance}
-        </ReadOnly>
+      <div className={styles.closingBankStatementBalance}>
+        <span className={styles.labels}>Closing bank statement balance ($)</span>
+        <AmountInput
+          className={styles.bankStatementBalance}
+          name="closingBankStatementBalance"
+          label="Closing bank statement balance ($)"
+          textAlign="right"
+          hideLabel
+          decimalScale={2}
+          value={closingBankStatementBalance}
+          onChange={handleAmountInputChange(onUpdateHeaderOption)}
+          onBlur={handleAmountInputChange(onAmountInputBlur)}
+        />
+      </div>
+      <div className={styles.closingBankStatementBalance}>
+        <div className={styles.labels}>Calculated closing balance</div>
+        <div className={styles.balances}>{calculatedClosingBalance}</div>
+      </div>
+      <div className={classNames(outOfBalanceClassName, styles.closingBankStatementBalance)}>
+        <div className={styles.labels}>Out of balance</div>
+        <div className={styles.balances}>{outOfBalance}</div>
       </div>
     </div>
   );
 
   return (
-    <DetailHeader primary={primary} secondary={secondary} />
+    <DetailHeader primary={primary} secondary={secondary} className={styles.options} />
   );
 };
 

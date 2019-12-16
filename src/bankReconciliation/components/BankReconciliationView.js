@@ -1,4 +1,6 @@
-import { Alert, LineItemTemplate } from '@myob/myob-widgets';
+import {
+  Alert, BaseTemplate, Card, PageHead,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -48,20 +50,32 @@ const BankReconciliationView = ({
     />
   );
 
+  const pageHead = <PageHead title="Reconcile account" />;
+
+  const stickyComponent = (
+    <React.Fragment>
+      {pageHead}
+      {alertComponent}
+      <Card>
+        {templateOptions}
+      </Card>
+    </React.Fragment>
+  );
+
   const view = (
-    <LineItemTemplate
-      pageHead="Reconcile account"
-      alert={alertComponent}
-      options={templateOptions}
-      actions={actions}
+    <BaseTemplate
+      stickyHeaderChildren={stickyComponent}
     >
       {modal}
-      <BankReconciliationTable
-        onSelectRow={onSelectRow}
-        onSelectAll={onSelectAll}
-        onSort={onSort}
-      />
-    </LineItemTemplate>
+      <Card>
+        <BankReconciliationTable
+          onSelectRow={onSelectRow}
+          onSelectAll={onSelectAll}
+          onSort={onSort}
+        />
+      </Card>
+      {actions}
+    </BaseTemplate>
   );
 
   return <PageView isLoading={isLoading} view={view} />;

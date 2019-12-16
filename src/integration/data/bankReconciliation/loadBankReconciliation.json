@@ -5,26 +5,50 @@
   "lastReconcileDate": "2019-01-01",
   "entries": [
     {
-      "date": "2019-01-01",
+      "date": "2019-01-01T00:00:00",
       "referenceId": "000000123",
       "journalLineId": "1123",
       "isChecked": true,
       "description": "Payment ref-001",
-      "withdrawal": 200,
+      "deposit": 200,
       "journalTransactionId": "2234",
-      "journalId": "11",
-      "sourceJournal": "CashPayment"
+      "journalId": "1",
+      "sourceJournal": "CashPayment",
+      "hasMatchedTransactions": true,
+      "matchedTransactions": [
+        {
+          "date": "2019-01-01T00:00:00",
+          "referenceId": "000000123",
+          "journalLineId": "1123",
+          "description": "Payment ref-001",
+          "deposit": 200,
+          "journalTransactionId": "2234",
+          "journalId": "1",
+          "sourceJournal": "CashPayment"
+        },
+        {
+          "date": "2019-01-01T00:00:00",
+          "referenceId": "000000234",
+          "journalLineId": "1125",
+          "description": "Payment ref-001",
+          "withdrawal": 0,
+          "journalTransactionId": "2234",
+          "journalId": "3",
+          "sourceJournal": "CashPayment"
+        }
+      ]
     },
     {
-      "date": "2019-01-01",
+      "date": "2019-01-01T00:00:00",
       "referenceId": "000000124",
       "journalLineId": "1124",
       "isChecked": false,
       "description": "Payment ref-002",
-      "deposit": 300,
+      "withdrawal": 300,
       "journalTransactionId": "2235",
-      "journalId": "12",
-      "sourceJournal": "CashReceipt"
+      "journalId": "2",
+      "sourceJournal": "CashReceipt",
+      "hasMatchedTransactions": false
     }
   ],
   "accounts": [
