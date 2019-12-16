@@ -49,7 +49,15 @@ export const getLineDataByIndexSelector = () => createSelector(
     let formatedLine = {};
     if (line) {
       const {
-        accountId, taxCodeId, taxCodes, accounts, debitAmount, creditAmount, description, taxAmount,
+        accountId,
+        taxCodeId,
+        taxCodes,
+        accounts,
+        debitAmount,
+        creditAmount,
+        quantity,
+        description,
+        taxAmount,
       } = line;
 
       const disabledField = getDisabledField(line);
@@ -57,6 +65,7 @@ export const getLineDataByIndexSelector = () => createSelector(
       formatedLine = ({
         debitAmount,
         creditAmount,
+        quantity,
         taxAmount,
         description,
         accountId,

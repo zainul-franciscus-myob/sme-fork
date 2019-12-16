@@ -37,6 +37,7 @@ const getDefaultState = () => ({
     accountId: '',
     debitAmount: '',
     creditAmount: '',
+    quantity: '',
     description: '',
     taxCodeId: '',
     taxAmount: '',

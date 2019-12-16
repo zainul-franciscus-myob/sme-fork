@@ -1,15 +1,26 @@
-import { Input, LineItemTable, TextArea } from '@myob/myob-widgets';
+import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
   getLineDataByIndexSelector, getNewLineData,
 } from '../generalJournalDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
+import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
-const eventWrapper = (name, onChange) => (item) => {
+const onAmountInputChange = (name, onChange) => (e) => {
+  onChange({
+    target: {
+      name,
+      value: e.target.rawValue,
+    },
+  });
+};
+
+const onInputBlur = (handler, index, key) => () => handler({ index, key });
+
+const onComboboxChange = (name, onChange) => (item) => {
   onChange({
     target: {
       name,
@@ -18,22 +29,21 @@ const eventWrapper = (name, onChange) => (item) => {
   });
 };
 
-const GeneralJournalDetailRow = (props) => {
-  const {
-    index,
-    onRowInputBlur,
-    onChange,
-    isNewLineRow,
-    lineData,
-    newLineData,
-    ...feelixInjectedProps
-  } = props;
-
+const GeneralJournalDetailRow = ({
+  index,
+  onRowInputBlur,
+  onChange,
+  isNewLineRow,
+  lineData,
+  newLineData,
+  ...feelixInjectedProps
+}) => {
   const data = isNewLineRow ? newLineData : lineData;
 
   const {
     debitAmount = '',
     creditAmount = '',
+    quantity = '',
     description = '',
     isCreditDisabled = false,
     isDebitDisabled = false,
@@ -50,31 +60,38 @@ const GeneralJournalDetailRow = (props) => {
       {...feelixInjectedProps}
     >
       <AccountCombobox
+        label="Accounts"
         items={accounts}
         selectedId={accountId}
-        onChange={eventWrapper('accountId', onChange)}
+        onChange={onComboboxChange('accountId', onChange)}
       />
-      <Input
-        type="number"
-        label="DebitAmount"
-        hideLabel
+      <AmountInput
+        label="Debit amount"
         name="debitAmount"
         value={debitAmount}
         disabled={isNewLineRow || isDebitDisabled}
-        onChange={onChange}
-        step="0.01"
-        onBlur={onRowInputBlur(index)}
+        onChange={onAmountInputChange('debitAmount', onChange)}
+        onBlur={onInputBlur(onRowInputBlur, index, 'debitAmount')}
+        decimalScale={2}
       />
-      <Input
-        type="number"
-        label="CreditAmount"
-        hideLabel
+      <AmountInput
+        label="Credit amount"
         name="creditAmount"
         value={creditAmount}
         disabled={isNewLineRow || isCreditDisabled}
-        onChange={onChange}
-        step="0.01"
-        onBlur={onRowInputBlur(index)}
+        onChange={onAmountInputChange('creditAmount', onChange)}
+        onBlur={onInputBlur(onRowInputBlur, index, 'creditAmount')}
+        decimalScale={2}
+      />
+      <AmountInput
+        label="Quantity"
+        name="quantity"
+        value={quantity}
+        onChange={onAmountInputChange('quantity', onChange)}
+        onBlur={onInputBlur(onRowInputBlur, index, 'quantity')}
+        disabled={isNewLineRow}
+        decimalScale={6}
+        numeralIntegerScale={19}
       />
       <TextArea
         rows={1}
@@ -87,21 +104,13 @@ const GeneralJournalDetailRow = (props) => {
         disabled={isNewLineRow}
       />
       <TaxCodeCombobox
+        label="Tax codes"
         items={taxCodes}
         selectedId={taxCodeId}
-        onChange={eventWrapper('taxCodeId', onChange)}
+        onChange={onComboboxChange('taxCodeId', onChange)}
         disabled={isNewLineRow}
       />
     </LineItemTable.Row>);
-};
-
-GeneralJournalDetailRow.propTypes = {
-  index: PropTypes.number.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  isNewLineRow: PropTypes.bool.isRequired,
-  lineData: PropTypes.shape({}).isRequired,
-  newLineData: PropTypes.shape({}).isRequired,
 };
 
 const makeMapRowStateToProps = () => {

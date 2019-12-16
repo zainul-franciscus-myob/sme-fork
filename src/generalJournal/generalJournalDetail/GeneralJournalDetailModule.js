@@ -206,8 +206,9 @@ export default class GeneralJournalDetailModule {
     }
   }
 
-  addGeneralJournalLine = (partialLine) => {
+  addGeneralJournalLine = (line) => {
     const intent = ADD_GENERAL_JOURNAL_LINE;
+    const { id, ...partialLine } = line;
 
     this.store.dispatch({
       intent,
@@ -266,8 +267,8 @@ export default class GeneralJournalDetailModule {
     });
   }
 
-  formatAndCalculateTotals = (line) => {
-    this.formatGeneralJournalLine(line);
+  formatAndCalculateTotals = ({ index }) => {
+    this.formatGeneralJournalLine(index);
     this.getCalculatedTotals();
   }
 
