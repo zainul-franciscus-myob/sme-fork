@@ -2,10 +2,11 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
-import { featuresConfig, reportsMenuItems } from './navConfig';
+import { featuresConfig } from './navConfig';
 import { getBusinessId, isLinkUserPage } from './NavigationSelectors';
 import Config from '../Config';
 import NavigationBar from './components/NavigationBar';
+import RouteName from '../router/RouteName';
 import Store from '../store/Store';
 import buildReportsUrl from './buildReportsUrl';
 import navReducer from './navReducer';
@@ -74,7 +75,14 @@ export default class NavigationModule {
 
     return Object.entries(featuresConfig)
       .map(([key, feature]) => {
-        if (reportsMenuItems.includes(key)) {
+        if ([
+          RouteName.REPORTS_STANDARD,
+          RouteName.REPORTS_FAVOURITE,
+          RouteName.REPORTS_CUSTOMER,
+          RouteName.REPORTS_EXCEPTION,
+          RouteName.REPORTS_PACK_BUILDER,
+          RouteName.REPORTS_PDF_STYLE_TEMPLATES,
+        ].includes(key)) {
           const url = buildReportsUrl(this.reportsBaseUrl, routeParams, feature);
           return { [key]: url };
         }

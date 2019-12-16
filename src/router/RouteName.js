@@ -73,7 +73,12 @@ const RouteName = {
   ELECTRONIC_PAYMENTS_READ: 'electronicPayments/electronicPaymentsRead',
   CUSTOMER_STATEMENT_LIST: 'customerStatement/customerStatementList',
   EMPLOYEE_PAY_DETAIL: 'employeePay/employeePayDetail',
-
+  REPORTS_STANDARD: 'reportsStandard',
+  REPORTS_FAVOURITE: 'reportsFavourite',
+  REPORTS_CUSTOMER: 'reportsCustom',
+  REPORTS_EXCEPTION: 'reportsException',
+  REPORTS_PACK_BUILDER: 'reportsPackBuilder',
+  REPORTS_PDF_STYLE_TEMPLATES: 'reportsPdfStyleTemplates',
 };
 
 export default RouteName;
