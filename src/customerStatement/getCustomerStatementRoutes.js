@@ -1,12 +1,13 @@
 import CustomerStatementListModule from './CustomerStatementListModule';
+import RouteName from '../router/RouteName';
 
 export const CUSTOMER_STATEMENT_LIST_ROUTE = 'customerStatementList';
 
 const getCustomerStatementRoutes = ({ integration, setRootView }) => {
   const routes = [
     {
-      name: CUSTOMER_STATEMENT_LIST_ROUTE,
-      path: '/',
+      name: RouteName.CUSTOMER_STATEMENT_LIST,
+      path: '/:region/:businessId/customerStatement/',
       module: new CustomerStatementListModule({ integration, setRootView }),
       documentTitle: 'Customer statements',
     },

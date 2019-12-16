@@ -1,3 +1,4 @@
+import RouteName from '../router/RouteName';
 import TransferMoneyDetailModule from './transferMoneyDetail/TransferMoneyDetailModule';
 
 const getTransferMoneyRoutes = ({
@@ -5,8 +6,8 @@ const getTransferMoneyRoutes = ({
 }) => {
   const routes = [
     {
-      name: 'transferMoneyDetail',
-      path: '/:transferMoneyId',
+      name: RouteName.TRANSFER_MONEY_DETAIL,
+      path: '/:region/:businessId/transferMoney/:transferMoneyId',
       module: new TransferMoneyDetailModule({
         integration, setRootView, pushMessage,
       }),

@@ -1,20 +1,15 @@
-const getRouteNameToModuleMapping = (routes) => {
-  const moduleMapping = {};
+const getRouteNameToModuleMapping = routes => routes
+  .reduce((acc, { name, module, documentTitle }) => {
+    const action = (context) => { module.run(context); };
 
-  routes.forEach(({ name: rootName, subRoutes }) => {
-    subRoutes.forEach(({ name, module, documentTitle }) => {
-      const routeName = `${rootName}/${name}`;
-      const defaultAction = (context) => { module.run(context); };
-
-      moduleMapping[routeName] = {
+    return {
+      ...acc,
+      [name]: {
         module,
-        action: defaultAction,
+        action,
         title: documentTitle,
-      };
-    });
-  });
-
-  return moduleMapping;
-};
+      },
+    };
+  }, {});
 
 export default getRouteNameToModuleMapping;

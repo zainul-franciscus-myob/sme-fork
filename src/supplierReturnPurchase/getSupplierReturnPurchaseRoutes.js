@@ -1,3 +1,4 @@
+import RouteName from '../router/RouteName';
 import SupplierReturnPurchaseModule from './SupplierReturnPurchaseModule';
 
 const getSupplierReturnPurchaseRoutes = ({
@@ -5,8 +6,8 @@ const getSupplierReturnPurchaseRoutes = ({
 }) => {
   const routes = [
     {
-      name: 'supplierReturnPurchases',
-      path: '/:purchaseReturnId',
+      name: RouteName.SUPPLIER_RETURN_PURCHASES,
+      path: '/:region/:businessId/appliedPurchaseReturn/:purchaseReturnId',
       module: new SupplierReturnPurchaseModule({
         integration, setRootView, pushMessage,
       }),

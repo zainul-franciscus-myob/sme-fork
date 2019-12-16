@@ -1,3 +1,4 @@
+import RouteName from '../router/RouteName';
 import UserDetailModule from './userDetail/UserDetailModule';
 import UserListModule from './userList/UserListModule';
 
@@ -6,16 +7,16 @@ const getUserRoutes = ({
 }) => {
   const routes = [
     {
-      name: 'userList',
-      path: '/',
+      name: RouteName.USER_LIST,
+      path: '/:region/:businessId/user/',
       module: new UserListModule({
         integration, setRootView, popMessages,
       }),
       documentTitle: 'Users',
     },
     {
-      name: 'userDetail',
-      path: '/:userId',
+      name: RouteName.USER_DETAIL,
+      path: '/:region/:businessId/user/:userId',
       module: new UserDetailModule({ integration, setRootView, pushMessage }),
       documentTitle: 'User',
     },

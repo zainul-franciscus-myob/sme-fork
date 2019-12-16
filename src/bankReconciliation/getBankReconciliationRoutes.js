@@ -1,12 +1,13 @@
 import BankReconciliationModule from './BankReconciliationModule';
+import RouteName from '../router/RouteName';
 
 const getBankReconciliationRoutes = ({
   setRootView, integration,
 }) => {
   const routes = [
     {
-      name: 'bankReconciliation',
-      path: '/',
+      name: RouteName.BANK_RECONCILIATION,
+      path: '/:region/:businessId/bankReconciliation/',
       module: new BankReconciliationModule({ setRootView, integration }),
       documentTitle: 'Bank reconciliation',
     },

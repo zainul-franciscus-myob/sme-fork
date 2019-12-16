@@ -1,11 +1,12 @@
 import ApplyToSaleModule from './ApplyToSaleModule';
+import RouteName from '../router/RouteName';
 
 const getApplyToSaleRoutes = ({
   integration, setRootView, pushMessage,
 }) => [
   {
-    name: 'applyToSale',
-    path: '/:applyToSaleId',
+    name: RouteName.APPLY_TO_SALE,
+    path: '/:region/:businessId/applyToSale/:applyToSaleId',
     module: new ApplyToSaleModule({
       integration,
       setRootView,

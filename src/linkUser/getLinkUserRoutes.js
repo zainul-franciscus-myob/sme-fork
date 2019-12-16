@@ -1,12 +1,13 @@
 import LinkUserModule from './LinkUserModule';
+import RouteName from '../router/RouteName';
 
 const getLinkUserRoutes = ({
   setRootView, integration,
 }) => {
   const routes = [
     {
-      name: 'linkUser',
-      path: '/',
+      name: RouteName.LINK_USER,
+      path: '/:region/:businessId/linkUser/',
       allowedParams: ['redirectURL'],
       module: new LinkUserModule({ setRootView, integration }),
       documentTitle: 'Link user',

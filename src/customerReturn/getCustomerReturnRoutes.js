@@ -1,6 +1,7 @@
 import ApplyToSaleModule from '../applyToSale/ApplyToSaleModule';
 import CustomerReturnListModule from './customerReturnList/CustomerReturnListModule';
 import PayRefundModule from '../payRefund/payRefund/PayRefundModule';
+import RouteName from '../router/RouteName';
 
 export const CUSTOMER_RETURN_LIST_ROUTE = 'customerReturnList';
 
@@ -9,24 +10,24 @@ const getCustomerReturnRoutes = ({
 }) => {
   const routes = [
     {
-      name: CUSTOMER_RETURN_LIST_ROUTE,
-      path: '/',
+      name: RouteName.CUSTOMER_RETURN_LIST,
+      path: '/:region/:businessId/customerReturn/',
       module: new CustomerReturnListModule({
         integration, setRootView, popMessages,
       }),
       documentTitle: 'Customer returns',
     },
     {
-      name: 'customerReturnPayRefund',
-      path: '/:customerReturnId/payRefund/new',
+      name: RouteName.CUSTOMER_RETURN_PAY_REFUND,
+      path: '/:region/:businessId/customerReturn/:customerReturnId/payRefund/new',
       module: new PayRefundModule({
         integration, setRootView, pushMessage,
       }),
       documentTitle: 'Pay refund',
     },
     {
-      name: 'customerReturnApplyToSale',
-      path: '/:customerReturnId/applyToSale/new',
+      name: RouteName.CUSTOMER_RETURN_APPLY_TO_SALE,
+      path: '/:region/:businessId/customerReturn/:customerReturnId/applyToSale/new',
       module: new ApplyToSaleModule({
         integration, setRootView, pushMessage,
       }),

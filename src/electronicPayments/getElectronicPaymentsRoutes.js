@@ -1,13 +1,14 @@
 import ElectronicPaymentsCreateModule from './electronicPaymentsCreate/ElectronicPaymentsCreateModule';
 import ElectronicPaymentsReadModule from './electronicPaymentsRead/ElectronicPaymentsReadModule';
+import RouteName from '../router/RouteName';
 
 const getElectronicPaymentsRoutes = ({
   integration, setRootView, pushMessage,
 }) => {
   const routes = [
     {
-      name: 'electronicPaymentsCreate',
-      path: '/',
+      name: RouteName.ELECTRONIC_PAYMENTS_CREATE,
+      path: '/:region/:businessId/electronicPayments/',
       module: new ElectronicPaymentsCreateModule({
         integration,
         setRootView,
@@ -15,8 +16,8 @@ const getElectronicPaymentsRoutes = ({
       documentTitle: 'Bank file payment',
     },
     {
-      name: 'electronicPaymentsRead',
-      path: '/:electronicPaymentId',
+      name: RouteName.ELECTRONIC_PAYMENTS_READ,
+      path: '/:region/:businessId/electronicPayments/:electronicPaymentId',
       module: new ElectronicPaymentsReadModule({
         integration,
         setRootView,

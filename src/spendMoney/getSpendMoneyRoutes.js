@@ -1,3 +1,4 @@
+import RouteName from '../router/RouteName';
 import SpendMoneyDetailModule from './spendMoneyDetail/SpendMoneyDetailModule';
 
 const getSpendMoneyRoutes = ({
@@ -5,8 +6,8 @@ const getSpendMoneyRoutes = ({
 }) => {
   const routes = [
     {
-      name: 'spendMoneyDetail',
-      path: '/:spendMoneyId',
+      name: RouteName.SPEND_MONEY_DETAIL,
+      path: '/:region/:businessId/spendMoney/:spendMoneyId',
       module: new SpendMoneyDetailModule({
         integration, setRootView, pushMessage,
       }),

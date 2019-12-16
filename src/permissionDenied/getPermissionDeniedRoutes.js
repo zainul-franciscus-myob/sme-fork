@@ -1,12 +1,13 @@
 import PermissionDeniedModule from './PermissionDeniedModule';
+import RouteName from '../router/RouteName';
 
 const getPermissionDeniedRoutes = ({
   setRootView,
 }) => {
   const routes = [
     {
-      name: 'permissionDenied',
-      path: '/',
+      name: RouteName.PERMISSION_DENIED,
+      path: '/:region/:businessId/permissionDenied/',
       module: new PermissionDeniedModule({
         setRootView,
       }),

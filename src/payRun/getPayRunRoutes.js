@@ -1,30 +1,31 @@
 import PayRunDetailModule from './payRunDetail/payRunDetailModule';
 import PayRunModule from './payRunCreate/PayRunModule';
 import PayrunListModule from './payRunList/PayRunListModule';
+import RouteName from '../router/RouteName';
 
 const getPayRunRoutes = ({
   integration, setRootView, pushMessage, popMessages, replaceURLParams,
 }) => {
   const routes = [
     {
-      name: 'payRunCreate',
-      path: '/new',
+      name: RouteName.PAY_RUN_CREATE,
+      path: '/:region/:businessId/payRun/new',
       module: new PayRunModule({
         integration, setRootView, pushMessage,
       }),
       documentTitle: 'Pay run',
     },
     {
-      name: 'payRunList',
-      path: '/',
+      name: RouteName.PAY_RUN_LIST,
+      path: '/:region/:businessId/payRun/',
       module: new PayrunListModule({
         integration, setRootView, popMessages, replaceURLParams,
       }),
       documentTitle: 'Pay runs',
     },
     {
-      name: 'payRunDetail',
-      path: '/:payRunId',
+      name: RouteName.PAY_RUN_DETAIL,
+      path: '/:region/:businessId/payRun/:payRunId',
       module: new PayRunDetailModule({
         integration, setRootView,
       }),

@@ -1,12 +1,13 @@
 import PayRefundModule from './payRefund/PayRefundModule';
+import RouteName from '../router/RouteName';
 
 const getPayRefundRoutes = ({
   integration, setRootView, pushMessage,
 }) => {
   const routes = [
     {
-      name: 'payRefund',
-      path: '/:refundId',
+      name: RouteName.PAY_REFUND,
+      path: '/:region/:businessId/payRefund/:refundId',
       module: new PayRefundModule({
         integration, setRootView, pushMessage,
       }),

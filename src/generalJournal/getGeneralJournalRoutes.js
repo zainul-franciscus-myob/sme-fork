@@ -1,12 +1,13 @@
 import GeneralJournalDetailModule from './generalJournalDetail/GeneralJournalDetailModule';
+import RouteName from '../router/RouteName';
 
 const getGeneralJournalRoutes = ({
   integration, setRootView, pushMessage,
 }) => {
   const routes = [
     {
-      name: 'generalJournalDetail',
-      path: '/:generalJournalId',
+      name: RouteName.GENERAL_JOURNAL_DETAIL,
+      path: '/:region/:businessId/generalJournal/:generalJournalId',
       module: new GeneralJournalDetailModule({
         integration, setRootView, pushMessage,
       }),

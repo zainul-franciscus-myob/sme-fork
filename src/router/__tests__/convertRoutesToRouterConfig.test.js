@@ -1,67 +1,72 @@
 import convertRoutesToRouterConfig from '../convertRoutesToRouterConfig';
 
 describe('convertRoutesToRouterConfig', () => {
-  class Module {}
-
-  it('should convert a routes array into a router config', () => {
-    const module = new Module();
-
+  it('maps routes to router config', () => {
     const routes = [
       {
-        name: 'homePage',
-        rootPath: '/home',
-        subRoutes: [
-          {
-            name: 'home',
-            path: '/',
-            module,
-            allowedParams: ['parameter1'],
-          },
-          {
-            name: 'features',
-            path: '/features',
-            module,
-            allowedParams: ['featureParam1', 'featureParam2'],
-          },
-          {
-            name: 'test',
-            path: '/test',
-            module,
-          },
-        ],
+        name: '🐸',
+        path: '/freddo',
+        otherStuff: '',
       },
       {
-        name: 'anotherPage',
-        rootPath: '/anotherPage',
-        subRoutes: [
-          {
-            name: 'features',
-            path: '/features',
-          },
-        ],
+        name: '🐧',
+        path: '/pingu',
+        otherStuff: '',
       },
     ];
 
     const actual = convertRoutesToRouterConfig(routes);
-    const expected = [
+
+    expect(actual).toEqual([
       {
-        name: 'homePage/home',
-        path: '/home?parameter1',
+        name: '🐸',
+        path: '/freddo',
       },
       {
-        name: 'homePage/features',
-        path: '/home/features?featureParam1&featureParam2',
+        name: '🐧',
+        path: '/pingu',
       },
+    ]);
+  });
+
+  it('includes multiple allowed params in path', () => {
+    const routes = [
       {
-        name: 'homePage/test',
-        path: '/home/test',
-      },
-      {
-        name: 'anotherPage/features',
-        path: '/anotherPage/features',
+        name: '🐸',
+        path: '/freddo',
+        allowedParams: ['🐄'],
       },
     ];
 
-    expect(actual).toEqual(expected);
+    const actual = convertRoutesToRouterConfig(routes);
+
+    expect(actual[0].path).toEqual('/freddo?🐄');
+  });
+
+  it('includes multiple allowed params in path', () => {
+    const routes = [
+      {
+        name: '🐸',
+        path: '/freddo',
+        allowedParams: ['🐄', '🐑'],
+      },
+    ];
+
+    const actual = convertRoutesToRouterConfig(routes);
+
+    expect(actual[0].path).toEqual('/freddo?🐄&🐑');
+  });
+
+  it('removes trailing slash from path', () => {
+    const routes = [
+      {
+        name: '🐸',
+        path: '/freddo/',
+      },
+    ];
+
+    const actual = convertRoutesToRouterConfig(routes);
+
+    expect(actual[0].path).toEqual('/freddo');
   });
 });

@@ -1,44 +1,55 @@
 import getRouteNameToModuleMapping from '../getRouteNameToModuleMapping';
 
 describe('getRouteNameToModuleMapping', () => {
-  class Module {}
-
-  it('should convert a routes array into a mapping between a route name and a module / action', () => {
-    const homeModule = new Module();
-    const featuresModule = new Module();
-
+  it('map routes to object with routeName as key', () => {
     const routes = [
       {
-        name: 'homePage',
-        rootPath: '/home',
-        subRoutes: [
-          {
-            name: 'home',
-            path: '/',
-            module: homeModule,
-          },
-          {
-            name: 'features',
-            path: '/features',
-            module: featuresModule,
-          },
-        ],
+        name: 'pingu',
+        documentTitle: '🐧',
+        module: {
+          run: () => '🐧',
+        },
+      },
+      {
+        name: 'freddo',
+        documentTitle: '🐸',
+        module: {
+          run: () => '🐸',
+        },
       },
     ];
 
     const actual = getRouteNameToModuleMapping(routes);
 
-    const expected = {
-      'homePage/home': {
-        module: homeModule,
+    expect(actual).toEqual({
+      pingu: {
+        module: routes[0].module,
         action: expect.any(Function),
+        title: '🐧',
       },
-      'homePage/features': {
-        module: featuresModule,
+      freddo: {
+        module: routes[1].module,
         action: expect.any(Function),
+        title: '🐸',
       },
-    };
+    });
+  });
 
-    expect(actual).toEqual(expected);
+  it('action calls the module\'s run with context', () => {
+    const runs = [];
+
+    const routes = [
+      {
+        name: 'pingu',
+        documentTitle: '🐧',
+        module: {
+          run: context => runs.push(context),
+        },
+      },
+    ];
+
+    getRouteNameToModuleMapping(routes).pingu.action('🦒');
+
+    expect(runs).toEqual(['🦒']);
   });
 });

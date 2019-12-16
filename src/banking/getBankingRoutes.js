@@ -1,12 +1,13 @@
 import BankingModule from './BankingModule';
+import RouteName from '../router/RouteName';
 
 const getBankingRoutes = ({
   integration, setRootView,
 }) => {
   const routes = [
     {
-      name: 'bankTransactionList',
-      path: '/',
+      name: RouteName.BANKING_TRANSACTION_LIST,
+      path: '/:region/:businessId/banking/',
       module: new BankingModule({
         integration, setRootView,
       }),

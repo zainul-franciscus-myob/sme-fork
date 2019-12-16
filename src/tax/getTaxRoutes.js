@@ -1,3 +1,4 @@
+import RouteName from '../router/RouteName';
 import TaxListModule from './taxList/TaxListModule';
 
 const getTaxRoutes = ({
@@ -5,8 +6,8 @@ const getTaxRoutes = ({
 }) => {
   const routes = [
     {
-      name: 'taxList',
-      path: '/',
+      name: RouteName.TAX_LIST,
+      path: '/:region/:businessId/tax/',
       module: new TaxListModule({ integration, setRootView }),
       documentTitle: 'Tax codes',
     },

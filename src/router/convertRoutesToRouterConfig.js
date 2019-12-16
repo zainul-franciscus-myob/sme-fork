@@ -1,30 +1,17 @@
-const getFullPath = (path, queryParams = []) => {
-  const queryPath = queryParams.join('&');
-
-  return queryPath ? `${path}?${queryPath}` : path;
-};
-
 const stripDanglingSlash = path => path.replace(/\/$/, '');
 
-const buildSubRoute = ({
-  subRoute: { name: subRouteName, path: subRoutePath, allowedParams },
-  rootName, rootPath,
-}) => {
-  const name = `${rootName}/${subRouteName}`;
-  const path = stripDanglingSlash(`${rootPath}${subRoutePath}`);
+const getFullPath = (path, queryParams = []) => {
+  const queryPath = queryParams.join('&');
+  const fixedPath = stripDanglingSlash(path);
 
-  return {
-    name,
-    path: getFullPath(path, allowedParams),
-  };
+  return queryPath ? `${fixedPath}?${queryPath}` : fixedPath;
 };
 
-const buildSubRoutes = ({ name: rootName, rootPath, subRoutes }) => (
-  subRoutes.map(subRoute => buildSubRoute({ subRoute, rootName, rootPath }))
-);
+const buildSubRoute = ({ name, path, allowedParams }) => ({
+  name,
+  path: getFullPath(path, allowedParams),
+});
 
-const flatSingle = arr => [].concat(...arr);
-
-const convertRoutesToRouterConfig = routes => flatSingle(routes.map(buildSubRoutes));
+const convertRoutesToRouterConfig = routes => routes.map(buildSubRoute);
 
 export default convertRoutesToRouterConfig;

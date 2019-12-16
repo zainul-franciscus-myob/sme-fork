@@ -1,3 +1,4 @@
+import RouteName from '../router/RouteName';
 import SalesSettingsDetailModule from './salesSettingsDetail/SalesSettingsDetailModule';
 
 const getSalesSettingsRoutes = ({
@@ -5,8 +6,8 @@ const getSalesSettingsRoutes = ({
 }) => {
   const routes = [
     {
-      name: 'salesSettingsDetail',
-      path: '/',
+      name: RouteName.SALES_SETTINGS,
+      path: '/:region/:businessId/salesSettings/',
       module: new SalesSettingsDetailModule({ setRootView, integration }),
       documentTitle: 'Invoice and quote settings',
     },

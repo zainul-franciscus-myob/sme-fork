@@ -46,10 +46,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     reload: router.reload,
   });
 
-  const moduleList = routes.reduce((acc, route) => {
-    const routeModules = route.subRoutes.map(({ module }) => module);
-    return [...acc, ...routeModules];
-  }, []);
+  const moduleList = routes.map(route => route.module);
 
   const unsubscribeAllModulesFromStore = () => {
     moduleList.forEach((module) => {

@@ -1,12 +1,13 @@
 import PrepareBasOrIasModule from './PrepareBasOrIasModule';
+import RouteName from '../router/RouteName';
 
 const getPrepareBasOrIasRoutes = ({
   integration, setRootView,
 }) => {
   const routes = [
     {
-      name: 'prepareBasOrIas',
-      path: '/',
+      name: RouteName.PREPARE_BAS_OR_IAS,
+      path: '/:region/:businessId/prepareBasOrIas/',
       module: new PrepareBasOrIasModule({
         integration, setRootView,
       }),

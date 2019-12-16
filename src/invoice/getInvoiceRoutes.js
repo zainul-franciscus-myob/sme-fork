@@ -1,5 +1,6 @@
 import InvoiceDetailModule from './invoiceDetail/InvoiceDetailModule';
 import InvoiceListModule from './invoiceList/InvoiceListModule';
+import RouteName from '../router/RouteName';
 
 export const INVOICE_LIST_ROUTE = 'invoiceList';
 
@@ -8,16 +9,16 @@ const getInvoiceRoutes = ({
 }) => {
   const routes = [
     {
-      name: INVOICE_LIST_ROUTE,
-      path: '/',
+      name: RouteName.INVOICE_LIST,
+      path: '/:region/:businessId/invoice/',
       module: new InvoiceListModule(
         { integration, setRootView, popMessages },
       ),
       documentTitle: 'Invoices',
     },
     {
-      name: 'invoiceDetail',
-      path: '/:invoiceId',
+      name: RouteName.INVOICE_DETAIL,
+      path: '/:region/:businessId/invoice/:invoiceId',
       allowedParams: ['layout', 'quoteId', 'openSendEmail', 'duplicatedInvoiceId'],
       module: new InvoiceDetailModule({
         integration, setRootView, pushMessage, popMessages, replaceURLParams, reload,

@@ -47,333 +47,55 @@ import getTransactionListRoutes from './transactionList/getTransactionListRoutes
 import getTransferMoneyRoutes from './transferMoney/getTransferMoneyRoutes';
 import getUserRoutes from './user/getUserRoutes';
 
-const getRoutes = ({
-  integration, setRootView, popMessages, pushMessage, replaceURLParams, reload,
-}) => [
-  {
-    name: 'businessList',
-    rootPath: '/businesses',
-    subRoutes: getBusinessListRoutes({ setRootView, integration }),
-  },
-  {
-    name: 'generalJournal',
-    rootPath: '/:region/:businessId/generalJournal',
-    subRoutes: getGeneralJournalRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'spendMoney',
-    rootPath: '/:region/:businessId/spendMoney',
-    subRoutes: getSpendMoneyRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'receiveMoney',
-    rootPath: '/:region/:businessId/receiveMoney',
-    subRoutes: getReceiveMoneyRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'transferMoney',
-    rootPath: '/:region/:businessId/transferMoney',
-    subRoutes: getTransferMoneyRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'transactionList',
-    rootPath: '/:region/:businessId/transactionList',
-    subRoutes: getTransactionListRoutes({
-      integration, setRootView, popMessages, replaceURLParams,
-    }),
-  },
-  {
-    name: 'contact',
-    rootPath: '/:region/:businessId/contact',
-    subRoutes: getContactRoutes({
-      integration, setRootView, popMessages, pushMessage,
-    }),
-  },
-  {
-    name: 'incomeAllocation',
-    rootPath: '/:region/:businessId/incomeAllocation',
-    subRoutes: getIncomeAllocationRoutes({
-      integration, setRootView,
-    }),
-  },
-  {
-    name: 'quote',
-    rootPath: '/:region/:businessId/quote',
-    subRoutes: getQuoteRoutes({
-      integration, setRootView, pushMessage, popMessages, replaceURLParams, reload,
-    }),
-  },
-  {
-    name: 'invoice',
-    rootPath: '/:region/:businessId/invoice',
-    subRoutes: getInvoiceRoutes({
-      integration, setRootView, pushMessage, popMessages, replaceURLParams, reload,
-    }),
-  },
-  {
-    name: 'billPayment',
-    rootPath: '/:region/:businessId/billPayment',
-    subRoutes: getBillPaymentRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'logout',
-    rootPath: '/logout',
-    subRoutes: getLogoutRoute(),
-  },
-  {
-    name: 'tax',
-    rootPath: '/:region/:businessId/tax',
-    subRoutes: getTaxRoutes({ setRootView, integration }),
-  },
-  {
-    name: 'business',
-    rootPath: '/:region/:businessId',
-    subRoutes: getBusinessRoutes({ setRootView, integration }),
-  }, {
-    name: 'banking',
-    rootPath: '/:region/:businessId/banking',
-    subRoutes: getBankingRoutes({ integration, setRootView }),
-  }, {
-    name: 'inventory',
-    rootPath: '/:region/:businessId/inventory',
-    subRoutes: getInventoryRoutes({
-      integration, setRootView, popMessages, pushMessage,
-    }),
-  },
-  {
-    name: 'user',
-    rootPath: '/:region/:businessId/user',
-    subRoutes: getUserRoutes({
-      integration, setRootView, popMessages, pushMessage,
-    }),
-  },
-  {
-    name: 'employee',
-    rootPath: '/:region/:businessId/employee',
-    subRoutes: getEmployeeRoutes({
-      integration, setRootView, popMessages, pushMessage, replaceURLParams,
-    }),
-  },
-  {
-    name: 'bill',
-    rootPath: '/:region/:businessId/bill',
-    subRoutes: getBillRoutes({
-      integration, setRootView, popMessages, pushMessage, replaceURLParams,
-    }),
-  },
-  {
-    name: 'customerReturn',
-    rootPath: '/:region/:businessId/customerReturn',
-    subRoutes: getCustomerReturnRoutes({
-      integration, setRootView, popMessages, pushMessage,
-    }),
-  },
-  {
-    name: 'invoicePayment',
-    rootPath: '/:region/:businessId/invoicePayment',
-    subRoutes: getInvoicePaymentRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'salesSettings',
-    rootPath: '/:region/:businessId/salesSettings',
-    subRoutes: getSalesSettingsRoutes({
-      integration, setRootView,
-    }),
-  },
-  {
-    name: 'settings',
-    rootPath: '/:region/:businessId/settings',
-    subRoutes: getSettingsRoutes({
-      integration, setRootView,
-    }),
-  },
-  {
-    name: 'payrollSettings',
-    rootPath: '/:region/:businessId/payrollSettings',
-    subRoutes: getPayrollSettingsRoutes({
-      integration, setRootView, popMessages, pushMessage, replaceURLParams,
-    }),
-  },
-  {
-    name: 'superFund',
-    rootPath: '/:region/:businessId/superFund',
-    subRoutes: getSuperFundRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'supplierReturn',
-    rootPath: '/:region/:businessId/supplierReturn',
-    subRoutes: getSupplierReturnRoutes({
-      integration, setRootView, popMessages, pushMessage,
-    }),
-  },
-  {
-    name: 'receiveRefund',
-    rootPath: '/:region/:businessId/receiveRefund',
-    subRoutes: getReceiveRefundRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'supplierReturnPurchases',
-    rootPath: '/:region/:businessId/appliedPurchaseReturn',
-    subRoutes: getSupplierReturnPurchaseRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'payRefund',
-    rootPath: '/:region/:businessId/payRefund',
-    subRoutes: getPayRefundRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'applyToSale',
-    rootPath: '/:region/:businessId/applyToSale',
-    subRoutes: getApplyToSaleRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'payItem',
-    rootPath: '/:region/:businessId/payItem',
-    subRoutes: getPayItemRoutes({
-      integration, setRootView, popMessages, pushMessage, replaceURLParams,
-    }),
-  },
-  {
-    name: 'prepareBasOrIas',
-    rootPath: '/:region/:businessId/prepareBasOrIas',
-    subRoutes: getPrepareBasOrIasRoutes({
-      integration, setRootView,
-    }),
-  },
-  {
-    name: 'inTray',
-    rootPath: '/:region/:businessId/inTray',
-    subRoutes: getInTrayRoutes({
-      integration, setRootView, popMessages,
-    }),
-  },
-  {
-    name: 'linkedAccounts',
-    rootPath: '/:region/:businessId/linkedAccounts',
-    subRoutes: getLinkedAccountsRoutes({
-      integration, setRootView,
-    }),
-  },
-  {
-    name: 'bankingRule',
-    rootPath: '/:region/:businessId/bankingRule',
-    subRoutes: getBankingRuleRoutes({
-      integration, setRootView, popMessages, pushMessage,
-    }),
-  },
-  {
-    name: 'bankReconciliation',
-    rootPath: '/:region/:businessId/bankReconciliation',
-    subRoutes: getBankReconciliationRoutes({
-      integration, setRootView,
-    }),
-  },
-  {
-    name: 'payRun',
-    rootPath: '/:region/:businessId/payRun',
-    subRoutes: getPayRunRoutes({
-      integration, setRootView, popMessages, pushMessage,
-    }),
-  },
-  {
-    name: 'paySuper',
-    rootPath: '/:region/:businessId/paySuper',
-    subRoutes: getPaySuperRoutes({
-      integration, setRootView, popMessages, pushMessage,
-    }),
-  },
-  {
-    name: 'linkBill',
-    rootPath: '/:region/:businessId/linkBill',
-    subRoutes: getLinkBillRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'account',
-    rootPath: '/:region/:businessId/account',
-    subRoutes: getAccountRoutes({
-      integration, setRootView, popMessages, pushMessage,
-    }),
-  },
-  {
-    name: 'linkUser',
-    rootPath: '/:region/:businessId/linkUser',
-    subRoutes: getLinkUserRoutes({
-      integration, setRootView,
-    }),
-  },
-  {
-    name: 'permissionDenied',
-    rootPath: '/:region/:businessId/permissionDenied',
-    subRoutes: getPermissionDeniedRoutes({
-      setRootView,
-    }),
-  },
-  {
-    name: 'dashboard',
-    rootPath: '/:region/:businessId/dashboard',
-    subRoutes: getDashboardRoutes({
-      integration, setRootView,
-    }),
-  },
-  {
-    name: 'bankFeeds',
-    rootPath: '/:region/:businessId/bankFeeds',
-    subRoutes: getBankFeedsRoutes({
-      integration, setRootView,
-    }),
-  },
-  {
-    name: 'dataImportExport',
-    rootPath: '/:region/:businessId/dataImportExport',
-    subRoutes: getDataImportExportRoutes({
-      integration, setRootView, replaceURLParams,
-    }),
-  },
-  {
-    name: 'electronicPayments',
-    rootPath: '/:region/:businessId/electronicPayments',
-    subRoutes: getElectronicPaymentsRoutes({
-      integration, setRootView, pushMessage,
-    }),
-  },
-  {
-    name: 'customerStatement',
-    rootPath: '/:region/:businessId/customerStatement',
-    subRoutes: getCustomerStatementRoutes({
-      integration, setRootView,
-    }),
-  },
-  {
-    name: 'employeePay',
-    rootPath: '/:region/:businessId/employeePay',
-    subRoutes: getEmployeePayRoutes({
-      integration, setRootView,
-    }),
-  },
+const getRoutes = moduleParams => [
+  ...getBusinessListRoutes(moduleParams),
+  ...getGeneralJournalRoutes(moduleParams),
+  ...getSpendMoneyRoutes(moduleParams),
+  ...getTransferMoneyRoutes(moduleParams),
+  ...getTransactionListRoutes(moduleParams),
+  ...getContactRoutes(moduleParams),
+  ...getIncomeAllocationRoutes(moduleParams),
+  ...getQuoteRoutes(moduleParams),
+  ...getInvoiceRoutes(moduleParams),
+  ...getBillPaymentRoutes(moduleParams),
+  ...getLogoutRoute(moduleParams),
+  ...getTaxRoutes(moduleParams),
+  ...getBusinessRoutes(moduleParams),
+  ...getInventoryRoutes(moduleParams),
+  ...getUserRoutes(moduleParams),
+  ...getEmployeeRoutes(moduleParams),
+  ...getBillRoutes(moduleParams),
+  ...getCustomerReturnRoutes(moduleParams),
+  ...getInvoicePaymentRoutes(moduleParams),
+  ...getSalesSettingsRoutes(moduleParams),
+  ...getSettingsRoutes(moduleParams),
+  ...getPayrollSettingsRoutes(moduleParams),
+  ...getSuperFundRoutes(moduleParams),
+  ...getSupplierReturnRoutes(moduleParams),
+  ...getReceiveRefundRoutes(moduleParams),
+  ...getSupplierReturnPurchaseRoutes(moduleParams),
+  ...getPayRefundRoutes(moduleParams),
+  ...getApplyToSaleRoutes(moduleParams),
+  ...getPayItemRoutes(moduleParams),
+  ...getPrepareBasOrIasRoutes(moduleParams),
+  ...getInTrayRoutes(moduleParams),
+  ...getLinkedAccountsRoutes(moduleParams),
+  ...getBankingRuleRoutes(moduleParams),
+  ...getBankReconciliationRoutes(moduleParams),
+  ...getPayRunRoutes(moduleParams),
+  ...getPaySuperRoutes(moduleParams),
+  ...getLinkBillRoutes(moduleParams),
+  ...getAccountRoutes(moduleParams),
+  ...getLinkUserRoutes(moduleParams),
+  ...getPermissionDeniedRoutes(moduleParams),
+  ...getDashboardRoutes(moduleParams),
+  ...getBankFeedsRoutes(moduleParams),
+  ...getDataImportExportRoutes(moduleParams),
+  ...getElectronicPaymentsRoutes(moduleParams),
+  ...getCustomerStatementRoutes(moduleParams),
+  ...getEmployeePayRoutes(moduleParams),
+  ...getBankingRoutes(moduleParams),
+  ...getReceiveMoneyRoutes(moduleParams),
 ];
 
 export default getRoutes;
