@@ -51,11 +51,12 @@ export const getLineDataByIndexSelector = () => createSelector(
     let formatedLine = {};
     if (line) {
       const {
-        accountId, taxCodeId, taxCodes, accounts, amount, description, taxAmount,
+        accountId, taxCodeId, taxCodes, accounts, amount, quantity, description, taxAmount,
       } = line;
 
       formatedLine = ({
         amount,
+        quantity,
         taxAmount,
         description,
         accountId,

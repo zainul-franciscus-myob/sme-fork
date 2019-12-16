@@ -7,27 +7,22 @@ import {
 } from '../receiveMoneyDetailSelectors';
 import ReceiveMoneyDetailRow from './ReceiveMoneyDetailRow';
 
-class ReceiveMoneyDetailTable extends React.Component {
-  onChange = (index, name, value) => {
-    const { onUpdateRow } = this.props;
-    onUpdateRow(index, name, value);
-  }
-
-  onAddRow = ({ id, ...partialLine }) => {
-    const { onAddRow } = this.props;
-    onAddRow(partialLine);
-  }
-
-  onRowInputBlur = index => () => {
-    const { onRowInputBlur } = this.props;
-    onRowInputBlur(index);
-  }
-
-  renderRow = (index, data, onChange, labels) => {
-    const {
-      indexOfLastLine,
-    } = this.props;
-
+const ReceiveMoneyDetailTable = ({
+  amountTotals: {
+    netAmount,
+    totalTax,
+    totalAmount,
+  },
+  indexOfLastLine,
+  tableData,
+  taxLabel,
+  taxCodeLabel,
+  onUpdateRow,
+  onAddRow,
+  onRemoveRow,
+  onRowInputBlur,
+}) => {
+  const renderRow = (index, data, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
 
     return (
@@ -37,87 +32,77 @@ class ReceiveMoneyDetailTable extends React.Component {
         labels={labels}
         onChange={onChange}
         isNewLineRow={isNewLineRow}
-        onRowInputBlur={this.onRowInputBlur}
+        onRowInputBlur={onRowInputBlur}
       />
     );
   };
 
-  render() {
-    const {
-      tableData,
-      amountTotals: {
-        netAmount,
-        totalTax,
-        totalAmount,
-      },
-      onRemoveRow,
-      taxLabel,
-      taxCodeLabel,
-    } = this.props;
+  const columns = [
+    {
+      label: 'Account',
+      requiredLabel: 'required',
+      styles: { width: '35.2rem', align: 'left' },
+    },
+    {
+      label: 'Amount ($)',
+      requiredLabel: 'required',
+      styles: { width: '12.5rem', align: 'right' },
+    },
+    {
+      label: 'Quantity',
+      styles: { width: '9rem' },
+    },
+    {
+      label: 'Description',
+      styles: {},
+    },
+    {
+      label: taxCodeLabel,
+      requiredLabel: 'required',
+      styles: { width: '8.4rem', align: 'left' },
+    },
+  ];
 
-    const columns = [
-      {
-        label: 'Account',
-        requiredLabel: 'required',
-        styles: { width: '35.2rem', align: 'left' },
-      },
-      {
-        label: 'Amount ($)',
-        requiredLabel: 'required',
-        styles: { width: '12.5rem', align: 'right' },
-      },
-      {
-        label: 'Description',
-        styles: {},
-      },
-      {
-        label: taxCodeLabel,
-        requiredLabel: 'required',
-        styles: { width: '8.4rem', align: 'left' },
-      },
-    ];
+  const labels = columns.map(({ label }) => label);
 
-    const labels = columns.map(({ label }) => label);
+  const headerItems = columns.map(({ label, requiredLabel }) => (
+    <LineItemTable.HeaderItem
+      key={label}
+      columnName={label}
+      requiredLabel={requiredLabel}
+    >
+      {label}
+    </LineItemTable.HeaderItem>
+  ));
 
-    const headerItems = columns.map(({ label, requiredLabel }) => (
-      <LineItemTable.HeaderItem
-        key={label}
-        columnName={label}
-        requiredLabel={requiredLabel}
-      >
-        {label}
-      </LineItemTable.HeaderItem>
-    ));
+  const columnConfig = [
+    {
+      config: columns.map(({ label, styles }) => ({
+        styles,
+        columnName: label,
+      })),
+    },
+  ];
 
-    const columnConfig = [
-      {
-        config: columns.map(({ label, styles }) => ({
-          styles,
-          columnName: label,
-        })),
-      },
-    ];
-
-    return (
-      <LineItemTable
-        onAddRow={this.onAddRow}
-        onRowChange={this.onChange}
-        labels={labels}
-        columnConfig={columnConfig}
-        headerItems={headerItems}
-        renderRow={this.renderRow}
-        data={tableData}
-        onRemoveRow={onRemoveRow}
-      >
-        <LineItemTable.Total>
-          <LineItemTable.Totals title="Subtotal" amount={netAmount} />
-          <LineItemTable.Totals title={taxLabel} amount={totalTax} />
-          <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
-        </LineItemTable.Total>
-      </LineItemTable>
-    );
-  }
-}
+  return (
+    <LineItemTable
+      onAddRow={onAddRow}
+      onRowChange={onUpdateRow}
+      labels={labels}
+      columnConfig={columnConfig}
+      headerItems={headerItems}
+      renderRow={renderRow}
+      data={tableData}
+      onRemoveRow={onRemoveRow}
+    >
+      <LineItemTable.Total>
+        <LineItemTable.Totals title="Subtotal" amount={netAmount} />
+        <LineItemTable.Totals title={taxLabel} amount={totalTax} />
+        <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
+      </LineItemTable.Total>
+    </LineItemTable>
+  );
+};
 
 const mapStateToProps = state => ({
   amountTotals: getTotals(state),

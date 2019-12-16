@@ -39,6 +39,7 @@
   "newLine": {
     "accountId": "",
     "amount": "",
+    "quantity": "",
     "description": "",
     "taxCodeId": "",
     "accounts": [

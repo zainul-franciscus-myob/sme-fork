@@ -1,6 +1,5 @@
 import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -10,8 +9,8 @@ import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
 
-const eventWrapper = (name, onChange) => (item) => {
-  onChange({
+const onComboboxChange = (name, handler) => (item) => {
+  handler({
     target: {
       name,
       value: item.id,
@@ -19,8 +18,8 @@ const eventWrapper = (name, onChange) => (item) => {
   });
 };
 
-const onAmountInputChange = (name, onChange) => (e) => {
-  onChange({
+const onAmountInputChange = (name, handler) => (e) => {
+  handler({
     target: {
       name,
       value: e.target.rawValue,
@@ -28,21 +27,28 @@ const onAmountInputChange = (name, onChange) => (e) => {
   });
 };
 
-const ReceiveMoneyDetailRow = (props) => {
-  const {
-    index,
-    onRowInputBlur,
-    onChange,
-    isNewLineRow,
-    lineData,
-    newLineData,
-    ...feelixInjectedProps
-  } = props;
+const onInputChange = handler => (index, name, value) => {
+  handler(index, name, value);
+};
 
+const onAmountInputBlur = (handler, index) => () => {
+  handler(index);
+};
+
+const ReceiveMoneyDetailRow = ({
+  index,
+  onRowInputBlur,
+  onChange,
+  isNewLineRow,
+  lineData,
+  newLineData,
+  ...feelixInjectedProps
+}) => {
   const data = isNewLineRow ? newLineData : lineData;
 
   const {
     amount = '',
+    quantity = '',
     description = '',
     accountId,
     taxCodes,
@@ -57,18 +63,28 @@ const ReceiveMoneyDetailRow = (props) => {
       {...feelixInjectedProps}
     >
       <AccountCombobox
+        label="Account"
+        hideLabel
         items={accounts}
         selectedId={accountId}
-        onChange={eventWrapper('accountId', onChange)}
+        onChange={onComboboxChange('accountId', onChange)}
       />
       <AmountInput
         label="Amount"
-        hideLabel
         name="amount"
         value={amount}
         onChange={onAmountInputChange('amount', onChange)}
-        onBlur={onRowInputBlur(index)}
+        onBlur={onAmountInputBlur(onRowInputBlur, index)}
         disabled={isNewLineRow}
+      />
+      <AmountInput
+        label="Quantity"
+        name="quantity"
+        value={quantity}
+        onChange={onAmountInputChange('quantity', onChange)}
+        disabled={isNewLineRow}
+        decimalScale={6}
+        numeralIntegerScale={19}
       />
       <TextArea
         label="Description"
@@ -77,25 +93,18 @@ const ReceiveMoneyDetailRow = (props) => {
         autoSize
         name="description"
         value={description}
-        onChange={onChange}
+        onChange={onInputChange(onChange)}
         disabled={isNewLineRow}
       />
       <TaxCodeCombobox
+        label="Tax code"
+        hideLabel
         items={taxCodes}
         selectedId={taxCodeId}
-        onChange={eventWrapper('taxCodeId', onChange)}
+        onChange={onComboboxChange('taxCodeId', onChange)}
         disabled={isNewLineRow}
       />
     </LineItemTable.Row>);
-};
-
-ReceiveMoneyDetailRow.propTypes = {
-  index: PropTypes.number.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  isNewLineRow: PropTypes.bool.isRequired,
-  lineData: PropTypes.shape({}).isRequired,
-  newLineData: PropTypes.shape({}).isRequired,
 };
 
 const makeMapRowStateToProps = () => {

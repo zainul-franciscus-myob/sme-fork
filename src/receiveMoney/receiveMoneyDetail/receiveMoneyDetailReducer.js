@@ -39,6 +39,7 @@ const getDefaultState = () => ({
   newLine: {
     accountId: '',
     amount: '',
+    quantity: '',
     description: '',
     taxCodeId: '',
     taxAmount: '',

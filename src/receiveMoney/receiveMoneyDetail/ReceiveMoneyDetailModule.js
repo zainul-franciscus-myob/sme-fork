@@ -200,9 +200,10 @@ export default class ReceiveMoneyDetailModule {
     }
   }
 
-  addReceiveMoneyLine = (partialLine) => {
+  addReceiveMoneyLine = (line) => {
     const intent = ADD_RECEIVE_MONEY_LINE;
 
+    const { id, ...partialLine } = line;
     this.store.dispatch({
       intent,
       line: partialLine,
