@@ -25,14 +25,14 @@ const UpgradeModal = (props) => {
           <p>
             It looks like you’ve reached your monthly limit of
             {' '}
-            {monthlyLimit.total}
+            {monthlyLimit.limit}
             {' '}
             invoices.
           </p>
           <p>
             But don’t worry! If you need to send more than
             {' '}
-            {monthlyLimit.total}
+            {monthlyLimit.limit}
             {' '}
             invoices a month, it’s easy to upgrade your current subscription.
           </p>
