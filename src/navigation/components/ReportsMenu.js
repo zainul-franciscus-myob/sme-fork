@@ -15,13 +15,13 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
 );
 
 const getItems = (urls, onMenuLinkClick) => [
-  urls.reportsStandard && getMenuLink(urls.reportsStandard, 'Standard', onMenuLinkClick),
   urls.reportsFavourite && getMenuLink(urls.reportsFavourite, 'Favourites', onMenuLinkClick),
-  urls.reportsCustom && getMenuLink(urls.reportsCustom, 'Custom reports', onMenuLinkClick),
-  urls.reportsException && getMenuLink(urls.reportsException, 'Exceptions', onMenuLinkClick),
-  urls.reportsPackBuilder && getMenuLink(urls.reportsPackBuilder, 'Report packs', onMenuLinkClick),
+  urls.reportsStandard && getMenuLink(urls.reportsStandard, 'Standard', onMenuLinkClick),
+  urls.reportsCustom && getMenuLink(urls.reportsCustom, 'Custom', onMenuLinkClick),
+  urls.reportsException && getMenuLink(urls.reportsException, 'Exceptions dashboard', onMenuLinkClick),
+  urls.reportsPackBuilder && getMenuLink(urls.reportsPackBuilder, 'Report pack builder', onMenuLinkClick),
   <Navigation.Separator key="separator" />,
-  urls.reportsPdfStyleTemplates && getMenuLink(urls.reportsPdfStyleTemplates, 'PDF styling templates ', onMenuLinkClick),
+  urls.reportsPdfStyleTemplates && getMenuLink(urls.reportsPdfStyleTemplates, 'PDF style templates', onMenuLinkClick),
 ].filter(Boolean);
 
 const ReportsMenu = ({
