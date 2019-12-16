@@ -63,7 +63,7 @@ const InTrayListDetail = ({
       </ButtonRow>
 )}
   >
-    <DocumentViewer src={documentViewerUrl} />
+    <DocumentViewer src={documentViewerUrl} contentType="application/pdf" />
   </Aside>
 );
 

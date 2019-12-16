@@ -5,6 +5,7 @@ import styles from './DocumentViewer.module.css';
 
 const DocumentViewer = ({
   src,
+  type,
   title,
   className,
 }) => (
@@ -12,6 +13,7 @@ const DocumentViewer = ({
     className={classnames(styles.documentViewer, className)}
     data={src}
     aria-label={title}
+    contentType={type}
   />
 );
 
