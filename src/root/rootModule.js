@@ -60,12 +60,8 @@ export default class RootModule {
 
   run = (routeProps, handlePageTransition) => {
     const { routeParams } = routeProps;
-    const { businessId } = routeParams;
-    const currentBusinessId = this.store.getState().businessId;
 
     this.dispatcher.setInitialState(routeParams);
-
-    if (businessId && businessId !== currentBusinessId) this.settingsService.load(routeParams);
 
     this.drawer.run(routeProps);
 

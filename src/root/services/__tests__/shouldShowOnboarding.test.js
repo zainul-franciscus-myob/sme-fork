@@ -4,8 +4,8 @@ import setting from '../../../integration/data/settings/setting';
 
 describe('shouldShowOnboarding', () => {
   describe('on-boarding NOT completed', () => {
-    it('allows onboarding to be shown', () => {
-      expect(shouldShowOnboarding([setting])).toBeTruthy();
+    it('does not show onboarding', () => {
+      expect(shouldShowOnboarding([setting])).toBeFalsy();
     });
   });
 
