@@ -191,7 +191,8 @@ export default class SpendMoneyDetailModule {
     }
   }
 
-  addSpendMoneyLine = (partialLine) => {
+  addSpendMoneyLine = (line) => {
+    const { id, ...partialLine } = line;
     this.dispatcher.addSpendMoneyLine(partialLine);
 
     this.getCalculatedTotals();
@@ -222,7 +223,7 @@ export default class SpendMoneyDetailModule {
     });
   };
 
-  formatAndCalculateTotals = (index) => {
+  formatAndCalculateTotals = ({ index }) => {
     this.dispatcher.formatSpendMoneyLine(index);
     this.getCalculatedTotals();
   }

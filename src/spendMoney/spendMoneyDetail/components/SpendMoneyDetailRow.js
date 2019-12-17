@@ -3,26 +3,29 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getLineDataByIndexSelector, getNewLineData,
+  getLineDataByIndexSelector,
+  getNewLineData,
 } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
-
-const eventWrapper = (name, onChange) => (item) => {
-  onChange({
-    target: {
-      name,
-      value: item.id,
-    },
-  });
-};
 
 const onAmountInputChange = (name, onChange) => (e) => {
   onChange({
     target: {
       name,
       value: e.target.rawValue,
+    },
+  });
+};
+
+const onInputBlur = (handler, index, key) => () => handler({ index, key });
+
+const onComboboxChange = (name, onChange) => (item) => {
+  onChange({
+    target: {
+      name,
+      value: item.id,
     },
   });
 };
@@ -46,20 +49,17 @@ const SpendMoneyDetailRow = (props) => {
     taxCodes,
     accounts,
     taxCodeId,
+    quantity,
   } = data;
 
   return (
-    <LineItemTable.Row
-      id={index}
-      index={index}
-      {...feelixInjectedProps}
-    >
+    <LineItemTable.Row id={index} index={index} {...feelixInjectedProps}>
       <AccountCombobox
         label="Accounts"
         hideLabel={false}
         items={accounts}
         selectedId={accountId}
-        onChange={eventWrapper('accountId', onChange)}
+        onChange={onComboboxChange('accountId', onChange)}
       />
       <AmountInput
         label="Amount"
@@ -67,8 +67,19 @@ const SpendMoneyDetailRow = (props) => {
         name="amount"
         value={amount}
         onChange={onAmountInputChange('amount', onChange)}
-        onBlur={onRowInputBlur(index)}
         disabled={isNewLineRow}
+        onBlur={onInputBlur(onRowInputBlur, index, 'amount')}
+        decimalScale={2}
+      />
+      <AmountInput
+        label="Quantity"
+        name="quantity"
+        value={quantity}
+        onChange={onAmountInputChange('quantity', onChange)}
+        onBlur={onInputBlur(onRowInputBlur, index, 'quantity')}
+        disabled={isNewLineRow}
+        decimalScale={6}
+        numeralIntegerScale={19}
       />
       <TextArea
         label="Description"
@@ -86,11 +97,12 @@ const SpendMoneyDetailRow = (props) => {
         hideLabel={false}
         items={taxCodes}
         selectedId={taxCodeId}
-        onChange={eventWrapper('taxCodeId', onChange)}
+        onChange={onComboboxChange('taxCodeId', onChange)}
         disabled={isNewLineRow}
         left
       />
-    </LineItemTable.Row>);
+    </LineItemTable.Row>
+  );
 };
 
 const makeMapRowStateToProps = () => {

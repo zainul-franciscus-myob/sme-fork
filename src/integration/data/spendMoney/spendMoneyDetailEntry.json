@@ -14,6 +14,7 @@
         "id": "1",
         "accountId": "789",
         "amount": "1000.00",
+        "quantity": "5",
         "description": "Bob",
         "taxCodeId": "123",
         "accounts": [
@@ -60,6 +61,7 @@
         "amount": "2352.00",
         "description": "the builder",
         "taxCodeId": "123",
+        "quantity": "",
         "accounts": [
           {
             "id": "123",
@@ -142,6 +144,7 @@
   "newLine": {
     "accountId": "",
     "amount": "",
+    "quantity": "",
     "description": "",
     "taxCodeId": "",
     "accounts": [

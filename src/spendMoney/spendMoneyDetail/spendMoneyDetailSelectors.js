@@ -95,7 +95,7 @@ export const getIndexOfLastLine = state => state.spendMoney.lines.length - 1;
 
 export const getSpendMoney = state => state.spendMoney;
 
-export const getSpendMoneyId = state => state.spendMoney.id;
+export const getSpendMoneyId = state => state.spendMoneyId;
 export const getIsCreating = state => state.spendMoneyId === 'new';
 export const getSpendMoneyUid = state => state.spendMoney.uid;
 
