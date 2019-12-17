@@ -40,12 +40,12 @@ import getSalesSettingsRoutes from './salesSettings/getSalesSettingsRoutes';
 import getSettingsRoutes from './settings/getSettingsRoutes';
 import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
 import getSuperFundRoutes from './superFund/getSuperFundRoutes';
-import getSupplierReturnPurchaseRoutes from './supplierReturnPurchase/getSupplierReturnPurchaseRoutes';
-import getSupplierReturnRoutes from './supplierReturn/getSupplierReturnRoutes';
-import getTaxRoutes from './tax/getTaxRoutes';
-import getTransactionListRoutes from './transactionList/getTransactionListRoutes';
-import getTransferMoneyRoutes from './transferMoney/getTransferMoneyRoutes';
-import getUserRoutes from './user/getUserRoutes';
+import getSupplierReturnPurchaseRoutes from './modules/supplierReturnPurchase/getSupplierReturnPurchaseRoutes';
+import getSupplierReturnRoutes from './modules/supplierReturn/getSupplierReturnRoutes';
+import getTaxRoutes from './modules/tax/getTaxRoutes';
+import getTransactionListRoutes from './modules/transactionList/getTransactionListRoutes';
+import getTransferMoneyRoutes from './modules/transferMoney/getTransferMoneyRoutes';
+import getUserRoutes from './modules/user/getUserRoutes';
 
 const getRoutes = moduleParams => [
   ...getBusinessListRoutes(moduleParams),

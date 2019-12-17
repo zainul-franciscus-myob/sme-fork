@@ -3,7 +3,7 @@ import {
   DELETE_PURCHASE_RETURN,
   LOAD_NEW_PURCHASE_RETURN,
   LOAD_PURCHASE_RETURN,
-} from '../../supplierReturnPurchase/SupplierReturnPurchaseIntents';
+} from '../../modules/supplierReturnPurchase/SupplierReturnPurchaseIntents';
 
 const SupplierReturnPurchaseMapping = {
   [LOAD_NEW_PURCHASE_RETURN]: {

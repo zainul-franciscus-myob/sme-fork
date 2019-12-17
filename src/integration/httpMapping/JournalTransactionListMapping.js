@@ -2,7 +2,7 @@ import {
   LOAD_TRANSACTION_LIST,
   LOAD_TRANSACTION_LIST_NEXT_PAGE,
   SORT_AND_FILTER_TRANSACTION_LIST,
-} from '../../transactionList/journalTransaction/JournalTransactionListIntents';
+} from '../../modules/transactionList/journalTransaction/JournalTransactionListIntents';
 
 const JournalTransactionListMapping = {
   [SORT_AND_FILTER_TRANSACTION_LIST]: {

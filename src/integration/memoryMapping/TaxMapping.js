@@ -1,4 +1,4 @@
-import { LOAD_TAX_LIST } from '../../tax/TaxIntents';
+import { LOAD_TAX_LIST } from '../../modules/tax/TaxIntents';
 import loadTaxListResponse from '../data/tax/loadTaxList';
 
 const loadTaxList = ({ onSuccess }) => onSuccess(loadTaxListResponse);

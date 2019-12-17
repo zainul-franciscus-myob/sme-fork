@@ -5,7 +5,7 @@ import {
   LOAD_USER_LIST,
   SORT_USER_LIST,
   UPDATE_USER,
-} from '../../user/UserIntents';
+} from '../../modules/user/UserIntents';
 
 const UserMapping = {
   [LOAD_USER_LIST]: {

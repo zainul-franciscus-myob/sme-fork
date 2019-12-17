@@ -7,7 +7,7 @@ import {
   LOAD_USER_LIST,
   SORT_USER_LIST,
   UPDATE_USER,
-} from '../../user/UserIntents';
+} from '../../modules/user/UserIntents';
 import loadEmptyAdvisorDetailResponse from '../data/user/loadAdvisorDetail';
 import loadEmptyUserDetailResponse from '../data/user/loadUserDetail';
 import loadUserListResponse from '../data/user/loadUserList';

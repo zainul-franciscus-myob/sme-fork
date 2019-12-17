@@ -2,7 +2,7 @@ import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_NEXT_PAGE,
   SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST,
-} from '../../transactionList/creditAndDebitTransactions/CreditsAndDebitsListIntents';
+} from '../../modules/transactionList/creditAndDebitTransactions/CreditsAndDebitsListIntents';
 
 const CreditsAndDebitsListMapping = {
   [LOAD_CREDITS_AND_DEBITS_LIST]: {

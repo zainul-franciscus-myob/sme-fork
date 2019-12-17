@@ -1,7 +1,7 @@
 import {
   LOAD_SUPPLIER_RETURN_LIST,
   SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
-} from '../../supplierReturn/SupplierReturnIntents';
+} from '../../modules/supplierReturn/SupplierReturnIntents';
 
 const SupplierReturnMapping = {
   [LOAD_SUPPLIER_RETURN_LIST]: {

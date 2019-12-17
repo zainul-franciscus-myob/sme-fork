@@ -3,9 +3,9 @@ import {
   DELETE_TRANSFER_MONEY,
   LOAD_NEW_TRANSFER_MONEY,
   LOAD_TRANSFER_MONEY_DETAIL,
-} from '../../transferMoney/TransferMoneyIntents';
+} from '../../modules/transferMoney/TransferMoneyIntents';
 
-const ReceiveMoneyMapping = {
+const TransferMoneyMapping = {
   [LOAD_NEW_TRANSFER_MONEY]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/transferMoney/load_new_transfer_money`,
@@ -24,4 +24,4 @@ const ReceiveMoneyMapping = {
   },
 };
 
-export default ReceiveMoneyMapping;
+export default TransferMoneyMapping;

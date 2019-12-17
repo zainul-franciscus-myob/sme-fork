@@ -3,7 +3,7 @@ import {
   DELETE_PURCHASE_RETURN,
   LOAD_NEW_PURCHASE_RETURN,
   LOAD_PURCHASE_RETURN,
-} from '../../supplierReturnPurchase/SupplierReturnPurchaseIntents';
+} from '../../modules/supplierReturnPurchase/SupplierReturnPurchaseIntents';
 import newSupplierReturnPurchase from '../data/supplierReturn/loadNewSupplierReturnPurchase.json';
 import successResponse from '../data/success.json';
 import supplierReturnPurchase from '../data/supplierReturn/loadSupplierReturnPurchase.json';
