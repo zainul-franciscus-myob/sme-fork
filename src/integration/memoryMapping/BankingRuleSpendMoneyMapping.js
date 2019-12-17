@@ -4,7 +4,7 @@ import {
   LOAD_BANKING_RULE_SPEND_MONEY,
   LOAD_NEW_BANKING_RULE_SPEND_MONEY,
   UPDATE_BANKING_RULE_SPEND_MONEY,
-} from '../../bankingRules/bankingRuleSpendMoney/BankingRuleSpendMoneyIntents';
+} from '../../modules/bankingRules/bankingRuleSpendMoney/BankingRuleSpendMoneyIntents';
 import loadBankingRuleSpendMoney from '../data/bankingRule/loadBankingRuleSpendMoney.json';
 import loadNewBankingRuleSpendMoney from '../data/bankingRule/loadNewBankingRuleSpendMoney.json';
 import successMessage from '../data/success.json';

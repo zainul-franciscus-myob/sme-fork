@@ -7,7 +7,7 @@ import {
   LOAD_NEW_ACCOUNT_MODAL,
   SORT_AND_FILTER_ACCOUNT_LIST,
   UPDATE_ACCOUNT,
-} from '../../account/AccountIntents';
+} from '../../modules/account/AccountIntents';
 
 const AccountMapping = {
   [SORT_AND_FILTER_ACCOUNT_LIST]: {

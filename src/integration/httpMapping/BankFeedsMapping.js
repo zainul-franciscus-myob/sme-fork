@@ -1,6 +1,6 @@
-import { DELETE_BANK_FEED, LOAD_BANK_FEEDS, SAVE_BANK_FEEDS } from '../../bankFeeds/BankFeedsIntents';
+import { DELETE_BANK_FEED, LOAD_BANK_FEEDS, SAVE_BANK_FEEDS } from '../../modules/bankFeeds/BankFeedsIntents';
 
-const LinkedAccountsMapping = {
+const BankFeedsMapping = {
   [LOAD_BANK_FEEDS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/bankFeeds/load_bank_feeds`,
@@ -15,4 +15,4 @@ const LinkedAccountsMapping = {
   },
 };
 
-export default LinkedAccountsMapping;
+export default BankFeedsMapping;

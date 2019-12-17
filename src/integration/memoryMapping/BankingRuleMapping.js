@@ -1,7 +1,7 @@
 import {
   LOAD_BANKING_RULE_LIST,
   SORT_AND_FILTER_BANKING_RULE_LIST,
-} from '../../bankingRules/bankingRuleList/BankingRuleListIntents';
+} from '../../modules/bankingRules/bankingRuleList/BankingRuleListIntents';
 import filterBankingRuleListPayload from '../data/bankingRule/filterBankingRuleList.json';
 import loadBankRuleListPayload from '../data/bankingRule/loadBankingRuleList.json';
 

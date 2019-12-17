@@ -9,7 +9,7 @@ import {
   LOAD_NEW_CONTACT,
   SORT_AND_FILTER_CONTACT_LIST,
   UPDATE_CONTACT,
-} from '../../contact/ContactIntents';
+} from '../../modules/contact/ContactIntents';
 import contactDetailLoadResponse from '../data/contact/contactDetailEntry';
 import contactListFilterResponse from '../data/contact/filterContactList';
 import contactListLoadResponse from '../data/contact/contactList';

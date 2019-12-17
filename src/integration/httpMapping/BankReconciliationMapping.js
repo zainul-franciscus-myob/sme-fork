@@ -4,7 +4,7 @@ import {
   LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT,
   SORT_AND_FILTER_BANK_RECONCILIATION,
   UNDO_BANK_RECONCILIATION,
-} from '../../bankReconciliation/BankReconciliationIntents';
+} from '../../modules/bankReconciliation/BankReconciliationIntents';
 
 const BankReconciliationMapping = {
   [LOAD_BANK_RECONCILIATION]: {

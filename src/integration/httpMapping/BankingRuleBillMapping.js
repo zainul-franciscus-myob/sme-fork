@@ -4,7 +4,7 @@ import {
   LOAD_BANKING_RULE_BILL,
   LOAD_NEW_BANKING_RULE_BILL,
   UPDATE_BANKING_RULE_BILL,
-} from '../../bankingRules/bankingRuleBill/BankingRuleBillIntents';
+} from '../../modules/bankingRules/bankingRuleBill/BankingRuleBillIntents';
 
 const BankingRuleBillMapping = {
   [LOAD_NEW_BANKING_RULE_BILL]: {

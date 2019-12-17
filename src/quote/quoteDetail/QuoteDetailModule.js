@@ -41,8 +41,8 @@ import {
   getQuoteReadWithExportPdfModalUrl,
 } from './selectors/RedirectSelectors';
 import { getFilesForUpload, getIsEmailModalOpen } from './selectors/EmailSelectors';
-import AccountModalModule from '../../account/accountModal/AccountModalModule';
-import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import AccountModalModule from '../../modules/account/accountModal/AccountModalModule';
+import ContactModalModule from '../../modules/contact/contactModal/ContactModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import ModalType from './ModalType';
 import QuoteDetailView from './components/QuoteDetailView';

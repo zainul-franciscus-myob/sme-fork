@@ -1,6 +1,6 @@
 import {
   DOWNLOAD_PDF, LOAD_CUSTOMER_STATEMENTS, SEND_EMAIL, SORT_AND_FILTER_CUSTOMER_STATEMENTS,
-} from '../../customerStatement/CustomerStatementIntents';
+} from '../../modules/customerStatement/CustomerStatementIntents';
 import customerStatements from '../data/customerStatement/loadCustomerStatements';
 import filteredCustomerStatements from '../data/customerStatement/filteredCustomerStatements';
 import success from '../data/customerStatement/success';

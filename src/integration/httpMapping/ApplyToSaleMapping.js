@@ -3,7 +3,7 @@ import {
   DELETE_APPLY_TO_SALE,
   LOAD_APPLY_TO_SALE,
   LOAD_NEW_APPLY_TO_SALE,
-} from '../../applyToSale/ApplyToSaleIntents';
+} from '../../modules/applyToSale/ApplyToSaleIntents';
 
 const ApplyToSaleMapping = {
   [LOAD_NEW_APPLY_TO_SALE]: {

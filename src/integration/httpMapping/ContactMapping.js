@@ -9,7 +9,7 @@ import {
   LOAD_NEW_CONTACT,
   SORT_AND_FILTER_CONTACT_LIST,
   UPDATE_CONTACT,
-} from '../../contact/ContactIntents';
+} from '../../modules/contact/ContactIntents';
 
 const ContactListMapping = {
   [SORT_AND_FILTER_CONTACT_LIST]: {

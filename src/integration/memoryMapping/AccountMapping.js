@@ -7,7 +7,7 @@ import {
   LOAD_NEW_ACCOUNT_MODAL,
   SORT_AND_FILTER_ACCOUNT_LIST,
   UPDATE_ACCOUNT,
-} from '../../account/AccountIntents';
+} from '../../modules/account/AccountIntents';
 import createAccountModalResponse from '../data/account/createAccountModalResponse';
 import filteredAccountListResponse from '../data/account/filterAccountListResponse';
 import loadAccountDetail from '../data/account/loadAccountDetail';

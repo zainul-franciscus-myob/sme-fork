@@ -1,4 +1,4 @@
-import { DELETE_BANK_FEED, LOAD_BANK_FEEDS, SAVE_BANK_FEEDS } from '../../bankFeeds/BankFeedsIntents';
+import { DELETE_BANK_FEED, LOAD_BANK_FEEDS, SAVE_BANK_FEEDS } from '../../modules/bankFeeds/BankFeedsIntents';
 import loadBankFeedsResponse from '../data/bankFeeds/loadBankFeeds';
 import successResponse from '../data/success';
 

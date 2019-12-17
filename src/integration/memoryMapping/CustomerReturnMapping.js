@@ -1,4 +1,4 @@
-import { LOAD_CUSTOMER_RETURN_LIST, SORT_AND_FILTER_CUSTOMER_RETURN_LIST } from '../../customerReturn/CustomerReturnIntents';
+import { LOAD_CUSTOMER_RETURN_LIST, SORT_AND_FILTER_CUSTOMER_RETURN_LIST } from '../../modules/customerReturn/CustomerReturnIntents';
 import filterCustomerReturnListResponse from '../data/customerReturn/filterCustomerReturnList';
 import loadCustomerReturnListResponse from '../data/customerReturn/loadCustomerReturnList';
 

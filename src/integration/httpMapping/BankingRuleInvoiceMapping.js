@@ -4,7 +4,7 @@ import {
   LOAD_BANKING_RULE_INVOICE,
   LOAD_NEW_BANKING_RULE_INVOICE,
   UPDATE_BANKING_RULE_INVOICE,
-} from '../../bankingRules/bankingRuleInvoice/BankingRuleInvoiceIntents';
+} from '../../modules/bankingRules/bankingRuleInvoice/BankingRuleInvoiceIntents';
 
 const BankingRuleInvoiceMapping = {
   [LOAD_NEW_BANKING_RULE_INVOICE]: {

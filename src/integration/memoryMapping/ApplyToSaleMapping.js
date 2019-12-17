@@ -3,7 +3,7 @@ import {
   DELETE_APPLY_TO_SALE,
   LOAD_APPLY_TO_SALE,
   LOAD_NEW_APPLY_TO_SALE,
-} from '../../applyToSale/ApplyToSaleIntents';
+} from '../../modules/applyToSale/ApplyToSaleIntents';
 import loadApplyToSaleResponse from '../data/applyToSale/loadApplyToSaleResponse';
 import loadNewApplyToSaleResponse from '../data/applyToSale/loadNewApplyToSaleResponse';
 import successResponse from '../data/success';

@@ -4,7 +4,7 @@ import {
   LOAD_BANKING_RULE_RECEIVE_MONEY,
   LOAD_NEW_BANKING_RULE_RECEIVE_MONEY,
   UPDATE_BANKING_RULE_RECEIVE_MONEY,
-} from '../../bankingRules/bankingRuleReceiveMoney/BankingRuleReceiveMoneyIntents';
+} from '../../modules/bankingRules/bankingRuleReceiveMoney/BankingRuleReceiveMoneyIntents';
 
 const BankingRuleReceiveMoneyMapping = {
   [LOAD_NEW_BANKING_RULE_RECEIVE_MONEY]: {

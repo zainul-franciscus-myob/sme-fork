@@ -43,9 +43,9 @@ import {
   getIsSupplierIdKey,
   getIsTaxInclusiveKey,
 } from './selectors/BillModuleSelectors';
-import AccountModalModule from '../../account/accountModal/AccountModalModule';
+import AccountModalModule from '../../modules/account/accountModal/AccountModalModule';
 import BillView from './components/BillView';
-import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import ContactModalModule from '../../modules/contact/contactModal/ContactModalModule';
 import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import LayoutType from './types/LayoutType';

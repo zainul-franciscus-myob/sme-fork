@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getIsTableEmpty } from '../../../contact/contactList/contactListSelector';
-import { getIsTableLoading, getOrder } from '../EmployeeListSelectors';
+import { getIsTableEmpty, getIsTableLoading, getOrder } from '../EmployeeListSelectors';
 import EmployeeListTableBody from './EmployeeListTableBody';
 import TableView from '../../../components/TableView/TableView';
 

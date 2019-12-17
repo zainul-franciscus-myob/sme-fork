@@ -1,4 +1,4 @@
-import { LOAD_BANKING_RULE_LIST, SORT_AND_FILTER_BANKING_RULE_LIST } from '../../bankingRules/bankingRuleList/BankingRuleListIntents';
+import { LOAD_BANKING_RULE_LIST, SORT_AND_FILTER_BANKING_RULE_LIST } from '../../modules/bankingRules/bankingRuleList/BankingRuleListIntents';
 
 const BankingRuleMapping = {
   [LOAD_BANKING_RULE_LIST]: {

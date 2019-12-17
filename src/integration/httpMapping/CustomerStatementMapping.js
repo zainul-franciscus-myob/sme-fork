@@ -3,7 +3,7 @@ import {
   LOAD_CUSTOMER_STATEMENTS,
   SEND_EMAIL,
   SORT_AND_FILTER_CUSTOMER_STATEMENTS,
-} from '../../customerStatement/CustomerStatementIntents';
+} from '../../modules/customerStatement/CustomerStatementIntents';
 
 const CustomerStatementMapping = {
   [LOAD_CUSTOMER_STATEMENTS]: {

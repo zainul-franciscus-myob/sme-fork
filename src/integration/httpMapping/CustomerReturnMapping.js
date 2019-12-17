@@ -1,7 +1,7 @@
 import {
   LOAD_CUSTOMER_RETURN_LIST,
   SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
-} from '../../customerReturn/CustomerReturnIntents';
+} from '../../modules/customerReturn/CustomerReturnIntents';
 
 const CustomerReturnMapping = {
   [LOAD_CUSTOMER_RETURN_LIST]: {

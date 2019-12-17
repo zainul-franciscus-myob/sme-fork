@@ -4,7 +4,7 @@ import {
   LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT,
   SORT_AND_FILTER_BANK_RECONCILIATION,
   UNDO_BANK_RECONCILIATION,
-} from '../../bankReconciliation/BankReconciliationIntents';
+} from '../../modules/bankReconciliation/BankReconciliationIntents';
 import bankReconciliation from '../data/bankReconciliation/loadBankReconciliation';
 import sortAndFilterResult from '../data/bankReconciliation/sortAndFilterBankReconsiliation';
 import successMessage from '../data/success.json';

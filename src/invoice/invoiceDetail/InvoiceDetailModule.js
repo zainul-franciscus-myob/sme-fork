@@ -32,8 +32,8 @@ import {
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import { getFilesForUpload, getIsEmailModalOpen } from './selectors/emailSelectors';
-import AccountModalModule from '../../account/accountModal/AccountModalModule';
-import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import AccountModalModule from '../../modules/account/accountModal/AccountModalModule';
+import ContactModalModule from '../../modules/contact/contactModal/ContactModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import InvoiceDetailModalType from './InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';

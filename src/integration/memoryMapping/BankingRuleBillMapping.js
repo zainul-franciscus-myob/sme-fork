@@ -4,7 +4,7 @@ import {
   LOAD_BANKING_RULE_BILL,
   LOAD_NEW_BANKING_RULE_BILL,
   UPDATE_BANKING_RULE_BILL,
-} from '../../bankingRules/bankingRuleBill/BankingRuleBillIntents';
+} from '../../modules/bankingRules/bankingRuleBill/BankingRuleBillIntents';
 import loadBankingRuleBill from '../data/bankingRule/loadBankingRuleBill.json';
 import loadNewBankingRuleBill from '../data/bankingRule/loadNewBankingRuleBill.json';
 import successMessage from '../data/success.json';
