@@ -1,4 +1,4 @@
-import ReceiveRefundModule from '../../receiveRefund/receiveRefund/ReceiveRefundModule';
+import ReceiveRefundModule from '../receiveRefund/receiveRefund/ReceiveRefundModule';
 import RouteName from '../../router/RouteName';
 import SupplierReturnListModule from './supplierReturnList/SupplierReturnListModule';
 import SupplierReturnPurchaseModule from '../supplierReturnPurchase/SupplierReturnPurchaseModule';

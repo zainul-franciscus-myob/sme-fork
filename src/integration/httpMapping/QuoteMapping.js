@@ -18,7 +18,7 @@ import {
   SORT_AND_FILTER_QUOTE_LIST,
   UPDATE_QUOTE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
-} from '../../quote/QuoteIntents';
+} from '../../modules/quote/QuoteIntents';
 
 const QuoteMapping = {
   [LOAD_QUOTE_LIST]: {

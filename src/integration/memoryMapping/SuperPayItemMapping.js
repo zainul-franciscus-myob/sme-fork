@@ -4,7 +4,7 @@ import {
   LOAD_NEW_SUPER_PAY_ITEM,
   LOAD_SUPER_PAY_ITEM,
   UPDATE_SUPER_PAY_ITEM,
-} from '../../payItem/superPayItem/SuperPayItemIntents';
+} from '../../modules/payItem/superPayItem/SuperPayItemIntents';
 import loadNewSuperPayItemResponse from '../data/payItem/superannuation/loadNewSuperPayItem';
 import loadSuperPayItemResponse from '../data/payItem/superannuation/loadSuperPayItem';
 import successResponse from '../data/success.json';

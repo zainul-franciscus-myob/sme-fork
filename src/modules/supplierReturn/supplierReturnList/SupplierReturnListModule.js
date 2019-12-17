@@ -15,7 +15,7 @@ import {
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
 import { SUCCESSFULLY_SAVED_PURCHASE_RETURN } from '../../supplierReturnPurchase/SupplierReturnPurchaseMessageTypes';
-import { SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../../../receiveRefund/ReceiveRefundMessageTypes';
+import { SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../../receiveRefund/ReceiveRefundMessageTypes';
 import { SUPPLIER_RETURN_LIST } from '../getSupplierReturnRoutes';
 import {
   getAppliedParams,

@@ -4,7 +4,7 @@ import {
   LOAD_NEW_PAY_REFUND,
   LOAD_PAY_REFUND,
   LOAD_REFERENCE_ID,
-} from '../../payRefund/PayRefundIntents';
+} from '../../modules/payRefund/PayRefundIntents';
 
 const PayRefundMapping = {
   [LOAD_NEW_PAY_REFUND]: {

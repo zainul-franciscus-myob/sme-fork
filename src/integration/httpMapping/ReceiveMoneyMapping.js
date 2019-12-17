@@ -5,7 +5,7 @@ import {
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   UPDATE_RECEIVE_MONEY,
-} from '../../receiveMoney/ReceiveMoneyIntents';
+} from '../../modules/receiveMoney/ReceiveMoneyIntents';
 
 const ReceiveMoneyMapping = {
   [LOAD_NEW_RECEIVE_MONEY]: {

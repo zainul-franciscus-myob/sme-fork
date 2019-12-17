@@ -4,7 +4,7 @@ import {
   LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_LEAVE_PAY_ITEM,
   UPDATE_LEAVE_PAY_ITEM,
-} from '../../payItem/leavePayItem/LeavePayItemIntents';
+} from '../../modules/payItem/leavePayItem/LeavePayItemIntents';
 import leavePayItem from '../data/payItem/leave/loadLeavePayItem';
 import newLeavePayItem from '../data/payItem/leave/loadNewLeavePayItem';
 import successResponse from '../data/success';

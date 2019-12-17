@@ -4,7 +4,7 @@ import {
   LOAD_LEAVE_PAY_ITEM,
   LOAD_NEW_LEAVE_PAY_ITEM,
   UPDATE_LEAVE_PAY_ITEM,
-} from '../../payItem/leavePayItem/LeavePayItemIntents';
+} from '../../modules/payItem/leavePayItem/LeavePayItemIntents';
 
 const LeavePayItemMapping = {
   [LOAD_NEW_LEAVE_PAY_ITEM]: {

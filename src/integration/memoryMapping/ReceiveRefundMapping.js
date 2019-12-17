@@ -3,7 +3,7 @@ import {
   DELETE_RECEIVE_REFUND,
   LOAD_NEW_RECEIVE_REFUND,
   LOAD_RECEIVE_REFUND,
-} from '../../receiveRefund/ReceiveRefundIntents';
+} from '../../modules/receiveRefund/ReceiveRefundIntents';
 import loadNewRefundResponse from '../data/receiveRefund/loadNewRefund';
 import loadRefundResponse from '../data/receiveRefund/loadRefund';
 import successResponse from '../data/success.json';

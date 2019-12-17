@@ -16,7 +16,7 @@ import {
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
 import { SUCCESSFULLY_SAVED_APPLY_TO_SALE } from '../../applyToSale/ApplyToSaleMessageType';
-import { SUCCESSFULLY_SAVED_PAY_REFUND } from '../../../payRefund/PayRefundMessageTypes';
+import { SUCCESSFULLY_SAVED_PAY_REFUND } from '../../payRefund/PayRefundMessageTypes';
 import {
   getAppliedFilterOptions, getBusinessId, getFilterOptions,
   getNewSortOrder, getOrderBy, getRegion, getSettings, getSortOrder,

@@ -4,7 +4,7 @@ import {
   LOAD_NEW_PAY_REFUND,
   LOAD_PAY_REFUND,
   LOAD_REFERENCE_ID,
-} from '../../payRefund/PayRefundIntents';
+} from '../../modules/payRefund/PayRefundIntents';
 import loadNewRefundResponse from '../data/payRefund/loadNewRefund';
 import loadReferenceIdResponse from '../data/payRefund/loadReferenceId';
 import loadRefundResponse from '../data/payRefund/loadRefund';

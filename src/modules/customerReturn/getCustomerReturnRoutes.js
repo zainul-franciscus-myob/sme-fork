@@ -1,6 +1,6 @@
 import ApplyToSaleModule from '../applyToSale/ApplyToSaleModule';
 import CustomerReturnListModule from './customerReturnList/CustomerReturnListModule';
-import PayRefundModule from '../../payRefund/payRefund/PayRefundModule';
+import PayRefundModule from '../payRefund/payRefund/PayRefundModule';
 import RouteName from '../../router/RouteName';
 
 export const CUSTOMER_RETURN_LIST_ROUTE = 'customerReturnList';

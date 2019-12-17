@@ -11,7 +11,7 @@ import {
   SORT_SUPERANNUATION_LIST,
   SORT_WAGES_LIST,
   UPDATE_TAX_PAY_ITEM,
-} from '../../payItem/PayItemIntents';
+} from '../../modules/payItem/PayItemIntents';
 import deductionsListLoadResponse from '../data/payItem/deduction/loadDeductionList';
 import deductionsListSortResponse from '../data/payItem/deduction/sortDeductionList';
 import expensesListLoadResponse from '../data/payItem/expense/loadExpenseList';

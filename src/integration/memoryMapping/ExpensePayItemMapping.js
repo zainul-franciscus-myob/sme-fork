@@ -4,7 +4,7 @@ import {
   LOAD_EXPENSE_PAY_ITEM,
   LOAD_NEW_EXPENSE_PAY_ITEM,
   UPDATE_EXPENSE_PAY_ITEM,
-} from '../../payItem/expensePayItem/ExpensePayItemIntents';
+} from '../../modules/payItem/expensePayItem/ExpensePayItemIntents';
 import loadExpensePayItemResponse
   from '../data/payItem/expense/loadExpensePayItemResponse';
 import loadNewExpensePayItemResponse from '../data/payItem/expense/loadNewExpensePayItemResponse';

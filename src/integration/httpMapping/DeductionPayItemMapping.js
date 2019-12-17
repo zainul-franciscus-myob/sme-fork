@@ -4,7 +4,7 @@ import {
   LOAD_EXISTING_PAY_ITEM,
   LOAD_NEW_PAY_ITEM,
   UPDATE_PAY_ITEM,
-} from '../../payItem/deductionPayItem/DeductionPayItemIntents';
+} from '../../modules/payItem/deductionPayItem/DeductionPayItemIntents';
 
 const DeductionPayItemListMapping = {
   [LOAD_NEW_PAY_ITEM]: {

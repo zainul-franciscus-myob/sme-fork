@@ -5,7 +5,7 @@ import {
   LOAD_NEW_SUPER_FUND,
   LOAD_SUPER_FUND,
   UPDATE_SUPER_FUND,
-} from '../../superFund/SuperFundIntents';
+} from '../../modules/superFund/SuperFundIntents';
 
 const SuperFundMapping = {
   [LOAD_NEW_SUPER_FUND]: {

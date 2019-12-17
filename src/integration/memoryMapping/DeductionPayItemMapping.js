@@ -4,7 +4,7 @@ import {
   LOAD_EXISTING_PAY_ITEM,
   LOAD_NEW_PAY_ITEM,
   UPDATE_PAY_ITEM,
-} from '../../payItem/deductionPayItem/DeductionPayItemIntents';
+} from '../../modules/payItem/deductionPayItem/DeductionPayItemIntents';
 import loadDeduction from '../data/payItem/deduction/loadDeduction';
 import newPayItemDetailResponse from '../data/payItem/deduction/loadNewDeduction';
 import successResponse from '../data/success';

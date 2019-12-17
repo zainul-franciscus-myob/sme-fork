@@ -11,7 +11,7 @@ import {
   SORT_SUPERANNUATION_LIST,
   SORT_WAGES_LIST,
   UPDATE_TAX_PAY_ITEM,
-} from '../../payItem/PayItemIntents';
+} from '../../modules/payItem/PayItemIntents';
 
 const PayItemListMapping = {
   [LOAD_WAGES_LIST]: {

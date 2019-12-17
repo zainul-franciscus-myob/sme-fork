@@ -18,7 +18,7 @@ import {
   SORT_AND_FILTER_QUOTE_LIST,
   UPDATE_QUOTE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
-} from '../../quote/QuoteIntents';
+} from '../../modules/quote/QuoteIntents';
 import customerAddress from '../data/quote/customerAddress';
 import itemQuoteLoadItemOption from '../data/quote/itemLayout/itemQuoteLoadItemOption';
 import itemQuoteUpdateLineAmountInputs from '../data/quote/itemLayout/itemQuoteUpdateLineAmountInputs';
