@@ -57,8 +57,14 @@ const InTrayView = ({
   uploadOptionsModalListeners,
   deleteModalListeners,
 }) => {
-  // Temp fix for feelix issue when content on the page is dynamicly changed
-  // Re renders master detail, which forces the detail to recalculate its postion.
+  /**
+   * Temp fix for feelix issue when content on the page is dynamicly changed
+   * Re renders master detail, which forces the detail to recalculate its postion.
+   *
+   * NOTE: This is not the preferred way to fix the issue.
+   * Instead, you should try to use the way how `BillView` triggers the recalculate,
+   * we didn't do the same here is because of some weird racing condition issue.
+   */
   const [key, updateKey] = React.useState(shortid.generate());
 
   const alertComponent = alert && (
