@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { BILL_LIST_ROUTE } from '../getBillRoutes';
 import {
   LOAD_BILL_LIST,
   SET_ALERT,
@@ -31,6 +30,7 @@ import {
 } from './billListSelectors';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import BillListView from './components/BillListView';
+import RouteName from '../../router/RouteName';
 import Store from '../../store/Store';
 import billListReducer from './billListReducer';
 
@@ -329,13 +329,13 @@ export default class BillListModule {
   };
 
   run(context) {
-    const settings = loadSettings(context.businessId, BILL_LIST_ROUTE);
+    const settings = loadSettings(context.businessId, RouteName.BILL_LIST);
     this.setInitialState(context, settings);
     this.render();
     this.readMessages();
     this.setLoadingState(true);
     this.store.subscribe(state => (
-      saveSettings(context.businessId, BILL_LIST_ROUTE, getSettings(state))
+      saveSettings(context.businessId, RouteName.BILL_LIST, getSettings(state))
     ));
     this.loadBillList();
   }

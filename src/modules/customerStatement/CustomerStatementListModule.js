@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { CUSTOMER_STATEMENT_LIST_ROUTE } from './getCustomerStatementRoutes';
 import {
   getAppliedFilterOptions,
   getDefaultTemplateOption,
@@ -15,6 +14,7 @@ import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import CustomerStatementListView from './components/CustomerStatementListView';
 import ModalType from './ModalType';
 import PDFType from './PDFType';
+import RouteName from '../../router/RouteName';
 import Store from '../../store/Store';
 import createCustomerStatementListDispatcher from './createCustomerStatementListDispatcher';
 import createCustomerStatementListIntegrator from './createCustomerStatementListIntegrator';
@@ -204,12 +204,12 @@ export default class CustomerStatementListModule {
   }
 
   run(context) {
-    const settings = loadSettings(context.businessId, CUSTOMER_STATEMENT_LIST_ROUTE);
+    const settings = loadSettings(context.businessId, RouteName.CUSTOMER_STATEMENT_LIST);
     this.dispatcher.setInitialState(context, settings);
     this.render();
     this.dispatcher.setLoadingState(true);
     this.store.subscribe(state => (
-      saveSettings(context.businessId, CUSTOMER_STATEMENT_LIST_ROUTE, getSettings(state))
+      saveSettings(context.businessId, RouteName.CUSTOMER_STATEMENT_LIST, getSettings(state))
     ));
     this.loadCustomerStatementList();
   }

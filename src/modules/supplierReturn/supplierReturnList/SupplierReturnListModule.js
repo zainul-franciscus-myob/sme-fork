@@ -16,7 +16,6 @@ import {
 } from '../../../SystemIntents';
 import { SUCCESSFULLY_SAVED_PURCHASE_RETURN } from '../../supplierReturnPurchase/SupplierReturnPurchaseMessageTypes';
 import { SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../../receiveRefund/ReceiveRefundMessageTypes';
-import { SUPPLIER_RETURN_LIST } from '../getSupplierReturnRoutes';
 import {
   getAppliedParams,
   getBusinessId,
@@ -29,6 +28,7 @@ import {
   getNewSortOrder,
 } from './selectors/SupplierReturnListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
+import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import SupplierReturnListView from './components/SupplierReturnListView';
 import supplierReturnListReducer from './supplierReturnListReducer';
@@ -238,12 +238,12 @@ export default class SupplierReturnListModule {
   }
 
   run(context) {
-    const settings = loadSettings(context.businessId, SUPPLIER_RETURN_LIST);
+    const settings = loadSettings(context.businessId, RouteName.SUPPLIER_RETURN_LIST);
     this.setInitialState(context, settings);
     this.render();
     this.readMessages();
     this.store.subscribe(states => (
-      saveSettings(context.businessId, SUPPLIER_RETURN_LIST, getSettings(states))
+      saveSettings(context.businessId, RouteName.SUPPLIER_RETURN_LIST, getSettings(states))
     ));
     this.loadSupplierReturnList();
   }

@@ -2,9 +2,6 @@ import AccountDetailModule from './accountDetail/AccountDetailModule';
 import AccountListModule from './accountList/AccountListModule';
 import RouteName from '../../router/RouteName';
 
-export const ACCOUNT_LIST_ROUTE = 'accountList';
-export const ACCOUNT_DETAIL_ROUTE = 'accountDetail';
-
 const getAccountRoutes = ({
   integration, setRootView, popMessages, pushMessage,
 }) => {

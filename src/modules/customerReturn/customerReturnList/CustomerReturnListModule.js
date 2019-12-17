@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { CUSTOMER_RETURN_LIST_ROUTE } from '../getCustomerReturnRoutes';
 import {
   LOAD_CUSTOMER_RETURN_LIST,
   SET_ALERT,
@@ -23,6 +22,7 @@ import {
 } from './CustomerReturnListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import CustomerReturnListView from './components/CustomerReturnListView';
+import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import customerReturnListReducer from './customerReturnListReducer';
 
@@ -280,11 +280,11 @@ export default class CustomerReturnListModule {
   }
 
   run(context) {
-    const settings = loadSettings(context.businessId, CUSTOMER_RETURN_LIST_ROUTE);
+    const settings = loadSettings(context.businessId, RouteName.CUSTOMER_RETURN_LIST);
     this.setInitialState(context, settings);
     this.render();
     this.store.subscribe(state => (
-      saveSettings(context.businessId, CUSTOMER_RETURN_LIST_ROUTE, getSettings(state))
+      saveSettings(context.businessId, RouteName.CUSTOMER_RETURN_LIST, getSettings(state))
     ));
 
     this.readMessages();

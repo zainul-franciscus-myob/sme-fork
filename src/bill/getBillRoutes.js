@@ -2,9 +2,6 @@ import BillListModule from './billList/BillListModule';
 import BillModule from './billDetail/BillModule';
 import RouteName from '../router/RouteName';
 
-// @TODO check for these referenced constants
-export const BILL_LIST_ROUTE = 'billList';
-
 const getBillRoutes = ({
   integration, setRootView, pushMessage, popMessages, replaceURLParams,
 }) => {

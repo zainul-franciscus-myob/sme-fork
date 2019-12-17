@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { ACCOUNT_LIST_ROUTE } from '../getAccountRoutes';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   SUCCESSFULLY_DELETED_ACCOUNT,
@@ -12,6 +11,7 @@ import {
 } from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import AccountListView from './components/AccountListView';
+import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import accountListReducer from './accountListReducer';
 import createAccountListDispatcher from './createAccountListDispatcher';
@@ -136,12 +136,12 @@ export default class AccountListModule {
   }
 
   run = (context) => {
-    const settings = loadSettings(context.businessId, ACCOUNT_LIST_ROUTE);
+    const settings = loadSettings(context.businessId, RouteName.ACCOUNT_LIST);
     this.setInitialState(context, settings);
     this.render();
     this.readMessages();
     this.store.subscribe(state => (
-      saveSettings(context.businessId, ACCOUNT_LIST_ROUTE, getAppliedFilterOptions(state))
+      saveSettings(context.businessId, RouteName.ACCOUNT_LIST, getAppliedFilterOptions(state))
     ));
     this.loadAccountList();
   }

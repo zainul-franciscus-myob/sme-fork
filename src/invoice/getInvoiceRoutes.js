@@ -2,8 +2,6 @@ import InvoiceDetailModule from './invoiceDetail/InvoiceDetailModule';
 import InvoiceListModule from './invoiceList/InvoiceListModule';
 import RouteName from '../router/RouteName';
 
-export const INVOICE_LIST_ROUTE = 'invoiceList';
-
 const getInvoiceRoutes = ({
   integration, setRootView, popMessages, pushMessage, replaceURLParams, reload,
 }) => {

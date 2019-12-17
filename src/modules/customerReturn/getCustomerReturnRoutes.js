@@ -3,8 +3,6 @@ import CustomerReturnListModule from './customerReturnList/CustomerReturnListMod
 import PayRefundModule from '../payRefund/payRefund/PayRefundModule';
 import RouteName from '../../router/RouteName';
 
-export const CUSTOMER_RETURN_LIST_ROUTE = 'customerReturnList';
-
 const getCustomerReturnRoutes = ({
   integration, setRootView, popMessages, pushMessage,
 }) => {

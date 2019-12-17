@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { INVOICE_LIST_ROUTE } from '../getInvoiceRoutes';
 import {
   LOAD_INVOICE_LIST,
   LOAD_NEXT_PAGE,
@@ -35,6 +34,7 @@ import {
 } from './invoiceListSelectors';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import InvoiceListView from './components/InvoiceListView';
+import RouteName from '../../router/RouteName';
 import Store from '../../store/Store';
 import invoiceListReducer from './invoiceListReducer';
 
@@ -327,13 +327,13 @@ export default class InvoiceListModule {
   };
 
   run(context) {
-    const settings = loadSettings(context.businessId, INVOICE_LIST_ROUTE);
+    const settings = loadSettings(context.businessId, RouteName.INVOICE_LIST);
     this.setInitialState(context, settings);
     this.render();
     this.readMessages();
     this.setLoadingState(true);
     this.store.subscribe(state => (
-      saveSettings(context.businessId, INVOICE_LIST_ROUTE, getSettings(state))
+      saveSettings(context.businessId, RouteName.INVOICE_LIST, getSettings(state))
     ));
     this.loadInvoiceList();
   }

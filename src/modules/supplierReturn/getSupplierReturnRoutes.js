@@ -3,8 +3,6 @@ import RouteName from '../../router/RouteName';
 import SupplierReturnListModule from './supplierReturnList/SupplierReturnListModule';
 import SupplierReturnPurchaseModule from '../supplierReturnPurchase/SupplierReturnPurchaseModule';
 
-export const SUPPLIER_RETURN_LIST = 'supplierReturnList';
-
 const getSupplierReturnRoutes = ({
   integration, setRootView, popMessages, pushMessage,
 }) => {
