@@ -19,23 +19,24 @@ export default class RootModule {
 
     this.drawer = new DrawerModule({
       integration,
+      setDrawerView: null,
     });
 
     this.nav = new NavigationModule({
-      integration,
       constructPath,
+      integration,
       replaceURLParamsAndReload,
+      setNavigationView: null,
       toggleHelp: this.drawer.toggleDrawer,
     });
 
     this.store = new Store(RootReducer);
     this.dispatcher = new CreateRootDispatcher(this.store);
 
-    this.settingsClient = SettingsService(this.dispatcher, integration, this.store);
+    this.settingsService = SettingsService(this.dispatcher, integration, this.store);
 
     this.onboarding = new OnboardingModule({
-      router,
-      saveSettingsList: this.settingsClient.save,
+      settingsService: this.settingsService,
     });
   }
 
@@ -51,7 +52,7 @@ export default class RootModule {
           nav={navView}
           onboarding={onboardingView}
         >
-          { component }
+          {component}
         </RootView>
       </Provider>
     );
@@ -63,9 +64,11 @@ export default class RootModule {
     const currentBusinessId = this.store.getState().businessId;
 
     this.dispatcher.setInitialState(routeParams);
-    if (businessId && businessId !== currentBusinessId) this.settingsClient.load(routeParams);
+
+    if (businessId && businessId !== currentBusinessId) this.settingsService.load(routeParams);
 
     this.drawer.run(routeProps);
+
     this.nav.run({
       ...routeProps,
       onPageTransition: handlePageTransition,

@@ -17,17 +17,21 @@ const industryData = [{ columnName: 'industry', showData: true }];
 const businessRolesData = [{ columnName: 'businessRole', showData: true }];
 
 class OnboardingView extends Component {
-  state = {
-    businessName: '',
-    industry: '',
-    businessRole: '',
+  constructor({ settingsService }) {
+    super();
+    this.settingsService = settingsService;
+    this.state = {
+      businessName: settingsService.getBusinessName(),
+      industry: '',
+      businessRole: 'Business owner',
+    };
   }
 
-  setBusinessName = businessName => this.setState({ businessName })
+  setBusinessName = businessName => this.setState({ businessName });
 
-  setIndustry = industry => this.setState({ industry })
+  setBusinessRole = businessRole => this.setState(businessRole);
 
-  setBusinessRole = businessRole => this.setState({ businessRole })
+  setIndustry = industry => this.setState(industry);
 
   businessRoleItems = () => businessRoles.map(businessRole => ({ businessRole }));
 
@@ -35,15 +39,13 @@ class OnboardingView extends Component {
 
   saveSettings = (event) => {
     event.preventDefault();
-    const { businessName, industry, businessRole } = this.state;
-    const { saveSettingsList } = this.props;
-
-    saveSettingsList({ businessName, industry, businessRole });
+    console.log(this.state);
+    this.settingsService.save(this.state);
   };
 
   render() {
     const { businessRoleItems, industryItems } = this;
-    const { businessName, industry, businessRole } = this.state;
+    const { businessName, businessRole, industry } = this.state;
 
     return (
       <div className={styles.fullScreen}>
@@ -66,10 +68,10 @@ class OnboardingView extends Component {
               <div>
                 <Input
                   name="default"
-                  label="My business name is"
+                  label="What's the name of your business?"
                   value={businessName}
                   onChange={val => this.setBusinessName(val.target.value)}
-                  requiredLabel="This field is required"
+                  requiredLabel="You need to enter a business name"
                   autoFocus
                 />
               </div>
@@ -80,8 +82,8 @@ class OnboardingView extends Component {
                   metaData={industryData}
                   defaultItem={{ industry }}
                   name="industry"
-                  label="My industry is"
-                  requiredLabel="This field is required"
+                  label="What industry is your business in?"
+                  requiredLabel="You need to select an industry"
                   onChange={val => this.setIndustry(val)}
                 />
               </div>
@@ -92,8 +94,8 @@ class OnboardingView extends Component {
                   metaData={businessRolesData}
                   defaultItem={{ businessRole }}
                   name="businessRole"
-                  label="I describe my role as"
-                  requiredLabel="This field is required"
+                  label="How would you best describe your role?"
+                  requiredLabel="You need to select a role"
                   onChange={val => this.setBusinessRole(val)}
                 />
               </div>

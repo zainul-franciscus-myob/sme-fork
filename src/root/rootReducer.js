@@ -1,3 +1,4 @@
+import { LOAD_BUSINESS_DETAIL } from '../business/BusinessIntents';
 import { LOAD_SETTINGS, SAVE_SETTINGS, SET_LOADING_STATE } from './rootIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import { shouldShowOnboarding } from './services/shouldShowOnboarding';
@@ -5,6 +6,7 @@ import createReducer from '../store/createReducer';
 
 const getDefaultState = () => ({
   settings: [],
+  businessName: '',
   isLoading: false,
 });
 
@@ -14,6 +16,15 @@ const setInitialState = (state, action) => ({
 });
 
 const resetState = () => (getDefaultState());
+
+const setBusinessDetails = (state, action) => {
+  const { businessDetails } = action.businessDetails;
+
+  return {
+    ...state,
+    businessName: businessDetails.organisationName,
+  };
+};
 
 const setLoading = (state, action) => ({
   ...state,
@@ -31,6 +42,8 @@ const handlers = {
   [LOAD_SETTINGS]: setOnboarding,
   [SAVE_SETTINGS]: setOnboarding,
   [SET_INITIAL_STATE]: setInitialState,
+  [LOAD_BUSINESS_DETAIL]: setBusinessDetails,
+
 };
 
 const onboardingReducer = createReducer(getDefaultState(), handlers);

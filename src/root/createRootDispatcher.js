@@ -1,3 +1,4 @@
+import { LOAD_BUSINESS_DETAIL } from '../business/BusinessIntents';
 import { LOAD_SETTINGS, SAVE_SETTINGS, SET_LOADING_STATE } from './rootIntents';
 import { SET_INITIAL_STATE } from '../SystemIntents';
 
@@ -10,6 +11,11 @@ const createOnboardingDispatcher = store => ({
   setLoadingState: (isLoading) => {
     const intent = SET_LOADING_STATE;
     store.dispatch({ intent, isLoading });
+  },
+
+  loadBusinessDetails: (businessDetails) => {
+    const intent = LOAD_BUSINESS_DETAIL;
+    store.dispatch({ intent, businessDetails });
   },
 
   loadSettings: (settings) => {

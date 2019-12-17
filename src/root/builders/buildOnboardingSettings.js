@@ -1,30 +1,24 @@
-const buildOnboardingSettings = ({ businessName, industry, businessRole }) => (
+const buildOnboardingSettings = ({ industry, businessRole }) => (
   [
-    {
-      data: { businessName },
-      key: 'businessName',
-      source: 'sme-web',
-      userId: null,
-      region: 'au',
-    },
     {
       data: { industry },
       key: 'industry',
+      region: 'au',
       source: 'sme-web',
       userId: null,
-      region: 'au',
     },
     {
       data: { businessRole },
       key: 'role',
-      source: 'sme-web',
       region: 'au',
+      source: 'sme-web',
     },
     {
       data: { onboardingComplete: 1 },
       key: 'onboardingComplete',
-      source: 'sme-web',
       region: 'au',
+      source: 'sme-web',
+      userId: null,
     },
   ]
 );

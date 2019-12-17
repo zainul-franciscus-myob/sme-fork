@@ -3,25 +3,23 @@ import React from 'react';
 import OnboardingView from './components/OnboardingView';
 
 class OnboardingModule {
-  constructor({
-    saveSettingsList,
-  }) {
-    this.saveSettingsList = saveSettingsList;
+  constructor({ settingsService }) {
+    this.settingsService = settingsService;
   }
 
   render = () => {
-    const { saveSettingsList } = this;
+    const { settingsService } = this;
 
     return (
-      <OnboardingView saveSettingsList={saveSettingsList} />
+      <OnboardingView settingsService={settingsService} />
     );
   }
 
-  run = () => {}
+  run = () => null;
 
-  unsubscribeFromStore = () => {}
+  unsubscribeFromStore = () => null;
 
-  resetState = () => {};
+  resetState = () => null;
 }
 
 export default OnboardingModule;
