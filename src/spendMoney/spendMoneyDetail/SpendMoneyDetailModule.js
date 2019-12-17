@@ -4,16 +4,19 @@ import React from 'react';
 import {
   SUCCESSFULLY_DELETED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY,
+  SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
 } from '../spendMoneyMessageTypes';
 import {
   getFilesForUpload,
   getInTrayDocumentId,
   getIsCreating,
+  getIsCreatingFromInTray,
   getIsTableEmpty,
   getLoadSpendMoneyRequestParams,
   getModalUrl,
   getSaveUrl,
   getSpendMoneyId,
+  getSpendMoneyUid,
   getTransactionListUrl,
   isPageEdited,
   isReferenceIdDirty,
@@ -39,7 +42,7 @@ export default class SpendMoneyDetailModule {
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
   }
 
-  prefillBillFromInTray(inTrayDocumentId) {
+  prefillSpendMoneyFromInTray(inTrayDocumentId) {
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.prefillDataFromInTray(response);
@@ -62,7 +65,7 @@ export default class SpendMoneyDetailModule {
       this.dispatcher.setLoadingState(false);
       const inTrayDocumentId = getInTrayDocumentId(state);
       if (inTrayDocumentId) {
-        this.prefillBillFromInTray(inTrayDocumentId);
+        this.prefillSpendMoneyFromInTray(inTrayDocumentId);
       }
     };
 
@@ -110,13 +113,18 @@ export default class SpendMoneyDetailModule {
 
   getSaveHandlers = () => ({
     onSuccess: (response) => {
+      const state = this.store.getState();
+      if (getIsCreatingFromInTray(state)) {
+        this.linkAfterSave(response);
+        return;
+      }
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_SPEND_MONEY,
         content: response.message,
       });
+
       this.dispatcher.setSubmittingState(false);
 
-      const state = this.store.getState();
       const url = getSaveUrl(state);
       this.redirectToUrl(url);
     },
@@ -126,6 +134,44 @@ export default class SpendMoneyDetailModule {
       this.dispatcher.displayAlert(error.message);
     },
   });
+
+  linkAfterSave = (response) => {
+    const state = this.store.getState();
+
+    const handleSuccess = () => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_SPEND_MONEY,
+        content: response.message,
+      });
+
+      this.dispatcher.setSubmittingState(false);
+      const url = getSaveUrl(state);
+      this.redirectToUrl(url);
+    };
+
+    const handleLinkFailure = () => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
+        content: 'Spend money created, but the document failed to link.',
+      });
+
+      this.dispatcher.setSubmittingState(false);
+      const url = getSaveUrl(state);
+      this.redirectToUrl(url);
+    };
+
+    const linkContent = {
+      id: response.id,
+      uid: getSpendMoneyUid(state),
+      inTrayDocumentId: getInTrayDocumentId(state),
+    };
+
+    this.integrator.linkInTrayDocument({
+      onSuccess: handleSuccess,
+      onFailure: handleLinkFailure,
+      linkContent,
+    });
+  };
 
   createSpendMoneyEntry = () => {
     this.dispatcher.setSubmittingState(true);

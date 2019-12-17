@@ -8,7 +8,7 @@ import {
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 } from '../../bill/billDetail/types/BillMessageTypes';
-import { SUCCESSFULLY_SAVED_SPEND_MONEY } from '../../spendMoney/spendMoneyMessageTypes';
+import { SUCCESSFULLY_SAVED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK } from '../../spendMoney/spendMoneyMessageTypes';
 import { getBusinessId, getRegion } from './selectors/InTraySelectors';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
 import {
@@ -33,6 +33,7 @@ const messageTypes = [
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
   SUCCESSFULLY_SAVED_SPEND_MONEY,
+  SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
 ];
 
 export default class InTrayModule {

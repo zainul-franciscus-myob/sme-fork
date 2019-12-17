@@ -3,6 +3,7 @@ import {
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_CALCULATED_TOTALS,
+  LINK_IN_TRAY_DOCUMENT,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
@@ -210,6 +211,22 @@ const createSpendMoneyIntegrator = (store, integration) => ({
     integration.read({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  linkInTrayDocument: ({
+    onSuccess, onFailure, linkContent,
+  }) => {
+    const state = store.getState();
+
+    integration.write({
+      intent: LINK_IN_TRAY_DOCUMENT,
+      content: linkContent,
+      urlParams: {
+        businessId: getBusinessId(state),
+      },
       onSuccess,
       onFailure,
     });

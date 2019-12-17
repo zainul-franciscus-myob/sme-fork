@@ -3,6 +3,7 @@ import {
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_CALCULATED_TOTALS,
+  LINK_IN_TRAY_DOCUMENT,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
@@ -61,6 +62,10 @@ const SpendMoneyMapping = {
   [PREFILL_DATA_FROM_IN_TRAY]: {
     method: 'GET',
     getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/spendMoney/prefill_bill_from_in_tray/${inTrayDocumentId}`,
+  },
+  [LINK_IN_TRAY_DOCUMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/spendMoney/link_in_tray_document`,
   },
 };
 

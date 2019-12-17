@@ -32,3 +32,4 @@ export const PREFILL_DATA_FROM_IN_TRAY = Symbol('Prefill data from in tray');
 export const SET_IN_TRAY_DOCUMENT_URL = Symbol('Set in tray document url');
 export const CLEAR_IN_TRAY_DOCUMENT_URL = Symbol('Clear in tray document url');
 export const HIDE_PREFILL_INFO = Symbol('Hide prefill info');
+export const LINK_IN_TRAY_DOCUMENT = Symbol('Link in tray document');

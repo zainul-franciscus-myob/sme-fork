@@ -3,6 +3,7 @@ import {
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   GET_CALCULATED_TOTALS,
+  LINK_IN_TRAY_DOCUMENT,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
@@ -18,7 +19,7 @@ import spendMoneyDetailEntry from '../data/spendMoney/spendMoneyDetailEntry';
 import spendMoneyDetailPrefillResponse from '../data/spendMoney/spendMoneyDetailPrefill.json';
 import spendMoneyNewEntry from '../data/spendMoney/spendMoneyDetailNewEntry';
 import spendMoneyReferenceId from '../data/spendMoney/spendMoneyDetailReferenceId';
-import successResponse from '../data/success.json';
+import successResponse from '../data/spendMoney/createSpendMoney.json';
 import uploadAttachmentResponse from '../data/spendMoney/uploadAttachmentResponse';
 
 const newSpendMoney = ({ onSuccess }) => onSuccess(spendMoneyNewEntry);
@@ -45,6 +46,8 @@ const downloadInTrayDocument = ({ onSuccess }) => onSuccess(new Blob([], { type:
 
 const prefillDataFromInTray = ({ onSuccess }) => onSuccess(spendMoneyDetailPrefillResponse);
 
+const linkInTrayDocument = ({ onSuccess }) => onSuccess(successResponse);
+
 const SpendMoneyMapping = {
   [LOAD_NEW_SPEND_MONEY]: newSpendMoney,
   [CREATE_SPEND_MONEY]: saveSpendMoney,
@@ -58,6 +61,7 @@ const SpendMoneyMapping = {
   [OPEN_ATTACHMENT]: openAttachment,
   [DOWNLOAD_IN_TRAY_DOCUMENT]: downloadInTrayDocument,
   [PREFILL_DATA_FROM_IN_TRAY]: prefillDataFromInTray,
+  [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
 };
 
 export default SpendMoneyMapping;
