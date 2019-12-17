@@ -86,7 +86,7 @@ export const featuresConfig = {
   bankReconciliation: { routeName: RouteName.BANK_RECONCILIATION },
   bankingRuleList: { routeName: RouteName.BANKING_RULE_LIST },
   bankFeeds: { routeName: RouteName.BANK_FEEDS },
-  electronicPaymentCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE },
+  electronicPaymentBankCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE, params: { paymentType: 'PayBills' } },
   spendMoneyCreate: { routeName: RouteName.SPEND_MONEY_DETAIL, params: { spendMoneyId: 'new' } },
   receiveMoneyCreate: { routeName: RouteName.RECEIVE_MONEY_DETAIL, params: { receiveMoneyId: 'new' } },
   transferMoneyCreate: { routeName: RouteName.TRANSFER_MONEY_DETAIL, params: { transferMoneyId: 'new' } },
@@ -105,6 +105,7 @@ export const featuresConfig = {
   payRunCreate: { routeName: RouteName.PAY_RUN_CREATE },
   payItemList: { routeName: RouteName.PAY_ITEM_LIST },
   timesheets: { routeName: '' },
+  electronicPaymentPayrollCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE, params: { paymentType: 'PayEmployees' } },
   superPaymentList: { routeName: '' },
   stpReporting: { routeName: '' },
 

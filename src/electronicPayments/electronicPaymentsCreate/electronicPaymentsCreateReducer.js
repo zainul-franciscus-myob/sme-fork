@@ -33,43 +33,57 @@ const getDefaultState = () => ({
   dateOfPayment: '',
   bankStatementDescription: '',
   accounts: [],
+  paymentTypes: [],
   filterOptions: {
     dateFrom: formatIsoDate(getDefaultDateRange()),
     dateTo: formatIsoDate(new Date()),
+    paymentType: '',
   },
   appliedFilterOptions: {
     dateFrom: formatIsoDate(getDefaultDateRange()),
     dateTo: formatIsoDate(new Date()),
+    paymentType: '',
   },
   sortOrder: 'desc',
   alert: undefined,
 });
 
-const setInitialState = (state, action) => ({
-  ...state,
-  ...action.context,
-});
+const setInitialState = (state, { context }) => {
+  const { paymentType } = context;
+  return {
+    ...state,
+    ...context,
+    filterOptions: {
+      ...state.filterOptions,
+      paymentType,
+    },
+    appliedFilterOptions: {
+      ...state.appliedFilterOptions,
+      paymentType,
+    },
+  };
+};
 
 const loadAccountsAndTransactions = (state, { response }) => ({
   ...state,
-  accounts: response.accounts || [],
-  referenceNumber: response.referenceNumber || '',
-  bankStatementDescription: response.bankStatementDescription || '',
-  transactionDescription: response.transactionDescription || '',
-  dateOfPayment: response.dateOfPayment || '',
-  transactions: response.electronicPayments
-    ? response.electronicPayments.map(e => ({
-      ...e,
-      isSelected: false,
-    })) : [],
+  accounts: response.accounts,
+  paymentTypes: response.paymentTypes,
+  referenceNumber: response.referenceNumber,
+  bankStatementDescription: response.bankStatementDescription,
+  transactionDescription: response.transactionDescription,
+  dateOfPayment: response.dateOfPayment,
+  transactions: response.transactions.map(e => ({
+    ...e,
+    isSelected: false,
+  })),
   selectedAccountId: response.accounts && response.accounts[0] && response.accounts[0].id,
 });
 
-const updateFilterOptions = (state, action) => ({
+const updateFilterOptions = (state, { key, value }) => ({
   ...state,
   filterOptions: {
     ...state.filterOptions,
-    [action.filterName]: action.value,
+    [key]: value,
   },
 });
 
@@ -101,10 +115,10 @@ const setSortOrder = (state, action) => ({
   orderBy: action.orderBy,
 });
 
-const sortAndFilterTransactions = (state, action) => ({
+const sortAndFilterTransactions = (state, { response }) => ({
   ...state,
-  transactions: action.entries,
-  appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
+  transactions: response.transactions,
+  appliedFilterOptions: response.isSort ? state.appliedFilterOptions : state.filterOptions,
 });
 
 const selectAllTransactions = (state, action) => ({

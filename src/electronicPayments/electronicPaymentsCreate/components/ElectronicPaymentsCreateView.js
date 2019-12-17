@@ -17,6 +17,7 @@ import {
   getIsTableLoading,
   getModal,
   getOrder,
+  getPaymentTypes,
   getReferenceNumber,
   getSelectedAccountId,
   getTableEntries,
@@ -43,6 +44,7 @@ const ElectronicPaymentsCreateView = ({
   bankStatementDescription,
   transactions,
   accounts,
+  paymentTypes,
   onUpdateFilterBarOptions,
   onRecordAndDownloadBankFile,
   onApplyFilter,
@@ -56,6 +58,7 @@ const ElectronicPaymentsCreateView = ({
   totalPayment,
   isTableLoading,
   filterOptions: {
+    paymentType,
     dateFrom,
     dateTo,
   },
@@ -89,6 +92,8 @@ const ElectronicPaymentsCreateView = ({
       <PageHead title="Record payment and download bank file" />
       <Card>
         <ElectronicPaymentsCreateFilter
+          paymentTypes={paymentTypes}
+          paymentType={paymentType}
           dateFrom={dateFrom}
           dateTo={dateTo}
           onUpdateFilterBarOptions={onUpdateFilterBarOptions}
@@ -127,6 +132,7 @@ const ElectronicPaymentsCreateView = ({
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   transactions: getTableEntries(state),
+  paymentTypes: getPaymentTypes(state),
   accounts: getAccounts(state),
   filterOptions: getFilterOptions(state),
   selectedAccountId: getSelectedAccountId(state),

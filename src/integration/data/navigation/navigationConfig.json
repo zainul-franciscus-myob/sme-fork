@@ -22,7 +22,7 @@
     "bankReconciliation",
     "bankingRuleList",
     "bankFeeds",
-    "electronicPaymentCreate",
+    "electronicPaymentBankCreate",
     "spendMoneyCreate",
     "receiveMoneyCreate",
     "transferMoneyCreate",
@@ -41,6 +41,7 @@
     "payRunCreate",
     "payItemList",
     "timesheets",
+    "electronicPaymentPayrollCreate",
     "superPaymentList",
     "stpReporting",
 

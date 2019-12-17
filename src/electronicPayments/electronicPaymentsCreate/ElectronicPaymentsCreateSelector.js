@@ -8,7 +8,7 @@ import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate
 export const getAlert = state => state.alert;
 export const getIsLoading = state => state.isLoading;
 export const getIsTableLoading = state => state.isTableLoading;
-
+export const getPaymentTypes = state => state.paymentTypes;
 export const getAccounts = state => state.accounts;
 export const getTransactionDescription = state => state.transactionDescription;
 export const getReferenceNumber = state => state.referenceNumber;
@@ -83,4 +83,11 @@ export const getIsPaymentDateToday = createSelector(
   paymentDate => (
     formatIsoDate(new Date(paymentDate)) === formatIsoDate(new Date())
   ),
+);
+
+export const getUrlParams = createSelector(
+  getAppliedFilterOptions,
+  filterOptions => ({
+    paymentType: filterOptions.paymentType,
+  }),
 );

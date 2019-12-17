@@ -79,7 +79,7 @@ export const getPayrollUrls = createSelector(
     payRunList: enabledUrls.payRunList,
     payRunCreate: enabledUrls.payRunCreate,
     payItemList: enabledUrls.payItemList,
-    electronicPaymentCreate: enabledUrls.electronicPaymentCreate,
+    electronicPaymentCreate: enabledUrls.electronicPaymentPayrollCreate,
   }),
 );
 export const hasPayrollUrls = createSelector(
@@ -94,7 +94,7 @@ export const getBankingUrls = createSelector(
     bankReconciliation: enabledUrls.bankReconciliation,
     bankingRuleList: enabledUrls.bankingRuleList,
     bankFeeds: enabledUrls.bankFeeds,
-    electronicPaymentCreate: enabledUrls.electronicPaymentCreate,
+    electronicPaymentCreate: enabledUrls.electronicPaymentBankCreate,
     spendMoneyCreate: enabledUrls.spendMoneyCreate,
     receiveMoneyCreate: enabledUrls.receiveMoneyCreate,
     transferMoneyCreate: enabledUrls.transferMoneyCreate,

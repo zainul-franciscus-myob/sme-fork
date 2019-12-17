@@ -72,7 +72,7 @@ export const getPayRunListUrl = (state) => {
 
 export const getElectronicPaymentsCreateUrl = (state) => {
   const { businessId, region } = state;
-  return `/#/${region}/${businessId}/electronicPayments`;
+  return `/#/${region}/${businessId}/electronicPayments?paymentType=PayEmployees`;
 };
 
 export const getStepperSteps = (state) => {

@@ -45,13 +45,13 @@ const setDeleteModalOpenState = (store, { isOpen }) => ({
 
 const loadElectronicPaymentDetails = (state, { response }) => ({
   ...state,
-  account: response.account || [],
-  balance: response.balance || '',
-  referenceNumber: response.referenceNumber || '',
-  bankStatementDescription: response.bankStatementDescription || '',
-  transactionDescription: response.transactionDescription || '',
-  dateOfPayment: response.dateOfPayment || '',
-  transactions: response.electronicPayments || [],
+  account: response.account,
+  balance: response.balance,
+  referenceNumber: response.referenceNumber,
+  bankStatementDescription: response.bankStatementDescription,
+  transactionDescription: response.transactionDescription,
+  dateOfPayment: response.dateOfPayment,
+  transactions: response.transactions,
 });
 
 const handlers = {

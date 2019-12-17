@@ -3,15 +3,17 @@ import ElectronicPaymentsReadModule from './electronicPaymentsRead/ElectronicPay
 import RouteName from '../router/RouteName';
 
 const getElectronicPaymentsRoutes = ({
-  integration, setRootView, pushMessage,
+  integration, setRootView, pushMessage, replaceURLParams,
 }) => {
   const routes = [
     {
       name: RouteName.ELECTRONIC_PAYMENTS_CREATE,
       path: '/:region/:businessId/electronicPayments/',
+      allowedParams: ['paymentType'],
       module: new ElectronicPaymentsCreateModule({
         integration,
         setRootView,
+        replaceURLParams,
       }),
       documentTitle: 'Bank file payment',
     },

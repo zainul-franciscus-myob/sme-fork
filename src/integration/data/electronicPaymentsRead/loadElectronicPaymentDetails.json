@@ -1,5 +1,5 @@
 {
-  "electronicPayments": [
+  "transactions": [
     {
       "id": 1,
       "date": "02/12/2018",

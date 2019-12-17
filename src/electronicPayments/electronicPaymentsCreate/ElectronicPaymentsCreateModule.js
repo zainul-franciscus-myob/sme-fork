@@ -7,6 +7,7 @@ import {
   getFilterOptions,
   getIsPaymentDateToday,
   getOrderBy,
+  getUrlParams,
 } from './ElectronicPaymentsCreateSelector';
 import ElectronicPaymentsCreateView from './components/ElectronicPaymentsCreateView';
 import ModalType from './ModalType';
@@ -37,9 +38,10 @@ const downloadAsFile = (content, filename) => {
 };
 
 export default class ElectronicPaymentsModule {
-  constructor({ setRootView, integration }) {
+  constructor({ setRootView, integration, replaceURLParams }) {
     this.setRootView = setRootView;
     this.integration = integration;
+    this.replaceURLParams = replaceURLParams;
     this.store = new Store(electronicPaymentsCreateReducer);
     this.dispatcher = createElectronicPaymentsCreateDispatcher(this.store);
     this.integrator = createElectronicPaymentsCreateIntegrator(this.store, this.integration);
@@ -64,9 +66,9 @@ export default class ElectronicPaymentsModule {
   fetchTransactions = ({ filterOptions }) => {
     this.dispatcher.setIsTableLoading(true);
 
-    const onSuccess = ({ entries }) => {
+    const onSuccess = (response) => {
       this.dispatcher.setIsTableLoading(false);
-      this.dispatcher.setTransactions(entries);
+      this.dispatcher.setTransactions(response);
     };
 
     const onFailure = ({ message }) => {
@@ -119,6 +121,11 @@ export default class ElectronicPaymentsModule {
     this.dispatcher.openModal(modalType);
   };
 
+  updateURLFromState = (state) => {
+    const params = getUrlParams(state);
+    this.replaceURLParams(params);
+  };
+
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
@@ -131,6 +138,10 @@ export default class ElectronicPaymentsModule {
     this.dispatcher.setInitialState(context);
     this.render();
     this.loadAccountsAndElectronicPayments();
+
+    this.store.subscribe((state) => {
+      this.updateURLFromState(state);
+    });
   }
 
   render = () => {

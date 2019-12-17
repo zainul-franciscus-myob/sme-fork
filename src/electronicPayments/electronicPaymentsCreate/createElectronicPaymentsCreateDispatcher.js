@@ -81,10 +81,10 @@ const createElectronicPaymentsCreateDispatcher = store => ({
     });
   },
 
-  updateFilterBarOptions: ({ filterName, value }) => {
+  updateFilterBarOptions: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_FILTER_OPTIONS,
-      filterName,
+      key,
       value,
     });
   },
@@ -132,10 +132,10 @@ const createElectronicPaymentsCreateDispatcher = store => ({
     });
   },
 
-  setTransactions: (entries) => {
+  setTransactions: (response) => {
     store.dispatch({
       intent: SORT_AND_FILTER_TRANSACTIONS,
-      entries,
+      response,
     });
   },
 });

@@ -8,7 +8,7 @@ const RecordAndDownloadWarningModal = ({
   onCancelButtonClick,
   onRecordButtonClick,
 }) => (
-  <Modal title="Record transaction &amp; create bank file" onCancel={onCancelButtonClick}>
+  <Modal title="Record and download" onCancel={onCancelButtonClick}>
     <Modal.Body>
       This transaction will be recorded immediately, and the bank file created.
     </Modal.Body>
