@@ -2,22 +2,27 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
+import style from './RootView.module.css';
 
 const RootView = ({
-  drawer, nav, onboarding, children, isLoading, shouldShowOnboarding,
+  nav,
+  onboarding,
+  children,
+  isLoading,
+  shouldShowOnboarding,
+  drawer,
 }) => {
   if (isLoading) return <LoadingPageState />;
   if (shouldShowOnboarding) return onboarding;
 
   return (
-    <>
+    <div id="main" className={style.main}>
       { drawer }
-      { nav }
-
-      <div id="main">
+      <div className={style.navAndRootView}>
+        { nav }
         { children }
       </div>
-    </>
+    </div>
   );
 };
 

@@ -17,23 +17,20 @@ export default class RootModule {
   }) {
     const { constructPath, replaceURLParamsAndReload } = router;
 
-    this.drawer = new DrawerModule({
-      integration,
-      setDrawerView: null,
-    });
+    this.store = new Store(RootReducer);
+    this.dispatcher = new CreateRootDispatcher(this.store);
+
+    this.settingsService = SettingsService(this.dispatcher, integration, this.store);
+
+    this.drawer = new DrawerModule({ integration });
 
     this.nav = new NavigationModule({
       constructPath,
       integration,
       replaceURLParamsAndReload,
-      setNavigationView: null,
-      toggleHelp: this.drawer.toggleDrawer,
+      toggleActivities: this.drawer.toggleActivities,
+      toggleHelp: this.drawer.toggleHelp,
     });
-
-    this.store = new Store(RootReducer);
-    this.dispatcher = new CreateRootDispatcher(this.store);
-
-    this.settingsService = SettingsService(this.dispatcher, integration, this.store);
 
     this.onboarding = new OnboardingModule({
       settingsService: this.settingsService,
@@ -42,15 +39,15 @@ export default class RootModule {
 
   render = (component) => {
     const navView = this.nav.render();
-    const drawerView = this.drawer.render();
     const onboardingView = this.onboarding.render();
+    const drawerView = this.drawer.render();
 
     return (
       <Provider store={this.store}>
         <RootView
-          drawer={drawerView}
           nav={navView}
           onboarding={onboardingView}
+          drawer={drawerView}
         >
           {component}
         </RootView>
@@ -60,15 +57,18 @@ export default class RootModule {
 
   run = (routeProps, handlePageTransition) => {
     const { routeParams } = routeProps;
+    const { businessId } = routeParams;
+    const currentBusinessId = this.store.getState().businessId;
 
     this.dispatcher.setInitialState(routeParams);
+
+    if (businessId && businessId !== currentBusinessId) this.settingsService.load(routeParams);
 
     this.drawer.run(routeProps);
 
     this.nav.run({
       ...routeProps,
       onPageTransition: handlePageTransition,
-      toggleHelp: this.drawer.toggleDrawer,
     });
   };
 }

@@ -18,6 +18,7 @@ export default class NavigationModule {
     constructPath,
     replaceURLParamsAndReload,
     toggleHelp,
+    toggleActivities,
   }) {
     this.integration = integration;
     this.setNavigationView = setNavigationView;
@@ -26,6 +27,7 @@ export default class NavigationModule {
     this.replaceURLParamsAndReload = replaceURLParamsAndReload;
     this.onPageTransition = undefined;
     this.toggleHelp = toggleHelp;
+    this.toggleActivities = toggleActivities;
     this.reportsBaseUrl = Config.MY_REPORTS_URL;
   }
 
@@ -110,7 +112,13 @@ export default class NavigationModule {
 
   render = () => {
     const {
-      constructPath, redirectToPage, onPageTransition, toggleHelp, store, moveFocusToMainContent,
+      constructPath,
+      redirectToPage,
+      onPageTransition,
+      toggleHelp,
+      toggleActivities,
+      store,
+      moveFocusToMainContent,
     } = this;
 
     return (
@@ -120,6 +128,7 @@ export default class NavigationModule {
           onMenuSelect={redirectToPage}
           onMenuLinkClick={onPageTransition}
           onHelpLinkClick={toggleHelp}
+          onActivitiesLinkClick={toggleActivities}
           onSkipToMainContentClick={moveFocusToMainContent}
         />
       </Provider>

@@ -2,6 +2,7 @@ import {
   LOAD_HELP_CONTENT,
   LOAD_HELP_CONTENT_FAILURE,
   LOAD_HELP_USER_SETTINGS,
+  SET_ACTIVE_STATE,
   SET_LOADING_STATE,
   UPDATE_SEARCH_VALUE,
 } from './HelpIntents';
@@ -19,6 +20,12 @@ const createHelpDispatcher = store => ({
     store.dispatch({
       intent: SET_LOADING_STATE,
       isLoading,
+    });
+  },
+  setActiveState: (isActive) => {
+    store.dispatch({
+      intent: SET_ACTIVE_STATE,
+      isActive,
     });
   },
   loadHelpUserSettings: (userHelpSettings) => {

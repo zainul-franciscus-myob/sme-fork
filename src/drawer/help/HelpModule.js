@@ -6,9 +6,7 @@ import {
   getSearchValue,
   isHelpContentLoaded,
   isUserHelpSettingsLoaded,
-  shouldLoadHelpContent,
 } from './HelpSelectors';
-import { getShowDrawer } from '../DrawerSelectors';
 import HelpView from './components/HelpView';
 import Store from '../../store/Store';
 import createHelpDispatcher from './createHelpDispatcher';
@@ -17,32 +15,33 @@ import helpReducer from './helpReducer';
 
 export default class HelpModule {
   constructor({
-    integration, drawerStore, drawerDispatcher,
+    integration, closeDrawer,
   }) {
     this.integration = integration;
     this.store = new Store(helpReducer);
-    this.drawerStore = drawerStore;
-    this.drawerDispatcher = drawerDispatcher;
+    this.closeDrawer = closeDrawer;
     this.dispatcher = createHelpDispatcher(this.store);
     this.integrator = createHelpIntegrator(this.store, this.integration);
   }
 
   getView = () => {
-    const view = (
-      <HelpView
-        closeHelp={this.closeHelp}
-        onSearchChange={this.dispatcher.updateSearchValue}
-        onSearchClick={this.openSearchPage}
-      />
-    );
+    const {
+      store, closeDrawer, dispatcher: { updateSearchValue }, openSearchPage,
+    } = this;
 
-    const wrappedView = (
-      <Provider store={this.store}>
-        {view}
+    return (
+      <Provider store={store}>
+        <HelpView
+          closeHelp={closeDrawer}
+          onSearchChange={updateSearchValue}
+          onSearchClick={openSearchPage}
+        />
       </Provider>
     );
+  }
 
-    return wrappedView;
+  setActive = (isActive) => {
+    this.dispatcher.setActiveState(!!isActive);
   }
 
   openSearchPage = () => {
@@ -51,10 +50,6 @@ export default class HelpModule {
       const url = getSearchLink(state);
       window.open(url, '_blank');
     }
-  }
-
-  closeHelp = () => {
-    this.drawerDispatcher.closeDrawer();
   }
 
   loadHelpUserSettings = (onLoadSettingsSuccess) => {
@@ -104,14 +99,7 @@ export default class HelpModule {
   }
 
   handleDisplayHelp = () => {
-    if (!shouldLoadHelpContent(this.store.getState())) {
-      this.closeHelp();
-      return;
-    }
-
-    if (getShowDrawer(this.drawerStore.getState())) {
-      this.loadHelpContent();
-    }
+    this.loadHelpContent();
   }
 
   run = (context) => {

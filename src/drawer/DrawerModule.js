@@ -1,65 +1,61 @@
+/* eslint-disable react/no-this-in-sfc */
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getShowDrawer } from './DrawerSelectors';
+import * as views from './drawerViews';
+import ActivitiesModule from './activities/ActivitiesModule';
 import Drawer from './components/Drawer';
 import HelpModule from './help/HelpModule';
 import Store from '../store/Store';
 import createDrawerDispatcher from './createDrawerDispatcher';
 import drawerReducer from './drawerReducer';
-import keyMap from '../hotKeys/keyMap';
-import setupHotKeys from '../hotKeys/setupHotKeys';
 
 export default class DrawerModule {
   constructor({
-    integration, setDrawerView,
+    integration,
   }) {
-    this.setDrawerView = setDrawerView;
     this.store = new Store(drawerReducer);
     this.dispatcher = createDrawerDispatcher(this.store);
     this.subModules = {
-      helpModule: new HelpModule({
-        integration,
-        drawerStore: this.store,
-        drawerDispatcher: this.dispatcher,
-      }),
+      [views.HELP]: new HelpModule({ integration, closeDrawer: this.closeDrawer }),
+      [views.ACTIVITIES]: new ActivitiesModule({ integration, closeDrawer: this.closeDrawer }),
     };
+
+    // To avoid double scrollbars when in mobile mode, the body needs to know when the drawer is
+    // open. Feelix has no "scrolling panel" components, so the body is appropriate, apparently.
+    this.store.subscribe(({ isOpen }) => {
+      if (isOpen) {
+        document.body.classList.add('drawer-open');
+      } else {
+        document.body.classList.remove('drawer-open');
+      }
+    });
+
+    this.store.subscribe(({ drawerView }) => {
+      Object.keys(this.subModules)
+        .forEach(mod => this.subModules[mod].setActive(drawerView === mod));
+    });
   }
 
-  toggleDrawer = () => {
-    this.dispatcher.toggleDrawer();
-    if (getShowDrawer(this.store.getState())) {
-      // TODO: Add logic to decide which sub-module action to be called
-      this.subModules.helpModule.loadHelpContent();
+  toggleActivities = () => this.dispatcher.toggleActivities();
+
+  toggleHelp = () => this.dispatcher.toggleHelp();
+
+  closeDrawer = () => this.dispatcher.closeDrawer();
+
+  render = () => (
+    <Provider store={this.store}>
+      <Drawer>
+        { Object.values(this.subModules).map(sm => sm.getView()) }
+      </Drawer>
+    </Provider>
+  );
+
+  run = (routeProps) => {
+    Object.values(this.subModules).forEach(subModule => subModule.run(routeProps));
+    const { routeParams: { businessId } } = routeProps;
+    if (!businessId) {
+      this.closeDrawer();
     }
-  }
-
-  closeDrawer = () => {
-    this.dispatcher.closeDrawer();
-  }
-
-  render = () => {
-    const { store, subModules } = this;
-    const view = subModules.helpModule.getView();
-
-    return (
-      <Provider store={store}>
-        <Drawer>
-          { view }
-        </Drawer>
-      </Provider>
-    );
-  }
-
-  handlers = {
-    ESCAPE_ACTION: this.closeDrawer,
   };
-
-  run = (context) => {
-    this.dispatcher.setInitialState(context);
-    setupHotKeys(keyMap, this.handlers);
-    this.render();
-    // TODO: add condition for which sub-module to run on route change
-    this.subModules.helpModule.run(context);
-  }
 }

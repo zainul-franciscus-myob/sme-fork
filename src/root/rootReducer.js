@@ -43,7 +43,6 @@ const handlers = {
   [SAVE_SETTINGS]: setOnboarding,
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_BUSINESS_DETAIL]: setBusinessDetails,
-
 };
 
 const onboardingReducer = createReducer(getDefaultState(), handlers);

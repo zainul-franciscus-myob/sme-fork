@@ -3,27 +3,20 @@ body {
   padding: 0;
 }
 
+/** On mobile sizes the drawer covers the whole screen, so there should be no scrollbar for the
+ * body. Nobody likes double scrollbars. */
+@media (max-width: 768px) {
+  body.drawer-open {
+    overflow: hidden;
+  }
+}
+
 div.Popover {
   z-index: 1051;
 }
 
 textarea {
   min-height: 3rem;
-}
-
-.main {
-  display: flex;
-  flex-direction: row;
-}
-
-#drawer {
-  /* larger than menu dropdown z-index */
-  z-index: 2002;
-}
-
-.navAndRootView {
-  flex: 1 1 0;
-  max-width: 100%;
 }
 
 .sr-only {

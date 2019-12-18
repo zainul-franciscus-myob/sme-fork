@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M5.04553629,7.478651 L1.70324794,4.17254737 C1.31060399,3.78415431 0.677448385,3.78760034 0.289055323,4.18024429 C-0.0993377379,4.57288825 -0.0958917084,5.20604385 0.296752246,5.59443691 L3.99393494,9.25159268 C4.58222322,9.83351196 5.5306298,9.82912189 6.11350571,9.24178143 L13.5935892,1.70440398 C13.9826208,1.31239263 13.9802052,0.679232259 13.5881938,0.290200709 C13.1961825,-0.0988308411 12.5630221,-0.096415237 12.1739906,0.295596112 L5.04553629,7.478651 Z" id="path-1"></path>
+    </defs>
+    <g id="Pathways-concepts" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dashboard---Slice-1-Copy-60" transform="translate(-64.000000, -271.000000)">
+            <g id="Group-3" transform="translate(65.000000, 272.000000)">
+                <circle id="Oval" stroke="#35AA61" stroke-width="2" cx="15" cy="15" r="15"></circle>
+                <g id="icon/small/tick" transform="translate(8.000000, 10.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Path-9" fill="#35AA61" fill-rule="nonzero" xlink:href="#path-1"></use>
+                    <g id="swatch/icons/white" mask="url(#mask-2)">
+                        <g transform="translate(-2.000000, -4.000000)"></g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

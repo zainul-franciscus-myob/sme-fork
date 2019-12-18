@@ -1,0 +1,9 @@
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.navAndRootView {
+  flex: 1 1 0;
+  max-width: 100%;
+}

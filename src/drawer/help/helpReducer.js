@@ -2,6 +2,7 @@ import {
   LOAD_HELP_CONTENT,
   LOAD_HELP_CONTENT_FAILURE,
   LOAD_HELP_USER_SETTINGS,
+  SET_ACTIVE_STATE,
   SET_LOADING_STATE,
   UPDATE_SEARCH_VALUE,
 } from './HelpIntents';
@@ -26,6 +27,11 @@ const setInitialState = (state, { currentRouteName, routeParams }) => ({
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
+});
+
+const setActiveState = (state, action) => ({
+  ...state,
+  isActive: action.isActive,
 });
 
 const loadHelpUserSettings = (state, action) => ({
@@ -57,6 +63,7 @@ const handlers = {
   [LOAD_HELP_CONTENT]: loadHelpContent,
   [LOAD_HELP_CONTENT_FAILURE]: loadHelpContentFailure,
   [UPDATE_SEARCH_VALUE]: updateSearchValue,
+  [SET_ACTIVE_STATE]: setActiveState,
 };
 
 const helpReducer = createReducer(getDefaultState(), handlers);

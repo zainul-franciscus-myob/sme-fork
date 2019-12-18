@@ -13,6 +13,7 @@ import PageView from '../../../components/PageView/PageView';
 import QuickAnswers from './QuickAnswers';
 import RichText from './RichText';
 import StaticLinksSection from './StaticLinksSection';
+import asideHeaderStyles from '../../AsideHeader.module.css';
 import styles from './HelpView.module.css';
 
 const HelpView = ({
@@ -21,10 +22,13 @@ const HelpView = ({
   helpOnThisPageLinks,
   closeHelp,
   isLoading,
+  isActive,
   isHelpFailedOrEmpty,
   onSearchChange,
   onSearchClick,
 }) => {
+  if (!isActive) return <></>;
+
   const failureOrEmptyView = (<HelpFailureView />);
 
   const helpView = (
@@ -50,7 +54,7 @@ const HelpView = ({
   const drawerContentView = isHelpFailedOrEmpty ? failureOrEmptyView : helpView;
 
   return (
-    <Aside header={<Aside.Header title="MYOB Help" onClose={closeHelp} className={styles.asideHeader} />}>
+    <Aside header={<Aside.Header title="MYOB Help" onClose={closeHelp} className={asideHeaderStyles.asideHeader} />}>
       <PageView isLoading={isLoading} view={drawerContentView} />
     </Aside>
   );
@@ -62,6 +66,7 @@ const mapStateToProps = state => ({
   helpOnThisPageLinks: getHelpOnThisPageLinks(state),
   isLoading: getIsLoading(state),
   isHelpFailedOrEmpty: getIsHelpFailedOrEmpty(state),
+  isActive: state.isActive,
 });
 
 export default connect(mapStateToProps)(HelpView);

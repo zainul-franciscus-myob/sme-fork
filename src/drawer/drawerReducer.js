@@ -1,32 +1,40 @@
-import {
-  CLOSE_DRAWER, TOGGLE_DRAWER,
-} from './DrawerIntents';
-import { SET_INITIAL_STATE } from '../SystemIntents';
+import { CLOSE_DRAWER, TOGGLE_ACTIVITIES, TOGGLE_HELP } from './drawerIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import createReducer from '../store/createReducer';
 
 const getDefaultState = () => ({
-  showDrawer: false,
+  isOpen: false,
+  drawerView: null,
 });
 
 const setInitialState = (state, action) => ({
-  ...state,
+  ...getDefaultState(),
   ...action.context,
 });
 
-const toggleDrawer = state => ({
-  ...state,
-  showDrawer: !state.showDrawer,
-});
+const resetState = getDefaultState;
 
-const closeDrawer = state => ({
-  ...state,
-  showDrawer: false,
-});
+const toggleDrawer = (state, action) => {
+  const drawerView = action.view;
+  if (drawerView == null || (state.isOpen && state.drawerView === drawerView)) {
+    return {
+      ...state,
+      isOpen: false,
+    };
+  }
+  return {
+    ...state,
+    drawerView,
+    isOpen: true,
+  };
+};
 
 const handlers = {
+  [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
-  [TOGGLE_DRAWER]: toggleDrawer,
-  [CLOSE_DRAWER]: closeDrawer,
+  [CLOSE_DRAWER]: toggleDrawer,
+  [TOGGLE_ACTIVITIES]: toggleDrawer,
+  [TOGGLE_HELP]: toggleDrawer,
 };
 
 const drawerReducer = createReducer(getDefaultState(), handlers);

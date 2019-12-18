@@ -1,5 +1,6 @@
 .drawer {
-  position: absolute;
+  position: fixed;
+  top: 0;
   z-index: var(--flx-zindex-popover);
 
   --drawer-width: 100%;
@@ -15,15 +16,6 @@
   width: var(--drawer-width);
   margin-left: var(--animate-drawer-offset);
   transition: margin-left var(--drawer-transition-length) ease, transform var(--drawer-transition-length) ease;
-}
-
-/*
-  @FEELIX
-  Make aside scrollable by default. So when accordion is open, the scrollable maitain the same.
-  So won't squash the image.
-*/
-.drawer :global(.flx-aside__body) {
-  overflow-y: scroll;
 }
 
 /*
@@ -51,19 +43,30 @@
 
 @media (min-width: 768px) {
   .drawer {
-    --drawer-width: 390px;
-    --animate-drawer-offset: -390px;
+    min-width: inherit;
+    --drawer-width: 290px;
+    --animate-drawer-offset: -290px;
   }
+}
 
-  /*
-    @FEELIX:
-    To put white space back in non-mobile view
-  */
-  .drawer :global(.table-data__row .table-data__cell) {
-    margin-bottom: 8px;
+@media (min-width: 1200px) {
+  .drawer {
+    position: sticky;
+    box-shadow: none;
   }
 }
 
 @media (min-width: 1600px) {
-  .drawer { box-shadow: none; }
+  .drawer {
+    --drawer-width: 390px;
+    --animate-drawer-offset: -390px;
+  }
+}
+
+/*
+  @FEELIX:
+  To make aside fit it's content, even when the content is smaller than it would like.
+*/
+.drawer :global(.flx-aside)  {
+  min-width: unset;
 }

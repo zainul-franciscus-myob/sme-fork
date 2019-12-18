@@ -17,6 +17,7 @@ import {
   isLinkUserPage,
 } from '../NavigationSelectors';
 import AccountingMenu from './AccountingMenu';
+import Activities from './Activities';
 import AddMenu from './AddMenu';
 import BankingMenu from './BankingMenu';
 import BusinessMenu from './BusinessMenu';
@@ -48,22 +49,24 @@ const getPrimary = ({
 
 const getSecondary = ({
   shouldDisplayBusinessMenu, shouldDisplayAddMenu, shouldDisplayHelpMenu,
-  onMenuSelect, onMenuLinkClick, onHelpLinkClick,
+  shouldDisplayActivitiesMenu, onMenuSelect, onMenuLinkClick, onHelpLinkClick,
+  onActivitiesLinkClick,
 }) => [
   shouldDisplayAddMenu && <AddMenu key="AddMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   shouldDisplayHelpMenu && <Help key="Help" onMenuLinkClick={onHelpLinkClick} />,
+  shouldDisplayActivitiesMenu && <Activities key="Activities" onMenuLinkClick={onActivitiesLinkClick} />,
   shouldDisplayBusinessMenu && <BusinessMenu key="BusinessMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
   !shouldDisplayBusinessMenu && <Logout key="Logout" onMenuLinkClick={onMenuLinkClick} />,
 ].filter(Boolean);
 
 const NavigationBar = ({
-  onMenuSelect, onMenuLinkClick, onHelpLinkClick,
+  onMenuSelect, onMenuLinkClick, onHelpLinkClick, onActivitiesLinkClick,
   onSkipToMainContentClick, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
   shouldDisplayBankingMenu, shouldDisplayContactMenu,
   shouldDisplayAccountingMenu, shouldDisplayPayrollMenu,
   shouldDisplayPurchasesMenu, shouldDisplayInTray,
   shouldDisplayReportsMenu, shouldDisplayHelpMenu,
-  shouldDisplayAddMenu,
+  shouldDisplayAddMenu, shouldDisplayActivitiesMenu,
   menuLogoUrl,
 }) => {
   const primaryMenuItems = getPrimary({
@@ -82,9 +85,11 @@ const NavigationBar = ({
     onMenuSelect,
     onMenuLinkClick,
     onHelpLinkClick,
+    onActivitiesLinkClick,
     shouldDisplayBusinessMenu,
     shouldDisplayAddMenu,
     shouldDisplayHelpMenu,
+    shouldDisplayActivitiesMenu,
   });
   const brand = (
     <>
@@ -118,6 +123,7 @@ const mapStateToProps = state => ({
   shouldDisplayReportsMenu: hasReportsUrls(state),
   shouldDisplayAddMenu: hasAddUrls(state),
   shouldDisplayHelpMenu: hasBusinessId(state),
+  shouldDisplayActivitiesMenu: hasBusinessId(state),
   menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
 });
 
