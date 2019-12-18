@@ -10,11 +10,11 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - wait:
+  - block:
+    branches: !master
 
   - name: ':package: :hatched_chick: Build Development Javascript'
     command: ./ops/bin/build development
-    branches: master
     env:
       REACT_APP_BUILD_NUMBER: ${BUILDKITE_BUILD_NUMBER}
     agents:
@@ -61,7 +61,6 @@ steps:
 
   - name: ':rocket: :hatched_chick: Deploy Development App'
     command: ./ops/bin/deploy development
-    branches: master
     agents:
       queue: cacc-prod-dflt
 
