@@ -150,6 +150,7 @@ const loadBill = (state, action) => {
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
     },
+    monthlyLimit: action.response.monthlyLimit,
     exportPdf: {
       ...state.exportPdf,
       ...action.response.exportPdf,

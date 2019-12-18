@@ -24,6 +24,7 @@ import BillServiceTable from './BillServiceTable';
 import MasterDetailLineItemTemplate
   from '../../../components/MasterDetailLineItemTemplate/MasterDetailLineItemTemplate';
 import PageView from '../../../components/PageView/PageView';
+import UpgradeModal from './UpdateModal';
 
 const BillView = ({
   onAddAccount,
@@ -67,6 +68,8 @@ const BillView = ({
   onUnlinkDocumentButtonClick,
   onUnlinkDocumentConfirm,
   onClosePrefillInfo,
+  onUpgradeModalDismiss,
+  onUpgradeModalUpgradeButtonClick,
 }) => {
   const table = {
     item: (
@@ -115,12 +118,20 @@ const BillView = ({
     />
   );
 
+  const upgradeModal = (
+    <UpgradeModal
+      onUpgradeModalDismiss={onUpgradeModalDismiss}
+      onUpgradeModalUpgradeButtonClick={onUpgradeModalUpgradeButtonClick}
+    />
+  );
+
   const subHeaderChildren = (
     <div>
       {inventoryModal}
       {accountModal}
       {contactModal}
       {inTrayModal}
+      {upgradeModal}
       {isModalShown && (
         <BillModal
           onModalClose={onModalClose}

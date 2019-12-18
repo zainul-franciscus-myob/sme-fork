@@ -22,10 +22,12 @@ import {
   getRouteUrlParams,
 } from './selectors/billSelectors';
 import {
+  getBillListUrl,
   getCreateNewBillUrl,
   getDuplicateBillUrl,
   getFinalRedirectUrl,
   getReadBillWithExportPdfModalUrl,
+  getSubscriptionSettingsUrl,
 } from './selectors/BillRedirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import {
@@ -845,6 +847,30 @@ class BillModule {
     this.integrator.loadInTrayDocument({ onSuccess, onFailure });
   };
 
+  redirectToUrl = (url) => {
+    if (url) {
+      window.location.href = url;
+    }
+  }
+
+  redirectToSubscriptionSettings = () => {
+    const state = this.store.getState();
+    const url = getSubscriptionSettingsUrl(state);
+
+    this.redirectToUrl(url);
+  }
+
+  redirectToBillList = () => {
+    const state = this.store.getState();
+    const url = getBillListUrl(state);
+
+    this.redirectToUrl(url);
+  };
+
+  onUpgradeModalDismiss = this.redirectToBillList;
+
+  onUpgradeModalUpgradeButtonClick = this.redirectToSubscriptionSettings;
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
@@ -894,6 +920,8 @@ class BillModule {
           onUnlinkDocumentButtonClick={this.openUnlinkDocumentModal}
           onUnlinkDocumentConfirm={this.unlinkInTrayDocument}
           onClosePrefillInfo={this.dispatcher.hidePrefillInfo}
+          onUpgradeModalDismiss={this.onUpgradeModalDismiss}
+          onUpgradeModalUpgradeButtonClick={this.onUpgradeModalUpgradeButtonClick}
         />
       </Provider>
     );
