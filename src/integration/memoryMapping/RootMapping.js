@@ -44,6 +44,9 @@ import PayRefundMapping from './PayRefundMapping';
 import PayRunDetailMapping from './PayRunDetailMapping';
 import PayRunListMapping from './PayRunListMapping';
 import PayRunMapping from './PayRunMapping';
+import PayRunOldDetailMapping from './PayRunDetailOldMapping';
+import PayRunOldListMapping from './PayRunListOldMapping';
+import PayRunOldMapping from './PayRunOldMapping';
 import PaySuperCreateMapping from './PaySuperCreateMapping';
 import PaySuperListMapping from './PaySuperListMapping';
 import PaySuperReadMapping from './PaySuperReadMapping';
@@ -98,6 +101,8 @@ const RootMapping = Object.freeze({
   ...PayRunListMapping,
   ...PayRunDetailMapping,
   ...SuperPayItemMapping,
+  ...PayRunOldListMapping,
+  ...PayRunOldDetailMapping,
   ...DeductionPayItemMapping,
   ...ExpensePayItemMapping,
   ...WagePayItemMapping,
@@ -111,6 +116,7 @@ const RootMapping = Object.freeze({
   ...BankingRuleInvoiceMapping,
   ...BankingRuleBillMapping,
   ...PayRunMapping,
+  ...PayRunOldMapping,
   ...PaySuperListMapping,
   ...PaySuperReadMapping,
   ...LinkBillMapping,

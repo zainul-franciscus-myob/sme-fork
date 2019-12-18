@@ -1,31 +1,31 @@
 import PayRunDetailModule from './payRunDetail/payRunDetailModule';
-import PayRunListModule from './payRunList/PayRunListModule';
 import PayRunModule from './payRunCreate/PayRunModule';
+import PayrunListModule from './payRunList/PayRunListModule';
 import RouteName from '../router/RouteName';
 
-const getPayRunRoutes = ({
+const getPayRunOldRoutes = ({
   integration, setRootView, pushMessage, popMessages, replaceURLParams,
 }) => {
   const routes = [
     {
-      name: RouteName.PAY_RUN_CREATE,
-      path: '/:region/:businessId/payRunNew/new',
+      name: RouteName.PAY_RUN_OLD_CREATE,
+      path: '/:region/:businessId/payRun/new',
       module: new PayRunModule({
         integration, setRootView, pushMessage,
       }),
       documentTitle: 'Pay run',
     },
     {
-      name: RouteName.PAY_RUN_LIST,
-      path: '/:region/:businessId/payRunNew/',
-      module: new PayRunListModule({
+      name: RouteName.PAY_RUN_OLD_LIST,
+      path: '/:region/:businessId/payRun/',
+      module: new PayrunListModule({
         integration, setRootView, popMessages, replaceURLParams,
       }),
       documentTitle: 'Pay runs',
     },
     {
-      name: RouteName.PAY_RUN_DETAIL,
-      path: '/:region/:businessId/payRunNew/:payRunId',
+      name: RouteName.PAY_RUN_OLD_DETAIL,
+      path: '/:region/:businessId/payRun/:payRunId',
       module: new PayRunDetailModule({
         integration, setRootView,
       }),
@@ -36,4 +36,4 @@ const getPayRunRoutes = ({
   return routes;
 };
 
-export default getPayRunRoutes;
+export default getPayRunOldRoutes;

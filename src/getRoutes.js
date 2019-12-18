@@ -28,6 +28,7 @@ import getLinkedAccountsRoutes from './modules/linkedAccounts/getLinkedAccountsR
 import getLogoutRoute from './modules/logout/getLogoutRoute';
 import getPayItemRoutes from './modules/payItem/getPayItemRoutes';
 import getPayRefundRoutes from './modules/payRefund/getPayRefundRoutes';
+import getPayRunOldRoutes from './payRunOld/getPayRunRoutes';
 import getPayRunRoutes from './payRun/getPayRunRoutes';
 import getPaySuperRoutes from './paySuper/getPaySuperRoutes';
 import getPayrollSettingsRoutes from './payrollSettings/getPayrollSettingsRoutes';
@@ -83,6 +84,7 @@ const getRoutes = moduleParams => [
   ...getBankingRuleRoutes(moduleParams),
   ...getBankReconciliationRoutes(moduleParams),
   ...getPayRunRoutes(moduleParams),
+  ...getPayRunOldRoutes(moduleParams),
   ...getPaySuperRoutes(moduleParams),
   ...getLinkBillRoutes(moduleParams),
   ...getAccountRoutes(moduleParams),

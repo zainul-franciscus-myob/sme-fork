@@ -44,8 +44,8 @@ export const activeMapping = {
 
   [RouteName.EMPLOYEE_LIST]: 'payroll',
   [RouteName.EMPLOYEE_DETAIL]: 'payroll',
-  [RouteName.PAY_RUN_LIST]: 'payroll',
-  [RouteName.PAY_RUN_CREATE]: 'payroll',
+  [RouteName.PAY_RUN_OLD_LIST]: 'payroll',
+  [RouteName.PAY_RUN_OLD_CREATE]: 'payroll',
   [RouteName.PAY_ITEM_LIST]: 'payroll',
   [RouteName.PAY_ITEM_SUPER]: 'payroll',
   [RouteName.PAY_ITEM_WAGE]: 'payroll',
@@ -101,8 +101,8 @@ export const featuresConfig = {
 
   employeeList: { routeName: RouteName.EMPLOYEE_LIST },
   employeeCreate: { routeName: RouteName.EMPLOYEE_DETAIL, params: { employeeId: 'new' } },
-  payRunList: { routeName: RouteName.PAY_RUN_LIST },
-  payRunCreate: { routeName: RouteName.PAY_RUN_CREATE },
+  payRunList: { routeName: RouteName.PAY_RUN_OLD_LIST },
+  payRunCreate: { routeName: RouteName.PAY_RUN_OLD_CREATE },
   payItemList: { routeName: RouteName.PAY_ITEM_LIST },
   timesheets: { routeName: '' },
   electronicPaymentPayrollCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE, params: { paymentType: 'PayEmployees' } },

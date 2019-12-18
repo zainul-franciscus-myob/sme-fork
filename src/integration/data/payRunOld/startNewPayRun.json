@@ -1,0 +1,23 @@
+{
+  "startPayRun": {
+    "paymentFrequency": "Fortnightly"
+  },
+  "regularPayCycleOptions": [
+    {
+      "value": "Weekly",
+      "name": "Weekly"
+    },
+    {
+      "value": "Fortnightly",
+      "name": "Fortnightly"
+    },
+    {
+      "value": "TwiceAMonth",
+      "name": "Twice a month"
+    },
+    {
+      "value": "Monthly",
+      "name": "Monthly"
+    }
+  ]
+}

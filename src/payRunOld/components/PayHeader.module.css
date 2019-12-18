@@ -1,0 +1,8 @@
+.employeesHeader {
+  display: flex;
+}
+
+.employeesHeader :global(.form-group) {
+  margin-right: var(--flx-spacing-xx-large);
+  margin-bottom: 0;
+}
