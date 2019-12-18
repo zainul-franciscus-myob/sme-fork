@@ -4,7 +4,7 @@ import {
   LOAD_INVOICE_PAYMENT_DETAIL,
   LOAD_NEW_INVOICE_PAYMENT_DETAIL,
   UPDATE_INVOICE_PAYMENT,
-} from '../../invoicePayment/InvoicePaymentIntent';
+} from '../../modules/invoicePayment/InvoicePaymentIntent';
 
 const InvoicePaymentMapping = {
   [LOAD_NEW_INVOICE_PAYMENT_DETAIL]: {

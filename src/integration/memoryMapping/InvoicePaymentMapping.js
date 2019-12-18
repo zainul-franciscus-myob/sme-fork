@@ -5,7 +5,7 @@ import {
   LOAD_INVOICE_PAYMENT_DETAIL,
   LOAD_NEW_INVOICE_PAYMENT_DETAIL,
   UPDATE_INVOICE_PAYMENT,
-} from '../../invoicePayment/InvoicePaymentIntent';
+} from '../../modules/invoicePayment/InvoicePaymentIntent';
 import invoiceList from '../data/invoicePayment/invoiceList';
 import invoicePaymentDetail from '../data/invoicePayment/invoicePaymentDetail';
 import newInvoicePaymentDetail from '../data/invoicePayment/invoicePaymentNewEntry';

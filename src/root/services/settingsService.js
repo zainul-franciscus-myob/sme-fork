@@ -1,4 +1,4 @@
-import { LOAD_BUSINESS_DETAIL, UPDATE_BUSINESS_DETAIL } from '../../business/BusinessIntents';
+import { LOAD_BUSINESS_DETAIL, UPDATE_BUSINESS_DETAIL } from '../../modules/business/BusinessIntents';
 import { LOAD_SETTINGS, SAVE_SETTINGS } from '../rootIntents';
 import buildOnboardingSettings from '../builders/buildOnboardingSettings';
 

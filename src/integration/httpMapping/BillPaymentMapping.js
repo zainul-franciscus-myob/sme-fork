@@ -6,7 +6,7 @@ import {
   LOAD_NEW_BILL_PAYMENT,
   UPDATE_BILL_PAYMENT,
   UPDATE_REFERENCE_ID,
-} from '../../billPayment/BillPaymentIntents';
+} from '../../modules/billPayment/BillPaymentIntents';
 
 const BillPaymentMapping = {
   [LOAD_NEW_BILL_PAYMENT]: {

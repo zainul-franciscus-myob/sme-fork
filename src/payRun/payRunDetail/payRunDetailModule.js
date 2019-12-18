@@ -22,8 +22,8 @@ import {
   getSelectedEmployeesToEmail,
   getUrlParams,
 } from './payRunDetailSelector';
-import EmailPaySlipModalModule from '../../employeePay/emailPaySlipModal/EmailPaySlipModalModule';
-import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
+import EmailPaySlipModalModule from '../../modules/employeePay/emailPaySlipModal/EmailPaySlipModalModule';
+import EmployeePayModalModule from '../../modules/employeePay/employeePayModal/EmployeePayModalModule';
 import PayRunDetailView from './components/PayRunDetailView';
 import Store from '../../store/Store';
 import openBlob from '../../common/blobOpener/openBlob';

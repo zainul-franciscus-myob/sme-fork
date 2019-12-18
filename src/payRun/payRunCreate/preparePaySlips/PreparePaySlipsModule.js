@@ -16,7 +16,7 @@ import {
 } from './PreparePaySlipsSelectors';
 import { getPayRunListUrl } from '../PayRunSelectors';
 import EmailPaySlipModalModule
-  from '../../../employeePay/emailPaySlipModal/EmailPaySlipModalModule';
+  from '../../../modules/employeePay/emailPaySlipModal/EmailPaySlipModalModule';
 import PreparePaySlipsView from './components/PreparePaySlipsView';
 import createPayRunDispatchers from '../createPayRunDispatchers';
 import openBlob from '../../../common/blobOpener/openBlob';

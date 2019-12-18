@@ -9,7 +9,7 @@ import {
   getPaySuperListUrl,
   getRegion,
 } from './paySuperReadSelector';
-import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
+import EmployeePayModalModule from '../../modules/employeePay/employeePayModal/EmployeePayModalModule';
 import PaySuperReadView from './components/PaySuperReadView';
 import Store from '../../store/Store';
 import paySuperReadReducer from './paySuperReadReducer';

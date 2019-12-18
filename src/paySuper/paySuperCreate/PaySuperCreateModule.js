@@ -37,7 +37,7 @@ import {
   getSortOrder,
   getSuperPaymentListUrl,
 } from './paySuperCreateSelector';
-import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
+import EmployeePayModalModule from '../../modules/employeePay/employeePayModal/EmployeePayModalModule';
 import ModalType from './ModalType';
 import PaySuperCreateView from './components/PaySuperCreateView';
 import Store from '../../store/Store';

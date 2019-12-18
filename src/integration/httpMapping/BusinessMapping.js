@@ -1,6 +1,6 @@
 import {
   LOAD_BUSINESS_DETAIL, LOAD_BUSINESS_LIST, UPDATE_BUSINESS_DETAIL,
-} from '../../business/BusinessIntents';
+} from '../../modules/business/BusinessIntents';
 
 
 const BusinessMapping = {

@@ -1,4 +1,4 @@
-import { LOAD_BUSINESS_DETAIL } from '../business/BusinessIntents';
+import { LOAD_BUSINESS_DETAIL } from '../modules/business/BusinessIntents';
 import { LOAD_SETTINGS, SAVE_SETTINGS, SET_LOADING_STATE } from './rootIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import { shouldShowOnboarding } from './services/shouldShowOnboarding';

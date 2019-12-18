@@ -6,7 +6,7 @@ import {
   LOAD_NEW_BILL_PAYMENT,
   UPDATE_BILL_PAYMENT,
   UPDATE_REFERENCE_ID,
-} from '../../billPayment/BillPaymentIntents';
+} from '../../modules/billPayment/BillPaymentIntents';
 import billList from '../data/billPayment/billList.json';
 import billPaymentEntry from '../data/billPayment/billPaymentEntry.json';
 import billPaymentNewEntry from '../data/billPayment/billPaymentNewEntry.json';
