@@ -17,7 +17,9 @@ import {
   RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_INVOICE_HISTORY_CLOSED,
   SET_INVOICE_HISTORY_LOADING,
+  SET_INVOICE_HISTORY_OPEN,
   SET_INVOICE_HISTORY_UNAVAILABLE,
   SET_INVOICE_ITEM_LINE_DIRTY,
   SET_LOADING_STATE,
@@ -184,6 +186,14 @@ const createInvoiceDetailDispatcher = store => ({
 
   setInvoiceHistoryUnavailable: () => store.dispatch({
     intent: SET_INVOICE_HISTORY_UNAVAILABLE,
+  }),
+
+  setInvoiceHistoryClosed: () => store.dispatch({
+    intent: SET_INVOICE_HISTORY_CLOSED,
+  }),
+
+  setInvoiceHistoryOpen: () => store.dispatch({
+    intent: SET_INVOICE_HISTORY_OPEN,
   }),
 });
 

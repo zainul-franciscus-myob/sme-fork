@@ -51,6 +51,8 @@ const InvoiceDetailView = ({
   onUpdateInvoiceLayout,
   onUpgradeModalDismiss,
   onUpgradeModalUpgradeButtonClick,
+  onAccordionClose,
+  onAccordionOpen,
 }) => {
   const options = (
     <InvoiceDetailOptions
@@ -112,7 +114,8 @@ const InvoiceDetailView = ({
         {modal}
         {table}
       </LineItemTemplate>
-      {!isCreating && <MoreInformation />}
+      {!isCreating
+      && <MoreInformation onAccordionClose={onAccordionClose} onAccordionOpen={onAccordionOpen} />}
     </React.Fragment>
   );
 

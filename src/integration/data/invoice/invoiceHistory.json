@@ -1,6 +1,12 @@
   {
     "invoiceHistory": [
       {
+        "status": "DELIVERY_FAILED",
+        "date": "14/12/2019",
+        "time": "12:00pm",
+        "description": "Couldn't send to fakeemail@gmail.com. Check the email address"
+      },
+      {
         "status": "CREATED",
         "date": "02/12/2019",
         "time": "12:00pm",
@@ -71,12 +77,6 @@
         "date": "13/12/2019",
         "time": "12:00pm",
         "description": "To: fakeemail@gmail.com, notrealmail@realmail.com"
-      },
-      {
-        "status": "DELIVERY_FAILED",
-        "date": "14/12/2019",
-        "time": "12:00pm",
-        "description": "Couldn't send to fakeemail@gmail.com. Check the email address"
       }
     ]
   }

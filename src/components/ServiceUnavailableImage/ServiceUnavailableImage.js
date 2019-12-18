@@ -3,7 +3,7 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-const ServiceUnavailable = ({ tooltipMessage }) => (
+const ServiceUnavailableImage = ({ tooltipMessage }) => (
   <Tooltip
     triggerContent={(
       <Icons.CloudDisconnected
@@ -17,4 +17,4 @@ const ServiceUnavailable = ({ tooltipMessage }) => (
   </Tooltip>
 );
 
-export default ServiceUnavailable;
+export default ServiceUnavailableImage;

@@ -8,10 +8,20 @@ export const setInvoiceHistoryLoading = state => ({
 export const loadInvoiceHistory = (state, { invoiceHistory }) => ({
   ...state,
   invoiceHistory,
-  invoiceHistoryAccordionStatus: InvoiceHistoryAccordianStatus.LOADED,
+  invoiceHistoryAccordionStatus: InvoiceHistoryAccordianStatus.OPEN,
 });
 
 export const setInvoiceHistoryUnavailable = state => ({
   ...state,
   invoiceHistoryAccordionStatus: InvoiceHistoryAccordianStatus.UNAVAILABLE,
+});
+
+export const setInvoiceHistoryClosed = state => ({
+  ...state,
+  invoiceHistoryAccordionStatus: InvoiceHistoryAccordianStatus.CLOSED,
+});
+
+export const setInvoiceHistoryOpen = state => ({
+  ...state,
+  invoiceHistoryAccordionStatus: InvoiceHistoryAccordianStatus.OPEN,
 });

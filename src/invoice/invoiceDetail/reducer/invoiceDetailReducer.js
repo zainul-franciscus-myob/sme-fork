@@ -17,7 +17,9 @@ import {
   RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_INVOICE_HISTORY_CLOSED,
   SET_INVOICE_HISTORY_LOADING,
+  SET_INVOICE_HISTORY_OPEN,
   SET_INVOICE_HISTORY_UNAVAILABLE,
   SET_INVOICE_ITEM_LINE_DIRTY,
   SET_LOADING_STATE,
@@ -55,7 +57,11 @@ import {
   getUpdatedContactOptions,
 } from '../selectors/invoiceDetailSelectors';
 import {
-  loadInvoiceHistory, setInvoiceHistoryLoading, setInvoiceHistoryUnavailable,
+  loadInvoiceHistory,
+  setInvoiceHistoryClosed,
+  setInvoiceHistoryLoading,
+  setInvoiceHistoryOpen,
+  setInvoiceHistoryUnavailable,
 } from './InvoiceHistoryReducer';
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
@@ -336,6 +342,8 @@ const handlers = {
 
   [SET_INVOICE_HISTORY_LOADING]: setInvoiceHistoryLoading,
   [SET_INVOICE_HISTORY_UNAVAILABLE]: setInvoiceHistoryUnavailable,
+  [SET_INVOICE_HISTORY_CLOSED]: setInvoiceHistoryClosed,
+  [SET_INVOICE_HISTORY_OPEN]: setInvoiceHistoryOpen,
   [LOAD_INVOICE_HISTORY]: loadInvoiceHistory,
 };
 

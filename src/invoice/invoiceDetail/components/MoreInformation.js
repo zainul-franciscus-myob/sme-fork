@@ -3,10 +3,13 @@ import React from 'react';
 
 import InvoiceHistory from './history/InvoiceHistory';
 
-const MoreInformation = () => (
+const MoreInformation = ({
+  onAccordionClose,
+  onAccordionOpen,
+}) => (
   <StandardTemplate sticky="none">
     <FieldGroup label="More information">
-      <InvoiceHistory />
+      <InvoiceHistory onAccordionClose={onAccordionClose} onAccordionOpen={onAccordionOpen} />
     </FieldGroup>
   </StandardTemplate>
 );

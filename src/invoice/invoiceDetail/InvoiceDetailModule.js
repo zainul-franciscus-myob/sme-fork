@@ -776,6 +776,14 @@ export default class InvoiceDetailModule {
     });
   }
 
+  accordionClosed = () => {
+    this.dispatcher.setInvoiceHistoryClosed();
+  }
+
+  accordionOpened = () => {
+    this.dispatcher.setInvoiceHistoryOpen();
+  }
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
@@ -851,6 +859,8 @@ export default class InvoiceDetailModule {
         onUpdateInvoiceLayout={this.updateInvoiceLayout}
         onUpgradeModalDismiss={this.redirectToInvoiceList}
         onUpgradeModalUpgradeButtonClick={this.redirectToSubscriptionSettings}
+        onAccordionClose={this.accordionClosed}
+        onAccordionOpen={this.accordionOpened}
       />
     );
 

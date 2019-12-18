@@ -1,12 +1,12 @@
 import {
-  Button, Checkbox, CheckboxGroup, Field, Icons, Spinner, Tooltip,
+  Button, Checkbox, CheckboxGroup, Field, Icons, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getPayDirectOptions } from '../selectors/payDirectSelectors';
 import OnlinePaymentMethodsImage from '../assets/OnlinePaymentMethods.png';
-import ServiceUnavailableImage from '../assets/ServiceUnavailable.svg';
+import ServiceUnavailableImage from '../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import styles from './InvoiceDetailOnlinePaymentMethod.module.css';
 
@@ -36,15 +36,13 @@ const InvoiceDetailOnlinePaymentMethod = ({
   if (!isServiceAvailable) {
     const tooltipMessage = 'The online payments service is currently unavailable. Please try again later.';
 
-    const image = (
-      <img src={ServiceUnavailableImage} alt={tooltipMessage} className={styles.status} />
-    );
-
     return (
       <Field
         label={label}
         renderField={() => (
-          <Tooltip triggerContent={image}>{tooltipMessage}</Tooltip>
+          <div className={styles.status}>
+            <ServiceUnavailableImage tooltipMessage={tooltipMessage} />
+          </div>
         )}
       />
     );

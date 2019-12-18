@@ -1,7 +1,8 @@
 const InvoiceHistoryAccordionStatus = {
   LOADING: 'LOADING',
-  LOADED: 'LOADED',
-  UNAVAILABLE: 'UMAVAILABLE',
+  UNAVAILABLE: 'UNAVAILABLE',
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED',
 };
 
 export default InvoiceHistoryAccordionStatus;
