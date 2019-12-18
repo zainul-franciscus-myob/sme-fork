@@ -31,7 +31,7 @@ import {
   UPDATE_SUPER_PAY_ITEM_MODAL,
   UPDATE_TAX_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL,
-} from '../../employee/EmployeeIntents';
+} from '../../modules/employee/EmployeeIntents';
 
 const EmployeeListMapping = {
   [LOAD_EMPLOYEE_LIST]: {

@@ -43,7 +43,7 @@ import {
 import { getFilesForUpload, getIsEmailModalOpen } from './selectors/EmailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
-import InventoryModalModule from '../../../inventory/inventoryModal/InventoryModalModule';
+import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
 import ModalType from './ModalType';
 import QuoteDetailView from './components/QuoteDetailView';
 import QuoteLineLayout from './QuoteLineLayout';

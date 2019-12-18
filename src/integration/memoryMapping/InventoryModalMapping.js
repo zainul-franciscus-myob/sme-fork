@@ -1,4 +1,4 @@
-import { LOAD_NEW_ITEM, SAVE_ITEM } from '../../inventory/inventoryModal/InventoryModalIntents';
+import { LOAD_NEW_ITEM, SAVE_ITEM } from '../../modules/inventory/inventoryModal/InventoryModalIntents';
 import loadNewItem from '../data/inventory/loadNewItem';
 import saveItem from '../data/inventory/saveItem';
 

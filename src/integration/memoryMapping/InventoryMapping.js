@@ -7,7 +7,7 @@ import {
   LOAD_NEXT_PAGE,
   SORT_AND_FILTER_ITEM_LIST,
   UPDATE_INVENTORY_DETAIL,
-} from '../../inventory/InventoryIntents';
+} from '../../modules/inventory/InventoryIntents';
 import inventoryDetailLoadNewResponse from '../data/inventory/itemDetailNewEntry';
 import inventoryDetailLoadResponse from '../data/inventory/inventoryDetailEntry';
 import itemListFilterResponse from '../data/inventory/filterItemList';

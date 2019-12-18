@@ -1,7 +1,7 @@
 import {
   LINK_USER,
   LOAD_BUSINESS_INFORMATION,
-} from '../../linkUser/LinkUserIntents';
+} from '../../modules/linkUser/LinkUserIntents';
 
 const LinkUserMapping = {
   [LINK_USER]: {

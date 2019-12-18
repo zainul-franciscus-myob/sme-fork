@@ -6,7 +6,7 @@ import {
   LOAD_SALES,
   LOAD_TRACKING,
   LOAD_TRACKING_DETAIL,
-} from '../../dashboard/DashboardIntents';
+} from '../../modules/dashboard/DashboardIntents';
 
 const DashboardMapping = {
   [LOAD_DASHBOARD]: {

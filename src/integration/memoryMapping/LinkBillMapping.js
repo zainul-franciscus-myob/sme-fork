@@ -1,4 +1,4 @@
-import { LINK_DOCUMENT_TO_BILL, LOAD_LINK_BILL, SORT_AND_FILTER_BILL_LIST } from '../../linkBill/LinkBillIntents';
+import { LINK_DOCUMENT_TO_BILL, LOAD_LINK_BILL, SORT_AND_FILTER_BILL_LIST } from '../../modules/linkBill/LinkBillIntents';
 import loadFilteredLinkBillListResponse from '../data/linkBill/loadFilteredLinkBillList';
 import loadLinkBillResponse from '../data/linkBill/loadLinkBillResponse';
 import successMessage from '../data/success.json';

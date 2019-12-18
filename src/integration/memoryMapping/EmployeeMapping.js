@@ -31,7 +31,7 @@ import {
   UPDATE_SUPER_PAY_ITEM_MODAL,
   UPDATE_TAX_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL,
-} from '../../employee/EmployeeIntents';
+} from '../../modules/employee/EmployeeIntents';
 import abnDetail from '../data/payrollSettings/abnDetail';
 import createDeductionPayItemModalResponse
   from '../data/employee/createDeductionPayItemModalResponse';

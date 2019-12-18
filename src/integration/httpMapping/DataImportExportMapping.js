@@ -1,4 +1,4 @@
-import { EXPORT_CHART_OF_ACCOUNTS, IMPORT_CHART_OF_ACCOUNTS, LOAD_DATA_IMPORT_EXPORT } from '../../dataImportExport/DataImportExportIntents';
+import { EXPORT_CHART_OF_ACCOUNTS, IMPORT_CHART_OF_ACCOUNTS, LOAD_DATA_IMPORT_EXPORT } from '../../modules/dataImportExport/DataImportExportIntents';
 
 const DataImportExportMapping = {
   [LOAD_DATA_IMPORT_EXPORT]: {

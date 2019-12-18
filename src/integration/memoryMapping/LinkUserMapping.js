@@ -1,6 +1,6 @@
 import {
   LINK_USER, LOAD_BUSINESS_INFORMATION,
-} from '../../linkUser/LinkUserIntents';
+} from '../../modules/linkUser/LinkUserIntents';
 import loadBusinessInformation from '../data/linkUser/loadBusinessInformation.json';
 
 const LinkUserMapping = {

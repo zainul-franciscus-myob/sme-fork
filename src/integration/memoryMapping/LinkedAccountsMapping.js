@@ -1,4 +1,4 @@
-import { LOAD_LINKED_ACCOUNTS, SAVE_LINKED_ACCOUNTS } from '../../linkedAccounts/LinkedAccountsIntents';
+import { LOAD_LINKED_ACCOUNTS, SAVE_LINKED_ACCOUNTS } from '../../modules/linkedAccounts/LinkedAccountsIntents';
 import loadLinkedAccountsResponse from '../data/linkedAccounts/loadLinkedAccounts';
 import successResponse from '../data/success';
 

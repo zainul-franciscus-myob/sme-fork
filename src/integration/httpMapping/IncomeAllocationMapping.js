@@ -1,6 +1,6 @@
 import {
   LOAD_INCOME_ALLOCATION, SAVE_INCOME_ALLOCATION,
-} from '../../IncomeAllocation/IncomeAllocationIntents';
+} from '../../modules/IncomeAllocation/IncomeAllocationIntents';
 
 const IncomeAllocationMapping = {
   [LOAD_INCOME_ALLOCATION]: {

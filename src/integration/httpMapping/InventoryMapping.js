@@ -7,7 +7,7 @@ import {
   LOAD_NEXT_PAGE,
   SORT_AND_FILTER_ITEM_LIST,
   UPDATE_INVENTORY_DETAIL,
-} from '../../inventory/InventoryIntents';
+} from '../../modules/inventory/InventoryIntents';
 
 const InventoryMapping = {
   [CREATE_INVENTORY_DETAIL]: {

@@ -6,7 +6,7 @@ import {
   LOAD_SALES,
   LOAD_TRACKING,
   LOAD_TRACKING_DETAIL,
-} from '../../dashboard/DashboardIntents';
+} from '../../modules/dashboard/DashboardIntents';
 import loadAccountBankingResponse from '../data/dashboard/loadAccountBankingResponse';
 import loadDashboardResponse from '../data/dashboard/loadDashboardResponse';
 import loadDefaultBankingResponse from '../data/dashboard/loadDefaultBankingResponse';
