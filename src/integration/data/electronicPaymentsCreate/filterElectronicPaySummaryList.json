@@ -33,7 +33,7 @@
       "paymentType": "SpendMoney",
       "amount": 828.55,
       "accountId": 2,
-      "businessEventId": 2
+      "businessEventId": 3
     },
     {
       "id": 4,
@@ -44,7 +44,7 @@
       "paymentType": "PayBills",
       "amount": 1828.55,
       "accountId": 2,
-      "businessEventId": 2
+      "businessEventId": 4
     },
     {
       "id": 5,
@@ -55,7 +55,7 @@
       "paymentType": "PayLiabilities",
       "amount": 828.55,
       "accountId": 2,
-      "businessEventId": 2
+      "businessEventId": 5
     }
   ]
 }

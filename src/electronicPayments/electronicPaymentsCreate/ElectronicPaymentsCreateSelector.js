@@ -26,9 +26,9 @@ export const flipSortOrder = state => (state.sortOrder === 'desc' ? 'asc' : 'des
 
 const getTransactions = state => state.transactions;
 const getEntryLink = (entry, businessId, region) => {
-  const { id, paymentType } = entry;
+  const { businessEventId, paymentType } = entry;
   const feature = PaymentTypeMap[paymentType];
-  return feature ? `/#/${region}/${businessId}/${feature}/${id}` : undefined;
+  return feature ? `/#/${region}/${businessId}/${feature}/${businessEventId}` : undefined;
 };
 export const getTableEntries = createSelector(
   getTransactions,
