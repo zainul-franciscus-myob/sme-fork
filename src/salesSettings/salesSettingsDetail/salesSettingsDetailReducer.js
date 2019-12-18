@@ -12,10 +12,21 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
+  businessId: '',
+  region: '',
   salesSettings: {
     defaultSaleLayout: '',
     numberOfDaysForBalanceDue: '',
     paymentType: '',
+    accountId: '',
+    isAllowPaymentsByDirectDeposit: false,
+    bankName: '',
+    accountName: '',
+    bankNumber: '',
+    branch: '',
+    accountNumber: '',
+    suffix: '',
+    isAllowPaymentsByMail: false,
   },
   emailSettings: {
     fromName: '',
@@ -45,6 +56,7 @@ const getDefaultState = () => ({
   paymentTerms: [],
   dateOfMonth: [],
   layout: [],
+  accountOptions: [],
   alert: {},
   isLoading: false,
   isSubmitting: false,
@@ -138,6 +150,7 @@ const updateEmailSettings = (state, action) => ({
   },
   isPageEdited: true,
 });
+
 
 const getDataType = selectedTab => ({
   layoutAndTheme: 'salesSettings',

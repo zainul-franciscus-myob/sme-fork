@@ -1,0 +1,75 @@
+{
+    "salesSettings": {
+      "defaultSaleLayout": "ItemAndService",
+      "numberOfDaysForBalanceDue": "30",
+      "paymentType": "NumberOfDaysAfterEOM",
+      "accountId": "",
+      "isAllowPaymentsByDirectDeposit": true,
+      "bankName": "NZ Bank",
+      "accountName": "Alex Skoufis",
+      "bankNumber": "12",
+      "branch": "1234",
+      "accountNumber": "12345678",
+      "suffix": "123",
+      "isAllowPaymentsByMail": true
+    },
+    "emailSettings": {
+      "fromName": "Alex Skoufis",
+      "replyToEmail": "alex.skoufis@myob.com",
+      "invoiceEmailSubject": "Invoice from Clearwater Pty Ltd",
+      "invoiceEmailBody": "Please contact us immediately if you are unable to detach or download your Invoice. Thank you.",
+      "isInvoiceNumberIncluded": true,
+      "quoteEmailSubject": "Quote from Clearwater Pty Ltd",
+      "quoteEmailBody": "Please contact us immediately if you are unable to detach or download your Quote. Thank you.",
+      "isQuoteNumberIncluded": true,
+      "statementEmailSubject": "Statement from Clearwater Pty Ltd",
+      "statementEmailBody": "Please contact us immediately if you are unable to detach or download your Statement. Thank you.",
+      "pdfOption": "IncludeLink"
+    },
+    "payDirect": {
+      "isRegistered": true,
+      "serialNumber": "000000000000",
+      "url": "https://paydirectonline.myob.com/payments"
+    },
+    "reminders": {
+      "url": "https://portal.sit.reminders.myob.com/preferences"
+    },
+    "paymentTerms": [
+      {
+        "value": "CashOnDelivery",
+        "name": "Cash on delivery"
+      },
+      {
+        "value": "Prepaid",
+        "name": "Prepaid"
+      },
+      {
+        "value": "InAGivenNumberOfDays",
+        "name": "Due in a number of days after the issue date"
+      },
+      {
+        "value": "OnADayOfTheMonth",
+        "name": "Due on a date of this month"
+      },
+      {
+        "value": "DayOfMonthAfterEOM",
+        "name": "Due on a date of next month"
+      },
+      {
+        "value": "NumberOfDaysAfterEOM",
+        "name": "Due in a number of days after the end of the month"
+      }
+    ],
+    "dateOfMonth": [
+      { "name": "1st", "value": "1" },
+      { "name": "2nd", "value": "2" },
+      { "name": "15th", "value": "15" },
+      { "name": "30th", "value": "30" },
+      { "name": "Last day", "value": "31" }
+    ],
+    "layout": [
+      { "name": "Services", "value": "Service" },
+      { "name": "Services and items", "value": "ItemAndService" }
+    ]
+  }
+  

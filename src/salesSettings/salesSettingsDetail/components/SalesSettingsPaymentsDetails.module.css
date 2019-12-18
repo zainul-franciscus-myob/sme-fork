@@ -4,7 +4,7 @@
 
 .dateInput input,
 .dateInput select {
-  width: 40%;
+  width: 29%;
 }
 
 .inputPostfix {
@@ -13,11 +13,45 @@
   padding-left: 0.8rem;
 }
 
+.onlinePaymentAccount {
+  padding-bottom: 10px;
+}
+
+.onlinePaymentMethodsImage {
+  height: 3.1rem;
+  padding-bottom: 0.5rem;
+  width: auto;
+}
+
 .status {
   font-weight: bold;
   color: green;
 }
 
-.paymentType {
-  min-width: 37rem;
+.bsbNumber {
+ width: var(--flx-width-field-xs)
+}
+
+.accountNumber {
+ width: var(--flx-width-field-xs)
+}
+
+.registeredView {
+  margin: 0.5rem 0 0 0;
+}
+
+.account :global(.form-group__input-group) {
+  padding-bottom: 10px;
+}
+
+.account > :global(*) {
+  margin-bottom: 0px;
+}
+
+.unRegisteredView > :global(*) {
+  margin-bottom: 0px;
+}
+
+.unRegisteredView :global(.btn){
+  padding-top: 6px;
 }

@@ -3,7 +3,7 @@ import {
   SAVE_EMAIL_SETTINGS,
   UPDATE_SALES_SETTINGS,
 } from '../../salesSettings/SalesSettingsIntents';
-import saleSetting from '../data/salesSettings/salesSettingsDetail';
+import saleSetting from '../data/salesSettings/auSalesSettingsDetail';
 import successMessage from '../data/success.json';
 
 const loadSalesSettings = ({ onSuccess }) => onSuccess(saleSetting);

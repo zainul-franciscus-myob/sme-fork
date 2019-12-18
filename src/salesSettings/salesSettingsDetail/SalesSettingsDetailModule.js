@@ -18,6 +18,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
   getBusinessId,
   getIsPageEdited,
+  getSalesSettingsPayload,
   getSelectedTab,
   getTabData,
 } from './SalesSettingsDetailSelectors';
@@ -73,7 +74,7 @@ export default class SalesSettingsModule {
   updateSalesSettings = () => {
     const intent = UPDATE_SALES_SETTINGS;
     const state = this.store.getState();
-    const content = getTabData(state);
+    const content = getSalesSettingsPayload(state);
 
     const urlParams = {
       businessId: getBusinessId(state),

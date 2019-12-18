@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+}
+
+.container > :global(*) {
+  padding-right: 0.8rem;
+}
+
+/*
+  @FEELIX:
+  Alter feelix class to line up the inputs in single line
+*/
+.container :global(.form-group) {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.bankNumber {
+  width: 5rem;
+}
+
+.branch {
+  width: 7rem;
+}
+
+.accountNumber {
+  width: 10.1rem;
+}
+
+.suffix {
+  width: 5rem;
+}

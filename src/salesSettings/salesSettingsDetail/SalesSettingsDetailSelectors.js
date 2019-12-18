@@ -1,6 +1,7 @@
 import { mainTabIds } from './tabItems';
 
 export const getIsLoading = state => state.isLoading;
+export const getRegion = state => state.region;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getBusinessId = state => state.businessId;
 export const getAlert = state => state.alert;
@@ -13,6 +14,7 @@ export const getTabData = state => state.tabData;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getIsRegistered = state => state.payDirect.isRegistered;
 export const getShowActions = state => state.selectedTab !== mainTabIds.reminders;
+export const getAccountOptions = state => state.accountOptions;
 
 export const getShowDateField = state => [
   'OnADayOfTheMonth',
@@ -36,3 +38,13 @@ export const getDateInputPostfix = state => ({
 export const getPayDirectLink = state => `${state.payDirect.url}?cdf=${state.businessId}&sn=${state.payDirect.serialNumber}`;
 
 export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&origin=global&businessId=${state.businessId}`;
+
+export const getSalesSettingsPayload = (state) => {
+  const tabData = getTabData(state);
+  const region = getRegion(state);
+
+  return {
+    ...tabData,
+    region,
+  };
+};
