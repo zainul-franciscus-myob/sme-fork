@@ -333,7 +333,6 @@ export default class InTrayModule {
           onUpdateFilterOptions: this.dispatcher.setInTrayListFilterOptions,
           onApplyFilter: this.filterInTrayList,
           onSort: this.sortInTrayList,
-          onUpload: this.uploadInTrayFiles,
           handleActionSelect: this.handleActionSelect,
           onEntryActive: this.activateEntryRow,
           onCloseDetail: this.deactivateEntryRow,

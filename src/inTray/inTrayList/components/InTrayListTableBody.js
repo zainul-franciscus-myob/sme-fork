@@ -154,7 +154,7 @@ const InTrayListTableBody = ({
         <Table.RowItem {...tableConfig.totalAmount}>
           {showInvoiceDetails && InvoiceComponent(totalAmount)}
         </Table.RowItem>
-        <Table.RowItem {...tableConfig.action} cellRole="actions">
+        <Table.RowItem {...tableConfig.action} cellRole="actions" className={styles.action}>
           {showActions
             && (
             <ActionComponent

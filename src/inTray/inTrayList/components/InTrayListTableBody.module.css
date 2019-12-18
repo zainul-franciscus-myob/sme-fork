@@ -48,3 +48,9 @@
 .loading :global(.smallLoadingSpinner) {
   margin: 0 1rem 0 0;
 }
+
+/* @FEELIX */
+.action:global(.table-data__actions) {
+  /* The same padding as card on the right side of action button, as agreed with designer */
+  padding-right: var(--flx-padding-card-body);
+}

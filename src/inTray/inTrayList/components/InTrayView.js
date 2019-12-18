@@ -44,7 +44,6 @@ const InTrayView = ({
     onUpdateFilterOptions,
     onApplyFilter,
     onSort,
-    onUpload,
     onDownload,
     onDelete,
     onLinkToExistingBill,
@@ -134,7 +133,6 @@ const InTrayView = ({
         master={(
           <InTrayListTable
             onSort={onSort}
-            onUpload={onUpload}
             onDownload={onDownload}
             onDelete={onDelete}
             onRowSelect={onEntryActive}
