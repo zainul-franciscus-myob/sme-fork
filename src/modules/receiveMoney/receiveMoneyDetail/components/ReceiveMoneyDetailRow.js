@@ -84,7 +84,7 @@ const ReceiveMoneyDetailRow = ({
         onChange={onAmountInputChange('quantity', onChange)}
         disabled={isNewLineRow}
         decimalScale={6}
-        numeralIntegerScale={19}
+        numeralIntegerScale={13}
       />
       <TextArea
         label="Description"
