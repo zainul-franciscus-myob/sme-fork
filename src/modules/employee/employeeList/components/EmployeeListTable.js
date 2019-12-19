@@ -2,7 +2,6 @@ import {
   HeaderSort, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../EmployeeListSelectors';
@@ -42,12 +41,6 @@ const EmployeeListTable = ({
       <EmployeeListTableBody tableConfig={tableConfig} />
     </TableView>
   );
-};
-
-EmployeeListTable.propTypes = {
-  isTableLoading: PropTypes.bool.isRequired,
-  onSort: PropTypes.func.isRequired,
-  isTableEmpty: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -1,5 +1,4 @@
 import { Label, Table } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -70,12 +69,6 @@ const ContactListTableBody = (props) => {
   ));
 
   return <React.Fragment>{rows}</React.Fragment>;
-};
-
-ContactListTableBody.propTypes = {
-  tableConfig: PropTypes.shape({}).isRequired,
-  entries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  showHiddenColumns: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

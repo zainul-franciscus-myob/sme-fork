@@ -1,7 +1,6 @@
 import {
   Button, Card, FieldGroup,
 } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -28,10 +27,6 @@ const SalesSettingsLayoutDetails = ({ reminderLink }) => (
     </FieldGroup>
   </Card>
 );
-
-SalesSettingsLayoutDetails.propTypes = {
-  reminderLink: PropTypes.string.isRequired,
-};
 
 const mapStateToProps = state => ({
   reminderLink: getReminderLink(state),

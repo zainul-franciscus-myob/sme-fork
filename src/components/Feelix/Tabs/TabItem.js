@@ -1,5 +1,4 @@
 import { Tooltip } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
 
@@ -46,15 +45,6 @@ const TabItem = ({
   }
 
   return tabItem;
-};
-
-TabItem.propTypes = {
-  item: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-  }).isRequired,
-  isActive: PropTypes.bool,
-  onSelected: PropTypes.func.isRequired,
 };
 
 TabItem.defaultProps = {

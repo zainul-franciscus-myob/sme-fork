@@ -1,7 +1,6 @@
 import {
   Button, Field, Icons,
 } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import classnames from 'classnames';
 
@@ -14,10 +13,6 @@ const RemovePhoneNumberButton = ({ onClick }) => (
     <Icons.Remove />
   </Button>
 );
-
-RemovePhoneNumberButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
 
 class PhoneNumberList extends React.Component {
   onPhoneNumbersChange = i => (e) => {
@@ -106,11 +101,5 @@ class PhoneNumberList extends React.Component {
     );
   }
 }
-
-PhoneNumberList.propTypes = {
-  phoneNumbers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  hasAddPhoneButton: PropTypes.bool.isRequired,
-  onPhoneNumbersChange: PropTypes.func.isRequired,
-};
 
 export default PhoneNumberList;

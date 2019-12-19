@@ -1,6 +1,5 @@
 import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getEntryByIndexSelector } from '../bankingSelectors/paymentAllocationSelectors';
@@ -59,13 +58,6 @@ const PaymentAllocationRow = (props) => {
       </Table.RowItem>
     </Table.Row>
   );
-};
-
-PaymentAllocationRow.propTypes = {
-  index: PropTypes.number.isRequired,
-  tableConfig: PropTypes.shape({}).isRequired,
-  entry: PropTypes.shape({}).isRequired,
-  onUpdatePaymentAllocationLine: PropTypes.func.isRequired,
 };
 
 const makeMapRowStateToProps = () => {

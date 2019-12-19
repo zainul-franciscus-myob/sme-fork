@@ -1,6 +1,5 @@
 import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -114,18 +113,6 @@ const SplitAllocationTable = (props) => {
       </LineItemTable.Total>
     </LineItemTable>
   );
-};
-
-SplitAllocationTable.propTypes = {
-  tableData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  indexOfLastLine: PropTypes.number.isRequired,
-  totals: PropTypes.shape({
-    totalAllocated: PropTypes.string,
-    totalUnallocated: PropTypes.string,
-  }).isRequired,
-  onAddSplitAllocationLine: PropTypes.func.isRequired,
-  onUpdateSplitAllocationLine: PropTypes.func.isRequired,
-  onDeleteSplitAllocationLine: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

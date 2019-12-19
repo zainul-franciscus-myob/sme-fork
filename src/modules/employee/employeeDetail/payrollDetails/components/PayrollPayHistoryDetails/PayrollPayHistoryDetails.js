@@ -11,14 +11,14 @@ const PayrollPayHistoryDetails = ({
     onPayItemClick,
   },
 }) => (
-    <>
-      <PayrollPayHistoryDetailsFilterOptions onChange={onFilterChange} />
-      <PayrollPayHistoryDetailsAllocatedPayItems
-        onChange={onPayItemChange}
-        onBlur={onPayItemBlur}
-        onClick={onPayItemClick}
-      />
-    </>
+  <>
+    <PayrollPayHistoryDetailsFilterOptions onChange={onFilterChange} />
+    <PayrollPayHistoryDetailsAllocatedPayItems
+      onChange={onPayItemChange}
+      onBlur={onPayItemBlur}
+      onClick={onPayItemClick}
+    />
+  </>
 );
 
 export default PayrollPayHistoryDetails;

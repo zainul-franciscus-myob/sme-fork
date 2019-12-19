@@ -12,42 +12,42 @@ const NzPaymentOptions = ({
   onUpdateSalesSettingsItem,
 }) => {
   const directDepositPayment = (
-        <>
-          <Input
-            name="bankName"
-            label="Bank"
-            requiredLabel="This field is required"
-            maxLength={60}
-            value={salesSettings.bankName}
-            onChange={handleInputChange(onUpdateSalesSettingsItem)}
-          />
-          <Input
-            name="accountName"
-            label="Account name"
-            requiredLabel="This field is required"
-            maxLength={60}
-            value={salesSettings.accountName}
-            onChange={handleInputChange(onUpdateSalesSettingsItem)}
-          />
-          <NzAccountNumberInputs onChange={onUpdateSalesSettingsItem} />
+    <>
+      <Input
+        name="bankName"
+        label="Bank"
+        requiredLabel="This field is required"
+        maxLength={60}
+        value={salesSettings.bankName}
+        onChange={handleInputChange(onUpdateSalesSettingsItem)}
+      />
+      <Input
+        name="accountName"
+        label="Account name"
+        requiredLabel="This field is required"
+        maxLength={60}
+        value={salesSettings.accountName}
+        onChange={handleInputChange(onUpdateSalesSettingsItem)}
+      />
+      <NzAccountNumberInputs onChange={onUpdateSalesSettingsItem} />
     </>
   );
 
   return (
-      <>
-        <CheckboxGroup
-          label="Allow payments by direct deposit"
-          hideLabel
-          renderCheckbox={() => (
-            <Checkbox
-              name="isAllowPaymentsByDirectDeposit"
-              label="Allow payments by direct deposit"
-              checked={salesSettings.isAllowPaymentsByDirectDeposit}
-              onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
-            />
-          )}
-        />
-        {salesSettings.isAllowPaymentsByDirectDeposit && directDepositPayment}
+    <>
+      <CheckboxGroup
+        label="Allow payments by direct deposit"
+        hideLabel
+        renderCheckbox={() => (
+          <Checkbox
+            name="isAllowPaymentsByDirectDeposit"
+            label="Allow payments by direct deposit"
+            checked={salesSettings.isAllowPaymentsByDirectDeposit}
+            onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
+          />
+        )}
+      />
+      {salesSettings.isAllowPaymentsByDirectDeposit && directDepositPayment}
     </>
   );
 };

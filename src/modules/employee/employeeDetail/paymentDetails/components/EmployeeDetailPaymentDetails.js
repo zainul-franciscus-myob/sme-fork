@@ -2,7 +2,6 @@ import {
   FieldGroup, FormTemplate, Input, ReadOnly, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -111,38 +110,6 @@ const EmployeeDetailPaymentDetails = ({
       {showElectronicPaymentDetails && bankAccount}
     </FormTemplate>
   );
-};
-
-const paymentDetailsShape = {
-  paymentMethod: PropTypes.string.isRequired,
-  splitPayBetween: PropTypes.string.isRequired,
-  bankStatementText: PropTypes.string.isRequired,
-  bankAccounts: PropTypes.arrayOf(PropTypes.shape({
-    bsbNumber: PropTypes.string.isRequired,
-    accountNumber: PropTypes.string.isRequired,
-    accountName: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    amount: PropTypes.string,
-  })),
-};
-
-EmployeeDetailPaymentDetails.propTypes = {
-  paymentDetails: PropTypes.shape(paymentDetailsShape).isRequired,
-  paymentMethodOptions: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })).isRequired,
-  splitNetPayBetweenOptions: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })).isRequired,
-  valueOptions: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })).isRequired,
-  onPaymentDetailsChange: PropTypes.func.isRequired,
-  onBankAccountDetailsChange: PropTypes.func.isRequired,
-  showElectronicPaymentDetails: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({

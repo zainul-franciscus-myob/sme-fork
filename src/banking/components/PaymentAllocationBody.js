@@ -1,13 +1,11 @@
 import { ReadOnly } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getPaymentAllocationBody } from '../bankingSelectors/paymentAllocationSelectors';
 import PaymentAllocationOptions from './PaymentAllocationOptions';
 import PaymentAllocationTable from './PaymentAllocationTable';
 
-/* eslint-disable react/prop-types */
 const getPaymentAllocationOptions = ({
   isCreating,
   contactLabel,
@@ -30,7 +28,6 @@ const getPaymentAllocationOptions = ({
     </React.Fragment>
   );
 };
-/* eslint-enable react/prop-types */
 
 const PaymentAllocationBody = (props) => {
   const {
@@ -61,14 +58,6 @@ const PaymentAllocationBody = (props) => {
 PaymentAllocationBody.defaultProps = {
   contactLabel: '',
   contactName: '',
-};
-
-PaymentAllocationBody.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  contactLabel: PropTypes.string,
-  contactName: PropTypes.string,
-  onUpdatePaymentAllocationOptions: PropTypes.func.isRequired,
-  onUpdatePaymentAllocationLine: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => getPaymentAllocationBody(state);

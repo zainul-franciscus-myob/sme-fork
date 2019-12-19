@@ -2,7 +2,6 @@ import {
   Checkbox, Search, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getFilterOptions, getTypeFilterOptions } from '../contactListSelector';
@@ -76,22 +75,6 @@ class ContactListFilterOptions extends React.Component {
     );
   };
 }
-
-ContactListFilterOptions.propTypes = {
-  onApplyFilter: PropTypes.func.isRequired,
-  onUpdateFilters: PropTypes.func.isRequired,
-  filterOptions: PropTypes.shape({
-    type: PropTypes.string,
-    keywords: PropTypes.string,
-    showInactive: PropTypes.bool,
-  }).isRequired,
-  typeFilterOptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    }),
-  ).isRequired,
-};
 
 const mapStateToProps = state => ({
   filterOptions: getFilterOptions(state),

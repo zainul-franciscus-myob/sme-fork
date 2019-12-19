@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 import Table from '@myob/myob-widgets/lib/components/Table/Table';
 
@@ -41,13 +40,6 @@ const PaymentAllocationTableBody = (props) => {
       })}
     </Table.Body>
   );
-};
-
-PaymentAllocationTableBody.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  tableConfig: PropTypes.shape({}).isRequired,
-  entries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  onUpdatePaymentAllocationLine: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

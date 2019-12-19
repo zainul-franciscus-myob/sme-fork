@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import SplitAllocationOptions from './SplitAllocationOptions';
@@ -21,12 +20,5 @@ const SplitAllocationBody = ({
     />
   </React.Fragment>
 );
-
-SplitAllocationBody.propTypes = {
-  onUpdateSplitAllocationHeader: PropTypes.func.isRequired,
-  onAddSplitAllocationLine: PropTypes.func.isRequired,
-  onUpdateSplitAllocationLine: PropTypes.func.isRequired,
-  onDeleteSplitAllocationLine: PropTypes.func.isRequired,
-};
 
 export default SplitAllocationBody;

@@ -2,7 +2,6 @@ import {
   Button, ButtonRow, StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getIsLoading } from '../../selectors/superFundListSelectors';
@@ -63,19 +62,6 @@ const SuperFundListView = (props) => {
 
 SuperFundListView.defaultProps = {
   alert: undefined,
-};
-
-SuperFundListView.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  pageHead: PropTypes.string.isRequired,
-  alert: PropTypes.node,
-  tabs: PropTypes.node.isRequired,
-  listeners: PropTypes.shape({
-    onCreateButtonClick: PropTypes.func.isRequired,
-    onUpdateFilterOptions: PropTypes.func.isRequired,
-    onApplyFilter: PropTypes.func.isRequired,
-    onSort: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 const mapStateToProps = state => ({

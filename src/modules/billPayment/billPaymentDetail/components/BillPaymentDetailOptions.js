@@ -2,7 +2,6 @@ import {
   Checkbox, Columns, DatePicker, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getBillPaymentOptions } from '../BillPaymentDetailSelectors';
@@ -93,29 +92,5 @@ const BillPaymentOptions = (props) => {
 };
 
 const mapStateToProps = state => getBillPaymentOptions(state);
-
-BillPaymentOptions.propTypes = {
-  suppliers: PropTypes.arrayOf(PropTypes.shape({
-    contactType: PropTypes.string,
-    displayName: PropTypes.string,
-    id: PropTypes.string,
-    displayId: PropTypes.string,
-  })).isRequired,
-  supplierId: PropTypes.string.isRequired,
-  accounts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    displayName: PropTypes.string,
-    accountType: PropTypes.string,
-    taxCodeId: PropTypes.string,
-    displayId: PropTypes.string,
-  })).isRequired,
-  accountId: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  referenceId: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  showPaidBills: PropTypes.bool.isRequired,
-  onUpdateHeaderOption: PropTypes.func.isRequired,
-  shouldDisableFields: PropTypes.bool.isRequired,
-};
 
 export default connect(mapStateToProps)(BillPaymentOptions);

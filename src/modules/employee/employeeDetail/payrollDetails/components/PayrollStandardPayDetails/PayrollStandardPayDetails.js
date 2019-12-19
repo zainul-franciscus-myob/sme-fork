@@ -11,15 +11,15 @@ const PayrollStandardPayDetails = ({
     onPayItemClick,
   },
 }) => (
-    <>
-      <PayrollStandardPayDetailsBasePay onChange={onDetailChange} />
-      <hr />
-      <PayrollStandardPayDetailsAllocatedPayItems
-        onChange={onPayItemChange}
-        onBlur={onPayItemBlur}
-        onClick={onPayItemClick}
-      />
-    </>
+  <>
+    <PayrollStandardPayDetailsBasePay onChange={onDetailChange} />
+    <hr />
+    <PayrollStandardPayDetailsAllocatedPayItems
+      onChange={onPayItemChange}
+      onBlur={onPayItemBlur}
+      onClick={onPayItemClick}
+    />
+  </>
 );
 
 export default PayrollStandardPayDetails;

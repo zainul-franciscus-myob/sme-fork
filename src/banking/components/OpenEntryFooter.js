@@ -1,5 +1,4 @@
 import { Button, ButtonRow } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -48,14 +47,6 @@ const OpenEntryFooter = ({
 
 OpenEntryFooter.defaultProps = {
   children: null,
-};
-
-OpenEntryFooter.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  children: PropTypes.node,
-  onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onUnmatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

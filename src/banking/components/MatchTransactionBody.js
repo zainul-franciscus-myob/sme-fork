@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import MatchTransactionOptions from './MatchTransactionOptions';
@@ -24,13 +23,6 @@ const MatchTransactionBody = (props) => {
       />
     </React.Fragment>
   );
-};
-
-MatchTransactionBody.propTypes = {
-  onApplyMatchTransactionOptions: PropTypes.func.isRequired,
-  onUpdateMatchTransactionOptions: PropTypes.func.isRequired,
-  onSortMatchTransactions: PropTypes.func.isRequired,
-  onUpdateMatchTransactionSelection: PropTypes.func.isRequired,
 };
 
 export default MatchTransactionBody;

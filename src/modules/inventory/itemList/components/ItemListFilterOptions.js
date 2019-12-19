@@ -2,7 +2,6 @@ import {
   Checkbox, FilterBar, Search, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getFilterOptions, getTypeOptions } from '../itemListSelectors';
@@ -60,13 +59,6 @@ class ItemListFilterOptions extends React.Component {
     );
   }
 }
-
-ItemListFilterOptions.propTypes = {
-  typeOptions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  filterOptions: PropTypes.shape({}).isRequired,
-  onApplyFilter: PropTypes.func.isRequired,
-  onUpdateFilters: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   typeOptions: getTypeOptions(state),

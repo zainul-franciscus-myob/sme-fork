@@ -1,6 +1,5 @@
 import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { CANCEL_MODAL, DELETE_MODAL } from '../../InvoicePaymentModalTypes';
@@ -79,24 +78,6 @@ const InvoicePaymentDetailView = ({
   );
 
   return <PageView isLoading={isLoading} view={view} />;
-};
-
-InvoicePaymentDetailView.propTypes = {
-  onUpdateInvoicePaymentDetails: PropTypes.func.isRequired,
-  onUpdateInvoicePaymentEntries: PropTypes.func.isRequired,
-  onUpdateShowPaidInvoices: PropTypes.func.isRequired,
-  onUpdateCustomer: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
-  onConfirmDelete: PropTypes.func.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onConfirmCancel: PropTypes.func.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  onAmountInputBlur: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  alertMessage: PropTypes.string.isRequired,
-  modalType: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -2,7 +2,6 @@ import {
   Checkbox, CheckboxGroup, FormTemplate, Input, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -104,34 +103,6 @@ const ContactDetailsTab = (props) => {
   );
 
   return view;
-};
-
-const contactDetailShape = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
-  suburb: PropTypes.string.isRequired,
-  state: PropTypes.string.isRequired,
-  postcode: PropTypes.string.isRequired,
-  country: PropTypes.string.isRequired,
-  phoneNumbers: PropTypes.arrayOf(PropTypes.string),
-  hasAddPhoneButton: PropTypes.bool.isRequired,
-  email: PropTypes.string.isRequired,
-  notes: PropTypes.string.isRequired,
-  isInactive: PropTypes.bool.isRequired,
-  employeeNumber: PropTypes.string.isRequired,
-};
-
-const optionShape = {
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-};
-
-ContactDetailsTab.propTypes = {
-  contactDetail: PropTypes.shape(contactDetailShape).isRequired,
-  stateOptions: PropTypes.arrayOf(PropTypes.shape(optionShape)),
-  onContactDetailsChange: PropTypes.func.isRequired,
-  isStateDropdown: PropTypes.bool.isRequired,
 };
 
 ContactDetailsTab.defaultProps = {

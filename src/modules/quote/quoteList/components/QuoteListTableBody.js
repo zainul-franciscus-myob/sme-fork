@@ -1,4 +1,3 @@
-import { PropTypes } from 'prop-types';
 import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -30,11 +29,6 @@ const QuoteListTableBody = (props) => {
       {rows}
     </Table.Body>
   );
-};
-
-QuoteListTableBody.propTypes = {
-  tableConfig: PropTypes.shape({}).isRequired,
-  entries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = (state, props) => ({

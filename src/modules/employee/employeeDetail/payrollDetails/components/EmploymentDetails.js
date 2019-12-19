@@ -2,7 +2,6 @@ import {
   DatePicker, FormTemplate, Input, ReadOnly, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -127,30 +126,6 @@ const EmploymentDetails = ({
       />
     </FormTemplate>
   );
-};
-
-const employmentDetailsShape = {
-  dateOfBirth: PropTypes.string.isRequired,
-  startDate: PropTypes.string.isRequired,
-  terminationDate: PropTypes.string.isRequired,
-  paySlipEmail: PropTypes.string.isRequired,
-};
-
-const optionShape = {
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-};
-
-EmploymentDetails.propTypes = {
-  employmentDetails: PropTypes.shape(employmentDetailsShape).isRequired,
-  genderOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
-  employmentBasisOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
-  employmentCategoryOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
-  employmentStatusOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
-  payslipDeliveryOptions: PropTypes.arrayOf(PropTypes.shape(optionShape).isRequired).isRequired,
-  calculatedAge: PropTypes.string.isRequired,
-  onEmploymentDetailsChange: PropTypes.func.isRequired,
-  onEmploymentPaySlipDeliveryChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

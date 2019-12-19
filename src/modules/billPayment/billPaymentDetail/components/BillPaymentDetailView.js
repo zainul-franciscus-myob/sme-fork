@@ -1,6 +1,5 @@
 import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getAlertMessage, getIsLoading, getModalType } from '../BillPaymentDetailSelectors';
@@ -74,22 +73,6 @@ const BillPaymentDetailView = ({
   );
 
   return <PageView isLoading={isLoading} view={view} />;
-};
-
-BillPaymentDetailView.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  onUpdateHeaderOption: PropTypes.func.isRequired,
-  onUpdateTableInputField: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onAmountInputBlur: PropTypes.func.isRequired,
-  modalType: PropTypes.string.isRequired,
-  onCancelModal: PropTypes.func.isRequired,
-  onDeleteModal: PropTypes.func.isRequired,
-  onCloseModal: PropTypes.func.isRequired,
-  alertMessage: PropTypes.string.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

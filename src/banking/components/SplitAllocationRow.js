@@ -1,6 +1,5 @@
 import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getLineDataByIndexSelector, getNewLineData } from '../bankingSelectors/splitAllocationSelectors';
@@ -89,14 +88,6 @@ const SplitAllocationRow = (props) => {
         onChange={handleComboBoxChange('taxCodeId', onChange)}
       />
     </LineItemTable.Row>);
-};
-
-SplitAllocationRow.propTypes = {
-  index: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  isNewLineRow: PropTypes.bool.isRequired,
-  lineData: PropTypes.shape({}).isRequired,
-  newLineData: PropTypes.shape({}).isRequired,
 };
 
 const makeMapRowStateToProps = () => {

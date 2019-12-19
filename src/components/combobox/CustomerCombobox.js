@@ -1,5 +1,4 @@
 import { Combobox } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 const CustomerCombobox = (props) => {
@@ -30,12 +29,6 @@ const CustomerCombobox = (props) => {
 
 CustomerCombobox.defaultProps = {
   selectedId: null,
-};
-
-CustomerCombobox.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  selectedId: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
 };
 
 export default CustomerCombobox;

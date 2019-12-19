@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import TabItem from './TabItem';
@@ -20,18 +19,6 @@ export const Tabs = ({
       <ul className="flx-tabs">{children || nodes}</ul>
     </nav>
   );
-};
-
-Tabs.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    }),
-  ),
-  onSelected: PropTypes.func,
-  selected: PropTypes.string,
-  children: PropTypes.node,
 };
 
 Tabs.defaultProps = {

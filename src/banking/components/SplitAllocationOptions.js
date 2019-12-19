@@ -1,6 +1,5 @@
 import { Checkbox } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getOptions } from '../bankingSelectors/splitAllocationSelectors';
@@ -55,15 +54,6 @@ const SplitAllocationOptions = (props) => {
 };
 SplitAllocationOptions.defaultProps = {
   isReportable: undefined,
-};
-
-SplitAllocationOptions.propTypes = {
-  contacts: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  contactId: PropTypes.string.isRequired,
-  contactLabel: PropTypes.string.isRequired,
-  isReportable: PropTypes.bool,
-  showIsReportable: PropTypes.bool.isRequired,
-  onUpdateSplitAllocationHeader: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => getOptions(state);

@@ -1,14 +1,7 @@
 import { Popover } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 export default class HoverPopover extends React.Component {
-  static propTypes = {
-    id: PropTypes.string,
-    children: PropTypes.node,
-    icon: PropTypes.node,
-  };
-
   static defaultProps = {
     id: undefined,
     children: undefined,

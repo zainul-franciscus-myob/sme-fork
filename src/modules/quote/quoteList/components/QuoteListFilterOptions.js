@@ -2,7 +2,6 @@ import {
   DatePicker, FilterBar, Search,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 
 import { getCustomerFilterOptions, getFilterOptions, getTotal } from '../quoteListSelector';
@@ -69,19 +68,6 @@ class QuoteListFilterOptions extends React.Component {
     );
   }
 }
-
-QuoteListFilterOptions.propTypes = {
-  customerFilterOptions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  filterOptions: PropTypes.shape({
-    customerId: PropTypes.string,
-    dateFrom: PropTypes.string,
-    dateTo: PropTypes.string,
-    keywords: PropTypes.string,
-  }).isRequired,
-  onApplyFilter: PropTypes.func.isRequired,
-  onUpdateFilters: PropTypes.func.isRequired,
-  total: PropTypes.string.isRequired,
-};
 
 const mapStateToProps = state => ({
   customerFilterOptions: getCustomerFilterOptions(state),

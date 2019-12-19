@@ -1,7 +1,6 @@
 import {
   FieldGroup, Input, Select, TextArea,
 } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import CountryCombobox from '../../../../components/combobox/CountryCombobox';
@@ -137,23 +136,6 @@ const Address = ({
       </fieldset>
     </FieldGroup>
   );
-};
-
-Address.propTypes = {
-  title: PropTypes.string.isRequired,
-  street: PropTypes.string.isRequired,
-  city: PropTypes.string.isRequired,
-  state: PropTypes.string.isRequired,
-  postcode: PropTypes.string.isRequired,
-  country: PropTypes.string.isRequired,
-  businessContact: PropTypes.string.isRequired,
-  phoneNumbers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  fax: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  hasAddPhoneButton: PropTypes.bool.isRequired,
-  isStateDropdown: PropTypes.bool.isRequired,
-  stateOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  onAddressChange: PropTypes.func.isRequired,
 };
 
 export default Address;

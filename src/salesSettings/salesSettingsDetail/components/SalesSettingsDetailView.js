@@ -1,6 +1,5 @@
 import { Alert, FormTemplate, Tabs } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -100,22 +99,6 @@ const SalesSettingsDetailView = ({
   );
 
   return <PageView isLoading={isLoading} isSubmitting={isSubmitting} view={view} />;
-};
-
-SalesSettingsDetailView.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
-  alert: PropTypes.shape({}).isRequired,
-  selectedTab: PropTypes.string.isRequired,
-  pendingTab: PropTypes.string.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  onUpdateSalesSettingsItem: PropTypes.func.isRequired,
-  onSalesSettingsSave: PropTypes.func.isRequired,
-  onTabSelect: PropTypes.func.isRequired,
-  onModalConfirm: PropTypes.func.isRequired,
-  onModalCancel: PropTypes.func.isRequired,
-  onUpdateEmailSettings: PropTypes.func.isRequired,
-  onSaveEmailSettings: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -10,7 +10,6 @@ import {
   Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { getHeaderOptions, getTaxExclusiveLabel, getTaxInclusiveLabel } from '../generalJournalDetailSelectors';
@@ -149,17 +148,5 @@ const mapStateToProps = state => ({
   taxInclusiveLabel: getTaxInclusiveLabel(state),
   taxExclusiveLabel: getTaxExclusiveLabel(state),
 });
-
-GeneralJournalDetailOptions.propTypes = {
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
-  headerOptions: PropTypes.shape({
-    referenceId: PropTypes.string,
-    date: PropTypes.string,
-    gstReportingMethod: PropTypes.string,
-    isEndOfYearAdjustment: PropTypes.bool,
-    isTaxInclusive: PropTypes.bool,
-    description: PropTypes.string,
-  }).isRequired,
-};
 
 export default connect(mapStateToProps)(GeneralJournalDetailOptions);

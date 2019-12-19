@@ -1,7 +1,6 @@
 import {
   Card, Checkbox, CheckboxGroup, FieldGroup, Input, TextArea,
 } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -128,18 +127,6 @@ const SalesSettingsEmailDetails = (props) => {
       { statementEmail }
     </React.Fragment>
   );
-};
-
-SalesSettingsEmailDetails.propTypes = {
-  fromName: PropTypes.string.isRequired,
-  replyToEmail: PropTypes.string.isRequired,
-  invoiceEmailSubject: PropTypes.string.isRequired,
-  invoiceEmailBody: PropTypes.string.isRequired,
-  isInvoiceNumberIncluded: PropTypes.bool.isRequired,
-  quoteEmailSubject: PropTypes.string.isRequired,
-  quoteEmailBody: PropTypes.string.isRequired,
-  isQuoteNumberIncluded: PropTypes.bool.isRequired,
-  onUpdateEmailSettings: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => getTabData(state);

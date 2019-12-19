@@ -37,8 +37,7 @@ const Tabs = ({
         ))}
       </Select>
     </div>
-    </>
-
+  </>
 );
 
 export default Tabs;

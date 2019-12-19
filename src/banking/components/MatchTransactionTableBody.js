@@ -1,4 +1,3 @@
-import { PropTypes } from 'prop-types';
 import { RadioButton, Table, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -67,12 +66,6 @@ const MatchTransactionTableBody = (props) => {
       {rows}
     </Table.Body>
   );
-};
-
-MatchTransactionTableBody.propTypes = {
-  tableConfig: PropTypes.shape({}).isRequired,
-  entries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  onUpdateMatchTransactionSelection: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

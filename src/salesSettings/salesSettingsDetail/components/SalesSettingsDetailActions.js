@@ -1,5 +1,4 @@
 import { Button, ButtonRow } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 const SalesSettingsDetailActions = ({
@@ -13,9 +12,5 @@ const SalesSettingsDetailActions = ({
     ]}
   />
 );
-
-SalesSettingsDetailActions.propTypes = {
-  onSaveButtonClick: PropTypes.func.isRequired,
-};
 
 export default SalesSettingsDetailActions;

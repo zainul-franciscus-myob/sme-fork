@@ -1,4 +1,3 @@
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,12 +15,6 @@ const BankTransactionTabs = ({
     onSelected={onSelected}
   />
 );
-
-BankTransactionTabs.propTypes = {
-  tabItems: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  selected: PropTypes.string.isRequired,
-  onSelected: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   tabItems: getTabItems(state),

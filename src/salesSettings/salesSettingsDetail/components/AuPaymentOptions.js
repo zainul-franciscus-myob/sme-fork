@@ -103,50 +103,50 @@ const AuPaymentOptions = ({
   );
 
   return (
-      <>
-        <Field
-          label="Online payments"
-          renderField={() => (
-            <>
-              <img src={onlinePaymentMethodsImage} alt="Online payments methods" className={styles.onlinePaymentMethodsImage} />
-              { isRegistered ? registeredView : unregisteredView }
-            </>
-          )}
-        />
-        { isRegistered && (
-          <Field
-            label="Account for receiving online payments"
-            renderField={() => (
-              <div className={styles.account}>
-                <AccountCombobox
-                  label="Account for receiving online payments"
-                  hideLabel
-                  items={accountOptions}
-                  selectedId={salesSettings.accountId}
-                  onChange={handleComboboxChange('accountId', onUpdateSalesSettingsItem)}
-                />
-                <p>
-                  This account must match the bank account you chose when
-                  setting up your online payments.
-                </p>
-              </div>
-            )}
+    <>
+      <Field
+        label="Online payments"
+        renderField={() => (
+          <>
+            <img src={onlinePaymentMethodsImage} alt="Online payments methods" className={styles.onlinePaymentMethodsImage} />
+            { isRegistered ? registeredView : unregisteredView }
+          </>
+        )}
+      />
+      { isRegistered && (
+      <Field
+        label="Account for receiving online payments"
+        renderField={() => (
+          <div className={styles.account}>
+            <AccountCombobox
+              label="Account for receiving online payments"
+              hideLabel
+              items={accountOptions}
+              selectedId={salesSettings.accountId}
+              onChange={handleComboboxChange('accountId', onUpdateSalesSettingsItem)}
+            />
+            <p>
+              This account must match the bank account you chose when
+              setting up your online payments.
+            </p>
+          </div>
+        )}
+      />
+      )}
+      <hr />
+      <CheckboxGroup
+        label="Allow payments by direct deposit"
+        hideLabel
+        renderCheckbox={() => (
+          <Checkbox
+            name="isAllowPaymentsByDirectDeposit"
+            label="Allow payments by direct deposit"
+            checked={salesSettings.isAllowPaymentsByDirectDeposit}
+            onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
           />
         )}
-        <hr />
-        <CheckboxGroup
-          label="Allow payments by direct deposit"
-          hideLabel
-          renderCheckbox={() => (
-            <Checkbox
-              name="isAllowPaymentsByDirectDeposit"
-              label="Allow payments by direct deposit"
-              checked={salesSettings.isAllowPaymentsByDirectDeposit}
-              onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
-            />
-          )}
-        />
-        {salesSettings.isAllowPaymentsByDirectDeposit && directDepositPayment}
+      />
+      {salesSettings.isAllowPaymentsByDirectDeposit && directDepositPayment}
     </>
   );
 };

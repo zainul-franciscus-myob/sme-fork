@@ -1,6 +1,5 @@
 import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getTableEntries } from '../../selectors/superFundListSelectors';
@@ -28,10 +27,5 @@ const SuperFundListTableBody = (props) => {
 const mapStateToProps = state => ({
   entries: getTableEntries(state),
 });
-
-SuperFundListTableBody.propTypes = {
-  tableConfig: PropTypes.shape().isRequired,
-  entries: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-};
 
 export default connect(mapStateToProps)(SuperFundListTableBody);

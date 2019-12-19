@@ -1,4 +1,4 @@
-import browserPlugin from 'router5/plugins/browser';
+import browserPlugin from 'router5-plugin-browser';
 import createRouter from 'router5';
 
 import convertRoutesToRouterConfig from './convertRoutesToRouterConfig';
@@ -10,7 +10,8 @@ export default class Router {
     this.router = createRouter([], {
       defaultRoute,
       trailingSlashMode: 'never',
-    }).usePlugin(browserPlugin({ useHash: true }));
+    });
+    this.router.usePlugin(browserPlugin({ useHash: true }));
   }
 
   reload = () => {

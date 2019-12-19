@@ -2,7 +2,6 @@ import {
   DatePicker, Search,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getMatchTransactionFilterOptions } from '../bankingSelectors/matchTransactionSelectors';
@@ -48,18 +47,6 @@ const MatchTransactionOptions = (props) => {
       </FilterBar>
     </div>
   );
-};
-
-MatchTransactionOptions.propTypes = {
-  filterOptions: PropTypes.shape({
-    dateFrom: PropTypes.string,
-    dateTo: PropTypes.string,
-    amountFrom: PropTypes.string,
-    amountTo: PropTypes.string,
-    keywords: PropTypes.string,
-  }).isRequired,
-  onApplyMatchTransactionOptions: PropTypes.func.isRequired,
-  onUpdateMatchTransactionOptions: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

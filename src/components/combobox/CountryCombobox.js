@@ -1,5 +1,4 @@
 import { Combobox } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import countryList from '../../sharedData/countryList';
@@ -32,11 +31,6 @@ const CountryCombobox = (props) => {
 
 CountryCombobox.defaultProps = {
   selectedId: null,
-};
-
-CountryCombobox.propTypes = {
-  selectedId: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
 };
 
 export default CountryCombobox;

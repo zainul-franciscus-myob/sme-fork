@@ -1,6 +1,5 @@
 import { StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getIsLoading, getPageHead } from '../taxListSelectors';
@@ -15,11 +14,6 @@ const TaxListView = ({ isLoading, pageHead }) => {
   );
 
   return <PageView isLoading={isLoading} view={view} />;
-};
-
-TaxListView.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  pageHead: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

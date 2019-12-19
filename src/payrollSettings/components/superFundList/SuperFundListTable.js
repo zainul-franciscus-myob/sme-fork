@@ -2,7 +2,6 @@ import {
   HeaderSort, PageState, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../../selectors/superFundListSelectors';
@@ -61,12 +60,6 @@ const SuperFundListTable = (props) => {
       <SuperFundListTableBody tableConfig={tableConfig} />
     </TableView>
   );
-};
-
-SuperFundListTable.propTypes = {
-  isTableLoading: PropTypes.bool.isRequired,
-  isTableEmpty: PropTypes.bool.isRequired,
-  onSort: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

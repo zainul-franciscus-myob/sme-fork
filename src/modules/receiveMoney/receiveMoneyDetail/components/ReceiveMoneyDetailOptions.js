@@ -2,7 +2,6 @@ import {
   DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { getHeaderOptions } from '../receiveMoneyDetailSelectors';
@@ -123,17 +122,5 @@ class ReceiveMoneyDetailOptions extends Component {
 const mapStateToProps = state => ({
   headerOptions: getHeaderOptions(state),
 });
-
-ReceiveMoneyDetailOptions.propTypes = {
-  onUpdateHeaderOptions: PropTypes.func.isRequired,
-  headerOptions: PropTypes.shape({
-    referenceId: PropTypes.string,
-    date: PropTypes.string,
-    gstReportingMethod: PropTypes.string,
-    isEndOfYearAdjustment: PropTypes.bool,
-    isTaxInclusive: PropTypes.bool,
-    description: PropTypes.string,
-  }).isRequired,
-};
 
 export default connect(mapStateToProps)(ReceiveMoneyDetailOptions);

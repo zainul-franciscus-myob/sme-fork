@@ -1,6 +1,5 @@
 import { FilterBar, Search } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getFilterOptions } from '../../selectors/superFundListSelectors';
@@ -27,12 +26,6 @@ const SuperFundListFilterOptions = (props) => {
       />
     </FilterBar>
   );
-};
-
-SuperFundListFilterOptions.propTypes = {
-  keywords: PropTypes.string.isRequired,
-  onUpdateFilterOptions: PropTypes.func.isRequired,
-  onApplyFilter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => getFilterOptions(state);

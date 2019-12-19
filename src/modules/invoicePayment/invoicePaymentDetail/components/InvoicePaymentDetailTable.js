@@ -1,6 +1,5 @@
 import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -105,25 +104,6 @@ const InvoicePaymentDetailTable = ({
       {tableBody}
     </TableView>
   );
-};
-
-const entryPropType = {
-  id: PropTypes.string.isRequired,
-  invoiceNumber: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  invoiceAmount: PropTypes.string.isRequired,
-  paidAmount: PropTypes.string.isRequired,
-  discountAmount: PropTypes.string.isRequired,
-};
-
-InvoicePaymentDetailTable.propTypes = {
-  entries: PropTypes.arrayOf(PropTypes.shape(entryPropType)).isRequired,
-  isCreating: PropTypes.bool.isRequired,
-  onAmountInputBlur: PropTypes.func.isRequired,
-  onUpdateInvoicePaymentEntries: PropTypes.func.isRequired,
-  totalReceived: PropTypes.string.isRequired,
-  tableViewType: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

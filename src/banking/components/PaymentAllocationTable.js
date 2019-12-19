@@ -1,6 +1,5 @@
 import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getTableOptions } from '../bankingSelectors/paymentAllocationSelectors';
@@ -89,17 +88,6 @@ const PaymentAllocationTable = (props) => {
       { view }
     </Table>
   );
-};
-
-PaymentAllocationTable.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  isTableLoading: PropTypes.bool.isRequired,
-  isTableEmpty: PropTypes.bool.isRequired,
-  referenceIdLabel: PropTypes.string.isRequired,
-  amountLabel: PropTypes.string.isRequired,
-  amountPaidLabel: PropTypes.string.isRequired,
-  tableEmptyMessage: PropTypes.string.isRequired,
-  onUpdatePaymentAllocationLine: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => getTableOptions(state);

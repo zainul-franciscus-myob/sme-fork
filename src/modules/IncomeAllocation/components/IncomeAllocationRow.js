@@ -1,6 +1,5 @@
 import { Input, LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -75,15 +74,6 @@ const IncomeAllocationRow = (props) => {
         onBlur={onRowInputBlur(index)}
       />
     </LineItemTable.Row>);
-};
-
-IncomeAllocationRow.propTypes = {
-  index: PropTypes.number.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  isNewLineRow: PropTypes.bool.isRequired,
-  lineData: PropTypes.shape({}).isRequired,
-  newLineData: PropTypes.shape({}).isRequired,
 };
 
 const makeMapRowStateToProps = () => {

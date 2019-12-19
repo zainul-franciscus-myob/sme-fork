@@ -1,4 +1,3 @@
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -12,11 +11,6 @@ const PaymentAllocationFooter = (props) => {
   return (
     isCreating ? <div className={styles.paymentFooter}>{`Remaining balance: ${remainingBalance}`}</div> : null
   );
-};
-
-PaymentAllocationFooter.propTypes = {
-  isCreating: PropTypes.bool.isRequired,
-  remainingBalance: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

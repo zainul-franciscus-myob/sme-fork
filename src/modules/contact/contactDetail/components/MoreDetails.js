@@ -1,5 +1,4 @@
 import { FieldGroup, TextArea } from '@myob/myob-widgets';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -34,11 +33,6 @@ const MoreDetails = (props) => {
       </span>
     </FieldGroup>
   );
-};
-
-MoreDetails.propTypes = {
-  notes: PropTypes.string.isRequired,
-  onContactDetailsChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => getMoreDetails(state);

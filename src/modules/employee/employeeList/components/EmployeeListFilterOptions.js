@@ -2,7 +2,6 @@ import {
   Checkbox, FilterBar, Search,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getFilterOptions } from '../EmployeeListSelectors';
@@ -29,13 +28,6 @@ const EmployeeListFilterOptions = (props) => {
       </FilterBar.Item>
     </FilterBar>
   );
-};
-
-EmployeeListFilterOptions.propTypes = {
-  onUpdateFilterBarOptions: PropTypes.func.isRequired,
-  keywords: PropTypes.string.isRequired,
-  showInactive: PropTypes.bool.isRequired,
-  onApplyFilter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => getFilterOptions(state);

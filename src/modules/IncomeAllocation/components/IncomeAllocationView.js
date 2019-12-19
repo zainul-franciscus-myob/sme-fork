@@ -2,7 +2,6 @@ import {
   Alert, Columns, LineItemTemplate, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -80,21 +79,6 @@ const IncomeAllocationView = ({
 
 IncomeAllocationView.defaultProps = {
   alert: undefined,
-};
-
-IncomeAllocationView.propTypes = {
-  selectedEntityType: PropTypes.string.isRequired,
-  entityTypeOptions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  alert: PropTypes.shape({}),
-  isTableHidden: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  onEntityTypeChange: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-  onUpdateRow: PropTypes.func.isRequired,
-  onDismissAlert: PropTypes.func.isRequired,
-  onRemoveRow: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

@@ -1,6 +1,5 @@
 import { Button, ButtonRow } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getIsActionsDisabled, getIsCreating } from '../EmployeeDetailSelectors';
@@ -34,14 +33,6 @@ const EmployeeDetailActions = ({
       secondary={secondaryButtons}
     />
   );
-};
-
-EmployeeDetailActions.propTypes = {
-  onCancelButtonClick: PropTypes.func.isRequired,
-  onSaveButtonClick: PropTypes.func.isRequired,
-  isCreating: PropTypes.bool.isRequired,
-  isActionsDisabled: PropTypes.bool.isRequired,
-  onDeleteButtonClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

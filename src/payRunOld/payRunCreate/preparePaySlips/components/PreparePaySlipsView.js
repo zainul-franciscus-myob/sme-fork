@@ -31,19 +31,19 @@ const PreparePaySlipsView = ({
     </Card>
   );
   return (
-  <>
-    {emailPaySlipModal}
-    <PageHead title="Prepare pay slips" />
-    <div className={styles.stepper}>
-      <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
-    </div>
-    <EmployeePayHeader />
-    { employeeCard }
-    <ButtonRow
-      primary={[<Button key="next" onClick={onNextClick}>Next</Button>]}
-      secondary={[<Button key="cancel" type="secondary" onClick={onCancelClick}>Cancel</Button>]}
-    />
-  </>
+    <>
+      {emailPaySlipModal}
+      <PageHead title="Prepare pay slips" />
+      <div className={styles.stepper}>
+        <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
+      </div>
+      <EmployeePayHeader />
+      { employeeCard }
+      <ButtonRow
+        primary={[<Button key="next" onClick={onNextClick}>Next</Button>]}
+        secondary={[<Button key="cancel" type="secondary" onClick={onCancelClick}>Cancel</Button>]}
+      />
+    </>
   );
 };
 

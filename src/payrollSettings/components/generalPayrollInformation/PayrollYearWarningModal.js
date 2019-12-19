@@ -1,5 +1,4 @@
 import { Button, Modal } from '@myob/myob-widgets';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 const PayrollYearWarningModal = ({
@@ -19,12 +18,5 @@ const PayrollYearWarningModal = ({
     </Modal.Footer>
   </Modal>
 );
-
-PayrollYearWarningModal.propTypes = {
-  onConfirm: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-};
 
 export default PayrollYearWarningModal;

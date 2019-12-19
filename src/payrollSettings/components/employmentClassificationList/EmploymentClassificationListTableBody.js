@@ -1,6 +1,5 @@
 import { Button, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getTableEntries } from '../../selectors/employmentClassificationListSelectors';
@@ -32,10 +31,5 @@ const EmploymentClassificationListTableBody = (props) => {
 const mapStateToProps = state => ({
   entries: getTableEntries(state),
 });
-
-EmploymentClassificationListTableBody.propTypes = {
-  tableConfig: PropTypes.shape().isRequired,
-  entries: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-};
 
 export default connect(mapStateToProps)(EmploymentClassificationListTableBody);

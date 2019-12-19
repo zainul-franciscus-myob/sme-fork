@@ -1,6 +1,5 @@
 import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -64,15 +63,6 @@ class IncomeAllocationTable extends React.Component {
     );
   }
 }
-
-IncomeAllocationTable.propTypes = {
-  tableData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  indexOfLastLine: PropTypes.number.isRequired,
-  onUpdateRow: PropTypes.func.isRequired,
-  onAddRow: PropTypes.func.isRequired,
-  onRemoveRow: PropTypes.func.isRequired,
-  onRowInputBlur: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   indexOfLastLine: getIndexOfLastLine(state),
