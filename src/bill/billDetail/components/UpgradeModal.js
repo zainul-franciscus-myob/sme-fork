@@ -5,9 +5,9 @@ import React from 'react';
 import {
   getIsUpgradeModalShowing,
   getMonthlyLimit,
-} from '../selectors/invoiceDetailSelectors';
+} from '../selectors/billDetailsSelectors';
 
-const pluraliseInvoiceLimit = limit => (limit === 1 ? '1 invoice' : `${limit} invoices`);
+const pluraliseBillsLimit = limit => (limit === 1 ? '1 bill' : `${limit} bills`);
 
 const UpgradeModal = (props) => {
   const {
@@ -20,7 +20,7 @@ const UpgradeModal = (props) => {
   return (isUpgradeModalShowing
     ? (
       <Modal
-        title="Need to send more invoices?"
+        title="Need to record more bills?"
         canClose={false}
         size="small"
       >
@@ -28,11 +28,11 @@ const UpgradeModal = (props) => {
           <p>
             You’ve reached your monthly limit of
             {' '}
-            {pluraliseInvoiceLimit(monthlyLimit.limit)}
+            {pluraliseBillsLimit(monthlyLimit.limit)}
             .
           </p>
           <p>
-            Upgrade your subscription to send more invoices.
+            Upgrade your subscription to record more bills.
           </p>
         </Modal.Body>
         <Modal.Footer>

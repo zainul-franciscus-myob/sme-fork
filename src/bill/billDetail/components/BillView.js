@@ -24,7 +24,7 @@ import BillServiceTable from './BillServiceTable';
 import MasterDetailLineItemTemplate
   from '../../../components/MasterDetailLineItemTemplate/MasterDetailLineItemTemplate';
 import PageView from '../../../components/PageView/PageView';
-import UpgradeModal from './UpdateModal';
+import UpgradeModal from './UpgradeModal';
 
 const BillView = ({
   onAddAccount,
