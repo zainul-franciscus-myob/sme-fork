@@ -24,6 +24,7 @@ import Store from '../../../store/Store';
 import actionTypes from './actionTypes';
 import createInTrayDispatcher from './createInTrayDispatcher';
 import createInTrayIntegrator from './createInTrayIntegrator';
+import createObjectUrl from '../../../common/blobOpener/createObjectUrl';
 import inTrayReducer from './reducer/inTrayReducer';
 import modalTypes from './modalTypes';
 import openBlob from '../../../common/blobOpener/openBlob';
@@ -231,7 +232,7 @@ export default class InTrayModule {
 
   setDocumentViewerUrl = (id) => {
     const onSuccess = (blob) => {
-      const url = URL.createObjectURL(blob);
+      const url = createObjectUrl(blob);
       this.dispatcher.setDocumentViewerUrl(url);
     };
 
