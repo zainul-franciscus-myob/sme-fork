@@ -1412,15 +1412,15 @@
   resolved "https://npm.myob.com/npm/@myob/ldal/-/0.2.4/ldal-0.2.4.tgz#17cf7f18196150a8aeb9bdf880c9eced274092ee"
   integrity sha512-YtTcUfYbRLD2YgjPqkiN2PLMiDtnAPV6AZ+o+BqGgElOak6QWv/aqMrPBkJfj8dPVhFcxpZ2iV7RowswE+k5sg==
 
-"@myob/myob-styles@5.9.0":
-  version "5.9.0"
-  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/5.9.0/myob-styles-5.9.0.tgz#2f9b2a2c61aacaf09d232c94f7bdabb8955b0f73"
-  integrity sha512-ftma/+Z8f64rRXZqBXvuB7f5YOQOgvmXWRqZiHJn85WLC/zsIwknQ03lsWwDTuGNR+crOtrvexO8r8xHxtFC7Q==
+"@myob/myob-styles@5.10.0":
+  version "5.10.0"
+  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/5.10.0/styles-5.10.0.tgz#967dc2ee73fce563148c7d37e87cca4c57d0f3de"
+  integrity sha512-nyNnHHL/8O0JaVD5Ho7paCrFDDGU31XFgelDKYzY7Fn5za0wAKBtzO0Bt6Dmdd6sFS6cY2OAJ+PGXsCuzy8T2A==
 
-"@myob/myob-widgets@5.9.0":
-  version "5.9.0"
-  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/5.9.0/myob-widgets-5.9.0.tgz#24a69865e57c0e0b8d38862e413c9c412b971417"
-  integrity sha512-nNXvEWDCAgaa61WMFuTxjpCxyR7kf9qa+knbC1IrDYLotXJEPqwA4tCatks7Hi6xUxw7j6PyB9uc31Fu58BswA==
+"@myob/myob-widgets@5.10.0":
+  version "5.10.0"
+  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/5.10.0/widgets-5.10.0.tgz#04871182a4f9a8486e8fa1a82a6060a9326c0034"
+  integrity sha512-f6/jhrVKmft/yukqUpDgIfMahUOv/thFHdnC0ldvsusBVNIaLJK3ZaWEQNyyHE7ortWY7gthEBdo72WLnjGxXg==
   dependencies:
     accounting "0.4.1"
     classnames "2.2.5"

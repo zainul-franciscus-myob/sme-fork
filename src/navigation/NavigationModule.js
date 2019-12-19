@@ -56,6 +56,10 @@ export default class NavigationModule {
         intent, businessName, serialNumber, userEmail, enabledFeatures, isReadOnly,
       });
       this.replaceURLParamsAndReload({ businessId, region: region.toLowerCase() });
+
+      // TODO: To be removed in next patch version
+      // This is a temporary fix for Feelix bug introduced in version 5.10.0
+      window.dispatchEvent(new Event('resize'));
     };
     const onFailure = () => {
       console.log('Failed to load navigation config');
