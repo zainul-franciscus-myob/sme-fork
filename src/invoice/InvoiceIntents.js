@@ -66,3 +66,4 @@ export const SET_INVOICE_HISTORY_UNAVAILABLE = Symbol('Set invoice history unava
 export const SET_INVOICE_HISTORY_CLOSED = Symbol('Set invoice history closed');
 export const SET_INVOICE_HISTORY_OPEN = Symbol('Set invoice history open');
 export const LOAD_INVOICE_HISTORY = Symbol('Load invoice history');
+export const SET_REDIRECT_REF = Symbol('Set redirect ref');

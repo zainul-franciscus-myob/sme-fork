@@ -44,6 +44,7 @@ const InvoiceDetailView = ({
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
   applyPaymentUnsavedChangesListeners,
+  redirectToUrlListeners,
   exportPdfModalListeners,
   contactModal,
   onUpdateHeaderOptions,
@@ -53,6 +54,7 @@ const InvoiceDetailView = ({
   onUpgradeModalUpgradeButtonClick,
   onAccordionClose,
   onAccordionOpen,
+  onClickOnRefNo,
 }) => {
   const options = (
     <InvoiceDetailOptions
@@ -85,6 +87,7 @@ const InvoiceDetailView = ({
       alert={modalAlert}
       applyPaymentUnsavedChangesListeners={applyPaymentUnsavedChangesListeners}
       exportPdfModalListeners={exportPdfModalListeners}
+      redirectToUrlListeners={redirectToUrlListeners}
     />
   );
 
@@ -115,7 +118,13 @@ const InvoiceDetailView = ({
         {table}
       </LineItemTemplate>
       {!isCreating
-      && <MoreInformation onAccordionClose={onAccordionClose} onAccordionOpen={onAccordionOpen} />}
+      && (
+      <MoreInformation
+        onAccordionClose={onAccordionClose}
+        onAccordionOpen={onAccordionOpen}
+        onClickOnRefNo={onClickOnRefNo}
+      />
+      )}
     </React.Fragment>
   );
 

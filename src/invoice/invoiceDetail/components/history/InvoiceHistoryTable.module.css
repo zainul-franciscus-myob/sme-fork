@@ -13,3 +13,7 @@
 .dollarIcon svg{
   fill: var(--flx-palette-golf);
 }
+
+.refLink {
+  padding-right: var(--flx-spacing-tiny);
+}

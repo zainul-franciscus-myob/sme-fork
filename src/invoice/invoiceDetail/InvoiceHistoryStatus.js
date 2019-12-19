@@ -12,5 +12,6 @@ const InvoiceHistoryStatus = {
   INVOICE_REVERSED: 'INVOICE_REVERSED',
   EMAILED: 'EMAILED',
   DELIVERY_FAILED: 'DELIVERY_FAILED',
+  CREDIT_APPLIED: 'CREDIT_APPLIED',
 };
 export default InvoiceHistoryStatus;

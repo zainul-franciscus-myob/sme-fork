@@ -27,6 +27,7 @@ import {
   SET_MODAL_SUBMITTING_STATE,
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
+  SET_REDIRECT_REF,
   SET_SUBMITTING_STATE,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_INVOICE_DETAIL,
@@ -295,6 +296,11 @@ const calculateLineTotals = (state, action) => ({
   },
 });
 
+export const setRedirectRef = (state, { redirectRefJournalId, redirectRefJournalType }) => ({
+  ...state,
+  redirectRefJournalId,
+  redirectRefJournalType,
+});
 
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
@@ -344,6 +350,7 @@ const handlers = {
   [SET_INVOICE_HISTORY_UNAVAILABLE]: setInvoiceHistoryUnavailable,
   [SET_INVOICE_HISTORY_CLOSED]: setInvoiceHistoryClosed,
   [SET_INVOICE_HISTORY_OPEN]: setInvoiceHistoryOpen,
+  [SET_REDIRECT_REF]: setRedirectRef,
   [LOAD_INVOICE_HISTORY]: loadInvoiceHistory,
 };
 

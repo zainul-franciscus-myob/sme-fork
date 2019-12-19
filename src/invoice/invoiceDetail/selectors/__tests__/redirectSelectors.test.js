@@ -3,6 +3,7 @@ import {
   getCreateNewInvoiceUrl,
   getInvoiceListUrl,
   getInvoiceReadWithEmailModalUrl,
+  getRedirectRefUrl,
 } from '../redirectSelectors';
 
 describe('redirectSelectors', () => {
@@ -13,6 +14,8 @@ describe('redirectSelectors', () => {
     invoice: {
       layout: 'service',
     },
+    redirectRefJournalId: 1,
+    redirectRefJournalType: 'ReceivePayment',
   };
 
   describe('getInvoiceListUrl', () => {
@@ -46,6 +49,15 @@ describe('redirectSelectors', () => {
     it('returns the correct Url to create a duplicate invoice from another invoice CRUD page', () => {
       const expected = '/#/au/abc/invoice/new?duplicatedInvoiceId=1';
       const actual = getCreateDuplicateInvoiceUrl(state);
+
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('getRedirectRefUrl', () => {
+    it('returns the correct Url with ref journal id', () => {
+      const expected = '/#/au/abc/invoicePayment/1';
+      const actual = getRedirectRefUrl(state);
 
       expect(expected).toEqual(actual);
     });

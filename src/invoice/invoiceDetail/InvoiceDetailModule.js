@@ -28,6 +28,7 @@ import {
   getInvoicePaymentUrl,
   getInvoiceReadWithEmailModalUrl,
   getInvoiceReadWithExportPdfModalUrl,
+  getRedirectRefUrl,
   getSubscriptionSettingsUrl,
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
@@ -497,6 +498,29 @@ export default class InvoiceDetailModule {
     }
   };
 
+  redirectToRefUrl = () => {
+    const url = getRedirectRefUrl(this.store.getState());
+    this.redirectToUrl(url);
+  };
+
+  redirectToRefPage = (ref) => {
+    this.dispatcher.setRedirectRef(ref);
+    if (getIsPageEdited(this.store.getState())) {
+      this.dispatcher.setModalType(InvoiceDetailModalType.REDIRECT_TO_URL);
+    } else {
+      this.redirectToRefUrl();
+    }
+  };
+
+  saveAndRedirectToRefUrl = () => {
+    const onSuccess = () => {
+      this.dispatcher.setSubmittingState(false);
+      this.redirectToRefUrl();
+    };
+
+    this.createOrUpdateInvoice({ onSuccess });
+  };
+
   openDeleteModal = () => this.dispatcher.setModalType(InvoiceDetailModalType.DELETE);
 
   openSaveAndCreateNewModal = () => {
@@ -848,6 +872,11 @@ export default class InvoiceDetailModule {
           onConfirmUnsave: this.redirectToInvoicePayment,
           onCancel: this.closeModal,
         }}
+        redirectToUrlListeners={{
+          onConfirmSave: this.saveAndRedirectToRefUrl,
+          onConfirmUnsave: this.redirectToRefUrl,
+          onCancel: this.closeModal,
+        }}
         exportPdfModalListeners={{
           onCancel: this.closeModal,
           onConfirm: this.exportPdf,
@@ -861,6 +890,7 @@ export default class InvoiceDetailModule {
         onUpgradeModalUpgradeButtonClick={this.redirectToSubscriptionSettings}
         onAccordionClose={this.accordionClosed}
         onAccordionOpen={this.accordionOpened}
+        onClickOnRefNo={this.redirectToRefPage}
       />
     );
 

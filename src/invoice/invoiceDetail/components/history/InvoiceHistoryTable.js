@@ -1,5 +1,5 @@
 import {
-  Icons, Table,
+  Button, Icons, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -30,12 +30,13 @@ const icon = {
   [InvoiceHistoryStatus.PAYMENT_DECLINED]: (<Icons.Error />),
   [InvoiceHistoryStatus.BULK_PAYMENT_DECLINED]: (<Icons.Error />),
   [InvoiceHistoryStatus.PAYMENT_RECEIVED]: (<Icons.Dollar />),
+  [InvoiceHistoryStatus.CREDIT_APPLIED]: (<Icons.Dollar />),
   [InvoiceHistoryStatus.INVOICE_REVERSED]: (<Icons.Replied />),
   [InvoiceHistoryStatus.EMAILED]: (<Icons.Mail />),
   [InvoiceHistoryStatus.DELIVERY_FAILED]: (<Icons.Error />),
 };
 
-const InvoiceHistoryTable = ({ invoiceHistory }) => (
+const InvoiceHistoryTable = ({ invoiceHistory, onClickOnRefNo }) => (
   <Table>
     <Table.Body>
       {
@@ -48,6 +49,15 @@ const InvoiceHistoryTable = ({ invoiceHistory }) => (
                 {InvoiceHistoryStatusPretty[row.status]}
               </Table.RowItem>
               <Table.RowItem title={row.description} textWrap="wrap">
+                {row.showLink && (
+                  <Button
+                    type="link"
+                    onClick={() => onClickOnRefNo(row)}
+                    className={styles.refLink}
+                  >
+                    {row.referenceNo}
+                  </Button>
+                )}
                 {row.description}
               </Table.RowItem>
               <Table.RowItem width="11rem" title={row.date}>

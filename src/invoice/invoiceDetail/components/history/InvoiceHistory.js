@@ -21,6 +21,7 @@ const InvoiceHistory = ({
   mostRecentStatusColor,
   onAccordionClose,
   onAccordionOpen,
+  onClickOnRefNo,
 }) => {
   const unavailableTooltipMessage = 'The activity history is currently unavailable. Please try again later.';
 
@@ -64,7 +65,7 @@ const InvoiceHistory = ({
             <TableCollapsibleRow
               header={getTableHeader(headerStatusLabel)}
             >
-              <InvoiceHistoryTable />
+              <InvoiceHistoryTable onClickOnRefNo={onClickOnRefNo} />
             </TableCollapsibleRow>
           </Table.Body>
         )}

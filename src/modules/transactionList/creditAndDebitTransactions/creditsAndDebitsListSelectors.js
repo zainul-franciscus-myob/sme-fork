@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { tabItemIds as tabItems } from '../tabItems';
-import BusinessEventTypeMap from '../BusinessEventTypeMap';
+import BusinessEventTypeMap from '../../../common/types/BusinessEventTypeMap';
 import getDefaultState from './getDefaultState';
 import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 

@@ -27,6 +27,7 @@ import {
   SET_MODAL_SUBMITTING_STATE,
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
+  SET_REDIRECT_REF,
   SET_SUBMITTING_STATE,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_INVOICE_DETAIL,
@@ -194,6 +195,12 @@ const createInvoiceDetailDispatcher = store => ({
 
   setInvoiceHistoryOpen: () => store.dispatch({
     intent: SET_INVOICE_HISTORY_OPEN,
+  }),
+
+  setRedirectRef: ({ journalId, sourceJournalType }) => store.dispatch({
+    intent: SET_REDIRECT_REF,
+    redirectRefJournalId: journalId,
+    redirectRefJournalType: sourceJournalType,
   }),
 });
 

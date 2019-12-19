@@ -6,10 +6,15 @@ import InvoiceHistory from './history/InvoiceHistory';
 const MoreInformation = ({
   onAccordionClose,
   onAccordionOpen,
+  onClickOnRefNo,
 }) => (
   <StandardTemplate sticky="none">
     <FieldGroup label="More information">
-      <InvoiceHistory onAccordionClose={onAccordionClose} onAccordionOpen={onAccordionOpen} />
+      <InvoiceHistory
+        onAccordionClose={onAccordionClose}
+        onAccordionOpen={onAccordionOpen}
+        onClickOnRefNo={onClickOnRefNo}
+      />
     </FieldGroup>
   </StandardTemplate>
 );

@@ -99,6 +99,8 @@ const getDefaultState = () => ({
   isLineAmountDirty: false,
   invoiceHistory: [],
   invoiceHistoryAccordionStatus: InvoiceHistoryAccordionStatus.LOADING,
+  redirectRefJournalId: '',
+  redirectRefJournalType: '',
 });
 
 export default getDefaultState;

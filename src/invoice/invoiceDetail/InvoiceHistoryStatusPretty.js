@@ -14,5 +14,6 @@ const InvoiceHistoryStatusPretty = {
   [InvoiceHistoryStatus.INVOICE_REVERSED]: 'Invoice reversed',
   [InvoiceHistoryStatus.EMAILED]: 'Emailed',
   [InvoiceHistoryStatus.DELIVERY_FAILED]: 'Delivery failed',
+  [InvoiceHistoryStatus.CREDIT_APPLIED]: 'Credit applied',
 };
 export default InvoiceHistoryStatusPretty;

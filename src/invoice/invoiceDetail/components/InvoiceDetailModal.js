@@ -20,6 +20,7 @@ const InvoiceDetailModal = ({
   emailSettingsModalListeners,
   emailInvoiceDetailModalListeners,
   applyPaymentUnsavedChangesListeners,
+  redirectToUrlListeners,
   exportPdfModalListeners,
 }) => {
   if (modalType === InvoiceDetailModalType.EMAIL_INVOICE) {
@@ -80,6 +81,19 @@ const InvoiceDetailModal = ({
         onConfirmSave={applyPaymentUnsavedChangesListeners.onConfirmSave}
         onConfirmUnsave={applyPaymentUnsavedChangesListeners.onConfirmUnsave}
         onCancel={applyPaymentUnsavedChangesListeners.onCancel}
+        isActionsDisabled={isActionsDisabled}
+        title="Record changes?"
+        description="Looks like you've made changes. Do you want to record these changes?"
+      />
+    );
+  }
+
+  if (modalType === InvoiceDetailModalType.REDIRECT_TO_URL) {
+    return (
+      <UnsavedModal
+        onConfirmSave={redirectToUrlListeners.onConfirmSave}
+        onConfirmUnsave={redirectToUrlListeners.onConfirmUnsave}
+        onCancel={redirectToUrlListeners.onCancel}
         isActionsDisabled={isActionsDisabled}
         title="Record changes?"
         description="Looks like you've made changes. Do you want to record these changes?"
