@@ -34,7 +34,7 @@ const DocumentViewer = ({
         className={styles.object}
         data={src}
         aria-label={title}
-        contentType={type}
+        type={type}
         height={size.height}
         width={size.width}
       />
