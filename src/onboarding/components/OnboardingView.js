@@ -6,6 +6,7 @@ import {
   MYOBLogo,
   StandardTemplate,
 } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import Industries from '../fixtures/Industries';
@@ -17,35 +18,41 @@ const industryData = [{ columnName: 'industry', showData: true }];
 const businessRolesData = [{ columnName: 'businessRole', showData: true }];
 
 class OnboardingView extends Component {
-  constructor({ settingsService }) {
+  constructor({
+    dispatcher,
+    onSave,
+  }) {
     super();
-    this.settingsService = settingsService;
-    this.state = {
-      businessName: settingsService.getBusinessName(),
-      industry: '',
-      businessRole: 'Business owner',
-    };
+    this.dispatcher = dispatcher;
+    this.onSave = onSave;
   }
-
-  setBusinessName = businessName => this.setState({ businessName });
-
-  setBusinessRole = businessRole => this.setState(businessRole);
-
-  setIndustry = industry => this.setState(industry);
 
   businessRoleItems = () => businessRoles.map(businessRole => ({ businessRole }));
 
   industryItems = () => Industries.map(industry => ({ industry }))
 
-  saveSettings = (event) => {
-    event.preventDefault();
-    console.log(this.state);
-    this.settingsService.save(this.state);
-  };
+  onChangeBusinessName = (event) => {
+    const { value } = event.target;
+    this.dispatcher.setViewData({ businessName: value });
+  }
+
+  onChangeBusinessRole = businessRole => this.dispatcher.setViewData(businessRole);
+
+  onChangeIndustry = industry => this.dispatcher.setViewData(industry);
 
   render() {
-    const { businessRoleItems, industryItems } = this;
-    const { businessName, businessRole, industry } = this.state;
+    const {
+      businessRoleItems,
+      industryItems,
+      onChangeBusinessName,
+      onChangeBusinessRole,
+      onChangeIndustry,
+      props: {
+        businessName,
+        businessRole,
+        industry,
+      },
+    } = this;
 
     return (
       <div className={styles.fullScreen}>
@@ -70,7 +77,7 @@ class OnboardingView extends Component {
                   name="default"
                   label="What's the name of your business?"
                   value={businessName}
-                  onChange={val => this.setBusinessName(val.target.value)}
+                  onChange={onChangeBusinessName}
                   requiredLabel="You need to enter a business name"
                   autoFocus
                 />
@@ -81,10 +88,10 @@ class OnboardingView extends Component {
                   items={industryItems()}
                   metaData={industryData}
                   defaultItem={{ industry }}
+                  onChange={onChangeIndustry}
                   name="industry"
                   label="What industry is your business in?"
                   requiredLabel="You need to select an industry"
-                  onChange={val => this.setIndustry(val)}
                 />
               </div>
 
@@ -93,16 +100,16 @@ class OnboardingView extends Component {
                   items={businessRoleItems()}
                   metaData={businessRolesData}
                   defaultItem={{ businessRole }}
+                  onChange={onChangeBusinessRole}
                   name="businessRole"
                   label="How would you best describe your role?"
                   requiredLabel="You need to select a role"
-                  onChange={val => this.setBusinessRole(val)}
                 />
               </div>
 
               <div>
                 <ButtonRow>
-                  <Button onClick={this.saveSettings}>Get down to business</Button>
+                  <Button onClick={this.onSave}>Get down to business</Button>
                 </ButtonRow>
               </div>
             </div>
@@ -113,4 +120,11 @@ class OnboardingView extends Component {
   }
 }
 
-export default OnboardingView;
+const mapStateToProps = state => ({
+  businessName: state.businessName,
+  industry: state.industry,
+  businessRole: state.businessRole,
+});
+
+export { OnboardingView as View };
+export default connect(mapStateToProps)(OnboardingView);

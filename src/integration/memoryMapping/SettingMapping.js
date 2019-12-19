@@ -1,11 +1,14 @@
 import { LOAD_SETTINGS, SAVE_SETTINGS } from '../../root/rootIntents';
-import businesses from '../data/businessList.json';
 import settings from '../data/settings/settingsList';
 
-const loadSettingsList = ({ urlParams, onSuccess }) => {
-  const testBusiness = businesses.find(business => business.businessName === "Rob's Cupcakes");
+const ROBS_CUPCAKES = '000e39e6-5415-4bc0-ac0d-21d0992dfae8';
 
-  return urlParams.businessId === testBusiness.id ? onSuccess([]) : onSuccess(settings);
+const loadSettingsList = ({ onSuccess, urlParams }) => {
+  const { businessId } = urlParams;
+
+  if (businessId === ROBS_CUPCAKES) return onSuccess(settings);
+
+  return onSuccess({ ...settings, onboardingComplete: true });
 };
 
 const SettingMapping = {

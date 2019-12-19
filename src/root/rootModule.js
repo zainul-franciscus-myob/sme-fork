@@ -5,10 +5,10 @@ import React from 'react';
 import CreateRootDispatcher from './createRootDispatcher';
 import DrawerModule from '../drawer/DrawerModule';
 import NavigationModule from '../navigation/NavigationModule';
-import OnboardingModule from '../onboarding/onboardingModule';
+import OnboardingModule from '../onboarding/OnboardingModule';
 import RootReducer from './rootReducer';
 import RootView from './components/RootView';
-import SettingsService from './services/settingsService';
+import SettingsService from './services/SettingsService';
 import Store from '../store/Store';
 
 export default class RootModule {
@@ -18,8 +18,7 @@ export default class RootModule {
     const { constructPath, replaceURLParamsAndReload } = router;
 
     this.store = new Store(RootReducer);
-    this.dispatcher = new CreateRootDispatcher(this.store);
-
+    this.dispatcher = CreateRootDispatcher(this.store);
     this.settingsService = SettingsService(this.dispatcher, integration, this.store);
 
     this.drawer = new DrawerModule({ integration });
@@ -33,21 +32,22 @@ export default class RootModule {
     });
 
     this.onboarding = new OnboardingModule({
+      dispatcher: this.dispatcher,
       settingsService: this.settingsService,
     });
   }
 
   render = (component) => {
+    const drawerView = this.drawer.render();
     const navView = this.nav.render();
     const onboardingView = this.onboarding.render();
-    const drawerView = this.drawer.render();
 
     return (
       <Provider store={this.store}>
         <RootView
+          drawer={drawerView}
           nav={navView}
           onboarding={onboardingView}
-          drawer={drawerView}
         >
           {component}
         </RootView>

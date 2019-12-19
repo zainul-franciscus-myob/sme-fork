@@ -1,7 +1,5 @@
 import * as views from './drawerViews';
-import {
-  CLOSE_DRAWER, TOGGLE_ACTIVITIES, TOGGLE_HELP,
-} from './drawerIntents';
+import { CLOSE_DRAWER, TOGGLE_ACTIVITIES, TOGGLE_HELP } from './drawerIntents';
 import { SET_INITIAL_STATE } from '../SystemIntents';
 
 const createDrawerDispatcher = store => ({

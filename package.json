@@ -40,6 +40,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:with-bff": "REACT_APP_INTEGRATION_TYPE=AuthHttp react-scripts start",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint:js": "eslint ./src",

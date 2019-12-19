@@ -1,4 +1,3 @@
-/* eslint-disable react/no-this-in-sfc */
 import { Provider } from 'react-redux';
 import React from 'react';
 
@@ -43,13 +42,17 @@ export default class DrawerModule {
 
   closeDrawer = () => this.dispatcher.closeDrawer();
 
-  render = () => (
-    <Provider store={this.store}>
-      <Drawer>
-        { Object.values(this.subModules).map(sm => sm.getView()) }
-      </Drawer>
-    </Provider>
-  );
+  render = () => {
+    const { store, subModules } = this;
+
+    return (
+      <Provider store={store}>
+        <Drawer>
+          {Object.values(subModules).map(sm => sm.getView())}
+        </Drawer>
+      </Provider>
+    );
+  };
 
   run = (routeProps) => {
     Object.values(this.subModules).forEach(subModule => subModule.run(routeProps));

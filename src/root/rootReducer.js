@@ -1,8 +1,9 @@
-import { LOAD_BUSINESS_DETAIL } from '../modules/business/BusinessIntents';
-import { LOAD_SETTINGS, SAVE_SETTINGS, SET_LOADING_STATE } from './rootIntents';
+import {
+  LOAD_SETTINGS, SAVE_SETTINGS, SET_LOADING_STATE, SET_VIEW_DATA,
+} from './rootIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
-import { shouldShowOnboarding } from './services/shouldShowOnboarding';
 import createReducer from '../store/createReducer';
+import shouldShowOnboarding from './services/shouldShowOnboarding';
 
 const getDefaultState = () => ({
   settings: [],
@@ -17,15 +18,6 @@ const setInitialState = (state, action) => ({
 
 const resetState = () => (getDefaultState());
 
-const setBusinessDetails = (state, action) => {
-  const { businessDetails } = action.businessDetails;
-
-  return {
-    ...state,
-    businessName: businessDetails.organisationName,
-  };
-};
-
 const setLoading = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
@@ -33,7 +25,13 @@ const setLoading = (state, action) => ({
 
 const setOnboarding = (state, action) => ({
   ...state,
+  ...action.settings,
   shouldShowOnboarding: shouldShowOnboarding(action.settings),
+});
+
+const setViewData = (state, action) => ({
+  ...state,
+  ...action.data,
 });
 
 const handlers = {
@@ -42,7 +40,7 @@ const handlers = {
   [LOAD_SETTINGS]: setOnboarding,
   [SAVE_SETTINGS]: setOnboarding,
   [SET_INITIAL_STATE]: setInitialState,
-  [LOAD_BUSINESS_DETAIL]: setBusinessDetails,
+  [SET_VIEW_DATA]: setViewData,
 };
 
 const onboardingReducer = createReducer(getDefaultState(), handlers);

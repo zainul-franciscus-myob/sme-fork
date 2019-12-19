@@ -1,17 +1,13 @@
-import { shouldShowOnboarding } from '../shouldShowOnboarding';
 import onboardingComplete from '../../../integration/data/settings/onboardingComplete';
 import setting from '../../../integration/data/settings/setting';
+import shouldShowOnboarding from '../shouldShowOnboarding';
 
 describe('shouldShowOnboarding', () => {
-  describe('on-boarding NOT completed', () => {
-    it('allows onboarding to be shown', () => {
-      expect(shouldShowOnboarding([setting])).toBeTruthy();
-    });
+  it('is truthy when recieving onboardingComplete', () => {
+    expect(shouldShowOnboarding(setting)).toBeTruthy();
   });
 
-  describe('on-boarding completed', () => {
-    it('does NOT allow onboarding to be shown', () => {
-      expect(shouldShowOnboarding([onboardingComplete])).toBeFalsy();
-    });
+  it('is falsey when recieving onboardingComplete', () => {
+    expect(shouldShowOnboarding(onboardingComplete)).toBeFalsy();
   });
 });

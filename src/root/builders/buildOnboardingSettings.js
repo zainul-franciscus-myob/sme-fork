@@ -1,26 +1,10 @@
-const buildOnboardingSettings = ({ industry, businessRole }) => (
-  [
-    {
-      data: { industry },
-      key: 'industry',
-      region: 'au',
-      source: 'sme-web',
-      userId: null,
-    },
-    {
-      data: { businessRole },
-      key: 'role',
-      region: 'au',
-      source: 'sme-web',
-    },
-    {
-      data: { onboardingComplete: 1 },
-      key: 'onboardingComplete',
-      region: 'au',
-      source: 'sme-web',
-      userId: null,
-    },
-  ]
+const buildOnboardingSettings = ({ businessName, businessRole, industry }) => (
+  {
+    businessName,
+    businessRole,
+    industry,
+    onboardingComplete: true,
+  }
 );
 
 export default buildOnboardingSettings;
