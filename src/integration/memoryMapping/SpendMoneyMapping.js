@@ -12,7 +12,7 @@ import {
   REMOVE_ATTACHMENT,
   UPDATE_SPEND_MONEY,
   UPLOAD_ATTACHMENT,
-} from '../../spendMoney/SpendMoneyIntents';
+} from '../../modules/spendMoney/SpendMoneyIntents';
 import attachmentDetailResponse from '../data/spendMoney/attachmentDetail';
 import spendMoneyCalculatedTotals from '../data/spendMoney/spendMoneyDetailTotalsResponse';
 import spendMoneyDetailEntry from '../data/spendMoney/spendMoneyDetailEntry';

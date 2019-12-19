@@ -48,7 +48,7 @@ import {
 import AccountModalModule from '../../modules/account/accountModal/AccountModalModule';
 import BillView from './components/BillView';
 import ContactModalModule from '../../modules/contact/contactModal/ContactModalModule';
-import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
+import InTrayModalModule from '../../modules/inTray/inTrayModal/InTrayModalModule';
 import InventoryModalModule from '../../modules/inventory/inventoryModal/InventoryModalModule';
 import LayoutType from './types/LayoutType';
 import ModalType from './types/ModalType';

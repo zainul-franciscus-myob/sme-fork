@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../../inTray/inTrayMessageTypes';
+import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../inTray/inTrayMessageTypes';
 import { getInTrayListUrl, getIsAnyBillSelected, getNewSortOrder } from './LinkBillSelectors';
 import LinkBillView from './components/LinkBillView';
 import Store from '../../store/Store';

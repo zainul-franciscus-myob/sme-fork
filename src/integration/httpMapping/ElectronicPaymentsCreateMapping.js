@@ -2,7 +2,7 @@ import {
   LOAD_ACCOUNTS_AND_TRANSACTIONS,
   RECORD_AND_DOWNLOAD_BANK_FILE,
   SORT_AND_FILTER_TRANSACTIONS,
-} from '../../electronicPayments/electronicPaymentsCreate/ElectronicPaymentsCreateIntents';
+} from '../../modules/electronicPayments/electronicPaymentsCreate/ElectronicPaymentsCreateIntents';
 
 const ElectronicPaymentsCreateMapping = {
   [LOAD_ACCOUNTS_AND_TRANSACTIONS]: {

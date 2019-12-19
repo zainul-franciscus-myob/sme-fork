@@ -5,7 +5,7 @@ import {
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL,
-} from '../../generalJournal/GeneralJournalIntents';
+} from '../../modules/generalJournal/GeneralJournalIntents';
 import generalJournalDetail from '../data/generalJournalDetail/generalJournalDetailEntry';
 import generalJournalDetailNew from '../data/generalJournalDetail/generalJournalDetailNewEntry';
 import successResponse from '../data/success';

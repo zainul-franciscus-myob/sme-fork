@@ -8,7 +8,7 @@ import {
   LOAD_IN_TRAY_MODAL,
   SORT_AND_FILTER_IN_TRAY_LIST,
   VIEW_IN_TRAY_MODAL_DOCUMENT,
-} from '../../inTray/InTrayIntents';
+} from '../../modules/inTray/InTrayIntents';
 import createInTrayFileResponse from '../data/inTray/uploadInTrayFileResponse';
 import createInTrayModalFileResponse from '../data/inTray/uploadInTrayModalFileResponse';
 import downloadInTrayFileResponse from '../data/inTray/loadInTrayFileResponse';

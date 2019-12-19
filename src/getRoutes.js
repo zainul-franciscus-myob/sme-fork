@@ -13,11 +13,11 @@ import getCustomerReturnRoutes from './modules/customerReturn/getCustomerReturnR
 import getCustomerStatementRoutes from './modules/customerStatement/getCustomerStatementRoutes';
 import getDashboardRoutes from './modules/dashboard/getDashboardRoutes';
 import getDataImportExportRoutes from './modules/dataImportExport/getDataImportExportRoutes';
-import getElectronicPaymentsRoutes from './electronicPayments/getElectronicPaymentsRoutes';
+import getElectronicPaymentsRoutes from './modules/electronicPayments/getElectronicPaymentsRoutes';
 import getEmployeePayRoutes from './modules/employeePay/getEmployeePayRoutes';
 import getEmployeeRoutes from './modules/employee/getEmployeeRoutes';
-import getGeneralJournalRoutes from './generalJournal/getGeneralJournalRoutes';
-import getInTrayRoutes from './inTray/getInTrayRoutes';
+import getGeneralJournalRoutes from './modules/generalJournal/getGeneralJournalRoutes';
+import getInTrayRoutes from './modules/inTray/getInTrayRoutes';
 import getIncomeAllocationRoutes from './modules/IncomeAllocation/getIncomeAllocationRoutes';
 import getInventoryRoutes from './modules/inventory/getInventoryRoutes';
 import getInvoicePaymentRoutes from './modules/invoicePayment/getInvoicePaymentRoutes';
@@ -39,7 +39,7 @@ import getReceiveMoneyRoutes from './modules/receiveMoney/getReceiveMoneyRoutes'
 import getReceiveRefundRoutes from './modules/receiveRefund/getReceiveRefundRoutes';
 import getSalesSettingsRoutes from './salesSettings/getSalesSettingsRoutes';
 import getSettingsRoutes from './modules/settings/getSettingsRoutes';
-import getSpendMoneyRoutes from './spendMoney/getSpendMoneyRoutes';
+import getSpendMoneyRoutes from './modules/spendMoney/getSpendMoneyRoutes';
 import getSuperFundRoutes from './modules/superFund/getSuperFundRoutes';
 import getSupplierReturnPurchaseRoutes from './modules/supplierReturnPurchase/getSupplierReturnPurchaseRoutes';
 import getSupplierReturnRoutes from './modules/supplierReturn/getSupplierReturnRoutes';

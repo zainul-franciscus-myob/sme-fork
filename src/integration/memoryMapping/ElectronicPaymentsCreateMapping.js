@@ -2,7 +2,7 @@ import {
   LOAD_ACCOUNTS_AND_TRANSACTIONS,
   RECORD_AND_DOWNLOAD_BANK_FILE,
   SORT_AND_FILTER_TRANSACTIONS,
-} from '../../electronicPayments/electronicPaymentsCreate/ElectronicPaymentsCreateIntents';
+} from '../../modules/electronicPayments/electronicPaymentsCreate/ElectronicPaymentsCreateIntents';
 import filterElectronicPaySummaryList from '../data/electronicPaymentsCreate/filterElectronicPaySummaryList';
 import loadAccountsAndElectronicPayments from '../data/electronicPaymentsCreate/loadAccountsAndElectronicPayments';
 import recordElectronicPaymentsAndDownloadBankFile from '../data/electronicPayments/recordElectronicPaymentsAndDownloadBankFile';

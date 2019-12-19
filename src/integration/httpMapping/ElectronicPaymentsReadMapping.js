@@ -1,7 +1,7 @@
 import {
   DELETE_ELECTRONIC_PAYMENT,
   LOAD_ELECTRONIC_PAYMENT_DETAILS,
-} from '../../electronicPayments/electronicPaymentsRead/ElectronicPaymentsReadIntents';
+} from '../../modules/electronicPayments/electronicPaymentsRead/ElectronicPaymentsReadIntents';
 
 const ElectronicPaymentsCreateMapping = {
   [LOAD_ELECTRONIC_PAYMENT_DETAILS]: {

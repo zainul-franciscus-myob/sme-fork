@@ -12,7 +12,7 @@ import {
   REMOVE_ATTACHMENT,
   UPDATE_SPEND_MONEY,
   UPLOAD_ATTACHMENT,
-} from '../../spendMoney/SpendMoneyIntents';
+} from '../../modules/spendMoney/SpendMoneyIntents';
 
 const SpendMoneyMapping = {
   [LOAD_NEW_SPEND_MONEY]: {
