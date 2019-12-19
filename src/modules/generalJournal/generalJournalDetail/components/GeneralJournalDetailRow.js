@@ -91,7 +91,7 @@ const GeneralJournalDetailRow = ({
         onBlur={onInputBlur(onRowInputBlur, index, 'quantity')}
         disabled={isNewLineRow}
         decimalScale={6}
-        numeralIntegerScale={19}
+        numeralIntegerScale={13}
       />
       <TextArea
         rows={1}
