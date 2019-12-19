@@ -10,6 +10,8 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
+  - wait
+
   - block:
     branches: '!master'
 
