@@ -15,7 +15,6 @@ const BankReconciliationTableCollapsibleRow = ({
   onSelectRow,
 }) => (
   <TableCollapsibleRow
-    key={entry.journalLineId}
     header={(
       <Table.Row
         key={entry.journalLineId}
