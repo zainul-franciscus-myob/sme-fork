@@ -1,0 +1,50 @@
+{
+  "type": "Sold",
+  "typeFilters": [
+    {
+      "name": "All",
+      "value": "All"
+    },
+    {
+      "name": "Items I sell",
+      "value": "Sold"
+    },
+    {
+      "name": "Items I buy",
+      "value": "Bought"
+    }
+  ],
+  "sortOrder": "asc",
+  "orderBy": "DisplayId",
+  "showInactive": false,
+  "entries": [
+    {
+      "id": "1",
+      "referenceId": "1",
+      "name": "Screwdriver - left handed",
+      "sellingPrice": "246.01",
+      "tax": "Included",
+      "isActive": true
+    },
+    {
+      "id": "2",
+      "referenceId": "2",
+      "name": "Flashlight - solar powered",
+      "sellingPrice": "4.20",
+      "tax": "Excluded",
+      "isActive": true
+    },
+    {
+      "id": "4",
+      "referenceId": "3",
+      "name": "Dehydrated water",
+      "sellingPrice": "0.50",
+      "tax": "Included",
+      "isActive": true
+    }
+  ],
+  "pagination": {
+    "offset": 3,
+    "hasNextPage": true
+  }
+}

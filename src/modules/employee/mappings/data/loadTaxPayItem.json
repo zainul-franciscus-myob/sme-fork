@@ -1,0 +1,31 @@
+{
+  "tax": {
+    "atoReportingCategory": "NotReportable",
+    "accountId": "456",
+    "revisionDate": "01/07/2019"
+  },
+  "accounts": [
+    {
+      "id": "134",
+      "displayName": "Expense 1",
+      "accountType": "Expense",
+      "displayId": "6-134"
+    },
+    {
+      "id": "456",
+      "displayName": "Expense 2",
+      "accountType": "Expense",
+      "displayId": "6-135"
+    }
+  ],
+  "atoReportingCategoryList": [
+    {
+      "name": "To be Assigned",
+      "value": "NotSet"
+    },
+    {
+      "name": "PAYG Withholding",
+      "value": "PAYGWithholding"
+    }
+  ]
+}

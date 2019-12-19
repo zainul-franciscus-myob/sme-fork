@@ -1,0 +1,24 @@
+{
+  "entries": [
+    {
+      "id":"5",
+      "referenceId": "5",
+      "name": "Flashlight - solar powered",
+      "sellingPrice": "4.20",
+      "tax": "Exclusive",
+      "isActive": true
+    },
+    {
+      "id":"6",
+      "referenceId": "long inactive reference 1",
+      "name": "Screwdriver - left handed",
+      "sellingPrice": "246.01",
+      "tax": "Inclusive",
+      "isActive": false
+    }
+  ],
+  "pagination": {
+    "offset": 3,
+    "hasNextPage": true
+  }
+}
