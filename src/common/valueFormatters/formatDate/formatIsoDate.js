@@ -1,5 +1,5 @@
 import formatDate from './formatDate';
 
-const formatIsoDate = date => formatDate(date, 'YYYY-MM-DD');
+const formatIsoDate = date => formatDate(date, 'yyyy-MM-dd');
 
 export default formatIsoDate;

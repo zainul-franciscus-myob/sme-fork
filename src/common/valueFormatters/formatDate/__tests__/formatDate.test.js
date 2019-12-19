@@ -10,8 +10,8 @@ describe('formatDate', () => {
   });
 
   it('formats a date to a given format', () => {
-    const actual = formatDate(new Date(2019, 8, 18), 'YYYY-MM-DD');
+    const actual = formatDate(new Date(2019, 9, 18), 'yyyy-MM-dd');
 
-    expect(actual).toEqual('2019-09-18');
+    expect(actual).toEqual('2019-10-18');
   });
 });

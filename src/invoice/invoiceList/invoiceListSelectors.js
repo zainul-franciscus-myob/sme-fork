@@ -24,7 +24,7 @@ const getEntryLink = (entry, businessId, region) => {
 };
 
 const isOverdue = ({ dateDue, status, dateDueDisplay }) => (
-  !['COD', 'Prepaid'].includes(dateDueDisplay) && isPast(dateDue) && status === 'Open'
+  !['COD', 'Prepaid'].includes(dateDueDisplay) && isPast(new Date(dateDue)) && status === 'Open'
 );
 
 const getDueDateColor = entry => (

@@ -1,5 +1,5 @@
 import formatDate from './formatDate';
 
-const formatSlashDate = date => formatDate(date, 'DD/MM/YYYY');
+const formatSlashDate = date => formatDate(date, 'dd/MM/yyyy');
 
 export default formatSlashDate;

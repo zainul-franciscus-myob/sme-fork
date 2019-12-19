@@ -1,7 +1,7 @@
 import formatSlashDate from '../formatSlashDate';
 
 describe('formatSlashDate', () => {
-  it('formats date as iso date string', () => {
+  it('formats date as slash date string', () => {
     const date = new Date(2019, 9, 7);
 
     const actual = formatSlashDate(date);

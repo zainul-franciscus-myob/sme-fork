@@ -40,10 +40,10 @@ describe('bankingReducer', () => {
     it('should not set the dates if the transaction type is All', () => {
       const state = {
         filterOptions: {
-          dateTo: 'some-date',
+          dateTo: '01/01/2000',
         },
         appliedFilterOptions: {
-          dateTo: 'some-date',
+          dateTo: '01/01/2001',
         },
       };
 
@@ -57,17 +57,17 @@ describe('bankingReducer', () => {
 
       const actual = bankingReducer(state, action);
 
-      expect(actual.filterOptions.dateTo).toEqual('some-date');
-      expect(actual.appliedFilterOptions.dateTo).toEqual('some-date');
+      expect(actual.filterOptions.dateTo).toEqual('01/01/2000');
+      expect(actual.appliedFilterOptions.dateTo).toEqual('01/01/2001');
     });
 
     it('should use dateFrom from state if value not given', () => {
       const state = {
         filterOptions: {
-          dateFrom: 'some-date',
+          dateFrom: '01/01/2000',
         },
         appliedFilterOptions: {
-          dateFrom: 'some-date',
+          dateFrom: '01/01/2001',
         },
       };
 
@@ -80,8 +80,8 @@ describe('bankingReducer', () => {
 
       const actual = bankingReducer(state, action);
 
-      expect(actual.filterOptions.dateFrom).toEqual('some-date');
-      expect(actual.appliedFilterOptions.dateFrom).toEqual('some-date');
+      expect(actual.filterOptions.dateFrom).toEqual('01/01/2000');
+      expect(actual.appliedFilterOptions.dateFrom).toEqual('01/01/2001');
     });
 
     it('should set dateFrom if given a value', () => {
@@ -107,10 +107,10 @@ describe('bankingReducer', () => {
     it('should use dateTo from state if value not given', () => {
       const state = {
         filterOptions: {
-          dateTo: 'some-date',
+          dateTo: '01/01/2000',
         },
         appliedFilterOptions: {
-          dateTo: 'some-date',
+          dateTo: '01/01/2001',
         },
       };
 
@@ -123,8 +123,8 @@ describe('bankingReducer', () => {
 
       const actual = bankingReducer(state, action);
 
-      expect(actual.filterOptions.dateTo).toEqual('some-date');
-      expect(actual.appliedFilterOptions.dateTo).toEqual('some-date');
+      expect(actual.filterOptions.dateTo).toEqual('01/01/2000');
+      expect(actual.appliedFilterOptions.dateTo).toEqual('01/01/2001');
     });
 
     it('should set dateTo if given a value', () => {
@@ -150,10 +150,10 @@ describe('bankingReducer', () => {
     it('should use date from state if given value is not an appropriate date format', () => {
       const state = {
         filterOptions: {
-          dateTo: 'some-date',
+          dateTo: '01/01/2000',
         },
         appliedFilterOptions: {
-          dateTo: 'some-date',
+          dateTo: '01/01/2001',
         },
       };
 
@@ -167,8 +167,8 @@ describe('bankingReducer', () => {
 
       const actual = bankingReducer(state, action);
 
-      expect(actual.filterOptions.dateTo).toEqual('some-date');
-      expect(actual.appliedFilterOptions.dateTo).toEqual('some-date');
+      expect(actual.filterOptions.dateTo).toEqual('01/01/2000');
+      expect(actual.appliedFilterOptions.dateTo).toEqual('01/01/2001');
     });
   });
 });
