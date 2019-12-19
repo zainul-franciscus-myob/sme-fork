@@ -43,7 +43,7 @@ const BillDocumentViewer = ({
     <PageView
       isLoading={!hasInTrayDocumentUrl}
       view={(
-        <DocumentViewer src={inTrayDocumentUrl} />
+        <DocumentViewer src={inTrayDocumentUrl} type="application/pdf" />
       )}
     />
   </Aside>
