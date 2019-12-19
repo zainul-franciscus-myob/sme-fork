@@ -1,5 +1,5 @@
-import React from 'react';
-import classnames from 'classnames';
+import React, { useCallback, useState } from 'react';
+import classNames from 'classnames';
 
 import styles from './DocumentViewer.module.css';
 
@@ -8,13 +8,38 @@ const DocumentViewer = ({
   type,
   title,
   className,
-}) => (
-  <object
-    className={classnames(styles.documentViewer, className)}
-    data={src}
-    aria-label={title}
-    contentType={type}
-  />
-);
+}) => {
+  const [size, setSize] = useState({
+    height: 0,
+    width: 0,
+  });
+
+  const containerEl = useCallback((node) => {
+    if (!node) {
+      return;
+    }
+
+    setSize({
+      height: node.clientHeight,
+      width: node.clientWidth,
+    });
+  }, []);
+
+  return (
+    <div
+      className={classNames(styles.container, className)}
+      ref={containerEl}
+    >
+      <object
+        className={styles.object}
+        data={src}
+        aria-label={title}
+        contentType={type}
+        height={size.height}
+        width={size.width}
+      />
+    </div>
+  );
+};
 
 export default DocumentViewer;
