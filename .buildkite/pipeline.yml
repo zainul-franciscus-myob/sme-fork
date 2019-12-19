@@ -11,7 +11,7 @@ steps:
       queue: cacc-prod-dflt
 
   - block:
-    branches: !master
+    branches: '!master'
 
   - name: ':package: :hatched_chick: Build Development Javascript'
     command: ./ops/bin/build development
