@@ -119,7 +119,9 @@ describe('PayRunSelectors', () => {
     it('should get and format the payment date', () => {
       const state = {
         startPayRun: {
-          paymentDate: '2019-10-26',
+          newPayRunDetails: {
+            paymentDate: '2019-10-26',
+          },
         },
       };
 
@@ -131,10 +133,12 @@ describe('PayRunSelectors', () => {
     it('should get and format the Pay Run dates', () => {
       const state = {
         startPayRun: {
-          paymentFrequency: 'weekly',
-          paymentDate: '2019-10-28',
-          payPeriodStart: '2019-10-21',
-          payPeriodEnd: '2019-10-27',
+          newPayRunDetails: {
+            paymentFrequency: 'weekly',
+            paymentDate: '2019-10-28',
+            payPeriodStart: '2019-10-21',
+            payPeriodEnd: '2019-10-27',
+          },
         },
       };
 

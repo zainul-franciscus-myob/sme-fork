@@ -5,10 +5,10 @@ export const getNumberOfSelected = state => (
 );
 
 const getPaymentInformation = state => ({
-  paymentFrequency: state.startPayRun.paymentFrequency,
-  paymentDate: state.startPayRun.paymentDate,
-  payPeriodStart: state.startPayRun.payPeriodStart,
-  payPeriodEnd: state.startPayRun.payPeriodEnd,
+  paymentFrequency: state.startPayRun.newPayRunDetails.paymentFrequency,
+  paymentDate: state.startPayRun.newPayRunDetails.paymentDate,
+  payPeriodStart: state.startPayRun.newPayRunDetails.payPeriodStart,
+  payPeriodEnd: state.startPayRun.newPayRunDetails.payPeriodEnd,
 });
 
 export const getIsStpDeclarationOpen = state => state.recordPayRun.stp.isOpen;

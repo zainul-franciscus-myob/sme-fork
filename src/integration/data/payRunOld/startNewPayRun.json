@@ -1,6 +1,6 @@
 {
   "startPayRun": {
-    "paymentFrequency": "Fortnightly"
+    "paymentFrequency": "Weekly"
   },
   "regularPayCycleOptions": [
     {

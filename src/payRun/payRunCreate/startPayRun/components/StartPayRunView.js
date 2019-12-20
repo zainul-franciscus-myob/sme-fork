@@ -25,10 +25,12 @@ import styles from './StartPayRunView.module.css';
 
 const StartPayRunView = ({
   startPayRun: {
-    paymentFrequency,
-    paymentDate,
-    payPeriodStart,
-    payPeriodEnd,
+    newPayRunDetails: {
+      paymentFrequency,
+      paymentDate,
+      payPeriodStart,
+      payPeriodEnd,
+    },
   },
   stepNumber,
   payRunSteps,
@@ -37,13 +39,13 @@ const StartPayRunView = ({
   onNextButtonClick,
 }) => (
   <div className={styles.startPayRun}>
-    <PageHead title="Create pay run" />
+    <PageHead title="Create pay run" testid="startPayRunViewPageHead" />
     <div className={styles.stepper}>
       <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
     </div>
     <FormHorizontal>
       <FormCard>
-        <FieldGroup label="Select pay run details">
+        <FieldGroup label="Select pay run details" testid="payCycleDropDown">
           <Select
             name="paymentFrequency"
             label="Pay cycle"

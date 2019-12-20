@@ -1,23 +1,57 @@
 {
-  "startPayRun": {
-    "paymentFrequency": "Weekly"
+  "newPayRunDetails": {
+    "paymentFrequency": "Fortnightly",
+    "regularPayCycleOptions": [
+      {
+        "value": "Weekly",
+        "name": "Weekly"
+      },
+      {
+        "value": "Fortnightly",
+        "name": "Fortnightly"
+      },
+      {
+        "value": "TwiceAMonth",
+        "name": "Twice a month"
+      },
+      {
+        "value": "Monthly",
+        "name": "Monthly"
+      }
+    ]
   },
-  "regularPayCycleOptions": [
-    {
-      "value": "Weekly",
-      "name": "Weekly"
-    },
-    {
-      "value": "Fortnightly",
-      "name": "Fortnightly"
-    },
-    {
-      "value": "TwiceAMonth",
-      "name": "Twice a month"
-    },
-    {
-      "value": "Monthly",
-      "name": "Monthly"
-    }
-  ]
+  "draftPayRun": {
+    "paymentFrequency": "Fortnightly",
+    "paymentDate": "2019-07-09",
+    "payPeriodStart": "2017-06-02",
+    "payPeriodEnd": "2019-07-03",
+    "selectedEmployeeIds": [
+      29,
+      26
+    ],
+    "employeePays": [
+      {
+        "employeeId": "21",
+        "etpCode": "R",
+        "lines": [
+          {
+            "payItemId": "38",
+            "payItemName": "Salary Sacrifice",
+            "type": "SalaryWage",
+            "amount": "0.00",
+            "hours": "0.00"
+          }
+        ]
+      }
+    ],
+    "unprocessedTimesheetSelections": [
+      {
+        "employeeId": "29",
+        "hourlyWagesPayItemId": "7",
+        "hours": 1,
+        "jobId": "5",
+        "timesheetId": "1"
+      }
+    ]
+  }
 }

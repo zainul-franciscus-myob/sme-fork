@@ -7,10 +7,13 @@ describe('startPayRunReducer', () => {
     it('should set default start date', () => {
       const state = {
         startPayRun: {
-          paymentFrequency: '',
-          paymentDate: '2019-08-01',
-          payPeriodStart: '',
-          payPeriodEnd: '2019-08-01',
+          newPayRunDetails: {
+            paymentFrequency: '',
+            paymentDate: '2019-08-01',
+            payPeriodStart: '',
+            payPeriodEnd: '2019-08-01',
+          },
+          draftPayRun: null,
         },
       };
 
@@ -21,11 +24,14 @@ describe('startPayRunReducer', () => {
 
       const expected = {
         startPayRun: {
-          paymentFrequency: 'Weekly',
-          paymentDate: '2019-08-01',
-          payPeriodStart: '2019-07-26',
-          payPeriodEnd: '2019-08-01',
-          regularPayCycleOptions: startNewPayRun.regularPayCycleOptions,
+          newPayRunDetails: {
+            paymentFrequency: 'Fortnightly',
+            paymentDate: '2019-08-01',
+            payPeriodStart: '2019-07-19',
+            payPeriodEnd: '2019-08-01',
+            regularPayCycleOptions: startNewPayRun.newPayRunDetails.regularPayCycleOptions,
+          },
+          draftPayRun: startNewPayRun.draftPayRun,
         },
       };
 
@@ -37,10 +43,12 @@ describe('startPayRunReducer', () => {
   describe('setPayPeriodDetails should calculate period start date', () => {
     const buildState = (payPeriodEnd, paymentFrequency = '') => ({
       startPayRun: {
-        paymentFrequency,
-        paymentDate: payPeriodEnd,
-        payPeriodStart: '',
-        payPeriodEnd,
+        newPayRunDetails: {
+          paymentFrequency,
+          paymentDate: payPeriodEnd,
+          payPeriodStart: '',
+          payPeriodEnd,
+        },
       },
     });
 
@@ -56,7 +64,7 @@ describe('startPayRunReducer', () => {
 
       const actual = payRunReducer(state, action);
 
-      expect(actual.startPayRun.payPeriodStart).toEqual('2019-07-26');
+      expect(actual.startPayRun.newPayRunDetails.payPeriodStart).toEqual('2019-07-26');
     });
 
     it.each([
@@ -75,7 +83,7 @@ describe('startPayRunReducer', () => {
 
       const actual = payRunReducer(state, action);
 
-      expect(actual.startPayRun.payPeriodStart).toEqual(expected);
+      expect(actual.startPayRun.newPayRunDetails.payPeriodStart).toEqual(expected);
     });
   });
 });

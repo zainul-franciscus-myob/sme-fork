@@ -6,11 +6,14 @@ import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../PayRunIntents';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getStartPayRunDefaultState = () => ({
-  paymentFrequency: 'Weekly',
-  paymentDate: formatIsoDate(new Date()),
-  payPeriodStart: '2019-01-01',
-  payPeriodEnd: formatIsoDate(new Date()),
-  regularPayCycleOptions: [],
+  newPayRunDetails: {
+    paymentFrequency: 'Weekly',
+    paymentDate: formatIsoDate(new Date()),
+    payPeriodStart: '2019-01-01',
+    payPeriodEnd: formatIsoDate(new Date()),
+    regularPayCycleOptions: [],
+  },
+  draftPayRun: null,
 });
 
 const calculateStartDate = (payCycle, endDateString) => {
@@ -34,24 +37,32 @@ const calculateStartDate = (payCycle, endDateString) => {
   return formatIsoDate(startDate);
 };
 
-const startNewPayRun = (state, { startPayRun, regularPayCycleOptions }) => ({
-  ...state,
-  ...startPayRun,
-  payPeriodStart: calculateStartDate(startPayRun.paymentFrequency, state.payPeriodEnd),
-  regularPayCycleOptions,
-});
+const startNewPayRun = (state, { newPayRunDetails, draftPayRun }) => {
+  const { paymentFrequency } = newPayRunDetails;
+  return {
+    ...state,
+    newPayRunDetails: {
+      ...state.newPayRunDetails,
+      ...newPayRunDetails,
+      payPeriodStart: calculateStartDate(paymentFrequency, state.newPayRunDetails.payPeriodEnd),
+    },
+    draftPayRun,
+  };
+};
 
 const setPayPeriodDetails = (state, { key, value }) => {
   let startPayRunPartial;
   if (value === '') {
     startPayRunPartial = {
       [key]: key === 'payPeriodStart'
-        ? calculateStartDate(state.paymentFrequency, state.payPeriodEnd)
+        ? calculateStartDate(
+          state.newPayRunDetails.paymentFrequency, state.newPayRunDetails.payPeriodEnd,
+        )
         : formatIsoDate(new Date()),
     };
   } else if (key === 'paymentFrequency') {
     startPayRunPartial = {
-      payPeriodStart: calculateStartDate(value, state.payPeriodEnd),
+      payPeriodStart: calculateStartDate(value, state.newPayRunDetails.payPeriodEnd),
       [key]: value,
     };
   } else {
@@ -62,7 +73,10 @@ const setPayPeriodDetails = (state, { key, value }) => {
 
   return {
     ...state,
-    ...startPayRunPartial,
+    newPayRunDetails: {
+      ...state.newPayRunDetails,
+      ...startPayRunPartial,
+    },
   };
 };
 

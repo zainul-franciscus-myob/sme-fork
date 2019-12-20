@@ -10,7 +10,7 @@ const createStartPayRunIntegrator = (store, integration) => ({
     const businessId = getBusinessId(state);
     const urlParams = { businessId };
 
-    const params = getStartPayRun(state);
+    const params = getStartPayRun(state).newPayRunDetails;
 
     integration.read({
       intent,

@@ -1,6 +1,6 @@
 import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../../PayRunIntents';
 import payRunReducer from '../../payRunReducer';
-import startNewPayRun from '../../../../integration/data/payRun/startNewPayRun.json';
+import startNewPayRun from '../../../../integration/data/payRunOld/startNewPayRun.json';
 
 describe('startPayRunReducer', () => {
   describe('startNewPayRun', () => {
