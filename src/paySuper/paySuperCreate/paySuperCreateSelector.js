@@ -55,8 +55,6 @@ export const getOrder = createSelector(
 export const getModal = state => state.modal;
 export const getSuperPaymentListUrl = state => `/#/${state.region}/${state.businessId}/paySuper`;
 
-export const getAuthorisationCode = state => state.authorisationInfo.authorisationCode;
-
 export const getRecordPaySuperContent = state => ({
   accountId: state.selectedAccountId,
   dateFrom: state.appliedFilterOptions.dateFrom,
@@ -65,15 +63,4 @@ export const getRecordPaySuperContent = state => ({
   referenceNumber: state.referenceNumber,
   paySuperDescription: state.paySuperDescription,
   paymentLines: getSuperPayments(state).filter(p => p.isSelected),
-});
-
-export const getAuthoriseWithCodeContent = state => ({
-  batchPaymentId: state.batchPaymentId,
-  authorisationCode: state.authorisationInfo.authorisationCode,
-  authorisationId: state.authorisationInfo.authorisationId,
-  authorisationEmail: state.authorisationInfo.authorisationEmail,
-});
-
-export const getCodeToAuthoriseContent = state => ({
-  batchPaymentId: state.batchPaymentId,
 });

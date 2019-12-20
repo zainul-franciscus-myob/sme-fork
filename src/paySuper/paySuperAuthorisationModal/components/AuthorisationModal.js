@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Input,
   Modal,
@@ -7,15 +8,18 @@ import React from 'react';
 
 import handleInputChange from '../../../components/handlers/handleInputChange';
 
-const AuthoriseCodeModal = ({
+
+const AuthorisationModal = ({
   authorisationCode,
   updateAuthorisationCode,
   onCancelButtonClick,
   onAuthoriseButtonClick,
   onResendAuthorisationCodeClick,
+  alert,
 }) => (
   <Modal title="Authorise payment" onCancel={onCancelButtonClick}>
     <Modal.Body>
+      {alert && <Alert type={alert.type}>{alert.message}</Alert>}
       <h4>Authorise payment</h4>
       <p>
         We&apos;ve sent you an authorisation code by SMS that you&apos;ll need to enter
@@ -54,4 +58,4 @@ const AuthoriseCodeModal = ({
   </Modal>
 );
 
-export default AuthoriseCodeModal;
+export default AuthorisationModal;

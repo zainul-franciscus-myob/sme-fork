@@ -15,7 +15,5 @@ export const UPDATE_DETAIL_HEADER_FIELDS = Symbol('Update bank file details');
 export const UPDATE_BATCH_PAYMENT_ID = Symbol('Update batch payment id');
 export const GET_CODE_TO_AUTHORISE = Symbol('Get code to authorise');
 export const UPDATE_AUTHORISATION_INFORMATION = Symbol('Update authorisation information');
-export const AUTHORISE_WITH_CODE = Symbol('Authorise with code');
-export const UPDATE_AUTHORISATION_CODE = Symbol('Update authorisation code');
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');

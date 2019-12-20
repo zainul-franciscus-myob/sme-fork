@@ -4,10 +4,10 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-const authoriseButtonStatus = ['Created', 'PartiallyAuthorized'];
-const reverseButtonStatus = ['FundsUnavailable', 'FundsTransferError', 'PaymentDispersmentError'];
+const authoriseButtonStatus = ['Created', 'PartiallyAuthorised'];
+const reverseButtonStatus = ['FundsUnavailable', 'FundsTransferError', 'PaymentDispersementError'];
 const ActionButtons = ({
-  status, onAuthorizeClick, onReverseClick, onCancelClick,
+  status, onCancelClick, onAuthoriseClick, onReverseClick,
 }) => {
   const CancelButton = (
     <Button key="cancel" type="secondary" onClick={onCancelClick}>
@@ -19,8 +19,8 @@ const ActionButtons = ({
       <ButtonRow
         primary={[
           CancelButton,
-          <Button key="authorize" type="primary" onClick={onAuthorizeClick}>
-            Authorize
+          <Button key="authorize" type="primary" onClick={onAuthoriseClick}>
+            Authorise
           </Button>,
         ]}
       />

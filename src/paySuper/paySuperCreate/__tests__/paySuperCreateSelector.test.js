@@ -1,4 +1,4 @@
-import { getBalanceValue, getCodeToAuthoriseContent, getTotalPayment } from '../paySuperCreateSelector';
+import { getBalanceValue, getTotalPayment } from '../paySuperCreateSelector';
 import { getOrder } from '../../../banking/bankingSelectors';
 
 describe('paySuperCreateSelector', () => {
@@ -133,19 +133,6 @@ describe('paySuperCreateSelector', () => {
       expect(result).toEqual({
         column: 'SomeColumn',
         descending: true,
-      });
-    });
-  });
-
-  describe('getCodeToAuthoriseContent', () => {
-    it('builds the content', () => {
-      const batchPaymentId = 'BATCH_PAYMENT_ID';
-      const state = { batchPaymentId };
-
-      const result = getCodeToAuthoriseContent(state);
-
-      expect(result).toEqual({
-        batchPaymentId,
       });
     });
   });

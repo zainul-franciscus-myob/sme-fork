@@ -1,4 +1,5 @@
 import {
+  Alert,
   BaseTemplate,
   Card,
   PageHead,
@@ -8,6 +9,7 @@ import React from 'react';
 
 import {
   getAccount,
+  getAlert,
   getDate,
   getDescription,
   getIsLoading,
@@ -39,6 +41,8 @@ const PaySuperReadView = ({
   labelStatus,
   status,
   employeePayModal,
+  authorisationModal,
+  alert,
 }) => {
   const title = <>Super payment {referenceNumber}<PaymentStatus size="large" paymentStatus={labelStatus} /></>;
   const totalPaymentFooter = (
@@ -49,10 +53,13 @@ const PaySuperReadView = ({
       </h4>
     </div>
   );
+
   const view = (
     <BaseTemplate>
       {employeePayModal}
+      {authorisationModal}
       <PageHead title={title} />
+      {alert && <Alert type={alert.type}>{alert.message}</Alert>}
       <Card footer={totalPaymentFooter}>
         <PaySuperReadDetailHeader
           account={account}
@@ -86,6 +93,7 @@ const mapStateToProps = state => ({
   labelStatus: getLabelStatus(state),
   status: getStatus(state),
   superPayments: getSuperPayments(state),
+  alert: getAlert(state),
 });
 
 export default connect(mapStateToProps)(PaySuperReadView);

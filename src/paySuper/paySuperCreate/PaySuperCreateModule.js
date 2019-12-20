@@ -2,9 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  AUTHORISE_WITH_CODE,
   CLOSE_MODAL,
-  GET_CODE_TO_AUTHORISE,
   LOAD_ACCOUNTS_AND_SUPER_PAYMENTS,
   OPEN_MODAL,
   RECORD_PAY_SUPER,
@@ -16,8 +14,6 @@ import {
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_SUPER_PAYMENTS,
   UPDATE_APPLIED_FILTER_OPTIONS,
-  UPDATE_AUTHORISATION_CODE,
-  UPDATE_AUTHORISATION_INFORMATION,
   UPDATE_BATCH_PAYMENT_ID,
   UPDATE_DETAIL_HEADER_FIELDS,
   UPDATE_FILTER_OPTIONS,
@@ -27,9 +23,8 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { SUCCESSFULLY_CREATED_SUPER_PAYMENT } from '../paySuperMessageTypes';
 import {
   getAppliedFilterOptions,
-  getAuthoriseWithCodeContent,
+  getBatchPaymentId,
   getBusinessId,
-  getCodeToAuthoriseContent,
   getFilterOptions,
   getOrderBy,
   getRecordPaySuperContent,
@@ -39,6 +34,7 @@ import {
 } from './paySuperCreateSelector';
 import EmployeePayModalModule from '../../modules/employeePay/employeePayModal/EmployeePayModalModule';
 import ModalType from './ModalType';
+import PaySuperAuthorisationModalModule from '../paySuperAuthorisationModal/PaySuperAuthorisationModalModule';
 import PaySuperCreateView from './components/PaySuperCreateView';
 import Store from '../../store/Store';
 import paySuperCreateReducer from './paySuperCreateReducer';
@@ -56,6 +52,11 @@ export default class PaySuperCreateModule {
     this.subModules = {
       employeePayModal: new EmployeePayModalModule({
         integration,
+      }),
+      paySuperAuthorisationModal: new PaySuperAuthorisationModalModule({
+        integration,
+        onClose: this.goToSuperPaymentList,
+        onAuthoriseSuccess: this.onAuthoriseSuccess,
       }),
     };
   }
@@ -78,6 +79,14 @@ export default class PaySuperCreateModule {
       intent: SET_TABLE_LOADING_STATE,
       isTableLoading,
     });
+  }
+
+  onAuthoriseSuccess = (message) => {
+    this.pushMessage({
+      type: SUCCESSFULLY_CREATED_SUPER_PAYMENT,
+      content: message,
+    });
+    this.goToSuperPaymentList();
   }
 
   updateSelectedAccountId = ({ key, value }) => {
@@ -240,70 +249,14 @@ export default class PaySuperCreateModule {
     });
   }
 
-  getCodeToAuthorise = () => {
+  openAuthoriseModal = () => {
+    this.closeModal();
     const state = this.store.getState();
-    const intent = GET_CODE_TO_AUTHORISE;
-    const content = getCodeToAuthoriseContent(state);
-    const onSuccess = (response) => {
-      this.store.dispatch({
-        intent: UPDATE_AUTHORISATION_INFORMATION,
-        response,
-      });
-      this.openModal(ModalType.AUTHORISE_CODE);
-    };
-
-    const onFailure = ({ message }) => {
-      this.closeModal();
-      this.setAlert({
-        type: 'danger',
-        message,
-      });
-    };
-
-    const urlParams = {
+    const context = {
+      batchPaymentId: getBatchPaymentId(state),
       businessId: getBusinessId(state),
     };
-
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  authoriseSuperPayment = () => {
-    const state = this.store.getState();
-    const intent = AUTHORISE_WITH_CODE;
-    const content = getAuthoriseWithCodeContent(state);
-    const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_CREATED_SUPER_PAYMENT,
-        content: message,
-      });
-      this.goToSuperPaymentList();
-    };
-
-    const onFailure = ({ message }) => {
-      this.closeModal();
-      this.setAlert({
-        type: 'danger',
-        message,
-      });
-    };
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
+    this.subModules.paySuperAuthorisationModal.openModal(context);
   }
 
   setInitialState = (context) => {
@@ -353,6 +306,7 @@ export default class PaySuperCreateModule {
 
   render = () => {
     const employeeTransactionModal = this.subModules.employeePayModal.getView();
+    const paySuperAuthorisationModal = this.subModules.paySuperAuthorisationModal.getView();
 
     const view = (
       <PaySuperCreateView
@@ -364,6 +318,7 @@ export default class PaySuperCreateModule {
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
         onApplyFilter={this.filterSuperPayments}
         employeeTransactionModal={employeeTransactionModal}
+        paySuperAuthorisationModal={paySuperAuthorisationModal}
         onDateLinkClick={this.openEmployeeTransactionModal}
         onDismissAlert={this.dismissAlert}
         onRecord={this.recordPaySuper}
@@ -372,9 +327,7 @@ export default class PaySuperCreateModule {
         onModalCancelButtonClick={this.goToSuperPaymentList}
         onDoNotAuthoriseButtonClick={this.goToSuperPaymentList}
         onAuthoriseButtonClick={this.authoriseSuperPayment}
-        onYesAuthoriseButtonClick={this.getCodeToAuthorise}
-        onResendAuthorisationCodeClick={this.getCodeToAuthorise}
-        updateAuthorisationCode={this.updateAuthorisationCode}
+        onYesAuthoriseButtonClick={this.openAuthoriseModal}
       />
     );
 
@@ -384,13 +337,6 @@ export default class PaySuperCreateModule {
       </Provider>);
 
     this.setRootView(wrappedView);
-  }
-
-  updateAuthorisationCode = ({ value }) => {
-    this.store.dispatch({
-      intent: UPDATE_AUTHORISATION_CODE,
-      authorisationCode: value,
-    });
   }
 
   unsubscribeFromStore = () => {

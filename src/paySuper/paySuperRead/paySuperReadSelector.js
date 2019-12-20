@@ -23,3 +23,5 @@ export const getPaySuperListUrl = (state) => {
   const { businessId, region } = state;
   return `/#/${region}/${businessId}/paySuper`;
 };
+export const getModalType = state => state.modalType;
+export const getAlert = state => state.alert;

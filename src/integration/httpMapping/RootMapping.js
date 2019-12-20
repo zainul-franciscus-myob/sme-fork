@@ -47,6 +47,7 @@ import PayRunListMapping from './PayRunListMapping';
 import PayRunListOldMapping from './PayRunListOldMapping';
 import PayRunMapping from './PayRunMapping';
 import PayRunOldMapping from './PayRunOldMapping';
+import PaySuperAuthorisationModalMapping from './PaySuperAuthorisationModalMapping';
 import PaySuperCreateMapping from './PaySuperCreateMapping';
 import PaySuperMapping from './PaySuperMapping';
 import PaySuperReadMapping from './PaySuperReadMapping';
@@ -136,6 +137,7 @@ const RootMapping = Object.freeze({
   ...SettingMapping,
   ...ActivityMapping,
   ...PaySuperCreateMapping,
+  ...PaySuperAuthorisationModalMapping,
 });
 
 export default RootMapping;

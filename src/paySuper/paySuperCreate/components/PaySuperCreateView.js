@@ -14,7 +14,6 @@ import React from 'react';
 import {
   getAccounts,
   getAlert,
-  getAuthorisationCode,
   getBalanceValue,
   getDateOfPayment,
   getFilterOptions,
@@ -30,7 +29,7 @@ import {
 } from '../paySuperCreateSelector';
 import PageView from '../../../components/PageView/PageView';
 import PaySuperCreateDetailHeader from './PaySuperCreateDetailHeader';
-import RecordAndAuthoriseModal from './RecordAndAutoriseModal';
+import RecordAndAuthoriseModal from './RecordAndAuthoriseModal';
 import SuperPaymentsTable from '../../components/SuperPaymentsTable';
 import styles from '../../paySuper.module.css';
 
@@ -65,13 +64,10 @@ const PaySuperCreateView = ({
   onCancelButtonClick,
   onModalCancelButtonClick,
   onDoNotAuthoriseButtonClick,
-  onAuthoriseButtonClick,
   onYesAuthoriseButtonClick,
-  onResendAuthorisationCodeClick,
-  authorisationCode,
-  updateAuthorisationCode,
   onDateLinkClick,
   employeeTransactionModal,
+  paySuperAuthorisationModal,
 }) => {
   const onDatePickerChange = filterName => ({ value }) => {
     onUpdateFilterBarOptions({ filterName, value });
@@ -95,6 +91,7 @@ const PaySuperCreateView = ({
   const view = (
     <BaseTemplate>
       {employeeTransactionModal}
+      {paySuperAuthorisationModal}
       {alertComponent}
       {modal && (
         <RecordAndAuthoriseModal
@@ -103,10 +100,6 @@ const PaySuperCreateView = ({
           onCloseModal={onCloseModalClick}
           onDoNotAuthoriseButtonClick={onDoNotAuthoriseButtonClick}
           onYesAuthoriseButtonClick={onYesAuthoriseButtonClick}
-          authorisationCode={authorisationCode}
-          updateAuthorisationCode={updateAuthorisationCode}
-          onAuthoriseButtonClick={onAuthoriseButtonClick}
-          onResendAuthorisationCodeClick={onResendAuthorisationCodeClick}
         />
       )}
       <PageHead title="Create super payment" testId="paySuperCreateHeader" />
@@ -170,7 +163,6 @@ const mapStateToProps = state => ({
   referenceNumber: getReferenceNumber(state),
   dateOfPayment: getDateOfPayment(state),
   modal: getModal(state),
-  authorisationCode: getAuthorisationCode(state),
 });
 
 export default connect(mapStateToProps)(PaySuperCreateView);

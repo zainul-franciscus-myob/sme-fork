@@ -12,7 +12,6 @@ import {
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_SUPER_PAYMENTS,
   UPDATE_APPLIED_FILTER_OPTIONS,
-  UPDATE_AUTHORISATION_CODE,
   UPDATE_AUTHORISATION_INFORMATION,
   UPDATE_BATCH_PAYMENT_ID,
   UPDATE_DETAIL_HEADER_FIELDS,
@@ -155,14 +154,6 @@ const updateAuthorisationInfo = (state, { response }) => ({
   },
 });
 
-const updateAuthorisationCode = (state, { authorisationCode }) => ({
-  ...state,
-  authorisationInfo: {
-    ...state.authorisationInfo,
-    authorisationCode,
-  },
-});
-
 const openModal = (state, action) => ({
   ...state,
   modal: action.modal,
@@ -190,7 +181,6 @@ const handlers = {
   [UPDATE_DETAIL_HEADER_FIELDS]: updateDetailHeaderFields,
   [UPDATE_BATCH_PAYMENT_ID]: updateBatchPaymentId,
   [UPDATE_AUTHORISATION_INFORMATION]: updateAuthorisationInfo,
-  [UPDATE_AUTHORISATION_CODE]: updateAuthorisationCode,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
 };

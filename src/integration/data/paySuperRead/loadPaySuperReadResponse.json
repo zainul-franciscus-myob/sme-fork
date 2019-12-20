@@ -1,5 +1,7 @@
 {
-  "status": "Authorised",
+  "businessEventId": 588,
+  "batchPaymentId": "35091",
+  "status": "PartiallyAuthorised",
   "displayId": "PS000001",
   "payFromAccount": "1-1110 Business Bank Account #1",
   "description": "Superannuation payment",

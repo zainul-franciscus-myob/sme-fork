@@ -1,4 +1,6 @@
-import { LOAD_PAY_SUPER_READ, SET_IS_LOADING } from './paySuperReadIntents';
+import {
+  LOAD_PAY_SUPER_READ, SET_ALERT, SET_IS_LOADING, SET_MODAL_TYPE,
+} from './paySuperReadIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
@@ -13,6 +15,8 @@ export const getDefaultState = () => ({
   date: '',
   superPayments: [],
   isLoading: true,
+  modalType: null,
+  alert: null,
 });
 
 export const resetState = () => getDefaultState();
@@ -38,11 +42,23 @@ const loadPaySuperRead = (state, { response }) => ({
   superPayments: response.superPayments,
 });
 
+const setModalType = (state, { modalType }) => ({
+  ...state,
+  modalType,
+});
+
+const setAlert = (state, { alert }) => ({
+  ...state,
+  alert,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_IS_LOADING]: setIsLoading,
   [LOAD_PAY_SUPER_READ]: loadPaySuperRead,
+  [SET_MODAL_TYPE]: setModalType,
+  [SET_ALERT]: setAlert,
 };
 
 const paySuperReadReducer = createReducer(getDefaultState(), handlers);
