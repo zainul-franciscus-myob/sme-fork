@@ -2,8 +2,8 @@ import {
   Alert, Button, PageHead, Table,
 } from '@myob/myob-widgets';
 import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
 
 import { getDefaultState } from '../../paySuperListReducer';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
@@ -23,13 +23,13 @@ describe('PaySuperListView', () => {
     const store = new Store(() => ({ ...DEFAULT_STATE, ...state }));
     const wrappedComponent = (
       <Provider store={store}>
-        <PaySuperListView sticky="none" />
+        <PaySuperListView onSort={() => { }} />
       </Provider>
     );
 
-    const rendered = TestRenderer.create(wrappedComponent);
+    const wrapper = mount(wrappedComponent);
 
-    return rendered.root;
+    return wrapper;
   };
 
   describe('table', () => {
@@ -44,50 +44,59 @@ describe('PaySuperListView', () => {
           description: 'Superannuation Payment',
           status: 'FundsUnavailable',
         },
+        {
+          amount: '88,888.89',
+          batchPaymentId: '13867',
+          dateOccurred: '24/02/2017',
+          employeeCount: 3,
+          displayId: 'PS000002',
+          description: 'Superannuation Payment',
+          status: 'FundsUnavailable',
+        },
       ];
 
-      const testInstance = constructPaySuperListView({ superPayments });
+      const wrapper = constructPaySuperListView({ superPayments });
 
-      const tableRows = testInstance.findAllByType(Table.Row);
+      const tableRows = wrapper.find(Table.Row);
 
       expect(tableRows.length).toEqual(superPayments.length);
     });
 
     it('renders empty state when pay super registered and no super payments found', () => {
-      const testInstance = constructPaySuperListView({
+      const wrapper = constructPaySuperListView({
         superPayments: [],
       });
 
-      const emptyState = testInstance.findByType(NoResultPageState);
+      const emptyState = wrapper.find(NoResultPageState);
 
-      expect(emptyState).toBeDefined();
+      expect(emptyState).toHaveLength(1);
     });
   });
 
   describe('action buttons', () => {
     it('renders create button when pay super is registered', () => {
-      const testInstance = constructPaySuperListView();
+      const wrapper = constructPaySuperListView();
 
-      const createButton = testInstance.findByProps({ testId: 'createSuperPaymentButton' });
+      const createButton = wrapper.find({ testId: 'createSuperPaymentButton' });
 
-      expect(createButton).toBeDefined();
+      expect(createButton).not.toHaveLength(0);
     });
 
     it('renders settings button when pay super is registered', () => {
-      const testInstance = constructPaySuperListView();
+      const wrapper = constructPaySuperListView();
 
-      const settingsButton = testInstance.findByProps({ testId: 'superPaymentSettingsButton' });
+      const settingsButton = wrapper.find({ testId: 'superPaymentSettingsButton' });
 
-      expect(settingsButton).toBeDefined();
+      expect(settingsButton).not.toHaveLength(0);
     });
 
     it('does not render action buttons if not registered', () => {
-      const testInstance = constructPaySuperListView({
+      const wrapper = constructPaySuperListView({
         isRegistered: false,
       });
 
-      const pageHeader = testInstance.findByType(PageHead);
-      const actionButtons = pageHeader.findAllByType(Button);
+      const pageHeader = wrapper.find(PageHead);
+      const actionButtons = pageHeader.find(Button);
 
       expect(actionButtons).toHaveLength(0);
     });
@@ -95,28 +104,28 @@ describe('PaySuperListView', () => {
 
   describe('Unregistered page state', () => {
     it('renders unregistered page state when unregistered', () => {
-      const testInstance = constructPaySuperListView({
+      const wrapper = constructPaySuperListView({
         isRegistered: false,
       });
 
-      const unregisteredPageState = testInstance.findByType(UnregisteredPageState);
+      const unregisteredPageState = wrapper.find(UnregisteredPageState);
 
-      expect(unregisteredPageState).toBeDefined();
+      expect(unregisteredPageState).toHaveLength(1);
     });
   });
 
   describe('Alerts', () => {
     it('renders alerts when they\'re set', () => {
-      const testInstance = constructPaySuperListView({
+      const wrapper = constructPaySuperListView({
         alert: {
           type: 'danger',
           message: 'Danger, Will Robinson',
         },
       });
 
-      const alert = testInstance.findByType(Alert);
+      const alert = wrapper.find(Alert);
 
-      expect(alert).toBeDefined();
+      expect(alert).toHaveLength(1);
     });
   });
 });

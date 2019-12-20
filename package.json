@@ -49,13 +49,14 @@
     "lint:css:fix": "stylelint ./src/**/*.css --fix"
   },
   "devDependencies": {
+    "enzyme": "3.10.0",
+    "enzyme-adapter-react-16": "1.15.1",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jest": "21.24.0",
     "eslint-plugin-jsx-a11y": "6.1.1",
     "eslint-plugin-react": "7.11.1",
     "eslint-plugin-sort-imports-es6-autofix": "0.3.0",
-    "react-test-renderer": "16.12.0",
     "stylelint": "9.6.0",
     "stylelint-config-standard": "18.2.0"
   },

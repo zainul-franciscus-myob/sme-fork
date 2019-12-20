@@ -58,7 +58,7 @@ const GeneralPayrollInformationView = (props) => {
         name="currentYear"
         value={currentYear}
         onChange={handleInputChange(onGeneralPayrollInformationChange)}
-        testId="currentYearField"
+        testid="currentYearField"
       />
     );
   } else {
@@ -66,7 +66,7 @@ const GeneralPayrollInformationView = (props) => {
       <ReadOnly
         label="Payroll year ends 30 June"
         name="taxTableRevisionDate"
-        testId="currentYearField"
+        testid="currentYearField"
       >
         {currentYear}
       </ReadOnly>
@@ -116,7 +116,7 @@ const GeneralPayrollInformationView = (props) => {
       </Card>
       <ButtonRow
         primary={[
-          <Button onClick={onGeneralPayrollInformationSave}>Save</Button>,
+          <Button key="SaveButton" onClick={onGeneralPayrollInformationSave}>Save</Button>,
         ]}
       />
     </>

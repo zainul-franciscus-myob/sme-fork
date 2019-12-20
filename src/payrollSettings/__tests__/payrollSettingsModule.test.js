@@ -1,12 +1,12 @@
 import { ReadOnly } from '@myob/myob-widgets';
-import TestRenderer from 'react-test-renderer';
+import { mount } from 'enzyme';
 
 import { tabIds } from '../tabItems';
 import PayrollSettingsModule from '../PayrollSettingsModule';
 import YearInput from '../../components/autoFormatter/YearInput/YearInput';
 import loadGeneralPayrollInformationResponse from '../../integration/data/payrollSettings/loadGeneralPayrollInformationResponse';
 
-describe('Testing with react-test-renderer', () => {
+describe('PayrollSettingsModule', () => {
   const constructPayrollSettingsModule = (generalPayrollInformationResponse) => {
     const context = { tab: tabIds.general };
     const popMessages = () => (['']);
@@ -18,12 +18,11 @@ describe('Testing with react-test-renderer', () => {
           generalPayrollInformationResponse || loadGeneralPayrollInformationResponse,
         );
       },
-      write: ({ onSuccess }) => { onSuccess({}); },
     };
 
-    let rendered;
+    let wrapper;
     const setRootView = (component) => {
-      rendered = TestRenderer.create(component);
+      wrapper = mount(component);
     };
 
     const module = new PayrollSettingsModule({
@@ -35,18 +34,19 @@ describe('Testing with react-test-renderer', () => {
 
     module.run(context);
     module.dispatcher.setGeneralPayrollInformationIsLoading(false);
+    wrapper.update();
 
-    return rendered.root;
+    return wrapper;
   };
 
   describe('Current Year field', () => {
     it('sets the current year to ReadOnly when current year is provided', () => {
-      const testInstance = constructPayrollSettingsModule();
+      const wrapper = constructPayrollSettingsModule();
 
-      const currentYearField = testInstance.findByProps({ testId: 'currentYearField' });
-      expect(currentYearField).toBeDefined();
-      expect(currentYearField.type).toBe(ReadOnly);
-      expect(currentYearField.props.children).toEqual('2019');
+      const currentYearField = wrapper.find({ testid: 'currentYearField' }).find(ReadOnly);
+      expect(currentYearField).toHaveLength(1);
+
+      expect(currentYearField.contains('2019')).toEqual(true);
     });
 
     it('sets the current year to YearInput when current year is not provided', () => {
@@ -55,12 +55,11 @@ describe('Testing with react-test-renderer', () => {
         currentYear: null,
       };
 
-      const testInstance = constructPayrollSettingsModule(generalPayrollInformationResponse);
+      const wrapper = constructPayrollSettingsModule(generalPayrollInformationResponse);
 
-      const currentYearField = testInstance.findByProps({ testId: 'currentYearField' });
-      expect(currentYearField).toBeDefined();
-      expect(currentYearField.type).toBe(YearInput);
-      expect(currentYearField.props.value).toBeTruthy();
+      const currentYearField = wrapper.find({ testid: 'currentYearField' }).find(YearInput);
+
+      expect(currentYearField).toHaveLength(1);
     });
   });
 });

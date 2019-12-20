@@ -12,7 +12,6 @@ import UnregisteredPageState from './UnregisteredPageState';
 const PaySuperListView = ({
   isLoading,
   isRegistered,
-  sticky = 'all',
   onReferenceNumberClick,
   onCreateButtonClick,
   onSettingsButtonClick,
@@ -50,7 +49,6 @@ const PaySuperListView = ({
 
   const paySuperListView = (
     <StandardTemplate
-      sticky={sticky}
       pageHead={pageHead}
       alert={alertComponent}
     >

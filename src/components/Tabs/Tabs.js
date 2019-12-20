@@ -33,7 +33,7 @@ const Tabs = ({
         onChange={handleSelectChange(onSelected)}
       >
         {items.map(({ id, label }) => (
-          <Select.Option value={id} label={label} />
+          <Select.Option key={id} value={id} label={label} />
         ))}
       </Select>
     </div>
