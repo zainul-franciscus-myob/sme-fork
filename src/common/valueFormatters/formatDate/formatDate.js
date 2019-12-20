@@ -1,11 +1,11 @@
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 
-const formatDate = (date, formatString) => {
-  if (date instanceof Date) {
-    return format(date, formatString);
-  }
+const formatDate = (dateStr, formatString) => {
+  const date = new Date(dateStr);
 
-  return undefined;
+  if (!isValid(date)) return undefined;
+
+  return format(date, formatString);
 };
 
 export default formatDate;

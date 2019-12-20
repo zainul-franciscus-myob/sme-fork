@@ -72,7 +72,7 @@ const getDefaultState = () => ({
     isTaxInclusive: false,
     isReportable: false,
     billNumber: '',
-    issueDate: '',
+    issueDate: formatIsoDate(new Date()),
     orderNumber: '',
     lines: [],
     status: '',
