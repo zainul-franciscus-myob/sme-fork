@@ -8,7 +8,7 @@ import {
   REMOVE_EXEMPTION_PAY_ITEM,
 } from '../ExpensePayItemIntents';
 import expensePayItemReducer from '../expensePayItemReducer';
-import loadNewExpensePayItemResponse from '../../../../integration/data/payItem/expense/loadNewExpensePayItemResponse';
+import loadNewExpensePayItemResponse from '../mappings/data/loadNewExpensePayItemResponse';
 
 describe('expensePayItemReducer', () => {
   describe('LOAD_EXPENSE_PAY_ITEM', () => {

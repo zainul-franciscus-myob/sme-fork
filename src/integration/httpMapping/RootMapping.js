@@ -4,27 +4,27 @@ import ApplyToSaleMapping from '../../modules/applyToSale/mappings/HttpApplyToSa
 import BankFeedsMapping from '../../modules/bankFeeds/mappings/HttpBankFeedsMapping';
 import BankReconciliationMapping from '../../modules/bankReconciliation/mappings/HttpBankReconciliationMapping';
 import BankingMapping from './BankingMapping';
-import BankingRuleBillMapping from './BankingRuleBillMapping';
-import BankingRuleInvoiceMapping from './BankingRuleInvoiceMapping';
-import BankingRuleMapping from './BankingRuleMapping';
-import BankingRuleRecieveMoneyMapping from './BankingRuleRecieveMoneyMapping';
-import BankingRuleSpendMoneyMapping from './BankingRuleSpendMoneyMapping';
+import BankingRuleBillMapping from '../../modules/bankingRules/bankingRuleBill/mappings/HttpBankingRuleBillMapping';
+import BankingRuleInvoiceMapping from '../../modules/bankingRules/bankingRuleInvoice/mappings/HttpBankingRuleInvoiceMapping';
+import BankingRuleMapping from '../../modules/bankingRules/bankingRuleList/mappings/HttpBankingRuleMapping';
+import BankingRuleReceiveMoneyMapping from '../../modules/bankingRules/bankingRuleReceiveMoney/mappings/HttpBankingRuleReceiveMoneyMapping';
+import BankingRuleSpendMoneyMapping from '../../modules/bankingRules/bankingRuleSpendMoney/mappings/HttpBankingRuleSpendMoneyMapping';
 import BillDetailMapping from './BillDetailMapping';
 import BillMapping from './BillMapping';
 import BillPaymentMapping from '../../modules/billPayment/mappings/HttpBillPaymentMapping';
 import BusinessMapping from '../../modules/business/mappings/HttpBusinessMapping';
 import ContactMapping from '../../modules/contact/mappings/HttpContactMapping';
-import CreditsAndDebitsListMapping from './CreditsAndDebitsListMapping';
+import CreditsAndDebitsListMapping from '../../modules/transactionList/creditAndDebitTransactions/mappings/HttpCreditsAndDebitsListMapping';
 import CustomerReturnMapping from '../../modules/customerReturn/mappings/HttpCustomerReturnMapping';
 import CustomerStatementMapping from '../../modules/customerStatement/mappings/HttpCustomerStatementMapping';
 import DashboardMapping from '../../modules/dashboard/mappings/HttpDashboardMapping';
 import DataImportExportMapping from '../../modules/dataImportExport/mappings/HttpDataImportExportMapping';
-import DeductionPayItemMapping from './DeductionPayItemMapping';
-import ElectronicPaymentsCreateMapping from './ElectronicPaymentsCreateMapping';
-import ElectronicPaymentsReadMapping from './ElectronicPaymentsReadMapping';
+import DeductionPayItemMapping from '../../modules/payItem/deductionPayItem/mappings/HttpDeductionPayItemMapping';
+import ElectronicPaymentsCreateMapping from '../../modules/electronicPayments/electronicPaymentsCreate/mappings/HttpElectronicPaymentsCreateMapping';
+import ElectronicPaymentsReadMapping from '../../modules/electronicPayments/electronicPaymentsRead/mappings/HttpElectronicPaymentsReadMapping';
 import EmployeeMapping from '../../modules/employee/mappings/HttpEmployeeMapping';
 import EmployeePayMapping from '../../modules/employeePay/mappings/HttpEmployeePayMapping';
-import ExpensePayItemMapping from './ExpensePayItemMapping';
+import ExpensePayItemMapping from '../../modules/payItem/expensePayItem/mappings/HttpExpensePayItemMapping';
 import GeneralJournalMapping from '../../modules/generalJournal/mappings/HttpGeneralJournalMapping';
 import HelpMapping from './HelpMapping';
 import InTrayMapping from '../../modules/inTray/mappings/HttpInTrayMapping';
@@ -33,13 +33,13 @@ import InventoryMapping from '../../modules/inventory/mappings/HttpInventoryMapp
 import InventoryModalMapping from './InventoryModalMapping';
 import InvoiceMapping from './InvoiceMapping';
 import InvoicePaymentMapping from '../../modules/invoicePayment/mappings/HttpInvoicePaymentMapping';
-import JournalTransactionListMapping from './JournalTransactionListMapping';
-import LeavePayItemMApping from './LeavePayItemMapping';
+import JournalTransactionListMapping from '../../modules/transactionList/journalTransaction/mappings/HttpJournalTransactionListMapping';
+import LeavePayItemMapping from '../../modules/payItem/leavePayItem/mappings/HttpLeavePayItemMapping';
 import LinkBillMapping from '../../modules/linkBill/mappings/HttpLinkBillMapping';
 import LinkUserMapping from '../../modules/linkUser/mappings/HttpLinkUserMapping';
 import LinkedAccountsMapping from '../../modules/linkedAccounts/mappings/HttpLinkedAccountsMapping';
 import NavigationMapping from './NavigationMapping';
-import PayItemMapping from './PayItemMapping';
+import PayItemMapping from '../../modules/payItem/payItemList/mappings/HttpPayItemMapping';
 import PayRefundMapping from '../../modules/payRefund/mappings/HttpPayRefundMapping';
 import PayRunDetailMapping from './PayRunDetailMapping';
 import PayRunDetailOldMapping from './PayRunDetailOldMapping';
@@ -60,13 +60,13 @@ import SettingMapping from './SettingMapping';
 import SpendMoneyMapping from '../../modules/spendMoney/mappings/HttpSpendMoneyMapping';
 import SubscriptionMapping from './SubscriptionMapping';
 import SuperFundMapping from '../../modules/superFund/mappings/HttpSuperFundMapping';
-import SuperPayItemMapping from './SuperPayItemMapping';
+import SuperPayItemMapping from '../../modules/payItem/superPayItem/mappings/HttpSuperPayItemMapping';
 import SupplierReturnMapping from '../../modules/supplierReturn/mappings/HttpSupplierReturnMapping';
 import SupplierReturnPurchaseMapping from '../../modules/supplierReturnPurchase/mappings/HttpSupplierReturnPurchaseMapping';
 import TaxMapping from '../../modules/tax/mappings/HttpTaxMapping';
 import TransferMoneyMapping from '../../modules/transferMoney/mappings/HttpTransferMoneyMapping';
 import UserMapping from '../../modules/user/mappings/HttpUserMapping';
-import WagePayItemMapping from './WagePayItemMapping';
+import WagePayItemMapping from '../../modules/payItem/wagePayItem/mappings/HttpWagePayItemMapping';
 
 const RootMapping = Object.freeze({
   ...DeductionPayItemMapping,
@@ -102,14 +102,14 @@ const RootMapping = Object.freeze({
   ...PayItemMapping,
   ...SuperPayItemMapping,
   ...WagePayItemMapping,
-  ...LeavePayItemMApping,
+  ...LeavePayItemMapping,
   ...InTrayMapping,
   ...ExpensePayItemMapping,
   ...LinkedAccountsMapping,
   ...BankingRuleMapping,
   ...BankReconciliationMapping,
   ...BankingRuleSpendMoneyMapping,
-  ...BankingRuleRecieveMoneyMapping,
+  ...BankingRuleReceiveMoneyMapping,
   ...BankingRuleInvoiceMapping,
   ...BankingRuleBillMapping,
   ...PayRunMapping,
