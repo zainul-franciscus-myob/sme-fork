@@ -1,0 +1,24 @@
+.account > :global(*) {
+  margin-bottom: 0;
+}
+
+.unRegisteredView > :global(*) {
+  margin-bottom: 0;
+}
+
+.account :global(.form-group__input-group) {
+  padding-bottom: 1rem;
+}
+
+.status {
+  font-weight: bold;
+  color: green;
+}
+
+.registeredView {
+  margin: 0.5rem 0 0 0;
+}
+
+.unRegisteredView :global(.btn) {
+  padding-top: 0.6rem;
+}

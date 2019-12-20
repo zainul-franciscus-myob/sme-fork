@@ -24,7 +24,6 @@ import handleAmountInputChange from '../../../../components/handlers/handleAmoun
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import styles from './SellingDetails.module.css';
 
 const SellingDetails = (
   {
@@ -50,7 +49,15 @@ const SellingDetails = (
         <Checkbox label="I sell this item" checked={isSelling} name="isSelling" onChange={handleCheckboxChange(onUpdateIsSelling)} />
       )}
     />
-    <AmountInput className={styles.price} textAlign="right" label="Selling price ($)" name="price" value={price} requiredLabel="This is required" onChange={handleAmountInputChange(onUpdateSellingOption)} />
+    <AmountInput
+      textAlign="right"
+      label="Selling price ($)"
+      name="price"
+      value={price}
+      requiredLabel="This is required"
+      onChange={handleAmountInputChange(onUpdateSellingOption)}
+      width="sm"
+    />
     <BooleanRadioButtonGroup
       label="Selling price is"
       // rename due to conflicting isTaxInclusive on underlying page
@@ -61,7 +68,6 @@ const SellingDetails = (
       handler={onUpdateSellingOption}
     />
     <Input
-      className={styles.unitOfMeasure}
       label="Unit of measure"
       name="unitOfMeasure"
       value={unitOfMeasure}
@@ -72,6 +78,7 @@ const SellingDetails = (
       )}
       onChange={handleInputChange(onUpdateSellingOption)}
       maxLength={5}
+      width="xs"
     />
     <AccountCombobox
       name="accountId"
@@ -81,16 +88,15 @@ const SellingDetails = (
       items={accountOptions}
       onChange={handleComboboxChange('accountId', onUpdateSellingOption)}
     />
-    <div className={styles.taxCodeOptions}>
-      <TaxCodeCombobox
-        label={taxCodeLabel}
-        requiredLabel="This is required"
-        name="taxCodeId"
-        items={taxCodeOptions}
-        selectedId={taxCodeId}
-        onChange={handleComboboxChange('taxCodeId', onUpdateSellingOption)}
-      />
-    </div>
+    <TaxCodeCombobox
+      label={taxCodeLabel}
+      requiredLabel="This is required"
+      name="taxCodeId"
+      items={taxCodeOptions}
+      selectedId={taxCodeId}
+      onChange={handleComboboxChange('taxCodeId', onUpdateSellingOption)}
+      width="sm"
+    />
   </FieldGroup>
 );
 

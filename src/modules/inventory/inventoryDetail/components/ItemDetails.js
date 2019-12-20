@@ -4,12 +4,9 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getItemDetails,
-} from '../inventoryDetailSelectors';
+import { getItemDetails } from '../inventoryDetailSelectors';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import styles from './InventoryDetailView.module.css';
 
 const ItemDetails = ({
   name,
@@ -50,13 +47,13 @@ const ItemDetails = ({
       )}
     />
     <Input
-      className={styles.referenceId}
       name="referenceId"
       label="Item ID"
       requiredLabel="This is required"
       value={referenceId}
       maxLength={30}
       onChange={handleInputChange(onItemDetailsChange)}
+      width="sm"
     />
     <CheckboxGroup
       label="isInactive"

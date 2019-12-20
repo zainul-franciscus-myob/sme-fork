@@ -28,15 +28,14 @@ const LeavePayItemLinkedWages = ({
   return (
     <FieldGroup label={fieldGroupLabel} className={styles.editableTable}>
       <LeavePayItemLinkedWagesTable onRemoveLinkedWage={onRemoveLinkedWage} />
-      <div className={styles.addCombobox}>
-        <PayItemCombobox
-          label="Linked wages"
-          hideLabel
-          hintText="Add linked wages"
-          items={linkedWagesOptions}
-          onChange={handleLinkedWagesComboboxChange(onAddLinkedWage)}
-        />
-      </div>
+      <PayItemCombobox
+        label="Linked wages"
+        hideLabel
+        hintText="Add linked wages"
+        items={linkedWagesOptions}
+        onChange={handleLinkedWagesComboboxChange(onAddLinkedWage)}
+        width="lg"
+      />
     </FieldGroup>
   );
 };

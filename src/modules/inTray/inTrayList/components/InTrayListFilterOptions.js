@@ -1,8 +1,9 @@
-import { DatePicker, FilterBar, Search } from '@myob/myob-widgets';
+import { DatePicker, FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions } from '../selectors/InTrayListSelectors';
+import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import handleDatePickerChange from '../../../../components/handlers/handleDatePickerChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
@@ -21,12 +22,9 @@ const InTrayListFilterOptions = (props) => {
         <DatePicker name="issuedFrom" label="Issued from" value={invoiceDateFrom} onSelect={handleDatePickerChange(onUpdateFilterOptions, 'invoiceDateFrom')} />
         <DatePicker name="issuedTo" label="Issued to" value={invoiceDateTo} onSelect={handleDatePickerChange(onUpdateFilterOptions, 'invoiceDateTo')} />
       </FilterBar.Group>
-      <Search
+      <FilterBarSearch
         id="keywords"
-        label="Search"
         name="keywords"
-        placeholder="Search"
-        maxLength={255}
         value={keywords}
         onChange={handleInputChange(onUpdateFilterOptions)}
       />

@@ -1,3 +1,5 @@
-.search {
-  width: 22.9rem;
+@media (min-width: 768px) {
+  .search {
+    width: var(--flx-width-field-m);
+  }
 }

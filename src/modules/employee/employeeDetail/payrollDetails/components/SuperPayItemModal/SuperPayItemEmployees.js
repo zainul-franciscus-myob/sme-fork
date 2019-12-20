@@ -66,17 +66,16 @@ const SuperPayItemEmployees = (props) => {
           ))}
         </Table.Body>
       </Table>
-      <div className={styles.addCombobox}>
-        <Combobox
-          label="Employees"
-          hideLabel
-          hintText="Add employees to pay item"
-          metaData={metaData}
-          items={employeeOptions}
-          selected={{}}
-          onChange={handleComboboxChange(onAddItem, 'employees')}
-        />
-      </div>
+      <Combobox
+        label="Employees"
+        hideLabel
+        hintText="Add employees to pay item"
+        metaData={metaData}
+        items={employeeOptions}
+        selected={{}}
+        onChange={handleComboboxChange(onAddItem, 'employees')}
+        width="lg"
+      />
     </FieldGroup>
   );
 };

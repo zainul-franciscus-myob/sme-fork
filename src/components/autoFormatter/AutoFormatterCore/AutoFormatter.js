@@ -3,6 +3,8 @@ import Cleave from 'cleave.js/react';
 import React from 'react';
 import classnames from 'classnames';
 
+import styles from './AutoFormatter.module.css';
+
 const Input = ({
   label,
   id,
@@ -12,6 +14,7 @@ const Input = ({
   errorMessage,
   errorMessageInline,
   className,
+  width,
   requiredLabel,
   ...inputBoxProps
 }) => (
@@ -30,6 +33,11 @@ const Input = ({
         className={classnames('form-control', className, {
           'text-align-center': textAlign === 'center',
           'text-align-right': textAlign === 'right',
+          [styles.xs]: width === 'xs',
+          [styles.sm]: width === 'sm',
+          [styles.md]: width === 'md',
+          [styles.lg]: width === 'lg',
+          [styles.xl]: width === 'xl',
         })}
       />
     )}

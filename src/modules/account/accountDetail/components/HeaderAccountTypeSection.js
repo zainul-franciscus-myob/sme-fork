@@ -10,7 +10,6 @@ import {
   getIsReadOnlyHeaderAccountType,
 } from '../accountDetailSelectors';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
-import style from './AccountTypeSection.module.css';
 
 const AccountTypes = ({ options }) => options
   .map(({ displayName, value }) => (
@@ -30,13 +29,13 @@ const HeaderAccountTypeSection = ({
   </ReadOnly>
 ) : (
   <Select
-    className={style.type}
     name="accountClassification"
     label="Account type"
     value={accountClassification}
     requiredLabel="This is required"
     onChange={handleSelectChange(onChange)}
     disabled={disabled}
+    width="md"
   >
     <Select.Option hidden value="" label="Select an option" key="blank" />
     <AccountTypes options={accountClassifications} />

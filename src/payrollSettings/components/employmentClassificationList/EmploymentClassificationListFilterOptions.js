@@ -1,8 +1,9 @@
-import { FilterBar, Search } from '@myob/myob-widgets';
+import { FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getEmploymentClassificationFilterOptions } from '../../selectors/employmentClassificationListSelectors';
+import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 
 const EmploymentClassificationListFilterOptions = (props) => {
@@ -14,12 +15,9 @@ const EmploymentClassificationListFilterOptions = (props) => {
 
   return (
     <FilterBar onApply={onApplyFilter}>
-      <Search
+      <FilterBarSearch
         id="keywords"
-        label="Search"
         name="keywords"
-        placeholder="Search"
-        maxLength={255}
         value={keywords}
         onChange={handleInputChange(onUpdateFilterOptions)}
       />

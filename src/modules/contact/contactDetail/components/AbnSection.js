@@ -5,7 +5,6 @@ import React from 'react';
 import { getAbn, getAbnLink, getRegion } from '../contactDetailSelectors';
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
 import LinkButton from '../../../../components/Button/LinkButton';
-import styles from './AbnSection.module.css';
 
 const onAbnInputChange = handler => (e) => {
   const { name, rawValue } = e.target;
@@ -25,7 +24,7 @@ const AbnSection = ({
         label="ABN"
         value={abn}
         onChange={onAbnInputChange(onContactDetailsChange)}
-        className={styles.abn}
+        width="sm"
       />
       <Field
         label="ABN lookup"

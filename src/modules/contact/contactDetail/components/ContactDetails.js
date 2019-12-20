@@ -1,11 +1,5 @@
 import {
-  Checkbox,
-  CheckboxGroup,
-  FieldGroup,
-  Input,
-  RadioButton,
-  RadioButtonGroup,
-  Tooltip,
+  Checkbox, CheckboxGroup, FieldGroup, Input, RadioButton, RadioButtonGroup, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -14,7 +8,6 @@ import { getContactDetails } from '../contactDetailSelectors';
 import AbnSection from './AbnSection';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
-import style from './ContactDetails.module.css';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -75,9 +68,9 @@ const ContactDetails = ({
           name="companyName"
           label="Company name"
           requiredLabel="This is required"
-          className={style.companyName}
           value={companyName}
           onChange={onInputChange(onContactDetailsChange)}
+          width="lg"
         />
       )
     }
@@ -86,9 +79,9 @@ const ContactDetails = ({
         <Input
           name="firstName"
           label="First name"
-          className={style.firstName}
           value={firstName}
           onChange={onInputChange(onContactDetailsChange)}
+          width="lg"
         />
       )
     }
@@ -98,9 +91,9 @@ const ContactDetails = ({
           name="lastName"
           label="Surname or family name"
           requiredLabel="This is required"
-          className={style.lastName}
           value={lastName}
           onChange={onInputChange(onContactDetailsChange)}
+          width="lg"
         />
       )
     }
@@ -126,9 +119,9 @@ const ContactDetails = ({
       name="referenceId"
       label="Contact ID"
       requiredLabel="This is required"
-      className={style.contactId}
       value={referenceId}
       onChange={onInputChange(onContactDetailsChange)}
+      width="sm"
     />
     <CheckboxGroup
       label="Inactive"

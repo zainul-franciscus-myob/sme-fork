@@ -1,10 +1,12 @@
-
 import { connect } from 'react-redux';
 import React from 'react';
 
 
 import {
-  getCustomerFilterOptions, getFilterOptions, getTotalAmount, getTotalCreditAmount,
+  getCustomerFilterOptions,
+  getFilterOptions,
+  getTotalAmount,
+  getTotalCreditAmount,
 } from '../CustomerReturnListSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
@@ -36,6 +38,7 @@ const CustomerReturnListFilterOptions = ({
           items={customerFilterOptions}
           selectedId={customerId}
           onChange={onComboBoxChange('customerId', onUpdateFilterBarOptions)}
+          width="lg"
         />
       </div>
       <FilterBarSearch

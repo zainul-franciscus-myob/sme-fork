@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getNzTaxDetails } from '../businessDetailSelectors';
-import styles from './BusinessDetailsSection.module.css';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -13,19 +12,19 @@ const onInputChange = handler => (e) => {
 const NzTaxDetails = ({ irdNumber, nzbn, onChange }) => (
   <React.Fragment>
     <Input
-      className={styles.input}
       name="irdNumber"
       label="IRD Number/GST Number"
       value={irdNumber}
       onChange={onInputChange(onChange)}
+      width="sm"
     />
     <Input
-      className={styles.input}
       name="nzbn"
       label="NZ Business Number (NZBN)"
       maxLength={19}
       value={nzbn}
       onChange={onInputChange(onChange)}
+      width="sm"
     />
   </React.Fragment>
 );

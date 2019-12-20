@@ -1,14 +1,10 @@
 import {
-  Checkbox, CheckboxGroup,
-  FieldGroup, Input, Tooltip,
+  Checkbox, CheckboxGroup, FieldGroup, Input, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getIsEnableForSelling,
-  getSellingDetails,
-} from '../inventoryDetailSelectors';
+import { getIsEnableForSelling, getSellingDetails } from '../inventoryDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
@@ -17,7 +13,6 @@ import handleAmountInputChange from '../../../../components/handlers/handleAmoun
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import styles from './InventoryDetailView.module.css';
 
 const SellingDetails = ({
   enabled,
@@ -49,7 +44,6 @@ const SellingDetails = ({
       )}
     />
     <AmountInput
-      className={styles.price}
       label="Selling price ($)"
       requiredLabel="This is required"
       name="sellingPrice"
@@ -59,6 +53,7 @@ const SellingDetails = ({
       decimalScale={5}
       disabled={!enabled}
       textAlign="right"
+      width="sm"
     />
     <BooleanRadioButtonGroup
       label="Selling price is"
@@ -70,7 +65,6 @@ const SellingDetails = ({
       handler={onSellingDetailsChange}
     />
     <Input
-      className={styles.unitOfMeasure}
       name="unitOfMeasure"
       label="Unit of measure"
       value={unitOfMeasure}
@@ -83,6 +77,7 @@ const SellingDetails = ({
       )}
       onChange={handleInputChange(onSellingDetailsChange)}
       maxLength={5}
+      width="xs"
     />
     <AccountCombobox
       label="Account for tracking sales"
@@ -93,17 +88,16 @@ const SellingDetails = ({
       disabled={!enabled}
       onChange={handleComboboxChange('allocateToAccountId', onSellingDetailsChange)}
     />
-    <div className={styles.taxCode}>
-      <TaxCodeCombobox
-        items={taxCodes}
-        requiredLabel="This is required"
-        selectedId={taxCodeId}
-        label={taxLabel}
-        allowClearSelection
-        disabled={!enabled}
-        onChange={handleComboboxChange('taxCodeId', onSellingDetailsChange)}
-      />
-    </div>
+    <TaxCodeCombobox
+      items={taxCodes}
+      requiredLabel="This is required"
+      selectedId={taxCodeId}
+      label={taxLabel}
+      allowClearSelection
+      disabled={!enabled}
+      onChange={handleComboboxChange('taxCodeId', onSellingDetailsChange)}
+      width="sm"
+    />
   </FieldGroup>
 );
 

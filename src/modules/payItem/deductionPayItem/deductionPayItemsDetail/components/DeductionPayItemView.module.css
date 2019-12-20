@@ -3,10 +3,6 @@
   background: none;
 }
 
-.addCombobox {
-  max-width: 30rem;
-}
-
 .editableTable :global(.table-data__container) {
   margin-bottom: 1.2rem;
 }

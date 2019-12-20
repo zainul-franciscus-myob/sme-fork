@@ -28,15 +28,14 @@ const LeavePayItemEmployees = ({
   return (
     <FieldGroup label={fieldGroupLabel} className={styles.editableTable}>
       <LeavePayItemEmployeesTable onRemoveEmployee={onRemoveEmployee} />
-      <div className={styles.addCombobox}>
-        <EmployeeCombobox
-          label="Employees"
-          hideLabel
-          hintText="Add employees to pay item"
-          items={employees}
-          onChange={handleEmployeeComboboxChange(onAddEmployee)}
-        />
-      </div>
+      <EmployeeCombobox
+        label="Employees"
+        hideLabel
+        hintText="Add employees to pay item"
+        items={employees}
+        onChange={handleEmployeeComboboxChange(onAddEmployee)}
+        width="lg"
+      />
     </FieldGroup>
   );
 };

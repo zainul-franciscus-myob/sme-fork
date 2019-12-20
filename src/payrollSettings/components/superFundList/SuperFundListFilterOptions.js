@@ -1,8 +1,9 @@
-import { FilterBar, Search } from '@myob/myob-widgets';
+import { FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions } from '../../selectors/superFundListSelectors';
+import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 
 const onInputChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
 
@@ -15,12 +16,9 @@ const SuperFundListFilterOptions = (props) => {
 
   return (
     <FilterBar onApply={onApplyFilter}>
-      <Search
+      <FilterBarSearch
         id="keywords"
-        label="Search"
         name="keywords"
-        placeholder="Search"
-        maxLength={255}
         value={keywords}
         onChange={onInputChange(onUpdateFilterOptions)}
       />

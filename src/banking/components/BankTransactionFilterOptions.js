@@ -1,16 +1,10 @@
-import {
-  DatePicker, Search, Select,
-} from '@myob/myob-widgets';
+import { DatePicker, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getFilterOptions,
-  getShouldDisplayDateRange,
-  getTransactionTypes,
-} from '../bankingSelectors';
+import { getFilterOptions, getShouldDisplayDateRange, getTransactionTypes } from '../bankingSelectors';
 import FilterBar from '../../components/Feelix/FilterBar/FilterBar';
-import styles from './BankTransactionFilterOptions.module.css';
+import FilterBarSearch from '../../components/FilterBarSearch/FilterBarSearch';
 
 class BankTransactionFilterOptions extends React.Component {
   onDateChange = filterName => ({ value }) => {
@@ -57,14 +51,14 @@ class BankTransactionFilterOptions extends React.Component {
       <React.Fragment>
         <FilterBar onApply={onApplyFilter}>
           <FilterBar.Group>
-            <Select className={styles.status} name="transactionType" label="Status" value={transactionType} onChange={this.onSelectChange}>
+            <Select name="transactionType" label="Status" value={transactionType} onChange={this.onSelectChange} width="sm">
               {transactionTypes.map(({ label, value }) => (
                 <Select.Option value={value} label={label} key={value} />
               ))}
             </Select>
             {dateRangeFilter}
           </FilterBar.Group>
-          <Search className={styles.search} id="Search_Box" name="Search" label="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+          <FilterBarSearch id="Search_Box" name="Search" value={keywords} onChange={this.onSearchBoxChange} />
         </FilterBar>
       </React.Fragment>
     );

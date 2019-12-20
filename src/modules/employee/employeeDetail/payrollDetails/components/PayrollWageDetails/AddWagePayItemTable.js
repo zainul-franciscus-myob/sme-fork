@@ -91,21 +91,20 @@ const AddWagePayItemTable = ({
     </Table>
     { filteredWagePayItemOptions.length > 0
       && (
-      <div className={styles.addCombobox}>
-        <Combobox
-          label={addWagePayItemLabel}
-          hideLabel
-          hintText={addWagePayItemLabel}
-          metaData={comboboxMetaData}
-          selected={{}}
-          items={filteredWagePayItemOptions}
-          onChange={handleComboboxChange(onAddWagePayItem)}
-          addNewItem={{
-            label: 'Create wage pay item',
-            onAddNew: onPayItemSelect(onOpenWagePayItemModal, 'new'),
-          }}
-        />
-      </div>
+      <Combobox
+        label={addWagePayItemLabel}
+        hideLabel
+        hintText={addWagePayItemLabel}
+        metaData={comboboxMetaData}
+        selected={{}}
+        items={filteredWagePayItemOptions}
+        onChange={handleComboboxChange(onAddWagePayItem)}
+        addNewItem={{
+          label: 'Create wage pay item',
+          onAddNew: onPayItemSelect(onOpenWagePayItemModal, 'new'),
+        }}
+        width="lg"
+      />
       )
     }
   </div>

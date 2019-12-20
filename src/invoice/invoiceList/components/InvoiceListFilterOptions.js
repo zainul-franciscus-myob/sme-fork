@@ -1,6 +1,4 @@
-import {
-  DatePicker, Select,
-} from '@myob/myob-widgets';
+import { DatePicker, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 import classnames from 'classnames';
@@ -81,9 +79,7 @@ class InvoiceListFilterOptions extends React.Component {
           </div>
           <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onDateChange('dateFrom')} />
           <DatePicker name="issuedTo" label="Issued to" value={dateTo} onSelect={this.onDateChange('dateTo')} />
-          <div className={styles.search}>
-            <FilterBarSearch name="search" label="Search" id="Search_Box" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
-          </div>
+          <FilterBarSearch name="search" label="Search" id="Search_Box" value={keywords} onChange={this.onSearchBoxChange} />
         </FilterBar>
         <hr />
         <div className={styles.totals}>

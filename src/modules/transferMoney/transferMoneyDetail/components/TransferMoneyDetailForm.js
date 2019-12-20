@@ -12,7 +12,6 @@ import handleAmountInputChange from '../../../../components/handlers/handleAmoun
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleDateChange from '../../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import styles from './TransferMoneyDetailForm.module.css';
 
 const TransferMoneyDetailForm = ({
   transferMoney: {
@@ -31,7 +30,6 @@ const TransferMoneyDetailForm = ({
   const primary = (
     <React.Fragment>
       <AmountInput
-        className={styles.amount}
         label="Amount ($)"
         requiredLabel="This is required"
         name="amount"
@@ -42,6 +40,7 @@ const TransferMoneyDetailForm = ({
         decimalScale={5}
         disabled={!isCreating}
         textAlign="right"
+        width="sm"
       />
       <TextArea
         name="description"

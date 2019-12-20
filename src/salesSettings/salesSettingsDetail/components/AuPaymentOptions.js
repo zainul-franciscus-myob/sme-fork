@@ -15,7 +15,7 @@ import handleCheckboxChange from '../../../components/handlers/handleCheckboxCha
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import onlinePaymentMethodsImage from './OnlinePaymentMethods.png';
-import styles from './SalesSettingsPaymentsDetails.module.css';
+import styles from './AuPaymentOptions.module.css';
 
 const AuPaymentOptions = ({
   accountOptions,
@@ -82,22 +82,22 @@ const AuPaymentOptions = ({
         onChange={handleInputChange(onUpdateSalesSettingsItem)}
       />
       <BSBInput
-        className={styles.bsbNumber}
         name="bsbNumber"
         label="BSB number"
         requiredLabel="This field is required"
         numeralIntegerScale={6}
         value={salesSettings.bsbNumber}
         onChange={handleInputChange(onUpdateSalesSettingsItem)}
+        width="xs"
       />
       <AccountNumberInput
-        className={styles.accountNumber}
         name="accountNumber"
         label="Account number"
         requiredLabel="This field is required"
         numeralIntegerScale={9}
         value={salesSettings.accountNumber}
         onChange={handleInputChange(onUpdateSalesSettingsItem)}
+        width="xs"
       />
     </>
   );

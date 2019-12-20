@@ -15,7 +15,7 @@
 }
 
 .supplier {
-  width: 29rem;
+  width: var(--flx-width-field-l);
 }
 
 @media (min-width: 768px) {

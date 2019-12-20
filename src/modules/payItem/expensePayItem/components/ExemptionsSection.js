@@ -25,15 +25,14 @@ const ExemptionsSection = ({
     className={styles.editableTable}
   >
     <ExemptionsTable onRemoveExemptionPayItem={onRemoveExemptionPayItem} />
-    <div className={styles.addCombobox}>
-      <PayItemCombobox
-        label="Exemptions"
-        hideLabel
-        hintText="Add exemption"
-        items={exemptionPayItemOptions}
-        onChange={handleComboboxChange(undefined, onAddExemptionPayItem)}
-      />
-    </div>
+    <PayItemCombobox
+      label="Exemptions"
+      hideLabel
+      hintText="Add exemption"
+      items={exemptionPayItemOptions}
+      onChange={handleComboboxChange(undefined, onAddExemptionPayItem)}
+      width="lg"
+    />
   </FieldGroup>
 );
 

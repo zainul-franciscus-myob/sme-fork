@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getMoreDetails } from '../contactDetailSelectors';
-import style from './MoreDetails.module.css';
-
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -19,18 +17,17 @@ const MoreDetails = (props) => {
 
   return (
     <FieldGroup label="More information">
-      <span className={style.notes}>
-        <TextArea
-          name="notes"
-          label="Notes"
-          autoSize
-          rows={3}
-          maxLength={255}
-          resize="vertical"
-          value={notes}
-          onChange={onInputChange(onContactDetailsChange)}
-        />
-      </span>
+      <TextArea
+        name="notes"
+        label="Notes"
+        autoSize
+        rows={3}
+        maxLength={255}
+        resize="vertical"
+        value={notes}
+        onChange={onInputChange(onContactDetailsChange)}
+        width="lg"
+      />
     </FieldGroup>
   );
 };

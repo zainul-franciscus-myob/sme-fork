@@ -6,10 +6,6 @@
   margin-bottom: 3.2rem;
 }
 
-.addCombobox {
-  max-width: 30rem;
-}
-
 /* How we acheive it in the <FormTemplate> -- Feelix specific values */
 .leavePayItemContainer :global(.form-group) {
   width: 66.3732394366197%;

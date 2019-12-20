@@ -1,0 +1,21 @@
+@media (min-width: 500px) {
+  .xs {
+    max-width: var(--flx-width-field-xs);
+  }
+
+  .sm {
+    max-width: var(--flx-width-field-s);
+  }
+
+  .md {
+    max-width: var(--flx-width-field-m);
+  }
+
+  .lg {
+    max-width: var(--flx-width-field-l);
+  }
+
+  .xl {
+    max-width: var(--flx-width-field-xl);
+  }
+}

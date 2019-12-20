@@ -11,7 +11,6 @@ import {
 } from '../accountModalSelectors';
 import AutoFormatter from '../../../../components/autoFormatter/AutoFormatterCore/AutoFormatter';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import style from './NzBankDetailsSection.module.css';
 
 const handleFormattedInputChange = handler => (e) => {
   const { name, rawValue } = e.target;
@@ -28,7 +27,6 @@ const AuBankDetailsSection = ({
 }) => (
   <React.Fragment>
     <AutoFormatter
-      className={style.number}
       name="accountNumberNz"
       label="Bank account number"
       value={accountNumber}
@@ -38,9 +36,9 @@ const AuBankDetailsSection = ({
         blocks: [2, 4, 7, 3],
         delimiters: ['-'],
       }}
+      width="sm"
     />
     <AutoFormatter
-      className={style.name}
       onChange={handleFormattedInputChange(onChange)}
       name="accountNameNz"
       label="Bank account name"
@@ -49,30 +47,31 @@ const AuBankDetailsSection = ({
       options={{
         uppercase: true,
       }}
+      width="xl"
     />
     <Input
-      className={style.particulars}
       onChange={handleInputChange(onChange)}
       name="statementParticulars"
       label="Particulars"
       maxLength={12}
       value={particulars}
+      width="sm"
     />
     <Input
       maxLength={12}
-      className={style.code}
       onChange={handleInputChange(onChange)}
       name="statementCode"
       label="Bank code"
       value={bankCode}
+      width="sm"
     />
     <Input
-      className={style.reference}
       maxLength={12}
       onChange={handleInputChange(onChange)}
       name="statementReference"
       label="Reference"
       value={reference}
+      width="sm"
     />
   </React.Fragment>
 );

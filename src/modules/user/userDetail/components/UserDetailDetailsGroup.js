@@ -1,8 +1,5 @@
 import {
-  Checkbox,
-  CheckboxGroup,
-  FieldGroup,
-  Input,
+  Checkbox, CheckboxGroup, FieldGroup, Input,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -10,7 +7,6 @@ import React from 'react';
 import { getUserDetails } from '../userDetailSelectors';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import styles from './UserDetailDetailsGroup.module.css';
 
 const UserDetailDetailsGroup = ({
   userName,
@@ -26,18 +22,18 @@ const UserDetailDetailsGroup = ({
       label="Name"
       requiredLabel={isCreating ? 'This is required' : ''}
       value={userName}
-      className={styles.textInput}
       onChange={handleInputChange(onUserDetailsChange)}
       disabled={!isCreating}
+      width="lg"
     />
     <Input
       name="email"
       label="Email"
       requiredLabel={isCreating ? 'This is required' : ''}
       value={email}
-      className={styles.textInput}
       onChange={handleInputChange(onUserDetailsChange)}
       disabled={!isCreating}
+      width="lg"
     />
     {
       !isCreating

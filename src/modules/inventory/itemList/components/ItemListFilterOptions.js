@@ -1,11 +1,9 @@
-import {
-  Checkbox, FilterBar, Search, Select,
-} from '@myob/myob-widgets';
+import { Checkbox, FilterBar, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions, getTypeOptions } from '../itemListSelectors';
-import styles from './ItemListFilterOptions.module.css';
+import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 
 class ItemListFilterOptions extends React.Component {
   onSelectChange = (e) => {
@@ -51,7 +49,7 @@ class ItemListFilterOptions extends React.Component {
             <Select.Option value={value} label={label} key={value} />
           ))}
         </Select>
-        <Search name="keyword" className={styles.searchBox} label="Search" placeholder="" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+        <FilterBarSearch name="keyword" value={keywords} onChange={this.onSearchBoxChange} />
         <FilterBar.Item>
           <Checkbox id="Check_Box" name="showInactive" label="Show inactive" checked={showInactive} onChange={this.onCheckboxChange} />
         </FilterBar.Item>

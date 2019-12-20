@@ -5,7 +5,6 @@ import React from 'react';
 import { getBusinessDetails, getIsRegionAu } from '../businessDetailSelectors';
 import AuTaxDetails from './AuTaxDetails';
 import NzTaxDetails from './NzTaxDetails';
-import styles from './BusinessDetailsSection.module.css';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -21,11 +20,11 @@ const BusinessDetailsSection = ({
     </ReadOnly>
     <Input
       name="organisationName"
-      className={styles.businessName}
       label="Business name"
       value={organisationName}
       requiredLabel="required"
       onChange={onInputChange(onChange)}
+      width="xl"
     />
     {isAu ? <AuTaxDetails onChange={onChange} /> : <NzTaxDetails onChange={onChange} />}
   </FieldGroup>

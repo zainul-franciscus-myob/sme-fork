@@ -43,7 +43,7 @@ const Address = ({
       name="state"
       value={state}
       onChange={onInputChange(onAddressChange)}
-      className={style.state}
+      width="xs"
     >
       {[<Select.Option value="placeholder" label="" hidden />].concat(
         stateOptions.map(({ name, value }) => (
@@ -64,36 +64,31 @@ const Address = ({
     <FieldGroup label={title}>
       <fieldset className={style.addressGroup}>
         <legend className="sr-only">Address</legend>
-        <span className={style.country}>
-          <CountryCombobox
-            hideLabel={false}
-            label="Country"
-            name="country"
-            selectedId={country}
-            onChange={onComboBoxChange(onAddressChange, 'country')}
-          />
-          <span />
-        </span>
-        <span className={style.address}>
-          <TextArea
-            name="street"
-            label="Address"
-            autoSize
-            rows={3}
-            resize="vertical"
-            maxLength={255}
-            value={street}
-            onChange={onInputChange(onAddressChange)}
-          />
-          <span />
-        </span>
-
+        <CountryCombobox
+          hideLabel={false}
+          label="Country"
+          name="country"
+          selectedId={country}
+          onChange={onComboBoxChange(onAddressChange, 'country')}
+          width="lg"
+        />
+        <TextArea
+          name="street"
+          label="Address"
+          autoSize
+          rows={3}
+          resize="vertical"
+          maxLength={255}
+          value={street}
+          onChange={onInputChange(onAddressChange)}
+          width="lg"
+        />
         <Input
           name="city"
           label="Suburb/town/locality"
           value={city}
           onChange={onInputChange(onAddressChange)}
-          className={style.city}
+          width="lg"
         />
         {stateInput}
         <Input
@@ -101,7 +96,7 @@ const Address = ({
           label="Postcode"
           value={postcode}
           onChange={onInputChange(onAddressChange)}
-          className={style.postcode}
+          width="xs"
         />
       </fieldset>
       <fieldset>
@@ -111,21 +106,21 @@ const Address = ({
           label="Contact person"
           value={businessContact}
           onChange={onInputChange(onAddressChange)}
-          className={style.contactPerson}
+          width="lg"
         />
         <Input
           name="email"
           label="Email"
           value={email}
           onChange={onInputChange(onAddressChange)}
-          className={style.email}
+          width="lg"
         />
         <Input
           name="fax"
           label="Fax"
           value={fax}
           onChange={onInputChange(onAddressChange)}
-          className={style.fax}
+          width="md"
         />
         <PhoneNumberList
           inputClassName={style.phone}

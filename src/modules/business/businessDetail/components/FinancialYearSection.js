@@ -9,7 +9,6 @@ import MonthSelect from './MonthSelect';
 import YearSelect from './YearSelect';
 import handleMonthPickerChange from '../../../../components/handlers/handleMonthPickerChange';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
-import styles from './FinancialYearSection.module.css';
 
 const FinancialYearSection = ({
   financialYear,
@@ -19,14 +18,13 @@ const FinancialYearSection = ({
 }) => (
   <FieldGroup label="Financial year">
     <YearSelect
-      className={styles.fiscalYear}
       name="financialYear"
       label="Current financial year"
       value={financialYear}
       onChange={handleSelectChange(onChange)}
+      width="xs"
     />
     <MonthSelect
-      className={styles.lastMonthInFiscalYear}
       name="lastMonthInFinancialYear"
       label="Last month in financial year"
       value={lastMonthInFinancialYear}
@@ -37,6 +35,7 @@ const FinancialYearSection = ({
         </Tooltip>
       )}
       onChange={handleSelectChange(onChange)}
+      width="sm"
     />
     <MonthPicker
       name="openingBalanceDate"

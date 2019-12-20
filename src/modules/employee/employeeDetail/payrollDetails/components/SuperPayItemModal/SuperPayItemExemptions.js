@@ -71,16 +71,15 @@ const SuperPayItemExemptions = (props) => {
           ))}
         </Table.Body>
       </Table>
-      <div className={styles.addCombobox}>
-        <PayItemCombobox
-          label="Exemptions"
-          hideLabel
-          hintText="Add exemption"
-          items={exemptionOptions}
-          onChange={handleComboboxChange(onAddItem, 'exemptions')}
-          disabled={isExemptionDisabled}
-        />
-      </div>
+      <PayItemCombobox
+        label="Exemptions"
+        hideLabel
+        hintText="Add exemption"
+        items={exemptionOptions}
+        onChange={handleComboboxChange(onAddItem, 'exemptions')}
+        disabled={isExemptionDisabled}
+        width="lg"
+      />
     </FieldGroup>
   );
 };

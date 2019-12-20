@@ -9,7 +9,7 @@ const FilterBarSearch = ({
   maxLength = 255,
   onChange,
   className = styles.search,
-  placeholder = 'Search',
+  placeholder = '',
 }) => (
   <Search
     name={name}

@@ -51,28 +51,28 @@ const AuBankDetailsSection = ({
       }}
     />
     <Input
-      className={style.particulars}
       onChange={handleInputChange(onChange)}
       name="statementParticulars"
       label="Particulars"
       maxLength={12}
       value={particulars}
+      width="sm"
     />
     <Input
       maxLength={12}
-      className={style.code}
       onChange={handleInputChange(onChange)}
       name="statementCode"
       label="Bank code"
       value={bankCode}
+      width="sm"
     />
     <Input
-      className={style.reference}
       maxLength={12}
       onChange={handleInputChange(onChange)}
       name="statementReference"
       label="Reference"
       value={reference}
+      width="sm"
     />
   </React.Fragment>
 );

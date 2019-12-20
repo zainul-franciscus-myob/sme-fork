@@ -10,7 +10,6 @@ import {
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
-import styles from './PayRefundDetail.module.css';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -74,9 +73,9 @@ const PayRefundDetail = (props) => {
         value={amount}
         onChange={handleAmountChange(onRefundDetailsChange)}
         requiredLabel={requiredLabel}
-        className={styles.amount}
         textAlign="right"
         disabled={!isCreating}
+        width="sm"
       />
       <TextArea
         name="description"

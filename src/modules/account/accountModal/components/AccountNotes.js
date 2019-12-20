@@ -4,20 +4,17 @@ import React from 'react';
 
 import { getNotes } from '../accountModalSelectors';
 import handleTextAreaChange from '../../../../components/handlers/handleTextAreaChange';
-import style from './AccountNotes.module.css';
-
 
 const AccountNotes = ({ notes, onChange }) => (
-  <div className={style.notes}>
-    <TextArea
-      name="notes"
-      label="Notes"
-      value={notes}
-      rows={3}
-      resize="vertical"
-      onChange={handleTextAreaChange(onChange)}
-    />
-  </div>
+  <TextArea
+    name="notes"
+    label="Notes"
+    value={notes}
+    rows={3}
+    resize="vertical"
+    onChange={handleTextAreaChange(onChange)}
+    width="xl"
+  />
 );
 
 const mapStateToProps = state => ({

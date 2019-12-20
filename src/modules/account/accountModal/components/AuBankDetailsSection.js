@@ -1,9 +1,5 @@
 import {
-  Checkbox,
-  CheckboxGroup,
-  Icons,
-  Input,
-  Tooltip,
+  Checkbox, CheckboxGroup, Icons, Input, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -23,7 +19,6 @@ import AutoFormatter from '../../../../components/autoFormatter/AutoFormatterCor
 import BSBInput from '../../../../components/autoFormatter/BankDetailsInput/BSBInput';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import style from './AuBankDetailsSection.module.css';
 
 const handleFormattedInputChange = handler => (e) => {
   const { name, rawValue } = e.target;
@@ -43,21 +38,20 @@ const AuBankDetailsSection = ({
 }) => (
   <React.Fragment>
     <BSBInput
-      className={style.bsb}
       name="bsb"
       label="BSB"
       value={bsb}
       onChange={handleInputChange(onChange)}
+      width="xs"
     />
     <AccountNumberInput
-      className={style.number}
       name="accountNumberAu"
       label="Bank account number"
       value={accountNumber}
       onChange={handleFormattedInputChange(onChange)}
+      width="sm"
     />
     <AutoFormatter
-      className={style.name}
       onChange={handleFormattedInputChange(onChange)}
       name="accountNameAu"
       label="Bank account name"
@@ -66,9 +60,9 @@ const AuBankDetailsSection = ({
       options={{
         uppercase: true,
       }}
+      width="xl"
     />
     <AutoFormatter
-      className={style.companyName}
       onChange={handleFormattedInputChange(onChange)}
       name="companyTradingName"
       label="Company trading name"
@@ -77,6 +71,7 @@ const AuBankDetailsSection = ({
       options={{
         uppercase: true,
       }}
+      width="xl"
     />
     <CheckboxGroup
       label="Create ABA Bank files"
@@ -104,7 +99,7 @@ const AuBankDetailsSection = ({
           label="Bank code"
           maxLength={3}
           value={bankCode}
-          className={style.code}
+          width="sm"
         />
         <Input
           onChange={handleInputChange(onChange)}
@@ -112,7 +107,7 @@ const AuBankDetailsSection = ({
           label="Direct entry user ID"
           maxLength={6}
           value={directEntryUserId}
-          className={style.userId}
+          width="sm"
         />
         <CheckboxGroup
           label="Self-balancing transaction"

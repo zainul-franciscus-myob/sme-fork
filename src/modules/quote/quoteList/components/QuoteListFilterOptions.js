@@ -1,11 +1,10 @@
-import {
-  DatePicker, FilterBar, Search,
-} from '@myob/myob-widgets';
+import { DatePicker, FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
 import { getCustomerFilterOptions, getFilterOptions, getTotal } from '../quoteListSelector';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
+import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import style from './QuoteListView.module.css';
 
 class QuoteListFilterOptions extends React.Component {
@@ -58,7 +57,7 @@ class QuoteListFilterOptions extends React.Component {
             <DatePicker name="issuedFrom" label="Issued from" value={dateFrom} onSelect={this.onFilterChange('dateFrom')} />
             <DatePicker name="issuedTo" label="Issued to" value={dateTo} onSelect={this.onFilterChange('dateTo')} />
           </FilterBar.Group>
-          <Search name="search" label="Search" placeholder="Search" maxLength={255} value={keywords} onChange={this.onSearchBoxChange} />
+          <FilterBarSearch name="search" value={keywords} onChange={this.onSearchBoxChange} />
         </FilterBar>
         <hr />
         <div className={style.total}>

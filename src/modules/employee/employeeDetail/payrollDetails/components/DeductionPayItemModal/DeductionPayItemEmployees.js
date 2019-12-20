@@ -63,17 +63,16 @@ const DeductionPayItemEmployees = ({
         </Table.Body>
       </Table>
     </div>
-    <div className={styles.addCombobox}>
-      <Combobox
-        label="Add employees to pay item"
-        hideLabel
-        items={employeeOptions}
-        metaData={metaData}
-        selected={{}}
-        hintText="Add employees to pay item"
-        onChange={handleComboboxChange(onAddItem, 'employees')}
-      />
-    </div>
+    <Combobox
+      label="Add employees to pay item"
+      hideLabel
+      items={employeeOptions}
+      metaData={metaData}
+      selected={{}}
+      hintText="Add employees to pay item"
+      onChange={handleComboboxChange(onAddItem, 'employees')}
+      width="lg"
+    />
   </FieldGroup>);
 
 

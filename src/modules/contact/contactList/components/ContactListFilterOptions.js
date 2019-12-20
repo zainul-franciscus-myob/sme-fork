@@ -1,12 +1,10 @@
-import {
-  Checkbox, Search, Select,
-} from '@myob/myob-widgets';
+import { Checkbox, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions, getTypeFilterOptions } from '../contactListSelector';
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
-import styles from './ContactListFilterOptions.module.css';
+import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 
 class ContactListFilterOptions extends React.Component {
   onSearchBoxChange = (e) => {
@@ -52,7 +50,7 @@ class ContactListFilterOptions extends React.Component {
             <Select.Option value={value} label={label} key={value} />
           ))}
         </Select>
-        <Search
+        <FilterBarSearch
           id="Search_Box"
           name="keywords"
           label="Search"
@@ -60,7 +58,6 @@ class ContactListFilterOptions extends React.Component {
           maxLength={255}
           value={keywords}
           onChange={this.onSearchBoxChange}
-          className={styles.search}
         />
         <FilterBar.Item>
           <Checkbox

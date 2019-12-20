@@ -5,7 +5,6 @@ import React from 'react';
 import { getAbn, getAbnLink } from '../../ContactModalSelectors';
 import AbnInput from '../../../../../components/autoFormatter/AbnInput/AbnInput';
 import handleAbnInputChange from '../../../../../components/handlers/handleAbnInputChange';
-import style from './Abn.module.css';
 
 const openNewTab = url => () => window.open(url);
 
@@ -16,7 +15,7 @@ const Abn = ({ abn, abnLink, onChange }) => (
       label="ABN"
       value={abn}
       onChange={handleAbnInputChange(onChange)}
-      className={style.abn}
+      width="sm"
     />
     <Field
       label="ABN lookup"

@@ -4,7 +4,6 @@ import React from 'react';
 
 import { getCashFlowClassification, getCashFlowClassifications } from '../accountModalSelectors';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
-import style from './AccountCashFlowClassification.module.css';
 
 const buildClassificationTypes = cashFlowClassifications => cashFlowClassifications
   .map(({ displayName, value }) => (
@@ -17,12 +16,12 @@ const AccountCashFlowClassification = ({
   onChange,
 }) => (
   <Select
-    className={style.classification}
     name="cashFlowClassification"
     label="Classification for statements of cash flows"
     value={cashFlowClassification}
     requiredLabel="This is required"
     onChange={handleSelectChange(onChange)}
+    width="md"
   >
     {buildClassificationTypes(cashFlowClassifications)}
   </Select>

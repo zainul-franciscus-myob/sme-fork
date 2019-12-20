@@ -33,10 +33,6 @@
   width: var(--flx-width-field-l);
 }
 
-.search {
-  width: var(--flx-width-field-m);
-}
-
 @media (min-width: 768px) {
   .totals {
     display: flex;

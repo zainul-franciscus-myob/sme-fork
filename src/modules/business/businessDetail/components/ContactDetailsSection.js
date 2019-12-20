@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getContactDetails } from '../businessDetailSelectors';
-import styles from './ContactDetailsSection.module.css';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -15,7 +14,6 @@ const ContactDetailsSection = ({
 }) => (
   <FieldGroup label="Contact details">
     <TextArea
-      className={styles.address}
       name="address"
       label="Address"
       autoSize
@@ -23,27 +21,28 @@ const ContactDetailsSection = ({
       maxLength={255}
       value={address}
       onChange={onInputChange(onChange)}
+      width="lg"
     />
     <Input
-      className={styles.email}
       name="email"
       label="Email"
       value={email}
       onChange={onInputChange(onChange)}
+      width="lg"
     />
     <Input
-      className={styles.phone}
       name="phoneNumber"
       label="Phone"
       value={phoneNumber}
       onChange={onInputChange(onChange)}
+      width="md"
     />
     <Input
-      className={styles.fax}
       name="fax"
       label="Fax"
       value={fax}
       onChange={onInputChange(onChange)}
+      width="md"
     />
   </FieldGroup>
 );

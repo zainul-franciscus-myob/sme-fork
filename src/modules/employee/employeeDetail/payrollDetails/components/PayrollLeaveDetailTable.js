@@ -98,21 +98,20 @@ const PayrollLeaveDetailTable = ({
           { selected.length ? tableBodyView : emptyView}
         </Table.Body>
       </Table>
-      <div className={styles.addCombobox}>
-        <Combobox
-          label="Add Leave pay item"
-          hideLabel
-          hintText="Add Leave pay item"
-          metaData={comboboxMetaData}
-          items={items}
-          selected={{}}
-          onChange={handleComboboxChange(onAddAllocatedLeaveItem)}
-          addNewItem={{
-            label: 'Create leave pay item',
-            onAddNew: onPayItemSelect(onOpenLeavePayItemModal, 'new'),
-          }}
-        />
-      </div>
+      <Combobox
+        label="Add Leave pay item"
+        hideLabel
+        hintText="Add Leave pay item"
+        metaData={comboboxMetaData}
+        items={items}
+        selected={{}}
+        onChange={handleComboboxChange(onAddAllocatedLeaveItem)}
+        addNewItem={{
+          label: 'Create leave pay item',
+          onAddNew: onPayItemSelect(onOpenLeavePayItemModal, 'new'),
+        }}
+        width="lg"
+      />
     </div>
   );
 };

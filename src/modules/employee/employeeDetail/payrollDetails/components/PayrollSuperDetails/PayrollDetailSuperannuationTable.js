@@ -1,19 +1,10 @@
 import {
-  Button,
-  Combobox,
-  FieldGroup,
-  Icons,
-  PageState,
-  Table,
-  Tooltip,
+  Button, Combobox, FieldGroup, Icons, PageState, Table, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getAllocatedPayItems,
-  getFilteredSuperPayItemOptions,
-} from '../../selectors/PayrollSuperSelectors';
+import { getAllocatedPayItems, getFilteredSuperPayItemOptions } from '../../selectors/PayrollSuperSelectors';
 import styles from './PayrollDetailSuperannuationTable.module.css';
 
 const tableConfig = {
@@ -76,21 +67,20 @@ const PayrollDetailSuperannuationTable = ({
   ));
 
   const payItemCombobox = (
-    <div className={styles.addCombobox}>
-      <Combobox
-        label="Add superannuation pay item"
-        hideLabel
-        hintText="Add superannuation pay item"
-        metaData={comboboxMetaData}
-        items={superPayItemsOptions}
-        selected={{}}
-        onChange={handleComboboxChange(onAddPayrollSuperPayItem)}
-        addNewItem={{
-          label: 'Create super pay item',
-          onAddNew: onPayItemSelect(onOpenSuperPayItemModal, 'new'),
-        }}
-      />
-    </div>
+    <Combobox
+      label="Add superannuation pay item"
+      hideLabel
+      hintText="Add superannuation pay item"
+      metaData={comboboxMetaData}
+      items={superPayItemsOptions}
+      selected={{}}
+      onChange={handleComboboxChange(onAddPayrollSuperPayItem)}
+      addNewItem={{
+        label: 'Create super pay item',
+        onAddNew: onPayItemSelect(onOpenSuperPayItemModal, 'new'),
+      }}
+      width="lg"
+    />
   );
 
   return (

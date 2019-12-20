@@ -5,15 +5,3 @@
 .name {
   max-width: var(--flx-width-field-xl);
 }
-
-.particulars {
-  max-width: var(--flx-width-field-s);
-}
-
-.code {
-  max-width: var(--flx-width-field-s);
-}
-
-.reference {
-  max-width: var(--flx-width-field-s);
-}

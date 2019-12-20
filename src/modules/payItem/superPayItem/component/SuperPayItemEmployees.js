@@ -30,15 +30,14 @@ const SuperPayItemEmployees = (props) => {
   return (
     <FieldGroup label={fieldGroupLabel} className={styles.editableTable}>
       <SuperPayItemEmployeesTable onRemoveSuperPayItemEmployee={onRemoveSuperPayItemEmployee} />
-      <div className={styles.addCombobox}>
-        <EmployeeCombobox
-          label="Employees"
-          hideLabel
-          hintText="Add employees to pay item"
-          items={employees}
-          onChange={handleEmployeeComboboxChange(onAddSuperPayItemEmployee)}
-        />
-      </div>
+      <EmployeeCombobox
+        label="Employees"
+        hideLabel
+        hintText="Add employees to pay item"
+        items={employees}
+        onChange={handleEmployeeComboboxChange(onAddSuperPayItemEmployee)}
+        width="lg"
+      />
     </FieldGroup>
   );
 };

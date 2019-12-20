@@ -1,10 +1,9 @@
-import {
-  Checkbox, FilterBar, Search,
-} from '@myob/myob-widgets';
+import { Checkbox, FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions } from '../EmployeeListSelectors';
+import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 
 const onTextFieldChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
 
@@ -22,7 +21,7 @@ const EmployeeListFilterOptions = (props) => {
 
   return (
     <FilterBar onApply={onApplyFilter}>
-      <Search id="keywords" label="Search" name="keywords" placeholder="Search" maxLength={255} value={keywords} onChange={onTextFieldChange(onUpdateFilterBarOptions)} />
+      <FilterBarSearch id="keywords" name="keywords" value={keywords} onChange={onTextFieldChange(onUpdateFilterBarOptions)} />
       <FilterBar.Item>
         <Checkbox id="showInactive" name="showInactive" label="Show inactive employees" checked={showInactive} onChange={onCheckBoxChange(onUpdateFilterBarOptions)} />
       </FilterBar.Item>

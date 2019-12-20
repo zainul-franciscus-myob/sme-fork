@@ -45,7 +45,7 @@ const Address = ({
       name="state"
       value={state}
       onChange={handleInputChange(onChange)}
-      className={style.state}
+      width="xs"
     >
       {[<Select.Option value="placeholder" label="" hidden />].concat(
         stateOptions.map(({ name, value }) => (
@@ -96,7 +96,7 @@ const Address = ({
           label="Postcode"
           value={postcode}
           onChange={handleInputChange(onChange)}
-          className={style.postcode}
+          width="xs"
         />
       </fieldset>
       <fieldset>
@@ -118,7 +118,7 @@ const Address = ({
           label="Fax"
           value={fax}
           onChange={handleInputChange(onChange)}
-          className={style.fax}
+          width="md"
         />
         <PhoneNumberList
           inputClassName={style.phone}

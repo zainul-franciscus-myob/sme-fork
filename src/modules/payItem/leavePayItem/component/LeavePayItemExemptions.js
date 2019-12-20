@@ -28,15 +28,14 @@ const LeavePayItemExemptions = ({
   return (
     <FieldGroup label={fieldGroupLabel} className={styles.editableTable}>
       <LeavePayItemExemptionsTable onRemoveExemption={onRemoveExemption} />
-      <div className={styles.addCombobox}>
-        <PayItemCombobox
-          label="Exemptions"
-          hideLabel
-          hintText="Add exemption"
-          items={exemptionOptions}
-          onChange={handleExemptionComboboxChange(onAddExemption)}
-        />
-      </div>
+      <PayItemCombobox
+        label="Exemptions"
+        hideLabel
+        hintText="Add exemption"
+        items={exemptionOptions}
+        onChange={handleExemptionComboboxChange(onAddExemption)}
+        width="lg"
+      />
     </FieldGroup>
   );
 };

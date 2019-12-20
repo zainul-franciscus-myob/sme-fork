@@ -1,7 +1,3 @@
-:local .addCombobox {
-  max-width: 29rem;
-}
-
 :local .editableTable :global(.table-data__container) {
   margin-bottom: 1.2rem;
 }

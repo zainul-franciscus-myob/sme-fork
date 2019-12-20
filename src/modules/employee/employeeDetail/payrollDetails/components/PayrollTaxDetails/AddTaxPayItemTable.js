@@ -62,17 +62,16 @@ const AddTaxPayItemTable = ({
     </Table>
     { items.length > 0
       && (
-      <div className={styles.addCombobox}>
-        <Combobox
-          label={label}
-          hideLabel
-          hintText={label}
-          metaData={comboboxMetaData}
-          selected={{}}
-          items={items}
-          onChange={handleComboboxChange(onAddPayItem)}
-        />
-      </div>
+      <Combobox
+        label={label}
+        hideLabel
+        hintText={label}
+        metaData={comboboxMetaData}
+        selected={{}}
+        items={items}
+        onChange={handleComboboxChange(onAddPayItem)}
+        width="lg"
+      />
       )
     }
   </div>

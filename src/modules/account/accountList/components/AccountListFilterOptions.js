@@ -1,9 +1,10 @@
-import { Checkbox, Search } from '@myob/myob-widgets';
+import { Checkbox } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions } from '../AccountListSelectors';
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
+import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
@@ -17,12 +18,9 @@ const AccountListFilterOptions = (props) => {
 
   return (
     <FilterBar onApply={onApplyFilter}>
-      <Search
+      <FilterBarSearch
         id="keywords"
-        label="Search"
         name="keywords"
-        placeholder="Search"
-        maxLength={255}
         value={keywords}
         onChange={handleInputChange(onUpdateFilterOptions)}
       />

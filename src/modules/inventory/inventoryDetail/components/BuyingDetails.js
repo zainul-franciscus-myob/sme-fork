@@ -1,13 +1,10 @@
 import {
-  Checkbox, CheckboxGroup,
-  FieldGroup, Input, Tooltip,
+  Checkbox, CheckboxGroup, FieldGroup, Input, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getBuyingDetails, getIsEnableForBuying,
-} from '../inventoryDetailSelectors';
+import { getBuyingDetails, getIsEnableForBuying } from '../inventoryDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
@@ -15,7 +12,6 @@ import handleAmountInputChange from '../../../../components/handlers/handleAmoun
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import styles from './InventoryDetailView.module.css';
 
 const BuyingDetails = ({
   enabled,
@@ -44,7 +40,6 @@ const BuyingDetails = ({
       )}
     />
     <AmountInput
-      className={styles.price}
       label="Buying price ($)"
       requiredLabel="This is required"
       name="buyingPrice"
@@ -54,9 +49,9 @@ const BuyingDetails = ({
       decimalScale={5}
       disabled={!enabled}
       textAlign="right"
+      width="sm"
     />
     <Input
-      className={styles.unitOfMeasure}
       name="unitOfMeasure"
       label="Unit of measure"
       disabled={!enabled}
@@ -69,6 +64,7 @@ const BuyingDetails = ({
       )}
       onChange={handleInputChange(onBuyingDetailsChange)}
       maxLength={5}
+      width="xs"
     />
     <AccountCombobox
       label="Account for tracking purchase"
@@ -79,17 +75,16 @@ const BuyingDetails = ({
       allowClearSelection
       onChange={handleComboboxChange('allocateToAccountId', onBuyingDetailsChange)}
     />
-    <div className={styles.taxCode}>
-      <TaxCodeCombobox
-        items={taxCodes}
-        disabled={!enabled}
-        selectedId={taxCodeId}
-        requiredLabel="This is required"
-        label={taxLabel}
-        allowClearSelection
-        onChange={handleComboboxChange('taxCodeId', onBuyingDetailsChange)}
-      />
-    </div>
+    <TaxCodeCombobox
+      items={taxCodes}
+      disabled={!enabled}
+      selectedId={taxCodeId}
+      requiredLabel="This is required"
+      label={taxLabel}
+      allowClearSelection
+      onChange={handleComboboxChange('taxCodeId', onBuyingDetailsChange)}
+      width="sm"
+    />
   </FieldGroup>
 );
 

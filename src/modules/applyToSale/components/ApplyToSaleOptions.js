@@ -13,7 +13,6 @@ import {
   getReference,
 } from '../applyToSaleSelectors';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
-import styles from './ApplyToSaleOptions.module.css';
 
 const onTextFieldChange = handler => ({ target }) => {
   const { name, value } = target;
@@ -44,11 +43,11 @@ const ApplyToSaleOptions = ({
         disabled
       />
       <AmountInput
-        className={styles.amount}
         name="amount"
         label="Credit ($)"
         value={amount}
         textAlign="right"
+        width="sm"
         disabled
       />
       <TextArea

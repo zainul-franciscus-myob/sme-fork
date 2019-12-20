@@ -1,13 +1,11 @@
-import {
-  Checkbox, FilterBar, Search,
-} from '@myob/myob-widgets';
+import { Checkbox, FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions } from '../BankingRuleListSelectors';
+import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import styles from './BankingRuleListFilterOptions.module.css';
 
 const BankingRuleListFilterOptions = ({
   onUpdateFilters,
@@ -18,14 +16,7 @@ const BankingRuleListFilterOptions = ({
   },
 }) => (
   <FilterBar onApply={onApplyFilters}>
-    <Search
-      name="keywords"
-      label="Search"
-      className={styles.search}
-      maxLength={255}
-      value={keywords}
-      onChange={handleInputChange(onUpdateFilters)}
-    />
+    <FilterBarSearch name="keywords" value={keywords} onChange={handleInputChange(onUpdateFilters)} />
     <FilterBar.Item>
       <Checkbox
         name="showInactive"

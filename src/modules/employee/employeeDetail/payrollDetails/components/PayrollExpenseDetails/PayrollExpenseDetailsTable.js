@@ -63,21 +63,20 @@ const PayrollExpenseDetailsTable = ({
           {selected.length ? tableBodyView : emptyView}
         </Table.Body>
       </Table>
-      <div className={styles.addCombobox}>
-        <Combobox
-          label="Add expense pay item"
-          hideLabel
-          hintText="Add expense pay item"
-          metaData={comboboxMetaData}
-          items={items}
-          selected={{}}
-          onChange={handleComboboxChange(onAddPayItem)}
-          addNewItem={{
-            label: 'Create expense pay item',
-            onAddNew: onPayItemSelect(onOpenExpensePayItemModal, 'new'),
-          }}
-        />
-      </div>
+      <Combobox
+        label="Add expense pay item"
+        hideLabel
+        hintText="Add expense pay item"
+        metaData={comboboxMetaData}
+        items={items}
+        selected={{}}
+        onChange={handleComboboxChange(onAddPayItem)}
+        addNewItem={{
+          label: 'Create expense pay item',
+          onAddNew: onPayItemSelect(onOpenExpensePayItemModal, 'new'),
+        }}
+        width="lg"
+      />
     </div>
   );
 };

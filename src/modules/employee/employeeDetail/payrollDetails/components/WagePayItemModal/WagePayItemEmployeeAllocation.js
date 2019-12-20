@@ -56,23 +56,18 @@ const WagePayItemEmployeeAllocation = ({
           </Table.Row>
         ))}
       </Table.Body>
-
     </Table>
 
-    <div className={styles.addCombobox}>
-
-      <Combobox
-        label="Employees"
-        hideLabel
-        items={filteredListOfEmployees}
-        metaData={filteredListEmployeesMetadata}
-        selected={{}}
-        hintText="Add employees to pay item"
-        onChange={handleComboboxChange('employeeAllocation', onEmployeeSelected)}
-      />
-
-    </div>
-
+    <Combobox
+      label="Employees"
+      hideLabel
+      items={filteredListOfEmployees}
+      metaData={filteredListEmployeesMetadata}
+      selected={{}}
+      hintText="Add employees to pay item"
+      onChange={handleComboboxChange('employeeAllocation', onEmployeeSelected)}
+      width="lg"
+    />
   </FieldGroup>
 );
 

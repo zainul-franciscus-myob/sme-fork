@@ -25,15 +25,14 @@ const AllocatedEmployeesSection = ({
     className={styles.editableTable}
   >
     <AllocatedEmployeesTable onRemoveAllocatedEmployee={onRemoveAllocatedEmployee} />
-    <div className={styles.addCombobox}>
-      <EmployeeCombobox
-        label="Employees"
-        hideLabel
-        hintText="Add employees to pay item"
-        items={employeeOptions}
-        onChange={handleComboboxChange(undefined, onAddAllocatedEmployee)}
-      />
-    </div>
+    <EmployeeCombobox
+      label="Employees"
+      hideLabel
+      hintText="Add employees to pay item"
+      items={employeeOptions}
+      onChange={handleComboboxChange(undefined, onAddAllocatedEmployee)}
+      width="lg"
+    />
   </FieldGroup>
 );
 

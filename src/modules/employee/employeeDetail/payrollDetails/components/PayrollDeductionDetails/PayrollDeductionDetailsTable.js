@@ -63,21 +63,20 @@ const PayrollDeductionDetailsTable = ({
           {selected.length ? tableBodyView : emptyView}
         </Table.Body>
       </Table>
-      <div className={styles.addCombobox}>
-        <Combobox
-          label="Add deduction pay item"
-          hideLabel
-          hintText="Add deduction pay item"
-          metaData={comboboxMetaData}
-          items={items}
-          selected={{}}
-          onChange={handleComboboxChange(onAddPayItem)}
-          addNewItem={{
-            label: 'Create deduction pay item',
-            onAddNew: onPayItemSelect(onOpenDeductionPayItemModal, 'new'),
-          }}
-        />
-      </div>
+      <Combobox
+        label="Add deduction pay item"
+        hideLabel
+        hintText="Add deduction pay item"
+        metaData={comboboxMetaData}
+        items={items}
+        selected={{}}
+        onChange={handleComboboxChange(onAddPayItem)}
+        addNewItem={{
+          label: 'Create deduction pay item',
+          onAddNew: onPayItemSelect(onOpenDeductionPayItemModal, 'new'),
+        }}
+        width="lg"
+      />
     </div>
   );
 };

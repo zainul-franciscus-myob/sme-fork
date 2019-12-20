@@ -4,17 +4,15 @@ import React from 'react';
 
 import { getReferenceId } from '../../ContactModalSelectors';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
-import style from './ReferenceId.module.css';
-
 
 const ReferenceId = ({ referenceId, onChange }) => (
   <Input
     name="referenceId"
     label="Contact ID"
     requiredLabel="This is required"
-    className={style.contactId}
     value={referenceId}
     onChange={handleInputChange(onChange)}
+    width="sm"
   />
 );
 

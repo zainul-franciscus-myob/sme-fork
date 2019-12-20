@@ -5,7 +5,6 @@ import React from 'react';
 import { getAuTaxDetails } from '../businessDetailSelectors';
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
 import AcnInput from '../../../../components/autoFormatter/AcnInput/AcnInput';
-import styles from './BusinessDetailsSection.module.css';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -17,15 +16,14 @@ const AuTaxDetails = ({
 }) => (
   <React.Fragment>
     <AbnInput
-      className={styles.input}
       name="abn"
       label="ABN"
       value={abn}
       maxLength={14}
       onChange={onInputChange(onChange)}
+      width="sm"
     />
     <Input
-      className={styles.input}
       name="gstBranchNumber"
       label="GST branch number"
       labelAccessory={(
@@ -36,14 +34,15 @@ const AuTaxDetails = ({
       )}
       value={gstBranchNumber}
       onChange={onInputChange(onChange)}
+      width="sm"
     />
     <AcnInput
-      className={styles.input}
       name="acn"
       label="ACN"
       maxLength={11}
       value={acn}
       onChange={onInputChange(onChange)}
+      width="sm"
     />
   </React.Fragment>
 );

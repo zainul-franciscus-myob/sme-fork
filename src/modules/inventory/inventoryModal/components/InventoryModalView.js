@@ -22,7 +22,6 @@ import PageView from '../../../../components/PageView/PageView';
 import SellingDetails from './SellingDetails';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import styles from './InventoryModalView.module.css';
 
 const InventoryModalView = ({
   isOpen,
@@ -57,7 +56,7 @@ const InventoryModalView = ({
             <Checkbox label="Use description on transaction instead of name" name="useDescription" checked={useDescription} onChange={handleCheckboxChange(onUpdateItemOption)} />
           )}
           />
-          <Input className={styles.itemId} label="Item ID" name="displayId" requiredLabel="This is required" value={itemId} onChange={handleInputChange(onUpdateItemOption)} />
+          <Input label="Item ID" name="displayId" requiredLabel="This is required" value={itemId} onChange={handleInputChange(onUpdateItemOption)} width="sm" />
         </FieldGroup>
 
         {!isSelling

@@ -66,17 +66,16 @@ const DeductionPayItemExemptions = ({
         </Table.Body>
       </Table>
     </div>
-    <div className={styles.addCombobox}>
-      <Combobox
-        label="Exemptions"
-        hideLabel
-        items={exemptionOptions}
-        metaData={metaData}
-        hintText="Add exemption"
-        selected={{}}
-        onChange={handleComboboxChange(onAddItem, 'exemptions')}
-      />
-    </div>
+    <Combobox
+      label="Exemptions"
+      hideLabel
+      items={exemptionOptions}
+      metaData={metaData}
+      hintText="Add exemption"
+      selected={{}}
+      onChange={handleComboboxChange(onAddItem, 'exemptions')}
+      width="lg"
+    />
   </FieldGroup>);
 
 const mapToStateProps = getExemptionAllocations;
