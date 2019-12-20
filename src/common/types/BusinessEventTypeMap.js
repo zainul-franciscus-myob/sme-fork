@@ -12,6 +12,7 @@ const BusinessEventTypeMap = {
   Purchase: 'bill',
   Sale: 'invoice',
   EmployeePayment: 'employeePay',
+  PaySuperannuation: 'paySuper',
 };
 
 export default BusinessEventTypeMap;

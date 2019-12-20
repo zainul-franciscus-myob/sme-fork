@@ -294,6 +294,15 @@
       "sourceJournal": "Inventory",
       "displayAmount": "2000.00",
       "businessEventType": "ApplyToSale"
+    },
+    {
+      "id": "30",
+      "displayDate": "30/09/2016",
+      "referenceId": "PS000080",
+      "description": "Superannuation Payment",
+      "sourceJournal": "Cash Payments",
+      "displayAmount": "1,013.76",
+      "businessEventType": "PaySuperannuation"
     }
   ],
   "pagination": {
