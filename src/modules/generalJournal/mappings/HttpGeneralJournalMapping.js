@@ -5,9 +5,9 @@ import {
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL,
-} from '../../modules/generalJournal/GeneralJournalIntents';
+} from '../GeneralJournalIntents';
 
-const GeneralJournalMapping = {
+const HttpGeneralJournalMapping = {
   [LOAD_GENERAL_JOURNAL_DETAIL]: {
     method: 'GET',
     getPath: ({ businessId, generalJournalId }) => `/${businessId}/generalJournal/load_general_journal_detail/${generalJournalId}`,
@@ -34,4 +34,4 @@ const GeneralJournalMapping = {
   },
 };
 
-export default GeneralJournalMapping;
+export default HttpGeneralJournalMapping;

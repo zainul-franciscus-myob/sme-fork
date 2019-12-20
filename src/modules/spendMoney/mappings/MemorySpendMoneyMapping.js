@@ -12,15 +12,15 @@ import {
   REMOVE_ATTACHMENT,
   UPDATE_SPEND_MONEY,
   UPLOAD_ATTACHMENT,
-} from '../../modules/spendMoney/SpendMoneyIntents';
-import attachmentDetailResponse from '../data/spendMoney/attachmentDetail';
-import spendMoneyCalculatedTotals from '../data/spendMoney/spendMoneyDetailTotalsResponse';
-import spendMoneyDetailEntry from '../data/spendMoney/spendMoneyDetailEntry';
-import spendMoneyDetailPrefillResponse from '../data/spendMoney/spendMoneyDetailPrefill.json';
-import spendMoneyNewEntry from '../data/spendMoney/spendMoneyDetailNewEntry';
-import spendMoneyReferenceId from '../data/spendMoney/spendMoneyDetailReferenceId';
-import successResponse from '../data/spendMoney/createSpendMoney.json';
-import uploadAttachmentResponse from '../data/spendMoney/uploadAttachmentResponse';
+} from '../SpendMoneyIntents';
+import attachmentDetailResponse from './data/attachmentDetail';
+import spendMoneyCalculatedTotals from './data/spendMoneyDetailTotalsResponse';
+import spendMoneyDetailEntry from './data/spendMoneyDetailEntry';
+import spendMoneyDetailPrefillResponse from './data/spendMoneyDetailPrefill';
+import spendMoneyNewEntry from './data/spendMoneyDetailNewEntry';
+import spendMoneyReferenceId from './data/spendMoneyDetailReferenceId';
+import successResponse from './data/createSpendMoney';
+import uploadAttachmentResponse from './data/uploadAttachmentResponse';
 
 const newSpendMoney = ({ onSuccess }) => onSuccess(spendMoneyNewEntry);
 
@@ -48,7 +48,7 @@ const prefillDataFromInTray = ({ onSuccess }) => onSuccess(spendMoneyDetailPrefi
 
 const linkInTrayDocument = ({ onSuccess }) => onSuccess(successResponse);
 
-const SpendMoneyMapping = {
+const MemorySpendMoneyMapping = {
   [LOAD_NEW_SPEND_MONEY]: newSpendMoney,
   [CREATE_SPEND_MONEY]: saveSpendMoney,
   [DELETE_SPEND_MONEY]: deleteSpendMoney,
@@ -64,4 +64,4 @@ const SpendMoneyMapping = {
   [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
 };
 
-export default SpendMoneyMapping;
+export default MemorySpendMoneyMapping;

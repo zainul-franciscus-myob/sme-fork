@@ -8,9 +8,9 @@ import {
   LOAD_IN_TRAY_MODAL,
   SORT_AND_FILTER_IN_TRAY_LIST,
   VIEW_IN_TRAY_MODAL_DOCUMENT,
-} from '../../modules/inTray/InTrayIntents';
+} from '../InTrayIntents';
 
-const InTrayMapping = {
+const HttpInTrayMapping = {
   [LOAD_IN_TRAY]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/inTray/load_in_tray`,
@@ -49,4 +49,4 @@ const InTrayMapping = {
   },
 };
 
-export default InTrayMapping;
+export default HttpInTrayMapping;

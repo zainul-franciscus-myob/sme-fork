@@ -12,9 +12,9 @@ import {
   REMOVE_ATTACHMENT,
   UPDATE_SPEND_MONEY,
   UPLOAD_ATTACHMENT,
-} from '../../modules/spendMoney/SpendMoneyIntents';
+} from '../SpendMoneyIntents';
 
-const SpendMoneyMapping = {
+const HttpSpendMoneyMapping = {
   [LOAD_NEW_SPEND_MONEY]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/load_new_spend_money`,
@@ -69,4 +69,4 @@ const SpendMoneyMapping = {
   },
 };
 
-export default SpendMoneyMapping;
+export default HttpSpendMoneyMapping;

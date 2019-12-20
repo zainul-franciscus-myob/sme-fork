@@ -8,18 +8,18 @@ import {
   LOAD_IN_TRAY_MODAL,
   SORT_AND_FILTER_IN_TRAY_LIST,
   VIEW_IN_TRAY_MODAL_DOCUMENT,
-} from '../../modules/inTray/InTrayIntents';
-import createInTrayFileResponse from '../data/inTray/uploadInTrayFileResponse';
-import createInTrayModalFileResponse from '../data/inTray/uploadInTrayModalFileResponse';
-import downloadInTrayFileResponse from '../data/inTray/loadInTrayFileResponse';
-import downloadInTrayModalFileResponse from '../data/inTray/loadInTrayModalDocumentUrlResponse';
-import filteredInTrayList from '../data/inTray/filterInTrayListResponse';
-import generateInTrayEmailResponse from '../data/inTray/generateEmailAddressResponse';
-import loadInTrayModalResponse from '../data/inTray/loadInTrayModalResponse';
-import loadInTrayResponse from '../data/inTray/loadInTrayResponse';
-import successResponse from '../data/success';
+} from '../InTrayIntents';
+import createInTrayFileResponse from './data/uploadInTrayFileResponse';
+import createInTrayModalFileResponse from './data/uploadInTrayModalFileResponse';
+import downloadInTrayFileResponse from './data/loadInTrayFileResponse';
+import downloadInTrayModalFileResponse from './data/loadInTrayModalDocumentUrlResponse';
+import filteredInTrayList from './data/filterInTrayListResponse';
+import generateInTrayEmailResponse from './data/generateEmailAddressResponse';
+import loadInTrayModalResponse from './data/loadInTrayModalResponse';
+import loadInTrayResponse from './data/loadInTrayResponse';
+import successResponse from './data/success.json';
 
-const InTrayMapping = {
+const MemoryInTrayMapping = {
   [LOAD_IN_TRAY]: ({ onSuccess }) => onSuccess(loadInTrayResponse),
   [GENERATE_IN_TRAY_EMAIL]: ({ onSuccess }) => onSuccess(generateInTrayEmailResponse),
   [SORT_AND_FILTER_IN_TRAY_LIST]: ({ onSuccess }) => onSuccess(filteredInTrayList),
@@ -39,4 +39,4 @@ const InTrayMapping = {
   [VIEW_IN_TRAY_MODAL_DOCUMENT]: ({ onSuccess }) => onSuccess(downloadInTrayModalFileResponse),
 };
 
-export default InTrayMapping;
+export default MemoryInTrayMapping;

@@ -5,11 +5,11 @@ import {
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL,
-} from '../../modules/generalJournal/GeneralJournalIntents';
-import generalJournalDetail from '../data/generalJournalDetail/generalJournalDetailEntry';
-import generalJournalDetailNew from '../data/generalJournalDetail/generalJournalDetailNewEntry';
-import successResponse from '../data/success';
-import totalsResponse from '../data/generalJournalDetail/generalJournalDetailTotalsResponse';
+} from '../GeneralJournalIntents';
+import generalJournalDetail from './data/generalJournalDetailEntry';
+import generalJournalDetailNew from './data/generalJournalDetailNewEntry';
+import successResponse from './data/success.json';
+import totalsResponse from './data/generalJournalDetailTotalsResponse';
 
 const readGeneralJournalDetail = ({ onSuccess }) => onSuccess(generalJournalDetail);
 
@@ -21,7 +21,7 @@ const saveGeneralJournalDetail = ({ onSuccess }) => onSuccess(successResponse);
 
 const getCalculatedTotals = ({ onSuccess }) => onSuccess(totalsResponse);
 
-const GeneralJournalMapping = {
+const MemoryGeneralJournalMapping = {
   [LOAD_GENERAL_JOURNAL_DETAIL]: readGeneralJournalDetail,
   [LOAD_NEW_GENERAL_JOURNAL]: newGeneralJournalDetail,
   [DELETE_GENERAL_JOURNAL]: deleteGeneralJournalDetail,
@@ -30,4 +30,4 @@ const GeneralJournalMapping = {
   [GET_CALCULATED_TOTALS]: getCalculatedTotals,
 };
 
-export default GeneralJournalMapping;
+export default MemoryGeneralJournalMapping;
