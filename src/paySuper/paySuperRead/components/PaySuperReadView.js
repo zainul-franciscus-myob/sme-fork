@@ -14,15 +14,18 @@ import {
   getDescription,
   getIsLoading,
   getLabelStatus,
+  getModalType,
   getReferenceNumber,
   getStatus,
   getSuperPayments,
   getTotalPayment,
 } from '../paySuperReadSelector';
 import ActionButtons from './ActionButtons';
+import ModalType from '../ModalType';
 import PageView from '../../../components/PageView/PageView';
 import PaySuperReadDetailHeader from './paySuperReadDetailHeader';
 import PaymentStatus from '../../components/PaymentStatus';
+import ReversalModal from './ReversalModal';
 import SuperPaymentsTable from '../../components/SuperPaymentsTable';
 import styles from './PaySuperRead.module.css';
 
@@ -42,7 +45,10 @@ const PaySuperReadView = ({
   status,
   employeePayModal,
   authorisationModal,
+  onReserseModalCancelClick,
+  onReverseModalConfirmClick,
   alert,
+  modalType,
 }) => {
   const title = <>Super payment {referenceNumber}<PaymentStatus size="large" paymentStatus={labelStatus} /></>;
   const totalPaymentFooter = (
@@ -58,6 +64,12 @@ const PaySuperReadView = ({
     <BaseTemplate>
       {employeePayModal}
       {authorisationModal}
+      {modalType === ModalType.REVERSE && (
+        <ReversalModal
+          onCancelButtonClick={onReserseModalCancelClick}
+          onReverseButtonClick={onReverseModalConfirmClick}
+        />
+      )}
       <PageHead title={title} />
       {alert && <Alert type={alert.type}>{alert.message}</Alert>}
       <Card footer={totalPaymentFooter}>
@@ -94,6 +106,7 @@ const mapStateToProps = state => ({
   status: getStatus(state),
   superPayments: getSuperPayments(state),
   alert: getAlert(state),
+  modalType: getModalType(state),
 });
 
 export default connect(mapStateToProps)(PaySuperReadView);
