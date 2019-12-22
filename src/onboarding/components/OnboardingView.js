@@ -23,13 +23,31 @@ class OnboardingView extends Component {
     onSave,
   }) {
     super();
+    this.state = {
+      businessNameError: '',
+      industryError: '',
+    };
     this.dispatcher = dispatcher;
     this.onSave = onSave;
   }
 
   businessRoleItems = () => businessRoles.map(businessRole => ({ businessRole }));
 
-  industryItems = () => Industries.map(industry => ({ industry }))
+  industryItems = () => Industries.map(industry => ({ industry }));
+
+  save = (event) => {
+    event.preventDefault();
+    const { props: { businessName, industry } } = this;
+
+    let businessNameError = null;
+    let industryError = null;
+
+    if (businessName === '') businessNameError = 'You need to enter a business name';
+    if (industry === '') industryError = 'You need to select an industry';
+
+    this.setState({ businessNameError, industryError });
+    if (!businessNameError && !industryError) this.onSave(event);
+  };
 
   onChangeBusinessName = (event) => {
     const { value } = event.target;
@@ -54,6 +72,8 @@ class OnboardingView extends Component {
       },
     } = this;
 
+    const { businessNameError, industryError } = this.state;
+
     return (
       <div className={styles.fullScreen}>
         <StandardTemplate pageHead="">
@@ -74,42 +94,44 @@ class OnboardingView extends Component {
 
               <div>
                 <Input
-                  name="default"
+                  autoComplete="off"
+                  autoFocus
+                  errorMessage={businessNameError}
                   label="What's the name of your business?"
                   value={businessName}
                   onChange={onChangeBusinessName}
                   requiredLabel="You need to enter a business name"
-                  autoFocus
                 />
               </div>
 
               <div>
                 <Combobox
-                  items={industryItems()}
-                  metaData={industryData}
                   defaultItem={{ industry }}
                   onChange={onChangeIndustry}
-                  name="industry"
+                  errorMessage={industryError}
+                  items={industryItems()}
                   label="What industry is your business in?"
+                  metaData={industryData}
+                  name="industry"
                   requiredLabel="You need to select an industry"
                 />
               </div>
 
               <div>
                 <Combobox
-                  items={businessRoleItems()}
-                  metaData={businessRolesData}
                   defaultItem={{ businessRole }}
-                  onChange={onChangeBusinessRole}
-                  name="businessRole"
+                  items={businessRoleItems()}
                   label="How would you best describe your role?"
+                  metaData={businessRolesData}
+                  name="businessRole"
+                  onChange={onChangeBusinessRole}
                   requiredLabel="You need to select a role"
                 />
               </div>
 
               <div>
                 <ButtonRow>
-                  <Button onClick={this.onSave}>Get down to business</Button>
+                  <Button onClick={this.save}>Get down to business</Button>
                 </ButtonRow>
               </div>
             </div>
