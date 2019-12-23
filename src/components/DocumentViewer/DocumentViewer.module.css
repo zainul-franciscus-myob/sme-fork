@@ -1,9 +1,6 @@
-.container {
-  height: 100%;
+.documentViewer {
+  height: calc(100% - 1rem); /* prevent double scrollbars */
   width: 100%;
-}
-
-.object {
   border: var(--flx-border-thin);
   border-radius: var(--flx-border-radius-card);
 }

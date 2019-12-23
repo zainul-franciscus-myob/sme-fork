@@ -1,12 +1,26 @@
-import EdgeDocumentViewer from './EdgeDocumentViewer';
-import StandardDocumentViewer from './StandardDocumentViewer';
+import React from 'react';
+import classNames from 'classnames';
 
-const isEdge = () => window.navigator.userAgent.includes('Edge');
+import styles from './DocumentViewer.module.css';
 
-const DocumentViewer = props => (
-  isEdge()
-    ? EdgeDocumentViewer(props)
-    : StandardDocumentViewer(props)
+const getType = (type) => {
+  const isEdge = navigator.userAgent.includes('Edge');
+
+  return isEdge ? 'text/html' : type;
+};
+
+const DocumentViewer = ({
+  src,
+  title,
+  className,
+  type,
+}) => (
+  <embed
+    className={classNames(styles.documentViewer, className)}
+    src={src}
+    title={title}
+    type={getType(type)}
+  />
 );
 
 export default DocumentViewer;

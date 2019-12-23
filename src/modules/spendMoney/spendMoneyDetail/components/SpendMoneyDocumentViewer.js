@@ -15,6 +15,7 @@ const SpendMoneyDocumentViewer = ({
     <DocumentViewer
       src={documentFileUrl}
       className={styles.documentViewer}
+      type="application/pdf"
     />
   );
 
