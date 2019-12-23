@@ -1,4 +1,4 @@
-import { Alert, FormTemplate, Tabs } from '@myob/myob-widgets';
+import { Alert, FormTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -18,6 +18,8 @@ import SalesSettingsEmailDetails from './SalesSettingsEmailDetails';
 import SalesSettingsLayoutDetails from './SalesSettingsLayoutDetails';
 import SalesSettingsPaymentsDetails from './SalesSettingsPaymentsDetails';
 import SalesSettingsRemindersDetails from './SalesSettingsRemindersDetails';
+import SalesSettingsTemplateDetails from './SalesSettingsTemplateDetails';
+import Tabs from '../../../components/Tabs/Tabs';
 
 const SalesSettingsDetailView = ({
   isLoading,
@@ -34,10 +36,12 @@ const SalesSettingsDetailView = ({
   onModalCancel,
   onUpdateEmailSettings,
   onSaveEmailSettings,
+  templateHandlers,
 }) => {
   const Content = {
     [mainTabIds.payments]: SalesSettingsPaymentsDetails,
     [mainTabIds.layoutAndTheme]: SalesSettingsLayoutDetails,
+    [mainTabIds.templates]: SalesSettingsTemplateDetails,
     [mainTabIds.reminders]: SalesSettingsRemindersDetails,
     [mainTabIds.emailDefaults]: SalesSettingsEmailDetails,
   }[selectedTab];
@@ -48,6 +52,9 @@ const SalesSettingsDetailView = ({
     },
     [mainTabIds.layoutAndTheme]: {
       onUpdateSalesSettingsItem,
+    },
+    [mainTabIds.templates]: {
+      templateHandlers,
     },
     [mainTabIds.emailDefaults]: {
       onUpdateEmailSettings,
@@ -76,29 +83,26 @@ const SalesSettingsDetailView = ({
 
   const view = (
     <React.Fragment>
-      { pendingTab && (
-        <CancelModal
-          onConfirm={onModalConfirm}
-          onCancel={onModalCancel}
-        />
+      {pendingTab && (
+        <CancelModal onConfirm={onModalConfirm} onCancel={onModalCancel} />
       )}
       <FormTemplate
         alert={alertComponent}
         sticky="none"
         pageHead="Invoice and quote settings"
       >
-        { subHeadTabs }
+        {subHeadTabs}
         <Content {...contentProps} />
-        { showActions && (
-          <SalesSettingsDetailActions
-            onSaveButtonClick={saveHandler}
-          />
+        {showActions && (
+          <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />
         )}
       </FormTemplate>
     </React.Fragment>
   );
 
-  return <PageView isLoading={isLoading} isSubmitting={isSubmitting} view={view} />;
+  return (
+    <PageView isLoading={isLoading} isSubmitting={isSubmitting} view={view} />
+  );
 };
 
 const mapStateToProps = state => ({

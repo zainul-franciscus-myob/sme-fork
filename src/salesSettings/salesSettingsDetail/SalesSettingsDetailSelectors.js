@@ -1,4 +1,6 @@
-import { mainTabIds } from './tabItems';
+import { createSelector } from 'reselect';
+
+import { mainTabItems } from './tabItems';
 
 export const getIsLoading = state => state.isLoading;
 export const getRegion = state => state.region;
@@ -13,7 +15,8 @@ export const getLayout = state => state.layout;
 export const getTabData = state => state.tabData;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getIsRegistered = state => state.payDirect.isRegistered;
-export const getShowActions = state => state.selectedTab !== mainTabIds.reminders;
+export const getShowActions = state => mainTabItems
+  .find(tab => tab.id === state.selectedTab).hasActions;
 export const getAccountOptions = state => state.accountOptions;
 
 export const getShowDateField = state => [
@@ -23,10 +26,9 @@ export const getShowDateField = state => [
   'NumberOfDaysAfterEOM',
 ].includes(state.tabData.paymentType);
 
-export const getShowDateInput = state => [
-  'InAGivenNumberOfDays',
-  'NumberOfDaysAfterEOM',
-].includes(state.tabData.paymentType);
+export const getShowDateInput = state => ['InAGivenNumberOfDays', 'NumberOfDaysAfterEOM'].includes(
+  state.tabData.paymentType,
+);
 
 export const getDateInputPostfix = state => ({
   OnADayOfTheMonth: 'of this month',
@@ -38,6 +40,61 @@ export const getDateInputPostfix = state => ({
 export const getPayDirectLink = state => `${state.payDirect.url}?cdf=${state.businessId}&sn=${state.payDirect.serialNumber}`;
 
 export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&origin=global&businessId=${state.businessId}`;
+
+const getTemplateSettings = state => state.templateSettings;
+
+export const getTemplates = createSelector(
+  getRegion,
+  getBusinessId,
+  getTemplateSettings,
+  (region, businessId, { templates }) => templates.map(template => ({
+    ...template,
+    link: `/#/${region}/${businessId}/salesSettings/`,
+  })),
+);
+
+export const getArlTemplates = createSelector(
+  getTemplateSettings,
+  ({ arlTemplates }) => arlTemplates,
+);
+
+export const getEssentialsTemplates = createSelector(
+  getTemplateSettings,
+  ({ essentialsTemplates }) => essentialsTemplates,
+);
+
+export const getOrderBy = createSelector(
+  getTemplateSettings,
+  templateSettings => templateSettings.orderBy,
+);
+export const getSortOrder = createSelector(
+  getTemplateSettings,
+  templateSettings => templateSettings.sortOrder,
+);
+
+export const getOrder = createSelector(
+  getOrderBy,
+  getSortOrder,
+  (column, sortOrder) => ({ column, descending: sortOrder === 'desc' }),
+);
+
+export const getHasArlTemplates = state => getArlTemplates(state).length !== 0;
+export const getHasEssentialsTemplates = state => getEssentialsTemplates(state).length !== 0;
+export const getHasTemplates = state => getTemplates(state).length !== 0;
+
+export const getIsTemplatesLoading = createSelector(
+  getTemplateSettings,
+  templateSettings => templateSettings.isLoading,
+);
+
+const flipSortOrder = createSelector(
+  getSortOrder,
+  sortOrder => (sortOrder === 'desc' ? 'asc' : 'desc'),
+);
+
+export const getNewSortOrder = orderBy => state => (
+  orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc'
+);
 
 export const getSalesSettingsPayload = (state) => {
   const tabData = getTabData(state);

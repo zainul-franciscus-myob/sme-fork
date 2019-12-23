@@ -178,6 +178,7 @@ describe('salesSettingsReducer', () => {
         tabData: {
           some: 'settings',
         },
+        templateSettings: {},
       });
     });
   });

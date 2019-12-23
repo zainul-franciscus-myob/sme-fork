@@ -1,10 +1,14 @@
 import {
-  LOAD_SALES_SETTINGS, SAVE_TAB_DATA,
+  LOAD_SALES_SETTINGS,
+  SAVE_TAB_DATA,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_PENDING_TAB,
   SET_SUBMITTING_STATE,
   SET_TAB,
+  SET_TEMPLATE_LIST,
+  SET_TEMPLATE_LIST_LOADING,
+  SET_TEMPLATE_LIST_SORT_ORDER,
   UPDATE_EMAIL_SETTINGS,
   UPDATE_SALES_SETTINGS_ITEM,
 } from '../SalesSettingsIntents';
@@ -49,6 +53,14 @@ const getDefaultState = () => ({
   reminders: {
     url: '',
   },
+  templateSettings: {
+    templates: [],
+    arlTemplates: [],
+    essentialsTemplates: [],
+    sortOrder: '',
+    orderBy: '',
+    isLoading: false,
+  },
   isPageEdited: false,
   tabData: {},
   selectedTab: 'layoutAndTheme',
@@ -62,7 +74,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
 });
 
-const resetState = () => (getDefaultState());
+const resetState = () => getDefaultState();
 
 const setLoadingState = (state, action) => ({
   ...state,
@@ -84,10 +96,14 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const loadSalesSettings = (state, { intent, ...rest }) => ({
+const loadSalesSettings = (state, { intent, templateSettings, ...rest }) => ({
   ...state,
   ...rest,
   tabData: { ...rest.salesSettings }, // default to layout tab
+  templateSettings: {
+    ...state.templateSettings,
+    ...templateSettings,
+  },
 });
 
 const defaultDate = paymentType => ({
@@ -164,6 +180,29 @@ const saveTabData = state => ({
   isPageEdited: false,
 });
 
+const setTemplateListLoading = (state, { isTableLoading }) => ({
+  ...state,
+  templateSettings: {
+    ...state.templateSettings,
+    isLoading: isTableLoading,
+  },
+});
+const setTemplateListSortOrder = (state, { orderBy, sortOrder }) => ({
+  ...state,
+  templateSettings: {
+    ...state.templateSettings,
+    orderBy,
+    sortOrder,
+  },
+});
+const setTemplateList = (state, { response }) => ({
+  ...state,
+  templateSettings: {
+    ...state.templateSettings,
+    ...response,
+  },
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
@@ -176,6 +215,9 @@ const handlers = {
   [SET_PENDING_TAB]: setPendingTab,
   [UPDATE_EMAIL_SETTINGS]: updateEmailSettings,
   [SAVE_TAB_DATA]: saveTabData,
+  [SET_TEMPLATE_LIST_LOADING]: setTemplateListLoading,
+  [SET_TEMPLATE_LIST_SORT_ORDER]: setTemplateListSortOrder,
+  [SET_TEMPLATE_LIST]: setTemplateList,
 };
 
 const salesSettingsDetailReducer = createReducer(getDefaultState(), handlers);

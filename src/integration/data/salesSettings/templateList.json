@@ -1,0 +1,7 @@
+{
+  "templates": [
+    { "name": "Long template", "id": "2" },
+    { "name": "Special template for special people", "id": "1" },
+    { "name": "Water template", "id": "3" }
+  ]
+}

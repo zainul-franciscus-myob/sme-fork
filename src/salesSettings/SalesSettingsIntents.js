@@ -8,5 +8,10 @@ export const SET_TAB = Symbol('Set tab');
 export const SET_PENDING_TAB = Symbol('Set pending tab');
 export const SAVE_TAB_DATA = Symbol('Save tab data');
 
+export const SET_TEMPLATE_LIST_LOADING = Symbol('Set loading state of teh template tab');
+export const SET_TEMPLATE_LIST_SORT_ORDER = Symbol('Set sort order on template list');
+export const SET_TEMPLATE_LIST = Symbol('Update the template list');
+export const SORT_TEMPLATE_LIST = Symbol('Sort template list');
+
 export const UPDATE_EMAIL_SETTINGS = Symbol('Update email setting');
 export const SAVE_EMAIL_SETTINGS = Symbol('Save email settings');

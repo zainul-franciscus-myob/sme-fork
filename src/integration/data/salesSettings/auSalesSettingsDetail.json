@@ -24,6 +24,42 @@
     "statementEmailBody": "Please contact us immediately if you are unable to detach or download your Statement. Thank you.",
     "pdfOption": "IncludeLink"
   },
+  "templateSettings": {
+    "templates": [
+      { "name": "Special template for special people" },
+      { "name": "Long template" },
+      { "name": "Water template" }
+    ],
+    "arlTemplates": [
+      {
+        
+        "name": "Invoices and quotes",
+        "collapsible": true,
+        "children": [
+          {
+            "name": "Service layout",
+            "collapsible": true,
+            "children": [
+              {  "name": "Service - Layout 1" },
+              {  "name": "Service - Layout 2" },
+              {  "name": "Service - Layout 3" }
+            ]
+          },
+          {
+            
+            "name": "Item layout",
+            "collapsible": true,
+            "children": [
+              {  "name": "Item - Layout 1" },
+              {  "name": "Item - Layout 2" },
+              {  "name": "Item - Layout 3" }
+            ]
+          }
+        ]
+      }
+    ],
+    "essentialsTemplates": [{ "name": "Essentials Accounting Template" }]
+  },
   "payDirect": {
     "isRegistered": true,
     "serialNumber": "000000000000",

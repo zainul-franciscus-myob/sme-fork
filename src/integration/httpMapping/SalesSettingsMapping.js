@@ -1,6 +1,7 @@
 import {
   LOAD_SALES_SETTINGS,
   SAVE_EMAIL_SETTINGS,
+  SORT_TEMPLATE_LIST,
   UPDATE_SALES_SETTINGS,
 } from '../../salesSettings/SalesSettingsIntents';
 
@@ -8,6 +9,10 @@ const SalesSettingsMapping = {
   [LOAD_SALES_SETTINGS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/salesSettings/load_sales_settings`,
+  },
+  [SORT_TEMPLATE_LIST]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/salesSettings/sort_template_list`,
   },
   [UPDATE_SALES_SETTINGS]: {
     method: 'PUT',
