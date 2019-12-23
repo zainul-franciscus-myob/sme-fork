@@ -43,6 +43,7 @@ const SplitAllocationRow = (props) => {
     taxCodes,
     accounts = [],
     taxCodeId,
+    quantity = '',
   } = data;
 
   return (
@@ -72,6 +73,15 @@ const SplitAllocationRow = (props) => {
         value={amountPercent}
         onChange={handleAmountChange(onChange)}
         textAlign="right"
+      />
+      <AmountInput
+        label="Quantity"
+        hideLabel
+        decimalScale={6}
+        numeralIntegerScale={19}
+        name="quantity"
+        value={quantity}
+        onChange={handleAmountChange(onChange)}
       />
       <TextArea
         type="text"

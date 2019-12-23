@@ -11,6 +11,7 @@ import SplitAllocationRow from './SplitAllocationRow';
 const accountLabel = 'Account';
 const amountLabelDollar = 'Amount ($)';
 const amountLabelPercent = 'Amount (%)';
+const quantityLabel = 'Quantity';
 const lineDescription = 'Line description';
 const requiredLabel = 'This is required';
 
@@ -48,7 +49,7 @@ const SplitAllocationTable = (props) => {
   } = props;
 
   const labels = [
-    accountLabel, amountLabelDollar, amountLabelPercent, lineDescription, taxLabel,
+    accountLabel, amountLabelDollar, amountLabelPercent, quantityLabel, lineDescription, taxLabel,
   ];
 
   const columnConfig = [
@@ -65,6 +66,10 @@ const SplitAllocationTable = (props) => {
         {
           columnName: amountLabelPercent,
           styles: { width: '12.5rem', align: 'right' },
+        },
+        {
+          columnName: quantityLabel,
+          styles: { width: '9rem' },
         },
         {
           columnName: lineDescription,
@@ -87,6 +92,9 @@ const SplitAllocationTable = (props) => {
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabelPercent}
+    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>
+      {quantityLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>
       {lineDescription}

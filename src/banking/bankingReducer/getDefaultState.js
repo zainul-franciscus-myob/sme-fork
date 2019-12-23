@@ -81,6 +81,7 @@ const getDefaultState = () => ({
         taxCodeId: '',
         description: '',
         amount: '',
+        quantity: '',
       },
     },
     match: {
