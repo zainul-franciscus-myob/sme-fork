@@ -1,4 +1,4 @@
-import RouteName from '../router/RouteName';
+import RouteName from '../../router/RouteName';
 import SalesSettingsDetailModule from './salesSettingsDetail/SalesSettingsDetailModule';
 
 const getSalesSettingsRoutes = ({

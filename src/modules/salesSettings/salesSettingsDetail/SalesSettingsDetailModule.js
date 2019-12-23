@@ -11,12 +11,12 @@ import {
 } from './SalesSettingsDetailSelectors';
 import { mainTabIds } from './tabItems';
 import SalesSettingsView from './components/SalesSettingsDetailView';
-import Store from '../../store/Store';
+import Store from '../../../store/Store';
 import createSalesSettingsDispatcher from './createSalesSettingsDispatcher';
 import createSalesSettingsIntegrator from './createSalesSettingsIntegrator';
-import keyMap from '../../hotKeys/keyMap';
+import keyMap from '../../../hotKeys/keyMap';
 import salesSettingsReducer from './salesSettingsDetailReducer';
-import setupHotKeys from '../../hotKeys/setupHotKeys';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class SalesSettingsModule {
   constructor({ integration, setRootView }) {

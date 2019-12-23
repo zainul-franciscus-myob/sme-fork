@@ -55,7 +55,7 @@ import PayrollSettingsMapping from './PayrollSettingsMapping';
 import QuoteMapping from '../../modules/quote/mappings/MemoryQuoteMapping';
 import ReceiveMoneyMapping from '../../modules/receiveMoney/mappings/MemoryReceiveMoneyMapping';
 import ReceiveRefundMapping from '../../modules/receiveRefund/mappings/MemoryReceiveRefundMapping';
-import SalesSettingsMapping from './SalesSettingsMapping';
+import SalesSettingsMapping from '../../modules/salesSettings/mappings/MemorySalesSettingsMapping';
 import SettingMapping from './SettingMapping';
 import SpendMoneyMapping from '../../modules/spendMoney/mappings/MemorySpendMoneyMapping';
 import SuperFundMapping from '../../modules/superFund/mappings/MemorySuperFundMapping';

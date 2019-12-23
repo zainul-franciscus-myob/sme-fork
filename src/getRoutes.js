@@ -37,7 +37,7 @@ import getPrepareBasOrIasRoutes from './modules/prepareBasOrIas/getPrepareBasOrI
 import getQuoteRoutes from './modules/quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './modules/receiveMoney/getReceiveMoneyRoutes';
 import getReceiveRefundRoutes from './modules/receiveRefund/getReceiveRefundRoutes';
-import getSalesSettingsRoutes from './salesSettings/getSalesSettingsRoutes';
+import getSalesSettingsRoutes from './modules/salesSettings/getSalesSettingsRoutes';
 import getSettingsRoutes from './modules/settings/getSettingsRoutes';
 import getSpendMoneyRoutes from './modules/spendMoney/getSpendMoneyRoutes';
 import getSuperFundRoutes from './modules/superFund/getSuperFundRoutes';

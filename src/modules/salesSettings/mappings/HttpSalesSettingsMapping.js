@@ -3,9 +3,9 @@ import {
   SAVE_EMAIL_SETTINGS,
   SORT_TEMPLATE_LIST,
   UPDATE_SALES_SETTINGS,
-} from '../../salesSettings/SalesSettingsIntents';
+} from '../SalesSettingsIntents';
 
-const SalesSettingsMapping = {
+const HttpSalesSettingsMapping = {
   [LOAD_SALES_SETTINGS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/salesSettings/load_sales_settings`,
@@ -24,4 +24,4 @@ const SalesSettingsMapping = {
   },
 };
 
-export default SalesSettingsMapping;
+export default HttpSalesSettingsMapping;

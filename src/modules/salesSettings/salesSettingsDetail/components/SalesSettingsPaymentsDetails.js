@@ -15,9 +15,9 @@ import {
 } from '../SalesSettingsDetailSelectors';
 import AuPaymentOptions from './AuPaymentOptions';
 import NzPaymentOptions from './NzPaymentOptions';
-import Region from '../../../common/types/Region';
-import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
-import handleInputChange from '../../../components/handlers/handleInputChange';
+import Region from '../../../../common/types/Region';
+import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './SalesSettingsPaymentsDetails.module.css';
 
 const SalesSettingsPaymentsDetails = ({

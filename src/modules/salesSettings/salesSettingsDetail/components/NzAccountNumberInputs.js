@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getTabData } from '../SalesSettingsDetailSelectors';
-import AutoFormatter from '../../../components/autoFormatter/AutoFormatterCore/AutoFormatter';
-import buildAmountInputChangeEvent from '../../../components/autoFormatter/AmountInput/buildAmountInputChangeEvent';
-import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
+import AutoFormatter from '../../../../components/autoFormatter/AutoFormatterCore/AutoFormatter';
+import buildAmountInputChangeEvent from '../../../../components/autoFormatter/AmountInput/buildAmountInputChangeEvent';
+import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 import styles from './NzAccountNumberInputs.module.css';
 
 const handleOnChange = (handle, currentValue) => (event) => {

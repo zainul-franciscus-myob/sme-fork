@@ -4,8 +4,8 @@ import React from 'react';
 
 import { getAccountOptions, getTabData } from '../SalesSettingsDetailSelectors';
 import NzAccountNumberInputs from './NzAccountNumberInputs';
-import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
-import handleInputChange from '../../../components/handlers/handleInputChange';
+import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const NzPaymentOptions = ({
   salesSettings,

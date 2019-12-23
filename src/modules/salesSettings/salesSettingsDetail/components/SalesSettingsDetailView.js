@@ -11,15 +11,15 @@ import {
   getShowActions,
 } from '../SalesSettingsDetailSelectors';
 import { mainTabIds, mainTabItems } from '../tabItems';
-import CancelModal from '../../../components/modal/CancelModal';
-import PageView from '../../../components/PageView/PageView';
+import CancelModal from '../../../../components/modal/CancelModal';
+import PageView from '../../../../components/PageView/PageView';
 import SalesSettingsDetailActions from './SalesSettingsDetailActions';
 import SalesSettingsEmailDetails from './SalesSettingsEmailDetails';
 import SalesSettingsLayoutDetails from './SalesSettingsLayoutDetails';
 import SalesSettingsPaymentsDetails from './SalesSettingsPaymentsDetails';
 import SalesSettingsRemindersDetails from './SalesSettingsRemindersDetails';
 import SalesSettingsTemplateDetails from './SalesSettingsTemplateDetails';
-import Tabs from '../../../components/Tabs/Tabs';
+import Tabs from '../../../../components/Tabs/Tabs';
 
 const SalesSettingsDetailView = ({
   isLoading,

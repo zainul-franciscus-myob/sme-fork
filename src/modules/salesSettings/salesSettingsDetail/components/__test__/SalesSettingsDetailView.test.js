@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import SalesSettingsDetailView from '../SalesSettingsDetailView';
-import Store from '../../../../store/Store';
+import Store from '../../../../../store/Store';
 import salesSettingsDetailReducer from '../../salesSettingsDetailReducer';
 
 describe('SalesSettingsView', () => {

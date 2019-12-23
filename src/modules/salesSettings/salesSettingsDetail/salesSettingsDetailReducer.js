@@ -12,8 +12,8 @@ import {
   UPDATE_EMAIL_SETTINGS,
   UPDATE_SALES_SETTINGS_ITEM,
 } from '../SalesSettingsIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import createReducer from '../../store/createReducer';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
   businessId: '',

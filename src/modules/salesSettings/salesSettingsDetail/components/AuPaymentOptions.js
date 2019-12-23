@@ -7,13 +7,13 @@ import React from 'react';
 import {
   getAccountOptions, getIsRegistered, getPayDirectLink, getTabData,
 } from '../SalesSettingsDetailSelectors';
-import AccountCombobox from '../../../components/combobox/AccountCombobox';
-import AccountNumberInput from '../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
-import BSBInput from '../../../components/autoFormatter/BankDetailsInput/BSBInput';
-import LinkButton from '../../../components/Button/LinkButton';
-import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
-import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
-import handleInputChange from '../../../components/handlers/handleInputChange';
+import AccountCombobox from '../../../../components/combobox/AccountCombobox';
+import AccountNumberInput from '../../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
+import BSBInput from '../../../../components/autoFormatter/BankDetailsInput/BSBInput';
+import LinkButton from '../../../../components/Button/LinkButton';
+import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 import onlinePaymentMethodsImage from './OnlinePaymentMethods.png';
 import styles from './AuPaymentOptions.module.css';
 

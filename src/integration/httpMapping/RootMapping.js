@@ -55,7 +55,7 @@ import PayrollSettingsMapping from './PayrollSettingsMapping';
 import QuoteMapping from '../../modules/quote/mappings/HttpQuoteMapping';
 import ReceiveMoneyMapping from '../../modules/receiveMoney/mappings/HttpReceiveMoneyMapping';
 import ReceiveRefundMapping from '../../modules/receiveRefund/mappings/HttpReceiveRefundMapping';
-import SaleSettingMapping from './SalesSettingsMapping';
+import SalesSettingsMapping from '../../modules/salesSettings/mappings/HttpSalesSettingsMapping';
 import SettingMapping from './SettingMapping';
 import SpendMoneyMapping from '../../modules/spendMoney/mappings/HttpSpendMoneyMapping';
 import SubscriptionMapping from './SubscriptionMapping';
@@ -91,7 +91,7 @@ const RootMapping = Object.freeze({
   ...BillMapping,
   ...BillDetailMapping,
   ...CustomerReturnMapping,
-  ...SaleSettingMapping,
+  ...SalesSettingsMapping,
   ...PayrollSettingsMapping,
   ...SupplierReturnMapping,
   ...ReceiveRefundMapping,
