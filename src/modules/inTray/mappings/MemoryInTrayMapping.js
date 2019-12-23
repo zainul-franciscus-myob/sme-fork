@@ -11,7 +11,6 @@ import {
 } from '../InTrayIntents';
 import createInTrayFileResponse from './data/uploadInTrayFileResponse';
 import createInTrayModalFileResponse from './data/uploadInTrayModalFileResponse';
-import downloadInTrayFileResponse from './data/loadInTrayFileResponse';
 import downloadInTrayModalFileResponse from './data/loadInTrayModalDocumentUrlResponse';
 import filteredInTrayList from './data/filterInTrayListResponse';
 import generateInTrayEmailResponse from './data/generateEmailAddressResponse';
@@ -29,7 +28,7 @@ const MemoryInTrayMapping = {
     onSuccess({ ...createInTrayFileResponse, entry });
   },
   [DELETE_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
-  [DOWNLOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(downloadInTrayFileResponse),
+  [DOWNLOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_IN_TRAY_MODAL]: ({ onSuccess }) => onSuccess(loadInTrayModalResponse),
   [CREATE_IN_TRAY_MODAL_DOCUMENT]: ({ onSuccess }) => {
     const { entry: { id, ...res } } = createInTrayModalFileResponse;

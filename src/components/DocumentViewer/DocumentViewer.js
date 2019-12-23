@@ -1,45 +1,12 @@
-import React, { useCallback, useState } from 'react';
-import classNames from 'classnames';
+import EdgeDocumentViewer from './EdgeDocumentViewer';
+import StandardDocumentViewer from './StandardDocumentViewer';
 
-import styles from './DocumentViewer.module.css';
+const isEdge = () => window.navigator.userAgent.includes('Edge');
 
-const DocumentViewer = ({
-  src,
-  type,
-  title,
-  className,
-}) => {
-  const [size, setSize] = useState({
-    height: 0,
-    width: 0,
-  });
-
-  const containerEl = useCallback((node) => {
-    if (!node) {
-      return;
-    }
-
-    setSize({
-      height: node.clientHeight,
-      width: node.clientWidth,
-    });
-  }, []);
-
-  return (
-    <div
-      className={classNames(styles.container, className)}
-      ref={containerEl}
-    >
-      <object
-        className={styles.object}
-        data={src}
-        aria-label={title}
-        type={type}
-        height={size.height}
-        width={size.width}
-      />
-    </div>
-  );
-};
+const DocumentViewer = props => (
+  isEdge()
+    ? EdgeDocumentViewer(props)
+    : StandardDocumentViewer(props)
+);
 
 export default DocumentViewer;
