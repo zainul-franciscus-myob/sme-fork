@@ -11,6 +11,7 @@ import {
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_EMPLOYEE_PAY_ITEM,
   UPDATE_IS_EMPLOYEE_SELECTED,
+  UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
   VALIDATE_ETP,
 } from '../PayRunIntents';
 import createPayRunDispatchers from '../createPayRunDispatchers';
@@ -76,6 +77,13 @@ const createEmployeePayListDispatcher = store => ({
       invalidEtpNames,
     });
   },
+
+  updatePayPeriodEmployeeLimit: payPeriodEmployeeLimit => (
+    store.dispatch({
+      intent: UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
+      payPeriodEmployeeLimit,
+    })
+  ),
 
   setPayItemLineDirty: (isDirty) => {
     store.dispatch({

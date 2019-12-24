@@ -8,6 +8,7 @@ import EmployeePayActions from './EmployeePayActions';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
 import EmployeePayTable from './EmployeePayTable';
 import EtpModal from './EtpModal';
+import UpgradeModal from './UpgradeModal';
 import styles from './PayRunListEmployees.module.css';
 
 const PayRunListEmployees = ({
@@ -25,8 +26,14 @@ const PayRunListEmployees = ({
   onNextButtonClick,
   stepNumber,
   payRunSteps,
+  onUpgradeModalUpgradeButtonClick,
+  onUpgradeModalDismiss,
 }) => (
   <React.Fragment>
+    <UpgradeModal
+      onUpgradeModalUpgradeButtonClick={onUpgradeModalUpgradeButtonClick}
+      onUpgradeModalDismiss={onUpgradeModalDismiss}
+    />
     { isEtpOpen && (
     <EtpModal
       onChangeEtpCode={onChangeEtpCode}

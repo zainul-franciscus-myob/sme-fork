@@ -7,16 +7,20 @@ import {
   OPEN_ETP_MODAL,
   SAVE_ETP,
   SET_PAY_ITEM_LINE_DIRTY,
+  SET_UPGRADE_MODAL_SHOWING,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_EMPLOYEE_PAY_ITEM,
   UPDATE_IS_EMPLOYEE_SELECTED,
+  UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
   VALIDATE_ETP,
 } from '../PayRunIntents';
 import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 
 export const getEmployeePayListDefaultState = () => ({
   stpRegistrationStatus: 'notRegistered',
+  payPeriodEmployeeLimit: {},
+  isUpgradeModalShowing: false,
   isPayItemLineDirty: false,
   lines: [],
   invalidEtpNames: [],
@@ -110,6 +114,11 @@ const validateEtp = (state, { invalidEtpNames }) => ({
   invalidEtpNames,
 });
 
+const updatePayPeriodEmployeeLimit = (state, { payPeriodEmployeeLimit }) => ({
+  ...state,
+  payPeriodEmployeeLimit,
+});
+
 const setPayItemLineDirty = (state, action) => ({
   ...state,
   isPayItemLineDirty: action.isDirty,
@@ -182,6 +191,11 @@ const updateEmployeeLineAfterRecalculation = (state, { employeeId, recalculatedE
   )),
 });
 
+const setUpgradeModalShowing = (state, { isUpgradeModalShowing }) => ({
+  ...state,
+  isUpgradeModalShowing,
+});
+
 export const employeePayListHandlers = {
   [LOAD_EMPLOYEE_PAYS]: loadEmployeePays,
   [UPDATE_IS_EMPLOYEE_SELECTED]: updateIsEmployeeSelected,
@@ -192,8 +206,10 @@ export const employeePayListHandlers = {
   [CLOSE_ETP_MODAL]: closeEtpModal,
   [SAVE_ETP]: saveEtp,
   [VALIDATE_ETP]: validateEtp,
+  [UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT]: updatePayPeriodEmployeeLimit,
   [SET_PAY_ITEM_LINE_DIRTY]: setPayItemLineDirty,
   [UPDATE_EMPLOYEE_PAY_ITEM]: updateEmployeePayItem,
   [FORMAT_EMPLOYEE_PAY_ITEM]: formatEmployeePayItem,
   [UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION]: updateEmployeeLineAfterRecalculation,
+  [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
 };

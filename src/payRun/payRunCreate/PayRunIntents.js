@@ -19,6 +19,8 @@ export const CHANGE_ETP_CODE_CATEGORY = Symbol('Change ETP code category');
 export const CHANGE_ETP_CODE = Symbol('Change ETP code');
 export const VALIDATE_ETP = Symbol('Validate ETP');
 export const SAVE_ETP = Symbol('SAVE_ETP');
+export const VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT = Symbol('Validate pay period employee limit');
+export const UPDATE_PAY_PERIOD_EMPLOYEE_LIMIT = Symbol('Update pay period employee limit');
 export const SET_PAY_ITEM_LINE_DIRTY = Symbol('Set pay item line dirty');
 export const UPDATE_EMPLOYEE_PAY_ITEM = Symbol('Update employee pay item');
 export const FORMAT_EMPLOYEE_PAY_ITEM = Symbol('Format employee pay item');
@@ -33,3 +35,5 @@ export const SET_STP_DECLARATION_LOADING_STATE = Symbol('Set STP Declaration loa
 export const CHANGE_STP_DECLARATION_NAME = Symbol('Change STP Declaration name');
 export const RECORD_STP_DECLARATION = Symbol('Record STP Declaration');
 export const SET_STP_DECLARATION_ALERT_MESSAGE = Symbol('Set STP Declaration alert message');
+
+export const SET_UPGRADE_MODAL_SHOWING = Symbol('Set upgrade modal showing');

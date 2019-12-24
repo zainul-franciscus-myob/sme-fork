@@ -1,6 +1,10 @@
-import { RECALCULATE_PAY, VALIDATE_ETP } from '../PayRunIntents';
+import { RECALCULATE_PAY, VALIDATE_ETP, VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT } from '../PayRunIntents';
 import { getBusinessId } from '../PayRunSelectors';
-import { getRecalculatePayPayload, getValidateEtpContent } from './EmployeePayListSelectors';
+import {
+  getRecalculatePayPayload,
+  getSelectedEmployeeIds,
+  getValidateEtpContent,
+} from './EmployeePayListSelectors';
 
 const createEmployeePayListIntegrator = (store, integration) => ({
   validateEtp: ({ onSuccess, onFailure }) => {
@@ -14,6 +18,26 @@ const createEmployeePayListIntegrator = (store, integration) => ({
 
     integration.write({
       intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  validatePayPeriodEmployeeLimit: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const content = {
+      employeeIds: getSelectedEmployeeIds(state),
+    };
+
+    integration.write({
+      intent: VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
       urlParams,
       content,
       onSuccess,

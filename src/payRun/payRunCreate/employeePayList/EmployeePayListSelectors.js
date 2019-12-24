@@ -111,6 +111,13 @@ export const getValidateEtpContent = createSelector(
     .map(getEtpValidationLine),
 );
 
+export const getSelectedEmployeeIds = createSelector(
+  getEmployeePayLines,
+  lines => lines
+    .filter(isLineSelected)
+    .map(line => line.employeeId),
+);
+
 export const getIsPayItemLineDirty = state => state.employeePayList.isPayItemLineDirty;
 
 const isWageDeductionTaxPayItem = payItemType => [
@@ -157,6 +164,14 @@ export const getEmployerExpensePayItemEntries = createSelector(
       ...payItem,
       shouldShowHours: false,
     })),
+);
+
+export const getUpgradeModalShowing = ({
+  employeePayList,
+}) => employeePayList.isUpgradeModalShowing;
+
+export const getPayPeriodEmployeeLimit = ({ employeePayList: { payPeriodEmployeeLimit } }) => (
+  payPeriodEmployeeLimit
 );
 
 export const getShouldShowCombinedPayItemTableRows = () => true;

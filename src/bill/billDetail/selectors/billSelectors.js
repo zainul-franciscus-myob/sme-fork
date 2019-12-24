@@ -176,6 +176,7 @@ export const getContextForInventoryModal = (state) => {
 export const getRouteUrlParams = state => ({
   openExportPdf: getOpenExportPdfQueryParam(state),
 });
+
 export const getIsAccountComboboxDisabled = state => state.isAccountLoading;
 
 export const getAccountModalContext = (state) => {

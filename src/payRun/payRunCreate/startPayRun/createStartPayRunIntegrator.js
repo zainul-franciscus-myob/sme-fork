@@ -1,6 +1,6 @@
 import { LOAD_EMPLOYEE_PAYS } from '../PayRunIntents';
 import { getBusinessId } from '../PayRunSelectors';
-import { getStartPayRun } from './StartPayRunSelectors';
+import { getNewPayRunDetails } from './StartPayRunSelectors';
 
 const createStartPayRunIntegrator = (store, integration) => ({
   loadEmployeePays: ({ onSuccess, onFailure }) => {
@@ -10,7 +10,7 @@ const createStartPayRunIntegrator = (store, integration) => ({
     const businessId = getBusinessId(state);
     const urlParams = { businessId };
 
-    const params = getStartPayRun(state).newPayRunDetails;
+    const params = getNewPayRunDetails(state);
 
     integration.read({
       intent,

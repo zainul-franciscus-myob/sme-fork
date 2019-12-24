@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { SET_UPGRADE_MODAL_SHOWING } from '../PayRunIntents';
 import { getIsPayItemLineDirty, getTotals, isValidEtp } from './EmployeePayListSelectors';
 import AlertType from '../types/AlertType';
 import PayRunListEmployees from './components/PayRunListEmployees';
@@ -29,27 +30,52 @@ export default class EmployeePayListModule {
     this.dispatcher.closeEtpModal();
   }
 
-  nextStep = () => {
-    const onSuccess = (invalidEtpNames) => {
-      if (isValidEtp({ invalidEtpNames })) {
-        const state = this.store.getState();
-        const { netPay } = getTotals(state);
-        this.dispatcher.setTotalNetPay(netPay);
-        this.dispatcher.nextStep();
+  nextStep = () => (
+    this.validatePayPeriodEmployeeLimit(
+      () => this.validateEtp(
+        () => this.dispatcher.nextStep(),
+      ),
+    )
+  )
 
-        this.dispatcher.dismissAlert();
-      } else {
-        this.dispatcher.validateEtp({ invalidEtpNames });
-        this.dispatcher.setAlert({ type: AlertType.ETP_REQUIRED });
-      }
-    };
+  validatePayPeriodEmployeeLimit = next => (
+    this.integrator.validatePayPeriodEmployeeLimit({
+      onSuccess: (payPeriodLimit) => {
+        this.dispatcher.updatePayPeriodEmployeeLimit(payPeriodLimit);
+        if (payPeriodLimit.used > payPeriodLimit.limit) {
+          this.showUpgradeModal();
+        } else {
+          next();
+        }
+      },
+      onFailure: () => (
+        this.dispatcher.setAlert({
+          type: AlertType.ERROR,
+          message: 'Failed to validate employee payroll eligibility',
+        })
+      ),
+    })
+  )
 
-    const onFailure = () => {
-      this.dispatcher.setAlert({ type: AlertType.ERROR, message: 'Failed to load validate ETP' });
-    };
-
-    this.integrator.validateEtp({ onSuccess, onFailure });
-  }
+  validateEtp = next => (
+    this.integrator.validateEtp({
+      onSuccess: (invalidEtpNames) => {
+        if (isValidEtp({ invalidEtpNames })) {
+          const state = this.store.getState();
+          const { netPay } = getTotals(state);
+          this.dispatcher.setTotalNetPay(netPay);
+          this.dispatcher.dismissAlert();
+          next();
+        } else {
+          this.dispatcher.validateEtp({ invalidEtpNames });
+          this.dispatcher.setAlert({ type: AlertType.ETP_REQUIRED });
+        }
+      },
+      onFailure: () => {
+        this.dispatcher.setAlert({ type: AlertType.ERROR, message: 'Failed to load validate ETP' });
+      },
+    })
+  )
 
   changeEmployeePayItem = ({
     employeeId, payItemId, key, value,
@@ -97,6 +123,28 @@ export default class EmployeePayListModule {
     });
   }
 
+  showUpgradeModal = () => {
+    this.store.dispatch({
+      intent: SET_UPGRADE_MODAL_SHOWING,
+      isUpgradeModalShowing: true,
+    });
+  };
+
+  hideUpgradeModal = () => {
+    this.store.dispatch({
+      intent: SET_UPGRADE_MODAL_SHOWING,
+      isUpgradeModalShowing: false,
+    });
+  };
+
+  redirectToSubscriptionSettings = () => {
+    const state = this.store.getState();
+    const { businessId } = state;
+    const { region } = state;
+
+    window.location.href = `/#/${region}/${businessId}/settings/subscription`;
+  }
+
   getView() {
     return (
       <PayRunListEmployees
@@ -111,6 +159,8 @@ export default class EmployeePayListModule {
         onOpenEtpModal={this.dispatcher.openEtpModal}
         onSaveEtp={this.saveEtp}
         onNextButtonClick={this.nextStep}
+        onUpgradeModalUpgradeButtonClick={this.redirectToSubscriptionSettings}
+        onUpgradeModalDismiss={this.hideUpgradeModal}
       />
     );
   }
