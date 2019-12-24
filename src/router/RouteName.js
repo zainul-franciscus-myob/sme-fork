@@ -82,6 +82,7 @@ const RouteName = {
   REPORTS_EXCEPTION: 'reportsException',
   REPORTS_PACK_BUILDER: 'reportsPackBuilder',
   REPORTS_PDF_STYLE_TEMPLATES: 'reportsPdfStyleTemplates',
+  STP_GET_STARTED: 'stp/stpGetStarted',
 };
 
 export default RouteName;

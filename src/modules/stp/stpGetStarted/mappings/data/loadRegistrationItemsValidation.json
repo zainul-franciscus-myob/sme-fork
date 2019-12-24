@@ -1,0 +1,23 @@
+{
+  "hasRegistrationErrors": true,
+  "employees": [
+    {
+      "error": "Tax file number is invalid",
+      "id": "22",
+      "name": "Alan Long"
+    }
+  ],
+  "payItems": [
+    {
+      "id": "21",
+      "error": "ATO reporting category to be assigned",
+      "itemType": "Wages",
+      "name": "Holiday Pay"
+    }
+  ],
+  "businessDetail": [
+    {
+      "error": "Business name is needed"
+    }
+  ]
+}
