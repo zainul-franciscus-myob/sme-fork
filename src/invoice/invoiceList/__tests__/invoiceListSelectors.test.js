@@ -1,8 +1,7 @@
-import { addDays, subDays } from 'date-fns';
-
-import { getLoadMoreButtonStatus, getTableEntries, getTotalOverdue } from '../invoiceListSelectors';
+import {
+  getIsDefaultFilters, getLoadMoreButtonStatus, getTableEntries,
+} from '../invoiceListSelectors';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
-import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 describe('invoiceListReducer', () => {
   describe('getTableEntries', () => {
@@ -73,41 +72,27 @@ describe('invoiceListReducer', () => {
     });
   });
 
-  it('getTotalOverdue', () => {
-    const today = new Date();
-    const state = {
-      entries: [
-        {
-          invoiceDue: 500,
-          status: 'Open',
-          dateDue: formatIsoDate(addDays(today, 1)),
-        },
-        {
-          invoiceDue: 1000,
-          status: 'Open',
-          dateDue: formatIsoDate(subDays(today, 1)),
-        },
-        {
-          invoiceDue: 2000,
-          status: 'Credit',
-          dateDue: formatIsoDate(subDays(today, 1)),
-        },
-        {
-          invoiceDue: 2500,
-          status: 'Open',
-          dateDue: 'COD',
-        },
-        {
-          invoiceDue: 3000,
-          status: 'Open',
-          dateDue: 'Prepaid',
-        },
-      ],
-    };
+  describe('getIsDefaultFilters', () => {
+    it('should retrun false when default filters arent applied', () => {
+      const state = {
+        defaultFilterOptions: { keywords: 'not', type: 'abc' },
+        appliedFilterOptions: { keywords: 'the same', type: 'abc' },
+      };
+      const expected = false;
+      const actual = getIsDefaultFilters(state);
 
-    const actual = getTotalOverdue(state);
+      expect(actual).toEqual(expected);
+    });
+    it('should retrun true when default filters are applied', () => {
+      const state = {
+        defaultFilterOptions: { keywords: 'the same', type: 'abc' },
+        appliedFilterOptions: { keywords: 'the same', type: 'abc' },
+      };
+      const expected = true;
+      const actual = getIsDefaultFilters(state);
 
-    expect(actual).toEqual('$1,000.00');
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe('getLoadMoreButtonStatus', () => {

@@ -18,6 +18,7 @@ export default {
   orderBy: 'DisplayId',
   total: '$123.45',
   totalDue: '$100.00',
+  totalOverdue: '$50.00',
   entries: [
     {
       id: '123',

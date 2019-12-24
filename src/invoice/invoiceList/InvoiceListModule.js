@@ -104,7 +104,7 @@ export default class InvoiceListModule {
     };
 
     const onSuccess = ({
-      entries, total, totalDue, pagination,
+      entries, total, totalDue, totalOverdue, pagination,
     }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
@@ -112,6 +112,7 @@ export default class InvoiceListModule {
         entries,
         total,
         totalDue,
+        totalOverdue,
         filterOptions,
         pagination,
       });
@@ -151,6 +152,7 @@ export default class InvoiceListModule {
       entries,
       total,
       totalDue,
+      totalOverdue,
       pagination,
     }) => {
       this.setTableLoadingState(false);
@@ -160,6 +162,7 @@ export default class InvoiceListModule {
         filterOptions,
         total,
         totalDue,
+        totalOverdue,
         pagination,
       });
     };

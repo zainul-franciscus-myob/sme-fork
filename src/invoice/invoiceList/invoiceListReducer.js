@@ -83,6 +83,7 @@ const loadInvoiceList = (state, action) => ({
   },
   total: action.total,
   totalDue: action.totalDue,
+  totalOverdue: action.totalOverdue,
   customerFilterOptions: action.customerFilters,
   statusFilterOptions: action.statusFilters,
   pagination: action.pagination,
@@ -108,6 +109,7 @@ const sortAndFilterInvoiceList = (state, action) => ({
   entries: action.entries,
   total: action.total,
   totalDue: action.totalDue,
+  totalOverdue: action.totalOverdue,
   pagination: action.pagination,
 });
 

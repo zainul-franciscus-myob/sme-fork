@@ -1,6 +1,7 @@
 export default {
   total: '$999.99',
   totalDue: '$4554.00',
+  totalOverdue: '$50.00',
   entries: [
     {
       id: '1',

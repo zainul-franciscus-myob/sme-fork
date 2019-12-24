@@ -2,7 +2,6 @@ import { createSelector } from 'reselect';
 import { isPast } from 'date-fns';
 
 import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
-import formatCurrency from '../../common/valueFormatters/formatCurrency';
 import shallowCompare from '../../common/shallowCompare/shallowCompare';
 
 export const getBusinessId = ({ businessId }) => businessId;
@@ -78,12 +77,7 @@ export const getTotal = state => state.total;
 
 export const getTotalDue = state => state.totalDue;
 
-export const getTotalOverdue = createSelector(
-  getEntries,
-  entries => formatCurrency(entries
-    .filter(entry => isOverdue(entry))
-    .reduce((total, entry) => (total + entry.invoiceDue), 0)),
-);
+export const getTotalOverdue = state => state.totalOverdue;
 
 export const getHasOverdue = createSelector(
   getTotalOverdue,
