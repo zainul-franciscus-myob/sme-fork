@@ -57,8 +57,8 @@ const createInTrayIntegrator = (store, integration) => ({
       onFailure,
     });
   },
+
   sortTemplateList: ({
-    orderBy,
     sortOrder,
     onSuccess,
     onFailure,
@@ -75,7 +75,6 @@ const createInTrayIntegrator = (store, integration) => ({
       urlParams,
       params: {
         sortOrder,
-        orderBy,
       },
       onSuccess,
       onFailure,

@@ -4,6 +4,7 @@ import {
   SET_ALERT,
   SET_LOADING_STATE,
   SET_PENDING_TAB,
+  SET_SORTED_TEMPLATES,
   SET_SUBMITTING_STATE,
   SET_TAB,
   SET_TEMPLATE_LIST,
@@ -203,6 +204,14 @@ const setTemplateList = (state, { response }) => ({
   },
 });
 
+const setSortedTemplates = (state, { templates }) => ({
+  ...state,
+  templateSettings: {
+    ...state.templateSettings,
+    templates,
+  },
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
@@ -218,6 +227,7 @@ const handlers = {
   [SET_TEMPLATE_LIST_LOADING]: setTemplateListLoading,
   [SET_TEMPLATE_LIST_SORT_ORDER]: setTemplateListSortOrder,
   [SET_TEMPLATE_LIST]: setTemplateList,
+  [SET_SORTED_TEMPLATES]: setSortedTemplates,
 };
 
 const salesSettingsDetailReducer = createReducer(getDefaultState(), handlers);

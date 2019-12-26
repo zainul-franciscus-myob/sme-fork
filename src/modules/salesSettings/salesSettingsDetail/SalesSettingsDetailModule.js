@@ -105,9 +105,9 @@ export default class SalesSettingsModule {
     const sortOrder = getNewSortOrder(orderBy)(state);
     this.dispatcher.setTemplateListSortOrder(orderBy, sortOrder);
 
-    const onSuccess = (response) => {
+    const onSuccess = ({ templates }) => {
       this.dispatcher.setTemplateListLoadingState(false);
-      this.dispatcher.setTemplateList(response);
+      this.dispatcher.setSortedTemplates(templates);
     };
 
     const onFailure = (error) => {

@@ -4,6 +4,7 @@ import {
   SET_ALERT,
   SET_LOADING_STATE,
   SET_PENDING_TAB,
+  SET_SORTED_TEMPLATES,
   SET_SUBMITTING_STATE,
   SET_TAB,
   SET_TEMPLATE_LIST,
@@ -113,6 +114,12 @@ const createSalesSettingsDispatcher = store => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
+    });
+  },
+  setSortedTemplates: (templates) => {
+    store.dispatch({
+      intent: SET_SORTED_TEMPLATES,
+      templates,
     });
   },
 });
