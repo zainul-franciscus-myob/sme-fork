@@ -11,14 +11,25 @@
   background-color: unset;
 }
 
-.menuItem {
-  padding-left: 1.6rem;
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.icon img {
+  display: block;
+  height: 2.4rem;
+  width: 2.4rem;
 }
 
 .icon:hover {
   border-radius: 50%;
   box-shadow: 0 0 0 8px var(--flx-background-color-application);
   background-color: var(--flx-background-color-application);
+}
+
+.icon:hover img {
+  filter: brightness(60%);
 }
 
 .icon:active {

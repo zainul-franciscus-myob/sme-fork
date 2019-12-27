@@ -24,4 +24,5 @@
 .unlink.unlink :global(a:hover) {
   color: #687484;
   background-color: unset;
+  cursor: default;
 }

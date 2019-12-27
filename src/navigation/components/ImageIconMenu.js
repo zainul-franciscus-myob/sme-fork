@@ -1,13 +1,15 @@
 import { Navigation, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
-import classNames from 'classnames';
 
 import styles from './ImageIconMenu.module.css';
 
-const IconTooltip = ({ tooltip, children }) => (
+const IconTooltip = ({ image, tooltip }) => (
   <Tooltip
-    triggerContent={children}
+    triggerContent={(
+      <img src={image} alt={tooltip} />
+    )}
     placement="bottom"
+    className={styles.icon}
   >
     {tooltip}
   </Tooltip>
@@ -21,12 +23,10 @@ const getMenu = ({
 }) => {
   if (!items.length) {
     return (
-      <li className={classNames('flx-navbar__menu-item', styles.menuItem)}>
-        <IconTooltip tooltip={tooltip}>
-          <button type="button" className="flx-navbar__menu-link" onClick={onSelect}>
-            <img className={styles.icon} src={image} alt={tooltip} />
-          </button>
-        </IconTooltip>
+      <li className="flx-navbar__menu-item">
+        <button type="button" className="flx-navbar__menu-link" onClick={onSelect}>
+          <IconTooltip tooltip={tooltip} image={image} />
+        </button>
       </li>
     );
   }
@@ -34,9 +34,7 @@ const getMenu = ({
   return (
     <Navigation.Menu
       label={(
-        <IconTooltip tooltip={tooltip}>
-          <img className={styles.icon} src={image} alt={tooltip} />
-        </IconTooltip>
+        <IconTooltip tooltip={tooltip} image={image} />
       )}
       onSelect={onSelect}
       items={items}

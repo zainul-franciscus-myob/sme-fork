@@ -36,6 +36,16 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
   />
 );
 
+const getMenuLinkWithIcon = (url, label, icon, onMenuLinkClick) => (
+  <Navigation.MenuLink
+    key={label}
+    url={url}
+    label={label}
+    onClick={handleMenuLinkClick(onMenuLinkClick, url)}
+    icon={icon}
+  />
+);
+
 const getDisabledMenuLink = label => (
   <Navigation.MenuLink key={label} url="" label={label} disabled />
 );
@@ -48,7 +58,7 @@ const UnlinkedMenuLink = ({ label, className }) => (
 const getItems = ({
   urls, serialNumber, userEmail, onMenuLinkClick,
 }) => [
-  getMenuLink('#/businesses', 'Switch business', onMenuLinkClick),
+  getMenuLinkWithIcon('#/businesses', 'Switch business', <Icons.Switch />, onMenuLinkClick),
   <Navigation.Separator key="separator-switch-business" />,
   urls.businessDetails && getMenuLink(urls.businessDetails, 'Business details', onMenuLinkClick),
   urls.incomeAllocation && getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
@@ -63,7 +73,7 @@ const getItems = ({
   getDisabledMenuLink('Payment details'),
   <Navigation.Separator key="separator-links" />,
   serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
-  <Navigation.MenuLink key="logout" url="#/logout" label="Logout" icon={<Icons.SignOut />} onClick={handleMenuLinkClick(onMenuLinkClick, '#/logout')} />,
+  getMenuLinkWithIcon('#/logout', 'Logout', <Icons.SignOut />, onMenuLinkClick),
 ].filter(Boolean);
 
 const ReadonlyStatus = () => (
