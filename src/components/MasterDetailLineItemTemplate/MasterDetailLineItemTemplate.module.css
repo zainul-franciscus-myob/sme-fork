@@ -2,14 +2,6 @@
 
 /**
   @FEELIX:
-    To make Line Item Table scrollable in the split view
-**/
-.showDetail :global(.line-item-table__inner) {
-  overflow-y: scroll;
-}
-
-/**
-  @FEELIX:
     To make action buttons full width in the split view
 **/
 .showDetail :global(.flx-btn-row) {
@@ -51,4 +43,27 @@ div.card:global.flx-card {
 .showDetail :global(.flx-masterdetail__master + .flx-masterdetail__detail) {
   margin-left: 0;
   margin-right: var(--flx-spacing-tiny);
+}
+
+/**
+  @FEELIX:
+    To insert same space after line item table body as mobile view
+**/
+.showDetail :global(.line-item--body) {
+  margin-bottom: 10.2rem;
+}
+
+.showDetail :global(.line-item-table .combobox-menu) {
+  max-height: 9.6rem;
+}
+.showDetail :global(.line-item-table__inner) {
+  overflow-y: hidden;
+}
+
+/**
+  @FEELIX:
+    Prevent horizontal scrolling
+**/
+.showDetail {
+  overflow-x: hidden;
 }
