@@ -4,6 +4,7 @@ import {
   Dropdown,
   HeaderSort,
   Icons,
+  Label,
   PageState,
   Spinner,
   Table,
@@ -19,6 +20,7 @@ import {
 } from '../../SalesSettingsDetailSelectors';
 import actionTypes from './actionTypes';
 import emptyState from './emptyState.svg';
+import styles from './TemplateTable.module.css';
 
 const ActionComponent = ({ name, handleActionSelect }) => (
   <Dropdown
@@ -46,7 +48,7 @@ const ActionComponent = ({ name, handleActionSelect }) => (
       <Dropdown.Toggle size="xs">
         <Icons.More />
       </Dropdown.Toggle>
-)}
+    )}
   />
 );
 
@@ -85,7 +87,7 @@ const TemplateTable = ({
           src={emptyState}
           alt="Change the way your invoices look with templates"
         />
-)}
+      )}
     />
   );
 
@@ -106,9 +108,21 @@ const TemplateTable = ({
     <Table.Row key={template.name}>
       <Table.RowItem {...tableConfig.name}>
         <a href={template.link}>{template.name}</a>
+        {template.isDefault && (
+          <span className={styles.defaultLabel}>
+            <Label type="boxed" color="purple">
+              Default
+            </Label>
+          </span>
+        )}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.action} cellRole="actions">
-        {<ActionComponent handleActionSelect={onActionSelect} id={template.name} />}
+        {
+          <ActionComponent
+            handleActionSelect={onActionSelect}
+            id={template.name}
+          />
+        }
       </Table.RowItem>
     </Table.Row>
   );

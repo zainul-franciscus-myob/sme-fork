@@ -1,11 +1,12 @@
 import {
-  Card, Dropdown, FieldGroup, Icons, Table,
+  Card, Dropdown, FieldGroup, Icons, Label, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getEssentialsTemplates } from '../../SalesSettingsDetailSelectors';
 import actionTypes from './actionTypes';
+import styles from './EssentialsTemplateTable.module.css';
 
 const ActionComponent = ({ name, handleActionSelect }) => (
   <Dropdown
@@ -22,7 +23,7 @@ const ActionComponent = ({ name, handleActionSelect }) => (
       <Dropdown.Toggle size="xs">
         <Icons.More />
       </Dropdown.Toggle>
-)}
+    )}
   />
 );
 
@@ -42,7 +43,16 @@ const TemplateTable = ({ essentialsTemplates, onActionSelect }) => {
   );
   const renderTableRow = template => (
     <Table.Row key={template.name}>
-      <Table.RowItem {...tableConfig.name}>{template.name}</Table.RowItem>
+      <Table.RowItem {...tableConfig.name}>
+        {template.name}
+        {template.isDefault && (
+          <span className={styles.defaultLabel}>
+            <Label type="boxed" color="purple">
+              Default
+            </Label>
+          </span>
+        )}
+      </Table.RowItem>
       <Table.RowItem {...tableConfig.action} cellRole="actions">
         {<ActionComponent handleActionSelect={onActionSelect} name={template.name} />}
       </Table.RowItem>
