@@ -17,7 +17,7 @@ import {
   getOpenPosition,
 } from './bankingSelectors';
 import {
-  getDefaultMatchTransactionFilterOptions,
+  getDefaultMatchTransactionFilterRequestParams,
   getMatchTransactionFlipSortOrder,
   getMatchTransactionOrderBy,
 } from './bankingSelectors/matchTransactionSelectors';
@@ -67,6 +67,11 @@ export default class BankingModule {
       deleteSplitAllocationLine,
       updateMatchTransactionOptions,
       updateMatchTransactionSelection,
+      addMatchTransactionAdjustment,
+      updateMatchTransactionAdjustment,
+      removeMatchTransactionAdjustment,
+      expandAdjustmentSection,
+      updateSelectedTransactionDetails,
       updatePaymentAllocationLine,
       updateTransferMoney,
       closeModal,
@@ -105,6 +110,12 @@ export default class BankingModule {
         onUpdateMatchTransactionOptions={updateMatchTransactionOptions}
         onSortMatchTransactions={this.confirmBefore(this.sortMatchTransaction)}
         onUpdateMatchTransactionSelection={updateMatchTransactionSelection}
+        onAddAdjustment={addMatchTransactionAdjustment}
+        onUpdateAdjustment={updateMatchTransactionAdjustment}
+        onRemoveAdjustment={removeMatchTransactionAdjustment}
+        onExpandAdjustmentSection={expandAdjustmentSection}
+        onUpdateSelectedTransactionDetails={updateSelectedTransactionDetails}
+        onToggleSelectAllState={this.toggleSelectAllState}
         onSaveMatchTransaction={this.saveMatchTransaction}
         onCancelMatchTransaction={this.confirmBefore(collapseTransactionLine)}
         onUpdatePaymentAllocationOptions={this.confirmBefore(this.updatePaymentAllocationOptions)}
@@ -113,7 +124,7 @@ export default class BankingModule {
         onSaveTransferMoney={this.saveTransferMoney}
         onCancelTransferMoney={this.confirmBefore(collapseTransactionLine)}
         onCancelPaymentAllocation={this.confirmBefore(collapseTransactionLine)}
-        onUnmatchTransaction={this.openUnmatchTransactionModal(this.unallocateOpenEntryTransaction)}
+        onUnmatchTransaction={this.openUnmatchTransactionModal(this.unmatchTransaction)}
         onUpdateTransfer={updateTransferMoney}
         onCancelModal={this.cancelModal}
         onCloseModal={closeModal}
@@ -139,6 +150,10 @@ export default class BankingModule {
       </Provider>
     );
     this.setRootView(wrappedView);
+  }
+
+  toggleSelectAllState = ({ value }) => {
+    this.dispatcher.toggleSelectAllState(value);
   }
 
   applyRuleToTransaction = ({ message, bankingRuleId }) => {
@@ -538,6 +553,32 @@ export default class BankingModule {
     this.dispatcher.collapseTransactionLine();
   }
 
+  unmatchTransaction = () => {
+    const state = this.store.getState();
+    const index = getOpenPosition(state);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.unmatchTransaction(index, payload);
+
+      this.ifOpen(index, () => this.loadMatchTransaction(index))();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.dispatcher.setOpenEntryLoadingState(true);
+    this.integrator.unmatchTransaction({
+      onSuccess,
+      onFailure,
+    });
+  }
+
   unallocateOpenEntryTransaction = () => {
     const state = this.store.getState();
     const index = getOpenPosition(state);
@@ -545,8 +586,6 @@ export default class BankingModule {
     const onSuccess = (payload) => {
       this.dispatcher.setOpenEntryLoadingState(false);
       this.dispatcher.unAllocateOpenEntryTransaction(index, payload);
-
-      this.ifOpen(index, () => this.loadMatchTransaction(index))();
     };
 
     const onFailure = ({ message }) => {
@@ -593,7 +632,7 @@ export default class BankingModule {
 
     const line = getBankTransactionLineByIndex(state, index);
     const { withdrawal, deposit } = line;
-    const filterOptions = getDefaultMatchTransactionFilterOptions(accountId, line);
+    const filterOptions = getDefaultMatchTransactionFilterRequestParams(accountId, line);
 
     const onSuccess = this.ifOpen(
       index,

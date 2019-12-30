@@ -14,6 +14,15 @@
   justify-content: center;
 }
 
+.footerLabel {
+  padding-top: var(--flx-spacing-small);
+}
+
+.matchTransactionTable {
+  border-radius: var(--flx-border-radius-card);
+  border: var(--flx-border-table-row-outline);
+}
+
 /* @FEELIX */
 .paymentAllocationTable :global(.table-data__body) {
   max-height: 28rem;
@@ -28,7 +37,7 @@
 
 /* @FEELIX */
 .matchTransactionTable :global(.table-data__header .table-data__cell:first-child) {
-  padding-left: 3.7rem;
+  padding-left: var(--flx-spacing-small);
   padding-right: 0;
 }
 

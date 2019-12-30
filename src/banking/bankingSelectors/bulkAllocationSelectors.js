@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import StatusTypes from '../BankTransactionStatusTypes';
+
 export const getEntrySelectStatus = state => state.entries.map(entry => entry.selected);
 
 export const selectedCountSelector = state => state.entries.filter(entry => entry.selected).length;
@@ -26,7 +28,10 @@ export const getBulkAllocationAccounts = state => state.bulkAllocationAccounts;
 export const getBulkAllocationOptions = state => state.bulkAllocationOptions;
 
 const eligibleBulkAllocationTypes = [
-  'unmatched', 'matched', 'singleAllocation', 'splitAllocation',
+  StatusTypes.unmatched,
+  StatusTypes.matched,
+  StatusTypes.singleAllocation,
+  StatusTypes.splitAllocation,
 ];
 const filterBulkAllocationEntries = entries => entries.filter(
   entry => eligibleBulkAllocationTypes.includes(entry.type) && entry.selected,
@@ -48,7 +53,7 @@ export const getBulkAllocationPayload = ({ entries, filterOptions, bulkAllocatio
 };
 
 const ineligibleBulkUnallocationTypes = [
-  'unmatched', 'matched',
+  StatusTypes.unmatched, StatusTypes.matched,
 ];
 const filterBulkUnallocationEntries = entries => entries.filter(
   entry => !ineligibleBulkUnallocationTypes.includes(entry.type) && entry.selected,

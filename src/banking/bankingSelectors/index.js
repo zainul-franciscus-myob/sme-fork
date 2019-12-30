@@ -4,6 +4,7 @@ import { businessEventTypes } from '../businessEventTypes';
 import { tabIds } from '../tabItems';
 import Config from '../../Config';
 import Region from '../Region';
+import StatusTypes from '../BankTransactionStatusTypes';
 import TransactionTypes from '../TransactionTypes';
 import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 import getRegionToDialectText from '../../dialect/getRegionToDialectText';
@@ -177,20 +178,16 @@ export const getIsEntryLoading = createSelector(
 );
 
 export const getOpenEntryDefaultTabId = ({ type, sourceJournal }) => {
+  if (type === StatusTypes.splitMatched || type === StatusTypes.paymentRuleMatched) {
+    return tabIds.match;
+  }
+
   if (
-    type === 'unmatched'
+    type === StatusTypes.unmatched
     || sourceJournal === businessEventTypes.spendMoney
     || sourceJournal === businessEventTypes.receiveMoney
   ) {
     return tabIds.allocate;
-  }
-
-  if (
-    sourceJournal === businessEventTypes.billPayment
-    || sourceJournal === businessEventTypes.invoicePayment
-    || type === 'paymentRuleMatched'
-  ) {
-    return tabIds.payment;
   }
 
   if (sourceJournal === businessEventTypes.transferMoney) {
@@ -213,10 +210,10 @@ export const getAppliedPaymentRuleContactId = ({ appliedRule = {} }) => (
 );
 
 export const getIsAllocated = ({ type, journalId }) => (
-  !!((type === 'singleAllocation'
-    || type === 'splitAllocation'
-    || type === 'payment'
-    || type === 'transfer') && journalId)
+  !!((type === StatusTypes.singleAllocation
+    || type === StatusTypes.splitAllocation
+    || type === StatusTypes.payment
+    || type === StatusTypes.transfer) && journalId)
 );
 
 export const getIsSplitAllocationSelected = state => (
@@ -272,7 +269,10 @@ export const getBalancesForBulkResult = (state, resultEntries, isAllocate) => {
 export const getBalancesForApplyRule = (state, applyResults) => {
   const { entries } = state;
   const allocatedIds = applyResults
-    .filter(({ type }) => type === 'singleAllocation' || type === 'splitAllocation')
+    .filter(({ type }) => [
+      StatusTypes.singleAllocation,
+      StatusTypes.splitAllocation,
+    ].includes(type))
     .map(allocatedEntry => allocatedEntry.transactionId);
   const amount = entries
     .filter(entry => allocatedIds.includes(entry.transactionId))
@@ -330,19 +330,13 @@ export const getOpenTransactionLine = createSelector(
 
 export const getTabItems = createSelector(
   getOpenTransactionLine,
-  ({ sourceJournal = '', withdrawal }) => {
-    const isAllocateDisabled = sourceJournal !== businessEventTypes.spendMoney
+  ({ sourceJournal = '', type }) => {
+    const isAllocateDisabled = (sourceJournal !== businessEventTypes.spendMoney
     && sourceJournal !== businessEventTypes.receiveMoney
-    && sourceJournal !== '';
+    && sourceJournal !== '') || type === StatusTypes.splitMatched;
 
-    const isPaymentDisabled = sourceJournal !== businessEventTypes.billPayment
-    && sourceJournal !== businessEventTypes.invoicePayment
-    && sourceJournal !== '';
-
-    const isTransferDisabled = sourceJournal !== businessEventTypes.transferMoney
-    && sourceJournal !== '';
-
-    const isBillPayment = Boolean(withdrawal);
+    const isTransferDisabled = (sourceJournal !== businessEventTypes.transferMoney
+    && sourceJournal !== '') || type === StatusTypes.splitMatched;
 
     return [
       {
@@ -350,12 +344,6 @@ export const getTabItems = createSelector(
         label: 'Transfer',
         isDisabled: isTransferDisabled,
         toolTip: isTransferDisabled && 'Unmatch this transaction before creating a new one',
-      },
-      {
-        id: tabIds.payment,
-        label: isBillPayment ? 'Bill payment' : 'Invoice payment',
-        isDisabled: isPaymentDisabled,
-        toolTip: isPaymentDisabled && 'Unmatch this transaction before creating a new one',
       },
       {
         id: tabIds.allocate,
@@ -388,7 +376,7 @@ export const getDisplayName = (id, accountList) => {
   return `${displayId} ${displayName}`;
 };
 
-const getTaxCodes = state => state.taxCodes;
+export const getTaxCodes = state => state.taxCodes;
 
 export const getTitle = state => getRegionToDialectText(state.region)('Tax');
 

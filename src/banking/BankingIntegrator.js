@@ -19,6 +19,7 @@ import {
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
+  UNMATCH_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from './BankingIntents';
 import {
@@ -38,11 +39,12 @@ import {
   getBulkUnallocationPayload,
 } from './bankingSelectors/bulkAllocationSelectors';
 import {
-  getDefaultMatchTransactionFilterOptions,
-  getMatchTransactionFilterOptions,
+  getDefaultMatchTransactionFilterRequestParams,
+  getMatchTransactionFilterRequestParams,
   getMatchTransactionOrderBy,
   getMatchTransactionPayload,
   getMatchTransactionSortOrder,
+  getUnmatchTransactionPayload,
 } from './bankingSelectors/matchTransactionSelectors';
 import {
   getPaymentAllocationFilterOptions,
@@ -194,6 +196,25 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
+  unmatchTransaction: ({
+    onSuccess, onFailure,
+  }) => {
+    const state = store.getState();
+
+    const intent = UNMATCH_TRANSACTION;
+    const urlParams = { businessId: getBusinessId(state) };
+
+    const content = getUnmatchTransactionPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
   loadExistingTransferMoney: ({
     index, onSuccess, onFailure,
   }) => {
@@ -290,7 +311,7 @@ const createBankingIntegrator = (store, integration) => ({
 
     const line = getBankTransactionLineByIndex(state, index);
 
-    const filterOptions = getDefaultMatchTransactionFilterOptions(accountId, line);
+    const filterOptions = getDefaultMatchTransactionFilterRequestParams(accountId, line);
 
     integration.read({
       intent,
@@ -314,7 +335,7 @@ const createBankingIntegrator = (store, integration) => ({
       businessId: getBusinessId(state),
     };
 
-    const filterOptions = getMatchTransactionFilterOptions(state);
+    const params = getMatchTransactionFilterRequestParams(state);
     const sortOrder = getMatchTransactionSortOrder(state);
     const orderBy = getMatchTransactionOrderBy(state);
 
@@ -322,7 +343,7 @@ const createBankingIntegrator = (store, integration) => ({
       intent,
       urlParams,
       params: {
-        ...filterOptions,
+        ...params,
         sortOrder,
         orderBy,
       },

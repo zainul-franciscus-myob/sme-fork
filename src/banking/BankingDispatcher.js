@@ -1,5 +1,6 @@
 import {
   ADD_ATTACHMENTS,
+  ADD_MATCH_TRANSACTION_ADJUSTMENT,
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
   APPLY_RULE_TO_TRANSACTIONS,
@@ -8,6 +9,7 @@ import {
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
+  EXPAND_ADJUSTMENT_SECTION,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -22,6 +24,7 @@ import {
   OPEN_REMOVE_ATTACHMENT_MODAL,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
+  REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
   RESET_BULK_ALLOCATION,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
@@ -45,15 +48,19 @@ import {
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
+  TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
+  UNMATCH_TRANSACTION,
   UNSELECT_TRANSACTIONS,
   UPDATE_BULK_ALLOCATION_OPTIONS,
   UPDATE_FILTER_OPTIONS,
+  UPDATE_MATCH_TRANSACTION_ADJUSTMENT,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
   UPDATE_PAYMENT_ALLOCATION_LINE,
   UPDATE_PAYMENT_ALLOCATION_OPTIONS,
+  UPDATE_SELECTED_TRANSACTION_DETAILS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
   UPDATE_TRANSFER_MONEY,
@@ -277,6 +284,14 @@ const createBankingDispatcher = store => ({
     });
   },
 
+  unmatchTransaction: (index, payload) => {
+    store.dispatch({
+      intent: UNMATCH_TRANSACTION,
+      index,
+      ...payload,
+    });
+  },
+
   openCancelModal: () => {
     store.dispatch({
       intent: OPEN_MODAL,
@@ -390,10 +405,58 @@ const createBankingDispatcher = store => ({
     });
   },
 
-  updateMatchTransactionSelection: (selectedJournalLineId) => {
+  updateMatchTransactionSelection: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_MATCH_TRANSACTION_SELECTION,
-      selectedJournalLineId,
+      journalId: key,
+      selected: value,
+    });
+  },
+
+  updateSelectedTransactionDetails: ({ index, key, value }) => {
+    store.dispatch({
+      intent: UPDATE_SELECTED_TRANSACTION_DETAILS,
+      index,
+      key,
+      value,
+    });
+  },
+
+  addMatchTransactionAdjustment: ({ id, key, value }) => {
+    store.dispatch({
+      intent: ADD_MATCH_TRANSACTION_ADJUSTMENT,
+      id,
+      key,
+      value,
+    });
+  },
+
+  updateMatchTransactionAdjustment: (index, { key, value }) => {
+    store.dispatch({
+      intent: UPDATE_MATCH_TRANSACTION_ADJUSTMENT,
+      index,
+      key,
+      value,
+    });
+  },
+
+  removeMatchTransactionAdjustment: (index) => {
+    store.dispatch({
+      intent: REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
+      index,
+    });
+  },
+
+  expandAdjustmentSection: () => {
+    store.dispatch({
+      intent: EXPAND_ADJUSTMENT_SECTION,
+    });
+  },
+
+  toggleSelectAllState: (selected) => {
+    store.dispatch({
+      intent: TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
+      selected,
     });
   },
 

@@ -5,6 +5,7 @@ import AllocatedRowItem from './AllocatedRowItem';
 import ExpandedRowItem from './ExpandedRowItem';
 import MatchedRowItem from './MatchedRowItem';
 import SplitRowItem from './SplitRowItem';
+import StatusTypes from '../BankTransactionStatusTypes';
 import UnmatchedRowItem from './UnmatchedRowItem';
 
 export default ({
@@ -39,7 +40,11 @@ export default ({
     );
   }
 
-  if (type === 'matched' || type === 'paymentRuleMatched') {
+  if ([
+    StatusTypes.matched,
+    StatusTypes.paymentRuleMatched,
+    StatusTypes.splitMatched,
+  ].includes(type)) {
     return (
       <MatchedRowItem
         entry={entry}
@@ -48,7 +53,11 @@ export default ({
     );
   }
 
-  if (type === 'splitAllocation' || type === 'payment' || type === 'transfer') {
+  if ([
+    StatusTypes.splitAllocation,
+    StatusTypes.transfer,
+    StatusTypes.payment,
+  ].includes(type)) {
     return (
       <SplitRowItem
         index={index}
@@ -58,7 +67,7 @@ export default ({
     );
   }
 
-  if (type === 'singleAllocation') {
+  if (type === StatusTypes.singleAllocation) {
     return (
       <AllocatedRowItem
         entry={entry}

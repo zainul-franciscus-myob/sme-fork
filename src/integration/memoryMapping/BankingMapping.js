@@ -19,6 +19,7 @@ import {
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
+  UNMATCH_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from '../../banking/BankingIntents';
 import {
@@ -75,6 +76,7 @@ const applyBankingRule = ({ onSuccess }) => onSuccess(applyBankingRuleResponse);
 const loadAttachments = ({ onSuccess }) => onSuccess(attachments);
 const uploadAttachment = ({ onSuccess }) => onSuccess(uploadAttachmentResponse);
 const removeAttachment = ({ onSuccess }) => onSuccess(successResponse);
+const unmatchTransaction = ({ onSuccess }) => onSuccess(unallocatedBankTransaction);
 
 const BankingMappings = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
@@ -89,6 +91,7 @@ const BankingMappings = {
   [LOAD_MATCH_TRANSACTIONS]: loadMatchTransactions,
   [SORT_AND_FILTER_MATCH_TRANSACTIONS]: sortAndFilterMatchTransactions,
   [SAVE_MATCH_TRANSACTION]: saveMatchTransaction,
+  [UNMATCH_TRANSACTION]: unmatchTransaction,
   [LOAD_PAYMENT_ALLOCATION_LINES]: loadPaymentAllocationLines,
   [LOAD_PAYMENT_ALLOCATION]: loadPaymentAllocation,
   [SAVE_PAYMENT_ALLOCATION]: savePaymentAllocation,

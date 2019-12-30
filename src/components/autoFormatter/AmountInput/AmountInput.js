@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AutoFormatter from '../AutoFormatterCore/AutoFormatter';
+import AutoFormatter from '../AutoFormatterCore/AutoFormatterWithMessage';
 import buildAmountInputChangeEvent from './buildAmountInputChangeEvent';
 
 const handleOnChange = (handle, currentValue) => (event) => {

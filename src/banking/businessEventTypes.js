@@ -5,6 +5,13 @@ export const businessEventTypes = {
   transferMoney: 'TransferMoney',
   billPayment: 'PayBill',
   invoicePayment: 'ReceivePayment',
+  receiveRefund: 'ReceiveRefund',
+  settlePurchaseReturn: 'SettlePurchaseReturn',
+  payRefund: 'PayRefund',
+  settleSaleReturn: 'SettleSaleReturn',
+  bill: 'Purchase',
+  invoice: 'Sale',
+  employeePay: 'EmployeePayment',
 };
 
 export const businessEventFeatures = {
@@ -12,4 +19,13 @@ export const businessEventFeatures = {
   [businessEventTypes.spendMoney]: 'spendMoney',
   [businessEventTypes.receiveMoney]: 'receiveMoney',
   [businessEventTypes.transferMoney]: 'transferMoney',
+  [businessEventTypes.billPayment]: 'billPayment',
+  [businessEventTypes.invoicePayment]: 'invoicePayment',
+  [businessEventTypes.receiveRefund]: 'receiveRefund',
+  [businessEventTypes.settlePurchaseReturn]: 'appliedPurchaseReturn',
+  [businessEventTypes.payRefund]: 'payRefund',
+  [businessEventTypes.settleSaleReturn]: 'applyToSale',
+  [businessEventTypes.bill]: 'bill',
+  [businessEventTypes.invoice]: 'invoice',
+  [businessEventTypes.employeePay]: 'employeePay',
 };

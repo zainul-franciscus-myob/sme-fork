@@ -52,6 +52,12 @@ const BankingView = (props) => {
     onUpdateMatchTransactionOptions,
     onSortMatchTransactions,
     onUpdateMatchTransactionSelection,
+    onUpdateSelectedTransactionDetails,
+    onAddAdjustment,
+    onUpdateAdjustment,
+    onRemoveAdjustment,
+    onExpandAdjustmentSection,
+    onToggleSelectAllState,
     onSaveMatchTransaction,
     onCancelMatchTransaction,
     onUnmatchTransaction,
@@ -152,6 +158,12 @@ const BankingView = (props) => {
           onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
           onSortMatchTransactions={onSortMatchTransactions}
           onUpdateMatchTransactionSelection={onUpdateMatchTransactionSelection}
+          onUpdateSelectedTransactionDetails={onUpdateSelectedTransactionDetails}
+          onAddAdjustment={onAddAdjustment}
+          onUpdateAdjustment={onUpdateAdjustment}
+          onRemoveAdjustment={onRemoveAdjustment}
+          onExpandAdjustmentSection={onExpandAdjustmentSection}
+          onToggleSelectAllState={onToggleSelectAllState}
           onSaveMatchTransaction={onSaveMatchTransaction}
           onCancelMatchTransaction={onCancelMatchTransaction}
           onUnmatchTransaction={onUnmatchTransaction}

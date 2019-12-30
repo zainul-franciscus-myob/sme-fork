@@ -1,0 +1,14 @@
+.adjustmentButton {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 var(--flx-spacing-small);
+}
+
+/*
+  @FEELIX:
+*/
+.matchTransactionBody :global(.flx-field-group) {
+  margin-top: var(--flx-spacing-small);
+  border-bottom: 0;
+  padding-bottom: 0;
+}

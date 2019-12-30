@@ -8,17 +8,23 @@
       "date": "25/10/2019",
       "referenceId": "SM004234",
       "description": "Bob the builder",
-      "amount": "1,300.00",
-      "sourceJournal": "CashPayment"
+      "totalAmount": "1300.00",
+      "sourceJournal": "CashPayment",
+      "type": "MatchedTransaction"
     },
     {
       "journalId": "8",
       "journalLineId": "222",
       "date": "21/10/2019",
-      "referenceId": "SM004235",
+      "referenceId": "BILL0001",
+      "contactId": "1",
       "description": "Not bob the builder",
-      "amount": "295.00",
-      "sourceJournal": "CashPayment"
+      "totalAmount": "295.00",
+      "sourceJournal": "PayBill",
+      "type": "Purchase",
+      "status": "CloseBill",
+      "discountAmount": "50.00",
+      "balanceDue": "50.00"
     },
     {
       "journalId": "23",
@@ -26,17 +32,23 @@
       "date": "21/10/2019",
       "referenceId": "SM004236",
       "description": "Maybe bob the builder",
-      "amount": "3,300.00",
-      "sourceJournal": "CashPayment"
+      "totalAmount": "3300.00",
+      "sourceJournal": "CashPayment",
+      "type": "MatchedTransaction"
     },
     {
       "journalId": "67",
       "journalLineId": "865",
       "date": "01/09/2019",
-      "referenceId": "SM004223",
+      "referenceId": "BILL0002",
+      "contactId": "2",
       "description": "Definitely bob the builder",
-      "amount": "1,300.00",
-      "sourceJournal": "CashPayment"
+      "totalAmount": "1300.00",
+      "sourceJournal": "PayBill",
+      "type": "Purchase",
+      "status": "OpenBill",
+      "discountAmount": "1000.00",
+      "balanceDue": "50.00"
     }
   ]
 }

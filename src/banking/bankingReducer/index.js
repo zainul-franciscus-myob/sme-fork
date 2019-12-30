@@ -1,5 +1,6 @@
 import {
   ADD_ATTACHMENTS,
+  ADD_MATCH_TRANSACTION_ADJUSTMENT,
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
   APPLY_RULE_TO_TRANSACTIONS,
@@ -8,6 +9,7 @@ import {
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
+  EXPAND_ADJUSTMENT_SECTION,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -22,6 +24,7 @@ import {
   OPEN_REMOVE_ATTACHMENT_MODAL,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
+  REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
   RESET_BULK_ALLOCATION,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
@@ -45,15 +48,18 @@ import {
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
+  TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
-  UNALLOCATE_TRANSACTION,
+  UNALLOCATE_TRANSACTION, UNMATCH_TRANSACTION,
   UNSELECT_TRANSACTIONS,
   UPDATE_BULK_ALLOCATION_OPTIONS,
   UPDATE_FILTER_OPTIONS,
+  UPDATE_MATCH_TRANSACTION_ADJUSTMENT,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
   UPDATE_PAYMENT_ALLOCATION_LINE,
   UPDATE_PAYMENT_ALLOCATION_OPTIONS,
+  UPDATE_SELECTED_TRANSACTION_DETAILS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
   UPDATE_TRANSFER_MONEY,
@@ -62,6 +68,21 @@ import {
   UPLOAD_ATTACHMENT_FAILED,
 } from '../BankingIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import {
+  addAdjustment,
+  expandAdjustmentSection,
+  loadMatchTransactions,
+  removeAdjustment,
+  saveMatchTransaction,
+  setMatchTransactionLoadingState,
+  setMatchTransactionSortOrder,
+  sortAndFilterMatchTransactions,
+  toggleMatchTransactionSelectAllState,
+  updateAdjustment,
+  updateMatchTransactionOptions,
+  updateMatchTransactionSelection,
+  updateSelectedTransactionDetails,
+} from './matchTransactionHandlers';
 import {
   addAttachments,
   collapseTransactionLine,
@@ -97,19 +118,7 @@ import {
   unselectTransactions,
   updateBulkAllocationOptions,
 } from './bulkAllocationHandlers';
-import {
-  getCalculatedAllocatedBalances,
-  getCalculatedUnallocatedBalances,
-} from '../bankingSelectors';
-import {
-  loadMatchTransactions,
-  saveMatchTransaction,
-  setMatchTransactionLoadingState,
-  setMatchTransactionSortOrder,
-  sortAndFilterMatchTransactions,
-  updateMatchTransactionOptions,
-  updateMatchTransactionSelection,
-} from './matchTransactionHandlers';
+import { getCalculatedAllocatedBalances, getCalculatedUnallocatedBalances } from '../bankingSelectors';
 import {
   loadNewTransferMoney,
   loadTransferMoney,
@@ -333,6 +342,7 @@ const handlers = {
   [SET_OPEN_ENTRY_POSITION]: setOpenPosition,
   [SET_OPEN_ENTRY_LOADING_STATE]: setOpenEntryLoadingState,
   [UNALLOCATE_OPEN_ENTRY_TRANSACTION]: unallocateTransaction,
+  [UNMATCH_TRANSACTION]: unallocateTransaction,
   [UPDATE_SPLIT_ALLOCATION_HEADER]: updateSplitAllocationHeader,
   [ADD_SPLIT_ALLOCATION_LINE]: addSplitAllocationLine,
   [UPDATE_SPLIT_ALLOCATION_LINE]: updateSplitAllocationLine,
@@ -346,6 +356,12 @@ const handlers = {
   [UPDATE_MATCH_TRANSACTION_OPTIONS]: updateMatchTransactionOptions,
   [SET_MATCH_TRANSACTION_SORT_ORDER]: setMatchTransactionSortOrder,
   [UPDATE_MATCH_TRANSACTION_SELECTION]: updateMatchTransactionSelection,
+  [UPDATE_SELECTED_TRANSACTION_DETAILS]: updateSelectedTransactionDetails,
+  [ADD_MATCH_TRANSACTION_ADJUSTMENT]: addAdjustment,
+  [UPDATE_MATCH_TRANSACTION_ADJUSTMENT]: updateAdjustment,
+  [REMOVE_MATCH_TRANSACTION_ADJUSTMENT]: removeAdjustment,
+  [EXPAND_ADJUSTMENT_SECTION]: expandAdjustmentSection,
+  [TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE]: toggleMatchTransactionSelectAllState,
   [SET_MATCH_TRANSACTION_LOADING_STATE]: setMatchTransactionLoadingState,
   [LOAD_PAYMENT_ALLOCATION]: loadPaymentAllocation,
   [LOAD_PAYMENT_ALLOCATION_LINES]: loadPaymentAllocationLines,

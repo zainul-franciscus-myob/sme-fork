@@ -1,48 +1,89 @@
-import { DatePicker } from '@myob/myob-widgets';
+import {
+  Checkbox,
+  CheckboxGroup,
+  Select,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getMatchTransactionFilterOptions } from '../bankingSelectors/matchTransactionSelectors';
-import AmountInput from '../../components/autoFormatter/AmountInput/AmountInput';
+import {
+  getContacts,
+  getIncludeClosedTransactionLabel,
+  getMatchTransactionFilterOptions,
+  getShowAllFilters,
+} from '../bankingSelectors/matchTransactionSelectors';
+import ContactCombobox from '../../components/combobox/ContactCombobox';
 import FilterBar from '../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../components/FilterBarSearch/FilterBarSearch';
+import FilterGroup from '../../components/Feelix/FilterBar/FilterGroup';
+import handleCheckboxChange from '../../components/handlers/handleCheckboxChange';
+import handleComboboxChange from '../../components/handlers/handleComboboxChange';
+import handleInputChange from '../../components/handlers/handleInputChange';
+import handleSelectChange from '../../components/handlers/handleSelectChange';
 import styles from './BankingView.module.css';
 
-const handleDateChange = (handler, key) => ({ value }) => {
-  handler({ key, value });
-};
-
-const handleAmountChange = handler => (e) => {
-  const { name, rawValue } = e.target;
-  handler({ key: name, value: rawValue });
-};
-
-const handleInputChange = handler => (e) => {
-  const { value, name } = e.target;
-  handler({ key: name, value });
-};
+const showTypes = [
+  { label: 'Close Matches', value: 'closeMatches' },
+  { label: 'Last 90 days', value: 'last90Days' },
+  { label: 'All transactions', value: 'all' },
+  { label: 'Selected transactions', value: 'selected' },
+];
 
 const MatchTransactionOptions = (props) => {
   const {
+    contacts,
     filterOptions: {
-      dateFrom,
-      dateTo,
-      amountFrom,
-      amountTo,
+      showType,
+      contactId,
       keywords,
+      includeClosed,
     },
     onApplyMatchTransactionOptions,
     onUpdateMatchTransactionOptions,
+    showAllFilters,
+    includedClosedTransactionLabel,
   } = props;
 
   return (
     <div className={styles.filterOptions}>
       <FilterBar onApply={onApplyMatchTransactionOptions}>
-        <DatePicker name="dateFrom" label="Date from" value={dateFrom} onSelect={handleDateChange(onUpdateMatchTransactionOptions, 'dateFrom')} />
-        <DatePicker name="dateTo" label="Date to" value={dateTo} onSelect={handleDateChange(onUpdateMatchTransactionOptions, 'dateTo')} />
-        <AmountInput label="Amount from ($)" name="amountFrom" className={styles.amountInput} value={amountFrom} onChange={handleAmountChange(onUpdateMatchTransactionOptions)} />
-        <AmountInput label="Amount to ($)" name="amountTo" className={styles.amountInput} value={amountTo} onChange={handleAmountChange(onUpdateMatchTransactionOptions)} />
-        <FilterBarSearch name="keywords" id="search" value={keywords} onChange={handleInputChange(onUpdateMatchTransactionOptions)} />
+        <Select
+          label="Show"
+          name="showType"
+          value={showType}
+          onChange={handleSelectChange(onUpdateMatchTransactionOptions)}
+        >
+          {
+            showTypes.map(({ label, value }) => (
+              <Select.Option key={value} value={value} label={label} />
+            ))
+          }
+        </Select>
+        {
+          showAllFilters && (
+            <FilterGroup>
+              <ContactCombobox
+                label="Contact"
+                items={contacts}
+                selectedId={contactId}
+                onChange={handleComboboxChange('contactId', onUpdateMatchTransactionOptions)}
+              />
+              <FilterBarSearch name="keywords" label="Search" id="search" maxLength={255} value={keywords} onChange={handleInputChange(onUpdateMatchTransactionOptions)} />
+              <CheckboxGroup
+                label="Include closed transactions"
+                hideLabel
+                renderCheckbox={() => (
+                  <Checkbox
+                    name="includeClosed"
+                    label={includedClosedTransactionLabel}
+                    checked={includeClosed}
+                    onChange={handleCheckboxChange(onUpdateMatchTransactionOptions)}
+                  />
+                )}
+              />
+            </FilterGroup>
+          )
+        }
       </FilterBar>
     </div>
   );
@@ -50,6 +91,9 @@ const MatchTransactionOptions = (props) => {
 
 const mapStateToProps = state => ({
   filterOptions: getMatchTransactionFilterOptions(state),
+  contacts: getContacts(state),
+  showAllFilters: getShowAllFilters(state),
+  includedClosedTransactionLabel: getIncludeClosedTransactionLabel(state),
 });
 
 export default connect(mapStateToProps)(MatchTransactionOptions);

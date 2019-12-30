@@ -19,6 +19,7 @@ import {
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
+  UNMATCH_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from '../../banking/BankingIntents';
 import {
@@ -128,6 +129,10 @@ const BankingMapping = {
   [REMOVE_ATTACHMENT]: {
     method: 'DELETE',
     getPath: ({ businessId, documentId }) => `/${businessId}/banking/delete_attachment/${documentId}`,
+  },
+  [UNMATCH_TRANSACTION]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/unmatch_transaction`,
   },
 };
 
