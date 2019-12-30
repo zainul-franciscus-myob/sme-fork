@@ -30,7 +30,7 @@ import getPayItemRoutes from './modules/payItem/getPayItemRoutes';
 import getPayRefundRoutes from './modules/payRefund/getPayRefundRoutes';
 import getPayRunOldRoutes from './payRunOld/getPayRunRoutes';
 import getPayRunRoutes from './payRun/getPayRunRoutes';
-import getPaySuperRoutes from './paySuper/getPaySuperRoutes';
+import getPaySuperRoutes from './modules/paySuper/getPaySuperRoutes';
 import getPayrollSettingsRoutes from './payrollSettings/getPayrollSettingsRoutes';
 import getPermissionDeniedRoutes from './modules/permissionDenied/getPermissionDeniedRoutes';
 import getPrepareBasOrIasRoutes from './modules/prepareBasOrIas/getPrepareBasOrIasRoutes';

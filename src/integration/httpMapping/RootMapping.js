@@ -47,10 +47,11 @@ import PayRunListMapping from './PayRunListMapping';
 import PayRunListOldMapping from './PayRunListOldMapping';
 import PayRunMapping from './PayRunMapping';
 import PayRunOldMapping from './PayRunOldMapping';
-import PaySuperAuthorisationModalMapping from './PaySuperAuthorisationModalMapping';
-import PaySuperCreateMapping from './PaySuperCreateMapping';
-import PaySuperMapping from './PaySuperMapping';
-import PaySuperReadMapping from './PaySuperReadMapping';
+import PaySuperAuthorisationModalMapping from '../../modules/paySuper/paySuperAuthorisationModal/mappings/HttpPaySuperAuthorisationModalMapping';
+import PaySuperCreateMapping from '../../modules/paySuper/paySuperCreate/mappings/HttpPaySuperCreateMapping';
+import PaySuperListMapping from '../../modules/paySuper/paySuperList/mappings/HttpPaySuperListMapping';
+import PaySuperReadMapping from '../../modules/paySuper/paySuperRead/mappings/HttpPaySuperReadMapping';
+import PaySuperStsLoginMapping from '../../modules/paySuper/stsLoginModal/mappings/HttpPaySuperStsLoginMapping';
 import PayrollSettingsMapping from './PayrollSettingsMapping';
 import QuoteMapping from '../../modules/quote/mappings/HttpQuoteMapping';
 import ReceiveMoneyMapping from '../../modules/receiveMoney/mappings/HttpReceiveMoneyMapping';
@@ -115,7 +116,7 @@ const RootMapping = Object.freeze({
   ...BankingRuleBillMapping,
   ...PayRunMapping,
   ...PayRunOldMapping,
-  ...PaySuperMapping,
+  ...PaySuperListMapping,
   ...PaySuperReadMapping,
   ...PayRunListMapping,
   ...PayRunListOldMapping,
@@ -139,6 +140,7 @@ const RootMapping = Object.freeze({
   ...ActivityMapping,
   ...PaySuperCreateMapping,
   ...PaySuperAuthorisationModalMapping,
+  ...PaySuperStsLoginMapping,
   ...StpGetStartedMapping,
 });
 
