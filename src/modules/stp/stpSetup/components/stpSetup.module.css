@@ -1,0 +1,12 @@
+.wrapper {
+  display: grid;
+  grid-gap: 1.4rem;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .wrapper {
+    grid-template-rows: 1fr;
+    grid-template-columns: 270px 1fr;
+  }
+}
