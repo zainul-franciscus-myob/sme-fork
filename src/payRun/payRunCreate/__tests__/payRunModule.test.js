@@ -1,10 +1,7 @@
-import Adapter from 'enzyme-adapter-react-16';
-import Enzyme, { mount } from 'enzyme';
+import { mount } from 'enzyme';
 
 import PayRunModule from '../PayRunModule';
 import startNewPayRunResponse from '../../../integration/data/payRun/startNewPayRun';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 describe('PayRunModule', () => {
   const constructPayRunModule = (successResponse) => {

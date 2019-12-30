@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getPayRunListUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
 import RecordPayRunView from './components/RecordPayRunView';
 import createRecordPayRunDispatchers from './createRecordPayRunDispatchers';
@@ -13,6 +14,7 @@ export default class RecordPayRunModule {
   }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
+    this.store = store;
     this.dispatcher = createRecordPayRunDispatchers(store);
     this.integrator = createRecordPayRunIntegrator(store, integration);
   }
@@ -52,12 +54,19 @@ export default class RecordPayRunModule {
     this.integrator.recordStpDeclaration({ onSuccess, onFailure });
   };
 
+  saveDraftAndRedirect = () => {
+    const state = this.store.getState();
+    window.location.href = getPayRunListUrl(state);
+    // TODO: save the draft - Shohre
+  }
+
   getView() {
     return (
       <RecordPayRunView
         recordPayments={this.recordPayments}
         openStpModal={this.dispatcher.openStpModal}
         onPreviousButtonClick={this.dispatcher.previousStep}
+        onSaveAndCloseButtonClick={this.saveDraftAndRedirect}
         stpDeclarationListeners={{
           onChangeStpDeclaration: this.dispatcher.changeStpDeclarationName,
           onCancelStpDeclaration: this.dispatcher.closeStpModal,

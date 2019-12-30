@@ -19,6 +19,7 @@ const RecordPayRunView = ({
   recordPayments,
   openStpModal,
   onPreviousButtonClick,
+  onSaveAndCloseButtonClick,
   stepNumber,
   payRunSteps,
   isStpOpen,
@@ -44,6 +45,7 @@ const RecordPayRunView = ({
       <RecordPayRunActions
         onRecordButtonClick={onRecordButtonClick}
         onPreviousButtonClick={onPreviousButtonClick}
+        onSaveAndCloseButtonClick={onSaveAndCloseButtonClick}
       />
     </>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { SET_UPGRADE_MODAL_SHOWING } from '../PayRunIntents';
 import { getIsPayItemLineDirty, getTotals, isValidEtp } from './EmployeePayListSelectors';
+import { getPayRunListUrl } from '../../../payRunOld/payRunCreate/PayRunSelectors';
 import AlertType from '../types/AlertType';
 import PayRunListEmployees from './components/PayRunListEmployees';
 import createEmployeePayListDispatcher from './createEmployeePayListDispatcher';
@@ -28,6 +29,12 @@ export default class EmployeePayListModule {
   saveEtp = () => {
     this.dispatcher.saveEtp();
     this.dispatcher.closeEtpModal();
+  }
+
+  saveDraftAndRedirect = () => {
+    const state = this.store.getState();
+    window.location.href = getPayRunListUrl(state);
+    // TODO: save the draft - Shohre
   }
 
   nextStep = () => (
@@ -161,6 +168,7 @@ export default class EmployeePayListModule {
         onNextButtonClick={this.nextStep}
         onUpgradeModalUpgradeButtonClick={this.redirectToSubscriptionSettings}
         onUpgradeModalDismiss={this.hideUpgradeModal}
+        onSaveAndCloseButtonClick={this.saveDraftAndRedirect}
       />
     );
   }

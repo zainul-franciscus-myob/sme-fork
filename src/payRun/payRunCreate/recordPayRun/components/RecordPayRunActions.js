@@ -4,9 +4,13 @@ import React from 'react';
 const RecordPayRunActions = ({
   onRecordButtonClick,
   onPreviousButtonClick,
+  onSaveAndCloseButtonClick,
 }) => (
   <ButtonRow
     primary={[
+      <Button key="saveAndClose" testId="saveAndCloseButton" name="saveAndClose" type="secondary" onClick={onSaveAndCloseButtonClick}>
+          Save and close
+      </Button>,
       <Button key="previous" name="previous" type="secondary" onClick={onPreviousButtonClick}>
           Previous
       </Button>,

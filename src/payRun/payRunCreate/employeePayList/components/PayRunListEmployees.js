@@ -18,6 +18,7 @@ const PayRunListEmployees = ({
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
   onPreviousButtonClick,
+  onSaveAndCloseButtonClick,
   onChangeEtpCodeCategory,
   onChangeEtpCode,
   onCloseEtpModal,
@@ -57,6 +58,7 @@ const PayRunListEmployees = ({
     <EmployeePayActions
       onNextButtonClick={onNextButtonClick}
       onPreviousButtonClick={onPreviousButtonClick}
+      onSaveAndCloseButtonClick={onSaveAndCloseButtonClick}
     />
   </React.Fragment>
 );

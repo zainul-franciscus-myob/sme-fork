@@ -7,10 +7,14 @@ import { getIsSubmitting } from '../../PayRunSelectors';
 const EmployeePayActions = ({
   onNextButtonClick,
   onPreviousButtonClick,
+  onSaveAndCloseButtonClick,
   isSubmitting,
 }) => (
   <ButtonRow
     primary={[
+      <Button key="saveAndClose" testId="saveAndCloseButton" name="saveAndClose" type="secondary" disabled={isSubmitting} onClick={onSaveAndCloseButtonClick}>
+          Save and close
+      </Button>,
       <Button key="previous" name="previous" type="secondary" disabled={isSubmitting} onClick={onPreviousButtonClick}>
           Previous
       </Button>,
