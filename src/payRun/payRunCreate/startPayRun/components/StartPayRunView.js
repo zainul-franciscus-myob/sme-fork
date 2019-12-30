@@ -12,11 +12,13 @@ import React from 'react';
 import {
   getRegularPayCycleOptions,
   getStartPayRun,
+  isThereExistingPayRun,
 } from '../StartPayRunSelectors';
 import {
   getStepNumber,
   getStepperSteps,
 } from '../../PayRunSelectors';
+import ExistingPayRunModal from './ExistingPayRunModal';
 import FormCard from '../../../../components/FormCard/FormCard';
 import StartPayRunActions from './StartPayRunActions';
 import handleDatePickerChange from '../../../../components/handlers/handleDatePickerChange';
@@ -33,10 +35,14 @@ const StartPayRunView = ({
     },
   },
   stepNumber,
+  existingPayRun,
   payRunSteps,
   regularPayCycleOptions,
   onPayPeriodChange,
   onNextButtonClick,
+  onExistingPayRunModalGoBackClick,
+  onExistingPayRunModalCreateClick,
+  onExistingPayRunModalEditClick,
 }) => (
   <div className={styles.startPayRun}>
     <PageHead title="Create pay run" testid="startPayRunViewPageHead" />
@@ -64,6 +70,13 @@ const StartPayRunView = ({
         </FieldGroup>
       </FormCard>
     </FormHorizontal>
+    {existingPayRun && (
+      <ExistingPayRunModal
+        onGoBackButtonClick={onExistingPayRunModalGoBackClick}
+        onEditExistingPayRunClick={onExistingPayRunModalEditClick}
+        onCreatePayRunClick={onExistingPayRunModalCreateClick}
+      />
+    )}
     <StartPayRunActions
       onNextButtonClick={onNextButtonClick}
     />
@@ -75,6 +88,7 @@ const mapStateToProps = state => ({
   regularPayCycleOptions: getRegularPayCycleOptions(state),
   stepNumber: getStepNumber(state),
   payRunSteps: getStepperSteps(state),
+  existingPayRun: isThereExistingPayRun(state),
 });
 
 export default connect(mapStateToProps)(StartPayRunView);

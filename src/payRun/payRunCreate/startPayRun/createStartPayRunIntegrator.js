@@ -1,6 +1,6 @@
-import { LOAD_EMPLOYEE_PAYS } from '../PayRunIntents';
+import { DELETE_PAY_RUN_DRAFT, LOAD_EMPLOYEE_PAYS } from '../PayRunIntents';
 import { getBusinessId } from '../PayRunSelectors';
-import { getNewPayRunDetails } from './StartPayRunSelectors';
+import { getStartPayRun } from './StartPayRunSelectors';
 
 const createStartPayRunIntegrator = (store, integration) => ({
   loadEmployeePays: ({ onSuccess, onFailure }) => {
@@ -10,12 +10,27 @@ const createStartPayRunIntegrator = (store, integration) => ({
     const businessId = getBusinessId(state);
     const urlParams = { businessId };
 
-    const params = getNewPayRunDetails(state);
+    // TODO: refactor this to come from a selector - Shohre
+    const params = getStartPayRun(state).newPayRunDetails;
 
     integration.read({
       intent,
       urlParams,
       params,
+      onSuccess,
+      onFailure,
+    });
+  },
+  deleteDraft: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = DELETE_PAY_RUN_DRAFT;
+
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+
+    integration.write({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

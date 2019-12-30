@@ -1,12 +1,10 @@
 export const getStartPayRun = state => state.startPayRun;
-
-export const getNewPayRunDetails = ({ startPayRun: { newPayRunDetails } }) => ({
-  paymentFrequency: newPayRunDetails.paymentFrequency,
-  paymentDate: newPayRunDetails.paymentDate,
-  payPeriodStart: newPayRunDetails.payPeriodStart,
-  payPeriodEnd: newPayRunDetails.payPeriodEnd,
-});
-
 export const getRegularPayCycleOptions = state => (
   state.startPayRun.newPayRunDetails.regularPayCycleOptions
 );
+export const isThereExistingPayRun = state => (state.startPayRun.draftPayRun);
+
+// TODO: refactor state.startPayRun - Shohre
+export const getPayPeriodStart = state => (state.startPayRun.draftPayRun.payPeriodStart);
+export const getPayPeriodEnd = state => (state.startPayRun.draftPayRun.payPeriodEnd);
+export const getDateOfPayment = state => (state.startPayRun.draftPayRun.paymentDate);

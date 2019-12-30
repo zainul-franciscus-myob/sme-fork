@@ -1,5 +1,6 @@
 import {
   CLOSE_PREVIOUS_STEP_MODAL,
+  DELETE_PAY_RUN_DRAFT,
   NEXT_STEP,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
@@ -21,6 +22,10 @@ const createPayRunDispatchers = store => ({
   resetState: () => {
     const intent = RESET_STATE;
     store.dispatch({ intent });
+  },
+
+  deleteDraft: () => {
+    store.dispatch({ intent: DELETE_PAY_RUN_DRAFT });
   },
 
   setAlert: ({ type, message }) => {

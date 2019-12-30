@@ -2,6 +2,7 @@ import uuid from 'uuid/v4';
 
 import {
   CLOSE_PREVIOUS_STEP_MODAL,
+  DELETE_PAY_RUN_DRAFT,
   NEXT_STEP,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
@@ -113,6 +114,14 @@ const setEmployeePayments = (state, { response }) => ({
   },
 });
 
+const deletePayRunDraft = state => ({
+  ...state,
+  [START_PAY_RUN]: {
+    ...state[START_PAY_RUN],
+    draftPayRun: null,
+  },
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -125,6 +134,7 @@ const handlers = {
   [PREVIOUS_STEP]: previousStep,
   [SET_TOTAL_NET_PAY]: setTotalNetPay,
   [SET_EMPLOYEE_PAYMENTS]: setEmployeePayments,
+  [DELETE_PAY_RUN_DRAFT]: deletePayRunDraft,
   ...wrapHandlers(START_PAY_RUN, startPayRunHandlers),
   ...wrapHandlers(EMPLOYEE_PAY_LIST, employeePayListHandlers),
   ...wrapHandlers(RECORD_PAY_RUN, recordPayRunHandlers),

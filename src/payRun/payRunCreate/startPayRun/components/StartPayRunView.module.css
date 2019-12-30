@@ -5,3 +5,10 @@
 .stepper {
   padding: 1.6rem 0;
 }
+
+.existingPayRunModalButtons {
+  background: #f3f4f5;
+  border-top: 1px solid #dcdfe1;
+  padding: 16px;
+}
+

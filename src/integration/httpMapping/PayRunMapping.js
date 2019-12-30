@@ -1,5 +1,5 @@
-import { EXPORT_TRANSACTION_PDF } from '../../payRun/payRunIntents';
 import {
+  DELETE_PAY_RUN_DRAFT,
   LOAD_EMPLOYEE_PAYS,
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
@@ -8,11 +8,16 @@ import {
   VALIDATE_ETP,
   VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
 } from '../../payRun/payRunCreate/PayRunIntents';
+import { EXPORT_TRANSACTION_PDF } from '../../payRun/payRunIntents';
 
 const PayRunMapping = {
   [START_NEW_PAY_RUN]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/payRun/start_new_pay_run`,
+  },
+  [DELETE_PAY_RUN_DRAFT]: {
+    method: 'DELETE',
+    getPath: ({ businessId }) => `/${businessId}/payRun/delete_pay_run_draft`,
   },
   [LOAD_EMPLOYEE_PAYS]: {
     method: 'GET',

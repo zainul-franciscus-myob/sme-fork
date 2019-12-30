@@ -37,3 +37,6 @@ export const RECORD_STP_DECLARATION = Symbol('Record STP Declaration');
 export const SET_STP_DECLARATION_ALERT_MESSAGE = Symbol('Set STP Declaration alert message');
 
 export const SET_UPGRADE_MODAL_SHOWING = Symbol('Set upgrade modal showing');
+
+export const EDIT_EXISTING_PAY_RUN = Symbol('Edit existing pay run');
+export const DELETE_PAY_RUN_DRAFT = Symbol('Delete draft pay run');

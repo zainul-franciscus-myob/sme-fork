@@ -1,5 +1,5 @@
-import { EXPORT_TRANSACTION_PDF } from '../../payRun/payRunIntents';
 import {
+  DELETE_PAY_RUN_DRAFT,
   LOAD_EMPLOYEE_PAYS,
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
@@ -8,6 +8,7 @@ import {
   VALIDATE_ETP,
   VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
 } from '../../payRun/payRunCreate/PayRunIntents';
+import { EXPORT_TRANSACTION_PDF } from '../../payRun/payRunIntents';
 import loadEmployeePayList from '../data/payRun/loadEmployeePayList';
 import recalculatedEmployeePay from '../data/payRun/recalculatedEmployeePay';
 import recordPayments from '../data/payRun/recordPayments';
@@ -25,6 +26,7 @@ const PayRunMapping = {
   [RECALCULATE_PAY]: ({ onSuccess }) => onSuccess(recalculatedEmployeePay),
   [RECORD_PAYMENTS]: ({ onSuccess }) => onSuccess(recordPayments),
   [RECORD_STP_DECLARATION]: ({ onSuccess }) => onSuccess({}),
+  [DELETE_PAY_RUN_DRAFT]: ({ onSuccess }) => onSuccess({}),
   [EXPORT_TRANSACTION_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 
