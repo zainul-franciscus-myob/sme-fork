@@ -60,6 +60,7 @@ import SalesSettingsMapping from '../../modules/salesSettings/mappings/MemorySal
 import SettingMapping from './SettingMapping';
 import SpendMoneyMapping from '../../modules/spendMoney/mappings/MemorySpendMoneyMapping';
 import StpGetStartedMapping from '../../modules/stp/stpGetStarted/mappings/MemoryStpGetStartedMapping';
+import StpReportingCentreMapping from '../../modules/stp/reportingCentre/mappings/MemoryStpReportingCentreMapping';
 import SuperFundMapping from '../../modules/superFund/mappings/MemorySuperFundMapping';
 import SuperPayItemMapping from '../../modules/payItem/superPayItem/mappings/MemorySuperPayItemMapping';
 import SupplierReturnMapping from '../../modules/supplierReturn/mappings/MemorySupplierReturnMapping';
@@ -141,6 +142,7 @@ const RootMapping = Object.freeze({
   ...PaySuperStsLoginMapping,
   ...ActivityMapping,
   ...StpGetStartedMapping,
+  ...StpReportingCentreMapping,
 });
 
 export default RootMapping;

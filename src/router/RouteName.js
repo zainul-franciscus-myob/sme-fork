@@ -84,6 +84,7 @@ const RouteName = {
   REPORTS_PDF_STYLE_TEMPLATES: 'reportsPdfStyleTemplates',
   STP_GET_STARTED: 'stp/stpGetStarted',
   STP_SETUP: 'stp/stpSetup',
+  STP_REPORTING_CENTRE: 'stp/reportingCentre',
 };
 
 export default RouteName;
