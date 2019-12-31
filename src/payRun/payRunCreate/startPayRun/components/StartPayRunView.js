@@ -27,7 +27,7 @@ import styles from './StartPayRunView.module.css';
 
 const StartPayRunView = ({
   startPayRun: {
-    newPayRunDetails: {
+    currentEditingPayRun: {
       paymentFrequency,
       paymentDate,
       payPeriodStart,

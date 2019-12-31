@@ -1,14 +1,15 @@
-import { DELETE_PAY_RUN_DRAFT } from '../PayRunIntents';
+import { DELETE_PAY_RUN_DRAFT, EDIT_EXISTING_PAY_RUN } from '../PayRunIntents';
 import payRunReducer from '../payRunReducer';
 
 describe('payRunReducer', () => {
   describe('DELETE_PAY_RUN_DRAFT', () => {
-    it('sets draftPayRun to null, when there is a draft pay run', () => {
+    it('sets sets currentEditingPayRun and removes draft and new', () => {
       const state = {
         otherThings: '123',
         startPayRun: {
-          somethingElse: 'abc',
-          draftPayRun: { something: 123 },
+          thing: 'abc',
+          currentEditingPayRun: { newPayRunInfo: 'new pay run information' },
+          draftPayRun: { draftInfo: 'draft pay run information' },
         },
       };
 
@@ -21,30 +22,91 @@ describe('payRunReducer', () => {
       const expected = {
         otherThings: '123',
         startPayRun: {
-          somethingElse: 'abc',
-          draftPayRun: null,
+          thing: 'abc',
+          currentEditingPayRun: { newPayRunInfo: 'new pay run information' },
         },
       };
 
       expect(result).toEqual(expected);
     });
+  });
 
-    it('will not change anything, when there is no draft pay run', () => {
-      const state = {
-        otherThings: '123',
-        startPayRun: {
-          somethingElse: 'abc',
-          draftPayRun: null,
-        },
+  describe('EDIT_EXISTING_PAY_RUN', () => {
+    const state = {
+      otherThings: '123',
+      startPayRun: {
+        thing: 'abc',
+        currentEditingPayRun: { current: 'Current pay run info' },
+        draftPayRun: { something: 'blah' },
+      },
+    };
+
+    const draftData = {
+      draftInfo: 'draft pay run information',
+      moreDraftInfo: 'More draft info',
+    };
+
+    const action = {
+      intent: EDIT_EXISTING_PAY_RUN,
+      draftPayRun: {
+        ...draftData,
+        selectedEmployeeIds: [22, 23],
+        employeePays: [
+          {
+            employeeId: 21,
+            payInfo: 'pay information 1',
+            payItems: [
+              { line: 1 },
+              { line: 2 },
+            ],
+          },
+          {
+            employeeId: 22,
+            payInfo: 'pay information 2',
+            payItems: [
+              { line: 3 },
+              { line: 4 },
+            ],
+          },
+        ],
+      },
+    };
+
+    const result = payRunReducer(state, action);
+
+    it('removes the draftPayRun from startPayRun', () => {
+      expect(result.startPayRun.draftPayRun).toBeUndefined();
+    });
+
+    it('sets currentEditingPayRun to be equal to the input draftPayRun minus selectedEmployees and employeePays', () => {
+      expect(result.startPayRun.currentEditingPayRun).toEqual(draftData);
+    });
+
+    it('sets the employeePayList as expected', () => {
+      const expected = {
+        lines: [
+          {
+            employeeId: 21,
+            payInfo: 'pay information 1',
+            isSelected: false,
+            payItems: [
+              { line: 1, isSubmitting: false },
+              { line: 2, isSubmitting: false },
+            ],
+          },
+          {
+            employeeId: 22,
+            payInfo: 'pay information 2',
+            isSelected: true,
+            payItems: [
+              { line: 3, isSubmitting: false },
+              { line: 4, isSubmitting: false },
+            ],
+          },
+        ],
       };
 
-      const action = {
-        intent: DELETE_PAY_RUN_DRAFT,
-      };
-
-      const result = payRunReducer(state, action);
-
-      expect(result).toEqual(state);
+      expect(result.employeePayList).toEqual(expected);
     });
   });
 });

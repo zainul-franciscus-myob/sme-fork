@@ -1,6 +1,6 @@
 export const getStartPayRun = state => state.startPayRun;
 export const getRegularPayCycleOptions = state => (
-  state.startPayRun.newPayRunDetails.regularPayCycleOptions
+  state.startPayRun.currentEditingPayRun.regularPayCycleOptions
 );
 export const isThereExistingPayRun = state => (state.startPayRun.draftPayRun);
 

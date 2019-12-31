@@ -200,10 +200,10 @@ export const getRecalculatePayPayload = ({
 
   return {
     employeeId,
-    paymentFrequency: state.startPayRun.newPayRunDetails.paymentFrequency,
-    paymentDate: state.startPayRun.newPayRunDetails.paymentDate,
-    payPeriodStart: state.startPayRun.newPayRunDetails.payPeriodStart,
-    payPeriodEnd: state.startPayRun.newPayRunDetails.payPeriodEnd,
+    paymentFrequency: state.startPayRun.currentEditingPayRun.paymentFrequency,
+    paymentDate: state.startPayRun.currentEditingPayRun.paymentDate,
+    payPeriodStart: state.startPayRun.currentEditingPayRun.payPeriodStart,
+    payPeriodEnd: state.startPayRun.currentEditingPayRun.payPeriodEnd,
     payItems: editedEmployeeLine.payItems.map(
       payItem => getPayItemLineForRecalculatePayload(payItem),
     ),

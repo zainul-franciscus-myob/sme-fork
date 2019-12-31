@@ -11,7 +11,7 @@ const createStartPayRunIntegrator = (store, integration) => ({
     const urlParams = { businessId };
 
     // TODO: refactor this to come from a selector - Shohre
-    const params = getStartPayRun(state).newPayRunDetails;
+    const params = getStartPayRun(state).currentEditingPayRun;
 
     integration.read({
       intent,

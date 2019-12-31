@@ -26,18 +26,58 @@
     "payPeriodStart": "2017-06-02",
     "payPeriodEnd": "2019-07-03",
     "selectedEmployeeIds": [
-      29,
-      26
+      22
     ],
     "employeePays": [
       {
-        "employeeId": "21",
-        "etpCode": "R",
-        "lines": [
+        "employeeId": 21,
+        "name": "Jones Mary",
+        "gross": 1500,
+        "payg": 100,
+        "deduction": 300,
+        "netPay": 700,
+        "super": 150,
+        "payItems": [
           {
-            "payItemId": "38",
-            "payItemName": "Salary Sacrifice",
+            "payItemId": 1,
+            "payItemName": "Salary Wage",
             "type": "SalaryWage",
+            "stpCategory": "GrossPayments",
+            "amount": "100000.00",
+            "hours": "0.00"
+          },
+          {
+            "payItemId": 2,
+            "payItemName": "Hourly Wage",
+            "type": "HourlyWage",
+            "stpCategory": "GrossPayments",
+            "amount": "20000",
+            "hours": "38.50"
+          }
+        ]
+      },
+      {
+        "employeeId": 22,
+        "name": "Jack Smith",
+        "gross": 1600,
+        "payg": 110,
+        "deduction": 400,
+        "netPay": 710,
+        "super": 151,
+        "payItems": [
+          {
+            "payItemId": 3,
+            "payItemName": "Annual leave",
+            "type": "HourlyWage",
+            "stpCategory": "GrossPayments",
+            "amount": "0.00",
+            "hours": "0.00"
+          },
+          {
+            "payItemId": 4,
+            "payItemName": "Sick leave",
+            "type": "HourlyWage",
+            "stpCategory": "GrossPayments",
             "amount": "0.00",
             "hours": "0.00"
           }

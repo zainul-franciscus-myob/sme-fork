@@ -6,7 +6,7 @@ import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../PayRunIntents';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getStartPayRunDefaultState = () => ({
-  newPayRunDetails: {
+  currentEditingPayRun: {
     paymentFrequency: 'Weekly',
     paymentDate: formatIsoDate(new Date()),
     payPeriodStart: '2019-01-01',
@@ -41,10 +41,10 @@ const startNewPayRun = (state, { newPayRunDetails, draftPayRun }) => {
   const { paymentFrequency } = newPayRunDetails;
   return {
     ...state,
-    newPayRunDetails: {
-      ...state.newPayRunDetails,
+    currentEditingPayRun: {
+      ...state.currentEditingPayRun,
       ...newPayRunDetails,
-      payPeriodStart: calculateStartDate(paymentFrequency, state.newPayRunDetails.payPeriodEnd),
+      payPeriodStart: calculateStartDate(paymentFrequency, state.currentEditingPayRun.payPeriodEnd),
     },
     draftPayRun,
   };
@@ -56,13 +56,13 @@ const setPayPeriodDetails = (state, { key, value }) => {
     startPayRunPartial = {
       [key]: key === 'payPeriodStart'
         ? calculateStartDate(
-          state.newPayRunDetails.paymentFrequency, state.newPayRunDetails.payPeriodEnd,
+          state.currentEditingPayRun.paymentFrequency, state.currentEditingPayRun.payPeriodEnd,
         )
         : formatIsoDate(new Date()),
     };
   } else if (key === 'paymentFrequency') {
     startPayRunPartial = {
-      payPeriodStart: calculateStartDate(value, state.newPayRunDetails.payPeriodEnd),
+      payPeriodStart: calculateStartDate(value, state.currentEditingPayRun.payPeriodEnd),
       [key]: value,
     };
   } else {
@@ -73,8 +73,8 @@ const setPayPeriodDetails = (state, { key, value }) => {
 
   return {
     ...state,
-    newPayRunDetails: {
-      ...state.newPayRunDetails,
+    currentEditingPayRun: {
+      ...state.currentEditingPayRun,
       ...startPayRunPartial,
     },
   };

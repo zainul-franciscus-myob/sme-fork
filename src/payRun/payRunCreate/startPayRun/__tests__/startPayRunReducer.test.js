@@ -7,7 +7,7 @@ describe('startPayRunReducer', () => {
     it('should set default start date', () => {
       const state = {
         startPayRun: {
-          newPayRunDetails: {
+          currentEditingPayRun: {
             paymentFrequency: '',
             paymentDate: '2019-08-01',
             payPeriodStart: '',
@@ -24,7 +24,7 @@ describe('startPayRunReducer', () => {
 
       const expected = {
         startPayRun: {
-          newPayRunDetails: {
+          currentEditingPayRun: {
             paymentFrequency: 'Fortnightly',
             paymentDate: '2019-08-01',
             payPeriodStart: '2019-07-19',
@@ -43,7 +43,7 @@ describe('startPayRunReducer', () => {
   describe('setPayPeriodDetails should calculate period start date', () => {
     const buildState = (payPeriodEnd, paymentFrequency = '') => ({
       startPayRun: {
-        newPayRunDetails: {
+        currentEditingPayRun: {
           paymentFrequency,
           paymentDate: payPeriodEnd,
           payPeriodStart: '',
@@ -64,7 +64,7 @@ describe('startPayRunReducer', () => {
 
       const actual = payRunReducer(state, action);
 
-      expect(actual.startPayRun.newPayRunDetails.payPeriodStart).toEqual('2019-07-26');
+      expect(actual.startPayRun.currentEditingPayRun.payPeriodStart).toEqual('2019-07-26');
     });
 
     it.each([
@@ -83,7 +83,7 @@ describe('startPayRunReducer', () => {
 
       const actual = payRunReducer(state, action);
 
-      expect(actual.startPayRun.newPayRunDetails.payPeriodStart).toEqual(expected);
+      expect(actual.startPayRun.currentEditingPayRun.payPeriodStart).toEqual(expected);
     });
   });
 });

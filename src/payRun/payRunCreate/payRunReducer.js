@@ -3,6 +3,7 @@ import uuid from 'uuid/v4';
 import {
   CLOSE_PREVIOUS_STEP_MODAL,
   DELETE_PAY_RUN_DRAFT,
+  EDIT_EXISTING_PAY_RUN,
   NEXT_STEP,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
@@ -114,13 +115,57 @@ const setEmployeePayments = (state, { response }) => ({
   },
 });
 
-const deletePayRunDraft = state => ({
-  ...state,
-  [START_PAY_RUN]: {
-    ...state[START_PAY_RUN],
-    draftPayRun: null,
-  },
-});
+const deletePayRunDraft = (state) => {
+  const { draftPayRun, ...startPayRunMinusDraftPayRun } = state[START_PAY_RUN];
+
+  const updatedState = {
+    ...state,
+    [START_PAY_RUN]: {
+      ...startPayRunMinusDraftPayRun,
+    },
+  };
+  return updatedState;
+};
+
+const isEmployeeSelected = (employeeId, selectedEmployeeIds) => (
+  selectedEmployeeIds.includes(employeeId));
+
+// TODO: refactor this and the next method, once you get the new contract - Shohre
+const editExistingPayRun = (state, action) => {
+  const { employeePays, selectedEmployeeIds, ...draftPayRunDetails } = action.draftPayRun;
+
+  const { draftPayRun, ...startPayRunMinusDraftPayRun } = state[START_PAY_RUN];
+  const startPayRun = {
+    ...startPayRunMinusDraftPayRun,
+    currentEditingPayRun: {
+      ...draftPayRunDetails,
+    },
+  };
+
+  const updatedState = {
+    ...state,
+    [START_PAY_RUN]: {
+      ...startPayRun,
+    },
+    // TODO: find out about stpRegistrationStatus for draft - Shohre
+    // stpRegistrationStatus: draftPayRun.stpRegistrationStatus,
+    [EMPLOYEE_PAY_LIST]: {
+      ...state[EMPLOYEE_PAY_LIST],
+      lines: employeePays.map(employeePay => ({
+        ...employeePay,
+        isSelected: isEmployeeSelected(employeePay.employeeId, selectedEmployeeIds),
+        payItems: employeePay.payItems.map(
+          payItem => ({
+            ...payItem,
+            isSubmitting: false,
+          }),
+        ),
+      })),
+    },
+  };
+  return updatedState;
+};
+
 
 const handlers = {
   [RESET_STATE]: resetState,
@@ -135,6 +180,7 @@ const handlers = {
   [SET_TOTAL_NET_PAY]: setTotalNetPay,
   [SET_EMPLOYEE_PAYMENTS]: setEmployeePayments,
   [DELETE_PAY_RUN_DRAFT]: deletePayRunDraft,
+  [EDIT_EXISTING_PAY_RUN]: editExistingPayRun,
   ...wrapHandlers(START_PAY_RUN, startPayRunHandlers),
   ...wrapHandlers(EMPLOYEE_PAY_LIST, employeePayListHandlers),
   ...wrapHandlers(RECORD_PAY_RUN, recordPayRunHandlers),

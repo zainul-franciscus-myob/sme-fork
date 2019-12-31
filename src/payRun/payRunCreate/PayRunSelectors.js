@@ -11,10 +11,10 @@ export const getStep = state => state.step;
 export const getPreviousStepModalIsOpen = state => state.previousStepModalIsOpen;
 export const getIsFirstStep = state => state.step === 0;
 
-const getPaymentFrequency = state => state.startPayRun.newPayRunDetails.paymentFrequency;
-const getPaymentDate = state => formatDate(new Date(state.startPayRun.newPayRunDetails.paymentDate), 'iii dd/MM/yyyy');
-const getPayPeriodStart = state => formatDate(new Date(state.startPayRun.newPayRunDetails.payPeriodStart), 'iii dd/MM/yyyy');
-const getPayPeriodEnd = state => formatDate(new Date(state.startPayRun.newPayRunDetails.payPeriodEnd), 'iii dd/MM/yyyy');
+const getPaymentFrequency = state => state.startPayRun.currentEditingPayRun.paymentFrequency;
+const getPaymentDate = state => formatDate(new Date(state.startPayRun.currentEditingPayRun.paymentDate), 'iii dd/MM/yyyy');
+const getPayPeriodStart = state => formatDate(new Date(state.startPayRun.currentEditingPayRun.payPeriodStart), 'iii dd/MM/yyyy');
+const getPayPeriodEnd = state => formatDate(new Date(state.startPayRun.currentEditingPayRun.payPeriodEnd), 'iii dd/MM/yyyy');
 const getTotalNetPay = state => state.totalNetPay;
 
 export const getEmployeeHeader = createSelector(
@@ -33,7 +33,7 @@ export const getEmployeeHeader = createSelector(
 );
 
 export const getPayOnDate = state => (
-  formatSlashDate(new Date(state.startPayRun.newPayRunDetails.paymentDate))
+  formatSlashDate(new Date(state.startPayRun.currentEditingPayRun.paymentDate))
 );
 
 const initialStepperSteps = [

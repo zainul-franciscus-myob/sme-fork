@@ -1,6 +1,6 @@
 {
   "startPayRun": {
-    "newPayRunDetails": {
+    "currentEditingPayRun": {
       "paymentFrequency": "Weekly",
       "paymentDate": "2019-09-11",
       "payPeriodStart": "2019-09-05",
