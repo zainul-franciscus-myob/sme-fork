@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getEmail, getFirstName, getLastName, getPhone,
+  getEmail, getFirstName, getLastName, getPhone, getShowAlert,
 } from '../stpYourRoleSelectors';
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 
@@ -62,6 +62,7 @@ const mapStateToProps = state => ({
   lastName: getLastName(state),
   email: getEmail(state),
   phone: getPhone(state),
+  showAlert: getShowAlert(state),
 });
 
 export default connect(mapStateToProps)(ContactDetails);

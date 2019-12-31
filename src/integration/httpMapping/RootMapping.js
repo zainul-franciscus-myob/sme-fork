@@ -61,6 +61,7 @@ import SettingMapping from './SettingMapping';
 import SpendMoneyMapping from '../../modules/spendMoney/mappings/HttpSpendMoneyMapping';
 import StpGetStartedMapping from '../../modules/stp/stpGetStarted/mappings/HttpStpGetStartedMapping';
 import StpReportingCentreMapping from '../../modules/stp/reportingCentre/mappings/HttpStpReportingCentreMapping';
+import StpSetupMapping from '../../modules/stp/stpSetup/mappings/HttpStpSetupMapping';
 import SubscriptionMapping from './SubscriptionMapping';
 import SuperFundMapping from '../../modules/superFund/mappings/HttpSuperFundMapping';
 import SuperPayItemMapping from '../../modules/payItem/superPayItem/mappings/HttpSuperPayItemMapping';
@@ -144,6 +145,7 @@ const RootMapping = Object.freeze({
   ...PaySuperStsLoginMapping,
   ...StpGetStartedMapping,
   ...StpReportingCentreMapping,
+  ...StpSetupMapping,
 });
 
 export default RootMapping;

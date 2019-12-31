@@ -2,7 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SET_CURRENT_STEP_INDEX } from './stpSetupIntents';
+import { SET_AGENT_ROLE_SELECTED, SET_CURRENT_STEP_INDEX } from './stpSetupIntents';
+import { getAgentRoleSelected } from './stpSetupSelectors';
 import Steps from './Steps';
 import Store from '../../../store/Store';
 import StpOverviewModule from './stepModules/StpOverview/StpOverviewModule';
@@ -30,7 +31,9 @@ export default class StpSetupModule {
         id: Steps.YOUR_ROLE,
         title: 'Your role',
         module: new StpYourRoleModule({
+          integration,
           onPrevious: this.yourRolePrevious,
+          onFinish: this.yourRoleFinish,
         }),
       },
       {
@@ -41,6 +44,7 @@ export default class StpSetupModule {
       {
         id: Steps.ADD_CLIENTS,
         title: 'Add clients (Agents only)',
+        getType: this.getAddClientsStepType,
       },
       {
         id: Steps.NOTIFY_ATO,
@@ -53,6 +57,17 @@ export default class StpSetupModule {
     ];
   }
 
+  getAddClientsStepType = (stepIndex, currentStepIndex) => {
+    if (stepIndex < currentStepIndex) {
+      return 'completed';
+    }
+    const state = this.store.getState();
+    if (getAgentRoleSelected(state)) {
+      return 'incomplete';
+    }
+    return 'disabled';
+  }
+
   overviewFinish = () => {
     this.setStep(Steps.YOUR_ROLE);
   }
@@ -61,7 +76,11 @@ export default class StpSetupModule {
     this.setStep(Steps.OVERVIEW);
   }
 
-  yourRoleFinish = () => {
+  yourRoleFinish = ({ agentRoleSelected }) => {
+    this.store.dispatch({
+      intent: SET_AGENT_ROLE_SELECTED,
+      agentRoleSelected,
+    });
     this.setStep(Steps.DECLARATION_INFORMATION);
   }
 

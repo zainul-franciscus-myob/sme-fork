@@ -7,10 +7,17 @@ import React from 'react';
 import { getCurrentStepIndex } from '../stpSetupSelectors';
 import stpSetupStyles from './stpSetup.module.css';
 
+const getType = (step, index, currentStepIndex) => {
+  if (step.getType === undefined) {
+    return index < (currentStepIndex) ? 'complete' : 'incomplete';
+  }
+  return step.getType(index, currentStepIndex);
+};
+
 const StpSetupView = ({ steps, currentStepIndex }) => {
   const stepsWithType = steps.map((step, index) => ({
     ...step,
-    type: index < currentStepIndex ? 'complete' : 'incomplete',
+    type: getType(step, index, currentStepIndex),
     number: String(index + 1),
   }));
   const currentStep = steps[currentStepIndex];
