@@ -31,6 +31,8 @@ const getInitialState = () => ({
   defaultFilterOptions,
   filterOptions: defaultFilterOptions,
   appliedFilterOptions: defaultFilterOptions,
+  sortOrder: 'desc',
+  orderBy: 'DateDue',
   customerFilterOptions: [],
   statusFilterOptions: [],
   total: '',
@@ -48,23 +50,43 @@ const getInitialState = () => ({
 
 const resetState = () => (getInitialState());
 
-const setInitialState = (state, {
+const setInitialState = (_, {
   context,
-  settings = { filterOptions: defaultFilterOptions, sortOrder: '', orderBy: '' },
-}) => ({
-  ...state,
-  ...context,
-  filterOptions: {
-    ...state.filterOptions,
+  settings = {},
+}) => {
+  const initialState = getInitialState();
+
+  const filterOptions = {
+    ...initialState.filterOptions,
     ...settings.filterOptions,
-  },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    ...settings.filterOptions,
-  },
-  sortOrder: settings.sortOrder,
-  orderBy: settings.orderBy,
-});
+    status: settings.filterOptions && [
+      'All', 'Open', 'Closed', 'Credit',
+    ].includes(settings.filterOptions.status)
+      ? settings.filterOptions.status
+      : initialState.filterOptions.status,
+  };
+
+  return ({
+    ...initialState,
+    ...context,
+    filterOptions,
+    appliedFilterOptions: filterOptions,
+    sortOrder: [
+      'asc',
+      'desc',
+    ].includes(settings.sortOrder) ? settings.sortOrder : initialState.sortOrder,
+    orderBy: [
+      'DisplayId',
+      'CustomerPurchaseOrderIdentifier',
+      'CustomerName',
+      'DateOccurred',
+      'DateDue',
+      'Status',
+      'Amount',
+      'BalanceDue',
+    ].includes(settings.orderBy) ? settings.orderBy : initialState.orderBy,
+  });
+};
 
 const loadInvoiceList = (state, action) => ({
   ...state,
