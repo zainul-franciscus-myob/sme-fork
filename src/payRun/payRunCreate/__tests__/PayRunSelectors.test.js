@@ -1,5 +1,9 @@
 import {
-  getEmployeeHeader, getPayOnDate, getStepNumber, getStepperSteps,
+  getEmployeeHeader,
+  getPayOnDate,
+  getSaveDraftContent,
+  getStepNumber,
+  getStepperSteps,
 } from '../PayRunSelectors';
 
 describe('PayRunSelectors', () => {
@@ -150,6 +154,73 @@ describe('PayRunSelectors', () => {
       };
 
       expect(getEmployeeHeader(state)).toEqual(expected);
+    });
+  });
+
+  describe('getSaveDraftContent', () => {
+    const state = {
+      recordedPayments: {
+        printPaySlipEmployees: [],
+        emailPaySlipEmployees: [],
+      },
+      startPayRun: {
+        currentEditingPayRun: {
+          paymentFrequency: 'Weekly',
+          paymentDate: '2019-12-30',
+          payPeriodStart: '2019-12-15',
+          payPeriodEnd: '2019-12-30',
+          regularPayCycleOptions: [
+            {
+              value: 'Weekly',
+              name: 'Weekly',
+            },
+          ],
+        },
+      },
+      employeePayList: {
+        stpRegistrationStatus: 'lostConnection',
+        lines: [
+          {
+            employeeId: 21,
+            payItems: [{ payItemId: '38' }, { payItemId: '39' }],
+            isSelected: false,
+          },
+          {
+            employeeId: 23,
+            payItems: [{ payItemId: '39' }, { payItemId: '40' }],
+            isSelected: true,
+          },
+          {
+            employeeId: 25,
+            payItems: [{ payItemId: '39' }, { payItemId: '40' }],
+            isSelected: true,
+          },
+        ],
+      },
+    };
+
+    const saveDraftContent = getSaveDraftContent(state);
+
+    it('sets the payment frequency and date from current pay run', () => {
+      expect(saveDraftContent.paymentFrequency)
+        .toEqual(state.startPayRun.currentEditingPayRun.paymentFrequency);
+      expect(saveDraftContent.paymentDate)
+        .toEqual(state.startPayRun.currentEditingPayRun.paymentDate);
+    });
+
+    it('sets the payPeriod start and end from current pay run', () => {
+      expect(saveDraftContent.payPeriodStart)
+        .toEqual(state.startPayRun.currentEditingPayRun.payPeriodStart);
+      expect(saveDraftContent.payPeriodEnd)
+        .toEqual(state.startPayRun.currentEditingPayRun.payPeriodEnd);
+    });
+
+    it('adds the selected employees to the selectedEmployeeIds', () => {
+      expect(saveDraftContent.selectedEmployeeIds).toEqual([23, 25]);
+    });
+
+    it('includes all the employeePays lines', () => {
+      expect(saveDraftContent.employeePays).toEqual(state.employeePayList.lines);
     });
   });
 });

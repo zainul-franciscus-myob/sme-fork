@@ -1,5 +1,5 @@
-import { RECORD_PAYMENTS, RECORD_STP_DECLARATION } from '../PayRunIntents';
-import { getBusinessId } from '../PayRunSelectors';
+import { RECORD_PAYMENTS, RECORD_STP_DECLARATION, SAVE_DRAFT } from '../PayRunIntents';
+import { getBusinessId, getSaveDraftContent } from '../PayRunSelectors';
 import {
   getPayRunId,
   getRecordPayContents,
@@ -34,6 +34,28 @@ const createRecordPayRunIntegrator = (store, integration) => ({
     const content = getRecordStpDeclarationContents(state);
 
     const urlParams = { businessId, payRunId };
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+
+  saveDraft: ({
+    onSuccess, onFailure,
+  }) => {
+    const state = store.getState();
+    const intent = SAVE_DRAFT;
+    const businessId = getBusinessId(state);
+    const urlParams = {
+      businessId,
+    };
+
+    const content = getSaveDraftContent(state);
 
     integration.write({
       intent,

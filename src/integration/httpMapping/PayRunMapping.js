@@ -4,6 +4,7 @@ import {
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
   RECORD_STP_DECLARATION,
+  SAVE_DRAFT,
   START_NEW_PAY_RUN,
   VALIDATE_ETP,
   VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
@@ -48,6 +49,10 @@ const PayRunMapping = {
     getPath: ({ businessId, transactionId }) => (
       `/${businessId}/employeePay/load_employee_pay_pdf/${transactionId}`
     ),
+  },
+  [SAVE_DRAFT]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/payRun/save_pay_run_draft`,
   },
 };
 

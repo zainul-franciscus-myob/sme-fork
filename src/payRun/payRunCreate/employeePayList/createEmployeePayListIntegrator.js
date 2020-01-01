@@ -1,5 +1,10 @@
-import { RECALCULATE_PAY, VALIDATE_ETP, VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT } from '../PayRunIntents';
-import { getBusinessId } from '../PayRunSelectors';
+import {
+  RECALCULATE_PAY,
+  SAVE_DRAFT,
+  VALIDATE_ETP,
+  VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
+} from '../PayRunIntents';
+import { getBusinessId, getSaveDraftContent } from '../PayRunSelectors';
 import {
   getRecalculatePayPayload,
   getSelectedEmployeeIds,
@@ -57,6 +62,27 @@ const createEmployeePayListIntegrator = (store, integration) => ({
     const content = getRecalculatePayPayload({
       state, employeeId, payItemId, key,
     });
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  saveDraft: ({
+    onSuccess, onFailure,
+  }) => {
+    const state = store.getState();
+    const intent = SAVE_DRAFT;
+    const businessId = getBusinessId(state);
+    const urlParams = {
+      businessId,
+    };
+
+    const content = getSaveDraftContent(state);
 
     integration.write({
       intent,

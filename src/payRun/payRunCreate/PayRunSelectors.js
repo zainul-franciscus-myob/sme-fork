@@ -88,3 +88,17 @@ export const getStepperSteps = (state) => {
 };
 
 export const getStepNumber = state => (String(state.step + 1));
+
+const getSelectedEmployeeIds = state => (
+  state.employeePayList.lines
+    .filter(employeePay => employeePay.isSelected === true)
+    .map(employeePay => employeePay.employeeId)
+);
+
+const getEmployeePays = state => (state.employeePayList.lines);
+
+export const getSaveDraftContent = state => ({
+  ...state.startPayRun.currentEditingPayRun,
+  selectedEmployeeIds: getSelectedEmployeeIds(state),
+  employeePays: getEmployeePays(state),
+});

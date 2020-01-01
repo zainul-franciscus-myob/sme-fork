@@ -13,6 +13,7 @@ import {
   UPDATE_APPLIED_FILTER_OPTIONS,
   UPDATE_FILTER_OPTIONS,
 } from './PayRunListIntents';
+import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../payRun/payRunMessageTypes';
 import {
   getAppliedFilterOptions,
   getBusinessId,
@@ -24,6 +25,10 @@ import PayRunListView from './components/PayRunListView';
 import Store from '../../store/Store';
 import payRunListReducer from './payRunListReducer';
 
+const messageTypes = [
+  SUCCESSFULLY_SAVED_DRAFT_PAY_RUN,
+];
+
 export default class PayrunListModule {
   constructor({
     integration, setRootView, popMessages, replaceURLParams,
@@ -33,6 +38,7 @@ export default class PayrunListModule {
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.replaceURLParams = replaceURLParams;
+    this.messageTypes = messageTypes;
   }
 
   render = () => {

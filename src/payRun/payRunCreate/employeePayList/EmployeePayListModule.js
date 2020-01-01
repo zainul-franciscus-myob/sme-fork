@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { SET_UPGRADE_MODAL_SHOWING } from '../PayRunIntents';
+import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../payRunMessageTypes';
 import { getIsPayItemLineDirty, getTotals, isValidEtp } from './EmployeePayListSelectors';
 import { getPayRunListUrl } from '../../../payRunOld/payRunCreate/PayRunSelectors';
 import AlertType from '../types/AlertType';
@@ -33,8 +34,23 @@ export default class EmployeePayListModule {
 
   saveDraftAndRedirect = () => {
     const state = this.store.getState();
-    window.location.href = getPayRunListUrl(state);
-    // TODO: save the draft - Shohre
+
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_DRAFT_PAY_RUN,
+        content: message,
+      });
+      window.location.href = getPayRunListUrl(state);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setAlert({
+        type: AlertType.ERROR,
+        message: 'Failed to save the draft',
+      });
+    };
+
+    this.integrator.saveDraft({ onSuccess, onFailure });
   }
 
   nextStep = () => (

@@ -11,8 +11,8 @@ const findButtonWithTestId = (wrapper, testId) => wrapper.findWhere(c => (
 
 describe('EmployeePayListModule', () => {
   const constructEmployeePayListModule = () => {
-    const integration = {};
-    const pushMessage = [];
+    const integration = { write: ({ onSuccess }) => { onSuccess({ message: 'success' }); } };
+    const pushMessage = () => {};
     const setRootView = () => (<div />);
     const payRunModule = new PayRunModule({ integration, setRootView, pushMessage });
 

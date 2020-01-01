@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../payRunMessageTypes';
 import { getPayRunListUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
 import RecordPayRunView from './components/RecordPayRunView';
@@ -56,8 +57,22 @@ export default class RecordPayRunModule {
 
   saveDraftAndRedirect = () => {
     const state = this.store.getState();
-    window.location.href = getPayRunListUrl(state);
-    // TODO: save the draft - Shohre
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_DRAFT_PAY_RUN,
+        content: message,
+      });
+      window.location.href = getPayRunListUrl(state);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setAlert({
+        type: AlertType.ERROR,
+        message: 'Failed to save the draft',
+      });
+    };
+
+    this.integrator.saveDraft({ onSuccess, onFailure });
   }
 
   getView() {

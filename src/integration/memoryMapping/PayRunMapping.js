@@ -4,6 +4,7 @@ import {
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
   RECORD_STP_DECLARATION,
+  SAVE_DRAFT,
   START_NEW_PAY_RUN,
   VALIDATE_ETP,
   VALIDATE_PAY_PERIOD_EMPLOYEE_LIMIT,
@@ -28,6 +29,7 @@ const PayRunMapping = {
   [RECORD_STP_DECLARATION]: ({ onSuccess }) => onSuccess({}),
   [DELETE_PAY_RUN_DRAFT]: ({ onSuccess }) => onSuccess({}),
   [EXPORT_TRANSACTION_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [SAVE_DRAFT]: ({ onSuccess }) => onSuccess({ message: 'Saved the draft successfully' }),
 };
 
 export default PayRunMapping;

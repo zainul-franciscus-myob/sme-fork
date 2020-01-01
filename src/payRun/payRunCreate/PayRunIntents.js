@@ -40,3 +40,4 @@ export const SET_UPGRADE_MODAL_SHOWING = Symbol('Set upgrade modal showing');
 
 export const EDIT_EXISTING_PAY_RUN = Symbol('Edit existing pay run');
 export const DELETE_PAY_RUN_DRAFT = Symbol('Delete draft pay run');
+export const SAVE_DRAFT = Symbol('Save pay run draft');
