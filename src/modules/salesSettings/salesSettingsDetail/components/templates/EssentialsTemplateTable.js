@@ -1,36 +1,15 @@
 import {
-  Card, Dropdown, FieldGroup, Icons, Label, Table,
+  Card, FieldGroup, Label, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getEssentialsTemplates } from '../../SalesSettingsDetailSelectors';
-import actionTypes from './actionTypes';
 import styles from './EssentialsTemplateTable.module.css';
 
-const ActionComponent = ({ name, handleActionSelect }) => (
-  <Dropdown
-    right
-    items={[
-      <Dropdown.Item
-        key={actionTypes.makeDefaultTemplate}
-        label="Make default"
-        value={actionTypes.makeDefaultTemplate}
-      />,
-    ]}
-    onSelect={handleActionSelect(name)}
-    toggle={(
-      <Dropdown.Toggle size="xs">
-        <Icons.More />
-      </Dropdown.Toggle>
-    )}
-  />
-);
-
-const TemplateTable = ({ essentialsTemplates, onActionSelect }) => {
+const TemplateTable = ({ essentialsTemplates }) => {
   const tableConfig = {
     name: { valign: 'top', columnName: 'Name' },
-    action: { width: 'auto', valign: 'middle' },
   };
 
   const renderTableHeader = () => (
@@ -38,7 +17,6 @@ const TemplateTable = ({ essentialsTemplates, onActionSelect }) => {
       <Table.HeaderItem {...tableConfig.name}>
         {tableConfig.name.columnName}
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.action} />
     </Table.Header>
   );
   const renderTableRow = template => (
@@ -52,9 +30,6 @@ const TemplateTable = ({ essentialsTemplates, onActionSelect }) => {
             </Label>
           </span>
         )}
-      </Table.RowItem>
-      <Table.RowItem {...tableConfig.action} cellRole="actions">
-        {<ActionComponent handleActionSelect={onActionSelect} name={template.name} />}
       </Table.RowItem>
     </Table.Row>
   );

@@ -1,8 +1,12 @@
 import {
+  CLOSE_MODAL,
+  DELETE_TEMPLATE,
   LOAD_SALES_SETTINGS,
+  OPEN_MODAL,
   SAVE_TAB_DATA,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_PENDING_DELETE_TEMPLATE,
   SET_PENDING_TAB,
   SET_SORTED_TEMPLATES,
   SET_SUBMITTING_STATE,
@@ -19,6 +23,7 @@ import createReducer from '../../../store/createReducer';
 const getDefaultState = () => ({
   businessId: '',
   region: '',
+  modalType: '',
   salesSettings: {
     defaultSaleLayout: '',
     numberOfDaysForBalanceDue: '',
@@ -66,6 +71,7 @@ const getDefaultState = () => ({
   tabData: {},
   selectedTab: 'layoutAndTheme',
   pendingTab: '',
+  pendingDeleteTemplate: '',
   paymentTerms: [],
   dateOfMonth: [],
   layout: [],
@@ -212,6 +218,32 @@ const setSortedTemplates = (state, { templates }) => ({
   },
 });
 
+const openModal = (state, { modalType }) => ({
+  ...state,
+  modalType,
+});
+
+const closeModal = state => ({
+  ...state,
+  modalType: '',
+});
+
+const setPendingDeleteTemplate = (state, { templateName }) => ({
+  ...state,
+  pendingDeleteTemplate: templateName,
+});
+
+const deleteTemplate = (state, { templateName }) => ({
+  ...state,
+  pendingDeleteTemplate: '',
+  templateSettings: {
+    ...state.templateSettings,
+    templates: (
+      state.templateSettings.templates.filter(({ name }) => name !== templateName)
+    ),
+  },
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
@@ -228,6 +260,10 @@ const handlers = {
   [SET_TEMPLATE_LIST_SORT_ORDER]: setTemplateListSortOrder,
   [SET_TEMPLATE_LIST]: setTemplateList,
   [SET_SORTED_TEMPLATES]: setSortedTemplates,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
+  [SET_PENDING_DELETE_TEMPLATE]: setPendingDeleteTemplate,
+  [DELETE_TEMPLATE]: deleteTemplate,
 };
 
 const salesSettingsDetailReducer = createReducer(getDefaultState(), handlers);

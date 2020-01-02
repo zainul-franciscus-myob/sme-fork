@@ -1,7 +1,16 @@
 {
   "templates": [
-    { "name": "Long template", "id": "2" },
-    { "name": "Special template for special people", "id": "1" },
-    { "name": "Water template", "id": "3" }
+    {
+      "name": "Long template",
+      "isDefault": false
+    },
+    {
+      "name": "Special template for special people",
+      "isDefault": true
+    },
+    {
+      "name": "Water template",
+      "isDefault": false
+    }
   ]
 }

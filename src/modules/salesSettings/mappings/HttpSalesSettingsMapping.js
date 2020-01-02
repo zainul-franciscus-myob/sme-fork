@@ -1,4 +1,5 @@
 import {
+  DELETE_TEMPLATE,
   LOAD_SALES_SETTINGS,
   SAVE_EMAIL_SETTINGS,
   SORT_TEMPLATE_LIST,
@@ -13,6 +14,10 @@ const HttpSalesSettingsMapping = {
   [SORT_TEMPLATE_LIST]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/salesSettings/sort_template_list`,
+  },
+  [DELETE_TEMPLATE]: {
+    method: 'DELETE',
+    getPath: ({ businessId, templateName }) => `/${businessId}/salesSettings/delete_sale_template/${templateName}`,
   },
   [UPDATE_SALES_SETTINGS]: {
     method: 'PUT',

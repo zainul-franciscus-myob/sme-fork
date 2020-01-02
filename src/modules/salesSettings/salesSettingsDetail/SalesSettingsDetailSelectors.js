@@ -9,11 +9,13 @@ export const getBusinessId = state => state.businessId;
 export const getAlert = state => state.alert;
 export const getSelectedTab = state => state.selectedTab;
 export const getPendingTab = state => state.pendingTab;
+export const getPendingDeleteTemplate = state => state.pendingDeleteTemplate;
 export const getPaymentTerms = state => state.paymentTerms;
 export const getDateOfMonth = state => state.dateOfMonth;
 export const getLayout = state => state.layout;
 export const getTabData = state => state.tabData;
 export const getIsPageEdited = state => state.isPageEdited;
+export const getModalType = state => state.modalType;
 export const getIsRegistered = state => state.payDirect.isRegistered;
 export const getShowActions = state => mainTabItems
   .find(tab => tab.id === state.selectedTab).hasActions;

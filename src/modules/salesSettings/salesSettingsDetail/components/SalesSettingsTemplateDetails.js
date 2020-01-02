@@ -31,7 +31,7 @@ const SalesSettingsTemplateDetails = ({
       />
       {hasArlTemplates && <ArlTemplateTable />}
       {hasEssentialsTemplates && (
-        <EssentialsTemplateTable onActionSelect={onActionSelect} />
+        <EssentialsTemplateTable />
       )}
     </div>
   );

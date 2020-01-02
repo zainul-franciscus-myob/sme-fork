@@ -1,4 +1,5 @@
 import {
+  DELETE_TEMPLATE,
   LOAD_SALES_SETTINGS,
   SAVE_EMAIL_SETTINGS,
   SORT_TEMPLATE_LIST,
@@ -76,6 +77,26 @@ const createInTrayIntegrator = (store, integration) => ({
       params: {
         sortOrder,
       },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  deleteTemplate: ({
+    templateName,
+    onSuccess,
+    onFailure,
+  }) => {
+    const intent = DELETE_TEMPLATE;
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+      templateName,
+    };
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

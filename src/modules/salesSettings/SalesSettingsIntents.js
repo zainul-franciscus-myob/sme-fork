@@ -13,6 +13,11 @@ export const SET_TEMPLATE_LIST_SORT_ORDER = Symbol('Set sort order on template l
 export const SET_TEMPLATE_LIST = Symbol('Update the template list');
 export const SORT_TEMPLATE_LIST = Symbol('Sort template list');
 export const SET_SORTED_TEMPLATES = Symbol('Set sorted templates');
+export const DELETE_TEMPLATE = Symbol('Delete template');
+export const SET_PENDING_DELETE_TEMPLATE = Symbol('Set pending delete template');
 
 export const UPDATE_EMAIL_SETTINGS = Symbol('Update email setting');
 export const SAVE_EMAIL_SETTINGS = Symbol('Save email settings');
+
+export const OPEN_MODAL = Symbol('Open modal');
+export const CLOSE_MODAL = Symbol('Close modal');

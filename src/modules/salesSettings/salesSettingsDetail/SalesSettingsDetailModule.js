@@ -5,6 +5,7 @@ import {
   getIsPageEdited,
   getIsTemplatesLoading,
   getNewSortOrder,
+  getPendingDeleteTemplate,
   getSalesSettingsPayload,
   getSelectedTab,
   getTabData,
@@ -12,9 +13,11 @@ import {
 import { mainTabIds } from './tabItems';
 import SalesSettingsView from './components/SalesSettingsDetailView';
 import Store from '../../../store/Store';
+import actionTypes from './components/templates/actionTypes';
 import createSalesSettingsDispatcher from './createSalesSettingsDispatcher';
 import createSalesSettingsIntegrator from './createSalesSettingsIntegrator';
 import keyMap from '../../../hotKeys/keyMap';
+import modalTypes from './modalTypes';
 import salesSettingsReducer from './salesSettingsDetailReducer';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
@@ -63,17 +66,21 @@ export default class SalesSettingsModule {
   switchTab = (selectedTab) => {
     if (getIsPageEdited(this.store.getState())) {
       this.dispatcher.setPendingTab(selectedTab);
+      this.dispatcher.openModal(modalTypes.switchTab);
     } else {
       this.dispatcher.setTab(selectedTab);
     }
   };
 
-  confirmPendingTab = () => {
+  onConfirmSwitchTab = () => {
     const state = this.store.getState();
     this.dispatcher.setTab(state.pendingTab);
+    this.dispatcher.closeModal();
   };
 
-  clearPendingTab = () => this.dispatcher.setPendingTab('');
+  closeModal = () => {
+    this.dispatcher.closeModal();
+  };
 
   saveEmailSettings = () => {
     const state = this.store.getState();
@@ -123,26 +130,38 @@ export default class SalesSettingsModule {
     });
   };
 
+  deleteTemplate = () => {
+    const templateName = getPendingDeleteTemplate(this.store.getState());
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setAlert({ message, type: 'success' });
+      this.dispatcher.deleteTemplate(templateName);
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setAlert({ message: error.message, type: 'danger' });
+    };
+
+    this.integrator.deleteTemplate({
+      templateName,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  onConfirmDeleteTemplate = () => {
+    this.deleteTemplate();
+    this.closeModal();
+  };
+
   handleActionSelect = name => (action) => {
-    console.log(name, action);
-    // switch (action) {
-    //   case actionTypes.linkToExistingBill:
-    //     this.redirectToLinkToExistingBill(id);
-    //     break;
-    //   case actionTypes.createBill:
-    //     this.redirectToCreateBill(id);
-    //     break;
-    //   case actionTypes.createSpendMoney:
-    //     this.redirectToCreateSpendMoney(id);
-    //     break;
-    //   case actionTypes.download:
-    //     this.openInTrayDocument(id);
-    //     break;
-    //   case actionTypes.delete:
-    //     this.dispatcher.openInTrayDeleteModal(id);
-    //     break;
-    //   default:
-    // }
+    switch (action) {
+      case actionTypes.delete:
+        this.dispatcher.setPendingDeleteTemplate(name);
+        this.dispatcher.openModal(modalTypes.deleteTemplate);
+        break;
+      default:
+    }
   };
 
   render = () => {
@@ -152,8 +171,9 @@ export default class SalesSettingsModule {
         onUpdateSalesSettingsItem={this.dispatcher.updateSalesSettingsItem}
         onSalesSettingsSave={this.updateSalesSettings}
         onTabSelect={this.switchTab}
-        onModalConfirm={this.confirmPendingTab}
-        onModalCancel={this.clearPendingTab}
+        onConfirmSwitchTab={this.onConfirmSwitchTab}
+        onConfirmDeleteTemplate={this.onConfirmDeleteTemplate}
+        onCloseModal={this.closeModal}
         onUpdateEmailSettings={this.dispatcher.updateEmailSettings}
         onSaveEmailSettings={this.saveEmailSettings}
         templateHandlers={{

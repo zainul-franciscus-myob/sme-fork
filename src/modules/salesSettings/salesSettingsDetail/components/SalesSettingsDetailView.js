@@ -6,13 +6,13 @@ import {
   getAlert,
   getIsLoading,
   getIsSubmitting,
-  getPendingTab,
+  getModalType,
   getSelectedTab,
   getShowActions,
 } from '../SalesSettingsDetailSelectors';
 import { mainTabIds, mainTabItems } from '../tabItems';
-import CancelModal from '../../../../components/modal/CancelModal';
 import PageView from '../../../../components/PageView/PageView';
+import SaleSettingsModal from './SaleSettingsModal';
 import SalesSettingsDetailActions from './SalesSettingsDetailActions';
 import SalesSettingsEmailDetails from './SalesSettingsEmailDetails';
 import SalesSettingsLayoutDetails from './SalesSettingsLayoutDetails';
@@ -26,14 +26,15 @@ const SalesSettingsDetailView = ({
   isSubmitting,
   selectedTab,
   showActions,
-  pendingTab,
+  modalType,
   onDismissAlert,
   alert,
   onUpdateSalesSettingsItem,
   onSalesSettingsSave,
   onTabSelect,
-  onModalConfirm,
-  onModalCancel,
+  onConfirmSwitchTab,
+  onConfirmDeleteTemplate,
+  onCloseModal,
   onUpdateEmailSettings,
   onSaveEmailSettings,
   templateHandlers,
@@ -83,9 +84,16 @@ const SalesSettingsDetailView = ({
 
   const view = (
     <React.Fragment>
-      {pendingTab && (
-        <CancelModal onConfirm={onModalConfirm} onCancel={onModalCancel} />
-      )}
+      {
+        modalType && (
+          <SaleSettingsModal
+            modalType={modalType}
+            onCloseModal={onCloseModal}
+            onConfirmSwitchTab={onConfirmSwitchTab}
+            onConfirmDeleteTemplate={onConfirmDeleteTemplate}
+          />
+        )
+      }
       <FormTemplate
         alert={alertComponent}
         sticky="none"
@@ -111,7 +119,7 @@ const mapStateToProps = state => ({
   alert: getAlert(state),
   selectedTab: getSelectedTab(state),
   showActions: getShowActions(state),
-  pendingTab: getPendingTab(state),
+  modalType: getModalType(state),
 });
 
 export default connect(mapStateToProps)(SalesSettingsDetailView);

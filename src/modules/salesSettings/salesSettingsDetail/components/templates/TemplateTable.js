@@ -31,11 +31,6 @@ const ActionComponent = ({ name, handleActionSelect }) => (
         label="Edit template"
         value={actionTypes.editTemplate}
       />,
-      <Dropdown.Item
-        key={actionTypes.makeDefaultTemplate}
-        label="Make default"
-        value={actionTypes.makeDefaultTemplate}
-      />,
       <Dropdown.Separator key="separator" />,
       <Dropdown.Item
         key={actionTypes.delete}
@@ -70,7 +65,7 @@ const TemplateTable = ({
     <PageState
       title="Change the way your invoices look with templates"
       description={
-        "When you're done createing your masterpiece, save it and make it the default template to print and email."
+        "When you're done creating your masterpiece, save it to print and email."
       }
       actions={[
         <Button
@@ -120,7 +115,7 @@ const TemplateTable = ({
         {
           <ActionComponent
             handleActionSelect={onActionSelect}
-            id={template.name}
+            name={template.name}
           />
         }
       </Table.RowItem>

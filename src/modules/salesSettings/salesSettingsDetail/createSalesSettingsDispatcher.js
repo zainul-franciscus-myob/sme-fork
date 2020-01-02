@@ -1,8 +1,12 @@
 import {
+  CLOSE_MODAL,
+  DELETE_TEMPLATE,
   LOAD_SALES_SETTINGS,
+  OPEN_MODAL,
   SAVE_TAB_DATA,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_PENDING_DELETE_TEMPLATE,
   SET_PENDING_TAB,
   SET_SORTED_TEMPLATES,
   SET_SUBMITTING_STATE,
@@ -52,6 +56,7 @@ const createSalesSettingsDispatcher = store => ({
     store.dispatch({
       intent: SET_TAB,
       selectedTab,
+      pendingTab: '',
     });
   },
 
@@ -98,6 +103,7 @@ const createSalesSettingsDispatcher = store => ({
       isTableLoading,
     });
   },
+
   setTemplateListSortOrder: (orderBy, sortOrder) => {
     store.dispatch({
       intent: SET_TEMPLATE_LIST_SORT_ORDER,
@@ -105,17 +111,47 @@ const createSalesSettingsDispatcher = store => ({
       sortOrder,
     });
   },
+
   setTemplateList: (response) => {
     store.dispatch({
       intent: SET_TEMPLATE_LIST,
       response,
     });
   },
+
+  setPendingDeleteTemplate: (templateName) => {
+    store.dispatch({
+      intent: SET_PENDING_DELETE_TEMPLATE,
+      templateName,
+    });
+  },
+
+  deleteTemplate: (templateName) => {
+    store.dispatch({
+      intent: DELETE_TEMPLATE,
+      templateName,
+    });
+  },
+
+  openModal: (modalType) => {
+    store.dispatch({
+      intent: OPEN_MODAL,
+      modalType,
+    });
+  },
+
+  closeModal: () => {
+    store.dispatch({
+      intent: CLOSE_MODAL,
+    });
+  },
+
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
     });
   },
+
   setSortedTemplates: (templates) => {
     store.dispatch({
       intent: SET_SORTED_TEMPLATES,

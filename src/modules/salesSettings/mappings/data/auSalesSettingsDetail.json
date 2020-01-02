@@ -26,13 +26,22 @@
   },
   "templateSettings": {
     "templates": [
-      { "name": "Special template for special people" },
-      { "name": "Long template" },
-      { "name": "Water template" }
+      {
+        "name": "Long template",
+        "isDefault": false
+      },
+      {
+        "name": "Special template for special people",
+        "isDefault": true
+      },
+      {
+        "name": "Water template",
+        "isDefault": false
+      }
     ],
     "arlTemplates": [
       {
-        
+
         "name": "Invoices and quotes",
         "collapsible": true,
         "children": [
@@ -46,7 +55,7 @@
             ]
           },
           {
-            
+
             "name": "Item layout",
             "collapsible": true,
             "children": [
