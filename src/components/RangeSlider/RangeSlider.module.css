@@ -1,0 +1,84 @@
+.container {
+  padding-top: var(--flx-spacing-tiny);
+}
+
+.range {
+  position: relative;
+}
+
+.range::after {
+  content: '';
+  width: 100%;
+  height: 0.4rem;
+  border-radius: 20px;
+  background: var(--flx-palette-storm-06);
+  display: block;
+}
+
+.rangeSlide {
+  -webkit-appearance: none;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: -11px;
+  z-index: 9;
+  outline: none;
+  box-sizing: border-box;
+  height: 2.7rem;
+  background-color: rgba(0,0,0,0);
+}
+
+.rangeSlide::-moz-focus-outer {
+  border: 0;
+}
+
+.rangeSlide::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  border: solid 0.6rem var(--flx-palette-storm-11);
+  background: var(--flx-palette-storm-28);
+}
+
+.rangeSlide::-moz-range-thumb {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  border: solid 0.6rem var(--flx-palette-storm-11);
+  background: var(--flx-palette-storm-28);
+  box-sizing: border-box;
+}
+
+/* Edge doesn't support using `var` and `rem` in custom slider handle styling */
+.rangeSlide::-ms-thumb {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  border-radius: 50%;
+  border: solid 6px #E8EAEC;
+  background: #C5C9CE;
+  box-sizing: border-box;
+}
+
+.rangeValue {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  width: 20%;
+  height: 0.4rem;
+  background: #29b3e0;
+  background: var(--flx-palette-storm-28);
+  border-radius: 20px 0 0 20px;
+}
+
+.meter {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--flx-spacing-tiny);
+  color: var(--flx-color-text);
+}
