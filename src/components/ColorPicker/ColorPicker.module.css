@@ -1,0 +1,27 @@
+.container {
+  position: relative;
+  max-width: var(--flx-width-field-xs);
+}
+
+.trigger {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  top: var(--flx-spacing-tiny);
+  right: var(--flx-spacing-tiny);
+  z-index: 9;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.palette {
+  position: absolute;
+  top: calc(50% - 0.9rem);
+  margin-top: var(--flx-spacing-xx-tiny);
+  right: var(--flx-spacing-tiny);
+  width: 1.8rem;
+  height: 1.8rem;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: var(--flx-border-thin);
+}
