@@ -5,7 +5,6 @@ import {
   getLoadMoreButtonStatus,
   getTableBodyState,
   getTableEntries,
-  getTotalOverdue,
 } from '../billListSelectors';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import TableBodyType from '../TableBodyType';
@@ -158,54 +157,6 @@ describe('billListSelectors', () => {
         expect(actual).toEqual('green');
       });
     });
-  });
-
-  it('getTotalOverdue', () => {
-    const today = new Date();
-    const state = {
-      entries: [
-        {
-          billAmount: '1,000.00',
-          balanceDue: 500,
-          status: 'Open',
-          dateDue: formatIsoDate(addDays(today, 1)),
-        },
-        {
-          billAmount: '2,000.00',
-          balanceDue: 1000,
-          status: 'Open',
-          dateDue: formatIsoDate(subDays(today, 1)),
-        },
-        {
-          billAmount: '3,000.00',
-          balanceDue: 1500,
-          status: 'Closed',
-          dateDue: formatIsoDate(subDays(today, 1)),
-        },
-        {
-          billAmount: '4,000.00',
-          balanceDue: 2000,
-          status: 'Debit',
-          dateDue: formatIsoDate(subDays(today, 1)),
-        },
-        {
-          billAmount: '5,000.00',
-          balanceDue: 2500,
-          status: 'Open',
-          dateDue: 'COD',
-        },
-        {
-          billAmount: '6,000.00',
-          balanceDue: 3000,
-          status: 'Open',
-          dateDue: 'Prepaid',
-        },
-      ],
-    };
-
-    const actual = getTotalOverdue(state);
-
-    expect(actual).toEqual('$1,000.00');
   });
 
   describe('getTableBodyState', () => {

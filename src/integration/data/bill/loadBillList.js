@@ -22,6 +22,7 @@ export default {
   status: 'All',
   total: '$2,100.00',
   totalDue: '$1,256.34',
+  totalOverdue: '$843.66',
   entries: [
     {
       id: '1',

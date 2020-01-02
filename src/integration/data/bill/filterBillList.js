@@ -1,6 +1,7 @@
 export default {
   total: '$600.00',
   totalDue: '$56.34',
+  totalOverdue: '543.66',
   pagination: {
     hasNextPage: false,
   },

@@ -138,7 +138,7 @@ export default class BillListModule {
     };
 
     const onSuccess = ({
-      entries, pagination, totalDue, total,
+      entries, pagination, totalDue, total, totalOverdue,
     }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
@@ -148,6 +148,7 @@ export default class BillListModule {
         entries,
         totalDue,
         total,
+        totalOverdue,
       });
     };
 
@@ -259,7 +260,7 @@ export default class BillListModule {
 
     const intent = SORT_AND_FILTER_BILL_LIST;
     const onSuccess = ({
-      entries, total, totalDue, pagination,
+      entries, total, totalDue, pagination, totalOverdue,
     }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
@@ -268,7 +269,9 @@ export default class BillListModule {
         isSort: true,
         total,
         totalDue,
+        totalOverdue,
         pagination,
+
       });
     };
 

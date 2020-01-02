@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import TableBodyType from './TableBodyType';
 import formatAmount from '../../common/valueFormatters/formatAmount';
-import formatCurrency from '../../common/valueFormatters/formatCurrency';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 
@@ -45,6 +44,8 @@ export const getOrderBy = ({ orderBy }) => orderBy;
 export const getTotal = state => state.total;
 
 export const getTotalDue = state => state.totalDue;
+
+export const getTotalOverdue = state => state.totalOverdue;
 
 export const flipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
 
@@ -87,13 +88,6 @@ export const getTableEntries = createSelector(
       },
     );
   },
-);
-
-export const getTotalOverdue = createSelector(
-  getTableEntries,
-  tableEntries => formatCurrency(tableEntries
-    .filter(entry => entry.isOverdue)
-    .reduce((total, entry) => (total + entry.balanceDue), 0)),
 );
 
 export const getHasOverdue = createSelector(

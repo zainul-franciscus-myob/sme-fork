@@ -33,6 +33,7 @@ const getDefaultState = () => ({
   orderBy: '',
   total: '',
   totalDue: '',
+  totalOverdue: '',
   entries: [],
   isLoading: true,
   isTableLoading: false,
@@ -134,6 +135,7 @@ const sortAndFilterBillList = (state, action) => ({
   entries: action.entries,
   total: action.total,
   totalDue: action.totalDue,
+  totalOverdue: action.totalOverdue,
   appliedFilterOptions: action.isSort
     ? state.appliedFilterOptions
     : state.filterOptions,
