@@ -7,7 +7,6 @@ const EditAbnConfirmationModal = ({
 }) => (
   <Modal
     title="Edit STP business details?"
-    size="medium"
     onCancel={onCancel}
   >
     <Modal.Body>

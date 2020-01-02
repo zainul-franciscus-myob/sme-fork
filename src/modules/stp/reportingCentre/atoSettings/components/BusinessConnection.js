@@ -18,12 +18,14 @@ const BusinessConnection = ({
   const cardBody = (
     <>
       <h3>Business ABN connected to the ATO</h3>
-      <p className={styles.centred}>
+      <p>
         Below is the ABN connected to the ATO. If you&apos;ve had issues sending data to the ATO,
-        the ABN might be wrong.&nbsp;
-        <Button type="link" onClick={onEditBusinessConnectionClick}>
-          Edit STP business details
-        </Button>
+        the ABN might be wrong.
+        <div className={styles.linkButton}>
+          <Button type="link" onClick={onEditBusinessConnectionClick}>
+            Edit STP business details
+          </Button>
+        </div>
       </p>
       <FormHorizontal layout="primary">
         <AbnInput
