@@ -14,6 +14,7 @@ import {
   LOAD_NEW_QUOTE_DETAIL,
   LOAD_QUOTE_DETAIL,
   LOAD_QUOTE_LIST,
+  LOAD_QUOTE_LIST_NEXT_PAGE,
   SEND_EMAIL,
   SORT_AND_FILTER_QUOTE_LIST,
   UPDATE_QUOTE_DETAIL,
@@ -26,6 +27,10 @@ const HttpQuoteMapping = {
     getPath: ({ businessId }) => `/${businessId}/quote/load_sale_quote_list`,
   },
   [SORT_AND_FILTER_QUOTE_LIST]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/quote/filter_sale_quote_list`,
+  },
+  [LOAD_QUOTE_LIST_NEXT_PAGE]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/quote/filter_sale_quote_list`,
   },

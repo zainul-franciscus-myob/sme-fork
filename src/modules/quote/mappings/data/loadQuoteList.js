@@ -30,4 +30,8 @@ export default {
       displayExpiryDate: '30/05/2019',
     },
   ],
+  pagination: {
+    hasNextPage: true,
+    offset: 50,
+  },
 };

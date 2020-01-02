@@ -14,6 +14,7 @@ import {
   LOAD_NEW_QUOTE_DETAIL,
   LOAD_QUOTE_DETAIL,
   LOAD_QUOTE_LIST,
+  LOAD_QUOTE_LIST_NEXT_PAGE,
   SEND_EMAIL,
   SORT_AND_FILTER_QUOTE_LIST,
   UPDATE_QUOTE_DETAIL,
@@ -30,6 +31,7 @@ import loadCustomerResponse from './data/loadCustomerResponse';
 import loadDuplicateQuoteDetail from './data/loadDuplicateQuoteDetail';
 import loadNewQuoteDetail from './data/loadNewQuoteDetail';
 import loadQuoteDetail from './data/loadQuoteDetail';
+import loadQuoteListNextPageResponse from './data/loadNextQuoteList';
 import quoteListFilterResponse from './data/filterQuoteList';
 import quoteListLoadResponse from './data/loadQuoteList';
 import successResponse from './data/success.json';
@@ -38,6 +40,7 @@ import uploadEmailAttachmentResponse from './data/uploadEmailAttachmentResponse'
 const MemoryQuoteMapping = {
   [LOAD_QUOTE_LIST]: ({ onSuccess }) => onSuccess(quoteListLoadResponse),
   [SORT_AND_FILTER_QUOTE_LIST]: ({ onSuccess }) => onSuccess(quoteListFilterResponse),
+  [LOAD_QUOTE_LIST_NEXT_PAGE]: ({ onSuccess }) => onSuccess(loadQuoteListNextPageResponse),
 
   [LOAD_NEW_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(loadNewQuoteDetail),
   [LOAD_NEW_DUPLICATE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(loadDuplicateQuoteDetail),

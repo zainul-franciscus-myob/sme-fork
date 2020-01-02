@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import LoadMoreButtonStatuses from '../../employee/employeeList/components/Pagination/LoadMoreButtonStatuses';
+
 export const getAlert = ({ alert }) => alert;
 
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
@@ -40,3 +42,33 @@ export const getTableEntries = createSelector(
 );
 
 export const getTotal = state => state.total;
+
+export const getLoadMoreButtonStatus = (state) => {
+  const isLastPage = !state.pagination.hasNextPage;
+  const { isTableLoading } = state;
+
+  if (isLastPage || isTableLoading) {
+    return LoadMoreButtonStatuses.HIDDEN;
+  }
+
+  if (state.isLoadingMore) {
+    return LoadMoreButtonStatuses.LOADING;
+  }
+
+  return LoadMoreButtonStatuses.SHOWN;
+};
+
+const getOffset = state => state.pagination.offset;
+
+export const getLoadNextPageParams = createSelector(
+  getAppliedFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  getOffset,
+  (appliedFilterOptions, sortOrder, orderBy, offset) => ({
+    ...appliedFilterOptions,
+    sortOrder,
+    orderBy,
+    offset,
+  }),
+);

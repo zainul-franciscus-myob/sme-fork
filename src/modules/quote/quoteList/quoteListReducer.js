@@ -2,11 +2,14 @@ import { addMonths } from 'date-fns';
 
 import {
   LOAD_QUOTE_LIST,
+  LOAD_QUOTE_LIST_NEXT_PAGE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_QUOTE_LIST,
+  START_LOADING_MORE,
+  STOP_LOADING_MORE,
   UPDATE_FILTER_OPTIONS,
 } from '../QuoteIntents';
 import {
@@ -36,6 +39,11 @@ const getDefaultState = () => ({
   alert: undefined,
   isLoading: true,
   isTableLoading: false,
+  isLoadingMore: false,
+  pagination: {
+    hasNextPage: false,
+    offset: 0,
+  },
 });
 
 const loadQuoteList = (state, action) => ({
@@ -53,6 +61,7 @@ const loadQuoteList = (state, action) => ({
     ...state.appliedFilterOptions,
     customerId: action.customerId,
   },
+  pagination: action.pagination,
 });
 
 const resetState = () => (getDefaultState());
@@ -83,11 +92,35 @@ const setTableLoadingState = (state, action) => ({
   isTableLoading: action.isTableLoading,
 });
 
+const startLoadingMore = state => ({
+  ...state,
+  isLoadingMore: true,
+});
+
+const stopLoadingMore = state => ({
+  ...state,
+  isLoadingMore: false,
+});
+
+const loadQuoteListNextPage = (state, action) => {
+  const entryIds = state.entries.map(customer => customer.id);
+  const entries = action.entries.filter(customer => !entryIds.includes(customer.id));
+  return ({
+    ...state,
+    entries: [
+      ...state.entries,
+      ...entries,
+    ],
+    pagination: action.pagination,
+  });
+};
+
 const sortAndFilterQuoteList = (state, action) => ({
   ...state,
   entries: action.entries,
   total: action.total,
   appliedFilterOptions: action.isSort ? state.appliedFilterOptions : state.filterOptions,
+  pagination: action.pagination,
 });
 
 const updateFilterOptions = (state, action) => ({
@@ -108,6 +141,9 @@ const handlers = {
   [SET_SORT_ORDER]: setSortOrder,
   [SORT_AND_FILTER_QUOTE_LIST]: sortAndFilterQuoteList,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [LOAD_QUOTE_LIST_NEXT_PAGE]: loadQuoteListNextPage,
+  [START_LOADING_MORE]: startLoadingMore,
+  [STOP_LOADING_MORE]: stopLoadingMore,
 };
 
 const quoteListReducer = createReducer(getDefaultState(), handlers);

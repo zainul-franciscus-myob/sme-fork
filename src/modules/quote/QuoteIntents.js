@@ -58,3 +58,7 @@ export const REMOVE_EMAIL_ATTACHMENT = Symbol('Remove email attachment');
 
 export const EXPORT_QUOTE_PDF = Symbol('Export quote PDF');
 export const CHANGE_EXPORT_PDF_TEMPLATE = Symbol(' Change export pdf template');
+
+export const LOAD_QUOTE_LIST_NEXT_PAGE = Symbol('Load quote list next page');
+export const START_LOADING_MORE = Symbol('Start loading more');
+export const STOP_LOADING_MORE = Symbol('Stop loading more');

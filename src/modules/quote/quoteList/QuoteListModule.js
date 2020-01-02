@@ -3,11 +3,14 @@ import React from 'react';
 
 import {
   LOAD_QUOTE_LIST,
+  LOAD_QUOTE_LIST_NEXT_PAGE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_QUOTE_LIST,
+  START_LOADING_MORE,
+  STOP_LOADING_MORE,
   UPDATE_FILTER_OPTIONS,
 } from '../QuoteIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -20,6 +23,7 @@ import {
   getAppliedFilterOptions,
   getBusinessId,
   getFilterOptions,
+  getLoadNextPageParams,
   getOrderBy,
   getRegion,
   getSortOrder,
@@ -59,6 +63,7 @@ export default class QuoteListModule {
     const onSuccess = ({
       entries,
       total,
+      pagination,
     }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
@@ -66,6 +71,7 @@ export default class QuoteListModule {
         entries,
         isSort: false,
         total,
+        pagination,
       });
     };
 
@@ -82,6 +88,7 @@ export default class QuoteListModule {
         ...filterOptions,
         sortOrder,
         orderBy,
+        offset: 0,
       },
       onSuccess,
       onFailure,
@@ -130,6 +137,52 @@ export default class QuoteListModule {
       onFailure,
     });
   };
+
+  startLoadingMore = () => {
+    this.store.dispatch({
+      intent: START_LOADING_MORE,
+    });
+  }
+
+  stopLoadingMore = () => {
+    this.store.dispatch({
+      intent: STOP_LOADING_MORE,
+    });
+  }
+
+  loadQuoteListNextPage = () => {
+    const state = this.store.getState();
+    const params = getLoadNextPageParams(state);
+
+    this.startLoadingMore();
+
+    const intent = LOAD_QUOTE_LIST_NEXT_PAGE;
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const onSuccess = ({ entries, pagination }) => {
+      this.stopLoadingMore();
+      this.store.dispatch({
+        intent,
+        entries,
+        pagination,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.stopLoadingMore();
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    this.integration.read({
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  }
 
   resetState() {
     const intent = RESET_STATE;
@@ -192,13 +245,14 @@ export default class QuoteListModule {
     };
 
     const intent = SORT_AND_FILTER_QUOTE_LIST;
-    const onSuccess = ({ entries, total }) => {
+    const onSuccess = ({ entries, total, pagination }) => {
       this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
         isSort: true,
         total,
+        pagination,
       });
     };
 
@@ -212,6 +266,7 @@ export default class QuoteListModule {
         ...filterOptions,
         sortOrder: newSortOrder,
         orderBy,
+        offset: 0,
       },
       onSuccess,
       onFailure,
@@ -255,6 +310,7 @@ export default class QuoteListModule {
         onSort={this.sortQuoteList}
         onUpdateFilters={this.updateFilterOptions}
         onAddQuote={this.redirectToAddQuote}
+        onLoadQuoteListNextPage={this.loadQuoteListNextPage}
       />
     );
 
