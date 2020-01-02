@@ -17,11 +17,11 @@ const PayRunView = ({
   previousStepModalIsOpen,
   onDismissAlert,
   onDismissModal,
-  onGoBack,
+  onPreviousStepModalGoBack,
 }) => {
   const previousStepModal = previousStepModalIsOpen && (
     <PreviousStepModal
-      onGoBack={onGoBack}
+      onGoBack={onPreviousStepModalGoBack}
       onCancel={onDismissModal}
     />
   );
@@ -32,9 +32,9 @@ const PayRunView = ({
 
   const view = (
     <BaseTemplate>
-      { alertComponent }
-      { previousStepModal }
-      { stepViews[step] }
+      {alertComponent}
+      {previousStepModal}
+      {stepViews[step]}
     </BaseTemplate>
   );
 

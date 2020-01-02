@@ -53,13 +53,20 @@ export default class EmployeePayListModule {
     this.integrator.saveDraft({ onSuccess, onFailure });
   }
 
-  nextStep = () => (
-    this.validatePayPeriodEmployeeLimit(
+  saveDraft = () => {
+    const doNothing = () => {};
+    this.integrator.saveDraft({ onSuccess: doNothing, onFailure: doNothing });
+  }
+
+  nextStep = () => {
+    this.saveDraft();
+    return this.validatePayPeriodEmployeeLimit(
       () => this.validateEtp(
         () => this.dispatcher.nextStep(),
       ),
-    )
-  )
+    );
+  }
+
 
   validatePayPeriodEmployeeLimit = next => (
     this.integrator.validatePayPeriodEmployeeLimit({

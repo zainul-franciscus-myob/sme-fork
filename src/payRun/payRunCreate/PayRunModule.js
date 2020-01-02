@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getStep } from './PayRunSelectors';
 import EmployeePayListModule from './employeePayList/EmployeePayListModule';
 import PayRunDoneModule from './payRunDone/PayRunDoneModule';
 import PayRunView from './components/PayRunView';
@@ -68,13 +67,18 @@ export default class PayRunModule {
     this.integrator.startNewPayRun({ onSuccess, onFailure });
   };
 
-  goBack = () => {
-    if (getStep(this.store.getState()) === 2) {
-      this.dispatcher.setTotalNetPay(null);
-    }
-    this.dispatcher.previousStep();
-    this.dispatcher.dismissAlert();
-    this.dispatcher.closePreviousStepModal();
+  deleteDraftAndGoBack = () => {
+    this.dispatcher.setLoadingState(true);
+
+    const afterDelete = () => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.dismissAlert();
+      this.dispatcher.closePreviousStepModal();
+      this.dispatcher.previousStep();
+      this.startNewPayRun();
+    };
+
+    this.integrator.deleteDraft({ onSuccess: afterDelete, onFailure: afterDelete });
   };
 
   render = () => {
@@ -87,7 +91,7 @@ export default class PayRunModule {
         stepViews={stepViews}
         onDismissAlert={this.dispatcher.dismissAlert}
         onDismissModal={this.dispatcher.closePreviousStepModal}
-        onGoBack={this.goBack}
+        onPreviousStepModalGoBack={this.deleteDraftAndGoBack}
       />
     );
 

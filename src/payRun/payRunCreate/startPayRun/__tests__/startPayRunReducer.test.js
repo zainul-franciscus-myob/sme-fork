@@ -29,8 +29,8 @@ describe('startPayRunReducer', () => {
             paymentDate: '2019-08-01',
             payPeriodStart: '2019-07-19',
             payPeriodEnd: '2019-08-01',
-            regularPayCycleOptions: startNewPayRun.newPayRunDetails.regularPayCycleOptions,
           },
+          regularPayCycleOptions: startNewPayRun.newPayRunDetails.regularPayCycleOptions,
           draftPayRun: startNewPayRun.draftPayRun,
         },
       };

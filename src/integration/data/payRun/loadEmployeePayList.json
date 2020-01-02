@@ -2,7 +2,7 @@
   "stpRegistrationStatus": "registered",
   "employeePays": [
     {
-      "employeeId": "21",
+      "employeeId": 21,
       "name": "Mary Jones",
       "gross": 1500,
       "payg": 100,
@@ -11,7 +11,7 @@
       "super": 150,
       "payItems": [
         {
-          "payItemId": "1",
+          "payItemId": 1,
           "payItemName": "Salary Wage",
           "type": "SalaryWage",
           "stpCategory": "GrossPayments",
@@ -19,7 +19,7 @@
           "hours": "0.00"
         },
         {
-          "payItemId": "2",
+          "payItemId": 2,
           "payItemName": "Hourly Wage",
           "type": "HourlyWage",
           "stpCategory": "GrossPayments",
@@ -27,7 +27,7 @@
           "hours": "38.50"
         },
         {
-          "payItemId": "3",
+          "payItemId": 3,
           "payItemName": "Annual leave",
           "type": "HourlyWage",
           "stpCategory": "GrossPayments",
@@ -35,7 +35,7 @@
           "hours": "0.00"
         },
         {
-          "payItemId": "4",
+          "payItemId": 4,
           "payItemName": "Sick leave",
           "type": "HourlyWage",
           "stpCategory": "GrossPayments",
@@ -43,7 +43,7 @@
           "hours": "0.00"
         },
         {
-          "payItemId": "5",
+          "payItemId": 5,
           "payItemName": "Child support deduction",
           "type": "Deduction",
           "stpCategory": "NotReportable",
@@ -51,7 +51,7 @@
           "hours": "0.00"
         },
         {
-          "payItemId": "6",
+          "payItemId": 6,
           "payItemName": "Superannuation deduction before tax",
           "type": "SuperannuationDeductionBeforeTax",
           "stpCategory": "NotReportable",
@@ -59,7 +59,7 @@
           "hours": "0.00"
         },
         {
-          "payItemId": "7",
+          "payItemId": 7,
           "payItemName": "Superannuation deduction after tax",
           "type": "SuperannuationDeductionAfterTax",
           "stpCategory": "NotReportable",
@@ -67,7 +67,7 @@
           "hours": "0.00"
         },
         {
-          "payItemId": "8",
+          "payItemId": 8,
           "payItemName": "Random deduction",
           "type": "Deduction",
           "stpCategory": "NotReportable",
@@ -75,7 +75,7 @@
           "hours": "0.00"
         },
         {
-          "payItemId": "9",
+          "payItemId": 9,
           "payItemName": "Annual leave accrual",
           "type": "Entitlement",
           "stpCategory": "NotReportable",
@@ -83,7 +83,7 @@
           "hours": "30.00"
         },
         {
-          "payItemId": "10",
+          "payItemId": 10,
           "payItemName": "Sick leave accrual",
           "type": "Entitlement",
           "stpCategory": "NotReportable",
@@ -93,7 +93,7 @@
       ]
     },
     {
-      "employeeId": "22",
+      "employeeId": 22,
       "name": "John Smith",
       "gross": 2250.55,
       "payg": 125,
@@ -102,7 +102,7 @@
       "super": 200,
       "payItems": [
         {
-          "payItemId": "21",
+          "payItemId": 21,
           "payItemName": "Salary Wage",
           "type": "SalaryWage",
           "stpCategory": "ETPTaxableComponent",
@@ -110,7 +110,7 @@
           "hours": "0.00"
         },
         {
-          "payItemId": "22",
+          "payItemId": 22,
           "payItemName": "Hourly Wage",
           "type": "HourlyWage",
           "stpCategory": "ETPTaxableComponent",
@@ -118,7 +118,7 @@
           "hours": "100.50"
         },
         {
-          "payItemId": "33",
+          "payItemId": 33,
           "payItemName": "Child support deduction",
           "type": "Deduction",
           "stpCategory": "ETPTaxableComponent",
@@ -126,7 +126,7 @@
           "hours": "0.00"
         },
         {
-          "payItemId": "44",
+          "payItemId": 44,
           "payItemName": "Annual Leave",
           "type": "Entitlement",
           "stpCategory": "ETPTaxableComponent",
@@ -134,7 +134,7 @@
           "hours": "50.00"
         },
         {
-          "payItemId": "55",
+          "payItemId": 55,
           "payItemName": "Sick Leave",
           "type": "Entitlement",
           "stpCategory": "ETPTaxableComponent",
@@ -142,7 +142,7 @@
           "hours": "40.00"
         },
         {
-          "payItemId": "66",
+          "payItemId": 66,
           "payItemName": "Hot Chocolate Reimbursement",
           "type": "Expense",
           "stpCategory": "ETPTaxableComponent",
@@ -150,7 +150,7 @@
           "hours": "0.00"
         },
         {
-          "payItemId": "77",
+          "payItemId": 77,
           "payItemName": "PayGWithholding",
           "type": "Tax",
           "stpCategory": "ETPTaxableComponent",

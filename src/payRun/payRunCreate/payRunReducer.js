@@ -37,6 +37,7 @@ import {
   startPayRunHandlers,
 } from './startPayRun/startPayRunReducer';
 import createReducer from '../../store/createReducer';
+import getEmployeePayLines from './getEmployeePayLines';
 import wrapHandlers from '../../store/wrapHandlers';
 
 const getDefaultState = () => ({
@@ -130,7 +131,6 @@ const deletePayRunDraft = (state) => {
 const isEmployeeSelected = (employeeId, selectedEmployeeIds) => (
   selectedEmployeeIds.includes(employeeId));
 
-// TODO: refactor this and the next method, once you get the new contract - Shohre
 const editExistingPayRun = (state, action) => {
   const { employeePays, selectedEmployeeIds, ...draftPayRunDetails } = action.draftPayRun;
 
@@ -138,6 +138,7 @@ const editExistingPayRun = (state, action) => {
   const startPayRun = {
     ...startPayRunMinusDraftPayRun,
     currentEditingPayRun: {
+      ...state.currentEditingPayRun,
       ...draftPayRunDetails,
     },
   };
@@ -151,16 +152,9 @@ const editExistingPayRun = (state, action) => {
     // stpRegistrationStatus: draftPayRun.stpRegistrationStatus,
     [EMPLOYEE_PAY_LIST]: {
       ...state[EMPLOYEE_PAY_LIST],
-      lines: employeePays.map(employeePay => ({
-        ...employeePay,
-        isSelected: isEmployeeSelected(employeePay.employeeId, selectedEmployeeIds),
-        payItems: employeePay.payItems.map(
-          payItem => ({
-            ...payItem,
-            isSubmitting: false,
-          }),
-        ),
-      })),
+      lines: getEmployeePayLines(
+        employeePays, ep => (isEmployeeSelected(ep.employeeId, selectedEmployeeIds)),
+      ),
     },
   };
   return updatedState;

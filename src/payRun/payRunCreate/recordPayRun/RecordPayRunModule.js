@@ -75,12 +75,17 @@ export default class RecordPayRunModule {
     this.integrator.saveDraft({ onSuccess, onFailure });
   }
 
+  goToPreviousStep = () => {
+    this.dispatcher.previousStep();
+    this.dispatcher.setTotalNetPay(null);
+  }
+
   getView() {
     return (
       <RecordPayRunView
         recordPayments={this.recordPayments}
         openStpModal={this.dispatcher.openStpModal}
-        onPreviousButtonClick={this.dispatcher.previousStep}
+        onPreviousButtonClick={this.goToPreviousStep}
         onSaveAndCloseButtonClick={this.saveDraftAndRedirect}
         stpDeclarationListeners={{
           onChangeStpDeclaration: this.dispatcher.changeStpDeclarationName,

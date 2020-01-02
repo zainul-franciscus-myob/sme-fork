@@ -86,7 +86,7 @@
     ],
     "unprocessedTimesheetSelections": [
       {
-        "employeeId": "29",
+        "employeeId": 29,
         "hourlyWagesPayItemId": "7",
         "hours": 1,
         "jobId": "5",

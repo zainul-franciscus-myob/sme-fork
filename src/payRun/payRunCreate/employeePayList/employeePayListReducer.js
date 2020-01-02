@@ -16,6 +16,7 @@ import {
   VALIDATE_ETP,
 } from '../PayRunIntents';
 import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
+import getEmployeePayLines from '../getEmployeePayLines';
 
 export const getEmployeePayListDefaultState = () => ({
   stpRegistrationStatus: 'notRegistered',
@@ -35,16 +36,7 @@ export const getEmployeePayListDefaultState = () => ({
 const loadEmployeePays = (state, { employeePays }) => ({
   ...state,
   stpRegistrationStatus: employeePays.stpRegistrationStatus,
-  lines: employeePays.employeePays.map(employeePay => ({
-    ...employeePay,
-    isSelected: true,
-    payItems: employeePay.payItems.map(
-      payItem => ({
-        ...payItem,
-        isSubmitting: false,
-      }),
-    ),
-  })),
+  lines: getEmployeePayLines(employeePays.employeePays, () => (true)),
 });
 
 const updateIsEmployeeSelected = (state, { id }) => ({

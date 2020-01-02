@@ -13,7 +13,6 @@ export const getStartPayRunDefaultState = () => ({
     payPeriodEnd: formatIsoDate(new Date()),
     regularPayCycleOptions: [],
   },
-  draftPayRun: null,
 });
 
 const calculateStartDate = (payCycle, endDateString) => {
@@ -38,14 +37,15 @@ const calculateStartDate = (payCycle, endDateString) => {
 };
 
 const startNewPayRun = (state, { newPayRunDetails, draftPayRun }) => {
-  const { paymentFrequency } = newPayRunDetails;
+  const { paymentFrequency, regularPayCycleOptions } = newPayRunDetails;
   return {
     ...state,
     currentEditingPayRun: {
       ...state.currentEditingPayRun,
-      ...newPayRunDetails,
+      paymentFrequency,
       payPeriodStart: calculateStartDate(paymentFrequency, state.currentEditingPayRun.payPeriodEnd),
     },
+    regularPayCycleOptions,
     draftPayRun,
   };
 };
