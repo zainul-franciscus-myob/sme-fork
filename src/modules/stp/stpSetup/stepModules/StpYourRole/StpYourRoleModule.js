@@ -4,6 +4,7 @@ import React from 'react';
 import {
   LOAD_AGENT_CONTACT_INFO, SET_ERROR_MESSAGE, SET_FIELD, SUBMIT_AGENT_CONTACT_INFO,
 } from './stpYourRoleIntents';
+import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import {
   getAgentAbn,
   getAgentNumber,
@@ -19,8 +20,14 @@ import StpYourRoleView from './components/StpYourRoleView';
 import stpYourRoleReducer from './stpYourRoleReducer';
 
 export default class StpYourRoleModule {
-  constructor({ integration, onPrevious, onFinish }) {
+  constructor({
+    context, integration, onPrevious, onFinish,
+  }) {
     this.store = new Store(stpYourRoleReducer);
+    this.store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    });
     this.onPrevious = onPrevious;
     this.integration = integration;
     this.onFinishFunc = onFinish;
@@ -88,7 +95,7 @@ export default class StpYourRoleModule {
     const urlParams = {
       businessId: getBusinessId(state),
     };
-    const params = {
+    const content = {
       agentAbn: getAgentAbn(state),
       agentNumber: getAgentNumber(state),
       firstName: getFirstName(state),
@@ -110,7 +117,7 @@ export default class StpYourRoleModule {
     this.integration.write({
       intent: SUBMIT_AGENT_CONTACT_INFO,
       urlParams,
-      params,
+      content,
       onSuccess,
       onFailure,
     });

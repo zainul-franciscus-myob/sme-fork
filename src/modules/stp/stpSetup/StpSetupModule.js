@@ -19,6 +19,10 @@ export default class StpSetupModule {
     this.setRootView = setRootView;
     this.store = new Store(stpSetupReducer);
 
+    this.steps = [];
+  }
+
+  setupSteps = (context) => {
     this.steps = [
       {
         id: Steps.OVERVIEW,
@@ -31,7 +35,8 @@ export default class StpSetupModule {
         id: Steps.YOUR_ROLE,
         title: 'Your role',
         module: new StpYourRoleModule({
-          integration,
+          context,
+          integration: this.integration,
           onPrevious: this.yourRolePrevious,
           onFinish: this.yourRoleFinish,
         }),
@@ -133,6 +138,7 @@ export default class StpSetupModule {
 
   run(context) {
     this.setInitialState(context);
+    this.setupSteps(context);
     this.render();
   }
 }
