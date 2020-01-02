@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getTableEntries } from '../invoiceListSelectors';
+import styles from './InvoiceListTableBody.module.css';
 
 const InvoiceListTableBody = (props) => {
   const {
@@ -30,7 +31,7 @@ const InvoiceListTableBody = (props) => {
   ));
 
   return (
-    <Table.Body>
+    <Table.Body className={styles.tableBody}>
       {rows}
     </Table.Body>
   );

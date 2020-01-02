@@ -14,7 +14,6 @@ import InvoiceListTable from './InvoiceListTable';
 import InvoiceListTableHeader from './InvoiceListTableHeader';
 import PageView from '../../../components/PageView/PageView';
 import PaginatedListTemplate from '../../../components/PaginatedListTemplate/PaginatedListTemplate';
-import style from './InvoiceListView.module.css';
 
 const tableConfig = {
   dateIssued: { columnName: 'Issue date', valign: 'top' },
@@ -62,12 +61,10 @@ const InvoiceListView = ({
   );
 
   const listTable = (
-    <div className={style.list}>
-      <InvoiceListTable
-        tableConfig={tableConfig}
-        onCreateInvoiceButtonClick={onCreateInvoiceButtonClick}
-      />
-    </div>
+    <InvoiceListTable
+      tableConfig={tableConfig}
+      onCreateInvoiceButtonClick={onCreateInvoiceButtonClick}
+    />
   );
 
   const invoiceListView = (

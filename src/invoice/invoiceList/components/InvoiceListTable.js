@@ -1,4 +1,4 @@
-import { Button, Icons } from '@myob/myob-widgets';
+import { Button, Icons, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -6,6 +6,7 @@ import { getIsDefaultFilters, getIsTableEmpty, getIsTableLoading } from '../invo
 import InvoiceListTableBody from './InvoiceListTableBody';
 import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
 import StickyTableBody from '../../../components/StickyTable/StickyTableBody';
+import emptyImage from './empty.svg';
 
 const InvoiceListTable = ({
   isTableLoading,
@@ -16,8 +17,8 @@ const InvoiceListTable = ({
 }) => {
   const emptyTableView = isDefaultFilter ? (
     <NoResultPageState
-      title="No invoices"
-      description="Create invoices to track the sales you make and how much customers owe you"
+      title="Your first invoice awaits"
+      description="Tracks the sales you make and how much customers owe you with invoices."
       actions={[
         <Button
           key={1}
@@ -30,9 +31,10 @@ const InvoiceListTable = ({
       ]}
     />
   ) : (
-    <NoResultPageState
-      title="No results found :("
-      description="Is the date range correct? Try different filters to find the invoice you're looking for"
+    <PageState
+      title="No invoices found"
+      description="Perhaps check the dates or remove the filters and try again."
+      image={(<img src={emptyImage} alt="No invoices found" />)}
     />
   );
 

@@ -15,7 +15,7 @@ import {
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
 import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
-import styles from './InvoiceListView.module.css';
+import styles from './InvoiceListFilterOptions.module.css';
 
 class InvoiceListFilterOptions extends React.Component {
   onComboBoxChange = (item) => {
