@@ -328,7 +328,7 @@ describe('quoteDetailReducer', () => {
   });
 
   describe('ADD_QUOTE_LINE', () => {
-    it('adds a new line and sets the type to be service if the allocatedAccountId has been changed', () => {
+    it('adds a new line and sets the type to be service if the itemId has not been changed', () => {
       const state = {
         quote: {
           lines: [],
@@ -357,7 +357,10 @@ describe('quoteDetailReducer', () => {
           type: 'service',
           defaultData: 'defaultData',
           allocatedAccountId: 'some-id',
+          displayAmount: '',
+          displayDiscount: '',
           taxCodeId: '',
+          descriptionDirty: false,
         },
       ]);
     });
@@ -392,7 +395,10 @@ describe('quoteDetailReducer', () => {
           type: 'service',
           defaultData: 'defaultData',
           allocatedAccountId: '1',
+          displayAmount: '',
+          displayDiscount: '',
           taxCodeId: '2',
+          descriptionDirty: false,
         },
       ]);
     });
@@ -421,6 +427,105 @@ describe('quoteDetailReducer', () => {
           type: 'item',
           defaultData: 'defaultData',
           itemId: '1',
+          displayAmount: '',
+          displayDiscount: '',
+          taxCodeId: '',
+          descriptionDirty: false,
+        },
+      ]);
+    });
+
+    it('set displayAmount when amount has been changed', () => {
+      const state = {
+        quote: {
+          lines: [],
+        },
+        newLine: {
+          defaultData: 'defaultData',
+        },
+      };
+      const action = {
+        intent: ADD_QUOTE_LINE,
+        line: {
+          id: 'notUsed',
+          amount: '1',
+        },
+      };
+
+      const actual = quoteDetailReducer(state, action);
+
+      expect(actual.quote.lines).toEqual([
+        {
+          type: 'service',
+          defaultData: 'defaultData',
+          amount: '1',
+          displayAmount: '1',
+          displayDiscount: '',
+          taxCodeId: '',
+          descriptionDirty: false,
+        },
+      ]);
+    });
+
+    it('set displayDiscount when discount has been changed', () => {
+      const state = {
+        quote: {
+          lines: [],
+        },
+        newLine: {
+          defaultData: 'defaultData',
+        },
+      };
+      const action = {
+        intent: ADD_QUOTE_LINE,
+        line: {
+          id: 'notUsed',
+          discount: '1',
+        },
+      };
+
+      const actual = quoteDetailReducer(state, action);
+
+      expect(actual.quote.lines).toEqual([
+        {
+          type: 'service',
+          defaultData: 'defaultData',
+          discount: '1',
+          displayAmount: '',
+          displayDiscount: '1',
+          taxCodeId: '',
+          descriptionDirty: false,
+        },
+      ]);
+    });
+
+    it('set description dirty when description has been changed', () => {
+      const state = {
+        quote: {
+          lines: [],
+        },
+        newLine: {
+          defaultData: 'defaultData',
+        },
+      };
+      const action = {
+        intent: ADD_QUOTE_LINE,
+        line: {
+          id: 'notUsed',
+          description: '1',
+        },
+      };
+
+      const actual = quoteDetailReducer(state, action);
+
+      expect(actual.quote.lines).toEqual([
+        {
+          type: 'service',
+          defaultData: 'defaultData',
+          displayAmount: '',
+          displayDiscount: '',
+          description: '1',
+          descriptionDirty: true,
           taxCodeId: '',
         },
       ]);
@@ -517,6 +622,47 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[0].taxCodeId).toEqual('2');
       expect(actual.quote.lines[0].allocatedAccountId).toEqual('1');
     });
+
+    it('updates type to item when key is itemId', () => {
+      const state = {
+        quote: {
+          lines: [
+            {},
+          ],
+        },
+      };
+
+      const action = {
+        intent: UPDATE_QUOTE_LINE, index: 0, key: 'itemId', value: '1',
+      };
+
+      const actual = quoteDetailReducer(state, action);
+
+      expect(actual.quote.lines[0].itemId).toEqual('1');
+      expect(actual.quote.lines[0].type).toEqual('item');
+    });
+
+    it('set description dirty when user enter description', () => {
+      const state = {
+        quote: {
+          lines: [
+            {
+              description: '',
+              descriptionDirty: false,
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: UPDATE_QUOTE_LINE, index: 0, key: 'description', value: 'blah',
+      };
+
+      const actual = quoteDetailReducer(state, action);
+
+      expect(actual.quote.lines[0].description).toEqual('blah');
+      expect(actual.quote.lines[0].descriptionDirty).toEqual(true);
+    });
   });
 
   describe('REMOVE_QUOTE_LINE', () => {
@@ -562,6 +708,59 @@ describe('quoteDetailReducer', () => {
 
       const expected = {
         units: '1',
+      };
+
+      expect(actual.quote.lines[0]).toEqual(expected);
+    });
+
+    it('should format display amount when the key is amount', () => {
+      const state = {
+        quote: {
+          lines: [
+            {
+              amount: '1234',
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: FORMAT_QUOTE_LINE,
+        key: 'amount',
+        index: 0,
+      };
+
+      const actual = quoteDetailReducer(state, action);
+
+      const expected = {
+        amount: '1234',
+        displayAmount: '1,234.00',
+      };
+
+      expect(actual.quote.lines[0]).toEqual(expected);
+    });
+
+    it('should format unit price when the key is unitPrice', () => {
+      const state = {
+        quote: {
+          lines: [
+            {
+              unitPrice: '1',
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: FORMAT_QUOTE_LINE,
+        key: 'unitPrice',
+        index: 0,
+      };
+
+      const actual = quoteDetailReducer(state, action);
+
+      const expected = {
+        unitPrice: '1.00',
       };
 
       expect(actual.quote.lines[0]).toEqual(expected);

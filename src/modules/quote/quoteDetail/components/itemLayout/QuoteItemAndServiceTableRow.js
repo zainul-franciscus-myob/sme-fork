@@ -5,7 +5,6 @@ import React from 'react';
 import {
   getAccountOptions,
   getIsCalculating,
-  getIsNewLine,
   getItemOptions,
   getQuoteLineByIndex,
   getTaxCodeOptions,
@@ -13,7 +12,6 @@ import {
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
 import ItemCombobox from '../../../../../components/combobox/ItemCombobox';
-import QuoteLineLayout from '../../QuoteLineLayout';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => (item) => {
@@ -36,8 +34,6 @@ const onAmountInputChange = (name, onChange) => (e) => {
 
 const onAmountInputBlur = (handler, index, key) => () => handler(index, key);
 
-const showItemAndServiceColumn = type => (type === QuoteLineLayout.SERVICE);
-
 const QuoteItemAndServiceTableRow = ({
   index,
   quoteLine,
@@ -45,7 +41,6 @@ const QuoteItemAndServiceTableRow = ({
   taxCodeOptions,
   accountOptions,
   onChange,
-  isNewLine,
   isCalculating,
   onTableRowAmountInputBlur,
   onAddItemButtonClick,
@@ -65,7 +60,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={onComboboxChange('itemId', onChange)}
       label="Item number"
       name="itemId"
-      disabled={isCalculating || showItemAndServiceColumn(quoteLine.type)}
+      disabled={isCalculating}
       hintText="Select an item"
     />
     <TextArea
@@ -73,7 +68,7 @@ const QuoteItemAndServiceTableRow = ({
       label="Item name"
       value={quoteLine.description}
       onChange={onChange}
-      disabled={isNewLine || isCalculating}
+      disabled={isCalculating}
     />
     <AccountCombobox
       label="Allocate to"
@@ -89,7 +84,7 @@ const QuoteItemAndServiceTableRow = ({
       label="Unit"
       value={quoteLine.unitOfMeasure}
       onChange={onChange}
-      disabled={isNewLine || isCalculating || showItemAndServiceColumn(quoteLine.type)}
+      disabled={isCalculating}
       maxLength={5}
     />
     <AmountInput
@@ -98,7 +93,7 @@ const QuoteItemAndServiceTableRow = ({
       value={quoteLine.units}
       onChange={onAmountInputChange('units', onChange)}
       onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'units')}
-      disabled={isNewLine || isCalculating || showItemAndServiceColumn(quoteLine.type)}
+      disabled={isCalculating}
       decimalScale={6}
     />
     <AmountInput
@@ -109,7 +104,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={onAmountInputChange('unitPrice', onChange)}
       onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'unitPrice')}
       textAlign="right"
-      disabled={isNewLine || isCalculating || showItemAndServiceColumn(quoteLine.type)}
+      disabled={isCalculating}
       decimalScale={6}
     />
     <AmountInput
@@ -120,7 +115,7 @@ const QuoteItemAndServiceTableRow = ({
       onChange={onAmountInputChange('discount', onChange)}
       onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'discount')}
       textAlign="right"
-      disabled={isNewLine || isCalculating || showItemAndServiceColumn(quoteLine.type)}
+      disabled={isCalculating}
     />
     <AmountInput
       label="Amount"
@@ -130,13 +125,13 @@ const QuoteItemAndServiceTableRow = ({
       onChange={onAmountInputChange('amount', onChange)}
       onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'amount')}
       textAlign="right"
-      disabled={isNewLine || isCalculating}
+      disabled={isCalculating}
     />
     <TaxCodeCombobox
       items={taxCodeOptions}
       selectedId={quoteLine.taxCodeId}
       onChange={onComboboxChange('taxCodeId', onChange)}
-      disabled={isNewLine || isCalculating}
+      disabled={isCalculating}
     />
   </LineItemTable.Row>
 );
@@ -146,7 +141,6 @@ const mapStateToProps = (state, props) => ({
   itemOptions: getItemOptions(state),
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
-  isNewLine: getIsNewLine(state, props),
   isCalculating: getIsCalculating(state),
 });
 

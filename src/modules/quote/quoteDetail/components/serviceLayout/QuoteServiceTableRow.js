@@ -6,7 +6,6 @@ import {
   getAccountOptions,
   getIsAccountComboboxDisabled,
   getIsCalculating,
-  getIsNewLine,
   getQuoteLine,
   getTaxCodeOptions,
 } from '../../selectors/QuoteDetailSelectors';
@@ -30,7 +29,7 @@ const onAmountInputChange = (name, onChange) => (e) => {
   });
 };
 
-const onRowInputBlurHandler = (onRowInputBlur, index) => () => onRowInputBlur(index);
+const onRowInputBlurHandler = (onRowInputBlur, index, key) => () => onRowInputBlur(index, key);
 
 const QuoteServiceTableRow = ({
   quoteLine,
@@ -41,7 +40,6 @@ const QuoteServiceTableRow = ({
   onRowInputBlur,
   onAddAccount,
   isAccountComboboxDisabled,
-  isNewLine,
   isCalculating,
   ...feelixInjectedProps
 }) => {
@@ -65,7 +63,6 @@ const QuoteServiceTableRow = ({
         name="description"
         value={description}
         onChange={onChange}
-        disabled={isNewLine}
       />
       <AccountCombobox
         label="Allocate to"
@@ -82,16 +79,16 @@ const QuoteServiceTableRow = ({
         name="amount"
         value={displayAmount}
         onChange={onAmountInputChange('amount', onChange)}
-        onBlur={onRowInputBlurHandler(onRowInputBlur, index)}
+        onBlur={onRowInputBlurHandler(onRowInputBlur, index, 'amount')}
         textAlign="right"
-        disabled={isNewLine || isCalculating}
+        disabled={isCalculating}
       />
       <TaxCodeCombobox
         label="Tax code"
         onChange={onComboboxChange('taxCodeId', onChange)}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isNewLine || isCalculating}
+        disabled={isCalculating}
       />
     </LineItemTable.Row>
   );
@@ -102,7 +99,6 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
   isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),
-  isNewLine: getIsNewLine(state, props),
   isCalculating: getIsCalculating(state),
 });
 

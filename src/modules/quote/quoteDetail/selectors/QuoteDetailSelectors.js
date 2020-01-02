@@ -39,7 +39,7 @@ export const getExpirationDays = state => Number(state.quote.expirationDays);
 const getNote = state => state.quote.note;
 export const getIsTaxInclusive = state => state.quote.isTaxInclusive;
 export const getLines = state => state.quote.lines;
-const getLength = state => state.quote.lines.length;
+export const getLength = state => state.quote.lines.length;
 
 const getNewLine = state => state.newLine;
 
@@ -74,7 +74,6 @@ export const getIsActionsDisabled = createSelector(
   (isSubmitting, isCalculating) => isSubmitting || isCalculating,
 );
 
-export const getIsNewLine = (state, { index }) => state.quote.lines.length <= index;
 export const getNewLineIndex = state => state.quote.lines.length - 1;
 export const getLineByIndex = (state, props) => state.quote.lines[props.index];
 export const getQuoteLineByIndex = (state, { index }) => (
@@ -213,3 +212,5 @@ export const getInventoryModalContext = (state) => {
     businessId, region, isBuying: false, isSelling: true,
   });
 };
+
+export const getIsTaxCalculationRequired = state => state.quote.lines.some(line => line.taxCodeId);

@@ -38,6 +38,7 @@ const getDefaultState = () => ({
   newLine: {
     type: '',
     description: '',
+    descriptionDirty: false,
     amount: '',
     taxCodeId: '',
     allocatedAccountId: '',

@@ -54,6 +54,9 @@ import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineLayout from '../QuoteLineLayout';
 import createReducer from '../../../../store/createReducer';
+import formatAmount from '../../../../common/valueFormatters/formatAmount';
+import formatNumberWithDecimalScaleRange
+  from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import getDefaultState from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
@@ -198,13 +201,13 @@ const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
 
 const addQuoteLine = (state, action) => {
   const { id, ...partialLine } = action.line;
-  const type = action.line.allocatedAccountId
-    ? QuoteLineLayout.SERVICE
-    : QuoteLineLayout.ITEM;
+  const type = partialLine.itemId
+    ? QuoteLineLayout.ITEM
+    : QuoteLineLayout.SERVICE;
 
-  const taxCodeId = action.line.allocatedAccountId ? getDefaultTaxCodeId({
+  const taxCodeId = partialLine.allocatedAccountId ? getDefaultTaxCodeId({
     accountOptions: state.accountOptions,
-    accountId: action.line.allocatedAccountId,
+    accountId: partialLine.allocatedAccountId,
   }) : '';
 
   return {
@@ -215,9 +218,12 @@ const addQuoteLine = (state, action) => {
         ...state.quote.lines,
         {
           ...state.newLine,
-          ...partialLine,
+          displayDiscount: partialLine.discount || '',
+          displayAmount: partialLine.amount || '',
+          descriptionDirty: Boolean(partialLine.description),
           type,
           taxCodeId,
+          ...partialLine,
         },
       ],
     },
@@ -239,6 +245,8 @@ const updateQuoteLine = (state, action) => ({
           taxCodeId: action.key === 'allocatedAccountId'
             ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
             : line.taxCodeId,
+          type: action.key === 'itemId' ? QuoteLineLayout.ITEM : line.type,
+          descriptionDirty: action.key === 'description' || line.descriptionDirty,
           [action.key]: action.value,
         };
       }
@@ -261,27 +269,27 @@ const resetQuoteTotals = state => ({
   totals: getDefaultState().totals,
 });
 
+const shouldFormatUnits = (key, currentUnits) => key === 'units' && Number(currentUnits) === 0;
+
 const DEFAULT_UNITS = '1';
-const updateUnits = (state, index) => ({
+const formatQuoteLine = (state, { key, index }) => ({
   ...state,
   quote: {
     ...state.quote,
-    lines: state.quote.lines.map((line, i) => ({
-      ...line,
-      units: index === i ? DEFAULT_UNITS : line.units,
-    })),
+    lines: state.quote.lines.map((line, i) => {
+      if (i === index) {
+        return {
+          ...line,
+          units: shouldFormatUnits(key, line.units) ? DEFAULT_UNITS : line.units,
+          displayAmount: key === 'amount' ? formatAmount(line.amount) : line.displayAmount,
+          unitPrice: key === 'unitPrice' ? formatNumberWithDecimalScaleRange(line.unitPrice, 2, 6) : line.unitPrice,
+        };
+      }
+
+      return line;
+    }),
   },
 });
-
-const formatQuoteLine = (state, { key, index }) => {
-  const currentUnits = state.quote.lines[index].units;
-
-  if (key === 'units' && Number(currentUnits) === 0) {
-    return updateUnits(state, index);
-  }
-
-  return state;
-};
 
 const setQuoteSubmittingState = (state, action) => ({
   ...state,

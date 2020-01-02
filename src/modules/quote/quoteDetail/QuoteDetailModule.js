@@ -7,7 +7,11 @@ import {
   CALCULATE_QUOTE_LINE_TOTALS,
   CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE,
 } from '../QuoteIntents';
-import { SUCCESSFULLY_DELETED_QUOTE, SUCCESSFULLY_EMAILED_QUOTE, SUCCESSFULLY_SAVED_QUOTE } from './QuoteMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_QUOTE,
+  SUCCESSFULLY_EMAILED_QUOTE,
+  SUCCESSFULLY_SAVED_QUOTE,
+} from './QuoteMessageTypes';
 import {
   getAccountModalContext,
   getContactModalContext,
@@ -17,6 +21,8 @@ import {
   getIsLineAmountInputDirty,
   getIsPageEdited,
   getIsTableEmpty,
+  getIsTaxCalculationRequired,
+  getLength,
   getLineByIndex,
   getModalUrl,
   getNewLineIndex,
@@ -314,6 +320,10 @@ export default class QuoteDetailModule {
   }
 
   formatQuoteLine = (index, key) => {
+    if (index >= getLength(this.store.getState())) {
+      return;
+    }
+
     this.dispatcher.formatQuoteLine(index, key);
 
     const state = this.store.getState();
@@ -330,6 +340,10 @@ export default class QuoteDetailModule {
 
     if (getIsTableEmpty(state)) {
       this.dispatcher.resetQuoteTotals();
+      return;
+    }
+
+    if (intent !== CALCULATE_QUOTE_ITEM_CHANGE && !getIsTaxCalculationRequired(state)) {
       return;
     }
 

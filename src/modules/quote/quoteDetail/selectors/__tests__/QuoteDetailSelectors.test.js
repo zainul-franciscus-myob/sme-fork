@@ -1,6 +1,7 @@
 import {
   getAccountModalContext,
   getIsAccountComboboxDisabled,
+  getIsTaxCalculationRequired,
   getLoadQuoteDetailModalType,
   getQuoteDetailOptions,
   getTemplateOptions,
@@ -284,6 +285,38 @@ describe('QuoteDetailSelectors', () => {
       const actual = getTemplateOptions(state);
 
       expect(actual).toEqual(serviceTemplateOptions.templateOptions);
+    });
+  });
+
+  describe('getIsTaxCalculationRequired', () => {
+    it('should calculate tax when at least one line has tax code', () => {
+      const state = {
+        quote: {
+          lines: [
+            { taxCodeId: '4' },
+            { taxCodeId: '' },
+          ],
+        },
+      };
+
+      const actual = getIsTaxCalculationRequired(state);
+
+      expect(actual).toBe(true);
+    });
+
+    it('should not calculate tax when no line has tax code', () => {
+      const state = {
+        quote: {
+          lines: [
+            { taxCodeId: '' },
+            { taxCodeId: '' },
+          ],
+        },
+      };
+
+      const actual = getIsTaxCalculationRequired(state);
+
+      expect(actual).toBe(false);
     });
   });
 });

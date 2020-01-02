@@ -137,6 +137,7 @@
     "itemId": "",
     "allocatedAccountId": "",
     "description": "",
+    "descriptionDirty": false,
     "unitPrice": "",
     "discount": "",
     "displayDiscount": "",

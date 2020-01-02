@@ -105,6 +105,7 @@
     "units": "",
     "itemId": "",
     "description": "",
+    "descriptionDirty": false,
     "allocatedAccountId": "",
     "unitPrice": "",
     "discount": "",

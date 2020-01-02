@@ -1,4 +1,8 @@
-import { LOAD_NEW_DUPLICATE_QUOTE_DETAIL, LOAD_NEW_QUOTE_DETAIL, LOAD_QUOTE_DETAIL } from '../../QuoteIntents';
+import {
+  LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
+  LOAD_NEW_QUOTE_DETAIL,
+  LOAD_QUOTE_DETAIL,
+} from '../../QuoteIntents';
 import {
   getBusinessId,
   getContactId,
@@ -6,6 +10,7 @@ import {
   getExportPdfTemplate,
   getIsCreating,
   getIsTaxInclusive,
+  getLayout,
   getLayoutQueryParam,
   getLines,
   getQuote,
@@ -99,6 +104,7 @@ export const getCalculateQuoteIsTaxInclusiveChangePayload = (state) => {
   const currentLineIsTaxInclusiveState = !getIsTaxInclusive(state);
   return {
     lines: getLines(state),
+    layout: getLayout(state),
     isTaxInclusive: currentLineIsTaxInclusiveState,
   };
 };
@@ -106,6 +112,7 @@ export const getCalculateQuoteIsTaxInclusiveChangePayload = (state) => {
 export const getCalculateQuoteAmountChangePayload = (state, index, key) => ({
   index,
   key,
+  layout: getLayout(state),
   lines: getLines(state),
   isTaxInclusive: getIsTaxInclusive(state),
 });

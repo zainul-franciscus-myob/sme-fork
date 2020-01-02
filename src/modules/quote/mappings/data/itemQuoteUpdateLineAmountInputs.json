@@ -6,6 +6,7 @@
         "itemId": "3",
         "units": "1",
         "description": "Large Cooler",
+        "descriptionDirty": false,
         "unitPrice": "1000.00",
         "discount": "0",
         "displayDiscount": "0",
