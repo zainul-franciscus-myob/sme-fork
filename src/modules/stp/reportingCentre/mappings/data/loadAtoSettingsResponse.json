@@ -1,0 +1,12 @@
+{
+  "businessContact": {
+    "firstName": "Guy",
+    "lastName": "Pierce",
+    "email": "guy.pierce@mail.com",
+    "phone": "0412987654"
+  },
+  "businessConnection": {
+    "abn": "80000000001",
+    "softwareId": "1234567890"
+  }
+}

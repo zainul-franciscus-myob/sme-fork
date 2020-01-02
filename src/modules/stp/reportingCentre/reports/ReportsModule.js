@@ -13,5 +13,7 @@ export default class ReportsModule {
     this.pushMessage = pushMessage;
   }
 
-  getView = () => (<ReportsView />)
+  run = () => {};
+
+  getView = () => (<ReportsView />);
 }

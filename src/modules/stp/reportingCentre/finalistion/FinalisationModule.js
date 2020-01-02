@@ -13,5 +13,7 @@ export default class FinalisationModule {
     this.pushMessage = pushMessage;
   }
 
-  getView = () => (<FinalisationView />)
+  run = () => {};
+
+  getView = () => (<FinalisationView />);
 }

@@ -1,5 +1,5 @@
 import {
-  Alert, BaseTemplate, Card, PageHead, Tabs,
+  Alert, BaseTemplate, PageHead, Tabs,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -24,7 +24,7 @@ const ReportingCentreView = ({
     <div />
   );
 
-  const subHeadTabs = (
+  const tabs = (
     <Tabs
       items={tabItems}
       selected={selectedTab}
@@ -42,8 +42,8 @@ const ReportingCentreView = ({
     <BaseTemplate>
       {alertComponent}
       <PageHead title="Single Touch Payroll reporting" />
-      {subHeadTabs}
-      <Card body={tabModules[selectedTab].getView()} />
+      {tabs}
+      {tabModules[selectedTab].getView()}
       {actions}
     </BaseTemplate>
   );

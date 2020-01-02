@@ -13,5 +13,7 @@ export default class TerminationModule {
     this.pushMessage = pushMessage;
   }
 
-  getView = () => (<TerminationView />)
+  run = () => {};
+
+  getView = () => (<TerminationView />);
 }

@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getRegistrationUrl, getUrlParams } from './ReportingCentreSelectors';
+import { getRegistrationUrl, getSelectedTab, getUrlParams } from './ReportingCentreSelectors';
 import { tabIds } from './TabItems';
 import AtoSettingsModule from './atoSettings/AtoSettingsModule';
 // import FinalisationModule from './finalistion/FinalisationModule';
@@ -64,6 +64,7 @@ export default class ReportingCentreModule {
     const onSuccess = (response) => {
       if (response.status === 'registered') {
         this.dispatcher.setLoadingState(false);
+        this.runTab();
       } else {
         this.redirectToRegistration();
       }
@@ -74,6 +75,16 @@ export default class ReportingCentreModule {
     };
 
     this.integrator.loadRegistrationStatus({ onSuccess, onFailure });
+  };
+
+  setSelectedTab = (tab) => {
+    this.dispatcher.setTab(tab);
+    this.runTab();
+  };
+
+  runTab = () => {
+    const state = this.store.getState();
+    this.subModules[getSelectedTab(state)].run();
   };
 
   resetState = () => {
@@ -101,7 +112,7 @@ export default class ReportingCentreModule {
         <ReportingCentreView
           tabModules={this.subModules}
           onDismissAlert={this.dispatcher.clearAlert}
-          onTabSelected={this.dispatcher.setTab}
+          onTabSelected={this.setSelectedTab}
         />
       </Provider>
     );
