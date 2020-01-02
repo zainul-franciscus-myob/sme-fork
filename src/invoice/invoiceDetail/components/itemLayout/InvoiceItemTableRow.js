@@ -5,8 +5,6 @@ import React from 'react';
 import {
   getAccountOptions,
   getInvoiceLine,
-  getIsNewLine,
-  getIsServiceLine,
   getIsSubmitting,
   getItemOptions,
   getTaxCodeOptions,
@@ -44,8 +42,6 @@ const InvoiceItemTableRow = ({
   accountOptions,
   itemOptions,
   isSubmitting,
-  isNewLine,
-  isServiceLine,
   onUpdateAmount,
   onAddItemButtonClick,
   onAddAccount,
@@ -62,7 +58,7 @@ const InvoiceItemTableRow = ({
         items={itemOptions}
         selectedId={invoiceLine.itemId}
         onChange={onChangeItemId}
-        disabled={isSubmitting || isServiceLine}
+        disabled={isSubmitting}
       />
 
       <TextArea
@@ -70,7 +66,7 @@ const InvoiceItemTableRow = ({
         autoSize
         value={invoiceLine.description}
         onChange={onChange}
-        disabled={isSubmitting || isNewLine}
+        disabled={isSubmitting}
       />
 
       <AccountCombobox
@@ -89,7 +85,7 @@ const InvoiceItemTableRow = ({
         name="unitOfMeasure"
         value={invoiceLine.unitOfMeasure}
         onChange={onChange}
-        disabled={isSubmitting || isNewLine || isServiceLine}
+        disabled={isSubmitting}
         maxLength={5}
       />
 
@@ -98,7 +94,7 @@ const InvoiceItemTableRow = ({
         value={invoiceLine.units}
         onChange={onAmountInputChange('units', onChange)}
         onBlur={onInputBlur(onUpdateAmount, index, 'units')}
-        disabled={isSubmitting || isNewLine || isServiceLine}
+        disabled={isSubmitting}
         decimalScale={6}
       />
 
@@ -108,7 +104,7 @@ const InvoiceItemTableRow = ({
         onChange={onAmountInputChange('unitPrice', onChange)}
         onBlur={onInputBlur(onUpdateAmount, index, 'unitPrice')}
         textAlign="right"
-        disabled={isSubmitting || isNewLine || isServiceLine}
+        disabled={isSubmitting}
         decimalScale={6}
       />
 
@@ -118,7 +114,7 @@ const InvoiceItemTableRow = ({
         onChange={onAmountInputChange('discount', onChange)}
         onBlur={onInputBlur(onUpdateAmount, index, 'discount')}
         textAlign="right"
-        disabled={isSubmitting || isNewLine || isServiceLine}
+        disabled={isSubmitting}
       />
 
       <AmountInput
@@ -127,14 +123,14 @@ const InvoiceItemTableRow = ({
         onChange={onAmountInputChange('amount', onChange)}
         onBlur={onInputBlur(onUpdateAmount, index, 'amount')}
         textAlign="right"
-        disabled={isSubmitting || isNewLine}
+        disabled={isSubmitting}
       />
 
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={invoiceLine.taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isSubmitting || isNewLine}
+        disabled={isSubmitting}
         left
       />
     </LineItemTable.Row>
@@ -145,10 +141,8 @@ const mapStateToProps = (state, props) => ({
   invoiceLine: getInvoiceLine(state, props),
   isSubmitting: getIsSubmitting(state),
   itemOptions: getItemOptions(state),
-  isServiceLine: getIsServiceLine(state, props),
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
-  isNewLine: getIsNewLine(state, props),
 });
 
 export default connect(mapStateToProps)(InvoiceItemTableRow);

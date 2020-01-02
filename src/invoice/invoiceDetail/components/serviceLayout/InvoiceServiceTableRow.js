@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAccountOptions, getInvoiceLine, getIsNewLine, getIsSubmitting, getTaxCodeOptions,
+  getAccountOptions, getInvoiceLine, getIsSubmitting, getTaxCodeOptions,
 } from '../../selectors/invoiceDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
@@ -34,7 +34,6 @@ const InvoiceServiceTableRow = ({
   accountOptions,
   taxCodeOptions,
   index,
-  isNewLine,
   isSubmitting,
   onChange,
   onUpdateAmount,
@@ -61,7 +60,7 @@ const InvoiceServiceTableRow = ({
         autoSize
         value={description}
         onChange={onChange}
-        disabled={isSubmitting || isNewLine}
+        disabled={isSubmitting}
       />
       <AccountCombobox
         label="Account"
@@ -80,7 +79,7 @@ const InvoiceServiceTableRow = ({
         textAlign="right"
         onChange={onAmountInputChange('amount', onChange)}
         onBlur={onInputBlur(onUpdateAmount, index, 'amount')}
-        disabled={isSubmitting || isNewLine}
+        disabled={isSubmitting}
       />
       <TaxCodeCombobox
         label="Tax code"
@@ -88,7 +87,7 @@ const InvoiceServiceTableRow = ({
         onChange={onComboboxChange('taxCodeId', onChange)}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isSubmitting || isNewLine}
+        disabled={isSubmitting}
       />
     </LineItemTable.Row>
   );
@@ -98,7 +97,6 @@ const mapStateToProps = (state, props) => ({
   invoiceLine: getInvoiceLine(state, props),
   accountOptions: getAccountOptions(state),
   taxCodeOptions: getTaxCodeOptions(state),
-  isNewLine: getIsNewLine(state, props),
   isSubmitting: getIsSubmitting(state),
 });
 

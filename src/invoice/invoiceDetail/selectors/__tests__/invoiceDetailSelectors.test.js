@@ -3,7 +3,6 @@ import {
   getInvoiceDetailOptions,
   getInvoiceDetailTotals,
   getInvoiceLine,
-  getIsServiceLine,
   getLoadInvoiceDetailEmailInvoice,
   getLoadInvoiceDetailModalType,
   getShouldReload,
@@ -370,64 +369,6 @@ describe('invoiceDetailSelectors', () => {
       expect(actual).toEqual([
         { name: 'a', label: 'a' },
       ]);
-    });
-  });
-
-  describe('getIsServiceLine', () => {
-    it('returns false when is a new line', () => {
-      const modifiedState = {
-        ...state,
-        invoice: {
-          ...state.invoice,
-          lines: [],
-        },
-      };
-
-      const actual = getIsServiceLine(modifiedState, {
-        index: 0,
-      });
-
-      expect(actual).toEqual(false);
-    });
-
-    it('returns true when is is a service line', () => {
-      const modifiedState = {
-        ...state,
-        invoice: {
-          ...state.invoice,
-          lines: [
-            {
-              layout: InvoiceLayout.SERVICE,
-            },
-          ],
-        },
-      };
-
-      const actual = getIsServiceLine(modifiedState, {
-        index: 0,
-      });
-
-      expect(actual).toEqual(true);
-    });
-
-    it('returns false when is is an item line', () => {
-      const modifiedState = {
-        ...state,
-        invoice: {
-          ...state.invoice,
-          lines: [
-            {
-              layout: InvoiceLayout.ITEM,
-            },
-          ],
-        },
-      };
-
-      const actual = getIsServiceLine(modifiedState, {
-        index: 0,
-      });
-
-      expect(actual).toEqual(false);
     });
   });
 

@@ -105,7 +105,7 @@ const createInvoiceDetailDispatcher = store => ({
     intent: UPDATE_INVOICE_PAYMENT_AMOUNT, amountPaid,
   }),
 
-  addInvoiceLine: line => store.dispatch({ intent: ADD_INVOICE_LINE, line }),
+  addInvoiceLine: () => store.dispatch({ intent: ADD_INVOICE_LINE }),
 
   removeInvoiceLine: index => store.dispatch({ intent: REMOVE_INVOICE_LINE, index }),
 

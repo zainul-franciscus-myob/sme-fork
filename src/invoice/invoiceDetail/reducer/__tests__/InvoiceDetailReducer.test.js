@@ -159,6 +159,52 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.isPageEdited).toEqual(true);
     });
 
+    it(`sets the line layout to ${InvoiceLayout.ITEM} when key is itemId`, () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: state.invoice.lines.map(line => ({
+            ...line,
+            layout: InvoiceLayout.SERVICE,
+          })),
+        },
+      };
+
+      const modifiedAction = {
+        ...action,
+        key: 'itemId',
+        value: '🐑',
+      };
+
+      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
+
+      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLayout.ITEM);
+    });
+
+    it(`sets the line layout to ${InvoiceLayout.SERVICE} when key is anything but itemId`, () => {
+      const actual = invoiceDetailReducer(state, action);
+
+      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLayout.SERVICE);
+    });
+
+    it(`does not set the line layout when already ${InvoiceLayout.ITEM}`, () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: state.invoice.lines.map(line => ({
+            ...line,
+            layout: InvoiceLayout.ITEM,
+          })),
+        },
+      };
+
+      const actual = invoiceDetailReducer(modifiedState, action);
+
+      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLayout.ITEM);
+    });
+
     it('sets taxCodeId when changing accountId and that account has a taxCodeId', () => {
       const modifiedState = {
         ...state,
@@ -253,118 +299,10 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.isPageEdited).toEqual(true);
     });
 
-    [
-      {
-        key: 'accountId',
-        line: {
-          accountId: '🐧',
-        },
-      },
-      {
-        key: 'itemId',
-        line: {
-          itemId: '🐸',
-        },
-      },
-    ].forEach((test) => {
-      it(`adds new line with given value for ${test.key}`, () => {
-        const modifiedAction = {
-          ...action,
-          line: test.line,
-        };
+    it('adds a new line', () => {
+      const actual = invoiceDetailReducer(state, action);
 
-        const actual = invoiceDetailReducer(state, modifiedAction);
-
-        expect(actual.invoice.lines[2][test.key]).toEqual(test.line[test.key]);
-      });
-    });
-
-    [
-      {
-        key: 'accountId',
-        layout: InvoiceLayout.SERVICE,
-      },
-      {
-        key: 'itemId',
-        layout: InvoiceLayout.ITEM,
-      },
-    ].forEach((test) => {
-      it(`adds new line with layout ${test.layout} when given value for ${test.key}`, () => {
-        const modifiedAction = {
-          ...action,
-          line: {
-            [test.key]: '🦒',
-          },
-        };
-
-        const actual = invoiceDetailReducer(state, modifiedAction);
-
-        expect(actual.invoice.lines[2].layout).toEqual(test.layout);
-      });
-    });
-
-    it('cannot add new line with other keys', () => {
-      const modifiedState = {
-        ...state,
-        newLine: {
-          taxCodeId: 'noop',
-        },
-      };
-
-      const modifiedAction = {
-        intent: ADD_INVOICE_LINE,
-        line: {
-          taxCodeId: '2',
-        },
-      };
-
-      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
-
-      expect(actual.invoice.lines[2].taxCodeId).toEqual('noop');
-    });
-
-    it('sets taxCodeId when changing accountId and that account has a taxCodeId', () => {
-      const modifiedState = {
-        ...state,
-        accountOptions: [
-          {
-            id: '1',
-            taxCodeId: '2',
-          },
-        ],
-      };
-
-      const modifiedAction = {
-        ...action,
-        line: {
-          accountId: '1',
-        },
-      };
-
-      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
-
-      expect(actual.invoice.lines[2].accountId).toEqual('1');
-      expect(actual.invoice.lines[2].taxCodeId).toEqual('2');
-    });
-
-
-    it('sets taxCodeId to empty when changing accountId and that account does not exist', () => {
-      const modifiedState = {
-        ...state,
-        accountOptions: [],
-      };
-
-      const modifiedAction = {
-        ...action,
-        line: {
-          accountId: '1',
-        },
-      };
-
-      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
-
-      expect(actual.invoice.lines[2].accountId).toEqual('1');
-      expect(actual.invoice.lines[2].taxCodeId).toEqual('');
+      expect(actual.invoice.lines[2]).toBeDefined();
     });
   });
 

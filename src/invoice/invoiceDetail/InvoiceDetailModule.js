@@ -471,23 +471,17 @@ export default class InvoiceDetailModule {
     });
   };
 
+
   addInvoiceLine = (line) => {
-    this.dispatcher.addInvoiceLine(line);
+    const state = this.store.getState();
 
-    const { itemId, accountId } = line;
+    const getKey = ({ id, ...lineWithoutId }) => Object.keys(lineWithoutId)[0];
+    const key = getKey(line);
+    const value = line[key];
+    const index = getNewLineIndex(state);
 
-    if (itemId) {
-      const state = this.store.getState();
-
-      this.calculateLineTotalsOnItemChange({
-        index: getNewLineIndex(state),
-        itemId,
-      });
-    }
-
-    if (accountId) {
-      this.calculateLineTotals();
-    }
+    this.dispatcher.addInvoiceLine();
+    this.updateInvoiceLine(index, key, value);
   };
 
   openCancelModal = () => {

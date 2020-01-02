@@ -190,22 +190,41 @@ const updateInvoiceLine = (state, action) => {
   const isUpdateAmount = action.key === 'amount';
   const isUpdateAccountId = action.key === 'accountId';
 
+  const getLayout = (layout, key) => {
+    const isItemLayout = layout === InvoiceLayout.ITEM;
+    const isUpdateItemId = key === 'itemId';
+
+    if (isItemLayout) {
+      return layout;
+    }
+
+    return isUpdateItemId ? InvoiceLayout.ITEM : InvoiceLayout.SERVICE;
+  };
+
   return ({
     ...state,
     isPageEdited: true,
     invoice: {
       ...state.invoice,
-      lines: state.invoice.lines.map((line, index) => (index === action.index
-        ? {
-          ...line,
-          taxCodeId: isUpdateAccountId
-            ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
-            : line.taxCodeId,
-          displayDiscount: isUpdateDiscount ? action.value : line.displayDiscount,
-          displayAmount: isUpdateAmount ? action.value : line.displayAmount,
-          [action.key]: action.value,
+      lines: state.invoice.lines.map((line, index) => {
+        if (index === action.index) {
+          return {
+            ...line,
+            layout: getLayout(line.layout, action.key),
+            taxCodeId: isUpdateAccountId
+              ? getDefaultTaxCodeId({
+                accountId: action.value,
+                accountOptions: state.accountOptions,
+              })
+              : line.taxCodeId,
+            displayDiscount: isUpdateDiscount ? action.value : line.displayDiscount,
+            displayAmount: isUpdateAmount ? action.value : line.displayAmount,
+            [action.key]: action.value,
+          };
         }
-        : line)),
+
+        return line;
+      }),
     },
   });
 };
@@ -230,30 +249,17 @@ const formatInvoiceLine = (state, action) => ({
   },
 });
 
-const addInvoiceLine = (state, action) => {
-  const { accountId, itemId } = action.line;
-
-  return ({
-    ...state,
-    isPageEdited: true,
-    invoice: {
-      ...state.invoice,
-      lines: [
-        ...state.invoice.lines,
-        {
-          ...state.newLine,
-          layout: accountId ? InvoiceLayout.SERVICE : InvoiceLayout.ITEM,
-          accountId: accountId || state.newLine.accountId,
-          itemId: itemId || state.newLine.itemId,
-          taxCodeId: accountId ? getDefaultTaxCodeId({
-            accountOptions: state.accountOptions,
-            accountId: action.line.accountId,
-          }) : state.newLine.taxCodeId,
-        },
-      ],
-    },
-  });
-};
+const addInvoiceLine = state => ({
+  ...state,
+  isPageEdited: true,
+  invoice: {
+    ...state.invoice,
+    lines: [
+      ...state.invoice.lines,
+      state.newLine,
+    ],
+  },
+});
 
 const removeInvoiceLine = (state, action) => ({
   ...state,

@@ -149,8 +149,10 @@ export const getCalculateLineTotalsOnAmountChangeContent = (state, { index, key 
   );
   const isTaxInclusive = getIsTaxInclusive(state);
   const amountPaid = getAmountPaid(state);
+  const { layout } = state.invoice;
 
   return {
+    layout,
     index,
     key,
     isTaxInclusive,

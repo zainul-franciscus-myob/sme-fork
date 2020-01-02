@@ -216,28 +216,13 @@ export const getTableData = createSelector(getLength, len => Array(len).fill({})
 
 export const getIsTableEmpty = createSelector(getLength, len => len === 0);
 
-export const getIsNewLine = (state, { index }) => {
-  const lineCount = getLength(state);
-  return lineCount <= index;
-};
-
-export const getNewLineIndex = state => getLength(state) - 1;
+export const getNewLineIndex = state => getLength(state);
 
 export const getInvoiceLine = createSelector(
   getNewLine,
   (state, props) => state.invoice.lines[props.index],
   (newLine, line) => line || newLine,
 );
-
-export const getIsServiceLine = (state, props) => {
-  const line = state.invoice.lines[props.index];
-
-  if (!line) {
-    return false;
-  }
-
-  return line.layout === InvoiceLayout.SERVICE;
-};
 
 export const getRouteURLParams = state => ({
   openSendEmail: getOpenSendEmailQueryParam(state),
