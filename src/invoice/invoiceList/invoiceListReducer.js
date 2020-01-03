@@ -23,11 +23,12 @@ const defaultFilterOptions = {
   dateFrom: formatIsoDate(getDefaultDateRange()),
   dateTo: formatIsoDate(new Date()),
   keywords: '',
-  customerId: 'All',
+  customerId: undefined,
   status: 'All',
 };
 
 const getInitialState = () => ({
+  settingsVersion: '24264afc-07b6-4993-8aa6-693dd1378d57',
   defaultFilterOptions,
   filterOptions: defaultFilterOptions,
   appliedFilterOptions: defaultFilterOptions,
@@ -56,53 +57,28 @@ const setInitialState = (_, {
 }) => {
   const initialState = getInitialState();
 
-  const filterOptions = {
-    ...initialState.filterOptions,
-    ...settings.filterOptions,
-    status: settings.filterOptions && [
-      'All', 'Open', 'Closed', 'Credit',
-    ].includes(settings.filterOptions.status)
-      ? settings.filterOptions.status
-      : initialState.filterOptions.status,
-  };
+  const isExpiredSettings = initialState.settingsVersion !== settings.settingsVersion;
 
-  return ({
+  if (isExpiredSettings) {
+    return {
+      ...initialState,
+      ...context,
+    };
+  }
+
+  return {
     ...initialState,
     ...context,
-    filterOptions,
-    appliedFilterOptions: filterOptions,
-    sortOrder: [
-      'asc',
-      'desc',
-    ].includes(settings.sortOrder) ? settings.sortOrder : initialState.sortOrder,
-    orderBy: [
-      'DisplayId',
-      'CustomerPurchaseOrderIdentifier',
-      'CustomerName',
-      'DateOccurred',
-      'DateDue',
-      'Status',
-      'Amount',
-      'BalanceDue',
-    ].includes(settings.orderBy) ? settings.orderBy : initialState.orderBy,
-  });
+    filterOptions: settings.filterOptions,
+    appliedFilterOptions: settings.filterOptions,
+    sortOrder: settings.sortOrder,
+    orderBy: settings.orderBy,
+  };
 };
 
 const loadInvoiceList = (state, action) => ({
   ...state,
   entries: action.entries,
-  sortOrder: action.sortOrder,
-  orderBy: action.orderBy,
-  filterOptions: {
-    ...state.filterOptions,
-    customerId: action.customerId,
-    status: action.status,
-  },
-  appliedFilterOptions: {
-    ...state.filterOptions,
-    customerId: action.customerId,
-    status: action.status,
-  },
   total: action.total,
   totalDue: action.totalDue,
   totalOverdue: action.totalOverdue,

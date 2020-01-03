@@ -14,6 +14,8 @@ export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
 
+const getSettingsVersion = state => state.settingsVersion;
+
 const getEntries = ({ entries }) => entries;
 
 const getEntryLink = (entry, businessId, region) => {
@@ -96,10 +98,12 @@ export const getIsDefaultFilters = createSelector(
 );
 
 export const getSettings = createSelector(
+  getSettingsVersion,
   getAppliedFilterOptions,
   getSortOrder,
   getOrderBy,
-  (filterOptions, sortOrder, orderBy) => ({
+  (settingsVersion, filterOptions, sortOrder, orderBy) => ({
+    settingsVersion,
     filterOptions,
     sortOrder,
     orderBy,
