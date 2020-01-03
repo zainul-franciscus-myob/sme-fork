@@ -84,8 +84,8 @@ class InvoiceListFilterOptions extends React.Component {
         </FilterBar>
         <hr />
         <div className={styles.totals}>
-          <div className={styles.totalItem}>{`Total ${total}`}</div>
-          <div className={styles.totalDueItem}>{`Total Due ${totalDue}`}</div>
+          <div className={styles.totalItem}>{`Total amount ${total}`}</div>
+          <div className={styles.totalDueItem}>{`Balance due ${totalDue}`}</div>
           <div className={classnames(styles.totalOverdue, { [styles.hasOverdue]: hasOverdue })}>{`Overdue ${totalOverdue}`}</div>
         </div>
       </Fragment>
