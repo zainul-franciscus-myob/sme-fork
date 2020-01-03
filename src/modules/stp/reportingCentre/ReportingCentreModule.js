@@ -17,14 +17,10 @@ export default class ReportingCentreModule {
   constructor({
     integration,
     setRootView,
-    popMessages,
-    pushMessage,
     replaceURLParams,
   }) {
     this.setRootView = setRootView;
     this.integration = integration;
-    this.popMessages = popMessages;
-    this.pushMessage = pushMessage;
     this.replaceURLParams = replaceURLParams;
     this.store = new Store(reportingCentreReducer);
     this.integrator = createReportingCentreIntegrator(this.store, this.integration);
@@ -34,22 +30,18 @@ export default class ReportingCentreModule {
       [tabIds.reports]: new ReportsModule({
         integration,
         store: this.store,
-        pushMessage,
       }),
       // [tabIds.terminations]: new TerminationModule({
       //   integration,
       //   store: this.store,
-      //   pushMessage,
       // }),
       // [tabIds.finalisation]: new FinalisationModule({
       //   integration,
       //   store: this.store,
-      //   pushMessage,
       // }),
       [tabIds.atoSettings]: new AtoSettingsModule({
         integration,
         store: this.store,
-        pushMessage,
       }),
     };
   }

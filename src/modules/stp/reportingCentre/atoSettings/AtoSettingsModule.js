@@ -9,11 +9,9 @@ export default class AtoSettingsModule {
   constructor({
     integration,
     store,
-    pushMessage,
   }) {
     this.integration = integration;
     this.store = store;
-    this.pushMessage = pushMessage;
     this.dispatcher = createAtoSettingsDispatcher(store);
     this.integrator = createAtoSettingsIntegrator(store, integration);
   }
@@ -37,6 +35,22 @@ export default class AtoSettingsModule {
     window.location.href = getRegistrationUrl(this.store.getState());
   };
 
+  updateBusinessContact = () => {
+    this.dispatcher.setLoadingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setAlert({ type: 'success', message });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.updateBusinessContact({ onSuccess, onFailure });
+  };
+
   run = () => {
     this.loadAtoSettings();
   };
@@ -45,7 +59,7 @@ export default class AtoSettingsModule {
     return (
       <AtoSettingsView
         onBusinessContactChange={this.dispatcher.setBusinessContact}
-        onEditBusinessContactClick={() => {}}
+        onEditBusinessContactClick={this.updateBusinessContact}
         onEditBusinessConnectionClick={this.dispatcher.openConfirmationModal}
         onEditBusinessConnectionConfirm={this.redirectToRegistration}
         onEditBusinessConnectionCancel={this.dispatcher.closeConfirmationModal}

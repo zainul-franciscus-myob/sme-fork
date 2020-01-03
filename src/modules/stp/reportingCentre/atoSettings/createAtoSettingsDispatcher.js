@@ -1,3 +1,4 @@
+import { SET_ALERT } from '../ReportingCentreIntents';
 import {
   SET_ATO_SETTINGS,
   SET_BUSINESS_CONTACT,
@@ -39,6 +40,13 @@ const createAtoSettingsDispatcher = store => ({
     store.dispatch({
       intent: SET_ATO_SETTINGS,
       response,
+    });
+  },
+
+  setAlert: (alert) => {
+    store.dispatch({
+      intent: SET_ALERT,
+      alert,
     });
   },
 });
