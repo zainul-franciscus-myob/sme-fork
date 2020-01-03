@@ -1,24 +1,31 @@
-{
-  "id": "4ca4b469-04e1-4460-8083-8419c632fe18",
-  "title": "Tracking your progress",
-  "description": "You told us you needed help with these topics",
-  "activities": [
-    {
-      "title": "Complete your setup",
-      "activities": [
-        {
-          "title": "Confirm business details",
-          "action": "/#/{{region}}/{{cfguid}}?appcue=-Lu0kKUp1O4HTa0FQ_VI"
-        },
-        {
-          "title": "Review the accounts",
-          "action": "/#/{{region}}/{{cfguid}}/account?appcue=-Lu0msE2mc6XUByI2ivu"
-        },
-        {
-          "title": "Invite users",
-          "action": "/#/{{region}}/{{cfguid}}/user?appcue=-Lu0nUopXoWrmExP62mP"
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "tasks": [
+      {
+        "action": "/#/{{region}}/{{cdfguid}}?appcue=-Lu0kKUp1O4HTa0FQ_VI",
+        "description": "Double-check your client's details and add any missing information",
+        "key": "businessDetails",
+        "title": "Confirm business details",
+        "completed": true
+      },
+      {
+        "action": "/#/{{region}}/{{cdfguid}}/account?appcue=-Lu0msE2mc6XUByI2ivu",
+        "description": "Ensure the right accounts are setup for easy allocation in the future",
+        "key": "accounts",
+        "title": "Review accounts list"
+      },
+      {
+        "action": "/#/{{region}}/{{cdfguid}}/bankFeeds?appcue=-Lu0o5bSsiZT5Z7Zrm0m",
+        "description": "Connect your clients to their bank to get transactions directly into MYOB",
+        "key": "bankFeeds",
+        "title": "Setup bank feeds"
+      },
+      {
+        "action": "/#/{{region}}/{{cdfguid}}/user?appcue=-Lu0nUopXoWrmExP62mP",
+        "description": "Give your clients access to their software so they can get down to business",
+        "key": "inviteUsers",
+        "title": "Invite users"
+      }
+    ]
+  }
+]

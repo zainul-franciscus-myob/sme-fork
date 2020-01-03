@@ -1,54 +1,81 @@
-import { Aside, PageState } from '@myob/myob-widgets';
+import {
+  Aside, Icons, Label, PageState,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import Collapsible from 'react-collapsible';
 import React from 'react';
 
 import { getActivities, getIsLoading } from '../ActivitiesSelectors';
 import PageView from '../../../components/PageView/PageView';
 import asideHeaderStyles from '../../AsideHeader.module.css';
-import checked from './assets/icon-circle-tick-golf.svg';
 import emptyStateImage from './assets/icon-activities-empty-state.svg';
+import iconPlay from './assets/icon-play.svg';
+import imageAccounts from './assets/accounts.svg';
+import imageBankFeeds from './assets/bankFeeds.svg';
+import imageBusinessDetails from './assets/businessDetails.svg';
+import imageInviteUsers from './assets/inviteUsers.svg';
 import styles from './ActivitiesView.module.css';
-import unchecked from './assets/icon-circle.svg';
+
+const imageForTask = (key) => {
+  switch (key) {
+    case 'businessDetails':
+      return imageBusinessDetails;
+    case 'accounts':
+      return imageAccounts;
+    case 'bankFeeds':
+      return imageBankFeeds;
+    case 'inviteUsers':
+      return imageInviteUsers;
+    default:
+      return imageBusinessDetails;
+  }
+};
 
 const ActivitiesView = ({
   activities,
   closeActivities,
   isLoading,
   isActive,
+  saveActivity,
 }) => {
-  if (!isActive) return <></>;
-
-  const hasActivities = false;
+  if (!isActive) return null;
+  const hasActivities = activities && activities.length > 0;
 
   const activitiesView = () => (
     <div>
-      <p>{activities.description}</p>
+      <div className={styles.spotlight}>
+        <h2>Getting started</h2>
+        <p>
+          We&apos;ve picked a few tasks to get your business up and running.
+          Make sure to check back here later for more setup tasks.
+        </p>
 
-      <ol className={styles.activities}>
-        {activities.activities.map(item => (
-          <li key={item.title}>
-            <Collapsible
-              trigger={(
+        <a href="https://www.google.com/">
+          <Icons.Hints size="16px" />
+          Take a short tour
+        </a>
+
+        <a href="https://www.google.com/">
+          <img src={iconPlay} width="16" height="16px" alt="play" />
+          Watch an intro video
+        </a>
+      </div>
+
+      <ul className={styles.activities}>
+        {activities.map(activity => (
+          activity.tasks.map(item => (
+            <li key={item.title}>
+              <a href={`${item.action}`} onClick={saveActivity(item.key)}>
+                <img src={imageForTask(item.key)} alt="business details" width="36" />
                 <div>
-                  <span>{item.title}</span>
+                  {item.completed ? <Label type="boxed" color="green" size="small">Done</Label> : null}
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
                 </div>
-                )}
-              transitionTime={200}
-              header=""
-            >
-              <ul>
-                {item.activities.map(subActivity => (
-                  <li key={subActivity.title}>
-                    <img src={subActivity.completed ? checked : unchecked} alt="status icon" width="32" height="32" />
-                    <a href={`${subActivity.action}`}>{subActivity.title}</a>
-                  </li>
-                ))}
-              </ul>
-            </Collapsible>
-          </li>
+              </a>
+            </li>
+          ))
         ))}
-      </ol>
+      </ul>
     </div>
   );
 

@@ -6,8 +6,8 @@ import {
   UPDATE_ACTIVITY,
 } from '../../drawer/activities/ActivitiesIntents';
 
-const listPath = ({ businessId, userId }) => `/${businessId}/users/${userId}/activities`;
-const detailPath = ({ businessId, userId, activityId }) => `/${businessId}/users/${userId}/activities/${activityId}`;
+const listPath = ({ businessId }) => `/${businessId}/activities`;
+const detailPath = ({ businessId, activityId }) => `/${businessId}/activities/${activityId}`;
 
 const ActivityMapping = {
   [GET_ACTIVITIES_LIST]: { method: 'GET', getPath: listPath },

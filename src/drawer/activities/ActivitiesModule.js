@@ -1,12 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { GET_ACTIVITIES_LIST } from './ActivitiesIntents';
-import { getBusinessId, getRegion } from './ActivitiesSelectors';
 import ActivitiesView from './components/ActivitiesView';
 import Store from '../../store/Store';
 import activitiesReducer from './activitiesReducer';
 import createActivitiesDispatcher from './createActivitiesDispatcher';
+import loadActivities from './services/load';
 
 export default class ActivitiesModule {
   constructor({ integration, closeDrawer }) {
@@ -17,11 +16,11 @@ export default class ActivitiesModule {
   }
 
   getView = () => {
-    const { closeActivities, store } = this;
+    const { closeActivities, store, saveActivity } = this;
 
     return (
       <Provider store={store}>
-        <ActivitiesView closeActivities={closeActivities} />
+        <ActivitiesView closeActivities={closeActivities} saveActivity={saveActivity} />
       </Provider>
     );
   };
@@ -30,36 +29,22 @@ export default class ActivitiesModule {
     this.dispatcher.setActiveState(!!isActive);
   }
 
+  saveActivity = async () => {}
+
   closeActivities = () => this.closeDrawer();
 
-  loadActivities = ({ businessId, region }) => {
+  loadActivities = async (businessId, region) => {
     this.dispatcher.setLoadingState(true);
 
-    const urlParams = {
-      businessId: getBusinessId(this.store.getState()),
-      region: getRegion(this.store.getState()),
-    };
-    const params = { businessId, region };
-    const onSuccess = (content) => {
-      this.dispatcher.setLoadingState(false);
-      this.dispatcher.loadActivities(content);
-    };
-    const onFailure = () => {
-      this.dispatcher.setLoadingState(false);
-      this.dispatcher.loadActivitiesFailure();
-    };
+    const content = await loadActivities(this.integration, businessId, region);
+    this.dispatcher.loadActivities(content);
 
-    this.integration.read({
-      intent: GET_ACTIVITIES_LIST,
-      urlParams,
-      params,
-      onSuccess,
-      onFailure,
-    });
-  };
+    this.dispatcher.setLoadingState(false);
+  }
 
   run = (context) => {
-    this.dispatcher.setInitialState(context);
-    this.loadActivities(context);
+    const { routeParams } = context;
+    this.dispatcher.setInitialState(routeParams);
+    this.loadActivities(routeParams.businessId, routeParams.region);
   }
 }
