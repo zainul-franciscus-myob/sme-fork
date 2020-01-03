@@ -6,6 +6,7 @@ import {
 } from '../PayRunIntents';
 import { getBusinessId, getSaveDraftContent } from '../PayRunSelectors';
 import {
+  getPayPeriod,
   getRecalculatePayPayload,
   getSelectedEmployeeIds,
   getValidateEtpContent,
@@ -38,6 +39,7 @@ const createEmployeePayListIntegrator = (store, integration) => ({
     };
 
     const content = {
+      ...getPayPeriod(state),
       employeeIds: getSelectedEmployeeIds(state),
     };
 
