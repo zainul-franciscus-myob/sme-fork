@@ -6,6 +6,7 @@ import { SET_AGENT_ROLE_SELECTED, SET_CURRENT_STEP_INDEX } from './stpSetupInten
 import { getAgentRoleSelected } from './stpSetupSelectors';
 import Steps from './Steps';
 import Store from '../../../store/Store';
+import StpDeclarationInformationModule from './stepModules/DeclarationInformation/StpDeclarationInformationModule';
 import StpOverviewModule from './stepModules/StpOverview/StpOverviewModule';
 import StpSetupView from './components/StpSetupView';
 import StpYourRoleModule from './stepModules/StpYourRole/StpYourRoleModule';
@@ -44,7 +45,11 @@ export default class StpSetupModule {
       {
         id: Steps.DECLARATION_INFORMATION,
         title: 'Declaration information',
-        onPrevious: this.declarationInformationPrevious,
+        module: new StpDeclarationInformationModule({
+          integration: this.integration,
+          onPrevious: this.declarationInformationPrevious,
+          onFinish: () => {},
+        }),
       },
       {
         id: Steps.ADD_CLIENTS,
@@ -95,6 +100,12 @@ export default class StpSetupModule {
 
   setStep = (stepId) => {
     const stepIndex = this.steps.findIndex(step => step.id === stepId);
+    const step = this.steps[stepIndex];
+
+    if (step.module.onEnter) {
+      step.module.onEnter();
+    }
+
     this.store.dispatch({
       intent: SET_CURRENT_STEP_INDEX,
       currentStepIndex: stepIndex,

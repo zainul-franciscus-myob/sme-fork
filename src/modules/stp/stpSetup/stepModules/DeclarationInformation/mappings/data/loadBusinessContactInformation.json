@@ -1,0 +1,8 @@
+{
+  "businessContactInformationWasFound": true,
+  "payerAbn": "12345678900",
+  "firstName": "Geralt",
+  "lastName": "Rivia",
+  "phone": "1800 WITCHER",
+  "email": "geralt.of.rivia@example.com"
+}
