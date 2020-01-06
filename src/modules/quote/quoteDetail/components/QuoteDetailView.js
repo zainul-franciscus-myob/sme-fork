@@ -4,15 +4,15 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsCreating,
+  getIsCalculating,
   getIsLoading,
   getLayout,
   getModal,
-  getPageTitle,
-  getTotalAmount,
 } from '../selectors/QuoteDetailSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import QuoteDetailActions from './QuoteDetailActions';
+import QuoteDetailFooter from './QuoteDetailFooter';
+import QuoteDetailLayoutPopover from './QuoteDetailLayoutPopover';
 import QuoteDetailModal from './QuoteDetailModal';
 import QuoteDetailOptions from './QuoteDetailOptions';
 import QuoteDetailPageHead from './QuoteDetailPageHead';
@@ -27,9 +27,7 @@ const QuoteDetailView = ({
   isLoading,
   alert,
   modal,
-  isCreating,
-  pageTitle,
-  totalAmount,
+  isCalculating,
   layout,
   onDismissAlert,
   onUpdateHeaderOptions,
@@ -54,16 +52,13 @@ const QuoteDetailView = ({
 
   const pageHead = (
     <QuoteDetailPageHead
-      showTotalItems={isCreating}
-      totalAmount={totalAmount}
-      pageTitle={pageTitle}
+      onConvertToInvoiceButtonClick={quoteActionListeners.onConvertToInvoiceButtonClick}
     />
   );
 
   const options = (
     <QuoteDetailOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
-      onUpdateLayout={onUpdateLayout}
       onAddCustomerButtonClick={onAddCustomerButtonClick}
     />
   );
@@ -74,6 +69,16 @@ const QuoteDetailView = ({
       <QuoteItemAndServiceTable listeners={itemAndServiceLayoutListeners} />
     ),
   }[layout]);
+
+  const layoutPopover = (
+    <QuoteDetailLayoutPopover
+      layout={layout}
+      isCalculating={isCalculating}
+      onUpdateLayout={onUpdateLayout}
+    />
+  );
+
+  const footer = <QuoteDetailFooter onUpdateNote={onUpdateHeaderOptions} />;
 
   const view = (
     <LineItemTemplate
@@ -86,7 +91,9 @@ const QuoteDetailView = ({
       { contactModal }
       { accountModal }
       { inventoryModal }
+      { layoutPopover }
       { table }
+      { footer }
     </LineItemTemplate>
   );
 
@@ -94,13 +101,11 @@ const QuoteDetailView = ({
 };
 
 const mapStateToProps = state => ({
-  isCreating: getIsCreating(state),
   isLoading: getIsLoading(state),
   modal: getModal(state),
   alert: getAlert(state),
-  pageTitle: getPageTitle(state),
-  totalAmount: getTotalAmount(state),
   layout: getLayout(state),
+  isCalculating: getIsCalculating(state),
 });
 
 export default connect(mapStateToProps)(QuoteDetailView);

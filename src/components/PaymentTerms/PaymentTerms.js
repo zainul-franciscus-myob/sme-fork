@@ -18,6 +18,8 @@ const PaymentTerms = ({
   expirationTermOptions,
   expirationDays,
   onChange,
+  label = 'Due date',
+  requiredLabel = 'This is required',
 }) => {
   const paymentTermsPopoverLabel = getPaymentTermsPopoverLabel({
     issueDate,
@@ -53,6 +55,7 @@ const PaymentTerms = ({
                 name="expirationDays"
                 value={expirationDays}
                 onChange={handleAmountInputChange(onChange)}
+                textAlign="right"
               />
             )}
             {!showExpirationDaysAmountInput
@@ -70,7 +73,7 @@ const PaymentTerms = ({
               </Select>
             )}
           </div>
-          <p className={styles.inputValue}>{expirationTermsLabel}</p>
+          <span className={styles.inputValue}>{expirationTermsLabel}</span>
         </div>
       )}
     </React.Fragment>
@@ -78,8 +81,8 @@ const PaymentTerms = ({
 
   return (
     <Field
-      label="Due date"
-      requiredLabel="This is required"
+      label={label}
+      requiredLabel={requiredLabel}
       renderField={() => (
         <div className={styles.popover}>
           <Popover body={popoverBody} preferPlace="below" closeOnOuterAction>

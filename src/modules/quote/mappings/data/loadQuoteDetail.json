@@ -47,6 +47,12 @@
       }
     ]
   },
+  "contactOptions": [
+    {
+      "name": "A-Z Stationery Supplies",
+      "value": "1"
+    }
+  ],
   "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",
@@ -137,9 +143,9 @@
     "displayAmount": ""
   },
   "totals": {
-    "subTotal": "$1000.00",
+    "subTotal": "$1,000.00",
     "totalTax": "$5.00",
-    "totalAmount": "$1000.00"
+    "totalAmount": "$1,000.00"
   },
   "commentOptions": [
     {

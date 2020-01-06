@@ -20,7 +20,7 @@ export const getModal = state => state.modal;
 export const getModalUrl = state => ((state.modal || {}).url);
 export const getModalAlert = state => state.modalAlert;
 export const getIsModalActionDisabled = state => state.isModalSubmitting;
-export const getIsContactLoading = state => state.isContactLoading;
+const getIsContactLoading = state => state.isContactLoading;
 export const getIsAccountComboboxDisabled = state => state.isAccountLoading;
 export const getIsCalculating = state => state.isCalculating;
 export const getIsLineAmountInputDirty = state => state.isLineAmountInputDirty;
@@ -28,7 +28,6 @@ export const getPageTitle = state => state.pageTitle;
 
 export const getQuote = state => state.quote;
 export const getLayout = state => state.quote.layout;
-export const getContactName = state => state.quote.contactName;
 export const getContactId = state => state.quote.contactId;
 const getAddress = state => state.quote.address;
 export const getQuoteNumber = state => state.quote.quoteNumber;
@@ -36,7 +35,7 @@ export const getPurchaseOrderNumber = state => state.quote.purchaseOrderNumber;
 export const getIssueDate = state => state.quote.issueDate;
 export const getExpirationTerm = state => state.quote.expirationTerm;
 export const getExpirationDays = state => Number(state.quote.expirationDays);
-const getNote = state => state.quote.note;
+export const getNote = state => state.quote.note;
 export const getIsTaxInclusive = state => state.quote.isTaxInclusive;
 export const getLines = state => state.quote.lines;
 export const getLength = state => state.quote.lines.length;
@@ -48,7 +47,7 @@ export const getTotalAmount = state => state.totals.totalAmount;
 
 const getContactOptions = state => state.contactOptions;
 export const getExpirationTermOptions = state => state.expirationTermOptions;
-const getCommentOptions = state => state.commentOptions;
+export const getCommentOptions = state => state.commentOptions;
 export const getItemOptions = state => state.itemOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
 export const getAccountOptions = state => state.accountOptions;
@@ -88,13 +87,6 @@ export const getQuoteLine = createSelector(
   (newLine, line) => line || newLine,
 );
 
-const getCustomerLink = createSelector(
-  getRegion,
-  getBusinessId,
-  getContactId,
-  (region, businessId, contactId) => `/#/${region}/${businessId}/contact/${contactId}`,
-);
-
 export const getTaxInclusiveLabel = createSelector(
   getRegion, region => getRegionToDialectText(region)('Tax inclusive'),
 );
@@ -103,10 +95,22 @@ export const getTaxExclusiveLabel = createSelector(
   getRegion, region => getRegionToDialectText(region)('Tax exclusive'),
 );
 
+export const getTaxCodeLabel = createSelector(
+  getRegion, region => getRegionToDialectText(region)('Tax code'),
+);
+
+export const getTaxLabel = createSelector(
+  getRegion, region => getRegionToDialectText(region)('Tax'),
+);
+
+const getIsCustomerDisabled = createSelector(
+  getIsCreating,
+  getIsContactLoading,
+  (isCreating, isContactLoading) => isContactLoading || !isCreating,
+);
+
 export const getQuoteDetailOptions = createStructuredSelector({
-  layout: getLayout,
   contactId: getContactId,
-  contactName: getContactName,
   address: getAddress,
   quoteNumber: getQuoteNumber,
   purchaseOrderNumber: getPurchaseOrderNumber,
@@ -115,13 +119,9 @@ export const getQuoteDetailOptions = createStructuredSelector({
   expirationTerm: getExpirationTerm,
   expirationTermOptions: getExpirationTermOptions,
   isTaxInclusive: getIsTaxInclusive,
-  note: getNote,
   contactOptions: getContactOptions,
-  commentOptions: getCommentOptions,
-  isCreating: getIsCreating,
   isCalculating: getIsCalculating,
-  isContactLoading: getIsContactLoading,
-  contactLink: getCustomerLink,
+  isCustomerDisabled: getIsCustomerDisabled,
   taxInclusiveLabel: getTaxInclusiveLabel,
   taxExclusiveLabel: getTaxExclusiveLabel,
 });

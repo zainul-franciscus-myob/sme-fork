@@ -1,5 +1,6 @@
 .details {
   display: flex;
+  align-items: baseline;
 }
 
 .input {
@@ -10,6 +11,13 @@
   padding-left: 1.5rem;
 }
 
+:global(.Popover-body) {
+  max-width: unset;
+}
+
+/*
+  Make sure long payment option name displayed without being cut
+*/
 .popover :global(.flx-popover) {
   display: inline-block;
 }

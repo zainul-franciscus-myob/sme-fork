@@ -36,37 +36,6 @@ const QuoteDetailActions = ({
   return (
     <ButtonRow
       primary={[
-        !isCreating && (
-        <Button
-          key="convertToInvoice"
-          name="convertToInvoice"
-          type="secondary"
-          onClick={onConvertToInvoiceButtonClick}
-          disabled={isActionsDisabled}
-        >
-        Convert to invoice
-        </Button>),
-        <Button
-          key="exportPdf"
-          name="exportPdf"
-          type="secondary"
-          onClick={onExportPdfButtonClick}
-          disabled={isActionsDisabled}
-        >
-          Export PDF
-        </Button>,
-        <Button
-          key="saveAndEmail"
-          name="saveAndEmail"
-          type="secondary"
-          onClick={onSaveAndEmailButtonClick}
-          disabled={isActionsDisabled}
-        >
-          Save and email
-        </Button>,
-        !isCreating && (
-        <Separator key="separator" direction="vertical" />
-        ),
         <Button
           key="cancel"
           name="cancel"
@@ -81,7 +50,7 @@ const QuoteDetailActions = ({
           onSelect={onSaveAndButtonClick}
           toggle={(
             <Dropdown.Toggle disabled={isActionsDisabled}>
-            Save and...
+              Save and new
               <Icons.Caret />
             </Dropdown.Toggle>
         )}
@@ -99,16 +68,48 @@ const QuoteDetailActions = ({
       ]}
       secondary={[
         !isCreating && (
+          <Button
+            key="delete"
+            name="delete"
+            type="secondary"
+            onClick={onDeleteButtonClick}
+            disabled={isActionsDisabled}
+          >
+            Delete
+          </Button>
+        ),
+        !isCreating && (
+          <Separator key="separator" direction="vertical" />
+        ),
+        !isCreating && (
+          <Button
+            key="convertToInvoice"
+            name="convertToInvoice"
+            type="secondary"
+            onClick={onConvertToInvoiceButtonClick}
+            disabled={isActionsDisabled}
+          >
+            Convert to invoice
+          </Button>
+        ),
         <Button
-          key="delete"
-          name="delete"
+          key="exportPdf"
+          name="exportPdf"
           type="secondary"
-          onClick={onDeleteButtonClick}
+          onClick={onExportPdfButtonClick}
           disabled={isActionsDisabled}
         >
-          Delete
-        </Button>
-        ),
+          View PDF
+        </Button>,
+        <Button
+          key="saveAndEmail"
+          name="saveAndEmail"
+          type="secondary"
+          onClick={onSaveAndEmailButtonClick}
+          disabled={isActionsDisabled}
+        >
+          Email quote
+        </Button>,
       ]}
     />
   );

@@ -61,7 +61,6 @@ const QuoteItemAndServiceTableRow = ({
       label="Item number"
       name="itemId"
       disabled={isCalculating}
-      hintText="Select an item"
     />
     <TextArea
       name="description"
@@ -69,13 +68,13 @@ const QuoteItemAndServiceTableRow = ({
       value={quoteLine.description}
       onChange={onChange}
       disabled={isCalculating}
+      autoSize
     />
     <AccountCombobox
       label="Allocate to"
       onChange={onComboboxChange('allocatedAccountId', onChange)}
       items={accountOptions}
       selectedId={quoteLine.allocatedAccountId}
-      hintText="Select an account"
       addNewAccount={() => onAddAccountButtonClick(onComboboxChange('allocatedAccountId', onChange))}
       disabled={isCalculating}
     />
@@ -93,6 +92,7 @@ const QuoteItemAndServiceTableRow = ({
       value={quoteLine.units}
       onChange={onAmountInputChange('units', onChange)}
       onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'units')}
+      textAlign="right"
       disabled={isCalculating}
       decimalScale={6}
     />

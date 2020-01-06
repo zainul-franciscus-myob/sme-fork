@@ -1,4 +1,4 @@
-import { Input, LineItemTable } from '@myob/myob-widgets';
+import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -57,19 +57,19 @@ const QuoteServiceTableRow = ({
       id={index}
       onRemove={isCalculating ? undefined : feelixInjectedProps.onRemove}
     >
-      <Input
+      <TextArea
         label="Line description"
         hideLabel
         name="description"
         value={description}
         onChange={onChange}
+        autoSize
       />
       <AccountCombobox
         label="Allocate to"
         onChange={onComboboxChange('allocatedAccountId', onChange)}
         items={accountOptions}
         selectedId={allocatedAccountId}
-        hintText="Select an account"
         addNewAccount={() => onAddAccount(onComboboxChange('allocatedAccountId', onChange))}
         disabled={isAccountComboboxDisabled || isCalculating}
       />

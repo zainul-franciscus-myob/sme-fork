@@ -81,7 +81,6 @@ describe('QuoteDetailSelectors', () => {
 
       const expected = {
         contactId: '3',
-        contactName: 'Patrick Bateman',
         address: 'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
         quoteNumber: '0000012334563456',
         purchaseOrderNumber: '123',
@@ -115,17 +114,13 @@ describe('QuoteDetailSelectors', () => {
           },
         ],
         isTaxInclusive: true,
-        note: 'Thank you!',
         contactOptions: [
           { name: 'Cow Feed 1', value: '1' },
           { name: 'Cow Feed 2', value: '2' },
           { name: 'Cow Feed 3', value: '3' },
         ],
-        commentOptions: [],
-        isCreating: false,
         isCalculating: false,
-        isContactLoading: false,
-        contactLink: '/#/au/123/contact/3',
+        isCustomerDisabled: true,
         taxExclusiveLabel: 'Tax exclusive',
         taxInclusiveLabel: 'Tax inclusive',
       };
