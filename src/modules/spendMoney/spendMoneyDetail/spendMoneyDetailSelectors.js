@@ -136,7 +136,6 @@ export const getSpendMoneyForUpdatePayload = (state) => {
     payFromAccounts,
     payToContacts,
     originalReferenceId,
-    uid,
     lines,
     ...rest
   } = getSpendMoney(state);

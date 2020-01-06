@@ -44,6 +44,7 @@ const defaultPrefillStatus = {
 const getDefaultState = () => ({
   spendMoney: {
     id: '',
+    uid: '',
     referenceId: '',
     originalReferenceId: '',
     date: '',
