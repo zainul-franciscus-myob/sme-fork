@@ -1,8 +1,4 @@
-.list {
-  position: relative;
-  min-height: 60vh;
-}
-
 .total {
   text-align: end;
+  font-weight: var(--flx-font-weight-bold);
 }

@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import LoadMoreButtonStatuses from '../../employee/employeeList/components/Pagination/LoadMoreButtonStatuses';
+import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 
 export const getAlert = ({ alert }) => alert;
 
@@ -71,4 +72,30 @@ export const getLoadNextPageParams = createSelector(
     orderBy,
     offset,
   }),
+);
+
+const getSettingsVersion = state => state.settingsVersion;
+
+export const getSettings = createSelector(
+  getAppliedFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  getSettingsVersion,
+  (filterOptions, sortOrder, orderBy, settingsVersion) => ({
+    filterOptions,
+    sortOrder,
+    orderBy,
+    settingsVersion,
+  }),
+);
+
+export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilterOptions;
+
+export const getIsDefaultFilter = createSelector(
+  getAppliedFilterOptions,
+  getDefaultFilterOptions,
+  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
+    appliedFilterOptions,
+    defaultFilterOptions,
+  ),
 );

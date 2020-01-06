@@ -26,11 +26,16 @@ import {
   getLoadNextPageParams,
   getOrderBy,
   getRegion,
+  getSettings,
   getSortOrder,
 } from './quoteListSelector';
+import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import QuoteListView from './components/QuoteListView';
+import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
+import keyMap from '../../../hotKeys/keyMap';
 import quoteListReducer from './quoteListReducer';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 const messageTypes = [
   SUCCESSFULLY_SAVED_QUOTE,
@@ -126,11 +131,15 @@ export default class QuoteListModule {
     };
 
     const filterOptions = getFilterOptions(state);
+    const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
 
     this.integration.read({
       intent,
       params: {
         ...filterOptions,
+        sortOrder,
+        orderBy,
       },
       urlParams,
       onSuccess,
@@ -202,10 +211,11 @@ export default class QuoteListModule {
     });
   };
 
-  setInitialState = (context) => {
+  setInitialState = (context, settings) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
+      settings,
     });
   }
 
@@ -322,11 +332,20 @@ export default class QuoteListModule {
     this.setRootView(wrappedView);
   };
 
+  handlers = {
+    SAVE_ACTION: this.filterQuoteList,
+  };
+
   run(context) {
-    this.setInitialState(context);
+    const settings = loadSettings(context.businessId, RouteName.QUOTE_LIST);
+    this.setInitialState(context, settings);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();
     this.setLoadingState(true);
+    this.store.subscribe(state => (
+      saveSettings(context.businessId, RouteName.QUOTE_LIST, getSettings(state))
+    ));
     this.loadQuoteList();
   }
 

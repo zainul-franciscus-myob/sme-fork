@@ -49,7 +49,7 @@ const QuoteListView = (props) => {
 
   const quoteList = (
     <div className={style.list}>
-      <QuoteListTable onSort={onSort} />
+      <QuoteListTable onSort={onSort} onAddQuote={onAddQuote} />
     </div>
   );
 

@@ -20,19 +20,24 @@ import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoD
 
 const getDefaultDateRange = () => addMonths(new Date(), -3);
 
+const defaultFilterOptions = {
+  customerId: undefined,
+  dateFrom: formatIsoDate(getDefaultDateRange()),
+  dateTo: formatIsoDate(new Date()),
+  keywords: '',
+};
+
+const defaultSortOptions = {
+  sortOrder: 'desc',
+  orderBy: 'DateOccurred',
+};
+
 const getDefaultState = () => ({
-  filterOptions: {
-    customerId: 'All',
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-    keywords: '',
-  },
-  appliedFilterOptions: {
-    customerId: 'All',
-    dateFrom: formatIsoDate(getDefaultDateRange()),
-    dateTo: formatIsoDate(new Date()),
-    keywords: '',
-  },
+  settingsVersion: '24264afc-07b6-4993-8aa6-693dd1378d57',
+  defaultFilterOptions,
+  filterOptions: defaultFilterOptions,
+  appliedFilterOptions: defaultFilterOptions,
+  ...defaultSortOptions,
   customerFilters: [],
   entries: [],
   total: '',
@@ -46,21 +51,38 @@ const getDefaultState = () => ({
   },
 });
 
+const setInitialState = (state, {
+  context,
+  settings = {
+    filterOptions: defaultFilterOptions,
+    sortOrder: defaultSortOptions.sortOrder,
+    orderBy: defaultSortOptions.orderBy,
+  },
+}) => {
+  const isExpiredSettings = state.settingsVersion !== settings.settingsVersion;
+
+  if (isExpiredSettings) {
+    return {
+      ...state,
+      ...context,
+    };
+  }
+
+  return {
+    ...state,
+    ...context,
+    filterOptions: settings.filterOptions,
+    appliedFilterOptions: settings.filterOptions,
+    sortOrder: settings.sortOrder,
+    orderBy: settings.orderBy,
+  };
+};
+
 const loadQuoteList = (state, action) => ({
   ...state,
   entries: action.entries,
   customerFilters: action.customerFilters,
-  sortOrder: action.sortOrder,
-  orderBy: action.orderBy,
   total: action.total,
-  filterOptions: {
-    ...state.filterOptions,
-    customerId: action.customerId,
-  },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    customerId: action.customerId,
-  },
   pagination: action.pagination,
 });
 
@@ -69,11 +91,6 @@ const resetState = () => (getDefaultState());
 const setAlert = (state, action) => ({
   ...state,
   alert: action.alert,
-});
-
-const setInitialState = (state, action) => ({
-  ...state,
-  ...action.context,
 });
 
 const setLoadingState = (state, action) => ({

@@ -1,14 +1,10 @@
 export default {
-  customerId: 'All',
   customerFilters: [
-    { name: 'All customers', value: 'All' },
     { name: 'Cameron James', value: '1' },
     { name: 'John Smith', value: '2' },
     { name: 'Serena Jaramillo', value: '3' },
     { name: 'Krzysztof Coleman', value: '4' },
   ],
-  sortOrder: 'desc',
-  orderBy: 'DisplayId',
   total: '$1,747.00',
   entries: [
     {

@@ -1,32 +1,61 @@
-import { HeaderSort, Table } from '@myob/myob-widgets';
+import {
+  Button, HeaderSort, Icons, PageState, Table,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsTableEmpty, getIsTableLoading, getOrder,
+  getIsDefaultFilter, getIsTableEmpty, getIsTableLoading, getOrder,
 } from '../quoteListSelector';
+import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import QuoteListTableBody from './QuoteListTableBody';
 import TableView from '../../../../components/TableView/TableView';
+import emptyImage from './empty.svg';
 
 const tableConfig = {
-  referenceId: { width: '13.7rem', valign: 'top' },
+  referenceId: { width: '14.0rem', valign: 'top' },
   purchaseOrder: { width: '20rem', valign: 'top' },
   customer: { width: 'flex-1', valign: 'top' },
-  displayDate: { width: '12.4rem', valign: 'top' },
-  displayAmount: { width: '15.6rem', valign: 'top', align: 'right' },
+  displayDate: { width: '11.0rem', valign: 'top' },
+  displayAmount: { width: '12.4rem', valign: 'top', align: 'right' },
   displayExpiryDate: { width: '12.4rem', valign: 'top' },
 };
 
 const QuoteListTable = ({
   isTableEmpty,
   isTableLoading,
+  isDefaultFilter,
   onSort,
   order,
+  onAddQuote,
 }) => {
+  const emptyTableView = isDefaultFilter ? (
+    <NoResultPageState
+      title="Provide your customers with a quote"
+      description="If they accept, you can turn this quote into an invoice in one click."
+      actions={[
+        <Button
+          key={1}
+          onClick={onAddQuote}
+          type="link"
+          icon={<Icons.Add />}
+        >
+          Create quote
+        </Button>,
+      ]}
+    />
+  ) : (
+    <PageState
+      title="No quotes found"
+      description="Perhaps check the dates or remove the filters and try again."
+      image={(<img src={emptyImage} alt="No quotes found" />)}
+    />
+  );
+
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.displayDate}>
-        <HeaderSort title="Issue date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
+        <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.referenceId}>
         <HeaderSort title="Quote number" sortName="DisplayId" activeSort={order} onSort={onSort} />
@@ -35,10 +64,10 @@ const QuoteListTable = ({
         <HeaderSort title="Customer" sortName="CustomerName" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.purchaseOrder}>
-        <HeaderSort title="Customer PO no." sortName="CustomerPurchaseOrderIdentifier" activeSort={order} onSort={onSort} />
+        <HeaderSort title="Customer PO number" sortName="CustomerPurchaseOrderIdentifier" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.displayAmount}>
-        <HeaderSort title="Total amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
+        <HeaderSort title="Amount ($)" sortName="Amount" activeSort={order} onSort={onSort} />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.displayExpiryDate}>
         <HeaderSort title="Expiry date" sortName="ExpiryDate" activeSort={order} onSort={onSort} />
@@ -51,7 +80,7 @@ const QuoteListTable = ({
       header={header}
       isLoading={isTableLoading}
       isEmpty={isTableEmpty}
-      emptyMessage="There are no quotes for the selected filter options."
+      emptyView={emptyTableView}
     >
       <QuoteListTableBody tableConfig={tableConfig} />
     </TableView>
@@ -61,6 +90,7 @@ const QuoteListTable = ({
 const mapStateToProps = state => ({
   isTableEmpty: getIsTableEmpty(state),
   isTableLoading: getIsTableLoading(state),
+  isDefaultFilter: getIsDefaultFilter(state),
   order: getOrder(state),
 });
 
