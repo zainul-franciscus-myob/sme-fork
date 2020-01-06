@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 
 import { LOAD_AGENT_CONTACT_INFO, SUBMIT_AGENT_CONTACT_INFO } from '../stpYourRoleIntents';
 import ContactDetails from '../components/ContactDetails';
-import Role from '../Role';
+import Role from '../../../Role';
 import StpYourRoleModule from '../StpYourRoleModule';
 import loadAgentContact from '../mappings/data/loadAgentContact';
 

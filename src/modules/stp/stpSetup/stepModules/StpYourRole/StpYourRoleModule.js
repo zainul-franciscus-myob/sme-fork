@@ -14,6 +14,7 @@ import {
   getFirstName,
   getLastName,
   getPhone,
+  getRole,
 } from './stpYourRoleSelectors';
 import Store from '../../../../../store/Store';
 import StpYourRoleView from './components/StpYourRoleView';
@@ -35,8 +36,8 @@ export default class StpYourRoleModule {
 
   onFinish = () => {
     const state = this.store.getState();
-    const agentRoleSelected = getAgentRoleSelected(state);
-    this.onFinishFunc({ agentRoleSelected });
+    const selectedAgentRole = getRole(state);
+    this.onFinishFunc({ selectedAgentRole });
   };
 
   onFieldChange = ({ key, value }) => {

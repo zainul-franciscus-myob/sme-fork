@@ -25,10 +25,6 @@ export default class StpDeclarationInformationModule {
     this.store = new Store(stpDeclarationInformationReducer);
   }
 
-  onEnter = () => {
-    this.loadBusinessInformation();
-  }
-
   onNextClick = () => {
     this.setIsLoading(true);
 

@@ -1,11 +1,11 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SET_AGENT_ROLE_SELECTED, SET_CURRENT_STEP_INDEX } from './stpSetupIntents';
+import { SET_CURRENT_STEP_INDEX, SET_SELECTED_AGENT_ROLE } from './stpSetupIntents';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
   modal: null,
   currentStepIndex: 0,
-  agentRoleSelected: null,
+  selectedAgentRole: null,
 });
 
 const setInitialState = (state, { context }) => ({
@@ -22,16 +22,16 @@ const setCurrentStepIndex = (state, { currentStepIndex }) => ({
   currentStepIndex,
 });
 
-const setAgentRoleSelected = (state, { agentRoleSelected }) => ({
+const setSelectedAgentRole = (state, { selectedAgentRole }) => ({
   ...state,
-  agentRoleSelected,
+  selectedAgentRole,
 });
 
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [SET_CURRENT_STEP_INDEX]: setCurrentStepIndex,
-  [SET_AGENT_ROLE_SELECTED]: setAgentRoleSelected,
+  [SET_SELECTED_AGENT_ROLE]: setSelectedAgentRole,
 };
 
 const stpSetupReducer = createReducer(getDefaultState(), handlers);

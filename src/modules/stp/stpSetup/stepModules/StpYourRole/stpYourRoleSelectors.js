@@ -1,4 +1,4 @@
-import Role from './Role';
+import Role from '../../Role';
 
 export const getBusinessId = state => state.businessId;
 export const getRole = state => state.role;

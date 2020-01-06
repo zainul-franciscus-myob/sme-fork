@@ -8,7 +8,7 @@ import {
   getAgentAbn, getAgentNumber, getErrorMessage, getRole, getShowContactDetails,
 } from '../stpYourRoleSelectors';
 import ContactDetails from './ContactDetails';
-import Role from '../Role';
+import Role from '../../../Role';
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 import handleRadioButtonChange from '../../../../../../components/handlers/handleRadioButtonChange';
 

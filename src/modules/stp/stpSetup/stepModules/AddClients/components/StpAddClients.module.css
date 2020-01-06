@@ -1,0 +1,7 @@
+.innerCard > * {
+  background-color: #f3f4f5;
+}
+
+.innerCard li {
+  line-height: 3rem;
+}

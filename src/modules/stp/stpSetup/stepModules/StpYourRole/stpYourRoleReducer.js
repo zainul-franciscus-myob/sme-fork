@@ -2,7 +2,7 @@ import {
   LOAD_AGENT_CONTACT_INFO, SET_ERROR_MESSAGE, SET_FIELD,
 } from './stpYourRoleIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
-import Role from './Role';
+import Role from '../../Role';
 import createReducer from '../../../../../store/createReducer';
 
 const getDefaultState = () => ({

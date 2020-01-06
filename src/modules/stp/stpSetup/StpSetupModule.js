@@ -2,10 +2,11 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SET_AGENT_ROLE_SELECTED, SET_CURRENT_STEP_INDEX } from './stpSetupIntents';
-import { getAgentRoleSelected } from './stpSetupSelectors';
+import { SET_CURRENT_STEP_INDEX, SET_SELECTED_AGENT_ROLE } from './stpSetupIntents';
+import { getAgentRoleSelected, getSelectedAgentRole } from './stpSetupSelectors';
 import Steps from './Steps';
 import Store from '../../../store/Store';
+import StpAddClientsModule from './stepModules/AddClients/StpAddClientsModule';
 import StpDeclarationInformationModule from './stepModules/DeclarationInformation/StpDeclarationInformationModule';
 import StpOverviewModule from './stepModules/StpOverview/StpOverviewModule';
 import StpSetupView from './components/StpSetupView';
@@ -48,13 +49,17 @@ export default class StpSetupModule {
         module: new StpDeclarationInformationModule({
           integration: this.integration,
           onPrevious: this.declarationInformationPrevious,
-          onFinish: () => {},
+          onFinish: this.declarationInformationFinish,
         }),
       },
       {
         id: Steps.ADD_CLIENTS,
         title: 'Add clients (Agents only)',
         getType: this.getAddClientsStepType,
+        module: new StpAddClientsModule({
+          onPrevious: this.onAddClientsPrevious,
+          onFinish: () => {},
+        }),
       },
       {
         id: Steps.NOTIFY_ATO,
@@ -86,11 +91,17 @@ export default class StpSetupModule {
     this.setStep(Steps.OVERVIEW);
   }
 
-  yourRoleFinish = ({ agentRoleSelected }) => {
+  yourRoleFinish = ({ selectedAgentRole }) => {
     this.store.dispatch({
-      intent: SET_AGENT_ROLE_SELECTED,
-      agentRoleSelected,
+      intent: SET_SELECTED_AGENT_ROLE,
+      selectedAgentRole,
     });
+    this.enterDeclarationStep();
+  }
+
+  enterDeclarationStep = () => {
+    const declarationStep = this.getStep(Steps.DECLARATION_INFORMATION);
+    declarationStep.module.loadBusinessInformation();
     this.setStep(Steps.DECLARATION_INFORMATION);
   }
 
@@ -98,13 +109,33 @@ export default class StpSetupModule {
     this.setStep(Steps.YOUR_ROLE);
   }
 
+  declarationInformationFinish = () => {
+    const state = this.store.getState();
+    if (getAgentRoleSelected(state)) {
+      this.enterAddClients();
+    } else {
+      this.setStep(Steps.NOTIFY_ATO);
+    }
+  }
+
+  enterAddClients = () => {
+    const state = this.store.getState();
+    const addClientsStep = this.getStep(Steps.ADD_CLIENTS);
+    addClientsStep.module.setAgentRole(getSelectedAgentRole(state));
+    this.setStep(Steps.ADD_CLIENTS);
+  }
+
+  onAddClientsPrevious = () => {
+    this.setStep(Steps.DECLARATION_INFORMATION);
+  }
+
+  getStep = (stepId) => {
+    const stepIndex = this.steps.findIndex(step => step.id === stepId);
+    return this.steps[stepIndex];
+  }
+
   setStep = (stepId) => {
     const stepIndex = this.steps.findIndex(step => step.id === stepId);
-    const step = this.steps[stepIndex];
-
-    if (step.module.onEnter) {
-      step.module.onEnter();
-    }
 
     this.store.dispatch({
       intent: SET_CURRENT_STEP_INDEX,
