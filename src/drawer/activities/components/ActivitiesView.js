@@ -35,10 +35,12 @@ const ActivitiesView = ({
   closeActivities,
   isLoading,
   isActive,
-  saveActivity,
+  closeTask,
 }) => {
   if (!isActive) return null;
   const hasActivities = activities && activities.length > 0;
+
+  const isCompleted = (activity, item) => (activity.data.closed || []).includes(item.key);
 
   const activitiesView = () => (
     <div>
@@ -64,10 +66,10 @@ const ActivitiesView = ({
         {activities.map(activity => (
           activity.tasks.map(item => (
             <li key={item.title}>
-              <a href={`${item.action}`} onClick={saveActivity(item.key)}>
+              <a href={`${item.action}`} onClick={() => closeTask(activity.id, item.key)}>
                 <img src={imageForTask(item.key)} alt="business details" width="36" />
                 <div>
-                  {item.completed ? <Label type="boxed" color="green" size="small">Done</Label> : null}
+                  {isCompleted(activity, item) && <Label type="boxed" color="green" size="small">Done</Label>}
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
                 </div>

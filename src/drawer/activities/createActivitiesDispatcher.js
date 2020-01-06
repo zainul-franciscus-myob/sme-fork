@@ -1,5 +1,5 @@
 import {
-  GET_ACTIVITIES_LIST, GET_ACTIVITIES_LIST_FAILURE, SET_ACTIVE_STATE, SET_LOADING_STATE,
+  GET_ACTIVITIES_LIST, SET_ACTIVE_STATE, SET_LOADING_STATE, UPDATE_ACTIVITY,
 } from './ActivitiesIntents';
 import { SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -28,9 +28,10 @@ const createActivitiesDispatcher = store => ({
       payload,
     });
   },
-  loadActivitiesFailure: () => {
+  updateActivity: (payload) => {
     store.dispatch({
-      intent: GET_ACTIVITIES_LIST_FAILURE,
+      intent: UPDATE_ACTIVITY,
+      payload,
     });
   },
 });

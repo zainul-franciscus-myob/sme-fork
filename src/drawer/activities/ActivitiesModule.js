@@ -1,9 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getBusinessId } from './ActivitiesSelectors';
 import ActivitiesView from './components/ActivitiesView';
 import Store from '../../store/Store';
 import activitiesReducer from './activitiesReducer';
+import closeTask from './services/closeTask';
 import createActivitiesDispatcher from './createActivitiesDispatcher';
 import loadActivities from './services/load';
 
@@ -16,11 +18,11 @@ export default class ActivitiesModule {
   }
 
   getView = () => {
-    const { closeActivities, store, saveActivity } = this;
+    const { closeActivities, store, closeActivityTask } = this;
 
     return (
       <Provider store={store}>
-        <ActivitiesView closeActivities={closeActivities} saveActivity={saveActivity} />
+        <ActivitiesView closeActivities={closeActivities} closeTask={closeActivityTask} />
       </Provider>
     );
   };
@@ -29,7 +31,19 @@ export default class ActivitiesModule {
     this.dispatcher.setActiveState(!!isActive);
   }
 
-  saveActivity = async () => {}
+  closeActivityTask = async (activityId, activityKey) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+
+    const activity = await closeTask({
+      integration: this.integration,
+      businessId,
+      activityId,
+      activityKey,
+    });
+
+    this.dispatcher.updateActivity(activity);
+  }
 
   closeActivities = () => this.closeDrawer();
 
