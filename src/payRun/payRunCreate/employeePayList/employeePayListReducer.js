@@ -19,7 +19,6 @@ import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/f
 import getEmployeePayLines from '../getEmployeePayLines';
 
 export const getEmployeePayListDefaultState = () => ({
-  stpRegistrationStatus: 'notRegistered',
   payPeriodEmployeeLimit: {},
   isUpgradeModalShowing: false,
   isPayItemLineDirty: false,
@@ -35,7 +34,6 @@ export const getEmployeePayListDefaultState = () => ({
 
 const loadEmployeePays = (state, { employeePays }) => ({
   ...state,
-  stpRegistrationStatus: employeePays.stpRegistrationStatus,
   lines: getEmployeePayLines(employeePays.employeePays, () => (true)),
 });
 

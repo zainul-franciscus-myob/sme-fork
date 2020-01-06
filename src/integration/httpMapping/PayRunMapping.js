@@ -1,6 +1,7 @@
 import {
   DELETE_PAY_RUN_DRAFT,
   LOAD_EMPLOYEE_PAYS,
+  LOAD_STP_REGISTRATION_STATUS,
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
   RECORD_STP_DECLARATION,
@@ -53,6 +54,10 @@ const PayRunMapping = {
   [SAVE_DRAFT]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/payRun/save_pay_run_draft`,
+  },
+  [LOAD_STP_REGISTRATION_STATUS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/payRun/load_stp_registration_status`,
   },
 };
 

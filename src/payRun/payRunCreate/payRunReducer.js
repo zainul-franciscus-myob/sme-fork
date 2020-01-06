@@ -10,6 +10,7 @@ import {
   SET_ALERT,
   SET_EMPLOYEE_PAYMENTS,
   SET_LOADING_STATE,
+  SET_STP_REGISTRATION_STATUS,
   SET_SUBMITTING_STATE,
   SET_TOTAL_NET_PAY,
 } from './PayRunIntents';
@@ -104,6 +105,11 @@ const setTotalNetPay = (state, { totalNetPay }) => ({
   totalNetPay,
 });
 
+const setStpRegistrationStatus = (state, { stpRegistrationStatus }) => ({
+  ...state,
+  stpRegistrationStatus,
+});
+
 const setEmployeePayments = (state, { response }) => ({
   ...state,
   [PREPARE_PAY_SLIPS]: {
@@ -148,8 +154,6 @@ const editExistingPayRun = (state, action) => {
     [START_PAY_RUN]: {
       ...startPayRun,
     },
-    // TODO: find out about stpRegistrationStatus for draft - Shohre
-    // stpRegistrationStatus: draftPayRun.stpRegistrationStatus,
     [EMPLOYEE_PAY_LIST]: {
       ...state[EMPLOYEE_PAY_LIST],
       lines: getEmployeePayLines(
@@ -175,6 +179,7 @@ const handlers = {
   [SET_EMPLOYEE_PAYMENTS]: setEmployeePayments,
   [DELETE_PAY_RUN_DRAFT]: deletePayRunDraft,
   [EDIT_EXISTING_PAY_RUN]: editExistingPayRun,
+  [SET_STP_REGISTRATION_STATUS]: setStpRegistrationStatus,
   ...wrapHandlers(START_PAY_RUN, startPayRunHandlers),
   ...wrapHandlers(EMPLOYEE_PAY_LIST, employeePayListHandlers),
   ...wrapHandlers(RECORD_PAY_RUN, recordPayRunHandlers),

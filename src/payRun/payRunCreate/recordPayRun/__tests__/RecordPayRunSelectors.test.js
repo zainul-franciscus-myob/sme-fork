@@ -117,9 +117,7 @@ describe('RecordPayRunSelectors', () => {
   describe('getIsRegisteredForStp', () => {
     it('should return true when the STP registration status is registered', () => {
       const state = {
-        employeePayList: {
-          stpRegistrationStatus: 'registered',
-        },
+        stpRegistrationStatus: 'registered',
       };
 
       expect(getIsRegisteredForStp(state)).toEqual(true);
@@ -127,9 +125,7 @@ describe('RecordPayRunSelectors', () => {
 
     it('should return false when the STP registration status is notRegistered', () => {
       const state = {
-        employeePayList: {
-          stpRegistrationStatus: 'notRegistered',
-        },
+        stpRegistrationStatus: 'notRegistered',
       };
 
       expect(getIsRegisteredForStp(state)).toEqual(false);
@@ -137,9 +133,7 @@ describe('RecordPayRunSelectors', () => {
 
     it('should return false when the STP registration status is lostConnection', () => {
       const state = {
-        employeePayList: {
-          stpRegistrationStatus: 'lostConnection',
-        },
+        stpRegistrationStatus: 'lostConnection',
       };
 
       expect(getIsRegisteredForStp(state)).toEqual(false);

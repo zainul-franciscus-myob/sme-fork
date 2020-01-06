@@ -37,8 +37,20 @@ export default class StartPayRunModule {
   };
 
   editExistingPayRun = () => {
+    this.dispatcher.setLoadingState(true);
     const state = this.store.getState();
     this.dispatcher.editExistingPayRun(state.startPayRun.draftPayRun);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setStpRegistrationStatus(response.stpRegistrationStatus);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(false);
+    };
+
+    this.integrator.getStpRegistrationStatus({ onSuccess, onFailure });
     this.dispatcher.nextStep();
   };
 
@@ -53,6 +65,7 @@ export default class StartPayRunModule {
     const onSuccess = (employeePays) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.loadEmployeePays(employeePays);
+      this.dispatcher.setStpRegistrationStatus(employeePays.stpRegistrationStatus);
       this.dispatcher.dismissAlert();
       this.dispatcher.nextStep();
     };

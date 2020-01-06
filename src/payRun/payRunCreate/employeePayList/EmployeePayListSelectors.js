@@ -111,9 +111,9 @@ export const getValidateEtpContent = createSelector(
     .map(getEtpValidationLine),
 );
 
-export const getPayPeriod = ({ startPayRun: { newPayRunDetails } }) => ({
-  payPeriodStart: newPayRunDetails.payPeriodStart,
-  payPeriodEnd: newPayRunDetails.payPeriodEnd,
+export const getPayPeriod = ({ startPayRun: { currentEditingPayRun } }) => ({
+  payPeriodStart: currentEditingPayRun.payPeriodStart,
+  payPeriodEnd: currentEditingPayRun.payPeriodEnd,
 });
 
 export const getSelectedEmployeeIds = createSelector(

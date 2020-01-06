@@ -5,6 +5,8 @@ export const NEXT_STEP = Symbol('Next step');
 export const PREVIOUS_STEP = Symbol('Previous step');
 export const OPEN_PREVIOUS_STEP_MODAL = Symbol('Open previous step modal');
 export const CLOSE_PREVIOUS_STEP_MODAL = Symbol('Close previous step modal');
+export const SET_STP_REGISTRATION_STATUS = Symbol('Set STP registration status');
+export const LOAD_STP_REGISTRATION_STATUS = Symbol('Load STP registration status');
 
 export const START_NEW_PAY_RUN = Symbol('Start new pay run');
 export const LOAD_EMPLOYEE_PAYS = Symbol('Load employee pays');
