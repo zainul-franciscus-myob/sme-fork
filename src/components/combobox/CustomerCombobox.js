@@ -24,8 +24,10 @@ const CustomerCombobox = (props) => {
 
   const allItem = { name: 'All', value: undefined };
 
+  const emptyValue = hasAllItem ? allItem : {};
+
   const selectedItem = items
-    .find(option => option.value === selectedId) || allItem;
+    .find(option => option.value === selectedId) || emptyValue;
 
   return (
     <Combobox
