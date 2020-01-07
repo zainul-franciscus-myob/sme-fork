@@ -85,6 +85,7 @@ const RouteName = {
   STP_GET_STARTED: 'stp/stpGetStarted',
   STP_SETUP: 'stp/stpSetup',
   STP_REPORTING_CENTRE: 'stp/reportingCentre',
+  PAYMENT_DETAIL: 'paymentDetail',
 };
 
 export default RouteName;

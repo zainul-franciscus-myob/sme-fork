@@ -69,6 +69,7 @@ const getItems = ({
   isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
   userEmail && <UnlinkedMenuLink label={userEmail} className={styles.userEmail} />,
   getDisabledMenuLink('my.MYOB account'),
+  urls.paymentDetail && getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick),
   urls.subscription && getMenuLink(urls.subscription, 'Subscription details', onMenuLinkClick),
   <Navigation.Separator key="separator-links" />,
   serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,

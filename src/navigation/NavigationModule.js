@@ -29,6 +29,7 @@ export default class NavigationModule {
     this.toggleHelp = toggleHelp;
     this.toggleActivities = toggleActivities;
     this.reportsBaseUrl = Config.MY_REPORTS_URL;
+    this.paymentDetailBaseUrl = Config.SELF_SERVICE_PORTAL_URL;
   }
 
   moveFocusToMainContent = () => {
@@ -86,6 +87,11 @@ export default class NavigationModule {
           RouteName.REPORTS_PDF_STYLE_TEMPLATES,
         ].includes(key)) {
           const url = buildReportsUrl(this.reportsBaseUrl, routeParams, feature);
+          return { [key]: url };
+        }
+
+        if (RouteName.PAYMENT_DETAIL === key) {
+          const url = `${this.paymentDetailBaseUrl}/#/paymentProfile`;
           return { [key]: url };
         }
 

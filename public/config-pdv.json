@@ -8,5 +8,6 @@
   "SEGMENT_WRITE_KEY": "tJUkEx77fYC0a3OtpUZY1JXG8s0KkWub",
   "LEAN_ENGAGE_APP_ID": "514c0ce1-4aee-4839-bc2e-7b64eac9c51b",
   "MY_MYOB_AU_URL": "https://sit.my.myob.com.au",
-  "MY_MYOB_NZ_URL": "https://sit.my.myob.co.nz"
+  "MY_MYOB_NZ_URL": "https://sit.my.myob.co.nz",
+  "SELF_SERVICE_PORTAL_URL": "https://sit-self-service-portal.sab.dev.myob.com"
 }
