@@ -2,10 +2,25 @@ import RootMapping from './memoryMapping/RootMapping';
 
 const sleep = duration => new Promise(resolve => setTimeout(resolve, duration));
 
+const retrieveIntegrationFunction = (mapping, intent) => {
+  const integrationFunction = mapping[intent];
+
+  if (!integrationFunction) {
+    throw Error(`Intent '${intent.toString()}' cannot be found in the memory RootMapping
+
+    Make sure:
+     * you have a MemoryMapping for your module
+     * '${intent.toString()}' has been included in the module mapping
+     * the module mapping has been included in the memory RootMapping`);
+  }
+
+  return integrationFunction;
+};
+
 const writeFormData = ({
   intent, urlParams, content, onSuccess, onFailure,
 }) => {
-  const integrationFunction = RootMapping[intent];
+  const integrationFunction = retrieveIntegrationFunction(RootMapping, intent);
   sleep(200)
     .then(() => {
       integrationFunction({
@@ -18,7 +33,8 @@ const createMemoryIntegration = () => ({
   read: ({
     intent, params, onSuccess, onFailure, urlParams,
   }) => {
-    const integrationFunction = RootMapping[intent];
+    const integrationFunction = retrieveIntegrationFunction(RootMapping, intent);
+
     sleep(200)
       .then(() => {
         integrationFunction({
@@ -29,7 +45,7 @@ const createMemoryIntegration = () => ({
   readFile: ({
     intent, params, onSuccess, onFailure, urlParams,
   }) => {
-    const integrationFunction = RootMapping[intent];
+    const integrationFunction = retrieveIntegrationFunction(RootMapping, intent);
     sleep(200)
       .then(() => {
         integrationFunction({
@@ -40,7 +56,7 @@ const createMemoryIntegration = () => ({
   write: ({
     intent, urlParams, content, onSuccess, onFailure,
   }) => {
-    const integrationFunction = RootMapping[intent];
+    const integrationFunction = retrieveIntegrationFunction(RootMapping, intent);
     sleep(200)
       .then(() => {
         integrationFunction({

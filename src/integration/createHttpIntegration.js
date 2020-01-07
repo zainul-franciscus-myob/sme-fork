@@ -14,6 +14,21 @@ const config = {
 
 const NO_OP = () => Promise.resolve();
 
+const retrieveRequestSpec = (mapping, intent) => {
+  const integrationFunction = mapping[intent];
+
+  if (!integrationFunction) {
+    throw Error(`Intent '${intent.toString()}' cannot be found in the http RootMapping
+
+    Make sure:
+     * you have an HttpMapping for your module
+     * '${intent.toString()}' has been included in the module mapping
+     * the module mapping has been included in the http RootMapping`);
+  }
+
+  return integrationFunction;
+};
+
 const encodeQuerySegment = (key, value) => {
   const encode = encodeURIComponent;
   if (Array.isArray(value)) {
@@ -56,7 +71,7 @@ const doFetch = (intent, urlParams, allowParallelRequests, headers, body) => {
   abortMapping[intent] = controller;
 
   const { baseUrl } = config;
-  const requestSpec = RootMapping[intent];
+  const requestSpec = retrieveRequestSpec(RootMapping, intent);
   const requestOptions = {
     method: requestSpec.method,
     headers,
@@ -110,7 +125,7 @@ const writeFormData = async ({
   Object.keys(content).forEach(key => body.append(key, content[key] || ''));
 
   const { baseUrl } = config;
-  const requestSpec = RootMapping[intent];
+  const requestSpec = retrieveRequestSpec(RootMapping, intent);
   const intentUrlPath = requestSpec.getPath(urlParams);
   const url = `${baseUrl}${intentUrlPath}`;
 
@@ -134,7 +149,7 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
     abortMapping[intent] = controller;
 
     const { baseUrl } = config;
-    const requestSpec = RootMapping[intent];
+    const requestSpec = retrieveRequestSpec(RootMapping, intent);
     const additionalHeaders = await getAdditionalHeaders();
     const requestOptions = {
       method: requestSpec.method,
@@ -174,7 +189,7 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
     abortMapping[intent] = controller;
 
     const { baseUrl } = config;
-    const requestSpec = RootMapping[intent];
+    const requestSpec = retrieveRequestSpec(RootMapping, intent);
     const additionalHeaders = await getAdditionalHeaders();
     const requestOptions = {
       method: requestSpec.method,
