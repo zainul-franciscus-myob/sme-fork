@@ -1,5 +1,5 @@
 import {
-  Combobox, DatePicker, DetailHeader, Input, RadioButton, RadioButtonGroup, ReadOnly, TextArea,
+  DatePicker, DetailHeader, Input, RadioButtonGroup, ReadOnly,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,11 +7,9 @@ import React from 'react';
 import { getInvoiceDetailOptions } from '../selectors/invoiceDetailSelectors';
 import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
 import InvoiceDetailOnlinePaymentMethod from './InvoiceDetailOnlinePaymentMethod';
-import InvoiceLayout from '../InvoiceLayout';
 import PaymentTerms from '../../../components/PaymentTerms/PaymentTerms';
 import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
-import handleTextAreaChange from '../../../components/handlers/handleTextAreaChange';
 import styles from './InvoiceDetailOptions.module.css';
 
 const InvoiceDetailOptions = ({
@@ -24,18 +22,14 @@ const InvoiceDetailOptions = ({
   expirationDays,
   expirationTermOptions,
   isTaxInclusive,
-  note,
   contactOptions,
-  commentOptions,
   isCustomerDisabled,
   isSubmitting,
   showOnlinePayment,
   taxInclusiveLabel,
   taxExclusiveLabel,
-  layout,
   onUpdateHeaderOptions,
   onAddContactButtonClick,
-  onUpdateInvoiceLayout,
 }) => {
   const onComboBoxChange = handler => (option) => {
     const key = 'contactId';
@@ -46,10 +40,6 @@ const InvoiceDetailOptions = ({
 
   const onIsTaxInclusiveChange = handler => (e) => {
     handler({ key: 'isTaxInclusive', value: e.value === taxInclusiveLabel });
-  };
-
-  const onNoteChange = handler => ({ value }) => {
-    handler({ key: 'note', value });
   };
 
   const requiredLabel = 'This is required';
@@ -77,26 +67,6 @@ const InvoiceDetailOptions = ({
         requiredLabel={requiredLabel}
       />
       {billingAddress}
-      <Combobox
-        name="note"
-        label="Notes to customer"
-        hideLabel={false}
-        metaData={[
-          { columnName: 'value', showData: true },
-        ]}
-        items={commentOptions}
-        onChange={onNoteChange(onUpdateHeaderOptions)}
-      />
-      <TextArea
-        value={note}
-        resize="vertical"
-        name="note"
-        label="Notes to customer"
-        hideLabel
-        rows={3}
-        onChange={handleTextAreaChange(onUpdateHeaderOptions)}
-        maxLength={255}
-      />
     </div>
   );
 
@@ -142,26 +112,6 @@ const InvoiceDetailOptions = ({
         options={[taxInclusiveLabel, taxExclusiveLabel]}
         onChange={onIsTaxInclusiveChange(onUpdateHeaderOptions)}
         disabled={isSubmitting}
-      />
-      <RadioButtonGroup
-        label="Layout"
-        value={layout}
-        onChange={onUpdateInvoiceLayout}
-        disabled={isSubmitting}
-        renderRadios={({ value, ...feelixProps }) => [
-          <RadioButton
-            {...feelixProps}
-            checked={value === InvoiceLayout.SERVICE}
-            value={InvoiceLayout.SERVICE}
-            label="Service"
-          />,
-          <RadioButton
-            {...feelixProps}
-            checked={value === InvoiceLayout.ITEM}
-            value={InvoiceLayout.ITEM}
-            label="Item + Service"
-          />,
-        ]}
       />
     </div>
   );

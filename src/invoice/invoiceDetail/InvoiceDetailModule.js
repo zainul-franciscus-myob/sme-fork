@@ -36,6 +36,7 @@ import { getFilesForUpload, getIsEmailModalOpen } from './selectors/emailSelecto
 import AccountModalModule from '../../modules/account/accountModal/AccountModalModule';
 import ContactModalModule from '../../modules/contact/contactModal/ContactModalModule';
 import InventoryModalModule from '../../modules/inventory/inventoryModal/InventoryModalModule';
+import InvoiceDetailElementId from './InvoiceDetailElementId';
 import InvoiceDetailModalType from './InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
 import SaveActionType from './SaveActionType';
@@ -802,6 +803,11 @@ export default class InvoiceDetailModule {
     this.dispatcher.setInvoiceHistoryOpen();
   }
 
+  focusActivityHistory = () => {
+    const element = document.getElementById(InvoiceDetailElementId.ACTIVITY_HISTORY_ELEMENT_ID);
+    element.scrollIntoView();
+  }
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
@@ -812,12 +818,12 @@ export default class InvoiceDetailModule {
         accountModal={accountModal}
         inventoryModal={inventoryModal}
         onDismissAlert={this.dispatcher.dismissAlert}
+        onChangeAmountToPay={this.dispatcher.updateInvoicePaymentAmount}
         serviceLayoutListeners={{
           onAddRow: this.addInvoiceLine,
           onRemoveRow: this.removeInvoiceLine,
           onUpdateRow: this.updateInvoiceLine,
           onUpdateAmount: this.updateAmount,
-          onChangeAmountToPay: this.dispatcher.updateInvoicePaymentAmount,
           onAddAccount: this.openAccountModal,
         }}
         itemLayoutListeners={{
@@ -825,7 +831,6 @@ export default class InvoiceDetailModule {
           onRemoveRow: this.removeInvoiceLine,
           onUpdateRow: this.updateInvoiceLine,
           onUpdateAmount: this.updateAmount,
-          onChangeAmountToPay: this.dispatcher.updateInvoicePaymentAmount,
           onAddItemButtonClick: this.openInventoryModalModule,
           onAddAccount: this.openAccountModal,
         }}
@@ -885,6 +890,8 @@ export default class InvoiceDetailModule {
         onAccordionClose={this.accordionClosed}
         onAccordionOpen={this.accordionOpened}
         onClickOnRefNo={this.redirectToRefPage}
+        onFocusActivityHistory={this.focusActivityHistory}
+        onRedirectToCreatePayment={this.redirectToInvoicePayment}
       />
     );
 

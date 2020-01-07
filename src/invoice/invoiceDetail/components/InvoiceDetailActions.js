@@ -20,6 +20,7 @@ const InvoiceDetailActions = ({
     onDeleteButtonClick,
   },
 }) => {
+  const recordPaymentText = isCreating ? 'Record payment' : 'Create payment';
   const recordPaymentButton = (
     <Button
       key="payInvoice"
@@ -28,7 +29,7 @@ const InvoiceDetailActions = ({
       onClick={onPayInvoiceButtonClick}
       disabled={isSubmitting}
     >
-      Record payment
+      {recordPaymentText}
     </Button>
   );
 
@@ -40,10 +41,11 @@ const InvoiceDetailActions = ({
       onClick={onExportPdfButtonClick}
       disabled={isSubmitting}
     >
-      Export PDF
+      View PDF
     </Button>
   );
 
+  const saveAndEmailText = isCreating ? 'Save and email' : 'Email invoice';
   const saveAndEmailButton = (
     <Button
       key="saveAndEmail"
@@ -52,21 +54,19 @@ const InvoiceDetailActions = ({
       onClick={onSaveAndEmailButtonClick}
       disabled={isSubmitting}
     >
-    Record and email
+      {saveAndEmailText}
     </Button>
   );
-
-  const separator = (<Separator key="separator" direction="vertical" />);
 
   const dropdownActionItems = [
     <Dropdown.Item
       key={SaveActionType.SAVE_AND_CREATE_NEW}
-      label="Record and create new"
+      label="Save and create new"
       value={SaveActionType.SAVE_AND_CREATE_NEW}
     />,
     <Dropdown.Item
       key={SaveActionType.SAVE_AND_DUPLICATE}
-      label="Record and duplicate"
+      label="Save and duplicate"
       value={SaveActionType.SAVE_AND_DUPLICATE}
     />,
   ];
@@ -77,7 +77,7 @@ const InvoiceDetailActions = ({
       onSelect={onSaveAndButtonClick}
       toggle={(
         <Dropdown.Toggle disabled={isSubmitting}>
-            Record and...
+            Save and...
           <Icons.Caret />
         </Dropdown.Toggle>
         )}
@@ -93,7 +93,7 @@ const InvoiceDetailActions = ({
       onClick={onSaveButtonClick}
       disabled={isSubmitting}
     >
-    Record
+    Save
     </Button>
   );
 
@@ -121,18 +121,22 @@ const InvoiceDetailActions = ({
     </Button>
   );
 
+  const separator = <Separator direction="vertical" />;
+
   return (
     <ButtonRow
       primary={[
-        recordPaymentButton,
-        exportPdfButton,
-        saveAndEmailButton,
-        separator,
         cancelButton,
         saveAndButton,
         saveButton,
       ]}
-      secondary={[!isCreating && deleteButton]}
+      secondary={[
+        !isCreating && deleteButton,
+        !isCreating && separator,
+        !isCreating && recordPaymentButton,
+        exportPdfButton,
+        saveAndEmailButton,
+      ]}
     />
   );
 };

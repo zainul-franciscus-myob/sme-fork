@@ -23,7 +23,7 @@ export const getModalAlert = state => state.modalAlert;
 export const getIsModalActionDisabled = state => state.isModalSubmitting;
 
 export const getInvoice = state => state.invoice;
-const getLayout = state => state.invoice.layout;
+export const getLayout = state => state.invoice.layout;
 export const getContactId = state => state.invoice.contactId;
 const getAddress = state => state.invoice.address;
 const getNote = state => state.invoice.note;
@@ -104,15 +104,17 @@ export const getInvoiceDetailOptions = createStructuredSelector({
   expirationTerm: getExpirationTerm,
   expirationTermOptions: getExpirationTermOptions,
   isTaxInclusive: getIsTaxInclusive,
-  note: getNote,
   contactOptions: getContactOptions,
-  commentOptions: getCommentOptions,
   isCustomerDisabled: getIsCustomerDisabled,
   isSubmitting: getIsSubmitting,
   showOnlinePayment: getShowOnlinePayment,
   taxInclusiveLabel: getTaxInclusiveLabel,
   taxExclusiveLabel: getTaxExclusiveLabel,
-  layout: getLayout,
+});
+
+export const getInvoiceDetailNotes = createStructuredSelector({
+  note: getNote,
+  commentOptions: getCommentOptions,
 });
 
 export const calculateAmountDue = (totalAmount, amountPaid) => (
@@ -137,14 +139,22 @@ export const getInvoiceDetailTotals = createSelector(
   }),
 );
 
+const getTitle = createSelector(
+  getInvoiceNumber,
+  getIsCreating,
+  (invoiceNumber, isCreating) => (isCreating ? 'Create invoice' : `Invoice ${invoiceNumber}`),
+);
+
 export const getInvoiceDetailTotalHeader = createSelector(
   getTotals,
   getAmountPaid,
+  getTitle,
   getIsCreating,
-  (totals, amountPaid, isCreating) => ({
+  (totals, amountPaid, title, isCreating) => ({
     totalAmount: formatCurrency(totals.totalAmount),
     amountPaid: formatCurrency(amountPaid),
     amountDue: formatCurrency(calculateAmountDue(totals.totalAmount, amountPaid)),
+    title,
     isCreating,
   }),
 );

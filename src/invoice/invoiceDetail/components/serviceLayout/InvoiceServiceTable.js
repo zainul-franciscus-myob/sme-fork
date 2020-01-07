@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getTableData, getTaxCodeLabel } from '../../selectors/invoiceDetailSelectors';
-import InvoiceDetailTotals from '../InvoiceDetailTotals';
 import InvoiceServiceTableRow from './InvoiceServiceTableRow';
 
 const InvoiceServiceTable = ({
@@ -14,7 +13,6 @@ const InvoiceServiceTable = ({
     onAddRow,
     onUpdateAmount,
     onRemoveRow,
-    onChangeAmountToPay,
     onAddAccount,
   },
 }) => {
@@ -84,9 +82,7 @@ const InvoiceServiceTable = ({
       onAddRow={onAddRow}
       onRowChange={onUpdateRow}
       onRemoveRow={onRemoveRow}
-    >
-      <InvoiceDetailTotals onChange={onChangeAmountToPay} />
-    </LineItemTable>
+    />
   );
 };
 

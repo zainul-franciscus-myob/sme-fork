@@ -4,6 +4,12 @@
   width: auto;
 }
 
+.onlinePaymentMethodsImageSetUp {
+  height: 2.1rem;
+  padding-top: 0.4rem;
+  width: auto;
+}
+
 .onlinePaymentCheckboxGroup > * {
   display: inline-block;
 }

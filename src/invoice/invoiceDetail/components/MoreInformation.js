@@ -1,6 +1,7 @@
 import { FieldGroup, StandardTemplate } from '@myob/myob-widgets';
 import React from 'react';
 
+import InvoiceDetailElementId from '../InvoiceDetailElementId';
 import InvoiceHistory from './history/InvoiceHistory';
 
 const MoreInformation = ({
@@ -9,7 +10,9 @@ const MoreInformation = ({
   onClickOnRefNo,
 }) => (
   <StandardTemplate sticky="none">
-    <FieldGroup label="More information">
+    <FieldGroup
+      label={<span id={InvoiceDetailElementId.ACTIVITY_HISTORY_ELEMENT_ID}>More information</span>}
+    >
       <InvoiceHistory
         onAccordionClose={onAccordionClose}
         onAccordionOpen={onAccordionOpen}

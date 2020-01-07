@@ -1,4 +1,6 @@
-import { Alert, LineItemTemplate } from '@myob/myob-widgets';
+import {
+  Alert, LineItemTemplate,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -15,13 +17,17 @@ import {
 import { getEmailInvoiceDetail } from '../selectors/emailSelectors';
 import InvoiceDetailActions from './InvoiceDetailActions';
 import InvoiceDetailHeader from './InvoiceDetailHeader';
+import InvoiceDetailLayoutPopover from './InvoiceDetailLayoutPopover';
 import InvoiceDetailModal from './InvoiceDetailModal';
+import InvoiceDetailNotes from './InvoiceDetailNotes';
 import InvoiceDetailOptions from './InvoiceDetailOptions';
+import InvoiceDetailTotals from './InvoiceDetailTotals';
 import InvoiceItemTable from './itemLayout/InvoiceItemTable';
 import InvoiceServiceTable from './serviceLayout/InvoiceServiceTable';
 import MoreInformation from './MoreInformation';
 import PageView from '../../../components/PageView/PageView';
 import UpgradeModal from './UpgradeModal';
+import styles from './InvoiceDetailView.module.css';
 
 const InvoiceDetailView = ({
   accountModal,
@@ -36,6 +42,7 @@ const InvoiceDetailView = ({
   isServiceLayout,
   modalAlert,
   onDismissAlert,
+  onChangeAmountToPay,
   serviceLayoutListeners,
   itemLayoutListeners,
   invoiceActionListeners,
@@ -55,12 +62,13 @@ const InvoiceDetailView = ({
   onAccordionClose,
   onAccordionOpen,
   onClickOnRefNo,
+  onFocusActivityHistory,
+  onRedirectToCreatePayment,
 }) => {
   const options = (
     <InvoiceDetailOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
       onAddContactButtonClick={onAddContactButtonClick}
-      onUpdateInvoiceLayout={onUpdateInvoiceLayout}
     />
   );
 
@@ -102,10 +110,26 @@ const InvoiceDetailView = ({
     ? <InvoiceServiceTable listeners={serviceLayoutListeners} />
     : <InvoiceItemTable listeners={itemLayoutListeners} />;
 
+  const notesAndTotals = (
+    <div className={styles.notesAndTotals}>
+      <InvoiceDetailNotes onUpdateHeaderOptions={onUpdateHeaderOptions} />
+      <InvoiceDetailTotals onChange={onChangeAmountToPay} />
+    </div>
+  );
+
+  const layoutPopver = (
+    <InvoiceDetailLayoutPopover onUpdateInvoiceLayout={onUpdateInvoiceLayout} />
+  );
+
   const view = (
     <React.Fragment>
       <LineItemTemplate
-        pageHead={<InvoiceDetailHeader />}
+        pageHead={(
+          <InvoiceDetailHeader
+            onFocusActivityHistory={onFocusActivityHistory}
+            onRedirectToCreatePayment={onRedirectToCreatePayment}
+          />
+        )}
         alert={alertComponent}
         options={options}
         actions={actions}
@@ -115,7 +139,9 @@ const InvoiceDetailView = ({
         {contactModal}
         {inventoryModal}
         {modal}
+        {layoutPopver}
         {table}
+        {notesAndTotals}
       </LineItemTemplate>
       {!isCreating
       && (

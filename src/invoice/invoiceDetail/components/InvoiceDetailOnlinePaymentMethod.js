@@ -70,12 +70,12 @@ const InvoiceDetailOnlinePaymentMethod = ({
       label={label}
       renderField={() => (
         <>
-          <div>
+          <span>
+            <img src={OnlinePaymentMethodsImage} alt="Online payment methods" className={styles.onlinePaymentMethodsImageSetUp} />
             <Button type="link" icon={<Icons.OpenExternalLink />} iconLeft onClick={openNewTab(setUpOnlinePaymentsLink)}>
               Set up
             </Button>
-          </div>
-          <img src={OnlinePaymentMethodsImage} alt="Online payment methods" className={styles.onlinePaymentMethodsImage} />
+          </span>
         </>
       )}
     />

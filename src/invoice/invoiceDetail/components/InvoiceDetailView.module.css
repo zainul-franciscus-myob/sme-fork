@@ -1,0 +1,20 @@
+.notesAndTotals :global(.line-item__total) {
+  border: none;
+}
+
+.notesAndTotals {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+@media (min-width: 768px) {
+  .notesAndTotals {
+    flex-direction: initial;
+    justify-content: space-between;
+    padding-top: var(--flx-spacing-small);
+  }
+
+  .notes {
+    width: var(--flx-width-field-xl);
+  }
+}

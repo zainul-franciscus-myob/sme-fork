@@ -169,13 +169,11 @@ describe('invoiceDetailSelectors', () => {
             name: 'C.O.D.',
           },
         ],
-        note: 'Thank you!',
         contactOptions: [
           { name: 'Cow Feed 1', value: '1' },
           { name: 'Cow Feed 2', value: '2' },
           { name: 'Cow Feed 3', value: '3' },
         ],
-        commentOptions: [],
         isCustomerDisabled: true,
         isSubmitting: false,
         showOnlinePayment: true,
