@@ -1,4 +1,5 @@
 import {
+  CLOSE_ACTIVITY,
   CLOSE_TASK,
   CREATE_ACTIVITY,
   DELETE_ACTIVITY,
@@ -9,6 +10,7 @@ import {
 
 const listPath = ({ businessId }) => `/${businessId}/activities`;
 const detailPath = ({ businessId, activityId }) => `/${businessId}/activities/${activityId}`;
+const closeActivityPath = ({ businessId, activityId }) => `/${businessId}/activities/${activityId}/close`;
 const closeTaskPath = ({ businessId, activityId, activityKey }) => `/${businessId}/activities/${activityId}/${activityKey}/close`;
 
 const ActivityMapping = {
@@ -17,6 +19,7 @@ const ActivityMapping = {
   [GET_ACTIVITY]: { method: 'GET', getPath: detailPath },
   [UPDATE_ACTIVITY]: { method: 'PATCH', getPath: detailPath },
   [DELETE_ACTIVITY]: { method: 'DELETE', getPath: detailPath },
+  [CLOSE_ACTIVITY]: { method: 'POST', getPath: closeActivityPath },
   [CLOSE_TASK]: { method: 'POST', getPath: closeTaskPath },
 };
 

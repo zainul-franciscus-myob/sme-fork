@@ -1,0 +1,12 @@
+{
+  "id": "f6e9e011-e550-4017-93f8-7ad14ff4e3c4",
+  "cfguid": "f6e9e011-e550-4017-93f8-7ad14ff4e3c4",
+  "userId": "f6e9e011-e550-4017-93f8-7ad14ff4e3c4",
+  "template": "welcome",
+  "data": {
+    "isComplete": true
+  },
+  "source": "contracts",
+  "createdAt": "2019-10-15T23:08:17.340Z",
+  "updatedAt": "2019-10-15T23:08:17.340Z"
+}

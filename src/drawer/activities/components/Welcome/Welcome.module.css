@@ -17,6 +17,12 @@
   vertical-align: text-bottom;
 }
 
+.close {
+  border: none;
+  background-color: unset;
+  float: right;
+}
+
 @media (max-width: 1600px) {
   .spotlight { background: var(--flx-palette-dusk-05); }
 

@@ -1,0 +1,22 @@
+.activities { list-style: none; }
+
+.activities :global(.label) { float: right; }
+
+.activities li {
+  border-bottom: 1px solid var(--flx-palette-storm-17);
+  margin-bottom: var(--flx-spacing-small);
+}
+
+.activities a {
+  align-items: flex-start;
+  display: flex;
+}
+
+.activities p {
+  font-size: small;
+  margin-bottom: var(--flx-spacing-small);
+}
+
+.activities img { margin-right: var(--flx-spacing-small);}
+
+.activities h3 { margin-top: 0; }

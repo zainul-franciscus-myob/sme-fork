@@ -5,7 +5,8 @@ import { getBusinessId } from './ActivitiesSelectors';
 import ActivitiesView from './components/ActivitiesView';
 import Store from '../../store/Store';
 import activitiesReducer from './activitiesReducer';
-import closeTask from './services/closeTask';
+import closeActivityFn from './services/closeActivity';
+import closeTaskFn from './services/closeTask';
 import createActivitiesDispatcher from './createActivitiesDispatcher';
 import loadActivities from './services/load';
 
@@ -18,11 +19,17 @@ export default class ActivitiesModule {
   }
 
   getView = () => {
-    const { closeActivities, store, closeActivityTask } = this;
+    const {
+      closeView, store, closeActivityTask, closeActivity,
+    } = this;
 
     return (
       <Provider store={store}>
-        <ActivitiesView closeActivities={closeActivities} closeTask={closeActivityTask} />
+        <ActivitiesView
+          closeView={closeView}
+          closeTask={closeActivityTask}
+          closeActivity={closeActivity}
+        />
       </Provider>
     );
   };
@@ -35,7 +42,7 @@ export default class ActivitiesModule {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
 
-    const activity = await closeTask({
+    const activity = await closeTaskFn({
       integration: this.integration,
       businessId,
       activityId,
@@ -45,7 +52,20 @@ export default class ActivitiesModule {
     this.dispatcher.updateActivity(activity);
   }
 
-  closeActivities = () => this.closeDrawer();
+  closeActivity = async (activityId) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+
+    const activity = await closeActivityFn({
+      integration: this.integration,
+      businessId,
+      activityId,
+    });
+
+    this.dispatcher.updateActivity(activity);
+  }
+
+  closeView = () => this.closeDrawer();
 
   loadActivities = async (businessId, region) => {
     this.dispatcher.setLoadingState(true);

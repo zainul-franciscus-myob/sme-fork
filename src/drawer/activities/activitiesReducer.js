@@ -8,6 +8,7 @@ const getDefaultState = () => ({
   isLoading: false,
   businessId: '',
   region: '',
+  activities: [],
 });
 
 const setInitialState = (state, action) => ({

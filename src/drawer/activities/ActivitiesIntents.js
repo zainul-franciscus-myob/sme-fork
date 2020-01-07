@@ -7,3 +7,4 @@ export const GET_ACTIVITY = Symbol('Get activity');
 export const UPDATE_ACTIVITY = Symbol('Update activity');
 export const DELETE_ACTIVITY = Symbol('Delete activity');
 export const CLOSE_TASK = Symbol('Close task');
+export const CLOSE_ACTIVITY = Symbol('Close activity');
