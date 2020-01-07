@@ -5,7 +5,7 @@ import React from 'react';
 
 import crossPurple from './assets/cross-purple.svg';
 import iconPlay from './assets/icon-play.svg';
-import styles from './Welcome.module.css';
+import styles from './index.module.css';
 
 const Welcome = ({ activity, closeActivity }) => {
   const { id, data: { isComplete } } = activity;

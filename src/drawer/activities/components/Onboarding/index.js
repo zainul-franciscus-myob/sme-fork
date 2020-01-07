@@ -5,7 +5,7 @@ import imageAccounts from './assets/accounts.svg';
 import imageBankFeeds from './assets/bankFeeds.svg';
 import imageBusinessDetails from './assets/businessDetails.svg';
 import imageInviteUsers from './assets/inviteUsers.svg';
-import styles from './Onboarding.module.css';
+import styles from './index.module.css';
 
 const isCompleted = (activity, item) => (activity.data.closed || []).includes(item.key);
 

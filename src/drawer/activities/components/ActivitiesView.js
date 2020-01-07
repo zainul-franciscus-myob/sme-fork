@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsLoading, getOnboardingActivities, getWelcomeActivity } from '../ActivitiesSelectors';
-import Onboarding from './Onboarding/Onboarding';
+import Onboarding from './Onboarding';
 import PageView from '../../../components/PageView/PageView';
-import Welcome from './Welcome/Welcome';
+import Welcome from './Welcome';
 import asideHeaderStyles from '../../AsideHeader.module.css';
 import emptyStateImage from './assets/icon-activities-empty-state.svg';
 
@@ -23,7 +23,7 @@ const ActivitiesView = ({
 
   const activitiesView = () => (
     <div>
-      <Welcome activity={welcomeActivity} closeActivity={closeActivity} />
+      {welcomeActivity && <Welcome activity={welcomeActivity} closeActivity={closeActivity} />}
       <Onboarding activities={onboardingActivities} closeTask={closeTask} />
     </div>
   );
