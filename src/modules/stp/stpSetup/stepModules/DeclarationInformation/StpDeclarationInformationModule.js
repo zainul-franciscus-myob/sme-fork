@@ -3,6 +3,7 @@ import React from 'react';
 
 import {
   LOAD_BUSINESS_CONTACT_INFORMATION,
+  LOAD_CONTEXT,
   SET_ALERT,
   SET_FIELD,
   SET_IS_LOADING,
@@ -18,11 +19,16 @@ export default class StpDeclarationInformationModule {
     onPrevious,
     onFinish,
     integration,
+    context,
   }) {
     this.onPreviousFunc = onPrevious;
     this.onFinishFunc = onFinish;
     this.integration = integration;
     this.store = new Store(stpDeclarationInformationReducer);
+    this.store.dispatch({
+      intent: LOAD_CONTEXT,
+      context,
+    });
   }
 
   onNextClick = () => {

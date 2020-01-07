@@ -47,6 +47,7 @@ export default class StpSetupModule {
         id: Steps.DECLARATION_INFORMATION,
         title: 'Declaration information',
         module: new StpDeclarationInformationModule({
+          context,
           integration: this.integration,
           onPrevious: this.declarationInformationPrevious,
           onFinish: this.declarationInformationFinish,

@@ -1,5 +1,5 @@
 import {
-  LOAD_BUSINESS_CONTACT_INFORMATION, SET_ALERT, SET_FIELD, SET_IS_LOADING,
+  LOAD_BUSINESS_CONTACT_INFORMATION, LOAD_CONTEXT, SET_ALERT, SET_FIELD, SET_IS_LOADING,
 } from './StpDeclarationInformationIntents';
 import createReducer from '../../../../../store/createReducer';
 
@@ -35,11 +35,17 @@ const setFieldValue = (state, { key, value }) => ({
   [key]: value,
 });
 
+const loadContext = (state, { context }) => ({
+  ...state,
+  ...context,
+});
+
 const handlers = {
   [SET_IS_LOADING]: setIsLoading,
   [SET_FIELD]: setFieldValue,
   [LOAD_BUSINESS_CONTACT_INFORMATION]: loadBusinessContactInformation,
   [SET_ALERT]: setAlert,
+  [LOAD_CONTEXT]: loadContext,
 };
 
 const stpDeclarationInformationReducer = createReducer(getDefaultState(), handlers);
