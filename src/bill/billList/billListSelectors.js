@@ -1,4 +1,3 @@
-import { addMonths } from 'date-fns';
 import { createSelector } from 'reselect';
 
 import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
@@ -6,6 +5,7 @@ import TableBodyType from './TableBodyType';
 import formatAmount from '../../common/valueFormatters/formatAmount';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
+import shallowCompare from '../../common/shallowCompare/shallowCompare';
 
 export const getEntries = state => state.entries;
 
@@ -32,8 +32,9 @@ export const getDefaultFilterOptions = ({ defaultFilterOptions }) => defaultFilt
 
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
 
-export const getSupplierFilterOptions = state => state.supplierFilters.map(supplier => (
-  { displayName: supplier.name, id: supplier.value }));
+const getSettingsVersion = state => state.settingsVersion;
+
+export const getSupplierFilterOptions = state => state.supplierFilters;
 
 export const getStatusFilterOptions = state => state.statusFilters;
 
@@ -96,42 +97,37 @@ export const getHasOverdue = createSelector(
 );
 
 export const getSettings = createSelector(
+  getSettingsVersion,
   getAppliedFilterOptions,
   getSortOrder,
   getOrderBy,
-  (filterOptions, sortOrder, orderBy) => ({
+  (settingsVersion, filterOptions, sortOrder, orderBy) => ({
+    settingsVersion,
     filterOptions,
     sortOrder,
     orderBy,
   }),
 );
 
-export const getDefaultDateRange = () => addMonths(new Date(), -3);
 
-const isDefaultFilters = ({
-  status,
-  supplierId,
-  dateFrom,
-  dateTo,
-  keywords,
-}, defaultFilterOptions) => (
-  status === defaultFilterOptions.status
-  && supplierId === defaultFilterOptions.supplierId
-  && dateFrom === formatIsoDate(getDefaultDateRange())
-  && dateTo === formatIsoDate(new Date())
-  && keywords === ''
+const getIsDefaultFilters = createSelector(
+  getAppliedFilterOptions,
+  getDefaultFilterOptions,
+  (appliedFilterOptions, defaultFilterOptions) => shallowCompare(
+    appliedFilterOptions,
+    defaultFilterOptions,
+  ),
 );
 
 export const getTableBodyState = createSelector(
-  getAppliedFilterOptions,
-  getDefaultFilterOptions,
+  getIsDefaultFilters,
   getEntries,
-  (filterOptions, defaultFilterOptions, entries) => {
+  (isDefaultFilters, entries) => {
     if (entries.length > 0) {
       return TableBodyType.TABLE;
     }
 
-    if (isDefaultFilters(filterOptions, defaultFilterOptions)) {
+    if (isDefaultFilters) {
       return TableBodyType.EMPTY;
     }
 

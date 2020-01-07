@@ -1,7 +1,6 @@
 import { addDays, subDays } from 'date-fns';
 
 import {
-  getDefaultDateRange,
   getLoadMoreButtonStatus,
   getTableBodyState,
   getTableEntries,
@@ -162,6 +161,12 @@ describe('billListSelectors', () => {
   describe('getTableBodyState', () => {
     it('returns table when entries not empty', () => {
       const state = {
+        defaultFilterOptions: {
+          status: 'All',
+        },
+        appliedFilterOptions: {
+          status: 'All',
+        },
         entries: [1],
       };
 
@@ -175,14 +180,9 @@ describe('billListSelectors', () => {
         entries: [],
         defaultFilterOptions: {
           status: 'All',
-          supplierId: 'All',
         },
         appliedFilterOptions: {
           status: 'All',
-          supplierId: 'All',
-          dateFrom: formatIsoDate(getDefaultDateRange()),
-          dateTo: formatIsoDate(new Date()),
-          keywords: '',
         },
       };
 
@@ -196,14 +196,9 @@ describe('billListSelectors', () => {
         entries: [],
         defaultFilterOptions: {
           status: 'All',
-          supplierId: 'All',
         },
         appliedFilterOptions: {
-          status: 'Open',
-          supplierId: '1',
-          dateFrom: '2019-01-01',
-          dateTo: '2019-02-01',
-          keywords: 'test',
+          status: '🐸',
         },
       };
 

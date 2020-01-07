@@ -1,3 +1,7 @@
+.tableBody {
+  min-height: 60vh;
+}
+
 .overdue {
   color: var(--flx-color-alert-error-link);
 }

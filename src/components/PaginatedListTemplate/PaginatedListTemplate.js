@@ -10,11 +10,12 @@ const PaginatedListTemplate = (props) => {
     listTable,
     onLoadMoreButtonClick,
     loadMoreButtonStatus,
+    className,
     ...rest
   } = props;
 
   return (
-    <div>
+    <div className={className}>
       <StandardTemplate sticky="all" {...rest}>
         {listTable}
       </StandardTemplate>

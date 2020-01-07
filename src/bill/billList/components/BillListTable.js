@@ -22,7 +22,7 @@ const BillListTable = ({
 }) => {
   const noResultsPageState = (
     <PageState
-      title="No bills found :("
+      title="No bills found"
       description="Perhaps check the dates or remove the filters and try again."
       image={<img src={noResultStateImage} style={{ width: '60%' }} alt="No bills found" />}
     />

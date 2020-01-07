@@ -15,10 +15,10 @@ import style from './BillListView.module.css';
 import widthConfig from './widthConfig';
 
 const tableConfig = {
-  dateIssued: { columnName: 'Date', valign: 'top' },
-  number: { columnName: 'Bill no', valign: 'top' },
+  dateIssued: { columnName: 'Issue date', valign: 'top' },
+  number: { columnName: 'Bill number', valign: 'top' },
   supplier: { columnName: 'Supplier', valign: 'top' },
-  invoiceNumber: { columnName: 'Supplier inv no', valign: 'top' },
+  invoiceNumber: { columnName: 'Supplier invoice no', valign: 'top' },
   billAmount: { columnName: 'Amount ($)', valign: 'top', align: 'right' },
   balanceDue: { columnName: 'Balance due ($)', valign: 'top', align: 'right' },
   dateDue: { columnName: 'Due date', valign: 'top' },
@@ -93,12 +93,10 @@ const BillListView = (props) => {
   );
 
   const billListTable = (
-    <div className={style.list}>
-      <BillListTable
-        tableConfig={tableConfig}
-        onCreateButtonClick={onCreateButtonClick}
-      />
-    </div>
+    <BillListTable
+      tableConfig={tableConfig}
+      onCreateButtonClick={onCreateButtonClick}
+    />
   );
 
   const billListView = (
@@ -110,6 +108,7 @@ const BillListView = (props) => {
       tableHeader={tableHeader}
       onLoadMoreButtonClick={onLoadMoreButtonClick}
       loadMoreButtonStatus={loadMoreButtonStatus}
+      className={style.list}
     />
   );
 

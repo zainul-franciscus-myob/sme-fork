@@ -12,10 +12,10 @@ const widthConfig = ({
   {
     'min-width': '1160px',
     config: [
-      { columnName: dateIssued.columnName, styles: { width: '11rem' } },
-      { columnName: number.columnName, styles: { width: '11rem' } },
+      { columnName: dateIssued.columnName, styles: { width: '12rem' } },
+      { columnName: number.columnName, styles: { width: '12rem' } },
       { columnName: supplier.columnName, styles: { width: 'flex-1' } },
-      { columnName: invoiceNumber.columnName, styles: { width: '14.2rem' } },
+      { columnName: invoiceNumber.columnName, styles: { width: '17rem' } },
       { columnName: billAmount.columnName, styles: { width: '12.4rem' } },
       { columnName: balanceDue.columnName, styles: { width: '14.8rem' } },
       { columnName: dateDue.columnName, styles: { width: '11rem' } },

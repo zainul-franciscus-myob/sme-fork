@@ -55,6 +55,7 @@ const BillListFilterOptions = ({
           items={supplierFilterOptions}
           selectedId={supplierId}
           onChange={handleComboBoxChange('supplierId', onUpdateFilters)}
+          hasAllItem
         />
       </div>
       <FilterBar.Group>
@@ -70,8 +71,8 @@ const BillListFilterOptions = ({
     <hr />
     <div className={styles.total}>
       <div>{`Total amount ${total}`}</div>
-      <div>{`Balance due: ${totalDue}`}</div>
-      <div className={classnames(styles.totalOverdue, { [styles.hasOverdue]: hasOverdue })}>{`Overdue: ${totalOverdue}`}</div>
+      <div>{`Balance due ${totalDue}`}</div>
+      <div className={classnames(styles.totalOverdue, { [styles.hasOverdue]: hasOverdue })}>{`Overdue ${totalOverdue}`}</div>
     </div>
   </React.Fragment>
 );

@@ -35,7 +35,7 @@ const BillListTableBody = (props) => {
   ));
 
   return (
-    <Table.Body>
+    <Table.Body className={styles.tableBody}>
       {rows}
     </Table.Body>
   );

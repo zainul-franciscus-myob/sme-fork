@@ -91,7 +91,7 @@ export default class BillListModule {
     const orderBy = getOrderBy(state);
 
     const onFailure = () => {
-      console.log('Failed to load contact list entries');
+      console.log('Failed to load bill list');
     };
 
     this.integration.read({
@@ -169,7 +169,6 @@ export default class BillListModule {
         sortOrder,
         orderBy,
         offset: 0,
-
       },
       onSuccess,
       onFailure,
@@ -271,7 +270,6 @@ export default class BillListModule {
         totalDue,
         totalOverdue,
         pagination,
-
       });
     };
 

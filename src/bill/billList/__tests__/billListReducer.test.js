@@ -1,8 +1,80 @@
 import { LOAD_BILL_LIST_NEXT_PAGE, START_LOADING_MORE, STOP_LOADING_MORE } from '../../billDetail/BillIntents';
+import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SORT_AND_FILTER_BILL_LIST } from '../../BillIntents';
 import billListReducer from '../billListReducer';
 
 describe('billListReducer', () => {
+  describe('SET_INITIAL_STATE', () => {
+    [
+      {
+        name: 'undefined',
+        settings: undefined,
+      },
+      {
+        name: 'different settingsVersion',
+        settings: {
+          settingsVersion: 'a different version 😭',
+          filterOptions: {
+            dateFrom: '2020-01-01',
+            dateTo: '2021-01-01',
+            keywords: '🦒',
+            customerId: '1',
+            status: 'Open',
+          },
+          sortOrder: 'asc',
+          orderBy: 'DisplayId',
+        },
+      },
+    ].forEach((test) => {
+      it(`uses default settings when settings is ${test.name}`, () => {
+        const actual = billListReducer({}, {
+          intent: SET_INITIAL_STATE,
+          settings: test.settings,
+        });
+
+        expect(actual.filterOptions).toEqual({
+          dateFrom: expect.any(String),
+          dateTo: expect.any(String),
+          keywords: '',
+          supplierId: undefined,
+          status: 'All',
+        });
+        expect(actual.sortOrder).toEqual('desc');
+        expect(actual.orderBy).toEqual('DateOccurred');
+      });
+    });
+
+    it('uses given settings when settingsVersion are the same', () => {
+      const actual = billListReducer({}, {
+        intent: SET_INITIAL_STATE,
+        settings: {
+          settingsVersion: '84650621-cb7b-4405-8c69-a61e0be4b896',
+          filterOptions: {
+            dateFrom: '2020-01-01',
+            dateTo: '2021-01-01',
+            keywords: '🦒',
+            customerId: '1',
+            status: 'Open',
+          },
+          sortOrder: 'asc',
+          orderBy: 'DisplayId',
+        },
+      });
+
+      expect(actual.filterOptions).toEqual({
+        dateFrom: '2020-01-01',
+        dateTo: '2021-01-01',
+        keywords: '🦒',
+        customerId: '1',
+        status: 'Open',
+      });
+      expect(actual.filterOptions).toEqual(actual.appliedFilterOptions);
+      expect(actual.sortOrder).toEqual('asc');
+      expect(actual.orderBy).toEqual('DisplayId');
+    });
+  });
+
+
   describe('LOAD_BILL_LIST_NEXT_PAGE', () => {
     it('removes duplicate entries', () => {
       const action = {

@@ -1,3 +1,5 @@
+import { addMonths } from 'date-fns';
+
 import {
   LOAD_BILL_LIST,
   SET_ALERT,
@@ -11,26 +13,28 @@ import { LOAD_BILL_LIST_NEXT_PAGE, START_LOADING_MORE, STOP_LOADING_MORE } from 
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../SystemIntents';
-import { getDefaultDateRange } from './billListSelectors';
 import createReducer from '../../store/createReducer';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
+const getDefaultDateRange = () => addMonths(new Date(), -3);
+
 const defaultFilterOptions = {
-  status: '',
-  supplierId: '',
+  status: 'All',
+  supplierId: undefined,
   dateFrom: formatIsoDate(getDefaultDateRange()),
   dateTo: formatIsoDate(new Date()),
   keywords: '',
 };
 
 const getDefaultState = () => ({
+  settingsVersion: '84650621-cb7b-4405-8c69-a61e0be4b896',
   filterOptions: defaultFilterOptions,
   appliedFilterOptions: defaultFilterOptions,
   defaultFilterOptions,
   supplierFilters: [],
   statusFilters: [],
-  sortOrder: '',
-  orderBy: '',
+  sortOrder: 'desc',
+  orderBy: 'DateOccurred',
   total: '',
   totalDue: '',
   totalOverdue: '',
@@ -47,37 +51,40 @@ const getDefaultState = () => ({
 
 const resetState = () => (getDefaultState());
 
-const setInitialState = (state, {
+const setInitialState = (_, {
   context,
-  settings = { filterOptions: defaultFilterOptions, sortOrder: '', orderBy: '' },
-}) => ({
-  ...state,
-  ...context,
-  filterOptions: {
-    ...state.filterOptions,
-    ...settings.filterOptions,
-  },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    ...settings.filterOptions,
-  },
-  sortOrder: settings.sortOrder,
-  orderBy: settings.orderBy,
-});
+  settings = {},
+}) => {
+  const initialState = getDefaultState();
 
-const loadBillList = (state, { status, supplierId, ...action }) => ({
+  const isExpiredSettings = initialState.settingsVersion !== settings.settingsVersion;
+
+  if (isExpiredSettings) {
+    return {
+      ...initialState,
+      ...context,
+    };
+  }
+
+  return {
+    ...initialState,
+    ...context,
+    filterOptions: settings.filterOptions,
+    appliedFilterOptions: settings.filterOptions,
+    sortOrder: settings.sortOrder,
+    orderBy: settings.orderBy,
+  };
+};
+
+const loadBillList = (state, action) => ({
   ...state,
-  ...action,
-  filterOptions: {
-    ...state.filterOptions,
-    status,
-    supplierId,
-  },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    status,
-    supplierId,
-  },
+  entries: action.entries,
+  total: action.total,
+  totalDue: action.totalDue,
+  totalOverdue: action.totalOverdue,
+  supplierFilters: action.supplierFilters,
+  statusFilters: action.statusFilters,
+  pagination: action.pagination,
 });
 
 const loadBillListNextPage = (state, action) => {
