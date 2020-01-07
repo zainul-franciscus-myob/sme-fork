@@ -2,13 +2,13 @@ import RouteName from '../../router/RouteName';
 import SubscriptionModule from './subscription/SubscriptionModule';
 
 export default ({
-  setRootView,
+  integration,
 }) => {
   const routes = [
     {
       name: RouteName.SUBSCRIPTION_SETTINGS,
       path: '/:region/:businessId/settings/subscription',
-      module: new SubscriptionModule({ setRootView }),
+      module: new SubscriptionModule({ integration }),
       documentTitle: 'Settings',
     },
   ];

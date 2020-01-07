@@ -62,7 +62,7 @@ import SpendMoneyMapping from '../../modules/spendMoney/mappings/HttpSpendMoneyM
 import StpGetStartedMapping from '../../modules/stp/stpGetStarted/mappings/HttpStpGetStartedMapping';
 import StpReportingCentreMapping from '../../modules/stp/reportingCentre/mappings/HttpStpReportingCentreMapping';
 import StpSetupMapping from '../../modules/stp/stpSetup/mappings/HttpStpSetupMapping';
-import SubscriptionMapping from './SubscriptionMapping';
+import SubscriptionMapping from '../../modules/settings/subscription/mappings/HttpSubscriptionMapping';
 import SuperFundMapping from '../../modules/superFund/mappings/HttpSuperFundMapping';
 import SuperPayItemMapping from '../../modules/payItem/superPayItem/mappings/HttpSuperPayItemMapping';
 import SupplierReturnMapping from '../../modules/supplierReturn/mappings/HttpSupplierReturnMapping';

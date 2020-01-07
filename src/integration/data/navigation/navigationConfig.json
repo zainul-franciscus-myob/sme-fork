@@ -64,7 +64,7 @@
     "userList",
     "dataImportExport",
     "myMyobAccount",
-    "subscriptions",
+    "subscription",
     "paymentDetails"
   ],
   "isReadOnly": true

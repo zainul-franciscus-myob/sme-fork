@@ -65,6 +65,8 @@ export const activeMapping = {
   [RouteName.USER_LIST]: 'business',
   [RouteName.USER_DETAIL]: 'business',
   [RouteName.DATA_IMPORT_EXPORT]: 'business',
+
+  [RouteName.SUBSCRIPTION_SETTINGS]: 'business',
 };
 
 export const featuresConfig = {
@@ -128,6 +130,6 @@ export const featuresConfig = {
   userList: { routeName: RouteName.USER_LIST },
   dataImportExport: { routeName: RouteName.DATA_IMPORT_EXPORT },
   myMyobAccount: { routeName: '' },
-  subscriptions: { routeName: '' },
+  subscription: { routeName: RouteName.SUBSCRIPTION_SETTINGS },
   paymentDetails: { routeName: '' },
 };

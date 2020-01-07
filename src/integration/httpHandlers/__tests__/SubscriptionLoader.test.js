@@ -1,4 +1,4 @@
-import { LOAD_SUBSCRIPTION } from '../SubscriptionLoaderIntents';
+import { LOAD_SUBSCRIPTION } from '../../../modules/settings/subscription/subscriptionIntents';
 import SubscriptionLoader from '../SubscriptionLoader';
 
 const createIntegration = () => {

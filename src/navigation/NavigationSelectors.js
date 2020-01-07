@@ -144,6 +144,7 @@ export const getBusinessUrls = createSelector(
     payrollSettings: enabledUrls.payrollSettings,
     userList: enabledUrls.userList,
     dataImportExport: enabledUrls.dataImportExport,
+    subscription: enabledUrls.subscription,
   }),
 );
 
