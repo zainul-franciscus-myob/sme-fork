@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { SET_IS_LOADING } from './paySuperAuthorisationModalIntents';
 import PaySuperAuthorisationModal from './components/PaySuperAuthorisationModal';
 import Store from '../../../store/Store';
 import StsLoginModule from '../stsLoginModal/StsLoginModule';
@@ -24,13 +25,22 @@ export default class PaySuperAuthorisationModalModule {
 
   openModal = ({ batchPaymentId, businessId }) => {
     this.dispatcher.setInitialContext(batchPaymentId, businessId);
+    this.dispatcher.setIsOpen(true);
     this.stsLoginModal.run({ businessId });
   };
 
   onLoggedIn = (accessToken) => {
+    this.setIsLoading(false);
     this.dispatcher.setAccessToken(accessToken);
-    this.dispatcher.setIsOpen(true);
+    this.getCodeToAuthorise();
   };
+
+  setIsLoading = (isLoading) => {
+    this.store.dispatch({
+      intent: SET_IS_LOADING,
+      isLoading,
+    });
+  }
 
   closeModal = () => {
     this.dispatcher.setIsOpen(false);

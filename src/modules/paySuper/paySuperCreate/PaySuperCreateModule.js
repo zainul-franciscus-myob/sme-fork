@@ -220,7 +220,10 @@ export default class PaySuperCreateModule {
     const state = this.store.getState();
     const intent = RECORD_PAY_SUPER;
     const content = getRecordPaySuperContent(state);
+    this.setIsLoading(true);
+
     const onSuccess = (response) => {
+      this.setIsLoading(false);
       this.store.dispatch({
         intent: UPDATE_BATCH_PAYMENT_ID,
         batchPaymentId: response.batchPaymentId,
@@ -229,6 +232,7 @@ export default class PaySuperCreateModule {
     };
 
     const onFailure = ({ message }) => {
+      this.setIsLoading(false);
       this.closeModal();
       this.setAlert({
         type: 'danger',

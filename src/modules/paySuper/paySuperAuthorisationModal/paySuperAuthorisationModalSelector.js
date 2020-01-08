@@ -2,6 +2,7 @@ export const getIsOpen = state => state.isOpen;
 export const getBusinessId = state => (state.businessId);
 export const getAuthorisationCode = state => state.authorisationInfo.authorisationCode;
 export const getAlert = state => state.alert;
+export const getIsLoading = state => state.isLoading;
 
 export const getCodeToAuthoriseContent = state => ({
   batchPaymentId: state.batchPaymentId,

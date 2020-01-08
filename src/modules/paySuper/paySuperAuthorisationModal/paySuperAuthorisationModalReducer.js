@@ -2,6 +2,7 @@ import { RESET_STATE } from '../../../SystemIntents';
 import {
   SET_ACCESS_TOKEN,
   SET_ALERT,
+  SET_IS_LOADING,
   SET_IS_OPEN,
   SET_OPENING_CONTEXT,
   UPDATE_AUTHORISATION_CODE,
@@ -10,6 +11,7 @@ import {
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
+  isLoading: true,
   isOpen: false,
   batchPaymentId: '',
   businessId: '',
@@ -20,6 +22,11 @@ const getDefaultState = () => ({
     authorisationEmail: '',
     authorisationCode: '',
   },
+});
+
+const setIsLoading = (state, { isLoading }) => ({
+  ...state,
+  isLoading,
 });
 
 const setIsOpen = (state, { isOpen }) => ({
@@ -71,6 +78,7 @@ const handlers = {
   [SET_OPENING_CONTEXT]: setOpeningContext,
   [SET_ALERT]: setAlert,
   [SET_ACCESS_TOKEN]: setAccessToken,
+  [SET_IS_LOADING]: setIsLoading,
 };
 
 const paySuperAuthorisationReducer = createReducer(getDefaultState(), handlers);

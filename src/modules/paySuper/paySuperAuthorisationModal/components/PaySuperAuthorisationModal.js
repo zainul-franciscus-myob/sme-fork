@@ -7,12 +7,15 @@ import React from 'react';
 import {
   getAlert,
   getAuthorisationCode,
+  getIsLoading,
   getIsOpen,
 } from '../paySuperAuthorisationModalSelector';
+import LoadingPageState from '../../../../components/LoadingPageState/LoadingPageState';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const PaySuperAuthorisationModal = ({
   isOpen,
+  isLoading,
   alert,
   authorisationCode,
   updateAuthorisationCode,
@@ -22,6 +25,15 @@ const PaySuperAuthorisationModal = ({
 }) => {
   if (!isOpen) {
     return null;
+  }
+
+  if (isLoading) {
+    return (
+      <Modal title="Authorise payment" onCancel={onCancelButtonClick}>
+        <LoadingPageState />
+        <Modal.Footer />
+      </Modal>
+    );
   }
 
   return (
@@ -69,6 +81,7 @@ const PaySuperAuthorisationModal = ({
 
 const mapStateToProps = state => ({
   isOpen: getIsOpen(state),
+  isLoading: getIsLoading(state),
   authorisationCode: getAuthorisationCode(state),
   alert: getAlert(state),
 });

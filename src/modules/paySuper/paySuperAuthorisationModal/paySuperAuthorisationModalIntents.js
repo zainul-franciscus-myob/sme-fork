@@ -6,3 +6,4 @@ export const AUTHORISE_WITH_CODE = Symbol('Authorise with code');
 export const SET_OPENING_CONTEXT = Symbol('Set opening context');
 export const SET_ALERT = Symbol('Set alert');
 export const SET_ACCESS_TOKEN = Symbol('Set the access token for authorisation');
+export const SET_IS_LOADING = Symbol('Set the is loading flag');
