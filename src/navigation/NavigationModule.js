@@ -32,14 +32,6 @@ export default class NavigationModule {
     this.paymentDetailBaseUrl = Config.SELF_SERVICE_PORTAL_URL;
   }
 
-  moveFocusToMainContent = () => {
-    const mainElement = document.getElementById('main');
-    mainElement.setAttribute('tabindex', '-1');
-    mainElement.focus();
-    mainElement.blur();
-    mainElement.removeAttribute('tabindex');
-  }
-
   loadBusinessInfo = ({ currentRouteName }) => {
     const businessId = getBusinessId(this.store.getState());
     if (!businessId || isLinkUserPage({ currentRouteName })) {
@@ -57,6 +49,9 @@ export default class NavigationModule {
         intent, businessName, serialNumber, userEmail, enabledFeatures, isReadOnly,
       });
       this.replaceURLParamsAndReload({ businessId, region: region.toLowerCase() });
+      // TODO: To be removed in next patch version
+      // This is a temporary fix for Feelix bug introduced in version 5.10.0
+      window.dispatchEvent(new Event('resize'));
     };
     const onFailure = () => {
       console.log('Failed to load navigation config');
@@ -124,7 +119,6 @@ export default class NavigationModule {
       toggleHelp,
       toggleActivities,
       store,
-      moveFocusToMainContent,
     } = this;
 
     return (
@@ -135,7 +129,6 @@ export default class NavigationModule {
           onMenuLinkClick={onPageTransition}
           onHelpLinkClick={toggleHelp}
           onActivitiesLinkClick={toggleActivities}
-          onSkipToMainContentClick={moveFocusToMainContent}
         />
       </Provider>
     );

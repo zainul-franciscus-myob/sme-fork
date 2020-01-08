@@ -100,13 +100,13 @@ const BusinessMenu = ({
 }) => (
   <Navigation.Menu
     label={(
-      <>
+      <div className={styles.avatar}>
         {showBusinessAvatar && <BusinessAvatar />}
         {businessName}
         {isReadOnly && <ReadonlyStatus />}
-      </>
+        <div className={styles.caret}><Icons.Caret /></div>
+      </div>
     )}
-    icon={<Icons.Caret />}
     items={getItems({
       urls, serialNumber, userEmail, onMenuLinkClick,
     })}

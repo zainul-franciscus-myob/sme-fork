@@ -15,7 +15,13 @@
 .userEmail.userEmail > :global(a) {
   font-weight: var(--flx-font-weight-bold);
 }
-
+.avatar {
+  display:flex;
+  align-items: center;
+}
+.caret {
+  padding-left: var(--flx-spacing-x-tiny);
+}
 /*
   @FEELIX:
   Override Feelix hover color with its nav link color

@@ -1,4 +1,4 @@
-import { Button, MYOBLogo, Navigation } from '@myob/myob-widgets';
+import { MYOBLogo, Navigation } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -32,41 +32,123 @@ import SalesMenu from './SalesMenu';
 import styles from './NavigationBar.module.css';
 
 const getPrimary = ({
-  onMenuSelect, onMenuLinkClick,
-  shouldDisplaySalesMenu, shouldDisplayPurchasesMenu, shouldDisplayBankingMenu,
-  shouldDisplayContactMenu, shouldDisplayAccountingMenu, shouldDisplayPayrollMenu,
-  shouldDisplayInTray, shouldDisplayReportsMenu,
+  onMenuSelect,
+  onMenuLinkClick,
+  shouldDisplaySalesMenu,
+  shouldDisplayPurchasesMenu,
+  shouldDisplayBankingMenu,
+  shouldDisplayContactMenu,
+  shouldDisplayAccountingMenu,
+  shouldDisplayPayrollMenu,
+  shouldDisplayInTray,
+  shouldDisplayReportsMenu,
 }) => [
-  shouldDisplaySalesMenu && <SalesMenu key="SalesMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplayPurchasesMenu && <PurchasesMenu key="PurchasesMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplayBankingMenu && <BankingMenu key="BankingMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplayAccountingMenu && <AccountingMenu key="AccountingMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplayPayrollMenu && <PayrollMenu key="PayrollMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplayContactMenu && <ContactMenu key="ContactMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplayReportsMenu && <ReportsMenu key="Reports" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplayInTray && <InTray key="InTray" onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplaySalesMenu && (
+  <SalesMenu
+    key="SalesMenu"
+    onMenuSelect={onMenuSelect}
+    onMenuLinkClick={onMenuLinkClick}
+  />
+  ),
+  shouldDisplayPurchasesMenu && (
+  <PurchasesMenu
+    key="PurchasesMenu"
+    onMenuSelect={onMenuSelect}
+    onMenuLinkClick={onMenuLinkClick}
+  />
+  ),
+  shouldDisplayBankingMenu && (
+  <BankingMenu
+    key="BankingMenu"
+    onMenuSelect={onMenuSelect}
+    onMenuLinkClick={onMenuLinkClick}
+  />
+  ),
+  shouldDisplayAccountingMenu && (
+  <AccountingMenu
+    key="AccountingMenu"
+    onMenuSelect={onMenuSelect}
+    onMenuLinkClick={onMenuLinkClick}
+  />
+  ),
+  shouldDisplayPayrollMenu && (
+  <PayrollMenu
+    key="PayrollMenu"
+    onMenuSelect={onMenuSelect}
+    onMenuLinkClick={onMenuLinkClick}
+  />
+  ),
+  shouldDisplayContactMenu && (
+  <ContactMenu
+    key="ContactMenu"
+    onMenuSelect={onMenuSelect}
+    onMenuLinkClick={onMenuLinkClick}
+  />
+  ),
+  shouldDisplayReportsMenu && (
+  <ReportsMenu
+    key="Reports"
+    onMenuSelect={onMenuSelect}
+    onMenuLinkClick={onMenuLinkClick}
+  />
+  ),
+  shouldDisplayInTray && (
+  <InTray key="InTray" onMenuLinkClick={onMenuLinkClick} />
+  ),
 ].filter(Boolean);
 
 const getSecondary = ({
-  shouldDisplayBusinessMenu, shouldDisplayAddMenu, shouldDisplayHelpMenu,
-  shouldDisplayActivitiesMenu, onMenuSelect, onMenuLinkClick, onHelpLinkClick,
+  shouldDisplayBusinessMenu,
+  shouldDisplayAddMenu,
+  shouldDisplayHelpMenu,
+  shouldDisplayActivitiesMenu,
+  onMenuSelect,
+  onMenuLinkClick,
+  onHelpLinkClick,
   onActivitiesLinkClick,
 }) => [
-  shouldDisplayAddMenu && <AddMenu key="AddMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  shouldDisplayHelpMenu && <Help key="Help" onMenuLinkClick={onHelpLinkClick} />,
-  shouldDisplayActivitiesMenu && <Activities key="Activities" onMenuLinkClick={onActivitiesLinkClick} />,
-  shouldDisplayBusinessMenu && <BusinessMenu key="BusinessMenu" onMenuSelect={onMenuSelect} onMenuLinkClick={onMenuLinkClick} />,
-  !shouldDisplayBusinessMenu && <Logout key="Logout" onMenuLinkClick={onMenuLinkClick} />,
+  shouldDisplayAddMenu && (
+  <AddMenu
+    key="AddMenu"
+    onMenuSelect={onMenuSelect}
+    onMenuLinkClick={onMenuLinkClick}
+  />
+  ),
+  shouldDisplayHelpMenu && (
+  <Help key="Help" onMenuLinkClick={onHelpLinkClick} />
+  ),
+  shouldDisplayActivitiesMenu && (
+  <Activities key="Activities" onMenuLinkClick={onActivitiesLinkClick} />
+  ),
+  shouldDisplayBusinessMenu && (
+  <BusinessMenu
+    key="BusinessMenu"
+    onMenuSelect={onMenuSelect}
+    onMenuLinkClick={onMenuLinkClick}
+  />
+  ),
+  !shouldDisplayBusinessMenu && (
+  <Logout key="Logout" onMenuLinkClick={onMenuLinkClick} />
+  ),
 ].filter(Boolean);
 
 const NavigationBar = ({
-  onMenuSelect, onMenuLinkClick, onHelpLinkClick, onActivitiesLinkClick,
-  onSkipToMainContentClick, shouldDisplaySalesMenu, shouldDisplayBusinessMenu,
-  shouldDisplayBankingMenu, shouldDisplayContactMenu,
-  shouldDisplayAccountingMenu, shouldDisplayPayrollMenu,
-  shouldDisplayPurchasesMenu, shouldDisplayInTray,
-  shouldDisplayReportsMenu, shouldDisplayHelpMenu,
-  shouldDisplayAddMenu, shouldDisplayActivitiesMenu,
+  onMenuSelect,
+  onMenuLinkClick,
+  onHelpLinkClick,
+  onActivitiesLinkClick,
+  shouldDisplaySalesMenu,
+  shouldDisplayBusinessMenu,
+  shouldDisplayBankingMenu,
+  shouldDisplayContactMenu,
+  shouldDisplayAccountingMenu,
+  shouldDisplayPayrollMenu,
+  shouldDisplayPurchasesMenu,
+  shouldDisplayInTray,
+  shouldDisplayReportsMenu,
+  shouldDisplayHelpMenu,
+  shouldDisplayAddMenu,
+  shouldDisplayActivitiesMenu,
   menuLogoUrl,
 }) => {
   const primaryMenuItems = getPrimary({
@@ -92,17 +174,15 @@ const NavigationBar = ({
     shouldDisplayActivitiesMenu,
   });
   const brand = (
-    <>
-      <div className={styles.skipNavigationContainer}>
-        <Button type="link" className={styles.skipNavigation} onClick={onSkipToMainContentClick}>
-          Skip to main content
-        </Button>
-      </div>
-      <Navigation.Brand url={menuLogoUrl} width="7.3rem"><MYOBLogo /></Navigation.Brand>
-    </>
+    <Navigation.Brand
+      url={menuLogoUrl}
+      width="7.3rem"
+    >
+      <MYOBLogo />
+    </Navigation.Brand>
   );
 
-  const primary = primaryMenuItems.length ? primaryMenuItems : [''];
+  const primary = primaryMenuItems.length ? primaryMenuItems : [];
 
   return (
     <div className={styles.navigation}>

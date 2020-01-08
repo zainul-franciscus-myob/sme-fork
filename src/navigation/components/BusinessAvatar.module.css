@@ -1,6 +1,9 @@
 .avatar {
   display: inline-block;
-  margin: 0 1rem 0 1.2rem;
+  margin-top: 0;
+  margin-right: 1rem;
+  margin-bottom: 0;
+  margin-left: 0;
   padding: 0 0.2rem;
   min-width: 2.4rem;
   height: 2.4rem;
@@ -14,3 +17,12 @@
   background: var(--flx-palette-dusk-100);
   background: linear-gradient(135deg, var(--flx-palette-dusk-dark) 0%, var(--flx-palette-dusk-100) 35%, var(--flx-palette-berry) 100%);
 }
+
+
+@media (min-width: 768px) {
+  .avatar {
+    margin-left: 1.2rem;
+  }
+}
+
+
