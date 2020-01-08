@@ -2,7 +2,7 @@ import { Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCreateBankFeedsUrl, getIsBankAccountsEmpty } from '../BankFeedsSelectors';
+import { getCreateBankFeedsUrl, getIsBankAccountsEmpty, getIsTableLoading } from '../BankFeedsSelectors';
 import BankAccountsTableBody from './BankAccountsTableBody';
 import BankAccountsTableHeader from './BankAccountsTableHeader';
 import LinkButton from '../../../components/Button/LinkButton';
@@ -23,6 +23,7 @@ export const tableConfig = {
 
 const BankAccountsTable = ({
   isBankAccountsEmpty,
+  isTableLoading,
   onBankAccountLinkedAccountChange,
   onDeleteBankFeedAccountClick,
   manageBankFeedsLink,
@@ -54,6 +55,7 @@ const BankAccountsTable = ({
       responsiveWidths={getBankAccountsTableResponsiveConfig(tableConfig)}
       header={<BankAccountsTableHeader tableConfig={tableConfig} />}
       isEmpty={isBankAccountsEmpty}
+      isLoading={isTableLoading}
       emptyView={emptyView}
     >
       <BankAccountsTableBody
@@ -68,6 +70,7 @@ const BankAccountsTable = ({
 const mapStateToProps = state => ({
   isBankAccountsEmpty: getIsBankAccountsEmpty(state),
   manageBankFeedsLink: getCreateBankFeedsUrl(state),
+  isTableLoading: getIsTableLoading(state),
 });
 
 export default connect(mapStateToProps)(BankAccountsTable);

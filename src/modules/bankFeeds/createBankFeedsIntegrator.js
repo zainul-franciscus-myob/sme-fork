@@ -1,5 +1,15 @@
-import { DELETE_BANK_FEED, LOAD_BANK_FEEDS, SAVE_BANK_FEEDS } from './BankFeedsIntents';
-import { getBankFeedsUrlParams, getDeleteBankFeedUrlParams, getSaveBankFeedsPayload } from './BankFeedsSelectors';
+import {
+  DELETE_BANK_FEED,
+  LOAD_BANK_FEEDS,
+  REFRESH_BANK_FEEDS,
+  SAVE_BANK_FEEDS,
+} from './BankFeedsIntents';
+import {
+  getBankFeedsLoginDetails,
+  getBankFeedsUrlParams,
+  getDeleteBankFeedUrlParams,
+  getSaveBankFeedsPayload,
+} from './BankFeedsSelectors';
 
 const createBankFeedsIntegrator = (store, integration) => ({
   loadBankFeeds: ({ onSuccess, onFailure }) => {
@@ -33,6 +43,19 @@ const createBankFeedsIntegrator = (store, integration) => ({
     integration.write({
       intent: DELETE_BANK_FEED,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+  bankFeedsLogin: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const urlParams = getBankFeedsUrlParams(state);
+    const content = getBankFeedsLoginDetails(state);
+
+    integration.write({
+      intent: REFRESH_BANK_FEEDS,
+      urlParams,
+      content,
       onSuccess,
       onFailure,
     });

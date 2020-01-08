@@ -1,19 +1,26 @@
 import {
-  BaseTemplate, Icons, PageHead,
+  BaseTemplate, Button, Icons, PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getCreateBankFeedsUrl, getIsBankFeedsEmpty, getIsLoading, getModalType,
+  getAlert,
+  getCreateBankFeedsUrl,
+  getIsActionDisabled,
+  getIsBankFeedsEmpty,
+  getIsLoading,
+  getModalType,
 } from '../BankFeedsSelectors';
 import Alert from './Alert';
 import BankAccounts from './BankAccounts';
 import BankFeedsActions from './BankFeedsActions';
 import BankFeedsEmptyView from './BankFeedsEmptyView';
+import BankFeedsLoginModal from './BankFeedsLoginModal';
 import CreditCards from './CreditCards';
 import DeleteModal from '../../../components/modal/DeleteModal';
 import LinkButton from '../../../components/Button/LinkButton';
+import ModalTypes from '../ModalTypes';
 import PageView from '../../../components/PageView/PageView';
 
 const BankFeedsView = ({
@@ -22,6 +29,7 @@ const BankFeedsView = ({
   manageBankFeedsLink,
   isBankFeedsEmpty,
   isLoading,
+  isActionDisabled,
   onSaveButtonClick,
   onDismissAlert,
   onCloseDeleteModal,
@@ -29,6 +37,10 @@ const BankFeedsView = ({
   onBankAccountLinkedAccountChange,
   onCreditCardLinkedAccountChange,
   onDeleteBankFeedAccountClick,
+  onCancelBankFeedsLogin,
+  onConfirmBankFeedsLogin,
+  onUpdateBankFeedsLoginDetails,
+  onUpdateButtonClick,
 }) => {
   const actions = !isBankFeedsEmpty && (
     <BankFeedsActions onSaveButtonClick={onSaveButtonClick} />
@@ -41,13 +53,22 @@ const BankFeedsView = ({
     />
   );
 
-  const deleteBankFeedAccountConfirmationModal = modalType && (
-    <DeleteModal
-      onCancel={onCloseDeleteModal}
-      onConfirm={onDeleteBankFeedAccountConfirm}
-      title="Delete this bank feed account?"
-    />
-  );
+  const modal = {
+    [ModalTypes.DELETE]: (
+      <DeleteModal
+        onCancel={onCloseDeleteModal}
+        onConfirm={onDeleteBankFeedAccountConfirm}
+        title="Delete this bank feed account?"
+      />
+    ),
+    [ModalTypes.BANK_FEEDS_LOGIN]: (
+      <BankFeedsLoginModal
+        onCancelBankFeedsLogin={onCancelBankFeedsLogin}
+        onConfirmBankFeedsLogin={onConfirmBankFeedsLogin}
+        onUpdateBankFeedsLoginDetails={onUpdateBankFeedsLoginDetails}
+      />
+    ),
+  }[modalType];
 
   const tableView = isBankFeedsEmpty
     ? (
@@ -78,6 +99,13 @@ const BankFeedsView = ({
         >
           Manage bank feeds via my.MYOB
         </LinkButton>
+        <Button
+          type="secondary"
+          disabled={isActionDisabled}
+          onClick={onUpdateButtonClick}
+        >
+          Check/update status
+        </Button>
       </PageHead>
     </div>
   );
@@ -85,7 +113,7 @@ const BankFeedsView = ({
   const view = (
     <BaseTemplate stickyHeaderChildren={stickyComponents}>
       {tableView}
-      {deleteBankFeedAccountConfirmationModal}
+      {modal}
       {actions}
     </BaseTemplate>
   );
@@ -95,6 +123,7 @@ const BankFeedsView = ({
 
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
+  isActionDisabled: getIsActionDisabled(state),
   alert: getAlert(state),
   modalType: getModalType(state),
   manageBankFeedsLink: getCreateBankFeedsUrl(state),

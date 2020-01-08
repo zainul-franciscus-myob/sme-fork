@@ -1,4 +1,5 @@
 import {
+  CLEAR_BANK_FEEDS_LOGIN,
   DELETE_BANK_FEED,
   LOAD_BANK_FEEDS,
   SET_ACCOUNT_TO_BE_DELETED,
@@ -8,6 +9,7 @@ import {
   SET_IS_TABLE_LOADING,
   SET_MODAL_TYPE,
   UPDATE_BANK_ACCOUNT_LINKED_ACCOUNT,
+  UPDATE_BANK_FEEDS_LOGIN,
   UPDATE_CREDIT_CARD_LINKED_ACCOUNT,
 } from './BankFeedsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -28,6 +30,10 @@ const getDefaultState = () => ({
     creditCards: [],
   },
   accountToBeDeleted: undefined,
+  loginDetails: {
+    username: '',
+    password: '',
+  },
 });
 
 
@@ -43,9 +49,9 @@ const setIsLoading = (state, action) => ({
   isLoading: action.isLoading,
 });
 
-const setIsTableLoading = (state, action) => ({
+const setIsTableLoading = (state, { isTableLoading }) => ({
   ...state,
-  isTableLoading: action.isTableLoading,
+  isTableLoading,
 });
 
 const setIsSubmitting = (state, action) => ({
@@ -130,6 +136,22 @@ const deleteBankFeed = (state) => {
   };
 };
 
+const updateBankFeedsLoginDetails = (state, action) => ({
+  ...state,
+  loginDetails: {
+    ...state.loginDetails,
+    [action.key]: action.value,
+  },
+});
+
+const clearBankFeedsLoginDetails = state => ({
+  ...state,
+  loginDetails: {
+    username: '',
+    password: '',
+  },
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -143,6 +165,8 @@ const handlers = {
   [UPDATE_CREDIT_CARD_LINKED_ACCOUNT]: updateCreditCardLinkedAccount,
   [SET_ACCOUNT_TO_BE_DELETED]: setAccountToBeDeleted,
   [DELETE_BANK_FEED]: deleteBankFeed,
+  [UPDATE_BANK_FEEDS_LOGIN]: updateBankFeedsLoginDetails,
+  [CLEAR_BANK_FEEDS_LOGIN]: clearBankFeedsLoginDetails,
 };
 
 const bankFeedsReducer = createReducer(getDefaultState(), handlers);

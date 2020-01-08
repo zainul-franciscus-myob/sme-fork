@@ -4,13 +4,21 @@ import Config from '../../Config';
 
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
-export const getIsTableLoading = state => state.isTableLoading;
 export const getIsLoading = state => state.isLoading;
-export const getIsActionDisabled = state => state.isSubmitting;
+const getIsSubmitting = state => state.isSubmitting;
 
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getSerialNumber = state => state.serialNumber;
+
+export const getBankFeedsLoginDetails = state => state.loginDetails;
+export const getIsTableLoading = state => state.isTableLoading;
+
+export const getIsActionDisabled = createSelector(
+  getIsTableLoading,
+  getIsSubmitting,
+  (isTableLoading, isSubmitting) => isSubmitting || isTableLoading,
+);
 
 export const getBankFeedsUrlParams = state => ({
   businessId: getBusinessId(state),

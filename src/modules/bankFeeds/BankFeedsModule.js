@@ -84,6 +84,42 @@ class BankFeedsModule {
     type: 'danger',
   });
 
+  cancelBankFeedsLoginModal = () => {
+    this.dispatcher.closeModal();
+    this.dispatcher.clearBankFeedsLogin();
+  };
+
+  reloadBankFeeds = () => {
+    const onSuccess = (response) => {
+      this.dispatcher.setIsTableLoading(false);
+      this.dispatcher.loadBankFeeds(response);
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.setIsTableLoading(false);
+      this.displayFailureAlert(message);
+    };
+
+    this.dispatcher.setIsTableLoading(true);
+    this.integrator.loadBankFeeds({ onSuccess, onFailure });
+  }
+
+  bankFeedsLogin = () => {
+    const onSuccess = ({ message }) => {
+      this.displaySuccessMessage(message);
+      this.reloadBankFeeds();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setIsTableLoading(false);
+      this.displayFailureAlert(message);
+    };
+
+    this.integrator.bankFeedsLogin({ onSuccess, onFailure });
+
+    this.dispatcher.setIsTableLoading(true);
+    this.cancelBankFeedsLoginModal();
+  };
+
   resetState = () => this.dispatcher.resetState();
 
   run(context) {
@@ -104,6 +140,10 @@ class BankFeedsModule {
           onCreditCardLinkedAccountChange={this.dispatcher.updateCreditCardLinkedAccount}
           onDeleteBankFeedAccountClick={this.openDeleteModalAndSetAccountToBeDeleted}
           onDeleteBankFeedAccountConfirm={this.deleteBankFeed}
+          onUpdateButtonClick={this.dispatcher.openBankFeedsLoginModal}
+          onUpdateBankFeedsLoginDetails={this.dispatcher.updateBankFeedsLoginDetails}
+          onCancelBankFeedsLogin={this.cancelBankFeedsLoginModal}
+          onConfirmBankFeedsLogin={this.bankFeedsLogin}
         />
       </Provider>
     );

@@ -2,7 +2,11 @@ import { Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCreateBankFeedsUrl, getIsCreditCardsEmpty } from '../BankFeedsSelectors';
+import {
+  getCreateBankFeedsUrl,
+  getIsCreditCardsEmpty,
+  getIsTableLoading,
+} from '../BankFeedsSelectors';
 import CreditCardsTableBody from './CreditCardsTableBody';
 import CreditCardsTableHeader from './CreditCardsTableHeader';
 import LinkButton from '../../../components/Button/LinkButton';
@@ -22,6 +26,7 @@ const tableConfig = {
 
 const CreditCardsTable = ({
   isCreditCardsEmpty,
+  isTableLoading,
   manageBankFeedsLink,
   onCreditCardLinkedAccountChange,
   onDeleteBankFeedAccountClick,
@@ -53,6 +58,7 @@ const CreditCardsTable = ({
       responsiveWidths={getCreditCardsTableResponsiveConfig(tableConfig)}
       header={<CreditCardsTableHeader tableConfig={tableConfig} />}
       isEmpty={isCreditCardsEmpty}
+      isLoading={isTableLoading}
       emptyView={emptyView}
     >
       <CreditCardsTableBody
@@ -67,6 +73,7 @@ const CreditCardsTable = ({
 const mapStateToProps = state => ({
   isCreditCardsEmpty: getIsCreditCardsEmpty(state),
   manageBankFeedsLink: getCreateBankFeedsUrl(state),
+  isTableLoading: getIsTableLoading(state),
 });
 
 export default connect(mapStateToProps)(CreditCardsTable);
