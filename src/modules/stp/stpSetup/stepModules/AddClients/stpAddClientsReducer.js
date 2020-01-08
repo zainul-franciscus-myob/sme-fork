@@ -1,4 +1,4 @@
-import { SET_AGENT_ROLE } from './StpAddClientsIntents';
+import { SET_AGENT_ROLE, SET_ERROR_MESSAGE } from './StpAddClientsIntents';
 import createReducer from '../../../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -10,8 +10,15 @@ const setAgentRole = (state, { agentRole }) => ({
   agentRole,
 });
 
+
+const setErrorMessage = (state, { errorMessage }) => ({
+  ...state,
+  errorMessage,
+});
+
 const handlers = {
   [SET_AGENT_ROLE]: setAgentRole,
+  [SET_ERROR_MESSAGE]: setErrorMessage,
 };
 
 const stpAddClientsReducer = createReducer(getDefaultState(), handlers);

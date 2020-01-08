@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAgentRoleText } from '../stpAddClientsSelectors';
+import { getAgentRoleText, getErrorMessage } from '../stpAddClientsSelectors';
 import styles from './StpAddClients.module.css';
 
 const StpAddClientsView = ({
@@ -13,8 +13,10 @@ const StpAddClientsView = ({
   onPreviousClick,
   onInstructionsLinkClick,
   onPortalLinkClick,
+  errorMessage,
 }) => (
   <div>
+    {errorMessage && (<Alert type="danger">{errorMessage}</Alert>)}
     <Card header={<Card.Header child={<PageHead title={`Launch ${agentRole} portal`} />} />}>
       <Alert type="info">If you have already done this, you can skip this step.</Alert>
       <p>
@@ -62,6 +64,7 @@ const StpAddClientsView = ({
 
 const mapStateToProps = state => ({
   agentRole: getAgentRoleText(state),
+  errorMessage: getErrorMessage(state),
 });
 
 export default connect(mapStateToProps)(StpAddClientsView);

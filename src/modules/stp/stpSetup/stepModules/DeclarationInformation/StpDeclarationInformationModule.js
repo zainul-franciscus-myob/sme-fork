@@ -81,6 +81,13 @@ export default class StpDeclarationInformationModule {
     });
   }
 
+  showError = ({ message }) => {
+    this.setAlert({
+      type: 'danger',
+      message,
+    });
+  }
+
   handleFieldChange = ({ key, value }) => {
     this.store.dispatch({
       intent: SET_FIELD,
@@ -89,7 +96,10 @@ export default class StpDeclarationInformationModule {
     });
   }
 
-  loadBusinessInformation = () => {
+  loadBusinessInformation = ({
+    onSuccess = () => {},
+    onFailure = () => {},
+  }) => {
     this.setIsLoading(true);
     const state = this.store.getState();
 
@@ -97,27 +107,29 @@ export default class StpDeclarationInformationModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = (businessContactInformation) => {
+    const onSuccessFunc = (businessContactInformation) => {
       this.store.dispatch({
         intent: LOAD_BUSINESS_CONTACT_INFORMATION,
         businessContactInformation,
       });
       this.setIsLoading(false);
+      onSuccess();
     };
 
-    const onFailure = ({ message }) => {
+    const onFailureFunc = ({ message }) => {
       this.setAlert({
         type: 'danger',
         message,
       });
       this.setIsLoading(false);
+      onFailure({ message });
     };
 
     this.integration.read({
       intent: LOAD_BUSINESS_CONTACT_INFORMATION,
       urlParams,
-      onSuccess,
-      onFailure,
+      onSuccess: onSuccessFunc,
+      onFailure: onFailureFunc,
     });
   };
 

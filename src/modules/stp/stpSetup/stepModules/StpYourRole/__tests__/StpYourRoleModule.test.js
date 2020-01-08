@@ -205,4 +205,18 @@ describe('StpYourRoleModule', () => {
       expect(onPrevious).toHaveBeenCalled();
     });
   });
+
+  describe('showError', () => {
+    it('sets the alert to the message', () => {
+      const { wrapper, module } = constructModule({});
+      const errorMessage = 'This is the error message';
+      module.showError({ message: errorMessage });
+      wrapper.update();
+
+      const alert = wrapper.find(Alert);
+
+      expect(alert.prop('type')).toEqual('danger');
+      expect(alert.contains(errorMessage)).toBeTruthy();
+    });
+  });
 });

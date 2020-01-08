@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SET_AGENT_ROLE } from './StpAddClientsIntents';
+import { SET_AGENT_ROLE, SET_ERROR_MESSAGE } from './StpAddClientsIntents';
 import { getATOInstructionsLink, getAgentPortalLink } from './stpAddClientsSelectors';
 import Store from '../../../../../store/Store';
 import StpAddClientsView from './components/StpAddClientsView';
@@ -34,6 +34,13 @@ export default class StpAddClientsModule {
     const state = this.store.getState();
     const link = getATOInstructionsLink(state);
     window.open(link, '_newTab');
+  }
+
+  showError = ({ message }) => {
+    this.store.dispatch({
+      intent: SET_ERROR_MESSAGE,
+      errorMessage: message,
+    });
   }
 
   getView() {

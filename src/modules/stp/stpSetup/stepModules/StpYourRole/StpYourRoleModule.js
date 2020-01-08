@@ -52,6 +52,13 @@ export default class StpYourRoleModule {
     this.loadContactDetails();
   }
 
+  showError = ({ message }) => {
+    this.store.dispatch({
+      intent: SET_ERROR_MESSAGE,
+      errorMessage: message,
+    });
+  }
+
   loadContactDetails = () => {
     const state = this.store.getState();
     const intent = LOAD_AGENT_CONTACT_INFO;

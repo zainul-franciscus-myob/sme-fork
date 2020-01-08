@@ -8,6 +8,7 @@ import Steps from './Steps';
 import Store from '../../../store/Store';
 import StpAddClientsModule from './stepModules/AddClients/StpAddClientsModule';
 import StpDeclarationInformationModule from './stepModules/DeclarationInformation/StpDeclarationInformationModule';
+import StpNotifyAtoModule from './stepModules/NotifyAto/StpNotifyAtoModule';
 import StpOverviewModule from './stepModules/StpOverview/StpOverviewModule';
 import StpSetupView from './components/StpSetupView';
 import StpYourRoleModule from './stepModules/StpYourRole/StpYourRoleModule';
@@ -59,12 +60,18 @@ export default class StpSetupModule {
         getType: this.getAddClientsStepType,
         module: new StpAddClientsModule({
           onPrevious: this.onAddClientsPrevious,
-          onFinish: () => {},
+          onFinish: this.onAddClientsFinish,
         }),
       },
       {
         id: Steps.NOTIFY_ATO,
         title: 'Notify ATO',
+        module: new StpNotifyAtoModule({
+          onPrevious: this.onNotifyAtoPrevious,
+          onFinish: this.onNotifyAtoFinish,
+          integration: this.integration,
+          context,
+        }),
       },
       {
         id: Steps.ACTIVATE,
@@ -74,14 +81,16 @@ export default class StpSetupModule {
   }
 
   getAddClientsStepType = (stepIndex, currentStepIndex) => {
-    if (stepIndex < currentStepIndex) {
-      return 'completed';
-    }
     const state = this.store.getState();
-    if (getAgentRoleSelected(state)) {
+    if (getAgentRoleSelected(state) !== true) {
+      return 'disabled';
+    }
+
+    if (stepIndex > currentStepIndex) {
       return 'incomplete';
     }
-    return 'disabled';
+
+    return 'complete';
   }
 
   overviewFinish = () => {
@@ -102,8 +111,15 @@ export default class StpSetupModule {
 
   enterDeclarationStep = () => {
     const declarationStep = this.getStep(Steps.DECLARATION_INFORMATION);
-    declarationStep.module.loadBusinessInformation();
-    this.setStep(Steps.DECLARATION_INFORMATION);
+    declarationStep.module.loadBusinessInformation({
+      onSuccess: () => {
+        this.setStep(Steps.DECLARATION_INFORMATION);
+      },
+      onFailure: ({ message }) => {
+        const yourRoleStep = this.getStep(Steps.YOUR_ROLE);
+        yourRoleStep.module.showError({ message });
+      },
+    });
   }
 
   declarationInformationPrevious = () => {
@@ -115,7 +131,16 @@ export default class StpSetupModule {
     if (getAgentRoleSelected(state)) {
       this.enterAddClients();
     } else {
-      this.setStep(Steps.NOTIFY_ATO);
+      const notifyAtoStep = this.getStep(Steps.NOTIFY_ATO);
+      notifyAtoStep.module.getBusinessSid({
+        onSuccess: () => {
+          this.setStep(Steps.NOTIFY_ATO);
+        },
+        onFailure: ({ message }) => {
+          const declarationStep = this.getStep(Steps.DECLARATION_INFORMATION);
+          declarationStep.module.showError({ message });
+        },
+      });
     }
   }
 
@@ -129,6 +154,30 @@ export default class StpSetupModule {
   onAddClientsPrevious = () => {
     this.setStep(Steps.DECLARATION_INFORMATION);
   }
+
+  onAddClientsFinish = () => {
+    const notifyAtoStep = this.getStep(Steps.NOTIFY_ATO);
+    notifyAtoStep.module.getBusinessSid({
+      onSuccess: () => {
+        this.setStep(Steps.NOTIFY_ATO);
+      },
+      onFailure: ({ message }) => {
+        const addClientsStep = this.getStep(Steps.ADD_CLIENTS);
+        addClientsStep.module.showError({ message });
+      },
+    });
+  }
+
+  onNotifyAtoPrevious = () => {
+    const state = this.store.getState();
+    if (getAgentRoleSelected(state)) {
+      this.setStep(Steps.ADD_CLIENTS);
+    } else {
+      this.setStep(Steps.DECLARATION_INFORMATION);
+    }
+  }
+
+  onNotifyAtoFinish = () => { }
 
   getStep = (stepId) => {
     const stepIndex = this.steps.findIndex(step => step.id === stepId);

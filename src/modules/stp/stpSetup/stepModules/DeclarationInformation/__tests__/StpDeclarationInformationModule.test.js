@@ -97,7 +97,7 @@ describe('StpDeclarationInformationModule', () => {
       const integration = { read: jest.fn() };
       const { module } = constructModule({ integration });
 
-      module.loadBusinessInformation();
+      module.loadBusinessInformation({});
 
       expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
         intent: LOAD_BUSINESS_CONTACT_INFORMATION,
@@ -107,7 +107,7 @@ describe('StpDeclarationInformationModule', () => {
     it('should render an alert if business contact information was found', () => {
       const { wrapper, module } = constructModule({});
 
-      module.loadBusinessInformation();
+      module.loadBusinessInformation({});
       wrapper.update();
 
       const alert = wrapper.find(Alert);
@@ -123,7 +123,7 @@ describe('StpDeclarationInformationModule', () => {
       };
       const { wrapper, module } = constructModule({ integration });
 
-      module.loadBusinessInformation();
+      module.loadBusinessInformation({});
       wrapper.update();
 
       const alert = wrapper.find(Alert);
@@ -140,7 +140,7 @@ describe('StpDeclarationInformationModule', () => {
         };
         const { wrapper, module } = constructModule({ integration });
 
-        module.loadBusinessInformation();
+        module.loadBusinessInformation({});
         wrapper.update();
 
         const alert = wrapper.find(Alert);
@@ -152,7 +152,7 @@ describe('StpDeclarationInformationModule', () => {
       it('should not render an error alert if the integration succeeds', () => {
         const { wrapper, module } = constructModule({});
 
-        module.loadBusinessInformation();
+        module.loadBusinessInformation({});
         wrapper.update();
 
         const errorAlert = wrapper.findWhere(c => c.name() === 'Alert' && c.prop('type') === 'danger');
@@ -165,7 +165,7 @@ describe('StpDeclarationInformationModule', () => {
     it('gets fields values from the state', () => {
       const { wrapper, module } = constructModule({});
 
-      module.loadBusinessInformation();
+      module.loadBusinessInformation({});
       wrapper.update();
 
       const payerAbnInput = findComponentWithTestId(wrapper, 'payerAbnInput', 'Input');
