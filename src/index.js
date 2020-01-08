@@ -37,9 +37,16 @@ async function main(integrationType, telemetryType, leanEngageType) {
     ReactDOM.render(rootModule.render(component), root);
   };
 
+  let previousRoute = null;
+
   const routes = getRoutes({
     integration,
     setRootView,
+    previousRoute: {
+      get name() { return previousRoute && previousRoute.name; },
+      get params() { return previousRoute && previousRoute.params; },
+      get url() { return previousRoute && previousRoute.url; },
+    },
     popMessages: inbox.popMessages,
     pushMessage: inbox.pushMessage,
     replaceURLParams: router.replaceURLParams,
@@ -59,7 +66,8 @@ async function main(integrationType, telemetryType, leanEngageType) {
   const initializeLeanEngage = (await import(`./leanEngage/initialize${leanEngageType}LeanEngage`)).default;
   const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
-  const beforeAll = ({ module, routeProps }) => {
+  const beforeAll = ({ module, routeProps, previousRoute: prevRoute }) => {
+    previousRoute = prevRoute;
     unbindAllKeys();
     unsubscribeAllModulesFromStore();
     module.resetState();

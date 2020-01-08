@@ -1,6 +1,7 @@
 import browserPlugin from 'router5-plugin-browser';
 import createRouter from 'router5';
 
+import buildPreviousRoute from './buildPreviousRoute';
 import convertRoutesToRouterConfig from './convertRoutesToRouterConfig';
 import getRouteNameToModuleMapping from './getRouteNameToModuleMapping';
 import removeEmptyParams from './removeEmptyParams';
@@ -70,7 +71,7 @@ export default class Router {
 
     this.router.add(routerConfig);
 
-    this.router.subscribe(({ route }) => {
+    this.router.subscribe(({ route, previousRoute }) => {
       const { module, action, title } = moduleMapping[route.name];
       document.title = this.buildDocumentTitle(title);
 
@@ -80,6 +81,7 @@ export default class Router {
           routeParams: route.params,
           currentRouteName: route.name,
         },
+        previousRoute: buildPreviousRoute(this.router, previousRoute),
       });
       action({ ...route.params }, this.replaceURLParams);
       afterAll();

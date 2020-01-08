@@ -70,7 +70,7 @@ const getItems = ({
   userEmail && <UnlinkedMenuLink label={userEmail} className={styles.userEmail} />,
   getDisabledMenuLink('my.MYOB account'),
   urls.paymentDetail && getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick),
-  urls.subscription && getMenuLink(urls.subscription, 'Subscription details', onMenuLinkClick),
+  urls.subscription && getMenuLink(urls.subscription, 'Subscribe now', onMenuLinkClick),
   <Navigation.Separator key="separator-links" />,
   serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
   getMenuLinkWithIcon('#/logout', 'Logout', <Icons.SignOut />, onMenuLinkClick),

@@ -8,7 +8,7 @@ export default {
     getPath: ({ businessId }) => `/${businessId}/subscription/load_subscription`,
   },
   [GET_UPDATE_SUBSCRIPTION_URL]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/subscription/update_subscription`,
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/subscription/subscribe_now`,
   },
 };
