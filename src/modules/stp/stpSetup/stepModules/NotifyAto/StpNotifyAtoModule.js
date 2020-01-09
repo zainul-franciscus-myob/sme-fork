@@ -2,13 +2,16 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  CLOSE_CONFIRMATION_MODAL,
   GET_BUSINESS_SID,
   LOAD_CONTEXT,
+  OPEN_CONFIRMATION_MODAL,
   SET_ALERT,
   SET_IS_LOADING,
 } from './stpNotifyAtoIntents';
 import {
   getAccessManagerSiteUrl,
+  getAgentAbn,
   getBusinessId,
   getHostedSbrUrl,
 } from './stpNotifyAtoModuleSelectors';
@@ -53,6 +56,7 @@ export default class StpNotifyAtoModule {
     const state = this.store.getState();
     const urlParams = {
       businessId: getBusinessId(state),
+      agentAbn: getAgentAbn(state),
     };
 
     const onSuccessFunc = ({ sid }) => {
@@ -65,10 +69,6 @@ export default class StpNotifyAtoModule {
     };
 
     const onFailureFunc = ({ message }) => {
-      this.setAlert({
-        type: 'danger',
-        message,
-      });
       this.setIsLoading(false);
       onFailure({ message });
     };
@@ -93,11 +93,25 @@ export default class StpNotifyAtoModule {
     window.open(link, '_blank');
   };
 
+  openConfirmationModal = () => {
+    this.store.dispatch({
+      intent: OPEN_CONFIRMATION_MODAL,
+    });
+  }
+
+  closeConfirmationModal = () => {
+    this.store.dispatch({
+      intent: CLOSE_CONFIRMATION_MODAL,
+    });
+  }
+
   getView() {
     return (
       <Provider store={this.store}>
         <StpNotifyModuleView
           onPreviousClick={this.onPrevious}
+          onNotifiedAtoClick={this.openConfirmationModal}
+          onCloseConfirmationModal={this.closeConfirmationModal}
           onFinish={this.onFinish}
           onAccessManagerLinkClick={this.goToAccessManagerSite}
           onHostedSbrLinkClick={this.goToHostedSbrUrl}

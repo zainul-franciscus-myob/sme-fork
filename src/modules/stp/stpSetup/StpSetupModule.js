@@ -3,11 +3,12 @@ import React from 'react';
 
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SET_CURRENT_STEP_INDEX, SET_SELECTED_AGENT_ROLE } from './stpSetupIntents';
-import { getAgentRoleSelected, getSelectedAgentRole } from './stpSetupSelectors';
+import { getAgentRoleSelected, getSelectedAgentRole, getStpReportingCentreUrl } from './stpSetupSelectors';
 import Steps from './Steps';
 import Store from '../../../store/Store';
 import StpAddClientsModule from './stepModules/AddClients/StpAddClientsModule';
 import StpDeclarationInformationModule from './stepModules/DeclarationInformation/StpDeclarationInformationModule';
+import StpDoneModule from './stepModules/StpDone/StpDoneModule';
 import StpNotifyAtoModule from './stepModules/NotifyAto/StpNotifyAtoModule';
 import StpOverviewModule from './stepModules/StpOverview/StpOverviewModule';
 import StpSetupView from './components/StpSetupView';
@@ -74,8 +75,11 @@ export default class StpSetupModule {
         }),
       },
       {
-        id: Steps.ACTIVATE,
-        title: 'Activate',
+        id: Steps.DONE,
+        title: 'Done!',
+        module: new StpDoneModule({
+          onFinish: this.redirectToPayRollReporting,
+        }),
       },
     ];
   }
@@ -95,6 +99,11 @@ export default class StpSetupModule {
 
   overviewFinish = () => {
     this.setStep(Steps.YOUR_ROLE);
+  }
+
+  redirectToPayRollReporting = () => {
+    const state = this.store.getState();
+    window.location.href = getStpReportingCentreUrl(state);
   }
 
   yourRolePrevious = () => {
@@ -177,7 +186,9 @@ export default class StpSetupModule {
     }
   }
 
-  onNotifyAtoFinish = () => { }
+  onNotifyAtoFinish = () => {
+    this.setStep(Steps.DONE);
+  }
 
   getStep = (stepId) => {
     const stepIndex = this.steps.findIndex(step => step.id === stepId);

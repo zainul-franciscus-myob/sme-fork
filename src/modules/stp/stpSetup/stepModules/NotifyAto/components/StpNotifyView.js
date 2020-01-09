@@ -9,7 +9,13 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getBusinessSid, getIsLoading } from '../stpNotifyAtoModuleSelectors';
+import {
+  getAlert,
+  getBusinessSid,
+  getIsLoading,
+  getShowConfirmation,
+} from '../stpNotifyAtoModuleSelectors';
+import ConfirmationModal from './ConfirmationModal';
 import LoadingPageState from '../../../../../../components/LoadingPageState/LoadingPageState';
 import SoftwareDetailsView from './SoftwareDetailsView';
 import styles from './StpNotifyAto.module.css';
@@ -20,9 +26,12 @@ const StpNotifyModuleView = ({
   onFinish,
   onAccessManagerLinkClick,
   onHostedSbrLinkClick,
+  onNotifiedAtoClick,
   isLoading,
   businessSid,
   alert,
+  showConfirmation,
+  onCloseConfirmationModal,
 }) => {
   if (isLoading) {
     return (
@@ -34,6 +43,15 @@ const StpNotifyModuleView = ({
 
   return (
     <div>
+      {
+        showConfirmation
+        && (
+        <ConfirmationModal
+          onCloseConfirmationModal={onCloseConfirmationModal}
+          onSendButtonClick={onFinish}
+        />
+        )
+      }
       {alert && <Alert type={alert.type}>{alert.message}</Alert>}
       <Card header={<h2>Notify the ATO you&apos;re using MYOB for payroll reporting</h2>}>
         <p>
@@ -95,7 +113,7 @@ const StpNotifyModuleView = ({
       <ButtonRow
         primary={[
           <Button type="secondary" onClick={onPreviousClick} key="previous" testid="previousButton">Previous</Button>,
-          <Button type="primary" onClick={onFinish} key="finish" testid="finishButton">I&apos;ve notified the ATO</Button>,
+          <Button type="primary" onClick={onNotifiedAtoClick} key="notifiedAto" testid="notifiedAtoButton">I&apos;ve notified the ATO</Button>,
         ]}
       />
     </div>
@@ -106,6 +124,7 @@ const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   alert: getAlert(state),
   businessSid: getBusinessSid(state),
+  showConfirmation: getShowConfirmation(state),
 });
 
 export default connect(mapStateToProps)(StpNotifyModuleView);
