@@ -4,7 +4,6 @@ import {
 import React from 'react';
 
 import crossPurple from './assets/cross-purple.svg';
-import iconPlay from './assets/icon-play.svg';
 import styles from './index.module.css';
 
 const Welcome = ({ activity, closeActivity }) => {
@@ -25,14 +24,9 @@ const Welcome = ({ activity, closeActivity }) => {
         Make sure to check back here later for more setup tasks.
       </p>
 
-      <a href="https://www.google.com/">
+      <a href={`/#/${activity.region}/${activity.cdfguid}/dashboard?appcue=-LwVnYlAyZs8fgnratzU`}>
         <Icons.Hints size="16px" />
         Take a short tour
-      </a>
-
-      <a href="https://www.google.com/">
-        <img src={iconPlay} width="16" height="16px" alt="play" />
-        Watch an intro video
       </a>
     </div>
   );
