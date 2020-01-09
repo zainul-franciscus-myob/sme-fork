@@ -27,7 +27,7 @@ export const getOptions = state => ({
   date: state.date,
   showPaidInvoices: state.showPaidInvoices,
 });
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getTotalReceived = state => (
   `${formatCurrency(state.entries

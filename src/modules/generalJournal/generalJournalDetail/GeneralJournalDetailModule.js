@@ -40,6 +40,7 @@ import {
   isPageEdited,
 } from './generalJournalDetailSelectors';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
 import Store from '../../../store/Store';
 import generalJournalDetailReducer from './generalJournalDetailReducer';
@@ -70,19 +71,18 @@ export default class GeneralJournalDetailModule {
     const onSuccess = ({
       generalJournal, newLine, totals, pageTitle,
     }) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         generalJournal,
         totals,
         newLine,
         pageTitle,
-        isLoading: false,
       });
     };
 
     const onFailure = () => {
-      console.log('Failed to load general journal details');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -390,10 +390,10 @@ export default class GeneralJournalDetailModule {
     this.setRootView(wrappedView);
   };
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   }
 
@@ -423,7 +423,7 @@ export default class GeneralJournalDetailModule {
    this.setInitialState(context);
    setupHotKeys(keyMap, this.handlers);
    this.render();
-   this.setLoadingState(true);
+   this.setLoadingState(LoadingState.LOADING);
    this.loadGeneralJournal();
  }
 

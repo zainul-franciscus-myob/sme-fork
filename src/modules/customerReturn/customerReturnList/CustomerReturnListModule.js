@@ -22,6 +22,7 @@ import {
 } from './CustomerReturnListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import CustomerReturnListView from './components/CustomerReturnListView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import customerReturnListReducer from './customerReturnListReducer';
@@ -78,7 +79,7 @@ export default class CustomerReturnListModule {
     };
 
     const onSuccess = (response) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent: LOAD_CUSTOMER_RETURN_LIST,
         ...response,
@@ -86,7 +87,7 @@ export default class CustomerReturnListModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load customer return list entries');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     const state = this.store.getState();
@@ -262,11 +263,11 @@ export default class CustomerReturnListModule {
     this.store.unsubscribeAll();
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
     this.store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   }
 

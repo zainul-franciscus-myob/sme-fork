@@ -28,6 +28,7 @@ import {
   getSortOrder,
 } from './BankingRuleListSelectors';
 import BankingRuleListView from './components/BankingRuleListView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import bankingRuleListReducer from './bankingRuleListReducer';
 
@@ -62,7 +63,7 @@ export default class BankingRuleListModule {
     };
 
     const onSuccess = (payload) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
 
       this.store.dispatch({
         intent,
@@ -70,9 +71,11 @@ export default class BankingRuleListModule {
       });
     };
 
-    const onFailure = () => console.log('Failed to get initial load');
+    const onFailure = () => {
+      this.setLoadingState(LoadingState.LOADING_FAIL);
+    };
 
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.integration.read({
       intent,
       urlParams,
@@ -223,11 +226,11 @@ export default class BankingRuleListModule {
     });
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
     this.store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   }
 
@@ -256,7 +259,7 @@ export default class BankingRuleListModule {
     this.setInitialState(context);
     this.render();
     this.readMessages();
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.loadBankingList();
   }
 

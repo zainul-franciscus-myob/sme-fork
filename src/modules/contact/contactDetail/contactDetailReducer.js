@@ -11,6 +11,7 @@ import {
   UPDATE_SHIPPING_ADDRESS,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -63,7 +64,7 @@ const getDefaultState = () => ({
   },
   contactTypes: [],
   isCreating: false,
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   modalType: '',
   alertMessage: '',
@@ -96,9 +97,9 @@ const loadContactDetail = (state, action) => ({
   contactTypes: action.contactTypes,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const updateContactDetails = (state, action) => ({

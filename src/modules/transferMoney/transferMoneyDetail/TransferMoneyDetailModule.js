@@ -23,6 +23,7 @@ import {
   getSaveUrl,
   getTransactionListUrl, isPageEdited,
 } from './transferMoneyDetailSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
 import Store from '../../../store/Store';
 import TransferMoneyDetailView from './components/TransferMoneyDetailView';
@@ -41,10 +42,10 @@ export default class TransferMoneyDetailModule {
     this.store = new Store(transferMoneyDetailReducer);
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   }
 
@@ -63,11 +64,11 @@ export default class TransferMoneyDetailModule {
         intent,
         transferMoney,
       });
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
     const onFailure = () => {
-      console.log('Failed to load transfer money details');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -264,7 +265,7 @@ export default class TransferMoneyDetailModule {
     this.isCreating = context.transferMoneyId === 'new';
     setupHotKeys(keyMap, this.handlers);
     this.render();
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.loadTransferMoney();
   }
 

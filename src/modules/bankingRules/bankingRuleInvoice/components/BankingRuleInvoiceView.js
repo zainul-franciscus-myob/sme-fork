@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsAlertShown, getIsLoading, getModal, getPageTitle,
+  getIsAlertShown, getLoadingState, getModal, getPageTitle,
 } from '../bankingRuleInvoiceSelectors';
 import Actions from './BankingRuleInvoiceActions';
 import BankingRuleInvoiceAlert from './BankingRuleInvoiceAlert';
@@ -13,7 +13,7 @@ import PageView from '../../../../components/PageView/PageView';
 import RuleDetails from './BankingRuleInvoiceRuleDetails';
 
 const BankingRuleInvoiceView = ({
-  isLoading,
+  loadingState,
   isAlertShown,
   modal,
   pageTitle,
@@ -57,11 +57,11 @@ const BankingRuleInvoiceView = ({
     </BaseTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   modal: getModal(state),
   pageTitle: getPageTitle(state),
   isAlertShown: getIsAlertShown(state),

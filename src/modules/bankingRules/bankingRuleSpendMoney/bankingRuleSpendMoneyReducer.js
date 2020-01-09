@@ -19,6 +19,7 @@ import {
 import {
   allocationTypeOptions,
 } from './AllocationTypes';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 
@@ -58,7 +59,7 @@ const getDefaultState = () => ({
     value: '',
     taxCodeId: '',
   },
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isPageEdited: false,
   alertMessage: '',
   modal: undefined,
@@ -252,9 +253,9 @@ const updateForm = (state, action) => {
   };
 };
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const openModal = (state, action) => ({

@@ -2,13 +2,11 @@ import { createSelector } from 'reselect';
 
 import { mainTabItems } from './tabItems';
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getRegion = state => state.region;
-export const getIsSubmitting = state => state.isSubmitting;
 export const getBusinessId = state => state.businessId;
 export const getAlert = state => state.alert;
 export const getSelectedTab = state => state.selectedTab;
-export const getPendingTab = state => state.pendingTab;
 export const getPendingDeleteTemplate = state => state.pendingDeleteTemplate;
 export const getPaymentTerms = state => state.paymentTerms;
 export const getDateOfMonth = state => state.dateOfMonth;

@@ -4,8 +4,7 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsLoading,
-  getIsSubmitting,
+  getLoadingState,
   getModalType,
   getSelectedTab,
   getShowActions,
@@ -22,8 +21,7 @@ import SalesSettingsTemplateDetails from './SalesSettingsTemplateDetails';
 import Tabs from '../../../../components/Tabs/Tabs';
 
 const SalesSettingsDetailView = ({
-  isLoading,
-  isSubmitting,
+  loadingState,
   selectedTab,
   showActions,
   modalType,
@@ -109,13 +107,12 @@ const SalesSettingsDetailView = ({
   );
 
   return (
-    <PageView isLoading={isLoading} isSubmitting={isSubmitting} view={view} />
+    <PageView loadingState={loadingState} view={view} />
   );
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
-  isSubmitting: getIsSubmitting(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
   selectedTab: getSelectedTab(state),
   showActions: getShowActions(state),

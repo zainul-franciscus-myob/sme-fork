@@ -28,6 +28,7 @@ import {
   getNewSortOrder,
 } from './selectors/SupplierReturnListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
+import LoadingState from '../../../components/PageView/LoadingState';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import SupplierReturnListView from './components/SupplierReturnListView';
@@ -77,7 +78,7 @@ export default class SupplierReturnListModule {
     const intent = LOAD_SUPPLIER_RETURN_LIST;
 
     const onSuccess = (response) => {
-      this.setPageLoadingState(false);
+      this.setPageLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         ...response,
@@ -85,7 +86,7 @@ export default class SupplierReturnListModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load supplier return list entries');
+      this.setPageLoadingState(LoadingState.LOADING_FAIL);
     };
 
     const urlParams = getURLParams(state);
@@ -206,10 +207,10 @@ export default class SupplierReturnListModule {
     this.store.unsubscribeAll();
   }
 
-  setPageLoadingState = (isLoading) => {
+  setPageLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   }
 

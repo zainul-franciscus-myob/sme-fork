@@ -12,6 +12,7 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -40,7 +41,7 @@ const getDefaultState = () => ({
   },
   bankAccounts: [],
   suppliers: [],
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isPageEdited: false,
   alertMessage: '',
   modal: undefined,
@@ -81,9 +82,9 @@ const updateForm = (state, action) => {
   };
 };
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const openModal = (state, action) => ({

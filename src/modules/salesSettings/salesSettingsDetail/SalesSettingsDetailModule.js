@@ -14,6 +14,7 @@ import {
   getTabData,
 } from './SalesSettingsDetailSelectors';
 import { mainTabIds } from './tabItems';
+import LoadingState from '../../../components/PageView/LoadingState';
 import SalesSettingsView from './components/SalesSettingsDetailView';
 import Store from '../../../store/Store';
 import actionTypes from './components/templates/actionTypes';
@@ -37,12 +38,12 @@ export default class SalesSettingsModule {
 
   loadSalesSettings = () => {
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadSalesSettings(response);
     };
 
     const onFailure = () => {
-      console.log('Failed to load sale setting');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadSalesSettings({ onSuccess, onFailure });
@@ -50,17 +51,17 @@ export default class SalesSettingsModule {
 
   updateSalesSettings = () => {
     const state = this.store.getState();
-    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     const content = getSalesSettingsPayload(state);
 
     const onSuccess = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'success', message });
       this.dispatcher.saveDataTab();
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 
@@ -89,16 +90,16 @@ export default class SalesSettingsModule {
   saveEmailSettings = () => {
     const state = this.store.getState();
     const content = getTabData(state);
-    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'success', message });
       this.dispatcher.saveDataTab();
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 
@@ -241,7 +242,7 @@ export default class SalesSettingsModule {
 
   run = (context) => {
     this.dispatcher.setInitialState(context);
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();

@@ -6,7 +6,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading } from '../selectors/SupplierReturnListSelectors';
+import { getAlert, getLoadingState } from '../selectors/SupplierReturnListSelectors';
 import { responsiveWidths, tableConfig } from './TableConfig';
 import PageView from '../../../../components/PageView/PageView';
 import SupplierReturnListFilterOptions from './SupplierReturnListFilterOptions';
@@ -15,7 +15,7 @@ import SupplierReturnListTableHeader from './SupplierReturnListTableHeader';
 
 const SupplierReturnListView = ({
   alert,
-  isLoading,
+  loadingState,
   onSort,
   onUpdateFilterBarOptions,
   onApplyFilter,
@@ -68,11 +68,11 @@ const SupplierReturnListView = ({
     </StandardTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={supplierReturnListView} />;
+  return <PageView loadingState={loadingState} view={supplierReturnListView} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
 });
 

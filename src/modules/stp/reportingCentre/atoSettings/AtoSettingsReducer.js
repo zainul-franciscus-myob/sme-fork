@@ -4,9 +4,10 @@ import {
   SET_LOADING_STATE,
   SET_MODAL_STATE,
 } from './AtoSettingsIntents';
+import LoadingState from '../../../../components/PageView/LoadingState';
 
 export const getAtoSettingsDefaultState = () => ({
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isModalOpen: false,
   businessContact: {
     firstName: '',
@@ -20,9 +21,9 @@ export const getAtoSettingsDefaultState = () => ({
   },
 });
 
-const setIsLoading = (state, { isLoading }) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading,
+  loadingState,
 });
 
 const setIsModalOpen = (state, { isModalOpen }) => ({
@@ -44,7 +45,7 @@ const setAtoSettings = (state, { response }) => ({
 });
 
 export const atoSettingsHandlers = ({
-  [SET_LOADING_STATE]: setIsLoading,
+  [SET_LOADING_STATE]: setLoadingState,
   [SET_MODAL_STATE]: setIsModalOpen,
   [SET_BUSINESS_CONTACT]: setBusinessContact,
   [SET_ATO_SETTINGS]: setAtoSettings,

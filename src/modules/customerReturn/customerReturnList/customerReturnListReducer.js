@@ -10,6 +10,7 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const defaultFilterOptions = {
@@ -24,7 +25,7 @@ const defaultSortingOption = {
 
 const getDefaultState = () => ({
   alert: undefined,
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   filterOptions: defaultFilterOptions,
   defaultFilterOptions,
@@ -92,9 +93,9 @@ const setSortOrder = (state, action) => ({
   sortOrder: action.sortOrder,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setInitalState = (state, {

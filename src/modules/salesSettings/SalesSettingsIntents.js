@@ -1,5 +1,4 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
-export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const LOAD_SALES_SETTINGS = Symbol('Load sales settings');
 export const UPDATE_SALES_SETTINGS = Symbol('Update sales settings');
 export const UPDATE_SALES_SETTINGS_ITEM = Symbol('Update sales settings item');

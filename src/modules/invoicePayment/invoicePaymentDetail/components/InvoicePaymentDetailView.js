@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { CANCEL_MODAL, DELETE_MODAL } from '../../InvoicePaymentModalTypes';
-import { getAlertMessage, getIsLoading, getModalType } from '../invoicePaymentDetailSelectors';
+import {
+  getAlertMessage,
+  getLoadingState,
+  getModalType,
+} from '../invoicePaymentDetailSelectors';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import InvoicePaymentDetailActions from './InvoicePaymentDetailActions';
@@ -13,7 +17,7 @@ import PageView from '../../../../components/PageView/PageView';
 
 const InvoicePaymentDetailView = ({
   alertMessage,
-  isLoading,
+  loadingState,
   onUpdateInvoicePaymentDetails,
   onUpdateInvoicePaymentEntries,
   onUpdateShowPaidInvoices,
@@ -77,11 +81,11 @@ const InvoicePaymentDetailView = ({
     </React.Fragment>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alertMessage: getAlertMessage(state),
   modalType: getModalType(state),
 });

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getRegistrationUrl } from '../ReportingCentreSelectors';
 import AtoSettingsView from './components/AtoSettingsView';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import createAtoSettingsDispatcher from './createAtoSettingsDispatcher';
 import createAtoSettingsIntegrator from './createAtoSettingsIntegrator';
 
@@ -17,15 +18,15 @@ export default class AtoSettingsModule {
   }
 
   loadAtoSettings = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAtoSettings(response);
     };
 
-    const onFailure = ({ message }) => {
-      console.log(`Failed to load ATO Settings. ${message}`);
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadAtoSettings({ onSuccess, onFailure });
@@ -36,15 +37,15 @@ export default class AtoSettingsModule {
   };
 
   updateBusinessContact = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'success', message });
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 

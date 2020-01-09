@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsCreating, getIsLoading, getModalType,
+  getAlertMessage, getIsCreating, getLoadingState, getModalType,
 } from '../contactDetailSelectors';
 import BillingAddress from './BillingAddress';
 import CancelModal from '../../../../components/modal/CancelModal';
@@ -18,7 +18,7 @@ import ShippingAddress from './ShippingAddress';
 
 const ContactDetailView = ({
   isCreating,
-  isLoading,
+  loadingState,
   modalType,
   alertMessage,
   onContactDetailsChange,
@@ -85,12 +85,12 @@ const ContactDetailView = ({
     </FormTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
 });

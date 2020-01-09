@@ -63,7 +63,7 @@ const DataImportExportView = ({
     </SmallScreenTemplate>
   );
 
-  return <PageView isLoading={isLoading} isSubmitting={isSubmitting} view={view} />;
+  return <PageView isLoading={isLoading || isSubmitting} view={view} />;
 };
 
 const mapStateToProps = state => ({

@@ -24,6 +24,7 @@ import {
   getBusinessId, getContact, getContactId, getIsCreating, getRegion, isPageEdited,
 } from './contactDetailSelectors';
 import ContactDetailView from './components/ContactDetailView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import contactDetailReducer from './contactDetailReducer';
 import keyMap from '../../../hotKeys/keyMap';
@@ -84,7 +85,7 @@ export default class ContactDetailModule {
       return;
     }
 
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     const intent = LOAD_CONTACT_DETAIL;
     const urlParams = {
       businessId: getBusinessId(this.store.getState()),
@@ -92,7 +93,7 @@ export default class ContactDetailModule {
     };
 
     const onSuccess = (payload) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
 
       this.store.dispatch({
         intent,
@@ -101,7 +102,7 @@ export default class ContactDetailModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load contact');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -142,12 +143,10 @@ export default class ContactDetailModule {
     });
   }
 
-  setLoadingState = (isLoading) => {
-    const intent = SET_LOADING_STATE;
-
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
-      intent,
-      isLoading,
+      intent: SET_LOADING_STATE,
+      loadingState,
     });
   };
 
@@ -217,7 +216,7 @@ export default class ContactDetailModule {
     };
 
     const onSuccess = (payload) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         ...payload,
@@ -225,10 +224,10 @@ export default class ContactDetailModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load new contact');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.integration.read({
       intent,
       urlParams,

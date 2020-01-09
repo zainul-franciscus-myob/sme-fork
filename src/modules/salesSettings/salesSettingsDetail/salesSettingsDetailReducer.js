@@ -9,7 +9,6 @@ import {
   SET_PENDING_DELETE_TEMPLATE,
   SET_PENDING_TAB,
   SET_SORTED_TEMPLATES,
-  SET_SUBMITTING_STATE,
   SET_TAB,
   SET_TEMPLATE_LIST,
   SET_TEMPLATE_LIST_LOADING,
@@ -18,6 +17,7 @@ import {
   UPDATE_SALES_SETTINGS_ITEM,
 } from '../SalesSettingsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -77,25 +77,19 @@ const getDefaultState = () => ({
   layout: [],
   accountOptions: [],
   alert: {},
-  isLoading: false,
-  isSubmitting: false,
+  loadingState: LoadingState.LOADING,
 });
 
 const resetState = () => getDefaultState();
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
-});
-
-const setSubmittingState = (state, action) => ({
-  ...state,
-  isSubmitting: action.isSubmitting,
 });
 
 const setAlert = (state, action) => ({
@@ -248,7 +242,6 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitialState,
-  [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,
   [LOAD_SALES_SETTINGS]: loadSalesSettings,
   [UPDATE_SALES_SETTINGS_ITEM]: updateSalesSettingsItem,

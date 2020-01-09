@@ -5,7 +5,7 @@ import shallowCompare from '../../../../common/shallowCompare/shallowCompare';
 const DESC = 'desc';
 const ASC = 'asc';
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getFilterOptions = state => state.filterOptions;
 

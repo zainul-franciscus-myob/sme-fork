@@ -12,6 +12,7 @@ import {
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -28,7 +29,7 @@ const getDefaultState = () => ({
   },
   isSubmitting: false,
   isPageEdited: false,
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   modal: undefined,
   alertMessage: '',
   businessId: '',
@@ -44,7 +45,6 @@ const loadTransferMoneyDetail = (state, { transferMoney }) => ({
     ...transferMoney,
     originalReferenceId: transferMoney.referenceId,
   },
-  isLoading: false,
 });
 
 const loadNewTransferMoney = (state, { transferMoney }) => ({
@@ -55,7 +55,6 @@ const loadNewTransferMoney = (state, { transferMoney }) => ({
     date: formatIsoDate(new Date()),
     originalReferenceId: transferMoney.referenceId,
   },
-  isLoading: false,
 });
 
 const updateForm = (state, action) => ({
@@ -80,9 +79,9 @@ const formatAmount = state => ({
   },
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setSubmittingState = (state, action) => ({

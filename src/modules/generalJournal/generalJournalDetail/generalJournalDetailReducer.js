@@ -18,6 +18,7 @@ import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../../SystemIntents';
 import { getDefaultTaxCodeId } from './generalJournalDetailSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -53,7 +54,7 @@ const getDefaultState = () => ({
   modal: undefined,
   pageTitle: '',
   alertMessage: '',
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   isPageEdited: false,
   businessId: '',
@@ -120,7 +121,6 @@ const loadGeneralJournalDetail = (state, action) => ({
   },
   newLine: { ...state.newLine, ...action.newLine },
   totals: action.totals,
-  isLoading: false,
   pageTitle: action.pageTitle,
 });
 
@@ -197,13 +197,12 @@ const loadNewGeneralJournal = (state, action) => ({
     originalReferenceId: action.generalJournal.referenceId,
   },
   newLine: { ...state.newLine, ...action.newLine },
-  isLoading: false,
   pageTitle: action.pageTitle,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setSubmittingState = (state, action) => ({

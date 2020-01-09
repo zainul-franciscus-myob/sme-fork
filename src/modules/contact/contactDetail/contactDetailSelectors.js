@@ -10,7 +10,7 @@ export const getAlertMessage = state => state.alertMessage;
 
 export const getModalType = state => state.modalType;
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 const getIsCompany = state => state.contact.designation === 'Company';
 

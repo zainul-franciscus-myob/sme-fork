@@ -65,10 +65,10 @@ const createBankingRuleInvoiceDispatcher = store => ({
     alertMessage: '',
   }),
 
-  setLoadingState: (isLoading) => {
+  setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   },
 

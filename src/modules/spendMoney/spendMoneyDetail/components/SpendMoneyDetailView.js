@@ -157,7 +157,7 @@ const SpendMoneyDetailView = ({
   );
 
   return (
-    <PageView isSubmitting={isSubmitting} isLoading={isLoading} view={view} />
+    <PageView isLoading={isLoading || isSubmitting} view={view} />
   );
 };
 

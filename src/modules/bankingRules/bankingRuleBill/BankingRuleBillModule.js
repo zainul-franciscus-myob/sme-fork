@@ -9,6 +9,7 @@ import {
   getSaveUrl,
 } from './bankingRuleBillSelectors';
 import BankingRuleBillView from './components/BankingRuleBillView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import Store from '../../../store/Store';
 import bankingRuleBillReducer from './bankingRuleBillReducer';
@@ -54,15 +55,15 @@ export default class BankingRuleBillModule {
   }
 
   loadBankingRule = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = intent => (bankingRule) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBankingRule(intent, bankingRule);
     };
 
     const onFailure = () => {
-      console.log('Failed to load the banking rule');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadBankingRule(onSuccess, onFailure);
@@ -70,10 +71,10 @@ export default class BankingRuleBillModule {
 
   saveBankingRule = () => {
     const state = this.store.getState();
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
 
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_BANKING_RULE_BILL,
@@ -85,7 +86,7 @@ export default class BankingRuleBillModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.displayAlert(message);
       this.dismissModal();
     };
@@ -94,10 +95,10 @@ export default class BankingRuleBillModule {
   }
 
   deleteBankingRule = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.pushMessage({
         type: SUCCESSFULLY_DELETED_BANKING_RULE_BILL,
         content: message,
@@ -107,7 +108,7 @@ export default class BankingRuleBillModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.displayAlert(message);
     };
 

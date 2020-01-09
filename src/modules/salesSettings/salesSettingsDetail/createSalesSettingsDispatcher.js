@@ -9,7 +9,6 @@ import {
   SET_PENDING_DELETE_TEMPLATE,
   SET_PENDING_TAB,
   SET_SORTED_TEMPLATES,
-  SET_SUBMITTING_STATE,
   SET_TAB,
   SET_TEMPLATE_LIST,
   SET_TEMPLATE_LIST_LOADING,
@@ -20,9 +19,9 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
 const createSalesSettingsDispatcher = store => ({
-  setLoadingState: (isLoading) => {
+  setLoadingState: (loadingState) => {
     const intent = SET_LOADING_STATE;
-    store.dispatch({ intent, isLoading });
+    store.dispatch({ intent, loadingState });
   },
 
   setAlert: ({ message, type }) => {
@@ -71,13 +70,6 @@ const createSalesSettingsDispatcher = store => ({
     store.dispatch({
       intent: SET_INITIAL_STATE,
       context,
-    });
-  },
-
-  setSubmittingState: (isSubmitting) => {
-    store.dispatch({
-      intent: SET_SUBMITTING_STATE,
-      isSubmitting,
     });
   },
 

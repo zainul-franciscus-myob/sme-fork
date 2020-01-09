@@ -34,6 +34,7 @@ import {
   getShowPaidInvoices,
 } from './invoicePaymentDetailSelectors';
 import InvoicePaymentDetailView from './components/InvoicePaymentDetailView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import invoicePaymentDetailReducer from './invoicePaymentDetailReducer';
 import keyMap from '../../../hotKeys/keyMap';
@@ -104,11 +105,11 @@ export default class InvoicePaymentDetailModule {
         ...response,
       });
 
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
-    const onFailure = (e) => {
-      console.log(`Fail to load invoice payment: ${e.message}`);
+    const onFailure = () => {
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -276,7 +277,7 @@ export default class InvoicePaymentDetailModule {
   };
 
   loadInvoiceList = () => {
-    this.setTableLoadingState(true);
+    this.setTableLoadingState(LoadingState.LOADING);
     const intent = LOAD_INVOICE_LIST;
 
     const state = this.store.getState();
@@ -289,15 +290,15 @@ export default class InvoicePaymentDetailModule {
     };
 
     const onSuccess = ({ entries }) => {
-      this.setTableLoadingState(false);
+      this.setTableLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         entries,
       });
     };
 
-    const onFailure = (e) => {
-      console.log(`Failed to load invoice list: ${e.message}`);
+    const onFailure = () => {
+      this.setTableLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -339,10 +340,10 @@ export default class InvoicePaymentDetailModule {
     this.store.dispatch({ intent });
   };
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   }
 
@@ -368,7 +369,7 @@ export default class InvoicePaymentDetailModule {
     this.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.loadInvoicePayment();
   };
 }

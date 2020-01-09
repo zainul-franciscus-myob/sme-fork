@@ -6,14 +6,14 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading } from '../CustomerReturnListSelectors';
+import { getAlert, getLoadingState } from '../CustomerReturnListSelectors';
 import CustomerReturnListFilterOptions from './CustomerReturnListFilterOptions';
 import CustomerReturnListTable from './CustomerReturnListTable';
 import PageView from '../../../../components/PageView/PageView';
 import style from './CustomerReturnListView.module.css';
 
 const CustomerReturnListView = ({
-  isLoading,
+  loadingState,
   onUpdateFilterBarOptions,
   onApplyFilter,
   alert,
@@ -53,11 +53,11 @@ const CustomerReturnListView = ({
     </StandardTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={customerReturnListView} />;
+  return <PageView loadingState={loadingState} view={customerReturnListView} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
 });
 

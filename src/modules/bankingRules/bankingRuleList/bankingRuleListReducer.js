@@ -11,11 +11,12 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
   alert: undefined,
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   sortOrder: '',
   orderBy: '',
   filterOptions: {
@@ -61,9 +62,9 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setAlert = (state, action) => ({

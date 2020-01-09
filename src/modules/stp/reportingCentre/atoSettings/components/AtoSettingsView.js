@@ -4,8 +4,8 @@ import React from 'react';
 import {
   getBusinessConnection,
   getBusinessContact,
-  getIsLoading,
   getIsModalOpen,
+  getLoadingState,
 } from '../AtoSettingsSelectors';
 import BusinessConnection from './BusinessConnection';
 import BusinessContact from './BusinessContact';
@@ -13,7 +13,7 @@ import EditAbnConfirmationModal from './EditAbnConfirmationModal';
 import PageView from '../../../../../components/PageView/PageView';
 
 const AtoSettingsView = ({
-  isLoading,
+  loadingState,
   isModalOpen,
   businessContact,
   businessConnection,
@@ -49,11 +49,11 @@ const AtoSettingsView = ({
     </>
   );
 
-  return <PageView isLoading={isLoading} view={page} />;
+  return <PageView loadingState={loadingState} view={page} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   isModalOpen: getIsModalOpen(state),
   businessContact: getBusinessContact(state),
   businessConnection: getBusinessConnection(state),

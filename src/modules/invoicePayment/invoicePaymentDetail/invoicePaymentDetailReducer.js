@@ -9,6 +9,7 @@ import {
   UPDATE_SHOW_PAID_INVOICES,
 } from '../InvoicePaymentIntent';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -23,7 +24,7 @@ const getDefaultState = () => ({
   date: formatIsoDate(new Date()),
   entries: [],
   showPaidInvoices: false,
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   isSubmitting: false,
   isPageEdited: false,
@@ -41,9 +42,9 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const loadInvoicePaymentDetail = (state, { intent, ...detail }) => ({

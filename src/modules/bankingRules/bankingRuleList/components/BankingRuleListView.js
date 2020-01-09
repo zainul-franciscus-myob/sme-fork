@@ -7,7 +7,7 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsLoading,
+  getLoadingState,
 } from '../BankingRuleListSelectors';
 import BankingRuleListFilterOptions from './BankingRuleListFilterOptions';
 import BankingRuleListPageHead from './BankingRuleListPageHead';
@@ -16,7 +16,7 @@ import PageView from '../../../../components/PageView/PageView';
 
 const BankingRuleListView = ({
   alert,
-  isLoading,
+  loadingState,
   onSort,
   onSelectBankingRule,
   onApplyFilters,
@@ -49,12 +49,12 @@ const BankingRuleListView = ({
     </StandardTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleListView);

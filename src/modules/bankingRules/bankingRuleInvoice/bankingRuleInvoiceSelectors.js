@@ -8,7 +8,7 @@ export const getIsCreating = state => state.bankingRuleId === 'new';
 export const getBusinessId = state => state.businessId;
 export const getBankingRuleId = state => state.bankingRuleId;
 export const getRegion = state => state.region;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getModal = state => state.modal;
 export const getModalUrl = state => ((state.modal || {}).url);
 export const getIsPagedEdited = state => state.isPageEdited;
