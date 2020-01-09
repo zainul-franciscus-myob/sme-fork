@@ -4,6 +4,6 @@
   margin-bottom: var(--flx-spacing-x-small);
 }
 
-.popoverBody :global(.form-group) {
+.popoverBody {
   margin-bottom: 0;
 }

@@ -1,8 +1,9 @@
 import {
-  Button, Icons, Popover, RadioButton, RadioButtonGroup,
+  Button, Icons, RadioButton, RadioButtonGroup,
 } from '@myob/myob-widgets';
 import React from 'react';
 
+import Popover from '../../../../components/Feelix/Popover/Popover';
 import QuoteLayout from '../QuoteLayout';
 import handleRadioButtonChange from '../../../../components/handlers/handleRadioButtonChange';
 import styles from './QuoteDetailLayoutPopover.module.css';
@@ -40,7 +41,7 @@ const QuoteDetailLayoutPopover = ({
   return (
     <div className={styles.popover}>
       <Popover body={popoverBody} preferPlace="below" closeOnOuterAction>
-        <Button type="link" icon={<Icons.Settings />}>
+        <Button type="link" icon={<Icons.Settings />} iconRight>
           Field layout
         </Button>
       </Popover>

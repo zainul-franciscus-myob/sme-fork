@@ -88,15 +88,15 @@ const QuoteItemAndServiceTable = ({
         },
         {
           columnName: unitPriceLabel,
-          styles: { width: '12.4rem' },
+          styles: { width: '12.4rem', align: 'right' },
         },
         {
           columnName: discountLabel,
-          styles: { width: '12.4rem' },
+          styles: { width: '12.4rem', align: 'right' },
         },
         {
           columnName: amountLabel,
-          styles: { width: '12.4rem' },
+          styles: { width: '12.4rem', align: 'right' },
         },
         {
           columnName: taxCodeLabel,
