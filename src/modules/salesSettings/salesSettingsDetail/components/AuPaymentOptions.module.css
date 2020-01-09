@@ -22,3 +22,9 @@
 .unRegisteredView :global(.btn) {
   padding-top: 0.6rem;
 }
+
+.onlinePaymentMethodsImage {
+  height: 3.1rem;
+  padding-bottom: 0.5rem;
+  width: auto;
+}
