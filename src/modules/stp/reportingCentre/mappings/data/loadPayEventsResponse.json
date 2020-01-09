@@ -1,0 +1,144 @@
+{
+  "payEvents": [
+    {
+      "employeeCount": 2,
+      "gross": "13,340.00",
+      "id": "e84cd3e7-4c5b-4a50-a114-3e652c634657",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Sending",
+      "tax": "3,400.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "234,900.00",
+      "id": "8aeb7b4b-8d61-48fc-a2e7-7d67286c8644",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Not sent",
+      "tax": "2,300.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "452.00",
+      "id": "e710eb35-4f46-4302-a69a-ffb5006d9850",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Not sent",
+      "tax": "100.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "0.00",
+      "id": "cca13894-1d7b-4699-b103-f38a7f1be0e6",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Sent",
+      "tax": "0.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "87,870.00",
+      "id": "f69bb9cc-04a0-43fb-a3c3-dc93caebb392",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Accepted",
+      "tax": "6,860.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "9,870.00",
+      "id": "03ca7ea5-612c-47e2-8d29-9072b41f0805",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Rejected",
+      "tax": "890.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "8,690.00",
+      "id": "721fd37a-bce7-47f6-a6a5-f1a16a115b92",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Accepted with errors",
+      "tax": "67,890.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "89,760.00",
+      "id": "e65af0ee-e666-49a2-8d3b-e4c3c06804da",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Failed",
+      "tax": "68,760.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "56,430.00",
+      "id": "833830d9-f1fd-4f27-a488-3f6e4a092448",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Rejected",
+      "tax": "4,650.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "97,860.00",
+      "id": "ccb9cd5d-d887-4a1a-bf46-c26e94ffcacb",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Rejected",
+      "tax": "6,870.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "6,780.00",
+      "id": "b9a138cd-070b-4659-9f99-6308c61fe4e4",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Accepted",
+      "tax": "6,890.00"
+    },
+    {
+      "employeeCount": 2,
+      "gross": "0.00",
+      "id": "30c62f5f-de12-43fd-94df-50549b7d25b1",
+      "payPeriod": "30/06/2019 - 30/06/2019",
+      "paymentDate": "30/06/2019",
+      "recordedDate": "2019-07-11T00:03:52.174Z",
+      "status": "Rejected",
+      "tax": "0.00"
+    }
+  ],
+  "payrollYears": [
+    {
+      "endDate": "2020-06-30",
+      "label": "2019/20",
+      "startDate": "2019-07-01",
+      "year": "2020"
+    },
+    {
+      "endDate": "2019-06-30",
+      "label": "2018/19",
+      "startDate": "2018-07-01",
+      "year": "2019"
+    },
+    {
+      "endDate": "2018-06-30",
+      "label": "2017/18",
+      "startDate": "2017-07-01",
+      "year": "2018"
+    }
+  ]
+}

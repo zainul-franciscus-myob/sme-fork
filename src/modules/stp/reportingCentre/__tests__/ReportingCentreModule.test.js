@@ -24,8 +24,6 @@ describe('ReportingCentreModule', () => {
     const module = new ReportingCentreModule({
       integration,
       setRootView,
-      popMessages: () => (['']),
-      pushMessage: message => ([message]),
       replaceURLParams: url => (url),
     });
 

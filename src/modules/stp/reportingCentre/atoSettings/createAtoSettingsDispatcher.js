@@ -1,4 +1,4 @@
-import { SET_ALERT } from '../ReportingCentreIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
   SET_ATO_SETTINGS,
   SET_BUSINESS_CONTACT,
@@ -7,6 +7,19 @@ import {
 } from './AtoSettingsIntents';
 
 const createAtoSettingsDispatcher = store => ({
+  setInitialState: (context) => {
+    store.dispatch({
+      intent: SET_INITIAL_STATE,
+      context,
+    });
+  },
+
+  resetState: () => {
+    store.dispatch({
+      intent: RESET_STATE,
+    });
+  },
+
   setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,
@@ -40,13 +53,6 @@ const createAtoSettingsDispatcher = store => ({
     store.dispatch({
       intent: SET_ATO_SETTINGS,
       response,
-    });
-  },
-
-  setAlert: (alert) => {
-    store.dispatch({
-      intent: SET_ALERT,
-      alert,
     });
   },
 });

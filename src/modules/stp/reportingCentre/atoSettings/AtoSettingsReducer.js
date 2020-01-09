@@ -1,3 +1,4 @@
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
   SET_ATO_SETTINGS,
   SET_BUSINESS_CONTACT,
@@ -5,8 +6,9 @@ import {
   SET_MODAL_STATE,
 } from './AtoSettingsIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
+import createReducer from '../../../../store/createReducer';
 
-export const getAtoSettingsDefaultState = () => ({
+const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isModalOpen: false,
   businessContact: {
@@ -19,6 +21,15 @@ export const getAtoSettingsDefaultState = () => ({
     abn: '',
     softwareId: '',
   },
+});
+
+const setInitialState = (state, { context }) => ({
+  ...state,
+  ...context,
+});
+
+const resetState = () => ({
+  ...getDefaultState(),
 });
 
 const setLoadingState = (state, { loadingState }) => ({
@@ -44,9 +55,15 @@ const setAtoSettings = (state, { response }) => ({
   ...response,
 });
 
-export const atoSettingsHandlers = ({
+const handlers = ({
+  [SET_INITIAL_STATE]: setInitialState,
+  [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_MODAL_STATE]: setIsModalOpen,
   [SET_BUSINESS_CONTACT]: setBusinessContact,
   [SET_ATO_SETTINGS]: setAtoSettings,
 });
+
+const atoSettingsReducer = createReducer(getDefaultState(), handlers);
+
+export default atoSettingsReducer;

@@ -1,20 +1,26 @@
+import { Provider } from 'react-redux';
 import React from 'react';
 
 import { getRegistrationUrl } from '../ReportingCentreSelectors';
 import AtoSettingsView from './components/AtoSettingsView';
 import LoadingState from '../../../../components/PageView/LoadingState';
+import Store from '../../../../store/Store';
+import atoSettingsReducer from './AtoSettingsReducer';
 import createAtoSettingsDispatcher from './createAtoSettingsDispatcher';
 import createAtoSettingsIntegrator from './createAtoSettingsIntegrator';
 
 export default class AtoSettingsModule {
   constructor({
     integration,
-    store,
+    context,
+    setAlert,
   }) {
-    this.integration = integration;
-    this.store = store;
-    this.dispatcher = createAtoSettingsDispatcher(store);
-    this.integrator = createAtoSettingsIntegrator(store, integration);
+    this.store = new Store(atoSettingsReducer);
+    this.dispatcher = createAtoSettingsDispatcher(this.store);
+    this.integrator = createAtoSettingsIntegrator(this.store, integration);
+    this.setAlert = setAlert;
+
+    this.dispatcher.setInitialState(context);
   }
 
   loadAtoSettings = () => {
@@ -41,12 +47,12 @@ export default class AtoSettingsModule {
 
     const onSuccess = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.setAlert({ type: 'success', message });
+      this.setAlert({ type: 'success', message });
     };
 
     const onFailure = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.setAlert({ type: 'danger', message });
+      this.setAlert({ type: 'danger', message });
     };
 
     this.integrator.updateBusinessContact({ onSuccess, onFailure });
@@ -58,13 +64,15 @@ export default class AtoSettingsModule {
 
   getView() {
     return (
-      <AtoSettingsView
-        onBusinessContactChange={this.dispatcher.setBusinessContact}
-        onEditBusinessContactClick={this.updateBusinessContact}
-        onEditBusinessConnectionClick={this.dispatcher.openConfirmationModal}
-        onEditBusinessConnectionConfirm={this.redirectToRegistration}
-        onEditBusinessConnectionCancel={this.dispatcher.closeConfirmationModal}
-      />
+      <Provider store={this.store}>
+        <AtoSettingsView
+          onBusinessContactChange={this.dispatcher.setBusinessContact}
+          onEditBusinessContactClick={this.updateBusinessContact}
+          onEditBusinessConnectionClick={this.dispatcher.openConfirmationModal}
+          onEditBusinessConnectionConfirm={this.redirectToRegistration}
+          onEditBusinessConnectionCancel={this.dispatcher.closeConfirmationModal}
+        />
+      </Provider>
     );
   }
 }

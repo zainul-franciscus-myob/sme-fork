@@ -9,9 +9,9 @@ import ReportingCentreView from './components/ReportingCentreView';
 import ReportsModule from './reports/ReportsModule';
 import Store from '../../../store/Store';
 // import TerminationModule from './termination/TerminationModule';
+import ReportingCentreReducer from './ReportingCentreReducer';
 import createReportingCentreDispatcher from './createReportingCentreDispatcher';
 import createReportingCentreIntegrator from './createReportingCentreIntegrator';
-import reportingCentreReducer from './ReportingCentreReducer';
 
 export default class ReportingCentreModule {
   constructor({
@@ -22,29 +22,33 @@ export default class ReportingCentreModule {
     this.setRootView = setRootView;
     this.integration = integration;
     this.replaceURLParams = replaceURLParams;
-    this.store = new Store(reportingCentreReducer);
+    this.store = new Store(ReportingCentreReducer);
     this.integrator = createReportingCentreIntegrator(this.store, this.integration);
     this.dispatcher = createReportingCentreDispatcher(this.store);
+    this.subModules = {};
+  }
+
+  setupSubModules = (context) => {
     this.subModules = {
       // Uncomment each module as it is built - Jordan
       [tabIds.reports]: new ReportsModule({
-        integration,
-        store: this.store,
+        integration: this.integration,
+        context,
+        setAlert: this.dispatcher.setAlert,
       }),
       // [tabIds.terminations]: new TerminationModule({
       //   integration,
-      //   store: this.store,
       // }),
       // [tabIds.finalisation]: new FinalisationModule({
       //   integration,
-      //   store: this.store,
       // }),
       [tabIds.atoSettings]: new AtoSettingsModule({
-        integration,
-        store: this.store,
+        integration: this.integration,
+        context,
+        setAlert: this.dispatcher.setAlert,
       }),
     };
-  }
+  };
 
   redirectToRegistration = () => {
     window.location.href = getRegistrationUrl(this.store.getState());
@@ -92,6 +96,7 @@ export default class ReportingCentreModule {
   };
 
   run(context) {
+    this.setupSubModules(context);
     this.store.subscribe(this.updateURLFromState);
     this.dispatcher.setInitialState(context);
     this.render();

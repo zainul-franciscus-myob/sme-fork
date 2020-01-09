@@ -1,0 +1,8 @@
+.reportsContainer {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.reportsTemplate :global(.sticky-header) {
+  padding-top: 0;
+}
