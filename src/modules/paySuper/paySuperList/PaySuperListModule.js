@@ -7,10 +7,12 @@ import {
 } from '../paySuperMessageTypes';
 import {
   getBusinessId,
+  getIsRegistered,
   getPaySuperCreateUrl,
   getPaySuperUrl,
   getRegion,
 } from './paySuperListSelector';
+import LoadingState from '../../../components/PageView/LoadingState';
 import PaySuperListView from './components/PaySuperListView';
 import Store from '../../../store/Store';
 import StsLoginModule from '../stsLoginModal/StsLoginModule';
@@ -50,24 +52,36 @@ export default class PaySuperListModule {
   };
 
   loadPaySuperList = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
     const onSuccess = (response) => {
       this.dispatcher.loadPaySuperList(response);
-      this.dispatcher.setIsLoading(false);
-      this.dispatcher.setIsTableLoading(false);
-      this.updateSuperPaymentStatus();
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.openLoginModal();
     };
 
-    const onFailure = ({ message }) => {
-      this.dispatcher.setAlert({ type: 'danger', message });
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadPaySuperList({ onSuccess, onFailure });
   };
 
-  onSort = (sortColumn) => {
+  sortPaySuperList = (sortColumn) => {
     this.dispatcher.setSortOrder(sortColumn);
     this.dispatcher.setIsTableLoading(true);
-    this.loadPaySuperList();
+
+    const onSuccess = (response) => {
+      this.dispatcher.loadPaySuperList(response);
+      this.dispatcher.setIsTableLoading(false);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setIsTableLoading(false);
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.loadPaySuperList({ onSuccess, onFailure });
   };
 
   redirectToSuperPaymentDetail = (businessEventId) => {
@@ -95,10 +109,17 @@ export default class PaySuperListModule {
     }
   };
 
+  openLoginModal = () => {
+    if (getIsRegistered(this.store.getState())) {
+      this.dispatcher.setLoadingState(LoadingState.LOADING);
+      this.stsLoginModal.run({ businessId: getBusinessId(this.store.getState()) });
+    }
+  };
+
   onLoggedIn = (accessToken) => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
     this.dispatcher.setAccessToken(accessToken);
-    this.popAlert();
-    this.loadPaySuperList();
+    this.updateSuperPaymentStatus();
   };
 
   goBack = () => {
@@ -117,7 +138,7 @@ export default class PaySuperListModule {
     this.dispatcher.setInitialState(context);
     this.render();
     this.popAlert();
-    this.stsLoginModal.run(context);
+    this.loadPaySuperList();
   };
 
   render = () => {
@@ -131,7 +152,7 @@ export default class PaySuperListModule {
           onCreateButtonClick={this.redirectToCreate}
           onSettingsButtonClick={this.redirectToPaySuper}
           onRegisterButtonClick={this.redirectToPaySuper}
-          onSort={this.onSort}
+          onSort={this.sortPaySuperList}
           alertDismiss={this.dispatcher.dismissAlert}
         />
       </Provider>

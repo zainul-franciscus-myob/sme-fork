@@ -6,6 +6,7 @@ import { mount } from 'enzyme/build';
 import React from 'react';
 
 import { getDefaultState } from '../../paySuperListReducer';
+import LoadingState from '../../../../../components/PageView/LoadingState';
 import NoResultPageState from '../../../../../components/NoResultPageState/NoResultPageState';
 import PaySuperListView from '../PaySuperListView';
 import Store from '../../../../../store/Store';
@@ -13,7 +14,7 @@ import UnregisteredPageState from '../UnregisteredPageState';
 
 const DEFAULT_STATE = {
   ...getDefaultState(),
-  isLoading: false,
+  loadingState: LoadingState.LOADING_SUCCESS,
   isRegistered: true,
   superPayments: [],
 };
@@ -27,9 +28,7 @@ describe('PaySuperListView', () => {
       </Provider>
     );
 
-    const wrapper = mount(wrappedComponent);
-
-    return wrapper;
+    return mount(wrappedComponent);
   };
 
   describe('table', () => {

@@ -1,18 +1,18 @@
 import {
-  getBusinessId, getIsLoading, getIsTableEmpty, getPaySuperUrl, getSuperPayments,
+  getBusinessId, getIsTableEmpty, getLoadingState, getPaySuperUrl, getSuperPayments,
 } from '../paySuperListSelector';
+import LoadingState from '../../../../components/PageView/LoadingState';
 
 describe('paySuperListSelector', () => {
-  describe('getIsLoading', () => {
+  describe('getLoadingState', () => {
     it('returns isLoading value', () => {
-      const isLoadingValue = 'LOADING_VALUE';
       const state = {
-        isLoading: isLoadingValue,
+        loadingState: LoadingState.LOADING,
       };
 
-      const actual = getIsLoading(state);
+      const actual = getLoadingState(state);
 
-      expect(actual).toEqual(isLoadingValue);
+      expect(actual).toEqual(LoadingState.LOADING);
     });
   });
 

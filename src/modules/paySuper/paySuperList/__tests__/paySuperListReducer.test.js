@@ -2,11 +2,12 @@ import {
   LOAD_PAY_SUPER_LIST,
   LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,
   SET_ALERT,
-  SET_IS_LOADING,
   SET_IS_TABLE_LOADING,
+  SET_LOADING_STATE,
   SET_SORT_ORDER,
 } from '../paySuperIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import paySuperListReducer, { getDefaultState } from '../paySuperListReducer';
 
 
@@ -46,19 +47,19 @@ describe('paySuperListReducer', () => {
     });
   });
 
-  describe('setIsLoading', () => {
-    it('sets is loading', () => {
+  describe('setLoadingState', () => {
+    it('sets loading state', () => {
       const state = {
-        isLoading: true,
+        loadingState: LoadingState.LOADING,
       };
       const action = {
-        intent: SET_IS_LOADING,
-        isLoading: false,
+        intent: SET_LOADING_STATE,
+        loadingState: LoadingState.LOADING_SUCCESS,
       };
 
       const result = paySuperListReducer(state, action);
 
-      expect(result).toEqual({ isLoading: false });
+      expect(result).toEqual({ loadingState: LoadingState.LOADING_SUCCESS });
     });
   });
 

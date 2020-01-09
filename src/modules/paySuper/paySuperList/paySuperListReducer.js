@@ -3,18 +3,19 @@ import {
   LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,
   SET_ACCESS_TOKEN,
   SET_ALERT,
-  SET_IS_LOADING,
   SET_IS_TABLE_LOADING,
+  SET_LOADING_STATE,
   SET_SORT_ORDER,
 } from './paySuperIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 export const getDefaultState = () => ({
   businessId: null,
   isRegistered: null,
   superPayments: [],
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   sortDescending: true,
   orderBy: 'date',
@@ -29,9 +30,9 @@ export const setInitialState = (state, { context }) => ({
   ...context,
 });
 
-const setIsLoading = (state, { isLoading }) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading,
+  loadingState,
 });
 
 const setIsTableLoading = (state, { isTableLoading }) => ({
@@ -85,7 +86,7 @@ const setAccessToken = (state, { accessToken }) => ({
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
-  [SET_IS_LOADING]: setIsLoading,
+  [SET_LOADING_STATE]: setLoadingState,
   [SET_IS_TABLE_LOADING]: setIsTableLoading,
   [SET_SORT_ORDER]: setSortOrder,
   [SET_ALERT]: setAlert,

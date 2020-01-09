@@ -3,8 +3,8 @@ import {
   LOAD_UPDATED_SUPER_PAYMENT_STATUS_LIST,
   SET_ACCESS_TOKEN,
   SET_ALERT,
-  SET_IS_LOADING,
   SET_IS_TABLE_LOADING,
+  SET_LOADING_STATE,
   SET_SORT_ORDER,
 } from './paySuperIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -23,10 +23,10 @@ const createPaySuperListDispatcher = store => ({
     });
   },
 
-  setIsLoading: (isLoading) => {
+  setLoadingState: (loadingState) => {
     store.dispatch({
-      intent: SET_IS_LOADING,
-      isLoading,
+      intent: SET_LOADING_STATE,
+      loadingState,
     });
   },
 

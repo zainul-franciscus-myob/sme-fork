@@ -4,13 +4,13 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading, getIsRegistered } from '../paySuperListSelector';
+import { getAlert, getIsRegistered, getLoadingState } from '../paySuperListSelector';
 import PageView from '../../../../components/PageView/PageView';
 import PaySuperListTable from './PaySuperListTable';
 import UnregisteredPageState from './UnregisteredPageState';
 
 const PaySuperListView = ({
-  isLoading,
+  loadingState,
   isRegistered,
   onReferenceNumberClick,
   onCreateButtonClick,
@@ -59,11 +59,11 @@ const PaySuperListView = ({
     </StandardTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={paySuperListView} />;
+  return <PageView loadingState={loadingState} view={paySuperListView} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   isRegistered: getIsRegistered(state),
   alert: getAlert(state),
 });
