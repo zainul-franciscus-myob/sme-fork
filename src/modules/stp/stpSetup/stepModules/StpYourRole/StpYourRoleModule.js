@@ -37,7 +37,15 @@ export default class StpYourRoleModule {
   onFinish = () => {
     const state = this.store.getState();
     const selectedAgentRole = getRole(state);
-    this.onFinishFunc({ selectedAgentRole });
+    const agentAbn = getAgentAbn(state);
+    const agentNumber = getAgentNumber(state);
+    const roleDetails = {
+      selectedAgentRole,
+      agentAbn,
+      agentNumber,
+    };
+
+    this.onFinishFunc({ roleDetails });
   };
 
   onFieldChange = ({ key, value }) => {

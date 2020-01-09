@@ -8,6 +8,7 @@ import {
   OPEN_CONFIRMATION_MODAL,
   SET_ALERT,
   SET_IS_LOADING,
+  SUBMIT_STP_REGISTRATION,
 } from './stpNotifyAtoIntents';
 import {
   getAccessManagerSiteUrl,
@@ -16,7 +17,7 @@ import {
   getHostedSbrUrl,
 } from './stpNotifyAtoModuleSelectors';
 import Store from '../../../../../store/Store';
-import StpNotifyModuleView from './components/StpNotifyView';
+import StpNotifyView from './components/StpNotifyView';
 import stpNotifyAtoModuleReducer from './stpNotifyAtoModuleReducer';
 
 export default class StpNotifyAtoModule {
@@ -50,7 +51,17 @@ export default class StpNotifyAtoModule {
     });
   }
 
-  getBusinessSid = ({ onSuccess, onFailure }) => {
+  showError = ({ message }) => {
+    this.setAlert({
+      type: 'danger',
+      message,
+    });
+  }
+
+  getBusinessSid = ({
+    agentAbn,
+    onSuccess, onFailure,
+  }) => {
     this.setIsLoading(true);
 
     const state = this.store.getState();
@@ -58,6 +69,8 @@ export default class StpNotifyAtoModule {
       businessId: getBusinessId(state),
       agentAbn: getAgentAbn(state),
     };
+
+    const params = { agentAbn };
 
     const onSuccessFunc = ({ sid }) => {
       this.store.dispatch({
@@ -76,6 +89,43 @@ export default class StpNotifyAtoModule {
     this.integration.read({
       intent: GET_BUSINESS_SID,
       urlParams,
+      params,
+      onSuccess: onSuccessFunc,
+      onFailure: onFailureFunc,
+    });
+  }
+
+  confirmAtoNotification = ({
+    agentAbn, agentNumber,
+    onSuccess, onFailure,
+  }) => {
+    this.setIsLoading(true);
+    this.closeConfirmationModal();
+
+    const state = this.store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const content = {
+      abn: agentAbn,
+      agentNumber,
+    };
+
+    const onSuccessFunc = () => {
+      this.setIsLoading(false);
+      onSuccess();
+    };
+
+    const onFailureFunc = ({ message }) => {
+      this.setIsLoading(false);
+      onFailure({ message });
+    };
+
+    this.integration.write({
+      intent: SUBMIT_STP_REGISTRATION,
+      urlParams,
+      content,
       onSuccess: onSuccessFunc,
       onFailure: onFailureFunc,
     });
@@ -108,7 +158,7 @@ export default class StpNotifyAtoModule {
   getView() {
     return (
       <Provider store={this.store}>
-        <StpNotifyModuleView
+        <StpNotifyView
           onPreviousClick={this.onPrevious}
           onNotifiedAtoClick={this.openConfirmationModal}
           onCloseConfirmationModal={this.closeConfirmationModal}

@@ -2,8 +2,14 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SET_CURRENT_STEP_INDEX, SET_SELECTED_AGENT_ROLE } from './stpSetupIntents';
-import { getAgentRoleSelected, getSelectedAgentRole, getStpReportingCentreUrl } from './stpSetupSelectors';
+import { SET_CURRENT_STEP_INDEX, SET_SELECTED_AGENT_ROLE_DETAILS } from './stpSetupIntents';
+import {
+  getAgentAbn,
+  getAgentNumber,
+  getAgentRoleSelected,
+  getSelectedAgentRole,
+  getStpReportingCentreUrl,
+} from './stpSetupSelectors';
 import Steps from './Steps';
 import Store from '../../../store/Store';
 import StpAddClientsModule from './stepModules/AddClients/StpAddClientsModule';
@@ -110,10 +116,10 @@ export default class StpSetupModule {
     this.setStep(Steps.OVERVIEW);
   }
 
-  yourRoleFinish = ({ selectedAgentRole }) => {
+  yourRoleFinish = ({ roleDetails }) => {
     this.store.dispatch({
-      intent: SET_SELECTED_AGENT_ROLE,
-      selectedAgentRole,
+      intent: SET_SELECTED_AGENT_ROLE_DETAILS,
+      roleDetails,
     });
     this.enterDeclarationStep();
   }
@@ -165,8 +171,11 @@ export default class StpSetupModule {
   }
 
   onAddClientsFinish = () => {
+    const state = this.store.getState();
+
     const notifyAtoStep = this.getStep(Steps.NOTIFY_ATO);
     notifyAtoStep.module.getBusinessSid({
+      agentAbn: getAgentAbn(state),
       onSuccess: () => {
         this.setStep(Steps.NOTIFY_ATO);
       },
@@ -187,7 +196,19 @@ export default class StpSetupModule {
   }
 
   onNotifyAtoFinish = () => {
-    this.setStep(Steps.DONE);
+    const state = this.store.getState();
+    const notifyAtoStep = this.getStep(Steps.NOTIFY_ATO);
+
+    notifyAtoStep.module.confirmAtoNotification({
+      agentAbn: getAgentAbn(state),
+      agentNumber: getAgentNumber(state),
+      onSuccess: () => {
+        this.setStep(Steps.DONE);
+      },
+      onFailure: ({ message }) => {
+        notifyAtoStep.module.showError({ message });
+      },
+    });
   }
 
   getStep = (stepId) => {
