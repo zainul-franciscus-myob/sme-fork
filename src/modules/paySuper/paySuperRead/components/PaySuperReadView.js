@@ -47,6 +47,7 @@ const PaySuperReadView = ({
   authorisationModal,
   onReserseModalCancelClick,
   onReverseModalConfirmClick,
+  onRecordReverseClick,
   alert,
   modalType,
 }) => {
@@ -89,6 +90,7 @@ const PaySuperReadView = ({
         onCancelClick={onCancelClick}
         onAuthoriseClick={onAuthoriseClick}
         onReverseClick={onReverseClick}
+        onRecordReverseClick={onRecordReverseClick}
       />
     </BaseTemplate>
   );

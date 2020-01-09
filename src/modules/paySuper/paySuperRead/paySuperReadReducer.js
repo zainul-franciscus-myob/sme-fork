@@ -1,5 +1,10 @@
 import {
-  LOAD_PAY_SUPER_READ, SET_ALERT, SET_IS_LOADING, SET_MODAL_TYPE,
+  LOAD_PAY_SUPER_READ,
+  PREPARE_UI_FOR_REVERSE,
+  SET_ALERT,
+  SET_IS_LOADING,
+  SET_MODAL_TYPE,
+  SET_STATUS,
 } from './paySuperReadIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
@@ -52,6 +57,19 @@ const setAlert = (state, { alert }) => ({
   alert,
 });
 
+const prepareUiForReverse = state => ({
+  ...state,
+  superPayments: state.superPayments.map(s => ({
+    ...s,
+    amount: -s.amount,
+  })),
+});
+
+const setStatus = (state, { status }) => ({
+  ...state,
+  status,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -59,6 +77,8 @@ const handlers = {
   [LOAD_PAY_SUPER_READ]: loadPaySuperRead,
   [SET_MODAL_TYPE]: setModalType,
   [SET_ALERT]: setAlert,
+  [PREPARE_UI_FOR_REVERSE]: prepareUiForReverse,
+  [SET_STATUS]: setStatus,
 };
 
 const paySuperReadReducer = createReducer(getDefaultState(), handlers);

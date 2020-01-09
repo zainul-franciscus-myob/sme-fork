@@ -2,9 +2,16 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  LOAD_PAY_SUPER_READ, REVERSE_PAY_SUPER, SET_ALERT, SET_IS_LOADING, SET_MODAL_TYPE,
+  LOAD_PAY_SUPER_READ,
+  PREPARE_UI_FOR_REVERSE,
+  REVERSE_PAY_SUPER,
+  SET_ALERT,
+  SET_IS_LOADING,
+  SET_MODAL_TYPE,
+  SET_STATUS,
 } from './paySuperReadIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { SUCCESSFULLY_REVERSED_TRANSACTION } from '../paySuperMessageTypes';
 import {
   getBatchPaymentId,
   getBusinessEventId,
@@ -21,7 +28,7 @@ import paySuperReadReducer from './paySuperReadReducer';
 
 export default class PaySuperReadModule {
   constructor({
-    integration, setRootView,
+    integration, setRootView, pushMessage,
   }) {
     this.integration = integration;
     this.store = new Store(paySuperReadReducer);
@@ -35,6 +42,7 @@ export default class PaySuperReadModule {
         onAuthoriseSuccess: this.onAuthoriseSuccess,
       }),
     };
+    this.pushMessage = pushMessage;
   }
 
   onAuthoriseSuccess = (message) => {
@@ -107,11 +115,11 @@ export default class PaySuperReadModule {
 
     const onSuccess = ({ message }) => {
       this.setIsLoading(false);
-      this.setAlert({
-        type: 'success',
-        message,
+      this.pushMessage({
+        type: SUCCESSFULLY_REVERSED_TRANSACTION,
+        content: message,
       });
-      this.loadPaySuperRead();
+      this.returnToList();
     };
     const onFailure = ({ message }) => {
       this.setIsLoading(false);
@@ -131,7 +139,13 @@ export default class PaySuperReadModule {
 
   reversePaySuperModalConfirm = () => {
     this.closeModal();
-    this.reversePaySuper();
+    this.store.dispatch({
+      intent: PREPARE_UI_FOR_REVERSE,
+    });
+    this.store.dispatch({
+      intent: SET_STATUS,
+      status: 'RecordReversal',
+    });
   }
 
   openReverseModal = () => {
@@ -151,6 +165,7 @@ export default class PaySuperReadModule {
         onReverseModalConfirmClick={this.reversePaySuperModalConfirm}
         onReserseModalCancelClick={this.closeModal}
         onReverseClick={this.openReverseModal}
+        onRecordReverseClick={this.reversePaySuper}
         onDateLinkClick={this.openEmployeePayModal}
       />
     );

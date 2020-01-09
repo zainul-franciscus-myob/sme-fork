@@ -65,35 +65,6 @@ describe('PaySuperReadModule', () => {
       expect(wrapper.find(ReversalModal)).toHaveLength(1);
     });
 
-    it('shows a success alert when transaction is reversed successfully', () => {
-      const { wrapper, module } = constructModule(reversalIntegration);
-      module.openReverseModal();
-      wrapper.update();
-
-      findButtonWithTestId(wrapper, 'reversalConfirmButton').simulate('click');
-
-      expect(wrapper.find(ReversalModal)).toHaveLength(0);
-      const alert = wrapper.find(Alert);
-      expect(alert).toHaveLength(1);
-      expect(alert.prop('type')).toEqual('success');
-    });
-
-    it('shows a failure alert when transaction is not reversed successfully', () => {
-      const { wrapper, module } = constructModule({
-        ...reversalIntegration,
-        write: ({ onFailure }) => { onFailure('failure message'); },
-      });
-      module.openReverseModal();
-      wrapper.update();
-
-      findButtonWithTestId(wrapper, 'reversalConfirmButton').simulate('click');
-
-      expect(wrapper.find(ReversalModal)).toHaveLength(0);
-      const alert = wrapper.find(Alert);
-      expect(alert).toHaveLength(1);
-      expect(alert.prop('type')).toEqual('danger');
-    });
-
     it('closes the modal when cancel button is clicked', () => {
       const { wrapper, module } = constructModule(reversalIntegration);
       module.openReverseModal();
@@ -102,6 +73,34 @@ describe('PaySuperReadModule', () => {
       findButtonWithTestId(wrapper, 'reversalCancelButton').simulate('click');
 
       expect(wrapper.find(ReversalModal)).toHaveLength(0);
+    });
+  });
+
+  describe('Record reversal button', () => {
+    const reversalIntegration = {
+      ...defaultIntegration,
+      read: ({ onSuccess }) => onSuccess({
+        ...loadPaySuperReadResponse,
+        status: 'FundsUnavailable',
+      }),
+    };
+
+    it('shows a failure alert when transaction is not reversed successfully', () => {
+      const { wrapper, module } = constructModule({
+        ...reversalIntegration,
+        write: ({ onFailure }) => { onFailure('failure message'); },
+      });
+      module.openReverseModal();
+      wrapper.update();
+      findButtonWithTestId(wrapper, 'reversalConfirmButton').simulate('click');
+      wrapper.update();
+
+      findButtonWithTestId(wrapper, 'recordReversalButton').simulate('click');
+
+      expect(wrapper.find(ReversalModal)).toHaveLength(0);
+      const alert = wrapper.find(Alert);
+      expect(alert).toHaveLength(1);
+      expect(alert.prop('type')).toEqual('danger');
     });
   });
 });

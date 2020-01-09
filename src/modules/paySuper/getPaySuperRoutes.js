@@ -29,6 +29,7 @@ const getPaySuperRoutes = ({
       module: new PaySuperReadModule({
         integration,
         setRootView,
+        pushMessage,
       }),
     },
   ];

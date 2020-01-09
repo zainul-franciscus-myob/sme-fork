@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_CREATED_SUPER_PAYMENT } from '../paySuperMessageTypes';
+import {
+  SUCCESSFULLY_CREATED_SUPER_PAYMENT,
+  SUCCESSFULLY_REVERSED_TRANSACTION,
+} from '../paySuperMessageTypes';
 import {
   getBusinessId,
   getPaySuperCreateUrl,
@@ -23,7 +26,10 @@ export default class PaySuperListModule {
     this.integrator = createPaySuperListIntegrator(this.store, this.integration);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
-    this.messageTypes = [SUCCESSFULLY_CREATED_SUPER_PAYMENT];
+    this.messageTypes = [
+      SUCCESSFULLY_CREATED_SUPER_PAYMENT,
+      SUCCESSFULLY_REVERSED_TRANSACTION,
+    ];
     this.stsLoginModal = new StsLoginModule({
       integration,
       onLoggedIn: this.onLoggedIn,
@@ -110,6 +116,7 @@ export default class PaySuperListModule {
   run = (context) => {
     this.dispatcher.setInitialState(context);
     this.render();
+    this.popAlert();
     this.stsLoginModal.run(context);
   };
 
