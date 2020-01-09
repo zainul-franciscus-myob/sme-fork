@@ -1,11 +1,15 @@
-import { DatePicker, FilterBar, Select } from '@myob/myob-widgets';
+import {
+  DatePicker,
+  FilterBar,
+  // Select,
+} from '@myob/myob-widgets';
 import React from 'react';
 
-import handleSelectChange from '../../../../components/handlers/handleSelectChange';
+// import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
 const ElectronicPaymentsCreateFilter = ({
-  paymentTypes,
-  paymentType,
+  // paymentTypes,
+  // paymentType,
   dateFrom,
   dateTo,
   onUpdateFilterBarOptions,
@@ -18,16 +22,16 @@ const ElectronicPaymentsCreateFilter = ({
   return (
     <FilterBar onApply={onApplyFilter}>
       <FilterBar.Group>
-        <Select
-          label="Payment type"
-          name="paymentType"
-          value={paymentType}
-          onChange={handleSelectChange(onUpdateFilterBarOptions)}
-        >
-          {paymentTypes.map(({ name, value }) => (
-            <Select.Option value={value} label={name} key={value} />
-          ))}
-        </Select>
+        {/* <Select */}
+        {/*  label="Payment type" */}
+        {/*  name="paymentType" */}
+        {/*  value={paymentType} */}
+        {/*  onChange={handleSelectChange(onUpdateFilterBarOptions)} */}
+        {/* > */}
+        {/*  {paymentTypes.map(({ name, value }) => ( */}
+        {/*    <Select.Option value={value} label={name} key={value} /> */}
+        {/*  ))} */}
+        {/* </Select> */}
         <DatePicker
           label="Transactions from"
           name="datepicker-from"
