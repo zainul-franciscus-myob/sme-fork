@@ -1,0 +1,15 @@
+{
+  "templateId": 2,
+  "templateName": "SLW template - Header option",
+  "featureColour": "#12EFFD",
+  "headerTextColour": "#000000",
+  "useAddressEnvelopePosition": false,
+  "headerBusinessDetailsStyle": "FullWidthHeaderImage",
+  "headerImage": "",
+  "logoImage": "",
+  "logoSize": 1,
+  "isLogoOnTheLeft": false,
+  "tradingName": true,
+  "businessName": true,
+  "isDefault": true
+}

@@ -85,6 +85,8 @@ const RouteName = {
   STP_GET_STARTED: 'stp/stpGetStarted',
   STP_SETUP: 'stp/stpSetup',
   STP_REPORTING_CENTRE: 'stp/reportingCentre',
+  CREATE_TEMPLATE: 'createTemplate',
+  TEMPLATE_DETAIL: 'templateDetail',
   PAYMENT_DETAIL: 'paymentDetail',
 };
 

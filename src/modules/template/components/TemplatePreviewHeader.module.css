@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--flx-spacing-small);
+}
+
+.header__title {
+  font-weight: var(--flx-font-weight-bold);
+  font-size: var(--flx-font-size-heading-medium);
+}
+
+.header__options {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header__radioGroup {
+  margin: 0 0 0 var(--flx-padding-input-x);
+}
+
+@media only screen and (min-width: 1024px) {
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

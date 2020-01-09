@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.items {
+  display: flex;
+  flex-direction: row;
+}
+
+.item {
+  text-align: right;
+  margin: var(--flx-spacing-tiny) var(--flx-spacing-medium);
+}
+
+.item h5 {
+  margin-bottom: var(--flx-spacing-xx-tiny);
+}
+
+.item p {
+  margin-bottom: 0;
+}

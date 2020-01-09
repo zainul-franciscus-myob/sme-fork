@@ -1,0 +1,13 @@
+.container {
+  flex: 0 0 auto;
+  padding: 0;
+  overflow: hidden;
+}
+
+@media only screen and (min-width: 784px) {
+  .container {
+    flex-basis: 400px;
+    margin-right: var(--flx-spacing-small);
+  }
+}
+

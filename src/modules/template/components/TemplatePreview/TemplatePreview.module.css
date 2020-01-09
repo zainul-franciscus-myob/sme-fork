@@ -1,0 +1,24 @@
+.wrapper {
+  border-radius: var(--flx-border-radius-card);
+  background-color: var(--flx-background-color-application);
+  padding: var(--flx-spacing-small);
+}
+
+.container {
+  background-color: var(--flx-background-color-card);
+  padding: var(--flx-padding-card-body);
+  overflow: hidden;
+}
+
+.logo {
+  display: none;
+}
+
+.container h3 {
+  margin-bottom: var(--flx-spacing-tiny);
+}
+
+.container p, .container span {
+  margin-bottom: var(--flx-spacing-x-tiny);
+  font-size: var(--flx-font-size-paragraph-small);
+}

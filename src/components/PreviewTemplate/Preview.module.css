@@ -1,0 +1,19 @@
+.container {
+  flex: 1 1 0;
+  position: relative;
+}
+
+.previewContainer {
+  width: 100%;
+  position: absolute;
+  background-color: var(--flx-background-color-card);
+  box-shadow: var(--flx-shadow-card);
+  padding: var(--flx-padding-card-body);
+  border-radius: var(--flx-border-radius-card);
+  overflow: hidden;
+}
+
+.preview {
+  width: 100%;
+  transform-origin: top left;
+}

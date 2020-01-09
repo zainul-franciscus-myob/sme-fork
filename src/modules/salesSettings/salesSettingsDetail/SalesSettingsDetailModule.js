@@ -1,11 +1,14 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { TEMPLATE_UPDATED } from '../../template/MessageTypes';
 import {
+  getBusinessId,
   getIsPageEdited,
   getIsTemplatesLoading,
   getNewSortOrder,
   getPendingDeleteTemplate,
+  getRegion,
   getSalesSettingsPayload,
   getSelectedTab,
   getTabData,
@@ -22,10 +25,11 @@ import salesSettingsReducer from './salesSettingsDetailReducer';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class SalesSettingsModule {
-  constructor({ integration, setRootView }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.integration = integration;
     this.store = new Store(salesSettingsReducer);
     this.setRootView = setRootView;
+    this.popMessages = popMessages;
 
     this.dispatcher = createSalesSettingsDispatcher(this.store);
     this.integrator = createSalesSettingsIntegrator(this.store, integration);
@@ -160,6 +164,9 @@ export default class SalesSettingsModule {
         this.dispatcher.setPendingDeleteTemplate(name);
         this.dispatcher.openModal(modalTypes.deleteTemplate);
         break;
+      case actionTypes.editTemplate:
+        this.redirectToEditTemplate(name);
+        break;
       default:
     }
   };
@@ -177,7 +184,7 @@ export default class SalesSettingsModule {
         onUpdateEmailSettings={this.dispatcher.updateEmailSettings}
         onSaveEmailSettings={this.saveEmailSettings}
         templateHandlers={{
-          onCreateTemplate: () => {},
+          onCreateTemplate: this.redirectToCreateNewTemplate,
           onSortTemplateList: this.sortTemplateList,
           onActionSelect: this.handleActionSelect,
         }}
@@ -217,11 +224,43 @@ export default class SalesSettingsModule {
     this.dispatcher.resetState();
   };
 
+  readMessages = () => {
+    const [successMessage] = this.popMessages([TEMPLATE_UPDATED]);
+
+    if (successMessage) {
+      const {
+        content: message,
+      } = successMessage;
+
+      this.dispatcher.setAlert({
+        type: 'success',
+        message,
+      });
+    }
+  };
+
   run = (context) => {
     this.dispatcher.setInitialState(context);
     this.dispatcher.setLoadingState(true);
     setupHotKeys(keyMap, this.handlers);
     this.render();
+    this.readMessages();
     this.loadSalesSettings();
+  };
+
+  redirectToCreateNewTemplate = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/template/`;
+  };
+
+  redirectToEditTemplate = (name) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/template/${name}`;
   };
 }

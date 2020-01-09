@@ -1,0 +1,11 @@
+.container {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+}
+
+@media only screen and (min-width: 784px) {
+  .container {
+    flex-direction: row;
+  }
+}

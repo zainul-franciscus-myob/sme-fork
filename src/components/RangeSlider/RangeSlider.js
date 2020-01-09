@@ -1,5 +1,5 @@
 import { Field } from '@myob/myob-widgets';
-import React, { useState } from 'react';
+import React from 'react';
 
 import styles from './RangeSlider.module.css';
 
@@ -10,11 +10,9 @@ const RangeSlider = ({
   label = '',
   onChange,
 }) => {
-  const [rangeValue, setRangeValue] = useState(value);
-  const widthOfRangeValue = `${rangeValue * 1}%`;
+  const widthOfRangeValue = `${value * 1}%`;
   const handleSlide = (e) => {
     const newValue = e.target.value;
-    setRangeValue(newValue);
     if (onChange) {
       onChange(newValue);
     }
@@ -31,7 +29,7 @@ const RangeSlider = ({
               type="range"
               min={min}
               max={max}
-              value={rangeValue}
+              value={value}
               onChange={handleSlide}
             />
           </div>

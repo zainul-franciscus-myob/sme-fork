@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 75px;
+}
+
+.fromAddress {
+  margin-right: var(--flx-spacing-small);
+  flex: 1 1 auto;
+}
+
+.fromAddress__items {
+  border-radius: 4px;
+  background-color: var(--flx-background-color-application);
+  padding: 0 var(--flx-padding-card-body);
+}
+
+.toAddress {
+  flex: 1 1 auto;
+}
+
+.toAddress h5 {
+  margin-bottom: var(--flx-spacing-xx-tiny);
+}
+
+.item--italic {
+  font-style: italic;
+}

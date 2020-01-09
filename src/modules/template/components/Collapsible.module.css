@@ -1,0 +1,26 @@
+.collapsible {
+  padding: var(--flx-spacing-x-tiny);
+}
+
+.collapsible__header {
+  font-weight: var(--flx-font-weight-bold);
+  font-size: var(--flx-font-size-heading-medium);
+}
+
+.collapsible__button {
+  display: flex;
+  width: 100%;
+  border: none;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--flx-palette-white);
+  padding: var(--flx-spacing-x-small) var(--flx-padding-input-x);
+}
+
+.collapsible__content {
+  padding: var(--flx-spacing-x-small) var(--flx-padding-input-x);
+}
+
+.collapsible + .collapsible {
+  border-top: var(--flx-border-thin);
+}

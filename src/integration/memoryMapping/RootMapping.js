@@ -68,6 +68,7 @@ import SuperPayItemMapping from '../../modules/payItem/superPayItem/mappings/Mem
 import SupplierReturnMapping from '../../modules/supplierReturn/mappings/MemorySupplierReturnMapping';
 import SupplierReturnPurchaseMapping from '../../modules/supplierReturnPurchase/mappings/MemorySupplierReturnPurchaseMapping';
 import TaxMapping from '../../modules/tax/mappings/MemoryTaxMapping';
+import TemplateMapping from '../../modules/template/mappings/MemoryTemplateMapping';
 import TransferMoneyMapping from '../../modules/transferMoney/mappings/MemoryTransferMoneyMapping';
 import UserMapping from '../../modules/user/mappings/MemoryUserMapping';
 import WagePayItemMapping from '../../modules/payItem/wagePayItem/mappings/MemoryWagePayItemMapping';
@@ -147,6 +148,7 @@ const RootMapping = Object.freeze({
   ...StpGetStartedMapping,
   ...StpReportingCentreMapping,
   ...StpSetupMapping,
+  ...TemplateMapping,
 });
 
 export default RootMapping;

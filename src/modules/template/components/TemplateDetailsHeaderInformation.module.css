@@ -1,0 +1,18 @@
+.logo__prompt {
+  font-size: var(--flx-font-size-text-small);
+}
+
+.removeImageButton {
+  margin: var(--flx-spacing-tiny) 0;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.imageThumbnail {
+  max-width: 30rem;
+  max-height: 30rem;
+}

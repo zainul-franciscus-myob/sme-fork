@@ -1,5 +1,5 @@
 import { Field, Input } from '@myob/myob-widgets';
-import React, { useState } from 'react';
+import React from 'react';
 
 import styles from './ColorPicker.module.css';
 
@@ -8,11 +8,8 @@ const ColorPicker = ({
   value = '#000000',
   onChange,
 }) => {
-  const [color, setColor] = useState(value);
-
   const handleColorChange = (e) => {
     const newColor = e.target.value;
-    setColor(newColor);
     if (onChange) {
       onChange(newColor);
     }
@@ -23,9 +20,9 @@ const ColorPicker = ({
       label={label}
       renderField={() => (
         <div className={styles.container}>
-          <Input value={color} maxLength={7} onChange={handleColorChange} />
-          <input className={styles.trigger} type="color" value={color} onChange={handleColorChange} />
-          <div className={styles.palette} style={{ backgroundColor: color }} />
+          <Input value={value} maxLength={7} onChange={handleColorChange} />
+          <input className={styles.trigger} type="color" value={value} onChange={handleColorChange} />
+          <div className={styles.palette} style={{ backgroundColor: value }} />
         </div>
       )}
     />
