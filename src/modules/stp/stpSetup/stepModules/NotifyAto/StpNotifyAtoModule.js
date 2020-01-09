@@ -55,10 +55,10 @@ export default class StpNotifyAtoModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccessFunc = ({ businessSid }) => {
+    const onSuccessFunc = ({ sid }) => {
       this.store.dispatch({
         intent: GET_BUSINESS_SID,
-        businessSid,
+        sid,
       });
       this.setIsLoading(false);
       onSuccess();

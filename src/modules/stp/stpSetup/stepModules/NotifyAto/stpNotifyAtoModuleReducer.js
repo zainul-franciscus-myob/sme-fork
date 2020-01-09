@@ -8,7 +8,7 @@ import createReducer from '../../../../../store/createReducer';
 
 const getDefaultState = () => ({
   businessId: '',
-  businessSid: '',
+  sid: '',
 });
 
 
@@ -22,9 +22,9 @@ const loadContext = (state, { context }) => ({
   businessId: context.businessId,
 });
 
-const getBusinessSid = (state, { businessSid }) => ({
+const getBusinessSid = (state, { sid }) => ({
   ...state,
-  businessSid,
+  sid,
 });
 
 const setAlert = (state, { alert }) => ({

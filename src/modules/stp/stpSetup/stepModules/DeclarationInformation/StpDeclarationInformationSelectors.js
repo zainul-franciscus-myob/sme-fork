@@ -10,7 +10,7 @@ export const getAlert = state => state.alert;
 export const getIsLoading = state => state.isLoading;
 export const getBusinessId = state => state.businessId;
 
-export const getSubmitBusinessInformationParams = state => ({
+export const getSubmitBusinessInformationContent = state => ({
   payerAbn: state.payerAbn,
   firstName: state.firstName,
   lastName: state.lastName,

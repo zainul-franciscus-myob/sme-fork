@@ -9,7 +9,7 @@ import {
   SET_IS_LOADING,
   SUBMIT_BUSINESS_CONTACT_INFORMATION,
 } from './StpDeclarationInformationIntents';
-import { getBusinessId, getSubmitBusinessInformationParams } from './StpDeclarationInformationSelectors';
+import { getBusinessId, getSubmitBusinessInformationContent } from './StpDeclarationInformationSelectors';
 import Store from '../../../../../store/Store';
 import StpDeclarationInformationView from './components/StpDeclarationInformationView';
 import stpDeclarationInformationReducer from './stpDeclarationInformationReducer';
@@ -56,12 +56,12 @@ export default class StpDeclarationInformationModule {
     const urlParams = {
       businessId: getBusinessId(state),
     };
-    const params = getSubmitBusinessInformationParams(state);
+    const content = getSubmitBusinessInformationContent(state);
 
     this.integration.write({
       intent: SUBMIT_BUSINESS_CONTACT_INFORMATION,
       urlParams,
-      params,
+      content,
       onSuccess,
       onFailure,
     });

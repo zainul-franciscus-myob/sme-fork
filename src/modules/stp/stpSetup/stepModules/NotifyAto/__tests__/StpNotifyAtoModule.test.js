@@ -80,7 +80,7 @@ describe('StpNotifyAtoModule', () => {
 
     it('calls onSuccess if the request succeeds', () => {
       const integration = {
-        read: ({ onSuccess }) => onSuccess({ businessSid: 123 }),
+        read: ({ onSuccess }) => onSuccess({ sid: 123 }),
       };
       const { module } = constructStpNotifyAtoModule({ integration });
       const onSuccess = jest.fn();
@@ -106,7 +106,7 @@ describe('StpNotifyAtoModule', () => {
 
     it('stores the business sid in the state', () => {
       const integration = {
-        read: ({ onSuccess }) => onSuccess({ businessSid: 123 }),
+        read: ({ onSuccess }) => onSuccess({ sid: 123 }),
       };
       const { module } = constructStpNotifyAtoModule({ integration });
 
@@ -115,9 +115,9 @@ describe('StpNotifyAtoModule', () => {
 
       module.getBusinessSid({ onSuccess, onFailure });
 
-      const { businessSid } = module.store.getState();
+      const { sid } = module.store.getState();
 
-      expect(businessSid).toEqual(123);
+      expect(sid).toEqual(123);
     });
   });
 });
