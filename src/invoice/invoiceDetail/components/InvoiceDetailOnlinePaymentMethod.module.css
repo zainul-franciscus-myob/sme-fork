@@ -1,13 +1,14 @@
 .onlinePaymentMethodsImage {
   height: 2.1rem;
-  padding-bottom: 0.4rem;
+  padding-bottom: var(--flx-spacing-x-tiny);
   width: auto;
 }
 
 .onlinePaymentMethodsImageSetUp {
   height: 2.1rem;
-  padding-top: 0.4rem;
+  padding-top: var(--flx-spacing-x-tiny);
   width: auto;
+  padding-right: var(--flx-spacing-small);
 }
 
 .onlinePaymentCheckboxGroup > * {

@@ -45,7 +45,6 @@ const InvoiceDetailActions = ({
     </Button>
   );
 
-  const saveAndEmailText = isCreating ? 'Save and email' : 'Email invoice';
   const saveAndEmailButton = (
     <Button
       key="saveAndEmail"
@@ -54,7 +53,7 @@ const InvoiceDetailActions = ({
       onClick={onSaveAndEmailButtonClick}
       disabled={isSubmitting}
     >
-      {saveAndEmailText}
+      Email invoice
     </Button>
   );
 
@@ -77,7 +76,7 @@ const InvoiceDetailActions = ({
       onSelect={onSaveAndButtonClick}
       toggle={(
         <Dropdown.Toggle disabled={isSubmitting}>
-            Save and...
+            Save and new
           <Icons.Caret />
         </Dropdown.Toggle>
         )}

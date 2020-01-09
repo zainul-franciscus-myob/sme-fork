@@ -49,7 +49,7 @@ const InvoiceServiceTable = ({
         },
         {
           columnName: amountLabel,
-          styles: { width: '12.8rem' },
+          styles: { width: '12.8rem', align: 'right' },
         },
         {
           columnName: taxCodeLabel,

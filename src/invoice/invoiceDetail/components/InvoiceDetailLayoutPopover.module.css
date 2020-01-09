@@ -7,3 +7,7 @@
 .popover :global(.flx-popover) {
   display: inline-block;
 }
+
+.popoverBody {
+  margin-bottom: 0;
+}

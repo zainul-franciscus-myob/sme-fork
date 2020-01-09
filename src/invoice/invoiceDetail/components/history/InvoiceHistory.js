@@ -27,8 +27,8 @@ const InvoiceHistory = ({
 
   const getTableHeader = appendToHeader => (
     <Table.Row>
-      <Table.RowItem className={styles.header}>
-        Activity History
+      <Table.RowItem>
+        Activity history
         {appendToHeader}
       </Table.RowItem>
     </Table.Row>
@@ -36,7 +36,7 @@ const InvoiceHistory = ({
 
   const headerStatusLabel = (
     <div className={styles.headerLabel}>
-      <Label color={mostRecentStatusColor} type="boxed">
+      <Label color={mostRecentStatusColor} type="boxed" size="small">
         {InvoiceHistoryStatusPretty[mostRecentStatus]}
       </Label>
     </div>

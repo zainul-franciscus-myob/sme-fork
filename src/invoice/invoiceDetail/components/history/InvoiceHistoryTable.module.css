@@ -17,3 +17,11 @@
 .refLink {
   padding-right: var(--flx-spacing-tiny);
 }
+
+.icons > * {
+  vertical-align: middle;
+}
+
+.icons svg:first-child {
+  margin-right: var(--flx-spacing-x-tiny);
+}

@@ -19,6 +19,7 @@ const InvoiceDetailLayoutPopover = ({
       label="Field layout"
       value={layout}
       onChange={onUpdateInvoiceLayout}
+      className={styles.popoverBody}
       disabled={isSubmitting}
       renderRadios={({ value, ...feelixProps }) => [
         <RadioButton

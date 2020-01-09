@@ -42,11 +42,9 @@ const InvoiceHistoryTable = ({ invoiceHistory, onClickOnRefNo }) => (
       {
           invoiceHistory && invoiceHistory.map(row => (
             <Table.Row key={row.id}>
-              <Table.RowItem width="5rem" title={InvoiceHistoryStatusPretty[row.status]} className={iconAndStatusClassName(row.status)}>
+              <Table.RowItem width="25rem" title={InvoiceHistoryStatusPretty[row.status]} className={classNames(styles.icons, iconAndStatusClassName(row.status))}>
                 {icon[row.status]}
-              </Table.RowItem>
-              <Table.RowItem width="25rem" title={InvoiceHistoryStatusPretty[row.status]} className={iconAndStatusClassName(row.status)}>
-                {InvoiceHistoryStatusPretty[row.status]}
+                <span>{InvoiceHistoryStatusPretty[row.status]}</span>
               </Table.RowItem>
               <Table.RowItem title={row.description} textWrap="wrap">
                 {row.showLink && (

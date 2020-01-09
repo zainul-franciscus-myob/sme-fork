@@ -3,11 +3,7 @@
   background-color: unset !important;
 }
 
-.header > *{
- padding: 0.5rem;
-}
-
 .headerLabel {
-  padding: 0.5rem;
+  padding-left: var(--flx-spacing-x-tiny);
   display: inline-block;
 }

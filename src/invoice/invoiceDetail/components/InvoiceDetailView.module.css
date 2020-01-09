@@ -17,4 +17,8 @@
   .notes {
     width: var(--flx-width-field-xl);
   }
+
+  .notes div:first-child {
+    margin-bottom: var(--flx-spacing-tiny);
+  }
 }
