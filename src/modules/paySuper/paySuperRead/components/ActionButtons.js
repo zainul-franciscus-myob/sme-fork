@@ -5,7 +5,7 @@ import {
 import React from 'react';
 
 const authoriseButtonStatus = ['Created', 'PartiallyAuthorised'];
-const reverseButtonStatus = ['FundsUnavailable', 'FundsTransferError', 'PaymentDispersementError'];
+const reverseButtonStatus = ['FundsUnavailable', 'FundsTransferError', 'PaymentDispersmentError'];
 const ActionButtons = ({
   status, onCancelClick, onAuthoriseClick, onReverseClick,
 }) => {
