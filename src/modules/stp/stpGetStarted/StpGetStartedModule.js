@@ -3,7 +3,7 @@ import React from 'react';
 
 import { LOAD_REGISTRATION_ITEMS_VALIDATION, SET_MODAL } from './stpGetStartedIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getBusinessId } from './stpGetStartedSelectors';
+import { getBusinessId, getStpErrorsUrl } from './stpGetStartedSelectors';
 import ModalType from './ModalType';
 import Store from '../../../store/Store';
 import StpGetStartedView from './components/StpGetStartedView';
@@ -34,6 +34,12 @@ export default class StpGetStartedModule {
 
   goToStpSetUp = () => {
     // TODO: fill in the url
+  }
+
+  goToErrorsPage = () => {
+    const state = this.store.getState();
+    const stpErrorsUrl = getStpErrorsUrl(state);
+    window.location.href = stpErrorsUrl;
   }
 
   handleGetStarted = () => {
@@ -67,6 +73,7 @@ export default class StpGetStartedModule {
       <StpGetStartedView
         onGetStartedClick={this.handleGetStarted}
         onModalCancelClick={this.closeModal}
+        onViewErrorsButtonClick={this.goToErrorsPage}
       />
     );
 

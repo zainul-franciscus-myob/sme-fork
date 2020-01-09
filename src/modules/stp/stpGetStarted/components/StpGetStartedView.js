@@ -20,6 +20,7 @@ const StpGetStartedView = ({
   modal,
   onGetStartedClick,
   onModalCancelClick,
+  onViewErrorsButtonClick,
 }) => (
   <StandardTemplate
     pageHead="Set up Single Touch Payroll reporting"
@@ -28,6 +29,7 @@ const StpGetStartedView = ({
       && (
       <RegistrationErrorsModal
         onCancelButtonClick={onModalCancelClick}
+        onViewErrorsButtonClick={onViewErrorsButtonClick}
       />
       )
     }

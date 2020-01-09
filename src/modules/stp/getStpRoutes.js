@@ -1,5 +1,6 @@
 import ReportingCentreModule from './reportingCentre/ReportingCentreModule';
 import RouteName from '../../router/RouteName';
+import StpErrorsModule from './stpErrors/StpErrorsModule';
 import StpGetStartedModule from './stpGetStarted/StpGetStartedModule';
 import StpSetupModule from './stpSetup/StpSetupModule';
 
@@ -22,6 +23,14 @@ const getStpRoutes = ({
         integration, setRootView,
       }),
       documentTitle: 'Set up STP reporting',
+    },
+    {
+      name: RouteName.STP_ERRORS,
+      path: '/:region/:businessId/stp/errors',
+      module: new StpErrorsModule({
+        integration, setRootView,
+      }),
+      documentTitle: 'STP Errors',
     },
     {
       name: RouteName.STP_REPORTING_CENTRE,
