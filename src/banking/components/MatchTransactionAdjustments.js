@@ -31,48 +31,53 @@ const getTableColumns = ({ taxCodeLabel }) => [
 
 const renderRow = (accounts, taxCodes, [
   accountColumn, amountColumn, quantityColumn, descColumn, taxColumn,
-]) => (index, adjustment, onChange) => (
-  <BulkAdd.Row key={adjustment.id} index={index}>
-    <BulkAdd.RowItem
-      columnName={accountColumn.label}
-      {...accountColumn}
-    >
-      <AccountCombobox
-        items={accounts}
-        onChange={handleComboboxChange('accountId', onChange)}
-        selectedId={adjustment.accountId}
-      />
-    </BulkAdd.RowItem>
-    <BulkAdd.RowItem
-      columnName={amountColumn.label}
-      {...amountColumn}
-    >
-      <AmountInput name="amount" textAlign="right" onChange={handleAmountInputChange(onChange)} value={adjustment.amount} />
-    </BulkAdd.RowItem>
-    <BulkAdd.RowItem
-      columnName={quantityColumn.label}
-      {...quantityColumn}
-    >
-      <AmountInput name="quantity" textAlign="right" onChange={handleAmountInputChange(onChange)} value={adjustment.quantity} />
-    </BulkAdd.RowItem>
-    <BulkAdd.RowItem
-      columnName={descColumn.label}
-      {...descColumn}
-    >
-      <Input name="description" onChange={handleInputChange(onChange)} value={adjustment.description} />
-    </BulkAdd.RowItem>
-    <BulkAdd.RowItem
-      columnName={taxColumn.label}
-      {...taxColumn}
-    >
-      <TaxCodeCombobox
-        items={taxCodes}
-        selectedId={adjustment.taxCodeId}
-        onChange={handleComboboxChange('taxCodeId', onChange)}
-      />
-    </BulkAdd.RowItem>
-  </BulkAdd.Row>
-);
+]) => (index, adjustment, onChange) => {
+  const {
+    id, accountId, amount = '', quantity = '', description, taxCodeId,
+  } = adjustment;
+  return (
+    <BulkAdd.Row key={id} index={index}>
+      <BulkAdd.RowItem
+        columnName={accountColumn.label}
+        {...accountColumn}
+      >
+        <AccountCombobox
+          items={accounts}
+          onChange={handleComboboxChange('accountId', onChange)}
+          selectedId={accountId}
+        />
+      </BulkAdd.RowItem>
+      <BulkAdd.RowItem
+        columnName={amountColumn.label}
+        {...amountColumn}
+      >
+        <AmountInput name="amount" textAlign="right" onChange={handleAmountInputChange(onChange)} value={amount} />
+      </BulkAdd.RowItem>
+      <BulkAdd.RowItem
+        columnName={quantityColumn.label}
+        {...quantityColumn}
+      >
+        <AmountInput name="quantity" textAlign="right" onChange={handleAmountInputChange(onChange)} value={quantity} />
+      </BulkAdd.RowItem>
+      <BulkAdd.RowItem
+        columnName={descColumn.label}
+        {...descColumn}
+      >
+        <Input name="description" onChange={handleInputChange(onChange)} value={description} />
+      </BulkAdd.RowItem>
+      <BulkAdd.RowItem
+        columnName={taxColumn.label}
+        {...taxColumn}
+      >
+        <TaxCodeCombobox
+          items={taxCodes}
+          selectedId={taxCodeId}
+          onChange={handleComboboxChange('taxCodeId', onChange)}
+        />
+      </BulkAdd.RowItem>
+    </BulkAdd.Row>
+  );
+};
 
 const MatchTransactionAdjustments = ({
   onUpdateAdjustment,
