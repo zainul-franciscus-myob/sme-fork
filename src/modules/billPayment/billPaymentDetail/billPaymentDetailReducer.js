@@ -38,6 +38,8 @@ const getDefaultState = () => ({
   isPageEdited: false,
   modalType: '',
   alertMessage: '',
+  paymentAmount: '',
+  applyPaymentToBillId: '',
 });
 
 const pageEdited = { isPageEdited: true };
@@ -89,7 +91,10 @@ const loadBillPayment = (state, action) => ({
 
 const loadBillList = (state, action) => ({
   ...state,
-  entries: action.entries,
+  entries: action.entries.map(entry => ({
+    ...entry,
+    paidAmount: state.applyPaymentToBillId === entry.id ? state.paymentAmount : '',
+  })),
 });
 
 const updateHeaderOption = (state, action) => ({

@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import Region from './Region';
+import getQueryFromParams from '../../common/getQueryFromParams/getQueryFromParams';
 
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
@@ -49,14 +50,6 @@ const mapRegionToCountry = region => ({
   [Region.au]: 'Australia',
   [Region.nz]: 'New Zealand',
 }[region]);
-
-const getQueryFromParams = (params = {}) => {
-  const encode = encodeURIComponent;
-  const query = Object.keys(params)
-    .map(key => `${encode(key)}=${encode(params[key])}`)
-    .join('&');
-  return `?${query}`;
-};
 
 export const getSearchLink = createSelector(
   getRegion,

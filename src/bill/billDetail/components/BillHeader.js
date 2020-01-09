@@ -1,5 +1,5 @@
 import {
-  TotalsHeader,
+  Button, Icons, TotalsHeader,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -18,7 +18,14 @@ const BillHeader = ({
   displayTotalAmount,
   displayAmountPaid,
   displayAmountDue,
+  onCreatePaymentClick,
 }) => {
+  const actions = [
+    <Button key="createPayment" type="link" icon={<Icons.Dollar />} onClick={onCreatePaymentClick}>
+      Create payment
+    </Button>,
+  ];
+
   if (isCreating) {
     return (
       <TotalsHeader
@@ -31,6 +38,7 @@ const BillHeader = ({
   return (
     <TotalsHeader
       title={pageTitle}
+      actions={actions}
       totalItems={[
         <TotalsHeader.TotalItem
           key="totalAmount"

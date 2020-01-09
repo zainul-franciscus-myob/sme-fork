@@ -1,4 +1,4 @@
-import { getLoadBillListParams, getSaveBillPaymentPayload, getShouldLoadBillList } from '../BillPaymentDetailSelectors';
+import { getSaveBillPaymentPayload, getShouldLoadBillList } from '../BillPaymentDetailSelectors';
 
 describe('BillPaymentSelector', () => {
   describe('getShouldLoadBillList', () => {
@@ -11,7 +11,7 @@ describe('BillPaymentSelector', () => {
       };
 
       const expected = true;
-      const actual = getShouldLoadBillList({ key, value })(state);
+      const actual = getShouldLoadBillList(key, value, state);
 
       expect(actual).toBe(expected);
     });
@@ -25,7 +25,7 @@ describe('BillPaymentSelector', () => {
       };
 
       const expected = true;
-      const actual = getShouldLoadBillList({ key, value })(state);
+      const actual = getShouldLoadBillList(key, value, state);
 
       expect(actual).toBe(expected);
     });
@@ -39,55 +39,9 @@ describe('BillPaymentSelector', () => {
       };
 
       const expected = false;
-      const actual = getShouldLoadBillList({ key, value })(state);
+      const actual = getShouldLoadBillList(key, value, state);
 
       expect(actual).toBe(expected);
-    });
-  });
-
-  describe('getLoadBillListParams', () => {
-    it('Should calculate correct params when a supplier is selected', () => {
-      const key = 'supplierId';
-      const value = '1';
-      const state = {
-        businessId: '123',
-        supplierId: '',
-        showPaidBills: false,
-      };
-
-      const expected = {
-        urlParams: {
-          businessId: '123',
-          supplierId: '1',
-        },
-        params: {
-          showPaidBills: false,
-        },
-      };
-      const actual = getLoadBillListParams({ key, value })(state);
-      expect(actual).toEqual(expected);
-    });
-
-    it('Should calculate correct params when showPaidBills is selected', () => {
-      const key = 'showPaidBills';
-      const value = true;
-      const state = {
-        businessId: '123',
-        supplierId: '1',
-        showPaidBills: false,
-      };
-
-      const expected = {
-        urlParams: {
-          businessId: '123',
-          supplierId: '1',
-        },
-        params: {
-          showPaidBills: true,
-        },
-      };
-      const actual = getLoadBillListParams({ key, value })(state);
-      expect(actual).toEqual(expected);
     });
   });
 

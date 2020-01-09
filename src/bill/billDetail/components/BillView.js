@@ -25,6 +25,7 @@ import MasterDetailLineItemTemplate
   from '../../../components/MasterDetailLineItemTemplate/MasterDetailLineItemTemplate';
 import PageView from '../../../components/PageView/PageView';
 import UpgradeModal from './UpgradeModal';
+import styles from './BillView.module.css';
 
 const BillView = ({
   onAddAccount,
@@ -70,6 +71,7 @@ const BillView = ({
   onClosePrefillInfo,
   onUpgradeModalDismiss,
   onUpgradeModalUpgradeButtonClick,
+  onCreatePaymentClick,
 }) => {
   const table = {
     item: (
@@ -107,7 +109,7 @@ const BillView = ({
         }
       }
       />)}
-      <BillHeader />
+      <BillHeader onCreatePaymentClick={onCreatePaymentClick} />
     </div>
   );
 
@@ -163,6 +165,7 @@ const BillView = ({
     <MasterDetailLineItemTemplate
       optionInfo={showPrefillInfo && prefillInfo}
       onDismissOptionInfo={onClosePrefillInfo}
+      detailHeaderClassName={styles.secondaryOptions}
       primaryOptions={(
         <BillPrimaryOptions
           onUpdateBillOption={onUpdateBillOption}
@@ -180,6 +183,7 @@ const BillView = ({
           onCancelButtonClick={onCancelButtonClick}
           onDeleteButtonClick={onDeleteButtonClick}
           onExportPdfButtonClick={onExportPdfButtonClick}
+          onCreatePaymentClick={onCreatePaymentClick}
         />
       )}
       subHeadChildren={subHeaderChildren}

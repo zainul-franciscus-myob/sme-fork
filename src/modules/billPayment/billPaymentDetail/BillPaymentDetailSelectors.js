@@ -60,46 +60,31 @@ export const getBillPaymentOptions = createStructuredSelector({
   shouldDisableFields: getShouldDisableFields,
 });
 
-export const getShouldLoadBillList = ({ key, value }) => createSelector(
-  getSupplierId,
-  (supplierId) => {
-    if (key === 'supplierId' && value.length > 0) {
-      return true;
-    }
-    if (key === 'showPaidBills' && supplierId.length > 0) {
-      return true;
-    }
-    return false;
-  },
-);
+export const getShouldLoadBillList = (key, value, state) => {
+  const supplierId = getSupplierId(state);
 
-export const getLoadBillListParams = ({ key, value }) => createSelector(
+  if (key === 'supplierId' && value.length > 0) {
+    return true;
+  }
+  if (key === 'showPaidBills' && supplierId.length > 0) {
+    return true;
+  }
+  return false;
+};
+
+export const getLoadBillListParams = createSelector(
   getBusinessId,
   getSupplierId,
   getShowPaidBills,
-  (businessId, supplierId, showPaidBills) => {
-    if (key === 'supplierId') {
-      return {
-        urlParams: {
-          businessId,
-          supplierId: value,
-        },
-        params: {
-          showPaidBills,
-        },
-      };
-    }
-
-    return {
-      urlParams: {
-        businessId,
-        supplierId,
-      },
-      params: {
-        showPaidBills: value,
-      },
-    };
-  },
+  (businessId, supplierId, showPaidBills) => ({
+    urlParams: {
+      businessId,
+      supplierId,
+    },
+    params: {
+      showPaidBills,
+    },
+  }),
 );
 
 export const getIsTableEmpty = state => state.entries.length === 0;

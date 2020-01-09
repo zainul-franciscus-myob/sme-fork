@@ -29,7 +29,7 @@ const BillTableTotals = ({
 }) => {
   const amountPaidInputLine = (isCreating ? (
     <LineItemTableTotalsInput
-      label="Amount paid"
+      label="Amount paid ($)"
       name="amountPaid"
       value={amountPaid}
       onChange={handleAmountInputChange(onUpdateBillOption)}

@@ -3,20 +3,13 @@ import {
   getBusinessId,
   getRegion,
 } from './index';
+import getQueryFromParams from '../../common/getQueryFromParams/getQueryFromParams';
 
 const getBaseUrl = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
 
   return `/#/${region}/${businessId}`;
-};
-
-const getQueryFromParams = (params = {}) => {
-  const encode = encodeURIComponent;
-  const query = Object.keys(params)
-    .map(key => `${encode(key)}=${encode(params[key])}`)
-    .join('&');
-  return `?${query}`;
 };
 
 // eslint-disable-next-line import/prefer-default-export

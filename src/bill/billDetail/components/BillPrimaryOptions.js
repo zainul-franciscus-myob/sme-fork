@@ -48,7 +48,7 @@ const BillPrimaryOptions = ({
         }}
       />
     </div>
-    {supplierAddress && <ReadOnly className={styles.address}>{supplierAddress}</ReadOnly>}
+    {supplierAddress && <ReadOnly label="Billing address" className={styles.address}>{supplierAddress}</ReadOnly>}
     <ReportableCheckbox
       label="Report to ATO via TPAR"
       checked={isReportable}

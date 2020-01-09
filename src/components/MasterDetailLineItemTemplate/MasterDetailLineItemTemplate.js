@@ -22,6 +22,7 @@ const MasterDetailLineItemTemplate = ({
   sticky,
   showDetail,
   more,
+  detailHeaderClassName,
   onDismissOptionInfo,
 }) => {
   const options = showDetail ? (
@@ -30,7 +31,11 @@ const MasterDetailLineItemTemplate = ({
       {secondaryOptions}
     </React.Fragment>
   ) : (
-    <DetailHeader primary={primaryOptions} secondary={secondaryOptions} />
+    <DetailHeader
+      className={detailHeaderClassName}
+      primary={primaryOptions}
+      secondary={secondaryOptions}
+    />
   );
   return (
     <MasterDetailTemplate
@@ -56,7 +61,10 @@ const MasterDetailLineItemTemplate = ({
       sticky={sticky}
       showDetail={showDetail}
       detailWidth="55%"
-      containerClassName={classnames(styles.container, { [styles.showDetail]: showDetail })}
+      containerClassName={classnames(
+        styles.container,
+        { [styles.showDetail]: showDetail },
+      )}
       sectionClassName={styles.section}
     />
   );

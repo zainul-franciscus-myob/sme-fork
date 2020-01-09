@@ -15,6 +15,7 @@ const BillActions = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onExportPdfButtonClick,
+  onCreatePaymentClick,
 }) => {
   const exportPdfButton = (
     <Button
@@ -24,7 +25,7 @@ const BillActions = ({
       onClick={onExportPdfButtonClick}
       disabled={isBlocking}
     >
-      Export PDF
+      View PDF
     </Button>
   );
 
@@ -33,12 +34,12 @@ const BillActions = ({
   const dropdownActionItems = [
     <Dropdown.Item
       key={SaveActionType.SAVE_AND_CREATE_NEW}
-      label="Record and create new"
+      label="Save and create new"
       value={SaveActionType.SAVE_AND_CREATE_NEW}
     />,
     <Dropdown.Item
       key={SaveActionType.SAVE_AND_DUPLICATE}
-      label="Record and duplicate"
+      label="Save and duplicate"
       value={SaveActionType.SAVE_AND_DUPLICATE}
     />,
   ];
@@ -49,7 +50,7 @@ const BillActions = ({
       onSelect={onSaveAndButtonClick}
       toggle={(
         <Dropdown.Toggle disabled={isBlocking}>
-              Record and new
+              Save and new
           <Icons.Caret />
         </Dropdown.Toggle>
           )}
@@ -65,7 +66,7 @@ const BillActions = ({
       onClick={onSaveButtonClick}
       disabled={isBlocking}
     >
-      Record
+      Save
     </Button>
   );
 
@@ -93,16 +94,31 @@ const BillActions = ({
     </Button>
   );
 
+  const createPaymentButton = (
+    <Button
+      key="createPayment"
+      name="createPayment"
+      type="secondary"
+      onClick={onCreatePaymentClick}
+      disabled={isBlocking}
+    >
+      Create payment
+    </Button>
+  );
+
   return (
     <ButtonRow
       primary={[
-        exportPdfButton,
-        separator,
         cancelButton,
         saveAndButton,
         saveButton,
       ]}
-      secondary={[!isCreating && deleteButton]}
+      secondary={[
+        !isCreating && deleteButton,
+        !isCreating && separator,
+        !isCreating && createPaymentButton,
+        exportPdfButton,
+      ]}
     />
   );
 };

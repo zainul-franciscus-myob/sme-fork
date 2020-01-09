@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import Config from '../../Config';
+import getQueryFromParams from '../../common/getQueryFromParams/getQueryFromParams';
 
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
@@ -66,14 +67,6 @@ export const getBankFeedsCreditCards = state => state.bankFeeds.creditCards;
 export const getIsCreditCardsEmpty = state => (
   state.bankFeeds.creditCards.length === 0
 );
-
-const getQueryFromParams = (params = {}) => {
-  const encode = encodeURIComponent;
-  const query = Object.keys(params)
-    .map(key => `${encode(key)}=${encode(params[key])}`)
-    .join('&');
-  return `?${query}`;
-};
 
 const getBankFeedsAction = state => (getIsBankFeedsEmpty(state) ? 'app' : 'admin');
 export const getCreateBankFeedsUrl = createSelector(

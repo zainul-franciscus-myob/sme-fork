@@ -31,6 +31,7 @@ import {
   getRegion,
   getSaveBillPaymentPayload,
   getShouldLoadBillList,
+  getSupplierId,
 } from './BillPaymentDetailSelectors';
 import BillPaymentView from './components/BillPaymentDetailView';
 import Store from '../../../store/Store';
@@ -75,6 +76,11 @@ export default class BillPaymentModule {
       onSuccess,
       onFailure,
     });
+
+    if (getSupplierId(state)) {
+      const billListParams = getLoadBillListParams(state);
+      this.loadBillList(billListParams);
+    }
   }
 
   unsubscribeFromStore = () => {
@@ -139,8 +145,9 @@ export default class BillPaymentModule {
       value,
     });
 
-    if (getShouldLoadBillList({ key, value })(state)) {
-      this.loadBillList(getLoadBillListParams({ key, value })(state));
+    if (getShouldLoadBillList(key, value, state)) {
+      const billListParams = getLoadBillListParams(this.store.getState());
+      this.loadBillList(billListParams);
     }
 
     if (key === 'accountId') {

@@ -23,6 +23,7 @@ import {
 } from './selectors/billSelectors';
 import {
   getBillListUrl,
+  getBillPaymentUrl,
   getCreateNewBillUrl,
   getDuplicateBillUrl,
   getFinalRedirectUrl,
@@ -867,6 +868,13 @@ class BillModule {
     this.redirectToUrl(url);
   };
 
+  redirectToBillPayment = () => {
+    const state = this.store.getState();
+    const url = getBillPaymentUrl(state);
+
+    this.redirectToUrl(url);
+  }
+
   onUpgradeModalDismiss = this.redirectToBillList;
 
   onUpgradeModalUpgradeButtonClick = this.redirectToSubscriptionSettings;
@@ -922,6 +930,7 @@ class BillModule {
           onClosePrefillInfo={this.dispatcher.hidePrefillInfo}
           onUpgradeModalDismiss={this.onUpgradeModalDismiss}
           onUpgradeModalUpgradeButtonClick={this.onUpgradeModalUpgradeButtonClick}
+          onCreatePaymentClick={this.redirectToBillPayment}
         />
       </Provider>
     );
