@@ -50,7 +50,7 @@ export const getLogoSize = createSelector(
   template => template.logoSize,
 );
 
-export const getShowLogoSize = createSelector(
+export const getShowBusinessDetails = createSelector(
   getHeaderBusinessDetailsStyle,
   style => style === HeaderBusinessDetailStyle.logoAndBusinessDetails,
 );

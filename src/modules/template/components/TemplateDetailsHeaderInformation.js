@@ -19,7 +19,7 @@ import {
   getImageLabel,
   getIsLogoOnTheLeft,
   getLogoSize,
-  getShowLogoSize,
+  getShowBusinessDetails,
 } from '../templateSelectors';
 import Collapsible from './Collapsible';
 import Slider from '../../../components/RangeSlider/RangeSlider';
@@ -56,7 +56,7 @@ const TemplateDetailsHeaderInformation = ({
   imageLabel,
   imageButtonLabel,
   image,
-  showLogoSize,
+  showBusinessDetails,
   onFileSelected,
   onFileRemoved,
   onEditBusinessDetails,
@@ -86,51 +86,53 @@ const TemplateDetailsHeaderInformation = ({
           )}
         />
         {
-          showLogoSize && (
-            <Slider
-              name="logoSize"
-              label="Logo size"
-              value={logoSize}
-              onChange={handleSliderChange(
-                'logoSize',
-                onUpdateTemplateOptions,
-              )}
-            />
+          showBusinessDetails && (
+            <>
+              <Slider
+                name="logoSize"
+                label="Logo size"
+                value={logoSize}
+                onChange={handleSliderChange(
+                  'logoSize',
+                  onUpdateTemplateOptions,
+                )}
+              />
+              <RadioButtonGroup
+                label="Business details placement"
+                name="isLogoOnTheLeft"
+                value={isLogoOnTheLeft}
+                renderRadios={({ value, ...props }) => ['Left', 'Right'].map(label => (
+                  <RadioButton
+                    checked={value === label}
+                    key={label}
+                    value={label}
+                    label={label}
+                    {...props}
+                  />
+                ))
+                }
+                onChange={handleRadioButtonChange(
+                  'isLogoOnTheLeft',
+                  onUpdateTemplateOptions,
+                )}
+              />
+              <CheckboxGroup
+                label="Your business details"
+                renderCheckbox={props => BusinessDetailOptions.map(({ label, key }) => (
+                  <Checkbox
+                    name={key}
+                    label={label}
+                    onChange={handleCheckboxChange(onUpdateTemplateOptions)}
+                    checked={businessDetails[key]}
+                    {...props}
+                  />
+                ))
+                }
+              />
+              <Button type="link" onClick={onEditBusinessDetails}>Update your business details</Button>
+            </>
           )
         }
-        <RadioButtonGroup
-          label="Business details placement"
-          name="isLogoOnTheLeft"
-          value={isLogoOnTheLeft}
-          renderRadios={({ value, ...props }) => ['Left', 'Right'].map(label => (
-            <RadioButton
-              checked={value === label}
-              key={label}
-              value={label}
-              label={label}
-              {...props}
-            />
-          ))
-          }
-          onChange={handleRadioButtonChange(
-            'isLogoOnTheLeft',
-            onUpdateTemplateOptions,
-          )}
-        />
-        <CheckboxGroup
-          label="Your business details"
-          renderCheckbox={props => BusinessDetailOptions.map(({ label, key }) => (
-            <Checkbox
-              name={key}
-              label={label}
-              onChange={handleCheckboxChange(onUpdateTemplateOptions)}
-              checked={businessDetails[key]}
-              {...props}
-            />
-          ))
-          }
-        />
-        <Button type="link" onClick={onEditBusinessDetails}>Update your business details</Button>
       </>
     }
   />
@@ -143,7 +145,7 @@ const mapsStateToProps = state => ({
   imageLabel: getImageLabel(state),
   image: getImage(state),
   imageButtonLabel: getImageButtonLabel(state),
-  showLogoSize: getShowLogoSize(state),
+  showBusinessDetails: getShowBusinessDetails(state),
 });
 
 export default connect(mapsStateToProps)(TemplateDetailsHeaderInformation);
