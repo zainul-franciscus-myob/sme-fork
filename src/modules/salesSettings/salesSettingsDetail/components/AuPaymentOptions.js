@@ -1,5 +1,5 @@
 import {
-  Checkbox, CheckboxGroup, Field, Icons, Input,
+  Checkbox, CheckboxGroup, Field, Icons,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -11,6 +11,7 @@ import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AccountNumberInput from '../../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
 import BSBInput from '../../../../components/autoFormatter/BankDetailsInput/BSBInput';
 import LinkButton from '../../../../components/Button/LinkButton';
+import UpperCaseInputFormatter from '../../../../components/autoFormatter/UpperCaseInput/UpperCaseInputFormatter';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
@@ -65,15 +66,15 @@ const AuPaymentOptions = ({
 
   const directDepositPayment = (
     <>
-      <Input
+      <UpperCaseInputFormatter
+        onChange={handleInputChange(onUpdateSalesSettingsItem)}
         name="bankName"
         label="Bank"
         requiredLabel="This field is required"
         maxLength={60}
         value={salesSettings.bankName}
-        onChange={handleInputChange(onUpdateSalesSettingsItem)}
       />
-      <Input
+      <UpperCaseInputFormatter
         name="accountName"
         label="Account name"
         requiredLabel="This field is required"

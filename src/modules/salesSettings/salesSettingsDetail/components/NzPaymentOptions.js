@@ -1,11 +1,13 @@
-import { Checkbox, CheckboxGroup, Input } from '@myob/myob-widgets';
+import { Checkbox, CheckboxGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAccountOptions, getTabData } from '../SalesSettingsDetailSelectors';
 import NzAccountNumberInputs from './NzAccountNumberInputs';
+import UpperCaseInputFormatter from '../../../../components/autoFormatter/UpperCaseInput/UpperCaseInputFormatter';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
+
 
 const NzPaymentOptions = ({
   salesSettings,
@@ -13,7 +15,7 @@ const NzPaymentOptions = ({
 }) => {
   const directDepositPayment = (
     <>
-      <Input
+      <UpperCaseInputFormatter
         name="bankName"
         label="Bank"
         requiredLabel="This field is required"
@@ -21,7 +23,7 @@ const NzPaymentOptions = ({
         value={salesSettings.bankName}
         onChange={handleInputChange(onUpdateSalesSettingsItem)}
       />
-      <Input
+      <UpperCaseInputFormatter
         name="accountName"
         label="Account name"
         requiredLabel="This field is required"
