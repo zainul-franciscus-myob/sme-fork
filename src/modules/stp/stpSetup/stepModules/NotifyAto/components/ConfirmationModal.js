@@ -1,8 +1,8 @@
-import { Button, Modal } from '@myob/myob-widgets';
-import ButtonRow from '@myob/myob-widgets/lib/components/ButtonRow/ButtonRow';
+import { Button, ButtonRow, Modal } from '@myob/myob-widgets';
 import React from 'react';
 
 import notifiedAtoImage from './images/notified-ato.svg';
+import styles from './StpNotifyAto.module.css';
 
 const ConfirmationModal = ({
   onCloseConfirmationModal,
@@ -10,11 +10,10 @@ const ConfirmationModal = ({
 }) => (
   <Modal
     title="Confirm you&apos;ve notified the ATO"
-    size="small"
     onCancel={onCloseConfirmationModal}
   >
     <Modal.Body>
-      <img src={notifiedAtoImage} alt="Notified ATO" />
+      <div className={styles.modalImage}><img src={notifiedAtoImage} alt="Notified ATO" /></div>
       <h3>
           Remember, the ATO will reject any payroll reports if you haven&apos;t&nbsp;
           completed this step
@@ -23,6 +22,8 @@ const ConfirmationModal = ({
           Make sure you&apos;ve notified the ATO that you&apos; using MYOB&nbsp;
           as your hosted SBR software service.
       </p>
+    </Modal.Body>
+    <div className={styles.modalButtons}>
       <ButtonRow
         secondary={[
           <Button type="secondary" onClick={onCloseConfirmationModal}>
@@ -33,7 +34,7 @@ const ConfirmationModal = ({
               Send
           </Button>]}
       />
-    </Modal.Body>
+    </div>
   </Modal>
 );
 
