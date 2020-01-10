@@ -63,8 +63,8 @@ export default class RootModule {
 
     if (businessId) {
       this.settingsService.load(routeParams);
-      this.drawer.run(routeProps);
     }
+    this.drawer.run(routeProps);
 
     this.nav.run({
       ...routeProps,
