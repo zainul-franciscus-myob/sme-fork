@@ -1,5 +1,5 @@
 import {
-  Alert, Button, ButtonRow, Card, Icons, PageHead,
+  Alert, Button, ButtonRow, Card, Icons,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -17,7 +17,7 @@ const StpAddClientsView = ({
 }) => (
   <div>
     {errorMessage && (<Alert type="danger">{errorMessage}</Alert>)}
-    <Card header={<Card.Header child={<PageHead title={`Launch ${agentRole} portal`} />} />}>
+    <Card header={<h2>{`Launch ${agentRole} portal`}</h2>}>
       <Alert type="info">If you have already done this, you can skip this step.</Alert>
       <p>
         You need to add this business to your client list. Make sure the client has authorised you

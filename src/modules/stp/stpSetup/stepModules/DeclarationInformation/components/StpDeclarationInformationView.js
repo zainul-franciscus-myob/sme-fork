@@ -1,5 +1,5 @@
 import {
-  Alert, Button, ButtonRow, Card, FormHorizontal, Input, PageHead, Tooltip,
+  Alert, Button, ButtonRow, Card, FormHorizontal, Input, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -41,7 +41,7 @@ const StpDeclarationInformationView = ({
   return (
     <div>
       {alert && <Alert type={alert.type}>{alert.message}</Alert>}
-      <Card header={<Card.Header child={<PageHead title="Declaration Information" />} />}>
+      <Card header={<h2>Declaration Information</h2>}>
         <p>
           Enter the businesses&apos; ABN, your name and contact details. This information is saved
           to MYOB and used when you send payroll information to the ATO when processing pays.

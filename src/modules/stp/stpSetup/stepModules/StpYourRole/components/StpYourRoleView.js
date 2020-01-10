@@ -1,5 +1,5 @@
 import {
-  Alert, Button, ButtonRow, Card, Field, FormHorizontal, Input, PageHead, RadioButtonGroup,
+  Alert, Button, ButtonRow, Card, Field, FormHorizontal, Input, RadioButtonGroup,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -60,7 +60,7 @@ const StpYourRoleView = ({
 
   return (
     <div>
-      <Card header={<Card.Header child={<PageHead title="What is your role?" />} />}>
+      <Card header={<h2>What is your role?</h2>}>
         {errorMessage && (
           <Alert type="danger">{errorMessage}</Alert>
         )}
