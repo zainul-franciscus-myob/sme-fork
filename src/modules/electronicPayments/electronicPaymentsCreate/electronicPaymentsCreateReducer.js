@@ -69,11 +69,11 @@ const setInitialState = (state, { context }) => ({
   ...context,
   filterOptions: {
     ...state.filterOptions,
-    paymentType: 'EmployeePay',
+    paymentType: 'PayEmployees',
   },
   appliedFilterOptions: {
     ...state.appliedFilterOptions,
-    paymentType: 'EmployeePay',
+    paymentType: 'PayEmployees',
   },
 });
 
