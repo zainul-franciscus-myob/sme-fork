@@ -1,12 +1,15 @@
 import {
+  BUSINESS_DETAIL_FIELD_CHANGE,
   LOAD_BUSINESS_DETAILS,
   LOAD_STP_ERRORS,
   SET_BUSINESS_DETAIL_IS_LOADING,
+  SET_BUSINESS_DETAIL_MODAL_ALERT_MESSAGE,
   SET_ERROR_MESSAGE,
   SET_IS_BUSINESS_DETAILS_MODAL_OPEN,
   SET_IS_LOADING,
 } from './stpErrorsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import States from './States';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -21,6 +24,7 @@ const getDefaultState = () => ({
   },
   businessDetailsModalIsOpen: false,
   businessDetailsModalIsLoading: false,
+  businessDetailModalAlertMessage: '',
   businessDetails: {
     businessName: '',
     abnWpn: '',
@@ -93,6 +97,21 @@ const loadBusinessDetails = (state, { businessDetails }) => ({
   },
 });
 
+const handleBusinessDetailFieldChange = (state, { key, value }) => ({
+  ...state,
+  businessDetails: {
+    ...state.businessDetails,
+    [key]: value,
+    // If the user selects OTH state, the postcode should default to 9999.
+    postcode: key === 'state' && value === States.OTH ? '9999' : state.postcode,
+  },
+});
+
+const setBusinessDetailModalAlertMessage = (state, { message }) => ({
+  ...state,
+  businessDetailModalAlertMessage: message,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -102,6 +121,8 @@ const handlers = {
   [SET_IS_BUSINESS_DETAILS_MODAL_OPEN]: setBusinessDetailsModalIsOpen,
   [SET_BUSINESS_DETAIL_IS_LOADING]: setBusinessDetailModalIsLoading,
   [LOAD_BUSINESS_DETAILS]: loadBusinessDetails,
+  [BUSINESS_DETAIL_FIELD_CHANGE]: handleBusinessDetailFieldChange,
+  [SET_BUSINESS_DETAIL_MODAL_ALERT_MESSAGE]: setBusinessDetailModalAlertMessage,
 };
 
 const stpErrorsReducer = createReducer(getDefaultState(), handlers);

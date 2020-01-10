@@ -1,4 +1,4 @@
-import { LOAD_BUSINESS_DETAILS, LOAD_STP_ERRORS } from '../stpErrorsIntents';
+import { LOAD_BUSINESS_DETAILS, LOAD_STP_ERRORS, SUBMIT_BUSINESS_DETAILS } from '../stpErrorsIntents';
 
 
 const StpErrorsMapping = {
@@ -8,7 +8,11 @@ const StpErrorsMapping = {
   },
   [LOAD_BUSINESS_DETAILS]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/stp/load_business_details`,
+    getPath: ({ businessId }) => `/${businessId}/stp/business_details`,
+  },
+  [SUBMIT_BUSINESS_DETAILS]: {
+    method: 'PUT',
+    getPath: ({ businessId }) => `/${businessId}/stp/business_details`,
   },
 };
 

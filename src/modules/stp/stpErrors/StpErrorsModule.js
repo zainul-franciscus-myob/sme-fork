@@ -2,16 +2,23 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  BUSINESS_DETAIL_FIELD_CHANGE,
   LOAD_BUSINESS_DETAILS,
   LOAD_STP_ERRORS,
   SET_BUSINESS_DETAIL_IS_LOADING,
+  SET_BUSINESS_DETAIL_MODAL_ALERT_MESSAGE,
   SET_ERROR_MESSAGE,
   SET_IS_BUSINESS_DETAILS_MODAL_OPEN,
   SET_IS_LOADING,
+  SUBMIT_BUSINESS_DETAILS,
 } from './stpErrorsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
-  getBusinessId, getEmployeePageUrl, getPayItemPageUrl, getStpSetupUrl,
+  getBusinessId,
+  getEmployeePageUrl,
+  getPayItemPageUrl,
+  getStpSetupUrl,
+  getSubmitBusinessDetailsContent,
 } from './stpErrorsSelectors';
 import Store from '../../../store/Store';
 import StpErrorsView from './components/StpErrorsView';
@@ -57,6 +64,13 @@ export default class StpErrorsModule {
     });
   }
 
+  setBusinessDetailModalAlert = (message) => {
+    this.store.dispatch({
+      intent: SET_BUSINESS_DETAIL_MODAL_ALERT_MESSAGE,
+      message,
+    });
+  }
+
   loadBusinessDetail = () => {
     this.setBusinessDetailModalIsLoading(true);
 
@@ -67,14 +81,17 @@ export default class StpErrorsModule {
     };
 
     const onSuccess = (businessDetails) => {
+      this.setBusinessDetailModalIsLoading(false);
+      this.setBusinessDetailModalAlert('');
       this.store.dispatch({
         intent: LOAD_BUSINESS_DETAILS,
         businessDetails,
       });
     };
 
-    const onFailure = () => {
-
+    const onFailure = ({ message }) => {
+      this.setBusinessDetailModalIsLoading(false);
+      this.setBusinessDetailModalAlert(message);
     };
 
     this.integration.read({
@@ -85,9 +102,48 @@ export default class StpErrorsModule {
     });
   }
 
+  submitBusinessDetail = () => {
+    this.setBusinessDetailModalIsLoading(true);
+
+    const state = this.store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const content = getSubmitBusinessDetailsContent(state);
+
+    const onSuccess = () => {
+      this.setBusinessDetailModalIsLoading(false);
+      this.setBusinessDetailsModalIsOpen(false);
+      this.loadStpErrors();
+    };
+
+    const onFailure = ({ message }) => {
+      this.setBusinessDetailModalIsLoading(false);
+      this.setBusinessDetailModalAlert(message);
+    };
+
+    this.integration.write({
+      intent: SUBMIT_BUSINESS_DETAILS,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  }
+
   openBusinessDetailModal = () => {
     this.setBusinessDetailsModalIsOpen(true);
     this.loadBusinessDetail();
+  }
+
+  onBusinessDetailsFieldChange = ({ key, value }) => {
+    this.store.dispatch({
+      intent: BUSINESS_DETAIL_FIELD_CHANGE,
+      key,
+      value,
+    });
   }
 
   render = () => {
@@ -99,6 +155,9 @@ export default class StpErrorsModule {
           onPayItemClick={this.openPayItemPage}
           onGetStartedClick={this.goToStpSetup}
           onBusinessDetailsEditLinkClick={this.openBusinessDetailModal}
+          onModalCancel={() => this.setBusinessDetailsModalIsOpen(false)}
+          onBusinessDetailsFieldChange={this.onBusinessDetailsFieldChange}
+          onBusinessDetailsSaveClick={this.submitBusinessDetail}
         />
       </Provider>
     );

@@ -26,11 +26,14 @@ const StpErrorsView = ({
   onPayItemClick,
   onGetStartedClick,
   onBusinessDetailsEditLinkClick,
+  onModalCancel,
+  onBusinessDetailsFieldChange,
+  onBusinessDetailsSaveClick,
   isLoading,
   errorMessage,
   errorCount,
   businessDetailsErrors,
-  // businessDetailsModalIsOpen,
+  businessDetailsModalIsOpen,
   employeeInformationErrors,
   payItemsErrors,
 }) => {
@@ -62,7 +65,13 @@ const StpErrorsView = ({
       {pageHead}
       {alert}
       {headerCard}
-      <BusinessDetailsModal />
+      {businessDetailsModalIsOpen && (
+        <BusinessDetailsModal
+          onFieldChange={onBusinessDetailsFieldChange}
+          onCancelClick={onModalCancel}
+          onSaveClick={onBusinessDetailsSaveClick}
+        />
+      )}
       <BusinessDetailsErrorsCard
         errors={businessDetailsErrors}
         onEditLinkClick={onBusinessDetailsEditLinkClick}
