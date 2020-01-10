@@ -37,7 +37,7 @@ const StpErrorsView = ({
   employeeInformationErrors,
   payItemsErrors,
 }) => {
-  if (errorCount === 0 && !errorMessage) {
+  if (errorCount === 0 && !errorMessage && !isLoading) {
     return (
       <NoErrorsSplash
         onGetStartedClick={onGetStartedClick}
