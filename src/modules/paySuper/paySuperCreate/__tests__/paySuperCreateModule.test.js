@@ -38,7 +38,6 @@ describe('paySuperCreateModule', () => {
 
 
     module.run(context);
-    module.setIsLoading(false);
     wrapper.update();
 
     return {

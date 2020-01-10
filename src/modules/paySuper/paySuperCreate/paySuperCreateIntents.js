@@ -1,4 +1,3 @@
-
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_ALERT = Symbol('Set alert');
 export const UPDATE_FILTER_OPTIONS = Symbol('Update filter options');
@@ -13,7 +12,7 @@ export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
 export const RECORD_PAY_SUPER = Symbol('Record pay super');
 export const UPDATE_DETAIL_HEADER_FIELDS = Symbol('Update bank file details');
 export const UPDATE_BATCH_PAYMENT_ID = Symbol('Update batch payment id');
-export const GET_CODE_TO_AUTHORISE = Symbol('Get code to authorise');
 export const UPDATE_AUTHORISATION_INFORMATION = Symbol('Update authorisation information');
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
+export const SET_ACCESS_TOKEN = Symbol('Set the access token');

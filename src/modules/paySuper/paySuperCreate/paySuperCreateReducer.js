@@ -6,6 +6,7 @@ import {
   OPEN_MODAL,
   SELECT_ALL_SUPER_PAYMENTS,
   SELECT_ITEM_SUPER_PAYMENT,
+  SET_ACCESS_TOKEN,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -19,14 +20,15 @@ import {
   UPDATE_SELECTED_ACCOUNT_ID,
 } from './paySuperCreateIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultDateRange = () => addDays(addMonths(new Date(), -3), 1);
 
 const getDefaultState = () => ({
-  isLoading: true,
-  isTableLoading: true,
+  loadingState: LoadingState.LOADING,
+  isTableLoading: false,
   superPayments: [],
   selectedAccountId: '',
   orderBy: 'DateOccurred',
@@ -35,6 +37,7 @@ const getDefaultState = () => ({
   dateOfPayment: '',
   accounts: [],
   batchPaymentId: '',
+  accessToken: '',
   authorisationInfo: {
     authorisationId: '',
     authorisationEmail: '',
@@ -91,9 +94,9 @@ const updateSelectedAccountId = (state, action) => ({
   selectedAccountId: action.value,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setTableLoadingState = (state, action) => ({
@@ -164,6 +167,11 @@ const closeModal = state => ({
   modal: undefined,
 });
 
+const setAccessToken = (state, { accessToken }) => ({
+  ...state,
+  accessToken,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_ALERT]: setAlert,
@@ -183,6 +191,7 @@ const handlers = {
   [UPDATE_AUTHORISATION_INFORMATION]: updateAuthorisationInfo,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
+  [SET_ACCESS_TOKEN]: setAccessToken,
 };
 
 const paySuperCreateReducer = createReducer(getDefaultState(), handlers);

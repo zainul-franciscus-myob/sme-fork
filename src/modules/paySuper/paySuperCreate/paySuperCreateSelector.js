@@ -56,6 +56,7 @@ export const getModal = state => state.modal;
 export const getSuperPaymentListUrl = state => `/#/${state.region}/${state.businessId}/paySuper`;
 
 export const getRecordPaySuperContent = state => ({
+  accessToken: state.accessToken,
   accountId: state.selectedAccountId,
   dateFrom: state.appliedFilterOptions.dateFrom,
   dateTo: state.appliedFilterOptions.dateTo,
