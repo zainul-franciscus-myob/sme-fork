@@ -12,7 +12,6 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
-  LOAD_IN_TRAY_DOCUMENT,
   LOAD_ITEM_OPTION,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
@@ -26,7 +25,6 @@ import {
 import createBillResponse from '../data/bill/createBillResponse';
 import itemCalculate from '../data/bill/itemCalculate';
 import loadAddedAccountResponse from '../data/invoice/serviceLayout/loadAddedAccountResponse';
-import loadInTrayDocumentResponse from '../data/bill/loadInTrayDocumentResponse';
 import loadItemBill from '../data/bill/loadItemBill';
 import loadItemOption from '../data/bill/loadItemOption';
 import loadNewDuplicateItemBill from '../data/bill/loadNewDuplicateItemBill';
@@ -59,7 +57,6 @@ const BillDetailMapping = {
   [PREFILL_BILL_FROM_IN_TRAY]: ({ onSuccess }) => onSuccess(prefillBillFromInTray),
   [DOWNLOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [UNLINK_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
-  [LOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(loadInTrayDocumentResponse),
   [LINK_IN_TRAY_DOCUMENT]: ({ onSuccess }) => onSuccess(successResponse),
 };
 

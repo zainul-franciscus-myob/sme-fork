@@ -134,5 +134,9 @@
       }
     ]
   },
-  "inTrayDocumentId": "19eb4da0-8c52-4307-9ca7-74bd481f5b99"
+  "attachmentId": "19eb4da0-8c52-4307-9ca7-74bd481f5b99",
+  "inTrayDocument": {
+    "thumbnailUrl": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
+    "uploadedDate": "04/04/2019"
+  }
 }

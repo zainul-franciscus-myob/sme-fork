@@ -141,8 +141,6 @@ class BillModule {
 
       if (getIsCreatingFromInTray(state)) {
         this.prefillBillFromInTray();
-      } else if (!getIsCreating(state) && response.inTrayDocumentId) {
-        this.loadInTrayDocument();
       }
     };
 
@@ -781,8 +779,9 @@ class BillModule {
           return;
         }
 
-        const onSuccess = ({ message }) => {
+        const onSuccess = ({ message, attachmentId }) => {
           this.dispatcher.openSuccessAlert({ message });
+          this.dispatcher.setAttachmentId(attachmentId);
           this.prefillBillFromInTray();
         };
 
@@ -794,6 +793,7 @@ class BillModule {
         const linkContent = {
           id: getBillId(state),
           uid: getBillUid(state),
+          loadAttachmentId: true,
           inTrayDocumentId: id,
         };
 
@@ -831,21 +831,6 @@ class BillModule {
 
     this.dispatcher.setDocumentLoadingState(true);
     this.integrator.unlinkInTrayDocument({ onSuccess, onFailure });
-  };
-
-  loadInTrayDocument = () => {
-    const onSuccess = (payload) => {
-      this.dispatcher.setDocumentLoadingState(false);
-      this.dispatcher.loadInTrayDocument(payload);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setDocumentLoadingState(false);
-      this.dispatcher.openDangerAlert({ message });
-    };
-
-    this.dispatcher.setDocumentLoadingState(true);
-    this.integrator.loadInTrayDocument({ onSuccess, onFailure });
   };
 
   redirectToUrl = (url) => {

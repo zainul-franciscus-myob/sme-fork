@@ -10,7 +10,6 @@ import {
   ITEM_CALCULATE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
-  LOAD_IN_TRAY_DOCUMENT,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
@@ -21,6 +20,7 @@ import {
   RESET_TOTALS,
   SERVICE_CALCULATE,
   SET_ACCOUNT_LOADING_STATE,
+  SET_ATTACHMENT_ID,
   SET_DOCUMENT_LOADING_STATE,
   SET_IN_TRAY_DOCUMENT_ID,
   SET_SHOW_SPLIT_VIEW,
@@ -325,10 +325,10 @@ const createBillDispatcher = store => ({
     });
   },
 
-  loadInTrayDocument: (inTrayDocument) => {
+  setAttachmentId: (attachmentId) => {
     store.dispatch({
-      intent: LOAD_IN_TRAY_DOCUMENT,
-      inTrayDocument,
+      intent: SET_ATTACHMENT_ID,
+      attachmentId,
     });
   },
 });

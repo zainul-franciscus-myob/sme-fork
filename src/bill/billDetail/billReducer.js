@@ -10,7 +10,6 @@ import {
   ITEM_CALCULATE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
-  LOAD_IN_TRAY_DOCUMENT,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
@@ -21,6 +20,7 @@ import {
   RESET_TOTALS,
   SERVICE_CALCULATE,
   SET_ACCOUNT_LOADING_STATE,
+  SET_ATTACHMENT_ID,
   SET_DOCUMENT_LOADING_STATE,
   SET_IN_TRAY_DOCUMENT_ID,
   SET_SHOW_SPLIT_VIEW,
@@ -122,6 +122,18 @@ const getDefaultState = () => ({
   isModalBlocking: false,
   alert: undefined,
   isDocumentLoading: false,
+  /*
+   * attachmentId vs. inTrayDocumentId
+   *
+   * This confusion comes from the current implementation of cash out in tray service
+   * Basically, when a document is just in the in tray list, it has only `inTrayDocumentId`,
+   * but once it links to a business event, it will get another `attachmentId`
+   * Due to the technical difficulty in Huxley/PAPI side, we have to
+   *   - retrieve `attachmentId` but not `inTrayDocumentId` when we read an existing bill
+   *   - use `attachmentId` for unlink a in tray document
+   *   - use `inTrayDocumentId` for all the other cases
+   */
+  attachmentId: '',
   inTrayDocumentId: '',
   inTrayDocument: undefined,
   inTrayDocumentUrl: undefined,
@@ -518,6 +530,7 @@ export const unlinkInTrayDocument = state => ({
   ...state,
   isDocumentLoading: false,
   inTrayDocumentId: '',
+  attachmentId: '',
   inTrayDocument: undefined,
   inTrayDocumentUrl: undefined,
   showPrefillInfo: false,
@@ -535,9 +548,9 @@ export const hidePrefillInfo = state => ({
   showPrefillInfo: false,
 });
 
-export const loadInTrayDocument = (state, { inTrayDocument }) => ({
+export const setAttachmentId = (state, { attachmentId }) => ({
   ...state,
-  inTrayDocument,
+  attachmentId,
 });
 
 const handlers = {
@@ -583,7 +596,7 @@ const handlers = {
   [UNLINK_IN_TRAY_DOCUMENT]: unlinkInTrayDocument,
   [SET_DOCUMENT_LOADING_STATE]: setDocumentLoadingState,
   [HIDE_PREFILL_INFO]: hidePrefillInfo,
-  [LOAD_IN_TRAY_DOCUMENT]: loadInTrayDocument,
+  [SET_ATTACHMENT_ID]: setAttachmentId,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

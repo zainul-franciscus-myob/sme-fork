@@ -12,7 +12,6 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
-  LOAD_IN_TRAY_DOCUMENT,
   LOAD_ITEM_OPTION,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
@@ -108,10 +107,6 @@ const BillDetailMapping = {
   [UNLINK_IN_TRAY_DOCUMENT]: {
     method: 'DELETE',
     getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/unlink_in_tray_document/${inTrayDocumentId}`,
-  },
-  [LOAD_IN_TRAY_DOCUMENT]: {
-    method: 'GET',
-    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/bill/load_in_tray_document/${inTrayDocumentId}`,
   },
   [LINK_IN_TRAY_DOCUMENT]: {
     method: 'POST',

@@ -10,7 +10,6 @@ import {
   ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_IN_TRAY_DOCUMENT,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
@@ -21,6 +20,7 @@ import {
 import { getBusinessId } from './selectors/billSelectors';
 import {
   getDeleteBillUrlParams,
+  getInTrayDocumentParams,
   getInTrayDocumentUrlParams,
   getItemCalculateContent,
   getItemCalculateContentForUpdateLineAmount,
@@ -37,6 +37,7 @@ import {
   getSaveBillUrlParams,
   getServiceCalculateContent,
   getServiceCalculateUrlParams,
+  getUnlinkInTrayDocumentUrlParams,
 } from './selectors/BillIntegratorSelectors';
 import { getExportPdfQueryParams, getExportPdfUrlParams } from './selectors/exportPdfSelectors';
 
@@ -260,6 +261,7 @@ const createBillIntegrator = (store, integration) => ({
     integration.readFile({
       intent: DOWNLOAD_IN_TRAY_DOCUMENT,
       urlParams: getInTrayDocumentUrlParams(state),
+      params: getInTrayDocumentParams(state),
       onSuccess,
       onFailure,
     });
@@ -270,18 +272,7 @@ const createBillIntegrator = (store, integration) => ({
 
     integration.write({
       intent: UNLINK_IN_TRAY_DOCUMENT,
-      urlParams: getInTrayDocumentUrlParams(state),
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadInTrayDocument: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    integration.read({
-      intent: LOAD_IN_TRAY_DOCUMENT,
-      urlParams: getInTrayDocumentUrlParams(state),
+      urlParams: getUnlinkInTrayDocumentUrlParams(state),
       onSuccess,
       onFailure,
     });

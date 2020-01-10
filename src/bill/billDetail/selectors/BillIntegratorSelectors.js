@@ -1,7 +1,11 @@
 import { createSelector } from 'reselect';
 
 import {
-  CREATE_BILL, LOAD_BILL, LOAD_NEW_BILL, LOAD_NEW_DUPLICATE_BILL, UPDATE_BILL,
+  CREATE_BILL,
+  LOAD_BILL,
+  LOAD_NEW_BILL,
+  LOAD_NEW_DUPLICATE_BILL,
+  UPDATE_BILL,
 } from '../BillIntents';
 import {
   getAmountPaid,
@@ -15,7 +19,10 @@ import {
   getSupplierId,
   getSupplierOptions,
 } from './billSelectors';
-import { getInTrayDocumentId } from './BillInTrayDocumentSelectors';
+import {
+  getAttachmentId,
+  getInTrayDocumentId,
+} from './BillInTrayDocumentSelectors';
 
 export const getSaveBillIntent = createSelector(
   getIsCreating,
@@ -158,5 +165,25 @@ export const getLoadSupplierUrlParams = (state, supplierId) => {
 export const getInTrayDocumentUrlParams = createSelector(
   getBusinessId,
   getInTrayDocumentId,
-  (businessId, inTrayDocumentId) => ({ businessId, inTrayDocumentId }),
+  getAttachmentId,
+  (businessId, inTrayDocumentId, attachmentId) => ({
+    businessId,
+    inTrayDocumentId: inTrayDocumentId || attachmentId,
+  }),
+);
+
+export const getInTrayDocumentParams = createSelector(
+  getInTrayDocumentId,
+  inTrayDocumentId => ({
+    isAttachment: !inTrayDocumentId,
+  }),
+);
+
+export const getUnlinkInTrayDocumentUrlParams = createSelector(
+  getBusinessId,
+  getAttachmentId,
+  (businessId, attachmentId) => ({
+    businessId,
+    inTrayDocumentId: attachmentId,
+  }),
 );

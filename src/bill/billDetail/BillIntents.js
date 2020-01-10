@@ -58,5 +58,5 @@ export const DOWNLOAD_IN_TRAY_DOCUMENT = Symbol('Download in tray document');
 export const UNLINK_IN_TRAY_DOCUMENT = Symbol('Unlink in tray document');
 export const SET_DOCUMENT_LOADING_STATE = Symbol('Set document loading state');
 export const HIDE_PREFILL_INFO = Symbol('Hide prefill info');
-export const LOAD_IN_TRAY_DOCUMENT = Symbol('Load in tray document');
 export const LINK_IN_TRAY_DOCUMENT = Symbol('Link in tray document');
+export const SET_ATTACHMENT_ID = Symbol('Set attachment id');
