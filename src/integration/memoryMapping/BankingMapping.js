@@ -6,6 +6,7 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
+  LOAD_MATCH_TRANSFER_MONEY,
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_SPLIT_ALLOCATION,
@@ -41,6 +42,7 @@ import loadReceiveMoney from '../data/banking/loadReceiveMoney';
 import loadSpendMoney from '../data/banking/loadSpendMoney';
 import matchAllocatedTransactions from '../data/banking/loadMatchAllocatedTransactions';
 import matchTransactions from '../data/banking/loadMatchTransactions';
+import matchTransferMoneyTransactionsPayload from '../data/banking/loadMatchTransferMoneyTransactions';
 import paymentAllocation from '../data/banking/loadPayment';
 import paymentAllocationLines from '../data/banking/loadPaymentLines';
 import saveTransferMoneyPayload from '../data/banking/saveTransferMoney';
@@ -68,6 +70,9 @@ const loadPaymentAllocationLines = ({ onSuccess }) => onSuccess(paymentAllocatio
 const loadPaymentAllocation = ({ onSuccess }) => onSuccess(paymentAllocation);
 const savePaymentAllocation = ({ onSuccess }) => onSuccess(savedPaymentAllocation);
 const loadTransferMoney = ({ onSuccess }) => onSuccess(transferMoneyPayload);
+const loadMatchTransferMoneyTransactions = ({ onSuccess }) => onSuccess(
+  matchTransferMoneyTransactionsPayload,
+);
 const saveTransferMoney = ({ onSuccess }) => onSuccess(saveTransferMoneyPayload);
 const saveBulkAllocation = ({ onSuccess }) => onSuccess(bulkAllocatedBankTransaction);
 const saveBulkUnallocation = ({ onSuccess }) => onSuccess(bulkUnallocatedBankTransaction);
@@ -96,6 +101,7 @@ const BankingMappings = {
   [LOAD_PAYMENT_ALLOCATION]: loadPaymentAllocation,
   [SAVE_PAYMENT_ALLOCATION]: savePaymentAllocation,
   [LOAD_TRANSFER_MONEY]: loadTransferMoney,
+  [LOAD_MATCH_TRANSFER_MONEY]: loadMatchTransferMoneyTransactions,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,
   [CREATE_BANKING_RULE_SPEND_MONEY]: createBankingRule,
   [CREATE_BANKING_RULE_RECEIVE_MONEY]: createBankingRule,

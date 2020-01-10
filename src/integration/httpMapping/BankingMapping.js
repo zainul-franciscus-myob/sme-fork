@@ -6,6 +6,7 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
+  LOAD_MATCH_TRANSFER_MONEY,
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_SPLIT_ALLOCATION,
@@ -93,6 +94,10 @@ const BankingMapping = {
   [LOAD_TRANSFER_MONEY]: {
     method: 'GET',
     getPath: ({ businessId, transferMoneyId }) => `/${businessId}/banking/load_transfer_money/${transferMoneyId}`,
+  },
+  [LOAD_MATCH_TRANSFER_MONEY]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/banking/load_match_transfer_money`,
   },
   [SAVE_TRANSFER_MONEY]: {
     method: 'POST',

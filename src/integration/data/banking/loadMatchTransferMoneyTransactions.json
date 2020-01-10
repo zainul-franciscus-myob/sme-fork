@@ -1,0 +1,18 @@
+[
+  {
+    "date": "25/10/2018",
+    "bankFeedTransactionId": "372",
+    "accountId": "37",
+    "accountDisplayName": "1-1110 General Cheque #1",
+    "amount": "228.23",
+    "description": "PAYMENT TO HUSTON & HUSTON"
+  },
+  {
+    "date": "23/10/2018",
+    "bankFeedTransactionId": "376",
+    "accountId": "73",
+    "accountDisplayName": "1-1110 General Cheque #2",
+    "amount": "19,383.23",
+    "description": "Bank Transfer 123924y89"
+  }
+]

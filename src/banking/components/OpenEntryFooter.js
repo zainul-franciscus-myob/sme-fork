@@ -1,4 +1,4 @@
-import { Button, ButtonRow } from '@myob/myob-widgets';
+import { Button, ButtonRow, Separator } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -6,21 +6,30 @@ import {
   getIsOpenEntryCreating,
   getIsOpenEntryLoading,
   getShowCreateBankingRuleButton,
+  getShowCreateTransferMoneyButton,
 } from '../bankingSelectors';
 
 const OpenEntryFooter = ({
   isCreating,
   isLoading,
   showCreateBankingRuleButton,
+  showCreateTransferMoneyButton,
   children,
   onSave,
   onCancel,
   onUnmatch,
   onCreateRule,
+  onCreateTransferMoney,
 }) => (
   <ButtonRow
     primary={[
       children,
+      (isCreating && showCreateTransferMoneyButton && (
+        <Button key="transferMoney" name="transferMoney" type="secondary" onClick={onCreateTransferMoney}>
+          Create transfer money
+        </Button>
+      )),
+      (isCreating && showCreateTransferMoneyButton && <Separator key="separator" direction="vertical" />),
       <Button key="cancel" name="cancel" type="secondary" onClick={onCancel} disabled={isLoading}>
         Cancel
       </Button>,
@@ -53,6 +62,7 @@ const mapStateToProps = state => ({
   isCreating: getIsOpenEntryCreating(state),
   isLoading: getIsOpenEntryLoading(state),
   showCreateBankingRuleButton: getShowCreateBankingRuleButton(state),
+  showCreateTransferMoneyButton: getShowCreateTransferMoneyButton(state),
 });
 
 export default connect(mapStateToProps)(OpenEntryFooter);

@@ -25,6 +25,8 @@ export const getFlipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc'
 
 export const getAlert = ({ alert }) => alert;
 
+export const getModalAlert = state => state.modalAlert;
+
 export const getAppliedFilterOptions = ({ appliedFilterOptions }) => appliedFilterOptions;
 
 export const getBankAccounts = state => state.bankAccounts;
@@ -36,6 +38,7 @@ export const getRegion = state => state.region;
 
 export const getWithdrawalAccounts = state => state.withdrawalAccounts;
 export const getDepositAccounts = state => state.depositAccounts;
+export const getTransferAccounts = state => state.transferAccounts;
 
 export const formatAmount = amount => Intl
   .NumberFormat('en-AU', {
@@ -200,6 +203,10 @@ export const getShowCreateBankingRuleButton = state => (
   [tabIds.allocate, tabIds.payment].includes(state.openEntry.activeTabId)
 );
 
+export const getShowCreateTransferMoneyButton = state => (
+  [tabIds.transfer].includes(state.openEntry.activeTabId)
+);
+
 export const getBankTransactionLineByIndex = (state, index) => {
   const entries = getEntries(state);
   return entries[index];
@@ -341,7 +348,7 @@ export const getTabItems = createSelector(
     return [
       {
         id: tabIds.transfer,
-        label: 'Transfer',
+        label: 'Transfer money',
         isDisabled: isTransferDisabled,
         toolTip: isTransferDisabled && 'Unmatch this transaction before creating a new one',
       },

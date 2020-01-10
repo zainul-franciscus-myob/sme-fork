@@ -90,11 +90,14 @@ const BankTransactionTable = ({
   onSaveTransferMoney,
   onCancelTransferMoney,
   onUpdateTransfer,
+  onSortTransfer,
+  onUpdateTransferSelection,
   onSelectTransaction,
   onSelectAllTransactions,
   onOpenBankingRuleModal,
   onAddAttachments,
   onRemoveAttachment,
+  onOpenTransferMoneyModal,
 }) => {
   const header = (
     <BankTransactionTableHeader
@@ -155,8 +158,11 @@ const BankTransactionTable = ({
       onSaveTransferMoney={onSaveTransferMoney}
       onCancelTransferMoney={onCancelTransferMoney}
       onUpdateTransfer={onUpdateTransfer}
+      onSortTransfer={onSortTransfer}
+      onUpdateTransferSelection={onUpdateTransferSelection}
       onSelectTransaction={onSelectTransaction}
       onOpenBankingRuleModal={onOpenBankingRuleModal}
+      onOpenTransferMoneyModal={onOpenTransferMoneyModal}
       onAddAttachments={onAddAttachments}
       onRemoveAttachment={onRemoveAttachment}
     />);

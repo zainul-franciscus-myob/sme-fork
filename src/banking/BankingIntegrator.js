@@ -6,6 +6,7 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
+  LOAD_MATCH_TRANSFER_MONEY,
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_SPLIT_ALLOCATION,
@@ -34,10 +35,13 @@ import {
   getSortOrder,
   getUnallocationPayload,
 } from './bankingSelectors';
+import { getBulkAllocationPayload, getBulkUnallocationPayload } from './bankingSelectors/bulkAllocationSelectors';
 import {
-  getBulkAllocationPayload,
-  getBulkUnallocationPayload,
-} from './bankingSelectors/bulkAllocationSelectors';
+  getCreateTransferMoneyPayload,
+  getMatchTransferMoneyPayload,
+  getMatchTransferMoneyQueryParams,
+  getMatchTransferMoneyUrlParams,
+} from './bankingSelectors/transferMoneySelectors';
 import {
   getDefaultMatchTransactionFilterRequestParams,
   getMatchTransactionFilterRequestParams,
@@ -52,7 +56,6 @@ import {
   getPaymentTypeUrlParam,
 } from './bankingSelectors/paymentAllocationSelectors';
 import { getSplitAllocationPayload } from './bankingSelectors/splitAllocationSelectors';
-import { getTransferMoneyPayload } from './bankingSelectors/transferMoneySelectors';
 
 const createBankingIntegrator = (store, integration) => ({
   loadBankTransactions: ({
@@ -231,6 +234,57 @@ const createBankingIntegrator = (store, integration) => ({
     integration.read({
       intent,
       urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadMatchTransferMoney: ({
+    index, onSuccess, onFailure,
+  }) => {
+    const state = store.getState();
+    const intent = LOAD_MATCH_TRANSFER_MONEY;
+    const urlParams = getMatchTransferMoneyUrlParams(state);
+    const params = getMatchTransferMoneyQueryParams(state, index);
+
+    integration.read({
+      intent, urlParams, params, onSuccess, onFailure,
+    });
+  },
+
+  saveMatchTransferMoney: ({
+    index, onSuccess, onFailure,
+  }) => {
+    const intent = SAVE_TRANSFER_MONEY;
+    const state = store.getState();
+
+    const urlParams = { businessId: getBusinessId(state) };
+    const content = getMatchTransferMoneyPayload(state, index);
+
+    integration.write({
+      intent,
+      urlParams,
+      allowParallelRequests: true,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  saveTransferMoney: ({
+    index, onSuccess, onFailure,
+  }) => {
+    const intent = SAVE_TRANSFER_MONEY;
+    const state = store.getState();
+
+    const urlParams = { businessId: getBusinessId(state) };
+    const content = getCreateTransferMoneyPayload(state, index);
+
+    integration.write({
+      intent,
+      urlParams,
+      allowParallelRequests: true,
+      content,
       onSuccess,
       onFailure,
     });
@@ -429,25 +483,6 @@ const createBankingIntegrator = (store, integration) => ({
 
     const urlParams = { businessId: getBusinessId(state) };
     const content = getPaymentAllocationPayload(state, index);
-
-    integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  saveTransferMoney: ({
-    index, onSuccess, onFailure,
-  }) => {
-    const intent = SAVE_TRANSFER_MONEY;
-    const state = store.getState();
-
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getTransferMoneyPayload(state, index);
 
     integration.write({
       intent,

@@ -1,9 +1,16 @@
 import {
-  getFormattedTransfer, getTransferMoneyPayload,
+  getCreateTransferMoneyPayload,
+  getIsTableEmpty,
+  getMatchTransferMoneyPayload,
+  getTransferMoneyModal,
 } from '../transferMoneySelectors';
 
+import { getShowCreateTransferMoneyButton } from '..';
+
+import { tabIds } from '../../tabItems';
+
 describe('transferMoneySelectors', () => {
-  describe('getTransferMoneyPayload', () => {
+  describe('getCreateTransferMoneyPayload', () => {
     it('should get the transfer money allocation create payload for a deposit transaction', () => {
       const state = {
         entries: [{
@@ -21,15 +28,15 @@ describe('transferMoneySelectors', () => {
       };
 
       const expected = {
-        bankAccountId: '1',
-        transactionId: '2',
-        transferFrom: '20',
-        transferTo: '1',
-        date: '2019-01-01',
+        isWithdrawal: false,
+        baseTransactionId: '2',
+        baseAccountId: '1',
+        transferAccountId: '20',
         amount: '50.00',
+        date: '2019-01-01',
       };
 
-      const actual = getTransferMoneyPayload(state, 0);
+      const actual = getCreateTransferMoneyPayload(state, 0);
 
       expect(actual).toEqual(expected);
     });
@@ -51,22 +58,60 @@ describe('transferMoneySelectors', () => {
       };
 
       const expected = {
-        bankAccountId: '1',
-        transactionId: '2',
-        transferFrom: '1',
-        transferTo: '20',
-        date: '2019-01-01',
+        isWithdrawal: true,
+        baseTransactionId: '2',
+        baseAccountId: '1',
+        transferAccountId: '20',
         amount: '20.00',
+        date: '2019-01-01',
       };
 
-      const actual = getTransferMoneyPayload(state, 0);
+      const actual = getCreateTransferMoneyPayload(state, 0);
 
       expect(actual).toEqual(expected);
     });
   });
 
+  describe('getMatchTransferMoneyPayload', () => {
+    it('should get the transfer money allocation create payload for a withdrawal transaction', () => {
+      const state = {
+        entries: [{
+          transactionId: '2', date: '2019-01-01', deposit: '', withdrawal: '20.00', description: 'BB',
+        }],
+        filterOptions: { bankAccount: '1' },
+        openPosition: 0,
+        openEntry: {
+          transfer: {
+            isWithdrawal: true,
+            entries: [
+              {
+                bankFeedTransactionId: '372',
+                accountId: '37',
+                selected: true,
+              },
+            ],
+          },
+        },
+      };
 
-  describe('getFormattedTransfer', () => {
+      const expected = {
+        isWithdrawal: true,
+        baseTransactionId: '2',
+        baseAccountId: '1',
+        transferTransactionId: '372',
+        transferAccountId: '37',
+        amount: '20.00',
+        date: '2019-01-01',
+        description: 'BB',
+      };
+
+      const actual = getMatchTransferMoneyPayload(state, 0);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getTransferMoneyModal', () => {
     let state;
     let accountList;
 
@@ -103,7 +148,7 @@ describe('transferMoneySelectors', () => {
         transferFromDisplayName: 'ID2 NAME2',
       };
 
-      const result = getFormattedTransfer(state);
+      const result = getTransferMoneyModal(state);
 
       expect(result).toEqual(expected);
     });
@@ -114,10 +159,13 @@ describe('transferMoneySelectors', () => {
         openEntry: {
           ...(state.openEntry),
           isCreating: true,
+          transfer: {
+            isWithdrawal: false,
+          },
         },
       };
       const expected = 'transferFrom';
-      const result = getFormattedTransfer(state).transferDisplayType;
+      const result = getTransferMoneyModal(state).transferDisplayType;
       expect(result).toBe(expected);
     });
 
@@ -130,11 +178,62 @@ describe('transferMoneySelectors', () => {
         openEntry: {
           ...(state.openEntry),
           isCreating: true,
+          transfer: {
+            isWithdrawal: true,
+          },
         },
       };
       const expected = 'transferTo';
-      const result = getFormattedTransfer(state).transferDisplayType;
+      const result = getTransferMoneyModal(state).transferDisplayType;
       expect(result).toBe(expected);
+    });
+  });
+
+  describe('getIsTableEmpty', () => {
+    it('should return true when no entries', () => {
+      const state = {
+        openEntry: {
+          transfer: {
+            entries: [],
+          },
+        },
+      };
+      const actual = getIsTableEmpty(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('should return false when entries in list exist', () => {
+      const state = {
+        openEntry: {
+          transfer: {
+            entries: [{ a: '1' }, { b: '2' }],
+          },
+        },
+      };
+      const actual = getIsTableEmpty(state);
+      expect(actual).toEqual(false);
+    });
+  });
+
+  describe('getShowCreateTransferMoneyButton', () => {
+    it('should return true when activeTabId is tabIds.transfer', () => {
+      const state = {
+        openEntry: {
+          activeTabId: tabIds.transfer,
+        },
+      };
+      const actual = getShowCreateTransferMoneyButton(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('should return false when activeTabId is not tabId.transfer', () => {
+      const state = {
+        openEntry: {
+          activeTabId: tabIds.someOtherId,
+        },
+      };
+      const actual = getShowCreateTransferMoneyButton(state);
+      expect(actual).toEqual(false);
     });
   });
 });

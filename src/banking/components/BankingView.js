@@ -33,6 +33,7 @@ const BankingView = (props) => {
     onAllocate,
     onUnallocate,
     onDismissAlert,
+    onDismissModalAlert,
     onSplitRowItemClick,
     onMatchRowItemClick,
     onMatchedToBlur,
@@ -66,11 +67,14 @@ const BankingView = (props) => {
     onSavePaymentAllocation,
     onCancelPaymentAllocation,
     onSaveTransferMoney,
+    onSaveMatchTransferMoney,
     onCancelTransferMoney,
     modalType,
     onCancelModal,
     onCloseModal,
     onUpdateTransfer,
+    onSortTransfer,
+    onUpdateTransferSelection,
     onSelectTransaction,
     onSelectAllTransactions,
     onUpdateBulkAllocationOption,
@@ -79,6 +83,7 @@ const BankingView = (props) => {
     onCloseBulkAllocation,
     onConfirmUnallocateModal,
     onOpenBankingRuleModal,
+    onOpenTransferMoneyModal,
     onRenderBankingRuleModal,
     onAddAttachments,
     onRemoveAttachment,
@@ -106,6 +111,7 @@ const BankingView = (props) => {
 
   const modal = (modalType
     && (<BankingModal
+      onDismissModalAlert={onDismissModalAlert}
       modalType={modalType}
       getBankingRuleModal={getBankingRuleModal}
       onCloseModal={onCloseModal}
@@ -114,6 +120,8 @@ const BankingView = (props) => {
       onConfirmUnmatchTransactionModal={onCancelModal}
       onRenderBankingRuleModal={onRenderBankingRuleModal}
       onDeleteAttachmentModal={onDeleteAttachmentModal}
+      onSaveTransferMoney={onSaveTransferMoney}
+      onUpdateTransfer={onUpdateTransfer}
     />
     ));
 
@@ -171,12 +179,15 @@ const BankingView = (props) => {
           onUpdatePaymentAllocationLine={onUpdatePaymentAllocationLine}
           onSavePaymentAllocation={onSavePaymentAllocation}
           onCancelPaymentAllocation={onCancelPaymentAllocation}
-          onSaveTransferMoney={onSaveTransferMoney}
+          onSaveTransferMoney={onSaveMatchTransferMoney}
           onCancelTransferMoney={onCancelTransferMoney}
           onUpdateTransfer={onUpdateTransfer}
+          onSortTransfer={onSortTransfer}
+          onUpdateTransferSelection={onUpdateTransferSelection}
           onSelectTransaction={onSelectTransaction}
           onSelectAllTransactions={onSelectAllTransactions}
           onOpenBankingRuleModal={onOpenBankingRuleModal}
+          onOpenTransferMoneyModal={onOpenTransferMoneyModal}
           onAddAttachments={onAddAttachments}
           onRemoveAttachment={onRemoveAttachment}
         />

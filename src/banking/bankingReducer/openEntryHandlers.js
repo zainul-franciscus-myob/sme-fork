@@ -22,6 +22,8 @@ export const loadOpenEntry = (state, index, propName, propValue, isCreating) => 
     activeTabId: propName,
     [propName]: propValue,
   },
+  isModalBlocking: false,
+  modalAlert: undefined,
 });
 
 export const setOpenEntryLoadingState = (state, action) => ({

@@ -22,10 +22,11 @@ import {
   getMatchTransactionOrderBy,
 } from './bankingSelectors/matchTransactionSelectors';
 import { getFilesForUpload } from './bankingSelectors/attachmentsSelectors';
+import { getIsAllSelected, getIsEditedEntryInBulkSelection } from './bankingSelectors/bulkAllocationSelectors';
 import {
-  getIsAllSelected,
-  getIsEditedEntryInBulkSelection,
-} from './bankingSelectors/bulkAllocationSelectors';
+  getMatchTransferMoneyFlipSortOrder,
+  getMatchTransferMoneyOrderBy,
+} from './bankingSelectors/transferMoneySelectors';
 import { getPaymentAllocationContactId } from './bankingSelectors/paymentAllocationSelectors';
 import { tabIds } from './tabItems';
 import BankingRuleModule from './bankingRule/BankingRuleModule';
@@ -59,6 +60,7 @@ export default class BankingModule {
     const {
       updateFilterOptions,
       dismissAlert,
+      dismissModalAlert,
       focusEntry,
       blurEntry,
       collapseTransactionLine,
@@ -73,7 +75,8 @@ export default class BankingModule {
       expandAdjustmentSection,
       updateSelectedTransactionDetails,
       updatePaymentAllocationLine,
-      updateTransferMoney,
+      setTransferMoneyDetail,
+      setMatchTransferMoneySelection,
       closeModal,
       updateBulkAllocationOption,
       openBankingRuleModal,
@@ -87,6 +90,7 @@ export default class BankingModule {
         onBankAccountChange={this.bankAccountChange}
         onSort={this.confirmBefore(this.sortBankTransactions)}
         onDismissAlert={dismissAlert}
+        onDismissModalAlert={dismissModalAlert}
         onAllocate={this.allocateTransaction}
         onUnallocate={this.openUnmatchTransactionModal(this.unallocateTransaction)}
         onSplitRowItemClick={this.confirmBefore(this.toggleLine)}
@@ -122,10 +126,13 @@ export default class BankingModule {
         onUpdatePaymentAllocationLine={updatePaymentAllocationLine}
         onSavePaymentAllocation={this.savePaymentAllocation}
         onSaveTransferMoney={this.saveTransferMoney}
+        onSaveMatchTransferMoney={this.saveMatchTransferMoney}
         onCancelTransferMoney={this.confirmBefore(collapseTransactionLine)}
         onCancelPaymentAllocation={this.confirmBefore(collapseTransactionLine)}
         onUnmatchTransaction={this.openUnmatchTransactionModal(this.unmatchTransaction)}
-        onUpdateTransfer={updateTransferMoney}
+        onUpdateTransfer={setTransferMoneyDetail}
+        onSortTransfer={this.sortMatchTransferMoney}
+        onUpdateTransferSelection={setMatchTransferMoneySelection}
         onCancelModal={this.cancelModal}
         onCloseModal={closeModal}
         onSelectTransaction={this.selectTransaction}
@@ -137,6 +144,7 @@ export default class BankingModule {
         onCancelUnallocateModal={closeModal}
         onConfirmUnallocateModal={this.bulkUnallocateTransactions}
         onOpenBankingRuleModal={openBankingRuleModal}
+        onOpenTransferMoneyModal={this.openTransferMoneyModal}
         onRenderBankingRuleModal={this.renderBankingRuleModal}
         onAddAttachments={this.addAttachments}
         onRemoveAttachment={this.openDeleteAttachmentModal}
@@ -451,7 +459,7 @@ export default class BankingModule {
     if (getIsAllocated(line)) {
       this.loadExistingTransferMoney(index);
     } else {
-      this.dispatcher.loadNewTransferMoney(index);
+      this.loadMatchTransferMoney(index);
     }
   }
 
@@ -480,6 +488,51 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
+  }
+
+  loadMatchTransferMoney = (index) => {
+    const onSuccess = this.ifOpen(
+      index,
+      (payload) => {
+        this.dispatcher.setOpenEntryLoadingState(false);
+        this.dispatcher.loadMatchTransferMoney(index, payload);
+      },
+    );
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.collapseTransactionLine();
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.dispatcher.setOpenEntryPosition(index);
+    this.dispatcher.setOpenEntryLoadingState(true);
+    this.integrator.loadMatchTransferMoney({ index, onSuccess, onFailure });
+  }
+
+  sortMatchTransferMoney = (orderBy) => {
+    const state = this.store.getState();
+    const index = getOpenPosition(state);
+
+    const newSortOrder = orderBy === getMatchTransferMoneyOrderBy(state)
+      ? getMatchTransferMoneyFlipSortOrder(state) : 'asc';
+    this.dispatcher.setMatchTransferMoneySortOrder(orderBy, newSortOrder);
+
+    const onSuccess = this.ifOpen(
+      index,
+      (payload) => {
+        this.dispatcher.setMatchTransferMoneyLoadingState(false);
+        this.dispatcher.sortMatchTransferMoney(payload);
+      },
+    );
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setMatchTransferMoneyLoadingState(false);
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.dispatcher.setMatchTransferMoneyLoadingState(true);
+    this.integrator.loadMatchTransferMoney({ index, onSuccess, onFailure });
   }
 
   loadAllocate = (index) => {
@@ -855,44 +908,71 @@ export default class BankingModule {
     this.dispatcher.collapseTransactionLine();
   }
 
-  saveTransferMoney = () => {
+  saveMatchTransferMoney = () => {
     const state = this.store.getState();
 
-    const isCreating = getIsOpenEntryCreating(state);
-    if (!isCreating) {
-      this.dispatcher.collapseTransactionLine();
-      return;
-    }
+    this.dispatcher.startModalBlocking();
 
     const index = getOpenPosition(state);
 
     const onSuccess = (payload) => {
       this.dispatcher.setEntryLoadingState(index, false);
       this.dispatcher.saveTransferMoney(index, payload);
-      this.dispatcher.setAlert({
-        type: 'success',
-        message: payload.message,
-      });
+      this.dispatcher.setAlert({ type: 'success', message: payload.message });
     };
 
     const onFailure = ({ message }) => {
       this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.dispatcher.setEntryLoadingState(index, true);
+    this.integrator.saveMatchTransferMoney({
+      index,
+      onSuccess,
+      onFailure,
+    });
+    this.dispatcher.collapseTransactionLine();
+  }
+
+  saveTransferMoney = () => {
+    const state = this.store.getState();
+
+    this.dispatcher.startModalBlocking();
+
+    const index = getOpenPosition(state);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.saveTransferMoney(index, payload);
+      this.dispatcher.stopModalBlocking();
+      this.dispatcher.closeModal();
       this.dispatcher.setAlert({
+        type: 'success',
+        message: payload.message,
+      });
+      this.dispatcher.collapseTransactionLine();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setEntryLoadingState(index, false);
+      this.dispatcher.stopModalBlocking();
+      this.dispatcher.setModalAlert({
         type: 'danger',
         message,
       });
     };
-
-    this.dispatcher.setEntryLoadingState(index, true);
 
     this.integrator.saveTransferMoney({
       index,
       onSuccess,
       onFailure,
     });
-
-    this.dispatcher.collapseTransactionLine();
   };
+
+  openTransferMoneyModal = () => {
+    this.dispatcher.openTransferMoneyModal();
+  }
 
   selectAllTransactions = () => {
     const state = this.store.getState();

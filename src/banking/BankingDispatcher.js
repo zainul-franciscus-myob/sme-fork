@@ -13,8 +13,8 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
+  LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
-  LOAD_NEW_TRANSFER_MONEY,
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_PAYMENT_ALLOCATION_OPTIONS,
@@ -41,13 +41,21 @@ import {
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_MATCH_TRANSACTION_SORT_ORDER,
+  SET_MATCH_TRANSFER_MONEY_LOADING_STATE,
+  SET_MATCH_TRANSFER_MONEY_SELECTION,
+  SET_MATCH_TRANSFER_MONEY_SORT_ORDER,
+  SET_MODAL_ALERT,
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
   SET_OPERATION_IN_PROGRESS_STATE,
   SET_PAYMENT_ALLOCATION_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
+  SET_TRANSFER_MONEY_DETAIL,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
+  SORT_MATCH_TRANSFER_MONEY,
+  START_MODAL_BLOCKING,
+  STOP_MODAL_BLOCKING,
   TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
   UNALLOCATE_TRANSACTION,
@@ -63,7 +71,6 @@ import {
   UPDATE_SELECTED_TRANSACTION_DETAILS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
-  UPDATE_TRANSFER_MONEY,
   UPDATE_UPLOAD_PROGRESS,
   UPLOAD_ATTACHMENT,
   UPLOAD_ATTACHMENT_FAILED,
@@ -230,28 +237,35 @@ const createBankingDispatcher = store => ({
     });
   },
 
+
+  loadMatchTransferMoney: (index, payload) => {
+    store.dispatch({ intent: LOAD_MATCH_TRANSFER_MONEY, index, entries: payload });
+  },
+
+  sortMatchTransferMoney: (payload) => {
+    store.dispatch({ intent: SORT_MATCH_TRANSFER_MONEY, entries: payload });
+  },
+
+  setMatchTransferMoneySortOrder: (orderBy, sortOrder) => {
+    store.dispatch({ intent: SET_MATCH_TRANSFER_MONEY_SORT_ORDER, orderBy, sortOrder });
+  },
+
+  setMatchTransferMoneySelection: ({ value }) => {
+    store.dispatch({ intent: SET_MATCH_TRANSFER_MONEY_SELECTION, index: value });
+  },
+
+  setMatchTransferMoneyLoadingState: (isTableLoading) => {
+    store.dispatch({ intent: SET_MATCH_TRANSFER_MONEY_LOADING_STATE, isTableLoading });
+  },
+
   loadExistingTransferMoney: (index, payload) => {
-    store.dispatch({
-      intent: LOAD_TRANSFER_MONEY,
-      index,
-      ...payload,
-    });
+    store.dispatch({ intent: LOAD_TRANSFER_MONEY, index, ...payload });
   },
 
-  loadNewTransferMoney: (index) => {
-    store.dispatch({
-      intent: LOAD_NEW_TRANSFER_MONEY,
-      index,
-    });
+  setTransferMoneyDetail: ({ key, value }) => {
+    store.dispatch({ intent: SET_TRANSFER_MONEY_DETAIL, key, value });
   },
 
-  updateTransferMoney: ({ key, value }) => {
-    store.dispatch({
-      intent: UPDATE_TRANSFER_MONEY,
-      key,
-      value,
-    });
-  },
 
   loadSplitAllocation: (index, payload) => {
     store.dispatch({
@@ -317,6 +331,42 @@ const createBankingDispatcher = store => ({
     store.dispatch({
       intent: OPEN_MODAL,
       modalType: ModalTypes.UNMATCH_TRANSACTION,
+    });
+  },
+
+  openTransferMoneyModal: () => {
+    store.dispatch({
+      intent: OPEN_MODAL,
+      modalType: ModalTypes.TRANSFER_MONEY,
+    });
+  },
+
+  startModalBlocking: () => {
+    store.dispatch({
+      intent: START_MODAL_BLOCKING,
+    });
+  },
+
+  stopModalBlocking: () => {
+    store.dispatch({
+      intent: STOP_MODAL_BLOCKING,
+    });
+  },
+
+  setModalAlert: ({ type, message }) => {
+    store.dispatch({
+      intent: SET_MODAL_ALERT,
+      modalAlert: {
+        message,
+        type,
+      },
+    });
+  },
+
+  dismissModalAlert: () => {
+    store.dispatch({
+      intent: SET_MODAL_ALERT,
+      modalAlert: undefined,
     });
   },
 

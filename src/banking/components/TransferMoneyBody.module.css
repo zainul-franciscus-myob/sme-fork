@@ -1,9 +1,18 @@
+/*
+  @FEELIX:
+*/
+.createView :global(.flx-field-group) {
+  margin-top: var(--flx-spacing-small);
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
 @media (max-width: 767px) {
-  .transferMoney :global(.flx-col) {
+  .readonlyView :global(.flx-col) {
     display: block;
   }
 
-  .transferMoney :global(.flx-col) > div {
+  .readonlyView :global(.flx-col) > div {
     margin-bottom: 1.6rem;
   }
 }

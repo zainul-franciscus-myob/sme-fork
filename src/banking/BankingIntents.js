@@ -2,6 +2,13 @@ export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_ERROR_STATE = Symbol('Set error state');
 export const SET_ALERT = Symbol('Set the Alert of the page');
+
+export const OPEN_MODAL = Symbol('Open a modal');
+export const CLOSE_MODAL = Symbol('Close a modal');
+export const SET_MODAL_ALERT = Symbol('Set modal alert');
+export const START_MODAL_BLOCKING = Symbol('Start modal blocking');
+export const STOP_MODAL_BLOCKING = Symbol('Stop modal blocking');
+
 export const LOAD_BANK_TRANSACTIONS = Symbol('Load list of bank transactions');
 export const SORT_AND_FILTER_BANK_TRANSACTIONS = Symbol('Sort and filter list of bank transactions');
 export const SET_TABLE_LOADING_STATE = Symbol('Set Table loading state');
@@ -11,8 +18,6 @@ export const SET_ENTRY_FOCUS = Symbol('Set the focus state of an entry');
 export const SET_ENTRY_LOADING_STATE = Symbol('Set the loading state of an entry');
 export const ALLOCATE_TRANSACTION = Symbol('Allocate a bank transaction');
 export const UNALLOCATE_TRANSACTION = Symbol('Unallocate an allocated bank transaction');
-export const OPEN_MODAL = Symbol('Open a modal');
-export const CLOSE_MODAL = Symbol('Close a modal');
 
 export const SET_OPEN_ENTRY_LOADING_STATE = Symbol('Set bank transaction open entry loading state');
 export const SET_OPEN_ENTRY_POSITION = Symbol('Set bank transaction open entry position');
@@ -50,9 +55,14 @@ export const UPDATE_PAYMENT_ALLOCATION_OPTIONS = Symbol('Update payment allocati
 export const UPDATE_PAYMENT_ALLOCATION_LINE = Symbol('Update payment allocation line');
 export const SET_PAYMENT_ALLOCATION_LOADING_STATE = Symbol('Set payment allocation loading state');
 
+export const LOAD_MATCH_TRANSFER_MONEY = Symbol('Load a list of matching transfer money');
+export const SORT_MATCH_TRANSFER_MONEY = Symbol('Sort a list of matching transfer money');
+export const SET_MATCH_TRANSFER_MONEY_SORT_ORDER = Symbol('Set match transfer money sort order');
+export const SET_MATCH_TRANSFER_MONEY_SELECTION = Symbol('Set match transfer money selection');
+export const SET_MATCH_TRANSFER_MONEY_LOADING_STATE = Symbol('Set match transfer money loading state');
 export const LOAD_TRANSFER_MONEY = Symbol('Load an existing transfer money');
 export const LOAD_NEW_TRANSFER_MONEY = Symbol('Load a new transfer money');
-export const UPDATE_TRANSFER_MONEY = Symbol('Update the transfer money');
+export const SET_TRANSFER_MONEY_DETAIL = Symbol('Update the transfer money');
 export const SAVE_TRANSFER_MONEY = Symbol('Save transfer money');
 
 export const SELECT_TRANSACTION = Symbol('Select bank transaction');

@@ -13,8 +13,8 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
+  LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
-  LOAD_NEW_TRANSFER_MONEY,
   LOAD_PAYMENT_ALLOCATION,
   LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_PAYMENT_ALLOCATION_OPTIONS,
@@ -41,16 +41,25 @@ import {
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_MATCH_TRANSACTION_SORT_ORDER,
+  SET_MATCH_TRANSFER_MONEY_LOADING_STATE,
+  SET_MATCH_TRANSFER_MONEY_SELECTION,
+  SET_MATCH_TRANSFER_MONEY_SORT_ORDER,
+  SET_MODAL_ALERT,
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
   SET_OPERATION_IN_PROGRESS_STATE,
   SET_PAYMENT_ALLOCATION_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
+  SET_TRANSFER_MONEY_DETAIL,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
+  SORT_MATCH_TRANSFER_MONEY,
+  START_MODAL_BLOCKING,
+  STOP_MODAL_BLOCKING,
   TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
   UNALLOCATE_OPEN_ENTRY_TRANSACTION,
-  UNALLOCATE_TRANSACTION, UNMATCH_TRANSACTION,
+  UNALLOCATE_TRANSACTION,
+  UNMATCH_TRANSACTION,
   UNSELECT_TRANSACTIONS,
   UPDATE_BULK_ALLOCATION_OPTIONS,
   UPDATE_FILTER_OPTIONS,
@@ -62,7 +71,6 @@ import {
   UPDATE_SELECTED_TRANSACTION_DETAILS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
-  UPDATE_TRANSFER_MONEY,
   UPDATE_UPLOAD_PROGRESS,
   UPLOAD_ATTACHMENT,
   UPLOAD_ATTACHMENT_FAILED,
@@ -120,9 +128,13 @@ import {
 } from './bulkAllocationHandlers';
 import { getCalculatedAllocatedBalances, getCalculatedUnallocatedBalances } from '../bankingSelectors';
 import {
-  loadNewTransferMoney,
+  loadMatchTransferMoney,
   loadTransferMoney,
   saveTransferMoney,
+  setMatchTransferMoneyLoadingState,
+  setMatchTransferMoneySelection,
+  setMatchTransferMoneySortOrder,
+  sortMatchTransferMoney,
   updateTransferMoney,
 } from './transferMoneyHandlers';
 import {
@@ -261,6 +273,22 @@ export const closeModal = state => ({
   modalType: '',
 });
 
+export const startModalBlocking = state => ({
+  ...state,
+  isModalBlocking: true,
+});
+
+export const stopModalBlocking = state => ({
+  ...state,
+  isModalBlocking: false,
+
+});
+
+export const setModalAlert = (state, action) => ({
+  ...state,
+  modalAlert: action.modalAlert,
+});
+
 export const setEntryFocus = (state, action) => ({
   ...state,
   entries: state.entries.map(
@@ -336,6 +364,9 @@ const handlers = {
   [SET_ENTRY_LOADING_STATE]: setEntryLoading,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
+  [START_MODAL_BLOCKING]: startModalBlocking,
+  [STOP_MODAL_BLOCKING]: stopModalBlocking,
+  [SET_MODAL_ALERT]: setModalAlert,
   [ALLOCATE_TRANSACTION]: allocateTransaction,
   [UNALLOCATE_TRANSACTION]: unallocateTransaction,
   [COLLAPSE_TRANSACTION_LINE]: collapseTransactionLine,
@@ -370,10 +401,16 @@ const handlers = {
   [UPDATE_PAYMENT_ALLOCATION_OPTIONS]: updatePaymentAllocationOptions,
   [UPDATE_PAYMENT_ALLOCATION_LINE]: updatePaymentAllocationLine,
   [SET_PAYMENT_ALLOCATION_LOADING_STATE]: setPaymentAllocationLoadingState,
+
+  [LOAD_MATCH_TRANSFER_MONEY]: loadMatchTransferMoney,
+  [SORT_MATCH_TRANSFER_MONEY]: sortMatchTransferMoney,
+  [SET_MATCH_TRANSFER_MONEY_SORT_ORDER]: setMatchTransferMoneySortOrder,
+  [SET_MATCH_TRANSFER_MONEY_SELECTION]: setMatchTransferMoneySelection,
+  [SET_MATCH_TRANSFER_MONEY_LOADING_STATE]: setMatchTransferMoneyLoadingState,
   [LOAD_TRANSFER_MONEY]: loadTransferMoney,
-  [LOAD_NEW_TRANSFER_MONEY]: loadNewTransferMoney,
+  [SET_TRANSFER_MONEY_DETAIL]: updateTransferMoney,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,
-  [UPDATE_TRANSFER_MONEY]: updateTransferMoney,
+
   [SELECT_TRANSACTION]: selectTransaction,
   [SELECT_ALL_TRANSACTIONS]: selectAllTransactions,
   [UPDATE_BULK_ALLOCATION_OPTIONS]: updateBulkAllocationOptions,

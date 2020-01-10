@@ -60,10 +60,13 @@ const BankTransactionTableBody = (props) => {
     onSaveTransferMoney,
     onCancelTransferMoney,
     onUpdateTransfer,
+    onSortTransfer,
+    onUpdateTransferSelection,
     onSelectTransaction,
     onOpenBankingRuleModal,
     onAddAttachments,
     onRemoveAttachment,
+    onOpenTransferMoneyModal,
   } = props;
 
   const spinner = (
@@ -106,6 +109,8 @@ const BankTransactionTableBody = (props) => {
     },
     [tabIds.transfer]: {
       onUpdateTransfer,
+      onSortTransfer,
+      onUpdateTransferSelection,
     },
   }[activeTabId];
 
@@ -131,6 +136,7 @@ const BankTransactionTableBody = (props) => {
       onSave: onSaveTransferMoney,
       onCancel: onCancelTransferMoney,
       onUnmatch: onUnallocateSplitAllocation,
+      onCreateTransferMoney: onOpenTransferMoneyModal,
     },
   }[activeTabId];
 
