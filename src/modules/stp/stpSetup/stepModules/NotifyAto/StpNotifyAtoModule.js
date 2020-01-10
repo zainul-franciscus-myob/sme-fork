@@ -12,7 +12,6 @@ import {
 } from './stpNotifyAtoIntents';
 import {
   getAccessManagerSiteUrl,
-  getAgentAbn,
   getBusinessId,
   getHostedSbrUrl,
 } from './stpNotifyAtoModuleSelectors';
@@ -59,7 +58,7 @@ export default class StpNotifyAtoModule {
   }
 
   getBusinessSid = ({
-    agentAbn,
+    payerAbn, agentAbn,
     onSuccess, onFailure,
   }) => {
     this.setIsLoading(true);
@@ -67,10 +66,12 @@ export default class StpNotifyAtoModule {
     const state = this.store.getState();
     const urlParams = {
       businessId: getBusinessId(state),
-      agentAbn: getAgentAbn(state),
     };
 
-    const params = { agentAbn };
+    const params = {
+      agentAbn,
+      payerAbn,
+    };
 
     const onSuccessFunc = ({ sid }) => {
       this.store.dispatch({

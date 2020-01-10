@@ -2,11 +2,16 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SET_CURRENT_STEP_INDEX, SET_SELECTED_AGENT_ROLE_DETAILS } from './stpSetupIntents';
+import {
+  SET_CURRENT_STEP_INDEX,
+  SET_PAYER_ABN,
+  SET_SELECTED_AGENT_ROLE_DETAILS,
+} from './stpSetupIntents';
 import {
   getAgentAbn,
   getAgentNumber,
   getAgentRoleSelected,
+  getPayerAbn,
   getSelectedAgentRole,
   getStpReportingCentreUrl,
 } from './stpSetupSelectors';
@@ -141,13 +146,19 @@ export default class StpSetupModule {
     this.setStep(Steps.YOUR_ROLE);
   }
 
-  declarationInformationFinish = () => {
+  declarationInformationFinish = ({ payerAbn }) => {
+    this.store.dispatch({
+      intent: SET_PAYER_ABN,
+      payerAbn,
+    });
     const state = this.store.getState();
+
     if (getAgentRoleSelected(state)) {
       this.enterAddClients();
     } else {
       const notifyAtoStep = this.getStep(Steps.NOTIFY_ATO);
       notifyAtoStep.module.getBusinessSid({
+        payerAbn: getPayerAbn(state),
         onSuccess: () => {
           this.setStep(Steps.NOTIFY_ATO);
         },

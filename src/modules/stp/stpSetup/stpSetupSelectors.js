@@ -11,3 +11,4 @@ export const getStpReportingCentreUrl = (state) => {
   const { businessId, region } = state;
   return `/#/${region}/${businessId}/stp/reportingCentre`;
 };
+export const getPayerAbn = state => state.payerAbn;
