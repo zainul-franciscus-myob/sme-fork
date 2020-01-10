@@ -8,6 +8,7 @@ import {
   getAbnBranch,
   getAbnWpn,
   getBusinessDetailModalAlertMessage,
+  getBusinessDetailsErrors,
   getBusinessDetailsModalIsLoading,
   getBusinessName,
   getCity,
@@ -38,6 +39,7 @@ const BusinessDetailsModal = ({
   postcode,
   country,
   alertMessage,
+  businessDetailErrors,
   showCountryField,
 }) => {
   if (isLoading) {
@@ -57,15 +59,32 @@ const BusinessDetailsModal = ({
     <Select.Option value={s} label={s} />
   ));
 
+  let alertContent;
+  if (alertMessage) {
+    alertContent = alertMessage;
+  } else {
+    const errors = businessDetailErrors.map(e => (
+      <li key={e.error}>{e.error}</li>
+    ));
+    alertContent = (
+      <>
+        <p>
+          The following need to be fixed for Single Touch Payroll reporting
+        </p>
+        <ul>
+          {errors}
+        </ul>
+      </>
+    );
+  }
+
   return (
     <Modal
       title="Business details"
       onCancel={onCancelClick}
     >
       <Modal.Body>
-        {alertMessage && (
-          <Alert type="danger">{alertMessage}</Alert>
-        )}
+        <Alert type="danger">{alertContent}</Alert>
         <Input
           label="Business Name"
           name="businessName"
@@ -89,18 +108,16 @@ const BusinessDetailsModal = ({
           width="xs"
         />
         <Input
-          label="Address 1"
+          label="Address"
           name="streetAddress1"
           value={streetAddress1}
           onChange={handleInputChange(onFieldChange)}
           requiredLabel="This is required"
         />
         <Input
-          label="Address 2"
           name="streetAddress2"
           value={streetAddress2}
           onChange={handleInputChange(onFieldChange)}
-          requiredLabel="This is required"
         />
         <Input
           label="Suburb/town/locality"
@@ -158,6 +175,7 @@ const mapStateToProps = state => ({
   country: getCountry(state),
   alertMessage: getBusinessDetailModalAlertMessage(state),
   showCountryField: getShouldShowCountryField(state),
+  businessDetailErrors: getBusinessDetailsErrors(state),
 });
 
 export default connect(mapStateToProps)(BusinessDetailsModal);
