@@ -98,21 +98,23 @@ const BusinessMenu = ({
   isReadOnly,
   showBusinessAvatar,
 }) => (
-  <Navigation.Menu
-    label={(
-      <div className={styles.avatar}>
-        {showBusinessAvatar && <BusinessAvatar />}
-        {businessName}
-        {isReadOnly && <ReadonlyStatus />}
-        <div className={styles.caret}><Icons.Caret /></div>
-      </div>
+  <div className={styles.businessMenu}>
+    <Navigation.Menu
+      label={(
+        <div className={styles.avatar}>
+          {showBusinessAvatar && <BusinessAvatar />}
+          {businessName}
+          {isReadOnly && <ReadonlyStatus />}
+          <div className={styles.caret}><Icons.Caret /></div>
+        </div>
     )}
-    items={getItems({
-      urls, serialNumber, userEmail, onMenuLinkClick,
-    })}
-    onSelect={onMenuSelect}
-    active={activeNav === 'business'}
-  />
+      items={getItems({
+        urls, serialNumber, userEmail, onMenuLinkClick,
+      })}
+      onSelect={onMenuSelect}
+      active={activeNav === 'business'}
+    />
+  </div>
 );
 
 const mapStateToProps = state => ({

@@ -1,5 +1,4 @@
 .readonly {
-  padding: 1rem 0;
   margin-left: 1rem;
 }
 
@@ -31,4 +30,18 @@
   color: #687484;
   background-color: unset;
   cursor: default;
+}
+
+/*
+  @FEELIX:
+  Override Feelix menu item icon alignment
+*/
+.businessMenu li[role="menuitem"] a[role="button"] {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.businessMenu li[role="menuitem"] a[role="button"] svg {
+  margin-right: var(--flx-spacing-x-tiny);
 }
