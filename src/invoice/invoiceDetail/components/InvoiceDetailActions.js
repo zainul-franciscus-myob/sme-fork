@@ -76,7 +76,7 @@ const InvoiceDetailActions = ({
       onSelect={onSaveAndButtonClick}
       toggle={(
         <Dropdown.Toggle disabled={isSubmitting}>
-            Save and new
+            Save and...
           <Icons.Caret />
         </Dropdown.Toggle>
         )}

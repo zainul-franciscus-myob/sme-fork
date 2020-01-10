@@ -26,7 +26,7 @@ const InvoiceHistory = ({
   const unavailableTooltipMessage = 'The activity history is currently unavailable. Please try again later.';
 
   const getTableHeader = appendToHeader => (
-    <Table.Row>
+    <Table.Row className={styles.header}>
       <Table.RowItem>
         Activity history
         {appendToHeader}

@@ -50,7 +50,7 @@ const QuoteDetailActions = ({
           onSelect={onSaveAndButtonClick}
           toggle={(
             <Dropdown.Toggle disabled={isActionsDisabled}>
-              Save and new
+              Save and...
               <Icons.Caret />
             </Dropdown.Toggle>
         )}

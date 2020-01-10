@@ -23,5 +23,5 @@
 }
 
 .icons svg:first-child {
-  margin-right: var(--flx-spacing-x-tiny);
+  margin-right: var(--flx-spacing-tiny);
 }
