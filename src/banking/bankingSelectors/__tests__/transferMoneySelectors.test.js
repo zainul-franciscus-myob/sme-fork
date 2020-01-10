@@ -109,6 +109,45 @@ describe('transferMoneySelectors', () => {
 
       expect(actual).toEqual(expected);
     });
+
+    it('should get the transfer money allocation create payload for a deposit transaction', () => {
+      const state = {
+        entries: [{
+          transactionId: '2', date: '2019-01-01', deposit: '20.00', withdrawal: '',
+        }],
+        filterOptions: { bankAccount: '1' },
+        openPosition: 0,
+        openEntry: {
+          transfer: {
+            isWithdrawal: false,
+            entries: [
+              {
+                bankFeedTransactionId: '372',
+                accountId: '37',
+                date: '2020-01-01',
+                description: 'MATCH',
+                selected: true,
+              },
+            ],
+          },
+        },
+      };
+
+      const expected = {
+        isWithdrawal: false,
+        baseTransactionId: '2',
+        baseAccountId: '1',
+        transferTransactionId: '372',
+        transferAccountId: '37',
+        amount: '20.00',
+        date: '2020-01-01',
+        description: 'MATCH',
+      };
+
+      const actual = getMatchTransferMoneyPayload(state, 0);
+
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe('getTransferMoneyModal', () => {

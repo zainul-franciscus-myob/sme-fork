@@ -2,7 +2,7 @@ import { RadioButton, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getMatchTransferMoneyEntries } from '../bankingSelectors/transferMoneySelectors';
+import { getTableEntries } from '../bankingSelectors/transferMoneySelectors';
 import handleInputChange from '../../components/handlers/handleInputChange';
 
 const TransferMoneyTableBody = ({
@@ -11,7 +11,7 @@ const TransferMoneyTableBody = ({
   onSelect,
 }) => {
   const rows = entries.map(({
-    date, accountId, accountDisplayName, amount, description, selected,
+    displayDate, accountId, accountDisplayName, amount, description, selected,
   }, index) => (
     // eslint-disable-next-line react/no-array-index-key
     <Table.Row key={index}>
@@ -26,7 +26,7 @@ const TransferMoneyTableBody = ({
           onChange={handleInputChange(onSelect)}
         />
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.date}>{date}</Table.RowItem>
+      <Table.RowItem {...tableConfig.date}>{displayDate}</Table.RowItem>
       <Table.RowItem {...tableConfig.account}>{accountDisplayName}</Table.RowItem>
       <Table.RowItem {...tableConfig.description}>{description}</Table.RowItem>
       <Table.RowItem {...tableConfig.amount}>{amount}</Table.RowItem>
@@ -41,7 +41,7 @@ const TransferMoneyTableBody = ({
 };
 
 const mapStateToProps = state => ({
-  entries: getMatchTransferMoneyEntries(state),
+  entries: getTableEntries(state),
 });
 
 export default connect(mapStateToProps)(TransferMoneyTableBody);

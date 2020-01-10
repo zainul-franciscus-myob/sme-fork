@@ -46,6 +46,14 @@ export const getIsTableEmpty = createSelector(
   entries => entries.length === 0,
 );
 
+export const getTableEntries = createSelector(
+  getMatchTransferMoneyEntries,
+  entries => entries.map(entry => ({
+    ...entry,
+    displayDate: formatSlashDate(entry.date),
+  })),
+);
+
 const getTransferDisplayType = createSelector(
   getIsOpenEntryCreating,
   getIsWithdrawal,
@@ -126,6 +134,8 @@ export const getMatchTransferMoneyPayload = (state, index) => {
   const {
     bankFeedTransactionId: matchTransactionId,
     accountId: matchAccountId,
+    date: matchDate,
+    description: matchDescription,
   } = matches.find(({ selected }) => selected) || { bankFeedTransactionId: '', accountId: '' };
 
   return {
@@ -134,9 +144,9 @@ export const getMatchTransferMoneyPayload = (state, index) => {
     baseAccountId: accountId,
     transferTransactionId: matchTransactionId,
     transferAccountId: matchAccountId,
-    date,
+    date: isWithdrawal ? date : matchDate,
     amount,
-    description,
+    description: isWithdrawal ? description : matchDescription,
   };
 };
 
