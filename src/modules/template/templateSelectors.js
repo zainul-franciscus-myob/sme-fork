@@ -20,6 +20,11 @@ export const getTemplateName = createSelector(
   template => template.templateName,
 );
 
+export const getIsDefault = createSelector(
+  getTemplate,
+  template => template.isDefault,
+);
+
 export const getFeatureColour = createSelector(
   getTemplate,
   template => template.featureColour,
