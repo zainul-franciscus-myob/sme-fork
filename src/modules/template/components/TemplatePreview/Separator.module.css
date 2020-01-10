@@ -1,0 +1,4 @@
+.separator {
+  margin: var(--tmp-spacing-tiny) 0;
+  height: 5px;
+}

@@ -10,15 +10,15 @@ const Collapsible = ({ title, content, visible }) => (
     renderContent={({ show, toggle }) => (
       <button
         onClick={toggle}
-        className={styles.collapsible__button}
+        className={styles.collapsibleButton}
         type="button"
       >
-        <span className={styles.collapsible__header}>{title}</span>
+        <span className={styles.collapsibleHeader}>{title}</span>
         {show ? <Icons.DownChevron /> : <Icons.RightChevron />}
       </button>
     )}
   >
-    <div className={styles.collapsible__content}>
+    <div className={styles.collapsibleContent}>
       {content}
     </div>
   </ToggleContent>

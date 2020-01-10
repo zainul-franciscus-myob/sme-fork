@@ -11,13 +11,12 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { BusinessDetailOptions } from '../templateOptions';
 import {
-  getBusinessDetails,
+  getBusinessDetailsOptions,
   getImage,
   getImageButtonLabel,
   getImageLabel,
-  getIsLogoOnTheLeft,
+  getLogoAlignment,
   getLogoSize,
   getShowBusinessDetails,
 } from '../templateSelectors';
@@ -29,7 +28,7 @@ import handleSliderChange from '../../../components/handlers/handleSliderChange'
 import styles from './TemplateDetailsHeaderInformation.module.css';
 
 const uploadLogoPrompt = (
-  <div className={styles.logo__prompt}>
+  <div className={styles.logoPrompt}>
     Only
     {' '}
     <strong>BMP</strong>
@@ -49,8 +48,8 @@ const uploadLogoPrompt = (
 );
 
 const TemplateDetailsHeaderInformation = ({
-  businessDetails,
-  isLogoOnTheLeft,
+  businessDetailsOptions,
+  logoAlignment,
   logoSize,
   onUpdateTemplateOptions,
   imageLabel,
@@ -69,10 +68,21 @@ const TemplateDetailsHeaderInformation = ({
           label={imageLabel}
           renderField={() => (
             <>
-              { image && (
+              {image && (
                 <div className={styles.imageContainer}>
-                  <img alt={imageLabel} src={image} className={styles.imageThumbnail} />
-                  <Button className={styles.removeImageButton} type="link" onClick={onFileRemoved} icon={<Icons.Remove />}>Remove</Button>
+                  <img
+                    alt={imageLabel}
+                    src={image}
+                    className={styles.imageThumbnail}
+                  />
+                  <Button
+                    className={styles.removeImageButton}
+                    type="link"
+                    onClick={onFileRemoved}
+                    icon={<Icons.Remove />}
+                  >
+                    Remove
+                  </Button>
                 </div>
               )}
               <FileBrowser
@@ -88,19 +98,24 @@ const TemplateDetailsHeaderInformation = ({
         {
           showBusinessDetails && (
             <>
-              <Slider
-                name="logoSize"
-                label="Logo size"
-                value={logoSize}
-                onChange={handleSliderChange(
-                  'logoSize',
-                  onUpdateTemplateOptions,
-                )}
-              />
+              {
+                image && (
+                  <Slider
+                    min={1}
+                    name="logoSize"
+                    label="Logo size"
+                    value={logoSize}
+                    onChange={handleSliderChange(
+                      'logoSize',
+                      onUpdateTemplateOptions,
+                    )}
+                  />
+                )
+              }
               <RadioButtonGroup
                 label="Business details placement"
                 name="isLogoOnTheLeft"
-                value={isLogoOnTheLeft}
+                value={logoAlignment}
                 renderRadios={({ value, ...props }) => ['Left', 'Right'].map(label => (
                   <RadioButton
                     checked={value === label}
@@ -118,16 +133,17 @@ const TemplateDetailsHeaderInformation = ({
               />
               <CheckboxGroup
                 label="Your business details"
-                renderCheckbox={props => BusinessDetailOptions.map(({ label, key }) => (
-                  <Checkbox
-                    name={key}
-                    label={label}
-                    onChange={handleCheckboxChange(onUpdateTemplateOptions)}
-                    checked={businessDetails[key]}
-                    {...props}
-                  />
-                ))
-                }
+                renderCheckbox={props => Object.entries(businessDetailsOptions)
+                  .map(([key, { label, value, checked }]) => (
+                    <Checkbox
+                      name={key}
+                      label={label}
+                      onChange={handleCheckboxChange(onUpdateTemplateOptions)}
+                      checked={checked}
+                      labelAccessory={!value && <Icons.Warning />}
+                      {...props}
+                    />
+                  ))}
               />
               <Button type="link" onClick={onEditBusinessDetails}>Update your business details</Button>
             </>
@@ -139,8 +155,8 @@ const TemplateDetailsHeaderInformation = ({
 );
 
 const mapsStateToProps = state => ({
-  isLogoOnTheLeft: getIsLogoOnTheLeft(state),
-  businessDetails: getBusinessDetails(state),
+  logoAlignment: getLogoAlignment(state),
+  businessDetailsOptions: getBusinessDetailsOptions(state),
   logoSize: getLogoSize(state),
   imageLabel: getImageLabel(state),
   image: getImage(state),

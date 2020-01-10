@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: var(--tmp-spacing-small);
+}
+
+.header {
+  margin: 0;
+  padding-top: var(--tmp-spacing-x-tiny)
+}
+
+.items {
+  display: flex;
+  flex-direction: row;
+}
+
+.item {
+  text-align: right;
+  padding: var(--tmp-spacing-x-tiny) var(--tmp-spacing-tiny);
+}
+
+.item:not(:last-child) {
+  margin-right: 2rem;
+}
+
+.item h5 {
+  margin-bottom: 0;
+}
+
+.item p {
+  margin-bottom: 0;
+}
+
+.grey {
+  background-color: var(--tmp-color-grey);
+}
+

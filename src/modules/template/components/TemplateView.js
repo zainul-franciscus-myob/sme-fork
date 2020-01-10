@@ -4,7 +4,23 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading, getModalType } from '../templateSelectors';
+import {
+  getAlert,
+  getBusinessDetailsOptionsForDisplay,
+  getFeatureColour,
+  getHeaderBusinessDetailsStyle,
+  getHeaderImage,
+  getHeaderTextColour,
+  getIsLoading,
+  getIsLogoOnTheLeft,
+  getLogoImage,
+  getLogoSize,
+  getModalType,
+  getPreviewType,
+  getRegion,
+  getSaleLayout,
+  getUseAddressEnvelopePosition,
+} from '../templateSelectors';
 import PageView from '../../../components/PageView/PageView';
 import PreviewTemplate from '../../../components/PreviewTemplate/PreviewTemplate';
 import TemplateDetails from './TemplateDetails';
@@ -16,43 +32,95 @@ const TemplateView = ({
   onUpdateTemplateOptions,
   onFileSelected,
   onFileRemoved,
+  featureColour,
+  headerTextColour,
+  useAddressEnvelopePosition,
+  isLogoOnTheLeft,
+  headerBusinessDetailsStyle,
+  logoImage,
+  logoSize,
+  headerImage,
+  onSave,
+  isLoading,
+  businessDetails: {
+    businessName,
+    tradingName,
+    streetAddress,
+    phoneNumber,
+    email,
+    website,
+    abn,
+  },
+  previewType,
+  saleLayout,
+  onPreviewTypeChange,
   onDismissAlert,
   onConfirmUnsave,
   onConfirmSave,
   onCloseModal,
   onEditBusinessDetails,
   onCancel,
-  onSave,
-  isLoading,
   alert,
   modalType,
+  region,
 }) => {
   const pageHead = (
     <StickyHeader>
       <PageHead title="Create template">
-        <Button type="secondary" onClick={onCancel}>Cancel</Button>
+        <Button type="secondary" onClick={onCancel}>
+          Cancel
+        </Button>
         <Button onClick={onSave}>Save</Button>
       </PageHead>
     </StickyHeader>
   );
-  const previewHeader = <TemplatePreviewHeader />;
-  const preview = <TemplatePreview />;
+  const previewHeader = (
+    <TemplatePreviewHeader onPreviewTypeChange={onPreviewTypeChange} />
+  );
+  const preview = (
+    <TemplatePreview
+      featureColour={featureColour}
+      headerTextColour={headerTextColour}
+      useAddressEnvelopePosition={useAddressEnvelopePosition}
+      isLogoOnTheLeft={isLogoOnTheLeft}
+      headerBusinessDetailsStyle={headerBusinessDetailsStyle}
+      logoImage={logoImage}
+      logoSize={logoSize}
+      headerImage={headerImage}
+      previewType={previewType}
+      saleLayout={saleLayout}
+      region={region}
+      businessName={businessName}
+      tradingName={tradingName}
+      streetAddress={streetAddress}
+      phoneNumber={phoneNumber}
+      email={email}
+      website={website}
+      abn={abn}
+    />
+  );
+
   const alertComponent = alert.type && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
     </Alert>
   );
+
+  // Template preview layout is designed in relation to a canvas of 688 pixel wide
+  const previewOriginalWidth = 700;
+  // Template preview suppose to be A4, which is represent by ratio of 1.41
+  const previewRatio = 1.414;
+
   const view = (
     <>
       {modalType && (
-      <TemplateModal
-        type={modalType}
-        onConfirmUnsave={onConfirmUnsave}
-        onConfirmSave={onConfirmSave}
-        onCloseModal={onCloseModal}
-      />
-      )
-      }
+        <TemplateModal
+          type={modalType}
+          onConfirmUnsave={onConfirmUnsave}
+          onConfirmSave={onConfirmSave}
+          onCloseModal={onCloseModal}
+        />
+      )}
       <PreviewTemplate
         alert={alertComponent}
         pageHead={pageHead}
@@ -63,21 +131,33 @@ const TemplateView = ({
             onFileRemoved={onFileRemoved}
             onEditBusinessDetails={onEditBusinessDetails}
           />
-        )}
+)}
         preview={preview}
         previewHeader={previewHeader}
+        previewOriginalWidth={previewOriginalWidth}
+        previewRatio={previewRatio}
       />
     </>
   );
-  return (
-    <PageView view={view} isLoading={isLoading} />
-  );
+  return <PageView view={view} isLoading={isLoading} />;
 };
 
 const mapStateToProps = state => ({
+  featureColour: getFeatureColour(state),
+  headerTextColour: getHeaderTextColour(state),
+  useAddressEnvelopePosition: getUseAddressEnvelopePosition(state),
+  isLogoOnTheLeft: getIsLogoOnTheLeft(state),
+  headerBusinessDetailsStyle: getHeaderBusinessDetailsStyle(state),
+  logoImage: getLogoImage(state),
+  logoSize: getLogoSize(state),
+  headerImage: getHeaderImage(state),
   isLoading: getIsLoading(state),
+  previewType: getPreviewType(state),
+  saleLayout: getSaleLayout(state),
+  businessDetails: getBusinessDetailsOptionsForDisplay(state),
   alert: getAlert(state),
   modalType: getModalType(state),
+  region: getRegion(state),
 });
 
 export default connect(mapStateToProps)(TemplateView);

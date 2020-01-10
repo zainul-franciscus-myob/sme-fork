@@ -1,5 +1,6 @@
 import {
   CREATE_TEMPLATE,
+  LOAD_NEW_TEMPLATE,
   LOAD_TEMPLATE,
   UPDATE_TEMPLATE,
 } from '../TemplateIntents';
@@ -15,7 +16,11 @@ const HttpTemplateMapping = {
   },
   [LOAD_TEMPLATE]: {
     method: 'GET',
-    getPath: ({ businessId, templateName }) => `/${businessId}/documents/templates/${templateName}`,
+    getPath: ({ businessId, templateName }) => `/${businessId}/documents/templates/load_template/${templateName}`,
+  },
+  [LOAD_NEW_TEMPLATE]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/documents/templates/load_new_template`,
   },
 };
 

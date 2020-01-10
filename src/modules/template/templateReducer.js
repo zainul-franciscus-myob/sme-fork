@@ -1,9 +1,15 @@
-import { HeaderBusinessDetailStyle } from './templateOptions';
 import {
+  HeaderBusinessDetailStyle,
+  PreviewType,
+  SaleLayout,
+} from './templateOptions';
+import {
+  LOAD_NEW_TEMPLATE,
   LOAD_TEMPLATE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
+  UPDATE_PREVIEW_OPTION,
   UPDATE_TEMPLATE_OPTION,
 } from './TemplateIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -16,6 +22,17 @@ const getDefaultState = () => ({
   alert: {},
   modelType: '',
   hasChange: false,
+  previewType: PreviewType.Invoice,
+  businessDetails: {
+    tradingName: '',
+    businessName: '',
+    address: '',
+    phoneNumber: '',
+    email: '',
+    website: '',
+    abn: '',
+  },
+  saleLayout: SaleLayout.ItemAndService,
   template: {
     templateId: undefined,
     templateName: '',
@@ -25,16 +42,15 @@ const getDefaultState = () => ({
     headerBusinessDetailsStyle: HeaderBusinessDetailStyle.logoAndBusinessDetails,
     headerImage: undefined,
     logoImage: undefined,
-    logoSize: 80,
-    isLogoOnTheLeft: true,
+    logoSize: 100,
+    isLogoOnTheLeft: 'Left',
     tradingName: false,
-    businessName: false,
-    address: false,
-    phoneNumber: false,
-    email: false,
-    website: false,
-    abn: false,
-    isDefault: false,
+    businessName: true,
+    address: true,
+    phoneNumber: true,
+    email: true,
+    website: true,
+    abn: true,
   },
 });
 
@@ -52,9 +68,29 @@ const setLoadingState = (state, action) => ({
 
 const loadTemplate = (state, action) => ({
   ...state,
-  template: {
-    ...action.template,
+  ...action.payload,
+  businessDetails: {
+    ...state.businessDetails,
+    ...action.payload.businessDetails,
   },
+  template: {
+    ...state.template,
+    ...action.payload.template,
+  },
+});
+
+const loadNewTemplate = (state, action) => ({
+  ...state,
+  ...action.payload,
+  businessDetails: {
+    ...state.businessDetails,
+    ...action.payload.businessDetails,
+  },
+});
+
+const updatePreviewOption = (state, action) => ({
+  ...state,
+  [action.key]: action.value,
 });
 
 const updateTemplateOption = (state, action) => (
@@ -79,9 +115,11 @@ const setModalType = (state, { modalType }) => ({
 });
 
 const handlers = {
+  [LOAD_NEW_TEMPLATE]: loadNewTemplate,
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [UPDATE_TEMPLATE_OPTION]: updateTemplateOption,
+  [UPDATE_PREVIEW_OPTION]: updatePreviewOption,
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_TEMPLATE]: loadTemplate,
   [SET_ALERT]: setAlert,

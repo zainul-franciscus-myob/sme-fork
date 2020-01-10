@@ -1,8 +1,11 @@
+
 import {
+  LOAD_NEW_TEMPLATE,
   LOAD_TEMPLATE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
+  UPDATE_PREVIEW_OPTION,
   UPDATE_TEMPLATE_OPTION,
 } from './TemplateIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -21,6 +24,14 @@ const createTemplateDispatcher = store => ({
   updateTemplateOption: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_TEMPLATE_OPTION,
+      key,
+      value,
+    });
+  },
+
+  updatePreviewOption: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_PREVIEW_OPTION,
       key,
       value,
     });
@@ -48,10 +59,17 @@ const createTemplateDispatcher = store => ({
     });
   },
 
-  loadTemplate: (template) => {
+  loadTemplate: (payload) => {
     store.dispatch({
       intent: LOAD_TEMPLATE,
-      template,
+      payload,
+    });
+  },
+
+  loadNewTemplate: (payload) => {
+    store.dispatch({
+      intent: LOAD_NEW_TEMPLATE,
+      payload,
     });
   },
 

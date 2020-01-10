@@ -1,0 +1,53 @@
+.paymentmethodGrid {
+  font-size: 0.8em;
+  margin-bottom: var(--tmp-spacing-x-tiny);
+
+  display: grid;
+  grid-auto-flow: column;
+
+  grid-template-rows: 20px 120px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 5px;
+}
+
+.paymenttypeContent {
+  border: 1px solid black;
+  padding: var(--tmp-spacing-x-tiny);
+}
+
+.paymentmethodHeader {
+  margin-bottom: var(--tmp-spacing-tiny);
+  border-bottom: 1px solid var(--tmp-color-light-grey);
+  display: flex;
+  align-items: baseline;
+}
+
+.paymentmethodHeader > h3{
+  margin-right: var(--tmp-spacing-small);
+  margin-top: 0;
+}
+
+.paymenttypeBpay {
+  padding: var(--tmp-spacing-xx-tiny) var(--tmp-spacing-x-tiny) var(--tmp-spacing-x-tiny) var(--tmp-spacing-xx-tiny);
+}
+
+.paymenttypeCredit img {
+  width: 70%;
+  padding: var(--tmp-spacing-x-tiny) 0;
+}
+.paymenttypeCredit p {
+  margin-bottom: var(--tmp-spacing-x-tiny);
+}
+
+.paymentmethodGrid .paymenttypeDeposit > p {
+  display: flex;
+  margin-bottom: 0;
+}
+
+.paymentmethodGrid .paymenttypeDeposit > p > strong {
+  flex: 0 0 45px;
+}
+
+.paymentmethodGrid .paymenttypeDeposit > p > p {
+  margin-bottom: var(--tmp-spacing-xx-tiny);
+}

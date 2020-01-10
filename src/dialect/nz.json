@@ -4,8 +4,10 @@
   "tax collected": "gst collected",
   "tax paid": "gst paid",
   "Tax": "GST",
+  "tax": "gst",
   "Tax code header": "GST",
   "Tax inclusive": "GST inclusive",
+  "Including tax": "Including GST",
   "Tax exclusive": "GST exclusive",
   "Prepare BAS or IAS": "GST and provisional tax"
 }

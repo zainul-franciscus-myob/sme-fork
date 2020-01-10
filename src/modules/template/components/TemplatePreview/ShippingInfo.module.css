@@ -1,26 +1,27 @@
 .container {
   display: flex;
   flex-direction: row;
-  margin-left: 75px;
+  margin-bottom: 2rem;
 }
 
-.fromAddress {
-  margin-right: var(--flx-spacing-small);
+.addressWithWindow {
+  padding-left: 65px;
+  padding-right: var(--tmp-spacing-small);
   flex: 1 1 auto;
 }
 
-.fromAddress__items {
+.addressWithWindowItems {
   border-radius: 4px;
-  background-color: var(--flx-background-color-application);
-  padding: 0 var(--flx-padding-card-body);
+  background-color: var(--tmp-color-grey);
+  padding: var(--tmp-spacing-tiny) var(--tmp-spacing-small);
 }
 
-.toAddress {
+.addressWithoutWindow {
   flex: 1 1 auto;
 }
 
-.toAddress h5 {
-  margin-bottom: var(--flx-spacing-xx-tiny);
+.addressWithoutWindow h5 {
+  margin-bottom: var(--tmp-spacing-xx-tiny);
 }
 
 .item--italic {

@@ -1,0 +1,14 @@
+.variables {
+  --tmp-font-size: 12px;
+  --tmp-spacing-tiny: 8px;
+  --tmp-spacing-x-tiny: 4px;
+  --tmp-spacing-xx-tiny: 2px;
+  --tmp-spacing-x-small: 12px;
+  --tmp-spacing-small: 16px;
+  --tmp-spacing-large: 24px;
+  --tmp-color-grey: #ebeef1;
+  --tmp-color-light-grey: #e8eaec;
+  --tmp-color-dark-grey: #515e6d;
+  --tmp-font-weight-bold: 600;
+  --tmp-border-radius-small: 4px;
+}

@@ -1,21 +1,35 @@
-import { CREATE_TEMPLATE, LOAD_TEMPLATE, UPDATE_TEMPLATE } from './TemplateIntents';
 import {
-  getBusinessId,
-  getSavePayload,
-} from './templateSelectors';
+  CREATE_TEMPLATE,
+  LOAD_NEW_TEMPLATE,
+  LOAD_TEMPLATE,
+  UPDATE_TEMPLATE,
+} from './TemplateIntents';
+import { getBusinessId, getSavePayload } from './templateSelectors';
 
 const createTemplateIntegrator = (store, integration) => ({
-  loadTemplate: ({
-    onSuccess,
-    onFailure,
-    templateName,
-  }) => {
+  loadTemplate: ({ onSuccess, onFailure, templateName }) => {
     const state = store.getState();
     const intent = LOAD_TEMPLATE;
 
     const urlParams = {
       businessId: getBusinessId(state),
       templateName,
+    };
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadNewTemplate: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_NEW_TEMPLATE;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
     };
 
     integration.read({
@@ -44,11 +58,7 @@ const createTemplateIntegrator = (store, integration) => ({
     });
   },
 
-  updateTemplate: ({
-    onSuccess,
-    onFailure,
-    templateId,
-  }) => {
+  updateTemplate: ({ onSuccess, onFailure, templateId }) => {
     const state = store.getState();
     const content = getSavePayload(state);
 

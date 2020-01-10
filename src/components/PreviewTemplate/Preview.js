@@ -2,70 +2,66 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './Preview.module.css';
 
-const getScale = (styleWidth, originalWidth) => {
-  const scale = (parseFloat(styleWidth) - 32) / parseFloat(originalWidth);
-  return scale > 1 ? 1 : scale;
-};
+const containerHorizontalPadding = parseFloat(styles.containerPadding) * 2;
+const previewHorizontalPadding = parseFloat(styles.previewPadding) * 2;
+const previewVerticalPadding = parseFloat(styles.previewPadding) * 2;
 
-const verticalPadding = '32px';
+function calcScale(containerEl, previewOriginalWidth) {
+  const containerWidth = parseFloat(window.getComputedStyle(containerEl.current).width);
+  const spaceAvailableForPreview = containerWidth - containerHorizontalPadding;
+  const spaceRequiredForPreview = previewOriginalWidth + previewHorizontalPadding;
+  return spaceAvailableForPreview / spaceRequiredForPreview;
+}
 
-const originalWidth = '720px';
-
-const Preview = ({ preview, previewHeader }) => {
+const Preview = ({
+  preview,
+  previewHeader,
+  previewRatio = 1.41,
+  previewOriginalWidth = 688,
+}) => {
   const [scale, setScale] = useState(null);
   const containerEl = useRef(null);
   const headerEl = useRef(null);
   const contentEl = useRef(null);
-  const [contentHeight, setContentHeight] = useState(0);
-  const [headerHeight, setHeaderHeight] = useState(0);
+
   useEffect(() => {
     if (containerEl) {
-      const computedStyle = window.getComputedStyle(containerEl.current);
+      setScale(calcScale(containerEl, previewOriginalWidth));
       const onResize = () => {
-        setScale(getScale(computedStyle.width, originalWidth));
+        setScale(calcScale(containerEl, previewOriginalWidth));
       };
       window.addEventListener('resize', onResize);
       return () => window.removeEventListener('resize', onResize);
     }
     return () => {};
-  }, [preview]);
+  }, [previewOriginalWidth, preview]);
 
-  useEffect(() => {
-    if (headerEl && contentEl) {
-      const headerStyle = window.getComputedStyle(headerEl.current);
-      const contentStyle = window.getComputedStyle(contentEl.current);
-      setContentHeight(contentStyle.height);
-      setHeaderHeight(headerStyle.height);
-
-      const onResize = () => {
-        setHeaderHeight(headerStyle.height);
-      };
-      window.addEventListener('resize', onResize);
-      return () => window.removeEventListener('resize', onResize);
-    }
-    return () => {};
-  }, [preview]);
+  const previewOriginalHeight = previewOriginalWidth * previewRatio + previewVerticalPadding;
 
   const style = scale
     ? {
       transform: `scale(${scale})`,
-      width: originalWidth,
+      width: `calc(${previewOriginalWidth}px + ${previewHorizontalPadding}px)`,
+      height: `${previewOriginalHeight}px`,
     }
     : {};
+  const previewHeight = previewOriginalHeight * scale;
   return (
     <div className={styles.container}>
       <div
         className={styles.previewContainer}
-        style={{
-          height: `calc(${contentHeight} * ${scale} + ${headerHeight} + ${verticalPadding} + 16px)`,
-        }}
         ref={containerEl}
       >
         <div className={styles.header} ref={headerEl}>
           {previewHeader}
         </div>
-        <div className={styles.preview} style={style} ref={contentEl}>
-          {preview}
+        <div style={{
+          height: `${previewHeight}px`,
+        }}
+        >
+          <div className={styles.preview} style={style} ref={contentEl}>
+            {preview}
+          </div>
         </div>
       </div>
     </div>

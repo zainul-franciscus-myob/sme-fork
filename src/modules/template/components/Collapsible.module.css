@@ -2,12 +2,12 @@
   padding: var(--flx-spacing-x-tiny);
 }
 
-.collapsible__header {
+.collapsibleHeader {
   font-weight: var(--flx-font-weight-bold);
   font-size: var(--flx-font-size-heading-medium);
 }
 
-.collapsible__button {
+.collapsibleButton {
   display: flex;
   width: 100%;
   border: none;
@@ -17,7 +17,7 @@
   padding: var(--flx-spacing-x-small) var(--flx-padding-input-x);
 }
 
-.collapsible__content {
+.collapsibleContent {
   padding: var(--flx-spacing-x-small) var(--flx-padding-input-x);
 }
 

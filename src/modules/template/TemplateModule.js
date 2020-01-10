@@ -4,7 +4,10 @@ import React from 'react';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { TEMPLATE_UPDATED } from './MessageTypes';
 import {
-  getBusinessId, getHasChange, getRegion, getTemplateId,
+  getBusinessId,
+  getHasChange,
+  getRegion,
+  getTemplateId,
 } from './templateSelectors';
 import ModalTypes from './ModalTypes';
 import Store from '../../store/Store';
@@ -14,9 +17,7 @@ import createTemplateIntegrator from './createTemplateIntegrator';
 import templateReducer from './templateReducer';
 
 class TemplateModule {
-  constructor({
-    integration, setRootView, pushMessage,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.store = new Store(templateReducer);
     this.dispatcher = createTemplateDispatcher(this.store);
     this.integrator = createTemplateIntegrator(this.store, integration);
@@ -35,16 +36,17 @@ class TemplateModule {
       intent,
       context,
     });
-  }
+  };
 
   updateTemplateOption = ({ key, value }) => {
     this.dispatcher.updateTemplateOption({ key, value });
-  }
+  };
 
   render = () => this.setRootView(
     <Provider store={this.store}>
       <TemplateView
         onUpdateTemplateOptions={this.updateTemplateOption}
+        onPreviewTypeChange={this.onPreviewTypeChange}
         onFileSelected={this.selectFile}
         onFileRemoved={this.removeFile}
         onSave={this.saveTemplate}
@@ -58,30 +60,32 @@ class TemplateModule {
     </Provider>,
   );
 
+  onPreviewTypeChange = ({ key, value }) => {
+    this.dispatcher.updatePreviewOption({ key, value });
+  };
+
   run = (context) => {
     this.setInitialState(context);
 
-    if (context.templateName) {
-      this.loadTemplate(context.templateName);
-    }
-
     this.render();
-  }
+
+    this.loadTemplate(context.templateName);
+  };
 
   loadTemplate = (templateName) => {
+    if (!templateName) {
+      this.loadNewTemplate();
+      return;
+    }
     this.dispatcher.setLoadingState(true);
 
-    const onSuccess = (template) => {
+    const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(false);
-      this.dispatcher.loadTemplate(template);
+      this.dispatcher.loadTemplate(payload);
     };
 
-    const onFailure = ({ message }) => {
+    const onFailure = () => {
       this.dispatcher.setLoadingState(false);
-      this.dispatcher.setAlert({
-        type: 'danger',
-        message,
-      });
     };
 
     this.integrator.loadTemplate({
@@ -89,15 +93,33 @@ class TemplateModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
+
+  loadNewTemplate = () => {
+    this.dispatcher.setLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.loadNewTemplate(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(false);
+    };
+
+    this.integrator.loadNewTemplate({
+      onSuccess,
+      onFailure,
+    });
+  };
 
   selectFile = (file) => {
     this.dispatcher.selectFile(file);
-  }
+  };
 
   removeFile = () => {
     this.dispatcher.removeFile();
-  }
+  };
 
   onCancel = () => {
     const hasChange = getHasChange(this.store.getState());
@@ -157,7 +179,7 @@ class TemplateModule {
         onFailure,
       });
     }
-  }
+  };
 
   dismissAlert = () => this.dispatcher.setAlert({});
 }

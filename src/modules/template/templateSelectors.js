@@ -1,6 +1,13 @@
 import { createSelector } from 'reselect';
 
-import { BusinessDetailOptions, HeaderBusinessDetailStyle } from './templateOptions';
+import {
+  BusinessDetailDataMap,
+  BusinessDetailKey,
+  BusinessDetailLabelMap,
+  BusinessDetailPayloadMap,
+  BusinessDetailTemplateMap,
+  HeaderBusinessDetailStyle,
+} from './templateOptions';
 
 export const getTemplate = state => state.template;
 export const getBusinessId = state => state.businessId;
@@ -45,14 +52,34 @@ export const getUseAddressEnvelopePosition = createSelector(
   template => template.useAddressEnvelopePosition,
 );
 
-export const getIsLogoOnTheLeft = createSelector(
+export const getLogoAlignment = createSelector(
   getTemplate,
   template => template.isLogoOnTheLeft,
+);
+
+export const getIsLogoOnTheLeft = createSelector(
+  getLogoAlignment,
+  logoAlignment => logoAlignment === 'Left',
+);
+
+export const getIsLogoSelected = createSelector(
+  getHeaderBusinessDetailsStyle,
+  headerDetailsStyle => headerDetailsStyle === HeaderBusinessDetailStyle.logoAndBusinessDetails,
 );
 
 export const getLogoSize = createSelector(
   getTemplate,
   template => template.logoSize,
+);
+
+export const getLogoImage = createSelector(
+  getTemplate,
+  template => template.logoImage,
+);
+
+export const getHeaderImage = createSelector(
+  getTemplate,
+  template => template.headerImage,
 );
 
 export const getShowBusinessDetails = createSelector(
@@ -105,11 +132,10 @@ const base64ToBlob = (base64) => {
   const byteString = atob(data);
   const arrayBuffer = new ArrayBuffer(byteString.length);
   const byteArray = new Uint8Array(arrayBuffer);
-  byteString.split('')
-    .reduce((acc, next, i) => {
-      acc[i] = next.charCodeAt(0);
-      return acc;
-    }, byteArray);
+  byteString.split('').reduce((acc, next, i) => {
+    acc[i] = next.charCodeAt(0);
+    return acc;
+  }, byteArray);
   return new Blob([arrayBuffer]);
 };
 
@@ -117,20 +143,55 @@ const getImageFile = createSelector(
   getImage,
   getImageKey,
   getImageType,
-  (base64, fileName, type) => (
-    base64 && new File([base64ToBlob(base64)], `${fileName}.${type}`, { type: `image/${type}` })
-  ),
+  (base64, fileName, type) => base64
+    && new File([base64ToBlob(base64)], `${fileName}.${type}`, {
+      type: `image/${type}`,
+    }),
 );
 
-export const getBusinessDetails = createSelector(
+export const getBusinessDetails = state => state.businessDetails;
+
+export const getBusinessDetailsOptions = createSelector(
   getTemplate,
-  template => BusinessDetailOptions.reduce(
-    (result, { key }) => ({
+  getBusinessDetails,
+  (template, businessDetails) => Object.values(BusinessDetailKey).reduce(
+    (result, key) => ({
       ...result,
-      [key]: template[key],
+      [key]: {
+        label: BusinessDetailLabelMap[key],
+        checked: template[BusinessDetailTemplateMap[key]],
+        value: businessDetails[BusinessDetailDataMap[key]],
+      },
     }),
     {},
   ),
+);
+
+export const getBusinessDetailsOptionsForDisplay = createSelector(
+  getBusinessDetailsOptions,
+  businessDetailsOptions => ({
+    businessName:
+      businessDetailsOptions[BusinessDetailKey.businessName].checked
+      && businessDetailsOptions[BusinessDetailKey.businessName].value,
+    tradingName:
+      businessDetailsOptions[BusinessDetailKey.tradingName].checked
+      && businessDetailsOptions[BusinessDetailKey.tradingName].value,
+    streetAddress:
+      businessDetailsOptions[BusinessDetailKey.address].checked
+      && businessDetailsOptions[BusinessDetailKey.address].value,
+    phoneNumber:
+      businessDetailsOptions[BusinessDetailKey.phoneNumber].checked
+      && businessDetailsOptions[BusinessDetailKey.phoneNumber].value,
+    email:
+      businessDetailsOptions[BusinessDetailKey.email].checked
+      && businessDetailsOptions[BusinessDetailKey.email].value,
+    website:
+      businessDetailsOptions[BusinessDetailKey.website].checked
+      && businessDetailsOptions[BusinessDetailKey.website].value,
+    abn:
+      businessDetailsOptions[BusinessDetailKey.abn].checked
+      && businessDetailsOptions[BusinessDetailKey.abn].value,
+  }),
 );
 
 export const getSavePayload = (state) => {
@@ -146,17 +207,27 @@ export const getSavePayload = (state) => {
   } = getTemplate(state);
   const imageKey = getImageKey(state);
   const file = getImageFile(state);
-  const businessDetails = getBusinessDetails(state);
-  const selectedBusinessDetailsOptions = BusinessDetailOptions
-    .filter(({ key }) => businessDetails[key])
-    .map(({ value }) => value);
+  // This is being built in the front end because
+  // we cannot deconstruct multipart form data in the bff.
+  const selectedBusinessDetailsOptions = Object.entries(
+    getBusinessDetailsOptions(state),
+  ).reduce(
+    (result, [key, { checked }]) => (
+      checked ? [...result, BusinessDetailPayloadMap[key]] : result
+    ),
+    [],
+  );
+
+  const headerStyle = imageKey === 'logoImage' && !file
+    ? HeaderBusinessDetailStyle.businessDetailsOnly
+    : headerBusinessDetailsStyle;
 
   return {
     templateName,
     featureColour,
     headerTextColour,
     useAddressEnvelopePosition: String(useAddressEnvelopePosition),
-    headerBusinessDetailsStyle,
+    headerBusinessDetailsStyle: headerStyle,
     logoSize,
     logoPlacementLeft: String(isLogoOnTheLeft === 'Left'),
     businessDetailsOptions: selectedBusinessDetailsOptions.toString(),
@@ -166,3 +237,7 @@ export const getSavePayload = (state) => {
     setAsDefault: String(isDefault),
   };
 };
+
+export const getPreviewType = state => state.previewType;
+
+export const getSaleLayout = state => state.saleLayout;

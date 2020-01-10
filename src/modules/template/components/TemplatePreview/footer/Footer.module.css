@@ -1,0 +1,9 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  color: var(--tmp-color-dark-grey);
+}
+
+.footerItems > span {
+  margin-left: var(--tmp-spacing-large);
+}

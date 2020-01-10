@@ -1,0 +1,69 @@
+.summary {
+  display: flex;
+  flex-direction: row;
+  margin: var(--tmp-spacing-x-small) 0;
+}
+
+.notes {
+  flex: 11 11 0;
+  margin-right: var(--tmp-spacing-small);
+}
+
+.notesContainer  {
+  height: 150px;
+  border: 1px solid var(--tmp-color-light-grey);
+  padding: var(--tmp-spacing-small);
+}
+
+.notes h4 {
+  margin-bottom: var(--tmp-spacing-xx-tiny);
+}
+
+.totals {
+  flex: 9 9 0;
+}
+
+.summaryAmount {
+  display: flex;
+  flex-direction: row;
+}
+
+.summaryAmount {
+  padding: var(--tmp-spacing-x-tiny) var(--tmp-spacing-tiny);
+}
+
+.summaryAmount.summaryAmount--large span {
+  font-size: 1.1em;
+}
+
+.summaryAmount.summaryAmount--total span {
+  font-size: 1.4em;
+  font-weight: var(--tmp-font-weight-bold);
+}
+
+.summaryAmount.summaryAmount--total {
+  background-color: var(--tmp-color-grey);
+}
+
+.summaryAmountTitle {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+
+.summaryAmount--total .summaryAmountTitle {
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.summaryAmountAmount {
+  flex: 0 0 145px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.summaryAmount span.summaryAmountTitleAccessory {
+  font-size: 0.8em;
+  font-style: italic;
+}
