@@ -49,12 +49,14 @@ describe('StpNotifyAtoModule', () => {
     });
   });
 
-  describe.skip('Finish button', () => {
+  describe('Modal Send button, calls the onFinish function when clicked', () => {
     it('calls the onFinish function when clicked', () => {
       const onFinish = jest.fn();
-      const { wrapper } = constructStpNotifyAtoModule({ onFinish });
+      const { module, wrapper } = constructStpNotifyAtoModule({ onFinish });
+      module.openConfirmationModal();
+      wrapper.update();
 
-      const finishButton = findButtonWithTestId(wrapper, 'finishButton');
+      const finishButton = findButtonWithTestId(wrapper, 'sendButton');
       finishButton.simulate('click');
 
       expect(onFinish).toHaveBeenCalled();

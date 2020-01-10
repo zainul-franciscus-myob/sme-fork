@@ -30,7 +30,7 @@ const ConfirmationModal = ({
               Go back
           </Button>]}
         primary={[
-          <Button type="primary" onClick={onSendButtonClick}>
+          <Button type="primary" onClick={onSendButtonClick} testid="sendButton">
               Send
           </Button>]}
       />
