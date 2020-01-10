@@ -101,9 +101,9 @@ const handleBusinessDetailFieldChange = (state, { key, value }) => ({
   ...state,
   businessDetails: {
     ...state.businessDetails,
-    [key]: value,
     // If the user selects OTH state, the postcode should default to 9999.
-    postcode: key === 'state' && value === States.OTH ? '9999' : state.postcode,
+    postcode: key === 'state' && value === States.OTH ? '9999' : state.businessDetails.postcode,
+    [key]: value,
   },
 });
 

@@ -49,5 +49,5 @@ export const getShouldShowCountryField = state => (state.businessDetails.state =
 
 export const getSubmitBusinessDetailsContent = state => ({
   ...state.businessDetails,
-  country: state.businessDetails.state === States.OTH ? null : state.businessDetails.country,
+  country: state.businessDetails.state === States.OTH ? state.businessDetails.country : null,
 });
