@@ -1,9 +1,11 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SET_MODAL } from './stpGetStartedIntents';
+import { SET_LOADING_STATE, SET_MODAL_STATE } from './stpGetStartedIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
-  modal: null,
+  loadingState: LoadingState.LOADING_SUCCESS,
+  isModalOpen: false,
 });
 
 const setInitialState = (state, { context }) => ({
@@ -11,17 +13,23 @@ const setInitialState = (state, { context }) => ({
   ...context,
 });
 
-const setModal = (state, { modal }) => ({
-  ...state,
-  modal,
-});
-
 const resetState = () => ({
   ...getDefaultState(),
 });
 
+const setModalState = (state, { isModalOpen }) => ({
+  ...state,
+  isModalOpen,
+});
+
+const setLoadingState = (state, { loadingState }) => ({
+  ...state,
+  loadingState,
+});
+
 const handlers = {
-  [SET_MODAL]: setModal,
+  [SET_LOADING_STATE]: setLoadingState,
+  [SET_MODAL_STATE]: setModalState,
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
 };
