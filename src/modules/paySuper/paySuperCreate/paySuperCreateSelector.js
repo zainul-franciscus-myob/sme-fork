@@ -3,7 +3,7 @@ import { createSelector } from 'reselect/lib/index';
 import { formatCurrency } from '../../../banking/bankingSelectors';
 
 export const getAlert = ({ alert }) => alert;
-export const getIsLoading = state => (state.isLoading);
+export const getLoadingState = state => (state.loadingState);
 export const getIsTableLoading = state => (state.isTableLoading);
 export const getSuperPayments = state => (state.superPayments);
 export const getAccounts = state => (state.accounts);
@@ -32,9 +32,8 @@ const getTotalAmount = (state) => {
   const selectedAmountList = state.superPayments.filter(
     p => p.isSelected,
   ).map(e => e.amount);
-  const totalPayment = selectedAmountList
+  return selectedAmountList
     .reduce((paymentOne, paymentTwo) => (paymentOne + paymentTwo), 0);
-  return totalPayment;
 };
 
 export const getTotalPayment = (state) => {

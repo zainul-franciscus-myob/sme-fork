@@ -17,8 +17,8 @@ import {
   getBalanceValue,
   getDateOfPayment,
   getFilterOptions,
-  getIsLoading,
   getIsTableLoading,
+  getLoadingState,
   getModal,
   getOrder,
   getPaySuperDescription,
@@ -36,7 +36,7 @@ import styles from '../../paySuper.module.css';
 const PaySuperCreateView = ({
   alert,
   onDismissAlert,
-  isLoading,
+  loadingState,
   onInputChange,
   paySuperDescription,
   referenceNumber,
@@ -144,12 +144,12 @@ const PaySuperCreateView = ({
     </BaseTemplate>
   );
   return (
-    <PageView isLoading={isLoading} view={view} />
+    <PageView loadingState={loadingState} view={view} />
   );
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   superPayments: getSuperPayments(state),
   accounts: getAccounts(state),
   filterOptions: getFilterOptions(state),
