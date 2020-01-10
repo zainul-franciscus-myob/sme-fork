@@ -27,7 +27,6 @@
   Chaining our classname twice for a higher specificity to override Feelix
 */
 .unlink.unlink :global(a:hover) {
-  color: #687484;
   background-color: unset;
   cursor: default;
 }

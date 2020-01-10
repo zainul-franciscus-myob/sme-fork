@@ -44,13 +44,14 @@ const getItems = (urls, onMenuLinkClick) => [
 ].filter(Boolean);
 
 const AddMenu = ({
-  urls, onMenuSelect, onMenuLinkClick,
+  urls, onMenuSelect, onMenuLinkClick, className,
 }) => (
   <ImageIconMenu
     image={addIconImage}
     tooltip="Create new"
     items={getItems(urls, onMenuLinkClick)}
     onSelect={onMenuSelect}
+    className={className}
   />
 );
 

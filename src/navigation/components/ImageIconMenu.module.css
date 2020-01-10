@@ -1,7 +1,11 @@
-.menu {
-  margin-right: 1.6rem;
-}
 
+@media (min-width: 768px) {
+  .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 /*
   @FEELIX:
   Remove underline on hover and active menu item
@@ -9,33 +13,25 @@
 .menu :global(.flx-navbar__menu-link) {
   border: none;
   background-color: unset;
+  padding: 0;
 }
 
-.icon {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.icon img {
-  display: block;
-  height: 2.4rem;
-  width: 2.4rem;
-}
-
-.icon:hover {
+.menu :global(.flx-navbar__menu-link):hover .icon,
+.menu :global(.flx-navbar__menu-link):focus .icon  {
   border-radius: 50%;
-  box-shadow: 0 0 0 8px var(--flx-background-color-application);
   background-color: var(--flx-background-color-application);
 }
 
-.icon:hover img {
+.menu :global(.flx-navbar__menu-link):hover .icon img {
   filter: brightness(60%);
 }
 
-.icon:active {
-  border-radius: 50%;
-  box-shadow: 0 0 0 8px #d8dee4;
-  background-color: #d8dee4;
+.icon {
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (min-width: 992px) {

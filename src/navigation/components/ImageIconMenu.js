@@ -1,5 +1,6 @@
 import { Navigation, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
+import classNames from 'classnames';
 
 import styles from './ImageIconMenu.module.css';
 
@@ -41,9 +42,9 @@ const getMenu = ({
     />
   );
 };
-
-const ImageIconMenu = props => (
-  <div className={styles.menu}>
+// TODO inline getMenu
+const ImageIconMenu = ({ className, ...props }) => (
+  <div className={classNames(styles.menu, className)}>
     { getMenu(props)}
   </div>
 );

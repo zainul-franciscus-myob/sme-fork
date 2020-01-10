@@ -17,12 +17,3 @@
   background: var(--flx-palette-dusk-100);
   background: linear-gradient(135deg, var(--flx-palette-dusk-dark) 0%, var(--flx-palette-dusk-100) 35%, var(--flx-palette-berry) 100%);
 }
-
-
-@media (min-width: 768px) {
-  .avatar {
-    margin-left: 1.2rem;
-  }
-}
-
-

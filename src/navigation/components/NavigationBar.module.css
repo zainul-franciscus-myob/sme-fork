@@ -10,3 +10,16 @@
 .navigation :global(.flx-navbar__menu-items > .open > .flx-navbar__menu-link) {
   z-index: 1010;
 }
+
+@media (min-width: 768px){
+  .add,
+  .help {
+    margin-right: var(--flx-spacing-x-tiny);
+   }
+
+   .activities {
+     margin-right: var(--flx-spacing-large);
+   }
+}
+
+
