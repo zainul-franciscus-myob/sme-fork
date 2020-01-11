@@ -277,7 +277,7 @@ export default class InvoicePaymentDetailModule {
   };
 
   loadInvoiceList = () => {
-    this.setTableLoadingState(LoadingState.LOADING);
+    this.setTableLoadingState(true);
     const intent = LOAD_INVOICE_LIST;
 
     const state = this.store.getState();
@@ -290,15 +290,15 @@ export default class InvoicePaymentDetailModule {
     };
 
     const onSuccess = ({ entries }) => {
-      this.setTableLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setTableLoadingState(false);
       this.store.dispatch({
         intent,
         entries,
       });
     };
 
-    const onFailure = () => {
-      this.setTableLoadingState(LoadingState.LOADING_FAIL);
+    const onFailure = (e) => {
+      console.log(`Failed to load invoice list: ${e.message}`);
     };
 
     this.integration.read({
