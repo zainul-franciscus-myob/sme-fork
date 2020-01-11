@@ -1,7 +1,7 @@
 import RouteName from '../router/RouteName';
 
 export const activeMapping = {
-  [RouteName.Quote_LIST]: 'sales',
+  [RouteName.QUOTE_LIST]: 'sales',
   [RouteName.QUOTE_DETAIL]: 'sales',
   [RouteName.INVOICE_LIST]: 'sales',
   [RouteName.INVOICE_DETAIL]: 'sales',
@@ -53,6 +53,13 @@ export const activeMapping = {
   [RouteName.PAY_ITEM_EXPENSE]: 'payroll',
   [RouteName.PAY_ITEM_LEAVE]: 'payroll',
   [RouteName.PAYROLL_SETTINGS]: 'payroll',
+  [RouteName.PAY_SUPER_LIST]: 'payroll',
+  [RouteName.PAY_SUPER_CREATE]: 'payroll',
+  [RouteName.PAY_SUPER_READ]: 'payroll',
+  [RouteName.STP_GET_STARTED]: 'payroll',
+  [RouteName.STP_ERRORS]: 'payroll',
+  [RouteName.STP_SETUP]: 'payroll',
+  [RouteName.STP_REPORTING_CENTRE]: 'payroll',
 
   [RouteName.CONTACT_LIST]: 'contact',
   [RouteName.CONTACT_DETAIL]: 'contact',
@@ -108,8 +115,8 @@ export const featuresConfig = {
   payItemList: { routeName: RouteName.PAY_ITEM_LIST },
   timesheets: { routeName: '' },
   electronicPaymentPayrollCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE, params: { paymentType: 'PayEmployees' } },
-  superPaymentList: { routeName: '' },
-  stpReporting: { routeName: '' },
+  superPaymentList: { routeName: RouteName.PAY_SUPER_LIST },
+  stpReporting: { routeName: RouteName.STP_REPORTING_CENTRE },
 
   contactList: { routeName: RouteName.CONTACT_LIST },
   contactCreate: { routeName: RouteName.CONTACT_DETAIL, params: { contactId: 'new' } },

@@ -80,6 +80,8 @@ export const getPayrollUrls = createSelector(
     payRunCreate: enabledUrls.payRunCreate,
     payItemList: enabledUrls.payItemList,
     electronicPaymentCreate: enabledUrls.electronicPaymentPayrollCreate,
+    superPaymentList: enabledUrls.superPaymentList,
+    stpReporting: enabledUrls.stpReporting,
   }),
 );
 export const hasPayrollUrls = createSelector(

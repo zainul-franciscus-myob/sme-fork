@@ -37,9 +37,9 @@ const getItems = (urls, onMenuLinkClick) => [
   getDisabledMenuLink('Timesheets'),
   <Navigation.Separator key="separator-pay-item-timesheets" />,
   urls.electronicPaymentCreate && getMenuLink(urls.electronicPaymentCreate, 'Bank file payments', onMenuLinkClick),
-  getDisabledMenuLink('Super payments'),
+  urls.superPaymentList && getMenuLink(urls.superPaymentList, 'Super payments', onMenuLinkClick),
   <Navigation.Separator key="separator-payments" />,
-  getDisabledMenuLink('Single Touch Payroll reporting'),
+  urls.stpReporting && getMenuLink(urls.stpReporting, 'Single Touch Payroll reporting', onMenuLinkClick),
 ].filter(Boolean);
 
 const PayrollMenu = ({

@@ -76,7 +76,7 @@ export default class NavigationModule {
         if ([
           RouteName.REPORTS_STANDARD,
           RouteName.REPORTS_FAVOURITE,
-          RouteName.REPORTS_CUSTOMER,
+          RouteName.REPORTS_CUSTOM,
           RouteName.REPORTS_EXCEPTION,
           RouteName.REPORTS_PACK_BUILDER,
           RouteName.REPORTS_PDF_STYLE_TEMPLATES,
