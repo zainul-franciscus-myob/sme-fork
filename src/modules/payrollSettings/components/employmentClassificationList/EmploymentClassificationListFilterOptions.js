@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getEmploymentClassificationFilterOptions } from '../../selectors/employmentClassificationListSelectors';
-import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
-import handleInputChange from '../../../components/handlers/handleInputChange';
+import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const EmploymentClassificationListFilterOptions = (props) => {
   const {

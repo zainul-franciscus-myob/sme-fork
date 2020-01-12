@@ -1,5 +1,5 @@
 import PayrollSettingsModule from './PayrollSettingsModule';
-import RouteName from '../router/RouteName';
+import RouteName from '../../router/RouteName';
 
 const getPayrollSettingsRoutes = ({
   integration, setRootView, popMessages, replaceURLParams,

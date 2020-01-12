@@ -12,8 +12,8 @@ import {
   getTitle,
 } from '../../selectors/employmentClassificationDetailSelectors';
 import EmploymentClassificationDetailAlert from './EmploymentClassificationDetailAlert';
-import PageView from '../../../components/PageView/PageView';
-import handleInputChange from '../../../components/handlers/handleInputChange';
+import PageView from '../../../../components/PageView/PageView';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const EmploymentClassificationDetailModal = ({
   title,

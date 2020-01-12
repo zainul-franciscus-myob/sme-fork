@@ -3,8 +3,8 @@ import { mount } from 'enzyme';
 
 import { tabIds } from '../tabItems';
 import PayrollSettingsModule from '../PayrollSettingsModule';
-import YearInput from '../../components/autoFormatter/YearInput/YearInput';
-import loadGeneralPayrollInformationResponse from '../../integration/data/payrollSettings/loadGeneralPayrollInformationResponse';
+import YearInput from '../../../components/autoFormatter/YearInput/YearInput';
+import loadGeneralPayrollInformationResponse from '../mappings/data/loadGeneralPayrollInformationResponse';
 
 describe('PayrollSettingsModule', () => {
   const constructPayrollSettingsModule = (generalPayrollInformationResponse) => {

@@ -13,7 +13,7 @@ import EmploymentClassificationDetailModal from './employmentClassificationDetai
 import GeneralPayrollInformationView from './generalPayrollInformation/GeneralPayrollInformationView';
 import ModalType from '../ModalType';
 import SuperFundListView from './superFundList/SuperFundListView';
-import Tabs from '../../components/Tabs/Tabs';
+import Tabs from '../../../components/Tabs/Tabs';
 
 const EmptyView = ({ pageHead, alert, tabs }) => (
   <StandardTemplate sticky="none" pageHead={pageHead} alert={alert} subHeadChildren={tabs} />

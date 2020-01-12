@@ -2,7 +2,7 @@ import React from 'react';
 
 import ModalType from '../../ModalType';
 import PayrollYearWarningModal from './PayrollYearWarningModal';
-import UnsavedModal from '../../../components/modal/UnsavedModal';
+import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const GeneralPayrollInformationModal = ({
   modal: { type = '', year },

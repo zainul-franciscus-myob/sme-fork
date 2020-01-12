@@ -18,7 +18,7 @@ import { getNewSortOrder } from './selectors/superFundListSelectors';
 import { tabIds } from './tabItems';
 import ModalType from './ModalType';
 import PayrollSettingsView from './components/PayrollSettingsView';
-import Store from '../store/Store';
+import Store from '../../store/Store';
 import createPayrollSettingsDispatcher from './createPayrollSettingsDispatcher';
 import createPayrollSettingsIntegrator from './createPayrollSettingsIntegrator';
 import payrollSettingsReducer from './reducer/payrollSettingsReducer';

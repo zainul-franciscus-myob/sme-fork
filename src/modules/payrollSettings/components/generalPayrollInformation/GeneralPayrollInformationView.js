@@ -13,12 +13,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getGeneralPayrollInformation, getIsLoading, getModal } from '../../selectors/payrollSettingsSelectors';
-import AbnInput from '../../../components/autoFormatter/AbnInput/AbnInput';
-import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
+import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import GeneralPayrollInformationModal from './GeneralPayrollInformationModal';
-import PageView from '../../../components/PageView/PageView';
-import YearInput from '../../../components/autoFormatter/YearInput/YearInput';
-import handleInputChange from '../../../components/handlers/handleInputChange';
+import PageView from '../../../../components/PageView/PageView';
+import YearInput from '../../../../components/autoFormatter/YearInput/YearInput';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 import style from './GeneralPayrollInformationView.module.css';
 
 const isCurrentYearEditable = (currentYearIsProvided) => {

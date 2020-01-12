@@ -4,12 +4,12 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsLoading } from '../../selectors/superFundListSelectors';
-import PageView from '../../../components/PageView/PageView';
-import SuperFundListFilterOptions from './SuperFundListFilterOptions';
-import SuperFundListTable from './SuperFundListTable';
+import { getIsLoading } from '../../selectors/employmentClassificationListSelectors';
+import EmploymentClassificationListFilterOptions from './EmploymentClassificationListFilterOptions';
+import EmploymentClassificationListTable from './EmploymentClassificationListTable';
+import PageView from '../../../../components/PageView/PageView';
 
-const SuperFundListView = (props) => {
+const EmploymentClassificationListView = (props) => {
   const {
     isLoading,
     pageHead,
@@ -20,12 +20,13 @@ const SuperFundListView = (props) => {
       onUpdateFilterOptions,
       onApplyFilter,
       onSort,
+      onClickRowButton,
     },
   } = props;
 
   const actions = (
     <ButtonRow>
-      <Button onClick={onCreateButtonClick}>Create super fund</Button>
+      <Button onClick={onCreateButtonClick}>Create classification</Button>
     </ButtonRow>
   );
 
@@ -37,14 +38,14 @@ const SuperFundListView = (props) => {
   );
 
   const filterBar = (
-    <SuperFundListFilterOptions
+    <EmploymentClassificationListFilterOptions
       onUpdateFilterOptions={onUpdateFilterOptions}
       onApplyFilter={onApplyFilter}
     />
   );
 
   const view = (
-    <SuperFundListTable onSort={onSort} />
+    <EmploymentClassificationListTable onSort={onSort} onClickRowButton={onClickRowButton} />
   );
 
   return (
@@ -60,12 +61,8 @@ const SuperFundListView = (props) => {
   );
 };
 
-SuperFundListView.defaultProps = {
-  alert: undefined,
-};
-
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
 });
 
-export default connect(mapStateToProps)(SuperFundListView);
+export default connect(mapStateToProps)(EmploymentClassificationListView);

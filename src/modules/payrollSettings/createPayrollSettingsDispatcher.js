@@ -29,7 +29,7 @@ import {
   SORT_AND_FILTER_EMPLOYMENT_CLASSIFICATION_LIST,
   SORT_AND_FILTER_SUPER_FUND_LIST,
 } from './PayrollSettingsIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
 const createPayrollSettingsDispatcher = store => ({
   setInitialState: (context) => {

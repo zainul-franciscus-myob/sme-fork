@@ -4,12 +4,12 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsLoading } from '../../selectors/employmentClassificationListSelectors';
-import EmploymentClassificationListFilterOptions from './EmploymentClassificationListFilterOptions';
-import EmploymentClassificationListTable from './EmploymentClassificationListTable';
-import PageView from '../../../components/PageView/PageView';
+import { getIsLoading } from '../../selectors/superFundListSelectors';
+import PageView from '../../../../components/PageView/PageView';
+import SuperFundListFilterOptions from './SuperFundListFilterOptions';
+import SuperFundListTable from './SuperFundListTable';
 
-const EmploymentClassificationListView = (props) => {
+const SuperFundListView = (props) => {
   const {
     isLoading,
     pageHead,
@@ -20,13 +20,12 @@ const EmploymentClassificationListView = (props) => {
       onUpdateFilterOptions,
       onApplyFilter,
       onSort,
-      onClickRowButton,
     },
   } = props;
 
   const actions = (
     <ButtonRow>
-      <Button onClick={onCreateButtonClick}>Create classification</Button>
+      <Button onClick={onCreateButtonClick}>Create super fund</Button>
     </ButtonRow>
   );
 
@@ -38,14 +37,14 @@ const EmploymentClassificationListView = (props) => {
   );
 
   const filterBar = (
-    <EmploymentClassificationListFilterOptions
+    <SuperFundListFilterOptions
       onUpdateFilterOptions={onUpdateFilterOptions}
       onApplyFilter={onApplyFilter}
     />
   );
 
   const view = (
-    <EmploymentClassificationListTable onSort={onSort} onClickRowButton={onClickRowButton} />
+    <SuperFundListTable onSort={onSort} />
   );
 
   return (
@@ -61,8 +60,12 @@ const EmploymentClassificationListView = (props) => {
   );
 };
 
+SuperFundListView.defaultProps = {
+  alert: undefined,
+};
+
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
 });
 
-export default connect(mapStateToProps)(EmploymentClassificationListView);
+export default connect(mapStateToProps)(SuperFundListView);

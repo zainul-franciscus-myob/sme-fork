@@ -32,7 +32,7 @@ import {
 import {
   RESET_STATE,
   SET_INITIAL_STATE,
-} from '../../SystemIntents';
+} from '../../../SystemIntents';
 import {
   changeEmploymentClassificationDetail,
   loadEmploymentClassificationDetail,
@@ -58,7 +58,7 @@ import {
   setSuperFundListTableLoadingState,
   sortAndFilterSuperFundList,
 } from './superFundListReducer';
-import createReducer from '../../store/createReducer';
+import createReducer from '../../../store/createReducer';
 import getDefaultState from './getDefaultState';
 
 const setInitialState = (state, action) => ({

@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
 import {
-  getAlertMessage, getModalType, getSuperFundPageTitle,
+  getAlertMessage,
+  getModalType,
+  getSuperFundPageTitle,
 } from '../SuperFundNoPaySuperSelectors';
 import FormCard from '../../../../components/FormCard/FormCard';
 import SuperFundDetailActions from './SuperFundDetailActions';
@@ -14,6 +16,12 @@ import SuperFundNoPaySuperContactDetails from './SuperFundNoPaySuperContactDetai
 const SuperFundNoPaySuperView = ({
   listeners, modalType, alertMessage, pageTitle,
 }) => {
+  const alert = alertMessage && (
+    <Alert type="danger" onDismiss={listeners.onDismissAlert}>
+      {alertMessage}
+    </Alert>
+  );
+
   const modal = modalType && (
     <SuperFundDetailModal
       modalType={modalType}
@@ -21,29 +29,19 @@ const SuperFundNoPaySuperView = ({
     />
   );
 
-  const alert = alertMessage && (
-    <Alert type="danger" onDismiss={listeners.onDismissAlert}>
-      {alertMessage}
-    </Alert>
-  );
+  const actions = <SuperFundDetailActions listeners={listeners} />;
 
-  const view = (
+  return (
     <Fragment>
       {modal}
-      <FormTemplate
-        pageHead={pageTitle}
-        alert={alert}
-      >
+      <FormTemplate actions={actions} pageHead={pageTitle} alert={alert}>
         <FormCard>
           <SuperFundDetailSection listeners={listeners} />
           <SuperFundNoPaySuperContactDetails listeners={listeners} />
         </FormCard>
-        <SuperFundDetailActions listeners={listeners} />
       </FormTemplate>
     </Fragment>
   );
-
-  return view;
 };
 
 const mapStateToProps = state => ({

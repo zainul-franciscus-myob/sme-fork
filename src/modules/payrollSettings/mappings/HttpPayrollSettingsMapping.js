@@ -10,9 +10,9 @@ import {
   SORT_AND_FILTER_SUPER_FUND_LIST,
   UPDATE_EMPLOYMENT_CLASSIFICATION,
   UPDATE_GENERAL_PAYROLL_INFORMATION,
-} from '../../payrollSettings/PayrollSettingsIntents';
+} from '../PayrollSettingsIntents';
 
-const PayrollSettingsMapping = {
+const HttpPayrollSettingsMapping = {
   [LOAD_SUPER_FUND_LIST]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/payrollSettings/load_super_fund_list`,
@@ -59,4 +59,4 @@ const PayrollSettingsMapping = {
   },
 };
 
-export default PayrollSettingsMapping;
+export default HttpPayrollSettingsMapping;

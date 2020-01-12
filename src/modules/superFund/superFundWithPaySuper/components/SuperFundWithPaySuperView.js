@@ -1,8 +1,5 @@
 import {
-  Alert,
-  FieldGroup,
-  FormTemplate,
-  Separator,
+  Alert, FieldGroup, FormTemplate, Separator,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -48,13 +45,9 @@ const SuperFundWithPaySuperView = ({
     ? SuperFundSelfManagedDetail
     : SuperFundAPRADetail;
 
-  const view = (
-    <FormTemplate
-      alert={alertComponent}
-      sticky="none"
-      pageHead={pageTitle}
-    >
-      { modal}
+  return (
+    <FormTemplate actions={actions} alert={alertComponent} sticky="none" pageHead={pageTitle}>
+      {modal}
       <FormCard>
         <FieldGroup label="Self managed" hideLabel>
           <SuperFundBasic listeners={listeners} />
@@ -64,11 +57,8 @@ const SuperFundWithPaySuperView = ({
           <PaySuperSection listeners={listeners} />
         </FieldGroup>
       </FormCard>
-      { actions }
     </FormTemplate>
   );
-
-  return view;
 };
 
 const mapStateToProps = state => ({

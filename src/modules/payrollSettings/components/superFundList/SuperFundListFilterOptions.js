@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions } from '../../selectors/superFundListSelectors';
-import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
+import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 
 const onInputChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
 

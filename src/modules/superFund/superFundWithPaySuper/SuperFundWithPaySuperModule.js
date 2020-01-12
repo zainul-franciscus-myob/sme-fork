@@ -24,7 +24,7 @@ import {
 import {
   SUCCESSFULLY_DELETED_SUPER_FUND,
   SUCCESSFULLY_SAVED_SUPER_FUND,
-} from '../../../payrollSettings/PayrollSettingsMessageTypes';
+} from '../../payrollSettings/PayrollSettingsMessageTypes';
 import {
   getBusinessId,
   getIsCreating,

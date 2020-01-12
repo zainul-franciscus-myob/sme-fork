@@ -6,8 +6,8 @@ import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading, getOrder } from '../../selectors/employmentClassificationListSelectors';
 import EmploymentClassificationListTableBody from './EmploymentClassificationListTableBody';
-import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
-import NoResultPageState from '../../../components/NoResultPageState/NoResultPageState';
+import LoadingPageState from '../../../../components/LoadingPageState/LoadingPageState';
+import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 
 const tableConfig = {
   classification: { width: 'flex-1', valign: 'top' },
