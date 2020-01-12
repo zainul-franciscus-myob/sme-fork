@@ -19,7 +19,7 @@ const NzPaymentOptions = ({
         name="bankName"
         label="Bank"
         requiredLabel="This field is required"
-        maxLength={60}
+        maxLength={30}
         value={salesSettings.bankName}
         onChange={handleInputChange(onUpdateSalesSettingsItem)}
       />
@@ -27,7 +27,7 @@ const NzPaymentOptions = ({
         name="accountName"
         label="Account name"
         requiredLabel="This field is required"
-        maxLength={60}
+        maxLength={30}
         value={salesSettings.accountName}
         onChange={handleInputChange(onUpdateSalesSettingsItem)}
       />
