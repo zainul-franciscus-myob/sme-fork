@@ -25,7 +25,7 @@ const createStsLoginIntegrator = (store, integration) => ({
     const urlParams = {
       businessId: getBusinessId(state),
     };
-    const content = { refreshToken };
+    const content = refreshToken;
 
     integration.write({
       intent: REFRESH_LOG_IN,
