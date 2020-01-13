@@ -8,13 +8,14 @@ import emptyViewTypes from '../emptyViewTypes';
 
 const PayRunListEmptyView = ({
   emptyState,
+  onStpSignUpClick,
 }) => {
   switch (emptyState) {
     case emptyViewTypes.notStpRegistered:
       return (
         <PageState
           title="Sign up to Single Touch Payroll to see your past pay runs"
-          actions={[<Button key={1} type="link" icon={<Icons.Add />}>Sign up for Single Touch Payroll</Button>]}
+          actions={[<Button key={1} type="link" icon={<Icons.Add />} onClick={onStpSignUpClick}>Sign up for Single Touch Payroll</Button>]}
           description="You can still view and edit past runs from your list of transactions. You can view pay slips from the pay advice report."
           image={<img src={NoSTPPageStateImage} style={{ width: '60%' }} alt="Not Registered for STP" />}
         />
@@ -37,7 +38,7 @@ const PayRunListEmptyView = ({
       return (
         <PageState
           title="Lost connection"
-          actions={[<Button key={1} type="link" icon={<Icons.Add />}>Connect to STP</Button>]}
+          actions={[<Button key={1} type="link" icon={<Icons.Add />} onClick={onStpSignUpClick}>Connect to STP</Button>]}
           description="Looks like the connection to STP reporting has been lost. Not to worry, it's easy to connect again."
           image={<img src={LostSTPConnectionImage} style={{ width: '60%' }} alt="Lost STP Connection" />}
         />

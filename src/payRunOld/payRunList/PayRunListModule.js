@@ -20,6 +20,7 @@ import {
   getCreatePayRunUrl,
   getFilterOptions,
   getSortOrder,
+  getStpRegistrationUrl,
 } from './payRunListSelectors';
 import PayRunListView from './components/PayRunListView';
 import Store from '../../store/Store';
@@ -40,25 +41,6 @@ export default class PayrunListModule {
     this.replaceURLParams = replaceURLParams;
     this.messageTypes = messageTypes;
   }
-
-  render = () => {
-    const payRunListView = (
-      <PayRunListView
-        onCreatePayRun={this.redirectToCreatePayrun}
-        onDismissAlert={this.dismissAlert}
-        onSort={this.sortPayRunList}
-        onApplyFilter={this.applyFilter}
-        onUpdateFilterBarOptions={this.updateFilterBarOptions}
-      />
-    );
-
-    const wrappedView = (
-      <Provider store={this.store}>
-        {payRunListView}
-      </Provider>
-    );
-    this.setRootView(wrappedView);
-  };
 
   readMessages = () => {
     const [successMessage] = this.popMessages(this.messageTypes);
@@ -225,12 +207,37 @@ export default class PayrunListModule {
     });
   }
 
+  goToStpReporting = () => {
+    const state = this.store.getState();
+    window.location.href = getStpRegistrationUrl(state);
+  };
+
   run(context) {
     this.setInitialState(context);
     this.render();
     this.readMessages();
     this.loadPayRunList();
   }
+
+  render = () => {
+    const payRunListView = (
+      <PayRunListView
+        onCreatePayRun={this.redirectToCreatePayrun}
+        onDismissAlert={this.dismissAlert}
+        onSort={this.sortPayRunList}
+        onApplyFilter={this.applyFilter}
+        onUpdateFilterBarOptions={this.updateFilterBarOptions}
+        onStpSignUpClick={this.goToStpReporting}
+      />
+    );
+
+    const wrappedView = (
+      <Provider store={this.store}>
+        {payRunListView}
+      </Provider>
+    );
+    this.setRootView(wrappedView);
+  };
 
   resetState() {
     const intent = RESET_STATE;

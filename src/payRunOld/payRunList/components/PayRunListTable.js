@@ -39,6 +39,7 @@ const PayRunListTable = ({
   entries,
   isTableEmpty,
   emptyState,
+  onStpSignUpClick,
 }) => {
   const header = (
     <Table.Header>
@@ -70,12 +71,16 @@ const PayRunListTable = ({
     </Table.Row>
   ));
 
+  const emptyView = (
+    <PayRunListEmptyView emptyState={emptyState} onStpSignUpClick={onStpSignUpClick} />
+  );
+
   return (
     <TableView
       header={header}
       isLoading={isTableLoading}
       isEmpty={isTableEmpty}
-      emptyView={<PayRunListEmptyView emptyState={emptyState} />}
+      emptyView={emptyView}
       emptyMessage="Empty table"
     >
       <Table.Body>

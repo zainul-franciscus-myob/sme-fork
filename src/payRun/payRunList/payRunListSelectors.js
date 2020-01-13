@@ -45,3 +45,8 @@ export const getEmptyState = (state) => {
       return state.filtersTouched ? emptyViewTypes.noPayRunsFiltered : emptyViewTypes.noPayRuns;
   }
 };
+
+export const getStpRegistrationUrl = (state) => {
+  const { businessId, region } = state;
+  return `/#/${region}/${businessId}/stp/getStarted`;
+};

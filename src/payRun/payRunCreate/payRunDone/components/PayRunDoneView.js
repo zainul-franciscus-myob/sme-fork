@@ -16,10 +16,15 @@ const PayRunDoneView = ({
   stepNumber,
   payRunSteps,
   onPayViaBankFileButtonClick,
+  onStpReportingClick,
 }) => {
   const actions = [
-    <Button key={1} type="link" icon={<Icons.SignOut />} onClick={onPayViaBankFileButtonClick}>Pay employees via bank file</Button>,
-    <Button key={2} type="link" icon={<Icons.SignOut />}>Payroll reporting (STP)</Button>,
+    <Button key={1} type="link" icon={<Icons.SignOut />} onClick={onPayViaBankFileButtonClick}>
+      Pay employees via bank file
+    </Button>,
+    <Button key={2} type="link" icon={<Icons.SignOut />} onClick={onStpReportingClick}>
+      Payroll reporting (STP)
+    </Button>,
   ];
 
   return (

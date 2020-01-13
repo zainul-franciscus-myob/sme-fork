@@ -23,6 +23,7 @@ const PayRunListView = (props) => {
     onCreatePayRun,
     onApplyFilter,
     onUpdateFilterBarOptions,
+    onStpSignUpClick,
   } = props;
 
   const alertComponent = alert && (
@@ -51,7 +52,7 @@ const PayRunListView = (props) => {
       filterBar={filterBar}
       sticky="none"
     >
-      <PayRunListTable onSort={onSort} />
+      <PayRunListTable onSort={onSort} onStpSignUpClick={onStpSignUpClick} />
     </StandardTemplate>
   );
 

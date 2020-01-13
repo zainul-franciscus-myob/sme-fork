@@ -75,6 +75,11 @@ export const getElectronicPaymentsCreateUrl = (state) => {
   return `/#/${region}/${businessId}/electronicPayments`;
 };
 
+export const getStpReportingUrl = (state) => {
+  const { businessId, region } = state;
+  return `/#/${region}/${businessId}/stp/reportingCentre?tab=reports`;
+};
+
 export const getStepperSteps = (state) => {
   const activeStepIndex = getStep(state);
 
