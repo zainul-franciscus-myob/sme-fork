@@ -1,12 +1,21 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SET_ALERT, SET_LOADING_STATE, SET_TAB } from './ReportingCentreIntents';
+import {
+  SET_ALERT,
+  SET_LOADING_STATE,
+  SET_STP_REGISTRATION_STATUS,
+  SET_TAB,
+} from './ReportingCentreIntents';
 import { tabIds } from './TabItems';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   alert: null,
   tab: '',
+  status: '',
+  agentAbn: '',
+  agentNumber: '',
 });
 
 const setValidTab = (tab) => {
@@ -29,9 +38,9 @@ const resetState = () => ({
   ...getDefaultState(),
 });
 
-const setLoadingState = (state, { isLoading }) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading,
+  loadingState,
 });
 
 const setAlert = (state, { alert }) => ({
@@ -44,12 +53,18 @@ const setTab = (state, { tab }) => ({
   tab: setValidTab(tab),
 });
 
+const setRegistration = (state, { response }) => ({
+  ...state,
+  ...response,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_ALERT]: setAlert,
   [SET_TAB]: setTab,
+  [SET_STP_REGISTRATION_STATUS]: setRegistration,
 };
 
 const reportingCentreReducer = createReducer(getDefaultState(), handlers);

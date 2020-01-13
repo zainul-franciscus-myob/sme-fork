@@ -1,6 +1,11 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_MODAL_STATE = Symbol('Set the modal state');
+export const SET_AGENT_DETAILS = Symbol('Set the agent details');
+export const SET_BUSINESS_DETAILS = Symbol('Set business detail values');
 export const SET_BUSINESS_CONTACT = Symbol('Set business contact values');
+export const SET_AGENT_CONTACT = Symbol('Set agent contact values');
 export const SET_ATO_SETTINGS = Symbol('Set the ATO Settings');
 export const LOAD_ATO_SETTINGS = Symbol('Load the ATO Settings');
+export const UPDATE_BUSINESS_DETAILS = Symbol('Update the Business details');
 export const UPDATE_BUSINESS_CONTACT = Symbol('Update the Business contact');
+export const UPDATE_AGENT_CONTACT = Symbol('Update the Agent contact');

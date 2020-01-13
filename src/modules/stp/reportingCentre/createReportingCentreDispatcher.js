@@ -1,5 +1,10 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SET_ALERT, SET_LOADING_STATE, SET_TAB } from './ReportingCentreIntents';
+import {
+  SET_ALERT,
+  SET_LOADING_STATE,
+  SET_STP_REGISTRATION_STATUS,
+  SET_TAB,
+} from './ReportingCentreIntents';
 
 const createReportingCentreDispatcher = store => ({
   resetState: () => {
@@ -15,10 +20,10 @@ const createReportingCentreDispatcher = store => ({
     });
   },
 
-  setLoadingState: (isLoading) => {
+  setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   },
 
@@ -40,6 +45,13 @@ const createReportingCentreDispatcher = store => ({
     store.dispatch({
       intent: SET_TAB,
       tab,
+    });
+  },
+
+  setRegistrationStatus: (response) => {
+    store.dispatch({
+      intent: SET_STP_REGISTRATION_STATUS,
+      response,
     });
   },
 });

@@ -1,5 +1,10 @@
 import { FILTER_PAY_EVENTS, LOAD_PAY_EVENTS } from '../reports/ReportsIntents';
-import { LOAD_ATO_SETTINGS, UPDATE_BUSINESS_CONTACT } from '../atoSettings/AtoSettingsIntents';
+import {
+  LOAD_ATO_SETTINGS,
+  UPDATE_AGENT_CONTACT,
+  UPDATE_BUSINESS_CONTACT,
+  UPDATE_BUSINESS_DETAILS,
+} from '../atoSettings/AtoSettingsIntents';
 import { LOAD_STP_REGISTRATION_STATUS } from '../ReportingCentreIntents';
 
 const HttpStpReportingCentreMapping = {
@@ -11,9 +16,17 @@ const HttpStpReportingCentreMapping = {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/stp/ato_settings`,
   },
+  [UPDATE_BUSINESS_DETAILS]: {
+    method: 'PUT',
+    getPath: ({ businessId }) => `/${businessId}/stp/business_details`,
+  },
   [UPDATE_BUSINESS_CONTACT]: {
     method: 'PUT',
     getPath: ({ businessId }) => `/${businessId}/stp/business_contact`,
+  },
+  [UPDATE_AGENT_CONTACT]: {
+    method: 'PUT',
+    getPath: ({ businessId }) => `/${businessId}/stp/agent_contact`,
   },
   [LOAD_PAY_EVENTS]: {
     method: 'GET',

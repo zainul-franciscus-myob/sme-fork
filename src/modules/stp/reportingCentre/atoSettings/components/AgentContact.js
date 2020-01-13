@@ -5,8 +5,8 @@ import React from 'react';
 
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
 
-const BusinessContact = ({
-  businessContact: {
+const AgentContact = ({
+  agentContact: {
     firstName,
     lastName,
     email,
@@ -17,10 +17,9 @@ const BusinessContact = ({
 }) => {
   const cardBody = (
     <>
-      <h3>Business contact details for the ATO</h3>
+      <h3>Agent contact details for the ATO</h3>
       <p>
-        The ATO will use these details if they need to get in contact with someone from the
-        business.
+        The ATO will use these details if they need to get in contact the agent.
       </p>
       <FormHorizontal layout="primary">
         <Input
@@ -69,4 +68,4 @@ const BusinessContact = ({
   return <Card body={<Card.Body child={cardBody} />} />;
 };
 
-export default BusinessContact;
+export default AgentContact;

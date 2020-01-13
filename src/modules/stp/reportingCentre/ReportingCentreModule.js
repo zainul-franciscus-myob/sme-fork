@@ -1,7 +1,12 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getRegistrationUrl, getSelectedTab, getUrlParams } from './ReportingCentreSelectors';
+import {
+  getAgentDetails,
+  getRegistrationUrl,
+  getSelectedTab,
+  getUrlParams,
+} from './ReportingCentreSelectors';
 import { tabIds } from './TabItems';
 import AtoSettingsModule from './atoSettings/AtoSettingsModule';
 // import FinalisationModule from './finalistion/FinalisationModule';
@@ -9,6 +14,7 @@ import ReportingCentreView from './components/ReportingCentreView';
 import ReportsModule from './reports/ReportsModule';
 import Store from '../../../store/Store';
 // import TerminationModule from './termination/TerminationModule';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ReportingCentreReducer from './ReportingCentreReducer';
 import createReportingCentreDispatcher from './createReportingCentreDispatcher';
 import createReportingCentreIntegrator from './createReportingCentreIntegrator';
@@ -55,19 +61,20 @@ export default class ReportingCentreModule {
   };
 
   loadRegistrationStatus = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
+      this.dispatcher.setRegistrationStatus(response);
       if (response.status === 'registered') {
-        this.dispatcher.setLoadingState(false);
+        this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
         this.runTab();
       } else {
         this.redirectToRegistration();
       }
     };
 
-    const onFailure = ({ message }) => {
-      console.log(`Failed to load STP registration status. ${message}`);
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadRegistrationStatus({ onSuccess, onFailure });
@@ -80,7 +87,7 @@ export default class ReportingCentreModule {
 
   runTab = () => {
     const state = this.store.getState();
-    this.subModules[getSelectedTab(state)].run();
+    this.subModules[getSelectedTab(state)].run(getAgentDetails(state));
   };
 
   resetState = () => {

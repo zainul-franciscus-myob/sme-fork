@@ -7,12 +7,48 @@ import AbnInput from '../../../../../components/autoFormatter/AbnInput/AbnInput'
 import styles from './BusinessConnection.module.css';
 
 const BusinessConnection = ({
+  businessConnection: {
+    abn,
+    softwareId,
+  },
+  agentDetails: {
+    agentAbn,
+    agentNumber,
+  },
   onEditBusinessConnectionClick,
-  abn,
-  softwareId,
 }) => {
   const softwareIdTooltip = (
     <Tooltip>Software ID is how the ATO connects your business to STP</Tooltip>
+  );
+
+  const agentAbnTooltip = (
+    <Tooltip>This is the bookkeeper or accountant&apos;s ABN</Tooltip>
+  );
+
+  const agentNumberTooltip = (
+    <Tooltip>This will be your BAS or Tax agent number</Tooltip>
+  );
+
+  const agentAbnInput = agentAbn && (
+    <Input
+      name="agentAbn"
+      label="Agent ABN"
+      labelAccessory={agentAbnTooltip}
+      value={agentAbn}
+      width="sm"
+      disabled
+    />
+  );
+
+  const agentNumberInput = agentNumber && (
+    <Input
+      name="agentNumber"
+      label="Registered Agent Number"
+      labelAccessory={agentNumberTooltip}
+      value={agentNumber}
+      width="sm"
+      disabled
+    />
   );
 
   const cardBody = (
@@ -43,6 +79,8 @@ const BusinessConnection = ({
           width="sm"
           disabled
         />
+        {agentAbnInput}
+        {agentNumberInput}
       </FormHorizontal>
     </>
   );

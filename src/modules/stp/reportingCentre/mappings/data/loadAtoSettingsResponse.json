@@ -1,12 +1,29 @@
 {
+  "businessDetails": {
+    "name": "The Purest Clearest of Water",
+    "abn": "80 000 000 001",
+    "branch": 123,
+    "address1": "25 Bright Dark Alley Way",
+    "address2": "pass the Fairy Floss weather balloon",
+    "city": "Purest",
+    "state": "VIC",
+    "postcode": "9999",
+    "country": "Antarctica"
+  },
   "businessContact": {
-    "firstName": "Guy",
-    "lastName": "Pierce",
-    "email": "guy.pierce@mail.com",
-    "phone": "0412987654"
+    "firstName": "David",
+    "lastName": "Unaipon",
+    "email": "davidunaipon@gmail.com",
+    "phone": "1234456789"
+  },
+  "agentContact": {
+    "firstName": "Bruce",
+    "lastName": "Wayne",
+    "email": "bruce.wayne@example.com",
+    "phone": "1800 BATMAN"
   },
   "businessConnection": {
-    "abn": "80000000001",
-    "softwareId": "1234567890"
+    "abn": "30086760269",
+    "softwareId": "5897002359"
   }
 }

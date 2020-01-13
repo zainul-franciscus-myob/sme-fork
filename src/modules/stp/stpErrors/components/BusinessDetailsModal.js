@@ -14,14 +14,15 @@ import {
   getCity,
   getCountry,
   getPostcode,
-  getShouldShowCountryField,
+  getShowCountryField,
   getState,
   getStreetAddress1,
   getStreetAddress2,
 } from '../stpErrorsSelectors';
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
+import CountryCombobox from '../../../../components/combobox/CountryCombobox';
 import LoadingPageState from '../../../../components/LoadingPageState/LoadingPageState';
-import States from '../States';
+import States from '../../common/States';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const BusinessDetailsModal = ({
@@ -42,122 +43,114 @@ const BusinessDetailsModal = ({
   businessDetailErrors,
   showCountryField,
 }) => {
-  if (isLoading) {
-    return (
-      <Modal
-        title="Business details"
-        onCancel={onCancelClick}
+  const onComboBoxChange = (handler, key) => (option) => {
+    const { value } = option;
+    handler({ key, value });
+  };
+
+  const alertContent = alertMessage || (
+    <>
+      <p>
+        The following need to be fixed for Single Touch Payroll reporting
+      </p>
+      <ul>
+        {businessDetailErrors.map(e => (
+          <li key={e.error}>{e.error}</li>
+        ))}
+      </ul>
+    </>
+  );
+
+  const modalBody = isLoading ? <LoadingPageState /> : (
+    <>
+      <Alert type="danger">{alertContent}</Alert>
+      <Input
+        label="Business Name"
+        name="businessName"
+        value={businessName}
+        onChange={handleInputChange(onFieldChange)}
+        requiredLabel="This is required"
+      />
+      <AbnInput
+        label="ABN"
+        name="abnWpn"
+        value={abnWpn}
+        onChange={handleInputChange(onFieldChange)}
+        requiredLabel="This is required"
+        width="md"
+      />
+      <Input
+        label="ABN branch"
+        name="abnBranch"
+        value={abnBranch}
+        onChange={handleInputChange(onFieldChange)}
+        width="xs"
+      />
+      <Input
+        label="Address"
+        name="streetAddress1"
+        value={streetAddress1}
+        onChange={handleInputChange(onFieldChange)}
+        requiredLabel="This is required"
+      />
+      <Input
+        name="streetAddress2"
+        value={streetAddress2}
+        onChange={handleInputChange(onFieldChange)}
+      />
+      <Input
+        label="Suburb/town/locality"
+        name="city"
+        value={city}
+        onChange={handleInputChange(onFieldChange)}
+        requiredLabel="This is required"
+        width="md"
+      />
+      <Select
+        name="state"
+        label="State/territory"
+        value={state}
+        onChange={handleInputChange(onFieldChange)}
+        requiredLabel="This is required"
+        width="xs"
       >
-        <Modal.Body>
-          <LoadingPageState />
-        </Modal.Body>
-      </Modal>
-    );
-  }
+        {States.all.map(s => (
+          <Select.Option value={s} label={s} />
+        ))}
+      </Select>
+      <Input
+        label="Postcode"
+        name="postcode"
+        value={postcode}
+        onChange={handleInputChange(onFieldChange)}
+        requiredLabel="This is required"
+        width="xs"
+      />
+      {showCountryField && (
+        <CountryCombobox
+          label="Country"
+          name="country"
+          selectedId={country}
+          onChange={onComboBoxChange(onFieldChange, 'country')}
+          width="lg"
+        />
+      )}
+    </>
+  );
 
-  const selectOptions = States.all.map(s => (
-    <Select.Option value={s} label={s} />
-  ));
-
-  let alertContent;
-  if (alertMessage) {
-    alertContent = alertMessage;
-  } else {
-    const errors = businessDetailErrors.map(e => (
-      <li key={e.error}>{e.error}</li>
-    ));
-    alertContent = (
-      <>
-        <p>
-          The following need to be fixed for Single Touch Payroll reporting
-        </p>
-        <ul>
-          {errors}
-        </ul>
-      </>
-    );
-  }
+  const modalFooter = isLoading ? null : (
+    <Modal.Footer>
+      <Button type="secondary" onClick={onCancelClick}>Cancel</Button>
+      <Button type="primary" onClick={onSaveClick}>Save</Button>
+    </Modal.Footer>
+  );
 
   return (
-    <Modal
-      title="Business details"
-      onCancel={onCancelClick}
-    >
+    <Modal title="Business details" onCancel={onCancelClick}>
       <Modal.Body>
-        <Alert type="danger">{alertContent}</Alert>
-        <Input
-          label="Business Name"
-          name="businessName"
-          value={businessName}
-          onChange={handleInputChange(onFieldChange)}
-          requiredLabel="This is required"
-        />
-        <AbnInput
-          label="ABN"
-          name="abnWpn"
-          value={abnWpn}
-          onChange={handleInputChange(onFieldChange)}
-          requiredLabel="This is required"
-          width="md"
-        />
-        <Input
-          label="ABN branch"
-          name="abnBranch"
-          value={abnBranch}
-          onChange={handleInputChange(onFieldChange)}
-          width="xs"
-        />
-        <Input
-          label="Address"
-          name="streetAddress1"
-          value={streetAddress1}
-          onChange={handleInputChange(onFieldChange)}
-          requiredLabel="This is required"
-        />
-        <Input
-          name="streetAddress2"
-          value={streetAddress2}
-          onChange={handleInputChange(onFieldChange)}
-        />
-        <Input
-          label="Suburb/town/locality"
-          name="city"
-          value={city}
-          onChange={handleInputChange(onFieldChange)}
-          requiredLabel="This is required"
-        />
-        <Select
-          name="state"
-          label="State/territory"
-          value={state}
-          onChange={handleInputChange(onFieldChange)}
-          requiredLabel="This is required"
-          width="xs"
-        >
-          {selectOptions}
-        </Select>
-        <Input
-          label="Postcode"
-          name="postcode"
-          value={postcode}
-          onChange={handleInputChange(onFieldChange)}
-          requiredLabel="This is required"
-          width="xs"
-        />
-        {showCountryField && (
-          <Input
-            label="Country"
-            name="country"
-            onChange={handleInputChange(onFieldChange)}
-            value={country}
-            width="md"
-          />
-        )}
+        {modalBody}
       </Modal.Body>
-      <Modal.Footer>
-        <Button type="secondary" onClick={onCancelClick}>Cancel</Button>
-        <Button type="primary" onClick={onSaveClick}>Save</Button>
-      </Modal.Footer>
+      {modalFooter}
     </Modal>
   );
 };
@@ -174,7 +167,7 @@ const mapStateToProps = state => ({
   postcode: getPostcode(state),
   country: getCountry(state),
   alertMessage: getBusinessDetailModalAlertMessage(state),
-  showCountryField: getShouldShowCountryField(state),
+  showCountryField: getShowCountryField(state),
   businessDetailErrors: getBusinessDetailsErrors(state),
 });
 

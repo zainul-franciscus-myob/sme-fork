@@ -10,15 +10,6 @@ const WA = 'WA';
 const OTH = 'OTH';
 
 const States = {
-  AAT,
-  ACT,
-  NSW,
-  NT,
-  QLD,
-  SA,
-  TAS,
-  VIC,
-  WA,
   OTH,
   all: [
     AAT,

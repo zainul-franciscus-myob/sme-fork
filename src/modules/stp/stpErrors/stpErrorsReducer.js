@@ -9,7 +9,7 @@ import {
   SET_IS_LOADING,
 } from './stpErrorsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import States from './States';
+import States from '../common/States';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({

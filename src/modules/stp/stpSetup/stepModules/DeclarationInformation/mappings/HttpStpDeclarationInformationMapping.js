@@ -3,11 +3,11 @@ import { LOAD_BUSINESS_CONTACT_INFORMATION, SUBMIT_BUSINESS_CONTACT_INFORMATION 
 const StpDeclarationInformationMapping = {
   [LOAD_BUSINESS_CONTACT_INFORMATION]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/stp/business_contact_information`,
+    getPath: ({ businessId }) => `/${businessId}/stp/business_contact`,
   },
   [SUBMIT_BUSINESS_CONTACT_INFORMATION]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/stp/business_contact_information`,
+    getPath: ({ businessId }) => `/${businessId}/stp/business_contact`,
   },
 };
 

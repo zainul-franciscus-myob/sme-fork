@@ -42,6 +42,22 @@ export default class AtoSettingsModule {
     window.location.href = getRegistrationUrl(this.store.getState());
   };
 
+  updateBusinessDetails = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({ type: 'success', message });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.updateBusinessDetails({ onSuccess, onFailure });
+  };
+
   updateBusinessContact = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
@@ -58,7 +74,24 @@ export default class AtoSettingsModule {
     this.integrator.updateBusinessContact({ onSuccess, onFailure });
   };
 
-  run = () => {
+  updateAgentContact = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({ type: 'success', message });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.updateAgentContact({ onSuccess, onFailure });
+  };
+
+  run = (agentDetails) => {
+    this.dispatcher.setAgentDetails(agentDetails);
     this.loadAtoSettings();
   };
 
@@ -66,8 +99,12 @@ export default class AtoSettingsModule {
     return (
       <Provider store={this.store}>
         <AtoSettingsView
+          onBusinessDetailsChange={this.dispatcher.setBusinessDetails}
+          onEditBusinessDetailsClick={this.updateBusinessDetails}
           onBusinessContactChange={this.dispatcher.setBusinessContact}
           onEditBusinessContactClick={this.updateBusinessContact}
+          onAgentContactChange={this.dispatcher.setAgentContact}
+          onEditAgentContactClick={this.updateAgentContact}
           onEditBusinessConnectionClick={this.dispatcher.openConfirmationModal}
           onEditBusinessConnectionConfirm={this.redirectToRegistration}
           onEditBusinessConnectionCancel={this.dispatcher.closeConfirmationModal}

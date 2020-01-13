@@ -6,14 +6,14 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsLoading,
+  getLoadingState,
   getSelectedTab,
 } from '../ReportingCentreSelectors';
 import { tabItems } from '../TabItems';
 import PageView from '../../../../components/PageView/PageView';
 
 const ReportingCentreView = ({
-  isLoading,
+  loadingState,
   alert,
   selectedTab,
   tabModules,
@@ -48,11 +48,11 @@ const ReportingCentreView = ({
     </BaseTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
   selectedTab: getSelectedTab(state),
 });

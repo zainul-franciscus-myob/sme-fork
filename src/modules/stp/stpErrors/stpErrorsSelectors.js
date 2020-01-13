@@ -1,4 +1,4 @@
-import States from './States';
+import States from '../common/States';
 
 export const getRegion = state => state.region;
 export const getBusinessId = state => state.businessId;
@@ -45,7 +45,7 @@ export const getState = state => state.businessDetails.state;
 export const getPostcode = state => state.businessDetails.postcode;
 export const getCountry = state => state.businessDetails.country;
 
-export const getShouldShowCountryField = state => (state.businessDetails.state === States.OTH);
+export const getShowCountryField = state => (state.businessDetails.state === States.OTH);
 
 export const getSubmitBusinessDetailsContent = state => ({
   ...state.businessDetails,
