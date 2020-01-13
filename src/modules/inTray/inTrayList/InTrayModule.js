@@ -7,7 +7,7 @@ import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../inTrayMessageTypes';
 import {
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
-} from '../../../bill/billDetail/types/BillMessageTypes';
+} from '../../bill/billDetail/types/BillMessageTypes';
 import { SUCCESSFULLY_SAVED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK } from '../../spendMoney/spendMoneyMessageTypes';
 import { getBusinessId, getRegion } from './selectors/InTraySelectors';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';

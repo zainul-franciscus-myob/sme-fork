@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { getBusinessId } from '../../../../bill/billDetail/selectors/billSelectors';
+export const getBusinessId = state => state.businessId;
 
 export const getLoadItemUrlParams = createSelector(
   getBusinessId,

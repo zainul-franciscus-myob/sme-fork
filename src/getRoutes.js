@@ -5,7 +5,7 @@ import getBankReconciliationRoutes from './modules/bankReconciliation/getBankRec
 import getBankingRoutes from './banking/getBankingRoutes';
 import getBankingRuleRoutes from './modules/bankingRules/getBankingRuleRoutes';
 import getBillPaymentRoutes from './modules/billPayment/getBillPaymentRoutes';
-import getBillRoutes from './bill/getBillRoutes';
+import getBillRoutes from './modules/bill/getBillRoutes';
 import getBusinessListRoutes from './modules/business/getBusinessListRoutes';
 import getBusinessRoutes from './modules/business/getBusinessRoutes';
 import getContactRoutes from './modules/contact/getContactRoutes';

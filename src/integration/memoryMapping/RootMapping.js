@@ -9,8 +9,8 @@ import BankingRuleInvoiceMapping from '../../modules/bankingRules/bankingRuleInv
 import BankingRuleMapping from '../../modules/bankingRules/bankingRuleList/mappings/MemoryBankingRuleMapping';
 import BankingRuleReceiveMoneyMapping from '../../modules/bankingRules/bankingRuleReceiveMoney/mappings/MemoryBankingRuleReceiveMoneyMapping';
 import BankingRuleSpendMoneyMapping from '../../modules/bankingRules/bankingRuleSpendMoney/mappings/MemoryBankingRuleSpendMoneyMapping';
-import BillDetailMapping from './BillDetailMapping';
-import BillMapping from './BillMapping';
+import BillDetailMapping from '../../modules/bill/billDetail/mappings/MemoryBillDetailMapping';
+import BillMapping from '../../modules/bill/billList/mappings/MemoryBillMapping';
 import BillPaymentMapping from '../../modules/billPayment/mappings/MemoryBillPaymentMapping';
 import BusinessMapping from '../../modules/business/mappings/MemoryBusinessMapping';
 import ContactMapping from '../../modules/contact/mappings/MemoryContactMapping';

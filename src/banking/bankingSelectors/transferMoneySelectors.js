@@ -11,7 +11,6 @@ import {
   getModalAlert,
   getTransferAccounts,
 } from '.';
-import { getIsModalBlocking } from '../../bill/billDetail/selectors/billSelectors';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 
@@ -27,6 +26,7 @@ export const getTransferTo = state => state.openEntry.transfer.transferTo;
 export const getAmount = state => state.openEntry.transfer.amount;
 export const getDate = state => state.openEntry.transfer.date;
 export const getDescription = state => state.openEntry.transfer.description;
+export const getIsModalBlocking = state => state.isModalBlocking;
 
 export const getMatchTransferMoneyFlipSortOrder = state => (
   state.openEntry.transfer.sortOrder === 'desc' ? 'asc' : 'desc'
