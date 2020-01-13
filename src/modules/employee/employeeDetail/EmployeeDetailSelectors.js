@@ -5,7 +5,7 @@ import { getStandardPayDetailsPayload } from './payrollDetails/selectors/Payroll
 import { mainTabIds, payrollDetailsSubTabIds } from './tabItems';
 
 export const getBusinessId = state => state.businessId;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getModal = state => state.modal;
 export const getModalUrl = state => ((state.modal || {}).url);
 

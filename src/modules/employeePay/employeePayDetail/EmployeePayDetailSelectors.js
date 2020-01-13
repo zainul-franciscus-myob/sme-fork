@@ -2,7 +2,7 @@ export const getUrlParams = state => ({
   businessId: state.businessId,
   transactionId: state.transactionId,
 });
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getEmployeePay = state => state.employeePay;
 export const getPageTitle = (state) => {
   const {

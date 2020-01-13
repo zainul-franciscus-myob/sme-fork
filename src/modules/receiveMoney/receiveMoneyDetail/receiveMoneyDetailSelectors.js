@@ -38,7 +38,7 @@ export const getHeaderOptions = createSelector(getHeadersProperties, (headerProp
 });
 
 export const getAlertMessage = state => state.alertMessage;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
   const account = accounts.find(({ id }) => id === accountId);

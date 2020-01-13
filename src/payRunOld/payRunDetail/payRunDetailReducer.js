@@ -27,9 +27,9 @@ const getDefaultState = () => ({
 
 const resetState = () => (getDefaultState());
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setInitialState = (state, action) => ({

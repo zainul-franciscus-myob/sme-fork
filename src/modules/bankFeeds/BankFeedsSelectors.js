@@ -5,7 +5,7 @@ import getQueryFromParams from '../../common/getQueryFromParams/getQueryFromPara
 
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 const getIsSubmitting = state => state.isSubmitting;
 
 export const getBusinessId = state => state.businessId;

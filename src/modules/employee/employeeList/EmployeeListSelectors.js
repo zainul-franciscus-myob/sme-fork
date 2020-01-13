@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import LoadMoreButtonStatuses from './components/Pagination/LoadMoreButtonStatuses';
 
 export const getBusinessId = state => state.businessId;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getRegion = state => state.region;
 export const getFilterOptions = state => state.filterOptions;
 export const getSortOrder = state => state.sortOrder;

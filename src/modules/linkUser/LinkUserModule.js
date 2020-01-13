@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getRedirectURL } from './LinkUserSelectors';
 import LinkUserView from './components/LinkUserView';
+import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import createLinkUserDispatcher from './createLinkUserDispatcher';
 import createLinkUserIntegrator from './createLinkUserIntegrator';
@@ -18,16 +19,15 @@ export default class LinkUserModule {
   }
 
   loadBusinessInformation = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (businessInformation) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBusinessInformation(businessInformation);
     };
 
     const onFailure = () => {
-      this.dispatcher.setLoadingState(false);
-      console.log('Failed to load business information');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadBusinessInformation({
@@ -37,15 +37,15 @@ export default class LinkUserModule {
   }
 
   linkUserId = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = () => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.redirectToPreviousPage();
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
       this.dispatcher.setAlert(message);
     };
 

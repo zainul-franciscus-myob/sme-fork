@@ -10,6 +10,7 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from './LinkBillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -28,7 +29,7 @@ const getDefaultState = () => ({
     showPaidBills: false,
   },
   alert: undefined,
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   isSubmitting: false,
   region: '',
@@ -88,9 +89,9 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setTableLoadingState = (state, action) => ({

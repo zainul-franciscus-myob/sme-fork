@@ -16,6 +16,7 @@ export const CREATE_BILL = Symbol('Create bill');
 export const UPDATE_BILL = Symbol('Update bill');
 export const START_LOADING = Symbol('Start loading');
 export const STOP_LOADING = Symbol('Stop loading');
+export const FAIL_LOADING = Symbol('Fail loading');
 export const START_BLOCKING = Symbol('Start blocking');
 export const STOP_BLOCKING = Symbol('Stop blocking');
 export const START_MODAL_BLOCKING = Symbol('Start modal blocking');

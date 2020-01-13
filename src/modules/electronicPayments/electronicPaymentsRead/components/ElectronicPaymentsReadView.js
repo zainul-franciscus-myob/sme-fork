@@ -11,7 +11,7 @@ import {
   getBankStatementDescription,
   getDateOfPayment,
   getIsDeleteModalOpen,
-  getIsLoading,
+  getLoadingState,
   getPageTitle,
   getReferenceNumber,
   getTableEntries,
@@ -27,7 +27,7 @@ import styles from './ElectronicPaymentsReadView.module.css';
 
 const ElectronicPaymentsReadView = ({
   pageTitle,
-  isLoading,
+  loadingState,
   electronicPayments,
   account,
   balance,
@@ -93,12 +93,12 @@ const ElectronicPaymentsReadView = ({
     </BaseTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
   pageTitle: getPageTitle(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   electronicPayments: getTableEntries(state),
   account: getAccount(state),
   balance: getBalance(state),

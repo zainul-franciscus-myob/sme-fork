@@ -8,9 +8,9 @@ import {
 } from '../AccountIntents';
 
 const createAccountListDispatcher = store => ({
-  setLoadingState: (isLoading) => {
+  setLoadingState: (loadingState) => {
     const intent = SET_LOADING_STATE;
-    store.dispatch({ intent, isLoading });
+    store.dispatch({ intent, loadingState });
   },
 
   setAlert: ({ message, type }) => {

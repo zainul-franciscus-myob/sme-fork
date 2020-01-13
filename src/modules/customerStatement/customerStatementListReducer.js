@@ -21,6 +21,7 @@ import {
   UPDATE_TEMPLATE_OPTION,
 } from './CustomerStatementIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import LoadingState from '../../components/PageView/LoadingState';
 import StatementType from './StatementType';
 import createReducer from '../../store/createReducer';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
@@ -67,7 +68,7 @@ const getDefaultState = () => ({
   defaultInvoiceTemplateOption: '',
   selectedTemplateOption: '',
   alertMessage: '',
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   areActionsDisabled: false,
   modal: undefined,
@@ -204,9 +205,9 @@ const setAlert = (state, { alert }) => ({
   alert,
 });
 
-const setLoadingState = (state, { isLoading }) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading,
+  loadingState,
 });
 
 const setTableLoadingState = (state, { isTableLoading }) => ({

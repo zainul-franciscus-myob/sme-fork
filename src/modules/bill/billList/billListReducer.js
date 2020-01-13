@@ -14,6 +14,7 @@ import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../../SystemIntents';
 import { START_LOADING_MORE, STOP_LOADING_MORE } from '../billDetail/BillIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -40,7 +41,7 @@ const getDefaultState = () => ({
   totalDue: '',
   totalOverdue: '',
   entries: [],
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   alert: undefined,
   isLoadingMore: false,
@@ -119,9 +120,9 @@ const setTableLoadingState = (state, action) => ({
   isTableLoading: action.isTableLoading,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setSortOrder = (state, action) => ({

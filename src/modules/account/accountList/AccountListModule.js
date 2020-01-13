@@ -11,6 +11,7 @@ import {
 } from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import AccountListView from './components/AccountListView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import accountListReducer from './accountListReducer';
@@ -32,15 +33,15 @@ export default class AccountListModule {
   }
 
   loadAccountList = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (payload) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.filterAccountList(payload);
     };
 
     const onFailure = () => {
-      console.log('Failed to load account list');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.filterAccountList({ onSuccess, onFailure });

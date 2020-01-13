@@ -14,6 +14,7 @@ import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../../SystemIntents';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const defaultFilterOptions = {
@@ -29,7 +30,7 @@ const getDefaultState = () => ({
   typeFilters: [],
   entries: [],
   alert: undefined,
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   isNextPageLoading: false,
   loadMoreButtonStatus: LoadMoreButtonStatuses.HIDDEN,
@@ -71,7 +72,7 @@ const setTableLoadingState = (state, action) => ({
 
 const setLoadingState = (state, action) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState: action.loadingState,
 });
 
 const setNextPageLoadingState = (state, action) => ({

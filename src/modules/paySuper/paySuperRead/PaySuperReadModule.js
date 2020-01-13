@@ -6,7 +6,7 @@ import {
   PREPARE_UI_FOR_REVERSE,
   REVERSE_PAY_SUPER,
   SET_ALERT,
-  SET_IS_LOADING,
+  SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_STATUS,
 } from './paySuperReadIntents';
@@ -20,6 +20,7 @@ import {
   getRegion,
 } from './paySuperReadSelector';
 import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import PaySuperAuthorisationModalModule from '../paySuperAuthorisationModal/PaySuperAuthorisationModalModule';
 import PaySuperReadView from './components/PaySuperReadView';
@@ -68,10 +69,10 @@ export default class PaySuperReadModule {
     });
   }
 
-  setIsLoading = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
-      intent: SET_IS_LOADING,
-      isLoading,
+      intent: SET_LOADING_STATE,
+      loadingState,
     });
   }
 
@@ -106,7 +107,7 @@ export default class PaySuperReadModule {
   reversePaySuper = () => {
     const intent = REVERSE_PAY_SUPER;
     const state = this.store.getState();
-    this.setIsLoading(true);
+    this.setLoadingState(LoadingState.LOADING);
 
     const urlParams = {
       businessId: getBusinessId(state),
@@ -114,7 +115,7 @@ export default class PaySuperReadModule {
     };
 
     const onSuccess = ({ message }) => {
-      this.setIsLoading(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.pushMessage({
         type: SUCCESSFULLY_REVERSED_TRANSACTION,
         content: message,
@@ -122,7 +123,7 @@ export default class PaySuperReadModule {
       this.returnToList();
     };
     const onFailure = ({ message }) => {
-      this.setIsLoading(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.setAlert({
         type: 'danger',
         message,
@@ -209,9 +210,12 @@ export default class PaySuperReadModule {
         intent,
         response,
       });
-      this.setIsLoading(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
-    const onFailure = ({ message }) => console.log(message);
+
+    const onFailure = () => {
+      this.setLoadingState(LoadingState.LOADING_FAIL);
+    };
 
     this.integration.read({
       intent,

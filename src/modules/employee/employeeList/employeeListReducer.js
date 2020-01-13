@@ -14,10 +14,11 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   filterOptions: {
     keywords: '',
@@ -39,9 +40,9 @@ const getDefaultState = () => ({
 
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setInitialState = (state, action) => ({

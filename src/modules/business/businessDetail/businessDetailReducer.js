@@ -11,6 +11,7 @@ import {
   UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
 import { RESET_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -35,16 +36,16 @@ const getDefaultState = () => ({
     lockDate: '',
   },
   isLockDateAutoPopulated: false,
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   alert: undefined,
   modal: undefined,
   isSubmitting: false,
   pageTitle: '',
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setAlert = (state, action) => ({

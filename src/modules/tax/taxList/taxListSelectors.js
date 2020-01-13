@@ -6,7 +6,7 @@ export const getBusinessId = state => state.businessId;
 
 export const getTableEntries = state => state.entries;
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 const getRegion = state => state.region;
 

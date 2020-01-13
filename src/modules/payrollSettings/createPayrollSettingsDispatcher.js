@@ -136,11 +136,11 @@ const createPayrollSettingsDispatcher = store => ({
     });
   },
 
-  setSuperFundListLoadingState: (isLoading) => {
+  setSuperFundListLoadingState: (loadingState) => {
     const intent = SET_SUPER_FUND_LIST_LOADING_STATE;
     store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   },
 
@@ -160,11 +160,11 @@ const createPayrollSettingsDispatcher = store => ({
     });
   },
 
-  setEmploymentClassificationListLoadingState: (isLoading) => {
+  setEmploymentClassificationListLoadingState: (loadingState) => {
     const intent = SET_EMPLOYMENT_CLASSIFICATION_LIST_LOADING_STATE;
     store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   },
 
@@ -269,11 +269,11 @@ const createPayrollSettingsDispatcher = store => ({
   },
 
 
-  setGeneralPayrollInformationIsLoading: (isLoading) => {
+  setGeneralPayrollInformationLoadingState: (loadingState) => {
     const intent = SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE;
     store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   },
 

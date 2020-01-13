@@ -8,12 +8,13 @@ import {
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
 import { tabIds } from './tabItems';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
   businessId: '',
   alert: undefined,
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   filterOptions: {
     keywords: '',
@@ -37,9 +38,9 @@ const setInitialState = (state, { context, settings }) => ({
 
 const resetState = () => ({ ...getDefaultState() });
 
-const setLoadingState = (state, { isLoading }) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading,
+  loadingState,
 });
 
 const setAlert = (state, action) => ({

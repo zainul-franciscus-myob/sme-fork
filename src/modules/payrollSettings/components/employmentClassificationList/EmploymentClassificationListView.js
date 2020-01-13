@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsLoading } from '../../selectors/employmentClassificationListSelectors';
+import { getIsLoading, getLoadingState } from '../../selectors/employmentClassificationListSelectors';
 import EmploymentClassificationListFilterOptions from './EmploymentClassificationListFilterOptions';
 import EmploymentClassificationListTable from './EmploymentClassificationListTable';
 import PageView from '../../../../components/PageView/PageView';
@@ -12,6 +12,7 @@ import PageView from '../../../../components/PageView/PageView';
 const EmploymentClassificationListView = (props) => {
   const {
     isLoading,
+    loadingState,
     pageHead,
     alert,
     tabs,
@@ -56,13 +57,14 @@ const EmploymentClassificationListView = (props) => {
       subHeadChildren={subHeadChildren}
       filterBar={isLoading ? undefined : filterBar}
     >
-      <PageView isLoading={isLoading} view={view} />
+      <PageView loadingState={loadingState} view={view} />
     </StandardTemplate>
   );
 };
 
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
 });
 
 export default connect(mapStateToProps)(EmploymentClassificationListView);

@@ -47,7 +47,7 @@ const createInvoiceDetailDispatcher = store => ({
 
   resetState: () => store.dispatch({ intent: RESET_STATE }),
 
-  setLoadingState: isLoading => store.dispatch({ intent: SET_LOADING_STATE, isLoading }),
+  setLoadingState: loadingState => store.dispatch({ intent: SET_LOADING_STATE, loadingState }),
 
   setSubmittingState: isSubmitting => store.dispatch({
     intent: SET_SUBMITTING_STATE, isSubmitting,

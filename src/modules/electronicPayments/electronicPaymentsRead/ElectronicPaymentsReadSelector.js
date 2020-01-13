@@ -12,7 +12,7 @@ export const getBalance = state => state.balance;
 export const getAlert = state => state.alert;
 export const getBankStatementDescription = state => state.bankStatementDescription;
 export const getDateOfPayment = state => state.dateOfPayment;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getReferenceNumber = state => state.referenceNumber;
 export const getTransactionDescription = state => state.transactionDescription;
 export const getIsDeleteModalOpen = state => state.isDeleteModalOpen;

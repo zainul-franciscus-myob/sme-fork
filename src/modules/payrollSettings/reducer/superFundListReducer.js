@@ -31,9 +31,11 @@ export const setSuperFundListSortOrder = (state, action) => updateSuperFundListS
   sortOrder: action.sortOrder,
 });
 
-export const setSuperFundListLoadingState = (state, action) => updateSuperFundListState(state, {
-  isLoading: action.isLoading,
-});
+export const setSuperFundListLoadingState = (state, { loadingState }) => (
+  updateSuperFundListState(state, {
+    loadingState,
+  })
+);
 
 export const setSuperFundListTableLoadingState = (state, action) => updateSuperFundListState(
   state,

@@ -8,7 +8,7 @@ import {
   getAlertMessage,
   getIsCreating,
   getIsInactive,
-  getIsLoading,
+  getLoadingState,
   getModalType,
   getOriginalName,
 } from '../inventoryDetailSelectors';
@@ -22,7 +22,7 @@ import PageView from '../../../../components/PageView/PageView';
 import SellingDetails from './SellingDetails';
 
 const InventoryDetailView = ({
-  isLoading,
+  loadingState,
   isInactive,
   originalName,
   onItemDetailsChange,
@@ -97,14 +97,14 @@ const InventoryDetailView = ({
     </FormTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={itemDetailView} />;
+  return <PageView loadingState={loadingState} view={itemDetailView} />;
 };
 
 const mapStateToProps = state => ({
   originalName: getOriginalName(state),
   alertMessage: getAlertMessage(state),
   modalType: getModalType(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   isInactive: getIsInactive(state),
   isCreating: getIsCreating(state),
 });

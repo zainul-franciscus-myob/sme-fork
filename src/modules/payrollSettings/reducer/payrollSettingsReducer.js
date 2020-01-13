@@ -139,11 +139,11 @@ export const loadGeneralPayrollInformation = (state, action) => ({
   },
 });
 
-export const setGeneralPayrollInformationIsLoading = (state, action) => ({
+export const setGeneralPayrollInformationIsLoading = (state, { loadingState }) => ({
   ...state,
   generalPayrollInformation: {
     ...state.generalPayrollInformation,
-    isLoading: action.isLoading,
+    loadingState,
   },
 });
 

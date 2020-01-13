@@ -13,7 +13,7 @@ export const getUser = state => state.user;
 export const getUserId = state => state.userId;
 export const getIsAdvisor = state => state.user.isAdvisor;
 export const getIsInactive = state => state.user.isInactive;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getIsCreating = state => [
   NEW_USER_PATH_COMPONENT,

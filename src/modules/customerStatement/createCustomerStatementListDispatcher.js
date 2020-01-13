@@ -23,7 +23,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 const createCustomerStatementListDispatcher = store => ({
   setLoadingState: loadingState => store.dispatch({
     intent: SET_LOADING_STATE,
-    isLoading: loadingState,
+    loadingState,
   }),
 
   setTableLoadingState: isTableLoading => store.dispatch({

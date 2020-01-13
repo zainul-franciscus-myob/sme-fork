@@ -8,7 +8,7 @@ const getRegion = state => state.region;
 
 export const getAlert = state => state.alert;
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getIsTableLoading = state => state.isTableLoading;
 

@@ -16,7 +16,6 @@ import {
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
-  SET_TOTALS_LOADING_STATE,
   UPDATE_RECEIVE_MONEY,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
@@ -39,6 +38,7 @@ import {
   getTransactionListUrl,
   isPageEdited,
 } from './receiveMoneyDetailSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
 import Store from '../../../store/Store';
@@ -70,19 +70,18 @@ export default class ReceiveMoneyDetailModule {
     const onSuccess = ({
       receiveMoney, newLine, totals, pageTitle,
     }) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         receiveMoney,
         totals,
         newLine,
         pageTitle,
-        isLoading: false,
       });
     };
 
     const onFailure = () => {
-      console.log('Failed to load receive money details');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -333,15 +332,6 @@ export default class ReceiveMoneyDetailModule {
     this.store.unsubscribeAll();
   };
 
-  setTotalsLoadingState = (isTotalsLoading) => {
-    const intent = SET_TOTALS_LOADING_STATE;
-
-    this.store.dispatch({
-      intent,
-      isTotalsLoading,
-    });
-  }
-
   dismissAlert = () => {
     this.store.dispatch({
       intent: SET_ALERT_MESSAGE,
@@ -394,10 +384,10 @@ export default class ReceiveMoneyDetailModule {
     this.setRootView(wrappedView);
   };
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   }
 
@@ -426,7 +416,7 @@ export default class ReceiveMoneyDetailModule {
     this.isCreating = context.receiveMoneyId === 'new';
     setupHotKeys(keyMap, this.handlers);
     this.render();
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.loadReceiveMoney();
   }
 

@@ -21,10 +21,10 @@ const createEmployeePayModalDispatchers = store => ({
     });
   },
 
-  setIsModalLoading: (isLoading) => {
+  setIsModalLoading: (loadingState) => {
     store.dispatch({
       intent: SET_IS_MODAL_LOADING,
-      isLoading,
+      loadingState,
     });
   },
 

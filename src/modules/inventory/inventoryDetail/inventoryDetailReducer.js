@@ -13,6 +13,7 @@ import {
 } from '../InventoryIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getIsCreating } from './inventoryDetailSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -43,7 +44,7 @@ const getDefaultState = () => ({
   sellingAccounts: [],
   buyingAccounts: [],
   taxCodes: [],
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   isPageEdited: false,
   alertMessage: '',
@@ -86,9 +87,9 @@ const setEnableForBuying = (state, action) => ({
   isEnableForBuying: action.isEnableForBuying,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const updateItemDetails = (state, action) => ({

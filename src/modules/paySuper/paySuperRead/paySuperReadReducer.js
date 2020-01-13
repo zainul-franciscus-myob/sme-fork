@@ -2,11 +2,12 @@ import {
   LOAD_PAY_SUPER_READ,
   PREPARE_UI_FOR_REVERSE,
   SET_ALERT,
-  SET_IS_LOADING,
+  SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_STATUS,
 } from './paySuperReadIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 export const getDefaultState = () => ({
@@ -19,7 +20,7 @@ export const getDefaultState = () => ({
   description: '',
   date: '',
   superPayments: [],
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   modalType: null,
   alert: null,
 });
@@ -31,9 +32,9 @@ export const setInitialState = (state, { context }) => ({
   ...context,
 });
 
-const setIsLoading = (state, { isLoading }) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading,
+  loadingState,
 });
 
 const loadPaySuperRead = (state, { response }) => ({
@@ -73,7 +74,7 @@ const setStatus = (state, { status }) => ({
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
-  [SET_IS_LOADING]: setIsLoading,
+  [SET_LOADING_STATE]: setLoadingState,
   [LOAD_PAY_SUPER_READ]: loadPaySuperRead,
   [SET_MODAL_TYPE]: setModalType,
   [SET_ALERT]: setAlert,

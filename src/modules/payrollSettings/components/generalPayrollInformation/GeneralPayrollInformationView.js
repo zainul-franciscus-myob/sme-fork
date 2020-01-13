@@ -15,7 +15,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getGeneralPayrollInformation, getIsLoading, getModal } from '../../selectors/payrollSettingsSelectors';
+import { getGeneralPayrollInformation, getLoadingState, getModal } from '../../selectors/payrollSettingsSelectors';
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import GeneralPayrollInformationModal from './GeneralPayrollInformationModal';
@@ -54,7 +54,7 @@ const GeneralPayrollInformationView = (props) => {
     useTimesheets,
     useTimesheetsAction,
     useTimesheetsWeekStarts,
-    isLoading,
+    loadingState,
     alert,
     tabs,
     listeners: {
@@ -192,7 +192,7 @@ const GeneralPayrollInformationView = (props) => {
           onConfirmCancelButtonClick={onConfirmCancelButtonClick}
         />
       )}
-      <PageView isLoading={isLoading} view={view} />
+      <PageView loadingState={loadingState} view={view} />
     </BaseTemplate>
   );
 };
@@ -200,7 +200,7 @@ const GeneralPayrollInformationView = (props) => {
 const mapStateToProps = state => ({
   ...getGeneralPayrollInformation(state),
   modal: getModal(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
 });
 
 export default connect(mapStateToProps)(GeneralPayrollInformationView);

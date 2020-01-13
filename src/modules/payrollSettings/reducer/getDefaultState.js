@@ -1,10 +1,12 @@
+import LoadingState from '../../../components/PageView/LoadingState';
+
 const getDefaultState = () => ({
   businessId: '',
   tab: '',
   alert: undefined,
   modalType: '',
   superFundList: {
-    isLoading: true,
+    loadingState: LoadingState.LOADING,
     isTableLoading: false,
     filterOptions: {
       keywords: '',
@@ -17,7 +19,7 @@ const getDefaultState = () => ({
     entries: [],
   },
   employmentClassificationList: {
-    isLoading: true,
+    loadingState: LoadingState.LOADING,
     isTableLoading: false,
     filterOptions: {
       keywords: '',
@@ -33,7 +35,7 @@ const getDefaultState = () => ({
     id: undefined,
     description: '',
     alert: undefined,
-    isLoading: false,
+    loadingState: LoadingState.LOADING,
   },
   generalPayrollInformation: {
     currentYear: '',

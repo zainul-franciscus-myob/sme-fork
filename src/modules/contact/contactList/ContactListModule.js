@@ -26,6 +26,7 @@ import {
   getRegion,
 } from './contactListSelector';
 import ContactListView from './components/ContactListView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import contactListReducer from './contactListReducer';
 
@@ -85,7 +86,7 @@ export default class ContactListModule {
       orderBy,
       pagination,
     }) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         entries,
@@ -98,7 +99,7 @@ export default class ContactListModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load contact list entries');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -148,11 +149,11 @@ export default class ContactListModule {
     window.location.href = `/#/${region}/${businessId}/contact/new`;
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
     this.store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   };
 
@@ -337,7 +338,7 @@ export default class ContactListModule {
     this.setInitialState(context);
     this.render();
     this.readMessages();
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.loadContactList();
   }
 

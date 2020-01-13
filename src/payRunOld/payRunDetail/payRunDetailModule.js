@@ -24,6 +24,7 @@ import {
 } from './payRunDetailSelector';
 import EmailPaySlipModalModule from '../../modules/employeePay/emailPaySlipModal/EmailPaySlipModalModule';
 import EmployeePayModalModule from '../../modules/employeePay/employeePayModal/EmployeePayModalModule';
+import LoadingState from '../../components/PageView/LoadingState';
 import PayRunDetailView from './components/PayRunDetailView';
 import Store from '../../store/Store';
 import openBlob from '../../common/blobOpener/openBlob';
@@ -114,10 +115,10 @@ export default class PayRunDetailModule {
     });
   };
 
-  setIsLoading(isLoading) {
+  setLoadingState(loadingState) {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   }
 
@@ -130,7 +131,7 @@ export default class PayRunDetailModule {
   }
 
   loadPayRunDetails = () => {
-    this.setIsLoading(true);
+    this.setLoadingState(LoadingState.LOADING);
     const intent = LOAD_PAY_RUN_DETAILS;
 
     const state = this.store.getState();
@@ -141,11 +142,11 @@ export default class PayRunDetailModule {
         intent,
         response,
       });
-      this.setIsLoading(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
-    const onFailure = (message) => {
-      console.log(`Failed to load Pay Run details. ${message}`);
+    const onFailure = () => {
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({

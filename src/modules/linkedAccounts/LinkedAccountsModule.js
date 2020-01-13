@@ -5,8 +5,8 @@ import {
   LOAD_LINKED_ACCOUNTS,
   SAVE_LINKED_ACCOUNTS,
   SET_ALERT,
-  SET_IS_LOADING,
   SET_IS_SUBMITTING,
+  SET_LOADING_STATE,
   SET_SELECTED_TAB,
   UPDATE_ACCOUNT,
   UPDATE_HAS_ACCOUNT_OPTION,
@@ -14,6 +14,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getBusinessId, getSaveLinkedAccountsPayload } from './LinkedAccountsSelectors';
 import LinkedAccountsView from './components/LinkedAccountsView';
+import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import linkedAccountsReducer from './linkedAccountsReducer';
 
@@ -30,7 +31,7 @@ class LinkedAccountsModule {
     const intent = LOAD_LINKED_ACCOUNTS;
 
     const onSuccess = (response) => {
-      this.setIsLoading(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         ...response,
@@ -38,7 +39,7 @@ class LinkedAccountsModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load linked accounts');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -106,10 +107,10 @@ class LinkedAccountsModule {
     });
   }
 
-  setIsLoading = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
-      intent: SET_IS_LOADING,
-      isLoading,
+      intent: SET_LOADING_STATE,
+      loadingState,
     });
   }
 
@@ -155,7 +156,7 @@ class LinkedAccountsModule {
   run(context) {
     this.setInitialState(context);
     this.render();
-    this.setIsLoading(true);
+    this.setLoadingState(true);
     this.loadLinkedAccounts();
   }
 

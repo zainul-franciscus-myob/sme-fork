@@ -12,6 +12,7 @@ import {
 } from './selectors/customerStatementListSelectors';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import CustomerStatementListView from './components/CustomerStatementListView';
+import LoadingState from '../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import PDFType from './PDFType';
 import RouteName from '../../router/RouteName';
@@ -32,11 +33,13 @@ export default class CustomerStatementListModule {
 
   loadCustomerStatementList = () => {
     const onSuccess = (payload) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadCustomerStatementList(payload);
     };
 
-    const onFailure = () => console.log('Failed to load customer statements');
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
 
     this.integrator.loadCustomerStatementList({ onSuccess, onFailure });
   }
@@ -207,7 +210,7 @@ export default class CustomerStatementListModule {
     const settings = loadSettings(context.businessId, RouteName.CUSTOMER_STATEMENT_LIST);
     this.dispatcher.setInitialState(context, settings);
     this.render();
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.store.subscribe(state => (
       saveSettings(context.businessId, RouteName.CUSTOMER_STATEMENT_LIST, getSettings(state))
     ));

@@ -16,6 +16,7 @@ import {
 import { RESET_STATE } from '../../../SystemIntents';
 import { getBusinessForUpdate, getIsPageEdited, getModalUrl } from './businessDetailSelectors';
 import BusinessDetailsView from './components/BusinessDetailView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import businessDetailReducer from './businessDetailReducer';
 import keyMap from '../../../hotKeys/keyMap';
@@ -31,7 +32,7 @@ export default class BusinessDetailModule {
   }
 
   loadBusinessDetail = () => {
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
 
     const intent = LOAD_BUSINESS_DETAIL;
     const urlParams = {
@@ -39,7 +40,7 @@ export default class BusinessDetailModule {
     };
 
     const onSuccess = ({ businessDetails, pageTitle }) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
 
       this.store.dispatch({
         intent,
@@ -49,7 +50,7 @@ export default class BusinessDetailModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load business detail');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -60,12 +61,12 @@ export default class BusinessDetailModule {
     });
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
 
     this.store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   };
 

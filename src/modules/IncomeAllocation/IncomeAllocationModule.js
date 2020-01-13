@@ -9,13 +9,13 @@ import {
   SAVE_INCOME_ALLOCATION,
   SET_ALERT,
   SET_LOADING_STATE,
-  SET_SUBMITTING_STATE,
   UPDATE_ENTITY_TYPE,
   UPDATE_INCOME_ALLOCATION_LINE,
 } from './IncomeAllocationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getBusinessId, getIncomeAllocationSavePayload } from './IncomeAllocationSelectors';
 import IncomeAllocationView from './components/IncomeAllocationView';
+import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import incomeAllocationReducer from './IncomeAllocationReducer';
 import keyMap from '../../hotKeys/keyMap';
@@ -31,12 +31,12 @@ export default class IncomeAllocationModule {
   loadIncomeAllocation = () => {
     const intent = LOAD_INCOME_ALLOCATION;
     const urlParams = { businessId: getBusinessId(this.store.getState()) };
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({
       incomeAllocation, newLine, accounts, entityTypes,
     }) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         incomeAllocation,
@@ -47,7 +47,7 @@ export default class IncomeAllocationModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load income allocation');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -58,12 +58,12 @@ export default class IncomeAllocationModule {
     });
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
 
     this.store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   }
 
@@ -114,15 +114,6 @@ export default class IncomeAllocationModule {
     });
   }
 
-  setSubmittingState = (isSubmitting) => {
-    const intent = SET_SUBMITTING_STATE;
-
-    this.store.dispatch({
-      intent,
-      isSubmitting,
-    });
-  }
-
   setAlert = ({ message, type }) => {
     const intent = SET_ALERT;
 
@@ -159,12 +150,12 @@ export default class IncomeAllocationModule {
         type: 'success',
       });
 
-      this.setSubmittingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.loadIncomeAllocation();
     };
 
     const onFailure = (error) => {
-      this.setSubmittingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
 
       this.setAlert({
         message: error.message,
@@ -180,7 +171,7 @@ export default class IncomeAllocationModule {
       onFailure,
     });
 
-    this.setSubmittingState(true);
+    this.setLoadingState(LoadingState.LOADING);
   }
 
   render = () => {

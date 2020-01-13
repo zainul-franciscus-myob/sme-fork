@@ -9,7 +9,7 @@ import {
   getCreateBankFeedsUrl,
   getIsActionDisabled,
   getIsBankFeedsEmpty,
-  getIsLoading,
+  getLoadingState,
   getModalType,
 } from '../BankFeedsSelectors';
 import Alert from './Alert';
@@ -28,7 +28,7 @@ const BankFeedsView = ({
   modalType,
   manageBankFeedsLink,
   isBankFeedsEmpty,
-  isLoading,
+  loadingState,
   isActionDisabled,
   onSaveButtonClick,
   onDismissAlert,
@@ -118,11 +118,11 @@ const BankFeedsView = ({
     </BaseTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   isActionDisabled: getIsActionDisabled(state),
   alert: getAlert(state),
   modalType: getModalType(state),

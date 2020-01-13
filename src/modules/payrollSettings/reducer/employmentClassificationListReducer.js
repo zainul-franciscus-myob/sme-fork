@@ -35,9 +35,9 @@ export const setEmploymentClassificationListSortOrder = (state, action) => (
     sortOrder: action.sortOrder,
   }));
 
-export const setEmploymentClassificationListLoadingState = (state, action) => (
+export const setEmploymentClassificationListLoadingState = (state, { loadingState }) => (
   updateEmploymentClassificationListState(state, {
-    isLoading: action.isLoading,
+    loadingState,
   }));
 
 export const setEmploymentClassificationListTableLoadingState = (state, action) => (

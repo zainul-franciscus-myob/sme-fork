@@ -7,9 +7,9 @@ import React from 'react';
 import {
   getAlert,
   getIsCreating,
-  getIsLoading,
   getIsServiceLayout,
   getIsSubmitting,
+  getLoadingState,
   getModalAlert,
   getModalType,
   getTemplateOptions,
@@ -32,7 +32,7 @@ import styles from './InvoiceDetailView.module.css';
 const InvoiceDetailView = ({
   accountModal,
   inventoryModal,
-  isLoading,
+  loadingState,
   isCreating,
   alert,
   modalType,
@@ -154,7 +154,7 @@ const InvoiceDetailView = ({
     </React.Fragment>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
@@ -162,7 +162,7 @@ const mapStateToProps = state => ({
   modalAlert: getModalAlert(state),
   modalType: getModalType(state),
   emailInvoiceDetail: getEmailInvoiceDetail(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   isActionsDisabled: getIsSubmitting(state),
   isServiceLayout: getIsServiceLayout(state),
   templateOptions: getTemplateOptions(state),

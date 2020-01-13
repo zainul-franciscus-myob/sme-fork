@@ -6,5 +6,4 @@ export const DELETE_INCOME_ALLOCATION_LINE = Symbol('Delete an income allocation
 export const UPDATE_INCOME_ALLOCATION_LINE = Symbol('Update an income allocation line');
 export const SET_ALERT = Symbol('Set alert');
 export const SET_LOADING_STATE = Symbol('Set loading state');
-export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SAVE_INCOME_ALLOCATION = Symbol('Save an income allocation');

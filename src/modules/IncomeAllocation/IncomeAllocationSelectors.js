@@ -103,14 +103,7 @@ export const getIsTableHidden = createSelector(
   entityType => entityType === 'Company',
 );
 
-export const getIsSubmitting = state => state.isSubmitting;
-export const getIsLoading = state => state.isLoading;
-
-export const getIsLoadingState = createSelector(
-  getIsLoading,
-  getIsSubmitting,
-  (isLoading, isSubmitting) => isLoading || isSubmitting,
-);
+export const getLoadingState = state => state.loadingState;
 
 export const getAlert = state => state.alert;
 export const getBusinessId = state => state.businessId;

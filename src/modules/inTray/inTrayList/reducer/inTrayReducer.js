@@ -45,13 +45,14 @@ import {
   setUploadOptionsAlert,
   setUploadOptionsLoadingState,
 } from './uploadOptionsReducer';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultDateRange = () => addMonths(new Date(), -3);
 
 const getDefaultState = () => ({
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   businessId: '',
   alert: undefined,
   email: '',
@@ -94,9 +95,9 @@ const loadInTray = (state, action) => ({
 
 const resetState = () => ({ ...getDefaultState() });
 
-const setLoadingState = (state, { isLoading }) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading,
+  loadingState,
 });
 
 const setInitialState = (state, { context }) => ({

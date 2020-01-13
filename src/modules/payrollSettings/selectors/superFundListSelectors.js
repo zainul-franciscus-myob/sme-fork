@@ -1,8 +1,10 @@
 import { createSelector } from 'reselect';
 
 import { getBusinessId, getRegion } from './payrollSettingsSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 
-export const getIsLoading = state => state.superFundList.isLoading;
+export const getLoadingState = state => state.superFundList.loadingState;
+export const getIsLoading = state => getLoadingState(state) === LoadingState.LOADING;
 
 export const getIsTableLoading = state => state.superFundList.isTableLoading;
 

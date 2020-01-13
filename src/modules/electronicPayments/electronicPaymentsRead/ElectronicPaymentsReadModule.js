@@ -4,6 +4,7 @@ import React from 'react';
 import { SUCCESSFULLY_DELETED_ELECTRONIC_PAYMENT } from '../electronicPaymentMesssageTypes';
 import { getTransactionListUrl } from './ElectronicPaymentsReadSelector';
 import ElectronicPaymentsReadView from './components/ElectronicPaymentsReadView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import createElectronicPaymentsReadDispatcher from './createElectronicPaymentsReadDispatcher';
 import createElectronicPaymentsReadIntegrator from './createEelctronicPaymentsReadIntegrator';
@@ -24,15 +25,15 @@ export default class ElectronicPaymentsReadModule {
   };
 
   loadElectronicPaymentDetails = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
       this.dispatcher.setElectronicPayment(response);
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
-    const onFailure = (message) => {
-      console.log(`Failed to load Electronic payment. ${message}`);
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadElectronicPaymentDetails({ onSuccess, onFailure });
@@ -40,7 +41,7 @@ export default class ElectronicPaymentsReadModule {
 
   deleteElectronicPayment = () => {
     this.dispatcher.closeDeleteModal();
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -52,7 +53,7 @@ export default class ElectronicPaymentsReadModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setAlertMessage(message);
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.deleteElectronicPayment({ onSuccess, onFailure });

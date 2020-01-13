@@ -1,5 +1,6 @@
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import InvoiceHistoryAccordionStatus from '../InvoiceHistoryAccordionStatus';
+import LoadingState from '../../../components/PageView/LoadingState';
 import SaveActionType from '../SaveActionType';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -11,7 +12,7 @@ const getDefaultState = () => ({
   duplicatedInvoiceId: undefined,
   openSendEmail: undefined,
   openExportPdf: undefined,
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   alert: undefined,
   modalType: InvoiceDetailModalType.NONE,
   modalAlert: undefined,

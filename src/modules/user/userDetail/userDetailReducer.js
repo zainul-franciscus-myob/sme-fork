@@ -3,12 +3,13 @@ import {
   LOAD_NEW_ADVISOR_DETAIL,
   LOAD_NEW_USER_DETAIL,
   LOAD_USER_DETAIL,
-  OPEN_MODAL, SET_ALERT_MESSAGE,
+  OPEN_MODAL, SET_ALERT_MESSAGE, SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_USER_DETAILS,
   UPDATE_USER_ROLES,
 } from '../UserIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -27,7 +28,7 @@ const getDefaultState = () => ({
     isReadOnly: false,
     isInactive: false,
   },
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   alertMessage: '',
 });
@@ -66,7 +67,6 @@ const loadUserDetail = (state, action) => ({
     ...state.user,
     ...action.user,
   },
-  isLoading: false,
 });
 
 const updateUserRoles = (state, action) => ({
@@ -92,9 +92,15 @@ const setAlertMessage = (state, action) => ({
   alertMessage: action.alertMessage,
 });
 
+const setLoadingState = (state, { loadingState }) => ({
+  ...state,
+  loadingState,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
+  [SET_LOADING_STATE]: setLoadingState,
   [UPDATE_USER_DETAILS]: updateUserDetails,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,

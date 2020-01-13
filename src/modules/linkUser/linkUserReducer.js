@@ -9,6 +9,7 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../SystemIntents';
+import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -17,7 +18,7 @@ const getDefaultState = () => ({
   userEmail: '',
   userId: '',
   password: '',
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   alertMessage: '',
 });
 
@@ -48,9 +49,9 @@ const dismissAlert = state => ({
   alertMessage: '',
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const handlers = {

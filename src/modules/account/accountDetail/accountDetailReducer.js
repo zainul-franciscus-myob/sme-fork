@@ -15,6 +15,7 @@ import {
   UPDATE_HEADER_ACCOUNT_TYPE,
 } from '../AccountIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import accountClassificationToAccountTypeMapping from './accountClassificationToAccountTypeMapping.json';
 import accountTypeToCashFlowClassificationMapping from '../accountTypeToCashFlowClassificationMapping.json';
 import createReducer from '../../../store/createReducer';
@@ -58,7 +59,7 @@ const getDefaultState = () => ({
     linkedAccount: '',
     currentBalance: '',
   },
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   modalType: '',
   alertMessage: '',
@@ -106,9 +107,9 @@ const loadAccountDetail = (state, action) => {
   };
 };
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const updateAccountDetails = (state, action) => {

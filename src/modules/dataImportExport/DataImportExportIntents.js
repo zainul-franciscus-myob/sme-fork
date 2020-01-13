@@ -1,7 +1,6 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_ALERT = Symbol('Set the alert of the page');
 export const SET_MODAL_TYPE = Symbol('Set the modal type for the page');
-export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SET_SELECTED_TAB = Symbol('Set selected tab');
 
 export const LOAD_DATA_IMPORT_EXPORT = Symbol('Load data import export');

@@ -3,7 +3,7 @@ import {
   ADD_BILL_SERVICE_LINE,
   CLOSE_ALERT,
   CLOSE_MODAL,
-  DOWNLOAD_IN_TRAY_DOCUMENT,
+  DOWNLOAD_IN_TRAY_DOCUMENT, FAIL_LOADING,
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   HIDE_PREFILL_INFO,
@@ -43,6 +43,7 @@ import {
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getLoadBillModalType, getUpdatedSupplierOptions } from './selectors/billSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -114,7 +115,7 @@ const getDefaultState = () => ({
     totalAmount: '',
     amountDue: '',
   },
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isPageEdited: false,
   isPendingCalculation: false,
   isSupplierBlocking: false,
@@ -221,12 +222,17 @@ const openAlert = (state, action) => ({
 
 const startLoading = state => ({
   ...state,
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
 });
 
 const stopLoading = state => ({
   ...state,
-  isLoading: false,
+  loadingState: LoadingState.LOADING_SUCCESS,
+});
+
+const failLoading = state => ({
+  ...state,
+  loadingState: LoadingState.LOADING_FAIL,
 });
 
 const getTaxCodeIdByAccountId = (state, accountId) => {
@@ -564,6 +570,7 @@ const handlers = {
   [CLOSE_ALERT]: closeAlert,
   [START_LOADING]: startLoading,
   [STOP_LOADING]: stopLoading,
+  [FAIL_LOADING]: failLoading,
   [START_BLOCKING]: startBlocking,
   [STOP_BLOCKING]: stopBlocking,
   [START_MODAL_BLOCKING]: startModalBlocking,

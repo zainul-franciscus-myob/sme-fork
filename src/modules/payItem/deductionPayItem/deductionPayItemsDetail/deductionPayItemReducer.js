@@ -18,6 +18,7 @@ import {
   RESET_STATE,
   SET_INITIAL_STATE,
 } from '../../../../SystemIntents';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 
 const formatAmount = value => Number(value).toFixed(2);
@@ -74,7 +75,7 @@ const getDefaultState = () => ({
   },
   modalType: '',
   isSubmitting: false,
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isPageEdited: false,
   alert: undefined,
 });
@@ -86,9 +87,9 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const setLoadingState = (state, { isLoading }) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading,
+  loadingState,
 });
 
 const loadDetailsData = (state, {

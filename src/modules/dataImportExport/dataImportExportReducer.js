@@ -5,19 +5,19 @@ import {
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_SELECTED_TAB,
-  SET_SUBMITTING_STATE,
   UPDATE_DATA_TYPE,
   UPDATE_DUPLICATE_RECORDS_OPTION,
   UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL,
 } from './DataImportExportIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import LoadingState from '../../components/PageView/LoadingState';
 import TabItem from './types/TabItem';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
   alert: undefined,
   modalType: '',
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   region: '',
   businessId: '',
@@ -59,14 +59,9 @@ const setInitialState = (state, action) => ({
   },
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
-});
-
-const setSubmittingState = (state, action) => ({
-  ...state,
-  isSubmitting: action.isSubmitting,
+  loadingState,
 });
 
 const setAlert = (state, action) => ({
@@ -146,7 +141,6 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
-  [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,
   [SET_MODAL_TYPE]: setModalType,
   [SET_SELECTED_TAB]: setSelectedTab,

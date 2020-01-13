@@ -6,7 +6,7 @@ export const getRegion = state => state.region;
 
 export const getIsCreating = state => state.payItemId === 'new';
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getPayItemId = state => state.payItemId;
 

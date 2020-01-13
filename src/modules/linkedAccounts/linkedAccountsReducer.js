@@ -1,20 +1,21 @@
 import {
   LOAD_LINKED_ACCOUNTS,
   SET_ALERT,
-  SET_IS_LOADING,
   SET_IS_SUBMITTING,
+  SET_LOADING_STATE,
   SET_SELECTED_TAB,
   UPDATE_ACCOUNT,
   UPDATE_HAS_ACCOUNT_OPTION,
 } from './LinkedAccountsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import LoadingState from '../../components/PageView/LoadingState';
 import TabItem from './TabItem';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
   businessId: '',
   region: '',
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   alert: undefined,
   selectedTab: TabItem.ACCOUNTS_AND_BANKING,
@@ -130,9 +131,9 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const setIsLoading = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setIsSubmitting = (state, action) => ({
@@ -204,7 +205,7 @@ const updateHasAccountOption = (state, action) => ({
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
-  [SET_IS_LOADING]: setIsLoading,
+  [SET_LOADING_STATE]: setLoadingState,
   [SET_IS_SUBMITTING]: setIsSubmitting,
   [SET_ALERT]: setAlert,
   [SET_SELECTED_TAB]: setSelectedTab,

@@ -9,6 +9,7 @@ import {
 } from './selectors/DataImportExportSelectors';
 import DataImportExportView from './components/DataImportExportView';
 import ImportExportDataType from './types/ImportExportDataType';
+import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import TabItem from './types/TabItem';
 import createDataImportExportDispatcher from './createDataImportExportDispatcher';
@@ -29,15 +30,15 @@ export default class DataImportExportModule {
   }
 
   loadDataImportExport = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadDataImportExport(response);
     };
 
     const onFailure = () => {
-      console.log('Failed to load data for import/export');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadDataImportExport({ onSuccess, onFailure });
@@ -88,17 +89,17 @@ export default class DataImportExportModule {
   }
 
   importChartOfAccounts = () => {
-    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
       this.emptyDataTypeForTab(TabItem.IMPORT);
-      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.closeModal();
       this.displaySuccessMessage(response.message);
     };
 
     const onFailure = (response) => {
-      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.closeModal();
       this.displayFailureAlert(response.message);
     };
@@ -107,11 +108,11 @@ export default class DataImportExportModule {
   }
 
   exportChartOfAccounts = () => {
-    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (data) => {
       this.emptyDataTypeForTab(TabItem.EXPORT);
-      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.displaySuccessMessage('Export successful! A tab-delimited TXT file has been downloaded.');
 
       openBlob({
@@ -122,7 +123,7 @@ export default class DataImportExportModule {
     };
 
     const onFailure = (response) => {
-      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.displayFailureAlert(response.message);
     };
 

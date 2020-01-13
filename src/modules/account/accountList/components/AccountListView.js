@@ -6,7 +6,7 @@ import React from 'react';
 
 import {
   getAlert, getAppliedFilterOptionsType,
-  getIsLoading,
+  getLoadingState,
 } from '../AccountListSelectors';
 import { tabItems } from '../tabItems';
 import AccountListFilterOptions from './AccountListFilterOptions';
@@ -18,7 +18,7 @@ import Tabs from '../../../../components/Tabs/Tabs';
 
 const AccountListView = ({
   alert,
-  isLoading,
+  loadingState,
   selectedTab,
   onDismissAlert,
   onUpdateFilterOptions,
@@ -76,11 +76,11 @@ const AccountListView = ({
     </React.Fragment>
   );
 
-  return <PageView isLoading={isLoading} view={accountView} />;
+  return <PageView loadingState={loadingState} view={accountView} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
   selectedTab: getAppliedFilterOptionsType(state),
 });

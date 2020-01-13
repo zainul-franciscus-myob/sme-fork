@@ -13,8 +13,8 @@ import {
   getBankStatementDescription,
   getDateOfPayment,
   getFilterOptions,
-  getIsLoading,
   getIsTableLoading,
+  getLoadingState,
   getModal,
   getOrder,
   getPaymentTypes,
@@ -36,7 +36,7 @@ import styles from './ElectronicPaymentsCreateView.module.css';
 const ElectronicPaymentsCreateView = ({
   alert,
   onDismissAlert,
-  isLoading,
+  loadingState,
   onInputChange,
   transactionDescription,
   referenceNumber,
@@ -125,12 +125,12 @@ const ElectronicPaymentsCreateView = ({
     </BaseTemplate>
   );
   return (
-    <PageView isLoading={isLoading} view={view} />
+    <PageView loadingState={loadingState} view={view} />
   );
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   transactions: getTableEntries(state),
   paymentTypes: getPaymentTypes(state),
   accounts: getAccounts(state),

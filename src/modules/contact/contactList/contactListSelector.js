@@ -64,7 +64,7 @@ export const getIsTableLoading = state => state.isTableLoading;
 
 export const getisNextPageLoading = state => state.isNextPageLoading;
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getShowHiddenColumns = state => state.showHiddenColumns;
 

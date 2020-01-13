@@ -25,6 +25,7 @@ import {
   getUserId,
   isPageEdited,
 } from './userDetailSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
 import Store from '../../../store/Store';
 import UserDetailView from './components/UserDetailView';
@@ -84,16 +85,15 @@ export default class UserDetailModule {
     };
 
     const onSuccess = (user) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         user,
-        isLoading: false,
       });
     };
 
     const onFailure = () => {
-      console.log('Failed to load User details');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -259,10 +259,10 @@ export default class UserDetailModule {
     this.store.unsubscribeAll();
   };
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   };
 
@@ -287,7 +287,7 @@ export default class UserDetailModule {
     this.setInitialState(context);
     this.render();
     setupHotKeys(keyMap, this.handlers);
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.loadUser();
   }
 

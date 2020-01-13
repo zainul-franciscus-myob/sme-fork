@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsLoading } from '../../selectors/superFundListSelectors';
+import { getIsLoading, getLoadingState } from '../../selectors/superFundListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import SuperFundListFilterOptions from './SuperFundListFilterOptions';
 import SuperFundListTable from './SuperFundListTable';
@@ -12,6 +12,7 @@ import SuperFundListTable from './SuperFundListTable';
 const SuperFundListView = (props) => {
   const {
     isLoading,
+    loadingState,
     pageHead,
     alert,
     tabs,
@@ -55,7 +56,7 @@ const SuperFundListView = (props) => {
       subHeadChildren={subHeadChildren}
       filterBar={isLoading ? undefined : filterBar}
     >
-      <PageView isLoading={isLoading} view={view} />
+      <PageView loadingState={loadingState} view={view} />
     </StandardTemplate>
   );
 };
@@ -66,6 +67,7 @@ SuperFundListView.defaultProps = {
 
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
 });
 
 export default connect(mapStateToProps)(SuperFundListView);

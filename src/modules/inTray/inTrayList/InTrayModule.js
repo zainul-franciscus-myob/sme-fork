@@ -20,6 +20,7 @@ import {
   getUploadingErrorMessage,
 } from './selectors/InTrayListSelectors';
 import InTrayView from './components/InTrayView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import actionTypes from './actionTypes';
 import createInTrayDispatcher from './createInTrayDispatcher';
@@ -50,15 +51,15 @@ export default class InTrayModule {
   }
 
   loadInTray = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (payload) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadInTray(payload);
     };
 
     const onFailure = () => {
-      console.log('Failed to load in tray');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadInTray({ onSuccess, onFailure });

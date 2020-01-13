@@ -15,6 +15,7 @@ import {
 } from './EmployeeDetailSelectors';
 import ContactDetailsTabModule from './contactDetails/ContactDetailsTabModule';
 import EmployeeDetailView from './components/EmployeeDetailView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import PaymentDetailsTabModule from './paymentDetails/PaymentDetailsTabModule';
 import PayrollDetailsTabModule from './payrollDetails/PayrollDetailsTabModule';
 import Store from '../../../store/Store';
@@ -66,12 +67,12 @@ export default class EmployeeDetailModule {
 
   loadEmployeeDetails = () => {
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadEmployeeDetails(response);
     };
 
     const onFailure = () => {
-      console.log('Failed to load employee detail');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadEmployeeDetails({ onSuccess, onFailure });
@@ -100,11 +101,11 @@ export default class EmployeeDetailModule {
 
   createOrUpdateEmployee = (onSuccess) => {
     this.dispatcher.setSubmittingState(true);
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onFailure = (response) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'danger', message: response.message });
     };
 
@@ -114,7 +115,7 @@ export default class EmployeeDetailModule {
   saveEmployee = () => {
     const onSuccess = (response) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
 
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
@@ -144,7 +145,7 @@ export default class EmployeeDetailModule {
 
     const onSuccess = (response) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_EMPLOYEE,
         content: response.message,

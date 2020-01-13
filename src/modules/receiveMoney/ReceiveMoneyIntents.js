@@ -15,4 +15,3 @@ export const ADD_RECEIVE_MONEY_LINE = Symbol('Add receive money line');
 export const DELETE_RECEIVE_MONEY_LINE = Symbol('Delete receive money line');
 export const GET_CALCULATED_TOTALS = Symbol('Get calculated totals');
 export const RESET_TOTALS = Symbol('Reset calculated totals');
-export const SET_TOTALS_LOADING_STATE = Symbol('Set totals loading state');

@@ -5,11 +5,11 @@ import {
   LOAD_INCOME_ALLOCATION,
   SET_ALERT,
   SET_LOADING_STATE,
-  SET_SUBMITTING_STATE,
   UPDATE_ENTITY_TYPE,
   UPDATE_INCOME_ALLOCATION_LINE,
 } from './IncomeAllocationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -27,7 +27,7 @@ const getDefaultState = () => ({
   },
   accounts: [],
   entityTypes: [],
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   alert: undefined,
   businessId: '',
@@ -132,19 +132,14 @@ const deleteLine = (state, action) => ({
   },
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setAlert = (state, action) => ({
   ...state,
   alert: action.alert,
-});
-
-const setSubmittingState = (state, action) => ({
-  ...state,
-  isSubmitting: action.isSubmitting,
 });
 
 const setInitialState = (state, action) => ({
@@ -162,7 +157,6 @@ const handlers = {
   [FORMAT_INCOME_ALLOCATION_LINE]: formatLine,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_ALERT]: setAlert,
-  [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_INITIAL_STATE]: setInitialState,
 };
 

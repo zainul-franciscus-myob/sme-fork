@@ -4,8 +4,7 @@ import ImportExportDataType from '../types/ImportExportDataType';
 
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
-export const getIsLoading = state => state.isLoading;
-export const getIsSubmitting = state => state.isSubmitting;
+export const getLoadingState = state => state.loadingState;
 export const getIsActionDisabled = state => state.isSubmitting;
 export const getTab = state => state.selectedTab;
 

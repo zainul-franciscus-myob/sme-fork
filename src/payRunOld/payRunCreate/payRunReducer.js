@@ -34,12 +34,13 @@ import {
   getStartPayRunDefaultState,
   startPayRunHandlers,
 } from './startPayRun/startPayRunReducer';
+import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 import wrapHandlers from '../../store/wrapHandlers';
 
 const getDefaultState = () => ({
   payRunId: uuid(),
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   alert: undefined,
   step: 0,
@@ -56,9 +57,9 @@ const getDefaultState = () => ({
 
 const resetState = () => ({ ...getDefaultState() });
 
-const setLoadingState = (state, { isLoading }) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading,
+  loadingState,
 });
 
 const setSubmittingState = (state, { isSubmitting }) => ({

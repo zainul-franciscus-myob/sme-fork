@@ -39,6 +39,7 @@ import InventoryModalModule from '../../modules/inventory/inventoryModal/Invento
 import InvoiceDetailElementId from './InvoiceDetailElementId';
 import InvoiceDetailModalType from './InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
+import LoadingState from '../../components/PageView/LoadingState';
 import SaveActionType from './SaveActionType';
 import Store from '../../store/Store';
 import createInvoiceDetailDispatcher from './createInvoiceDetailDispatcher';
@@ -104,15 +105,17 @@ export default class InvoiceDetailModule {
   };
 
   loadInvoice = (message) => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (payload) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.loadInvoice(payload, message);
     };
 
-    const onFailure = () => console.log('Failed to load invoice');
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
 
     this.integrator.loadInvoice({ onSuccess, onFailure });
   }

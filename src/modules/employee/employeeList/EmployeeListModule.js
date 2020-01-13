@@ -27,6 +27,7 @@ import {
   getRegion,
 } from './EmployeeListSelectors';
 import EmployeeListView from './components/EmployeeListView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import employeeListReducer from './employeeListReducer';
 
@@ -122,7 +123,7 @@ export default class EmployeeListModule {
     };
 
     const onSuccess = (response) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent: LOAD_EMPLOYEE_LIST,
         ...response,
@@ -130,7 +131,7 @@ export default class EmployeeListModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load employee list entries');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -287,11 +288,11 @@ export default class EmployeeListModule {
     });
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
     this.store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   }
 

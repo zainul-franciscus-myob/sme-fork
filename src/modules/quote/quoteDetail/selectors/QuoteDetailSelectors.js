@@ -12,7 +12,7 @@ export const getDuplicateQuoteIdQueryParam = state => state.duplicatedQuoteId;
 export const getOpenSendEmailQueryParam = state => state.openSendEmail;
 export const getOpenExportPdfQueryParam = state => state.openExportPdf;
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getAlert = state => state.alert;

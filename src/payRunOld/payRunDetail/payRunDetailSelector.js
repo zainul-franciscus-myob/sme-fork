@@ -1,3 +1,4 @@
+export const getLoadingState = state => state.loadingState;
 export const getSelectedTab = state => state.selectedTab;
 export const getEmailTabEmployees = state => state.emailPaySlipEmployees;
 export const getPrintTabEmployees = state => state.printPaySlipEmployees;

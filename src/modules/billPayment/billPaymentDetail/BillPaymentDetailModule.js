@@ -34,6 +34,7 @@ import {
   getSupplierId,
 } from './BillPaymentDetailSelectors';
 import BillPaymentView from './components/BillPaymentDetailView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import billPaymentReducer from './billPaymentDetailReducer';
 import keyMap from '../../../hotKeys/keyMap';
@@ -58,7 +59,7 @@ export default class BillPaymentModule {
     };
 
     const onSuccess = (response) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
 
       this.store.dispatch({
         intent,
@@ -67,7 +68,7 @@ export default class BillPaymentModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load bill payment');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -87,10 +88,10 @@ export default class BillPaymentModule {
     this.store.unsubscribeAll();
   };
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   }
 
@@ -353,7 +354,7 @@ export default class BillPaymentModule {
     this.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.loadBillPayment();
   }
 

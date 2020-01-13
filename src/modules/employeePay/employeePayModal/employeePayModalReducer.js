@@ -6,6 +6,7 @@ import {
   SET_MODAL_IS_OPEN,
 } from './EmployeePayModalIntents';
 import { RESET_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -25,7 +26,7 @@ const getDefaultState = () => ({
     employeeBankStatementDesc: '',
     transactionDesc: '',
   },
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isOpen: false,
   deletePopoverIsOpen: false,
 });
@@ -42,9 +43,9 @@ const loadEmployeePayDetails = (state, { response }) => ({
   },
 });
 
-const setModalLoadingState = (state, action) => ({
+const setModalLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setInitialState = (state, action) => ({

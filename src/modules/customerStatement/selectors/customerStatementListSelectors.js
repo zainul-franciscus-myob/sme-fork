@@ -5,7 +5,7 @@ import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 
 const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getStatementType = state => state.templateAdditionalOptions.statementType;
 export const getStatementDate = state => state.templateAdditionalOptions.statementDate;

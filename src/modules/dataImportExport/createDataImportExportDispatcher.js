@@ -5,7 +5,6 @@ import {
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_SELECTED_TAB,
-  SET_SUBMITTING_STATE,
   UPDATE_DATA_TYPE,
   UPDATE_DUPLICATE_RECORDS_OPTION,
   UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL,
@@ -13,17 +12,10 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
 const createDataImportExportDispatcher = store => ({
-  setLoadingState: (isLoading) => {
+  setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
-    });
-  },
-
-  setSubmittingState: (isSubmitting) => {
-    store.dispatch({
-      intent: SET_SUBMITTING_STATE,
-      isSubmitting,
+      loadingState,
     });
   },
 

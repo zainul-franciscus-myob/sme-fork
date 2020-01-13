@@ -12,8 +12,8 @@ import {
   getAlert,
   getDate,
   getDescription,
-  getIsLoading,
   getLabelStatus,
+  getLoadingState,
   getModalType,
   getReferenceNumber,
   getStatus,
@@ -35,7 +35,7 @@ const PaySuperReadView = ({
   description,
   referenceNumber,
   date,
-  isLoading,
+  loadingState,
   onCancelClick,
   onAuthoriseClick,
   onReverseClick,
@@ -94,11 +94,11 @@ const PaySuperReadView = ({
       />
     </BaseTemplate>
   );
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   account: getAccount(state),
   description: getDescription(state),
   referenceNumber: getReferenceNumber(state),

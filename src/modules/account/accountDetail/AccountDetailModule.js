@@ -12,6 +12,7 @@ import {
   isPageEdited,
 } from './accountDetailSelectors';
 import AccountDetailView from './components/AccountDetailView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import RegionToBankComponentMapping from './RegionToBankComponentMapping';
 import Store from '../../../store/Store';
 import accountDetailReducer from './accountDetailReducer';
@@ -91,12 +92,12 @@ export default class AccountDetailModule {
     const state = this.store.getState();
     const isCreating = getIsCreating(state);
     const onSuccess = (payload) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadAccountDetail(payload);
     };
 
     const onFailure = () => {
-      console.log('Failed to load account');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     if (isCreating) {
@@ -104,7 +105,7 @@ export default class AccountDetailModule {
       return;
     }
 
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.integrator.loadAccountDetail(onSuccess, onFailure);
   };
 
@@ -131,15 +132,15 @@ export default class AccountDetailModule {
 
   loadNewAccount = () => {
     const onSuccess = (payload) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadNewAccount(payload);
     };
 
     const onFailure = () => {
-      console.log('Failed to load new account');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.integrator.loadNewAccount({
       onSuccess,
       onFailure,

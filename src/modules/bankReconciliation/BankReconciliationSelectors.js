@@ -6,7 +6,7 @@ import formatAmount from '../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../common/valueFormatters/formatCurrency';
 import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getIsActionDisabled = state => state.isSubmitting || state.isTableLoading;

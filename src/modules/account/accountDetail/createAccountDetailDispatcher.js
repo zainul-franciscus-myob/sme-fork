@@ -90,12 +90,12 @@ const createAccountDetailDispatcher = store => ({
     });
   },
 
-  setLoadingState: (isLoading) => {
+  setLoadingState: (loadingState) => {
     const intent = SET_LOADING_STATE;
 
     store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   },
   openCancelModal: () => {

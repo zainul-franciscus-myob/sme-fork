@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getIsSubmitting, getModal, getPageTitle,
+  getAlert, getIsSubmitting, getLoadingState, getModal, getPageTitle,
 } from '../businessDetailSelectors';
 import BusinessDetailsSection from './BusinessDetailsSection';
 import ContactDetailsSection from './ContactDetailsSection';
@@ -16,7 +16,7 @@ import PageView from '../../../../components/PageView/PageView';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const BusinessDetailView = ({
-  isLoading,
+  loadingState,
   onChange,
   onLockDateDetailChange,
   onSaveButtonClick,
@@ -60,7 +60,7 @@ const BusinessDetailView = ({
       </FormCard>
     </FormTemplate>
   );
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 BusinessDetailView.defaultProps = {
@@ -68,7 +68,7 @@ BusinessDetailView.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
   isSubmitting: getIsSubmitting(state),
   modal: getModal(state),

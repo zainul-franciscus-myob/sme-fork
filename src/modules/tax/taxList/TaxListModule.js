@@ -4,6 +4,7 @@ import React from 'react';
 import { LOAD_TAX_LIST, SET_LOADING_STATE } from '../TaxIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getBusinessId } from './taxListSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import TaxListView from './components/TaxListView';
 import taxListReducer from './taxListReducer';
@@ -17,9 +18,9 @@ class TaxListModule {
     this.setRootView = setRootView;
   }
 
-  setLoadingState = isLoading => this.store.dispatch({
+  setLoadingState = loadingState => this.store.dispatch({
     intent: SET_LOADING_STATE,
-    isLoading,
+    loadingState,
   });
 
   loadTaxList = () => {
@@ -28,17 +29,17 @@ class TaxListModule {
       businessId: getBusinessId(this.store.getState()),
     };
     const onSuccess = ({ entries }) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         entries,
       });
     };
     const onFailure = () => {
-      console.log('Failed to load tax list entries');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.integration.read({
       intent,
       urlParams,

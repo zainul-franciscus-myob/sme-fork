@@ -145,7 +145,7 @@ class BillModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load bill');
+      this.dispatcher.failLoading();
     };
 
     this.dispatcher.startLoading();

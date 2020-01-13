@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import EmployeePayDetailModal from './components/EmployeePayModal';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import createEmployeePayModalDispatchers from './createEmployeePayModalDispatchers';
 import createEmployeePayModalIntegrator from './createEmployeePayModalIntegrator';
@@ -17,15 +18,15 @@ export default class EmployeePayModalModule {
   }
 
   loadEmployeePayDetail = () => {
-    this.dispatcher.setIsModalLoading(true);
+    this.dispatcher.setIsModalLoading(LoadingState.LOADING);
 
     const onSuccess = (response) => {
       this.dispatcher.setEmployeePayDetails(response);
-      this.dispatcher.setIsModalLoading(false);
+      this.dispatcher.setIsModalLoading(LoadingState.LOADING_SUCCESS);
     };
 
-    const onFailure = (message) => {
-      console.log(`Failed to load Employee Pay detail ${message}`);
+    const onFailure = () => {
+      this.dispatcher.setIsModalLoading(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadEmployeePayModal({ onSuccess, onFailure });

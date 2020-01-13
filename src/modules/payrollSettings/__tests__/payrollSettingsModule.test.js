@@ -2,6 +2,7 @@ import { ReadOnly } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
 import { tabIds } from '../tabItems';
+import LoadingState from '../../../components/PageView/LoadingState';
 import PayrollSettingsModule from '../PayrollSettingsModule';
 import YearInput from '../../../components/autoFormatter/YearInput/YearInput';
 import loadGeneralPayrollInformationResponse from '../mappings/data/loadGeneralPayrollInformationResponse';
@@ -33,7 +34,7 @@ describe('PayrollSettingsModule', () => {
     });
 
     module.run(context);
-    module.dispatcher.setGeneralPayrollInformationIsLoading(false);
+    module.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING_SUCCESS);
     wrapper.update();
 
     return wrapper;

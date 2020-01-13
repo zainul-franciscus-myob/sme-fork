@@ -69,6 +69,6 @@ export const getModalType = state => state.modalType;
 export const isPageEdited = state => state.isPageEdited;
 export const getIsActionsDisabled = state => state.isSubmitting;
 export const getIsInactive = state => state.item.isInactive;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getIsEnableForSelling = state => state.isEnableForSelling;
 export const getIsEnableForBuying = state => state.isEnableForBuying;

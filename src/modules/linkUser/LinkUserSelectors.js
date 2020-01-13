@@ -1,4 +1,4 @@
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getBusinessName = state => state.businessName;

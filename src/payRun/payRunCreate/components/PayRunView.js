@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getPreviousStepModalIsOpen, getStep,
+  getAlert, getLoadingState, getPreviousStepModalIsOpen, getStep,
 } from '../PayRunSelectors';
 import AlertContainer from './AlertContainer';
-import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../../components/PageView/PageView';
 import PreviousStepModal from './PreviousStepModal';
 
 const PayRunView = ({
   stepViews,
   step,
-  isLoading,
+  loadingState,
   alert,
   previousStepModalIsOpen,
   onDismissAlert,
@@ -38,11 +38,11 @@ const PayRunView = ({
     </BaseTemplate>
   );
 
-  return isLoading ? <LoadingPageState /> : view;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
   step: getStep(state),
   previousStepModalIsOpen: getPreviousStepModalIsOpen(state),

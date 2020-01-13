@@ -3,7 +3,7 @@ import {
   ADD_BILL_SERVICE_LINE,
   CLOSE_ALERT,
   CLOSE_MODAL,
-  DOWNLOAD_IN_TRAY_DOCUMENT,
+  DOWNLOAD_IN_TRAY_DOCUMENT, FAIL_LOADING,
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_SERVICE_LINES,
   HIDE_PREFILL_INFO,
@@ -133,6 +133,12 @@ const createBillDispatcher = store => ({
   stopLoading: () => {
     store.dispatch({
       intent: STOP_LOADING,
+    });
+  },
+
+  failLoading: () => {
+    store.dispatch({
+      intent: FAIL_LOADING,
     });
   },
 

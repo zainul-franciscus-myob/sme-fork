@@ -33,6 +33,7 @@ import {
   getPayItemId, getRegion, getSaveDeductionPayItemPayload,
 } from './DeductionPayItemSelectors';
 import DeductionPayItemView from './components/DeductionPayItemView';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
 import deductionPayItemReducer from './deductionPayItemReducer';
 import keyMap from '../../../../hotKeys/keyMap';
@@ -55,10 +56,10 @@ export default class DeductionPayItemModule {
     });
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   }
 
@@ -67,7 +68,7 @@ export default class DeductionPayItemModule {
     const intent = getIsCreating(state) ? LOAD_NEW_PAY_ITEM : LOAD_EXISTING_PAY_ITEM;
 
     const onSuccess = (payload) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
 
       this.store.dispatch({
         intent,
@@ -76,10 +77,10 @@ export default class DeductionPayItemModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load new deduction pay item');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.integration.read({
       intent,
       urlParams: {

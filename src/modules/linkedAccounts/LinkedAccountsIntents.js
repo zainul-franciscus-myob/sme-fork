@@ -1,4 +1,4 @@
-export const SET_IS_LOADING = Symbol('Set is loading');
+export const SET_LOADING_STATE = Symbol('Set is loading');
 export const SET_ALERT = Symbol('Set alert');
 export const SET_IS_SUBMITTING = Symbol('Set is submitting');
 export const SET_SELECTED_TAB = Symbol('Set selected tab');

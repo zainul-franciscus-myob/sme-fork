@@ -15,10 +15,10 @@ const createEmployeePayDetailDispatchers = store => ({
     });
   },
 
-  setLoadingState: (isLoading) => {
+  setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   },
 

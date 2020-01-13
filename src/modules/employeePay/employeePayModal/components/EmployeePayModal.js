@@ -11,20 +11,20 @@ import {
   getElectronicPaymentLink,
   getEmployeeName,
   getEmployeePay,
-  getIsLoading,
   getIsModalOpen,
+  getLoadingState,
 } from '../EmployeePayModalSelectors';
 import EmployeePayModalButtons from './EmployeePayModalButtons';
 import EmployeePayModalHeader from './EmployeePayModalHeader';
 import EmployeePayModalTable from './EmployeePayModalTable';
-import LoadingPageState from '../../../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../../../components/PageView/PageView';
 import styles from './EmployeePayModal.module.css';
 
 const EmployeePayModal = ({
   onBackButtonClick,
   onDeleteButtonClick,
   employeePay,
-  isLoading,
+  loadingState,
   onDeletePopoverDelete,
   onDeletePopoverCancel,
   deletePopoverIsOpen,
@@ -94,7 +94,7 @@ const EmployeePayModal = ({
     <Modal title={employeeName} size="large" onCancel={onBackButtonClick} focusTrapPaused>
       <meta data-testid="pay-detail-modal" />
       <Modal.Body>
-        {isLoading ? <LoadingPageState /> : modalDetail}
+        <PageView loadingState={loadingState} view={modalDetail} />
       </Modal.Body>
       <div className={styles.modalButtons}>
         <EmployeePayModalButtons
@@ -111,7 +111,7 @@ const EmployeePayModal = ({
 
 const mapStateToProps = state => ({
   employeePay: getEmployeePay(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   employeeName: getEmployeeName(state),
   deletePopoverIsOpen: getDeletePopoverIsOpen(state),
   isOpen: getIsModalOpen(state),

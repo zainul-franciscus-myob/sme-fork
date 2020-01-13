@@ -17,13 +17,14 @@ import {
   UPDATE_SELECTED_ACCOUNT_ID,
 } from './ElectronicPaymentsCreateIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultDateRange = () => addDays(addMonths(new Date(), -1), 1);
 
 const getDefaultState = () => ({
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: true,
   transactions: [],
   selectedAccountId: '',
@@ -112,9 +113,9 @@ const updateSelectedAccountId = (state, action) => ({
   selectedAccountId: action.value,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setTableLoadingState = (state, action) => ({

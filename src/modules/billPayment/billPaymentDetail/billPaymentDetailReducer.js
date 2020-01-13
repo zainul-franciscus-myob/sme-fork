@@ -14,6 +14,7 @@ import {
   UPDATE_TABLE_INPUT_FIELD,
 } from '../BillPaymentIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -32,7 +33,7 @@ const getDefaultState = () => ({
   date: formatIsoDate(new Date()),
   entries: [],
   totalPaid: '',
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   isSubmitting: false,
   isPageEdited: false,
@@ -46,9 +47,9 @@ const pageEdited = { isPageEdited: true };
 
 const resetState = () => (getDefaultState());
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setTableLoadingState = (state, action) => ({

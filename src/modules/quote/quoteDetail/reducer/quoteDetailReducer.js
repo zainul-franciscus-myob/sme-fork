@@ -63,7 +63,7 @@ const setInitialState = (state, { context }) => ({ ...state, ...context });
 
 const resetState = () => (getDefaultState());
 
-const setLoadingState = (state, { isLoading }) => ({ ...state, isLoading });
+const setLoadingState = (state, { loadingState }) => ({ ...state, loadingState });
 
 const setSubmittingState = (state, { isSubmitting }) => ({ ...state, isSubmitting });
 

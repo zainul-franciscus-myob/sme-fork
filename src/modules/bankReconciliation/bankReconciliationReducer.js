@@ -17,11 +17,12 @@ import {
 } from './BankReconciliationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { getIsAllSelected } from './BankReconciliationSelectors';
+import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   isSubmitting: false,
   isModalActive: false,
@@ -37,9 +38,9 @@ const getDefaultState = () => ({
 
 const resetState = () => (getDefaultState());
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setTableLoadingState = (state, action) => ({

@@ -2,7 +2,7 @@ import { createSelector } from 'reselect/lib/index';
 
 export const getAlert = state => state.alert;
 export const getIsTableLoading = state => state.isTableLoading;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getAreActionButtonsDisabled = state => state.isSubmitting;
 
 export const getBusinessId = state => state.businessId;

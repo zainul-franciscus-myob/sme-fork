@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading, getIsModalActive } from '../BankReconciliationSelectors';
+import { getAlert, getIsModalActive, getLoadingState } from '../BankReconciliationSelectors';
 import BankReconciliationActions from './BankReconciliationActions';
 import BankReconciliationOptions from './BankReconciliationOptions';
 import BankReconciliationTable from './BankReconciliationTable';
@@ -12,7 +12,7 @@ import PageView from '../../../components/PageView/PageView';
 import UndoBankReconciliationModal from './UndoBankReconciliationModal';
 
 const BankReconciliationView = ({
-  isLoading,
+  loadingState,
   isModalActive,
   alert,
   onUpdateHeaderOption,
@@ -78,13 +78,13 @@ const BankReconciliationView = ({
     </BaseTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
   isModalActive: getIsModalActive(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
 });
 
 export default connect(mapStateToProps)(BankReconciliationView);

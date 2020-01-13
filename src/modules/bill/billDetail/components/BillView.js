@@ -3,9 +3,9 @@ import React from 'react';
 
 import {
   getIsAlertShown,
-  getIsLoading,
   getIsModalShown,
   getLayout,
+  getLoadingState,
 } from '../selectors/billSelectors';
 import {
   getShowPrefillInfo,
@@ -33,7 +33,7 @@ const BillView = ({
   isAlertShown,
   isModalShown,
   isSplitViewShown,
-  isLoading,
+  loadingState,
   showPrefillInfo,
   layout,
   inventoryModal,
@@ -195,7 +195,7 @@ const BillView = ({
 
   return (
     <PageView
-      isLoading={isLoading}
+      loadingState={loadingState}
       view={view}
     />
   );
@@ -204,7 +204,7 @@ const BillView = ({
 const mapStateToProps = state => ({
   isModalShown: getIsModalShown(state),
   isAlertShown: getIsAlertShown(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   layout: getLayout(state),
   isSplitViewShown: getShowSplitView(state),
   showPrefillInfo: getShowPrefillInfo(state),

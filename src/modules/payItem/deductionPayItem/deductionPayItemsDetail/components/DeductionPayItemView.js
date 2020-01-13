@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getModalType, getTitle,
+  getAlert, getLoadingState, getModalType, getTitle,
 } from '../DeductionPayItemSelectors';
 import DeductionPayItemActions from './DeductionPayItemActions';
 import DeductionPayItemModal from './DeductionPayItemModal';
@@ -18,7 +18,7 @@ import styles from './DeductionPayItemView.module.css';
 
 const DeductionPayItemView = ({
   title,
-  isLoading,
+  loadingState,
   modalType,
   onDetailsChange,
   onInformationChange,
@@ -81,12 +81,12 @@ const DeductionPayItemView = ({
       />
     </StandardTemplate>
   );
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
   title: getTitle(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   modalType: getModalType(state),
   alert: getAlert(state),
 });

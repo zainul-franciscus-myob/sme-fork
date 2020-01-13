@@ -4,10 +4,11 @@ import {
   SET_LOADING_STATE,
 } from './ElectronicPaymentsReadIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   transactions: [],
   transactionDescription: '',
   referenceNumber: '',
@@ -28,9 +29,9 @@ const resetState = () => ({
   ...getDefaultState(),
 });
 
-const setLoadingState = (store, { isLoading }) => ({
+const setLoadingState = (store, { loadingState }) => ({
   ...store,
-  isLoading,
+  loadingState,
 });
 
 const setAlertMessage = (store, { message }) => ({

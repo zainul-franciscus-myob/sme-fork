@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import BankFeedsView from './components/BankFeedsView';
+import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import bankFeedsReducer from './bankFeedsReducer';
 import createBankFeedsDispatcher from './createBankFeedsDispatcher';
@@ -20,11 +21,11 @@ class BankFeedsModule {
 
   loadBankFeeds = () => {
     const onSuccess = (response) => {
-      this.dispatcher.setIsLoading(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBankFeeds(response);
     };
     const onFailure = () => {
-      console.log('Failed to load linked accounts');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
     this.integrator.loadBankFeeds({ onSuccess, onFailure });
   }
@@ -125,7 +126,7 @@ class BankFeedsModule {
   run(context) {
     this.dispatcher.setInitialState(context);
     this.render();
-    this.dispatcher.setIsLoading(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadBankFeeds();
   }
 

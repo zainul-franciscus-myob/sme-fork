@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getCurrentDataTypeInCurrentTab, getIsLoading, getIsSubmitting, getModalType,
+  getAlert, getCurrentDataTypeInCurrentTab, getLoadingState, getModalType,
 } from '../selectors/DataImportExportSelectors';
 import Alert from './Alert';
 import DataImportExportActions from './DataImportExportActions';
@@ -18,8 +18,7 @@ import SmallScreenTemplate from '../../../components/SmallScreenTemplate/SmallSc
 const DataImportExportView = ({
   alert,
   modalType,
-  isLoading,
-  isSubmitting,
+  loadingState,
   isDataTypeSelectedForTab,
   onDismissAlert,
   onSelectTab,
@@ -63,12 +62,11 @@ const DataImportExportView = ({
     </SmallScreenTemplate>
   );
 
-  return <PageView isLoading={isLoading || isSubmitting} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
-  isSubmitting: getIsSubmitting(state),
+  loadingState: getLoadingState(state),
   isDataTypeSelectedForTab: getCurrentDataTypeInCurrentTab(state),
   alert: getAlert(state),
   modalType: getModalType(state),

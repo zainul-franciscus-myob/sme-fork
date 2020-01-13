@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading } from '../LinkedAccountsSelectors';
+import { getAlert, getLoadingState } from '../LinkedAccountsSelectors';
 import Alert from './Alert';
 import LinkedAccountsActions from './LinkedAccountsActions';
 import LinkedAccountsContent from './LinkedAccountsContent';
@@ -13,7 +13,7 @@ import PageView from '../../../components/PageView/PageView';
 
 const LinkedAccountsView = ({
   alert,
-  isLoading,
+  loadingState,
   onDismissAlert,
   onCancelButtonClick,
   onSaveButtonClick,
@@ -49,11 +49,11 @@ const LinkedAccountsView = ({
     </FormTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
 });
 

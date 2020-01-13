@@ -16,6 +16,7 @@ import { getIsCreating } from './selectors/employmentClassificationDetailSelecto
 import { getNewEmploymentClassificationSortOrder } from './selectors/employmentClassificationListSelectors';
 import { getNewSortOrder } from './selectors/superFundListSelectors';
 import { tabIds } from './tabItems';
+import LoadingState from '../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import PayrollSettingsView from './components/PayrollSettingsView';
 import Store from '../../store/Store';
@@ -74,15 +75,15 @@ export default class PayrollSettingsModule {
   }
 
   loadSuperFundList = () => {
-    this.dispatcher.setSuperFundListLoadingState(true);
+    this.dispatcher.setSuperFundListLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setSuperFundListLoadingState(false);
+      this.dispatcher.setSuperFundListLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadSuperFundList(response);
     };
 
     const onFailure = () => {
-      console.log('Failed to load super fund entries');
+      this.dispatcher.setSuperFundListLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadSuperFundList({ onSuccess, onFailure });
@@ -135,14 +136,16 @@ export default class PayrollSettingsModule {
   }
 
   loadEmploymentClassificationList = () => {
-    this.dispatcher.setEmploymentClassificationListLoadingState(true);
+    this.dispatcher.setEmploymentClassificationListLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setEmploymentClassificationListLoadingState(false);
+      this.dispatcher.setEmploymentClassificationListLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadEmploymentClassificationList(response);
     };
 
-    const onFailure = () => {};
+    const onFailure = () => {
+      this.dispatcher.setEmploymentClassificationListLoadingState(LoadingState.LOADING_FAIL);
+    };
 
     this.integrator.loadEmploymentClassificationList({ onSuccess, onFailure });
   }
@@ -215,11 +218,11 @@ export default class PayrollSettingsModule {
   }
 
   loadGeneralPayrollInformation = () => {
-    this.dispatcher.setGeneralPayrollInformationIsLoading(true);
+    this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING);
 
     const onSuccess = (generalPayrollInformation) => {
       this.dispatcher.loadGeneralPayrollInformation(generalPayrollInformation);
-      this.dispatcher.setGeneralPayrollInformationIsLoading(false);
+      this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
     const onFailure = ({ message }) => {
@@ -229,7 +232,7 @@ export default class PayrollSettingsModule {
         message,
       });
 
-      this.dispatcher.setGeneralPayrollInformationIsLoading(false);
+      this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
     this.integrator.loadGeneralPayrollInformation({ onSuccess, onFailure });
@@ -309,10 +312,10 @@ export default class PayrollSettingsModule {
   }
 
   submitGeneralPayrollInformation = () => {
-    this.dispatcher.setGeneralPayrollInformationIsLoading(true);
+    this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
-      this.dispatcher.setGeneralPayrollInformationIsLoading(false);
+      this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING_SUCCESS);
       const state = this.store.getState();
       const url = getModalUrl(state);
 
@@ -330,7 +333,7 @@ export default class PayrollSettingsModule {
       this.dispatcher.setIsPageEdited(false);
     };
     const onFailure = ({ message }) => {
-      this.dispatcher.setGeneralPayrollInformationIsLoading(false);
+      this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.closeModal();
       this.dispatcher.setAlert({
         type: 'danger',

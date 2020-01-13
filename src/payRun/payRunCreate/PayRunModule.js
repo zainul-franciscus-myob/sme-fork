@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import EmployeePayListModule from './employeePayList/EmployeePayListModule';
+import LoadingState from '../../components/PageView/LoadingState';
 import PayRunDoneModule from './payRunDone/PayRunDoneModule';
 import PayRunView from './components/PayRunView';
 import PreparePaySlipsModule from './preparePaySlips/PreparePaySlipsModule';
@@ -53,15 +54,15 @@ export default class PayRunModule {
   }
 
   startNewPayRun = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.startNewPayRun(response);
     };
 
-    const onFailure = (message) => {
-      console.log(`Failed to start new Pay Run. ${message}`);
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.startNewPayRun({ onSuccess, onFailure });

@@ -8,8 +8,8 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsLoading,
   getLoadMoreButtonStatus,
+  getLoadingState,
 } from '../EmployeeListSelectors';
 import EmployeeListFilterOptions from './EmployeeListFilterOptions';
 import EmployeeListTable from './EmployeeListTable';
@@ -21,7 +21,7 @@ const EmployeeListView = ({
   loadMoreButtonStatus,
   onEmployeeCreateButtonClick,
   onUpdateFilterBarOptions,
-  isLoading,
+  loadingState,
   onApplyFilter,
   alert,
   onDismissAlert,
@@ -63,7 +63,7 @@ const EmployeeListView = ({
       loadMoreButtonStatus={loadMoreButtonStatus}
     />
   );
-  return <PageView isLoading={isLoading} view={employeeListView} />;
+  return <PageView loadingState={loadingState} view={employeeListView} />;
 };
 
 EmployeeListView.defaultProps = {
@@ -71,7 +71,7 @@ EmployeeListView.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });

@@ -26,6 +26,7 @@ import {
   getBusinessId, getIsCreating, getItem, getRegion, isPageEdited,
 } from './inventoryDetailSelectors';
 import InventoryDetailView from './components/InventoryDetailView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import inventoryDetailReducer from './inventoryDetailReducer';
 import keyMap from '../../../hotKeys/keyMap';
@@ -77,10 +78,10 @@ export default class InventoryDetailModule {
     this.setRootView(wrappedView);
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   };
 
@@ -106,7 +107,7 @@ export default class InventoryDetailModule {
       ? LOAD_NEW_INVENTORY_DETAIL
       : LOAD_INVENTORY_DETAIL;
 
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
 
     const urlParams = {
       businessId: getBusinessId(state),
@@ -114,7 +115,7 @@ export default class InventoryDetailModule {
     };
 
     const onSuccess = (response) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         ...response,
@@ -122,7 +123,7 @@ export default class InventoryDetailModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load item');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({

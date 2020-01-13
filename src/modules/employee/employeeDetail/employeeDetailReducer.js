@@ -19,6 +19,7 @@ import { shouldDefaultPayslipEmail } from './payrollDetails/selectors/Employment
 import DeductionPayItemModalReducerHandlers from './payrollDetails/reducer/DeductionPayItemModalReducer';
 import ExpensePayItemModalReducerHandlers from './payrollDetails/reducer/ExpensePayItemModalReducer';
 import LeavePayItemModalReducerHandlers from './payrollDetails/reducer/LeavePayItemModalReducer';
+import LoadingState from '../../../components/PageView/LoadingState';
 import PayrollDetailReducerHandlers from './payrollDetails/reducer/PayrollDetailReducer';
 import PayrollExpenseReducerHandlers from './payrollDetails/reducer/PayrollExpenseReducer';
 import PayrollPayHistoryReducerHandlers from './payrollDetails/reducer/PayrollPayHistoryReducer';
@@ -33,7 +34,7 @@ import createReducer from '../../../store/createReducer';
 import paymentDetailTabHandlers from './paymentDetails/paymentDetailTabReducer';
 
 export const getDefaultState = () => ({
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   isPageEdited: false,
   alert: undefined,
@@ -150,9 +151,9 @@ export const getDefaultState = () => ({
   leavePayItemModal: undefined,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setInitialState = (state, action) => ({

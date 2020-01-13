@@ -4,14 +4,14 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading, getModal } from '../selectors/customerStatementListSelectors';
+import { getAlert, getLoadingState, getModal } from '../selectors/customerStatementListSelectors';
 import CustomerStatementFilterOptions from './CustomerStatementFilterOptions';
 import CustomerStatementListModal from './CustomerStatementListModal';
 import CustomerStatementListTable from './CustomerStatementListTable';
 import PageView from '../../../components/PageView/PageView';
 
 const CustomerStatementListView = ({
-  isLoading,
+  loadingState,
   modal,
   alert,
   onApplyFilters,
@@ -77,11 +77,11 @@ const CustomerStatementListView = ({
     </BaseTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
   modal: getModal(state),
 });

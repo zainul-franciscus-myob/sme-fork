@@ -14,12 +14,13 @@ import {
 } from './BankFeedsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import BankFeedTypes from './BankFeedTypes';
+import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
   alert: undefined,
   modalType: '',
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   isSubmitting: false,
   region: '',
@@ -44,9 +45,9 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const setIsLoading = (state, action) => ({
+const setIsLoading = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setIsTableLoading = (state, { isTableLoading }) => ({

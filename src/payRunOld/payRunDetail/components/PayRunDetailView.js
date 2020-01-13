@@ -8,13 +8,13 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsLoading } from '../../payRunList/payRunListSelectors';
+import { getLoadingState } from '../payRunDetailSelector';
 import PageView from '../../../components/PageView/PageView';
 import PayRunDetailHeader from './PayRunDetailHeader';
 import PayRunEmployees from './PayRunEmployees';
 
 const PayRunDetailView = ({
-  isLoading,
+  loadingState,
   setSelectedTab,
   emailTabListeners,
   printTabListeners,
@@ -51,11 +51,11 @@ const PayRunDetailView = ({
     </BaseTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={payRunDetailView} />;
+  return <PageView loadingState={loadingState} view={payRunDetailView} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
 });
 
 export default connect(mapStateToProps)(PayRunDetailView);

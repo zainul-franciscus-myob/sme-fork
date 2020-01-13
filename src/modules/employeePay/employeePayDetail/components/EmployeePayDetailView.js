@@ -11,7 +11,7 @@ import React from 'react';
 import {
   getElectronicPaymentLink,
   getEmployeePay,
-  getIsLoading,
+  getLoadingState,
   getPageTitle,
 } from '../EmployeePayDetailSelectors';
 import EmployeePayDetailButtons from './EmployeePayDetailButtons';
@@ -21,7 +21,7 @@ import PageView from '../../../../components/PageView/PageView';
 import styles from './EmployeePayDetailView.module.css';
 
 const EmployeePayDetailView = ({
-  isLoading,
+  loadingState,
   onGoBackClick,
   onDeleteButtonClick,
   employeePay,
@@ -92,11 +92,11 @@ const EmployeePayDetailView = ({
     </BaseTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   employeePay: getEmployeePay(state),
   pageTitle: getPageTitle(state),
   electronicPaymentLink: getElectronicPaymentLink(state),

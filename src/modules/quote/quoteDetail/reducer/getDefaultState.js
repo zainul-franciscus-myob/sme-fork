@@ -1,3 +1,4 @@
+import LoadingState from '../../../../components/PageView/LoadingState';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
@@ -6,7 +7,7 @@ const getDefaultState = () => ({
   businessId: '',
   region: '',
   quoteId: '',
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isSubmitting: false,
   isPageEdited: false,
   alert: undefined,

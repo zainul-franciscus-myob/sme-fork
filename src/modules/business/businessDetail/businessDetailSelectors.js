@@ -1,6 +1,6 @@
 import { createStructuredSelector } from 'reselect';
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getAlertMessage = state => state.alertMessage;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getAlert = state => state.alert;

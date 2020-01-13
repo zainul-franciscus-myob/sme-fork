@@ -29,6 +29,7 @@ import {
   getUrlParams,
 } from './BankReconciliationSelectors';
 import BankReconciliationView from './components/BankReconciliationView';
+import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import bankReconciliationReducer from './bankReconciliationReducer';
 import keyMap from '../../hotKeys/keyMap';
@@ -56,7 +57,7 @@ export default class BankReconciliationModule {
       : LOAD_BANK_RECONCILIATION;
 
     const onSuccess = (response) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
 
       this.store.dispatch({
         intent,
@@ -65,7 +66,7 @@ export default class BankReconciliationModule {
     };
 
     const onFailure = () => {
-      console.log('Failed to load bank reconciliation');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -114,10 +115,10 @@ export default class BankReconciliationModule {
     this.store.unsubscribeAll();
   };
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   }
 

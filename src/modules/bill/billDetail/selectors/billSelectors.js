@@ -22,7 +22,7 @@ export const getIsCreatingFromInTray = createSelector(
   (isCreating, source) => isCreating && source === 'inTray',
 );
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getIsPendingCalculation = state => state.isPendingCalculation;
 

@@ -50,6 +50,7 @@ import { getFilesForUpload, getIsEmailModalOpen } from './selectors/EmailSelecto
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import QuoteDetailView from './components/QuoteDetailView';
 import QuoteLineLayout from './QuoteLineLayout';
@@ -88,14 +89,16 @@ export default class QuoteDetailModule {
   }
 
   loadQuote = (message) => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (payload) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadQuote(payload, message);
     };
 
-    const onFailure = () => console.log('Failed to load quote');
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
 
     this.integrator.loadQuote({ onSuccess, onFailure });
   }

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getLoadMoreButtonStatus, getOrder,
+  getAlert, getLoadMoreButtonStatus, getLoadingState, getOrder,
 } from '../billListSelectors';
 import BillListFilterOptions from './BillListFilterOptions';
 import BillListTable from './BillListTable';
@@ -41,7 +41,7 @@ const HeaderItem = ({
 
 const BillListView = (props) => {
   const {
-    isLoading,
+    loadingState,
     alert,
     order,
     loadMoreButtonStatus,
@@ -112,12 +112,12 @@ const BillListView = (props) => {
     />
   );
 
-  return <PageView isLoading={isLoading} view={billListView} />;
+  return <PageView loadingState={loadingState} view={billListView} />;
 };
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   order: getOrder(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });

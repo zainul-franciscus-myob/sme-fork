@@ -7,7 +7,7 @@ import React from 'react';
 import {
   getAlertMessage,
   getBusinessName,
-  getIsLoading,
+  getLoadingState,
   getPassword,
   getUserEmail,
   getUserId,
@@ -17,7 +17,7 @@ import PageView from '../../../components/PageView/PageView';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 
 const LinkUserView = ({
-  isLoading,
+  loadingState,
   businessName,
   userEmail,
   userId,
@@ -72,11 +72,11 @@ const LinkUserView = ({
     </FormTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   businessName: getBusinessName(state),
   userEmail: getUserEmail(state),
   alertMessage: getAlertMessage(state),

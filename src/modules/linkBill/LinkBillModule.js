@@ -4,6 +4,7 @@ import React from 'react';
 import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../inTray/inTrayMessageTypes';
 import { getInTrayListUrl, getIsAnyBillSelected, getNewSortOrder } from './LinkBillSelectors';
 import LinkBillView from './components/LinkBillView';
+import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import createLinkBillDispatcher from './createLinkBillDispatcher';
 import createLinkBillIntegrator from './createLinkBillIntegrator';
@@ -22,15 +23,15 @@ export default class LinkBillModule {
   }
 
   loadLinkBill = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadLinkBill(response);
     };
 
     const onFailure = () => {
-      console.log('Failed to load');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadLinkBill({ onSuccess, onFailure });
@@ -141,7 +142,6 @@ export default class LinkBillModule {
 
   run(context) {
     this.dispatcher.setInitialState(context);
-    this.dispatcher.setLoadingState(true);
     this.render();
     this.loadLinkBill();
   }

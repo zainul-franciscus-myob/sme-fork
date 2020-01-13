@@ -2,7 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;

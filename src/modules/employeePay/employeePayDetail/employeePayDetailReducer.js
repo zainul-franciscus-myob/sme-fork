@@ -6,10 +6,11 @@ import {
   SET_EMPLOYEE_PAY_DETAIL,
   SET_LOADING_STATE,
 } from './EmployeePayDetailIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   businessId: '',
   transactionId: '',
   employeePay: {
@@ -39,9 +40,9 @@ const setInitialState = (state, { context }) => ({
 
 const resetState = () => (getDefaultState());
 
-const setLoadingState = (state, { isLoading }) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading,
+  loadingState,
 });
 
 const setEmployeePayDetails = (state, { response }) => ({

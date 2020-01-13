@@ -10,7 +10,7 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsLoading,
+  getLoadingState,
   getMainTab,
   getModal,
   getPageHeadTitle,
@@ -24,7 +24,7 @@ const EmployeeDetailView = ({
   tabViews,
   selectedTab,
   onMainTabSelected,
-  isLoading,
+  loadingState,
   onCancelButtonClick,
   onSaveButtonClick,
   onDeleteButtonClick,
@@ -74,11 +74,11 @@ const EmployeeDetailView = ({
     </BaseTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   selectedTab: getMainTab(state),
   alert: getAlert(state),
   modal: getModal(state),

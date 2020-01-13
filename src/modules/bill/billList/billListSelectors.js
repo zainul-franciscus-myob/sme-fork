@@ -15,7 +15,7 @@ export const getBusinessId = state => state.businessId;
 
 export const getIsTableLoading = state => state.isTableLoading;
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 

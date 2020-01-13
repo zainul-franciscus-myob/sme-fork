@@ -5,8 +5,8 @@ import React from 'react';
 import {
   getAlert,
   getIsCalculating,
-  getIsLoading,
   getLayout,
+  getLoadingState,
   getModal,
 } from '../selectors/QuoteDetailSelectors';
 import PageView from '../../../../components/PageView/PageView';
@@ -24,7 +24,7 @@ const QuoteDetailView = ({
   contactModal,
   accountModal,
   inventoryModal,
-  isLoading,
+  loadingState,
   alert,
   modal,
   isCalculating,
@@ -97,11 +97,11 @@ const QuoteDetailView = ({
     </LineItemTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   modal: getModal(state),
   alert: getAlert(state),
   layout: getLayout(state),

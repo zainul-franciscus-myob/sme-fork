@@ -3,13 +3,12 @@ import { createSelector } from 'reselect';
 import formatDate from '../../common/valueFormatters/formatDate/formatDate';
 import formatSlashDate from '../../common/valueFormatters/formatDate/formatSlashDate';
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getBusinessId = state => state.businessId;
 export const getAlert = state => state.alert;
 export const getStep = state => state.step;
 export const getPreviousStepModalIsOpen = state => state.previousStepModalIsOpen;
-export const getIsFirstStep = state => state.step === 0;
 
 const getPaymentFrequency = state => state.startPayRun.currentEditingPayRun.paymentFrequency;
 const getPaymentDate = state => formatDate(new Date(state.startPayRun.currentEditingPayRun.paymentDate), 'iii dd/MM/yyyy');

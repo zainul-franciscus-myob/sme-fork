@@ -10,6 +10,7 @@ import {
   getUrlParams,
 } from './ElectronicPaymentsCreateSelector';
 import ElectronicPaymentsCreateView from './components/ElectronicPaymentsCreateView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import Store from '../../../store/Store';
 import createElectronicPaymentsCreateDispatcher from './createElectronicPaymentsCreateDispatcher';
@@ -48,16 +49,16 @@ export default class ElectronicPaymentsModule {
   }
 
   loadAccountsAndElectronicPayments = () => {
-    this.dispatcher.setIsLoading(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setIsLoading(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setIsTableLoading(false);
       this.dispatcher.setAccountsAndTransaction(response);
     };
 
-    const onFailure = (message) => {
-      console.log(`Failed to load accounts and transactions. ${message}`);
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadAccountsAndElectronicPayments({ onSuccess, onFailure });
@@ -81,7 +82,7 @@ export default class ElectronicPaymentsModule {
 
   recordAndDownloadBankFile = () => {
     this.dispatcher.closeModal();
-    this.dispatcher.setIsLoading(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
       const { content, filename, message } = response;
@@ -91,7 +92,7 @@ export default class ElectronicPaymentsModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setIsLoading(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 

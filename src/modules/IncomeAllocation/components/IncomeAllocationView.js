@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getEntityTypeOptions, getIsLoadingState, getIsTableHidden, getSelectedEntityType,
+  getAlert, getEntityTypeOptions, getIsTableHidden, getLoadingState, getSelectedEntityType,
 } from '../IncomeAllocationSelectors';
 import IncomeAllocationActions from './IncomeAllocationActions';
 import IncomeAllocationTable from './IncomeAllocationTable';
@@ -19,7 +19,7 @@ const onSelectChange = handler => (e) => {
 
 const IncomeAllocationView = ({
   isTableHidden,
-  isLoading,
+  loadingState,
   selectedEntityType,
   entityTypeOptions,
   alert,
@@ -74,7 +74,7 @@ const IncomeAllocationView = ({
     </LineItemTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 IncomeAllocationView.defaultProps = {
@@ -86,7 +86,7 @@ const mapStateToProps = state => ({
   entityTypeOptions: getEntityTypeOptions(state),
   isTableHidden: getIsTableHidden(state),
   alert: getAlert(state),
-  isLoading: getIsLoadingState(state),
+  loadingState: getLoadingState(state),
 });
 
 export default connect(mapStateToProps)(IncomeAllocationView);

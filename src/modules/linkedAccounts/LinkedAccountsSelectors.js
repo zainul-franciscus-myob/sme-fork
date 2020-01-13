@@ -1,4 +1,4 @@
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getIsActionDisabled = state => state.isSubmitting;
 export const getAlert = state => state.alert;
 export const getSelectedTab = state => state.selectedTab;

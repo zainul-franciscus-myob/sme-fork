@@ -2,7 +2,7 @@ import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlertMessage, getIsLoading, getModalType } from '../BillPaymentDetailSelectors';
+import { getAlertMessage, getLoadingState, getModalType } from '../BillPaymentDetailSelectors';
 import BillPaymentActions from './BillPaymentDetailActions';
 import BillPaymentDetailTable from './BillPaymentDetailTable';
 import BillPaymentOptions from './BillPaymentDetailOptions';
@@ -11,7 +11,7 @@ import DeleteModal from '../../../../components/modal/DeleteModal';
 import PageView from '../../../../components/PageView/PageView';
 
 const BillPaymentDetailView = ({
-  isLoading,
+  loadingState,
   modalType,
   onUpdateHeaderOption,
   onUpdateTableInputField,
@@ -72,11 +72,11 @@ const BillPaymentDetailView = ({
     </LineItemTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
 });

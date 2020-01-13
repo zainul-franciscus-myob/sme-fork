@@ -40,7 +40,7 @@ export const getIsCurrentYearProvided = state => (
   state.generalPayrollInformation.isCurrentYearProvided
 );
 export const getCurrentYear = state => state.generalPayrollInformation.currentYear;
-export const getIsLoading = state => state.generalPayrollInformation.isLoading;
+export const getLoadingState = state => state.generalPayrollInformation.loadingState;
 
 export const getGeneralPayrollInformation = createStructuredSelector({
   currentYear: getCurrentYear,

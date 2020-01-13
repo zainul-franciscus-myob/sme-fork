@@ -11,7 +11,7 @@ import shortid from 'shortid';
 import {
   getAlert,
   getDeleteModal,
-  getIsLoading,
+  getLoadingState,
   getModalType,
 } from '../selectors/InTraySelectors';
 import {
@@ -29,7 +29,7 @@ import modalTypes from '../modalTypes';
 import styles from './InTrayView.module.css';
 
 const InTrayView = ({
-  isLoading,
+  loadingState,
   alert,
   modalType,
   deleteModal,
@@ -146,11 +146,11 @@ const InTrayView = ({
     </div>
   );
 
-  return <PageView isLoading={isLoading} view={inTrayView} />;
+  return <PageView loadingState={loadingState} view={inTrayView} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   isEntryLoading: getIsEntryLoading(state),
   alert: getAlert(state),
   modalType: getModalType(state),

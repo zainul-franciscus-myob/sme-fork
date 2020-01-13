@@ -6,7 +6,7 @@ import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getAlert = state => state.alert;
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getPaymentTypes = state => state.paymentTypes;
 export const getAccounts = state => state.accounts;

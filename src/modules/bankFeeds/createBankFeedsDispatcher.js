@@ -23,9 +23,9 @@ const createBankFeedsDispatcher = store => ({
     context,
   }),
 
-  setIsLoading: isLoading => store.dispatch({
+  setLoadingState: loadingState => store.dispatch({
     intent: SET_IS_LOADING,
-    isLoading,
+    loadingState,
   }),
 
   setIsSubmitting: isSubmitting => store.dispatch({

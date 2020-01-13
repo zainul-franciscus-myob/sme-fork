@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getIsLoading, getModal, getPageTitle,
+  getAlertMessage, getLoadingState, getModal, getPageTitle,
 } from '../receiveMoneyDetailSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import ReceiveMoneyDetailActions from './ReceiveMoneyDetailActions';
@@ -24,7 +24,7 @@ const ReceiveMoneyDetailView = ({
   alertMessage,
   onDismissAlert,
   isCreating,
-  isLoading,
+  loadingState,
   pageTitle,
   modal,
   onUpdateRow,
@@ -80,13 +80,13 @@ const ReceiveMoneyDetailView = ({
     </React.Fragment>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
   alertMessage: getAlertMessage(state),
   modal: getModal(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   pageTitle: getPageTitle(state),
 });
 

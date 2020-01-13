@@ -12,8 +12,8 @@ import React from 'react';
 import {
   getAlert,
   getIsDefaultFilters,
-  getIsLoading,
   getLoadMoreButtonStatus,
+  getLoadingState,
   getOrder,
   getShowHiddenColumns,
 } from '../contactListSelector';
@@ -64,7 +64,7 @@ const tableConfig = {
 
 const ContactListView = (props) => {
   const {
-    isLoading,
+    loadingState,
     isDefaultFilters,
     alert,
     loadMoreButtonStatus,
@@ -229,12 +229,12 @@ const ContactListView = (props) => {
     </div>
   );
 
-  return <PageView isLoading={isLoading} view={contactListView} />;
+  return <PageView loadingState={loadingState} view={contactListView} />;
 };
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   isDefaultFilters: getIsDefaultFilters(state),
   order: getOrder(state),
   showHiddenColumns: getShowHiddenColumns(state),

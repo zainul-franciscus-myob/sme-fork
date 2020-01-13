@@ -31,6 +31,7 @@ import {
 } from './billListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import BillListView from './components/BillListView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import billListReducer from './billListReducer';
@@ -80,7 +81,7 @@ export default class BillListModule {
     };
 
     const onSuccess = (action) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         ...action,
@@ -92,7 +93,7 @@ export default class BillListModule {
     const orderBy = getOrderBy(state);
 
     const onFailure = () => {
-      console.log('Failed to load bill list');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -120,10 +121,10 @@ export default class BillListModule {
     this.store.unsubscribeAll();
   };
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   };
 
@@ -335,7 +336,7 @@ export default class BillListModule {
     this.setInitialState(context, settings);
     this.render();
     this.readMessages();
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.store.subscribe(state => (
       saveSettings(context.businessId, RouteName.BILL_LIST, getSettings(state))
     ));
