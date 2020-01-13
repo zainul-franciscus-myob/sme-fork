@@ -41,6 +41,9 @@ const getDefaultState = () => ({
     withholdingPayerNumber: '',
     roundNetPay: '',
     taxTableRevisionDate: '',
+    useTimesheets: false,
+    useTimesheetsAction: '',
+    useTimesheetsWeekStarts: '',
   },
   isPageEdited: false,
 });

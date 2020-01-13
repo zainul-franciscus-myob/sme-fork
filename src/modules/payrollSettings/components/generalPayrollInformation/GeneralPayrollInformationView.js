@@ -3,10 +3,13 @@ import {
   Button,
   ButtonRow,
   Card,
+  Checkbox,
+  CheckboxGroup,
   FieldGroup,
   FormHorizontal,
   PageHead,
   ReadOnly,
+  Select,
   Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -18,7 +21,9 @@ import AmountInput from '../../../../components/autoFormatter/AmountInput/Amount
 import GeneralPayrollInformationModal from './GeneralPayrollInformationModal';
 import PageView from '../../../../components/PageView/PageView';
 import YearInput from '../../../../components/autoFormatter/YearInput/YearInput';
+import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
+import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 import style from './GeneralPayrollInformationView.module.css';
 
 const isCurrentYearEditable = (currentYearIsProvided) => {
@@ -28,6 +33,16 @@ const isCurrentYearEditable = (currentYearIsProvided) => {
   return false;
 };
 
+const days = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
+
 const GeneralPayrollInformationView = (props) => {
   const {
     currentYear,
@@ -36,6 +51,9 @@ const GeneralPayrollInformationView = (props) => {
     roundNetPay,
     taxTableRevisionDate,
     isCurrentYearProvided,
+    useTimesheets,
+    useTimesheetsAction,
+    useTimesheetsWeekStarts,
     isLoading,
     alert,
     tabs,
@@ -110,6 +128,44 @@ const GeneralPayrollInformationView = (props) => {
               <ReadOnly label="Tax table revision date" name="taxTableRevisionDate">
                 {taxTableRevisionDate}
               </ReadOnly>
+            </FieldGroup>
+            <FieldGroup label="Timesheets">
+              <CheckboxGroup
+                label="useTimesheets"
+                hideLabel
+                renderCheckbox={() => (
+                  <Checkbox
+                    name="useTimesheets"
+                    label="Use timesheets to track employee hours"
+                    value={useTimesheets}
+                    onChange={handleCheckboxChange(onGeneralPayrollInformationChange)}
+                    checked={useTimesheets}
+                  />
+                )}
+              />
+              <Select
+                name="useTimesheetsAction"
+                label="Use timesheets for"
+                value={useTimesheetsAction}
+                onChange={handleSelectChange(onGeneralPayrollInformationChange)}
+                disabled={!useTimesheets}
+                width="xl"
+              >
+                <Select.Option value="placeholder" label="" />
+                <Select.Option value="Payroll" label="Payroll" />
+              </Select>
+              <Select
+                name="useTimesheetsWeekStarts"
+                label="Week starts on"
+                value={useTimesheetsWeekStarts}
+                onChange={handleSelectChange(onGeneralPayrollInformationChange)}
+                disabled={!useTimesheets}
+                width="xl"
+              >
+                {days.map(day => (
+                  <Select.Option key={day} value={day} label={day} />
+                ))}
+              </Select>
             </FieldGroup>
           </FormHorizontal>
         </div>

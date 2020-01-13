@@ -48,6 +48,9 @@ export const getGeneralPayrollInformation = createStructuredSelector({
   withholdingPayerNumber: state => state.generalPayrollInformation.withholdingPayerNumber,
   roundNetPay: state => state.generalPayrollInformation.roundNetPay,
   taxTableRevisionDate: state => state.generalPayrollInformation.taxTableRevisionDate,
+  useTimesheets: state => state.generalPayrollInformation.useTimesheets,
+  useTimesheetsAction: state => state.generalPayrollInformation.useTimesheetsAction,
+  useTimesheetsWeekStarts: state => state.generalPayrollInformation.useTimesheetsWeekStarts,
   isCurrentYearProvided: getIsCurrentYearProvided,
 });
 
