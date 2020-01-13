@@ -11,7 +11,7 @@ const ServiceItemTable = ({ region }) => {
     {
       key: 'quantity',
       name: 'Units',
-      width: '50px',
+      width: '45px',
       rightAlign: true,
     },
     {
@@ -30,7 +30,7 @@ const ServiceItemTable = ({ region }) => {
     {
       key: 'taxCode',
       name: getRegionToDialectText(region)('Tax code'),
-      width: '55px',
+      width: '60px',
     },
     {
       key: 'amount',
@@ -43,35 +43,34 @@ const ServiceItemTable = ({ region }) => {
 
   const items = [
     {
-      itemId: 'IT029292',
-      description: `Maximum 255 characters. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec dictum accumsan quam quis luctus. Integer iaculis mi vulputate congue blandit.`,
-      unit: 'Hrs',
-      quantity: '9,999,999',
-      unitPrice: '299.87',
-      discount: '9.61',
+      itemId: 'IT008174',
+      description: 'Paper shredder',
+      unit: 'Qty',
+      quantity: '2',
+      unitPrice: '16.83',
+      discount: '0.00',
       taxCode: 'GST',
-      amount: '890.00',
+      amount: '33.66',
     },
     {
-      itemId: 'IT029292',
-      description: 'Paper shredder',
-      unit: 'Hrs',
-      quantity: 3,
-      unitPrice: '299.87',
-      discount: '9.61',
+      itemId: 'IT0292932',
+      description: 'Portable whiteboard(200 × 80)',
+      unit: 'Qty',
+      quantity: '1',
+      unitPrice: '48.642',
+      discount: '0.00',
       taxCode: 'GST',
-      amount: '890.00',
+      amount: '48.64',
     },
     {
-      itemId: 'IT029292',
-      description: 'Paper shredder',
-      unit: 'Hrs',
-      quantity: 3,
-      unitPrice: '299.87',
-      discount: '9.61',
+      itemId: '8281',
+      description: 'Whiteboard markers - Pkt 5',
+      unit: 'Qty',
+      quantity: '2',
+      unitPrice: '7.876',
+      discount: '0.00',
       taxCode: 'GST',
-      amount: '890.00',
+      amount: '15.75',
     },
   ];
 

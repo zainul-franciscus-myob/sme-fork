@@ -52,7 +52,7 @@ export const getTemplates = createSelector(
   getTemplateSettings,
   (region, businessId, { templates }) => templates.map(template => ({
     ...template,
-    link: `/#/${region}/${businessId}/salesSettings/`,
+    link: `/#/${region}/${businessId}/template/${template.name}`,
   })),
 );
 

@@ -43,7 +43,7 @@ const getDefaultState = () => ({
     headerImage: undefined,
     logoImage: undefined,
     logoSize: 100,
-    isLogoOnTheLeft: 'Left',
+    businessDetailsPlacement: 'Left',
     tradingName: false,
     businessName: true,
     address: true,
@@ -51,6 +51,7 @@ const getDefaultState = () => ({
     email: true,
     website: true,
     abn: true,
+    isDefault: false,
   },
 });
 
@@ -59,6 +60,7 @@ const resetState = () => ({ ...getDefaultState() });
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
+  isCreating: !action.context.templateName,
 });
 
 const setLoadingState = (state, action) => ({

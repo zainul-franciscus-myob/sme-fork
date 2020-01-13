@@ -22,19 +22,19 @@ const ServiceTable = ({ region }) => {
 
   const items = [
     {
-      description: 'Portable whiteboard (200 x 80)',
+      description: 'Dog walking',
       taxCode: 'GST',
-      amount: '890.00',
+      amount: '40.00',
     },
     {
-      description: 'Paper shredder',
+      description: 'Deluxe grooming package',
       taxCode: 'GST',
-      amount: '99,999,999.99',
+      amount: '135.00',
     },
     {
-      description: 'Whiteboard markers - Pkt 5',
+      description: 'Organic shampoo option',
       taxCode: 'GST',
-      amount: '90.02',
+      amount: '15.00',
     },
   ];
 

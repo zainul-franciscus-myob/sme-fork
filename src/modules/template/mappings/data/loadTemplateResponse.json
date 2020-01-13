@@ -9,7 +9,7 @@
     "headerImage": "",
     "logoImage": "",
     "logoSize": 70,
-    "isLogoOnTheLeft": false,
+    "businessDetailsPlacement": "Right",
     "businessDetailsOptions": ["TradingName", "BusinessName"],
     "isDefault": true
   },

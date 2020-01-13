@@ -1,6 +1,8 @@
+import { addDays } from 'date-fns';
 import React from 'react';
 
 import Table from './Table';
+import formatSlashDate from '../../../../../common/valueFormatters/formatDate/formatSlashDate';
 
 const StatementTable = () => {
   const columns = [
@@ -30,16 +32,16 @@ const StatementTable = () => {
 
   const items = [
     {
-      issueDate: '01/10/2018',
+      issueDate: formatSlashDate(Date.now()),
       invoiceNo: 'INV0000123',
       customerPoNo: '1234567890',
       description: 'Sales invoice',
-      totalAmount: '99,999,999.00',
-      totalPaid: '99,999,999.00',
-      balanceDue: '99,999,999.00',
+      totalAmount: '322.90',
+      totalPaid: '0.00',
+      balanceDue: '322.90',
     },
     {
-      issueDate: '06/03/2019',
+      issueDate: formatSlashDate(addDays(Date.now(), 41)),
       invoiceNo: 'INV0000276',
       customerPoNo: '',
       description: 'Customer return',
@@ -48,13 +50,13 @@ const StatementTable = () => {
       balanceDue: '22.19',
     },
     {
-      issueDate: '22/08/2019',
-      invoiceNo: 'INV0000336',
+      issueDate: formatSlashDate(addDays(Date.now(), 41)),
+      invoiceNo: 'INV0000675',
       customerPoNo: '',
       description: 'Sales invoice',
-      totalAmount: '40.00',
-      totalPaid: '7.00',
-      balanceDue: '33.00',
+      totalAmount: '45.10',
+      totalPaid: '0.00',
+      balanceDue: '45.10',
     },
   ];
   return <Table columns={columns} items={items} />;

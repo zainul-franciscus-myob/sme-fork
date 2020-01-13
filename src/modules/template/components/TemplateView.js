@@ -63,10 +63,12 @@ const TemplateView = ({
   alert,
   modalType,
   region,
+  isCreating,
 }) => {
+  const pageTitle = isCreating ? 'Create template' : 'Edit template';
   const pageHead = (
     <StickyHeader>
-      <PageHead title="Create template">
+      <PageHead title={pageTitle}>
         <Button type="secondary" onClick={onCancel}>
           Cancel
         </Button>
@@ -131,7 +133,7 @@ const TemplateView = ({
             onFileRemoved={onFileRemoved}
             onEditBusinessDetails={onEditBusinessDetails}
           />
-)}
+        )}
         preview={preview}
         previewHeader={previewHeader}
         previewOriginalWidth={previewOriginalWidth}

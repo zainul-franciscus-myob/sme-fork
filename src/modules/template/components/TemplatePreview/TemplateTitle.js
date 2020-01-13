@@ -61,7 +61,7 @@ const TemplateTitle = ({
       return (
         <div
           className={classnames(styles.title, {
-            [styles.reverse]: !isLogoOnTheLeft,
+            [styles.reverse]: isLogoOnTheLeft,
           })}
         >
           {details}

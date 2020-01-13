@@ -1,11 +1,12 @@
 import React from 'react';
 
 import DocumentInfo from './DocumentInfo';
+import formatSlashDate from '../../../../../common/valueFormatters/formatDate/formatSlashDate';
 
 const StatementDocumentInfo = () => (
   <DocumentInfo
     title="Statement"
-    items={[{ name: 'Issue date', value: '12/09/2019' }]}
+    items={[{ name: 'Issue date', value: formatSlashDate(Date.now()) }]}
   />
 );
 

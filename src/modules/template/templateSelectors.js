@@ -52,14 +52,14 @@ export const getUseAddressEnvelopePosition = createSelector(
   template => template.useAddressEnvelopePosition,
 );
 
-export const getLogoAlignment = createSelector(
+export const getBusinessDetailsPlacement = createSelector(
   getTemplate,
-  template => template.isLogoOnTheLeft,
+  template => template.businessDetailsPlacement,
 );
 
 export const getIsLogoOnTheLeft = createSelector(
-  getLogoAlignment,
-  logoAlignment => logoAlignment === 'Left',
+  getBusinessDetailsPlacement,
+  businessDetailsPlacement => businessDetailsPlacement !== 'Left',
 );
 
 export const getIsLogoSelected = createSelector(
@@ -202,7 +202,7 @@ export const getSavePayload = (state) => {
     useAddressEnvelopePosition,
     headerBusinessDetailsStyle,
     logoSize,
-    isLogoOnTheLeft,
+    businessDetailsPlacement,
     isDefault,
   } = getTemplate(state);
   const imageKey = getImageKey(state);
@@ -229,7 +229,7 @@ export const getSavePayload = (state) => {
     useAddressEnvelopePosition: String(useAddressEnvelopePosition),
     headerBusinessDetailsStyle: headerStyle,
     logoSize,
-    logoPlacementLeft: String(isLogoOnTheLeft === 'Left'),
+    logoPlacementLeft: String(businessDetailsPlacement !== 'Left'),
     businessDetailsOptions: selectedBusinessDetailsOptions.toString(),
     headerImage: undefined,
     logoImage: undefined,

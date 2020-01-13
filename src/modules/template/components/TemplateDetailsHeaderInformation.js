@@ -13,10 +13,10 @@ import React from 'react';
 
 import {
   getBusinessDetailsOptions,
+  getBusinessDetailsPlacement,
   getImage,
   getImageButtonLabel,
   getImageLabel,
-  getLogoAlignment,
   getLogoSize,
   getShowBusinessDetails,
 } from '../templateSelectors';
@@ -49,7 +49,7 @@ const uploadLogoPrompt = (
 
 const TemplateDetailsHeaderInformation = ({
   businessDetailsOptions,
-  logoAlignment,
+  businessDetailsPlacement,
   logoSize,
   onUpdateTemplateOptions,
   imageLabel,
@@ -114,8 +114,8 @@ const TemplateDetailsHeaderInformation = ({
               }
               <RadioButtonGroup
                 label="Business details placement"
-                name="isLogoOnTheLeft"
-                value={logoAlignment}
+                name="businessDetailsPlacement"
+                value={businessDetailsPlacement}
                 renderRadios={({ value, ...props }) => ['Left', 'Right'].map(label => (
                   <RadioButton
                     checked={value === label}
@@ -127,7 +127,7 @@ const TemplateDetailsHeaderInformation = ({
                 ))
                 }
                 onChange={handleRadioButtonChange(
-                  'isLogoOnTheLeft',
+                  'businessDetailsPlacement',
                   onUpdateTemplateOptions,
                 )}
               />
@@ -155,7 +155,7 @@ const TemplateDetailsHeaderInformation = ({
 );
 
 const mapsStateToProps = state => ({
-  logoAlignment: getLogoAlignment(state),
+  businessDetailsPlacement: getBusinessDetailsPlacement(state),
   businessDetailsOptions: getBusinessDetailsOptions(state),
   logoSize: getLogoSize(state),
   imageLabel: getImageLabel(state),

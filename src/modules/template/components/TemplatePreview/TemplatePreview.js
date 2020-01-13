@@ -3,11 +3,13 @@ import React from 'react';
 import { PreviewType, SaleLayout } from '../../templateOptions';
 import InvoiceDocumentInfo from './documentInfo/InvoiceDocumentInfo';
 import InvoiceFooter from './footer/InvoiceFooter';
-import InvoiceTableSummary from './tableSummary/InvoiceTableSummary';
+import InvoiceServiceItemSummary from './tableSummary/InvoiceServiceItemSummary';
+import InvoiceServiceSummary from './tableSummary/InvoiceServiceSummary';
 import PaymentMethod from './PaymentMethod/PaymentMethod';
 import QuoteDocumentInfo from './documentInfo/QuoteDocumentInfo';
 import QuoteFooter from './footer/QuoteFooter';
-import QuoteTableSummary from './tableSummary/QuoteTableSummary';
+import QuoteServiceItemSummary from './tableSummary/QuoteServiceItemSummary';
+import QuoteServiceSummary from './tableSummary/QuoteServiceSummary';
 import Separator from './Separator';
 import ServiceItemTable from './tables/ServiceItemTable';
 import ServiceTable from './tables/ServiceTable';
@@ -41,15 +43,23 @@ const getTemplateTable = (previewType, saleLayout, region) => {
   return <ServiceTable region={region} />;
 };
 
-const getTemplateTableSummary = (previewType, region) => {
+const getTemplateTableSummary = (previewType, saleLayout, region) => {
   switch (previewType) {
     case PreviewType.Statement:
       return <StatementTableSummary />;
     case PreviewType.Quote:
-      return <QuoteTableSummary region={region} />;
+      return saleLayout === SaleLayout.Service ? (
+        <QuoteServiceSummary region={region} />
+      ) : (
+        <QuoteServiceItemSummary region={region} />
+      );
     case PreviewType.Invoice:
     default:
-      return <InvoiceTableSummary region={region} />;
+      return saleLayout === SaleLayout.Service ? (
+        <InvoiceServiceSummary region={region} />
+      ) : (
+        <InvoiceServiceItemSummary region={region} />
+      );
   }
 };
 
@@ -106,7 +116,7 @@ const TemplatePreview = ({
       <ShippingInfo useAddressEnvelopePosition={useAddressEnvelopePosition} />
       <Separator featureColour={featureColour} />
       {getTemplateTable(previewType, saleLayout, region)}
-      {getTemplateTableSummary(previewType, region)}
+      {getTemplateTableSummary(previewType, saleLayout, region)}
     </div>
     <div>
       <PaymentMethod />
