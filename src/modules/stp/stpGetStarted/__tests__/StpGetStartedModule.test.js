@@ -1,12 +1,9 @@
 import { mount } from 'enzyme';
 
+import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import RegistrationErrorsModal from '../components/RegistrationErrorsModal';
 import StpGetStartedModule from '../StpGetStartedModule';
 import loadRegistrationItemsValidation from '../mappings/data/loadRegistrationItemsValidation';
-
-const findButtonWithTestId = (wrapper, testId) => wrapper.findWhere(c => (
-  c.prop('testId') === testId && c.name() === 'Button'
-));
 
 describe('StpGetStartedModule', () => {
   const defaultIntegration = {

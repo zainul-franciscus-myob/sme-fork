@@ -1,13 +1,8 @@
 import { Alert } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
+import { findButtonWithTestId } from '../../../../../../common/tests/selectors';
 import StpAddClientsModule from '../StpAddClientsModule';
-
-const findComponentWithTestId = (wrapper, testId, componentName) => wrapper.findWhere(c => (
-  c.prop('testid') === testId && c.name() === componentName
-));
-
-const findButtonWithTestId = (wrapper, testId) => findComponentWithTestId(wrapper, testId, 'Button');
 
 describe('StpAddClientsModule', () => {
   const constructModule = ({

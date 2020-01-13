@@ -19,7 +19,7 @@ const ReversalModal = ({
         key="modal-cancel-btn"
         id="modal-cancel-btn"
         type="secondary"
-        testId="reversalCancelButton"
+        testid="reversalCancelButton"
         onClick={onCancelButtonClick}
       >
         Cancel
@@ -28,7 +28,7 @@ const ReversalModal = ({
         key="modal-reverse-btn"
         id="modal-reverse-btn"
         type="primary"
-        testId="reversalConfirmButton"
+        testid="reversalConfirmButton"
         onClick={onReverseButtonClick}
       >
         Reverse transaction

@@ -22,10 +22,10 @@ const PaySuperListView = ({
 }) => {
   const actionButtons = (
     <>
-      <Button type="secondary" testId="superPaymentSettingsButton" onClick={onSettingsButtonClick}>
+      <Button type="secondary" testid="superPaymentSettingsButton" onClick={onSettingsButtonClick}>
         Super payments settings
       </Button>
-      <Button type="primary" testId="createSuperPaymentButton" onClick={onCreateButtonClick}>
+      <Button type="primary" testid="createSuperPaymentButton" onClick={onCreateButtonClick}>
         Create super payment
       </Button>
     </>

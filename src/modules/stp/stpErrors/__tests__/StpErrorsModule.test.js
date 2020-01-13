@@ -2,14 +2,9 @@ import { Alert, PageHead } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
 import { LOAD_STP_ERRORS } from '../stpErrorsIntents';
+import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import StpErrorsModule from '../StpErrorsModule';
 import loadStpErrors from '../mappings/data/loadStpErrors';
-
-const findComponentWithTestId = (wrapper, testId, componentName) => wrapper.findWhere(c => (
-  c.prop('testid') === testId && c.name() === componentName
-));
-
-const findButtonWithTestId = (wrapper, testId) => findComponentWithTestId(wrapper, testId, 'Button');
 
 describe('stpErrorsModule', () => {
   const defaultMockIntegration = {

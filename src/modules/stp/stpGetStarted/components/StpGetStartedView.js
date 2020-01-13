@@ -46,7 +46,7 @@ const StpGetStartedView = ({
           <p>
             Once you&apos;ve done that, let&apos;s get set up!
           </p>
-          <Button testId="getStartedButton" onClick={onGetStartedClick}>Get started</Button>
+          <Button testid="getStartedButton" onClick={onGetStartedClick}>Get started</Button>
         </div>
         <img className={styles.image} src={landingPageImage} alt="ato stp reporting" />
       </Columns>

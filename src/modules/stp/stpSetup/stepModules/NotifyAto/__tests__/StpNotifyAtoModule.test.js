@@ -1,17 +1,9 @@
 import { mount } from 'enzyme';
 
 import { GET_BUSINESS_SID } from '../stpNotifyAtoIntents';
+import { findButtonWithTestId } from '../../../../../../common/tests/selectors';
 import ConfirmationModal from '../components/ConfirmationModal';
 import StpNotifyAtoModule from '../StpNotifyAtoModule';
-
-const findComponentWithTestId = (wrapper, testId, componentName) => wrapper.findWhere(c => (
-  c.prop('testid') === testId && c.name() === componentName
-));
-
-const findButtonWithTestId = (wrapper, testId) => findComponentWithTestId(
-  wrapper, testId, 'Button',
-);
-
 
 describe('StpNotifyAtoModule', () => {
   const defaultMockIntegration = {

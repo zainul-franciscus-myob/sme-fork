@@ -2,12 +2,9 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
 
+import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import EmployeePayListModule from '../EmployeePayListModule';
 import PayRunModule from '../../PayRunModule';
-
-const findButtonWithTestId = (wrapper, testId) => wrapper.findWhere(c => (
-  c.prop('testId') === testId && c.name() === 'Button'
-));
 
 describe('EmployeePayListModule', () => {
   const constructEmployeePayListModule = () => {

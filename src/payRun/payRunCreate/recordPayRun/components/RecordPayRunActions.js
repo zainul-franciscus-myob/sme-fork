@@ -8,7 +8,7 @@ const RecordPayRunActions = ({
 }) => (
   <ButtonRow
     primary={[
-      <Button key="saveAndClose" testId="saveAndCloseButton" name="saveAndClose" type="secondary" onClick={onSaveAndCloseButtonClick}>
+      <Button key="saveAndClose" testid="saveAndCloseButton" name="saveAndClose" type="secondary" onClick={onSaveAndCloseButtonClick}>
           Save and close
       </Button>,
       <Button key="previous" name="previous" type="secondary" onClick={onPreviousButtonClick}>

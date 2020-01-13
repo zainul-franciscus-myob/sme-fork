@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme/build';
 import React from 'react';
 
+import { findButtonWithTestId } from '../../../../../common/tests/selectors';
 import { getDefaultState } from '../../paySuperListReducer';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import NoResultPageState from '../../../../../components/NoResultPageState/NoResultPageState';
@@ -76,7 +77,7 @@ describe('PaySuperListView', () => {
     it('renders create button when pay super is registered', () => {
       const wrapper = constructPaySuperListView();
 
-      const createButton = wrapper.find({ testId: 'createSuperPaymentButton' });
+      const createButton = findButtonWithTestId(wrapper, 'createSuperPaymentButton');
 
       expect(createButton).not.toHaveLength(0);
     });
@@ -84,7 +85,7 @@ describe('PaySuperListView', () => {
     it('renders settings button when pay super is registered', () => {
       const wrapper = constructPaySuperListView();
 
-      const settingsButton = wrapper.find({ testId: 'superPaymentSettingsButton' });
+      const settingsButton = findButtonWithTestId(wrapper, 'superPaymentSettingsButton');
 
       expect(settingsButton).not.toHaveLength(0);
     });

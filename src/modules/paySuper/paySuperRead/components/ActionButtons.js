@@ -36,7 +36,7 @@ const ActionButtons = ({
       <ButtonRow
         primary={[
           CancelButton,
-          <Button testId="reversalButton" key="reverse" type="primary" onClick={onReverseClick}>
+          <Button testid="reversalButton" key="reverse" type="primary" onClick={onReverseClick}>
             Reverse transaction
           </Button>,
         ]}
@@ -48,7 +48,7 @@ const ActionButtons = ({
       <ButtonRow
         primary={[
           CancelButton,
-          <Button testId="recordReversalButton" key="recordReverse" type="primary" onClick={onRecordReverseClick}>
+          <Button testid="recordReversalButton" key="recordReverse" type="primary" onClick={onRecordReverseClick}>
           Record reversal
           </Button>,
         ]}

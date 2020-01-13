@@ -2,6 +2,7 @@ import { Alert } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
 import { LOAD_AGENT_CONTACT_INFO, SUBMIT_AGENT_CONTACT_INFO } from '../stpYourRoleIntents';
+import { findButtonWithTestId } from '../../../../../../common/tests/selectors';
 import ContactDetails from '../components/ContactDetails';
 import Role from '../../../Role';
 import StpYourRoleModule from '../StpYourRoleModule';
@@ -16,10 +17,6 @@ const setRole = (module, wrapper, role) => {
   module.onFieldChange({ key: 'role', value: role });
   wrapper.update();
 };
-
-const findButtonWithTestId = (wrapper, testId) => wrapper.findWhere(c => (
-  c.prop('testId') === testId && c.name() === 'Button'
-));
 
 describe('StpYourRoleModule', () => {
   const constructModule = ({
@@ -39,7 +36,7 @@ describe('StpYourRoleModule', () => {
   describe('agent ABN and RAN form', () => {
     it('does not display the agent form when business user is selected', () => {
       const { wrapper } = constructModule({});
-      const agentForm = wrapper.find({ testId: 'agentForm' });
+      const agentForm = wrapper.find({ testid: 'agentForm' });
 
       expect(agentForm).toHaveLength(0);
     });
@@ -49,7 +46,7 @@ describe('StpYourRoleModule', () => {
 
       setRole(module, wrapper, Role.TAX_AGENT);
 
-      const agentForm = wrapper.find({ testId: 'agentForm' });
+      const agentForm = wrapper.find({ testid: 'agentForm' });
       expect(agentForm).toHaveLength(1);
     });
 

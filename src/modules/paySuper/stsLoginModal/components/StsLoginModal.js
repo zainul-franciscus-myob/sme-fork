@@ -60,7 +60,7 @@ const StsLoginModal = ({
         {isLoading ? loading : modalBody}
       </Modal.Body>
       <Modal.Footer>
-        <Button testId="loginButton" onClick={onLoginClick}>
+        <Button testid="loginButton" onClick={onLoginClick}>
           Login
         </Button>
       </Modal.Footer>

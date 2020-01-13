@@ -25,7 +25,7 @@ const RegistrationErrorsModal = ({
       <Button
         key="modal-cancel-btn"
         id="modal-cancel-btn"
-        testId="cancelButton"
+        testid="cancelButton"
         type="secondary"
         onClick={onCancelButtonClick}
       >

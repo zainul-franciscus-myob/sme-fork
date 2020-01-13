@@ -1,16 +1,10 @@
 import { Alert } from '@myob/myob-widgets';
-import Adapter from 'enzyme-adapter-react-16/build';
-import Enzyme, { mount } from 'enzyme/build';
+import { mount } from 'enzyme/build';
 
+import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import PaySuperReadModule from '../PaySuperReadModule';
 import ReversalModal from '../components/ReversalModal';
 import loadPaySuperReadResponse from '../mappings/data/loadPaySuperReadResponse';
-
-Enzyme.configure({ adapter: new Adapter() });
-
-const findButtonWithTestId = (wrapper, testId) => wrapper.findWhere(c => (
-  c.prop('testId') === testId && c.name() === 'Button'
-));
 
 describe('PaySuperReadModule', () => {
   const defaultIntegration = {

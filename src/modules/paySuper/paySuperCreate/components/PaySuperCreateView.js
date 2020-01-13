@@ -102,7 +102,7 @@ const PaySuperCreateView = ({
           onYesAuthoriseButtonClick={onYesAuthoriseButtonClick}
         />
       )}
-      <PageHead title="Create super payment" testId="paySuperCreateHeader" />
+      <PageHead title="Create super payment" testid="paySuperCreateHeader" />
       <Card>
         <FilterBar onApply={onApplyFilter}>
           <FilterBar.Group>
@@ -114,7 +114,7 @@ const PaySuperCreateView = ({
 
       <Card footer={totalPaymentFooter}>
         <PaySuperCreateDetailHeader
-          testId="PaySuperCreateDetailHeader"
+          testid="PaySuperCreateDetailHeader"
           accounts={accounts}
           selectedAccountId={selectedAccountId}
           onAccountChange={onAccountChange}

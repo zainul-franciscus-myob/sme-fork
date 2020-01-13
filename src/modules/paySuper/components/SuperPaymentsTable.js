@@ -77,7 +77,7 @@ const SuperPaymentsTable = ({
   );
 
   const rows = superPayments.map(row => (
-    <Table.Row key={row.employeePaymentEventId} testId="paySuperRow">
+    <Table.Row key={row.employeePaymentEventId} testid="paySuperRow">
       {renderCheckbox && (
         <Table.RowItem {...tableConfig.checkbox}>
           <Checkbox

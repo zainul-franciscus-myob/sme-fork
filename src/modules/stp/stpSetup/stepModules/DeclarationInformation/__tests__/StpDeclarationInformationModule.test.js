@@ -2,15 +2,10 @@ import { Alert } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
 import { LOAD_BUSINESS_CONTACT_INFORMATION, SUBMIT_BUSINESS_CONTACT_INFORMATION } from '../StpDeclarationInformationIntents';
+import { findButtonWithTestId, findComponentWithTestId } from '../../../../../../common/tests/selectors';
 import StpDeclarationInformationModule from '../StpDeclarationInformationModule';
 import loadBusinessContactInformation from '../mappings/data/loadBusinessContactInformation';
 
-
-const findComponentWithTestId = (wrapper, testId, componentName) => wrapper.findWhere(c => (
-  c.prop('testid') === testId && c.name() === componentName
-));
-
-const findButtonWithTestId = (wrapper, testId) => findComponentWithTestId(wrapper, testId, 'Button');
 
 const simulateInputChange = (component, value) => component.prop('onChange')({ target: { value, name: component.prop('name') } });
 

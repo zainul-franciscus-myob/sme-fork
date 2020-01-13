@@ -32,7 +32,7 @@ const StpYourRoleView = ({
   );
 
   const agentContent = (
-    <FormHorizontal layout="primary" testId="agentForm">
+    <FormHorizontal layout="primary" testid="agentForm">
       <p>Enter your own ABN and RAN, and search for your contact details</p>
       <Input
         name="agentAbn"
@@ -49,7 +49,7 @@ const StpYourRoleView = ({
       <Field
         label=""
         renderField={() => (
-          <Button type="secondary" onClick={onSearchClick} testId="agentSearchButton">Search</Button>
+          <Button type="secondary" onClick={onSearchClick} testid="agentSearchButton">Search</Button>
         )}
       />
       {showContactDetails && (
@@ -84,8 +84,8 @@ const StpYourRoleView = ({
         {role === Role.SOMEONE_FROM_THE_BUSINESS ? someoneFromBusinessContent : agentContent}
       </Card>
       <ButtonRow primary={[
-        <Button type="secondary" onClick={onPreviousClick} key="previous" testId="previousButton">Previous</Button>,
-        <Button type="primary" onClick={onNextClick} key="next" testId="nextButton">Next</Button>,
+        <Button type="secondary" onClick={onPreviousClick} key="previous" testid="previousButton">Previous</Button>,
+        <Button type="primary" onClick={onNextClick} key="next" testid="nextButton">Next</Button>,
       ]}
       />
     </div>
