@@ -31,6 +31,10 @@
   padding: var(--tmp-spacing-xx-tiny) var(--tmp-spacing-x-tiny) var(--tmp-spacing-x-tiny) var(--tmp-spacing-xx-tiny);
 }
 
+.paymenttypeBpay > img {
+  width: 100%;
+}
+
 .paymenttypeCredit img {
   width: 70%;
   padding: var(--tmp-spacing-x-tiny) 0;
