@@ -103,7 +103,8 @@ const AuPaymentOptions = ({
     </>
   );
 
-  return (
+  // eslint-disable-next-line no-unused-vars
+  const payDirectComponents = (
     <>
       <Field
         label="Online payments"
@@ -115,26 +116,33 @@ const AuPaymentOptions = ({
         )}
       />
       { isRegistered && (
-      <Field
-        label="Account for receiving online payments"
-        renderField={() => (
-          <div className={styles.account}>
-            <AccountCombobox
-              label="Account for receiving online payments"
-              hideLabel
-              items={accountOptions}
-              selectedId={salesSettings.accountId}
-              onChange={handleComboboxChange('accountId', onUpdateSalesSettingsItem)}
-            />
-            <p>
-              This account must match the bank account you chose when
-              setting up your online payments.
-            </p>
-          </div>
-        )}
-      />
+        <Field
+          label="Account for receiving online payments"
+          renderField={() => (
+            <div className={styles.account}>
+              <AccountCombobox
+                label="Account for receiving online payments"
+                hideLabel
+                items={accountOptions}
+                selectedId={salesSettings.accountId}
+                onChange={handleComboboxChange('accountId', onUpdateSalesSettingsItem)}
+              />
+              <p>
+                This account must match the bank account you chose when
+                setting up your online payments.
+              </p>
+            </div>
+          )}
+        />
       )}
       <hr />
+    </>
+  );
+
+  return (
+    <>
+      {/* TODO: Commented out while PayDirect fails gracefully is being analysed. */}
+      {/* { payDirectComponents } */}
       <CheckboxGroup
         label="Allow payments by direct deposit"
         hideLabel
