@@ -16,7 +16,7 @@ const DashboardLeanEngageCard = () => (
     <div className={styles.dogImage}>
       <img
         src={dogImg}
-        alt="lean engage"
+        alt=""
       />
     </div>
     <div className={styles.content}>

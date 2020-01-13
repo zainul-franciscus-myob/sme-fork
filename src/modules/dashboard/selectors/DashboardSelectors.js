@@ -1,7 +1,8 @@
 import { createStructuredSelector } from 'reselect';
 import { getHours } from 'date-fns';
 
-export const getShouldShowBanking = state => state.enabled.includes('bank');
+export const getShouldShowBanking = state => state.enabled.includes('banking');
+export const getShouldShowBankFeedBalance = state => state.enabled.includes('bankFeedBalance');
 export const getShouldShowSales = state => state.enabled.includes('sales');
 export const getShouldShowPurchases = state => state.enabled.includes('purchases');
 export const getShouldShowLeanEngage = state => state.enabled.includes('leanEngage');
@@ -33,5 +34,5 @@ export const getDashboardHeader = createStructuredSelector({
   greeting: getGreeting,
   businessName: state => state.businessName,
   inspirationalQuote: state => state.inspirationalQuote,
-  showBankFeedBalance: getShouldShowBanking,
+  showBankFeedBalance: getShouldShowBankFeedBalance,
 });
