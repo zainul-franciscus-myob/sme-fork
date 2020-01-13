@@ -53,7 +53,7 @@ const TemplateTitle = ({
       const logo = logoImage && (
         <img
           className={styles.logo}
-          style={{ transform: `scale(calc(${logoSize} / 100))` }}
+          style={{ transform: `scale(${logoSize / 100})` }}
           src={logoImage}
           alt="Logo section"
         />
