@@ -1,11 +1,13 @@
 import {
   CLOSE_MODAL,
   DELETE_TEMPLATE,
+  LOAD_PAY_DIRECT_SETTINGS,
   LOAD_SALES_SETTINGS,
   OPEN_MODAL,
   SAVE_TAB_DATA,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_PAY_DIRECT_SETTINGS_LOADING_STATE,
   SET_PENDING_DELETE_TEMPLATE,
   SET_PENDING_TAB,
   SET_SORTED_TEMPLATES,
@@ -52,8 +54,9 @@ const getDefaultState = () => ({
     pdfOption: '',
   },
   payDirect: {
+    isLoading: false,
+    isServiceAvailable: false,
     isRegistered: false,
-    serialNumber: '',
     url: '',
   },
   reminders: {
@@ -67,6 +70,7 @@ const getDefaultState = () => ({
     orderBy: '',
     isLoading: false,
   },
+  serialNumber: '',
   isPageEdited: false,
   tabData: {},
   selectedTab: 'layoutAndTheme',
@@ -168,7 +172,6 @@ const updateEmailSettings = (state, action) => ({
   isPageEdited: true,
 });
 
-
 const getDataType = selectedTab => ({
   layoutAndTheme: 'salesSettings',
   payments: 'salesSettings',
@@ -238,6 +241,22 @@ const deleteTemplate = (state, { templateName }) => ({
   },
 });
 
+const updatePayDirectState = (state, partialPayDirect) => ({
+  ...state,
+  payDirect: {
+    ...state.payDirect,
+    ...partialPayDirect,
+  },
+});
+
+export const loadPayDirectSettings = (state, { payDirect }) => updatePayDirectState(
+  state, { ...payDirect, isServiceAvailable: true },
+);
+
+export const setPayDirectSettingsLoadingState = (state, { isLoading }) => updatePayDirectState(
+  state, { isLoading },
+);
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
@@ -257,6 +276,8 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [SET_PENDING_DELETE_TEMPLATE]: setPendingDeleteTemplate,
   [DELETE_TEMPLATE]: deleteTemplate,
+  [LOAD_PAY_DIRECT_SETTINGS]: loadPayDirectSettings,
+  [SET_PAY_DIRECT_SETTINGS_LOADING_STATE]: setPayDirectSettingsLoadingState,
 };
 
 const salesSettingsDetailReducer = createReducer(getDefaultState(), handlers);

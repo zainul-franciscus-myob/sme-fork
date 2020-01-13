@@ -26,11 +26,6 @@
       "statementEmailBody": "Please contact us immediately if you are unable to detach or download your Statement. Thank you.",
       "pdfOption": "IncludeLink"
     },
-    "payDirect": {
-      "isRegistered": true,
-      "serialNumber": "000000000000",
-      "url": "https://paydirectonline.myob.com/payments"
-    },
     "reminders": {
       "url": "https://portal.sit.reminders.myob.com/preferences"
     },
@@ -70,6 +65,6 @@
     "layout": [
       { "name": "Services", "value": "Service" },
       { "name": "Services and items", "value": "ItemAndService" }
-    ]
-  }
-  
+    ],
+    "serialNumber": "000000000000"
+}

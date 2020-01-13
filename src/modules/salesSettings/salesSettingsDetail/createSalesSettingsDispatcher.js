@@ -1,11 +1,13 @@
 import {
   CLOSE_MODAL,
   DELETE_TEMPLATE,
+  LOAD_PAY_DIRECT_SETTINGS,
   LOAD_SALES_SETTINGS,
   OPEN_MODAL,
   SAVE_TAB_DATA,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_PAY_DIRECT_SETTINGS_LOADING_STATE,
   SET_PENDING_DELETE_TEMPLATE,
   SET_PENDING_TAB,
   SET_SORTED_TEMPLATES,
@@ -149,6 +151,16 @@ const createSalesSettingsDispatcher = store => ({
       intent: SET_SORTED_TEMPLATES,
       templates,
     });
+  },
+
+  loadPayDirectSettings: (payload) => {
+    const intent = LOAD_PAY_DIRECT_SETTINGS;
+    store.dispatch({ intent, ...payload });
+  },
+
+  setPayDirectSettingsLoadingState: (isLoading) => {
+    const intent = SET_PAY_DIRECT_SETTINGS_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
   },
 });
 

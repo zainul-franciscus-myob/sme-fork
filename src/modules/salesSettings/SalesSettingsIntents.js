@@ -20,3 +20,6 @@ export const SAVE_EMAIL_SETTINGS = Symbol('Save email settings');
 
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
+
+export const LOAD_PAY_DIRECT_SETTINGS = Symbol('Load pay direct settings');
+export const SET_PAY_DIRECT_SETTINGS_LOADING_STATE = Symbol('Set pay direct settings loading state');

@@ -1,7 +1,5 @@
 import {
-  getPayDirectLink, getReminderLink,
-  getShowDateField,
-  getShowDateInput,
+  getPayDirectLink, getReminderLink, getShowDateField, getShowDateInput,
 } from '../SalesSettingsDetailSelectors';
 
 describe('salesSettingsSelectors', () => {
@@ -114,9 +112,9 @@ describe('salesSettingsSelectors', () => {
       const state = {
         businessId: '123',
         payDirect: {
-          serialNumber: '000',
           url: 'https://foo.bar',
         },
+        serialNumber: '000',
       };
       const expected = 'https://foo.bar?cdf=123&sn=000';
 

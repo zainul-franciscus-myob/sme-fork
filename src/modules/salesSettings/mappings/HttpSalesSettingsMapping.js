@@ -1,5 +1,6 @@
 import {
   DELETE_TEMPLATE,
+  LOAD_PAY_DIRECT_SETTINGS,
   LOAD_SALES_SETTINGS,
   SAVE_EMAIL_SETTINGS,
   SORT_TEMPLATE_LIST,
@@ -26,6 +27,10 @@ const HttpSalesSettingsMapping = {
   [SAVE_EMAIL_SETTINGS]: {
     method: 'PUT',
     getPath: ({ businessId }) => `/${businessId}/salesSettings/update_email_settings`,
+  },
+  [LOAD_PAY_DIRECT_SETTINGS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/salesSettings/load_pay_direct_settings`,
   },
 };
 

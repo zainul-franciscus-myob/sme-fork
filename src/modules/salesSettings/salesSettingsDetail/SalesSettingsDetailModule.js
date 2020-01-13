@@ -11,6 +11,7 @@ import {
   getRegion,
   getSalesSettingsPayload,
   getSelectedTab,
+  getShowOnlinePaymentOptions,
   getTabData,
 } from './SalesSettingsDetailSelectors';
 import { mainTabIds } from './tabItems';
@@ -67,6 +68,21 @@ export default class SalesSettingsModule {
 
     this.integrator.updateSalesSettings({ onSuccess, onFailure, content });
   };
+
+  loadPayDirectSettings = () => {
+    this.dispatcher.setPayDirectSettingsLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setPayDirectSettingsLoadingState(false);
+      this.dispatcher.loadPayDirectSettings(response);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setPayDirectSettingsLoadingState(false);
+    };
+
+    this.integrator.loadPayDirectSettings({ onSuccess, onFailure });
+  }
 
   switchTab = (selectedTab) => {
     if (getIsPageEdited(this.store.getState())) {
@@ -247,6 +263,11 @@ export default class SalesSettingsModule {
     this.render();
     this.readMessages();
     this.loadSalesSettings();
+
+    const showOnlinePaymentOptions = getShowOnlinePaymentOptions(this.store.getState());
+    if (showOnlinePaymentOptions) {
+      this.loadPayDirectSettings();
+    }
   };
 
   redirectToCreateNewTemplate = () => {

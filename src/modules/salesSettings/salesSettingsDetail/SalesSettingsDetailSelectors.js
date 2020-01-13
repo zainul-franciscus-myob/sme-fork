@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { mainTabItems } from './tabItems';
+import Region from '../../../common/types/Region';
 
 export const getLoadingState = state => state.loadingState;
 export const getRegion = state => state.region;
@@ -14,6 +15,8 @@ export const getLayout = state => state.layout;
 export const getTabData = state => state.tabData;
 export const getIsPageEdited = state => state.isPageEdited;
 export const getModalType = state => state.modalType;
+const getIsPayDirectSettingsLoading = state => state.payDirect.isLoading;
+const getIsPayDirectSettingsServiceAvailable = state => state.payDirect.isServiceAvailable;
 export const getIsRegistered = state => state.payDirect.isRegistered;
 export const getShowActions = state => mainTabItems
   .find(tab => tab.id === state.selectedTab).hasActions;
@@ -37,7 +40,7 @@ export const getDateInputPostfix = state => ({
   NumberOfDaysAfterEOM: 'days after the end of the month',
 }[state.tabData.paymentType] || '');
 
-export const getPayDirectLink = state => `${state.payDirect.url}?cdf=${state.businessId}&sn=${state.payDirect.serialNumber}`;
+export const getPayDirectLink = state => `${state.payDirect.url}?cdf=${state.businessId}&sn=${state.serialNumber}`;
 
 export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&origin=global&businessId=${state.businessId}`;
 
@@ -105,3 +108,23 @@ export const getSalesSettingsPayload = (state) => {
     region,
   };
 };
+
+export const getShowOnlinePaymentOptions = createSelector(
+  getRegion, region => region === Region.au,
+);
+
+export const getOnlinePaymentOptions = createSelector(
+  getIsPayDirectSettingsLoading,
+  getIsPayDirectSettingsServiceAvailable,
+  getIsRegistered,
+  getPayDirectLink,
+  getTabData,
+  getAccountOptions,
+  (isLoading, isServiceAvailable, isRegistered, payDirectLink, salesSettings, accountOptions) => {
+    const { accountId } = salesSettings;
+
+    return {
+      isLoading, isServiceAvailable, isRegistered, payDirectLink, accountId, accountOptions,
+    };
+  },
+);

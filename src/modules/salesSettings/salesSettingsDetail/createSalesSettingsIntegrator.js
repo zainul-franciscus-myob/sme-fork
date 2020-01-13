@@ -1,5 +1,6 @@
 import {
   DELETE_TEMPLATE,
+  LOAD_PAY_DIRECT_SETTINGS,
   LOAD_SALES_SETTINGS,
   SAVE_EMAIL_SETTINGS,
   SORT_TEMPLATE_LIST,
@@ -99,6 +100,19 @@ const createInTrayIntegrator = (store, integration) => ({
       urlParams,
       onSuccess,
       onFailure,
+    });
+  },
+
+  loadPayDirectSettings: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_PAY_DIRECT_SETTINGS;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
     });
   },
 });

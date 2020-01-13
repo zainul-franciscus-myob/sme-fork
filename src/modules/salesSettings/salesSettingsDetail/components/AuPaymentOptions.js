@@ -1,69 +1,21 @@
-import {
-  Checkbox, CheckboxGroup, Field, Icons,
-} from '@myob/myob-widgets';
+import { Checkbox, CheckboxGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getAccountOptions, getIsRegistered, getPayDirectLink, getTabData,
 } from '../SalesSettingsDetailSelectors';
-import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AccountNumberInput from '../../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
 import BSBInput from '../../../../components/autoFormatter/BankDetailsInput/BSBInput';
-import LinkButton from '../../../../components/Button/LinkButton';
+import OnlinePaymentOptions from './OnlinePaymentOptions';
 import UpperCaseInputFormatter from '../../../../components/autoFormatter/UpperCaseInput/UpperCaseInputFormatter';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
-import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
-import onlinePaymentMethodsImage from './OnlinePaymentMethods.png';
-import styles from './AuPaymentOptions.module.css';
 
 const AuPaymentOptions = ({
-  accountOptions,
   salesSettings,
-  payDirectLink,
-  isRegistered,
   onUpdateSalesSettingsItem,
 }) => {
-  const registeredView = (
-    <>
-      <p className={styles.registeredView}>
-        You have online invoice payments
-        <span className={styles.status}> activated</span>
-        <span>. </span>
-        <LinkButton
-          href={payDirectLink}
-          icon={<Icons.OpenExternalLink />}
-          iconRight
-          isOpenInNewTab
-        >
-          Edit preferences
-        </LinkButton>
-      </p>
-
-    </>
-  );
-
-  const unregisteredView = (
-    <div className={styles.unRegisteredView}>
-      <p>
-        Setting up online payment allows your customers to
-        pay direct from their emailed invoice -
-        meaning you get paid faster and minimise the risk of overdue payments.
-        <br />
-        <a href="https://help.myob.com/wiki/display/ea/Online+payments" target="_blank" rel="noopener noreferrer">Learn more</a>
-      </p>
-      <LinkButton
-        href={payDirectLink}
-        icon={<Icons.OpenExternalLink />}
-        iconRight
-        isOpenInNewTab
-      >
-        Set up online payments options
-      </LinkButton>
-    </div>
-  );
-
   const directDepositPayment = (
     <>
       <UpperCaseInputFormatter
@@ -103,46 +55,10 @@ const AuPaymentOptions = ({
     </>
   );
 
-  // eslint-disable-next-line no-unused-vars
-  const payDirectComponents = (
-    <>
-      <Field
-        label="Online payments"
-        renderField={() => (
-          <>
-            <img src={onlinePaymentMethodsImage} alt="Online payments methods" className={styles.onlinePaymentMethodsImage} />
-            { isRegistered ? registeredView : unregisteredView }
-          </>
-        )}
-      />
-      { isRegistered && (
-        <Field
-          label="Account for receiving online payments"
-          renderField={() => (
-            <div className={styles.account}>
-              <AccountCombobox
-                label="Account for receiving online payments"
-                hideLabel
-                items={accountOptions}
-                selectedId={salesSettings.accountId}
-                onChange={handleComboboxChange('accountId', onUpdateSalesSettingsItem)}
-              />
-              <p>
-                This account must match the bank account you chose when
-                setting up your online payments.
-              </p>
-            </div>
-          )}
-        />
-      )}
-      <hr />
-    </>
-  );
-
   return (
     <>
-      {/* TODO: Commented out while PayDirect fails gracefully is being analysed. */}
-      {/* { payDirectComponents } */}
+      <OnlinePaymentOptions onUpdateSalesSettingsItem={onUpdateSalesSettingsItem} />
+      <hr />
       <CheckboxGroup
         label="Allow payments by direct deposit"
         hideLabel

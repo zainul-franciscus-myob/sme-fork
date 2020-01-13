@@ -69,11 +69,6 @@
     ],
     "essentialsTemplates": [{ "name": "Essentials Accounting Template" }]
   },
-  "payDirect": {
-    "isRegistered": true,
-    "serialNumber": "000000000000",
-    "url": "https://paydirectonline.myob.com/payments"
-  },
   "reminders": {
     "url": "https://portal.sit.reminders.myob.com/preferences"
   },
@@ -136,5 +131,6 @@
       "taxCodeId": "124",
       "displayId": "6-789"
     }
-  ]
+  ],
+  "serialNumber": "000000000000"
 }
