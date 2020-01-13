@@ -150,18 +150,26 @@ describe('openEntryHandlers', () => {
   });
 
   describe('loadOpenEntry', () => {
+    const attachments = ['some', 'attachments'];
+
+    const state = {
+      entries: [
+        {},
+        { description: 'abc' },
+      ],
+      openEntry: {
+        attachments,
+      },
+    };
     it('should preserve attachments', () => {
-      const attachments = ['some', 'attachments'];
-
-      const state = {
-        openEntry: {
-          attachments,
-        },
-      };
-
       const actual = loadOpenEntry(state, 1, 'propName', 'propValue', true);
 
       expect(actual.openEntry.attachments).toBe(attachments);
+    });
+    it('should preserve bank feed description', () => {
+      const actual = loadOpenEntry(state, 1, 'propName', 'propValue', true);
+
+      expect(actual.openEntry.description).toEqual('abc');
     });
   });
 });

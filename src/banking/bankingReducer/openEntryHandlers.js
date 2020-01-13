@@ -17,6 +17,7 @@ export const loadOpenEntry = (state, index, propName, propValue, isCreating) => 
   openPosition: index,
   openEntry: {
     ...getDefaultState().openEntry,
+    description: state.entries[index].description,
     attachments: state.openEntry.attachments,
     isCreating,
     activeTabId: propName,

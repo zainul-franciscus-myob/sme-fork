@@ -1,5 +1,5 @@
 import {
-  Columns, DropZone, Field, FileChip, Icons, Spinner, TextArea, Tooltip,
+  Columns, DropZone, Field, FileChip, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -70,22 +70,6 @@ const OpenEntrySecondaryContent = ({
 
   return (
     <div className={styles.secondary}>
-      <div className={styles.notes}>
-        <TextArea
-          type="text"
-          label="Notes"
-          labelAccessory={(
-            <Tooltip triggerContent={<Icons.Info />}>
-              Add a note for your reference, but it won&apos;t appear in your reports
-            </Tooltip>
-          )}
-          name="note"
-          rows={3}
-          autoSize
-          resize="vertical"
-          disabled
-        />
-      </div>
       <div className={styles.dropzone}>
         { header }
         { dropzone }

@@ -134,7 +134,7 @@ export const getAccounts = createSelector(
 export const getMatchTransactionPayload = (state, index) => {
   const entries = getEntries(state);
   const openedEntry = entries[index];
-  const { transactionId: bankTransactionId } = openedEntry;
+  const { transactionId: bankTransactionId, description: bankFeedDescription } = openedEntry;
 
   const { bankAccount: bankFeedAccountId } = getFilterOptions(state);
 
@@ -155,6 +155,7 @@ export const getMatchTransactionPayload = (state, index) => {
   const payload = {
     bankTransactionId,
     bankFeedAccountId,
+    bankFeedDescription,
     adjustments,
     date: formatIsoDate(new Date()),
     isCredit: Boolean(openedEntry.deposit) || undefined,

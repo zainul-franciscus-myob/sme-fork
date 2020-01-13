@@ -70,6 +70,7 @@ const getDefaultState = () => ({
     isCreating: false,
     isAttachmentsLoading: false,
     activeTabId: tabIds.allocate,
+    description: '',
     allocate: {
       id: '',
       date: '',
