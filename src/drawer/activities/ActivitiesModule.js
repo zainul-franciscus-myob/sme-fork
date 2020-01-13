@@ -79,6 +79,7 @@ export default class ActivitiesModule {
   run = (context) => {
     const { routeParams } = context;
     this.dispatcher.setInitialState(routeParams);
-    this.loadActivities(routeParams.businessId, routeParams.region);
+    const { businessId } = routeParams;
+    if (businessId) this.loadActivities(businessId, routeParams.region);
   }
 }
