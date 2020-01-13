@@ -36,16 +36,5 @@ describe('rootModule', () => {
         expect(root.drawer.run).toBeCalledTimes(1);
       });
     });
-
-    describe('settings', () => {
-      it('are not loaded when business id is null', () => {
-        const root = createAndRunModule({ routeParams: { businessId: null } }, jest.fn());
-        expect(root.settingsService.load).toBeCalledTimes(0);
-      });
-      it('are loaded when business id is set', () => {
-        const root = createAndRunModule({ routeParams: { businessId: 'id' } }, jest.fn());
-        expect(root.settingsService.load).toBeCalledTimes(1);
-      });
-    });
   });
 });

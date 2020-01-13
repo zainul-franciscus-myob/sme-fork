@@ -2,19 +2,67 @@ import load from '../load';
 
 describe('SettingsService', () => {
   describe('load', () => {
-    it('loads from the integration', () => {
-      const context = {};
-      const data = {};
-
-      const dispatcher = {
+    const data = { previousSettingsBusinessId: 'hi' };
+    let dispatcher;
+    let integration;
+    beforeEach(() => {
+      dispatcher = {
         loadSettings: jest.fn(),
       };
 
-      const integration = {
+      integration = {
         read: jest.fn().mockImplementation(({ onSuccess }) => onSuccess(data)),
       };
+    });
+    it('should call integration when businessId exists and settings have not been loaded previously', () => {
+      const store = {
+        getState: () => ({
+          areOnboardingSettingsLoaded: false,
+          businessId: 'hi',
+        }),
+      };
 
-      load(dispatcher, integration, context);
+      load(dispatcher, integration, store);
+      expect(dispatcher.loadSettings).toBeCalledWith(data);
+    });
+
+    it('should not integration when businessId is missing', () => {
+      const store = {
+        getState: () => ({
+          previousSettingsBusinessId: 'hi',
+          areOnboardingSettingsLoaded: false,
+        }),
+      };
+
+
+      load(dispatcher, integration, store);
+      expect(dispatcher.loadSettings).toBeCalledTimes(0);
+    });
+
+    it('should not integration when settings have been loaded previously', () => {
+      const store = {
+        getState: () => ({
+          previousSettingsBusinessId: 'hi',
+          businessId: 'hi',
+          areOnboardingSettingsLoaded: true,
+        }),
+      };
+
+
+      load(dispatcher, integration, store);
+      expect(dispatcher.loadSettings).toBeCalledTimes(0);
+    });
+
+    it('should call to integration when the businessId changes', () => {
+      const store = {
+        getState: () => ({
+          areOnboardingSettingsLoaded: true,
+          previousSettingsBusinessId: 'not hi',
+          businessId: 'hi',
+        }),
+      };
+
+      load(dispatcher, integration, store);
       expect(dispatcher.loadSettings).toBeCalledWith(data);
     });
   });

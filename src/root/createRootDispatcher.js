@@ -1,7 +1,6 @@
 import {
-  LOAD_SETTINGS, SAVE_SETTINGS, SET_LOADING_STATE, SET_VIEW_DATA,
+  LOAD_SETTINGS, SAVE_SETTINGS, SET_BUSINESS_ID, SET_LOADING_STATE, SET_VIEW_DATA,
 } from './rootIntents';
-import { SET_INITIAL_STATE } from '../SystemIntents';
 
 const createRootDispatcher = store => ({
   loadSettings: (settings) => {
@@ -14,9 +13,9 @@ const createRootDispatcher = store => ({
     store.dispatch({ intent, settings });
   },
 
-  setInitialState: (context) => {
-    const intent = SET_INITIAL_STATE;
-    store.dispatch({ intent, context });
+  setBusinessId: (businessId) => {
+    const intent = SET_BUSINESS_ID;
+    store.dispatch({ intent, businessId });
   },
 
   setLoadingState: (isLoading) => {

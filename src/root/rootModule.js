@@ -57,13 +57,10 @@ export default class RootModule {
 
   run = (routeProps, handlePageTransition) => {
     const { routeParams } = routeProps;
-    const { businessId } = routeParams;
+    this.dispatcher.setBusinessId(routeParams.businessId);
 
-    this.dispatcher.setInitialState(routeParams);
+    this.settingsService.load();
 
-    if (businessId) {
-      this.settingsService.load(routeParams);
-    }
     this.drawer.run(routeProps);
 
     this.nav.run({

@@ -1,12 +1,23 @@
 import { LOAD_SETTINGS } from '../rootIntents';
+import { getAreOnboardingSettingsLoaded, getBusinessId, getPreviousSettingsBusinessId } from '../rootSelectors';
 
-const load = (dispatcher, integration, context) => {
-  const urlParams = { businessId: context.businessId };
+const load = (dispatcher, integration, store) => {
+  const state = store.getState();
+  const businessId = getBusinessId(state);
+  const previousSettingsBusinessId = getPreviousSettingsBusinessId(state);
+  const areOnboardingSettingsLoaded = getAreOnboardingSettingsLoaded(state);
 
-  // eslint-disable-next-line no-console
-  const onFailure = error => console.error(error);
+  if (!businessId
+    || (businessId === previousSettingsBusinessId && areOnboardingSettingsLoaded)) return;
 
-  const onSuccess = settings => dispatcher.loadSettings(settings);
+  const onFailure = error => console.error(error); //eslint-disable-line
+
+  const onSuccess = settings => dispatcher.loadSettings({
+    ...settings,
+    previousSettingsBusinessId: businessId,
+  });
+
+  const urlParams = { businessId };
 
   integration.read({
     intent: LOAD_SETTINGS,
