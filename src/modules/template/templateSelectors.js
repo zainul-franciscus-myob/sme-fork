@@ -241,3 +241,5 @@ export const getSavePayload = (state) => {
 export const getPreviewType = state => state.previewType;
 
 export const getSaleLayout = state => state.saleLayout;
+
+export const getIsCreating = state => state.isCreating;

@@ -23,6 +23,7 @@ const getDefaultState = () => ({
   modelType: '',
   hasChange: false,
   previewType: PreviewType.Invoice,
+  isCreating: true,
   businessDetails: {
     tradingName: '',
     businessName: '',

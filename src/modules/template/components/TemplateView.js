@@ -11,6 +11,7 @@ import {
   getHeaderBusinessDetailsStyle,
   getHeaderImage,
   getHeaderTextColour,
+  getIsCreating,
   getIsLoading,
   getIsLogoOnTheLeft,
   getLogoImage,
@@ -160,6 +161,7 @@ const mapStateToProps = state => ({
   alert: getAlert(state),
   modalType: getModalType(state),
   region: getRegion(state),
+  isCreating: getIsCreating(state),
 });
 
 export default connect(mapStateToProps)(TemplateView);
