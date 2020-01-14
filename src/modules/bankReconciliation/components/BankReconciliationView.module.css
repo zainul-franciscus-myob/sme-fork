@@ -1,0 +1,8 @@
+/*
+  This resolves the issue for when the collapsible is open and is visible when the 
+  user continues scrolling. (This z-index was chosen because it's greater than the z-index
+  of the collapsible which is 101)
+*/
+.sticky {
+  z-index: 102;
+}

@@ -10,6 +10,7 @@ import BankReconciliationOptions from './BankReconciliationOptions';
 import BankReconciliationTable from './BankReconciliationTable';
 import PageView from '../../../components/PageView/PageView';
 import UndoBankReconciliationModal from './UndoBankReconciliationModal';
+import styles from './BankReconciliationView.module.css';
 
 const BankReconciliationView = ({
   loadingState,
@@ -64,6 +65,7 @@ const BankReconciliationView = ({
 
   const view = (
     <BaseTemplate
+      baseTemplateClassName={styles.sticky}
       stickyHeaderChildren={stickyComponent}
     >
       {modal}
