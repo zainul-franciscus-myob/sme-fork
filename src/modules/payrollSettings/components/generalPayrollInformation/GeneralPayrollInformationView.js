@@ -129,6 +129,7 @@ const GeneralPayrollInformationView = (props) => {
                 {taxTableRevisionDate}
               </ReadOnly>
             </FieldGroup>
+            {false && (
             <FieldGroup label="Timesheets">
               <CheckboxGroup
                 label="useTimesheets"
@@ -167,6 +168,7 @@ const GeneralPayrollInformationView = (props) => {
                 ))}
               </Select>
             </FieldGroup>
+            )}
           </FormHorizontal>
         </div>
       </Card>
