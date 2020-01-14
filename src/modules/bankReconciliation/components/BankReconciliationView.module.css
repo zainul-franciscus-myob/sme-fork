@@ -3,6 +3,6 @@
   user continues scrolling. (This z-index was chosen because it's greater than the z-index
   of the collapsible which is 101)
 */
-.sticky {
+.sticky :global(.sticky-header--on) {
   z-index: 102;
 }
