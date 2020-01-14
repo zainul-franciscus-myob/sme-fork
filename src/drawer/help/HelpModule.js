@@ -6,6 +6,7 @@ import {
   getSearchValue,
   isHelpContentLoaded,
   isUserHelpSettingsLoaded,
+  shouldLoadHelpContent,
 } from './HelpSelectors';
 import HelpView from './components/HelpView';
 import Store from '../../store/Store';
@@ -69,6 +70,8 @@ export default class HelpModule {
   }
 
   loadHelpContent = () => {
+    if (!shouldLoadHelpContent(this.store.getState())) return;
+
     this.dispatcher.setLoadingState(true);
 
     if (!isUserHelpSettingsLoaded(this.store.getState())) {

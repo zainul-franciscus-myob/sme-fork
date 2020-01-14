@@ -6,6 +6,7 @@ import getQueryFromParams from '../../common/getQueryFromParams/getQueryFromPara
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getIsLoading = state => state.isLoading;
+export const shouldLoadHelpContent = state => !!state.businessId;
 export const isUserHelpSettingsLoaded = state => !!state.userHelpSettings;
 export const isHelpContentLoaded = state => !!state.document;
 
