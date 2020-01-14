@@ -41,6 +41,7 @@ export default class RootModule {
       dispatcher: this.dispatcher,
       settingsService: this.settingsService,
       activitiesService: this.activitiesService,
+      toggleActivities: this.drawer.toggleActivities,
     });
   }
 

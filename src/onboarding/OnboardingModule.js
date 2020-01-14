@@ -3,15 +3,21 @@ import React from 'react';
 import OnboardingView from './components/OnboardingView';
 
 class OnboardingModule {
-  constructor({ dispatcher, settingsService, activitiesService }) {
+  constructor({
+    dispatcher, settingsService, activitiesService, toggleActivities,
+  }) {
     this.dispatcher = dispatcher;
     this.settingsService = settingsService;
     this.activitiesService = activitiesService;
+    this.toggleActivities = toggleActivities;
   }
 
   save = (event) => {
     event.preventDefault();
-    this.settingsService.save(this.state).then(() => this.activitiesService.load());
+    this.settingsService.save(this.state).then(() => {
+      this.activitiesService.load();
+      this.toggleActivities();
+    });
   }
 
   render = () => {
