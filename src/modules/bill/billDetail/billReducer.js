@@ -170,6 +170,10 @@ const loadBill = (state, action) => {
     },
     openExportPdf: defaultState.openExportPdf,
     modalType,
+    inTrayDocument: {
+      ...action.response.inTrayDocument,
+      uploadedDate: '', // PAPI can not provide correct uploadedDate as part of bill loading, ignore it before the fix is in place
+    },
   });
 };
 

@@ -22,6 +22,8 @@ const BillInTrayDocumentView = ({
   onOpenSplitViewButtonClick,
   onUnlinkDocumentButtonClick,
 }) => {
+  const title = inTrayDocument.uploadedDate ? `Source document uploaded ${inTrayDocument.uploadedDate}` : 'Source document';
+
   const documentView = (
     <div className={styles.documentView}>
       <Thumbnail
@@ -29,7 +31,7 @@ const BillInTrayDocumentView = ({
         alt="Document thumbnail"
       />
       <div className={styles.pdf}>
-        <div><h4>{`Source document uploaded ${inTrayDocument.uploadedDate}`}</h4></div>
+        <div><h4>{title}</h4></div>
         <div className={styles.buttonGroup}>
           <Button onClick={onOpenSplitViewButtonClick} type="link" icon={<Icons.Expand />}>
             Open split view
