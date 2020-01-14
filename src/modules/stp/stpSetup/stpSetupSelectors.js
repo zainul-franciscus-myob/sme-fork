@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 import Role from './Role';
 
 export const getCurrentStepIndex = state => state.currentStepIndex;
@@ -12,3 +14,13 @@ export const getStpReportingCentreUrl = (state) => {
   return `/#/${region}/${businessId}/stp/reportingCentre`;
 };
 export const getPayerAbn = state => state.payerAbn;
+export const getSoftwareIdParams = createSelector(
+  getAgentRoleSelected,
+  getAgentAbn,
+  getPayerAbn,
+  (isAgent, agentAbn, payerAbn) => (isAgent ? {
+    agentAbn,
+  } : {
+    payerAbn,
+  }),
+);

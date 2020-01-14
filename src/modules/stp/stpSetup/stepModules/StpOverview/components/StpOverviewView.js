@@ -3,10 +3,9 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import LinkButton from '../../../../../../components/Button/LinkButton';
 import bankImage from './bank.svg';
 import peopleImage from './people.svg';
-import styles from './stpOverview.module.css';
+import styles from './stpOverviewView.module.css';
 
 const StpOverviewView = ({ onGetStartedClick }) => {
   const cardHeader = (
@@ -44,7 +43,7 @@ const StpOverviewView = ({ onGetStartedClick }) => {
               These steps must be completed individually by each person processing payroll, from
               their own account.
             </p>
-            <ul>
+            <ul className={styles.list}>
               <li>Grab the business&apos; ABN, as well as your own ABN and RAN</li>
               <li>
                 You&apos;ll be connecting to multiple ATO systems, so have all your sign on details
@@ -54,15 +53,15 @@ const StpOverviewView = ({ onGetStartedClick }) => {
             <div>
               By clicking
               <strong> Get started </strong>
-              you acknowledge that you have read and agree to the
-              <LinkButton
-                isOpenInNewTab
+              you acknowledge that you have read and agree to the&nbsp;
+              <a
                 href="https://www.myob.com/au/support/customer-service/myob-legal-notices/myob-single-touch-payroll-terms-of-use"
-                className={styles.termsOfUseLink}
+                target="_blank"
+                rel="noreferrer noopener"
               >
                 Terms of Use
-              </LinkButton>
-               for Single Touch Payroll.
+              </a>
+              &nbsp;for Single Touch Payroll.
             </div>
           </div>
         </div>

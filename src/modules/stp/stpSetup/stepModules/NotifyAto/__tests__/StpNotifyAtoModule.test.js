@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 
-import { GET_BUSINESS_SID } from '../stpNotifyAtoIntents';
+import { GET_SOFTWARE_ID } from '../stpNotifyAtoIntents';
 import { findButtonWithTestId } from '../../../../../../common/tests/selectors';
 import ConfirmationModal from '../components/ConfirmationModal';
 import StpNotifyAtoModule from '../StpNotifyAtoModule';
@@ -71,17 +71,17 @@ describe('StpNotifyAtoModule', () => {
     });
   });
 
-  describe('getBusinessSid', () => {
+  describe('getSoftwareId', () => {
     it('makes a call to the integration', () => {
       const integration = {
         read: jest.fn(),
       };
       const { module } = constructStpNotifyAtoModule({ integration });
 
-      module.getBusinessSid({});
+      module.getSoftwareId({});
 
       expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
-        intent: GET_BUSINESS_SID,
+        intent: GET_SOFTWARE_ID,
       }));
     });
 
@@ -91,7 +91,7 @@ describe('StpNotifyAtoModule', () => {
       };
       const { module } = constructStpNotifyAtoModule({ integration });
 
-      module.getBusinessSid({});
+      module.getSoftwareId({});
 
       const { sid } = module.store.getState();
 

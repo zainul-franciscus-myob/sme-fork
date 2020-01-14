@@ -11,8 +11,8 @@ import {
   getAgentAbn,
   getAgentNumber,
   getAgentRoleSelected,
-  getPayerAbn,
   getSelectedAgentRole,
+  getSoftwareIdParams,
   getStpReportingCentreUrl,
 } from './stpSetupSelectors';
 import Steps from './Steps';
@@ -171,7 +171,7 @@ export default class StpSetupModule {
   enterNotifyAto = () => {
     const state = this.store.getState();
     const notifyAtoStep = this.getStep(Steps.NOTIFY_ATO);
-    notifyAtoStep.module.getBusinessSid(getPayerAbn(state));
+    notifyAtoStep.module.getSoftwareId(getSoftwareIdParams(state));
     this.setStep(Steps.NOTIFY_ATO);
   };
 

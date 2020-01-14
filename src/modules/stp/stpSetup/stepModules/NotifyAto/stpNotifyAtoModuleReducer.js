@@ -1,6 +1,6 @@
 import {
   CLOSE_CONFIRMATION_MODAL,
-  GET_BUSINESS_SID,
+  GET_SOFTWARE_ID,
   LOAD_CONTEXT,
   OPEN_CONFIRMATION_MODAL,
   SET_ALERT,
@@ -24,7 +24,7 @@ const loadContext = (state, { context }) => ({
   businessId: context.businessId,
 });
 
-const getBusinessSid = (state, { sid }) => ({
+const setSoftwareId = (state, { sid }) => ({
   ...state,
   sid,
 });
@@ -46,7 +46,7 @@ const setShowConfirmationModalToClose = state => ({
 
 const handlers = {
   [LOAD_CONTEXT]: loadContext,
-  [GET_BUSINESS_SID]: getBusinessSid,
+  [GET_SOFTWARE_ID]: setSoftwareId,
   [SET_ALERT]: setAlert,
   [SET_IS_LOADING]: setIsLoading,
   [OPEN_CONFIRMATION_MODAL]: setShowConfirmationModalToOpen,

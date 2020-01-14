@@ -3,12 +3,12 @@ import React from 'react';
 
 import SoftwareDetailView from './SoftwareDetailView';
 
-const SoftwareDetailsView = ({ businessSid }) => (
+const SoftwareDetailsView = ({ softwareId }) => (
   <Columns type="three">
     <SoftwareDetailView
       DetailIcon={Icons.GenericDocument}
       heading="Software ID"
-      detail={businessSid}
+      detail={softwareId}
     />
     <SoftwareDetailView
       DetailIcon={Icons.PcComputer}

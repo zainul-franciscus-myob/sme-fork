@@ -1,8 +1,8 @@
-import { GET_BUSINESS_SID, SUBMIT_STP_REGISTRATION } from '../stpNotifyAtoIntents';
-import getBusinessSidResponse from './data/getBusinessSidResponse';
+import { GET_SOFTWARE_ID, SUBMIT_STP_REGISTRATION } from '../stpNotifyAtoIntents';
+import getSoftwareIdResponse from './data/getSoftwareIdResponse';
 
 const StpNotifyAtoMapping = {
-  [GET_BUSINESS_SID]: ({ onSuccess }) => onSuccess(getBusinessSidResponse),
+  [GET_SOFTWARE_ID]: ({ onSuccess }) => onSuccess(getSoftwareIdResponse),
   [SUBMIT_STP_REGISTRATION]: ({ onSuccess }) => onSuccess({}),
 };
 

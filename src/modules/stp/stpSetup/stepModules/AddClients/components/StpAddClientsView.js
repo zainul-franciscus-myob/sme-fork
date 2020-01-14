@@ -4,15 +4,21 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAgentRoleText, getErrorMessage } from '../stpAddClientsSelectors';
-import styles from './StpAddClients.module.css';
+import {
+  getATOInstructionsLink,
+  getAgentPortalLink,
+  getAgentRoleText,
+  getErrorMessage,
+} from '../stpAddClientsSelectors';
+import LinkButton from '../../../../../../components/Button/LinkButton';
+import styles from './StpAddClientsView.module.css';
 
 const StpAddClientsView = ({
   agentRole,
   onNextClick,
   onPreviousClick,
-  onInstructionsLinkClick,
-  onPortalLinkClick,
+  instructionsLink,
+  portalLink,
   errorMessage,
 }) => (
   <div>
@@ -23,11 +29,17 @@ const StpAddClientsView = ({
         You need to add this business to your client list. Make sure the client has authorised you
         to act on their behalf.
       </p>
-      <p>
+      <div className={styles.divP}>
         Detailed instructions:&nbsp;
-        <Button type="link" onClick={onInstructionsLinkClick}>Adding and removing clients</Button>
+        <a
+          href={instructionsLink}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Adding and removing clients
+        </a>
         &nbsp;(ATO Website)
-      </p>
+      </div>
       <div className={styles.innerCard}>
         <Card header={<h3>Add a client</h3>}>
           <ol>
@@ -46,9 +58,15 @@ const StpAddClientsView = ({
             Come back to this page and click&nbsp;
               <strong>Next</strong>
             </li>
-            <p>
-              <Button type="link" icon={<Icons.OpenExternalLink />} iconRight onClick={onPortalLinkClick}>{`Launch ${agentRole} Portal`}</Button>
-            </p>
+            <LinkButton
+              className={styles.linkButton}
+              href={portalLink}
+              isOpenInNewTab
+              icon={<Icons.OpenExternalLink />}
+              iconRight
+            >
+              {`Launch ${agentRole} Portal`}
+            </LinkButton>
           </ol>
         </Card>
       </div>
@@ -65,6 +83,8 @@ const StpAddClientsView = ({
 const mapStateToProps = state => ({
   agentRole: getAgentRoleText(state),
   errorMessage: getErrorMessage(state),
+  instructionsLink: getATOInstructionsLink(state),
+  portalLink: getAgentPortalLink(state),
 });
 
 export default connect(mapStateToProps)(StpAddClientsView);

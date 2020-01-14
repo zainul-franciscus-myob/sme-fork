@@ -11,24 +11,22 @@ import React from 'react';
 
 import {
   getAlert,
-  getBusinessSid,
   getIsLoading,
   getShowConfirmation,
+  getSoftwareId,
 } from '../stpNotifyAtoModuleSelectors';
 import ConfirmationModal from './ConfirmationModal';
+import LinkButton from '../../../../../../components/Button/LinkButton';
 import LoadingPageState from '../../../../../../components/LoadingPageState/LoadingPageState';
 import SoftwareDetailsView from './SoftwareDetailsView';
 import styles from './StpNotifyAto.module.css';
 
-
 const StpNotifyModuleView = ({
   onPreviousClick,
   onFinish,
-  onAccessManagerLinkClick,
-  onHostedSbrLinkClick,
   onNotifiedAtoClick,
   isLoading,
-  businessSid,
+  softwareId,
   alert,
   showConfirmation,
   onCloseConfirmationModal,
@@ -68,7 +66,7 @@ const StpNotifyModuleView = ({
             <ol>
               <li>
                 Follow the prompts and provide the following details
-                <SoftwareDetailsView businessSid={businessSid} />
+                <SoftwareDetailsView softwareId={softwareId} />
               </li>
               <li>
                 Once confirmed, click I&apos;ve notified the ATO on this page.
@@ -92,7 +90,7 @@ const StpNotifyModuleView = ({
               </li>
               <li>
                 Complete all steps using the following details.
-                <SoftwareDetailsView businessSid={businessSid} />
+                <SoftwareDetailsView softwareId={softwareId} />
               </li>
               <li>
                 Once confirmed, come back to this page and click I&apst;ve notified the ATO button.
@@ -100,15 +98,27 @@ const StpNotifyModuleView = ({
             </ol>
           </Card>
         </div>
-        <p>
-          <Button type="link" icon={<Icons.OpenExternalLink />} iconRight onClick={onAccessManagerLinkClick}>Launch Access Manager</Button>
-        </p>
+        <LinkButton
+          className={styles.linkButton}
+          href="https://am.ato.gov.au/"
+          icon={<Icons.OpenExternalLink />}
+          iconRight
+          isOpenInNewTab
+        >
+          Launch Access Manager
+        </LinkButton>
         <Separator />
-        <p>
-          Read the detailed instructions:
-          <Button type="link" onClick={onHostedSbrLinkClick}>Notify us of a hosted SBR software service</Button>
+        <div>
+          Read the detailed instructions:&nbsp;
+          <a
+            href="https://www.ato.gov.au/General/Online-services/In-detail/Using-Access-Manager/Using-Access-Manager/?page=5"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Notify us of a hosted SBR software service
+          </a>
           &nbsp;(ATO website).
-        </p>
+        </div>
       </Card>
       <ButtonRow
         primary={[
@@ -123,7 +133,7 @@ const StpNotifyModuleView = ({
 const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   alert: getAlert(state),
-  businessSid: getBusinessSid(state),
+  softwareId: getSoftwareId(state),
   showConfirmation: getShowConfirmation(state),
 });
 

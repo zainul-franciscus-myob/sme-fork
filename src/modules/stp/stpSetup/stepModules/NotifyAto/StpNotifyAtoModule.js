@@ -3,18 +3,14 @@ import React from 'react';
 
 import {
   CLOSE_CONFIRMATION_MODAL,
-  GET_BUSINESS_SID,
+  GET_SOFTWARE_ID,
   LOAD_CONTEXT,
   OPEN_CONFIRMATION_MODAL,
   SET_ALERT,
   SET_IS_LOADING,
   SUBMIT_STP_REGISTRATION,
 } from './stpNotifyAtoIntents';
-import {
-  getAccessManagerSiteUrl,
-  getBusinessId,
-  getHostedSbrUrl,
-} from './stpNotifyAtoModuleSelectors';
+import { getBusinessId } from './stpNotifyAtoModuleSelectors';
 import Store from '../../../../../store/Store';
 import StpNotifyView from './components/StpNotifyView';
 import stpNotifyAtoModuleReducer from './stpNotifyAtoModuleReducer';
@@ -54,7 +50,7 @@ export default class StpNotifyAtoModule {
     });
   };
 
-  getBusinessSid = ({ payerAbn, agentAbn }) => {
+  getSoftwareId = ({ payerAbn, agentAbn }) => {
     this.setIsLoading(true);
 
     const state = this.store.getState();
@@ -66,7 +62,7 @@ export default class StpNotifyAtoModule {
 
     const onSuccess = ({ sid }) => {
       this.store.dispatch({
-        intent: GET_BUSINESS_SID,
+        intent: GET_SOFTWARE_ID,
         sid,
       });
       this.setIsLoading(false);
@@ -78,7 +74,7 @@ export default class StpNotifyAtoModule {
     };
 
     this.integration.read({
-      intent: GET_BUSINESS_SID,
+      intent: GET_SOFTWARE_ID,
       urlParams,
       params,
       onSuccess,
@@ -119,18 +115,6 @@ export default class StpNotifyAtoModule {
     });
   };
 
-  goToAccessManagerSite = () => {
-    const state = this.store.getState();
-    const link = getAccessManagerSiteUrl(state);
-    window.open(link, '_blank');
-  };
-
-  goToHostedSbrUrl = () => {
-    const state = this.store.getState();
-    const link = getHostedSbrUrl(state);
-    window.open(link, '_blank');
-  };
-
   openConfirmationModal = () => {
     this.store.dispatch({
       intent: OPEN_CONFIRMATION_MODAL,
@@ -151,8 +135,6 @@ export default class StpNotifyAtoModule {
           onNotifiedAtoClick={this.openConfirmationModal}
           onCloseConfirmationModal={this.closeConfirmationModal}
           onFinish={this.onFinish}
-          onAccessManagerLinkClick={this.goToAccessManagerSite}
-          onHostedSbrLinkClick={this.goToHostedSbrUrl}
         />
       </Provider>
     );

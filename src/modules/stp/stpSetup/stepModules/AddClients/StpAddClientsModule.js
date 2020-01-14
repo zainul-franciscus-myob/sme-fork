@@ -2,16 +2,12 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { SET_AGENT_ROLE, SET_ERROR_MESSAGE } from './StpAddClientsIntents';
-import { getATOInstructionsLink, getAgentPortalLink } from './stpAddClientsSelectors';
 import Store from '../../../../../store/Store';
 import StpAddClientsView from './components/StpAddClientsView';
 import stpAddClientsReducer from './stpAddClientsReducer';
 
 export default class StpAddClientsModule {
-  constructor({
-    onFinish,
-    onPrevious,
-  }) {
+  constructor({ onFinish, onPrevious }) {
     this.onFinishFunc = onFinish;
     this.onPreviousFunc = onPrevious;
     this.store = new Store(stpAddClientsReducer);
@@ -22,26 +18,14 @@ export default class StpAddClientsModule {
       intent: SET_AGENT_ROLE,
       agentRole,
     });
-  }
-
-  openAgentPortal = () => {
-    const state = this.store.getState();
-    const link = getAgentPortalLink(state);
-    window.open(link, '_newTab');
-  }
-
-  openATOInstructions = () => {
-    const state = this.store.getState();
-    const link = getATOInstructionsLink(state);
-    window.open(link, '_newTab');
-  }
+  };
 
   showError = ({ message }) => {
     this.store.dispatch({
       intent: SET_ERROR_MESSAGE,
       errorMessage: message,
     });
-  }
+  };
 
   getView() {
     return (
@@ -49,8 +33,6 @@ export default class StpAddClientsModule {
         <StpAddClientsView
           onNextClick={this.onFinishFunc}
           onPreviousClick={this.onPreviousFunc}
-          onPortalLinkClick={this.openAgentPortal}
-          onInstructionsLinkClick={this.openATOInstructions}
         />
       </Provider>
     );

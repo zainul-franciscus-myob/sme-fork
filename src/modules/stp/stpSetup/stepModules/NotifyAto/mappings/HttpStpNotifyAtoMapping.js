@@ -1,7 +1,7 @@
-import { GET_BUSINESS_SID, SUBMIT_STP_REGISTRATION } from '../stpNotifyAtoIntents';
+import { GET_SOFTWARE_ID, SUBMIT_STP_REGISTRATION } from '../stpNotifyAtoIntents';
 
 const StpNotifyAtoMapping = {
-  [GET_BUSINESS_SID]: {
+  [GET_SOFTWARE_ID]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/stp/software_id`,
   },
