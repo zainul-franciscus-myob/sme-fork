@@ -1,6 +1,7 @@
 import {
   addAdjustment,
   removeAdjustment,
+  showSelectedMatchTransactions,
   toggleMatchTransactionSelectAllState,
   updateAdjustment,
   updateSelectedTransactionDetails,
@@ -231,6 +232,41 @@ describe('matchTransactionHandlers', () => {
       };
 
       const actual = removeAdjustment(state, action);
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('showSelectedMatchTransactions', () => {
+    it('should return all selected transactions', () => {
+      const state = {
+        openEntry: {
+          match: {
+            entries: [
+              { journalId: 1, selected: true },
+              { journalId: 2, selected: false },
+            ],
+            selectedEntries: {
+              3: { journalId: 3, selected: true },
+            },
+          },
+        },
+      };
+
+      const expected = {
+        openEntry: {
+          match: {
+            entries: [
+              { journalId: 1, selected: true },
+              { journalId: 3, selected: true },
+            ],
+            selectedEntries: {
+              3: { journalId: 3, selected: true },
+            },
+          },
+        },
+      };
+
+      const actual = showSelectedMatchTransactions(state);
       expect(actual).toEqual(expected);
     });
   });

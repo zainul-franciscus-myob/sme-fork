@@ -2,7 +2,6 @@ import { allocateTransaction } from './index';
 import { getAccounts, getPrefilledEntries } from '../bankingSelectors/matchTransactionSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
 import { tabIds } from '../tabItems';
-import formatAmount from '../../common/valueFormatters/formatAmount';
 import getDefaultState from './getDefaultState';
 
 export const loadMatchTransactions = (state, action) => {
@@ -41,16 +40,23 @@ export const sortAndFilterMatchTransactions = (state, action) => {
   return loadOpenEntry(state, action.index, tabIds.match, match, isCreating);
 };
 
-export const showSelectedMatchTransactions = state => ({
-  ...state,
-  openEntry: {
-    ...state.openEntry,
-    match: {
-      ...state.openEntry.match,
-      entries: state.openEntry.match.entries.filter(({ selected }) => selected),
+export const showSelectedMatchTransactions = (state) => {
+  const selectedEntries = state.openEntry.match.entries.filter(({ selected }) => selected);
+  const entries = selectedEntries.reduce((acc, entry) => (
+    { ...acc, [entry.journalId]: entry }
+  ), state.openEntry.match.selectedEntries);
+
+  return ({
+    ...state,
+    openEntry: {
+      ...state.openEntry,
+      match: {
+        ...state.openEntry.match,
+        entries: Object.values(entries),
+      },
     },
-  },
-});
+  });
+};
 
 export const saveMatchTransaction = (state, action) => ({
   ...allocateTransaction(state, action),
@@ -94,7 +100,10 @@ const updateMatchEntries = (state, entries) => {
       match: {
         ...state.openEntry.match,
         entries,
-        selectedEntries,
+        selectedEntries: {
+          ...state.openEntry.match.selectedEntries,
+          ...selectedEntries,
+        },
       },
     },
   });
@@ -121,7 +130,7 @@ export const updateMatchTransactionSelection = (state, action) => {
       return {
         ...entry,
         selected,
-        matchAmount: selected ? formatAmount(balanceOwed) : '',
+        matchAmount: selected ? balanceOwed : '',
       };
     }
     return entry;
