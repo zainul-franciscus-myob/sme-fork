@@ -141,6 +141,7 @@ const NavigationBar = ({
   onMenuLinkClick,
   onHelpLinkClick,
   onActivitiesLinkClick,
+  shouldDisplayHome,
   shouldDisplaySalesMenu,
   shouldDisplayBusinessMenu,
   shouldDisplayBankingMenu,
@@ -158,6 +159,7 @@ const NavigationBar = ({
   const primaryMenuItems = getPrimary({
     onMenuSelect,
     onMenuLinkClick,
+    shouldDisplayHome,
     shouldDisplaySalesMenu,
     shouldDisplayPurchasesMenu,
     shouldDisplayBankingMenu,
