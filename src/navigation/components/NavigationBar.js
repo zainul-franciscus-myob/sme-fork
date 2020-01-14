@@ -35,6 +35,7 @@ import styles from './NavigationBar.module.css';
 const getPrimary = ({
   onMenuSelect,
   onMenuLinkClick,
+  shouldDisplayHome,
   shouldDisplaySalesMenu,
   shouldDisplayPurchasesMenu,
   shouldDisplayBankingMenu,
@@ -44,7 +45,7 @@ const getPrimary = ({
   shouldDisplayInTray,
   shouldDisplayReportsMenu,
 }) => [
-  <Home key="Home" />,
+  shouldDisplayHome && <Home key="Home" />,
   shouldDisplaySalesMenu && (
   <SalesMenu
     key="SalesMenu"
@@ -195,6 +196,7 @@ const NavigationBar = ({
 };
 
 const mapStateToProps = state => ({
+  shouldDisplayHome: hasBusinessId(state),
   shouldDisplayBusinessMenu: hasBusinessId(state) && !isLinkUserPage(state),
   shouldDisplayBankingMenu: hasBankingUrls(state),
   shouldDisplayContactMenu: hasContactUrls(state),
