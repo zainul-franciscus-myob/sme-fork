@@ -1,5 +1,5 @@
 import {
-  BaseTemplate, Button, Icons, PageHead,
+  BaseTemplate, Icons, PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -29,7 +29,7 @@ const BankFeedsView = ({
   manageBankFeedsLink,
   isBankFeedsEmpty,
   loadingState,
-  isActionDisabled,
+  // isActionDisabled,
   onSaveButtonClick,
   onDismissAlert,
   onCloseDeleteModal,
@@ -40,7 +40,7 @@ const BankFeedsView = ({
   onCancelBankFeedsLogin,
   onConfirmBankFeedsLogin,
   onUpdateBankFeedsLoginDetails,
-  onUpdateButtonClick,
+  // onUpdateButtonClick,
 }) => {
   const actions = !isBankFeedsEmpty && (
     <BankFeedsActions onSaveButtonClick={onSaveButtonClick} />
@@ -99,13 +99,13 @@ const BankFeedsView = ({
         >
           Manage bank feeds via my.MYOB
         </LinkButton>
-        <Button
-          type="secondary"
-          disabled={isActionDisabled}
-          onClick={onUpdateButtonClick}
-        >
-          Check/update status
-        </Button>
+        {/* <Button */}
+        {/*   type="secondary" */}
+        {/*   disabled={isActionDisabled} */}
+        {/*   onClick={onUpdateButtonClick} */}
+        {/* > */}
+        {/*  Check/update status */}
+        {/* </Button> */}
       </PageHead>
     </div>
   );
