@@ -66,6 +66,11 @@ async function main(integrationType, telemetryType, leanEngageType) {
   const initializeLeanEngage = (await import(`./leanEngage/initialize${leanEngageType}LeanEngage`)).default;
   const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
+  const showAppcues = ({ routeParams }) => {
+    const { appcue } = routeParams;
+    if (window.Appcues && appcue) window.Appcues.show(appcue);
+  };
+
   const beforeAll = ({ module, routeProps, previousRoute: prevRoute }) => {
     previousRoute = prevRoute;
     unbindAllKeys();
@@ -74,6 +79,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     rootModule.run(routeProps, module.handlePageTransition);
     telemetry(routeProps);
     startLeanEngage(routeProps);
+    showAppcues(routeProps);
   };
 
   router.start({
