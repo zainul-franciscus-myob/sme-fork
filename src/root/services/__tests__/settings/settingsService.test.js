@@ -1,9 +1,9 @@
-import SettingsService from '../SettingsService';
-import load from '../load';
-import save from '../save';
+import SettingsService from '../../settings';
+import load from '../../settings/load';
+import save from '../../settings/save';
 
-jest.mock('../load');
-jest.mock('../save');
+jest.mock('../../settings/load');
+jest.mock('../../settings/save');
 
 describe('SettingsService', () => {
   describe('load', () => {

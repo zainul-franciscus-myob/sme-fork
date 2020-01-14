@@ -2,7 +2,7 @@ import { Aside, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getLoadingState, getOnboardingActivities, getWelcomeActivity } from '../ActivitiesSelectors';
+import { getIsLoading } from '../ActivitiesSelectors';
 import Onboarding from './Onboarding';
 import PageView from '../../../components/PageView/PageView';
 import Welcome from './Welcome';
@@ -46,9 +46,7 @@ const ActivitiesView = ({
 };
 
 const mapStateToProps = state => ({
-  onboardingActivities: getOnboardingActivities(state),
-  welcomeActivity: getWelcomeActivity(state),
-  loadingState: getLoadingState(state),
+  isLoading: getIsLoading(state),
   isActive: state.isActive,
 });
 

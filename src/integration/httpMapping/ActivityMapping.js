@@ -6,7 +6,7 @@ import {
   GET_ACTIVITIES_LIST,
   GET_ACTIVITY,
   UPDATE_ACTIVITY,
-} from '../../drawer/activities/ActivitiesIntents';
+} from '../../root/rootIntents';
 
 const listPath = ({ businessId }) => `/${businessId}/activities`;
 const detailPath = ({ businessId, activityId }) => `/${businessId}/activities/${activityId}`;

@@ -1,5 +1,5 @@
-import { LOAD_SETTINGS } from '../rootIntents';
-import { getAreOnboardingSettingsLoaded, getBusinessId, getPreviousSettingsBusinessId } from '../rootSelectors';
+import { LOAD_SETTINGS } from '../../rootIntents';
+import { getAreOnboardingSettingsLoaded, getBusinessId, getPreviousSettingsBusinessId } from '../../rootSelectors';
 
 const load = (dispatcher, integration, store) => {
   const state = store.getState();

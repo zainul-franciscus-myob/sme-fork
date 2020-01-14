@@ -11,15 +11,16 @@ const RootView = ({
   isLoading,
   shouldShowOnboarding,
   drawer,
+  activities,
 }) => {
   if (isLoading) return <LoadingPageState />;
-  if (shouldShowOnboarding) return onboarding;
+  if (shouldShowOnboarding) return onboarding.render();
 
   return (
     <div id="main" className={style.main}>
-      { drawer }
+      { drawer.render(activities) }
       <div className={style.navAndRootView}>
-        { nav }
+        { nav.render() }
         { children }
       </div>
     </div>
@@ -28,6 +29,7 @@ const RootView = ({
 
 const mapStateToProps = state => ({
   isLoading: state.isLoading,
+  activities: state.activities,
   shouldShowOnboarding: state.shouldShowOnboarding,
 });
 

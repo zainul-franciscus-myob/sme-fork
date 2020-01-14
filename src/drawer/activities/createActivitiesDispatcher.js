@@ -1,6 +1,4 @@
-import {
-  GET_ACTIVITIES_LIST, SET_ACTIVE_STATE, SET_LOADING_STATE, UPDATE_ACTIVITY,
-} from './ActivitiesIntents';
+import { SET_ACTIVE_STATE, SET_LOADING_STATE } from './ActivitiesIntents';
 import { SET_INITIAL_STATE } from '../../SystemIntents';
 
 const createActivitiesDispatcher = store => ({
@@ -20,18 +18,6 @@ const createActivitiesDispatcher = store => ({
     store.dispatch({
       intent: SET_ACTIVE_STATE,
       isActive,
-    });
-  },
-  loadActivities: (payload) => {
-    store.dispatch({
-      intent: GET_ACTIVITIES_LIST,
-      payload,
-    });
-  },
-  updateActivity: (payload) => {
-    store.dispatch({
-      intent: UPDATE_ACTIVITY,
-      payload,
     });
   },
 });

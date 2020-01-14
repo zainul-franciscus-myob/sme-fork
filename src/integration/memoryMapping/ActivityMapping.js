@@ -6,7 +6,7 @@ import {
   GET_ACTIVITIES_LIST,
   GET_ACTIVITY,
   UPDATE_ACTIVITY,
-} from '../../drawer/activities/ActivitiesIntents';
+} from '../../root/rootIntents';
 import activities from '../data/activities/activities.json';
 import activity from '../data/activities/activity.json';
 import closedActivity from '../data/activities/closedActivity.json';
@@ -14,7 +14,7 @@ import closedActivity from '../data/activities/closedActivity.json';
 const loadActivities = ({ onSuccess }) => onSuccess(activities);
 
 const ActivityMapping = {
-  [CLOSE_ACTIVITY]: closedActivity,
+  [CLOSE_ACTIVITY]: () => closedActivity,
   [GET_ACTIVITIES_LIST]: loadActivities,
   [CREATE_ACTIVITY]: () => activity,
   [GET_ACTIVITY]: () => activity,

@@ -10,7 +10,10 @@ const Welcome = ({ activity, closeActivity }) => {
   const { id, data: { isComplete } } = activity;
   if (isComplete === true) return null;
 
-  const onCloseWelcomeActivity = () => closeActivity(id);
+  const onCloseWelcomeActivity = (e) => {
+    e.preventDefault();
+    closeActivity({ activityId: id });
+  };
 
   return (
     <div className={styles.spotlight}>

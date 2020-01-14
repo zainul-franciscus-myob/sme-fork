@@ -12,12 +12,15 @@ import drawerReducer from './drawerReducer';
 export default class DrawerModule {
   constructor({
     integration,
+    activitiesService,
   }) {
     this.store = new Store(drawerReducer);
     this.dispatcher = createDrawerDispatcher(this.store);
     this.subModules = {
       [views.HELP]: new HelpModule({ integration, closeDrawer: this.closeDrawer }),
-      [views.ACTIVITIES]: new ActivitiesModule({ integration, closeDrawer: this.closeDrawer }),
+      [views.ACTIVITIES]: new ActivitiesModule({
+        integration, closeDrawer: this.closeDrawer, activitiesService,
+      }),
     };
 
     // To avoid double scrollbars when in mobile mode, the body needs to know when the drawer is
@@ -42,13 +45,18 @@ export default class DrawerModule {
 
   closeDrawer = () => this.dispatcher.closeDrawer();
 
-  render = () => {
+  render = (activities) => {
     const { store, subModules } = this;
 
     return (
       <Provider store={store}>
         <Drawer>
-          {Object.values(subModules).map(sm => sm.getView())}
+          {
+            Object.values(subModules).map((sm) => {
+              if (sm === subModules[views.ACTIVITIES]) return sm.getView(activities);
+              return sm.getView();
+            })
+          }
         </Drawer>
       </Provider>
     );

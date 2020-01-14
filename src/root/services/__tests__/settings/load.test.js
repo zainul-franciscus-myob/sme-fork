@@ -1,4 +1,4 @@
-import load from '../load';
+import load from '../../settings/load';
 
 describe('SettingsService', () => {
   describe('load', () => {

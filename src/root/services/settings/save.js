@@ -1,7 +1,7 @@
-import { SAVE_SETTINGS } from '../rootIntents';
-import buildOnboardingSettings from '../builders/buildOnboardingSettings';
+import { SAVE_SETTINGS } from '../../rootIntents';
+import buildOnboardingSettings from '../../builders/buildOnboardingSettings';
 
-const save = (dispatcher, integration, store) => {
+const save = async (dispatcher, integration, store) => {
   const intent = SAVE_SETTINGS;
   const state = store.getState();
   const { businessId } = state;
