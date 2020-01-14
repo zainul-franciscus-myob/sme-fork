@@ -101,6 +101,7 @@ const getDefaultState = () => ({
       entries: [],
       adjustments: [],
       showAdjustmentTable: false,
+      selectedEntries: {},
     },
     payment: {
       isTableLoading: false,

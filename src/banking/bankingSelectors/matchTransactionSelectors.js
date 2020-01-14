@@ -18,6 +18,8 @@ import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate
 
 export const getMatchTransactionFilterOptions = state => state.openEntry.match.filterOptions;
 
+export const getSelectedEntries = state => state.openEntry.match.selectedEntries;
+
 export const getMatchTransactionOrderBy = state => state.openEntry.match.orderBy;
 
 export const getMatchTransactionSortOrder = state => state.openEntry.match.sortOrder;
@@ -84,27 +86,44 @@ const getBadge = (entry) => {
   return {};
 };
 
+export const getPrefilledEntries = (state, entries) => {
+  const selectedEntries = getSelectedEntries(state);
+  return entries.map((entry) => {
+    const cachedState = selectedEntries[entry.journalId];
+    return cachedState || entry;
+  });
+};
+
 export const getTableEntries = createSelector(
   getBusinessId,
   getRegion,
   getMatchTransactionEntries,
-  (businessId, region, entries) => entries.map((entry) => {
-    const {
-      selected, totalAmount = '', matchAmount = '', discountAmount = '',
-    } = entry;
-    const allowCustomAmount = getIsAllowCustomAmount(entry);
-    return ({
-      ...entry,
-      allowCustomAmount,
-      discountAmount,
-      matchAmount: (selected && !allowCustomAmount) ? totalAmount : matchAmount,
-      link: getEntryLink(entry, businessId, region),
-      displayTotalAmount: formatAmount(entry.totalAmount),
-      balanceOwed: allowCustomAmount ? formatAmount(getBalanceOwed(entry)) : '',
-      overAmount: getOverAmount(entry),
-      badge: getBadge(entry),
+  (businessId, region, entries) => {
+    const tableEntries = entries.map((entry) => {
+      const {
+        selected, totalAmount = '', matchAmount = '', discountAmount = '',
+      } = entry;
+      const allowCustomAmount = getIsAllowCustomAmount(entry);
+      return ({
+        ...entry,
+        allowCustomAmount,
+        discountAmount,
+        matchAmount: (selected && !allowCustomAmount) ? totalAmount : matchAmount,
+        link: getEntryLink(entry, businessId, region),
+        displayTotalAmount: formatAmount(entry.totalAmount),
+        balanceOwed: allowCustomAmount ? formatAmount(getBalanceOwed(entry)) : '',
+        overAmount: getOverAmount(entry),
+        badge: getBadge(entry),
+      });
     });
-  }),
+
+    return tableEntries;
+  },
+);
+
+export const getShowType = createSelector(
+  getMatchTransactionFilterOptions,
+  filterOptions => filterOptions.showType,
 );
 
 export const getSelectAllState = createSelector(
@@ -134,7 +153,7 @@ export const getAccounts = createSelector(
 export const getMatchTransactionPayload = (state, index) => {
   const entries = getEntries(state);
   const openedEntry = entries[index];
-  const { transactionId: bankTransactionId, description: bankFeedDescription } = openedEntry;
+  const { transactionId: bankTransactionId, description: bankFeedDescription, date } = openedEntry;
 
   const { bankAccount: bankFeedAccountId } = getFilterOptions(state);
 
@@ -157,7 +176,7 @@ export const getMatchTransactionPayload = (state, index) => {
     bankFeedAccountId,
     bankFeedDescription,
     adjustments,
-    date: formatIsoDate(new Date()),
+    date,
     isCredit: Boolean(openedEntry.deposit) || undefined,
     payments: [],
     allocations: [],
@@ -270,6 +289,11 @@ export const getIncludeClosedTransactionLabel = createSelector(
   ),
 );
 
+export const getShowIncludeClosedCheckbox = createSelector(
+  getMatchTransactionFilterOptions,
+  filterOptions => filterOptions.contactId && filterOptions.contactId !== 'All',
+);
+
 const DayOffsetMap = {
   closeMatches: { from: 5, to: 5 },
   last90Days: { from: 90, to: 0 },
@@ -293,7 +317,7 @@ const getRequestParams = (accountId, bankTransaction, filterOptions) => {
     bankFeedTransactionId,
     isCredit,
     keywords,
-    includeClosed,
+    includeClosed: contactId !== 'All' ? includeClosed : false,
     amountFrom,
     amountTo,
     contactId,

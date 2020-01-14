@@ -52,6 +52,7 @@ const MatchTransactionTableBody = (props) => {
       type,
       badge,
       journalId,
+      journalLineId,
       date,
       referenceId,
       description,
@@ -67,7 +68,7 @@ const MatchTransactionTableBody = (props) => {
     const rowClass = selected ? styles.selected : '';
 
     return (
-      <Table.Row key={journalId} className={rowClass}>
+      <Table.Row key={`${journalId}${journalLineId}`} className={rowClass}>
         <Table.RowItem {...tableConfig.checkbox}>
           <Checkbox
             name={journalId}

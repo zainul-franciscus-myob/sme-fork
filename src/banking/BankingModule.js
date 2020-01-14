@@ -20,6 +20,7 @@ import {
   getDefaultMatchTransactionFilterRequestParams,
   getMatchTransactionFlipSortOrder,
   getMatchTransactionOrderBy,
+  getShowType,
 } from './bankingSelectors/matchTransactionSelectors';
 import { getFilesForUpload } from './bankingSelectors/attachmentsSelectors';
 import { getIsAllSelected, getIsEditedEntryInBulkSelection } from './bankingSelectors/bulkAllocationSelectors';
@@ -724,28 +725,33 @@ export default class BankingModule {
   sortOrFilterMatchTransaction = () => {
     const state = this.store.getState();
 
-    const index = getOpenPosition(state);
+    const showType = getShowType(state);
+    if (showType === 'selected') {
+      this.dispatcher.showSelectedMatchTransactions();
+    } else {
+      const index = getOpenPosition(state);
 
-    const onSuccess = (payload) => {
-      const updatedState = this.store.getState();
-      if (getOpenPosition(updatedState) !== index) {
-        return;
-      }
+      const onSuccess = (payload) => {
+        const updatedState = this.store.getState();
+        if (getOpenPosition(updatedState) !== index) {
+          return;
+        }
 
-      this.dispatcher.setMatchTransactionLoadingState(false);
-      this.dispatcher.sortAndFilterMatchTransactions(index, payload);
-    };
+        this.dispatcher.setMatchTransactionLoadingState(false);
+        this.dispatcher.sortAndFilterMatchTransactions(index, payload);
+      };
 
-    const onFailure = ({ message }) => {
-      this.dispatcher.setMatchTransactionLoadingState(false);
-      this.dispatcher.setAlert({ message, type: 'danger' });
-    };
+      const onFailure = ({ message }) => {
+        this.dispatcher.setMatchTransactionLoadingState(false);
+        this.dispatcher.setAlert({ message, type: 'danger' });
+      };
 
-    this.dispatcher.setMatchTransactionLoadingState(true);
-    this.integrator.sortOrFilterMatchTransaction({
-      onSuccess,
-      onFailure,
-    });
+      this.dispatcher.setMatchTransactionLoadingState(true);
+      this.integrator.sortOrFilterMatchTransaction({
+        onSuccess,
+        onFailure,
+      });
+    }
   }
 
   saveMatchTransaction = () => {

@@ -8,7 +8,6 @@ import {
   getTotals,
   getUnmatchTransactionPayload,
 } from '../matchTransactionSelectors';
-import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 describe('matchTransactionSelectors', () => {
   describe('getMatchTransactionPayload', () => {
@@ -23,10 +22,12 @@ describe('matchTransactionSelectors', () => {
           {
             transactionId: '1',
             deposit: '100',
+            date: '2010-09-09',
           },
         ],
         openEntry: {
           match: {
+            filterOptions: {},
             entries: [
               {
                 journalLineId: '444',
@@ -59,7 +60,7 @@ describe('matchTransactionSelectors', () => {
       const expected = {
         bankFeedAccountId: '123',
         bankTransactionId: '1',
-        date: formatIsoDate(new Date()),
+        date: '2010-09-09',
         isCredit: true,
         payments: [
           {
@@ -110,6 +111,7 @@ describe('matchTransactionSelectors', () => {
         ],
         openEntry: {
           match: {
+            filterOptions: {},
             entries: [
               {
                 journalLineId: '444',
@@ -187,6 +189,7 @@ describe('matchTransactionSelectors', () => {
         ],
         openEntry: {
           match: {
+            filterOptions: {},
             entries: [
               {
                 journalLineId: '444',
@@ -242,6 +245,7 @@ describe('matchTransactionSelectors', () => {
         ],
         openEntry: {
           match: {
+            filterOptions: {},
             entries: [
               { selected: true },
               { selected: false },
@@ -268,6 +272,7 @@ describe('matchTransactionSelectors', () => {
         ],
         openEntry: {
           match: {
+            filterOptions: {},
             entries: [
               { selected: false },
             ],
@@ -542,6 +547,7 @@ describe('matchTransactionSelectors', () => {
         ],
         openEntry: {
           match: {
+            filterOptions: {},
             entries: [
               { journalLineId: '1', isMatched: true },
               { journalLineId: '2', isMatched: true },

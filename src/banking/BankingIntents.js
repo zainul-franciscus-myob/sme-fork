@@ -36,6 +36,7 @@ export const LOAD_MATCH_TRANSACTIONS = Symbol('Load list of match transactions')
 export const SORT_AND_FILTER_MATCH_TRANSACTIONS = Symbol('Sort and filter list of match transactions');
 export const SAVE_MATCH_TRANSACTION = Symbol('Save match transaction');
 export const UNMATCH_TRANSACTION = Symbol('Unmatch matched transaction');
+export const SHOW_SELECTED_MATCH_TRANSACTIONS = Symbol('Show selected matched transaction');
 export const UPDATE_MATCH_TRANSACTION_OPTIONS = Symbol('Update match transaction filter Options');
 export const SET_MATCH_TRANSACTION_SORT_ORDER = Symbol('Set match transaction sort order');
 export const UPDATE_MATCH_TRANSACTION_SELECTION = Symbol('Update match transaction selection');

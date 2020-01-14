@@ -14,6 +14,7 @@ describe('matchTransactionHandlers', () => {
           match: {
             entries: [
               {
+                journalId: 'idOfJournal',
                 matchAmount: 0,
               },
             ],
@@ -29,14 +30,21 @@ describe('matchTransactionHandlers', () => {
 
       const expected = {
         openEntry: {
-          isEdited: true,
           match: {
             entries: [
               {
+                journalId: 'idOfJournal',
                 matchAmount: 10,
                 selected: true,
               },
             ],
+            selectedEntries: {
+              idOfJournal: {
+                journalId: 'idOfJournal',
+                matchAmount: 10,
+                selected: true,
+              },
+            },
           },
         },
       };
@@ -53,9 +61,11 @@ describe('matchTransactionHandlers', () => {
           match: {
             entries: [
               {
+                journalId: 'idOfJournal',
                 selected: false,
               },
               {
+                journalId: 'idOf2ndJournal',
                 selected: false,
               },
             ],
@@ -69,16 +79,27 @@ describe('matchTransactionHandlers', () => {
 
       const expected = {
         openEntry: {
-          isEdited: true,
           match: {
             entries: [
               {
+                journalId: 'idOfJournal',
                 selected: true,
               },
               {
+                journalId: 'idOf2ndJournal',
                 selected: true,
               },
             ],
+            selectedEntries: {
+              idOfJournal: {
+                journalId: 'idOfJournal',
+                selected: true,
+              },
+              idOf2ndJournal: {
+                journalId: 'idOf2ndJournal',
+                selected: true,
+              },
+            },
           },
         },
       };
@@ -91,6 +112,16 @@ describe('matchTransactionHandlers', () => {
   describe('updateAdjustment', () => {
     it('should return correct state', () => {
       const state = {
+        withdrawalAccounts: [],
+        depositAccounts: [],
+        openPosition: 0,
+        entries: [
+          {
+            transactionId: '1',
+            deposit: '100',
+            date: '2010-09-09',
+          },
+        ],
         openEntry: {
           match: {
             adjustments: [
@@ -103,6 +134,16 @@ describe('matchTransactionHandlers', () => {
       const action = { index: 0, key: 'accountId', value: '321' };
 
       const expected = {
+        withdrawalAccounts: [],
+        depositAccounts: [],
+        openPosition: 0,
+        entries: [
+          {
+            transactionId: '1',
+            deposit: '100',
+            date: '2010-09-09',
+          },
+        ],
         openEntry: {
           isEdited: true,
           match: {
@@ -121,6 +162,16 @@ describe('matchTransactionHandlers', () => {
   describe('addAdjustment', () => {
     it('should return correct state', () => {
       const state = {
+        withdrawalAccounts: [],
+        depositAccounts: [],
+        openPosition: 0,
+        entries: [
+          {
+            transactionId: '1',
+            deposit: '100',
+            date: '2010-09-09',
+          },
+        ],
         openEntry: {
           match: {
             adjustments: [],
@@ -131,6 +182,16 @@ describe('matchTransactionHandlers', () => {
       const action = { id: '1', key: 'accountId', value: '123' };
 
       const expected = {
+        withdrawalAccounts: [],
+        depositAccounts: [],
+        openPosition: 0,
+        entries: [
+          {
+            transactionId: '1',
+            deposit: '100',
+            date: '2010-09-09',
+          },
+        ],
         openEntry: {
           isEdited: true,
           match: {

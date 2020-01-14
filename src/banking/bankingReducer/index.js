@@ -51,6 +51,7 @@ import {
   SET_PAYMENT_ALLOCATION_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   SET_TRANSFER_MONEY_DETAIL,
+  SHOW_SELECTED_MATCH_TRANSACTIONS,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   SORT_MATCH_TRANSFER_MONEY,
@@ -84,6 +85,7 @@ import {
   saveMatchTransaction,
   setMatchTransactionLoadingState,
   setMatchTransactionSortOrder,
+  showSelectedMatchTransactions,
   sortAndFilterMatchTransactions,
   toggleMatchTransactionSelectAllState,
   updateAdjustment,
@@ -430,6 +432,7 @@ const handlers = {
   [REMOVE_ATTACHMENT_BY_INDEX]: removeAttachmentByIndex,
   [REMOVE_ATTACHMENT]: removeAttachment,
   [SET_OPERATION_IN_PROGRESS_STATE]: setOperationInProgressState,
+  [SHOW_SELECTED_MATCH_TRANSACTIONS]: showSelectedMatchTransactions,
   ...wrapHandlers('bankingRuleModal', bankingRuleHandlers),
 };
 

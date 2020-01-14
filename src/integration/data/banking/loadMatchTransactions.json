@@ -10,7 +10,7 @@
       "description": "Bob the builder",
       "totalAmount": "1300.00",
       "sourceJournal": "CashPayment",
-      "type": "MatchedTransaction"
+      "type": "Transaction"
     },
     {
       "journalId": "8",
@@ -34,7 +34,7 @@
       "description": "Maybe bob the builder",
       "totalAmount": "3300.00",
       "sourceJournal": "CashPayment",
-      "type": "MatchedTransaction"
+      "type": "Transaction"
     },
     {
       "journalId": "67",

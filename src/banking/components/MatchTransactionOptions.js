@@ -11,6 +11,7 @@ import {
   getIncludeClosedTransactionLabel,
   getMatchTransactionFilterOptions,
   getShowAllFilters,
+  getShowIncludeClosedCheckbox,
 } from '../bankingSelectors/matchTransactionSelectors';
 import ContactCombobox from '../../components/combobox/ContactCombobox';
 import FilterBar from '../../components/Feelix/FilterBar/FilterBar';
@@ -23,7 +24,7 @@ import handleSelectChange from '../../components/handlers/handleSelectChange';
 import styles from './BankingView.module.css';
 
 const showTypes = [
-  { label: 'Close Matches', value: 'closeMatches' },
+  { label: 'Close matches', value: 'closeMatches' },
   { label: 'Last 90 days', value: 'last90Days' },
   { label: 'All transactions', value: 'all' },
   { label: 'Selected transactions', value: 'selected' },
@@ -42,6 +43,7 @@ const MatchTransactionOptions = (props) => {
     onUpdateMatchTransactionOptions,
     showAllFilters,
     includedClosedTransactionLabel,
+    showIncludeClosedCheckbox,
   } = props;
 
   return (
@@ -68,19 +70,23 @@ const MatchTransactionOptions = (props) => {
                 selectedId={contactId}
                 onChange={handleComboboxChange('contactId', onUpdateMatchTransactionOptions)}
               />
-              <FilterBarSearch name="keywords" label="Search" id="search" maxLength={255} value={keywords} onChange={handleInputChange(onUpdateMatchTransactionOptions)} />
-              <CheckboxGroup
-                label="Include closed transactions"
-                hideLabel
-                renderCheckbox={() => (
-                  <Checkbox
-                    name="includeClosed"
-                    label={includedClosedTransactionLabel}
-                    checked={includeClosed}
-                    onChange={handleCheckboxChange(onUpdateMatchTransactionOptions)}
+              {
+                showIncludeClosedCheckbox && (
+                  <CheckboxGroup
+                    label="Include closed transactions"
+                    hideLabel
+                    renderCheckbox={() => (
+                      <Checkbox
+                        name="includeClosed"
+                        label={includedClosedTransactionLabel}
+                        checked={includeClosed}
+                        onChange={handleCheckboxChange(onUpdateMatchTransactionOptions)}
+                      />
+                    )}
                   />
-                )}
-              />
+                )
+              }
+              <FilterBarSearch name="keywords" label="Search" id="search" maxLength={255} value={keywords} onChange={handleInputChange(onUpdateMatchTransactionOptions)} />
             </FilterGroup>
           )
         }
@@ -94,6 +100,7 @@ const mapStateToProps = state => ({
   contacts: getContacts(state),
   showAllFilters: getShowAllFilters(state),
   includedClosedTransactionLabel: getIncludeClosedTransactionLabel(state),
+  showIncludeClosedCheckbox: getShowIncludeClosedCheckbox(state),
 });
 
 export default connect(mapStateToProps)(MatchTransactionOptions);

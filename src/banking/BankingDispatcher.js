@@ -51,6 +51,7 @@ import {
   SET_PAYMENT_ALLOCATION_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   SET_TRANSFER_MONEY_DETAIL,
+  SHOW_SELECTED_MATCH_TRANSACTIONS,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
   SORT_MATCH_TRANSFER_MONEY,
@@ -303,6 +304,12 @@ const createBankingDispatcher = store => ({
       intent: UNMATCH_TRANSACTION,
       index,
       ...payload,
+    });
+  },
+
+  showSelectedMatchTransactions: () => {
+    store.dispatch({
+      intent: SHOW_SELECTED_MATCH_TRANSACTIONS,
     });
   },
 
