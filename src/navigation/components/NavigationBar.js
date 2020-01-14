@@ -23,6 +23,7 @@ import BankingMenu from './BankingMenu';
 import BusinessMenu from './BusinessMenu';
 import ContactMenu from './ContactMenu';
 import Help from './Help';
+import Home from './Home';
 import InTray from './InTray';
 import Logout from './Logout';
 import PayrollMenu from './PayrollMenu';
@@ -43,6 +44,7 @@ const getPrimary = ({
   shouldDisplayInTray,
   shouldDisplayReportsMenu,
 }) => [
+  <Home key="Home" />,
   shouldDisplaySalesMenu && (
   <SalesMenu
     key="SalesMenu"
@@ -187,7 +189,7 @@ const NavigationBar = ({
 
   return (
     <div className={styles.navigation}>
-      <Navigation brand={brand} primary={primary} secondary={secondary} />
+      <Navigation brand={brand} primary={primary} secondary={secondary} fluid />
     </div>
   );
 };

@@ -200,6 +200,13 @@ export const getInTrayUrl = state => getEnabledUrls(state).inTrayList;
 export const getIsInTrayActive = state => getActiveNav(state) === 'inTray';
 export const hasInTrayUrl = state => Boolean(getInTrayUrl(state));
 
+export const getHomeUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `#/${region}/${businessId}/dashboard`,
+);
+export const getIsHomeActive = state => getActiveNav(state) === 'home';
+
 export const getReportsUrls = createSelector(
   getEnabledUrls,
   enabledUrls => ({

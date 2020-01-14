@@ -1,6 +1,8 @@
 import RouteName from '../router/RouteName';
 
 export const activeMapping = {
+  [RouteName.DASHBOARD]: 'home',
+
   [RouteName.QUOTE_LIST]: 'sales',
   [RouteName.QUOTE_DETAIL]: 'sales',
   [RouteName.INVOICE_LIST]: 'sales',
