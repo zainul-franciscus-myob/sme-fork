@@ -1,11 +1,13 @@
 import {
-  Button, FieldGroup, Icons,
+  // Button,
+  FieldGroup,
+  // Icons,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getShowAdjustmentTable } from '../bankingSelectors/matchTransactionSelectors';
-import MatchTransactionAdjustments from './MatchTransactionAdjustments';
+// import MatchTransactionAdjustments from './MatchTransactionAdjustments';
 import MatchTransactionOptions from './MatchTransactionOptions';
 import MatchTransactionTable from './MatchTransactionTable';
 import MatchTransactionTotals from './MatchTransactionTotals';
@@ -18,29 +20,31 @@ const MatchTransactionBody = ({
   onUpdateMatchTransactionSelection,
   onUpdateSelectedTransactionDetails,
   onToggleSelectAllState,
-  onAddAdjustment,
-  onUpdateAdjustment,
-  onRemoveAdjustment,
-  onExpandAdjustmentSection,
-  showAdjustmentTable,
+  // onAddAdjustment,
+  // onUpdateAdjustment,
+  // onRemoveAdjustment,
+  // onExpandAdjustmentSection,
+  // showAdjustmentTable,
+// eslint-disable-next-line arrow-body-style
 }) => {
-  const adjustmentTable = (
-    <FieldGroup label="Add adjustments or roundings">
-      {
-        <MatchTransactionAdjustments
-          onAddAdjustment={onAddAdjustment}
-          onUpdateAdjustment={onUpdateAdjustment}
-          onRemoveAdjustment={onRemoveAdjustment}
-        />
-      }
-    </FieldGroup>
-  );
+  // const adjustmentTable = (
+  //   <FieldGroup label="Add adjustments or roundings">
+  //     {
+  //       <MatchTransactionAdjustments
+  //         onAddAdjustment={onAddAdjustment}
+  //         onUpdateAdjustment={onUpdateAdjustment}
+  //         onRemoveAdjustment={onRemoveAdjustment}
+  //       />
+  //     }
+  //   </FieldGroup>
+  // );
 
-  const addAdjustmentButton = (
-    <div className={styles.adjustmentButton}>
-      <Button type="link" icon={<Icons.Add />} onClick={onExpandAdjustmentSection}>Add adjustment</Button>
-    </div>
-  );
+  // const addAdjustmentButton = (
+  //   <div className={styles.adjustmentButton}>
+  // eslint-disable-next-line max-len
+  //     <Button type="link" icon={<Icons.Add />} onClick={onExpandAdjustmentSection}>Add adjustment</Button>
+  //   </div>
+  // );
 
   return (
     <div className={styles.matchTransactionBody}>
@@ -56,9 +60,9 @@ const MatchTransactionBody = ({
           onUpdateSelectedTransactionDetails={onUpdateSelectedTransactionDetails}
         />
       </FieldGroup>
-      {
+      {/* {
         showAdjustmentTable ? adjustmentTable : addAdjustmentButton
-      }
+      } */}
       <MatchTransactionTotals />
     </div>
   );
