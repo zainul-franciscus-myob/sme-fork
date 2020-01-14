@@ -15,6 +15,7 @@ import {
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -42,7 +43,7 @@ const getDefaultState = () => ({
   entries: [],
   total: '',
   alert: undefined,
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   isLoadingMore: false,
   pagination: {
@@ -93,9 +94,9 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setSortOrder = (state, action) => ({

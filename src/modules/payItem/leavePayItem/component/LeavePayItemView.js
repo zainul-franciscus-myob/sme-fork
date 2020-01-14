@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsCreating, getIsLoading, getModalType, getShowExemptions, getTitle,
+  getAlert, getIsCreating, getLoadingState, getModalType, getShowExemptions, getTitle,
 } from '../leavePayItemSelectors';
 import LeavePayItemActions from './LeavePayItemActions';
 import LeavePayItemDetail from './LeavePayItemDetail';
@@ -22,7 +22,7 @@ const LeavePayItemView = (props) => {
     alert,
     title,
     isCreating,
-    isLoading,
+    loadingState,
     modalType,
     showExemptions,
     onDismissAlert,
@@ -102,14 +102,14 @@ const LeavePayItemView = (props) => {
     </StandardTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
   title: getTitle(state),
   isCreating: getIsCreating(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   modalType: getModalType(state),
   showExemptions: getShowExemptions(state),
 });

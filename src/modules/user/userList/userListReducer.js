@@ -7,13 +7,14 @@ import {
   SORT_USER_LIST,
 } from '../UserIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
   alert: undefined,
   businessId: '',
   entries: [],
-  isLoading: true,
+  loadingState: LoadingState.LOADING,
   isTableLoading: false,
   region: '',
 });
@@ -37,9 +38,9 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setSortOrder = (state, action) => ({

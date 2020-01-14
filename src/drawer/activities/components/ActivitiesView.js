@@ -2,7 +2,7 @@ import { Aside, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsLoading, getOnboardingActivities, getWelcomeActivity } from '../ActivitiesSelectors';
+import { getLoadingState, getOnboardingActivities, getWelcomeActivity } from '../ActivitiesSelectors';
 import Onboarding from './Onboarding';
 import PageView from '../../../components/PageView/PageView';
 import Welcome from './Welcome';
@@ -12,7 +12,7 @@ import emptyStateImage from './assets/icon-activities-empty-state.svg';
 const ActivitiesView = ({
   onboardingActivities,
   closeView,
-  isLoading,
+  loadingState,
   isActive,
   closeTask,
   closeActivity,
@@ -40,7 +40,7 @@ const ActivitiesView = ({
 
   return (
     <Aside header={<Aside.Header title="Feed" onClose={closeView} className={asideHeaderStyles.asideHeader} />}>
-      <PageView isLoading={isLoading} view={view} />
+      <PageView loadingState={loadingState} view={view} />
     </Aside>
   );
 };
@@ -48,7 +48,7 @@ const ActivitiesView = ({
 const mapStateToProps = state => ({
   onboardingActivities: getOnboardingActivities(state),
   welcomeActivity: getWelcomeActivity(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   isActive: state.isActive,
 });
 

@@ -317,7 +317,7 @@ export default class BankReconciliationModule {
   run = (context) => {
     this.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.render();
     this.loadBankReconciliation();
   };

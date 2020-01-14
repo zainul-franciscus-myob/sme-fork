@@ -39,9 +39,9 @@ const createReceiveRefundDispatcher = store => ({
     store.dispatch({ intent });
   },
 
-  setLoadingState: (isLoading) => {
+  setLoadingState: (loadingState) => {
     const intent = SET_LOADING_STATE;
-    store.dispatch({ intent, isLoading });
+    store.dispatch({ intent, loadingState });
   },
 
   setSubmittingState: (isSubmitting) => {

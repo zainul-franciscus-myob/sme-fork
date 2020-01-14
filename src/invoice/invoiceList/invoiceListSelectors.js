@@ -56,7 +56,7 @@ export const getIsTableEmpty = state => state.entries.length === 0;
 
 export const getIsTableLoading = state => state.isTableLoading;
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getSortOrder = ({ sortOrder }) => sortOrder;
 

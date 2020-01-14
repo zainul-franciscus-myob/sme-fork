@@ -6,8 +6,8 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsLoading,
   getLoadMoreButtonStatus,
+  getLoadingState,
 } from '../quoteListSelector';
 import PageView from '../../../../components/PageView/PageView';
 import PaginatedListTemplate from '../../../../components/PaginatedListTemplate/PaginatedListTemplate';
@@ -17,7 +17,7 @@ import style from './QuoteListView.module.css';
 
 const QuoteListView = (props) => {
   const {
-    isLoading,
+    loadingState,
     alert,
     loadMoreButtonStatus,
     onDismissAlert,
@@ -64,12 +64,12 @@ const QuoteListView = (props) => {
     />
   );
 
-  return <PageView isLoading={isLoading} view={quoteListView} />;
+  return <PageView loadingState={loadingState} view={quoteListView} />;
 };
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 

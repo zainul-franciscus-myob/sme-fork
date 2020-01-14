@@ -16,6 +16,7 @@ import { SUCCESSFULLY_DELETED_USER, SUCCESSFULLY_SAVED_USER } from '../UserMessa
 import {
   getBusinessId, getFlipSortOrder, getOrderBy, getRegion,
 } from './userListSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import UserListView from './components/UserListView';
 import userListReducer from './userListReducer';
@@ -54,7 +55,7 @@ export default class UserListModule {
       orderBy,
       sortOrder,
     }) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         entries,
@@ -64,7 +65,7 @@ export default class UserListModule {
     };
 
     const onFailure = () => {
-      console.error('Failed to load user list entries');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
@@ -117,11 +118,11 @@ export default class UserListModule {
     });
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
     this.store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   }
 

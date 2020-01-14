@@ -4,7 +4,7 @@ export const getModalType = state => state.modalType;
 export const getAlertMessage = state => state.alertMessage;
 export const getIsModalShown = state => Boolean(getModalType(state));
 export const getIsAlertShown = state => Boolean(getAlertMessage(state));
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 export const getIsSubmitting = state => state.isSubmitting;
 export const getIsCreating = state => state.expensePayItemId === 'new';
 

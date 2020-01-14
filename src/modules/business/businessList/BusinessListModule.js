@@ -8,6 +8,7 @@ import {
   RESET_STATE,
 } from '../../../SystemIntents';
 import BusinessListView from './components/BusinessListView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import PageView from '../../../components/PageView/PageView';
 import Store from '../../../store/Store';
 import businessListReducer from './businessListReducer';
@@ -23,15 +24,16 @@ export default class BusinessModule {
     const intent = LOAD_BUSINESS_LIST;
 
     const onSuccess = (businesses) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         businesses,
-        isLoading: false,
       });
     };
 
-    const onFailure = error => console.error(error);
+    const onFailure = () => {
+      this.setLoadingState(LoadingState.LOADING_FAIL);
+    };
 
     this.integration.read({
       intent,
@@ -44,26 +46,26 @@ export default class BusinessModule {
     this.store.unsubscribeAll();
   };
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   }
 
-  render = ({ businesses, isLoading }) => {
+  render = ({ businesses, loadingState }) => {
     const businessListView = (
       <BusinessListView
         businesses={businesses}
       />
     );
-    const view = <PageView isLoading={isLoading} view={businessListView} />;
+    const view = <PageView loadingState={loadingState} view={businessListView} />;
     this.setRootView(view);
   };
 
   run = () => {
     this.store.subscribe(this.render);
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.loadBusinessList();
   }
 

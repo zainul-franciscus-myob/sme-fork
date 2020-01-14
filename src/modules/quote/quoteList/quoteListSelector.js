@@ -15,7 +15,7 @@ export const getEntries = state => state.entries;
 
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 

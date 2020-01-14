@@ -5,8 +5,8 @@ import React from 'react';
 import {
   getIsAlertShown,
   getIsCreating,
-  getIsLoading,
   getIsModalShown,
+  getLoadingState,
   getOriginalName,
 } from '../ExpensePayItemSelectors';
 import AllocatedEmployeesSection from './AllocatedEmployeesSection';
@@ -22,7 +22,7 @@ import styles from './ExpensePayItemView.module.css';
 const ExpensePayItemView = ({
   originalName,
   isCreating,
-  isLoading,
+  loadingState,
   isModalShown,
   isAlertShown,
   onDismissAlert,
@@ -84,13 +84,13 @@ const ExpensePayItemView = ({
     </StandardTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
   originalName: getOriginalName(state),
   isCreating: getIsCreating(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   isModalShown: getIsModalShown(state),
   isAlertShown: getIsAlertShown(state),
 });

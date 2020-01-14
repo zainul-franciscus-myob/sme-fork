@@ -19,7 +19,7 @@ const businessReducer = (state = getDefaultState(), action) => {
     case SET_LOADING_STATE:
       return {
         ...state,
-        isLoading: action.isLoading,
+        loadingState: action.loadingState,
       };
     default:
       return state;

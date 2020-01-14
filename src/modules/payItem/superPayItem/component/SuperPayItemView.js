@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsCreating, getIsLoading, getModalType, getSuperPayItemOriginalName,
+  getAlert, getIsCreating, getLoadingState, getModalType, getSuperPayItemOriginalName,
 } from '../superPayItemSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import SuperPayItemActions from './SuperPayItemActions';
@@ -20,7 +20,7 @@ const SuperPayItemView = (props) => {
   const {
     alert,
     isCreating,
-    isLoading,
+    loadingState,
     modalType,
     originalName,
     onDismissAlert,
@@ -88,13 +88,13 @@ const SuperPayItemView = (props) => {
     </StandardTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
   isCreating: getIsCreating(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   modalType: getModalType(state),
   originalName: getSuperPayItemOriginalName(state),
 });

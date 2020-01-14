@@ -3,6 +3,7 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_RECEIVE_REFUND, SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../ReceiveRefundMessageTypes';
 import { getBusinessId, getIsPageEdited, getRegion } from './receiveRefundSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import RefundView from './components/ReceiveRefundView';
 import Store from '../../../store/Store';
 import createReceiveRefundDispatcher from './createReceiveRefundDispatcher';
@@ -21,15 +22,15 @@ export default class ReceiveRefundModule {
   }
 
   loadRefund = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadRefund(response);
     };
 
     const onFailure = () => {
-      console.error('Failed to load a refund');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadRefund({ onSuccess, onFailure });

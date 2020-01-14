@@ -34,6 +34,7 @@ import {
 } from './invoiceListSelectors';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import InvoiceListView from './components/InvoiceListView';
+import LoadingState from '../../components/PageView/LoadingState';
 import RouteName from '../../router/RouteName';
 import Store from '../../store/Store';
 import invoiceListReducer from './invoiceListReducer';
@@ -66,7 +67,7 @@ export default class InvoiceListModule {
     const onSuccess = (
       response,
     ) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         ...response,
@@ -74,10 +75,10 @@ export default class InvoiceListModule {
     };
 
     const onFailure = () => {
-      console.error('Failed to load invoice list entries');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.integration.read({
       intent,
       params: {
@@ -279,11 +280,11 @@ export default class InvoiceListModule {
     });
   };
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
     this.store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   };
 
@@ -334,7 +335,6 @@ export default class InvoiceListModule {
     this.setInitialState(context, settings);
     this.render();
     this.readMessages();
-    this.setLoadingState(true);
     this.store.subscribe(state => (
       saveSettings(context.businessId, RouteName.INVOICE_LIST, getSettings(state))
     ));

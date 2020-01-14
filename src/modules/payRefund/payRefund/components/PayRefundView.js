@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsLoading, getModalType, getTitle,
+  getAlert, getLoadingState, getModalType, getTitle,
 } from '../payRefundSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import PayRefundModal from './PayRefundModal';
@@ -15,7 +15,7 @@ const PayRefundView = (props) => {
   const {
     alert,
     title,
-    isLoading,
+    loadingState,
     modalType,
     onDismissAlert,
     onConfirmCancel,
@@ -59,13 +59,13 @@ const PayRefundView = (props) => {
     </SmallScreenTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
   title: getTitle(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   modalType: getModalType(state),
 });
 

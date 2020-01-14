@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getIsLoading } from '../userListSelectors';
+import { getAlert, getLoadingState } from '../userListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import UserListTable from './UserListTable';
 import UserListTableHeader from './UserListTableHeader';
@@ -19,7 +19,7 @@ export const tableConfig = {
 const UserListView = (props) => {
   const {
     alert,
-    isLoading,
+    loadingState,
     onCreateUser,
     onDismissAlert,
     onSort,
@@ -55,12 +55,12 @@ const UserListView = (props) => {
     </StandardTemplate>
   );
 
-  return <PageView isLoading={isLoading} view={userListView} />;
+  return <PageView loadingState={loadingState} view={userListView} />;
 };
 
 const mapStateToProps = state => ({
   alert: getAlert(state),
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
 });
 
 export default connect(mapStateToProps)(UserListView);

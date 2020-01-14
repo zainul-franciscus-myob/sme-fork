@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getBusinessId } from './ActivitiesSelectors';
 import ActivitiesView from './components/ActivitiesView';
+import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import activitiesReducer from './activitiesReducer';
 import closeActivityFn from './services/closeActivity';
@@ -68,12 +69,12 @@ export default class ActivitiesModule {
   closeView = () => this.closeDrawer();
 
   loadActivities = async (businessId, region) => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const content = await loadActivities(this.integration, businessId, region);
     this.dispatcher.loadActivities(content);
 
-    this.dispatcher.setLoadingState(false);
+    this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
   }
 
   run = (context) => {

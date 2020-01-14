@@ -6,8 +6,8 @@ import React from 'react';
 
 import {
   getAlert,
-  getIsLoading,
   getLoadMoreButtonStatus,
+  getLoadingState,
 } from '../invoiceListSelectors';
 import InvoiceListFilterOptions from './InvoiceListFilterOptions';
 import InvoiceListTable from './InvoiceListTable';
@@ -31,7 +31,7 @@ const InvoiceListView = ({
   onApplyFilter,
   onUpdateFilter,
   onSort,
-  isLoading,
+  loadingState,
   onCreateInvoiceButtonClick,
   onDismissAlert,
   onLoadMoreButtonClick,
@@ -79,11 +79,11 @@ const InvoiceListView = ({
     />
   );
 
-  return <PageView isLoading={isLoading} view={invoiceListView} />;
+  return <PageView loadingState={loadingState} view={invoiceListView} />;
 };
 
 const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
+  loadingState: getLoadingState(state),
   alert: getAlert(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });

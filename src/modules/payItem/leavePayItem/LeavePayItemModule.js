@@ -11,6 +11,7 @@ import {
   getRegion,
 } from './leavePayItemSelectors';
 import LeavePayItemView from './component/LeavePayItemView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import createLeavePayItemDispatcher from './createLeavePayItemDispatcher';
 import createLeavePayItemIntegrator from './createLeavePayItemIntegrator';
@@ -30,15 +31,15 @@ export default class LeavePayItemModule {
   }
 
   loadLeavePayItem = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadLeavePayItem(response);
     };
 
     const onFailure = () => {
-      console.error('Failed to load a leave pay item');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadLeavePayItem({ onSuccess, onFailure });

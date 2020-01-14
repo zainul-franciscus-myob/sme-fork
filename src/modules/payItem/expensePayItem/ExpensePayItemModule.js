@@ -13,9 +13,9 @@ import {
   REMOVE_ALLOCATED_EMPLOYEE,
   REMOVE_EXEMPTION_PAY_ITEM,
   SET_ALERT_MESSAGE,
-  SET_IS_LOADING,
   SET_IS_PAGE_EDITED,
   SET_IS_SUBMITTING,
+  SET_LOADING_STATE,
   SET_MODAL_TYPE,
   UPDATE_EXPENSE_PAY_ITEM,
 } from './ExpensePayItemIntents';
@@ -33,6 +33,7 @@ import {
   getUpdateExpensePayItemUrlParams,
 } from './ExpensePayItemSelectors';
 import ExpensePayItemView from './components/ExpensePayItemView';
+import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import Store from '../../../store/Store';
 import expensePayItemReducer from './expensePayItemReducer';
@@ -67,14 +68,14 @@ class ExpensePayItemModule {
         expensePayItem,
       });
 
-      this.setIsLoading(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
     const onFailure = () => {
-      console.error('Failed to load an expense pay item');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.setIsLoading(true);
+    this.setLoadingState(LoadingState.LOADING);
 
     this.integration.read({
       intent, urlParams, onSuccess, onFailure,
@@ -93,14 +94,14 @@ class ExpensePayItemModule {
         expensePayItem,
       });
 
-      this.setIsLoading(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
     };
 
     const onFailure = () => {
-      console.error('Failed to load an expense pay item');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.setIsLoading(true);
+    this.setLoadingState(LoadingState.LOADING);
 
     this.integration.read({
       intent, urlParams, onSuccess, onFailure,
@@ -293,10 +294,10 @@ class ExpensePayItemModule {
     this.setModalType('');
   }
 
-  setIsLoading = (isLoading) => {
+  setLoadingState = (loadingState) => {
     this.store.dispatch({
-      intent: SET_IS_LOADING,
-      isLoading,
+      intent: SET_LOADING_STATE,
+      loadingState,
     });
   }
 

@@ -8,6 +8,7 @@ import {
   SET_SUBMITTING_STATE,
 } from '../ReceiveRefundIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
@@ -28,7 +29,7 @@ const getDefaultState = () => ({
   originalReferenceId: '',
   contactOptions: [],
   accountOptions: [],
-  isLoading: false,
+  loadingState: LoadingState.LOADING,
   isPageEdited: false,
   isSubmitting: false,
   modalType: '',
@@ -57,9 +58,9 @@ const closeModal = state => ({
   modalType: '',
 });
 
-const setLoadingState = (state, action) => ({
+const setLoadingState = (state, { loadingState }) => ({
   ...state,
-  isLoading: action.isLoading,
+  loadingState,
 });
 
 const setSubmittingState = (state, action) => ({

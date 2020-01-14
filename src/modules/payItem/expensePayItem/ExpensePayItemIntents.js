@@ -1,5 +1,5 @@
 export const SET_MODAL_TYPE = Symbol('Set modal type');
-export const SET_IS_LOADING = Symbol('Set is loading');
+export const SET_LOADING_STATE = Symbol('Set is loading');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_IS_SUBMITTING = Symbol('Set is submitting');
 export const SET_IS_PAGE_EDITED = Symbol('Set is page edited');

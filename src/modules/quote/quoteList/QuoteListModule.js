@@ -30,6 +30,7 @@ import {
   getSortOrder,
 } from './quoteListSelector';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
+import LoadingState from '../../../components/PageView/LoadingState';
 import QuoteListView from './components/QuoteListView';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
@@ -119,7 +120,7 @@ export default class QuoteListModule {
     };
 
     const onSuccess = (quoteListResponse) => {
-      this.setLoadingState(false);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         ...quoteListResponse,
@@ -127,7 +128,7 @@ export default class QuoteListModule {
     };
 
     const onFailure = () => {
-      console.error('Failed to load quote list entries');
+      this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     const filterOptions = getFilterOptions(state);
@@ -219,11 +220,11 @@ export default class QuoteListModule {
     });
   }
 
-  setLoadingState = (isLoading) => {
+  setLoadingState = (loadingState) => {
     const intent = SET_LOADING_STATE;
     this.store.dispatch({
       intent,
-      isLoading,
+      loadingState,
     });
   };
 
@@ -342,7 +343,7 @@ export default class QuoteListModule {
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.store.subscribe(state => (
       saveSettings(context.businessId, RouteName.QUOTE_LIST, getSettings(state))
     ));

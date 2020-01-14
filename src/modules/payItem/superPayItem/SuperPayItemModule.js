@@ -11,6 +11,7 @@ import {
   getUpdatedSuperPayItem,
   getUpdatedSuperPayItemForSave,
 } from './superPayItemSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import SuperPayItemView from './component/SuperPayItemView';
 import createSuperPayItemDispatcher from './createSuperPayItemDispatcher';
@@ -31,15 +32,15 @@ export default class SuperPayItemModule {
   }
 
   loadSuperPayItem = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadSuperPayItem(response);
     };
 
     const onFailure = () => {
-      console.error('Failed to load a super pay item');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadSuperPayItem({ onSuccess, onFailure });

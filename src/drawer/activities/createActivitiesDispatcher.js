@@ -10,10 +10,10 @@ const createActivitiesDispatcher = store => ({
       context,
     });
   },
-  setLoadingState: (isLoading) => {
+  setLoadingState: (loadingState) => {
     store.dispatch({
       intent: SET_LOADING_STATE,
-      isLoading,
+      loadingState,
     });
   },
   setActiveState: (isActive) => {

@@ -8,7 +8,7 @@ export const getEntries = state => state.entries;
 
 export const getFlipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
 
-export const getIsLoading = state => state.isLoading;
+export const getLoadingState = state => state.loadingState;
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 

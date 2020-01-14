@@ -5,6 +5,7 @@ import { SUCCESSFULLY_DELETED_PAY_REFUND, SUCCESSFULLY_SAVED_PAY_REFUND } from '
 import {
   getBusinessId, getIsCreating, getIsPageEdited, getRegion, isReferenceIdDirty,
 } from './payRefundSelectors';
+import LoadingState from '../../../components/PageView/LoadingState';
 import RefundView from './components/PayRefundView';
 import Store from '../../../store/Store';
 import createPayRefundDispatcher from './createPayRefundDispatcher';
@@ -23,15 +24,15 @@ export default class PayRefundModule {
   }
 
   loadRefund = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadRefund(response);
     };
 
     const onFailure = () => {
-      console.error('Failed to load a refund');
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.loadRefund({ onSuccess, onFailure });
