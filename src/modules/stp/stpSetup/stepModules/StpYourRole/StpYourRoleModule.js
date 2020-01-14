@@ -2,7 +2,11 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  LOAD_AGENT_CONTACT_INFO, SET_ERROR_MESSAGE, SET_FIELD, SUBMIT_AGENT_CONTACT_INFO,
+  LOAD_AGENT_CONTACT_INFO,
+  SET_ERROR_MESSAGE,
+  SET_FIELD,
+  SET_LOADING_STATE,
+  SUBMIT_AGENT_CONTACT_INFO,
 } from './stpYourRoleIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import {
@@ -48,28 +52,35 @@ export default class StpYourRoleModule {
     this.onFinishFunc({ roleDetails });
   };
 
+  onSearchClick = () => {
+    this.loadContactDetails();
+  };
+
   onFieldChange = ({ key, value }) => {
     this.store.dispatch({
       intent: SET_FIELD,
       key,
       value,
     });
-  }
-
-  onSearchClick = () => {
-    this.loadContactDetails();
-  }
+  };
 
   showError = ({ message }) => {
     this.store.dispatch({
       intent: SET_ERROR_MESSAGE,
       errorMessage: message,
     });
-  }
+  };
+
+  setIsLoading = (isLoading) => {
+    this.store.dispatch({
+      intent: SET_LOADING_STATE,
+      isLoading,
+    });
+  };
 
   loadContactDetails = () => {
+    this.setIsLoading(true);
     const state = this.store.getState();
-    const intent = LOAD_AGENT_CONTACT_INFO;
     const urlParams = {
       businessId: getBusinessId(state),
     };
@@ -79,27 +90,26 @@ export default class StpYourRoleModule {
     };
 
     const onSuccess = (response) => {
+      this.setIsLoading(false);
       this.store.dispatch({
         intent: LOAD_AGENT_CONTACT_INFO,
         contactInfo: response,
       });
     };
 
-    const onFailure = ({ message }) => {
-      this.store.dispatch({
-        intent: SET_ERROR_MESSAGE,
-        errorMessage: message,
-      });
+    const onFailure = (error) => {
+      this.setIsLoading(false);
+      this.showError(error);
     };
 
     this.integration.read({
-      intent,
+      intent: LOAD_AGENT_CONTACT_INFO,
       urlParams,
       params,
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   onNextClick = () => {
     const state = this.store.getState();
@@ -108,6 +118,7 @@ export default class StpYourRoleModule {
       return;
     }
 
+    this.setIsLoading(true);
     const urlParams = {
       businessId: getBusinessId(state),
     };
@@ -120,14 +131,13 @@ export default class StpYourRoleModule {
       email: getEmail(state),
     };
     const onSuccess = () => {
+      this.setIsLoading(false);
       this.onFinish();
     };
 
-    const onFailure = ({ message }) => {
-      this.store.dispatch({
-        intent: SET_ERROR_MESSAGE,
-        errorMessage: message,
-      });
+    const onFailure = (error) => {
+      this.setIsLoading(false);
+      this.showError(error);
     };
 
     this.integration.write({
@@ -137,10 +147,10 @@ export default class StpYourRoleModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
-  getView = () => {
-    const wrappedView = (
+  getView() {
+    return (
       <Provider store={this.store}>
         <StpYourRoleView
           onFieldChange={this.onFieldChange}
@@ -150,7 +160,5 @@ export default class StpYourRoleModule {
         />
       </Provider>
     );
-
-    return wrappedView;
   }
 }

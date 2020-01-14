@@ -6,7 +6,7 @@ import ConfirmationModal from '../components/ConfirmationModal';
 import StpNotifyAtoModule from '../StpNotifyAtoModule';
 
 describe('StpNotifyAtoModule', () => {
-  const defaultMockIntegration = {
+  const defaultIntegrationStub = {
     read: ({ onSuccess }) => onSuccess(),
     write: ({ onSuccess }) => onSuccess(),
   };
@@ -14,7 +14,7 @@ describe('StpNotifyAtoModule', () => {
   const constructStpNotifyAtoModule = ({
     onPrevious = jest.fn(),
     onFinish = jest.fn(),
-    integration = defaultMockIntegration,
+    integration = defaultIntegrationStub,
   }) => {
     const context = {};
     const module = new StpNotifyAtoModule({
@@ -78,40 +78,11 @@ describe('StpNotifyAtoModule', () => {
       };
       const { module } = constructStpNotifyAtoModule({ integration });
 
-      module.getBusinessSid({
-        onSuccess: () => { },
-        onFailure: () => { },
-      });
+      module.getBusinessSid({});
 
       expect(integration.read).toHaveBeenCalledWith(expect.objectContaining({
         intent: GET_BUSINESS_SID,
       }));
-    });
-
-    it('calls onSuccess if the request succeeds', () => {
-      const integration = {
-        read: ({ onSuccess }) => onSuccess({ sid: 123 }),
-      };
-      const { module } = constructStpNotifyAtoModule({ integration });
-      const onSuccess = jest.fn();
-      const onFailure = () => { };
-
-      module.getBusinessSid({ onSuccess, onFailure });
-
-      expect(onSuccess).toHaveBeenCalled();
-    });
-
-    it('calls onFailure if the request fails', () => {
-      const integration = {
-        read: ({ onFailure }) => onFailure({ message: 'some error message' }),
-      };
-      const { module } = constructStpNotifyAtoModule({ integration });
-      const onFailure = jest.fn();
-      const onSuccess = () => { };
-
-      module.getBusinessSid({ onSuccess, onFailure });
-
-      expect(onFailure).toHaveBeenCalled();
     });
 
     it('stores the business sid in the state', () => {
@@ -120,10 +91,7 @@ describe('StpNotifyAtoModule', () => {
       };
       const { module } = constructStpNotifyAtoModule({ integration });
 
-      const onFailure = () => { };
-      const onSuccess = () => { };
-
-      module.getBusinessSid({ onSuccess, onFailure });
+      module.getBusinessSid({});
 
       const { sid } = module.store.getState();
 

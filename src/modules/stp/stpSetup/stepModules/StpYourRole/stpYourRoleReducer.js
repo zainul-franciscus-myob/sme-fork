@@ -1,5 +1,5 @@
 import {
-  LOAD_AGENT_CONTACT_INFO, SET_ERROR_MESSAGE, SET_FIELD,
+  LOAD_AGENT_CONTACT_INFO, SET_ERROR_MESSAGE, SET_FIELD, SET_LOADING_STATE,
 } from './stpYourRoleIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import Role from '../../Role';
@@ -7,6 +7,7 @@ import createReducer from '../../../../../store/createReducer';
 
 const getDefaultState = () => ({
   businessId: '',
+  isLoading: false,
   role: Role.SOMEONE_FROM_THE_BUSINESS,
   agentAbn: '',
   agentNumber: '',
@@ -45,11 +46,17 @@ const loadAgentContactInfo = (state, { contactInfo }) => ({
   errorMessage: '',
 });
 
+const setLoadingState = (state, { isLoading }) => ({
+  ...state,
+  isLoading,
+});
+
 const handlers = {
   [SET_FIELD]: setField,
   [LOAD_AGENT_CONTACT_INFO]: loadAgentContactInfo,
   [SET_ERROR_MESSAGE]: setErrorMessage,
   [SET_INITIAL_STATE]: setInitialState,
+  [SET_LOADING_STATE]: setLoadingState,
 };
 
 const stpYourRoleReducer = createReducer(getDefaultState(), handlers);

@@ -45,16 +45,13 @@ export default class StpDeclarationInformationModule {
       this.onFinishFunc({ payerAbn });
     };
 
-    const onFailure = ({ message }) => {
+    const onFailure = (error) => {
       this.setIsLoading(false);
-      this.setAlert({
-        type: 'danger',
-        message,
-      });
+      this.showError(error);
     };
 
     this.submitBusinessInformation({ onSuccess, onFailure });
-  }
+  };
 
   submitBusinessInformation = ({ onSuccess, onFailure }) => {
     const state = this.store.getState();
@@ -71,28 +68,24 @@ export default class StpDeclarationInformationModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   setIsLoading = (isLoading) => {
     this.store.dispatch({
       intent: SET_IS_LOADING,
       isLoading,
     });
-  }
-
-  setAlert = (alert) => {
-    this.store.dispatch({
-      intent: SET_ALERT,
-      alert,
-    });
-  }
+  };
 
   showError = ({ message }) => {
-    this.setAlert({
-      type: 'danger',
-      message,
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert: {
+        type: 'danger',
+        message,
+      },
     });
-  }
+  };
 
   handleFieldChange = ({ key, value }) => {
     this.store.dispatch({
@@ -100,12 +93,9 @@ export default class StpDeclarationInformationModule {
       key,
       value,
     });
-  }
+  };
 
-  loadBusinessInformation = ({
-    onSuccess = () => { },
-    onFailure = () => { },
-  }) => {
+  loadBusinessInformation = () => {
     this.setIsLoading(true);
     const state = this.store.getState();
 
@@ -113,29 +103,23 @@ export default class StpDeclarationInformationModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccessFunc = (businessContactInformation) => {
+    const onSuccess = (businessContactInformation) => {
+      this.setIsLoading(false);
       this.store.dispatch({
         intent: LOAD_BUSINESS_CONTACT_INFORMATION,
         businessContactInformation,
       });
-      this.setIsLoading(false);
-      onSuccess();
     };
 
-    const onFailureFunc = ({ message }) => {
-      this.setAlert({
-        type: 'danger',
-        message,
-      });
+    const onFailure = () => {
       this.setIsLoading(false);
-      onFailure({ message });
     };
 
     this.integration.read({
       intent: LOAD_BUSINESS_CONTACT_INFORMATION,
       urlParams,
-      onSuccess: onSuccessFunc,
-      onFailure: onFailureFunc,
+      onSuccess,
+      onFailure,
     });
   };
 

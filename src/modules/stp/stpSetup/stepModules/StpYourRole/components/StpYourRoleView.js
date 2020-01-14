@@ -5,14 +5,16 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAgentAbn, getAgentNumber, getErrorMessage, getRole, getShowContactDetails,
+  getAgentAbn, getAgentNumber, getErrorMessage, getLoadingState, getRole, getShowContactDetails,
 } from '../stpYourRoleSelectors';
 import ContactDetails from './ContactDetails';
+import LoadingPageState from '../../../../../../components/LoadingPageState/LoadingPageState';
 import Role from '../../../Role';
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 import handleRadioButtonChange from '../../../../../../components/handlers/handleRadioButtonChange';
 
 const StpYourRoleView = ({
+  isLoading,
   role,
   agentAbn,
   agentNumber,
@@ -24,6 +26,14 @@ const StpYourRoleView = ({
   showAlert,
   errorMessage,
 }) => {
+  if (isLoading) {
+    return (
+      <Card>
+        <LoadingPageState />
+      </Card>
+    );
+  }
+
   const someoneFromBusinessContent = (
     <p>
       You must complete these steps yourself. You can&apos;t get your agent to complete these
@@ -98,6 +108,7 @@ const mapStateToProps = state => ({
   agentNumber: getAgentNumber(state),
   showContactDetails: getShowContactDetails(state),
   errorMessage: getErrorMessage(state),
+  isLoading: getLoadingState(state),
 });
 
 export default connect(mapStateToProps)(StpYourRoleView);

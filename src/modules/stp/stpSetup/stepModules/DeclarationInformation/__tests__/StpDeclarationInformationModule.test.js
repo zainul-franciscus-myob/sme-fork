@@ -126,7 +126,7 @@ describe('StpDeclarationInformationModule', () => {
     });
 
     describe('alerting', () => {
-      it('should render an error alert if the integration fails', () => {
+      it('should not render an error alert if the integration fails', () => {
         const errorMessage = 'THIS IS A TEST ERROR MESSAGE';
         const integration = {
           read: ({ onFailure }) => onFailure({
@@ -139,9 +139,7 @@ describe('StpDeclarationInformationModule', () => {
         wrapper.update();
 
         const alert = wrapper.find(Alert);
-        expect(alert).toHaveLength(1);
-        expect(alert.prop('type')).toEqual('danger');
-        expect(alert.contains(errorMessage)).toBeTruthy();
+        expect(alert).toHaveLength(0);
       });
 
       it('should not render an error alert if the integration succeeds', () => {

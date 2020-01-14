@@ -21,10 +21,7 @@ import stpNotifyAtoModuleReducer from './stpNotifyAtoModuleReducer';
 
 export default class StpNotifyAtoModule {
   constructor({
-    onPrevious,
-    onFinish,
-    integration,
-    context,
+    onPrevious, onFinish, integration, context,
   }) {
     this.onPrevious = onPrevious;
     this.onFinish = onFinish;
@@ -41,26 +38,23 @@ export default class StpNotifyAtoModule {
       intent: SET_ALERT,
       alert,
     });
-  }
+  };
 
   setIsLoading = (isLoading) => {
     this.store.dispatch({
       intent: SET_IS_LOADING,
       isLoading,
     });
-  }
+  };
 
   showError = ({ message }) => {
     this.setAlert({
       type: 'danger',
       message,
     });
-  }
+  };
 
-  getBusinessSid = ({
-    payerAbn, agentAbn,
-    onSuccess, onFailure,
-  }) => {
+  getBusinessSid = ({ payerAbn, agentAbn }) => {
     this.setIsLoading(true);
 
     const state = this.store.getState();
@@ -68,38 +62,31 @@ export default class StpNotifyAtoModule {
       businessId: getBusinessId(state),
     };
 
-    const params = {
-      agentAbn,
-      payerAbn,
-    };
+    const params = { agentAbn, payerAbn };
 
-    const onSuccessFunc = ({ sid }) => {
+    const onSuccess = ({ sid }) => {
       this.store.dispatch({
         intent: GET_BUSINESS_SID,
         sid,
       });
       this.setIsLoading(false);
-      onSuccess();
     };
 
-    const onFailureFunc = ({ message }) => {
+    const onFailure = (error) => {
       this.setIsLoading(false);
-      onFailure({ message });
+      this.showError(error);
     };
 
     this.integration.read({
       intent: GET_BUSINESS_SID,
       urlParams,
       params,
-      onSuccess: onSuccessFunc,
-      onFailure: onFailureFunc,
+      onSuccess,
+      onFailure,
     });
-  }
+  };
 
-  confirmAtoNotification = ({
-    agentAbn, agentNumber,
-    onSuccess, onFailure,
-  }) => {
+  confirmAtoNotification = ({ agentAbn, agentNumber, onConfirmSuccess }) => {
     this.setIsLoading(true);
     this.closeConfirmationModal();
 
@@ -113,24 +100,24 @@ export default class StpNotifyAtoModule {
       agentNumber,
     };
 
-    const onSuccessFunc = () => {
+    const onSuccess = () => {
       this.setIsLoading(false);
-      onSuccess();
+      onConfirmSuccess();
     };
 
-    const onFailureFunc = ({ message }) => {
+    const onFailure = (error) => {
       this.setIsLoading(false);
-      onFailure({ message });
+      this.showError(error);
     };
 
     this.integration.write({
       intent: SUBMIT_STP_REGISTRATION,
       urlParams,
       content,
-      onSuccess: onSuccessFunc,
-      onFailure: onFailureFunc,
+      onSuccess,
+      onFailure,
     });
-  }
+  };
 
   goToAccessManagerSite = () => {
     const state = this.store.getState();
@@ -148,13 +135,13 @@ export default class StpNotifyAtoModule {
     this.store.dispatch({
       intent: OPEN_CONFIRMATION_MODAL,
     });
-  }
+  };
 
   closeConfirmationModal = () => {
     this.store.dispatch({
       intent: CLOSE_CONFIRMATION_MODAL,
     });
-  }
+  };
 
   getView() {
     return (

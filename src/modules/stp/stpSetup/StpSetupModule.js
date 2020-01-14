@@ -93,7 +93,7 @@ export default class StpSetupModule {
         }),
       },
     ];
-  }
+  };
 
   getAddClientsStepType = (stepIndex, currentStepIndex) => {
     const state = this.store.getState();
@@ -106,20 +106,20 @@ export default class StpSetupModule {
     }
 
     return 'complete';
-  }
+  };
 
   overviewFinish = () => {
     this.setStep(Steps.YOUR_ROLE);
-  }
+  };
 
   redirectToPayRollReporting = () => {
     const state = this.store.getState();
     window.location.href = getStpReportingCentreUrl(state);
-  }
+  };
 
   yourRolePrevious = () => {
     this.setStep(Steps.OVERVIEW);
-  }
+  };
 
   yourRoleFinish = ({ roleDetails }) => {
     this.store.dispatch({
@@ -127,24 +127,17 @@ export default class StpSetupModule {
       roleDetails,
     });
     this.enterDeclarationStep();
-  }
+  };
 
   enterDeclarationStep = () => {
     const declarationStep = this.getStep(Steps.DECLARATION_INFORMATION);
-    declarationStep.module.loadBusinessInformation({
-      onSuccess: () => {
-        this.setStep(Steps.DECLARATION_INFORMATION);
-      },
-      onFailure: ({ message }) => {
-        const yourRoleStep = this.getStep(Steps.YOUR_ROLE);
-        yourRoleStep.module.showError({ message });
-      },
-    });
-  }
+    declarationStep.module.loadBusinessInformation();
+    this.setStep(Steps.DECLARATION_INFORMATION);
+  };
 
   declarationInformationPrevious = () => {
     this.setStep(Steps.YOUR_ROLE);
-  }
+  };
 
   declarationInformationFinish = ({ payerAbn }) => {
     this.store.dispatch({
@@ -156,46 +149,31 @@ export default class StpSetupModule {
     if (getAgentRoleSelected(state)) {
       this.enterAddClients();
     } else {
-      const notifyAtoStep = this.getStep(Steps.NOTIFY_ATO);
-      notifyAtoStep.module.getBusinessSid({
-        payerAbn: getPayerAbn(state),
-        onSuccess: () => {
-          this.setStep(Steps.NOTIFY_ATO);
-        },
-        onFailure: ({ message }) => {
-          const declarationStep = this.getStep(Steps.DECLARATION_INFORMATION);
-          declarationStep.module.showError({ message });
-        },
-      });
+      this.enterNotifyAto();
     }
-  }
+  };
 
   enterAddClients = () => {
     const state = this.store.getState();
     const addClientsStep = this.getStep(Steps.ADD_CLIENTS);
     addClientsStep.module.setAgentRole(getSelectedAgentRole(state));
     this.setStep(Steps.ADD_CLIENTS);
-  }
+  };
 
   onAddClientsPrevious = () => {
     this.setStep(Steps.DECLARATION_INFORMATION);
-  }
+  };
 
   onAddClientsFinish = () => {
-    const state = this.store.getState();
+    this.enterNotifyAto();
+  };
 
+  enterNotifyAto = () => {
+    const state = this.store.getState();
     const notifyAtoStep = this.getStep(Steps.NOTIFY_ATO);
-    notifyAtoStep.module.getBusinessSid({
-      agentAbn: getAgentAbn(state),
-      onSuccess: () => {
-        this.setStep(Steps.NOTIFY_ATO);
-      },
-      onFailure: ({ message }) => {
-        const addClientsStep = this.getStep(Steps.ADD_CLIENTS);
-        addClientsStep.module.showError({ message });
-      },
-    });
-  }
+    notifyAtoStep.module.getBusinessSid(getPayerAbn(state));
+    this.setStep(Steps.NOTIFY_ATO);
+  };
 
   onNotifyAtoPrevious = () => {
     const state = this.store.getState();
@@ -204,28 +182,24 @@ export default class StpSetupModule {
     } else {
       this.setStep(Steps.DECLARATION_INFORMATION);
     }
-  }
+  };
 
   onNotifyAtoFinish = () => {
     const state = this.store.getState();
     const notifyAtoStep = this.getStep(Steps.NOTIFY_ATO);
-
     notifyAtoStep.module.confirmAtoNotification({
       agentAbn: getAgentAbn(state),
       agentNumber: getAgentNumber(state),
-      onSuccess: () => {
+      onConfirmSuccess: () => {
         this.setStep(Steps.DONE);
       },
-      onFailure: ({ message }) => {
-        notifyAtoStep.module.showError({ message });
-      },
     });
-  }
+  };
 
   getStep = (stepId) => {
     const stepIndex = this.steps.findIndex(step => step.id === stepId);
     return this.steps[stepIndex];
-  }
+  };
 
   setStep = (stepId) => {
     const stepIndex = this.steps.findIndex(step => step.id === stepId);
@@ -234,29 +208,25 @@ export default class StpSetupModule {
       intent: SET_CURRENT_STEP_INDEX,
       currentStepIndex: stepIndex,
     });
-  }
+  };
 
   render = () => {
-    const stpSetupView = (
-      <StpSetupView
-        steps={this.steps}
-      />
-    );
-
     const wrappedView = (
       <Provider store={this.store}>
-        {stpSetupView}
+        <StpSetupView
+          steps={this.steps}
+        />
       </Provider>
     );
 
     this.setRootView(wrappedView);
-  }
+  };
 
   resetState = () => {
     this.store.dispatch({
       intent: RESET_STATE,
     });
-  }
+  };
 
   setInitialState = (context) => {
     const intent = SET_INITIAL_STATE;
@@ -265,11 +235,11 @@ export default class StpSetupModule {
       intent,
       context,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   run(context) {
     this.setInitialState(context);

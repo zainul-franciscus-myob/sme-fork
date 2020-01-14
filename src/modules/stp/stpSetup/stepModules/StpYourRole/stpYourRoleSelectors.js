@@ -12,3 +12,4 @@ export const getShowContactDetails = state => state.showContactDetails;
 export const getShowAlert = state => state.showAlert;
 export const getErrorMessage = state => state.errorMessage;
 export const getAgentRoleSelected = state => getRole(state) !== Role.SOMEONE_FROM_THE_BUSINESS;
+export const getLoadingState = state => state.isLoading;

@@ -10,7 +10,7 @@ import createReducer from '../../../../../store/createReducer';
 
 const getDefaultState = () => ({
   businessId: '',
-  sid: '',
+  sid: '-',
 });
 
 
