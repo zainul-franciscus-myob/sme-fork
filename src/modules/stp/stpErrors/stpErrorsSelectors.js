@@ -18,7 +18,8 @@ export const getEmployeePageUrl = (state, employeeId) => {
 };
 export const getPayItemPageUrl = (state, itemType, id) => {
   const baseUrl = getBaseUrl(state);
-  return `${baseUrl}/payItem/${itemType}/${id}`;
+
+  return (itemType === 'tax') ? `${baseUrl}/payItem?tab=tax` : `${baseUrl}/payItem/${itemType}/${id}`;
 };
 
 export const getErrorMessage = state => state.errorMessage;

@@ -27,4 +27,17 @@ describe('getPayItemPageUrl', () => {
 
     expect(url).toEqual('/#/au/123/payItem/wages/456');
   });
+
+  it('returns expected url for taxes', () => {
+    const state = {
+      businessId: 123,
+      region: 'au',
+    };
+    const itemType = 'tax';
+    const id = 456;
+
+    const url = getPayItemPageUrl(state, itemType, id);
+
+    expect(url).toEqual('/#/au/123/payItem?tab=tax');
+  });
 });
