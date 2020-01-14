@@ -34,6 +34,9 @@ const getDefaultState = () => ({
     abn: '',
   },
   saleLayout: SaleLayout.ItemAndService,
+  isAllowOnlinePayment: true,
+  isAllowPaymentByDirectDeposit: true,
+  isAllowPaymentByCheque: true,
   template: {
     templateId: undefined,
     templateName: '',

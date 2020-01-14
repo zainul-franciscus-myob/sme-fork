@@ -1,24 +1,25 @@
 import React from 'react';
 
 import PaymentType from './PaymentType';
+import styles from './PaymentMethod.module.css';
 
-const ChequePayment = () => (
-  <PaymentType name="Mail a cheque">
+const AUChequePayment = () => (
+  <PaymentType name="Mail a cheque" className={styles.paymenttypeCheque}>
     <p>
       <strong>Cheques payable to</strong>
       <br />
-      Paradise Closet
+      Coffee House
     </p>
     <p>
       <strong>Mail to</strong>
       <br />
       1 Yellowbrick Rd
       <br />
-      Richmond VIC 3000
+      Melbourne VIC 3000
       <br />
       Australia
     </p>
   </PaymentType>
 );
 
-export default ChequePayment;
+export default AUChequePayment;

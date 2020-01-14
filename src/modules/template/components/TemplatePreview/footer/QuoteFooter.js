@@ -1,12 +1,13 @@
 import React from 'react';
 
+import { SaleLayout } from '../../../templateOptions';
 import Footer from './Footer';
 
-const QuoteFooter = () => (
+const QuoteFooter = ({ saleLayout }) => (
   <Footer
     items={[
       { title: 'Quote no.', content: '00000001' },
-      { title: 'Total amount', content: '$941.00' },
+      { title: 'Total amount', content: saleLayout === SaleLayout.Service ? '$190.00' : '$98.05' },
     ]}
   />
 );

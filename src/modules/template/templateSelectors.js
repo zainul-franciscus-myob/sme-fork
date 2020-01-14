@@ -243,3 +243,9 @@ export const getPreviewType = state => state.previewType;
 export const getSaleLayout = state => state.saleLayout;
 
 export const getIsCreating = state => state.isCreating;
+
+export const getIsAllowOnlinePayment = state => state.isAllowOnlinePayment;
+
+export const getIsAllowPaymentByDirectDeposit = state => state.isAllowPaymentByDirectDeposit;
+
+export const getIsAllowPaymentByCheque = state => state.isAllowPaymentByCheque;

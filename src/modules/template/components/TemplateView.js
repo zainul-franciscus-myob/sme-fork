@@ -11,6 +11,9 @@ import {
   getHeaderBusinessDetailsStyle,
   getHeaderImage,
   getHeaderTextColour,
+  getIsAllowOnlinePayment,
+  getIsAllowPaymentByCheque,
+  getIsAllowPaymentByDirectDeposit,
   getIsCreating,
   getIsLoading,
   getIsLogoOnTheLeft,
@@ -65,6 +68,9 @@ const TemplateView = ({
   modalType,
   region,
   isCreating,
+  isAllowOnlinePayment,
+  isAllowPaymentByDirectDeposit,
+  isAllowPaymentByCheque,
 }) => {
   const pageTitle = isCreating ? 'Create template' : 'Edit template';
   const pageHead = (
@@ -100,6 +106,9 @@ const TemplateView = ({
       email={email}
       website={website}
       abn={abn}
+      isAllowOnlinePayment={isAllowOnlinePayment}
+      isAllowPaymentByDirectDeposit={isAllowPaymentByDirectDeposit}
+      isAllowPaymentByCheque={isAllowPaymentByCheque}
     />
   );
 
@@ -162,6 +171,9 @@ const mapStateToProps = state => ({
   modalType: getModalType(state),
   region: getRegion(state),
   isCreating: getIsCreating(state),
+  isAllowOnlinePayment: getIsAllowOnlinePayment(state),
+  isAllowPaymentByDirectDeposit: getIsAllowPaymentByDirectDeposit(state),
+  isAllowPaymentByCheque: getIsAllowPaymentByCheque(state),
 });
 
 export default connect(mapStateToProps)(TemplateView);

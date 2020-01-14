@@ -8,5 +8,8 @@
     "website": "www.winstonscc.com.au",
     "abn": "80 000 000 001"
   },
-  "saleLayout": "ItemAndService"
+  "saleLayout": "ItemAndService",
+  "isAllowOnlinePayment": true,
+  "isAllowPaymentByDirectDeposit": true,
+  "isAllowPaymentByCheque": true
 }

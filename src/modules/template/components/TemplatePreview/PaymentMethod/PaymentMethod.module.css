@@ -1,5 +1,5 @@
 .paymentmethodGrid {
-  font-size: 0.8em;
+  font-size: 0.9em;
   margin-bottom: var(--tmp-spacing-x-tiny);
 
   display: grid;
@@ -54,4 +54,8 @@
 
 .paymentmethodGrid .paymenttypeDeposit > p > p {
   margin-bottom: var(--tmp-spacing-xx-tiny);
+}
+
+.paymentmethodGrid .paymenttypeCheque > p {
+  margin-bottom: 0.8em;
 }

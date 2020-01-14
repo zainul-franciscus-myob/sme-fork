@@ -61,7 +61,7 @@ const HttpSpendMoneyMapping = {
   },
   [PREFILL_DATA_FROM_IN_TRAY]: {
     method: 'GET',
-    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/spendMoney/prefill_bill_from_in_tray/${inTrayDocumentId}`,
+    getPath: ({ businessId, inTrayDocumentId }) => `/${businessId}/spendMoney/prefill_data_from_in_tray/${inTrayDocumentId}`,
   },
   [LINK_IN_TRAY_DOCUMENT]: {
     method: 'POST',

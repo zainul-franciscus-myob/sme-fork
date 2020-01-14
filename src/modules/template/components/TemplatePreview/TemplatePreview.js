@@ -1,11 +1,12 @@
 import React from 'react';
 
 import { PreviewType, SaleLayout } from '../../templateOptions';
+import AUPaymentMethod from './PaymentMethod/AUPaymentMethod';
 import InvoiceDocumentInfo from './documentInfo/InvoiceDocumentInfo';
 import InvoiceFooter from './footer/InvoiceFooter';
 import InvoiceServiceItemSummary from './tableSummary/InvoiceServiceItemSummary';
 import InvoiceServiceSummary from './tableSummary/InvoiceServiceSummary';
-import PaymentMethod from './PaymentMethod/PaymentMethod';
+import NZPaymentMethod from './PaymentMethod/NZPaymentMethod';
 import QuoteDocumentInfo from './documentInfo/QuoteDocumentInfo';
 import QuoteFooter from './footer/QuoteFooter';
 import QuoteServiceItemSummary from './tableSummary/QuoteServiceItemSummary';
@@ -63,16 +64,42 @@ const getTemplateTableSummary = (previewType, saleLayout, region) => {
   }
 };
 
-const getTemplateFooter = (previewType) => {
+const getTemplateFooter = (previewType, saleLayout) => {
   switch (previewType) {
     case PreviewType.Statement:
       return <StatementFooter />;
     case PreviewType.Quote:
-      return <QuoteFooter />;
+      return <QuoteFooter saleLayout={saleLayout} />;
     case PreviewType.Invoice:
     default:
-      return <InvoiceFooter />;
+      return <InvoiceFooter saleLayout={saleLayout} />;
   }
+};
+
+const getPaymentMethod = ({
+  previewType,
+  region,
+  isAllowOnlinePayment,
+  isAllowPaymentByDirectDeposit,
+  isAllowPaymentByCheque,
+}) => {
+  if (region === 'au') {
+    return (
+      <AUPaymentMethod
+        previewType={previewType}
+        isAllowOnlinePayment={isAllowOnlinePayment}
+        isAllowPaymentByDirectDeposit={isAllowPaymentByDirectDeposit}
+        isAllowPaymentByCheque={isAllowPaymentByCheque}
+      />
+    );
+  }
+  return (
+    <NZPaymentMethod
+      previewType={previewType}
+      isAllowPaymentByDirectDeposit={isAllowPaymentByDirectDeposit}
+      isAllowPaymentByCheque={isAllowPaymentByCheque}
+    />
+  );
 };
 
 const TemplatePreview = ({
@@ -94,6 +121,9 @@ const TemplatePreview = ({
   previewType,
   saleLayout,
   region,
+  isAllowOnlinePayment,
+  isAllowPaymentByDirectDeposit,
+  isAllowPaymentByCheque,
 }) => (
   <div className={styles.wrapper}>
     <div>
@@ -119,8 +149,14 @@ const TemplatePreview = ({
       {getTemplateTableSummary(previewType, saleLayout, region)}
     </div>
     <div>
-      <PaymentMethod />
-      {getTemplateFooter(previewType)}
+      {getPaymentMethod({
+        previewType,
+        region,
+        isAllowOnlinePayment,
+        isAllowPaymentByDirectDeposit,
+        isAllowPaymentByCheque,
+      })}
+      {getTemplateFooter(previewType, saleLayout)}
     </div>
   </div>
 );

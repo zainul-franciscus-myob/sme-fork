@@ -5,7 +5,7 @@ import Footer from './Footer';
 const StatementFooter = () => (
   <Footer
     items={[
-      { title: 'Balance due', content: '$941.00' },
+      { title: 'Balance due', content: '$390.19' },
     ]}
   />
 );
