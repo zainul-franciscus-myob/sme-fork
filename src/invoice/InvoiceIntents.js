@@ -67,3 +67,7 @@ export const SET_INVOICE_HISTORY_CLOSED = Symbol('Set invoice history closed');
 export const SET_INVOICE_HISTORY_OPEN = Symbol('Set invoice history open');
 export const LOAD_INVOICE_HISTORY = Symbol('Load invoice history');
 export const SET_REDIRECT_REF = Symbol('Set redirect ref');
+
+export const LOAD_ACCOUNT_OPTIONS = Symbol('Load account options');
+export const LOAD_ITEM_OPTIONS = Symbol('Load item options');
+export const LOAD_CONTACT_OPTIONS = Symbol('Load contact options');

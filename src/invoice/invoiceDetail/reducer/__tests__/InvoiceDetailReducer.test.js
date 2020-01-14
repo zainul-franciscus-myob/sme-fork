@@ -12,15 +12,9 @@ import invoiceDetailReducer from '../invoiceDetailReducer';
 
 describe('InvoiceDetailReducer', () => {
   describe('LOAD_ITEM_OPTION', () => {
-    it('puts the item option at the top of item options', () => {
+    it('adds the item to selected items', () => {
       const state = {
-        itemOptions: [
-          {
-            id: '1',
-            itemId: 'a',
-            description: 'A',
-          },
-        ],
+        selectedItems: {},
       };
 
       const action = {
@@ -34,19 +28,13 @@ describe('InvoiceDetailReducer', () => {
 
       const actual = invoiceDetailReducer(state, action);
 
-      expect(actual.itemOptions).toEqual([
-        {
+      expect(actual.selectedItems).toEqual({
+        2: {
           id: '2',
           itemId: 'b',
           description: 'B',
         },
-        {
-          id: '1',
-          itemId: 'a',
-          description: 'A',
-        },
-
-      ]);
+      });
     });
   });
 
@@ -208,18 +196,15 @@ describe('InvoiceDetailReducer', () => {
     it('sets taxCodeId when changing accountId and that account has a taxCodeId', () => {
       const modifiedState = {
         ...state,
-        accountOptions: [
-          {
-            id: '1',
-            taxCodeId: '2',
-          },
-        ],
       };
 
       const modifiedAction = {
         ...action,
         key: 'accountId',
-        value: '1',
+        value: {
+          id: '1',
+          taxCodeId: '2',
+        },
       };
 
       const actual = invoiceDetailReducer(modifiedState, modifiedAction);
@@ -228,24 +213,6 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.invoice.lines[1].taxCodeId).toEqual('2');
     });
 
-
-    it('sets taxCodeId to empty when changing accountId and that account does not exist', () => {
-      const modifiedState = {
-        ...state,
-        accountOptions: [],
-      };
-
-      const modifiedAction = {
-        ...action,
-        key: 'accountId',
-        value: '1',
-      };
-
-      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
-
-      expect(actual.invoice.lines[1].accountId).toEqual('1');
-      expect(actual.invoice.lines[1].taxCodeId).toEqual('');
-    });
 
     it('updates displayDiscount when updating discount', () => {
       const modifiedAction = {
@@ -272,6 +239,44 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.invoice.lines[1].amount).toEqual('20.00');
       expect(actual.invoice.lines[1].displayAmount).toEqual('20.00');
     });
+
+    it('add account to selectedAccounts when updating account', () => {
+      const modifiedState = {
+        ...state,
+        selectedAccounts: {},
+      };
+
+      const modifiedAction = {
+        ...action,
+        key: 'accountId',
+        value: {
+          id: '1',
+        },
+      };
+
+      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
+
+      expect(actual.selectedAccounts).toEqual({ 1: { id: '1' } });
+    });
+
+    it('add item to selectedItems when updating item', () => {
+      const modifiedState = {
+        ...state,
+        selectedItems: {},
+      };
+
+      const modifiedAction = {
+        ...action,
+        key: 'itemId',
+        value: {
+          id: '1',
+        },
+      };
+
+      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
+
+      expect(actual.selectedItems).toEqual({ 1: { id: '1' } });
+    });
   });
 
   describe('ADD_INVOICE_LINE', () => {
@@ -283,7 +288,6 @@ describe('InvoiceDetailReducer', () => {
         ],
       },
       newLine: {},
-      accountOptions: [],
     };
 
     const action = {
@@ -337,31 +341,30 @@ describe('InvoiceDetailReducer', () => {
   });
 
   describe('LOAD_ACCOUNT_AFTER_CREATE', () => {
-    it('merges new account payload into account options', () => {
+    it('merges new account payload into selected accounts', () => {
       const state = {
-        accountOptions: [{ thisIsAnAccount: true }],
+        selectedAccounts: {},
       };
 
       const action = {
         intent: LOAD_ACCOUNT_AFTER_CREATE,
-        thisIsAnAccount: false,
+        id: '123',
       };
 
       const actual = invoiceDetailReducer(state, action);
 
-      expect(actual.accountOptions).toEqual([
-        { thisIsAnAccount: false },
-        { thisIsAnAccount: true },
-      ]);
+      expect(actual.selectedAccounts).toEqual({
+        123: { id: '123' },
+      });
     });
     it('sets page state to edited', () => {
       const state = {
-        accountOptions: [{ thisIsAnAccount: true }],
+        selectedAccounts: {},
       };
 
       const action = {
         intent: LOAD_ACCOUNT_AFTER_CREATE,
-        thisIsAnAccount: false,
+        id: '123',
       };
 
       const actual = invoiceDetailReducer(state, action);

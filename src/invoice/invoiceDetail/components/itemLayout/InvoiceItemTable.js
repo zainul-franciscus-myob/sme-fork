@@ -14,6 +14,8 @@ const InvoiceItemTable = ({
     onUpdateAmount,
     onAddItemButtonClick,
     onAddAccount,
+    onLoadAccounts,
+    onLoadItems,
   },
   taxCodeLabel,
 }) => {
@@ -105,6 +107,8 @@ const InvoiceItemTable = ({
       onUpdateAmount={onUpdateAmount}
       onAddItemButtonClick={onAddItemButtonClick}
       onAddAccount={onAddAccount}
+      onLoadAccounts={onLoadAccounts}
+      onLoadItems={onLoadItems}
     />
   );
 

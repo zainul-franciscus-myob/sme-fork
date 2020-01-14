@@ -48,28 +48,16 @@
     "toName": "Geoff Speirs",
     "attachments": []
   },
-  "contactOptions": [
-    {
-      "name": "A-Z Stationery Supplies",
-      "value": "1"
+  "selectedContacts": {
+    "1": {
+      "name": "Cameron, James",
+      "id": "1"
     },
-    {
-      "name": "Cow Feed",
-      "value": "2"
+    "2": {
+      "name": "Kev",
+      "id": "2"
     }
-  ],
-  "itemOptions": [
-    {
-      "id": "3",
-      "itemId": "100",
-      "description": "Cooler Large"
-    },
-    {
-      "id": "4",
-      "itemId": "101",
-      "description": "Cooler Medium"
-    }
-  ],
+  },
   "taxCodeOptions": [
     {
       "id": "123",
@@ -84,29 +72,29 @@
       "displayRate": "5%"
     }
   ],
-  "accountOptions": [
-    {
+  "selectedAccounts": {
+    "123": {
       "id": "123",
       "displayName": "My Sales Account 1",
       "accountType": "Sales",
       "taxCodeId": "123",
       "displayId": "4-123"
     },
-    {
+    "456": {
       "id": "456",
       "displayName": "Sales Account 2",
       "accountType": "Assets",
       "taxCodeId": "124",
       "displayId": "4-456"
     },
-    {
+    "789": {
       "id": "789",
       "displayName": "Expense Account",
       "accountType": "Assets",
       "taxCodeId": "124",
       "displayId": "6-789"
     }
-  ],
+  },
   "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",

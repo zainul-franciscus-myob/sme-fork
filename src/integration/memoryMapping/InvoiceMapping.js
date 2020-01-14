@@ -7,12 +7,15 @@ import {
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_ACCOUNT_OPTIONS,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_CONTACT_OPTIONS,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
   LOAD_ITEM_OPTION,
+  LOAD_ITEM_OPTIONS,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
@@ -24,19 +27,25 @@ import {
 } from '../../invoice/InvoiceIntents';
 import contactAddress from '../data/invoice/contactAddress';
 import duplicateInvoiceItemDetail from '../data/invoice/itemLayout/duplicateInvoiceItemDetail';
-import duplicateInvoiceServiceDetail from '../data/invoice/serviceLayout/duplicateInvoiceServiceDetail';
+import duplicateInvoiceServiceDetail
+  from '../data/invoice/serviceLayout/duplicateInvoiceServiceDetail';
 import invoiceItemChangeItem from '../data/invoice/itemLayout/invoiceItemChangeItem';
 import invoiceItemNewDetail from '../data/invoice/itemLayout/invoiceItemNewDetail';
-import invoiceItemNewDetailFromQuote from '../data/invoice/itemLayout/invoiceItemNewDetailFromQuote';
+import invoiceItemNewDetailFromQuote
+  from '../data/invoice/itemLayout/invoiceItemNewDetailFromQuote';
 import invoiceListFilterResponse from '../data/invoice/filterInvoiceList';
 import invoiceListLoadResponse from '../data/invoice/loadInvoiceList';
 import invoiceServiceDetail from '../data/invoice/serviceLayout/invoiceServiceDetail';
 import invoiceServiceNewDetail from '../data/invoice/serviceLayout/invoiceServiceNewDetail';
-import invoiceServiceNewDetailFromQuote from '../data/invoice/serviceLayout/invoiceServiceNewDetailFromQuote';
-import loadAddedAccountResponse from '../data/invoice/serviceLayout/loadAddedAccountResponse';
+import invoiceServiceNewDetailFromQuote
+  from '../data/invoice/serviceLayout/invoiceServiceNewDetailFromQuote';
+import loadAccountOptions from '../data/invoice/loadAccountOptions';
+import loadAddedAccountResponse from '../data/invoice/loadAddedAccountResponse';
 import loadAddedContactResponse from '../data/invoice/loadAddedContactResponse';
+import loadContactOptions from '../data/invoice/loadContactOptions';
 import loadInvoiceHistory from '../data/invoice/invoiceHistory.json';
 import loadItemOption from '../data/invoice/loadItemOption';
+import loadItemOptions from '../data/invoice/loadItemOptions';
 import payDirect from '../data/invoice/loadPayDirect';
 import successResponse from '../data/success';
 import uploadEmailAttachmentResponse from '../data/invoice/uploadEmailAttachmentResponse';
@@ -81,6 +90,9 @@ const InvoiceMapping = {
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),
   [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),
   [LOAD_INVOICE_HISTORY]: ({ onSuccess }) => onSuccess(loadInvoiceHistory),
+  [LOAD_ACCOUNT_OPTIONS]: ({ onSuccess }) => onSuccess(loadAccountOptions),
+  [LOAD_ITEM_OPTIONS]: ({ onSuccess }) => onSuccess(loadItemOptions),
+  [LOAD_CONTACT_OPTIONS]: ({ onSuccess }) => onSuccess(loadContactOptions),
 };
 
 export default InvoiceMapping;

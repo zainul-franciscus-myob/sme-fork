@@ -55,7 +55,6 @@ import {
   getLoadInvoiceDetailEmailInvoice,
   getLoadInvoiceDetailModalAndPageAlert,
   getLoadInvoiceDetailModalType,
-  getUpdatedContactOptions,
 } from '../selectors/invoiceDetailSelectors';
 import {
   loadInvoiceHistory,
@@ -110,9 +109,7 @@ const loadInvoiceDetail = (state, action) => {
     totals: action.totals || state.totals,
     comments: action.comments || state.comments,
     serialNumber: action.serialNumber,
-    contactOptions: action.contactOptions || state.contactOptions,
     expirationTermOptions: action.expirationTermOptions || state.expirationTermOptions,
-    itemOptions: action.itemOptions || state.itemOptions,
     taxCodeOptions: action.taxCodeOptions || state.taxCodeOptions,
     emailInvoice: {
       ...state.emailInvoice,
@@ -150,25 +147,31 @@ const loadContactAfterCreate = (state, { contactId, address, option }) => ({
     contactId,
     address,
   },
-  contactOptions: getUpdatedContactOptions(state, option),
+  selectedContacts: { ...state.selectedContacts, [option.id]: option },
 });
 
 const setContactLoadingState = (state, { isContactLoading }) => ({ ...state, isContactLoading });
 
 const updateInvoiceIdAfterCreate = (state, { invoiceId }) => ({ ...state, invoiceId });
 
-const setInvoiceDetailHeaderOptions = (state, { key, value }) => updateInvoiceState(
-  state, { [key]: value },
-);
+const setInvoiceDetailHeaderOptions = (state, { key, value }) => ({
+  ...state,
+  isPageEdited: true,
+  invoice: {
+    ...state.invoice,
+    [key]: key === 'contactId' ? value.id : value,
+  },
+  selectedContacts: key === 'contactId' ? { ...state.selectedContacts, [value.id]: value } : state.selectedContacts,
+});
 
 const updatePaymentAmount = (state, { amountPaid }) => updateInvoiceState(state, { amountPaid });
 
-const loadItemOption = (state, action) => ({
+const loadItemOption = (state, { response }) => ({
   ...state,
-  itemOptions: [
-    action.response,
-    ...state.itemOptions,
-  ],
+  selectedItems: {
+    ...state.selectedItems,
+    [response.id]: response,
+  },
 });
 
 const updateInvoiceLayout = (state, action) => ({
@@ -180,19 +183,16 @@ const updateInvoiceLayout = (state, action) => ({
   },
 });
 
-const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
-  const account = accountOptions.find(({ id }) => id === accountId);
-  return account === undefined ? '' : account.taxCodeId;
-};
-
 const updateInvoiceLine = (state, action) => {
   const isUpdateDiscount = action.key === 'discount';
   const isUpdateAmount = action.key === 'amount';
   const isUpdateAccountId = action.key === 'accountId';
+  const isUpdateItemId = action.key === 'itemId';
 
-  const getLayout = (layout, key) => {
+  const lineValue = isUpdateAccountId || isUpdateItemId ? action.value.id : action.value;
+
+  const getLayout = (layout) => {
     const isItemLayout = layout === InvoiceLayout.ITEM;
-    const isUpdateItemId = key === 'itemId';
 
     if (isItemLayout) {
       return layout;
@@ -210,22 +210,23 @@ const updateInvoiceLine = (state, action) => {
         if (index === action.index) {
           return {
             ...line,
-            layout: getLayout(line.layout, action.key),
-            taxCodeId: isUpdateAccountId
-              ? getDefaultTaxCodeId({
-                accountId: action.value,
-                accountOptions: state.accountOptions,
-              })
-              : line.taxCodeId,
+            layout: getLayout(line.layout),
+            taxCodeId: isUpdateAccountId ? action.value.taxCodeId : line.taxCodeId,
             displayDiscount: isUpdateDiscount ? action.value : line.displayDiscount,
             displayAmount: isUpdateAmount ? action.value : line.displayAmount,
-            [action.key]: action.value,
+            [action.key]: lineValue,
           };
         }
 
         return line;
       }),
     },
+    selectedAccounts: isUpdateAccountId
+      ? { ...state.selectedAccounts, [lineValue]: action.value }
+      : state.selectedAccounts,
+    selectedItems: isUpdateItemId
+      ? { ...state.selectedItems, [lineValue]: action.value }
+      : state.selectedItems,
   });
 };
 
@@ -279,7 +280,7 @@ const resetTotals = state => ({
 
 const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   ...state,
-  accountOptions: [account, ...state.accountOptions],
+  selectedAccounts: { ...state.selectedAccounts, [account.id]: account },
   isPageEdited: true,
 });
 
@@ -296,6 +297,9 @@ const calculateLineTotals = (state, action) => ({
     isTaxInclusive: action.invoice.isTaxInclusive,
     lines: action.invoice.lines,
   },
+  selectedAccounts: action.selectedAccount
+    ? { ...state.selectedAccounts, [action.selectedAccount.id]: action.selectedAccount }
+    : state.selectedAccounts,
   totals: {
     ...state.totals,
     ...action.totals,

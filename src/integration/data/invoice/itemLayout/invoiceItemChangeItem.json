@@ -6,15 +6,23 @@
         "id": "1",
         "itemId": "3",
         "units": "1",
+        "accountId": "123",
         "description": "Large Cooler",
         "unitPrice": "1000",
         "discount": "0",
         "displayDiscount": "0",
-        "taxCodeId": "1",
+        "taxCodeId": "123",
         "amount": "1000",
         "displayAmount": "1000.00"
       }
     ]
+  },
+  "selectedAccount": {
+    "id": "123",
+    "displayName": "My Sales Account 1",
+    "accountType": "Sales",
+    "taxCodeId": "123",
+    "displayId": "4-123"
   },
   "totals": {
     "subTotal": "110.00",

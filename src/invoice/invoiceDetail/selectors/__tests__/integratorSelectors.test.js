@@ -97,35 +97,12 @@ describe('integratorSelectors', () => {
             },
           ],
         },
-        contactOptions: [
-          {
+        selectedContacts: {
+          2: {
             name: 'Cow Feed',
-            value: '2',
+            id: '2',
           },
-        ],
-        accountOptions: [
-          {
-            id: '123',
-            displayName: 'My Sales Account 1',
-            accountType: 'Sales',
-            taxCodeId: '123',
-            displayId: '4-123',
-          },
-          {
-            id: '456',
-            displayName: 'Sales Account 2',
-            accountType: 'Assets',
-            taxCodeId: '124',
-            displayId: '4-456',
-          },
-          {
-            id: '789',
-            displayName: 'Expense Account',
-            accountType: 'Assets',
-            taxCodeId: '124',
-            displayId: '6-789',
-          },
-        ],
+        },
         taxCodeOptions: [
           {
             id: '123',
@@ -212,16 +189,16 @@ describe('integratorSelectors', () => {
       };
       const state = {
         invoice,
-        contactOptions: [
-          {
+        selectedContacts: {
+          1: {
             name: 'Cameron, James',
-            value: '1',
+            id: '1',
           },
-          {
+          2: {
             name: 'Kev',
-            value: '2',
+            id: '2',
           },
-        ],
+        },
       };
 
       const expected = {

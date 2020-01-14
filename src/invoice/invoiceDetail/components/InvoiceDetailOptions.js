@@ -1,19 +1,23 @@
 import {
-  DatePicker, DetailHeader, Input, RadioButtonGroup, ReadOnly,
+  DatePicker,
+  DetailHeader,
+  Input,
+  RadioButtonGroup,
+  ReadOnly,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getInvoiceDetailOptions } from '../selectors/invoiceDetailSelectors';
-import CustomerCombobox from '../../../components/combobox/CustomerCombobox';
+import CustomerAutoComplete from '../../../components/AutoComplete/CustomerAutoComplete';
 import InvoiceDetailOnlinePaymentMethod from './InvoiceDetailOnlinePaymentMethod';
 import PaymentTerms from '../../../components/PaymentTerms/PaymentTerms';
+import handleAutoCompleteChange from '../../../components/handlers/handleAutoCompleteChange';
 import handleDateChange from '../../../components/handlers/handleDateChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import styles from './InvoiceDetailOptions.module.css';
 
 const InvoiceDetailOptions = ({
-  contactId,
   invoiceNumber,
   address,
   purchaseOrderNumber,
@@ -22,22 +26,16 @@ const InvoiceDetailOptions = ({
   expirationDays,
   expirationTermOptions,
   isTaxInclusive,
-  contactOptions,
   isCustomerDisabled,
   isSubmitting,
   showOnlinePayment,
   taxInclusiveLabel,
   taxExclusiveLabel,
+  selectedContact,
   onUpdateHeaderOptions,
   onAddContactButtonClick,
+  onLoadContacts,
 }) => {
-  const onComboBoxChange = handler => (option) => {
-    const key = 'contactId';
-    const { value } = option;
-
-    handler({ key, value });
-  };
-
   const onIsTaxInclusiveChange = handler => (e) => {
     handler({ key: 'isTaxInclusive', value: e.value === taxInclusiveLabel });
   };
@@ -52,14 +50,11 @@ const InvoiceDetailOptions = ({
 
   const primary = (
     <div>
-      <CustomerCombobox
-        items={contactOptions}
-        selectedId={contactId}
-        onChange={onComboBoxChange(onUpdateHeaderOptions)}
-        addNewItem={{
-          label: 'Create customer',
-          onAddNew: onAddContactButtonClick,
-        }}
+      <CustomerAutoComplete
+        selectedItem={selectedContact}
+        onChange={handleAutoCompleteChange('contactId', onUpdateHeaderOptions)}
+        onLoad={onLoadContacts}
+        addNewCustomer={onAddContactButtonClick}
         label="Customer"
         name="contactId"
         hideLabel={false}

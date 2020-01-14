@@ -3,11 +3,23 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAccountOptions, getInvoiceLine, getIsSubmitting, getTaxCodeOptions,
+  getInvoiceLine,
+  getIsSubmitting,
+  getSelectedAccount,
+  getTaxCodeOptions,
 } from '../../selectors/invoiceDetailSelectors';
-import AccountCombobox from '../../../../components/combobox/AccountCombobox';
+import AccountAutoComplete from '../../../../components/AutoComplete/AccountAutoComplete';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
+
+const onAutoCompleteChange = (name, onChange) => (item) => {
+  onChange({
+    target: {
+      name,
+      value: item,
+    },
+  });
+};
 
 const onComboboxChange = (name, onChange) => (item) => {
   onChange({
@@ -31,23 +43,23 @@ const onInputBlur = (handler, index, key) => () => handler({ index, key });
 
 const InvoiceServiceTableRow = ({
   invoiceLine,
-  accountOptions,
   taxCodeOptions,
   index,
   isSubmitting,
+  selectedAccount,
   onChange,
   onUpdateAmount,
   onAddAccount,
+  onLoadAccounts,
   ...feelixInjectedProps
 }) => {
   const {
     description,
-    accountId,
     taxCodeId,
     displayAmount,
   } = invoiceLine;
 
-  const onChangeAccountId = onComboboxChange('accountId', onChange);
+  const onChangeAccountId = onAutoCompleteChange('accountId', onChange);
 
   return (
     <LineItemTable.Row
@@ -62,13 +74,15 @@ const InvoiceServiceTableRow = ({
         onChange={onChange}
         disabled={isSubmitting}
       />
-      <AccountCombobox
-        label="Account"
+      <AccountAutoComplete
+        label="accountId"
         hideLabel
         onChange={onChangeAccountId}
-        items={accountOptions}
-        selectedId={accountId}
-        addNewAccount={() => onAddAccount(onChangeAccountId)}
+        onLoad={onLoadAccounts}
+        selectedItem={selectedAccount}
+        addNewAccount={() => onAddAccount(
+          onChangeAccountId,
+        )}
         disabled={isSubmitting}
       />
       <AmountInput
@@ -95,9 +109,9 @@ const InvoiceServiceTableRow = ({
 
 const mapStateToProps = (state, props) => ({
   invoiceLine: getInvoiceLine(state, props),
-  accountOptions: getAccountOptions(state),
   taxCodeOptions: getTaxCodeOptions(state),
   isSubmitting: getIsSubmitting(state),
+  selectedAccount: getSelectedAccount(state, props),
 });
 
 export default connect(mapStateToProps)(InvoiceServiceTableRow);

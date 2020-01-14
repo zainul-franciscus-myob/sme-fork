@@ -7,12 +7,15 @@ import {
   DELETE_INVOICE_DETAIL,
   EXPORT_INVOICE_PDF,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_ACCOUNT_OPTIONS,
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
+  LOAD_CONTACT_OPTIONS,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
   LOAD_ITEM_OPTION,
+  LOAD_ITEM_OPTIONS,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
@@ -116,6 +119,18 @@ const InvoiceMapping = {
   [LOAD_INVOICE_HISTORY]: {
     method: 'GET',
     getPath: ({ businessId, invoiceId }) => `/${businessId}/invoice/load_invoice_history/${invoiceId}`,
+  },
+  [LOAD_ACCOUNT_OPTIONS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/invoice/load_account_options`,
+  },
+  [LOAD_ITEM_OPTIONS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/invoice/load_item_options`,
+  },
+  [LOAD_CONTACT_OPTIONS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/invoice/load_contact_options`,
   },
 };
 

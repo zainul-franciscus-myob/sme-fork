@@ -14,6 +14,7 @@ const InvoiceServiceTable = ({
     onUpdateAmount,
     onRemoveRow,
     onAddAccount,
+    onLoadAccounts,
   },
 }) => {
   const descriptionLabel = 'Description';
@@ -69,6 +70,7 @@ const InvoiceServiceTable = ({
       onChange={onChange}
       onUpdateAmount={onUpdateAmount}
       onAddAccount={onAddAccount}
+      onLoadAccounts={onLoadAccounts}
     />
   );
 

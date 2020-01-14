@@ -64,11 +64,14 @@ const InvoiceDetailView = ({
   onClickOnRefNo,
   onFocusActivityHistory,
   onRedirectToCreatePayment,
+  onLoadContacts,
 }) => {
   const options = (
     <InvoiceDetailOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
       onAddContactButtonClick={onAddContactButtonClick}
+      onUpdateInvoiceLayout={onUpdateInvoiceLayout}
+      onLoadContacts={onLoadContacts}
     />
   );
 

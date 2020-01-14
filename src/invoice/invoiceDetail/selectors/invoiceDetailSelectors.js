@@ -41,11 +41,11 @@ export const getLength = state => state.invoice.lines.length;
 export const getNewLine = state => state.newLine;
 export const getTotals = state => state.totals;
 
-export const getContactOptions = state => state.contactOptions;
+export const getSelectedContacts = state => state.selectedContacts;
 export const getExpirationTermOptions = state => state.expirationTermOptions;
 export const getTaxCodeOptions = state => state.taxCodeOptions;
-export const getItemOptions = state => state.itemOptions;
-export const getAccountOptions = state => state.accountOptions;
+export const getSelectedItems = state => state.selectedItems;
+export const getSelectedAccounts = state => state.selectedAccounts;
 export const getSerialNumber = state => state.serialNumber;
 
 export const getIsUpgradeModalShowing = state => (
@@ -94,6 +94,12 @@ export const getTaxInclusiveLabel = createRegionDialectSelector('Tax inclusive')
 
 export const getTaxExclusiveLabel = createRegionDialectSelector('Tax exclusive');
 
+const getSelectedContact = createSelector(
+  getContactId,
+  getSelectedContacts,
+  (contactId, selectedContacts) => selectedContacts[contactId],
+);
+
 export const getInvoiceDetailOptions = createStructuredSelector({
   contactId: getContactId,
   invoiceNumber: getInvoiceNumber,
@@ -104,12 +110,12 @@ export const getInvoiceDetailOptions = createStructuredSelector({
   expirationTerm: getExpirationTerm,
   expirationTermOptions: getExpirationTermOptions,
   isTaxInclusive: getIsTaxInclusive,
-  contactOptions: getContactOptions,
   isCustomerDisabled: getIsCustomerDisabled,
   isSubmitting: getIsSubmitting,
   showOnlinePayment: getShowOnlinePayment,
   taxInclusiveLabel: getTaxInclusiveLabel,
   taxExclusiveLabel: getTaxExclusiveLabel,
+  selectedContact: getSelectedContact,
 });
 
 export const getInvoiceDetailNotes = createStructuredSelector({
@@ -214,24 +220,30 @@ export const getLoadInvoiceDetailEmailInvoice = (emailInvoice, invoiceNumber) =>
     : {}
 );
 
-export const getUpdatedContactOptions = (state, updatedOption) => {
-  const contactOptions = getContactOptions(state);
-
-  return contactOptions.some(option => option.value === updatedOption.value)
-    ? contactOptions.map(option => (option.value === updatedOption.value ? updatedOption : option))
-    : [updatedOption, ...contactOptions];
-};
-
 export const getTableData = createSelector(getLength, len => Array(len).fill({}));
 
 export const getIsTableEmpty = createSelector(getLength, len => len === 0);
 
 export const getNewLineIndex = state => getLength(state);
 
+const getInvoiceLineByIndex = (state, props) => state.invoice.lines[props.index];
+
 export const getInvoiceLine = createSelector(
   getNewLine,
-  (state, props) => state.invoice.lines[props.index],
+  getInvoiceLineByIndex,
   (newLine, line) => line || newLine,
+);
+
+export const getSelectedAccount = createSelector(
+  getInvoiceLine,
+  getSelectedAccounts,
+  (line, selectedAccounts) => selectedAccounts[line.accountId],
+);
+
+export const getSelectedItem = createSelector(
+  getInvoiceLine,
+  getSelectedItems,
+  (line, selectedItems) => selectedItems[line.itemId],
 );
 
 export const getRouteURLParams = state => ({

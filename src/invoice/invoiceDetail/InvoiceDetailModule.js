@@ -369,7 +369,7 @@ export default class InvoiceDetailModule {
     if (key === 'itemId') {
       this.calculateLineTotalsOnItemChange({
         index,
-        itemId: value,
+        itemId: value.id,
       });
     }
 
@@ -474,7 +474,6 @@ export default class InvoiceDetailModule {
       onSuccess, onFailure, index, itemId,
     });
   };
-
 
   addInvoiceLine = (line) => {
     const state = this.store.getState();
@@ -744,7 +743,7 @@ export default class InvoiceDetailModule {
     const onSuccess = (response) => {
       this.dispatcher.loadItemOption(response);
       this.dispatcher.setSubmittingState(false);
-      onChangeItemTableRow({ id: itemId });
+      onChangeItemTableRow(response);
     };
 
     const onFailure = ({ message }) => {
@@ -811,6 +810,30 @@ export default class InvoiceDetailModule {
     element.scrollIntoView();
   }
 
+  loadAccounts = ({ keywords, onSuccess }) => {
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.loadAccounts({ keywords, onSuccess, onFailure });
+  };
+
+  loadItems = ({ keywords, onSuccess }) => {
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.loadItems({ keywords, onSuccess, onFailure });
+  };
+
+  loadContacts = ({ keywords, onSuccess }) => {
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.loadContacts({ keywords, onSuccess, onFailure });
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
@@ -828,6 +851,7 @@ export default class InvoiceDetailModule {
           onUpdateRow: this.updateInvoiceLine,
           onUpdateAmount: this.updateAmount,
           onAddAccount: this.openAccountModal,
+          onLoadAccounts: this.loadAccounts,
         }}
         itemLayoutListeners={{
           onAddRow: this.addInvoiceLine,
@@ -836,6 +860,8 @@ export default class InvoiceDetailModule {
           onUpdateAmount: this.updateAmount,
           onAddItemButtonClick: this.openInventoryModalModule,
           onAddAccount: this.openAccountModal,
+          onLoadAccounts: this.loadAccounts,
+          onLoadItems: this.loadItems,
         }}
         invoiceActionListeners={{
           onSaveButtonClick: this.saveInvoice,
@@ -886,6 +912,7 @@ export default class InvoiceDetailModule {
         }}
         contactModal={contactModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
+        onLoadContacts={this.loadContacts}
         onAddContactButtonClick={this.openContactModal}
         onUpdateInvoiceLayout={this.updateInvoiceLayout}
         onUpgradeModalDismiss={this.redirectToInvoiceList}
