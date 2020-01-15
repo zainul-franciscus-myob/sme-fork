@@ -1,9 +1,15 @@
 import {
-  CLOSE_MODAL, FORMAT_AMOUNT_INPUT, LOAD_INVOICE_LIST,
-  LOAD_INVOICE_PAYMENT_DETAIL, LOAD_NEW_INVOICE_PAYMENT_DETAIL,
-  OPEN_MODAL, SET_ALERT_MESSAGE,
+  CLOSE_MODAL,
+  FORMAT_AMOUNT_INPUT,
+  LOAD_INVOICE_LIST,
+  LOAD_INVOICE_PAYMENT_DETAIL,
+  LOAD_NEW_INVOICE_PAYMENT_DETAIL,
+  OPEN_MODAL,
+  SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
-  SET_SUBMITTING_STATE, SET_TABLE_LOADING_STATE, UPDATE_CUSTOMER,
+  SET_SUBMITTING_STATE,
+  SET_TABLE_LOADING_STATE,
+  UPDATE_CUSTOMER,
   UPDATE_INVOICE_PAYMENT_DETAILS,
   UPDATE_INVOICE_PAYMENT_ENTRIES,
   UPDATE_SHOW_PAID_INVOICES,
@@ -28,7 +34,7 @@ const getDefaultState = () => ({
   isTableLoading: false,
   isSubmitting: false,
   isPageEdited: false,
-  modalType: '',
+  modal: undefined,
   paymentAmount: '',
   applyPaymentToInvoiceId: '',
 });
@@ -58,10 +64,10 @@ const setSubmittingState = (state, action) => ({
   isSubmitting: action.isSubmitting,
 });
 
-const updateInvoicePaymentDetails = (state, action) => ({
+const updateInvoicePaymentDetails = (state, { key, value }) => ({
   ...state,
   ...pageEdited,
-  [action.name]: action.value,
+  [key]: value,
 });
 
 const updateInvoicePaymentEntries = (state, action) => ({
@@ -94,14 +100,14 @@ const setAlertMessage = (state, action) => ({
   alertMessage: action.alertMessage,
 });
 
-const openModal = (state, action) => ({
+const openModal = (state, { modal }) => ({
   ...state,
-  modalType: action.modalType,
+  modal,
 });
 
 const closeModal = state => ({
   ...state,
-  modalType: undefined,
+  modal: undefined,
 });
 
 const setTableLoadingState = (state, action) => ({

@@ -1,5 +1,5 @@
 import {
-  Checkbox, CheckboxGroup, Columns, DatePicker, Input, TextArea,
+  DatePicker, DetailHeader, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -11,7 +11,13 @@ import {
 } from '../invoicePaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
-import styles from './InvoicePaymentDetailOptions.module.css';
+import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
+import handleDatePickerChange from '../../../../components/handlers/handleDatePickerChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
+
+const requiredLabel = 'Required';
+
+const handleCustomerComboBoxChange = handler => ({ id }) => handler(id);
 
 const InvoicePaymentDetailOptions = ({
   customers,
@@ -22,86 +28,63 @@ const InvoicePaymentDetailOptions = ({
   description,
   date,
   isCreating,
-  showPaidInvoices,
   onUpdateInvoicePaymentDetails,
-  onUpdateShowPaidInvoices,
   onUpdateCustomer,
   wasRedirectedFromInvoiceDetail,
 }) => {
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    onUpdateInvoicePaymentDetails(name, value);
-  };
-
-  const handleDateChange = ({ value }) => onUpdateInvoicePaymentDetails('date', value);
-
-  const handleCheckboxChange = (e) => {
-    const { checked } = e.target;
-    onUpdateShowPaidInvoices(checked);
-  };
-
-  const handleComboBoxChange = key => ({ id }) => {
-    onUpdateInvoicePaymentDetails(key, id);
-  };
-
-  const handleCustomerComboBoxChange = ({ id }) => {
-    onUpdateCustomer(id);
-  };
-
-  return (
-    <Columns type="three">
+  const primary = (
+    <div>
       <ContactCombobox
         label="Customer"
         name="customer"
         hideLabel={false}
+        requiredLabel={isCreating ? requiredLabel : ''}
         items={customers}
         selectedId={customerId}
-        onChange={handleCustomerComboBoxChange}
+        onChange={handleCustomerComboBoxChange(onUpdateCustomer)}
         disabled={!isCreating || wasRedirectedFromInvoiceDetail}
       />
       <AccountCombobox
-        label="Deposit into"
+        label="Bank account"
         hideLabel={false}
-        onChange={handleComboBoxChange('accountId')}
+        requiredLabel={requiredLabel}
+        onChange={handleComboboxChange('accountId', onUpdateInvoicePaymentDetails)}
         selectedId={accountId}
         items={accounts}
       />
       <TextArea
-        label="Description"
+        label="Description of transaction"
         name="description"
         autoSize
-        placeholder="Max 255 characters"
         resize="vertical"
         value={description}
-        onChange={handleInputChange}
+        rows={1}
+        onChange={handleInputChange(onUpdateInvoicePaymentDetails)}
       />
+    </div>
+  );
+
+  const secondary = (
+    <div>
       <Input
-        label="Reference"
+        label="Reference number"
+        requiredLabel={requiredLabel}
         name="referenceId"
+        maxLength={8}
         value={referenceId}
-        onChange={handleInputChange}
+        onChange={handleInputChange(onUpdateInvoicePaymentDetails)}
       />
       <DatePicker
         label="Date"
+        requiredLabel={requiredLabel}
         name="date"
         value={date}
-        onSelect={handleDateChange}
+        onSelect={handleDatePickerChange(onUpdateInvoicePaymentDetails, 'date')}
       />
-      {isCreating && (
-        <CheckboxGroup
-          className={styles.checkbox}
-          renderCheckbox={() => (
-            <Checkbox
-              name="showPaidInvoices"
-              label="Show paid invoices"
-              checked={showPaidInvoices}
-              onChange={handleCheckboxChange}
-            />)
-          }
-        />
-      )}
-    </Columns>
+    </div>
   );
+
+  return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
 const mapStateToProps = state => ({

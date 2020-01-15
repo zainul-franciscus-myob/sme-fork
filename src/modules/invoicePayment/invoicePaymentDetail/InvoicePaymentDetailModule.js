@@ -1,10 +1,12 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { CANCEL_MODAL, DELETE_MODAL } from '../InvoicePaymentModalTypes';
+import { CANCEL_MODAL, DELETE_MODAL, UNSAVED_MODAL } from '../InvoicePaymentModalTypes';
 import {
-  CLOSE_MODAL, CREATE_INVOICE_PAYMENT,
-  DELETE_INVOICE_PAYMENT, FORMAT_AMOUNT_INPUT,
+  CLOSE_MODAL,
+  CREATE_INVOICE_PAYMENT,
+  DELETE_INVOICE_PAYMENT,
+  FORMAT_AMOUNT_INPUT,
   LOAD_INVOICE_LIST,
   LOAD_INVOICE_PAYMENT_DETAIL,
   LOAD_NEW_INVOICE_PAYMENT_DETAIL,
@@ -12,7 +14,8 @@ import {
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
-  SET_TABLE_LOADING_STATE, UPDATE_CUSTOMER,
+  SET_TABLE_LOADING_STATE,
+  UPDATE_CUSTOMER,
   UPDATE_INVOICE_PAYMENT,
   UPDATE_INVOICE_PAYMENT_DETAILS,
   UPDATE_INVOICE_PAYMENT_ENTRIES,
@@ -29,6 +32,7 @@ import {
   getInvoicePaymentId,
   getIsCreating,
   getIsPageEdited,
+  getModalUrl,
   getRegion,
   getSaveContent,
   getShowPaidInvoices,
@@ -67,6 +71,8 @@ export default class InvoicePaymentDetailModule {
         onConfirmDelete={this.deleteInvoicePayment}
         onCancelButtonClick={this.openCancelModal}
         onConfirmCancel={this.redirectToTransactionList}
+        onConfirmSaveButtonClick={this.saveUnsavedChanges}
+        onConfirmUnsaveButtonClick={this.redirectToModalUrl}
         onAmountInputBlur={this.formatAmountInput}
       />
     );
@@ -125,12 +131,12 @@ export default class InvoicePaymentDetailModule {
     }
   };
 
-  updateInvoicePaymentDetails = (name, value) => {
+  updateInvoicePaymentDetails = ({ key, value }) => {
     const intent = UPDATE_INVOICE_PAYMENT_DETAILS;
 
     this.store.dispatch({
       intent,
-      name,
+      key,
       value,
     });
   };
@@ -193,15 +199,52 @@ export default class InvoicePaymentDetailModule {
     });
   };
 
+  redirectToUrl = (url) => {
+    window.location.href = url;
+  };
+
   redirectToTransactionList= () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/transactionList`;
-  }
+    this.redirectToUrl(`/#/${region}/${businessId}/transactionList`);
+  };
+
+  redirectToModalUrl = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+    this.closeModal();
+
+    this.redirectToUrl(url);
+  };
+
+  saveUnsavedChanges = () => {
+    const state = this.store.getState();
+    const url = getModalUrl(state);
+    this.closeModal();
+
+    const onSuccess = () => {
+      this.redirectToUrl(url);
+    };
+
+    this.createOrUpdateInvoicePayment({ onSuccess });
+  };
 
   saveInvoicePayment = () => {
+    const onSuccess = ({ message }) => {
+      this.setSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
+        content: message,
+      });
+      this.redirectToTransactionList();
+    };
+
+    this.createOrUpdateInvoicePayment({ onSuccess });
+  };
+
+  createOrUpdateInvoicePayment = ({ onSuccess }) => {
     const state = this.store.getState();
     const isCreating = getIsCreating(state);
 
@@ -213,15 +256,6 @@ export default class InvoicePaymentDetailModule {
     };
 
     const content = getSaveContent(state);
-
-    const onSuccess = ({ message }) => {
-      this.setSubmittingState(false);
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
-        content: message,
-      });
-      this.redirectToTransactionList();
-    };
 
     const onFailure = ({ message }) => {
       this.setSubmittingState(false);
@@ -315,7 +349,9 @@ export default class InvoicePaymentDetailModule {
 
     this.store.dispatch({
       intent,
-      modalType: DELETE_MODAL,
+      modal: {
+        type: DELETE_MODAL,
+      },
     });
   };
 
@@ -327,11 +363,25 @@ export default class InvoicePaymentDetailModule {
 
       this.store.dispatch({
         intent,
-        modalType: CANCEL_MODAL,
+        modal: {
+          type: CANCEL_MODAL,
+        },
       });
     } else {
       this.redirectToTransactionList();
     }
+  };
+
+  openUnsavedModal = (url) => {
+    const intent = OPEN_MODAL;
+
+    this.store.dispatch({
+      intent,
+      modal: {
+        type: UNSAVED_MODAL,
+        url,
+      },
+    });
   };
 
   closeModal = () => {
@@ -360,6 +410,15 @@ export default class InvoicePaymentDetailModule {
       intent,
     });
   }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToUrl(url);
+    }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveInvoicePayment,

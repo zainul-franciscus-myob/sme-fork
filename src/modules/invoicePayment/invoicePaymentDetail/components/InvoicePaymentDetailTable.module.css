@@ -3,3 +3,7 @@
   font-weight: bold;
   padding-top: 1rem;
 }
+
+.totalReceived span {
+  margin-left: var(--flx-spacing-small);
+}

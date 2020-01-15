@@ -11,12 +11,6 @@ const formatAmount = amount => Intl
   })
   .format(amount);
 
-export const getEntries = state => state.entries.map(entry => ({
-  ...entry,
-  invoiceAmount: formatAmount(entry.invoiceAmount),
-  balanceDue: getIsCreating(state)
-    ? formatAmount((Number(entry.invoiceAmount) - Number(entry.discountAmount))) : '0',
-}));
 export const getOptions = state => ({
   accounts: state.accounts,
   accountId: state.accountId,
@@ -25,7 +19,6 @@ export const getOptions = state => ({
   referenceId: state.referenceId,
   description: state.description,
   date: state.date,
-  showPaidInvoices: state.showPaidInvoices,
 });
 export const getLoadingState = state => state.loadingState;
 
@@ -39,8 +32,36 @@ export const getRegion = state => state.region;
 export const getInvoicePaymentId = state => state.invoicePaymentId;
 export const getIsActionsDisabled = state => state.isSubmitting;
 export const getAlertMessage = state => state.alertMessage;
-export const getModalType = state => state.modalType;
+export const getModal = state => state.modal;
+export const getModalUrl = state => ((state.modal || {}).url);
 export const getIsPageEdited = state => state.isPageEdited;
+
+const getInvoiceLink = (entry, businessId, region) => {
+  const { id } = entry;
+
+  return `/#/${region}/${businessId}/invoice/${id}`;
+};
+
+const getStatusColor = entry => (
+  {
+    Open: 'light-grey', Closed: 'green',
+  }[entry.status]
+);
+
+export const getEntries = createSelector(
+  state => state.entries,
+  getBusinessId,
+  getRegion,
+  getIsCreating,
+  (entries, businessId, region, isCreating) => entries.map(entry => ({
+    ...entry,
+    balanceDue: formatAmount(entry.balanceDue),
+    discountedBalance: isCreating
+      ? formatAmount((Number(entry.balanceDue) - Number(entry.discountAmount))) : '0',
+    link: getInvoiceLink(entry, businessId, region),
+    statusColor: getStatusColor(entry),
+  })),
+);
 
 export const getIsReferenceIdDirty = ({ referenceId, originalReferenceId }) => (
   referenceId !== originalReferenceId
@@ -91,10 +112,10 @@ export const getIsTableEmpty = state => state.entries.length === 0;
 
 export const getTableEmptyMessage = (state) => {
   if (!state.customerId) {
-    return 'Please select a customer.';
+    return 'Select the customer who paid you';
   }
 
-  return 'There are no invoices.';
+  return 'There are no invoices';
 };
 
 export const getWasRedirectedFromInvoiceDetail = state => state.applyPaymentToInvoiceId !== '';
