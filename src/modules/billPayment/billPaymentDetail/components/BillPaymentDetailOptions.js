@@ -1,5 +1,5 @@
 import {
-  Checkbox, Columns, DatePicker, Input, TextArea,
+  DatePicker, DetailHeader, Input, TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,11 +7,6 @@ import React from 'react';
 import { getBillPaymentOptions } from '../BillPaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
-import styles from './BillPaymentDetailOptions.module.css';
-
-const onCheckBoxChange = handler => (
-  { target: { name: key, checked: value } },
-) => handler({ key, value });
 
 const onTextFieldChange = handler => ({ target: { name: key, value } }) => handler({ key, value });
 
@@ -19,22 +14,22 @@ const onComboBoxChange = handler => key => item => handler({ key, value: item.id
 
 const onDateChange = handler => key => ({ value }) => handler({ key, value });
 
-const BillPaymentOptions = (props) => {
-  const {
-    suppliers,
-    supplierId,
-    accounts,
-    accountId,
-    description,
-    referenceId,
-    onUpdateHeaderOption,
-    showPaidBills,
-    date,
-    shouldDisableFields,
-  } = props;
+const BillPaymentOptions = ({
+  suppliers,
+  supplierId,
+  accounts,
+  accountId,
+  description,
+  referenceId,
+  onUpdateHeaderOption,
+  date,
+  shouldDisableFields,
+  isCreating,
+}) => {
+  const requiredLabel = 'This is required';
 
-  return (
-    <Columns type="three">
+  const primary = (
+    <>
       <ContactCombobox
         disabled={shouldDisableFields}
         items={suppliers}
@@ -43,52 +38,50 @@ const BillPaymentOptions = (props) => {
         label="Supplier"
         name="Supplier"
         hideLabel={false}
-        hintText="Select supplier"
+        requiredLabel={isCreating ? requiredLabel : undefined}
       />
-
       <AccountCombobox
-        label="Pay from"
+        label="Bank account"
         hideLabel={false}
         items={accounts}
         selectedId={accountId}
         onChange={onComboBoxChange(onUpdateHeaderOption)('accountId')}
+        requiredLabel={requiredLabel}
       />
-
       <TextArea
         name="description"
-        label="Description"
+        label="Description of transaction"
         resize="vertical"
         value={description}
         onChange={onTextFieldChange(onUpdateHeaderOption)}
+        maxLength={255}
+        rows={1}
+        autoSize
       />
+    </>
+  );
 
+  const secondary = (
+    <>
       <Input
         name="referenceId"
-        label="Reference"
+        label="Reference number"
         value={referenceId}
         onChange={onTextFieldChange(onUpdateHeaderOption)}
+        requiredLabel={requiredLabel}
+        maxLength={8}
       />
-
       <DatePicker
         label="Date"
         name="Date"
         value={date}
         onSelect={onDateChange(onUpdateHeaderOption)('date')}
+        requiredLabel={requiredLabel}
       />
-
-      <div className="form-group">
-        <div className={styles.checkbox}>
-          <Checkbox
-            disabled={shouldDisableFields}
-            name="showPaidBills"
-            label="Show paid bills"
-            checked={showPaidBills}
-            onChange={onCheckBoxChange(onUpdateHeaderOption)}
-          />
-        </div>
-      </div>
-    </Columns>
+    </>
   );
+
+  return <DetailHeader primary={primary} secondary={secondary} />;
 };
 
 const mapStateToProps = state => getBillPaymentOptions(state);

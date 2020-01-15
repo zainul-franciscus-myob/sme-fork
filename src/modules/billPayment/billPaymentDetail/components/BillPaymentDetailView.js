@@ -2,9 +2,12 @@ import { Alert, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlertMessage, getLoadingState, getModalType } from '../BillPaymentDetailSelectors';
+import {
+  getAlertMessage, getLoadingState, getModalType, getTitle,
+} from '../BillPaymentDetailSelectors';
 import BillPaymentActions from './BillPaymentDetailActions';
 import BillPaymentDetailTable from './BillPaymentDetailTable';
+import BillPaymentDetailTableOptions from './BillPaymentDetailTableOptions';
 import BillPaymentOptions from './BillPaymentDetailOptions';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
@@ -13,6 +16,7 @@ import PageView from '../../../../components/PageView/PageView';
 const BillPaymentDetailView = ({
   loadingState,
   modalType,
+  title,
   onUpdateHeaderOption,
   onUpdateTableInputField,
   onCancelButtonClick,
@@ -59,12 +63,13 @@ const BillPaymentDetailView = ({
 
   const view = (
     <LineItemTemplate
-      pageHead="Bill payment"
+      pageHead={title}
       options={<BillPaymentOptions onUpdateHeaderOption={onUpdateHeaderOption} />}
       actions={actions}
       alert={alertComponent}
     >
       {modal}
+      <BillPaymentDetailTableOptions onUpdateHeaderOption={onUpdateHeaderOption} />
       <BillPaymentDetailTable
         onUpdateTableInputField={onUpdateTableInputField}
         onAmountInputBlur={onAmountInputBlur}
@@ -79,6 +84,7 @@ const mapStateToProps = state => ({
   loadingState: getLoadingState(state),
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
+  title: getTitle(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentDetailView);

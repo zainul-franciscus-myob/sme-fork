@@ -9,7 +9,7 @@ const getBillPaymentRoutes = ({
       name: RouteName.BILL_PAYMENT_DETAIL,
       path: '/:region/:businessId/billPayment/:billPaymentId',
       module: new BillPaymentDetailModule({ setRootView, integration, pushMessage }),
-      documentTitle: 'Bill payment',
+      documentTitle: 'Payment to supplier',
     },
   ];
 

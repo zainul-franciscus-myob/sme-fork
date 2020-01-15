@@ -1,5 +1,10 @@
 :local .totalPaid {
   text-align: right;
-  font-weight: bold;
   padding-top: 1rem;
+  font-weight: var(--flx-font-weight-bold);
+  font-size: var(--flx-font-size-paragraph-large);
+}
+
+:local .totalPaid span:first-child {
+  padding-right: 1.6rem;
 }

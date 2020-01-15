@@ -1,6 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
+import tableViewTypes from './tableViewTypes';
 
 export const getLoadingState = state => state.loadingState;
 export const getIsTableLoading = state => state.isTableLoading;
@@ -23,6 +24,16 @@ export const getShouldDisableFields = state => state.billPaymentId !== 'new';
 
 export const getIsActionsDisabled = state => state.isSubmitting;
 
+export const getTitle = createSelector(
+  getIsCreating,
+  getReferenceId,
+  (isCreating, referenceId) => (
+    isCreating
+      ? 'Record payment to supplier'
+      : `Payment to supplier ${referenceId}`
+  ),
+);
+
 const formatAmount = amount => Intl
   .NumberFormat('en-AU', {
     style: 'decimal',
@@ -37,13 +48,24 @@ const calculateBalanceOwed = (billAmount, discountAmount) => (
 
 const getEntries = state => state.entries;
 
+const getEntryLink = (id, businessId, region) => `/#/${region}/${businessId}/bill/${id}`;
+
+const getLabelColour = status => ({
+  Open: 'light-grey',
+  Closed: 'green',
+}[status]);
+
 export const getBillEntries = createSelector(
-  getEntries,
-  entries => entries.map(
+  getEntries, getBusinessId, getRegion,
+  (
+    entries, businessId, region,
+  ) => entries.map(
     entry => ({
       ...entry,
       billAmount: formatAmount(Number(entry.billAmount)),
       balanceOwed: calculateBalanceOwed(entry.billAmount, entry.discountAmount),
+      link: getEntryLink(entry.id, businessId, region),
+      labelColour: getLabelColour(entry.status),
     }),
   ),
 );
@@ -55,8 +77,13 @@ export const getBillPaymentOptions = createStructuredSelector({
   supplierId: getSupplierId,
   referenceId: getReferenceId,
   date: getDate,
-  showPaidBills: getShowPaidBills,
   description: getDescription,
+  shouldDisableFields: getShouldDisableFields,
+  isCreating: getIsCreating,
+});
+
+export const getBillPaymentTableOptions = createStructuredSelector({
+  showPaidBills: getShowPaidBills,
   shouldDisableFields: getShouldDisableFields,
 });
 
@@ -89,14 +116,11 @@ export const getLoadBillListParams = createSelector(
 
 export const getIsTableEmpty = state => state.entries.length === 0;
 
-export const getTableEmptyMessage = createSelector(
-  getSupplierId,
-  (supplierId) => {
-    if (supplierId === '') {
-      return 'Please select a supplier';
-    }
-    return 'There are no bills';
-  },
+export const getEmptyViewType = createSelector(
+  getIsCreating, getSupplierId,
+  (isCreating, supplierId) => (
+    isCreating && !supplierId ? tableViewTypes.emptySupplier : tableViewTypes.emptyTable
+  ),
 );
 
 export const getTotalAmount = createSelector(
