@@ -31,7 +31,7 @@ import InTrayMapping from '../../modules/inTray/mappings/MemoryInTrayMapping';
 import IncomeAllocationMapping from '../../modules/IncomeAllocation/mappings/MemoryIncomeAllocationMapping';
 import InventoryMapping from '../../modules/inventory/mappings/MemoryInventoryMapping';
 import InventoryModalMapping from './InventoryModalMapping';
-import InvoiceMapping from './InvoiceMapping';
+import InvoiceMapping from '../../modules/invoice/mappings/MemoryInvoiceMapping';
 import InvoicePaymentMapping from '../../modules/invoicePayment/mappings/MemoryInvoicePaymentMapping';
 import JournalTransactionListMapping from '../../modules/transactionList/journalTransaction/mappings/MemoryJournalTransactionListMapping';
 import LeavePayItemMapping from '../../modules/payItem/leavePayItem/mappings/MemoryLeavePayItemMapping';

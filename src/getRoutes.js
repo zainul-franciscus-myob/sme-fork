@@ -21,7 +21,7 @@ import getInTrayRoutes from './modules/inTray/getInTrayRoutes';
 import getIncomeAllocationRoutes from './modules/IncomeAllocation/getIncomeAllocationRoutes';
 import getInventoryRoutes from './modules/inventory/getInventoryRoutes';
 import getInvoicePaymentRoutes from './modules/invoicePayment/getInvoicePaymentRoutes';
-import getInvoiceRoutes from './invoice/getInvoiceRoutes';
+import getInvoiceRoutes from './modules/invoice/getInvoiceRoutes';
 import getLinkBillRoutes from './modules/linkBill/getLinkBillRoutes';
 import getLinkUserRoutes from './modules/linkUser/getLinkUserRoutes';
 import getLinkedAccountsRoutes from './modules/linkedAccounts/getLinkedAccountsRoutes';
