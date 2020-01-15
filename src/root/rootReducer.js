@@ -1,7 +1,7 @@
 import {
   GET_ACTIVITIES_LIST, LOAD_SETTINGS, SAVE_SETTINGS,
-  SET_BUSINESS_ID, SET_LOADING_STATE, SET_VIEW_DATA,
-  UPDATE_ACTIVITY,
+  SET_BUSINESS_ID, SET_LOADING_STATE, SET_REGION,
+  SET_VIEW_DATA, UPDATE_ACTIVITY,
 } from './rootIntents';
 import createReducer from '../store/createReducer';
 import shouldShowOnboarding from './services/shouldShowOnboarding';
@@ -17,6 +17,11 @@ const getDefaultState = () => ({
 const setBusinessId = (state, { businessId }) => ({
   ...state,
   businessId,
+});
+
+const setRegion = (state, { region }) => ({
+  ...state,
+  region,
 });
 
 const setLoading = (state, action) => ({
@@ -60,6 +65,7 @@ const handlers = {
   [GET_ACTIVITIES_LIST]: loadActivities,
   [UPDATE_ACTIVITY]: updateActivity,
   [SET_BUSINESS_ID]: setBusinessId,
+  [SET_REGION]: setRegion,
 };
 
 const onboardingReducer = createReducer(getDefaultState(), handlers);

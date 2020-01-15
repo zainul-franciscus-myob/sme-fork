@@ -5,8 +5,8 @@ const loadActivities = async ({ dispatcher, integration, store }) => {
 
   const getActivities = new Promise((resolve, reject) => integration.read({
     intent: GET_ACTIVITIES_LIST,
-    urlParams: { businessId, region },
-    params: { businessId, region },
+    urlParams: { businessId },
+    params: { region },
     onSuccess: resolve,
     onFailure: reject,
   }));

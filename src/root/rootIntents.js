@@ -10,3 +10,4 @@ export const CREATE_ACTIVITY = Symbol('Create activity');
 export const DELETE_ACTIVITY = Symbol('Delete activity');
 export const GET_ACTIVITY = Symbol('Get activity');
 export const SET_BUSINESS_ID = Symbol('Set current business id');
+export const SET_REGION = Symbol('Set current region');

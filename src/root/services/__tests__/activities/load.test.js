@@ -35,8 +35,8 @@ describe('activitiesService', () => {
 
       expect(integration.read).toBeCalledWith(
         expect.objectContaining({
-          urlParams: { businessId, region },
-          params: { businessId, region },
+          urlParams: { businessId },
+          params: { region },
         }),
       );
     });

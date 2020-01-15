@@ -58,15 +58,15 @@ export default class RootModule {
   );
 
   run = (routeProps, handlePageTransition) => {
-    const { routeParams } = routeProps;
-    const { businessId } = routeParams;
+    const { routeParams: { businessId, region } } = routeProps;
     this.dispatcher.setBusinessId(businessId);
+    this.dispatcher.setRegion(region);
 
     this.settingsService.load();
 
     if (businessId) {
       this.activitiesService.load();
-      this.settingsService.load(routeParams);
+      this.settingsService.load();
     }
 
     this.drawer.run(routeProps);
