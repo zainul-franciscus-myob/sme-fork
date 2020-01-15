@@ -3,6 +3,7 @@ import { createStructuredSelector } from 'reselect';
 export const getLoadingState = state => state.loadingState;
 export const getAlertMessage = state => state.alertMessage;
 export const getIsSubmitting = state => state.isSubmitting;
+export const getIsLoading = state => state.isLoading;
 export const getAlert = state => state.alert;
 export const getModal = state => state.modal;
 export const getModalUrl = state => state.modal && state.modal.url;

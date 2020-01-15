@@ -89,6 +89,7 @@ const RouteName = {
   CREATE_TEMPLATE: 'createTemplate',
   TEMPLATE_DETAIL: 'templateDetail',
   PAYMENT_DETAIL: 'paymentDetail',
+  INVOICE_BUSINESS_DETAILS: 'invoiceBusinessSettings/invoiceBusinessSettings',
 };
 
 export default RouteName;
