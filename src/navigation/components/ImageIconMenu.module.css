@@ -22,9 +22,7 @@
   background-color: var(--flx-background-color-application);
 }
 
-.menu :global(.flx-navbar__menu-link):hover .icon img {
-  filter: brightness(60%);
-}
+.menu :global(.flx-navbar__menu-link):hover .icon img { filter: brightness(60%); }
 
 .icon {
   width: 4rem;
@@ -35,7 +33,20 @@
 }
 
 @media (min-width: 992px) {
-  .menuItem {
-    padding-left: unset;
+  .menuItem { padding-left: unset; }
+}
+
+.notification {
+  bottom: var(--flx-spacing-tiny);
+  left: var(--flx-spacing-large);
+  pointer-events: none;
+  position: absolute;
+  z-index: var(--flx-zindex-tooltip);
+}
+
+@media (max-width: 768px) {
+  .notification {
+    left: 40px;
+    top: var(--flx-spacing-medium);
   }
 }

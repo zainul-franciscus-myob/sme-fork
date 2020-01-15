@@ -21,12 +21,14 @@ const getMenu = ({
   tooltip,
   items = [],
   onSelect,
+  notificationIcon,
 }) => {
   if (!items.length) {
     return (
       <li className="flx-navbar__menu-item">
         <button type="button" className="flx-navbar__menu-link" onClick={onSelect}>
           <IconTooltip tooltip={tooltip} image={image} />
+          {notificationIcon && <img alt="notifications" className={styles.notification} height="12" src={notificationIcon} width="12" />}
         </button>
       </li>
     );

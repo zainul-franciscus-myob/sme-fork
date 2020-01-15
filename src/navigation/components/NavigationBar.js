@@ -122,7 +122,7 @@ const getSecondary = ({
   <Help className={styles.help} key="Help" onMenuLinkClick={onHelpLinkClick} />
   ),
   shouldDisplayActivitiesMenu && (
-  <Activities className={styles.activities} key="Activities" onMenuLinkClick={onActivitiesLinkClick} />
+  <Activities className={styles.activities} key="Activities" onMenuLinkClick={onActivitiesLinkClick} active />
   ),
   shouldDisplayBusinessMenu && (
   <BusinessMenu
