@@ -12,12 +12,11 @@ class OnboardingModule {
     this.toggleActivities = toggleActivities;
   }
 
-  save = (event) => {
+  save = async (event) => {
     event.preventDefault();
-    this.settingsService.save(this.state).then(() => {
-      this.activitiesService.load();
-      this.toggleActivities();
-    });
+    await this.settingsService.save(this.state);
+    await this.activitiesService.load();
+    this.toggleActivities();
   }
 
   render = () => {

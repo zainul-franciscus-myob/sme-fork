@@ -5,6 +5,7 @@ describe('SettingsService', () => {
     const data = { previousSettingsBusinessId: 'hi' };
     let dispatcher;
     let integration;
+
     beforeEach(() => {
       dispatcher = {
         loadSettings: jest.fn(),
@@ -14,7 +15,7 @@ describe('SettingsService', () => {
         read: jest.fn().mockImplementation(({ onSuccess }) => onSuccess(data)),
       };
     });
-    it('should call integration when businessId exists and settings have not been loaded previously', () => {
+    it('should call integration when businessId exists and settings have not been loaded previously', async () => {
       const store = {
         getState: () => ({
           areOnboardingSettingsLoaded: false,
@@ -22,7 +23,7 @@ describe('SettingsService', () => {
         }),
       };
 
-      load(dispatcher, integration, store);
+      await load(dispatcher, integration, store);
       expect(dispatcher.loadSettings).toBeCalledWith(data);
     });
 
@@ -53,7 +54,7 @@ describe('SettingsService', () => {
       expect(dispatcher.loadSettings).toBeCalledTimes(0);
     });
 
-    it('should call to integration when the businessId changes', () => {
+    it('should call to integration when the businessId changes', async () => {
       const store = {
         getState: () => ({
           areOnboardingSettingsLoaded: true,
@@ -62,7 +63,7 @@ describe('SettingsService', () => {
         }),
       };
 
-      load(dispatcher, integration, store);
+      await load(dispatcher, integration, store);
       expect(dispatcher.loadSettings).toBeCalledWith(data);
     });
   });

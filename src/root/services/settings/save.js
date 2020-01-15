@@ -8,23 +8,23 @@ const save = async (dispatcher, integration, store) => {
   const urlParams = { businessId };
   const onboardingSettings = buildOnboardingSettings(state);
 
-  const onSuccess = (settings) => {
-    dispatcher.saveSettings(settings);
-    dispatcher.setLoadingState(false);
-  };
-
-  // eslint-disable-next-line no-console
-  const onFailure = error => console.error(error);
-
   dispatcher.setLoadingState(true);
 
-  integration.write({
-    intent,
-    urlParams,
-    content: onboardingSettings,
-    onSuccess,
-    onFailure,
-  });
+  try {
+    const settings = await new Promise((resolve, reject) => integration.write({
+      intent,
+      urlParams,
+      content: onboardingSettings,
+      onSuccess: resolve,
+      onFailure: reject,
+    }));
+
+    dispatcher.saveSettings(settings);
+  } catch (error) {
+    console.error(error); // eslint-disable-line no-console
+  }
+
+  dispatcher.setLoadingState(false);
 };
 
 export default save;

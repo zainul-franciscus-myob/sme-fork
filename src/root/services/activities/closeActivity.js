@@ -6,19 +6,21 @@ const closeActivity = async ({
   const { businessId } = store.getState();
   const { activityId } = context;
 
-  const close = new Promise((resolve, reject) => integration.write({
-    intent: CLOSE_ACTIVITY,
-    urlParams: {
-      businessId,
-      activityId,
-    },
-    onSuccess: resolve,
-    onFailure: reject,
-  }));
+  try {
+    const activity = await new Promise((resolve, reject) => integration.write({
+      intent: CLOSE_ACTIVITY,
+      urlParams: {
+        businessId,
+        activityId,
+      },
+      onSuccess: resolve,
+      onFailure: reject,
+    }));
 
-  const activity = await close;
-
-  dispatcher.updateActivity(activity);
+    dispatcher.updateActivity(activity);
+  } catch (error) {
+    console.error(error); // eslint-disable-line no-console
+  }
 };
 
 export default closeActivity;

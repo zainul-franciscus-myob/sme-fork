@@ -2,7 +2,7 @@ import save from '../../settings/save';
 
 describe('SettingsService', () => {
   describe('save', () => {
-    it('saves to the integration', () => {
+    it('saves to the integration', async () => {
       const data = {};
 
       const store = {
@@ -18,7 +18,7 @@ describe('SettingsService', () => {
         write: jest.fn().mockImplementation(({ onSuccess }) => onSuccess(data)),
       };
 
-      save(dispatcher, integration, store);
+      await save(dispatcher, integration, store);
 
       expect(dispatcher.saveSettings).toBeCalledWith(data);
       expect(dispatcher.setLoadingState).toBeCalledWith(false);
