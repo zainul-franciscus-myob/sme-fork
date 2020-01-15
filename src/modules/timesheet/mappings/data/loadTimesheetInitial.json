@@ -1,0 +1,38 @@
+{
+  "isTimesheetSetUp": true,
+  "weekStartDate": "2020-03-09",
+  "weekDayLabels": [
+    "Mon 09",
+    "Tue 10",
+    "Wed 11",
+    "Thu 12",
+    "Fri 13",
+    "Sat 14",
+    "Sun 15"
+  ],
+  "employeeList": [
+    {
+      "name": "Clark Kent",
+      "employeeDisplayId": "EMP001",
+      "phoneNumber": "0400000000",
+      "id": 1
+    },
+    {
+      "name": "Shohre Mansouri Jajajee",
+      "employeeDisplayId": "EMP001",
+      "phoneNumber": "0400000000",
+      "id": 2
+    }
+  ],
+  "payItems": [
+    {
+      "name": "Base hourly",
+      "id": 11
+    },
+    {
+      "name": "Wage hourly",
+      "id": 12
+    }
+  ],
+  "displayStartStopTimes": true
+}

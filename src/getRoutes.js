@@ -46,6 +46,7 @@ import getSupplierReturnPurchaseRoutes from './modules/supplierReturnPurchase/ge
 import getSupplierReturnRoutes from './modules/supplierReturn/getSupplierReturnRoutes';
 import getTaxRoutes from './modules/tax/getTaxRoutes';
 import getTemplateRoutes from './modules/template/getTemplateRoutes';
+import getTimesheetRoutes from './modules/timesheet/getTimesheetRoutes';
 import getTransactionListRoutes from './modules/transactionList/getTransactionListRoutes';
 import getTransferMoneyRoutes from './modules/transferMoney/getTransferMoneyRoutes';
 import getUserRoutes from './modules/user/getUserRoutes';
@@ -87,6 +88,7 @@ const getRoutes = moduleParams => [
   ...getBankReconciliationRoutes(moduleParams),
   ...getPayRunRoutes(moduleParams),
   ...getPayRunOldRoutes(moduleParams),
+  ...getTimesheetRoutes(moduleParams),
   ...getPaySuperRoutes(moduleParams),
   ...getLinkBillRoutes(moduleParams),
   ...getAccountRoutes(moduleParams),

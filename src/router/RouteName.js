@@ -61,6 +61,7 @@ const RouteName = {
   PAY_RUN_OLD_CREATE: 'payRunOld/payRunCreate',
   PAY_RUN_OLD_LIST: 'payRunOld/payRunList',
   PAY_RUN_OLD_DETAIL: 'payRunOld/payRunDetail',
+  TIMESHEET: 'timesheet',
   PAY_SUPER_LIST: 'paySuper/PaySuperList',
   PAY_SUPER_CREATE: 'paySuper/PaySuperCreate',
   PAY_SUPER_READ: 'paySuper/PaySuperRead',

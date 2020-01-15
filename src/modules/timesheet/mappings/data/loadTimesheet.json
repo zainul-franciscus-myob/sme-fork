@@ -1,0 +1,27 @@
+{
+  "weekStartDate": "2020-03-16",
+  "weekDayLabels": [
+    "Mon 16",
+    "Tue 17",
+    "Wed 18",
+    "Thu 19",
+    "Fri 20",
+    "Sat 21",
+    "Sun 22"
+  ],
+  "employeeList": [
+    {
+      "name": "Kent Clark",
+      "employeeDisplayId": "EMP002",
+      "phoneNumber": "0400000022",
+      "id": 2
+    }
+  ],
+  "payItems": [
+    {
+      "name": "Wage hourly",
+      "id": 12
+    }
+  ],
+  "displayStartStopTimes": true
+}
