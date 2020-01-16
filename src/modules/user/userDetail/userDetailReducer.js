@@ -3,7 +3,9 @@ import {
   LOAD_NEW_ADVISOR_DETAIL,
   LOAD_NEW_USER_DETAIL,
   LOAD_USER_DETAIL,
-  OPEN_MODAL, SET_ALERT_MESSAGE, SET_LOADING_STATE,
+  OPEN_MODAL,
+  SET_ALERT_MESSAGE,
+  SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_USER_DETAILS,
   UPDATE_USER_ROLES,
@@ -28,6 +30,7 @@ const getDefaultState = () => ({
     isReadOnly: false,
     isInactive: false,
   },
+  isCurrentUserOnlineAdmin: false,
   loadingState: LoadingState.LOADING,
   isSubmitting: false,
   alertMessage: '',
@@ -61,12 +64,13 @@ const closeModal = state => ({
   modal: undefined,
 });
 
-const loadUserDetail = (state, action) => ({
+const loadUserDetail = (state, { user, isCurrentUserOnlineAdmin }) => ({
   ...state,
   user: {
     ...state.user,
-    ...action.user,
+    ...user,
   },
+  isCurrentUserOnlineAdmin,
 });
 
 const updateUserRoles = (state, action) => ({

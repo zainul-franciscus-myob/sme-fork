@@ -17,13 +17,12 @@ const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isTableLoading: false,
   region: '',
+  isCurrentUserOnlineAdmin: false,
 });
 
-const loadUserList = (state, action) => ({
+const loadUserList = (state, { intent, ...data }) => ({
   ...state,
-  entries: action.entries,
-  sortOrder: action.sortOrder,
-  orderBy: action.orderBy,
+  ...data,
 });
 
 const resetState = () => (getDefaultState());

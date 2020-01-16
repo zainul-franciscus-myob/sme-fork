@@ -30,6 +30,7 @@ const UserDetailAccessGroup = ({
   isOnlineAdministrator,
   onUserDetailsChange,
   onUserRolesChange,
+  isCurrentUserOnlineAdmin,
 }) => (
   <FieldGroup label="Access">
     <div className={styles.roles}>
@@ -98,15 +99,17 @@ const UserDetailAccessGroup = ({
           disabled={!isCreating}
         />]}
     />
-    <Field
-      label="Manage user access via my.MYOB"
-      hideLabel
-      renderField={() => (
-        <Button type="link" icon={<Icons.OpenExternalLink />} iconRight onClick={openMyMyob}>
-          Manage user access via my.MYOB
-        </Button>
-      )}
-    />
+    { isCurrentUserOnlineAdmin && (
+      <Field
+        label="Manage user access via my.MYOB"
+        hideLabel
+        renderField={() => (
+          <Button type="link" icon={<Icons.OpenExternalLink />} iconRight onClick={openMyMyob}>
+            Manage user access via my.MYOB
+          </Button>
+        )}
+      />
+    )}
   </FieldGroup>
 );
 

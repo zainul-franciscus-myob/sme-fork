@@ -50,17 +50,11 @@ export default class UserListModule {
       businessId: getBusinessId(state),
     };
 
-    const onSuccess = ({
-      entries,
-      orderBy,
-      sortOrder,
-    }) => {
+    const onSuccess = (data) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
-        entries,
-        orderBy,
-        sortOrder,
+        ...data,
       });
     };
 

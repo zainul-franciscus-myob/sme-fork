@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getLoadingState } from '../userListSelectors';
+import { getAlert, getIsCurrentUserOnlineAdmin, getLoadingState } from '../userListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import UserListTable from './UserListTable';
 import UserListTableHeader from './UserListTableHeader';
@@ -20,6 +20,7 @@ const UserListView = (props) => {
   const {
     alert,
     loadingState,
+    isCurrentUserOnlineAdmin,
     onCreateUser,
     onDismissAlert,
     onSort,
@@ -37,13 +38,19 @@ const UserListView = (props) => {
 
   const pageHead = (
     <PageHead title="Users">
-      <Button type="link" icon={<Icons.OpenExternalLink />} onClick={openMyMyob} iconRight>Manage user access via my.MYOB</Button>
-      <ButtonRow>
-        <Button type="secondary" onClick={onCreateUser(true)}>
-          Create advisor
-        </Button>
-        <Button onClick={onCreateUser(false)}>Create user</Button>
-      </ButtonRow>
+      { isCurrentUserOnlineAdmin && (
+        <>
+          <Button type="link" icon={<Icons.OpenExternalLink />} onClick={openMyMyob} iconRight>
+            Manage user access via my.MYOB
+          </Button>
+          <ButtonRow>
+            <Button type="secondary" onClick={onCreateUser(true)}>
+              Create advisor
+            </Button>
+            <Button onClick={onCreateUser(false)}>Create user</Button>
+          </ButtonRow>
+        </>
+      )}
     </PageHead>
   );
 
@@ -61,6 +68,7 @@ const UserListView = (props) => {
 const mapStateToProps = state => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
+  isCurrentUserOnlineAdmin: getIsCurrentUserOnlineAdmin(state),
 });
 
 export default connect(mapStateToProps)(UserListView);

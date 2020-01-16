@@ -84,11 +84,11 @@ export default class UserDetailModule {
       ...(!getIsCreating(state) && { userId }),
     };
 
-    const onSuccess = (user) => {
+    const onSuccess = (data) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
-        user,
+        ...data,
       });
     };
 

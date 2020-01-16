@@ -14,6 +14,7 @@ export const getUserId = state => state.userId;
 export const getIsAdvisor = state => state.user.isAdvisor;
 export const getIsInactive = state => state.user.isInactive;
 export const getLoadingState = state => state.loadingState;
+export const getIsCurrentUserOnlineAdmin = state => state.isCurrentUserOnlineAdmin;
 
 export const getIsCreating = state => [
   NEW_USER_PATH_COMPONENT,
@@ -70,9 +71,11 @@ export const getUserForUpdate = (state) => {
 export const getUserDetails = createSelector(
   getUser,
   getIsCreating,
-  (user, isCreating) => ({
+  getIsCurrentUserOnlineAdmin,
+  (user, isCreating, isCurrentUserOnlineAdmin) => ({
     ...user,
     isCreating,
+    isCurrentUserOnlineAdmin,
   }),
 );
 

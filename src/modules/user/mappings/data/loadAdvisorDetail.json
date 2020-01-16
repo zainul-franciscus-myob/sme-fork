@@ -1,21 +1,24 @@
 {
-  "roles": [
-    {
-      "id": "1",
-      "name": "Accountant/BookKeeper",
-      "selected": true
-    },
-    {
-      "id": "2",
-      "name": "Administrator",
-      "selected": false
-    },
-    {
-      "id": "3",
-      "name": "Banking",
-      "selected": true
-    }
-  ],
-  "isOnlineAdministrator": false,
-  "isAdvisor": true
+  "user": {
+    "roles": [
+      {
+        "id": "1",
+        "name": "Accountant/BookKeeper",
+        "selected": true
+      },
+      {
+        "id": "2",
+        "name": "Administrator",
+        "selected": false
+      },
+      {
+        "id": "3",
+        "name": "Banking",
+        "selected": true
+      }
+    ],
+    "isOnlineAdministrator": false,
+    "isAdvisor": true
+  },
+  "isCurrentUserOnlineAdmin": true
 }

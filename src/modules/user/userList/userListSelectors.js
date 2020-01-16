@@ -14,6 +14,8 @@ export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
 export const getIsTableLoading = state => state.isTableLoading;
 
+export const getIsCurrentUserOnlineAdmin = state => state.isCurrentUserOnlineAdmin;
+
 export const getOrder = ({ sortOrder, orderBy }) => ({
   column: orderBy,
   descending: sortOrder === 'desc',
