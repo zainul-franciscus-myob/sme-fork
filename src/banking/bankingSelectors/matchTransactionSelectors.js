@@ -153,9 +153,15 @@ export const getAccounts = createSelector(
 export const getMatchTransactionPayload = (state, index) => {
   const entries = getEntries(state);
   const openedEntry = entries[index];
-  const { transactionId: bankTransactionId, description: bankFeedDescription, date } = openedEntry;
+  const {
+    transactionId: bankTransactionId,
+    description: originalBankFeedDescription,
+    note: newBankFeedDescription,
+    date,
+  } = openedEntry;
 
   const { bankAccount: bankFeedAccountId } = getFilterOptions(state);
+  const bankFeedDescription = newBankFeedDescription || originalBankFeedDescription;
 
   const matchTransactions = getTableEntries(state);
 

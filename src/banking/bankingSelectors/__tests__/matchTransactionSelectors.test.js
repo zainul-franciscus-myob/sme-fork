@@ -11,88 +11,108 @@ import {
 
 describe('matchTransactionSelectors', () => {
   describe('getMatchTransactionPayload', () => {
-    it('should return a valid payload', () => {
-      const state = {
-        openPosition: 0,
-        filterOptions: {
-          bankAccount: '123',
-          transactionType: 'approved',
+    const state = {
+      openPosition: 0,
+      filterOptions: {
+        bankAccount: '123',
+        transactionType: 'approved',
+      },
+      entries: [
+        {
+          transactionId: '1',
+          deposit: '100',
+          date: '2010-09-09',
+          description: 'originalDescription',
+          note: 'newDescription',
         },
+      ],
+      openEntry: {
+        match: {
+          filterOptions: {},
+          entries: [
+            {
+              journalLineId: '444',
+              referenceId: '1234',
+              journalId: '3333',
+              sourceJournal: 'CashPayment',
+              totalAmount: '100.00',
+              type: 'Transaction',
+              selected: true,
+            },
+            {
+              journalId: '8',
+              journalLineId: '222',
+              contactId: '1',
+              type: 'Purchase',
+              discountAmount: '50.00',
+              matchAmount: '20.00',
+              selected: true,
+            },
+          ],
+          adjustments: [
+            {
+              amount: '10', description: 'desc', accountId: '123', taxCodeId: '12', quantity: '1',
+            },
+          ],
+        },
+      },
+    };
+
+    const expected = {
+      bankFeedAccountId: '123',
+      bankTransactionId: '1',
+      bankFeedDescription: 'newDescription',
+      date: '2010-09-09',
+      isCredit: true,
+      payments: [
+        {
+          id: '8',
+          contactId: '1',
+          matchAmount: '20.00',
+          discountAmount: '50.00',
+        },
+      ],
+      allocations: [
+        {
+          journalLineId: '444',
+          referenceId: '1234',
+          journalId: '3333',
+          sourceJournal: 'CashPayment',
+          totalAmount: '100.00',
+        },
+      ],
+      adjustments: [
+        {
+          amount: '10',
+          description: 'desc',
+          accountId: '123',
+          taxCodeId: '12',
+          quantity: '1',
+        },
+      ],
+    };
+
+    it('should return a valid payload', () => {
+      const index = 0;
+      const actual = getMatchTransactionPayload(state, index);
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return original description as bankFeedDescription if there was no new description entered', () => {
+      const index = 0;
+      const modifiedState = {
+        ...state,
         entries: [
           {
             transactionId: '1',
             deposit: '100',
             date: '2010-09-09',
-          },
-        ],
-        openEntry: {
-          match: {
-            filterOptions: {},
-            entries: [
-              {
-                journalLineId: '444',
-                referenceId: '1234',
-                journalId: '3333',
-                sourceJournal: 'CashPayment',
-                totalAmount: '100.00',
-                type: 'Transaction',
-                selected: true,
-              },
-              {
-                journalId: '8',
-                journalLineId: '222',
-                contactId: '1',
-                type: 'Purchase',
-                discountAmount: '50.00',
-                matchAmount: '20.00',
-                selected: true,
-              },
-            ],
-            adjustments: [
-              {
-                amount: '10', description: 'desc', accountId: '123', taxCodeId: '12', quantity: '1',
-              },
-            ],
-          },
-        },
-      };
-
-      const expected = {
-        bankFeedAccountId: '123',
-        bankTransactionId: '1',
-        date: '2010-09-09',
-        isCredit: true,
-        payments: [
-          {
-            id: '8',
-            contactId: '1',
-            matchAmount: '20.00',
-            discountAmount: '50.00',
-          },
-        ],
-        allocations: [
-          {
-            journalLineId: '444',
-            referenceId: '1234',
-            journalId: '3333',
-            sourceJournal: 'CashPayment',
-            totalAmount: '100.00',
-          },
-        ],
-        adjustments: [
-          {
-            amount: '10',
-            description: 'desc',
-            accountId: '123',
-            taxCodeId: '12',
-            quantity: '1',
+            description: 'originalDescription',
           },
         ],
       };
-
-      const index = 0;
-      const actual = getMatchTransactionPayload(state, index);
-      expect(actual).toEqual(expected);
+      const actual = getMatchTransactionPayload(modifiedState, index);
+      expect(actual.bankFeedDescription).toEqual('originalDescription');
     });
   });
 
