@@ -9,3 +9,5 @@ export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
 export const SET_PAGE_EDITED_STATE = Symbol('Set page edited state');
 export const SET_LOCK_DATE_AUTO_POPULATED_STATE = Symbol('Set lock date auto populated state');
+export const UPDATE_KEYWORD = Symbol('Update keyword');
+export const UPDATE_SORT_ORDER = Symbol('Update sort order');

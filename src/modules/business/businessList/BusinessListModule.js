@@ -1,42 +1,35 @@
+import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
   LOAD_BUSINESS_LIST,
-  SET_LOADING_STATE,
 } from '../BusinessIntents';
-import {
-  RESET_STATE,
-} from '../../../SystemIntents';
 import BusinessListView from './components/BusinessListView';
 import LoadingState from '../../../components/PageView/LoadingState';
-import PageView from '../../../components/PageView/PageView';
 import Store from '../../../store/Store';
 import businessListReducer from './businessListReducer';
+import createBusinessListDispatcher from './createBusinessListDispatcher';
 
 export default class BusinessModule {
   constructor({ integration, setRootView }) {
     this.integration = integration;
     this.store = new Store(businessListReducer);
     this.setRootView = setRootView;
+    this.dispatcher = createBusinessListDispatcher(this.store);
   }
 
   loadBusinessList = () => {
-    const intent = LOAD_BUSINESS_LIST;
-
     const onSuccess = (businesses) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent,
-        businesses,
-      });
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadBusinessList(businesses);
     };
 
     const onFailure = () => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integration.read({
-      intent,
+      intent: LOAD_BUSINESS_LIST,
       onSuccess,
       onFailure,
     });
@@ -46,33 +39,29 @@ export default class BusinessModule {
     this.store.unsubscribeAll();
   };
 
-  setLoadingState = (loadingState) => {
-    this.store.dispatch({
-      intent: SET_LOADING_STATE,
-      loadingState,
-    });
+  onUpdateKeyword = ({ value }) => {
+    this.dispatcher.updateKeyword(value);
   }
 
-  render = ({ businesses, loadingState }) => {
-    const businessListView = (
-      <BusinessListView
-        businesses={businesses}
-      />
+  render = () => {
+    const view = (
+      <Provider store={this.store}>
+        <BusinessListView
+          onUpdateKeyword={this.onUpdateKeyword}
+          onSort={this.dispatcher.updateSortOrder}
+        />
+      </Provider>
     );
-    const view = <PageView loadingState={loadingState} view={businessListView} />;
     this.setRootView(view);
   };
 
   run = () => {
-    this.store.subscribe(this.render);
-    this.setLoadingState(LoadingState.LOADING);
+    this.render();
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadBusinessList();
   }
 
   resetState() {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
+    this.dispatcher.resetState();
   }
 }

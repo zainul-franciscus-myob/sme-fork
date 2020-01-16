@@ -1,12 +1,19 @@
 import {
   LOAD_BUSINESS_LIST,
   SET_LOADING_STATE,
+  UPDATE_KEYWORD,
+  UPDATE_SORT_ORDER,
 } from '../BusinessIntents';
 import {
   RESET_STATE,
 } from '../../../SystemIntents';
 
-const getDefaultState = () => ({ businesses: [], isLoading: true });
+const getDefaultState = () => ({
+  businesses: [],
+  isLoading: true,
+  keyword: '',
+  sortOrder: 'asc',
+});
 
 const businessReducer = (state = getDefaultState(), action) => {
   switch (action.intent) {
@@ -20,6 +27,16 @@ const businessReducer = (state = getDefaultState(), action) => {
       return {
         ...state,
         loadingState: action.loadingState,
+      };
+    case UPDATE_KEYWORD:
+      return {
+        ...state,
+        keyword: action.keyword,
+      };
+    case UPDATE_SORT_ORDER:
+      return {
+        ...state,
+        sortOrder: state.sortOrder === 'desc' ? 'asc' : 'desc',
       };
     default:
       return state;
