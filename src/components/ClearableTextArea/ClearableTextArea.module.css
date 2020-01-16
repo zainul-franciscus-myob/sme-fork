@@ -16,7 +16,7 @@
 .clearButton {
   display: flex;
   position: absolute;
-  right: var(--flx-spacing-tiny);
+  right: var(--flx-spacing-xx-tiny);
   cursor: pointer;
   background-color: transparent;
   border: 0;

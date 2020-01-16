@@ -66,15 +66,19 @@ const BankingTableDescription = ({
   );
 
   const noteView = (
-    <Tooltip triggerContent={(
-      <span className={styles.note}>{note}</span>
-    )}
-    >
-      {description}
-    </Tooltip>
+    <button type="button" className={styles.noteLink} onClick={onEditNote}>
+      <Tooltip triggerContent={(
+        <span className={styles.note}>{note}</span>
+      )}
+      >
+        {description}
+      </Tooltip>
+    </button>
   );
 
-  const descriptionView = shouldShowNote ? noteView : description;
+  const descriptionView = (
+    shouldShowNote ? noteView : <span className={styles.note}>{description}</span>
+  );
 
   const readOnlyView = (
     <>
@@ -97,7 +101,12 @@ Edit description
   const view = isEditingNote ? editingView : readOnlyView;
 
   return (
-    <div className={classNames(styles.noteContainer, className)}>
+    <div className={classNames(
+      styles.noteContainer,
+      className,
+      { [styles.noteHighlight]: shouldShowNote },
+    )}
+    >
       {view}
     </div>
   );
