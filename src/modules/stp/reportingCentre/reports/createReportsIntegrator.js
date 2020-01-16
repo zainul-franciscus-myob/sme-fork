@@ -1,5 +1,9 @@
-import { FILTER_PAY_EVENTS, LOAD_PAY_EVENTS } from './ReportsIntents';
-import { getBusinessId, getFilterPayEventsParams } from './ReportsSelector';
+import { FILTER_PAY_EVENTS, LOAD_PAY_EVENTS, LOAD_PAY_EVENT_DETAILS } from './ReportsIntents';
+import {
+  getBusinessId,
+  getFilterPayEventsParams,
+  getLoadPayEventDetailsUrlParams,
+} from './ReportsSelector';
 
 const createReportsIntegrator = (store, integration) => ({
   loadPayEvents: ({ onSuccess, onFailure }) => {
@@ -26,6 +30,17 @@ const createReportsIntegrator = (store, integration) => ({
       intent: FILTER_PAY_EVENTS,
       urlParams,
       params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadPayEventDetails: ({ onSuccess, onFailure }) => {
+    const urlParams = getLoadPayEventDetailsUrlParams(store.getState());
+
+    integration.read({
+      intent: LOAD_PAY_EVENT_DETAILS,
+      urlParams,
       onSuccess,
       onFailure,
     });

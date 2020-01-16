@@ -1,0 +1,13 @@
+.vCentre h2 {
+  display: flex;
+  align-items: center;
+}
+
+.statusContainer {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.aside :global(.flx-card) {
+  box-shadow: unset;
+}

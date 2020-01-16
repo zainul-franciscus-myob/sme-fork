@@ -1,4 +1,4 @@
-import { SET_PAY_EVENTS } from '../ReportsIntents';
+import { SET_PAY_EVENTS, SET_PAY_EVENT_DETAILS, SET_SELECTED_PAY_EVENT } from '../ReportsIntents';
 import ReportsReducer from '../ReportsReducer';
 
 describe('ReportsReducer', () => {
@@ -101,6 +101,162 @@ describe('ReportsReducer', () => {
       const result = ReportsReducer(state, action);
 
       expect(result.selectedPayrollYear).toEqual('');
+    });
+  });
+
+  describe('setSelectedPayEvent', () => {
+    it('should set the selected pay event if it exists in the list', () => {
+      const state = {
+        payEvents: [
+          { id: '123' },
+          { id: '234' },
+          { id: '345' },
+        ],
+      };
+
+      const action = {
+        intent: SET_SELECTED_PAY_EVENT,
+        selectedPayEventId: '234',
+      };
+
+      const result = ReportsReducer(state, action);
+
+      const expected = { id: '234' };
+
+      expect(result.selectedPayEvent).toEqual(expected);
+    });
+
+    it('should set the selected pay event to null if it is not in the list', () => {
+      const state = {
+        payEvents: [
+          { id: '123' },
+          { id: '234' },
+        ],
+      };
+
+      const action = {
+        intent: SET_SELECTED_PAY_EVENT,
+        selectedPayEventId: '345',
+      };
+
+      const result = ReportsReducer(state, action);
+
+      expect(result.selectedPayEvent).toEqual(undefined);
+    });
+  });
+
+  describe('setPayEventDetails', () => {
+    it('should merge the pay event details with the selected pay event object', () => {
+      const state = {
+        payEvents: [
+          {
+            id: '123',
+            status: 'Pending',
+          },
+        ],
+        selectedPayEvent: {
+          id: '123',
+          status: 'Pending',
+          foo: 'bar',
+        },
+      };
+
+      const action = {
+        intent: SET_PAY_EVENT_DETAILS,
+        response: {
+          id: '123',
+          bar: 'foo',
+          status: 'Success',
+        },
+      };
+
+      const result = ReportsReducer(state, action);
+
+      const expected = {
+        id: '123',
+        foo: 'bar',
+        bar: 'foo',
+        status: 'Success',
+      };
+
+      expect(result.selectedPayEvent).toEqual(expected);
+    });
+
+    it('should update the matching payEvent object in the payEvents list with thew new status', () => {
+      const state = {
+        payEvents: [
+          {
+            id: '123',
+            status: 'Pending',
+          },
+          {
+            id: '321',
+            status: 'Error',
+          },
+        ],
+        selectedPayEvent: {
+          id: '123',
+          status: 'Pending',
+          foo: 'bar',
+        },
+      };
+
+      const action = {
+        intent: SET_PAY_EVENT_DETAILS,
+        response: {
+          id: '123',
+          bar: 'foo',
+          status: 'Success',
+        },
+      };
+
+      const result = ReportsReducer(state, action);
+
+      const expected = [
+        {
+          id: '123',
+          status: 'Success',
+        },
+        {
+          id: '321',
+          status: 'Error',
+        },
+      ];
+
+      expect(result.payEvents).toEqual(expected);
+    });
+
+    it('should not update any pay events in the list if it the pay event is not in the list', () => {
+      const state = {
+        payEvents: [
+          {
+            id: '234',
+            status: 'Pending',
+          },
+          {
+            id: '321',
+            status: 'Error',
+          },
+        ],
+        selectedPayEvent: {
+          id: '123',
+          status: 'Pending',
+          foo: 'bar',
+        },
+      };
+
+      const action = {
+        intent: SET_PAY_EVENT_DETAILS,
+        response: {
+          id: '123',
+          bar: 'foo',
+          status: 'Success',
+        },
+      };
+
+      const result = ReportsReducer(state, action);
+
+      expect(result.payEvents).toEqual(state.payEvents);
     });
   });
 });

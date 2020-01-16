@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getIsSelectedPayEvent } from './ReportsSelector';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ReportsView from './components/ReportsView';
 import Store from '../../../../store/Store';
@@ -55,6 +56,28 @@ export default class ReportsModule {
     this.integrator.filterPayEvents({ onSuccess, onFailure });
   };
 
+  loadPayEventDetails = () => {
+    this.dispatcher.setDetailsLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      if (getIsSelectedPayEvent(this.store.getState(), response.id)) {
+        this.dispatcher.setPayEventDetails(response);
+        this.dispatcher.setDetailsLoadingState(LoadingState.LOADING_SUCCESS);
+      }
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setDetailsLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadPayEventDetails({ onSuccess, onFailure });
+  };
+
+  setSelectedPayEvent = (payEventId) => {
+    this.dispatcher.setSelectedPayEvent(payEventId);
+    this.loadPayEventDetails();
+  };
+
   run = () => {
     this.loadPayEvents();
   };
@@ -64,6 +87,8 @@ export default class ReportsModule {
       <Provider store={this.store}>
         <ReportsView
           onPayrollYearChange={this.filterPayEvents}
+          onRowSelect={this.setSelectedPayEvent}
+          onClearSelected={this.dispatcher.clearSelectedPayEvent}
         />
       </Provider>
     );

@@ -1,26 +1,36 @@
-import { Card, MasterDetailTemplate } from '@myob/myob-widgets';
+import { MasterDetailTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getDetailsLoadingState,
+  getHasPayEventSelected,
   getIsTableLoading,
   getLoadingState,
   getPayEvents,
   getPayrollYears,
+  getSelectedPayEvent,
   getSelectedPayrollYear,
 } from '../ReportsSelector';
 import PageView from '../../../../../components/PageView/PageView';
+import ReportDetailView from './ReportDetail/ReportDetailView';
 import ReportsFilter from './ReportsFilter';
 import ReportsTable from './ReportsTable';
+import ReportsTruncatedTable from './ReportsTruncatedTable';
 import styles from './ReportsView.module.css';
 
 const ReportsView = ({
   loadingState,
   isTableLoading,
+  detailsLoadingState,
   payrollYears,
   payrollYear,
   payEvents,
+  selectedPayEvent,
   onPayrollYearChange,
+  hasRowSelected,
+  onRowSelect,
+  onClearSelected,
 }) => {
   const tableConfig = {
     payPeriod: { columnName: 'Pay period', width: '21rem', valign: 'middle' },
@@ -46,11 +56,27 @@ const ReportsView = ({
     />
   );
 
-  const table = (
+  const table = hasRowSelected ? (
+    <ReportsTruncatedTable
+      tableConfig={tableConfig}
+      isTableLoading={isTableLoading}
+      payEvents={payEvents}
+      onRowSelect={onRowSelect}
+    />
+  ) : (
     <ReportsTable
       tableConfig={tableConfig}
       isTableLoading={isTableLoading}
       payEvents={payEvents}
+      onRowSelect={onRowSelect}
+    />
+  );
+
+  const detail = (
+    <ReportDetailView
+      loadingState={detailsLoadingState}
+      payEvent={selectedPayEvent}
+      onClose={onClearSelected}
     />
   );
 
@@ -60,8 +86,9 @@ const ReportsView = ({
       containerClassName={styles.reportsContainer}
       pageHead={pageHeader}
       master={table}
-      detail={<Card body={<div>Empty!</div>} />}
-      showDetail={false}
+      detail={detail}
+      showDetail={hasRowSelected}
+      detailWidth="47%"
     />
   );
 
@@ -71,9 +98,12 @@ const ReportsView = ({
 const mapStateToProps = state => ({
   loadingState: getLoadingState(state),
   isTableLoading: getIsTableLoading(state),
+  detailsLoadingState: getDetailsLoadingState(state),
   payrollYears: getPayrollYears(state),
   payrollYear: getSelectedPayrollYear(state),
   payEvents: getPayEvents(state),
+  hasRowSelected: getHasPayEventSelected(state),
+  selectedPayEvent: getSelectedPayEvent(state),
 });
 
 export default connect(mapStateToProps)(ReportsView);

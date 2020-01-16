@@ -7,6 +7,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Sending",
       "tax": "3,400.00"
     },
@@ -17,6 +18,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Not sent",
       "tax": "2,300.00"
     },
@@ -27,6 +29,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Not sent",
       "tax": "100.00"
     },
@@ -37,6 +40,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Sent",
       "tax": "0.00"
     },
@@ -47,6 +51,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Accepted",
       "tax": "6,860.00"
     },
@@ -57,6 +62,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Rejected",
       "tax": "890.00"
     },
@@ -67,6 +73,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Accepted with errors",
       "tax": "67,890.00"
     },
@@ -77,6 +84,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Failed",
       "tax": "68,760.00"
     },
@@ -87,6 +95,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Rejected",
       "tax": "4,650.00"
     },
@@ -97,6 +106,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Rejected",
       "tax": "6,870.00"
     },
@@ -107,6 +117,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Accepted",
       "tax": "6,890.00"
     },
@@ -117,6 +128,7 @@
       "payPeriod": "30/06/2019 - 30/06/2019",
       "paymentDate": "30/06/2019",
       "recordedDate": "2019-07-11T00:03:52.174Z",
+      "declarationDate": "2019-07-11T00:03:51.679Z",
       "status": "Rejected",
       "tax": "0.00"
     }

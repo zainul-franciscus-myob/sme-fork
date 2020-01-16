@@ -1,4 +1,8 @@
-import { FILTER_PAY_EVENTS, LOAD_PAY_EVENTS } from '../reports/ReportsIntents';
+import {
+  FILTER_PAY_EVENTS,
+  LOAD_PAY_EVENTS,
+  LOAD_PAY_EVENT_DETAILS,
+} from '../reports/ReportsIntents';
 import {
   LOAD_ATO_SETTINGS,
   UPDATE_AGENT_CONTACT,
@@ -35,6 +39,10 @@ const HttpStpReportingCentreMapping = {
   [FILTER_PAY_EVENTS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/stp/filter_pay_events`,
+  },
+  [LOAD_PAY_EVENT_DETAILS]: {
+    method: 'GET',
+    getPath: ({ businessId, payEventId }) => `/${businessId}/stp/pay_events/${payEventId}`,
   },
 };
 

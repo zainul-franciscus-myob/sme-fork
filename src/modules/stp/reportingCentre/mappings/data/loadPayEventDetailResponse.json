@@ -1,0 +1,64 @@
+{
+  "id": "e84cd3e7-4c5b-4a50-a114-3e652c634657",
+  "status": "Rejected",
+  "declaredBy": "Batman",
+  "employeeErrors": [
+    {
+      "id": "b1219f48-d86b-4e3f-a551-a5901172f214",
+      "name": "Alfred Butler",
+      "errors": [
+        {
+          "code": "CMN.ATO.GEN.XML03",
+          "text": "A field contains invalid data (such as letters in numeric or date field)."
+        },
+        {
+          "code": "CMN.ATO.GEN.XML04",
+          "text": "A field does not contain invalid data."
+        }
+      ]
+    },
+    {
+      "id": "???",
+      "name": "Joker",
+      "errors": [
+        {
+          "code": "CMN.ATO.GEN.XML03",
+          "text": "A field contains invalid data (such as letters in numeric or date field)."
+        },
+        {
+          "code": "CMN.ATO.GEN.JOKES",
+          "text": "(┛ಠ_ಠ)┛彡┻━┻"
+        }
+      ]
+    }
+  ],
+  "employerErrors": [
+    {
+      "code": "CMN.ATO.GEN.XML03",
+      "text": "A field contains invalid data (such as letters in numeric or date field)."
+    },
+    {
+      "code": "CMN.ATO.GEN.XML04",
+      "text": "How did you get it so wrong?!"
+    },
+    {
+      "code": "CMN.ATO.GEN.XML05",
+      "text": "I have no idea why this is rejected."
+    }
+  ],
+  "payRunErrors": [
+    {
+      "code": "CMN.ATO.PAYEVNT.000199",
+      "text": "The date entered for Pay/Update Date must not be later than today's date"
+    },
+    {
+      "code": "CMN.ATO.PAYEVNT.000200",
+      "text": "Common mistake. Try again!"
+    }
+  ],
+  "mismatchedAbns": {
+    "abnWithStp": "30086760269",
+    "abnWithPayEvent": "30086760270"
+  },
+  "eventType": "Pay event"
+}
