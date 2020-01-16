@@ -49,7 +49,6 @@ export const getGeneralPayrollInformation = createStructuredSelector({
   roundNetPay: state => state.generalPayrollInformation.roundNetPay,
   taxTableRevisionDate: state => state.generalPayrollInformation.taxTableRevisionDate,
   useTimesheets: state => state.generalPayrollInformation.useTimesheets,
-  useTimesheetsAction: state => state.generalPayrollInformation.useTimesheetsAction,
   useTimesheetsWeekStarts: state => state.generalPayrollInformation.useTimesheetsWeekStarts,
   isCurrentYearProvided: getIsCurrentYearProvided,
 });
@@ -62,4 +61,5 @@ export const getUpdateGeneralPayrollInformationContent = createStructuredSelecto
   useTimesheets: state => state.generalPayrollInformation.useTimesheets,
   useTimesheetsAction: state => state.generalPayrollInformation.useTimesheetsAction,
   useTimesheetsWeekStarts: state => state.generalPayrollInformation.useTimesheetsWeekStarts,
+  isUseTimesheetsChanged: state => state.generalPayrollInformation.isUseTimesheetsChanged,
 });

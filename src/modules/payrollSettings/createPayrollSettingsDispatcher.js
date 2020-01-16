@@ -19,6 +19,7 @@ import {
   SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE,
   SET_IS_CURRENT_YEAR_PROVIDED,
   SET_IS_PAGE_EDITED,
+  SET_IS_USE_TIMESHEETS_CHANGED,
   SET_MODAL_TYPE,
   SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
   SET_SUPER_FUND_LIST_FILTER_OPTIONS,
@@ -289,6 +290,18 @@ const createPayrollSettingsDispatcher = store => ({
       intent: CHANGE_GENERAL_PAYROLL_INFORMATION,
       key,
       value,
+    });
+  },
+
+  changeUseTimesheets: ({ key, value }) => {
+    store.dispatch({
+      intent: CHANGE_GENERAL_PAYROLL_INFORMATION,
+      key,
+      value,
+    });
+    store.dispatch({
+      intent: SET_IS_USE_TIMESHEETS_CHANGED,
+      isUseTimesheetsChanged: true,
     });
   },
 

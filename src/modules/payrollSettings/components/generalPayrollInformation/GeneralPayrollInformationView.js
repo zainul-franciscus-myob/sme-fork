@@ -39,7 +39,6 @@ const GeneralPayrollInformationView = (props) => {
     taxTableRevisionDate,
     isCurrentYearProvided,
     useTimesheets,
-    useTimesheetsAction,
     useTimesheetsWeekStarts,
     loadingState,
     alert,
@@ -47,6 +46,7 @@ const GeneralPayrollInformationView = (props) => {
     listeners: {
       onGeneralPayrollInformationChange,
       onGeneralPayrollInformationSave,
+      onUseTimesheetsChange,
       onConfirmSave,
       onWarningConfirmSave,
       onConfirmCancelButtonClick,
@@ -83,7 +83,7 @@ const GeneralPayrollInformationView = (props) => {
       <Card>
         <div className={style.formWidth}>
           <FormHorizontal>
-            <FieldGroup label="Payroll">
+            <FieldGroup label="Details">
               {currentYearField}
               <AmountInput
                 label="Full-time employee weekly hours"
@@ -119,9 +119,9 @@ const GeneralPayrollInformationView = (props) => {
             {timesheetEnabled && (
               <TimesheetsSettingsView
                 useTimesheets={useTimesheets}
-                useTimesheetsAction={useTimesheetsAction}
                 useTimesheetsWeekStarts={useTimesheetsWeekStarts}
                 onGeneralPayrollInformationChange={onGeneralPayrollInformationChange}
+                onUseTimesheetsChange={onUseTimesheetsChange}
               />
             )}
           </FormHorizontal>

@@ -3,5 +3,8 @@
   "taxTableRevisionDate": "23/08/2019",
   "hoursInWorkWeek": 443.09,
   "withholdingPayerNumber": "00 123 456 789",
-  "roundNetPay": 71150.05
+  "roundNetPay": 71150.05,
+  "useTimesheets": false,
+  "useTimesheetsWeekStarts": "Monday",
+  "useTimesheetsAction": "TimeBillingAndPayroll"
 }

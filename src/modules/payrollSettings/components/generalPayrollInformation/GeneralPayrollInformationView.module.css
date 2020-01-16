@@ -3,5 +3,5 @@
 }
 
 .formWidth :global(.form-group__input-group) {
-  max-width: var(--flx-width-field-m);
+  max-width: var(--flx-width-field-l);
 }

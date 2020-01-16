@@ -18,9 +18,9 @@ const days = [
 
 const TimesheetsSettingsView = ({
   useTimesheets,
-  useTimesheetsAction,
   useTimesheetsWeekStarts,
   onGeneralPayrollInformationChange,
+  onUseTimesheetsChange,
 }) => (
   <FieldGroup label="Timesheets">
     <CheckboxGroup
@@ -31,22 +31,11 @@ const TimesheetsSettingsView = ({
           name="useTimesheets"
           label="Use timesheets to track employee hours"
           value={useTimesheets}
-          onChange={handleCheckboxChange(onGeneralPayrollInformationChange)}
+          onChange={handleCheckboxChange(onUseTimesheetsChange)}
           checked={useTimesheets}
         />
       )}
     />
-    <Select
-      name="useTimesheetsAction"
-      label="Use timesheets for"
-      value={useTimesheetsAction}
-      onChange={handleSelectChange(onGeneralPayrollInformationChange)}
-      disabled={!useTimesheets}
-      width="xl"
-    >
-      <Select.Option value="placeholder" label="" />
-      <Select.Option value="Payroll" label="Payroll" />
-    </Select>
     <Select
       name="useTimesheetsWeekStarts"
       label="Week starts on"

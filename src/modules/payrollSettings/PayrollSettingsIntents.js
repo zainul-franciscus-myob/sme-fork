@@ -32,6 +32,7 @@ export const DELETE_EMPLOYMENT_CLASSIFICATION = Symbol('Delete employment classi
 export const LOAD_GENERAL_PAYROLL_INFORMATION = Symbol('Load general payroll information');
 export const UPDATE_GENERAL_PAYROLL_INFORMATION = Symbol('Submit general payroll infromation');
 export const CHANGE_GENERAL_PAYROLL_INFORMATION = Symbol('Change general payroll information');
+export const SET_IS_USE_TIMESHEETS_CHANGED = Symbol('Toggle the flag of isUseTimesheetsChanged setting');
 export const SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE = Symbol('Set general payroll information loading state');
 export const SET_IS_PAGE_EDITED = Symbol('Set is page edited');
 export const SET_IS_CURRENT_YEAR_PROVIDED = Symbol('Set whether the current year is provided');

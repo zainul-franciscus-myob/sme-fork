@@ -405,6 +405,7 @@ export default class PayrollSettingsModule {
         }}
         generalPayrollInformationListeners={{
           onGeneralPayrollInformationChange: this.dispatcher.changeGeneralPayrollInformation,
+          onUseTimesheetsChange: this.dispatcher.changeUseTimesheets,
           onGeneralPayrollInformationSave: this.saveGeneralPayrollInformation,
           onDismissModal: this.dispatcher.closeModal,
           onConfirmCancelButtonClick: this.redirectToModalUrl,

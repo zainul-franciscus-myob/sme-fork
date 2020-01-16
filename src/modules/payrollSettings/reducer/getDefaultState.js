@@ -46,6 +46,7 @@ const getDefaultState = () => ({
     useTimesheets: false,
     useTimesheetsAction: '',
     useTimesheetsWeekStarts: '',
+    isUseTimesheetsChanged: false,
   },
   isPageEdited: false,
 });

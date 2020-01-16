@@ -19,6 +19,7 @@ import {
   SET_GENERAL_PAYROLL_INFORMATION_LOADING_STATE,
   SET_IS_CURRENT_YEAR_PROVIDED,
   SET_IS_PAGE_EDITED,
+  SET_IS_USE_TIMESHEETS_CHANGED,
   SET_MODAL_TYPE,
   SET_NEW_EMPLOYMENT_CLASSIFICATION_DETAIL_INITIAL_STATE,
   SET_SUPER_FUND_LIST_FILTER_OPTIONS,
@@ -107,6 +108,14 @@ const changeGeneralPayrollInformation = (state, action) => ({
   isPageEdited: true,
 });
 
+const setIsUseTimesheetsChanged = (state, action) => ({
+  ...state,
+  generalPayrollInformation: {
+    ...state.generalPayrollInformation,
+    isUseTimesheetsChanged: action.isUseTimesheetsChanged,
+  },
+});
+
 const getDefaultCurrentYear = () => {
   let defaultCurrentYear;
   const today = new Date();
@@ -176,6 +185,7 @@ const handlers = {
   [CHANGE_EMPLOYMENT_CLASSIFICATION_DETAIL]: changeEmploymentClassificationDetail,
   [LOAD_GENERAL_PAYROLL_INFORMATION]: loadGeneralPayrollInformation,
   [CHANGE_GENERAL_PAYROLL_INFORMATION]: changeGeneralPayrollInformation,
+  [SET_IS_USE_TIMESHEETS_CHANGED]: setIsUseTimesheetsChanged,
   [CLOSE_MODAL]: closeModal,
   [OPEN_MODAL]: openModal,
   [SET_IS_PAGE_EDITED]: setIsPageEdited,
