@@ -14,6 +14,7 @@ import {
   getPayPeriodEnd,
   getPayPeriodStart,
 } from '../StartPayRunSelectors';
+import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
 import styles from './StartPayRunView.module.css';
 
 const ExistingPayRunModal = ({
@@ -36,9 +37,9 @@ const ExistingPayRunModal = ({
       </Alert>
 
       <FormHorizontal>
-        <ReadOnly name="PayPeriodStart" label="Pay period start">{payPeriodStart}</ReadOnly>
-        <ReadOnly name="PayPeriodEnd" label="Pay period end">{payPeriodEnd}</ReadOnly>
-        <ReadOnly name="DateOfPayment" label="Date of payment">{dateOfPayment}</ReadOnly>
+        <ReadOnly name="PayPeriodStart" label="Pay period start">{formatSlashDate(payPeriodStart)}</ReadOnly>
+        <ReadOnly name="PayPeriodEnd" label="Pay period end">{formatSlashDate(payPeriodEnd)}</ReadOnly>
+        <ReadOnly name="DateOfPayment" label="Date of payment">{formatSlashDate(dateOfPayment)}</ReadOnly>
       </FormHorizontal>
 
     </Modal.Body>
