@@ -178,8 +178,6 @@ const loadBankTransactions = (state, action) => ({
     isFocused: false,
     isLoading: false,
   })),
-  sortOrder: action.sortOrder,
-  orderBy: action.orderBy,
   filterOptions: {
     ...state.filterOptions,
     bankAccount: action.bankAccount,
