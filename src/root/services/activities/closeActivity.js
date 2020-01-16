@@ -5,6 +5,7 @@ const closeActivity = async ({
 }) => {
   const { businessId } = store.getState();
   const { activityId } = context;
+  if (!activityId) return;
 
   try {
     const activity = await new Promise((resolve, reject) => integration.write({

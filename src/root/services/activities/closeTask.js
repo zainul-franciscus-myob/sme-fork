@@ -6,6 +6,8 @@ const closeTask = async ({
   const { businessId } = store.getState();
   const { activityId, activityKey } = context;
 
+  if (!activityId || !activityKey) return;
+
   try {
     const activity = await new Promise((resolve, reject) => integration.write({
       intent: CLOSE_TASK,
