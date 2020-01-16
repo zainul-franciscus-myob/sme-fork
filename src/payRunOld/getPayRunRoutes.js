@@ -9,7 +9,7 @@ const getPayRunOldRoutes = ({
   const routes = [
     {
       name: RouteName.PAY_RUN_OLD_CREATE,
-      path: '/:region/:businessId/payRun/new',
+      path: '/:region/:businessId/payRunOld/new',
       module: new PayRunModule({
         integration, setRootView, pushMessage,
       }),
@@ -17,7 +17,7 @@ const getPayRunOldRoutes = ({
     },
     {
       name: RouteName.PAY_RUN_OLD_LIST,
-      path: '/:region/:businessId/payRun/',
+      path: '/:region/:businessId/payRunOld/',
       module: new PayrunListModule({
         integration, setRootView, popMessages, replaceURLParams,
       }),
@@ -25,7 +25,7 @@ const getPayRunOldRoutes = ({
     },
     {
       name: RouteName.PAY_RUN_OLD_DETAIL,
-      path: '/:region/:businessId/payRun/:payRunId',
+      path: '/:region/:businessId/payRunOld/:payRunId',
       module: new PayRunDetailModule({
         integration, setRootView,
       }),
