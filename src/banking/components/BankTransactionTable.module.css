@@ -141,7 +141,7 @@
 }
 
 .row:hover .editIcon {
-  opacity: 100%;
+  opacity: 1;
 }
 
 .selected:hover .allocationColumn {
