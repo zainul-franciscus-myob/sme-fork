@@ -9,14 +9,13 @@ import {
   SET_SUBMITTING_STATE,
   UPDATE_FORM,
 } from '../TransferMoneyIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
+  transferMoneyId: '',
   transferMoney: {
     referenceId: '',
     originalReferenceId: '',

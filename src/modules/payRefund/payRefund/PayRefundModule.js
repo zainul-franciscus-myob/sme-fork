@@ -3,14 +3,22 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_PAY_REFUND, SUCCESSFULLY_SAVED_PAY_REFUND } from '../PayRefundMessageTypes';
 import {
-  getBusinessId, getIsCreating, getIsPageEdited, getRegion, isReferenceIdDirty,
+  getBusinessId,
+  getIsCreating,
+  getIsPageEdited,
+  getIsSubmitting,
+  getModalType,
+  getRegion,
+  isReferenceIdDirty,
 } from './payRefundSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import RefundView from './components/PayRefundView';
 import Store from '../../../store/Store';
 import createPayRefundDispatcher from './createPayRefundDispatcher';
 import createPayRefundIntegrator from './createPayRefundIntegrator';
+import keyMap from '../../../hotKeys/keyMap';
 import payRefundReducer from './payRefundReducer';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class PayRefundModule {
   constructor({
@@ -39,6 +47,8 @@ export default class PayRefundModule {
   }
 
   createRefund = () => {
+    if (getIsSubmitting(this.store.getState())) return;
+
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
@@ -158,8 +168,22 @@ export default class PayRefundModule {
     this.store.unsubscribeAll();
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    const modalType = getModalType(state);
+    if (!isCreating || modalType) return;
+
+    this.createRefund();
+  }
+
+  handlers = {
+    SAVE_ACTION: this.saveHandler,
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadRefund();
   }

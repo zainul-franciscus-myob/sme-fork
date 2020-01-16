@@ -1,5 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import ModalType from './ModalType';
+
 const getApplyToAllAccounts = state => state.applyToAllAccounts;
 const getAccountId = state => state.accountId;
 const getConditions = state => state.conditions;
@@ -77,4 +79,10 @@ export const getSaveUrl = (state) => {
   const bankingRuleListUrl = getBankingRuleListUrl(state);
 
   return modalUrl || bankingRuleListUrl;
+};
+
+export const getOpenedModalType = (state) => {
+  const modal = getModal(state) || { type: ModalType.NONE };
+
+  return modal.type;
 };

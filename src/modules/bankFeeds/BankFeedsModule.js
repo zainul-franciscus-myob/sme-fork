@@ -1,12 +1,16 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getIsSubmitting, getModalType } from './BankFeedsSelectors';
 import BankFeedsView from './components/BankFeedsView';
 import LoadingState from '../../components/PageView/LoadingState';
+import ModalTypes from './ModalTypes';
 import Store from '../../store/Store';
 import bankFeedsReducer from './bankFeedsReducer';
 import createBankFeedsDispatcher from './createBankFeedsDispatcher';
 import createBankFeedsIntegrator from './createBankFeedsIntegrator';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 class BankFeedsModule {
   constructor({
@@ -31,6 +35,8 @@ class BankFeedsModule {
   }
 
   saveBankFeeds = () => {
+    if (getIsSubmitting(this.store.getState())) return;
+
     this.dispatcher.setIsSubmitting(true);
 
     const onSuccess = (response) => {
@@ -121,10 +127,31 @@ class BankFeedsModule {
     this.cancelBankFeedsLoginModal();
   };
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    switch (modalType) {
+      case ModalTypes.DELETE:
+        // DO NOTHING
+        break;
+      case ModalTypes.BANK_FEEDS_LOGIN:
+        this.bankFeedsLogin();
+        break;
+      default:
+        this.saveBankFeeds();
+        break;
+    }
+  }
+
+  handlers = {
+    SAVE_ACTION: this.saveHandler,
+  };
+
   resetState = () => this.dispatcher.resetState();
 
   run(context) {
     this.dispatcher.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadBankFeeds();

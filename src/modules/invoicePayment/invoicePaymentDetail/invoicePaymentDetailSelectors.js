@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+import InvoicePaymentModalTypes from '../InvoicePaymentModalTypes';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 
 export const getIsCreating = state => state.invoicePaymentId === 'new';
@@ -112,3 +113,9 @@ export const getIsTableEmpty = state => state.entries.length === 0;
 
 export const getWasRedirectedFromInvoiceDetail = state => state.applyPaymentToInvoiceId !== '';
 export const getIsCustomerEmpty = state => !state.customerId;
+
+export const getOpenedModalType = (state) => {
+  const modal = getModal(state) || { type: InvoicePaymentModalTypes.NONE };
+
+  return modal.type;
+};

@@ -1,11 +1,13 @@
-import {
-  Alert, Card, PageHead,
-} from '@myob/myob-widgets';
+import { Alert, Card, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getLoadingState, getModal, getPageTitle,
+  getAlertMessage,
+  getIsCreating,
+  getLoadingState,
+  getModal,
+  getPageTitle,
 } from '../transferMoneyDetailSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import SmallScreenTemplate from '../../../../components/SmallScreenTemplate/SmallScreenTemplate';
@@ -78,6 +80,7 @@ const mapStateToProps = state => ({
   modal: getModal(state),
   loadingState: getLoadingState(state),
   pageTitle: getPageTitle(state),
+  isCreating: getIsCreating(state),
 });
 
 export default connect(mapStateToProps)(TransferMoneyDetailView);

@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { LOAD_NEW_ADVISOR_DETAIL, LOAD_NEW_USER_DETAIL, LOAD_USER_DETAIL } from '../UserIntents';
+import ModalType from '../ModalType';
 
 const NEW_USER_PATH_COMPONENT = 'new';
 const NEW_ADVISOR_PATH_COMPONENT = 'new-advisor';
@@ -90,3 +91,9 @@ export const getRedirectUrl = createSelector(
     modal && modal.url ? modal.url : `/#/${region}/${businessId}/user`
   ),
 );
+
+export const getOpenedModalType = (state) => {
+  const modal = getModal(state) || { type: ModalType.NONE };
+
+  return modal.type;
+};

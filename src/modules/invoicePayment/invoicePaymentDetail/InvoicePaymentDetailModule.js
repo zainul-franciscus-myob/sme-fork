@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { CANCEL_MODAL, DELETE_MODAL, UNSAVED_MODAL } from '../InvoicePaymentModalTypes';
 import {
   CLOSE_MODAL,
   CREATE_INVOICE_PAYMENT,
@@ -22,28 +21,27 @@ import {
   UPDATE_SHOW_PAID_INVOICES,
 } from '../InvoicePaymentIntent';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import {
-  SUCCESSFULLY_DELETED_INVOICE_PAYMENT,
-  SUCCESSFULLY_SAVED_INVOICE_PAYMENT,
-} from '../InvoicePaymentMessageTypes';
+import { SUCCESSFULLY_DELETED_INVOICE_PAYMENT, SUCCESSFULLY_SAVED_INVOICE_PAYMENT } from '../InvoicePaymentMessageTypes';
 import {
   getBusinessId,
   getCustomerId,
   getInvoicePaymentId,
+  getIsActionsDisabled,
   getIsCreating,
   getIsPageEdited,
   getModalUrl,
+  getOpenedModalType,
   getRegion,
   getSaveContent,
   getShowPaidInvoices,
 } from './invoicePaymentDetailSelectors';
 import InvoicePaymentDetailView from './components/InvoicePaymentDetailView';
+import InvoicePaymentModalTypes from '../InvoicePaymentModalTypes';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import invoicePaymentDetailReducer from './invoicePaymentDetailReducer';
 import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
-
 
 export default class InvoicePaymentDetailModule {
   constructor({ integration, setRootView, pushMessage }) {
@@ -246,6 +244,8 @@ export default class InvoicePaymentDetailModule {
 
   createOrUpdateInvoicePayment = ({ onSuccess }) => {
     const state = this.store.getState();
+    if (getIsActionsDisabled(state)) return;
+
     const isCreating = getIsCreating(state);
 
     const intent = isCreating ? CREATE_INVOICE_PAYMENT : UPDATE_INVOICE_PAYMENT;
@@ -350,7 +350,7 @@ export default class InvoicePaymentDetailModule {
     this.store.dispatch({
       intent,
       modal: {
-        type: DELETE_MODAL,
+        type: InvoicePaymentModalTypes.DELETE,
       },
     });
   };
@@ -364,7 +364,7 @@ export default class InvoicePaymentDetailModule {
       this.store.dispatch({
         intent,
         modal: {
-          type: CANCEL_MODAL,
+          type: InvoicePaymentModalTypes.CANCEL,
         },
       });
     } else {
@@ -378,7 +378,7 @@ export default class InvoicePaymentDetailModule {
     this.store.dispatch({
       intent,
       modal: {
-        type: UNSAVED_MODAL,
+        type: InvoicePaymentModalTypes.UNSAVED,
         url,
       },
     });
@@ -420,8 +420,25 @@ export default class InvoicePaymentDetailModule {
     }
   };
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case InvoicePaymentModalTypes.CANCEL:
+      case InvoicePaymentModalTypes.DELETE:
+        // DO NOTHING
+        break;
+      case InvoicePaymentModalTypes.UNSAVED:
+        this.saveUnsavedChanges();
+        break;
+      default:
+        this.saveInvoicePayment();
+        break;
+    }
+  }
+
   handlers = {
-    SAVE_ACTION: this.saveInvoicePayment,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run = (context) => {

@@ -113,7 +113,7 @@ export const getRegion = state => state.region;
 
 export const getIsOpen = state => state.isOpen;
 
-const getIsSubmitting = state => state.isSubmitting;
+export const getIsSubmitting = state => state.isSubmitting;
 
 export const getIsActionDisabled = createSelector(
   getIsSubmitting,

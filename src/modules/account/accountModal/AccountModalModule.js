@@ -2,6 +2,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getIsOpen, getIsSubmitting } from './accountModalSelectors';
 import AccountModalView from './components/AccountModalView';
 import Store from '../../../store/Store';
 import accountModalReducer from './accountModalReducer';
@@ -20,11 +21,17 @@ export default class AccountModalModule {
     this.dispatcher = createAccountModalDispatcher(this.store);
   }
 
+  isOpened = () => getIsOpen(this.store.getState());
+
+  isSubmitting = () => getIsSubmitting(this.store.getState());
+
   close = () => {
     this.dispatcher.resetState();
   }
 
-  createAccount = () => {
+  save = () => {
+    if (this.isSubmitting()) return;
+
     const onSuccess = (message) => {
       this.onSaveSuccess(message);
       this.dispatcher.setSubmittingState(false);
@@ -57,7 +64,7 @@ export default class AccountModalModule {
   render = () => (
     <Provider store={this.store}>
       <AccountModalView
-        onSaveButtonClick={this.createAccount}
+        onSaveButtonClick={this.save}
         onAccountChange={this.dispatcher.updateAccountDetails}
         onAccountNumberChange={this.dispatcher.updateAccountNumber}
         onAccountNumberBlur={this.dispatcher.padAccountNumberValue}

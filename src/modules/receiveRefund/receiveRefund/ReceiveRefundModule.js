@@ -2,13 +2,22 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { SUCCESSFULLY_DELETED_RECEIVE_REFUND, SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../ReceiveRefundMessageTypes';
-import { getBusinessId, getIsPageEdited, getRegion } from './receiveRefundSelectors';
+import {
+  getBusinessId,
+  getIsCreating,
+  getIsPageEdited,
+  getIsSubmitting,
+  getModalType,
+  getRegion,
+} from './receiveRefundSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import RefundView from './components/ReceiveRefundView';
 import Store from '../../../store/Store';
 import createReceiveRefundDispatcher from './createReceiveRefundDispatcher';
 import createReceiveRefundIntegrator from './createReceiveRefundIntegrator';
+import keyMap from '../../../hotKeys/keyMap';
 import receiveRefundReducer from './receiveRefundReducer';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ReceiveRefundModule {
   constructor({
@@ -37,6 +46,8 @@ export default class ReceiveRefundModule {
   }
 
   createRefund = () => {
+    if (getIsSubmitting(this.store.getState())) return;
+
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
@@ -126,8 +137,22 @@ export default class ReceiveRefundModule {
     this.store.unsubscribeAll();
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    const modalType = getModalType(state);
+    if (!isCreating || modalType) return;
+
+    this.createRefund();
+  }
+
+  handlers = {
+    SAVE_ACTION: this.saveHandler,
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadRefund();
   }

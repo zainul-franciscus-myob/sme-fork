@@ -2,7 +2,6 @@ import { Alert, Checkbox, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { CANCEL_MODAL, DELETE_MODAL, UNSAVED_MODAL } from '../../InvoicePaymentModalTypes';
 import {
   getAlertMessage,
   getIsCreating,
@@ -15,6 +14,7 @@ import DeleteModal from '../../../../components/modal/DeleteModal';
 import InvoicePaymentDetailActions from './InvoicePaymentDetailActions';
 import InvoicePaymentDetailOptions from './InvoicePaymentDetailOptions';
 import InvoicePaymentDetailTable from './InvoicePaymentDetailTable';
+import InvoicePaymentModalTypes from '../../InvoicePaymentModalTypes';
 import PageView from '../../../../components/PageView/PageView';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 import styles from './InvoicePaymentDetailView.module.css';
@@ -60,16 +60,16 @@ const InvoicePaymentDetailView = ({
   );
 
   const modalComponent = modal && {
-    [CANCEL_MODAL]: <CancelModal
+    [InvoicePaymentModalTypes.CANCEL]: <CancelModal
       onCancel={onCloseModal}
       onConfirm={onConfirmCancel}
     />,
-    [DELETE_MODAL]: <DeleteModal
+    [InvoicePaymentModalTypes.DELETE]: <DeleteModal
       onCancel={onCloseModal}
       onConfirm={onConfirmDelete}
       title="Delete this payment?"
     />,
-    [UNSAVED_MODAL]: <UnsavedModal
+    [InvoicePaymentModalTypes.UNSAVED]: <UnsavedModal
       onConfirmSave={onConfirmSaveButtonClick}
       onConfirmUnsave={onConfirmUnsaveButtonClick}
       onCancel={onCloseModal}

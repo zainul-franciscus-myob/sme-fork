@@ -20,17 +20,15 @@ import {
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
-import {
-  SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY,
-} from '../receiveMoneyMessageTypes';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../receiveMoneyMessageTypes';
 import {
   getBusinessId,
   getCalculatedTotalsPayload,
+  getIsActionsDisabled,
   getIsTableEmpty,
   getModalUrl,
+  getOpenedModalType,
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyForUpdatePayload,
   getReceiveMoneyId,
@@ -39,7 +37,7 @@ import {
   isPageEdited,
 } from './receiveMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
-import ModalType from './components/ModalType';
+import ModalType from '../ModalType';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
 import Store from '../../../store/Store';
 import keyMap from '../../../hotKeys/keyMap';
@@ -143,6 +141,8 @@ export default class ReceiveMoneyDetailModule {
   }
 
   saveReceiveMoneyEntry(intent, content, urlParams) {
+    if (getIsActionsDisabled(this.store.getState())) return;
+
     const onSuccess = (response) => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_RECEIVE_MONEY,
@@ -406,8 +406,23 @@ export default class ReceiveMoneyDetailModule {
     }
   };
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case ModalType.CANCEL:
+      case ModalType.DELETE:
+        // DO NOTHING
+        break;
+      case ModalType.UNSAVED:
+      default:
+        this.saveReceivedMoney();
+        break;
+    }
+  }
+
   handlers = {
-    SAVE_ACTION: this.saveReceivedMoney,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {

@@ -24,6 +24,8 @@ import {
   getBusinessId,
   getIsCreating,
   getIsPageEdited,
+  getIsSubmitting,
+  getModalType,
   getPurchaseReturnId,
   getRegion,
   getSupplierReturnId,
@@ -31,6 +33,8 @@ import {
 } from './SupplierReturnPurchaseSelector';
 import Store from '../../store/Store';
 import SupplierReturnPurchaseView from './components/SupplierReturnPurchaseView';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 import supplierReturnPurchaseReducer from './SupplierReturnPurchaseReducer';
 
 export default class SupplerReturnPurchaseModule {
@@ -77,6 +81,8 @@ export default class SupplerReturnPurchaseModule {
   };
 
   createPurchaseReturn = () => {
+    if (getIsSubmitting(this.store.getState())) return;
+
     this.setSubmittingState(true);
 
     const state = this.store.getState();
@@ -290,8 +296,22 @@ export default class SupplerReturnPurchaseModule {
     });
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    const modalType = getModalType(state);
+    if (!isCreating || modalType) return;
+
+    this.createPurchaseReturn();
+  }
+
+  handlers = {
+    SAVE_ACTION: this.saveHandler,
+  };
+
   run = (context) => {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.setLoadingState(true);
     this.loadPurchaseReturn();

@@ -7,11 +7,7 @@ import {
   CALCULATE_QUOTE_LINE_TOTALS,
   CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE,
 } from '../QuoteIntents';
-import {
-  SUCCESSFULLY_DELETED_QUOTE,
-  SUCCESSFULLY_EMAILED_QUOTE,
-  SUCCESSFULLY_SAVED_QUOTE,
-} from './QuoteMessageTypes';
+import { SUCCESSFULLY_DELETED_QUOTE, SUCCESSFULLY_EMAILED_QUOTE, SUCCESSFULLY_SAVED_QUOTE } from './QuoteMessageTypes';
 import {
   getAccountModalContext,
   getContactModalContext,
@@ -19,13 +15,16 @@ import {
   getInventoryModalContext,
   getIsCreating,
   getIsLineAmountInputDirty,
+  getIsModalActionDisabled,
   getIsPageEdited,
+  getIsSubmitting,
   getIsTableEmpty,
   getIsTaxCalculationRequired,
   getLength,
   getLineByIndex,
   getModalUrl,
   getNewLineIndex,
+  getOpenedModalType,
   getRouteUrlParams,
   getShouldReload,
   getShouldSaveAndExportPdf,
@@ -46,7 +45,7 @@ import {
   getQuoteReadWithEmailModalUrl,
   getQuoteReadWithExportPdfModalUrl,
 } from './selectors/RedirectSelectors';
-import { getFilesForUpload, getIsEmailModalOpen } from './selectors/EmailSelectors';
+import { getFilesForUpload } from './selectors/EmailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
@@ -104,6 +103,8 @@ export default class QuoteDetailModule {
   }
 
   createOrUpdateQuote = ({ onSuccess }) => {
+    if (getIsSubmitting(this.store.getState())) return;
+
     this.dispatcher.setSubmittingState(true);
 
     const onFailure = ({ message }) => {
@@ -595,6 +596,8 @@ export default class QuoteDetailModule {
   }
 
   sendEmail = () => {
+    if (getIsModalActionDisabled(this.store.getState())) return;
+
     this.dispatcher.setModalSubmittingState(true);
 
     const onSuccess = ({ message }) => {
@@ -615,6 +618,8 @@ export default class QuoteDetailModule {
   }
 
   exportQuotePdf = () => {
+    if (getIsModalActionDisabled(this.store.getState())) return;
+
     this.dispatcher.setModalSubmittingState(true);
 
     const onSuccess = (data) => {
@@ -726,11 +731,49 @@ export default class QuoteDetailModule {
   unsubscribeFromStore = () => this.store.unsubscribeAll();
 
   saveHandler = () => {
+    // Quick add modals
+    if (this.contactModalModule.isOpened()) {
+      this.contactModalModule.save();
+      return;
+    }
+
+    if (this.accountModalModule.isOpened()) {
+      this.accountModalModule.save();
+      return;
+    }
+
+    if (this.inventoryModalModule.isOpened()) {
+      this.inventoryModalModule.save();
+      return;
+    }
+
+    // In-module modals
     const state = this.store.getState();
-    if (getIsEmailModalOpen(state)) {
-      this.sendEmail();
-    } else {
-      this.saveQuote();
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case ModalType.CANCEL:
+      case ModalType.DELETE:
+        // DO NOTHING
+        break;
+      case ModalType.EXPORT_PDF:
+        this.exportQuotePdf();
+        break;
+      case ModalType.EMAIL_QUOTE:
+        this.sendEmail();
+        break;
+      case ModalType.EMAIL_SETTINGS:
+        this.openSalesSettingsTabAndCloseModal();
+        break;
+      case ModalType.SAVE_AND_CREATE_NEW:
+        this.saveAndCreateNew();
+        break;
+      case ModalType.SAVE_AND_DUPLICATE:
+        this.saveAndDuplicate();
+        break;
+      case ModalType.UNSAVED:
+      default:
+        this.saveQuote();
+        break;
     }
   }
 

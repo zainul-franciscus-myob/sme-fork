@@ -12,11 +12,13 @@ import {
   UPDATE_HAS_ACCOUNT_OPTION,
 } from './LinkedAccountsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getBusinessId, getSaveLinkedAccountsPayload } from './LinkedAccountsSelectors';
+import { getBusinessId, getIsActionDisabled, getSaveLinkedAccountsPayload } from './LinkedAccountsSelectors';
 import LinkedAccountsView from './components/LinkedAccountsView';
 import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
+import keyMap from '../../hotKeys/keyMap';
 import linkedAccountsReducer from './linkedAccountsReducer';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 class LinkedAccountsModule {
   constructor({
@@ -68,6 +70,7 @@ class LinkedAccountsModule {
 
   saveLinkedAccounts = () => {
     const state = this.store.getState();
+    if (getIsActionDisabled(state)) return;
 
     this.setIsSubmitting(true);
 
@@ -140,6 +143,10 @@ class LinkedAccountsModule {
     });
   }
 
+  handlers = {
+    SAVE_ACTION: this.saveLinkedAccounts,
+  };
+
   setInitialState = (context) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
@@ -155,6 +162,7 @@ class LinkedAccountsModule {
 
   run(context) {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.setLoadingState(true);
     this.loadLinkedAccounts();

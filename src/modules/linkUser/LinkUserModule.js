@@ -1,13 +1,15 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getRedirectURL } from './LinkUserSelectors';
+import { getLoadingState, getRedirectURL } from './LinkUserSelectors';
 import LinkUserView from './components/LinkUserView';
 import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import createLinkUserDispatcher from './createLinkUserDispatcher';
 import createLinkUserIntegrator from './createLinkUserIntegrator';
+import keyMap from '../../hotKeys/keyMap';
 import linkUserReducer from './linkUserReducer';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class LinkUserModule {
   constructor({ integration, setRootView }) {
@@ -37,6 +39,8 @@ export default class LinkUserModule {
   }
 
   linkUserId = () => {
+    if (getLoadingState(this.store.getState()) === LoadingState.LOADING) return;
+
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = () => {
@@ -89,8 +93,13 @@ export default class LinkUserModule {
 
   setInitialState = context => this.dispatcher.setInitialState(context);
 
+  handlers = {
+    SAVE_ACTION: this.linkUserId,
+  };
+
   run = (context) => {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadBusinessInformation();
   }

@@ -214,3 +214,9 @@ export const getInventoryModalContext = (state) => {
 };
 
 export const getIsTaxCalculationRequired = state => state.quote.lines.some(line => line.taxCodeId);
+
+export const getOpenedModalType = (state) => {
+  const modal = getModal(state) || { type: ModalType.NONE };
+
+  return modal.type;
+};

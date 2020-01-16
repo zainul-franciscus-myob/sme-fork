@@ -24,12 +24,16 @@ import {
   getCustomerReturnId,
   getIsCreating,
   getIsPageEdited,
+  getIsSubmitting,
+  getModalType,
   getRegion,
 } from './applyToSaleSelectors';
 import ApplyToSaleView from './components/ApplyToSaleView';
 import ModalType from './ModalType';
 import Store from '../../store/Store';
 import applyToSaleReducer from './applyToSaleReducer';
+import keyMap from '../../hotKeys/keyMap';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class ApplyToSaleModule {
   constructor({ integration, setRootView, pushMessage }) {
@@ -76,9 +80,11 @@ export default class ApplyToSaleModule {
   }
 
   createApplyToSale = () => {
+    const state = this.store.getState();
+    if (getIsSubmitting(state)) return;
+
     this.setIsSubmitting(true);
 
-    const state = this.store.getState();
     const urlParams = {
       businessId: getBusinessId(state),
     };
@@ -238,6 +244,18 @@ export default class ApplyToSaleModule {
     });
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    this.createApplyToSale();
+  }
+
+  handlers = {
+    SAVE_ACTION: this.saveHandler,
+  };
+
   setInitialState = (context) => {
     this.store.dispatch({
       intent: SET_INITIAL_STATE,
@@ -247,6 +265,7 @@ export default class ApplyToSaleModule {
 
   run = (context) => {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadApplyToSale();
   };

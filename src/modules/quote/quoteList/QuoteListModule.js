@@ -34,9 +34,7 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import QuoteListView from './components/QuoteListView';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
-import keyMap from '../../../hotKeys/keyMap';
 import quoteListReducer from './quoteListReducer';
-import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 const messageTypes = [
   SUCCESSFULLY_SAVED_QUOTE,
@@ -333,14 +331,9 @@ export default class QuoteListModule {
     this.setRootView(wrappedView);
   };
 
-  handlers = {
-    SAVE_ACTION: this.filterQuoteList,
-  };
-
   run(context) {
     const settings = loadSettings(context.businessId, RouteName.QUOTE_LIST);
     this.setInitialState(context, settings);
-    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();
     this.setLoadingState(LoadingState.LOADING);

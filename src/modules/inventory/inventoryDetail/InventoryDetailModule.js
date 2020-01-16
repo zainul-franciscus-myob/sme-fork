@@ -18,12 +18,16 @@ import {
   UPDATE_ITEM_DETAILS,
   UPDATE_SELLING_DETAILS,
 } from '../InventoryIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_ITEM, SUCCESSFULLY_SAVED_ITEM } from '../InventoryMessageTypes';
 import {
-  getBusinessId, getIsCreating, getItem, getRegion, isPageEdited,
+  getBusinessId,
+  getIsActionsDisabled,
+  getIsCreating,
+  getItem,
+  getModalType,
+  getRegion,
+  isPageEdited,
 } from './inventoryDetailSelectors';
 import InventoryDetailView from './components/InventoryDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -211,6 +215,8 @@ export default class InventoryDetailModule {
   };
 
   saveInventoryDetail(intent, content, urlParams) {
+    if (getIsActionsDisabled(this.store.getState())) return;
+
     this.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
@@ -305,8 +311,16 @@ export default class InventoryDetailModule {
     });
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    this.saveItem();
+  }
+
   handlers = {
-    SAVE_ACTION: this.saveItem,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {

@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getIsOpen, getIsSubmitting } from './ContactModalSelectors';
 import ContactModalView from './components/ContactModalView';
 import Store from '../../../store/Store';
 import contactModalReducer from './contactModalReducer';
@@ -18,6 +19,10 @@ export default class ContactModalModule {
     this.dispatcher = createContactModalDispatcher(this.store);
   }
 
+  isOpened = () => getIsOpen(this.store.getState());
+
+  isSubmitting = () => getIsSubmitting(this.store.getState());
+
   loadContactModal = () => {
     this.dispatcher.setLoadingState(true);
 
@@ -34,7 +39,9 @@ export default class ContactModalModule {
     this.integrator.loadContactModal({ onSuccess, onFailure });
   };
 
-  createContact = () => {
+  save = () => {
+    if (this.isSubmitting()) return;
+
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = (response) => {
@@ -73,7 +80,7 @@ export default class ContactModalModule {
           onBillingAddressChange={this.dispatcher.setContactModalBillingAddress}
           onShippingAddressButtonClick={this.dispatcher.setShowContactModalShippingAddress}
           onShippingAddressChange={this.dispatcher.setContactModalShippingAddress}
-          onSaveButtonClick={this.createContact}
+          onSaveButtonClick={this.save}
           onCancelButtonClick={this.dispatcher.resetState}
         />
       </Provider>

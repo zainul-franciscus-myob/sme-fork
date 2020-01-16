@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+import ModalType from '../ModalType';
 import StatementType from '../StatementType';
 import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 
@@ -154,3 +155,13 @@ export const getIsDefaultFilters = createSelector(
     appliedFilterOptions, defaultFilterOptions,
   ),
 );
+
+export const getIsModalSubmitting = createSelector(
+  getModal, (modal = { isModalSubmitting: false }) => modal.isModalSubmitting,
+);
+
+export const getOpenedModalType = (state) => {
+  const modal = getModal(state) || { type: ModalType.NONE };
+
+  return modal.type;
+};

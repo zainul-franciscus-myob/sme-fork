@@ -13,7 +13,7 @@ import {
   UPDATE_INCOME_ALLOCATION_LINE,
 } from './IncomeAllocationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getBusinessId, getIncomeAllocationSavePayload } from './IncomeAllocationSelectors';
+import { getBusinessId, getIncomeAllocationSavePayload, getLoadingState } from './IncomeAllocationSelectors';
 import IncomeAllocationView from './components/IncomeAllocationView';
 import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
@@ -136,9 +136,11 @@ export default class IncomeAllocationModule {
   }
 
   saveIncomeAllocation = () => {
+    const state = this.store.getState();
+    if (getLoadingState(state) === LoadingState.LOADING) return;
+
     const intent = SAVE_INCOME_ALLOCATION;
 
-    const state = this.store.getState();
     const content = getIncomeAllocationSavePayload(state);
     const urlParams = {
       businessId: getBusinessId(state),

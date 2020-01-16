@@ -2,7 +2,7 @@ import React from 'react';
 
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
-import ModalType from './ModalType';
+import ModalType from '../ModalType';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const GeneralJournalDetailModal = ({

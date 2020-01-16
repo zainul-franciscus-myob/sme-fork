@@ -10,7 +10,7 @@ export const getRegion = state => state.region;
 export const getAlert = state => state.alert;
 export const getIsOpen = state => state.isOpen;
 export const getIsLoading = state => state.isLoading;
-const getIsSubmitting = state => state.isSubmitting;
+export const getIsSubmitting = state => state.isSubmitting;
 export const getShowContactType = state => state.showContactType;
 const getShowBillingAddress = state => state.showBillingAddress;
 const getShowShippingAddress = state => state.showShippingAddress;

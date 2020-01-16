@@ -1,11 +1,16 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_BANKING_RULE_BILL, SUCCESSFULLY_SAVED_BANKING_RULE_BILL } from './BankingRuleBillMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_BANKING_RULE_BILL,
+  SUCCESSFULLY_SAVED_BANKING_RULE_BILL,
+} from './BankingRuleBillMessageTypes';
 import {
   getBankingRuleListUrl,
   getIsPagedEdited,
+  getLoadingState,
   getModalUrl,
+  getOpenedModalType,
   getSaveUrl,
 } from './bankingRuleBillSelectors';
 import BankingRuleBillView from './components/BankingRuleBillView';
@@ -71,6 +76,8 @@ export default class BankingRuleBillModule {
 
   saveBankingRule = () => {
     const state = this.store.getState();
+    if (getLoadingState(state) === LoadingState.LOADING) return;
+
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
@@ -168,11 +175,25 @@ export default class BankingRuleBillModule {
     this.store.unsubscribeAll();
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case ModalType.DELETE:
+        // DO NOTHING
+        break;
+      case ModalType.UNSAVED:
+      default:
+        this.saveBankingRule();
+        break;
+    }
+  }
+
   run = (context) => {
     this.dispatcher.setInitialState(context);
     this.render();
     setupHotKeys(keyMap, {
-      SAVE_ACTION: this.saveBankingRule,
+      SAVE_ACTION: this.saveHandler,
     });
     this.loadBankingRule();
   }

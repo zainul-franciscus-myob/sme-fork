@@ -12,9 +12,11 @@ import {
   getContextForInventoryModal,
   getIsCreating,
   getIsLineAmountDirty,
+  getIsModalActionDisabled,
   getIsPageEdited,
   getIsSubmitting,
   getIsTableEmpty,
+  getModalType,
   getNewLineIndex,
   getRouteURLParams,
   getShouldReload,
@@ -32,7 +34,7 @@ import {
   getSubscriptionSettingsUrl,
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
-import { getFilesForUpload, getIsEmailModalOpen } from './selectors/emailSelectors';
+import { getFilesForUpload } from './selectors/emailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalModule';
@@ -121,6 +123,8 @@ export default class InvoiceDetailModule {
   }
 
   createOrUpdateInvoice = ({ onSuccess }) => {
+    if (getIsSubmitting(this.store.getState())) return;
+
     this.dispatcher.setSubmittingState(true);
 
     const onFailure = ({ message }) => {
@@ -550,6 +554,8 @@ export default class InvoiceDetailModule {
   closeModal = () => this.dispatcher.setModalType(InvoiceDetailModalType.NONE);
 
   sendEmail = () => {
+    if (getIsSubmitting(this.store.getState())) return;
+
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
@@ -621,6 +627,8 @@ export default class InvoiceDetailModule {
   }
 
   exportPdf = () => {
+    if (getIsModalActionDisabled(this.store.getState())) return;
+
     this.dispatcher.setModalSubmittingState(true);
 
     const onSuccess = (data) => {
@@ -708,9 +716,57 @@ export default class InvoiceDetailModule {
     this.store.unsubscribeAll();
   }
 
-  saveHandler = () => (
-    getIsEmailModalOpen(this.store.getState()) ? this.sendEmail() : this.saveInvoice()
-  );
+  saveHandler = () => {
+    // Quick add modals
+    if (this.contactModalModule.isOpened()) {
+      this.contactModalModule.save();
+      return;
+    }
+
+    if (this.accountModalModule.isOpened()) {
+      this.accountModalModule.save();
+      return;
+    }
+
+    if (this.inventoryModalModule.isOpened()) {
+      this.inventoryModalModule.save();
+      return;
+    }
+
+    // In-module modals
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    switch (modalType) {
+      case InvoiceDetailModalType.CANCEL:
+      case InvoiceDetailModalType.DELETE:
+        // DO NOTHING
+        break;
+      case InvoiceDetailModalType.EXPORT_PDF:
+        this.exportPdf();
+        break;
+      case InvoiceDetailModalType.EMAIL_INVOICE:
+        this.sendEmail();
+        break;
+      case InvoiceDetailModalType.EMAIL_SETTINGS:
+        this.openSalesSettingsTabAndCloseModal();
+        break;
+      case InvoiceDetailModalType.APPLY_PAYMENT_UNSAVED_CHANGES:
+        this.saveAndRedirectToInvoicePayment();
+        break;
+      case InvoiceDetailModalType.REDIRECT_TO_URL:
+        this.saveAndRedirectToRefUrl();
+        break;
+      case InvoiceDetailModalType.SAVE_AND_CREATE_NEW:
+        this.saveAndCreateNewInvoice();
+        break;
+      case InvoiceDetailModalType.SAVE_AND_DUPLICATE:
+        this.saveAndDuplicateInvoice();
+        break;
+      default:
+        this.saveInvoice();
+        break;
+    }
+  };
 
   handlers = {
     SAVE_ACTION: this.saveHandler,

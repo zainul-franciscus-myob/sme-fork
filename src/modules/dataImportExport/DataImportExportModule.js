@@ -15,7 +15,9 @@ import TabItem from './types/TabItem';
 import createDataImportExportDispatcher from './createDataImportExportDispatcher';
 import createDataImportExportIntegrator from './createDataImportExportIntegrator';
 import dataImportExportReducer from './dataImportExportReducer';
+import keyMap from '../../hotKeys/keyMap';
 import openBlob from '../../common/blobOpener/openBlob';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class DataImportExportModule {
   constructor({
@@ -181,9 +183,14 @@ export default class DataImportExportModule {
 
   updateURLFromState = state => this.replaceURLParams(getUrlDataTypeParams(state))
 
+  handlers = {
+    SAVE_ACTION: this.importOrExportData,
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
     this.store.subscribe(this.updateURLFromState);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadDataImportExport();
   }

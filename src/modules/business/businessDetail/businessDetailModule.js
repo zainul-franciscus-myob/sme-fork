@@ -14,7 +14,9 @@ import {
   UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
 import { RESET_STATE } from '../../../SystemIntents';
-import { getBusinessForUpdate, getIsPageEdited, getModalUrl } from './businessDetailSelectors';
+import {
+  getBusinessForUpdate, getIsPageEdited, getIsSubmitting, getModalUrl,
+} from './businessDetailSelectors';
 import BusinessDetailsView from './components/BusinessDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -91,6 +93,8 @@ export default class BusinessDetailModule {
   };
 
   saveBusinessDetails = (onSuccess) => {
+    if (getIsSubmitting(this.store.getState())) return;
+
     this.setSubmittingState(true);
 
     const intent = UPDATE_BUSINESS_DETAIL;

@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getIsLoading, getIsOpen } from './selectors/InventoryModalSelectors';
 import InventoryModalView from './components/InventoryModalView';
 import Store from '../../../store/Store';
 import createInventoryModalDispatcher from './createInventoryModalDispatcher';
@@ -14,6 +15,10 @@ export default class InventoryModalModule {
     this.integrator = createInventoryModalIntegrator(this.store, integration);
   }
 
+  isOpened = () => getIsOpen(this.store.getState());
+
+  isLoading = () => getIsLoading(this.store.getState());
+
   loadItem = () => {
     const onSuccess = (response) => {
       this.dispatcher.loadItem(response);
@@ -26,7 +31,9 @@ export default class InventoryModalModule {
     this.integrator.loadItem({ onSuccess, onFailure });
   }
 
-  saveItem = () => {
+  save = () => {
+    if (this.isLoading()) return;
+
     const onSuccess = (response) => {
       this.dispatcher.stopLoading();
       this.onSaveSuccess(response);
@@ -61,7 +68,7 @@ export default class InventoryModalModule {
           onUpdateSellingOption={this.dispatcher.updateSellingOption}
           onUpdateBuyingOption={this.dispatcher.updateBuyingOption}
           onClose={this.dispatcher.resetState}
-          onSave={this.saveItem}
+          onSave={this.save}
           onDismissAlert={this.dispatcher.closeAlert}
           onOpenBuyingDetails={this.dispatcher.openBuyingDetails}
           onOpenSellingDetails={this.dispatcher.openSellingDetails}

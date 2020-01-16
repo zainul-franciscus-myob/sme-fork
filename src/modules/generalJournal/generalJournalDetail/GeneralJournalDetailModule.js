@@ -20,28 +20,25 @@ import {
   UPDATE_GENERAL_JOURNAL_HEADER,
   UPDATE_GENERAL_JOURNAL_LINE,
 } from '../GeneralJournalIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
-import {
-  SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL,
-} from '../GeneralJournalMessageTypes';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../GeneralJournalMessageTypes';
 import {
   getBusinessId,
   getCalculatedTotalsPayload,
   getGeneralJournal,
   getGeneralJournalForCreatePayload,
   getGeneralJournalId,
+  getIsActionsDisabled,
   getIsTableEmpty,
   getModalUrl,
+  getOpenedModalType,
   getSaveUrl,
   getTransactionListUrl,
   isPageEdited,
 } from './generalJournalDetailSelectors';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
-import ModalType from './components/ModalType';
+import ModalType from './ModalType';
 import Store from '../../../store/Store';
 import generalJournalDetailReducer from './generalJournalDetailReducer';
 import keyMap from '../../../hotKeys/keyMap';
@@ -148,6 +145,8 @@ export default class GeneralJournalDetailModule {
   }
 
   saveGeneralJournalEntry(intent, content, urlParams) {
+    if (getIsActionsDisabled(this.store.getState())) return;
+
     this.setSubmittingState(true);
 
     const onSuccess = (response) => {
@@ -413,8 +412,23 @@ export default class GeneralJournalDetailModule {
    }
  };
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case ModalType.CANCEL:
+      case ModalType.DELETE:
+        // DO NOTHING
+        break;
+      case ModalType.UNSAVED:
+      default:
+        this.saveGeneralJournal();
+        break;
+    }
+  }
+
  handlers = {
-   SAVE_ACTION: this.saveGeneralJournal,
+   SAVE_ACTION: this.saveHandler,
  };
 
  run(context) {

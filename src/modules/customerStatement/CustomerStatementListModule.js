@@ -6,7 +6,9 @@ import {
   getDefaultTemplateOption,
   getFileName,
   getFilterOptions,
+  getIsModalSubmitting,
   getNewSortOrder,
+  getOpenedModalType,
   getSelectedTemplateOption,
   getSettings,
 } from './selectors/customerStatementListSelectors';
@@ -20,7 +22,9 @@ import Store from '../../store/Store';
 import createCustomerStatementListDispatcher from './createCustomerStatementListDispatcher';
 import createCustomerStatementListIntegrator from './createCustomerStatementListIntegrator';
 import customerStatementListReducer from './customerStatementListReducer';
+import keyMap from '../../hotKeys/keyMap';
 import openBlob from '../../common/blobOpener/openBlob';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class CustomerStatementListModule {
   constructor({ integration, setRootView }) {
@@ -122,6 +126,8 @@ export default class CustomerStatementListModule {
 
   downloadPDF = () => {
     const state = this.store.getState();
+    if (getIsModalSubmitting(state)) return;
+
     const templateOption = getSelectedTemplateOption(state);
 
     this.dispatcher.setModalSubmittingState(true);
@@ -150,6 +156,8 @@ export default class CustomerStatementListModule {
   }
 
   sendEmail = () => {
+    if (getIsModalSubmitting(this.store.getState())) return;
+
     this.dispatcher.setModalSubmittingState(true);
 
     const onSuccess = ({ message }) => {
@@ -206,9 +214,30 @@ export default class CustomerStatementListModule {
     this.setRootView(wrappedView);
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case ModalType.EMAIL:
+        this.sendEmail();
+        break;
+      case ModalType.PDF:
+        this.downloadPDF();
+        break;
+      default:
+        // DO NOTHING
+        break;
+    }
+  }
+
+  handlers = {
+    SAVE_ACTION: this.saveHandler,
+  };
+
   run(context) {
     const settings = loadSettings(context.businessId, RouteName.CUSTOMER_STATEMENT_LIST);
     this.dispatcher.setInitialState(context, settings);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.store.subscribe(state => (

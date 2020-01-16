@@ -11,9 +11,11 @@ import {
   getInTrayDocumentId,
   getIsCreating,
   getIsCreatingFromInTray,
+  getIsSubmitting,
   getIsTableEmpty,
   getLoadSpendMoneyRequestParams,
   getModalUrl,
+  getOpenedModalType,
   getSaveUrl,
   getSpendMoneyId,
   getSpendMoneyUid,
@@ -456,15 +458,34 @@ export default class SpendMoneyDetailModule {
   };
 
   saveSpendMoney = () => {
-    if (getIsCreating(this.store.getState())) {
+    const state = this.store.getState();
+    if (getIsSubmitting(state)) return;
+
+    if (getIsCreating(state)) {
       this.createSpendMoneyEntry();
     } else {
       this.updateSpendMoneyEntry();
     }
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case ModalType.CANCEL:
+      case ModalType.DELETE:
+      case ModalType.DELETE_ATTACHMENT:
+        // DO NOTHING
+        break;
+      case ModalType.UNSAVED:
+      default:
+        this.saveSpendMoney();
+        break;
+    }
+  }
+
   handlers = {
-    SAVE_ACTION: this.saveSpendMoney,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {

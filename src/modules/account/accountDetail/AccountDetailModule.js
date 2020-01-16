@@ -1,15 +1,9 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { SUCCESSFULLY_DELETED_ACCOUNT, SUCCESSFULLY_SAVED_ACCOUNT } from '../AccountMessageTypes';
 import {
-  SUCCESSFULLY_DELETED_ACCOUNT,
-  SUCCESSFULLY_SAVED_ACCOUNT,
-} from '../AccountMessageTypes';
-import {
-  getBusinessId,
-  getIsCreating,
-  getRegion,
-  isPageEdited,
+  getBusinessId, getIsActionsDisabled, getIsCreating, getModalType, getRegion, isPageEdited,
 } from './accountDetailSelectors';
 import AccountDetailView from './components/AccountDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -65,7 +59,10 @@ export default class AccountDetailModule {
 
   updateOrCreateAccount = () => {
     const state = this.store.getState();
+    if (getIsActionsDisabled(state)) return;
+
     const isCreating = getIsCreating(state);
+    this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -169,8 +166,16 @@ export default class AccountDetailModule {
     );
   };
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    this.updateOrCreateAccount();
+  }
+
   handlers = {
-    SAVE_ACTION: this.updateOrCreateAccount,
+    SAVE_ACTION: this.saveHandler,
   };
 
   resetState = () => {

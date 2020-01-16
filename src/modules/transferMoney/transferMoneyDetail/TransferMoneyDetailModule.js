@@ -14,17 +14,21 @@ import {
   SET_SUBMITTING_STATE,
   UPDATE_FORM,
 } from '../TransferMoneyIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoneyMessageTypes';
 import {
-  getBusinessId, getCreateTransferMoneyPayload, getModalUrl,
+  getBusinessId,
+  getCreateTransferMoneyPayload,
+  getIsActionsDisabled,
+  getIsCreating,
+  getModalUrl,
+  getOpenedModalType,
   getSaveUrl,
-  getTransactionListUrl, isPageEdited,
+  getTransactionListUrl,
+  isPageEdited,
 } from './transferMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
-import ModalType from './components/ModalType';
+import ModalType from '../ModalType';
 import Store from '../../../store/Store';
 import TransferMoneyDetailView from './components/TransferMoneyDetailView';
 import keyMap from '../../../hotKeys/keyMap';
@@ -120,6 +124,8 @@ export default class TransferMoneyDetailModule {
 
   createTransferMoneyEntry = () => {
     const state = this.store.getState();
+    if (getIsActionsDisabled(state)) return;
+
     const content = getCreateTransferMoneyPayload(state);
     const urlParams = { businessId: getBusinessId(state) };
 
@@ -233,7 +239,6 @@ export default class TransferMoneyDetailModule {
         onAmountInputBlur={this.formatAmount}
         onDismissAlert={this.dismissAlert}
         onSave={this.createTransferMoneyEntry}
-        isCreating={this.isCreating}
         onCancel={this.openCancelModal}
         onDelete={this.openDeleteModal}
         onConfirmCancelButtonClick={this.redirectToModalUrl}
@@ -255,14 +260,31 @@ export default class TransferMoneyDetailModule {
     });
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    if (!isCreating) return;
+
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case ModalType.CANCEL:
+      case ModalType.DELETE:
+        // DO NOTHING
+        break;
+      case ModalType.UNSAVED:
+      default:
+        this.createTransferMoneyEntry();
+        break;
+    }
+  }
+
   handlers = {
-    SAVE_ACTION: this.createTransferMoneyEntry,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {
     this.setInitialState(context);
     this.transferMoneyId = context.transferMoneyId;
-    this.isCreating = context.transferMoneyId === 'new';
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.setLoadingState(LoadingState.LOADING);

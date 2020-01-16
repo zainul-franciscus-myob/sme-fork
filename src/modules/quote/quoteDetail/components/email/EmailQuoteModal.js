@@ -98,7 +98,7 @@ const EmailQuoteModal = ({
     <Modal
       title="Email quote"
       onCancel={onCancel}
-      canClose={false}
+      canClose={!isActionDisabled}
     >
       <Modal.Body>
         {alert && (

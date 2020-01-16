@@ -6,6 +6,8 @@ import {
   getBusinessId,
   getIsPageEdited,
   getIsTemplatesLoading,
+  getLoadingState,
+  getModalType,
   getNewSortOrder,
   getPendingDeleteTemplate,
   getRegion,
@@ -52,6 +54,8 @@ export default class SalesSettingsModule {
 
   updateSalesSettings = () => {
     const state = this.store.getState();
+    if (getLoadingState(state) === LoadingState.LOADING) return;
+
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     const content = getSalesSettingsPayload(state);
 
@@ -105,6 +109,8 @@ export default class SalesSettingsModule {
 
   saveEmailSettings = () => {
     const state = this.store.getState();
+    if (getLoadingState(state) === LoadingState.LOADING) return;
+
     const content = getTabData(state);
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
@@ -216,7 +222,12 @@ export default class SalesSettingsModule {
   };
 
   saveHandler = () => {
-    const selectTab = getSelectedTab(this.store.getState());
+    const state = this.store.getState();
+
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    const selectTab = getSelectedTab(state);
 
     const handler = {
       [mainTabIds.layoutAndTheme]: this.updateSalesSettings,

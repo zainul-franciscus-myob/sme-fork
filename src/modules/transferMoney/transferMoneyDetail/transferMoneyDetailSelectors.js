@@ -1,5 +1,8 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import ModalType from '../ModalType';
+
+const getTransferMoneyId = state => state.transferMoneyId;
 const getReferenceId = state => state.transferMoney.referenceId;
 const getOriginalReferenceId = state => state.transferMoney.originalReferenceId;
 const getDate = state => state.transferMoney.date;
@@ -118,4 +121,14 @@ export const getSaveUrl = (state) => {
   const modalUrl = getModalUrl(state);
   const transactionListUrl = getTransactionListUrl(state);
   return modalUrl || transactionListUrl;
+};
+
+export const getIsCreating = createSelector(
+  getTransferMoneyId, transferMoneyId => transferMoneyId === 'new',
+);
+
+export const getOpenedModalType = (state) => {
+  const modal = getModal(state) || { type: ModalType.NONE };
+
+  return modal.type;
 };

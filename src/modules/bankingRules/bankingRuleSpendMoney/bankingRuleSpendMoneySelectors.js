@@ -1,6 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { allocationTypeOptions } from './AllocationTypes';
+import ModalType from './ModalType';
 import formatNumberWithDecimalScaleRange from '../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
@@ -165,3 +166,9 @@ export const getSaveUrl = (state) => {
 };
 
 export const getTaxCodeLabel = state => getRegionToDialectText(state.region)('Tax code');
+
+export const getOpenedModalType = (state) => {
+  const modal = getModal(state) || { type: ModalType.NONE };
+
+  return modal.type;
+};

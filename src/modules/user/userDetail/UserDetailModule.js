@@ -17,8 +17,10 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_USER, SUCCESSFULLY_SAVED_USER } from '../UserMessageTypes';
 import {
   getBusinessId,
+  getIsActionsDisabled,
   getIsCreating,
   getLoadUserIntent,
+  getOpenedModalType,
   getRedirectUrl,
   getUserForCreate,
   getUserForUpdate,
@@ -26,7 +28,7 @@ import {
   isPageEdited,
 } from './userDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
-import ModalType from './components/ModalType';
+import ModalType from '../ModalType';
 import Store from '../../../store/Store';
 import UserDetailView from './components/UserDetailView';
 import keyMap from '../../../hotKeys/keyMap';
@@ -169,6 +171,8 @@ export default class UserDetailModule {
   };
 
   saveUser(intent, content, urlParams) {
+    if (getIsActionsDisabled(this.store.getState())) return;
+
     const onSuccess = ({ message }) => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_USER,
@@ -279,8 +283,22 @@ export default class UserDetailModule {
     });
   };
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case ModalType.DELETE:
+        // DO NOTHING
+        break;
+      case ModalType.UNSAVED:
+      default:
+        this.createOrUpdateUser();
+        break;
+    }
+  }
+
   handlers = {
-    SAVE_ACTION: this.createOrUpdateUser,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {

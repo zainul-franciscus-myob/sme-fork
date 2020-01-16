@@ -1,5 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import ModalType from './ModalType';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 const getReferenceId = state => state.generalJournal.referenceId;
@@ -19,7 +20,6 @@ export const getHeaderOptions = createStructuredSelector({
 });
 
 export const getAlertMessage = state => state.alertMessage;
-export const getModalType = state => state.modalType;
 export const getLoadingState = state => state.loadingState;
 
 const formatNumber = num => num.toFixed(2);
@@ -176,4 +176,10 @@ export const getSaveUrl = (state) => {
   const modalUrl = getModalUrl(state);
   const transactionListUrl = getTransactionListUrl(state);
   return modalUrl || transactionListUrl;
+};
+
+export const getOpenedModalType = (state) => {
+  const modal = getModal(state) || { type: ModalType.NONE };
+
+  return modal.type;
 };

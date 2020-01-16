@@ -24,6 +24,8 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
   getAccountId,
   getCreateBankReconciliationPayload,
+  getIsModalActive,
+  getIsSubmitting,
   getSortAndFilterParams,
   getStatementDate,
   getUrlParams,
@@ -211,9 +213,10 @@ export default class BankReconciliationModule {
   };
 
   saveBankReconciliation = () => {
-    this.setSubmittingState(true);
-
     const state = this.store.getState();
+    if (getIsSubmitting(state)) return;
+
+    this.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
       this.setSubmittingState(false);
@@ -310,8 +313,16 @@ export default class BankReconciliationModule {
     this.setRootView(wrappedView);
   };
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const isModalActive = getIsModalActive(state);
+    if (isModalActive) return;
+
+    this.saveBankReconciliation();
+  }
+
   handlers = {
-    SAVE_ACTION: this.saveBankReconciliation,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run = (context) => {

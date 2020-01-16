@@ -24,10 +24,12 @@ import { SUCCESSFULLY_DELETED_BILL_PAYMENT, SUCCESSFULLY_SAVED_BILL_PAYMENT } fr
 import {
   getBillPaymentId,
   getBusinessId,
+  getIsActionsDisabled,
   getIsCreating,
   getIsPageEdited,
   getIsReferenceIdDirty,
   getLoadBillListParams,
+  getModalType,
   getRegion,
   getSaveBillPaymentPayload,
   getShouldLoadBillList,
@@ -224,9 +226,10 @@ export default class BillPaymentModule {
   });
 
   saveBillPayment = () => {
-    this.setSubmittingState(true);
-
     const state = this.store.getState();
+    if (getIsActionsDisabled(state)) return;
+
+    this.setSubmittingState(true);
 
     const intent = getIsCreating(state) ? CREATE_BILL_PAYMENT : UPDATE_BILL_PAYMENT;
 
@@ -346,8 +349,16 @@ export default class BillPaymentModule {
     this.setRootView(wrappedView);
   };
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    this.saveBillPayment();
+  }
+
   handlers = {
-    SAVE_ACTION: this.saveBillPayment,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run = (context) => {

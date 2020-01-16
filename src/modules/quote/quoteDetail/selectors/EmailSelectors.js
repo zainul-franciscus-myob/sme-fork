@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect';
 
-import ModalType from '../ModalType';
-
 const getEmailToAddresses = state => state.emailQuote.toEmail;
 const getCcEmailToAddresses = state => state.emailQuote.ccToEmail;
 const getIsEmailMeACopy = state => state.emailQuote.isEmailMeACopy;
@@ -52,8 +50,4 @@ export const getFilesForUpload = (state, files) => (
   files.filter(file => state.emailQuote.attachments.find(
     attachment => attachment.file === file,
   ).state === 'queued')
-);
-
-export const getIsEmailModalOpen = state => (
-  state.modal && state.modal.type === ModalType.EMAIL_QUOTE
 );

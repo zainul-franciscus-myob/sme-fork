@@ -1,5 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import ModalType from './components/ModalType';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 const getReferenceId = state => state.spendMoney.referenceId;
@@ -254,3 +255,9 @@ export const getSaveUrl = createSelector(
     return modalUrl || transactionListUrl;
   },
 );
+
+export const getOpenedModalType = (state) => {
+  const modal = getModal(state) || { type: ModalType.NONE };
+
+  return modal.type;
+};

@@ -2,13 +2,20 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL } from '../inTray/inTrayMessageTypes';
-import { getInTrayListUrl, getIsAnyBillSelected, getNewSortOrder } from './LinkBillSelectors';
+import {
+  getAreActionButtonsDisabled,
+  getInTrayListUrl,
+  getIsAnyBillSelected,
+  getNewSortOrder,
+} from './LinkBillSelectors';
 import LinkBillView from './components/LinkBillView';
 import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
 import createLinkBillDispatcher from './createLinkBillDispatcher';
 import createLinkBillIntegrator from './createLinkBillIntegrator';
+import keyMap from '../../hotKeys/keyMap';
 import linkBillReducer from './linkBillReducer';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class LinkBillModule {
   constructor({
@@ -89,6 +96,8 @@ export default class LinkBillModule {
   }
 
   createDocumentLink = () => {
+    if (getAreActionButtonsDisabled(this.store.getState())) return;
+
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
@@ -113,6 +122,10 @@ export default class LinkBillModule {
   redirectToInTrayListPage = () => {
     window.location.href = getInTrayListUrl(this.store.getState());
   }
+
+  handlers = {
+    SAVE_ACTION: this.linkDocumentToBill,
+  };
 
   setInitialState = context => this.dispatcher.setInitialState(context);
 
@@ -142,6 +155,7 @@ export default class LinkBillModule {
 
   run(context) {
     this.dispatcher.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadLinkBill();
   }

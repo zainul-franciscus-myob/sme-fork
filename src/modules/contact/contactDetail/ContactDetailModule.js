@@ -16,13 +16,18 @@ import {
   UPDATE_CONTACT_DETAILS,
   UPDATE_SHIPPING_ADDRESS,
 } from '../ContactIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT } from '../ContactMessageTypes';
 import {
-  getBusinessId, getContact, getContactId, getIsCreating, getRegion, isPageEdited,
+  getBusinessId,
+  getContact,
+  getContactId,
+  getIsCreating,
+  getModalType,
+  getRegion,
+  isPageEdited,
 } from './contactDetailSelectors';
+import { getIsSubmitting } from '../contactModal/ContactModalSelectors';
 import ContactDetailView from './components/ContactDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -259,6 +264,8 @@ export default class ContactDetailModule {
   }
 
   saveContact(intent, content, urlParams) {
+    if (getIsSubmitting(this.store.getState())) return;
+
     const onSuccess = ({ message }) => {
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_CONTACT,
@@ -343,8 +350,16 @@ export default class ContactDetailModule {
     });
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    this.updateOrCreateContact();
+  }
+
   handlers = {
-    SAVE_ACTION: this.updateOrCreateContact,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {

@@ -1,11 +1,16 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_DELETED_BANKING_RULE_RECEIVE_MONEY, SUCCESSFULLY_SAVED_BANKING_RULE_RECEIVE_MONEY } from './BankingRuleReceiveMoneyMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_BANKING_RULE_RECEIVE_MONEY,
+  SUCCESSFULLY_SAVED_BANKING_RULE_RECEIVE_MONEY,
+} from './BankingRuleReceiveMoneyMessageTypes';
 import {
   getBankingRuleListUrl,
   getIsPagedEdited,
+  getLoadingState,
   getModalUrl,
+  getOpenedModalType,
   getSaveUrl,
 } from './bankingRuleReceiveMoneySelectors';
 import BankingRuleReceiveMoneyView from './components/BankingRuleReceiveMoneyView';
@@ -75,6 +80,8 @@ export default class BankingRuleReceiveMoneyModule {
 
   saveBankingRule = () => {
     const state = this.store.getState();
+    if (getLoadingState(state) === LoadingState.LOADING) return;
+
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = ({ message }) => {
@@ -188,6 +195,20 @@ export default class BankingRuleReceiveMoneyModule {
     this.dispatcher.closeModal();
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case ModalType.DELETE:
+        // DO NOTHING
+        break;
+      case ModalType.UNSAVED:
+      default:
+        this.saveBankingRule();
+        break;
+    }
+  }
+
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   }
@@ -196,7 +217,7 @@ export default class BankingRuleReceiveMoneyModule {
     this.dispatcher.setInitialState(context);
     this.render();
     setupHotKeys(keyMap, {
-      SAVE_ACTION: this.saveBankingRule,
+      SAVE_ACTION: this.saveHandler,
     });
     this.loadBankingRule();
   }
