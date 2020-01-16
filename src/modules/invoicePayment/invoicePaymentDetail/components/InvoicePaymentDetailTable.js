@@ -1,13 +1,13 @@
-import { Label, Table } from '@myob/myob-widgets';
+import { Label, PageState, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getEntries,
   getIsCreating,
+  getIsCustomerEmpty,
   getIsTableEmpty,
   getIsTableLoading,
-  getTableEmptyMessage,
   getTotalReceived,
 } from '../invoicePaymentDetailSelectors';
 import { getResponsiveConfig } from './getResponsiveConfig';
@@ -43,9 +43,13 @@ const InvoicePaymentDetailTable = ({
   totalReceived,
   isTableLoading,
   isTableEmpty,
-  tableEmptyMessage,
+  isCustomerEmpty,
   onAmountInputBlur,
 }) => {
+  const emptyView = isCustomerEmpty
+    ? <PageState title="Select the customer who paid you" description="You'll see their invoices here" />
+    : <PageState title="There are no invoices" />;
+
   const tableBody = (
     <React.Fragment>
       <Table.Body>
@@ -53,7 +57,7 @@ const InvoicePaymentDetailTable = ({
           <Table.Row>
             <Table.RowItem {...tableConfig.date} valign="middle">{entry.date}</Table.RowItem>
             <Table.RowItem {...tableConfig.invoiceNumber} valign="middle">
-              <a href={entry.link}>{entry.invoiceNumber}</a>
+              <a href={entry.link} target="_blank" rel="noopener noreferrer">{entry.invoiceNumber}</a>
             </Table.RowItem>
             <Table.RowItem {...tableConfig.status} valign="middle">
               <Label type="boxed" color={entry.statusColor}>{entry.status}</Label>
@@ -84,7 +88,7 @@ const InvoicePaymentDetailTable = ({
         ))}
       </Table.Body>
       <div className={styles.totalReceived}>
-        Total amount received
+        <span>Total amount received</span>
         <span>{totalReceived}</span>
       </div>
     </React.Fragment>
@@ -107,7 +111,7 @@ const InvoicePaymentDetailTable = ({
       header={header}
       isLoading={isTableLoading}
       isEmpty={isTableEmpty}
-      emptyMessage={tableEmptyMessage}
+      emptyView={emptyView}
       responsiveWidths={getResponsiveConfig(tableConfig)}
     >
       {tableBody}
@@ -121,7 +125,7 @@ const mapStateToProps = state => ({
   totalReceived: getTotalReceived(state),
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
-  tableEmptyMessage: getTableEmptyMessage(state),
+  isCustomerEmpty: getIsCustomerEmpty(state),
 });
 
 export default connect(mapStateToProps)(InvoicePaymentDetailTable);

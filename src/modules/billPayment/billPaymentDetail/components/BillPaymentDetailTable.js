@@ -66,7 +66,7 @@ const BillPaymentDetailTable = ({
           <Table.Row key={row.id}>
             <Table.RowItem {...tableConfig.date}>{row.date}</Table.RowItem>
             <Table.RowItem {...tableConfig.billNumber}>
-              <a href={row.link}>{row.billNumber}</a>
+              <a href={row.link} target="_blank" rel="noopener noreferrer">{row.billNumber}</a>
             </Table.RowItem>
             <Table.RowItem {...tableConfig.status}>
               <Label color={row.labelColour} type="boxed">

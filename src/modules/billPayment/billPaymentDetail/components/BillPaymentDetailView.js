@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlertMessage, getLoadingState, getModalType, getTitle,
+  getAlertMessage, getIsCreating, getLoadingState, getModalType, getTitle,
 } from '../BillPaymentDetailSelectors';
 import BillPaymentActions from './BillPaymentDetailActions';
 import BillPaymentDetailTable from './BillPaymentDetailTable';
@@ -17,6 +17,7 @@ const BillPaymentDetailView = ({
   loadingState,
   modalType,
   title,
+  isCreating,
   onUpdateHeaderOption,
   onUpdateTableInputField,
   onCancelButtonClick,
@@ -67,9 +68,10 @@ const BillPaymentDetailView = ({
       options={<BillPaymentOptions onUpdateHeaderOption={onUpdateHeaderOption} />}
       actions={actions}
       alert={alertComponent}
+      sticky="none"
     >
       {modal}
-      <BillPaymentDetailTableOptions onUpdateHeaderOption={onUpdateHeaderOption} />
+      {isCreating && <BillPaymentDetailTableOptions onUpdateHeaderOption={onUpdateHeaderOption} />}
       <BillPaymentDetailTable
         onUpdateTableInputField={onUpdateTableInputField}
         onAmountInputBlur={onAmountInputBlur}
@@ -85,6 +87,7 @@ const mapStateToProps = state => ({
   modalType: getModalType(state),
   alertMessage: getAlertMessage(state),
   title: getTitle(state),
+  isCreating: getIsCreating(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentDetailView);

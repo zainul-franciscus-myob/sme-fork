@@ -1,6 +1,4 @@
-import {
-  Alert, Checkbox, CheckboxGroup, LineItemTemplate,
-} from '@myob/myob-widgets';
+import { Alert, Checkbox, LineItemTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -19,6 +17,7 @@ import InvoicePaymentDetailOptions from './InvoicePaymentDetailOptions';
 import InvoicePaymentDetailTable from './InvoicePaymentDetailTable';
 import PageView from '../../../../components/PageView/PageView';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
+import styles from './InvoicePaymentDetailView.module.css';
 
 const handleCheckboxChange = handler => (e) => {
   const { checked } = e.target;
@@ -91,17 +90,17 @@ const InvoicePaymentDetailView = ({
         alert={alertComponent}
         sticky="none"
       >
-        <CheckboxGroup
-          renderCheckbox={() => (
+        { isCreating && (
+          <div className={styles.tableOption}>
             <Checkbox
               name="showPaidInvoices"
               label="Show closed invoices"
               checked={showPaidInvoices}
               disabled={!isCreating}
               onChange={handleCheckboxChange(onUpdateShowPaidInvoices)}
-            />)
-          }
-        />
+            />
+          </div>
+        )}
         <InvoicePaymentDetailTable
           onUpdateInvoicePaymentEntries={onUpdateInvoicePaymentEntries}
           onAmountInputBlur={onAmountInputBlur}

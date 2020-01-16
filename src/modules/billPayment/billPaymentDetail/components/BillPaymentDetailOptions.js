@@ -46,7 +46,6 @@ const BillPaymentOptions = ({
         items={accounts}
         selectedId={accountId}
         onChange={onComboBoxChange(onUpdateHeaderOption)('accountId')}
-        requiredLabel={requiredLabel}
       />
       <TextArea
         name="description"

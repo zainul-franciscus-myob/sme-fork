@@ -1,9 +1,10 @@
 .totalReceived {
   text-align: right;
-  font-weight: bold;
   padding-top: 1rem;
+  font-weight: var(--flx-font-weight-bold);
+  font-size: var(--flx-font-size-paragraph-large);
 }
 
-.totalReceived span {
-  margin-left: var(--flx-spacing-small);
+.totalReceived span:first-child {
+  padding-right: var(--flx-spacing-small);
 }

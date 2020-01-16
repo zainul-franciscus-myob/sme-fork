@@ -47,7 +47,6 @@ const InvoicePaymentDetailOptions = ({
       <AccountCombobox
         label="Bank account"
         hideLabel={false}
-        requiredLabel={requiredLabel}
         onChange={handleComboboxChange('accountId', onUpdateInvoicePaymentDetails)}
         selectedId={accountId}
         items={accounts}

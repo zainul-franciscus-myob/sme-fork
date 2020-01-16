@@ -82,11 +82,6 @@ export const getBillPaymentOptions = createStructuredSelector({
   isCreating: getIsCreating,
 });
 
-export const getBillPaymentTableOptions = createStructuredSelector({
-  showPaidBills: getShowPaidBills,
-  shouldDisableFields: getShouldDisableFields,
-});
-
 export const getShouldLoadBillList = (key, value, state) => {
   const supplierId = getSupplierId(state);
 

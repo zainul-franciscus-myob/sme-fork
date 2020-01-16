@@ -10,7 +10,7 @@ const CancelModal = ({
     onCancel={onCancel}
   >
     <Modal.Body>
-      You&apos;ve made changes that will be lost if you don&apos;t go back and save them
+      You&apos;ve made changes that will be lost if you don&apos;t go back and save them.
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCancel}>Go back</Button>

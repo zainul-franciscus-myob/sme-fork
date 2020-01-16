@@ -110,12 +110,5 @@ export const getShowPaidInvoices = state => state.showPaidInvoices;
 export const getIsTableLoading = state => state.isTableLoading;
 export const getIsTableEmpty = state => state.entries.length === 0;
 
-export const getTableEmptyMessage = (state) => {
-  if (!state.customerId) {
-    return 'Select the customer who paid you';
-  }
-
-  return 'There are no invoices';
-};
-
 export const getWasRedirectedFromInvoiceDetail = state => state.applyPaymentToInvoiceId !== '';
+export const getIsCustomerEmpty = state => !state.customerId;

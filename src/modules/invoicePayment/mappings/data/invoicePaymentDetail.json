@@ -42,7 +42,7 @@
       "invoiceNumber": "0000023",
       "status": "Open",
       "date": "27/03/2019",
-      "invoiceAmount": "0",
+      "balanceDue": "0",
       "paidAmount": "2500.05",
       "discountAmount": "0"
     }

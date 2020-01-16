@@ -1,7 +1,6 @@
 import {
   getEntries,
   getSaveContent,
-  getTableEmptyMessage,
   getTotalReceived,
   getWasRedirectedFromInvoiceDetail,
 } from '../invoicePaymentDetailSelectors';
@@ -220,31 +219,6 @@ describe('invoicePaymentDetailSelectors', () => {
           accountId: 'accountId',
         });
       });
-    });
-  });
-
-  describe('getEmptyTableMessage', () => {
-    let state;
-
-    beforeEach(() => {
-      state = {
-        customerId: '123',
-        entries: [1, 2, 3],
-        isTableLoading: false,
-      };
-    });
-
-    it('returns customer message when there is no customer selected', () => {
-      state = {
-        ...state,
-        customerId: '',
-      };
-
-      expect(getTableEmptyMessage(state)).toEqual('Select the customer who paid you');
-    });
-
-    it('otherwise returns default', () => {
-      expect(getTableEmptyMessage(state)).toEqual('There are no invoices');
     });
   });
 
