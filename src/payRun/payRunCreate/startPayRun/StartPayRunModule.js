@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getPayRunListUrl } from '../../../payRunOld/payRunCreate/PayRunSelectors';
+import { getPayRunListUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
 import StartPayRunView from './components/StartPayRunView';
 import createStartPayRunDispatchers from './createStartPayRunDispatchers';

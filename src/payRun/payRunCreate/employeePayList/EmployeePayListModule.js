@@ -3,7 +3,7 @@ import React from 'react';
 import { SET_UPGRADE_MODAL_SHOWING } from '../PayRunIntents';
 import { SUCCESSFULLY_SAVED_DRAFT_PAY_RUN } from '../../payRunMessageTypes';
 import { getIsPayItemLineDirty, getTotals, isValidEtp } from './EmployeePayListSelectors';
-import { getPayRunListUrl } from '../../../payRunOld/payRunCreate/PayRunSelectors';
+import { getPayRunListUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
 import PayRunListEmployees from './components/PayRunListEmployees';
 import createEmployeePayListDispatcher from './createEmployeePayListDispatcher';

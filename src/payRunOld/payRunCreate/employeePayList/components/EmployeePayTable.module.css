@@ -1,3 +1,0 @@
-.employeePayTable :global(.table-data__body .collapsible:last-child .collapsible__header-controls) {
-  display: none;
-}

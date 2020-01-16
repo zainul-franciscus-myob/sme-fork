@@ -44,9 +44,6 @@ import PayRefundMapping from '../../modules/payRefund/mappings/MemoryPayRefundMa
 import PayRunDetailMapping from './PayRunDetailMapping';
 import PayRunListMapping from './PayRunListMapping';
 import PayRunMapping from './PayRunMapping';
-import PayRunOldDetailMapping from './PayRunDetailOldMapping';
-import PayRunOldListMapping from './PayRunListOldMapping';
-import PayRunOldMapping from './PayRunOldMapping';
 import PaySuperAuthorisationModalMapping from '../../modules/paySuper/paySuperAuthorisationModal/mappings/MemoryPaySuperAuthorisationModalMapping';
 import PaySuperCreateMapping from '../../modules/paySuper/paySuperCreate/mappings/MemoryPaySuperCreateMapping';
 import PaySuperListMapping from '../../modules/paySuper/paySuperList/mappings/MemoryPaySuperListMapping';
@@ -111,8 +108,6 @@ const RootMapping = Object.freeze({
   ...PayRunDetailMapping,
   ...TimesheetMapping,
   ...SuperPayItemMapping,
-  ...PayRunOldListMapping,
-  ...PayRunOldDetailMapping,
   ...DeductionPayItemMapping,
   ...ExpensePayItemMapping,
   ...WagePayItemMapping,
@@ -126,7 +121,6 @@ const RootMapping = Object.freeze({
   ...BankingRuleInvoiceMapping,
   ...BankingRuleBillMapping,
   ...PayRunMapping,
-  ...PayRunOldMapping,
   ...PaySuperListMapping,
   ...PaySuperReadMapping,
   ...LinkBillMapping,
