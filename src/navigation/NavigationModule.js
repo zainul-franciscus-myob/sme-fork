@@ -73,6 +73,8 @@ export default class NavigationModule {
 
     return Object.entries(featuresConfig)
       .map(([key, feature]) => {
+        const { region, businessId } = routeParams;
+
         if ([
           RouteName.REPORTS_STANDARD,
           RouteName.REPORTS_FAVOURITE,
@@ -86,11 +88,10 @@ export default class NavigationModule {
         }
 
         if (RouteName.PAYMENT_DETAIL === key) {
-          const url = `${this.paymentDetailBaseUrl}/#/paymentProfile`;
+          const url = `${this.paymentDetailBaseUrl}/#/paymentProfile?businessId=${businessId}`;
           return { [key]: url };
         }
 
-        const { region, businessId } = routeParams;
         const url = `/#${this.constructPath(feature.routeName, { region, businessId, ...feature.params })}`;
         return { [key]: url };
       })
