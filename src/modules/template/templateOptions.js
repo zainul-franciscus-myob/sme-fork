@@ -56,8 +56,7 @@ export const HeaderBusinessDetailStyle = {
 export const PreviewType = {
   Invoice: 'Invoice',
   Quote: 'Quote',
-  // TODO Add statements back for next itteration.
-  // Statement: 'Statement',
+  Statement: 'Statement',
 };
 
 export const SaleLayout = {

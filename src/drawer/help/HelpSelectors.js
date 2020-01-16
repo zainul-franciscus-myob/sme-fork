@@ -60,10 +60,10 @@ export const getSearchLink = createSelector(
       q: searchValue,
       engineName: 'help',
       page: 1,
-      productFamily: 'MYOB Essentials',
+      productFamily: 'MYOB',
       country: mapRegionToCountry(region),
     };
-    const baseUrl = 'https://www.myob.com/au/support/myob/search';
+    const baseUrl = 'https://www.myob.com/au/support/search-results';
     const queryParams = getQueryFromParams(searchParams);
     return `${baseUrl}${queryParams}`;
   },
