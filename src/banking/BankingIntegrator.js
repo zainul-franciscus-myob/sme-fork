@@ -14,6 +14,7 @@ import {
   REMOVE_ATTACHMENT,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
+  SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
@@ -28,10 +29,12 @@ import {
   getAppliedFilterOptions,
   getBankTransactionLineByIndex,
   getBusinessId,
+  getEditingNoteTransaction,
   getFilterOptions,
   getFlipSortOrder,
   getOpenPosition,
   getOrderBy,
+  getPendingNote,
   getSortOrder,
   getUnallocationPayload,
 } from './bankingSelectors';
@@ -570,6 +573,25 @@ const createBankingIntegrator = (store, integration) => ({
       urlParams: {
         businessId: getBusinessId(state),
         documentId: id,
+      },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  savePendingNote: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const transaction = getEditingNoteTransaction(state);
+    const note = getPendingNote(state) || transaction.description;
+
+    integration.write({
+      intent: SAVE_PENDING_NOTE,
+      urlParams: {
+        businessId: getBusinessId(state),
+        transactionId: transaction.transactionId,
+      },
+      content: {
+        note,
       },
       onSuccess,
       onFailure,

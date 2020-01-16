@@ -88,6 +88,9 @@ const BankingView = (props) => {
     onAddAttachments,
     onRemoveAttachment,
     onDeleteAttachmentModal,
+    onEditNote,
+    onPendingNoteChange,
+    onNoteBlur,
   } = props;
 
   const filterBar = (
@@ -190,6 +193,9 @@ const BankingView = (props) => {
           onOpenTransferMoneyModal={onOpenTransferMoneyModal}
           onAddAttachments={onAddAttachments}
           onRemoveAttachment={onRemoveAttachment}
+          onEditNote={onEditNote}
+          onPendingNoteChange={onPendingNoteChange}
+          onNoteBlur={onNoteBlur}
         />
       </StandardTemplate>
     </div>

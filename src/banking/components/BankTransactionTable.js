@@ -97,6 +97,9 @@ const BankTransactionTable = ({
   onOpenBankingRuleModal,
   onAddAttachments,
   onRemoveAttachment,
+  onEditNote,
+  onPendingNoteChange,
+  onNoteBlur,
   onOpenTransferMoneyModal,
 }) => {
   const header = (
@@ -165,6 +168,9 @@ const BankTransactionTable = ({
       onOpenTransferMoneyModal={onOpenTransferMoneyModal}
       onAddAttachments={onAddAttachments}
       onRemoveAttachment={onRemoveAttachment}
+      onEditNote={onEditNote}
+      onPendingNoteChange={onPendingNoteChange}
+      onNoteBlur={onNoteBlur}
     />);
 
   return (

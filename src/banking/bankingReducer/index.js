@@ -28,6 +28,7 @@ import {
   RESET_BULK_ALLOCATION,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
+  SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
   SELECT_ALL_TRANSACTIONS,
@@ -35,6 +36,7 @@ import {
   SET_ALERT,
   SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
+  SET_EDITING_NOTE_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
   SET_ERROR_STATE,
@@ -49,6 +51,8 @@ import {
   SET_OPEN_ENTRY_POSITION,
   SET_OPERATION_IN_PROGRESS_STATE,
   SET_PAYMENT_ALLOCATION_LOADING_STATE,
+  SET_PENDING_NOTE,
+  SET_SUBMMITTING_NOTE_STATE,
   SET_TABLE_LOADING_STATE,
   SET_TRANSFER_MONEY_DETAIL,
   SHOW_SELECTED_MATCH_TRANSACTIONS,
@@ -352,6 +356,41 @@ export const unallocateTransaction = (state, action) => ({
   ),
 });
 
+const setEditingNoteState = (state, { editingNotePosition }) => {
+  const entry = state.entries[editingNotePosition] || {};
+  const pendingNote = entry.note || entry.description;
+
+  return ({
+    ...state,
+    editingNotePosition,
+    pendingNote,
+  });
+};
+
+const setPendingNote = (state, { pendingNote }) => ({
+  ...state,
+  pendingNote,
+});
+
+const savePendingNote = (state) => {
+  const { editingNotePosition, entries, pendingNote } = state;
+  const newEntries = entries.map((entry, index) => (
+    index === editingNotePosition ? { ...entry, note: pendingNote } : entry
+  ));
+
+  return ({
+    ...state,
+    editingNotePosition: undefined,
+    pendingNote: undefined,
+    entries: newEntries,
+  });
+};
+
+const setSubmittingNoteState = (state, action) => ({
+  ...state,
+  isSubmittingNote: action.isSubmittingNote,
+});
+
 const handlers = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: sortAndFilterBankTransactions,
@@ -403,7 +442,6 @@ const handlers = {
   [UPDATE_PAYMENT_ALLOCATION_OPTIONS]: updatePaymentAllocationOptions,
   [UPDATE_PAYMENT_ALLOCATION_LINE]: updatePaymentAllocationLine,
   [SET_PAYMENT_ALLOCATION_LOADING_STATE]: setPaymentAllocationLoadingState,
-
   [LOAD_MATCH_TRANSFER_MONEY]: loadMatchTransferMoney,
   [SORT_MATCH_TRANSFER_MONEY]: sortMatchTransferMoney,
   [SET_MATCH_TRANSFER_MONEY_SORT_ORDER]: setMatchTransferMoneySortOrder,
@@ -412,7 +450,6 @@ const handlers = {
   [LOAD_TRANSFER_MONEY]: loadTransferMoney,
   [SET_TRANSFER_MONEY_DETAIL]: updateTransferMoney,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,
-
   [SELECT_TRANSACTION]: selectTransaction,
   [SELECT_ALL_TRANSACTIONS]: selectAllTransactions,
   [UPDATE_BULK_ALLOCATION_OPTIONS]: updateBulkAllocationOptions,
@@ -433,6 +470,10 @@ const handlers = {
   [REMOVE_ATTACHMENT]: removeAttachment,
   [SET_OPERATION_IN_PROGRESS_STATE]: setOperationInProgressState,
   [SHOW_SELECTED_MATCH_TRANSACTIONS]: showSelectedMatchTransactions,
+  [SET_EDITING_NOTE_STATE]: setEditingNoteState,
+  [SET_SUBMMITTING_NOTE_STATE]: setSubmittingNoteState,
+  [SET_PENDING_NOTE]: setPendingNote,
+  [SAVE_PENDING_NOTE]: savePendingNote,
   ...wrapHandlers('bankingRuleModal', bankingRuleHandlers),
 };
 

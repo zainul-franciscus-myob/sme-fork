@@ -1,4 +1,6 @@
-import { getSplitAllocationPayload, getTotalDollarAmount, getTotals } from '../splitAllocationSelectors';
+import {
+  getSplitAllocationPayload, getTotalDollarAmount, getTotals,
+} from '../splitAllocationSelectors';
 
 describe('splitAllocationSelectors', () => {
   describe('getTotals', () => {
@@ -28,6 +30,7 @@ describe('splitAllocationSelectors', () => {
   describe('getSplitAllocationPayload', () => {
     it('should return a valid payload', () => {
       const state = {
+        openPosition: 0,
         filterOptions: {
           bankAccount: '123',
           transactionType: 'approved',
@@ -35,14 +38,17 @@ describe('splitAllocationSelectors', () => {
         entries: [
           {
             transactionId: '1',
+            note: 'foo',
           },
         ],
         openEntry: {
           allocate: {
+            id: '1',
             isSpendMoney: true,
             date: '2019-10-20',
             contactId: '222',
             isReportable: true,
+            description: 'bar',
             lines: [
               {
                 accountId: '123',
@@ -64,6 +70,7 @@ describe('splitAllocationSelectors', () => {
         contactId: '222',
         date: '2019-10-20',
         isReportable: true,
+        description: 'bar',
         lines: [{
           accountId: '123',
           amount: '1000.00',

@@ -110,11 +110,16 @@
   }
 
   .splitAllocationFilterOptions {
-    display: grid;
-    grid-template-columns: var(--flx-width-field-xl) auto;
+    display: flex;
+  }
+
+  .splitAllocationFilterOptions :global(.form-group) {
+    padding: 0 var(--flx-spacing-tiny);
+    width: var(--flx-width-field-l);
   }
 
   .checkbox {
     padding-left: 12px;
+    max-width: var(--flx-width-field-xs);
   }
 }

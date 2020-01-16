@@ -87,3 +87,9 @@ export const OPEN_REMOVE_ATTACHMENT_MODAL = Symbol('Open remove attachment modal
 export const REMOVE_ATTACHMENT = Symbol('Remove attachment');
 export const REMOVE_ATTACHMENT_BY_INDEX = Symbol('Remove attachment by index');
 export const SET_OPERATION_IN_PROGRESS_STATE = Symbol('Set operation in progress state');
+
+export const SET_EDITING_NOTE_STATE = Symbol('Set editing note state');
+export const SET_SUBMMITTING_NOTE_STATE = Symbol('Set submitting note state');
+export const SET_PENDING_NOTE = Symbol('Set pending note');
+
+export const SAVE_PENDING_NOTE = Symbol('Save pending note');

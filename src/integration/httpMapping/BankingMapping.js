@@ -14,6 +14,7 @@ import {
   REMOVE_ATTACHMENT,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
+  SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
@@ -138,6 +139,10 @@ const BankingMapping = {
   [UNMATCH_TRANSACTION]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/unmatch_transaction`,
+  },
+  [SAVE_PENDING_NOTE]: {
+    method: 'PUT',
+    getPath: ({ businessId, transactionId }) => `/${businessId}/banking/update_note/${transactionId}`,
   },
 };
 

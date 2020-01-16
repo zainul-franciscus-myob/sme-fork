@@ -166,6 +166,8 @@ export const loadNewSplitAllocation = (state, action) => {
 
   const accounts = isSpendMoney ? getWithdrawalAccounts(state) : getDepositAccounts(state);
 
+  const description = openedEntry.note || openedEntry.description;
+
   const newLine = {
     ...defaultState.openEntry.allocate.newLine,
     accounts,
@@ -176,6 +178,7 @@ export const loadNewSplitAllocation = (state, action) => {
     ...defaultState.openEntry.allocate,
     isSpendMoney,
     totalAmount,
+    description,
     date: openedEntry.date,
     lines: [
       {

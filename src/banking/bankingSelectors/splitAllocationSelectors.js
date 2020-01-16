@@ -25,6 +25,11 @@ export const getIndexOfLastLine = state => state.openEntry.allocate.lines.length
 
 export const getTaxLabel = state => getRegionToDialectText(state.region)('Tax code');
 
+export const getDescription = createSelector(
+  getAllocate,
+  ({ description }) => description,
+);
+
 export const getTotalPercentageAmount = createSelector(
   getLines,
   (lines = []) => lines.reduce(
@@ -61,10 +66,12 @@ export const getOptions = createSelector(
   getContactId,
   getIsReportable,
   getIsSpendMoney,
-  (contacts, contactId, isReportable, isSpendMoney) => ({
+  getDescription,
+  (contacts, contactId, isReportable, isSpendMoney, description) => ({
     contacts,
     contactId,
     isReportable,
+    description,
     showIsReportable: isSpendMoney,
     contactLabel: isSpendMoney ? 'payee' : 'payer',
   }),
@@ -87,6 +94,7 @@ export const getTotals = createSelector(
 
 export const getSplitAllocationPayload = (state, index) => {
   const entries = getEntries(state);
+  const memo = getDescription(state);
   const openedEntry = entries[index];
   const { transactionId } = openedEntry;
 
@@ -105,6 +113,7 @@ export const getSplitAllocationPayload = (state, index) => {
     transactionId,
     isWithdrawal,
     contactId,
+    description: memo,
     isReportable: isWithdrawal ? isReportable : undefined,
     date,
     lines: lines.map(({

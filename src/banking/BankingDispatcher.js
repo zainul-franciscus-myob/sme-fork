@@ -28,6 +28,7 @@ import {
   RESET_BULK_ALLOCATION,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
+  SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
   SELECT_ALL_TRANSACTIONS,
@@ -35,6 +36,7 @@ import {
   SET_ALERT,
   SET_ATTACHMENTS_LOADING_STATE,
   SET_BULK_LOADING_STATE,
+  SET_EDITING_NOTE_STATE,
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
   SET_ERROR_STATE,
@@ -49,6 +51,8 @@ import {
   SET_OPEN_ENTRY_POSITION,
   SET_OPERATION_IN_PROGRESS_STATE,
   SET_PAYMENT_ALLOCATION_LOADING_STATE,
+  SET_PENDING_NOTE,
+  SET_SUBMMITTING_NOTE_STATE,
   SET_TABLE_LOADING_STATE,
   SET_TRANSFER_MONEY_DETAIL,
   SHOW_SELECTED_MATCH_TRANSACTIONS,
@@ -677,6 +681,33 @@ const createBankingDispatcher = store => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
+    });
+  },
+
+  setEditingNoteState: (editingNotePosition) => {
+    store.dispatch({
+      intent: SET_EDITING_NOTE_STATE,
+      editingNotePosition,
+    });
+  },
+
+  setSubmittingNoteState: (isSubmittingNote) => {
+    store.dispatch({
+      intent: SET_SUBMMITTING_NOTE_STATE,
+      isSubmittingNote,
+    });
+  },
+
+  setPendingNote: ({ value }) => {
+    store.dispatch({
+      intent: SET_PENDING_NOTE,
+      pendingNote: value,
+    });
+  },
+
+  savePendingNote: () => {
+    store.dispatch({
+      intent: SAVE_PENDING_NOTE,
     });
   },
 });

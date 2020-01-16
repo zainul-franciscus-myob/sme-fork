@@ -414,3 +414,24 @@ export const getBankingRuleInitState = createSelector(
     bankAccounts,
   }),
 );
+
+export const getIsEditingNote = (state, index) => state.editingNotePosition === index;
+
+export const getIsSubmittingNote = (state, index) => (
+  state.editingNotePosition === index && state.isSubmittingNote
+);
+
+export const getPendingNote = state => state.pendingNote;
+
+const getEditingNotePosition = state => state.editingNotePosition;
+
+export const getEditingNoteTransaction = createSelector(
+  getEntries,
+  getEditingNotePosition,
+  (entries, position) => entries[position],
+);
+
+export const getShouldShowNote = (state, index) => {
+  const entries = getEntries(state);
+  return entries[index].note && entries[index].note !== entries[index].description;
+};

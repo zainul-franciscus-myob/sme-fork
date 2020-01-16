@@ -82,6 +82,8 @@ export default class BankingModule {
       updateBulkAllocationOption,
       openBankingRuleModal,
       resetBulkAllocation,
+      setEditingNoteState,
+      setPendingNote,
     } = this.dispatcher;
 
     const transactionListView = (
@@ -150,6 +152,9 @@ export default class BankingModule {
         onAddAttachments={this.addAttachments}
         onRemoveAttachment={this.openDeleteAttachmentModal}
         onDeleteAttachmentModal={this.removeAttachment}
+        onEditNote={setEditingNoteState}
+        onPendingNoteChange={setPendingNote}
+        onNoteBlur={this.savePendingNote}
       />
     );
 
@@ -1011,6 +1016,29 @@ export default class BankingModule {
     } else {
       this.dispatcher.selectTransaction({ index, value });
     }
+  };
+
+  savePendingNote = () => {
+    this.dispatcher.setSubmittingNoteState(true);
+
+    const onSuccess = () => {
+      this.dispatcher.setSubmittingNoteState(false);
+      this.dispatcher.savePendingNote();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingNoteState(false);
+      this.dispatcher.setEditingNoteState(-1);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.savePendingNote({
+      onSuccess,
+      onFailure,
+    });
   };
 
   loadAttachments = () => {

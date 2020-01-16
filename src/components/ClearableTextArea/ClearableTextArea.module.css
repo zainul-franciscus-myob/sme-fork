@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  position: relative;
+}
+
+.container :global(.form-control) {
+  padding-right: var(--flx-spacing-large);
+}
+
+.container :global(.form-control:focus) {
+  padding-right: var(--flx-spacing-large);
+}
+
+.clearButton {
+  display: flex;
+  position: absolute;
+  right: var(--flx-spacing-tiny);
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  padding-top: var(--flx-spacing-x-tiny);
+}
+
+.clearButton:hover svg {
+  fill: var(--flx-palette-dusk-100);
+}

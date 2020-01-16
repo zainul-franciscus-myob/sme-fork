@@ -14,6 +14,7 @@ import {
   REMOVE_ATTACHMENT,
   SAVE_MATCH_TRANSACTION,
   SAVE_PAYMENT_ALLOCATION,
+  SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
@@ -51,6 +52,7 @@ import savedPaymentAllocation from '../data/banking/savePaymentAllocation';
 import successResponse from '../data/success';
 import transferMoneyPayload from '../data/banking/loadTransferMoney';
 import unallocatedBankTransaction from '../data/banking/unallocatedBankTransaction';
+import updateNoteResponse from '../data/banking/updateBankFeedNoteResponse';
 import uploadAttachmentResponse from '../data/banking/uploadAttachmentResponse';
 
 const loadBankTransactions = ({ onSuccess }) => onSuccess(bankTransactions);
@@ -82,6 +84,7 @@ const loadAttachments = ({ onSuccess }) => onSuccess(attachments);
 const uploadAttachment = ({ onSuccess }) => onSuccess(uploadAttachmentResponse);
 const removeAttachment = ({ onSuccess }) => onSuccess(successResponse);
 const unmatchTransaction = ({ onSuccess }) => onSuccess(unallocatedBankTransaction);
+const updateNote = ({ onSuccess }) => onSuccess(updateNoteResponse);
 
 const BankingMappings = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
@@ -111,6 +114,7 @@ const BankingMappings = {
   [LOAD_ATTACHMENTS]: loadAttachments,
   [UPLOAD_ATTACHMENT]: uploadAttachment,
   [REMOVE_ATTACHMENT]: removeAttachment,
+  [SAVE_PENDING_NOTE]: updateNote,
 };
 
 export default BankingMappings;

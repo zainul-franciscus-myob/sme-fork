@@ -1,9 +1,11 @@
-import { Checkbox } from '@myob/myob-widgets';
+import { Checkbox, Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
 import { getOptions } from '../bankingSelectors/splitAllocationSelectors';
 import ContactCombobox from '../../components/combobox/ContactCombobox';
+import handleInputChange from '../../components/handlers/handleInputChange';
 import styles from './BankingView.module.css';
 
 const handleCheckboxChange = handler => (e) => {
@@ -19,6 +21,7 @@ const SplitAllocationOptions = (props) => {
   const {
     contacts,
     contactId,
+    description,
     contactLabel,
     isReportable,
     showIsReportable,
@@ -38,8 +41,7 @@ const SplitAllocationOptions = (props) => {
         requiredLabel="This is required"
       />
       {showIsReportable && (
-      <div className="form-group">
-        <div className={styles.checkbox}>
+        <div className={classNames('form-group', styles.checkbox)}>
           <Checkbox
             name="isReportable"
             label="Reportable"
@@ -47,8 +49,13 @@ const SplitAllocationOptions = (props) => {
             onChange={handleCheckboxChange(onUpdateSplitAllocationHeader)}
           />
         </div>
-      </div>
       )}
+      <Input
+        label="Description of transaction"
+        name="description"
+        value={description}
+        onChange={handleInputChange(onUpdateSplitAllocationHeader)}
+      />
     </div>
   );
 };

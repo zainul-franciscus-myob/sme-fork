@@ -64,6 +64,9 @@ const getDefaultState = () => ({
   businessId: '',
   region: '',
   openPosition: getDefaultOpenPosition(),
+  editingNotePosition: undefined,
+  isSubmittingNote: false,
+  pendingNote: undefined,
   isOpenEntryLoading: false,
   openEntry: {
     isEdited: false,
@@ -75,6 +78,7 @@ const getDefaultState = () => ({
       id: '',
       date: '',
       contactId: '',
+      description: '',
       isReportable: false,
       lines: [],
       isSpendMoney: false,

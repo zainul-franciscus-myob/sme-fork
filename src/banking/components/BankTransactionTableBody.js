@@ -67,6 +67,9 @@ const BankTransactionTableBody = (props) => {
     onAddAttachments,
     onRemoveAttachment,
     onOpenTransferMoneyModal,
+    onEditNote,
+    onPendingNoteChange,
+    onNoteBlur,
   } = props;
 
   const spinner = (
@@ -197,6 +200,9 @@ const BankTransactionTableBody = (props) => {
       isExpanded={index === openPosition}
       isSelected={entrySelectStatus[index]}
       onSelectTransaction={onSelectTransaction}
+      onEditNote={onEditNote}
+      onPendingNoteChange={onPendingNoteChange}
+      onNoteBlur={onNoteBlur}
     >
       {openPosition === index
           && (

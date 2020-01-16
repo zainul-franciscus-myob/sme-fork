@@ -1,13 +1,21 @@
 import {
-  Button, Checkbox, Icons,
+  Button, Checkbox, Icons, Spinner, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getBankEntryByIndexSelector } from '../bankingSelectors';
+import {
+  getBankEntryByIndexSelector,
+  getIsEditingNote,
+  getIsSubmittingNote,
+  getPendingNote,
+  getShouldShowNote,
+} from '../bankingSelectors';
 import { getIsBulkLoading } from '../bankingSelectors/bulkAllocationSelectors';
+import ClearableTextArea from '../../components/ClearableTextArea/ClearableTextArea';
 import MatchedOrAllocated from './MatchedOrAllocated';
+import handleTextAreaChange from '../../components/handlers/handleTextAreaChange';
 import styles from './BankTransactionTable.module.css';
 
 const onCheckboxChange = (handler, index) => (e) => {
@@ -15,7 +23,9 @@ const onCheckboxChange = (handler, index) => (e) => {
   handler({ index, value: checked });
 };
 
-const onClickChevronButton = (handler, index) => () => handler(index);
+const handleClearTextArea = handler => () => handler({ value: '' });
+
+const handleRowEvent = (handler, index) => () => handler(index);
 
 const BankingTableRowField = ({ title, children, className }) => (
   <div className={className}>
@@ -29,23 +39,80 @@ const BankingTableRowField = ({ title, children, className }) => (
 );
 
 const BankingTableDescription = ({
-  isExpanded, description, note, className,
-}) => (
-  <div className={className}>
-    {description}
-    {note && (
-      <div className={classNames(styles.note, { [styles.openedNote]: isExpanded })}>
-        Note:
-        {' '}
-        {note}
-      </div>
+  isExpanded,
+  shouldShowNote,
+  description,
+  note,
+  className,
+  onEditNote,
+  onPendingNoteChange,
+  onNoteBlur,
+  isEditingNote,
+  pendingNote,
+}) => {
+  const editingView = (
+    <ClearableTextArea
+      name="note"
+      autoFocus
+      autoSize
+      placeholder={description}
+      value={pendingNote}
+      rows={1}
+      maxLength={255}
+      onChange={handleTextAreaChange(onPendingNoteChange)}
+      onBlur={onNoteBlur}
+      onClear={handleClearTextArea(onPendingNoteChange)}
+    />
+  );
+
+  const noteView = (
+    <Tooltip triggerContent={(
+      <span className={styles.note}>{note}</span>
     )}
-  </div>
-);
+    >
+      {description}
+    </Tooltip>
+  );
+
+  const descriptionView = shouldShowNote ? noteView : description;
+
+  const readOnlyView = (
+    <>
+      {descriptionView}
+      {
+        !isExpanded && (
+        <Tooltip triggerContent={(
+          <button type="button" className={styles.editIcon} onClick={onEditNote}>
+            <Icons.Edit />
+          </button>
+        )}
+        >
+Edit description
+        </Tooltip>
+        )
+      }
+    </>
+  );
+
+  const view = isEditingNote ? editingView : readOnlyView;
+
+  return (
+    <div className={classNames(styles.noteContainer, className)}>
+      {view}
+    </div>
+  );
+};
 
 const BankTransactionTableRow = ({
   index,
   entry,
+  shouldShowNote,
+  isEditingNote,
+  isSubmittingNote,
+  pendingNote,
+  onEditNote,
+  onPendingNoteChange,
+  onNoteBlur,
   onHeaderClick,
   onSplitRowItemClick,
   onMatchRowItemClick,
@@ -81,17 +148,29 @@ const BankTransactionTableRow = ({
 
   const amount = entry.deposit ? `$${entry.deposit}` : `-$${entry.withdrawal}`;
 
+  const spinnerView = <Spinner size="small" />;
+
+  const descriptionView = (
+    <BankingTableDescription
+      isExpanded={isExpanded}
+      description={entry.description}
+      note={entry.note}
+      onEditNote={handleRowEvent(onEditNote, index)}
+      onPendingNoteChange={onPendingNoteChange}
+      onNoteBlur={onNoteBlur}
+      isEditingNote={isEditingNote}
+      pendingNote={pendingNote}
+      shouldShowNote={shouldShowNote}
+    />
+  );
+
   const desktopInfoColumn = (
     <div className={styles.infoColumn}>
-      <BankingTableRowField title="Date:" className={styles.date}>
+      <BankingTableRowField title="Date:" className={classNames(styles.column, styles.date)}>
         {entry.displayDate}
       </BankingTableRowField>
       <div className={styles.description}>
-        <BankingTableDescription
-          isExpanded={isExpanded}
-          description={entry.description}
-          note={entry.note}
-        />
+        { isSubmittingNote ? spinnerView : descriptionView}
         <BankingTableRowField title="Withdrawal" className={styles.withdrawalOrDeposit}>
           {entry.withdrawal}
         </BankingTableRowField>
@@ -109,6 +188,12 @@ const BankTransactionTableRow = ({
         isExpanded={isExpanded}
         description={entry.description}
         note={entry.note}
+        onEditNote={handleRowEvent(onEditNote, index)}
+        onPendingNoteChange={onPendingNoteChange}
+        onNoteBlur={onNoteBlur}
+        isEditingNote={isEditingNote}
+        pendingNote={pendingNote}
+        shouldShowNote={shouldShowNote}
       />
       <div className={styles.description}>
         <BankingTableRowField className={styles.date}>
@@ -155,7 +240,7 @@ const BankTransactionTableRow = ({
           {matchedOrAllocatedRowItem}
           <div className={styles.taxCode}>{entry.taxCode}</div>
           <div className={styles.action}>
-            <Button type="secondary" size="xs" onClick={onClickChevronButton(onHeaderClick, index)}>
+            <Button type="secondary" size="xs" onClick={handleRowEvent(onHeaderClick, index)}>
               {expandIcon}
             </Button>
           </div>
@@ -168,10 +253,20 @@ const BankTransactionTableRow = ({
 
 const makeMapRowStateToProps = () => {
   const getBankEntryByIndex = getBankEntryByIndexSelector();
-  return (state, ownProps) => ({
-    isBulkLoading: getIsBulkLoading(state),
-    entry: getBankEntryByIndex(state, ownProps),
-  });
+  return (state, ownProps) => {
+    const isEditingNote = getIsEditingNote(state, ownProps.index);
+    const isSubmittingNote = getIsSubmittingNote(state, ownProps.index);
+    const pendingNote = isEditingNote && getPendingNote(state);
+    const shouldShowNote = getShouldShowNote(state, ownProps.index);
+    return {
+      isBulkLoading: getIsBulkLoading(state),
+      entry: getBankEntryByIndex(state, ownProps),
+      isEditingNote,
+      isSubmittingNote,
+      pendingNote,
+      shouldShowNote,
+    };
+  };
 };
 
 export default connect(makeMapRowStateToProps)(BankTransactionTableRow);
