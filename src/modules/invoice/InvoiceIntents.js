@@ -61,6 +61,8 @@ export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');
 
 export const LOAD_ITEM_OPTION = Symbol('Load item option');
 
+export const SET_UPGRADE_MODAL_SHOWING = Symbol('Set upgrade modal showing');
+
 export const SET_INVOICE_HISTORY_LOADING = Symbol('Set invoice history loading state');
 export const SET_INVOICE_HISTORY_UNAVAILABLE = Symbol('Set invoice history unavailable');
 export const SET_INVOICE_HISTORY_CLOSED = Symbol('Set invoice history closed');

@@ -29,6 +29,7 @@ import {
   SET_PAY_DIRECT_LOADING_STATE,
   SET_REDIRECT_REF,
   SET_SUBMITTING_STATE,
+  SET_UPGRADE_MODAL_SHOWING,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_INVOICE_DETAIL,
   UPDATE_EXPORT_PDF_DETAIL,
@@ -72,6 +73,22 @@ const createInvoiceDetailDispatcher = store => ({
   displayModalAlert: ({ type, message }) => store.dispatch({
     intent: SET_MODAL_ALERT, modalAlert: { type, message },
   }),
+
+
+  showUpgradeModal: (monthlyLimit) => {
+    store.dispatch({
+      intent: SET_UPGRADE_MODAL_SHOWING,
+      isUpgradeModalShowing: true,
+      monthlyLimit,
+    });
+  },
+
+  hideUpgradeModal: () => {
+    store.dispatch({
+      intent: SET_UPGRADE_MODAL_SHOWING,
+      isUpgradeModalShowing: false,
+    });
+  },
 
   loadInvoice: (payload, message) => store.dispatch({
     intent: LOAD_INVOICE_DETAIL, ...payload, message,

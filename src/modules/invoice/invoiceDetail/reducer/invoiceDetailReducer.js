@@ -29,6 +29,7 @@ import {
   SET_PAY_DIRECT_LOADING_STATE,
   SET_REDIRECT_REF,
   SET_SUBMITTING_STATE,
+  SET_UPGRADE_MODAL_SHOWING,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_INVOICE_DETAIL,
   UPDATE_EXPORT_PDF_DETAIL,
@@ -86,12 +87,6 @@ const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
 const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
 
 const loadInvoiceDetail = (state, action) => {
-  if (action.monthlyLimit) {
-    return {
-      ...state,
-      monthlyLimit: action.monthlyLimit,
-    };
-  }
   const modalType = getLoadInvoiceDetailModalType(state, action.emailInvoice);
 
   const { modalAlert, pageAlert } = action.message
@@ -126,6 +121,9 @@ const loadInvoiceDetail = (state, action) => {
     modalType,
     modalAlert,
     alert: pageAlert,
+    monthlyLimit: action.monthlyLimit,
+    isUpgradeModalShowing: action.monthlyLimit
+      && action.monthlyLimit.used >= action.monthlyLimit.limit,
   };
 };
 
@@ -312,6 +310,12 @@ export const setRedirectRef = (state, { redirectRefJournalId, redirectRefJournal
   redirectRefJournalType,
 });
 
+const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) => ({
+  ...state,
+  isUpgradeModalShowing,
+  monthlyLimit,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -321,7 +325,7 @@ const handlers = {
   [SET_MODAL_TYPE]: setModalType,
   [SET_MODAL_ALERT]: setModalAlert,
   [SET_MODAL_SUBMITTING_STATE]: setModalSubmittingState,
-
+  [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [LOAD_INVOICE_DETAIL]: loadInvoiceDetail,
   [LOAD_CONTACT_ADDRESS]: loadContactAddress,
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,

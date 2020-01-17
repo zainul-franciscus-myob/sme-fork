@@ -48,9 +48,7 @@ export const getSelectedItems = state => state.selectedItems;
 export const getSelectedAccounts = state => state.selectedAccounts;
 export const getSerialNumber = state => state.serialNumber;
 
-export const getIsUpgradeModalShowing = state => (
-  state.monthlyLimit && state.monthlyLimit.used >= state.monthlyLimit.limit
-);
+export const getIsUpgradeModalShowing = ({ isUpgradeModalShowing }) => isUpgradeModalShowing;
 
 export const getMonthlyLimit = ({ monthlyLimit }) => monthlyLimit;
 

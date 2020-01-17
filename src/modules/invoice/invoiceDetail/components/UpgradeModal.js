@@ -1,4 +1,4 @@
-import { Modal } from '@myob/myob-widgets';
+import { Button, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -21,7 +21,7 @@ const UpgradeModal = (props) => {
     ? (
       <Modal
         title="Need to send more invoices?"
-        canClose={false}
+        onCancel={onUpgradeModalDismiss}
         size="small"
       >
         <Modal.Body>
@@ -29,6 +29,10 @@ const UpgradeModal = (props) => {
             You’ve reached your monthly limit of
             {' '}
             {pluraliseInvoiceLimit(monthlyLimit.limit)}
+            {' '}
+            for
+            {' '}
+            {monthlyLimit.month}
             .
           </p>
           <p>
@@ -36,20 +40,8 @@ const UpgradeModal = (props) => {
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <button
-            type="button"
-            className="btn btn-default"
-            onClick={onUpgradeModalDismiss}
-          >
-              Go back
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={onUpgradeModalUpgradeButtonClick}
-          >
-              Upgrade now
-          </button>
+          <Button type="secondary" onClick={onUpgradeModalDismiss}>Cancel</Button>
+          <Button type="primary" onClick={onUpgradeModalUpgradeButtonClick}>Upgrade now</Button>
         </Modal.Footer>
       </Modal>
     ) : null

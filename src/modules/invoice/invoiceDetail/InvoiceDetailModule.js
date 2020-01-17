@@ -132,12 +132,20 @@ export default class InvoiceDetailModule {
       this.displayFailureAlert(message);
     };
 
-    this.integrator.createOrUpdateInvoice({ onSuccess, onFailure });
+    const onSuccessInterceptor = (payload) => {
+      this.dispatcher.setSubmittingState(false);
+      if (payload.monthlyLimit) {
+        this.dispatcher.showUpgradeModal(payload.monthlyLimit);
+      } else {
+        onSuccess(payload);
+      }
+    };
+
+    this.integrator.createOrUpdateInvoice({ onSuccess: onSuccessInterceptor, onFailure });
   }
 
   saveInvoice = () => {
     const onSuccess = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
       this.pushSuccessfulSaveMessage(message);
       this.redirectToInvoiceList();
     };
@@ -146,6 +154,8 @@ export default class InvoiceDetailModule {
   }
 
   saveAndCreateNewInvoice = () => {
+    this.closeModal();
+
     const onSuccess = ({ message }) => {
       const state = this.store.getState();
       this.pushSuccessfulSaveMessage(message);
@@ -161,6 +171,7 @@ export default class InvoiceDetailModule {
   }
 
   saveAndDuplicateInvoice = () => {
+    this.closeModal();
     const onSuccess = (successResponse) => {
       if (getIsCreating(this.store.getState())) {
         this.dispatcher.updateInvoiceIdAfterCreate(successResponse.id);
@@ -173,6 +184,8 @@ export default class InvoiceDetailModule {
   }
 
   saveAndEmailInvoice = () => {
+    this.closeModal();
+
     const onSuccess = (successResponse) => {
       if (getIsCreating(this.store.getState())) {
         this.dispatcher.updateInvoiceIdAfterCreate(successResponse.id);
@@ -185,6 +198,8 @@ export default class InvoiceDetailModule {
   }
 
   saveAndExportPdf = () => {
+    this.closeModal();
+
     const onSuccess = ({ message, id }) => {
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
@@ -200,6 +215,7 @@ export default class InvoiceDetailModule {
   }
 
   saveAndRedirectToInvoicePayment = () => {
+    this.closeModal();
     const onSuccess = () => {
       this.dispatcher.setSubmittingState(false);
       this.redirectToInvoicePayment();
@@ -971,7 +987,7 @@ export default class InvoiceDetailModule {
         onLoadContacts={this.loadContacts}
         onAddContactButtonClick={this.openContactModal}
         onUpdateInvoiceLayout={this.updateInvoiceLayout}
-        onUpgradeModalDismiss={this.redirectToInvoiceList}
+        onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
         onUpgradeModalUpgradeButtonClick={this.redirectToSubscriptionSettings}
         onAccordionClose={this.accordionClosed}
         onAccordionOpen={this.accordionOpened}
