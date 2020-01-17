@@ -17,5 +17,7 @@ export default {
     serialNumber: '612312344567',
     hasLockPeriod: true,
     lockDate: '2019-11-11',
+    tradeName: 'Clearwater',
+    website: 'https://www.myob.com',
   },
 };

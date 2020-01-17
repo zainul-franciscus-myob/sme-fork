@@ -34,6 +34,8 @@ const getDefaultState = () => ({
     serialNumber: '',
     hasLockPeriod: false,
     lockDate: '',
+    tradingName: '',
+    website: '',
   },
   isLockDateAutoPopulated: false,
   loadingState: LoadingState.LOADING,

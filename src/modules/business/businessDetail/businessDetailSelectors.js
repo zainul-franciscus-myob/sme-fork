@@ -28,11 +28,14 @@ export const getBusinessForUpdate = createStructuredSelector({
   financialYear: state => state.businessDetails.financialYear,
   hasLockPeriod: state => state.businessDetails.hasLockPeriod,
   lockDate: state => state.businessDetails.lockDate,
+  tradingName: state => state.businessDetails.tradingName,
+  website: state => state.businessDetails.website,
 });
 
 export const getBusinessDetails = createStructuredSelector({
   serialNumber: state => state.businessDetails.serialNumber,
   organisationName: state => state.businessDetails.organisationName,
+  tradingName: state => state.businessDetails.tradingName,
   region: state => state.businessDetails.region,
 });
 
@@ -50,6 +53,7 @@ export const getNzTaxDetails = createStructuredSelector({
 export const getContactDetails = createStructuredSelector({
   phoneNumber: state => state.businessDetails.phoneNumber,
   fax: state => state.businessDetails.fax,
+  website: state => state.businessDetails.website,
   email: state => state.businessDetails.email,
   address: state => state.businessDetails.address,
 });

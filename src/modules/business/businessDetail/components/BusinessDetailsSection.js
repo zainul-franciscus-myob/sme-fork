@@ -12,7 +12,7 @@ const onInputChange = handler => (e) => {
 };
 
 const BusinessDetailsSection = ({
-  serialNumber, organisationName, isAu, onChange,
+  serialNumber, organisationName, tradingName, isAu, onChange,
 }) => (
   <FieldGroup label="Business Details">
     <ReadOnly name="serialNumber" label="MYOB serial number">
@@ -24,6 +24,14 @@ const BusinessDetailsSection = ({
       value={organisationName}
       requiredLabel="required"
       onChange={onInputChange(onChange)}
+      width="xl"
+    />
+    <Input
+      name="tradingName"
+      label="Trading name"
+      value={tradingName}
+      onChange={onInputChange(onChange)}
+      maxLength={100}
       width="xl"
     />
     {isAu ? <AuTaxDetails onChange={onChange} /> : <NzTaxDetails onChange={onChange} />}

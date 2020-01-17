@@ -10,7 +10,7 @@ const onInputChange = handler => (e) => {
 };
 
 const ContactDetailsSection = ({
-  phoneNumber, fax, email, address, onChange,
+  phoneNumber, fax, website, email, address, onChange,
 }) => (
   <FieldGroup label="Contact details">
     <TextArea
@@ -21,6 +21,14 @@ const ContactDetailsSection = ({
       maxLength={255}
       value={address}
       onChange={onInputChange(onChange)}
+      width="lg"
+    />
+    <Input
+      name="website"
+      label="Website"
+      value={website}
+      onChange={onInputChange(onChange)}
+      maxLength={100}
       width="lg"
     />
     <Input
