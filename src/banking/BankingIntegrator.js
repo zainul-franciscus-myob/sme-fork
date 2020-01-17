@@ -7,13 +7,10 @@ import {
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
-  LOAD_PAYMENT_ALLOCATION,
-  LOAD_PAYMENT_ALLOCATION_LINES,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   REMOVE_ATTACHMENT,
   SAVE_MATCH_TRANSACTION,
-  SAVE_PAYMENT_ALLOCATION,
   SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
@@ -53,11 +50,6 @@ import {
   getMatchTransactionSortOrder,
   getUnmatchTransactionPayload,
 } from './bankingSelectors/matchTransactionSelectors';
-import {
-  getPaymentAllocationFilterOptions,
-  getPaymentAllocationPayload,
-  getPaymentTypeUrlParam,
-} from './bankingSelectors/paymentAllocationSelectors';
 import { getSplitAllocationPayload } from './bankingSelectors/splitAllocationSelectors';
 
 const createBankingIntegrator = (store, integration) => ({
@@ -417,75 +409,6 @@ const createBankingIntegrator = (store, integration) => ({
 
     const urlParams = { businessId: getBusinessId(state) };
     const content = getMatchTransactionPayload(state, index);
-
-    integration.write({
-      intent,
-      urlParams,
-      allowParallelRequests: true,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadPaymentAllocationLines: ({
-    onSuccess, onFailure,
-  }) => {
-    const intent = LOAD_PAYMENT_ALLOCATION_LINES;
-
-    const state = store.getState();
-
-    const index = getOpenPosition(state);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      paymentType: getPaymentTypeUrlParam(state, index),
-    };
-
-    const filterOptions = getPaymentAllocationFilterOptions(state);
-
-    integration.read({
-      intent,
-      params: {
-        ...filterOptions,
-      },
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadPaymentAllocation: ({
-    index, onSuccess, onFailure,
-  }) => {
-    const intent = LOAD_PAYMENT_ALLOCATION;
-
-    const state = store.getState();
-
-    const { journalId } = getBankTransactionLineByIndex(state, index);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-      paymentType: getPaymentTypeUrlParam(state, index),
-      paymentId: journalId,
-    };
-
-    integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  savePaymentAllocation: ({
-    index, onSuccess, onFailure,
-  }) => {
-    const intent = SAVE_PAYMENT_ALLOCATION;
-    const state = store.getState();
-
-    const urlParams = { businessId: getBusinessId(state) };
-    const content = getPaymentAllocationPayload(state, index);
 
     integration.write({
       intent,

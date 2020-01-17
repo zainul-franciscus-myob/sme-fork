@@ -83,10 +83,6 @@ const BankTransactionTable = ({
   onSaveMatchTransaction,
   onCancelMatchTransaction,
   onUnmatchTransaction,
-  onUpdatePaymentAllocationOptions,
-  onUpdatePaymentAllocationLine,
-  onSavePaymentAllocation,
-  onCancelPaymentAllocation,
   onSaveTransferMoney,
   onCancelTransferMoney,
   onUpdateTransfer,
@@ -154,10 +150,6 @@ const BankTransactionTable = ({
       onSaveMatchTransaction={onSaveMatchTransaction}
       onCancelMatchTransaction={onCancelMatchTransaction}
       onUnmatchTransaction={onUnmatchTransaction}
-      onUpdatePaymentAllocationOptions={onUpdatePaymentAllocationOptions}
-      onUpdatePaymentAllocationLine={onUpdatePaymentAllocationLine}
-      onSavePaymentAllocation={onSavePaymentAllocation}
-      onCancelPaymentAllocation={onCancelPaymentAllocation}
       onSaveTransferMoney={onSaveTransferMoney}
       onCancelTransferMoney={onCancelTransferMoney}
       onUpdateTransfer={onUpdateTransfer}

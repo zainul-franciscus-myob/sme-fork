@@ -15,9 +15,6 @@ import {
   LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
-  LOAD_PAYMENT_ALLOCATION,
-  LOAD_PAYMENT_ALLOCATION_LINES,
-  LOAD_PAYMENT_ALLOCATION_OPTIONS,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_MODAL,
@@ -27,7 +24,6 @@ import {
   REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
   RESET_BULK_ALLOCATION,
   SAVE_MATCH_TRANSACTION,
-  SAVE_PAYMENT_ALLOCATION,
   SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
@@ -50,7 +46,6 @@ import {
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
   SET_OPERATION_IN_PROGRESS_STATE,
-  SET_PAYMENT_ALLOCATION_LOADING_STATE,
   SET_PENDING_NOTE,
   SET_SUBMMITTING_NOTE_STATE,
   SET_TABLE_LOADING_STATE,
@@ -71,8 +66,6 @@ import {
   UPDATE_MATCH_TRANSACTION_ADJUSTMENT,
   UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_MATCH_TRANSACTION_SELECTION,
-  UPDATE_PAYMENT_ALLOCATION_LINE,
-  UPDATE_PAYMENT_ALLOCATION_OPTIONS,
   UPDATE_SELECTED_TRANSACTION_DETAILS,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
@@ -521,67 +514,11 @@ const createBankingDispatcher = store => ({
     });
   },
 
-  loadPaymentAllocationOptions: (index) => {
-    store.dispatch({
-      intent: LOAD_PAYMENT_ALLOCATION_OPTIONS,
-      index,
-    });
-  },
-
-  loadPaymentAllocationLines: (index, payload) => {
-    store.dispatch({
-      intent: LOAD_PAYMENT_ALLOCATION_LINES,
-      index,
-      ...payload,
-    });
-  },
-
-  loadPaymentAllocation: (index, payload) => {
-    store.dispatch({
-      intent: LOAD_PAYMENT_ALLOCATION,
-      index,
-      ...payload,
-    });
-  },
-
-
-  savePaymentAllocation: (index, payload) => {
-    store.dispatch({
-      intent: SAVE_PAYMENT_ALLOCATION,
-      index,
-      ...payload,
-    });
-  },
-
   saveTransferMoney: (index, payload) => {
     store.dispatch({
       intent: SAVE_TRANSFER_MONEY,
       index,
       ...payload,
-    });
-  },
-
-  updatePaymentAllocationOptions: ({ key, value }) => {
-    store.dispatch({
-      intent: UPDATE_PAYMENT_ALLOCATION_OPTIONS,
-      key,
-      value,
-    });
-  },
-
-  updatePaymentAllocationLine: ({ index, key, value }) => {
-    store.dispatch({
-      intent: UPDATE_PAYMENT_ALLOCATION_LINE,
-      index,
-      key,
-      value,
-    });
-  },
-
-  setPaymentAllocationLoadingState: (isLoading) => {
-    store.dispatch({
-      intent: SET_PAYMENT_ALLOCATION_LOADING_STATE,
-      isLoading,
     });
   },
 

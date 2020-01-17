@@ -107,17 +107,6 @@ const getDefaultState = () => ({
       showAdjustmentTable: false,
       selectedEntries: {},
     },
-    payment: {
-      isTableLoading: false,
-      isBillPayment: false,
-      totalAmount: 0,
-      contacts: [],
-      filterOptions: {
-        contactId: '',
-        showPaid: false,
-      },
-      entries: [],
-    },
     transfer: {
       isWithdrawal: false,
       isTableLoading: false,

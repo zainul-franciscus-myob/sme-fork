@@ -8,8 +8,6 @@ import LoadingPageState from '../../components/LoadingPageState/LoadingPageState
 import MatchTransactionBody from './MatchTransactionBody';
 import OpenEntryFooter from './OpenEntryFooter';
 import OpenEntrySecondaryContent from './OpenEntrySecondaryContent';
-import PaymentAllocationBody from './PaymentAllocationBody';
-import PaymentAllocationFooter from './PaymentAllocationFooter';
 import SplitAllocationBody from './SplitAllocationBody';
 import TransferMoneyBody from './TransferMoneyBody';
 import styles from './BankingView.module.css';
@@ -53,10 +51,6 @@ const BankTransactionTableBody = (props) => {
     onSaveMatchTransaction,
     onCancelMatchTransaction,
     onUnmatchTransaction,
-    onUpdatePaymentAllocationOptions,
-    onUpdatePaymentAllocationLine,
-    onSavePaymentAllocation,
-    onCancelPaymentAllocation,
     onSaveTransferMoney,
     onCancelTransferMoney,
     onUpdateTransfer,
@@ -83,7 +77,6 @@ const BankTransactionTableBody = (props) => {
   const Content = {
     [tabIds.allocate]: SplitAllocationBody,
     [tabIds.match]: MatchTransactionBody,
-    [tabIds.payment]: PaymentAllocationBody,
     [tabIds.transfer]: TransferMoneyBody,
   }[activeTabId];
 
@@ -106,10 +99,6 @@ const BankTransactionTableBody = (props) => {
       onRemoveAdjustment,
       onExpandAdjustmentSection,
     },
-    [tabIds.payment]: {
-      onUpdatePaymentAllocationOptions,
-      onUpdatePaymentAllocationLine,
-    },
     [tabIds.transfer]: {
       onUpdateTransfer,
       onSortTransfer,
@@ -128,12 +117,6 @@ const BankTransactionTableBody = (props) => {
       onSave: onSaveMatchTransaction,
       onCancel: onCancelMatchTransaction,
       onUnmatch: onUnmatchTransaction,
-    },
-    [tabIds.payment]: {
-      onSave: onSavePaymentAllocation,
-      onCancel: onCancelPaymentAllocation,
-      onUnmatch: onUnallocateSplitAllocation,
-      onCreateRule: onOpenBankingRuleModal,
     },
     [tabIds.transfer]: {
       onSave: onSaveTransferMoney,
@@ -175,9 +158,7 @@ const BankTransactionTableBody = (props) => {
         <Card.Footer
           classes={[styles.openEntryCardFooter]}
           child={(
-            <OpenEntryFooter {...footerProps}>
-              {activeTabId === tabIds.payment ? <PaymentAllocationFooter /> : null}
-            </OpenEntryFooter>
+            <OpenEntryFooter {...footerProps} />
         )}
         />
       )}

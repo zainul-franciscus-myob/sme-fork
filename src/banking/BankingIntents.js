@@ -48,14 +48,6 @@ export const UPDATE_MATCH_TRANSACTION_ADJUSTMENT = Symbol('Update match transact
 export const REMOVE_MATCH_TRANSACTION_ADJUSTMENT = Symbol('Remove match transaction adjustment');
 export const EXPAND_ADJUSTMENT_SECTION = Symbol('Expand adjustment section');
 
-export const LOAD_PAYMENT_ALLOCATION_LINES = Symbol('Load bill or invoice payment lines');
-export const LOAD_PAYMENT_ALLOCATION = Symbol('Load bill or invoice payment allocation');
-export const SAVE_PAYMENT_ALLOCATION = Symbol('Save bill or invoice payment allocation');
-export const LOAD_PAYMENT_ALLOCATION_OPTIONS = Symbol('Load payment allocation filter options');
-export const UPDATE_PAYMENT_ALLOCATION_OPTIONS = Symbol('Update payment allocation filter options');
-export const UPDATE_PAYMENT_ALLOCATION_LINE = Symbol('Update payment allocation line');
-export const SET_PAYMENT_ALLOCATION_LOADING_STATE = Symbol('Set payment allocation loading state');
-
 export const LOAD_MATCH_TRANSFER_MONEY = Symbol('Load a list of matching transfer money');
 export const SORT_MATCH_TRANSFER_MONEY = Symbol('Sort a list of matching transfer money');
 export const SET_MATCH_TRANSFER_MONEY_SORT_ORDER = Symbol('Set match transfer money sort order');

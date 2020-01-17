@@ -62,10 +62,6 @@ const BankingView = (props) => {
     onSaveMatchTransaction,
     onCancelMatchTransaction,
     onUnmatchTransaction,
-    onUpdatePaymentAllocationOptions,
-    onUpdatePaymentAllocationLine,
-    onSavePaymentAllocation,
-    onCancelPaymentAllocation,
     onSaveTransferMoney,
     onSaveMatchTransferMoney,
     onCancelTransferMoney,
@@ -178,10 +174,6 @@ const BankingView = (props) => {
           onSaveMatchTransaction={onSaveMatchTransaction}
           onCancelMatchTransaction={onCancelMatchTransaction}
           onUnmatchTransaction={onUnmatchTransaction}
-          onUpdatePaymentAllocationOptions={onUpdatePaymentAllocationOptions}
-          onUpdatePaymentAllocationLine={onUpdatePaymentAllocationLine}
-          onSavePaymentAllocation={onSavePaymentAllocation}
-          onCancelPaymentAllocation={onCancelPaymentAllocation}
           onSaveTransferMoney={onSaveMatchTransferMoney}
           onCancelTransferMoney={onCancelTransferMoney}
           onUpdateTransfer={onUpdateTransfer}
