@@ -1,10 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getIsSelectedPayEvent } from './ReportsSelector';
+import { getIsSelectedPayEvent, getStpDeclarationContext } from './ReportsSelector';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import ReportsView from './components/ReportsView';
 import Store from '../../../../store/Store';
+import StpDeclarationModalModule from '../../stpDeclarationModal/StpDeclarationModalModule';
 import createReportsDispatcher from './createReportsDispatcher';
 import createReportsIntegrator from './createReportsIntegrator';
 import reportsReducer from './ReportsReducer';
@@ -19,6 +20,10 @@ export default class ReportsModule {
     this.dispatcher = createReportsDispatcher(this.store);
     this.integrator = createReportsIntegrator(this.store, integration);
     this.setAlert = setAlert;
+    this.stpDeclarationModule = new StpDeclarationModalModule({
+      integration,
+      onDeclared: this.loadPayEventDetails,
+    });
 
     this.dispatcher.setInitialState(context);
   }
@@ -78,17 +83,25 @@ export default class ReportsModule {
     this.loadPayEventDetails();
   };
 
+  onDeclare = () => {
+    this.stpDeclarationModule.run(getStpDeclarationContext(this.store.getState()));
+  };
+
   run = () => {
     this.loadPayEvents();
   };
 
   getView() {
+    const declarationModal = this.stpDeclarationModule.getView();
+
     return (
       <Provider store={this.store}>
+        {declarationModal}
         <ReportsView
           onPayrollYearChange={this.filterPayEvents}
           onRowSelect={this.setSelectedPayEvent}
           onClearSelected={this.dispatcher.clearSelectedPayEvent}
+          onDeclare={this.onDeclare}
         />
       </Provider>
     );

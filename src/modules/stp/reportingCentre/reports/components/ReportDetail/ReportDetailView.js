@@ -1,4 +1,6 @@
-import { Aside, Button, Icons } from '@myob/myob-widgets';
+import {
+  Aside, Button, ButtonRow, Icons,
+} from '@myob/myob-widgets';
 import React from 'react';
 
 import BaseInformation from './BaseInformation';
@@ -28,6 +30,8 @@ const ReportDetailView = ({
     employeeErrors,
   },
   onClose,
+  showDeclareAction,
+  onDeclare,
 }) => {
   const actions = (
     <Aside.Actions>
@@ -69,6 +73,12 @@ const ReportDetailView = ({
     <EmployeeErrorsList employeeErrors={employeeErrors} />
   );
 
+  const declarationAction = showDeclareAction && (
+    <ButtonRow>
+      <Button type="primary" onClick={onDeclare}>Send to ATO</Button>
+    </ButtonRow>
+  );
+
   const view = (
     <>
       {statusMessage}
@@ -88,6 +98,7 @@ const ReportDetailView = ({
         tax={tax}
       />
       <hr />
+      {declarationAction}
     </>
   );
 

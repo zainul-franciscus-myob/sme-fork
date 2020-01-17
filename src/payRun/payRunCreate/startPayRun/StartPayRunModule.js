@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getPayRunListUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
+import LoadingState from '../../../components/PageView/LoadingState';
 import StartPayRunView from './components/StartPayRunView';
 import createStartPayRunDispatchers from './createStartPayRunDispatchers';
 import createStartPayRunIntegrator from './createStartPayRunIntegrator';
@@ -20,16 +21,16 @@ export default class StartPayRunModule {
   }
 
   createNewPayRun = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = () => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.dismissAlert();
       this.dispatcher.deleteDraft();
     };
 
     const onFailure = () => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.deleteDraft();
     };
 
@@ -37,17 +38,17 @@ export default class StartPayRunModule {
   };
 
   editExistingPayRun = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     const state = this.store.getState();
     this.dispatcher.editExistingPayRun(state.startPayRun.draftPayRun);
 
     const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setStpRegistrationStatus(response.stpRegistrationStatus);
     };
 
     const onFailure = () => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
     this.integrator.getStpRegistrationStatus({ onSuccess, onFailure });
@@ -60,10 +61,10 @@ export default class StartPayRunModule {
   };
 
   loadEmployeePays = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (employeePays) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadEmployeePays(employeePays);
       this.dispatcher.setStpRegistrationStatus(employeePays.stpRegistrationStatus);
       this.dispatcher.dismissAlert();
@@ -71,7 +72,7 @@ export default class StartPayRunModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: AlertType.ERROR, message });
     };
 

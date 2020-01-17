@@ -11,6 +11,7 @@ import {
   getPayrollYears,
   getSelectedPayEvent,
   getSelectedPayrollYear,
+  getShowDeclareAction,
 } from '../ReportsSelector';
 import PageView from '../../../../../components/PageView/PageView';
 import ReportDetailView from './ReportDetail/ReportDetailView';
@@ -31,6 +32,8 @@ const ReportsView = ({
   hasRowSelected,
   onRowSelect,
   onClearSelected,
+  showDeclareAction,
+  onDeclare,
 }) => {
   const tableConfig = {
     payPeriod: { columnName: 'Pay period', width: '21rem', valign: 'middle' },
@@ -77,6 +80,8 @@ const ReportsView = ({
       loadingState={detailsLoadingState}
       payEvent={selectedPayEvent}
       onClose={onClearSelected}
+      showDeclareAction={showDeclareAction}
+      onDeclare={onDeclare}
     />
   );
 
@@ -104,6 +109,7 @@ const mapStateToProps = state => ({
   payEvents: getPayEvents(state),
   hasRowSelected: getHasPayEventSelected(state),
   selectedPayEvent: getSelectedPayEvent(state),
+  showDeclareAction: getShowDeclareAction(state),
 });
 
 export default connect(mapStateToProps)(ReportsView);

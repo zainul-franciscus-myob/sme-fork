@@ -69,10 +69,10 @@ export default class PayRunModule {
   };
 
   deleteDraftAndGoBack = () => {
-    this.dispatcher.setLoadingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const afterDelete = () => {
-      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.dismissAlert();
       this.dispatcher.closePreviousStepModal();
       this.dispatcher.previousStep();

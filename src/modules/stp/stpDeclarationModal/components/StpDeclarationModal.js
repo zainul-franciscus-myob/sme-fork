@@ -1,35 +1,29 @@
 import {
-  Alert,
-  Button,
-  Input,
-  Modal,
+  Alert, Button, Input, Modal,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsLoading,
-  getStpAlertMessage,
+  getAlertMessage,
+  getIsLoading, getIsOpen,
   getStpDeclarationName,
-} from '../RecordPayRunSelectors';
+} from '../StpDeclarationModalSelectors';
 import PageView from '../../../../components/PageView/PageView';
-import atoLogoImage from './images/ato-logo.svg';
+import atoLogoImage from './ato-logo.svg';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './StpDeclarationModal.module.css';
 
 const StpDeclarationModal = ({
+  isOpen,
   name,
   alertMessage,
   isLoading,
-  stpDeclarationListeners,
+  onChangeStpDeclaration,
+  onCancelStpDeclaration,
+  onSaveStpDeclaration,
+  onDismissStpDeclarationAlert,
 }) => {
-  const {
-    onChangeStpDeclaration,
-    onCancelStpDeclaration,
-    onSaveStpDeclaration,
-    onDismissStpDeclarationAlert,
-  } = stpDeclarationListeners;
-
   const alertView = alertMessage && (
     <Alert type="danger" onDismiss={onDismissStpDeclarationAlert}>
       {alertMessage}
@@ -70,16 +64,17 @@ const StpDeclarationModal = ({
     </>
   );
 
-  return (
+  return isOpen ? (
     <Modal title="Send payroll information to the ATO" onCancel={onCancelStpDeclaration}>
       <PageView isLoading={isLoading} view={view} />
     </Modal>
-  );
+  ) : null;
 };
 
 const mapStateToProps = state => ({
+  isOpen: getIsOpen(state),
   name: getStpDeclarationName(state),
-  alertMessage: getStpAlertMessage(state),
+  alertMessage: getAlertMessage(state),
   isLoading: getIsLoading(state),
 });
 

@@ -4,7 +4,6 @@ import {
   LOAD_STP_REGISTRATION_STATUS,
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
-  RECORD_STP_DECLARATION,
   SAVE_DRAFT,
   START_NEW_PAY_RUN,
   VALIDATE_ETP,
@@ -32,10 +31,6 @@ const PayRunMapping = {
   [RECORD_PAYMENTS]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/payRun/record_payments`,
-  },
-  [RECORD_STP_DECLARATION]: {
-    method: 'POST',
-    getPath: ({ businessId, payRunId }) => `/${businessId}/stp/${payRunId}/declaration`,
   },
   [VALIDATE_ETP]: {
     method: 'POST',

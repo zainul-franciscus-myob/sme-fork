@@ -60,3 +60,13 @@ export const getLoadPayEventDetailsUrlParams = state => ({
 export const getIsSelectedPayEvent = (state, payEventId) => (
   payEventId === state.selectedPayEvent.id
 );
+
+export const getShowDeclareAction = (state) => {
+  const payEvent = state.selectedPayEvent;
+  return !!(payEvent && payEvent.status === 'Not sent');
+};
+
+export const getStpDeclarationContext = state => ({
+  businessId: getBusinessId(state),
+  eventId: state.selectedPayEvent.id,
+});

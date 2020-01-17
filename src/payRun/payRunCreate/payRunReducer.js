@@ -14,12 +14,7 @@ import {
   SET_SUBMITTING_STATE,
   SET_TOTAL_NET_PAY,
 } from './PayRunIntents';
-import {
-  EMPLOYEE_PAY_LIST,
-  PREPARE_PAY_SLIPS,
-  RECORD_PAY_RUN,
-  START_PAY_RUN,
-} from './payRunSteps';
+import { EMPLOYEE_PAY_LIST, PREPARE_PAY_SLIPS, START_PAY_RUN } from './payRunSteps';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import {
   employeePayListHandlers,
@@ -29,14 +24,7 @@ import {
   getPreparePaySlipsDefaultState,
   preparePaySlipsHandlers,
 } from './preparePaySlips/preparePaySlipsReducer';
-import {
-  getRecordPayRunDefaultState,
-  recordPayRunHandlers,
-} from './recordPayRun/recordPayRunReducer';
-import {
-  getStartPayRunDefaultState,
-  startPayRunHandlers,
-} from './startPayRun/startPayRunReducer';
+import { getStartPayRunDefaultState, startPayRunHandlers } from './startPayRun/startPayRunReducer';
 import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 import getEmployeePayLines from './getEmployeePayLines';
@@ -55,7 +43,6 @@ const getDefaultState = () => ({
   },
   [START_PAY_RUN]: getStartPayRunDefaultState(),
   [EMPLOYEE_PAY_LIST]: getEmployeePayListDefaultState(),
-  [RECORD_PAY_RUN]: getRecordPayRunDefaultState(),
   [PREPARE_PAY_SLIPS]: getPreparePaySlipsDefaultState(),
 });
 
@@ -125,14 +112,12 @@ const setEmployeePayments = (state, { response }) => ({
 
 const deletePayRunDraft = (state) => {
   const { draftPayRun, ...startPayRunMinusDraftPayRun } = state[START_PAY_RUN];
-
-  const updatedState = {
+  return {
     ...state,
     [START_PAY_RUN]: {
       ...startPayRunMinusDraftPayRun,
     },
   };
-  return updatedState;
 };
 
 const isEmployeeSelected = (employeeId, selectedEmployeeIds) => (
@@ -150,7 +135,7 @@ const editExistingPayRun = (state, action) => {
     },
   };
 
-  const updatedState = {
+  return {
     ...state,
     [START_PAY_RUN]: {
       ...startPayRun,
@@ -162,7 +147,6 @@ const editExistingPayRun = (state, action) => {
       ),
     },
   };
-  return updatedState;
 };
 
 
@@ -183,7 +167,6 @@ const handlers = {
   [SET_STP_REGISTRATION_STATUS]: setStpRegistrationStatus,
   ...wrapHandlers(START_PAY_RUN, startPayRunHandlers),
   ...wrapHandlers(EMPLOYEE_PAY_LIST, employeePayListHandlers),
-  ...wrapHandlers(RECORD_PAY_RUN, recordPayRunHandlers),
   ...wrapHandlers(PREPARE_PAY_SLIPS, preparePaySlipsHandlers),
 };
 

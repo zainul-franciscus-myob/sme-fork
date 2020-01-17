@@ -1,3 +1,6 @@
+import { createSelector } from 'reselect';
+
+import { getBusinessId } from '../PayRunSelectors';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getNumberOfSelected = state => (
@@ -11,10 +14,6 @@ const getPaymentInformation = state => ({
   payPeriodEnd: state.startPayRun.currentEditingPayRun.payPeriodEnd,
 });
 
-export const getIsStpDeclarationOpen = state => state.recordPayRun.stp.isOpen;
-export const getStpAlertMessage = state => state.recordPayRun.stp.alertMessage;
-export const getIsLoading = state => state.recordPayRun.stp.isLoading;
-export const getStpDeclarationName = state => state.recordPayRun.stp.name;
 export const getIsRegisteredForStp = state => state.stpRegistrationStatus === 'registered';
 export const getPayRunId = state => state.payRunId;
 
@@ -25,6 +24,11 @@ export const getRecordPayContents = state => ({
   ...getPaymentInformation(state),
 });
 
-export const getRecordStpDeclarationContents = state => ({
-  name: getStpDeclarationName(state),
-});
+export const getStpDeclarationContext = createSelector(
+  getBusinessId,
+  getPayRunId,
+  (businessId, payRunId) => ({
+    businessId,
+    eventId: payRunId,
+  }),
+);

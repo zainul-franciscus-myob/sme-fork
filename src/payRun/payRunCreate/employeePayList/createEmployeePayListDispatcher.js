@@ -7,6 +7,7 @@ import {
   SAVE_ETP,
   SET_PAY_ITEM_LINE_DIRTY,
   SET_TOTAL_NET_PAY,
+  SET_UPGRADE_MODAL_SHOWING,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_EMPLOYEE_PAY_ITEM,
@@ -116,6 +117,20 @@ const createEmployeePayListDispatcher = store => ({
       intent,
       employeeId,
       recalculatedEmployeePay,
+    });
+  },
+
+  showUpgradeModal: () => {
+    this.store.dispatch({
+      intent: SET_UPGRADE_MODAL_SHOWING,
+      isUpgradeModalShowing: true,
+    });
+  },
+
+  hideUpgradeModal: () => {
+    this.store.dispatch({
+      intent: SET_UPGRADE_MODAL_SHOWING,
+      isUpgradeModalShowing: false,
     });
   },
 });

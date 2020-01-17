@@ -1,12 +1,6 @@
 import {
-  getIsLoading,
-  getIsRegisteredForStp,
-  getIsStpDeclarationOpen,
   getPayRunId,
   getRecordPayContents,
-  getRecordStpDeclarationContents,
-  getStpAlertMessage,
-  getStpDeclarationName,
 } from '../RecordPayRunSelectors';
 
 describe('RecordPayRunSelectors', () => {
@@ -55,102 +49,6 @@ describe('RecordPayRunSelectors', () => {
       expect(actual.payPeriodStart).toEqual(paymentDates.payPeriodStart);
       expect(actual.payPeriodEnd).toEqual(paymentDates.payPeriodEnd);
       expect(actual.employeePayLines).toEqual(lines);
-    });
-  });
-
-  describe('getIsStpDeclarationOpen', () => {
-    it('should get whether the STP Declaration modal is open or not', () => {
-      const state = {
-        recordPayRun: {
-          stp: {
-            isOpen: true,
-          },
-        },
-      };
-
-      expect(getIsStpDeclarationOpen(state)).toEqual(true);
-    });
-  });
-
-  describe('getStpAlertMessage', () => {
-    it('should get the alert for the STP Declaration modal', () => {
-      const state = {
-        recordPayRun: {
-          stp: {
-            alertMessage: 'This is an error',
-          },
-        },
-      };
-
-      expect(getStpAlertMessage(state)).toEqual(state.recordPayRun.stp.alertMessage);
-    });
-  });
-
-  describe('getIsLoading', () => {
-    it('should get the loading state for the STP Declaration modal', () => {
-      const state = {
-        recordPayRun: {
-          stp: {
-            isLoading: true,
-          },
-        },
-      };
-
-      expect(getIsLoading(state)).toEqual(true);
-    });
-  });
-
-  describe('getStpDeclarationName', () => {
-    it('should get the name value for the STP Declaration modal', () => {
-      const state = {
-        recordPayRun: {
-          stp: {
-            name: 'Bob',
-          },
-        },
-      };
-
-      expect(getStpDeclarationName(state)).toEqual('Bob');
-    });
-  });
-
-  describe('getIsRegisteredForStp', () => {
-    it('should return true when the STP registration status is registered', () => {
-      const state = {
-        stpRegistrationStatus: 'registered',
-      };
-
-      expect(getIsRegisteredForStp(state)).toEqual(true);
-    });
-
-    it('should return false when the STP registration status is notRegistered', () => {
-      const state = {
-        stpRegistrationStatus: 'notRegistered',
-      };
-
-      expect(getIsRegisteredForStp(state)).toEqual(false);
-    });
-
-    it('should return false when the STP registration status is lostConnection', () => {
-      const state = {
-        stpRegistrationStatus: 'lostConnection',
-      };
-
-      expect(getIsRegisteredForStp(state)).toEqual(false);
-    });
-  });
-
-  describe('getRecordStpDeclarationContents', () => {
-    it('should get contents to record the STP declaration', () => {
-      const state = {
-        recordPayRun: {
-          stp: {
-            name: 'Bob',
-          },
-        },
-      };
-
-      expect(getRecordStpDeclarationContents(state)).toEqual({ name: 'Bob' });
     });
   });
 

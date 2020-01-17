@@ -31,13 +31,6 @@ export const UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION = Symbol('Update employee 
 export const SET_TOTAL_NET_PAY = Symbol('Set total net pay');
 export const SET_EMPLOYEE_PAYMENTS = Symbol('Store employee payments returned from record payments request');
 
-export const OPEN_STP_DECLARATION_MODAL = Symbol('Open STP Declaration modal');
-export const CLOSE_STP_DECLARATION_MODAL = Symbol('Close STP Declaration modal');
-export const SET_STP_DECLARATION_LOADING_STATE = Symbol('Set STP Declaration loading state');
-export const CHANGE_STP_DECLARATION_NAME = Symbol('Change STP Declaration name');
-export const RECORD_STP_DECLARATION = Symbol('Record STP Declaration');
-export const SET_STP_DECLARATION_ALERT_MESSAGE = Symbol('Set STP Declaration alert message');
-
 export const SET_UPGRADE_MODAL_SHOWING = Symbol('Set upgrade modal showing');
 
 export const EDIT_EXISTING_PAY_RUN = Symbol('Edit existing pay run');

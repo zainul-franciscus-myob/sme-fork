@@ -3,7 +3,7 @@ import {
   getIsSelectedPayEvent,
   getLoadPayEventDetailsUrlParams,
   getPayEvents,
-  getSelectedPayEvent,
+  getSelectedPayEvent, getShowDeclareAction, getStpDeclarationContext,
 } from '../ReportsSelector';
 
 describe('ReportsSelected', () => {
@@ -251,6 +251,60 @@ describe('ReportsSelected', () => {
       const result = getIsSelectedPayEvent(state, '123');
 
       expect(result).toEqual(false);
+    });
+  });
+
+  describe('getShowDeclareAction', () => {
+    it('should return true if the selected pay event stats is Not sent', () => {
+      const state = {
+        selectedPayEvent: {
+          status: 'Not sent',
+        },
+      };
+
+      const result = getShowDeclareAction(state);
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return false if the selected pay event stats is not Not sent', () => {
+      const state = {
+        selectedPayEvent: {
+          status: 'Sending',
+        },
+      };
+
+      const result = getShowDeclareAction(state);
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return false if the selected pay event is null', () => {
+      const state = {};
+
+      const result = getShowDeclareAction(state);
+
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('getStpDeclarationContext', () => {
+    it('should get the context required for the STP declaration modal', () => {
+      const state = {
+        businessId: '123',
+        selectedPayEvent: {
+          id: '321',
+        },
+      };
+
+      const result = getStpDeclarationContext(state);
+
+      const expected = {
+        businessId: '123',
+        eventId: '321',
+      };
+
+      expect(result).toEqual(expected);
     });
   });
 });
