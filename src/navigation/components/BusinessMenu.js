@@ -11,10 +11,9 @@ import {
   getBusinessUrls,
   getIsReadOnly,
   getSerialNumber,
-  getShowBusinessAvatar,
   getUserEmail,
 } from '../NavigationSelectors';
-import BusinessAvatar from './BusinessAvatar';
+import BusinessAvatar from '../../components/BusinessAvatar/BusinessAvatar';
 import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 import styles from './BusinessMenu.module.css';
 
@@ -96,13 +95,12 @@ const BusinessMenu = ({
   onMenuSelect,
   onMenuLinkClick,
   isReadOnly,
-  showBusinessAvatar,
 }) => (
   <div className={styles.businessMenu}>
     <Navigation.Menu
       label={(
         <div className={styles.avatar}>
-          {showBusinessAvatar && <BusinessAvatar />}
+          <BusinessAvatar businessName={businessName} />
           {businessName}
           {isReadOnly && <ReadonlyStatus />}
           <div className={styles.caret}><Icons.Caret /></div>
@@ -124,7 +122,6 @@ const mapStateToProps = state => ({
   userEmail: getUserEmail(state),
   activeNav: getActiveNav(state),
   isReadOnly: getIsReadOnly(state),
-  showBusinessAvatar: getShowBusinessAvatar(state),
 });
 
 export default connect(mapStateToProps)(BusinessMenu);

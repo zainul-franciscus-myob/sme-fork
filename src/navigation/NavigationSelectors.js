@@ -222,23 +222,3 @@ export const hasReportsUrls = createSelector(
   getReportsUrls,
   urls => Object.values(urls).some(Boolean),
 );
-
-export const getBusinessAbbreviation = createSelector(
-  getBusinessName,
-  (businessName = '') => businessName
-    .replace(/([A-Z])/g, ' $1')
-    .trim()
-    .split(/\s+/, 2)
-    .reduce((a, b) => {
-      const formattedB = b.toUpperCase();
-
-      if (formattedB === 'PTY' || formattedB === 'LTD') return a;
-
-      return formattedB.length ? a + [...formattedB][0] : a;
-    }, ''),
-);
-
-export const getShowBusinessAvatar = createSelector(
-  getBusinessAbbreviation,
-  abbr => abbr.length > 0,
-);

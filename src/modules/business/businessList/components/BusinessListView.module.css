@@ -1,0 +1,41 @@
+.search {
+  width: var(--flx-width-field-m);
+}
+
+@media (min-width: 768px) {
+  .search {
+    width: var(--flx-width-field-l);
+  }
+}
+
+.container :global(.flx-container) {
+  max-width: 90rem;
+  /* 169px is navigation bar height + footer height */
+  min-height: calc(100vh - 169px);
+  position: relative;
+  z-index: 1;
+}
+
+.footer {
+  /* The gap between business list and bottom of screen */
+  height: 120px;
+  position: relative;
+}
+
+.footer > img {
+  position: absolute;
+  right: 10rem;
+  bottom: 0;
+  height: 20rem;
+}
+
+.avatar {
+  height: 3.2rem;
+  width: 3.2rem;
+  line-height: 3.2rem;
+  font-size: 1.4rem;
+}
+
+.businessRow {
+  display: flex;
+}
