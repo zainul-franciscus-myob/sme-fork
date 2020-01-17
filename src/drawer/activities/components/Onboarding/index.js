@@ -29,7 +29,7 @@ const Onboarding = ({ activities, closeTask }) => (
     {activities.map(activity => (
       activity.tasks.map(item => (
         <li key={item.title}>
-          <a href={`${item.action}`} onClick={(e) => { e.preventDefault(); closeTask({ activityId: activity.id, activityKey: item.key }); }}>
+          <a href={`${item.action}`} onClick={() => { closeTask({ activityId: activity.id, activityKey: item.key }); }}>
             <img src={imageForTask(item.key)} alt="business details" width="36" />
             <div>
               {isCompleted(activity, item) && <Label type="boxed" color="green" size="small">Done</Label>}
