@@ -2,14 +2,8 @@
   width: var(--flx-width-field-m);
 }
 
-@media (min-width: 768px) {
-  .search {
-    width: var(--flx-width-field-l);
-  }
-}
-
 .container :global(.flx-container) {
-  max-width: 90rem;
+  max-width: 76.8rem;
   /* 169px is navigation bar height + footer height */
   min-height: calc(100vh - 169px);
   position: relative;
