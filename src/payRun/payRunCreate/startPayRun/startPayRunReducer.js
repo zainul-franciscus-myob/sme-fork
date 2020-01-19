@@ -6,6 +6,7 @@ import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../PayRunIntents';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getStartPayRunDefaultState = () => ({
+  isPayrollSetup: true,
   currentEditingPayRun: {
     paymentFrequency: 'Weekly',
     paymentDate: formatIsoDate(new Date()),
@@ -36,7 +37,9 @@ const calculateStartDate = (payCycle, endDateString) => {
   return formatIsoDate(startDate);
 };
 
-const startNewPayRun = (state, { newPayRunDetails, draftPayRun }) => {
+const startNewPayRun = (state, { isPayrollSetup, newPayRunDetails, draftPayRun }) => {
+  if (!isPayrollSetup) return { ...state, isPayrollSetup };
+
   const { paymentFrequency, regularPayCycleOptions } = newPayRunDetails;
   return {
     ...state,

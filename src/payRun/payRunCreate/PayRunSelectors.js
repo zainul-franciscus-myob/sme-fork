@@ -9,6 +9,7 @@ export const getBusinessId = state => state.businessId;
 export const getAlert = state => state.alert;
 export const getStep = state => state.step;
 export const getPreviousStepModalIsOpen = state => state.previousStepModalIsOpen;
+export const getIsPayrollSetup = state => state.startPayRun.isPayrollSetup;
 
 const getPaymentFrequency = state => state.startPayRun.currentEditingPayRun.paymentFrequency;
 const getPaymentDate = state => formatDate(new Date(state.startPayRun.currentEditingPayRun.paymentDate), 'iii dd/MM/yyyy');
@@ -106,3 +107,8 @@ export const getSaveDraftContent = state => ({
   selectedEmployeeIds: getSelectedEmployeeIds(state),
   employeePays: getEmployeePays(state),
 });
+
+export const getPayrollSettingsLink = (state) => {
+  const { businessId, region } = state;
+  return `/#/${region}/${businessId}/payrollSettings?tab=general`;
+};

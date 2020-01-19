@@ -37,6 +37,7 @@ export const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isSubmitting: false,
   isPageEdited: false,
+  isPayrollSetup: true,
   alert: undefined,
   modal: undefined,
   mainTab: '',
@@ -235,7 +236,7 @@ const loadPaymentDetail = (state, action) => ({
   ...action.paymentDetails,
 });
 
-const loadEmployeeDetail = (state, action) => ({
+const loadEmployeeDetail = (state, action) => (action.isPayrollSetup ? {
   ...state,
   contactDetail: loadContactDetail(state, action),
   payrollDetails: loadPayrollDetail(state, action),
@@ -262,6 +263,9 @@ const loadEmployeeDetail = (state, action) => ({
   leavePayItemOptions: action.leavePayItemOptions,
   expensePayItemOptions: action.expensePayItemOptions,
   payHistoryPeriodOptions: action.payHistoryPeriodOptions,
+} : {
+  ...state,
+  isPayrollSetup: false,
 });
 
 const updateEmployeeDetail = (state, action) => ({

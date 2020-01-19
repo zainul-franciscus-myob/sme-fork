@@ -26,6 +26,15 @@ describe('PayRunModule', () => {
     return wrapper;
   };
 
+  it('renders the payroll setup required screen if payroll setup is incomplete', () => {
+    const wrapper = constructPayRunModule({
+      isPayrollSetup: false,
+    });
+    const header = wrapper.find({ testid: 'payrollNotSetup' });
+
+    expect(header).toHaveLength(1);
+  });
+
   it('renders the title of the start pay run', () => {
     const wrapper = constructPayRunModule();
     const header = wrapper.find({ testid: 'startPayRunViewPageHead' });

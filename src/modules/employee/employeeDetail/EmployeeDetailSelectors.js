@@ -6,6 +6,7 @@ import { mainTabIds, payrollDetailsSubTabIds } from './tabItems';
 
 export const getBusinessId = state => state.businessId;
 export const getLoadingState = state => state.loadingState;
+export const getIsPayrollSetup = state => state.isPayrollSetup;
 export const getModal = state => state.modal;
 export const getModalUrl = state => ((state.modal || {}).url);
 
@@ -95,4 +96,11 @@ export const getEmployeePayload = (state) => {
     },
     paymentDetails,
   });
+};
+
+export const getPayrollSettingsLink = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/payrollSettings?tab=general`;
 };

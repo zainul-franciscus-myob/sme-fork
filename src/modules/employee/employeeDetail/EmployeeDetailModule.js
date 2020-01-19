@@ -182,7 +182,7 @@ export default class EmployeeDetailModule {
     if (url) {
       window.location.href = url;
     }
-  }
+  };
 
   openDeleteModal = () => {
     const state = this.store.getState();
