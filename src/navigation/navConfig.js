@@ -124,11 +124,11 @@ export const featuresConfig = {
   contactList: { routeName: RouteName.CONTACT_LIST },
   contactCreate: { routeName: RouteName.CONTACT_DETAIL, params: { contactId: 'new' } },
 
-  reportsStandard: { routeName: RouteName.REPORTS_STANDARD, params: { type: 'standardReports' } },
-  reportsFavourite: { routeName: RouteName.REPORTS_FAVOURITE, params: { type: 'favouriteReports' } },
-  reportsCustom: { routeName: RouteName.REPORTS_CUSTOM, params: { type: 'customReports' } },
-  reportsException: { routeName: RouteName.REPORTS_EXCEPTION, params: { type: 'exceptionsReports' } },
-  reportsPackBuilder: { routeName: RouteName.REPORTS_PACK_BUILDER, params: { type: 'reportPackBuilder' } },
+  reportsStandard: { routeName: RouteName.REPORTS_STANDARD },
+  reportsFavourite: { routeName: RouteName.REPORTS_FAVOURITE },
+  reportsCustom: { routeName: RouteName.REPORTS_CUSTOM },
+  reportsException: { routeName: RouteName.REPORTS_EXCEPTION },
+  reportsPackBuilder: { routeName: RouteName.REPORTS_PACK_BUILDER },
   reportsPdfStyleTemplates: { routeName: RouteName.REPORTS_PDF_STYLE_TEMPLATES },
 
   inTrayList: { routeName: RouteName.IN_TRAY },

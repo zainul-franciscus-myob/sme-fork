@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { activeMapping } from './navConfig';
+import RouteName from '../router/RouteName';
 import getRegionToDialectText from '../dialect/getRegionToDialectText';
 
 export const getBusinessName = state => state.businessName;
@@ -12,6 +13,7 @@ const getCurrentRouteName = state => state.currentRouteName;
 const getUrls = state => state.urls;
 
 export const getBusinessId = ({ routeParams: { businessId = '' } }) => businessId;
+export const getRegion = state => state.routeParams.region;
 export const hasBusinessId = createSelector(
   getBusinessId,
   businessId => businessId !== '',
@@ -22,6 +24,21 @@ export const isLinkUserPage = ({ currentRouteName }) => {
   return currentBaseRoute && currentBaseRoute[0] === 'linkUser';
 };
 
+const getSelfServicePortalUrl = state => state.selfServicePortalUrl;
+const getPaymentDetailUrl = createSelector(
+  getSelfServicePortalUrl,
+  getBusinessId,
+  getSerialNumber,
+  (selfServicePortalUrl, businessId, serialNumber) => `${selfServicePortalUrl}/#/paymentProfile?businessId=${businessId}&serialNumber=${serialNumber}`,
+);
+
+const getReportsUrl = createSelector(
+  state => state.myReportsUrl,
+  getRegion,
+  getBusinessId,
+  (myReportsUrl, region, businessId) => `${myReportsUrl}/#/${region}/${businessId}`,
+);
+
 export const getActiveNav = createSelector(
   getCurrentRouteName,
   currentRouteName => activeMapping[currentRouteName] || '',
@@ -30,8 +47,50 @@ export const getActiveNav = createSelector(
 const getEnabledUrls = createSelector(
   getUrls,
   getEnabledFeatures,
-  (urls, enabledFeatures) => enabledFeatures.reduce(
-    (acc, key) => ({ ...acc, [key]: urls[key] }),
+  getPaymentDetailUrl,
+  getReportsUrl,
+  (urls, enabledFeatures, paymentDetailUrl, reportsUrl) => enabledFeatures.reduce(
+    (acc, key) => {
+      switch (key) {
+        case RouteName.REPORTS_PDF_STYLE_TEMPLATES:
+          return {
+            ...acc,
+            [RouteName.REPORTS_PDF_STYLE_TEMPLATES]: `${reportsUrl}/pdfStyleTemplates`,
+          };
+        case RouteName.REPORTS_STANDARD:
+          return {
+            ...acc,
+            [RouteName.REPORTS_STANDARD]: `${reportsUrl}/reports/standardReports`,
+          };
+        case RouteName.REPORTS_FAVOURITE:
+          return {
+            ...acc,
+            [RouteName.REPORTS_FAVOURITE]: `${reportsUrl}/reports/favouriteReports`,
+          };
+        case RouteName.REPORTS_CUSTOM:
+          return {
+            ...acc,
+            [RouteName.REPORTS_CUSTOM]: `${reportsUrl}/reports/customReports`,
+          };
+        case RouteName.REPORTS_EXCEPTION:
+          return {
+            ...acc,
+            [RouteName.REPORTS_EXCEPTION]: `${reportsUrl}/reports/exceptionsReports`,
+          };
+        case RouteName.REPORTS_PACK_BUILDER:
+          return {
+            ...acc,
+            [RouteName.REPORTS_PACK_BUILDER]: `${reportsUrl}/reports/reportPackBuilder`,
+          };
+        case RouteName.PAYMENT_DETAIL:
+          return {
+            ...acc,
+            [RouteName.PAYMENT_DETAIL]: paymentDetailUrl,
+          };
+        default:
+          return { ...acc, [key]: urls[key] };
+      }
+    },
     {},
   ),
 );
@@ -185,7 +244,6 @@ export const hasAddUrls = createSelector(
   urls => Object.values(urls).some(Boolean),
 );
 
-export const getRegion = state => state.routeParams.region;
 export const getTaxCodesLabel = createSelector(
   getRegion,
   region => getRegionToDialectText(region)('Tax codes'),

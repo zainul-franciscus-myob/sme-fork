@@ -4,11 +4,8 @@ import React from 'react';
 import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
 import { featuresConfig } from './navConfig';
 import { getBusinessId, isLinkUserPage } from './NavigationSelectors';
-import Config from '../Config';
 import NavigationBar from './components/NavigationBar';
-import RouteName from '../router/RouteName';
 import Store from '../store/Store';
-import buildReportsUrl from './buildReportsUrl';
 import navReducer from './navReducer';
 
 export default class NavigationModule {
@@ -28,8 +25,6 @@ export default class NavigationModule {
     this.onPageTransition = undefined;
     this.toggleHelp = toggleHelp;
     this.toggleActivities = toggleActivities;
-    this.reportsBaseUrl = Config.MY_REPORTS_URL;
-    this.paymentDetailBaseUrl = Config.SELF_SERVICE_PORTAL_URL;
   }
 
   loadBusinessInfo = ({ currentRouteName }) => {
@@ -48,6 +43,7 @@ export default class NavigationModule {
       this.store.dispatch({
         intent, businessName, serialNumber, userEmail, enabledFeatures, isReadOnly,
       });
+
       this.replaceURLParamsAndReload({ businessId, region: region.toLowerCase() });
       // TODO: To be removed in next patch version
       // This is a temporary fix for Feelix bug introduced in version 5.10.0
@@ -74,23 +70,6 @@ export default class NavigationModule {
     return Object.entries(featuresConfig)
       .map(([key, feature]) => {
         const { region, businessId } = routeParams;
-
-        if ([
-          RouteName.REPORTS_STANDARD,
-          RouteName.REPORTS_FAVOURITE,
-          RouteName.REPORTS_CUSTOM,
-          RouteName.REPORTS_EXCEPTION,
-          RouteName.REPORTS_PACK_BUILDER,
-          RouteName.REPORTS_PDF_STYLE_TEMPLATES,
-        ].includes(key)) {
-          const url = buildReportsUrl(this.reportsBaseUrl, routeParams, feature);
-          return { [key]: url };
-        }
-
-        if (RouteName.PAYMENT_DETAIL === key) {
-          const url = `${this.paymentDetailBaseUrl}/#/paymentProfile?businessId=${businessId}`;
-          return { [key]: url };
-        }
 
         const url = `/#${this.constructPath(feature.routeName, { region, businessId, ...feature.params })}`;
         return { [key]: url };
