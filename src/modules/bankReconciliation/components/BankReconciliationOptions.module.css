@@ -44,4 +44,51 @@
   .options :global .flx-detail-header__secondary > * {
     width: 40rem;
   }
+
+  /*
+    @FEELIX:
+    Account and statement date goes to the same line on desktop
+    It would requires more space in the primary section
+  */
+  .options :global(.flx-detail-header__primary) {
+    width: 45rem;
+    max-width: 45rem;  
+  }
+}
+
+.accountInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+  @FEELIX:
+  Account and statement in separate lines on mobile
+*/
+.accountInf :global .form-group {
+  flex: 1 1 auto;
+}
+
+.undoButton {
+  margin-left: var(--flx-spacing-tiny);
+}
+
+@media (min-width: 768px) {
+  .accountInfo {
+    flex-direction: row;
+  }
+
+  /*
+    @FEELIX:
+    Account and statement date goes to the same line on desktop
+    We applied a fix width for statement date, and account info take the rest of space
+  */
+  .accountInfo :global .form-group:first-child {
+    flex: 1 1 auto;
+    margin-right: var(--flx-spacing-tiny);
+  }
+  
+  .accountInfo :global .form-group:last-child {
+    flex: 0 0 13rem;
+  }
 }

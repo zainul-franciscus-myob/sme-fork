@@ -26,6 +26,7 @@ const BankReconciliationOptions = ({
     outOfBalance,
     lastReconcileDate,
     accounts,
+    hasReconciled,
   },
   isActionDisabled,
   isOutOfBalance,
@@ -35,28 +36,48 @@ const BankReconciliationOptions = ({
 }) => {
   const primary = (
     <div>
-      <AccountCombobox
-        items={accounts}
-        selectedId={selectedAccountId}
-        onChange={handleComboboxChange('selectedAccountId', onUpdateHeaderOption)}
-        label="Account"
-        name="selectedAccountId"
-        hideLabel={false}
-        disabled={isActionDisabled}
-      />
-      { lastReconcileDate && (
-        <div className="form-group">
-          <Label>{`Date last reconciled: ${lastReconcileDate}`}</Label>
-          <Button type="link" icon={<Icons.History />} onClick={onUndoReconciliationClick} disabled={isActionDisabled}>Undo last reconciliation</Button>
-        </div>
-      )}
-      <DatePicker
-        label="Bank statement closing date"
-        name="statementDate"
-        value={statementDate}
-        onSelect={handleDateChange('statementDate', onUpdateHeaderOption)}
-        disabled={isActionDisabled}
-      />
+      <div className={styles.accountInfo}>
+        <AccountCombobox
+          items={accounts}
+          selectedId={selectedAccountId}
+          onChange={handleComboboxChange(
+            'selectedAccountId',
+            onUpdateHeaderOption,
+          )}
+          label="Account"
+          name="selectedAccountId"
+          hideLabel={false}
+          disabled={isActionDisabled}
+        />
+        <DatePicker
+          label="Statement date"
+          name="statementDate"
+          value={statementDate}
+          onSelect={handleDateChange('statementDate', onUpdateHeaderOption)}
+          disabled={isActionDisabled}
+          requiredLabel="This is required"
+        />
+      </div>
+      <div className="form-group">
+        <Label>
+          {`Last reconciled: ${
+            hasReconciled ? lastReconcileDate : 'Never'
+          }`}
+        </Label>
+        {
+          hasReconciled && (
+            <Button
+              className={styles.undoButton}
+              type="link"
+              icon={<Icons.History />}
+              onClick={onUndoReconciliationClick}
+              disabled={isActionDisabled}
+            >
+              Undo
+            </Button>
+          )
+        }
+      </div>
     </div>
   );
 

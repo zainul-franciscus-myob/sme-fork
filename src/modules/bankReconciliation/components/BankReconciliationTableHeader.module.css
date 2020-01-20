@@ -1,0 +1,8 @@
+.header {
+  /* the space taken by padding toggle button */
+  padding-right: 6.4rem;
+}
+
+.selectBox {
+  padding-right: 0;
+}

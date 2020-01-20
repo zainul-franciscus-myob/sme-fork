@@ -47,6 +47,7 @@ export const getOptions = createStructuredSelector({
   lastReconcileDate: state => (
     state.lastReconcileDate && formatSlashDate(new Date(state.lastReconcileDate))),
   accounts: state => state.accounts,
+  hasReconciled: state => Boolean(state.lastReconcileDate),
 });
 
 export const getOrder = state => ({

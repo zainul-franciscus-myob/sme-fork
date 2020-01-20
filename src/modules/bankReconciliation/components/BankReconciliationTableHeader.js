@@ -3,6 +3,8 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
+import styles from './BankReconciliationTableHeader.module.css';
+
 const BankReconciliationTableHeader = ({
   isActionDisabled,
   headerSelectStatus,
@@ -11,8 +13,8 @@ const BankReconciliationTableHeader = ({
   onSelectAll,
   onSort,
 }) => (
-  <Table.Header>
-    <Table.HeaderItem width="auto">
+  <Table.Header className={styles.header}>
+    <Table.HeaderItem width="auto" className={styles.selectBox}>
       <Checkbox
         name="bulkSelect"
         label="Bulk select"

@@ -6,3 +6,15 @@
 .sticky :global(.sticky-header--on) {
   z-index: 102;
 }
+
+.options {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.table {
+  margin-top: -1px;
+  padding-top: 0;
+}
