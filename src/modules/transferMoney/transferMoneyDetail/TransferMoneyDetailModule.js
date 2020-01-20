@@ -54,7 +54,7 @@ export default class TransferMoneyDetailModule {
   }
 
   loadTransferMoney = () => {
-    const intent = this.isCreating
+    const intent = getIsCreating(this.store.getState())
       ? LOAD_NEW_TRANSFER_MONEY
       : LOAD_TRANSFER_MONEY_DETAIL;
 
