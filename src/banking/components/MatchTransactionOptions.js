@@ -65,6 +65,7 @@ const MatchTransactionOptions = (props) => {
           showAllFilters && (
             <FilterGroup>
               <ContactCombobox
+                hasAllItem
                 label="Contact"
                 items={contacts}
                 selectedId={contactId}

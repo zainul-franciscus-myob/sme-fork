@@ -124,6 +124,7 @@ export const getBalances = state => state.balances;
 export const getAllocationPayload = (index, selectedAccount, state) => {
   const entries = getEntries(state);
   const entry = entries[index];
+  const description = entry.note || entry.description;
 
   const { bankAccount: bankAccountId } = getFilterOptions(state);
 
@@ -139,6 +140,7 @@ export const getAllocationPayload = (index, selectedAccount, state) => {
     withdrawal: entry.withdrawal,
     date: entry.date,
     accountId,
+    description,
     taxCodeId,
   };
 };
@@ -213,7 +215,7 @@ export const getBankTransactionLineByIndex = (state, index) => {
 };
 
 export const getAppliedPaymentRuleContactId = ({ appliedRule = {} }) => (
-  ['Invoice', 'Bill'].includes(appliedRule.ruleType) ? appliedRule.contactId : ''
+  ['Invoice', 'Bill'].includes(appliedRule.ruleType) ? String(appliedRule.contactId) : ''
 );
 
 export const getIsAllocated = ({ type, journalId }) => (

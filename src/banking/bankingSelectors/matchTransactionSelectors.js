@@ -275,13 +275,7 @@ export const getTotals = createSelector(
   },
 );
 
-export const getContacts = state => [
-  {
-    id: 'All',
-    displayName: 'All',
-  },
-  ...state.contacts,
-];
+export const getContacts = state => state.contacts;
 
 export const getShowAllFilters = createSelector(
   getMatchTransactionFilterOptions,
@@ -335,7 +329,7 @@ const getRequestParams = (accountId, bankTransaction, filterOptions) => {
 
 export const getDefaultMatchTransactionFilterRequestParams = (bankAccount, bankTransaction) => {
   const isMatched = bankTransaction.journalLineId || bankTransaction.type === 'splitMatched';
-  const contactId = getAppliedPaymentRuleContactId(bankTransaction) || 'All';
+  const contactId = getAppliedPaymentRuleContactId(bankTransaction);
   const filterOptions = {
     contactId,
     showType: isMatched ? 'selected' : 'closeMatches',
