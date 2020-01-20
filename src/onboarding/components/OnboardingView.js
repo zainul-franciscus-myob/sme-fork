@@ -52,7 +52,9 @@ class OnboardingView extends Component {
     this.dispatcher.setViewData({ businessName: businessName.value });
   };
 
-  onChangeIndustry = ({ value: industry }) => this.dispatcher.setViewData(industry);
+  onChangeIndustry = (industry) => {
+    this.dispatcher.setViewData({ industry: industry.value });
+  };
 
   onChangeBusinessRole = (businessRole) => {
     this.dispatcher.setViewData({ businessRole: businessRole.value });
