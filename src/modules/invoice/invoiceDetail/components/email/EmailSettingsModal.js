@@ -13,7 +13,6 @@ const EmailSettingsModal = ({
     title={title}
     size="small"
     onCancel={onCancel}
-    canClose={false}
   >
     <Modal.Body>
       {alert && (

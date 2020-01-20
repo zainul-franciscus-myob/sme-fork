@@ -21,8 +21,8 @@ const UpgradeModal = (props) => {
     ? (
       <Modal
         title="Need to record more bills?"
-        canClose={false}
         size="small"
+        onCancel={onUpgradeModalDismiss}
       >
         <Modal.Body>
           <p>

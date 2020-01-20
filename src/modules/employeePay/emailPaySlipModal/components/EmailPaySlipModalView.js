@@ -25,7 +25,7 @@ const EmailPaySlipModalView = ({
 }) => {
   const modalSize = (errors.length > 0 && !isLoading) ? 'default' : 'small';
   const modal = (
-    <Modal title="Emailing pay slips" canClose={false} size={modalSize}>
+    <Modal title="Emailing pay slips" onCancel={onClose} size={modalSize}>
       <Modal.Body>
         <EmailSendingMessage
           isLoading={isLoading}

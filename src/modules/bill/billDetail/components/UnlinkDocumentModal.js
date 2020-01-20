@@ -8,7 +8,6 @@ const UnlinkDocumentModal = ({
     title="Unlink source document?"
     size="small"
     onCancel={onCancel}
-    canClose={false}
   >
     <Modal.Body>
       Unlinking this document will return it to the In tray.
