@@ -62,11 +62,17 @@ const createBankingIntegrator = (store, integration) => ({
     const urlParams = { businessId: getBusinessId(state) };
 
     const fitlerOptions = getFilterOptions(state);
+    const sortOrder = getSortOrder(state);
+    const orderBy = getOrderBy(state);
 
     integration.read({
       intent,
       urlParams,
-      params: fitlerOptions,
+      params: {
+        ...fitlerOptions,
+        sortOrder,
+        orderBy,
+      },
       onSuccess,
       onFailure,
     });

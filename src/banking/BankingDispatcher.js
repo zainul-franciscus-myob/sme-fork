@@ -459,11 +459,11 @@ const createBankingDispatcher = store => ({
     });
   },
 
-  updateMatchTransactionSelection: ({ key, value }) => {
+  updateMatchTransactionSelection: ({ index, selected }) => {
     store.dispatch({
       intent: UPDATE_MATCH_TRANSACTION_SELECTION,
-      journalId: key,
-      selected: value,
+      index,
+      selected,
     });
   },
 

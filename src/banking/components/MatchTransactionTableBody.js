@@ -4,12 +4,16 @@ import React from 'react';
 
 import { getTableEntries } from '../bankingSelectors/matchTransactionSelectors';
 import AmountInput from '../../components/autoFormatter/AmountInput/AmountInput';
-import handleCheckboxChange from '../../components/handlers/handleCheckboxChange';
 import styles from './MatchTransactionTable.module.css';
 
 const handleAmountChange = (index, handler) => (e) => {
   const { rawValue, name } = e.target;
   handler({ index, key: name, value: rawValue });
+};
+
+const handleSelectionChange = (index, handler) => (e) => {
+  const { checked } = e.target;
+  handler({ index, selected: checked });
 };
 
 const InfoMessage = ({
@@ -75,7 +79,7 @@ const MatchTransactionTableBody = (props) => {
             label="Match"
             hideLabel
             checked={selected}
-            onChange={handleCheckboxChange(onUpdateMatchTransactionSelection)}
+            onChange={handleSelectionChange(index, onUpdateMatchTransactionSelection)}
           />
         </Table.RowItem>
         <Table.RowItem {...tableConfig.date}>{date}</Table.RowItem>

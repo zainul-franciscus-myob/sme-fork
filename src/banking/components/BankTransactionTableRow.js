@@ -65,7 +65,18 @@ const BankingTableDescription = ({
     />
   );
 
-  const noteView = (
+  const noteExpandView = (
+    <Tooltip
+      className={styles.noteLink}
+      triggerContent={(
+        <span className={styles.note}>{note}</span>
+    )}
+    >
+      {description}
+    </Tooltip>
+  );
+
+  const noteCollapseView = (
     <button type="button" className={styles.noteLink} onClick={onEditNote}>
       <Tooltip triggerContent={(
         <span className={styles.note}>{note}</span>
@@ -75,6 +86,8 @@ const BankingTableDescription = ({
       </Tooltip>
     </button>
   );
+
+  const noteView = isExpanded ? noteExpandView : noteCollapseView;
 
   const descriptionView = (
     shouldShowNote ? noteView : <span className={styles.note}>{description}</span>

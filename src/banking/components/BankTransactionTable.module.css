@@ -135,6 +135,10 @@
   border-color: rgba(255, 255, 255, 0.35);
 }
 
+.expanded .noteHighlight {
+  color: var(--flx-palette-white);
+}
+
 .selected {
   background: var(--flx-background-color-table-row-selected);
 }

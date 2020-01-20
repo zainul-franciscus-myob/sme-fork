@@ -89,7 +89,7 @@ const getBadge = (entry) => {
 export const getPrefilledEntries = (state, entries) => {
   const selectedEntries = getSelectedEntries(state);
   return entries.map((entry) => {
-    const cachedState = selectedEntries[entry.journalId];
+    const cachedState = selectedEntries[`${entry.journalId}-${entry.journalLineId}`];
     return cachedState || entry;
   });
 };
@@ -358,4 +358,9 @@ export const getMatchTransactionFilterRequestParams = createSelector(
 export const getHasAdjustment = createSelector(
   getAdjustments,
   adjustments => adjustments.length > 0,
+);
+
+export const getSortingDisabled = createSelector(
+  getShowType,
+  showType => showType === 'selected',
 );

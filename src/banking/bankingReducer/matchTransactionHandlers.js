@@ -43,7 +43,7 @@ export const sortAndFilterMatchTransactions = (state, action) => {
 export const showSelectedMatchTransactions = (state) => {
   const selectedEntries = state.openEntry.match.entries.filter(({ selected }) => selected);
   const entries = selectedEntries.reduce((acc, entry) => (
-    { ...acc, [entry.journalId]: entry }
+    { ...acc, [`${entry.journalId}-${entry.journalLineId}`]: entry }
   ), state.openEntry.match.selectedEntries);
 
   return ({
@@ -89,10 +89,13 @@ export const setMatchTransactionSortOrder = (state, action) => ({
 });
 
 const updateMatchEntries = (state, entries) => {
-  const selectedEntries = entries.reduce((acc, entry) => (
-    entry.selected ? { ...acc, [entry.journalId]: entry } : acc
-  ), {});
-
+  const selectedEntries = entries.reduce((acc, entry) => {
+    if (!entry.selected) {
+      const { [`${entry.journalId}-${entry.journalLineId}`]: unselectedEntry, ...otherEntries } = acc;
+      return otherEntries;
+    }
+    return { ...acc, [`${entry.journalId}-${entry.journalLineId}`]: entry };
+  }, state.openEntry.match.selectedEntries);
   return ({
     ...state,
     openEntry: {
@@ -100,10 +103,7 @@ const updateMatchEntries = (state, entries) => {
       match: {
         ...state.openEntry.match,
         entries,
-        selectedEntries: {
-          ...state.openEntry.match.selectedEntries,
-          ...selectedEntries,
-        },
+        selectedEntries,
       },
     },
   });
@@ -123,9 +123,9 @@ export const updateSelectedTransactionDetails = (state, action) => {
 };
 
 export const updateMatchTransactionSelection = (state, action) => {
-  const { journalId, selected } = action;
-  const entries = state.openEntry.match.entries.map((entry) => {
-    if (journalId === entry.journalId) {
+  const { index, selected } = action;
+  const entries = state.openEntry.match.entries.map((entry, currentIndex) => {
+    if (index === currentIndex) {
       const balanceOwed = Number(entry.totalAmount) - Number(entry.discountAmount || 0);
       return {
         ...entry,

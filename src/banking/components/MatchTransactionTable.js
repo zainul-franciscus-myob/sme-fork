@@ -7,7 +7,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsTableEmpty, getIsTableLoading, getOrder, getSelectAllState, getSelectedText,
+  getIsTableEmpty,
+  getIsTableLoading,
+  getOrder,
+  getSelectAllState,
+  getSelectedText,
+  getSortingDisabled,
 } from '../bankingSelectors/matchTransactionSelectors';
 import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import MatchTransactionTableBody from './MatchTransactionTableBody';
@@ -53,6 +58,18 @@ const spinnerView = (
   </div>
 );
 
+const Sorter = ({
+  title,
+  sortName,
+  activeSort,
+  onSort,
+  disabled,
+}) => (
+  disabled ? title : (
+    <HeaderSort title={title} sortName={sortName} activeSort={activeSort} onSort={onSort} />
+  )
+);
+
 const MatchTransactionTable = (props) => {
   const {
     isTableEmpty,
@@ -64,6 +81,7 @@ const MatchTransactionTable = (props) => {
     onUpdateMatchTransactionSelection,
     onUpdateSelectedTransactionDetails,
     onToggleSelectAllState,
+    disableSorting,
   } = props;
 
   let view;
@@ -93,16 +111,40 @@ const MatchTransactionTable = (props) => {
         />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.date}>
-        <HeaderSort title="Date" sortName="DateOccurred" activeSort={order} onSort={onSortMatchTransactions} />
+        <Sorter
+          disabled={disableSorting}
+          title="Date"
+          sortName="DateOccurred"
+          activeSort={order}
+          onSort={onSortMatchTransactions}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.referenceId}>
-        <HeaderSort title="Reference" sortName="DisplayId" activeSort={order} onSort={onSortMatchTransactions} />
+        <Sorter
+          disabled={disableSorting}
+          title="Reference"
+          sortName="DisplayId"
+          activeSort={order}
+          onSort={onSortMatchTransactions}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.description}>
-        <HeaderSort title="Description" sortName="Description" activeSort={order} onSort={onSortMatchTransactions} />
+        <Sorter
+          disabled={disableSorting}
+          title="Description"
+          sortName="Description"
+          activeSort={order}
+          onSort={onSortMatchTransactions}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.amount}>
-        <HeaderSort title="Total ($)" sortName="Amount" activeSort={order} onSort={onSortMatchTransactions} />
+        <Sorter
+          disabled={disableSorting}
+          title="Total ($)"
+          sortName="Amount"
+          activeSort={order}
+          onSort={onSortMatchTransactions}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.discount}>
         {tableConfig.discount.columnName}
@@ -133,6 +175,7 @@ const mapStateToProps = state => ({
   order: getOrder(state),
   isSelectedAll: getSelectAllState(state),
   footerLabel: getSelectedText(state),
+  disableSorting: getSortingDisabled(state),
 });
 
 export default connect(mapStateToProps)(MatchTransactionTable);

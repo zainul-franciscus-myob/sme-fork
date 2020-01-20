@@ -16,6 +16,7 @@ describe('matchTransactionHandlers', () => {
             entries: [
               {
                 journalId: 'idOfJournal',
+                journalLineId: 'idOfJournalLine',
                 matchAmount: 0,
               },
             ],
@@ -35,13 +36,15 @@ describe('matchTransactionHandlers', () => {
             entries: [
               {
                 journalId: 'idOfJournal',
+                journalLineId: 'idOfJournalLine',
                 matchAmount: 10,
                 selected: true,
               },
             ],
             selectedEntries: {
-              idOfJournal: {
+              'idOfJournal-idOfJournalLine': {
                 journalId: 'idOfJournal',
+                journalLineId: 'idOfJournalLine',
                 matchAmount: 10,
                 selected: true,
               },
@@ -63,10 +66,12 @@ describe('matchTransactionHandlers', () => {
             entries: [
               {
                 journalId: 'idOfJournal',
+                journalLineId: 'idOfJournalLine',
                 selected: false,
               },
               {
                 journalId: 'idOf2ndJournal',
+                journalLineId: 'idOf2ndJournalLine',
                 selected: false,
               },
             ],
@@ -84,20 +89,24 @@ describe('matchTransactionHandlers', () => {
             entries: [
               {
                 journalId: 'idOfJournal',
+                journalLineId: 'idOfJournalLine',
                 selected: true,
               },
               {
                 journalId: 'idOf2ndJournal',
+                journalLineId: 'idOf2ndJournalLine',
                 selected: true,
               },
             ],
             selectedEntries: {
-              idOfJournal: {
+              'idOfJournal-idOfJournalLine': {
                 journalId: 'idOfJournal',
+                journalLineId: 'idOfJournalLine',
                 selected: true,
               },
-              idOf2ndJournal: {
+              'idOf2ndJournal-idOf2ndJournalLine': {
                 journalId: 'idOf2ndJournal',
+                journalLineId: 'idOf2ndJournalLine',
                 selected: true,
               },
             },
@@ -242,11 +251,11 @@ describe('matchTransactionHandlers', () => {
         openEntry: {
           match: {
             entries: [
-              { journalId: 1, selected: true },
-              { journalId: 2, selected: false },
+              { journalId: 1, journalLineId: 2, selected: true },
+              { journalId: 2, journalLineId: 3, selected: false },
             ],
             selectedEntries: {
-              3: { journalId: 3, selected: true },
+              '3-5': { journalId: 3, journalLineId: 5, selected: true },
             },
           },
         },
@@ -256,11 +265,11 @@ describe('matchTransactionHandlers', () => {
         openEntry: {
           match: {
             entries: [
-              { journalId: 1, selected: true },
-              { journalId: 3, selected: true },
+              { journalId: 3, journalLineId: 5, selected: true },
+              { journalId: 1, journalLineId: 2, selected: true },
             ],
             selectedEntries: {
-              3: { journalId: 3, selected: true },
+              '3-5': { journalId: 3, journalLineId: 5, selected: true },
             },
           },
         },
