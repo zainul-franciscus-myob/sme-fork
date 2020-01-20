@@ -68,6 +68,7 @@ import SupplierReturnMapping from '../../modules/supplierReturn/mappings/HttpSup
 import SupplierReturnPurchaseMapping from '../../modules/supplierReturnPurchase/mappings/HttpSupplierReturnPurchaseMapping';
 import TaxMapping from '../../modules/tax/mappings/HttpTaxMapping';
 import TemplateMapping from '../../modules/template/mappings/HttpTemplateMapping';
+import TimesheetMapping from '../../modules/timesheet/mappings/HttpTimesheetMapping';
 import TransferMoneyMapping from '../../modules/transferMoney/mappings/HttpTransferMoneyMapping';
 import UserMapping from '../../modules/user/mappings/HttpUserMapping';
 import WagePayItemMapping from '../../modules/payItem/wagePayItem/mappings/HttpWagePayItemMapping';
@@ -146,6 +147,7 @@ const RootMapping = Object.freeze({
   ...StpReportingCentreMapping,
   ...StpSetupMapping,
   ...TemplateMapping,
+  ...TimesheetMapping,
 });
 
 export default RootMapping;

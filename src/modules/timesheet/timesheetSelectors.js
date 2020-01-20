@@ -10,7 +10,26 @@ export const getPayrollSettingsUrl = (state) => {
 };
 
 export const getWeekDayLabels = state => state.weekDayLabels;
-export const getLineItems = state => state.lineItems;
+export const getTimesheetRows = state => state.timesheetRows;
 export const getEmployeeList = state => state.employeeList;
 export const getPayItems = state => state.payItems;
 export const getSelectedEmployeeId = state => state.selectedEmployeeId;
+export const getLoadingState = state => state.loadingState;
+export const getWeekStartDate = state => state.weekStartDate;
+export const getDisplayStartStopTimes = state => state.displayStartStopTimes;
+const days = [
+  'day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7',
+];
+const sum = (list => list.reduce((total, value) => (total + value), 0));
+export const getRowHours = row => days.map(field => (
+  row[field] ? Number(row[field].hours) : 0
+));
+
+export const getTimesheetTotalHours = (state) => {
+  const timesheetRows = [...state.timesheetRows];
+  const rowsTotalHoursArray = timesheetRows.map((row) => {
+    const rowHoursArray = getRowHours(row);
+    return sum(rowHoursArray);
+  });
+  return sum(rowsTotalHoursArray);
+};

@@ -3,11 +3,21 @@ import { mount } from 'enzyme';
 import { LOAD_INITIAL_TIMESHEET } from '../timesheetIntents';
 import { findButtonWithTestId, findComponentWithTestId } from '../../../common/tests/selectors';
 import TimesheetModule from '../TimesheetModule';
+import loadEmployeeTimesheet from '../mappings/data/loadEmployeeTimesheet';
 import loadTimesheetInitial from '../mappings/data/loadTimesheetInitial';
 
 describe('TimesheetModule', () => {
+  const defaultIntegration = {
+    read: ({ onSuccess, intent }) => {
+      if (intent === LOAD_INITIAL_TIMESHEET) {
+        onSuccess(loadTimesheetInitial);
+      } else { onSuccess(loadEmployeeTimesheet); }
+    },
+    write: jest.fn(),
+  };
+
   const constructTimesheetModule = ({
-    integration = { read: ({ onSuccess }) => (onSuccess(loadTimesheetInitial)), write: jest.fn() },
+    integration = defaultIntegration,
   }) => {
     let wrapper;
     const setRootView = (component) => {
@@ -83,6 +93,16 @@ describe('TimesheetModule', () => {
         employeeSelect.prop('onChange')({ id: 2, employeeId: 'EMP002' });
 
         expect(module.store.getState().selectedEmployeeId).toEqual(2);
+      });
+
+      it('requests the employees timesheet for the week', () => {
+        const { wrapper, module } = constructTimesheetModule({});
+
+        const employeeSelect = wrapper.find({ testid: 'employeeSelect' });
+        employeeSelect.prop('onChange')({ id: 2, employeeId: 'EMP002' });
+        wrapper.update();
+
+        expect(module.store.getState().timesheetRows).toHaveLength(1);
       });
     });
   });

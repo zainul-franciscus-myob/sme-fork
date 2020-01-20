@@ -20,7 +20,7 @@
   "payItems": [
     {
       "name": "Wage hourly",
-      "id": 12
+      "id": "12"
     }
   ],
   "displayStartStopTimes": true

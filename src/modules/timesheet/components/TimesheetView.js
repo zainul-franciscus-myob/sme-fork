@@ -4,8 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsTimesheetSetUp } from '../timesheetSelectors';
-import LoadingState from '../../../components/PageView/LoadingState';
+import { getIsTimesheetSetUp, getLoadingState } from '../timesheetSelectors';
 import PageView from '../../../components/PageView/PageView';
 import TimesheetIsSetUpView from './TimesheetIsSetUpView';
 import TimesheetNotSetUpView from './TimesheetNotSetUpView';
@@ -14,6 +13,12 @@ const TimesheetView = ({
   isTimesheetSetUp,
   onEmptyStateLinkClick,
   onEmployeeChange,
+  loadingState,
+  onWeekStartDateChange,
+  onRowChange,
+  onRemoveRow,
+  onAddRow,
+  onDisplayStartStopTimesChange,
 }) => {
   const view = (
     <BaseTemplate>
@@ -22,17 +27,23 @@ const TimesheetView = ({
         ? (
           <TimesheetIsSetUpView
             onEmployeeChange={onEmployeeChange}
+            onWeekStartDateChange={onWeekStartDateChange}
+            onRowChange={onRowChange}
+            onRemoveRow={onRemoveRow}
+            onAddRow={onAddRow}
+            onDisplayStartStopTimesChange={onDisplayStartStopTimesChange}
           />
         )
         : <TimesheetNotSetUpView onLinkClick={onEmptyStateLinkClick} />}
     </BaseTemplate>
   );
 
-  return <PageView loadingState={LoadingState.LOADING_SUCCESS} view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapPropsToState = state => ({
   isTimesheetSetUp: getIsTimesheetSetUp(state),
+  loadingState: getLoadingState(state),
 });
 
 export default connect(mapPropsToState)(TimesheetView);

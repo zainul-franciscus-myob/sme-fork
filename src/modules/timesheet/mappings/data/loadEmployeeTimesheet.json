@@ -1,7 +1,7 @@
 {
   "timesheetRows": [
     {
-      "payItemId": 11,
+      "payItemId": "11",
       "notes": "some notes",
       "startStopDescription": "some description",
       "days": [
