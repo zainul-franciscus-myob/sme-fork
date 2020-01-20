@@ -1,35 +1,87 @@
-.fullScreen {
-  align-items: center;
-  background: var(--flx-palette-white);
-  height: 100%;
-  position: fixed;
-  width: 100%;
-  z-index: var(--flx-zindex-popover);
+.logo {
+  margin: var(--flx-spacing-medium) auto 0;
+  width: 10rem;
 }
 
-.fullScreen .row {
-  display: flex;
-  flex-wrap: wrap;
+.img { display: none; }
+
+.card {
+  margin-bottom: var(--flx-spacing-small);
+  padding-bottom: var(--flx-spacing-x-tiny);
 }
 
-.fullScreen .column {
-  display: flex;
-  flex-direction: column;
-  flex-basis: 100%;
-  padding: 0 2rem;
-}
+.form { padding: var(--flx-spacing-small); }
 
-.fullScreen img { display: none; }
+@media screen and (min-width: 1200px) {
+  .fullScreen {
+    display: table;
+    font-size: var(--flx-font-size-heading-x-large);
+    height: 100vh;
+    width: 100%;
+  }
 
-.fullScreen :global(.sticky-header) { padding: 0; }
+  .column {
+    display: table-cell;
+    height: 100%;
+    padding: var(--flx-spacing-xx-large);
+    vertical-align: middle;
+    width: 50%;
+  }
 
-.fullScreen :global(.flx-card) {
-  box-shadow: none;
-  padding: 0;
-}
+  .logo {
+    left: var(--flx-spacing-xx-large);
+    position: absolute;
+    top: var(--flx-spacing-large);
+  }
 
-@media (min-width: 1024px) {
-  .fullScreen { display: flex; }
-  .fullScreen .column { flex: 1; }
-  .fullScreen img { display: block; }
+  .img { background: var(--flx-palette-storm-06); }
+
+  .form { background: var(--flx-palette-white); }
+
+  .card {
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .intro {
+    color: var(--flx-palette-storm-72);
+    font-weight: 300;
+    margin-bottom: var(--flx-spacing-xx-large);
+  }
+
+  /* @FEELIX:
+    h1, label, input, select, combobox, form group and button
+    Overrides per Designer specs
+  */
+  .fullScreen :global(h1) {
+    font-size: 3.5rem;
+    font-weight: 300;
+  }
+
+  .fullScreen :global(label),
+  .fullScreen :global(input),
+  .fullScreen :global(select),
+  .fullScreen :global(.combobox td) {
+    font-size: var(--flx-size-font-size-x-large);
+    font-weight: 300;
+  }
+
+  .fullScreen :global(.combobox input),
+  .fullScreen :global(.combobox a),
+  .input, .select { height: 5rem; }
+
+  .fullScreen :global(.form-group) {
+    margin-bottom: var(--flx-spacing-x-large);
+  }
+
+  .fullScreen :global(.form-group__required-icon) {
+    cursor: default;
+    vertical-align: top;
+  }
+
+  .fullScreen :global(.btn-primary) {
+    padding: var(--flx-spacing-x-small) var(--flx-spacing-large);
+  }
 }
