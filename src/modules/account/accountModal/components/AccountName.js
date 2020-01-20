@@ -9,6 +9,7 @@ const AccountName = ({ accountName, onChange }) => (
   <Input
     name="accountName"
     label="Account name"
+    requiredLabel="This is required"
     value={accountName}
     onChange={handleInputChange(onChange)}
     width="xl"
