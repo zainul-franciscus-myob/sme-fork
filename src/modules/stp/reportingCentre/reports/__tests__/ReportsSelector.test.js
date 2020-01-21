@@ -206,6 +206,41 @@ describe('ReportsSelected', () => {
 
       expect(result).toEqual({});
     });
+
+    it('should handle when declarationDate is not defined', () => {
+      const state = {
+        selectedPayEvent: {
+          employeeCount: 2,
+          gross: '13,340.00',
+          id: 'e84cd3e7-4c5b-4a50-a114-3e652c634657',
+          payPeriod: '30/06/2019 - 30/06/2019',
+          paymentDate: '30/06/2019',
+          recordedDate: '2019-07-11T00:03:52.174Z',
+          status: 'Rejected',
+          tax: '3,400.00',
+          declaredBy: 'Batman',
+          employeeErrors: [],
+          employerErrors: [],
+          payRunErrors: [],
+          mismatchedAbns: { abnWithStp: '30086760269', abnWithPayEvent: '30086760270' },
+          eventType: 'Pay event',
+        },
+      };
+
+      const result = getSelectedPayEvent(state);
+
+      const expected = {
+        ...state.selectedPayEvent,
+        declarationDate: '',
+        recordedDate: '11/07/2019 12:03am',
+        status: {
+          color: 'red',
+          label: 'Rejected',
+        },
+      };
+
+      expect(result).toEqual(expected);
+    });
   });
 
   describe('getLoadPayEventDetailsUrlParams', () => {

@@ -32,13 +32,14 @@ export const getPayEvents = state => state.payEvents.map(payEvent => ({
   isSelected: payEvent.id === state.selectedPayEvent,
 }));
 
+const formatDeclarationDate = declarationDate => (declarationDate ? formatDateTime(declarationDate) : '');
 export const getSelectedPayEvent = (state) => {
   const payEvent = state.selectedPayEvent;
   return payEvent ? {
     ...payEvent,
     status: getStatusColor(payEvent.status),
     recordedDate: formatDateTime(payEvent.recordedDate),
-    declarationDate: formatDateTime(payEvent.declarationDate),
+    declarationDate: formatDeclarationDate(payEvent.declarationDate),
   } : {};
 };
 
