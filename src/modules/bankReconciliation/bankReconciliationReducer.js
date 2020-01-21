@@ -147,7 +147,7 @@ const setSortOrder = (state, { orderBy }) => ({
 
 const updateReconciliationResult = state => ({
   ...state,
-  lastReconcileDate: formatIsoDate(new Date()),
+  lastReconcileDate: state.statementDate,
   entries: state.entries.filter(entry => !entry.isChecked),
 });
 
