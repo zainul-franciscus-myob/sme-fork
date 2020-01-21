@@ -24,6 +24,7 @@ import {
   SET_DOCUMENT_LOADING_STATE,
   SET_IN_TRAY_DOCUMENT_ID,
   SET_SHOW_SPLIT_VIEW,
+  SET_UPGRADE_MODAL_SHOWING,
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
@@ -152,6 +153,9 @@ const loadBill = (state, action) => {
 
   const isCreating = state.billId === 'new';
 
+  const hasHitLimit = monthlyLimit => Boolean(monthlyLimit
+    && monthlyLimit.used >= monthlyLimit.limit);
+
   const modalType = getLoadBillModalType(state);
 
   return ({
@@ -164,6 +168,7 @@ const loadBill = (state, action) => {
         : action.response.bill.issueDate,
     },
     monthlyLimit: action.response.monthlyLimit,
+    isUpgradeModalShowing: hasHitLimit(action.response.monthlyLimit),
     exportPdf: {
       ...state.exportPdf,
       ...action.response.exportPdf,
@@ -563,6 +568,13 @@ export const setAttachmentId = (state, { attachmentId }) => ({
   attachmentId,
 });
 
+const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) => ({
+  ...state,
+  isUpgradeModalShowing,
+  monthlyLimit,
+});
+
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -596,6 +608,7 @@ const handlers = {
   [PREFILL_BILL_FROM_IN_TRAY]: prefillBillFromInTray,
   [RESET_TOTALS]: resetTotals,
   [UPDATE_BILL_ID]: updateBillId,
+  [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
   [FORMAT_AMOUNT_PAID]: formatAmountPaid,
   [LOAD_ITEM_OPTION]: loadItemOption,

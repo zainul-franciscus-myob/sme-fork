@@ -2,6 +2,7 @@ import {
   ADD_INVOICE_LINE,
   FORMAT_INVOICE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_INVOICE_DETAIL,
   LOAD_ITEM_OPTION,
   REMOVE_INVOICE_LINE,
   UPDATE_INVOICE_LAYOUT,
@@ -395,6 +396,60 @@ describe('InvoiceDetailReducer', () => {
       const actual = invoiceDetailReducer(state, action);
 
       expect(actual.invoice.lines[1].units).toEqual('1');
+    });
+  });
+
+  describe('LOAD_INVOICE_DETAIL', () => {
+    describe('when monthly limit is not provided', () => {
+      const action = {
+        intent: LOAD_INVOICE_DETAIL,
+        invoice: {
+        },
+      };
+      it('does not show the upgrade modal', () => {
+        const actual = invoiceDetailReducer({}, action);
+
+        expect(actual.monthlyLimit).toBeUndefined();
+        expect(actual.isUpgradeModalShowing).toBe(false);
+      });
+    });
+
+    describe('when monthly limit is provided and the limit has not been hit', () => {
+      const action = {
+        intent: LOAD_INVOICE_DETAIL,
+        invoice: {
+        },
+        monthlyLimit: {
+          used: 4,
+          limit: 5,
+          month: 'April 1994',
+        },
+      };
+      it('does not show the upgrade modal', () => {
+        const actual = invoiceDetailReducer({}, action);
+
+        expect(actual.monthlyLimit).toBeDefined();
+        expect(actual.isUpgradeModalShowing).toBe(false);
+      });
+    });
+
+    describe('when monthly limit is provided and the limit has been hit', () => {
+      const action = {
+        intent: LOAD_INVOICE_DETAIL,
+        invoice: {
+        },
+        monthlyLimit: {
+          used: 5,
+          limit: 5,
+          month: 'April 1994',
+        },
+      };
+      it('shows the upgrade modal', () => {
+        const actual = invoiceDetailReducer({}, action);
+
+        expect(actual.monthlyLimit).toBeDefined();
+        expect(actual.isUpgradeModalShowing).toBe(true);
+      });
     });
   });
 });

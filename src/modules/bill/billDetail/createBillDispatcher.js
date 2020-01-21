@@ -24,6 +24,7 @@ import {
   SET_DOCUMENT_LOADING_STATE,
   SET_IN_TRAY_DOCUMENT_ID,
   SET_SHOW_SPLIT_VIEW,
+  SET_UPGRADE_MODAL_SHOWING,
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
@@ -63,6 +64,21 @@ const createBillDispatcher = store => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
+    });
+  },
+
+  showUpgradeModal: (monthlyLimit) => {
+    store.dispatch({
+      intent: SET_UPGRADE_MODAL_SHOWING,
+      isUpgradeModalShowing: true,
+      monthlyLimit,
+    });
+  },
+
+  hideUpgradeModal: () => {
+    store.dispatch({
+      intent: SET_UPGRADE_MODAL_SHOWING,
+      isUpgradeModalShowing: false,
     });
   },
 

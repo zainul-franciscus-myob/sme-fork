@@ -190,7 +190,10 @@ class BillModule {
     const handleSaveSuccess = (response) => {
       const state = this.store.getState();
 
-      if (getShouldLinkInTrayDocument(state)) {
+      if (response.monthlyLimit) {
+        this.dispatcher.stopBlocking();
+        this.dispatcher.showUpgradeModal(response.monthlyLimit);
+      } else if (getShouldLinkInTrayDocument(state)) {
         this.linkAfterSave(onSuccess, response);
       } else {
         this.dispatcher.stopBlocking();
@@ -860,8 +863,6 @@ class BillModule {
     this.redirectToUrl(url);
   }
 
-  onUpgradeModalDismiss = this.redirectToBillList;
-
   onUpgradeModalUpgradeButtonClick = this.redirectToSubscriptionSettings;
 
   render = () => {
@@ -913,7 +914,7 @@ class BillModule {
           onUnlinkDocumentButtonClick={this.openUnlinkDocumentModal}
           onUnlinkDocumentConfirm={this.unlinkInTrayDocument}
           onClosePrefillInfo={this.dispatcher.hidePrefillInfo}
-          onUpgradeModalDismiss={this.onUpgradeModalDismiss}
+          onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
           onUpgradeModalUpgradeButtonClick={this.onUpgradeModalUpgradeButtonClick}
           onCreatePaymentClick={this.redirectToBillPayment}
         />

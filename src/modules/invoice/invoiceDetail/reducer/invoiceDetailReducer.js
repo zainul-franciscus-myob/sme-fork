@@ -93,6 +93,9 @@ const loadInvoiceDetail = (state, action) => {
     ? getLoadInvoiceDetailModalAndPageAlert(state, action.message)
     : {};
 
+  const hasHitLimit = monthlyLimit => Boolean(monthlyLimit
+    && monthlyLimit.used >= monthlyLimit.limit);
+
   return {
     ...state,
     ...action,
@@ -122,8 +125,7 @@ const loadInvoiceDetail = (state, action) => {
     modalAlert,
     alert: pageAlert,
     monthlyLimit: action.monthlyLimit,
-    isUpgradeModalShowing: action.monthlyLimit
-      && action.monthlyLimit.used >= action.monthlyLimit.limit,
+    isUpgradeModalShowing: hasHitLimit(action.monthlyLimit),
   };
 };
 

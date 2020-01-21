@@ -65,7 +65,8 @@ describe('billReducer', () => {
 
       const action = {
         intent: LOAD_BILL,
-        response: {},
+        response: {
+        },
       };
 
       const actual = billReducer(state, action);
@@ -91,6 +92,67 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual.bill.issueDate).toEqual('2019-02-03');
+    });
+
+    describe('when monthly limit is not provided', () => {
+      const action = {
+        intent: LOAD_BILL,
+        response: {
+          bill: {
+            issueDate: '2019-02-03',
+          },
+        },
+      };
+      it('does not show the upgrade modal', () => {
+        const actual = billReducer({}, action);
+
+        expect(actual.monthlyLimit).toBeUndefined();
+        expect(actual.isUpgradeModalShowing).toBe(false);
+      });
+    });
+
+    describe('when monthly limit is provided and the limit has not been hit', () => {
+      const action = {
+        intent: LOAD_BILL,
+        response: {
+          bill: {
+            issueDate: '2019-02-03',
+          },
+          monthlyLimit: {
+            used: 4,
+            limit: 5,
+            month: 'April 1994',
+          },
+        },
+      };
+      it('does not show the upgrade modal', () => {
+        const actual = billReducer({}, action);
+
+        expect(actual.monthlyLimit).toBeDefined();
+        expect(actual.isUpgradeModalShowing).toBe(false);
+      });
+    });
+
+    describe('when monthly limit is provided and the limit has been hit', () => {
+      const action = {
+        intent: LOAD_BILL,
+        response: {
+          bill: {
+            issueDate: '2019-02-03',
+          },
+          monthlyLimit: {
+            used: 5,
+            limit: 5,
+            month: 'April 1994',
+          },
+        },
+      };
+      it('shows the upgrade modal', () => {
+        const actual = billReducer({}, action);
+
+        expect(actual.monthlyLimit).toBeDefined();
+        expect(actual.isUpgradeModalShowing).toBe(true);
+      });
     });
   });
 
