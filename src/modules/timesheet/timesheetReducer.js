@@ -6,12 +6,16 @@ import {
   LOAD_INITIAL_TIMESHEET,
   LOAD_TIMESHEET,
   REMOVE_ROW,
+  SET_ALERT,
   SET_LOADING_STATE,
+  SET_MODAL,
+  SET_SELECTED_DATE,
   SET_SELECTED_EMPLOYEE,
   SET_TIMESHEET_CELL,
   TOGGLE_DISPLAY_START_STOP_TIMES,
 } from './timesheetIntents';
 import { RESET_STATE } from '../../SystemIntents';
+import { getFormattedHours } from './timesheetSelectors';
 import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 
@@ -22,17 +26,20 @@ const getDefaultState = () => ({
   isLoading: false,
   isTimesheetSetUp: false,
   weekStartDate: null,
+  selectedDate: null,
   weekDayLabels: [],
   employeeList: [],
   payItems: [],
   displayStartStopTimes: false,
-  selectedEmployeeId: null,
+  selectedEmployeeId: '',
   timesheetRows: [],
+  modal: null,
 });
 
 const loadInitialTimesheet = (state, { response }) => ({
   ...state,
   ...response,
+  selectedDate: response.weekStartDate,
 });
 
 const loadTimesheet = (state, { response }) => ({
@@ -62,16 +69,28 @@ const setLoadingState = (state, { loadingState }) => ({
 const setEmployeeTimesheetRows = (state, { timesheetRows }) => ({
   ...state,
   timesheetRows: timesheetRows.map(row => ({
-    payItemId: row.payItemId,
-    notes: row.notes,
-    startStopDescription: row.startStopDescription,
-    day1: { hours: row.days[0].hours },
-    day2: { hours: row.days[1].hours },
-    day3: { hours: row.days[2].hours },
-    day4: { hours: row.days[3].hours },
-    day5: { hours: row.days[4].hours },
-    day6: { hours: row.days[5].hours },
-    day7: { hours: row.days[6].hours },
+    ...row,
+    day1: {
+      hours: getFormattedHours(row.day1.hours),
+    },
+    day2: {
+      hours: getFormattedHours(row.day2.hours),
+    },
+    day3: {
+      hours: getFormattedHours(row.day3.hours),
+    },
+    day4: {
+      hours: getFormattedHours(row.day4.hours),
+    },
+    day5: {
+      hours: getFormattedHours(row.day5.hours),
+    },
+    day6: {
+      hours: getFormattedHours(row.day6.hours),
+    },
+    day7: {
+      hours: getFormattedHours(row.day7.hours),
+    },
   })),
 });
 
@@ -94,7 +113,7 @@ const setTimesheetCell = (state, { index, name, value }) => ({
     if (isWeekDayField(name)) {
       return {
         ...row,
-        [name]: { hours: Number(value) },
+        [name]: { hours: value },
       };
     }
 
@@ -118,13 +137,13 @@ const addRow = (state, { rowData }) => ({
       payItemId: rowData.payItemId ? rowData.payItemId : '',
       notes: rowData.notes ? rowData.notes : '',
       startStopDescription: rowData.startStopDescription ? rowData.startStopDescription : '',
-      day1: { hours: rowData.day1 ? Number(rowData.day1) : 0 },
-      day2: { hours: rowData.day2 ? Number(rowData.day2) : 0 },
-      day3: { hours: rowData.day3 ? Number(rowData.day3) : 0 },
-      day4: { hours: rowData.day4 ? Number(rowData.day4) : 0 },
-      day5: { hours: rowData.day5 ? Number(rowData.day5) : 0 },
-      day6: { hours: rowData.day6 ? Number(rowData.day6) : 0 },
-      day7: { hours: rowData.day7 ? Number(rowData.day7) : 0 },
+      day1: { hours: rowData.day1 ? rowData.day1 : '' },
+      day2: { hours: rowData.day2 ? rowData.day2 : '' },
+      day3: { hours: rowData.day3 ? rowData.day3 : '' },
+      day4: { hours: rowData.day4 ? rowData.day4 : '' },
+      day5: { hours: rowData.day5 ? rowData.day5 : '' },
+      day6: { hours: rowData.day6 ? rowData.day6 : '' },
+      day7: { hours: rowData.day7 ? rowData.day7 : '' },
     },
   ],
 });
@@ -132,6 +151,24 @@ const addRow = (state, { rowData }) => ({
 const toggleDisplayStartStopTimes = state => ({
   ...state,
   displayStartStopTimes: !state.displayStartStopTimes,
+});
+
+const setSelectedDate = (state, { selectedDate }) => ({
+  ...state,
+  selectedDate,
+});
+
+const setAlert = (state, { type, message }) => ({
+  ...state,
+  alert: {
+    type,
+    message,
+  },
+});
+
+const setModal = (state, { modal }) => ({
+  ...state,
+  modal,
 });
 
 const timesheetReducer = createReducer(getDefaultState(), {
@@ -147,6 +184,9 @@ const timesheetReducer = createReducer(getDefaultState(), {
   [ADD_ROW]: addRow,
   [TOGGLE_DISPLAY_START_STOP_TIMES]: toggleDisplayStartStopTimes,
   [CLEAR_TIMESHEET_ROWS]: clearTimesheetRows,
+  [SET_SELECTED_DATE]: setSelectedDate,
+  [SET_ALERT]: setAlert,
+  [SET_MODAL]: setModal,
 });
 
 export default timesheetReducer;

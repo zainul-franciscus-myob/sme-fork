@@ -1,10 +1,20 @@
+import { Alert, DatePicker, Modal } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
-import { LOAD_INITIAL_TIMESHEET } from '../timesheetIntents';
+import {
+  LOAD_EMPLOYEE_TIMESHEET, LOAD_INITIAL_TIMESHEET, LOAD_TIMESHEET,
+} from '../timesheetIntents';
 import { findButtonWithTestId, findComponentWithTestId } from '../../../common/tests/selectors';
+import LoadingFailPageState from '../../../components/PageView/LoadingFailPageState';
 import TimesheetModule from '../TimesheetModule';
 import loadEmployeeTimesheet from '../mappings/data/loadEmployeeTimesheet';
 import loadTimesheetInitial from '../mappings/data/loadTimesheetInitial';
+
+const selectEmployee = (wrapper) => {
+  const employeeSelect = wrapper.find({ testid: 'employeeSelect' });
+  employeeSelect.prop('onChange')({ id: 2, employeeId: 'EMP002' });
+  wrapper.update();
+};
 
 describe('TimesheetModule', () => {
   const defaultIntegration = {
@@ -17,13 +27,18 @@ describe('TimesheetModule', () => {
   };
 
   const constructTimesheetModule = ({
-    integration = defaultIntegration,
+    integration,
   }) => {
+    const moduleIntegration = {
+      ...defaultIntegration,
+      ...integration,
+    };
+
     let wrapper;
     const setRootView = (component) => {
       wrapper = mount(component);
     };
-    const module = new TimesheetModule({ integration, setRootView });
+    const module = new TimesheetModule({ integration: moduleIntegration, setRootView });
     module.run();
     wrapper.update();
     return {
@@ -98,11 +113,210 @@ describe('TimesheetModule', () => {
       it('requests the employees timesheet for the week', () => {
         const { wrapper, module } = constructTimesheetModule({});
 
+        selectEmployee(wrapper);
+        expect(module.store.getState().timesheetRows).toHaveLength(1);
+      });
+    });
+
+    describe('Load initial timesheet', () => {
+      it('shows the loading fail page view on request failure', () => {
+        const failureMessage = 'Load initial timesheet failed.';
+        const integration = {
+          read: ({ onFailure }) => onFailure({ message: failureMessage }),
+        };
+        const { wrapper } = constructTimesheetModule({ integration });
+
+        const loadingFailPageState = wrapper.find(LoadingFailPageState);
+
+        expect(loadingFailPageState).toHaveLength(1);
+      });
+    });
+
+    describe('loadSelectedEmployeeTimesheet', () => {
+      it('shows the failure alert on request failure', () => {
+        const failureMessage = 'Load employee timesheet failed.';
+        const integration = {
+          read: ({ intent, onSuccess, onFailure }) => {
+            if (intent === LOAD_EMPLOYEE_TIMESHEET) {
+              onFailure({ message: failureMessage });
+            } else {
+              onSuccess(loadTimesheetInitial);
+            }
+          },
+        };
+        const { wrapper } = constructTimesheetModule({ integration });
         const employeeSelect = wrapper.find({ testid: 'employeeSelect' });
+
         employeeSelect.prop('onChange')({ id: 2, employeeId: 'EMP002' });
         wrapper.update();
 
-        expect(module.store.getState().timesheetRows).toHaveLength(1);
+        const alert = wrapper.find(Alert);
+        expect(alert).toHaveLength(1);
+        expect(alert.prop('type')).toEqual('danger');
+        expect(alert.contains(failureMessage)).toBeTruthy();
+      });
+    });
+
+    describe('onSelectedDateChange', () => {
+      it('shows the failure alert on request failure', () => {
+        const failureMessage = 'Load timesheet for date failed.';
+        const integration = {
+          read: ({ intent, onSuccess, onFailure }) => {
+            if (intent === LOAD_TIMESHEET) {
+              onFailure({ message: failureMessage });
+            } else {
+              onSuccess(loadTimesheetInitial);
+            }
+          },
+        };
+        const { wrapper } = constructTimesheetModule({ integration });
+        const dateSelect = wrapper.find(DatePicker);
+
+        dateSelect.prop('onSelect')({ value: '2020-02-02' });
+        wrapper.update();
+
+        const alert = wrapper.find(Alert);
+        expect(alert).toHaveLength(1);
+        expect(alert.prop('type')).toEqual('danger');
+        expect(alert.contains(failureMessage)).toBeTruthy();
+      });
+    });
+
+    describe('saveTimesheet', () => {
+      describe('save button', () => {
+        it('is disabled when no employee is selected', () => {
+          const { wrapper } = constructTimesheetModule({});
+          const saveButton = findButtonWithTestId(wrapper, 'saveButton');
+
+          expect(saveButton.prop('disabled')).toBeTruthy();
+        });
+
+        it('is enabled when an employee has been selected', () => {
+          const { wrapper } = constructTimesheetModule({});
+
+          const employeeSelect = wrapper.find({ testid: 'employeeSelect' });
+          employeeSelect.prop('onChange')({ id: 2, employeeId: 'EMP002' });
+          wrapper.update();
+
+          const saveButton = findButtonWithTestId(wrapper, 'saveButton');
+          expect(saveButton.prop('disabled')).toBeFalsy();
+        });
+      });
+
+      it('shows failure alert when save failed', () => {
+        const failureMessage = 'Save timesheet failed.';
+        const integration = {
+          read: ({ intent, onSuccess }) => {
+            if (intent === LOAD_INITIAL_TIMESHEET) {
+              onSuccess(loadTimesheetInitial);
+            } else {
+              onSuccess(loadEmployeeTimesheet);
+            }
+          },
+          write: ({ onFailure }) => { onFailure({ message: failureMessage }); },
+        };
+        const { wrapper } = constructTimesheetModule({ integration });
+
+        selectEmployee(wrapper); const saveButton = findButtonWithTestId(wrapper, 'saveButton');
+        saveButton.simulate('click');
+        wrapper.update();
+
+        const alert = wrapper.find(Alert);
+        expect(alert).toHaveLength(1);
+        expect(alert.prop('type')).toEqual('danger');
+        expect(alert.contains(failureMessage)).toBeTruthy();
+      });
+
+      it('shows success alert when save succeeds', () => {
+        const successMessage = 'Save timesheet succeeded.';
+        const integration = {
+          write: ({ onSuccess }) => { onSuccess({ message: successMessage }); },
+        };
+        const { wrapper } = constructTimesheetModule({ integration });
+
+        selectEmployee(wrapper); const saveButton = findButtonWithTestId(wrapper, 'saveButton');
+        saveButton.simulate('click');
+        wrapper.update();
+
+        const alert = wrapper.find(Alert);
+        expect(alert).toHaveLength(1);
+        expect(alert.prop('type')).toEqual('success');
+        expect(alert.contains(successMessage)).toBeTruthy();
+      });
+    });
+
+    describe('deleteTimesheet', () => {
+      describe('delete button', () => {
+        it('is disabled when no employee is selected', () => {
+          const { wrapper } = constructTimesheetModule({});
+          const deleteButton = findButtonWithTestId(wrapper, 'deleteButton');
+
+          expect(deleteButton.prop('disabled')).toBeTruthy();
+        });
+
+        it('is enabled when an employee has been selected', () => {
+          const { wrapper } = constructTimesheetModule({});
+
+          const employeeSelect = wrapper.find({ testid: 'employeeSelect' });
+          employeeSelect.prop('onChange')({ id: 2, employeeId: 'EMP002' });
+          wrapper.update();
+
+          const deleteButton = findButtonWithTestId(wrapper, 'deleteButton');
+          expect(deleteButton.prop('disabled')).toBeFalsy();
+        });
+      });
+
+      it('shows failure alert when delete failed', () => {
+        const failureMessage = 'Delete timesheet failed.';
+        const integration = {
+          read: ({ intent, onSuccess }) => {
+            if (intent === LOAD_INITIAL_TIMESHEET) {
+              onSuccess(loadTimesheetInitial);
+            } else {
+              onSuccess(loadEmployeeTimesheet);
+            }
+          },
+          write: ({ onFailure }) => { onFailure({ message: failureMessage }); },
+        };
+        const { wrapper, module } = constructTimesheetModule({ integration });
+
+        selectEmployee(wrapper);
+        module.deleteTimesheet();
+        wrapper.update();
+
+        const alert = wrapper.find(Alert);
+        expect(alert).toHaveLength(1);
+        expect(alert.prop('type')).toEqual('danger');
+        expect(alert.contains(failureMessage)).toBeTruthy();
+      });
+
+      it('shows success alert when delete succeeds', () => {
+        const successMessage = 'Delete timesheet succeeded.';
+        const integration = {
+          write: ({ onSuccess }) => { onSuccess({ message: successMessage }); },
+        };
+        const { wrapper, module } = constructTimesheetModule({ integration });
+
+        selectEmployee(wrapper);
+        module.deleteTimesheet();
+        wrapper.update();
+
+        const alert = wrapper.find(Alert);
+        expect(alert).toHaveLength(1);
+        expect(alert.prop('type')).toEqual('success');
+        expect(alert.contains(successMessage)).toBeTruthy();
+      });
+
+      it('shows the delete modal when you press the delete button', () => {
+        const { wrapper } = constructTimesheetModule({});
+
+        selectEmployee(wrapper);
+        const deleteButton = findButtonWithTestId(wrapper, 'deleteButton');
+        deleteButton.simulate('click');
+        wrapper.update();
+
+        const deleteModal = wrapper.find(Modal);
+        expect(deleteModal).toHaveLength(1);
       });
     });
   });

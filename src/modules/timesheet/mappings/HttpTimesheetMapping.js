@@ -1,4 +1,10 @@
-import { LOAD_EMPLOYEE_TIMESHEET, LOAD_INITIAL_TIMESHEET, LOAD_TIMESHEET } from '../timesheetIntents';
+import {
+  DELETE_TIMESHEET,
+  LOAD_EMPLOYEE_TIMESHEET,
+  LOAD_INITIAL_TIMESHEET,
+  LOAD_TIMESHEET,
+  SAVE_TIMESHEET,
+} from '../timesheetIntents';
 
 const HttpTimesheetMapping = {
   [LOAD_INITIAL_TIMESHEET]: {
@@ -12,6 +18,14 @@ const HttpTimesheetMapping = {
   [LOAD_EMPLOYEE_TIMESHEET]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/timesheet/load_employee_timesheet`,
+  },
+  [SAVE_TIMESHEET]: {
+    method: 'POST',
+    getPath: ({ businessId, employeeId }) => `/${businessId}/timesheet/save_timesheet/${employeeId}`,
+  },
+  [DELETE_TIMESHEET]: {
+    method: 'DELETE',
+    getPath: ({ businessId, employeeId }) => `/${businessId}/timesheet/delete_timesheet/${employeeId}`,
   },
 };
 

@@ -4,21 +4,33 @@ import React from 'react';
 import {
   ADD_ROW,
   CLEAR_TIMESHEET_ROWS,
+  DELETE_TIMESHEET,
   LOAD_CONTEXT,
   LOAD_EMPLOYEE_TIMESHEET,
   LOAD_INITIAL_TIMESHEET,
   LOAD_TIMESHEET,
   REMOVE_ROW,
+  SAVE_TIMESHEET,
+  SET_ALERT,
   SET_LOADING_STATE,
+  SET_MODAL,
+  SET_SELECTED_DATE,
   SET_SELECTED_EMPLOYEE,
   SET_TIMESHEET_CELL,
   TOGGLE_DISPLAY_START_STOP_TIMES,
 } from './timesheetIntents';
 import { RESET_STATE } from '../../SystemIntents';
 import {
-  getBusinessId, getPayrollSettingsUrl, getSelectedEmployeeId, getWeekStartDate,
+  getBusinessId,
+  getDeleteTimesheetContent,
+  getFormattedHours,
+  getPayrollSettingsUrl,
+  getSaveTimesheetContent,
+  getSelectedEmployeeId,
+  getWeekStartDate,
 } from './timesheetSelectors';
 import LoadingState from '../../components/PageView/LoadingState';
+import ModalType from './ModalType';
 import Store from '../../store/Store';
 import TimesheetView from './components/TimesheetView';
 import reducer from './timesheetReducer';
@@ -50,10 +62,8 @@ export default class TimesheetModule {
       });
     };
 
-    const onFailure = ({ message }) => {
+    const onFailure = () => {
       this.setLoadingState(LoadingState.LOADING_FAIL);
-
-      console.log(message);
     };
 
     this.integration.read({
@@ -83,6 +93,14 @@ export default class TimesheetModule {
     window.location.href = getPayrollSettingsUrl(state);
   }
 
+  setAlert = ({ type, message }) => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      type,
+      message,
+    });
+  }
+
   loadSelectedEmployeeTimesheet = ({ value }) => {
     const state = this.store.getState();
     this.setSelectedEmployee({ value });
@@ -107,8 +125,11 @@ export default class TimesheetModule {
     };
 
     const onFailure = ({ message }) => {
-      console.log(message);
-      this.setLoadingState(LoadingState.LOADING_FAIL);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
     };
 
     this.integration.read({
@@ -120,7 +141,11 @@ export default class TimesheetModule {
     });
   }
 
-  onWeekStartDateChange = ({ value }) => {
+  onSelectedDateChange = ({ value }) => {
+    this.store.dispatch({
+      intent: SET_SELECTED_DATE,
+      selectedDate: value,
+    });
     const intent = LOAD_TIMESHEET;
     const state = this.store.getState();
     const urlParams = {
@@ -153,8 +178,11 @@ export default class TimesheetModule {
       }
     };
     const onFailure = ({ message }) => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
-      console.log(message);
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
     };
 
     this.integration.read({
@@ -195,16 +223,133 @@ export default class TimesheetModule {
     });
   }
 
+  saveTimesheet = () => {
+    this.setLoadingState(LoadingState.LOADING);
+    const state = this.store.getState();
+    const intent = SAVE_TIMESHEET;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      employeeId: getSelectedEmployeeId(state),
+    };
+
+    const content = getSaveTimesheetContent(state);
+
+    const onSuccess = ({ message }) => {
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+      this.store.dispatch({
+        intent: CLEAR_TIMESHEET_ROWS,
+      });
+      this.store.dispatch({
+        intent: SET_SELECTED_EMPLOYEE,
+        selectedEmployeeId: 0,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  closeModal = () => {
+    this.store.dispatch({
+      intent: SET_MODAL,
+      modal: null,
+    });
+  }
+
+  deleteTimesheet = () => {
+    this.setLoadingState(LoadingState.LOADING);
+    this.closeModal();
+    const state = this.store.getState();
+    const intent = DELETE_TIMESHEET;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      employeeId: getSelectedEmployeeId(state),
+    };
+
+    const content = getDeleteTimesheetContent(state);
+
+    const onSuccess = ({ message }) => {
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+      this.store.dispatch({
+        intent: CLEAR_TIMESHEET_ROWS,
+      });
+      this.store.dispatch({
+        intent: SET_SELECTED_EMPLOYEE,
+        selectedEmployeeId: 0,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  onHoursBlur = (index, name, value) => {
+    this.store.dispatch({
+      intent: SET_TIMESHEET_CELL,
+      index,
+      name,
+      value: getFormattedHours(value),
+    });
+  }
+
+  openDeleteModal = () => {
+    this.store.dispatch({
+      intent: SET_MODAL,
+      modal: ModalType.DELETE,
+    });
+  }
+
   render = () => {
     const view = (
       <Provider store={this.store}>
         <TimesheetView
           onEmptyStateLinkClick={this.redirectToPayrollSettings}
           onEmployeeChange={this.loadSelectedEmployeeTimesheet}
-          onWeekStartDateChange={this.onWeekStartDateChange}
+          onSelectedDateChange={this.onSelectedDateChange}
           onRowChange={this.onRowChange}
           onRemoveRow={this.removeRow}
           onAddRow={this.addRow}
+          onHoursBlur={this.onHoursBlur}
+          onSaveClick={this.saveTimesheet}
+          onDeleteClick={this.openDeleteModal}
+          onModalDelete={this.deleteTimesheet}
+          onModalCancel={this.closeModal}
           onDisplayStartStopTimesChange={this.toggleDisplayStartStopTimes}
         />
       </Provider>

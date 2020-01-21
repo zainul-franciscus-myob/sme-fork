@@ -9,7 +9,9 @@ const EmployeeCombobox = ({
   width,
   selectedId,
 }) => {
-  const selectedEmployee = employees.filter(employee => employee.id === selectedId)[0];
+  const selectedEmployee = employees.find(
+    employee => employee.id === selectedId,
+  ) || {};
 
   const metaData = [
     {

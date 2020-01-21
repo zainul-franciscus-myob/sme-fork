@@ -1,4 +1,6 @@
 import {
+  Button,
+  ButtonRow,
   Card,
   Checkbox,
   CheckboxGroup,
@@ -15,8 +17,10 @@ import React from 'react';
 import {
   getDisplayStartStopTimes,
   getEmployeeList,
+  getFormattedHours,
   getPayItems,
   getRowHours,
+  getSelectedDate,
   getSelectedEmployeeId,
   getTimesheetRows,
   getTimesheetTotalHours,
@@ -32,6 +36,10 @@ const handleHoursInputChange = handler => (e) => {
   const { name, rawValue } = e.target;
   handler({ target: { name, value: rawValue } });
 };
+const handleHoursInputBlur = (index, handler) => (e) => {
+  const { name, rawValue } = e.target;
+  handler(index, name, rawValue);
+};
 const sum = (list => list.reduce((total, value) => (total + value), 0));
 
 const TimesheetIsSetUpView = ({
@@ -42,13 +50,17 @@ const TimesheetIsSetUpView = ({
   onEmployeeChange,
   selectedEmployeeId,
   weekStartDate,
+  selectedDate,
   totalHoursSum,
   displayStartStopTimes,
-  onWeekStartDateChange,
+  onSelectedDateChange,
+  onSaveClick,
+  onDeleteClick,
   onRowChange,
   onRemoveRow,
   onAddRow,
   onDisplayStartStopTimesChange,
+  onHoursBlur,
 }) => {
   const baseTableLabels = [
     'Pay item',
@@ -98,6 +110,7 @@ const TimesheetIsSetUpView = ({
           name={field}
           value={value}
           onChange={handleHoursInputChange(onChange)}
+          onBlur={handleHoursInputBlur(index, onHoursBlur)}
           hideLabel
           label={label}
           key={field}
@@ -108,7 +121,7 @@ const TimesheetIsSetUpView = ({
 
     const weekDayHours = getRowHours(data);
     const totalHoursNumber = sum(weekDayHours);
-    const totalHours = totalHoursNumber !== 0 ? String(totalHoursNumber) : '';
+    const totalHours = totalHoursNumber !== 0 ? getFormattedHours(totalHoursNumber) : '';
     return (
       <LineItemTable.Row
         id={index}
@@ -147,71 +160,98 @@ const TimesheetIsSetUpView = ({
         </ReadOnly>
         {displayStartStopTimes && (
           <TextArea
-            name="startAndStopTimesDescription"
+            name="startStopDescription"
             label="Start and stop times"
             hideLabel
             autoSize
             rows={1}
             onChange={onChange}
-            value={data.startAndStopTimesDescription || ''}
+            value={data.startStopDescription || ''}
           />
         )}
       </LineItemTable.Row>
     );
   };
   return (
-    <Card>
-      <FilterBar>
-        <FilterBar.Group>
-          <EmployeeCombobox
-            testid="employeeSelect"
-            employees={employeeList}
-            name="selectedEmployee"
-            label="Employee"
-            width="lg"
-            selectedId={selectedEmployeeId}
-            onChange={handleComboboxChange('selectedEmployee', onEmployeeChange)}
-          />
-          <DatePicker
-            name="weekStartDate"
-            label="Week"
-            value={weekStartDate}
-            onSelect={onWeekStartDateChange}
-          />
-          <CheckboxGroup
-            label="Display start and stop times"
-            hideLabel
-            renderCheckbox={() => (
-              <Checkbox
-                name="displayStartStopTimes"
-                label="Display start and stop times"
-                onChange={onDisplayStartStopTimesChange}
-                checked={displayStartStopTimes}
-              />
-            )}
-          />
-        </FilterBar.Group>
-      </FilterBar>
-      <Separator />
-      <LineItemTable
-        testid="timesheetTable"
-        data={timesheetRows}
-        labels={tableLabels}
-        renderRow={renderRow}
-        columnConfig={columnConfig}
-        onRowChange={onRowChange}
-        onAddRow={onAddRow}
-        onRemoveRow={onRemoveRow}
-      >
-        <LineItemTable.Total>
-          <LineItemTable.Totals
-            totalAmount
-            title="Total hours:"
-            amount={String(totalHoursSum)}
-          />
-        </LineItemTable.Total>
-      </LineItemTable>
-    </Card>
+    <>
+      <Card>
+        <FilterBar>
+          <FilterBar.Group>
+            <EmployeeCombobox
+              testid="employeeSelect"
+              employees={employeeList}
+              name="selectedEmployee"
+              label="Employee"
+              width="lg"
+              selectedId={selectedEmployeeId}
+              onChange={handleComboboxChange('selectedEmployee', onEmployeeChange)}
+            />
+            <DatePicker
+              name="selectedDate"
+              label={weekStartDate ? `Week of ${weekStartDate}` : 'Week'}
+              value={selectedDate}
+              onSelect={onSelectedDateChange}
+            />
+            <CheckboxGroup
+              label="Display start and stop times"
+              hideLabel
+              renderCheckbox={() => (
+                <Checkbox
+                  name="displayStartStopTimes"
+                  label="Display start and stop times"
+                  onChange={onDisplayStartStopTimesChange}
+                  checked={displayStartStopTimes}
+                />
+              )}
+            />
+          </FilterBar.Group>
+        </FilterBar>
+        <Separator />
+        <LineItemTable
+          testid="timesheetTable"
+          data={timesheetRows}
+          labels={tableLabels}
+          renderRow={renderRow}
+          columnConfig={columnConfig}
+          onRowChange={onRowChange}
+          onAddRow={onAddRow}
+          onRemoveRow={onRemoveRow}
+        >
+          <LineItemTable.Total>
+            <LineItemTable.Totals
+              totalAmount
+              title="Total hours:"
+              amount={String(totalHoursSum)}
+            />
+          </LineItemTable.Total>
+        </LineItemTable>
+      </Card>
+      <ButtonRow
+        secondary={[
+          <Button
+            key="delete"
+            type="secondary"
+            onClick={onDeleteClick}
+            testid="deleteButton"
+            disabled={!selectedEmployeeId}
+          >
+          Delete timesheet
+          </Button>,
+        ]}
+        primary={[
+          <Button key="copy" type="secondary">Copy from previous</Button>,
+          <Separator direction="vertical" />,
+          <Button
+            key="save"
+            onClick={onSaveClick}
+            testid="saveButton"
+            disabled={!selectedEmployeeId}
+          >
+            Save
+          </Button>,
+        ]}
+      />
+    </>
   );
 };
 
@@ -222,6 +262,7 @@ const mapStateToProps = state => ({
   payItems: getPayItems(state),
   selectedEmployeeId: getSelectedEmployeeId(state),
   weekStartDate: getWeekStartDate(state),
+  selectedDate: getSelectedDate(state),
   displayStartStopTimes: getDisplayStartStopTimes(state),
   totalHoursSum: getTimesheetTotalHours(state),
 });
