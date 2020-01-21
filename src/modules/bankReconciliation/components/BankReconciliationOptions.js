@@ -46,7 +46,6 @@ const BankReconciliationOptions = ({
           )}
           label="Account"
           name="selectedAccountId"
-          hideLabel={false}
           disabled={isActionDisabled}
         />
         <DatePicker
@@ -85,13 +84,12 @@ const BankReconciliationOptions = ({
   const secondary = (
     <div>
       <div className={styles.closingBankStatementBalance}>
-        <span className={styles.labels}>Closing bank statement balance ($)</span>
         <AmountInput
           className={styles.bankStatementBalance}
           name="closingBankStatementBalance"
           label="Closing bank statement balance ($)"
+          requiredLabel="This is required"
           textAlign="right"
-          hideLabel
           decimalScale={2}
           value={closingBankStatementBalance}
           onChange={handleAmountInputChange(onUpdateHeaderOption)}
@@ -100,11 +98,16 @@ const BankReconciliationOptions = ({
       </div>
       <div className={styles.closingBankStatementBalance}>
         <div className={styles.labels}>Calculated closing balance</div>
-        <div className={styles.balances}>{calculatedClosingBalance}</div>
+        <div className={styles.balances}><span>{calculatedClosingBalance}</span></div>
       </div>
-      <div className={classNames(outOfBalanceClassName, styles.closingBankStatementBalance)}>
+      <div
+        className={classNames(
+          outOfBalanceClassName,
+          styles.closingBankStatementBalance,
+        )}
+      >
         <div className={styles.labels}>Out of balance</div>
-        <div className={styles.balances}>{outOfBalance}</div>
+        <div className={styles.balances}><span>{outOfBalance}</span></div>
       </div>
     </div>
   );
