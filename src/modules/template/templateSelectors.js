@@ -122,11 +122,6 @@ export const getImageButtonLabel = createSelector(
   },
 );
 
-const getImageType = createSelector(
-  getImage,
-  image => image && image.split(';')[0].replace('data:image/', ''),
-);
-
 const base64ToBlob = (base64) => {
   const data = base64.replace(/^[^,]+,/, '');
   const byteString = atob(data);
@@ -139,15 +134,17 @@ const base64ToBlob = (base64) => {
   return new Blob([arrayBuffer]);
 };
 
-const getImageFile = createSelector(
-  getImage,
-  getImageKey,
-  getImageType,
-  (base64, fileName, type) => base64
-    && new File([base64ToBlob(base64)], `${fileName}.${type}`, {
-      type: `image/${type}`,
-    }),
-);
+const convertImageToFile = (image, fileName) => {
+  if (!image) {
+    return undefined;
+  }
+
+  const imageType = image.split(';')[0].replace('data:image/', '');
+  const file = new File([base64ToBlob(image)], `${fileName}.${imageType}`, {
+    type: `image/${imageType}`,
+  });
+  return file;
+};
 
 export const getBusinessDetails = state => state.businessDetails;
 
@@ -204,9 +201,11 @@ export const getSavePayload = (state) => {
     logoSize,
     businessDetailsPlacement,
     isDefault,
+    originalHeaderImage,
+    headerImage,
+    originalLogoImage,
+    logoImage,
   } = getTemplate(state);
-  const imageKey = getImageKey(state);
-  const file = getImageFile(state);
   // This is being built in the front end because
   // we cannot deconstruct multipart form data in the bff.
   const selectedBusinessDetailsOptions = Object.entries(
@@ -218,22 +217,27 @@ export const getSavePayload = (state) => {
     [],
   );
 
-  const headerStyle = imageKey === 'logoImage' && !file
-    ? HeaderBusinessDetailStyle.businessDetailsOnly
-    : headerBusinessDetailsStyle;
+  const selectedHeaderImage = headerBusinessDetailsStyle
+  === HeaderBusinessDetailStyle.fullWidthHeaderImage
+    ? headerImage
+    : originalHeaderImage;
+
+  const selectedLogoImage = headerBusinessDetailsStyle
+  === HeaderBusinessDetailStyle.logoAndBusinessDetails
+    ? logoImage
+    : originalLogoImage;
 
   return {
     templateName,
     featureColour,
     headerTextColour,
     useAddressEnvelopePosition: String(useAddressEnvelopePosition),
-    headerBusinessDetailsStyle: headerStyle,
+    headerBusinessDetailsStyle,
     logoSize,
     logoPlacementLeft: String(businessDetailsPlacement !== 'Left'),
     businessDetailsOptions: selectedBusinessDetailsOptions.toString(),
-    headerImage: undefined,
-    logoImage: undefined,
-    [imageKey]: file,
+    headerImage: convertImageToFile(selectedHeaderImage, 'headerImage'),
+    logoImage: convertImageToFile(selectedLogoImage, 'logoImage'),
     setAsDefault: String(isDefault),
   };
 };

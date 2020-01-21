@@ -41,7 +41,7 @@ describe('templateSelectors', () => {
     const expected = {
       businessDetailsOptions: 'TradingName,StreetAddress',
       featureColour: '#FFF',
-      headerBusinessDetailsStyle: 'BusinessDetailsOnly',
+      headerBusinessDetailsStyle: 'LogoAndBusinessDetails',
       headerTextColour: '#000',
       logoPlacementLeft: 'true',
       logoSize: 30,

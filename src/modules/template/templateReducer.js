@@ -44,7 +44,9 @@ const getDefaultState = () => ({
     headerTextColour: '#000000',
     useAddressEnvelopePosition: false,
     headerBusinessDetailsStyle: HeaderBusinessDetailStyle.logoAndBusinessDetails,
+    originalHeaderImage: undefined,
     headerImage: undefined,
+    originalLogoImage: undefined,
     logoImage: undefined,
     logoSize: 100,
     businessDetailsPlacement: 'Left',
@@ -82,6 +84,8 @@ const loadTemplate = (state, action) => ({
   template: {
     ...state.template,
     ...action.payload.template,
+    originalHeaderImage: action.payload.template.headerImage,
+    originalLogoImage: action.payload.template.logoImage,
   },
 });
 

@@ -50,7 +50,6 @@ export const BusinessDetailLabelMap = {
 export const HeaderBusinessDetailStyle = {
   logoAndBusinessDetails: 'LogoAndBusinessDetails',
   fullWidthHeaderImage: 'FullWidthHeaderImage',
-  businessDetailsOnly: 'BusinessDetailsOnly',
 };
 
 export const PreviewType = {
