@@ -1,5 +1,5 @@
-import { LOAD_EMPLOYEE_PAY_DETAIL } from '../employeePayDetail/EmployeePayDetailIntents';
-import { LOAD_EMPLOYEE_PAY_MODAL } from '../employeePayModal/EmployeePayModalIntents';
+import { DELETE_EMPLOYEE_PAY_DETAIL, LOAD_EMPLOYEE_PAY_DETAIL } from '../employeePayDetail/EmployeePayDetailIntents';
+import { DELETE_EMPLOYEE_PAY_MODAL, LOAD_EMPLOYEE_PAY_MODAL } from '../employeePayModal/EmployeePayModalIntents';
 import { SEND_PAY_SLIP_EMAIL } from '../emailPaySlipModal/EmailPaySlipModalIntents';
 
 const HttpEmployeePayMapping = {
@@ -10,6 +10,14 @@ const HttpEmployeePayMapping = {
   [LOAD_EMPLOYEE_PAY_DETAIL]: {
     method: 'GET',
     getPath: ({ businessId, transactionId }) => `/${businessId}/employeePay/load_employee_transaction_detail/${transactionId}`,
+  },
+  [DELETE_EMPLOYEE_PAY_DETAIL]: {
+    method: 'DELETE',
+    getPath: ({ businessId, transactionId }) => `/${businessId}/employeePay/delete_employee_transaction_detail/${transactionId}`,
+  },
+  [DELETE_EMPLOYEE_PAY_MODAL]: {
+    method: 'DELETE',
+    getPath: ({ businessId, transactionId }) => `/${businessId}/employeePay/delete_employee_transaction_detail/${transactionId}`,
   },
   [SEND_PAY_SLIP_EMAIL]: {
     method: 'POST',

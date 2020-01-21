@@ -1,6 +1,8 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { SUCCESSFULLY_DELETED_EMPLOYEE_PAY_TRANSACTION } from '../EmployeePayMessageTypes';
+import { getTransactionListUrl } from './EmployeePayDetailSelectors';
 import EmployeePayDetailView from './components/EmployeePayDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -9,13 +11,12 @@ import createEmployeePayDetailIntegrator from './createEmployeePayDetailIntegrat
 import employeePayDetailReducer from './employeePayDetailReducer';
 
 export default class EmployeePayDetailModule {
-  constructor({
-    integration, setRootView,
-  }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.setRootView = setRootView;
+    this.pushMessage = pushMessage;
     this.store = new Store(employeePayDetailReducer);
-    this.dispatcher = createEmployeePayDetailDispatchers(this.store);
     this.integrator = createEmployeePayDetailIntegrator(this.store, integration);
+    this.dispatcher = createEmployeePayDetailDispatchers(this.store);
   }
 
   loadEmployeePayDetail = () => {
@@ -31,6 +32,27 @@ export default class EmployeePayDetailModule {
     };
 
     this.integrator.loadEmployeePayDetail({ onSuccess, onFailure });
+  };
+
+  deleteEmployeePayDetail = () => {
+    this.dispatcher.closeDeleteModal();
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.pushMessage({
+        type: SUCCESSFULLY_DELETED_EMPLOYEE_PAY_TRANSACTION,
+        content: message,
+      });
+      window.location.href = getTransactionListUrl(this.store.getState());
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    };
+
+    this.integrator.deleteEmployeePayDetail({ onSuccess, onFailure });
   };
 
   goBack = () => {
@@ -60,7 +82,10 @@ export default class EmployeePayDetailModule {
       <Provider store={this.store}>
         <EmployeePayDetailView
           onGoBackClick={this.goBack}
-          onDeleteButtonClick={() => {}}
+          onDeleteButtonClick={this.dispatcher.openDeleteModal}
+          onDeleteConfirmButtonClick={this.deleteEmployeePayDetail}
+          onDeleteCancelButtonClick={this.dispatcher.closeDeleteModal}
+          onDismissAlert={this.dispatcher.dismissAlert}
         />
       </Provider>
     );

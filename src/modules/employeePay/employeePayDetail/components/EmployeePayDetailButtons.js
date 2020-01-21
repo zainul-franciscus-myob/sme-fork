@@ -7,7 +7,7 @@ const EmployeePayDetailButtons = ({
 }) => (
   <ButtonRow
     secondary={[
-      <Button type="secondary" onClick={onDeleteButtonClick} disabled>
+      <Button type="secondary" onClick={onDeleteButtonClick}>
           Delete
       </Button>,
     ]}

@@ -4,7 +4,9 @@ import {
   LOAD_PAY_RUN_DETAILS,
   PRINT_TAB_SELECT_ALL,
   PRINT_TAB_SELECT_ITEM,
-  SET_LOADING_STATE, SET_PDF_LOADING_STATE,
+  SET_ALERT,
+  SET_LOADING_STATE,
+  SET_PDF_LOADING_STATE,
   SET_TAB,
 } from './payRunDetailIntents';
 import {
@@ -16,6 +18,7 @@ import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
+  alert: null,
   selectedTab: 'email-pay-slips',
   emailPaySlipEmployees: [],
   printPaySlipEmployees: [],
@@ -36,6 +39,11 @@ const setLoadingState = (state, { loadingState }) => ({
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
+});
+
+const setAlert = (state, { alert }) => ({
+  ...state,
+  alert,
 });
 
 const setSelectedTab = (state, action) => ({
@@ -105,6 +113,7 @@ const handlers = {
   [PRINT_TAB_SELECT_ALL]: printTabSelectAll,
   [PRINT_TAB_SELECT_ITEM]: printTabSelectItem,
   [LOAD_PAY_RUN_DETAILS]: loadPayRunDetails,
+  [SET_ALERT]: setAlert,
 };
 
 const payRunDetailReducer = createReducer(getDefaultState(), handlers);

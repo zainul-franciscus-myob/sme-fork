@@ -45,10 +45,11 @@ const PaySuperReadView = ({
   status,
   employeePayModal,
   authorisationModal,
-  onReserseModalCancelClick,
+  onReverseModalCancelClick,
   onReverseModalConfirmClick,
   onRecordReverseClick,
   alert,
+  onDismissAlert,
   modalType,
 }) => {
   const title = <>Super payment {referenceNumber}<PaymentStatus size="large" paymentStatus={labelStatus} /></>;
@@ -67,12 +68,12 @@ const PaySuperReadView = ({
       {authorisationModal}
       {modalType === ModalType.REVERSE && (
         <ReversalModal
-          onCancelButtonClick={onReserseModalCancelClick}
+          onCancelButtonClick={onReverseModalCancelClick}
           onReverseButtonClick={onReverseModalConfirmClick}
         />
       )}
+      {alert && <Alert type={alert.type} onDismiss={onDismissAlert}>{alert.message}</Alert>}
       <PageHead title={title} />
-      {alert && <Alert type={alert.type}>{alert.message}</Alert>}
       <Card footer={totalPaymentFooter}>
         <PaySuperReadDetailHeader
           account={account}

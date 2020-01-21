@@ -6,3 +6,4 @@ export const EMAIL_TAB_SELECT_ITEM = Symbol('Select/unselect email tab employee'
 export const PRINT_TAB_SELECT_ALL = Symbol('Select/unselect all print tab employees');
 export const PRINT_TAB_SELECT_ITEM = Symbol('Select/unselect print tab employee');
 export const LOAD_PAY_RUN_DETAILS = Symbol('Load the employee details for this pay run');
+export const SET_ALERT = Symbol('Set the alert');

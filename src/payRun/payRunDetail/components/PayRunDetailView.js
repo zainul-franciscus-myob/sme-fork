@@ -1,4 +1,5 @@
 import {
+  Alert,
   BaseTemplate,
   Button,
   ButtonRow,
@@ -8,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getLoadingState } from '../payRunDetailSelector';
+import { getAlert, getLoadingState } from '../payRunDetailSelector';
 import PageView from '../../../components/PageView/PageView';
 import PayRunDetailHeader from './PayRunDetailHeader';
 import PayRunEmployees from './PayRunEmployees';
@@ -20,10 +21,16 @@ const PayRunDetailView = ({
   printTabListeners,
   onBackButtonClick,
   onEmployeeNameClick,
-  employeePayModal,
-  emailPaySlipModal,
   exportPdf,
+  alert,
+  onDismissAlert,
 }) => {
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
+    </Alert>
+  );
+
   const employeeCard = (
     <Card>
       <PayRunEmployees
@@ -38,8 +45,7 @@ const PayRunDetailView = ({
 
   const payRunDetailView = (
     <BaseTemplate>
-      {employeePayModal}
-      {emailPaySlipModal}
+      {alertComponent}
       <PageHead title="Pay run details" />
       <PayRunDetailHeader />
       {employeeCard}
@@ -56,6 +62,7 @@ const PayRunDetailView = ({
 
 const mapStateToProps = state => ({
   loadingState: getLoadingState(state),
+  alert: getAlert(state),
 });
 
 export default connect(mapStateToProps)(PayRunDetailView);

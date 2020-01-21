@@ -1,5 +1,10 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SET_EMPLOYEE_PAY_DETAIL, SET_LOADING_STATE } from './EmployeePayDetailIntents';
+import {
+  SET_ALERT,
+  SET_DELETE_MODAL_OPEN_STATE,
+  SET_EMPLOYEE_PAY_DETAIL,
+  SET_LOADING_STATE,
+} from './EmployeePayDetailIntents';
 
 const createEmployeePayDetailDispatchers = store => ({
   setInitialState: (context) => {
@@ -26,6 +31,34 @@ const createEmployeePayDetailDispatchers = store => ({
     store.dispatch({
       intent: SET_EMPLOYEE_PAY_DETAIL,
       response,
+    });
+  },
+
+  setAlertMessage: (alertMessage) => {
+    store.dispatch({
+      intent: SET_ALERT,
+      message: alertMessage,
+    });
+  },
+
+  dismissAlert: () => {
+    store.dispatch({
+      intent: SET_ALERT,
+      message: '',
+    });
+  },
+
+  openDeleteModal: () => {
+    store.dispatch({
+      intent: SET_DELETE_MODAL_OPEN_STATE,
+      isOpen: true,
+    });
+  },
+
+  closeDeleteModal: () => {
+    store.dispatch({
+      intent: SET_DELETE_MODAL_OPEN_STATE,
+      isOpen: false,
     });
   },
 });

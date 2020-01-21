@@ -24,11 +24,7 @@ import createPaySuperCreateIntegrator from './createPaySuperCreateIntegrator';
 import paySuperCreateReducer from './paySuperCreateReducer';
 
 export default class PaySuperCreateModule {
-  constructor({
-    setRootView,
-    integration,
-    pushMessage,
-  }) {
+  constructor({ setRootView, integration, pushMessage }) {
     this.setRootView = setRootView;
     this.store = new Store(paySuperCreateReducer);
     this.integration = integration;
@@ -38,6 +34,7 @@ export default class PaySuperCreateModule {
     this.subModules = {
       employeePayModal: new EmployeePayModalModule({
         integration,
+        onDelete: this.onEmployeePayDeleteSuccess,
       }),
       paySuperAuthorisationModal: new PaySuperAuthorisationModalModule({
         integration,
@@ -63,6 +60,11 @@ export default class PaySuperCreateModule {
       content: message,
     });
     this.goToSuperPaymentList();
+  };
+
+  onEmployeePayDeleteSuccess = (message) => {
+    this.dispatcher.setAlert({ message, type: 'success' });
+    this.filterSuperPayments();
   };
 
   filterSuperPayments = () => {

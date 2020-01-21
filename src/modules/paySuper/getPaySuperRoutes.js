@@ -4,14 +4,14 @@ import PaySuperReadModule from './paySuperRead/PaySuperReadModule';
 import RouteName from '../../router/RouteName';
 
 const getPaySuperRoutes = ({
-  integration, setRootView, popMessages, replaceURLParams, pushMessage,
+  integration, setRootView, popMessages, pushMessage,
 }) => {
   const routes = [
     {
       name: RouteName.PAY_SUPER_LIST,
       path: '/:region/:businessId/paySuper/',
       module: new PaySuperListModule({
-        integration, setRootView, popMessages, replaceURLParams,
+        integration, setRootView, popMessages,
       }),
       documentTitle: 'Pay super',
     },
@@ -19,7 +19,7 @@ const getPaySuperRoutes = ({
       name: RouteName.PAY_SUPER_CREATE,
       path: '/:region/:businessId/paySuper/new',
       module: new PaySuperCreateModule({
-        integration, setRootView, replaceURLParams, pushMessage,
+        setRootView, integration, pushMessage,
       }),
       documentTitle: 'Pay super',
     },
@@ -27,9 +27,7 @@ const getPaySuperRoutes = ({
       name: RouteName.PAY_SUPER_READ,
       path: '/:region/:businessId/paySuper/:businessEventId',
       module: new PaySuperReadModule({
-        integration,
-        setRootView,
-        pushMessage,
+        integration, setRootView, pushMessage,
       }),
     },
   ];

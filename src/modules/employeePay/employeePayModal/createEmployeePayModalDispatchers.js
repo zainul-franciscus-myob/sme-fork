@@ -1,5 +1,6 @@
 import {
   LOAD_EMPLOYEE_PAY_MODAL,
+  SET_ALERT,
   SET_DELETE_POPOVER_IS_OPEN,
   SET_INITIAL_MODAL_STATE,
   SET_IS_MODAL_LOADING,
@@ -42,10 +43,17 @@ const createEmployeePayModalDispatchers = store => ({
     });
   },
 
-  closeDeletePopover: () => {
+  setAlertMessage: (alertMessage) => {
     store.dispatch({
-      intent: SET_DELETE_POPOVER_IS_OPEN,
-      deletePopoverIsOpen: false,
+      intent: SET_ALERT,
+      message: alertMessage,
+    });
+  },
+
+  dismissAlert: () => {
+    store.dispatch({
+      intent: SET_ALERT,
+      message: '',
     });
   },
 
@@ -53,6 +61,13 @@ const createEmployeePayModalDispatchers = store => ({
     store.dispatch({
       intent: SET_DELETE_POPOVER_IS_OPEN,
       deletePopoverIsOpen: true,
+    });
+  },
+
+  closeDeletePopover: () => {
+    store.dispatch({
+      intent: SET_DELETE_POPOVER_IS_OPEN,
+      deletePopoverIsOpen: false,
     });
   },
 });

@@ -1,4 +1,5 @@
 import {
+  Alert,
   BaseTemplate,
   Card,
   Icons,
@@ -9,11 +10,14 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAlert,
   getElectronicPaymentLink,
   getEmployeePay,
+  getIsDeleteModalOpen,
   getLoadingState,
   getPageTitle,
 } from '../EmployeePayDetailSelectors';
+import DeleteModal from '../../../../components/modal/DeleteModal';
 import EmployeePayDetailButtons from './EmployeePayDetailButtons';
 import EmployeePayDetailHeader from './EmployeePayDetailHeader';
 import EmployeePayDetailTable from './EmployeePayDetailTable';
@@ -23,11 +27,31 @@ import styles from './EmployeePayDetailView.module.css';
 const EmployeePayDetailView = ({
   loadingState,
   onGoBackClick,
-  onDeleteButtonClick,
   employeePay,
   pageTitle,
   electronicPaymentLink,
+  alertMessage,
+  onDismissAlert,
+  isDeleteModalOpen,
+  onDeleteButtonClick,
+  onDeleteConfirmButtonClick,
+  onDeleteCancelButtonClick,
 }) => {
+  const alert = alertMessage && (
+    <Alert type="danger" onDismiss={onDismissAlert}>
+      {alertMessage}
+    </Alert>
+  );
+
+  const deleteModal = isDeleteModalOpen && (
+    <DeleteModal
+      title="Delete this transaction?"
+      description="This can't be undone, or recovered later."
+      onCancel={onDeleteCancelButtonClick}
+      onConfirm={onDeleteConfirmButtonClick}
+    />
+  );
+
   const {
     paymentMethod,
     payPeriodStart,
@@ -69,6 +93,8 @@ const EmployeePayDetailView = ({
 
   const view = (
     <BaseTemplate>
+      {alert}
+      {deleteModal}
       <PageHead title={pageTitle} />
       <Card footer={totalsFooter}>
         <EmployeePayDetailHeader
@@ -100,6 +126,8 @@ const mapStateToProps = state => ({
   employeePay: getEmployeePay(state),
   pageTitle: getPageTitle(state),
   electronicPaymentLink: getElectronicPaymentLink(state),
+  alertMessage: getAlert(state),
+  isDeleteModalOpen: getIsDeleteModalOpen(state),
 });
 
 export default connect(mapStateToProps)(EmployeePayDetailView);

@@ -1,5 +1,6 @@
 import {
   LOAD_EMPLOYEE_PAY_MODAL,
+  SET_ALERT,
   SET_DELETE_POPOVER_IS_OPEN,
   SET_INITIAL_MODAL_STATE,
   SET_IS_MODAL_LOADING,
@@ -26,6 +27,7 @@ const getDefaultState = () => ({
     employeeBankStatementDesc: '',
     transactionDesc: '',
   },
+  alert: '',
   loadingState: LoadingState.LOADING,
   isOpen: false,
   deletePopoverIsOpen: false,
@@ -64,6 +66,11 @@ const setModalIsOpen = (state, { isOpen }) => ({
   isOpen,
 });
 
+const setAlertMessage = (state, { message }) => ({
+  ...state,
+  alert: message,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [LOAD_EMPLOYEE_PAY_MODAL]: loadEmployeePayDetails,
@@ -71,6 +78,7 @@ const handlers = {
   [SET_DELETE_POPOVER_IS_OPEN]: setDeletePopoverIsOpen,
   [SET_INITIAL_MODAL_STATE]: setInitialState,
   [SET_MODAL_IS_OPEN]: setModalIsOpen,
+  [SET_ALERT]: setAlertMessage,
 };
 
 const employeePayModalReducer = createReducer(getDefaultState(), handlers);

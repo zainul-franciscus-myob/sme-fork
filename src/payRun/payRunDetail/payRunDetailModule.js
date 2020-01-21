@@ -7,6 +7,7 @@ import {
   LOAD_PAY_RUN_DETAILS,
   PRINT_TAB_SELECT_ALL,
   PRINT_TAB_SELECT_ITEM,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_PDF_LOADING_STATE,
   SET_TAB,
@@ -31,15 +32,31 @@ import openBlob from '../../common/blobOpener/openBlob';
 import payRunDetailReducer from './payRunDetailReducer';
 
 export default class PayRunDetailModule {
-  constructor({
-    integration, setRootView,
-  }) {
+  constructor({ integration, setRootView }) {
     this.integration = integration;
     this.store = new Store(payRunDetailReducer);
     this.setRootView = setRootView;
-    this.employeePayModal = new EmployeePayModalModule({ integration });
     this.emailPaySlipModal = new EmailPaySlipModalModule({ integration });
+
+    this.employeePayModal = new EmployeePayModalModule({
+      integration,
+      onDelete: this.onEmployeePayDeleteSuccess,
+    });
   }
+
+  setAlert = ({ message, type }) => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert: { message, type },
+    });
+  };
+
+  dismissAlert = () => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert: null,
+    });
+  };
 
   setSelectedTab = (newTabId) => {
     this.store.dispatch({
@@ -98,9 +115,7 @@ export default class PayRunDetailModule {
   };
 
   resetState = () => {
-    this.store.dispatch({
-      intent: RESET_STATE,
-    });
+    this.store.dispatch({ intent: RESET_STATE });
     this.employeePayModal.resetState();
   };
 
@@ -129,6 +144,11 @@ export default class PayRunDetailModule {
       isLoading,
     });
   }
+
+  onEmployeePayDeleteSuccess = (message) => {
+    this.setAlert({ message, type: 'success' });
+    this.loadPayRunDetails();
+  };
 
   loadPayRunDetails = () => {
     this.setLoadingState(LoadingState.LOADING);
@@ -169,7 +189,7 @@ export default class PayRunDetailModule {
     };
 
     const onFailure = (message) => {
-      console.log(`Failed to download Pay Slip. ${message}`);
+      this.setAlert({ message, type: 'danger' });
     };
 
     const businessId = getBusinessId(state);
@@ -195,9 +215,9 @@ export default class PayRunDetailModule {
 
     const wrappedView = (
       <Provider store={this.store}>
+        {employeePayModalView}
+        {emailPaySlipModalView}
         <PayRunDetailView
-          employeePayModal={employeePayModalView}
-          emailPaySlipModal={emailPaySlipModalView}
           setSelectedTab={this.setSelectedTab}
           emailTabListeners={{
             selectAll: this.emailTabSelectAll,
@@ -211,6 +231,7 @@ export default class PayRunDetailModule {
           onBackButtonClick={this.redirectToPayRunList}
           onEmployeeNameClick={this.openPayDetailModal}
           exportPdf={this.exportPdf}
+          onDismissAlert={this.dismissAlert}
         />
       </Provider>
     );

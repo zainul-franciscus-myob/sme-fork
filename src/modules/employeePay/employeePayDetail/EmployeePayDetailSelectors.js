@@ -4,6 +4,11 @@ export const getUrlParams = state => ({
 });
 export const getLoadingState = state => state.loadingState;
 export const getEmployeePay = state => state.employeePay;
+export const getAlert = state => state.alert;
+export const getIsDeleteModalOpen = state => state.isDeleteModalOpen;
+export const getBusinessId = state => state.businessId;
+export const getRegion = state => state.region;
+
 export const getPageTitle = (state) => {
   const {
     employeeFirstName,
@@ -14,3 +19,10 @@ export const getPageTitle = (state) => {
   return `${employeeFirstName} ${employeeLastName} ${referenceNumber}`;
 };
 export const getElectronicPaymentLink = state => `/#/${state.region}/${state.businessId}/electronicPayments/${state.employeePay.parentBusinessEventId}`;
+
+export const getTransactionListUrl = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/transactionList`;
+};

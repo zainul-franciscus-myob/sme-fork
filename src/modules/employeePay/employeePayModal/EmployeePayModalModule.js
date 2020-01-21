@@ -9,10 +9,9 @@ import createEmployeePayModalIntegrator from './createEmployeePayModalIntegrator
 import employeePayModalReducer from './employeePayModalReducer';
 
 export default class EmployeePayModalModule {
-  constructor({
-    integration,
-  }) {
+  constructor({ integration, onDelete }) {
     this.store = new Store(employeePayModalReducer);
+    this.onDelete = onDelete;
     this.dispatcher = createEmployeePayModalDispatchers(this.store);
     this.integrator = createEmployeePayModalIntegrator(this.store, integration);
   }
@@ -30,6 +29,23 @@ export default class EmployeePayModalModule {
     };
 
     this.integrator.loadEmployeePayModal({ onSuccess, onFailure });
+  };
+
+  deleteEmployeePayDetail = () => {
+    this.dispatcher.closeDeletePopover();
+    this.dispatcher.setIsModalLoading(true);
+
+    const onSuccess = ({ message }) => {
+      this.closeModal();
+      this.onDelete(message);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setIsModalLoading(false);
+    };
+
+    this.integrator.deleteEmployeePayModal({ onSuccess, onFailure });
   };
 
   openModal = ({
@@ -57,7 +73,8 @@ export default class EmployeePayModalModule {
           onBackButtonClick={this.closeModal}
           onDeleteButtonClick={this.dispatcher.openDeletePopover}
           onDeletePopoverCancel={this.dispatcher.closeDeletePopover}
-          onDeletePopoverDelete={() => {}}
+          onDeletePopoverDelete={this.deleteEmployeePayDetail}
+          onDismissAlert={this.dispatcher.dismissAlert}
         />
       </Provider>
     );

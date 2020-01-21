@@ -22,7 +22,8 @@ import {
 import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
-import PaySuperAuthorisationModalModule from '../paySuperAuthorisationModal/PaySuperAuthorisationModalModule';
+import PaySuperAuthorisationModalModule
+  from '../paySuperAuthorisationModal/PaySuperAuthorisationModalModule';
 import PaySuperReadView from './components/PaySuperReadView';
 import Store from '../../../store/Store';
 import paySuperReadReducer from './paySuperReadReducer';
@@ -37,6 +38,7 @@ export default class PaySuperReadModule {
     this.subModules = {
       employeePayModal: new EmployeePayModalModule({
         integration,
+        onDelete: this.onEmployeePayDeleteSuccess,
       }),
       authorisationModal: new PaySuperAuthorisationModalModule({
         integration,
@@ -52,14 +54,26 @@ export default class PaySuperReadModule {
       message,
     });
     this.loadPaySuperRead();
-  }
+  };
 
   setAlert = (alert) => {
     this.store.dispatch({
       intent: SET_ALERT,
       alert,
     });
-  }
+  };
+
+  dismissAlert = () => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      alert: null,
+    });
+  };
+
+  onEmployeePayDeleteSuccess = (message) => {
+    this.setAlert({ message, type: 'success' });
+    this.loadPaySuperRead();
+  };
 
   setInitialState = (context) => {
     const intent = SET_INITIAL_STATE;
@@ -67,33 +81,33 @@ export default class PaySuperReadModule {
       intent,
       context,
     });
-  }
+  };
 
   setLoadingState = (loadingState) => {
     this.store.dispatch({
       intent: SET_LOADING_STATE,
       loadingState,
     });
-  }
+  };
 
   returnToList = () => {
     const state = this.store.getState();
     window.location.href = getPaySuperListUrl(state);
-  }
+  };
 
   openModal = (modalType) => {
     this.store.dispatch({
       intent: SET_MODAL_TYPE,
       modalType,
     });
-  }
+  };
 
   closeModal = () => {
     this.store.dispatch({
       intent: SET_MODAL_TYPE,
       modalType: null,
     });
-  }
+  };
 
   openAuthorisePaySuperModal = () => {
     const state = this.store.getState();
@@ -102,7 +116,7 @@ export default class PaySuperReadModule {
       businessId: getBusinessId(state),
     };
     this.subModules.authorisationModal.openModal(context);
-  }
+  };
 
   reversePaySuper = () => {
     const intent = REVERSE_PAY_SUPER;
@@ -136,7 +150,7 @@ export default class PaySuperReadModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   reversePaySuperModalConfirm = () => {
     this.closeModal();
@@ -147,44 +161,41 @@ export default class PaySuperReadModule {
       intent: SET_STATUS,
       status: 'RecordReversal',
     });
-  }
+  };
 
   openReverseModal = () => {
     this.openModal(ModalType.REVERSE);
-  }
+  };
 
   render = () => {
     const employeePayModal = this.subModules.employeePayModal.getView();
     const authorisationModal = this.subModules.authorisationModal.getView();
 
-    const paySuperReadView = (
-      <PaySuperReadView
-        employeePayModal={employeePayModal}
-        authorisationModal={authorisationModal}
-        onCancelClick={this.returnToList}
-        onAuthoriseClick={this.openAuthorisePaySuperModal}
-        onReverseModalConfirmClick={this.reversePaySuperModalConfirm}
-        onReserseModalCancelClick={this.closeModal}
-        onReverseClick={this.openReverseModal}
-        onRecordReverseClick={this.reversePaySuper}
-        onDateLinkClick={this.openEmployeePayModal}
-      />
-    );
-
     const wrappedView = (
       <Provider store={this.store}>
-        {paySuperReadView}
+        <PaySuperReadView
+          employeePayModal={employeePayModal}
+          authorisationModal={authorisationModal}
+          onCancelClick={this.returnToList}
+          onAuthoriseClick={this.openAuthorisePaySuperModal}
+          onReverseModalConfirmClick={this.reversePaySuperModalConfirm}
+          onReverseModalCancelClick={this.closeModal}
+          onReverseClick={this.openReverseModal}
+          onRecordReverseClick={this.reversePaySuper}
+          onDateLinkClick={this.openEmployeePayModal}
+          onDismissAlert={this.dismissAlert}
+        />
       </Provider>
     );
 
     this.setRootView(wrappedView);
-  }
+  };
 
   run = (context) => {
     this.setInitialState(context);
     this.render();
     this.loadPaySuperRead();
-  }
+  };
 
   openEmployeePayModal = (transactionId, employeeName) => {
     const state = this.store.getState();
@@ -194,7 +205,7 @@ export default class PaySuperReadModule {
       businessId: getBusinessId(state),
       region: getRegion(state),
     });
-  }
+  };
 
   loadPaySuperRead = () => {
     const intent = LOAD_PAY_SUPER_READ;
@@ -223,11 +234,11 @@ export default class PaySuperReadModule {
       onSuccess,
       onFailure,
     });
-  }
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
-  }
+  };
 
   resetState = () => {
     const intent = RESET_STATE;

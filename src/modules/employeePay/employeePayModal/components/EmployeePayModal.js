@@ -1,4 +1,5 @@
 import {
+  Alert,
   Icons,
   Modal,
   Separator,
@@ -7,6 +8,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAlert,
   getDeletePopoverIsOpen,
   getElectronicPaymentLink,
   getEmployeeName,
@@ -31,6 +33,8 @@ const EmployeePayModal = ({
   employeeName,
   isOpen,
   electronicPaymentLink,
+  alertMessage,
+  onDismissAlert,
 }) => {
   const {
     paymentMethod,
@@ -52,6 +56,12 @@ const EmployeePayModal = ({
     return null;
   }
 
+  const alert = alertMessage && (
+    <Alert type="danger" onDismiss={onDismissAlert}>
+      {alertMessage}
+    </Alert>
+  );
+
   const electronicPaymentFooter = (
     <p className={styles.electronicPaymentFooter}>
       <Icons.Dollar />
@@ -67,6 +77,7 @@ const EmployeePayModal = ({
 
   const modalDetail = (
     <>
+      {alert}
       <EmployeePayModalHeader
         paymentMethod={paymentMethod}
         accountName={accountName}
@@ -116,6 +127,7 @@ const mapStateToProps = state => ({
   deletePopoverIsOpen: getDeletePopoverIsOpen(state),
   isOpen: getIsModalOpen(state),
   electronicPaymentLink: getElectronicPaymentLink(state),
+  alertMessage: getAlert(state),
 });
 
 export default connect(mapStateToProps)(EmployeePayModal);

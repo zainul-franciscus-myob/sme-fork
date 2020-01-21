@@ -1,4 +1,5 @@
 export const getLoadingState = state => state.loadingState;
+export const getAlert = state => state.alert;
 export const getSelectedTab = state => state.selectedTab;
 export const getEmailTabEmployees = state => state.emailPaySlipEmployees;
 export const getPrintTabEmployees = state => state.printPaySlipEmployees;

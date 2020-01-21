@@ -1,4 +1,4 @@
-import { LOAD_EMPLOYEE_PAY_DETAIL } from './EmployeePayDetailIntents';
+import { DELETE_EMPLOYEE_PAY_DETAIL, LOAD_EMPLOYEE_PAY_DETAIL } from './EmployeePayDetailIntents';
 import { getUrlParams } from './EmployeePayDetailSelectors';
 
 const createEmployeePayDetailIntegrator = (store, integration) => ({
@@ -9,6 +9,19 @@ const createEmployeePayDetailIntegrator = (store, integration) => ({
 
     integration.read({
       intent: LOAD_EMPLOYEE_PAY_DETAIL,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  deleteEmployeePayDetail: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const urlParams = getUrlParams(state);
+
+    integration.write({
+      intent: DELETE_EMPLOYEE_PAY_DETAIL,
       urlParams,
       onSuccess,
       onFailure,

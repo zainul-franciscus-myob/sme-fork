@@ -3,6 +3,8 @@ import {
   SET_INITIAL_STATE,
 } from '../../../SystemIntents';
 import {
+  SET_ALERT,
+  SET_DELETE_MODAL_OPEN_STATE,
   SET_EMPLOYEE_PAY_DETAIL,
   SET_LOADING_STATE,
 } from './EmployeePayDetailIntents';
@@ -12,6 +14,7 @@ import createReducer from '../../../store/createReducer';
 const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   businessId: '',
+  region: '',
   transactionId: '',
   employeePay: {
     accountName: '',
@@ -31,6 +34,8 @@ const getDefaultState = () => ({
     totalNetPayment: '',
     transactionDesc: '',
   },
+  alert: '',
+  isDeleteModalOpen: false,
 });
 
 const setInitialState = (state, { context }) => ({
@@ -45,6 +50,11 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
+const setAlertMessage = (store, { message }) => ({
+  ...store,
+  alert: message,
+});
+
 const setEmployeePayDetails = (state, { response }) => ({
   ...state,
   employeePay: {
@@ -53,10 +63,18 @@ const setEmployeePayDetails = (state, { response }) => ({
   },
 });
 
+const setDeleteModalOpenState = (store, { isOpen }) => ({
+  ...store,
+  isDeleteModalOpen: isOpen,
+});
+
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
+  [SET_DELETE_MODAL_OPEN_STATE]: setDeleteModalOpenState,
+  [SET_ALERT]: setAlertMessage,
   [SET_EMPLOYEE_PAY_DETAIL]: setEmployeePayDetails,
 };
 

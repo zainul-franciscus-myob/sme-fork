@@ -3,7 +3,8 @@ import {
   LOAD_ACCOUNTS_AND_SUPER_PAYMENTS,
   OPEN_MODAL,
   SELECT_ALL_SUPER_PAYMENTS,
-  SELECT_ITEM_SUPER_PAYMENT, SET_ACCESS_TOKEN,
+  SELECT_ITEM_SUPER_PAYMENT,
+  SET_ACCESS_TOKEN,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
@@ -99,10 +100,9 @@ const createPaySuperCreateDispatcher = store => ({
   },
 
   dismissAlert: () => {
-    const intent = SET_ALERT;
     store.dispatch({
-      intent,
-      alert: undefined,
+      intent: SET_ALERT,
+      alert: null,
     });
   },
 
