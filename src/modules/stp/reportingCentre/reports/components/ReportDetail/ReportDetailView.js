@@ -3,6 +3,7 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
+import AbnMismatch from './AbnMismatch';
 import BaseInformation from './BaseInformation';
 import EmployeeErrorsList from './EmployeeErrorsList';
 import EmployerErrorsList from './EmployerErrorsList';
@@ -28,6 +29,7 @@ const ReportDetailView = ({
     payRunErrors,
     employerErrors,
     employeeErrors,
+    mismatchedAbns,
   },
   onClose,
   showDeclareAction,
@@ -73,6 +75,10 @@ const ReportDetailView = ({
     <EmployeeErrorsList employeeErrors={employeeErrors} />
   );
 
+  const abnMismatch = mismatchedAbns && (
+    <AbnMismatch mismatchedAbns={mismatchedAbns} />
+  );
+
   const declarationAction = showDeclareAction && (
     <ButtonRow>
       <Button type="primary" onClick={onDeclare}>Send to ATO</Button>
@@ -85,6 +91,7 @@ const ReportDetailView = ({
       {payRunErrorsList}
       {employerErrorsList}
       {employeeErrorsList}
+      {abnMismatch}
       <hr />
       <BaseInformation
         declaredBy={declaredBy}

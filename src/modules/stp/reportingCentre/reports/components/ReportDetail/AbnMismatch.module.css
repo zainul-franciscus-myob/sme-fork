@@ -1,0 +1,4 @@
+.abnMismatch :global(.form-group) {
+  margin-bottom: 0;
+  width: 75%;
+}

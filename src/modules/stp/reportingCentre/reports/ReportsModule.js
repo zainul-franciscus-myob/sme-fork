@@ -45,6 +45,7 @@ export default class ReportsModule {
 
   filterPayEvents = (payrollYear) => {
     this.dispatcher.setSelectedPayrollYear(payrollYear);
+    this.dispatcher.clearSelectedPayEvent();
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (response) => {

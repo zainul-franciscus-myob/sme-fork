@@ -42,16 +42,9 @@ const StatusMessage = ({
       );
     case 'Failed':
       return (
-        <Alert type="warning">
-          We can&apos;t send this payroll report to the ATO right now because the ABN you entered
-          during set up doesn&apos;t match our records (MYOB error code: 404).&nbsp;
-          <a
-            href="http://help.myob.com/wiki/x/8ILMAQ"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Troubleshoot this error
-          </a>
+        <Alert type="danger">
+          We can&apos;t send this payroll report to the ATO because the ABN connected to the ATO
+          doesn&apos;t match the ABN in business details.
         </Alert>
       );
     case 'Rejected':
