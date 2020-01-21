@@ -1,9 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
+import { LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
 import { featuresConfig } from './navConfig';
 import { getBusinessId, isLinkUserPage } from './NavigationSelectors';
+import Config from '../Config';
 import NavigationBar from './components/NavigationBar';
 import Store from '../store/Store';
 import navReducer from './navReducer';
@@ -87,6 +88,14 @@ export default class NavigationModule {
     });
   }
 
+  loadConfig = () => {
+    this.store.dispatch({
+      intent: LOAD_CONFIG,
+      selfServicePortalUrl: Config.SELF_SERVICE_PORTAL_URL,
+      myReportsUrl: Config.MY_REPORTS_URL,
+    });
+  }
+
   redirectToPage = (url) => {
     window.location.href = url;
   }
@@ -123,6 +132,7 @@ export default class NavigationModule {
   }) => {
     const previousBusinessId = getBusinessId(this.store.getState());
     const currentBusinessId = routeParams.businessId;
+    this.loadConfig();
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     if (previousBusinessId !== currentBusinessId) {
       this.loadBusinessInfo({ currentRouteName });

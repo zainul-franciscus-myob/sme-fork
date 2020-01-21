@@ -1,5 +1,4 @@
-import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
-import Config from '../Config';
+import { LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
 import createReducer from '../store/createReducer';
 
 const getDefaultState = () => ({
@@ -11,8 +10,8 @@ const getDefaultState = () => ({
   urls: {},
   routeParams: {},
   currentRouteName: '',
-  selfServicePortalUrl: Config.SELF_SERVICE_PORTAL_URL,
-  myReportsUrl: Config.MY_REPORTS_URL,
+  selfServicePortalUrl: '',
+  myReportsUrl: '',
 });
 
 const loadBusinessDetails = (state, action) => ({
@@ -31,9 +30,19 @@ const setRouteInfo = (state, action) => ({
   routeParams: action.routeParams,
 });
 
+const loadConfig = (state, {
+  selfServicePortalUrl,
+  myReportsUrl,
+}) => ({
+  ...state,
+  selfServicePortalUrl,
+  myReportsUrl,
+});
+
 const handlers = {
   [LOAD_NAVIGATION_CONFIG]: loadBusinessDetails,
   [SET_ROUTE_INFO]: setRouteInfo,
+  [LOAD_CONFIG]: loadConfig,
 };
 
 const navReducer = createReducer(getDefaultState(), handlers);
