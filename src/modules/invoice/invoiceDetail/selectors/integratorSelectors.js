@@ -8,6 +8,7 @@ import {
   getAmountPaid,
   getBusinessId,
   getContactId,
+  getContactOptions,
   getDuplicatedInvoiceIdQueryParam,
   getInvoice,
   getInvoiceId,
@@ -15,7 +16,6 @@ import {
   getIsTaxInclusive,
   getLines,
   getQuoteIdQueryParam,
-  getSelectedContacts,
 } from './invoiceDetailSelectors';
 
 export const getLoadInvoiceIntent = (state) => {
@@ -69,9 +69,9 @@ export const getCreateOrUpdateInvoiceUrlParams = (state) => {
 export const getCreateOrUpdateInvoicePayload = (state) => {
   const invoice = getInvoice(state);
 
-  const selectedContacts = getSelectedContacts(state);
+  const contacts = getContactOptions(state);
   const contactId = getContactId(state);
-  const { name: contactName } = selectedContacts[contactId] || {};
+  const { name: contactName } = contacts.find(({ value }) => contactId === value) || {};
 
   const lines = getLines(state);
 

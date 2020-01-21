@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAccountOptions,
   getInvoiceLine,
   getIsSubmitting,
-  getSelectedAccount,
-  getSelectedItem,
+  getItemOptions,
   getTaxCodeOptions,
 } from '../../selectors/invoiceDetailSelectors';
-import AccountAutoComplete from '../../../../../components/AutoComplete/AccountAutoComplete';
+import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
-import ItemAutoComplete from '../../../../../components/AutoComplete/ItemAutoComplete';
+import ItemCombobox from '../../../../../components/combobox/ItemCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, onChange) => (item) => {
@@ -19,15 +19,6 @@ const onComboboxChange = (name, onChange) => (item) => {
     target: {
       name,
       value: item.id,
-    },
-  });
-};
-
-const onAutoCompleteChange = (name, onChange) => (item) => {
-  onChange({
-    target: {
-      name,
-      value: item,
     },
   });
 };
@@ -48,28 +39,25 @@ const InvoiceItemTableRow = ({
   onChange,
   invoiceLine,
   taxCodeOptions,
-  selectedItem,
+  accountOptions,
+  itemOptions,
   isSubmitting,
-  selectedAccount,
   onUpdateAmount,
   onAddItemButtonClick,
   onAddAccount,
-  onLoadAccounts,
-  onLoadItems,
   ...feelixInjectedProps
 }) => {
-  const onChangeAccountId = onAutoCompleteChange('accountId', onChange);
-  const onChangeItemId = onAutoCompleteChange('itemId', onChange);
+  const onChangeAccountId = onComboboxChange('accountId', onChange);
+  const onChangeItemId = onComboboxChange('itemId', onChange);
 
   return (
     <LineItemTable.Row {...feelixInjectedProps} id={index} index={index}>
-      <ItemAutoComplete
-        label="itemId"
-        hideLabel
-        onChange={onChangeItemId}
-        onLoad={onLoadItems}
-        selectedItem={selectedItem}
+      <ItemCombobox
         addNewItem={() => onAddItemButtonClick(onChangeItemId)}
+        name="itemId"
+        items={itemOptions}
+        selectedId={invoiceLine.itemId}
+        onChange={onChangeItemId}
         disabled={isSubmitting}
       />
 
@@ -81,13 +69,15 @@ const InvoiceItemTableRow = ({
         disabled={isSubmitting}
       />
 
-      <AccountAutoComplete
+      <AccountCombobox
         label="accountId"
         hideLabel
         onChange={onChangeAccountId}
-        onLoad={onLoadAccounts}
-        selectedItem={selectedAccount}
-        addNewAccount={() => onAddAccount(onChangeAccountId)}
+        items={accountOptions}
+        selectedId={invoiceLine.accountId}
+        addNewAccount={() => onAddAccount(
+          onChangeAccountId,
+        )}
         disabled={isSubmitting}
       />
 
@@ -151,8 +141,8 @@ const mapStateToProps = (state, props) => ({
   invoiceLine: getInvoiceLine(state, props),
   isSubmitting: getIsSubmitting(state),
   taxCodeOptions: getTaxCodeOptions(state),
-  selectedAccount: getSelectedAccount(state, props),
-  selectedItem: getSelectedItem(state, props),
+  itemOptions: getItemOptions(state),
+  accountOptions: getAccountOptions(state),
 });
 
 export default connect(mapStateToProps)(InvoiceItemTableRow);

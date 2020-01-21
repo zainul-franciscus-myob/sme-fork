@@ -30,16 +30,16 @@
       }
     ]
   },
-  "selectedContacts": {
-    "1": {
+  "customers": [
+    {
       "name": "Cameron, James",
-      "id": "1"
+      "value": "1"
     },
-    "2": {
+    {
       "name": "Kev",
-      "id": "2"
+      "value": "2"
     }
-  },
+  ],
   "expirationTermOptions": [
     {
       "value": "OnADayOfTheMonth",
@@ -66,41 +66,41 @@
       "name": "Due in a number of days after the end of the month"
     }
   ],
-  "selectedAccounts": {
-    "123": {
+  "accountOptions": [
+    {
       "id": "123",
       "displayName": "My Sales Account 1",
       "accountType": "Sales",
       "taxCodeId": "123",
       "displayId": "4-123"
     },
-    "456": {
+    {
       "id": "456",
       "displayName": "Sales Account 2",
       "accountType": "Assets",
       "taxCodeId": "124",
       "displayId": "4-456"
     },
-    "789": {
+    {
       "id": "789",
       "displayName": "Expense Account",
       "accountType": "Assets",
       "taxCodeId": "124",
       "displayId": "6-789"
     }
-  },
-  "selectedItems": {
-    "3": {
+  ],
+  "itemOptions": [
+    {
       "id": "3",
       "itemId": "100",
       "description": "Cooler Large"
     },
-    "4": {
+    {
       "id": "4",
       "itemId": "101",
       "description": "Cooler Medium"
     }
-  },
+  ],
   "taxCodeOptions": [
     {
       "id": "1",

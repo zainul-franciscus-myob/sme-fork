@@ -68,10 +68,10 @@ const getDefaultState = () => ({
   },
   comments: [],
   serialNumber: '',
-  selectedContacts: {},
-  selectedAccounts: {},
-  selectedItems: {},
+  contactOptions: [],
+  accountOptions: [],
   taxCodeOptions: [],
+  itemOptions: [],
   expirationTermOptions: [],
   emailInvoice: {
     hasEmailReplyDetails: false,

@@ -389,7 +389,7 @@ export default class InvoiceDetailModule {
     if (key === 'itemId') {
       this.calculateLineTotalsOnItemChange({
         index,
-        itemId: value.id,
+        itemId: value,
       });
     }
 
@@ -815,7 +815,7 @@ export default class InvoiceDetailModule {
     const onSuccess = (response) => {
       this.dispatcher.loadItemOption(response);
       this.dispatcher.setSubmittingState(false);
-      onChangeItemTableRow(response);
+      onChangeItemTableRow({ id: itemId });
     };
 
     const onFailure = ({ message }) => {

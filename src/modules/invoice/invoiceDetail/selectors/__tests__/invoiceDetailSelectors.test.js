@@ -7,6 +7,7 @@ import {
   getLoadInvoiceDetailModalType,
   getShouldReload,
   getTemplateOptions,
+  getUpdatedContactOptions,
 } from '../invoiceDetailSelectors';
 import InvoiceDetailModalType from '../../InvoiceDetailModalType';
 import InvoiceLayout from '../../InvoiceLayout';
@@ -78,20 +79,20 @@ describe('invoiceDetailSelectors', () => {
       ],
     },
     comments: [],
-    selectedContacts: {
-      1: {
-        name: 'Cameron, James',
-        id: '1',
+    contactOptions: [
+      {
+        name: 'Cow Feed 1',
+        value: '1',
       },
-      2: {
-        name: 'Kev',
-        id: '2',
+      {
+        name: 'Cow Feed 2',
+        value: '2',
       },
-      3: {
+      {
         name: 'Cow Feed 3',
-        id: '3',
+        value: '3',
       },
-    },
+    ],
     expirationTermOptions: [
       {
         value: 'OnADayOfTheMonth',
@@ -168,10 +169,11 @@ describe('invoiceDetailSelectors', () => {
             name: 'C.O.D.',
           },
         ],
-        selectedContact: {
-          name: 'Cow Feed 3',
-          id: '3',
-        },
+        contactOptions: [
+          { name: 'Cow Feed 1', value: '1' },
+          { name: 'Cow Feed 2', value: '2' },
+          { name: 'Cow Feed 3', value: '3' },
+        ],
         isCustomerDisabled: true,
         isSubmitting: false,
         showOnlinePayment: true,
@@ -294,6 +296,28 @@ describe('invoiceDetailSelectors', () => {
       const actual = getAccountModalContext(state);
 
       expect(actual).toEqual({ region: 'au', businessId: 'abc' });
+    });
+  });
+
+  describe('getUpdatedContactOptions', () => {
+    it('should contain newly added contact option', () => {
+      const option1 = { value: '1', name: 'Option 1' };
+      const option2 = { value: '2', name: 'Option 2' };
+      const expected = [option2, option1];
+
+      const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should contain updated contact option', () => {
+      const option1 = { value: '1', name: 'Option 1' };
+      const option2 = { value: '1', name: 'Updated option 1' };
+      const expected = [option2];
+
+      const actual = getUpdatedContactOptions({ contactOptions: [option1] }, option2);
+
+      expect(actual).toEqual(expected);
     });
   });
 
