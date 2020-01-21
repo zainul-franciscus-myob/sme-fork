@@ -1,7 +1,8 @@
 import {
-  getCanImportChartOfAccounts,
-  getCurrentDataTypeInCurrentTab,
+  getCurrentDataTypeInCurrentTab, getIsDuplicateRecordsAddShown,
 } from '../selectors/DataImportExportSelectors';
+import ContactIdentifyBy from '../types/ContactIdentifyBy';
+import ImportExportDataType from '../types/ImportExportDataType';
 
 describe('DataImportExportSelectors', () => {
   describe('getCurrentDataTypeInCurrentTab', () => {
@@ -25,29 +26,34 @@ describe('DataImportExportSelectors', () => {
       expect(actual).toEqual(returnedSelectedDataType);
     });
   });
-
-  describe('getCanImportChartOfAccounts', () => {
-    it('returns true if the file and duplicateRecordsOption have been selected', () => {
-      const state = {
-        import: {
-          chartOfAccounts: {
-            importFile: { 1: 'a' },
-            duplicateRecordsOption: 'someAction',
+  describe('getIsDuplicateRecordsAddShown', () => {
+    describe(`When selectedDataType is ${ImportExportDataType.CONTACTS}`, () => {
+      it(`Returns true when identifyBy is ${ContactIdentifyBy.NAME}`, () => {
+        const state = {
+          import: {
+            selectedDataType: ImportExportDataType.CONTACTS,
+            contacts: {
+              identifyBy: ContactIdentifyBy.NAME,
+            },
           },
-        },
-      };
-      const actual = getCanImportChartOfAccounts(state);
-
-      expect(actual).toEqual(true);
+        };
+        const actual = getIsDuplicateRecordsAddShown(state);
+        expect(actual).toEqual(true);
+      });
     });
-
-    it('returns false if either the file or duplicateRecordsOption is not present', () => {
-      const state = {
-        import: { chartOfAccounts: { importFile: undefined, duplicateRecordsOption: 'someAction' } },
-      };
-      const actual = getCanImportChartOfAccounts(state);
-
-      expect(actual).toEqual(false);
+    describe(`When selectedDataType is not ${ImportExportDataType.CONTACTS}`, () => {
+      it(`Returns false when identifyBy is ${ContactIdentifyBy.NAME}`, () => {
+        const state = {
+          import: {
+            selectedDataType: ImportExportDataType.CHART_OF_ACCOUNTS,
+            contacts: {
+              identifyBy: ContactIdentifyBy.NAME,
+            },
+          },
+        };
+        const actual = getIsDuplicateRecordsAddShown(state);
+        expect(actual).toEqual(false);
+      });
     });
   });
 });

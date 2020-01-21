@@ -1,29 +1,48 @@
-import { FormHorizontal } from '@myob/myob-widgets';
+import { FormHorizontal, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCurrentDataTypeInCurrentTab, getImportDataTypes } from '../selectors/DataImportExportSelectors';
-import DataTypeSection from './DataTypeSection';
+import { getCurrentDataTypeInCurrentTab } from '../selectors/DataImportExportSelectors';
 import ImportChartOfAccountsDetail from './ImportChartOfAccountsDetail';
-import ImportDataType from '../types/ImportExportDataType';
+import ImportContactsDetail from './ImportContactsDetail';
+import ImportExportDataType from '../types/ImportExportDataType';
 import TabItem from '../types/TabItem';
+import handleSelectChange from '../../../components/handlers/handleSelectChange';
 
 const ImportTabContent = ({
   selectedDataType,
-  dataTypes,
-  importChartOfAccountsListeners,
-  onDataTypeChange,
+  onFileSelected,
+  onFileRemove,
+  onDuplicateRecordsOptionChange,
+  onUpdateImportDataType,
+  updateContactsIdentifyBy,
+  updateContactsType,
 }) => (
   <FormHorizontal layout="primary">
-    <DataTypeSection
-      type={TabItem.IMPORT}
-      dataTypes={dataTypes}
-      selectedDataType={selectedDataType}
-      onChange={onDataTypeChange}
-    />
+    <Select
+      label="Data type"
+      value={selectedDataType}
+      requiredLabel="This is required"
+      onChange={handleSelectChange(onUpdateImportDataType)}
+    >
+      <Select.Option hidden value={ImportExportDataType.NONE} label="" />
+      <Select.Option value={ImportExportDataType.CHART_OF_ACCOUNTS} label="Chart of accounts" />
+      {/* TODO: Display contacts after the endpoint is deployed. */}
+      {false && <Select.Option value={ImportExportDataType.CONTACTS} label="Contacts" />}
+    </Select>
+
     {selectedDataType && {
-      [ImportDataType.CHART_OF_ACCOUNTS]: <ImportChartOfAccountsDetail
-        importChartOfAccountsListeners={importChartOfAccountsListeners}
+      [ImportExportDataType.CHART_OF_ACCOUNTS]: <ImportChartOfAccountsDetail
+        onFileSelected={onFileSelected}
+        onFileRemove={onFileRemove}
+        onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
+      />,
+      [ImportExportDataType.CONTACTS]: <ImportContactsDetail
+        onFileSelected={onFileSelected}
+        onFileRemove={onFileRemove}
+        onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
+        updateContactsIdentifyBy={updateContactsIdentifyBy}
+        updateContactsType={updateContactsType}
       />,
     }[selectedDataType]}
   </FormHorizontal>
@@ -31,7 +50,6 @@ const ImportTabContent = ({
 
 const mapStateToProps = state => ({
   selectedDataType: getCurrentDataTypeInCurrentTab(state, TabItem.IMPORT),
-  dataTypes: getImportDataTypes(state),
 });
 
 export default connect(mapStateToProps)(ImportTabContent);

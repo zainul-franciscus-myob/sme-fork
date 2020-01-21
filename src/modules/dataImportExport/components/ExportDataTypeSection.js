@@ -3,7 +3,7 @@ import React from 'react';
 
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 
-const DataTypeSection = ({
+const ExportDataTypeSection = ({
   type,
   dataTypes,
   selectedDataType,
@@ -28,4 +28,4 @@ const DataTypeSection = ({
   </Select>
 );
 
-export default DataTypeSection;
+export default ExportDataTypeSection;

@@ -1,28 +1,30 @@
-import { FormHorizontal } from '@myob/myob-widgets';
+import { FormHorizontal, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCurrentDataTypeInCurrentTab, getExportDataTypes } from '../selectors/DataImportExportSelectors';
-import DataTypeSection from './DataTypeSection';
+import { getCurrentDataTypeInCurrentTab } from '../selectors/DataImportExportSelectors';
 import ExportChartOfAccountsDetail from './ExportChartOfAccountsDetail';
 import ImportExportDataType from '../types/ImportExportDataType';
 import TabItem from '../types/TabItem';
+import handleSelectChange from '../../../components/handlers/handleSelectChange';
 
 const ExportTabContent = ({
-  onDataTypeChange,
+  onUpdateExportDataType,
   exportChartOfAccountsListeners: {
     onExportChartOfAccountsDetailChange,
   },
   selectedDataType,
-  dataTypes,
 }) => (
   <FormHorizontal layout="primary">
-    <DataTypeSection
-      type={TabItem.EXPORT}
-      dataTypes={dataTypes}
-      selectedDataType={selectedDataType}
-      onChange={onDataTypeChange}
-    />
+    <Select
+      label="Data type"
+      value={selectedDataType}
+      requiredLabel="This is required"
+      onChange={handleSelectChange(onUpdateExportDataType)}
+    >
+      <Select.Option hidden value={ImportExportDataType.NONE} label="" />
+      <Select.Option value={ImportExportDataType.CHART_OF_ACCOUNTS} label="Chart of accounts" />
+    </Select>
     {selectedDataType && {
       [ImportExportDataType.CHART_OF_ACCOUNTS]: <ExportChartOfAccountsDetail
         onChange={onExportChartOfAccountsDetailChange}
@@ -33,7 +35,6 @@ const ExportTabContent = ({
 
 const mapStateToProps = state => ({
   selectedDataType: getCurrentDataTypeInCurrentTab(state, TabItem.EXPORT),
-  dataTypes: getExportDataTypes(state),
 });
 
 export default connect(mapStateToProps)(ExportTabContent);

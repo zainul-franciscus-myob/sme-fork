@@ -1,5 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import ContactIdentifyBy from '../types/ContactIdentifyBy';
 import ImportExportDataType from '../types/ImportExportDataType';
 
 export const getAlert = state => state.alert;
@@ -34,21 +35,19 @@ export const getUrlDataTypeParams = createStructuredSelector({
   exportType: getExportType,
 });
 
-export const getImportDataTypes = state => state.import.dataTypes;
-export const getImportChartOfAccountsFile = state => state.import.chartOfAccounts.importFile;
+export const getImportFile = state => state.import.importFile;
 export const getDuplicateRecordsOption = state => (
-  state.import.chartOfAccounts.duplicateRecordsOption
+  state.import.duplicateRecordsOption
 );
-export const getDuplicateRecordsOptionNames = state => (
-  state.import.chartOfAccounts.duplicateRecordsOptions.map(
-    action => action.name,
-  )
-);
-export const getCanImportChartOfAccounts = state => (
-  state.import.chartOfAccounts.importFile !== undefined
-  && state.import.chartOfAccounts.duplicateRecordsOption !== ''
-);
-
-export const getExportDataTypes = state => state.export.dataTypes;
 
 export const getChartOfAccountExportDetail = state => state.export.chartOfAccounts;
+
+export const getContactIdentifyBy = state => state.import.contacts.identifyBy;
+export const getContactType = state => state.import.contacts.type;
+
+export const getIsDuplicateRecordsAddShown = createSelector(
+  getImportType,
+  getContactIdentifyBy,
+  (importType, contactIdentifyBy) => importType === ImportExportDataType.CONTACTS
+    && contactIdentifyBy === ContactIdentifyBy.NAME,
+);

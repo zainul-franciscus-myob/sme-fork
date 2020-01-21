@@ -1,15 +1,22 @@
 import {
-  ADD_IMPORT_CHART_OF_ACCOUNTS_FILE,
+  ADD_IMPORT_FILE,
   LOAD_DATA_IMPORT_EXPORT,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_SELECTED_TAB,
-  UPDATE_DATA_TYPE,
+  UPDATE_CONTACTS_IDENTIFY_BY,
+  UPDATE_CONTACTS_TYPE,
   UPDATE_DUPLICATE_RECORDS_OPTION,
   UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL,
+  UPDATE_EXPORT_DATA_TYPE,
+  UPDATE_IMPORT_DATA_TYPE,
 } from './DataImportExportIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import ContactIdentifyBy from './types/ContactIdentifyBy';
+import ContactType from './types/ContactType';
+import DuplicateRecordOption from './types/DuplicateRecordOption';
+import ImportExportDataType from './types/ImportExportDataType';
 import LoadingState from '../../components/PageView/LoadingState';
 import TabItem from './types/TabItem';
 import createReducer from '../../store/createReducer';
@@ -23,17 +30,16 @@ const getDefaultState = () => ({
   businessId: '',
   selectedTab: TabItem.IMPORT,
   import: {
-    dataTypes: [],
-    selectedDataType: '',
-    chartOfAccounts: {
-      importFile: undefined,
-      duplicateRecordsOption: '',
-      duplicateRecordsOptions: [],
+    selectedDataType: ImportExportDataType.NONE,
+    importFile: undefined,
+    duplicateRecordsOption: DuplicateRecordOption.UPDATE_EXISTING,
+    contacts: {
+      identifyBy: ContactIdentifyBy.NAME,
+      type: ContactType.CUSTOMER,
     },
   },
   export: {
-    dataTypes: [],
-    selectedDataType: '',
+    selectedDataType: ImportExportDataType.NONE,
     chartOfAccounts: {
       financialYears: [],
       financialYear: '',
@@ -81,37 +87,25 @@ const setSelectedTab = (state, action) => ({
 
 const loadDataImportExport = (state, action) => ({
   ...state,
-  import: {
-    ...state.import,
-    dataTypes: action.import.dataTypes,
-    chartOfAccounts: {
-      ...state.import.chartOfAccounts,
-      duplicateRecordsOptions: action.import.chartOfAccounts.duplicateRecordsOptions,
-    },
-  },
   export: {
     ...state.export,
-    dataTypes: action.export.dataTypes,
     chartOfAccounts: action.export.chartOfAccounts,
   },
 });
 
-const updateDataType = (state, action) => ({
+const updateExportDataType = (state, action) => ({
   ...state,
-  [action.key]: {
-    ...state[action.key],
-    selectedDataType: action.value,
+  export: {
+    ...state.export,
+    selectedDataType: action.dataType,
   },
 });
 
-const addImportChartOfAccountsFile = (state, action) => ({
+const addImportFile = (state, action) => ({
   ...state,
   import: {
     ...state.import,
-    chartOfAccounts: {
-      ...state.import.chartOfAccounts,
-      importFile: action.file,
-    },
+    importFile: action.file,
   },
 });
 
@@ -119,10 +113,7 @@ const updateDuplicateRecordsOption = (state, action) => ({
   ...state,
   import: {
     ...state.import,
-    chartOfAccounts: {
-      ...state.import.chartOfAccounts,
-      duplicateRecordsOption: action.value,
-    },
+    duplicateRecordsOption: action.value,
   },
 });
 
@@ -137,6 +128,45 @@ const updateExportChartOfAccountsDetail = (state, action) => ({
   },
 });
 
+const updateContactsIdentifyBy = (state, action) => {
+  const previousDuplicateRecordsOption = state.import.duplicateRecordsOption;
+  const isPreviouslyAdd = previousDuplicateRecordsOption === DuplicateRecordOption.ADD;
+  const isIdentifyByNotName = action.identifyBy !== ContactIdentifyBy.NAME;
+  return {
+    ...state,
+    import: {
+      ...state.import,
+      duplicateRecordsOption: isPreviouslyAdd && isIdentifyByNotName
+        ? getDefaultState().import.duplicateRecordsOption
+        : previousDuplicateRecordsOption,
+      contacts: {
+        ...state.import.contacts,
+        identifyBy: action.identifyBy,
+      },
+    },
+  };
+};
+
+const updateContactsType = (state, action) => ({
+  ...state,
+  import: {
+    ...state.import,
+    contacts: {
+      ...state.import.contacts,
+      type: action.type,
+    },
+  },
+});
+
+const updateImportDataType = (state, action) => ({
+  ...state,
+
+  import: {
+    ...getDefaultState().import,
+    selectedDataType: action.dataType,
+  },
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -145,10 +175,13 @@ const handlers = {
   [SET_MODAL_TYPE]: setModalType,
   [SET_SELECTED_TAB]: setSelectedTab,
   [LOAD_DATA_IMPORT_EXPORT]: loadDataImportExport,
-  [UPDATE_DATA_TYPE]: updateDataType,
-  [ADD_IMPORT_CHART_OF_ACCOUNTS_FILE]: addImportChartOfAccountsFile,
+  [UPDATE_EXPORT_DATA_TYPE]: updateExportDataType,
+  [UPDATE_IMPORT_DATA_TYPE]: updateImportDataType,
+  [ADD_IMPORT_FILE]: addImportFile,
   [UPDATE_DUPLICATE_RECORDS_OPTION]: updateDuplicateRecordsOption,
   [UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL]: updateExportChartOfAccountsDetail,
+  [UPDATE_CONTACTS_IDENTIFY_BY]: updateContactsIdentifyBy,
+  [UPDATE_CONTACTS_TYPE]: updateContactsType,
 };
 
 const dataImportExportReducer = createReducer(getDefaultState(), handlers);

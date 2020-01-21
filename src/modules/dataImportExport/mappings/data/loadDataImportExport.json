@@ -1,31 +1,5 @@
 {
-  "import": {
-    "dataTypes": [
-      {
-        "name": "Chart of accounts",
-        "value": "chartOfAccounts"
-      }
-    ],
-    "chartOfAccounts": {
-      "duplicateRecordsOptions": [
-        {
-          "name": "Update existing data",
-          "value": "UpdateExisting"
-        },
-        {
-          "name": "Reject duplicates",
-          "value": "Reject"
-        }
-      ]
-    }
-  },
   "export": {
-    "dataTypes": [
-      {
-        "name": "Chart of accounts",
-        "value": "chartOfAccounts"
-      }
-    ],
     "chartOfAccounts": {
       "financialYears": [
         {

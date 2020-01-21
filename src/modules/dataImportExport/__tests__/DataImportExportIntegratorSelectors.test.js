@@ -1,4 +1,4 @@
-import { getExportChartOfAccountsQueryParams, getImportChartOfAccountsPayload } from '../selectors/DataImportExportIntegratorSelectors';
+import { getExportChartOfAccountsQueryParams, getImportChartOfAccountsPayload, getImportContactsPayload } from '../selectors/DataImportExportIntegratorSelectors';
 
 describe('DataImportExportIntegratorSelectors', () => {
   describe('getExportChartOfAccountsQueryParams', () => {
@@ -31,28 +31,48 @@ describe('DataImportExportIntegratorSelectors', () => {
 
       const state = {
         import: {
-          chartOfAccounts: {
-            importFile: someFile,
-            duplicateRecordsOption: 'someAction',
-            duplicateRecordsOptions: [
-              {
-                name: 'someAction',
-                value: 'someActionValue',
-              },
-              {
-                name: 'anotherAction',
-                value: 'anotherActionValue',
-              },
-            ],
-          },
+          importFile: someFile,
+          duplicateRecordsOption: 'someAction',
         },
       };
 
       const actual = getImportChartOfAccountsPayload(state);
       const expected = {
         sourceFile: someFile,
-        duplicateCheckMode: 'someActionValue',
+        duplicateCheckMode: 'someAction',
         source: 'File',
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getImportContactsPayload', () => {
+    it('returns the right payload to import Chart of accounts', () => {
+      const someFile = {
+        name: 'someName',
+        data: 'someData',
+      };
+
+      const state = {
+        region: 'AU',
+        import: {
+          importFile: someFile,
+          duplicateRecordsOption: 'someAction',
+          contacts: {
+            identifyBy: 'SomeVal',
+            type: 'Supplier',
+          },
+        },
+      };
+
+      const actual = getImportContactsPayload(state);
+      const expected = {
+        File: someFile,
+        DuplicateCheckMode: 'someAction',
+        Region: 'AU',
+        IdentifyBy: 'SomeVal',
+        Type: 'Supplier',
       };
 
       expect(actual).toEqual(expected);

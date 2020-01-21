@@ -1,19 +1,21 @@
 import {
-  PageHead,
+  Card, PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getCurrentDataTypeInCurrentTab, getLoadingState, getModalType,
+  getAlert, getCurrentDataTypeInCurrentTab, getLoadingState, getModalType, getTab,
 } from '../selectors/DataImportExportSelectors';
 import Alert from './Alert';
 import DataImportExportActions from './DataImportExportActions';
-import DataImportExportContent from './DataImportExportContent';
 import DataImportExportTabs from './DataImportExportTabs';
+import ExportTabContent from './ExportTabContent';
 import ImportConfirmModal from './ImportConfirmModal';
+import ImportTabContent from './ImportTabContent';
 import PageView from '../../../components/PageView/PageView';
 import SmallScreenTemplate from '../../../components/SmallScreenTemplate/SmallScreenTemplate';
+import TabItem from '../types/TabItem';
 
 const DataImportExportView = ({
   alert,
@@ -23,9 +25,17 @@ const DataImportExportView = ({
   onDismissAlert,
   onSelectTab,
   onSaveButtonClick,
-  importChartOfAccountsListeners,
-  onDataTypeChange,
+  onUpdateExportDataType,
+  onUpdateImportDataType,
   exportChartOfAccountsListeners,
+  updateContactsIdentifyBy,
+  updateContactsType,
+  selectedTab,
+  onFileSelected,
+  onFileRemove,
+  onDuplicateRecordsOptionChange,
+  onCancelImportData,
+  onConfirmImportData,
 }) => {
   const actions = isDataTypeSelectedForTab && (
     <DataImportExportActions
@@ -39,12 +49,30 @@ const DataImportExportView = ({
       onDismissAlert={onDismissAlert}
     />
   );
-
   const modalComponent = modalType && (
     <ImportConfirmModal
-      onCancel={importChartOfAccountsListeners.onCancelImportData}
-      onConfirm={importChartOfAccountsListeners.onConfirmImportData}
+      onCancelImportData={onCancelImportData}
+      onConfirmImportData={onConfirmImportData}
     />
+  );
+
+  const content = (
+    <Card>
+      {{
+        [TabItem.IMPORT]: <ImportTabContent
+          onFileSelected={onFileSelected}
+          onFileRemove={onFileRemove}
+          onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
+          onUpdateImportDataType={onUpdateImportDataType}
+          updateContactsIdentifyBy={updateContactsIdentifyBy}
+          updateContactsType={updateContactsType}
+        />,
+        [TabItem.EXPORT]: <ExportTabContent
+          onUpdateExportDataType={onUpdateExportDataType}
+          exportChartOfAccountsListeners={exportChartOfAccountsListeners}
+        />,
+      }[selectedTab]}
+    </Card>
   );
 
   const view = (
@@ -53,11 +81,7 @@ const DataImportExportView = ({
       <PageHead title="Import/Export data" />
       <DataImportExportTabs onSelectTab={onSelectTab} />
       {modalComponent}
-      <DataImportExportContent
-        onDataTypeChange={onDataTypeChange}
-        importChartOfAccountsListeners={importChartOfAccountsListeners}
-        exportChartOfAccountsListeners={exportChartOfAccountsListeners}
-      />
+      {content}
       {actions}
     </SmallScreenTemplate>
   );
@@ -70,6 +94,7 @@ const mapStateToProps = state => ({
   isDataTypeSelectedForTab: getCurrentDataTypeInCurrentTab(state),
   alert: getAlert(state),
   modalType: getModalType(state),
+  selectedTab: getTab(state),
 });
 
 export default connect(mapStateToProps)(DataImportExportView);

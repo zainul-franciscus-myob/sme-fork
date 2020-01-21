@@ -1,13 +1,16 @@
 import {
-  ADD_IMPORT_CHART_OF_ACCOUNTS_FILE,
+  ADD_IMPORT_FILE,
   LOAD_DATA_IMPORT_EXPORT,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_SELECTED_TAB,
-  UPDATE_DATA_TYPE,
+  UPDATE_CONTACTS_IDENTIFY_BY,
+  UPDATE_CONTACTS_TYPE,
   UPDATE_DUPLICATE_RECORDS_OPTION,
   UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL,
+  UPDATE_EXPORT_DATA_TYPE,
+  UPDATE_IMPORT_DATA_TYPE,
 } from './DataImportExportIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 
@@ -69,24 +72,30 @@ const createDataImportExportDispatcher = store => ({
     });
   },
 
-  updateDataType: ({ key, value }) => {
+  updateExportDataType: (dataType) => {
     store.dispatch({
-      intent: UPDATE_DATA_TYPE,
-      key,
-      value,
+      intent: UPDATE_EXPORT_DATA_TYPE,
+      dataType,
     });
   },
 
-  addImportChartOfAccountsFile: (file) => {
+  updateImportDataType: (dataType) => {
     store.dispatch({
-      intent: ADD_IMPORT_CHART_OF_ACCOUNTS_FILE,
+      intent: UPDATE_IMPORT_DATA_TYPE,
+      dataType,
+    });
+  },
+
+  addImportFile: (file) => {
+    store.dispatch({
+      intent: ADD_IMPORT_FILE,
       file,
     });
   },
 
-  removeImportChartOfAccountsFile: () => {
+  removeImportFile: () => {
     store.dispatch({
-      intent: ADD_IMPORT_CHART_OF_ACCOUNTS_FILE,
+      intent: ADD_IMPORT_FILE,
     });
   },
 
@@ -102,6 +111,20 @@ const createDataImportExportDispatcher = store => ({
       intent: UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL,
       key,
       value,
+    });
+  },
+
+  updateContactsIdentifyBy: (identifyBy) => {
+    store.dispatch({
+      intent: UPDATE_CONTACTS_IDENTIFY_BY,
+      identifyBy,
+    });
+  },
+
+  updateContactsType: (type) => {
+    store.dispatch({
+      intent: UPDATE_CONTACTS_TYPE,
+      type,
     });
   },
 });

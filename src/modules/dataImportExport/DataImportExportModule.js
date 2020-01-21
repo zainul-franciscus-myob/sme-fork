@@ -2,7 +2,6 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  getCanImportChartOfAccounts,
   getCurrentDataTypeInCurrentTab,
   getTab,
   getUrlDataTypeParams,
@@ -53,7 +52,7 @@ export default class DataImportExportModule {
 
     switch (currentTab) {
       case TabItem.IMPORT:
-        this.importData(currentDataTypeInCurrentTab);
+        this.openImportConfirmModal();
         break;
       case TabItem.EXPORT:
         this.exportData(currentDataTypeInCurrentTab);
@@ -61,15 +60,6 @@ export default class DataImportExportModule {
       default:
     }
   };
-
-  importData = (dataType) => {
-    switch (dataType) {
-      case ImportExportDataType.CHART_OF_ACCOUNTS:
-        this.confirmCriteriaForImportCoaAction();
-        break;
-      default:
-    }
-  }
 
   exportData = (dataType) => {
     switch (dataType) {
@@ -80,21 +70,13 @@ export default class DataImportExportModule {
     }
   }
 
-  confirmCriteriaForImportCoaAction = () => {
-    const canImport = getCanImportChartOfAccounts(this.store.getState());
-    if (canImport) {
-      this.dispatcher.dismissAlert();
-      this.openImportConfirmModal();
-    } else {
-      this.displayFailureAlert('Please fill out all required fields in order to proceed');
-    }
-  }
-
-  importChartOfAccounts = () => {
+  importData = () => {
+    const state = this.store.getState();
+    const dataType = getCurrentDataTypeInCurrentTab(state);
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.emptyDataTypeForTab(TabItem.IMPORT);
+      this.dispatcher.updateImportDataType(ImportExportDataType.NONE);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.closeModal();
       this.displaySuccessMessage(response.message);
@@ -106,14 +88,24 @@ export default class DataImportExportModule {
       this.displayFailureAlert(response.message);
     };
 
-    this.integrator.importChartOfAccounts({ onSuccess, onFailure });
+    switch (dataType) {
+      case ImportExportDataType.CHART_OF_ACCOUNTS:
+        return this.integrator.importChartOfAccounts({ onSuccess, onFailure });
+      case ImportExportDataType.CONTACTS:
+        return this.integrator.importContacts({ onSuccess, onFailure });
+      default:
+        this.closeModal();
+        this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+        this.displayFailureAlert('Invalid Data Type selected.');
+        return undefined;
+    }
   }
 
   exportChartOfAccounts = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (data) => {
-      this.emptyDataTypeForTab(TabItem.EXPORT);
+      this.dispatcher.updateExportDataType(ImportExportDataType.NONE);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.displaySuccessMessage('Export successful! A tab-delimited TXT file has been downloaded.');
 
@@ -131,8 +123,6 @@ export default class DataImportExportModule {
 
     this.integrator.exportChartOfAccounts({ onSuccess, onFailure });
   }
-
-  emptyDataTypeForTab = tab => this.dispatcher.updateDataType({ key: tab })
 
   displaySuccessMessage = successMessage => this.dispatcher.setAlert({
     message: successMessage,
@@ -156,6 +146,22 @@ export default class DataImportExportModule {
     this.store.unsubscribeAll();
   };
 
+  updateContactsIdentifyBy = ({ value }) => {
+    this.dispatcher.updateContactsIdentifyBy(value);
+  }
+
+  updateContactsType = ({ value }) => {
+    this.dispatcher.updateContactsType(value);
+  }
+
+  updateImportDataType = ({ value }) => {
+    this.dispatcher.updateImportDataType(value);
+  }
+
+  updateExportDataType = ({ value }) => {
+    this.dispatcher.updateExportDataType(value);
+  }
+
   render = () => {
     const wrappedView = (
       <Provider store={this.store}>
@@ -163,17 +169,18 @@ export default class DataImportExportModule {
           onDismissAlert={this.dispatcher.dismissAlert}
           onSelectTab={this.dispatcher.setSelectedTab}
           onSaveButtonClick={this.importOrExportData}
-          onDataTypeChange={this.dispatcher.updateDataType}
-          importChartOfAccountsListeners={{
-            onFileSelected: this.dispatcher.addImportChartOfAccountsFile,
-            onFileRemove: this.dispatcher.removeImportChartOfAccountsFile,
-            onDuplicateRecordsOptionChange: this.dispatcher.updateDuplicateRecordsOption,
-            onCancelImportData: this.closeModal,
-            onConfirmImportData: this.importChartOfAccounts,
-          }}
+          onUpdateExportDataType={this.updateExportDataType}
+          onUpdateImportDataType={this.updateImportDataType}
+          onCancelImportData={this.closeModal}
+          onConfirmImportData={this.importData}
           exportChartOfAccountsListeners={{
             onExportChartOfAccountsDetailChange: this.dispatcher.updateExportChartOfAccountsDetail,
           }}
+          updateContactsIdentifyBy={this.updateContactsIdentifyBy}
+          updateContactsType={this.updateContactsType}
+          onFileSelected={this.dispatcher.addImportFile}
+          onFileRemove={this.dispatcher.removeImportFile}
+          onDuplicateRecordsOptionChange={this.dispatcher.updateDuplicateRecordsOption}
         />
       </Provider>
     );
