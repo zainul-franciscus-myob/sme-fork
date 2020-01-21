@@ -1,14 +1,9 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { SUCCESSFULLY_DELETED_LEAVE_PAY_ITEM, SUCCESSFULLY_SAVED_LEAVE_PAY_ITEM } from './LeavePayItemMessageTypes';
 import {
-  SUCCESSFULLY_DELETED_LEAVE_PAY_ITEM,
-  SUCCESSFULLY_SAVED_LEAVE_PAY_ITEM,
-} from './LeavePayItemMessageTypes';
-import {
-  getBusinessId,
-  getIsPageEdited,
-  getRegion,
+  getBusinessId, getIsPageEdited, getIsSubmitting, getModalType, getRegion,
 } from './leavePayItemSelectors';
 import LeavePayItemView from './component/LeavePayItemView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -46,6 +41,8 @@ export default class LeavePayItemModule {
   }
 
   saveLeavePayItem = () => {
+    if (getIsSubmitting(this.store.getState())) return;
+
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
@@ -126,8 +123,16 @@ export default class LeavePayItemModule {
     this.store.unsubscribeAll();
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    this.saveLeavePayItem();
+  }
+
   handlers = {
-    SAVE_ACTION: this.saveLeavePayItem,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {

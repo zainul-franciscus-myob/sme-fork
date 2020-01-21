@@ -7,6 +7,8 @@ import {
   getFormattedAmount,
   getFormattedPercentage,
   getIsPageEdited,
+  getIsSubmitting,
+  getModalType,
   getRegion,
   getUpdatedSuperPayItem,
   getUpdatedSuperPayItemForSave,
@@ -47,6 +49,8 @@ export default class SuperPayItemModule {
   }
 
   createOrUpdateSuperPayItem = () => {
+    if (getIsSubmitting(this.store.getState())) return;
+
     this.dispatcher.setSubmittingState(true);
 
     const state = this.store.getState();
@@ -155,8 +159,16 @@ export default class SuperPayItemModule {
     this.store.unsubscribeAll();
   }
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    this.createOrUpdateSuperPayItem();
+  }
+
   handlers = {
-    SAVE_ACTION: this.createOrUpdateSuperPayItem,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {

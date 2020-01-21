@@ -3,6 +3,7 @@ import { createSelector, createStructuredSelector } from 'reselect/lib/index';
 import { getPayHistoryDetailsPayload } from './payrollDetails/selectors/PayrollPayHistorySelectors';
 import { getStandardPayDetailsPayload } from './payrollDetails/selectors/PayrollStandardPaySelectors';
 import { mainTabIds, payrollDetailsSubTabIds } from './tabItems';
+import ModalTypes from './ModalTypes';
 
 export const getBusinessId = state => state.businessId;
 export const getLoadingState = state => state.loadingState;
@@ -103,4 +104,10 @@ export const getPayrollSettingsLink = (state) => {
   const region = getRegion(state);
 
   return `/#/${region}/${businessId}/payrollSettings?tab=general`;
+};
+
+export const getOpenedModalType = (state) => {
+  const modal = getModal(state) || { type: ModalTypes.NONE };
+
+  return modal.type;
 };

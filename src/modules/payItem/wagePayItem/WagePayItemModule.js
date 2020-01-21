@@ -21,14 +21,12 @@ import {
   UPDATE_PAY_ITEM,
 } from './WagePayItemIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import {
-  SUCCESSFULLY_DELETED_WAGE_PAY_ITEM,
-  SUCCESSFULLY_SAVED_WAGE_PAY_ITEM,
-} from './WagePayItemMessageTypes';
+import { SUCCESSFULLY_DELETED_WAGE_PAY_ITEM, SUCCESSFULLY_SAVED_WAGE_PAY_ITEM } from './WagePayItemMessageTypes';
 import {
   getBusinessId,
   getIsCreating,
   getIsPageEdited,
+  getModalType,
   getPayItemId,
   getRegion,
   getSaveWagePayItemPayload,
@@ -240,8 +238,16 @@ export default class WagePayItemModule {
     },
   })
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    this.saveWagePayItem();
+  }
+
   handlers = {
-    SAVE_ACTION: this.saveWagePayItem,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {

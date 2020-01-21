@@ -28,6 +28,8 @@ import {
   getBusinessId,
   getCreateExpensePayItemUrlParams,
   getIsCreating,
+  getIsSubmitting,
+  getModalType,
   getRegion,
   getSaveExpensePayItemContent,
   getUpdateExpensePayItemUrlParams,
@@ -37,6 +39,8 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import Store from '../../../store/Store';
 import expensePayItemReducer from './expensePayItemReducer';
+import keyMap from '../../../hotKeys/keyMap';
+import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 class ExpensePayItemModule {
   constructor({
@@ -122,6 +126,7 @@ class ExpensePayItemModule {
 
   createExpensePayItem = () => {
     const state = this.store.getState();
+    if (getIsSubmitting(state)) return;
 
     const urlParams = getCreateExpensePayItemUrlParams(state);
     const content = getSaveExpensePayItemContent(state);
@@ -153,6 +158,7 @@ class ExpensePayItemModule {
 
   updateExpensePayItem = () => {
     const state = this.store.getState();
+    if (getIsSubmitting(state)) return;
 
     const urlParams = getUpdateExpensePayItemUrlParams(state);
     const content = getSaveExpensePayItemContent(state);
@@ -342,8 +348,21 @@ class ExpensePayItemModule {
     });
   };
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    this.saveExpensePayItem();
+  }
+
+  handlers = {
+    SAVE_ACTION: this.saveHandler,
+  };
+
   run(context) {
     this.setInitialState(context);
+    setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadExpensePayItem();
   }

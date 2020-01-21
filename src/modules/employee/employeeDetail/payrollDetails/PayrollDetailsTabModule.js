@@ -19,17 +19,32 @@ import {
   getStandardPayWageAmountRuleById,
   getStandardPayWageAmountRuleFromModal,
 } from './selectors/PayrollStandardPaySelectors';
-import { getIsDeductionPayItemModalCreating } from './selectors/DeductionPayItemModalSelectors';
-import { getIsExpensePayItemModalCreating } from './selectors/ExpensePayItemModalSelectors';
-import { getIsLeavePayItemModalCreating } from './selectors/LeavePayItemModalSelectors';
 import {
+  getIsActionDisabled as getIsDeductionPayItemModalActionDisabled,
+  getIsDeductionPayItemModalCreating,
+} from './selectors/DeductionPayItemModalSelectors';
+import {
+  getIsActionDisabled as getIsExpensePayItemModalActionDisabled,
+  getIsExpensePayItemModalCreating,
+} from './selectors/ExpensePayItemModalSelectors';
+import {
+  getIsActionDisabled as getIsLeavePayItemModalActionDisabled,
+  getIsLeavePayItemModalCreating,
+} from './selectors/LeavePayItemModalSelectors';
+import { getIsActionDisabled as getIsSuperFundModalActionDisabled } from './selectors/SuperFundModalSelectors';
+import {
+  getIsActionDisabled as getIsSuperPayItemModalActionDisabled,
   getIsSuperPayItemModalCreating,
   getSuperPayItemModalFormattedAmount,
   getSuperPayItemModalFormattedPercentage,
   getUpdatedSuperPayItemModal,
   getUpdatedSuperPayItemModalForSave,
 } from './selectors/SuperPayItemModalSelectors';
-import { getIsWagePayItemModalCreating } from './selectors/WagePayItemModalSelectors';
+import {
+  getIsActionDisabled as getIsWagePayItemModalActionDisabled,
+  getIsWagePayItemModalCreating,
+} from './selectors/WagePayItemModalSelectors';
+import { getTaxPayItemModalSubmitting } from './selectors/PayrollTaxSelectors';
 import EmployeeDetailPayrollDetails from './components/EmployeeDetailPayrollDetails';
 import createPayrollDetailsTabDispatchers from './createPayrollDetailsTabDispatchers';
 import createPayrollDetailsTabIntegrator from './createPayrollDetailsTabIntegrator';
@@ -232,6 +247,8 @@ export default class PayrollDetailsTabModule {
   }
 
   saveWagePayItemModal = () => {
+    if (getIsWagePayItemModalActionDisabled(this.store.getState())) return;
+
     this.dispatcher.setWagePayItemModalLoadingState(true);
     this.dispatcher.setWagePayItemModalSubmittingState(true);
 
@@ -281,6 +298,8 @@ export default class PayrollDetailsTabModule {
   }
 
   saveExpensePayItemModal = () => {
+    if (getIsExpensePayItemModalActionDisabled(this.store.getState())) return;
+
     this.dispatcher.setExpensePayItemModalLoadingState(true);
     this.dispatcher.setExpensePayItemModalSubmittingState(true);
 
@@ -325,6 +344,8 @@ export default class PayrollDetailsTabModule {
   }
 
   saveDeductionPayItemModal = () => {
+    if (getIsDeductionPayItemModalActionDisabled(this.store.getState())) return;
+
     this.dispatcher.setDeductionPayItemModalLoadingState(true);
     this.dispatcher.setDeductionPayItemModalSubmittingState(true);
 
@@ -368,6 +389,8 @@ export default class PayrollDetailsTabModule {
   }
 
   saveSuperPayItemModal = () => {
+    if (getIsSuperPayItemModalActionDisabled(this.store.getState())) return;
+
     this.dispatcher.setSuperPayItemModalLoadingState(true);
     this.dispatcher.setSuperPayItemModalSubmittingState(true);
 
@@ -463,6 +486,8 @@ export default class PayrollDetailsTabModule {
   };
 
   saveTaxPayItemModal = () => {
+    if (getTaxPayItemModalSubmitting(this.store.getState())) return;
+
     const onSuccess = ({ message }) => {
       this.dispatcher.closeTaxPayItemModal();
       this.dispatcher.setAlert({ type: 'success', message });
@@ -519,6 +544,8 @@ export default class PayrollDetailsTabModule {
   };
 
   saveSuperFundModal = () => {
+    if (getIsSuperFundModalActionDisabled(this.store.getState())) return;
+
     const onSuccess = (response) => {
       this.dispatcher.closeSuperFundModal();
       this.dispatcher.setAlert({ type: 'success', message: response.message });
@@ -560,6 +587,8 @@ export default class PayrollDetailsTabModule {
   };
 
   saveLeavePayItem = () => {
+    if (getIsLeavePayItemModalActionDisabled(this.store.getState())) return;
+
     this.dispatcher.setLeavePayItemModalLoadingState(true);
     this.dispatcher.setLeavePayItemModalSubmittingState(true);
 

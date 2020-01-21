@@ -1,21 +1,28 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  SUCCESSFULLY_DELETED_EMPLOYEE,
-  SUCCESSFULLY_SAVED_EMPLOYEE,
-} from '../EmployeeMessageTypes';
+import { SUCCESSFULLY_DELETED_EMPLOYEE, SUCCESSFULLY_SAVED_EMPLOYEE } from '../EmployeeMessageTypes';
+import { getDeductionPayItemModal } from './payrollDetails/selectors/DeductionPayItemModalSelectors';
 import {
   getEmployeeDetailUrl,
   getEmployeeListUrl,
+  getIsActionsDisabled,
   getIsCreating,
   getModalUrl,
+  getOpenedModalType,
   getURLParams,
   isPageEdited,
 } from './EmployeeDetailSelectors';
+import { getExpensePayItemModal } from './payrollDetails/selectors/ExpensePayItemModalSelectors';
+import { getLeavePayItemModal } from './payrollDetails/selectors/LeavePayItemModalSelectors';
+import { getSuperFundModal } from './payrollDetails/selectors/SuperFundModalSelectors';
+import { getSuperPayItemModal } from './payrollDetails/selectors/SuperPayItemModalSelectors';
+import { getTaxPayItemModal } from './payrollDetails/selectors/PayrollTaxSelectors';
+import { getWagePayItemModal } from './payrollDetails/selectors/WagePayItemModalSelectors';
 import ContactDetailsTabModule from './contactDetails/ContactDetailsTabModule';
 import EmployeeDetailView from './components/EmployeeDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
+import ModalTypes from './ModalTypes';
 import PaymentDetailsTabModule from './paymentDetails/PaymentDetailsTabModule';
 import PayrollDetailsTabModule from './payrollDetails/PayrollDetailsTabModule';
 import Store from '../../../store/Store';
@@ -100,6 +107,8 @@ export default class EmployeeDetailModule {
   };
 
   createOrUpdateEmployee = (onSuccess) => {
+    if (getIsActionsDisabled(this.store.getState())) return;
+
     this.dispatcher.setSubmittingState(true);
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
@@ -187,11 +196,11 @@ export default class EmployeeDetailModule {
   openDeleteModal = () => {
     const state = this.store.getState();
     const url = getEmployeeListUrl(state);
-    this.dispatcher.openModal({ type: 'delete', url });
+    this.dispatcher.openModal({ type: ModalTypes.DELETE, url });
   };
 
   openUnsavedModal = (url) => {
-    this.dispatcher.openModal({ type: 'unsaved', url });
+    this.dispatcher.openModal({ type: ModalTypes.UNSAVED, url });
   };
 
   cancelEmployee = () => {
@@ -246,8 +255,62 @@ export default class EmployeeDetailModule {
 
   updateURLFromState = state => this.replaceURLParams(getURLParams(state));
 
+  saveHandler = () => {
+    const state = this.store.getState();
+
+    // Quick add modals
+    if (getWagePayItemModal(state)) {
+      this.subModules.payrollDetails.saveWagePayItemModal();
+      return;
+    }
+
+    if (getLeavePayItemModal(state)) {
+      this.subModules.payrollDetails.saveLeavePayItem();
+      return;
+    }
+
+    if (getDeductionPayItemModal(state)) {
+      this.subModules.payrollDetails.saveDeductionPayItemModal();
+      return;
+    }
+
+    if (getSuperFundModal(state)) {
+      this.subModules.payrollDetails.saveSuperFundModal();
+      return;
+    }
+
+    if (getSuperPayItemModal(state)) {
+      this.subModules.payrollDetails.saveSuperPayItemModal();
+      return;
+    }
+
+    if (getExpensePayItemModal(state)) {
+      this.subModules.payrollDetails.saveExpensePayItemModal();
+      return;
+    }
+
+    if (getTaxPayItemModal(state)) {
+      this.subModules.payrollDetails.saveTaxPayItemModal();
+      return;
+    }
+
+    // In module modals
+    const modalType = getOpenedModalType(state);
+    switch (modalType) {
+      case ModalTypes.DELETE:
+        // DO NOTHING
+        break;
+      case ModalTypes.UNSAVED:
+        this.saveUnsavedChanges();
+        break;
+      default:
+        this.saveEmployee();
+        break;
+    }
+  }
+
   handlers = {
-    SAVE_ACTION: this.saveEmployee,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {

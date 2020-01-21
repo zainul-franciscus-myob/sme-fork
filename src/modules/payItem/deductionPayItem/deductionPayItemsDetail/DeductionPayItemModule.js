@@ -20,17 +20,17 @@ import {
   UPDATE_INFORMATION_AMOUNT,
   UPDATE_PAY_ITEM,
 } from '../DeductionPayItemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
+import { SUCCESSFULLY_DELETED_PAY_ITEM, SUCCESSFULLY_SAVED_PAY_ITEM } from '../DeductionPayItemMessageTypes';
 import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../../SystemIntents';
-import {
-  SUCCESSFULLY_DELETED_PAY_ITEM,
-  SUCCESSFULLY_SAVED_PAY_ITEM,
-} from '../DeductionPayItemMessageTypes';
-import {
-  getBusinessId, getIsCreating, getIsPageEdited,
-  getPayItemId, getRegion, getSaveDeductionPayItemPayload,
+  getBusinessId,
+  getIsCreating,
+  getIsPageEdited,
+  getIsSubmitting,
+  getModalType,
+  getPayItemId,
+  getRegion,
+  getSaveDeductionPayItemPayload,
 } from './DeductionPayItemSelectors';
 import DeductionPayItemView from './components/DeductionPayItemView';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -198,9 +198,10 @@ export default class DeductionPayItemModule {
   })
 
   savePayItemDeduction = () => {
-    this.setIsSubmitting(true);
-
     const state = this.store.getState();
+    if (getIsSubmitting(state)) return;
+
+    this.setIsSubmitting(true);
     const payItemPayload = getSaveDeductionPayItemPayload(state);
 
     const onSuccess = ({ message }) => {
@@ -240,8 +241,16 @@ export default class DeductionPayItemModule {
     },
   })
 
+  saveHandler = () => {
+    const state = this.store.getState();
+    const modalType = getModalType(state);
+    if (modalType) return;
+
+    this.savePayItemDeduction();
+  }
+
   handlers = {
-    SAVE_ACTION: this.savePayItemDeduction,
+    SAVE_ACTION: this.saveHandler,
   };
 
   run(context) {
