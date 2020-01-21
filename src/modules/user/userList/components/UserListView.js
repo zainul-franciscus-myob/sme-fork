@@ -20,7 +20,6 @@ const UserListView = (props) => {
   const {
     alert,
     loadingState,
-    isCurrentUserOnlineAdmin,
     onCreateUser,
     onDismissAlert,
     onSort,
@@ -38,19 +37,15 @@ const UserListView = (props) => {
 
   const pageHead = (
     <PageHead title="Users">
-      { isCurrentUserOnlineAdmin && (
-        <>
-          <Button type="link" icon={<Icons.OpenExternalLink />} onClick={openMyMyob} iconRight>
-            Manage user access via my.MYOB
-          </Button>
-          <ButtonRow>
-            <Button type="secondary" onClick={onCreateUser(true)}>
-              Create advisor
-            </Button>
-            <Button onClick={onCreateUser(false)}>Create user</Button>
-          </ButtonRow>
-        </>
-      )}
+      <Button type="link" icon={<Icons.OpenExternalLink />} onClick={openMyMyob} iconRight>
+        Manage user access via my.MYOB
+      </Button>
+      <ButtonRow>
+        <Button type="secondary" onClick={onCreateUser(true)}>
+          Create advisor
+        </Button>
+        <Button onClick={onCreateUser(false)}>Create user</Button>
+      </ButtonRow>
     </PageHead>
   );
 
