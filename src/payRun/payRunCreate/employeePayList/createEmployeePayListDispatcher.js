@@ -121,14 +121,14 @@ const createEmployeePayListDispatcher = store => ({
   },
 
   showUpgradeModal: () => {
-    this.store.dispatch({
+    store.dispatch({
       intent: SET_UPGRADE_MODAL_SHOWING,
       isUpgradeModalShowing: true,
     });
   },
 
   hideUpgradeModal: () => {
-    this.store.dispatch({
+    store.dispatch({
       intent: SET_UPGRADE_MODAL_SHOWING,
       isUpgradeModalShowing: false,
     });
