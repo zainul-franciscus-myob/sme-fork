@@ -48,6 +48,10 @@ export const getContactType = state => state.import.contacts.type;
 export const getIsDuplicateRecordsAddShown = createSelector(
   getImportType,
   getContactIdentifyBy,
-  (importType, contactIdentifyBy) => importType === ImportExportDataType.CONTACTS
-    && contactIdentifyBy === ContactIdentifyBy.NAME,
+  (importType, contactIdentifyBy) => {
+    const isContacts = importType === ImportExportDataType.CONTACTS;
+    const isEmployees = importType === ImportExportDataType.EMPLOYEES;
+    const isIdentifyByName = contactIdentifyBy === ContactIdentifyBy.NAME;
+    return (isContacts || isEmployees) && isIdentifyByName;
+  },
 );

@@ -78,7 +78,7 @@ const DataImportExportView = ({
   const view = (
     <SmallScreenTemplate>
       {alertComponent}
-      <PageHead title="Import/Export data" />
+      <PageHead title="Import and Export data" />
       <DataImportExportTabs onSelectTab={onSelectTab} />
       {modalComponent}
       {content}

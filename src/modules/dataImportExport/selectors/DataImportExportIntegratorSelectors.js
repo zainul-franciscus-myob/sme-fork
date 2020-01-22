@@ -29,6 +29,59 @@ export const getImportContactsPayload = createSelector(
   }),
 );
 
+export const getImportEmployeesPayload = createSelector(
+  getImportFile,
+  getDuplicateRecordsOption,
+  getContactIdentifyBy,
+  getRegion,
+  (file, duplicateRecordsOptionValue, identifyBy, region) => ({
+    File: file,
+    DuplicateCheckMode: duplicateRecordsOptionValue,
+    IdentifyBy: identifyBy,
+    Region: region,
+  }),
+);
+
+export const getImportItemsPayload = createSelector(
+  getImportFile,
+  getDuplicateRecordsOption,
+  getRegion,
+  (file, duplicateRecordsOptionValue, region) => ({
+    File: file,
+    DuplicateCheckMode: duplicateRecordsOptionValue,
+    Region: region,
+  }),
+);
+
+export const getImportGeneralJournalsPayload = createSelector(
+  getImportFile,
+  getRegion,
+  (file, region) => ({
+    File: file,
+    Region: region,
+  }),
+);
+
+export const getImportTransactionJournalsPayload = createSelector(
+  getImportFile,
+  getRegion,
+  (file, region) => ({
+    File: file,
+    Region: region,
+  }),
+);
+
+export const getImportTimesheetsPayload = createSelector(
+  getImportFile,
+  getContactIdentifyBy,
+  getRegion,
+  (file, identifyBy, region) => ({
+    File: file,
+    IdentifyBy: identifyBy,
+    Region: region,
+  }),
+);
+
 const getFinancialYear = state => state.export.chartOfAccounts.financialYear;
 const getAccountBalanceTransaction = state => (
   state.export.chartOfAccounts.accountBalanceTransaction

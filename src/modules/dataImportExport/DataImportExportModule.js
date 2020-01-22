@@ -93,6 +93,16 @@ export default class DataImportExportModule {
         return this.integrator.importChartOfAccounts({ onSuccess, onFailure });
       case ImportExportDataType.CONTACTS:
         return this.integrator.importContacts({ onSuccess, onFailure });
+      case ImportExportDataType.EMPLOYEES:
+        return this.integrator.importEmployees({ onSuccess, onFailure });
+      case ImportExportDataType.ITEMS:
+        return this.integrator.importItems({ onSuccess, onFailure });
+      case ImportExportDataType.GENERAL_JOURNALS:
+        return this.integrator.importGeneralJournals({ onSuccess, onFailure });
+      case ImportExportDataType.TRANSACTION_JOURNALS:
+        return this.integrator.importTransactionJournals({ onSuccess, onFailure });
+      case ImportExportDataType.TIMESHEETS:
+        return this.integrator.importTimesheets({ onSuccess, onFailure });
       default:
         this.closeModal();
         this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);

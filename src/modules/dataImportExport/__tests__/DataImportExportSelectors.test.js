@@ -41,18 +41,40 @@ describe('DataImportExportSelectors', () => {
         expect(actual).toEqual(true);
       });
     });
-    describe(`When selectedDataType is not ${ImportExportDataType.CONTACTS}`, () => {
-      it(`Returns false when identifyBy is ${ContactIdentifyBy.NAME}`, () => {
+    describe(`When selectedDataType is ${ImportExportDataType.EMPLOYEES}`, () => {
+      it(`Returns true when identifyBy is ${ContactIdentifyBy.NAME}`, () => {
         const state = {
           import: {
-            selectedDataType: ImportExportDataType.CHART_OF_ACCOUNTS,
+            selectedDataType: ImportExportDataType.EMPLOYEES,
             contacts: {
               identifyBy: ContactIdentifyBy.NAME,
             },
           },
         };
         const actual = getIsDuplicateRecordsAddShown(state);
-        expect(actual).toEqual(false);
+        expect(actual).toEqual(true);
+      });
+    });
+
+    [
+      ImportExportDataType.CHART_OF_ACCOUNTS,
+      ImportExportDataType.ITEMS,
+      ImportExportDataType.GENERAL_JOURNALS,
+      ImportExportDataType.TRANSACTION_JOURNALS,
+    ].forEach((dataType) => {
+      describe(`When selectedDataType is ${dataType}`, () => {
+        it(`Returns false when identifyBy is ${ContactIdentifyBy.NAME}`, () => {
+          const state = {
+            import: {
+              selectedDataType: dataType,
+              contacts: {
+                identifyBy: ContactIdentifyBy.NAME,
+              },
+            },
+          };
+          const actual = getIsDuplicateRecordsAddShown(state);
+          expect(actual).toEqual(false);
+        });
       });
     });
   });

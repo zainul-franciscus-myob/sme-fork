@@ -1,5 +1,13 @@
 import {
-  EXPORT_CHART_OF_ACCOUNTS, IMPORT_CHART_OF_ACCOUNTS, IMPORT_CONTACTS, LOAD_DATA_IMPORT_EXPORT,
+  EXPORT_CHART_OF_ACCOUNTS,
+  IMPORT_CHART_OF_ACCOUNTS,
+  IMPORT_CONTACTS,
+  IMPORT_EMPLOYEES,
+  IMPORT_GENERAL_JOURNALS,
+  IMPORT_ITEMS,
+  IMPORT_TIMESHEETS,
+  IMPORT_TRANSACTION_JOURNALS,
+  LOAD_DATA_IMPORT_EXPORT,
 } from '../DataImportExportIntents';
 
 const HttpDataImportExportMapping = {
@@ -18,6 +26,26 @@ const HttpDataImportExportMapping = {
   [IMPORT_CONTACTS]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_contacts`,
+  },
+  [IMPORT_EMPLOYEES]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_employees`,
+  },
+  [IMPORT_ITEMS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_items`,
+  },
+  [IMPORT_GENERAL_JOURNALS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_general_journals`,
+  },
+  [IMPORT_TRANSACTION_JOURNALS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_transaction_journals`,
+  },
+  [IMPORT_TIMESHEETS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/dataImportExport/import_timesheets`,
   },
 };
 

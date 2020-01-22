@@ -1,8 +1,25 @@
 import {
-  EXPORT_CHART_OF_ACCOUNTS, IMPORT_CHART_OF_ACCOUNTS, IMPORT_CONTACTS, LOAD_DATA_IMPORT_EXPORT,
+  EXPORT_CHART_OF_ACCOUNTS,
+  IMPORT_CHART_OF_ACCOUNTS,
+  IMPORT_CONTACTS,
+  IMPORT_EMPLOYEES,
+  IMPORT_GENERAL_JOURNALS,
+  IMPORT_ITEMS,
+  IMPORT_TIMESHEETS,
+  IMPORT_TRANSACTION_JOURNALS,
+  LOAD_DATA_IMPORT_EXPORT,
 } from './DataImportExportIntents';
 import { getBusinessId } from '../linkedAccounts/LinkedAccountsSelectors';
-import { getExportChartOfAccountsQueryParams, getImportChartOfAccountsPayload, getImportContactsPayload } from './selectors/DataImportExportIntegratorSelectors';
+import {
+  getExportChartOfAccountsQueryParams,
+  getImportChartOfAccountsPayload,
+  getImportContactsPayload,
+  getImportEmployeesPayload,
+  getImportGeneralJournalsPayload,
+  getImportItemsPayload,
+  getImportTimesheetsPayload,
+  getImportTransactionJournalsPayload,
+} from './selectors/DataImportExportIntegratorSelectors';
 
 const createDataImportExportIntegrator = (store, integration) => ({
   loadDataImportExport: ({ onSuccess, onFailure }) => {
@@ -41,6 +58,81 @@ const createDataImportExportIntegrator = (store, integration) => ({
 
     integration.writeFormData({
       intent: IMPORT_CONTACTS,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  importEmployees: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+    const content = getImportEmployeesPayload(state);
+
+    integration.writeFormData({
+      intent: IMPORT_EMPLOYEES,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  importItems: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+    const content = getImportItemsPayload(state);
+
+    integration.writeFormData({
+      intent: IMPORT_ITEMS,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  importGeneralJournals: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+    const content = getImportGeneralJournalsPayload(state);
+
+    integration.writeFormData({
+      intent: IMPORT_GENERAL_JOURNALS,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  importTransactionJournals: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+    const content = getImportTransactionJournalsPayload(state);
+
+    integration.writeFormData({
+      intent: IMPORT_TRANSACTION_JOURNALS,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  importTimesheets: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+    const content = getImportTimesheetsPayload(state);
+
+    integration.writeFormData({
+      intent: IMPORT_TIMESHEETS,
       urlParams,
       content,
       onSuccess,
