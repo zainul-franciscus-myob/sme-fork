@@ -1,0 +1,20 @@
+{
+  "entries": [
+    {
+      "id": "13",
+      "importedBy": "John Doe",
+      "fileName": "CBA20191333.qif",
+      "firstTransactionDate": "01/01/2020",
+      "lastTransactionDate": "01/02/2020",
+      "importedDate": "01/02/2020"
+    },
+    {
+      "id": "12",
+      "importedBy": "John Doe",
+      "fileName": "CBA20191222.qif",
+      "firstTransactionDate": "22/12/2019",
+      "lastTransactionDate": "22/12/2019",
+      "importedDate": "22/12/2019"
+    }
+  ]
+}

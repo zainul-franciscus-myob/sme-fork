@@ -87,6 +87,7 @@ const BankingView = (props) => {
     onEditNote,
     onPendingNoteChange,
     onNoteBlur,
+    onImportStatementButtonClick,
   } = props;
 
   const filterBar = (
@@ -99,6 +100,7 @@ const BankingView = (props) => {
   const pageHead = (
     <BankTransactionPageHead
       onBankAccountChange={onBankAccountChange}
+      onImportStatementButtonClick={onImportStatementButtonClick}
     />
   );
 

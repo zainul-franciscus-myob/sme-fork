@@ -4,6 +4,7 @@ import React from 'react';
 import {
   getBankTransactionLineByIndex,
   getBankingRuleInitState,
+  getBusinessId,
   getFilterOptions,
   getIsAllocated,
   getIsEntryLoading,
@@ -11,6 +12,7 @@ import {
   getOpenEntryActiveTabId,
   getOpenEntryDefaultTabId,
   getOpenPosition,
+  getRegion,
 } from './bankingSelectors';
 import {
   getDefaultMatchTransactionFilterRequestParams,
@@ -143,6 +145,7 @@ export default class BankingModule {
         onEditNote={setEditingNoteState}
         onPendingNoteChange={setPendingNote}
         onNoteBlur={this.savePendingNote}
+        onImportStatementButtonClick={this.redirectToBankStatementImport}
       />
     );
 
@@ -152,6 +155,14 @@ export default class BankingModule {
       </Provider>
     );
     this.setRootView(wrappedView);
+  }
+
+  redirectToBankStatementImport = () => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}/bankStatementImport`;
   }
 
   toggleSelectAllState = ({ value }) => {

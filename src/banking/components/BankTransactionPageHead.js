@@ -1,5 +1,5 @@
 import {
-  Icons, Tooltip, TotalsHeader,
+  Button, Icons, PageHead, Tooltip, TotalsHeader,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -10,7 +10,7 @@ import {
 import { getBankReconciliationUrl } from '../bankingSelectors/redirectSelectors';
 import AccountCombobox from '../../components/combobox/AccountCombobox';
 import LinkButton from '../../components/Button/LinkButton';
-import styles from './BankTransactionsPageHead.module.css';
+import styles from './BankTransactionPageHead.module.css';
 
 const onComboBoxChange = onBankAccountChange => (item) => {
   const { id } = item;
@@ -28,6 +28,7 @@ const BankTransactionPageHead = ({
     balanceTooltip,
   },
   onBankAccountChange,
+  onImportStatementButtonClick,
 }) => {
   const totalItems = [
     <Tooltip>{balanceTooltip}</Tooltip>,
@@ -64,10 +65,13 @@ const BankTransactionPageHead = ({
       Reconcile
     </LinkButton>,
   ];
+
   return (
     <div className={styles.pageHead}>
+      <PageHead title="Bank feed transactions">
+        <Button type="secondary" onClick={onImportStatementButtonClick}>Import statement</Button>
+      </PageHead>
       <TotalsHeader
-        title="Bank feed transactions"
         actions={actions}
         totalItems={totalItems}
       />

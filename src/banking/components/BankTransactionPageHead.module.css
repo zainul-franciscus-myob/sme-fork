@@ -35,3 +35,7 @@
 .reconcileLink {
   display: flex;
 }
+
+.pageHead :global(.page-head) {
+  margin-bottom: 0;
+}

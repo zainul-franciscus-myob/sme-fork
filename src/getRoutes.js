@@ -2,6 +2,7 @@ import getAccountRoutes from './modules/account/getAccountRoutes';
 import getApplyToSaleRoutes from './modules/applyToSale/getApplyToSaleRoutes';
 import getBankFeedsRoutes from './modules/bankFeeds/getBankFeedsRoutes';
 import getBankReconciliationRoutes from './modules/bankReconciliation/getBankReconciliationRoutes';
+import getBankStatementImportRoutes from './modules/bankStatementImport/GetBankStatementImportRoutes';
 import getBankingRoutes from './banking/getBankingRoutes';
 import getBankingRuleRoutes from './modules/bankingRules/getBankingRuleRoutes';
 import getBillPaymentRoutes from './modules/billPayment/getBillPaymentRoutes';
@@ -102,6 +103,7 @@ const getRoutes = moduleParams => [
   ...getReceiveMoneyRoutes(moduleParams),
   ...getStpRoutes(moduleParams),
   ...getTemplateRoutes(moduleParams),
+  ...getBankStatementImportRoutes(moduleParams),
 ];
 
 export default getRoutes;

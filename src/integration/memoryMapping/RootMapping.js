@@ -3,6 +3,7 @@ import ActivityMapping from './ActivityMapping';
 import ApplyToSaleMapping from '../../modules/applyToSale/mappings/MemoryApplyToSaleMapping';
 import BankFeedsMapping from '../../modules/bankFeeds/mappings/MemoryBankFeedsMapping';
 import BankReconciliationMapping from '../../modules/bankReconciliation/mappings/MemoryBankReconciliationMapping';
+import BankStatementImportMapping from '../../modules/bankStatementImport/mappings/MemoryBankStatementImportMapping';
 import BankingMappings from './BankingMapping';
 import BankingRuleDetailMapping from '../../modules/bankingRules/bankingRuleDetail/mappings/MemoryBankingRuleDetailMapping';
 import BankingRuleMapping from '../../modules/bankingRules/bankingRuleList/mappings/MemoryBankingRuleMapping';
@@ -143,6 +144,7 @@ const RootMapping = Object.freeze({
   ...StpReportingCentreMapping,
   ...StpSetupMapping,
   ...TemplateMapping,
+  ...BankStatementImportMapping,
 });
 
 export default RootMapping;

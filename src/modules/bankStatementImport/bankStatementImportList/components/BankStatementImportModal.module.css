@@ -1,0 +1,10 @@
+.fileBrowser p {
+  margin-bottom: var(--flx-spacing-tiny);
+}
+
+/*
+ * Reduce the gap between file browser button and description
+ */
+.fileBrowser :global(.file-browser-label-wrapper) {
+  margin-bottom: var(--flx-spacing-x-tiny);
+}
