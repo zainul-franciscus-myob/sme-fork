@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import BankingRuleTypes from './BankingRuleTypes';
+import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 
 export const getRegion = state => state.region;
 export const getBusinessId = state => state.businessId;
@@ -28,24 +28,19 @@ export const getFlipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc'
 
 export const getIsStatusDisplayed = state => state.appliedFilterOptions.showInactive;
 
-const mapBankingRuleType = type => ({
-  'Spend money': BankingRuleTypes.SPEND_MONEY,
-  'Receive money': BankingRuleTypes.RECEIVE_MONEY,
-  Invoice: BankingRuleTypes.INVOICE,
-  Bill: BankingRuleTypes.BILL,
-}[type]);
-
-export const getSelectedBankingRuleUrl = (state, bankingRuleType) => `/#/${getRegion(state)}/${getBusinessId(state)}/bankingRule/${bankingRuleType}/new`;
+export const getSelectedBankingRuleUrl = (state, bankingRuleType) => {
+  const params = getQueryFromParams({
+    ruleType: bankingRuleType,
+  });
+  return `/#/${getRegion(state)}/${getBusinessId(state)}/bankingRule/new${params}`;
+};
 
 export const getTableEntries = createSelector(
   getEntries,
   getRegion,
   getBusinessId,
-  (entries, region, businessId) => entries.map((entry) => {
-    const bankingType = mapBankingRuleType(entry.displayTransactionType);
-    return {
-      ...entry,
-      link: `/#/${region}/${businessId}/bankingRule/${bankingType}/${entry.id}`,
-    };
-  }),
+  (entries, region, businessId) => entries.map(entry => ({
+    ...entry,
+    link: `/#/${region}/${businessId}/bankingRule/${entry.id}`,
+  })),
 );

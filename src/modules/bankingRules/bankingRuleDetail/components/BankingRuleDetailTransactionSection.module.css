@@ -1,0 +1,19 @@
+@media screen and (min-width: 768px) {
+  .transaction { 
+    display: flex;
+  }
+
+  .transaction :global(.form-group) {
+    width: var(--flx-width-field-xl);
+  }
+
+  .transaction :global(.form-group:first-child) {
+    margin-bottom: var(--flx-spacing-small);
+  }
+
+  .transaction :global(.checkbox) {
+    align-self: center;
+    margin-top: 0.8rem;
+    margin-left: var(--flx-spacing-small);
+  }
+}

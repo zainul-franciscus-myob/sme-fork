@@ -1,8 +1,8 @@
 const BankingRuleTypes = {
-  SPEND_MONEY: 'spendMoney',
-  RECEIVE_MONEY: 'receiveMoney',
-  INVOICE: 'invoice',
-  BILL: 'bill',
+  SPEND_MONEY: 'SpendMoney',
+  RECEIVE_MONEY: 'ReceiveMoney',
+  INVOICE: 'Invoice',
+  BILL: 'Bill',
 };
 
 export default BankingRuleTypes;

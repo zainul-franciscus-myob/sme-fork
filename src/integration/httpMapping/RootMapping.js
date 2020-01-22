@@ -4,11 +4,8 @@ import ApplyToSaleMapping from '../../modules/applyToSale/mappings/HttpApplyToSa
 import BankFeedsMapping from '../../modules/bankFeeds/mappings/HttpBankFeedsMapping';
 import BankReconciliationMapping from '../../modules/bankReconciliation/mappings/HttpBankReconciliationMapping';
 import BankingMapping from './BankingMapping';
-import BankingRuleBillMapping from '../../modules/bankingRules/bankingRuleBill/mappings/HttpBankingRuleBillMapping';
-import BankingRuleInvoiceMapping from '../../modules/bankingRules/bankingRuleInvoice/mappings/HttpBankingRuleInvoiceMapping';
+import BankingRuleDetailMapping from '../../modules/bankingRules/bankingRuleDetail/mappings/HttpBankingRuleDetailMapping';
 import BankingRuleMapping from '../../modules/bankingRules/bankingRuleList/mappings/HttpBankingRuleMapping';
-import BankingRuleReceiveMoneyMapping from '../../modules/bankingRules/bankingRuleReceiveMoney/mappings/HttpBankingRuleReceiveMoneyMapping';
-import BankingRuleSpendMoneyMapping from '../../modules/bankingRules/bankingRuleSpendMoney/mappings/HttpBankingRuleSpendMoneyMapping';
 import BillDetailMapping from '../../modules/bill/billDetail/mappings/HttpBillDetailMapping';
 import BillMapping from '../../modules/bill/billList/mappings/HttpBillMapping';
 import BillPaymentMapping from '../../modules/billPayment/mappings/HttpBillPaymentMapping';
@@ -113,10 +110,7 @@ const RootMapping = Object.freeze({
   ...LinkedAccountsMapping,
   ...BankingRuleMapping,
   ...BankReconciliationMapping,
-  ...BankingRuleSpendMoneyMapping,
-  ...BankingRuleReceiveMoneyMapping,
-  ...BankingRuleInvoiceMapping,
-  ...BankingRuleBillMapping,
+  ...BankingRuleDetailMapping,
   ...PayRunMapping,
   ...PaySuperListMapping,
   ...PaySuperReadMapping,
