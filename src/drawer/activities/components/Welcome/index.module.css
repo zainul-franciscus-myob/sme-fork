@@ -4,9 +4,15 @@
   padding: var(--flx-spacing-small);
 }
 
-.spotlight h2 { margin-bottom: var(--flx-spacing-x-small) }
+.spotlight h2 {
+  margin-bottom: var(--flx-spacing-x-small);
+  margin-top: var(--flx-spacing-medium);
+}
 
-.spotlight p { width: 65%; }
+.spotlight p {
+  margin-bottom: var(--flx-spacing-medium);
+  width: 65%;
+}
 
 .spotlight a { margin-right: var(--flx-spacing-x-small) }
 
@@ -17,10 +23,11 @@
   vertical-align: text-bottom;
 }
 
-.close {
+.spotlight .close {
   border: none;
   background-color: unset;
   float: right;
+  padding: 0;
 }
 
 @media (max-width: 1600px) {

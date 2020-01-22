@@ -1,9 +1,6 @@
-import {
-  Icons,
-} from '@myob/myob-widgets';
+import { Button, Icons } from '@myob/myob-widgets';
 import React from 'react';
 
-import crossPurple from './assets/cross-purple.svg';
 import styles from './index.module.css';
 
 const Welcome = ({ activity, closeActivity }) => {
@@ -15,10 +12,14 @@ const Welcome = ({ activity, closeActivity }) => {
     closeActivity({ activityId: id });
   };
 
+  const onboardingTour = () => {
+    window.location.href = `/#/${activity.region}/${activity.cdfguid}/dashboard?appcue=-LwVnYlAyZs8fgnratzU`;
+  };
+
   return (
     <div className={styles.spotlight}>
       <button type="button" className={styles.close} onClick={onCloseWelcomeActivity}>
-        <img src={crossPurple} width="12px" height="12px" alt="play" />
+        <Icons.Close />
       </button>
       <h2>Getting started</h2>
 
@@ -27,10 +28,7 @@ const Welcome = ({ activity, closeActivity }) => {
         Make sure to check back here later for more setup tasks.
       </p>
 
-      <a href={`/#/${activity.region}/${activity.cdfguid}/dashboard?appcue=-LwVnYlAyZs8fgnratzU`}>
-        <Icons.Hints size="16px" />
-        Take a short tour
-      </a>
+      <Button type="link" icon={<Icons.Hints />} onClick={onboardingTour}>Take a short tour</Button>
     </div>
   );
 };

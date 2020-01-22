@@ -18,10 +18,7 @@ export default class ActivitiesModule {
   }
 
   getView = (activities) => {
-    const {
-      store, closeView, activitiesService,
-    } = this;
-
+    const { activitiesService, closeView, store } = this;
     const { closeTask, closeActivity } = activitiesService;
     const onboardingActivities = activities && activities.filter(activity => activity.template === 'drawer');
     const welcomeActivity = activities && activities.find(activity => activity.template === 'welcome');
@@ -29,11 +26,11 @@ export default class ActivitiesModule {
     return (
       <Provider store={store}>
         <ActivitiesView
+          closeActivity={closeActivity}
+          closeTask={closeTask}
           closeView={closeView}
           onboardingActivities={onboardingActivities}
           welcomeActivity={welcomeActivity}
-          closeTask={closeTask}
-          closeActivity={closeActivity}
         />
       </Provider>
     );
@@ -41,7 +38,7 @@ export default class ActivitiesModule {
 
   setActive = (isActive) => {
     this.dispatcher.setActiveState(!!isActive);
-  }
+  };
 
   closeView = () => this.closeDrawer();
 
