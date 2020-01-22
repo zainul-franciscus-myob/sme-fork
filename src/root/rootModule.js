@@ -11,6 +11,7 @@ import RootReducer from './rootReducer';
 import RootView from './components/RootView';
 import SettingsService from './services/settings';
 import Store from '../store/Store';
+import buildGlobalCallbacks from './builders/buildGobalCallbacks';
 
 export default class RootModule {
   constructor({
@@ -43,6 +44,11 @@ export default class RootModule {
       activitiesService: this.activitiesService,
       toggleActivities: this.drawer.toggleActivities,
     });
+
+    this.globalCallbacks = buildGlobalCallbacks({
+      closeManyTasks: this.activitiesService.closeManyTasks,
+      store: this.store,
+    });
   }
 
   render = component => (
@@ -61,8 +67,6 @@ export default class RootModule {
     const { routeParams: { businessId, region } } = routeProps;
     this.dispatcher.setBusinessId(businessId);
     this.dispatcher.setRegion(region);
-
-    this.settingsService.load();
 
     if (businessId) {
       this.activitiesService.load();

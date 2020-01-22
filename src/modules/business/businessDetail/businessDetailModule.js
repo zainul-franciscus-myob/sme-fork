@@ -26,11 +26,12 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BusinessDetailModule {
   constructor({
-    integration, setRootView,
+    integration, setRootView, businessDetailsConfirmed,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(businessDetailReducer);
+    this.businessDetailsConfirmed = businessDetailsConfirmed;
   }
 
   loadBusinessDetail = () => {
@@ -84,6 +85,7 @@ export default class BusinessDetailModule {
 
   updateBusinessDetail = () => {
     const onSuccess = ({ message }) => {
+      this.businessDetailsConfirmed();
       this.setSubmittingState(false);
       this.setIsPageEdited(false);
       this.setIsLockDateAutoPopulated(false);

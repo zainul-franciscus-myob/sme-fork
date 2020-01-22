@@ -1,7 +1,12 @@
 [
   {
-    "template": "drawer",
-    "data": {},
+    "template": "welcome",
+    "id": "f6e9e011-e550-4017-93f8-7ad14ff4e3c4",
+    "cfguid": "f6e9e011-e550-4017-93f8-7ad14ff4e3c4",
+    "region": "au",
+    "data": { "isComplete": false }
+  },
+  {
     "tasks": [
       {
         "action": "/#/{{region}}/{{cdfguid}}?appcue=-Lu0kKUp1O4HTa0FQ_VI",
@@ -28,6 +33,8 @@
         "key": "inviteUsers",
         "title": "Invite users"
       }
-    ]
+    ],
+    "template": "drawer",
+    "data": { "closed": [] }
   }
 ]

@@ -1,6 +1,7 @@
 import {
   GET_ACTIVITIES_LIST, LOAD_SETTINGS, SAVE_SETTINGS,
-  SET_BUSINESS_ID, SET_LOADING_STATE, SET_REGION, SET_VIEW_DATA, UPDATE_ACTIVITY,
+  SET_BUSINESS_ID, SET_LOADING_STATE, SET_REGION,
+  SET_VIEW_DATA, UPDATE_ACTIVITIES, UPDATE_ACTIVITY,
 } from './rootIntents';
 
 const createRootDispatcher = store => ({
@@ -22,6 +23,11 @@ const createRootDispatcher = store => ({
   updateActivity: (payload) => {
     const intent = UPDATE_ACTIVITY;
     store.dispatch({ intent, payload });
+  },
+
+  updateActivities: (activities) => {
+    const intent = UPDATE_ACTIVITIES;
+    store.dispatch({ intent, activities });
   },
 
   setBusinessId: (businessId) => {

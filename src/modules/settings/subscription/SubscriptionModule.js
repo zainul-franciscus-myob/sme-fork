@@ -10,9 +10,7 @@ export default class SubscriptionModule {
     try {
       const result = await new Promise((resolve, reject) => this.integration.write({
         intent: GET_UPDATE_SUBSCRIPTION_URL,
-        urlParams: {
-          businessId,
-        },
+        urlParams: { businessId },
         content: { redirectUrl: this.previousRoute.url },
         onSuccess: resolve,
         onFailure: reject,

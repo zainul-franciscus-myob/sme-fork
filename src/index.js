@@ -36,7 +36,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
     ReactDOM.unmountComponentAtNode(root);
     ReactDOM.render(rootModule.render(component), root);
   };
-
   let previousRoute = null;
 
   const routes = getRoutes({
@@ -51,6 +50,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     pushMessage: inbox.pushMessage,
     replaceURLParams: router.replaceURLParams,
     reload: router.reload,
+    globalCallbacks: rootModule.globalCallbacks,
   });
 
   const moduleList = routes.map(route => route.module);

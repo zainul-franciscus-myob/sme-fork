@@ -1,5 +1,6 @@
 import {
   CLOSE_ACTIVITY,
+  CLOSE_MANY_TASKS,
   CLOSE_TASK,
   CREATE_ACTIVITY,
   DELETE_ACTIVITY,
@@ -21,6 +22,7 @@ const ActivityMapping = {
   [UPDATE_ACTIVITY]: () => activity,
   [DELETE_ACTIVITY]: () => 'Activity f0c98d9a-f898-438c-86e8-ecbd06a0d11f deleted',
   [CLOSE_TASK]: () => activity,
+  [CLOSE_MANY_TASKS]: () => activity,
 };
 
 export default ActivityMapping;

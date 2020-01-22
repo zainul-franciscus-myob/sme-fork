@@ -1,7 +1,7 @@
 import {
   GET_ACTIVITIES_LIST, LOAD_SETTINGS, SAVE_SETTINGS,
   SET_BUSINESS_ID, SET_LOADING_STATE, SET_REGION,
-  SET_VIEW_DATA, UPDATE_ACTIVITY,
+  SET_VIEW_DATA, UPDATE_ACTIVITIES, UPDATE_ACTIVITY,
 } from './rootIntents';
 import createReducer from '../store/createReducer';
 import shouldShowOnboarding from './services/shouldShowOnboarding';
@@ -57,6 +57,22 @@ const updateActivity = (state, action) => {
   return { ...state, activities };
 };
 
+const updateActivities = (state, { activities: updatedActivities }) => {
+  const currentActivities = state.activities;
+
+  const newActivities = currentActivities.map((currentActivity) => {
+    const activityToUpdate = updatedActivities.find(
+      updatedActivity => updatedActivity.id === currentActivity.id,
+    );
+
+    if (activityToUpdate) return activityToUpdate;
+
+    return currentActivity;
+  });
+
+  return { ...state, activities: newActivities };
+};
+
 const handlers = {
   [SET_LOADING_STATE]: setLoading,
   [LOAD_SETTINGS]: setOnboarding,
@@ -64,6 +80,7 @@ const handlers = {
   [SET_VIEW_DATA]: setViewData,
   [GET_ACTIVITIES_LIST]: loadActivities,
   [UPDATE_ACTIVITY]: updateActivity,
+  [UPDATE_ACTIVITIES]: updateActivities,
   [SET_BUSINESS_ID]: setBusinessId,
   [SET_REGION]: setRegion,
 };
