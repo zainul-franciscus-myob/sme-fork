@@ -33,6 +33,12 @@ export const getRowHours = row => days.map(field => (
   row[field] ? Number(row[field].hours) : 0
 ));
 
+const getHourForDay = (row, day) => Number(row[day].hours);
+const getTotalForWeekDay = (state, day) => getFormattedHours(sum(
+  getTimesheetRows(state).map(row => getHourForDay(row, day)),
+));
+export const getWeekDayTotals = state => days.map(day => getTotalForWeekDay(state, day));
+
 export const getTimesheetTotalHours = (state) => {
   const timesheetRows = [...state.timesheetRows];
   const rowsTotalHoursArray = timesheetRows.map((row) => {

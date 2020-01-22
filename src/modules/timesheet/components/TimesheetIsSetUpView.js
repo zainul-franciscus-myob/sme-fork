@@ -25,6 +25,7 @@ import {
   getTimesheetRows,
   getTimesheetTotalHours,
   getWeekDayLabels,
+  getWeekDayTotals,
   getWeekStartDate,
 } from '../timesheetSelectors';
 import EmployeeCombobox from './EmployeeCombobox';
@@ -44,6 +45,7 @@ const sum = (list => list.reduce((total, value) => (total + value), 0));
 
 const TimesheetIsSetUpView = ({
   weekDayLabels,
+  weekDayTotals,
   timesheetRows,
   payItems,
   employeeList,
@@ -115,6 +117,7 @@ const TimesheetIsSetUpView = ({
           label={label}
           key={field}
           decimalScale={2}
+          numeralIntegerScale={2}
         />
       );
     });
@@ -218,10 +221,16 @@ const TimesheetIsSetUpView = ({
           onRemoveRow={onRemoveRow}
         >
           <LineItemTable.Total>
+            {weekDayLabels.map((label, index) => (
+              <LineItemTable.Totals
+                title={`${label}:`}
+                amount={weekDayTotals[index]}
+              />
+            ))}
             <LineItemTable.Totals
               totalAmount
               title="Total hours:"
-              amount={String(totalHoursSum)}
+              amount={totalHoursSum}
             />
           </LineItemTable.Total>
         </LineItemTable>
@@ -265,6 +274,7 @@ const mapStateToProps = state => ({
   selectedDate: getSelectedDate(state),
   displayStartStopTimes: getDisplayStartStopTimes(state),
   totalHoursSum: getTimesheetTotalHours(state),
+  weekDayTotals: getWeekDayTotals(state),
 });
 
 export default connect(mapStateToProps)(TimesheetIsSetUpView);

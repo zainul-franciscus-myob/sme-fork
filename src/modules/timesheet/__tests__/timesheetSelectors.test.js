@@ -1,4 +1,6 @@
-import { getDeleteTimesheetContent, getSaveTimesheetContent, getTimesheetTotalHours } from '../timesheetSelectors';
+import {
+  getDeleteTimesheetContent, getSaveTimesheetContent, getTimesheetTotalHours, getWeekDayTotals,
+} from '../timesheetSelectors';
 
 describe('timesheetSelectors', () => {
   describe('getTimesheetTotalHours', () => {
@@ -105,5 +107,42 @@ describe('timesheetSelectors', () => {
         }],
       });
     });
+  });
+
+  describe('getWeekDayTotals', () => {
+    const state = {
+      timesheetRows: [
+        {
+          day1: { hours: '1' },
+          day2: { hours: '1' },
+          day3: { hours: '1' },
+          day4: { hours: '1' },
+          day5: { hours: '1' },
+          day6: { hours: '1' },
+          day7: { hours: '0' },
+        },
+        {
+          day1: { hours: '2' },
+          day2: { hours: '2' },
+          day3: { hours: '2' },
+          day4: { hours: '2' },
+          day5: { hours: '2' },
+          day6: { hours: '0' },
+          day7: { hours: '0' },
+        },
+      ],
+    };
+
+    const actual = getWeekDayTotals(state);
+
+    expect(actual).toEqual([
+      '3.00',
+      '3.00',
+      '3.00',
+      '3.00',
+      '3.00',
+      '1.00',
+      '0.00',
+    ]);
   });
 });
