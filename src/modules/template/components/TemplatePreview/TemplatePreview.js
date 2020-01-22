@@ -83,6 +83,16 @@ const getPaymentMethod = ({
   isAllowPaymentByDirectDeposit,
   isAllowPaymentByCheque,
 }) => {
+  const isQuote = previewType === PreviewType.Quote;
+  const isEmptyAU = region === 'au'
+    && !(isAllowOnlinePayment
+      || isAllowPaymentByDirectDeposit
+      || isAllowPaymentByCheque);
+  const isEmptyNZ = region === 'nz'
+    && !(isAllowPaymentByDirectDeposit || isAllowPaymentByCheque);
+  if (isQuote || isEmptyNZ || isEmptyAU) {
+    return false;
+  }
   if (region === 'au') {
     return (
       <AUPaymentMethod
@@ -143,7 +153,10 @@ const TemplatePreview = ({
         abn={abn}
       />
       {getDocInfoForPreviewType(previewType)}
-      <ShippingInfo useAddressEnvelopePosition={useAddressEnvelopePosition} />
+      <ShippingInfo
+        previewType={previewType}
+        useAddressEnvelopePosition={useAddressEnvelopePosition}
+      />
       <Separator featureColour={featureColour} />
       {getTemplateTable(previewType, saleLayout, region)}
       {getTemplateTableSummary(previewType, saleLayout, region)}

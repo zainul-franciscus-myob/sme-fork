@@ -6,7 +6,7 @@ import formatSlashDate from '../../../../../common/valueFormatters/formatDate/fo
 const StatementDocumentInfo = () => (
   <DocumentInfo
     title="Statement"
-    items={[{ name: 'Issue date', value: formatSlashDate(Date.now()) }]}
+    items={[{ name: 'Statement date', value: formatSlashDate(Date.now()) }]}
   />
 );
 

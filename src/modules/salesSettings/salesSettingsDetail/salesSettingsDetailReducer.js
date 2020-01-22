@@ -19,6 +19,7 @@ import {
   UPDATE_SALES_SETTINGS_ITEM,
 } from '../SalesSettingsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { mainTabIds } from './tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
@@ -66,14 +67,14 @@ const getDefaultState = () => ({
     templates: [],
     arlTemplates: [],
     essentialsTemplates: [],
-    sortOrder: '',
-    orderBy: '',
+    sortOrder: 'desc',
+    orderBy: 'name',
     isLoading: false,
   },
   serialNumber: '',
   isPageEdited: false,
   tabData: {},
-  selectedTab: 'layoutAndTheme',
+  selectedTab: mainTabIds.layoutAndTheme,
   pendingTab: '',
   pendingDeleteTemplate: '',
   paymentTerms: [],

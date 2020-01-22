@@ -6,6 +6,7 @@ import getRegionToDialectText from '../../../../../dialect/getRegionToDialectTex
 const QuoteServiceItemSummary = ({ region }) => (
   <TableSummary
     summary={[
+      { title: 'Subtotal', amount: '$89.14' },
       { title: getRegionToDialectText(region)('Tax'), amount: '$8.91' },
       {
         title: 'Total amount',

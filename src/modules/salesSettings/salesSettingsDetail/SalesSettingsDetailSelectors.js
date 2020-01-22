@@ -1,6 +1,6 @@
-import { createSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
 
-import { mainTabItems } from './tabItems';
+import { mainTabIds, mainTabItems } from './tabItems';
 import Region from '../../../common/types/Region';
 
 export const getLoadingState = state => state.loadingState;
@@ -93,14 +93,9 @@ export const getIsTemplatesLoading = createSelector(
   templateSettings => templateSettings.isLoading,
 );
 
-const flipSortOrder = createSelector(
-  getSortOrder,
-  sortOrder => (sortOrder === 'desc' ? 'asc' : 'desc'),
-);
+const flipSortOrder = createSelector(getSortOrder, sortOrder => (sortOrder === 'desc' ? 'asc' : 'desc'));
 
-export const getNewSortOrder = orderBy => state => (
-  orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc'
-);
+export const getNewSortOrder = orderBy => state => (orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc');
 
 export const getSalesSettingsPayload = (state) => {
   const tabData = getTabData(state);
@@ -113,7 +108,8 @@ export const getSalesSettingsPayload = (state) => {
 };
 
 export const getShowOnlinePaymentOptions = createSelector(
-  getRegion, region => region === Region.au,
+  getRegion,
+  region => region === Region.au,
 );
 
 export const getOnlinePaymentOptions = createSelector(
@@ -123,11 +119,37 @@ export const getOnlinePaymentOptions = createSelector(
   getPayDirectLink,
   getTabData,
   getAccountOptions,
-  (isLoading, isServiceAvailable, isRegistered, payDirectLink, salesSettings, accountOptions) => {
+  (
+    isLoading,
+    isServiceAvailable,
+    isRegistered,
+    payDirectLink,
+    salesSettings,
+    accountOptions,
+  ) => {
     const { accountId } = salesSettings;
 
     return {
-      isLoading, isServiceAvailable, isRegistered, payDirectLink, accountId, accountOptions,
+      isLoading,
+      isServiceAvailable,
+      isRegistered,
+      payDirectLink,
+      accountId,
+      accountOptions,
     };
   },
 );
+
+export const getTab = createSelector(
+  getSelectedTab,
+  (stateTab) => {
+    const tabIdKeys = Object.keys(mainTabIds);
+    const isValidTab = tabIdKeys.includes(stateTab);
+
+    return isValidTab ? stateTab : mainTabIds.layoutAndTheme;
+  },
+);
+
+export const getUrlTabParams = createStructuredSelector({
+  selectedTab: getTab,
+});

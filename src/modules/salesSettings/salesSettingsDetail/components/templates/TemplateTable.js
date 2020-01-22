@@ -99,6 +99,7 @@ const TemplateTable = ({
       <Table.HeaderItem {...tableConfig.action} />
     </Table.Header>
   );
+
   const renderTableRow = template => (
     <Table.Row key={template.name}>
       <Table.RowItem {...tableConfig.name}>
@@ -124,17 +125,19 @@ const TemplateTable = ({
   const tableBody = () => (
     <Table.Body>{templates.map(renderTableRow)}</Table.Body>
   );
-
+  const renderTable = () => (
+    hasTemplates ? tableBody() : emptyView()
+  );
   const table = (
     <Table hasActions>
       {renderTableHeader()}
-      {hasTemplates ? tableBody() : emptyView()}
+      {isLoading ? <Spinner /> : renderTable()}
     </Table>
   );
 
   return (
     <Card>
-      {isLoading ? <Spinner /> : table}
+      {table}
     </Card>
   );
 };

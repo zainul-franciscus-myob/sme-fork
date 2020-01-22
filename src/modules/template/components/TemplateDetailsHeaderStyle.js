@@ -1,6 +1,4 @@
-import {
-  Checkbox, RadioButton, RadioButtonGroup,
-} from '@myob/myob-widgets';
+import { Checkbox, RadioButton, RadioButtonGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -36,6 +34,7 @@ const TemplateDetailsHeaderStyle = ({
             'featureColour',
             onUpdateTemplateOptions,
           )}
+          defaultColorIfBlack="#ffffff"
         />
         <ColorPicker
           value={headerTextColour}
@@ -45,6 +44,7 @@ const TemplateDetailsHeaderStyle = ({
             'headerTextColour',
             onUpdateTemplateOptions,
           )}
+          defaultColorIfBlack="#ffffff"
         />
         <RadioButtonGroup
           label="PDF style:"

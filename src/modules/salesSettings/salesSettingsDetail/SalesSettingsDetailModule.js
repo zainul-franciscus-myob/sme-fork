@@ -14,7 +14,9 @@ import {
   getSalesSettingsPayload,
   getSelectedTab,
   getShowOnlinePaymentOptions,
+  getSortOrder,
   getTabData,
+  getUrlTabParams,
 } from './SalesSettingsDetailSelectors';
 import { mainTabIds } from './tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -29,17 +31,22 @@ import salesSettingsReducer from './salesSettingsDetailReducer';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class SalesSettingsModule {
-  constructor({ integration, setRootView, popMessages }) {
+  constructor({
+    integration, setRootView, popMessages, replaceURLParams,
+  }) {
     this.integration = integration;
     this.store = new Store(salesSettingsReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
+    this.replaceURLParams = replaceURLParams;
+
 
     this.dispatcher = createSalesSettingsDispatcher(this.store);
     this.integrator = createSalesSettingsIntegrator(this.store, integration);
   }
 
   loadSalesSettings = () => {
+    const state = this.store.getState();
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadSalesSettings(response);
@@ -49,7 +56,12 @@ export default class SalesSettingsModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integrator.loadSalesSettings({ onSuccess, onFailure });
+    const templateListSortOrder = getSortOrder(state);
+    this.integrator.loadSalesSettings({
+      templateListSortOrder,
+      onSuccess,
+      onFailure,
+    });
   };
 
   updateSalesSettings = () => {
@@ -86,7 +98,7 @@ export default class SalesSettingsModule {
     };
 
     this.integrator.loadPayDirectSettings({ onSuccess, onFailure });
-  }
+  };
 
   switchTab = (selectedTab) => {
     if (getIsPageEdited(this.store.getState())) {
@@ -158,14 +170,17 @@ export default class SalesSettingsModule {
   };
 
   deleteTemplate = () => {
+    this.dispatcher.setTemplateListLoadingState(true);
     const templateName = getPendingDeleteTemplate(this.store.getState());
 
     const onSuccess = ({ message }) => {
       this.dispatcher.setAlert({ message, type: 'success' });
+      this.dispatcher.setTemplateListLoadingState(false);
       this.dispatcher.deleteTemplate(templateName);
     };
 
     const onFailure = (error) => {
+      this.dispatcher.setTemplateListLoadingState(false);
       this.dispatcher.setAlert({ message: error.message, type: 'danger' });
     };
 
@@ -256,9 +271,7 @@ export default class SalesSettingsModule {
     const [successMessage] = this.popMessages([TEMPLATE_UPDATED]);
 
     if (successMessage) {
-      const {
-        content: message,
-      } = successMessage;
+      const { content: message } = successMessage;
 
       this.dispatcher.setAlert({
         type: 'success',
@@ -267,15 +280,20 @@ export default class SalesSettingsModule {
     }
   };
 
+  updateURLFromState = state => this.replaceURLParams(getUrlTabParams(state))
+
   run = (context) => {
     this.dispatcher.setInitialState(context);
+    this.store.subscribe(this.updateURLFromState);
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();
     this.loadSalesSettings();
 
-    const showOnlinePaymentOptions = getShowOnlinePaymentOptions(this.store.getState());
+    const showOnlinePaymentOptions = getShowOnlinePaymentOptions(
+      this.store.getState(),
+    );
     if (showOnlinePaymentOptions) {
       this.loadPayDirectSettings();
     }

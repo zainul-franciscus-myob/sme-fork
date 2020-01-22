@@ -141,7 +141,7 @@ class TemplateModule {
   };
 
   redirectToSalesSettings = () => {
-    this.redirectToPath('/salesSettings');
+    this.redirectToPath('/salesSettings?selectedTab=templates');
   };
 
   redirectToBusinessDetails = () => {

@@ -8,7 +8,7 @@ import formatSlashDate from '../../../../../common/valueFormatters/formatDate/fo
 const InvoiceFooter = ({ saleLayout }) => (
   <Footer
     items={[
-      { title: 'Invoice no.', content: '00000001' },
+      { title: 'Invoice no.', content: 'IV00000195' },
       { title: 'Due date', content: formatSlashDate(addMonths(Date.now(), 1)) },
       { title: 'Balance due', content: saleLayout === SaleLayout.Service ? '$190.00' : '$98.05' },
     ]}

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { PreviewType } from '../../templateOptions';
 import styles from './ShippingInfo.module.css';
 
 const addressWithWindow = (
@@ -25,16 +26,23 @@ const addressWithoutWindow = (
   </div>
 );
 
-const ShippingInfo = ({ useAddressEnvelopePosition }) => (
+const shipToAddress = (
+  <div className={styles.addressWithoutWindow}>
+    <h5>Ship to</h5>
+    <div className={styles['item--italic']}>Elizabeth Smith</div>
+    <div className={styles['item--italic']}>A-Z Stationary Supplies</div>
+    <div>5-7 Readen Road</div>
+    <div>Bondi NSW 2026</div>
+    <div>Australia</div>
+  </div>
+);
+const ShippingInfo = ({ previewType, useAddressEnvelopePosition }) => (
   <div className={styles.container}>
-    {useAddressEnvelopePosition ? addressWithWindow : addressWithoutWindow}
-    <div className={styles.addressWithoutWindow}>
-      <h5>Ship to</h5>
-      <div className={styles['item--italic']}>Elizabeth Smith</div>
-      <div className={styles['item--italic']}>A-Z Stationary Supplies</div>
-      <div>5-7 Readen Road</div>
-      <div>Bondi NSW 2026</div>
-      <div>Australia</div>
+    <div>
+      {useAddressEnvelopePosition ? addressWithWindow : addressWithoutWindow}
+    </div>
+    <div>
+      {previewType !== PreviewType.Statement && shipToAddress}
     </div>
   </div>
 );

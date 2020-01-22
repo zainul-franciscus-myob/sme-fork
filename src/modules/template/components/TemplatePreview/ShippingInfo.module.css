@@ -3,21 +3,19 @@
   flex-direction: row;
   margin-bottom: 2rem;
 }
+.container > * {
+  flex: 1 0 0
+}
 
 .addressWithWindow {
   padding-left: 65px;
   padding-right: var(--tmp-spacing-small);
-  flex: 1 1 auto;
 }
 
 .addressWithWindowItems {
   border-radius: 4px;
   background-color: var(--tmp-color-grey);
   padding: var(--tmp-spacing-tiny) var(--tmp-spacing-small);
-}
-
-.addressWithoutWindow {
-  flex: 1 1 auto;
 }
 
 .addressWithoutWindow h5 {

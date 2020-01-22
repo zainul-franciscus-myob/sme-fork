@@ -16,14 +16,14 @@ const ServiceItemTable = ({ region }) => {
     },
     {
       key: 'unitPrice',
-      name: 'Unit price($)',
+      name: 'Unit price ($)',
       width: '80px',
       rightAlign: true,
       description: getRegionToDialectText(region)('Including tax'),
     },
     {
       key: 'discount',
-      name: 'Disc.(&)',
+      name: 'Disc. (%)',
       width: '55px',
       rightAlign: true,
     },
@@ -34,7 +34,7 @@ const ServiceItemTable = ({ region }) => {
     },
     {
       key: 'amount',
-      name: 'Amount($)',
+      name: 'Amount ($)',
       width: '70px',
       rightAlign: true,
       description: getRegionToDialectText(region)('Including tax'),

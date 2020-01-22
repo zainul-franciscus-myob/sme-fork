@@ -10,7 +10,7 @@ import { getBusinessId } from './SalesSettingsDetailSelectors';
 
 
 const createInTrayIntegrator = (store, integration) => ({
-  loadSalesSettings: ({ onSuccess, onFailure }) => {
+  loadSalesSettings: ({ onSuccess, onFailure, templateListSortOrder }) => {
     const state = store.getState();
     const intent = LOAD_SALES_SETTINGS;
 
@@ -21,6 +21,9 @@ const createInTrayIntegrator = (store, integration) => ({
     integration.read({
       intent,
       urlParams,
+      params: {
+        templateListSortOrder,
+      },
       onSuccess,
       onFailure,
     });

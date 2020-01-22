@@ -13,7 +13,7 @@ const ServiceTable = ({ region }) => {
     },
     {
       key: 'amount',
-      name: 'Amount($)',
+      name: 'Amount ($)',
       width: '90px',
       rightAlign: true,
       description: getRegionToDialectText(region)('Including tax'),
