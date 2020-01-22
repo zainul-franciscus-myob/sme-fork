@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { LOAD_NEW_ADVISOR_DETAIL, LOAD_NEW_USER_DETAIL, LOAD_USER_DETAIL } from '../UserIntents';
 import ModalType from '../ModalType';
+import RoleTypes from '../../../common/types/RoleTypes';
 
 const NEW_USER_PATH_COMPONENT = 'new';
 const NEW_ADVISOR_PATH_COMPONENT = 'new-advisor';
@@ -73,11 +74,17 @@ export const getUserDetails = createSelector(
   getUser,
   getIsCreating,
   getIsCurrentUserOnlineAdmin,
-  (user, isCreating, isCurrentUserOnlineAdmin) => ({
-    ...user,
-    isCreating,
-    isCurrentUserOnlineAdmin,
-  }),
+  (user, isCreating, isCurrentUserOnlineAdmin) => {
+    const isAdminRowSelected = user.roles
+      .some(({ type, selected }) => selected && type === RoleTypes.ADMINISTRATOR);
+
+    return {
+      ...user,
+      isCreating,
+      isCurrentUserOnlineAdmin,
+      showReadOnly: !isAdminRowSelected,
+    };
+  },
 );
 
 export const getAlertMessage = state => state.alertMessage;

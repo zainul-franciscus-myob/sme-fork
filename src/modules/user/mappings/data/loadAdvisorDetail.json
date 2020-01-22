@@ -3,17 +3,20 @@
     "roles": [
       {
         "id": "1",
+        "type": "AccountantBookkeeper",
         "name": "Accountant/BookKeeper",
         "selected": true
       },
       {
         "id": "2",
+        "type": "Administrator",
         "name": "Administrator",
         "selected": false
       },
       {
         "id": "3",
-        "name": "Banking",
+        "type": "Custom",
+        "name": "Custom role",
         "selected": true
       }
     ],

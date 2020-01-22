@@ -1,4 +1,5 @@
-import { getTitle, getUserForCreate } from '../userDetailSelectors';
+import { getTitle, getUserDetails, getUserForCreate } from '../userDetailSelectors';
+import RoleTypes from '../../../../common/types/RoleTypes';
 
 describe('User Detail Selectors', () => {
   describe('getUserForCreate', () => {
@@ -122,6 +123,22 @@ describe('User Detail Selectors', () => {
       const actual = getTitle(state);
 
       expect(actual).toEqual('rivneg');
+    });
+  });
+
+  describe('getUserDetails', () => {
+    it.each([
+      [true, false],
+      [false, true],
+    ])('showReadOnly', (selected, expected) => {
+      const user = {
+        isReadOnly: true,
+        roles: [{ selected, type: RoleTypes.ADMINISTRATOR }],
+      };
+
+      const actual = getUserDetails.resultFunc(user, true, true);
+
+      expect(actual.showReadOnly).toEqual(expected);
     });
   });
 });

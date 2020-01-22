@@ -28,6 +28,7 @@ const UserDetailAccessGroup = ({
   isReadOnly,
   isAdmin,
   isOnlineAdministrator,
+  showReadOnly,
   onUserDetailsChange,
   onUserRolesChange,
 }) => (
@@ -63,15 +64,18 @@ const UserDetailAccessGroup = ({
               onChange={onRadioButtonChange(onUserDetailsChange)}
               disabled={!isCreating && isAdmin}
             />,
-            <RadioButton
-              key="2"
-              name="isReadOnly"
-              label="Read only"
-              value="true"
-              checked={isReadOnly}
-              onChange={onRadioButtonChange(onUserDetailsChange)}
-              disabled={!isCreating && isAdmin}
-            />]}
+            showReadOnly && (
+              <RadioButton
+                key="2"
+                name="isReadOnly"
+                label="Read only"
+                value="true"
+                checked={isReadOnly}
+                onChange={onRadioButtonChange(onUserDetailsChange)}
+                disabled={!isCreating && isAdmin}
+              />
+            ),
+          ]}
         />
       )
     }

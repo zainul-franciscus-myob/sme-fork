@@ -12,6 +12,7 @@ import {
 } from '../UserIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
+import RoleTypes from '../../../common/types/RoleTypes';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -73,18 +74,27 @@ const loadUserDetail = (state, { user, isCurrentUserOnlineAdmin }) => ({
   isCurrentUserOnlineAdmin,
 });
 
-const updateUserRoles = (state, action) => ({
-  ...state,
-  user: {
-    ...state.user,
-    roles: state.user.roles.map(role => (
-      role.id === action.key
-        ? { ...role, selected: action.value }
-        : role
-    )),
-  },
-  isPageEdited: true,
-});
+const updateUserRoles = (state, action) => {
+  const { type } = state.user.roles
+    .find(({ id }) => id === action.key) || { type: RoleTypes.CUSTOM };
+
+  const isReadOnly = type === RoleTypes.ADMINISTRATOR && action.value === true
+    ? false : state.user.isReadOnly;
+
+  return ({
+    ...state,
+    user: {
+      ...state.user,
+      roles: state.user.roles.map(role => (
+        role.id === action.key
+          ? { ...role, selected: action.value }
+          : role
+      )),
+      isReadOnly,
+    },
+    isPageEdited: true,
+  });
+};
 
 const setSubmittingState = (state, action) => ({
   ...state,
