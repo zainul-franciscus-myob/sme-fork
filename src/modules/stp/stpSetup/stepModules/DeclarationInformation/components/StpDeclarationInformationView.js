@@ -14,6 +14,7 @@ import {
   getPayerAbn,
   getPhone,
 } from '../StpDeclarationInformationSelectors';
+import AbnInput from '../../../../../../components/autoFormatter/AbnInput/AbnInput';
 import LoadingPageState from '../../../../../../components/LoadingPageState/LoadingPageState';
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 
@@ -53,7 +54,7 @@ const StpDeclarationInformationView = ({
         </Alert>
         )}
         <FormHorizontal layout="primary">
-          <Input
+          <AbnInput
             testid="payerAbnInput"
             label="Payer ABN"
             width="sm"

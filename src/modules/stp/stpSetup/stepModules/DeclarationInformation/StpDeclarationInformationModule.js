@@ -11,7 +11,7 @@ import {
 } from './StpDeclarationInformationIntents';
 import {
   getBusinessId,
-  getPayerAbn,
+  getPayerAbnWithoutSpaces,
   getSubmitBusinessInformationContent,
 } from './StpDeclarationInformationSelectors';
 import Store from '../../../../../store/Store';
@@ -38,7 +38,7 @@ export default class StpDeclarationInformationModule {
   onNextClick = () => {
     this.setIsLoading(true);
     const state = this.store.getState();
-    const payerAbn = getPayerAbn(state);
+    const payerAbn = getPayerAbnWithoutSpaces(state);
 
     const onSuccess = () => {
       this.setIsLoading(false);
