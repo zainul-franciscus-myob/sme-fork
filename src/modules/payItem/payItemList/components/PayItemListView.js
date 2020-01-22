@@ -1,9 +1,10 @@
 import {
   Alert,
+  BaseTemplate,
   Button,
   ButtonRow,
+  Card,
   PageHead,
-  StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -91,18 +92,18 @@ const PayItemListView = ({
   );
 
   const payItemView = (
-    <StandardTemplate
-      sticky="none"
-      pageHead={pageHead}
-      subHeadChildren={subHeadChildren}
-      alert={alertComponent}
-    >
+    <BaseTemplate>
+      {alertComponent}
+      {pageHead}
+      {subHeadChildren}
       {modal && unsavedModal}
       <div className={style.list}>
-        <Content listeners={listeners} />
+        <Card>
+          <Content listeners={listeners} />
+        </Card>
       </div>
       {showActionButtonForTax && taxActions}
-    </StandardTemplate>
+    </BaseTemplate>
   );
 
   return payItemView;
