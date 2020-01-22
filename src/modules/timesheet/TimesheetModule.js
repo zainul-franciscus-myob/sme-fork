@@ -116,11 +116,12 @@ export default class TimesheetModule {
       employeeId: value,
     };
 
-    const onSuccess = ({ timesheetRows }) => {
+    const onSuccess = ({ timesheetRows, allowedPayItems }) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
         intent,
         timesheetRows,
+        allowedPayItems,
       });
     };
 

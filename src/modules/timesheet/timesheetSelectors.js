@@ -13,7 +13,9 @@ export const getPayrollSettingsUrl = (state) => {
 export const getWeekDayLabels = state => state.weekDayLabels;
 export const getTimesheetRows = state => state.timesheetRows;
 export const getEmployeeList = state => state.employeeList;
-export const getPayItems = state => state.payItems;
+export const getPayItems = state => state.payItems.filter(
+  payItem => state.employeeAllowedPayItems.includes(payItem.id),
+);
 export const getSelectedEmployeeId = state => state.selectedEmployeeId;
 export const getLoadingState = state => state.loadingState;
 export const getWeekStartDate = state => state.weekStartDate;

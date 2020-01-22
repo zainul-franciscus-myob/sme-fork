@@ -26,5 +26,6 @@
         "hours": 7
       }
     }
-  ]
+  ],
+  "allowedPayItems": [39]
 }

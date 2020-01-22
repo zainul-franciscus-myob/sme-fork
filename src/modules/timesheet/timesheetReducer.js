@@ -34,6 +34,7 @@ const getDefaultState = () => ({
   selectedEmployeeId: '',
   timesheetRows: [],
   modal: null,
+  employeeAllowedPayItems: [],
 });
 
 const loadInitialTimesheet = (state, { response }) => ({
@@ -66,7 +67,7 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-const setEmployeeTimesheetRows = (state, { timesheetRows }) => ({
+const loadEmployeeTimesheet = (state, { timesheetRows, allowedPayItems }) => ({
   ...state,
   timesheetRows: timesheetRows.map(row => ({
     ...row,
@@ -92,6 +93,7 @@ const setEmployeeTimesheetRows = (state, { timesheetRows }) => ({
       hours: getFormattedHours(row.day7.hours),
     },
   })),
+  employeeAllowedPayItems: allowedPayItems.map(payItem => String(payItem)),
 });
 
 const clearTimesheetRows = state => ({
@@ -178,7 +180,7 @@ const timesheetReducer = createReducer(getDefaultState(), {
   [RESET_STATE]: resetState,
   [SET_SELECTED_EMPLOYEE]: setSelectedEmployeeId,
   [SET_LOADING_STATE]: setLoadingState,
-  [LOAD_EMPLOYEE_TIMESHEET]: setEmployeeTimesheetRows,
+  [LOAD_EMPLOYEE_TIMESHEET]: loadEmployeeTimesheet,
   [SET_TIMESHEET_CELL]: setTimesheetCell,
   [REMOVE_ROW]: removeRow,
   [ADD_ROW]: addRow,

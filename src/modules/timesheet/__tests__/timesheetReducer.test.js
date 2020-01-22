@@ -7,16 +7,19 @@ describe('timesheetReducer', () => {
     it('loads the request payload into the state', () => {
       const state = {
         timesheetRows: [],
+        employeeAllowedPayItems: [],
       };
-      const { timesheetRows } = loadEmployeeTimesheet;
+      const { timesheetRows, allowedPayItems } = loadEmployeeTimesheet;
       const action = {
         intent: LOAD_EMPLOYEE_TIMESHEET,
         timesheetRows,
+        allowedPayItems,
       };
 
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        employeeAllowedPayItems: ['39'],
         timesheetRows: [
           {
             payItemId: '11',
