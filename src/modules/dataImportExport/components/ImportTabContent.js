@@ -32,8 +32,8 @@ const ImportTabContent = ({
     >
       <Select.Option hidden value={ImportExportDataType.NONE} label="" />
       <Select.Option value={ImportExportDataType.CHART_OF_ACCOUNTS} label="Chart of accounts" />
+      <Select.Option value={ImportExportDataType.CONTACTS} label="Contacts" />
       {/* TODO: Enable when Imports endpoints are implemented. */}
-      {false && <Select.Option value={ImportExportDataType.CONTACTS} label="Contacts" />}
       {false && <Select.Option value={ImportExportDataType.EMPLOYEES} label="Employees" />}
       {false && <Select.Option value={ImportExportDataType.GENERAL_JOURNALS} label="General journals" />}
       {false && <Select.Option value={ImportExportDataType.ITEMS} label="Items" />}

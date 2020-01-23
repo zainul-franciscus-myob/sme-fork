@@ -29,6 +29,7 @@ const getDefaultState = () => ({
   region: '',
   businessId: '',
   selectedTab: TabItem.IMPORT,
+  email: '',
   import: {
     selectedDataType: ImportExportDataType.NONE,
     importFile: undefined,
@@ -87,6 +88,7 @@ const setSelectedTab = (state, action) => ({
 
 const loadDataImportExport = (state, action) => ({
   ...state,
+  email: action.email,
   export: {
     ...state.export,
     chartOfAccounts: action.export.chartOfAccounts,
