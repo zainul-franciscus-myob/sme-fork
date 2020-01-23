@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getSalesSettingsPayload, getTabData } from './SalesSettingsDetailSelectors';
+import { getLoadingState, getSalesSettingsPayload, getTabData } from './SalesSettingsDetailSelectors';
 import { mainTabIds } from './tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
 import SalesSettingsInvoicesView from './components/InvoiceEmailSettingsView';
@@ -33,6 +33,8 @@ export default class InvoiceEmailSettingsModule {
 
   updateSalesSettings = () => {
     const state = this.store.getState();
+    if (getLoadingState(state) === LoadingState.LOADING) return;
+
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     const content = getSalesSettingsPayload(state);
 
@@ -52,6 +54,8 @@ export default class InvoiceEmailSettingsModule {
 
   saveEmailSettings = () => {
     const state = this.store.getState();
+    if (getLoadingState(state) === LoadingState.LOADING) return;
+
     const content = getTabData(state);
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 

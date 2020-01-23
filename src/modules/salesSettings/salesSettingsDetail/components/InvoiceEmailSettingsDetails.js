@@ -4,77 +4,65 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getInvoiceEmailBody,
-  getInvoiceEmailSubject,
-  getIsInvoiceNumberIncluded,
-} from '../SalesSettingsDetailSelectors';
+import { getTabData } from '../SalesSettingsDetailSelectors';
+import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 
-const onCheckboxChange = handler => (e) => {
-  const { checked, name } = e.target;
-  handler({ key: name, value: checked });
-};
+const InvoiceEmailSettingsDetails = (props) => {
+  const {
+    invoiceEmailBody,
+    invoiceEmailSubject,
+    isInvoiceNumberIncluded,
+    onUpdateEmailSettings,
+  } = props;
 
-const onInputChange = handler => (e) => {
-  const { value, name } = e.target;
-  handler({ key: name, value });
-};
+  return (
+    <Card
+      header={<Card.Header child={<PageHead title="Customise email defaults" />} />}
+      body={(
+        <Card.Body child={(
+          <FieldGroup label="Customise email defaults" hideLabel>
+            <p>
+              Customise the default text that’s emailed with your invoices.
+              Don’t worry, you can always override these defaults when emailing an invoice.
+            </p>
 
-const InvoiceEmailSettingsDetails = (
-  invoiceEmailBody,
-  onUpdateEmailSettings,
-  isInvoiceNumberIncluded,
-  invoiceEmailSubject,
-) => (
-  <Card
-    header={<Card.Header child={<PageHead title="Customise email defaults" />} />}
-    body={(
-      <Card.Body child={(
-        <FieldGroup label="Default invoice email" hideLabel>
-          <p>
-            Customise the default text that’s emailed with your invoices.
-            Don’t worry, you can always override these defaults when emailing an invoice.
-          </p>
+            <Input
+              label="Subject"
+              name="invoiceEmailSubject"
+              onChange={handleInputChange(onUpdateEmailSettings)}
+              value={invoiceEmailSubject}
+            />
 
-          <Input
-            label="Subject"
-            name="invoiceEmailSubject"
-            onChange={onInputChange(onUpdateEmailSettings)}
-            value={invoiceEmailSubject}
-          />
+            <CheckboxGroup
+              hideLabel
+              label="isInvoiceNumberIncluded"
+              renderCheckbox={() => (
+                <Checkbox
+                  checked={isInvoiceNumberIncluded}
+                  label="Include invoice number in subject"
+                  name="isInvoiceNumberIncluded"
+                  onChange={handleCheckboxChange(onUpdateEmailSettings)}
+                />
+              )}
+            />
 
-          <CheckboxGroup
-            hideLabel
-            label="isInvoiceNumberIncluded"
-            renderCheckbox={() => (
-              <Checkbox
-                checked={isInvoiceNumberIncluded}
-                label="Include invoice number in subject"
-                name="isInvoiceNumberIncluded"
-                onChange={onCheckboxChange(onUpdateEmailSettings)}
-              />
-            )}
-          />
-
-          <TextArea
-            autoSize
-            label="Message"
-            name="invoiceEmailBody"
-            onChange={onInputChange(onUpdateEmailSettings)}
-            resize="vertical"
-            value={invoiceEmailBody}
-          />
-        </FieldGroup>
+            <TextArea
+              autoSize
+              label="Message"
+              name="invoiceEmailBody"
+              onChange={handleInputChange(onUpdateEmailSettings)}
+              resize="vertical"
+              value={invoiceEmailBody}
+            />
+          </FieldGroup>
+        )}
+        />
       )}
-      />
-    )}
-  />
-);
+    />
+  );
+};
 
-const mapStateToProps = state => ({
-  invoiceEmailBody: getInvoiceEmailBody(state),
-  invoiceEmailSubject: getInvoiceEmailSubject(state),
-  isInvoiceNumberIncluded: getIsInvoiceNumberIncluded(state),
-});
+const mapStateToProps = state => getTabData(state);
 
 export default connect(mapStateToProps)(InvoiceEmailSettingsDetails);
