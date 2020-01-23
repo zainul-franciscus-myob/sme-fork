@@ -1,6 +1,7 @@
 import {
   LOAD_TRANSACTION_LIST,
   LOAD_TRANSACTION_LIST_NEXT_PAGE,
+  REPLACE_FILTER_OPTIONS,
   SET_INITIAL_STATE,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
@@ -106,6 +107,24 @@ const updateMultiFilterOptions = (state, action) => ({
   },
 });
 
+const replaceFilterOptions = (state, action) => {
+  const {
+    period, sourceJournal, dateFrom, dateTo, keywords,
+  } = action.filterOptions;
+
+  return ({
+    ...state,
+    filterOptions: {
+      ...state.filterOptions,
+      period,
+      sourceJournal,
+      dateFrom,
+      dateTo,
+      keywords,
+    },
+  });
+};
+
 const setTableLoadingState = (state, action) => ({
   ...state,
   isTableLoading: action.isTableLoading,
@@ -143,6 +162,7 @@ const handlers = {
   [SORT_AND_FILTER_TRANSACTION_LIST]: sortAndFilterTransactionList,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [UPDATE_MULTI_FILTER_OPTIONS]: updateMultiFilterOptions,
+  [REPLACE_FILTER_OPTIONS]: replaceFilterOptions,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SORT_ORDER]: setSortOrder,

@@ -1,6 +1,7 @@
 import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_NEXT_PAGE,
+  REPLACE_FILTER_OPTIONS,
   SET_INITIAL_STATE,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
@@ -70,6 +71,24 @@ const updateFilterOptions = (state, action) => ({
   },
 });
 
+const replaceFilterOptions = (state, action) => {
+  const {
+    period, sourceJournal, dateFrom, dateTo, keywords,
+  } = action.filterOptions;
+
+  return ({
+    ...state,
+    filterOptions: {
+      ...state.filterOptions,
+      period,
+      sourceJournal,
+      dateFrom,
+      dateTo,
+      keywords,
+    },
+  });
+};
+
 const setTableLoadingState = (state, action) => ({
   ...state,
   isTableLoading: action.isTableLoading,
@@ -112,6 +131,7 @@ const handlers = {
   [LOAD_CREDITS_AND_DEBITS_LIST]: loadCreditsAndDebitsList,
   [SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST]: sortAndFilterCreditsAndDebitsList,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
+  [REPLACE_FILTER_OPTIONS]: replaceFilterOptions,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SORT_ORDER]: setSortOrder,

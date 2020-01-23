@@ -1,6 +1,4 @@
-import {
-  UPDATE_FILTER_OPTIONS,
-} from '../JournalTransactionListIntents';
+import { REPLACE_FILTER_OPTIONS, UPDATE_FILTER_OPTIONS } from '../JournalTransactionListIntents';
 import createReducer from '../../../../store/createReducer';
 import getDefaultState from '../getDefaultState';
 import reducerHandlers from '../journalTransactionListReducer';
@@ -61,6 +59,40 @@ describe('transactionListReducer', () => {
 
       const actual = journalTransactionListReducer(state, action);
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('REPLACE_FILTER_OPTIONS', () => {
+    it('should replace filter options', () => {
+      const state = {
+        a: 'a',
+        filterOptions: {
+          period: 'Last month',
+          sourceJournal: 'General',
+          dateFrom: '2019-12-01',
+          dateTo: '2019-12-31',
+          keywords: 'keywords',
+        },
+      };
+
+      const expected = {
+        period: 'Custom',
+        sourceJournal: 'All',
+        dateFrom: '2019-01-01',
+        dateTo: '2019-01-05',
+        keywords: 'new',
+      };
+
+      const filterOptions = {
+        ...expected,
+        accountId: '1',
+      };
+
+      const action = { intent: REPLACE_FILTER_OPTIONS, filterOptions };
+
+      const actual = journalTransactionListReducer(state, action);
+
+      expect(actual.filterOptions).toEqual(expected);
     });
   });
 });

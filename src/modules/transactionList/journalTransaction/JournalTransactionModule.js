@@ -3,6 +3,7 @@ import React from 'react';
 import {
   LOAD_TRANSACTION_LIST,
   LOAD_TRANSACTION_LIST_NEXT_PAGE,
+  REPLACE_FILTER_OPTIONS,
   SET_INITIAL_STATE,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
@@ -15,6 +16,7 @@ import {
 import {
   getAppliedFilterOptions,
   getBusinessId,
+  getFilterOptions,
   getFlipSortOrder,
   getIsActive,
   getIsLoaded,
@@ -43,7 +45,10 @@ export default class JournalTransactionModule {
   getView({ pageHead, alert, subHead }) {
     if (!getIsLoaded(this.store.getState())) {
       this.loadTransactionList();
+    } else {
+      this.filterTransactionList();
     }
+
     return (
       <TransactionListView
         onSort={this.sortTransactionList}
@@ -57,6 +62,16 @@ export default class JournalTransactionModule {
       />
     );
   }
+
+  getFilterOptions = () => {
+    const state = this.store.getState();
+    return getFilterOptions(state);
+  };
+
+  replaceFilterOptions = (filterOptions) => {
+    const intent = REPLACE_FILTER_OPTIONS;
+    this.store.dispatch({ intent, filterOptions });
+  };
 
   loadTransactionList = () => {
     const state = this.store.getState();

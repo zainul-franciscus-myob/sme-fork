@@ -1,4 +1,4 @@
-import { SET_INITIAL_STATE, UPDATE_FILTER_OPTIONS } from '../CreditsAndDebitsListIntents';
+import { REPLACE_FILTER_OPTIONS, SET_INITIAL_STATE, UPDATE_FILTER_OPTIONS } from '../CreditsAndDebitsListIntents';
 import LoadMoreButtonStatuses from '../../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import Periods from '../../../../components/PeriodPicker/Periods';
 import createReducer from '../../../../store/createReducer';
@@ -164,6 +164,41 @@ describe('creditsAndDebitsListReducer', () => {
 
       const actual = creditsAndDebitsListReducer(state, action);
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('REPLACE_FILTER_OPTIONS', () => {
+    it('should replace filter options', () => {
+      const state = {
+        a: 'a',
+        filterOptions: {
+          period: 'Last month',
+          sourceJournal: 'General',
+          dateFrom: '2019-12-01',
+          dateTo: '2019-12-31',
+          keywords: 'keywords',
+          accountId: 'All',
+        },
+      };
+
+      const filterOptions = {
+        period: 'Custom',
+        sourceJournal: 'All',
+        dateFrom: '2019-01-01',
+        dateTo: '2019-01-05',
+        keywords: 'new',
+      };
+
+      const expected = {
+        ...filterOptions,
+        accountId: 'All',
+      };
+
+      const action = { intent: REPLACE_FILTER_OPTIONS, filterOptions };
+
+      const actual = creditsAndDebitsListReducer(state, action);
+
+      expect(actual.filterOptions).toEqual(expected);
     });
   });
 });

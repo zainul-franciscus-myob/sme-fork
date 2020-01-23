@@ -1,6 +1,8 @@
 import React from 'react';
 
+import { REPLACE_FILTER_OPTIONS } from './CreditsAndDebitsListIntents';
 import {
+  getFilterOptions,
   getIsActive,
   getIsLoaded,
   getNewSortOrder,
@@ -27,6 +29,8 @@ export default class CreditsAndDebitsModule {
   getView({ pageHead, alert, subHead }) {
     if (!getIsLoaded(this.store.getState())) {
       this.loadCreditsAndDebitsList();
+    } else {
+      this.filterCreditsAndDebitsList();
     }
 
     return (
@@ -41,6 +45,16 @@ export default class CreditsAndDebitsModule {
         alert={alert}
       />
     );
+  }
+
+  getFilterOptions = () => {
+    const state = this.store.getState();
+    return getFilterOptions(state);
+  }
+
+  replaceFilterOptions = (filterOptions) => {
+    const intent = REPLACE_FILTER_OPTIONS;
+    this.store.dispatch({ intent, filterOptions });
   }
 
   updatePeriodDateRange = ({ period, dateFrom, dateTo }) => {

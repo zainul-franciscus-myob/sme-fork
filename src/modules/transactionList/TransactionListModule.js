@@ -15,6 +15,7 @@ import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } 
 import { SUCCESSFULLY_DELETED_RECEIVE_REFUND } from '../receiveRefund/ReceiveRefundMessageTypes';
 import { SUCCESSFULLY_DELETED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY } from '../spendMoney/spendMoneyMessageTypes';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../transferMoney/transferMoneyMessageTypes';
+import { getActiveTab } from './transactionListSelectors';
 import { tabItemIds } from './tabItems';
 import CreditsAndDebitsModule from './creditAndDebitTransactions/CreditsAndDebitsModule';
 import JournalTransactionModule from './journalTransaction/JournalTransactionModule';
@@ -85,6 +86,12 @@ export default class TransactionListModule {
   }
 
   setTab = (tabId) => {
+    const state = this.store.getState();
+    const activeTabId = getActiveTab(state);
+
+    const filterOptions = this.subModules[activeTabId].getFilterOptions();
+    this.subModules[tabId].replaceFilterOptions(filterOptions);
+
     this.store.dispatch({
       intent: SET_TAB,
       tabId,
