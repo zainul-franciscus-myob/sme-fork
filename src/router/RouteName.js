@@ -30,7 +30,6 @@ const RouteName = {
   CUSTOMER_RETURN_APPLY_TO_SALE: 'customerReturn/customerReturnApplyToSale',
   INVOICE_PAYMENT_DETAIL: 'invoicePayment/invoicePaymentDetail',
   SALES_SETTINGS: 'salesSettings/salesSettingsDetail',
-  SUBSCRIPTION_SETTINGS: 'settings/subscription',
   PAYROLL_SETTINGS: 'payrollSettings/payrollSettings',
   SUPER_FUND_DETAIL: 'superFund/superFundDetail',
   SUPPLIER_RETURN_LIST: 'supplierReturn/supplierReturnList',

@@ -55,7 +55,7 @@ const UnlinkedMenuLink = ({ label, className }) => (
 );
 
 const getItems = ({
-  urls, serialNumber, userEmail, onMenuLinkClick,
+  urls, serialNumber, userEmail, onMenuLinkClick, onSubscribeNowClick,
 }) => [
   getMenuLinkWithIcon('#/businesses', 'Switch business', <Icons.Switch />, onMenuLinkClick),
   <Navigation.Separator key="separator-switch-business" />,
@@ -69,7 +69,7 @@ const getItems = ({
   userEmail && <UnlinkedMenuLink label={userEmail} className={styles.userEmail} />,
   getDisabledMenuLink('my.MYOB account'),
   urls.paymentDetail && getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick),
-  urls.subscription && getMenuLink(urls.subscription, 'Subscribe now', onMenuLinkClick),
+  onSubscribeNowClick && getMenuLink('', 'Subscribe now', onSubscribeNowClick),
   <Navigation.Separator key="separator-links" />,
   serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
   getMenuLinkWithIcon('#/logout', 'Logout', <Icons.SignOut />, onMenuLinkClick),
@@ -94,6 +94,7 @@ const BusinessMenu = ({
   activeNav,
   onMenuSelect,
   onMenuLinkClick,
+  onSubscribeNowClick,
   isReadOnly,
 }) => (
   <div className={styles.businessMenu}>
@@ -107,7 +108,7 @@ const BusinessMenu = ({
         </div>
     )}
       items={getItems({
-        urls, serialNumber, userEmail, onMenuLinkClick,
+        urls, serialNumber, userEmail, onMenuLinkClick, onSubscribeNowClick,
       })}
       onSelect={onMenuSelect}
       active={activeNav === 'business'}

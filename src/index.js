@@ -36,16 +36,10 @@ async function main(integrationType, telemetryType, leanEngageType) {
     ReactDOM.unmountComponentAtNode(root);
     ReactDOM.render(rootModule.render(component), root);
   };
-  let previousRoute = null;
 
   const routes = getRoutes({
     integration,
     setRootView,
-    previousRoute: {
-      get name() { return previousRoute && previousRoute.name; },
-      get params() { return previousRoute && previousRoute.params; },
-      get url() { return previousRoute && previousRoute.url; },
-    },
     popMessages: inbox.popMessages,
     pushMessage: inbox.pushMessage,
     replaceURLParams: router.replaceURLParams,
@@ -71,8 +65,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     if (window.Appcues && appcue) window.Appcues.show(appcue);
   };
 
-  const beforeAll = ({ module, routeProps, previousRoute: prevRoute }) => {
-    previousRoute = prevRoute;
+  const beforeAll = ({ module, routeProps }) => {
     unbindAllKeys();
     unsubscribeAllModulesFromStore();
     module.resetState();

@@ -109,6 +109,7 @@ const getSecondary = ({
   onMenuLinkClick,
   onHelpLinkClick,
   onActivitiesLinkClick,
+  onSubscribeNowClick,
   hasActivities,
 }) => [
   shouldDisplayAddMenu && (
@@ -130,6 +131,7 @@ const getSecondary = ({
     key="BusinessMenu"
     onMenuSelect={onMenuSelect}
     onMenuLinkClick={onMenuLinkClick}
+    onSubscribeNowClick={onSubscribeNowClick}
   />
   ),
   !shouldDisplayBusinessMenu && (
@@ -142,6 +144,7 @@ const NavigationBar = ({
   onMenuLinkClick,
   onHelpLinkClick,
   onActivitiesLinkClick,
+  onSubscribeNowClick,
   shouldDisplayHome,
   shouldDisplaySalesMenu,
   shouldDisplayBusinessMenu,
@@ -176,6 +179,7 @@ const NavigationBar = ({
     onMenuLinkClick,
     onHelpLinkClick,
     onActivitiesLinkClick,
+    onSubscribeNowClick,
     shouldDisplayBusinessMenu,
     shouldDisplayAddMenu,
     shouldDisplayHelpMenu,

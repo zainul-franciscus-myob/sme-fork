@@ -7,6 +7,7 @@ import { getBusinessId, isLinkUserPage } from './NavigationSelectors';
 import Config from '../Config';
 import NavigationBar from './components/NavigationBar';
 import Store from '../store/Store';
+import loadSubscriptionUrl from '../modules/settings/subscription/loadSubscriptionUrl';
 import navReducer from './navReducer';
 
 export default class NavigationModule {
@@ -100,6 +101,16 @@ export default class NavigationModule {
     window.location.href = url;
   }
 
+  subscribeNow = async () => {
+    const businessId = getBusinessId(this.store.getState());
+    const url = await loadSubscriptionUrl(this.integration, businessId, window.location.href);
+    if (!url) {
+      console.warn('"Subscribe now" url is has no value');
+      return;
+    }
+    this.redirectToPage(url);
+  }
+
   render = (activities) => {
     const {
       constructPath,
@@ -108,6 +119,7 @@ export default class NavigationModule {
       toggleHelp,
       toggleActivities,
       store,
+      subscribeNow,
     } = this;
 
     return (
@@ -117,6 +129,7 @@ export default class NavigationModule {
           onMenuSelect={redirectToPage}
           onMenuLinkClick={onPageTransition}
           onHelpLinkClick={toggleHelp}
+          onSubscribeNowClick={subscribeNow}
           onActivitiesLinkClick={toggleActivities}
           hasActivities={activities && activities.length > 0}
         />

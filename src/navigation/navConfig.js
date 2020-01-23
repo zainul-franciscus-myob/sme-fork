@@ -76,7 +76,6 @@ export const activeMapping = {
   [RouteName.USER_DETAIL]: 'business',
   [RouteName.DATA_IMPORT_EXPORT]: 'business',
   [RouteName.PAYMENT_DETAIL]: 'business',
-  [RouteName.SUBSCRIPTION_SETTINGS]: 'business',
 };
 
 export const featuresConfig = {
@@ -141,5 +140,4 @@ export const featuresConfig = {
   dataImportExport: { routeName: RouteName.DATA_IMPORT_EXPORT },
   myMyobAccount: { routeName: '' },
   paymentDetail: { routeName: RouteName.PAYMENT_DETAIL },
-  subscription: { routeName: RouteName.SUBSCRIPTION_SETTINGS },
 };
