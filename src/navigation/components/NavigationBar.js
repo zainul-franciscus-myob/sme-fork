@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getMenuLogoUrl,
+  getShowUrls,
   hasAccountingUrls,
   hasAddUrls,
   hasBankingUrls,
@@ -14,7 +15,6 @@ import {
   hasPurchasesUrls,
   hasReportsUrls,
   hasSalesUrls,
-  isLinkUserPage,
 } from '../NavigationSelectors';
 import AccountingMenu from './AccountingMenu';
 import Activities from './Activities';
@@ -205,8 +205,8 @@ const NavigationBar = ({
 };
 
 const mapStateToProps = state => ({
-  shouldDisplayHome: hasBusinessId(state),
-  shouldDisplayBusinessMenu: hasBusinessId(state) && !isLinkUserPage(state),
+  shouldDisplayHome: getShowUrls(state),
+  shouldDisplayBusinessMenu: getShowUrls(state),
   shouldDisplayBankingMenu: hasBankingUrls(state),
   shouldDisplayContactMenu: hasContactUrls(state),
   shouldDisplayAccountingMenu: hasAccountingUrls(state),

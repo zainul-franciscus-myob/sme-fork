@@ -1,20 +1,62 @@
 import {
-  getBusinessUrls, getMenuLogoUrl, getReportsUrls, isLinkUserPage, noOpRouteNames,
+  getBusinessUrls,
+  getMenuLogoUrl,
+  getReportsUrls,
+  getSalesUrls,
+  getShowUrls,
+  noOpRouteNames,
 } from '../NavigationSelectors';
 import RouteName from '../../router/RouteName';
 
 describe('NavigationSelectors', () => {
-  describe('isLinkUserPage', () => {
-    it('should return true if the current route is the link user page', () => {
-      const currentRouteName = 'linkUser/linkUser';
-      const actual = isLinkUserPage({ currentRouteName });
-      expect(actual).toEqual(true);
+  describe('getShowUrls', () => {
+    it('should return false if the current route is the link user page', () => {
+      const state = {
+        currentRouteName: RouteName.LINK_USER,
+      };
+      const actual = getShowUrls(state);
+      expect(actual).toEqual(false);
     });
 
-    it('should return false if the current route is the spend money detail page', () => {
-      const currentRouteName = 'spendMoney/spendMoneyDetail';
-      const actual = isLinkUserPage({ currentRouteName });
+    it('should return false if the current route is the business list page', () => {
+      const state = {
+        currentRouteName: RouteName.BUSINESS_LIST,
+      };
+      const actual = getShowUrls(state);
       expect(actual).toEqual(false);
+    });
+
+    it('should return true if the current route is any other page', () => {
+      const routes = Object.values(RouteName).filter(
+        route => route !== RouteName.BUSINESS_LIST && route !== RouteName.LINK_USER,
+      );
+      routes.forEach((route) => {
+        const state = {
+          currentRouteName: route,
+        };
+
+        const actual = getShowUrls(state);
+        expect(actual).toEqual(true);
+      });
+    });
+  });
+
+  describe('getEnabledUrls', () => {
+    it('should not build enabled urls if urls are empty', () => {
+      const state = {
+        routeParams: {
+          businessId: '',
+          region: '',
+        },
+        enabledFeatures: ['reportsSomething'],
+        currentRouteName: noOpRouteNames[0],
+      };
+
+      const actual = getSalesUrls(state);
+
+      Object.keys(actual).forEach((key) => {
+        expect(actual[key]).toEqual(undefined);
+      });
     });
   });
 
@@ -55,6 +97,7 @@ describe('NavigationSelectors', () => {
         serialNumber: '🍕',
         selfServicePortalUrl: 'https://🦘.com',
         enabledFeatures: [RouteName.PAYMENT_DETAIL],
+        currentRouteName: 'payment/paymentDetail',
       };
 
       const actual = getBusinessUrls(state);
@@ -98,6 +141,7 @@ describe('NavigationSelectors', () => {
           },
           myReportsUrl: 'https://🐸.com',
           enabledFeatures: [test.routeName],
+          currentRouteName: 'reports/reportsPdf',
         };
 
         const actual = getReportsUrls(state);

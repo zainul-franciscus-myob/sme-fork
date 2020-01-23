@@ -3,7 +3,7 @@ import React from 'react';
 
 import { LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
 import { featuresConfig } from './navConfig';
-import { getBusinessId, isLinkUserPage } from './NavigationSelectors';
+import { getBusinessId, getShowUrls } from './NavigationSelectors';
 import Config from '../Config';
 import NavigationBar from './components/NavigationBar';
 import Store from '../store/Store';
@@ -29,12 +29,13 @@ export default class NavigationModule {
     this.toggleActivities = toggleActivities;
   }
 
-  loadBusinessInfo = ({ currentRouteName }) => {
-    const businessId = getBusinessId(this.store.getState());
-    if (!businessId || isLinkUserPage({ currentRouteName })) {
+  loadBusinessInfo = () => {
+    const state = this.store.getState();
+    if (!getShowUrls(state)) {
       return;
     }
 
+    const businessId = getBusinessId(this.store.getState());
     const intent = LOAD_NAVIGATION_CONFIG;
     const urlParams = {
       businessId,
@@ -63,24 +64,22 @@ export default class NavigationModule {
     });
   };
 
-  buildUrls = (currentRouteName, routeParams) => {
-    const hasPrimaryRoutes = Object.keys(routeParams).includes('businessId');
-    if (!hasPrimaryRoutes || isLinkUserPage({ currentRouteName })) {
-      return {};
+  buildUrls = (routeParams) => {
+    const { region, businessId } = routeParams;
+    if (region && businessId) {
+      return Object.entries(featuresConfig)
+        .map(([key, feature]) => {
+          const url = `/#${this.constructPath(feature.routeName, { region, businessId, ...feature.params })}`;
+          return { [key]: url };
+        })
+        .reduce((acc, obj) => ({ ...acc, ...obj }), {});
     }
 
-    return Object.entries(featuresConfig)
-      .map(([key, feature]) => {
-        const { region, businessId } = routeParams;
-
-        const url = `/#${this.constructPath(feature.routeName, { region, businessId, ...feature.params })}`;
-        return { [key]: url };
-      })
-      .reduce((acc, obj) => ({ ...acc, ...obj }), {});
+    return {};
   }
 
   buildAndSetRoutingInfo = ({ currentRouteName, routeParams }) => {
-    const urls = this.buildUrls(currentRouteName, routeParams);
+    const urls = this.buildUrls(routeParams);
     this.store.dispatch({
       intent: SET_ROUTE_INFO,
       urls,
@@ -149,7 +148,7 @@ export default class NavigationModule {
     this.loadConfig();
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     if (previousBusinessId !== currentBusinessId) {
-      this.loadBusinessInfo({ currentRouteName });
+      this.loadBusinessInfo();
     }
     this.setOnPageTransition(onPageTransition);
   }

@@ -19,11 +19,6 @@ export const hasBusinessId = createSelector(
   businessId => businessId !== '',
 );
 
-export const isLinkUserPage = ({ currentRouteName }) => {
-  const currentBaseRoute = currentRouteName.split('/');
-  return currentBaseRoute && currentBaseRoute[0] === 'linkUser';
-};
-
 const getSelfServicePortalUrl = state => state.selfServicePortalUrl;
 const getPaymentDetailUrl = createSelector(
   getSelfServicePortalUrl,
@@ -44,55 +39,65 @@ export const getActiveNav = createSelector(
   currentRouteName => activeMapping[currentRouteName] || '',
 );
 
+const isLinkUserPage = currentRouteName => currentRouteName === RouteName.LINK_USER;
+const isBusinessListPage = currentRouteName => currentRouteName === RouteName.BUSINESS_LIST;
+
+export const getShowUrls = createSelector(
+  getCurrentRouteName,
+  currentRouteName => !isBusinessListPage(currentRouteName) && !isLinkUserPage(currentRouteName),
+);
+
 const getEnabledUrls = createSelector(
   getUrls,
   getEnabledFeatures,
   getPaymentDetailUrl,
   getReportsUrl,
-  (urls, enabledFeatures, paymentDetailUrl, reportsUrl) => enabledFeatures.reduce(
-    (acc, key) => {
-      switch (key) {
-        case RouteName.REPORTS_PDF_STYLE_TEMPLATES:
-          return {
-            ...acc,
-            [RouteName.REPORTS_PDF_STYLE_TEMPLATES]: `${reportsUrl}/pdfStyleTemplates`,
-          };
-        case RouteName.REPORTS_STANDARD:
-          return {
-            ...acc,
-            [RouteName.REPORTS_STANDARD]: `${reportsUrl}/reports/standardReports`,
-          };
-        case RouteName.REPORTS_FAVOURITE:
-          return {
-            ...acc,
-            [RouteName.REPORTS_FAVOURITE]: `${reportsUrl}/reports/favouriteReports`,
-          };
-        case RouteName.REPORTS_CUSTOM:
-          return {
-            ...acc,
-            [RouteName.REPORTS_CUSTOM]: `${reportsUrl}/reports/customReports`,
-          };
-        case RouteName.REPORTS_EXCEPTION:
-          return {
-            ...acc,
-            [RouteName.REPORTS_EXCEPTION]: `${reportsUrl}/reports/exceptionsReports`,
-          };
-        case RouteName.REPORTS_PACK_BUILDER:
-          return {
-            ...acc,
-            [RouteName.REPORTS_PACK_BUILDER]: `${reportsUrl}/reports/reportPackBuilder`,
-          };
-        case RouteName.PAYMENT_DETAIL:
-          return {
-            ...acc,
-            [RouteName.PAYMENT_DETAIL]: paymentDetailUrl,
-          };
-        default:
-          return { ...acc, [key]: urls[key] };
-      }
-    },
-    {},
-  ),
+  getShowUrls,
+  (urls, enabledFeatures, paymentDetailUrl, reportsUrl, showUrls) => (
+    showUrls ? enabledFeatures.reduce(
+      (acc, key) => {
+        switch (key) {
+          case RouteName.REPORTS_PDF_STYLE_TEMPLATES:
+            return {
+              ...acc,
+              [RouteName.REPORTS_PDF_STYLE_TEMPLATES]: `${reportsUrl}/pdfStyleTemplates`,
+            };
+          case RouteName.REPORTS_STANDARD:
+            return {
+              ...acc,
+              [RouteName.REPORTS_STANDARD]: `${reportsUrl}/reports/standardReports`,
+            };
+          case RouteName.REPORTS_FAVOURITE:
+            return {
+              ...acc,
+              [RouteName.REPORTS_FAVOURITE]: `${reportsUrl}/reports/favouriteReports`,
+            };
+          case RouteName.REPORTS_CUSTOM:
+            return {
+              ...acc,
+              [RouteName.REPORTS_CUSTOM]: `${reportsUrl}/reports/customReports`,
+            };
+          case RouteName.REPORTS_EXCEPTION:
+            return {
+              ...acc,
+              [RouteName.REPORTS_EXCEPTION]: `${reportsUrl}/reports/exceptionsReports`,
+            };
+          case RouteName.REPORTS_PACK_BUILDER:
+            return {
+              ...acc,
+              [RouteName.REPORTS_PACK_BUILDER]: `${reportsUrl}/reports/reportPackBuilder`,
+            };
+          case RouteName.PAYMENT_DETAIL:
+            return {
+              ...acc,
+              [RouteName.PAYMENT_DETAIL]: paymentDetailUrl,
+            };
+          default:
+            return { ...acc, [key]: urls[key] };
+        }
+      },
+      {},
+    ) : {}),
 );
 
 export const noOpRouteNames = [
