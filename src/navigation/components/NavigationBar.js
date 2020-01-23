@@ -109,6 +109,7 @@ const getSecondary = ({
   onMenuLinkClick,
   onHelpLinkClick,
   onActivitiesLinkClick,
+  hasActivities,
 }) => [
   shouldDisplayAddMenu && (
   <AddMenu
@@ -122,7 +123,7 @@ const getSecondary = ({
   <Help className={styles.help} key="Help" onMenuLinkClick={onHelpLinkClick} />
   ),
   shouldDisplayActivitiesMenu && (
-  <Activities className={styles.activities} key="Activities" onMenuLinkClick={onActivitiesLinkClick} active />
+  <Activities className={styles.activities} key="Activities" onMenuLinkClick={onActivitiesLinkClick} showNotificationIcon={hasActivities} />
   ),
   shouldDisplayBusinessMenu && (
   <BusinessMenu
@@ -155,6 +156,7 @@ const NavigationBar = ({
   shouldDisplayAddMenu,
   shouldDisplayActivitiesMenu,
   menuLogoUrl,
+  hasActivities,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
@@ -178,6 +180,7 @@ const NavigationBar = ({
     shouldDisplayAddMenu,
     shouldDisplayHelpMenu,
     shouldDisplayActivitiesMenu,
+    hasActivities,
   });
   const brand = (
     <Navigation.Brand

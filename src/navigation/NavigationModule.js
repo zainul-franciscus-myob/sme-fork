@@ -100,7 +100,7 @@ export default class NavigationModule {
     window.location.href = url;
   }
 
-  render = () => {
+  render = (activities) => {
     const {
       constructPath,
       redirectToPage,
@@ -118,6 +118,7 @@ export default class NavigationModule {
           onMenuLinkClick={onPageTransition}
           onHelpLinkClick={toggleHelp}
           onActivitiesLinkClick={toggleActivities}
+          hasActivities={activities && activities.length > 0}
         />
       </Provider>
     );

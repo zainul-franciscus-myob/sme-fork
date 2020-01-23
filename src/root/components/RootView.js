@@ -20,7 +20,7 @@ const RootView = ({
     <div id="main" className={style.main}>
       { drawer.render(activities) }
       <div className={style.navAndRootView}>
-        { nav.render() }
+        { nav.render(activities) }
         { children }
       </div>
     </div>
