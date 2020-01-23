@@ -1,17 +1,9 @@
 import getForbiddenHandler from './getForbiddenHandler';
+import getQueryFromParams from '../../common/getQueryFromParams/getQueryFromParams';
 import isLinkUserPage from './isLinkUserPage';
 
 const errorCode = {
   UNLINKED_USER: 'UnlinkedUser',
-};
-
-const getQueryFromParams = (params = {}) => {
-  const encode = encodeURIComponent;
-  const query = Object.keys(params)
-    .filter(key => params[key] !== undefined)
-    .map(key => `${encode(key)}=${encode(params[key])}`)
-    .join('&');
-  return query && `?${query}`;
 };
 
 const handleUnlinkedUser = ({ businessId }) => {

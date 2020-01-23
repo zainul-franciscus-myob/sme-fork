@@ -1,6 +1,7 @@
 import browserPlugin from 'router5-plugin-browser';
 import createRouter from 'router5';
 
+import buildModuleContext from './buildModuleContext';
 import buildPreviousRoute from './buildPreviousRoute';
 import convertRoutesToRouterConfig from './convertRoutesToRouterConfig';
 import getRouteNameToModuleMapping from './getRouteNameToModuleMapping';
@@ -83,7 +84,7 @@ export default class Router {
         },
         previousRoute: buildPreviousRoute(this.router, previousRoute),
       });
-      action({ ...route.params }, this.replaceURLParams);
+      action(buildModuleContext(route));
       afterAll();
     });
 
