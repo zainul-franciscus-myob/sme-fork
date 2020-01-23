@@ -1,12 +1,18 @@
+import { addMonths } from 'date-fns';
 import React from 'react';
 
 import { PreviewType, SaleLayout } from '../../templateOptions';
-import AUPaymentMethod from './PaymentMethod/AUPaymentMethod';
+import AUBankDepositPayment from './PaymentMethod/AUBankDepositPayment';
+import AUChequePayment from './PaymentMethod/AUChequePayment';
+import BpayPayment from './PaymentMethod/BpayPayment';
+import CreditCardPayment from './PaymentMethod/CreditCardPayment';
 import InvoiceDocumentInfo from './documentInfo/InvoiceDocumentInfo';
 import InvoiceFooter from './footer/InvoiceFooter';
 import InvoiceServiceItemSummary from './tableSummary/InvoiceServiceItemSummary';
 import InvoiceServiceSummary from './tableSummary/InvoiceServiceSummary';
-import NZPaymentMethod from './PaymentMethod/NZPaymentMethod';
+import NZBankDepositPayment from './PaymentMethod/NZBankDepositPayment';
+import NZChequePayment from './PaymentMethod/NZChequePayment';
+import PaymentMethod from './PaymentMethod/PaymentMethod';
 import QuoteDocumentInfo from './documentInfo/QuoteDocumentInfo';
 import QuoteFooter from './footer/QuoteFooter';
 import QuoteServiceItemSummary from './tableSummary/QuoteServiceItemSummary';
@@ -20,6 +26,7 @@ import StatementFooter from './footer/StatementFooter';
 import StatementTable from './tables/StatementTable';
 import StatementTableSummary from './tableSummary/StatementTableSummary';
 import TemplateTitle from './TemplateTitle';
+import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
 import styles from './TemplatePreview.module.css';
 
 const getDocInfoForPreviewType = (type) => {
@@ -83,33 +90,33 @@ const getPaymentMethod = ({
   isAllowPaymentByDirectDeposit,
   isAllowPaymentByCheque,
 }) => {
+  const shouldShowOnlinePayment = previewType !== PreviewType.Statement && isAllowOnlinePayment;
   const isQuote = previewType === PreviewType.Quote;
-  const isEmptyAU = region === 'au'
-    && !(isAllowOnlinePayment
-      || isAllowPaymentByDirectDeposit
-      || isAllowPaymentByCheque);
-  const isEmptyNZ = region === 'nz'
-    && !(isAllowPaymentByDirectDeposit || isAllowPaymentByCheque);
-  if (isQuote || isEmptyNZ || isEmptyAU) {
-    return false;
-  }
-  if (region === 'au') {
-    return (
-      <AUPaymentMethod
-        previewType={previewType}
-        isAllowOnlinePayment={isAllowOnlinePayment}
-        isAllowPaymentByDirectDeposit={isAllowPaymentByDirectDeposit}
-        isAllowPaymentByCheque={isAllowPaymentByCheque}
-      />
-    );
-  }
-  return (
-    <NZPaymentMethod
-      previewType={previewType}
-      isAllowPaymentByDirectDeposit={isAllowPaymentByDirectDeposit}
-      isAllowPaymentByCheque={isAllowPaymentByCheque}
-    />
-  );
+
+  const auPayments = {
+    bPay: isQuote || shouldShowOnlinePayment ? <BpayPayment /> : undefined,
+    creditCard: isQuote || shouldShowOnlinePayment ? <CreditCardPayment /> : undefined,
+    bankDeposit: isQuote || isAllowPaymentByDirectDeposit ? <AUBankDepositPayment /> : undefined,
+    cheque: isQuote || isAllowPaymentByCheque ? <AUChequePayment /> : undefined,
+  };
+  const nzPayments = {
+    bankDeposit: isQuote || isAllowPaymentByDirectDeposit ? <NZBankDepositPayment /> : undefined,
+    cheque: isQuote || isAllowPaymentByCheque ? <NZChequePayment /> : undefined,
+  };
+
+  const dueDate = previewType === PreviewType.Invoice ? (
+    <span>
+      Due date:
+      {' '}
+      {formatSlashDate(addMonths(Date.now(), 1))}
+    </span>
+  ) : undefined;
+
+  const payments = region === 'au' ? auPayments : nzPayments;
+
+  if (Object.values(payments).reduce((a, p) => (a || p), false)) return false;
+
+  return <PaymentMethod rightHeader={dueDate} {...payments} />;
 };
 
 const TemplatePreview = ({
