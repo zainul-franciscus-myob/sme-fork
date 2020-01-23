@@ -4,3 +4,7 @@
   border-top: 1px solid #dcdfe1;
   padding: 16px;
 }
+
+.filterBar {
+  max-width: 700px;
+}

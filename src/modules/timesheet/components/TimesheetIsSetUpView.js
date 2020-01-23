@@ -4,6 +4,7 @@ import {
   Card,
   Checkbox,
   CheckboxGroup,
+  Columns,
   DatePicker,
   LineItemTable,
   ReadOnly,
@@ -29,9 +30,9 @@ import {
   getWeekStartDate,
 } from '../timesheetSelectors';
 import EmployeeCombobox from './EmployeeCombobox';
-import FilterBar from '../../../components/Feelix/FilterBar/FilterBar';
 import HoursInput from '../../../components/autoFormatter/HoursInput/HoursInput';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
+import styles from './Timesheet.module.css';
 
 const handleHoursInputChange = handler => (e) => {
   const { name, rawValue } = e.target;
@@ -178,8 +179,8 @@ const TimesheetIsSetUpView = ({
   return (
     <>
       <Card>
-        <FilterBar>
-          <FilterBar.Group>
+        <div className={styles.filterBar}>
+          <Columns type="three">
             <EmployeeCombobox
               testid="employeeSelect"
               employees={employeeList}
@@ -191,6 +192,7 @@ const TimesheetIsSetUpView = ({
             />
             <DatePicker
               name="selectedDate"
+              width="lg"
               label={weekStartDate ? `Week of ${weekStartDate}` : 'Week'}
               value={selectedDate}
               onSelect={onSelectedDateChange}
@@ -207,8 +209,8 @@ const TimesheetIsSetUpView = ({
                 />
               )}
             />
-          </FilterBar.Group>
-        </FilterBar>
+          </Columns>
+        </div>
         <Separator />
         <LineItemTable
           testid="timesheetTable"
@@ -244,7 +246,7 @@ const TimesheetIsSetUpView = ({
             testid="deleteButton"
             disabled={!selectedEmployeeId}
           >
-          Delete timesheet
+            Delete timesheet
           </Button>,
         ]}
         primary={[
