@@ -10,6 +10,7 @@ import {
 import {
   getAmountPaid,
   getBillId,
+  getBillUid,
   getBusinessId,
   getDuplicatedBillId,
   getIsCreating,
@@ -19,10 +20,7 @@ import {
   getSupplierId,
   getSupplierOptions,
 } from './billSelectors';
-import {
-  getAttachmentId,
-  getInTrayDocumentId,
-} from './BillInTrayDocumentSelectors';
+import { getAttachmentId, getInTrayDocumentId } from './BillInTrayDocumentSelectors';
 
 export const getSaveBillIntent = createSelector(
   getIsCreating,
@@ -186,4 +184,9 @@ export const getUnlinkInTrayDocumentUrlParams = createSelector(
     businessId,
     inTrayDocumentId: attachmentId,
   }),
+);
+
+export const getUnlinkInTrayDocumentParams = createSelector(
+  getBillUid,
+  uid => ({ uid }),
 );

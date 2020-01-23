@@ -62,7 +62,7 @@ const abortRequest = (intent) => {
   }
 };
 
-const doFetch = (intent, urlParams, allowParallelRequests, headers, body) => {
+const doFetch = (intent, urlParams, allowParallelRequests, headers, body, params) => {
   if (!allowParallelRequests) {
     abortRequest(intent);
   }
@@ -81,7 +81,8 @@ const doFetch = (intent, urlParams, allowParallelRequests, headers, body) => {
   };
 
   const intentUrlPath = requestSpec.getPath(urlParams);
-  const url = `${baseUrl}${intentUrlPath}`;
+  const query = getQueryFromParams(params);
+  const url = `${baseUrl}${intentUrlPath}${query}`;
 
   return fetch(url, requestOptions);
 };
@@ -217,6 +218,7 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
     intent,
     allowParallelRequests,
     urlParams,
+    params,
     content,
     onSuccess,
     onFailure,
@@ -225,7 +227,7 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
     const headers = { ...getDefaultHttpHeaders(), ...additionalHeaders };
     const body = JSON.stringify(content);
 
-    const fetchedPromise = doFetch(intent, urlParams, allowParallelRequests, headers, body);
+    const fetchedPromise = doFetch(intent, urlParams, allowParallelRequests, headers, body, params);
     const responseParser = response => response.json();
 
     handleResponse({

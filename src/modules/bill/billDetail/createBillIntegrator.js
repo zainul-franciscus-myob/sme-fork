@@ -37,6 +37,7 @@ import {
   getSaveBillUrlParams,
   getServiceCalculateContent,
   getServiceCalculateUrlParams,
+  getUnlinkInTrayDocumentParams,
   getUnlinkInTrayDocumentUrlParams,
 } from './selectors/BillIntegratorSelectors';
 import { getExportPdfQueryParams, getExportPdfUrlParams } from './selectors/exportPdfSelectors';
@@ -273,6 +274,7 @@ const createBillIntegrator = (store, integration) => ({
     integration.write({
       intent: UNLINK_IN_TRAY_DOCUMENT,
       urlParams: getUnlinkInTrayDocumentUrlParams(state),
+      params: getUnlinkInTrayDocumentParams(state),
       onSuccess,
       onFailure,
     });

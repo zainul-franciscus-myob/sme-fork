@@ -54,13 +54,13 @@ const createMemoryIntegration = () => ({
       });
   },
   write: ({
-    intent, urlParams, content, onSuccess, onFailure,
+    intent, urlParams, params, content, onSuccess, onFailure,
   }) => {
     const integrationFunction = retrieveIntegrationFunction(RootMapping, intent);
     sleep(200)
       .then(() => {
         integrationFunction({
-          urlParams, content, onSuccess, onFailure,
+          urlParams, params, content, onSuccess, onFailure,
         });
       });
   },
