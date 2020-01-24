@@ -41,8 +41,12 @@ export default class HelpModule {
     );
   }
 
-  setActive = (isActive) => {
+  setActive = (isActive, isOpen) => {
     this.dispatcher.setActiveState(!!isActive);
+    this.dispatcher.setOpenState(!!isOpen);
+    if (isActive && isOpen) {
+      this.loadHelpContent();
+    }
   }
 
   openSearchPage = () => {
@@ -101,12 +105,9 @@ export default class HelpModule {
     });
   }
 
-  handleDisplayHelp = () => {
-    this.loadHelpContent();
-  }
-
   run = (context) => {
     this.dispatcher.setInitialState(context);
-    this.handleDisplayHelp();
+    const { isActive, isOpen } = this.store.getState();
+    if (isActive && isOpen) { this.loadHelpContent(); }
   }
 }

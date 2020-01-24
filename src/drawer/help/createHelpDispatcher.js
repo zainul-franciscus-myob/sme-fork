@@ -4,6 +4,7 @@ import {
   LOAD_HELP_USER_SETTINGS,
   SET_ACTIVE_STATE,
   SET_LOADING_STATE,
+  SET_OPEN_STATE,
   UPDATE_SEARCH_VALUE,
 } from './HelpIntents';
 import { SET_INITIAL_STATE } from '../../SystemIntents';
@@ -26,6 +27,12 @@ const createHelpDispatcher = store => ({
     store.dispatch({
       intent: SET_ACTIVE_STATE,
       isActive,
+    });
+  },
+  setOpenState: (isOpen) => {
+    store.dispatch({
+      intent: SET_OPEN_STATE,
+      isOpen,
     });
   },
   loadHelpUserSettings: (userHelpSettings) => {

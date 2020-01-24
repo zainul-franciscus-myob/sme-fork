@@ -33,9 +33,12 @@ export default class DrawerModule {
       }
     });
 
-    this.store.subscribe(({ drawerView }) => {
+    this.store.subscribe(({ drawerView, isOpen }) => {
       Object.keys(this.subModules)
-        .forEach(mod => this.subModules[mod].setActive(drawerView === mod));
+        .forEach((mod) => {
+          const isActive = drawerView === mod;
+          this.subModules[mod].setActive(isActive, isOpen);
+        });
     });
   }
 
