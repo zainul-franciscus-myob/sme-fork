@@ -73,6 +73,7 @@ export default class EmployeePayListModule {
 
     const onSuccess = (payPeriodLimit) => {
       this.dispatcher.updatePayPeriodEmployeeLimit(payPeriodLimit);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       if (payPeriodLimit.used > payPeriodLimit.limit) {
         this.dispatcher.showUpgradeModal();
       } else {
