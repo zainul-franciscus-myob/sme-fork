@@ -136,15 +136,15 @@ describe('customerStatementListIntegrationSelectors', () => {
         orderBy: 'name',
         customerStatements: [
           {
-            payerUid: '1',
+            id: '1',
             isSelected: true,
           },
           {
-            payerUid: '2',
+            id: '2',
             isSelected: false,
           },
           {
-            payerUid: '3',
+            id: '3',
             isSelected: true,
           },
         ],
@@ -161,7 +161,7 @@ describe('customerStatementListIntegrationSelectors', () => {
         sortOrder: 'asc',
         orderBy: 'name',
         templateOption,
-        customerUids: ['1', '3'],
+        customerIds: ['1', '3'],
       };
 
       expect(actual).toEqual(expected);

@@ -19,9 +19,9 @@ export const getDownloadPDFQueryParams = (state, templateOption) => ({
   sortOrder: state.sortOrder,
   orderBy: state.orderBy,
   templateOption,
-  customerUids: state.customerStatements
+  customerIds: state.customerStatements
     .filter(({ isSelected }) => isSelected)
-    .map(({ payerUid }) => payerUid),
+    .map(({ id }) => id),
 });
 
 const getSelectedTemplateOptionForEmail = (state) => {
