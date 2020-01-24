@@ -1,10 +1,8 @@
 import activitiesService from '../../activities';
-import closeActivity from '../../activities/closeActivity';
-import closeTask from '../../activities/closeTask';
+import closeTasks from '../../activities/closeTasks';
 import load from '../../activities/load';
 
-jest.mock('../../activities/closeActivity');
-jest.mock('../../activities/closeTask');
+jest.mock('../../activities/closeTasks');
 jest.mock('../../activities/load');
 
 describe('activitiesService', () => {
@@ -13,23 +11,13 @@ describe('activitiesService', () => {
   const integration = jest.fn();
   const store = jest.fn();
 
-  describe('when closing an activity', () => {
-    it('calls closeActivity', () => {
-      const service = activitiesService(dispatcher, integration, store);
-
-      service.closeActivity(context);
-
-      expect(closeActivity).toHaveBeenCalled();
-    });
-  });
-
   describe('when closing a task', () => {
-    it('calls closeTask', () => {
+    it('calls closeTasks', () => {
       const service = activitiesService(dispatcher, integration, store);
 
-      service.closeTask(context);
+      service.closeTasks(context);
 
-      expect(closeTask).toHaveBeenCalled();
+      expect(closeTasks).toHaveBeenCalled();
     });
   });
 

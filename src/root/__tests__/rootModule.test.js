@@ -10,7 +10,7 @@ describe('rootModule', () => {
   });
 
   describe('when run()', () => {
-    const stubFunctionsOn = (...objs) => objs.forEach(
+    const stubFunctionsOn = (...args) => args.forEach(
       obj => Object.keys(obj)
         .filter(key => typeof obj[key] === 'function')
       // eslint-disable-next-line no-param-reassign

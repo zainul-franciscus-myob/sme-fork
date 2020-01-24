@@ -1,13 +1,13 @@
-import { CLOSE_MANY_TASKS } from '../../rootIntents';
+import { CLOSE_TASKS } from '../../rootIntents';
 
-const closeManyTasks = async ({
+const closeTasks = async ({
   dispatcher, integration, store, context,
 }) => {
   const { businessId } = store.getState();
   const { closeEvent } = context;
 
   const activities = await new Promise((resolve, reject) => integration.write({
-    intent: CLOSE_MANY_TASKS,
+    intent: CLOSE_TASKS,
     urlParams: { businessId, closeEvent },
     onSuccess: resolve,
     onFailure: reject,
@@ -16,4 +16,4 @@ const closeManyTasks = async ({
   dispatcher.updateActivities(activities);
 };
 
-export default closeManyTasks;
+export default closeTasks;

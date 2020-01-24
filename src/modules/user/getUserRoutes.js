@@ -3,7 +3,7 @@ import UserDetailModule from './userDetail/UserDetailModule';
 import UserListModule from './userList/UserListModule';
 
 const getUserRoutes = ({
-  integration, setRootView, popMessages, pushMessage,
+  integration, setRootView, popMessages, pushMessage, globalCallbacks: { usersInvited },
 }) => {
   const routes = [
     {
@@ -17,7 +17,9 @@ const getUserRoutes = ({
     {
       name: RouteName.USER_DETAIL,
       path: '/:region/:businessId/user/:userId',
-      module: new UserDetailModule({ integration, setRootView, pushMessage }),
+      module: new UserDetailModule({
+        integration, setRootView, pushMessage, usersInvited,
+      }),
       documentTitle: 'User',
     },
   ];

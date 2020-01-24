@@ -1,7 +1,6 @@
 import {
   CLOSE_ACTIVITY,
-  CLOSE_MANY_TASKS,
-  CLOSE_TASK,
+  CLOSE_TASKS,
   CREATE_ACTIVITY,
   DELETE_ACTIVITY,
   GET_ACTIVITIES_LIST,
@@ -12,8 +11,7 @@ import {
 const listPath = ({ businessId }) => `/${businessId}/activities`;
 const detailPath = ({ businessId, activityId }) => `/${businessId}/activities/${activityId}`;
 const closeActivityPath = ({ businessId, activityId }) => `/${businessId}/activities/${activityId}/close`;
-const closeTaskPath = ({ businessId, activityId, activityKey }) => `/${businessId}/activities/${activityId}/${activityKey}/close`;
-const closeManyTasksPath = ({ businessId, closeEvent }) => `/${businessId}/activities/closeTasks/${closeEvent}`;
+const closeTasksPath = ({ businessId, closeEvent }) => `/${businessId}/activities/closeTasks/${closeEvent}`;
 
 const ActivityMapping = {
   [GET_ACTIVITIES_LIST]: { method: 'GET', getPath: listPath },
@@ -22,8 +20,7 @@ const ActivityMapping = {
   [UPDATE_ACTIVITY]: { method: 'PATCH', getPath: detailPath },
   [DELETE_ACTIVITY]: { method: 'DELETE', getPath: detailPath },
   [CLOSE_ACTIVITY]: { method: 'POST', getPath: closeActivityPath },
-  [CLOSE_TASK]: { method: 'POST', getPath: closeTaskPath },
-  [CLOSE_MANY_TASKS]: { method: 'POST', getPath: closeManyTasksPath },
+  [CLOSE_TASKS]: { method: 'POST', getPath: closeTasksPath },
 };
 
 export default ActivityMapping;

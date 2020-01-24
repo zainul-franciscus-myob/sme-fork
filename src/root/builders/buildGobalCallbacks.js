@@ -1,3 +1,4 @@
-export default ({ closeManyTasks }) => ({
-  businessDetailsConfirmed: () => closeManyTasks({ closeEvent: 'businessDetailsConfirmed' }),
+export default ({ closeTasks }) => ({
+  businessDetailsConfirmed: () => closeTasks({ closeEvent: 'businessDetailsConfirmed' }),
+  usersInvited: () => closeTasks({ closeEvent: 'usersInvited' }),
 });

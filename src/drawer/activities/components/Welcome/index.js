@@ -3,16 +3,17 @@ import React from 'react';
 
 import styles from './index.module.css';
 
-const Welcome = ({ activity, closeActivity }) => {
-  const { id, data: { isComplete } } = activity;
+const Welcome = ({ activity, closeTasks }) => {
+  const { data: { isComplete } } = activity;
   if (isComplete === true) return null;
 
   const onCloseWelcomeActivity = (e) => {
     e.preventDefault();
-    closeActivity({ activityId: id });
+    closeTasks({ closeEvent: 'welcomeViewed' });
   };
 
   const onboardingTour = () => {
+    // cspell:disable-next-line
     window.location.href = `/#/${activity.region}/${activity.cdfguid}/dashboard?appcue=-LwVnYlAyZs8fgnratzU`;
   };
 

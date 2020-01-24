@@ -35,18 +35,23 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 import userDetailReducer from './userDetailReducer';
 
+
 export default class UserDetailModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({
+    integration, setRootView, pushMessage, usersInvited,
+  }) {
     this.integration = integration;
     this.store = new Store(userDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.usersInvited = usersInvited;
   }
 
   createOrUpdateUser = () => {
     const isCreating = getIsCreating(this.store.getState());
     if (isCreating) {
       this.createUser();
+      this.usersInvited();
     } else {
       this.updateUser();
     }

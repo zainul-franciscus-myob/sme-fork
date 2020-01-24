@@ -19,7 +19,7 @@ export default class ActivitiesModule {
 
   getView = (activities) => {
     const { activitiesService, closeView, store } = this;
-    const { closeTask, closeActivity } = activitiesService;
+    const { closeTasks, closeActivity } = activitiesService;
     const onboardingActivities = activities && activities.filter(activity => activity.template === 'drawer');
     const welcomeActivity = activities && activities.find(activity => activity.template === 'welcome');
 
@@ -27,7 +27,7 @@ export default class ActivitiesModule {
       <Provider store={store}>
         <ActivitiesView
           closeActivity={closeActivity}
-          closeTask={closeTask}
+          closeTasks={closeTasks}
           closeView={closeView}
           onboardingActivities={onboardingActivities}
           welcomeActivity={welcomeActivity}

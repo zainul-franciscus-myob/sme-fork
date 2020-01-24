@@ -17,7 +17,7 @@ const isCompleted = (activity, item) => (activity.data.closed || []).includes(it
 
 const isActivityActive = url => decodeURI(window.location.href).indexOf(url) > -1;
 
-const Onboarding = ({ activities, closeTask }) => (
+const Onboarding = ({ activities, closeTasks }) => (
   <ul className={styles.activities}>
     {activities.map(activity => (
       activity.tasks.map((item) => {
@@ -26,7 +26,7 @@ const Onboarding = ({ activities, closeTask }) => (
           <li key={item.title}>
             <a
               href={`${item.action}`}
-              onClick={() => { closeTask({ activityId: activity.id, activityKey: item.key }); }}
+              onClick={() => { closeTasks({ closeEvent: `${item.key}Viewed` }); }}
             >
               {taskIconPath && <img src={taskIconPath} alt={item.title} width="36" />}
               <div className={styles.container}>

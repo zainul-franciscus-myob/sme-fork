@@ -1,8 +1,8 @@
-import { CLOSE_TASK } from '../../../rootIntents';
-import closeTask from '../../activities/closeTask';
+import { CLOSE_TASKS } from '../../../rootIntents';
+import closeTasks from '../../activities/closeTasks';
 
 describe('activitiesService', () => {
-  describe('closeTask', () => {
+  describe('closeTasks', () => {
     const businessId = 'business-id';
     const region = 'region';
     const activityId = 'activity-id';
@@ -10,47 +10,41 @@ describe('activitiesService', () => {
     const getState = jest.fn();
     const store = { getState };
     const data = {};
-    const context = { activityId, activityKey };
+
+    const context = { activityId, activityKey, closeEvent: 'MagicEvent' };
 
     getState.mockReturnValue({ businessId, region });
 
     const dispatcher = {
-      updateActivity: jest.fn(),
+      updateActivities: jest.fn(),
     };
 
     const integration = {
       write: jest.fn().mockImplementation(({ onSuccess }) => onSuccess(data)),
     };
 
-    it('gives close task intent', async () => {
-      await closeTask({
+    it('gives close tasks intent', async () => {
+      await closeTasks({
         dispatcher, integration, store, context,
       });
 
       expect(integration.write).toBeCalledWith(
         expect.objectContaining({
-          intent: CLOSE_TASK,
+          intent: CLOSE_TASKS,
         }),
       );
     });
 
     it('gives url params', async () => {
-      await closeTask({
+      await closeTasks({
         dispatcher, integration, store, context,
       });
 
       expect(integration.write).toBeCalledWith(
         expect.objectContaining({
-          urlParams: { businessId, activityId, activityKey },
+          urlParams: { businessId, closeEvent: 'MagicEvent' },
         }),
       );
-    });
-
-    it('gives updated activity to the redux store', async () => {
-      await closeTask({
-        dispatcher, integration, store, context,
-      });
-      expect(dispatcher.updateActivity).toBeCalledWith(data);
     });
   });
 });

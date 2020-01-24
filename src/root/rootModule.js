@@ -46,7 +46,7 @@ export default class RootModule {
     });
 
     this.globalCallbacks = buildGlobalCallbacks({
-      closeManyTasks: this.activitiesService.closeManyTasks,
+      closeTasks: this.activitiesService.closeTasks,
       store: this.store,
     });
   }
