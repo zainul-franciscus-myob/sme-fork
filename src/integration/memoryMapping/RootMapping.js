@@ -39,9 +39,9 @@ import LinkedAccountsMapping from '../../modules/linkedAccounts/mappings/MemoryL
 import NavigationMapping from './NavigationMapping';
 import PayItemMapping from '../../modules/payItem/payItemList/mappings/MemoryPayItemMapping';
 import PayRefundMapping from '../../modules/payRefund/mappings/MemoryPayRefundMapping';
-import PayRunDetailMapping from './PayRunDetailMapping';
-import PayRunListMapping from './PayRunListMapping';
-import PayRunMapping from './PayRunMapping';
+import PayRunDetailMapping from '../../modules/payRun/mappings/MemoryPayRunDetailMapping';
+import PayRunListMapping from '../../modules/payRun/mappings/MemoryPayRunListMapping';
+import PayRunMapping from '../../modules/payRun/mappings/MemoryPayRunMapping';
 import PaySuperAuthorisationModalMapping from '../../modules/paySuper/paySuperAuthorisationModal/mappings/MemoryPaySuperAuthorisationModalMapping';
 import PaySuperCreateMapping from '../../modules/paySuper/paySuperCreate/mappings/MemoryPaySuperCreateMapping';
 import PaySuperListMapping from '../../modules/paySuper/paySuperList/mappings/MemoryPaySuperListMapping';

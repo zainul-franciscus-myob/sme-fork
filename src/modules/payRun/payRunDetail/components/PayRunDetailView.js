@@ -1,0 +1,68 @@
+import {
+  Alert,
+  BaseTemplate,
+  Button,
+  ButtonRow,
+  Card,
+  PageHead,
+} from '@myob/myob-widgets';
+import { connect } from 'react-redux';
+import React from 'react';
+
+import { getAlert, getLoadingState } from '../payRunDetailSelector';
+import PageView from '../../../../components/PageView/PageView';
+import PayRunDetailHeader from './PayRunDetailHeader';
+import PayRunEmployees from './PayRunEmployees';
+
+const PayRunDetailView = ({
+  loadingState,
+  setSelectedTab,
+  emailTabListeners,
+  printTabListeners,
+  onBackButtonClick,
+  onEmployeeNameClick,
+  exportPdf,
+  alert,
+  onDismissAlert,
+}) => {
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
+    </Alert>
+  );
+
+  const employeeCard = (
+    <Card>
+      <PayRunEmployees
+        setSelectedTab={setSelectedTab}
+        emailTabListeners={emailTabListeners}
+        printTabListeners={printTabListeners}
+        onEmployeeNameClick={onEmployeeNameClick}
+        exportPdf={exportPdf}
+      />
+    </Card>
+  );
+
+  const payRunDetailView = (
+    <BaseTemplate>
+      {alertComponent}
+      <PageHead title="Pay run details" />
+      <PayRunDetailHeader />
+      {employeeCard}
+      <ButtonRow>
+        <Button type="secondary" onClick={onBackButtonClick}>
+          Go back
+        </Button>
+      </ButtonRow>
+    </BaseTemplate>
+  );
+
+  return <PageView loadingState={loadingState} view={payRunDetailView} />;
+};
+
+const mapStateToProps = state => ({
+  loadingState: getLoadingState(state),
+  alert: getAlert(state),
+});
+
+export default connect(mapStateToProps)(PayRunDetailView);
