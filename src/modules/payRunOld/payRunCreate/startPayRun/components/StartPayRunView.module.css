@@ -1,0 +1,14 @@
+.startPayRun :global(.form-group) {
+  width: 66.3732394366197%;
+}
+
+.stepper {
+  padding: 1.6rem 0;
+}
+
+.existingPayRunModalButtons {
+  background: #f3f4f5;
+  border-top: 1px solid #dcdfe1;
+  padding: 16px;
+}
+
