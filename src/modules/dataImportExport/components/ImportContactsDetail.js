@@ -1,33 +1,30 @@
 import {
-  RadioButton, RadioButtonGroup, Select,
+  RadioButton, RadioButtonGroup,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getContactIdentifyBy,
   getContactType,
 } from '../selectors/DataImportExportSelectors';
-import ContactIdentifyBy from '../types/ContactIdentifyBy';
 import ContactType from '../types/ContactType';
 import DuplicateRecords from './DuplicateRecords';
+import IdentifyBy from './IdentifyBy';
 import UploadFile from './UploadFile';
 import handleRadioButtonChange from '../../../components/handlers/handleRadioButtonChange';
-import handleSelectChange from '../../../components/handlers/handleSelectChange';
 
 const ImportContactsDetail = ({
   onFileSelected,
   onFileRemove,
   onDuplicateRecordsOptionChange,
-  contactIdentifyBy,
   contactType,
-  updateContactsIdentifyBy,
-  updateContactsType,
+  onUpdateContactsIdentifyBy,
+  onUpdateContactsType,
 }) => (
   <>
     <RadioButtonGroup
       label="Contact type"
-      onChange={handleRadioButtonChange('', updateContactsType)}
+      onChange={handleRadioButtonChange('', onUpdateContactsType)}
       requiredLabel="This is required"
       renderRadios={({ id, value, ...props }) => [
         <RadioButton
@@ -50,16 +47,10 @@ const ImportContactsDetail = ({
       onFileSelected={onFileSelected}
       onFileRemove={onFileRemove}
     />
-    <Select
+    <IdentifyBy
       label="Match contacts using"
-      value={contactIdentifyBy}
-      requiredLabel="This is required"
-      onChange={handleSelectChange(updateContactsIdentifyBy)}
-    >
-      <Select.Option value={ContactIdentifyBy.NAME} label="Company name or last name" />
-      <Select.Option value={ContactIdentifyBy.DISPLAY_ID} label="Contact ID" />
-      <Select.Option value={ContactIdentifyBy.ID} label="Record ID" />
-    </Select>
+      onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
+    />
     <DuplicateRecords
       onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
     />
@@ -67,7 +58,6 @@ const ImportContactsDetail = ({
 );
 
 const mapStateToProps = state => ({
-  contactIdentifyBy: getContactIdentifyBy(state),
   contactType: getContactType(state),
 });
 

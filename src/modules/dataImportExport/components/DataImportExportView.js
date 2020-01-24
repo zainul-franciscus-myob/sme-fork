@@ -28,8 +28,8 @@ const DataImportExportView = ({
   onUpdateExportDataType,
   onUpdateImportDataType,
   exportChartOfAccountsListeners,
-  updateContactsIdentifyBy,
-  updateContactsType,
+  onUpdateContactsIdentifyBy,
+  onUpdateContactsType,
   selectedTab,
   onFileSelected,
   onFileRemove,
@@ -64,8 +64,8 @@ const DataImportExportView = ({
           onFileRemove={onFileRemove}
           onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
           onUpdateImportDataType={onUpdateImportDataType}
-          updateContactsIdentifyBy={updateContactsIdentifyBy}
-          updateContactsType={updateContactsType}
+          onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
+          onUpdateContactsType={onUpdateContactsType}
         />,
         [TabItem.EXPORT]: <ExportTabContent
           onUpdateExportDataType={onUpdateExportDataType}

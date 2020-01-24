@@ -20,8 +20,8 @@ const ImportTabContent = ({
   onFileRemove,
   onDuplicateRecordsOptionChange,
   onUpdateImportDataType,
-  updateContactsIdentifyBy,
-  updateContactsType,
+  onUpdateContactsIdentifyBy,
+  onUpdateContactsType,
 }) => (
   <FormHorizontal layout="primary">
     <Select
@@ -51,14 +51,14 @@ const ImportTabContent = ({
         onFileSelected={onFileSelected}
         onFileRemove={onFileRemove}
         onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
-        updateContactsIdentifyBy={updateContactsIdentifyBy}
-        updateContactsType={updateContactsType}
+        onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
+        onUpdateContactsType={onUpdateContactsType}
       />,
       [ImportExportDataType.EMPLOYEES]: <ImportEmployeesDetail
         onFileSelected={onFileSelected}
         onFileRemove={onFileRemove}
         onDuplicateRecordsOptionChange={onDuplicateRecordsOptionChange}
-        updateContactsIdentifyBy={updateContactsIdentifyBy}
+        onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
       />,
       [ImportExportDataType.ITEMS]: <ImportItemsDetail
         onFileSelected={onFileSelected}
@@ -76,7 +76,7 @@ const ImportTabContent = ({
       [ImportExportDataType.TIMESHEETS]: <ImportTimesheetsDetail
         onFileSelected={onFileSelected}
         onFileRemove={onFileRemove}
-        updateContactsIdentifyBy={updateContactsIdentifyBy}
+        onUpdateContactsIdentifyBy={onUpdateContactsIdentifyBy}
       />,
     }[selectedDataType]}
   </FormHorizontal>

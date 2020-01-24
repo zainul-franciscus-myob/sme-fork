@@ -186,8 +186,8 @@ export default class DataImportExportModule {
           exportChartOfAccountsListeners={{
             onExportChartOfAccountsDetailChange: this.dispatcher.updateExportChartOfAccountsDetail,
           }}
-          updateContactsIdentifyBy={this.updateContactsIdentifyBy}
-          updateContactsType={this.updateContactsType}
+          onUpdateContactsIdentifyBy={this.updateContactsIdentifyBy}
+          onUpdateContactsType={this.updateContactsType}
           onFileSelected={this.dispatcher.addImportFile}
           onFileRemove={this.dispatcher.removeImportFile}
           onDuplicateRecordsOptionChange={this.dispatcher.updateDuplicateRecordsOption}
