@@ -15,8 +15,8 @@ import {
   getSelfBalancingTransaction,
 } from '../accountDetailSelectors';
 import AccountNumberInput from '../../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
-import AutoFormatter from '../../../../components/autoFormatter/AutoFormatterCore/AutoFormatter';
 import BSBInput from '../../../../components/autoFormatter/BankDetailsInput/BSBInput';
+import UpperCaseInputFormatter from '../../../../components/autoFormatter/UpperCaseInput/UpperCaseInputFormatter';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
@@ -51,26 +51,20 @@ const AuBankDetailsSection = ({
       onChange={handleFormattedInputChange(onChange)}
       width="sm"
     />
-    <AutoFormatter
+    <UpperCaseInputFormatter
       onChange={handleFormattedInputChange(onChange)}
       name="accountNameAu"
       label="Bank account name"
       maxLength={32}
       value={accountName}
-      options={{
-        uppercase: true,
-      }}
       width="xl"
     />
-    <AutoFormatter
+    <UpperCaseInputFormatter
       onChange={handleFormattedInputChange(onChange)}
       name="companyTradingName"
       label="Company trading name"
       value={tradingName}
       maxLength={16}
-      options={{
-        uppercase: true,
-      }}
       width="xl"
     />
     <CheckboxGroup
