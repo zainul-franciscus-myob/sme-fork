@@ -1,13 +1,11 @@
 import {
-  ADD_BILL_ITEM_LINE,
-  ADD_BILL_SERVICE_LINE,
+  ADD_BILL_LINE,
   CLOSE_ALERT,
   CLOSE_MODAL,
   DOWNLOAD_IN_TRAY_DOCUMENT, FAIL_LOADING,
   FORMAT_AMOUNT_PAID,
-  FORMAT_BILL_SERVICE_LINES,
+  FORMAT_BILL_LINE,
   HIDE_PREFILL_INFO,
-  ITEM_CALCULATE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_OPTION,
@@ -18,9 +16,8 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   REMOVE_BILL_LINE,
   RESET_TOTALS,
-  SERVICE_CALCULATE,
-  SET_ACCOUNT_LOADING_STATE,
   SET_ATTACHMENT_ID,
+  SET_CALCULATED_BILL_LINES_AND_TOTALS,
   SET_DOCUMENT_LOADING_STATE,
   SET_IN_TRAY_DOCUMENT_ID,
   SET_SHOW_SPLIT_VIEW,
@@ -28,19 +25,19 @@ import {
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
-  START_PENDING_CALCULATION,
   START_SUPPLIER_BLOCKING,
+  START_WAITING_FOR_LINE_CALC_TO_START,
   STOP_BLOCKING,
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
-  STOP_PENDING_CALCULATION,
   STOP_SUPPLIER_BLOCKING,
+  STOP_WAITING_FOR_LINE_CALC_TO_START,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL_ID,
-  UPDATE_BILL_ITEM_LINE,
+  UPDATE_BILL_LINE,
   UPDATE_BILL_OPTION,
-  UPDATE_BILL_SERVICE_LINE,
   UPDATE_EXPORT_PDF_DETAIL,
+  UPDATE_LAYOUT,
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
@@ -54,11 +51,6 @@ const createBillDispatcher = store => ({
   loadAccountAfterCreate: payload => store.dispatch({
     intent: LOAD_ACCOUNT_AFTER_CREATE,
     ...payload,
-  }),
-
-  setAccountLoadingState: isAccountLoading => store.dispatch({
-    intent: SET_ACCOUNT_LOADING_STATE,
-    isAccountLoading,
   }),
 
   resetState: () => {
@@ -93,6 +85,13 @@ const createBillDispatcher = store => ({
     store.dispatch({
       intent: UPDATE_BILL_OPTION,
       key,
+      value,
+    });
+  },
+
+  updateLayout: ({ value }) => {
+    store.dispatch({
+      intent: UPDATE_LAYOUT,
       value,
     });
   },
@@ -182,32 +181,19 @@ const createBillDispatcher = store => ({
     });
   },
 
-  addBillServiceLine: ({ accountId }) => {
+  addBillLine: () => {
     store.dispatch({
-      intent: ADD_BILL_SERVICE_LINE,
-      accountId,
+      intent: ADD_BILL_LINE,
     });
   },
 
-  addBillItemLine: ({ itemId }) => {
-    store.dispatch({
-      intent: ADD_BILL_ITEM_LINE,
-      itemId,
-    });
-  },
+  formatBillLine: ({ index, key }) => store.dispatch({
+    intent: FORMAT_BILL_LINE, index, key,
+  }),
 
-  updateBillServiceLine: ({ index, key, value }) => {
+  updateBillLine: ({ index, key, value }) => {
     store.dispatch({
-      intent: UPDATE_BILL_SERVICE_LINE,
-      index,
-      key,
-      value,
-    });
-  },
-
-  updateBillItemLine: ({ index, key, value }) => {
-    store.dispatch({
-      intent: UPDATE_BILL_ITEM_LINE,
+      intent: UPDATE_BILL_LINE,
       index,
       key,
       value,
@@ -221,22 +207,9 @@ const createBillDispatcher = store => ({
     });
   },
 
-  formatBillServiceLines: () => {
-    store.dispatch({
-      intent: FORMAT_BILL_SERVICE_LINES,
-    });
-  },
-
   formatAmountPaid: () => {
     store.dispatch({
       intent: FORMAT_AMOUNT_PAID,
-    });
-  },
-
-  serviceCalculate: (response) => {
-    store.dispatch({
-      intent: SERVICE_CALCULATE,
-      response,
     });
   },
 
@@ -255,22 +228,22 @@ const createBillDispatcher = store => ({
 
   stopSupplierBlocking: () => store.dispatch({ intent: STOP_SUPPLIER_BLOCKING }),
 
-  itemCalculate: (response) => {
+  setCalculatedBillLinesAndTotals: (response) => {
     store.dispatch({
-      intent: ITEM_CALCULATE,
+      intent: SET_CALCULATED_BILL_LINES_AND_TOTALS,
       response,
     });
   },
 
-  startPendingCalculation: () => {
+  startWaitingForLineCalcToStart: () => {
     store.dispatch({
-      intent: START_PENDING_CALCULATION,
+      intent: START_WAITING_FOR_LINE_CALC_TO_START,
     });
   },
 
-  stopPendingCalculation: () => {
+  stopWaitingForLineCalcToStart: () => {
     store.dispatch({
-      intent: STOP_PENDING_CALCULATION,
+      intent: STOP_WAITING_FOR_LINE_CALC_TO_START,
     });
   },
 

@@ -10,12 +10,12 @@ import {
 import {
   getAmountPaid,
   getBillId,
+  getBillLayout,
   getBillUid,
   getBusinessId,
   getDuplicatedBillId,
   getIsCreating,
   getIsTaxInclusive,
-  getLayout,
   getLines,
   getSupplierId,
   getSupplierOptions,
@@ -88,12 +88,7 @@ export const getDeleteBillUrlParams = createSelector(
   (businessId, billId) => ({ businessId, billId }),
 );
 
-export const getServiceCalculateUrlParams = createSelector(
-  getBusinessId,
-  businessId => ({ businessId }),
-);
-
-export const getItemCalculateUrlParams = createSelector(
+export const getCalculateBillLinesUrlParams = createSelector(
   getBusinessId,
   businessId => ({ businessId }),
 );
@@ -103,7 +98,7 @@ export const getLoadItemOptionUrlParams = (state, { itemId }) => ({
   itemId,
 });
 
-export const getItemCalculateContent = createSelector(
+export const getCalculateBillContent = createSelector(
   getLines,
   getIsTaxInclusive,
   getAmountPaid,
@@ -114,24 +109,24 @@ export const getItemCalculateContent = createSelector(
   }),
 );
 
-export const getItemCalculateContentForUpdateLineItem = (state, { index, itemId }) => ({
-  ...getItemCalculateContent(state),
+export const getCalculateBillItemChangeContent = (state, { index, itemId }) => ({
+  ...getCalculateBillContent(state),
   index,
   itemId,
 });
 
-export const getItemCalculateContentForUpdateLineAmount = (state, { index, key }) => ({
-  ...getItemCalculateContent(state),
+export const getCalculateLineTotalsOnAmountChangeContent = (state, { index, key }) => ({
+  ...getCalculateBillContent(state),
+  layout: getBillLayout(state),
   index,
   key,
 });
 
-export const getServiceCalculateContent = createSelector(
-  getLines,
-  getIsTaxInclusive,
-  getAmountPaid,
-  (lines, isTaxInclusive, amountPaid) => ({ lines, isTaxInclusive, amountPaid }),
-);
+export const getCalculateLineTotalsTaxInclusiveChange = state => ({
+  ...getCalculateBillContent(state),
+  layout: getBillLayout(state),
+  isLineAmountTaxInclusive: !getIsTaxInclusive(state),
+});
 
 export const getLoadAddedAccountUrlParams = (state, accountId) => {
   const businessId = getBusinessId(state);
@@ -141,7 +136,7 @@ export const getLoadAddedAccountUrlParams = (state, accountId) => {
 export const getSaveBillContent = createSelector(
   state => state.bill,
   getSupplierOptions,
-  getLayout,
+  getBillLayout,
   (bill, supplierOptions, layout) => {
     const selectedSupplier = supplierOptions.find(supplier => supplier.id === bill.supplierId);
     const supplierName = selectedSupplier ? selectedSupplier.displayName : '';

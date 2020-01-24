@@ -6,6 +6,7 @@ import {
   getAmountDue,
   getAmountPaid,
   getDisplayAmountPaid,
+  getIsBlocking,
   getIsCreating,
   getSubTotal,
   getTotalAmount,
@@ -17,8 +18,8 @@ import handleAmountInputChange from '../../../../components/handlers/handleAmoun
 
 const BillTableTotals = ({
   isCreating,
+  isBlocking,
   displayAmountPaid,
-  amountPaid,
   totalAmount,
   amountDue,
   subTotal,
@@ -31,9 +32,10 @@ const BillTableTotals = ({
     <LineItemTableTotalsInput
       label="Amount paid ($)"
       name="amountPaid"
-      value={amountPaid}
+      value={displayAmountPaid}
       onChange={handleAmountInputChange(onUpdateBillOption)}
       onBlur={onAmountPaidBlur}
+      disabled={isBlocking}
     />
   ) : (
     <LineItemTable.Totals title="Amount paid" amount={displayAmountPaid} />
@@ -52,6 +54,7 @@ const BillTableTotals = ({
 
 const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
+  isBlocking: getIsBlocking(state),
   displayAmountPaid: getDisplayAmountPaid(state),
   amountPaid: getAmountPaid(state),
   totalAmount: getTotalAmount(state),

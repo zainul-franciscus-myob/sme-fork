@@ -1,19 +1,19 @@
 import {
-  ADD_BILL_SERVICE_LINE,
+  ADD_BILL_LINE,
   FORMAT_AMOUNT_PAID,
-  FORMAT_BILL_SERVICE_LINES,
-  ITEM_CALCULATE,
+  FORMAT_BILL_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_OPTION,
   PREFILL_BILL_FROM_IN_TRAY,
   REMOVE_BILL_LINE,
-  SERVICE_CALCULATE,
-  SET_ACCOUNT_LOADING_STATE,
-  UPDATE_BILL_ITEM_LINE,
+  SET_CALCULATED_BILL_LINES_AND_TOTALS,
+  UPDATE_BILL_LINE,
   UPDATE_BILL_OPTION,
-  UPDATE_BILL_SERVICE_LINE,
+  UPDATE_LAYOUT,
 } from '../BillIntents';
+import BillLayout from '../types/BillLayout';
+import BillLineLayout from '../types/BillLineLayout';
 import billReducer from '../billReducer';
 
 describe('billReducer', () => {
@@ -94,24 +94,9 @@ describe('billReducer', () => {
       expect(actual.bill.issueDate).toEqual('2019-02-03');
     });
 
-    describe('when monthly limit is not provided', () => {
-      const action = {
-        intent: LOAD_BILL,
-        response: {
-          bill: {
-            issueDate: '2019-02-03',
-          },
-        },
-      };
-      it('does not show the upgrade modal', () => {
-        const actual = billReducer({}, action);
+    describe('subscription upgrade modal', () => {
+      const state = {};
 
-        expect(actual.monthlyLimit).toBeUndefined();
-        expect(actual.isUpgradeModalShowing).toBe(false);
-      });
-    });
-
-    describe('when monthly limit is provided and the limit has not been hit', () => {
       const action = {
         intent: LOAD_BILL,
         response: {
@@ -119,145 +104,38 @@ describe('billReducer', () => {
             issueDate: '2019-02-03',
           },
           monthlyLimit: {
-            used: 4,
             limit: 5,
-            month: 'April 1994',
+            hasHitLimit: true,
           },
         },
       };
-      it('does not show the upgrade modal', () => {
-        const actual = billReducer({}, action);
 
-        expect(actual.monthlyLimit).toBeDefined();
-        expect(actual.isUpgradeModalShowing).toBe(false);
+      it('shows upgrade modal if subscription limit has been reached', () => {
+        const actual = billReducer(state, action);
+
+        expect(actual.subscription.isUpgradeModalShowing).toBeTruthy();
       });
-    });
 
-    describe('when monthly limit is provided and the limit has been hit', () => {
-      const action = {
-        intent: LOAD_BILL,
-        response: {
-          bill: {
-            issueDate: '2019-02-03',
+      it('does not show upgrade modal if subscription limit has not been reached', () => {
+        const modifiedAction = {
+          ...action,
+          response: {
+            ...action.response,
+            monthlyLimit: {
+              limit: 5,
+              hasHitLimit: false,
+            },
           },
-          monthlyLimit: {
-            used: 5,
-            limit: 5,
-            month: 'April 1994',
-          },
-        },
-      };
-      it('shows the upgrade modal', () => {
-        const actual = billReducer({}, action);
+        };
+        const actual = billReducer(state, modifiedAction);
 
-        expect(actual.monthlyLimit).toBeDefined();
-        expect(actual.isUpgradeModalShowing).toBe(true);
+        expect(actual.subscription.isUpgradeModalShowing).toBeFalsy();
       });
     });
   });
 
-  describe('UPDATE_BILL_ITEM_LINE', () => {
-    it('updates key on line at index', () => {
-      const action = {
-        intent: UPDATE_BILL_ITEM_LINE,
-        index: 1,
-        key: 'description',
-        value: 'hello',
-      };
-
-      const state = {
-        bill: {
-          lines: [
-            {
-              id: '1',
-            },
-            {
-              id: '2',
-            },
-          ],
-        },
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.bill.lines[1]).toEqual(
-        {
-          id: '2',
-          description: 'hello',
-        },
-      );
-    });
-
-    it('sets isPageEdited to true', () => {
-      const action = {
-        intent: UPDATE_BILL_ITEM_LINE,
-        index: 0,
-        key: 'description',
-        value: 'hello',
-      };
-
-      const state = {
-        bill: {
-          lines: [
-            {
-              id: '2',
-            },
-          ],
-        },
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.isPageEdited).toEqual(true);
-    });
-
-    it('should update displayDiscount when discount is changed', () => {
-      const state = {
-        bill: {
-          lines: [
-            {},
-          ],
-        },
-      };
-
-      const action = {
-        intent: UPDATE_BILL_ITEM_LINE,
-        index: 0,
-        key: 'discount',
-        value: '1234',
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.bill.lines[0].discount).toEqual('1234');
-      expect(actual.bill.lines[0].displayDiscount).toEqual('1234');
-    });
-
-    it('should update displayAmount when amount is changed', () => {
-      const state = {
-        bill: {
-          lines: [
-            {},
-          ],
-        },
-      };
-
-      const action = {
-        intent: UPDATE_BILL_ITEM_LINE,
-        index: 0,
-        key: 'amount',
-        value: '1234',
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.bill.lines[0].amount).toEqual('1234');
-      expect(actual.bill.lines[0].displayAmount).toEqual('1234');
-    });
-  });
-
-  describe('ITEM_CALCULATE', () => {
-    it('merges item calculate response into the state', () => {
+  describe('SET_CALCULATED_BILL_LINES_AND_TOTALS', () => {
+    it('merges calculated line totals response into the state', () => {
       const state = {
         bill: {
           lines: [],
@@ -267,7 +145,7 @@ describe('billReducer', () => {
       };
 
       const action = {
-        intent: ITEM_CALCULATE,
+        intent: SET_CALCULATED_BILL_LINES_AND_TOTALS,
         response: {
           bill: {
             lines: [
@@ -300,6 +178,113 @@ describe('billReducer', () => {
           amountDue: '4',
         },
       });
+    });
+  });
+
+  describe('UPDATE_LAYOUT', () => {
+    it('updates the bill table layout with the given value', () => {
+      const state = {
+        layout: 'something',
+        bill: {
+          lines: [],
+        },
+      };
+
+      const action = {
+        intent: UPDATE_LAYOUT,
+        value: 'something else',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.layout).toEqual('something else');
+    });
+
+    it('removes all item lines if transitioning to a service layout', () => {
+      const state = {
+        layout: BillLayout.ITEM_AND_SERVICE,
+        bill: {
+          lines: [
+            { type: BillLineLayout.SERVICE },
+            { type: BillLineLayout.ITEM_AND_SERVICE },
+          ],
+        },
+      };
+
+      const action = { intent: UPDATE_LAYOUT, value: BillLayout.SERVICE };
+
+      const actual = billReducer(state, action);
+
+      const expected = [{ type: BillLineLayout.SERVICE }];
+
+      expect(actual.bill.lines).toEqual(expected);
+    });
+
+    it('keeps service lines when switching from service to itemAndService layout', () => {
+      const state = {
+        layout: BillLayout.SERVICE,
+        bill: {
+          lines: [
+            { type: BillLineLayout.SERVICE },
+          ],
+        },
+      };
+
+      const action = { intent: UPDATE_LAYOUT, value: BillLayout.ITEM_AND_SERVICE };
+
+      const actual = billReducer(state, action);
+
+      const expected = [{ type: BillLineLayout.SERVICE }];
+
+      expect(actual.bill.lines).toEqual(expected);
+    });
+
+    it('changes the default template options in export pdf for service', () => {
+      const state = {
+        layout: BillLayout.SERVICE,
+        bill: {
+          lines: [],
+        },
+        itemTemplateOptions: {
+          defaultTemplate: 'a',
+        },
+        serviceTemplateOptions: {
+          defaultTemplate: 'b',
+        },
+        exportPdf: {
+          template: 'b',
+        },
+      };
+
+      const action = { intent: UPDATE_LAYOUT, key: 'layout', value: BillLayout.ITEM_AND_SERVICE };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.exportPdf.template).toEqual('a');
+    });
+
+    it('changes the default template options in export pdf for itemAndService', () => {
+      const state = {
+        layout: BillLayout.ITEM_AND_SERVICE,
+        bill: {
+          lines: [],
+        },
+        itemTemplateOptions: {
+          defaultTemplate: 'a',
+        },
+        serviceTemplateOptions: {
+          defaultTemplate: 'b',
+        },
+        exportPdf: {
+          template: 'a',
+        },
+      };
+
+      const action = { intent: UPDATE_LAYOUT, key: 'layout', value: BillLayout.SERVICE };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.exportPdf.template).toEqual('b');
     });
   });
 
@@ -411,49 +396,35 @@ describe('billReducer', () => {
     });
   });
 
-  describe('ADD_BILL_SERVICE_LINE', () => {
+  describe('ADD_BILL_LINE', () => {
     const state = {
-      newLine: {
-        id: '',
-        description: '',
-        accountId: '',
-        amount: '',
-        taxCodeId: '',
-      },
       bill: {
-        lines: [],
+        lines: [
+          {},
+          {},
+        ],
       },
-      accountOptions: [
-        {
-          id: '5',
-          taxCodeId: '10',
-        },
-      ],
+      newLine: {},
+      accountOptions: [],
     };
 
     const action = {
-      intent: ADD_BILL_SERVICE_LINE,
-      accountId: '5',
+      intent: ADD_BILL_LINE,
+      line: {
+        description: 'test',
+      },
     };
-
-    it('adds a line to the bill', () => {
-      const actual = billReducer(state, action);
-
-      expect(actual.bill.lines).toEqual([
-        {
-          id: '',
-          taxCodeId: '10',
-          description: '',
-          accountId: '5',
-          amount: '',
-        },
-      ]);
-    });
 
     it('sets isPageEdited to true', () => {
       const actual = billReducer(state, action);
 
       expect(actual.isPageEdited).toEqual(true);
+    });
+
+    it('adds a new line', () => {
+      const actual = billReducer(state, action);
+
+      expect(actual.bill.lines[2]).toBeDefined();
     });
   });
 
@@ -493,70 +464,75 @@ describe('billReducer', () => {
     });
   });
 
-  describe('UPDATE_BILL_SERVICE_LINE', () => {
-    it('updates key on line at index', () => {
-      const action = {
-        intent: UPDATE_BILL_SERVICE_LINE,
-        index: 1,
-        key: 'description',
-        value: 'abc',
-      };
-
+  describe('UPDATE_BILL_LINE', () => {
+    it('updates key at line at index with value', () => {
       const state = {
         bill: {
           lines: [
+            {},
             {
-              id: '1',
-            },
-            {
-              id: '2',
+              hello: 2,
             },
           ],
         },
       };
 
+      const action = {
+        intent: UPDATE_BILL_LINE, index: 1, key: 'hello', value: 3,
+      };
+
       const actual = billReducer(state, action);
 
-      expect(actual.bill.lines[1]).toEqual(
-        {
-          id: '2',
-          description: 'abc',
-        },
-      );
+      expect(actual.bill.lines[1].hello).toEqual(3);
     });
 
-    it('updates taxCodeId key', () => {
+    it('updates both discount and displayDiscount when key is discount', () => {
+      const state = {
+        bill: {
+          lines: [
+            {},
+          ],
+        },
+      };
+
       const action = {
-        intent: UPDATE_BILL_SERVICE_LINE,
+        intent: UPDATE_BILL_LINE,
         index: 0,
-        key: 'taxCodeId',
-        value: '2',
-      };
-
-      const state = {
-        bill: {
-          lines: [
-            {
-              id: '2',
-              taxCodeId: '1',
-            },
-          ],
-        },
+        key: 'discount',
+        value: '1234',
       };
 
       const actual = billReducer(state, action);
 
-      expect(actual.bill.lines[0]).toEqual(
-        {
-          id: '2',
-          taxCodeId: '2',
-        },
-      );
+      expect(actual.bill.lines[0].discount).toEqual('1234');
+      expect(actual.bill.lines[0].displayDiscount).toEqual('1234');
     });
 
-    it('also updates taxCodeId when accountId is updated', () => {
+    it('updates both amount and displayAmount when key is amount', () => {
+      const state = {
+        bill: {
+          lines: [
+            {},
+          ],
+        },
+      };
+
       const action = {
-        intent: UPDATE_BILL_SERVICE_LINE,
+        intent: UPDATE_BILL_LINE,
+        index: 0,
+        key: 'amount',
+        value: '1234',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.bill.lines[0].amount).toEqual('1234');
+      expect(actual.bill.lines[0].displayAmount).toEqual('1234');
+    });
+
+    it('updates taxCodeId and accountId when key is accountId', () => {
+      const action = {
+        intent: UPDATE_BILL_LINE,
         index: 0,
         key: 'accountId',
         value: '5',
@@ -580,18 +556,32 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      expect(actual.bill.lines[0]).toEqual(
-        {
-          id: '2',
-          accountId: '5',
-          taxCodeId: '10',
+      expect(actual.bill.lines[0].accountId).toEqual('5');
+      expect(actual.bill.lines[0].taxCodeId).toEqual('10');
+    });
+
+    it('updates type to item when key is itemId', () => {
+      const state = {
+        bill: {
+          lines: [
+            {},
+          ],
         },
-      );
+      };
+
+      const action = {
+        intent: UPDATE_BILL_LINE, index: 0, key: 'itemId', value: '1',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.bill.lines[0].itemId).toEqual('1');
+      expect(actual.bill.lines[0].type).toEqual('item');
     });
 
     it('sets isPageEdited to true', () => {
       const action = {
-        intent: UPDATE_BILL_SERVICE_LINE,
+        intent: UPDATE_BILL_LINE,
         index: 0,
         key: 'description',
         value: 'abc',
@@ -608,90 +598,30 @@ describe('billReducer', () => {
 
       expect(actual.isPageEdited).toEqual(true);
     });
+  });
 
-    it('should update displayAmount when amount is changed', () => {
+  describe('FORMAT_BILL_LINE', () => {
+    it('sets units at index to 1 when empty', () => {
       const state = {
         bill: {
           lines: [
             {},
-          ],
-        },
-      };
-
-      const action = {
-        intent: UPDATE_BILL_SERVICE_LINE,
-        index: 0,
-        key: 'amount',
-        value: '1234',
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.bill.lines[0].amount).toEqual('1234');
-      expect(actual.bill.lines[0].displayAmount).toEqual('1234');
-    });
-  });
-
-  describe('FORMAT_BILL_SERVICE_LINES', () => {
-    it('formats all bill lines', () => {
-      const state = {
-        bill: {
-          lines: [
             {
-              amount: '1',
-            },
-            {
-              amount: '2',
+              units: '',
             },
           ],
         },
       };
+
       const action = {
-        intent: FORMAT_BILL_SERVICE_LINES,
+        intent: FORMAT_BILL_LINE,
+        index: 1,
+        key: 'units',
       };
 
       const actual = billReducer(state, action);
 
-      expect(actual.bill.lines).toEqual([
-        { amount: '1', displayAmount: '1.00' },
-        { amount: '2', displayAmount: '2.00' },
-      ]);
-    });
-  });
-
-  describe('CALCULATE_TOTALS', () => {
-    it('merges totals response into store', () => {
-      const state = {
-        totals: {
-          subTotal: '0.00',
-          totalTax: '0.00',
-          totalAmount: '0.00',
-          amountDue: '0.00',
-        },
-      };
-
-      const action = {
-        intent: SERVICE_CALCULATE,
-        response: {
-          totals: {
-            subTotal: '1.00',
-            totalTax: '2.00',
-            totalAmount: '3.00',
-            amountDue: '4.00',
-          },
-        },
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual).toEqual({
-        totals: {
-          subTotal: '1.00',
-          totalTax: '2.00',
-          totalAmount: '3.00',
-          amountDue: '4.00',
-        },
-      });
+      expect(actual.bill.lines[1].units).toEqual('1');
     });
   });
 
@@ -715,40 +645,7 @@ describe('billReducer', () => {
       },
     });
   });
-  describe('SET_ACCOUNT_LOADING_STATE', () => {
-    it('sets state to true', () => {
-      const state = {
-        isAccountLoading: false,
-      };
 
-      const action = {
-        intent: SET_ACCOUNT_LOADING_STATE,
-        isAccountLoading: true,
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual).toEqual({
-        isAccountLoading: true,
-      });
-    });
-    it('sets state to false', () => {
-      const state = {
-        isAccountLoading: true,
-      };
-
-      const action = {
-        intent: SET_ACCOUNT_LOADING_STATE,
-        isAccountLoading: false,
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual).toEqual({
-        isAccountLoading: false,
-      });
-    });
-  });
   describe('LOAD_ACCOUNT_AFTER_CREATE', () => {
     it('merges new account payload into state', () => {
       const state = {

@@ -7,6 +7,7 @@ export const LOAD_SUPPLIER_AFTER_CREATE = Symbol('Load supplier after create');
 export const START_SUPPLIER_BLOCKING = Symbol('Start supplier blocking');
 export const STOP_SUPPLIER_BLOCKING = Symbol('Stop supplier blocking');
 export const UPDATE_BILL_OPTION = Symbol('Update bill option');
+export const UPDATE_LAYOUT = Symbol('Update layout');
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
 export const OPEN_ALERT = Symbol('Open alert');
@@ -21,8 +22,8 @@ export const START_BLOCKING = Symbol('Start blocking');
 export const STOP_BLOCKING = Symbol('Stop blocking');
 export const START_MODAL_BLOCKING = Symbol('Start modal blocking');
 export const STOP_MODAL_BLOCKING = Symbol('Stop modal blocking');
-export const START_PENDING_CALCULATION = Symbol('Start pending calculation');
-export const STOP_PENDING_CALCULATION = Symbol('Stop pending calculation');
+export const START_WAITING_FOR_LINE_CALC_TO_START = Symbol('Start waiting for line calculation to start');
+export const STOP_WAITING_FOR_LINE_CALC_TO_START = Symbol('Stop waiting for line calculation to start');
 export const REMOVE_BILL_LINE = Symbol('Remove bill line');
 export const PREFILL_BILL_FROM_IN_TRAY = Symbol('Prefill bill from in tray');
 export const RESET_TOTALS = Symbol('Reset totals');
@@ -31,26 +32,19 @@ export const FORMAT_AMOUNT_PAID = Symbol('Format amount paid');
 export const START_LOADING_MORE = Symbol('Start loading more');
 export const STOP_LOADING_MORE = Symbol('Stop loading more');
 
-export const ADD_BILL_SERVICE_LINE = Symbol('Add bill service line');
-export const UPDATE_BILL_SERVICE_LINE = Symbol('Update bill service line');
-export const FORMAT_BILL_SERVICE_LINES = Symbol('Format bill service lines');
-export const SERVICE_CALCULATE = Symbol('Service calculate');
-
-export const ADD_BILL_ITEM_LINE = Symbol('Add bill item line');
-export const UPDATE_BILL_ITEM_LINE = Symbol('Update bill item line');
-export const ITEM_CALCULATE = Symbol('Item calculate');
-export const ITEM_CALCULATE_UPDATE_LINE_ITEM = Symbol('Item calculate update line item');
-export const ITEM_CALCULATE_REMOVE_LINE = Symbol('Item calculate remove line');
-export const ITEM_CALCULATE_UPDATE_LINE_TAX_CODE = Symbol('Item calculate update line tax code');
-export const ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE = Symbol('Item calculate update is tax inclusive');
-export const ITEM_CALCULATE_UPDATE_LINE_AMOUNT = Symbol('Item calculate update line amount');
-export const ITEM_CALCULATE_UPDATE_AMOUNT_PAID = Symbol('Item calculate update amount paid');
+export const ADD_BILL_LINE = Symbol('Add bill line');
+export const UPDATE_BILL_LINE = Symbol('Update bill line');
+export const FORMAT_BILL_LINE = Symbol('Format bill line');
+export const SET_CALCULATED_BILL_LINES_AND_TOTALS = Symbol('Set calculated bill lines and totals');
+export const CALCULATE_BILL_ITEM_CHANGE = Symbol('Calculate bill line totals on item id change');
+export const CALCULATE_BILL_LINE_TOTALS = Symbol('Calculate bill line totals');
+export const CALCULATE_LINE_TOTALS_TAX_INCLUSIVE_CHANGE = Symbol('Calculate line totals on tax inclusive change');
+export const CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE = Symbol('Calculate line totals on amount change');
 
 export const EXPORT_BILL_PDF = Symbol('Export bill pdf');
 export const UPDATE_EXPORT_PDF_DETAIL = Symbol('Update pdf detail');
 
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
-export const SET_ACCOUNT_LOADING_STATE = Symbol('Set account loading state');
 
 export const SET_UPGRADE_MODAL_SHOWING = Symbol('Set upgrade modal showing');
 

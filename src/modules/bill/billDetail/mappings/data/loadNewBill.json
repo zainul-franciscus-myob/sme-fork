@@ -1,23 +1,22 @@
 {
-  "layout": "service",
+  "layout": "itemAndService",
   "bill": {
     "supplierId": "",
     "supplierAddress": "",
     "supplierInvoiceNumber": "",
-    "expirationTerm": "",
-    "expirationDays": "",
+    "expirationTerm": "InAGivenNumberOfDays",
+    "expirationDays": "0",
+    "chargeForLatePayment": "0",
+    "discountForEarlyPayment": "0",
+    "numberOfDaysForDiscount": "1",
     "isTaxInclusive": true,
     "isReportable": false,
     "billNumber": "00000123",
+    "note": "",
     "issueDate": "",
-    "orderNumber": "",
     "amountPaid": "0.00",
     "displayAmountPaid": "$0.00",
     "lines": []
-  },
-  "monthlyLimit": {
-    "limit": 1,
-    "used": 1
   },
   "accountOptions": [
     {
@@ -40,6 +39,18 @@
       "accountType": "Assets",
       "taxCodeId": "124",
       "displayId": "6-789"
+    }
+  ],
+  "itemOptions": [
+    {
+      "id": "3",
+      "itemId": "100",
+      "description": "Cooler Large"
+    },
+    {
+      "id": "4",
+      "itemId": "101",
+      "description": "Cooler Medium"
     }
   ],
   "taxCodeOptions": [
@@ -90,15 +101,25 @@
   ],
   "newLine": {
     "id": "",
+    "units": "",
+    "itemId": "",
     "description": "",
-    "accountId": "",
+    "unitPrice": "",
+    "discount": "",
     "amount": "",
-    "taxCodeId": ""
+    "taxCodeId": "",
+    "displayAmount": "",
+    "displayDiscount": ""
   },
   "totals": {
     "subTotal": "$0.00",
     "totalTax": "$0.00",
     "totalAmount": "$0.00",
     "amountDue": "$0.00"
+  },
+  "monthlyLimit": {
+    "limit": 5,
+    "used": 4,
+    "hasHitLimit": false
   }
 }

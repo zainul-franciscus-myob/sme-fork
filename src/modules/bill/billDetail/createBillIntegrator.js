@@ -1,31 +1,29 @@
 import {
+  CALCULATE_BILL_ITEM_CHANGE,
+  CALCULATE_BILL_LINE_TOTALS,
+  CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
+  CALCULATE_LINE_TOTALS_TAX_INCLUSIVE_CHANGE,
   DELETE_BILL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
-  ITEM_CALCULATE_REMOVE_LINE,
-  ITEM_CALCULATE_UPDATE_AMOUNT_PAID,
-  ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE,
-  ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
-  ITEM_CALCULATE_UPDATE_LINE_ITEM,
-  ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
   PREFILL_BILL_FROM_IN_TRAY,
-  SERVICE_CALCULATE,
   UNLINK_IN_TRAY_DOCUMENT,
 } from './BillIntents';
 import { getBusinessId } from './selectors/billSelectors';
 import {
+  getCalculateBillContent,
+  getCalculateBillItemChangeContent,
+  getCalculateBillLinesUrlParams,
+  getCalculateLineTotalsOnAmountChangeContent,
+  getCalculateLineTotalsTaxInclusiveChange,
   getDeleteBillUrlParams,
   getInTrayDocumentParams,
   getInTrayDocumentUrlParams,
-  getItemCalculateContent,
-  getItemCalculateContentForUpdateLineAmount,
-  getItemCalculateContentForUpdateLineItem,
-  getItemCalculateUrlParams,
   getLoadAddedAccountUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
@@ -35,8 +33,6 @@ import {
   getSaveBillContent,
   getSaveBillIntent,
   getSaveBillUrlParams,
-  getServiceCalculateContent,
-  getServiceCalculateUrlParams,
   getUnlinkInTrayDocumentParams,
   getUnlinkInTrayDocumentUrlParams,
 } from './selectors/BillIntegratorSelectors';
@@ -83,20 +79,6 @@ const createBillIntegrator = (store, integration) => ({
     });
   },
 
-  serviceCalculate: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-    const urlParams = getServiceCalculateUrlParams(state);
-    const content = getServiceCalculateContent(state);
-
-    integration.write({
-      intent: SERVICE_CALCULATE,
-      content,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
   loadSupplierAddress: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const urlParams = getLoadSupplierAddressUrlParams(state);
@@ -120,73 +102,16 @@ const createBillIntegrator = (store, integration) => ({
     });
   },
 
-  itemCalculateUpdateLineItem: ({
-    index, itemId, onSuccess, onFailure,
-  }) => {
-    const state = store.getState();
-    const urlParams = getItemCalculateUrlParams(state);
-    const content = getItemCalculateContentForUpdateLineItem(state, { index, itemId });
-
-    integration.write({
-      intent: ITEM_CALCULATE_UPDATE_LINE_ITEM,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  itemCalculateRemoveLine: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-    const urlParams = getItemCalculateUrlParams(state);
-    const content = getItemCalculateContent(state);
-
-    integration.write({
-      intent: ITEM_CALCULATE_REMOVE_LINE,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  itemCalculateUpdateIsTaxInclusive: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-    const urlParams = getItemCalculateUrlParams(state);
-    const content = getItemCalculateContent(state);
-
-    integration.write({
-      intent: ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  itemCalculateUpdateLineTaxCode: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-    const urlParams = getItemCalculateUrlParams(state);
-    const content = getItemCalculateContent(state);
-
-    integration.write({
-      intent: ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  itemCalculateUpdateLineAmount: ({
+  calculateLineTotalsOnAmountChange: ({
     onSuccess, onFailure, index, key,
   }) => {
     const state = store.getState();
-    const urlParams = getItemCalculateUrlParams(state);
-    const content = getItemCalculateContentForUpdateLineAmount(state, { index, key });
+
+    const urlParams = getCalculateBillLinesUrlParams(state);
+    const content = getCalculateLineTotalsOnAmountChangeContent(state, { index, key });
 
     integration.write({
-      intent: ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
+      intent: CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
       urlParams,
       content,
       onSuccess,
@@ -194,13 +119,43 @@ const createBillIntegrator = (store, integration) => ({
     });
   },
 
-  itemCalculateUpdateAmountPaid: ({ onSuccess, onFailure }) => {
+  calculateLineTotalsOnItemIdChange: ({
+    index, itemId, onSuccess, onFailure,
+  }) => {
     const state = store.getState();
-    const urlParams = getItemCalculateUrlParams(state);
-    const content = getItemCalculateContent(state);
+    const urlParams = getCalculateBillLinesUrlParams(state);
+    const content = getCalculateBillItemChangeContent(state, { index, itemId });
 
     integration.write({
-      intent: ITEM_CALCULATE_UPDATE_AMOUNT_PAID,
+      intent: CALCULATE_BILL_ITEM_CHANGE,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  calculateLineTotalsTaxInclusiveChange: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const urlParams = getCalculateBillLinesUrlParams(state);
+    const content = getCalculateLineTotalsTaxInclusiveChange(state);
+
+    integration.write({
+      intent: CALCULATE_LINE_TOTALS_TAX_INCLUSIVE_CHANGE,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  calculateBillLineTotals: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const urlParams = getCalculateBillLinesUrlParams(state);
+    const content = getCalculateBillContent(state);
+
+    integration.write({
+      intent: CALCULATE_BILL_LINE_TOTALS,
       urlParams,
       content,
       onSuccess,

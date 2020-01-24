@@ -3,34 +3,43 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getTaxCodeLabel } from '../selectors/billSelectors';
-import BillItemTableRow from './BillItemTableRow';
+import BillItemAndServiceTableRow from './BillItemAndServiceTableRow';
 import BillLineItemTable from './BillLineItemTable';
 
-const renderRow = ({ onRowInputBlur, onAddItemButtonClick }) => (index, _, onChange, labels) => (
-  <BillItemTableRow
+const renderRow = ({
+  onRowInputBlur,
+  onAddItemButtonClick,
+  onAddAccount,
+}) => (index, _, onChange, labels) => (
+  <BillItemAndServiceTableRow
     index={index}
     key={index}
     onChange={onChange}
     onRowInputBlur={onRowInputBlur}
     labels={labels}
     onAddItemButtonClick={onAddItemButtonClick}
+    onAddAccount={onAddAccount}
   />
 );
 
-const BillItemTable = ({
-  onAddRow,
-  onRowChange,
-  onRemoveRow,
-  onRowInputBlur,
+const BillItemAndServiceTable = ({
+  listeners: {
+    onAddRow,
+    onRowChange,
+    onRowInputBlur,
+    onRemoveRow,
+    onAddAccount,
+    onAddItemButtonClick,
+    onUpdateBillOption,
+    onAmountPaidBlur,
+  },
   taxCodeLabel,
-  onUpdateBillOption,
-  onAmountPaidBlur,
-  onAddItemButtonClick,
 }) => {
   const itemIdLabel = 'Item ID';
-  const itemNameLabel = 'Item name';
-  const unitLabel = 'Units';
-  const unitPriceLabel = 'Unit price ($)';
+  const descriptionLabel = 'Description';
+  const accountLabel = 'Account';
+  const unitCountLabel = 'No of units';
+  const unitPriceLabel = 'Unit price';
   const discountLabel = 'Discount (%)';
   const amountLabel = 'Amount ($)';
   const requiredLabel = 'This is required';
@@ -41,8 +50,13 @@ const BillItemTable = ({
     >
       {itemIdLabel}
     </LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem>{itemNameLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>{unitLabel}</LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
+      {accountLabel}
+    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
+      {unitCountLabel}
+    </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem
       requiredLabel={requiredLabel}
     >
@@ -63,8 +77,9 @@ const BillItemTable = ({
 
   const labels = [
     itemIdLabel,
-    itemNameLabel,
-    unitLabel,
+    descriptionLabel,
+    accountLabel,
+    unitCountLabel,
     unitPriceLabel,
     discountLabel,
     amountLabel,
@@ -79,7 +94,7 @@ const BillItemTable = ({
           styles: { width: '16.8rem' },
         },
         {
-          columnName: unitLabel,
+          columnName: unitCountLabel,
           styles: { width: '10rem' },
         },
         {
@@ -107,7 +122,7 @@ const BillItemTable = ({
       labels={labels}
       columnConfig={columnConfig}
       headerItems={headerItems}
-      renderRow={renderRow({ onRowInputBlur, onAddItemButtonClick })}
+      renderRow={renderRow({ onRowInputBlur, onAddItemButtonClick, onAddAccount })}
       onAddRow={onAddRow}
       onRowChange={onRowChange}
       onRemoveRow={onRemoveRow}
@@ -121,4 +136,4 @@ const mapStateToProps = state => ({
   taxCodeLabel: getTaxCodeLabel(state),
 });
 
-export default connect(mapStateToProps)(BillItemTable);
+export default connect(mapStateToProps)(BillItemAndServiceTable);

@@ -1,6 +1,7 @@
 {
   "layout": "service",
   "bill": {
+    "id": "2",
     "uid": "123e4567-e89b-12d3-a456-426655440000",
     "supplierId": "2",
     "supplierAddress": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
@@ -12,7 +13,6 @@
     "billNumber": "00000123",
     "displayBillNumber": "00000123",
     "issueDate": "2018-11-02",
-    "orderNumber": "123",
     "amountPaid": "77.77",
     "displayAmountPaid": "$77.77",
     "lines": [
@@ -121,18 +121,34 @@
     "totalAmount": "$48.30",
     "amountDue": "$88.88"
   },
-  "exportPdf": {
-    "template": "Template 1",
-    "templateOptions" : [
+  "itemTemplateOptions": {
+    "defaultTemplate": "b",
+    "templateOptions": [
       {
-        "name": "Template 1",
-        "label": "Template 1"
+        "name": "a",
+        "label": "apple"
       },
       {
-        "name": "Template 2",
-        "label": "Template 2"
+        "name": "b",
+        "label": "banana"
       }
     ]
+  },
+  "serviceTemplateOptions": {
+    "defaultTemplate": "a",
+    "templateOptions": [
+        {
+          "name": "a",
+          "label": "apple"
+        },
+        {
+          "name": "b",
+          "label": "banana"
+        }
+    ]
+  },
+  "exportPdf": {
+    "template": "a"
   },
   "attachmentId": "19eb4da0-8c52-4307-9ca7-74bd481f5b99",
   "inTrayDocument": {

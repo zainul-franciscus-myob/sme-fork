@@ -1,14 +1,12 @@
 import {
+  CALCULATE_BILL_ITEM_CHANGE,
+  CALCULATE_BILL_LINE_TOTALS,
+  CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
+  CALCULATE_LINE_TOTALS_TAX_INCLUSIVE_CHANGE,
   CREATE_BILL,
   DELETE_BILL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
-  ITEM_CALCULATE_REMOVE_LINE,
-  ITEM_CALCULATE_UPDATE_AMOUNT_PAID,
-  ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE,
-  ITEM_CALCULATE_UPDATE_LINE_AMOUNT,
-  ITEM_CALCULATE_UPDATE_LINE_ITEM,
-  ITEM_CALCULATE_UPDATE_LINE_TAX_CODE,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
@@ -18,7 +16,6 @@ import {
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
   PREFILL_BILL_FROM_IN_TRAY,
-  SERVICE_CALCULATE,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL,
 } from '../BillIntents';
@@ -44,33 +41,21 @@ const HttpBillDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier/${supplierId}`,
   },
-  [ITEM_CALCULATE_UPDATE_LINE_ITEM]: {
+  [CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/item_calculate_update_line_item`,
+    getPath: ({ businessId }) => `/${businessId}/bill/calculate_line_totals_on_amount_change`,
   },
-  [ITEM_CALCULATE_UPDATE_LINE_TAX_CODE]: {
+  [CALCULATE_BILL_ITEM_CHANGE]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/item_calculate_update_line_tax_code`,
+    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_item_change`,
   },
-  [ITEM_CALCULATE_UPDATE_IS_TAX_INCLUSIVE]: {
+  [CALCULATE_BILL_LINE_TOTALS]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/item_calculate_update_is_tax_inclusive`,
+    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_line_totals`,
   },
-  [ITEM_CALCULATE_UPDATE_LINE_AMOUNT]: {
+  [CALCULATE_LINE_TOTALS_TAX_INCLUSIVE_CHANGE]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/item_calculate_update_line_amount`,
-  },
-  [ITEM_CALCULATE_REMOVE_LINE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/item_calculate_remove_line`,
-  },
-  [ITEM_CALCULATE_UPDATE_AMOUNT_PAID]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/item_calculate_update_amount_paid`,
-  },
-  [SERVICE_CALCULATE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/service_calculate`,
+    getPath: ({ businessId }) => `/${businessId}/bill/calculate_line_totals_tax_inclusive_change`,
   },
   [CREATE_BILL]: {
     method: 'POST',

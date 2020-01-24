@@ -1,7 +1,6 @@
 {
-  "layout": "item",
+  "layout": "itemAndService",
   "bill": {
-    "uid": "123e4567-e89b-12d3-a456-426655440000",
     "supplierId": "2",
     "supplierAddress": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
     "supplierInvoiceNumber": "inv012",
@@ -9,17 +8,20 @@
     "expirationDays": "4",
     "isTaxInclusive": true,
     "isReportable": true,
+    "note": "Some note",
+    "memo": "Not displayed on UI",
     "billNumber": "00000123",
     "displayBillNumber": "00000123",
     "issueDate": "2018-11-02",
-    "orderNumber": "123",
     "amountPaid": "77.77",
     "displayAmountPaid": "$77.77",
     "lines": [
       {
+        "type": "item",
         "id": "1",
         "units": "2",
         "itemId": "3",
+        "accountId": "123",
         "description": "Cooler Large",
         "unitPrice": "520",
         "discount": "10",
@@ -29,20 +31,44 @@
         "displayAmount": "850.91"
       },
       {
+        "type": "service",
         "id": "2",
-        "units": "3",
-        "itemId": "4",
         "description": "Cooler Extra Large",
-        "unitPrice": "2000",
-        "discount": "10",
-        "displayDiscount": "10.00",
+        "accountId": "123",
         "taxCodeId": "124",
         "amount": "850.9101",
-        "displayAmount": "850.91"
+        "displayAmount": "850.91",
+        "unitPrice": "",
+        "discount": "",
+        "displayDiscount": "",
+        "units": ""
       }
     ]
   },
- "itemOptions": [
+  "accountOptions": [
+    {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "taxCodeId": "123",
+      "displayId": "4-123"
+    },
+    {
+      "id": "456",
+      "displayName": "Sales Account 2",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "4-456"
+    },
+    {
+      "id": "789",
+      "displayName": "Expense Account",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "6-789"
+    }
+  ],
+  "itemOptions": [
     {
       "id": "3",
       "itemId": "100",
@@ -113,22 +139,9 @@
     "totalAmount": "$48.30",
     "amountDue": "$88.88"
   },
-  "exportPdf": {
-    "template": "Template 1",
-    "templateOptions" : [
-      {
-        "name": "Template 1",
-        "label": "Template 1"
-      },
-      {
-        "name": "Template 2",
-        "label": "Template 2"
-      }
-    ]
-  },
-  "attachmentId": "19eb4da0-8c52-4307-9ca7-74bd481f5b99",
-  "inTrayDocument": {
-    "thumbnailUrl": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
-    "uploadedDate": "04/04/2019"
+  "monthlyLimit": {
+    "limit": 5,
+    "used": 4,
+    "hasHitLimit": false
   }
 }

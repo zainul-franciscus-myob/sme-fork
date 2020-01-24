@@ -24,7 +24,9 @@ export const getIsCreatingFromInTray = createSelector(
 
 export const getLoadingState = state => state.loadingState;
 
-export const getIsPendingCalculation = state => state.isPendingCalculation;
+export const getIsWaitingForLineCalculationToStart = state => (
+  state.isWaitingForLineCalculationToStart
+);
 
 export const getTotalTaxLabel = state => getRegionToDialectText(state.region)('Tax');
 
@@ -46,7 +48,7 @@ export const getBusinessId = state => state.businessId;
 
 export const getRegion = state => state.region;
 
-export const getLayout = state => state.layout;
+export const getBillLayout = state => state.layout;
 
 export const getExpirationTerm = state => state.bill.expirationTerm;
 
@@ -72,8 +74,6 @@ export const getPageTitle = createSelector(
 export const getIsBlocking = state => state.isBlocking;
 
 export const getIsModalBlocking = state => state.isModalBlocking;
-
-export const getIsLineWithoutItemFromInTray = () => false;
 
 export const getModalType = state => state.modalType;
 
@@ -143,10 +143,7 @@ export const getIsNewLine = createSelector(
   (newLineIndex, { index }) => newLineIndex <= index,
 );
 
-export const getNewLineIndex = createSelector(
-  getBillLinesLength,
-  billLinesLength => billLinesLength - 1,
-);
+export const getNewLineIndex = getBillLinesLength;
 
 const getShouldOpenExportPdfModal = (state) => {
   const isCreating = getIsCreating(state);
@@ -176,8 +173,6 @@ export const getContextForInventoryModal = (state) => {
 export const getRouteUrlParams = state => ({
   openExportPdf: getOpenExportPdfQueryParam(state),
 });
-
-export const getIsAccountComboboxDisabled = state => state.isAccountLoading;
 
 export const getAccountModalContext = (state) => {
   const businessId = getBusinessId(state);

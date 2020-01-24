@@ -18,14 +18,16 @@ const renderRow = (onRowInputBlur, onAddAccount) => (index, _, onChange, labels)
 );
 
 const BillServiceTable = ({
+  listeners: {
+    onAddRow,
+    onRowChange,
+    onRowInputBlur,
+    onRemoveRow,
+    onAddAccount,
+    onUpdateBillOption,
+    onAmountPaidBlur,
+  },
   taxCodeLabel,
-  onAddRow,
-  onRemoveRow,
-  onRowInputBlur,
-  onUpdateBillOption,
-  onRowChange,
-  onAmountPaidBlur,
-  onAddAccount,
 }) => {
   const descriptionLabel = 'Description';
   const accountLabel = 'Account';

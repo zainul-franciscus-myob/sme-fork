@@ -1,13 +1,11 @@
 import {
-  ADD_BILL_ITEM_LINE,
-  ADD_BILL_SERVICE_LINE,
+  ADD_BILL_LINE,
   CLOSE_ALERT,
   CLOSE_MODAL,
   DOWNLOAD_IN_TRAY_DOCUMENT, FAIL_LOADING,
   FORMAT_AMOUNT_PAID,
-  FORMAT_BILL_SERVICE_LINES,
+  FORMAT_BILL_LINE,
   HIDE_PREFILL_INFO,
-  ITEM_CALCULATE,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_OPTION,
@@ -18,9 +16,8 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   REMOVE_BILL_LINE,
   RESET_TOTALS,
-  SERVICE_CALCULATE,
-  SET_ACCOUNT_LOADING_STATE,
   SET_ATTACHMENT_ID,
+  SET_CALCULATED_BILL_LINES_AND_TOTALS,
   SET_DOCUMENT_LOADING_STATE,
   SET_IN_TRAY_DOCUMENT_ID,
   SET_SHOW_SPLIT_VIEW,
@@ -28,22 +25,24 @@ import {
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
-  START_PENDING_CALCULATION,
   START_SUPPLIER_BLOCKING,
+  START_WAITING_FOR_LINE_CALC_TO_START,
   STOP_BLOCKING,
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
-  STOP_PENDING_CALCULATION,
   STOP_SUPPLIER_BLOCKING,
+  STOP_WAITING_FOR_LINE_CALC_TO_START,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL_ID,
-  UPDATE_BILL_ITEM_LINE,
+  UPDATE_BILL_LINE,
   UPDATE_BILL_OPTION,
-  UPDATE_BILL_SERVICE_LINE,
   UPDATE_EXPORT_PDF_DETAIL,
+  UPDATE_LAYOUT,
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getLoadBillModalType, getUpdatedSupplierOptions } from './selectors/billSelectors';
+import BillLayout from './types/BillLayout';
+import BillLineLayout from './types/BillLineLayout';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
@@ -57,7 +56,6 @@ const defaultPrefillStatus = {
 
 const getDefaultState = () => ({
   today: new Date(),
-  isAccountLoading: false,
   businessId: '',
   billId: '',
   duplicatedBillId: '',
@@ -75,18 +73,24 @@ const getDefaultState = () => ({
     isReportable: false,
     billNumber: '',
     issueDate: formatIsoDate(new Date()),
-    orderNumber: '',
     lines: [],
     status: '',
     amountPaid: '',
+    displayAmountPaid: '',
 
     // arl compatibility fields
     // used for update, but not visible
     note: '',
-    journalMemo: '',
+    memo: '',
     chargeForLatePayment: 0,
     discountForEarlyPayment: 0,
     numberOfDaysForDiscount: 0,
+  },
+  subscription: {
+    monthlyLimit: {
+      hasHitLimit: false,
+    },
+    isUpgradeModalShowing: false,
   },
   supplierOptions: [],
   expirationTermOptions: [],
@@ -95,15 +99,12 @@ const getDefaultState = () => ({
   taxCodeOptions: [],
   newLine: {
     id: '',
+    type: '',
     description: '',
     amount: '',
     displayAmount: '',
     taxCodeId: '',
-
-    // service
     accountId: '',
-
-    // item
     units: '',
     discount: '',
     displayDiscount: '',
@@ -141,8 +142,15 @@ const getDefaultState = () => ({
   inTrayDocumentUrl: undefined,
   showPrefillInfo: false,
   prefillStatus: defaultPrefillStatus,
-  exportPdf: {
+  itemTemplateOptions: {
     templateOptions: [],
+    defaultTemplate: '',
+  },
+  serviceTemplateOptions: {
+    templateOptions: [],
+    defaultTemplate: '',
+  },
+  exportPdf: {
     template: '',
   },
   showSplitView: false,
@@ -152,9 +160,6 @@ const loadBill = (state, action) => {
   const defaultState = getDefaultState();
 
   const isCreating = state.billId === 'new';
-
-  const hasHitLimit = monthlyLimit => Boolean(monthlyLimit
-    && monthlyLimit.used >= monthlyLimit.limit);
 
   const modalType = getLoadBillModalType(state);
 
@@ -167,8 +172,14 @@ const loadBill = (state, action) => {
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
     },
-    monthlyLimit: action.response.monthlyLimit,
-    isUpgradeModalShowing: hasHitLimit(action.response.monthlyLimit),
+    itemTemplateOptions: action.response.itemTemplateOptions || state.itemTemplateOptions,
+    serviceTemplateOptions: action.response.serviceTemplateOptions || state.serviceTemplateOptions,
+    subscription: action.response.monthlyLimit
+      ? {
+        monthlyLimit: action.response.monthlyLimit,
+        isUpgradeModalShowing: !!action.response.monthlyLimit.hasHitLimit,
+      }
+      : defaultState.subscription,
     exportPdf: {
       ...state.exportPdf,
       ...action.response.exportPdf,
@@ -198,6 +209,7 @@ const updateBillOption = (state, action) => {
     bill: {
       ...state.bill,
       expirationDays: shouldSetExpirationDaysTo1 ? '1' : state.bill.expirationDays,
+      displayAmountPaid: action.key === 'amountPaid' ? action.value : state.bill.displayAmountPaid,
       [action.key]: action.value,
     },
     isPageEdited: true,
@@ -205,6 +217,27 @@ const updateBillOption = (state, action) => {
       ? { ...state.prefillStatus, [action.key]: false } : state.prefillStatus,
   });
 };
+
+const getDefaultTemplate = (value, itemTemplateOptions, serviceTemplateOptions) => {
+  if (value === BillLayout.ITEM_AND_SERVICE) {
+    return itemTemplateOptions ? itemTemplateOptions.defaultTemplate : '';
+  }
+  return serviceTemplateOptions ? serviceTemplateOptions.defaultTemplate : '';
+};
+
+const updateLayout = (state, { value }) => ({
+  ...state,
+  isPageEdited: true,
+  layout: value,
+  bill: {
+    ...state.bill,
+    lines: state.bill.lines.filter(line => line.type === BillLineLayout.SERVICE),
+  },
+  exportPdf: {
+    ...state.exportPdf,
+    template: getDefaultTemplate(value, state.itemTemplateOptions, state.serviceTemplateOptions),
+  },
+});
 
 const closeModal = state => ({
   ...state,
@@ -244,83 +277,35 @@ const failLoading = state => ({
   loadingState: LoadingState.LOADING_FAIL,
 });
 
-const getTaxCodeIdByAccountId = (state, accountId) => {
-  const selectedAccountOption = state.accountOptions
-    .find(accountOption => accountOption.id === accountId);
-  const { taxCodeId } = selectedAccountOption;
-  return taxCodeId;
-};
-
-const addBillServiceLine = (state, action) => {
-  const { newLine } = state;
-  const selectedAccountId = action.accountId;
-  const taxCodeId = getTaxCodeIdByAccountId(state, selectedAccountId);
-
-  return {
-    ...state,
-    isPageEdited: true,
-    bill: {
-      ...state.bill,
-      lines: [
-        ...state.bill.lines,
-        {
-          ...newLine,
-          accountId: selectedAccountId,
-          taxCodeId,
-        },
-      ],
-    },
-  };
-};
-
-const addBillItemLine = (state, action) => ({
+const addBillLine = state => ({
   ...state,
   isPageEdited: true,
   bill: {
     ...state.bill,
     lines: [
       ...state.bill.lines,
-      {
-        ...state.newLine,
-        itemId: action.itemId,
-      },
+      state.newLine,
     ],
   },
 
 });
 
-const updateBillServiceLine = (state, action) => {
-  const lines = state.bill.lines.map((line, index) => {
-    if (index === action.index) {
-      if (action.key === 'accountId') {
-        return {
-          ...line,
-          taxCodeId: getTaxCodeIdByAccountId(state, action.value),
-          accountId: action.value,
-        };
-      }
-
-      return {
-        ...line,
-        [action.key]: action.value,
-        displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
-      };
-    }
-
-    return line;
-  });
-
-  return {
-    ...state,
-    isPageEdited: true,
-    bill: {
-      ...state.bill,
-      lines,
-    },
-  };
+const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
+  const account = accountOptions.find(({ id }) => id === accountId);
+  return account === undefined ? '' : account.taxCodeId;
 };
 
-const updateBillItemLine = (state, action) => ({
+const calculateLineLayout = (lineLayout, updateKey) => {
+  const isUpdateItemId = updateKey === 'itemId';
+
+  if (lineLayout === BillLineLayout.ITEM) {
+    return lineLayout;
+  }
+
+  return isUpdateItemId ? BillLineLayout.ITEM : BillLineLayout.SERVICE;
+};
+
+const updateBillLine = (state, action) => ({
   ...state,
   isPageEdited: true,
   bill: {
@@ -329,11 +314,36 @@ const updateBillItemLine = (state, action) => ({
       if (index === action.index) {
         return {
           ...line,
-          [action.key]: action.value,
           displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
           displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
+          taxCodeId: action.key === 'accountId'
+            ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
+            : line.taxCodeId,
+          type: calculateLineLayout(line.type, action.key),
+          [action.key]: action.value,
         };
       }
+      return line;
+    }),
+  },
+});
+
+const DEFAULT_UNITS = '1';
+const formatBillLine = (state, action) => ({
+  ...state,
+  bill: {
+    ...state.bill,
+    lines: state.bill.lines.map((line, index) => {
+      if (index === action.index) {
+        const isFormatUnits = action.key === 'units';
+        const isUnitsCleared = Number(line.units) === 0;
+
+        return {
+          ...line,
+          units: isFormatUnits && isUnitsCleared ? DEFAULT_UNITS : line.units,
+        };
+      }
+
       return line;
     }),
   },
@@ -351,32 +361,12 @@ const removeBillLine = (state, action) => {
   };
 };
 
-const formatBillServiceLines = (state) => {
-  const lines = state.bill.lines.map(line => ({
-    ...line,
-    displayAmount: formatAmount(line.amount),
-  }));
-
-  return {
-    ...state,
-    bill: {
-      ...state.bill,
-      lines,
-    },
-  };
-};
-
 const formatAmountPaid = state => ({
   ...state,
   bill: {
     ...state.bill,
     displayAmountPaid: formatAmount(state.bill.amountPaid),
   },
-});
-
-const serviceCalculate = (state, action) => ({
-  ...state,
-  totals: action.response.totals,
 });
 
 const loadSupplierAddress = (state, action) => ({
@@ -425,7 +415,7 @@ const stopModalBlocking = state => ({
   isModalBlocking: false,
 });
 
-const itemCalculate = (state, action) => ({
+const setCalculatedBillLinesAndTotals = (state, action) => ({
   ...state,
   bill: {
     ...state.bill,
@@ -435,14 +425,14 @@ const itemCalculate = (state, action) => ({
   totals: action.response.totals,
 });
 
-const startPendingCalculation = state => ({
+const startWaitingForLineCalcToStart = state => ({
   ...state,
-  isPendingCalculation: true,
+  isWaitingForLineCalculationToStart: true,
 });
 
-const stopPendingCalculation = state => ({
+const stopWaitingForLineCalcToStart = state => ({
   ...state,
-  isPendingCalculation: false,
+  isWaitingForLineCalculationToStart: false,
 });
 
 const getPrefilledNewLineFromInTray = (state, newLine) => ({
@@ -522,10 +512,6 @@ export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
-export const setAccountLoadingState = (state, { isAccountLoading }) => (
-  { ...state, isAccountLoading }
-);
-
 export const setShowSplitView = (state, { showSplitView }) => ({
   ...state,
   showSplitView,
@@ -570,8 +556,10 @@ export const setAttachmentId = (state, { attachmentId }) => ({
 
 const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) => ({
   ...state,
-  isUpgradeModalShowing,
-  monthlyLimit,
+  subscription: {
+    isUpgradeModalShowing,
+    monthlyLimit: monthlyLimit || state.subscription.monthlyLimit,
+  },
 });
 
 
@@ -580,6 +568,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [LOAD_BILL]: loadBill,
   [UPDATE_BILL_OPTION]: updateBillOption,
+  [UPDATE_LAYOUT]: updateLayout,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [OPEN_ALERT]: openAlert,
@@ -591,29 +580,25 @@ const handlers = {
   [STOP_BLOCKING]: stopBlocking,
   [START_MODAL_BLOCKING]: startModalBlocking,
   [STOP_MODAL_BLOCKING]: stopModalBlocking,
-  [ADD_BILL_SERVICE_LINE]: addBillServiceLine,
-  [ADD_BILL_ITEM_LINE]: addBillItemLine,
-  [UPDATE_BILL_SERVICE_LINE]: updateBillServiceLine,
-  [UPDATE_BILL_ITEM_LINE]: updateBillItemLine,
+  [START_WAITING_FOR_LINE_CALC_TO_START]: startWaitingForLineCalcToStart,
+  [STOP_WAITING_FOR_LINE_CALC_TO_START]: stopWaitingForLineCalcToStart,
+  [ADD_BILL_LINE]: addBillLine,
+  [UPDATE_BILL_LINE]: updateBillLine,
+  [FORMAT_BILL_LINE]: formatBillLine,
   [REMOVE_BILL_LINE]: removeBillLine,
-  [FORMAT_BILL_SERVICE_LINES]: formatBillServiceLines,
-  [SERVICE_CALCULATE]: serviceCalculate,
+  [SET_CALCULATED_BILL_LINES_AND_TOTALS]: setCalculatedBillLinesAndTotals,
+  [LOAD_ITEM_OPTION]: loadItemOption,
   [LOAD_SUPPLIER_ADDRESS]: loadSupplierAddress,
   [LOAD_SUPPLIER_AFTER_CREATE]: loadSupplierAfterCreate,
   [START_SUPPLIER_BLOCKING]: startSupplierBlocking,
   [STOP_SUPPLIER_BLOCKING]: stopSupplierBlocking,
-  [ITEM_CALCULATE]: itemCalculate,
-  [STOP_PENDING_CALCULATION]: stopPendingCalculation,
-  [START_PENDING_CALCULATION]: startPendingCalculation,
   [PREFILL_BILL_FROM_IN_TRAY]: prefillBillFromInTray,
   [RESET_TOTALS]: resetTotals,
   [UPDATE_BILL_ID]: updateBillId,
   [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
   [FORMAT_AMOUNT_PAID]: formatAmountPaid,
-  [LOAD_ITEM_OPTION]: loadItemOption,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
-  [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
   [SET_SHOW_SPLIT_VIEW]: setShowSplitView,
   [SET_IN_TRAY_DOCUMENT_ID]: setInTrayDocumentId,
   [DOWNLOAD_IN_TRAY_DOCUMENT]: loadInTrayDocumentUrl,

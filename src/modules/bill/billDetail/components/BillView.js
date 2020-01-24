@@ -2,9 +2,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getBillLayout,
   getIsAlertShown,
+  getIsBlocking,
   getIsModalShown,
-  getLayout,
   getLoadingState,
 } from '../selectors/billSelectors';
 import {
@@ -16,7 +17,9 @@ import BillAlert from './BillAlert';
 import BillDocumentViewer from './BillDocumentViewer';
 import BillHeader from './BillHeader';
 import BillInTrayDocumentView from './BillInTrayDocumentView';
-import BillItemTable from './BillItemTable';
+import BillItemAndServiceTable from './BillItemAndServiceTable';
+import BillLayout from '../types/BillLayout';
+import BillLayoutPopover from './BillLayoutPopover';
 import BillModal from './BillModal';
 import BillPrimaryOptions from './BillPrimaryOptions';
 import BillSecondaryOptions from './BillSecondaryOptions';
@@ -28,11 +31,13 @@ import UpgradeModal from './UpgradeModal';
 import styles from './BillView.module.css';
 
 const BillView = ({
-  onAddAccount,
+  serviceLayoutListeners,
+  itemAndServiceLayoutListeners,
   accountModal,
   isAlertShown,
   isModalShown,
   isSplitViewShown,
+  isBlocking,
   loadingState,
   showPrefillInfo,
   layout,
@@ -51,17 +56,8 @@ const BillView = ({
   onConfirmSaveAndCreateNewButtonClick,
   onDismissAlert,
   onUpdateBillOption,
-  onAmountPaidBlur,
-  onServiceRowInputBlur,
-  onAddServiceRow,
-  onServiceRowChange,
-  onRemoveServiceRow,
-  onItemRowInputBlur,
-  onAddItemRow,
-  onItemRowChange,
-  onRemoveItemRow,
+  onUpdateLayout,
   exportPdfModalListeners,
-  onAddItemButtonClick,
   onAddSupplierButtonClick,
   onPrefillButtonClick,
   onOpenSplitViewButtonClick,
@@ -73,28 +69,19 @@ const BillView = ({
   onUpgradeModalUpgradeButtonClick,
   onCreatePaymentClick,
 }) => {
+  const tableLayoutOption = (
+    <BillLayoutPopover
+      layout={layout}
+      isCalculating={isBlocking}
+      onUpdateLayout={onUpdateLayout}
+    />
+  );
   const table = {
-    item: (
-      <BillItemTable
-        onRowInputBlur={onItemRowInputBlur}
-        onUpdateBillOption={onUpdateBillOption}
-        onAmountPaidBlur={onAmountPaidBlur}
-        onAddRow={onAddItemRow}
-        onRowChange={onItemRowChange}
-        onRemoveRow={onRemoveItemRow}
-        onAddItemButtonClick={onAddItemButtonClick}
-      />
+    [BillLayout.ITEM_AND_SERVICE]: (
+      <BillItemAndServiceTable listeners={itemAndServiceLayoutListeners} />
     ),
-    service: (
-      <BillServiceTable
-        onRowInputBlur={onServiceRowInputBlur}
-        onUpdateBillOption={onUpdateBillOption}
-        onAmountPaidBlur={onAmountPaidBlur}
-        onAddRow={onAddServiceRow}
-        onRowChange={onServiceRowChange}
-        onRemoveRow={onRemoveServiceRow}
-        onAddAccount={onAddAccount}
-      />
+    [BillLayout.SERVICE]: (
+      <BillServiceTable listeners={serviceLayoutListeners} />
     ),
   }[layout];
 
@@ -175,6 +162,7 @@ const BillView = ({
       secondaryOptions={
         <BillSecondaryOptions onUpdateBillOption={onUpdateBillOption} />
       }
+      tableLayoutOption={tableLayoutOption}
       table={table}
       actions={(
         <BillActions
@@ -204,8 +192,9 @@ const BillView = ({
 const mapStateToProps = state => ({
   isModalShown: getIsModalShown(state),
   isAlertShown: getIsAlertShown(state),
+  isBlocking: getIsBlocking(state),
+  layout: getBillLayout(state),
   loadingState: getLoadingState(state),
-  layout: getLayout(state),
   isSplitViewShown: getShowSplitView(state),
   showPrefillInfo: getShowPrefillInfo(state),
 });

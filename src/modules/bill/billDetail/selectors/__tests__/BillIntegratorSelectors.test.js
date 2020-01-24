@@ -2,6 +2,11 @@ import {
   CREATE_BILL, LOAD_BILL, LOAD_NEW_BILL, LOAD_NEW_DUPLICATE_BILL, UPDATE_BILL,
 } from '../../BillIntents';
 import {
+  getCalculateBillContent,
+  getCalculateBillItemChangeContent,
+  getCalculateBillLinesUrlParams,
+  getCalculateLineTotalsOnAmountChangeContent,
+  getCalculateLineTotalsTaxInclusiveChange,
   getLoadAddedAccountUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
@@ -179,6 +184,7 @@ describe('IntegratorSelectors', () => {
       expect(actual.supplierName).toEqual('');
     });
   });
+
   describe('getLoadAddedAccountUrlParams', () => {
     const state = {
       businessId: 'batman',
@@ -189,6 +195,115 @@ describe('IntegratorSelectors', () => {
 
       expect(actual).toEqual({
         accountId: 'accountId', businessId: 'batman',
+      });
+    });
+  });
+
+  describe('get line totals calculate request payload', () => {
+    const lines = [
+      {
+        id: '1',
+        units: '2',
+        itemId: '3',
+        description: 'Cooler Large',
+        unitPrice: '520',
+        discount: '10',
+        displayDiscount: '10.00',
+        taxCodeId: '2',
+        amount: '850.9111',
+        displayAmount: '850.91',
+        accountId: '92',
+      },
+    ];
+
+    const state = {
+      layout: 'someLayout',
+      bill: {
+        isTaxInclusive: true,
+        amountPaid: '10.00',
+        lines,
+      },
+    };
+
+    describe('getCalculateLineTotalsOnAmountChangeContent', () => {
+      it('should build payload for request', () => {
+        const index = 0;
+        const key = 'units';
+
+        const expected = {
+          index,
+          key,
+          isTaxInclusive: true,
+          amountPaid: '10.00',
+          layout: 'someLayout',
+          lines,
+        };
+
+        const actual = getCalculateLineTotalsOnAmountChangeContent(state, { index, key });
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe('getCalculateBillItemChangeContent', () => {
+      it('should build payload for request', () => {
+        const index = 0;
+        const itemId = '3';
+
+        const expected = {
+          index,
+          itemId,
+          isTaxInclusive: true,
+          amountPaid: '10.00',
+          lines,
+        };
+
+        const actual = getCalculateBillItemChangeContent(state, { index, itemId });
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe('getCalculateLineTotalsTaxInclusiveChange', () => {
+      it('should build payload for request', () => {
+        const expected = {
+          layout: 'someLayout',
+          isTaxInclusive: true,
+          amountPaid: '10.00',
+          isLineAmountTaxInclusive: false,
+          lines,
+        };
+
+        const actual = getCalculateLineTotalsTaxInclusiveChange(state);
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe('getCalculateBillContent', () => {
+      it('should build payload for request', () => {
+        const expected = {
+          isTaxInclusive: true,
+          amountPaid: '10.00',
+          lines,
+        };
+
+        const actual = getCalculateBillContent(state);
+
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
+
+  describe('getCalculateBillLinesUrlParams', () => {
+    it('should return businessId as param', () => {
+      const state = {
+        businessId: 'someId',
+      };
+      const actual = getCalculateBillLinesUrlParams(state);
+
+      expect(actual).toEqual({
+        businessId: 'someId',
       });
     });
   });

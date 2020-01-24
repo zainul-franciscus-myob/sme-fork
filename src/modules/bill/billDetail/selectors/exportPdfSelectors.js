@@ -1,9 +1,23 @@
+import { createSelector } from 'reselect';
+
 import {
-  getBillId, getBillNumber, getBusinessId, getIsCreating, getIsPageEdited,
+  getBillId, getBillLayout, getBillNumber, getBusinessId, getIsCreating, getIsPageEdited,
 } from './billSelectors';
+import BillLayout from '../types/BillLayout';
+
 
 export const getExportPdfTemplate = state => state.exportPdf.template;
-export const getExportPdfTemplateOptions = state => state.exportPdf.templateOptions;
+
+const getServiceTemplateOptions = state => state.serviceTemplateOptions.templateOptions;
+const getItemTemplateOptions = state => state.itemTemplateOptions.templateOptions;
+export const getExportPdfTemplateOptions = createSelector(
+  getBillLayout,
+  getServiceTemplateOptions,
+  getItemTemplateOptions,
+  (layout, serviceTemplateOptions, itemTemplateOptions) => (layout === BillLayout.SERVICE
+    ? serviceTemplateOptions
+    : itemTemplateOptions),
+);
 
 export const getExportPdfUrlParams = (state) => {
   const businessId = getBusinessId(state);

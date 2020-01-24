@@ -3,9 +3,11 @@
     "isTaxInclusive": true,
     "lines": [
       {
+        "type": "item",
         "id": "1",
         "units": "2",
         "itemId": "3",
+        "accountId": "456",
         "description": "Cooler Large",
         "unitPrice": "5200",
         "discount": "100",

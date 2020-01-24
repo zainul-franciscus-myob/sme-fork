@@ -15,6 +15,7 @@ const MasterDetailLineItemTemplate = ({
   primaryOptions,
   secondaryOptions,
   subHeadChildren,
+  tableLayoutOption,
   table,
   actions,
   detail,
@@ -50,6 +51,7 @@ const MasterDetailLineItemTemplate = ({
             )}
             {options}
             <Separator />
+            {tableLayoutOption}
             {table}
           </Card>
           {actions}

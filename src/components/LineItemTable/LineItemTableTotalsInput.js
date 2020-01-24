@@ -4,7 +4,7 @@ import AmountInput from '../autoFormatter/AmountInput/AmountInput';
 
 const LineItemTableTotalsInput = (props) => {
   const {
-    name, label, value, onChange, onBlur,
+    name, label, value, onChange, onBlur, disabled,
   } = props;
 
   return (
@@ -21,6 +21,7 @@ const LineItemTableTotalsInput = (props) => {
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          disabled={disabled}
         />
       </td>
     </tr>

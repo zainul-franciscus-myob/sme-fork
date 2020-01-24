@@ -1,7 +1,6 @@
 import {
   getAccountModalContext,
   getBillLine,
-  getIsAccountComboboxDisabled,
   getIsNewLine,
   getLoadBillModalType,
   getNewLineIndex,
@@ -13,7 +12,7 @@ import ModalType from '../../types/ModalType';
 
 describe('BillSelectors', () => {
   describe('getNewLineIndex', () => {
-    it('returns last index of bill lines array', () => {
+    it('returns last index of bill lines array plus one', () => {
       const state = {
         bill: {
           lines: [{}, {}, {}],
@@ -22,7 +21,7 @@ describe('BillSelectors', () => {
 
       const actual = getNewLineIndex(state);
 
-      expect(actual).toEqual(2);
+      expect(actual).toEqual(3);
     });
   });
 
@@ -217,26 +216,6 @@ describe('BillSelectors', () => {
     }));
   });
 
-  describe('getIsAccountComboboxDisabled', () => {
-    it('returns true when account is loading', () => {
-      const state = {
-        isAccountLoading: true,
-      };
-
-      const actual = getIsAccountComboboxDisabled(state);
-
-      expect(actual).toEqual(true);
-    });
-    it('returns false when account is not loading', () => {
-      const state = {
-        isAccountLoading: false,
-      };
-
-      const actual = getIsAccountComboboxDisabled(state);
-
-      expect(actual).toEqual(false);
-    });
-  });
   describe('getAccountModalContext', () => {
     it('returns region and businesID from state', () => {
       const state = {
@@ -248,6 +227,7 @@ describe('BillSelectors', () => {
       expect(actual).toEqual({ region: 'Spain', businessId: 'manzana' });
     });
   });
+
   describe('getUpdatedSupplierOptions', () => {
     it('should contain newly added contact option', () => {
       const option1 = { id: '1', displayName: 'Option 1' };

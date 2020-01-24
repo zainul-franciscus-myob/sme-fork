@@ -5,7 +5,6 @@ import React from 'react';
 import {
   getAccountOptions,
   getBillLine,
-  getIsAccountComboboxDisabled,
   getIsBlocking,
   getIsNewLine,
   getTaxCodeOptions,
@@ -28,6 +27,11 @@ const handleAmountInputChange = handler => e => handler({
   },
 });
 
+const handleAmountInputBlur = (handler, index, key) => () => handler({
+  index,
+  key,
+});
+
 const BillServiceTableRow = ({
   billLine,
   index,
@@ -38,7 +42,6 @@ const BillServiceTableRow = ({
   onChange,
   onRowInputBlur,
   onAddAccount,
-  isAccountComboboxDisabled,
   ...feelixInjectedProps
 }) => {
   const {
@@ -52,7 +55,6 @@ const BillServiceTableRow = ({
         value={description}
         onChange={onChange}
         autoSize
-        disabled={isNewLine}
       />
       <AccountCombobox
         onChange={handleComboboxChange(onChange, 'accountId')}
@@ -61,21 +63,21 @@ const BillServiceTableRow = ({
         )}
         items={accountOptions}
         selectedId={accountId}
-        disabled={isAccountComboboxDisabled || isBlocking}
+        disabled={isBlocking}
       />
       <AmountInput
         name="amount"
         value={displayAmount}
         onChange={handleAmountInputChange(onChange)}
-        onBlur={onRowInputBlur}
+        onBlur={handleAmountInputBlur(onRowInputBlur, index, 'amount')}
         textAlign="right"
-        disabled={isNewLine || isBlocking}
+        disabled={isBlocking}
       />
       <TaxCodeCombobox
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isNewLine || isBlocking}
+        disabled={isBlocking}
         left
       />
     </LineItemTable.Row>
@@ -88,7 +90,6 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state, props),
-  isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),
 });
 
 export default connect(mapStateToProps)(BillServiceTableRow);

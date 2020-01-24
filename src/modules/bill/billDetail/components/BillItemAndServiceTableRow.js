@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAccountOptions,
   getBillLine,
   getIsBlocking,
-  getIsLineWithoutItemFromInTray,
   getIsNewLine,
   getItemOptions,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
+import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import ItemCombobox from '../../../../components/combobox/ItemCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
@@ -35,21 +36,24 @@ const handleAmountInputBlur = (handler, index, key) => () => handler({
   key,
 });
 
-const BillItemTableRow = ({
+const BillItemAndServiceTableRow = ({
   index,
   billLine,
+  accountOptions,
   taxCodeOptions,
   itemOptions,
   isBlocking,
   isNewLine,
   isLineWithoutItemFromInTray,
   onChange,
+  onAddAccount,
   onRowInputBlur,
   onAddItemButtonClick,
   ...feelixInjectedProps
 }) => {
   const {
     description,
+    accountId,
     taxCodeId,
     displayAmount,
     units,
@@ -76,14 +80,23 @@ const BillItemTableRow = ({
         autoSize
         value={description}
         onChange={onChange}
-        disabled={isBlocking || isNewLine || isLineWithoutItemFromInTray}
+        disabled={isBlocking}
+      />
+      <AccountCombobox
+        onChange={handleComboboxChange(onChange, 'accountId')}
+        addNewAccount={() => onAddAccount(
+          handleComboboxChange(onChange, 'accountId'),
+        )}
+        items={accountOptions}
+        selectedId={accountId}
+        disabled={isBlocking}
       />
       <AmountInput
         name="units"
         value={units}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'units')}
-        disabled={isBlocking || isNewLine || isLineWithoutItemFromInTray}
+        disabled={isBlocking}
         decimalScale={6}
       />
       <AmountInput
@@ -92,7 +105,7 @@ const BillItemTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'unitPrice')}
         textAlign="right"
-        disabled={isBlocking || isNewLine || isLineWithoutItemFromInTray}
+        disabled={isBlocking}
         decimalScale={6}
       />
       <AmountInput
@@ -101,7 +114,7 @@ const BillItemTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'discount')}
         textAlign="right"
-        disabled={isBlocking || isNewLine || isLineWithoutItemFromInTray}
+        disabled={isBlocking}
       />
       <AmountInput
         name="amount"
@@ -109,13 +122,13 @@ const BillItemTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'amount')}
         textAlign="right"
-        disabled={isBlocking || isNewLine || isLineWithoutItemFromInTray}
+        disabled={isBlocking}
       />
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
-        disabled={isBlocking || isNewLine || isLineWithoutItemFromInTray}
+        disabled={isBlocking}
         left
       />
     </LineItemTable.Row>
@@ -125,10 +138,10 @@ const BillItemTableRow = ({
 const mapStateToProps = (state, props) => ({
   billLine: getBillLine(state, props),
   itemOptions: getItemOptions(state),
+  accountOptions: getAccountOptions(state),
   taxCodeOptions: getTaxCodeOptions(state),
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state),
-  isLineWithoutItemFromInTray: getIsLineWithoutItemFromInTray(state, props),
 });
 
-export default connect(mapStateToProps)(BillItemTableRow);
+export default connect(mapStateToProps)(BillItemAndServiceTableRow);
