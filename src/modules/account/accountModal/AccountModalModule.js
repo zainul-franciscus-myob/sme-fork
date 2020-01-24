@@ -82,4 +82,6 @@ export default class AccountModalModule {
     this.dispatcher.setInitialState(context);
     this.loadNewAccount();
   };
+
+  resetState = () => this.dispatcher.resetState();
 }

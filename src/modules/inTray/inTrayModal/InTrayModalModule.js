@@ -201,4 +201,6 @@ export default class InTrayModalModule {
     this.dispatcher.setInitialState(context);
     this.loadInTrayModal();
   }
+
+  resetState = () => this.dispatcher.resetState();
 }

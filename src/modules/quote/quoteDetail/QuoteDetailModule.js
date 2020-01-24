@@ -726,7 +726,12 @@ export default class QuoteDetailModule {
 
   setInitialState = context => this.dispatcher.setInitialState(context);
 
-  resetState = () => this.dispatcher.resetState();
+  resetState = () => {
+    this.contactModalModule.resetState();
+    this.inventoryModalModule.resetState();
+    this.accountModalModule.resetState();
+    this.dispatcher.resetState();
+  }
 
   unsubscribeFromStore = () => this.store.unsubscribeAll();
 

@@ -725,6 +725,9 @@ export default class InvoiceDetailModule {
   }
 
   resetState = () => {
+    this.contactModalModule.resetState();
+    this.inventoryModalModule.resetState();
+    this.accountModalModule.resetState();
     this.dispatcher.resetState();
   };
 

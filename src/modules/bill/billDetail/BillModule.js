@@ -834,7 +834,13 @@ class BillModule {
     this.dispatcher.setInitialState(context);
   }
 
-  resetState = () => this.dispatcher.resetState();
+  resetState = () => {
+    this.contactModalModule.resetState();
+    this.inventoryModalModule.resetState();
+    this.accountModalModule.resetState();
+    this.inTrayModalModule.resetState();
+    this.dispatcher.resetState();
+  }
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
