@@ -94,14 +94,14 @@ const getPaymentMethod = ({
   const isQuote = previewType === PreviewType.Quote;
 
   const auPayments = {
-    bPay: isQuote || shouldShowOnlinePayment ? <BpayPayment /> : undefined,
-    creditCard: isQuote || shouldShowOnlinePayment ? <CreditCardPayment /> : undefined,
-    bankDeposit: isQuote || isAllowPaymentByDirectDeposit ? <AUBankDepositPayment /> : undefined,
-    cheque: isQuote || isAllowPaymentByCheque ? <AUChequePayment /> : undefined,
+    bPay: !isQuote && shouldShowOnlinePayment ? <BpayPayment /> : undefined,
+    creditCard: !isQuote && shouldShowOnlinePayment ? <CreditCardPayment /> : undefined,
+    bankDeposit: !isQuote && isAllowPaymentByDirectDeposit ? <AUBankDepositPayment /> : undefined,
+    cheque: !isQuote && isAllowPaymentByCheque ? <AUChequePayment /> : undefined,
   };
   const nzPayments = {
-    bankDeposit: isQuote || isAllowPaymentByDirectDeposit ? <NZBankDepositPayment /> : undefined,
-    cheque: isQuote || isAllowPaymentByCheque ? <NZChequePayment /> : undefined,
+    bankDeposit: !isQuote && isAllowPaymentByDirectDeposit ? <NZBankDepositPayment /> : undefined,
+    cheque: !isQuote && isAllowPaymentByCheque ? <NZChequePayment /> : undefined,
   };
 
   const dueDate = previewType === PreviewType.Invoice ? (
@@ -114,9 +114,10 @@ const getPaymentMethod = ({
 
   const payments = region === 'au' ? auPayments : nzPayments;
 
-  if (Object.values(payments).reduce((a, p) => (a || p), false)) return false;
-
-  return <PaymentMethod rightHeader={dueDate} {...payments} />;
+  if (Object.values(payments).reduce((a, p) => !!(a || p), false)) {
+    return <PaymentMethod rightHeader={dueDate} {...payments} />;
+  }
+  return <div />;
 };
 
 const TemplatePreview = ({
