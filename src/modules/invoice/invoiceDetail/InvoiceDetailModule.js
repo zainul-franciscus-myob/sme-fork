@@ -186,15 +186,23 @@ export default class InvoiceDetailModule {
   saveAndEmailInvoice = () => {
     this.closeModal();
 
-    const onSuccess = (successResponse) => {
-      if (getIsCreating(this.store.getState())) {
-        this.dispatcher.updateInvoiceIdAfterCreate(successResponse.id);
-      }
-      this.pushSuccessfulSaveMessage(successResponse.message);
-      this.redirectToReadInvoiceWithEmailModal();
-    };
+    const state = this.store.getState();
+    const isCreating = getIsCreating(state);
+    const isPageEdited = getIsPageEdited();
 
-    this.createOrUpdateInvoice({ onSuccess });
+    if (!isCreating && !isPageEdited) {
+      this.redirectToReadInvoiceWithEmailModal();
+    } else {
+      const onSuccess = (successResponse) => {
+        if (getIsCreating(this.store.getState())) {
+          this.dispatcher.updateInvoiceIdAfterCreate(successResponse.id);
+        }
+        this.pushSuccessfulSaveMessage(successResponse.message);
+        this.redirectToReadInvoiceWithEmailModal();
+      };
+
+      this.createOrUpdateInvoice({ onSuccess });
+    }
   }
 
   saveAndExportPdf = () => {
