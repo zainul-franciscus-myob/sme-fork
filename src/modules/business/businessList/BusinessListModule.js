@@ -4,6 +4,7 @@ import React from 'react';
 import {
   LOAD_BUSINESS_LIST,
 } from '../BusinessIntents';
+import { getBusinessUrl, getShouldRedirect } from './BusinessListSelector';
 import BusinessListView from './components/BusinessListView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -22,6 +23,10 @@ export default class BusinessModule {
     const onSuccess = (businesses) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBusinessList(businesses);
+      const shouldRedirect = getShouldRedirect(this.store.getState());
+      if (shouldRedirect) {
+        this.redirectToDashboard();
+      }
     };
 
     const onFailure = () => {
@@ -34,6 +39,12 @@ export default class BusinessModule {
       onFailure,
     });
   };
+
+  redirectToDashboard = () => {
+    const state = this.store.getState();
+    const url = getBusinessUrl(state);
+    window.location.href = url;
+  }
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();

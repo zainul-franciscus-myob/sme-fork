@@ -1,4 +1,7 @@
-import { getBusinesses } from '../BusinessListSelector';
+import {
+  getBusinesses,
+  getShouldRedirect,
+} from '../BusinessListSelector';
 
 describe('BusinessListSelector', () => {
   describe('getBusinesses', () => {
@@ -52,6 +55,38 @@ describe('BusinessListSelector', () => {
         { businessName: 'b' },
         { businessName: 'c' },
       ]);
+    });
+  });
+  describe('getShouldRedirect', () => {
+    it('returns true when there is one business in the business list', () => {
+      const state = {
+        businesses: [
+          { businessName: 'a' },
+        ],
+      };
+      const actual = getShouldRedirect(state);
+
+      expect(actual).toEqual(true);
+    });
+    it('returns false when there is more than one business in the business list', () => {
+      const state = {
+        businesses: [
+          { businessName: 'a' },
+          { businessName: 'b' },
+          { businessName: 'c' },
+        ],
+      };
+      const actual = getShouldRedirect(state);
+
+      expect(actual).toEqual(false);
+    });
+    it('returns false when the business list is empty', () => {
+      const state = {
+        businesses: [],
+      };
+      const actual = getShouldRedirect(state);
+
+      expect(actual).toEqual(false);
     });
   });
 });

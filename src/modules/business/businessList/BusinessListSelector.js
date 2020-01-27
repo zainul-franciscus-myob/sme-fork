@@ -4,6 +4,8 @@ export const getLoadingState = state => state.loadingState;
 
 export const getKeyword = state => state.keyword;
 
+const getBusinessList = state => state.businesses;
+
 const getIsDescending = state => state.sortOrder === 'desc';
 
 export const getOrderBy = () => 'businessName';
@@ -37,3 +39,16 @@ export const getIsEmpty = createSelector(
   getBusinesses,
   businesses => businesses.length === 0,
 );
+
+export const getBusinessUrl = (state) => {
+  const businessList = getBusinessList(state);
+  const business = businessList[0];
+  const { id, region } = business;
+
+  return `/#/${region}/${id}/dashboard`;
+};
+
+export const getShouldRedirect = (state) => {
+  const businessList = getBusinessList(state);
+  return businessList.length === 1;
+};
