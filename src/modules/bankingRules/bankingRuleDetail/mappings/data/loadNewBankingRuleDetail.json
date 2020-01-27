@@ -10,7 +10,17 @@
   "customerId": "",
   "allocationType": "Percent",
   "allocations": [],
-  "conditions": [],
+  "conditions": [
+    {
+      "field": "Description",
+      "predicates": [
+        { 
+          "matcher": "Contains", 
+          "value": ""
+        }
+      ]
+    }
+  ],
   "bankAccounts": [
     {
       "id": "123",
