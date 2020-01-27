@@ -89,7 +89,7 @@ export default class BankingModule {
         onDismissAlert={dismissAlert}
         onDismissModalAlert={dismissModalAlert}
         onAllocate={this.allocateTransaction}
-        onUnallocate={this.openUnmatchTransactionModal(this.unallocateTransaction)}
+        onUnallocate={this.unallocateTransaction}
         onSplitRowItemClick={this.confirmBefore(this.toggleLine)}
         onMatchRowItemClick={this.confirmBefore(this.toggleLine)}
         onMatchedToBlur={blurEntry}
@@ -281,6 +281,10 @@ export default class BankingModule {
     const onSuccess = (payload) => {
       this.dispatcher.setEntryLoadingState(index, false);
       this.dispatcher.unAllocateTransaction(index, payload);
+      this.dispatcher.setAlert({
+        type: 'success',
+        message: payload.message,
+      });
     };
 
     const onFailure = ({ message }) => {
@@ -613,11 +617,9 @@ export default class BankingModule {
   unmatchTransaction = () => {
     const state = this.store.getState();
     const index = getOpenPosition(state);
-
     const onSuccess = (payload) => {
       this.dispatcher.setOpenEntryLoadingState(false);
       this.dispatcher.unmatchTransaction(index, payload);
-
       this.ifOpen(index, () => this.loadMatchTransaction(index))();
     };
 
