@@ -380,7 +380,7 @@ class BillModule {
     } else if (getIsLineTaxCodeIdKey(key) || getIsLineAccountIdKey(key)) {
       this.calculateBillLineTotals();
     } else if (getIsLineItemIdKey(key)) {
-      this.calculateLineTotalsOnItemIdChange({ index, value });
+      this.calculateLineTotalsOnItemIdChange({ index, itemId: value });
     }
   }
 
