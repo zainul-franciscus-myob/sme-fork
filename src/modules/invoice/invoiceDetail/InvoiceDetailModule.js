@@ -189,7 +189,7 @@ export default class InvoiceDetailModule {
 
     const state = this.store.getState();
     const isCreating = getIsCreating(state);
-    const isPageEdited = getIsPageEdited();
+    const isPageEdited = getIsPageEdited(state);
 
     if (!isCreating && !isPageEdited) {
       this.redirectToReadInvoiceWithEmailModal();
