@@ -16,7 +16,6 @@ const DuplicateRecords = ({
   <Select
     label="If duplicate records are found"
     value={duplicateRecordsOption}
-    requiredLabel="This is required"
     onChange={handleSelectChange(onDuplicateRecordsOptionChange)}
   >
     <Select.Option value={DuplicateRecordOption.UPDATE_EXISTING} label="Update existing data" />

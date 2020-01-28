@@ -25,7 +25,6 @@ const ImportContactsDetail = ({
     <RadioButtonGroup
       label="Contact type"
       onChange={handleRadioButtonChange('', onUpdateContactsType)}
-      requiredLabel="This is required"
       renderRadios={({ id, value, ...props }) => [
         <RadioButton
           {...props}

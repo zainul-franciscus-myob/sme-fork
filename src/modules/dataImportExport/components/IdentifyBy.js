@@ -18,7 +18,6 @@ const ImportContactsDetail = ({
   <Select
     label={label}
     value={contactIdentifyBy}
-    requiredLabel="This is required"
     onChange={handleSelectChange(onUpdateContactsIdentifyBy)}
   >
     <Select.Option value={ContactIdentifyBy.NAME} label="Company name or last name" />
