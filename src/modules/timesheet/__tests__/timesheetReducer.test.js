@@ -1,4 +1,6 @@
-import { ADD_ROW, LOAD_EMPLOYEE_TIMESHEET, SET_TIMESHEET_CELL } from '../timesheetIntents';
+import {
+  ADD_ROW, LOAD_EMPLOYEE_TIMESHEET, REMOVE_ROW, SET_TIMESHEET_CELL,
+} from '../timesheetIntents';
 import loadEmployeeTimesheet from '../mappings/data/loadEmployeeTimesheet';
 import timesheetReducer from '../timesheetReducer';
 
@@ -25,13 +27,13 @@ describe('timesheetReducer', () => {
             payItemId: '11',
             notes: 'some notes',
             startStopDescription: 'some description',
-            day1: { hours: '1.00' },
-            day2: { hours: '2.00' },
-            day3: { hours: '3.00' },
-            day4: { hours: '4.00' },
-            day5: { hours: '5.00' },
-            day6: { hours: '6.00' },
-            day7: { hours: '7.00' },
+            day1: { hours: '1.00', readonly: true },
+            day2: { hours: '2.00', readonly: false },
+            day3: { hours: '3.00', readonly: false },
+            day4: { hours: '4.00', readonly: false },
+            day5: { hours: '5.00', readonly: false },
+            day6: { hours: '6.00', readonly: false },
+            day7: { hours: '7.00', readonly: false },
           },
         ],
       });
@@ -59,13 +61,13 @@ describe('timesheetReducer', () => {
             payItemId: '11',
             notes: '',
             startStopDescription: '',
-            day1: { hours: '' },
-            day2: { hours: '' },
-            day3: { hours: '' },
-            day4: { hours: '' },
-            day5: { hours: '' },
-            day6: { hours: '' },
-            day7: { hours: '' },
+            day1: { hours: '', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
           },
         ],
       });
@@ -91,13 +93,13 @@ describe('timesheetReducer', () => {
             payItemId: '',
             notes: 'some new notes',
             startStopDescription: '',
-            day1: { hours: '' },
-            day2: { hours: '' },
-            day3: { hours: '' },
-            day4: { hours: '' },
-            day5: { hours: '' },
-            day6: { hours: '' },
-            day7: { hours: '' },
+            day1: { hours: '', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
           },
         ],
       });
@@ -123,13 +125,13 @@ describe('timesheetReducer', () => {
             payItemId: '',
             notes: '',
             startStopDescription: 'some new start stop description',
-            day1: { hours: '' },
-            day2: { hours: '' },
-            day3: { hours: '' },
-            day4: { hours: '' },
-            day5: { hours: '' },
-            day6: { hours: '' },
-            day7: { hours: '' },
+            day1: { hours: '', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
           },
         ],
       });
@@ -155,16 +157,155 @@ describe('timesheetReducer', () => {
             payItemId: '',
             notes: '',
             startStopDescription: '',
-            day1: { hours: '' },
-            day2: { hours: '5' },
-            day3: { hours: '' },
-            day4: { hours: '' },
-            day5: { hours: '' },
-            day6: { hours: '' },
-            day7: { hours: '' },
+            day1: { hours: '', readonly: false },
+            day2: { hours: '5', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
           },
         ],
       });
+    });
+  });
+
+  describe('REMOVE_ROW', () => {
+    it('removes the timesheet row', () => {
+      const state = {
+        timesheetRows: [
+          {
+            payItemId: '11',
+            notes: 'some notes',
+            startStopDescription: 'some description',
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
+          },
+        ],
+      };
+
+      const action = {
+        intent: REMOVE_ROW,
+        rowIndex: 0,
+      };
+
+      const result = timesheetReducer(state, action);
+
+      expect(result).toEqual({
+        timesheetRows: [],
+      });
+    });
+
+    it('removes the correct timesheet row', () => {
+      const state = {
+        timesheetRows: [
+          {
+            payItemId: '10',
+            notes: 'some notes',
+            startStopDescription: 'some description',
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
+          },
+          {
+            payItemId: '11',
+            notes: 'some notes',
+            startStopDescription: 'some description',
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
+          },
+          {
+            payItemId: '12',
+            notes: 'some notes',
+            startStopDescription: 'some description',
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
+          },
+        ],
+      };
+
+      const action = {
+        intent: REMOVE_ROW,
+        rowIndex: 1,
+      };
+
+      const result = timesheetReducer(state, action);
+
+      expect(result).toEqual({
+        timesheetRows: [
+          {
+            payItemId: '10',
+            notes: 'some notes',
+            startStopDescription: 'some description',
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
+          },
+          {
+            payItemId: '12',
+            notes: 'some notes',
+            startStopDescription: 'some description',
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
+          },
+        ],
+      });
+    });
+
+    it('does not remove the row if it has read only values', () => {
+      const state = {
+        timesheetRows: [
+          {
+            payItemId: '11',
+            notes: 'some notes',
+            startStopDescription: 'some description',
+            day1: { hours: '1', readonly: true },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
+          },
+        ],
+      };
+
+      const action = {
+        intent: REMOVE_ROW,
+        rowIndex: 0,
+      };
+
+      const result = timesheetReducer(state, action);
+
+      expect(result).toEqual(state);
     });
   });
 
@@ -176,13 +317,13 @@ describe('timesheetReducer', () => {
             payItemId: '11',
             notes: 'some notes',
             startStopDescription: 'some description',
-            day1: { hours: '1' },
-            day2: { hours: '' },
-            day3: { hours: '' },
-            day4: { hours: '' },
-            day5: { hours: '' },
-            day6: { hours: '' },
-            day7: { hours: '' },
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
           },
         ],
       };
@@ -202,13 +343,13 @@ describe('timesheetReducer', () => {
             payItemId: '11',
             notes: 'new note value',
             startStopDescription: 'some description',
-            day1: { hours: '1' },
-            day2: { hours: '' },
-            day3: { hours: '' },
-            day4: { hours: '' },
-            day5: { hours: '' },
-            day6: { hours: '' },
-            day7: { hours: '' },
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '', readonly: false },
+            day3: { hours: '', readonly: false },
+            day4: { hours: '', readonly: false },
+            day5: { hours: '', readonly: false },
+            day6: { hours: '', readonly: false },
+            day7: { hours: '', readonly: false },
           },
         ],
       });
@@ -221,13 +362,13 @@ describe('timesheetReducer', () => {
             payItemId: '11',
             notes: 'some notes',
             startStopDescription: 'some description',
-            day1: { hours: '1' },
-            day2: { hours: '2' },
-            day3: { hours: '3' },
-            day4: { hours: '4' },
-            day5: { hours: '5' },
-            day6: { hours: '6' },
-            day7: { hours: '7' },
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '2', readonly: false },
+            day3: { hours: '3', readonly: false },
+            day4: { hours: '4', readonly: false },
+            day5: { hours: '5', readonly: false },
+            day6: { hours: '6', readonly: false },
+            day7: { hours: '7', readonly: false },
           },
         ],
       };
@@ -247,13 +388,13 @@ describe('timesheetReducer', () => {
             payItemId: '11',
             notes: 'some notes',
             startStopDescription: 'some description',
-            day1: { hours: '1' },
-            day2: { hours: '10' },
-            day3: { hours: '3' },
-            day4: { hours: '4' },
-            day5: { hours: '5' },
-            day6: { hours: '6' },
-            day7: { hours: '7' },
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '10', readonly: false },
+            day3: { hours: '3', readonly: false },
+            day4: { hours: '4', readonly: false },
+            day5: { hours: '5', readonly: false },
+            day6: { hours: '6', readonly: false },
+            day7: { hours: '7', readonly: false },
           },
         ],
       });
@@ -266,13 +407,13 @@ describe('timesheetReducer', () => {
             payItemId: '11',
             notes: 'some notes',
             startStopDescription: 'some description',
-            day1: { hours: '1' },
-            day2: { hours: '2' },
-            day3: { hours: '3' },
-            day4: { hours: '4' },
-            day5: { hours: '5' },
-            day6: { hours: '6' },
-            day7: { hours: '7' },
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '2', readonly: false },
+            day3: { hours: '3', readonly: false },
+            day4: { hours: '4', readonly: false },
+            day5: { hours: '5', readonly: false },
+            day6: { hours: '6', readonly: false },
+            day7: { hours: '7', readonly: false },
           },
         ],
       };
@@ -292,13 +433,13 @@ describe('timesheetReducer', () => {
             payItemId: '12',
             notes: 'some notes',
             startStopDescription: 'some description',
-            day1: { hours: '1' },
-            day2: { hours: '2' },
-            day3: { hours: '3' },
-            day4: { hours: '4' },
-            day5: { hours: '5' },
-            day6: { hours: '6' },
-            day7: { hours: '7' },
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '2', readonly: false },
+            day3: { hours: '3', readonly: false },
+            day4: { hours: '4', readonly: false },
+            day5: { hours: '5', readonly: false },
+            day6: { hours: '6', readonly: false },
+            day7: { hours: '7', readonly: false },
           },
         ],
       });
@@ -311,13 +452,13 @@ describe('timesheetReducer', () => {
             payItemId: '11',
             notes: 'some notes',
             startStopDescription: 'some description',
-            day1: { hours: '1' },
-            day2: { hours: '2' },
-            day3: { hours: '3' },
-            day4: { hours: '4' },
-            day5: { hours: '5' },
-            day6: { hours: '6' },
-            day7: { hours: '7' },
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '2', readonly: false },
+            day3: { hours: '3', readonly: false },
+            day4: { hours: '4', readonly: false },
+            day5: { hours: '5', readonly: false },
+            day6: { hours: '6', readonly: false },
+            day7: { hours: '7', readonly: false },
           },
         ],
       };
@@ -337,13 +478,13 @@ describe('timesheetReducer', () => {
             payItemId: '11',
             notes: 'some notes',
             startStopDescription: 'some new start stop description',
-            day1: { hours: '1' },
-            day2: { hours: '2' },
-            day3: { hours: '3' },
-            day4: { hours: '4' },
-            day5: { hours: '5' },
-            day6: { hours: '6' },
-            day7: { hours: '7' },
+            day1: { hours: '1', readonly: false },
+            day2: { hours: '2', readonly: false },
+            day3: { hours: '3', readonly: false },
+            day4: { hours: '4', readonly: false },
+            day5: { hours: '5', readonly: false },
+            day6: { hours: '6', readonly: false },
+            day7: { hours: '7', readonly: false },
           },
         ],
       });

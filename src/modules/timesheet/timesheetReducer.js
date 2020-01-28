@@ -73,24 +73,31 @@ const loadEmployeeTimesheet = (state, { timesheetRows, allowedPayItems }) => ({
     ...row,
     day1: {
       hours: getFormattedHours(row.day1.hours),
+      readonly: row.day1.readonly,
     },
     day2: {
       hours: getFormattedHours(row.day2.hours),
+      readonly: row.day2.readonly,
     },
     day3: {
       hours: getFormattedHours(row.day3.hours),
+      readonly: row.day3.readonly,
     },
     day4: {
       hours: getFormattedHours(row.day4.hours),
+      readonly: row.day4.readonly,
     },
     day5: {
       hours: getFormattedHours(row.day5.hours),
+      readonly: row.day5.readonly,
     },
     day6: {
       hours: getFormattedHours(row.day6.hours),
+      readonly: row.day6.readonly,
     },
     day7: {
       hours: getFormattedHours(row.day7.hours),
+      readonly: row.day7.readonly,
     },
   })),
   employeeAllowedPayItems: allowedPayItems.map(payItem => String(payItem)),
@@ -115,7 +122,10 @@ const setTimesheetCell = (state, { index, name, value }) => ({
     if (isWeekDayField(name)) {
       return {
         ...row,
-        [name]: { hours: value },
+        [name]: {
+          ...row[name],
+          hours: value,
+        },
       };
     }
 
@@ -126,26 +136,43 @@ const setTimesheetCell = (state, { index, name, value }) => ({
   }),
 });
 
-const removeRow = (state, { rowIndex }) => ({
-  ...state,
-  timesheetRows: state.timesheetRows.filter((row, index) => index !== rowIndex),
-});
+const rowHasReadonlyCell = timesheetRow => (
+  timesheetRow.day1.readonly
+  || timesheetRow.day2.readonly
+  || timesheetRow.day3.readonly
+  || timesheetRow.day4.readonly
+  || timesheetRow.day5.readonly
+  || timesheetRow.day6.readonly
+  || timesheetRow.day7.readonly
+);
+
+const removeRow = (state, { rowIndex }) => {
+  if (state.timesheetRows[rowIndex] && rowHasReadonlyCell(state.timesheetRows[rowIndex])) {
+    return state;
+  }
+
+  return {
+    ...state,
+    timesheetRows: state.timesheetRows.filter((row, index) => index !== rowIndex),
+  };
+};
 
 const addRow = (state, { rowData }) => ({
   ...state,
   timesheetRows: [
     ...state.timesheetRows,
     {
+      id: rowData.id,
       payItemId: rowData.payItemId ? rowData.payItemId : '',
       notes: rowData.notes ? rowData.notes : '',
       startStopDescription: rowData.startStopDescription ? rowData.startStopDescription : '',
-      day1: { hours: rowData.day1 ? rowData.day1 : '' },
-      day2: { hours: rowData.day2 ? rowData.day2 : '' },
-      day3: { hours: rowData.day3 ? rowData.day3 : '' },
-      day4: { hours: rowData.day4 ? rowData.day4 : '' },
-      day5: { hours: rowData.day5 ? rowData.day5 : '' },
-      day6: { hours: rowData.day6 ? rowData.day6 : '' },
-      day7: { hours: rowData.day7 ? rowData.day7 : '' },
+      day1: { hours: rowData.day1 ? rowData.day1 : '', readonly: false },
+      day2: { hours: rowData.day2 ? rowData.day2 : '', readonly: false },
+      day3: { hours: rowData.day3 ? rowData.day3 : '', readonly: false },
+      day4: { hours: rowData.day4 ? rowData.day4 : '', readonly: false },
+      day5: { hours: rowData.day5 ? rowData.day5 : '', readonly: false },
+      day6: { hours: rowData.day6 ? rowData.day6 : '', readonly: false },
+      day7: { hours: rowData.day7 ? rowData.day7 : '', readonly: false },
     },
   ],
 });

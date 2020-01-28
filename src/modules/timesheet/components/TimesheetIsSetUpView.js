@@ -108,6 +108,7 @@ const TimesheetIsSetUpView = ({
       const value = data[field] && data[field].hours
         ? data[field].hours
         : '';
+      const readonly = data[field] && data[field].readonly;
       return (
         <HoursInput
           name={field}
@@ -119,6 +120,7 @@ const TimesheetIsSetUpView = ({
           key={field}
           decimalScale={2}
           numeralIntegerScale={2}
+          disabled={readonly}
         />
       );
     });
@@ -129,7 +131,7 @@ const TimesheetIsSetUpView = ({
     return (
       <LineItemTable.Row
         id={index}
-        key={index}
+        key={data.id}
         index={index}
         labels={labels}
       >
