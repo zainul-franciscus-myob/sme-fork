@@ -24,6 +24,7 @@ export default class RootModule {
     this.dispatcher = CreateRootDispatcher(this.store);
     this.tasksService = tasksService(this.dispatcher, integration, this.store);
     this.settingsService = SettingsService(this.dispatcher, integration, this.store);
+    this.last_business_id = null;
 
     this.drawer = new DrawerModule({
       integration,
@@ -65,10 +66,12 @@ export default class RootModule {
 
   run = (routeProps, handlePageTransition) => {
     const { routeParams: { businessId, region } } = routeProps;
+
     this.dispatcher.setBusinessId(businessId);
     this.dispatcher.setRegion(region);
 
-    if (businessId) {
+    if (businessId && businessId !== this.last_business_id) {
+      this.last_business_id = businessId;
       this.tasksService.load();
       this.settingsService.load();
     }
