@@ -17,7 +17,6 @@ import {
   hasSalesUrls,
 } from '../NavigationSelectors';
 import AccountingMenu from './AccountingMenu';
-import Activities from './Activities';
 import AddMenu from './AddMenu';
 import BankingMenu from './BankingMenu';
 import BusinessMenu from './BusinessMenu';
@@ -30,6 +29,7 @@ import PayrollMenu from './PayrollMenu';
 import PurchasesMenu from './PurchasesMenu';
 import ReportsMenu from './ReportsMenu';
 import SalesMenu from './SalesMenu';
+import Tasks from './Tasks';
 import styles from './NavigationBar.module.css';
 
 const getPrimary = ({
@@ -104,13 +104,13 @@ const getSecondary = ({
   shouldDisplayBusinessMenu,
   shouldDisplayAddMenu,
   shouldDisplayHelpMenu,
-  shouldDisplayActivitiesMenu,
+  shouldDisplayTasksMenu,
   onMenuSelect,
   onMenuLinkClick,
   onHelpLinkClick,
-  onActivitiesLinkClick,
+  onTasksLinkClick,
   onSubscribeNowClick,
-  hasActivities,
+  hasTasks,
 }) => [
   shouldDisplayAddMenu && (
   <AddMenu
@@ -123,8 +123,8 @@ const getSecondary = ({
   shouldDisplayHelpMenu && (
   <Help className={styles.help} key="Help" onMenuLinkClick={onHelpLinkClick} />
   ),
-  shouldDisplayActivitiesMenu && (
-  <Activities className={styles.activities} key="Activities" onMenuLinkClick={onActivitiesLinkClick} showNotificationIcon={hasActivities} />
+  shouldDisplayTasksMenu && (
+  <Tasks className={styles.tasks} key="Tasks" onMenuLinkClick={onTasksLinkClick} showNotificationIcon={hasTasks} />
   ),
   shouldDisplayBusinessMenu && (
   <BusinessMenu
@@ -143,7 +143,7 @@ const NavigationBar = ({
   onMenuSelect,
   onMenuLinkClick,
   onHelpLinkClick,
-  onActivitiesLinkClick,
+  onTasksLinkClick,
   onSubscribeNowClick,
   shouldDisplayHome,
   shouldDisplaySalesMenu,
@@ -157,9 +157,9 @@ const NavigationBar = ({
   shouldDisplayReportsMenu,
   shouldDisplayHelpMenu,
   shouldDisplayAddMenu,
-  shouldDisplayActivitiesMenu,
+  shouldDisplayTasksMenu,
   menuLogoUrl,
-  hasActivities,
+  hasTasks,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
@@ -178,13 +178,13 @@ const NavigationBar = ({
     onMenuSelect,
     onMenuLinkClick,
     onHelpLinkClick,
-    onActivitiesLinkClick,
+    onTasksLinkClick,
     onSubscribeNowClick,
     shouldDisplayBusinessMenu,
     shouldDisplayAddMenu,
     shouldDisplayHelpMenu,
-    shouldDisplayActivitiesMenu,
-    hasActivities,
+    shouldDisplayTasksMenu,
+    hasTasks,
   });
   const brand = (
     <Navigation.Brand
@@ -217,7 +217,7 @@ const mapStateToProps = state => ({
   shouldDisplayReportsMenu: hasReportsUrls(state),
   shouldDisplayAddMenu: hasAddUrls(state),
   shouldDisplayHelpMenu: hasBusinessId(state),
-  shouldDisplayActivitiesMenu: hasBusinessId(state),
+  shouldDisplayTasksMenu: hasBusinessId(state),
   menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
 });
 

@@ -1,4 +1,4 @@
-import { CLOSE_DRAWER, TOGGLE_ACTIVITIES, TOGGLE_HELP } from './drawerIntents';
+import { CLOSE_DRAWER, TOGGLE_HELP, TOGGLE_TASKS } from './drawerIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../SystemIntents';
 import createReducer from '../store/createReducer';
 
@@ -33,7 +33,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [CLOSE_DRAWER]: toggleDrawer,
-  [TOGGLE_ACTIVITIES]: toggleDrawer,
+  [TOGGLE_TASKS]: toggleDrawer,
   [TOGGLE_HELP]: toggleDrawer,
 };
 

@@ -2,24 +2,24 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import * as views from './drawerViews';
-import ActivitiesModule from './activities/ActivitiesModule';
 import Drawer from './components/Drawer';
 import HelpModule from './help/HelpModule';
 import Store from '../store/Store';
+import TasksModule from './tasks/TasksModule';
 import createDrawerDispatcher from './createDrawerDispatcher';
 import drawerReducer from './drawerReducer';
 
 export default class DrawerModule {
   constructor({
     integration,
-    activitiesService,
+    tasksService,
   }) {
     this.store = new Store(drawerReducer);
     this.dispatcher = createDrawerDispatcher(this.store);
     this.subModules = {
       [views.HELP]: new HelpModule({ integration, closeDrawer: this.closeDrawer }),
-      [views.ACTIVITIES]: new ActivitiesModule({
-        integration, closeDrawer: this.closeDrawer, activitiesService,
+      [views.TASKS]: new TasksModule({
+        integration, closeDrawer: this.closeDrawer, tasksService,
       }),
     };
 
@@ -42,13 +42,13 @@ export default class DrawerModule {
     });
   }
 
-  toggleActivities = () => this.dispatcher.toggleActivities();
+  toggleTasks = () => this.dispatcher.toggleTasks();
 
   toggleHelp = () => this.dispatcher.toggleHelp();
 
   closeDrawer = () => this.dispatcher.closeDrawer();
 
-  render = (activities) => {
+  render = (tasks) => {
     const { store, subModules } = this;
 
     return (
@@ -56,7 +56,7 @@ export default class DrawerModule {
         <Drawer>
           {
             Object.values(subModules).map((sm) => {
-              if (sm === subModules[views.ACTIVITIES]) return sm.getView(activities);
+              if (sm === subModules[views.TASKS]) return sm.getView(tasks);
               return sm.getView();
             })
           }

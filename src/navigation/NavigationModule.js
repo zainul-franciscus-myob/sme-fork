@@ -17,7 +17,7 @@ export default class NavigationModule {
     constructPath,
     replaceURLParamsAndReload,
     toggleHelp,
-    toggleActivities,
+    toggleTasks,
   }) {
     this.integration = integration;
     this.setNavigationView = setNavigationView;
@@ -26,7 +26,7 @@ export default class NavigationModule {
     this.replaceURLParamsAndReload = replaceURLParamsAndReload;
     this.onPageTransition = undefined;
     this.toggleHelp = toggleHelp;
-    this.toggleActivities = toggleActivities;
+    this.toggleTasks = toggleTasks;
   }
 
   loadBusinessInfo = () => {
@@ -110,13 +110,13 @@ export default class NavigationModule {
     this.redirectToPage(url);
   }
 
-  render = (activities) => {
+  render = (tasks) => {
     const {
       constructPath,
       redirectToPage,
       onPageTransition,
       toggleHelp,
-      toggleActivities,
+      toggleTasks,
       store,
       subscribeNow,
     } = this;
@@ -129,8 +129,8 @@ export default class NavigationModule {
           onMenuLinkClick={onPageTransition}
           onHelpLinkClick={toggleHelp}
           onSubscribeNowClick={subscribeNow}
-          onActivitiesLinkClick={toggleActivities}
-          hasActivities={activities && activities.length > 0}
+          onTasksLinkClick={toggleTasks}
+          hasTasks={tasks && tasks.length > 0}
         />
       </Provider>
     );

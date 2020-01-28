@@ -1,13 +1,13 @@
 import {
-  GET_ACTIVITIES_LIST, LOAD_SETTINGS, SAVE_SETTINGS,
+  GET_TASKS_LIST, LOAD_SETTINGS, SAVE_SETTINGS,
   SET_BUSINESS_ID, SET_LOADING_STATE, SET_REGION,
-  SET_VIEW_DATA, UPDATE_ACTIVITIES, UPDATE_ACTIVITY,
+  SET_VIEW_DATA, UPDATE_TASKS,
 } from './rootIntents';
 import createReducer from '../store/createReducer';
 import shouldShowOnboarding from './services/shouldShowOnboarding';
 
 const getDefaultState = () => ({
-  activities: [],
+  tasks: [],
   settings: [],
   businessName: '',
   isLoading: false,
@@ -41,36 +41,25 @@ const setViewData = (state, action) => ({
   ...action.data,
 });
 
-const loadActivities = (state, action) => ({
+const loadTasks = (state, action) => ({
   ...state,
-  activities: action.payload,
+  tasks: action.payload,
 });
 
-const updateActivity = (state, action) => {
-  const { payload } = action;
+const updateTasks = (state, { tasks: updatedTasks }) => {
+  const currentTasks = state.tasks;
 
-  const activities = state.activities.map((activity) => {
-    if (activity.id === payload.id) return { ...activity, ...payload };
-    return activity;
-  });
-
-  return { ...state, activities };
-};
-
-const updateActivities = (state, { activities: updatedActivities }) => {
-  const currentActivities = state.activities;
-
-  const newActivities = currentActivities.map((currentActivity) => {
-    const activityToUpdate = updatedActivities.find(
-      updatedActivity => updatedActivity.id === currentActivity.id,
+  const newTasks = currentTasks.map((currentTask) => {
+    const taskToUpdate = updatedTasks.find(
+      updatedTask => updatedTask.id === currentTask.id,
     );
 
-    if (activityToUpdate) return activityToUpdate;
+    if (taskToUpdate) return taskToUpdate;
 
-    return currentActivity;
+    return currentTask;
   });
 
-  return { ...state, activities: newActivities };
+  return { ...state, tasks: newTasks };
 };
 
 const handlers = {
@@ -78,13 +67,12 @@ const handlers = {
   [LOAD_SETTINGS]: setOnboarding,
   [SAVE_SETTINGS]: setOnboarding,
   [SET_VIEW_DATA]: setViewData,
-  [GET_ACTIVITIES_LIST]: loadActivities,
-  [UPDATE_ACTIVITY]: updateActivity,
-  [UPDATE_ACTIVITIES]: updateActivities,
   [SET_BUSINESS_ID]: setBusinessId,
   [SET_REGION]: setRegion,
+  [GET_TASKS_LIST]: loadTasks,
+  [UPDATE_TASKS]: updateTasks,
 };
 
-const onboardingReducer = createReducer(getDefaultState(), handlers);
+const rootReducer = createReducer(getDefaultState(), handlers);
 
-export default onboardingReducer;
+export default rootReducer;

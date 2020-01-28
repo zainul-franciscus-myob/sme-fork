@@ -3,23 +3,22 @@ import React from 'react';
 
 import styles from './index.module.css';
 
-const Welcome = ({ activity, closeTasks }) => {
-  const { data: { isComplete } } = activity;
+const Welcome = ({ task, closeTasks }) => {
+  const { data: { isComplete } } = task;
   if (isComplete === true) return null;
 
-  const onCloseWelcomeActivity = (e) => {
+  const onCloseWelcomeTask = (e) => {
     e.preventDefault();
     closeTasks({ closeEvent: 'welcomeViewed' });
   };
 
   const onboardingTour = () => {
-    // cspell:disable-next-line
-    window.location.href = `/#/${activity.region}/${activity.cdfguid}/dashboard?appcue=-LwVnYlAyZs8fgnratzU`;
+    window.location.href = `/#/${task.region}/${task.cdfguid}/dashboard?appcue=-LwVnYlAyZs8fgnratzU`;
   };
 
   return (
     <div className={styles.spotlight}>
-      <button type="button" className={styles.close} onClick={onCloseWelcomeActivity}>
+      <button type="button" className={styles.close} onClick={onCloseWelcomeTask}>
         <Icons.Close />
       </button>
       <h2>Getting started</h2>

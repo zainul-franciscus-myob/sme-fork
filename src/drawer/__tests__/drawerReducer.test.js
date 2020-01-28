@@ -1,5 +1,5 @@
 import * as views from '../drawerViews';
-import { CLOSE_DRAWER, TOGGLE_ACTIVITIES, TOGGLE_HELP } from '../drawerIntents';
+import { CLOSE_DRAWER, TOGGLE_HELP, TOGGLE_TASKS } from '../drawerIntents';
 import reducer from '../drawerReducer';
 
 describe('drawerReducer', () => {
@@ -17,19 +17,19 @@ describe('drawerReducer', () => {
     const testCases = [
       createState(false, null),
       createState(true, views.HELP),
-      createState(true, views.ACTIVITIES),
+      createState(true, views.TASKS),
     ];
     testCases.forEach(testCase => test(testCase, action, { ...testCase, isOpen: false }));
   });
 
-  describe('TOGGLE_ACTIVITIES', () => {
-    const action = { intent: TOGGLE_ACTIVITIES, view: views.ACTIVITIES };
+  describe('TOGGLE_TASKS', () => {
+    const action = { intent: TOGGLE_TASKS, view: views.TASKS };
     const testCases = [
-      [createState(false, null), createState(true, views.ACTIVITIES)],
-      [createState(false, views.HELP), createState(true, views.ACTIVITIES)],
-      [createState(true, views.HELP), createState(true, views.ACTIVITIES)],
-      [createState(false, views.ACTIVITIES), createState(true, views.ACTIVITIES)],
-      [createState(true, views.ACTIVITIES), createState(false, views.ACTIVITIES)],
+      [createState(false, null), createState(true, views.TASKS)],
+      [createState(false, views.HELP), createState(true, views.TASKS)],
+      [createState(true, views.HELP), createState(true, views.TASKS)],
+      [createState(false, views.TASKS), createState(true, views.TASKS)],
+      [createState(true, views.TASKS), createState(false, views.TASKS)],
     ];
     testCases.forEach(([testCase, expectedResult]) => test(testCase, action, expectedResult));
   });
@@ -38,8 +38,8 @@ describe('drawerReducer', () => {
     const action = { intent: TOGGLE_HELP, view: views.HELP };
     const testCases = [
       [createState(false, null), createState(true, views.HELP)],
-      [createState(false, views.ACTIVITIES), createState(true, views.HELP)],
-      [createState(true, views.ACTIVITIES), createState(true, views.HELP)],
+      [createState(false, views.TASKS), createState(true, views.HELP)],
+      [createState(true, views.TASKS), createState(true, views.HELP)],
       [createState(false, views.HELP), createState(true, views.HELP)],
       [createState(true, views.HELP), createState(false, views.HELP)],
     ];

@@ -2,7 +2,6 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import ActivitiesService from './services/activities';
 import CreateRootDispatcher from './createRootDispatcher';
 import DrawerModule from '../drawer/DrawerModule';
 import NavigationModule from '../navigation/NavigationModule';
@@ -12,6 +11,7 @@ import RootView from './components/RootView';
 import SettingsService from './services/settings';
 import Store from '../store/Store';
 import buildGlobalCallbacks from './builders/buildGobalCallbacks';
+import tasksService from './services/tasks';
 
 export default class RootModule {
   constructor({
@@ -22,31 +22,31 @@ export default class RootModule {
     this.store = new Store(RootReducer);
 
     this.dispatcher = CreateRootDispatcher(this.store);
-    this.activitiesService = ActivitiesService(this.dispatcher, integration, this.store);
+    this.tasksService = tasksService(this.dispatcher, integration, this.store);
     this.settingsService = SettingsService(this.dispatcher, integration, this.store);
 
     this.drawer = new DrawerModule({
       integration,
-      activitiesService: this.activitiesService,
+      tasksService: this.tasksService,
     });
 
     this.nav = new NavigationModule({
       constructPath,
       integration,
       replaceURLParamsAndReload,
-      toggleActivities: this.drawer.toggleActivities,
+      toggleTasks: this.drawer.toggleTasks,
       toggleHelp: this.drawer.toggleHelp,
     });
 
     this.onboarding = new OnboardingModule({
       dispatcher: this.dispatcher,
       settingsService: this.settingsService,
-      activitiesService: this.activitiesService,
-      toggleActivities: this.drawer.toggleActivities,
+      tasksService: this.tasksService,
+      toggleTasks: this.drawer.toggleTasks,
     });
 
     this.globalCallbacks = buildGlobalCallbacks({
-      closeTasks: this.activitiesService.closeTasks,
+      closeTasks: this.tasksService.closeTasks,
       store: this.store,
     });
   }
@@ -69,7 +69,7 @@ export default class RootModule {
     this.dispatcher.setRegion(region);
 
     if (businessId) {
-      this.activitiesService.load();
+      this.tasksService.load();
       this.settingsService.load();
     }
 

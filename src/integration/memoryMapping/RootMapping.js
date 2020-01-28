@@ -1,5 +1,4 @@
 import AccountMapping from '../../modules/account/mappings/MemoryAccountMapping';
-import ActivityMapping from './ActivityMapping';
 import ApplyToSaleMapping from '../../modules/applyToSale/mappings/MemoryApplyToSaleMapping';
 import BankFeedsMapping from '../../modules/bankFeeds/mappings/MemoryBankFeedsMapping';
 import BankReconciliationMapping from '../../modules/bankReconciliation/mappings/MemoryBankReconciliationMapping';
@@ -67,6 +66,7 @@ import SuperFundMapping from '../../modules/superFund/mappings/MemorySuperFundMa
 import SuperPayItemMapping from '../../modules/payItem/superPayItem/mappings/MemorySuperPayItemMapping';
 import SupplierReturnMapping from '../../modules/supplierReturn/mappings/MemorySupplierReturnMapping';
 import SupplierReturnPurchaseMapping from '../../modules/supplierReturnPurchase/mappings/MemorySupplierReturnPurchaseMapping';
+import TaskMapping from './TaskMapping';
 import TaxMapping from '../../modules/tax/mappings/MemoryTaxMapping';
 import TemplateMapping from '../../modules/template/mappings/MemoryTemplateMapping';
 import TimesheetMapping from '../../modules/timesheet/mappings/MemoryTimesheetMapping';
@@ -143,7 +143,7 @@ const RootMapping = Object.freeze({
   ...SettingMapping,
   ...PaySuperAuthorisationModalMapping,
   ...PaySuperStsLoginMapping,
-  ...ActivityMapping,
+  ...TaskMapping,
   ...StpGetStartedMapping,
   ...StpErrorsMapping,
   ...StpDeclarationMapping,

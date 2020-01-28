@@ -1,56 +1,56 @@
-.activities { list-style: none; }
+.tasks { list-style: none; }
 
 /* @FEELIX */
-.activities :global(.label) {
+.tasks :global(.label) {
   margin-left: var(--flx-spacing-tiny);
   float: right;
 }
 
-.activities li {
+.tasks li {
   border-bottom: 1px solid var(--flx-palette-storm-17);
 }
 
-.activities a {
+.tasks a {
   align-items: flex-start;
   display: flex;
   padding: var(--flx-spacing-small);
 }
 
-.activities a:hover {
+.tasks a:hover {
   background: var(--flx-palette-storm-06);
   text-decoration: none;
 }
 
-.activities .container { width: 100%; }
+.tasks .container { width: 100%; }
 
-.activities p {
+.tasks p {
   font-size: small;
   margin-bottom: 0;
 }
 
-.activities img { margin-right: var(--flx-spacing-small);}
+.tasks img { margin-right: var(--flx-spacing-small);}
 
-.activities h3 { margin-top: 0; }
+.tasks h3 { margin-top: 0; }
 
-.subActivities {
+.subTasks {
   counter-reset: item;
   list-style: none;
 }
 
-.subActivities li {
+.subTasks li {
   border: none;
   counter-increment: item;
 }
 
-.subActivities a {
+.subTasks a {
   color: var(--flx-palette-storm-83);
   padding: var(--flx-spacing-x-small) var(--flx-spacing-small);
 }
 
-.subActivities a:before,
-.subActivities a span { flex: 1; }
+.subTasks a:before,
+.subTasks a span { flex: 1; }
 
-.subActivities a:before {
+.subTasks a:before {
   background: var(--flx-palette-storm-17);
   border-radius: var(--flx-size-border-radius-large);
   color: var(--flx-palette-storm-72);
@@ -62,22 +62,22 @@
   text-align: center;
 }
 
-.subActivities .active { background: var(--flx-palette-dusk-05); }
+.subTasks .active { background: var(--flx-palette-dusk-05); }
 
-.subActivities .active a { color: var(--flx-palette-dusk-100); }
+.subTasks .active a { color: var(--flx-palette-dusk-100); }
 
-.subActivities .active a:before {
+.subTasks .active a:before {
   background: var(--flx-palette-dusk-100);
   color: var(--flx-palette-white);
   padding-top: 1px;
 }
 
-.subActivities .completed a {
+.subTasks .completed a {
   color: var(--flx-palette-storm-83);
   text-decoration: line-through;
 }
 
-.subActivities .completed a:before {
+.subTasks .completed a:before {
   background: url('assets/tick.svg') no-repeat 4px 4px / 16px var(--flx-palette-golf);
   content: '';
 }

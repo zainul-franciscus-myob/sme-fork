@@ -1,7 +1,7 @@
-import { GET_ACTIVITIES_LIST } from '../../../rootIntents';
-import load from '../../activities/load';
+import { GET_TASKS_LIST } from '../../../rootIntents';
+import load from '../../tasks/load';
 
-describe('activitiesService', () => {
+describe('tasksService', () => {
   describe('load', () => {
     const businessId = 'business-id';
     const region = 'region';
@@ -12,7 +12,7 @@ describe('activitiesService', () => {
     getState.mockReturnValue({ businessId, region });
 
     const dispatcher = {
-      loadActivities: jest.fn(),
+      loadTasks: jest.fn(),
       setLoadingState: jest.fn(),
     };
 
@@ -20,12 +20,12 @@ describe('activitiesService', () => {
       read: jest.fn().mockImplementation(({ onSuccess }) => onSuccess(data)),
     };
 
-    it('gives get activities list', async () => {
+    it('gives get tasks list', async () => {
       await load({ dispatcher, integration, store });
 
       expect(integration.read).toBeCalledWith(
         expect.objectContaining({
-          intent: GET_ACTIVITIES_LIST,
+          intent: GET_TASKS_LIST,
         }),
       );
     });
@@ -41,9 +41,9 @@ describe('activitiesService', () => {
       );
     });
 
-    it('gives activities to the redux store', async () => {
+    it('gives tasks to the redux store', async () => {
       await load({ dispatcher, integration, store });
-      expect(dispatcher.loadActivities).toBeCalledWith(data);
+      expect(dispatcher.loadTasks).toBeCalledWith(data);
     });
   });
 });

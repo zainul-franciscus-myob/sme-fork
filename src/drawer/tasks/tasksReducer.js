@@ -1,10 +1,9 @@
-import { SET_ACTIVE_STATE, SET_LOADING_STATE } from './ActivitiesIntents';
+import { SET_ACTIVE_STATE, SET_LOADING_STATE } from './TasksIntents';
 import { SET_INITIAL_STATE } from '../../SystemIntents';
 import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
-  activities: [],
   businessId: '',
   loadingState: LoadingState.LOADING,
   region: '',
@@ -31,6 +30,6 @@ const handlers = {
   [SET_ACTIVE_STATE]: setActiveState,
 };
 
-const activitiesReducer = createReducer(getDefaultState(), handlers);
+const tasksReducer = createReducer(getDefaultState(), handlers);
 
-export default activitiesReducer;
+export default tasksReducer;
