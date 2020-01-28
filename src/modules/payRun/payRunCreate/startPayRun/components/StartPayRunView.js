@@ -12,6 +12,7 @@ import React from 'react';
 import {
   getRegularPayCycleOptions,
   getStartPayRun,
+  getTimesheets,
   isThereExistingPayRun,
 } from '../StartPayRunSelectors';
 import {
@@ -21,6 +22,7 @@ import {
 import ExistingPayRunModal from './ExistingPayRunModal';
 import FormCard from '../../../../../components/FormCard/FormCard';
 import StartPayRunActions from './StartPayRunActions';
+import TimesheetsTable from './TimesheetsTable';
 import handleDatePickerChange from '../../../../../components/handlers/handleDatePickerChange';
 import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
 import styles from './StartPayRunView.module.css';
@@ -43,6 +45,9 @@ const StartPayRunView = ({
   onExistingPayRunModalGoBackClick,
   onExistingPayRunModalCreateClick,
   onExistingPayRunModalEditClick,
+  timesheets,
+  selectItem,
+  selectAll,
 }) => (
   <div className={styles.startPayRun}>
     <PageHead title="Create pay run" testid="startPayRunViewPageHead" />
@@ -68,6 +73,14 @@ const StartPayRunView = ({
           <DatePicker label="Pay period end" name="payPeriodEnd" value={payPeriodEnd} onSelect={handleDatePickerChange(onPayPeriodChange, 'payPeriodEnd')} />
           <DatePicker label="Date of payment" name="paymentDate" value={paymentDate} onSelect={handleDatePickerChange(onPayPeriodChange, 'paymentDate')} />
         </FieldGroup>
+        {timesheets && (
+        <TimesheetsTable
+          testid="timesheetsTable"
+          timesheets={timesheets}
+          selectAll={selectAll}
+          selectItem={selectItem}
+        />
+        )}
       </FormCard>
     </FormHorizontal>
     {existingPayRun && (
@@ -89,6 +102,7 @@ const mapStateToProps = state => ({
   stepNumber: getStepNumber(state),
   payRunSteps: getStepperSteps(state),
   existingPayRun: isThereExistingPayRun(state),
+  timesheets: getTimesheets(state),
 });
 
 export default connect(mapStateToProps)(StartPayRunView);

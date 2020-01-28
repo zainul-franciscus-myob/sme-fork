@@ -4,15 +4,19 @@ import {
   CLOSE_PREVIOUS_STEP_MODAL,
   DELETE_PAY_RUN_DRAFT,
   EDIT_EXISTING_PAY_RUN,
+  LOAD_TIMESHEETS,
   NEXT_STEP,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
+  SELECT_ALL_TIMESHEETS,
+  SELECT_TIMESHEETS_ITEM,
   SET_ALERT,
   SET_EMPLOYEE_PAYMENTS,
   SET_LOADING_STATE,
   SET_STP_REGISTRATION_STATUS,
   SET_SUBMITTING_STATE,
   SET_TOTAL_NET_PAY,
+  SET_UNPROCESSED_TIMESHEET_LINES,
 } from './PayRunIntents';
 import { EMPLOYEE_PAY_LIST, PREPARE_PAY_SLIPS, START_PAY_RUN } from './payRunSteps';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -41,6 +45,8 @@ const getDefaultState = () => ({
     printPaySlipEmployees: [],
     emailPaySlipEmployees: [],
   },
+  timesheets: null,
+  unprocessedTimesheetLines: [],
   [START_PAY_RUN]: getStartPayRunDefaultState(),
   [EMPLOYEE_PAY_LIST]: getEmployeePayListDefaultState(),
   [PREPARE_PAY_SLIPS]: getPreparePaySlipsDefaultState(),
@@ -98,6 +104,14 @@ const setStpRegistrationStatus = (state, { stpRegistrationStatus }) => ({
   stpRegistrationStatus,
 });
 
+const loadTimesheets = (state, { response }) => ({
+  ...state,
+  timesheets: response.timesheets.map(t => ({
+    ...t,
+    isSelected: true,
+  })),
+});
+
 const setEmployeePayments = (state, { response }) => ({
   ...state,
   [PREPARE_PAY_SLIPS]: {
@@ -124,7 +138,12 @@ const isEmployeeSelected = (employeeId, selectedEmployeeIds) => (
   selectedEmployeeIds.includes(employeeId));
 
 const editExistingPayRun = (state, action) => {
-  const { employeePays, selectedEmployeeIds, ...draftPayRunDetails } = action.draftPayRun;
+  const {
+    employeePays,
+    selectedEmployeeIds,
+    unprocessedTimesheetSelections,
+    ...draftPayRunDetails
+  } = action.draftPayRun;
 
   const { draftPayRun, ...startPayRunMinusDraftPayRun } = state[START_PAY_RUN];
   const startPayRun = {
@@ -137,6 +156,7 @@ const editExistingPayRun = (state, action) => {
 
   return {
     ...state,
+    unprocessedTimesheetLines: unprocessedTimesheetSelections,
     [START_PAY_RUN]: {
       ...startPayRun,
     },
@@ -149,6 +169,31 @@ const editExistingPayRun = (state, action) => {
   };
 };
 
+const selectAllTimesheets = (state, { isSelected }) => ({
+  ...state,
+  timesheets: state.timesheets.map(t => ({
+    ...t,
+    isSelected,
+  })),
+});
+
+const selectTimesheetItem = (state, action) => ({
+  ...state,
+  timesheets: state.timesheets.map(t => (
+    t.timesheetDate === action.item.timesheetDate
+    && t.employeeId === action.item.employeeId
+      ? { ...t, isSelected: action.isSelected } : t
+  )),
+});
+
+const concatArrays = (a, b) => (a.concat(b));
+const setUnprocessedTimesheetLines = state => ({
+  ...state,
+  unprocessedTimesheetLines: state.timesheets
+    .filter(t => t.isSelected)
+    .map(t => t.timesheetLines)
+    .reduce(concatArrays, []),
+});
 
 const handlers = {
   [RESET_STATE]: resetState,
@@ -165,6 +210,10 @@ const handlers = {
   [DELETE_PAY_RUN_DRAFT]: deletePayRunDraft,
   [EDIT_EXISTING_PAY_RUN]: editExistingPayRun,
   [SET_STP_REGISTRATION_STATUS]: setStpRegistrationStatus,
+  [LOAD_TIMESHEETS]: loadTimesheets,
+  [SELECT_ALL_TIMESHEETS]: selectAllTimesheets,
+  [SELECT_TIMESHEETS_ITEM]: selectTimesheetItem,
+  [SET_UNPROCESSED_TIMESHEET_LINES]: setUnprocessedTimesheetLines,
   ...wrapHandlers(START_PAY_RUN, startPayRunHandlers),
   ...wrapHandlers(EMPLOYEE_PAY_LIST, employeePayListHandlers),
   ...wrapHandlers(PREPARE_PAY_SLIPS, preparePaySlipsHandlers),

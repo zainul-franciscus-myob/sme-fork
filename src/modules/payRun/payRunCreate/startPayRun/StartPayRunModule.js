@@ -21,8 +21,12 @@ export default class StartPayRunModule {
   }
 
   createNewPayRun = () => {
-    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.deleteDraft();
+    this.loadTimesheets();
+  };
 
+  deleteDraft = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     const onSuccess = () => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.dismissAlert();
@@ -35,7 +39,26 @@ export default class StartPayRunModule {
     };
 
     this.integrator.deleteDraft({ onSuccess, onFailure });
-  };
+  }
+
+  loadTimesheets = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    const onSuccess = (response) => {
+      this.dispatcher.loadTimesheets(response);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadTimesheets({ timesheets: [] });
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.loadTimesheets({ onSuccess, onFailure });
+  }
 
   editExistingPayRun = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -60,8 +83,13 @@ export default class StartPayRunModule {
     window.location.href = getPayRunListUrl(state);
   };
 
+  setUnprocessedTimesheetLines = () => {
+    this.dispatcher.setUnprocessedTimesheetLines();
+  }
+
   loadEmployeePays = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.setUnprocessedTimesheetLines();
 
     const onSuccess = (employeePays) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
@@ -79,6 +107,14 @@ export default class StartPayRunModule {
     this.integrator.loadEmployeePays({ onSuccess, onFailure });
   };
 
+  selectAllTimesheets = (isSelected) => {
+    this.dispatcher.selectAllTimesheets(isSelected);
+  }
+
+  selectTimesheetsItem = (item, isSelected) => {
+    this.dispatcher.selectTimesheetsItem(item, isSelected);
+  }
+
   getView() {
     return (
       <StartPayRunView
@@ -87,6 +123,8 @@ export default class StartPayRunModule {
         onExistingPayRunModalCreateClick={this.createNewPayRun}
         onExistingPayRunModalEditClick={this.editExistingPayRun}
         onExistingPayRunModalGoBackClick={this.goToPayRunList}
+        selectAll={this.selectAllTimesheets}
+        selectItem={this.selectTimesheetsItem}
       />
     );
   }

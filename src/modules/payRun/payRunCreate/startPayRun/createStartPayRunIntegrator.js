@@ -2,9 +2,11 @@ import {
   DELETE_PAY_RUN_DRAFT, LOAD_EMPLOYEE_PAYS, LOAD_STP_REGISTRATION_STATUS,
 } from '../PayRunIntents';
 import { getBusinessId } from '../PayRunSelectors';
-import { getCurrentEditingPayRun } from './StartPayRunSelectors';
+import { getLoadEmployeePaysRequestContent } from './StartPayRunSelectors';
+import createPayRunIntegrator from '../createPayRunIntegrator';
 
 const createStartPayRunIntegrator = (store, integration) => ({
+  ...createPayRunIntegrator(store, integration),
   loadEmployeePays: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = LOAD_EMPLOYEE_PAYS;
@@ -12,12 +14,12 @@ const createStartPayRunIntegrator = (store, integration) => ({
     const businessId = getBusinessId(state);
     const urlParams = { businessId };
 
-    const params = getCurrentEditingPayRun(state);
+    const content = getLoadEmployeePaysRequestContent(state);
 
-    integration.read({
+    integration.write({
       intent,
       urlParams,
-      params,
+      content,
       onSuccess,
       onFailure,
     });

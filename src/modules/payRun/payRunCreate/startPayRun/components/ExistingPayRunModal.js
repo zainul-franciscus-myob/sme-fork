@@ -54,7 +54,7 @@ const ExistingPayRunModal = ({
           <Button key="editExistingPayRunButton" type="secondary" onClick={onEditExistingPayRunClick}>
               Edit existing pay run
           </Button>,
-          <Button key="createPayRunButton" type="primary" onClick={onCreatePayRunClick}>
+          <Button key="createPayRunButton" testid="createPayRunButton" type="primary" onClick={onCreatePayRunClick}>
               Create pay run
           </Button>,
         ]}

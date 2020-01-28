@@ -2,6 +2,7 @@ import {
   DELETE_PAY_RUN_DRAFT,
   LOAD_EMPLOYEE_PAYS,
   LOAD_STP_REGISTRATION_STATUS,
+  LOAD_TIMESHEETS,
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
   SAVE_DRAFT,
@@ -11,6 +12,7 @@ import {
 } from '../payRunCreate/PayRunIntents';
 import { EXPORT_TRANSACTION_PDF } from '../payRunIntents';
 import loadEmployeePayList from './data/payRun/loadEmployeePayList';
+import loadTimesheets from './data/payRun/loadTimesheets';
 import recalculatedEmployeePay from './data/payRun/recalculatedEmployeePay';
 import recordPayments from './data/payRun/recordPayments';
 import startNewPayRun from './data/payRun/startNewPayRun';
@@ -31,6 +33,7 @@ const PayRunMapping = {
   [LOAD_STP_REGISTRATION_STATUS]: ({ onSuccess }) => onSuccess(stpRegistrationStatus),
   [EXPORT_TRANSACTION_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [SAVE_DRAFT]: ({ onSuccess }) => onSuccess({ message: 'Saved the draft successfully' }),
+  [LOAD_TIMESHEETS]: ({ onSuccess }) => onSuccess(loadTimesheets),
 };
 
 export default PayRunMapping;

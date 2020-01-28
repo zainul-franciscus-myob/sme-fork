@@ -1,6 +1,7 @@
 import {
   CLOSE_PREVIOUS_STEP_MODAL,
   DELETE_PAY_RUN_DRAFT,
+  LOAD_TIMESHEETS,
   NEXT_STEP,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
@@ -88,6 +89,11 @@ const createPayRunDispatchers = store => ({
   previousStep: () => {
     const intent = PREVIOUS_STEP;
     store.dispatch({ intent });
+  },
+
+  loadTimesheets: (response) => {
+    const intent = LOAD_TIMESHEETS;
+    store.dispatch({ intent, response });
   },
 });
 

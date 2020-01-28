@@ -59,6 +59,7 @@ export default class PayRunModule {
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.startNewPayRun(response);
+      if (!response.draftPayRun) this.loadTimesheets();
     };
 
     const onFailure = () => {
@@ -67,6 +68,25 @@ export default class PayRunModule {
 
     this.integrator.startNewPayRun({ onSuccess, onFailure });
   };
+
+  loadTimesheets = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    const onSuccess = (response) => {
+      this.dispatcher.loadTimesheets(response);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadTimesheets({ timesheets: [] });
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.loadTimesheets({ onSuccess, onFailure });
+  }
 
   deleteDraftAndGoBack = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);

@@ -1,4 +1,4 @@
-import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../../PayRunIntents';
+import { SET_PAY_PERIOD_DETAILS, SET_UNPROCESSED_TIMESHEET_LINES, START_NEW_PAY_RUN } from '../../PayRunIntents';
 import payRunReducer from '../../payRunReducer';
 import startNewPayRun from '../../../mappings/data/payRun/startNewPayRun.json';
 
@@ -84,6 +84,61 @@ describe('startPayRunReducer', () => {
       const actual = payRunReducer(state, action);
 
       expect(actual.startPayRun.currentEditingPayRun.payPeriodStart).toEqual(expected);
+    });
+  });
+
+  describe('setUnprocessedTimesheetLines', () => {
+    it('sets unprocessed timesheet lines', () => {
+      const state = {
+        unprocessedTimesheetLines: [],
+        timesheets: [
+          {
+            isSelected: true,
+            timesheetLines: [
+              {
+                one: 'one',
+              },
+              {
+                two: 'two',
+              },
+            ],
+          },
+          {
+            isSelected: false,
+            timesheetLines: [
+              {
+                three: 'three',
+              },
+            ],
+          },
+          {
+            isSelected: true,
+            timesheetLines: [
+              {
+                four: 'four',
+              },
+            ],
+          },
+        ],
+      };
+      const expected = {
+        ...state,
+        unprocessedTimesheetLines: [
+          {
+            one: 'one',
+          },
+          {
+            two: 'two',
+          },
+          {
+            four: 'four',
+          },
+        ],
+      };
+
+      const actual = payRunReducer(state, { intent: SET_UNPROCESSED_TIMESHEET_LINES });
+
+      expect(actual).toEqual(expected);
     });
   });
 });

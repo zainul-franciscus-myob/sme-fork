@@ -2,10 +2,10 @@ import { createSelector } from 'reselect';
 
 export const getStartPayRun = state => state.startPayRun;
 
-export const getCurrentEditingPayRun = createSelector(
-  getStartPayRun,
-  startPayRun => startPayRun.currentEditingPayRun,
-);
+export const getLoadEmployeePaysRequestContent = state => ({
+  ...state.startPayRun.currentEditingPayRun,
+  unprocessedTimesheetLines: state.unprocessedTimesheetLines,
+});
 
 export const getRegularPayCycleOptions = state => (
   state.startPayRun.regularPayCycleOptions || []
@@ -30,3 +30,10 @@ export const getDateOfPayment = createSelector(
   getDraftPayRun,
   draftPayRun => draftPayRun.paymentDate,
 );
+export const getTimesheets = state => state.timesheets;
+export const getLoadTimesheetsParams = state => ({
+  paymentDate: state.startPayRun.currentEditingPayRun.paymentDate,
+  payPeriodStart: state.startPayRun.currentEditingPayRun.payPeriodStart,
+  payPeriodEnd: state.startPayRun.currentEditingPayRun.payPeriodEnd,
+  paymentFrequency: state.startPayRun.currentEditingPayRun.paymentFrequency,
+});

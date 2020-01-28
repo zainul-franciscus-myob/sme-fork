@@ -1,7 +1,7 @@
 import {
-  getCurrentEditingPayRun,
   getDateOfPayment,
   getDraftPayRun,
+  getLoadEmployeePaysRequestContent,
   getPayPeriodEnd,
   getPayPeriodStart,
 } from '../StartPayRunSelectors';
@@ -76,18 +76,28 @@ describe('StartPayRunSelectors', () => {
     });
   });
 
-  describe('getCurrentEditingPayRun', () => {
-    it('returns the current editing pay run', () => {
+  describe('getLoadEmployeePaysRequestContent', () => {
+    it('returns request content of loadEmployeePays endpoint', () => {
       const state = {
         startPayRun: {
           currentEditingPayRun: {
             something: 'something',
           },
         },
+        unprocessedTimesheetLines: [
+          {
+            timesheetLine: 'timesheetLine',
+          },
+        ],
       };
-      const expected = { something: 'something' };
+      const expected = {
+        something: 'something',
+        unprocessedTimesheetLines: [{
+          timesheetLine: 'timesheetLine',
+        }],
+      };
 
-      const actual = getCurrentEditingPayRun(state);
+      const actual = getLoadEmployeePaysRequestContent(state);
 
       expect(actual).toEqual(expected);
     });

@@ -101,11 +101,13 @@ const getSelectedEmployeeIds = state => (
 );
 
 const getEmployeePays = state => (state.employeePayList.lines);
+const getUnprocessedTimesheetLines = state => state.unprocessedTimesheetLines;
 
 export const getSaveDraftContent = state => ({
   ...state.startPayRun.currentEditingPayRun,
   selectedEmployeeIds: getSelectedEmployeeIds(state),
   employeePays: getEmployeePays(state),
+  unprocessedTimesheetSelections: getUnprocessedTimesheetLines(state),
 });
 
 export const getPayrollSettingsLink = (state) => {

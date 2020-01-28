@@ -1,16 +1,26 @@
 import { mount } from 'enzyme';
 
+import { LOAD_TIMESHEETS, START_NEW_PAY_RUN } from '../PayRunIntents';
+import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import PayRunModule from '../PayRunModule';
+import loadTimesheetsResponse from '../../mappings/data/payRun/loadTimesheets';
 import startNewPayRunResponse from '../../mappings/data/payRun/startNewPayRun';
 
 describe('PayRunModule', () => {
   const constructPayRunModule = (successResponse) => {
     const integration = {
-      read: ({ onSuccess }) => {
-        onSuccess(
-          successResponse || startNewPayRunResponse,
-        );
+      read: ({ intent, onSuccess }) => {
+        if (intent === START_NEW_PAY_RUN) {
+          onSuccess(
+            successResponse || startNewPayRunResponse,
+          );
+        } else if (intent === LOAD_TIMESHEETS) {
+          onSuccess(
+            loadTimesheetsResponse,
+          );
+        }
       },
+      write: () => {},
     };
 
     let wrapper;
@@ -68,6 +78,39 @@ describe('PayRunModule', () => {
       const modal = wrapper.find({ testid: 'existingPayRunModal' });
 
       expect(modal).toHaveLength(1);
+    });
+  });
+
+  describe('load timesheets', () => {
+    it('loads timesheets when there is no draft pay run', () => {
+      const successResponse = {
+        ...startNewPayRunResponse,
+        draftPayRun: null,
+      };
+      const wrapper = constructPayRunModule(successResponse);
+
+      const timesheetsTable = wrapper.find({ testid: 'timesheetsTable' });
+
+      expect(timesheetsTable).toHaveLength(1);
+    });
+
+    it('does not load timesheets when there is a draft pay run', () => {
+      const wrapper = constructPayRunModule();
+
+      const timesheetsTable = wrapper.find({ testid: 'timesheetsTable' });
+
+      expect(timesheetsTable).toHaveLength(0);
+    });
+
+    it('loads timesheets when there is a draft pay run and the user choose to create a new pay run', () => {
+      const wrapper = constructPayRunModule();
+      const createNewPayRunButton = findButtonWithTestId(wrapper, 'createPayRunButton');
+      createNewPayRunButton.simulate('click');
+      wrapper.update();
+
+      const timesheetsTable = wrapper.find({ testid: 'timesheetsTable' });
+
+      expect(timesheetsTable).toHaveLength(1);
     });
   });
 });
