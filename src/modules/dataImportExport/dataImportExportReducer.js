@@ -9,6 +9,7 @@ import {
   UPDATE_CONTACTS_TYPE,
   UPDATE_DUPLICATE_RECORDS_OPTION,
   UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL,
+  UPDATE_EXPORT_COMPANY_FILE_DETAIL,
   UPDATE_EXPORT_DATA_TYPE,
   UPDATE_IMPORT_DATA_TYPE,
 } from './DataImportExportIntents';
@@ -16,6 +17,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import ContactIdentifyBy from './types/ContactIdentifyBy';
 import ContactType from './types/ContactType';
 import DuplicateRecordOption from './types/DuplicateRecordOption';
+import ExportCompanyFileType from './types/ExportCompanyFileType';
 import ImportExportDataType from './types/ImportExportDataType';
 import LoadingState from '../../components/PageView/LoadingState';
 import TabItem from './types/TabItem';
@@ -46,6 +48,21 @@ const getDefaultState = () => ({
       financialYear: '',
       accountBalanceTransactionOptions: [],
       accountBalanceTransaction: '',
+    },
+    companyFile: {
+      dateFrom: '',
+      dateTo: '',
+      fileType: '',
+      clientCode: '',
+      fileTypeOptions: [
+        ExportCompanyFileType.CEE_DATA,
+        ExportCompanyFileType.MYE,
+        ExportCompanyFileType.MYOB_AE_MAS,
+        ExportCompanyFileType.MYOB_AO,
+        ExportCompanyFileType.MYOB_AO_CLASSIC,
+        ExportCompanyFileType.RECKON_APS,
+        ExportCompanyFileType.SAGE_HANDI_LEDGER,
+      ],
     },
   },
 });
@@ -169,6 +186,17 @@ const updateImportDataType = (state, action) => ({
   },
 });
 
+const updateExportCompanyFile = (state, action) => ({
+  ...state,
+  export: {
+    ...state.export,
+    companyFile: {
+      ...state.export.companyFile,
+      [action.key]: action.value,
+    },
+  },
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -184,6 +212,7 @@ const handlers = {
   [UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL]: updateExportChartOfAccountsDetail,
   [UPDATE_CONTACTS_IDENTIFY_BY]: updateContactsIdentifyBy,
   [UPDATE_CONTACTS_TYPE]: updateContactsType,
+  [UPDATE_EXPORT_COMPANY_FILE_DETAIL]: updateExportCompanyFile,
 };
 
 const dataImportExportReducer = createReducer(getDefaultState(), handlers);

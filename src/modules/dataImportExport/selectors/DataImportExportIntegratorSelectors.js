@@ -8,6 +8,7 @@ import {
   getImportFile,
   getRegion,
 } from './DataImportExportSelectors';
+import { getExportCompanyFile, getHasClientCode } from './ExportCompanyFileSelectors';
 
 const getImportRegion = createSelector(
   getRegion,
@@ -126,3 +127,17 @@ export const getExportChartOfAccountsQueryParams = createStructuredSelector({
   financialYear: getFinancialYear,
   accountBalanceTransaction: getAccountBalanceTransaction,
 });
+
+export const getExportCompanyFileQueryParams = (state) => {
+  const {
+    dateFrom, dateTo, fileType, clientCode,
+  } = getExportCompanyFile(state);
+  const hasMyobAeMas = getHasClientCode(state);
+
+  return {
+    dateFrom,
+    dateTo,
+    fileType,
+    clientCode: hasMyobAeMas ? clientCode : undefined,
+  };
+};

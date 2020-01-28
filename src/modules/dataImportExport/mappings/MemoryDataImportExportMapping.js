@@ -1,5 +1,6 @@
 import {
   EXPORT_CHART_OF_ACCOUNTS,
+  EXPORT_COMPANY_FILE,
   IMPORT_CHART_OF_ACCOUNTS,
   IMPORT_CONTACTS,
   IMPORT_EMPLOYEES,
@@ -14,12 +15,13 @@ import successMessage from './data/success.json';
 
 const loadDataImportExport = ({ onSuccess }) => onSuccess(loadDataImportExportResponse);
 const importEntity = ({ onSuccess }) => onSuccess(successMessage);
-const exportChartOfAccounts = ({ onSuccess }) => onSuccess(new Blob([], { type: 'text/plain' }));
+const exportEntity = ({ onSuccess }) => onSuccess(new Blob([], { type: 'text/plain' }));
 
 const MemoryDataImportExportMapping = {
   [LOAD_DATA_IMPORT_EXPORT]: loadDataImportExport,
   [IMPORT_CHART_OF_ACCOUNTS]: importEntity,
-  [EXPORT_CHART_OF_ACCOUNTS]: exportChartOfAccounts,
+  [EXPORT_CHART_OF_ACCOUNTS]: exportEntity,
+  [EXPORT_COMPANY_FILE]: exportEntity,
   [IMPORT_CONTACTS]: importEntity,
   [IMPORT_EMPLOYEES]: importEntity,
   [IMPORT_ITEMS]: importEntity,

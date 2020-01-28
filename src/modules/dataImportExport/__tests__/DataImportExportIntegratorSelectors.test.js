@@ -1,4 +1,10 @@
-import { getExportChartOfAccountsQueryParams, getImportChartOfAccountsPayload, getImportContactsPayload } from '../selectors/DataImportExportIntegratorSelectors';
+import {
+  getExportChartOfAccountsQueryParams,
+  getExportCompanyFileQueryParams,
+  getImportChartOfAccountsPayload,
+  getImportContactsPayload,
+} from '../selectors/DataImportExportIntegratorSelectors';
+import ExportCompanyFileType from '../types/ExportCompanyFileType';
 
 describe('DataImportExportIntegratorSelectors', () => {
   describe('getExportChartOfAccountsQueryParams', () => {
@@ -16,6 +22,31 @@ describe('DataImportExportIntegratorSelectors', () => {
       const expected = {
         financialYear: '2000',
         accountBalanceTransaction: 'someTransaction',
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getExportCompanyFileQueryParams', () => {
+    it('returns the right query params to export Chart of accounts data', () => {
+      const state = {
+        export: {
+          companyFile: {
+            dateFrom: '2020-01-01',
+            dateTo: '2020-01-31',
+            fileType: ExportCompanyFileType.MYOB_AE_MAS,
+            clientCode: 'ABC',
+          },
+        },
+      };
+
+      const actual = getExportCompanyFileQueryParams(state);
+      const expected = {
+        dateFrom: '2020-01-01',
+        dateTo: '2020-01-31',
+        fileType: ExportCompanyFileType.MYOB_AE_MAS,
+        clientCode: 'ABC',
       };
 
       expect(actual).toEqual(expected);

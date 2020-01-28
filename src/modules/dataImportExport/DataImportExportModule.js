@@ -1,11 +1,8 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  getCurrentDataTypeInCurrentTab,
-  getTab,
-  getUrlDataTypeParams,
-} from './selectors/DataImportExportSelectors';
+import { getCurrentDataTypeInCurrentTab, getTab, getUrlDataTypeParams } from './selectors/DataImportExportSelectors';
+import { getExportCompanyFileFileExtension } from './selectors/ExportCompanyFileSelectors';
 import DataImportExportView from './components/DataImportExportView';
 import ImportExportDataType from './types/ImportExportDataType';
 import LoadingState from '../../components/PageView/LoadingState';
@@ -67,6 +64,9 @@ export default class DataImportExportModule {
         this.exportChartOfAccounts();
         break;
       default:
+      case ImportExportDataType.COMPANY_FILE:
+        this.exportCompanyFile();
+        break;
     }
   }
 
@@ -134,6 +134,31 @@ export default class DataImportExportModule {
     this.integrator.exportChartOfAccounts({ onSuccess, onFailure });
   }
 
+  exportCompanyFile = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const fileExtension = getExportCompanyFileFileExtension(this.store.getState());
+
+    const onSuccess = (data) => {
+      this.dispatcher.updateExportDataType(ImportExportDataType.NONE);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.displaySuccessMessage('Export successful! A file has been downloaded.');
+
+      openBlob({
+        blob: data,
+        filename: `exportedCompanyFile.${fileExtension}`,
+        shouldDownload: true,
+      });
+    };
+
+    const onFailure = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.displayFailureAlert(response.message);
+    };
+
+    this.integrator.exportCompanyFile({ onSuccess, onFailure });
+  };
+
   displaySuccessMessage = successMessage => this.dispatcher.setAlert({
     message: successMessage,
     type: 'success',
@@ -188,6 +213,11 @@ export default class DataImportExportModule {
           }}
           onUpdateContactsIdentifyBy={this.updateContactsIdentifyBy}
           onUpdateContactsType={this.updateContactsType}
+          exportCompanyFileListeners={{
+            onChange: this.dispatcher.updateExportCompanyFileDetail,
+          }}
+          updateContactsIdentifyBy={this.updateContactsIdentifyBy}
+          updateContactsType={this.updateContactsType}
           onFileSelected={this.dispatcher.addImportFile}
           onFileRemove={this.dispatcher.removeImportFile}
           onDuplicateRecordsOptionChange={this.dispatcher.updateDuplicateRecordsOption}

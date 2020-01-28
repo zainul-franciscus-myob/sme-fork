@@ -9,6 +9,7 @@ import {
   UPDATE_CONTACTS_TYPE,
   UPDATE_DUPLICATE_RECORDS_OPTION,
   UPDATE_EXPORT_CHART_OF_ACCOUNTS_DETAIL,
+  UPDATE_EXPORT_COMPANY_FILE_DETAIL,
   UPDATE_EXPORT_DATA_TYPE,
   UPDATE_IMPORT_DATA_TYPE,
 } from './DataImportExportIntents';
@@ -125,6 +126,14 @@ const createDataImportExportDispatcher = store => ({
     store.dispatch({
       intent: UPDATE_CONTACTS_TYPE,
       type,
+    });
+  },
+
+  updateExportCompanyFileDetail: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_EXPORT_COMPANY_FILE_DETAIL,
+      key,
+      value,
     });
   },
 });

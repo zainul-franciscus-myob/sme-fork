@@ -7,6 +7,7 @@ const ImportExportDataType = {
   GENERAL_JOURNALS: 'generalJournals',
   TRANSACTION_JOURNALS: 'transactionJournals',
   TIMESHEETS: 'timesheets',
+  COMPANY_FILE: 'companyFile',
 };
 
 export default ImportExportDataType;

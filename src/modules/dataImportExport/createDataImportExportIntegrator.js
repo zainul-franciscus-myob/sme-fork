@@ -1,5 +1,6 @@
 import {
   EXPORT_CHART_OF_ACCOUNTS,
+  EXPORT_COMPANY_FILE,
   IMPORT_CHART_OF_ACCOUNTS,
   IMPORT_CONTACTS,
   IMPORT_EMPLOYEES,
@@ -12,6 +13,7 @@ import {
 import { getBusinessId } from '../linkedAccounts/LinkedAccountsSelectors';
 import {
   getExportChartOfAccountsQueryParams,
+  getExportCompanyFileQueryParams,
   getImportChartOfAccountsPayload,
   getImportContactsPayload,
   getImportEmployeesPayload,
@@ -148,6 +150,21 @@ const createDataImportExportIntegrator = (store, integration) => ({
 
     integration.readFile({
       intent: EXPORT_CHART_OF_ACCOUNTS,
+      params,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  exportCompanyFile: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+    const params = getExportCompanyFileQueryParams(state);
+
+    integration.readFile({
+      intent: EXPORT_COMPANY_FILE,
       params,
       urlParams,
       onSuccess,

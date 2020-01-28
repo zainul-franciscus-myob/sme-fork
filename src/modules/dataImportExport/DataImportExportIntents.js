@@ -22,3 +22,6 @@ export const EXPORT_CHART_OF_ACCOUNTS = Symbol('Export chart of accounts');
 
 export const UPDATE_CONTACTS_IDENTIFY_BY = Symbol('Update contacts identify by');
 export const UPDATE_CONTACTS_TYPE = Symbol('Update contacts type');
+
+export const UPDATE_EXPORT_COMPANY_FILE_DETAIL = Symbol('Update export company file detail');
+export const EXPORT_COMPANY_FILE = Symbol('Export company file');

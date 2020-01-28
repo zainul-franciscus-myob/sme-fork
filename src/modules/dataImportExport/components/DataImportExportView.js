@@ -1,11 +1,13 @@
-import {
-  Card, PageHead,
-} from '@myob/myob-widgets';
+import { Card, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getCurrentDataTypeInCurrentTab, getLoadingState, getModalType, getTab,
+  getAlert,
+  getCurrentDataTypeInCurrentTab,
+  getLoadingState,
+  getModalType,
+  getTab,
 } from '../selectors/DataImportExportSelectors';
 import Alert from './Alert';
 import DataImportExportActions from './DataImportExportActions';
@@ -30,6 +32,7 @@ const DataImportExportView = ({
   exportChartOfAccountsListeners,
   onUpdateContactsIdentifyBy,
   onUpdateContactsType,
+  exportCompanyFileListeners,
   selectedTab,
   onFileSelected,
   onFileRemove,
@@ -70,6 +73,7 @@ const DataImportExportView = ({
         [TabItem.EXPORT]: <ExportTabContent
           onUpdateExportDataType={onUpdateExportDataType}
           exportChartOfAccountsListeners={exportChartOfAccountsListeners}
+          exportCompanyFileListeners={exportCompanyFileListeners}
         />,
       }[selectedTab]}
     </Card>
