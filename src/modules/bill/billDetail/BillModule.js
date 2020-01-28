@@ -369,7 +369,11 @@ class BillModule {
 
   updateLayout = ({ value }) => {
     this.dispatcher.updateLayout({ value });
-    this.calculateBillLineTotals();
+
+    const state = this.store.getState();
+    if (!getIsLinesEmpty(state)) {
+      this.calculateBillLineTotals();
+    }
   }
 
   updateBillLine = ({ index, key, value }) => {
