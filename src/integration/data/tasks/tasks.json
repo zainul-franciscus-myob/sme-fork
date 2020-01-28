@@ -32,7 +32,7 @@
         "description": "Give your clients access to their software so they can get down to business",
         "key": "inviteUsers",
         "title": "Invite users",
-        "activities": [
+        "tasks": [
           {
             "action": "/#/{{region}}/{{cdfguid}}/invoiceBusinessSettings",
             "title": "Add business details",
