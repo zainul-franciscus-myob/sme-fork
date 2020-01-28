@@ -11,15 +11,15 @@ Following behavior are expected as part of responsive design.  Wrappers of Feeli
 Location: `./src/components/Tabs`
 
 - Tabs should transform into select input on smaller screen size.
-![](images/responsive-tabs-large.png)
-![](images/responsive-tabs-medium.png)
+![](../images/responsive-tabs-large.png)
+![](../images/responsive-tabs-medium.png)
 
 ### Button
 Location: `./src/components/Button`
 
 - Button text should break to a new line if the text is longer than available screen.
 
-![](images/resposinve-button-small.png)
+![](../images/resposinve-button-small.png)
 
 ### FilterBar
 Location: `./src/components/Feelix/FilterBar`

@@ -11,7 +11,7 @@
 Users of the web client are required to login with our internal identity services.
 Each service in our end-to-end systems chain is also required to register and validate each hop against those services.
 
-![auth flow diagram](images/authentication-flow.jpg)
+![auth flow diagram](../images/authentication-flow.jpg)
 
 1. Web UI asks IDS for an `Access Token`.
     1. Receives Access & ID Tokens.
@@ -40,7 +40,7 @@ The flow requires the use of 3 separate MYOB JavaScript SDKs.
 IDS Configuration is a whitelist of permitted service-to-service commincation.
 Each entry defines a permitted hop between two parties, you can conceptualise a series of permitted sequential API calls like this:
 
-![ids admin entries](images/ids-admin-entry.jpg)
+![ids admin entries](../images/ids-admin-entry.jpg)
 
 [IDS Admin Portal - SIT]: https://sit-admin.account.myob.com
 [IDS Admin Portal]: https://admin.account.myob.com

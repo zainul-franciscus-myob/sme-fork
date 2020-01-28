@@ -1,13 +1,13 @@
+# Architecture
+
 ## Technical Overview
 
-Both the Web UI & Web BFF are structured in a rough [ETL] shape.
+Both the Web UI & Web BFF are structured in a rough [ETL](https://en.wikipedia.org/wiki/Extract,_transform,_load) shape.
 Extract data, do Transformations on it, Load it somewhere else.
 They each have some other minor collaborators or controls used to help them achieve tasks, but
 at a top level these are the most fundamental building blocks of the apps.
 
-### The Diagram
-
-![overview diagram](images/overview.jpg)
+![overview diagram](../images/overview.jpg)
 
 ### Web UI
 
@@ -47,7 +47,7 @@ A Node process running Express. It turns complex responses from below the Seam i
 - Extract
     - Largely identical to the Integrations found in the Web UI.
 
-### Design Philosophies
+## Design Philosophies
 
 - We try to keep the Web UI thin, light and dumb. Its primary role is to render what it's given.
 - The BFF belongs to the UI, it lives to serve.
@@ -61,9 +61,9 @@ A Node process running Express. It turns complex responses from below the Seam i
     - Adhering to the design guidelines should make this work easy to 'push down' below the seam later, removing it from the BFF.
     - The BFF enables our team to work at a separate cadence from other 'downstream provider' teams.
 
-### Vertical Domain Silos
+## Vertical Domain Silos
 
-![package-by-feature](images/package-by-feature.jpg)
+![package-by-feature](../images/package-by-feature.jpg)
 
 - Our code is organised by Feature, not Function.
     - "Packaging stuff together by what it is, and not by what it does"
@@ -71,9 +71,5 @@ A Node process running Express. It turns complex responses from below the Seam i
 - We aim to be dry within a silo, but "wet" across them.
     - Don't rush to abstract and extract shared behaviours of Silos in an effort to be dry across them.
     - We favour the cost of duplication over the cost of the wrong abstraction.
-    - Isolated packages means we can easily build and deploy product variants. ie: "Here's a build without Banking". Easy, just exclude the package.
-
 - Delivering a new 'Screen' generally means creating a new package and adding each required component.
-    - You can think of this as making a 'vertical slice' through both  our UI or BFF software.
-
-[ETL]: https://en.wikipedia.org/wiki/Extract,_transform,_load
+    - You can think of this as making a 'vertical slice' through both our UI or BFF software.

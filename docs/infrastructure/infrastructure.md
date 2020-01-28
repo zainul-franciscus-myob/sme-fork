@@ -5,7 +5,7 @@
 
 ### What do we have?
 
-![web-infra-diagram](images/web-infra-diagram.jpg)
+![web-infra-diagram](../images/web-infra-diagram.jpg)
 
 Currently we use the same Cloudformation stack for both internal and 'prod' environments as their requirements don't differ.
 This is likely to change.

@@ -11,7 +11,7 @@
 
 The inbox (`./src/Inbox.js`) is a stack that delivers messages from one module to another.
 
-![simple inbox diagram](images/inbox-flow.jpg)
+![simple inbox diagram](../images/inbox-flow.jpg)
 
 1. Module A pushes a message into the inbox after a user has triggered an action.
 2. The URL is then changed.
