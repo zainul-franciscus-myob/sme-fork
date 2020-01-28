@@ -52,6 +52,7 @@ const getDefaultState = () => ({
     displayDiscount: '',
     amount: '',
     displayAmount: '',
+    displayUnitPrice: '',
   },
   totals: {
     subTotal: '0.00',

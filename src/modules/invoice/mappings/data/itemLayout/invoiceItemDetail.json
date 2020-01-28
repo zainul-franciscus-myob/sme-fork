@@ -28,6 +28,7 @@
         "taxCodeId": "2",
         "amount": "850.9111",
         "displayAmount": "850.91",
+        "displayUnitPrice": "520.00",
         "accountId": "92",
         "lineTypeId": 17
       }
@@ -182,7 +183,8 @@
     "taxCodeId": "",
     "amount": "",
     "displayAmount": "",
-    "lineTypeId": 17
+    "lineTypeId": 17,
+    "displayUnitPrice": ""
   },
   "serialNumber": "000000000000",
   "exportPdf": {

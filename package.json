@@ -16,7 +16,7 @@
     "@myob/ldal": "0.2.4",
     "@myob/myob-styles": "5.10.0",
     "@myob/myob-widgets": "5.10.2",
-    "@myob/tax-calculator": "0.0.9",
+    "@myob/tax-calculator": "0.0.10",
     "decimal.js": "^10.2.0",
     "abortcontroller-polyfill": "1.4.0",
     "chart.js": "2.9.3",

@@ -54,10 +54,12 @@ const buildItemLine = (line, key) => {
   }
 
   if (shouldCalculateUnitPrice(key, unitPrice)) {
+    const calculatedUnitPrice = calculateUnitPrice(units, amount).valueOf();
     return {
       ...updatedLine,
       discount: '',
-      unitPrice: formatAmount(calculateUnitPrice(units, amount)),
+      unitPrice: calculatedUnitPrice,
+      displayUnitPrice: formatAmount(calculatedUnitPrice),
     };
   }
 
@@ -142,7 +144,8 @@ export const calculateLineTotals = (state, { taxCalculations: { lines, totals } 
         ...line,
         amount: amount.valueOf(),
         displayAmount: formatAmount(amount.valueOf()),
-        unitPrice: formatAmount(calculatedUnitPrice.valueOf()),
+        unitPrice: calculatedUnitPrice.valueOf(),
+        displayUnitPrice: formatAmount(calculatedUnitPrice.valueOf()),
       };
     }),
   },

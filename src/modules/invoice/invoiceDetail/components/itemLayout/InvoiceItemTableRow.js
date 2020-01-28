@@ -100,7 +100,7 @@ const InvoiceItemTableRow = ({
 
       <AmountInput
         name="unitPrice"
-        value={invoiceLine.unitPrice}
+        value={invoiceLine.displayUnitPrice}
         onChange={onAmountInputChange('unitPrice', onChange)}
         onBlur={onInputBlur(onUpdateAmount, index, 'unitPrice')}
         textAlign="right"

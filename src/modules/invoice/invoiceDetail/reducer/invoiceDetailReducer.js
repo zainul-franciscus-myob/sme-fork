@@ -196,6 +196,7 @@ const updateInvoiceLine = (state, action) => {
   const isUpdateDiscount = action.key === 'discount';
   const isUpdateAmount = action.key === 'amount';
   const isUpdateAccountId = action.key === 'accountId';
+  const isUpdateUnitPrice = action.key === 'unitPrice';
 
   const getLayout = (layout, key) => {
     const isItemLayout = layout === InvoiceLayout.ITEM;
@@ -226,6 +227,7 @@ const updateInvoiceLine = (state, action) => {
               : line.taxCodeId,
             displayDiscount: isUpdateDiscount ? action.value : line.displayDiscount,
             displayAmount: isUpdateAmount ? action.value : line.displayAmount,
+            displayUnitPrice: isUpdateUnitPrice ? action.value : line.displayUnitPrice,
             [action.key]: action.value,
           };
         }
