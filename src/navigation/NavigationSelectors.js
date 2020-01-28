@@ -10,6 +10,8 @@ export const getUserEmail = state => state.userEmail;
 const getEnabledFeatures = state => state.enabledFeatures;
 export const getIsReadOnly = state => state.isReadOnly;
 const getCurrentRouteName = state => state.currentRouteName;
+export const getIsCurrentUserAdvisor = state => state.isCurrentUserAdvisor;
+
 const getUrls = state => state.urls;
 
 export const getBusinessId = ({ routeParams: { businessId = '' } }) => businessId;

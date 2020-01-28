@@ -12,6 +12,7 @@ const getDefaultState = () => ({
   currentRouteName: '',
   selfServicePortalUrl: '',
   myReportsUrl: '',
+  isCurrentUserAdvisor: false,
 });
 
 const loadBusinessDetails = (state, action) => ({
@@ -21,6 +22,7 @@ const loadBusinessDetails = (state, action) => ({
   userEmail: action.userEmail,
   enabledFeatures: action.enabledFeatures,
   isReadOnly: action.isReadOnly,
+  isCurrentUserAdvisor: action.isCurrentUserAdvisor,
 });
 
 const setRouteInfo = (state, action) => ({

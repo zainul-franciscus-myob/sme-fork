@@ -41,10 +41,22 @@ export default class NavigationModule {
       businessId,
     };
     const onSuccess = ({
-      businessName, serialNumber, region, userEmail, enabledFeatures, isReadOnly,
+      businessName,
+      serialNumber,
+      region,
+      userEmail,
+      enabledFeatures,
+      isReadOnly,
+      isCurrentUserAdvisor,
     }) => {
       this.store.dispatch({
-        intent, businessName, serialNumber, userEmail, enabledFeatures, isReadOnly,
+        intent,
+        businessName,
+        serialNumber,
+        userEmail,
+        enabledFeatures,
+        isReadOnly,
+        isCurrentUserAdvisor,
       });
 
       this.replaceURLParamsAndReload({ businessId, region: region.toLowerCase() });

@@ -9,6 +9,7 @@ import {
   getActiveNav,
   getBusinessName,
   getBusinessUrls,
+  getIsCurrentUserAdvisor,
   getIsReadOnly,
   getSerialNumber,
   getUserEmail,
@@ -35,15 +36,19 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
   />
 );
 
-const getMenuLinkWithIcon = (url, label, icon, onMenuLinkClick) => (
+const getMenuLinkWithIcon = (url, label, icon, onMenuLinkClick, target) => (
   <Navigation.MenuLink
     key={label}
     url={url}
     label={label}
     onClick={handleMenuLinkClick(onMenuLinkClick, url)}
     icon={icon}
+    target={target}
   />
 );
+
+const manageMyClientsMenuItem = onMenuLinkClick => getMenuLinkWithIcon('https://partner.myob.com/ledgers/live', 'Manage my client', <Icons.Switch />, onMenuLinkClick, '_blank');
+const switchBusinessMenuItem = onMenuLinkClick => getMenuLinkWithIcon('#/businesses', 'Switch business', <Icons.Switch />, onMenuLinkClick, undefined);
 
 const getDisabledMenuLink = label => (
   <Navigation.MenuLink key={label} url="" label={label} disabled />
@@ -55,9 +60,9 @@ const UnlinkedMenuLink = ({ label, className }) => (
 );
 
 const getItems = ({
-  urls, serialNumber, userEmail, onMenuLinkClick, onSubscribeNowClick,
+  urls, serialNumber, userEmail, onMenuLinkClick, isCurrentUserAdvisor, onSubscribeNowClick,
 }) => [
-  getMenuLinkWithIcon('#/businesses', 'Switch business', <Icons.Switch />, onMenuLinkClick),
+  isCurrentUserAdvisor ? manageMyClientsMenuItem : switchBusinessMenuItem,
   <Navigation.Separator key="separator-switch-business" />,
   urls.businessDetails && getMenuLink(urls.businessDetails, 'Business details', onMenuLinkClick),
   urls.incomeAllocation && getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
@@ -92,6 +97,7 @@ const BusinessMenu = ({
   userEmail,
   urls,
   activeNav,
+  isCurrentUserAdvisor,
   onMenuSelect,
   onMenuLinkClick,
   onSubscribeNowClick,
@@ -108,7 +114,7 @@ const BusinessMenu = ({
         </div>
     )}
       items={getItems({
-        urls, serialNumber, userEmail, onMenuLinkClick, onSubscribeNowClick,
+        urls, serialNumber, userEmail, onMenuLinkClick, isCurrentUserAdvisor, onSubscribeNowClick,
       })}
       onSelect={onMenuSelect}
       active={activeNav === 'business'}
@@ -123,6 +129,8 @@ const mapStateToProps = state => ({
   userEmail: getUserEmail(state),
   activeNav: getActiveNav(state),
   isReadOnly: getIsReadOnly(state),
+  isCurrentUserAdvisor: getIsCurrentUserAdvisor(state),
+
 });
 
 export default connect(mapStateToProps)(BusinessMenu);
