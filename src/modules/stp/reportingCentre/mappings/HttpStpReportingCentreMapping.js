@@ -4,12 +4,19 @@ import {
   LOAD_PAY_EVENT_DETAILS,
 } from '../reports/ReportsIntents';
 import {
+  FILTER_TERMINATION_EMPLOYEES,
+  LOAD_TERMINATION_EMPLOYEES,
+} from '../termination/TerminationIntents';
+import {
   LOAD_ATO_SETTINGS,
   UPDATE_AGENT_CONTACT,
   UPDATE_BUSINESS_CONTACT,
   UPDATE_BUSINESS_DETAILS,
 } from '../atoSettings/AtoSettingsIntents';
-import { LOAD_STP_REGISTRATION_STATUS } from '../ReportingCentreIntents';
+import {
+  LOAD_STP_REGISTRATION_STATUS,
+  UPDATE_STP_EMPLOYEES,
+} from '../ReportingCentreIntents';
 
 const HttpStpReportingCentreMapping = {
   [LOAD_STP_REGISTRATION_STATUS]: {
@@ -43,6 +50,18 @@ const HttpStpReportingCentreMapping = {
   [LOAD_PAY_EVENT_DETAILS]: {
     method: 'GET',
     getPath: ({ businessId, payEventId }) => `/${businessId}/stp/pay_events/${payEventId}`,
+  },
+  [LOAD_TERMINATION_EMPLOYEES]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/stp/termination_employees`,
+  },
+  [FILTER_TERMINATION_EMPLOYEES]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/stp/filter_termination_employees`,
+  },
+  [UPDATE_STP_EMPLOYEES]: {
+    method: 'PUT',
+    getPath: ({ businessId }) => `/${businessId}/stp/stp_employees`,
   },
 };
 

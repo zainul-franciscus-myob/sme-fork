@@ -1,17 +1,133 @@
+import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getSelectedPayrollYear, getStpDeclarationContext } from './TerminationSelector';
+import LoadingState from '../../../../components/PageView/LoadingState';
+import Store from '../../../../store/Store';
+import StpDeclarationModalModule from '../../stpDeclarationModal/StpDeclarationModalModule';
 import TerminationView from './components/TerminationView';
+import createTerminationDispatcher from './createTerminationDispatcher';
+import createTerminationIntegrator from './createTerminationIntegrator';
+import terminationReducer from './TerminationReducer';
 
 export default class TerminationModule {
   constructor({
     integration,
-    store,
+    context,
+    setAlert,
   }) {
+    this.store = new Store(terminationReducer);
+    this.setAlert = setAlert;
     this.integration = integration;
-    this.store = store;
+    this.dispatcher = createTerminationDispatcher(this.store);
+    this.integrator = createTerminationIntegrator(this.store, integration);
+    this.stpDeclarationModule = new StpDeclarationModalModule({ integration });
+
+    this.dispatcher.setInitialState(context);
   }
 
-  run = () => {};
+  loadEmployeesForThisYear = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
-  getView = () => (<TerminationView />);
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setEmployees(response);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadEmployeesForThisYear({ onSuccess, onFailure });
+  };
+
+  filterEmployeesByYear = (payrollYear) => {
+    this.dispatcher.setSelectedPayrollYear(payrollYear);
+    this.dispatcher.clearEmployees();
+    this.dispatcher.setTableLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setFilteredEmployees(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.clearEmployees();
+      this.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.filterEmployees({ onSuccess, onFailure });
+  };
+
+  terminateEmployees = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({ type: 'success', message });
+      this.dispatcher.setNewEventId();
+      this.filterEmployeesByYear(getSelectedPayrollYear(this.store.getState()));
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.terminateEmployee({ onSuccess, onFailure });
+  };
+
+  onTerminateEmployees = () => {
+    const context = getStpDeclarationContext(this.store.getState());
+    this.stpDeclarationModule.run(context, this.terminateEmployees);
+  };
+
+  unterminateEmployee = employee => () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({ type: 'success', message });
+      this.dispatcher.setNewEventId();
+      this.filterEmployeesByYear(getSelectedPayrollYear(this.store.getState()));
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.unterminateEmployee({ employee, onSuccess, onFailure });
+  };
+
+  onUnterminateEmployee = employee => () => {
+    const context = getStpDeclarationContext(this.store.getState());
+    this.stpDeclarationModule.run(context, this.unterminateEmployee(employee));
+  };
+
+  onTerminationDateChange = employee => ({ value }) => {
+    this.dispatcher.setTerminationDate(employee, value);
+  };
+
+  run = () => {
+    this.loadEmployeesForThisYear();
+  };
+
+  getView() {
+    const declarationModal = this.stpDeclarationModule.getView();
+
+    return (
+      <Provider store={this.store}>
+        {declarationModal}
+        <TerminationView
+          onPayrollYearChange={this.filterEmployeesByYear}
+          onEmployeeSelected={this.dispatcher.setSelectedEmployee}
+          onTerminationDateChange={this.onTerminationDateChange}
+          onTerminateEmployees={this.onTerminateEmployees}
+          onUnterminateEmployee={this.onUnterminateEmployee}
+        />
+      </Provider>
+    );
+  }
 }

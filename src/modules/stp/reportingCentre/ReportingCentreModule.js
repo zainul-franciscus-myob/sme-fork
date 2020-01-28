@@ -10,12 +10,12 @@ import {
 import { tabIds } from './TabItems';
 import AtoSettingsModule from './atoSettings/AtoSettingsModule';
 // import FinalisationModule from './finalistion/FinalisationModule';
+import LoadingState from '../../../components/PageView/LoadingState';
+import ReportingCentreReducer from './ReportingCentreReducer';
 import ReportingCentreView from './components/ReportingCentreView';
 import ReportsModule from './reports/ReportsModule';
 import Store from '../../../store/Store';
-// import TerminationModule from './termination/TerminationModule';
-import LoadingState from '../../../components/PageView/LoadingState';
-import ReportingCentreReducer from './ReportingCentreReducer';
+import TerminationModule from './termination/TerminationModule';
 import createReportingCentreDispatcher from './createReportingCentreDispatcher';
 import createReportingCentreIntegrator from './createReportingCentreIntegrator';
 
@@ -42,9 +42,11 @@ export default class ReportingCentreModule {
         context,
         setAlert: this.dispatcher.setAlert,
       }),
-      // [tabIds.terminations]: new TerminationModule({
-      //   integration,
-      // }),
+      [tabIds.terminations]: new TerminationModule({
+        integration: this.integration,
+        context,
+        setAlert: this.dispatcher.setAlert,
+      }),
       // [tabIds.finalisation]: new FinalisationModule({
       //   integration,
       // }),

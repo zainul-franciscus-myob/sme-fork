@@ -10,7 +10,7 @@ import createStpDeclarationModalIntegrator from './createStpDeclarationIntegrato
 export default class StpDeclarationModalModule {
   constructor({ integration, onDeclared }) {
     this.store = new Store(StpDeclarationModalReducer);
-    this.onDeclared = onDeclared;
+    this.onDeclared = onDeclared || (() => {});
     this.dispatcher = createStpDeclarationModalDispatcher(this.store);
     this.integrator = createStpDeclarationModalIntegrator(this.store, integration);
   }
@@ -36,9 +36,10 @@ export default class StpDeclarationModalModule {
     this.integrator.recordStpDeclaration({ onSuccess, onFailure });
   };
 
-  run = (context) => {
+  run = (context, onDeclared) => {
     this.dispatcher.setInitialState(context);
     this.dispatcher.openModal();
+    this.onDeclared = onDeclared || this.onDeclared;
   };
 
   getView() {
