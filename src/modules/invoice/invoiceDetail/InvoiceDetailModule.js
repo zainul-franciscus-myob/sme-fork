@@ -21,6 +21,7 @@ import {
   getRouteURLParams,
   getShouldReload,
   getShowOnlinePayment,
+  getTaxCalculations,
 } from './selectors/invoiceDetailSelectors';
 import {
   getCreateDuplicateInvoiceUrl,
@@ -419,69 +420,28 @@ export default class InvoiceDetailModule {
     if (isTableEmpty) {
       this.dispatcher.resetInvoiceItemTotals();
     } else {
-      this.dispatcher.setSubmittingState(true);
-
-      const onSuccess = (response) => {
-        this.dispatcher.calculateLineTotals(response);
-        this.dispatcher.setSubmittingState(false);
-      };
-
-      const onFailure = ({ message }) => {
-        this.displayFailureAlert(message);
-        this.dispatcher.setSubmittingState(false);
-      };
-
-      this.integrator.calculateLineTotals({ onSuccess, onFailure });
+      const taxCalculations = getTaxCalculations(state, false);
+      this.dispatcher.calculateLineTotals(taxCalculations);
     }
   }
 
   calculateLineTotalsOnTaxInclusiveChange = () => {
     const state = this.store.getState();
-
-    const isTableEmpty = getIsTableEmpty(state);
-
-    if (isTableEmpty) {
-      this.dispatcher.resetInvoiceItemTotals();
-    } else {
-      this.dispatcher.setSubmittingState(true);
-
-      const onSuccess = (response) => {
-        this.dispatcher.calculateLineTotals(response);
-        this.dispatcher.setSubmittingState(false);
-      };
-
-      const onFailure = ({ message }) => {
-        this.displayFailureAlert(message);
-        this.dispatcher.setSubmittingState(false);
-      };
-
-      this.integrator.calculateLineTotalsOnTaxInclusiveChange({ onSuccess, onFailure });
-    }
+    const taxCalculations = getTaxCalculations(state, true);
+    this.dispatcher.calculateLineTotals(taxCalculations);
   }
 
-
   calculateLineTotalsOnAmountChange = ({ index, key }) => {
+    this.dispatcher.calculateLineAmounts({
+      index,
+      key,
+    });
     const state = this.store.getState();
-
     const isLineAmountDirty = getIsLineAmountDirty(state);
     if (isLineAmountDirty) {
-      this.dispatcher.setSubmittingState(true);
-
-      const onSuccess = (response) => {
-        this.dispatcher.calculateLineTotals(response);
-        this.dispatcher.setInvoiceItemLineDirty(false);
-        this.dispatcher.setSubmittingState(false);
-      };
-
-      const onFailure = ({ message }) => {
-        this.displayFailureAlert(message);
-        this.dispatcher.setInvoiceItemLineDirty(false);
-        this.dispatcher.setSubmittingState(false);
-      };
-
-      this.integrator.calculateLineTotalsOnAmountChange({
-        onSuccess, onFailure, index, key,
-      });
+      const taxCalculations = getTaxCalculations(state, false);
+      this.dispatcher.calculateLineTotals(taxCalculations);
+      this.dispatcher.setInvoiceItemLineDirty(false);
     }
   }
 
@@ -489,7 +449,13 @@ export default class InvoiceDetailModule {
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = (response) => {
-      this.dispatcher.calculateLineTotals(response);
+      this.dispatcher.loadItemSellingDetails({
+        index,
+        itemSellingDetails: response,
+      });
+      const state = this.store.getState();
+      const taxCalculations = getTaxCalculations(state, false);
+      this.dispatcher.calculateLineTotals(taxCalculations);
       this.dispatcher.setSubmittingState(false);
     };
 
@@ -498,7 +464,7 @@ export default class InvoiceDetailModule {
       this.dispatcher.setSubmittingState(false);
     };
 
-    this.integrator.calculateLineTotalsOnItemChange({
+    this.integrator.loadItemSellingDetails({
       onSuccess, onFailure, index, itemId,
     });
   };

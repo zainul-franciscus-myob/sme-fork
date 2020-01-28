@@ -14,12 +14,13 @@ import {
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
   LOAD_ITEM_OPTIONS,
+  LOAD_ITEM_SELLING_DETAILS,
   LOAD_PAY_DIRECT,
   SEND_EMAIL,
   UPDATE_INVOICE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
 } from '../InvoiceIntents';
-import { getBusinessId, getIsCreating } from './selectors/invoiceDetailSelectors';
+import { getBusinessId, getIsCreating, getIsTaxInclusive } from './selectors/invoiceDetailSelectors';
 import {
   getCalculateLineTotalsContent,
   getCalculateLineTotalsOnAmountChangeContent,
@@ -337,6 +338,26 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
       },
       urlParams: {
         businessId: getBusinessId(state),
+      },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadItemSellingDetails: ({ onSuccess, onFailure, itemId }) => {
+    const state = store.getState();
+    const intent = LOAD_ITEM_SELLING_DETAILS;
+    const businessId = getBusinessId(state);
+    const isTaxInclusive = getIsTaxInclusive(state);
+
+    integration.read({
+      intent,
+      params: {
+        isTaxInclusive,
+      },
+      urlParams: {
+        businessId,
+        itemId,
       },
       onSuccess,
       onFailure,

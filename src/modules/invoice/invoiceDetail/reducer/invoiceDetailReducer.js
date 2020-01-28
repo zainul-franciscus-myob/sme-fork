@@ -1,6 +1,7 @@
 import {
   ADD_EMAIL_ATTACHMENTS,
   ADD_INVOICE_LINE,
+  CALCULATE_LINE_AMOUNTS,
   CALCULATE_LINE_TOTALS,
   FORMAT_INVOICE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -9,6 +10,7 @@ import {
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
+  LOAD_ITEM_SELLING_DETAILS,
   LOAD_PAY_DIRECT,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
@@ -53,6 +55,10 @@ import {
   uploadEmailAttachmentUploadProgress,
 } from './EmailReducer';
 import {
+  calculateLineAmounts,
+  calculateLineTotals,
+} from './calculationReducer';
+import {
   getLoadInvoiceDetailEmailInvoice,
   getLoadInvoiceDetailModalAndPageAlert,
   getLoadInvoiceDetailModalType,
@@ -69,6 +75,7 @@ import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
 import InvoiceLayout from '../InvoiceLayout';
 import createReducer from '../../../../store/createReducer';
+import formatAmount from '../../../../common/valueFormatters/formatAmount';
 import getDefaultState from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
@@ -288,20 +295,6 @@ const setInvoiceItemLineDirty = (state, action) => ({
   isLineAmountDirty: action.isLineAmountDirty,
 });
 
-const calculateLineTotals = (state, action) => ({
-  ...state,
-  isPageEdited: true,
-  invoice: {
-    ...state.invoice,
-    isTaxInclusive: action.invoice.isTaxInclusive,
-    lines: action.invoice.lines,
-  },
-  totals: {
-    ...state.totals,
-    ...action.totals,
-  },
-});
-
 export const setRedirectRef = (state, { redirectRefJournalId, redirectRefJournalType }) => ({
   ...state,
   redirectRefJournalId,
@@ -312,6 +305,36 @@ const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) 
   ...state,
   isUpgradeModalShowing,
   monthlyLimit,
+});
+
+const loadItemSellingDetails = (state, action) => ({
+  ...state,
+  isPageEdited: true,
+  invoice: {
+    ...state.invoice,
+    lines: state.invoice.lines.map((line, index) => {
+      if (index !== action.index) return line;
+      const {
+        unitOfMeasure,
+        description,
+        sellTaxCodeId,
+        incomeAccountId,
+        unitPrice,
+      } = action.itemSellingDetails;
+      return {
+        ...line,
+        units: '1',
+        unitOfMeasure,
+        discount: '0',
+        displayDiscount: '0.00',
+        description,
+        taxCodeId: sellTaxCodeId,
+        accountId: incomeAccountId,
+        amount: unitPrice,
+        displayAmount: formatAmount(unitPrice),
+      };
+    }),
+  },
 });
 
 const handlers = {
@@ -341,7 +364,6 @@ const handlers = {
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
 
   [SET_INVOICE_ITEM_LINE_DIRTY]: setInvoiceItemLineDirty,
-  [CALCULATE_LINE_TOTALS]: calculateLineTotals,
   [RESET_TOTALS]: resetTotals,
 
   [LOAD_PAY_DIRECT]: loadPayDirect,
@@ -364,6 +386,10 @@ const handlers = {
   [SET_INVOICE_HISTORY_OPEN]: setInvoiceHistoryOpen,
   [SET_REDIRECT_REF]: setRedirectRef,
   [LOAD_INVOICE_HISTORY]: loadInvoiceHistory,
+
+  [CALCULATE_LINE_TOTALS]: calculateLineTotals,
+  [CALCULATE_LINE_AMOUNTS]: calculateLineAmounts,
+  [LOAD_ITEM_SELLING_DETAILS]: loadItemSellingDetails,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

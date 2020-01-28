@@ -16,6 +16,7 @@ import {
   LOAD_INVOICE_LIST,
   LOAD_ITEM_OPTION,
   LOAD_ITEM_OPTIONS,
+  LOAD_ITEM_SELLING_DETAILS,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
@@ -43,6 +44,7 @@ import loadContactOptions from './data/loadContactOptions';
 import loadInvoiceHistory from './data/invoiceHistory.json';
 import loadItemOption from './data/loadItemOption';
 import loadItemOptions from './data/loadItemOptions';
+import loadItemSellingDetailsResponse from './data/loadItemSellingDetailsResponse';
 import payDirect from './data/loadPayDirect';
 import successResponse from './data/success';
 import uploadEmailAttachmentResponse from './data/uploadEmailAttachmentResponse';
@@ -90,6 +92,7 @@ const MemoryInvoiceMapping = {
   [LOAD_ACCOUNT_OPTIONS]: ({ onSuccess }) => onSuccess(loadAccountOptions),
   [LOAD_ITEM_OPTIONS]: ({ onSuccess }) => onSuccess(loadItemOptions),
   [LOAD_CONTACT_OPTIONS]: ({ onSuccess }) => onSuccess(loadContactOptions),
+  [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) => onSuccess(loadItemSellingDetailsResponse),
 };
 
 export default MemoryInvoiceMapping;

@@ -16,6 +16,7 @@ import {
   LOAD_INVOICE_LIST,
   LOAD_ITEM_OPTION,
   LOAD_ITEM_OPTIONS,
+  LOAD_ITEM_SELLING_DETAILS,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
@@ -131,6 +132,10 @@ const HttpInvoiceMapping = {
   [LOAD_CONTACT_OPTIONS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/invoice/load_contact_options`,
+  },
+  [LOAD_ITEM_SELLING_DETAILS]: {
+    method: 'GET',
+    getPath: ({ businessId, itemId }) => `/${businessId}/invoice/load_item_selling_details/${itemId}`,
   },
 };
 

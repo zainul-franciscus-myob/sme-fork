@@ -1,9 +1,12 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
 import InvoiceDetailModalType from '../InvoiceDetailModalType';
 import InvoiceLayout from '../InvoiceLayout';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
+
+const calculate = createTaxCalculator(TaxCalculatorTypes.invoice);
 
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
@@ -265,5 +268,18 @@ export const getContextForInventoryModal = (state) => {
 
   return ({
     businessId, region, isBuying: false, isSelling: true,
+  });
+};
+
+export const getTaxCalculations = (state, isSwitchingTaxInclusive) => {
+  const isTaxInclusive = getIsTaxInclusive(state);
+  const isLineAmountsTaxInclusive = isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive;
+  const lines = getLines(state);
+  const taxCodes = getTaxCodeOptions(state);
+  return calculate({
+    lines,
+    taxCodes,
+    isTaxInclusive,
+    isLineAmountsTaxInclusive,
   });
 };

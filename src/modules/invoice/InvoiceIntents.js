@@ -45,6 +45,7 @@ export const CALCULATE_LINE_TOTALS = Symbol('Calculate line totals');
 export const CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE = Symbol('Calculate line totals on amount change');
 export const CALCULATE_LINE_TOTALS_ON_ITEM_CHANGE = Symbol('Calculate line totals on item change');
 export const CALCULATE_LINE_TOTALS_ON_TAX_INCLUSIVE_CHANGE = Symbol('Calculate line totals on tax inclusive change');
+export const CALCULATE_LINE_AMOUNTS = Symbol('Calculate line amounts');
 
 export const SEND_EMAIL = Symbol('Send email');
 export const UPDATE_EMAIL_INVOICE_DETAIL = Symbol('Update email invoice detail');
@@ -73,3 +74,5 @@ export const SET_REDIRECT_REF = Symbol('Set redirect ref');
 export const LOAD_ACCOUNT_OPTIONS = Symbol('Load account options');
 export const LOAD_ITEM_OPTIONS = Symbol('Load item options');
 export const LOAD_CONTACT_OPTIONS = Symbol('Load contact options');
+
+export const LOAD_ITEM_SELLING_DETAILS = Symbol('Load item selling details');

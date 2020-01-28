@@ -13,7 +13,8 @@
         "displayDiscount": "0",
         "taxCodeId": "123",
         "amount": "1000",
-        "displayAmount": "1000.00"
+        "displayAmount": "1000.00",
+        "lineTypeId": 17
       }
     ]
   },

@@ -1,6 +1,7 @@
 import {
   ADD_EMAIL_ATTACHMENTS,
   ADD_INVOICE_LINE,
+  CALCULATE_LINE_AMOUNTS,
   CALCULATE_LINE_TOTALS,
   FORMAT_INVOICE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -9,6 +10,7 @@ import {
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_OPTION,
+  LOAD_ITEM_SELLING_DETAILS,
   LOAD_PAY_DIRECT,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
@@ -139,8 +141,19 @@ const createInvoiceDetailDispatcher = store => ({
     intent: SET_INVOICE_ITEM_LINE_DIRTY, isLineAmountDirty,
   }),
 
-  calculateLineTotals: response => store.dispatch({
-    intent: CALCULATE_LINE_TOTALS, ...response,
+  calculateLineAmounts: ({
+    key,
+    index,
+  }) => {
+    store.dispatch({
+      intent: CALCULATE_LINE_AMOUNTS,
+      key,
+      index,
+    });
+  },
+
+  calculateLineTotals: taxCalculations => store.dispatch({
+    intent: CALCULATE_LINE_TOTALS, taxCalculations,
   }),
 
   resetInvoiceItemTotals: () => store.dispatch({ intent: RESET_TOTALS }),
@@ -218,6 +231,12 @@ const createInvoiceDetailDispatcher = store => ({
     intent: SET_REDIRECT_REF,
     redirectRefJournalId: journalId,
     redirectRefJournalType: sourceJournalType,
+  }),
+
+  loadItemSellingDetails: ({ index, itemSellingDetails }) => store.dispatch({
+    intent: LOAD_ITEM_SELLING_DETAILS,
+    index,
+    itemSellingDetails,
   }),
 });
 
