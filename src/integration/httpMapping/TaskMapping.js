@@ -3,11 +3,10 @@ import {
   GET_TASKS_LIST,
 } from '../../root/rootIntents';
 
-const listPath = ({ businessId }) => `/${businessId}/tasks`;
-const closeTasksPath = ({ businessId, closeEvent }) => `/${businessId}/tasks/closeTasks/${closeEvent}`;
+const closeTasksPath = ({ businessId, closeEvent }) => `/${businessId}/tasks/update_with_event/${closeEvent}`;
 
 const TaskMapping = {
-  [GET_TASKS_LIST]: { method: 'GET', getPath: listPath },
+  [GET_TASKS_LIST]: { method: 'GET', getPath: ({ businessId }) => `/${businessId}/tasks/load_tasks` },
   [CLOSE_TASKS]: { method: 'POST', getPath: closeTasksPath },
 };
 
