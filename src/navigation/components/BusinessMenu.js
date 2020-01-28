@@ -60,9 +60,16 @@ const UnlinkedMenuLink = ({ label, className }) => (
 );
 
 const getItems = ({
-  urls, serialNumber, userEmail, onMenuLinkClick, isCurrentUserAdvisor, onSubscribeNowClick,
+  urls,
+  serialNumber,
+  userEmail,
+  onMenuLinkClick,
+  isCurrentUserAdvisor,
+  onSubscribeNowClick,
 }) => [
-  isCurrentUserAdvisor ? manageMyClientsMenuItem : switchBusinessMenuItem,
+  isCurrentUserAdvisor
+    ? manageMyClientsMenuItem(onMenuLinkClick)
+    : switchBusinessMenuItem(onMenuLinkClick),
   <Navigation.Separator key="separator-switch-business" />,
   urls.businessDetails && getMenuLink(urls.businessDetails, 'Business details', onMenuLinkClick),
   urls.incomeAllocation && getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
