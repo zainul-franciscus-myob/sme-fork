@@ -252,8 +252,6 @@ const TimesheetIsSetUpView = ({
           </Button>,
         ]}
         primary={[
-          <Button key="copy" type="secondary">Copy from previous</Button>,
-          <Separator direction="vertical" />,
           <Button
             key="save"
             onClick={onSaveClick}
