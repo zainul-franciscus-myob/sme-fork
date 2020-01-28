@@ -45,27 +45,15 @@ const BillItemAndServiceTable = ({
   const requiredLabel = 'This is required';
 
   const headerItems = [
-    <LineItemTable.HeaderItem
-      requiredLabel={requiredLabel}
-    >
-      {itemIdLabel}
-    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{itemIdLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {accountLabel}
     </LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {unitCountLabel}
-    </LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem
-      requiredLabel={requiredLabel}
-    >
-      {unitPriceLabel}
-    </LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{unitCountLabel}</LineItemTable.HeaderItem>,
+    <LineItemTable.HeaderItem>{unitPriceLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{discountLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem
-      requiredLabel={requiredLabel}
-    >
+    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem
