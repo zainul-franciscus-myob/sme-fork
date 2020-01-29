@@ -47,7 +47,7 @@ const getMenuLinkWithIcon = (url, label, icon, onMenuLinkClick, target) => (
   />
 );
 
-const manageMyClientsMenuItem = onMenuLinkClick => getMenuLinkWithIcon('https://partner.myob.com/ledgers/live', 'Manage my client', <Icons.Switch />, onMenuLinkClick, '_blank');
+const manageMyClientsMenuItem = onMenuLinkClick => getMenuLinkWithIcon('https://partner.myob.com/ledgers/live', 'Manage my clients', <Icons.Switch />, onMenuLinkClick, '_blank');
 const switchBusinessMenuItem = onMenuLinkClick => getMenuLinkWithIcon('#/businesses', 'Switch business', <Icons.Switch />, onMenuLinkClick, undefined);
 
 const getDisabledMenuLink = label => (
