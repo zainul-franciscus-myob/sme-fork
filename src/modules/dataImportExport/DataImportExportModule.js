@@ -2,8 +2,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { getCurrentDataTypeInCurrentTab, getTab, getUrlDataTypeParams } from './selectors/DataImportExportSelectors';
-import { getExportCompanyFileFileExtension } from './selectors/ExportCompanyFileSelectors';
 import DataImportExportView from './components/DataImportExportView';
+import ExportStatus from './ExportStatus';
 import ImportExportDataType from './types/ImportExportDataType';
 import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
@@ -137,20 +137,7 @@ export default class DataImportExportModule {
   exportCompanyFile = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
-    const fileExtension = getExportCompanyFileFileExtension(this.store.getState());
-
-    const onSuccess = (data) => {
-      this.dispatcher.updateExportDataType(ImportExportDataType.NONE);
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.displaySuccessMessage('Export successful! A file has been downloaded.');
-
-      openBlob({
-        blob: data,
-        filename: `exportedCompanyFile.${fileExtension}`,
-        shouldDownload: true,
-      });
-    };
-
+    const onSuccess = ({ jobId }) => this.exportCompanyFileResult(jobId);
     const onFailure = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.displayFailureAlert(response.message);
@@ -158,6 +145,34 @@ export default class DataImportExportModule {
 
     this.integrator.exportCompanyFile({ onSuccess, onFailure });
   };
+
+  exportCompanyFileResult = (jobId) => {
+    const onSuccess = ({ status, fileUrl }) => {
+      switch (status) {
+        case ExportStatus.SUCCESS:
+          this.dispatcher.updateExportDataType(ImportExportDataType.NONE);
+          this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+          this.displaySuccessMessage('Export successful! A file has been downloaded.');
+          window.open(fileUrl, '_blank');
+          break;
+        case ExportStatus.PENDING:
+          setTimeout(() => this.exportCompanyFileResult(jobId), 5000);
+          break;
+        case ExportStatus.FAIL:
+        default:
+          this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+          this.displayFailureAlert('Export failed.');
+          break;
+      }
+    };
+
+    const onFailure = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.displayFailureAlert(response.message);
+    };
+
+    this.integrator.exportCompanyFileResult({ jobId, onSuccess, onFailure });
+  }
 
   displaySuccessMessage = successMessage => this.dispatcher.setAlert({
     message: successMessage,

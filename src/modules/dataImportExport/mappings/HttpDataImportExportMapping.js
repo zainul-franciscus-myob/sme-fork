@@ -1,6 +1,7 @@
 import {
   EXPORT_CHART_OF_ACCOUNTS,
   EXPORT_COMPANY_FILE,
+  EXPORT_COMPANY_FILE_RESULT,
   IMPORT_CHART_OF_ACCOUNTS,
   IMPORT_CONTACTS,
   IMPORT_EMPLOYEES,
@@ -25,8 +26,12 @@ const HttpDataImportExportMapping = {
     getPath: ({ businessId }) => `/${businessId}/dataImportExport/export_chart_of_accounts`,
   },
   [EXPORT_COMPANY_FILE]: {
-    method: 'GET',
+    method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/dataImportExport/export_company_file`,
+  },
+  [EXPORT_COMPANY_FILE_RESULT]: {
+    method: 'POST',
+    getPath: ({ businessId, jobId }) => `/${businessId}/dataImportExport/export_company_file/${jobId}`,
   },
   [IMPORT_CONTACTS]: {
     method: 'POST',

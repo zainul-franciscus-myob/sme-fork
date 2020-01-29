@@ -25,3 +25,4 @@ export const UPDATE_CONTACTS_TYPE = Symbol('Update contacts type');
 
 export const UPDATE_EXPORT_COMPANY_FILE_DETAIL = Symbol('Update export company file detail');
 export const EXPORT_COMPANY_FILE = Symbol('Export company file');
+export const EXPORT_COMPANY_FILE_RESULT = Symbol('Export company file result');

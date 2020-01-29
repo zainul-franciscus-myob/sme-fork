@@ -1,6 +1,7 @@
 import {
   EXPORT_CHART_OF_ACCOUNTS,
   EXPORT_COMPANY_FILE,
+  EXPORT_COMPANY_FILE_RESULT,
   IMPORT_CHART_OF_ACCOUNTS,
   IMPORT_CONTACTS,
   IMPORT_EMPLOYEES,
@@ -163,9 +164,22 @@ const createDataImportExportIntegrator = (store, integration) => ({
     const urlParams = { businessId };
     const params = getExportCompanyFileQueryParams(state);
 
-    integration.readFile({
+    integration.write({
       intent: EXPORT_COMPANY_FILE,
       params,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  exportCompanyFileResult: ({ jobId, onSuccess, onFailure }) => {
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId, jobId };
+
+    integration.write({
+      intent: EXPORT_COMPANY_FILE_RESULT,
       urlParams,
       onSuccess,
       onFailure,
