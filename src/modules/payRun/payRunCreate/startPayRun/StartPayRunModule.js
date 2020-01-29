@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getIsTimesheetUsed } from './StartPayRunSelectors';
 import { getPayRunListUrl } from '../PayRunSelectors';
 import AlertType from '../types/AlertType';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -22,7 +23,7 @@ export default class StartPayRunModule {
 
   createNewPayRun = () => {
     this.deleteDraft();
-    this.loadTimesheets();
+    this.loadTimesheetsIfUsed();
   };
 
   deleteDraft = () => {
@@ -41,15 +42,20 @@ export default class StartPayRunModule {
     this.integrator.deleteDraft({ onSuccess, onFailure });
   }
 
+  loadTimesheetsIfUsed = () => {
+    const state = this.store.getState();
+    if (getIsTimesheetUsed(state)) this.loadTimesheets();
+  }
+
   loadTimesheets = () => {
-    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.dispatcher.setIsTableLoading(true);
     const onSuccess = (response) => {
       this.dispatcher.loadTimesheets(response);
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setIsTableLoading(false);
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setIsTableLoading(false);
       this.dispatcher.loadTimesheets({ timesheets: [] });
       this.dispatcher.setAlert({
         type: 'danger',
@@ -115,10 +121,16 @@ export default class StartPayRunModule {
     this.dispatcher.selectTimesheetsItem(item, isSelected);
   }
 
+  changePayPeriodAndLoadTimesheets = ({ key, value }) => {
+    this.dispatcher.setPayPeriodDetails({ key, value });
+    this.loadTimesheetsIfUsed();
+  }
+
+
   getView() {
     return (
       <StartPayRunView
-        onPayPeriodChange={this.dispatcher.setPayPeriodDetails}
+        onPayPeriodChange={this.changePayPeriodAndLoadTimesheets}
         onNextButtonClick={this.loadEmployeePays}
         onExistingPayRunModalCreateClick={this.createNewPayRun}
         onExistingPayRunModalEditClick={this.editExistingPayRun}

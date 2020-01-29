@@ -3,6 +3,7 @@ import {
   LOAD_EMPLOYEE_PAYS,
   SELECT_ALL_TIMESHEETS,
   SELECT_TIMESHEETS_ITEM,
+  SET_IS_TABLE_LOADING,
   SET_PAY_PERIOD_DETAILS,
   SET_STP_REGISTRATION_STATUS,
   SET_UNPROCESSED_TIMESHEET_LINES,
@@ -29,6 +30,11 @@ const createStartPayRunDispatchers = store => ({
       intent: SET_STP_REGISTRATION_STATUS,
       stpRegistrationStatus,
     });
+  },
+
+  setIsTableLoading: (isTableLoading) => {
+    const intent = SET_IS_TABLE_LOADING;
+    store.dispatch({ intent, isTableLoading });
   },
 
   selectAllTimesheets: (isSelected) => {

@@ -32,6 +32,7 @@ describe('startPayRunReducer', () => {
           },
           regularPayCycleOptions: startNewPayRun.newPayRunDetails.regularPayCycleOptions,
           draftPayRun: startNewPayRun.draftPayRun,
+          isTimesheetUsed: true,
         },
       };
 

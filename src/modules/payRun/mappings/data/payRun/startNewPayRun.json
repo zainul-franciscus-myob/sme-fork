@@ -1,5 +1,6 @@
 {
   "isPayrollSetup": true,
+  "isTimesheetUsed": true,
   "newPayRunDetails": {
     "paymentFrequency": "Fortnightly",
     "regularPayCycleOptions": [

@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsTableLoading,
+  getIsTimesheetUsed,
   getRegularPayCycleOptions,
   getStartPayRun,
   getTimesheets,
@@ -48,6 +50,8 @@ const StartPayRunView = ({
   timesheets,
   selectItem,
   selectAll,
+  isTableLoading,
+  isTimesheetUsed,
 }) => (
   <div className={styles.startPayRun}>
     <PageHead title="Create pay run" testid="startPayRunViewPageHead" />
@@ -73,8 +77,9 @@ const StartPayRunView = ({
           <DatePicker label="Pay period end" name="payPeriodEnd" value={payPeriodEnd} onSelect={handleDatePickerChange(onPayPeriodChange, 'payPeriodEnd')} />
           <DatePicker label="Date of payment" name="paymentDate" value={paymentDate} onSelect={handleDatePickerChange(onPayPeriodChange, 'paymentDate')} />
         </FieldGroup>
-        {timesheets && (
+        {isTimesheetUsed && (
         <TimesheetsTable
+          isTableLoading={isTableLoading}
           testid="timesheetsTable"
           timesheets={timesheets}
           selectAll={selectAll}
@@ -103,6 +108,8 @@ const mapStateToProps = state => ({
   payRunSteps: getStepperSteps(state),
   existingPayRun: isThereExistingPayRun(state),
   timesheets: getTimesheets(state),
+  isTableLoading: getIsTableLoading(state),
+  isTimesheetUsed: getIsTimesheetUsed(state),
 });
 
 export default connect(mapStateToProps)(StartPayRunView);

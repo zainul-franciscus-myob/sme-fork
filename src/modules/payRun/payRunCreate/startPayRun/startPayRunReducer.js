@@ -2,11 +2,17 @@ import {
   addDays, getDaysInMonth, subDays, subMonths,
 } from 'date-fns';
 
-import { SET_PAY_PERIOD_DETAILS, START_NEW_PAY_RUN } from '../PayRunIntents';
+import {
+  SET_IS_TABLE_LOADING,
+  SET_PAY_PERIOD_DETAILS,
+  START_NEW_PAY_RUN,
+} from '../PayRunIntents';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getStartPayRunDefaultState = () => ({
   isPayrollSetup: true,
+  isTimesheetUsed: false,
+  isTableLoading: false,
   currentEditingPayRun: {
     paymentFrequency: 'Weekly',
     paymentDate: formatIsoDate(new Date()),
@@ -37,12 +43,15 @@ const calculateStartDate = (payCycle, endDateString) => {
   return formatIsoDate(startDate);
 };
 
-const startNewPayRun = (state, { isPayrollSetup, newPayRunDetails, draftPayRun }) => {
+const startNewPayRun = (state, {
+  isPayrollSetup, newPayRunDetails, draftPayRun, isTimesheetUsed,
+}) => {
   if (!isPayrollSetup) return { ...state, isPayrollSetup };
 
   const { paymentFrequency, regularPayCycleOptions } = newPayRunDetails;
   return {
     ...state,
+    isTimesheetUsed,
     currentEditingPayRun: {
       ...state.currentEditingPayRun,
       paymentFrequency,
@@ -83,7 +92,13 @@ const setPayPeriodDetails = (state, { key, value }) => {
   };
 };
 
+const setIsTableLoading = (state, { isTableLoading }) => ({
+  ...state,
+  isTableLoading,
+});
+
 export const startPayRunHandlers = {
   [START_NEW_PAY_RUN]: startNewPayRun,
   [SET_PAY_PERIOD_DETAILS]: setPayPeriodDetails,
+  [SET_IS_TABLE_LOADING]: setIsTableLoading,
 };

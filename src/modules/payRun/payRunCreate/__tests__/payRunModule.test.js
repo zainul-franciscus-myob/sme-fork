@@ -1,7 +1,6 @@
 import { mount } from 'enzyme';
 
 import { LOAD_TIMESHEETS, START_NEW_PAY_RUN } from '../PayRunIntents';
-import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import PayRunModule from '../PayRunModule';
 import loadTimesheetsResponse from '../../mappings/data/payRun/loadTimesheets';
 import startNewPayRunResponse from '../../mappings/data/payRun/startNewPayRun';
@@ -82,10 +81,10 @@ describe('PayRunModule', () => {
   });
 
   describe('load timesheets', () => {
-    it('loads timesheets when there is no draft pay run', () => {
+    it('loads timesheets when the user has turned on timesheets', () => {
       const successResponse = {
         ...startNewPayRunResponse,
-        draftPayRun: null,
+        isTimesheetUsed: true,
       };
       const wrapper = constructPayRunModule(successResponse);
 
@@ -94,23 +93,16 @@ describe('PayRunModule', () => {
       expect(timesheetsTable).toHaveLength(1);
     });
 
-    it('does not load timesheets when there is a draft pay run', () => {
-      const wrapper = constructPayRunModule();
+    it('does not load timesheets when the user has not turned on timesheets', () => {
+      const successResponse = {
+        ...startNewPayRunResponse,
+        isTimesheetUsed: false,
+      };
+      const wrapper = constructPayRunModule(successResponse);
 
       const timesheetsTable = wrapper.find({ testid: 'timesheetsTable' });
 
       expect(timesheetsTable).toHaveLength(0);
-    });
-
-    it('loads timesheets when there is a draft pay run and the user choose to create a new pay run', () => {
-      const wrapper = constructPayRunModule();
-      const createNewPayRunButton = findButtonWithTestId(wrapper, 'createPayRunButton');
-      createNewPayRunButton.simulate('click');
-      wrapper.update();
-
-      const timesheetsTable = wrapper.find({ testid: 'timesheetsTable' });
-
-      expect(timesheetsTable).toHaveLength(1);
     });
   });
 });

@@ -30,6 +30,9 @@ export const getDateOfPayment = createSelector(
   getDraftPayRun,
   draftPayRun => draftPayRun.paymentDate,
 );
+
+export const getIsTableLoading = state => state.startPayRun.isTableLoading;
+
 export const getTimesheets = state => state.timesheets;
 export const getLoadTimesheetsParams = state => ({
   paymentDate: state.startPayRun.currentEditingPayRun.paymentDate,
@@ -37,3 +40,5 @@ export const getLoadTimesheetsParams = state => ({
   payPeriodEnd: state.startPayRun.currentEditingPayRun.payPeriodEnd,
   paymentFrequency: state.startPayRun.currentEditingPayRun.paymentFrequency,
 });
+
+export const getIsTimesheetUsed = state => state.startPayRun.isTimesheetUsed;

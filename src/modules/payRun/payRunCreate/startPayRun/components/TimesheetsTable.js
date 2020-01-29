@@ -18,6 +18,7 @@ const TimesheetsTable = ({
   timesheets,
   selectAll,
   selectItem,
+  isTableLoading,
 }) => {
   const selectedCount = timesheets.filter(e => e.isSelected).length;
 
@@ -88,8 +89,8 @@ const TimesheetsTable = ({
     <TableView
       header={header}
       isEmpty={timesheets.length === 0}
-      emptyMessage="No timesheets found."
-      // isLoading={isTableLoading}
+      emptyMessage="No timesheets found for this pay period."
+      isLoading={isTableLoading}
     >
       <Table.Body>
         {rows}

@@ -45,7 +45,7 @@ const getDefaultState = () => ({
     printPaySlipEmployees: [],
     emailPaySlipEmployees: [],
   },
-  timesheets: null,
+  timesheets: [],
   unprocessedTimesheetLines: [],
   [START_PAY_RUN]: getStartPayRunDefaultState(),
   [EMPLOYEE_PAY_LIST]: getEmployeePayListDefaultState(),
