@@ -174,10 +174,10 @@ const loadBill = (state, action) => {
     },
     itemTemplateOptions: action.response.itemTemplateOptions || state.itemTemplateOptions,
     serviceTemplateOptions: action.response.serviceTemplateOptions || state.serviceTemplateOptions,
-    subscription: action.response.monthlyLimit
+    subscription: action.response.subscription
       ? {
-        monthlyLimit: action.response.monthlyLimit,
-        isUpgradeModalShowing: !!action.response.monthlyLimit.hasHitLimit,
+        monthlyLimit: action.response.subscription.monthlyLimit,
+        isUpgradeModalShowing: !!action.response.subscription.monthlyLimit.hasHitLimit,
       }
       : defaultState.subscription,
     exportPdf: {

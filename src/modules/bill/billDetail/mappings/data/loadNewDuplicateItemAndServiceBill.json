@@ -139,9 +139,11 @@
     "totalAmount": "$48.30",
     "amountDue": "$88.88"
   },
-  "monthlyLimit": {
-    "limit": 5,
-    "used": 4,
-    "hasHitLimit": false
+  "subscription": {
+    "monthlyLimit": {
+      "limit": 5,
+      "used": 4,
+      "hasHitLimit": false
+    }
   }
 }

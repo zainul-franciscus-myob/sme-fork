@@ -8,6 +8,7 @@ import {
   PREFILL_BILL_FROM_IN_TRAY,
   REMOVE_BILL_LINE,
   SET_CALCULATED_BILL_LINES_AND_TOTALS,
+  SET_UPGRADE_MODAL_SHOWING,
   UPDATE_BILL_LINE,
   UPDATE_BILL_OPTION,
   UPDATE_LAYOUT,
@@ -103,9 +104,11 @@ describe('billReducer', () => {
           bill: {
             issueDate: '2019-02-03',
           },
-          monthlyLimit: {
-            limit: 5,
-            hasHitLimit: true,
+          subscription: {
+            monthlyLimit: {
+              limit: 5,
+              hasHitLimit: true,
+            },
           },
         },
       };
@@ -121,9 +124,11 @@ describe('billReducer', () => {
           ...action,
           response: {
             ...action.response,
-            monthlyLimit: {
-              limit: 5,
-              hasHitLimit: false,
+            subscription: {
+              monthlyLimit: {
+                limit: 5,
+                hasHitLimit: false,
+              },
             },
           },
         };
@@ -822,6 +827,51 @@ describe('billReducer', () => {
           issueDate: false,
         },
       }));
+    });
+  });
+
+  describe('SET_UPGRADE_MODAL_SHOWING', () => {
+    const state = {
+      subscription: {
+        isUpgradeModalShowing: true,
+        monthlyLimit: {
+          hasHitLimit: false,
+        },
+      },
+    };
+
+    it('sets isUpgradeModalShowing and monthlyLimit to values', () => {
+      const monthlyLimit = {
+        hasHitLimit: true,
+        limit: 5,
+        used: 6,
+      };
+
+      const action = {
+        intent: SET_UPGRADE_MODAL_SHOWING,
+        isUpgradeModalShowing: false,
+        monthlyLimit,
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.subscription.isUpgradeModalShowing).toBeFalsy();
+      expect(actual.subscription.monthlyLimit).toEqual(monthlyLimit);
+    });
+
+    it('uses current state monthlyLimit if no monthlyLimit is provided in action', () => {
+      const action = {
+        intent: SET_UPGRADE_MODAL_SHOWING,
+        isUpgradeModalShowing: false,
+      };
+
+      const expectedMonthlyLimit = {
+        hasHitLimit: false,
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.subscription.monthlyLimit).toEqual(expectedMonthlyLimit);
     });
   });
 });
