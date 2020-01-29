@@ -178,7 +178,7 @@ const createDataImportExportIntegrator = (store, integration) => ({
     const businessId = getBusinessId(state);
     const urlParams = { businessId, jobId };
 
-    integration.write({
+    integration.read({
       intent: EXPORT_COMPANY_FILE_RESULT,
       urlParams,
       onSuccess,

@@ -30,7 +30,7 @@ const HttpDataImportExportMapping = {
     getPath: ({ businessId }) => `/${businessId}/dataImportExport/export_company_file`,
   },
   [EXPORT_COMPANY_FILE_RESULT]: {
-    method: 'POST',
+    method: 'GET',
     getPath: ({ businessId, jobId }) => `/${businessId}/dataImportExport/export_company_file/${jobId}`,
   },
   [IMPORT_CONTACTS]: {
