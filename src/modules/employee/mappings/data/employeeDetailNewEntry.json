@@ -16,7 +16,8 @@
       "deductionPayItems": []
     },
     "superannuationDetails": {
-      "allocatedPayItems": []
+      "allocatedPayItems": [],
+      "defaultSuperannuationId": "2"
     },
     "tax": {
       "extraTax": "0.00",

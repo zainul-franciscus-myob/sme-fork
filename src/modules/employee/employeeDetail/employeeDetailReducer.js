@@ -14,6 +14,7 @@ import {
 import { PayrollWageReducerHandlers, loadWagePayrollDetails } from './payrollDetails/reducer/PayrollWageReducer';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getCurrentMonth } from './payrollDetails/selectors/PayrollPayHistorySelectors';
+import { getIsCreating } from './EmployeeDetailSelectors';
 import { mainTabIds } from './tabItems';
 import { shouldDefaultPayslipEmail } from './payrollDetails/selectors/EmploymentDetailsSelectors';
 import DeductionPayItemModalReducerHandlers from './payrollDetails/reducer/DeductionPayItemModalReducer';
@@ -207,6 +208,9 @@ const loadPayrollDetail = (state, action) => ({
   superannuationDetails: {
     ...state.payrollDetails.superannuationDetails,
     ...action.payrollDetails.superannuationDetails,
+    selectedSuperFundId: getIsCreating(state)
+      ? action.payrollDetails.superannuationDetails.defaultSuperannuationFundId
+      : action.payrollDetails.superannuationDetails.selectedSuperFundId,
   },
   tax: {
     ...state.payrollDetails.tax,
