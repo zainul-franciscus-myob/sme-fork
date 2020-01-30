@@ -1,6 +1,13 @@
 import {
-  ADD_ROW, LOAD_EMPLOYEE_TIMESHEET, REMOVE_ROW, SET_TIMESHEET_CELL,
+  ADD_ROW,
+  CLOSE_UNSAVED_CHANGES_MODAL,
+  LOAD_EMPLOYEE_TIMESHEET,
+  REMOVE_ROW,
+  SET_MODAL,
+  SET_TIMESHEET_CELL,
 } from '../timesheetIntents';
+import ModalType from '../ModalType';
+import UnsavedChangesModalActions from '../UnsavedChangesModalActions';
 import loadEmployeeTimesheet from '../mappings/data/loadEmployeeTimesheet';
 import timesheetReducer from '../timesheetReducer';
 
@@ -22,6 +29,7 @@ describe('timesheetReducer', () => {
 
       expect(result).toEqual({
         employeeAllowedPayItems: ['39'],
+        timesheetIsDirty: false,
         timesheetRows: [
           {
             payItemId: '11',
@@ -43,6 +51,7 @@ describe('timesheetReducer', () => {
   describe('ADD_ROW', () => {
     it('adds a row with payItemId', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [],
       };
 
@@ -56,6 +65,7 @@ describe('timesheetReducer', () => {
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        timesheetIsDirty: true,
         timesheetRows: [
           {
             payItemId: '11',
@@ -75,6 +85,7 @@ describe('timesheetReducer', () => {
 
     it('adds a row with notes', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [],
       };
 
@@ -88,6 +99,7 @@ describe('timesheetReducer', () => {
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        timesheetIsDirty: true,
         timesheetRows: [
           {
             payItemId: '',
@@ -107,6 +119,7 @@ describe('timesheetReducer', () => {
 
     it('adds a row with startStopDescription', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [],
       };
 
@@ -120,6 +133,7 @@ describe('timesheetReducer', () => {
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        timesheetIsDirty: true,
         timesheetRows: [
           {
             payItemId: '',
@@ -139,6 +153,7 @@ describe('timesheetReducer', () => {
 
     it('adds a row with day', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [],
       };
 
@@ -152,6 +167,7 @@ describe('timesheetReducer', () => {
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        timesheetIsDirty: true,
         timesheetRows: [
           {
             payItemId: '',
@@ -173,6 +189,7 @@ describe('timesheetReducer', () => {
   describe('REMOVE_ROW', () => {
     it('removes the timesheet row', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [
           {
             payItemId: '11',
@@ -197,12 +214,14 @@ describe('timesheetReducer', () => {
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        timesheetIsDirty: true,
         timesheetRows: [],
       });
     });
 
     it('removes the correct timesheet row', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [
           {
             payItemId: '10',
@@ -251,6 +270,7 @@ describe('timesheetReducer', () => {
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        timesheetIsDirty: true,
         timesheetRows: [
           {
             payItemId: '10',
@@ -282,6 +302,7 @@ describe('timesheetReducer', () => {
 
     it('does not remove the row if it has read only values', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [
           {
             payItemId: '11',
@@ -312,6 +333,7 @@ describe('timesheetReducer', () => {
   describe('SET_TIMESHEET_CELL', () => {
     it('updates timesheetRow notes cell value', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [
           {
             payItemId: '11',
@@ -338,6 +360,7 @@ describe('timesheetReducer', () => {
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        timesheetIsDirty: true,
         timesheetRows: [
           {
             payItemId: '11',
@@ -357,6 +380,7 @@ describe('timesheetReducer', () => {
 
     it('updates timesheetRow day cell value', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [
           {
             payItemId: '11',
@@ -383,6 +407,7 @@ describe('timesheetReducer', () => {
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        timesheetIsDirty: true,
         timesheetRows: [
           {
             payItemId: '11',
@@ -402,6 +427,7 @@ describe('timesheetReducer', () => {
 
     it('updates timesheetRow pay items cell value', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [
           {
             payItemId: '11',
@@ -428,6 +454,7 @@ describe('timesheetReducer', () => {
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        timesheetIsDirty: true,
         timesheetRows: [
           {
             payItemId: '12',
@@ -447,6 +474,7 @@ describe('timesheetReducer', () => {
 
     it('updates timesheetRow start stop description value', () => {
       const state = {
+        timesheetIsDirty: false,
         timesheetRows: [
           {
             payItemId: '11',
@@ -473,6 +501,7 @@ describe('timesheetReducer', () => {
       const result = timesheetReducer(state, action);
 
       expect(result).toEqual({
+        timesheetIsDirty: true,
         timesheetRows: [
           {
             payItemId: '11',
@@ -487,6 +516,116 @@ describe('timesheetReducer', () => {
             day7: { hours: '7', readonly: false },
           },
         ],
+      });
+    });
+  });
+
+  describe('CLOSE_UNSAVED_CHANGES_MODAL', () => {
+    it('clears the modal and modal action', () => {
+      const state = {
+        modal: ModalType.UNSAVED,
+        modalAction: {
+          action: 'FOO',
+          other: 'bar',
+        },
+      };
+      const action = {
+        intent: CLOSE_UNSAVED_CHANGES_MODAL,
+      };
+
+      const result = timesheetReducer(state, action);
+
+      expect(result).toEqual({
+        modal: null,
+        modalAction: null,
+      });
+    });
+  });
+
+  describe('SET_MODAL', () => {
+    it('sets the modal type', () => {
+      const state = {
+        modal: null,
+      };
+
+      const action = {
+        intent: SET_MODAL,
+        modal: ModalType.UNSAVED,
+      };
+
+      const result = timesheetReducer(state, action);
+
+      expect(result).toEqual({
+        modal: ModalType.UNSAVED,
+      });
+    });
+
+    it('stores the modal action for navigation', () => {
+      const state = {
+        modal: null,
+        modalAction: null,
+      };
+      const modalAction = {
+        action: UnsavedChangesModalActions.NAVIGATION,
+        url: '#/some-url',
+      };
+      const action = {
+        intent: SET_MODAL,
+        modal: ModalType.UNSAVED,
+        action: modalAction,
+      };
+
+      const result = timesheetReducer(state, action);
+
+      expect(result).toEqual({
+        modal: ModalType.UNSAVED,
+        modalAction,
+      });
+    });
+
+    it('stores the modal action for date change', () => {
+      const state = {
+        modal: null,
+        modalAction: null,
+      };
+      const modalAction = {
+        action: UnsavedChangesModalActions.DATE_CHANGE,
+        newDate: '9999-99-99',
+      };
+      const action = {
+        intent: SET_MODAL,
+        modal: ModalType.UNSAVED,
+        action: modalAction,
+      };
+
+      const result = timesheetReducer(state, action);
+
+      expect(result).toEqual({
+        modal: ModalType.UNSAVED,
+        modalAction,
+      });
+    });
+
+    it('stores the modal action for employee change', () => {
+      const state = {
+        modal: null,
+        modalAction: null,
+      };
+      const modalAction = {
+        action: UnsavedChangesModalActions.EMPLOYEE_CHANGE,
+        employeeId: '123',
+      };
+      const action = {
+        intent: SET_MODAL,
+        modal: ModalType.UNSAVED,
+        action: modalAction,
+      };
+
+      const result = timesheetReducer(state, action);
+
+      expect(result).toEqual({
+        modal: ModalType.UNSAVED,
+        modalAction,
       });
     });
   });

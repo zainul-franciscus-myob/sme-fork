@@ -4,6 +4,7 @@ import React from 'react';
 import {
   ADD_ROW,
   CLEAR_TIMESHEET_ROWS,
+  CLOSE_UNSAVED_CHANGES_MODAL,
   DELETE_TIMESHEET,
   LOAD_CONTEXT,
   LOAD_EMPLOYEE_TIMESHEET,
@@ -27,12 +28,15 @@ import {
   getPayrollSettingsUrl,
   getSaveTimesheetContent,
   getSelectedEmployeeId,
+  getTimesheetIsDirty,
+  getUnsavedChangesModalAction,
   getWeekStartDate,
 } from './timesheetSelectors';
 import LoadingState from '../../components/PageView/LoadingState';
 import ModalType from './ModalType';
 import Store from '../../store/Store';
 import TimesheetView from './components/TimesheetView';
+import UnsavedChangesModalActions from './UnsavedChangesModalActions';
 import reducer from './timesheetReducer';
 
 export default class TimesheetModule {
@@ -101,6 +105,18 @@ export default class TimesheetModule {
     });
   }
 
+  onSelectedEmployeeChange = ({ value }) => {
+    const state = this.store.getState();
+    if (getTimesheetIsDirty(state)) {
+      this.openUnsavedChangesModal({
+        action: UnsavedChangesModalActions.EMPLOYEE_CHANGE,
+        employeeId: value,
+      });
+    } else {
+      this.loadSelectedEmployeeTimesheet({ value });
+    }
+  }
+
   loadSelectedEmployeeTimesheet = ({ value }) => {
     const state = this.store.getState();
     this.setSelectedEmployee({ value });
@@ -143,6 +159,18 @@ export default class TimesheetModule {
   }
 
   onSelectedDateChange = ({ value }) => {
+    const state = this.store.getState();
+    if (getTimesheetIsDirty(state)) {
+      this.openUnsavedChangesModal({
+        action: UnsavedChangesModalActions.DATE_CHANGE,
+        newDate: value,
+      });
+    } else {
+      this.changeSelectedDate({ value });
+    }
+  }
+
+  changeSelectedDate = ({ value }) => {
     this.store.dispatch({
       intent: SET_SELECTED_DATE,
       selectedDate: value,
@@ -224,7 +252,10 @@ export default class TimesheetModule {
     });
   }
 
-  saveTimesheet = () => {
+  saveTimesheet = ({
+    onSuccess = () => {},
+    onFailure = () => {},
+  }) => {
     this.setLoadingState(LoadingState.LOADING);
     const state = this.store.getState();
     const intent = SAVE_TIMESHEET;
@@ -235,8 +266,7 @@ export default class TimesheetModule {
     };
 
     const content = getSaveTimesheetContent(state);
-
-    const onSuccess = ({ message }) => {
+    const onSuccessFunc = ({ message }) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.setAlert({
         type: 'success',
@@ -249,22 +279,24 @@ export default class TimesheetModule {
         intent: SET_SELECTED_EMPLOYEE,
         selectedEmployeeId: 0,
       });
+      onSuccess();
     };
 
-    const onFailure = ({ message }) => {
+    const onFailureFunc = ({ message }) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.setAlert({
         type: 'danger',
         message,
       });
+      onFailure();
     };
 
     this.integration.write({
       intent,
       urlParams,
       content,
-      onSuccess,
-      onFailure,
+      onSuccess: onSuccessFunc,
+      onFailure: onFailureFunc,
     });
   }
 
@@ -336,21 +368,78 @@ export default class TimesheetModule {
     });
   }
 
+  openUnsavedChangesModal = (action) => {
+    this.store.dispatch({
+      intent: SET_MODAL,
+      modal: ModalType.UNSAVED,
+      action,
+    });
+  }
+
+  closeUnsavedChangesModal = () => {
+    this.store.dispatch({
+      intent: CLOSE_UNSAVED_CHANGES_MODAL,
+    });
+  }
+
+  unsavedChangesModalSave = () => {
+    const state = this.store.getState();
+    const modalAction = getUnsavedChangesModalAction(state);
+    this.closeUnsavedChangesModal();
+    this.saveTimesheet({
+      onSuccess: () => {
+        this.handleUnsavedChangeModalAction(modalAction);
+      },
+    });
+  }
+
+  unsavedChangesModalDiscard = () => {
+    const state = this.store.getState();
+    const modalAction = getUnsavedChangesModalAction(state);
+    this.closeUnsavedChangesModal();
+    this.handleUnsavedChangeModalAction(modalAction);
+  }
+
+  unsavedChangesModalCancel = () => {
+    this.closeUnsavedChangesModal();
+  }
+
+  handleUnsavedChangeModalAction = (modalAction) => {
+    switch (modalAction.action) {
+      case UnsavedChangesModalActions.NAVIGATION:
+        this.redirectToUrl(modalAction.url);
+        break;
+      case UnsavedChangesModalActions.EMPLOYEE_CHANGE:
+        this.loadSelectedEmployeeTimesheet({ value: modalAction.employeeId });
+        break;
+      case UnsavedChangesModalActions.DATE_CHANGE:
+        this.changeSelectedDate({ value: modalAction.newDate });
+        break;
+      default:
+        throw Error(`Invalid modal action '${modalAction.action}'`);
+    }
+  }
+
   render = () => {
     const view = (
       <Provider store={this.store}>
         <TimesheetView
           onEmptyStateLinkClick={this.redirectToPayrollSettings}
-          onEmployeeChange={this.loadSelectedEmployeeTimesheet}
+          onEmployeeChange={this.onSelectedEmployeeChange}
           onSelectedDateChange={this.onSelectedDateChange}
           onRowChange={this.onRowChange}
           onRemoveRow={this.removeRow}
           onAddRow={this.addRow}
           onHoursBlur={this.onHoursBlur}
-          onSaveClick={this.saveTimesheet}
+          onSaveClick={() => this.saveTimesheet({})}
           onDeleteClick={this.openDeleteModal}
           onModalDelete={this.deleteTimesheet}
           onModalCancel={this.closeModal}
+          unsavedModalListeners={{
+            onCancel: this.unsavedChangesModalCancel,
+            onUnsave: this.unsavedChangesModalDiscard,
+            onSave: this.unsavedChangesModalSave,
+          }}
           onDisplayStartStopTimesChange={this.toggleDisplayStartStopTimes}
         />
       </Provider>
@@ -375,5 +464,21 @@ export default class TimesheetModule {
     this.store.dispatch({
       intent: RESET_STATE,
     });
+  }
+
+  redirectToUrl = (url) => {
+    window.location.href = url;
+  }
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getTimesheetIsDirty(state)) {
+      this.openUnsavedChangesModal({
+        action: UnsavedChangesModalActions.NAVIGATION,
+        url,
+      });
+    } else {
+      this.redirectToUrl(url);
+    }
   }
 }

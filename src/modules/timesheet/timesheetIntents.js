@@ -16,3 +16,4 @@ export const DELETE_TIMESHEET = Symbol('Delete the timesheet');
 export const SET_SELECTED_DATE = Symbol('Set the selected date');
 export const SET_ALERT = Symbol('Set alert');
 export const SET_MODAL = Symbol('Set modal');
+export const CLOSE_UNSAVED_CHANGES_MODAL = Symbol('Close the unsaved changes modal and clear the modal action');

@@ -5,9 +5,13 @@ import {
   LOAD_EMPLOYEE_TIMESHEET, LOAD_INITIAL_TIMESHEET, LOAD_TIMESHEET,
 } from '../timesheetIntents';
 import { findButtonWithTestId, findComponentWithTestId } from '../../../common/tests/selectors';
+import { getSelectedDate, getSelectedEmployeeId } from '../timesheetSelectors';
+import HoursInput from '../../../components/autoFormatter/HoursInput/HoursInput';
 import LoadingFailPageState from '../../../components/PageView/LoadingFailPageState';
 import TimesheetModule from '../TimesheetModule';
+import UnsavedModal from '../../../components/modal/UnsavedModal';
 import loadEmployeeTimesheet from '../mappings/data/loadEmployeeTimesheet';
+import loadTimesheet from '../mappings/data/loadTimesheet';
 import loadTimesheetInitial from '../mappings/data/loadTimesheetInitial';
 
 const selectEmployee = (wrapper) => {
@@ -217,7 +221,8 @@ describe('TimesheetModule', () => {
         };
         const { wrapper } = constructTimesheetModule({ integration });
 
-        selectEmployee(wrapper); const saveButton = findButtonWithTestId(wrapper, 'saveButton');
+        selectEmployee(wrapper);
+        const saveButton = findButtonWithTestId(wrapper, 'saveButton');
         saveButton.simulate('click');
         wrapper.update();
 
@@ -234,7 +239,8 @@ describe('TimesheetModule', () => {
         };
         const { wrapper } = constructTimesheetModule({ integration });
 
-        selectEmployee(wrapper); const saveButton = findButtonWithTestId(wrapper, 'saveButton');
+        selectEmployee(wrapper);
+        const saveButton = findButtonWithTestId(wrapper, 'saveButton');
         saveButton.simulate('click');
         wrapper.update();
 
@@ -318,6 +324,234 @@ describe('TimesheetModule', () => {
         const deleteModal = wrapper.find(Modal);
         expect(deleteModal).toHaveLength(1);
       });
+    });
+  });
+
+  const simulateHoursInputChange = (component, value) => (
+    component.prop('onChange')({ target: { rawValue: value, name: component.prop('name') } })
+  );
+
+  describe('Unsaved modal', () => {
+    let originalUrl;
+
+    beforeEach(() => {
+      originalUrl = window.location.href;
+    });
+
+    afterEach(() => {
+      window.location.href = originalUrl;
+    });
+
+    const createMockIntegration = () => ({
+      write: jest.fn(({ onSuccess }) => { onSuccess({ message: 'successMessage' }); }),
+      read: ({ intent, onSuccess }) => {
+        switch (intent) {
+          case LOAD_TIMESHEET:
+            onSuccess(loadTimesheet);
+            break;
+          case LOAD_INITIAL_TIMESHEET:
+            onSuccess(loadTimesheetInitial);
+            break;
+          case LOAD_EMPLOYEE_TIMESHEET:
+            onSuccess(loadEmployeeTimesheet);
+            break;
+          default:
+            throw Error(`unmocked integration read call: '${intent}'`);
+        }
+      },
+    });
+
+    const getSelectedEmployee = module => getSelectedEmployeeId(module.store.getState());
+
+    const getSelectedDateFromState = module => getSelectedDate(module.store.getState());
+
+    const makeTimesheetDirty = (wrapper) => {
+      const hoursInput = wrapper.find(HoursInput).first();
+      simulateHoursInputChange(hoursInput, '10');
+    };
+
+    const attemptToChangeSelectedEmployee = (wrapper, newEmployeeId) => {
+      const employeeSelect = wrapper.find({ testid: 'employeeSelect' });
+      employeeSelect.prop('onChange')({ id: newEmployeeId, employeeId: 'EMP001' });
+      wrapper.update();
+    };
+
+    const attemptToChangeSelectedDate = (wrapper, newDate) => {
+      const dateSelect = wrapper.find(DatePicker);
+      dateSelect.prop('onSelect')({ value: newDate });
+      wrapper.update();
+    };
+
+    it('does not render the unsaved modal if there are no unsaved changes', () => {
+      const { module, wrapper } = constructTimesheetModule({});
+      const newUrl = '#/SOME_NEW_URL';
+
+      module.handlePageTransition(newUrl);
+
+      expect(window.location.href).toEqual(expect.stringContaining(newUrl));
+      expect(wrapper.find(UnsavedModal)).toHaveLength(0);
+    });
+
+    it('renders the unsaved modal if there are unsaved changes', () => {
+      const { module, wrapper } = constructTimesheetModule({});
+      const initialUrl = window.location.href;
+      selectEmployee(wrapper);
+      makeTimesheetDirty(wrapper);
+
+      module.handlePageTransition('#/newUrl');
+      wrapper.update();
+
+      expect(window.location.href).toEqual(initialUrl);
+      expect(wrapper.find(UnsavedModal)).toHaveLength(1);
+    });
+
+    it('does not save or make changes if Go back is clicked, only closes modal', () => {
+      const integration = createMockIntegration();
+      const { module, wrapper } = constructTimesheetModule({ integration });
+      const initialUrl = window.location.href;
+      selectEmployee(wrapper);
+      makeTimesheetDirty(wrapper);
+
+      module.handlePageTransition('#/newUrl');
+      wrapper.update();
+
+      const unsavedModal = wrapper.find(UnsavedModal);
+      expect(window.location.href).toEqual(initialUrl);
+      expect(unsavedModal).toHaveLength(1);
+
+      unsavedModal.prop('onCancel')();
+      wrapper.update();
+
+      expect(integration.write).not.toHaveBeenCalled();
+      expect(window.location.href).toEqual(initialUrl);
+      expect(wrapper.find(UnsavedModal)).toHaveLength(0);
+    });
+
+    it('can save and navigate to another page on confirm', () => {
+      const integration = createMockIntegration();
+      const { module, wrapper } = constructTimesheetModule({ integration });
+      const initialUrl = window.location.href;
+      selectEmployee(wrapper);
+      makeTimesheetDirty(wrapper);
+      const newUrl = '#/newUrl';
+
+      module.handlePageTransition(newUrl);
+      wrapper.update();
+
+      expect(window.location.href).toEqual(initialUrl);
+      const unsavedModal = wrapper.find(UnsavedModal);
+      expect(unsavedModal).toHaveLength(1);
+
+      unsavedModal.prop('onConfirmSave')();
+
+      expect(integration.write).toHaveBeenCalled();
+      expect(window.location.href).toEqual(expect.stringContaining(newUrl));
+    });
+
+    it('can navigate to another page on discard', () => {
+      const integration = createMockIntegration();
+      const { module, wrapper } = constructTimesheetModule({ integration });
+      const initialUrl = window.location.href;
+      selectEmployee(wrapper);
+      makeTimesheetDirty(wrapper);
+      const newUrl = '#/newUrl';
+
+      // Attempt to visit a different page.
+      module.handlePageTransition(newUrl);
+      wrapper.update();
+
+      expect(window.location.href).toEqual(initialUrl);
+      const unsavedModal = wrapper.find(UnsavedModal);
+      expect(unsavedModal).toHaveLength(1);
+
+      unsavedModal.prop('onConfirmUnsave')();
+
+      expect(integration.write).not.toHaveBeenCalled();
+      expect(window.location.href).toEqual(expect.stringContaining(newUrl));
+    });
+
+    it('can save and change selected employee field on confirm', () => {
+      const integration = createMockIntegration();
+      const { module, wrapper } = constructTimesheetModule({ integration });
+      selectEmployee(wrapper);
+      makeTimesheetDirty(wrapper);
+      const initialEmployee = getSelectedEmployee(module);
+      const newEmployee = 1;
+
+      attemptToChangeSelectedEmployee(wrapper, newEmployee);
+
+      // Selected employee should be unchanged.
+      expect(getSelectedEmployee(module)).toEqual(initialEmployee);
+      const unsavedModal = wrapper.find(UnsavedModal);
+      expect(unsavedModal).toHaveLength(1);
+
+      unsavedModal.prop('onConfirmSave')();
+
+      expect(integration.write).toHaveBeenCalled();
+      expect(getSelectedEmployee(module)).toEqual(newEmployee);
+    });
+
+    it('can change selected employee field on discard', () => {
+      const integration = createMockIntegration();
+      const { module, wrapper } = constructTimesheetModule({ integration });
+      selectEmployee(wrapper);
+      makeTimesheetDirty(wrapper);
+      const initialEmployee = getSelectedEmployee(module);
+      const newEmployee = 1;
+
+      attemptToChangeSelectedEmployee(wrapper, newEmployee);
+
+      // Selected employee should be unchanged.
+      expect(getSelectedEmployee(module)).toEqual(initialEmployee);
+      const unsavedModal = wrapper.find(UnsavedModal);
+      expect(unsavedModal).toHaveLength(1);
+
+      unsavedModal.prop('onConfirmUnsave')();
+
+      expect(integration.write).not.toHaveBeenCalled();
+      expect(getSelectedEmployee(module)).toEqual(newEmployee);
+    });
+
+    it('can save and change selected date field on confirm', () => {
+      const integration = createMockIntegration();
+      const { module, wrapper } = constructTimesheetModule({ integration });
+      selectEmployee(wrapper);
+      makeTimesheetDirty(wrapper);
+      const initialDate = getSelectedDateFromState(module);
+      const newDate = '2020-02-02';
+
+      attemptToChangeSelectedDate(wrapper, newDate);
+
+      // Selected date should be unchanged.
+      expect(getSelectedDateFromState(module)).toEqual(initialDate);
+      const unsavedModal = wrapper.find(UnsavedModal);
+      expect(unsavedModal).toHaveLength(1);
+
+      unsavedModal.prop('onConfirmSave')();
+
+      expect(integration.write).toHaveBeenCalled();
+      expect(getSelectedDateFromState(module)).toEqual(newDate);
+    });
+
+    it('can change selected date field on discard', () => {
+      const integration = createMockIntegration();
+      const { module, wrapper } = constructTimesheetModule({ integration });
+      selectEmployee(wrapper);
+      makeTimesheetDirty(wrapper);
+      const initialDate = getSelectedDateFromState(module);
+      const newDate = '2020-02-02';
+
+      attemptToChangeSelectedDate(wrapper, newDate);
+
+      // Selected date should be unchanged.
+      expect(getSelectedDateFromState(module)).toEqual(initialDate);
+      const unsavedModal = wrapper.find(UnsavedModal);
+      expect(unsavedModal).toHaveLength(1);
+
+      unsavedModal.prop('onConfirmUnsave')();
+
+      expect(integration.write).not.toHaveBeenCalled();
+      expect(getSelectedDateFromState(module)).toEqual(newDate);
     });
   });
 });

@@ -89,3 +89,6 @@ export const getDeleteTimesheetContent = state => ({
   weekStartDate: state.weekStartDate,
   employeeName: getSelectedEmployeeName(state),
 });
+
+export const getTimesheetIsDirty = state => state.timesheetIsDirty;
+export const getUnsavedChangesModalAction = state => state.modalAction;

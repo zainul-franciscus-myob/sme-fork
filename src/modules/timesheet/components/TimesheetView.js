@@ -12,6 +12,7 @@ import ModalType from '../ModalType';
 import PageView from '../../../components/PageView/PageView';
 import TimesheetIsSetUpView from './TimesheetIsSetUpView';
 import TimesheetNotSetUpView from './TimesheetNotSetUpView';
+import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const TimesheetView = ({
   alert,
@@ -30,6 +31,7 @@ const TimesheetView = ({
   onModalCancel,
   onModalDelete,
   modal,
+  unsavedModalListeners,
 }) => {
   const view = (
     <BaseTemplate>
@@ -48,6 +50,18 @@ const TimesheetView = ({
           onCancel={onModalCancel}
           onDelete={onModalDelete}
         />
+        )
+      }
+      {
+        modal === ModalType.UNSAVED
+        && (
+          <UnsavedModal
+            title="Save changes before you go?"
+            description="Looks like you&apos;ve made changes to this timesheet. Do you want to save these changes now?"
+            onConfirmSave={unsavedModalListeners.onSave}
+            onConfirmUnsave={unsavedModalListeners.onUnsave}
+            onCancel={unsavedModalListeners.onCancel}
+          />
         )
       }
       {isTimesheetSetUp

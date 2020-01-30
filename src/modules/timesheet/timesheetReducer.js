@@ -1,6 +1,7 @@
 import {
   ADD_ROW,
   CLEAR_TIMESHEET_ROWS,
+  CLOSE_UNSAVED_CHANGES_MODAL,
   LOAD_CONTEXT,
   LOAD_EMPLOYEE_TIMESHEET,
   LOAD_INITIAL_TIMESHEET,
@@ -17,6 +18,7 @@ import {
 import { RESET_STATE } from '../../SystemIntents';
 import { getFormattedHours } from './timesheetSelectors';
 import LoadingState from '../../components/PageView/LoadingState';
+import ModalType from './ModalType';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -33,7 +35,9 @@ const getDefaultState = () => ({
   displayStartStopTimes: false,
   selectedEmployeeId: '',
   timesheetRows: [],
+  timesheetIsDirty: false,
   modal: null,
+  modalAction: null,
   employeeAllowedPayItems: [],
 });
 
@@ -69,6 +73,7 @@ const setLoadingState = (state, { loadingState }) => ({
 
 const loadEmployeeTimesheet = (state, { timesheetRows, allowedPayItems }) => ({
   ...state,
+  timesheetIsDirty: false,
   timesheetRows: timesheetRows.map(row => ({
     ...row,
     day1: {
@@ -105,6 +110,7 @@ const loadEmployeeTimesheet = (state, { timesheetRows, allowedPayItems }) => ({
 
 const clearTimesheetRows = state => ({
   ...state,
+  timesheetIsDirty: false,
   timesheetRows: [],
 });
 
@@ -116,6 +122,7 @@ const isUpdatingRow = (targetIndex, index) => (
 
 const setTimesheetCell = (state, { index, name, value }) => ({
   ...state,
+  timesheetIsDirty: true,
   timesheetRows: state.timesheetRows.map((row, i) => {
     if (!isUpdatingRow(index, i)) { return row; }
 
@@ -153,12 +160,14 @@ const removeRow = (state, { rowIndex }) => {
 
   return {
     ...state,
+    timesheetIsDirty: true,
     timesheetRows: state.timesheetRows.filter((row, index) => index !== rowIndex),
   };
 };
 
 const addRow = (state, { rowData }) => ({
   ...state,
+  timesheetIsDirty: true,
   timesheetRows: [
     ...state.timesheetRows,
     {
@@ -195,9 +204,25 @@ const setAlert = (state, { type, message }) => ({
   },
 });
 
-const setModal = (state, { modal }) => ({
+const setModal = (state, action) => {
+  if (action.modal === ModalType.UNSAVED) {
+    return {
+      ...state,
+      modal: action.modal,
+      modalAction: action.action,
+    };
+  }
+
+  return {
+    ...state,
+    modal: action.modal,
+  };
+};
+
+const closeUnsavedChangesModal = state => ({
   ...state,
-  modal,
+  modal: null,
+  modalAction: null,
 });
 
 const timesheetReducer = createReducer(getDefaultState(), {
@@ -216,6 +241,7 @@ const timesheetReducer = createReducer(getDefaultState(), {
   [SET_SELECTED_DATE]: setSelectedDate,
   [SET_ALERT]: setAlert,
   [SET_MODAL]: setModal,
+  [CLOSE_UNSAVED_CHANGES_MODAL]: closeUnsavedChangesModal,
 });
 
 export default timesheetReducer;
