@@ -40,7 +40,6 @@ const PayRunView = ({
 
   const view = isPayrollSetup ? (
     <BaseTemplate>
-      <div>new new</div>
       {alertComponent}
       {previousStepModal}
       {stepViews[step]}
