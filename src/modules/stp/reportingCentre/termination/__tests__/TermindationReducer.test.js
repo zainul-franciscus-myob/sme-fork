@@ -2,7 +2,6 @@ import {
   SET_EMPLOYEES,
   SET_EMPLOYEE_TERMINATION_DATE,
   SET_NEW_EVENT_ID,
-  SET_SELECTED_EMPLOYEE,
 } from '../TerminationIntents';
 import TerminationReducer from '../TerminationReducer';
 
@@ -106,45 +105,6 @@ describe('TerminationReducer', () => {
       const result = TerminationReducer(state, action);
 
       expect(result.selectedPayrollYear).toEqual('');
-    });
-  });
-
-  describe('setSelectedEmployee', () => {
-    it('should set the employee as selected', () => {
-      const state = {
-        employees: [
-          {
-            id: '1',
-          },
-          {
-            id: '2',
-          },
-        ],
-      };
-
-      const action = {
-        intent: SET_SELECTED_EMPLOYEE,
-        employee: {
-          id: '2',
-        },
-        isChecked: true,
-      };
-
-      const result = TerminationReducer(state, action);
-
-      const expected = {
-        employees: [
-          {
-            id: '1',
-          },
-          {
-            id: '2',
-            isSelected: true,
-          },
-        ],
-      };
-
-      expect(result).toEqual(expected);
     });
   });
 

@@ -1,0 +1,43 @@
+{
+  "name": "Alf Galang",
+  "pays": [
+    {
+      "id": "38f60396-bbe8-4ca2-a604-6b2a8dedd3ba",
+      "payPeriod": "09/09/2019 - 15/09/2019",
+      "paymentDate": "16/09/2019",
+      "payItems": [
+        {
+          "amount": "16,420.00",
+          "name": "ETP-NonTaxable",
+          "type": "Wage and salary",
+          "stpCategory": "Non-Taxable earning"
+        }
+      ]
+    },
+    {
+      "id": "cc3c9084-8c27-42c8-b589-37c349b2984d",
+      "payPeriod": "16/09/2019 - 22/09/2019",
+      "paymentDate": "23/09/2019",
+      "payItems": [
+        {
+          "amount": "120.00",
+          "name": "ETP-NonTaxable",
+          "type": "Wage and salary",
+          "stpCategory": "Non-Taxable earning"
+        },
+        {
+          "amount": "1,520.00",
+          "name": "ETP-Taxable",
+          "type": "Wage and salary",
+          "stpCategory": "Taxable earning"
+        },
+        {
+          "amount": "300.00",
+          "name": "ETP Tax",
+          "type": "Deduction",
+          "stpCategory": "Tax-withheld deduction"
+        }
+      ]
+    }
+  ]
+}

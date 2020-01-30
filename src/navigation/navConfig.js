@@ -63,6 +63,7 @@ export const activeMapping = {
   [RouteName.STP_ERRORS]: 'payroll',
   [RouteName.STP_SETUP]: 'payroll',
   [RouteName.STP_REPORTING_CENTRE]: 'payroll',
+  [RouteName.STP_EMPLOYEE_ETP]: 'payroll',
 
   [RouteName.CONTACT_LIST]: 'contact',
   [RouteName.CONTACT_DETAIL]: 'contact',

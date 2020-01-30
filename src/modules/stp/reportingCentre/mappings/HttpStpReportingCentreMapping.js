@@ -1,4 +1,8 @@
 import {
+  DELETE_EMPLOYEE_ETP,
+  LOAD_EMPLOYEE_ETP,
+} from '../etps/EtpIntents';
+import {
   FILTER_PAY_EVENTS,
   LOAD_PAY_EVENTS,
   LOAD_PAY_EVENT_DETAILS,
@@ -62,6 +66,14 @@ const HttpStpReportingCentreMapping = {
   [UPDATE_STP_EMPLOYEES]: {
     method: 'PUT',
     getPath: ({ businessId }) => `/${businessId}/stp/stp_employees`,
+  },
+  [LOAD_EMPLOYEE_ETP]: {
+    method: 'GET',
+    getPath: ({ businessId, employeeId }) => `/${businessId}/stp/employee_etps/${employeeId}`,
+  },
+  [DELETE_EMPLOYEE_ETP]: {
+    method: 'DELETE',
+    getPath: ({ businessId }) => `/${businessId}/stp/employee_etps`,
   },
 };
 

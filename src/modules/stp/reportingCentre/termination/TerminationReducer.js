@@ -7,7 +7,6 @@ import {
   SET_FILTERED_EMPLOYEES,
   SET_LOADING_STATE,
   SET_NEW_EVENT_ID,
-  SET_SELECTED_EMPLOYEE,
   SET_SELECTED_PAYROLL_YEAR,
   SET_TABLE_LOADING_STATE,
 } from './TerminationIntents';
@@ -58,14 +57,6 @@ const setSelectedPayrollYear = (state, { selectedPayrollYear }) => ({
   selectedPayrollYear,
 });
 
-const setSelectedEmployee = (state, { employee, isChecked }) => ({
-  ...state,
-  employees: state.employees.map(emp => (emp.id === employee.id ? {
-    ...emp,
-    isSelected: isChecked,
-  } : emp)),
-});
-
 const setTerminationDate = (state, { employee, terminationDate }) => ({
   ...state,
   employees: state.employees.map(emp => (emp.id === employee.id ? {
@@ -88,7 +79,6 @@ const handlers = {
   [SET_EMPLOYEES]: setEmployees,
   [SET_SELECTED_PAYROLL_YEAR]: setSelectedPayrollYear,
   [SET_FILTERED_EMPLOYEES]: setFilteredEmployees,
-  [SET_SELECTED_EMPLOYEE]: setSelectedEmployee,
   [SET_EMPLOYEE_TERMINATION_DATE]: setTerminationDate,
   [SET_NEW_EVENT_ID]: setNewEventId,
 };

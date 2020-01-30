@@ -1,5 +1,5 @@
 import {
-  Button, Card, Checkbox, DatePicker, Icons, Table,
+  Button, Card, DatePicker, Icons, Table,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -7,23 +7,33 @@ import { getEtpCountText, hasEtps, hasTerminationDate } from '../TerminationSele
 import ReportsEmpty from './TerminationEmpty';
 import TableView from '../../../../../components/TableView/TableView';
 import handleDateChange from '../../../../../components/handlers/handleDateChange';
-import styles from './TerminationTable.module.css';
+
+const tableConfig = {
+  isSelected: {
+    columnName: '', width: 'auto', cellRole: 'checkbox', valign: 'middle',
+  },
+  employeeName: {
+    columnName: 'Employee', width: 'flex-1', valign: 'middle',
+  },
+  etpCount: {
+    columnName: 'Employment termination payments (ETP)', width: 'flex-2', valign: 'middle',
+  },
+  terminationDate: {
+    columnName: 'Employment end date', width: 'flex-1', valign: 'middle', textWrap: 'wrap',
+  },
+  removeTermination: {
+    columnName: '', width: 'flex-1', valign: 'middle',
+  },
+};
 
 const TerminationTable = ({
-  tableConfig,
   isTableLoading,
   employees,
-  onRowSelect,
   onTerminationDateChange,
   onUnterminateEmployee,
 }) => {
   const header = (
     <Table.Header>
-      <Table.HeaderItem {...tableConfig.isSelected}>
-        <div className={styles.hiddenCheckbox}>
-          <Checkbox label="" name="hidden" hideLabel />
-        </div>
-      </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.employeeName}>
         {tableConfig.employeeName.columnName}
       </Table.HeaderItem>
@@ -39,15 +49,6 @@ const TerminationTable = ({
 
   const rows = employees.map(row => (
     <Table.Row key={row.id} rowData={{ id: row.id }}>
-      <Table.RowItem {...tableConfig.isSelected}>
-        <Checkbox
-          name={`${row.id}-select`}
-          label={`Select row ${row.name}`}
-          hideLabel
-          onChange={e => onRowSelect(row, e.target.checked)}
-          checked={row.isSelected}
-        />
-      </Table.RowItem>
       <Table.RowItem {...tableConfig.employeeName}>
         {row.name}
       </Table.RowItem>

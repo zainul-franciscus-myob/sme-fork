@@ -14,6 +14,7 @@ describe('TerminationSelector', () => {
       const state = {
         region: 'au',
         businessId: '123',
+        selectedPayrollYear: 2020,
         employees: [
           {
             id: '1',
@@ -32,12 +33,12 @@ describe('TerminationSelector', () => {
         {
           id: '1',
           name: 'test1',
-          employeeLink: '/#/au/123/stp/employeeEtp/1',
+          employeeLink: '/#/au/123/stp/employeeEtp/1?year=2020',
         },
         {
           id: '2',
           name: 'test2',
-          employeeLink: '/#/au/123/stp/employeeEtp/2',
+          employeeLink: '/#/au/123/stp/employeeEtp/2?year=2020',
         },
       ];
 
@@ -98,33 +99,19 @@ describe('TerminationSelector', () => {
   });
 
   describe('getTerminateEmployeesContent', () => {
-    it('should get the termination employees content and only include selected and edited employees', () => {
+    it('should get the termination employees content and only include edited employees', () => {
       const state = {
         eventId: '123',
         employees: [
           {
             id: '1',
             name: 'test1',
-            isSelected: false,
             isDirty: false,
           },
           {
             id: '2',
             name: 'test2',
-            isSelected: false,
             isDirty: true,
-          },
-          {
-            id: '3',
-            name: 'test3',
-            isSelected: true,
-            isDirty: true,
-          },
-          {
-            id: '4',
-            name: 'test4',
-            isSelected: true,
-            isDirty: false,
           },
         ],
       };
@@ -135,10 +122,9 @@ describe('TerminationSelector', () => {
         eventId: '123',
         employees: [
           {
-            id: '3',
+            id: '2',
             isDirty: true,
-            isSelected: true,
-            name: 'test3',
+            name: 'test2',
           },
         ],
       };

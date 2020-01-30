@@ -8,7 +8,8 @@ export const getSelectedPayrollYear = state => state.selectedPayrollYear;
 const getEmployeeLink = (employeeId, state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
-  return `/#/${region}/${businessId}/stp/employeeEtp/${employeeId}`;
+  const year = getSelectedPayrollYear(state);
+  return `/#/${region}/${businessId}/stp/employeeEtp/${employeeId}?year=${year}`;
 };
 export const getEmployees = state => state.employees.map(employee => ({
   ...employee,
@@ -28,7 +29,7 @@ export const hasTerminationDate = employee => (!!employee.terminationDate) && !e
 
 export const getTerminateEmployeesContent = state => ({
   eventId: state.eventId,
-  employees: state.employees.filter(emp => emp.isSelected && emp.isDirty),
+  employees: state.employees.filter(emp => emp.isDirty),
 });
 
 export const getUnterminateEmployeeContent = (state, employee) => ({

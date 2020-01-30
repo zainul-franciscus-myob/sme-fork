@@ -23,35 +23,14 @@ const TerminationView = ({
   payrollYear,
   employees,
   onPayrollYearChange,
-  onEmployeeSelected,
   onTerminationDateChange,
   onTerminateEmployees,
   onUnterminateEmployee,
 }) => {
-  const tableConfig = {
-    isSelected: {
-      columnName: '', width: 'auto', cellRole: 'checkbox', valign: 'middle',
-    },
-    employeeName: {
-      columnName: 'Employee', width: 'flex-1', valign: 'middle',
-    },
-    etpCount: {
-      columnName: 'Employment termination payments (ETP)', width: 'flex-2', valign: 'middle',
-    },
-    terminationDate: {
-      columnName: 'Employment end date', width: 'flex-1', valign: 'middle', textWrap: 'wrap',
-    },
-    removeTermination: {
-      columnName: '', width: 'flex-1', valign: 'middle',
-    },
-  };
-
   const terminationTable = (
     <TerminationTable
-      tableConfig={tableConfig}
       isTableLoading={isTableLoading}
       employees={employees}
-      onRowSelect={onEmployeeSelected}
       onTerminationDateChange={onTerminationDateChange}
       onUnterminateEmployee={onUnterminateEmployee}
     />

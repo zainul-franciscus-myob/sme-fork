@@ -1,4 +1,8 @@
 import {
+  DELETE_EMPLOYEE_ETP,
+  LOAD_EMPLOYEE_ETP,
+} from '../etps/EtpIntents';
+import {
   FILTER_PAY_EVENTS,
   LOAD_PAY_EVENTS,
   LOAD_PAY_EVENT_DETAILS,
@@ -20,6 +24,7 @@ import {
 import filterEmployeesResponse from './data/filterTerminationEmployeesResponse';
 import filterPayEventsResponse from './data/filterPayEventsResponse';
 import loadAtoSettingsResponse from './data/loadAtoSettingsResponse';
+import loadEmployeeEtps from './data/loadEmployeeEtps';
 import loadEmployeesResponse from './data/loadTerminationEmployeesResponse';
 import loadPayEventDetails from './data/loadPayEventDetailResponse';
 import loadPayEventsResponse from './data/loadPayEventsResponse';
@@ -42,6 +47,8 @@ const MemoryStpReportingCentreMapping = {
   [LOAD_TERMINATION_EMPLOYEES]: ({ onSuccess }) => onSuccess(loadEmployeesResponse),
   [FILTER_TERMINATION_EMPLOYEES]: ({ onSuccess }) => onSuccess(filterEmployeesResponse),
   [UPDATE_STP_EMPLOYEES]: () => {},
+  [LOAD_EMPLOYEE_ETP]: ({ onSuccess }) => onSuccess(loadEmployeeEtps),
+  [DELETE_EMPLOYEE_ETP]: () => {},
 };
 
 export default MemoryStpReportingCentreMapping;

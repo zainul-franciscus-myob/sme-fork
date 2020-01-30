@@ -83,6 +83,7 @@ const RouteName = {
   STP_ERRORS: 'stp/stpErrors',
   STP_SETUP: 'stp/stpSetup',
   STP_REPORTING_CENTRE: 'stp/reportingCentre',
+  STP_EMPLOYEE_ETP: 'stp/employeeEtp',
   CREATE_TEMPLATE: 'createTemplate',
   TEMPLATE_DETAIL: 'templateDetail',
   PAYMENT_DETAIL: 'paymentDetail',

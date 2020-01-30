@@ -5,7 +5,6 @@ import {
   SET_FILTERED_EMPLOYEES,
   SET_LOADING_STATE,
   SET_NEW_EVENT_ID,
-  SET_SELECTED_EMPLOYEE,
   SET_SELECTED_PAYROLL_YEAR,
   SET_TABLE_LOADING_STATE,
 } from './TerminationIntents';
@@ -63,14 +62,6 @@ const createTerminationDispatcher = store => ({
     store.dispatch({
       intent: SET_FILTERED_EMPLOYEES,
       response: { employees: [] },
-    });
-  },
-
-  setSelectedEmployee: (employee, isChecked) => {
-    store.dispatch({
-      intent: SET_SELECTED_EMPLOYEE,
-      employee,
-      isChecked,
     });
   },
 

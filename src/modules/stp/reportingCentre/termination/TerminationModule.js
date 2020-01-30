@@ -122,7 +122,6 @@ export default class TerminationModule {
         {declarationModal}
         <TerminationView
           onPayrollYearChange={this.filterEmployeesByYear}
-          onEmployeeSelected={this.dispatcher.setSelectedEmployee}
           onTerminationDateChange={this.onTerminationDateChange}
           onTerminateEmployees={this.onTerminateEmployees}
           onUnterminateEmployee={this.onUnterminateEmployee}

@@ -1,3 +1,4 @@
+import EtpModule from './reportingCentre/etps/EtpModule';
 import ReportingCentreModule from './reportingCentre/ReportingCentreModule';
 import RouteName from '../../router/RouteName';
 import StpErrorsModule from './stpErrors/StpErrorsModule';
@@ -38,6 +39,15 @@ const getStpRoutes = ({
       path: '/:region/:businessId/stp/reportingCentre',
       module: new ReportingCentreModule({
         integration, setRootView, replaceURLParams,
+      }),
+      documentTitle: 'Single Touch Payroll reporting',
+    },
+    {
+      name: RouteName.STP_EMPLOYEE_ETP,
+      path: '/:region/:businessId/stp/employeeEtp/:employeeId',
+      allowedParams: ['year'],
+      module: new EtpModule({
+        integration, setRootView,
       }),
       documentTitle: 'Single Touch Payroll reporting',
     },
