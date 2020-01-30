@@ -3,7 +3,7 @@ import {
   CLOSE_MODAL,
   DELETE_RECEIVE_MONEY_LINE,
   FORMAT_RECEIVE_MONEY_LINE,
-  GET_CALCULATED_TOTALS,
+  GET_TAX_CALCULATIONS,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
@@ -14,9 +14,7 @@ import {
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getDefaultTaxCodeId } from './receiveMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
@@ -34,24 +32,23 @@ const getDefaultState = () => ({
     selectedDepositIntoAccountId: '',
     selectedPayFromContactId: '',
     lines: [],
-    depositIntoAccounts: [],
-    payFromContacts: [],
   },
   newLine: {
     accountId: '',
     amount: '',
-    quantity: '',
+    units: '',
     description: '',
     taxCodeId: '',
-    taxAmount: '',
-    accounts: [],
-    taxCodes: [],
   },
   totals: {
-    netAmount: '$0.00',
+    subTotal: '$0.00',
     totalTax: '$0.00',
     totalAmount: '$0.00',
   },
+  depositIntoAccountOptions: [],
+  payFromContactOptions: [],
+  accountOptions: [],
+  taxCodeOptions: [],
   modal: undefined,
   alertMessage: '',
   loadingState: LoadingState.LOADING,
@@ -91,25 +88,28 @@ const loadReceiveMoneyDetail = (state, action) => ({
   newLine: { ...state.newLine, ...action.newLine },
   totals: action.totals,
   pageTitle: action.pageTitle,
+  depositIntoAccountOptions: action.depositIntoAccountOptions,
+  payFromContactOptions: action.payFromContactOptions,
+  accountOptions: action.accountOptions,
+  taxCodeOptions: action.taxCodeOptions,
 });
 
 const isAccountLineItem = lineKey => lineKey === 'accountId';
-const updateReceiveMoneyLine = (line, { lineKey, lineValue }) => {
+const updateReceiveMoneyLine = (line, { lineKey, lineValue }, accountOptions) => {
   const updatedLine = {
     ...line,
     [lineKey]: lineValue,
   };
 
-  const { accounts } = line;
   return isAccountLineItem(lineKey)
     ? {
       ...updatedLine,
-      taxCodeId: getDefaultTaxCodeId({ accountId: lineValue, accounts }),
+      taxCodeId: getDefaultTaxCodeId({ accountId: lineValue }, accountOptions),
     }
     : updatedLine;
 };
-const getLinesForUpdate = (action, lines) => lines.map((line, index) => (
-  index === action.lineIndex ? updateReceiveMoneyLine(line, action) : line
+const getLinesForUpdate = (action, lines, accountOptions) => lines.map((line, index) => (
+  index === action.lineIndex ? updateReceiveMoneyLine(line, action, accountOptions) : line
 ));
 
 const updateLine = (state, action) => ({
@@ -117,7 +117,7 @@ const updateLine = (state, action) => ({
   ...pageEdited,
   receiveMoney: {
     ...state.receiveMoney,
-    lines: getLinesForUpdate(action, state.receiveMoney.lines),
+    lines: getLinesForUpdate(action, state.receiveMoney.lines, state.accountOptions),
   },
 });
 
@@ -131,7 +131,7 @@ const addLine = (state, action) => ({
       {
         ...state.newLine,
         ...action.line,
-        taxCodeId: getDefaultTaxCodeId({ ...state.newLine, ...action.line }),
+        taxCodeId: getDefaultTaxCodeId({ ...state.newLine, ...action.line }, state.accountOptions),
       },
     ],
   },
@@ -165,6 +165,10 @@ const loadNewReceiveMoney = (state, action) => ({
   },
   newLine: { ...state.newLine, ...action.newLine },
   pageTitle: action.pageTitle,
+  depositIntoAccountOptions: action.depositIntoAccountOptions,
+  payFromContactOptions: action.payFromContactOptions,
+  accountOptions: action.accountOptions,
+  taxCodeOptions: action.taxCodeOptions,
 });
 
 const setLoadingState = (state, { loadingState }) => ({
@@ -192,8 +196,12 @@ const closeModal = state => ({
   modal: undefined,
 });
 
-const getCalculateTotals = (state, action) => ({
+const getTaxCalculations = (state, action) => ({
   ...state,
+  receiveMoney: {
+    ...state.receiveMoney,
+    lines: action.lines,
+  },
   totals: action.totals,
 });
 
@@ -210,7 +218,7 @@ const setInitialState = (state, action) => ({
 const handlers = {
   [LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
   [LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
-  [GET_CALCULATED_TOTALS]: getCalculateTotals,
+  [GET_TAX_CALCULATIONS]: getTaxCalculations,
   [UPDATE_RECEIVE_MONEY_HEADER]: updateHeader,
   [UPDATE_RECEIVE_MONEY_LINE]: updateLine,
   [ADD_RECEIVE_MONEY_LINE]: addLine,

@@ -3,13 +3,17 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIndexOfLastLine, getTableData, getTaxCodeLabel, getTaxLabel, getTotals,
+  getIndexOfLastLine,
+  getTableData,
+  getTaxCodeLabel,
+  getTaxLabel,
+  getTotals,
 } from '../receiveMoneyDetailSelectors';
 import ReceiveMoneyDetailRow from './ReceiveMoneyDetailRow';
 
 const ReceiveMoneyDetailTable = ({
   amountTotals: {
-    netAmount,
+    subTotal,
     totalTax,
     totalAmount,
   },
@@ -96,7 +100,7 @@ const ReceiveMoneyDetailTable = ({
       onRemoveRow={onRemoveRow}
     >
       <LineItemTable.Total>
-        <LineItemTable.Totals title="Subtotal" amount={netAmount} />
+        <LineItemTable.Totals title="Subtotal" amount={subTotal} />
         <LineItemTable.Totals title={taxLabel} amount={totalTax} />
         <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
       </LineItemTable.Total>

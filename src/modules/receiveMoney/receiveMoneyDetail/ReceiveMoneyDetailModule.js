@@ -8,7 +8,7 @@ import {
   DELETE_RECEIVE_MONEY,
   DELETE_RECEIVE_MONEY_LINE,
   FORMAT_RECEIVE_MONEY_LINE,
-  GET_CALCULATED_TOTALS,
+  GET_TAX_CALCULATIONS,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
@@ -24,7 +24,6 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../receiveMoneyMessageTypes';
 import {
   getBusinessId,
-  getCalculatedTotalsPayload,
   getIsActionsDisabled,
   getIsTableEmpty,
   getModalUrl,
@@ -33,6 +32,7 @@ import {
   getReceiveMoneyForUpdatePayload,
   getReceiveMoneyId,
   getSaveUrl,
+  getTaxCalculations,
   getTransactionListUrl,
   isPageEdited,
 } from './receiveMoneyDetailSelectors';
@@ -65,17 +65,9 @@ export default class ReceiveMoneyDetailModule {
       ...(!this.isCreating && { receiveMoneyId: this.receiveMoneyId }),
     };
 
-    const onSuccess = ({
-      receiveMoney, newLine, totals, pageTitle,
-    }) => {
+    const onSuccess = (response) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent,
-        receiveMoney,
-        totals,
-        newLine,
-        pageTitle,
-      });
+      this.store.dispatch({ intent, ...response });
     };
 
     const onFailure = () => {
@@ -179,7 +171,7 @@ export default class ReceiveMoneyDetailModule {
     });
 
     if (key === 'isTaxInclusive') {
-      this.getCalculatedTotals();
+      this.getCalculatedTotals(true);
     }
   };
 
@@ -195,7 +187,7 @@ export default class ReceiveMoneyDetailModule {
 
     const taxKeys = ['accountId', 'taxCodeId'];
     if (taxKeys.includes(lineKey)) {
-      this.getCalculatedTotals();
+      this.getCalculatedTotals(false);
     }
   }
 
@@ -208,7 +200,7 @@ export default class ReceiveMoneyDetailModule {
       line: partialLine,
     });
 
-    this.getCalculatedTotals();
+    this.getCalculatedTotals(false);
   }
 
   deleteReceiveMoneyLine = (index) => {
@@ -219,36 +211,18 @@ export default class ReceiveMoneyDetailModule {
       index,
     });
 
-    this.getCalculatedTotals();
+    this.getCalculatedTotals(false);
   }
 
-  getCalculatedTotals = () => {
+  getCalculatedTotals = (isSwitchingTaxInclusive) => {
     const state = this.store.getState();
     if (getIsTableEmpty(state)) {
-      this.store.dispatch({
-        intent: RESET_TOTALS,
-      });
+      this.store.dispatch({ intent: RESET_TOTALS });
       return;
     }
 
-    const intent = GET_CALCULATED_TOTALS;
-
-    const onSuccess = (totals) => {
-      this.store.dispatch({
-        intent,
-        totals,
-      });
-    };
-
-    const onFailure = error => this.displayAlert(error.message);
-
-    this.integration.write({
-      intent,
-      urlParams: { businessId: getBusinessId(state) },
-      content: getCalculatedTotalsPayload(state),
-      onSuccess,
-      onFailure,
-    });
+    const { lines, totals } = getTaxCalculations(state, isSwitchingTaxInclusive);
+    this.store.dispatch({ intent: GET_TAX_CALCULATIONS, lines, totals });
   }
 
   formatReceiveMoneyLine = (index) => {
@@ -262,7 +236,7 @@ export default class ReceiveMoneyDetailModule {
 
   formatAndCalculateTotals = (line) => {
     this.formatReceiveMoneyLine(line);
-    this.getCalculatedTotals();
+    this.getCalculatedTotals(false);
   }
 
   setSubmittingState = (isSubmitting) => {

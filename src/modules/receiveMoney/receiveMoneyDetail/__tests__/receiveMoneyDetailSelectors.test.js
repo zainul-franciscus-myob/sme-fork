@@ -1,7 +1,7 @@
 import {
-  getCalculatedTotalsPayload,
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyForUpdatePayload,
+  getTaxCalculations,
 } from '../receiveMoneyDetailSelectors';
 
 describe('receiveMoneySelectors', () => {
@@ -10,56 +10,76 @@ describe('receiveMoneySelectors', () => {
       referenceId: 'foo',
       selectedPayFromAccountId: 'bar',
       selectedPayToContactId: 'contactId',
-      depositIntoAccounts: [1, 2, 3, 4],
-      payFromContacts: [1, 2, 3, 4],
       date: '12-1-2017',
       description: 'txt',
       isReportable: 'true',
       isTaxInclusive: 'false',
       originalReferenceId: '1234',
-      lines: [{ a: 'foo', accounts: [], taxCodes: [] }],
+      lines: [{ a: 'foo' }],
     },
   };
 
   describe('getReceiveMoneyForUpdatePayload', () => {
     it('removes extraneous fields from the payload', () => {
       const actual = getReceiveMoneyForUpdatePayload(input);
-      expect(actual.despositIntoAccounts).toBeUndefined();
-      expect(actual.payFromContacts).toBeUndefined();
       expect(actual.originalReferenceId).toBeUndefined();
-      expect(actual.lines[0].accounts).toBeUndefined();
-      expect(actual.lines[0].taxCodes).toBeUndefined();
     });
   });
 
   describe('getReceiveMoneyForCreatePayload', () => {
     it('removes extraneous fields from the payload', () => {
       const actual = getReceiveMoneyForCreatePayload(input);
-      expect(actual.despositIntoAccounts).toBeUndefined();
-      expect(actual.payFromContacts).toBeUndefined();
       expect(actual.originalReferenceId).toBeUndefined();
-      expect(actual.lines[0].accounts).toBeUndefined();
-      expect(actual.lines[0].taxCodes).toBeUndefined();
     });
   });
 
-  describe('getCalculatedTotalsPayload', () => {
-    it('removes extraneous fields from the payload', () => {
-      const taxCalcInput = {
-        receiveMoney: {
-          isTaxInclusive: true,
-          lines: [
-            { accounts: [1, 2, 3], taxCodes: [5, 4, 3] },
-            { accounts: [1, 2, 3], taxCodes: [5, 4, 3] },
-          ],
+  describe('getTaxCalculations', () => {
+    it.each([
+      ['Tax inclusive', true, '$2.00', '$0.18', '$2.00'],
+      ['Tax exclusive', false, '$2.00', '$0.20', '$2.20'],
+    ])('should returns calculated lines and totals for %s', (
+      scenario, isTaxInclusive, subTotal, totalTax, totalAmount,
+    ) => {
+      const lines = [
+        {
+          taxCodeId: '2', amount: '1', units: '1', lineTypeId: '6',
         },
+        {
+          taxCodeId: '2', amount: '1', units: '1', lineTypeId: '6',
+        },
+      ];
+
+      const state = {
+        receiveMoney: { isTaxInclusive, lines },
+        taxCodeOptions: [
+          {
+            id: '2',
+            displayName: 'GST',
+            description: 'Goods & Service Tax',
+            displayRate: '10%',
+            codeType: 'GST_VAT',
+            rate: 10,
+            threshold: 0,
+            childrenCalculationCollection: [],
+            calculationMethod: 2,
+            roundingMethod: 2,
+            collectedBehaviour: 1,
+            payedBehaviour: 1,
+            isWithholding: false,
+            thresholdRate: 10,
+            includeInGstReturn: false,
+          },
+        ],
       };
-      const actual = getCalculatedTotalsPayload(taxCalcInput);
-      expect(actual.isTaxInclusive).not.toBeUndefined();
-      expect(actual.lines[0].accounts).toBeUndefined();
-      expect(actual.lines[0].taxCodes).toBeUndefined();
-      expect(actual.lines[1].accounts).toBeUndefined();
-      expect(actual.lines[1].taxCodes).toBeUndefined();
+
+      const expected = {
+        lines,
+        totals: { subTotal, totalTax, totalAmount },
+      };
+
+      const actual = getTaxCalculations(state);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

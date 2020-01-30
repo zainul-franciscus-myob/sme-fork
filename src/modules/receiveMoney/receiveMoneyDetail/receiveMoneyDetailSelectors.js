@@ -1,73 +1,52 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import ModalType from '../ModalType';
+import formatAmount from '../../../common/valueFormatters/formatAmount';
+import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
+
+const calculate = createTaxCalculator(TaxCalculatorTypes.receiveMoney);
 
 const getReferenceId = state => state.receiveMoney.referenceId;
 const getSelectedDepositIntoId = state => state.receiveMoney.selectedDepositIntoAccountId;
 const getSelectedPayFromContact = state => state.receiveMoney.selectedPayFromContactId;
-const getDepositIntoAccounts = state => state.receiveMoney.depositIntoAccounts;
-const getPayFromContacts = state => state.receiveMoney.payFromContacts;
 const getDate = state => state.receiveMoney.date;
 const getDescription = state => state.receiveMoney.description;
 const getIsReportable = state => state.receiveMoney.isReportable;
 const getIsTaxInclusive = state => state.receiveMoney.isTaxInclusive;
+const getLines = state => state.receiveMoney.lines;
 
-const getHeadersProperties = createStructuredSelector({
+const getDepositIntoAccountOptions = state => state.depositIntoAccountOptions;
+const getPayFromContactOptions = state => state.payFromContactOptions;
+export const getAccountOptions = state => state.accountOptions;
+export const getTaxCodeOptions = state => state.taxCodeOptions;
+
+export const getHeaderOptions = createStructuredSelector({
   referenceId: getReferenceId,
   selectedDepositIntoAccountId: getSelectedDepositIntoId,
   selectedPayFromContactId: getSelectedPayFromContact,
-  depositIntoAccounts: getDepositIntoAccounts,
-  payFromContacts: getPayFromContacts,
+  depositIntoAccountOptions: getDepositIntoAccountOptions,
+  payFromContactOptions: getPayFromContactOptions,
   date: getDate,
   description: getDescription,
   isReportable: getIsReportable,
   isTaxInclusive: getIsTaxInclusive,
 });
 
-export const getHeaderOptions = createSelector(getHeadersProperties, (headerProps) => {
-  const {
-    depositIntoAccounts = [], payFromContacts = [],
-    ...headerOptions
-  } = headerProps;
-
-  return {
-    depositIntoAccounts,
-    payFromContacts,
-    ...headerOptions,
-  };
-});
-
 export const getAlertMessage = state => state.alertMessage;
 export const getLoadingState = state => state.loadingState;
 
-export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
-  const account = accounts.find(({ id }) => id === accountId);
+export const getDefaultTaxCodeId = ({ accountId }, accountOptions) => {
+  const account = accountOptions.find(({ id }) => id === accountId);
   return account === undefined ? '' : account.taxCodeId;
 };
 
 export const getLineDataByIndexSelector = () => createSelector(
   (state, props) => state.receiveMoney.lines[props.index],
-  ((line) => {
-    let formatedLine = {};
-    if (line) {
-      const {
-        accountId, taxCodeId, taxCodes, accounts, amount, quantity, description, taxAmount,
-      } = line;
-
-      formatedLine = ({
-        amount,
-        quantity,
-        taxAmount,
-        description,
-        accountId,
-        taxCodeId,
-        taxCodes,
-        accounts,
-      });
-    }
-    return formatedLine;
-  }),
+  (line => (line
+    ? { ...line, displayAmount: formatAmount(line.amount) }
+    : {})),
 );
 
 const getLength = state => state.receiveMoney.lines.length;
@@ -92,53 +71,35 @@ export const getReceiveMoneyId = state => state.receiveMoney.id;
 
 export const getTotals = state => state.totals;
 
-const getReceiveMoneyLinesForPayload = lines => lines.map((line) => {
-  const { accounts, taxCodes, ...rest } = line;
-  return rest;
-});
-
 export const getReceiveMoneyForCreatePayload = (state) => {
   const {
     referenceId,
     originalReferenceId,
-    depositIntoAccounts,
-    payFromContacts,
-    lines,
     ...rest
   } = getReceiveMoney(state);
 
-  const linesForPayload = getReceiveMoneyLinesForPayload(lines);
   const referenceIdForPayload = referenceId === originalReferenceId ? undefined : referenceId;
 
   return {
     ...rest,
-    lines: linesForPayload,
     referenceId: referenceIdForPayload,
   };
 };
 
 export const getReceiveMoneyForUpdatePayload = (state) => {
   const {
-    depositIntoAccounts,
-    payFromContacts,
     originalReferenceId,
-    lines,
     ...rest
   } = getReceiveMoney(state);
 
-  const linesForPayload = getReceiveMoneyLinesForPayload(lines);
-
-  return {
-    ...rest,
-    lines: linesForPayload,
-  };
+  return rest;
 };
 
 export const getCalculatedTotalsPayload = (state) => {
   const { lines, isTaxInclusive } = getReceiveMoney(state);
   return {
     isTaxInclusive,
-    lines: getReceiveMoneyLinesForPayload(lines),
+    lines,
   };
 };
 
@@ -169,4 +130,31 @@ export const getOpenedModalType = (state) => {
   const modal = getModal(state) || { type: ModalType.NONE };
 
   return modal.type;
+};
+
+export const getTaxCalculations = (state, isSwitchingTaxInclusive) => {
+  const isTaxInclusive = getIsTaxInclusive(state);
+  const isLineAmountsTaxInclusive = isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive;
+  const lines = getLines(state);
+  const taxCodes = getTaxCodeOptions(state);
+
+  const { lines: calculatedLines, totals: calculatedTotals } = calculate({
+    lines,
+    taxCodes,
+    isTaxInclusive,
+    isLineAmountsTaxInclusive,
+  });
+  const { subTotal, totalTax, totalAmount } = calculatedTotals;
+
+  return {
+    lines: lines.map((line, index) => ({
+      ...line,
+      amount: calculatedLines[index].amount.valueOf(),
+    })),
+    totals: {
+      subTotal: formatCurrency(subTotal.valueOf()),
+      totalTax: formatCurrency(totalTax.valueOf()),
+      totalAmount: formatCurrency(totalAmount.valueOf()),
+    },
+  };
 };

@@ -45,8 +45,8 @@ class ReceiveMoneyDetailOptions extends Component {
         date,
         isTaxInclusive,
         description,
-        payFromContacts,
-        depositIntoAccounts,
+        payFromContactOptions = [],
+        depositIntoAccountOptions = [],
         selectedDepositIntoAccountId,
         selectedPayFromContactId,
       },
@@ -58,12 +58,12 @@ class ReceiveMoneyDetailOptions extends Component {
           label="Bank account"
           hideLabel={false}
           requiredLabel="This is required"
-          items={depositIntoAccounts}
+          items={depositIntoAccountOptions}
           selectedId={selectedDepositIntoAccountId}
           onChange={this.handleComboBoxChange('selectedDepositIntoAccountId')}
         />
         <ContactCombobox
-          items={payFromContacts}
+          items={payFromContactOptions}
           selectedId={selectedPayFromContactId}
           onChange={this.handleComboBoxChange('selectedPayFromContactId')}
           label="Contact (payer)"

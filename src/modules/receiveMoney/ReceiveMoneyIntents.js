@@ -13,5 +13,5 @@ export const UPDATE_RECEIVE_MONEY = Symbol('Update a receive money entry');
 export const UPDATE_RECEIVE_MONEY_LINE = Symbol('Update receive money line');
 export const ADD_RECEIVE_MONEY_LINE = Symbol('Add receive money line');
 export const DELETE_RECEIVE_MONEY_LINE = Symbol('Delete receive money line');
-export const GET_CALCULATED_TOTALS = Symbol('Get calculated totals');
+export const GET_TAX_CALCULATIONS = Symbol('Get calculated totals');
 export const RESET_TOTALS = Symbol('Reset calculated totals');

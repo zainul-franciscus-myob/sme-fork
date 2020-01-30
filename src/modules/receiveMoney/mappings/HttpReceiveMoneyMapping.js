@@ -1,7 +1,6 @@
 import {
   CREATE_RECEIVE_MONEY,
   DELETE_RECEIVE_MONEY,
-  GET_CALCULATED_TOTALS,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   UPDATE_RECEIVE_MONEY,
@@ -27,10 +26,6 @@ const HttpReceiveMoneyMapping = {
   [UPDATE_RECEIVE_MONEY]: {
     method: 'PUT',
     getPath: ({ businessId, receiveMoneyId }) => `/${businessId}/receiveMoney/update_receive_money_detail/${receiveMoneyId}`,
-  },
-  [GET_CALCULATED_TOTALS]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/receiveMoney/calculate_totals`,
   },
 };
 
