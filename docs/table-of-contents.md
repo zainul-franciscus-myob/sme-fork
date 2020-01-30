@@ -20,6 +20,7 @@
 ## Specifics
 
 1. [Authentication](specifics/authentication.md)
+1. [Roles, entitlements and subscriptions](specifics/roles-entitlements-and-subscriptions.md)
 1. [Lean Engage](specifics/lean-engage.md)
 1. [Reports](specifics/reports.md)
 1. [Responsiveness](specifics/responsiveness.md)
