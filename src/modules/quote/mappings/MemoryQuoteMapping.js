@@ -10,6 +10,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_ITEM_AFTER_CREATE,
+  LOAD_ITEM_SELLING_DETAILS,
   LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
   LOAD_NEW_QUOTE_DETAIL,
   LOAD_QUOTE_DETAIL,
@@ -29,6 +30,7 @@ import itemQuoteUpdateTaxInclusive from './data/itemQuoteUpdateTaxInclusive';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadCustomerResponse from './data/loadCustomerResponse';
 import loadDuplicateQuoteDetail from './data/loadDuplicateQuoteDetail';
+import loadItemSellingDetailsResponse from './data/loadItemSellingDetailsResponse';
 import loadNewQuoteDetail from './data/loadNewQuoteDetail';
 import loadQuoteDetail from './data/loadQuoteDetail';
 import loadQuoteListNextPageResponse from './data/loadNextQuoteList';
@@ -63,6 +65,7 @@ const MemoryQuoteMapping = {
   [EXPORT_QUOTE_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) => onSuccess(uploadEmailAttachmentResponse),
+  [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) => onSuccess(loadItemSellingDetailsResponse),
 };
 
 export default MemoryQuoteMapping;

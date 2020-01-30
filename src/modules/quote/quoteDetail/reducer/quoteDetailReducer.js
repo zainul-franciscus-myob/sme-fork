@@ -1,6 +1,8 @@
 import {
   ADD_EMAIL_ATTACHMENTS,
   ADD_QUOTE_LINE,
+  CACHE_ITEM_SELLING_DETAILS,
+  CALCULATE_LINE_AMOUNTS,
   CHANGE_EXPORT_PDF_TEMPLATE,
   CLOSE_MODAL,
   FORMAT_QUOTE_LINE,
@@ -8,6 +10,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_ITEM_AFTER_CREATE,
+  LOAD_ITEM_SELLING_DETAILS,
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
   REMOVE_EMAIL_ATTACHMENT,
@@ -45,6 +48,7 @@ import {
   uploadEmailAttachmentFailed,
   uploadEmailAttachmentUploadProgress,
 } from './EmailReducer';
+import { calculatePartialQuoteLineAmounts, setQuoteCalculatedLines } from './calculationReducer';
 import {
   getLoadQuoteDetailModalType,
   getShouldOpenEmailModal,
@@ -301,16 +305,6 @@ const setQuoteLineDirty = (state, action) => ({
   isLineAmountInputDirty: action.isLineAmountInputDirty,
 });
 
-const setQuoteCalculatedLines = (state, action) => ({
-  ...state,
-  quote: {
-    ...state.quote,
-    lines: action.quote.lines,
-  },
-  totals: action.totals,
-});
-
-
 const loadCustomerAddress = (state, action) => ({
   ...state,
   quote: {
@@ -360,6 +354,44 @@ const changeExportPdfForm = (state, action) => ({
   },
 });
 
+const loadItemSellingDetails = (state, action) => ({
+  ...state,
+  isPageEdited: true,
+  quote: {
+    ...state.quote,
+    lines: state.quote.lines.map((line, index) => {
+      if (index !== action.index) return line;
+      const {
+        unitOfMeasure,
+        description,
+        sellTaxCodeId,
+        incomeAccountId,
+        unitPrice,
+      } = action.itemSellingDetails;
+      return {
+        ...line,
+        units: '1',
+        unitOfMeasure,
+        discount: '0',
+        displayDiscount: '0.00',
+        description,
+        taxCodeId: sellTaxCodeId,
+        accountId: incomeAccountId,
+        amount: unitPrice,
+        displayAmount: formatAmount(unitPrice),
+      };
+    }),
+  },
+});
+
+const cacheItemSellingDetails = (state, { itemId, itemSellingDetails }) => ({
+  ...state,
+  cachedItemSellingDetails: {
+    ...state.cachedItemSellingDetails,
+    [itemId]: itemSellingDetails,
+  },
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -406,6 +438,9 @@ const handlers = {
   [REMOVE_EMAIL_ATTACHMENT]: removeEmailAttachment,
 
   [CHANGE_EXPORT_PDF_TEMPLATE]: changeExportPdfForm,
+  [CALCULATE_LINE_AMOUNTS]: calculatePartialQuoteLineAmounts,
+  [LOAD_ITEM_SELLING_DETAILS]: loadItemSellingDetails,
+  [CACHE_ITEM_SELLING_DETAILS]: cacheItemSellingDetails,
 };
 
 const quoteDetailReducer = createReducer(getDefaultState(), handlers);

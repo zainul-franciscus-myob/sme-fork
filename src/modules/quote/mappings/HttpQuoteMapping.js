@@ -10,6 +10,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_ITEM_AFTER_CREATE,
+  LOAD_ITEM_SELLING_DETAILS,
   LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
   LOAD_NEW_QUOTE_DETAIL,
   LOAD_QUOTE_DETAIL,
@@ -102,6 +103,10 @@ const HttpQuoteMapping = {
   [SEND_EMAIL]: {
     method: 'POST',
     getPath: ({ businessId, quoteId }) => `/${businessId}/quote/send_quote_email/${quoteId}`,
+  },
+  [LOAD_ITEM_SELLING_DETAILS]: {
+    method: 'GET',
+    getPath: ({ businessId, itemId }) => `/${businessId}/quote/load_item_selling_details/${itemId}`,
   },
 };
 

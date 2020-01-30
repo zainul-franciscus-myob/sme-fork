@@ -85,6 +85,7 @@ const getDefaultState = () => ({
   exportPdf: {
     template: '',
   },
+  cachedItemSellingDetails: {},
 });
 
 export default getDefaultState;

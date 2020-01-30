@@ -7,7 +7,11 @@ import {
   CALCULATE_QUOTE_LINE_TOTALS,
   CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE,
 } from '../QuoteIntents';
-import { SUCCESSFULLY_DELETED_QUOTE, SUCCESSFULLY_EMAILED_QUOTE, SUCCESSFULLY_SAVED_QUOTE } from './QuoteMessageTypes';
+import {
+  SUCCESSFULLY_DELETED_QUOTE,
+  SUCCESSFULLY_EMAILED_QUOTE,
+  SUCCESSFULLY_SAVED_QUOTE,
+} from './QuoteMessageTypes';
 import {
   getAccountModalContext,
   getContactModalContext,
@@ -20,6 +24,7 @@ import {
   getIsSubmitting,
   getIsTableEmpty,
   getIsTaxCalculationRequired,
+  getItemSellingDetailsFromCache,
   getLength,
   getLineByIndex,
   getModalUrl,
@@ -28,14 +33,8 @@ import {
   getRouteUrlParams,
   getShouldReload,
   getShouldSaveAndExportPdf,
+  getTaxCalculations,
 } from './selectors/QuoteDetailSelectors';
-import {
-  getCalculateQuoteAmountChangePayload,
-  getCalculateQuoteIsTaxInclusiveChangePayload,
-  getCalculateQuoteItemChangePayload,
-  getCalculateQuoteLineRemovePayload,
-  getCalculateQuoteTaxCodeChangePayload,
-} from './selectors/IntegratorSelectors';
 import {
   getCreateDuplicateQuoteUrl,
   getCreateInvoiceFromQuoteUrl,
@@ -319,8 +318,8 @@ export default class QuoteDetailModule {
       return;
     }
 
-    const content = getCalculateQuoteLineRemovePayload(state);
-    this.getQuoteCalculatedLines(content, CALCULATE_QUOTE_LINE_TOTALS);
+    const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: false });
+    this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_LINE_TOTALS);
   }
 
   formatQuoteLine = (index, key) => {
@@ -329,17 +328,19 @@ export default class QuoteDetailModule {
     }
 
     this.dispatcher.formatQuoteLine(index, key);
+    this.dispatcher.calculateLineAmounts(index, key);
 
     const state = this.store.getState();
     const isLineAmountDirty = getIsLineAmountInputDirty(state);
 
     if (isLineAmountDirty) {
-      const content = getCalculateQuoteAmountChangePayload(state, index, key);
-      this.getQuoteCalculatedLines(content, CALCULATE_QUOTE_AMOUNT_CHANGE);
+      const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: false });
+
+      this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_AMOUNT_CHANGE);
     }
   }
 
-  getQuoteCalculatedLines = (content, intent) => {
+  setQuoteCalculatedLines = (taxCalculations, intent) => {
     const state = this.store.getState();
 
     if (getIsTableEmpty(state)) {
@@ -351,44 +352,59 @@ export default class QuoteDetailModule {
       return;
     }
 
-    this.dispatcher.setQuoteSubmittingState(true);
-
-    const onSuccess = (response) => {
-      this.dispatcher.setQuoteLineDirty(false);
-      this.dispatcher.setQuoteSubmittingState(false);
-      this.dispatcher.setQuoteCalculatedLines(response);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setQuoteLineDirty(false);
-      this.dispatcher.setQuoteSubmittingState(false);
-      this.displayFailureAlert(message);
-    };
-
-    this.integrator.getQuoteCalculatedLines({
-      intent, content, onSuccess, onFailure,
-    });
+    this.dispatcher.setQuoteCalculatedLines(taxCalculations);
   };
 
   calculateQuoteTaxCodeChange = () => {
     const state = this.store.getState();
-    const content = getCalculateQuoteTaxCodeChangePayload(state);
+    const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: false });
 
-    this.getQuoteCalculatedLines(content, CALCULATE_QUOTE_LINE_TOTALS);
+    this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_LINE_TOTALS);
+  }
+
+  loadItemSellingDetails = (index, itemSellingDetails) => {
+    this.dispatcher.loadItemSellingDetails({
+      index,
+      itemSellingDetails,
+    });
+    const state = this.store.getState();
+    const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: false });
+    this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_ITEM_CHANGE);
   }
 
   calculateQuoteItemChange = (index, itemId) => {
-    const state = this.store.getState();
-    const content = getCalculateQuoteItemChangePayload(state, index, itemId);
+    const cachedItemSellingDetails = getItemSellingDetailsFromCache(this.store.getState(), itemId);
+    if (cachedItemSellingDetails) {
+      this.loadItemSellingDetails(index, cachedItemSellingDetails);
+    } else {
+      this.dispatcher.setQuoteSubmittingState(true);
+      const onSuccess = (itemSellingDetails) => {
+        this.dispatcher.setQuoteLineDirty(false);
+        this.dispatcher.setQuoteSubmittingState(false);
+        this.dispatcher.cacheItemSellingDetails({
+          itemId,
+          itemSellingDetails,
+        });
+        this.loadItemSellingDetails(index, itemSellingDetails);
+      };
 
-    this.getQuoteCalculatedLines(content, CALCULATE_QUOTE_ITEM_CHANGE);
+      const onFailure = ({ message }) => {
+        this.dispatcher.setQuoteLineDirty(false);
+        this.dispatcher.setQuoteSubmittingState(false);
+        this.displayFailureAlert(message);
+      };
+
+      this.integrator.loadItemSellingDetails({
+        itemId, onSuccess, onFailure,
+      });
+    }
   }
 
   calculateQuoteIsTaxInclusiveChange = () => {
     const state = this.store.getState();
-    const content = getCalculateQuoteIsTaxInclusiveChangePayload(state);
+    const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: true });
 
-    this.getQuoteCalculatedLines(content, CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE);
+    this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE);
   }
 
   updateLayout = ({ value }) => {

@@ -1,0 +1,7 @@
+{
+  "unitOfMeasure": "kg",
+  "description": "Selling item description",
+  "sellTaxCodeId": "2",
+  "incomeAccountId": "123",
+  "unitPrice": "10.00"
+}

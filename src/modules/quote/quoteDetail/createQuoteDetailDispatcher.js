@@ -1,6 +1,8 @@
 import {
   ADD_EMAIL_ATTACHMENTS,
   ADD_QUOTE_LINE,
+  CACHE_ITEM_SELLING_DETAILS,
+  CALCULATE_LINE_AMOUNTS,
   CHANGE_EXPORT_PDF_TEMPLATE,
   CLOSE_MODAL,
   FORMAT_QUOTE_LINE,
@@ -8,6 +10,7 @@ import {
   LOAD_CONTACT_ADDRESS,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_ITEM_AFTER_CREATE,
+  LOAD_ITEM_SELLING_DETAILS,
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
   REMOVE_EMAIL_ATTACHMENT,
@@ -105,8 +108,10 @@ const createQuoteDetailDispatcher = store => ({
     intent: SET_QUOTE_LINE_DIRTY, isLineAmountInputDirty,
   }),
 
-  setQuoteCalculatedLines: payload => store.dispatch({
-    intent: SET_QUOTE_CALCULATED_LINES, ...payload,
+  setQuoteCalculatedLines: ({ lines, totals }) => store.dispatch({
+    intent: SET_QUOTE_CALCULATED_LINES,
+    lines,
+    totals,
   }),
 
   loadContactAddress: address => store.dispatch({ intent: LOAD_CONTACT_ADDRESS, address }),
@@ -157,6 +162,22 @@ const createQuoteDetailDispatcher = store => ({
 
   changeExportPdfTemplate: ({ value }) => store.dispatch({
     intent: CHANGE_EXPORT_PDF_TEMPLATE, template: value,
+  }),
+
+  calculateLineAmounts: (index, key) => store.dispatch({
+    intent: CALCULATE_LINE_AMOUNTS, key, index,
+  }),
+
+  loadItemSellingDetails: ({ index, itemSellingDetails }) => store.dispatch({
+    intent: LOAD_ITEM_SELLING_DETAILS,
+    index,
+    itemSellingDetails,
+  }),
+
+  cacheItemSellingDetails: ({ itemId, itemSellingDetails }) => store.dispatch({
+    intent: CACHE_ITEM_SELLING_DETAILS,
+    itemId,
+    itemSellingDetails,
   }),
 });
 

@@ -1,8 +1,11 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import { TaxCalculatorTypes, createTaxCalculator } from '../../../../common/taxCalculator';
 import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
+
+const calculate = createTaxCalculator(TaxCalculatorTypes.quote);
 
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
@@ -220,3 +223,20 @@ export const getOpenedModalType = (state) => {
 
   return modal.type;
 };
+
+export const getTaxCalculations = (state, { isSwitchingTaxInclusive }) => {
+  const isTaxInclusive = getIsTaxInclusive(state);
+  const isLineAmountsTaxInclusive = isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive;
+  const lines = getLines(state);
+  const taxCodes = getTaxCodeOptions(state);
+  return calculate({
+    lines,
+    taxCodes,
+    isTaxInclusive,
+    isLineAmountsTaxInclusive,
+  });
+};
+
+export const getItemSellingDetailsFromCache = (state, itemId) => (
+  state.cachedItemSellingDetails[itemId]
+);
