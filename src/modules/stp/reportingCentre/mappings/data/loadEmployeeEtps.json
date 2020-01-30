@@ -10,7 +10,7 @@
           "amount": "16,420.00",
           "name": "ETP-NonTaxable",
           "type": "Wage and salary",
-          "stpCategory": "Non-Taxable earning"
+          "stpCategory": "ETP Tax-free Component"
         }
       ]
     },
@@ -23,19 +23,19 @@
           "amount": "120.00",
           "name": "ETP-NonTaxable",
           "type": "Wage and salary",
-          "stpCategory": "Non-Taxable earning"
+          "stpCategory": "ETP Tax-free Component"
         },
         {
           "amount": "1,520.00",
           "name": "ETP-Taxable",
           "type": "Wage and salary",
-          "stpCategory": "Taxable earning"
+          "stpCategory": "ETP Taxable Component"
         },
         {
           "amount": "300.00",
           "name": "ETP Tax",
           "type": "Deduction",
-          "stpCategory": "Tax-withheld deduction"
+          "stpCategory": "ETP - Tax withholding"
         }
       ]
     }

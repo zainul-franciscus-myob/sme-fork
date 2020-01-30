@@ -67,6 +67,7 @@ const createEmployeePayListIntegrator = (store, integration) => ({
 
     integration.write({
       intent,
+      allowParallelRequests: true,
       urlParams,
       content,
       onSuccess,
