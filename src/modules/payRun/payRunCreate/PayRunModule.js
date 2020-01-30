@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import AlertType from './types/AlertType';
 import EmployeePayListModule from './employeePayList/EmployeePayListModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import PayRunDoneModule from './payRunDone/PayRunDoneModule';
@@ -80,7 +81,7 @@ export default class PayRunModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadTimesheets({ timesheets: [] });
       this.dispatcher.setAlert({
-        type: 'danger',
+        type: AlertType.ERROR,
         message,
       });
     };

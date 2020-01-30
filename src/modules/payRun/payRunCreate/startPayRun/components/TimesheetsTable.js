@@ -4,6 +4,7 @@ import {
 import React from 'react';
 
 import TableView from '../../../../../components/TableView/TableView';
+import formatSlashDate from '../../../../../common/valueFormatters/formatDate/formatSlashDate';
 
 const tableColumns = {
   checkbox: { width: '5rem' },
@@ -68,12 +69,12 @@ const TimesheetsTable = ({
         />
       </Table.RowItem>
       <Table.RowItem columnName={tableColumns.date.columnName}>
-        {row.timesheetDate}
+        {formatSlashDate(row.timesheetDate)}
       </Table.RowItem>
       <Table.RowItem columnName={tableColumns.employee.columnName}>
         {row.employeeName}
       </Table.RowItem>
-      <Table.RowItem columnName={tableColumns.payBasis.columnName}>{row.wageType}</Table.RowItem>
+      <Table.RowItem columnName={tableColumns.payBasis.columnName}>{row.payBasis}</Table.RowItem>
       <Table.RowItem columnName={tableColumns.weeklyHours.columnName}>
         {row.weeklyHours}
       </Table.RowItem>
