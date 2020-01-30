@@ -15,18 +15,6 @@ export const getSerialNumber = state => state.serialNumber;
 export const getBankFeedsLoginDetails = state => state.loginDetails;
 export const getIsTableLoading = state => state.isTableLoading;
 
-export const getBankFeedsBankAccounts = state => state.bankFeeds.bankAccounts;
-export const getBankFeedsCreditCards = state => state.bankFeeds.creditCards;
-
-export const getNotImportedBankAccounts = createSelector(
-  getBankFeedsBankAccounts,
-  bankAccounts => bankAccounts.filter(account => !account.isCreatedFromImport),
-);
-export const getNotImportedCreditCards = createSelector(
-  getBankFeedsCreditCards,
-  creditCards => creditCards.filter(creditCard => !creditCard.isCreatedFromImport),
-);
-
 export const getIsActionDisabled = createSelector(
   getIsTableLoading,
   getIsSubmitting,
@@ -57,26 +45,27 @@ const getBankFeedAccountsWithLinkedAccount = accounts => (
 );
 export const getSaveBankFeedsPayload = (state) => {
   const bankAccountsPayload = getBankFeedAccountsWithLinkedAccount(
-    getBankFeedsBankAccounts(state),
+    state.bankFeeds.bankAccounts,
   );
   const creditCardsPayload = getBankFeedAccountsWithLinkedAccount(
-    getBankFeedsCreditCards(state),
+    state.bankFeeds.creditCards,
   );
 
   return bankAccountsPayload.concat(creditCardsPayload);
 };
-export const getIsBankAccountsEmpty = createSelector(
-  getNotImportedBankAccounts,
-  bankAccounts => bankAccounts.length === 0,
+export const getIsBankFeedsEmpty = state => (
+  state.bankFeeds.bankAccounts.length === 0
+  && state.bankFeeds.creditCards.length === 0
 );
-export const getIsCreditCardsEmpty = createSelector(
-  getNotImportedCreditCards,
-  creditCards => creditCards.length === 0,
+
+export const getBankFeedsBankAccounts = state => state.bankFeeds.bankAccounts;
+export const getIsBankAccountsEmpty = state => (
+  state.bankFeeds.bankAccounts.length === 0
 );
-export const getIsBankFeedsEmpty = createSelector(
-  getIsBankAccountsEmpty,
-  getIsCreditCardsEmpty,
-  (isBankAccountsEmpty, isCreditCardsEmpty) => isBankAccountsEmpty && isCreditCardsEmpty,
+
+export const getBankFeedsCreditCards = state => state.bankFeeds.creditCards;
+export const getIsCreditCardsEmpty = state => (
+  state.bankFeeds.creditCards.length === 0
 );
 
 const getBankFeedsAction = state => (getIsBankFeedsEmpty(state) ? 'app' : 'admin');

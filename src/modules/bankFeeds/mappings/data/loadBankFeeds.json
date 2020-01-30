@@ -8,7 +8,6 @@
         "BSB": "123456",
         "accountNumber": "987654321",
         "status": "ACTIVE",
-        "isCreatedFromImport": false,
         "linkedAccountId": "1",
         "accountOptions": [
           {
@@ -32,32 +31,7 @@
         "BSB": "234567",
         "accountNumber": "876543210",
         "status": "Pending",
-        "isCreatedFromImport": false,
         "linkedAccountId": "",
-        "accountOptions": [
-          {
-            "id": "1",
-            "displayName": "Expense 1",
-            "accountType": "Expense",
-            "displayId": "6-134"
-          },
-          {
-            "id": "2",
-            "displayName": "Expense 2",
-            "accountType": "Expense",
-            "displayId": "6-135"
-          }
-        ]
-      },
-      {
-        "id": "53",
-        "financialInstitution": "Nab",
-        "accountName": "Phoenix man",
-        "BSB": "345678",
-        "accountNumber": "765432109",
-        "status": "ACTIVE",
-        "isCreatedFromImport": true,
-        "linkedAccountId": "2",
         "accountOptions": [
           {
             "id": "1",
@@ -81,7 +55,6 @@
         "cardName": "Jon Snow",
         "cardNumber": "987654321",
         "status": "ACTIVE",
-        "isCreatedFromImport": false,
         "linkedAccountId": "1",
         "accountOptions": [
           {
@@ -104,31 +77,7 @@
         "cardName": "Jimi Hendrix",
         "cardNumber": "876543210",
         "status": "Processing",
-        "isCreatedFromImport": false,
         "linkedAccountId": "",
-        "accountOptions": [
-          {
-            "id": "1",
-            "displayName": "Expense 1",
-            "accountType": "Expense",
-            "displayId": "6-134"
-          },
-          {
-            "id": "2",
-            "displayName": "Expense 2",
-            "accountType": "Expense",
-            "displayId": "6-135"
-          }
-        ]
-      },
-      {
-        "id": "63",
-        "financialInstitution": "Nab",
-        "cardName": "Phoenix lady",
-        "cardNumber": "765432109",
-        "status": "ACTIVE",
-        "isCreatedFromImport": true,
-        "linkedAccountId": "2",
         "accountOptions": [
           {
             "id": "1",

@@ -42,7 +42,6 @@ class BankFeedsModule {
     const onSuccess = (response) => {
       this.dispatcher.setIsSubmitting(false);
       this.displaySuccessMessage(response.message);
-      this.reloadBankFeeds();
     };
 
     const onFailure = (response) => {

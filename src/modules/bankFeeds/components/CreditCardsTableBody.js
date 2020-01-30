@@ -2,7 +2,7 @@ import { Button, Icons, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsActionDisabled, getNotImportedCreditCards } from '../BankFeedsSelectors';
+import { getBankFeedsCreditCards, getIsActionDisabled } from '../BankFeedsSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import BankFeedTypes from '../BankFeedTypes';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
@@ -79,7 +79,7 @@ const CreditCardsTableBody = ({
 };
 
 const mapStateToProps = state => ({
-  entries: getNotImportedCreditCards(state),
+  entries: getBankFeedsCreditCards(state),
   isActionDisabled: getIsActionDisabled(state),
 });
 
