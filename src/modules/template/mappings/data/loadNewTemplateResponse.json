@@ -9,7 +9,6 @@
     "abn": "80 000 000 001"
   },
   "saleLayout": "ItemAndService",
-  "isAllowOnlinePayment": true,
   "isAllowPaymentByDirectDeposit": true,
   "isAllowPaymentByCheque": true
 }

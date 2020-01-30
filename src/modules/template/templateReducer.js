@@ -5,10 +5,12 @@ import {
 } from './templateOptions';
 import {
   LOAD_NEW_TEMPLATE,
+  LOAD_PAY_DIRECT,
   LOAD_TEMPLATE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
+  SET_PAY_DIRECT_LOADING_STATE,
   UPDATE_PREVIEW_OPTION,
   UPDATE_TEMPLATE_OPTION,
 } from './TemplateIntents';
@@ -34,9 +36,13 @@ const getDefaultState = () => ({
     abn: '',
   },
   saleLayout: SaleLayout.ItemAndService,
-  isAllowOnlinePayment: true,
   isAllowPaymentByDirectDeposit: true,
   isAllowPaymentByCheque: true,
+  payDirect: {
+    isLoading: true,
+    isServiceAvailable: false,
+    isRegistered: false,
+  },
   template: {
     templateId: undefined,
     templateName: '',
@@ -98,6 +104,14 @@ const loadNewTemplate = (state, action) => ({
   },
 });
 
+const loadPayDirect = (state, action) => ({
+  ...state,
+  payDirect: {
+    ...state.payDirect,
+    isRegistered: action.isRegistered,
+  },
+});
+
 const updatePreviewOption = (state, action) => ({
   ...state,
   [action.key]: action.value,
@@ -113,6 +127,14 @@ const updateTemplateOption = (state, action) => (
     },
   }
 );
+
+const setPayDirectLoadingState = (state, action) => ({
+  ...state,
+  payDirect: {
+    ...state.payDirect,
+    isLoading: action.isLoading,
+  },
+});
 
 const setAlert = (state, { alert }) => ({
   ...state,
@@ -131,7 +153,9 @@ const handlers = {
   [UPDATE_TEMPLATE_OPTION]: updateTemplateOption,
   [UPDATE_PREVIEW_OPTION]: updatePreviewOption,
   [SET_LOADING_STATE]: setLoadingState,
+  [SET_PAY_DIRECT_LOADING_STATE]: setPayDirectLoadingState,
   [LOAD_TEMPLATE]: loadTemplate,
+  [LOAD_PAY_DIRECT]: loadPayDirect,
   [SET_ALERT]: setAlert,
   [SET_MODAL_TYPE]: setModalType,
 };

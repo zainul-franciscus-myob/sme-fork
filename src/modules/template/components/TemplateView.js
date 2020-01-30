@@ -17,6 +17,7 @@ import {
   getIsCreating,
   getIsLoading,
   getIsLogoOnTheLeft,
+  getIsOnlinePaymentLoading,
   getLogoImage,
   getLogoSize,
   getModalType,
@@ -68,6 +69,7 @@ const TemplateView = ({
   modalType,
   region,
   isCreating,
+  isOnlinePaymentLoading,
   isAllowOnlinePayment,
   isAllowPaymentByDirectDeposit,
   isAllowPaymentByCheque,
@@ -106,6 +108,7 @@ const TemplateView = ({
       email={email}
       website={website}
       abn={abn}
+      isOnlinePaymentLoading={isOnlinePaymentLoading}
       isAllowOnlinePayment={isAllowOnlinePayment}
       isAllowPaymentByDirectDeposit={isAllowPaymentByDirectDeposit}
       isAllowPaymentByCheque={isAllowPaymentByCheque}
@@ -171,6 +174,7 @@ const mapStateToProps = state => ({
   modalType: getModalType(state),
   region: getRegion(state),
   isCreating: getIsCreating(state),
+  isOnlinePaymentLoading: getIsOnlinePaymentLoading(state),
   isAllowOnlinePayment: getIsAllowOnlinePayment(state),
   isAllowPaymentByDirectDeposit: getIsAllowPaymentByDirectDeposit(state),
   isAllowPaymentByCheque: getIsAllowPaymentByCheque(state),

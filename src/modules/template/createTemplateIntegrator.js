@@ -1,10 +1,11 @@
 import {
   CREATE_TEMPLATE,
   LOAD_NEW_TEMPLATE,
+  LOAD_PAY_DIRECT,
   LOAD_TEMPLATE,
   UPDATE_TEMPLATE,
 } from './TemplateIntents';
-import { getBusinessId, getSavePayload } from './templateSelectors';
+import { getBusinessId, getLoadPayDirectUrlParams, getSavePayload } from './templateSelectors';
 
 const createTemplateIntegrator = (store, integration) => ({
   loadTemplate: ({ onSuccess, onFailure, templateName }) => {
@@ -69,6 +70,20 @@ const createTemplateIntegrator = (store, integration) => ({
         templateId,
         businessId: getBusinessId(state),
       },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadPayDirect: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_PAY_DIRECT;
+    const urlParams = getLoadPayDirectUrlParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

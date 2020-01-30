@@ -1,10 +1,12 @@
 
 import {
   LOAD_NEW_TEMPLATE,
+  LOAD_PAY_DIRECT,
   LOAD_TEMPLATE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
+  SET_PAY_DIRECT_LOADING_STATE,
   UPDATE_PREVIEW_OPTION,
   UPDATE_TEMPLATE_OPTION,
 } from './TemplateIntents';
@@ -72,6 +74,17 @@ const createTemplateDispatcher = store => ({
       payload,
     });
   },
+
+  loadPayDirect: (payload) => {
+    store.dispatch({
+      intent: LOAD_PAY_DIRECT,
+      ...payload,
+    });
+  },
+
+  setPayDirectLoadingState: isLoading => store.dispatch({
+    intent: SET_PAY_DIRECT_LOADING_STATE, isLoading,
+  }),
 
   setLoadingState: (isLoading) => {
     store.dispatch({

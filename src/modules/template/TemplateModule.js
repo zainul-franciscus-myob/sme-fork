@@ -7,6 +7,7 @@ import {
   getBusinessId,
   getHasChange,
   getRegion,
+  getShouldLoadPayDirect,
   getTemplateId,
 } from './templateSelectors';
 import ModalTypes from './ModalTypes';
@@ -70,6 +71,11 @@ class TemplateModule {
     this.render();
 
     this.loadTemplate(context.templateName);
+
+    const shouldLoadPayDirect = getShouldLoadPayDirect(this.store.getState());
+    if (shouldLoadPayDirect) {
+      this.loadPayDirect();
+    }
   };
 
   loadTemplate = (templateName) => {
@@ -112,6 +118,24 @@ class TemplateModule {
       onFailure,
     });
   };
+
+  loadPayDirect = () => {
+    this.dispatcher.setPayDirectLoadingState(true);
+
+    const onSuccess = (payload) => {
+      setTimeout(() => this.dispatcher.setPayDirectLoadingState(false), 4000);
+      this.dispatcher.loadPayDirect(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setPayDirectLoadingState(false);
+    };
+
+    this.integrator.loadPayDirect({
+      onSuccess,
+      onFailure,
+    });
+  }
 
   selectFile = (file) => {
     this.dispatcher.selectFile(file);

@@ -27,6 +27,10 @@ import StatementTable from './tables/StatementTable';
 import StatementTableSummary from './tableSummary/StatementTableSummary';
 import TemplateTitle from './TemplateTitle';
 import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
+import getShouldShowBankDepositPayment from './handlers/getShouldShowBankDepositPayment';
+import getShouldShowChequePayment from './handlers/getShouldShowChequePayment';
+import getShouldShowDueDate from './handlers/getShouldShowDueDate';
+import getShouldShowOnlinePayment from './handlers/getShouldShowOnlinePayment';
 import styles from './TemplatePreview.module.css';
 
 const getDocInfoForPreviewType = (type) => {
@@ -86,25 +90,36 @@ const getTemplateFooter = (previewType, saleLayout) => {
 const getPaymentMethod = ({
   previewType,
   region,
+  isOnlinePaymentLoading,
   isAllowOnlinePayment,
   isAllowPaymentByDirectDeposit,
   isAllowPaymentByCheque,
 }) => {
-  const shouldShowOnlinePayment = previewType !== PreviewType.Statement && isAllowOnlinePayment;
-  const isQuote = previewType === PreviewType.Quote;
+  const shouldShowOnlinePayment = getShouldShowOnlinePayment(previewType);
+  const shouldShowBankDepositPayment = getShouldShowBankDepositPayment({
+    previewType, isAllowPaymentByDirectDeposit,
+  });
+  const shouldShowChequePayment = getShouldShowChequePayment({
+    previewType, isAllowPaymentByCheque,
+  });
+  const shouldShowDueDate = getShouldShowDueDate(previewType);
 
   const auPayments = {
-    bPay: !isQuote && shouldShowOnlinePayment ? <BpayPayment /> : undefined,
-    creditCard: !isQuote && shouldShowOnlinePayment ? <CreditCardPayment /> : undefined,
-    bankDeposit: !isQuote && isAllowPaymentByDirectDeposit ? <AUBankDepositPayment /> : undefined,
-    cheque: !isQuote && isAllowPaymentByCheque ? <AUChequePayment /> : undefined,
+    bPay: shouldShowOnlinePayment
+      ? <BpayPayment isLoading={isOnlinePaymentLoading} isShown={isAllowOnlinePayment} />
+      : undefined,
+    creditCard: shouldShowOnlinePayment
+      ? <CreditCardPayment isLoading={isOnlinePaymentLoading} isShown={isAllowOnlinePayment} />
+      : undefined,
+    bankDeposit: shouldShowBankDepositPayment ? <AUBankDepositPayment /> : undefined,
+    cheque: shouldShowChequePayment ? <AUChequePayment /> : undefined,
   };
   const nzPayments = {
-    bankDeposit: !isQuote && isAllowPaymentByDirectDeposit ? <NZBankDepositPayment /> : undefined,
-    cheque: !isQuote && isAllowPaymentByCheque ? <NZChequePayment /> : undefined,
+    bankDeposit: shouldShowBankDepositPayment ? <NZBankDepositPayment /> : undefined,
+    cheque: shouldShowChequePayment ? <NZChequePayment /> : undefined,
   };
 
-  const dueDate = previewType === PreviewType.Invoice ? (
+  const dueDate = shouldShowDueDate ? (
     <span>
       Due date:
       {' '}
@@ -139,6 +154,7 @@ const TemplatePreview = ({
   previewType,
   saleLayout,
   region,
+  isOnlinePaymentLoading,
   isAllowOnlinePayment,
   isAllowPaymentByDirectDeposit,
   isAllowPaymentByCheque,
@@ -173,6 +189,7 @@ const TemplatePreview = ({
       {getPaymentMethod({
         previewType,
         region,
+        isOnlinePaymentLoading,
         isAllowOnlinePayment,
         isAllowPaymentByDirectDeposit,
         isAllowPaymentByCheque,

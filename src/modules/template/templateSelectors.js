@@ -248,8 +248,14 @@ export const getSaleLayout = state => state.saleLayout;
 
 export const getIsCreating = state => state.isCreating;
 
-export const getIsAllowOnlinePayment = state => state.isAllowOnlinePayment;
-
 export const getIsAllowPaymentByDirectDeposit = state => state.isAllowPaymentByDirectDeposit;
 
 export const getIsAllowPaymentByCheque = state => state.isAllowPaymentByCheque;
+
+export const getIsOnlinePaymentLoading = state => state.payDirect.isLoading;
+export const getIsAllowOnlinePayment = state => state.payDirect.isRegistered;
+export const getShouldLoadPayDirect = createSelector(getRegion, region => region === 'au');
+export const getLoadPayDirectUrlParams = createSelector(
+  getBusinessId,
+  businessId => ({ businessId }),
+);
