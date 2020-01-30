@@ -43,6 +43,8 @@ const getDefaultState = () => ({
     withholdingPayerNumber: '',
     roundNetPay: '',
     taxTableRevisionDate: '',
+    defaultSuperFund: '',
+    defaultSuperFundOptions: [],
     useTimesheets: false,
     useTimesheetsAction: '',
     useTimesheetsWeekStarts: '',

@@ -3,6 +3,7 @@ import {
   Button,
   ButtonRow,
   Card,
+  Combobox,
   FieldGroup,
   FormHorizontal,
   PageHead,
@@ -38,6 +39,8 @@ const GeneralPayrollInformationView = (props) => {
     roundNetPay,
     taxTableRevisionDate,
     isCurrentYearProvided,
+    defaultSuperFund,
+    defaultSuperFundOptions,
     useTimesheets,
     useTimesheetsWeekStarts,
     loadingState,
@@ -78,6 +81,12 @@ const GeneralPayrollInformationView = (props) => {
     );
   }
 
+  const defaultSuperFundMetaData = [
+    {
+      columnName: 'name', showData: true,
+    },
+  ];
+
   const view = (
     <>
       <Card>
@@ -115,6 +124,18 @@ const GeneralPayrollInformationView = (props) => {
               <ReadOnly label="Tax table revision date" name="taxTableRevisionDate">
                 {taxTableRevisionDate}
               </ReadOnly>
+              <Combobox
+                items={defaultSuperFundOptions}
+                metaData={defaultSuperFundMetaData}
+                name="defaultSuperFund"
+                label="Default Superannuation fund"
+                onChange={({ id }) => onGeneralPayrollInformationChange({
+                  key: 'defaultSuperFund',
+                  value: id,
+                })}
+                selected={defaultSuperFundOptions.find(fund => fund.id === defaultSuperFund)}
+                width="xl"
+              />
             </FieldGroup>
             {timesheetEnabled && (
               <TimesheetsSettingsView
