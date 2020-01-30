@@ -2,7 +2,6 @@ import {
   CREATE_SPEND_MONEY,
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
-  GET_CALCULATED_TOTALS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
@@ -38,10 +37,6 @@ const HttpSpendMoneyMapping = {
   [LOAD_REFERENCE_ID]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/get_reference_id`,
-  },
-  [GET_CALCULATED_TOTALS]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/spendMoney/calculate_totals`,
   },
   [UPLOAD_ATTACHMENT]: {
     method: 'POST',

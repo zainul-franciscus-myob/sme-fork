@@ -6,19 +6,24 @@ import {
   SUCCESSFULLY_SAVED_SPEND_MONEY,
   SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
 } from '../spendMoneyMessageTypes';
+import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
   getFilesForUpload,
   getInTrayDocumentId,
   getIsCreating,
   getIsCreatingFromInTray,
+  getIsLineAmountsTaxInclusive,
   getIsSubmitting,
   getIsTableEmpty,
+  getIsTaxInclusive,
+  getLinesForTaxCalculation,
   getLoadSpendMoneyRequestParams,
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
   getSpendMoneyId,
   getSpendMoneyUid,
+  getTaxCodeOptions,
   getTransactionListUrl,
   isPageEdited,
   isReferenceIdDirty,
@@ -42,6 +47,7 @@ export default class SpendMoneyDetailModule {
     this.pushMessage = pushMessage;
     this.dispatcher = createSpendMoneyDispatcher(this.store);
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
+    this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
   }
 
   prefillSpendMoneyFromInTray(inTrayDocumentId) {
@@ -65,6 +71,8 @@ export default class SpendMoneyDetailModule {
     const onSuccess = intent => (response) => {
       this.dispatcher.loadSpendMoney(intent, response);
       this.dispatcher.setLoadingState(false);
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+
       const inTrayDocumentId = getInTrayDocumentId(state);
       if (inTrayDocumentId) {
         this.prefillSpendMoneyFromInTray(inTrayDocumentId);
@@ -109,7 +117,7 @@ export default class SpendMoneyDetailModule {
     this.dispatcher.updateHeaderOptions({ key, value });
 
     if (key === 'isTaxInclusive') {
-      this.getCalculatedTotals();
+      this.getTaxCalculations({ isSwitchingTaxInclusive: true });
     }
   };
 
@@ -235,7 +243,7 @@ export default class SpendMoneyDetailModule {
 
     const taxKeys = ['accountId', 'taxCodeId'];
     if (taxKeys.includes(lineKey)) {
-      this.getCalculatedTotals();
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
   }
 
@@ -243,38 +251,39 @@ export default class SpendMoneyDetailModule {
     const { id, ...partialLine } = line;
     this.dispatcher.addSpendMoneyLine(partialLine);
 
-    this.getCalculatedTotals();
+    this.getTaxCalculations({ isSwitchingTaxInclusive: false });
   }
 
   deleteSpendMoneyLine = (index) => {
     this.dispatcher.deleteSpendMoneyLine(index);
 
-    this.getCalculatedTotals();
+    this.getTaxCalculations({ isSwitchingTaxInclusive: false });
   }
 
-  getCalculatedTotals = () => {
+  formatAndCalculateTotals = () => {
+    this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+  }
+
+  getTaxCalculations = ({ isSwitchingTaxInclusive }) => {
     const state = this.store.getState();
+
     if (getIsTableEmpty(state)) {
       this.dispatcher.resetTotals();
       return;
     }
 
-    const onSuccess = (totals) => {
-      this.dispatcher.getCalculatedTotals(totals);
-    };
-
-    const onFailure = error => this.dispatcher.displayAlert(error.message);
-
-    this.integrator.getCalculatedTotals({
-      onSuccess,
-      onFailure,
+    const isTaxInclusive = getIsTaxInclusive(state);
+    const taxCalculations = this.taxCalculate({
+      isTaxInclusive,
+      lines: getLinesForTaxCalculation(state),
+      taxCodes: getTaxCodeOptions(state),
+      isLineAmountsTaxInclusive: getIsLineAmountsTaxInclusive(
+        isTaxInclusive, isSwitchingTaxInclusive,
+      ),
     });
-  };
 
-  formatAndCalculateTotals = ({ index }) => {
-    this.dispatcher.formatSpendMoneyLine(index);
-    this.getCalculatedTotals();
-  }
+    this.dispatcher.getTaxCalculations(taxCalculations);
+  };
 
   deleteSpendMoneyTransaction = () => {
     this.dispatcher.setSubmittingState(true);

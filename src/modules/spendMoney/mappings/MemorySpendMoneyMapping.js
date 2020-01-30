@@ -2,7 +2,6 @@ import {
   CREATE_SPEND_MONEY,
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
-  GET_CALCULATED_TOTALS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
@@ -14,7 +13,6 @@ import {
   UPLOAD_ATTACHMENT,
 } from '../SpendMoneyIntents';
 import attachmentDetailResponse from './data/attachmentDetail';
-import spendMoneyCalculatedTotals from './data/spendMoneyDetailTotalsResponse';
 import spendMoneyDetailEntry from './data/spendMoneyDetailEntry';
 import spendMoneyDetailPrefillResponse from './data/spendMoneyDetailPrefill';
 import spendMoneyNewEntry from './data/spendMoneyDetailNewEntry';
@@ -31,8 +29,6 @@ const deleteSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
 const updateSpendMoney = ({ onSuccess }) => onSuccess(successResponse);
 
 const getSpendMoneyNextReferenceId = ({ onSuccess }) => onSuccess(spendMoneyReferenceId);
-
-const getCalculatedTotals = ({ onSuccess }) => onSuccess(spendMoneyCalculatedTotals);
 
 const loadSpendMoneyDetail = ({ onSuccess }) => onSuccess(spendMoneyDetailEntry);
 
@@ -54,7 +50,6 @@ const MemorySpendMoneyMapping = {
   [DELETE_SPEND_MONEY]: deleteSpendMoney,
   [UPDATE_SPEND_MONEY]: updateSpendMoney,
   [LOAD_REFERENCE_ID]: getSpendMoneyNextReferenceId,
-  [GET_CALCULATED_TOTALS]: getCalculatedTotals,
   [LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
   [UPLOAD_ATTACHMENT]: uploadAttachment,
   [REMOVE_ATTACHMENT]: removeAttachment,

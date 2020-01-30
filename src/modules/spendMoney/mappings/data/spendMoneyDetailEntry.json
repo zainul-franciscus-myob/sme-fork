@@ -11,87 +11,26 @@
     "selectedPayToContactId": "2",
     "lines": [
       {
+        "jobId": "",
         "id": "1",
         "accountId": "789",
         "amount": "1000.00",
         "quantity": "5",
         "description": "Bob",
         "taxCodeId": "123",
-        "accounts": [
-          {
-            "id": "123",
-            "displayName": "My Sales Account 1",
-            "accountType": "Sales",
-            "taxCodeId": "123",
-            "displayId": "1-123"
-          },
-          {
-            "id": "456",
-            "displayName": "My Assets Account 1",
-            "accountType": "Assets",
-            "taxCodeId": "124",
-            "displayId": "2-123"
-          },
-          {
-            "id": "789",
-            "displayName": "My (Inactive) Assets Account 2",
-            "accountType": "Assets",
-            "taxCodeId": "124",
-            "displayId": "2-124"
-          }
-        ],
-        "taxCodes": [
-          {
-            "id": "123",
-            "displayName": "GST",
-            "description": "Goods & Service Tax",
-            "displayRate": "10%"
-          },
-          {
-            "id": "124",
-            "displayName": "FRE",
-            "description": "GST FREE",
-            "displayRate": "5%"
-          }
-        ]
+        "taxAmount": "80.10",
+        "lineSubTypeId": 8
       },
       {
+        "jobId": "",
         "id": "2",
         "accountId": "456",
         "amount": "2352.00",
         "description": "the builder",
         "taxCodeId": "123",
         "quantity": "",
-        "accounts": [
-          {
-            "id": "123",
-            "displayName": "My Sales Account 1",
-            "accountType": "Sales",
-            "taxCodeId": "123",
-            "displayId": "1-123"
-          },
-          {
-            "id": "456",
-            "displayName": "My Assets Account 1",
-            "accountType": "Assets",
-            "taxCodeId": "124",
-            "displayId": "2-123"
-          }
-        ],
-        "taxCodes": [
-          {
-            "id": "123",
-            "displayName": "GST",
-            "description": "Goods & Service Tax",
-            "displayRate": "10%"
-          },
-          {
-            "id": "124",
-            "displayName": "FRE",
-            "description": "GST FREE",
-            "displayRate": "5%"
-          }
-        ]
+        "taxAmount": "280.10",
+        "lineSubTypeId": 8
       }
     ],
     "payFromAccounts": [
@@ -136,47 +75,74 @@
       }
     ]
   },
-  "totals": {
-    "netAmount": "$3,352.00",
-    "totalTax": "$335.20",
-    "totalAmount": "$3,687.20"
-  },
+  "accounts": [
+    {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "taxCodeId": "123",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Assets Account 1",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "2-123"
+    },
+    {
+      "id": "789",
+      "displayName": "My (Inactive) Assets Account 2",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "2-124"
+    }
+  ],
+  "taxCodes": [
+    {
+      "description": "Goods & Services Tax",
+      "displayName": "GST",
+      "displayRate": "10%",
+      "codeType": "GST_VAT",
+      "id": "1",
+      "rate": "10",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
+    },
+    {
+      "description": "No ABN Withholding",
+      "displayName": "ABN",
+      "displayRate": "47%",
+      "id": "2",
+      "rate": "47",
+      "codeType": "NoABN_TFN",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
+    }
+  ],
   "newLine": {
+    "jobId": "",
     "accountId": "",
     "amount": "",
     "quantity": "",
     "description": "",
     "taxCodeId": "",
-    "accounts": [
-      {
-        "id": "123",
-        "displayName": "My Sales Account 1",
-        "accountType": "Sales",
-        "taxCodeId": "123",
-        "displayId": "1-123"
-      },
-      {
-        "id": "456",
-        "displayName": "My Assets Account 1",
-        "accountType": "Assets",
-        "taxCodeId": "124",
-        "displayId": "2-123"
-      }
-    ],
-    "taxCodes": [
-      {
-        "id": "123",
-        "displayName": "GST",
-        "description": "Goods & Service Tax",
-        "displayRate": "10%"
-      },
-      {
-        "id": "124",
-        "displayName": "FRE",
-        "description": "GST FREE",
-        "displayRate": "5%"
-      }
-    ]
+    "taxAmount": "",
+    "lineSubTypeId": 8
   },
   "pageTitle": "Spend money transaction SM1234567",
   "attachments": [

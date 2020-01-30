@@ -3,8 +3,10 @@ import {
   getCalculatedTotalsPayload,
   getFilesForUpload,
   getIsContactReportable,
+  getIsLineAmountsTaxInclusive,
   getIsReportableDisabled,
   getLineDataByIndexSelector,
+  getLinesForTaxCalculation,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
 } from '../spendMoneyDetailSelectors';
@@ -256,6 +258,45 @@ describe('spendMoneySelectors', () => {
       const actual = getIsReportableDisabled.resultFunc(contacts, id);
 
       expect(actual).toBeTruthy();
+    });
+  });
+
+  describe('getIsLineAmountsTaxInclusive', () => {
+    it('should flip isLineAmountsTaxInclusive if the user is toggling the tax inclusive button', () => {
+      const isTaxInclusive = true;
+      const isSwitchingTaxInclusive = true;
+
+      const actual = getIsLineAmountsTaxInclusive(isTaxInclusive, isSwitchingTaxInclusive);
+
+      expect(actual).toEqual(false);
+    });
+
+    it('should not flip isLineAmountsTaxInclusive if the user is toggling the tax inclusive button', () => {
+      const isTaxInclusive = true;
+      const isSwitchingTaxInclusive = false;
+
+      const actual = getIsLineAmountsTaxInclusive(isTaxInclusive, isSwitchingTaxInclusive);
+
+      expect(actual).toEqual(true);
+    });
+  });
+
+  describe('getLinesForTaxCalculation', () => {
+    it('should format lines to be useable by the tax calculator', () => {
+      const state = {
+        spendMoney: {
+          lines: [
+            {
+              id: '1',
+              lineSubTypeId: '6',
+            },
+          ],
+        },
+      };
+
+      const actual = getLinesForTaxCalculation(state);
+
+      expect(actual[0].lineTypeId).toEqual('6');
     });
   });
 });

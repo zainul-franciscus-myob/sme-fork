@@ -5,8 +5,7 @@ import {
   CLEAR_IN_TRAY_DOCUMENT_URL,
   CLOSE_MODAL,
   DELETE_SPEND_MONEY_LINE,
-  FORMAT_SPEND_MONEY_LINE,
-  GET_CALCULATED_TOTALS,
+  GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
@@ -30,8 +29,10 @@ import {
   UPLOAD_ATTACHMENT_FAILED,
 } from '../SpendMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getDefaultTaxCodeId, getIsContactReportable, getIsReportable } from './spendMoneyDetailSelectors';
+import { getIsContactReportable, getIsReportable } from './spendMoneyDetailSelectors';
 import createReducer from '../../../store/createReducer';
+import formatAmount from '../../../common/valueFormatters/formatAmount';
+import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const defaultPrefillStatus = {
@@ -64,11 +65,11 @@ const getDefaultState = () => ({
     description: '',
     taxCodeId: '',
     taxAmount: '',
-    accounts: [],
-    taxCodes: [],
   },
+  accounts: [],
+  taxCodes: [],
   totals: {
-    netAmount: '$0.00',
+    subTotal: '$0.00',
     totalTax: '$0.00',
     totalAmount: '$0.00',
   },
@@ -91,31 +92,34 @@ const pageEdited = { isPageEdited: true };
 
 const resetState = () => (getDefaultState());
 
-const isAccountLineItem = lineKey => lineKey === 'accountId';
-const updateSpendMoneyLine = (line, { lineKey, lineValue }) => {
+const getDefaultTaxCodeId = ({ accountId, accounts }) => {
+  const account = accounts.find(({ id }) => id === accountId);
+  return account === undefined ? '' : account.taxCodeId;
+};
+
+const updateSpendMoneyLine = (line, { lineKey, lineValue }, accounts) => {
+  const isUpdateAccount = lineKey === 'accountId';
+  const isUpdateAmount = lineKey === 'amount';
+
   const updatedLine = {
     ...line,
+    displayAmount: isUpdateAmount ? lineValue : line.displayAmount,
+    taxCodeId: isUpdateAccount
+      ? getDefaultTaxCodeId({ accountId: lineValue, accounts })
+      : line.taxCodeId,
     [lineKey]: lineValue,
   };
-
-  const { accounts } = line;
-  return isAccountLineItem(lineKey)
-    ? {
-      ...updatedLine,
-      taxCodeId: getDefaultTaxCodeId({ accountId: lineValue, accounts }),
-    }
-    : updatedLine;
+  return updatedLine;
 };
-const getLinesForUpdate = (action, lines) => lines.map((line, index) => (
-  index === action.lineIndex ? updateSpendMoneyLine(line, action) : line
-));
 
 const updateLine = (state, action) => ({
   ...state,
   ...pageEdited,
   spendMoney: {
     ...state.spendMoney,
-    lines: getLinesForUpdate(action, state.spendMoney.lines),
+    lines: state.spendMoney.lines.map((line, index) => (
+      index === action.lineIndex ? updateSpendMoneyLine(line, action, state.accounts) : line
+    )),
   },
 });
 
@@ -129,25 +133,12 @@ const addLine = (state, action) => ({
       {
         ...state.newLine,
         ...action.line,
-        taxCodeId: getDefaultTaxCodeId({ ...state.newLine, ...action.line }),
+        taxCodeId: getDefaultTaxCodeId({
+          accountId: action.line.accountId,
+          accounts: state.accounts,
+        }),
       },
     ],
-  },
-});
-
-const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
-const formatLine = (state, action) => ({
-  ...state,
-  spendMoney: {
-    ...state.spendMoney,
-    lines: state.spendMoney.lines.map(
-      ({ amount, ...line }, index) => (
-        {
-          amount: index === action.index && amount ? formatStringNumber(amount) : amount,
-          ...line,
-        }
-      ),
-    ),
   },
 });
 
@@ -189,7 +180,12 @@ const loadNewSpendMoney = (state, action) => ({
     date: formatIsoDate(new Date()),
     originalReferenceId: action.spendMoney.referenceId,
   },
-  newLine: { ...state.newLine, ...action.newLine },
+  accounts: action.accounts,
+  taxCodes: action.taxCodes,
+  newLine: {
+    ...state.newLine,
+    ...action.newLine,
+  },
   isLoading: false,
   pageTitle: action.pageTitle,
   inTrayDocument: { ...state.inTrayDocument, ...action.document },
@@ -202,8 +198,12 @@ const loadSpendMoneyDetail = (state, action) => ({
     ...action.spendMoney,
     originalReferenceId: action.spendMoney.referenceId,
   },
-  newLine: { ...state.newLine, ...action.newLine },
-  totals: action.totals,
+  accounts: action.accounts,
+  taxCodes: action.taxCodes,
+  newLine: {
+    ...state.newLine,
+    ...action.newLine,
+  },
   isLoading: false,
   pageTitle: action.pageTitle,
   attachments: action.attachments,
@@ -243,9 +243,26 @@ const closeModal = state => ({
   modal: undefined,
 });
 
-const getCalculateTotals = (state, action) => ({
+const getTaxCalculations = (state, { taxCalculations: { lines, totals } }) => ({
   ...state,
-  totals: action.totals,
+  isPageEdited: true,
+  spendMoney: {
+    ...state.spendMoney,
+    lines: state.spendMoney.lines.map((line, index) => {
+      const { amount } = lines[index];
+      return {
+        ...line,
+        amount: amount.valueOf(),
+        displayAmount: formatAmount(amount.valueOf()),
+      };
+    }),
+  },
+  totals: {
+    ...state.totals,
+    subTotal: formatCurrency(totals.subTotal.valueOf()),
+    totalTax: formatCurrency(totals.totalTax.valueOf()),
+    totalAmount: formatCurrency(totals.totalAmount.valueOf()),
+  },
 });
 
 const resetTotals = state => ({
@@ -400,12 +417,11 @@ const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
   [LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
-  [GET_CALCULATED_TOTALS]: getCalculateTotals,
+  [GET_TAX_CALCULATIONS]: getTaxCalculations,
   [LOAD_REFERENCE_ID]: loadReferenceId,
   [UPDATE_SPEND_MONEY_LINE]: updateLine,
   [ADD_SPEND_MONEY_LINE]: addLine,
   [DELETE_SPEND_MONEY_LINE]: deleteLine,
-  [FORMAT_SPEND_MONEY_LINE]: formatLine,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT_MESSAGE]: setAlertMessage,

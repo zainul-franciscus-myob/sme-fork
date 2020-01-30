@@ -1,5 +1,8 @@
+import Decimal from 'decimal.js';
+
 import {
   ADD_ATTACHMENTS,
+  GET_TAX_CALCULATIONS,
   PREFILL_DATA_FROM_IN_TRAY,
   UPDATE_SPEND_MONEY_HEADER,
   UPLOAD_ATTACHMENT,
@@ -305,5 +308,60 @@ describe('spendMoneyDetailReducer', () => {
         },
       }));
     });
+  });
+
+  describe('getTaxCalculations', () => {
+    const taxCalculations = {
+      lines: [
+        { taxExclusiveAmount: Decimal(90.91), taxAmount: Decimal(9.09), amount: Decimal(100) },
+      ],
+      totals: {
+        subTotal: Decimal(100),
+        totalTax: Decimal(9.09),
+        totalAmount: Decimal(100),
+      },
+    };
+
+    const state = {
+      spendMoney: {
+        lines: [
+          {
+            amount: '0',
+            displayAmount: '0.00',
+          },
+        ],
+      },
+      totals: {
+        subTotal: '0',
+        totalTax: '0',
+        totalAmount: '0',
+      },
+    };
+
+    const action = {
+      intent: GET_TAX_CALCULATIONS,
+      taxCalculations,
+    };
+
+    const actual = spendMoneyReducer(state, action);
+
+    const expected = {
+      isPageEdited: true,
+      spendMoney: {
+        lines: [
+          {
+            amount: '100',
+            displayAmount: '100.00',
+          },
+        ],
+      },
+      totals: {
+        subTotal: '$100.00',
+        totalTax: '$9.09',
+        totalAmount: '$100.00',
+      },
+    };
+
+    expect(actual).toEqual(expected);
   });
 });

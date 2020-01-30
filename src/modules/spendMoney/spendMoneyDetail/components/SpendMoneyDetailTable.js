@@ -13,7 +13,11 @@ import SpendMoneyDetailRow from './SpendMoneyDetailRow';
 
 const SpendMoneyDetailTable = ({
   tableData,
-  amountTotals: { netAmount, totalTax, totalAmount },
+  amountTotals: {
+    subTotal,
+    totalTax,
+    totalAmount,
+  },
   onRemoveRow,
   taxLabel,
   taxCodeLabel,
@@ -96,7 +100,7 @@ const SpendMoneyDetailTable = ({
       onRemoveRow={onRemoveRow}
     >
       <LineItemTable.Total>
-        <LineItemTable.Totals title="Subtotal" amount={netAmount} />
+        <LineItemTable.Totals title="Subtotal" amount={subTotal} />
         <LineItemTable.Totals title={taxLabel} amount={totalTax} />
         <LineItemTable.Totals totalAmount title="Total" amount={totalAmount} />
       </LineItemTable.Total>

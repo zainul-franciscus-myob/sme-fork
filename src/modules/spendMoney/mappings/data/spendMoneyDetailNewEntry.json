@@ -47,41 +47,66 @@
     ]
   },
   "newLine": {
+    "jobId": "",
     "accountId": "",
     "amount": "",
     "quantity": "",
     "description": "",
     "taxCodeId": "",
-    "accounts": [
-      {
-        "id": "123",
-        "displayName": "My Sales Account 1",
-        "accountType": "Sales",
-        "taxCodeId": "123",
-        "displayId": "1-123"
-      },
-      {
-        "id": "456",
-        "displayName": "My Assets Account 1",
-        "accountType": "Assets",
-        "taxCodeId": "124",
-        "displayId": "2-123"
-      }
-    ],
-    "taxCodes": [
-      {
-        "id": "123",
-        "displayName": "GST",
-        "description": "Goods & Service Tax",
-        "displayRate": "10%"
-      },
-      {
-        "id": "124",
-        "displayName": "FRE",
-        "description": "GST FREE",
-        "displayRate": "5%"
-      }
-    ]
+    "taxAmount": "",
+    "lineSubTypeId": 8
   },
+  "accounts": [
+    {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "taxCodeId": "1",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Assets Account 1",
+      "accountType": "Assets",
+      "taxCodeId": "2",
+      "displayId": "2-123"
+    }
+  ],
+  "taxCodes": [
+    {
+      "description": "Goods & Services Tax",
+      "displayName": "GST",
+      "displayRate": "10%",
+      "codeType": "GST_VAT",
+      "id": "1",
+      "rate": "10",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
+    },
+    {
+      "description": "No ABN Withholding",
+      "displayName": "ABN",
+      "displayRate": "47%",
+      "id": "2",
+      "rate": "47",
+      "codeType": "NoABN_TFN",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
+    }
+  ],
   "pageTitle": "Create spend money transaction"
 }

@@ -2,7 +2,6 @@ import {
   CREATE_SPEND_MONEY,
   DELETE_SPEND_MONEY,
   DOWNLOAD_IN_TRAY_DOCUMENT,
-  GET_CALCULATED_TOTALS,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
@@ -15,7 +14,6 @@ import {
 } from '../SpendMoneyIntents';
 import {
   getBusinessId,
-  getCalculatedTotalsPayload,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
   getSpendMoneyId,
@@ -97,20 +95,6 @@ const createSpendMoneyIntegrator = (store, integration) => ({
       intent,
       urlParams,
       content,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  getCalculatedTotals: ({ onSuccess, onFailure }) => {
-    const state = store.getState();
-
-    const intent = GET_CALCULATED_TOTALS;
-
-    integration.write({
-      intent,
-      urlParams: { businessId: getBusinessId(state) },
-      content: getCalculatedTotalsPayload(state),
       onSuccess,
       onFailure,
     });

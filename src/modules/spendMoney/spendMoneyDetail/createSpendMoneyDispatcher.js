@@ -5,8 +5,7 @@ import {
   CLEAR_IN_TRAY_DOCUMENT_URL,
   CLOSE_MODAL,
   DELETE_SPEND_MONEY_LINE,
-  FORMAT_SPEND_MONEY_LINE,
-  GET_CALCULATED_TOTALS,
+  GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_REFERENCE_ID,
   OPEN_MODAL,
@@ -46,17 +45,10 @@ const createSpendMoneyDispatcher = store => ({
     store.dispatch({ intent, isLoading });
   },
 
-  loadSpendMoney: (intent, {
-    spendMoney, newLine, totals, pageTitle, attachments, document,
-  }) => {
+  loadSpendMoney: (intent, response) => {
     store.dispatch({
       intent,
-      document,
-      spendMoney,
-      totals,
-      newLine,
-      pageTitle,
-      attachments,
+      ...response,
       isLoading: false,
     });
   },
@@ -113,19 +105,14 @@ const createSpendMoneyDispatcher = store => ({
     store.dispatch({ intent, index });
   },
 
-  formatSpendMoneyLine: (index) => {
-    const intent = FORMAT_SPEND_MONEY_LINE;
-    store.dispatch({ intent, index });
-  },
-
   resetTotals: () => {
     const intent = RESET_TOTALS;
     store.dispatch({ intent });
   },
 
-  getCalculatedTotals: (totals) => {
-    const intent = GET_CALCULATED_TOTALS;
-    store.dispatch({ intent, totals });
+  getTaxCalculations: (taxCalculations) => {
+    const intent = GET_TAX_CALCULATIONS;
+    store.dispatch({ intent, taxCalculations });
   },
 
   dismissAlert: () => {

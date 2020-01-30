@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAccountOptions,
   getLineDataByIndexSelector,
   getNewLineData,
+  getTaxCodeOptions,
 } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
@@ -38,16 +40,16 @@ const SpendMoneyDetailRow = (props) => {
     isNewLineRow,
     lineData,
     newLineData,
+    accountOptions,
+    taxCodeOptions,
     ...feelixInjectedProps
   } = props;
   const data = isNewLineRow ? newLineData : lineData;
 
   const {
-    amount = '',
+    displayAmount = '',
     description = '',
     accountId,
-    taxCodes,
-    accounts,
     taxCodeId,
     quantity,
   } = data;
@@ -57,7 +59,7 @@ const SpendMoneyDetailRow = (props) => {
       <AccountCombobox
         label="Accounts"
         hideLabel={false}
-        items={accounts}
+        items={accountOptions}
         selectedId={accountId}
         onChange={onComboboxChange('accountId', onChange)}
       />
@@ -65,7 +67,7 @@ const SpendMoneyDetailRow = (props) => {
         label="Amount"
         hideLabel
         name="amount"
-        value={amount}
+        value={displayAmount}
         onChange={onAmountInputChange('amount', onChange)}
         disabled={isNewLineRow}
         onBlur={onInputBlur(onRowInputBlur, index, 'amount')}
@@ -95,7 +97,7 @@ const SpendMoneyDetailRow = (props) => {
       <TaxCodeCombobox
         label="Tax code"
         hideLabel={false}
-        items={taxCodes}
+        items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
         disabled={isNewLineRow}
@@ -110,6 +112,8 @@ const makeMapRowStateToProps = () => {
   return (state, ownProps) => ({
     lineData: lineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
+    accountOptions: getAccountOptions(state),
+    taxCodeOptions: getTaxCodeOptions(state),
   });
 };
 

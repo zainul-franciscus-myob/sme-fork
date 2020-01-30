@@ -10,10 +10,13 @@ const getPayFromAccounts = state => state.spendMoney.payFromAccounts;
 const getPayToContacts = state => state.spendMoney.payToContacts;
 const getDate = state => state.spendMoney.date;
 const getDescription = state => state.spendMoney.description;
+const getLines = state => state.spendMoney.lines;
 export const getIsReportable = state => state.spendMoney.isReportable;
-const getIsTaxInclusive = state => state.spendMoney.isTaxInclusive;
+export const getIsTaxInclusive = state => state.spendMoney.isTaxInclusive;
 const getTaxInclusiveLabel = state => getRegionToDialectText(state.region)('Tax inclusive');
 const getTaxExclusiveLabel = state => getRegionToDialectText(state.region)('Tax exclusive');
+export const getTaxCodeOptions = state => state.taxCodes;
+export const getAccountOptions = state => state.accounts;
 export const getRegion = state => state.region;
 
 const getHeadersProperties = createStructuredSelector({
@@ -67,11 +70,6 @@ export const getAlertMessage = state => state.alertMessage;
 export const getModalUrl = state => ((state.modal || {}).url);
 export const getModal = state => state.modal;
 export const getIsLoading = state => state.isLoading;
-
-export const getDefaultTaxCodeId = ({ accountId, accounts }) => {
-  const account = accounts.find(({ id }) => id === accountId);
-  return account === undefined ? '' : account.taxCodeId;
-};
 
 export const getLineDataByIndexSelector = () => createSelector(
   (state, props) => state.spendMoney.lines[props.index],
@@ -261,3 +259,15 @@ export const getOpenedModalType = (state) => {
 
   return modal.type;
 };
+
+export const getLinesForTaxCalculation = createSelector(
+  getLines,
+  lines => lines.map(line => ({
+    ...line,
+    lineTypeId: line.lineSubTypeId,
+  })),
+);
+
+export const getIsLineAmountsTaxInclusive = (isTaxInclusive, isSwitchingTaxInclusive) => (
+  isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive
+);
