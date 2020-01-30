@@ -38,8 +38,8 @@ const BankTransactionPageHead = ({
       count={bankBalance}
     />,
     <TotalsHeader.TotalItem
-      key="ledger-balance"
-      label="Ledger balance"
+      key="calculated-balance"
+      label="Calculated balance"
       count={myobBalance}
     />,
     <TotalsHeader.TotalItem
