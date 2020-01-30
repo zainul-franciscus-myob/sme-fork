@@ -40,8 +40,8 @@ const ExportCompanyFile = ({
       onChange={handleSelectChange(onChange)}
     >
       <Select.Option hidden value="" label="" key="blank" />
-      {fileTypeOptions.map(value => (
-        <Select.Option key={value} value={value} label={value} />
+      {fileTypeOptions.map(({ name, value }) => (
+        <Select.Option key={value} value={value} label={name} />
       ))}
     </Select>
     {shouldShowClientCode && (
