@@ -19,6 +19,7 @@ const InvoiceDetailTotals = ({
 }) => {
   const amountPaidInputLine = isCreating ? (
     <LineItemTableTotalsInput
+      name="amountPaid"
       label="Amount paid ($)"
       value={amountPaid}
       onChange={onAmountInputChange(onChange)}
