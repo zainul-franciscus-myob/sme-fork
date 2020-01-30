@@ -4,10 +4,12 @@ import {
   DOWNLOAD_IN_TRAY_DOCUMENT,
   GENERATE_IN_TRAY_EMAIL,
   LOAD_IN_TRAY,
+  POLL_INTRAY_LIST,
   SORT_AND_FILTER_IN_TRAY_LIST,
 } from '../InTrayIntents';
 import {
   getAppliedFilterOptions,
+  getDocumentIds,
   getFilterOptions,
   getOrderBy,
   getSortOrder,
@@ -86,7 +88,11 @@ const createInTrayIntegrator = (store, integration) => ({
   },
 
   createInTrayDocuments: ({
-    onProgress, onSuccess, onFailure, onComplete, entries,
+    onProgress,
+    onSuccess,
+    onFailure,
+    onComplete,
+    entries,
   }) => {
     const state = store.getState();
     const urlParams = {
@@ -148,6 +154,30 @@ const createInTrayIntegrator = (store, integration) => ({
       onFailure,
     });
   },
+
+  pollInTrayList: ({ onSuccess, onFailure }) => {
+    const intent = POLL_INTRAY_LIST;
+
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+
+    const documentIds = getDocumentIds(state);
+
+    const params = {
+      documentIds,
+    };
+
+    const urlParams = { businessId };
+
+    integration.read({
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
 });
 
 export default createInTrayIntegrator;

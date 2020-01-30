@@ -8,6 +8,7 @@ import {
   GENERATE_IN_TRAY_EMAIL,
   LOAD_IN_TRAY,
   OPEN_MODAL,
+  POLL_INTRAY_LIST,
   REMOVE_IN_TRAY_LIST_ENTRY,
   SET_ACTIVE_ENTRY_ROW,
   SET_ALERT,
@@ -30,6 +31,7 @@ import {
   addInTrayListEntry,
   createInTrayDocument,
   deleteInTrayDocument,
+  pollInTrayList,
   removeInTrayListEntry,
   setInTrayActiveEntry,
   setInTrayListEntrySubmittingState,
@@ -165,6 +167,9 @@ const handlers = {
   [UNSET_ACTIVE_ENTRY_ROW]: unsetInTrayActiveEntry,
   [SET_DOCUMENT_VIEWER_URL]: setDocumentViewerUrl,
   [UNSET_DOCUMENT_VIEWER_URL]: unsetDocumentViewerUrl,
+
+  [POLL_INTRAY_LIST]: pollInTrayList,
+
 };
 
 const inTrayReducer = createReducer(getDefaultState(), handlers);

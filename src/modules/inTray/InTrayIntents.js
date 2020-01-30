@@ -31,3 +31,5 @@ export const VIEW_IN_TRAY_MODAL_DOCUMENT = Symbol('View in tray modal document')
 export const SELECT_DOCUMENT = Symbol('Select document');
 export const SET_DOCUMENT_VIEWER_URL = Symbol('Set document viewer url');
 export const UNSET_DOCUMENT_VIEWER_URL = Symbol('Unset document viewer url');
+
+export const POLL_INTRAY_LIST = Symbol('Poll for OCR status');

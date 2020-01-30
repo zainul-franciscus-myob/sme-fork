@@ -6,6 +6,7 @@ import {
   GENERATE_IN_TRAY_EMAIL,
   LOAD_IN_TRAY,
   LOAD_IN_TRAY_MODAL,
+  POLL_INTRAY_LIST,
   SORT_AND_FILTER_IN_TRAY_LIST,
   VIEW_IN_TRAY_MODAL_DOCUMENT,
 } from '../InTrayIntents';
@@ -16,6 +17,7 @@ import filteredInTrayList from './data/filterInTrayListResponse';
 import generateInTrayEmailResponse from './data/generateEmailAddressResponse';
 import loadInTrayModalResponse from './data/loadInTrayModalResponse';
 import loadInTrayResponse from './data/loadInTrayResponse';
+import pollInTrayResponse from './data/pollInTrayResponse';
 import successResponse from './data/success.json';
 
 const MemoryInTrayMapping = {
@@ -36,6 +38,8 @@ const MemoryInTrayMapping = {
     onSuccess({ ...createInTrayModalFileResponse, entry });
   },
   [VIEW_IN_TRAY_MODAL_DOCUMENT]: ({ onSuccess }) => onSuccess(downloadInTrayModalFileResponse),
+  [POLL_INTRAY_LIST]: ({ onSuccess }) => onSuccess(pollInTrayResponse),
+
 };
 
 export default MemoryInTrayMapping;

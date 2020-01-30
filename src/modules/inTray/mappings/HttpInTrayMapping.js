@@ -6,6 +6,7 @@ import {
   GENERATE_IN_TRAY_EMAIL,
   LOAD_IN_TRAY,
   LOAD_IN_TRAY_MODAL,
+  POLL_INTRAY_LIST,
   SORT_AND_FILTER_IN_TRAY_LIST,
   VIEW_IN_TRAY_MODAL_DOCUMENT,
 } from '../InTrayIntents';
@@ -46,6 +47,10 @@ const HttpInTrayMapping = {
   [VIEW_IN_TRAY_MODAL_DOCUMENT]: {
     method: 'GET',
     getPath: ({ businessId, documentId }) => `/${businessId}/inTray/view_in_tray_modal_document/${documentId}`,
+  },
+  [POLL_INTRAY_LIST]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/inTray/poll_in_tray_list`,
   },
 };
 

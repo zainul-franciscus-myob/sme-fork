@@ -12,6 +12,7 @@ import { SUCCESSFULLY_SAVED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_
 import { getBusinessId, getRegion } from './selectors/InTraySelectors';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
 import {
+  getEntries,
   getIsEntryLoading,
   getIsEntryUploadingDone,
   getNewSortOrder,
@@ -21,6 +22,7 @@ import {
 } from './selectors/InTrayListSelectors';
 import InTrayView from './components/InTrayView';
 import LoadingState from '../../../components/PageView/LoadingState';
+import OCRStatus from './OCRStatus';
 import Store from '../../../store/Store';
 import actionTypes from './actionTypes';
 import createInTrayDispatcher from './createInTrayDispatcher';
@@ -56,6 +58,7 @@ export default class InTrayModule {
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadInTray(payload);
+      this.pollEntries();
     };
 
     const onFailure = () => {
@@ -162,6 +165,7 @@ export default class InTrayModule {
       const { uploadId } = entries[index] || { uploadId: 'none' };
 
       this.dispatcher.createInTrayDocument(uploadId, entry);
+      this.pollEntries();
     };
 
     const onFailure = (response, index) => {
@@ -172,7 +176,6 @@ export default class InTrayModule {
 
     const onComplete = (results) => {
       const alert = getUploadCompleteAlert(results);
-
       this.dispatcher.setAlert(alert);
     };
 
@@ -184,6 +187,32 @@ export default class InTrayModule {
       entries,
     });
   }
+
+  pollEntries = () => {
+    const shouldPoll = entries => (entries
+      .filter(entry => entry.ocrStatus === OCRStatus.InProgress).length > 0);
+
+    const onSuccess = ({ entries }) => {
+      this.dispatcher.pollIntrayList(entries);
+
+      if (shouldPoll(getEntries(this.store.getState()))) {
+        // Saving timer reference to prevent multiple active timers
+        this.pollTimer = setTimeout(() => {
+          // Clearing timer as the timeout has resolved
+          this.pollTimer = undefined;
+          this.pollEntries();
+        }, 7000);
+      }
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setAlert({ message: 'Failed to get OCR data', type: 'danger' });
+    };
+    // If there is an existing timer dont run.
+    if (!this.pollTimer && shouldPoll(getEntries(this.store.getState()))) {
+      this.integrator.pollInTrayList({ onSuccess, onFailure });
+    }
+  };
 
   deleteInTrayDocument = (id) => {
     const state = this.store.getState();
@@ -371,6 +400,10 @@ export default class InTrayModule {
   }
 
   unsubscribeFromStore = () => {
+    if (this.pollTimer) {
+      // If there is a running poll clear it.
+      clearTimeout(this.pollTimer);
+    }
     this.store.unsubscribeAll();
   }
 
@@ -395,6 +428,8 @@ export default class InTrayModule {
   };
 
   run = (context) => {
+    // Set up empty pollTimer
+    this.pollTimer = undefined;
     this.setInitialState(context);
     this.render();
     this.readMessages();

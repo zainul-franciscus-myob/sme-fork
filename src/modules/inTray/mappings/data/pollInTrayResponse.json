@@ -1,0 +1,31 @@
+{
+  "entries": [
+    {
+      "id": "6ea58e30-d5c9-4030-84ae-715f266becd4",
+      "uploadedDate": "19/05/2019",
+      "invoiceNumber": "",
+      "issuedDate": "",
+      "thumbnailUri": "http://help.myob.com/wiki/download/attachments/6193321/In%20tray.png?version=3&modificationDate=1500507639000&api=v2",
+      "totalAmount": "",
+      "ocrStatus": "Completed"
+    },
+    {
+      "id": "6426608b-e031-4f2b-be11-c8a45b8e269d",
+      "uploadedDate": "10/05/2019",
+      "invoiceNumber": "",
+      "issuedDate": "",
+      "thumbnailUri": "http://help.myob.com/wiki/download/attachments/6193321/Thumbnail%20on%20purchase.png?version=1&modificationDate=1484022777000&api=v2",
+      "totalAmount": "",
+      "ocrStatus": "Completed"
+    },
+    {
+      "id": "7cd8f57a-4f28-40be-ac4d-ba26be83cb87",
+      "uploadedDate": "01/05/2019",
+      "invoiceNumber": "INV0001",
+      "issuedDate": "17/05/2019",
+      "thumbnailUri": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
+      "totalAmount": "55,000.90",
+      "ocrStatus": "Completed"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+import OCRStatus from '../OCRStatus';
 import uploadStatuses from '../uploadStatuses';
 
 const uploadFileTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/tiff'];
@@ -37,7 +38,7 @@ export const getTableEntries = createSelector(
   (entries, activeEntryId) => entries.map((entry) => {
     const { ocrStatus, uploadStatus, isSubmitting = false } = entry;
     const isUploading = uploadStatus === uploadStatuses.inProgress;
-    const isOcrInProgress = ocrStatus === 'InProgress';
+    const isOcrInProgress = ocrStatus === OCRStatus.InProgress;
     return {
       ...entry,
       isUploading,
@@ -148,4 +149,9 @@ export const getActiveEntry = createSelector(
       uploadedDate: activeEntry && activeEntry.uploadedDate ? activeEntry.uploadedDate : '',
     });
   },
+);
+
+export const getDocumentIds = createSelector(
+  getEntries,
+  entries => entries.map(entry => entry.id),
 );

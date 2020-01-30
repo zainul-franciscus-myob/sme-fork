@@ -84,3 +84,13 @@ export const setInTrayListEntrySubmittingState = (state, { id, isSubmitting }) =
     { entries: getUpdatedEntriesByKey(state, 'id', id, { isSubmitting }) },
   )
 );
+
+export const pollInTrayList = (state, { entries }) => updateInTrayListState(state, {
+  entries: state.inTrayList.entries.map((stateEntry) => {
+    const pollEntry = entries.find(entry => entry.id === stateEntry.id) || stateEntry;
+    return ({
+      ...stateEntry,
+      ...pollEntry,
+    });
+  }),
+});

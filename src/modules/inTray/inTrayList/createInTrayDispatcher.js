@@ -6,6 +6,7 @@ import {
   GENERATE_IN_TRAY_EMAIL,
   LOAD_IN_TRAY,
   OPEN_MODAL,
+  POLL_INTRAY_LIST,
   REMOVE_IN_TRAY_LIST_ENTRY,
   SET_ACTIVE_ENTRY_ROW,
   SET_ALERT,
@@ -190,6 +191,10 @@ const createInTrayDispatcher = store => ({
     store.dispatch({
       intent: UNSET_DOCUMENT_VIEWER_URL,
     });
+  },
+
+  pollIntrayList: (entries) => {
+    store.dispatch({ intent: POLL_INTRAY_LIST, entries });
   },
 });
 
