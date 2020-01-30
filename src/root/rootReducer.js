@@ -51,7 +51,7 @@ const updateTasks = (state, { tasks: updatedTasks }) => {
 
   const newTasks = currentTasks.map((currentTask) => {
     const taskToUpdate = updatedTasks.find(
-      updatedTask => updatedTask.id === currentTask.id,
+      updatedTask => updatedTask.key === currentTask.key,
     );
 
     if (taskToUpdate) return taskToUpdate;

@@ -4,16 +4,13 @@ import React from 'react';
 import styles from './index.module.css';
 
 const Welcome = ({ task, closeTasks }) => {
-  const { data: { isComplete } } = task;
-  if (isComplete === true) return null;
-
   const onCloseWelcomeTask = (e) => {
     e.preventDefault();
     closeTasks({ closeEvent: 'welcomeViewed' });
   };
 
   const onboardingTour = () => {
-    window.location.href = `/#/${task.region}/${task.cdfguid}/dashboard?appcue=-LwVnYlAyZs8fgnratzU`;
+    window.location.href = task.action;
   };
 
   return (
