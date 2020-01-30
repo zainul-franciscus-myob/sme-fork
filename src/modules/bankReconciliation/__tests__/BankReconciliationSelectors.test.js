@@ -5,6 +5,7 @@ import {
   getOptions,
   getOrder,
   getOutOfBalance,
+  getSelectedAccount,
 } from '../BankReconciliationSelectors';
 
 describe('BankReconciliationSelectors', () => {
@@ -354,6 +355,19 @@ describe('BankReconciliationSelectors', () => {
       const actual = getOutOfBalance(state);
 
       expect(actual).toEqual(0);
+    });
+  });
+  describe('getSelectedAccount', () => {
+    it('should get the account matching the selected id out of state', () => {
+      const matchingAccount = { id: 5, accountType: 'Asset' };
+      const state = {
+        selectedAccountId: matchingAccount.id,
+        accounts: [{ id: 1, accountType: 'Asset' }, { id: 2, accountType: 'Asset' }, matchingAccount],
+      };
+
+      const actual = getSelectedAccount(state);
+
+      expect(actual).toEqual(matchingAccount);
     });
   });
 });

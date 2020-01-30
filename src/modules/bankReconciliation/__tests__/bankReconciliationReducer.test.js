@@ -36,6 +36,8 @@ describe('bankReconciliationReducer', () => {
   describe('selectRow', () => {
     it('should select a Withdrawal row', () => {
       const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 200,
         entries: [
           {
@@ -49,6 +51,8 @@ describe('bankReconciliationReducer', () => {
       };
 
       const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 100,
         entries: [
           {
@@ -70,6 +74,8 @@ describe('bankReconciliationReducer', () => {
 
     it('should select a Deposit row', () => {
       const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 200,
         entries: [
           {
@@ -83,6 +89,8 @@ describe('bankReconciliationReducer', () => {
       };
 
       const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 300,
         entries: [
           {
@@ -104,6 +112,8 @@ describe('bankReconciliationReducer', () => {
 
     it('should handle Withdrawal row with 0 amount', () => {
       const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 200,
         entries: [
           {
@@ -117,6 +127,8 @@ describe('bankReconciliationReducer', () => {
       };
 
       const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 200,
         entries: [
           {
@@ -138,6 +150,8 @@ describe('bankReconciliationReducer', () => {
 
     it('should handle Deposit row with 0 amount', () => {
       const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 200,
         entries: [
           {
@@ -151,6 +165,8 @@ describe('bankReconciliationReducer', () => {
       };
 
       const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 200,
         entries: [
           {
@@ -172,6 +188,8 @@ describe('bankReconciliationReducer', () => {
 
     it('should unselect a Withdrawal row', () => {
       const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 200,
         entries: [
           {
@@ -186,6 +204,8 @@ describe('bankReconciliationReducer', () => {
       };
 
       const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 300,
         entries: [
           {
@@ -207,6 +227,8 @@ describe('bankReconciliationReducer', () => {
 
     it('should unselect a Deposit row', () => {
       const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 200,
         entries: [
           {
@@ -221,6 +243,8 @@ describe('bankReconciliationReducer', () => {
       };
 
       const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 100,
         entries: [
           {
@@ -239,11 +263,167 @@ describe('bankReconciliationReducer', () => {
 
       expect(actual).toEqual(expected);
     });
+    it('should unselect a Liability deposit row', () => {
+      const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Liability' }],
+        calculatedClosingBalance: 200,
+        entries: [
+          {
+            journalLineId: '1',
+          },
+          {
+            journalLineId: '2',
+            deposit: 100,
+            isChecked: true,
+          },
+        ],
+      };
+
+      const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Liability' }],
+        calculatedClosingBalance: 300,
+        entries: [
+          {
+            journalLineId: '1',
+          },
+          {
+            journalLineId: '2',
+            deposit: 100,
+            isChecked: false,
+          },
+        ],
+      };
+
+      const action = { intent: SELECT_ROW, index: 1, value: false };
+      const actual = bankReconciliationDetailReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should select a Liability deposit row', () => {
+      const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Liability' }],
+        calculatedClosingBalance: 200,
+        entries: [
+          {
+            journalLineId: '1',
+          },
+          {
+            journalLineId: '2',
+            deposit: 100,
+            isChecked: false,
+          },
+        ],
+      };
+
+      const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Liability' }],
+        calculatedClosingBalance: 100,
+        entries: [
+          {
+            journalLineId: '1',
+          },
+          {
+            journalLineId: '2',
+            deposit: 100,
+            isChecked: true,
+          },
+        ],
+      };
+
+      const action = { intent: SELECT_ROW, index: 1, value: true };
+      const actual = bankReconciliationDetailReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+    it('should unselect a Liability withdrawal row', () => {
+      const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Liability' }],
+        calculatedClosingBalance: 200,
+        entries: [
+          {
+            journalLineId: '1',
+          },
+          {
+            journalLineId: '2',
+            withdrawal: 100,
+            isChecked: true,
+          },
+        ],
+      };
+
+      const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Liability' }],
+        calculatedClosingBalance: 100,
+        entries: [
+          {
+            journalLineId: '1',
+          },
+          {
+            journalLineId: '2',
+            withdrawal: 100,
+            isChecked: false,
+          },
+        ],
+      };
+
+      const action = { intent: SELECT_ROW, index: 1, value: false };
+      const actual = bankReconciliationDetailReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should select a Liability withdrawal row', () => {
+      const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Liability' }],
+        calculatedClosingBalance: 200,
+        entries: [
+          {
+            journalLineId: '1',
+          },
+          {
+            journalLineId: '2',
+            withdrawal: 100,
+            isChecked: false,
+          },
+        ],
+      };
+
+      const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Liability' }],
+        calculatedClosingBalance: 300,
+        entries: [
+          {
+            journalLineId: '1',
+          },
+          {
+            journalLineId: '2',
+            withdrawal: 100,
+            isChecked: true,
+          },
+        ],
+      };
+
+      const action = { intent: SELECT_ROW, index: 1, value: true };
+      const actual = bankReconciliationDetailReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe('selectAll', () => {
     it('should select all when not all selected', () => {
       const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 200,
         entries: [
           {
@@ -262,6 +442,8 @@ describe('bankReconciliationReducer', () => {
       };
 
       const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 100,
         entries: [
           {
@@ -289,6 +471,8 @@ describe('bankReconciliationReducer', () => {
 
     it('should unselect all transactions', () => {
       const state = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 200,
         entries: [
           {
@@ -305,6 +489,8 @@ describe('bankReconciliationReducer', () => {
       };
 
       const expected = {
+        selectedAccountId: 1,
+        accounts: [{ id: 1, accountType: 'Asset' }],
         calculatedClosingBalance: 300,
         entries: [
           {

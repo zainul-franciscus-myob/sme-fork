@@ -16,7 +16,7 @@ import {
   UPDATE_RESULT,
 } from './BankReconciliationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getIsAllSelected } from './BankReconciliationSelectors';
+import { getIsAllSelected, getSelectedAccount } from './BankReconciliationSelectors';
 import LoadingState from '../../components/PageView/LoadingState';
 import createReducer from '../../store/createReducer';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
@@ -94,14 +94,24 @@ const updateAmount = (state, { key, value }) => ({
   [key]: formatAmount(value),
 });
 
-const getAdjustmentForRow = ({ withdrawal, deposit }, value) => {
+const getAdjustmentForRow = ({ withdrawal, deposit }, value, accountType) => {
   if (withdrawal === 0 || deposit === 0) {
     return 0;
   }
-  return value ? (-withdrawal || deposit) : (withdrawal || -deposit);
+  const amount = (-1 * withdrawal) || deposit;
+
+  const isNotLiability = accountType !== 'Liability';
+  const accountModifier = isNotLiability ? 1 : -1;
+  const valueModifier = value ? 1 : -1;
+
+  return amount * accountModifier * valueModifier;
 };
 const selectRow = (state, { index, value }) => {
-  const balanceAdjustment = getAdjustmentForRow(state.entries[index], value);
+  const balanceAdjustment = getAdjustmentForRow(
+    state.entries[index],
+    value,
+    getSelectedAccount(state).accountType,
+  );
 
   return {
     ...state,
@@ -119,14 +129,18 @@ const selectRow = (state, { index, value }) => {
   };
 };
 
-const getAdjustmentForEntries = (entries, isSelect) => entries
-  .reduce((total, entry) => total + getAdjustmentForRow(entry, isSelect), 0);
+const getAdjustmentForEntries = (entries, isSelect, accountType) => entries
+  .reduce((total, entry) => total + getAdjustmentForRow(entry, isSelect, accountType), 0);
 
 const selectAll = (state) => {
   const isAllSelected = getIsAllSelected(state);
   const entriesAffected = isAllSelected
     ? state.entries : state.entries.filter(entry => !entry.isChecked);
-  const balanceAdjustment = getAdjustmentForEntries(entriesAffected, !isAllSelected);
+  const balanceAdjustment = getAdjustmentForEntries(
+    entriesAffected,
+    !isAllSelected,
+    getSelectedAccount(state).accountType,
+  );
 
   return {
     ...state,
