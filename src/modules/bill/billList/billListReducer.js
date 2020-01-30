@@ -10,9 +10,7 @@ import {
   SORT_AND_FILTER_BILL_LIST,
   UPDATE_FILTER_OPTIONS,
 } from '../BillIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { START_LOADING_MORE, STOP_LOADING_MORE } from '../billDetail/BillIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
@@ -53,28 +51,73 @@ const getDefaultState = () => ({
 
 const resetState = () => (getDefaultState());
 
+const shouldSetInitialStateWithQueryParams = (context) => {
+  const {
+    dateFrom, dateTo, keywords, supplierId, status, orderBy, sortOrder,
+  } = context;
+
+  return status || dateFrom || dateTo || keywords || supplierId || orderBy || sortOrder;
+};
+
+const setInitialStateWithQueryParams = (context, initialState) => {
+  const {
+    dateFrom, dateTo, keywords, supplierId, status, orderBy, sortOrder,
+  } = context;
+
+  const updatedFilterOptions = {
+    dateFrom: dateFrom || initialState.defaultFilterOptions.dateFrom,
+    dateTo: dateTo || initialState.defaultFilterOptions.dateTo,
+    keywords: keywords || initialState.defaultFilterOptions.keywords,
+    supplierId: supplierId || initialState.defaultFilterOptions.supplierId,
+    status: status || initialState.defaultFilterOptions.status,
+  };
+
+  return ({
+    ...initialState,
+    ...context,
+    filterOptions: {
+      ...initialState.filterOptions,
+      ...updatedFilterOptions,
+    },
+    appliedFilterOptions: {
+      ...initialState.appliedFilterOptions,
+      ...updatedFilterOptions,
+    },
+    orderBy: orderBy || initialState.orderBy,
+    sortOrder: sortOrder || initialState.sortOrder,
+  });
+};
+
+const shouldSetInitialStateWithSettings = (settings, initialState) => (
+  settings.settingsVersion === initialState.settingsVersion
+);
+
+const setInitialStateWithSettings = (context, settings, initialState) => ({
+  ...initialState,
+  ...context,
+  filterOptions: settings.filterOptions,
+  appliedFilterOptions: settings.filterOptions,
+  sortOrder: settings.sortOrder,
+  orderBy: settings.orderBy,
+});
+
 const setInitialState = (_, {
   context,
   settings = {},
 }) => {
   const initialState = getDefaultState();
 
-  const isExpiredSettings = initialState.settingsVersion !== settings.settingsVersion;
+  if (shouldSetInitialStateWithQueryParams(context)) {
+    return setInitialStateWithQueryParams(context, initialState);
+  }
 
-  if (isExpiredSettings) {
-    return {
-      ...initialState,
-      ...context,
-    };
+  if (shouldSetInitialStateWithSettings(settings, initialState)) {
+    return setInitialStateWithSettings(context, settings, initialState);
   }
 
   return {
     ...initialState,
     ...context,
-    filterOptions: settings.filterOptions,
-    appliedFilterOptions: settings.filterOptions,
-    sortOrder: settings.sortOrder,
-    orderBy: settings.orderBy,
   };
 };
 

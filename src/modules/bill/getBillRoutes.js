@@ -9,6 +9,7 @@ const getBillRoutes = ({
     {
       name: RouteName.BILL_LIST,
       path: '/:region/:businessId/bill/',
+      allowedParams: ['dateFrom', 'dateTo', 'keywords', 'supplierId', 'status', 'orderBy', 'sortOrder'],
       module: new BillListModule({
         integration, setRootView, popMessages,
       }),

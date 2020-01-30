@@ -38,7 +38,7 @@ export const getUnpaidTotalLink = createSelector(
   (link, financialYearStartDate) => {
     const dateTo = formatIsoDate(endOfMonth(new Date()));
 
-    return `${link}?dateFrom=${financialYearStartDate}&dateTo=${dateTo}&status=Open`;
+    return `${link}?dateFrom=${financialYearStartDate}&dateTo=${dateTo}&status=Open&orderBy=DateOccurred&sortOrder=desc`;
   },
 );
 

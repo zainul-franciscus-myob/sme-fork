@@ -29,6 +29,7 @@ describe('billListReducer', () => {
       it(`uses default settings when settings is ${test.name}`, () => {
         const actual = billListReducer({}, {
           intent: SET_INITIAL_STATE,
+          context: {},
           settings: test.settings,
         });
 
@@ -47,6 +48,7 @@ describe('billListReducer', () => {
     it('uses given settings when settingsVersion are the same', () => {
       const actual = billListReducer({}, {
         intent: SET_INITIAL_STATE,
+        context: {},
         settings: {
           settingsVersion: '84650621-cb7b-4405-8c69-a61e0be4b896',
           filterOptions: {
@@ -71,6 +73,55 @@ describe('billListReducer', () => {
       expect(actual.filterOptions).toEqual(actual.appliedFilterOptions);
       expect(actual.sortOrder).toEqual('asc');
       expect(actual.orderBy).toEqual('DisplayId');
+    });
+
+    describe('setInitialStateWithQueryParams', () => {
+      it('use given query parameters to prefill filter options and sorting', () => {
+        const actual = billListReducer({}, {
+          intent: SET_INITIAL_STATE,
+          context: {
+            dateFrom: '2020-01-01',
+            dateTo: '2020-01-31',
+            keywords: 'Yak',
+            supplierId: '1',
+            status: 'Closed',
+            orderBy: 'BalanceDue',
+            sortOrder: 'asc',
+          },
+          settings: undefined,
+        });
+
+        expect(actual.filterOptions).toEqual({
+          dateFrom: '2020-01-01',
+          dateTo: '2020-01-31',
+          keywords: 'Yak',
+          supplierId: '1',
+          status: 'Closed',
+        });
+        expect(actual.orderBy).toEqual('BalanceDue');
+        expect(actual.sortOrder).toEqual('asc');
+      });
+
+      it('should use default filter options if not provided', () => {
+        const actual = billListReducer({}, {
+          intent: SET_INITIAL_STATE,
+          context: {
+            dateFrom: '2020-01-01',
+            dateTo: '2020-01-31',
+          },
+          settings: undefined,
+        });
+
+        expect(actual.filterOptions).toEqual({
+          dateFrom: '2020-01-01',
+          dateTo: '2020-01-31',
+          keywords: '',
+          supplierId: undefined,
+          status: 'All',
+        });
+        expect(actual.orderBy).toEqual('DateOccurred');
+        expect(actual.sortOrder).toEqual('desc');
+      });
     });
   });
 
