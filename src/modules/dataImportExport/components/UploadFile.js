@@ -4,11 +4,17 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getImportFile } from '../selectors/DataImportExportSelectors';
+import {
+  getFileValidationError,
+  getImportFile,
+  getIsFileValid,
+} from '../selectors/DataImportExportSelectors';
 import styles from './UploadFile.module.css';
 
 const UploadFile = ({
   importFile,
+  isFileValid,
+  fileValidationError,
   onFileSelected,
   onFileRemove,
 }) => (
@@ -28,17 +34,18 @@ const UploadFile = ({
     { importFile && (
     <div className={styles.importFile}>
       <FileChip
-        state="default"
+        state={isFileValid ? 'default' : 'failed'}
         name={importFile.name}
         size={importFile.size}
         onRemove={onFileRemove}
+        error={fileValidationError}
       />
     </div>
     ) }
     <div className={styles.importInfoAlert}>
       <Alert type="info">
         You can only import TXT files that have a tab-separated format,
-        a header row, and all mandatory fields. Files must be under 20MB.
+        a header row, and all mandatory fields. Files must be under 25MB.
       </Alert>
     </div>
   </React.Fragment>
@@ -46,6 +53,8 @@ const UploadFile = ({
 
 const mapStateToProps = state => ({
   importFile: getImportFile(state),
+  isFileValid: getIsFileValid(state),
+  fileValidationError: getFileValidationError(state),
 });
 
 export default connect(mapStateToProps)(UploadFile);

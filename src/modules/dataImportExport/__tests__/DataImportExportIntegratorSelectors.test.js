@@ -3,6 +3,11 @@ import {
   getExportCompanyFileQueryParams,
   getImportChartOfAccountsPayload,
   getImportContactsPayload,
+  getImportEmployeesPayload,
+  getImportGeneralJournalsPayload,
+  getImportItemsPayload,
+  getImportTimesheetsPayload,
+  getImportTransactionJournalsPayload,
 } from '../selectors/DataImportExportIntegratorSelectors';
 import ExportCompanyFileType from '../types/ExportCompanyFileType';
 
@@ -79,7 +84,7 @@ describe('DataImportExportIntegratorSelectors', () => {
   });
 
   describe('getImportContactsPayload', () => {
-    it('returns the right payload to import Chart of accounts', () => {
+    it('returns the right payload to import Contacts', () => {
       const someFile = {
         name: 'someName',
         data: 'someData',
@@ -87,8 +92,11 @@ describe('DataImportExportIntegratorSelectors', () => {
 
       const state = {
         region: 'AU',
+        businessId: '123',
+        email: 'abc@test.com',
         import: {
           importFile: someFile,
+          isFileValid: true,
           duplicateRecordsOption: 'someAction',
           contacts: {
             identifyBy: 'SomeVal',
@@ -104,6 +112,165 @@ describe('DataImportExportIntegratorSelectors', () => {
         Region: 'AU',
         IdentifyBy: 'SomeVal',
         Type: 'Supplier',
+        BusinessId: '123',
+        Email: 'abc@test.com',
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getImportEmployeesPayload', () => {
+    it('returns the right payload to import Employees', () => {
+      const someFile = {
+        name: 'someName',
+        data: 'someData',
+      };
+
+      const state = {
+        region: 'AU',
+        businessId: '123',
+        email: 'abc@test.com',
+        import: {
+          importFile: someFile,
+          isFileValid: true,
+          duplicateRecordsOption: 'someAction',
+          contacts: {
+            identifyBy: 'SomeVal',
+          },
+        },
+      };
+
+      const actual = getImportEmployeesPayload(state);
+      const expected = {
+        File: someFile,
+        DuplicateCheckMode: 'someAction',
+        Region: 'AU',
+        IdentifyBy: 'SomeVal',
+        BusinessId: '123',
+        Email: 'abc@test.com',
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getImportItemsPayload', () => {
+    it('returns the right payload to import Items', () => {
+      const someFile = {
+        name: 'someName',
+        data: 'someData',
+      };
+
+      const state = {
+        region: 'AU',
+        businessId: '123',
+        email: 'abc@test.com',
+        import: {
+          importFile: someFile,
+          isFileValid: true,
+          duplicateRecordsOption: 'someAction',
+        },
+      };
+
+      const actual = getImportItemsPayload(state);
+      const expected = {
+        File: someFile,
+        DuplicateCheckMode: 'someAction',
+        Region: 'AU',
+        BusinessId: '123',
+        Email: 'abc@test.com',
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getImportGeneralJournalsPayload', () => {
+    it('returns the right payload to import General Journals', () => {
+      const someFile = {
+        name: 'someName',
+        data: 'someData',
+      };
+
+      const state = {
+        region: 'AU',
+        businessId: '123',
+        email: 'abc@test.com',
+        import: {
+          importFile: someFile,
+          isFileValid: true,
+        },
+      };
+
+      const actual = getImportGeneralJournalsPayload(state);
+      const expected = {
+        File: someFile,
+        Region: 'AU',
+        BusinessId: '123',
+        Email: 'abc@test.com',
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getImportTransactionJournalsPayload', () => {
+    it('returns the right payload to import Transaction Journals', () => {
+      const someFile = {
+        name: 'someName',
+        data: 'someData',
+      };
+
+      const state = {
+        region: 'AU',
+        businessId: '123',
+        email: 'abc@test.com',
+        import: {
+          isFileValid: true,
+          importFile: someFile,
+        },
+      };
+
+      const actual = getImportTransactionJournalsPayload(state);
+      const expected = {
+        File: someFile,
+        Region: 'AU',
+        BusinessId: '123',
+        Email: 'abc@test.com',
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getImportTimesheetsPayload', () => {
+    it('returns the right payload to import Timesheets', () => {
+      const someFile = {
+        name: 'someName',
+        data: 'someData',
+      };
+
+      const state = {
+        region: 'AU',
+        businessId: '123',
+        email: 'abc@test.com',
+        import: {
+          importFile: someFile,
+          isFileValid: true,
+          contacts: {
+            identifyBy: 'SomeVal',
+          },
+        },
+      };
+
+      const actual = getImportTimesheetsPayload(state);
+      const expected = {
+        File: someFile,
+        Region: 'AU',
+        IdentifyBy: 'SomeVal',
+        BusinessId: '123',
+        Email: 'abc@test.com',
       };
 
       expect(actual).toEqual(expected);

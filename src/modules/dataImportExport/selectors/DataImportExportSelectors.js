@@ -55,3 +55,6 @@ export const getIsDuplicateRecordsAddShown = createSelector(
     return (isContacts || isEmployees) && isIdentifyByName;
   },
 );
+
+export const getIsFileValid = state => state.import.isFileValid;
+export const getFileValidationError = state => state.import.fileValidationError;

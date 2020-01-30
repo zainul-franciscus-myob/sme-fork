@@ -1,5 +1,5 @@
+import { ADD_IMPORT_FILE, UPDATE_CONTACTS_IDENTIFY_BY, UPDATE_IMPORT_DATA_TYPE } from '../DataImportExportIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
-import { UPDATE_CONTACTS_IDENTIFY_BY, UPDATE_IMPORT_DATA_TYPE } from '../DataImportExportIntents';
 import ContactIdentifyBy from '../types/ContactIdentifyBy';
 import ContactType from '../types/ContactType';
 import DuplicateRecordOption from '../types/DuplicateRecordOption';
@@ -116,12 +116,88 @@ describe('dataImportExportReducer', () => {
       expect(actual.import).toEqual({
         selectedDataType: ImportExportDataType.CHART_OF_ACCOUNTS,
         importFile: undefined,
+        isFileValid: false,
+        fileValidationError: 'File is required.',
         duplicateRecordsOption: DuplicateRecordOption.UPDATE_EXISTING,
         contacts: {
           identifyBy: ContactIdentifyBy.NAME,
           type: ContactType.CUSTOMER,
         },
       });
+    });
+  });
+
+  describe('ADD_IMPORT_FILE', () => {
+    it('Sets default state and clears error for file with valid size', () => {
+      const state = {
+        import: {
+          importFile: {
+            name: 'abc.txt',
+            size: 300000000000000,
+          },
+          isFileValid: false,
+          fileValidationError: 'File is above 25MB',
+        },
+      };
+
+      const expected = {
+        import: {
+          importFile: {
+            name: 'def.txt',
+            size: 1500,
+          },
+          isFileValid: true,
+          fileValidationError: '',
+        },
+      };
+
+      const action = {
+        intent: ADD_IMPORT_FILE,
+        file: {
+          name: 'def.txt',
+          size: 1500,
+        },
+      };
+
+      const actual = dataImportExportReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('Sets failed state and error for file with invalid size', () => {
+      const state = {
+        import: {
+          importFile: {
+            name: 'abc.txt',
+            size: 1500,
+          },
+          isFileValid: true,
+          fileValidationError: '',
+        },
+      };
+
+      const expected = {
+        import: {
+          importFile: {
+            name: 'def.txt',
+            size: 3000000000000000,
+          },
+          isFileValid: false,
+          fileValidationError: 'File must be under 25MB.',
+        },
+      };
+
+      const action = {
+        intent: ADD_IMPORT_FILE,
+        file: {
+          name: 'def.txt',
+          size: 3000000000000000,
+        },
+      };
+
+      const actual = dataImportExportReducer(state, action);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

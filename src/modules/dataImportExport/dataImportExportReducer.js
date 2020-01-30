@@ -35,6 +35,8 @@ const getDefaultState = () => ({
   import: {
     selectedDataType: ImportExportDataType.NONE,
     importFile: undefined,
+    isFileValid: false,
+    fileValidationError: 'File is required.',
     duplicateRecordsOption: DuplicateRecordOption.UPDATE_EXISTING,
     contacts: {
       identifyBy: ContactIdentifyBy.NAME,
@@ -118,11 +120,24 @@ const updateExportDataType = (state, action) => ({
   },
 });
 
+const exceedsSizeLimit = size => size > 25000000;
+
+const buildImportFileErrorState = (file) => {
+  if (!file) {
+    return { isFileValid: false, fileValidationError: 'File is required.' };
+  }
+  if (exceedsSizeLimit(file.size)) {
+    return { isFileValid: false, fileValidationError: 'File must be under 25MB.' };
+  }
+  return { isFileValid: true, fileValidationError: '' };
+};
+
 const addImportFile = (state, action) => ({
   ...state,
   import: {
     ...state.import,
     importFile: action.file,
+    ...buildImportFileErrorState(action.file),
   },
 });
 

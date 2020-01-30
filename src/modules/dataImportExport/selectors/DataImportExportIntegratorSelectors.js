@@ -35,7 +35,15 @@ export const getImportContactsPayload = createSelector(
   getImportRegion,
   getEmail,
   getBusinessId,
-  (file, duplicateRecordsOptionValue, type, identifyBy, region, email, businessId) => ({
+  (
+    file,
+    duplicateRecordsOptionValue,
+    type,
+    identifyBy,
+    region,
+    email,
+    businessId,
+  ) => ({
     File: file,
     DuplicateCheckMode: duplicateRecordsOptionValue,
     Type: type,

@@ -1,7 +1,13 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getCurrentDataTypeInCurrentTab, getTab, getUrlDataTypeParams } from './selectors/DataImportExportSelectors';
+import {
+  getCurrentDataTypeInCurrentTab,
+  getFileValidationError,
+  getIsFileValid,
+  getTab,
+  getUrlDataTypeParams,
+} from './selectors/DataImportExportSelectors';
 import DataImportExportView from './components/DataImportExportView';
 import ExportStatus from './ExportStatus';
 import ImportExportDataType from './types/ImportExportDataType';
@@ -50,6 +56,10 @@ export default class DataImportExportModule {
 
     switch (currentTab) {
       case TabItem.IMPORT:
+        if (!getIsFileValid(state)) {
+          this.displayFailureAlert(getFileValidationError(state));
+          return;
+        }
         this.openImportConfirmModal();
         break;
       case TabItem.EXPORT:
