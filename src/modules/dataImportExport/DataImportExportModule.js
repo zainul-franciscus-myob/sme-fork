@@ -25,6 +25,7 @@ export default class DataImportExportModule {
     this.store = new Store(dataImportExportReducer);
     this.dispatcher = createDataImportExportDispatcher(this.store);
     this.integrator = createDataImportExportIntegrator(this.store, integration);
+    this.pollTimer = null;
   }
 
   loadDataImportExport = () => {
@@ -156,7 +157,7 @@ export default class DataImportExportModule {
           window.open(fileUrl, '_blank');
           break;
         case ExportStatus.PENDING:
-          setTimeout(() => this.exportCompanyFileResult(jobId), 5000);
+          this.pollTimer = setTimeout(() => this.exportCompanyFileResult(jobId), 5000);
           break;
         case ExportStatus.FAIL:
         default:
@@ -193,6 +194,10 @@ export default class DataImportExportModule {
   resetState = () => this.dispatcher.resetState();
 
   unsubscribeFromStore = () => {
+    if (this.pollTimer) {
+      clearTimeout(this.pollTimer);
+    }
+
     this.store.unsubscribeAll();
   };
 
