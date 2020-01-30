@@ -35,7 +35,7 @@ const Input = ({
   const [cleave, setCleave] = useState(null);
 
   useEffect(() => {
-    if (!cleave || !value) return;
+    if (!cleave) return;
     cleave.setRawValue(value);
   }, [cleave, value]);
 
