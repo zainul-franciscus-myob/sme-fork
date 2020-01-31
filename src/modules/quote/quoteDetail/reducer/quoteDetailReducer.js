@@ -376,7 +376,7 @@ const loadItemSellingDetails = (state, action) => ({
         displayDiscount: '0.00',
         description,
         taxCodeId: sellTaxCodeId,
-        accountId: incomeAccountId,
+        allocatedAccountId: incomeAccountId,
         amount: unitPrice,
         displayAmount: formatAmount(unitPrice),
       };
