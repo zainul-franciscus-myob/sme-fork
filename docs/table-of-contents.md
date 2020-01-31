@@ -6,6 +6,7 @@
 1. [Getting Started](development/getting-started.md)
 1. [Getting Help](development/getting-help.md)
 1. [Building Pages](development/building-pages.md)
+1. [Cookbook](development/cookbook.md)
 1. [Testing](development/testing.md)
 1. [Coding Standards](development/coding-standards.md)
 1. [Build and Deploy](development/build-and-deploy.md)
