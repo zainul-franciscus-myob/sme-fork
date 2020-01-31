@@ -13,7 +13,7 @@ const getDefaultState = () => ({
   alert: undefined,
   isLoading: true,
   enabled: [],
-
+  serialNumber: '',
   greeting: '',
   businessName: '',
   inspirationalQuote: '',
@@ -95,6 +95,7 @@ const loadDashboard = (state, action) => ({
   inspirationalQuote: action.inspirationalQuote,
   bankFeedBalance: action.bankFeedBalance,
   enabled: action.enabled,
+  serialNumber: action.serialNumber,
 });
 
 const handlers = {

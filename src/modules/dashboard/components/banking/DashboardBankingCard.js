@@ -1,8 +1,10 @@
 import { PageState, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
+import Icons from '@myob/myob-widgets/lib/components/Icons';
 import React from 'react';
 
 import {
+  getAddBankFeedUrl,
   getBankBalanceDate,
   getBankFeedAccounts,
   getBankLatestClosingBalance,
@@ -19,6 +21,7 @@ import DashboardCardHeader from '../DashboardCardHeader';
 import DashboardTotalSummary from '../DashboardTotalSummary';
 import DashboardUnallocations from './DashboardBankingUnallocations';
 import ErrorCard from '../ErrorCard';
+import LinkButton from '../../../../components/Button/LinkButton';
 import styles from './DashboardBankingCard.module.css';
 
 const DashboardBankingCard = ({
@@ -34,6 +37,7 @@ const DashboardBankingCard = ({
   isBankFeedAvailable,
   bankFeedBalance,
   ledgerBalance,
+  addBankFeedUrl,
 }) => {
   if (hasError) return <ErrorCard onTry={onReload} />;
 
@@ -43,7 +47,16 @@ const DashboardBankingCard = ({
     <PageState
       title="Manage your day-to-day"
       description="Automatically and securely import your bank and credit card transactions with bank feeds."
+      actions={[
+        <LinkButton
+          href={addBankFeedUrl}
+          isOpenInNewTab
+          icon={<Icons.Add />}
+        >
+        Add bank feed
+        </LinkButton>]}
     />
+
   );
 
   const bankingView = (
@@ -88,6 +101,7 @@ const mapStateToProps = state => ({
   bankFeedBalance: getBankLatestClosingBalance(state),
   ledgerBalance: getCurrentBalance(state),
   bankBalanceDate: getBankBalanceDate(state),
+  addBankFeedUrl: getAddBankFeedUrl(state),
 });
 
 export default connect(mapStateToProps)(DashboardBankingCard);

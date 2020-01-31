@@ -1,5 +1,6 @@
 {
   "businessName": "Bluebowls Coffee & Cafe",
   "inspirationalQuote": "Grab a coffee and let's start your day",
-  "enabled": ["leanEngage", "tracking", "sales", "purchases", "bank"]
+  "enabled": ["leanEngage", "tracking", "sales", "purchases", "bank"],
+  "serialNumber": "111111"
 }

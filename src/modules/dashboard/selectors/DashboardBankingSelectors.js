@@ -1,7 +1,9 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { getBusinessId, getRegion } from './DashboardSelectors';
+import Config from '../../../Config';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
+import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 
 export const getHasError = state => state.banking.hasError;
 
@@ -44,3 +46,20 @@ export const getBankfeedAmount = createStructuredSelector({
   bankFeedBalance: getBankFeedBalance,
   isLoading: getIsLoading,
 });
+
+
+const getSerialNumber = state => state.serialNumber;
+
+export const getAddBankFeedUrl = createSelector(
+  getBusinessId, getSerialNumber,
+  (businessId, serialNumber) => {
+    const baseUrl = Config.MANAGE_BANK_FEEDS_BASE_URL;
+    const queryParams = getQueryFromParams({
+      SerialNumber: serialNumber,
+      CdfId: businessId,
+      Action: 'app',
+    });
+    return `${baseUrl}${queryParams}`;
+  },
+
+);
