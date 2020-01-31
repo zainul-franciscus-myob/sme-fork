@@ -123,7 +123,7 @@ class TemplateModule {
     this.dispatcher.setPayDirectLoadingState(true);
 
     const onSuccess = (payload) => {
-      setTimeout(() => this.dispatcher.setPayDirectLoadingState(false), 4000);
+      this.dispatcher.setPayDirectLoadingState(false);
       this.dispatcher.loadPayDirect(payload);
     };
 

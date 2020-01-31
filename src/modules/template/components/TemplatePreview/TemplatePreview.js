@@ -27,6 +27,7 @@ import StatementTable from './tables/StatementTable';
 import StatementTableSummary from './tableSummary/StatementTableSummary';
 import TemplateTitle from './TemplateTitle';
 import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
+import getShouldNotShowPaymentMethod from './handlers/getShouldNotShowPaymentMethod';
 import getShouldShowBankDepositPayment from './handlers/getShouldShowBankDepositPayment';
 import getShouldShowChequePayment from './handlers/getShouldShowChequePayment';
 import getShouldShowDueDate from './handlers/getShouldShowDueDate';
@@ -129,9 +130,18 @@ const getPaymentMethod = ({
 
   const payments = region === 'au' ? auPayments : nzPayments;
 
-  if (Object.values(payments).reduce((a, p) => !!(a || p), false)) {
+  const shouldNotShowPaymentMethod = getShouldNotShowPaymentMethod({
+    region,
+    isOnlinePaymentLoading,
+    isAllowOnlinePayment,
+    bankDeposit: payments.bankDeposit,
+    cheque: payments.cheque,
+  });
+
+  if (!shouldNotShowPaymentMethod) {
     return <PaymentMethod rightHeader={dueDate} {...payments} />;
   }
+
   return <div />;
 };
 

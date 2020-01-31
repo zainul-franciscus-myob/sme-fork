@@ -39,8 +39,7 @@ const getDefaultState = () => ({
   isAllowPaymentByDirectDeposit: true,
   isAllowPaymentByCheque: true,
   payDirect: {
-    isLoading: true,
-    isServiceAvailable: false,
+    isLoading: false,
     isRegistered: false,
   },
   template: {
