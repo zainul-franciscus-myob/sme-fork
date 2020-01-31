@@ -8,7 +8,7 @@ const getDate = state => state.generalJournal.date;
 const getDescription = state => state.generalJournal.description;
 const getGSTReportingMethod = state => state.generalJournal.gstReportingMethod;
 const getIsEndOfYearAdjustment = state => state.generalJournal.isEndOfYearAdjustment;
-const getIsTaxInclusive = state => state.generalJournal.isTaxInclusive;
+export const getIsTaxInclusive = state => state.generalJournal.isTaxInclusive;
 
 export const getHeaderOptions = createStructuredSelector({
   referenceId: getReferenceId,
@@ -54,7 +54,9 @@ export const getLineDataByIndexSelector = () => createSelector(
         taxCodes,
         accounts,
         debitAmount,
+        displayDebitAmount,
         creditAmount,
+        displayCreditAmount,
         quantity,
         description,
         taxAmount,
@@ -64,7 +66,9 @@ export const getLineDataByIndexSelector = () => createSelector(
 
       formatedLine = ({
         debitAmount,
+        displayDebitAmount,
         creditAmount,
+        displayCreditAmount,
         quantity,
         taxAmount,
         description,
@@ -103,10 +107,10 @@ export const getGeneralJournalId = state => state.generalJournal.id;
 export const getTotals = state => state.totals;
 export const getIsOutOfBalanced = state => state.totals.totalOutOfBalance !== '$0.00';
 
-const getGeneralJournalLinesForPayload = lines => lines.map((line) => {
-  const { accounts, taxCodes, ...rest } = line;
-  return rest;
-});
+const getGeneralJournalLines = createSelector(
+  getGeneralJournal,
+  generalJournal => generalJournal.lines,
+);
 
 export const getGeneralJournalForCreatePayload = (state) => {
   const {
@@ -118,7 +122,7 @@ export const getGeneralJournalForCreatePayload = (state) => {
     ...rest
   } = getGeneralJournal(state);
 
-  const linesForPayload = getGeneralJournalLinesForPayload(lines);
+  const linesForPayload = getGeneralJournalLines(state);
   const referenceIdForPayload = referenceId === originalReferenceId ? undefined : referenceId;
 
   return {
@@ -137,20 +141,11 @@ export const getGeneralJournalForUpdatePayload = (state) => {
     ...rest
   } = getGeneralJournal(state);
 
-  const linesForPayload = getGeneralJournalLinesForPayload(lines);
+  const linesForPayload = getGeneralJournalLines(state);
 
   return {
     ...rest,
     lines: linesForPayload,
-  };
-};
-
-export const getCalculatedTotalsPayload = (state) => {
-  const { lines, isTaxInclusive, gstReportingMethod } = getGeneralJournal(state);
-  return {
-    isTaxInclusive,
-    lines: getGeneralJournalLinesForPayload(lines),
-    gstReportingMethod,
   };
 };
 
@@ -182,4 +177,46 @@ export const getOpenedModalType = (state) => {
   const modal = getModal(state) || { type: ModalType.NONE };
 
   return modal.type;
+};
+
+export const getTaxCodeOptions = state => state.taxCodeOptions;
+
+export const getAccountOptions = state => state.accountOptions;
+
+export const getIsSale = createSelector(
+  getGeneralJournal,
+  generalJournal => generalJournal.gstReportingMethod === 'sale',
+);
+
+export const isLineTaxCalculatable = line => (
+  line.taxCodeId && (line.creditAmount || line.creditAmount)
+);
+
+const isNumeric = val => !Number.isNaN(parseFloat(val));
+
+const isCreditLine = (line) => {
+  if (isNumeric(line.creditAmount)) {
+    return true;
+  }
+  if (isNumeric(line.debitAmount)) {
+    return false;
+  }
+  return undefined;
+};
+
+export const getLinesForTaxCalculation = createSelector(
+  getGeneralJournalLines,
+  lines => lines.map(line => ({
+    ...line,
+    amount: line.creditAmount || line.debitAmount,
+    lineTypeId: line.lineTypeId,
+    isCredit: isCreditLine(line),
+  })),
+);
+
+export const getIsLineAmountsTaxInclusive = (state, isSwitchingTaxInclusive) => {
+  const isTaxInclusive = getIsTaxInclusive(state);
+  return (
+    isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive
+  );
 };

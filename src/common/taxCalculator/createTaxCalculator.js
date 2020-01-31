@@ -30,7 +30,7 @@ const createTaxCalculator = handler => ({
         effectiveTaxAmount: EffectiveTaxAmount,
       });
 
-      return handler.setTaxLocally(
+      return handler.flow.setTaxLocally(
         !isLineAmountsTaxInclusive,
         journalEntry,
         index,
@@ -57,6 +57,7 @@ const createTaxCalculator = handler => ({
   return buildTaxCalculationResults({
     taxCalculations,
     isTaxInclusive,
+    buildTotals: handler.buildTotals,
   });
 };
 

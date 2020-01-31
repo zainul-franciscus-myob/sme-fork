@@ -13,5 +13,5 @@ export const UPDATE_GENERAL_JOURNAL = Symbol('Update a general journal entry');
 export const UPDATE_GENERAL_JOURNAL_LINE = Symbol('Update general journal line');
 export const ADD_GENERAL_JOURNAL_LINE = Symbol('Add general journal line');
 export const DELETE_GENERAL_JOURNAL_LINE = Symbol('Delete general journal line');
-export const GET_CALCULATED_TOTALS = Symbol('Get calculated totals');
 export const RESET_TOTALS = Symbol('Reset calculated totals');
+export const GET_TAX_CALCULATIONS = Symbol('Get tax calculations');

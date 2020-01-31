@@ -1412,10 +1412,10 @@
     store2 "2.7.0"
     validate.js "0.11.1"
 
-"@myob/tax-calculator@0.0.10":
-  version "0.0.10"
-  resolved "https://npm.myob.com/npm/@myob/tax-calculator/-/0.0.10/tax-calculator-0.0.10.tgz#e850329ef8aa59aadf591152f83b48bf52e6de2e"
-  integrity sha512-Yw2mGp+gJRo/uFtJabWnxX6+GyYa+qzCCrT/lhYWzfBmW6AN6CqoRQmvx2otchfpmg8sNfj6FtMLqCxM1qd2bg==
+"@myob/tax-calculator@0.0.11":
+  version "0.0.11"
+  resolved "https://npm.myob.com/npm/@myob/tax-calculator/-/0.0.11/tax-calculator-0.0.11.tgz#8f0f7cd2e5181573032b1797fa547570c12edad6"
+  integrity sha512-3PZf1NFH9FLVVcrCp/E5O3wcMHKskmSBv4UdoHhOfxkndv4uHp3GBY6oncDajcyCRanG6A2sJOz5fyh8Fw3feA==
   dependencies:
     decimal.js "^10.2.0"
     nodemon "^2.0.2"

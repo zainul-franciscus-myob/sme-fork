@@ -42,7 +42,8 @@ describe('createTaxCalculator', () => {
 
   beforeEach(() => {
     handler = {
-      setTaxLocally: jest.fn(setTaxLocally),
+      flow: { setTaxLocally: jest.fn(setTaxLocally) },
+      buildTotals: jest.fn(),
     };
     calculate = createTaxCalculator(handler);
   });
@@ -66,7 +67,7 @@ describe('createTaxCalculator', () => {
 
     const lineTaxCode = expectedTaxCodesMetadata['2'];
 
-    expect(handler.setTaxLocally)
+    expect(handler.flow.setTaxLocally)
       .toHaveBeenCalledWith(
         false,
         journalEntry,
@@ -77,29 +78,24 @@ describe('createTaxCalculator', () => {
       );
   });
 
-  it('should return tax calculation results correctly', () => {
-    const actual = calculate({
+  it('should call buildTotals with right params', () => {
+    calculate({
       isTaxInclusive: true,
       isLineAmountsTaxInclusive: true,
       taxCodes,
       lines,
     });
 
-    const expected = {
-      lines: [
-        {
-          taxExclusiveAmount: Decimal(90.91),
-          taxAmount: Decimal(9.09),
-          amount: Decimal(100),
-        },
-      ],
-      totals: {
-        subTotal: Decimal(100),
-        totalTax: Decimal(9.09),
-        totalAmount: Decimal(100),
-      },
-    };
-
-    expect(actual).toEqual(expected);
+    expect(handler.buildTotals)
+      .toHaveBeenCalledWith({
+        isTaxInclusive: true,
+        lines: [
+          {
+            amount: Decimal(100),
+            isCredit: undefined,
+            taxAmount: Decimal(9.09),
+            taxExclusiveAmount: Decimal(90.91),
+          }],
+      });
   });
 });

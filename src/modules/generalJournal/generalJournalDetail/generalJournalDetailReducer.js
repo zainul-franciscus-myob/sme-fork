@@ -3,7 +3,7 @@ import {
   CLOSE_MODAL,
   DELETE_GENERAL_JOURNAL_LINE,
   FORMAT_GENERAL_JOURNAL_LINE,
-  GET_CALCULATED_TOTALS,
+  GET_TAX_CALCULATIONS,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
@@ -17,9 +17,11 @@ import {
 import {
   RESET_STATE, SET_INITIAL_STATE,
 } from '../../../SystemIntents';
-import { getDefaultTaxCodeId } from './generalJournalDetailSelectors';
+import { getDefaultTaxCodeId, getIsSale } from './generalJournalDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
+import formatAmount from '../../../common/valueFormatters/formatAmount';
+import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
@@ -42,8 +44,9 @@ const getDefaultState = () => ({
     description: '',
     taxCodeId: '',
     taxAmount: '',
-    accounts: [],
-    taxCodes: [],
+    lineTypeId: '',
+    displayCreditAmount: '',
+    displayDebitAmount: '',
   },
   totals: {
     totalDebit: '$0.00',
@@ -59,6 +62,8 @@ const getDefaultState = () => ({
   isPageEdited: false,
   businessId: '',
   region: '',
+  accountOptions: [],
+  taxCodeOptions: [],
 });
 
 const pageEdited = { isPageEdited: true };
@@ -91,22 +96,22 @@ const isUpdatingAccountItemInFirstLine = (lineIndex, lineKey) => lineIndex === 0
 const getReportingMethodFromSelectAccount = (accounts, selectAccountId) => accounts
   .find(account => account.id === selectAccountId).reportingMethod;
 
-const getReportingMethodForUpdate = (action, { lines, gstReportingMethod }) => {
+const getReportingMethodForUpdate = (action, { gstReportingMethod }, accounts) => {
   let reportingMethod = gstReportingMethod;
   if (isUpdatingAccountItemInFirstLine(action.lineIndex, action.lineKey)) {
     const accountId = action.lineValue;
     reportingMethod = getReportingMethodFromSelectAccount(
-      lines[action.lineIndex].accounts,
+      accounts,
       accountId,
     );
   }
   return reportingMethod;
 };
 
-const getReportingMethodForCreate = (action, newLine, { lines, gstReportingMethod }) => {
+const getReportingMethodForCreate = (action, accounts, { lines, gstReportingMethod }) => {
   let reportingMethod = gstReportingMethod;
   if (lines.length === 0) {
-    reportingMethod = getReportingMethodFromSelectAccount(newLine.accounts, action.line.accountId);
+    reportingMethod = getReportingMethodFromSelectAccount(accounts, action.line.accountId);
   }
   return reportingMethod;
 };
@@ -122,15 +127,20 @@ const loadGeneralJournalDetail = (state, action) => ({
   newLine: { ...state.newLine, ...action.newLine },
   totals: action.totals,
   pageTitle: action.pageTitle,
+  taxCodeOptions: action.taxCodeOptions,
+  accountOptions: action.accountOptions,
 });
 
-const updateGeneralJournalLine = (line, { lineKey, lineValue }) => {
+const updateGeneralJournalLine = (line, { lineKey, lineValue }, accounts) => {
+  const isUpdateDebitAmount = lineKey === 'debitAmount';
+  const isUpdateCreditmount = lineKey === 'creditAmount';
   const updatedLine = {
     ...line,
     [lineKey]: lineValue,
+    displayDebitAmount: isUpdateDebitAmount ? lineValue : line.displayDebitAmount,
+    displayCreditAmount: isUpdateCreditmount ? lineValue : line.displayCreditAmount,
   };
 
-  const { accounts } = line;
   return isAccountLineItem(lineKey)
     ? {
       ...updatedLine,
@@ -139,8 +149,8 @@ const updateGeneralJournalLine = (line, { lineKey, lineValue }) => {
     : updatedLine;
 };
 
-const getLinesForUpdate = (action, lines) => lines.map((line, index) => (
-  index === action.lineIndex ? updateGeneralJournalLine(line, action) : line
+const getLinesForUpdate = (action, lines, accounts) => lines.map((line, index) => (
+  index === action.lineIndex ? updateGeneralJournalLine(line, action, accounts) : line
 ));
 
 const updateLine = (state, action) => ({
@@ -148,8 +158,12 @@ const updateLine = (state, action) => ({
   ...pageEdited,
   generalJournal: {
     ...state.generalJournal,
-    gstReportingMethod: getReportingMethodForUpdate(action, state.generalJournal),
-    lines: getLinesForUpdate(action, state.generalJournal.lines),
+    gstReportingMethod: getReportingMethodForUpdate(
+      action,
+      state.generalJournal,
+      state.accountOptions,
+    ),
+    lines: getLinesForUpdate(action, state.generalJournal.lines, state.accountOptions),
   },
 });
 
@@ -158,13 +172,21 @@ const addLine = (state, action) => ({
   ...pageEdited,
   generalJournal: {
     ...state.generalJournal,
-    gstReportingMethod: getReportingMethodForCreate(action, state.newLine, state.generalJournal),
+    gstReportingMethod: getReportingMethodForCreate(
+      action,
+      state.accountOptions,
+      state.generalJournal,
+    ),
     lines: [
       ...state.generalJournal.lines,
       {
         ...state.newLine,
         ...action.line,
-        taxCodeId: getDefaultTaxCodeId({ ...state.newLine, ...action.line }),
+        taxCodeId: getDefaultTaxCodeId({
+          ...state.newLine,
+          ...action.line,
+          accounts: state.accountOptions,
+        }),
       },
     ],
   },
@@ -198,6 +220,8 @@ const loadNewGeneralJournal = (state, action) => ({
   },
   newLine: { ...state.newLine, ...action.newLine },
   pageTitle: action.pageTitle,
+  taxCodeOptions: action.taxCodeOptions,
+  accountOptions: action.accountOptions,
 });
 
 const setLoadingState = (state, { loadingState }) => ({
@@ -225,9 +249,43 @@ const closeModal = state => ({
   modal: undefined,
 });
 
-const getCalculateTotals = (state, action) => ({
+const getTaxCalculations = (state, { taxCalculations: { lines, totals } }) => ({
   ...state,
-  totals: action.totals,
+  isPageEdited: true,
+  generalJournal: {
+    ...state.generalJournal,
+    lines: state.generalJournal.lines.map((line, index) => {
+      const { amount, isCredit } = lines[index];
+
+      if (isCredit === true) {
+        return {
+          ...line,
+          creditAmount: amount.valueOf(),
+          displayCreditAmount:
+              line.creditAmount && formatAmount(amount.valueOf()),
+        };
+      }
+
+      if (isCredit === false) {
+        return {
+          ...line,
+          debitAmount: amount.valueOf(),
+          displayDebitAmount:
+              line.debitAmount && formatAmount(amount.valueOf()),
+        };
+      }
+      return { ...line };
+    }),
+  },
+  totals: {
+    ...state.totals,
+    totalDebit: formatCurrency(totals.totalDebit.valueOf()),
+    totalCredit: formatCurrency(totals.totalCredit.valueOf()),
+    totalOutOfBalance: formatCurrency(totals.totalOutOfBalance.valueOf()),
+    totalTax: formatCurrency(
+      getIsSale(state) ? -totals.totalTax.valueOf() : totals.totalTax.valueOf(),
+    ),
+  },
 });
 
 const resetTotals = state => ({
@@ -243,7 +301,7 @@ const setInitialState = (state, action) => ({
 const handlers = {
   [LOAD_GENERAL_JOURNAL_DETAIL]: loadGeneralJournalDetail,
   [LOAD_NEW_GENERAL_JOURNAL]: loadNewGeneralJournal,
-  [GET_CALCULATED_TOTALS]: getCalculateTotals,
+  [GET_TAX_CALCULATIONS]: getTaxCalculations,
   [UPDATE_GENERAL_JOURNAL_HEADER]: updateHeader,
   [UPDATE_GENERAL_JOURNAL_LINE]: updateLine,
   [ADD_GENERAL_JOURNAL_LINE]: addLine,

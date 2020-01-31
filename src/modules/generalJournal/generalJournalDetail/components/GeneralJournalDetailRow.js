@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getLineDataByIndexSelector, getNewLineData,
+  getAccountOptions,
+  getLineDataByIndexSelector,
+  getNewLineData,
+  getTaxCodeOptions,
 } from '../generalJournalDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
@@ -36,20 +39,20 @@ const GeneralJournalDetailRow = ({
   isNewLineRow,
   lineData,
   newLineData,
+  taxCodeOptions,
+  accountOptions,
   ...feelixInjectedProps
 }) => {
   const data = isNewLineRow ? newLineData : lineData;
 
   const {
-    debitAmount = '',
-    creditAmount = '',
+    displayDebitAmount = '',
+    displayCreditAmount = '',
     quantity = '',
     description = '',
     isCreditDisabled = false,
     isDebitDisabled = false,
     accountId,
-    taxCodes,
-    accounts,
     taxCodeId,
   } = data;
 
@@ -61,14 +64,14 @@ const GeneralJournalDetailRow = ({
     >
       <AccountCombobox
         label="Accounts"
-        items={accounts}
+        items={accountOptions}
         selectedId={accountId}
         onChange={onComboboxChange('accountId', onChange)}
       />
       <AmountInput
         label="Debit amount"
         name="debitAmount"
-        value={debitAmount}
+        value={displayDebitAmount}
         disabled={isNewLineRow || isDebitDisabled}
         onChange={onAmountInputChange('debitAmount', onChange)}
         onBlur={onInputBlur(onRowInputBlur, index, 'debitAmount')}
@@ -77,7 +80,7 @@ const GeneralJournalDetailRow = ({
       <AmountInput
         label="Credit amount"
         name="creditAmount"
-        value={creditAmount}
+        value={displayCreditAmount}
         disabled={isNewLineRow || isCreditDisabled}
         onChange={onAmountInputChange('creditAmount', onChange)}
         onBlur={onInputBlur(onRowInputBlur, index, 'creditAmount')}
@@ -105,7 +108,7 @@ const GeneralJournalDetailRow = ({
       />
       <TaxCodeCombobox
         label="Tax codes"
-        items={taxCodes}
+        items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
         disabled={isNewLineRow}
@@ -118,6 +121,8 @@ const makeMapRowStateToProps = () => {
   return (state, ownProps) => ({
     lineData: lineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
+    taxCodeOptions: getTaxCodeOptions(state),
+    accountOptions: getAccountOptions(state),
   });
 };
 

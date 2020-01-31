@@ -7,12 +7,13 @@ const buildJournalEntry = ({
 }) => {
   const amount = Decimal(currentLine.amount || 0);
   const units = Number(currentLine.units || 1);
-  const { lineTypeId } = currentLine;
+  const { lineTypeId, isCredit } = currentLine;
   const line = {
     Amount: amount,
     UnitCount: units,
     LineType: Number(lineTypeId),
     AmountForeign: null,
+    IsCredit: isCredit,
   };
   return {
     Lines: [

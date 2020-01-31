@@ -8,7 +8,7 @@ import {
   DELETE_GENERAL_JOURNAL,
   DELETE_GENERAL_JOURNAL_LINE,
   FORMAT_GENERAL_JOURNAL_LINE,
-  GET_CALCULATED_TOTALS,
+  GET_TAX_CALCULATIONS,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
@@ -22,17 +22,21 @@ import {
 } from '../GeneralJournalIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL, SUCCESSFULLY_SAVED_GENERAL_JOURNAL } from '../GeneralJournalMessageTypes';
+import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
   getBusinessId,
-  getCalculatedTotalsPayload,
   getGeneralJournal,
   getGeneralJournalForCreatePayload,
   getGeneralJournalId,
   getIsActionsDisabled,
+  getIsLineAmountsTaxInclusive,
   getIsTableEmpty,
+  getIsTaxInclusive,
+  getLinesForTaxCalculation,
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
+  getTaxCodeOptions,
   getTransactionListUrl,
   isPageEdited,
 } from './generalJournalDetailSelectors';
@@ -53,6 +57,7 @@ export default class GeneralJournalDetailModule {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.generalJournalId = '';
+    this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournal);
   }
 
   loadGeneralJournal = () => {
@@ -66,7 +71,12 @@ export default class GeneralJournalDetailModule {
     };
 
     const onSuccess = ({
-      generalJournal, newLine, totals, pageTitle,
+      generalJournal,
+      newLine,
+      totals,
+      pageTitle,
+      taxCodes: taxCodeOptions,
+      accounts: accountOptions,
     }) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.store.dispatch({
@@ -75,6 +85,8 @@ export default class GeneralJournalDetailModule {
         totals,
         newLine,
         pageTitle,
+        taxCodeOptions,
+        accountOptions,
       });
     };
 
@@ -183,9 +195,11 @@ export default class GeneralJournalDetailModule {
       value,
     });
 
-    const taxKeys = ['isTaxInclusive', 'gstReportingMethod'];
-    if (taxKeys.includes(key)) {
-      this.getCalculatedTotals();
+    if (key === 'isTaxInclusive') {
+      this.getCalculatedTotals({ isSwitchingTaxInclusive: true });
+    }
+    if (key === 'gstReportingMethod') {
+      this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
     }
   };
 
@@ -201,7 +215,7 @@ export default class GeneralJournalDetailModule {
 
     const taxKeys = ['accountId', 'taxCodeId'];
     if (taxKeys.includes(lineKey)) {
-      this.getCalculatedTotals();
+      this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
     }
   }
 
@@ -214,7 +228,7 @@ export default class GeneralJournalDetailModule {
       line: partialLine,
     });
 
-    this.getCalculatedTotals();
+    this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
   }
 
   deleteGeneralJournalLine = (index) => {
@@ -225,10 +239,10 @@ export default class GeneralJournalDetailModule {
       index,
     });
 
-    this.getCalculatedTotals();
+    this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
   }
 
-  getCalculatedTotals = () => {
+  getCalculatedTotals = ({ isSwitchingTaxInclusive }) => {
     const state = this.store.getState();
     if (getIsTableEmpty(state)) {
       this.store.dispatch({
@@ -236,24 +250,19 @@ export default class GeneralJournalDetailModule {
       });
       return;
     }
+    const isTaxInclusive = getIsTaxInclusive(state);
+    const taxCalculations = this.taxCalculate({
+      isTaxInclusive,
+      lines: getLinesForTaxCalculation(state),
+      taxCodes: getTaxCodeOptions(state),
+      isLineAmountsTaxInclusive: getIsLineAmountsTaxInclusive(
+        state, isSwitchingTaxInclusive,
+      ),
+    });
 
-    const intent = GET_CALCULATED_TOTALS;
-
-    const onSuccess = (totals) => {
-      this.store.dispatch({
-        intent,
-        totals,
-      });
-    };
-
-    const onFailure = error => this.displayAlert(error.message);
-
-    this.integration.write({
-      intent,
-      urlParams: { businessId: getBusinessId(state) },
-      content: getCalculatedTotalsPayload(state),
-      onSuccess,
-      onFailure,
+    this.store.dispatch({
+      intent: GET_TAX_CALCULATIONS,
+      taxCalculations,
     });
   }
 
@@ -268,7 +277,7 @@ export default class GeneralJournalDetailModule {
 
   formatAndCalculateTotals = ({ index }) => {
     this.formatGeneralJournalLine(index);
-    this.getCalculatedTotals();
+    this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
   }
 
   setSubmittingState = (isSubmitting) => {
