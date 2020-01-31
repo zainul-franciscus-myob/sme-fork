@@ -45,7 +45,7 @@ describe('buildAmountInputChangeEvent', () => {
       ...event,
       target: {
         ...event.target,
-        rawValue: '-',
+        rawValue: '.',
       },
     };
     const currentValue = '-1';
@@ -58,6 +58,28 @@ describe('buildAmountInputChangeEvent', () => {
         name: 'a',
         value: '',
         rawValue: '',
+      },
+    });
+  });
+
+  it('returns event negative value when receive minus and is currently not empty', () => {
+    const modifiedEvent = {
+      ...event,
+      target: {
+        ...event.target,
+        rawValue: '-',
+      },
+    };
+    const currentValue = '1';
+
+
+    const actual = buildAmountInputChangeEvent(modifiedEvent, currentValue);
+
+    expect(actual).toEqual({
+      target: {
+        name: 'a',
+        value: '-1',
+        rawValue: '-1',
       },
     });
   });
