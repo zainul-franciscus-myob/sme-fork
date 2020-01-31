@@ -196,10 +196,10 @@ export default class InTrayModule {
       this.dispatcher.pollIntrayList(entries);
 
       if (shouldPoll(getEntries(this.store.getState()))) {
-        // Saving timer reference to prevent multiple active timers
+        // Saving timer so we can clear it if the module exits early.
         this.pollTimer = setTimeout(() => {
-          // Clearing timer as the timeout has resolved
-          this.pollTimer = undefined;
+          // Clearing timer flag as the timeout has resolved
+          this.hasPollRunning = false;
           this.pollEntries();
         }, 7000);
       }
@@ -208,8 +208,10 @@ export default class InTrayModule {
     const onFailure = () => {
       this.dispatcher.setAlert({ message: 'Failed to get OCR data', type: 'danger' });
     };
-    // If there is an existing timer dont run.
-    if (!this.pollTimer && shouldPoll(getEntries(this.store.getState()))) {
+    // If there is an existing poll dont run.
+    if (!this.hasPollRunning && shouldPoll(getEntries(this.store.getState()))) {
+      // Setting a timer flag to true to indicate a reqest and timout will execute.
+      this.hasPollRunning = true;
       this.integrator.pollInTrayList({ onSuccess, onFailure });
     }
   };
@@ -400,7 +402,7 @@ export default class InTrayModule {
   }
 
   unsubscribeFromStore = () => {
-    if (this.pollTimer) {
+    if (this.hasPollRunning) {
       // If there is a running poll clear it.
       clearTimeout(this.pollTimer);
     }
@@ -429,7 +431,7 @@ export default class InTrayModule {
 
   run = (context) => {
     // Set up empty pollTimer
-    this.pollTimer = undefined;
+    this.hasPollRunning = false;
     this.setInitialState(context);
     this.render();
     this.readMessages();
