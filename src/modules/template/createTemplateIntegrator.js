@@ -62,7 +62,6 @@ const createTemplateIntegrator = (store, integration) => ({
   updateTemplate: ({ onSuccess, onFailure, templateId }) => {
     const state = store.getState();
     const content = getSavePayload(state);
-
     integration.writeFormData({
       intent: UPDATE_TEMPLATE,
       content,

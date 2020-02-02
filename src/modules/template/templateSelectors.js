@@ -16,6 +16,7 @@ export const getRegion = state => state.region;
 export const getAlert = state => state.alert;
 export const getModalType = state => state.modalType;
 export const getHasChange = state => state.hasChange;
+export const getTempFile = state => state.tempFile;
 
 export const getTemplateId = createSelector(
   getTemplate,

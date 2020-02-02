@@ -3,11 +3,14 @@ import {
   LOAD_NEW_TEMPLATE,
   LOAD_PAY_DIRECT,
   LOAD_TEMPLATE,
+  REMOVE_TEMPLATE_IMAGE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
+  SET_TEMP_FILE,
   UPDATE_PREVIEW_OPTION,
+  UPDATE_TEMPLATE_IMAGE,
   UPDATE_TEMPLATE_OPTION,
 } from './TemplateIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
@@ -52,12 +55,26 @@ const createTemplateDispatcher = store => ({
     };
   },
 
-  removeFile: () => {
-    const key = getImageKey(store.getState());
+  selectFileFromStore: () => {
     store.dispatch({
-      intent: UPDATE_TEMPLATE_OPTION,
-      key,
-      value: undefined,
+      intent: UPDATE_TEMPLATE_IMAGE,
+    });
+  },
+
+  setTempFile: (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      store.dispatch({
+        intent: SET_TEMP_FILE,
+        file: reader.result,
+      });
+    };
+  },
+
+  removeFile: () => {
+    store.dispatch({
+      intent: REMOVE_TEMPLATE_IMAGE,
     });
   },
 

@@ -7,14 +7,21 @@ import {
   LOAD_NEW_TEMPLATE,
   LOAD_PAY_DIRECT,
   LOAD_TEMPLATE,
+  REMOVE_TEMPLATE_IMAGE,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
+  SET_TEMP_FILE,
   UPDATE_PREVIEW_OPTION,
+  UPDATE_TEMPLATE_IMAGE,
   UPDATE_TEMPLATE_OPTION,
 } from './TemplateIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
+import {
+  getImageKey,
+  getTempFile,
+} from './templateSelectors';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -38,6 +45,7 @@ const getDefaultState = () => ({
   saleLayout: SaleLayout.ItemAndService,
   isAllowPaymentByDirectDeposit: true,
   isAllowPaymentByCheque: true,
+  tempFile: undefined,
   payDirect: {
     isLoading: false,
     isRegistered: false,
@@ -48,7 +56,8 @@ const getDefaultState = () => ({
     featureColour: '#000000',
     headerTextColour: '#000000',
     useAddressEnvelopePosition: false,
-    headerBusinessDetailsStyle: HeaderBusinessDetailStyle.logoAndBusinessDetails,
+    headerBusinessDetailsStyle:
+      HeaderBusinessDetailStyle.logoAndBusinessDetails,
     originalHeaderImage: undefined,
     headerImage: undefined,
     originalLogoImage: undefined,
@@ -101,6 +110,12 @@ const loadNewTemplate = (state, action) => ({
     ...state.businessDetails,
     ...action.payload.businessDetails,
   },
+  template: {
+    ...state.template,
+    ...action.payload.template,
+    originalHeaderImage: action.payload.template.headerImage,
+    originalLogoImage: action.payload.template.logoImage,
+  },
 });
 
 const loadPayDirect = (state, action) => ({
@@ -116,16 +131,37 @@ const updatePreviewOption = (state, action) => ({
   [action.key]: action.value,
 });
 
-const updateTemplateOption = (state, action) => (
-  {
-    ...state,
-    hasChange: true,
-    template: {
-      ...state.template,
-      [action.key]: action.value,
-    },
-  }
-);
+const updateTemplateOption = (state, action) => ({
+  ...state,
+  hasChange: true,
+  template: {
+    ...state.template,
+    [action.key]: action.value,
+  },
+});
+
+const updateTemplateImage = state => ({
+  ...state,
+  hasChange: true,
+  template: {
+    ...state.template,
+    [getImageKey(state)]: getTempFile(state),
+  },
+});
+
+const removeTemplateImage = state => ({
+  ...state,
+  hasChange: true,
+  template: {
+    ...state.template,
+    [getImageKey(state)]: undefined,
+  },
+});
+
+const setTempFile = (state, action) => ({
+  ...state,
+  tempFile: action.file,
+});
 
 const setPayDirectLoadingState = (state, action) => ({
   ...state,
@@ -157,6 +193,9 @@ const handlers = {
   [LOAD_PAY_DIRECT]: loadPayDirect,
   [SET_ALERT]: setAlert,
   [SET_MODAL_TYPE]: setModalType,
+  [SET_TEMP_FILE]: setTempFile,
+  [UPDATE_TEMPLATE_IMAGE]: updateTemplateImage,
+  [REMOVE_TEMPLATE_IMAGE]: removeTemplateImage,
 };
 const templateReducer = createReducer(getDefaultState(), handlers);
 

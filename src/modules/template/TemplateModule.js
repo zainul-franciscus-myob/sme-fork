@@ -6,6 +6,8 @@ import { TEMPLATE_UPDATED } from './MessageTypes';
 import {
   getBusinessId,
   getHasChange,
+  getImage,
+  getImageKey,
   getRegion,
   getShouldLoadPayDirect,
   getTemplateId,
@@ -54,8 +56,8 @@ class TemplateModule {
         onDismissAlert={this.dismissAlert}
         onCancel={this.onCancel}
         onCloseModal={this.closeModal}
-        onConfirmSave={this.saveTemplate}
-        onConfirmUnsave={this.redirectToSalesSettings}
+        onConfirmSave={this.handleModalSave}
+        onConfirmUnsave={this.handleModalUnsave}
         onEditBusinessDetails={this.redirectToBusinessDetails}
       />
     </Provider>,
@@ -138,11 +140,27 @@ class TemplateModule {
   }
 
   selectFile = (file) => {
-    this.dispatcher.selectFile(file);
+    const state = this.store.getState();
+
+    if (getImage(state)) {
+      const imageTypeToModalType = {
+        headerImage: ModalTypes.changeImage,
+        logoImage: ModalTypes.changeLogo,
+      };
+      this.dispatcher.setModalType(imageTypeToModalType[getImageKey(state)]);
+      this.dispatcher.setTempFile(file);
+    } else {
+      this.dispatcher.selectFile(file);
+    }
   };
 
   removeFile = () => {
-    this.dispatcher.removeFile();
+    const state = this.store.getState();
+    const imageTypeToModalType = {
+      headerImage: ModalTypes.deleteImage,
+      logoImage: ModalTypes.deleteLogo,
+    };
+    this.dispatcher.setModalType(imageTypeToModalType[getImageKey(state)]);
   };
 
   onCancel = () => {
@@ -152,7 +170,7 @@ class TemplateModule {
     } else {
       this.redirectToSalesSettings();
     }
-  }
+  };
 
   closeModal = () => this.dispatcher.setModalType('');
 
@@ -170,6 +188,36 @@ class TemplateModule {
 
   redirectToBusinessDetails = () => {
     this.redirectToPath('');
+  };
+
+  handleModalSave = (type) => {
+    switch (type) {
+      case ModalTypes.unsaved:
+        this.saveTemplate();
+        break;
+      case ModalTypes.changeLogo:
+      case ModalTypes.changeImage:
+        this.dispatcher.selectFileFromStore();
+        this.closeModal();
+        break;
+      default:
+        break;
+    }
+  };
+
+  handleModalUnsave = (type) => {
+    switch (type) {
+      case ModalTypes.unsaved:
+        this.redirectToSalesSettings();
+        break;
+      case ModalTypes.deleteLogo:
+      case ModalTypes.deleteImage:
+        this.dispatcher.removeFile();
+        this.closeModal();
+        break;
+      default:
+        break;
+    }
   };
 
   saveTemplate = () => {
