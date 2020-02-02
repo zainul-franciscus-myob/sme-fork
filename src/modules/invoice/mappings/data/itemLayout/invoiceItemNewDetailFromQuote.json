@@ -164,5 +164,12 @@
     "lineTypeId": 17
   },
   "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
-  "serialNumber": "000000000000"
+  "serialNumber": "000000000000",
+  "subscription": {
+    "monthlyLimit": {
+      "limit": 5,
+      "used": 4,
+      "hasHitLimit": false
+    }
+  }
 }

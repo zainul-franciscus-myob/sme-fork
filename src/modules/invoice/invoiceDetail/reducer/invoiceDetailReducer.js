@@ -95,14 +95,12 @@ const setModalAlert = (state, { modalAlert }) => ({ ...state, modalAlert });
 const setModalSubmittingState = (state, { isModalSubmitting }) => ({ ...state, isModalSubmitting });
 
 const loadInvoiceDetail = (state, action) => {
+  const defaultState = getDefaultState();
   const modalType = getLoadInvoiceDetailModalType(state, action.emailInvoice);
 
   const { modalAlert, pageAlert } = action.message
     ? getLoadInvoiceDetailModalAndPageAlert(state, action.message)
     : {};
-
-  const hasHitLimit = monthlyLimit => Boolean(monthlyLimit
-    && monthlyLimit.used >= monthlyLimit.limit);
 
   return {
     ...state,
@@ -134,8 +132,12 @@ const loadInvoiceDetail = (state, action) => {
     modalType,
     modalAlert,
     alert: pageAlert,
-    monthlyLimit: action.monthlyLimit,
-    isUpgradeModalShowing: hasHitLimit(action.monthlyLimit),
+    subscription: action.subscription
+      ? {
+        monthlyLimit: action.subscription.monthlyLimit,
+        isUpgradeModalShowing: !!action.subscription.monthlyLimit.hasHitLimit,
+      }
+      : defaultState.subscription,
   };
 };
 
@@ -305,8 +307,10 @@ export const setRedirectRef = (state, { redirectRefJournalId, redirectRefJournal
 
 const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) => ({
   ...state,
-  isUpgradeModalShowing,
-  monthlyLimit,
+  subscription: {
+    isUpgradeModalShowing,
+    monthlyLimit: monthlyLimit || state.subscription.monthlyLimit,
+  },
 });
 
 const loadItemSellingDetails = (state, action) => ({

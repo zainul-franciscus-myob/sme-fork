@@ -5,6 +5,7 @@ import {
   LOAD_INVOICE_DETAIL,
   LOAD_ITEM_OPTION,
   REMOVE_INVOICE_LINE,
+  SET_UPGRADE_MODAL_SHOWING,
   UPDATE_INVOICE_LAYOUT,
   UPDATE_INVOICE_LINE,
 } from '../../../InvoiceIntents';
@@ -397,56 +398,86 @@ describe('InvoiceDetailReducer', () => {
     });
   });
 
+  describe('SET_UPGRADE_MODAL_SHOWING', () => {
+    const state = {
+      subscription: {
+        isUpgradeModalShowing: true,
+        monthlyLimit: {
+          hasHitLimit: false,
+        },
+      },
+    };
+
+    it('sets isUpgradeModalShowing and monthlyLimit to values', () => {
+      const monthlyLimit = {
+        hasHitLimit: true,
+        limit: 5,
+        used: 6,
+      };
+
+      const action = {
+        intent: SET_UPGRADE_MODAL_SHOWING,
+        isUpgradeModalShowing: false,
+        monthlyLimit,
+      };
+
+      const actual = invoiceDetailReducer(state, action);
+
+      expect(actual.subscription.isUpgradeModalShowing).toBeFalsy();
+      expect(actual.subscription.monthlyLimit).toEqual(monthlyLimit);
+    });
+
+    it('uses current state monthlyLimit if no monthlyLimit is provided in action', () => {
+      const action = {
+        intent: SET_UPGRADE_MODAL_SHOWING,
+        isUpgradeModalShowing: false,
+      };
+
+      const expectedMonthlyLimit = {
+        hasHitLimit: false,
+      };
+
+      const actual = invoiceDetailReducer(state, action);
+
+      expect(actual.subscription.monthlyLimit).toEqual(expectedMonthlyLimit);
+    });
+  });
+
   describe('LOAD_INVOICE_DETAIL', () => {
-    describe('when monthly limit is not provided', () => {
+    describe('subscription upgrade modal', () => {
+      const state = {};
+
       const action = {
         intent: LOAD_INVOICE_DETAIL,
         invoice: {
+          issueDate: '2019-02-03',
+        },
+        subscription: {
+          monthlyLimit: {
+            limit: 5,
+            hasHitLimit: true,
+          },
         },
       };
-      it('does not show the upgrade modal', () => {
-        const actual = invoiceDetailReducer({}, action);
+      it('shows upgrade modal if subscription limit has been reached', () => {
+        const actual = invoiceDetailReducer(state, action);
 
-        expect(actual.monthlyLimit).toBeUndefined();
-        expect(actual.isUpgradeModalShowing).toBe(false);
+        expect(actual.subscription.isUpgradeModalShowing).toBeTruthy();
       });
-    });
 
-    describe('when monthly limit is provided and the limit has not been hit', () => {
-      const action = {
-        intent: LOAD_INVOICE_DETAIL,
-        invoice: {
-        },
-        monthlyLimit: {
-          used: 4,
-          limit: 5,
-          month: 'April 1994',
-        },
-      };
-      it('does not show the upgrade modal', () => {
-        const actual = invoiceDetailReducer({}, action);
+      it('does not show upgrade modal if subscription limit has not been reached', () => {
+        const modifiedAction = {
+          ...action,
+          subscription: {
+            monthlyLimit: {
+              limit: 5,
+              hasHitLimit: false,
+            },
+          },
+        };
+        const actual = invoiceDetailReducer(state, modifiedAction);
 
-        expect(actual.monthlyLimit).toBeDefined();
-        expect(actual.isUpgradeModalShowing).toBe(false);
-      });
-    });
-
-    describe('when monthly limit is provided and the limit has been hit', () => {
-      const action = {
-        intent: LOAD_INVOICE_DETAIL,
-        invoice: {
-        },
-        monthlyLimit: {
-          used: 5,
-          limit: 5,
-          month: 'April 1994',
-        },
-      };
-      it('shows the upgrade modal', () => {
-        const actual = invoiceDetailReducer({}, action);
-
-        expect(actual.monthlyLimit).toBeDefined();
-        expect(actual.isUpgradeModalShowing).toBe(true);
+        expect(actual.subscription.isUpgradeModalShowing).toBeFalsy();
       });
     });
   });

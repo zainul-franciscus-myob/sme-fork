@@ -91,7 +91,12 @@ const getDefaultState = () => ({
   exportPdf: {
     template: '',
   },
-  monthlyLimit: undefined,
+  subscription: {
+    monthlyLimit: {
+      hasHitLimit: false,
+    },
+    isUpgradeModalShowing: false,
+  },
   payDirect: {
     isLoading: true,
     isServiceAvailable: false,
