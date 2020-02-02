@@ -1,8 +1,5 @@
 import {
   CALCULATE_BILL_ITEM_CHANGE,
-  CALCULATE_BILL_LINE_TOTALS,
-  CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
-  CALCULATE_LINE_TOTALS_TAX_INCLUSIVE_CHANGE,
   CREATE_BILL,
   DELETE_BILL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
@@ -10,6 +7,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
@@ -41,21 +39,13 @@ const HttpBillDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier/${supplierId}`,
   },
-  [CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/calculate_line_totals_on_amount_change`,
-  },
   [CALCULATE_BILL_ITEM_CHANGE]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_item_change`,
   },
-  [CALCULATE_BILL_LINE_TOTALS]: {
+  [LOAD_ITEM_DETAIL_FOR_LINE]: {
     method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_line_totals`,
-  },
-  [CALCULATE_LINE_TOTALS_TAX_INCLUSIVE_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/calculate_line_totals_tax_inclusive_change`,
+    getPath: ({ businessId }) => `/${businessId}/bill/load_item_detail`,
   },
   [CREATE_BILL]: {
     method: 'POST',

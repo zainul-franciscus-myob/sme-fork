@@ -115,19 +115,6 @@ export const getCalculateBillItemChangeContent = (state, { index, itemId }) => (
   itemId,
 });
 
-export const getCalculateLineTotalsOnAmountChangeContent = (state, { index, key }) => ({
-  ...getCalculateBillContent(state),
-  layout: getBillLayout(state),
-  index,
-  key,
-});
-
-export const getCalculateLineTotalsTaxInclusiveChange = state => ({
-  ...getCalculateBillContent(state),
-  layout: getBillLayout(state),
-  isLineAmountTaxInclusive: !getIsTaxInclusive(state),
-});
-
 export const getLoadAddedAccountUrlParams = (state, accountId) => {
   const businessId = getBusinessId(state);
   return { businessId, accountId };

@@ -6,6 +6,7 @@ import {
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 } from './types/BillMessageTypes';
+import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
   getAccountModalContext,
   getBillId,
@@ -14,11 +15,15 @@ import {
   getCreateSupplierContactModalContext,
   getIsCreating,
   getIsCreatingFromInTray,
+  getIsLineAmountsTaxInclusive,
+  getIsLineEdited,
   getIsLinesEmpty,
   getIsPageEdited,
-  getIsWaitingForLineCalculationToStart,
+  getIsTaxInclusive,
+  getLinesForTaxCalculation,
   getNewLineIndex,
   getRouteUrlParams,
+  getTaxCodeOptions,
 } from './selectors/billSelectors';
 import {
   getBillListUrl,
@@ -37,9 +42,7 @@ import {
   getShouldLinkInTrayDocument,
 } from './selectors/BillInTrayDocumentSelectors';
 import {
-  getIsAmountPaidKey,
   getIsLineAccountIdKey,
-  getIsLineAmountKey,
   getIsLineItemIdKey,
   getIsLineTaxCodeIdKey,
   getIsSupplierIdKey,
@@ -77,6 +80,7 @@ class BillModule {
     this.contactModalModule = new ContactModalModule({ integration });
     this.inventoryModalModule = new InventoryModalModule({ integration });
     this.inTrayModalModule = new InTrayModalModule({ integration });
+    this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.bill);
   }
 
   openAccountModal = (onChange) => {
@@ -338,53 +342,37 @@ class BillModule {
   };
 
   updateBillOption = ({ key, value }) => {
-    const state = this.store.getState();
     const isTaxInclusiveKey = getIsTaxInclusiveKey(key);
     const isSupplierIdKey = getIsSupplierIdKey(key);
-    const isAmountPaidKey = getIsAmountPaidKey(key);
-    const isWaitingForLineCalculationToStart = getIsWaitingForLineCalculationToStart(state);
 
-    // when a user is editing a line amount field
-    // they can click the isTaxInclusive input
-    // this will cause two calculate request to fire,
-    // one being the calculate line amount,
-    // and the other being the calculate tax inclusive
-    // to avoid this, we check that the user is not editing
-    // an amount input in the line
-    if (isTaxInclusiveKey && !isWaitingForLineCalculationToStart) {
+    if (isTaxInclusiveKey) {
       this.dispatcher.updateBillOption({ key, value });
-      this.calculateLineTotalsTaxInclusiveChange();
+      this.getTaxCalculations({ isSwitchingTaxInclusive: true });
     } else {
       this.dispatcher.updateBillOption({ key, value });
 
       if (isSupplierIdKey) {
         this.loadSupplierAddress();
       }
-
-      if (isAmountPaidKey) {
-        this.dispatcher.startWaitingForLineCalcToStart();
-      }
     }
   };
 
   updateLayout = ({ value }) => {
     this.dispatcher.updateLayout({ value });
-
     const state = this.store.getState();
+
     if (!getIsLinesEmpty(state)) {
-      this.calculateBillLineTotals();
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
   }
 
   updateBillLine = ({ index, key, value }) => {
     this.dispatcher.updateBillLine({ index, key, value });
 
-    if (getIsLineAmountKey(key)) {
-      this.dispatcher.startWaitingForLineCalcToStart();
-    } else if (getIsLineTaxCodeIdKey(key) || getIsLineAccountIdKey(key)) {
-      this.calculateBillLineTotals();
+    if (getIsLineTaxCodeIdKey(key) || getIsLineAccountIdKey(key)) {
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     } else if (getIsLineItemIdKey(key)) {
-      this.calculateLineTotalsOnItemIdChange({ index, itemId: value });
+      this.loadItemDetailForLine({ index, itemId: value });
     }
   }
 
@@ -409,63 +397,47 @@ class BillModule {
     if (isLinesEmpty) {
       this.dispatcher.resetTotals();
     } else {
-      this.calculateBillLineTotals();
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
   }
 
   calculateBillLines = ({ index, key }) => {
-    this.dispatcher.formatBillLine({ index, key });
-    this.calculateLineTotalsOnAmountChange({ index, key });
-  }
-
-  calculateBillLineTotals = () => {
-    this.dispatcher.startBlocking();
-
-    const onSuccess = (response) => {
-      this.dispatcher.setCalculatedBillLinesAndTotals(response);
-      this.dispatcher.stopBlocking();
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.openDangerAlert({ message });
-      this.dispatcher.stopBlocking();
-    };
-
-    this.integrator.calculateBillLineTotals({
-      onSuccess, onFailure,
-    });
-  }
-
-  calculateLineTotalsOnAmountChange = ({ index, key }) => {
     const state = this.store.getState();
-    const isWaitingForLineCalculationToStart = getIsWaitingForLineCalculationToStart(state);
-
-    if (isWaitingForLineCalculationToStart) {
-      this.dispatcher.startBlocking();
-
-      const onSuccess = (response) => {
-        this.dispatcher.setCalculatedBillLinesAndTotals(response);
-        this.dispatcher.stopWaitingForLineCalcToStart();
-        this.dispatcher.stopBlocking();
-      };
-
-      const onFailure = ({ message }) => {
-        this.dispatcher.openDangerAlert({ message });
-        this.dispatcher.stopWaitingForLineCalcToStart();
-        this.dispatcher.stopBlocking();
-      };
-
-      this.integrator.calculateLineTotalsOnAmountChange({
-        onSuccess, onFailure, index, key,
-      });
+    const isLineEdited = getIsLineEdited(state);
+    if (isLineEdited) {
+      this.dispatcher.formatBillLine({ index, key });
+      this.dispatcher.calculateLineAmounts({ index, key });
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
   }
 
-  calculateLineTotalsOnItemIdChange = ({ index, itemId }) => {
+  getTaxCalculations = ({ isSwitchingTaxInclusive }) => {
+    const state = this.store.getState();
+    const isTableEmpty = getIsLinesEmpty(state);
+
+    if (isTableEmpty) {
+      return;
+    }
+
+    const isTaxInclusive = getIsTaxInclusive(state);
+    const taxCalculations = this.taxCalculate({
+      isTaxInclusive,
+      lines: getLinesForTaxCalculation(state),
+      taxCodes: getTaxCodeOptions(state),
+      isLineAmountsTaxInclusive: getIsLineAmountsTaxInclusive(
+        isTaxInclusive, isSwitchingTaxInclusive,
+      ),
+    });
+
+    this.dispatcher.getTaxCalculations(taxCalculations);
+  }
+
+  loadItemDetailForLine = ({ index, itemId }) => {
     this.dispatcher.startBlocking();
 
-    const onSuccess = (response) => {
-      this.dispatcher.setCalculatedBillLinesAndTotals(response);
+    const onSuccess = (updatedLine) => {
+      this.dispatcher.loadItemDetailForLine({ index, updatedLine });
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
       this.dispatcher.stopBlocking();
     };
 
@@ -474,41 +446,18 @@ class BillModule {
       this.dispatcher.stopBlocking();
     };
 
-    this.integrator.calculateLineTotalsOnItemIdChange({
+    this.integrator.loadItemDetailForLine({
       index, itemId, onSuccess, onFailure,
     });
-  }
-
-  calculateLineTotalsTaxInclusiveChange = () => {
-    const isTableEmpty = getIsLinesEmpty(this.store.getState());
-    if (!isTableEmpty) {
-      this.dispatcher.startBlocking();
-
-      const onSuccess = (response) => {
-        this.dispatcher.setCalculatedBillLinesAndTotals(response);
-        this.dispatcher.stopBlocking();
-      };
-
-      const onFailure = ({ message }) => {
-        this.dispatcher.openDangerAlert({ message });
-        this.dispatcher.stopBlocking();
-      };
-
-      this.integrator.calculateLineTotalsTaxInclusiveChange({ onSuccess, onFailure });
-    }
   }
 
   calculateAmountPaid = () => {
     const state = this.store.getState();
     const isLinesEmpty = getIsLinesEmpty(state);
-    const isWaitingForLineCalculationToStart = getIsWaitingForLineCalculationToStart(state);
+    this.dispatcher.formatAmountPaid();
 
-    if (isWaitingForLineCalculationToStart) {
-      this.dispatcher.formatAmountPaid();
-
-      if (!isLinesEmpty) {
-        this.calculateBillLineTotals();
-      }
+    if (!isLinesEmpty) {
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
   }
 

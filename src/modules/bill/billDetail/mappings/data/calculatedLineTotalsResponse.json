@@ -10,10 +10,11 @@
         "accountId": "456",
         "description": "Cooler Large",
         "unitPrice": "5200",
-        "discount": "100",
+        "discount": "50",
         "taxCodeId": "1203",
         "amount": "8500.9101",
-        "displayAmount": "8500.9101"
+        "displayAmount": "8500.9101",
+        "lineSubTypeId": "13"
       }
     ]
   },

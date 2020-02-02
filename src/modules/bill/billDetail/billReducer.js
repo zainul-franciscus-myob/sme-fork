@@ -1,13 +1,16 @@
 import {
   ADD_BILL_LINE,
+  CALCULATE_LINE_AMOUNTS,
   CLOSE_ALERT,
-  CLOSE_MODAL,
-  DOWNLOAD_IN_TRAY_DOCUMENT, FAIL_LOADING,
+  CLOSE_MODAL, DOWNLOAD_IN_TRAY_DOCUMENT,
+  FAIL_LOADING,
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_LINE,
+  GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
@@ -26,12 +29,10 @@ import {
   START_LOADING,
   START_MODAL_BLOCKING,
   START_SUPPLIER_BLOCKING,
-  START_WAITING_FOR_LINE_CALC_TO_START,
   STOP_BLOCKING,
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
   STOP_SUPPLIER_BLOCKING,
-  STOP_WAITING_FOR_LINE_CALC_TO_START,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL_ID,
   UPDATE_BILL_LINE,
@@ -40,9 +41,11 @@ import {
   UPDATE_LAYOUT,
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
 import { getLoadBillModalType, getUpdatedSupplierOptions } from './selectors/billSelectors';
 import BillLayout from './types/BillLayout';
 import BillLineLayout from './types/BillLineLayout';
+import LineTaxTypes from './types/LineTaxTypes';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
@@ -119,7 +122,7 @@ const getDefaultState = () => ({
   },
   loadingState: LoadingState.LOADING,
   isPageEdited: false,
-  isPendingCalculation: false,
+  isLineEdited: false,
   isSupplierBlocking: false,
   modalType: undefined,
   isModalBlocking: false,
@@ -305,13 +308,21 @@ const calculateLineLayout = (lineLayout, updateKey) => {
   return isUpdateItemId ? BillLineLayout.ITEM : BillLineLayout.SERVICE;
 };
 
+const getLineSubTypeId = type => (type === BillLineLayout.ITEM
+  ? LineTaxTypes.DEFAULT_ITEM_LINE_SUB_TYPE_ID
+  : LineTaxTypes.DEFAULT_SERVICE_LINE_SUB_TYPE_ID);
+
+const setIsLineEdited = key => ['discount', 'amount', 'units', 'unitPrice'].includes(key);
+
 const updateBillLine = (state, action) => ({
   ...state,
+  isLineEdited: Boolean(setIsLineEdited(action.key)),
   isPageEdited: true,
   bill: {
     ...state.bill,
     lines: state.bill.lines.map((line, index) => {
       if (index === action.index) {
+        const type = calculateLineLayout(line.type, action.key);
         return {
           ...line,
           displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
@@ -319,7 +330,8 @@ const updateBillLine = (state, action) => ({
           taxCodeId: action.key === 'accountId'
             ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
             : line.taxCodeId,
-          type: calculateLineLayout(line.type, action.key),
+          type,
+          lineSubTypeId: getLineSubTypeId(type),
           [action.key]: action.value,
         };
       }
@@ -328,6 +340,9 @@ const updateBillLine = (state, action) => ({
   },
 });
 
+
+// @TO-DO: Confirm if this behaviour is still necessary. It can either be removed or combined when
+// we calculate line amounts
 const DEFAULT_UNITS = '1';
 const formatBillLine = (state, action) => ({
   ...state,
@@ -425,16 +440,6 @@ const setCalculatedBillLinesAndTotals = (state, action) => ({
   totals: action.response.totals,
 });
 
-const startWaitingForLineCalcToStart = state => ({
-  ...state,
-  isWaitingForLineCalculationToStart: true,
-});
-
-const stopWaitingForLineCalcToStart = state => ({
-  ...state,
-  isWaitingForLineCalculationToStart: false,
-});
-
 const getPrefilledNewLineFromInTray = (state, newLine) => ({
   ...state.newLine,
   amount: newLine.amount,
@@ -492,6 +497,23 @@ const updateExportPdfDetail = (state, { value }) => ({
   exportPdf: {
     ...state.exportPdf,
     template: value,
+  },
+});
+
+const loadItemDetailForLine = (state, action) => ({
+  ...state,
+  isPageEdited: true,
+  bill: {
+    ...state.bill,
+    lines: state.bill.lines.map((line, index) => {
+      if (index !== action.index) {
+        return line;
+      }
+      return {
+        ...line,
+        ...action.updatedLine,
+      };
+    }),
   },
 });
 
@@ -580,14 +602,15 @@ const handlers = {
   [STOP_BLOCKING]: stopBlocking,
   [START_MODAL_BLOCKING]: startModalBlocking,
   [STOP_MODAL_BLOCKING]: stopModalBlocking,
-  [START_WAITING_FOR_LINE_CALC_TO_START]: startWaitingForLineCalcToStart,
-  [STOP_WAITING_FOR_LINE_CALC_TO_START]: stopWaitingForLineCalcToStart,
   [ADD_BILL_LINE]: addBillLine,
   [UPDATE_BILL_LINE]: updateBillLine,
   [FORMAT_BILL_LINE]: formatBillLine,
+  [CALCULATE_LINE_AMOUNTS]: calculateLineAmounts,
   [REMOVE_BILL_LINE]: removeBillLine,
   [SET_CALCULATED_BILL_LINES_AND_TOTALS]: setCalculatedBillLinesAndTotals,
+  [GET_TAX_CALCULATIONS]: getTaxCalculations,
   [LOAD_ITEM_OPTION]: loadItemOption,
+  [LOAD_ITEM_DETAIL_FOR_LINE]: loadItemDetailForLine,
   [LOAD_SUPPLIER_ADDRESS]: loadSupplierAddress,
   [LOAD_SUPPLIER_AFTER_CREATE]: loadSupplierAfterCreate,
   [START_SUPPLIER_BLOCKING]: startSupplierBlocking,

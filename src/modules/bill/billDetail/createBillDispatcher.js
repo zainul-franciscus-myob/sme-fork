@@ -1,13 +1,17 @@
 import {
   ADD_BILL_LINE,
+  CALCULATE_LINE_AMOUNTS,
   CLOSE_ALERT,
   CLOSE_MODAL,
-  DOWNLOAD_IN_TRAY_DOCUMENT, FAIL_LOADING,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
+  FAIL_LOADING,
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_LINE,
+  GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
   LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
@@ -26,12 +30,10 @@ import {
   START_LOADING,
   START_MODAL_BLOCKING,
   START_SUPPLIER_BLOCKING,
-  START_WAITING_FOR_LINE_CALC_TO_START,
   STOP_BLOCKING,
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
   STOP_SUPPLIER_BLOCKING,
-  STOP_WAITING_FOR_LINE_CALC_TO_START,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL_ID,
   UPDATE_BILL_LINE,
@@ -187,6 +189,20 @@ const createBillDispatcher = store => ({
     });
   },
 
+  calculateLineAmounts: ({ key, index }) => {
+    store.dispatch({
+      intent: CALCULATE_LINE_AMOUNTS,
+      key,
+      index,
+    });
+  },
+
+  loadItemDetailForLine: ({ index, updatedLine }) => store.dispatch({
+    intent: LOAD_ITEM_DETAIL_FOR_LINE,
+    index,
+    updatedLine,
+  }),
+
   formatBillLine: ({ index, key }) => store.dispatch({
     intent: FORMAT_BILL_LINE, index, key,
   }),
@@ -205,6 +221,11 @@ const createBillDispatcher = store => ({
       intent: REMOVE_BILL_LINE,
       index,
     });
+  },
+
+  getTaxCalculations: (taxCalculations) => {
+    const intent = GET_TAX_CALCULATIONS;
+    store.dispatch({ intent, taxCalculations });
   },
 
   formatAmountPaid: () => {
@@ -232,18 +253,6 @@ const createBillDispatcher = store => ({
     store.dispatch({
       intent: SET_CALCULATED_BILL_LINES_AND_TOTALS,
       response,
-    });
-  },
-
-  startWaitingForLineCalcToStart: () => {
-    store.dispatch({
-      intent: START_WAITING_FOR_LINE_CALC_TO_START,
-    });
-  },
-
-  stopWaitingForLineCalcToStart: () => {
-    store.dispatch({
-      intent: STOP_WAITING_FOR_LINE_CALC_TO_START,
     });
   },
 

@@ -1,8 +1,5 @@
 import {
   CALCULATE_BILL_ITEM_CHANGE,
-  CALCULATE_BILL_LINE_TOTALS,
-  CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE,
-  CALCULATE_LINE_TOTALS_TAX_INCLUSIVE_CHANGE,
   CREATE_BILL,
   DELETE_BILL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
@@ -10,6 +7,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
@@ -30,6 +28,7 @@ import loadSupplierAddress from './data/loadSupplierAddress';
 import loadSupplierResponse from './data/loadSupplierResponse';
 import prefillBillFromInTray from './data/prefillBillFromInTray';
 import successResponse from './data/success';
+import updatedLineForItemDetail from './data/updatedLineForItemDetail';
 
 const MemoryBillDetailMapping = {
   [LOAD_BILL]: ({ onSuccess }) => onSuccess(loadItemAndServiceBill),
@@ -40,14 +39,8 @@ const MemoryBillDetailMapping = {
   [UPDATE_BILL]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_SUPPLIER_ADDRESS]: ({ onSuccess }) => onSuccess(loadSupplierAddress),
   [LOAD_SUPPLIER_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadSupplierResponse),
-  [CALCULATE_LINE_TOTALS_ON_AMOUNT_CHANGE]: ({ onSuccess }) => (
-    onSuccess(calculatedLineTotalsResponse)
-  ),
-  [CALCULATE_LINE_TOTALS_TAX_INCLUSIVE_CHANGE]: ({ onSuccess }) => (
-    onSuccess(calculatedLineTotalsResponse)
-  ),
   [CALCULATE_BILL_ITEM_CHANGE]: ({ onSuccess }) => onSuccess(calculatedLineTotalsResponse),
-  [CALCULATE_BILL_LINE_TOTALS]: ({ onSuccess }) => onSuccess(calculatedLineTotalsResponse),
+  [LOAD_ITEM_DETAIL_FOR_LINE]: ({ onSuccess }) => onSuccess(updatedLineForItemDetail),
   [EXPORT_BILL_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),

@@ -15,6 +15,7 @@ import {
 } from '../BillIntents';
 import BillLayout from '../types/BillLayout';
 import BillLineLayout from '../types/BillLineLayout';
+import LineTaxTypes from '../types/LineTaxTypes';
 import billReducer from '../billReducer';
 
 describe('billReducer', () => {
@@ -602,6 +603,106 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual.isPageEdited).toEqual(true);
+    });
+
+    it('should set the correct lineSubTypeId for an item line', () => {
+      const state = {
+        bill: {
+          lines: [
+            {
+              type: BillLineLayout.ITEM,
+              accountId: '1',
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: UPDATE_BILL_LINE,
+        key: test.key,
+        index: 0,
+        value: '',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.bill.lines[0].lineSubTypeId).toEqual(
+        LineTaxTypes.DEFAULT_ITEM_LINE_SUB_TYPE_ID,
+      );
+    });
+
+    it('should set the correct lineSubTypeId for a service line', () => {
+      const state = {
+        bill: {
+          lines: [
+            {
+              type: BillLineLayout.SERVICE,
+              accountId: '1',
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: UPDATE_BILL_LINE,
+        key: test.key,
+        index: 0,
+        value: '',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.bill.lines[0].lineSubTypeId).toEqual(
+        LineTaxTypes.DEFAULT_SERVICE_LINE_SUB_TYPE_ID,
+      );
+    });
+
+    describe('sets isLineEdited', () => {
+      [
+        {
+          key: 'discount',
+          expected: true,
+        },
+        {
+          key: 'amount',
+          expected: true,
+        },
+        {
+          key: 'units',
+          expected: true,
+        },
+        {
+          key: 'unitPrice',
+          expected: true,
+        },
+        {
+          key: 'accountId',
+          expected: false,
+        },
+        {
+          key: 'taxCodeId',
+          expected: false,
+        },
+      ].forEach((test) => {
+        it(`should set isLineEdited to ${test.expected} given the key ${test.key}`, () => {
+          const state = {
+            bill: {
+              lines: [],
+            },
+            isLineEdited: false,
+          };
+
+          const action = {
+            intent: UPDATE_BILL_LINE,
+            key: test.key,
+            value: '',
+          };
+
+          const actual = billReducer(state, action);
+
+          expect(actual.isLineEdited).toEqual(test.expected);
+        });
+      });
     });
   });
 

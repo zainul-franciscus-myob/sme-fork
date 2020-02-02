@@ -5,8 +5,6 @@ import {
   getCalculateBillContent,
   getCalculateBillItemChangeContent,
   getCalculateBillLinesUrlParams,
-  getCalculateLineTotalsOnAmountChangeContent,
-  getCalculateLineTotalsTaxInclusiveChange,
   getLoadAddedAccountUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
@@ -225,26 +223,6 @@ describe('IntegratorSelectors', () => {
       },
     };
 
-    describe('getCalculateLineTotalsOnAmountChangeContent', () => {
-      it('should build payload for request', () => {
-        const index = 0;
-        const key = 'units';
-
-        const expected = {
-          index,
-          key,
-          isTaxInclusive: true,
-          amountPaid: '10.00',
-          layout: 'someLayout',
-          lines,
-        };
-
-        const actual = getCalculateLineTotalsOnAmountChangeContent(state, { index, key });
-
-        expect(actual).toEqual(expected);
-      });
-    });
-
     describe('getCalculateBillItemChangeContent', () => {
       it('should build payload for request', () => {
         const index = 0;
@@ -259,22 +237,6 @@ describe('IntegratorSelectors', () => {
         };
 
         const actual = getCalculateBillItemChangeContent(state, { index, itemId });
-
-        expect(actual).toEqual(expected);
-      });
-    });
-
-    describe('getCalculateLineTotalsTaxInclusiveChange', () => {
-      it('should build payload for request', () => {
-        const expected = {
-          layout: 'someLayout',
-          isTaxInclusive: true,
-          amountPaid: '10.00',
-          isLineAmountTaxInclusive: false,
-          lines,
-        };
-
-        const actual = getCalculateLineTotalsTaxInclusiveChange(state);
 
         expect(actual).toEqual(expected);
       });

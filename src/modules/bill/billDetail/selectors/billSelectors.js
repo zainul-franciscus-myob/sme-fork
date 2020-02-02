@@ -24,10 +24,6 @@ export const getIsCreatingFromInTray = createSelector(
 
 export const getLoadingState = state => state.loadingState;
 
-export const getIsWaitingForLineCalculationToStart = state => (
-  state.isWaitingForLineCalculationToStart
-);
-
 export const getTotalTaxLabel = state => getRegionToDialectText(state.region)('Tax');
 
 export const getAmountPaid = state => state.bill.amountPaid;
@@ -104,6 +100,8 @@ export const getSupplierAddress = state => state.bill.supplierAddress;
 export const getIsReportable = state => state.bill.isReportable;
 
 export const getIsPageEdited = state => state.isPageEdited;
+
+export const getIsLineEdited = state => state.isLineEdited;
 
 export const getLines = state => state.bill.lines;
 
@@ -204,3 +202,15 @@ export const getCreateSupplierContactModalContext = (state) => {
 
   return { businessId, region, contactType: 'Supplier' };
 };
+
+export const getLinesForTaxCalculation = createSelector(
+  getLines,
+  lines => lines.map(line => ({
+    ...line,
+    lineTypeId: line.lineSubTypeId,
+  })),
+);
+
+export const getIsLineAmountsTaxInclusive = (isTaxInclusive, isSwitchingTaxInclusive) => (
+  isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive
+);
