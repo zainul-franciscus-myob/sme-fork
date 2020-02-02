@@ -4,6 +4,7 @@ import {
   showSelectedMatchTransactions,
   toggleMatchTransactionSelectAllState,
   updateAdjustment,
+  updateMatchTransactionSelection,
   updateSelectedTransactionDetails,
 } from '../matchTransactionHandlers';
 
@@ -277,6 +278,86 @@ describe('matchTransactionHandlers', () => {
 
       const actual = showSelectedMatchTransactions(state);
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('updateMatchTransactionSelection', () => {
+    const getState = entries => ({
+      openEntry: {
+        match: {
+          totalAmount: 1000,
+          entries,
+          selectedEntries: [],
+        },
+      },
+    });
+
+    it('should select match transaction', () => {
+      const entries = [{
+        totalAmount: '100', discountAmount: '10', type: 'Purchase', selected: false,
+      }];
+      const state = getState(entries);
+
+      const actual = updateMatchTransactionSelection(state, { index: 0, selected: true });
+
+      expect(actual.openEntry.match.entries[0].selected).toBeTruthy();
+    });
+
+    it('should prefill matchAmount with full bank transaction amount', () => {
+      const entries = [{
+        totalAmount: '100', discountAmount: '10', type: 'Transaction', selected: false,
+      }];
+      const state = getState(entries);
+
+      const actual = updateMatchTransactionSelection(state, { index: 0, selected: true });
+
+      expect(actual.openEntry.match.entries[0].matchAmount).toEqual(1000);
+    });
+
+    it('should prefill matchAmount with 0', () => {
+      const entries = [
+        { totalAmount: '100', selected: false },
+        { totalAmount: '1000', matchAmount: 1000, selected: true },
+      ];
+      const state = getState(entries);
+
+      const actual = updateMatchTransactionSelection(state, { index: 0, selected: true });
+
+      expect(actual.openEntry.match.entries[0].matchAmount).toEqual(0);
+    });
+
+    it('should prefill matchAmount with full transaction due amount', () => {
+      const entries = [
+        { selected: true, matchAmount: 500 },
+        { totalAmount: '100', discountAmount: '10', selected: false },
+      ];
+      const state = getState(entries);
+
+      const actual = updateMatchTransactionSelection(state, { index: 1, selected: true });
+
+      expect(actual.openEntry.match.entries[1].matchAmount).toEqual(90);
+    });
+
+    it('should prefill matchAmount with the rest of the available amount', () => {
+      const entries = [
+        { selected: true, matchAmount: 500 },
+        { totalAmount: '1000', selected: false },
+      ];
+      const state = getState(entries);
+
+      const actual = updateMatchTransactionSelection(state, { index: 1, selected: true });
+
+      expect(actual.openEntry.match.entries[1].matchAmount).toEqual(500);
+    });
+
+    it('should unselect match transaction and clear matchAmount', () => {
+      const entries = [{ matchAmount: 100, selected: false }];
+      const state = getState(entries);
+
+      const actual = updateMatchTransactionSelection(state, { index: 0, selected: false });
+
+      expect(actual.openEntry.match.entries[0].selected).toBeFalsy();
+      expect(actual.openEntry.match.entries[0].matchAmount).toEqual('');
     });
   });
 });

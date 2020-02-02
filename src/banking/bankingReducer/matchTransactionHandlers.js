@@ -1,5 +1,5 @@
 import { allocateTransaction } from './index';
-import { getAccounts, getPrefilledEntries } from '../bankingSelectors/matchTransactionSelectors';
+import { getAccounts, getIsAllowCustomAmount, getPrefilledEntries } from '../bankingSelectors/matchTransactionSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
 import { tabIds } from '../tabItems';
 import getDefaultState from './getDefaultState';
@@ -122,21 +122,48 @@ export const updateSelectedTransactionDetails = (state, action) => {
   return updateMatchEntries(state, entries);
 };
 
+const getMatchAmount = (totalAmount, availableAmount, entry) => {
+  // Case: Not allow alteration of the match amount.
+  // Return bank transaction total amount.
+  const isAllowCustomAmount = getIsAllowCustomAmount(entry);
+  if (!isAllowCustomAmount) return totalAmount;
+
+  // Case: No available amount left or in negative.
+  if (availableAmount <= 0) return 0;
+
+  // Case: Enough available amount to fulfil transaction (and more).
+  // Return full transaction due amount.
+  const { totalAmount: entryTotalAmount, discountAmount: entryDiscountAmount } = entry;
+  const entryDueAmount = Number(entryTotalAmount) - Number(entryDiscountAmount || 0);
+  if (availableAmount >= entryDueAmount) return entryDueAmount;
+
+  // Case: Not enough available amount to fulfil transaction.
+  // Return whatever left of the available amount
+  return availableAmount;
+};
+
 export const updateMatchTransactionSelection = (state, action) => {
   const { index, selected } = action;
-  const entries = state.openEntry.match.entries.map((entry, currentIndex) => {
-    if (index === currentIndex) {
-      const balanceOwed = Number(entry.totalAmount) - Number(entry.discountAmount || 0);
-      return {
-        ...entry,
-        selected,
-        matchAmount: selected ? balanceOwed : '',
-      };
-    }
-    return entry;
-  });
+  const { totalAmount, entries } = state.openEntry.match;
 
-  return updateMatchEntries(state, entries);
+  // Case: Unselected. Clear out matchAmount
+  if (!selected) {
+    const updatedEntries = entries.map((entry, currentIndex) => (currentIndex === index
+      ? { ...entry, selected, matchAmount: '' }
+      : entry));
+
+    return updateMatchEntries(state, updatedEntries);
+  }
+
+  // Case: Selected. Calculate suitable matchAmount
+  const sum = entries
+    .reduce((accumulator, { matchAmount }) => accumulator + Number(matchAmount || 0), 0);
+  const availableAmount = totalAmount - sum;
+  const updatedEntries = entries.map((entry, currentIndex) => (index === currentIndex
+    ? { ...entry, selected, matchAmount: getMatchAmount(totalAmount, availableAmount, entry) }
+    : entry));
+
+  return updateMatchEntries(state, updatedEntries);
 };
 
 export const toggleMatchTransactionSelectAllState = (state, action) => {
