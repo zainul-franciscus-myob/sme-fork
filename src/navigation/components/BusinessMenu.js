@@ -7,7 +7,6 @@ import classNames from 'classnames';
 
 import {
   getActiveNav,
-  getBusinessName,
   getBusinessUrls,
   getIsCurrentUserAdvisor,
   getIsReadOnly,
@@ -131,7 +130,6 @@ const BusinessMenu = ({
 
 const mapStateToProps = state => ({
   urls: getBusinessUrls(state),
-  businessName: getBusinessName(state),
   serialNumber: getSerialNumber(state),
   userEmail: getUserEmail(state),
   activeNav: getActiveNav(state),

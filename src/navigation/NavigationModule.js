@@ -41,7 +41,6 @@ export default class NavigationModule {
       businessId,
     };
     const onSuccess = ({
-      businessName,
       serialNumber,
       region,
       userEmail,
@@ -51,7 +50,6 @@ export default class NavigationModule {
     }) => {
       this.store.dispatch({
         intent,
-        businessName,
         serialNumber,
         userEmail,
         enabledFeatures,
@@ -122,7 +120,7 @@ export default class NavigationModule {
     this.redirectToPage(url);
   }
 
-  render = (tasks) => {
+  render = (tasks, businessName = '') => {
     const {
       constructPath,
       redirectToPage,
@@ -143,6 +141,7 @@ export default class NavigationModule {
           onSubscribeNowClick={subscribeNow}
           onTasksLinkClick={toggleTasks}
           hasTasks={tasks && tasks.length > 0}
+          businessName={businessName}
         />
       </Provider>
     );

@@ -2,7 +2,6 @@ import { LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './Navigatio
 import createReducer from '../store/createReducer';
 
 const getDefaultState = () => ({
-  businessName: '',
   serialNumber: '',
   userEmail: '',
   enabledFeatures: [],
@@ -17,7 +16,6 @@ const getDefaultState = () => ({
 
 const loadBusinessDetails = (state, action) => ({
   ...state,
-  businessName: action.businessName,
   serialNumber: action.serialNumber,
   userEmail: action.userEmail,
   enabledFeatures: action.enabledFeatures,

@@ -3,15 +3,17 @@ import {
   SET_BUSINESS_ID, SET_LOADING_STATE, SET_REGION,
   SET_VIEW_DATA, UPDATE_TASKS,
 } from './rootIntents';
+import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
 import createReducer from '../store/createReducer';
 import shouldShowOnboarding from './services/shouldShowOnboarding';
 
 const getDefaultState = () => ({
   tasks: [],
   settings: [],
-  businessName: '',
+  businessDetails: {},
   isLoading: false,
   areOnboardingSettingsLoaded: false,
+  proposedBusinessName: '',
 });
 
 const setBusinessId = (state, { businessId }) => ({
@@ -62,6 +64,12 @@ const updateTasks = (state, { tasks: updatedTasks }) => {
   return { ...state, tasks: newTasks };
 };
 
+const loadBusinessDetails = (state, { businessDetails }) => ({
+  ...state,
+  proposedBusinessName: businessDetails.organisationName,
+  businessDetails,
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoading,
   [LOAD_SETTINGS]: setOnboarding,
@@ -71,6 +79,7 @@ const handlers = {
   [SET_REGION]: setRegion,
   [GET_TASKS_LIST]: loadTasks,
   [UPDATE_TASKS]: updateTasks,
+  [LOAD_GLOBAL_BUSINESS_DETAILS]: loadBusinessDetails,
 };
 
 const rootReducer = createReducer(getDefaultState(), handlers);

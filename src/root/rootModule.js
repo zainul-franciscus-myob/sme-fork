@@ -2,6 +2,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import BusinessDetailsService from './services/businessDetails';
 import CreateRootDispatcher from './createRootDispatcher';
 import DrawerModule from '../drawer/DrawerModule';
 import NavigationModule from '../navigation/NavigationModule';
@@ -24,6 +25,7 @@ export default class RootModule {
     this.dispatcher = CreateRootDispatcher(this.store);
     this.tasksService = tasksService(this.dispatcher, integration, this.store);
     this.settingsService = SettingsService(this.dispatcher, integration, this.store);
+    this.businessDetailsService = BusinessDetailsService(this.dispatcher, integration, this.store);
     this.last_business_id = null;
 
     this.drawer = new DrawerModule({
@@ -44,6 +46,7 @@ export default class RootModule {
       settingsService: this.settingsService,
       tasksService: this.tasksService,
       toggleTasks: this.drawer.toggleTasks,
+      businessDetailsService: this.businessDetailsService,
     });
 
     this.globalCallbacks = buildGlobalCallbacks({
@@ -74,6 +77,7 @@ export default class RootModule {
       this.last_business_id = businessId;
       this.tasksService.load();
       this.settingsService.load();
+      this.businessDetailsService.load();
     }
 
     this.drawer.run(routeProps);

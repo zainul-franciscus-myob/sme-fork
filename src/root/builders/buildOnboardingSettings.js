@@ -1,6 +1,6 @@
-const buildOnboardingSettings = ({ businessName, businessRole, industry }) => (
+const buildOnboardingSettings = ({ proposedBusinessName, businessRole, industry }) => (
   {
-    businessName,
+    businessName: proposedBusinessName,
     businessRole,
     industry,
     onboardingComplete: true,

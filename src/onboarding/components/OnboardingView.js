@@ -36,7 +36,7 @@ class OnboardingView extends Component {
 
   save = (event) => {
     event.preventDefault();
-    const { props: { businessName, industry } } = this;
+    const { props: { businessName, businessRole, industry } } = this;
 
     let businessNameError = null;
     let industryError = null;
@@ -45,11 +45,14 @@ class OnboardingView extends Component {
     if (industry === '') industryError = 'You need to select an industry';
 
     this.setState({ businessNameError, industryError });
-    if (!businessNameError && !industryError) this.onSave(event);
+
+    if (!businessNameError && !industryError) {
+      this.onSave(event, { businessName, businessRole, industry });
+    }
   };
 
   onChangeBusinessName = (businessName) => {
-    this.dispatcher.setViewData({ businessName: businessName.value });
+    this.dispatcher.setViewData({ proposedBusinessName: businessName.value });
   };
 
   onChangeIndustry = (industry) => {
@@ -88,7 +91,7 @@ class OnboardingView extends Component {
         <div className={classNames(styles.column, styles.form)}>
           <h1>Welcome to MYOB!</h1>
 
-          <Card classes={styles.card}>
+          <Card className={styles.card}>
             <p className={styles.intro}>
               Let&apos;s start with a few details that will help us personalise your experience.
             </p>
@@ -99,6 +102,7 @@ class OnboardingView extends Component {
                 autoFocus
                 className={styles.input}
                 errorMessage={businessNameError}
+                name="businessName"
                 label="What's the name of your business?"
                 onChange={handleInputChange(onChangeBusinessName)}
                 requiredLabel="This is required"
@@ -151,10 +155,10 @@ class OnboardingView extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  businessName: state.businessName,
-  businessRole: state.businessRole,
-  industry: state.industry,
+const mapStateToProps = ({ businessRole, industry, proposedBusinessName }) => ({
+  businessName: proposedBusinessName,
+  businessRole,
+  industry,
 });
 
 export { OnboardingView as View };

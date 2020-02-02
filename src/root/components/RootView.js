@@ -12,6 +12,7 @@ const RootView = ({
   shouldShowOnboarding,
   drawer,
   tasks,
+  businessName,
 }) => {
   if (isLoading) return <LoadingPageState />;
   if (shouldShowOnboarding) return onboarding.render();
@@ -20,17 +21,20 @@ const RootView = ({
     <div id="main" className={style.main}>
       { drawer.render(tasks) }
       <div className={style.navAndRootView}>
-        { nav.render(tasks) }
+        { nav.render(tasks, businessName) }
         { children }
       </div>
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  isLoading: state.isLoading,
-  tasks: state.tasks,
-  shouldShowOnboarding: state.shouldShowOnboarding,
+const mapStateToProps = ({
+  isLoading, tasks, businessDetails: { organisationName }, shouldShowOnboarding,
+}) => ({
+  isLoading,
+  tasks,
+  businessName: organisationName,
+  shouldShowOnboarding,
 });
 
 export default connect(mapStateToProps)(RootView);

@@ -4,18 +4,21 @@ import OnboardingView from './components/OnboardingView';
 
 class OnboardingModule {
   constructor({
-    dispatcher, settingsService, tasksService, toggleTasks,
+    dispatcher, settingsService, tasksService, toggleTasks, businessDetailsService,
   }) {
     this.dispatcher = dispatcher;
     this.settingsService = settingsService;
     this.tasksService = tasksService;
     this.toggleTasks = toggleTasks;
+    this.businessDetailsService = businessDetailsService;
   }
 
-  save = async (event) => {
+  save = async (event, data) => {
     event.preventDefault();
-    await this.settingsService.save(this.state);
+
+    await this.settingsService.save(data);
     await this.tasksService.load();
+    await this.businessDetailsService.load();
     this.toggleTasks();
   }
 

@@ -1,4 +1,4 @@
-const buildBusinessAbbreviation = businessName => businessName
+const buildBusinessAbbreviation = (businessName = '') => businessName
   .replace(/([A-Z])/g, ' $1')
   .trim()
   .split(/\s+/, 2)

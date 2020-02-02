@@ -23,6 +23,7 @@ import EmployeeMapping from '../../modules/employee/mappings/HttpEmployeeMapping
 import EmployeePayMapping from '../../modules/employeePay/mappings/HttpEmployeePayMapping';
 import ExpensePayItemMapping from '../../modules/payItem/expensePayItem/mappings/HttpExpensePayItemMapping';
 import GeneralJournalMapping from '../../modules/generalJournal/mappings/HttpGeneralJournalMapping';
+import GlobalBusinessDetailsMapping from '../../root/services/businessDetails/mappings/HttpBusinessDetailsMapping';
 import HelpMapping from './HelpMapping';
 import InTrayMapping from '../../modules/inTray/mappings/HttpInTrayMapping';
 import IncomeAllocationMapping from '../../modules/IncomeAllocation/mappings/HttpIncomeAllocationMapping';
@@ -150,6 +151,7 @@ const RootMapping = Object.freeze({
   ...PayRunOldDetailMapping,
   ...PayRunOldListMapping,
   ...PayRunOldMapping,
+  ...GlobalBusinessDetailsMapping,
 });
 
 export default RootMapping;

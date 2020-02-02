@@ -111,6 +111,7 @@ const getSecondary = ({
   onTasksLinkClick,
   onSubscribeNowClick,
   hasTasks,
+  businessName,
 }) => [
   shouldDisplayAddMenu && (
   <AddMenu
@@ -129,6 +130,7 @@ const getSecondary = ({
   shouldDisplayBusinessMenu && (
   <BusinessMenu
     key="BusinessMenu"
+    businessName={businessName}
     onMenuSelect={onMenuSelect}
     onMenuLinkClick={onMenuLinkClick}
     onSubscribeNowClick={onSubscribeNowClick}
@@ -160,6 +162,7 @@ const NavigationBar = ({
   shouldDisplayTasksMenu,
   menuLogoUrl,
   hasTasks,
+  businessName,
 }) => {
   const primaryMenuItems = getPrimary({
     onMenuSelect,
@@ -185,6 +188,7 @@ const NavigationBar = ({
     shouldDisplayHelpMenu,
     shouldDisplayTasksMenu,
     hasTasks,
+    businessName,
   });
   const brand = (
     <Navigation.Brand

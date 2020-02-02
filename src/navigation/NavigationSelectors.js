@@ -4,7 +4,6 @@ import { activeMapping } from './navConfig';
 import RouteName from '../router/RouteName';
 import getRegionToDialectText from '../dialect/getRegionToDialectText';
 
-export const getBusinessName = state => state.businessName;
 export const getSerialNumber = state => state.serialNumber;
 export const getUserEmail = state => state.userEmail;
 const getEnabledFeatures = state => state.enabledFeatures;
