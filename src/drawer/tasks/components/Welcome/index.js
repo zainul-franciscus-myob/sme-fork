@@ -4,6 +4,8 @@ import React from 'react';
 import styles from './index.module.css';
 
 const Welcome = ({ task, closeTasks }) => {
+  if (!task || task.isComplete) return null;
+
   const onCloseWelcomeTask = (e) => {
     e.preventDefault();
     closeTasks({ closeEvent: 'welcomeViewed' });

@@ -9,9 +9,6 @@ import Welcome from './Welcome';
 import asideHeaderStyles from '../../AsideHeader.module.css';
 import emptyStateImage from './assets/icon-tasks-empty-state.svg';
 
-// TODO: This will get cleaned up when we have AppState removing 'done' tasks
-const isWelcomeComplete = welcomeTask => !welcomeTask
-|| (welcomeTask.tasks && welcomeTask.tasks.length <= welcomeTask.data.closed.length);
 
 const TasksView = ({
   closeTasks,
@@ -26,8 +23,7 @@ const TasksView = ({
 
   const tasksView = () => (
     <div>
-      {!isWelcomeComplete(welcomeTask)
-        && <Welcome task={welcomeTask} closeTasks={closeTasks} />}
+      <Welcome task={welcomeTask} closeTasks={closeTasks} />
       <Onboarding tasks={onboardingTasks} closeTasks={closeTasks} />
     </div>
   );
