@@ -107,9 +107,9 @@ export default class BankingModule {
         onAddSplitAllocationLine={this.addSplitAllocationLine}
         onUpdateSplitAllocationLine={updateSplitAllocationLine}
         onDeleteSplitAllocationLine={deleteSplitAllocationLine}
-        onApplyMatchTransactionOptions={this.confirmBefore(this.sortOrFilterMatchTransaction)}
+        onApplyMatchTransactionOptions={this.sortOrFilterMatchTransaction}
         onUpdateMatchTransactionOptions={updateMatchTransactionOptions}
-        onSortMatchTransactions={this.confirmBefore(this.sortMatchTransaction)}
+        onSortMatchTransactions={this.sortMatchTransaction}
         onUpdateMatchTransactionSelection={updateMatchTransactionSelection}
         onAddAdjustment={addMatchTransactionAdjustment}
         onUpdateAdjustment={updateMatchTransactionAdjustment}

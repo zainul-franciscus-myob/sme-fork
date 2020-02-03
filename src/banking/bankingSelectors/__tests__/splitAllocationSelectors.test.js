@@ -28,7 +28,7 @@ describe('splitAllocationSelectors', () => {
     });
   });
   describe('getSplitAllocationPayload', () => {
-    it('should return a valid payload', () => {
+    it('should return a valid payload when selected contact is reportable', () => {
       const state = {
         openPosition: 0,
         filterOptions: {
@@ -61,6 +61,9 @@ describe('splitAllocationSelectors', () => {
             ],
           },
         },
+        contacts: [
+          { id: '222', isReportable: true, contactType: 'Supplier' },
+        ],
       };
 
       const expected = {
@@ -70,6 +73,65 @@ describe('splitAllocationSelectors', () => {
         contactId: '222',
         date: '2019-10-20',
         isReportable: true,
+        description: 'bar',
+        lines: [{
+          accountId: '123',
+          amount: '1000.00',
+          description: 'my description',
+          taxCodeId: '333',
+        }],
+      };
+
+      const index = 0;
+      const actual = getSplitAllocationPayload(state, index);
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return a valid payload when selected contact is not reportable', () => {
+      const state = {
+        openPosition: 0,
+        filterOptions: {
+          bankAccount: '123',
+          transactionType: 'approved',
+        },
+        entries: [
+          {
+            transactionId: '1',
+            note: 'foo',
+          },
+        ],
+        openEntry: {
+          allocate: {
+            id: '1',
+            isSpendMoney: true,
+            date: '2019-10-20',
+            contactId: '222',
+            isReportable: true,
+            description: 'bar',
+            lines: [
+              {
+                accountId: '123',
+                amount: '1000.00',
+                description: 'my description',
+                taxCodeId: '333',
+                accounts: [{}, {}],
+                taxCodes: [{}, {}],
+              },
+            ],
+          },
+        },
+        contacts: [
+          { id: '222', isReportable: false, contactType: 'Supplier' },
+        ],
+      };
+
+      const expected = {
+        bankAccountId: '123',
+        transactionId: '1',
+        isWithdrawal: true,
+        contactId: '222',
+        date: '2019-10-20',
+        isReportable: undefined,
         description: 'bar',
         lines: [{
           accountId: '123',

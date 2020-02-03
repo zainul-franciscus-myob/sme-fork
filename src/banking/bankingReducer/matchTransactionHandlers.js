@@ -22,7 +22,6 @@ export const loadMatchTransactions = (state, action) => {
     orderBy: action.orderBy,
     sortOrder: action.sortOrder,
     entries: getPrefilledEntries(state, action.entries),
-    adjustments: [],
   };
 
   return loadOpenEntry(state, action.index, tabIds.match, match, isCreating);
@@ -34,7 +33,6 @@ export const sortAndFilterMatchTransactions = (state, action) => {
   const match = {
     ...state.openEntry.match,
     entries: getPrefilledEntries(state, action.entries),
-    adjustments: [],
   };
 
   return loadOpenEntry(state, action.index, tabIds.match, match, isCreating);
@@ -199,8 +197,8 @@ export const addAdjustment = (state, action) => {
 
   const adjustment = {
     id: action.id,
-    [key]: value,
     taxCodeId,
+    [key]: value,
   };
 
   return ({
@@ -229,7 +227,7 @@ export const updateAdjustment = (state, action) => {
       );
 
       return {
-        ...adjustment, [key]: value, taxCodeId,
+        ...adjustment, taxCodeId, [key]: value,
       };
     }
     return adjustment;

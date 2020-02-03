@@ -74,13 +74,13 @@ const getBadge = (entry) => {
   } = entry;
   if (['CloseInvoice', 'CloseBill'].includes(status)) {
     return {
-      text: 'Closed',
-      color: 'green',
+      badgeText: 'Closed',
+      badgeColor: 'green',
     };
   }
   if (['Purchase', 'Sale'].includes(type) && originalAmount !== totalAmount) {
     return {
-      text: `Total: ${formatCurrency(originalAmount)}`,
+      badgeText: `Total: ${formatCurrency(originalAmount)}`,
     };
   }
   return {};
@@ -113,7 +113,7 @@ export const getTableEntries = createSelector(
         displayTotalAmount: formatAmount(entry.totalAmount),
         balanceOwed: allowCustomAmount ? formatAmount(getBalanceOwed(entry)) : '',
         overAmount: getOverAmount(entry),
-        badge: getBadge(entry),
+        ...getBadge(entry),
       });
     });
 

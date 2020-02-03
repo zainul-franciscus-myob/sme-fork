@@ -171,7 +171,6 @@ describe('matchTransactionSelectors', () => {
           sourceJournal: 'CashPayment',
           totalAmount: '100.00',
           type: 'Transaction',
-          badge: {},
         },
         {
           allowCustomAmount: true,
@@ -187,9 +186,7 @@ describe('matchTransactionSelectors', () => {
           sourceJournal: 'CashPayment',
           originalAmount: '150.00',
           totalAmount: '100.00',
-          badge: {
-            text: 'Total: $150.00',
-          },
+          badgeText: 'Total: $150.00',
         },
       ];
       const actual = getTableEntries(state);
