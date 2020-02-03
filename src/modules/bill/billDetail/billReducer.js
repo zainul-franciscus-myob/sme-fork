@@ -234,7 +234,12 @@ const updateLayout = (state, { value }) => ({
   layout: value,
   bill: {
     ...state.bill,
-    lines: state.bill.lines.filter(line => line.type === BillLineLayout.SERVICE),
+    lines: state.bill.lines
+      .filter(line => line.type === BillLineLayout.SERVICE)
+      .map(line => ({
+        ...line,
+        id: '',
+      })),
   },
   exportPdf: {
     ...state.exportPdf,
@@ -325,6 +330,7 @@ const updateBillLine = (state, action) => ({
         const type = calculateLineLayout(line.type, action.key);
         return {
           ...line,
+          id: type === line.type ? line.id : '',
           displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
           displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
           taxCodeId: action.key === 'accountId'

@@ -206,13 +206,13 @@ describe('billReducer', () => {
       expect(actual.layout).toEqual('something else');
     });
 
-    it('removes all item lines if transitioning to a service layout', () => {
+    it('removes all item lines if transitioning to a service layout and clears line id', () => {
       const state = {
         layout: BillLayout.ITEM_AND_SERVICE,
         bill: {
           lines: [
-            { type: BillLineLayout.SERVICE },
-            { type: BillLineLayout.ITEM_AND_SERVICE },
+            { type: BillLineLayout.SERVICE, id: 'something' },
+            { type: BillLineLayout.ITEM_AND_SERVICE, id: 'somethingElse' },
           ],
         },
       };
@@ -221,17 +221,17 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      const expected = [{ type: BillLineLayout.SERVICE }];
+      const expected = [{ type: BillLineLayout.SERVICE, id: '' }];
 
       expect(actual.bill.lines).toEqual(expected);
     });
 
-    it('keeps service lines when switching from service to itemAndService layout', () => {
+    it('keeps service lines when switching from service to itemAndService layout and clears line id', () => {
       const state = {
         layout: BillLayout.SERVICE,
         bill: {
           lines: [
-            { type: BillLineLayout.SERVICE },
+            { type: BillLineLayout.SERVICE, id: 'a' },
           ],
         },
       };
@@ -240,7 +240,7 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      const expected = [{ type: BillLineLayout.SERVICE }];
+      const expected = [{ type: BillLineLayout.SERVICE, id: '' }];
 
       expect(actual.bill.lines).toEqual(expected);
     });
@@ -583,6 +583,24 @@ describe('billReducer', () => {
 
       expect(actual.bill.lines[0].itemId).toEqual('1');
       expect(actual.bill.lines[0].type).toEqual('item');
+    });
+
+    it('clears line id if the line type has been changed', () => {
+      const state = {
+        bill: {
+          lines: [
+            { type: BillLineLayout.SERVICE, id: '1' },
+          ],
+        },
+      };
+
+      const action = {
+        intent: UPDATE_BILL_LINE, index: 0, key: 'itemId', value: '1',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.bill.lines[0].id).toEqual('');
     });
 
     it('sets isPageEdited to true', () => {
