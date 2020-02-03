@@ -145,6 +145,7 @@ export const getPayrollUrls = createSelector(
     payRunList: enabledUrls.payRunList,
     payRunCreate: enabledUrls.payRunCreate,
     payItemList: enabledUrls.payItemList,
+    timesheets: enabledUrls.timesheets,
     electronicPaymentCreate: enabledUrls.electronicPaymentPayrollCreate,
     superPaymentList: enabledUrls.superPaymentList,
     stpReporting: enabledUrls.stpReporting,

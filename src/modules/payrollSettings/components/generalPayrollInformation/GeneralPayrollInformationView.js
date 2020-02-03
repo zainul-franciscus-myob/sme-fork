@@ -22,7 +22,6 @@ import TimesheetsSettingsView from './TimesheetsSettingsView';
 import YearInput from '../../../../components/autoFormatter/YearInput/YearInput';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import style from './GeneralPayrollInformationView.module.css';
-import timesheetEnabled from '../../../../common/featureToggles/timesheetEnabled';
 
 const isCurrentYearEditable = (currentYearIsProvided) => {
   if (currentYearIsProvided == null) {
@@ -119,7 +118,7 @@ const GeneralPayrollInformationView = (props) => {
                     {"We'll round the pay down to the nearest cent value you enter."}
                     {'Any difference will be added to the PAYG (tax contribution).'}
                   </Tooltip>
-              )}
+                )}
               />
               <ReadOnly label="Tax table revision date" name="taxTableRevisionDate">
                 {taxTableRevisionDate}
@@ -137,14 +136,14 @@ const GeneralPayrollInformationView = (props) => {
                 width="xl"
               />
             </FieldGroup>
-            {timesheetEnabled && (
+            {
               <TimesheetsSettingsView
                 useTimesheets={useTimesheets}
                 useTimesheetsWeekStarts={useTimesheetsWeekStarts}
                 onGeneralPayrollInformationChange={onGeneralPayrollInformationChange}
                 onUseTimesheetsChange={onUseTimesheetsChange}
               />
-            )}
+            }
           </FormHorizontal>
         </div>
       </Card>

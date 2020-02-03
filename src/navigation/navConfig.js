@@ -63,6 +63,7 @@ export const activeMapping = {
   [RouteName.STP_ERRORS]: 'payroll',
   [RouteName.STP_SETUP]: 'payroll',
   [RouteName.STP_REPORTING_CENTRE]: 'payroll',
+  [RouteName.TIMESHEET]: 'payroll',
   [RouteName.STP_EMPLOYEE_ETP]: 'payroll',
 
   [RouteName.CONTACT_LIST]: 'contact',
@@ -116,7 +117,7 @@ export const featuresConfig = {
   payRunList: { routeName: RouteName.PAY_RUN_LIST },
   payRunCreate: { routeName: RouteName.PAY_RUN_CREATE },
   payItemList: { routeName: RouteName.PAY_ITEM_LIST },
-  timesheets: { routeName: '' },
+  timesheets: { routeName: RouteName.TIMESHEET },
   electronicPaymentPayrollCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE, params: { paymentType: 'PayEmployees' } },
   superPaymentList: { routeName: RouteName.PAY_SUPER_LIST },
   stpReporting: { routeName: RouteName.STP_REPORTING_CENTRE },

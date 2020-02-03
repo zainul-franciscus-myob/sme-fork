@@ -22,10 +22,6 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
   />
 );
 
-const getDisabledMenuLink = label => (
-  <Navigation.MenuLink key={label} url="" label={label} disabled />
-);
-
 const getItems = (urls, onMenuLinkClick) => [
   urls.employeeList && getMenuLink(urls.employeeList, 'Employees', onMenuLinkClick),
   urls.employeeCreate && getMenuLink(urls.employeeCreate, 'Create employee', onMenuLinkClick),
@@ -34,7 +30,7 @@ const getItems = (urls, onMenuLinkClick) => [
   urls.payRunCreate && getMenuLink(urls.payRunCreate, 'Create pay run', onMenuLinkClick),
   isPayRunSeparatorRequired(urls) && <Navigation.Separator key="separator-pay-run" />,
   urls.payItemList && getMenuLink(urls.payItemList, 'Pay items', onMenuLinkClick),
-  getDisabledMenuLink('Timesheets'),
+  urls.timesheets && getMenuLink(urls.timesheets, 'Timesheets', onMenuLinkClick),
   <Navigation.Separator key="separator-pay-item-timesheets" />,
   urls.electronicPaymentCreate && getMenuLink(urls.electronicPaymentCreate, 'Bank file payments', onMenuLinkClick),
   urls.superPaymentList && getMenuLink(urls.superPaymentList, 'Super payments', onMenuLinkClick),
