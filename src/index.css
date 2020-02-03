@@ -41,6 +41,8 @@ textarea {
 /*
  * @FEELIX - line item table will overflow on mobile devise
  */
-.line-item-table {
-  overflow-x: hidden;
+@media (max-width: 992px) {
+  .line-item-table {
+    overflow-x: hidden;
+  }
 }
