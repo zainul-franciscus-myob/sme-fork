@@ -37,3 +37,10 @@ textarea {
   animation: none !important;
   transition: none !important;
 }
+
+/*
+ * @FEELIX - line item table will overflow on mobile devise
+ */
+.line-item-table {
+  overflow-x: hidden;
+}
