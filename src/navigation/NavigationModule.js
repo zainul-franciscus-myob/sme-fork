@@ -40,24 +40,10 @@ export default class NavigationModule {
     const urlParams = {
       businessId,
     };
-    const onSuccess = ({
-      serialNumber,
-      region,
-      userEmail,
-      enabledFeatures,
-      isReadOnly,
-      isCurrentUserAdvisor,
-    }) => {
-      this.store.dispatch({
-        intent,
-        serialNumber,
-        userEmail,
-        enabledFeatures,
-        isReadOnly,
-        isCurrentUserAdvisor,
-      });
+    const onSuccess = (config) => {
+      this.store.dispatch({ ...config, intent });
 
-      this.replaceURLParamsAndReload({ businessId, region: region.toLowerCase() });
+      this.replaceURLParamsAndReload({ businessId, region: config.region.toLowerCase() });
       // TODO: To be removed in next patch version
       // This is a temporary fix for Feelix bug introduced in version 5.10.0
       window.dispatchEvent(new Event('resize'));

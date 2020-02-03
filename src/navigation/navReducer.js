@@ -20,6 +20,7 @@ const loadBusinessDetails = (state, action) => ({
   userEmail: action.userEmail,
   enabledFeatures: action.enabledFeatures,
   isReadOnly: action.isReadOnly,
+  trialEndDate: action.trialEndDate,
   isCurrentUserAdvisor: action.isCurrentUserAdvisor,
 });
 

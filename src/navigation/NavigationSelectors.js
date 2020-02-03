@@ -12,6 +12,7 @@ const getCurrentRouteName = state => state.currentRouteName;
 export const getIsCurrentUserAdvisor = state => state.isCurrentUserAdvisor;
 
 const getUrls = state => state.urls;
+export const getTrialEndDate = state => state.trialEndDate;
 
 export const getBusinessId = ({ routeParams: { businessId = '' } }) => businessId;
 export const getRegion = state => state.routeParams.region;

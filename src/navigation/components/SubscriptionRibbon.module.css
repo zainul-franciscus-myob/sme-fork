@@ -1,0 +1,17 @@
+.subscriptionRibbon {
+  color: var(--flx-palette-white);
+  margin: 0;
+  text-align: center;
+  padding: var(--flx-spacing-x-small);
+  background: var(--flx-palette-storm-100);
+}
+
+.subscriptionRibbon a {
+  color: var(--flx-palette-white);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, .5);
+}
+
+.subscriptionRibbon a:hover {
+ border-bottom: 1px solid var(--flx-palette-white);
+}

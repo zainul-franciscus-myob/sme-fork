@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getMenuLogoUrl,
   getShowUrls,
+  getTrialEndDate,
   hasAccountingUrls,
   hasAddUrls,
   hasBankingUrls,
@@ -29,6 +30,7 @@ import PayrollMenu from './PayrollMenu';
 import PurchasesMenu from './PurchasesMenu';
 import ReportsMenu from './ReportsMenu';
 import SalesMenu from './SalesMenu';
+import SubscriptionRibbon from './SubscriptionRibbon';
 import Tasks from './Tasks';
 import styles from './NavigationBar.module.css';
 
@@ -160,6 +162,8 @@ const NavigationBar = ({
   shouldDisplayHelpMenu,
   shouldDisplayAddMenu,
   shouldDisplayTasksMenu,
+  shouldDisplaySubscriptionRibbon,
+  trialEndDate,
   menuLogoUrl,
   hasTasks,
   businessName,
@@ -201,8 +205,16 @@ const NavigationBar = ({
 
   const primary = primaryMenuItems.length ? primaryMenuItems : [];
 
+  const trialToBuyRibbon = shouldDisplaySubscriptionRibbon && (
+    <SubscriptionRibbon
+      trialEndDate={trialEndDate}
+      onSubscribeNowClick={onSubscribeNowClick}
+    />
+  );
+
   return (
     <div className={styles.navigation}>
+      {trialToBuyRibbon}
       <Navigation brand={brand} primary={primary} secondary={secondary} fluid />
     </div>
   );
@@ -222,6 +234,8 @@ const mapStateToProps = state => ({
   shouldDisplayAddMenu: hasAddUrls(state),
   shouldDisplayHelpMenu: hasBusinessId(state),
   shouldDisplayTasksMenu: hasBusinessId(state),
+  shouldDisplaySubscriptionRibbon: hasBusinessId(state) && getTrialEndDate(state) != null,
+  trialEndDate: getTrialEndDate(state),
   menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
 });
 
