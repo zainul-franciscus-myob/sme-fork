@@ -19,7 +19,7 @@ const Industries = [
   'Trades and construction',
   'Transport, postal and warehousing',
   'Wholesale trade',
-  'Other',
+  'Other services',
 ];
 
 export default Industries;
