@@ -185,7 +185,12 @@ const updateInvoiceLayout = (state, action) => ({
   invoice: {
     ...state.invoice,
     layout: action.layout,
-    lines: state.invoice.lines.filter(line => line.layout === InvoiceLayout.SERVICE),
+    lines: state.invoice.lines
+      .filter(line => line.layout === InvoiceLayout.SERVICE)
+      .map(line => ({
+        ...line,
+        id: '',
+      })),
   },
 });
 
@@ -194,22 +199,22 @@ const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
   return account === undefined ? '' : account.taxCodeId;
 };
 
+const calculateLineLayout = (layout, key) => {
+  const isItemLayout = layout === InvoiceLayout.ITEM;
+  const isUpdateItemId = key === 'itemId';
+
+  if (isItemLayout) {
+    return layout;
+  }
+
+  return isUpdateItemId ? InvoiceLayout.ITEM : InvoiceLayout.SERVICE;
+};
+
 const updateInvoiceLine = (state, action) => {
   const isUpdateDiscount = action.key === 'discount';
   const isUpdateAmount = action.key === 'amount';
   const isUpdateAccountId = action.key === 'accountId';
   const isUpdateUnitPrice = action.key === 'unitPrice';
-
-  const getLayout = (layout, key) => {
-    const isItemLayout = layout === InvoiceLayout.ITEM;
-    const isUpdateItemId = key === 'itemId';
-
-    if (isItemLayout) {
-      return layout;
-    }
-
-    return isUpdateItemId ? InvoiceLayout.ITEM : InvoiceLayout.SERVICE;
-  };
 
   return ({
     ...state,
@@ -217,10 +222,12 @@ const updateInvoiceLine = (state, action) => {
     invoice: {
       ...state.invoice,
       lines: state.invoice.lines.map((line, index) => {
+        const lineLayout = calculateLineLayout(line.layout, action.key);
         if (index === action.index) {
           return {
             ...line,
-            layout: getLayout(line.layout, action.key),
+            id: lineLayout === line.layout ? line.id : '',
+            layout: lineLayout,
             taxCodeId: isUpdateAccountId
               ? getDefaultTaxCodeId({
                 accountId: action.value,

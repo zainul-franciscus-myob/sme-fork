@@ -71,7 +71,7 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.invoice.layout).toEqual('service');
     });
 
-    it('remove item lines when switching to service', () => {
+    it('remove item lines and clear line ids when switching to service', () => {
       const state = {
         invoice: {
           layout: 'item',
@@ -97,13 +97,13 @@ describe('InvoiceDetailReducer', () => {
 
       expect(actual.invoice.lines).toEqual([
         {
-          id: '2',
+          id: '',
           layout: 'service',
         },
       ]);
     });
 
-    it('keeps service lines when switching to item', () => {
+    it('keeps service lines and clear line ids when switching to itemAndService layout', () => {
       const state = {
         invoice: {
           layout: 'service',
@@ -125,7 +125,7 @@ describe('InvoiceDetailReducer', () => {
 
       expect(actual.invoice.lines).toEqual([
         {
-          id: '2',
+          id: '',
           layout: 'service',
         },
       ]);
@@ -205,6 +205,30 @@ describe('InvoiceDetailReducer', () => {
       const actual = invoiceDetailReducer(modifiedState, action);
 
       expect(actual.invoice.lines[1].layout).toEqual(InvoiceLayout.ITEM);
+    });
+
+    it('clears the line ids if the line layout is changed', () => {
+      const modifiedState = {
+        ...state,
+        invoice: {
+          ...state.invoice,
+          lines: state.invoice.lines.map(line => ({
+            ...line,
+            id: '1',
+            layout: InvoiceLayout.SERVICE,
+          })),
+        },
+      };
+
+      const modifiedAction = {
+        ...action,
+        key: 'itemId',
+        value: '🐑',
+      };
+
+      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
+
+      expect(actual.invoice.lines[1].id).toEqual('');
     });
 
     it('sets taxCodeId when changing accountId and that account has a taxCodeId', () => {
