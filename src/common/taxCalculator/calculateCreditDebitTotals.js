@@ -21,11 +21,18 @@ const calculateTotalCredit = calculateTotalAmountByType(isCreditLine);
 
 const calculateTotalDebit = calculateTotalAmountByType(isDebitLine);
 
-const calculateCreditDebitTotals = ({ lines }) => {
+const calculateCreditDebitTotals = ({ lines, isTaxInclusive }) => {
   const totalTax = calculateTotalTax(lines);
   const totalDebit = calculateTotalDebit(lines);
   const totalCredit = calculateTotalCredit(lines);
-  const totalOutOfBalance = totalCredit.minus(totalDebit).abs();
+
+  const totalOutOfBalance = isTaxInclusive
+    ? totalCredit.minus(totalDebit).abs()
+    : totalCredit
+      .minus(totalDebit)
+      .minus(totalTax)
+      .abs();
+
   return {
     totalTax,
     totalDebit,
