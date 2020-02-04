@@ -34,7 +34,7 @@ const EtpModalOpenButton = ({ line, onOpenEtpModal }) => {
           type="secondary"
           onClick={handleEtpButtonClick(line.employeeId, onOpenEtpModal)}
         >
-        Select STP code
+        Select ETP code
         </Button>
         {selectedEtpCode}
       </div>
