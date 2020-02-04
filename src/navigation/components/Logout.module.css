@@ -1,0 +1,19 @@
+/*
+  @FEELIX:
+  Remove underline on hover and active menu item
+  This and custom element can be removed once Feelix
+  Navigation.Link support onClick function.
+*/
+.menu :global(.flx-navbar__menu-link) {
+  border: none;
+  background-color: unset;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

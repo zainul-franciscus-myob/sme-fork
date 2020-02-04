@@ -4,6 +4,7 @@ import { activeMapping } from './navConfig';
 import RouteName from '../router/RouteName';
 import getRegionToDialectText from '../dialect/getRegionToDialectText';
 
+export const getIsLoading = state => state.isLoading;
 export const getSerialNumber = state => state.serialNumber;
 export const getUserEmail = state => state.userEmail;
 const getEnabledFeatures = state => state.enabledFeatures;
@@ -47,6 +48,12 @@ const isBusinessListPage = currentRouteName => currentRouteName === RouteName.BU
 export const getShowUrls = createSelector(
   getCurrentRouteName,
   currentRouteName => !isBusinessListPage(currentRouteName) && !isLinkUserPage(currentRouteName),
+);
+
+export const getShouldDisplayBusinessMenu = createSelector(
+  getIsLoading,
+  getShowUrls,
+  (isLoading, showUrls) => !isLoading && showUrls,
 );
 
 const getEnabledUrls = createSelector(
@@ -132,9 +139,10 @@ export const getSalesUrls = createSelector(
     customerStatementList: enabledUrls.customerStatementList,
   }),
 );
-export const hasSalesUrls = createSelector(
+export const getShouldDisplaySalesMenu = createSelector(
+  getIsLoading,
   getSalesUrls,
-  urls => Object.values(urls).some(Boolean),
+  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean),
 );
 
 export const getPayrollUrls = createSelector(
@@ -151,9 +159,10 @@ export const getPayrollUrls = createSelector(
     stpReporting: enabledUrls.stpReporting,
   }),
 );
-export const hasPayrollUrls = createSelector(
+export const getShouldDisplayPayrollMenu = createSelector(
+  getIsLoading,
   getPayrollUrls,
-  urls => Object.values(urls).some(Boolean),
+  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean),
 );
 
 export const getBankingUrls = createSelector(
@@ -170,9 +179,10 @@ export const getBankingUrls = createSelector(
     transactionList: enabledUrls.transactionList,
   }),
 );
-export const hasBankingUrls = createSelector(
+export const getShouldDisplayBankingMenu = createSelector(
+  getIsLoading,
   getBankingUrls,
-  urls => Object.values(urls).some(Boolean),
+  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean),
 );
 
 export const getContactUrls = createSelector(
@@ -182,9 +192,10 @@ export const getContactUrls = createSelector(
     contactCreate: enabledUrls.contactCreate,
   }),
 );
-export const hasContactUrls = createSelector(
+export const getShouldDisplayContactMenu = createSelector(
+  getIsLoading,
   getContactUrls,
-  urls => Object.values(urls).some(Boolean),
+  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean),
 );
 
 export const getAccountingUrls = createSelector(
@@ -199,9 +210,10 @@ export const getAccountingUrls = createSelector(
   }),
 );
 
-export const hasAccountingUrls = createSelector(
+export const getShouldDisplayAccountingMenu = createSelector(
+  getIsLoading,
   getAccountingUrls,
-  urls => Object.values(urls).some(Boolean),
+  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean),
 );
 
 export const getBusinessUrls = createSelector(
@@ -228,9 +240,10 @@ export const getPurchasesUrls = createSelector(
     itemList: enabledUrls.itemList,
   }),
 );
-export const hasPurchasesUrls = createSelector(
+export const getShouldDisplayPurchasesMenu = createSelector(
+  getIsLoading,
   getPurchasesUrls,
-  urls => Object.values(urls).some(Boolean),
+  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean),
 );
 
 export const getAddUrls = createSelector(
@@ -247,9 +260,10 @@ export const getAddUrls = createSelector(
     contactCreate: enabledUrls.contactCreate,
   }),
 );
-export const hasAddUrls = createSelector(
+export const getShouldDisplayAddMenu = createSelector(
+  getIsLoading,
   getAddUrls,
-  urls => Object.values(urls).some(Boolean),
+  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean),
 );
 
 export const getTaxCodesLabel = createSelector(
@@ -264,7 +278,12 @@ export const getPrepareBasOrIasLabel = createSelector(
 
 export const getInTrayUrl = state => getEnabledUrls(state).inTrayList;
 export const getIsInTrayActive = state => getActiveNav(state) === 'inTray';
-export const hasInTrayUrl = state => Boolean(getInTrayUrl(state));
+export const getShouldDisplayInTray = createSelector(
+  getIsLoading,
+  getInTrayUrl,
+  (isLoading, url) => !isLoading && Boolean(url),
+);
+
 
 export const getHomeUrl = createSelector(
   getBusinessId,
@@ -284,7 +303,8 @@ export const getReportsUrls = createSelector(
     reportsPdfStyleTemplates: enabledUrls.reportsPdfStyleTemplates,
   }),
 );
-export const hasReportsUrls = createSelector(
+export const getShouldDisplayReportsMenu = createSelector(
+  getIsLoading,
   getReportsUrls,
-  urls => Object.values(urls).some(Boolean),
+  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean),
 );

@@ -4,18 +4,19 @@ import React from 'react';
 
 import {
   getMenuLogoUrl,
+  getShouldDisplayAccountingMenu,
+  getShouldDisplayAddMenu,
+  getShouldDisplayBankingMenu,
+  getShouldDisplayBusinessMenu,
+  getShouldDisplayContactMenu,
+  getShouldDisplayInTray,
+  getShouldDisplayPayrollMenu,
+  getShouldDisplayPurchasesMenu,
+  getShouldDisplayReportsMenu,
+  getShouldDisplaySalesMenu,
   getShowUrls,
   getTrialEndDate,
-  hasAccountingUrls,
-  hasAddUrls,
-  hasBankingUrls,
   hasBusinessId,
-  hasContactUrls,
-  hasInTrayUrl,
-  hasPayrollUrls,
-  hasPurchasesUrls,
-  hasReportsUrls,
-  hasSalesUrls,
 } from '../NavigationSelectors';
 import AccountingMenu from './AccountingMenu';
 import AddMenu from './AddMenu';
@@ -111,6 +112,7 @@ const getSecondary = ({
   onMenuLinkClick,
   onHelpLinkClick,
   onTasksLinkClick,
+  onLogoutLinkClick,
   onSubscribeNowClick,
   hasTasks,
   businessName,
@@ -136,10 +138,11 @@ const getSecondary = ({
     onMenuSelect={onMenuSelect}
     onMenuLinkClick={onMenuLinkClick}
     onSubscribeNowClick={onSubscribeNowClick}
+    onLogoutLinkClick={onLogoutLinkClick}
   />
   ),
   !shouldDisplayBusinessMenu && (
-  <Logout key="Logout" onMenuLinkClick={onMenuLinkClick} />
+  <Logout key="Logout" onMenuLinkClick={onLogoutLinkClick} />
   ),
 ].filter(Boolean);
 
@@ -148,6 +151,7 @@ const NavigationBar = ({
   onMenuLinkClick,
   onHelpLinkClick,
   onTasksLinkClick,
+  onLogoutLinkClick,
   onSubscribeNowClick,
   shouldDisplayHome,
   shouldDisplaySalesMenu,
@@ -186,6 +190,7 @@ const NavigationBar = ({
     onMenuLinkClick,
     onHelpLinkClick,
     onTasksLinkClick,
+    onLogoutLinkClick,
     onSubscribeNowClick,
     shouldDisplayBusinessMenu,
     shouldDisplayAddMenu,
@@ -222,16 +227,16 @@ const NavigationBar = ({
 
 const mapStateToProps = state => ({
   shouldDisplayHome: getShowUrls(state),
-  shouldDisplayBusinessMenu: getShowUrls(state),
-  shouldDisplayBankingMenu: hasBankingUrls(state),
-  shouldDisplayContactMenu: hasContactUrls(state),
-  shouldDisplayAccountingMenu: hasAccountingUrls(state),
-  shouldDisplaySalesMenu: hasSalesUrls(state),
-  shouldDisplayPayrollMenu: hasPayrollUrls(state),
-  shouldDisplayPurchasesMenu: hasPurchasesUrls(state),
-  shouldDisplayInTray: hasInTrayUrl(state),
-  shouldDisplayReportsMenu: hasReportsUrls(state),
-  shouldDisplayAddMenu: hasAddUrls(state),
+  shouldDisplayBusinessMenu: getShouldDisplayBusinessMenu(state),
+  shouldDisplayBankingMenu: getShouldDisplayBankingMenu(state),
+  shouldDisplayContactMenu: getShouldDisplayContactMenu(state),
+  shouldDisplayAccountingMenu: getShouldDisplayAccountingMenu(state),
+  shouldDisplaySalesMenu: getShouldDisplaySalesMenu(state),
+  shouldDisplayPayrollMenu: getShouldDisplayPayrollMenu(state),
+  shouldDisplayPurchasesMenu: getShouldDisplayPurchasesMenu(state),
+  shouldDisplayInTray: getShouldDisplayInTray(state),
+  shouldDisplayReportsMenu: getShouldDisplayReportsMenu(state),
+  shouldDisplayAddMenu: getShouldDisplayAddMenu(state),
   shouldDisplayHelpMenu: hasBusinessId(state),
   shouldDisplayTasksMenu: hasBusinessId(state),
   shouldDisplaySubscriptionRibbon: hasBusinessId(state) && getTrialEndDate(state) != null,

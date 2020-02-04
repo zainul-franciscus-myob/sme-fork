@@ -26,7 +26,6 @@ import getInvoiceRoutes from './modules/invoice/getInvoiceRoutes';
 import getLinkBillRoutes from './modules/linkBill/getLinkBillRoutes';
 import getLinkUserRoutes from './modules/linkUser/getLinkUserRoutes';
 import getLinkedAccountsRoutes from './modules/linkedAccounts/getLinkedAccountsRoutes';
-import getLogoutRoute from './modules/logout/getLogoutRoute';
 import getPayItemRoutes from './modules/payItem/getPayItemRoutes';
 import getPayRefundRoutes from './modules/payRefund/getPayRefundRoutes';
 import getPayRunRoutes from './modules/payRun/getPayRunRoutes';
@@ -61,7 +60,6 @@ const getRoutes = moduleParams => [
   ...getQuoteRoutes(moduleParams),
   ...getInvoiceRoutes(moduleParams),
   ...getBillPaymentRoutes(moduleParams),
-  ...getLogoutRoute(moduleParams),
   ...getTaxRoutes(moduleParams),
   ...getBusinessRoutes(moduleParams),
   ...getInventoryRoutes(moduleParams),

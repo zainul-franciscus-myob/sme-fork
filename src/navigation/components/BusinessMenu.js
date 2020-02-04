@@ -63,6 +63,7 @@ const getItems = ({
   serialNumber,
   userEmail,
   onMenuLinkClick,
+  onLogoutLinkClick,
   isCurrentUserAdvisor,
   onSubscribeNowClick,
 }) => [
@@ -83,7 +84,7 @@ const getItems = ({
   onSubscribeNowClick && getMenuLink('', 'Subscribe now', onSubscribeNowClick),
   <Navigation.Separator key="separator-links" />,
   serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
-  getMenuLinkWithIcon('#/logout', 'Logout', <Icons.SignOut />, onMenuLinkClick),
+  getMenuLinkWithIcon('', 'Logout', <Icons.SignOut />, onLogoutLinkClick),
 ].filter(Boolean);
 
 const ReadonlyStatus = () => (
@@ -106,6 +107,7 @@ const BusinessMenu = ({
   isCurrentUserAdvisor,
   onMenuSelect,
   onMenuLinkClick,
+  onLogoutLinkClick,
   onSubscribeNowClick,
   isReadOnly,
 }) => (
@@ -120,7 +122,13 @@ const BusinessMenu = ({
         </div>
     )}
       items={getItems({
-        urls, serialNumber, userEmail, onMenuLinkClick, isCurrentUserAdvisor, onSubscribeNowClick,
+        urls,
+        serialNumber,
+        userEmail,
+        isCurrentUserAdvisor,
+        onMenuLinkClick,
+        onLogoutLinkClick,
+        onSubscribeNowClick,
       })}
       onSelect={onMenuSelect}
       active={activeNav === 'business'}

@@ -1,9 +1,12 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
+import {
+  LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_LOADING_STATE, SET_ROUTE_INFO,
+} from './NavigationIntents';
 import { featuresConfig } from './navConfig';
 import { getBusinessId, getShowUrls } from './NavigationSelectors';
+import { logout } from '../Auth';
 import Config from '../Config';
 import NavigationBar from './components/NavigationBar';
 import Store from '../store/Store';
@@ -29,11 +32,17 @@ export default class NavigationModule {
     this.toggleTasks = toggleTasks;
   }
 
+  setLoadingState = (isLoading) => {
+    this.store.dispatch({ intent: SET_LOADING_STATE, isLoading });
+  };
+
   loadBusinessInfo = () => {
     const state = this.store.getState();
     if (!getShowUrls(state)) {
       return;
     }
+
+    this.setLoadingState(true);
 
     const businessId = getBusinessId(this.store.getState());
     const intent = LOAD_NAVIGATION_CONFIG;
@@ -41,14 +50,16 @@ export default class NavigationModule {
       businessId,
     };
     const onSuccess = (config) => {
-      this.store.dispatch({ ...config, intent });
+      this.setLoadingState(false);
 
+      this.store.dispatch({ ...config, intent });
       this.replaceURLParamsAndReload({ businessId, region: config.region.toLowerCase() });
       // TODO: To be removed in next patch version
       // This is a temporary fix for Feelix bug introduced in version 5.10.0
       window.dispatchEvent(new Event('resize'));
     };
     const onFailure = () => {
+      this.setLoadingState(false);
       console.log('Failed to load navigation config');
     };
 
@@ -126,6 +137,7 @@ export default class NavigationModule {
           onHelpLinkClick={toggleHelp}
           onSubscribeNowClick={subscribeNow}
           onTasksLinkClick={toggleTasks}
+          onLogoutLinkClick={logout}
           hasTasks={tasks && tasks.length > 0}
           businessName={businessName}
         />
@@ -144,9 +156,9 @@ export default class NavigationModule {
     const currentBusinessId = routeParams.businessId;
     this.loadConfig();
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
-    if (previousBusinessId !== currentBusinessId) {
+    this.setOnPageTransition(onPageTransition);
+    if (previousBusinessId !== currentBusinessId && currentBusinessId) {
       this.loadBusinessInfo();
     }
-    this.setOnPageTransition(onPageTransition);
   }
 }

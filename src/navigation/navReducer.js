@@ -1,7 +1,10 @@
-import { LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from './NavigationIntents';
+import {
+  LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_LOADING_STATE, SET_ROUTE_INFO,
+} from './NavigationIntents';
 import createReducer from '../store/createReducer';
 
 const getDefaultState = () => ({
+  isLoading: false,
   serialNumber: '',
   userEmail: '',
   enabledFeatures: [],
@@ -12,6 +15,11 @@ const getDefaultState = () => ({
   selfServicePortalUrl: '',
   myReportsUrl: '',
   isCurrentUserAdvisor: false,
+});
+
+const setLoadingState = (state, { isLoading }) => ({
+  ...state,
+  isLoading,
 });
 
 const loadBusinessDetails = (state, action) => ({
@@ -41,6 +49,7 @@ const loadConfig = (state, {
 });
 
 const handlers = {
+  [SET_LOADING_STATE]: setLoadingState,
   [LOAD_NAVIGATION_CONFIG]: loadBusinessDetails,
   [SET_ROUTE_INFO]: setRouteInfo,
   [LOAD_CONFIG]: loadConfig,
