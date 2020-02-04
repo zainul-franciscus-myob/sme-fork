@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect/lib/index';
 
-import { formatCurrency } from '../../../banking/bankingSelectors';
+import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 
 export const getAlert = ({ alert }) => alert;
 export const getLoadingState = state => (state.loadingState);

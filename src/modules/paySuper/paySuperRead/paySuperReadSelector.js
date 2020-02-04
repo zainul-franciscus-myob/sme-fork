@@ -1,4 +1,4 @@
-import { formatCurrency } from '../../../banking/bankingSelectors';
+import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import paymentStatus from '../paymentStatus';
 
 export const getLoadingState = state => state.loadingState;

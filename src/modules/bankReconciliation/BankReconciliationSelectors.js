@@ -1,6 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-import { businessEventFeatures } from '../../banking/businessEventTypes';
+import { businessEventFeatures } from '../banking/businessEventTypes';
 import flat from '../../common/flat/flat';
 import formatAmount from '../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../common/valueFormatters/formatCurrency';

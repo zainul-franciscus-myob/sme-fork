@@ -3,7 +3,7 @@ import ApplyToSaleMapping from '../../modules/applyToSale/mappings/HttpApplyToSa
 import BankFeedsMapping from '../../modules/bankFeeds/mappings/HttpBankFeedsMapping';
 import BankReconciliationMapping from '../../modules/bankReconciliation/mappings/HttpBankReconciliationMapping';
 import BankStatementImportMapping from '../../modules/bankStatementImport/mappings/HttpBankStatementImportMapping';
-import BankingMapping from './BankingMapping';
+import BankingMapping from '../../modules/banking/mappings/HttpBankingMapping';
 import BankingRuleDetailMapping from '../../modules/bankingRules/bankingRuleDetail/mappings/HttpBankingRuleDetailMapping';
 import BankingRuleMapping from '../../modules/bankingRules/bankingRuleList/mappings/HttpBankingRuleMapping';
 import BillDetailMapping from '../../modules/bill/billDetail/mappings/HttpBillDetailMapping';
