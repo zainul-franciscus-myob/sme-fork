@@ -138,7 +138,7 @@ export default class NavigationModule {
           onSubscribeNowClick={subscribeNow}
           onTasksLinkClick={toggleTasks}
           onLogoutLinkClick={logout}
-          hasTasks={tasks && tasks.length > 0}
+          hasTasks={tasks && tasks.some(t => !t.isComplete)}
           businessName={businessName}
         />
       </Provider>
