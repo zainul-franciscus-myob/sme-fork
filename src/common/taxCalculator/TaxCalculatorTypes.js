@@ -1,9 +1,9 @@
 import {
-  BillFlow,
-  ConnectedLedgerFlow,
   InvoiceFlow,
   OrderFlow,
+  PurchasesFlow,
   QuoteFlow,
+  SalesFlow,
 } from '@myob/tax-calculator';
 
 import calculateCreditDebitTotals from './calculateCreditDebitTotals';
@@ -13,15 +13,19 @@ const TaxCalculatorHandlers = {
   invoice: { flow: new InvoiceFlow(), buildTotals: calculateTotals },
   order: { flow: new OrderFlow(), buildTotals: calculateTotals },
   receiveMoney: {
-    flow: new ConnectedLedgerFlow(),
+    flow: new SalesFlow(),
     buildTotals: calculateTotals,
   },
-  spendMoney: { flow: new ConnectedLedgerFlow(), buildTotals: calculateTotals },
-  generalJournal: {
-    flow: new ConnectedLedgerFlow(),
+  spendMoney: { flow: new PurchasesFlow(), buildTotals: calculateTotals },
+  generalJournalPurchases: {
+    flow: new PurchasesFlow(),
     buildTotals: calculateCreditDebitTotals,
   },
-  bill: { flow: new BillFlow(), buildTotals: calculateTotals },
+  generalJournalSales: {
+    flow: new SalesFlow(),
+    buildTotals: calculateCreditDebitTotals,
+  },
+  bill: { flow: new PurchasesFlow(), buildTotals: calculateTotals },
   quote: { flow: new QuoteFlow(), buildTotals: calculateTotals },
 };
 

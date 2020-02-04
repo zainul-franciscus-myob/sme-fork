@@ -30,6 +30,7 @@ import {
   getGeneralJournalId,
   getIsActionsDisabled,
   getIsLineAmountsTaxInclusive,
+  getIsSale,
   getIsTableEmpty,
   getIsTaxInclusive,
   getLinesForTaxCalculation,
@@ -57,7 +58,8 @@ export default class GeneralJournalDetailModule {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.generalJournalId = '';
-    this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournal);
+    this.purchasesTaxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournalPurchases);
+    this.salesTaxCalculate = createTaxCalculator(TaxCalculatorTypes.generalJournalSales);
   }
 
   loadGeneralJournal = () => {
@@ -251,7 +253,8 @@ export default class GeneralJournalDetailModule {
       return;
     }
     const isTaxInclusive = getIsTaxInclusive(state);
-    const taxCalculations = this.taxCalculate({
+    const taxCalculate = getIsSale(state) ? this.salesTaxCalculate : this.purchasesTaxCalculate;
+    const taxCalculations = taxCalculate({
       isTaxInclusive,
       lines: getLinesForTaxCalculation(state),
       taxCodes: getTaxCodeOptions(state),
