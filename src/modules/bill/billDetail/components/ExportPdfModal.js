@@ -16,9 +16,9 @@ const ExportPdfModal = ({
     onChange,
   },
 }) => (
-  <Modal title="Export PDF" onCancel={onCancel} canClose={!isModalBlocking}>
+  <Modal title="View PDF" onCancel={onCancel} canClose={!isModalBlocking}>
     <Modal.Body>
-      <Select name="template" label="Select form" value={template} onChange={handleSelectChange(onChange)}>
+      <Select name="template" label="Template" value={template} onChange={handleSelectChange(onChange)}>
         {templateOptions.map(({ name, label }) => (
           <Select.Option key={name} value={name} label={label} />
         )) }

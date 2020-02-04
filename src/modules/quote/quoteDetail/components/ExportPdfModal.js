@@ -11,10 +11,10 @@ const ExportPdfModal = ({
   onConfirmExportPdfButtonClick,
   onChangeExportPdfForm,
 }) => (
-  <Modal title="Export PDF" onCancel={onCancel} canClose={!isActionDisabled}>
+  <Modal title="View PDF" onCancel={onCancel} canClose={!isActionDisabled}>
     <Modal.Body>
       <Select
-        label="Select form"
+        label="Template"
         name="template"
         value={template}
         onChange={handleSelectChange(onChangeExportPdfForm)}
