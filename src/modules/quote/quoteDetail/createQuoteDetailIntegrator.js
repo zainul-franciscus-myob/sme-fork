@@ -11,7 +11,7 @@ import {
   UPDATE_QUOTE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
 } from '../QuoteIntents';
-import { getBusinessId, getIsCreating, getIsTaxInclusive } from './selectors/QuoteDetailSelectors';
+import { getBusinessId, getIsCreating } from './selectors/QuoteDetailSelectors';
 import {
   getCreateOrUpdateQuotePayload,
   getCreateOrUpdateQuoteUrlParams,
@@ -167,13 +167,9 @@ const createQuoteDetailIntegrator = (store, integration) => ({
     const state = store.getState();
     const intent = LOAD_ITEM_SELLING_DETAILS;
     const businessId = getBusinessId(state);
-    const isTaxInclusive = getIsTaxInclusive(state);
 
     integration.read({
       intent,
-      params: {
-        isTaxInclusive,
-      },
       urlParams: {
         businessId,
         itemId,

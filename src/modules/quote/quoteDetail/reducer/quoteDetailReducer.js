@@ -357,6 +357,21 @@ const changeExportPdfForm = (state, action) => ({
   },
 });
 
+const calculateUnitPrice = (
+  sellingPrice,
+  taxAmount,
+  itemIsTaxInclusive,
+  invoiceIsTaxInclusive,
+) => {
+  const itemTaxExclusivePrice = itemIsTaxInclusive
+    ? sellingPrice - taxAmount
+    : sellingPrice;
+
+  return invoiceIsTaxInclusive
+    ? itemTaxExclusivePrice + taxAmount
+    : itemTaxExclusivePrice;
+};
+
 const loadItemSellingDetails = (state, action) => ({
   ...state,
   isPageEdited: true,
@@ -369,8 +384,16 @@ const loadItemSellingDetails = (state, action) => ({
         description,
         sellTaxCodeId,
         incomeAccountId,
-        unitPrice,
+        sellingPrice,
+        isTaxInclusive,
+        taxAmount,
       } = action.itemSellingDetails;
+      const unitPrice = calculateUnitPrice(
+        Number(sellingPrice),
+        Number(taxAmount),
+        isTaxInclusive,
+        state.quote.isTaxInclusive,
+      );
       return {
         ...line,
         units: '1',

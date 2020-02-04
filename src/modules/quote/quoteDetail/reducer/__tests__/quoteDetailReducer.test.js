@@ -3,6 +3,7 @@ import {
   CHANGE_EXPORT_PDF_TEMPLATE,
   FORMAT_QUOTE_LINE,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_ITEM_SELLING_DETAILS,
   LOAD_QUOTE_DETAIL,
   REMOVE_QUOTE_LINE,
   SET_ACCOUNT_LOADING_STATE,
@@ -813,6 +814,184 @@ describe('quoteDetailReducer', () => {
         something: '',
       };
 
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('LOAD_ITEM_SELLING_DETAILS', () => {
+    it('should populate line amounts when item is tax inclusive and quote is inclusive', () => {
+      const state = {
+        quote: {
+          isTaxInclusive: true,
+          lines: [{}],
+        },
+      };
+
+      const action = {
+        intent: LOAD_ITEM_SELLING_DETAILS,
+        index: 0,
+        itemSellingDetails: {
+          sellingPrice: '10',
+          taxAmount: '0.91',
+          isTaxInclusive: true,
+          unitOfMeasure: 'kg',
+          description: 'item',
+          sellTaxCodeId: '1',
+          incomeAccountId: '2',
+        },
+      };
+
+      const expected = {
+        isPageEdited: true,
+        quote: {
+          isTaxInclusive: true,
+          lines: [{
+            allocatedAccountId: '2',
+            amount: 10,
+            description: 'item',
+            discount: '0',
+            displayAmount: '10.00',
+            displayDiscount: '0.00',
+            taxCodeId: '1',
+            unitOfMeasure: 'kg',
+            units: '1',
+          }],
+        },
+      };
+
+      const actual = quoteDetailReducer(state, action);
+      expect(actual).toEqual(expected);
+    });
+
+    it('should populate line amounts when item is tax exclusive and quote is inclusive', () => {
+      const state = {
+        quote: {
+          isTaxInclusive: true,
+          lines: [{}],
+        },
+      };
+
+      const action = {
+        intent: LOAD_ITEM_SELLING_DETAILS,
+        index: 0,
+        itemSellingDetails: {
+          sellingPrice: '10',
+          taxAmount: '1',
+          isTaxInclusive: false,
+          unitOfMeasure: 'kg',
+          description: 'item',
+          sellTaxCodeId: '1',
+          incomeAccountId: '2',
+        },
+      };
+
+      const expected = {
+        isPageEdited: true,
+        quote: {
+          isTaxInclusive: true,
+          lines: [{
+            allocatedAccountId: '2',
+            amount: 11,
+            description: 'item',
+            discount: '0',
+            displayAmount: '11.00',
+            displayDiscount: '0.00',
+            taxCodeId: '1',
+            unitOfMeasure: 'kg',
+            units: '1',
+          }],
+        },
+      };
+
+      const actual = quoteDetailReducer(state, action);
+      expect(actual).toEqual(expected);
+    });
+
+    it('should populate line amounts when item is tax inclusive and quote is exclusive', () => {
+      const state = {
+        quote: {
+          isTaxInclusive: false,
+          lines: [{}],
+        },
+      };
+
+      const action = {
+        intent: LOAD_ITEM_SELLING_DETAILS,
+        index: 0,
+        itemSellingDetails: {
+          sellingPrice: '10',
+          taxAmount: '0.91',
+          isTaxInclusive: true,
+          unitOfMeasure: 'kg',
+          description: 'item',
+          sellTaxCodeId: '1',
+          incomeAccountId: '2',
+        },
+      };
+
+      const expected = {
+        isPageEdited: true,
+        quote: {
+          isTaxInclusive: false,
+          lines: [{
+            allocatedAccountId: '2',
+            amount: 9.09,
+            description: 'item',
+            discount: '0',
+            displayAmount: '9.09',
+            displayDiscount: '0.00',
+            taxCodeId: '1',
+            unitOfMeasure: 'kg',
+            units: '1',
+          }],
+        },
+      };
+
+      const actual = quoteDetailReducer(state, action);
+      expect(actual).toEqual(expected);
+    });
+
+    it('should populate line amounts when item is tax exclusive and quote is exclusive', () => {
+      const state = {
+        quote: {
+          isTaxInclusive: false,
+          lines: [{}],
+        },
+      };
+
+      const action = {
+        intent: LOAD_ITEM_SELLING_DETAILS,
+        index: 0,
+        itemSellingDetails: {
+          sellingPrice: '10',
+          taxAmount: '1',
+          isTaxInclusive: false,
+          unitOfMeasure: 'kg',
+          description: 'item',
+          sellTaxCodeId: '1',
+          incomeAccountId: '2',
+        },
+      };
+
+      const expected = {
+        isPageEdited: true,
+        quote: {
+          isTaxInclusive: false,
+          lines: [{
+            allocatedAccountId: '2',
+            amount: 10,
+            description: 'item',
+            discount: '0',
+            displayAmount: '10.00',
+            displayDiscount: '0.00',
+            taxCodeId: '1',
+            unitOfMeasure: 'kg',
+            units: '1',
+          }],
+        },
+      };
+
+      const actual = quoteDetailReducer(state, action);
       expect(actual).toEqual(expected);
     });
   });
