@@ -1,27 +1,44 @@
-import { DropZone, FileChip } from '@myob/myob-widgets';
+import {
+  Button, DropZone, FileChip, Icons,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getEmailAttachments } from '../../selectors/emailSelectors';
+import openBlob from '../../../../../common/blobOpener/openBlob';
 import styles from './EmailInvoiceAttachmentsContent.module.css';
 
+const downloadAttachment = file => openBlob({ blob: file, filename: file.name });
+
 const EmailInvoiceAttachmentsContent = ({
-  attachments, onRemoveAttachment, onAddAttachments,
+  attachments,
+  onRemoveAttachment,
+  onAddAttachments,
 }) => (
   <div className={styles.infoAlert}>
     <DropZone onDrop={onAddAttachments} onFileSelected={onAddAttachments}>
-      {
-        attachments.map(({
-          keyName, canRemove, ...otherProps
-        }, index) => (
-          <div key={keyName || index}>
-            <FileChip
-              onRemove={canRemove ? (() => onRemoveAttachment(index)) : undefined}
-              {...otherProps}
-            />
-          </div>
-        ))
-      }
+      {attachments.map(({
+        keyName, canRemove, file, ...otherProps
+      }, index) => (
+        <div key={keyName || index}>
+          <FileChip
+            onRemove={canRemove ? () => onRemoveAttachment(index) : undefined}
+            {...otherProps}
+          >
+            {
+              canRemove && (
+                <Button
+                  type="secondary"
+                  onClick={() => downloadAttachment(file)}
+                  icon={<Icons.Download />}
+                  aria-label="Download file"
+                  size="xs"
+                />
+              )
+            }
+          </FileChip>
+        </div>
+      ))}
     </DropZone>
   </div>
 );

@@ -77,6 +77,7 @@ describe('emailSelectors', () => {
         state: 'queued',
         error: undefined,
         canRemove: false,
+        file: { name: 'emailAttachment', size: 1000 },
       }];
 
       expect(actual).toEqual(expected);
@@ -104,6 +105,7 @@ describe('emailSelectors', () => {
         state: 'loading',
         error: undefined,
         canRemove: false,
+        file: { name: 'emailAttachment', size: 1000 },
       }];
 
       expect(actual).toEqual(expected);
@@ -130,6 +132,7 @@ describe('emailSelectors', () => {
         state: 'finished',
         error: undefined,
         canRemove: true,
+        file: { name: 'emailAttachment', size: 1000 },
       }];
 
       expect(actual).toEqual(expected);

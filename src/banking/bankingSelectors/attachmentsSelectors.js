@@ -13,6 +13,7 @@ export const getAttachments = createSelector(
     error: attachment.error,
     canRemove: !['queued', 'loading'].includes(attachment.state),
     isInProgress: attachment.isInProgress,
+    file: attachment.file,
   })),
 );
 

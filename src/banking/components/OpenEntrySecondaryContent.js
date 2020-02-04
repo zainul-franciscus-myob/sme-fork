@@ -1,10 +1,11 @@
 import {
-  Columns, DropZone, Field, FileChip, Spinner,
+  Button, Columns, DropZone, Field, FileChip, Icons, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAttachments, getIsAttachmentsLoading } from '../bankingSelectors/attachmentsSelectors';
+import openBlob from '../../common/blobOpener/openBlob';
 import styles from './OpenEntrySecondaryContent.module.css';
 
 const wrapAttachmentHandler = (handler, index) => () => handler(index);
@@ -36,6 +37,8 @@ const spinner = (
   </div>
 );
 
+const downloadAttachment = file => openBlob({ blob: file, filename: file.name });
+
 const OpenEntrySecondaryContent = ({
   attachments,
   isAttachmentsLoading,
@@ -51,7 +54,7 @@ const OpenEntrySecondaryContent = ({
         <Columns type="two">
           {
             attachments.map(({
-              id, canRemove, isInProgress, ...otherProps
+              id, canRemove, isInProgress, file, ...otherProps
             }, index) => (
               <div key={id || index} className={isInProgress ? styles.inProgress : ''}>
                 <FileChip
@@ -59,7 +62,19 @@ const OpenEntrySecondaryContent = ({
                   onRemove={
                     canRemove ? wrapAttachmentHandler(onRemoveAttachment, index) : undefined
                   }
-                />
+                >
+                  {
+                    file && canRemove && (
+                      <Button
+                        type="secondary"
+                        onClick={() => downloadAttachment(file)}
+                        icon={<Icons.Download />}
+                        aria-label="Download file"
+                        size="xs"
+                      />
+                    )
+                  }
+                </FileChip>
               </div>
             ))
           }

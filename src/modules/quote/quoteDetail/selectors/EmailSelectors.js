@@ -43,6 +43,7 @@ export const getEmailAttachments = createSelector(
     state: attachment.state,
     error: attachment.error,
     canRemove: !['queued', 'loading'].includes(attachment.state),
+    file: attachment.file,
   })),
 );
 
