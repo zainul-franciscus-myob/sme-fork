@@ -298,16 +298,18 @@ describe('quoteDetailReducer', () => {
       expect(actual.exportPdf.template).toEqual('b');
     });
 
-    it('changes remove all item lines if transitioning to a service layout', () => {
+    it('changes remove all item lines and clears line ids if transitioning to a service layout', () => {
       const state = {
         quote: {
           layout: 'itemAndService',
           lines: [
             {
               type: 'item',
+              id: '1',
             },
             {
               type: 'service',
+              id: '2',
             },
           ],
         },
@@ -320,6 +322,7 @@ describe('quoteDetailReducer', () => {
       const expected = [
         {
           type: 'service',
+          id: '',
         },
       ];
 
@@ -640,6 +643,27 @@ describe('quoteDetailReducer', () => {
 
       expect(actual.quote.lines[0].itemId).toEqual('1');
       expect(actual.quote.lines[0].type).toEqual('item');
+    });
+
+    it('clears line ids if line type is changed', () => {
+      const state = {
+        quote: {
+          lines: [
+            {
+              id: '1',
+              type: 'service',
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: UPDATE_QUOTE_LINE, index: 0, key: 'itemId', value: '1',
+      };
+
+      const actual = quoteDetailReducer(state, action);
+
+      expect(actual.quote.lines[0].id).toEqual('');
     });
 
     it('set description dirty when user enter description', () => {

@@ -159,17 +159,18 @@ const getDefaultTemplate = (value, itemTemplateOptions, serviceTemplateOptions) 
   return serviceTemplateOptions ? serviceTemplateOptions.defaultTemplate : '';
 };
 
-const updateQuoteLines = (layout, lines) => (layout === QuoteLayout.SERVICE
-  ? lines.filter(line => line.type === QuoteLineLayout.SERVICE)
-  : lines);
-
 const updateLayout = (state, { value }) => ({
   ...state,
   isPageEdited: true,
   quote: {
     ...state.quote,
     layout: value,
-    lines: updateQuoteLines(value, state.quote.lines),
+    lines: state.quote.lines
+      .filter(line => line.type === QuoteLineLayout.SERVICE)
+      .map(line => ({
+        ...line,
+        id: '',
+      })),
   },
   newLine: {
     ...state.newLine,
@@ -242,14 +243,16 @@ const updateQuoteLine = (state, action) => ({
     ...state.quote,
     lines: state.quote.lines.map((line, index) => {
       if (index === action.index) {
+        const lineLayout = action.key === 'itemId' ? QuoteLineLayout.ITEM : line.type;
         return {
           ...line,
+          id: line.type === lineLayout ? line.id : '',
           displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
           displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
           taxCodeId: action.key === 'allocatedAccountId'
             ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
             : line.taxCodeId,
-          type: action.key === 'itemId' ? QuoteLineLayout.ITEM : line.type,
+          type: lineLayout,
           descriptionDirty: action.key === 'description' || line.descriptionDirty,
           [action.key]: action.value,
         };
