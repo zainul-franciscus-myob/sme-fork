@@ -11,3 +11,17 @@ h3 {
   margin-top: 24px;
   margin-bottom: 12px;
 }
+
+/*
+  In safari, when user scroll in a div with overflow: auto.
+  It won't hide the top address bar and bottom action bar.
+  In the Help view. the bottom action bar blocked the links down the bottom.
+  Hence we apply padding-bottom to ios only to solve this problem.
+*/
+@supports (-webkit-overflow-scrolling: touch) {
+  @media (max-width: 768px) {
+    .container {
+      padding-bottom: 8rem;
+    }
+  }
+}

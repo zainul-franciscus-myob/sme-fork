@@ -32,7 +32,7 @@ const HelpView = ({
   const failureOrEmptyView = (<HelpFailureView />);
 
   const helpView = (
-    <>
+    <div className={styles.container}>
       <HelpSearch
         onSearchChange={onSearchChange}
         onSearchClick={onSearchClick}
@@ -48,7 +48,7 @@ const HelpView = ({
       {helpOnThisPageLinks && <HelpOnThisPage document={helpOnThisPageLinks} />}
 
       <StaticLinksSection />
-    </>
+    </div>
   );
 
   const drawerContentView = isHelpFailedOrEmpty ? failureOrEmptyView : helpView;
