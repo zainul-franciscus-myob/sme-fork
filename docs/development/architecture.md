@@ -7,7 +7,7 @@ Extract data, do Transformations on it, Load it somewhere else.
 They each have some other minor collaborators or controls used to help them achieve tasks, but
 at a top level these are the most fundamental building blocks of the apps.
 
-![overview diagram](../images/overview.jpg)
+![overview diagram](images/architecture-overview.jpg)
 
 ### Web UI
 
@@ -63,7 +63,7 @@ A Node process running Express. It turns complex responses from below the Seam i
 
 ## Vertical Domain Silos
 
-![package-by-feature](../images/package-by-feature.jpg)
+![package-by-feature](images/package-by-feature.jpg)
 
 - Our code is organised by Feature, not Function.
     - "Packaging stuff together by what it is, and not by what it does"
