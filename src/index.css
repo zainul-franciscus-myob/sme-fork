@@ -15,6 +15,20 @@ div.Popover {
   z-index: 1051;
 }
 
+/** The leanengage modal backdrop z-index was 1040, which was lower than that of the Drawer, so raising it to
+ * 1051 will make it higher than the Drawer.
+ *
+ * Raising the leanengage modal backdrop also means the leanengage modal itself needs its z-index to be raised higher
+ * to 1052 (it was set at 1050 originally)
+ */
+div.leanengage__modal-backdrop.leanengage__fade.leanengage__in {
+  z-index: 1051;
+}
+
+div.leanengage__modal.leanengage__fade.leanengage__in {
+  z-index: 1052;
+}
+
 textarea {
   min-height: 3rem;
 }
