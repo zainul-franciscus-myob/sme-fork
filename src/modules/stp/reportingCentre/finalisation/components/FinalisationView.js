@@ -9,7 +9,7 @@ import {
   getEmployeesCount,
   getGrossPaymentYtd,
   getIsRFBAEnabled,
-  getIsRFBASubmitted,
+  getIsRFBALocked,
   getIsTableLoading,
   getLoadingState,
   getPaygWithholdingYtd,
@@ -41,7 +41,7 @@ const FinalisationView = ({
   selectAllEmployees,
   selectEmployeesItem,
   onEmployeeChange,
-  isRFBASubmitted,
+  isRFBALocked,
   shouldShowFinaliseButton,
   shouldShowRemoveFinalisationButton,
 }) => {
@@ -57,7 +57,7 @@ const FinalisationView = ({
         paygWithholdingYtd={paygWithholdingYtd}
         employeesCount={employeesCount}
         onIsRFBAEnabledClick={onIsRFBAEnabledClick}
-        isRFBASubmitted={isRFBASubmitted}
+        isRFBALocked={isRFBALocked}
         isRFBAEnabled={isRFBAEnabled}
         onPayrollYearChange={onPayrollYearChange}
       />
@@ -69,7 +69,6 @@ const FinalisationView = ({
         selectItem={selectEmployeesItem}
         isRFBAEnabled={isRFBAEnabled}
         onEmployeeChange={onEmployeeChange}
-        isRFBASubmitted={isRFBASubmitted}
         shouldShowFinaliseButton={shouldShowFinaliseButton}
         shouldShowRemoveFinalisationButton={shouldShowRemoveFinalisationButton}
       />
@@ -93,7 +92,7 @@ const mapStateToProps = state => ({
   reportedSection57aRfba: getReportedSection57aRfba(state),
   paygWithholdingYtd: getPaygWithholdingYtd(state),
   isRFBAEnabled: getIsRFBAEnabled(state),
-  isRFBASubmitted: getIsRFBASubmitted(state),
+  isRFBALocked: getIsRFBALocked(state),
   shouldShowFinaliseButton: getShouldShowFinaliseButton(state),
   shouldShowRemoveFinalisationButton: getShouldShowRemoveFinalisationButton(state),
 });

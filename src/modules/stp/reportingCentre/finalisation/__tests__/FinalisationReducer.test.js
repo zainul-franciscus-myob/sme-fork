@@ -1,4 +1,4 @@
-import { LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR } from '../FinalisationIntents';
+import { LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR, UPDATE_EMPLOYEE_ROW } from '../FinalisationIntents';
 import finalisationReducer from '../FinalisationReducer';
 import loadEmployeesAndHeaderDetailsForYearResponse from '../../mappings/data/loadFinalisationEmployeesAndHeaderDetailsForYearResponse';
 
@@ -37,6 +37,90 @@ describe('FinalisationReducer', () => {
       reportedRfba: '$4999.99',
       reportedSection57aRfba: '$3455.99',
       employeesCount: 4,
+    });
+  });
+
+  describe('UPDATE_EMPLOYEE_ROW', () => {
+    it('updates the correct employee', () => {
+      const state = {
+        employees: [
+          {
+            id: '1',
+            rfbAmount: 111,
+            s57aRfbAmount: 111,
+          },
+          {
+            id: '2',
+            rfbAmount: 111,
+            s57aRfbAmount: 111,
+          },
+        ],
+      };
+
+      const action = {
+        intent: UPDATE_EMPLOYEE_ROW,
+        key: 'rfbAmount',
+        value: 222,
+        rowId: '2',
+      };
+
+      const result = finalisationReducer(state, action);
+
+      expect(result).toEqual({
+        employees: [
+          {
+            id: '1',
+            rfbAmount: 111,
+            s57aRfbAmount: 111,
+          },
+          {
+            id: '2',
+            rfbAmount: 222,
+            s57aRfbAmount: 111,
+          },
+        ],
+      });
+    });
+
+    it('updates the correct employee', () => {
+      const state = {
+        employees: [
+          {
+            id: '1',
+            rfbAmount: 111,
+            s57aRfbAmount: 111,
+          },
+          {
+            id: '2',
+            rfbAmount: 111,
+            s57aRfbAmount: 111,
+          },
+        ],
+      };
+
+      const action = {
+        intent: UPDATE_EMPLOYEE_ROW,
+        key: 's57aRfbAmount',
+        value: 222,
+        rowId: '2',
+      };
+
+      const result = finalisationReducer(state, action);
+
+      expect(result).toEqual({
+        employees: [
+          {
+            id: '1',
+            rfbAmount: 111,
+            s57aRfbAmount: 111,
+          },
+          {
+            id: '2',
+            rfbAmount: 111,
+            s57aRfbAmount: 222,
+          },
+        ],
+      });
     });
   });
 });

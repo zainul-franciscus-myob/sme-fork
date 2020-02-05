@@ -93,9 +93,12 @@ const selectEmployeesItem = (state, action) => ({
   )),
 });
 
-const updateEmployeeRow = (state, { key, value }) => ({
+const updateEmployeeRow = (state, { key, value, rowId }) => ({
   ...state,
-  [key]: value,
+  employees: state.employees.map(e => (
+    e.id === rowId
+      ? { ...e, [key]: value }
+      : { ...e })),
 });
 
 const handlers = {

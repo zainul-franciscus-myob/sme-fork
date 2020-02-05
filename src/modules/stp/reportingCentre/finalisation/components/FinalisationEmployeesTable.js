@@ -43,7 +43,6 @@ const FinalisationEmployeesTable = ({
   selectAll,
   selectItem,
   isRFBAEnabled,
-  isRFBASubmitted,
   onEmployeeChange,
   shouldShowFinaliseButton,
   shouldShowRemoveFinalisationButton,
@@ -78,7 +77,7 @@ const FinalisationEmployeesTable = ({
       <Table.HeaderItem {...tableConfig.paygWithholdingYtd}>
         {tableConfig.paygWithholdingYtd.columnName}
       </Table.HeaderItem>
-      {(isRFBAEnabled || isRFBASubmitted)
+      {isRFBAEnabled
         && <>
           <Table.HeaderItem {...tableConfig.rfba}>
             {tableConfig.rfba.columnName}
@@ -119,7 +118,7 @@ const FinalisationEmployeesTable = ({
       <Table.RowItem {...tableConfig.paygWithholdingYtd}>
         {row.ytdTax}
       </Table.RowItem>
-      {(isRFBAEnabled || isRFBASubmitted)
+      {isRFBAEnabled
         && <>
           <Table.RowItem {...tableConfig.rfba}>
             {row.isFinalised
@@ -131,7 +130,9 @@ const FinalisationEmployeesTable = ({
                   name="rfbAmount"
                   hideLabel
                   value={row.rfbAmount}
-                  onChange={handleAmountInputChange(onEmployeeChange)}
+                  onChange={handleAmountInputChange(({ key, value }) => onEmployeeChange({
+                    key, value, rowId: row.id,
+                  }))}
                 />
               )
             }
@@ -146,7 +147,9 @@ const FinalisationEmployeesTable = ({
                   name="s57aRfbAmount"
                   hideLabel
                   value={row.s57aRfbAmount}
-                  onChange={handleAmountInputChange(onEmployeeChange)}
+                  onChange={handleAmountInputChange(({ key, value }) => onEmployeeChange({
+                    key, value, rowId: row.id,
+                  }))}
                 />
               )
             }

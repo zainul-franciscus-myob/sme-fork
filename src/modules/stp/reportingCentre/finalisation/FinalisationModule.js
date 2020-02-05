@@ -71,8 +71,8 @@ export default class FinalisationModule {
     this.dispatcher.selectEmployeesItem(item, isSelected);
   }
 
-  updateEmployeeRow = ({ key, value }) => {
-    this.dispatcher.updateEmployeeRow({ key, value });
+  updateEmployeeRow = ({ key, value, rowId }) => {
+    this.dispatcher.updateEmployeeRow({ key, value, rowId });
   }
 
   run = () => {

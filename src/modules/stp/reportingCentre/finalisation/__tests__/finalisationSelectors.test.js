@@ -1,5 +1,10 @@
 import { getDefaultState } from '../FinalisationReducer';
-import { getPayrollYears, getShouldShowFinaliseButton, getShouldShowRemoveFinalisationButton } from '../FinalisationSelector';
+import {
+  getIsRFBALocked,
+  getPayrollYears,
+  getShouldShowFinaliseButton,
+  getShouldShowRemoveFinalisationButton,
+} from '../FinalisationSelector';
 
 describe('finalisationSelectors', () => {
   describe('getPayrollYears', () => {
@@ -74,6 +79,34 @@ describe('finalisationSelectors', () => {
       };
 
       expect(getShouldShowRemoveFinalisationButton(state)).toBeFalsy();
+    });
+  });
+
+  describe('getIsRFBALocked', () => {
+    it('returns true if any employees have an RFBA field value', () => {
+      const state = {
+        employees: [
+          {
+            rfbAmount: '123',
+            s57aRfbAmount: '',
+          },
+        ],
+      };
+
+      expect(getIsRFBALocked(state)).toBeTruthy();
+    });
+
+    it('returns false when employees have no RFBA field values', () => {
+      const state = {
+        employees: [
+          {
+            rfbAmount: '',
+            s57aRfbAmount: '',
+          },
+        ],
+      };
+
+      expect(getIsRFBALocked(state)).toBeFalsy();
     });
   });
 });

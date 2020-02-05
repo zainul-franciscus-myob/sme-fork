@@ -24,7 +24,7 @@ const FinalisationHeader = ({
   reportedRfba,
   onIsRFBAEnabledClick,
   isRFBAEnabled,
-  isRFBASubmitted,
+  isRFBALocked,
   onPayrollYearChange,
 }) => {
   const headerLeft = (
@@ -61,13 +61,13 @@ const FinalisationHeader = ({
               name="enableRFBA"
               label="Enable RFBA"
               onChange={handleCheckboxChange(onIsRFBAEnabledClick)}
-              checked={isRFBAEnabled || isRFBASubmitted}
-              disabled={isRFBASubmitted}
+              checked={isRFBAEnabled}
+              disabled={isRFBALocked}
             />
           </div>
         )}
       />
-      {(isRFBAEnabled || isRFBASubmitted)
+      {isRFBAEnabled
       && <>
         <HeaderField
           label="Reported RFBA"

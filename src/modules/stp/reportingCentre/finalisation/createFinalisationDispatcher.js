@@ -98,11 +98,12 @@ const createFinalisationDispatcher = store => ({
     });
   },
 
-  updateEmployeeRow: ({ key, value }) => {
+  updateEmployeeRow: ({ key, value, rowId }) => {
     store.dispatch({
       intent: UPDATE_EMPLOYEE_ROW,
       key,
       value,
+      rowId,
     });
   },
 });
