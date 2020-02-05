@@ -1,0 +1,58 @@
+  .floatLeft * {
+    float: left;
+  }
+
+  .finalisationHeaderSecondary {
+    display: flex;
+    align-items: center;
+  }
+
+  .labels {
+    flex: 2 2 0;
+    padding-right: var(--flx-spacing-small);
+    text-align: right;
+  }
+
+  .values {
+    flex: 1 1 0;
+    text-align: left;
+  }
+
+  .values > span {
+    padding-right: 10.5px;
+  }
+
+  /* @FEELIX */
+  .finalisationHeaderSecondary :global(.form-group) {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .finalisationHeaderSecondary :global(.form-group__label-group) {
+    flex: 2 2 0;
+    justify-content: flex-end;
+    text-align: right;
+    padding-left: 0;
+    padding-right: var(--flx-spacing-small);
+  }
+
+  .finalisationHeaderSecondary :global(.form-group__input-group) {
+    flex: 1 1 0;
+  }
+
+  .finalisationHeaderSecondary :global(.form-group__label-group) label {
+    color: var(--flx-color-text)
+  }
+
+@media (min-width: 768px) {
+  /*
+    @FEELIX:
+    Long labels cause undesirable wrapping with the Feelix DetailHeader on desktop.
+    To fix this, we just increase the width.
+  */
+  .options :global .flx-detail-header__secondary > * {
+    width: 40rem;
+  }
+}

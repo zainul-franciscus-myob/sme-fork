@@ -1,0 +1,24 @@
+{
+  "employees": [
+    {
+      "id": "100001",
+      "payId": "effa0c73-65c4-409d-a20c-623fbe0c8b17",
+      "firstName": "Alf",
+      "lastName": "Galang",
+      "name": "Alf Galang",
+      "etpCount": 0,
+      "terminationDate": "12/08/2019",
+      "payrollYear": 2020,
+      "ytdGross": 5890,
+      "ytdTax": 2372,
+      "isFinalised": true,
+      "rfbAmount": 123,
+      "s57aRfbAmount": 321
+    }
+  ],
+  "grossPaymentYtd": "$2000.99",
+  "paygWithholdingYtd": "$2333.33",
+  "reportedRfba": "$4999.99",
+  "reportedSection57aRfba": "$3455.99",
+  "employeesCount": 4
+}

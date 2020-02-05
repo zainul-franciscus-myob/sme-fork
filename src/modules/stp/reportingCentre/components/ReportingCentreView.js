@@ -9,7 +9,7 @@ import {
   getLoadingState,
   getSelectedTab,
 } from '../ReportingCentreSelectors';
-import { tabItems } from '../TabItems';
+import { getTabItems } from '../TabItems';
 import PageView from '../../../../components/PageView/PageView';
 
 const ReportingCentreView = ({
@@ -23,10 +23,9 @@ const ReportingCentreView = ({
   const actions = (
     <div />
   );
-
   const tabs = (
     <Tabs
-      items={tabItems}
+      items={getTabItems()}
       selected={selectedTab}
       onSelected={onTabSelected}
     />

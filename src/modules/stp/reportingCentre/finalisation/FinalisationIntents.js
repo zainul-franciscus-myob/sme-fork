@@ -1,0 +1,10 @@
+export const LOAD_INITIAL_EMPLOYEES_AND_HEADERS = Symbol('Load the initial list of employees and header details');
+export const LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR = Symbol('Load the list of employees and header details for a particular year');
+export const SET_LOADING_STATE = Symbol('Set the loading state');
+export const SET_TABLE_LOADING_STATE = Symbol('Set the table loading state');
+export const SET_SELECTED_PAYROLL_YEAR = Symbol('Set selected Payroll year');
+export const SET_FILTERED_EMPLOYEES = Symbol('Set the filtered employees list');
+export const SET_IS_RFBA_ENABLED = Symbol('Set the RFBA enabled state');
+export const SELECT_ALL_EMPLOYEES = Symbol('Select all employees');
+export const SELECT_EMPLOYEES_ITEM = Symbol('Select employees item');
+export const UPDATE_EMPLOYEE_ROW = Symbol('Update employee row value');

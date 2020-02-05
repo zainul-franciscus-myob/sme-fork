@@ -18,6 +18,10 @@ import {
   UPDATE_BUSINESS_DETAILS,
 } from '../atoSettings/AtoSettingsIntents';
 import {
+  LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
+  LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
+} from '../finalisation/FinalisationIntents';
+import {
   LOAD_STP_REGISTRATION_STATUS,
   UPDATE_STP_EMPLOYEES,
 } from '../ReportingCentreIntents';
@@ -58,6 +62,14 @@ const HttpStpReportingCentreMapping = {
   [LOAD_TERMINATION_EMPLOYEES]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/stp/termination_employees`,
+  },
+  [LOAD_INITIAL_EMPLOYEES_AND_HEADERS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/stp/eofy_finalisation_initial`,
+  },
+  [LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/stp/eofy_finalisation_for_year`,
   },
   [FILTER_TERMINATION_EMPLOYEES]: {
     method: 'GET',
