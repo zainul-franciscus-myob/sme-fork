@@ -1,6 +1,7 @@
 import {
   ADD_EMPLOYEE,
   ADD_EXEMPTION,
+  FORMAT_AMOUNT,
   REMOVE_EMPLOYEE,
   REMOVE_EXEMPTION,
 } from '../WagePayItemIntents';
@@ -198,6 +199,96 @@ describe('wagePayItemReducer', () => {
         ],
         isPageEdited: true,
       };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('updatePayItemAmount', () => {
+    it('should set the value to null when it is empty string', () => {
+      const state = {
+        wage: {
+          someKey: '1.0000',
+        },
+      };
+      const action = {
+        intent: FORMAT_AMOUNT,
+        key: 'someKey',
+        value: '',
+      };
+      const expected = {
+        wage: {
+          someKey: null,
+        },
+      };
+
+      const actual = wagePayItemReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should set the value to null when it is null', () => {
+      const state = {
+        wage: {
+          someKey: '1.0000',
+        },
+      };
+      const action = {
+        intent: FORMAT_AMOUNT,
+        key: 'someKey',
+        value: null,
+      };
+      const expected = {
+        wage: {
+          someKey: null,
+        },
+      };
+
+      const actual = wagePayItemReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should set the value to zero when it is zero', () => {
+      const state = {
+        wage: {
+          someKey: '1.0000',
+        },
+      };
+      const action = {
+        intent: FORMAT_AMOUNT,
+        key: 'someKey',
+        value: '0',
+      };
+      const expected = {
+        wage: {
+          someKey: '0.0000',
+        },
+      };
+
+      const actual = wagePayItemReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should format the value', () => {
+      const state = {
+        wage: {
+          someKey: '1.0000',
+        },
+      };
+      const action = {
+        intent: FORMAT_AMOUNT,
+        key: 'someKey',
+        value: '2',
+      };
+      const expected = {
+        wage: {
+          someKey: '2.0000',
+        },
+      };
+
+      const actual = wagePayItemReducer(state, action);
 
       expect(actual).toEqual(expected);
     });

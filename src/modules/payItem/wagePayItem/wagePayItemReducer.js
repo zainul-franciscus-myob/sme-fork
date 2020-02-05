@@ -89,7 +89,7 @@ const updatePayItemDetails = (state, { key, value }) => ({
   isPageEdited: true,
 });
 
-const formatAmount = value => (Number(value) || 0).toFixed(4);
+const formatAmount = value => (value === null || value === '' ? null : (Number(value || 0)).toFixed(4));
 const updatePayItemAmount = (state, { key, value }) => ({
   ...state,
   wage: {
