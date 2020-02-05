@@ -59,8 +59,8 @@ const getDefaultState = () => ({
       fileTypeOptions: [
         { name: 'CeeData', value: ExportCompanyFileType.CEE_DATA },
         { name: 'Mye', value: ExportCompanyFileType.MYE },
-        { name: 'MOYB AE MAS', value: ExportCompanyFileType.MYOB_AE_MAS },
-        { name: 'MOYB AO', value: ExportCompanyFileType.MYOB_AO },
+        { name: 'MYOB AE MAS', value: ExportCompanyFileType.MYOB_AE_MAS },
+        { name: 'MYOB AO', value: ExportCompanyFileType.MYOB_AO },
         { name: 'Reckon APS', value: ExportCompanyFileType.RECKON_APS },
       ],
     },
