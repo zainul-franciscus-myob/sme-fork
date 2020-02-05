@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { businessEventTypes } from '../businessEventTypes';
+import { businessEventTypes } from '../../../common/types/BusinessEventTypeMap';
 import { tabIds } from '../tabItems';
 import Config from '../../../Config';
 import Region from '../Region';

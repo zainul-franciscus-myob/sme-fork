@@ -1,7 +1,7 @@
 import { addDays, subDays } from 'date-fns';
 import { createSelector } from 'reselect';
 
-import { businessEventFeatures } from '../businessEventTypes';
+import { businessEventToFeatureMap } from '../../../common/types/BusinessEventTypeMap';
 import {
   formatCurrency,
   getAppliedPaymentRuleContactId,
@@ -51,7 +51,7 @@ export const getOrder = createSelector(
 
 const getEntryLink = (entry, businessId, region) => {
   const { journalId, sourceJournal } = entry;
-  const feature = businessEventFeatures[sourceJournal];
+  const feature = businessEventToFeatureMap[sourceJournal];
 
   return feature && `/#/${region}/${businessId}/${feature}/${journalId}`;
 };

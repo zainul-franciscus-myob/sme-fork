@@ -1,7 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import { businessEventToFeatureMap } from '../../../common/types/BusinessEventTypeMap';
 import { tabItemIds } from '../tabItems';
-import BusinessEventTypeMap from '../../../common/types/BusinessEventTypeMap';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 
@@ -67,7 +67,7 @@ const getEntryLink = (entry, businessId, region) => {
     id,
     businessEventType,
   } = entry;
-  const feature = BusinessEventTypeMap[businessEventType];
+  const feature = businessEventToFeatureMap[businessEventType];
 
   return feature ? `/#/${region}/${businessId}/${feature}/${id}` : undefined;
 };

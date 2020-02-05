@@ -1,4 +1,6 @@
-import { Checkbox, Label, Table } from '@myob/myob-widgets';
+import {
+  Checkbox, Label, Table, Tooltip,
+} from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
@@ -67,6 +69,15 @@ const MatchTransactionTableRow = React.memo((props) => {
 
   const rowClass = selected ? styles.selected : '';
 
+  const entryLink = link ? (
+    <a href={link} target="_blank" rel="noopener noreferrer">{referenceId}</a>
+  ) : (
+    <Tooltip placement="bottom" triggerContent={referenceId}>
+      This transaction type can only be viewed and edited from your desktop
+      AccountRight software
+    </Tooltip>
+  );
+
   return (
     <Table.Row key={`${journalId}${journalLineId}`} className={rowClass}>
       <Table.RowItem {...tableConfig.checkbox}>
@@ -79,12 +90,7 @@ const MatchTransactionTableRow = React.memo((props) => {
         />
       </Table.RowItem>
       <Table.RowItem {...tableConfig.date}>{date}</Table.RowItem>
-      <Table.RowItem {...tableConfig.referenceId}>
-        {
-          link
-            ? <a href={link} target="_blank" rel="noopener noreferrer">{referenceId}</a> : referenceId
-        }
-      </Table.RowItem>
+      <Table.RowItem {...tableConfig.referenceId}>{entryLink}</Table.RowItem>
       <Table.RowItem {...tableConfig.description}>
         <div className={styles.descriptionContainer}>
           <div className={styles.description}>{description}</div>

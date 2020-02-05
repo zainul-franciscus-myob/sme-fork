@@ -1,3 +1,4 @@
+import { businessEventToFeatureMap } from '../../../../common/types/BusinessEventTypeMap';
 import {
   getAmountDue,
   getBusinessId,
@@ -6,7 +7,6 @@ import {
   getIsServiceLayout,
   getRegion,
 } from './invoiceDetailSelectors';
-import BusinessEventTypeMap from '../../../../common/types/BusinessEventTypeMap';
 import getQueryFromParams from '../../../../common/getQueryFromParams/getQueryFromParams';
 
 const getBaseUrl = (state) => {
@@ -86,6 +86,6 @@ export const getSubscriptionSettingsUrl = (state) => {
 
 export const getRedirectRefUrl = (state) => {
   const baseUrl = getBaseUrl(state);
-  const feature = BusinessEventTypeMap[state.redirectRefJournalType];
+  const feature = businessEventToFeatureMap[state.redirectRefJournalType];
   return `${baseUrl}/${feature}/${state.redirectRefJournalId}`;
 };

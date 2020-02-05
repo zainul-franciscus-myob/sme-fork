@@ -1,6 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-import { businessEventFeatures } from '../banking/businessEventTypes';
+import { businessEventToFeatureMap } from '../../common/types/BusinessEventTypeMap';
 import flat from '../../common/flat/flat';
 import formatAmount from '../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../common/valueFormatters/formatCurrency';
@@ -63,7 +63,7 @@ export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
 const getEntryLink = (entry, businessId, region) => {
   const { journalId, sourceJournal } = entry;
-  const feature = businessEventFeatures[sourceJournal];
+  const feature = businessEventToFeatureMap[sourceJournal];
 
   return `/#/${region}/${businessId}/${feature}/${journalId}`;
 };

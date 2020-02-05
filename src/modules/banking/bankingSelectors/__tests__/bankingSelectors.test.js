@@ -1,4 +1,4 @@
-import { businessEventTypes } from '../../businessEventTypes';
+import { businessEventTypes } from '../../../../common/types/BusinessEventTypeMap';
 import {
   getBalancesForApplyRule,
   getBalancesForBulkResult,

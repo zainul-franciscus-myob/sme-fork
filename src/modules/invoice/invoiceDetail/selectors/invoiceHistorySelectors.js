@@ -1,4 +1,4 @@
-import BusinessEventTypeMap from '../../../../common/types/BusinessEventTypeMap';
+import { businessEventToFeatureMap } from '../../../../common/types/BusinessEventTypeMap';
 import InvoiceHistoryAccordionStatus from '../InvoiceHistoryAccordionStatus';
 import InvoiceHistoryStatus from '../InvoiceHistoryStatus';
 
@@ -7,7 +7,7 @@ const getShowLink = (line) => {
     sourceJournalType,
     referenceNo,
   } = line;
-  const feature = BusinessEventTypeMap[sourceJournalType];
+  const feature = businessEventToFeatureMap[sourceJournalType];
   return feature && referenceNo;
 };
 
