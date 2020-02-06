@@ -4,6 +4,8 @@ const closeTasks = async ({
   dispatcher, integration, store, context,
 }) => {
   const { businessId } = store.getState();
+  if (!businessId) return;
+
   const { closeEvent } = context;
 
   const tasks = await new Promise((resolve, reject) => integration.write({

@@ -73,6 +73,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     telemetry(routeProps);
     startLeanEngage(routeProps);
     showAppcues(routeProps);
+    rootModule.globalCallbacks.pageLoaded(routeProps.currentRouteName.replace('/', '_'));
   };
 
   router.start({
