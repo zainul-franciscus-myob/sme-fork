@@ -13,6 +13,7 @@ const closeTasks = async ({
     urlParams: { businessId, closeEvent },
     onSuccess: resolve,
     onFailure: reject,
+    allowParallelRequests: true,
   }));
 
   dispatcher.updateTasks(tasks);
