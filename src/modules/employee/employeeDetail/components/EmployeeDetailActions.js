@@ -12,7 +12,14 @@ const EmployeeDetailActions = ({
   isActionsDisabled,
 }) => {
   const deleteButton = (
-    <Button key="delete" name="delete" type="secondary" onClick={onDeleteButtonClick} disabled={isActionsDisabled}>
+    <Button
+      key="delete"
+      name="delete"
+      type="secondary"
+      onClick={onDeleteButtonClick}
+      disabled={isActionsDisabled}
+      testid="test_delete_button"
+    >
       Delete
     </Button>
   );

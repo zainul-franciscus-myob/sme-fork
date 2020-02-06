@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DeleteModal from '../../../../components/modal/DeleteModal';
+import ModalTypes from '../ModalTypes';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const ConfirmModal = ({
@@ -12,7 +13,7 @@ const ConfirmModal = ({
     onConfirmDelete,
   },
 }) => {
-  if (type === 'delete') {
+  if (type === ModalTypes.DELETE) {
     return (
       <DeleteModal
         onCancel={onConfirmClose}
