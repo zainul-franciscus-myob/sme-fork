@@ -1,5 +1,5 @@
 import {
-  Button, Combobox, Icons, PageState, Table, Tooltip,
+  Button, Combobox, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -27,23 +27,31 @@ const PayrollDeductionDetailsTable = ({
   onAddPayItem,
   onRemovePayItem,
   onOpenDeductionPayItemModal,
+  showAddDeductionPayItemButton,
+  onAddDeductionPayItemClick,
 }) => {
-  const emptyView = (
-    <PageState title="You have not added any deduction pay items yet." />
-  );
-
   const tableBodyView = selected.map(({ id, name, displayType }) => (
     <Table.Row key={id}>
       <Table.RowItem {...tableConfig.name}>
-        <Button type="link" onClick={onPayItemSelect(onOpenDeductionPayItemModal, id)}>{name}</Button>
+        <Button
+          type="link"
+          onClick={onPayItemSelect(onOpenDeductionPayItemModal, id)}
+        >
+          {name}
+        </Button>
       </Table.RowItem>
       <Table.RowItem {...tableConfig.type}>{displayType}</Table.RowItem>
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-        <Tooltip triggerContent={(
-          <Button type="secondary" size="xs" onClick={onPayItemSelect(onRemovePayItem, id)}>
-            <Icons.Remove />
-          </Button>
-        )}
+        <Tooltip
+          triggerContent={(
+            <Button
+              type="secondary"
+              size="xs"
+              onClick={onPayItemSelect(onRemovePayItem, id)}
+            >
+              <Icons.Remove />
+            </Button>
+          )}
         >
           Remove from employee
         </Tooltip>
@@ -59,24 +67,30 @@ const PayrollDeductionDetailsTable = ({
           <Table.HeaderItem {...tableConfig.type}>Type</Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.actions} />
         </Table.Header>
-        <Table.Body>
-          {selected.length ? tableBodyView : emptyView}
-        </Table.Body>
+        <Table.Body>{tableBodyView}</Table.Body>
       </Table>
-      <Combobox
-        label="Add deduction pay item"
-        hideLabel
-        hintText="Add deduction pay item"
-        metaData={comboboxMetaData}
-        items={items}
-        selected={{}}
-        onChange={handleComboboxChange(onAddPayItem)}
-        addNewItem={{
-          label: 'Create deduction pay item',
-          onAddNew: onPayItemSelect(onOpenDeductionPayItemModal, 'new'),
-        }}
-        width="lg"
-      />
+      {showAddDeductionPayItemButton
+        ? (
+          <Button type="link" icon={<Icons.Add />} onClick={onAddDeductionPayItemClick}>
+              Add deduction pay item
+          </Button>
+        )
+        : (
+          <Combobox
+            label="Add deduction pay item"
+            hideLabel
+            hintText="Add deduction pay item"
+            metaData={comboboxMetaData}
+            items={items}
+            selected={{}}
+            onChange={handleComboboxChange(onAddPayItem)}
+            addNewItem={{
+              label: 'Create deduction pay item',
+              onAddNew: onPayItemSelect(onOpenDeductionPayItemModal, 'new'),
+            }}
+            width="lg"
+          />
+        )}
     </div>
   );
 };

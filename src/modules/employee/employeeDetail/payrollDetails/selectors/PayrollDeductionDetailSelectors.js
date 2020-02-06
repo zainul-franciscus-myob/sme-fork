@@ -13,3 +13,7 @@ export const getFilteredDeductionPayItemOptions = createSelector(
     .filter(deductionPayItemOption => !deductionPayItems
       .some(deductionPayItem => deductionPayItem.id === deductionPayItemOption.id)),
 );
+
+export const getShowAddDeductionPayItem = state => (
+  state.payrollDetails.deductionDetails.showAddDeductionPayItem
+);

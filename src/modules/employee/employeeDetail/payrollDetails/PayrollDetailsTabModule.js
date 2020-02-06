@@ -623,6 +623,7 @@ export default class PayrollDetailsTabModule {
         onAddPayrollExpensePayItem={this.dispatcher.addPayrollExpensePayItem}
         onOpenExpensePayItemModal={this.openExpensePayItemModal}
         onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
+        onAddDeductionPayItemClick={() => this.dispatcher.showDeductionPayItemDropdown(false)}
         onRemovePayrollDeductionPayItem={this.removePayrollDeductionPayItemAndStandardPayItem}
         onPayrollLeaveListeners={{
           onAddAllocatedLeaveItem: this.dispatcher.addAllocatedLeaveItem,

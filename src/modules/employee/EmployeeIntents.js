@@ -27,6 +27,7 @@ export const STOP_LOADING_MORE = Symbol('Stop loading more');
 
 export const ADD_PAYROLL_DEDUCTION_PAY_ITEM = Symbol('Add deduction pay item');
 export const REMOVE_PAYROLL_DEDUCTION_PAY_ITEM = Symbol('Remove deduction pay item');
+export const SET_SHOW_DEDUCTION_PAY_ITEM = Symbol('Toggle deduction Pay Item Dropdown');
 
 export const ADD_PAYROLL_SUPER_PAY_ITEM = Symbol('Add payroll super pay item');
 export const REMOVE_PAYROLL_SUPER_PAY_ITEM = Symbol('Remove payroll super pay item');

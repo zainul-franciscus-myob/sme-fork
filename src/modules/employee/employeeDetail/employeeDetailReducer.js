@@ -71,6 +71,7 @@ export const getDefaultState = () => ({
     },
     deductionDetails: {
       deductionPayItems: [],
+      showAddDeductionPayItem: true,
     },
     leaveDetails: {
       allocatedLeavePayItems: [],

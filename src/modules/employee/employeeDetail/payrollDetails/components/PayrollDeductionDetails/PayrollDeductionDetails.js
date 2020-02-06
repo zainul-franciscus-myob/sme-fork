@@ -7,6 +7,7 @@ import React from 'react';
 import {
   getDeductionPayItems,
   getFilteredDeductionPayItemOptions,
+  getShowAddDeductionPayItem,
 } from '../../selectors/PayrollDeductionDetailSelectors';
 import PayrollDeductionDetailsTable from './PayrollDeductionDetailsTable';
 
@@ -16,6 +17,8 @@ const PayrollDeductionDetails = ({
   onAddPayrollDeductionPayItem,
   onRemovePayrollDeductionPayItem,
   onOpenDeductionPayItemModal,
+  showAddDeductionPayItem,
+  onAddDeductionPayItemClick,
 }) => {
   const fieldGroupLabel = (
     <div>
@@ -34,6 +37,8 @@ const PayrollDeductionDetails = ({
         onAddPayItem={onAddPayrollDeductionPayItem}
         onRemovePayItem={onRemovePayrollDeductionPayItem}
         onOpenDeductionPayItemModal={onOpenDeductionPayItemModal}
+        showAddDeductionPayItemButton={showAddDeductionPayItem}
+        onAddDeductionPayItemClick={onAddDeductionPayItemClick}
       />
     </FieldGroup>
   );
@@ -42,6 +47,7 @@ const PayrollDeductionDetails = ({
 const mapStateToProps = state => ({
   deductionPayItems: getDeductionPayItems(state),
   deductionPayItemOptions: getFilteredDeductionPayItemOptions(state),
+  showAddDeductionPayItem: getShowAddDeductionPayItem(state),
 });
 
 export default connect(mapStateToProps)(PayrollDeductionDetails);

@@ -112,6 +112,7 @@ const EmployeeDetailPayrollDetails = ({
   // TODO this needs to be moved
   leavePayItemModalListeners,
   // TODO this needs to be moved
+  onAddDeductionPayItemClick,
 }) => {
   const Employment = () => (
     <EmploymentDetails
@@ -132,6 +133,7 @@ const EmployeeDetailPayrollDetails = ({
       onAddPayrollDeductionPayItem={onAddPayrollDeductionPayItem}
       onRemovePayrollDeductionPayItem={onRemovePayrollDeductionPayItem}
       onOpenDeductionPayItemModal={onOpenDeductionPayItemModal}
+      onAddDeductionPayItemClick={onAddDeductionPayItemClick}
     />
   );
 

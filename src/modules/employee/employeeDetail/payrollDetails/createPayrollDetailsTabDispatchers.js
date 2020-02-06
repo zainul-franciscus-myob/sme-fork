@@ -82,6 +82,7 @@ import {
   SET_PAYROLL_PAY_HISTORY_ITEM_INPUT,
   SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT,
   SET_PAYROLL_STANDARD_PAY_ITEM_INPUT,
+  SET_SHOW_DEDUCTION_PAY_ITEM,
   SET_SUB_TAB,
   SET_SUPER_FUND_MODAL_ALERT_MESSAGE,
   SET_SUPER_FUND_MODAL_LOADING_STATE,
@@ -127,6 +128,10 @@ import {
 } from '../../EmployeeIntents';
 import createEmployeeDetailDispatcher from '../createEmployeeDetailDispatcher';
 
+const toggleShowAddDeductionPayItemDropdown = (store, showDropdown) => {
+  store.dispatch({ intent: SET_SHOW_DEDUCTION_PAY_ITEM, showDropdown });
+};
+
 const createPayrollDetailsTabDispatchers = store => ({
   ...createEmployeeDetailDispatcher(store),
 
@@ -148,6 +153,13 @@ const createPayrollDetailsTabDispatchers = store => ({
   addPayrollDeductionPayItem: (payItem) => {
     const intent = ADD_PAYROLL_DEDUCTION_PAY_ITEM;
     store.dispatch({ intent, payItem });
+
+    toggleShowAddDeductionPayItemDropdown(store, true);
+  },
+
+  showDeductionPayItemDropdown: (showDropdown) => {
+    const intent = SET_SHOW_DEDUCTION_PAY_ITEM;
+    store.dispatch({ intent, showDropdown });
   },
 
   removePayrollDeductionPayItem: (id) => {
@@ -536,6 +548,8 @@ const createPayrollDetailsTabDispatchers = store => ({
   closeDeductionPayItemModal: () => {
     const intent = CLOSE_DEDUCTION_PAY_ITEM_MODAL;
     store.dispatch({ intent });
+
+    toggleShowAddDeductionPayItemDropdown(store, true);
   },
 
   setDeductionPayItemModalLoadingState: (isLoading) => {
