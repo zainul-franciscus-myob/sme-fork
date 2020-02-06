@@ -2,11 +2,12 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import ModalType from '../ModalType';
-import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.receiveMoney);
+
+export const getIsLineEdited = state => state.isLineEdited;
 
 const getReferenceId = state => state.receiveMoney.referenceId;
 const getSelectedDepositIntoId = state => state.receiveMoney.selectedDepositIntoAccountId;
@@ -37,7 +38,7 @@ export const getHeaderOptions = createStructuredSelector({
 export const getAlertMessage = state => state.alertMessage;
 export const getLoadingState = state => state.loadingState;
 
-export const getDefaultTaxCodeId = ({ accountId }, accountOptions) => {
+export const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
   const account = accountOptions.find(({ id }) => id === accountId);
   return account === undefined ? '' : account.taxCodeId;
 };
@@ -45,7 +46,7 @@ export const getDefaultTaxCodeId = ({ accountId }, accountOptions) => {
 export const getLineDataByIndexSelector = () => createSelector(
   (state, props) => state.receiveMoney.lines[props.index],
   (line => (line
-    ? { ...line, displayAmount: formatAmount(line.amount) }
+    ? { ...line }
     : {})),
 );
 

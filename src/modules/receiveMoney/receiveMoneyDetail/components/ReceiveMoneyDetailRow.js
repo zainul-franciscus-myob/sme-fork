@@ -52,9 +52,9 @@ const ReceiveMoneyDetailRow = ({
   const data = isNewLineRow ? newLineData : lineData;
 
   const {
-    displayAmount = '',
-    units = '',
-    description = '',
+    displayAmount,
+    units,
+    description,
     accountId,
     taxCodeId,
   } = data;
@@ -78,16 +78,16 @@ const ReceiveMoneyDetailRow = ({
         value={displayAmount}
         onChange={onAmountInputChange('amount', onChange)}
         onBlur={onAmountInputBlur(onRowInputBlur, index)}
-        disabled={isNewLineRow}
+        textAlign="right"
       />
       <AmountInput
         label="Quantity"
         name="units"
         value={units}
         onChange={onAmountInputChange('units', onChange)}
-        disabled={isNewLineRow}
         decimalScale={6}
         numeralIntegerScale={13}
+        textAlign="right"
       />
       <TextArea
         label="Description"
@@ -97,7 +97,6 @@ const ReceiveMoneyDetailRow = ({
         name="description"
         value={description}
         onChange={onInputChange(onChange)}
-        disabled={isNewLineRow}
       />
       <TaxCodeCombobox
         label="Tax code"
@@ -105,7 +104,6 @@ const ReceiveMoneyDetailRow = ({
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isNewLineRow}
       />
     </LineItemTable.Row>);
 };

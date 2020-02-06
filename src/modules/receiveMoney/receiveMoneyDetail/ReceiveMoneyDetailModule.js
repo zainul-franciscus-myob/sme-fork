@@ -24,7 +24,9 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_RECEIVE_MONEY, SUCCESSFULLY_SAVED_RECEIVE_MONEY } from '../receiveMoneyMessageTypes';
 import {
   getBusinessId,
+  getIndexOfLastLine,
   getIsActionsDisabled,
+  getIsLineEdited,
   getIsTableEmpty,
   getModalUrl,
   getOpenedModalType,
@@ -192,15 +194,16 @@ export default class ReceiveMoneyDetailModule {
   }
 
   addReceiveMoneyLine = (line) => {
-    const intent = ADD_RECEIVE_MONEY_LINE;
+    this.store.dispatch({ intent: ADD_RECEIVE_MONEY_LINE });
 
     const { id, ...partialLine } = line;
-    this.store.dispatch({
-      intent,
-      line: partialLine,
-    });
+    const newLineKey = Object.keys(partialLine)[0];
+    const newLineValue = line[newLineKey];
 
-    this.getCalculatedTotals(false);
+    const state = this.store.getState();
+    const newLineIndex = getIndexOfLastLine(state) + 1;
+
+    this.updateReceiveMoneyLine(newLineIndex, newLineKey, newLineValue);
   }
 
   deleteReceiveMoneyLine = (index) => {
@@ -235,8 +238,12 @@ export default class ReceiveMoneyDetailModule {
   }
 
   formatAndCalculateTotals = (line) => {
-    this.formatReceiveMoneyLine(line);
-    this.getCalculatedTotals(false);
+    const state = this.store.getState();
+    const isLineEdited = getIsLineEdited(state);
+    if (isLineEdited) {
+      this.formatReceiveMoneyLine(line);
+      this.getCalculatedTotals(false);
+    }
   }
 
   setSubmittingState = (isSubmitting) => {

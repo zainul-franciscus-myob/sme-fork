@@ -15,6 +15,7 @@ import {
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { formatDisplayAmount } from '../../bill/billDetail/formatters/formatAmount';
 import { getDefaultTaxCodeId } from './receiveMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
@@ -36,6 +37,7 @@ const getDefaultState = () => ({
   newLine: {
     accountId: '',
     amount: '',
+    displayAmount: '',
     units: '',
     description: '',
     taxCodeId: '',
@@ -54,6 +56,7 @@ const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   pageTitle: '',
   isSubmitting: false,
+  isLineEdited: false,
   isPageEdited: false,
   businessId: '',
   region: '',
@@ -62,16 +65,16 @@ const getDefaultState = () => ({
 const pageEdited = { isPageEdited: true };
 
 const resetState = () => (getDefaultState());
-const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
+
 const formatLine = (state, action) => ({
   ...state,
   receiveMoney: {
     ...state.receiveMoney,
     lines: state.receiveMoney.lines.map(
-      ({ amount, ...line }, index) => (
+      (line, index) => (
         {
-          amount: index === action.index && amount ? formatStringNumber(amount) : amount,
           ...line,
+          displayAmount: index === action.index && formatDisplayAmount(Number(line.amount)),
         }
       ),
     ),
@@ -94,45 +97,39 @@ const loadReceiveMoneyDetail = (state, action) => ({
   taxCodeOptions: action.taxCodeOptions,
 });
 
-const isAccountLineItem = lineKey => lineKey === 'accountId';
-const updateReceiveMoneyLine = (line, { lineKey, lineValue }, accountOptions) => {
-  const updatedLine = {
-    ...line,
-    [lineKey]: lineValue,
-  };
-
-  return isAccountLineItem(lineKey)
-    ? {
-      ...updatedLine,
-      taxCodeId: getDefaultTaxCodeId({ accountId: lineValue }, accountOptions),
-    }
-    : updatedLine;
-};
-const getLinesForUpdate = (action, lines, accountOptions) => lines.map((line, index) => (
-  index === action.lineIndex ? updateReceiveMoneyLine(line, action, accountOptions) : line
-));
-
 const updateLine = (state, action) => ({
   ...state,
   ...pageEdited,
+  isLineEdited: action.lineKey === 'amount',
   receiveMoney: {
     ...state.receiveMoney,
-    lines: getLinesForUpdate(action, state.receiveMoney.lines, state.accountOptions),
+    lines: state.receiveMoney.lines.map((line, index) => {
+      if (index === action.lineIndex) {
+        return ({
+          ...line,
+          displayAmount: action.lineKey === 'amount' ? action.lineValue : line.displayAmount,
+          taxCodeId: action.lineKey === 'accountId'
+            ? getDefaultTaxCodeId({
+              accountId: action.lineValue,
+              accountOptions: state.accountOptions,
+            })
+            : line.taxCodeId,
+          [action.lineKey]: action.lineValue,
+        });
+      }
+      return line;
+    }),
   },
 });
 
-const addLine = (state, action) => ({
+const addLine = state => ({
   ...state,
   ...pageEdited,
   receiveMoney: {
     ...state.receiveMoney,
     lines: [
       ...state.receiveMoney.lines,
-      {
-        ...state.newLine,
-        ...action.line,
-        taxCodeId: getDefaultTaxCodeId({ ...state.newLine, ...action.line }, state.accountOptions),
-      },
+      state.newLine,
     ],
   },
 });
@@ -198,9 +195,14 @@ const closeModal = state => ({
 
 const getTaxCalculations = (state, action) => ({
   ...state,
+  isLineEdited: false,
   receiveMoney: {
     ...state.receiveMoney,
-    lines: action.lines,
+    lines: action.lines.map(line => ({
+      ...line,
+      amount: line.amount.valueOf(),
+      displayAmount: formatDisplayAmount(line.amount.valueOf()),
+    })),
   },
   totals: action.totals,
 });
