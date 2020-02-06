@@ -26,13 +26,6 @@ const SuperFundDetailSection = ({
   listeners,
 }) => (
   <Fragment>
-    <Input
-      name="name"
-      label="Name"
-      value={name}
-      maxLength={76}
-      onChange={onInputChange(listeners.onUpdateSuperFundDetail)}
-    />
     <SuperFundProductCombobox
       label="Fund name"
       hideLabel={false}
@@ -40,6 +33,13 @@ const SuperFundDetailSection = ({
       selectedId={superProductId}
       onChange={onComboBoxChange(listeners.onUpdateSuperProduct)}
       hintText="Please select a superannuation fund"
+    />
+    <Input
+      name="name"
+      label="Name"
+      value={name}
+      maxLength={76}
+      onChange={onInputChange(listeners.onUpdateSuperFundDetail)}
     />
     <ReadOnly label="SPIN/USI" name="usi">{superProductId}</ReadOnly>
     <AbnInput
