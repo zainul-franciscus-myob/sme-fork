@@ -64,7 +64,7 @@
     }
   },
   "paymentDetails": {
-    "paymentMethod": "Cheque",
+    "paymentMethod": "Electronic",
     "splitPayBetween": "1",
     "bankAccounts": [
       {
