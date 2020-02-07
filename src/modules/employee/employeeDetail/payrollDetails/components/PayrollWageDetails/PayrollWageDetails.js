@@ -14,6 +14,7 @@ const PayrollWageDetails = ({
   onPayrollWageHoursInPayCycleBlur,
   onPayrollWageSelectedPayCycleChange,
   onOpenWagePayItemModal,
+  onAddWagePayItemButtonClick,
 }) => {
   const fieldGroupLabel = (
     <div>
@@ -40,6 +41,7 @@ const PayrollWageDetails = ({
           onAddWagePayItem={onAddPayrollWagePayItem}
           onRemoveWagePayItem={onRemovePayrollWagePayItem}
           onOpenWagePayItemModal={onOpenWagePayItemModal}
+          onAddWagePayItemButtonClick={onAddWagePayItemButtonClick}
         />
       </FieldGroup>
     </>

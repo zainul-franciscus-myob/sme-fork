@@ -112,3 +112,7 @@ export const getIsWageDetailsInputChangedOnBlur = (state, key) => {
       return true;
   }
 };
+
+export const getShowAddWagePayItemButton = state => (
+  state.payrollDetails.wage.showAddWagePayItemButton
+);

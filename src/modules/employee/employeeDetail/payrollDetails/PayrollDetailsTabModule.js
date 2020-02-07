@@ -733,6 +733,7 @@ export default class PayrollDetailsTabModule {
         onPayrollWageHourlyRateBlur={this.updatePayrollWageDetailsAndStandardPayItems}
         onPayrollWageHoursInPayCycleBlur={this.updatePayrollWageDetailsAndStandardPayItems}
         onPayrollWageSelectedPayCycleChange={this.updatePayrollWageDetailsAndStandardPayItems}
+        onAddWagePayItemButtonClick={this.dispatcher.showAddWagePayItemButtonDropdown}
         onTaxPayItemClick={this.loadTaxPayItemModal}
         taxPayItemModalListeners={{
           onTaxPayItemModalDetailChange: this.dispatcher.updateTaxPayItemModalDetails,

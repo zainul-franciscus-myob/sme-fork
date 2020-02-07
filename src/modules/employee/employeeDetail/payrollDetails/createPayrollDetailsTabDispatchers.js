@@ -98,6 +98,7 @@ import {
   SET_WAGE_PAY_ITEM_MODAL_ALERT,
   SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE,
   SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE,
+  SHOW_ADD_WAGE_PAY_ITEM_DROPDOWN,
   SHOW_CONTACT_DETAILS,
   SHOW_LEAVE_PAY_ITEM_DROPDOWN,
   UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
@@ -131,6 +132,10 @@ import createEmployeeDetailDispatcher from '../createEmployeeDetailDispatcher';
 
 const toggleShowAddDeductionPayItemDropdown = (store, showDropdown) => {
   store.dispatch({ intent: SET_SHOW_DEDUCTION_PAY_ITEM, showDropdown });
+};
+
+const toggleShowAddWagePayItemDropdown = (store, showDropdown) => {
+  store.dispatch({ intent: SHOW_ADD_WAGE_PAY_ITEM_DROPDOWN, showDropdown });
 };
 
 const toggleShowAddLeavePayItemDropdown = (store, showDropdown) => {
@@ -251,6 +256,8 @@ const createPayrollDetailsTabDispatchers = store => ({
   addPayrollWagePayItem: (payItem) => {
     const intent = ADD_PAYROLL_WAGE_PAY_ITEM;
     store.dispatch({ intent, ...payItem });
+
+    toggleShowAddWagePayItemDropdown(store, true);
   },
 
   removePayrollWagePayItem: (id) => {
@@ -296,6 +303,11 @@ const createPayrollDetailsTabDispatchers = store => ({
   loadPayrollStandardPayWageAmountRule: (payItemId, rule) => {
     const intent = LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE;
     store.dispatch({ intent, payItemId, rule });
+  },
+
+  showAddWagePayItemButtonDropdown: () => {
+    const intent = SHOW_ADD_WAGE_PAY_ITEM_DROPDOWN;
+    store.dispatch({ intent, showDropdown: false });
   },
 
   setPayrollStandardPayDetailsItemInput: ({ key, value }) => {
@@ -388,6 +400,8 @@ const createPayrollDetailsTabDispatchers = store => ({
   openWagePayItemModal: (id) => {
     const intent = OPEN_WAGE_PAY_ITEM_MODAL;
     store.dispatch({ intent, id });
+
+    toggleShowAddWagePayItemDropdown(store, true);
   },
 
   setWagePayItemModalLoadingState: (isLoading) => {

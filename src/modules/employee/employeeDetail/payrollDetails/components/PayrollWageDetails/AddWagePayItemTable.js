@@ -4,7 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilteredWagePayItemOptions, getSelectedWagePayItems } from '../../selectors/PayrollWageSelectors';
+import { getFilteredWagePayItemOptions, getSelectedWagePayItems, getShowAddWagePayItemButton } from '../../selectors/PayrollWageSelectors';
 import styles from './AddWagePayItemTable.module.css';
 
 const tableConfig = {
@@ -61,6 +61,8 @@ const AddWagePayItemTable = ({
   onAddWagePayItem,
   onRemoveWagePayItem,
   onOpenWagePayItemModal,
+  showAddWagePayItemButton,
+  onAddWagePayItemButtonClick,
 }) => (
   <div className={styles.editableTable}>
     <Table hasActions>
@@ -91,20 +93,28 @@ const AddWagePayItemTable = ({
     </Table>
     { filteredWagePayItemOptions.length > 0
       && (
-      <Combobox
-        label={addWagePayItemLabel}
-        hideLabel
-        hintText={addWagePayItemLabel}
-        metaData={comboboxMetaData}
-        selected={{}}
-        items={filteredWagePayItemOptions}
-        onChange={handleComboboxChange(onAddWagePayItem)}
-        addNewItem={{
-          label: 'Create wage pay item',
-          onAddNew: onPayItemSelect(onOpenWagePayItemModal, 'new'),
-        }}
-        width="lg"
-      />
+        showAddWagePayItemButton
+          ? (
+            <Button type="link" icon={<Icons.Add />} onClick={onAddWagePayItemButtonClick}>
+          Add wage pay item
+            </Button>
+          )
+          : (
+            <Combobox
+              label={addWagePayItemLabel}
+              hideLabel
+              hintText={addWagePayItemLabel}
+              metaData={comboboxMetaData}
+              selected={{}}
+              items={filteredWagePayItemOptions}
+              onChange={handleComboboxChange(onAddWagePayItem)}
+              addNewItem={{
+                label: 'Create wage pay item',
+                onAddNew: onPayItemSelect(onOpenWagePayItemModal, 'new'),
+              }}
+              width="lg"
+            />
+          )
       )
     }
   </div>
@@ -113,6 +123,7 @@ const AddWagePayItemTable = ({
 const mapStateToProps = state => ({
   filteredWagePayItemOptions: getFilteredWagePayItemOptions(state),
   selectedWagePayItems: getSelectedWagePayItems(state),
+  showAddWagePayItemButton: getShowAddWagePayItemButton(state),
 });
 
 export default connect(mapStateToProps)(AddWagePayItemTable);

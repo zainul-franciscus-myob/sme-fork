@@ -107,6 +107,7 @@ export const ADD_WAGE_PAY_ITEM_MODAL_EXEMPTION = Symbol('Add wage pay item modal
 export const REMOVE_WAGE_PAY_ITEM_MODAL_EXEMPTION = Symbol('Remove wage pay item modal exemption');
 export const CREATE_WAGE_PAY_ITEM_MODAL = Symbol('Create wage pay item modal');
 export const UPDATE_WAGE_PAY_ITEM_MODAL = Symbol('Update wage pay item modal');
+export const SHOW_ADD_WAGE_PAY_ITEM_DROPDOWN = Symbol('Show add wage pay item dropdown');
 
 export const OPEN_DEDUCTION_PAY_ITEM_MODAL = Symbol('Open deduction pay item modal');
 export const CLOSE_DEDUCTION_PAY_ITEM_MODAL = Symbol('Close deduction pay item modal');

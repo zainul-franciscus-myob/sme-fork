@@ -102,6 +102,7 @@ export const getDefaultState = () => ({
       appliedAnnualSalary: '',
       appliedHourlyRate: '',
       appliedPayPeriodHours: '',
+      showAddWagePayItemButton: true,
     },
     employerExpenseDetails: {
       expensePayItems: [],
