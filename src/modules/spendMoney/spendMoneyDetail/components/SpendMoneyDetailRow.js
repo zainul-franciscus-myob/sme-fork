@@ -69,7 +69,6 @@ const SpendMoneyDetailRow = (props) => {
         name="amount"
         value={displayAmount}
         onChange={onAmountInputChange('amount', onChange)}
-        disabled={isNewLineRow}
         onBlur={onInputBlur(onRowInputBlur, index, 'amount')}
         decimalScale={2}
       />
@@ -79,7 +78,6 @@ const SpendMoneyDetailRow = (props) => {
         value={quantity}
         onChange={onAmountInputChange('quantity', onChange)}
         onBlur={onInputBlur(onRowInputBlur, index, 'quantity')}
-        disabled={isNewLineRow}
         decimalScale={6}
         numeralIntegerScale={13}
       />
@@ -92,7 +90,6 @@ const SpendMoneyDetailRow = (props) => {
         name="description"
         value={description}
         onChange={onChange}
-        disabled={isNewLineRow}
       />
       <TaxCodeCombobox
         label="Tax code"
@@ -100,7 +97,6 @@ const SpendMoneyDetailRow = (props) => {
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isNewLineRow}
         left
       />
     </LineItemTable.Row>

@@ -72,7 +72,7 @@ const GeneralJournalDetailRow = ({
         label="Debit amount"
         name="debitAmount"
         value={displayDebitAmount}
-        disabled={isNewLineRow || isDebitDisabled}
+        disabled={isDebitDisabled}
         onChange={onAmountInputChange('debitAmount', onChange)}
         onBlur={onInputBlur(onRowInputBlur, index, 'debitAmount')}
         decimalScale={2}
@@ -81,7 +81,7 @@ const GeneralJournalDetailRow = ({
         label="Credit amount"
         name="creditAmount"
         value={displayCreditAmount}
-        disabled={isNewLineRow || isCreditDisabled}
+        disabled={isCreditDisabled}
         onChange={onAmountInputChange('creditAmount', onChange)}
         onBlur={onInputBlur(onRowInputBlur, index, 'creditAmount')}
         decimalScale={2}
@@ -92,7 +92,6 @@ const GeneralJournalDetailRow = ({
         value={quantity}
         onChange={onAmountInputChange('quantity', onChange)}
         onBlur={onInputBlur(onRowInputBlur, index, 'quantity')}
-        disabled={isNewLineRow}
         decimalScale={6}
         numeralIntegerScale={13}
       />
@@ -104,14 +103,12 @@ const GeneralJournalDetailRow = ({
         name="description"
         value={description}
         onChange={onChange}
-        disabled={isNewLineRow}
       />
       <TaxCodeCombobox
         label="Tax codes"
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isNewLineRow}
       />
     </LineItemTable.Row>);
 };

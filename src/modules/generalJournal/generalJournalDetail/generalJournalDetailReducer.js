@@ -69,21 +69,23 @@ const getDefaultState = () => ({
 const pageEdited = { isPageEdited: true };
 
 const resetState = () => (getDefaultState());
-const formatStringNumber = num => parseFloat(num).toFixed(2).toString();
 const formatLine = (state, action) => ({
   ...state,
   generalJournal: {
     ...state.generalJournal,
     lines: state.generalJournal.lines.map(
-      ({ debitAmount, creditAmount, ...line }, index) => (
-        {
-          debitAmount: index === action.index && debitAmount
-            ? formatStringNumber(debitAmount) : debitAmount,
-          creditAmount: index === action.index && creditAmount
-            ? formatStringNumber(creditAmount) : creditAmount,
+      (line, index) => {
+        const isUpdatingDebit = action.key === 'debitAmount';
+        const isUpdatingCredit = action.key === 'creditAmount';
+        if (index !== action.index || (!isUpdatingDebit && !isUpdatingCredit)) return line;
+        const displayDebitAmount = isUpdatingDebit ? formatAmount(line.debitAmount) : '';
+        const displayCreditAmount = isUpdatingCredit ? formatAmount(line.creditAmount) : '';
+        return {
           ...line,
-        }
-      ),
+          displayDebitAmount,
+          displayCreditAmount,
+        };
+      },
     ),
   },
 });
@@ -100,17 +102,19 @@ const getReportingMethodForUpdate = (action, { gstReportingMethod }, accounts) =
   let reportingMethod = gstReportingMethod;
   if (isUpdatingAccountItemInFirstLine(action.lineIndex, action.lineKey)) {
     const accountId = action.lineValue;
-    reportingMethod = getReportingMethodFromSelectAccount(
-      accounts,
-      accountId,
-    );
+    if (accountId) {
+      reportingMethod = getReportingMethodFromSelectAccount(
+        accounts,
+        accountId,
+      );
+    }
   }
   return reportingMethod;
 };
 
 const getReportingMethodForCreate = (action, accounts, { lines, gstReportingMethod }) => {
   let reportingMethod = gstReportingMethod;
-  if (lines.length === 0) {
+  if (lines.length === 0 && action.line.accountId) {
     reportingMethod = getReportingMethodFromSelectAccount(accounts, action.line.accountId);
   }
   return reportingMethod;
@@ -132,13 +136,9 @@ const loadGeneralJournalDetail = (state, action) => ({
 });
 
 const updateGeneralJournalLine = (line, { lineKey, lineValue }, accounts) => {
-  const isUpdateDebitAmount = lineKey === 'debitAmount';
-  const isUpdateCreditmount = lineKey === 'creditAmount';
   const updatedLine = {
     ...line,
     [lineKey]: lineValue,
-    displayDebitAmount: isUpdateDebitAmount ? lineValue : line.displayDebitAmount,
-    displayCreditAmount: isUpdateCreditmount ? lineValue : line.displayCreditAmount,
   };
 
   return isAccountLineItem(lineKey)

@@ -269,17 +269,18 @@ export default class GeneralJournalDetailModule {
     });
   }
 
-  formatGeneralJournalLine = (index) => {
+  formatGeneralJournalLine = (index, key) => {
     const intent = FORMAT_GENERAL_JOURNAL_LINE;
 
     this.store.dispatch({
       intent,
       index,
+      key,
     });
   }
 
-  formatAndCalculateTotals = ({ index }) => {
-    this.formatGeneralJournalLine(index);
+  formatAndCalculateTotals = ({ index, key }) => {
+    this.formatGeneralJournalLine(index, key);
     this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
   }
 
