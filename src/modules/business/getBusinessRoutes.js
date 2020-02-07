@@ -3,7 +3,7 @@ import InvoiceBusinessSettingsModule from './businessDetail/InvoiceBusinessSetti
 import RouteName from '../../router/RouteName';
 
 const getBusinessRoutes = ({
-  setRootView, integration, globalCallbacks: { businessDetailsConfirmed },
+  setRootView, integration, globalCallbacks: { businessDetailsConfirmed, setupBusinessDetails },
 }) => [
   {
     name: RouteName.BUSINESS_DETAIL,
@@ -18,7 +18,7 @@ const getBusinessRoutes = ({
   {
     name: RouteName.INVOICE_BUSINESS_SETTINGS,
     path: '/:region/:businessId/invoiceBusinessSettings',
-    module: new InvoiceBusinessSettingsModule({ setRootView, integration }),
+    module: new InvoiceBusinessSettingsModule({ setRootView, integration, setupBusinessDetails }),
     documentTitle: 'Invoice business details',
   },
 ];

@@ -38,7 +38,7 @@ const Onboarding = ({ tasks, closeTasks }) => (
               <li
                 key={subItem.title}
                 className={classNames({
-                  [styles.completed]: subItem.completed,
+                  [styles.completed]: subItem.isComplete,
                   [styles.active]: isTaskActive(subItem.action),
                 })}
               >

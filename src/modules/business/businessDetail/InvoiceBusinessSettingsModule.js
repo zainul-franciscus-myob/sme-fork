@@ -20,10 +20,11 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class InvoiceBusinessSettingsModule {
-  constructor({ integration, setRootView }) {
+  constructor({ integration, setRootView, setupBusinessDetails }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(businessDetailReducer);
+    this.setupBusinessDetailsCallback = setupBusinessDetails;
   }
 
   loadBusinessDetail = () => {
@@ -59,6 +60,7 @@ export default class InvoiceBusinessSettingsModule {
       this.setSubmittingState(false);
       this.setIsPageEdited(false);
       this.displayAlert({ message, type: 'success' });
+      this.setupBusinessDetailsCallback();
     };
 
     this.saveBusinessDetails(onSuccess);
