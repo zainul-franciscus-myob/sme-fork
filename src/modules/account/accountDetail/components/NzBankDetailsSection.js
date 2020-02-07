@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getBankAccountNameNz,
+  getBankAccountName,
   getBankAccountNumberNz,
   getStatementCode,
   getStatementParticulars,
@@ -42,7 +42,7 @@ const AuBankDetailsSection = ({
     <AutoFormatter
       className={style.name}
       onChange={handleFormattedInputChange(onChange)}
-      name="accountNameNz"
+      name="accountName"
       label="Bank account name"
       maxLength={20}
       value={accountName}
@@ -79,7 +79,7 @@ const AuBankDetailsSection = ({
 
 const mapStateToProps = state => ({
   accountNumber: getBankAccountNumberNz(state),
-  accountName: getBankAccountNameNz(state),
+  accountName: getBankAccountName(state),
   bankCode: getStatementCode(state),
   particulars: getStatementParticulars(state),
   reference: getStatementReference(state),

@@ -62,8 +62,7 @@ export const getTaxCodeLabel = state => getRegionToDialectText(state.region)('Ta
 export const getCashFlowClassification = state => state.detail.cashFlowClassification;
 export const getIsActive = state => state.detail.isActive;
 export const getBankAccountBsb = state => state.detail.bankingDetails.bsb;
-export const getBankAccountNameNz = state => state.detail.bankingDetails.accountNameNz;
-export const getBankAccountNameAu = state => state.detail.bankingDetails.accountNameAu;
+export const getBankAccountName = state => state.detail.bankingDetails.accountName;
 export const getBankAccountNumberAu = state => state.detail.bankingDetails.accountNumberAu;
 export const getBankAccountNumberNz = state => state.detail.bankingDetails.accountNumberNz;
 export const getBankCode = state => state.detail.bankingDetails.bankCode;

@@ -6,7 +6,7 @@ import React from 'react';
 
 import {
   getBankAccountBsb,
-  getBankAccountNameAu,
+  getBankAccountName,
   getBankAccountNumberAu,
   getBankCode,
   getBankTradingName,
@@ -53,7 +53,7 @@ const AuBankDetailsSection = ({
     />
     <UpperCaseInputFormatter
       onChange={handleFormattedInputChange(onChange)}
-      name="accountNameAu"
+      name="accountName"
       label="Bank account name"
       maxLength={32}
       value={accountName}
@@ -123,7 +123,7 @@ const AuBankDetailsSection = ({
 const mapStateToProps = state => ({
   bsb: getBankAccountBsb(state),
   accountNumber: getBankAccountNumberAu(state),
-  accountName: getBankAccountNameAu(state),
+  accountName: getBankAccountName(state),
   tradingName: getBankTradingName(state),
   bankCode: getBankCode(state),
   directEntryUserId: getDirectEntryUserId(state),
