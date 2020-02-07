@@ -84,8 +84,9 @@ const RouteName = {
   CREATE_TEMPLATE: 'createTemplate',
   TEMPLATE_DETAIL: 'templateDetail',
   PAYMENT_DETAIL: 'paymentDetail',
-  INVOICE_BUSINESS_DETAILS: 'invoiceBusinessSettings/invoiceBusinessSettings',
+  INVOICE_BUSINESS_SETTINGS: 'invoiceBusinessSettings/invoiceBusinessSettings',
   INVOICE_EMAIL_SETTINGS: 'invoiceEmailSettings/invoiceEmailSettings',
+  INVOICE_LOGO_SETTINGS: 'invoiceLogoSettings/invoiceLogoSettings',
   BANK_STATEMENT_IMPORT_LIST: 'bankStatementImport/bankStatementImportList',
 };
 

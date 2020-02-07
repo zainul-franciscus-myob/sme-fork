@@ -16,7 +16,7 @@ const getBusinessRoutes = ({
     documentTitle: 'Business details',
   },
   {
-    name: RouteName.INVOICE_BUSINESS_DETAILS,
+    name: RouteName.INVOICE_BUSINESS_SETTINGS,
     path: '/:region/:businessId/invoiceBusinessSettings',
     module: new InvoiceBusinessSettingsModule({ setRootView, integration }),
     documentTitle: 'Invoice business details',

@@ -1,0 +1,15 @@
+.title {
+  display: block;
+  font-weight: var(--flx-font-weight-bold);
+  font-size: var(--flx-font-size-heading-medium);
+  margin-bottom: var(--flx-spacing-small);
+}
+
+.card {
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+.formGroup :global(.form-group) {
+  margin-bottom: var(--flx-spacing-x-tiny);
+}

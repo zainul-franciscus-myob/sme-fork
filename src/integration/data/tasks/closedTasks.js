@@ -47,4 +47,36 @@ export default (region, cdfguid) => [
     isComplete: true,
     template: 'drawer',
   },
+  {
+    action: `/#/${region}/${cdfguid}/invoiceBusinessSettings`,
+    description: 'First impressions matter and we’ll make sure yours is a beauty',
+    key: 'personaliseInvoice',
+    title: 'Build your invoice template',
+    closeEvent: 'personalisedInvoices',
+    isComplete: true,
+    template: 'drawer',
+    tasks: [
+      {
+        action: `/#/${region}/${cdfguid}/invoiceBusinessSettings`,
+        title: 'Add business details',
+        closeEvent: 'addedBusinessDetails',
+        isComplete: true,
+        template: 'drawer',
+      },
+      {
+        action: `/#/${region}/${cdfguid}/invoiceLogoSettings`,
+        title: 'Upload your logo',
+        closeEvent: 'uploadedLogo',
+        isComplete: true,
+        template: 'drawer',
+      },
+      {
+        action: `/#/${region}/${cdfguid}/invoiceEmailSettings`,
+        title: 'Customise email defaults',
+        closeEvent: 'customisedEmailDefaults',
+        isComplete: true,
+        template: 'drawer',
+      },
+    ],
+  },
 ];
