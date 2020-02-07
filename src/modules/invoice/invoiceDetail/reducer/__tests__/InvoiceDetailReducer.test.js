@@ -10,6 +10,7 @@ import {
   UPDATE_INVOICE_LINE,
 } from '../../../InvoiceIntents';
 import InvoiceLayout from '../../InvoiceLayout';
+import InvoiceLineLayout from '../../InvoiceLineLayout';
 import invoiceDetailReducer from '../invoiceDetailReducer';
 
 describe('InvoiceDetailReducer', () => {
@@ -56,7 +57,7 @@ describe('InvoiceDetailReducer', () => {
     it('updates invoice layout to given layout', () => {
       const state = {
         invoice: {
-          layout: 'item',
+          layout: 'itemAndService',
           lines: [],
         },
       };
@@ -74,7 +75,7 @@ describe('InvoiceDetailReducer', () => {
     it('remove item lines and clear line ids when switching to service', () => {
       const state = {
         invoice: {
-          layout: 'item',
+          layout: 'itemAndService',
           lines: [
             {
               id: '1',
@@ -118,7 +119,7 @@ describe('InvoiceDetailReducer', () => {
 
       const action = {
         intent: UPDATE_INVOICE_LAYOUT,
-        layout: 'item',
+        layout: 'itemAndService',
       };
 
       const actual = invoiceDetailReducer(state, action);
@@ -161,14 +162,14 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.isPageEdited).toEqual(true);
     });
 
-    it(`sets the line layout to ${InvoiceLayout.ITEM} when key is itemId`, () => {
+    it(`sets the line layout to ${InvoiceLineLayout.ITEM} when key is itemId`, () => {
       const modifiedState = {
         ...state,
         invoice: {
           ...state.invoice,
           lines: state.invoice.lines.map(line => ({
             ...line,
-            layout: InvoiceLayout.SERVICE,
+            layout: InvoiceLineLayout.SERVICE,
           })),
         },
       };
@@ -181,30 +182,30 @@ describe('InvoiceDetailReducer', () => {
 
       const actual = invoiceDetailReducer(modifiedState, modifiedAction);
 
-      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLayout.ITEM);
+      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLineLayout.ITEM);
     });
 
-    it(`sets the line layout to ${InvoiceLayout.SERVICE} when key is anything but itemId`, () => {
+    it(`sets the line layout to ${InvoiceLineLayout.SERVICE} when key is anything but itemId`, () => {
       const actual = invoiceDetailReducer(state, action);
 
-      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLayout.SERVICE);
+      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLineLayout.SERVICE);
     });
 
-    it(`does not set the line layout when already ${InvoiceLayout.ITEM}`, () => {
+    it(`does not set the line layout when already ${InvoiceLineLayout.ITEM}`, () => {
       const modifiedState = {
         ...state,
         invoice: {
           ...state.invoice,
           lines: state.invoice.lines.map(line => ({
             ...line,
-            layout: InvoiceLayout.ITEM,
+            layout: InvoiceLineLayout.ITEM,
           })),
         },
       };
 
       const actual = invoiceDetailReducer(modifiedState, action);
 
-      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLayout.ITEM);
+      expect(actual.invoice.lines[1].layout).toEqual(InvoiceLineLayout.ITEM);
     });
 
     it('clears the line ids if the line layout is changed', () => {

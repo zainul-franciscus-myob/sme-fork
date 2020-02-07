@@ -58,7 +58,7 @@ export const getMonthlyLimit = ({ monthlyLimit }) => monthlyLimit;
 export const getIsLineAmountDirty = state => state.isLineAmountDirty;
 
 export const getTemplateOptions = (state) => {
-  if (state.invoice.layout === InvoiceLayout.ITEM) {
+  if (state.invoice.layout === InvoiceLayout.ITEM_AND_SERVICE) {
     return state.itemTemplate.templateOptions;
   }
   return state.serviceTemplate.templateOptions;

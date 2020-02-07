@@ -338,12 +338,12 @@ describe('invoiceDetailSelectors', () => {
       ]);
     });
 
-    it('uses item template options when layout is item', () => {
+    it('uses item template options when layout is itemAndService', () => {
       const modifiedState = {
         ...state,
         invoice: {
           ...state.invoice,
-          layout: InvoiceLayout.ITEM,
+          layout: InvoiceLayout.ITEM_AND_SERVICE,
         },
       };
 

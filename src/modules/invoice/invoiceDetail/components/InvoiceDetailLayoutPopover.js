@@ -30,8 +30,8 @@ const InvoiceDetailLayoutPopover = ({
         />,
         <RadioButton
           {...feelixProps}
-          checked={value === InvoiceLayout.ITEM}
-          value={InvoiceLayout.ITEM}
+          checked={value === InvoiceLayout.ITEM_AND_SERVICE}
+          value={InvoiceLayout.ITEM_AND_SERVICE}
           label="Services and items"
         />,
       ]}

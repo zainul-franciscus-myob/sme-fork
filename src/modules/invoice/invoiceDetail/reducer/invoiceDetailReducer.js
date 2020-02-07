@@ -74,6 +74,7 @@ import {
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
 import InvoiceLayout from '../InvoiceLayout';
+import InvoiceLineLayout from '../InvoiceLineLayout';
 import createReducer from '../../../../store/createReducer';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
 import getDefaultState from './getDefaultState';
@@ -186,7 +187,7 @@ const updateInvoiceLayout = (state, action) => ({
     ...state.invoice,
     layout: action.layout,
     lines: state.invoice.lines
-      .filter(line => line.layout === InvoiceLayout.SERVICE)
+      .filter(line => line.layout === InvoiceLineLayout.SERVICE)
       .map(line => ({
         ...line,
         id: '',
@@ -216,6 +217,17 @@ const updateInvoiceLine = (state, action) => {
   const isUpdateAccountId = action.key === 'accountId';
   const isUpdateUnitPrice = action.key === 'unitPrice';
 
+  const getLineLayout = (layout, key) => {
+    const isLineItemLayout = layout === InvoiceLineLayout.ITEM;
+    const isUpdateItemId = key === 'itemId';
+
+    if (isLineItemLayout) {
+      return layout;
+    }
+
+    return isUpdateItemId ? InvoiceLineLayout.ITEM : InvoiceLineLayout.SERVICE;
+  };
+
   return ({
     ...state,
     isPageEdited: true,
@@ -226,8 +238,8 @@ const updateInvoiceLine = (state, action) => {
         if (index === action.index) {
           return {
             ...line,
+            layout: getLineLayout(line.layout, action.key),
             id: lineLayout === line.layout ? line.id : '',
-            layout: lineLayout,
             taxCodeId: isUpdateAccountId
               ? getDefaultTaxCodeId({
                 accountId: action.value,

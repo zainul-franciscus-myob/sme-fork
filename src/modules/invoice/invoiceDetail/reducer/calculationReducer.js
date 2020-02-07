@@ -101,7 +101,7 @@ export const calculateLineAmounts = (state, { key, index }) => {
         if (index !== lineIndex) {
           return line;
         }
-        if (layout === InvoiceLayout.ITEM) {
+        if (layout === InvoiceLayout.ITEM_AND_SERVICE) {
           return buildItemLine(line, key);
         }
         return buildServiceLine(line);

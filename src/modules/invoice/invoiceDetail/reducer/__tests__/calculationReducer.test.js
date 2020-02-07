@@ -72,11 +72,11 @@ describe('calculationReducer', () => {
   });
 
   describe('CALCULATE_LINE_AMOUNTS', () => {
-    describe('item layout', () => {
+    describe('itemAndService layout', () => {
       it('should calculate amount correctly when update units', () => {
         const state = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 units: '2',
@@ -99,7 +99,7 @@ describe('calculationReducer', () => {
 
         const expected = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 amount: '100',
@@ -119,7 +119,7 @@ describe('calculationReducer', () => {
       it('should calculate amount correctly when update unitPirce', () => {
         const state = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 units: '2',
@@ -142,7 +142,7 @@ describe('calculationReducer', () => {
 
         const expected = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 amount: '100',
@@ -162,7 +162,7 @@ describe('calculationReducer', () => {
       it('should calculate amount correctly when update discount', () => {
         const state = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 units: '1',
@@ -185,7 +185,7 @@ describe('calculationReducer', () => {
 
         const expected = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 amount: '50',
@@ -205,7 +205,7 @@ describe('calculationReducer', () => {
       it('should calculate unitPrice correctly when update amount and unitPrice is 0 and units is not 0', () => {
         const state = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 units: '2',
@@ -228,7 +228,7 @@ describe('calculationReducer', () => {
 
         const expected = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 amount: '100',
@@ -249,7 +249,7 @@ describe('calculationReducer', () => {
       it('should calculate discount when update amount and units is not 0', () => {
         const state = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 units: '1',
@@ -272,7 +272,7 @@ describe('calculationReducer', () => {
 
         const expected = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 amount: '100',
@@ -292,7 +292,7 @@ describe('calculationReducer', () => {
       it('should remove discount when update amount and units is 0', () => {
         const state = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 units: '',
@@ -315,7 +315,7 @@ describe('calculationReducer', () => {
 
         const expected = {
           invoice: {
-            layout: 'item',
+            layout: 'itemAndService',
             lines: [
               {
                 amount: '100',
