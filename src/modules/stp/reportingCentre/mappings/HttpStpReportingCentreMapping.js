@@ -20,6 +20,8 @@ import {
 import {
   LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
+  SUBMIT_EMPLOYEES_FINALISATION,
+  SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
 import {
   LOAD_STP_REGISTRATION_STATUS,
@@ -86,6 +88,14 @@ const HttpStpReportingCentreMapping = {
   [DELETE_EMPLOYEE_ETP]: {
     method: 'DELETE',
     getPath: ({ businessId }) => `/${businessId}/stp/employee_etps`,
+  },
+  [SUBMIT_EMPLOYEES_FINALISATION]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/stp/finalise_employees_eofy`,
+  },
+  [SUBMIT_EMPLOYEES_REMOVE_FINALISATION]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/stp/unfinalise_employees_eofy`,
   },
 };
 

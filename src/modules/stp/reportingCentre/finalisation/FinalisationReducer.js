@@ -3,6 +3,7 @@ import uuid from 'uuid/v4';
 import {
   LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
+  RESET_EVENT_ID,
   SELECT_ALL_EMPLOYEES,
   SELECT_EMPLOYEES_ITEM,
   SET_IS_RFBA_ENABLED,
@@ -101,6 +102,11 @@ const updateEmployeeRow = (state, { key, value, rowId }) => ({
       : { ...e })),
 });
 
+const resetEventId = state => ({
+  ...state,
+  eventId: uuid(),
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_INITIAL_EMPLOYEES_AND_HEADERS]: setInitialFinalisationInformation,
@@ -111,6 +117,7 @@ const handlers = {
   [SELECT_EMPLOYEES_ITEM]: selectEmployeesItem,
   [UPDATE_EMPLOYEE_ROW]: updateEmployeeRow,
   [LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR]: loadEmployeesAndHeadersForYear,
+  [RESET_EVENT_ID]: resetEventId,
 };
 
 const finalisationReducer = createReducer(getDefaultState(), handlers);

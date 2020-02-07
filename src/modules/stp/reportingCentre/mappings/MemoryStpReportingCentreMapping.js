@@ -17,7 +17,12 @@ import {
   UPDATE_BUSINESS_CONTACT,
   UPDATE_BUSINESS_DETAILS,
 } from '../atoSettings/AtoSettingsIntents';
-import { LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR, LOAD_INITIAL_EMPLOYEES_AND_HEADERS } from '../finalisation/FinalisationIntents';
+import {
+  LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
+  LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
+  SUBMIT_EMPLOYEES_FINALISATION,
+  SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
+} from '../finalisation/FinalisationIntents';
 import {
   LOAD_STP_REGISTRATION_STATUS,
   UPDATE_STP_EMPLOYEES,
@@ -32,6 +37,8 @@ import loadFinalisationInitialEmployeesAndHeaderDetailsResponse from './data/loa
 import loadPayEventDetails from './data/loadPayEventDetailResponse';
 import loadPayEventsResponse from './data/loadPayEventsResponse';
 import stpRegistrationStatus from './data/stpRegistrationStatus';
+import submitEmployeesFinalisation from './data/submitEmployeesFinalisation';
+import submitEmployeesRemoveFinalisation from './data/submitEmployeesRemoveFinalisation';
 
 const MemoryStpReportingCentreMapping = {
   [LOAD_STP_REGISTRATION_STATUS]: ({ onSuccess }) => onSuccess(stpRegistrationStatus),
@@ -56,6 +63,10 @@ const MemoryStpReportingCentreMapping = {
     ({ onSuccess }) => onSuccess(loadFinalisationInitialEmployeesAndHeaderDetailsResponse),
   [LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR]:
     ({ onSuccess }) => onSuccess(loadFinalisationEmployeesAndHeaderDetailsForYearResponse),
+  [SUBMIT_EMPLOYEES_FINALISATION]: ({ onSuccess }) => onSuccess(submitEmployeesFinalisation),
+  [SUBMIT_EMPLOYEES_REMOVE_FINALISATION]: ({ onSuccess }) => onSuccess(
+    submitEmployeesRemoveFinalisation,
+  ),
 };
 
 export default MemoryStpReportingCentreMapping;

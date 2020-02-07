@@ -46,6 +46,8 @@ const FinalisationEmployeesTable = ({
   onEmployeeChange,
   shouldShowFinaliseButton,
   shouldShowRemoveFinalisationButton,
+  onFinaliseClick,
+  onRemoveFinalisationClick,
 }) => {
   const selectedCount = employees.filter(e => e.isSelected).length;
 
@@ -179,8 +181,25 @@ const FinalisationEmployeesTable = ({
   const table = (
     <>
       <BulkActions>
-        {shouldShowFinaliseButton && <Button testid="finaliseButton" type="secondary">Finalise and notify the ATO</Button>}
-        {shouldShowRemoveFinalisationButton && <Button testid="removeFinalisationButton" type="secondary">Remove finalisation and notify the ATO</Button>}
+        {shouldShowFinaliseButton
+        && (
+          <Button
+            testid="finaliseButton"
+            type="secondary"
+            onClick={onFinaliseClick}
+          >
+              Finalise and notify the ATO
+          </Button>
+        )}
+        {shouldShowRemoveFinalisationButton && (
+          <Button
+            testid="removeFinalisationButton"
+            type="secondary"
+            onClick={onRemoveFinalisationClick}
+          >
+            Remove finalisation and notify the ATO
+          </Button>
+        )}
       </BulkActions>
       <TableView
         header={header}

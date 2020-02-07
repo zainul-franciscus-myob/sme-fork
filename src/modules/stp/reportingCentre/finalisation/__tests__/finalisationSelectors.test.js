@@ -4,6 +4,8 @@ import {
   getPayrollYears,
   getShouldShowFinaliseButton,
   getShouldShowRemoveFinalisationButton,
+  getSubmitEmployeesFinalisationContent,
+  getSubmitEmployeesRemoveFinalisationContent,
 } from '../FinalisationSelector';
 
 describe('finalisationSelectors', () => {
@@ -107,6 +109,88 @@ describe('finalisationSelectors', () => {
       };
 
       expect(getIsRFBALocked(state)).toBeFalsy();
+    });
+  });
+
+  describe('getSubmitEmployeesFinalisationContent', () => {
+    it('only includes selected unfinalised employees', () => {
+      const state = {
+        eventId: '123',
+        employees: [
+          {
+            id: '1',
+            isFinalised: false,
+            isSelected: true,
+          },
+          {
+            id: '2',
+            isFinalised: false,
+            isSelected: false,
+          },
+          {
+            id: '3',
+            isFinalised: true,
+            isSelected: true,
+          },
+          {
+            id: '4',
+            isFinalised: true,
+            isSelected: false,
+          },
+        ],
+      };
+
+      expect(getSubmitEmployeesFinalisationContent(state)).toEqual({
+        eventId: '123',
+        employees: [
+          {
+            id: '1',
+            isFinalised: false,
+            isSelected: true,
+          },
+        ],
+      });
+    });
+  });
+
+  describe('getSubmitEmployeesRemoveFinalisationContent', () => {
+    it('only includes selected finalised employees', () => {
+      const state = {
+        eventId: '123',
+        employees: [
+          {
+            id: '1',
+            isFinalised: true,
+            isSelected: true,
+          },
+          {
+            id: '2',
+            isFinalised: true,
+            isSelected: false,
+          },
+          {
+            id: '3',
+            isFinalised: false,
+            isSelected: true,
+          },
+          {
+            id: '4',
+            isFinalised: false,
+            isSelected: false,
+          },
+        ],
+      };
+
+      expect(getSubmitEmployeesRemoveFinalisationContent(state)).toEqual({
+        eventId: '123',
+        employees: [
+          {
+            id: '1',
+            isFinalised: true,
+            isSelected: true,
+          },
+        ],
+      });
     });
   });
 });

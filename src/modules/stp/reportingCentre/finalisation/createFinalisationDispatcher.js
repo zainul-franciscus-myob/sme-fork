@@ -2,6 +2,7 @@
 import {
   LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
+  RESET_EVENT_ID,
   SELECT_ALL_EMPLOYEES,
   SELECT_EMPLOYEES_ITEM,
   SET_FILTERED_EMPLOYEES,
@@ -104,6 +105,12 @@ const createFinalisationDispatcher = store => ({
       key,
       value,
       rowId,
+    });
+  },
+
+  resetEventId: () => {
+    store.dispatch({
+      intent: RESET_EVENT_ID,
     });
   },
 });

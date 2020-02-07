@@ -44,6 +44,8 @@ const FinalisationView = ({
   isRFBALocked,
   shouldShowFinaliseButton,
   shouldShowRemoveFinalisationButton,
+  onFinaliseClick,
+  onRemoveFinalisationClick,
 }) => {
   const view = (
     <Card>
@@ -71,6 +73,8 @@ const FinalisationView = ({
         onEmployeeChange={onEmployeeChange}
         shouldShowFinaliseButton={shouldShowFinaliseButton}
         shouldShowRemoveFinalisationButton={shouldShowRemoveFinalisationButton}
+        onFinaliseClick={onFinaliseClick}
+        onRemoveFinalisationClick={onRemoveFinalisationClick}
       />
     </Card>
   );

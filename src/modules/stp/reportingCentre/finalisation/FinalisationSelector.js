@@ -9,6 +9,7 @@ export const getReportedRfba = state => state.reportedRfba;
 export const getReportedSection57aRfba = state => state.reportedSection57aRfba;
 export const getPaygWithholdingYtd = state => state.paygWithholdingYtd;
 export const getEmployeesCount = state => state.employeesCount;
+export const getEventId = state => state.eventId;
 export const getIsRFBALocked = state => state.employees.find(
   e => e.rfbAmount || e.s57aRfbAmount,
 );
@@ -19,3 +20,16 @@ export const getShouldShowFinaliseButton = state => Boolean(
 export const getShouldShowRemoveFinalisationButton = state => Boolean(
   state.employees.find(employee => employee.isSelected && employee.isFinalised),
 );
+export const getStpDeclarationContext = state => ({
+  businessId: getBusinessId(state),
+  eventId: getEventId(state),
+});
+const getSelectedEmployees = state => state.employees.filter(employee => employee.isSelected);
+export const getSubmitEmployeesFinalisationContent = state => ({
+  eventId: getEventId(state),
+  employees: getSelectedEmployees(state).filter(employee => !employee.isFinalised),
+});
+export const getSubmitEmployeesRemoveFinalisationContent = state => ({
+  eventId: getEventId(state),
+  employees: getSelectedEmployees(state).filter(employee => employee.isFinalised),
+});

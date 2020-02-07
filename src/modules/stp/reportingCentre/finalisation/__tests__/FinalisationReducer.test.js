@@ -1,4 +1,4 @@
-import { LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR, UPDATE_EMPLOYEE_ROW } from '../FinalisationIntents';
+import { LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR, RESET_EVENT_ID, UPDATE_EMPLOYEE_ROW } from '../FinalisationIntents';
 import finalisationReducer from '../FinalisationReducer';
 import loadEmployeesAndHeaderDetailsForYearResponse from '../../mappings/data/loadFinalisationEmployeesAndHeaderDetailsForYearResponse';
 
@@ -121,6 +121,23 @@ describe('FinalisationReducer', () => {
           },
         ],
       });
+    });
+  });
+
+  describe('RESET_EVENT_ID', () => {
+    it('overrides the current eventId', () => {
+      const oldId = 'OLD_ID';
+      const state = {
+        eventId: oldId,
+      };
+
+      const action = {
+        intent: RESET_EVENT_ID,
+      };
+
+      const result = finalisationReducer(state, action);
+
+      expect(result.eventId).not.toEqual(oldId);
     });
   });
 });

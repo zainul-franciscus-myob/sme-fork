@@ -8,3 +8,6 @@ export const SET_IS_RFBA_ENABLED = Symbol('Set the RFBA enabled state');
 export const SELECT_ALL_EMPLOYEES = Symbol('Select all employees');
 export const SELECT_EMPLOYEES_ITEM = Symbol('Select employees item');
 export const UPDATE_EMPLOYEE_ROW = Symbol('Update employee row value');
+export const SUBMIT_EMPLOYEES_FINALISATION = Symbol('Submit employees for finalisation');
+export const RESET_EVENT_ID = Symbol('Reset the event id');
+export const SUBMIT_EMPLOYEES_REMOVE_FINALISATION = Symbol('Submit employees for removal of finalisation');
