@@ -201,7 +201,7 @@ export default class ReceiveMoneyDetailModule {
     const newLineValue = line[newLineKey];
 
     const state = this.store.getState();
-    const newLineIndex = getIndexOfLastLine(state) + 1;
+    const newLineIndex = getIndexOfLastLine(state);
 
     this.updateReceiveMoneyLine(newLineIndex, newLineKey, newLineValue);
   }
