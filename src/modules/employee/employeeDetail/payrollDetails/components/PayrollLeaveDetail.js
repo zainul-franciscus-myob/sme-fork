@@ -4,11 +4,12 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getLeaveDetail } from '../selectors/PayrollLeaveDetailSelectors';
+import { getLeaveDetail, getShowAddLeavePayItemButton } from '../selectors/PayrollLeaveDetailSelectors';
 import PayrollLeaveDetailModal from './PayrollLeaveDetailModal';
 import PayrollLeaveDetailTable from './PayrollLeaveDetailTable';
 
 const PayrollLeaveDetail = ({
+  showAddLeavePayItemButton,
   leaveDetail: {
     startDate,
     terminationDate,
@@ -24,6 +25,7 @@ const PayrollLeaveDetail = ({
     onConfirmRemoveAllocatedLeaveItem,
     onConfirmCancelAllocatedLeaveItem,
     onUpdateAllocatedLeaveItemCarryOver,
+    onAddLeavePayItemButtonClick,
   },
 }) => {
   const modal = allocatedLeavePayItemModal && (
@@ -60,6 +62,8 @@ const PayrollLeaveDetail = ({
         onRemoveAllocatedLeaveItem={onRemoveAllocatedLeaveItem}
         onUpdateCarryOver={onUpdateAllocatedLeaveItemCarryOver}
         onOpenLeavePayItemModal={onOpenLeavePayItemModal}
+        showAddLeavePayItemButton={showAddLeavePayItemButton}
+        onAddLeavePayItemButtonClick={onAddLeavePayItemButtonClick}
       />
     </FieldGroup>
   );
@@ -75,6 +79,7 @@ const PayrollLeaveDetail = ({
 
 const mapStateToProps = state => ({
   leaveDetail: getLeaveDetail(state),
+  showAddLeavePayItemButton: getShowAddLeavePayItemButton(state),
 });
 
 export default connect(mapStateToProps)(PayrollLeaveDetail);

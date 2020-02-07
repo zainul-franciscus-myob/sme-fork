@@ -70,6 +70,7 @@ export const ADD_ALLOCATED_LEAVE_ITEM = Symbol('Add an allocated leave item');
 export const REMOVE_ALLOCATED_LEAVE_ITEM = Symbol('Remove an allocated leave item');
 export const UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER = Symbol('Update an allocated leave item carry over amount');
 export const SET_ALLOCATED_LEAVE_ITEM_MODAL = Symbol('Set allocated leave item modal');
+export const SHOW_LEAVE_PAY_ITEM_DROPDOWN = Symbol('Show leave pay item dropdown');
 
 export const SET_EXPENSE_PAY_ITEM_MODAL_ALERT = Symbol('Set expense pay item modal alert');
 export const CHANGE_EXPENSE_PAY_ITEM_MODAL_INPUT = Symbol('Change expense pay item modal input');

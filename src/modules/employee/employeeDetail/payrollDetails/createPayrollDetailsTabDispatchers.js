@@ -99,6 +99,7 @@ import {
   SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE,
   SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE,
   SHOW_CONTACT_DETAILS,
+  SHOW_LEAVE_PAY_ITEM_DROPDOWN,
   UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
   UPDATE_EXPENSE_PAY_ITEM_MODAL,
@@ -130,6 +131,10 @@ import createEmployeeDetailDispatcher from '../createEmployeeDetailDispatcher';
 
 const toggleShowAddDeductionPayItemDropdown = (store, showDropdown) => {
   store.dispatch({ intent: SET_SHOW_DEDUCTION_PAY_ITEM, showDropdown });
+};
+
+const toggleShowAddLeavePayItemDropdown = (store, showDropdown) => {
+  store.dispatch({ intent: SHOW_LEAVE_PAY_ITEM_DROPDOWN, showDropdown });
 };
 
 const createPayrollDetailsTabDispatchers = store => ({
@@ -185,6 +190,8 @@ const createPayrollDetailsTabDispatchers = store => ({
   addAllocatedLeaveItem: (leaveItem) => {
     const intent = ADD_ALLOCATED_LEAVE_ITEM;
     store.dispatch({ intent, leaveItem });
+
+    toggleShowAddLeavePayItemDropdown(store, true);
   },
 
   removeAllocatedLeaveItem: (payItemId) => {
@@ -205,6 +212,10 @@ const createPayrollDetailsTabDispatchers = store => ({
   closeAllocatedLeaveItemModal: () => {
     const intent = SET_ALLOCATED_LEAVE_ITEM_MODAL;
     store.dispatch({ intent, modal: undefined });
+  },
+
+  showAddLeavePayItemButtonDropdown: () => {
+    toggleShowAddLeavePayItemDropdown(store, false);
   },
 
   addPayrollTaxPayItem: (payItem) => {
@@ -735,11 +746,15 @@ const createPayrollDetailsTabDispatchers = store => ({
   openLeavePayItemModal: (leavePayItemId) => {
     const intent = OPEN_LEAVE_PAY_ITEM_MODAL;
     store.dispatch({ intent, leavePayItemId });
+
+    toggleShowAddLeavePayItemDropdown(store, true);
   },
 
   closeLeavePayItemModal: () => {
     const intent = CLOSE_LEAVE_PAY_ITEM_MODAL;
     store.dispatch({ intent });
+
+    toggleShowAddLeavePayItemDropdown(store, true);
   },
 
   dismissLeavePayItemModalAlert: () => {

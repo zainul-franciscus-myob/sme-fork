@@ -1,5 +1,5 @@
 import {
-  Button, Combobox, Icons, PageState, Table, Tooltip,
+  Button, Combobox, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -42,10 +42,9 @@ const PayrollLeaveDetailTable = ({
   onRemoveAllocatedLeaveItem,
   onUpdateCarryOver,
   onOpenLeavePayItemModal,
+  showAddLeavePayItemButton,
+  onAddLeavePayItemButtonClick,
 }) => {
-  const emptyView = (
-    <PageState title="You have not allocated any Leave items yet." />
-  );
   const tableBodyView = selected.map((payItem) => {
     const {
       payItemId, name, carryOver, yearToDate, total,
@@ -95,23 +94,31 @@ const PayrollLeaveDetailTable = ({
           <Table.HeaderItem {...tableConfig.actions} />
         </Table.Header>
         <Table.Body>
-          { selected.length ? tableBodyView : emptyView}
+          { tableBodyView }
         </Table.Body>
       </Table>
-      <Combobox
-        label="Add Leave pay item"
-        hideLabel
-        hintText="Add Leave pay item"
-        metaData={comboboxMetaData}
-        items={items}
-        selected={{}}
-        onChange={handleComboboxChange(onAddAllocatedLeaveItem)}
-        addNewItem={{
-          label: 'Create leave pay item',
-          onAddNew: onPayItemSelect(onOpenLeavePayItemModal, 'new'),
-        }}
-        width="lg"
-      />
+      { showAddLeavePayItemButton
+        ? (
+          <Button type="link" icon={<Icons.Add />} onClick={onAddLeavePayItemButtonClick}>
+            Add leave pay item
+          </Button>
+        )
+        : (
+          <Combobox
+            label="Add Leave pay item"
+            hideLabel
+            hintText="Add Leave pay item"
+            metaData={comboboxMetaData}
+            items={items}
+            selected={{}}
+            onChange={handleComboboxChange(onAddAllocatedLeaveItem)}
+            addNewItem={{
+              label: 'Create leave pay item',
+              onAddNew: onPayItemSelect(onOpenLeavePayItemModal, 'new'),
+            }}
+            width="lg"
+          />
+        )}
     </div>
   );
 };

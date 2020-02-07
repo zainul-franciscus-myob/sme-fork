@@ -5,6 +5,7 @@ import {
   REMOVE_PAYROLL_DEDUCTION_PAY_ITEM,
   SET_ALLOCATED_LEAVE_ITEM_MODAL,
   SET_SHOW_DEDUCTION_PAY_ITEM,
+  SHOW_LEAVE_PAY_ITEM_DROPDOWN,
   UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
 } from '../../../EmployeeIntents';
@@ -109,6 +110,17 @@ const toggleShowAddDeductionPayItem = (state, action) => ({
   },
 });
 
+const showAddLeavePayItemButtonDropdown = (state, action) => ({
+  ...state,
+  payrollDetails: {
+    ...state.payrollDetails,
+    leaveDetails: {
+      ...state.payrollDetails.leaveDetails,
+      showAddLeavePayItemButton: action.showDropdown,
+    },
+  },
+});
+
 export default {
   [UPDATE_PAYROLL_EMPLOYMENT_DETAIL]: updatePayrollEmployeeDetail,
   [ADD_PAYROLL_DEDUCTION_PAY_ITEM]: addPayrollDeductionPayItem,
@@ -118,4 +130,5 @@ export default {
   [UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER]: updateAllocatedLeaveItemCarryOver,
   [SET_ALLOCATED_LEAVE_ITEM_MODAL]: setAllocatedLeaveItemModal,
   [SET_SHOW_DEDUCTION_PAY_ITEM]: toggleShowAddDeductionPayItem,
+  [SHOW_LEAVE_PAY_ITEM_DROPDOWN]: showAddLeavePayItemButtonDropdown,
 };

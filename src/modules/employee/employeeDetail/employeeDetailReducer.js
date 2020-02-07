@@ -76,6 +76,7 @@ export const getDefaultState = () => ({
     leaveDetails: {
       allocatedLeavePayItems: [],
       modal: undefined,
+      showAddLeavePayItemButton: true,
     },
     superannuationDetails: {
       selectedSuperFundId: '',
