@@ -91,7 +91,7 @@ class OnboardingView extends Component {
         <div className={classNames(styles.column, styles.form)}>
           <h1>Welcome to MYOB!</h1>
 
-          <Card className={styles.card}>
+          <Card classes={[styles.card]}>
             <p className={styles.intro}>
               Let&apos;s start with a few details that will help us personalise your experience.
             </p>
