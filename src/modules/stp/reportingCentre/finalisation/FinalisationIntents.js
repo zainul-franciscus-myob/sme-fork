@@ -11,3 +11,5 @@ export const UPDATE_EMPLOYEE_ROW = Symbol('Update employee row value');
 export const SUBMIT_EMPLOYEES_FINALISATION = Symbol('Submit employees for finalisation');
 export const RESET_EVENT_ID = Symbol('Reset the event id');
 export const SUBMIT_EMPLOYEES_REMOVE_FINALISATION = Symbol('Submit employees for removal of finalisation');
+export const SET_UNSAVED_CHANGES_MODAL = Symbol('open unsaved changes modal');
+export const RESET_DIRTY_FLAG = Symbol('Resets the dirty flag back to false');

@@ -3,12 +3,14 @@ import uuid from 'uuid/v4';
 import {
   LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
+  RESET_DIRTY_FLAG,
   RESET_EVENT_ID,
   SELECT_ALL_EMPLOYEES,
   SELECT_EMPLOYEES_ITEM,
   SET_IS_RFBA_ENABLED,
   SET_LOADING_STATE,
   SET_SELECTED_PAYROLL_YEAR,
+  SET_UNSAVED_CHANGES_MODAL,
   UPDATE_EMPLOYEE_ROW,
 } from './FinalisationIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
@@ -29,6 +31,8 @@ export const getDefaultState = () => ({
   reportedSection57aRfba: '',
   isRFBAEnabled: false,
   employeesCount: null,
+  isDirty: false,
+  unsavedChangesModalIsOpen: false,
 });
 
 const setInitialState = (state, { context }) => ({
@@ -52,6 +56,7 @@ const setInitialFinalisationInformation = (state, { response }) => ({
 
 const loadEmployeesAndHeadersForYear = (state, { response }) => ({
   ...state,
+  isDirty: false,
   employees: response.employees ? response.employees.map(e => ({
     ...e, isSelected: false,
   })) : [],
@@ -80,6 +85,7 @@ const setLoadingState = (state, { loadingState }) => ({
 
 const selectAllEmployees = (state, { isSelected }) => ({
   ...state,
+  isDirty: true,
   employees: state.employees.map(t => ({
     ...t,
     isSelected,
@@ -88,6 +94,7 @@ const selectAllEmployees = (state, { isSelected }) => ({
 
 const selectEmployeesItem = (state, action) => ({
   ...state,
+  isDirty: true,
   employees: state.employees.map(e => (
     e.id === action.item.id
       ? { ...e, isSelected: action.isSelected } : e
@@ -96,6 +103,7 @@ const selectEmployeesItem = (state, action) => ({
 
 const updateEmployeeRow = (state, { key, value, rowId }) => ({
   ...state,
+  isDirty: true,
   employees: state.employees.map(e => (
     e.id === rowId
       ? { ...e, [key]: value }
@@ -105,6 +113,16 @@ const updateEmployeeRow = (state, { key, value, rowId }) => ({
 const resetEventId = state => ({
   ...state,
   eventId: uuid(),
+});
+
+const setUnsavedChangesModal = (state, { isOpen }) => ({
+  ...state,
+  unsavedChangesModalIsOpen: isOpen,
+});
+
+const resetDirtyFlag = state => ({
+  ...state,
+  isDirty: false,
 });
 
 const handlers = {
@@ -118,6 +136,8 @@ const handlers = {
   [UPDATE_EMPLOYEE_ROW]: updateEmployeeRow,
   [LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR]: loadEmployeesAndHeadersForYear,
   [RESET_EVENT_ID]: resetEventId,
+  [SET_UNSAVED_CHANGES_MODAL]: setUnsavedChangesModal,
+  [RESET_DIRTY_FLAG]: resetDirtyFlag,
 };
 
 const finalisationReducer = createReducer(getDefaultState(), handlers);

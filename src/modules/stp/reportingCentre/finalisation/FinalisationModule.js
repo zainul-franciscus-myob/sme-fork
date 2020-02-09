@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getSelectedPayrollYear, getStpDeclarationContext } from './FinalisationSelector';
+import { getIsDirty, getSelectedPayrollYear, getStpDeclarationContext } from './FinalisationSelector';
 import FinalisationView from './components/FinalisationView';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
@@ -153,6 +153,37 @@ export default class FinalisationModule {
     this.loadInitialEmployeesAndHeaderDetails();
   };
 
+  tryToNavigate = (navigationFunction) => {
+    const isDirty = getIsDirty(this.store.getState());
+    if (!isDirty) {
+      navigationFunction();
+    } else {
+      this.openUnsavedChangesModal(navigationFunction);
+    }
+  }
+
+  openUnsavedChangesModal = (navigationFunction) => {
+    this.pendingNavigationFunction = navigationFunction;
+
+    this.dispatcher.setUnsavedChangesModal(true);
+  }
+
+  closeUnsavedChangesModal = () => {
+    this.dispatcher.setUnsavedChangesModal(false);
+    this.pendingNavigationFunction = null;
+  }
+
+  onUnsavedChangesCancel = () => {
+    this.closeUnsavedChangesModal();
+  }
+
+  onUnsavedChangesConfirm = () => {
+    this.pendingNavigationFunction();
+    this.dispatcher.setUnsavedChangesModal(false);
+    this.dispatcher.resetDirtyFlag();
+    this.pendingNavigationFunction = null;
+  }
+
   getView() {
     const stpModal = this.stpDeclarationModalModule.getView();
 
@@ -167,6 +198,10 @@ export default class FinalisationModule {
           onEmployeeChange={this.updateEmployeeRow}
           onFinaliseClick={this.onFinaliseClick}
           onRemoveFinalisationClick={this.onRemoveFinalisationClick}
+          unsavedChangesModalListeners={{
+            onCancel: this.onUnsavedChangesCancel,
+            onConfirm: this.onUnsavedChangesConfirm,
+          }}
         />
       </Provider>
     );

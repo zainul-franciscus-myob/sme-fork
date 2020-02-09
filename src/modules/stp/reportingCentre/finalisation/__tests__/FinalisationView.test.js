@@ -6,6 +6,7 @@ import React from 'react';
 
 import { findButtonWithTestId } from '../../../../../common/tests/selectors';
 import { getDefaultState } from '../FinalisationReducer';
+import CancelModal from '../../../../../components/modal/CancelModal';
 import FinalisationEmployeesTable from '../components/FinalisationEmployeesTable';
 import FinalisationHeader from '../components/FinalisationHeader';
 import FinalisationView from '../components/FinalisationView';
@@ -17,7 +18,13 @@ describe('FinalisationView', () => {
     const store = new Store(() => ({ ...getDefaultState(), ...state }));
     const wrappedComponent = (
       <Provider store={store}>
-        <FinalisationView onSort={() => { }} />
+        <FinalisationView
+          onSort={() => { }}
+          unsavedChangesModalListeners={{
+            onCancel: () => {},
+            onConfirm: () => {},
+          }}
+        />
       </Provider>
     );
 
@@ -134,6 +141,32 @@ describe('FinalisationView', () => {
       const removefinalisationButton = findButtonWithTestId(finalisationView, 'removeFinalisationButton');
 
       expect(removefinalisationButton).toHaveLength(0);
+    });
+  });
+
+  describe('Unsaved changes modal', () => {
+    it('renders the unsaved changes modal', () => {
+      const state = {
+        loadingState: LoadingState.LOADING_SUCCESS,
+        unsavedChangesModalIsOpen: true,
+      };
+
+      const finalisationView = constructFinalisationView(state);
+      const unsavedChangesModal = finalisationView.find(CancelModal);
+
+      expect(unsavedChangesModal).toHaveLength(1);
+    });
+
+    it('does not render the unsaved changes modal', () => {
+      const state = {
+        loadingState: LoadingState.LOADING_SUCCESS,
+        unsavedChangesModalIsOpen: false,
+      };
+
+      const finalisationView = constructFinalisationView(state);
+      const unsavedChangesModal = finalisationView.find(CancelModal);
+
+      expect(unsavedChangesModal).toHaveLength(0);
     });
   });
 });

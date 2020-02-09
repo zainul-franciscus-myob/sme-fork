@@ -33,3 +33,5 @@ export const getSubmitEmployeesRemoveFinalisationContent = state => ({
   eventId: getEventId(state),
   employees: getSelectedEmployees(state).filter(employee => employee.isFinalised),
 });
+export const getIsDirty = state => state.isDirty;
+export const getUnsavedChangesModalIsOpen = state => state.unsavedChangesModalIsOpen;

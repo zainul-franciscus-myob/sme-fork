@@ -19,7 +19,9 @@ import {
   getSelectedPayrollYear,
   getShouldShowFinaliseButton,
   getShouldShowRemoveFinalisationButton,
+  getUnsavedChangesModalIsOpen,
 } from '../FinalisationSelector';
+import CancelModal from '../../../../../components/modal/CancelModal';
 import FinalisationEmployeesTable from './FinalisationEmployeesTable';
 import FinalisationHeader from './FinalisationHeader';
 import PageView from '../../../../../components/PageView/PageView';
@@ -46,37 +48,47 @@ const FinalisationView = ({
   shouldShowRemoveFinalisationButton,
   onFinaliseClick,
   onRemoveFinalisationClick,
+  unsavedChangesModalIsOpen,
+  unsavedChangesModalListeners,
 }) => {
   const view = (
-    <Card>
-      <FinalisationHeader
-        payrollYears={payrollYears}
-        payrollYear={payrollYear}
-        employees={employees}
-        grossPaymentYtd={grossPaymentYtd}
-        reportedRfba={reportedRfba}
-        reportedSection57aRfba={reportedSection57aRfba}
-        paygWithholdingYtd={paygWithholdingYtd}
-        employeesCount={employeesCount}
-        onIsRFBAEnabledClick={onIsRFBAEnabledClick}
-        isRFBALocked={isRFBALocked}
-        isRFBAEnabled={isRFBAEnabled}
-        onPayrollYearChange={onPayrollYearChange}
+    <>
+      {unsavedChangesModalIsOpen && (
+      <CancelModal
+        onConfirm={unsavedChangesModalListeners.onConfirm}
+        onCancel={unsavedChangesModalListeners.onCancel}
       />
-      <Separator />
-      <FinalisationEmployeesTable
-        employees={employees}
-        isTableLoading={isTableLoading}
-        selectAll={selectAllEmployees}
-        selectItem={selectEmployeesItem}
-        isRFBAEnabled={isRFBAEnabled}
-        onEmployeeChange={onEmployeeChange}
-        shouldShowFinaliseButton={shouldShowFinaliseButton}
-        shouldShowRemoveFinalisationButton={shouldShowRemoveFinalisationButton}
-        onFinaliseClick={onFinaliseClick}
-        onRemoveFinalisationClick={onRemoveFinalisationClick}
-      />
-    </Card>
+      )}
+      <Card>
+        <FinalisationHeader
+          payrollYears={payrollYears}
+          payrollYear={payrollYear}
+          employees={employees}
+          grossPaymentYtd={grossPaymentYtd}
+          reportedRfba={reportedRfba}
+          reportedSection57aRfba={reportedSection57aRfba}
+          paygWithholdingYtd={paygWithholdingYtd}
+          employeesCount={employeesCount}
+          onIsRFBAEnabledClick={onIsRFBAEnabledClick}
+          isRFBALocked={isRFBALocked}
+          isRFBAEnabled={isRFBAEnabled}
+          onPayrollYearChange={onPayrollYearChange}
+        />
+        <Separator />
+        <FinalisationEmployeesTable
+          employees={employees}
+          isTableLoading={isTableLoading}
+          selectAll={selectAllEmployees}
+          selectItem={selectEmployeesItem}
+          isRFBAEnabled={isRFBAEnabled}
+          onEmployeeChange={onEmployeeChange}
+          shouldShowFinaliseButton={shouldShowFinaliseButton}
+          shouldShowRemoveFinalisationButton={shouldShowRemoveFinalisationButton}
+          onFinaliseClick={onFinaliseClick}
+          onRemoveFinalisationClick={onRemoveFinalisationClick}
+        />
+      </Card>
+    </>
   );
 
   return (
@@ -99,6 +111,7 @@ const mapStateToProps = state => ({
   isRFBALocked: getIsRFBALocked(state),
   shouldShowFinaliseButton: getShouldShowFinaliseButton(state),
   shouldShowRemoveFinalisationButton: getShouldShowRemoveFinalisationButton(state),
+  unsavedChangesModalIsOpen: getUnsavedChangesModalIsOpen(state),
 });
 
 export default connect(mapStateToProps)(FinalisationView);

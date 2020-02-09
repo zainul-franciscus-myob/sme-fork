@@ -226,4 +226,32 @@ describe('FinalisationModule', () => {
       }));
     });
   });
+
+  describe('tryToNavigate', () => {
+    it('calls the navigation function when the form is clean', () => {
+      const { module } = constructModule();
+      const navFunction = jest.fn();
+
+      module.tryToNavigate(navFunction);
+
+      expect(navFunction).toHaveBeenCalled();
+    });
+
+    it('opens the unsaved changes modal when the form is dirty', () => {
+      const { module, wrapper } = constructModule();
+      const navFunction = jest.fn();
+      module.openUnsavedChangesModal = jest.fn(module.openUnsavedChangesModal);
+      module.selectAllEmployees();
+
+      module.tryToNavigate(navFunction);
+      wrapper.update();
+
+      expect(navFunction).not.toHaveBeenCalled();
+      expect(module.openUnsavedChangesModal).toHaveBeenCalledWith(navFunction);
+      expect(module.store.getState()).toEqual(expect.objectContaining({
+        unsavedChangesModalIsOpen: true,
+        isDirty: true,
+      }));
+    });
+  });
 });

@@ -2,6 +2,7 @@
 import {
   LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
+  RESET_DIRTY_FLAG,
   RESET_EVENT_ID,
   SELECT_ALL_EMPLOYEES,
   SELECT_EMPLOYEES_ITEM,
@@ -10,6 +11,7 @@ import {
   SET_LOADING_STATE,
   SET_SELECTED_PAYROLL_YEAR,
   SET_TABLE_LOADING_STATE,
+  SET_UNSAVED_CHANGES_MODAL,
   UPDATE_EMPLOYEE_ROW,
 } from './FinalisationIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
@@ -111,6 +113,19 @@ const createFinalisationDispatcher = store => ({
   resetEventId: () => {
     store.dispatch({
       intent: RESET_EVENT_ID,
+    });
+  },
+
+  setUnsavedChangesModal: (isOpen) => {
+    store.dispatch({
+      intent: SET_UNSAVED_CHANGES_MODAL,
+      isOpen,
+    });
+  },
+
+  resetDirtyFlag: () => {
+    store.dispatch({
+      intent: RESET_DIRTY_FLAG,
     });
   },
 });

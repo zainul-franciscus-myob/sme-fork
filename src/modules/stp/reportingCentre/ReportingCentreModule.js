@@ -86,8 +86,10 @@ export default class ReportingCentreModule {
   };
 
   setSelectedTab = (tab) => {
-    this.dispatcher.setTab(tab);
-    this.runTab();
+    this.attemptToRoute(() => {
+      this.dispatcher.setTab(tab);
+      this.runTab();
+    });
   };
 
   runTab = () => {
@@ -127,5 +129,25 @@ export default class ReportingCentreModule {
     );
 
     this.setRootView(wrappedView);
+  }
+
+  redirectToUrl = (url) => {
+    window.location.href = url;
+  }
+
+  attemptToRoute = (navigationFunction) => {
+    const state = this.store.getState();
+    const subModule = this.subModules[getSelectedTab(state)];
+    if (subModule.tryToNavigate) {
+      subModule.tryToNavigate(navigationFunction);
+    } else {
+      navigationFunction();
+    }
+  }
+
+  handlePageTransition = (url) => {
+    this.attemptToRoute(() => {
+      this.redirectToUrl(url);
+    });
   }
 }

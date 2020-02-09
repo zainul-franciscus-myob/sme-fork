@@ -1,4 +1,9 @@
-import { LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR, RESET_EVENT_ID, UPDATE_EMPLOYEE_ROW } from '../FinalisationIntents';
+import {
+  LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
+  RESET_EVENT_ID,
+  SET_UNSAVED_CHANGES_MODAL,
+  UPDATE_EMPLOYEE_ROW,
+} from '../FinalisationIntents';
 import finalisationReducer from '../FinalisationReducer';
 import loadEmployeesAndHeaderDetailsForYearResponse from '../../mappings/data/loadFinalisationEmployeesAndHeaderDetailsForYearResponse';
 
@@ -32,6 +37,7 @@ describe('FinalisationReducer', () => {
           isSelected: false,
         },
       ],
+      isDirty: false,
       grossPaymentYtd: '$2000.99',
       paygWithholdingYtd: '$2333.33',
       reportedRfba: '$4999.99',
@@ -43,6 +49,7 @@ describe('FinalisationReducer', () => {
   describe('UPDATE_EMPLOYEE_ROW', () => {
     it('updates the correct employee', () => {
       const state = {
+        isDirty: false,
         employees: [
           {
             id: '1',
@@ -67,6 +74,7 @@ describe('FinalisationReducer', () => {
       const result = finalisationReducer(state, action);
 
       expect(result).toEqual({
+        isDirty: true,
         employees: [
           {
             id: '1',
@@ -84,6 +92,7 @@ describe('FinalisationReducer', () => {
 
     it('updates the correct employee', () => {
       const state = {
+        isDirty: false,
         employees: [
           {
             id: '1',
@@ -108,6 +117,7 @@ describe('FinalisationReducer', () => {
       const result = finalisationReducer(state, action);
 
       expect(result).toEqual({
+        isDirty: true,
         employees: [
           {
             id: '1',
@@ -138,6 +148,42 @@ describe('FinalisationReducer', () => {
       const result = finalisationReducer(state, action);
 
       expect(result.eventId).not.toEqual(oldId);
+    });
+  });
+
+  describe('SET_UNSAVED_CHANGES_MODAL', () => {
+    it('sets the modal to open', () => {
+      const state = {
+        unsavedChangesModalIsOpen: false,
+      };
+
+      const action = {
+        intent: SET_UNSAVED_CHANGES_MODAL,
+        isOpen: true,
+      };
+
+      const result = finalisationReducer(state, action);
+
+      expect(result).toEqual({
+        unsavedChangesModalIsOpen: true,
+      });
+    });
+
+    it('sets the modal to closed', () => {
+      const state = {
+        unsavedChangesModalIsOpen: true,
+      };
+
+      const action = {
+        intent: SET_UNSAVED_CHANGES_MODAL,
+        isOpen: false,
+      };
+
+      const result = finalisationReducer(state, action);
+
+      expect(result).toEqual({
+        unsavedChangesModalIsOpen: false,
+      });
     });
   });
 });
