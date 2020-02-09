@@ -2,7 +2,9 @@ import InvoiceLogoModule from './InvoiceLogoModule';
 import RouteName from '../../router/RouteName';
 import TemplateModule from './TemplateModule';
 
-const getTaxRoutes = ({ integration, setRootView, pushMessage }) => [
+const getTaxRoutes = ({
+  integration, setRootView, pushMessage, globalCallbacks: { uploadedLogo },
+}) => [
   {
     name: RouteName.CREATE_TEMPLATE,
     path: '/:region/:businessId/template/',
@@ -18,7 +20,9 @@ const getTaxRoutes = ({ integration, setRootView, pushMessage }) => [
   {
     name: RouteName.INVOICE_LOGO_SETTINGS,
     path: '/:region/:businessId/invoiceLogoSettings/',
-    module: new InvoiceLogoModule({ integration, setRootView, pushMessage }),
+    module: new InvoiceLogoModule({
+      integration, setRootView, pushMessage, uploadedLogo,
+    }),
     documentTitle: 'Upload your logo',
   },
 ];

@@ -20,12 +20,15 @@ import createTemplateIntegrator from './createTemplateIntegrator';
 import templateReducer from './templateReducer';
 
 class InvoiceLogoModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({
+    integration, setRootView, pushMessage, uploadedLogo,
+  }) {
     this.store = new Store(templateReducer);
     this.dispatcher = createTemplateDispatcher(this.store);
     this.integrator = createTemplateIntegrator(this.store, integration);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.uploadedLogoCallback = uploadedLogo;
   }
 
   unsubscribeFromStore = () => this.store.unsubscribeAll();
@@ -203,6 +206,7 @@ class InvoiceLogoModule {
         content: message,
       });
 
+      this.uploadedLogoCallback();
       this.redirectToTemplates();
     };
 
