@@ -3,7 +3,11 @@ import RouteName from '../../router/RouteName';
 import SalesSettingsDetailModule from './salesSettingsDetail/SalesSettingsDetailModule';
 
 const getSalesSettingsRoutes = ({
-  setRootView, integration, popMessages, replaceURLParams,
+  setRootView,
+  integration,
+  popMessages,
+  replaceURLParams,
+  globalCallbacks: { updatedEmailSettings },
 }) => [
   {
     name: RouteName.SALES_SETTINGS,
@@ -17,7 +21,7 @@ const getSalesSettingsRoutes = ({
   {
     name: RouteName.INVOICE_EMAIL_SETTINGS,
     path: '/:region/:businessId/invoiceEmailSettings/',
-    module: new InvoiceEmailSettingsModule({ setRootView, integration }),
+    module: new InvoiceEmailSettingsModule({ setRootView, integration, updatedEmailSettings }),
     documentTitle: 'Set up your invoice email template',
   },
 ];

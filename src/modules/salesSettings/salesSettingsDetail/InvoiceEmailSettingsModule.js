@@ -11,12 +11,13 @@ import createSalesSettingsIntegrator from './createSalesSettingsIntegrator';
 import salesSettingsReducer from './salesSettingsDetailReducer';
 
 export default class InvoiceEmailSettingsModule {
-  constructor({ integration, setRootView }) {
+  constructor({ integration, setRootView, updatedEmailSettings }) {
     this.integration = integration;
     this.store = new Store(salesSettingsReducer);
     this.setRootView = setRootView;
     this.dispatcher = createSalesSettingsDispatcher(this.store);
     this.integrator = createSalesSettingsIntegrator(this.store, integration);
+    this.updatedEmailSettings = updatedEmailSettings;
   }
 
   loadSalesSettings = () => {
@@ -62,6 +63,7 @@ export default class InvoiceEmailSettingsModule {
     const onSuccess = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'success', message });
+      this.updatedEmailSettings();
       this.dispatcher.saveDataTab();
     };
 
