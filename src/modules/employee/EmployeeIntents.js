@@ -70,7 +70,7 @@ export const ADD_ALLOCATED_LEAVE_ITEM = Symbol('Add an allocated leave item');
 export const REMOVE_ALLOCATED_LEAVE_ITEM = Symbol('Remove an allocated leave item');
 export const UPDATE_ALLOCATED_LEAVE_ITEM_CARRY_OVER = Symbol('Update an allocated leave item carry over amount');
 export const SET_ALLOCATED_LEAVE_ITEM_MODAL = Symbol('Set allocated leave item modal');
-export const SHOW_LEAVE_PAY_ITEM_DROPDOWN = Symbol('Show leave pay item dropdown');
+export const SET_SHOW_LEAVE_PAY_ITEM = Symbol('Show leave pay item dropdown');
 
 export const SET_EXPENSE_PAY_ITEM_MODAL_ALERT = Symbol('Set expense pay item modal alert');
 export const CHANGE_EXPENSE_PAY_ITEM_MODAL_INPUT = Symbol('Change expense pay item modal input');
@@ -90,6 +90,7 @@ export const UPDATE_EXPENSE_PAY_ITEM_MODAL = Symbol('Update expense pay item mod
 
 export const ADD_PAYROLL_EXPENSE_PAY_ITEM = Symbol('Add payroll pay item');
 export const REMOVE_PAYROLL_EXPENSE_PAY_ITEM = Symbol('Remove payroll pay item');
+export const SET_SHOW_ADD_EXPENSE_PAY_ITEM = Symbol('Show add expense pay item dropdown');
 
 export const OPEN_WAGE_PAY_ITEM_MODAL = Symbol('Open wage pay item modal');
 export const SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE = Symbol('Set wage pay item modal loading state');
@@ -107,7 +108,7 @@ export const ADD_WAGE_PAY_ITEM_MODAL_EXEMPTION = Symbol('Add wage pay item modal
 export const REMOVE_WAGE_PAY_ITEM_MODAL_EXEMPTION = Symbol('Remove wage pay item modal exemption');
 export const CREATE_WAGE_PAY_ITEM_MODAL = Symbol('Create wage pay item modal');
 export const UPDATE_WAGE_PAY_ITEM_MODAL = Symbol('Update wage pay item modal');
-export const SHOW_ADD_WAGE_PAY_ITEM_DROPDOWN = Symbol('Show add wage pay item dropdown');
+export const SET_SHOW_ADD_WAGE_PAY_ITEM = Symbol('Show add wage pay item dropdown');
 
 export const OPEN_DEDUCTION_PAY_ITEM_MODAL = Symbol('Open deduction pay item modal');
 export const CLOSE_DEDUCTION_PAY_ITEM_MODAL = Symbol('Close deduction pay item modal');
@@ -151,6 +152,7 @@ export const SET_SUPER_PAY_ITEM_MODAL_SUPER_PAY_ITEM = Symbol('Set super pay ite
 export const SET_SUPER_PAY_ITEM_MODAL_INPUT = Symbol('Set super pay item modal input');
 export const ADD_SUPER_PAY_ITEM_MODAL_ITEM = Symbol('Add super pay item modal item');
 export const REMOVE_SUPER_PAY_ITEM_MODAL_ITEM = Symbol('Remove super pay item modal item');
+export const SET_SHOW_ADD_SUPER_PAY_ITEM = Symbol('Show add super pay item dropdown');
 
 export const LOAD_LEAVE_PAY_ITEM = Symbol('Load leave pay item');
 export const LOAD_NEW_LEAVE_PAY_ITEM = Symbol('Load new leave pay item');

@@ -13,3 +13,7 @@ export const getFilteredExpensePayItemOptions = createSelector(
     .filter(expensePayItemOption => !expensePayItems
       .some(expensePayItem => expensePayItem.id === expensePayItemOption.id)),
 );
+
+export const getShowAddExpensePayItemButton = state => (
+  state.payrollDetails.employerExpenseDetails.showAddExpensePayItemButton
+);

@@ -1,6 +1,7 @@
 import {
   ADD_PAYROLL_SUPER_PAY_ITEM,
   REMOVE_PAYROLL_SUPER_PAY_ITEM,
+  SET_SHOW_ADD_SUPER_PAY_ITEM,
   UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS,
 } from '../../../EmployeeIntents';
 
@@ -52,8 +53,20 @@ const updatePayrollDetailsSuperannuationDetails = (state, action) => ({
   isPageEdited: true,
 });
 
+const showAddSuperPayItemDropdown = (state, action) => ({
+  ...state,
+  payrollDetails: {
+    ...state.payrollDetails,
+    superannuationDetails: {
+      ...state.payrollDetails.superannuationDetails,
+      showAddSuperPayItemButton: action.showDropdown,
+    },
+  },
+});
+
 export default {
   [UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS]: updatePayrollDetailsSuperannuationDetails,
   [ADD_PAYROLL_SUPER_PAY_ITEM]: addPayrollSuperPayItem,
   [REMOVE_PAYROLL_SUPER_PAY_ITEM]: removePayrollSuperPayItem,
+  [SET_SHOW_ADD_SUPER_PAY_ITEM]: showAddSuperPayItemDropdown,
 };

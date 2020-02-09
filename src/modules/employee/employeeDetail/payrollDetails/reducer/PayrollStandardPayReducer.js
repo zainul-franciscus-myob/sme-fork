@@ -3,7 +3,7 @@ import {
   REMOVE_PAYROLL_STANDARD_PAY_ITEM,
   SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT,
   SET_PAYROLL_STANDARD_PAY_ITEM_INPUT,
-  SHOW_ADD_WAGE_PAY_ITEM_DROPDOWN,
+  SET_SHOW_ADD_WAGE_PAY_ITEM,
 } from '../../../EmployeeIntents';
 import {
   getStandardPayFormattedAmount,
@@ -97,5 +97,5 @@ export default {
   [SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT]: setPayrollStandardPayDetailsItemInput,
   [SET_PAYROLL_STANDARD_PAY_ITEM_INPUT]: setPayrollStandardPayItemInput,
   [REMOVE_PAYROLL_STANDARD_PAY_ITEM]: removePayrollStandardPayItem,
-  [SHOW_ADD_WAGE_PAY_ITEM_DROPDOWN]: showAddWagePayItemDropdown,
+  [SET_SHOW_ADD_WAGE_PAY_ITEM]: showAddWagePayItemDropdown,
 };

@@ -82,6 +82,7 @@ export const getDefaultState = () => ({
       selectedSuperFundId: '',
       employeeMembershipNumber: '',
       allocatedPayItems: [],
+      showAddSuperPayItemButton: true,
     },
     tax: {
       extraTax: '',
@@ -106,6 +107,7 @@ export const getDefaultState = () => ({
     },
     employerExpenseDetails: {
       expensePayItems: [],
+      showAddExpensePayItemButton: true,
     },
     standardPayDetails: {
       description: '',

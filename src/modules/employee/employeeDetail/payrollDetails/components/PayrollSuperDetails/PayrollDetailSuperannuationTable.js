@@ -1,10 +1,10 @@
 import {
-  Button, Combobox, FieldGroup, Icons, PageState, Table, Tooltip,
+  Button, Combobox, FieldGroup, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAllocatedPayItems, getFilteredSuperPayItemOptions } from '../../selectors/PayrollSuperSelectors';
+import { getAllocatedPayItems, getFilteredSuperPayItemOptions, getShowAddSuperPayItemButton } from '../../selectors/PayrollSuperSelectors';
 import styles from './PayrollDetailSuperannuationTable.module.css';
 
 const tableConfig = {
@@ -33,6 +33,8 @@ const PayrollDetailSuperannuationTable = ({
   onAddPayrollSuperPayItem,
   onRemovePayrollSuperPayItem,
   onOpenSuperPayItemModal,
+  showAddSuperPayItemButton,
+  onAddSuperPayItemButtonClick,
 }) => {
   const superPayItemsFieldGroupLabel = (
     <div>
@@ -41,10 +43,6 @@ const PayrollDetailSuperannuationTable = ({
         Add all the relevant super pay items for this employee
       </Tooltip>
     </div>
-  );
-
-  const emptyView = (
-    <PageState title="You have not added any super pay items yet." />
   );
 
   const tableBodyView = allocatedPayItems.map(({ id, name, displayType }) => (
@@ -67,20 +65,28 @@ const PayrollDetailSuperannuationTable = ({
   ));
 
   const payItemCombobox = (
-    <Combobox
-      label="Add superannuation pay item"
-      hideLabel
-      hintText="Add superannuation pay item"
-      metaData={comboboxMetaData}
-      items={superPayItemsOptions}
-      selected={{}}
-      onChange={handleComboboxChange(onAddPayrollSuperPayItem)}
-      addNewItem={{
-        label: 'Create super pay item',
-        onAddNew: onPayItemSelect(onOpenSuperPayItemModal, 'new'),
-      }}
-      width="lg"
-    />
+    showAddSuperPayItemButton
+      ? (
+        <Button type="link" icon={<Icons.Add />} onClick={onAddSuperPayItemButtonClick}>
+        Add superannuation pay item
+        </Button>
+      )
+      : (
+        <Combobox
+          label="Add superannuation pay item"
+          hideLabel
+          hintText="Add superannuation pay item"
+          metaData={comboboxMetaData}
+          items={superPayItemsOptions}
+          selected={{}}
+          onChange={handleComboboxChange(onAddPayrollSuperPayItem)}
+          addNewItem={{
+            label: 'Create super pay item',
+            onAddNew: onPayItemSelect(onOpenSuperPayItemModal, 'new'),
+          }}
+          width="lg"
+        />
+      )
   );
 
   return (
@@ -95,7 +101,7 @@ const PayrollDetailSuperannuationTable = ({
             <Table.HeaderItem {...tableConfig.actions} />
           </Table.Header>
           <Table.Body>
-            {allocatedPayItems.length ? tableBodyView : emptyView}
+            {tableBodyView}
           </Table.Body>
         </Table>
         {payItemCombobox}
@@ -107,6 +113,7 @@ const PayrollDetailSuperannuationTable = ({
 const mapStateToProps = state => ({
   allocatedPayItems: getAllocatedPayItems(state),
   superPayItemsOptions: getFilteredSuperPayItemOptions(state),
+  showAddSuperPayItemButton: getShowAddSuperPayItemButton(state),
 });
 
 export default connect(mapStateToProps)(PayrollDetailSuperannuationTable);

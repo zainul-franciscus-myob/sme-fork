@@ -114,6 +114,8 @@ const EmployeeDetailPayrollDetails = ({
   // TODO this needs to be moved
   onAddDeductionPayItemClick,
   onAddWagePayItemButtonClick,
+  onAddSuperPayItemButtonClick,
+  onAddExpensePayItemButtonClick,
 }) => {
   const Employment = () => (
     <EmploymentDetails
@@ -143,6 +145,7 @@ const EmployeeDetailPayrollDetails = ({
       onAddPayrollExpensePayItem={onAddPayrollExpensePayItem}
       onRemovePayrollExpensePayItem={onRemovePayrollExpensePayItem}
       onOpenExpensePayItemModal={onOpenExpensePayItemModal}
+      onAddExpensePayItemButtonClick={onAddExpensePayItemButtonClick}
     />
   );
 
@@ -156,6 +159,7 @@ const EmployeeDetailPayrollDetails = ({
       onOpenSuperFundModal={onOpenSuperFundModal}
       superFundModalListeners={superFundModalListeners}
       onOpenSuperPayItemModal={onOpenSuperPayItemModal}
+      onAddSuperPayItemButtonClick={onAddSuperPayItemButtonClick}
     />
   );
 

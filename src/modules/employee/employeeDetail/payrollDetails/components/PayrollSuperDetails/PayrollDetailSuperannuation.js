@@ -14,6 +14,7 @@ const PayrollDetailSuperannuation = ({
   onOpenSuperFundModal,
   superFundModalListeners,
   onOpenSuperPayItemModal,
+  onAddSuperPayItemButtonClick,
 }) => (
   <>
     { superFundModal && <SuperFundModal superFundModalListeners={superFundModalListeners} />}
@@ -28,6 +29,7 @@ const PayrollDetailSuperannuation = ({
       onAddPayrollSuperPayItem={onAddPayrollSuperPayItem}
       onRemovePayrollSuperPayItem={onRemovePayrollSuperPayItem}
       onOpenSuperPayItemModal={onOpenSuperPayItemModal}
+      onAddSuperPayItemButtonClick={onAddSuperPayItemButtonClick}
     />
   </>
 );

@@ -1,4 +1,4 @@
-import { ADD_PAYROLL_EXPENSE_PAY_ITEM, REMOVE_PAYROLL_EXPENSE_PAY_ITEM } from '../../../EmployeeIntents';
+import { ADD_PAYROLL_EXPENSE_PAY_ITEM, REMOVE_PAYROLL_EXPENSE_PAY_ITEM, SET_SHOW_ADD_EXPENSE_PAY_ITEM } from '../../../EmployeeIntents';
 
 const setPayrollExpenseState = (state, partialExpenseDetails) => ({
   ...state,
@@ -30,7 +30,19 @@ const removePayrollExpensePayItem = (state, action) => {
   return setPayrollExpenseState(state, partialExpenseDetails);
 };
 
+const showAddExpensePayItemDropdown = (state, action) => ({
+  ...state,
+  payrollDetails: {
+    ...state.payrollDetails,
+    employerExpenseDetails: {
+      ...state.payrollDetails.employerExpenseDetails,
+      showAddExpensePayItemButton: action.showDropdown,
+    },
+  },
+});
+
 export default {
   [ADD_PAYROLL_EXPENSE_PAY_ITEM]: addPayrollExpensePayItem,
   [REMOVE_PAYROLL_EXPENSE_PAY_ITEM]: removePayrollExpensePayItem,
+  [SET_SHOW_ADD_EXPENSE_PAY_ITEM]: showAddExpensePayItemDropdown,
 };

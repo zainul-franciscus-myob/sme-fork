@@ -621,6 +621,7 @@ export default class PayrollDetailsTabModule {
         onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
         onRemovePayrollExpensePayItem={this.dispatcher.removePayrollExpensePayItem}
         onAddPayrollExpensePayItem={this.dispatcher.addPayrollExpensePayItem}
+        onAddExpensePayItemButtonClick={this.dispatcher.showAddExpensePayItemButton}
         onOpenExpensePayItemModal={this.openExpensePayItemModal}
         onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
         onAddDeductionPayItemClick={() => this.dispatcher.showDeductionPayItemDropdown(false)}
@@ -652,6 +653,7 @@ export default class PayrollDetailsTabModule {
         onAddPayrollSuperPayItem={this.dispatcher.addPayrollSuperPayItem}
         onRemovePayrollSuperPayItem={this.removePayrollSuperPayItemAndStandardPayItem}
         onOpenDeductionPayItemModal={this.openDeductionPayItemModal}
+        onAddSuperPayItemButtonClick={this.dispatcher.showAddSuperPayItemButton}
         wagePayItemModalListeners={{
           onDetailsChange: this.dispatcher.updateWagePayItemModalDetails,
           onAmountInputBlur: this.dispatcher.updateWagePayItemModalAmount,

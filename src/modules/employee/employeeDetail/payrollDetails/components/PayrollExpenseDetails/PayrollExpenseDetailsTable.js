@@ -1,5 +1,5 @@
 import {
-  Button, Combobox, Icons, PageState, Table, Tooltip,
+  Button, Combobox, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -27,11 +27,9 @@ const PayrollExpenseDetailsTable = ({
   onAddPayItem,
   onRemovePayItem,
   onOpenExpensePayItemModal,
+  showAddExpensePayItemButton,
+  onAddExpensePayItemButtonClick,
 }) => {
-  const emptyView = (
-    <PageState title="You have not added any expense pay items yet." />
-  );
-
   const tableBodyView = selected.map(({ id, name, displayType }) => (
     <Table.Row key={id}>
       <Table.RowItem {...tableConfig.name}>
@@ -60,23 +58,33 @@ const PayrollExpenseDetailsTable = ({
           <Table.HeaderItem {...tableConfig.actions} />
         </Table.Header>
         <Table.Body>
-          {selected.length ? tableBodyView : emptyView}
+          {tableBodyView}
         </Table.Body>
       </Table>
-      <Combobox
-        label="Add expense pay item"
-        hideLabel
-        hintText="Add expense pay item"
-        metaData={comboboxMetaData}
-        items={items}
-        selected={{}}
-        onChange={handleComboboxChange(onAddPayItem)}
-        addNewItem={{
-          label: 'Create expense pay item',
-          onAddNew: onPayItemSelect(onOpenExpensePayItemModal, 'new'),
-        }}
-        width="lg"
-      />
+      {
+        showAddExpensePayItemButton
+          ? (
+            <Button type="link" icon={<Icons.Add />} onClick={onAddExpensePayItemButtonClick}>
+            Add expense pay item
+            </Button>
+          )
+          : (
+            <Combobox
+              label="Add expense pay item"
+              hideLabel
+              hintText="Add expense pay item"
+              metaData={comboboxMetaData}
+              items={items}
+              selected={{}}
+              onChange={handleComboboxChange(onAddPayItem)}
+              addNewItem={{
+                label: 'Create expense pay item',
+                onAddNew: onPayItemSelect(onOpenExpensePayItemModal, 'new'),
+              }}
+              width="lg"
+            />
+          )
+      }
     </div>
   );
 };

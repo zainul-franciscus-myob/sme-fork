@@ -7,6 +7,7 @@ import React from 'react';
 import {
   getExpensePayItems,
   getFilteredExpensePayItemOptions,
+  getShowAddExpensePayItemButton,
 } from '../../selectors/PayrollExpenseDetailSelectors';
 import PayrollExpenseDetailsTable from './PayrollExpenseDetailsTable';
 
@@ -16,6 +17,8 @@ const PayrollExpenseDetails = ({
   onAddPayrollExpensePayItem,
   onRemovePayrollExpensePayItem,
   onOpenExpensePayItemModal,
+  showAddExpensePayItemButton,
+  onAddExpensePayItemButtonClick,
 }) => {
   const fieldGroupLabel = (
     <div>
@@ -34,6 +37,8 @@ const PayrollExpenseDetails = ({
         onAddPayItem={onAddPayrollExpensePayItem}
         onRemovePayItem={onRemovePayrollExpensePayItem}
         onOpenExpensePayItemModal={onOpenExpensePayItemModal}
+        showAddExpensePayItemButton={showAddExpensePayItemButton}
+        onAddExpensePayItemButtonClick={onAddExpensePayItemButtonClick}
       />
     </FieldGroup>
   );
@@ -42,6 +47,7 @@ const PayrollExpenseDetails = ({
 const mapStateToProps = state => ({
   expensePayItems: getExpensePayItems(state),
   expensePayItemOptions: getFilteredExpensePayItemOptions(state),
+  showAddExpensePayItemButton: getShowAddExpensePayItemButton(state),
 });
 
 export default connect(mapStateToProps)(PayrollExpenseDetails);

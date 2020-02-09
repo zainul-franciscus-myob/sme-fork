@@ -28,3 +28,7 @@ export const getFilteredSuperPayItemOptions = createSelector(
 );
 
 export const getCreateSuperChoiceFormLink = () => 'https://www.ato.gov.au/assets/0/104/2244/2335/35c234b5-6918-4dd0-a3db-95edfd76adc0.pdf';
+
+export const getShowAddSuperPayItemButton = state => (
+  state.payrollDetails.superannuationDetails.showAddSuperPayItemButton
+);
