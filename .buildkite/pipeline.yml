@@ -87,8 +87,8 @@ steps:
   - block:
     branches: master
 
-  - name: ':rocket: :eagle: Deploy Preview App'
-    command: ./ops/bin/deploy preview
+  - name: ':rocket: :eagle: Deploy Production App'
+    command: ./ops/bin/deploy production
     branches: master
     agents:
       queue: cacc-prod-dflt
@@ -96,8 +96,8 @@ steps:
   - block:
     branches: master
 
-  - name: ':rocket: :eagle: Deploy Production App'
-    command: ./ops/bin/deploy production
+  - name: ':rocket: :eagle: Deploy Preview App'
+    command: ./ops/bin/deploy preview
     branches: master
     agents:
       queue: cacc-prod-dflt
