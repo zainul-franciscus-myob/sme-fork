@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import { getTableEntries } from '../selectors/InTrayListSelectors';
+import { getAllowedActions, getTableEntries } from '../selectors/InTrayListSelectors';
 import InTrayDropzoneTableRow from './InTrayDropzoneTableRow';
 import actionTypes from '../actionTypes';
 import styles from './InTrayListTableBody.module.css';
@@ -61,39 +61,29 @@ const InvoiceComponent = value => value || (
 <Tooltip triggerContent={<Icons.Info />}>Information not available</Tooltip>
 );
 
-const ActionComponent = ({ id, handleActionSelect }) => (
+const getDropdownItem = (key, label, value) => (
+  <Dropdown.Item
+    key={key}
+    label={label}
+    value={value}
+  />
+);
+
+const getItems = allowedActions => [
+  allowedActions.includes(actionTypes.linkToExistingBill) && getDropdownItem(actionTypes.linkToExistingBill, 'Link to existing bill', actionTypes.linkToExistingBill),
+  allowedActions.includes(actionTypes.createBill) && getDropdownItem(actionTypes.createBill, 'Create bill', actionTypes.createBill),
+  allowedActions.includes(actionTypes.createSpendMoney) && getDropdownItem(actionTypes.createSpendMoney, 'Create spend money transaction', actionTypes.createSpendMoney),
+  <Dropdown.Separator key="separator" />,
+  allowedActions.includes(actionTypes.download) && getDropdownItem(actionTypes.download, 'Donwload document', actionTypes.download),
+  allowedActions.includes(actionTypes.delete) && getDropdownItem(actionTypes.delete, 'Delete document', actionTypes.delete),
+];
+
+const ActionComponent = ({ id, handleActionSelect, allowedActions }) => (
   // Prevent onRowSelect from being triggered on dropdown click within table.
   <div tabIndex="-1" role="button" onClick={(e) => { e.stopPropagation(); }} onKeyUp={() => {}}>
     <Dropdown
       right
-      items={[
-        <Dropdown.Item
-          key={actionTypes.linkToExistingBill}
-          label="Link to existing bill"
-          value={actionTypes.linkToExistingBill}
-        />,
-        <Dropdown.Item
-          key={actionTypes.createBill}
-          label="Create bill"
-          value={actionTypes.createBill}
-        />,
-        <Dropdown.Item
-          key={actionTypes.createSpendMoney}
-          label="Create spend money transaction"
-          value={actionTypes.createSpendMoney}
-        />,
-        <Dropdown.Separator key="separator" />,
-        <Dropdown.Item
-          key={actionTypes.download}
-          label="Download document"
-          value={actionTypes.download}
-        />,
-        <Dropdown.Item
-          key={actionTypes.delete}
-          label="Delete document"
-          value={actionTypes.delete}
-        />,
-      ]}
+      items={getItems(allowedActions)}
       onSelect={handleActionSelect(id)}
       toggle={(
         <Dropdown.Toggle size="xs">
@@ -107,6 +97,7 @@ const ActionComponent = ({ id, handleActionSelect }) => (
 const InTrayListTableBody = ({
   tableConfig,
   entries,
+  allowedActions,
   handleActionSelect,
   onRowSelect,
   onAddAttachments,
@@ -158,6 +149,7 @@ const InTrayListTableBody = ({
           {showActions
             && (
             <ActionComponent
+              allowedActions={allowedActions}
               handleActionSelect={handleActionSelect}
               id={id}
             />
@@ -179,6 +171,7 @@ const InTrayListTableBody = ({
 
 const mapStateToProps = state => ({
   entries: getTableEntries(state),
+  allowedActions: getAllowedActions(state),
 });
 
 export default connect(mapStateToProps)(InTrayListTableBody);

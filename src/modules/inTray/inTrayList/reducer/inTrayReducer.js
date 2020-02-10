@@ -79,6 +79,7 @@ const getDefaultState = () => ({
     orderBy: '',
     entries: [],
     activeEntryId: undefined,
+    allowedActions: [],
   },
   deleteModal: undefined,
   documentViewerUrl: undefined,
@@ -92,6 +93,7 @@ const loadInTray = (state, action) => ({
     entries: action.entries,
     sortOrder: action.sortOrder,
     orderBy: action.orderBy,
+    allowedActions: action.allowedActions,
   },
 });
 

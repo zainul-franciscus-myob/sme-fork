@@ -51,6 +51,8 @@ export const getTableEntries = createSelector(
   }),
 );
 
+export const getAllowedActions = state => state.inTrayList.allowedActions;
+
 export const getIsDetailShown = state => (Boolean(getActiveEntryId(state)));
 
 export const getIsTableEmpty = state => (state.inTrayList.entries || []).length === 0;
