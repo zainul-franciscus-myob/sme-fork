@@ -47,6 +47,7 @@ const BillSecondaryOptions = ({
     />
     <Input
       name="supplierInvoiceNumber"
+      maxLength={19}
       label="Supplier invoice number"
       className={classnames({ [styles.prefilled]: prefillStatus.supplierInvoiceNumber })}
       value={supplierInvoiceNumber}

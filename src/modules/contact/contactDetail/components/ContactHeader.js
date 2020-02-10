@@ -44,7 +44,7 @@ const ContactHeader = (props) => {
       />,
       <TotalsHeader.TotalItem
         key={3}
-        label="Balance due"
+        label="Balance overdue"
         count={overDue}
         className={styles.overdue}
       />,
