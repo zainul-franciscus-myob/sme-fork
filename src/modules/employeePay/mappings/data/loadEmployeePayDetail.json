@@ -20,7 +20,7 @@
   "parentBusinessEventDisplayId": "EP000015",
   "lines": [
     {
-      "categoryName": "Wages, deductions and taxes",
+      "categoryName": "Wages",
       "items": [
         {
           "name": "Base Salary",
@@ -39,13 +39,23 @@
           "amount": "$961.54",
           "hours": 7.60,
           "payItemId": 12
-        },
+        }
+      ]
+    },
+    {
+      "categoryName": "Deductions",
+      "items": [
         {
           "name": "Deductions",
           "amount": "$961.54",
           "hours": null,
           "payItemId": 8
-        },
+        }
+      ]
+    },
+    {
+      "categoryName": "Taxes",
+      "items": [
         {
           "name": "Super before tax",
           "amount": "$961.54",

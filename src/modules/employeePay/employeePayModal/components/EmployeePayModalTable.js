@@ -20,34 +20,36 @@ const tableConfig = {
 const EmployeePayModalTable = ({
   payItemGroups,
 }) => {
-  const rowSections = payItemGroups.map((payItemGroup) => {
-    const sectionHeader = (
-      <Table.Row key={payItemGroup.categoryName}>
-        <Table.RowItem cellRole="heading">{payItemGroup.categoryName}</Table.RowItem>
-      </Table.Row>
-    );
+  const rowSections = payItemGroups
+    .filter(payItemGroup => (payItemGroup.items || []).length > 0)
+    .map((payItemGroup) => {
+      const sectionHeader = (
+        <Table.Row key={payItemGroup.categoryName}>
+          <Table.RowItem cellRole="heading">{payItemGroup.categoryName}</Table.RowItem>
+        </Table.Row>
+      );
 
-    const sectionBody = payItemGroup.items.map(item => (
-      <Table.Row key={item.payItemId}>
-        <Table.RowItem {...tableConfig.payItems} indentLevel={1}>
-          {item.name}
-        </Table.RowItem>
-        <Table.RowItem {...tableConfig.hours}>
-          {item.hours}
-        </Table.RowItem>
-        <Table.RowItem {...tableConfig.amount}>
-          {item.amount}
-        </Table.RowItem>
-      </Table.Row>
-    ));
+      const sectionBody = payItemGroup.items.map(item => (
+        <Table.Row key={item.payItemId}>
+          <Table.RowItem {...tableConfig.payItems} indentLevel={1}>
+            {item.name}
+          </Table.RowItem>
+          <Table.RowItem {...tableConfig.hours}>
+            {item.hours}
+          </Table.RowItem>
+          <Table.RowItem {...tableConfig.amount}>
+            {item.amount}
+          </Table.RowItem>
+        </Table.Row>
+      ));
 
-    return (
-      <div key={payItemGroup.categoryName}>
-        {sectionHeader}
-        {sectionBody}
-      </div>
-    );
-  });
+      return (
+        <div key={payItemGroup.categoryName}>
+          {sectionHeader}
+          {sectionBody}
+        </div>
+      );
+    });
 
   return (
     <Table>

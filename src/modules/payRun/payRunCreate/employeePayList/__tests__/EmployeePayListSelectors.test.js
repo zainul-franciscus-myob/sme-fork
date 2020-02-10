@@ -1,26 +1,32 @@
 import {
   formatEtpCode,
-  getCombinedPayItemEntries,
+  getDeductionPayItemEntries,
   getEmployerExpensePayItemEntries,
   getIsPartiallySelected,
   getLeavePayItemEntries,
   getLeaveWarning,
   getRecalculatePayPayload,
-  getShouldShowCombinedPayItemTableRows,
+  getShouldShowDeductionPayItemTableRows,
   getShouldShowExpensePayItemTableRows,
   getShouldShowLeavePayItemTableRows,
+  getShouldShowTaxPayItemTableRows,
+  getShouldShowWagePayItemTableRows,
+  getTaxPayItemEntries,
   getTotals,
   getValidateEtpContent,
+  getWagePayItemEntries,
   isEtpAlertForLineShown,
   isEtpSelectionForLineShown,
   isValidEtp,
 } from '../EmployeePayListSelectors';
 import EtpCode from '../types/EtpCode';
-import combinedPayItemEntries from './fixtures/combinedPayItemEntries';
+import deductionPayItemEntries from './fixtures/deductionPayItemEntries';
 import employeePayList from './fixtures/stateWithEmployeePayItems';
 import employerExpensePayItemEntries from './fixtures/employerExpensePayItemEntries';
 import expectedRecalculatePayPayload from './fixtures/expectedRecalculatePayPayload';
 import leavePayItemEntries from './fixtures/leavePayItemEntries';
+import taxPayItemEntries from './fixtures/taxPayItemEntries';
+import wagePayItemEntries from './fixtures/wagePayItemEntries';
 
 describe('EmployeePayListSelectors', () => {
   describe('getIsPartiallySelected', () => {
@@ -387,13 +393,33 @@ describe('EmployeePayListSelectors', () => {
     });
   });
 
-  describe('getCombinedPayItemEntries', () => {
-    it('returns combined pay item entries without the hours field, except for HourlyWage pay items', () => {
-      const actualCombinedPayItemEntries = getCombinedPayItemEntries(employeePayList, { employeeId: '21' });
+  describe('getWagePayItemEntries', () => {
+    it('returns wage pay item entries', () => {
+      const actualWagePayItemEntries = getWagePayItemEntries(employeePayList, { employeeId: '21' });
 
-      const expectedCombinedPayItemEntries = combinedPayItemEntries;
+      const expectedWagePayItemEntries = wagePayItemEntries;
 
-      expect(actualCombinedPayItemEntries).toEqual(expectedCombinedPayItemEntries);
+      expect(actualWagePayItemEntries).toEqual(expectedWagePayItemEntries);
+    });
+  });
+
+  describe('getDeductionPayItemEntries', () => {
+    it('returns deduction pay item entries', () => {
+      const actualDeductionPayItemEntries = getDeductionPayItemEntries(employeePayList, { employeeId: '21' });
+
+      const expectedDeductionPayItemEntries = deductionPayItemEntries;
+
+      expect(actualDeductionPayItemEntries).toEqual(expectedDeductionPayItemEntries);
+    });
+  });
+
+  describe('getTaxPayItemEntries', () => {
+    it('returns tax pay item entries', () => {
+      const actualTaxPayItemEntries = getTaxPayItemEntries(employeePayList, { employeeId: '21' });
+
+      const expectedTaxPayItemEntries = taxPayItemEntries;
+
+      expect(actualTaxPayItemEntries).toEqual(expectedTaxPayItemEntries);
     });
   });
 
@@ -417,10 +443,79 @@ describe('EmployeePayListSelectors', () => {
     });
   });
 
-  describe('getShouldShowCombinedPayItemTableRows', () => {
-    it('should always shows combined pay item table rows', () => {
-      const actual = getShouldShowCombinedPayItemTableRows();
+  describe('getShouldShowWagePayItemTableRows', () => {
+    it('returns true when employee has at least one wage pay item', () => {
+      const actual = getShouldShowWagePayItemTableRows(employeePayList, { employeeId: '21' });
       const expected = true;
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('returns false when employee has no wage pay item', () => {
+      const state = {
+        employeePayList: {
+          lines: [{
+            employeeId: '21',
+            payItems: [{
+              type: 'Tax',
+            }],
+          }],
+        },
+      };
+      const actual = getShouldShowWagePayItemTableRows(state, { employeeId: '21' });
+      const expected = false;
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getShouldShowDeductionPayItemTableRows', () => {
+    it('returns true when employee has at least one deduction pay item', () => {
+      const actual = getShouldShowDeductionPayItemTableRows(employeePayList, { employeeId: '21' });
+      const expected = true;
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('returns false when employee has no deduction pay item', () => {
+      const state = {
+        employeePayList: {
+          lines: [{
+            employeeId: '21',
+            payItems: [{
+              type: 'Tax',
+            }],
+          }],
+        },
+      };
+      const actual = getShouldShowDeductionPayItemTableRows(state, { employeeId: '21' });
+      const expected = false;
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getShouldShowTaxPayItemTableRows', () => {
+    it('returns true when employee has at least one tax pay item', () => {
+      const actual = getShouldShowTaxPayItemTableRows(employeePayList, { employeeId: '21' });
+      const expected = true;
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('returns false when employee has no tax pay item', () => {
+      const state = {
+        employeePayList: {
+          lines: [{
+            employeeId: '21',
+            payItems: [{
+              type: 'Deduction',
+            }],
+          }],
+        },
+      };
+      const actual = getShouldShowTaxPayItemTableRows(state, { employeeId: '21' });
+      const expected = false;
 
       expect(actual).toEqual(expected);
     });

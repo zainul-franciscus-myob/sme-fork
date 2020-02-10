@@ -98,6 +98,7 @@ export const buildPayItemEntry = (standardPayItems, payItemOptions, allocatedPay
     name,
     hourFieldType: getHoursFieldType(type, calculationBasis, payBasis),
     amountFieldType: getAmountFieldType(type, calculationBasis),
+    payBasis,
   };
 };
 
@@ -176,19 +177,6 @@ const getSuperExpensePayItemEntries = createSelector(
     .filter(({ payItemType }) => payItemType === payItemTypes.superExpense),
 );
 
-const getCombinedPayItemEntries = createSelector(
-  getWagePayItemEntries,
-  getDeductionPayItemEntries,
-  getSuperDeductionPayItemEntries,
-  getTaxPayItemEntries,
-  (wagePayItems, deductionPayItems, superPayItems, taxPayItems) => [
-    ...wagePayItems,
-    ...taxPayItems,
-    ...deductionPayItems,
-    ...superPayItems,
-  ],
-);
-
 const getExpensePayItemEntries = createSelector(
   getEmployerExpensePayItemEntries,
   getSuperExpensePayItemEntries,
@@ -198,11 +186,28 @@ const getExpensePayItemEntries = createSelector(
   ],
 );
 
-export const getCombinedTableRows = createSelector(
-  getCombinedPayItemEntries,
+export const getWageTableRows = createSelector(
+  getWagePayItemEntries,
+  entries => ({
+    entries: entries.sort(payItem => (payItem.payBasis === 'Hourly' ? -1 : 1)),
+    showTableRows: entries.length > 0,
+  }),
+);
+
+export const getDeductionTableRows = createSelector(
+  getDeductionPayItemEntries,
   entries => ({
     entries,
-    showTableRows: true,
+    showTableRows: entries.length > 0,
+  }),
+);
+
+export const getTaxTableRows = createSelector(
+  getTaxPayItemEntries,
+  getSuperDeductionPayItemEntries,
+  (taxEntries, superDeductionEntries) => ({
+    entries: taxEntries.concat(superDeductionEntries),
+    showTableRows: taxEntries.concat(superDeductionEntries).length > 0,
   }),
 );
 

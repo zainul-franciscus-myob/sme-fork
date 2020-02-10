@@ -125,10 +125,14 @@ export const getSelectedEmployeeIds = createSelector(
 
 export const getIsPayItemLineDirty = state => state.employeePayList.isPayItemLineDirty;
 
-const isWageDeductionTaxPayItem = payItemType => [
+const isWagePayItem = payItemType => [
   'SalaryWage',
   'HourlyWage',
+].includes(payItemType);
+const isDeductionPayItem = payItemType => [
   'Deduction',
+].includes(payItemType);
+const isTaxPayItem = payItemType => [
   'SuperannuationDeductionBeforeTax',
   'SuperannuationDeductionAfterTax',
   'Tax',
@@ -140,13 +144,34 @@ const getEmployeeLineByEmployeeId = (state, employeeId) => state.employeePayList
   line => line.employeeId === employeeId,
 );
 
-export const getCombinedPayItemEntries = createSelector(
+export const getWagePayItemEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
   line => line.payItems
-    .filter(payItem => isWageDeductionTaxPayItem(payItem.type))
+    .filter(payItem => isWagePayItem(payItem.type))
+    .sort(payItem => (payItem.type === 'HourlyWage' ? -1 : 1))
     .map(payItem => ({
       ...payItem,
       shouldShowHours: payItem.type === 'HourlyWage',
+    })),
+);
+
+export const getDeductionPayItemEntries = createSelector(
+  (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
+  line => line.payItems
+    .filter(payItem => isDeductionPayItem(payItem.type))
+    .map(payItem => ({
+      ...payItem,
+      shouldShowHours: false,
+    })),
+);
+
+export const getTaxPayItemEntries = createSelector(
+  (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
+  line => line.payItems
+    .filter(payItem => isTaxPayItem(payItem.type))
+    .map(payItem => ({
+      ...payItem,
+      shouldShowHours: false,
     })),
 );
 
@@ -179,7 +204,18 @@ export const getPayPeriodEmployeeLimit = ({ employeePayList: { payPeriodEmployee
   payPeriodEmployeeLimit
 );
 
-export const getShouldShowCombinedPayItemTableRows = () => true;
+export const getShouldShowWagePayItemTableRows = createSelector(
+  (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
+  line => line.payItems.some(payItem => isWagePayItem(payItem.type)),
+);
+export const getShouldShowDeductionPayItemTableRows = createSelector(
+  (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
+  line => line.payItems.some(payItem => isDeductionPayItem(payItem.type)),
+);
+export const getShouldShowTaxPayItemTableRows = createSelector(
+  (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
+  line => line.payItems.some(payItem => isTaxPayItem(payItem.type)),
+);
 export const getShouldShowLeavePayItemTableRows = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
   line => line.payItems.some(payItem => isLeavePayItem(payItem.type)),

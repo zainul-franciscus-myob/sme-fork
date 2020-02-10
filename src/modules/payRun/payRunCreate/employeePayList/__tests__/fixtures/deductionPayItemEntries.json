@@ -1,0 +1,18 @@
+[
+  {
+    "payItemId": "3",
+    "payItemName": "Child support deduction",
+    "type": "Deduction",
+    "amount": "100.00",
+    "hours": "0.00",
+    "shouldShowHours": false
+  },
+  {
+    "payItemId": "6",
+    "payItemName": "Child support deduction",
+    "type": "Deduction",
+    "amount": "5000.00",
+    "hours": "0.00",
+    "shouldShowHours": false
+  }
+]

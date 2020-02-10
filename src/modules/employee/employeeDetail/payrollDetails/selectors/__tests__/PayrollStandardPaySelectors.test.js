@@ -3,12 +3,14 @@ import {
   calculateWagePayItemAmount,
   fieldTypes,
   getAmountFieldType,
-  getCombinedTableRows,
+  getDeductionTableRows,
   getExpenseTableRows,
   getHoursFieldType,
   getLeaveTableRows,
   getShouldResetPayrollStandardHourlyWagePayItems,
   getStandardPayItemsToApplyAmountRule,
+  getTaxTableRows,
+  getWageTableRows,
 } from '../PayrollStandardPaySelectors';
 import payItemTypes from '../../../payItemTypes';
 
@@ -162,8 +164,8 @@ describe('PayrollStandardPaySelectors', () => {
     });
   });
 
-  describe('getCombinedPayItemEntries', () => {
-    it('should return allocated wage, deduction, tax and super (deduction) pay items', () => {
+  describe('getWagePayItemEntries', () => {
+    it('should return allocated wage pay items', () => {
       const state = {
         payrollDetails: {
           deductionDetails: {
@@ -188,7 +190,8 @@ describe('PayrollStandardPaySelectors', () => {
             ],
           },
           standardPayDetails: {
-            standardPayItems: [],
+            standardPayItems: [
+            ],
           },
         },
         wagePayItems: [
@@ -196,11 +199,13 @@ describe('PayrollStandardPaySelectors', () => {
             id: '11',
             name: 'Base salary',
             type: 'WagesPayrollCategory',
+            payBasis: 'Salary',
           },
           {
             id: '12',
             name: 'Base hourly',
             type: 'WagesPayrollCategory',
+            payBasis: 'Hourly',
           },
         ],
         deductionPayItemOptions: [
@@ -246,16 +251,98 @@ describe('PayrollStandardPaySelectors', () => {
             amount: '0.00',
             amountFieldType: fieldTypes.input,
             hourFieldType: fieldTypes.blank,
+            payBasis: 'Salary',
+          },
+        ],
+        showTableRows: true,
+      };
+
+      const actual = getWageTableRows(state);
+
+      expect(actual.entries).toEqual(expected.entries);
+      expect(actual.showTableRows).toEqual(expected.showTableRows);
+    });
+  });
+
+  describe('getDeductionPayItemEntries', () => {
+    it('should return allocated deduction pay items', () => {
+      const state = {
+        payrollDetails: {
+          deductionDetails: {
+            deductionPayItems: [
+              { id: '41' },
+            ],
+          },
+          superannuationDetails: {
+            allocatedPayItems: [
+              { id: '31' },
+              { id: '33' },
+            ],
+          },
+          tax: {
+            taxPayItems: [
+              { id: '21' },
+            ],
+          },
+          wage: {
+            allocatedWagePayItems: [
+              { id: '11' },
+            ],
+          },
+          standardPayDetails: {
+            standardPayItems: [
+            ],
+          },
+        },
+        wagePayItems: [
+          {
+            id: '11',
+            name: 'Base salary',
+            type: 'WagesPayrollCategory',
+            payBasis: 'Salary',
           },
           {
-            payItemId: '21',
-            payItemType: 'TaxPayrollCategory',
-            name: 'PAYG Withholding',
-            hours: '0.00',
-            amount: '0.00',
-            amountFieldType: fieldTypes.calculated,
-            hourFieldType: fieldTypes.blank,
+            id: '12',
+            name: 'Base hourly',
+            type: 'WagesPayrollCategory',
+            payBasis: 'Hourly',
           },
+        ],
+        deductionPayItemOptions: [
+          {
+            id: '41',
+            name: 'Deduction percent',
+            type: 'DeductionPayrollCategory',
+          },
+          {
+            id: '42',
+            name: 'Deduction fixed dollar',
+            type: 'DeductionPayrollCategory',
+          },
+        ],
+        taxPayItemOptions: [
+          {
+            id: '21',
+            name: 'PAYG Withholding',
+            type: 'TaxPayrollCategory',
+          },
+        ],
+        superPayItemOptions: [
+          {
+            id: '31',
+            name: 'Super deduction before tax',
+            type: 'SuperannuationDeductionBeforeTaxPayrollCategory',
+          },
+          {
+            id: '33',
+            name: 'Super expense',
+            type: 'SuperannuationExpensePayrollCategory',
+          },
+        ],
+      };
+
+      const expected = {
+        entries: [
           {
             payItemId: '41',
             payItemType: 'DeductionPayrollCategory',
@@ -264,6 +351,106 @@ describe('PayrollStandardPaySelectors', () => {
             amount: '0.00',
             amountFieldType: fieldTypes.calculated,
             hourFieldType: fieldTypes.blank,
+          },
+        ],
+        showTableRows: true,
+      };
+
+      const actual = getDeductionTableRows(state);
+
+      expect(actual.entries).toEqual(expected.entries);
+      expect(actual.showTableRows).toEqual(expected.showTableRows);
+    });
+  });
+
+  describe('getTaxPayItemEntries', () => {
+    it('should return allocated tax pay items', () => {
+      const state = {
+        payrollDetails: {
+          deductionDetails: {
+            deductionPayItems: [
+              { id: '41' },
+            ],
+          },
+          superannuationDetails: {
+            allocatedPayItems: [
+              { id: '31' },
+              { id: '33' },
+            ],
+          },
+          tax: {
+            taxPayItems: [
+              { id: '21' },
+            ],
+          },
+          wage: {
+            allocatedWagePayItems: [
+              { id: '11' },
+            ],
+          },
+          standardPayDetails: {
+            standardPayItems: [
+            ],
+          },
+        },
+        wagePayItems: [
+          {
+            id: '11',
+            name: 'Base salary',
+            type: 'WagesPayrollCategory',
+            payBasis: 'Salary',
+          },
+          {
+            id: '12',
+            name: 'Base hourly',
+            type: 'WagesPayrollCategory',
+            payBasis: 'Hourly',
+          },
+        ],
+        deductionPayItemOptions: [
+          {
+            id: '41',
+            name: 'Deduction percent',
+            type: 'DeductionPayrollCategory',
+          },
+          {
+            id: '42',
+            name: 'Deduction fixed dollar',
+            type: 'DeductionPayrollCategory',
+          },
+        ],
+        taxPayItemOptions: [
+          {
+            id: '21',
+            name: 'PAYG Withholding',
+            type: 'TaxPayrollCategory',
+          },
+        ],
+        superPayItemOptions: [
+          {
+            id: '31',
+            name: 'Super deduction before tax',
+            type: 'SuperannuationDeductionBeforeTaxPayrollCategory',
+          },
+          {
+            id: '33',
+            name: 'Super expense',
+            type: 'SuperannuationExpensePayrollCategory',
+          },
+        ],
+      };
+
+      const expected = {
+        entries: [
+          {
+            payItemId: '21',
+            payItemType: 'TaxPayrollCategory',
+            name: 'PAYG Withholding',
+            hours: '0.00',
+            amount: '0.00',
+            amountFieldType: fieldTypes.calculated,
+            hourFieldType: fieldTypes.blank,
+            payBasis: undefined,
           },
           {
             payItemId: '31',
@@ -278,7 +465,7 @@ describe('PayrollStandardPaySelectors', () => {
         showTableRows: true,
       };
 
-      const actual = getCombinedTableRows(state);
+      const actual = getTaxTableRows(state);
 
       expect(actual.entries).toEqual(expected.entries);
       expect(actual.showTableRows).toEqual(expected.showTableRows);

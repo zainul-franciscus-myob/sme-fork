@@ -3,9 +3,11 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import PayrollPayHistoryDetailsCombinedTableRows from './PayrollPayHistoryDetailsCombinedTableRowGroup';
+import PayrollPayHistoryDetailsDeductionTableRows from './PayrollPayHistoryDetailsDeductionTableRowGroup';
 import PayrollPayHistoryDetailsExpenseTableRows from './PayrollPayHistoryDetailsExpenseTableRowGroup';
 import PayrollPayHistoryDetailsLeaveTableRows from './PayrollPayHistoryDetailsLeaveTableRowGroup';
+import PayrollPayHistoryDetailsTaxTableRows from './PayrollPayHistoryDetailsTaxTableRowGroup';
+import PayrollPayHistoryDetailsWageTableRows from './PayrollPayHistoryDetailsWageTableRowGroup';
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'middle' },
@@ -31,7 +33,9 @@ const PayrollPayHistoryDetailsTable = props => (
         <Table.HeaderItem {...tableConfig.amount}>Activity ($)</Table.HeaderItem>
       </Table.Header>
       <Table.Body>
-        <PayrollPayHistoryDetailsCombinedTableRows tableConfig={tableConfig} {...props} />
+        <PayrollPayHistoryDetailsWageTableRows tableConfig={tableConfig} {...props} />
+        <PayrollPayHistoryDetailsDeductionTableRows tableConfig={tableConfig} {...props} />
+        <PayrollPayHistoryDetailsTaxTableRows tableConfig={tableConfig} {...props} />
         <PayrollPayHistoryDetailsLeaveTableRows tableConfig={tableConfig} {...props} />
         <PayrollPayHistoryDetailsExpenseTableRows tableConfig={tableConfig} {...props} />
       </Table.Body>

@@ -151,7 +151,9 @@ const canBuildPayHistoryEntry = (payHistoryItem, allocatedPayItem, payItemOption
 
 export const buildPayHistoryEntry = (payHistoryItem, allocatedPayItem, payItemOption) => {
   if (canBuildPayHistoryEntry(payHistoryItem, allocatedPayItem, payItemOption)) {
-    const { id: payItemId, type: payItemType, name } = payItemOption;
+    const {
+      id: payItemId, type: payItemType, name, payBasis,
+    } = payItemOption;
     const { id, total } = payHistoryItem || {};
 
     return {
@@ -163,6 +165,7 @@ export const buildPayHistoryEntry = (payHistoryItem, allocatedPayItem, payItemOp
       amount: total || getPayHistoryFormattedAmount(0),
       isHours: payItemType === payItemTypes.entitlement,
       isAmount: payItemType !== payItemTypes.entitlement,
+      payBasis,
     };
   }
 
@@ -253,19 +256,6 @@ const getSuperExpensePayItemEntries = createSelector(
     .filter(({ payItemType }) => payItemType === payItemTypes.superExpense),
 );
 
-const getCombinedPayItemEntries = createSelector(
-  getWagePayItemEntries,
-  getTaxPayItemEntries,
-  getDeductionPayItemEntries,
-  getSuperDeductionPayItemEntries,
-  (wagePayItems, taxPayItems, deductionPayItems, superPayItems) => [
-    ...wagePayItems,
-    ...taxPayItems,
-    ...deductionPayItems,
-    ...superPayItems,
-  ],
-);
-
 const getExpensePayItemEntries = createSelector(
   getEmployerExpensePayItemEntries,
   getSuperExpensePayItemEntries,
@@ -275,12 +265,33 @@ const getExpensePayItemEntries = createSelector(
   ],
 );
 
-export const getCombinedTableRows = createSelector(
-  getCombinedPayItemEntries,
+export const getWageTableRows = createSelector(
+  getWagePayItemEntries,
+  getIsPayHistoryItemsDisabled,
+  (entries, disabled) => ({
+    entries: entries.sort(payItem => (payItem.payBasis === 'Hourly' ? -1 : 1)),
+    showTableRows: entries.length > 0,
+    disabled,
+  }),
+);
+
+export const getDeductionTableRows = createSelector(
+  getDeductionPayItemEntries,
   getIsPayHistoryItemsDisabled,
   (entries, disabled) => ({
     entries,
-    showTableRows: true,
+    showTableRows: entries.length > 0,
+    disabled,
+  }),
+);
+
+export const getTaxTableRows = createSelector(
+  getTaxPayItemEntries,
+  getSuperDeductionPayItemEntries,
+  getIsPayHistoryItemsDisabled,
+  (taxEntries, superDeductionEntries, disabled) => ({
+    entries: taxEntries.concat(superDeductionEntries),
+    showTableRows: taxEntries.concat(superDeductionEntries).length > 0,
     disabled,
   }),
 );

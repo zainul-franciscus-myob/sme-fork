@@ -1,10 +1,13 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCombinedPayItemEntries, getShouldShowCombinedPayItemTableRows } from '../EmployeePayListSelectors';
+import {
+  getDeductionPayItemEntries,
+  getShouldShowDeductionPayItemTableRows,
+} from '../EmployeePayListSelectors';
 import EmployeeRecalculatePayTableRows from './EmployeeRecalculatePayTableRows';
 
-const EmployeeRecalculatePayCombinedPayItems = ({
+const EmployeeRecalculatePayDeductionPayItems = ({
   tableConfig,
   employeeId,
   employeeName,
@@ -14,8 +17,8 @@ const EmployeeRecalculatePayCombinedPayItems = ({
   shouldShowTableRows,
 }) => (
   <EmployeeRecalculatePayTableRows
-    name="combined"
-    title="Wages, deductions and taxes"
+    name="deductions"
+    title="Deductions"
     tableConfig={tableConfig}
     employeeId={employeeId}
     employeeName={employeeName}
@@ -27,8 +30,8 @@ const EmployeeRecalculatePayCombinedPayItems = ({
 );
 
 const mapStateToProps = (state, props) => ({
-  entries: getCombinedPayItemEntries(state, props),
-  shouldShowTableRows: getShouldShowCombinedPayItemTableRows(),
+  entries: getDeductionPayItemEntries(state, props),
+  shouldShowTableRows: getShouldShowDeductionPayItemTableRows(state, props),
 });
 
-export default connect(mapStateToProps)(EmployeeRecalculatePayCombinedPayItems);
+export default connect(mapStateToProps)(EmployeeRecalculatePayDeductionPayItems);

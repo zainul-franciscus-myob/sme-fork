@@ -1,9 +1,11 @@
 import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
-import EmployeeRecalculatePayCombinedPayItems from './EmployeeRecalculatePayCombinedPayItems';
+import EmployeeRecalculatePayDeductionPayItems from './EmployeeRecalculatePayDeductionPayItems';
 import EmployeeRecalculatePayEmployerExpensePayItems from './EmployeeRecalculatePayEmployerExpensePayItems';
 import EmployeeRecalculatePayLeavePayItems from './EmployeeRecalculatePayLeavePayItems';
+import EmployeeRecalculatePayTaxPayItems from './EmployeeRecalculatePayTaxPayItems';
+import EmployeeRecalculatePayWagePayItems from './EmployeeRecalculatePayWagePayItems';
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'middle' },
@@ -24,7 +26,21 @@ const EmployeeRecalculatePayTable = ({
       <Table.HeaderItem {...tableConfig.amount}>Amount ($)</Table.HeaderItem>
     </Table.Header>
     <Table.Body>
-      <EmployeeRecalculatePayCombinedPayItems
+      <EmployeeRecalculatePayWagePayItems
+        tableConfig={tableConfig}
+        employeeId={employeeId}
+        employeeName={employeeName}
+        onEmployeePayItemChange={onEmployeePayItemChange}
+        onEmployeePayItemBlur={onEmployeePayItemBlur}
+      />
+      <EmployeeRecalculatePayDeductionPayItems
+        tableConfig={tableConfig}
+        employeeId={employeeId}
+        employeeName={employeeName}
+        onEmployeePayItemChange={onEmployeePayItemChange}
+        onEmployeePayItemBlur={onEmployeePayItemBlur}
+      />
+      <EmployeeRecalculatePayTaxPayItems
         tableConfig={tableConfig}
         employeeId={employeeId}
         employeeName={employeeName}

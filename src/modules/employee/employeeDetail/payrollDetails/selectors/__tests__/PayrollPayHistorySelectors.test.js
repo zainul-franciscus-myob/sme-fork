@@ -2,15 +2,17 @@ import {
   buildPayHistoryEntries,
   buildPayHistoryEntry,
   getAssignedMonthForPeriod,
-  getCombinedTableRows,
+  getDeductionTableRows,
   getExpenseTableRows,
   getFormattedActivity,
   getIsFutureMonth,
   getLeaveTableRows,
   getMonthsInPeriod,
   getPayHistoryDetailsPayload,
+  getTaxTableRows,
   getUpdatedPayHistoryItems,
   getUpdatedPayHistoryItemsFromFilterOptions,
+  getWageTableRows,
 } from '../PayrollPayHistorySelectors';
 
 describe('PayrollPayHistorySelectors', () => {
@@ -228,8 +230,8 @@ describe('PayrollPayHistorySelectors', () => {
     });
   });
 
-  describe('getCombinedPayItemEntries', () => {
-    it('should return allocated wage, deduction, tax and super (deduction) pay items', () => {
+  describe('getWagePayItemEntries', () => {
+    it('should return allocated wage pay items', () => {
       const state = {
         payrollDetails: {
           deductionDetails: {
@@ -316,15 +318,96 @@ describe('PayrollPayHistorySelectors', () => {
             isHours: false,
             isAmount: true,
           },
-          {
-            payItemId: '21',
-            payItemType: 'TaxPayrollCategory',
-            name: 'PAYG Withholding',
-            hours: '0.00',
-            amount: '0.00',
-            isHours: false,
-            isAmount: true,
+        ],
+        showTableRows: true,
+      };
+
+      const actual = getWageTableRows(state);
+
+      expect(actual.entries).toEqual(expected.entries);
+      expect(actual.showTableRows).toEqual(expected.showTableRows);
+    });
+  });
+
+  describe('getDeductionPayItemEntries', () => {
+    it('should return deduction pay items', () => {
+      const state = {
+        payrollDetails: {
+          deductionDetails: {
+            deductionPayItems: [
+              { id: '41' },
+            ],
           },
+          superannuationDetails: {
+            allocatedPayItems: [
+              { id: '31' },
+              { id: '33' },
+            ],
+          },
+          tax: {
+            taxPayItems: [
+              { id: '21' },
+            ],
+          },
+          wage: {
+            allocatedWagePayItems: [
+              { id: '11' },
+            ],
+          },
+          payHistoryDetails: {
+            filterOptions: {
+              period: 'July',
+            },
+            payHistoryItems: [],
+          },
+        },
+        wagePayItems: [
+          {
+            id: '11',
+            name: 'Base salary',
+            type: 'WagesPayrollCategory',
+          },
+          {
+            id: '12',
+            name: 'Base hourly',
+            type: 'WagesPayrollCategory',
+          },
+        ],
+        deductionPayItemOptions: [
+          {
+            id: '41',
+            name: 'Deduction percent',
+            type: 'DeductionPayrollCategory',
+          },
+          {
+            id: '42',
+            name: 'Deduction fixed dollar',
+            type: 'DeductionPayrollCategory',
+          },
+        ],
+        taxPayItemOptions: [
+          {
+            id: '21',
+            name: 'PAYG Withholding',
+            type: 'TaxPayrollCategory',
+          },
+        ],
+        superPayItemOptions: [
+          {
+            id: '31',
+            name: 'Super deduction before tax',
+            type: 'SuperannuationDeductionBeforeTaxPayrollCategory',
+          },
+          {
+            id: '33',
+            name: 'Super expense',
+            type: 'SuperannuationExpensePayrollCategory',
+          },
+        ],
+      };
+
+      const expected = {
+        entries: [
           {
             payItemId: '41',
             payItemType: 'DeductionPayrollCategory',
@@ -334,6 +417,106 @@ describe('PayrollPayHistorySelectors', () => {
             isHours: false,
             isAmount: true,
           },
+        ],
+        showTableRows: true,
+      };
+
+      const actual = getDeductionTableRows(state);
+
+      expect(actual.entries).toEqual(expected.entries);
+      expect(actual.showTableRows).toEqual(expected.showTableRows);
+    });
+  });
+
+  describe('getTaxPayItemEntries', () => {
+    it('should return allocated tax and super (deduction) pay items', () => {
+      const state = {
+        payrollDetails: {
+          deductionDetails: {
+            deductionPayItems: [
+              { id: '41' },
+            ],
+          },
+          superannuationDetails: {
+            allocatedPayItems: [
+              { id: '31' },
+              { id: '33' },
+            ],
+          },
+          tax: {
+            taxPayItems: [
+              { id: '21' },
+            ],
+          },
+          wage: {
+            allocatedWagePayItems: [
+              { id: '11' },
+            ],
+          },
+          payHistoryDetails: {
+            filterOptions: {
+              period: 'July',
+            },
+            payHistoryItems: [],
+          },
+        },
+        wagePayItems: [
+          {
+            id: '11',
+            name: 'Base salary',
+            type: 'WagesPayrollCategory',
+          },
+          {
+            id: '12',
+            name: 'Base hourly',
+            type: 'WagesPayrollCategory',
+          },
+        ],
+        deductionPayItemOptions: [
+          {
+            id: '41',
+            name: 'Deduction percent',
+            type: 'DeductionPayrollCategory',
+          },
+          {
+            id: '42',
+            name: 'Deduction fixed dollar',
+            type: 'DeductionPayrollCategory',
+          },
+        ],
+        taxPayItemOptions: [
+          {
+            id: '21',
+            name: 'PAYG Withholding',
+            type: 'TaxPayrollCategory',
+          },
+        ],
+        superPayItemOptions: [
+          {
+            id: '31',
+            name: 'Super deduction before tax',
+            type: 'SuperannuationDeductionBeforeTaxPayrollCategory',
+          },
+          {
+            id: '33',
+            name: 'Super expense',
+            type: 'SuperannuationExpensePayrollCategory',
+          },
+        ],
+      };
+
+      const expected = {
+        entries: [
+          {
+            payItemId: '21',
+            payItemType: 'TaxPayrollCategory',
+            name: 'PAYG Withholding',
+            hours: '0.00',
+            amount: '0.00',
+            isHours: false,
+            isAmount: true,
+            payBasis: undefined,
+          },
           {
             payItemId: '31',
             payItemType: 'SuperannuationDeductionBeforeTaxPayrollCategory',
@@ -342,12 +525,13 @@ describe('PayrollPayHistorySelectors', () => {
             amount: '0.00',
             isHours: false,
             isAmount: true,
+            payBasis: undefined,
           },
         ],
         showTableRows: true,
       };
 
-      const actual = getCombinedTableRows(state);
+      const actual = getTaxTableRows(state);
 
       expect(actual.entries).toEqual(expected.entries);
       expect(actual.showTableRows).toEqual(expected.showTableRows);

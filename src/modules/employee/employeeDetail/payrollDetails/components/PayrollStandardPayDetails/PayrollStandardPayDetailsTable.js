@@ -3,9 +3,11 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import PayrollStandardPayDetailsCombinedTableRows from './PayrollStandardPayDetailsCombinedTableRows';
+import PayrollStandardPayDetailsDeductionTableRows from './PayrollStandardPayDetailsDeductionTableRows';
 import PayrollStandardPayDetailsExpenseTableRows from './PayrollStandardPayDetailsExpenseTableRows';
 import PayrollStandardPayDetailsLeaveTableRows from './PayrollStandardPayDetailsLeaveTableRows';
+import PayrollStandardPayDetailsTaxTableRows from './PayrollStandardPayDetailsTaxTableRows';
+import PayrollStandardPayDetailsWageTableRows from './PayrollStandardPayDetailsWageTableRows';
 
 const tableConfig = {
   name: { width: 'flex-1', valign: 'middle' },
@@ -48,7 +50,9 @@ const PayrollStandardPayDetailsTable = props => (
         <Table.HeaderItem {...tableConfig.amount}>{amountHeaderItem}</Table.HeaderItem>
       </Table.Header>
       <Table.Body>
-        <PayrollStandardPayDetailsCombinedTableRows tableConfig={tableConfig} {...props} />
+        <PayrollStandardPayDetailsWageTableRows tableConfig={tableConfig} {...props} />
+        <PayrollStandardPayDetailsDeductionTableRows tableConfig={tableConfig} {...props} />
+        <PayrollStandardPayDetailsTaxTableRows tableConfig={tableConfig} {...props} />
         <PayrollStandardPayDetailsLeaveTableRows tableConfig={tableConfig} {...props} />
         <PayrollStandardPayDetailsExpenseTableRows tableConfig={tableConfig} {...props} />
       </Table.Body>
