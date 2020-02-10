@@ -17,7 +17,14 @@
       "deductionPayItems": []
     },
     "superannuationDetails": {
-      "allocatedPayItems": [],
+      "allocatedPayItems": [
+        {
+          "id": "31",
+          "name": "Superannuation Guarantee",
+          "type": "SuperannuationGuarantee",
+          "displayType": "Superannuation Guarantee (expense)"
+        }
+      ],
       "defaultSuperannuationId": "2"
     },
     "tax": {
