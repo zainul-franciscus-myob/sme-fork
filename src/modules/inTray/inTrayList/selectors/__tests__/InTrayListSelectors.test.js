@@ -4,6 +4,7 @@ import {
   getFilteredEntriesByKey,
   getIsEntryLoading,
   getIsEntryUploadingDone,
+  getShouldPolling,
   getTableEntries,
   getUpdatedEntriesByKey,
   getUploadCompleteAlert,
@@ -11,6 +12,7 @@ import {
   getUploadingEntry,
   getUploadingErrorMessage,
 } from '../InTrayListSelectors';
+import OCRStatus from '../../OCRStatus';
 import uploadStatuses from '../../uploadStatuses';
 
 describe('InTrayListSelectors', () => {
@@ -447,6 +449,73 @@ describe('InTrayListSelectors', () => {
       const expected = true;
 
       const actual = getIsEntryUploadingDone(state, '1');
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getShouldPolling', () => {
+    it('should return false when all items have OCR status Completed', () => {
+      const state = {
+        inTrayList: {
+          entries: [
+            { ocrStatus: OCRStatus.Completed },
+            { ocrStatus: OCRStatus.Completed },
+          ],
+        },
+      };
+
+      const expected = false;
+
+      const actual = getShouldPolling(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return true when all items have OCR status InProgress', () => {
+      const state = {
+        inTrayList: {
+          entries: [
+            { ocrStatus: OCRStatus.InProgress },
+            { ocrStatus: OCRStatus.InProgress },
+          ],
+        },
+      };
+
+      const expected = true;
+
+      const actual = getShouldPolling(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return true when any item has OCR status InProgress', () => {
+      const state = {
+        inTrayList: {
+          entries: [
+            { ocrStatus: OCRStatus.Completed },
+            { ocrStatus: OCRStatus.InProgress },
+          ],
+        },
+      };
+
+      const expected = true;
+
+      const actual = getShouldPolling(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return false if there is no in tray document', () => {
+      const state = {
+        inTrayList: {
+          entries: [],
+        },
+      };
+
+      const expected = false;
+
+      const actual = getShouldPolling(state);
 
       expect(actual).toEqual(expected);
     });

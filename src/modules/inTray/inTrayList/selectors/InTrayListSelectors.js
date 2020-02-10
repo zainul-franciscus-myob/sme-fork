@@ -155,3 +155,7 @@ export const getDocumentIds = createSelector(
   getEntries,
   entries => entries.map(entry => entry.id),
 );
+
+export const getShouldPolling = state => getEntries(state)
+  .filter(entry => entry.ocrStatus === OCRStatus.InProgress)
+  .length > 0;

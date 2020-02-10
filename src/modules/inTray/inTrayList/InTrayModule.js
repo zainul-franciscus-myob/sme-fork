@@ -8,21 +8,23 @@ import {
   SUCCESSFULLY_SAVED_BILL,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 } from '../../bill/billDetail/types/BillMessageTypes';
-import { SUCCESSFULLY_SAVED_SPEND_MONEY, SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK } from '../../spendMoney/spendMoneyMessageTypes';
+import {
+  SUCCESSFULLY_SAVED_SPEND_MONEY,
+  SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
+} from '../../spendMoney/spendMoneyMessageTypes';
 import { getBusinessId, getRegion } from './selectors/InTraySelectors';
 import { getEmail, getIsUploadOptionsLoading } from './selectors/UploadOptionsSelectors';
 import {
-  getEntries,
   getIsEntryLoading,
   getIsEntryUploadingDone,
   getNewSortOrder,
+  getShouldPolling,
   getUploadCompleteAlert,
   getUploadingEntry,
   getUploadingErrorMessage,
 } from './selectors/InTrayListSelectors';
 import InTrayView from './components/InTrayView';
 import LoadingState from '../../../components/PageView/LoadingState';
-import OCRStatus from './OCRStatus';
 import Store from '../../../store/Store';
 import actionTypes from './actionTypes';
 import createInTrayDispatcher from './createInTrayDispatcher';
@@ -58,7 +60,7 @@ export default class InTrayModule {
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadInTray(payload);
-      this.pollEntries();
+      this.startPolling();
     };
 
     const onFailure = () => {
@@ -100,6 +102,7 @@ export default class InTrayModule {
     const onSuccess = (response) => {
       this.dispatcher.setInTrayListTableLoadingState(false);
       this.dispatcher.filterInTrayList(response);
+      this.startPolling();
     };
 
     const onFailure = (error) => {
@@ -124,6 +127,7 @@ export default class InTrayModule {
     const onSuccess = (response) => {
       this.dispatcher.setInTrayListTableLoadingState(false);
       this.dispatcher.sortInTrayList(response);
+      this.startPolling();
     };
 
     const onFailure = (error) => {
@@ -165,7 +169,7 @@ export default class InTrayModule {
       const { uploadId } = entries[index] || { uploadId: 'none' };
 
       this.dispatcher.createInTrayDocument(uploadId, entry);
-      this.pollEntries();
+      this.startPolling();
     };
 
     const onFailure = (response, index) => {
@@ -188,33 +192,31 @@ export default class InTrayModule {
     });
   }
 
-  pollEntries = () => {
-    const shouldPoll = entries => (entries
-      .filter(entry => entry.ocrStatus === OCRStatus.InProgress).length > 0);
+  stopPolling = () => {
+    this.pollTimer = undefined;
+  }
 
+  startPolling = () => {
+    const state = this.store.getState();
+    if (!this.pollTimer && getShouldPolling(state)) {
+      this.pollTimer = setTimeout(() => this.pollEntries(), 7000);
+    }
+  };
+
+  pollEntries = () => {
     const onSuccess = ({ entries }) => {
       this.dispatcher.pollIntrayList(entries);
-
-      if (shouldPoll(getEntries(this.store.getState()))) {
-        // Saving timer so we can clear it if the module exits early.
-        this.pollTimer = setTimeout(() => {
-          // Clearing timer flag as the timeout has resolved
-          this.hasPollRunning = false;
-          this.pollEntries();
-        }, 7000);
-      }
+      this.stopPolling();
+      this.startPolling();
     };
 
     const onFailure = () => {
       this.dispatcher.setAlert({ message: 'Failed to get OCR data', type: 'danger' });
+      this.stopPolling();
     };
-    // If there is an existing poll dont run.
-    if (!this.hasPollRunning && shouldPoll(getEntries(this.store.getState()))) {
-      // Setting a timer flag to true to indicate a reqest and timout will execute.
-      this.hasPollRunning = true;
-      this.integrator.pollInTrayList({ onSuccess, onFailure });
-    }
-  };
+
+    this.integrator.pollInTrayList({ onSuccess, onFailure });
+  }
 
   deleteInTrayDocument = (id) => {
     const state = this.store.getState();
@@ -402,7 +404,7 @@ export default class InTrayModule {
   }
 
   unsubscribeFromStore = () => {
-    if (this.hasPollRunning) {
+    if (this.pollTimer) {
       // If there is a running poll clear it.
       clearTimeout(this.pollTimer);
     }
