@@ -5,6 +5,10 @@
     "BucketName": {
       "Type": "String"
     },
+    "ACLDefaultAction": {
+      "Type": "String",
+      "Default": "BLOCK"
+    },
     "AcmCertificate": {
       "Type": "String"
     },
@@ -166,7 +170,7 @@
         "Name": "WebACL to only allow Ingress from IPs of the IPSet",
         "DefaultAction":
         {
-          "Type": "BLOCK"
+          "Type": { "Ref": "ACLDefaultAction" }
         },
         "MetricName" : "WebACL",
         "Rules":

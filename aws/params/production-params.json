@@ -2,5 +2,9 @@
   {
     "ParameterKey": "BucketName",
     "ParameterValue": "myob-sme-web-ui-production-bucket"
+  },
+  {
+    "ParameterKey": "ACLDefaultAction",
+    "ParameterValue": "ALLOW"
   }
 ]

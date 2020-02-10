@@ -10,5 +10,9 @@
   {
     "ParameterKey": "Aliases",
     "ParameterValue": "crabdance.app.myob.com,integration-sme-web.app.myob.com"
+  },
+  {
+    "ParameterKey": "ACLDefaultAction",
+    "ParameterValue": "BLOCK"
   }
 ]

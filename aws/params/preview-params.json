@@ -10,6 +10,9 @@
   {
     "ParameterKey": "Aliases",
     "ParameterValue": "app.myob.com"
+  },
+  {
+    "ParameterKey": "ACLDefaultAction",
+    "ParameterValue": "ALLOW"
   }
-
 ]

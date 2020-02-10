@@ -2,5 +2,9 @@
   {
     "ParameterKey": "BucketName",
     "ParameterValue": "myob-sme-web-ui-development-bucket"
+  },
+  {
+    "ParameterKey": "ACLDefaultAction",
+    "ParameterValue": "BLOCK"
   }
 ]
