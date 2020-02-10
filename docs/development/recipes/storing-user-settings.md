@@ -2,6 +2,8 @@
 
 Typically list pages will store a users filters between browser sessions. We achieve this using [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage), see [`localStorageDriver`](../../../sme-web/src/store/localStorageDriver.js). 
 
+![Local Storage settings](images/local-storage-settings.png)
+
 ```js
 // Module
 

@@ -11,6 +11,11 @@ The web frontend. That's us 👋!
 `sme-web` | https://github.com/MYOB-Technology/sme-web
 `sme-web-bff` | https://github.com/MYOB-Technology/sme-web-bff
 
+| Deployments | |
+--- | ---
+| `preview`/`production` | https://app.myob.com |
+| `pdv` | https://pdv-sme-web.app.myob.com |
+| `integration` | https://crabdance.app.myob.com |
 
 | Slack | |  
 --- | --- 
@@ -32,7 +37,7 @@ Provides the Feelix component library and design system used by `sme-web`.
 
 ## Private Gateway 
 
-Exposes services as a unified API to be consume by any frontend.
+Exposes services as a unified API to be consumed by any frontend.
 
 | Artifacts | |  
 --- | --- 
