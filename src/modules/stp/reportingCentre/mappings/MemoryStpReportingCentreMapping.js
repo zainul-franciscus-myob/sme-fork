@@ -4,6 +4,7 @@ import {
 } from '../etps/EtpIntents';
 import {
   FILTER_PAY_EVENTS,
+  LOAD_EMPLOYEE_YTD_REPORT,
   LOAD_PAY_EVENTS,
   LOAD_PAY_EVENT_DETAILS,
 } from '../reports/ReportsIntents';
@@ -69,6 +70,7 @@ const MemoryStpReportingCentreMapping = {
   [SUBMIT_EMPLOYEES_REMOVE_FINALISATION]: ({ onSuccess }) => onSuccess(
     submitEmployeesRemoveFinalisation,
   ),
+  [LOAD_EMPLOYEE_YTD_REPORT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [OPEN_EOFY_YTD_REPORT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [OPEN_EMPLOYEE_SUMMARY_REPORT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };

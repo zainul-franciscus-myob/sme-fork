@@ -71,3 +71,5 @@ export const getStpDeclarationContext = state => ({
   businessId: getBusinessId(state),
   eventId: state.selectedPayEvent.id,
 });
+
+export const getSelectedPayEventId = state => state.selectedPayEvent.id;

@@ -8,6 +8,7 @@ import Store from '../../../../store/Store';
 import StpDeclarationModalModule from '../../stpDeclarationModal/StpDeclarationModalModule';
 import createReportsDispatcher from './createReportsDispatcher';
 import createReportsIntegrator from './createReportsIntegrator';
+import openBlob from '../../../../common/blobOpener/openBlob';
 import reportsReducer from './ReportsReducer';
 
 export default class ReportsModule {
@@ -88,6 +89,21 @@ export default class ReportsModule {
     this.stpDeclarationModule.run(getStpDeclarationContext(this.store.getState()));
   };
 
+  onGetYdtEmployeeReport = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      openBlob({ blob: response });
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadEmployeeYtdReport({ onSuccess, onFailure });
+  };
+
   run = () => {
     this.loadPayEvents();
   };
@@ -103,6 +119,7 @@ export default class ReportsModule {
           onRowSelect={this.setSelectedPayEvent}
           onClearSelected={this.dispatcher.clearSelectedPayEvent}
           onDeclare={this.onDeclare}
+          onViewEmployeeReportClick={this.onGetYdtEmployeeReport}
         />
       </Provider>
     );

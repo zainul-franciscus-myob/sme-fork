@@ -4,6 +4,7 @@ import {
 } from '../etps/EtpIntents';
 import {
   FILTER_PAY_EVENTS,
+  LOAD_EMPLOYEE_YTD_REPORT,
   LOAD_PAY_EVENTS,
   LOAD_PAY_EVENT_DETAILS,
 } from '../reports/ReportsIntents';
@@ -98,6 +99,10 @@ const HttpStpReportingCentreMapping = {
   [SUBMIT_EMPLOYEES_REMOVE_FINALISATION]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/stp/unfinalise_employees_eofy`,
+  },
+  [LOAD_EMPLOYEE_YTD_REPORT]: {
+    method: 'GET',
+    getPath: ({ businessId, payEventId }) => `/${businessId}/stp/pay_event_report/${payEventId}`,
   },
   [OPEN_EOFY_YTD_REPORT]: {
     method: 'GET',

@@ -34,10 +34,11 @@ const ReportDetailView = ({
   onClose,
   showDeclareAction,
   onDeclare,
+  onViewEmployeeReportClick,
 }) => {
   const actions = (
     <Aside.Actions>
-      <Button icon={<Icons.GenericDocument />} type="link">View Employee YTD report (PDF)</Button>
+      <Button testid="viewEmployeeReportLink" onClick={onViewEmployeeReportClick} icon={<Icons.GenericDocument />} type="link">View Employee YTD report (PDF)</Button>
     </Aside.Actions>
   );
 

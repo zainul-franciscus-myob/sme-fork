@@ -34,6 +34,7 @@ const ReportsView = ({
   onClearSelected,
   showDeclareAction,
   onDeclare,
+  onViewEmployeeReportClick,
 }) => {
   const tableConfig = {
     payPeriod: { columnName: 'Pay period', width: '21rem', valign: 'middle' },
@@ -82,6 +83,7 @@ const ReportsView = ({
       onClose={onClearSelected}
       showDeclareAction={showDeclareAction}
       onDeclare={onDeclare}
+      onViewEmployeeReportClick={onViewEmployeeReportClick}
     />
   );
 

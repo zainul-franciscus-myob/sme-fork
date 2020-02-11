@@ -1,8 +1,11 @@
-import { FILTER_PAY_EVENTS, LOAD_PAY_EVENTS, LOAD_PAY_EVENT_DETAILS } from './ReportsIntents';
+import {
+  FILTER_PAY_EVENTS, LOAD_EMPLOYEE_YTD_REPORT, LOAD_PAY_EVENTS, LOAD_PAY_EVENT_DETAILS,
+} from './ReportsIntents';
 import {
   getBusinessId,
   getFilterPayEventsParams,
   getLoadPayEventDetailsUrlParams,
+  getSelectedPayEventId,
 } from './ReportsSelector';
 
 const createReportsIntegrator = (store, integration) => ({
@@ -40,6 +43,20 @@ const createReportsIntegrator = (store, integration) => ({
 
     integration.read({
       intent: LOAD_PAY_EVENT_DETAILS,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadEmployeeYtdReport: ({ onSuccess, onFailure }) => {
+    const urlParams = {
+      businessId: getBusinessId(store.getState()),
+      payEventId: getSelectedPayEventId(store.getState()),
+    };
+
+    integration.readFile({
+      intent: LOAD_EMPLOYEE_YTD_REPORT,
       urlParams,
       onSuccess,
       onFailure,

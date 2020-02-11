@@ -10,3 +10,4 @@ export const SET_SELECTED_PAY_EVENT = Symbol('Set selected Pay Event');
 export const SET_DETAILS_LOADING_STATE = Symbol('Set the loading state in the details');
 export const LOAD_PAY_EVENT_DETAILS = Symbol('Load the Pay Event details');
 export const SET_PAY_EVENT_DETAILS = Symbol('Set the Pay Event details');
+export const LOAD_EMPLOYEE_YTD_REPORT = Symbol('Load employee Pay Event report');
