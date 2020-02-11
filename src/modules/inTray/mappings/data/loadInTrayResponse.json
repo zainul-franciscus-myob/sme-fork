@@ -30,5 +30,12 @@
       "totalAmount": "55,000.90",
       "ocrStatus": "Completed"
     }
+  ],
+  "allowedActions": [
+    "delete",
+    "download",
+    "linkToExistingBill",
+    "createBill",
+    "createSpendMoney"
   ]
 }
