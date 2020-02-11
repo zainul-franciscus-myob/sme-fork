@@ -1,4 +1,4 @@
-import { Alert, LineItemTemplate } from '@myob/myob-widgets';
+import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -11,6 +11,7 @@ import BillPaymentDetailTableOptions from './BillPaymentDetailTableOptions';
 import BillPaymentOptions from './BillPaymentDetailOptions';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
+import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
 
 const BillPaymentDetailView = ({

@@ -22,6 +22,7 @@ import DeleteModal from '../../../components/modal/DeleteModal';
 import LinkButton from '../../../components/Button/LinkButton';
 import ModalTypes from '../ModalTypes';
 import PageView from '../../../components/PageView/PageView';
+import StickyHeader from '../../../components/Feelix/StickyHeader/StickyHeader';
 
 const BankFeedsView = ({
   alert,
@@ -111,7 +112,10 @@ const BankFeedsView = ({
   );
 
   const view = (
-    <BaseTemplate stickyHeaderChildren={stickyComponents}>
+    <BaseTemplate>
+      <StickyHeader>
+        {stickyComponents}
+      </StickyHeader>
       {tableView}
       {modal}
       {actions}

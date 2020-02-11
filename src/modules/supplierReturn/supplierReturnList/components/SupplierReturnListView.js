@@ -1,7 +1,6 @@
 import {
   Alert,
   PageHead,
-  StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,6 +8,7 @@ import React from 'react';
 import { getAlert, getLoadingState } from '../selectors/SupplierReturnListSelectors';
 import { responsiveWidths, tableConfig } from './TableConfig';
 import PageView from '../../../../components/PageView/PageView';
+import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import SupplierReturnListFilterOptions from './SupplierReturnListFilterOptions';
 import SupplierReturnListTable from './SupplierReturnListTable';
 import SupplierReturnListTableHeader from './SupplierReturnListTableHeader';

@@ -1,5 +1,5 @@
 import {
-  Alert, Columns, LineItemTemplate, Select,
+  Alert, Columns, Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,6 +9,7 @@ import {
 } from '../IncomeAllocationSelectors';
 import IncomeAllocationActions from './IncomeAllocationActions';
 import IncomeAllocationTable from './IncomeAllocationTable';
+import LineItemTemplate from '../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../components/PageView/PageView';
 
 const onSelectChange = handler => (e) => {

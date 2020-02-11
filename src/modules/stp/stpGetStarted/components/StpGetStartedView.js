@@ -1,7 +1,6 @@
 import {
   Button,
   Columns,
-  StandardTemplate,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -9,6 +8,7 @@ import React from 'react';
 import { getIsModalOpen, getLoadingState } from '../stpGetStartedSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import RegistrationErrorsModal from './RegistrationErrorsModal';
+import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import landingPageImage from './images/landing-page.svg';
 import styles from './StpGetStartedView.module.css';
 

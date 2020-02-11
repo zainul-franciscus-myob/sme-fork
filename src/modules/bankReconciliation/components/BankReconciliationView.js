@@ -18,6 +18,7 @@ import BankReconciliationOptions from './BankReconciliationOptions';
 import BankReconciliationTable from './BankReconciliationTable';
 import BankReconciliationTableHeader from './BankReconciliationTableHeader';
 import PageView from '../../../components/PageView/PageView';
+import StickyHeader from '../../../components/Feelix/StickyHeader/StickyHeader';
 import styles from './BankReconciliationView.module.css';
 
 const tableConfig = {
@@ -99,8 +100,10 @@ const BankReconciliationView = ({
   const view = (
     <BaseTemplate
       baseTemplateClassName={styles.sticky}
-      stickyHeaderChildren={stickyComponent}
     >
+      <StickyHeader>
+        {stickyComponent}
+      </StickyHeader>
       {modal}
       <Card classes={[styles.table]}>
         <BankReconciliationTable

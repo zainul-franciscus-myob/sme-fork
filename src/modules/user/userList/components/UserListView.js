@@ -1,11 +1,12 @@
 import {
-  Alert, Button, ButtonRow, Icons, PageHead, StandardTemplate,
+  Alert, Button, ButtonRow, Icons, PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAlert, getIsCurrentUserOnlineAdmin, getLoadingState } from '../userListSelectors';
 import PageView from '../../../../components/PageView/PageView';
+import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import UserListTable from './UserListTable';
 import UserListTableHeader from './UserListTableHeader';
 

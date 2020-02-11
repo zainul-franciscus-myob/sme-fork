@@ -1,5 +1,5 @@
 import {
-  Alert, Button, HeaderSort, PageHead, StandardTemplate, Table,
+  Alert, Button, HeaderSort, PageHead, Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -17,6 +17,7 @@ import BankStatementImportModal from './BankStatementImportModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import ModalTypes from '../ModalTypes';
 import PageView from '../../../../components/PageView/PageView';
+import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import WidthConfig from './WidthConfig';
 import styles from './BankStatementImportListView.module.css';
 

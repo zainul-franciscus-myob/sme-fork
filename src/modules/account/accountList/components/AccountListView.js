@@ -1,5 +1,5 @@
 import {
-  Alert, ButtonRow, PageHead, Separator, StandardTemplate,
+  Alert, ButtonRow, PageHead, Separator,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -14,6 +14,7 @@ import AccountListTable from './AccountListTable';
 import AccountListTableHeader from './AccountListTableHeader';
 import Button from '../../../../components/Button/Button';
 import PageView from '../../../../components/PageView/PageView';
+import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import Tabs from '../../../../components/Tabs/Tabs';
 
 const AccountListView = ({

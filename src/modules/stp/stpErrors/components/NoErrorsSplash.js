@@ -1,8 +1,9 @@
 import {
-  Button, PageHead, PageState, StandardTemplate,
+  Button, PageHead, PageState,
 } from '@myob/myob-widgets';
 import React from 'react';
 
+import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import successDoneCompleteImage from './success-done-complete.svg';
 
 const NoErrorsSplash = ({ onGetStartedClick }) => (

@@ -9,6 +9,7 @@ import LinkBillActions from './LinkBillActions';
 import LinkBillDocumentView from './LinkBillDocumentView';
 import LinkBillListView from './LinkBillListView';
 import PageView from '../../../components/PageView/PageView';
+import StickyHeader from '../../../components/Feelix/StickyHeader/StickyHeader';
 
 const LinkBillView = ({
   alert,
@@ -35,7 +36,8 @@ const LinkBillView = ({
   );
 
   const view = (
-    <BaseTemplate stickyHeaderChildren={stickyComponents}>
+    <BaseTemplate>
+      <StickyHeader>{stickyComponents}</StickyHeader>
       <LinkBillDocumentView />
       <LinkBillListView
         onUpdateFilterOptions={onUpdateFilterOptions}

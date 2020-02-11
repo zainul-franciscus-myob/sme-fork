@@ -1,9 +1,7 @@
-import {
-  StandardTemplate,
-} from '@myob/myob-widgets';
 import React from 'react';
 
 import LoadMoreButton from './LoadMoreButton';
+import StandardTemplate from '../Feelix/StandardTemplate/StandardTemplate';
 
 const PaginatedListTemplate = (props) => {
   const {
@@ -19,7 +17,6 @@ const PaginatedListTemplate = (props) => {
       <StandardTemplate sticky="all" {...rest}>
         {listTable}
       </StandardTemplate>
-
       <LoadMoreButton
         onLoadMoreButtonClick={onLoadMoreButtonClick}
         loadMoreButtonStatus={loadMoreButtonStatus}

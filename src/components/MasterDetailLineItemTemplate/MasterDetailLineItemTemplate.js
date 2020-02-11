@@ -2,12 +2,12 @@ import {
   Alert,
   Card,
   DetailHeader,
-  MasterDetailTemplate,
   Separator,
 } from '@myob/myob-widgets';
 import React from 'react';
 import classnames from 'classnames';
 
+import MasterDetailTemplate from '../Feelix/MasterDetailTemplate/MasterDetailTemplate';
 import styles from './MasterDetailLineItemTemplate.module.css';
 
 const MasterDetailLineItemTemplate = ({

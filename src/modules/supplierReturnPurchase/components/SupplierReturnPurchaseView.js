@@ -1,5 +1,5 @@
 import {
-  Alert, LineItemTemplate,
+  Alert,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -11,6 +11,7 @@ import {
   getModalType,
   getPageTitle,
 } from '../SupplierReturnPurchaseSelector';
+import LineItemTemplate from '../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../components/PageView/PageView';
 import SupplierReturnPurchaseCreateActions from './SupplierReturnPurchaseCreateActions';
 import SupplierReturnPurchaseModal from './SupplierReturnPurchaseModal';

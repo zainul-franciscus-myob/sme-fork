@@ -62,8 +62,8 @@ div.card:global.flx-card {
 
 /**
   @FEELIX:
-    Prevent horizontal scrolling
+  Prevent horizontal scrolling
 **/
-.showDetail {
+.showDetail :global(.line-item-table) {
   overflow-x: hidden;
 }

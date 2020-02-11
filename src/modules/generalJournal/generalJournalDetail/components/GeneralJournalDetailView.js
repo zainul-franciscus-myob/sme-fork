@@ -1,5 +1,5 @@
 import {
-  Alert, LineItemTemplate,
+  Alert,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -11,6 +11,7 @@ import GeneralJournalDetailActions from './GeneralJournalDetailActions';
 import GeneralJournalDetailModal from './GeneralJournalDetailModal';
 import GeneralJournalDetailOptions from './GeneralJournalDetailOptions';
 import GeneralJournalDetailTable from './GeneralJournalDetailTable';
+import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
 
 const GeneralJournalDetailView = ({

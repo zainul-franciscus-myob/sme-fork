@@ -1,4 +1,4 @@
-import { Alert, Checkbox, LineItemTemplate } from '@myob/myob-widgets';
+import { Alert, Checkbox } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -15,6 +15,7 @@ import InvoicePaymentDetailActions from './InvoicePaymentDetailActions';
 import InvoicePaymentDetailOptions from './InvoicePaymentDetailOptions';
 import InvoicePaymentDetailTable from './InvoicePaymentDetailTable';
 import InvoicePaymentModalTypes from '../../InvoicePaymentModalTypes';
+import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 import styles from './InvoicePaymentDetailView.module.css';

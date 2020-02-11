@@ -1,4 +1,4 @@
-import { Alert, LineItemTemplate } from '@myob/myob-widgets';
+import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,6 +9,7 @@ import ApplyToSaleActions from './ApplyToSaleActions';
 import ApplyToSaleModal from './ApplyToSaleModal';
 import ApplyToSaleOptions from './ApplyToSaleOptions';
 import ApplyToSaleTable from './ApplyToSaleTable';
+import LineItemTemplate from '../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../components/PageView/PageView';
 
 const ApplyToSaleView = ({

@@ -1,7 +1,6 @@
 import {
   Alert,
   Button,
-  MasterDetailTemplate,
   PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -23,6 +22,7 @@ import InTrayFileBrowser from './InTrayFileBrowser';
 import InTrayListDetail from './InTrayListDetail';
 import InTrayListFilterOptions from './InTrayListFilterOptions';
 import InTrayListTable from './InTrayListTable';
+import MasterDetailTemplate from '../../../../components/Feelix/MasterDetailTemplate/MasterDetailTemplate';
 import PageView from '../../../../components/PageView/PageView';
 import UploadOptionsModal from './uploadOptions/UploadOptionsModal';
 import modalTypes from '../modalTypes';

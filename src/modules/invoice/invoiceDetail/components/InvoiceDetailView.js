@@ -1,6 +1,4 @@
-import {
-  Alert, LineItemTemplate,
-} from '@myob/myob-widgets';
+import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -24,6 +22,7 @@ import InvoiceDetailOptions from './InvoiceDetailOptions';
 import InvoiceDetailTotals from './InvoiceDetailTotals';
 import InvoiceItemTable from './itemLayout/InvoiceItemTable';
 import InvoiceServiceTable from './serviceLayout/InvoiceServiceTable';
+import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import MoreInformation from './MoreInformation';
 import PageView from '../../../../components/PageView/PageView';
 import UpgradeModal from './UpgradeModal';

@@ -1,15 +1,17 @@
+:root {
+  --drawer-width: 100%;
+  --animate-drawer-offset: -100%;
+}
+
 .drawer {
   position: fixed;
   top: 0;
   z-index: var(--flx-zindex-popover);
 
-  --drawer-width: 100%;
-
   /*
     potentially we can use calc(var(--drawer-width) * -1) to get --animate-drawer-offset
     but Edge can't animate things when we use calc
    */
-  --animate-drawer-offset: -100%;
   --drawer-transition-length: 500ms;
 
   height: 100vh;
@@ -42,24 +44,29 @@
 }
 
 @media (min-width: 768px) {
-  .drawer {
-    min-width: inherit;
+  :root {
     --drawer-width: 290px;
     --animate-drawer-offset: -290px;
+  }
+  .drawer {
+    min-width: inherit;
   }
 }
 
 @media (min-width: 1200px) {
   .drawer {
-    position: sticky;
+    position: fixed;
     box-shadow: none;
   }
 }
 
 @media (min-width: 1600px) {
-  .drawer {
+  :root {
     --drawer-width: 390px;
     --animate-drawer-offset: -390px;
+  }
+  .drawer {
+    position: sticky;
   }
 }
 

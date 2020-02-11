@@ -1,4 +1,4 @@
-import { Alert, LineItemTemplate } from '@myob/myob-widgets';
+import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,6 +9,7 @@ import {
   getLoadingState,
   getModal,
 } from '../selectors/QuoteDetailSelectors';
+import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
 import QuoteDetailActions from './QuoteDetailActions';
 import QuoteDetailFooter from './QuoteDetailFooter';

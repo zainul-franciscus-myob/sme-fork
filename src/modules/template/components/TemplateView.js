@@ -1,5 +1,5 @@
 import {
-  Alert, Button, PageHead, StickyHeader,
+  Alert, Button, PageHead,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -28,6 +28,7 @@ import {
 } from '../templateSelectors';
 import PageView from '../../../components/PageView/PageView';
 import PreviewTemplate from '../../../components/PreviewTemplate/PreviewTemplate';
+import StickyHeader from '../../../components/Feelix/StickyHeader/StickyHeader';
 import TemplateDetails from './TemplateDetails';
 import TemplateModal from './TemplateModal';
 import TemplatePreview from './TemplatePreview/TemplatePreview';

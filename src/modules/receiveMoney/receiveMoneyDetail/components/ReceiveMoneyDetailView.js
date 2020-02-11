@@ -1,5 +1,5 @@
 import {
-  Alert, LineItemTemplate,
+  Alert,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -7,6 +7,7 @@ import React from 'react';
 import {
   getAlertMessage, getLoadingState, getModal, getPageTitle,
 } from '../receiveMoneyDetailSelectors';
+import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
 import ReceiveMoneyDetailActions from './ReceiveMoneyDetailActions';
 import ReceiveMoneyDetailModal from './ReceiveMoneyDetailModal';
