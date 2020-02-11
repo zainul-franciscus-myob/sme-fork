@@ -9,6 +9,7 @@ import StpDeclarationModalModule from '../../stpDeclarationModal/StpDeclarationM
 import createFinalisationDispatcher from './createFinalisationDispatcher';
 import createFinalisationIntegrator from './createFinalisationIntegrator';
 import finalisationReducer from './FinalisationReducer';
+import openBlob from '../../../../common/blobOpener/openBlob';
 
 export default class FinalisationModule {
   constructor({
@@ -184,6 +185,42 @@ export default class FinalisationModule {
     this.pendingNavigationFunction = null;
   }
 
+  openYtdVerificationReport = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (blob) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      openBlob({ blob });
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.openYtdVerificationReport({
+      onSuccess,
+      onFailure,
+    });
+  }
+
+  openEmployeeSummaryReport = (employeeId) => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (blob) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      openBlob({ blob });
+    };
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.openEmployeeSummaryReport({
+      onSuccess,
+      onFailure,
+      employeeId,
+    });
+  }
+
   getView() {
     const stpModal = this.stpDeclarationModalModule.getView();
 
@@ -202,6 +239,8 @@ export default class FinalisationModule {
             onCancel: this.onUnsavedChangesCancel,
             onConfirm: this.onUnsavedChangesConfirm,
           }}
+          onVerificationReportClick={this.openYtdVerificationReport}
+          onEmployeeSummaryReportClick={this.openEmployeeSummaryReport}
         />
       </Provider>
     );

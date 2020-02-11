@@ -13,3 +13,5 @@ export const RESET_EVENT_ID = Symbol('Reset the event id');
 export const SUBMIT_EMPLOYEES_REMOVE_FINALISATION = Symbol('Submit employees for removal of finalisation');
 export const SET_UNSAVED_CHANGES_MODAL = Symbol('open unsaved changes modal');
 export const RESET_DIRTY_FLAG = Symbol('Resets the dirty flag back to false');
+export const OPEN_EOFY_YTD_REPORT = Symbol('Open the EOFY YTD verification report');
+export const OPEN_EMPLOYEE_SUMMARY_REPORT = Symbol('Open the summary report for an employee');

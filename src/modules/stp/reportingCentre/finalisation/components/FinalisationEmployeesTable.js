@@ -48,6 +48,7 @@ const FinalisationEmployeesTable = ({
   shouldShowRemoveFinalisationButton,
   onFinaliseClick,
   onRemoveFinalisationClick,
+  onEmployeeSummaryReportClick,
 }) => {
   const selectedCount = employees.filter(e => e.isSelected).length;
 
@@ -97,60 +98,60 @@ const FinalisationEmployeesTable = ({
     </Table.Header>
   );
 
-  const rows = employees.map(row => (
-    <Table.Row key={row.id}>
+  const rows = employees.map(employee => (
+    <Table.Row key={employee.id}>
       <Table.RowItem {...tableConfig.checkbox}>
         <Checkbox
-          name={`${row.id}-select`}
-          label={`Select row ${row.id}`}
+          name={`${employee.id}-select`}
+          label={`Select row ${employee.id}`}
           hideLabel
-          onChange={e => selectItem(row, e.target.checked)}
-          checked={row.isSelected}
+          onChange={e => selectItem(employee, e.target.checked)}
+          checked={employee.isSelected}
         />
       </Table.RowItem>
       <Table.RowItem {...tableConfig.employeeName}>
-        {row.name}
+        {employee.name}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.terminationDate}>
-        {row.terminationDate}
+        {employee.terminationDate}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.grossPaymentYtd}>
-        {row.ytdGross}
+        {employee.ytdGross}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.paygWithholdingYtd}>
-        {row.ytdTax}
+        {employee.ytdTax}
       </Table.RowItem>
       {isRFBAEnabled
         && <>
           <Table.RowItem {...tableConfig.rfba}>
-            {row.isFinalised
-              ? row.rfbAmount
+            {employee.isFinalised
+              ? employee.rfbAmount
               : (
                 <AmountInput
                   textAlign="right"
                   label="rfbAmount"
                   name="rfbAmount"
                   hideLabel
-                  value={row.rfbAmount}
+                  value={employee.rfbAmount}
                   onChange={handleAmountInputChange(({ key, value }) => onEmployeeChange({
-                    key, value, rowId: row.id,
+                    key, value, rowId: employee.id,
                   }))}
                 />
               )
             }
           </Table.RowItem>
           <Table.RowItem {...tableConfig.section57a}>
-            {row.isFinalised
-              ? row.s57aRfbAmount
+            {employee.isFinalised
+              ? employee.s57aRfbAmount
               : (
                 <AmountInput
                   textAlign="right"
                   label="s57aRfbAmount"
                   name="s57aRfbAmount"
                   hideLabel
-                  value={row.s57aRfbAmount}
+                  value={employee.s57aRfbAmount}
                   onChange={handleAmountInputChange(({ key, value }) => onEmployeeChange({
-                    key, value, rowId: row.id,
+                    key, value, rowId: employee.id,
                   }))}
                 />
               )
@@ -159,15 +160,19 @@ const FinalisationEmployeesTable = ({
         </>
       }
       <Table.RowItem {...tableConfig.isFinalised}>
-        {row.isFinalised && <Icons.Tick />}
+        {employee.isFinalised && <Icons.Tick />}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.moreOptions}>
         <Dropdown
           right
           items={[
-            <Dropdown.Item key="billLink" label="View summary report (PDF)" value={row.id} />,
+            <Dropdown.Item
+              key="employeeSummaryReport"
+              label="View summary report (PDF)"
+              value={employee.id}
+            />,
           ]}
-          onSelect={() => {}}
+          onSelect={onEmployeeSummaryReportClick}
           toggle={(
             <Dropdown.Toggle size="xs">
               <Icons.More />

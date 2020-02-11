@@ -1,4 +1,4 @@
-import { Modal, Table } from '@myob/myob-widgets';
+import { Dropdown, Modal, Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
 import { LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR, LOAD_INITIAL_EMPLOYEES_AND_HEADERS, SUBMIT_EMPLOYEES_FINALISATION } from '../FinalisationIntents';
@@ -7,9 +7,14 @@ import FinalisationModule from '../FinalisationModule';
 import StpDeclarationModal from '../../../stpDeclarationModal/components/StpDeclarationModal';
 import loadEmployeesAndHeadersForYear from '../../mappings/data/loadFinalisationEmployeesAndHeaderDetailsForYearResponse';
 import loadFinalisation from '../../mappings/data/loadFinalisationInitialEmployeesAndHeaderDetailsResponse';
+import openBlob from '../../../../../common/blobOpener/openBlob';
+
+jest.mock('../../../../../common/blobOpener/openBlob');
+
 
 describe('FinalisationModule', () => {
   const defaultIntegration = {
+    readFile: ({ onSuccess }) => onSuccess('FOO'),
     read: ({ intent, onSuccess }) => {
       switch (intent) {
         case LOAD_INITIAL_EMPLOYEES_AND_HEADERS:
@@ -252,6 +257,28 @@ describe('FinalisationModule', () => {
         unsavedChangesModalIsOpen: true,
         isDirty: true,
       }));
+    });
+  });
+
+  describe('verification report', () => {
+    it('calls the openBlob function', () => {
+      const { wrapper } = constructModule();
+
+      const reportLink = findButtonWithTestId(wrapper, 'verificationReportLink');
+      reportLink.simulate('click');
+
+      expect(openBlob).toHaveBeenCalled();
+    });
+  });
+
+  describe('employee summary report button', () => {
+    it('calls the openBlob function', () => {
+      const { wrapper } = constructModule();
+
+      const dropdown = wrapper.find(Dropdown).first();
+      dropdown.prop('onSelect')('0022');
+
+      expect(openBlob).toHaveBeenCalled();
     });
   });
 });

@@ -77,6 +77,7 @@
       "year": "2018"
     }
   ],
+  "selectedPayrollYear": "2020",
   "grossPaymentYtd": "$2000.99",
   "paygWithholdingYtd": "$2333.33",
   "reportedRfba": "$4999.99",

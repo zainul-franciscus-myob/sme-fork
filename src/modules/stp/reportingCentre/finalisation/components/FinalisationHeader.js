@@ -26,6 +26,7 @@ const FinalisationHeader = ({
   isRFBAEnabled,
   isRFBALocked,
   onPayrollYearChange,
+  onVerificationReportClick,
 }) => {
   const headerLeft = (
     <>
@@ -35,7 +36,13 @@ const FinalisationHeader = ({
         onPayrollYearChange={onPayrollYearChange}
         testid="payrollYearFilter"
       />
-      <Button type="link">View YTD verification report (PDF)</Button>
+      <Button
+        testid="verificationReportLink"
+        type="link"
+        onClick={onVerificationReportClick}
+      >
+          View YTD verification report (PDF)
+      </Button>
     </>
   );
 

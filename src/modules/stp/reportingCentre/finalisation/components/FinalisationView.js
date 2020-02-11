@@ -50,6 +50,8 @@ const FinalisationView = ({
   onRemoveFinalisationClick,
   unsavedChangesModalIsOpen,
   unsavedChangesModalListeners,
+  onVerificationReportClick,
+  onEmployeeSummaryReportClick,
 }) => {
   const view = (
     <>
@@ -73,6 +75,7 @@ const FinalisationView = ({
           isRFBALocked={isRFBALocked}
           isRFBAEnabled={isRFBAEnabled}
           onPayrollYearChange={onPayrollYearChange}
+          onVerificationReportClick={onVerificationReportClick}
         />
         <Separator />
         <FinalisationEmployeesTable
@@ -86,6 +89,7 @@ const FinalisationView = ({
           shouldShowRemoveFinalisationButton={shouldShowRemoveFinalisationButton}
           onFinaliseClick={onFinaliseClick}
           onRemoveFinalisationClick={onRemoveFinalisationClick}
+          onEmployeeSummaryReportClick={onEmployeeSummaryReportClick}
         />
       </Card>
     </>

@@ -1,11 +1,16 @@
 import {
   LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
+  OPEN_EMPLOYEE_SUMMARY_REPORT,
+  OPEN_EOFY_YTD_REPORT,
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from './FinalisationIntents';
 import {
-  getBusinessId, getSubmitEmployeesFinalisationContent, getSubmitEmployeesRemoveFinalisationContent,
+  getBusinessId,
+  getSelectedPayrollYear,
+  getSubmitEmployeesFinalisationContent,
+  getSubmitEmployeesRemoveFinalisationContent,
 } from './FinalisationSelector';
 
 const createFinalisationIntegrator = (store, integration) => ({
@@ -71,6 +76,47 @@ const createFinalisationIntegrator = (store, integration) => ({
       onSuccess,
       onFailure,
       content,
+    });
+  },
+
+  openYtdVerificationReport: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const params = {
+      year: getSelectedPayrollYear(state),
+    };
+
+    integration.readFile({
+      intent: OPEN_EOFY_YTD_REPORT,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  openEmployeeSummaryReport: ({ onSuccess, onFailure, employeeId }) => {
+    const state = store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      employeeId,
+    };
+
+    const params = {
+      year: getSelectedPayrollYear(state),
+    };
+
+    integration.readFile({
+      intent: OPEN_EMPLOYEE_SUMMARY_REPORT,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
 });

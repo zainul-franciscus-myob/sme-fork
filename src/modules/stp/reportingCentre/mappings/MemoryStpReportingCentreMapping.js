@@ -20,6 +20,8 @@ import {
 import {
   LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
+  OPEN_EMPLOYEE_SUMMARY_REPORT,
+  OPEN_EOFY_YTD_REPORT,
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
@@ -67,6 +69,8 @@ const MemoryStpReportingCentreMapping = {
   [SUBMIT_EMPLOYEES_REMOVE_FINALISATION]: ({ onSuccess }) => onSuccess(
     submitEmployeesRemoveFinalisation,
   ),
+  [OPEN_EOFY_YTD_REPORT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [OPEN_EMPLOYEE_SUMMARY_REPORT]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 
 export default MemoryStpReportingCentreMapping;
