@@ -1,14 +1,12 @@
-import {
-  Table,
-} from '@myob/myob-widgets';
+import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getEntries,
   getIsActionDisabled,
   getIsTableEmpty,
   getIsTableLoading,
+  getTableEntries,
 } from '../BankReconciliationSelectors';
 import AccordionTable from '../../../components/Feelix/Accordion/AccordionTable';
 import BankReconciliationTableCollapsibleRow from './BankReconciliationTableCollapsibleRow';
@@ -84,7 +82,7 @@ const BankReconciliationTable = ({
 };
 
 const mapStateToProps = state => ({
-  entries: getEntries(state),
+  entries: getTableEntries(state),
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   isActionDisabled: getIsActionDisabled(state),

@@ -1,12 +1,12 @@
 import {
   getBankReconciliationCancelModal,
   getCreateBankReconciliationPayload,
-  getEntries,
   getHeaderSelectStatus,
   getOptions,
   getOrder,
   getOutOfBalance,
   getSelectedAccount,
+  getTableEntries,
 } from '../BankReconciliationSelectors';
 
 describe('BankReconciliationSelectors', () => {
@@ -98,7 +98,7 @@ describe('BankReconciliationSelectors', () => {
     });
   });
 
-  describe('getEntries', () => {
+  describe('getTableEntries', () => {
     it('get entries with formatted amount when exist', () => {
       const state = {
         businessId: '123',
@@ -180,7 +180,7 @@ describe('BankReconciliationSelectors', () => {
         },
       ];
 
-      const actual = getEntries(state);
+      const actual = getTableEntries(state);
 
       expect(actual).toEqual(expected);
     });

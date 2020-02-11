@@ -18,6 +18,7 @@ export const getModal = state => state.modal;
 
 const getClosingBankStatementBalance = state => state.closingBankStatementBalance;
 const getCalculatedClosingBalance = state => state.calculatedClosingBalance;
+const getEntries = state => state.entries;
 
 export const getAccountId = state => state.selectedAccountId;
 export const getAccounts = state => state.accounts;
@@ -71,11 +72,10 @@ const getEntryLink = (entry, businessId, region) => {
 
   return `/#/${region}/${businessId}/${feature}/${journalId}`;
 };
-
-export const getEntries = createSelector(
+export const getTableEntries = createSelector(
   getBusinessId,
   getRegion,
-  state => state.entries,
+  getEntries,
   (businessId, region, entries) => entries.map((entry) => {
     const { hasMatchedTransactions } = entry;
     const matchedTransactions = hasMatchedTransactions
