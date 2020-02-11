@@ -13,11 +13,11 @@ import {
   getOrder,
 } from '../BankReconciliationSelectors';
 import BankReconciliationActions from './BankReconciliationActions';
+import BankReconciliationModal from './BankReconciliationModal';
 import BankReconciliationOptions from './BankReconciliationOptions';
 import BankReconciliationTable from './BankReconciliationTable';
 import BankReconciliationTableHeader from './BankReconciliationTableHeader';
 import PageView from '../../../components/PageView/PageView';
-import UndoBankReconciliationModal from './UndoBankReconciliationModal';
 import styles from './BankReconciliationView.module.css';
 
 const tableConfig = {
@@ -30,10 +30,10 @@ const tableConfig = {
 
 const BankReconciliationView = ({
   loadingState,
-  isModalActive,
   alert,
   headerSelectStatus,
   order,
+  isModalActive,
   isActionDisabled,
   onUpdateHeaderOption,
   onAmountInputBlur,
@@ -44,10 +44,13 @@ const BankReconciliationView = ({
   onDismissAlert,
   onUndoReconciliationClick,
   onModalCancel,
-  onModalConfirm,
+  onUndoBankReconciliationModalConfirm,
 }) => {
   const modal = isModalActive && (
-    <UndoBankReconciliationModal onCancel={onModalCancel} onConfirm={onModalConfirm} />
+    <BankReconciliationModal
+      onCancel={onModalCancel}
+      onUndoBankReconciliationConfirm={onUndoBankReconciliationModalConfirm}
+    />
   );
 
   const templateOptions = (

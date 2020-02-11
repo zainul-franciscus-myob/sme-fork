@@ -1,0 +1,11 @@
+.amount {
+  text-align: right;
+}
+
+.grid {
+  margin-bottom: var(--flx-spacing-medium);
+}
+
+.grid span {
+  margin-bottom: var(--flx-spacing-tiny);
+}

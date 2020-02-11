@@ -25,8 +25,8 @@ const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isTableLoading: false,
   isSubmitting: false,
-  isModalActive: false,
   alert: undefined,
+  modal: undefined,
   statementDate: formatIsoDate(new Date()),
   selectedAccountId: '',
   closingBankStatementBalance: '',
@@ -73,14 +73,14 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const openModal = state => ({
+const openModal = (state, { modal }) => ({
   ...state,
-  isModalActive: true,
+  modal,
 });
 
 const closeModal = state => ({
   ...state,
-  isModalActive: false,
+  modal: undefined,
 });
 
 const updateHeaderOption = (state, action) => ({

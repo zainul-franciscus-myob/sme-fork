@@ -1,6 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { businessEventToFeatureMap } from '../../common/types/BusinessEventTypeMap';
+import ModalType from './ModalType';
 import flat from '../../common/flat/flat';
 import formatAmount from '../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../common/valueFormatters/formatCurrency';
@@ -13,7 +14,10 @@ export const getIsActionDisabled = state => state.isSubmitting || state.isTableL
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getAlert = state => state.alert;
-export const getIsModalActive = state => state.isModalActive;
+export const getModal = state => state.modal;
+
+const getClosingBankStatementBalance = state => state.closingBankStatementBalance;
+const getCalculatedClosingBalance = state => state.calculatedClosingBalance;
 
 export const getAccountId = state => state.selectedAccountId;
 export const getAccounts = state => state.accounts;
@@ -149,3 +153,31 @@ export const getSelectedAccount = createSelector(
   getAccounts,
   (selectedAccountId, accounts) => accounts.find(account => account.id === selectedAccountId),
 );
+
+export const getBankReconciliationCancelModal = createSelector(
+  getClosingBankStatementBalance,
+  getCalculatedClosingBalance,
+  getEntries,
+  (closingBankStatementBalance, calculatedClosingBalance, entries) => {
+    const outOfBalance = getOutOfBalance({
+      closingBankStatementBalance, calculatedClosingBalance,
+    });
+
+    const totalDeposit = entries
+      .reduce((total, { isChecked, deposit = 0 }) => (isChecked ? total + deposit : total), 0);
+
+    const totalWithdrawal = entries
+      .reduce((total, { isChecked, withdrawal = 0 }) => (
+        isChecked ? total + withdrawal : total
+      ), 0);
+
+    return {
+      outOfBalance: formatCurrency(outOfBalance),
+      closingBankStatementBalance: formatCurrency(closingBankStatementBalance),
+      totalDeposit: formatCurrency(totalDeposit),
+      totalWithdrawal: formatCurrency(totalWithdrawal),
+    };
+  },
+);
+
+export const getIsModalActive = state => state.modal && state.modal.type !== ModalType.NONE;

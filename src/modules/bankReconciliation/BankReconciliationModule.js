@@ -25,6 +25,7 @@ import {
   getAccountId,
   getCreateBankReconciliationPayload,
   getIsModalActive,
+  getIsOutOfBalance,
   getIsSubmitting,
   getSortAndFilterParams,
   getStatementDate,
@@ -32,6 +33,7 @@ import {
 } from './BankReconciliationSelectors';
 import BankReconciliationView from './components/BankReconciliationView';
 import LoadingState from '../../components/PageView/LoadingState';
+import ModalType from './ModalType';
 import Store from '../../store/Store';
 import bankReconciliationReducer from './bankReconciliationReducer';
 import keyMap from '../../hotKeys/keyMap';
@@ -214,6 +216,13 @@ export default class BankReconciliationModule {
 
   saveBankReconciliation = () => {
     const state = this.store.getState();
+
+    const isOutOfBalance = getIsOutOfBalance(state);
+    if (isOutOfBalance) {
+      this.openOutOfBalanceModal();
+      return;
+    }
+
     if (getIsSubmitting(state)) return;
 
     this.setSubmittingState(true);
@@ -245,7 +254,7 @@ export default class BankReconciliationModule {
   };
 
   undoReconciliation = () => {
-    this.closeUndoReconciliationModal();
+    this.closeModal();
     this.setSubmittingState(true);
 
     const state = this.store.getState();
@@ -278,15 +287,22 @@ export default class BankReconciliationModule {
   openUndoReconciliationModal = () => {
     this.store.dispatch({
       intent: OPEN_MODAL,
+      modal: { type: ModalType.UNDO },
     });
   };
 
-  closeUndoReconciliationModal = () => {
+  openOutOfBalanceModal = () => {
+    this.store.dispatch({
+      intent: OPEN_MODAL,
+      modal: { type: ModalType.OUT_OF_BALANCE },
+    });
+  };
+
+  closeModal = () => {
     this.store.dispatch({
       intent: CLOSE_MODAL,
     });
   }
-
 
   render = () => {
     const bankReconciliationView = (
@@ -299,8 +315,8 @@ export default class BankReconciliationModule {
         onReconcileButtonClick={this.saveBankReconciliation}
         onDismissAlert={this.dismissAlert}
         onUndoReconciliationClick={this.openUndoReconciliationModal}
-        onModalCancel={this.closeUndoReconciliationModal}
-        onModalConfirm={this.undoReconciliation}
+        onModalCancel={this.closeModal}
+        onUndoBankReconciliationModalConfirm={this.undoReconciliation}
       />
     );
 

@@ -1,4 +1,5 @@
 import {
+  getBankReconciliationCancelModal,
   getCreateBankReconciliationPayload,
   getEntries,
   getHeaderSelectStatus,
@@ -368,6 +369,34 @@ describe('BankReconciliationSelectors', () => {
       const actual = getSelectedAccount(state);
 
       expect(actual).toEqual(matchingAccount);
+    });
+  });
+
+  describe('getBankReconciliationCancelModal', () => {
+    it('should show summary of current bank reconciliation selection', () => {
+      const closingBankStatementBalance = 100;
+      const calculatedClosingBalance = 50;
+      const entries = [
+        { deposit: 0, withdrawal: 10, isChecked: true },
+        { deposit: 0, withdrawal: 10, isChecked: true },
+        { deposit: 0, withdrawal: 10, isChecked: false },
+        { deposit: 10, withdrawal: 0, isChecked: true },
+        { deposit: 10, withdrawal: 0, isChecked: true },
+        { deposit: 10, withdrawal: 0, isChecked: false },
+      ];
+
+      const expected = {
+        outOfBalance: '-$50.00',
+        closingBankStatementBalance: '$100.00',
+        totalDeposit: '$20.00',
+        totalWithdrawal: '$20.00',
+      };
+
+      const actual = getBankReconciliationCancelModal.resultFunc(
+        closingBankStatementBalance, calculatedClosingBalance, entries,
+      );
+
+      expect(actual).toEqual(expected);
     });
   });
 });
