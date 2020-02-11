@@ -1,0 +1,11 @@
+#!/bin/bash
+set -euo pipefail
+
+hash docker 2>/dev/null || die "missing dep: docker"
+docker run \
+ -e SLACK_WEBHOOK=${SLACK_WEBHOOK} \
+ -w /app \
+ -v ${HOME}/.npmrc:/app/.npmrc \
+ -v ${PWD}:/app node:alpine \
+ /bin/sh -c ./ops/bin/run-yarn-outdated
+

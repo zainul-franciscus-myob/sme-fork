@@ -1,0 +1,8 @@
+steps:
+
+  - name: ':female-detective: Checking for outdated packages'
+    command: ./ops/bin/package-version-check
+    agents:
+      queue: cacc-prod-dflt
+    env:
+      SLACK_WEBHOOK: ${SLACK_WEBHOOK}  

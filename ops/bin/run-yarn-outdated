@@ -1,0 +1,7 @@
+#!/bin/sh
+set -euo pipefail
+
+apk add --no-cache curl
+yarn outdated > outdated-output.txt || true 
+echo '{"text": "These packages are currently outdated for *sme-web*. :old_simpsons:  ```'"$(sed -e '1,5d' < outdated-output.txt)"'```"}' > payload.txt
+[ -s outdated-output.txt ] && cat payload.txt | curl -X POST -H 'Content-type: application/json' --data-binary @- ${SLACK_WEBHOOK}
