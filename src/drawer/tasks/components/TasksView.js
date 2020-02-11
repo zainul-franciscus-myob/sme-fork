@@ -19,7 +19,7 @@ const TasksView = ({
   welcomeTask,
 }) => {
   if (!isActive) return null;
-  const hasTasks = onboardingTasks && onboardingTasks.length > 0;
+  const hasTasks = welcomeTask || (onboardingTasks && onboardingTasks.length > 0);
 
   const tasksView = () => (
     <div>
