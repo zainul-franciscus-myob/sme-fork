@@ -6,11 +6,11 @@ import React from 'react';
 
 import {
   getAlert, getIsLoading, getIsSubmitting, getModal, getPageTitle,
-} from '../businessDetailSelectors';
-import BusinessSettingsDetails from './BusinessSettingsDetails';
-import FormCard from '../../../../components/FormCard/FormCard';
-import PageView from '../../../../components/PageView/PageView';
-import UnsavedModal from '../../../../components/modal/UnsavedModal';
+} from '../../business/businessDetail/businessDetailSelectors';
+import BusinessSettingsDetails from './InvoiceBusinessSettingsDetails';
+import FormCard from '../../../components/FormCard/FormCard';
+import PageView from '../../../components/PageView/PageView';
+import UnsavedModal from '../../../components/modal/UnsavedModal';
 
 const BusinessSettingsView = ({
   alert,
@@ -48,7 +48,7 @@ const BusinessSettingsView = ({
     <FormTemplate
       actions={pageFooter}
       alert={alertComponent}
-      pageHead="Set up your business details"
+      pageHead="Build your invoice template"
       sticky="none"
     >
       {unsavedModal}

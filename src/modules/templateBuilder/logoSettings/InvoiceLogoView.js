@@ -28,13 +28,13 @@ import {
   getRegion,
   getSaleLayout,
   getUseAddressEnvelopePosition,
-} from '../templateSelectors';
+} from '../../template/templateSelectors';
 import InvoiceLogoDetails from './InvoiceLogoDetails';
 import PageView from '../../../components/PageView/PageView';
 import PreviewTemplate from '../../../components/PreviewTemplate/PreviewTemplate';
-import TemplateModal from './TemplateModal';
-import TemplatePreview from './TemplatePreview/TemplatePreview';
-import styles from './TemplatePreviewHeader.module.css';
+import TemplateModal from '../../template/components/TemplateModal';
+import TemplatePreview from '../../template/components/TemplatePreview/TemplatePreview';
+import styles from '../../template/components/TemplatePreviewHeader.module.css';
 
 const InvoiceLogoView = ({
   alert,

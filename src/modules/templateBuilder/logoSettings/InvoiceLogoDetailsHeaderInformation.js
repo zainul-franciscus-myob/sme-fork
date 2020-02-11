@@ -19,7 +19,7 @@ import {
   getLogoSize,
   getShowBusinessDetails,
   getTemplateName,
-} from '../templateSelectors';
+} from '../../template/templateSelectors';
 import ColorPicker from '../../../components/ColorPicker/ColorPicker';
 import Slider from '../../../components/RangeSlider/RangeSlider';
 import cardStyles from './InvoiceLogoDetailsHeaderInformation.module.css';
@@ -27,7 +27,7 @@ import handleCheckboxChange from '../../../components/handlers/handleCheckboxCha
 import handleColorPickerChange from '../../../components/handlers/handleColorPickerChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleSliderChange from '../../../components/handlers/handleSliderChange';
-import styles from './TemplateDetailsHeaderInformation.module.css';
+import styles from '../../template/components/TemplateDetailsHeaderInformation.module.css';
 
 const InvoiceLogoDetailsHeaderInformation = ({
   featureColour,

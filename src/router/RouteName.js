@@ -86,6 +86,7 @@ const RouteName = {
   PAYMENT_DETAIL: 'paymentDetail',
   INVOICE_BUSINESS_SETTINGS: 'invoiceBusinessSettings/invoiceBusinessSettings',
   INVOICE_EMAIL_SETTINGS: 'invoiceEmailSettings/invoiceEmailSettings',
+  INVOICE_PAYMENT_SETTINGS: 'invoiceEmailSettings/invoicePaymentSettings',
   INVOICE_LOGO_SETTINGS: 'invoiceLogoSettings/invoiceLogoSettings',
   BANK_STATEMENT_IMPORT_LIST: 'bankStatementImport/bankStatementImportList',
 };

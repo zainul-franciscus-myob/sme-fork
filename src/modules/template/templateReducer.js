@@ -113,8 +113,8 @@ const loadNewTemplate = (state, action) => ({
   template: {
     ...state.template,
     ...action.payload.template,
-    originalHeaderImage: action.payload.template.headerImage,
-    originalLogoImage: action.payload.template.logoImage,
+    originalHeaderImage: action.payload?.template?.headerImage,
+    originalLogoImage: action.payload?.template?.logoImage,
   },
 });
 

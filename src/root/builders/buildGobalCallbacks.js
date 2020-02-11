@@ -4,5 +4,6 @@ export default ({ closeTasks }) => ({
   pageLoaded: moduleName => closeTasks({ closeEvent: `${moduleName}Loaded` }),
   setupBusinessDetails: () => closeTasks({ closeEvent: 'setupBusinessDetails' }),
   updatedEmailSettings: () => closeTasks({ closeEvent: 'updatedEmailSettings' }),
+  addedPaymentDetails: () => closeTasks({ closeEvent: 'addedPaymentDetails' }),
   uploadedLogo: () => closeTasks({ closeEvent: 'uploadedLogo' }),
 });

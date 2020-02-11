@@ -1,14 +1,14 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getLoadingState, getSalesSettingsPayload, getTabData } from './SalesSettingsDetailSelectors';
-import { mainTabIds } from './tabItems';
+import { getLoadingState, getSalesSettingsPayload, getTabData } from '../../salesSettings/salesSettingsDetail/SalesSettingsDetailSelectors';
+import { mainTabIds } from '../../salesSettings/salesSettingsDetail/tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
-import SalesSettingsInvoicesView from './components/InvoiceEmailSettingsView';
+import SalesSettingsInvoicesView from './InvoiceEmailSettingsView';
 import Store from '../../../store/Store';
-import createSalesSettingsDispatcher from './createSalesSettingsDispatcher';
-import createSalesSettingsIntegrator from './createSalesSettingsIntegrator';
-import salesSettingsReducer from './salesSettingsDetailReducer';
+import createSalesSettingsDispatcher from '../../salesSettings/salesSettingsDetail/createSalesSettingsDispatcher';
+import createSalesSettingsIntegrator from '../../salesSettings/salesSettingsDetail/createSalesSettingsIntegrator';
+import salesSettingsReducer from '../../salesSettings/salesSettingsDetail/salesSettingsDetailReducer';
 
 export default class InvoiceEmailSettingsModule {
   constructor({ integration, setRootView, updatedEmailSettings }) {

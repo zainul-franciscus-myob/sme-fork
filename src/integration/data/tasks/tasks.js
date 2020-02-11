@@ -71,6 +71,13 @@ export default (region, cdfguid) => [
         template: 'drawer',
       },
       {
+        action: `/#/${region}/${cdfguid}/invoicePaymentSettings`,
+        title: 'Add invoice payment details',
+        closeEvent: 'addedPaymentDetails',
+        isComplete: false,
+        template: 'drawer',
+      },
+      {
         action: `/#/${region}/${cdfguid}/invoiceEmailSettings`,
         title: 'Customise email defaults',
         closeEvent: 'customisedEmailDefaults',

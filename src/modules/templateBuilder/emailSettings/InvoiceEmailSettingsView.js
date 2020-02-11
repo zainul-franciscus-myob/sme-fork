@@ -7,10 +7,11 @@ import {
   getLoadingState,
   getSelectedTab,
   getShowActions,
-} from '../SalesSettingsDetailSelectors';
-import { mainTabIds } from '../tabItems';
-import PageView from '../../../../components/PageView/PageView';
-import SalesSettingsDetailActions from './SalesSettingsDetailActions';
+} from '../../salesSettings/salesSettingsDetail/SalesSettingsDetailSelectors';
+import { mainTabIds } from '../../salesSettings/salesSettingsDetail/tabItems';
+import FormCard from '../../../components/FormCard/FormCard';
+import PageView from '../../../components/PageView/PageView';
+import SalesSettingsDetailActions from '../../salesSettings/salesSettingsDetail/components/SalesSettingsDetailActions';
 import SalesSettingsInvoicesDetails from './InvoiceEmailSettingsDetails';
 
 const InvoiceEmailSettingsView = ({
@@ -31,14 +32,18 @@ const InvoiceEmailSettingsView = ({
     </Alert>
   );
 
+  const pageFooter = showActions && <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />;
+
   const view = (
     <FormTemplate
+      actions={pageFooter}
       alert={alertComponent}
       pageHead="Build your invoice template"
       sticky="none"
     >
-      <SalesSettingsInvoicesDetails {...contentProps} />
-      {showActions && <SalesSettingsDetailActions onSaveButtonClick={saveHandler} />}
+      <FormCard>
+        <SalesSettingsInvoicesDetails {...contentProps} />
+      </FormCard>
     </FormTemplate>
   );
 

@@ -3,56 +3,29 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAccountOptions, getTabData } from '../SalesSettingsDetailSelectors';
-import NzAccountNumberInputs from './NzAccountNumberInputs';
-import UpperCaseInputFormatter from '../../../../components/autoFormatter/UpperCaseInput/UpperCaseInputFormatter';
+import NzDirectDeposit from './NzDirectDeposit';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
-import handleInputChange from '../../../../components/handlers/handleInputChange';
-
 
 const NzPaymentOptions = ({
   salesSettings,
   onUpdateSalesSettingsItem,
-}) => {
-  const directDepositPayment = (
-    <>
-      <UpperCaseInputFormatter
-        name="bankName"
-        label="Bank"
-        requiredLabel="This field is required"
-        maxLength={30}
-        value={salesSettings.bankName}
-        onChange={handleInputChange(onUpdateSalesSettingsItem)}
-      />
-      <UpperCaseInputFormatter
-        name="accountName"
-        label="Account name"
-        requiredLabel="This field is required"
-        maxLength={30}
-        value={salesSettings.accountName}
-        onChange={handleInputChange(onUpdateSalesSettingsItem)}
-      />
-      <NzAccountNumberInputs onChange={onUpdateSalesSettingsItem} />
-    </>
-  );
-
-  return (
-    <>
-      <CheckboxGroup
-        label="Allow payments by direct deposit"
-        hideLabel
-        renderCheckbox={() => (
-          <Checkbox
-            name="isAllowPaymentsByDirectDeposit"
-            label="Allow payments by direct deposit"
-            checked={salesSettings.isAllowPaymentsByDirectDeposit}
-            onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
-          />
-        )}
-      />
-      {salesSettings.isAllowPaymentsByDirectDeposit && directDepositPayment}
-    </>
-  );
-};
+}) => (
+  <>
+    <CheckboxGroup
+      label="Allow payments by direct deposit"
+      hideLabel
+      renderCheckbox={() => (
+        <Checkbox
+          name="isAllowPaymentsByDirectDeposit"
+          label="Allow payments by direct deposit"
+          checked={salesSettings.isAllowPaymentsByDirectDeposit}
+          onChange={handleCheckboxChange(onUpdateSalesSettingsItem)}
+        />
+      )}
+    />
+    {salesSettings.isAllowPaymentsByDirectDeposit && <NzDirectDeposit />}
+  </>
+);
 
 const mapStateToProps = state => ({
   salesSettings: getTabData(state),

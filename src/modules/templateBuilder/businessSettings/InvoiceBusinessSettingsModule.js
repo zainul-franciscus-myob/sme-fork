@@ -10,12 +10,13 @@ import {
   SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BUSINESS_DETAIL,
-} from '../BusinessIntents';
+} from '../../business/BusinessIntents';
 import { RESET_STATE } from '../../../SystemIntents';
-import { getBusinessForUpdate, getIsPageEdited, getModalUrl } from './businessDetailSelectors';
-import InvoiceBusinessSettingsView from './components/InvoiceBusinessSettingsView';
+import { getBusinessForUpdate, getIsPageEdited, getModalUrl } from '../../business/businessDetail/businessDetailSelectors';
+import { getBusinessId, getRegion } from '../../template/templateSelectors';
+import InvoiceBusinessSettingsView from './InvoiceBusinessSettingsView';
 import Store from '../../../store/Store';
-import businessDetailReducer from './businessDetailReducer';
+import businessDetailReducer from '../../business/businessDetail/businessDetailReducer';
 import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
@@ -61,6 +62,7 @@ export default class InvoiceBusinessSettingsModule {
       this.setIsPageEdited(false);
       this.displayAlert({ message, type: 'success' });
       this.setupBusinessDetailsCallback();
+      this.redirectToLogoSettings();
     };
 
     this.saveBusinessDetails(onSuccess);
@@ -123,24 +125,18 @@ export default class InvoiceBusinessSettingsModule {
   };
 
   render = () => {
-    const businessDetailsView = (
-      <InvoiceBusinessSettingsView
-        onChange={this.createChangeHandler(UPDATE_BUSINESS_DETAIL)}
-        onSaveButtonClick={this.updateBusinessDetail}
-        onDismissAlert={this.dismissAlert}
-        onConfirmSave={this.updateAndRedirectToUrl}
-        onConfirmCancel={this.redirectToModalUrl}
-        onConfirmClose={this.closeModal}
-      />
-    );
-
-    const wrappedView = (
+    this.setRootView(
       <Provider store={this.store}>
-        {businessDetailsView}
-      </Provider>
+        <InvoiceBusinessSettingsView
+          onChange={this.createChangeHandler(UPDATE_BUSINESS_DETAIL)}
+          onSaveButtonClick={this.updateBusinessDetail}
+          onDismissAlert={this.dismissAlert}
+          onConfirmSave={this.updateAndRedirectToUrl}
+          onConfirmCancel={this.redirectToModalUrl}
+          onConfirmClose={this.closeModal}
+        />
+      </Provider>,
     );
-
-    this.setRootView(wrappedView);
   };
 
   handlers = { SAVE_ACTION: this.updateBusinessDetail };
@@ -158,6 +154,18 @@ export default class InvoiceBusinessSettingsModule {
 
   closeModal = () => {
     this.store.dispatch({ intent: CLOSE_MODAL });
+  };
+
+  redirectToPath = (path) => {
+    const state = this.store.getState();
+    const businessId = getBusinessId(state);
+    const region = getRegion(state);
+
+    window.location.href = `/#/${region}/${businessId}${path}`;
+  };
+
+  redirectToLogoSettings = () => {
+    this.redirectToPath('/invoiceLogoSettings');
   };
 
   redirectToModalUrl = () => {

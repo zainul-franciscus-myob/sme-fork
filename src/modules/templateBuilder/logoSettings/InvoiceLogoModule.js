@@ -1,8 +1,8 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { TEMPLATE_UPDATED } from './MessageTypes';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import { TEMPLATE_UPDATED } from '../../template/MessageTypes';
 import {
   getBusinessId,
   getHasChange,
@@ -11,13 +11,13 @@ import {
   getRegion,
   getShouldLoadPayDirect,
   getTemplateId,
-} from './templateSelectors';
-import InvoiceLogoView from './components/InvoiceLogoView';
-import ModalTypes from './ModalTypes';
-import Store from '../../store/Store';
-import createTemplateDispatcher from './createTemplateDispatcher';
-import createTemplateIntegrator from './createTemplateIntegrator';
-import templateReducer from './templateReducer';
+} from '../../template/templateSelectors';
+import InvoiceLogoView from './InvoiceLogoView';
+import ModalTypes from '../../template/ModalTypes';
+import Store from '../../../store/Store';
+import createTemplateDispatcher from '../../template/createTemplateDispatcher';
+import createTemplateIntegrator from '../../template/createTemplateIntegrator';
+import templateReducer from '../../template/templateReducer';
 
 class InvoiceLogoModule {
   constructor({
@@ -151,7 +151,7 @@ class InvoiceLogoModule {
     if (hasChange) {
       this.dispatcher.setModalType(ModalTypes.unsaved);
     } else {
-      this.redirectToTemplates();
+      this.redirectToPaymentSettings();
     }
   };
 
@@ -165,8 +165,8 @@ class InvoiceLogoModule {
     window.location.href = `/#/${region}/${businessId}${path}`;
   };
 
-  redirectToTemplates = () => {
-    this.redirectToPath('/salesSettings?selectedTab=templates');
+  redirectToPaymentSettings = () => {
+    this.redirectToPath('/invoicePaymentSettings');
   };
 
   handleModalSave = (type) => {
@@ -187,7 +187,7 @@ class InvoiceLogoModule {
   handleModalUnsave = (type) => {
     switch (type) {
       case ModalTypes.unsaved:
-        this.redirectToTemplates();
+        this.redirectToPaymentSettings();
         break;
       case ModalTypes.deleteLogo:
       case ModalTypes.deleteImage:
@@ -207,7 +207,7 @@ class InvoiceLogoModule {
       });
 
       this.uploadedLogoCallback();
-      this.redirectToTemplates();
+      this.redirectToPaymentSettings();
     };
 
     const onFailure = ({ message }) => {

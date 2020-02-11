@@ -6,16 +6,16 @@ import {
   getBusinessDetails,
   getContactDetails,
   getIsRegionAu,
-} from '../businessDetailSelectors';
-import AuTaxDetails from './AuTaxDetails';
-import NzTaxDetails from './NzTaxDetails';
+} from '../../business/businessDetail/businessDetailSelectors';
+import AuTaxDetails from '../../business/businessDetail/components/AuTaxDetails';
+import NzTaxDetails from '../../business/businessDetail/components/NzTaxDetails';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
 };
 
-const BusinessSettingsDetails = ({
+const InvoiceBusinessSettingsDetails = ({
   address,
   email,
   isAu,
@@ -75,4 +75,4 @@ const mapStateToProps = state => ({
   isAu: getIsRegionAu(state),
 });
 
-export default connect(mapStateToProps)(BusinessSettingsDetails);
+export default connect(mapStateToProps)(InvoiceBusinessSettingsDetails);

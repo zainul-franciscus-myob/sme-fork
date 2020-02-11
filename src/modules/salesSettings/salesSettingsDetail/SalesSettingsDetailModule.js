@@ -39,8 +39,6 @@ export default class SalesSettingsModule {
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.replaceURLParams = replaceURLParams;
-
-
     this.dispatcher = createSalesSettingsDispatcher(this.store);
     this.integrator = createSalesSettingsIntegrator(this.store, integration);
   }

@@ -43,6 +43,7 @@ import getSuperFundRoutes from './modules/superFund/getSuperFundRoutes';
 import getSupplierReturnPurchaseRoutes from './modules/supplierReturnPurchase/getSupplierReturnPurchaseRoutes';
 import getSupplierReturnRoutes from './modules/supplierReturn/getSupplierReturnRoutes';
 import getTaxRoutes from './modules/tax/getTaxRoutes';
+import getTemplateBuilderRoutes from './modules/templateBuilder/getTemplateBuilderRoutes';
 import getTemplateRoutes from './modules/template/getTemplateRoutes';
 import getTimesheetRoutes from './modules/timesheet/getTimesheetRoutes';
 import getTransactionListRoutes from './modules/transactionList/getTransactionListRoutes';
@@ -100,6 +101,7 @@ const getRoutes = moduleParams => [
   ...getStpRoutes(moduleParams),
   ...getTemplateRoutes(moduleParams),
   ...getBankStatementImportRoutes(moduleParams),
+  ...getTemplateBuilderRoutes(moduleParams),
 ];
 
 export default getRoutes;
