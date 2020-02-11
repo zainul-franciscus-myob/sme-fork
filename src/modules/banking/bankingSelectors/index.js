@@ -202,7 +202,7 @@ export const getOpenEntryDefaultTabId = ({ type, sourceJournal }) => {
 };
 
 export const getShowCreateBankingRuleButton = state => (
-  [tabIds.allocate, tabIds.payment].includes(state.openEntry.activeTabId)
+  [tabIds.allocate, tabIds.payment, tabIds.match].includes(state.openEntry.activeTabId)
 );
 
 export const getShowCreateTransferMoneyButton = state => (

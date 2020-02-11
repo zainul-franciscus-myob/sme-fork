@@ -117,6 +117,7 @@ const BankTransactionTableBody = (props) => {
       onSave: onSaveMatchTransaction,
       onCancel: onCancelMatchTransaction,
       onUnmatch: onUnmatchTransaction,
+      onCreateRule: onOpenBankingRuleModal,
     },
     [tabIds.transfer]: {
       onSave: onSaveTransferMoney,

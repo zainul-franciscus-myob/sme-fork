@@ -206,7 +206,7 @@ describe('bankingSelector', () => {
   describe('getShowCreateBankingRuleButton', () => {
     it.each([
       ['allocate', true],
-      ['match', false],
+      ['match', true],
       ['payment', true],
       ['transfer', false],
     ])('should decide whether to show create banking rule button', (tabId, expected) => {
