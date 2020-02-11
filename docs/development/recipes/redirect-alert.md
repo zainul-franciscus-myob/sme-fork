@@ -2,7 +2,7 @@
 
 Often times, after performing an action on a page, we need to redirect to another page and show an alert.
 
-![Redirect Alert](images/redirect-alert.md)
+![Redirect Alert](images/redirect-alert.png)
 
 We make use of the [`Inbox`](../../specifics/Inbox.md) to pass messages between modules.
 
