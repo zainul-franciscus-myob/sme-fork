@@ -18,16 +18,24 @@ const isTaskActive = url => decodeURI(window.location.href).indexOf(url) > -1;
 const Onboarding = ({ tasks, closeTasks }) => (
   <ul className={styles.tasks}>
     {tasks.map((task) => {
-      const taskIconPath = svgPath(task.key);
+      const taskIconPath = svgPath(task.key) || svgPath(task.template);
       return (
         <li key={task.title}>
           <a
             href={`${task.action}`}
-            onClick={() => { closeTasks({ closeEvent: `${task.key}Viewed` }); }}
+            onClick={() => {
+              closeTasks({ closeEvent: `${task.key}Viewed` });
+            }}
           >
-            {taskIconPath && <img src={taskIconPath} alt={task.title} width="36" />}
+            {taskIconPath && (
+              <img src={taskIconPath} alt={task.title} width="36" />
+            )}
             <div className={styles.container}>
-              {task.isComplete && <Label type="boxed" color="green" size="small">Done</Label>}
+              {task.isComplete && (
+                <Label type="boxed" color="green" size="small">
+                  Done
+                </Label>
+              )}
               <h3>{task.title}</h3>
               <p>{task.description}</p>
             </div>
