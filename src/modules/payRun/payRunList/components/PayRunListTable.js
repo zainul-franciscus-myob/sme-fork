@@ -1,7 +1,5 @@
 import {
-  Button,
   HeaderSort,
-  Icons,
   Table,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -19,16 +17,13 @@ import TableView from '../../../../components/TableView/TableView';
 
 const tableConfig = {
   date: {
-    width: '22rem', valign: 'top', columnName: 'Date of payment',
+    valign: 'top', columnName: 'Date of payment',
   },
   payPeriod: {
-    width: 'flex-1', valign: 'top', columnName: 'Pay period',
+    valign: 'top', columnName: 'Pay period',
   },
   employees: {
-    width: 'flex-1', valign: 'top', align: 'right', columnName: 'Employees',
-  },
-  viewSummary: {
-    width: 'flex-1', columnName: 'Summary report', align: 'center',
+    valign: 'top', align: 'left', columnName: 'Employees',
   },
 };
 
@@ -52,9 +47,6 @@ const PayRunListTable = ({
       <Table.HeaderItem {...tableConfig.employees}>
         {tableConfig.employees.columnName}
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.viewSummary}>
-        {tableConfig.viewSummary.columnName}
-      </Table.HeaderItem>
     </Table.Header>
   );
 
@@ -65,9 +57,6 @@ const PayRunListTable = ({
       </Table.RowItem>
       <Table.RowItem {...tableConfig.payPeriod}>{entry.payPeriod}</Table.RowItem>
       <Table.RowItem {...tableConfig.employees}>{entry.employeeCount}</Table.RowItem>
-      <Table.RowItem {...tableConfig.viewSummary}>
-        <Button type="link" icon={<Icons.GenericDocument />}>View report</Button>
-      </Table.RowItem>
     </Table.Row>
   ));
 
