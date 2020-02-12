@@ -140,5 +140,19 @@ describe('User Detail Selectors', () => {
 
       expect(actual.showReadOnly).toEqual(expected);
     });
+    it('filters out unsupported roles', () => {
+      const user = {
+        roles: [
+          { type: RoleTypes.TIME_BILLING },
+          { type: RoleTypes.INVENTORY_MANAGEMENT },
+          { type: RoleTypes.ADMINISTRATOR },
+        ],
+      };
+      const actual = getUserDetails.resultFunc(user, true, true);
+
+      expect(actual.roles).toEqual([{
+        type: RoleTypes.ADMINISTRATOR,
+      }]);
+    });
   });
 });

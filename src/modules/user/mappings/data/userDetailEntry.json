@@ -22,6 +22,18 @@
         "type": "Custom",
         "name": "Custom role",
         "selected": true
+      },
+      {
+        "id": "4",
+        "type": "TimeBilling",
+        "name": "Time Billing",
+        "selected": false
+      },
+      {
+        "id": "5",
+        "type": "InventoryManagement",
+        "name": "Inventory Management",
+        "selected": false
       }
     ],
     "isAdmin": false,

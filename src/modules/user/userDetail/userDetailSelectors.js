@@ -75,11 +75,16 @@ export const getUserDetails = createSelector(
   getIsCreating,
   getIsCurrentUserOnlineAdmin,
   (user, isCreating, isCurrentUserOnlineAdmin) => {
+    /* TODO: currently New Essentials does not support
+    TimeBilling and InventoryManagement roles so they are filtered out of the list https://dev-arl.visualstudio.com/ARL%20Protected%20API/_boards/board/t/Phoenix/Stories/?workitem=5132 */
+    const rolesCurrentlySupported = user.roles.filter(role => role.type !== 'TimeBilling' && role.type !== 'InventoryManagement');
+
     const isAdminRowSelected = user.roles
       .some(({ type, selected }) => selected && type === RoleTypes.ADMINISTRATOR);
 
     return {
       ...user,
+      roles: rolesCurrentlySupported,
       isCreating,
       isCurrentUserOnlineAdmin,
       showReadOnly: !isAdminRowSelected,
