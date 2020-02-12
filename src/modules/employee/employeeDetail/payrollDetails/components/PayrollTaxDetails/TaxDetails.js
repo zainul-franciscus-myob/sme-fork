@@ -1,9 +1,10 @@
 import {
-  Combobox, FieldGroup, FormHorizontal, Select,
+  Button, Combobox, Field, FieldGroup, FormHorizontal, Icons, Select,
 } from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import TaxTableCalculationsModalEnabled from '../../../../../../common/featureToggles/TaxTableCalculationModalEnabled';
 import TfnInput from '../../../../../../components/autoFormatter/TfnInput/TfnInput';
 import handleAmountInputChange from '../../../../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../../../../components/handlers/handleComboboxChange';
@@ -49,6 +50,20 @@ const TaxDetails = ({
           value={taxFileNumber}
           onChange={handleInputChange(onPayrollTaxDetailsChange)}
         />
+      </FieldGroup>
+      <FieldGroup label="Tax table calculations">
+        {TaxTableCalculationsModalEnabled && (
+          <Field
+            testid="taxTableCalculationLinkField"
+            renderField={() => (
+              <>
+                Select a tax table. Use the TFN declaration questions to assist.
+                <br />
+                <Button type="link" icon={<Icons.Edit />}>Fill out TFN declaration questions</Button>
+              </>
+            )}
+          />
+        )}
         <Combobox
           label="Tax table"
           hideLabel={false}
