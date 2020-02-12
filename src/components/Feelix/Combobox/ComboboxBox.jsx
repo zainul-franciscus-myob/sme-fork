@@ -22,6 +22,7 @@ class ComboboxBox extends React.Component {
     children: PropTypes.func.isRequired,
     defaultSelectedItem: PropTypes.shape({}),
     defaultIsOpen: PropTypes.bool,
+    initialIsOpen: PropTypes.bool,
     hintText: PropTypes.string,
     name: PropTypes.string,
     selected: PropTypes.shape({}),
@@ -48,6 +49,7 @@ class ComboboxBox extends React.Component {
     hintText: undefined,
     defaultSelectedItem: undefined,
     defaultIsOpen: false,
+    initialIsOpen: false,
     onSelect: undefined,
     name: undefined,
     selected: undefined,
@@ -153,6 +155,7 @@ class ComboboxBox extends React.Component {
       defaultSelectedItem,
       hintText,
       defaultIsOpen,
+      initialIsOpen,
       name,
       selected,
       onFocus,
@@ -170,6 +173,7 @@ class ComboboxBox extends React.Component {
         itemToString={this.props.itemToString}
         initialSelectedItem={defaultSelectedItem}
         defaultIsOpen={defaultIsOpen}
+        initialIsOpen={initialIsOpen}
         selectedItem={selected}
       >
         {({

@@ -1,8 +1,9 @@
 import {
-  Button, Combobox, Icons, Table, Tooltip,
+  Button, Icons, Table, Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
+import Combobox from '../../../../../../components/Feelix/Combobox/Combobox';
 import styles from './PayrollDeductionDetailsTable.module.css';
 
 const tableConfig = {
@@ -84,6 +85,7 @@ const PayrollDeductionDetailsTable = ({
             items={items}
             selected={{}}
             onChange={handleComboboxChange(onAddPayItem)}
+            initialIsOpen
             addNewItem={{
               label: 'Create deduction pay item',
               onAddNew: onPayItemSelect(onOpenDeductionPayItemModal, 'new'),
