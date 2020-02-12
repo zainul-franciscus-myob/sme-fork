@@ -1,4 +1,4 @@
-import { Spinner } from '@myob/myob-widgets';
+import { Alert, Spinner } from '@myob/myob-widgets';
 import React from 'react';
 
 import EmailErrors from './EmailErrors';
@@ -8,12 +8,9 @@ const EmailSendingMessage = ({
   isLoading, name, email, count, total, errors,
 }) => {
   const done = (
-    <>
-      {(errors.length > 0) && <EmailErrors employees={errors} />}
-      <div className={styles.centered}>
-        <span>Selected pay slips have been emailed.</span>
-      </div>
-    </>
+    errors.length > 0
+      ? <EmailErrors employees={errors} />
+      : <Alert type="success">Your emails have been successfully sent.</Alert>
   );
 
   const nameText = `${name} ${count}/${total}`;

@@ -3,7 +3,7 @@ import React from 'react';
 
 const EmailErrors = ({ employees }) => (
   <Alert type="danger">
-    <p>Failed to send pay slip emails to</p>
+    <p>Failed to send emails to the following</p>
     <ul>
       {employees.map(employee => (
         <li>
