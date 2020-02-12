@@ -105,6 +105,8 @@ export const getIsLineEdited = state => state.isLineEdited;
 
 export const getLines = state => state.bill.lines;
 
+export const getNote = state => state.bill.note;
+
 export const getIsLinesEmpty = createSelector(
   getLines,
   lines => lines.length === 0,
