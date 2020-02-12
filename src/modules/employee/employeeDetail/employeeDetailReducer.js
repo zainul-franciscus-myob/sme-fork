@@ -91,6 +91,8 @@ export const getDefaultState = () => ({
       totalRebates: '',
       withholdingVariationRate: '',
       taxPayItems: [],
+      taxFileNumberStatusOptions: [],
+      taxFileNumberStatus: '',
     },
     wage: {
       selectedPayBasis: '',

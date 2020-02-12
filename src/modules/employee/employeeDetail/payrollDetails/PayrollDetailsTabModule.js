@@ -726,6 +726,7 @@ export default class PayrollDetailsTabModule {
         onAddPayrollTaxPayItem={this.dispatcher.addPayrollTaxPayItem}
         onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}
         onPayrollTaxDetailsChange={this.dispatcher.updatePayrollTaxDetails}
+        onTaxFileNumberStatusChange={this.dispatcher.updateTaxFileNumberStatus}
         onPayrollTaxAmountBlur={this.dispatcher.formatAmountInput}
         onAddPayrollWagePayItem={this.addPayrollWagePayItem}
         onRemovePayrollWagePayItem={this.removePayrollWagePayItemAndStandardPayItem}

@@ -7,6 +7,8 @@ import {
   getSelectedTaxPayItems,
   getSelectedTaxTable,
   getTaxDetails,
+  getTaxFileNumberStatus,
+  getTaxFileNumberStatusOptions,
   getTaxTableOptions,
 } from '../../selectors/PayrollTaxSelectors';
 import AddTaxPayItemTable from './AddTaxPayItemTable';
@@ -23,6 +25,9 @@ const PayrollTaxDetails = ({
   onPayrollTaxDetailsChange,
   onPayrollTaxAmountBlur,
   onTaxPayItemClick,
+  taxFileNumberStatusOptions,
+  taxFileNumberStatus,
+  onTaxFileNumberStatusChange,
 }) => {
   const fieldGroupLabel = (
     <div>
@@ -42,6 +47,9 @@ const PayrollTaxDetails = ({
         selectedTaxTable={selectedTaxTable}
         onPayrollTaxDetailsChange={onPayrollTaxDetailsChange}
         onPayrollTaxAmountBlur={onPayrollTaxAmountBlur}
+        taxFileNumberStatusOptions={taxFileNumberStatusOptions}
+        taxFileNumberStatus={taxFileNumberStatus}
+        onTaxFileNumberStatusChange={onTaxFileNumberStatusChange}
       />
       <hr />
       <FieldGroup label={fieldGroupLabel}>
@@ -64,6 +72,8 @@ const mapStateToProps = state => ({
   taxTablesOptions: getTaxTableOptions(state),
   taxDetails: getTaxDetails(state),
   selectedTaxTable: getSelectedTaxTable(state),
+  taxFileNumberStatusOptions: getTaxFileNumberStatusOptions(state),
+  taxFileNumberStatus: getTaxFileNumberStatus(state),
 });
 
 export default connect(mapStateToProps)(PayrollTaxDetails);

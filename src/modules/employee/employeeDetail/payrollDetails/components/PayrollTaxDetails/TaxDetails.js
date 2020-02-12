@@ -1,4 +1,6 @@
-import { Combobox, FieldGroup, FormHorizontal } from '@myob/myob-widgets';
+import {
+  Combobox, FieldGroup, FormHorizontal, Select,
+} from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
@@ -6,6 +8,7 @@ import TfnInput from '../../../../../../components/autoFormatter/TfnInput/TfnInp
 import handleAmountInputChange from '../../../../../../components/handlers/handleAmountInputChange';
 import handleComboboxChange from '../../../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
+import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
 import styles from './TaxDetails.module.css';
 
 const comboboxMetaData = [
@@ -23,10 +26,23 @@ const TaxDetails = ({
   },
   onPayrollTaxDetailsChange,
   onPayrollTaxAmountBlur,
+  taxFileNumberStatusOptions,
+  taxFileNumberStatus,
+  onTaxFileNumberStatusChange,
 }) => (
   <div className={styles.taxView}>
     <FormHorizontal>
       <FieldGroup label="Tax details">
+        <Select
+          name="taxFileNumberStatus"
+          label="Tax file number (TFN) status"
+          value={taxFileNumberStatus}
+          onChange={handleSelectChange(onTaxFileNumberStatusChange)}
+        >
+          {taxFileNumberStatusOptions && taxFileNumberStatusOptions.map(({ name, value }) => (
+            <Select.Option key={name} value={value} label={name} />
+          ))}
+        </Select>
         <TfnInput
           name="taxFileNumber"
           label="Tax file number"

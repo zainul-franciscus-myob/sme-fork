@@ -9,6 +9,7 @@ import {
   SET_TAX_PAY_ITEM_MODAL_LOADING_STATE,
   SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE,
   UPDATE_PAYROLL_TAX_DETAILS,
+  UPDATE_TAX_FILE_NUMBER,
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
 } from '../../../EmployeeIntents';
 
@@ -57,6 +58,14 @@ const removePayrollTaxPayItem = (state, action) => {
 const updatePayrollTaxDetail = (state, action) => {
   const partialTax = {
     [action.key]: action.value,
+  };
+
+  return setPayrollTaxState(state, partialTax);
+};
+
+const updateTaxFileNumber = (state, { taxFileNumber }) => {
+  const partialTax = {
+    taxFileNumber,
   };
 
   return setPayrollTaxState(state, partialTax);
@@ -164,4 +173,5 @@ export default {
   [UPDATE_TAX_PAY_ITEM_MODAL_DETAILS]: updateTaxPayItemModalDetails,
   [SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE]: setTaxPayItemModalSubmitting,
   [SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE]: setTaxPayItemModalAlertMessage,
+  [UPDATE_TAX_FILE_NUMBER]: updateTaxFileNumber,
 };

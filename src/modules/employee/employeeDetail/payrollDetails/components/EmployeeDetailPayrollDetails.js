@@ -116,6 +116,7 @@ const EmployeeDetailPayrollDetails = ({
   onAddWagePayItemButtonClick,
   onAddSuperPayItemButtonClick,
   onAddExpensePayItemButtonClick,
+  onTaxFileNumberStatusChange,
 }) => {
   const Employment = () => (
     <EmploymentDetails
@@ -171,6 +172,7 @@ const EmployeeDetailPayrollDetails = ({
       onPayrollTaxAmountBlur={onPayrollTaxAmountBlur}
       onTaxPayItemClick={onTaxPayItemClick}
       taxPayItemModalListeners={taxPayItemModalListeners}
+      onTaxFileNumberStatusChange={onTaxFileNumberStatusChange}
     />
   );
 

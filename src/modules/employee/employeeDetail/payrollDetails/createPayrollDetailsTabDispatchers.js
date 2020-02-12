@@ -124,6 +124,7 @@ import {
   UPDATE_SELF_MANAGED_FUND_ABN,
   UPDATE_SUPER_FUND_DETAIL,
   UPDATE_SUPER_PAY_ITEM_MODAL,
+  UPDATE_TAX_FILE_NUMBER,
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
   UPDATE_WAGE_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL_AMOUNT,
@@ -255,6 +256,19 @@ const createPayrollDetailsTabDispatchers = store => ({
   updatePayrollTaxDetails: ({ key, value }) => {
     const intent = UPDATE_PAYROLL_TAX_DETAILS;
     store.dispatch({ intent, key, value });
+  },
+
+  updateTaxFileNumberStatus: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_PAYROLL_TAX_DETAILS,
+      key,
+      value,
+    });
+
+    store.dispatch({
+      intent: UPDATE_TAX_FILE_NUMBER,
+      taxFileNumber: value,
+    });
   },
 
   formatAmountInput: ({ key, value }) => {
