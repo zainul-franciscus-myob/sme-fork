@@ -12,7 +12,6 @@ import {
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
-  RESET_TOTALS,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -31,7 +30,6 @@ import {
   getIsActionsDisabled,
   getIsLineAmountsTaxInclusive,
   getIsSale,
-  getIsTableEmpty,
   getIsTaxInclusive,
   getLinesForTaxCalculation,
   getModalUrl,
@@ -246,12 +244,6 @@ export default class GeneralJournalDetailModule {
 
   getCalculatedTotals = ({ isSwitchingTaxInclusive }) => {
     const state = this.store.getState();
-    if (getIsTableEmpty(state)) {
-      this.store.dispatch({
-        intent: RESET_TOTALS,
-      });
-      return;
-    }
     const isTaxInclusive = getIsTaxInclusive(state);
     const taxCalculate = getIsSale(state) ? this.salesTaxCalculate : this.purchasesTaxCalculate;
     const taxCalculations = taxCalculate({
@@ -378,8 +370,7 @@ export default class GeneralJournalDetailModule {
       <GeneralJournalDetailView
         onUpdateHeaderOptions={this.updateHeaderOptions}
         isCreating={this.isCreating}
-        onSaveButtonClick={this.isCreating
-          ? this.createGeneralJournalEntry : this.updateGeneralJournalEntry}
+        onSaveButtonClick={this.saveGeneralJournal}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onDismissModal={this.closeModal}

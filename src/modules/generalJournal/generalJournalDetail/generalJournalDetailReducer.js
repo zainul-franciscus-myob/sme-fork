@@ -7,7 +7,6 @@ import {
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
-  RESET_TOTALS,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -288,11 +287,6 @@ const getTaxCalculations = (state, { taxCalculations: { lines, totals } }) => ({
   },
 });
 
-const resetTotals = state => ({
-  ...state,
-  totals: getDefaultState().totals,
-});
-
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
@@ -312,7 +306,6 @@ const handlers = {
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
-  [RESET_TOTALS]: resetTotals,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
 };
