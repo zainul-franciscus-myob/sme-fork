@@ -4,5 +4,6 @@
   z-index: 12;
   background-color: var(--flx-background-color-application);
   padding-top: 2rem;
-  overflow: hidden;
+  display: inline-block;
+  width: 100%;
 }
