@@ -151,7 +151,7 @@ class InvoiceLogoModule {
     if (hasChange) {
       this.dispatcher.setModalType(ModalTypes.unsaved);
     } else {
-      this.redirectToPaymentSettings();
+      this.redirectToEmailSettings();
     }
   };
 
@@ -165,8 +165,8 @@ class InvoiceLogoModule {
     window.location.href = `/#/${region}/${businessId}${path}`;
   };
 
-  redirectToPaymentSettings = () => {
-    this.redirectToPath('/invoicePaymentSettings');
+  redirectToEmailSettings = () => {
+    this.redirectToPath('/invoiceEmailSettings');
   };
 
   handleModalSave = (type) => {
@@ -187,7 +187,7 @@ class InvoiceLogoModule {
   handleModalUnsave = (type) => {
     switch (type) {
       case ModalTypes.unsaved:
-        this.redirectToPaymentSettings();
+        this.redirectToEmailSettings();
         break;
       case ModalTypes.deleteLogo:
       case ModalTypes.deleteImage:
@@ -207,7 +207,7 @@ class InvoiceLogoModule {
       });
 
       this.uploadedLogoCallback();
-      this.redirectToPaymentSettings();
+      this.redirectToEmailSettings();
     };
 
     const onFailure = ({ message }) => {

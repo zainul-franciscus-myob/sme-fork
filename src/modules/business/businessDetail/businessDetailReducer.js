@@ -10,7 +10,7 @@ import {
   UPDATE_BUSINESS_DETAIL,
   UPDATE_LOCK_DATE_DETAIL,
 } from '../BusinessIntents';
-import { RESET_STATE } from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -43,6 +43,12 @@ const getDefaultState = () => ({
   modal: undefined,
   isSubmitting: false,
   pageTitle: '',
+});
+
+const setInitialState = (state, { businessId, region }) => ({
+  ...state,
+  businessId,
+  region,
 });
 
 const setLoadingState = (state, { loadingState }) => ({
@@ -144,6 +150,7 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [SET_PAGE_EDITED_STATE]: setPageEditedState,
   [SET_LOCK_DATE_AUTO_POPULATED_STATE]: setIsLockDateAutoPopulated,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 
 const businessDetailsReducer = createReducer(getDefaultState(), handlers);

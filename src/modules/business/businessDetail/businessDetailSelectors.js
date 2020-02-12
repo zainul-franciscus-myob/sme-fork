@@ -11,6 +11,8 @@ export const getModalUrl = state => state.modal && state.modal.url;
 export const getIsRegionAu = state => state.businessDetails.region === 'AU';
 export const getIsPageEdited = state => state.isPageEdited;
 export const getPageTitle = state => state.pageTitle;
+export const getRegion = state => state.region;
+export const getBusinessId = state => state.businessId;
 
 export const getBusinessForUpdate = createStructuredSelector({
   organisationName: state => state.businessDetails.organisationName,

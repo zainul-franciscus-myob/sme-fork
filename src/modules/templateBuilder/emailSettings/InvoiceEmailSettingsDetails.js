@@ -14,6 +14,8 @@ const InvoiceEmailSettingsDetails = (props) => {
     invoiceEmailSubject,
     isInvoiceNumberIncluded,
     onUpdateEmailSettings,
+    fromName,
+    replyToEmail,
   } = props;
 
   return (
@@ -22,6 +24,10 @@ const InvoiceEmailSettingsDetails = (props) => {
         Customise the default text that’s emailed with your invoices.
         Don’t worry, you can always override these defaults when emailing an invoice.
       </p>
+
+      <Input name="fromName" label="From name" value={fromName} onChange={handleInputChange(onUpdateEmailSettings)} />
+
+      <Input name="replyToEmail" label="Reply-to email address" value={replyToEmail} onChange={handleInputChange(onUpdateEmailSettings)} />
 
       <Input
         label="Subject"

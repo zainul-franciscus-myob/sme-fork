@@ -11,9 +11,10 @@ import {
   SET_SUBMITTING_STATE,
   UPDATE_BUSINESS_DETAIL,
 } from '../../business/BusinessIntents';
-import { RESET_STATE } from '../../../SystemIntents';
-import { getBusinessForUpdate, getIsPageEdited, getModalUrl } from '../../business/businessDetail/businessDetailSelectors';
-import { getBusinessId, getRegion } from '../../template/templateSelectors';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import {
+  getBusinessForUpdate, getBusinessId, getIsPageEdited, getModalUrl, getRegion,
+} from '../../business/businessDetail/businessDetailSelectors';
 import InvoiceBusinessSettingsView from './InvoiceBusinessSettingsView';
 import Store from '../../../store/Store';
 import businessDetailReducer from '../../business/businessDetail/businessDetailReducer';
@@ -158,8 +159,9 @@ export default class InvoiceBusinessSettingsModule {
 
   redirectToPath = (path) => {
     const state = this.store.getState();
-    const businessId = getBusinessId(state);
+
     const region = getRegion(state);
+    const businessId = getBusinessId(state);
 
     window.location.href = `/#/${region}/${businessId}${path}`;
   };
@@ -189,6 +191,7 @@ export default class InvoiceBusinessSettingsModule {
 
   run(context) {
     this.businessId = context.businessId;
+    this.store.dispatch({ intent: SET_INITIAL_STATE, ...context });
     this.render();
     setupHotKeys(keyMap, this.handlers);
     this.loadBusinessDetail();

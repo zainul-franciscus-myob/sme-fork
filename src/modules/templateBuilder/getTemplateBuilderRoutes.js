@@ -10,7 +10,7 @@ const getTemplateBuilderRoutes = ({
   pushMessage,
   popMessages,
   globalCallbacks: {
-    setupBusinessDetails, addedPaymentDetails, uploadedLogo, updatedEmailSettings,
+    setupBusinessDetails, addedPaymentDetails, uploadedLogo, customisedEmailDefaults,
   },
 }) => [
   {
@@ -41,7 +41,7 @@ const getTemplateBuilderRoutes = ({
     name: RouteName.INVOICE_EMAIL_SETTINGS,
     path: '/:region/:businessId/invoiceEmailSettings/',
     module: new InvoiceEmailSettingsModule({
-      setRootView, integration, updatedEmailSettings,
+      setRootView, integration, customisedEmailDefaults,
     }),
     documentTitle: 'Set up your invoice email template',
   },

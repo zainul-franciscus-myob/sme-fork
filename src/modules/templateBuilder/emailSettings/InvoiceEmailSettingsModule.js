@@ -3,21 +3,21 @@ import React from 'react';
 
 import { getLoadingState, getSalesSettingsPayload, getTabData } from '../../salesSettings/salesSettingsDetail/SalesSettingsDetailSelectors';
 import { mainTabIds } from '../../salesSettings/salesSettingsDetail/tabItems';
+import InvoiceEmailSettingsView from './InvoiceEmailSettingsView';
 import LoadingState from '../../../components/PageView/LoadingState';
-import SalesSettingsInvoicesView from './InvoiceEmailSettingsView';
 import Store from '../../../store/Store';
 import createSalesSettingsDispatcher from '../../salesSettings/salesSettingsDetail/createSalesSettingsDispatcher';
 import createSalesSettingsIntegrator from '../../salesSettings/salesSettingsDetail/createSalesSettingsIntegrator';
 import salesSettingsReducer from '../../salesSettings/salesSettingsDetail/salesSettingsDetailReducer';
 
 export default class InvoiceEmailSettingsModule {
-  constructor({ integration, setRootView, updatedEmailSettings }) {
+  constructor({ integration, setRootView, customisedEmailDefaults }) {
     this.integration = integration;
     this.store = new Store(salesSettingsReducer);
     this.setRootView = setRootView;
     this.dispatcher = createSalesSettingsDispatcher(this.store);
     this.integrator = createSalesSettingsIntegrator(this.store, integration);
-    this.updatedEmailSettings = updatedEmailSettings;
+    this.customisedEmailDefaults = customisedEmailDefaults;
   }
 
   loadSalesSettings = () => {
@@ -63,8 +63,8 @@ export default class InvoiceEmailSettingsModule {
     const onSuccess = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'success', message });
-      this.updatedEmailSettings();
       this.dispatcher.saveDataTab();
+      this.customisedEmailDefaults();
     };
 
     const onFailure = ({ message }) => {
@@ -77,7 +77,7 @@ export default class InvoiceEmailSettingsModule {
 
   render = () => {
     const salesSettingsView = (
-      <SalesSettingsInvoicesView
+      <InvoiceEmailSettingsView
         onDismissAlert={this.dispatcher.dismissAlert}
         onSalesSettingsSave={this.updateSalesSettings}
         onSaveEmailSettings={this.saveEmailSettings}

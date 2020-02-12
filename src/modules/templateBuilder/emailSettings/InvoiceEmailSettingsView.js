@@ -10,9 +10,9 @@ import {
 } from '../../salesSettings/salesSettingsDetail/SalesSettingsDetailSelectors';
 import { mainTabIds } from '../../salesSettings/salesSettingsDetail/tabItems';
 import FormCard from '../../../components/FormCard/FormCard';
+import InvoiceEmailSettingsDetails from './InvoiceEmailSettingsDetails';
 import PageView from '../../../components/PageView/PageView';
 import SalesSettingsDetailActions from '../../salesSettings/salesSettingsDetail/components/SalesSettingsDetailActions';
-import SalesSettingsInvoicesDetails from './InvoiceEmailSettingsDetails';
 
 const InvoiceEmailSettingsView = ({
   alert,
@@ -42,7 +42,7 @@ const InvoiceEmailSettingsView = ({
       sticky="none"
     >
       <FormCard>
-        <SalesSettingsInvoicesDetails {...contentProps} />
+        <InvoiceEmailSettingsDetails {...contentProps} />
       </FormCard>
     </FormTemplate>
   );
