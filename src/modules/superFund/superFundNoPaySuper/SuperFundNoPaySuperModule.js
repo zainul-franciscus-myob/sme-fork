@@ -5,8 +5,10 @@ import {
   CLOSE_MODAL,
   CREATE_SUPER_FUND,
   DELETE_SUPER_FUND,
+  GET_PAY_SUPER_URL,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
+  SET_PAY_SUPER_URL,
   SET_SUBMITTING_STATE,
   SHOW_CONTACT_DETAILS,
   UPDATE_SUPER_FUND,
@@ -190,6 +192,31 @@ export default class SuperFundNoPaySuperModule {
     this.store.unsubscribeAll();
   };
 
+  loadPaySuperUrl = () => {
+    const state = this.store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const onSuccess = (paySuperUrl) => {
+      this.store.dispatch({
+        intent: SET_PAY_SUPER_URL,
+        paySuperUrl,
+      });
+    };
+
+    const onFailure = (response) => {
+      console.log(response);
+    };
+
+    this.integration.read({
+      intent: GET_PAY_SUPER_URL,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  }
+
   setInitialState = (context, payload) => {
     const intent = SET_INITIAL_STATE;
 
@@ -207,6 +234,7 @@ export default class SuperFundNoPaySuperModule {
   run({ context, payload }) {
     this.setInitialState(context, payload);
     setupHotKeys(keyMap, this.handlers);
+    this.loadPaySuperUrl();
     this.render();
   }
 

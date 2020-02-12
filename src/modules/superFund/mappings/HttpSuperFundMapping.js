@@ -1,6 +1,7 @@
 import {
   CREATE_SUPER_FUND,
   DELETE_SUPER_FUND,
+  GET_PAY_SUPER_URL,
   LOAD_ABN_DETAIL,
   LOAD_NEW_SUPER_FUND,
   LOAD_SUPER_FUND,
@@ -31,6 +32,10 @@ const HttpSuperFundMapping = {
   [DELETE_SUPER_FUND]: {
     method: 'DELETE',
     getPath: ({ businessId, superFundId }) => `/${businessId}/superFund/delete_super_fund/${superFundId}`,
+  },
+  [GET_PAY_SUPER_URL]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/superFund/get_pay_super_url`,
   },
 };
 

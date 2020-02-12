@@ -61,3 +61,5 @@ export const getSuperFundContactDetails = createStructuredSelector({
   phoneNumber: getPhoneNumber,
   webSite: getWebSite,
 });
+
+export const getSignUpForPaySuperUrl = state => state.paySuperUrl;

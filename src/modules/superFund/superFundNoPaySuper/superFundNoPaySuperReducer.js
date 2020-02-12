@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
+  SET_PAY_SUPER_URL,
   SET_SUBMITTING_STATE,
   SHOW_CONTACT_DETAILS,
   UPDATE_SUPER_FUND_DETAIL,
@@ -110,6 +111,11 @@ const closeModal = state => ({
   modalType: '',
 });
 
+const setPaySuperUrl = (state, action) => ({
+  ...state,
+  paySuperUrl: action.paySuperUrl,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -120,6 +126,7 @@ const handlers = {
   [UPDATE_SUPER_PRODUCT]: updateSuperProduct,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
+  [SET_PAY_SUPER_URL]: setPaySuperUrl,
 };
 
 const superFundNoPaySuperReducer = createReducer(getDefaultState(), handlers);

@@ -1,6 +1,4 @@
-import {
-  Input, ReadOnly,
-} from '@myob/myob-widgets';
+import { Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
@@ -39,12 +37,19 @@ const SuperFundDetailSection = ({
       label="Name"
       value={name}
       maxLength={76}
+      requiredLabel="Name is required"
       onChange={onInputChange(listeners.onUpdateSuperFundDetail)}
     />
-    <ReadOnly label="SPIN/USI" name="usi">{superProductId}</ReadOnly>
+    <Input
+      name="spinUsi"
+      label="SPIN/USI"
+      value={superProductId}
+      maxLength={30}
+      disabled
+    />
     <AbnInput
       name="superProductAbn"
-      label="ABN"
+      label="Fund ABN"
       value={superProductAbn}
       onChange={onAbnInputChange(listeners.onUpdateSuperFundDetail)}
     />

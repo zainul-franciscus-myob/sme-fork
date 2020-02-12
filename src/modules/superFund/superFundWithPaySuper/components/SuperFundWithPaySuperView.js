@@ -48,7 +48,7 @@ const SuperFundWithPaySuperView = ({
   return (
     <FormTemplate actions={actions} alert={alertComponent} sticky="none" pageHead={pageTitle}>
       {modal}
-      <FormCard>
+      <FormCard header="Superannuation fund details">
         <FieldGroup label="Self managed" hideLabel>
           <SuperFundBasic listeners={listeners} />
           <Separator />

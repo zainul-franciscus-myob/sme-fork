@@ -16,3 +16,5 @@ export const LOAD_ABN_DETAIL = Symbol('Load abn detail');
 export const SET_ABN_STATUS = Symbol('Set abn status');
 export const UPDATE_SUPER_FUND_DETAIL = Symbol('Update super fund detail');
 export const UPDATE_SUPER_PRODUCT = Symbol('Update super product id');
+export const GET_PAY_SUPER_URL = Symbol('Get pay super URL');
+export const SET_PAY_SUPER_URL = Symbol('Set pay super URL');

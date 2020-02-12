@@ -10,7 +10,7 @@ import {
   getShowFundType,
   getSuperFund,
 } from '../SuperFundWithPaySuperSelectors';
-import fundTypes from '../FundTypes';
+import fundTypes from '../../FundTypes';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
