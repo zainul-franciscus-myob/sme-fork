@@ -1,7 +1,3 @@
-.buttonGroup > button + button {
-  margin-left: var(--flx-spacing-small);
-}
-
 /* @Feelix: To make sure document viewer component have right height */
 .aside :global(.flx-aside__body) {
   position: relative;

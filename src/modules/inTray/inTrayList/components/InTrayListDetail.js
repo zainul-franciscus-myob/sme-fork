@@ -12,6 +12,7 @@ import { getActiveEntry } from '../selectors/InTrayListSelectors';
 import { getDocumentViewerUrl } from '../selectors/InTraySelectors';
 import DocumentViewer from '../../../../components/DocumentViewer/DocumentViewer';
 import actionTypes from '../actionTypes';
+import styles from './InTrayListDetail.module.css';
 
 const items = [
   <Dropdown.Item
@@ -30,6 +31,7 @@ const InTrayListDetail = ({
   onClose, handleActionSelect, activeEntryId, uploadedDate, documentViewerUrl,
 }) => (
   <Aside
+    className={styles.aside}
     header={(
       <Aside.Header>
         <Aside.Title icon={<Icons.Invoice set="lg" />}>
@@ -61,7 +63,7 @@ const InTrayListDetail = ({
           items={items}
         />
       </ButtonRow>
-)}
+    )}
   >
     <DocumentViewer src={documentViewerUrl} type="application/pdf" />
   </Aside>

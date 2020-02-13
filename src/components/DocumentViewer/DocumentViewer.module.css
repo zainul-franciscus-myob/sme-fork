@@ -4,3 +4,9 @@
   border: var(--flx-border-thin);
   border-radius: var(--flx-border-radius-card);
 }
+
+.onSafari {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

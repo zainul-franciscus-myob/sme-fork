@@ -7,3 +7,8 @@
   height: calc(100% - 0.5rem);
   width: 100%;
 }
+
+/* @Feelix: To make sure document viewer component have right height */
+.aside :global(.flx-aside__body) {
+  position: relative;
+}

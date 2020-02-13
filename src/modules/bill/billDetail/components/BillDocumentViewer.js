@@ -21,6 +21,7 @@ const BillDocumentViewer = ({
   isCreatingFromInTray,
 }) => (
   <Aside
+    className={styles.aside}
     header={(
       <Aside.Header>
         <Aside.Title>

@@ -141,7 +141,7 @@ const InTrayView = ({
             onAddAttachments={onAddAttachments}
             handleActionSelect={handleActionSelect}
           />
-)}
+        )}
       />
     </div>
   );
