@@ -54,8 +54,9 @@ export const setInitialState = (state, {
   intent, description, activeTabId, isWithdrawal, ...otherFields
 }) => {
   const defaultState = getDefaultState();
-  const isAllocationTabOpen = activeTabId === tabIds.allocate;
-  const ruleTypeIndex = isAllocationTabOpen ? 0 : 1;
+  const isAllocationOrMatchTabOpen = activeTabId === tabIds.allocate
+  || activeTabId === tabIds.match;
+  const ruleTypeIndex = isAllocationOrMatchTabOpen ? 0 : 1;
   const ruleType = getRuleTypes(isWithdrawal)[ruleTypeIndex].value;
   return {
     ...defaultState,
