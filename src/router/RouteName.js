@@ -47,6 +47,7 @@ const RouteName = {
   PAY_ITEM_LEAVE: 'payItem/leavePayItem',
   PREPARE_BAS_OR_IAS: 'prepareBasOrIas/prepareBasOrIas',
   IN_TRAY: 'inTray/inTray',
+  ONBOARDING_LEARN_IN_TRAY: 'inTray/learn',
   LINKED_ACCOUNTS: 'linkedAccounts/linkedAccounts',
   BANKING_RULE_LIST: 'bankingRule/bankingRuleList',
   BANKING_RULE_DETAIL: 'bankingRule/bankingRuleDetail',
