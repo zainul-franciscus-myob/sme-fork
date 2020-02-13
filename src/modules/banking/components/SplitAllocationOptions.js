@@ -44,7 +44,7 @@ const SplitAllocationOptions = (props) => {
         <div className={classNames('form-group', styles.checkbox)}>
           <Checkbox
             name="isReportable"
-            label="Reportable"
+            label="Report to ATO via TPAR"
             checked={isReportable}
             onChange={handleCheckboxChange(onUpdateSplitAllocationHeader)}
           />

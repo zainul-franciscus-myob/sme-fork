@@ -124,7 +124,7 @@
 
   .checkbox {
     padding-left: 12px;
-    max-width: var(--flx-width-field-xs);
+    max-width: 19.5rem;
   }
 
   .openEntryCard :global(.combobox-menu) {

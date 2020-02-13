@@ -87,7 +87,7 @@ describe('splitAllocationSelectors', () => {
       expect(actual).toEqual(expected);
     });
 
-    it('should return a valid payload when selected contact is not reportable', () => {
+    it('should return a valid payload when selected contact is not supplier', () => {
       const state = {
         openPosition: 0,
         filterOptions: {
@@ -121,7 +121,7 @@ describe('splitAllocationSelectors', () => {
           },
         },
         contacts: [
-          { id: '222', isReportable: false, contactType: 'Supplier' },
+          { id: '222', contactType: 'Customer' },
         ],
       };
 

@@ -61,15 +61,15 @@ export const getLineDataByIndexSelector = () => createSelector(
   (line => line || {}),
 );
 
-const getIsContactReportable = createSelector(
+const getContact = createSelector(
   getContacts,
   getContactId,
-  (contacts, contactId) => {
-    const contact = contacts.find(({ id }) => id === contactId);
-    return (
-      contact && contact.contactType === 'Supplier' && contact.isReportable
-    );
-  },
+  (contacts, contactId) => contacts.find(({ id }) => id === contactId),
+);
+
+const getIsSupplier = createSelector(
+  getContact,
+  contact => contact && contact.contactType === 'Supplier',
 );
 
 export const getOptions = createSelector(
@@ -78,13 +78,13 @@ export const getOptions = createSelector(
   getIsReportable,
   getIsSpendMoney,
   getDescription,
-  getIsContactReportable,
-  (contacts, contactId, isReportable, isSpendMoney, description, isContactReportable) => ({
+  getIsSupplier,
+  (contacts, contactId, isReportable, isSpendMoney, description, isSupplier) => ({
     contacts,
     contactId,
     isReportable,
     description,
-    showIsReportable: isSpendMoney && isContactReportable,
+    showIsReportable: isSpendMoney && isSupplier,
     contactLabel: isSpendMoney ? 'payee' : 'payer',
   }),
 );
@@ -106,7 +106,7 @@ export const getTotals = createSelector(
 
 export const getSplitAllocationPayload = (state, index) => {
   const entries = getEntries(state);
-  const isContactReportable = getIsContactReportable(state);
+  const isSupplier = getIsSupplier(state);
   const memo = getDescription(state);
   const openedEntry = entries[index];
   const { transactionId } = openedEntry;
@@ -127,7 +127,7 @@ export const getSplitAllocationPayload = (state, index) => {
     isWithdrawal,
     contactId,
     description: memo,
-    isReportable: isWithdrawal && isContactReportable ? isReportable : undefined,
+    isReportable: isWithdrawal && isSupplier ? isReportable : undefined,
     date,
     lines: lines.map(({
       accountId, amount, description, taxCodeId, quantity,

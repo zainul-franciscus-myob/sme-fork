@@ -1,11 +1,15 @@
 import { allocateTransaction } from './index';
 import {
-  getDefaultTaxCodeId, getTotalAmount, getTotalDollarAmount, getTotalPercentageAmount,
-} from '../bankingSelectors/splitAllocationSelectors';
-import {
+  getContacts,
   getDepositAccounts,
   getWithdrawalAccounts,
 } from '../bankingSelectors';
+import {
+  getDefaultTaxCodeId,
+  getTotalAmount,
+  getTotalDollarAmount,
+  getTotalPercentageAmount,
+} from '../bankingSelectors/splitAllocationSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
 import { tabIds } from '../tabItems';
 import getDefaultState from './getDefaultState';
@@ -76,17 +80,31 @@ const getUpdatedLine = (state, line, { lineKey, lineValue }, isNewLine) => {
   return updatedLine;
 };
 
-const updateSplitAllocationState = (state, propName, propValue) => ({
-  ...state,
-  openEntry: {
-    ...state.openEntry,
-    isEdited: true,
-    allocate: {
-      ...state.openEntry.allocate,
-      [propName]: propValue,
+const getContactReportable = (state, contactId) => {
+  const contact = getContacts(state).find(({ id }) => id === contactId);
+  if (!contact) return false;
+  return contact.isReportable;
+};
+
+const updateSplitAllocationState = (state, propName, propValue) => {
+  const isUpdatingContact = propName === 'contactId';
+  const { isSpendMoney, isReportable } = state.openEntry.allocate;
+  const prefillReportable = isUpdatingContact && isSpendMoney;
+  return ({
+    ...state,
+    openEntry: {
+      ...state.openEntry,
+      isEdited: true,
+      allocate: {
+        ...state.openEntry.allocate,
+        isReportable: (
+          prefillReportable ? getContactReportable(state, propValue) : isReportable
+        ),
+        [propName]: propValue,
+      },
     },
-  },
-});
+  });
+};
 
 export const updateSplitAllocationHeader = (state, action) => updateSplitAllocationState(
   state,
