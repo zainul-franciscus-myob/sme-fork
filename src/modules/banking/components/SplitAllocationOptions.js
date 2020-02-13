@@ -38,7 +38,6 @@ const SplitAllocationOptions = (props) => {
         name="contact"
         hideLabel={false}
         hintText="Select contact"
-        requiredLabel="This is required"
       />
       {showIsReportable && (
         <div className={classNames('form-group', styles.checkbox)}>
