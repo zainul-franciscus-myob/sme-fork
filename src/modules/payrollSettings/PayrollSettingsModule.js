@@ -9,6 +9,7 @@ import {
   getIsPageEdited,
   getModalUrl,
   getRegion,
+  getTab,
   getTabUrl,
   getURLParams,
 } from './selectors/payrollSettingsSelectors';
@@ -385,7 +386,8 @@ export default class PayrollSettingsModule {
     this.store.subscribe(this.updateURLFromState);
     this.render();
     this.readMessages();
-    this.setTab(tabIds.general);
+
+    this.setTab(getTab(this.store.getState()));
   }
 
   openUnsavedModal = (url) => {

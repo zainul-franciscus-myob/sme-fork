@@ -16,15 +16,13 @@ import {
   getSignUpForPaySuperUrl,
   getSuperFundPageTitle,
 } from '../SuperFundNoPaySuperSelectors';
+import { selfManagedSuperFund, standardSuperFund } from '../../FundTypes';
 import FormCard from '../../../../components/FormCard/FormCard';
 import LinkButton from '../../../../components/Button/LinkButton';
 import SuperFundDetailActions from './SuperFundDetailActions';
 import SuperFundDetailModal from '../../components/SuperFundDetailModal';
 import SuperFundDetailSection from './SuperFundDetailSection';
 import SuperFundNoPaySuperContactDetails from './SuperFundNoPaySuperContactDetails';
-
-const standardSuperFund = { name: 'Standard (APRA regulated)', value: 'APRASuperFund' };
-const selfManagedSuperFund = { name: 'Self managed super fund (SMSF)', value: 'SelfManagedSuperFund' };
 
 const SuperFundNoPaySuperView = ({
   listeners,

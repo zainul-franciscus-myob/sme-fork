@@ -1,6 +1,4 @@
-import {
-  Alert, FieldGroup, FormTemplate, Separator,
-} from '@myob/myob-widgets';
+import { Alert, FieldGroup, FormTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -51,7 +49,6 @@ const SuperFundWithPaySuperView = ({
       <FormCard header="Superannuation fund details">
         <FieldGroup label="Self managed" hideLabel>
           <SuperFundBasic listeners={listeners} />
-          <Separator />
           <FundDetail listeners={listeners} />
           <SuperFundWithPaySuperContactDetails listeners={listeners} />
           <PaySuperSection listeners={listeners} />

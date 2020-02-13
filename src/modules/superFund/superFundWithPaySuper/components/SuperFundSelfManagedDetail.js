@@ -1,6 +1,4 @@
-import {
-  ReadOnly, Spinner,
-} from '@myob/myob-widgets';
+import { Input, ReadOnly, Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -24,6 +22,11 @@ const onSEAComboboxChange = handler => (item) => {
   handler({ key: 'electronicServiceAddress', value: item.name });
 };
 
+const onInputChange = handler => (e) => {
+  const { value, name } = e.target;
+  handler({ key: name, value });
+};
+
 const SuperFundSelfManagedDetail = ({
   superFund,
   listeners: { onUpdateSuperFundDetail, onAbnLookUp, onUpdateSelfManagedFundAbn },
@@ -44,6 +47,15 @@ const SuperFundSelfManagedDetail = ({
       </div>
     </div>
     <ReadOnly name="superProductName" label="Fund name">{superFund.superProductName}</ReadOnly>
+    <Input
+      name="name"
+      label="Name"
+      value={superFund.name}
+      maxLength={76}
+      disabled={isAbnLoading}
+      requiredLabel="Name is required"
+      onChange={onInputChange(onUpdateSuperFundDetail)}
+    />
     <ESACombobox
       label="ESA"
       hideLabel={false}
