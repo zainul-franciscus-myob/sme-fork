@@ -7,6 +7,7 @@ import React from 'react';
 import {
   getAgentAbn, getAgentNumber, getErrorMessage, getLoadingState, getRole, getShowContactDetails,
 } from '../stpYourRoleSelectors';
+import AbnInput from '../../../../../../components/autoFormatter/AbnInput/AbnInput';
 import ContactDetails from './ContactDetails';
 import LoadingPageState from '../../../../../../components/LoadingPageState/LoadingPageState';
 import Role from '../../../Role';
@@ -34,6 +35,11 @@ const StpYourRoleView = ({
     );
   }
 
+  const onAutoFormatInputChange = handler => (e) => {
+    const { rawValue, name } = e.target;
+    handler({ key: name, value: rawValue });
+  };
+
   const someoneFromBusinessContent = (
     <p>
       You must complete these steps yourself. You can&apos;t get your agent to complete these
@@ -44,11 +50,12 @@ const StpYourRoleView = ({
   const agentContent = (
     <FormHorizontal layout="primary" testid="agentForm">
       <p>Enter your own ABN and RAN, and search for your contact details</p>
-      <Input
+      <AbnInput
         name="agentAbn"
         label="Agent ABN"
         value={agentAbn}
-        onChange={handleInputChange(onFieldChange)}
+        maxLength={14}
+        onChange={onAutoFormatInputChange(onFieldChange)}
       />
       <Input
         name="agentNumber"
