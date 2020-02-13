@@ -230,7 +230,7 @@ describe('PayrollPayHistorySelectors', () => {
     });
   });
 
-  describe('getWagePayItemEntries', () => {
+  describe('getWageTableRows', () => {
     it('should return allocated wage pay items', () => {
       const state = {
         payrollDetails: {
@@ -252,14 +252,24 @@ describe('PayrollPayHistorySelectors', () => {
           },
           wage: {
             allocatedWagePayItems: [
+              { id: '16' },
               { id: '11' },
+              { id: '15' },
+              { id: '14' },
+              { id: '13' },
             ],
           },
           payHistoryDetails: {
             filterOptions: {
               period: 'July',
             },
-            payHistoryItems: [],
+            payHistoryItems: [
+              { id: '16', payItemId: '16' },
+              { id: '11', payItemId: '11' },
+              { id: '15', payItemId: '15' },
+              { id: '14', payItemId: '14' },
+              { id: '13', payItemId: '13' },
+            ],
           },
         },
         wagePayItems: [
@@ -267,11 +277,37 @@ describe('PayrollPayHistorySelectors', () => {
             id: '11',
             name: 'Base salary',
             type: 'WagesPayrollCategory',
+            payBasis: 'Salary',
+          },
+          {
+            id: '13',
+            name: 'A hourly',
+            type: 'WagesPayrollCategory',
+            payBasis: 'Hourly',
           },
           {
             id: '12',
             name: 'Base hourly',
             type: 'WagesPayrollCategory',
+            payBasis: 'Hourly',
+          },
+          {
+            id: '15',
+            name: 'A Salary',
+            type: 'WagesPayrollCategory',
+            payBasis: 'Salary',
+          },
+          {
+            id: '14',
+            name: 'B hourly',
+            type: 'WagesPayrollCategory',
+            payBasis: 'Hourly',
+          },
+          {
+            id: '16',
+            name: 'B Salary',
+            type: 'WagesPayrollCategory',
+            payBasis: 'Salary',
           },
         ],
         deductionPayItemOptions: [
@@ -305,11 +341,14 @@ describe('PayrollPayHistorySelectors', () => {
             type: 'SuperannuationExpensePayrollCategory',
           },
         ],
+        baseSalaryWagePayItemId: '11',
+        baseHourlyWagePayItemId: '22',
       };
 
       const expected = {
         entries: [
           {
+            id: '11',
             payItemId: '11',
             payItemType: 'WagesPayrollCategory',
             name: 'Base salary',
@@ -317,6 +356,51 @@ describe('PayrollPayHistorySelectors', () => {
             amount: '0.00',
             isHours: false,
             isAmount: true,
+            payBasis: 'Salary',
+          },
+          {
+            id: '13',
+            payItemId: '13',
+            name: 'A hourly',
+            payItemType: 'WagesPayrollCategory',
+            hours: '0.00',
+            amount: '0.00',
+            isHours: false,
+            isAmount: true,
+            payBasis: 'Hourly',
+          },
+          {
+            id: '14',
+            payItemId: '14',
+            name: 'B hourly',
+            payItemType: 'WagesPayrollCategory',
+            hours: '0.00',
+            amount: '0.00',
+            isHours: false,
+            isAmount: true,
+            payBasis: 'Hourly',
+          },
+          {
+            id: '15',
+            payItemId: '15',
+            name: 'A Salary',
+            payItemType: 'WagesPayrollCategory',
+            hours: '0.00',
+            amount: '0.00',
+            isHours: false,
+            isAmount: true,
+            payBasis: 'Salary',
+          },
+          {
+            id: '16',
+            payItemId: '16',
+            name: 'B Salary',
+            payItemType: 'WagesPayrollCategory',
+            hours: '0.00',
+            amount: '0.00',
+            isHours: false,
+            isAmount: true,
+            payBasis: 'Salary',
           },
         ],
         showTableRows: true,
@@ -329,7 +413,7 @@ describe('PayrollPayHistorySelectors', () => {
     });
   });
 
-  describe('getDeductionPayItemEntries', () => {
+  describe('getDeductionTableRows', () => {
     it('should return deduction pay items', () => {
       const state = {
         payrollDetails: {
@@ -428,7 +512,7 @@ describe('PayrollPayHistorySelectors', () => {
     });
   });
 
-  describe('getTaxPayItemEntries', () => {
+  describe('getTaxTableRows', () => {
     it('should return allocated tax and super (deduction) pay items', () => {
       const state = {
         payrollDetails: {

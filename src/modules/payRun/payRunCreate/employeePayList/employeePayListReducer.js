@@ -30,10 +30,14 @@ export const getEmployeePayListDefaultState = () => ({
     code: undefined,
     isOpen: false,
   },
+  baseHourlyWagePayItemId: null,
+  baseSalaryWagePayItemId: null,
 });
 
 const loadEmployeePays = (state, { employeePays }) => ({
   ...state,
+  baseHourlyWagePayItemId: employeePays.baseHourlyWagePayItemId,
+  baseSalaryWagePayItemId: employeePays.baseSalaryWagePayItemId,
   lines: getEmployeePayLines(employeePays.employeePays, () => (true)),
 });
 

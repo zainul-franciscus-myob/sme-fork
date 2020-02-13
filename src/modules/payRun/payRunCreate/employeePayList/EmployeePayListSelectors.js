@@ -144,11 +144,32 @@ const getEmployeeLineByEmployeeId = (state, employeeId) => state.employeePayList
   line => line.employeeId === employeeId,
 );
 
+const getBaseHourlyWagePayItemId = state => state.employeePayList.baseHourlyWagePayItemId;
+const getBaseSalaryWagePayItemId = state => state.employeePayList.baseSalaryWagePayItemId;
+
+const SMALLER = -1;
+const BIGGER = 1;
+const wagePayItemComparator = (a, b, baseWageIds) => {
+  if (baseWageIds.includes(a.payItemId)) {
+    return SMALLER;
+  }
+  if (baseWageIds.includes(b.payItemId)) {
+    return BIGGER;
+  }
+
+  if (a.type === 'HourlyWage' && b.type === 'SalaryWage') return SMALLER;
+  if (b.type === 'HourlyWage' && a.type === 'SalaryWage') return BIGGER;
+
+  return a.payItemName.localeCompare(b.payItemName);
+};
+
 export const getWagePayItemEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
-  line => line.payItems
+  getBaseHourlyWagePayItemId,
+  getBaseSalaryWagePayItemId,
+  (line, baseHourlyWagePayItemId, baseSalaryWagePayItemId) => line.payItems
     .filter(payItem => isWagePayItem(payItem.type))
-    .sort(payItem => (payItem.type === 'HourlyWage' ? -1 : 1))
+    .sort((a, b) => wagePayItemComparator(a, b, [baseHourlyWagePayItemId, baseSalaryWagePayItemId]))
     .map(payItem => ({
       ...payItem,
       shouldShowHours: payItem.type === 'HourlyWage',

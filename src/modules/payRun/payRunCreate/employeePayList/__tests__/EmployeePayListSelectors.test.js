@@ -394,10 +394,132 @@ describe('EmployeePayListSelectors', () => {
   });
 
   describe('getWagePayItemEntries', () => {
-    it('returns wage pay item entries', () => {
+    it('returns sorted wage pay item entries', () => {
       const actualWagePayItemEntries = getWagePayItemEntries(employeePayList, { employeeId: '21' });
 
       const expectedWagePayItemEntries = wagePayItemEntries;
+
+      expect(actualWagePayItemEntries).toEqual(expectedWagePayItemEntries);
+    });
+
+    it('puts the wage pay items to the top but does not sort them', () => {
+      const state = {
+        ...employeePayList,
+        employeePayList: {
+          lines: [
+            {
+              employeeId: '21',
+              name: 'Mary Jones',
+              gross: 1500,
+              payg: 100,
+              deduction: 300,
+              netPay: 700,
+              super: 150,
+              payItems: [
+                {
+                  payItemId: '1',
+                  payItemName: 'Salary Wage',
+                  type: 'SalaryWage',
+                  amount: '100000.00',
+                  hours: '0.00',
+                },
+                {
+                  payItemId: '2',
+                  payItemName: 'Hourly Wage',
+                  type: 'HourlyWage',
+                  amount: '0.00',
+                  hours: '38.50',
+                },
+                {
+                  payItemId: '3',
+                  payItemName: 'Child support deduction',
+                  type: 'Deduction',
+                  amount: '100.00',
+                  hours: '0.00',
+                },
+                {
+                  payItemId: '4',
+                  payItemName: 'Superannuation deduction before tax',
+                  type: 'SuperannuationDeductionBeforeTax',
+                  amount: '200.00',
+                  hours: '0.00',
+                },
+                {
+                  payItemId: '5',
+                  payItemName: 'Superannuation deduction after tax',
+                  type: 'SuperannuationDeductionAfterTax',
+                  amount: '100.00',
+                  hours: '0.00',
+                },
+                {
+                  payItemId: '6',
+                  payItemName: 'Child support deduction',
+                  type: 'Deduction',
+                  amount: '5000.00',
+                  hours: '0.00',
+                },
+                {
+                  payItemId: '7',
+                  payItemName: 'Annual Leave',
+                  type: 'Entitlement',
+                  amount: '0.00',
+                  hours: '30.00',
+                },
+                {
+                  payItemId: '8',
+                  payItemName: 'Sick Leave',
+                  type: 'Entitlement',
+                  amount: '0.00',
+                  hours: '10.00',
+                },
+                {
+                  payItemId: '9',
+                  payItemName: 'Coffee Reimbursement',
+                  type: 'Expense',
+                  amount: '10000.00',
+                  hours: '0.00',
+                },
+                {
+                  payItemId: '10',
+                  payItemName: 'Mortgage repayment',
+                  type: 'SuperannuationExpense',
+                  amount: '10000.00',
+                  hours: '0.00',
+                },
+                {
+                  payItemId: '11',
+                  payItemName: 'PayGWithholding',
+                  type: 'Tax',
+                  amount: '222.00',
+                  hours: '0.00',
+                },
+              ],
+            },
+          ],
+          baseHourlyWagePayItemId: '2',
+          baseSalaryWagePayItemId: '1',
+        },
+      };
+      const actualWagePayItemEntries = getWagePayItemEntries(state, { employeeId: '21' });
+
+      const expectedWagePayItemEntries = [
+        {
+          payItemId: '1',
+          payItemName: 'Salary Wage',
+          type: 'SalaryWage',
+          amount: '100000.00',
+          hours: '0.00',
+          shouldShowHours: false,
+        },
+        {
+          payItemId: '2',
+          payItemName: 'Hourly Wage',
+          type: 'HourlyWage',
+          amount: '0.00',
+          hours: '38.50',
+          shouldShowHours: true,
+        },
+      ];
 
       expect(actualWagePayItemEntries).toEqual(expectedWagePayItemEntries);
     });

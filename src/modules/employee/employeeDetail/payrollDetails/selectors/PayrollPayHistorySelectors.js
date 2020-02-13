@@ -13,9 +13,12 @@ import { getAllocatedLeavePayItems, getLeavePayItemOptions } from './PayrollLeav
 import { getAllocatedPayItems as getAllocatedSuperPayItems, getSuperPayItemOptions } from './PayrollSuperSelectors';
 import { getTaxPayItems as getAllocatedTaxPayItems, getTaxPayItemOptions } from './PayrollTaxSelectors';
 import {
+  getBaseHourlyWagePayItemId,
+  getBaseSalaryWagePayItemId,
   getWagePayItems as getWagePayItemOptions,
   getAllocatedWagePayItems as getWagePayItems,
 } from './PayrollWageSelectors';
+import { sortPayItems } from '../../EmployeeDetailSelectors';
 import formatNumberWithDecimalScaleRange from '../../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import payItemTypes from '../../payItemTypes';
 
@@ -267,9 +270,11 @@ const getExpensePayItemEntries = createSelector(
 
 export const getWageTableRows = createSelector(
   getWagePayItemEntries,
+  getBaseHourlyWagePayItemId,
+  getBaseSalaryWagePayItemId,
   getIsPayHistoryItemsDisabled,
-  (entries, disabled) => ({
-    entries: entries.sort(payItem => (payItem.payBasis === 'Hourly' ? -1 : 1)),
+  (entries, baseHourlyWagePayItemId, baseSalaryWagePayItemId, disabled) => ({
+    entries: sortPayItems({ payItems: entries, baseSalaryWagePayItemId, baseHourlyWagePayItemId }),
     showTableRows: entries.length > 0,
     disabled,
   }),
