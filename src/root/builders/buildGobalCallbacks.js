@@ -8,4 +8,5 @@ export default ({ closeTasks }) => ({
   customisedEmailDefaults: () => closeTasks({ closeEvent: 'customisedEmailDefaults' }),
   addedPaymentDetails: () => closeTasks({ closeEvent: 'addedPaymentDetails' }),
   uploadedLogo: () => closeTasks({ closeEvent: 'uploadedLogo' }),
+  inTrayBillSaved: () => closeTasks({ closeEvent: 'inTrayBillSaved' }),
 });

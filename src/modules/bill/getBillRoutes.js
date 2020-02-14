@@ -3,7 +3,7 @@ import BillModule from './billDetail/BillModule';
 import RouteName from '../../router/RouteName';
 
 const getBillRoutes = ({
-  integration, setRootView, pushMessage, popMessages, replaceURLParams,
+  integration, setRootView, pushMessage, popMessages, replaceURLParams, globalCallbacks,
 }) => {
   const routes = [
     {
@@ -19,7 +19,7 @@ const getBillRoutes = ({
       name: RouteName.BILL_DETAIL,
       path: '/:region/:businessId/bill/:billId',
       module: new BillModule({
-        integration, setRootView, pushMessage, replaceURLParams, popMessages,
+        integration, setRootView, pushMessage, replaceURLParams, popMessages, globalCallbacks,
       }),
       documentTitle: 'Bill',
     },

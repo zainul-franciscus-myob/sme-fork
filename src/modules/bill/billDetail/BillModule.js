@@ -65,7 +65,7 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 class BillModule {
   constructor({
-    integration, setRootView, pushMessage, popMessages, replaceURLParams,
+    integration, setRootView, pushMessage, popMessages, replaceURLParams, globalCallbacks,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -81,6 +81,7 @@ class BillModule {
     this.inventoryModalModule = new InventoryModalModule({ integration });
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.bill);
+    this.globalCallbacks = globalCallbacks;
   }
 
   openAccountModal = (onChange) => {
@@ -220,7 +221,10 @@ class BillModule {
   };
 
   saveBill = () => {
-    const onSuccess = () => this.finalRedirect();
+    const onSuccess = () => {
+      this.globalCallbacks.inTrayBillSaved();
+      this.finalRedirect();
+    };
 
     this.saveBillAnd({ onSuccess });
   };
@@ -229,6 +233,7 @@ class BillModule {
     this.dispatcher.closeModal();
 
     const redirectToCreateNewBill = () => {
+      this.globalCallbacks.inTrayBillSaved();
       const state = this.store.getState();
       const url = getCreateNewBillUrl(state);
       window.location.href = url;
@@ -249,6 +254,7 @@ class BillModule {
     };
 
     const onSuccess = ({ id }) => {
+      this.globalCallbacks.inTrayBillSaved();
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
 
@@ -269,6 +275,7 @@ class BillModule {
     };
 
     const onSuccess = ({ id }) => {
+      this.globalCallbacks.inTrayBillSaved();
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
       if (isCreating) {
