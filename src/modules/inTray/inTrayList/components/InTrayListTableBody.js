@@ -74,7 +74,7 @@ const getItems = allowedActions => [
   allowedActions.includes(actionTypes.createBill) && getDropdownItem(actionTypes.createBill, 'Create bill', actionTypes.createBill),
   allowedActions.includes(actionTypes.createSpendMoney) && getDropdownItem(actionTypes.createSpendMoney, 'Create spend money transaction', actionTypes.createSpendMoney),
   <Dropdown.Separator key="separator" />,
-  allowedActions.includes(actionTypes.download) && getDropdownItem(actionTypes.download, 'Donwload document', actionTypes.download),
+  allowedActions.includes(actionTypes.download) && getDropdownItem(actionTypes.download, 'Download document', actionTypes.download),
   allowedActions.includes(actionTypes.delete) && getDropdownItem(actionTypes.delete, 'Delete document', actionTypes.delete),
 ];
 
