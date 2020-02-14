@@ -22,6 +22,7 @@ import ElectronicPaymentsReadMapping from '../../modules/electronicPayments/elec
 import EmployeeMapping from '../../modules/employee/mappings/HttpEmployeeMapping';
 import EmployeePayMapping from '../../modules/employeePay/mappings/HttpEmployeePayMapping';
 import ExpensePayItemMapping from '../../modules/payItem/expensePayItem/mappings/HttpExpensePayItemMapping';
+import FileUnavailableMapping from '../../modules/fileUnavailable/mappings/HttpFileUnavailableMapping';
 import GeneralJournalMapping from '../../modules/generalJournal/mappings/HttpGeneralJournalMapping';
 import GlobalBusinessDetailsMapping from '../../root/services/businessDetails/mappings/HttpBusinessDetailsMapping';
 import HelpMapping from './HelpMapping';
@@ -146,6 +147,7 @@ const RootMapping = Object.freeze({
   ...TimesheetMapping,
   ...BankStatementImportMapping,
   ...GlobalBusinessDetailsMapping,
+  ...FileUnavailableMapping,
 });
 
 export default RootMapping;

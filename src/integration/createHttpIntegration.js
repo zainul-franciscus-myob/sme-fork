@@ -62,6 +62,7 @@ const abortRequest = (intent) => {
   }
 };
 
+
 const doFetch = (intent, urlParams, allowParallelRequests, headers, body, params) => {
   if (!allowParallelRequests) {
     abortRequest(intent);

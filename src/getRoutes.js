@@ -17,6 +17,7 @@ import getDataImportExportRoutes from './modules/dataImportExport/getDataImportE
 import getElectronicPaymentsRoutes from './modules/electronicPayments/getElectronicPaymentsRoutes';
 import getEmployeePayRoutes from './modules/employeePay/getEmployeePayRoutes';
 import getEmployeeRoutes from './modules/employee/getEmployeeRoutes';
+import getFileUnavailableRoutes from './modules/fileUnavailable/getFileUnavailableRoutes';
 import getGeneralJournalRoutes from './modules/generalJournal/getGeneralJournalRoutes';
 import getInTrayRoutes from './modules/inTray/getInTrayRoutes';
 import getIncomeAllocationRoutes from './modules/IncomeAllocation/getIncomeAllocationRoutes';
@@ -101,6 +102,7 @@ const getRoutes = moduleParams => [
   ...getStpRoutes(moduleParams),
   ...getTemplateRoutes(moduleParams),
   ...getBankStatementImportRoutes(moduleParams),
+  ...getFileUnavailableRoutes(moduleParams),
   ...getTemplateBuilderRoutes(moduleParams),
 ];
 

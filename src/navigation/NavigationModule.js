@@ -4,6 +4,7 @@ import React from 'react';
 import {
   LOAD_CONFIG, LOAD_NAVIGATION_CONFIG, SET_LOADING_STATE, SET_ROUTE_INFO,
 } from './NavigationIntents';
+import { RESET_STATE } from '../SystemIntents';
 import { featuresConfig } from './navConfig';
 import { getBusinessId, getShowUrls } from './NavigationSelectors';
 import { logout } from '../Auth';
@@ -159,6 +160,7 @@ export default class NavigationModule {
     this.setOnPageTransition(onPageTransition);
     if (previousBusinessId !== currentBusinessId && currentBusinessId) {
       this.loadBusinessInfo();
+      this.store.dispatch({ intent: RESET_STATE });
     }
   }
 }
