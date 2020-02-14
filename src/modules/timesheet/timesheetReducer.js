@@ -120,9 +120,19 @@ const isUpdatingRow = (targetIndex, index) => (
   targetIndex === index
 );
 
+const isCellChanged = (row, { name, value }) => {
+  if (!row) return false;
+  if (isWeekDayField(name)) {
+    return row[name].hours !== value;
+  }
+
+  return row[name] !== value;
+};
+
 const setTimesheetCell = (state, { index, name, value }) => ({
   ...state,
-  timesheetIsDirty: true,
+  timesheetIsDirty: state.timesheetIsDirty
+    || isCellChanged(state.timesheetRows[index], { name, value }),
   timesheetRows: state.timesheetRows.map((row, i) => {
     if (!isUpdatingRow(index, i)) { return row; }
 

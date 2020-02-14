@@ -392,6 +392,32 @@ describe('TimesheetModule', () => {
       expect(wrapper.find(UnsavedModal)).toHaveLength(0);
     });
 
+    it('does not render the unsaved modal if update does not change any value', () => {
+      const { module, wrapper } = constructTimesheetModule({});
+      const newUrl = '#/SOME_NEW_URL';
+
+      module.onHoursBlur(0, 'day1', '');
+      module.handlePageTransition(newUrl);
+      wrapper.update();
+
+      expect(window.location.href).toEqual(expect.stringContaining(newUrl));
+      expect(wrapper.find(UnsavedModal)).toHaveLength(0);
+    });
+
+    it('renders the unsaved modal even if the second update does not change any value', () => {
+      const { module, wrapper } = constructTimesheetModule({});
+      const initialUrl = window.location.href;
+      selectEmployee(wrapper);
+      makeTimesheetDirty(wrapper);
+      makeTimesheetDirty(wrapper);
+
+      module.handlePageTransition('#/newUrl');
+      wrapper.update();
+
+      expect(window.location.href).toEqual(initialUrl);
+      expect(wrapper.find(UnsavedModal)).toHaveLength(1);
+    });
+
     it('renders the unsaved modal if there are unsaved changes', () => {
       const { module, wrapper } = constructTimesheetModule({});
       const initialUrl = window.location.href;
