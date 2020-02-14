@@ -32,7 +32,6 @@ const ImportTabContent = ({
     >
       <Select.Option hidden value={ImportExportDataType.NONE} label="" />
       <Select.Option value={ImportExportDataType.CHART_OF_ACCOUNTS} label="Chart of accounts" />
-      {/*
       <Select.Option value={ImportExportDataType.CONTACTS} label="Contacts" />
       <Select.Option value={ImportExportDataType.EMPLOYEES} label="Employees" />
       <Select.Option value={ImportExportDataType.GENERAL_JOURNALS} label="General journals" />
@@ -40,8 +39,8 @@ const ImportTabContent = ({
       <Select.Option value={ImportExportDataType.TIMESHEETS} label="Timesheets" />
       <Select.Option
         value={ImportExportDataType.TRANSACTION_JOURNALS}
-        label="Transaction journals" />
-      */}
+        label="Transaction journals"
+      />
     </Select>
 
     {selectedDataType && {
