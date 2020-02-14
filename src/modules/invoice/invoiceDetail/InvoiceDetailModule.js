@@ -261,6 +261,10 @@ export default class InvoiceDetailModule {
     window.location.href = url;
   }
 
+  redirectToUrlInNewTab = (url) => {
+    window.open(url, '_blank');
+  }
+
   redirectToInvoiceList = () => {
     const state = this.store.getState();
     const url = getInvoiceListUrl(state);
@@ -491,7 +495,7 @@ export default class InvoiceDetailModule {
 
   redirectToRefUrl = () => {
     const url = getRedirectRefUrl(this.store.getState());
-    this.redirectToUrl(url);
+    this.redirectToUrlInNewTab(url);
   };
 
   redirectToRefPage = (ref) => {
