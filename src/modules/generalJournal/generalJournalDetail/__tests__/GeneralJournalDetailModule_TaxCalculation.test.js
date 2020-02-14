@@ -74,7 +74,7 @@ describe('GeneralJournalDetailModule', () => {
 
       test.do(module);
 
-      expect(store.getActionForIntent(GET_TAX_CALCULATIONS)).toEqual(
+      expect(store.getActions()).toContainEqual(
         {
           intent: GET_TAX_CALCULATIONS,
           taxCalculations: expect.any(Object),

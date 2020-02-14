@@ -1,11 +1,19 @@
 import {
+  CLOSE_MODAL,
+  DELETE_GENERAL_JOURNAL,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
+  SET_ALERT_MESSAGE,
+  SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
   UPDATE_GENERAL_JOURNAL_HEADER,
   UPDATE_GENERAL_JOURNAL_LINE,
 } from '../../GeneralJournalIntents';
+import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import { SUCCESSFULLY_DELETED_GENERAL_JOURNAL } from '../../GeneralJournalMessageTypes';
 import GeneralJournalDetailModule from '../GeneralJournalDetailModule';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
@@ -13,48 +21,141 @@ import generalJournalDetailReducer from '../generalJournalDetailReducer';
 
 export const setup = () => {
   const setRootView = () => {};
-  const pushMessage = () => {};
+  const pushMessage = jest.fn();
   const integration = new TestIntegration();
 
   const module = new GeneralJournalDetailModule({ integration, setRootView, pushMessage });
+  module.redirectToUrl = jest.fn();
   const store = new TestStore(generalJournalDetailReducer);
   module.store = store;
 
-  return { store, module, integration };
+  return {
+    store, module, integration, pushMessage,
+  };
 };
 
 export const setupWithExisting = () => {
-  const { store, module, integration } = setup();
-  module.run({ generalJournalId: '1' });
+  const {
+    store, module, integration, pushMessage,
+  } = setup();
+  module.run({ generalJournalId: '1', businessId: 'a💩', region: 'au' });
   store.resetActions();
   integration.resetRequests();
 
-  return { store, module, integration };
+  return {
+    store, module, integration, pushMessage,
+  };
 };
 
 export const setupWithNew = () => {
-  const { store, module, integration } = setup();
-  module.run({ generalJournalId: 'new' });
+  const {
+    store, module, integration, pushMessage,
+  } = setup();
+  module.run({ generalJournalId: 'new', businessId: 'a💩', region: 'au' });
   store.resetActions();
   integration.resetRequests();
 
-  return { store, module, integration };
+  return {
+    store, module, integration, pushMessage,
+  };
 };
 
 describe('GeneralJournalDetailModule', () => {
   describe('run', () => {
-    it('should load new', () => {
-      const { module, integration } = setup();
+    it('should successfully load new', () => {
+      const { store, module, integration } = setup();
       module.run({ generalJournalId: 'new' });
 
       expect(integration.requests).toEqual([{ intent: LOAD_NEW_GENERAL_JOURNAL }]);
+      expect(store.getActions()).toEqual([
+        {
+          context: {
+            generalJournalId: 'new',
+          },
+          intent: SET_INITIAL_STATE,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({ intent: LOAD_NEW_GENERAL_JOURNAL }),
+      ]);
     });
 
-    it('should load existing', () => {
-      const { module, integration } = setup();
+    it('should fail to load new', () => {
+      const { store, module, integration } = setup();
+      integration.mapFailure(LOAD_NEW_GENERAL_JOURNAL);
+      module.run({ generalJournalId: 'new' });
+
+      expect(integration.requests).toEqual([{ intent: LOAD_NEW_GENERAL_JOURNAL }]);
+      expect(store.getActions()).toEqual([
+        {
+          context: {
+            generalJournalId: 'new',
+          },
+          intent: SET_INITIAL_STATE,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_FAIL,
+        },
+      ]);
+    });
+
+    it('should successfully load existing', () => {
+      const { store, module, integration } = setup();
       module.run({ generalJournalId: '1' });
 
       expect(integration.requests).toEqual([{ intent: LOAD_GENERAL_JOURNAL_DETAIL }]);
+      expect(store.getActions()).toEqual([
+        {
+          context: {
+            generalJournalId: '1',
+          },
+          intent: SET_INITIAL_STATE,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({ intent: LOAD_GENERAL_JOURNAL_DETAIL }),
+      ]);
+    });
+
+    it('should fail to load ', () => {
+      const { store, module, integration } = setup();
+      integration.mapFailure(LOAD_GENERAL_JOURNAL_DETAIL);
+      module.run({ generalJournalId: '1' });
+
+      expect(integration.requests).toEqual([{ intent: LOAD_GENERAL_JOURNAL_DETAIL }]);
+      expect(store.getActions()).toEqual([
+        {
+          context: {
+            generalJournalId: '1',
+          },
+          intent: SET_INITIAL_STATE,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_FAIL,
+        },
+      ]);
     });
   });
 
@@ -65,7 +166,7 @@ describe('GeneralJournalDetailModule', () => {
 
       module.updateHeaderOptions({ key: 'isEndOfYearAdjustment', value: true });
 
-      expect(store.actions).toEqual([
+      expect(store.getActions()).toEqual([
         {
           intent: UPDATE_GENERAL_JOURNAL_HEADER,
           key: 'isEndOfYearAdjustment',
@@ -84,7 +185,11 @@ describe('GeneralJournalDetailModule', () => {
 
       module.updateGeneralJournalLine(lineIndex, lineKey, lineValue);
 
-      expect(store.getArrayOfIntents()).toEqual([UPDATE_GENERAL_JOURNAL_LINE]);
+      expect(store.getActions()).toEqual([
+        expect.objectContaining({
+          intent: UPDATE_GENERAL_JOURNAL_LINE,
+        }),
+      ]);
     });
   });
 
@@ -96,7 +201,7 @@ describe('GeneralJournalDetailModule', () => {
 
       module.openCancelModal();
 
-      expect(store.actions).toEqual([{
+      expect(store.getActions()).toEqual([{
         intent: OPEN_MODAL,
         modal: {
           type: ModalType.CANCEL,
@@ -121,7 +226,7 @@ describe('GeneralJournalDetailModule', () => {
 
       module.saveHandler();
 
-      expect(store.actions).toEqual([]);
+      expect(store.getActions()).toEqual([]);
     });
 
     it('does nothing when delete modal is open', () => {
@@ -131,7 +236,7 @@ describe('GeneralJournalDetailModule', () => {
 
       module.saveHandler();
 
-      expect(store.actions).toEqual([]);
+      expect(store.getActions()).toEqual([]);
     });
   });
 
@@ -143,7 +248,71 @@ describe('GeneralJournalDetailModule', () => {
 
       module.saveGeneralJournal();
 
-      expect(integration.getIntents()).toEqual([]);
+      expect(integration.getRequests()).toEqual([]);
+    });
+  });
+
+  describe('deleteGeneralJournal', () => {
+    it('shows alert when it fails', () => {
+      const { module, store, integration } = setupWithExisting();
+      integration.overrideMapping(DELETE_GENERAL_JOURNAL, ({ onFailure }) => onFailure({ message: 'hello' }));
+      module.openDeleteModal();
+      store.resetActions();
+
+      module.deleteGeneralJournal();
+
+      expect(integration.getRequests()).toEqual([
+        { intent: DELETE_GENERAL_JOURNAL },
+      ]);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        {
+          alertMessage: 'hello',
+          intent: SET_ALERT_MESSAGE,
+        },
+      ]);
+    });
+
+    it('redirect to transaction list with alert', () => {
+      const {
+        module, store, integration, pushMessage,
+      } = setupWithExisting();
+      module.openDeleteModal();
+      store.resetActions();
+
+      module.deleteGeneralJournal();
+
+      expect(integration.getRequests()).toEqual([
+        { intent: DELETE_GENERAL_JOURNAL },
+      ]);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+      ]);
+
+      expect(pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_DELETED_GENERAL_JOURNAL,
+        content: 'Great Work! You\'ve done it well!',
+      });
+
+      expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/a💩/transactionList');
     });
   });
 });

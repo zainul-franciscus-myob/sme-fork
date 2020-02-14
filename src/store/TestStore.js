@@ -14,11 +14,7 @@ export default class TestStore extends Store {
     this.actions.push(action);
   }
 
+  getActions = () => this.actions
+
   resetActions = () => { this.actions = []; }
-
-  hasIntent = intent => Boolean(this.actions.find(action => action.intent === intent))
-
-  getArrayOfIntents = () => this.actions.map(action => action.intent)
-
-  getActionForIntent = intent => this.actions.find(action => action.intent === intent);
 }
