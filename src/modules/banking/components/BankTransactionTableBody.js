@@ -59,6 +59,7 @@ const BankTransactionTableBody = (props) => {
     onSelectTransaction,
     onOpenBankingRuleModal,
     onAddAttachments,
+    onDownloadAttachment,
     onRemoveAttachment,
     onOpenTransferMoneyModal,
     onEditNote,
@@ -149,6 +150,7 @@ const BankTransactionTableBody = (props) => {
               <Separator />
               <OpenEntrySecondaryContent
                 onAddAttachments={onAddAttachments}
+                onDownloadAttachment={onDownloadAttachment}
                 onRemoveAttachment={onRemoveAttachment}
               />
             </>

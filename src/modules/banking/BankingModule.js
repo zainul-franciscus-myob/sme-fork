@@ -33,6 +33,7 @@ import Store from '../../store/Store';
 import bankingReducer from './bankingReducer';
 import createBankingDispatcher from './BankingDispatcher';
 import createBankingIntegrator from './BankingIntegrator';
+import openBlob from '../../common/blobOpener/openBlob';
 
 export default class BankingModule {
   constructor({
@@ -141,6 +142,7 @@ export default class BankingModule {
         onRenderBankingRuleModal={this.renderBankingRuleModal}
         onAddAttachments={this.addAttachments}
         onRemoveAttachment={this.openDeleteAttachmentModal}
+        onDownloadAttachment={this.openAttachment}
         onDeleteAttachmentModal={this.removeAttachment}
         onEditNote={setEditingNoteState}
         onPendingNoteChange={setPendingNote}
@@ -986,6 +988,37 @@ export default class BankingModule {
     } else {
       this.dispatcher.removeAttachmentByIndex(index);
     }
+  };
+
+  openAttachment = (index) => {
+    const state = this.store.getState();
+    const { id, file } = state.openEntry.attachments[index];
+
+    if (file) {
+      openBlob({ blob: file, filename: file.name, shouldDownload: true });
+      return;
+    }
+
+    this.dispatcher.setOperationInProgressState(id, true);
+
+    const onSuccess = ({ fileUrl }) => {
+      this.dispatcher.setOperationInProgressState(id, false);
+      window.open(fileUrl, '_blank');
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setOperationInProgressState(id, false);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.openAttachment({
+      onSuccess,
+      onFailure,
+      id,
+    });
   };
 
   removeAttachment = () => {

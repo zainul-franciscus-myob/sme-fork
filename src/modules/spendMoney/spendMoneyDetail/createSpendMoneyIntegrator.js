@@ -152,7 +152,7 @@ const createSpendMoneyIntegrator = (store, integration) => ({
   openAttachment: ({ onSuccess, onFailure, id }) => {
     const state = store.getState();
 
-    integration.write({
+    integration.read({
       intent: OPEN_ATTACHMENT,
       allowParallelRequests: true,
       urlParams: {

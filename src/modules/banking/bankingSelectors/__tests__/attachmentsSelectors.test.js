@@ -39,7 +39,7 @@ describe('attachmentsSelectors', () => {
           loaded: 0,
           state: 'queued',
           error: 'too large file',
-          canRemove: false,
+          canOperate: false,
           isInProgress: true,
         },
         {
@@ -48,7 +48,7 @@ describe('attachmentsSelectors', () => {
           size: 1234,
           loaded: 0,
           state: 'default',
-          canRemove: true,
+          canOperate: true,
           isInProgress: false,
         },
         {
@@ -57,7 +57,7 @@ describe('attachmentsSelectors', () => {
           size: 1000,
           loaded: 500,
           state: 'loading',
-          canRemove: false,
+          canOperate: false,
         },
       ];
 

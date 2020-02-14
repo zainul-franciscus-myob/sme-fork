@@ -9,6 +9,7 @@ import {
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
+  OPEN_ATTACHMENT,
   REMOVE_ATTACHMENT,
   SAVE_MATCH_TRANSACTION,
   SAVE_PENDING_NOTE,
@@ -29,6 +30,7 @@ import {
 } from '../bankingRule/BankingRuleIntents';
 import allocatedBankTransaction from './data/allocatedBankTransaction';
 import applyBankingRuleResponse from './data/applyBankingRuleResponse.json';
+import attachmentDetailResponse from './data/attachmentDetail';
 import attachments from './data/loadAttachmentsResponse';
 import bankTransactions from './data/loadBankTransactions';
 import bulkAllocatedBankTransaction from './data/bulkAllocatedBankTransaction';
@@ -73,6 +75,7 @@ const createBankingRule = ({ onSuccess }) => onSuccess(createBankingRuleResponse
 const applyBankingRule = ({ onSuccess }) => onSuccess(applyBankingRuleResponse);
 const loadAttachments = ({ onSuccess }) => onSuccess(attachments);
 const uploadAttachment = ({ onSuccess }) => onSuccess(uploadAttachmentResponse);
+const openAttachment = ({ onSuccess }) => onSuccess(attachmentDetailResponse);
 const removeAttachment = ({ onSuccess }) => onSuccess(successResponse);
 const unmatchTransaction = ({ onSuccess }) => onSuccess(unallocatedBankTransaction);
 const updateNote = ({ onSuccess }) => onSuccess(updateNoteResponse);
@@ -101,6 +104,7 @@ const MemoryBankingMapping = {
   [APPLY_RULE_TO_TRANSACTIONS]: applyBankingRule,
   [LOAD_ATTACHMENTS]: loadAttachments,
   [UPLOAD_ATTACHMENT]: uploadAttachment,
+  [OPEN_ATTACHMENT]: openAttachment,
   [REMOVE_ATTACHMENT]: removeAttachment,
   [SAVE_PENDING_NOTE]: updateNote,
 };

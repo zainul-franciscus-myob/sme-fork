@@ -11,7 +11,7 @@ export const getAttachments = createSelector(
     loaded: attachment.uploadProgress ? Math.round(attachment.size * attachment.uploadProgress) : 0,
     state: attachment.state || 'default',
     error: attachment.error,
-    canRemove: !['queued', 'loading'].includes(attachment.state),
+    canOperate: !['queued', 'loading'].includes(attachment.state),
     isInProgress: attachment.isInProgress,
     file: attachment.file,
   })),

@@ -82,6 +82,7 @@ const BankingView = (props) => {
     onOpenTransferMoneyModal,
     onRenderBankingRuleModal,
     onAddAttachments,
+    onDownloadAttachment,
     onRemoveAttachment,
     onDeleteAttachmentModal,
     onEditNote,
@@ -186,6 +187,7 @@ const BankingView = (props) => {
           onOpenBankingRuleModal={onOpenBankingRuleModal}
           onOpenTransferMoneyModal={onOpenTransferMoneyModal}
           onAddAttachments={onAddAttachments}
+          onDownloadAttachment={onDownloadAttachment}
           onRemoveAttachment={onRemoveAttachment}
           onEditNote={onEditNote}
           onPendingNoteChange={onPendingNoteChange}

@@ -1,5 +1,5 @@
 import {
-  Button, Columns, DropZone, FileChip,
+  Button, Columns, DropZone, FileChip, Icons,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -40,25 +40,27 @@ const SpendMoneyAttachmentsContent = ({
         <Columns type="two">
           {
             attachments.map(({
-              name, state, id, canRemove, isInProgress, ...otherProps
+              state, id, canRemove, isInProgress, ...otherProps
             }, index) => (
               <div key={id || index} className={isInProgress ? styles.inProgress : ''}>
                 <FileChip
-                  name={
-                    id ? (
-                      <Button
-                        type="link"
-                        onClick={wrapAttachmentHandler(onOpenAttachment, index)}
-                      >
-                        {name}
-                      </Button>
-                    ) : name
-                  }
                   state={state}
                   {...otherProps}
                   onRemove={
                     canRemove ? wrapAttachmentHandler(onRemoveAttachment, index) : undefined}
-                />
+                >
+                  {
+                    id && (
+                      <Button
+                        type="secondary"
+                        onClick={wrapAttachmentHandler(onOpenAttachment, index)}
+                        icon={<Icons.Download />}
+                        aria-label="Download file"
+                        size="xs"
+                      />
+                    )
+                  }
+                </FileChip>
               </div>
             ))
           }

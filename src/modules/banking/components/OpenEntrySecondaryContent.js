@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAttachments, getIsAttachmentsLoading } from '../bankingSelectors/attachmentsSelectors';
-import openBlob from '../../../common/blobOpener/openBlob';
 import styles from './OpenEntrySecondaryContent.module.css';
 
 const wrapAttachmentHandler = (handler, index) => () => handler(index);
@@ -37,12 +36,11 @@ const spinner = (
   </div>
 );
 
-const downloadAttachment = file => openBlob({ blob: file, filename: file.name });
-
 const OpenEntrySecondaryContent = ({
   attachments,
   isAttachmentsLoading,
   onAddAttachments,
+  onDownloadAttachment,
   onRemoveAttachment,
 }) => {
   const dropzone = isAttachmentsLoading ? spinner : (
@@ -54,20 +52,20 @@ const OpenEntrySecondaryContent = ({
         <Columns type="two">
           {
             attachments.map(({
-              id, canRemove, isInProgress, file, ...otherProps
+              id, canOperate, isInProgress, ...otherProps
             }, index) => (
               <div key={id || index} className={isInProgress ? styles.inProgress : ''}>
                 <FileChip
                   {...otherProps}
                   onRemove={
-                    canRemove ? wrapAttachmentHandler(onRemoveAttachment, index) : undefined
+                    canOperate ? wrapAttachmentHandler(onRemoveAttachment, index) : undefined
                   }
                 >
                   {
-                    file && canRemove && (
+                    canOperate && (
                       <Button
                         type="secondary"
-                        onClick={() => downloadAttachment(file)}
+                        onClick={wrapAttachmentHandler(onDownloadAttachment, index)}
                         icon={<Icons.Download />}
                         aria-label="Download file"
                         size="xs"

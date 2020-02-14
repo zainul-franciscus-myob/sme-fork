@@ -92,6 +92,7 @@ const BankTransactionTable = ({
   onSelectAllTransactions,
   onOpenBankingRuleModal,
   onAddAttachments,
+  onDownloadAttachment,
   onRemoveAttachment,
   onEditNote,
   onPendingNoteChange,
@@ -159,6 +160,7 @@ const BankTransactionTable = ({
       onOpenBankingRuleModal={onOpenBankingRuleModal}
       onOpenTransferMoneyModal={onOpenTransferMoneyModal}
       onAddAttachments={onAddAttachments}
+      onDownloadAttachment={onDownloadAttachment}
       onRemoveAttachment={onRemoveAttachment}
       onEditNote={onEditNote}
       onPendingNoteChange={onPendingNoteChange}

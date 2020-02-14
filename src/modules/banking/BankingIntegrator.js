@@ -9,6 +9,7 @@ import {
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
+  OPEN_ATTACHMENT,
   REMOVE_ATTACHMENT,
   SAVE_MATCH_TRANSACTION,
   SAVE_PENDING_NOTE,
@@ -35,7 +36,10 @@ import {
   getSortOrder,
   getUnallocationPayload,
 } from './bankingSelectors';
-import { getBulkAllocationPayload, getBulkUnallocationPayload } from './bankingSelectors/bulkAllocationSelectors';
+import {
+  getBulkAllocationPayload,
+  getBulkUnallocationPayload,
+} from './bankingSelectors/bulkAllocationSelectors';
 import {
   getCreateTransferMoneyPayload,
   getMatchTransferMoneyPayload,
@@ -489,6 +493,21 @@ const createBankingIntegrator = (store, integration) => ({
       onSuccess,
       onFailure,
       onProgress,
+    });
+  },
+
+  openAttachment: ({ onSuccess, onFailure, id }) => {
+    const state = store.getState();
+
+    integration.read({
+      intent: OPEN_ATTACHMENT,
+      allowParallelRequests: true,
+      urlParams: {
+        businessId: getBusinessId(state),
+        documentId: id,
+      },
+      onSuccess,
+      onFailure,
     });
   },
 

@@ -9,6 +9,7 @@ import {
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
+  OPEN_ATTACHMENT,
   REMOVE_ATTACHMENT,
   SAVE_MATCH_TRANSACTION,
   SAVE_PENDING_NOTE,
@@ -116,6 +117,10 @@ const HttpBankingMapping = {
   [UPLOAD_ATTACHMENT]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/upload_attachment`,
+  },
+  [OPEN_ATTACHMENT]: {
+    method: 'GET',
+    getPath: ({ businessId, documentId }) => `/${businessId}/banking/load_attachment_detail/${documentId}`,
   },
   [REMOVE_ATTACHMENT]: {
     method: 'DELETE',

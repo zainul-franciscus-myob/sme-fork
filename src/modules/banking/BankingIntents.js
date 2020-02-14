@@ -76,6 +76,7 @@ export const UPLOAD_ATTACHMENT = Symbol('Upload attachment');
 export const UPDATE_UPLOAD_PROGRESS = Symbol('Update upload progress');
 export const UPLOAD_ATTACHMENT_FAILED = Symbol('Upload attachment failed');
 export const OPEN_REMOVE_ATTACHMENT_MODAL = Symbol('Open remove attachment modal');
+export const OPEN_ATTACHMENT = Symbol('Open attachment');
 export const REMOVE_ATTACHMENT = Symbol('Remove attachment');
 export const REMOVE_ATTACHMENT_BY_INDEX = Symbol('Remove attachment by index');
 export const SET_OPERATION_IN_PROGRESS_STATE = Symbol('Set operation in progress state');
