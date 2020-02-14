@@ -23,7 +23,7 @@ export const getSelectedDate = state => state.selectedDate;
 export const getDisplayStartStopTimes = state => state.displayStartStopTimes;
 export const getAlert = state => state.alert;
 export const getModal = state => state.modal;
-export const getFormattedHours = hours => formatNumberWithDecimalScaleRange(hours, 2, 3);
+export const getFormattedHours = hours => (hours !== '' ? formatNumberWithDecimalScaleRange(hours, 2, 3) : '');
 
 const days = [
   'day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7',
