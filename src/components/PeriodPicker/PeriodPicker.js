@@ -1,7 +1,7 @@
 import {
   DatePicker, FilterBar, Select,
 } from '@myob/myob-widgets';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Periods from './Periods';
 import getDateRangeByPeriodAndRegion from './getDateRangeByPeriodAndRegion';
@@ -15,6 +15,12 @@ const PeriodPicker = ({
   period,
   onChange,
 }) => {
+  useEffect(() => {
+    if (Periods.custom !== period) {
+      onChange(getDateRangeByPeriodAndRegion(region, new Date(), period));
+    }
+  }, [dateFrom, dateTo, onChange, period, region]);
+
   const onPeriodChange = handleSelectChange(({ value }) => {
     if (value === Periods.custom) {
       onChange({ period: value, dateFrom, dateTo });
