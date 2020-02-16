@@ -235,7 +235,7 @@ export const getPrefillStatus = state => state.prefillStatus;
 
 export const getShowPrefillInfo = state => state.showPrefillInfo;
 
-const getInTrayUrl = createSelector(
+export const getInTrayUrl = createSelector(
   getBusinessId,
   getRegion,
   (businessId, region) => `/#/${region}/${businessId}/inTray`,

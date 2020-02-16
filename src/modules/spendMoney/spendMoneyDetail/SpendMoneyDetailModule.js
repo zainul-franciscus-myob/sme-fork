@@ -10,6 +10,7 @@ import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalc
 import {
   getFilesForUpload,
   getInTrayDocumentId,
+  getInTrayUrl,
   getIsCreating,
   getIsCreatingFromInTray,
   getIsLineAmountsTaxInclusive,
@@ -196,13 +197,18 @@ export default class SpendMoneyDetailModule {
   };
 
   openCancelModal = () => {
+    const state = this.store.getState();
+    const isCreatingFromIntray = getIsCreatingFromInTray(state);
     if (isPageEdited(this.store.getState())) {
-      const state = this.store.getState();
+      const intrayUrl = getInTrayUrl(state);
       const transactionListUrl = getTransactionListUrl(state);
-      this.dispatcher.openModal({ type: ModalType.CANCEL, url: transactionListUrl });
-    } else {
-      this.redirectToTransactionList();
-    }
+
+      if (isCreatingFromIntray) {
+        this.dispatcher.openModal({ type: ModalType.CANCEL, url: intrayUrl });
+      } else { this.dispatcher.openModal({ type: ModalType.CANCEL, url: transactionListUrl }); }
+    } else if (isCreatingFromIntray) {
+      this.redirectToInTrayList();
+    } else this.redirectToTransactionList();
   };
 
   openDeleteModal = () => {
@@ -225,6 +231,13 @@ export default class SpendMoneyDetailModule {
     if (url) {
       window.location.href = url;
     }
+  }
+
+  redirectToInTrayList = () => {
+    const state = this.store.getState();
+    const inTrayUrl = getInTrayUrl(state);
+
+    window.location.href = inTrayUrl;
   }
 
   redirectToTransactionList = () => {
