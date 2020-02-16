@@ -22,6 +22,7 @@ import ElectronicPaymentsReadMapping from '../../modules/electronicPayments/elec
 import EmployeeMapping from '../../modules/employee/mappings/HttpEmployeeMapping';
 import EmployeePayMapping from '../../modules/employeePay/mappings/HttpEmployeePayMapping';
 import ExpensePayItemMapping from '../../modules/payItem/expensePayItem/mappings/HttpExpensePayItemMapping';
+import FeatureTogglesMapping from '../../featureToggles/mappings/HttpFeatureTogglesMapping';
 import FileUnavailableMapping from '../../modules/fileUnavailable/mappings/HttpFileUnavailableMapping';
 import GeneralJournalMapping from '../../modules/generalJournal/mappings/HttpGeneralJournalMapping';
 import GlobalBusinessDetailsMapping from '../../root/services/businessDetails/mappings/HttpBusinessDetailsMapping';
@@ -74,6 +75,7 @@ import UserMapping from '../../modules/user/mappings/HttpUserMapping';
 import WagePayItemMapping from '../../modules/payItem/wagePayItem/mappings/HttpWagePayItemMapping';
 
 const RootMapping = Object.freeze({
+  ...FeatureTogglesMapping,
   ...DeductionPayItemMapping,
   ...BusinessMapping,
   ...ContactMapping,

@@ -9,6 +9,7 @@ import Inbox from './inbox';
 import RootModule from './root/rootModule';
 import Router from './router/Router';
 import getRoutes from './getRoutes';
+import loadFeatureToggles from './featureToggles/loadFeatureToggles';
 import stopResizeAnimation from './stopResizeAnimation';
 import unbindAllKeys from './hotKeys/unbindAllKeys';
 
@@ -37,6 +38,8 @@ async function main(integrationType, telemetryType, leanEngageType) {
     ReactDOM.render(rootModule.render(component), root);
   };
 
+  const featureToggles = await loadFeatureToggles(integration);
+
   const routes = getRoutes({
     integration,
     setRootView,
@@ -45,6 +48,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     replaceURLParams: router.replaceURLParams,
     reload: router.reload,
     globalCallbacks: rootModule.globalCallbacks,
+    featureToggles,
   });
 
   const moduleList = routes.map(route => route.module);
