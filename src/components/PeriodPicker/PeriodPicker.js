@@ -15,9 +15,17 @@ const PeriodPicker = ({
   period,
   onChange,
 }) => {
+  /**
+   * When user select `This month`, `period`, `dateFrom` and `dateTo` are cached in storage.
+   * In the following month, when we pass these stored data to PeriodPicker,
+   * period is set to `This month`, while `dateFrom` and `dateTo` is data from last month.
+   * E.g in 1st Feb, we can have period: `This month`, dateFrom: `1st Jan`, dateTo: `31 Jan`.
+   */
   useEffect(() => {
     if (Periods.custom !== period) {
-      onChange(getDateRangeByPeriodAndRegion(region, new Date(), period));
+      const dates = getDateRangeByPeriodAndRegion(region, new Date(), period);
+      if (dateFrom === dates.dateFrom || dateTo === dates.dateTo) return;
+      onChange(dates);
     }
   }, [dateFrom, dateTo, onChange, period, region]);
 
