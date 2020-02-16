@@ -79,7 +79,7 @@ const UploadOptionsModal = ({
       <p>
         We&apos;ve partnered with a number of large suppliers to have their invoices
         automatically sent to you.&nbsp;
-        <a href="https://www.myob.com/au/accounting-software/invoice-feeds#signup" target="_blank" rel="noopener noreferrer">
+        <a href="https://help.myob.com/wiki/x/qp5qAg" target="_blank" rel="noopener noreferrer">
           Learn more
         </a>
       </p>

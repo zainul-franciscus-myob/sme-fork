@@ -72,7 +72,7 @@ const OnlinePaymentOptions = ({
         pay direct from their emailed invoice -
         meaning you get paid faster and minimise the risk of overdue payments.
         <br />
-        <a href="https://help.myob.com/wiki/display/ea/Online+payments" target="_blank" rel="noopener noreferrer">Learn more</a>
+        <a href="https://help.myob.com/wiki/x/r51qAg" target="_blank" rel="noopener noreferrer">Learn more</a>
       </p>
       <LinkButton
         href={payDirectLink}

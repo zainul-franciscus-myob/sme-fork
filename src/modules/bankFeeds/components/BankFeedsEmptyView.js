@@ -2,7 +2,7 @@ import { Card, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCreateBankFeedsUrl, getLearnMoreBankFeedsLink } from '../BankFeedsSelectors';
+import { getCreateBankFeedsUrl } from '../BankFeedsSelectors';
 import { tableConfig } from './BankAccountsTable';
 import BankAccountsTableHeader from './BankAccountsTableHeader';
 import LinkButton from '../../../components/Button/LinkButton';
@@ -11,9 +11,9 @@ import TableView from '../../../components/TableView/TableView';
 import getBankAccountsTableResponsiveConfig from './getBankAccountsTableResponsiveConfig';
 
 const BankFeedsEmptyView = ({
-  learnMoreBankFeedsLink,
   manageBankFeedsLink,
 }) => {
+  const learnMoreBankFeedsLink = 'https://help.myob.com/wiki/x/GaRqAg';
   const emptyViewActions = [
     <LinkButton
       key={1}
@@ -59,7 +59,6 @@ const BankFeedsEmptyView = ({
 
 const mapStateToProps = state => ({
   manageBankFeedsLink: getCreateBankFeedsUrl(state),
-  learnMoreBankFeedsLink: getLearnMoreBankFeedsLink(state),
 });
 
 export default connect(mapStateToProps)(BankFeedsEmptyView);

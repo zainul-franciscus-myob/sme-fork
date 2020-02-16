@@ -83,9 +83,3 @@ export const getCreateBankFeedsUrl = createSelector(
     return `${baseUrl}${queryParams}`;
   },
 );
-
-export const getLearnMoreBankFeedsLink = createSelector(
-  getBusinessId,
-  getRegion,
-  (businessId, region) => `/#/${region}/${businessId}/banking`,
-);
