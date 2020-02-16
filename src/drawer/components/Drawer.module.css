@@ -60,13 +60,16 @@
   }
 }
 
+@media (min-width: 1430px) {
+  .drawer {
+    position: sticky;
+  }
+}
+
 @media (min-width: 1600px) {
   :root {
     --drawer-width: 390px;
     --animate-drawer-offset: -390px;
-  }
-  .drawer {
-    position: sticky;
   }
 }
 

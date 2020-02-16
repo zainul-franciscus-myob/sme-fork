@@ -8,7 +8,7 @@
   max-width: 100%;
 }
 
-@media (min-width: 1200px) and (max-width: 1600px) {
+@media (min-width: 1200px) and (max-width: 1429px) {
   .navAndRootView {
     transform: translate(0px);
     transition-duration: 0.5s;
@@ -16,5 +16,6 @@
 
   :global(.drawer-open) .navAndRootView {
     transform: translate(var(--drawer-width));
+    flex: none;
   }
 }
