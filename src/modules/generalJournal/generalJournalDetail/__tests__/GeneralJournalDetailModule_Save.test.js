@@ -8,7 +8,8 @@ describe('GeneralJournalDetailModule', () => {
     {
       name: 'save from unsaved modal',
       setup: (module) => {
-        module.openUnsavedModal('/#/au/a💩/transactionList');
+        module.addGeneralJournalLine({ accountId: '4' }); // edit page
+        module.handlePageTransition('/#/au/a💩/transactionList');
       },
       do: (module) => {
         module.saveHandler();

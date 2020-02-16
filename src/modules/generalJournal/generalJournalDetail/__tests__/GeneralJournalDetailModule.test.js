@@ -17,6 +17,8 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
+import createGeneralJournalDispatcher from '../createGeneralJournalDisptacher';
+import createGeneralJournalIntegrator from '../createGeneralJournalIntegrator';
 import generalJournalDetailReducer from '../generalJournalDetailReducer';
 
 export const setup = () => {
@@ -28,6 +30,8 @@ export const setup = () => {
   module.redirectToUrl = jest.fn();
   const store = new TestStore(generalJournalDetailReducer);
   module.store = store;
+  module.dispatcher = createGeneralJournalDispatcher(module.store);
+  module.integrator = createGeneralJournalIntegrator(store, integration);
 
   return {
     store, module, integration, pushMessage,
@@ -59,6 +63,20 @@ export const setupWithNew = () => {
     store, module, integration, pushMessage,
   };
 };
+
+export const setupEditedPage = () => {
+  const {
+    store, module, integration, pushMessage,
+  } = setupWithExisting();
+  module.addGeneralJournalLine({ accountId: '4' }); // edit page
+  integration.resetRequests();
+  store.resetActions();
+
+  return {
+    store, module, integration, pushMessage,
+  };
+};
+
 
 describe('GeneralJournalDetailModule', () => {
   describe('run', () => {
@@ -195,9 +213,7 @@ describe('GeneralJournalDetailModule', () => {
 
   describe('openCancelModal', () => {
     it('opens when page is edited', () => {
-      const { module, store } = setupWithExisting();
-      module.addGeneralJournalLine({ accountId: '1' });
-      store.resetActions();
+      const { module, store } = setupEditedPage();
 
       module.openCancelModal();
 
@@ -213,16 +229,9 @@ describe('GeneralJournalDetailModule', () => {
 
   describe('saveHandler', () => {
     it('does nothing when cancel modal is open', () => {
-      const setupEditedPage = () => {
-        const { module, store } = setupWithExisting();
-        module.addGeneralJournalLine({ accountId: '1' });
-        module.openCancelModal();
-        store.resetActions();
-
-        return { module, store };
-      };
-
       const { module, store } = setupEditedPage();
+      module.openCancelModal();
+      store.resetActions();
 
       module.saveHandler();
 
@@ -243,7 +252,7 @@ describe('GeneralJournalDetailModule', () => {
   describe('saveGeneralJournal', () => {
     it('does nothing when already submitting', () => {
       const { module, store, integration } = setupWithExisting();
-      module.setSubmittingState(true);
+      module.dispatcher.setSubmittingState(true);
       store.resetActions();
 
       module.saveGeneralJournal();
@@ -313,6 +322,32 @@ describe('GeneralJournalDetailModule', () => {
       });
 
       expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/a💩/transactionList');
+    });
+  });
+
+  describe('handlePageTransition', () => {
+    it('redirects when page not edited', () => {
+      const { module } = setupWithExisting();
+
+      module.handlePageTransition('/#/au/a💩/transactionList');
+
+      expect(module.redirectToUrl).toHaveBeenCalledWith('/#/au/a💩/transactionList');
+    });
+
+    it('open unsaved modal when page edited', () => {
+      const { module, store } = setupEditedPage();
+
+      module.handlePageTransition('/#/au/a💩/transactionList');
+
+      expect(store.actions).toEqual([
+        {
+          intent: OPEN_MODAL,
+          modal: {
+            type: ModalType.UNSAVED,
+            url: '/#/au/a💩/transactionList',
+          },
+        },
+      ]);
     });
   });
 });

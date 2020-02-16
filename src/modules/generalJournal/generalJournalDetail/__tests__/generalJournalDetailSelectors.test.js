@@ -1,7 +1,13 @@
 import {
-  getGeneralJournalForCreatePayload,
-  getGeneralJournalForUpdatePayload,
+  CREATE_GENERAL_JOURNAL,
+  LOAD_GENERAL_JOURNAL_DETAIL,
+  LOAD_NEW_GENERAL_JOURNAL,
+  UPDATE_GENERAL_JOURNAL,
+} from '../../GeneralJournalIntents';
+import {
   getIsOutOfBalanced,
+  getLoadGeneralJournalRequest,
+  getSaveGeneralJournalRequest,
 } from '../generalJournalDetailSelectors';
 
 describe('generalJournalSelectors', () => {
@@ -21,21 +27,92 @@ describe('generalJournalSelectors', () => {
     },
   };
 
-  describe('getGeneralJournalForUpdatePayload', () => {
-    it('removes extraneous fields from the update payload', () => {
-      const actual = getGeneralJournalForUpdatePayload(generalJournalPayloadInput);
-      expect(actual.depositIntoAccounts).toBeUndefined();
-      expect(actual.payFromContacts).toBeUndefined();
-      expect(actual.originalReferenceId).toBeUndefined();
+  describe('getSaveGeneralJournalRequest', () => {
+    it('gets create request', () => {
+      const state = {
+        ...generalJournalPayloadInput,
+        generalJournalId: 'new',
+        businessId: '🦵🏾',
+      };
+      const actual = getSaveGeneralJournalRequest(state);
+      expect(actual).toEqual({
+        intent: CREATE_GENERAL_JOURNAL,
+        content: {
+          date: '12-1-2017',
+          description: 'txt',
+          isReportable: 'true',
+          isTaxInclusive: 'false',
+          lines: [{ a: 'foo' }],
+          referenceId: 'foo',
+          selectedPayFromAccountId: 'bar',
+          selectedPayToContactId: 'contactId',
+        },
+        urlParams: {
+          businessId: '🦵🏾',
+        },
+      });
+    });
+
+    it('gets update request', () => {
+      const state = {
+        ...generalJournalPayloadInput,
+        generalJournalId: '123',
+        businessId: '🦵🏾',
+      };
+      const actual = getSaveGeneralJournalRequest(state);
+      expect(actual).toEqual({
+        intent: UPDATE_GENERAL_JOURNAL,
+        content: {
+          date: '12-1-2017',
+          description: 'txt',
+          isReportable: 'true',
+          isTaxInclusive: 'false',
+          lines: [{ a: 'foo' }],
+          referenceId: 'foo',
+          selectedPayFromAccountId: 'bar',
+          selectedPayToContactId: 'contactId',
+          depositIntoAccounts: [1, 2, 3, 4],
+          originalReferenceId: '1234',
+          payFromContacts: [1, 2, 3, 4],
+        },
+        urlParams: {
+          businessId: '🦵🏾',
+          generalJournalId: '123',
+        },
+      });
     });
   });
 
-  describe('getGeneralJournalForCreatePayload', () => {
-    it('removes extraneous fields from the create payload', () => {
-      const actual = getGeneralJournalForCreatePayload(generalJournalPayloadInput);
-      expect(actual.depositIntoAccounts).toBeUndefined();
-      expect(actual.payFromContacts).toBeUndefined();
-      expect(actual.originalReferenceId).toBeUndefined();
+  describe('getLoadGeneralJournalRequest', () => {
+    it('gets load new request', () => {
+      const state = {
+        ...generalJournalPayloadInput,
+        generalJournalId: 'new',
+        businessId: '🦵🏾',
+      };
+      const actual = getLoadGeneralJournalRequest(state);
+      expect(actual).toEqual({
+        intent: LOAD_NEW_GENERAL_JOURNAL,
+        urlParams: {
+          businessId: '🦵🏾',
+        },
+      });
+    });
+
+    it('gets load existing request', () => {
+      const state = {
+        ...generalJournalPayloadInput,
+        generalJournalId: '123',
+        businessId: '🦵🏾',
+      };
+      const actual = getLoadGeneralJournalRequest(state);
+      expect(actual).toEqual({
+        intent: LOAD_GENERAL_JOURNAL_DETAIL,
+        urlParams: {
+          businessId: '🦵🏾',
+          generalJournalId: '123',
+        },
+      });
     });
   });
 

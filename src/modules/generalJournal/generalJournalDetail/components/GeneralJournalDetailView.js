@@ -24,7 +24,6 @@ const GeneralJournalDetailView = ({
   onConfirmDeleteButtonClick,
   alertMessage,
   onDismissAlert,
-  isCreating,
   loadingState,
   pageTitle,
   modal,
@@ -39,7 +38,6 @@ const GeneralJournalDetailView = ({
 
   const actions = (
     <GeneralJournalDetailActions
-      isCreating={isCreating}
       onSaveButtonClick={onSaveButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}

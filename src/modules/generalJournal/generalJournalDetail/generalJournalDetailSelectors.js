@@ -1,5 +1,11 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import {
+  CREATE_GENERAL_JOURNAL,
+  LOAD_GENERAL_JOURNAL_DETAIL,
+  LOAD_NEW_GENERAL_JOURNAL,
+  UPDATE_GENERAL_JOURNAL,
+} from '../GeneralJournalIntents';
 import ModalType from './ModalType';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
@@ -8,6 +14,7 @@ const getDate = state => state.generalJournal.date;
 const getDescription = state => state.generalJournal.description;
 const getGSTReportingMethod = state => state.generalJournal.gstReportingMethod;
 const getIsEndOfYearAdjustment = state => state.generalJournal.isEndOfYearAdjustment;
+export const getIsCreating = state => state.generalJournalId === 'new';
 export const getIsTaxInclusive = state => state.generalJournal.isTaxInclusive;
 
 export const getHeaderOptions = createStructuredSelector({
@@ -95,9 +102,9 @@ export const getNewLineData = state => state.newLine;
 
 export const getIndexOfLastLine = state => state.generalJournal.lines.length - 1;
 
-export const getGeneralJournal = state => state.generalJournal;
+const getGeneralJournal = state => state.generalJournal;
 
-export const getGeneralJournalId = state => state.generalJournal.id;
+export const getGeneralJournalId = state => state.generalJournalId;
 
 export const getTotals = state => state.totals;
 export const getIsOutOfBalanced = state => state.totals.totalOutOfBalance !== '$0.00';
@@ -107,7 +114,7 @@ const getGeneralJournalLines = createSelector(
   generalJournal => generalJournal.lines,
 );
 
-export const getGeneralJournalForCreatePayload = (state) => {
+const getGeneralJournalForCreatePayload = (state) => {
   const {
     depositIntoAccounts,
     payFromContacts,
@@ -124,23 +131,6 @@ export const getGeneralJournalForCreatePayload = (state) => {
     ...rest,
     lines: linesForPayload,
     referenceId: referenceIdForPayload,
-  };
-};
-
-export const getGeneralJournalForUpdatePayload = (state) => {
-  const {
-    depositIntoAccounts,
-    payFromContacts,
-    originalReferenceId,
-    lines,
-    ...rest
-  } = getGeneralJournal(state);
-
-  const linesForPayload = getGeneralJournalLines(state);
-
-  return {
-    ...rest,
-    lines: linesForPayload,
   };
 };
 
@@ -215,3 +205,45 @@ export const getIsLineAmountsTaxInclusive = (state, isSwitchingTaxInclusive) => 
     isSwitchingTaxInclusive ? !isTaxInclusive : isTaxInclusive
   );
 };
+
+export const getSaveGeneralJournalRequest = createSelector(
+  getBusinessId,
+  getGeneralJournalId,
+  getIsCreating,
+  getGeneralJournalForCreatePayload,
+  getGeneralJournal,
+  (businessId, generalJournalId, isCreating, createPayload, updatePayload) => {
+    const content = isCreating ? createPayload : updatePayload;
+    const urlParams = isCreating ? {
+      businessId,
+    } : {
+      businessId,
+      generalJournalId,
+    };
+    const intent = isCreating ? CREATE_GENERAL_JOURNAL : UPDATE_GENERAL_JOURNAL;
+    return {
+      intent,
+      content,
+      urlParams,
+    };
+  },
+);
+
+export const getLoadGeneralJournalRequest = createSelector(
+  getBusinessId,
+  getGeneralJournalId,
+  getIsCreating,
+  (businessId, generalJournalId, isCreating) => {
+    const urlParams = isCreating ? {
+      businessId,
+    } : {
+      businessId,
+      generalJournalId,
+    };
+    const intent = isCreating ? LOAD_NEW_GENERAL_JOURNAL : LOAD_GENERAL_JOURNAL_DETAIL;
+    return {
+      intent,
+      urlParams,
+    };
+  },
+);
