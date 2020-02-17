@@ -23,7 +23,7 @@ export default (region, cdfguid) => [
     description:
       'Ensure the right accounts are setup for easy allocation in the future',
     key: 'accounts',
-    title: 'Review accounts list',
+    title: 'Review chart of accounts',
     closeEvent: 'accountsListReviewed',
     isComplete: true,
     template: 'drawer',
