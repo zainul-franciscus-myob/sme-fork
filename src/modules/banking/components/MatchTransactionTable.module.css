@@ -10,6 +10,7 @@
 
 .descriptionContainer {
   display: flex;
+  min-width: 11.8rem;
 }
 
 /* @FEELIX */

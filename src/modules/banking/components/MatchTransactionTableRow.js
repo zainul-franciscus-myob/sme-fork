@@ -91,11 +91,9 @@ const MatchTransactionTableRow = React.memo((props) => {
       </Table.RowItem>
       <Table.RowItem {...tableConfig.date}>{date}</Table.RowItem>
       <Table.RowItem {...tableConfig.referenceId}>{entryLink}</Table.RowItem>
-      <Table.RowItem {...tableConfig.description}>
-        <div className={styles.descriptionContainer}>
-          <div className={styles.description}>{description}</div>
-          { badgeText && <Label color={badgeColor && badgeColor} type="boxed" size="small">{badgeText}</Label>}
-        </div>
+      <Table.RowItem {...tableConfig.description} className={styles.descriptionContainer}>
+        <div className={styles.description}>{description}</div>
+        { badgeText && <Label color={badgeColor && badgeColor} type="boxed" size="small">{badgeText}</Label>}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.amount}>{displayTotalAmount}</Table.RowItem>
       <Table.RowItem {...tableConfig.discount}>
