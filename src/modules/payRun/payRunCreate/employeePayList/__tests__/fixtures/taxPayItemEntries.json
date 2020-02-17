@@ -1,21 +1,5 @@
 [
   {
-    "payItemId": "4",
-    "payItemName": "Superannuation deduction before tax",
-    "type": "SuperannuationDeductionBeforeTax",
-    "amount": "200.00",
-    "hours": "0.00",
-    "shouldShowHours": false
-  },
-  {
-    "payItemId": "5",
-    "payItemName": "Superannuation deduction after tax",
-    "type": "SuperannuationDeductionAfterTax",
-    "amount": "100.00",
-    "hours": "0.00",
-    "shouldShowHours": false
-  },
-  {
     "payItemId": "11",
     "payItemName": "PayGWithholding",
     "type": "Tax",

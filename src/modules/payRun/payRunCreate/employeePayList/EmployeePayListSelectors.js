@@ -131,10 +131,10 @@ const isWagePayItem = payItemType => [
 ].includes(payItemType);
 const isDeductionPayItem = payItemType => [
   'Deduction',
-].includes(payItemType);
-const isTaxPayItem = payItemType => [
   'SuperannuationDeductionBeforeTax',
   'SuperannuationDeductionAfterTax',
+].includes(payItemType);
+const isTaxPayItem = payItemType => [
   'Tax',
 ].includes(payItemType);
 const isLeavePayItem = payItemType => payItemType === 'Entitlement';
