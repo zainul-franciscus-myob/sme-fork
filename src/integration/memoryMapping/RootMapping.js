@@ -68,6 +68,7 @@ import SupplierReturnMapping from '../../modules/supplierReturn/mappings/MemoryS
 import SupplierReturnPurchaseMapping from '../../modules/supplierReturnPurchase/mappings/MemorySupplierReturnPurchaseMapping';
 import TaskMapping from './TaskMapping';
 import TaxMapping from '../../modules/tax/mappings/MemoryTaxMapping';
+import TemplateBuilderMapping from '../../modules/templateBuilder/mappings/MemoryTemplateBuilderMapping';
 import TemplateMapping from '../../modules/template/mappings/MemoryTemplateMapping';
 import TimesheetMapping from '../../modules/timesheet/mappings/MemoryTimesheetMapping';
 import TransferMoneyMapping from '../../modules/transferMoney/mappings/MemoryTransferMoneyMapping';
@@ -148,6 +149,7 @@ const RootMapping = Object.freeze({
   ...StpReportingCentreMapping,
   ...StpSetupMapping,
   ...TemplateMapping,
+  ...TemplateBuilderMapping,
   ...BankStatementImportMapping,
   ...GlobalBusinessDetailsMapping,
   ...FileUnavailableMapping,

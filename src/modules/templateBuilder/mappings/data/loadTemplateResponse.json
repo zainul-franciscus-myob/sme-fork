@@ -1,0 +1,28 @@
+{
+  "template": {
+    "templateId": 2,
+    "templateName": "SLW template - Header option",
+    "featureColour": "#12EFFD",
+    "headerTextColour": "#000000",
+    "useAddressEnvelopePosition": false,
+    "headerBusinessDetailsStyle": "FullWidthHeaderImage",
+    "headerImage": "",
+    "logoImage": "",
+    "logoSize": 70,
+    "businessDetailsPlacement": "Right",
+    "businessDetailsOptions": ["TradingName", "BusinessName"],
+    "isDefault": true
+  },
+  "businessDetails": {
+    "tradingName": "Winstons Carrot Company",
+    "businessName": "WCC Pty Ltd",
+    "address": "33 Daffodil lane\nGarden Grove\nVIC, 3131",
+    "phoneNumber": "03 9555 4567",
+    "email": "support@winstonscc.com.au",
+    "website": "www.winstonscc.com.au",
+    "abn": "80 000 000 001"
+  },
+  "saleLayout": "Service",
+  "isAllowPaymentByDirectDeposit": true,
+  "isAllowPaymentByCheque": true
+}

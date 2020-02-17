@@ -1,0 +1,14 @@
+{
+  "businessDetails": {
+    "tradingName": "Winstons Carrot Company",
+    "businessName": "WCC Pty Ltd",
+    "address": "33 Daffodil lane\nGarden Grove\nVIC, 3131",
+    "phoneNumber": "03 9555 4567",
+    "email": "support@winstonscc.com.au",
+    "website": "www.winstonscc.com.au",
+    "abn": "80 000 000 001"
+  },
+  "saleLayout": "ItemAndService",
+  "isAllowPaymentByDirectDeposit": true,
+  "isAllowPaymentByCheque": true
+}

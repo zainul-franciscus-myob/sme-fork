@@ -1,11 +1,8 @@
 import {
   Button,
   Card,
-  Checkbox,
-  CheckboxGroup,
   FileBrowser,
   Icons,
-  Input,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -22,10 +19,8 @@ import {
 } from '../../template/templateSelectors';
 import ColorPicker from '../../../components/ColorPicker/ColorPicker';
 import Slider from '../../../components/RangeSlider/RangeSlider';
-import cardStyles from './InvoiceLogoDetailsHeaderInformation.module.css';
-import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
+import cardStyles from './cardStyles.module.css';
 import handleColorPickerChange from '../../../components/handlers/handleColorPickerChange';
-import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleSliderChange from '../../../components/handlers/handleSliderChange';
 import styles from '../../template/components/TemplateDetailsHeaderInformation.module.css';
 
@@ -35,45 +30,14 @@ const InvoiceLogoDetailsHeaderInformation = ({
   image,
   imageButtonLabel,
   imageLabel,
-  isDefault,
   logoSize,
   onFileRemoved,
   onFileSelected,
   onUpdateTemplateOptions,
   showBusinessDetails,
-  templateName,
 }) => {
-  const templateOptions = (
-    <>
-      <Input
-        label="Name"
-        name="templateName"
-        onChange={handleInputChange(onUpdateTemplateOptions)}
-        requiredLabel="This field is required"
-        value={templateName}
-      />
-
-      <CheckboxGroup
-        hideLabel
-        label="Set as default template"
-        renderCheckbox={() => (
-          <div>
-            <Checkbox
-              checked={isDefault}
-              label="Set as default template"
-              name="isDefault"
-              onChange={handleCheckboxChange(onUpdateTemplateOptions)}
-            />
-          </div>
-        )}
-      />
-    </>
-  );
-
   const logo = (
     <>
-      <h3>Upload your logo</h3>
-
       <p>
         Give your invoices a splash of colour and personality.
         These settings will also apply to quotes and statements.
@@ -178,13 +142,12 @@ const InvoiceLogoDetailsHeaderInformation = ({
     <Card
       body={
         <>
-          {templateOptions}
           {logo}
           {colours}
         </>
       }
       classes={cardStyles.card}
-      header={<span className={cardStyles.title}>Template options</span>}
+      header={<span className={cardStyles.title}>Upload your logo</span>}
     />
   );
 };

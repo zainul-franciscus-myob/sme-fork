@@ -15,6 +15,7 @@ import {
 import InvoiceLogoView from './InvoiceLogoView';
 import ModalTypes from '../../template/ModalTypes';
 import Store from '../../../store/Store';
+import TemplateBuilderService from '../services/template';
 import createTemplateDispatcher from '../../template/createTemplateDispatcher';
 import createTemplateIntegrator from '../../template/createTemplateIntegrator';
 import templateReducer from '../../template/templateReducer';
@@ -29,6 +30,7 @@ class InvoiceLogoModule {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.uploadedLogoCallback = uploadedLogo;
+    this.templateBuilderService = TemplateBuilderService(this.dispatcher, integration, this.store);
   }
 
   unsubscribeFromStore = () => this.store.unsubscribeAll();
@@ -62,46 +64,11 @@ class InvoiceLogoModule {
   run = (context) => {
     this.setInitialState(context);
     this.render();
-    this.loadTemplate(context.templateName);
+    this.templateBuilderService.loadDefaultTemplate();
 
     const shouldLoadPayDirect = getShouldLoadPayDirect(this.store.getState());
 
     if (shouldLoadPayDirect) { this.loadPayDirect(); }
-  };
-
-  loadTemplate = (templateName) => {
-    if (!templateName) {
-      this.loadNewTemplate();
-      return;
-    }
-
-    this.dispatcher.setLoadingState(true);
-
-    const onSuccess = (payload) => {
-      this.dispatcher.setLoadingState(false);
-      this.dispatcher.loadTemplate(payload);
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setLoadingState(false);
-    };
-
-    this.integrator.loadTemplate({ templateName, onSuccess, onFailure });
-  };
-
-  loadNewTemplate = () => {
-    this.dispatcher.setLoadingState(true);
-
-    const onSuccess = (payload) => {
-      this.dispatcher.setLoadingState(false);
-      this.dispatcher.loadNewTemplate(payload);
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setLoadingState(false);
-    };
-
-    this.integrator.loadNewTemplate({ onSuccess, onFailure });
   };
 
   loadPayDirect = () => {

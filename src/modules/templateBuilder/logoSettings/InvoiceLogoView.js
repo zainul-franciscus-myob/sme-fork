@@ -30,10 +30,10 @@ import {
   getUseAddressEnvelopePosition,
 } from '../../template/templateSelectors';
 import InvoiceLogoDetails from './InvoiceLogoDetails';
+import InvoiceTemplatePreview from './InvoiceTemplatePreview';
 import PageView from '../../../components/PageView/PageView';
 import PreviewTemplate from '../../../components/PreviewTemplate/PreviewTemplate';
 import TemplateModal from '../../template/components/TemplateModal';
-import TemplatePreview from '../../template/components/TemplatePreview/TemplatePreview';
 import styles from '../../template/components/TemplatePreviewHeader.module.css';
 
 const InvoiceLogoView = ({
@@ -95,7 +95,7 @@ const InvoiceLogoView = ({
   );
 
   const preview = (
-    <TemplatePreview
+    <InvoiceTemplatePreview
       abn={abn}
       businessName={businessName}
       email={email}
