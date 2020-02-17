@@ -19,7 +19,6 @@ const ApplyToSaleView = ({
   title,
   onUpdateApplyToSaleOption,
   onUpdateTableAmountInput,
-  onBlurTableAmountInput,
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
@@ -58,10 +57,7 @@ const ApplyToSaleView = ({
         onConfirmDeleteButtonClick={onConfirmDeleteButtonClick}
       />
       )}
-      <ApplyToSaleTable
-        onUpdateTableAmountInput={onUpdateTableAmountInput}
-        onBlurTableAmountInput={onBlurTableAmountInput}
-      />
+      <ApplyToSaleTable onUpdateTableAmountInput={onUpdateTableAmountInput} />
     </LineItemTemplate>
   );
 

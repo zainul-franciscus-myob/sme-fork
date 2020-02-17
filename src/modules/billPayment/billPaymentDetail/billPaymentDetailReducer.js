@@ -1,6 +1,5 @@
 import {
   CLOSE_MODAL,
-  FORMAT_AMOUNT_INPUT,
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
@@ -124,18 +123,6 @@ const updateReferenceId = (state, action) => ({
   originalReferenceId: action.referenceId,
 });
 
-const formatAmountInput = (state, action) => ({
-  ...state,
-  entries: state.entries.map((entry, index) => (
-    index === action.index && action.value.length > 0
-      ? {
-        ...entry,
-        [action.key]: Number(action.value) ? Number(action.value).toFixed(2) : '',
-      }
-      : entry
-  )),
-});
-
 const openModal = (state, action) => ({
   ...state,
   modalType: action.modalType,
@@ -163,7 +150,6 @@ const handlers = {
   [UPDATE_TABLE_INPUT_FIELD]: updateTableInputField,
   [UPDATE_REFERENCE_ID]: updateReferenceId,
   [SET_SUBMITTING_STATE]: setSubmittingState,
-  [FORMAT_AMOUNT_INPUT]: formatAmountInput,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,

@@ -39,7 +39,7 @@ const LimitSection = ({
         onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
         onBlur={onBlurExpensePayItemAmountInput}
         numeralIntegerScale={3}
-        decimalScale={5}
+        numeralDecimalScaleMax={5}
         numeralPositiveOnly
       />
       <PayItemCombobox
@@ -62,7 +62,7 @@ const LimitSection = ({
         onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
         onBlur={onBlurExpensePayItemAmountInput}
         numeralIntegerScale={13}
-        decimalScale={2}
+        numeralDecimalScaleMax={2}
         numeralPositiveOnly
       />
       <Select

@@ -17,7 +17,6 @@ import TransferMoneyDetailModal from './TransferMoneyDetailModal';
 
 const TransferMoneyDetailView = ({
   onUpdateForm,
-  onAmountInputBlur,
   alertMessage,
   onDismissAlert,
   onSave,
@@ -65,7 +64,6 @@ const TransferMoneyDetailView = ({
         <TransferMoneyDetailForm
           isCreating={isCreating}
           onUpdateForm={onUpdateForm}
-          onAmountInputBlur={onAmountInputBlur}
         />
       </Card>
       { actions }

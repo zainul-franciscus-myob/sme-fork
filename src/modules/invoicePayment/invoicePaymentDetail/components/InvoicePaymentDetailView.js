@@ -44,7 +44,6 @@ const InvoicePaymentDetailView = ({
   onConfirmCancel,
   onConfirmSaveButtonClick,
   onConfirmUnsaveButtonClick,
-  onAmountInputBlur,
 }) => {
   const actions = (
     <InvoicePaymentDetailActions
@@ -102,10 +101,7 @@ const InvoicePaymentDetailView = ({
             />
           </div>
         )}
-        <InvoicePaymentDetailTable
-          onUpdateInvoicePaymentEntries={onUpdateInvoicePaymentEntries}
-          onAmountInputBlur={onAmountInputBlur}
-        />
+        <InvoicePaymentDetailTable onUpdateInvoicePaymentEntries={onUpdateInvoicePaymentEntries} />
       </LineItemTemplate>
     </React.Fragment>
   );

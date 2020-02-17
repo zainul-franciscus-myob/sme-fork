@@ -74,7 +74,7 @@ const EmployeeDetailPaymentDetails = ({
                   {valueOptionsSelect}
                 </Select>
                 <AmountInput
-                  decimalScale={6}
+                  numeralDecimalScaleMax={6}
                   label={`Amount ${account.amountLabel}`}
                   name="amount"
                   value={account.amount}

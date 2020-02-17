@@ -45,7 +45,7 @@ const WageDetails = ({
           key="annualSalary"
           name="annualSalary"
           label="Annual salary $"
-          decimalScale={2}
+          numeralDecimalScaleMax={2}
           numeralIntegerScale={13}
           numeralPositiveOnly
           value={annualSalary}
@@ -57,7 +57,7 @@ const WageDetails = ({
           key="hourlyRate"
           name="hourlyRate"
           label="Hourly rate $"
-          decimalScale={4}
+          numeralDecimalScaleMax={4}
           numeralIntegerScale={12}
           numeralPositiveOnly
           value={hourlyRate}
@@ -79,7 +79,7 @@ const WageDetails = ({
           key="payPeriodHours"
           name="payPeriodHours"
           label="Hours in a pay cycle"
-          decimalScale={3}
+          numeralDecimalScaleMax={3}
           numeralIntegerScale={3}
           numeralPositiveOnly
           value={payPeriodHours}

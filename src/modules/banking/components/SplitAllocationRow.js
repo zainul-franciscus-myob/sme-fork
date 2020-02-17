@@ -77,7 +77,7 @@ const SplitAllocationRow = (props) => {
       <AmountInput
         label="Quantity"
         hideLabel
-        decimalScale={6}
+        numeralDecimalScaleMax={6}
         numeralIntegerScale={19}
         name="quantity"
         value={quantity}

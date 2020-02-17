@@ -37,7 +37,6 @@ const BankReconciliationView = ({
   isModalActive,
   isActionDisabled,
   onUpdateHeaderOption,
-  onAmountInputBlur,
   onSelectRow,
   onSelectAll,
   onSort,
@@ -57,7 +56,6 @@ const BankReconciliationView = ({
   const templateOptions = (
     <BankReconciliationOptions
       onUpdateHeaderOption={onUpdateHeaderOption}
-      onAmountInputBlur={onAmountInputBlur}
       onUndoReconciliationClick={onUndoReconciliationClick}
     />
   );

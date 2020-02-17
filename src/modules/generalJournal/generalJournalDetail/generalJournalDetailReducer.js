@@ -2,7 +2,6 @@ import {
   ADD_GENERAL_JOURNAL_LINE,
   CLOSE_MODAL,
   DELETE_GENERAL_JOURNAL_LINE,
-  FORMAT_GENERAL_JOURNAL_LINE,
   GET_TAX_CALCULATIONS,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
@@ -13,9 +12,7 @@ import {
   UPDATE_GENERAL_JOURNAL_HEADER,
   UPDATE_GENERAL_JOURNAL_LINE,
 } from '../GeneralJournalIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getDefaultTaxCodeId, getIsSale } from './generalJournalDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
@@ -68,26 +65,6 @@ const getDefaultState = () => ({
 const pageEdited = { isPageEdited: true };
 
 const resetState = () => (getDefaultState());
-const formatLine = (state, action) => ({
-  ...state,
-  generalJournal: {
-    ...state.generalJournal,
-    lines: state.generalJournal.lines.map(
-      (line, index) => {
-        const isUpdatingDebit = action.key === 'debitAmount';
-        const isUpdatingCredit = action.key === 'creditAmount';
-        if (index !== action.index || (!isUpdatingDebit && !isUpdatingCredit)) return line;
-        const displayDebitAmount = isUpdatingDebit ? formatAmount(line.debitAmount) : '';
-        const displayCreditAmount = isUpdatingCredit ? formatAmount(line.creditAmount) : '';
-        return {
-          ...line,
-          displayDebitAmount,
-          displayCreditAmount,
-        };
-      },
-    ),
-  },
-});
 
 const isAccountLineItem = lineKey => lineKey === 'accountId';
 
@@ -300,7 +277,6 @@ const handlers = {
   [UPDATE_GENERAL_JOURNAL_LINE]: updateLine,
   [ADD_GENERAL_JOURNAL_LINE]: addLine,
   [DELETE_GENERAL_JOURNAL_LINE]: deleteLine,
-  [FORMAT_GENERAL_JOURNAL_LINE]: formatLine,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT_MESSAGE]: setAlertMessage,

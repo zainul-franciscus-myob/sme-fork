@@ -1,7 +1,6 @@
 import {
   ADD_RECEIVE_MONEY_LINE,
   DELETE_RECEIVE_MONEY_LINE,
-  FORMAT_RECEIVE_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
@@ -121,27 +120,6 @@ describe('receiveMoneyDetailReducer', () => {
       const actual = receiveMoneyReducer(state, action);
 
       expect(actual.isLineEdited).toEqual(true);
-    });
-  });
-
-  describe('FORMAT_RECEIVE_MONEY_LINE', () => {
-    it('sets displayAmount to 0.00 when amount is empty', () => {
-      const state = {
-        receiveMoney: {
-          lines: [
-            { amount: '' },
-          ],
-        },
-      };
-
-      const action = {
-        intent: FORMAT_RECEIVE_MONEY_LINE,
-        index: 0,
-      };
-
-      const actual = receiveMoneyReducer(state, action);
-
-      expect(actual.receiveMoney.lines[0].displayAmount).toEqual('0.00');
     });
   });
 

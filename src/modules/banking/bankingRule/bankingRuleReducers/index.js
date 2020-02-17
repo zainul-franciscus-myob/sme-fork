@@ -2,7 +2,6 @@ import {
   ADD_CONDITION_PREDICATE,
   ADD_RULE_CONDITION,
   ADD_TABLE_ROW,
-  FORMAT_AMOUNT,
   REMOVE_CONDITION_PREDICATE,
   REMOVE_TABLE_ROW,
   SET_ALERT,
@@ -20,9 +19,7 @@ import {
   updateConditionPredicate,
   updateRuleCondition,
 } from './conditionHandlers';
-import {
-  addTableRow, formatAmount, removeTableRow, updateTableRow,
-} from './allocationHandlers';
+import { addTableRow, removeTableRow, updateTableRow } from './allocationHandlers';
 import { getRuleTypes } from '../bankingRuleSelectors';
 import { tabIds } from '../../tabItems';
 import FieldTypes from '../FieldTypes';
@@ -96,7 +93,6 @@ const bankingRuleHandlers = {
   [ADD_TABLE_ROW]: addTableRow,
   [UPDATE_TABLE_ROW]: updateTableRow,
   [REMOVE_TABLE_ROW]: removeTableRow,
-  [FORMAT_AMOUNT]: formatAmount,
   [SET_ALERT]: setAlert,
   [SET_SAVING_STATE]: setSavingState,
 };

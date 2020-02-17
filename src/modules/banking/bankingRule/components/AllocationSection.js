@@ -30,7 +30,6 @@ const AllocationSection = (
     onAddAllocationLine,
     onUpdateAllocationLine,
     onRemoveAllocationLine,
-    onBlurAmountField,
     allocations,
     contacts,
     contactId,
@@ -83,7 +82,6 @@ const AllocationSection = (
     />
     <AllocationTable
       tableData={allocations}
-      onRowInputBlur={onBlurAmountField}
       onAddRow={onAddAllocationLine}
       onRowChange={onUpdateAllocationLine}
       onRemoveRow={onRemoveAllocationLine}

@@ -1,16 +1,4 @@
-const copyEventWithValue = (e, newValue) => {
-  const { name } = e.target;
-
-  return {
-    ...e,
-    target: {
-      ...e.target,
-      name,
-      value: newValue,
-      rawValue: newValue,
-    },
-  };
-};
+import copyEventWithValue from './copyEventWithValue';
 
 const buildAmountInputChangeEvent = (e, currentValue) => {
   const { rawValue } = e.target;

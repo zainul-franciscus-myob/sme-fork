@@ -20,7 +20,6 @@ describe('BillPaymentDetailView', () => {
           onCancelButtonClick={() => {}}
           onDeleteButtonClick={() => {}}
           onSaveButtonClick={() => {}}
-          onAmountInputBlur={() => {}}
           onCancelModal={() => {}}
           onCloseModal={() => {}}
           onDeleteModal={() => {}}

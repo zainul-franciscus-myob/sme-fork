@@ -26,7 +26,6 @@ const BillPaymentDetailTable = ({
   emptyViewType,
   onUpdateTableInputField,
   shouldDisableFields,
-  onAmountInputBlur,
   isTableEmpty,
   isTableLoading,
 }) => {
@@ -81,7 +80,9 @@ const BillPaymentDetailTable = ({
                 name="discountAmount"
                 value={row.discountAmount}
                 onChange={onInputFieldChange(onUpdateTableInputField, index)}
-                onBlur={onInputFieldChange(onAmountInputBlur, index)}
+                onBlur={onInputFieldChange(onUpdateTableInputField, index)}
+                numeralDecimalScaleMin={2}
+                numeralDecimalScaleMax={2}
                 label="discountAmount"
                 hideLabel
                 numeralPositiveOnly
@@ -95,7 +96,9 @@ const BillPaymentDetailTable = ({
                 name="paidAmount"
                 value={row.paidAmount}
                 onChange={onInputFieldChange(onUpdateTableInputField, index)}
-                onBlur={onInputFieldChange(onAmountInputBlur, index)}
+                onBlur={onInputFieldChange(onUpdateTableInputField, index)}
+                numeralDecimalScaleMin={2}
+                numeralDecimalScaleMax={2}
                 label="paidAmount"
                 hideLabel
               />

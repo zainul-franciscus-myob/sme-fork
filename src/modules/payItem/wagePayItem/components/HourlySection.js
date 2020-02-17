@@ -1,13 +1,8 @@
-import {
-  Checkbox, CheckboxGroup, Select,
-} from '@myob/myob-widgets';
+import { Checkbox, CheckboxGroup, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getPayRateList,
-  getWage,
-} from '../wagePayItemSelector';
+import { getPayRateList, getWage } from '../wagePayItemSelector';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import OverrideAccount from './OverrideAccount';
 import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
@@ -42,7 +37,7 @@ const HourlySection = ({
           name="payRateMultiplier"
           label="payRateMultiplier"
           hideLabel
-          decimalScale={4}
+          numeralDecimalScaleMax={4}
           numeralIntegerScale={3}
           numeralPositiveOnly
           value={wage.payRateMultiplier}
@@ -56,7 +51,7 @@ const HourlySection = ({
           name="fixedHourlyPayRate"
           label="fixedHourlyPayRate"
           hideLabel
-          decimalScale={4}
+          numeralDecimalScaleMax={4}
           numeralIntegerScale={13}
           numeralPositiveOnly
           value={wage.fixedHourlyPayRate}

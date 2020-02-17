@@ -7,7 +7,6 @@ import {
   CREATE_RECEIVE_MONEY,
   DELETE_RECEIVE_MONEY,
   DELETE_RECEIVE_MONEY_LINE,
-  FORMAT_RECEIVE_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
@@ -228,20 +227,10 @@ export default class ReceiveMoneyDetailModule {
     this.store.dispatch({ intent: GET_TAX_CALCULATIONS, lines, totals });
   }
 
-  formatReceiveMoneyLine = (index) => {
-    const intent = FORMAT_RECEIVE_MONEY_LINE;
-
-    this.store.dispatch({
-      intent,
-      index,
-    });
-  }
-
-  formatAndCalculateTotals = (line) => {
+  formatAndCalculateTotals = () => {
     const state = this.store.getState();
     const isLineEdited = getIsLineEdited(state);
     if (isLineEdited) {
-      this.formatReceiveMoneyLine(line);
       this.getCalculatedTotals(false);
     }
   }

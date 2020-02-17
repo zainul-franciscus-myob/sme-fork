@@ -21,8 +21,6 @@ const onAmountInputChange = (name, onChange) => (e) => {
   });
 };
 
-const onInputBlur = (handler, index, key) => () => handler({ index, key });
-
 const onComboboxChange = (name, onChange) => (item) => {
   onChange({
     target: {
@@ -74,8 +72,7 @@ const GeneralJournalDetailRow = ({
         value={displayDebitAmount}
         disabled={isDebitDisabled}
         onChange={onAmountInputChange('debitAmount', onChange)}
-        onBlur={onInputBlur(onRowInputBlur, index, 'debitAmount')}
-        decimalScale={2}
+        onBlur={onRowInputBlur}
       />
       <AmountInput
         label="Credit amount"
@@ -83,16 +80,16 @@ const GeneralJournalDetailRow = ({
         value={displayCreditAmount}
         disabled={isCreditDisabled}
         onChange={onAmountInputChange('creditAmount', onChange)}
-        onBlur={onInputBlur(onRowInputBlur, index, 'creditAmount')}
-        decimalScale={2}
+        onBlur={onRowInputBlur}
       />
       <AmountInput
         label="Quantity"
         name="quantity"
         value={quantity}
         onChange={onAmountInputChange('quantity', onChange)}
-        onBlur={onInputBlur(onRowInputBlur, index, 'quantity')}
-        decimalScale={6}
+        onBlur={onAmountInputChange('quantity', onChange)}
+        numeralDecimalScaleMin={0}
+        numeralDecimalScaleMax={6}
         numeralIntegerScale={13}
       />
       <TextArea

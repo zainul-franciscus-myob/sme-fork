@@ -1,5 +1,4 @@
 export const LOAD_GENERAL_JOURNAL_DETAIL = Symbol('Load a general journal entry data');
-export const FORMAT_GENERAL_JOURNAL_LINE = Symbol('Format general journal line');
 export const OPEN_MODAL = Symbol('Open a modal');
 export const CLOSE_MODAL = Symbol('Close a modal');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');

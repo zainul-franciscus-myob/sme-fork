@@ -5,11 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
 
-import {
-  getIsActionDisabled,
-  getIsOutOfBalance,
-  getOptions,
-} from '../BankReconciliationSelectors';
+import { getIsActionDisabled, getIsOutOfBalance, getOptions } from '../BankReconciliationSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import handleAmountInputChange from '../../../components/handlers/handleAmountInputChange';
@@ -31,7 +27,6 @@ const BankReconciliationOptions = ({
   isActionDisabled,
   isOutOfBalance,
   onUpdateHeaderOption,
-  onAmountInputBlur,
   onUndoReconciliationClick,
 }) => {
   const primary = (
@@ -90,10 +85,11 @@ const BankReconciliationOptions = ({
           label="Closing bank statement balance ($)"
           requiredLabel="This is required"
           textAlign="right"
-          decimalScale={2}
+          numeralDecimalScaleMin={2}
+          numeralDecimalScaleMax={2}
           value={closingBankStatementBalance}
           onChange={handleAmountInputChange(onUpdateHeaderOption)}
-          onBlur={handleAmountInputChange(onAmountInputBlur)}
+          onBlur={handleAmountInputChange(onUpdateHeaderOption)}
         />
       </div>
       <div className={styles.closingBankStatementBalance}>

@@ -53,10 +53,6 @@ export default class BankingRuleModule {
     this.dispatcher.removeTableRow(index);
   }
 
-  formatAmount = ({ index }) => {
-    this.dispatcher.formatAmount(index);
-  }
-
   createBankingRule = () => {
     this.dispatcher.setSavingState(true);
 
@@ -93,7 +89,6 @@ export default class BankingRuleModule {
         onAddAllocationLine={this.addTableRow}
         onUpdateAllocationLine={this.updateTableRow}
         onRemoveAllocationLine={this.removeTableRow}
-        onBlurAmountField={this.formatAmount}
         onCancel={this.closeModal}
         onSave={this.createBankingRule}
       />

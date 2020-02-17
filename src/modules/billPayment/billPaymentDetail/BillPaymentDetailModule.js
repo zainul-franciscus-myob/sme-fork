@@ -5,7 +5,6 @@ import {
   CLOSE_MODAL,
   CREATE_BILL_PAYMENT,
   DELETE_BILL_PAYMENT,
-  FORMAT_AMOUNT_INPUT,
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
@@ -315,15 +314,6 @@ export default class BillPaymentModule {
     });
   }
 
-  formatAmountInput = ({ key, value, index }) => {
-    this.store.dispatch({
-      intent: FORMAT_AMOUNT_INPUT,
-      key,
-      value,
-      index,
-    });
-  }
-
   render = () => {
     const billPaymentView = (
       <BillPaymentView
@@ -332,7 +322,6 @@ export default class BillPaymentModule {
         onSaveButtonClick={this.saveBillPayment}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
-        onAmountInputBlur={this.formatAmountInput}
         onCloseModal={this.closeModal}
         onCancelModal={this.redirectToTransactionList}
         onDeleteModal={this.deleteBillPayment}

@@ -47,7 +47,7 @@ const LeavePayItemCalculationBasis = ({
           onChange={handleAmountInputChange(onCalculationBasisChange)}
           onBlur={handleAmountInputChange(onCalculationBasisAmountChange)}
           numeralIntegerScale={3}
-          decimalScale={5}
+          numeralDecimalScaleMax={5}
         />
         <PayItemCombobox
           label="Percent of"
@@ -68,7 +68,7 @@ const LeavePayItemCalculationBasis = ({
           onChange={handleAmountInputChange(onCalculationBasisChange)}
           onBlur={handleAmountInputChange(onCalculationBasisAmountChange)}
           numeralIntegerScale={13}
-          decimalScale={3}
+          numeralDecimalScaleMax={3}
         />
         <Select
           name="calculationBasisPeriod"

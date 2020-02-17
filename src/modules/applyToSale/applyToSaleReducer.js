@@ -1,5 +1,4 @@
 import {
-  FORMAT_TABLE_AMOUNT_INPUT,
   LOAD_APPLY_TO_SALE,
   LOAD_NEW_APPLY_TO_SALE,
   SET_ALERT_MESSAGE,
@@ -12,7 +11,6 @@ import {
 } from './ApplyToSaleIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
-import formatAmount from './formatAmount';
 import formatIsoDate from '../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
@@ -127,20 +125,6 @@ const updateTableAmountInput = (state, action) => ({
   }),
 });
 
-const formatTableAmountInput = (state, action) => ({
-  ...state,
-  invoices: state.invoices.map((invoice, index) => {
-    if (index === action.index) {
-      return {
-        ...invoice,
-        displayAmountApplied: Number(invoice.displayAmountApplied) ? formatAmount(invoice.displayAmountApplied) : '',
-        displayDiscount: Number(invoice.displayDiscount) ? formatAmount(invoice.displayDiscount) : '',
-      };
-    }
-    return invoice;
-  }),
-});
-
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -153,7 +137,6 @@ const handlers = {
   [LOAD_APPLY_TO_SALE]: loadApplyToSale,
   [UPDATE_APPLY_TO_SALE_OPTION]: updateApplyToSaleOption,
   [UPDATE_TABLE_AMOUNT_INPUT]: updateTableAmountInput,
-  [FORMAT_TABLE_AMOUNT_INPUT]: formatTableAmountInput,
 };
 
 const applyToSaleReducer = createReducer(getDefaultState(), handlers);

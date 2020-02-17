@@ -112,7 +112,7 @@ const GeneralPayrollInformationView = (props) => {
                 value={roundNetPay}
                 onChange={handleInputChange(onGeneralPayrollInformationChange)}
                 numeralIntegerScale={3}
-                decimalScale={0}
+                numeralDecimalScaleMax={0}
                 labelAccessory={(
                   <Tooltip>
                     {"We'll round the pay down to the nearest cent value you enter."}

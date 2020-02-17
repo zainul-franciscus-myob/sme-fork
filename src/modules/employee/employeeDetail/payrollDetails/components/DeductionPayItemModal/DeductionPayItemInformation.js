@@ -39,7 +39,7 @@ const DeductionPayItemInformation = ({
       <AmountInput
         name="calculationPercentage"
         label="Percentage %"
-        decimalScale={5}
+        numeralDecimalScaleMax={5}
         numeralIntegerScale={3}
         value={calculationPercentage}
         onChange={handleAmountInputChange(onChange)}
@@ -85,7 +85,7 @@ const DeductionPayItemInformation = ({
       <AmountInput
         name="limitPercentage"
         label="Percentage %"
-        decimalScale={5}
+        numeralDecimalScaleMax={5}
         numeralIntegerScale={3}
         value={limitPercentage}
         onChange={handleAmountInputChange(onChange)}

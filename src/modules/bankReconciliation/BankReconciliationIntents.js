@@ -12,7 +12,6 @@ export const CREATE_BANK_RECONCILIATION = Symbol('Create bank reconciliation');
 export const UNDO_BANK_RECONCILIATION = Symbol('Undo bank reconciliation');
 export const UPDATE_RESULT = Symbol('Update bank reconciliation result');
 export const UPDATE_HEADER_OPTION = Symbol('Update header option');
-export const FORMAT_AMOUNT = Symbol('Format amount');
 export const SELECT_ROW = Symbol('Select row');
 export const SELECT_ALL = Symbol('Select all');
 export const SET_SORT_ORDER = Symbol('Set sort order');

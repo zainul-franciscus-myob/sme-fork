@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AutoFormatter from '../AutoFormatterCore/AutoFormatterWithMessage';
+import buildAmountInputBlurEvent from './buildAmountInputBlurEvent';
 import buildAmountInputChangeEvent from './buildAmountInputChangeEvent';
 
 const handleOnChange = (handle, currentValue) => (event) => {
@@ -11,11 +12,27 @@ const handleOnChange = (handle, currentValue) => (event) => {
   }
 };
 
+const handleOnBlur = (
+  handle, numeralDecimalScaleMin, numeralDecimalScaleMax,
+) => (event) => {
+  if (!handle) return;
+
+  const maybeEvent = buildAmountInputBlurEvent(
+    event, numeralDecimalScaleMin, numeralDecimalScaleMax,
+  );
+
+  if (maybeEvent) {
+    handle(maybeEvent);
+  }
+};
+
 const AmountInput = ({
-  decimalScale = 2,
+  numeralDecimalScaleMin = 0,
+  numeralDecimalScaleMax = 2,
   numeralIntegerScale,
   numeralPositiveOnly,
   onChange,
+  onBlur,
   value,
   requiredLabel,
   ...props
@@ -23,12 +40,13 @@ const AmountInput = ({
   <AutoFormatter
     {...props}
     onChange={handleOnChange(onChange, value)}
+    onBlur={handleOnBlur(onBlur, numeralDecimalScaleMin, numeralDecimalScaleMax)}
     value={value}
     requiredLabel={requiredLabel}
     options={{
       numeral: true,
       numeralThousandsGroupStyle: 'thousand',
-      numeralDecimalScale: decimalScale,
+      numeralDecimalScale: numeralDecimalScaleMax,
       numeralIntegerScale,
       numeralPositiveOnly,
     }}

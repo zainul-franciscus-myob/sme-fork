@@ -4,7 +4,6 @@ import {
   ADD_TABLE_ROW,
   CHANGE_TABLE_ROW,
   CLOSE_MODAL,
-  FORMAT_AMOUNT,
   OPEN_MODAL,
   REMOVE_CONDITION_PREDICATE,
   REMOVE_TABLE_ROW,
@@ -15,10 +14,7 @@ import {
   UPDATE_FORM,
   UPDATE_RULE_CONDITION,
 } from './BankingRuleDetailIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
 const createBankingRuleDetailDispatcher = store => ({
   setInitialState: (context) => {
@@ -100,13 +96,6 @@ const createBankingRuleDetailDispatcher = store => ({
   removeTableRow: (index) => {
     store.dispatch({
       intent: REMOVE_TABLE_ROW,
-      index,
-    });
-  },
-
-  formatAmount: (index) => {
-    store.dispatch({
-      intent: FORMAT_AMOUNT,
       index,
     });
   },

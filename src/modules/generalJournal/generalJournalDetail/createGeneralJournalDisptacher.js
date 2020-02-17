@@ -2,7 +2,6 @@ import {
   ADD_GENERAL_JOURNAL_LINE,
   CLOSE_MODAL,
   DELETE_GENERAL_JOURNAL_LINE,
-  FORMAT_GENERAL_JOURNAL_LINE,
   GET_TAX_CALCULATIONS,
   LOAD_GENERAL_JOURNAL_DETAIL,
   LOAD_NEW_GENERAL_JOURNAL,
@@ -82,13 +81,6 @@ const createGeneralJournalDispatcher = store => ({
     store.dispatch({
       intent: GET_TAX_CALCULATIONS,
       taxCalculations,
-    });
-  },
-  formatGeneralJournalLine: ({ index, key }) => {
-    store.dispatch({
-      intent: FORMAT_GENERAL_JOURNAL_LINE,
-      index,
-      key,
     });
   },
   updateGeneralJournalHeader: ({ key, value }) => {

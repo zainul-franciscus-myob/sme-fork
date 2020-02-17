@@ -104,6 +104,9 @@ const MatchTransactionTableRow = React.memo((props) => {
             value={discountAmount}
             textAlign="right"
             onChange={handleAmountChange(index, onUpdate)}
+            onBlur={handleAmountChange(index, onUpdate)}
+            numeralDecimalScaleMin={2}
+            numeralDecimalScaleMax={2}
           />
         )}
       </Table.RowItem>
@@ -117,6 +120,9 @@ const MatchTransactionTableRow = React.memo((props) => {
           maxLength={13}
           infoBody={overAmount && <InfoMessage type={type} overAmount={overAmount} />}
           onChange={handleAmountChange(index, onUpdate)}
+          onBlur={handleAmountChange(index, onUpdate)}
+          numeralDecimalScaleMin={2}
+          numeralDecimalScaleMax={2}
         />
       </Table.RowItem>
     </Table.Row>

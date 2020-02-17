@@ -23,7 +23,6 @@ const TransferMoneyDetailForm = ({
     transferFrom,
     transferTo,
   },
-  onAmountInputBlur,
   onUpdateForm,
   isCreating,
 }) => {
@@ -35,9 +34,10 @@ const TransferMoneyDetailForm = ({
         name="amount"
         value={amount}
         onChange={handleAmountInputChange(onUpdateForm)}
-        onBlur={onAmountInputBlur}
+        onBlur={handleAmountInputChange(onUpdateForm)}
         numeralIntegerScale={13}
-        decimalScale={5}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={5}
         disabled={!isCreating}
         textAlign="right"
         width="sm"

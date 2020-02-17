@@ -14,12 +14,11 @@ import TableRow from './AllocationTableRow';
 import styles from './AllocationTable.module.css';
 
 
-const renderRow = onRowInputBlur => (index, _, onChange, labels) => (
+const renderRow = (index, _, onChange, labels) => (
   <TableRow
     index={index}
     key={index}
     labels={labels}
-    onRowInputBlur={onRowInputBlur}
     onChange={onChange}
   />
 );
@@ -31,7 +30,6 @@ const AllocationTable = ({
   remainingPercentage,
   isPercentageRed,
   showRemainingPercentage,
-  onRowInputBlur,
   onAddRow,
   onRowChange,
   onRemoveRow,
@@ -83,7 +81,7 @@ const AllocationTable = ({
     <div className={`${styles.allocationTable} ${remainingClassName}`}>
       <LineItemTable
         labels={labels}
-        renderRow={renderRow(onRowInputBlur, allocationLabel, taxCodeLabel)}
+        renderRow={renderRow}
         data={allocations}
         onAddRow={onAddRow}
         onRowChange={onRowChange}

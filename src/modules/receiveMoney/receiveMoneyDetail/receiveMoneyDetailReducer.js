@@ -2,7 +2,6 @@ import {
   ADD_RECEIVE_MONEY_LINE,
   CLOSE_MODAL,
   DELETE_RECEIVE_MONEY_LINE,
-  FORMAT_RECEIVE_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
@@ -65,21 +64,6 @@ const getDefaultState = () => ({
 const pageEdited = { isPageEdited: true };
 
 const resetState = () => (getDefaultState());
-
-const formatLine = (state, action) => ({
-  ...state,
-  receiveMoney: {
-    ...state.receiveMoney,
-    lines: state.receiveMoney.lines.map(
-      (line, index) => (
-        {
-          ...line,
-          displayAmount: index === action.index && formatDisplayAmount(Number(line.amount)),
-        }
-      ),
-    ),
-  },
-});
 
 const loadReceiveMoneyDetail = (state, action) => ({
   ...state,
@@ -225,7 +209,6 @@ const handlers = {
   [UPDATE_RECEIVE_MONEY_LINE]: updateLine,
   [ADD_RECEIVE_MONEY_LINE]: addLine,
   [DELETE_RECEIVE_MONEY_LINE]: deleteLine,
-  [FORMAT_RECEIVE_MONEY_LINE]: formatLine,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT_MESSAGE]: setAlertMessage,

@@ -95,7 +95,7 @@ const InvoiceItemTableRow = ({
         onChange={onAmountInputChange('units', onChange)}
         onBlur={onInputBlur(onUpdateAmount, index, 'units')}
         disabled={isSubmitting}
-        decimalScale={6}
+        numeralDecimalScaleMax={6}
       />
 
       <AmountInput
@@ -105,7 +105,7 @@ const InvoiceItemTableRow = ({
         onBlur={onInputBlur(onUpdateAmount, index, 'unitPrice')}
         textAlign="right"
         disabled={isSubmitting}
-        decimalScale={6}
+        numeralDecimalScaleMax={6}
       />
 
       <AmountInput

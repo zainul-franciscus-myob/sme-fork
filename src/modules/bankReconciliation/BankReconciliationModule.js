@@ -4,7 +4,6 @@ import React from 'react';
 import {
   CLOSE_MODAL,
   CREATE_BANK_RECONCILIATION,
-  FORMAT_AMOUNT,
   LOAD_BANK_RECONCILIATION,
   LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT,
   OPEN_MODAL,
@@ -183,12 +182,6 @@ export default class BankReconciliationModule {
     }
   };
 
-  formatAmount = ({ key, value }) => this.store.dispatch({
-    intent: FORMAT_AMOUNT,
-    key,
-    value,
-  });
-
   selectRow = ({ index, value }) => this.store.dispatch({
     intent: SELECT_ROW,
     index,
@@ -308,7 +301,6 @@ export default class BankReconciliationModule {
     const bankReconciliationView = (
       <BankReconciliationView
         onUpdateHeaderOption={this.updateHeaderOption}
-        onAmountInputBlur={this.formatAmount}
         onSelectRow={this.selectRow}
         onSelectAll={this.selectAll}
         onSort={this.setSortOrder}

@@ -2,7 +2,6 @@ import {
   ADD_CONDITION_PREDICATE,
   ADD_RULE_CONDITION,
   ADD_TABLE_ROW,
-  FORMAT_AMOUNT,
   REMOVE_CONDITION_PREDICATE,
   REMOVE_TABLE_ROW,
   SET_ALERT,
@@ -95,13 +94,6 @@ const createBankingRuleDispatcher = store => ({
   removeTableRow: (index) => {
     store.dispatch({
       intent: REMOVE_TABLE_ROW,
-      index,
-    });
-  },
-
-  formatAmount: (index) => {
-    store.dispatch({
-      intent: FORMAT_AMOUNT,
       index,
     });
   },

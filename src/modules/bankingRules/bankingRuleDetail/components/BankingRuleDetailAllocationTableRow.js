@@ -1,6 +1,4 @@
-import {
-  Input, LineItemTable,
-} from '@myob/myob-widgets';
+import { Input, LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -34,8 +32,6 @@ const onAmountInputChange = (name, onChange) => (e) => {
   });
 };
 
-const onAmountBlur = (handler, index) => () => handler({ index });
-
 const BankingRuleDetailAllocationTableRow = ({
   index,
   row,
@@ -45,7 +41,6 @@ const BankingRuleDetailAllocationTableRow = ({
   isInputField,
   isFieldDisabled,
   isAccountDisabled,
-  onRowInputBlur,
   onChange,
   ...feelixInjectedProps
 }) => (
@@ -78,7 +73,9 @@ const BankingRuleDetailAllocationTableRow = ({
             name="value"
             value={row.value}
             onChange={onAmountInputChange('value', onChange)}
-            onBlur={onAmountBlur(onRowInputBlur, index)}
+            onBlur={onAmountInputChange('value', onChange)}
+            numeralDecimalScaleMin={2}
+            numeralDecimalScaleMax={6}
             disabled={isFieldDisabled}
           />
         )

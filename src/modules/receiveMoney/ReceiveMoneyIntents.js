@@ -1,5 +1,4 @@
 export const LOAD_RECEIVE_MONEY_DETAIL = Symbol('Load a receive money entry data');
-export const FORMAT_RECEIVE_MONEY_LINE = Symbol('Format receive money line');
 export const OPEN_MODAL = Symbol('Open a modal');
 export const CLOSE_MODAL = Symbol('Close a modal');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');

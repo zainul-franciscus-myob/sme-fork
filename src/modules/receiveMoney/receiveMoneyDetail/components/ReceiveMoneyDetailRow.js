@@ -34,10 +34,6 @@ const onInputChange = handler => (index, name, value) => {
   handler(index, name, value);
 };
 
-const onAmountInputBlur = (handler, index) => () => {
-  handler(index);
-};
-
 const ReceiveMoneyDetailRow = ({
   index,
   onRowInputBlur,
@@ -77,7 +73,7 @@ const ReceiveMoneyDetailRow = ({
         name="amount"
         value={displayAmount}
         onChange={onAmountInputChange('amount', onChange)}
-        onBlur={onAmountInputBlur(onRowInputBlur, index)}
+        onBlur={onRowInputBlur}
         textAlign="right"
       />
       <AmountInput
@@ -85,7 +81,7 @@ const ReceiveMoneyDetailRow = ({
         name="units"
         value={units}
         onChange={onAmountInputChange('units', onChange)}
-        decimalScale={6}
+        numeralDecimalScaleMax={6}
         numeralIntegerScale={13}
         textAlign="right"
       />

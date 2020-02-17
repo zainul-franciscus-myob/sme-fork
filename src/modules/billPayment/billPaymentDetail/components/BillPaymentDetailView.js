@@ -24,7 +24,6 @@ const BillPaymentDetailView = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onSaveButtonClick,
-  onAmountInputBlur,
   onCancelModal,
   onCloseModal,
   onDeleteModal,
@@ -75,7 +74,6 @@ const BillPaymentDetailView = ({
       {isCreating && <BillPaymentDetailTableOptions onUpdateHeaderOption={onUpdateHeaderOption} />}
       <BillPaymentDetailTable
         onUpdateTableInputField={onUpdateTableInputField}
-        onAmountInputBlur={onAmountInputBlur}
       />
     </LineItemTemplate>
   );

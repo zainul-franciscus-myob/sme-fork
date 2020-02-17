@@ -1,6 +1,4 @@
-import {
-  Alert,
-} from '@myob/myob-widgets';
+import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -35,7 +33,6 @@ const SupplierReturnPurchaseView = ({
   onDeleteButtonClick,
   onUpdatePurchaseOptions,
   onUpdateTableAmountFields,
-  onFormatAmountInput,
 }) => {
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -73,10 +70,7 @@ const SupplierReturnPurchaseView = ({
       alert={alertComponent}
     >
       {modal}
-      <SupplierReturnPurchaseTable
-        onUpdateTableAmountFields={onUpdateTableAmountFields}
-        onFormatAmountInput={onFormatAmountInput}
-      />
+      <SupplierReturnPurchaseTable onUpdateTableAmountFields={onUpdateTableAmountFields} />
     </LineItemTemplate>
   );
 

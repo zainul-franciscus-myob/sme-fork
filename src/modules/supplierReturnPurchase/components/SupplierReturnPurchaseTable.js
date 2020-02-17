@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getIsTableEmpty,
-} from '../SupplierReturnPurchaseSelector';
+import { getIsTableEmpty } from '../SupplierReturnPurchaseSelector';
 import SupplierReturnPurchaseTableBody from './SupplierReturnPurchaseTableBody';
 import SupplierReturnPurchaseTableHeader from './SupplierReturnPurchaseTableHeader';
 import TableView from '../../../components/TableView/TableView';
@@ -22,12 +20,10 @@ const tableConfig = {
 const SupplierReturnPurchaseTable = ({
   isTableEmpty,
   onUpdateTableAmountFields,
-  onFormatAmountInput,
 }) => {
   const tableBody = (
     <SupplierReturnPurchaseTableBody
       tableConfig={tableConfig}
-      onFormatAmountInput={onFormatAmountInput}
       onUpdateTableAmountFields={onUpdateTableAmountFields}
     />
   );

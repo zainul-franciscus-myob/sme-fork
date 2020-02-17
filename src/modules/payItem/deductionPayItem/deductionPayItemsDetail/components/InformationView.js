@@ -54,7 +54,7 @@ const InformationView = ({
           <AmountInput
             name="calculationPercentage"
             label="Percentage %"
-            decimalScale={5}
+            numeralDecimalScaleMax={5}
             numeralIntegerScale={3}
             value={calculationPercentage}
             onChange={handleAmountInputChange(onInformationChange)}
@@ -117,7 +117,7 @@ const InformationView = ({
           <AmountInput
             name="limitPercentage"
             label="Percentage %"
-            decimalScale={5}
+            numeralDecimalScaleMax={5}
             numeralIntegerScale={3}
             value={limitPercentage}
             onChange={handleAmountInputChange(onInformationChange)}

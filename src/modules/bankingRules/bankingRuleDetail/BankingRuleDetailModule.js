@@ -42,7 +42,6 @@ export default class BankingRuleDetailModule {
         onPredicateAdd={this.addConditionPredicate}
         onPredicateChange={this.updateConditionPredicate}
         onPredicateRemove={this.removeConditionPredicate}
-        onRowInputBlur={this.formatAmount}
         onAddRow={this.addTableRow}
         onRowChange={this.changeTableRow}
         onRemoveRow={this.removeTableRow}
@@ -159,11 +158,6 @@ export default class BankingRuleDetailModule {
   removeTableRow = (index) => {
     this.dispatcher.setIsPageEdited();
     this.dispatcher.removeTableRow(index);
-  };
-
-  formatAmount = ({ index }) => {
-    this.dispatcher.setIsPageEdited();
-    this.dispatcher.formatAmount(index);
   };
 
   addRuleCondition = () => {

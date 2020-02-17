@@ -14,8 +14,6 @@ import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
-const onAmountBlur = (handler, index) => () => handler({ index });
-
 const handleComboboxChange = (name, onChange) => (item) => {
   onChange({
     target: {
@@ -43,7 +41,6 @@ const AllocationTableRow = ({
   isFieldDisabled,
   isAccountDisabled,
   isInputField,
-  onRowInputBlur,
   onChange,
   ...feelixInjectedProps
 }) => (
@@ -76,7 +73,9 @@ const AllocationTableRow = ({
           name="value"
           value={allocation.value}
           onChange={handleAmountInputChange('value', onChange)}
-          onBlur={onAmountBlur(onRowInputBlur, index)}
+          onBlur={handleAmountInputChange('value', onChange)}
+          numeralDecimalScaleMin={2}
+          numeralDecimalScaleMax={6}
           disabled={isFieldDisabled}
         />
       )

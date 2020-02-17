@@ -17,7 +17,6 @@ const SupplierReturnPurchaseTableBody = ({
   totalAmountApplied,
   isCreating,
   onUpdateTableAmountFields,
-  onFormatAmountInput,
 }) => (
   <>
     <Table.Body>
@@ -38,7 +37,9 @@ const SupplierReturnPurchaseTableBody = ({
                 name="discount"
                 value={row.discount}
                 onChange={onAmountChange(onUpdateTableAmountFields, index)}
-                onBlur={onAmountChange(onFormatAmountInput, index)}
+                onBlur={onAmountChange(onUpdateTableAmountFields, index)}
+                numeralDecimalScaleMin={2}
+                numeralDecimalScaleMax={2}
                 label="discount"
                 disabled={!isCreating}
                 hideLabel
@@ -51,7 +52,9 @@ const SupplierReturnPurchaseTableBody = ({
                 name="amountApplied"
                 value={row.amountApplied}
                 onChange={onAmountChange(onUpdateTableAmountFields, index)}
-                onBlur={onAmountChange(onFormatAmountInput, index)}
+                onBlur={onAmountChange(onUpdateTableAmountFields, index)}
+                numeralDecimalScaleMin={2}
+                numeralDecimalScaleMax={2}
                 label="amountApplied"
                 disabled={!isCreating}
                 hideLabel

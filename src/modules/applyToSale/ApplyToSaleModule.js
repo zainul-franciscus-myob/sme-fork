@@ -4,7 +4,6 @@ import React from 'react';
 import {
   CREATE_APPLY_TO_SALE,
   DELETE_APPLY_TO_SALE,
-  FORMAT_TABLE_AMOUNT_INPUT,
   LOAD_APPLY_TO_SALE,
   LOAD_NEW_APPLY_TO_SALE,
   SET_ALERT_MESSAGE,
@@ -165,13 +164,6 @@ export default class ApplyToSaleModule {
     this.setIsPageEdited(true);
   }
 
-  formatTableAmountInput = ({ index }) => {
-    this.store.dispatch({
-      intent: FORMAT_TABLE_AMOUNT_INPUT,
-      index,
-    });
-  }
-
   redirectToCustomerReturnList = () => {
     const state = this.store.getState();
     const businessId = getBusinessId(state);
@@ -276,7 +268,6 @@ export default class ApplyToSaleModule {
         <ApplyToSaleView
           onUpdateApplyToSaleOption={this.updateApplyToSaleOption}
           onUpdateTableAmountInput={this.updateTableAmountInput}
-          onBlurTableAmountInput={this.formatTableAmountInput}
           onSaveButtonClick={this.createApplyToSale}
           onCancelButtonClick={this.openCancelModal}
           onDeleteButtonClick={this.openDeleteModal}

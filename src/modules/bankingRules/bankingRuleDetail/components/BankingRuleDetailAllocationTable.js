@@ -1,6 +1,4 @@
-import {
-  LineItemTable,
-} from '@myob/myob-widgets';
+import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,12 +14,11 @@ import TableRow from './BankingRuleDetailAllocationTableRow';
 import styles from './BankingRuleDetailView.module.css';
 
 
-const renderRow = onRowInputBlur => (index, _, onChange, labels) => (
+const renderRow = (index, _, onChange, labels) => (
   <TableRow
     index={index}
     key={index}
     labels={labels}
-    onRowInputBlur={onRowInputBlur}
     onChange={onChange}
   />
 );
@@ -33,7 +30,6 @@ const BankingRuleDetailAllocationTable = ({
   remainingPercentage,
   isPercentageRed,
   showRemainingPercentage,
-  onRowInputBlur,
   onAddRow,
   onRowChange,
   onRemoveRow,
@@ -86,7 +82,7 @@ const BankingRuleDetailAllocationTable = ({
     <div className={remainingClassName}>
       <LineItemTable
         labels={labels}
-        renderRow={renderRow(onRowInputBlur)}
+        renderRow={renderRow}
         data={tableData}
         onAddRow={onAddRow}
         onRowChange={onRowChange}

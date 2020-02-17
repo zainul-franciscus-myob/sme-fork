@@ -22,7 +22,6 @@ describe('TransferMoneyView', () => {
           onDeleteModal={() => {}}
           onCloseModal={() => {}}
           onDismissAlert={() => {}}
-          onAmountInputBlur={() => {}}
         />
       </Provider>
     );

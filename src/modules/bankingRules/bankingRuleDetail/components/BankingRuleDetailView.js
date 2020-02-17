@@ -1,11 +1,13 @@
-import {
-  BaseTemplate, Card, PageHead,
-} from '@myob/myob-widgets';
+import { BaseTemplate, Card, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsAlertShown, getLoadingState, getModal, getPageTitle, getShowAllocationTable,
+  getIsAlertShown,
+  getLoadingState,
+  getModal,
+  getPageTitle,
+  getShowAllocationTable,
 } from '../bankingRuleDetailSelectors';
 import Actions from './BankingRuleDetailActions';
 import BankingRuleDetailAlert from './BankingRuleDetailAlert';
@@ -29,7 +31,6 @@ const BankingRuleDetailView = ({
   onPredicateAdd,
   onPredicateChange,
   onPredicateRemove,
-  onRowInputBlur,
   onAddRow,
   onRowChange,
   onRemoveRow,
@@ -75,7 +76,6 @@ const BankingRuleDetailView = ({
         {
           showAllocationTable && (
             <BankingRuleDetailAllocationTable
-              onRowInputBlur={onRowInputBlur}
               onAddRow={onAddRow}
               onRowChange={onRowChange}
               onRemoveRow={onRemoveRow}

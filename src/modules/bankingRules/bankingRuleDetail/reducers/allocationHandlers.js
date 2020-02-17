@@ -1,11 +1,5 @@
-import {
-  ADD_TABLE_ROW,
-  CHANGE_TABLE_ROW,
-  FORMAT_AMOUNT,
-  REMOVE_TABLE_ROW,
-} from '../BankingRuleDetailIntents';
+import { ADD_TABLE_ROW, CHANGE_TABLE_ROW, REMOVE_TABLE_ROW } from '../BankingRuleDetailIntents';
 import { allocationTypeOptions } from '../AllocationTypes';
-import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 
 const findTaxCodeIdByAccountId = (state, accountId) => state.allocationAccounts
   .find(account => account.id === accountId)
@@ -123,24 +117,8 @@ const removeTableRow = (state, action) => {
   };
 };
 
-const formatAmount = (state, { index }) => {
-  const updatedAllocations = state.allocations.map((row, rowIndex) => {
-    const value = Number(row.value) || 0;
-    return rowIndex === index ? {
-      ...row,
-      value: value ? formatNumberWithDecimalScaleRange(value, 2, 6) : '',
-    } : row;
-  });
-
-  return {
-    ...state,
-    allocations: updatedAllocations,
-  };
-};
-
 export default {
   [ADD_TABLE_ROW]: addTableRow,
   [CHANGE_TABLE_ROW]: changeTableRow,
   [REMOVE_TABLE_ROW]: removeTableRow,
-  [FORMAT_AMOUNT]: formatAmount,
 };

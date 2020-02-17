@@ -5,7 +5,6 @@ import {
   CLOSE_MODAL,
   CREATE_TRANSFER_MONEY,
   DELETE_TRANSFER_MONEY,
-  FORMAT_AMOUNT,
   LOAD_NEW_TRANSFER_MONEY,
   LOAD_TRANSFER_MONEY_DETAIL,
   OPEN_MODAL,
@@ -88,8 +87,6 @@ export default class TransferMoneyDetailModule {
     key,
     value,
   })
-
-  formatAmount = () => this.store.dispatch({ intent: FORMAT_AMOUNT })
 
   setSubmittingState = isSubmitting => this.store.dispatch({
     intent: SET_SUBMITTING_STATE,
@@ -236,7 +233,6 @@ export default class TransferMoneyDetailModule {
     const transferMoneyView = (
       <TransferMoneyDetailView
         onUpdateForm={this.updateForm}
-        onAmountInputBlur={this.formatAmount}
         onDismissAlert={this.dismissAlert}
         onSave={this.createTransferMoneyEntry}
         onCancel={this.openCancelModal}

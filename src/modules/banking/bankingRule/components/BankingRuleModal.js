@@ -28,7 +28,6 @@ const BankingRuleModal = ({
   onAddAllocationLine,
   onUpdateAllocationLine,
   onRemoveAllocationLine,
-  onBlurAmountField,
   showShowAllocationSection,
   isSaving,
   alert,
@@ -55,7 +54,6 @@ const BankingRuleModal = ({
         showShowAllocationSection && (
           <AllocationSection
             onDetailsChange={onDetailsChange}
-            onBlurAmountField={onBlurAmountField}
             onAddAllocationLine={onAddAllocationLine}
             onUpdateAllocationLine={onUpdateAllocationLine}
             onRemoveAllocationLine={onRemoveAllocationLine}

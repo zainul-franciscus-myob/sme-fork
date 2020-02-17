@@ -97,7 +97,7 @@ const BillItemAndServiceTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'units')}
         disabled={isBlocking}
-        decimalScale={6}
+        numeralDecimalScaleMax={6}
       />
       <AmountInput
         name="unitPrice"
@@ -106,7 +106,7 @@ const BillItemAndServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'unitPrice')}
         textAlign="right"
         disabled={isBlocking}
-        decimalScale={6}
+        numeralDecimalScaleMax={6}
       />
       <AmountInput
         name="discount"

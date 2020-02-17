@@ -27,7 +27,7 @@ const renderAmountInputField = ({
     onChange={handleInputChange(onChange, payItemId, payItemType)}
     onBlur={handleInputChange(onBlur, payItemId, payItemType)}
     numeralIntegerScale={13}
-    decimalScale={decimalScale}
+    numeralDecimalScaleMax={decimalScale}
   />
 );
 

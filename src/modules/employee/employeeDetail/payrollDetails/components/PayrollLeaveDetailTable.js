@@ -65,7 +65,7 @@ const PayrollLeaveDetailTable = ({
             value={carryOver}
             onChange={handleInputChange(onUpdateCarryOver, payItemId)}
             numeralIntegerScale={29}
-            decimalScale={30}
+            numeralDecimalScaleMax={30}
           />
         </Table.RowItem>
         <Table.RowItem {...tableConfig.yearToDate}>{yearToDate}</Table.RowItem>

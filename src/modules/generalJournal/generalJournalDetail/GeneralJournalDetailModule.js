@@ -166,8 +166,7 @@ export default class GeneralJournalDetailModule {
     this.dispatcher.getTaxCalculations(taxCalculations);
   }
 
-  formatAndCalculateTotals = ({ index, key }) => {
-    this.dispatcher.formatGeneralJournalLine({ index, key });
+  formatAndCalculateTotals = () => {
     this.getCalculatedTotals({ isSwitchingTaxInclusive: false });
   }
 

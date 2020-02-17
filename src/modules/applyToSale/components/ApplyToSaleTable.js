@@ -18,7 +18,6 @@ const ApplyToSaleTable = ({
   isCreating,
   isTableEmpty,
   onUpdateTableAmountInput,
-  onBlurTableAmountInput,
 }) => {
   const tableConfig = {
     issueDate: { columnName: 'Issue date', valign: 'middle' },
@@ -53,7 +52,9 @@ const ApplyToSaleTable = ({
                   name="discount"
                   value={invoice.displayDiscount}
                   onChange={onAmountChange(onUpdateTableAmountInput, index)}
-                  onBlur={onAmountChange(onBlurTableAmountInput, index)}
+                  onBlur={onAmountChange(onUpdateTableAmountInput, index)}
+                  numeralDecimalScaleMin={2}
+                  numeralDecimalScaleMax={2}
                   label="discount"
                   disabled={!isCreating}
                   numeralPositiveOnly
@@ -67,7 +68,9 @@ const ApplyToSaleTable = ({
                   name="amountApplied"
                   value={invoice.displayAmountApplied}
                   onChange={onAmountChange(onUpdateTableAmountInput, index)}
-                  onBlur={onAmountChange(onBlurTableAmountInput, index)}
+                  onBlur={onAmountChange(onUpdateTableAmountInput, index)}
+                  numeralDecimalScaleMin={2}
+                  numeralDecimalScaleMax={2}
                   label="amountApplied"
                   disabled={!isCreating}
                   hideLabel

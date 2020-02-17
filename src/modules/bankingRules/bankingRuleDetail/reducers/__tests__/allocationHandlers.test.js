@@ -1,9 +1,4 @@
-import {
-  ADD_TABLE_ROW,
-  FORMAT_AMOUNT,
-  REMOVE_TABLE_ROW,
-  UPDATE_FORM,
-} from '../../BankingRuleDetailIntents';
+import { ADD_TABLE_ROW, REMOVE_TABLE_ROW, UPDATE_FORM } from '../../BankingRuleDetailIntents';
 
 import bankingRuleDetailReducer from '..';
 
@@ -171,60 +166,6 @@ describe('allocationHandlers', () => {
       const actual = bankingRuleDetailReducer(modifiedState, action);
 
       expect(actual.allocations[1].value).toEqual('Remainder');
-    });
-  });
-
-  describe('formatAmount', () => {
-    it('should format a value of - to an empty string for an inputted value', () => {
-      const action = {
-        intent: FORMAT_AMOUNT,
-        index: 0,
-      };
-
-      const state = {
-        allocations: [
-          {
-            value: '-',
-          },
-        ],
-      };
-
-      const actual = bankingRuleDetailReducer(state, action);
-
-      expect(actual.allocations[0].value).toEqual('');
-    });
-
-    it('should format the value at the given index', () => {
-      const action = {
-        intent: FORMAT_AMOUNT,
-        index: 1,
-      };
-
-      const state = {
-        allocations: [
-          {
-            value: '27.00',
-          },
-          {
-            value: '12',
-          },
-        ],
-      };
-
-      const expected = {
-        allocations: [
-          {
-            value: '27.00',
-          },
-          {
-            value: '12.00',
-          },
-        ],
-      };
-
-      const actual = bankingRuleDetailReducer(state, action);
-
-      expect(actual).toEqual(expected);
     });
   });
 

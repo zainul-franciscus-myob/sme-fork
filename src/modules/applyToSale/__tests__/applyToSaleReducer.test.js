@@ -1,5 +1,5 @@
-import { FORMAT_TABLE_AMOUNT_INPUT, UPDATE_TABLE_AMOUNT_INPUT } from '../ApplyToSaleIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
+import { UPDATE_TABLE_AMOUNT_INPUT } from '../ApplyToSaleIntents';
 import applyToSaleReducer from '../applyToSaleReducer';
 
 describe('applyToSaleReducer', () => {
@@ -83,45 +83,6 @@ describe('applyToSaleReducer', () => {
 
         const actual = applyToSaleReducer(state, testAction);
         expect(actual.invoices[1][test.key]).toEqual(0);
-      });
-    });
-  });
-
-  describe('FORMAT_TABLE_AMOUNT_INPUT', () => {
-    const action = {
-      intent: FORMAT_TABLE_AMOUNT_INPUT,
-      index: 1,
-    };
-
-
-    it('formats both displayDiscount and displayAmountApplied', () => {
-      const state = {
-        invoices: [{}, {
-          displayDiscount: '12',
-          displayAmountApplied: '14',
-        }],
-      };
-
-      const actual = applyToSaleReducer(state, action);
-      expect(actual.invoices[1].displayDiscount).toEqual('12.00');
-      expect(actual.invoices[1].displayAmountApplied).toEqual('14.00');
-    });
-
-    [{
-      displayKey: 'displayDiscount',
-    },
-    {
-      displayKey: 'displayAmountApplied',
-    }].forEach((test) => {
-      it(`empties ${test.displayKey} when value is "-"`, () => {
-        const state = {
-          invoices: [{}, {
-            [test.displayKey]: '-',
-          }],
-        };
-
-        const actual = applyToSaleReducer(state, action);
-        expect(actual.invoices[1][test.displayKey]).toEqual('');
       });
     });
   });

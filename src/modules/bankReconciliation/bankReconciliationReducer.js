@@ -1,6 +1,5 @@
 import {
   CLOSE_MODAL,
-  FORMAT_AMOUNT,
   LOAD_BANK_RECONCILIATION,
   LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT,
   OPEN_MODAL,
@@ -88,12 +87,6 @@ const updateHeaderOption = (state, action) => ({
   [action.key]: action.value,
 });
 
-const formatAmount = value => (Number(value) || 0).toFixed(2);
-const updateAmount = (state, { key, value }) => ({
-  ...state,
-  [key]: formatAmount(value),
-});
-
 const getAdjustmentForRow = ({ withdrawal, deposit }, value, accountType) => {
   if (withdrawal === 0 || deposit === 0) {
     return 0;
@@ -176,7 +169,6 @@ const handlers = {
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,
   [UPDATE_HEADER_OPTION]: updateHeaderOption,
-  [FORMAT_AMOUNT]: updateAmount,
   [SELECT_ROW]: selectRow,
   [SELECT_ALL]: selectAll,
   [SET_SORT_ORDER]: setSortOrder,

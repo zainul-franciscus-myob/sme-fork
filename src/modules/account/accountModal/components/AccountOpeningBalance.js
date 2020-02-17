@@ -13,7 +13,7 @@ const AccountOpeningBalance = ({ openingBalance, onChange }) => (
     label="Opening balance ($)"
     value={openingBalance}
     onChange={onAmountInputChange(onChange)}
-    decimalScale={2}
+    numeralDecimalScaleMax={2}
     numeralIntegerScale={13}
   />
 );

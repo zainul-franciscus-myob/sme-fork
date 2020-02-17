@@ -47,7 +47,7 @@ const SuperPayItemLimit = (props) => {
             onChange={handleAmountInputChange(onSuperPayItemDetailsChange)}
             onBlur={handleAmountInputChange(onSuperPayItemDetailBlur)}
             numeralIntegerScale={3}
-            decimalScale={5}
+            numeralDecimalScaleMax={5}
           />
           <PayItemCombobox
             label="Percent of"

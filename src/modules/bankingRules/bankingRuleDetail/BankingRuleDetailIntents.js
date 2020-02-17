@@ -14,7 +14,6 @@ export const DELETE_BANKING_RULE = Symbol('Delete bank rule');
 export const ADD_TABLE_ROW = Symbol('Add table row');
 export const CHANGE_TABLE_ROW = Symbol('Change table row');
 export const REMOVE_TABLE_ROW = Symbol('Remove table row');
-export const FORMAT_AMOUNT = Symbol('Format amount');
 export const UPDATE_FORM = Symbol('Update rule conditions');
 
 export const UPDATE_RULE_CONDITION = Symbol('Update rule condition');

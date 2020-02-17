@@ -5,7 +5,6 @@ import {
   CLOSE_MODAL,
   CREATE_PURCHASE_RETURN,
   DELETE_PURCHASE_RETURN,
-  FORMAT_AMOUNT_INPUT,
   LOAD_NEW_PURCHASE_RETURN,
   LOAD_PURCHASE_RETURN,
   OPEN_MODAL,
@@ -156,15 +155,6 @@ export default class SupplerReturnPurchaseModule {
     });
   }
 
-  formatAmountInput = ({ key, value, index }) => {
-    this.store.dispatch({
-      intent: FORMAT_AMOUNT_INPUT,
-      key,
-      value,
-      index,
-    });
-  }
-
   updatePurchaseOptions = ({ key, value }) => {
     this.store.dispatch({
       intent: UPDATE_PURCHASE_OPTION,
@@ -231,7 +221,6 @@ export default class SupplerReturnPurchaseModule {
       <SupplierReturnPurchaseView
         onUpdatePurchaseOptions={this.updatePurchaseOptions}
         onUpdateTableAmountFields={this.updateTableAmountFields}
-        onFormatAmountInput={this.formatAmountInput}
         onSaveButtonClick={this.createPurchaseReturn}
         onCancelCreateButtonClick={this.confirmBeforeCancel}
         onCancelUpdateButtonClick={this.redirectToTransactionList}

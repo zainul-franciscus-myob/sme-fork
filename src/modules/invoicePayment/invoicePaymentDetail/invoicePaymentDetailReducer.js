@@ -1,6 +1,5 @@
 import {
   CLOSE_MODAL,
-  FORMAT_AMOUNT_INPUT,
   LOAD_INVOICE_LIST,
   LOAD_INVOICE_PAYMENT_DETAIL,
   LOAD_NEW_INVOICE_PAYMENT_DETAIL,
@@ -123,18 +122,6 @@ const loadInvoiceList = (state, { entries }) => ({
   })),
 });
 
-const formatAmountInput = (state, action) => ({
-  ...state,
-  entries: state.entries.map((entry, index) => (
-    index === action.index && action.value.length > 0
-      ? {
-        ...entry,
-        [action.name]: Number(action.value) ? Number(action.value).toFixed(2) : '',
-      }
-      : entry
-  )),
-});
-
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -151,7 +138,6 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [LOAD_INVOICE_LIST]: loadInvoiceList,
-  [FORMAT_AMOUNT_INPUT]: formatAmountInput,
 };
 
 const invoicePaymentDetailReducer = createReducer(getDefaultState(), handlers);

@@ -1,6 +1,5 @@
 import {
   CLOSE_MODAL,
-  FORMAT_AMOUNT,
   LOAD_NEW_TRANSFER_MONEY,
   LOAD_TRANSFER_MONEY_DETAIL,
   OPEN_MODAL,
@@ -65,19 +64,6 @@ const updateForm = (state, action) => ({
   },
 });
 
-const safeParseNumber = (number) => {
-  const realNumber = Number(number);
-  return Number.isNaN(realNumber) ? '0' : number;
-};
-
-const formatAmount = state => ({
-  ...state,
-  transferMoney: {
-    ...state.transferMoney,
-    amount: safeParseNumber(state.transferMoney.amount),
-  },
-});
-
 const setLoadingState = (state, { loadingState }) => ({
   ...state,
   loadingState,
@@ -115,7 +101,6 @@ const handlers = {
   [LOAD_TRANSFER_MONEY_DETAIL]: loadTransferMoneyDetail,
   [LOAD_NEW_TRANSFER_MONEY]: loadNewTransferMoney,
   [UPDATE_FORM]: updateForm,
-  [FORMAT_AMOUNT]: formatAmount,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [OPEN_MODAL]: openModal,

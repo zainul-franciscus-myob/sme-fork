@@ -94,7 +94,7 @@ const QuoteItemAndServiceTableRow = ({
       onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'units')}
       textAlign="right"
       disabled={isCalculating}
-      decimalScale={6}
+      numeralDecimalScaleMax={6}
     />
     <AmountInput
       label="Unit price"
@@ -105,7 +105,7 @@ const QuoteItemAndServiceTableRow = ({
       onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'unitPrice')}
       textAlign="right"
       disabled={isCalculating}
-      decimalScale={6}
+      numeralDecimalScaleMax={6}
     />
     <AmountInput
       label="Discount"

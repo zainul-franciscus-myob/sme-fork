@@ -1,6 +1,5 @@
 import {
   CLOSE_MODAL,
-  FORMAT_AMOUNT_INPUT,
   LOAD_NEW_PURCHASE_RETURN,
   LOAD_PURCHASE_RETURN,
   OPEN_MODAL,
@@ -71,21 +70,6 @@ const updateTableAmountFields = (state, action) => ({
   },
 });
 
-const formatAmountInput = (state, action) => ({
-  ...state,
-  supplierReturnPurchase: {
-    ...state.supplierReturnPurchase,
-    purchases: state.supplierReturnPurchase.purchases.map((purchase, index) => (
-      index === action.index && action.value.length > 0
-        ? {
-          ...purchase,
-          [action.key]: Number(action.value) ? Number(action.value).toFixed(2) : '',
-        }
-        : purchase
-    )),
-  },
-});
-
 const resetState = () => (getDefaultState());
 
 const openModal = (state, action) => ({
@@ -128,7 +112,6 @@ const handlers = {
   [LOAD_PURCHASE_RETURN]: loadPurchaseReturn,
   [UPDATE_PURCHASE_OPTION]: updatePurchaseOptions,
   [UPDATE_TABLE_AMOUNT_FIELDS]: updateTableAmountFields,
-  [FORMAT_AMOUNT_INPUT]: formatAmountInput,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
 };

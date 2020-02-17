@@ -5,7 +5,6 @@ import {
   CLOSE_MODAL,
   CREATE_INVOICE_PAYMENT,
   DELETE_INVOICE_PAYMENT,
-  FORMAT_AMOUNT_INPUT,
   LOAD_INVOICE_LIST,
   LOAD_INVOICE_PAYMENT_DETAIL,
   LOAD_NEW_INVOICE_PAYMENT_DETAIL,
@@ -71,7 +70,6 @@ export default class InvoicePaymentDetailModule {
         onConfirmCancel={this.redirectToTransactionList}
         onConfirmSaveButtonClick={this.saveUnsavedChanges}
         onConfirmUnsaveButtonClick={this.redirectToModalUrl}
-        onAmountInputBlur={this.formatAmountInput}
       />
     );
 
@@ -82,15 +80,6 @@ export default class InvoicePaymentDetailModule {
     );
 
     this.setRootView(wrappedView);
-  };
-
-  formatAmountInput = ({ name, value, index }) => {
-    this.store.dispatch({
-      intent: FORMAT_AMOUNT_INPUT,
-      name,
-      value,
-      index,
-    });
   };
 
   loadInvoicePayment = () => {

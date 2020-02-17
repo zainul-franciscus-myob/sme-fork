@@ -3,7 +3,6 @@ export const LOAD_NEW_TRANSFER_MONEY = Symbol('Load a new empty transfer money e
 export const LOAD_TRANSFER_MONEY_DETAIL = Symbol('Load a transfer money entry data');
 export const DELETE_TRANSFER_MONEY = Symbol('Delete a transfer money entry');
 export const UPDATE_FORM = Symbol('Update a form value');
-export const FORMAT_AMOUNT = Symbol('Format amount');
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const CREATE_TRANSFER_MONEY = Symbol('Create a transfer money entry');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');

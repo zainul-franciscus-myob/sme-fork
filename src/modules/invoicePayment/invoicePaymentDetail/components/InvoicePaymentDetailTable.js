@@ -44,7 +44,6 @@ const InvoicePaymentDetailTable = ({
   isTableLoading,
   isTableEmpty,
   isCustomerEmpty,
-  onAmountInputBlur,
 }) => {
   const emptyView = isCustomerEmpty
     ? <PageState title="Select the customer who paid you" description="You'll see their invoices here" />
@@ -70,7 +69,9 @@ const InvoicePaymentDetailTable = ({
                 textAlign="right"
                 disabled={!isCreating}
                 onChange={onAmountChange(onUpdateInvoicePaymentEntries, index)}
-                onBlur={onAmountChange(onAmountInputBlur, index)}
+                onBlur={onAmountChange(onUpdateInvoicePaymentEntries, index)}
+                numeralDecimalScaleMin={2}
+                numeralDecimalScaleMax={2}
               />
             </Table.RowItem>
             <Table.RowItem {...tableConfig.discountedBalance} valign="middle" align="right">{entry.discountedBalance}</Table.RowItem>
@@ -81,7 +82,9 @@ const InvoicePaymentDetailTable = ({
                 textAlign="right"
                 disabled={!isCreating}
                 onChange={onAmountChange(onUpdateInvoicePaymentEntries, index)}
-                onBlur={onAmountChange(onAmountInputBlur, index)}
+                onBlur={onAmountChange(onUpdateInvoicePaymentEntries, index)}
+                numeralDecimalScaleMin={2}
+                numeralDecimalScaleMax={2}
               />
             </Table.RowItem>
           </Table.Row>

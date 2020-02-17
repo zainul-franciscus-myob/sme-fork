@@ -10,4 +10,3 @@ export const LOAD_PURCHASE_RETURN = Symbol('Load purchase return');
 export const DELETE_PURCHASE_RETURN = Symbol('Delete purchase return');
 export const UPDATE_PURCHASE_OPTION = Symbol('Update purchase options');
 export const UPDATE_TABLE_AMOUNT_FIELDS = Symbol('Update table amount fields');
-export const FORMAT_AMOUNT_INPUT = Symbol('Format amount input');
