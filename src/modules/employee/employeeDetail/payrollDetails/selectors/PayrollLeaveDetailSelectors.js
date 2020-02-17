@@ -60,7 +60,3 @@ export const getLeaveDetail = createSelector(
     allocatedLeavePayItemModal,
   }),
 );
-
-export const getShowAddLeavePayItemButton = state => (
-  state.payrollDetails.leaveDetails.showAddLeavePayItemButton
-);

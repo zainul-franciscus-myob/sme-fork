@@ -28,8 +28,9 @@ const PayrollDeductionDetailsTable = ({
   onAddPayItem,
   onRemovePayItem,
   onOpenDeductionPayItemModal,
-  showAddDeductionPayItemButton,
-  onAddDeductionPayItemClick,
+  showAddPayItemButton,
+  onAddPayItemComboClick,
+  onAddPayItemComboBlur,
 }) => {
   const tableBodyView = selected.map(({ id, name, displayType }) => (
     <Table.Row key={id}>
@@ -70,9 +71,9 @@ const PayrollDeductionDetailsTable = ({
         </Table.Header>
         <Table.Body>{tableBodyView}</Table.Body>
       </Table>
-      {showAddDeductionPayItemButton
+      {showAddPayItemButton
         ? (
-          <Button type="link" icon={<Icons.Add />} onClick={onAddDeductionPayItemClick}>
+          <Button type="link" icon={<Icons.Add />} onClick={onAddPayItemComboClick}>
               Add deduction pay item
           </Button>
         )
@@ -84,6 +85,7 @@ const PayrollDeductionDetailsTable = ({
             metaData={comboboxMetaData}
             items={items}
             selected={{}}
+            onBlur={onAddPayItemComboBlur}
             onChange={handleComboboxChange(onAddPayItem)}
             initialIsOpen
             addNewItem={{

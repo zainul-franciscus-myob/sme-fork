@@ -82,11 +82,7 @@ import {
   SET_PAYROLL_PAY_HISTORY_ITEM_INPUT,
   SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT,
   SET_PAYROLL_STANDARD_PAY_ITEM_INPUT,
-  SET_SHOW_ADD_EXPENSE_PAY_ITEM,
-  SET_SHOW_ADD_SUPER_PAY_ITEM,
-  SET_SHOW_ADD_WAGE_PAY_ITEM,
-  SET_SHOW_DEDUCTION_PAY_ITEM,
-  SET_SHOW_LEAVE_PAY_ITEM,
+  SET_SHOW_ADD_PAY_ITEM_BUTTON,
   SET_SUB_TAB,
   SET_SUPER_FUND_MODAL_ALERT_MESSAGE,
   SET_SUPER_FUND_MODAL_LOADING_STATE,
@@ -133,29 +129,25 @@ import {
 } from '../../EmployeeIntents';
 import createEmployeeDetailDispatcher from '../createEmployeeDetailDispatcher';
 
-const toggleShowAddDeductionPayItemDropdown = (store, showDropdown) => {
-  store.dispatch({ intent: SET_SHOW_DEDUCTION_PAY_ITEM, showDropdown });
+const showAddPayItemDropdown = (store) => {
+  store.dispatch({ intent: SET_SHOW_ADD_PAY_ITEM_BUTTON, showAddPayItemButton: false });
 };
 
-const toggleShowAddWagePayItemDropdown = (store, showDropdown) => {
-  store.dispatch({ intent: SET_SHOW_ADD_WAGE_PAY_ITEM, showDropdown });
-};
-
-const toggleShowAddLeavePayItemDropdown = (store, showDropdown) => {
-  store.dispatch({ intent: SET_SHOW_LEAVE_PAY_ITEM, showDropdown });
-};
-
-const toggleShowAddSuperPayItemDropdown = (store, showDropdown) => {
-  store.dispatch({ intent: SET_SHOW_ADD_SUPER_PAY_ITEM, showDropdown });
-};
-
-const toggleShowExpensePayItemDropdown = (store, showDropdown) => {
-  const intent = SET_SHOW_ADD_EXPENSE_PAY_ITEM;
-  store.dispatch({ intent, showDropdown });
+const showAddPayItemButton = (store) => {
+  store.dispatch({ intent: SET_SHOW_ADD_PAY_ITEM_BUTTON, showAddPayItemButton: true });
 };
 
 const createPayrollDetailsTabDispatchers = store => ({
   ...createEmployeeDetailDispatcher(store),
+
+
+  showAddPayItemDropdown: () => {
+    showAddPayItemDropdown(store);
+  },
+
+  showAddPayItemButton: () => {
+    showAddPayItemButton(store);
+  },
 
   setSubTab: (selectedTab) => {
     const intent = SET_SUB_TAB;
@@ -176,12 +168,7 @@ const createPayrollDetailsTabDispatchers = store => ({
     const intent = ADD_PAYROLL_DEDUCTION_PAY_ITEM;
     store.dispatch({ intent, payItem });
 
-    toggleShowAddDeductionPayItemDropdown(store, true);
-  },
-
-  showDeductionPayItemDropdown: (showDropdown) => {
-    const intent = SET_SHOW_DEDUCTION_PAY_ITEM;
-    store.dispatch({ intent, showDropdown });
+    showAddPayItemButton(store);
   },
 
   removePayrollDeductionPayItem: (id) => {
@@ -198,25 +185,21 @@ const createPayrollDetailsTabDispatchers = store => ({
     const intent = ADD_PAYROLL_SUPER_PAY_ITEM;
     store.dispatch({ intent, ...payItem });
 
-    toggleShowAddSuperPayItemDropdown(store, true);
-  },
-
-  showAddSuperPayItemButton: () => {
-    toggleShowAddSuperPayItemDropdown(store, false);
+    showAddPayItemButton(store);
   },
 
   removePayrollSuperPayItem: (id) => {
     const intent = REMOVE_PAYROLL_SUPER_PAY_ITEM;
     store.dispatch({ intent, id });
 
-    toggleShowAddLeavePayItemDropdown(store, true);
+    showAddPayItemButton(store);
   },
 
   addAllocatedLeaveItem: (leaveItem) => {
     const intent = ADD_ALLOCATED_LEAVE_ITEM;
     store.dispatch({ intent, leaveItem });
 
-    toggleShowAddLeavePayItemDropdown(store, true);
+    showAddPayItemButton(store);
   },
 
   removeAllocatedLeaveItem: (payItemId) => {
@@ -237,10 +220,6 @@ const createPayrollDetailsTabDispatchers = store => ({
   closeAllocatedLeaveItemModal: () => {
     const intent = SET_ALLOCATED_LEAVE_ITEM_MODAL;
     store.dispatch({ intent, modal: undefined });
-  },
-
-  showAddLeavePayItemButtonDropdown: () => {
-    toggleShowAddLeavePayItemDropdown(store, false);
   },
 
   addPayrollTaxPayItem: (payItem) => {
@@ -280,25 +259,21 @@ const createPayrollDetailsTabDispatchers = store => ({
     const intent = ADD_PAYROLL_EXPENSE_PAY_ITEM;
     store.dispatch({ intent, payItem });
 
-    toggleShowExpensePayItemDropdown(store, true);
-  },
-
-  showAddExpensePayItemButton: () => {
-    toggleShowExpensePayItemDropdown(store, false);
+    showAddPayItemButton(store);
   },
 
   removePayrollExpensePayItem: (id) => {
     const intent = REMOVE_PAYROLL_EXPENSE_PAY_ITEM;
     store.dispatch({ intent, id });
 
-    toggleShowExpensePayItemDropdown(store, true);
+    showAddPayItemButton(store);
   },
 
   addPayrollWagePayItem: (payItem) => {
     const intent = ADD_PAYROLL_WAGE_PAY_ITEM;
     store.dispatch({ intent, ...payItem });
 
-    toggleShowAddWagePayItemDropdown(store, true);
+    showAddPayItemButton(store);
   },
 
   removePayrollWagePayItem: (id) => {
@@ -344,11 +319,6 @@ const createPayrollDetailsTabDispatchers = store => ({
   loadPayrollStandardPayWageAmountRule: (payItemId, rule) => {
     const intent = LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE;
     store.dispatch({ intent, payItemId, rule });
-  },
-
-  showAddWagePayItemButtonDropdown: () => {
-    const intent = SET_SHOW_ADD_WAGE_PAY_ITEM;
-    store.dispatch({ intent, showDropdown: false });
   },
 
   setPayrollStandardPayDetailsItemInput: ({ key, value }) => {
@@ -442,7 +412,7 @@ const createPayrollDetailsTabDispatchers = store => ({
     const intent = OPEN_WAGE_PAY_ITEM_MODAL;
     store.dispatch({ intent, id });
 
-    toggleShowAddWagePayItemDropdown(store, true);
+    showAddPayItemButton(store);
   },
 
   setWagePayItemModalLoadingState: (isLoading) => {
@@ -539,7 +509,7 @@ const createPayrollDetailsTabDispatchers = store => ({
     const intent = OPEN_EXPENSE_PAY_ITEM_MODAL;
     store.dispatch({ intent, id });
 
-    toggleShowExpensePayItemDropdown(store, true);
+    showAddPayItemButton(store);
   },
 
   setExpensePayItemModalLoadingState: (isLoading) => {
@@ -617,7 +587,7 @@ const createPayrollDetailsTabDispatchers = store => ({
     const intent = CLOSE_DEDUCTION_PAY_ITEM_MODAL;
     store.dispatch({ intent });
 
-    toggleShowAddDeductionPayItemDropdown(store, true);
+    showAddPayItemButton(store);
   },
 
   setDeductionPayItemModalLoadingState: (isLoading) => {
@@ -739,7 +709,7 @@ const createPayrollDetailsTabDispatchers = store => ({
     const intent = OPEN_SUPER_PAY_ITEM_MODAL;
     store.dispatch({ intent, id });
 
-    toggleShowAddSuperPayItemDropdown(store, true);
+    showAddPayItemButton(store);
   },
 
   closeSuperPayItemModal: () => {
@@ -806,14 +776,14 @@ const createPayrollDetailsTabDispatchers = store => ({
     const intent = OPEN_LEAVE_PAY_ITEM_MODAL;
     store.dispatch({ intent, leavePayItemId });
 
-    toggleShowAddLeavePayItemDropdown(store, true);
+    showAddPayItemButton(store);
   },
 
   closeLeavePayItemModal: () => {
     const intent = CLOSE_LEAVE_PAY_ITEM_MODAL;
     store.dispatch({ intent });
 
-    toggleShowAddLeavePayItemDropdown(store, true);
+    showAddPayItemButton(store);
   },
 
   dismissLeavePayItemModalAlert: () => {

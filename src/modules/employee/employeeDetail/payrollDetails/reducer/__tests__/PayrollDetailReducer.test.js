@@ -89,6 +89,7 @@ describe('PayrollDetailReducer', () => {
       const email = 'foo@bar.com';
       const state = {
         mainTab: 'contactDetails',
+        showAddPayItemButton: false,
         contactDetail: {
           email,
         },
@@ -107,6 +108,7 @@ describe('PayrollDetailReducer', () => {
 
       const expected = {
         mainTab: 'payrollDetails',
+        showAddPayItemButton: true,
         contactDetail: {
           email,
         },

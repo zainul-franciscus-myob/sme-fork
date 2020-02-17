@@ -43,8 +43,9 @@ const PayrollLeaveDetailTable = ({
   onRemoveAllocatedLeaveItem,
   onUpdateCarryOver,
   onOpenLeavePayItemModal,
-  showAddLeavePayItemButton,
-  onAddLeavePayItemButtonClick,
+  showAddPayItemButton,
+  onAddPayItemComboBlur,
+  onAddPayItemComboClick,
 }) => {
   const tableBodyView = selected.map((payItem) => {
     const {
@@ -75,9 +76,9 @@ const PayrollLeaveDetailTable = ({
             <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemoveAllocatedLeaveItem, payItem)}>
               <Icons.Remove />
             </Button>
-        )}
+          )}
           >
-          Remove from employee
+            Remove from employee
           </Tooltip>
         </Table.RowItem>
       </Table.Row>
@@ -95,12 +96,12 @@ const PayrollLeaveDetailTable = ({
           <Table.HeaderItem {...tableConfig.actions} />
         </Table.Header>
         <Table.Body>
-          { tableBodyView }
+          {tableBodyView}
         </Table.Body>
       </Table>
-      { showAddLeavePayItemButton
+      { showAddPayItemButton
         ? (
-          <Button type="link" icon={<Icons.Add />} onClick={onAddLeavePayItemButtonClick}>
+          <Button type="link" icon={<Icons.Add />} onClick={onAddPayItemComboClick}>
             Add leave pay item
           </Button>
         )
@@ -114,6 +115,7 @@ const PayrollLeaveDetailTable = ({
             selected={{}}
             onChange={handleComboboxChange(onAddAllocatedLeaveItem)}
             initialIsOpen
+            onBlur={onAddPayItemComboBlur}
             addNewItem={{
               label: 'Create leave pay item',
               onAddNew: onPayItemSelect(onOpenLeavePayItemModal, 'new'),

@@ -4,7 +4,8 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilteredWagePayItemOptions, getSelectedWagePayItems, getShowAddWagePayItemButton } from '../../selectors/PayrollWageSelectors';
+import { getFilteredWagePayItemOptions, getSelectedWagePayItems } from '../../selectors/PayrollWageSelectors';
+import { getShowAddPayItemButton } from '../../../EmployeeDetailSelectors';
 import Combobox from '../../../../../../components/Feelix/Combobox/Combobox';
 import styles from './AddWagePayItemTable.module.css';
 
@@ -62,8 +63,9 @@ const AddWagePayItemTable = ({
   onAddWagePayItem,
   onRemoveWagePayItem,
   onOpenWagePayItemModal,
-  showAddWagePayItemButton,
-  onAddWagePayItemButtonClick,
+  showAddPayItemButton,
+  onAddPayItemComboBlur,
+  onAddPayItemComboClick,
 }) => (
   <div className={styles.editableTable}>
     <Table hasActions>
@@ -94,9 +96,9 @@ const AddWagePayItemTable = ({
     </Table>
     { filteredWagePayItemOptions.length > 0
       && (
-        showAddWagePayItemButton
+        showAddPayItemButton
           ? (
-            <Button type="link" icon={<Icons.Add />} onClick={onAddWagePayItemButtonClick}>
+            <Button type="link" icon={<Icons.Add />} onClick={onAddPayItemComboClick}>
           Add wage pay item
             </Button>
           )
@@ -106,6 +108,7 @@ const AddWagePayItemTable = ({
               hideLabel
               hintText={addWagePayItemLabel}
               metaData={comboboxMetaData}
+              onBlur={onAddPayItemComboBlur}
               selected={{}}
               items={filteredWagePayItemOptions}
               onChange={handleComboboxChange(onAddWagePayItem)}
@@ -125,7 +128,7 @@ const AddWagePayItemTable = ({
 const mapStateToProps = state => ({
   filteredWagePayItemOptions: getFilteredWagePayItemOptions(state),
   selectedWagePayItems: getSelectedWagePayItems(state),
-  showAddWagePayItemButton: getShowAddWagePayItemButton(state),
+  showAddPayItemButton: getShowAddPayItemButton(state),
 });
 
 export default connect(mapStateToProps)(AddWagePayItemTable);

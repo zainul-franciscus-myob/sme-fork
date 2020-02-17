@@ -621,10 +621,10 @@ export default class PayrollDetailsTabModule {
         onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
         onRemovePayrollExpensePayItem={this.dispatcher.removePayrollExpensePayItem}
         onAddPayrollExpensePayItem={this.dispatcher.addPayrollExpensePayItem}
-        onAddExpensePayItemButtonClick={this.dispatcher.showAddExpensePayItemButton}
         onOpenExpensePayItemModal={this.openExpensePayItemModal}
         onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
-        onAddDeductionPayItemClick={() => this.dispatcher.showDeductionPayItemDropdown(false)}
+        onAddPayItemComboBlur={this.dispatcher.showAddPayItemButton}
+        onAddPayItemComboClick={this.dispatcher.showAddPayItemDropdown}
         onRemovePayrollDeductionPayItem={this.removePayrollDeductionPayItemAndStandardPayItem}
         onPayrollLeaveListeners={{
           onAddAllocatedLeaveItem: this.dispatcher.addAllocatedLeaveItem,
@@ -633,7 +633,6 @@ export default class PayrollDetailsTabModule {
           onConfirmCancelAllocatedLeaveItem: this.dispatcher.closeAllocatedLeaveItemModal,
           onUpdateAllocatedLeaveItemCarryOver: this.dispatcher.updateAllocatedLeaveItemCarryOver,
           onOpenLeavePayItemModal: this.openLeavePayItemModal,
-          onAddLeavePayItemButtonClick: this.dispatcher.showAddLeavePayItemButtonDropdown,
         }}
         onPayrollStandardPayListeners={{
           onDetailChange: this.dispatcher.setPayrollStandardPayDetailsItemInput,
@@ -653,7 +652,6 @@ export default class PayrollDetailsTabModule {
         onAddPayrollSuperPayItem={this.dispatcher.addPayrollSuperPayItem}
         onRemovePayrollSuperPayItem={this.removePayrollSuperPayItemAndStandardPayItem}
         onOpenDeductionPayItemModal={this.openDeductionPayItemModal}
-        onAddSuperPayItemButtonClick={this.dispatcher.showAddSuperPayItemButton}
         wagePayItemModalListeners={{
           onDetailsChange: this.dispatcher.updateWagePayItemModalDetails,
           onAmountInputBlur: this.dispatcher.updateWagePayItemModalAmount,
@@ -736,7 +734,6 @@ export default class PayrollDetailsTabModule {
         onPayrollWageHourlyRateBlur={this.updatePayrollWageDetailsAndStandardPayItems}
         onPayrollWageHoursInPayCycleBlur={this.updatePayrollWageDetailsAndStandardPayItems}
         onPayrollWageSelectedPayCycleChange={this.updatePayrollWageDetailsAndStandardPayItems}
-        onAddWagePayItemButtonClick={this.dispatcher.showAddWagePayItemButtonDropdown}
         onTaxPayItemClick={this.loadTaxPayItemModal}
         taxPayItemModalListeners={{
           onTaxPayItemModalDetailChange: this.dispatcher.updateTaxPayItemModalDetails,

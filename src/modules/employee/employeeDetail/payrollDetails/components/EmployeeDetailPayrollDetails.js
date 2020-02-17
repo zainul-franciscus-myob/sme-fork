@@ -112,11 +112,9 @@ const EmployeeDetailPayrollDetails = ({
   // TODO this needs to be moved
   leavePayItemModalListeners,
   // TODO this needs to be moved
-  onAddDeductionPayItemClick,
-  onAddWagePayItemButtonClick,
-  onAddSuperPayItemButtonClick,
-  onAddExpensePayItemButtonClick,
+  onAddPayItemComboClick,
   onTaxFileNumberStatusChange,
+  onAddPayItemComboBlur,
 }) => {
   const Employment = () => (
     <EmploymentDetails
@@ -127,6 +125,8 @@ const EmployeeDetailPayrollDetails = ({
 
   const Leave = () => (
     <PayrollLeaveDetail
+      onAddPayItemComboBlur={onAddPayItemComboBlur}
+      onAddPayItemComboClick={onAddPayItemComboClick}
       onPayrollLeaveListeners={onPayrollLeaveListeners}
       leavePayItemModalListeners={leavePayItemModalListeners}
     />
@@ -137,7 +137,8 @@ const EmployeeDetailPayrollDetails = ({
       onAddPayrollDeductionPayItem={onAddPayrollDeductionPayItem}
       onRemovePayrollDeductionPayItem={onRemovePayrollDeductionPayItem}
       onOpenDeductionPayItemModal={onOpenDeductionPayItemModal}
-      onAddDeductionPayItemClick={onAddDeductionPayItemClick}
+      onAddPayItemComboClick={onAddPayItemComboClick}
+      onAddPayItemComboBlur={onAddPayItemComboBlur}
     />
   );
 
@@ -146,7 +147,8 @@ const EmployeeDetailPayrollDetails = ({
       onAddPayrollExpensePayItem={onAddPayrollExpensePayItem}
       onRemovePayrollExpensePayItem={onRemovePayrollExpensePayItem}
       onOpenExpensePayItemModal={onOpenExpensePayItemModal}
-      onAddExpensePayItemButtonClick={onAddExpensePayItemButtonClick}
+      onAddPayItemComboBlur={onAddPayItemComboBlur}
+      onAddPayItemComboClick={onAddPayItemComboClick}
     />
   );
 
@@ -160,7 +162,8 @@ const EmployeeDetailPayrollDetails = ({
       onOpenSuperFundModal={onOpenSuperFundModal}
       superFundModalListeners={superFundModalListeners}
       onOpenSuperPayItemModal={onOpenSuperPayItemModal}
-      onAddSuperPayItemButtonClick={onAddSuperPayItemButtonClick}
+      onAddPayItemComboBlur={onAddPayItemComboBlur}
+      onAddPayItemComboClick={onAddPayItemComboClick}
     />
   );
 
@@ -188,7 +191,8 @@ const EmployeeDetailPayrollDetails = ({
       onPayrollWageSelectedPayCycleChange={onPayrollWageSelectedPayCycleChange}
       onOpenWagePayItemModal={onOpenWagePayItemModal}
       wagePayItemModalListeners={wagePayItemModalListeners}
-      onAddWagePayItemButtonClick={onAddWagePayItemButtonClick}
+      onAddPayItemComboBlur={onAddPayItemComboBlur}
+      onAddPayItemComboClick={onAddPayItemComboClick}
     />
   );
 

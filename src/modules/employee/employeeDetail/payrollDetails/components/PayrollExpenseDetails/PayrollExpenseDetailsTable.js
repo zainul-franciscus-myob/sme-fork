@@ -29,8 +29,9 @@ const PayrollExpenseDetailsTable = ({
   onAddPayItem,
   onRemovePayItem,
   onOpenExpensePayItemModal,
-  showAddExpensePayItemButton,
-  onAddExpensePayItemButtonClick,
+  showAddPayItemButton,
+  onAddPayItemComboBlur,
+  onAddPayItemComboClick,
 }) => {
   const tableBodyView = selected.map(({ id, name, displayType }) => (
     <Table.Row key={id}>
@@ -64,9 +65,9 @@ const PayrollExpenseDetailsTable = ({
         </Table.Body>
       </Table>
       {
-        showAddExpensePayItemButton
+        showAddPayItemButton
           ? (
-            <Button type="link" icon={<Icons.Add />} onClick={onAddExpensePayItemButtonClick}>
+            <Button type="link" icon={<Icons.Add />} onClick={onAddPayItemComboClick}>
             Add expense pay item
             </Button>
           )
@@ -79,6 +80,7 @@ const PayrollExpenseDetailsTable = ({
               items={items}
               initialIsOpen
               selected={{}}
+              onBlur={onAddPayItemComboBlur}
               onChange={handleComboboxChange(onAddPayItem)}
               addNewItem={{
                 label: 'Create expense pay item',

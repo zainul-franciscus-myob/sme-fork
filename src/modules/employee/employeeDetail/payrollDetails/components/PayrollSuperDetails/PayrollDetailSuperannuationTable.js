@@ -4,7 +4,8 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAllocatedPayItems, getFilteredSuperPayItemOptions, getShowAddSuperPayItemButton } from '../../selectors/PayrollSuperSelectors';
+import { getAllocatedPayItems, getFilteredSuperPayItemOptions } from '../../selectors/PayrollSuperSelectors';
+import { getShowAddPayItemButton } from '../../../EmployeeDetailSelectors';
 import Combobox from '../../../../../../components/Feelix/Combobox/Combobox';
 import styles from './PayrollDetailSuperannuationTable.module.css';
 
@@ -34,8 +35,9 @@ const PayrollDetailSuperannuationTable = ({
   onAddPayrollSuperPayItem,
   onRemovePayrollSuperPayItem,
   onOpenSuperPayItemModal,
-  showAddSuperPayItemButton,
-  onAddSuperPayItemButtonClick,
+  showAddPayItemButton,
+  onAddPayItemComboClick,
+  onAddPayItemComboBlur,
 }) => {
   const superPayItemsFieldGroupLabel = (
     <div>
@@ -66,9 +68,9 @@ const PayrollDetailSuperannuationTable = ({
   ));
 
   const payItemCombobox = (
-    showAddSuperPayItemButton
+    showAddPayItemButton
       ? (
-        <Button type="link" icon={<Icons.Add />} onClick={onAddSuperPayItemButtonClick}>
+        <Button type="link" icon={<Icons.Add />} onClick={onAddPayItemComboClick}>
         Add superannuation pay item
         </Button>
       )
@@ -81,6 +83,7 @@ const PayrollDetailSuperannuationTable = ({
           items={superPayItemsOptions}
           initialIsOpen
           selected={{}}
+          onBlur={onAddPayItemComboBlur}
           onChange={handleComboboxChange(onAddPayrollSuperPayItem)}
           addNewItem={{
             label: 'Create super pay item',
@@ -115,7 +118,7 @@ const PayrollDetailSuperannuationTable = ({
 const mapStateToProps = state => ({
   allocatedPayItems: getAllocatedPayItems(state),
   superPayItemsOptions: getFilteredSuperPayItemOptions(state),
-  showAddSuperPayItemButton: getShowAddSuperPayItemButton(state),
+  showAddPayItemButton: getShowAddPayItemButton(state),
 });
 
 export default connect(mapStateToProps)(PayrollDetailSuperannuationTable);

@@ -1,8 +1,9 @@
 import {
+  SET_SUB_TAB,
   UPDATE_EMPLOYEE,
   UPDATE_PAYMENT_DETAILS,
-} from '../../../../EmployeeIntents';
-import employeeDetailReducer from '../../../employeeDetailReducer';
+} from '../../EmployeeIntents';
+import employeeDetailReducer from '../employeeDetailReducer';
 
 describe('employeeDetailReducer', () => {
   describe('updateEmployeeDetail', () => {
@@ -506,6 +507,29 @@ describe('employeeDetailReducer', () => {
 
       const { paymentDetails } = employeeDetailReducer(initialState, action);
       expect(paymentDetails).toEqual(expected);
+    });
+
+    it('resets the showPayItemButtons to true, when sub tab is set', () => {
+      const initialState = {
+        otherProps: 'other props',
+        showAddPayItemButton: false,
+        subTab: 'something else',
+      };
+
+      const expectedState = {
+        showAddPayItemButton: true,
+        otherProps: 'other props',
+        subTab: 'something',
+      };
+
+      const action = {
+        intent: SET_SUB_TAB,
+        selectedTab: 'something',
+      };
+
+      const result = employeeDetailReducer(initialState, action);
+
+      expect(result).toEqual(expectedState);
     });
   });
 });

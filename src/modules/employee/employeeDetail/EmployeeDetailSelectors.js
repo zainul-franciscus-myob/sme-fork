@@ -138,3 +138,5 @@ export const sortPayItems = ({
   b,
   [baseSalaryWagePayItemId, baseHourlyWagePayItemId],
 ));
+
+export const getShowAddPayItemButton = state => (state.showAddPayItemButton);

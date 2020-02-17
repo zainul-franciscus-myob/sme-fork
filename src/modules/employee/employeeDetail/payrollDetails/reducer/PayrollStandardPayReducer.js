@@ -3,7 +3,6 @@ import {
   REMOVE_PAYROLL_STANDARD_PAY_ITEM,
   SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT,
   SET_PAYROLL_STANDARD_PAY_ITEM_INPUT,
-  SET_SHOW_ADD_WAGE_PAY_ITEM,
 } from '../../../EmployeeIntents';
 import {
   getStandardPayFormattedAmount,
@@ -81,21 +80,9 @@ const removePayrollStandardPayItem = (state, { payItemId }) => {
   return setPayrollStandardPayState(state, { standardPayItems: updatedStandardPayItems });
 };
 
-const showAddWagePayItemDropdown = (state, action) => ({
-  ...state,
-  payrollDetails: {
-    ...state.payrollDetails,
-    wage: {
-      ...state.payrollDetails.wage,
-      showAddWagePayItemButton: action.showDropdown,
-    },
-  },
-});
-
 export default {
   [LOAD_PAYROLL_STANDARD_PAY_WAGE_AMOUNT_RULE]: loadPayrollStandardPayWageAmountRule,
   [SET_PAYROLL_STANDARD_PAY_DETAILS_INPUT]: setPayrollStandardPayDetailsItemInput,
   [SET_PAYROLL_STANDARD_PAY_ITEM_INPUT]: setPayrollStandardPayItemInput,
   [REMOVE_PAYROLL_STANDARD_PAY_ITEM]: removePayrollStandardPayItem,
-  [SET_SHOW_ADD_WAGE_PAY_ITEM]: showAddWagePayItemDropdown,
 };

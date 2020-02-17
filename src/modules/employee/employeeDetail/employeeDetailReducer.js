@@ -43,6 +43,7 @@ export const getDefaultState = () => ({
   modal: undefined,
   mainTab: '',
   subTab: '',
+  showAddPayItemButton: true,
   contactDetail: {
     firstName: '',
     lastName: '',
@@ -71,18 +72,15 @@ export const getDefaultState = () => ({
     },
     deductionDetails: {
       deductionPayItems: [],
-      showAddDeductionPayItem: true,
     },
     leaveDetails: {
       allocatedLeavePayItems: [],
       modal: undefined,
-      showAddLeavePayItemButton: true,
     },
     superannuationDetails: {
       selectedSuperFundId: '',
       employeeMembershipNumber: '',
       allocatedPayItems: [],
-      showAddSuperPayItemButton: true,
     },
     tax: {
       extraTax: '',
@@ -105,11 +103,9 @@ export const getDefaultState = () => ({
       appliedAnnualSalary: '',
       appliedHourlyRate: '',
       appliedPayPeriodHours: '',
-      showAddWagePayItemButton: true,
     },
     employerExpenseDetails: {
       expensePayItems: [],
-      showAddExpensePayItemButton: true,
     },
     standardPayDetails: {
       description: '',
@@ -176,6 +172,7 @@ const setMainTab = (state, action) => ((
   action.selectedTab === mainTabIds.payrollDetails && shouldDefaultPayslipEmail(state))
   ? {
     ...state,
+    showAddPayItemButton: true,
     mainTab: action.selectedTab,
     payrollDetails: {
       ...state.payrollDetails,
@@ -188,12 +185,14 @@ const setMainTab = (state, action) => ((
   }
   : {
     ...state,
+    showAddPayItemButton: true,
     mainTab: action.selectedTab,
   });
 
 const setSubTab = (state, action) => ({
   ...state,
   subTab: action.selectedTab,
+  showAddPayItemButton: true,
 });
 
 const loadContactDetail = (state, action) => ({
