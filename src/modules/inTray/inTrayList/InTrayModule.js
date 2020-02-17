@@ -42,7 +42,9 @@ const messageTypes = [
 ];
 
 export default class InTrayModule {
-  constructor({ integration, setRootView, popMessages }) {
+  constructor({
+    integration, setRootView, popMessages, globalCallbacks,
+  }) {
     this.integration = integration;
     this.store = new Store(inTrayReducer);
     this.popMessages = popMessages;
@@ -50,6 +52,7 @@ export default class InTrayModule {
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
+    this.globalCallbacks = globalCallbacks;
     this.dispatcher = createInTrayDispatcher(this.store);
     this.integrator = createInTrayIntegrator(this.store, integration);
   }
@@ -327,6 +330,7 @@ export default class InTrayModule {
       this.hideEmailGenerationConfirmation();
       this.dispatcher.closeModal();
     }
+    this.globalCallbacks.inTrayUploadOptionsClosed();
   }
 
   copyEmail = () => {

@@ -9,7 +9,9 @@ const getInTrayRoutes = ({
     {
       name: RouteName.IN_TRAY,
       path: '/:region/:businessId/inTray/',
-      module: new InTrayModule({ integration, setRootView, popMessages }),
+      module: new InTrayModule({
+        integration, setRootView, popMessages, globalCallbacks,
+      }),
       documentTitle: 'In Tray',
     },
     {
