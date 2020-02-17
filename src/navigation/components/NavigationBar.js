@@ -108,6 +108,7 @@ const getSecondary = ({
   shouldDisplayAddMenu,
   shouldDisplayHelpMenu,
   shouldDisplayTasksMenu,
+  shouldDisplaySubscriptionNow,
   onMenuSelect,
   onMenuLinkClick,
   onHelpLinkClick,
@@ -137,7 +138,7 @@ const getSecondary = ({
     businessName={businessName}
     onMenuSelect={onMenuSelect}
     onMenuLinkClick={onMenuLinkClick}
-    onSubscribeNowClick={onSubscribeNowClick}
+    onSubscribeNowClick={shouldDisplaySubscriptionNow && onSubscribeNowClick}
     onLogoutLinkClick={onLogoutLinkClick}
   />
   ),
@@ -166,7 +167,7 @@ const NavigationBar = ({
   shouldDisplayHelpMenu,
   shouldDisplayAddMenu,
   shouldDisplayTasksMenu,
-  shouldDisplaySubscriptionRibbon,
+  shouldDisplaySubscriptionNow,
   trialEndDate,
   menuLogoUrl,
   hasTasks,
@@ -196,6 +197,7 @@ const NavigationBar = ({
     shouldDisplayAddMenu,
     shouldDisplayHelpMenu,
     shouldDisplayTasksMenu,
+    shouldDisplaySubscriptionNow,
     hasTasks,
     businessName,
   });
@@ -210,7 +212,7 @@ const NavigationBar = ({
 
   const primary = primaryMenuItems.length ? primaryMenuItems : [];
 
-  const trialToBuyRibbon = shouldDisplaySubscriptionRibbon && (
+  const trialToBuyRibbon = shouldDisplaySubscriptionNow && (
     <SubscriptionRibbon
       trialEndDate={trialEndDate}
       onSubscribeNowClick={onSubscribeNowClick}
@@ -239,7 +241,7 @@ const mapStateToProps = state => ({
   shouldDisplayAddMenu: getShouldDisplayAddMenu(state),
   shouldDisplayHelpMenu: hasBusinessId(state),
   shouldDisplayTasksMenu: hasBusinessId(state),
-  shouldDisplaySubscriptionRibbon: hasBusinessId(state) && getTrialEndDate(state) != null,
+  shouldDisplaySubscriptionNow: hasBusinessId(state) && getTrialEndDate(state) != null,
   trialEndDate: getTrialEndDate(state),
   menuLogoUrl: getMenuLogoUrl(state)(window.location.href),
 });
