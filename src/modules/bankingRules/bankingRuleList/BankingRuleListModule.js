@@ -253,7 +253,6 @@ export default class BankingRuleListModule {
     this.setInitialState(context);
     this.render();
     this.readMessages();
-    this.setLoadingState(LoadingState.LOADING);
     this.loadBankingList();
   }
 
