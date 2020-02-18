@@ -9,3 +9,7 @@
 ## Testing the Reducer
 
 ## Testing the Module
+
+A guide on module testing:
+
+* [Module testing](../solution-options/module-testing.md)
