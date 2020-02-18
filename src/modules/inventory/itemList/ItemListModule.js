@@ -316,7 +316,6 @@ export default class ItemListModule {
   run(context) {
     this.setInitialState(context);
     this.render();
-    this.setLoadingState(true);
     this.readMessages();
     this.loadItemList();
   }
