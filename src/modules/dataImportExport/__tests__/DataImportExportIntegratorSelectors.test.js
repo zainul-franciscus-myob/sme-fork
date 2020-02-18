@@ -66,6 +66,9 @@ describe('DataImportExportIntegratorSelectors', () => {
       };
 
       const state = {
+        region: 'AU',
+        businessId: '123',
+        email: 'abc@test.com',
         import: {
           importFile: someFile,
           duplicateRecordsOption: 'someAction',
@@ -74,9 +77,11 @@ describe('DataImportExportIntegratorSelectors', () => {
 
       const actual = getImportChartOfAccountsPayload(state);
       const expected = {
-        sourceFile: someFile,
-        duplicateCheckMode: 'someAction',
-        source: 'File',
+        File: someFile,
+        DuplicateCheckMode: 'someAction',
+        Region: 'AU',
+        BusinessId: '123',
+        Email: 'abc@test.com',
       };
 
       expect(actual).toEqual(expected);

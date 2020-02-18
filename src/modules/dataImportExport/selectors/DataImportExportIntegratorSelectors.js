@@ -20,10 +20,15 @@ const getEmail = state => state.email;
 export const getImportChartOfAccountsPayload = createSelector(
   getImportFile,
   getDuplicateRecordsOption,
-  (sourceFile, duplicateRecordsOptionValue) => ({
-    sourceFile,
-    duplicateCheckMode: duplicateRecordsOptionValue,
-    source: 'File',
+  getImportRegion,
+  getEmail,
+  getBusinessId,
+  (file, duplicateRecordsOptionValue, region, email, businessId) => ({
+    File: file,
+    DuplicateCheckMode: duplicateRecordsOptionValue,
+    Region: region,
+    Email: email,
+    BusinessId: businessId,
   }),
 );
 
