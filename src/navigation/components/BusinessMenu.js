@@ -66,6 +66,7 @@ const getItems = ({
   onLogoutLinkClick,
   isCurrentUserAdvisor,
   onSubscribeNowClick,
+  onChangePlanClick,
 }) => [
   isCurrentUserAdvisor
     ? manageMyClientsMenuItem(onMenuLinkClick)
@@ -82,6 +83,7 @@ const getItems = ({
   getDisabledMenuLink('my.MYOB account'),
   urls.paymentDetail && getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick),
   onSubscribeNowClick && getMenuLink('', 'Subscribe now', onSubscribeNowClick),
+  onChangePlanClick && getMenuLink('', 'Change plan', onChangePlanClick),
   <Navigation.Separator key="separator-links" />,
   serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
   getMenuLinkWithIcon('', 'Logout', <Icons.SignOut />, onLogoutLinkClick),
@@ -109,6 +111,7 @@ const BusinessMenu = ({
   onMenuLinkClick,
   onLogoutLinkClick,
   onSubscribeNowClick,
+  onChangePlanClick,
   isReadOnly,
 }) => (
   <div className={styles.businessMenu}>
@@ -129,6 +132,7 @@ const BusinessMenu = ({
         onMenuLinkClick,
         onLogoutLinkClick,
         onSubscribeNowClick,
+        onChangePlanClick,
       })}
       onSelect={onMenuSelect}
       active={activeNav === 'business'}

@@ -308,3 +308,5 @@ export const getShouldDisplayReportsMenu = createSelector(
   getReportsUrls,
   (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean),
 );
+
+export const getShouldDisplayChangePlan = ({ subscriptionType }) => subscriptionType === 'paid';

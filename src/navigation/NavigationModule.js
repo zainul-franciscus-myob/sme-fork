@@ -11,6 +11,7 @@ import { logout } from '../Auth';
 import Config from '../Config';
 import NavigationBar from './components/NavigationBar';
 import Store from '../store/Store';
+import loadChangePlanUrl from '../modules/settings/subscription/loadChangePlanUrl';
 import loadSubscriptionUrl from '../modules/settings/subscription/loadSubscriptionUrl';
 import navReducer from './navReducer';
 
@@ -112,7 +113,21 @@ export default class NavigationModule {
     const businessId = getBusinessId(this.store.getState());
     const url = await loadSubscriptionUrl(this.integration, businessId, window.location.href);
     if (!url) {
-      console.warn('"Subscribe now" url is has no value');
+      console.warn('"Subscribe now" url has no value');
+      return;
+    }
+    this.redirectToPage(url);
+  }
+
+  changePlan = async () => {
+    const businessId = getBusinessId(this.store.getState());
+    const url = await loadChangePlanUrl(
+      this.integration,
+      businessId,
+      window.location.href,
+    );
+    if (!url) {
+      console.warn('"Change plan" url has no value');
       return;
     }
     this.redirectToPage(url);
@@ -127,6 +142,7 @@ export default class NavigationModule {
       toggleTasks,
       store,
       subscribeNow,
+      changePlan,
     } = this;
 
     return (
@@ -137,6 +153,7 @@ export default class NavigationModule {
           onMenuLinkClick={onPageTransition}
           onHelpLinkClick={toggleHelp}
           onSubscribeNowClick={subscribeNow}
+          onChangePlanClick={changePlan}
           onTasksLinkClick={toggleTasks}
           onLogoutLinkClick={logout}
           hasTasks={tasks && tasks.some(t => !t.isComplete)}

@@ -3,6 +3,7 @@ import {
   getMenuLogoUrl,
   getReportsUrls,
   getSalesUrls,
+  getShouldDisplayChangePlan,
   getShowUrls,
   noOpRouteNames,
 } from '../NavigationSelectors';
@@ -103,6 +104,22 @@ describe('NavigationSelectors', () => {
       const actual = getBusinessUrls(state);
 
       expect(actual[RouteName.PAYMENT_DETAIL]).toEqual('https://🦘.com/#/paymentProfile?businessId=🍟&serialNumber=🍕');
+    });
+  });
+
+  describe('getShouldDisplayChangePlan', () => {
+    describe('when the user has a paid subscription', () => {
+      it('displays the "Change plan" option', () => {
+        const state = { subscriptionType: 'paid' };
+        expect(getShouldDisplayChangePlan(state)).toEqual(true);
+      });
+    });
+
+    describe('when the user does not have a paid subscription', () => {
+      it('does not display the "Change plan" option', () => {
+        const state = { subscriptionType: 'trial' };
+        expect(getShouldDisplayChangePlan(state)).toEqual(false);
+      });
     });
   });
 

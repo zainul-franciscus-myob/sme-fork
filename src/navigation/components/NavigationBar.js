@@ -8,6 +8,7 @@ import {
   getShouldDisplayAddMenu,
   getShouldDisplayBankingMenu,
   getShouldDisplayBusinessMenu,
+  getShouldDisplayChangePlan,
   getShouldDisplayContactMenu,
   getShouldDisplayInTray,
   getShouldDisplayPayrollMenu,
@@ -108,6 +109,7 @@ const getSecondary = ({
   shouldDisplayAddMenu,
   shouldDisplayHelpMenu,
   shouldDisplayTasksMenu,
+  shouldDisplayChangePlan,
   shouldDisplaySubscriptionNow,
   onMenuSelect,
   onMenuLinkClick,
@@ -115,6 +117,7 @@ const getSecondary = ({
   onTasksLinkClick,
   onLogoutLinkClick,
   onSubscribeNowClick,
+  onChangePlanClick,
   hasTasks,
   businessName,
 }) => [
@@ -140,6 +143,7 @@ const getSecondary = ({
     onMenuLinkClick={onMenuLinkClick}
     onSubscribeNowClick={shouldDisplaySubscriptionNow && onSubscribeNowClick}
     onLogoutLinkClick={onLogoutLinkClick}
+    onChangePlanClick={shouldDisplayChangePlan && onChangePlanClick}
   />
   ),
   !shouldDisplayBusinessMenu && (
@@ -154,6 +158,7 @@ const NavigationBar = ({
   onTasksLinkClick,
   onLogoutLinkClick,
   onSubscribeNowClick,
+  onChangePlanClick,
   shouldDisplayHome,
   shouldDisplaySalesMenu,
   shouldDisplayBusinessMenu,
@@ -167,6 +172,7 @@ const NavigationBar = ({
   shouldDisplayHelpMenu,
   shouldDisplayAddMenu,
   shouldDisplayTasksMenu,
+  shouldDisplayChangePlan,
   shouldDisplaySubscriptionNow,
   trialEndDate,
   menuLogoUrl,
@@ -193,10 +199,12 @@ const NavigationBar = ({
     onTasksLinkClick,
     onLogoutLinkClick,
     onSubscribeNowClick,
+    onChangePlanClick,
     shouldDisplayBusinessMenu,
     shouldDisplayAddMenu,
     shouldDisplayHelpMenu,
     shouldDisplayTasksMenu,
+    shouldDisplayChangePlan,
     shouldDisplaySubscriptionNow,
     hasTasks,
     businessName,
@@ -241,6 +249,7 @@ const mapStateToProps = state => ({
   shouldDisplayAddMenu: getShouldDisplayAddMenu(state),
   shouldDisplayHelpMenu: hasBusinessId(state),
   shouldDisplayTasksMenu: hasBusinessId(state),
+  shouldDisplayChangePlan: getShouldDisplayChangePlan(state),
   shouldDisplaySubscriptionNow: hasBusinessId(state) && getTrialEndDate(state) != null,
   trialEndDate: getTrialEndDate(state),
   menuLogoUrl: getMenuLogoUrl(state)(window.location.href),

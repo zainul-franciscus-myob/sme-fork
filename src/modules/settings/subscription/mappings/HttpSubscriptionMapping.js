@@ -1,5 +1,5 @@
 import {
-  GET_UPDATE_SUBSCRIPTION_URL, LOAD_SUBSCRIPTION,
+  GET_CHANGE_PLAN_URL, GET_UPDATE_SUBSCRIPTION_URL, LOAD_SUBSCRIPTION,
 } from '../subscriptionIntents';
 
 export default {
@@ -10,5 +10,9 @@ export default {
   [GET_UPDATE_SUBSCRIPTION_URL]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/subscription/subscribe_now`,
+  },
+  [GET_CHANGE_PLAN_URL]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/subscription/change_plan`,
   },
 };
