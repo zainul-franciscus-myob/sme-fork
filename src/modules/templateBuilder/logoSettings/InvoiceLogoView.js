@@ -61,7 +61,6 @@ const InvoiceLogoView = ({
   logoImage,
   logoSize,
   modalType,
-  onCancel,
   onCloseModal,
   onConfirmSave,
   onConfirmUnsave,
@@ -80,10 +79,7 @@ const InvoiceLogoView = ({
   const pageHead = (
     <StickyHeader>
       <PageHead title={pageTitle}>
-        <Button type="secondary" onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button onClick={onSave}>Save</Button>
+        <Button onClick={onSave}>Next</Button>
       </PageHead>
     </StickyHeader>
   );

@@ -40,7 +40,7 @@ const BusinessSettingsView = ({
 
   const pageFooter = (
     <ButtonRow>
-      <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting}>Save</Button>
+      <Button name="save" type="primary" onClick={onSaveButtonClick} disabled={isSubmitting}>Next</Button>
     </ButtonRow>
   );
 

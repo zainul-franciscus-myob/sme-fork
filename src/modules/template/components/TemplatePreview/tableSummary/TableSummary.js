@@ -35,18 +35,12 @@ const TableSummaryAmount = ({
   </div>
 );
 
-const TableSummary = ({ summary }) => (
+const TableSummary = ({ summary, description }) => (
   <div className={styles.summary}>
     <div className={styles.notes}>
       <div className={styles.notesContainer}>
         <h4>Notes</h4>
-        <p>
-          This is a sample.
-          <br />
-          Thanks for doing business with Paradise Closet! We appreciate you
-          shopping with us. For payment plans and full terms and conditions,
-          please send an email to paradisecloset@myob.com
-        </p>
+        <p>{description}</p>
       </div>
     </div>
     <div className={styles.totals}>

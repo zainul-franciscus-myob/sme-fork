@@ -5,7 +5,6 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { TEMPLATE_UPDATED } from '../../template/MessageTypes';
 import {
   getBusinessId,
-  getHasChange,
   getImage,
   getImageKey,
   getRegion,
@@ -48,7 +47,6 @@ class InvoiceLogoModule {
   render = () => this.setRootView(
     <Provider store={this.store}>
       <InvoiceLogoView
-        onCancel={this.onCancel}
         onCloseModal={this.closeModal}
         onConfirmSave={this.handleModalSave}
         onConfirmUnsave={this.handleModalUnsave}
@@ -110,16 +108,6 @@ class InvoiceLogoModule {
     };
 
     this.dispatcher.setModalType(imageTypeToModalType[getImageKey(state)]);
-  };
-
-  onCancel = () => {
-    const hasChange = getHasChange(this.store.getState());
-
-    if (hasChange) {
-      this.dispatcher.setModalType(ModalTypes.unsaved);
-    } else {
-      this.redirectToEmailSettings();
-    }
   };
 
   closeModal = () => this.dispatcher.setModalType('');

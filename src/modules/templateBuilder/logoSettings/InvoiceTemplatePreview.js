@@ -1,30 +1,22 @@
 import { addMonths } from 'date-fns';
 import React from 'react';
 
-import { PreviewType, SaleLayout } from '../../template/templateOptions';
+import { PreviewType } from '../../template/templateOptions';
 import AUBankDepositPayment from '../../template/components/TemplatePreview/PaymentMethod/AUBankDepositPayment';
 import AUChequePayment from '../../template/components/TemplatePreview/PaymentMethod/AUChequePayment';
 import BpayPayment from '../../template/components/TemplatePreview/PaymentMethod/BpayPayment';
 import CreditCardPayment from '../../template/components/TemplatePreview/PaymentMethod/CreditCardPayment';
 import InvoiceDocumentInfo from '../../template/components/TemplatePreview/documentInfo/InvoiceDocumentInfo';
-import InvoiceFooter from '../../template/components/TemplatePreview/footer/InvoiceFooter';
+import InvoiceFooter from './InvoiceFooter';
 import InvoiceServiceItemSummary from '../../template/components/TemplatePreview/tableSummary/InvoiceServiceItemSummary';
-import InvoiceServiceSummary from '../../template/components/TemplatePreview/tableSummary/InvoiceServiceSummary';
+import InvoiceServiceItemTable from './InvoiceServiceItemTable';
 import NZBankDepositPayment from '../../template/components/TemplatePreview/PaymentMethod/NZBankDepositPayment';
 import NZChequePayment from '../../template/components/TemplatePreview/PaymentMethod/NZChequePayment';
 import PaymentMethod from '../../template/components/TemplatePreview/PaymentMethod/PaymentMethod';
 import QuoteDocumentInfo from '../../template/components/TemplatePreview/documentInfo/QuoteDocumentInfo';
-import QuoteFooter from '../../template/components/TemplatePreview/footer/QuoteFooter';
-import QuoteServiceItemSummary from '../../template/components/TemplatePreview/tableSummary/QuoteServiceItemSummary';
-import QuoteServiceSummary from '../../template/components/TemplatePreview/tableSummary/QuoteServiceSummary';
 import Separator from '../../template/components/TemplatePreview/Separator';
-import ServiceItemTable from '../../template/components/TemplatePreview/tables/ServiceItemTable';
-import ServiceTable from '../../template/components/TemplatePreview/tables/ServiceTable';
 import ShippingInfo from '../../template/components/TemplatePreview/ShippingInfo';
 import StatementDocumentInfo from '../../template/components/TemplatePreview/documentInfo/StatementDocumentInfo';
-import StatementFooter from '../../template/components/TemplatePreview/footer/StatementFooter';
-import StatementTable from '../../template/components/TemplatePreview/tables/StatementTable';
-import StatementTableSummary from '../../template/components/TemplatePreview/tableSummary/StatementTableSummary';
 import TemplateTitle from '../../template/components/TemplatePreview/TemplateTitle';
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 import getShouldNotShowPaymentMethod from '../../template/components/TemplatePreview/handlers/getShouldNotShowPaymentMethod';
@@ -43,48 +35,6 @@ const getDocInfoForPreviewType = (type) => {
     case PreviewType.Statement:
     default:
       return <StatementDocumentInfo />;
-  }
-};
-
-const getTemplateTable = (previewType, saleLayout, region) => {
-  if (previewType === PreviewType.Statement) {
-    return <StatementTable />;
-  }
-  if (saleLayout === SaleLayout.ItemAndService) {
-    return <ServiceItemTable region={region} />;
-  }
-  return <ServiceTable region={region} />;
-};
-
-const getTemplateTableSummary = (previewType, saleLayout, region) => {
-  switch (previewType) {
-    case PreviewType.Statement:
-      return <StatementTableSummary />;
-    case PreviewType.Quote:
-      return saleLayout === SaleLayout.Service ? (
-        <QuoteServiceSummary region={region} />
-      ) : (
-        <QuoteServiceItemSummary region={region} />
-      );
-    case PreviewType.Invoice:
-    default:
-      return saleLayout === SaleLayout.Service ? (
-        <InvoiceServiceSummary region={region} />
-      ) : (
-        <InvoiceServiceItemSummary region={region} />
-      );
-  }
-};
-
-const getTemplateFooter = (previewType, saleLayout) => {
-  switch (previewType) {
-    case PreviewType.Statement:
-      return <StatementFooter />;
-    case PreviewType.Quote:
-      return <QuoteFooter saleLayout={saleLayout} />;
-    case PreviewType.Invoice:
-    default:
-      return <InvoiceFooter saleLayout={saleLayout} />;
   }
 };
 
@@ -145,7 +95,7 @@ const getPaymentMethod = ({
   return <div />;
 };
 
-const TemplatePreview = ({
+const InvoiceTemplatePreview = ({
   featureColour,
   headerTextColour,
   useAddressEnvelopePosition,
@@ -162,7 +112,6 @@ const TemplatePreview = ({
   website,
   abn,
   previewType,
-  saleLayout,
   region,
   isOnlinePaymentLoading,
   isAllowOnlinePayment,
@@ -192,8 +141,16 @@ const TemplatePreview = ({
         useAddressEnvelopePosition={useAddressEnvelopePosition}
       />
       <Separator featureColour={featureColour} />
-      {getTemplateTable(previewType, saleLayout, region)}
-      {getTemplateTableSummary(previewType, saleLayout, region)}
+      <InvoiceServiceItemTable region={region} />
+      <InvoiceServiceItemSummary
+        region={region}
+        description="Thank you for your purchase! If you have any questions, please contact me."
+        subtotalAmount="$9.09"
+        taxAmount="$0.91"
+        totalAmount="$10.00"
+        totalPaid="$0.00"
+        balanceDue="$10.00"
+      />
     </div>
     <div>
       {getPaymentMethod({
@@ -204,9 +161,9 @@ const TemplatePreview = ({
         isAllowPaymentByDirectDeposit,
         isAllowPaymentByCheque,
       })}
-      {getTemplateFooter(previewType, saleLayout)}
+      <InvoiceFooter />
     </div>
   </div>
 );
 
-export default TemplatePreview;
+export default InvoiceTemplatePreview;

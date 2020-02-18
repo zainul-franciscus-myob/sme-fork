@@ -71,7 +71,26 @@ const getTemplateTableSummary = (previewType, saleLayout, region) => {
       return saleLayout === SaleLayout.Service ? (
         <InvoiceServiceSummary region={region} />
       ) : (
-        <InvoiceServiceItemSummary region={region} />
+        <InvoiceServiceItemSummary
+          region={region}
+          description={
+          <>
+            <p>
+              This is a sample
+              <br />
+              Thanks for doing business with Paradise Closet!
+              We appreciate you shopping with us.
+              For payment plans and full terms and conditions,
+              please send an email to paradisecloset@myob.com
+            </p>
+          </>
+        }
+          subtotalAmount="$89.14"
+          taxAmount="$8.91"
+          totalAmount="$98.05"
+          totalPaid="$0.00"
+          balanceDue="$98.05"
+        />
       );
   }
 };

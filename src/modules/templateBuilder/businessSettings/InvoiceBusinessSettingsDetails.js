@@ -5,9 +5,9 @@ import React from 'react';
 import {
   getBusinessDetails,
   getContactDetails,
-  getIsRegionAu,
 } from '../../business/businessDetail/businessDetailSelectors';
-import AuTaxDetails from '../../business/businessDetail/components/AuTaxDetails';
+import { getRegion } from '../../template/templateSelectors';
+import AbnInput from '../../../components/autoFormatter/AbnInput/AbnInput';
 import NzTaxDetails from '../../business/businessDetail/components/NzTaxDetails';
 
 const onInputChange = handler => (e) => {
@@ -18,10 +18,12 @@ const onInputChange = handler => (e) => {
 const InvoiceBusinessSettingsDetails = ({
   address,
   email,
-  isAu,
   onChange,
   organisationName,
+  tradingName,
   phoneNumber,
+  abn,
+  region,
 }) => (
   <FieldGroup label="Add business details">
     <p>
@@ -38,7 +40,26 @@ const InvoiceBusinessSettingsDetails = ({
       width="xl"
     />
 
-    {isAu ? <AuTaxDetails onChange={onChange} /> : <NzTaxDetails onChange={onChange} />}
+    <Input
+      name="tradingName"
+      label="Trading name"
+      value={tradingName}
+      onChange={onInputChange(onChange)}
+      width="xl"
+    />
+
+    {region === 'au'
+      ? (
+        <AbnInput
+          name="abn"
+          label="ABN"
+          value={abn}
+          maxLength={14}
+          onChange={onInputChange(onChange)}
+          width="sm"
+        />
+      )
+      : <NzTaxDetails onChange={onChange} />}
 
     <TextArea
       autoSize
@@ -72,7 +93,7 @@ const InvoiceBusinessSettingsDetails = ({
 const mapStateToProps = state => ({
   ...getBusinessDetails(state),
   ...getContactDetails(state),
-  isAu: getIsRegionAu(state),
+  region: getRegion(state),
 });
 
 export default connect(mapStateToProps)(InvoiceBusinessSettingsDetails);
