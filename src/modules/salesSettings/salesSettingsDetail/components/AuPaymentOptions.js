@@ -28,7 +28,10 @@ const AuPaymentOptions = ({
         />
       )}
     />
-    {salesSettings.isAllowPaymentsByDirectDeposit && <AuDirectDeposit />}
+    {
+      salesSettings.isAllowPaymentsByDirectDeposit
+        && <AuDirectDeposit onUpdateSalesSettingsItem={onUpdateSalesSettingsItem} />
+    }
   </>
 );
 

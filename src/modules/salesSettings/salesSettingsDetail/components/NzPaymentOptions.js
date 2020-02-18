@@ -23,7 +23,10 @@ const NzPaymentOptions = ({
         />
       )}
     />
-    {salesSettings.isAllowPaymentsByDirectDeposit && <NzDirectDeposit />}
+    {
+      salesSettings.isAllowPaymentsByDirectDeposit
+        && <NzDirectDeposit onUpdateSalesSettingsItem={onUpdateSalesSettingsItem} />
+    }
   </>
 );
 
