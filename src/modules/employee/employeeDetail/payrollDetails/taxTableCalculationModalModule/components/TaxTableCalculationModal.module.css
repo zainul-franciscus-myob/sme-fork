@@ -1,0 +1,29 @@
+.taxTableForm * {
+  padding-bottom: 1px;
+}
+
+.taxTableForm {
+  padding: 5px;
+}
+
+.taxTableForm input[name="withholdingVariation"] {
+  width: var(--flx-width-field-xs);
+}
+
+.taxTableResult :global(.form-group__input-group) div {
+  float: left;
+  margin: 2px 2px 0 0;
+}
+
+.taxTableResult :global(.form-group__input-group) input {
+  width: var(--flx-width-field-l);
+}
+
+.linkButton {
+  padding: 0;
+  margin: 0;
+}
+
+.linkButton span:global(.btn__content) {
+  margin-left: 0;
+}

@@ -30,6 +30,7 @@ const TaxDetails = ({
   taxFileNumberStatusOptions,
   taxFileNumberStatus,
   onTaxFileNumberStatusChange,
+  onTfnModalLinkClick,
 }) => (
   <div className={styles.taxView}>
     <FormHorizontal>
@@ -60,7 +61,13 @@ const TaxDetails = ({
               <>
                 Select a tax table. Use the TFN declaration questions to assist.
                 <br />
-                <Button type="link" icon={<Icons.Edit />}>Fill out TFN declaration questions</Button>
+                <Button
+                  type="link"
+                  icon={<Icons.Edit />}
+                  onClick={onTfnModalLinkClick}
+                >
+                    Fill out TFN declaration questions
+                </Button>
               </>
             )}
           />

@@ -114,6 +114,7 @@ const EmployeeDetailPayrollDetails = ({
   // TODO this needs to be moved
   onAddPayItemComboClick,
   onTaxFileNumberStatusChange,
+  onTfnModalLinkClick,
   onAddPayItemComboBlur,
 }) => {
   const Employment = () => (
@@ -176,6 +177,7 @@ const EmployeeDetailPayrollDetails = ({
       onTaxPayItemClick={onTaxPayItemClick}
       taxPayItemModalListeners={taxPayItemModalListeners}
       onTaxFileNumberStatusChange={onTaxFileNumberStatusChange}
+      onTfnModalLinkClick={onTfnModalLinkClick}
     />
   );
 

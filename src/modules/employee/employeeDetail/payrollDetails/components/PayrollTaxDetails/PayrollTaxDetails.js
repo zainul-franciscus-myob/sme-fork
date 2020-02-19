@@ -28,6 +28,7 @@ const PayrollTaxDetails = ({
   taxFileNumberStatusOptions,
   taxFileNumberStatus,
   onTaxFileNumberStatusChange,
+  onTfnModalLinkClick,
 }) => {
   const fieldGroupLabel = (
     <div>
@@ -50,6 +51,7 @@ const PayrollTaxDetails = ({
         taxFileNumberStatusOptions={taxFileNumberStatusOptions}
         taxFileNumberStatus={taxFileNumberStatus}
         onTaxFileNumberStatusChange={onTaxFileNumberStatusChange}
+        onTfnModalLinkClick={onTfnModalLinkClick}
       />
       <hr />
       <FieldGroup label={fieldGroupLabel}>

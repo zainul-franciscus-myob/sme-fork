@@ -9,6 +9,7 @@ import {
   getIsWageDetailsInputChangedOnBlur,
   getPayPeriodHours,
 } from './selectors/PayrollWageSelectors';
+import { getBusinessId } from '../EmployeeDetailSelectors';
 import {
   getCalculatedWagePayItemAmount,
   getIsAmountRuleApplied,
@@ -44,8 +45,9 @@ import {
   getIsActionDisabled as getIsWagePayItemModalActionDisabled,
   getIsWagePayItemModalCreating,
 } from './selectors/WagePayItemModalSelectors';
-import { getTaxPayItemModalSubmitting } from './selectors/PayrollTaxSelectors';
+import { getTaxPayItemModalSubmitting, getTaxTableCalculations } from './selectors/PayrollTaxSelectors';
 import EmployeeDetailPayrollDetails from './components/EmployeeDetailPayrollDetails';
+import TaxTableCalculationModalModule from './taxTableCalculationModalModule/TaxTableCalculationModalModule';
 import createPayrollDetailsTabDispatchers from './createPayrollDetailsTabDispatchers';
 import createPayrollDetailsTabIntegrator from './createPayrollDetailsTabIntegrator';
 import payItemTypes from '../payItemTypes';
@@ -61,6 +63,9 @@ export default class PayrollDetailsTabModule {
     this.store = store;
     this.dispatcher = createPayrollDetailsTabDispatchers(store);
     this.integrator = createPayrollDetailsTabIntegrator(store, integration);
+    this.subModules = {
+      taxTableCalculationModal: new TaxTableCalculationModalModule({ integration }),
+    };
   }
 
   updatePayrollWagePayBasisAndStandardPayItems = ({ value }) => {
@@ -613,135 +618,165 @@ export default class PayrollDetailsTabModule {
     this.integrator.saveLeavePayItem({ onSuccess, onFailure });
   };
 
+  onTfnModalLinkClick = () => {
+    const state = this.store.getState();
+    const context = {
+      businessId: getBusinessId(state),
+      ...getTaxTableCalculations(state),
+    };
+
+    const onModalSave = ({ taxTableId, withholdingVariation }) => {
+      this.dispatcher.updatePayrollTaxDetails({
+        key: 'taxTableId',
+        value: taxTableId,
+      });
+      if (withholdingVariation) {
+        this.dispatcher.updatePayrollTaxDetails({
+          key: 'withholdingVariationRate',
+          value: withholdingVariation,
+        });
+      }
+    };
+
+    this.subModules.taxTableCalculationModal.open(context, onModalSave);
+  }
+
   getView() {
+    const taxTableCalculationModal = this.subModules.taxTableCalculationModal.render();
+
     return (
-      <EmployeeDetailPayrollDetails
-        onSubTabSelected={this.dispatcher.setSubTab}
-        onEmploymentDetailsChange={this.dispatcher.updatePayrollEmploymentDetails}
-        onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
-        onRemovePayrollExpensePayItem={this.dispatcher.removePayrollExpensePayItem}
-        onAddPayrollExpensePayItem={this.dispatcher.addPayrollExpensePayItem}
-        onOpenExpensePayItemModal={this.openExpensePayItemModal}
-        onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
-        onAddPayItemComboBlur={this.dispatcher.showAddPayItemButton}
-        onAddPayItemComboClick={this.dispatcher.showAddPayItemDropdown}
-        onRemovePayrollDeductionPayItem={this.removePayrollDeductionPayItemAndStandardPayItem}
-        onPayrollLeaveListeners={{
-          onAddAllocatedLeaveItem: this.dispatcher.addAllocatedLeaveItem,
-          onRemoveAllocatedLeaveItem: this.dispatcher.openAllocatedLeaveItemModal,
-          onConfirmRemoveAllocatedLeaveItem: this.removeAllocatedLeaveItem,
-          onConfirmCancelAllocatedLeaveItem: this.dispatcher.closeAllocatedLeaveItemModal,
-          onUpdateAllocatedLeaveItemCarryOver: this.dispatcher.updateAllocatedLeaveItemCarryOver,
-          onOpenLeavePayItemModal: this.openLeavePayItemModal,
-        }}
-        onPayrollStandardPayListeners={{
-          onDetailChange: this.dispatcher.setPayrollStandardPayDetailsItemInput,
-          onPayItemChange: this.dispatcher.setPayrollStandardPayItemInput,
-          onPayItemBlur: this.formatPayrollStandardPayItemInputAndApplyAmountRule,
-          onPayItemClick: this.openPayItemModal,
-        }}
-        onPayrollPayHistoryListeners={{
-          onFilterChange: this.dispatcher.setPayrollPayHistoryFilterOptions,
-          onPayItemChange: this.dispatcher.setPayrollPayHistoryItemInput,
-          onPayItemBlur: this.dispatcher.formatPayrollPayHistoryItemInput,
-          onPayItemClick: this.openPayItemModal,
-        }}
-        onUpdatePayrollDetailSuperannuationDetails={
-          this.dispatcher.updatePayrollDetailSuperannuationDetails
-        }
-        onAddPayrollSuperPayItem={this.dispatcher.addPayrollSuperPayItem}
-        onRemovePayrollSuperPayItem={this.removePayrollSuperPayItemAndStandardPayItem}
-        onOpenDeductionPayItemModal={this.openDeductionPayItemModal}
-        wagePayItemModalListeners={{
-          onDetailsChange: this.dispatcher.updateWagePayItemModalDetails,
-          onAmountInputBlur: this.dispatcher.updateWagePayItemModalAmount,
-          onOverrideAccountChange: this.dispatcher.updateWagePayItemModalOverrideAccount,
-          onEmployeeSelected: this.dispatcher.addWagePayItemModalEmployeeToSelectedList,
-          onRemoveEmployee: this.dispatcher.removeWagePayItemModalEmployeeFromSelectedList,
-          onExemptionSelected: this.dispatcher.addWagePayItemModalExemptionToSelectedList,
-          onRemoveExemption: this.dispatcher.removeWagePayItemModalExemptionFromSelectedList,
-          onSave: this.saveWagePayItemModal,
-          onCancel: this.dispatcher.closeWagePayItemModal,
-          onDismissAlert: this.dispatcher.dismissWagePayItemModalAlert,
-        }}
-        expensePayItemModalListeners={{
-          onDismissAlert: this.dispatcher.dismissExpensePayItemModalAlert,
-          onSave: this.saveExpensePayItemModal,
-          onCancel: this.dispatcher.closeExpensePayItemModal,
-          onChangeExpensePayItemInput: this.dispatcher.changeExpensePayItemModalAlert,
-          onBlurExpensePayItemAmountInput: this.dispatcher.formatExpensePayItemModalAmountInput,
-          onAddAllocatedEmployee: this.dispatcher.addExpensePayItemModalAllocatedEmployee,
-          onRemoveAllocatedEmployee: this.dispatcher.removeExpensePayItemModalAllocatedEmployee,
-          onAddExemptionPayItem: this.dispatcher.addExpensePayItemModalExemptionPayItem,
-          onRemoveExemptionPayItem: this.dispatcher.removeExpensePayItemModalExemptionPayItem,
-        }}
-        onOpenWagePayItemModal={this.onOpenWagePayItemModal}
-        deductionPayItemModalListeners={{
-          onDismissAlert: this.dispatcher.dismissDeductionPayItemModalAlert,
-          onChange: this.dispatcher.setDeductionPayItemModalInput,
-          onBlur: this.dispatcher.formatDeductionPayItemModalAmountInput,
-          onAddItem: this.dispatcher.addDeductionPayItemModalItem,
-          onRemoveItem: this.dispatcher.removeDeductionPayItemModalItem,
-          onSave: this.saveDeductionPayItemModal,
-          onCancel: this.dispatcher.closeDeductionPayItemModal,
-        }}
-        onOpenSuperFundModal={this.loadSuperFundModal}
-        superFundModalListeners={{
-          onUpdateSuperFundDetail: this.dispatcher.updateSuperFundDetail,
-          onAbnLookUp: this.lookUpAbn,
-          onUpdateSelfManagedFundAbn: this.dispatcher.updateSelfManagedFundAbn,
-          onSelectSuperFund: this.dispatcher.selectSuperFund,
-          onShowContactDetails: this.dispatcher.showContactDetails,
-          onDismissAlert: this.dispatcher.dismissSuperFundModalAlertMessage,
-          onSave: this.saveSuperFundModal,
-          onCancel: this.dispatcher.closeSuperFundModal,
-        }}
-        onOpenSuperPayItemModal={this.openSuperPayItemModal}
-        superPayItemModalListeners={{
-          onDismissAlert: this.dispatcher.dismissSuperPayItemModalAlert,
-          onChange: this.setSuperPayItemModalInput,
-          onBlur: this.formatSuperPayItemDetailModalInput,
-          onAddItem: this.dispatcher.addSuperPayItemModalItem,
-          onRemoveItem: this.dispatcher.removeSuperPayItemModalItem,
-          onSave: this.saveSuperPayItemModal,
-          onCancel: this.dispatcher.closeSuperPayItemModal,
-        }}
-        leavePayItemModalListeners={{
-          onDismissAlert: this.dispatcher.dismissLeavePayItemModalAlert,
-          onSave: this.saveLeavePayItem,
-          onCancel: this.dispatcher.closeLeavePayItemModal,
-          onAddEmployee: this.dispatcher.addLeavePayItemModalEmployee,
-          onRemoveEmployee: this.dispatcher.removeLeavePayItemModalEmployee,
-          onAddExemption: this.dispatcher.addLeavePayItemModalExemption,
-          onRemoveExemption: this.dispatcher.removeLeavePayItemModalExemption,
-          onAddLinkedWage: this.dispatcher.addLeavePayItemModalLinkedWage,
-          onRemoveLinkedWage: this.dispatcher.removeLeavePayItemModalLinkedWage,
-          onNameChange: this.dispatcher.updateLeavePayItemModalName,
-          onCalculationBasisChange: this.dispatcher.updateLeavePayItemModalCalculationBasis,
-          onCalculationBasisAmountChange:
-            this.dispatcher.updateLeavePayItemModalCalculationBasisAmount,
-        }}
-        onAddPayrollTaxPayItem={this.dispatcher.addPayrollTaxPayItem}
-        onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}
-        onPayrollTaxDetailsChange={this.dispatcher.updatePayrollTaxDetails}
-        onTaxFileNumberStatusChange={this.dispatcher.updateTaxFileNumberStatus}
-        onPayrollTaxAmountBlur={this.dispatcher.formatAmountInput}
-        onAddPayrollWagePayItem={this.addPayrollWagePayItem}
-        onRemovePayrollWagePayItem={this.removePayrollWagePayItemAndStandardPayItem}
-        onPayrollWageDetailsChange={this.dispatcher.updatePayrollWageDetails}
-        onPayrollWagePayBasisChange={this.updatePayrollWagePayBasisAndStandardPayItems}
-        onPayrollWageAnnualSalaryBlur={this.updatePayrollWageDetailsAndStandardPayItems}
-        onPayrollWageHourlyRateBlur={this.updatePayrollWageDetailsAndStandardPayItems}
-        onPayrollWageHoursInPayCycleBlur={this.updatePayrollWageDetailsAndStandardPayItems}
-        onPayrollWageSelectedPayCycleChange={this.updatePayrollWageDetailsAndStandardPayItems}
-        onTaxPayItemClick={this.loadTaxPayItemModal}
-        taxPayItemModalListeners={{
-          onTaxPayItemModalDetailChange: this.dispatcher.updateTaxPayItemModalDetails,
-          onTaxPayItemModalSaveButtonClick: this.saveTaxPayItemModal,
-          onDismissTaxPayItemModalAlertMessage: this.dispatcher.dismissTaxPayItemModalAlertMessage,
-          onCloseModal: this.dispatcher.closeTaxPayItemModal,
-        }}
-      />
+      <>
+        {taxTableCalculationModal}
+        <EmployeeDetailPayrollDetails
+          onSubTabSelected={this.dispatcher.setSubTab}
+          onEmploymentDetailsChange={this.dispatcher.updatePayrollEmploymentDetails}
+          onEmploymentPaySlipDeliveryChange={this.dispatcher.updatePayrollEmploymentPaySlipDelivery}
+          onRemovePayrollExpensePayItem={this.dispatcher.removePayrollExpensePayItem}
+          onAddPayrollExpensePayItem={this.dispatcher.addPayrollExpensePayItem}
+          onOpenExpensePayItemModal={this.openExpensePayItemModal}
+          onAddPayrollDeductionPayItem={this.dispatcher.addPayrollDeductionPayItem}
+          onAddPayItemComboBlur={this.dispatcher.showAddPayItemButton}
+          onAddPayItemComboClick={this.dispatcher.showAddPayItemDropdown}
+          onRemovePayrollDeductionPayItem={this.removePayrollDeductionPayItemAndStandardPayItem}
+          onPayrollLeaveListeners={{
+            onAddAllocatedLeaveItem: this.dispatcher.addAllocatedLeaveItem,
+            onRemoveAllocatedLeaveItem: this.dispatcher.openAllocatedLeaveItemModal,
+            onConfirmRemoveAllocatedLeaveItem: this.removeAllocatedLeaveItem,
+            onConfirmCancelAllocatedLeaveItem: this.dispatcher.closeAllocatedLeaveItemModal,
+            onUpdateAllocatedLeaveItemCarryOver: this.dispatcher.updateAllocatedLeaveItemCarryOver,
+            onOpenLeavePayItemModal: this.openLeavePayItemModal,
+          }}
+          onPayrollStandardPayListeners={{
+            onDetailChange: this.dispatcher.setPayrollStandardPayDetailsItemInput,
+            onPayItemChange: this.dispatcher.setPayrollStandardPayItemInput,
+            onPayItemBlur: this.formatPayrollStandardPayItemInputAndApplyAmountRule,
+            onPayItemClick: this.openPayItemModal,
+          }}
+          onPayrollPayHistoryListeners={{
+            onFilterChange: this.dispatcher.setPayrollPayHistoryFilterOptions,
+            onPayItemChange: this.dispatcher.setPayrollPayHistoryItemInput,
+            onPayItemBlur: this.dispatcher.formatPayrollPayHistoryItemInput,
+            onPayItemClick: this.openPayItemModal,
+          }}
+          onUpdatePayrollDetailSuperannuationDetails={
+            this.dispatcher.updatePayrollDetailSuperannuationDetails
+          }
+          onAddPayrollSuperPayItem={this.dispatcher.addPayrollSuperPayItem}
+          onRemovePayrollSuperPayItem={this.removePayrollSuperPayItemAndStandardPayItem}
+          onOpenDeductionPayItemModal={this.openDeductionPayItemModal}
+          wagePayItemModalListeners={{
+            onDetailsChange: this.dispatcher.updateWagePayItemModalDetails,
+            onAmountInputBlur: this.dispatcher.updateWagePayItemModalAmount,
+            onOverrideAccountChange: this.dispatcher.updateWagePayItemModalOverrideAccount,
+            onEmployeeSelected: this.dispatcher.addWagePayItemModalEmployeeToSelectedList,
+            onRemoveEmployee: this.dispatcher.removeWagePayItemModalEmployeeFromSelectedList,
+            onExemptionSelected: this.dispatcher.addWagePayItemModalExemptionToSelectedList,
+            onRemoveExemption: this.dispatcher.removeWagePayItemModalExemptionFromSelectedList,
+            onSave: this.saveWagePayItemModal,
+            onCancel: this.dispatcher.closeWagePayItemModal,
+            onDismissAlert: this.dispatcher.dismissWagePayItemModalAlert,
+          }}
+          expensePayItemModalListeners={{
+            onDismissAlert: this.dispatcher.dismissExpensePayItemModalAlert,
+            onSave: this.saveExpensePayItemModal,
+            onCancel: this.dispatcher.closeExpensePayItemModal,
+            onChangeExpensePayItemInput: this.dispatcher.changeExpensePayItemModalAlert,
+            onBlurExpensePayItemAmountInput: this.dispatcher.formatExpensePayItemModalAmountInput,
+            onAddAllocatedEmployee: this.dispatcher.addExpensePayItemModalAllocatedEmployee,
+            onRemoveAllocatedEmployee: this.dispatcher.removeExpensePayItemModalAllocatedEmployee,
+            onAddExemptionPayItem: this.dispatcher.addExpensePayItemModalExemptionPayItem,
+            onRemoveExemptionPayItem: this.dispatcher.removeExpensePayItemModalExemptionPayItem,
+          }}
+          onOpenWagePayItemModal={this.onOpenWagePayItemModal}
+          deductionPayItemModalListeners={{
+            onDismissAlert: this.dispatcher.dismissDeductionPayItemModalAlert,
+            onChange: this.dispatcher.setDeductionPayItemModalInput,
+            onBlur: this.dispatcher.formatDeductionPayItemModalAmountInput,
+            onAddItem: this.dispatcher.addDeductionPayItemModalItem,
+            onRemoveItem: this.dispatcher.removeDeductionPayItemModalItem,
+            onSave: this.saveDeductionPayItemModal,
+            onCancel: this.dispatcher.closeDeductionPayItemModal,
+          }}
+          onOpenSuperFundModal={this.loadSuperFundModal}
+          superFundModalListeners={{
+            onUpdateSuperFundDetail: this.dispatcher.updateSuperFundDetail,
+            onAbnLookUp: this.lookUpAbn,
+            onUpdateSelfManagedFundAbn: this.dispatcher.updateSelfManagedFundAbn,
+            onSelectSuperFund: this.dispatcher.selectSuperFund,
+            onShowContactDetails: this.dispatcher.showContactDetails,
+            onDismissAlert: this.dispatcher.dismissSuperFundModalAlertMessage,
+            onSave: this.saveSuperFundModal,
+            onCancel: this.dispatcher.closeSuperFundModal,
+          }}
+          onOpenSuperPayItemModal={this.openSuperPayItemModal}
+          superPayItemModalListeners={{
+            onDismissAlert: this.dispatcher.dismissSuperPayItemModalAlert,
+            onChange: this.setSuperPayItemModalInput,
+            onBlur: this.formatSuperPayItemDetailModalInput,
+            onAddItem: this.dispatcher.addSuperPayItemModalItem,
+            onRemoveItem: this.dispatcher.removeSuperPayItemModalItem,
+            onSave: this.saveSuperPayItemModal,
+            onCancel: this.dispatcher.closeSuperPayItemModal,
+          }}
+          leavePayItemModalListeners={{
+            onDismissAlert: this.dispatcher.dismissLeavePayItemModalAlert,
+            onSave: this.saveLeavePayItem,
+            onCancel: this.dispatcher.closeLeavePayItemModal,
+            onAddEmployee: this.dispatcher.addLeavePayItemModalEmployee,
+            onRemoveEmployee: this.dispatcher.removeLeavePayItemModalEmployee,
+            onAddExemption: this.dispatcher.addLeavePayItemModalExemption,
+            onRemoveExemption: this.dispatcher.removeLeavePayItemModalExemption,
+            onAddLinkedWage: this.dispatcher.addLeavePayItemModalLinkedWage,
+            onRemoveLinkedWage: this.dispatcher.removeLeavePayItemModalLinkedWage,
+            onNameChange: this.dispatcher.updateLeavePayItemModalName,
+            onCalculationBasisChange: this.dispatcher.updateLeavePayItemModalCalculationBasis,
+            onCalculationBasisAmountChange:
+              this.dispatcher.updateLeavePayItemModalCalculationBasisAmount,
+          }}
+          onAddPayrollTaxPayItem={this.dispatcher.addPayrollTaxPayItem}
+          onRemovePayrollTaxPayItem={this.dispatcher.removePayrollTaxPayItem}
+          onPayrollTaxDetailsChange={this.dispatcher.updatePayrollTaxDetails}
+          onTaxFileNumberStatusChange={this.dispatcher.updateTaxFileNumberStatus}
+          onPayrollTaxAmountBlur={this.dispatcher.formatAmountInput}
+          onAddPayrollWagePayItem={this.addPayrollWagePayItem}
+          onRemovePayrollWagePayItem={this.removePayrollWagePayItemAndStandardPayItem}
+          onPayrollWageDetailsChange={this.dispatcher.updatePayrollWageDetails}
+          onPayrollWagePayBasisChange={this.updatePayrollWagePayBasisAndStandardPayItems}
+          onPayrollWageAnnualSalaryBlur={this.updatePayrollWageDetailsAndStandardPayItems}
+          onPayrollWageHourlyRateBlur={this.updatePayrollWageDetailsAndStandardPayItems}
+          onPayrollWageHoursInPayCycleBlur={this.updatePayrollWageDetailsAndStandardPayItems}
+          onPayrollWageSelectedPayCycleChange={this.updatePayrollWageDetailsAndStandardPayItems}
+          onTaxPayItemClick={this.loadTaxPayItemModal}
+          taxPayItemModalListeners={{
+            onTaxPayItemModalDetailChange: this.dispatcher.updateTaxPayItemModalDetails,
+            onTaxPayItemModalSaveButtonClick: this.saveTaxPayItemModal,
+            onDismissTaxPayItemModalAlertMessage:
+              this.dispatcher.dismissTaxPayItemModalAlertMessage,
+            onCloseModal: this.dispatcher.closeTaxPayItemModal,
+          }}
+          onTfnModalLinkClick={this.onTfnModalLinkClick}
+        />
+      </>
     );
   }
 }

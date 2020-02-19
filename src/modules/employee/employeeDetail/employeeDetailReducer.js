@@ -91,6 +91,7 @@ export const getDefaultState = () => ({
       taxPayItems: [],
       taxFileNumberStatusOptions: [],
       taxFileNumberStatus: '',
+      taxCalculationTable: {},
     },
     wage: {
       selectedPayBasis: '',

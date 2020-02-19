@@ -68,6 +68,7 @@ import SupplierReturnMapping from '../../modules/supplierReturn/mappings/HttpSup
 import SupplierReturnPurchaseMapping from '../../modules/supplierReturnPurchase/mappings/HttpSupplierReturnPurchaseMapping';
 import TaskMapping from './TaskMapping';
 import TaxMapping from '../../modules/tax/mappings/HttpTaxMapping';
+import TaxTableCalculationsMapping from '../../modules/employee/employeeDetail/payrollDetails/taxTableCalculationModalModule/mappings/createHttpTaxTableCalculationsMapping';
 import TemplateBuilderMapping from '../../modules/templateBuilder/mappings/HttpTemplateBuilderMapping';
 import TemplateMapping from '../../modules/template/mappings/HttpTemplateMapping';
 import TimesheetMapping from '../../modules/timesheet/mappings/HttpTimesheetMapping';
@@ -94,6 +95,7 @@ const RootMapping = Object.freeze({
   ...InventoryMapping,
   ...UserMapping,
   ...EmployeeMapping,
+  ...TaxTableCalculationsMapping,
   ...InvoicePaymentMapping,
   ...BillPaymentMapping,
   ...BillMapping,

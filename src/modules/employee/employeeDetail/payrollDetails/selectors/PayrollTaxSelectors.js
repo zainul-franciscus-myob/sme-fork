@@ -56,3 +56,5 @@ export const getTaxPayItemPayload = state => ({
   atoReportingCategory: state.taxPayItemModal.tax.atoReportingCategory,
   accountId: state.taxPayItemModal.tax.accountId,
 });
+
+export const getTaxTableCalculations = state => state.payrollDetails.tax.taxTableCalculation;
