@@ -16,22 +16,11 @@ We can connect the local `sme-web` and `sme-web-bff` stack directly to the `inte
     ```js
     bash -c 'while [ 0 ]; do kubectl port-forward svc/integration-private-api-gateway 5500:80 -n sme; done;'
     ```
-1. Generate a `.env.local` in the `sme-web-bff`
+1. Run [create-local.sh](./create-local.sh) in the `sme-web-bff`
+    - Generate `.env.local`
+    - Duplicate [`allowed-origins.dev.js`](https://github.com/MYOB-Technology/sme-web-bff/blob/master/src/extractor/cors/allowed-origins.dev.js) as `allowed-origins.local.js`
+    - Duplicate [`config.dev.js`](https://github.com/MYOB-Technology/sme-web-bff/blob/master/src/featureTogglesConfig/config.dev.js) as `config.local.js`
 
-    ```sh
-    #!/bin/bash
-
-    set -euxo pipefail
-
-    myob-auth k -e europa-preprod
-
-    POD=$(kubectl get pods -l app=sme-web-bff,stack=integration -o name -n sme | head -1)
-    POD_ENV=$(kubectl exec -it pod/integration-sme-web-bff-6cbbc6cb94-8pcwt -c sme-web-bff -n sme -- printenv | grep -- "AUTHENTICATION_BFF_CLIENT_SECRET\|STS_BFF_CLIENT_SECRET\|NODE_ENV")
-
-    cat .env.dev > .env.local
-    echo $POD_ENV >> .env.local
-    ```
-1. Duplicate [`allowed-origins.dev.js`](https://github.com/MYOB-Technology/sme-web-bff/blob/master/src/extractor/cors/allowed-origins.dev.js) as `allowed-origins.local.js`
 1. Start `sme-web-bff` using the `local` environment
 
     ```js
