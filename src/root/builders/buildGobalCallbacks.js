@@ -7,6 +7,7 @@ export default ({ closeTasks }) => ({
   customisedEmailDefaults: () => closeTasks({ closeEvent: 'customisedEmailDefaults' }),
   addedPaymentDetails: () => closeTasks({ closeEvent: 'addedPaymentDetails' }),
   uploadedLogo: () => closeTasks({ closeEvent: 'uploadedLogo' }),
+  learnPayrollCompleted: () => closeTasks({ closeEvent: 'learnPayrollCompleted' }),
   learnInTrayCompleted: () => closeTasks({ closeEvent: 'learnInTrayCompleted' }),
   inTrayBillSaved: () => closeTasks({ closeEvent: 'inTrayBillSaved' }),
   inTrayUploadOptionsClosed: () => closeTasks({ closeEvent: 'inTrayUploadOptionsClosed' }),

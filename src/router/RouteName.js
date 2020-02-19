@@ -48,6 +48,7 @@ const RouteName = {
   PREPARE_BAS_OR_IAS: 'prepareBasOrIas/prepareBasOrIas',
   IN_TRAY: 'inTray/inTray',
   ONBOARDING_LEARN_IN_TRAY: 'inTray/learn',
+  ONBOARDING_LEARN_PAYROLL: 'payroll/learn',
   LINKED_ACCOUNTS: 'linkedAccounts/linkedAccounts',
   BANKING_RULE_LIST: 'bankingRule/bankingRuleList',
   BANKING_RULE_DETAIL: 'bankingRule/bankingRuleDetail',

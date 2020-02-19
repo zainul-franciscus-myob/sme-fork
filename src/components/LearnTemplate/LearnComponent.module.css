@@ -1,0 +1,22 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+}
+
+.column:nth-child(2) { margin: 0; }
+
+.column li { margin-bottom: var(--flx-spacing-small); }
+
+@media screen and (min-width: 800px) {
+  .column { flex: 1; }
+
+  .column:nth-child(2) { margin-left: var(--flx-spacing-small); }
+}
