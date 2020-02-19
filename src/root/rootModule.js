@@ -1,9 +1,11 @@
 /* eslint-disable react/no-this-in-sfc */
 import { Provider } from 'react-redux';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import BusinessDetailsService from './services/businessDetails';
 import CreateRootDispatcher from './createRootDispatcher';
+import CreateRootIntegrator from './createRootIntegrator';
 import DrawerModule from '../drawer/DrawerModule';
 import NavigationModule from '../navigation/NavigationModule';
 import OnboardingModule from '../onboarding/OnboardingModule';
@@ -23,6 +25,8 @@ export default class RootModule {
     this.store = new Store(RootReducer);
 
     this.dispatcher = CreateRootDispatcher(this.store);
+    this.integrator = CreateRootIntegrator(this.store, integration);
+
     this.tasksService = tasksService(this.dispatcher, integration, this.store);
     this.settingsService = SettingsService(this.dispatcher, integration, this.store);
     this.businessDetailsService = BusinessDetailsService(this.dispatcher, integration, this.store);
@@ -51,40 +55,46 @@ export default class RootModule {
 
     this.globalCallbacks = buildGlobalCallbacks({
       closeTasks: this.tasksService.closeTasks,
-      store: this.store,
     });
   }
 
-  render = component => (
-    <Provider store={this.store}>
-      <RootView
-        drawer={this.drawer}
-        nav={this.nav}
-        onboarding={this.onboarding}
-      >
-        {component}
-      </RootView>
-    </Provider>
-  );
+  render = (component) => {
+    const root = document.getElementById('root');
+    ReactDOM.unmountComponentAtNode(root);
 
-  run = (routeProps, handlePageTransition) => {
-    const { routeParams: { businessId, region } } = routeProps;
+    const view = (
+      <Provider store={this.store}>
+        <RootView
+          drawer={this.drawer}
+          nav={this.nav}
+          onboarding={this.onboarding}
+        >
+          {component}
+        </RootView>
+      </Provider>
+    );
+    ReactDOM.render(view, root);
+  };
+
+  run = async (routeProps, module, context) => {
+    const { routeParams: { businessId, region }, currentRouteName } = routeProps;
 
     this.dispatcher.setBusinessId(businessId);
     this.dispatcher.setRegion(region);
 
     if (businessId && businessId !== this.last_business_id) {
       this.last_business_id = businessId;
+      await this.integrator.loadSubscriptions();
       this.tasksService.load();
       this.settingsService.load();
       this.businessDetailsService.load();
     }
 
     this.drawer.run(routeProps);
+    this.nav.run({ ...routeProps, onPageTransition: module.handlePageTransition });
 
-    this.nav.run({
-      ...routeProps,
-      onPageTransition: handlePageTransition,
-    });
+    module.resetState();
+    module.run(context);
+    this.globalCallbacks.pageLoaded(currentRouteName.replace('/', '_'));
   };
 }

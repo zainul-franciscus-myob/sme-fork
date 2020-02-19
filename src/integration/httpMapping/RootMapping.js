@@ -25,7 +25,6 @@ import ExpensePayItemMapping from '../../modules/payItem/expensePayItem/mappings
 import FeatureTogglesMapping from '../../featureToggles/mappings/HttpFeatureTogglesMapping';
 import FileUnavailableMapping from '../../modules/fileUnavailable/mappings/HttpFileUnavailableMapping';
 import GeneralJournalMapping from '../../modules/generalJournal/mappings/HttpGeneralJournalMapping';
-import GlobalBusinessDetailsMapping from '../../root/services/businessDetails/mappings/HttpBusinessDetailsMapping';
 import HelpMapping from './HelpMapping';
 import InTrayMapping from '../../modules/inTray/mappings/HttpInTrayMapping';
 import IncomeAllocationMapping from '../../modules/IncomeAllocation/mappings/HttpIncomeAllocationMapping';
@@ -53,6 +52,8 @@ import PayrollSettingsMapping from '../../modules/payrollSettings/mappings/HttpP
 import QuoteMapping from '../../modules/quote/mappings/HttpQuoteMapping';
 import ReceiveMoneyMapping from '../../modules/receiveMoney/mappings/HttpReceiveMoneyMapping';
 import ReceiveRefundMapping from '../../modules/receiveRefund/mappings/HttpReceiveRefundMapping';
+import RootBusinessDetailsMapping from '../../root/services/businessDetails/mappings/HttpBusinessDetailsMapping';
+import RootModuleMapping from '../../root/mappings/HttpRootMapping';
 import SalesSettingsMapping from '../../modules/salesSettings/mappings/HttpSalesSettingsMapping';
 import SettingMapping from './SettingMapping';
 import SpendMoneyMapping from '../../modules/spendMoney/mappings/HttpSpendMoneyMapping';
@@ -152,8 +153,9 @@ const RootMapping = Object.freeze({
   ...TemplateBuilderMapping,
   ...TimesheetMapping,
   ...BankStatementImportMapping,
-  ...GlobalBusinessDetailsMapping,
+  ...RootBusinessDetailsMapping,
   ...FileUnavailableMapping,
+  ...RootModuleMapping,
 });
 
 export default RootMapping;

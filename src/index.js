@@ -1,7 +1,6 @@
 import './index.css';
 import '@myob/myob-styles/dist/design-tokens/css/design-tokens.css';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
-import ReactDOM from 'react-dom';
 
 import { initializeAuth } from './Auth';
 import Config, { initializeConfig } from './Config';
@@ -31,18 +30,11 @@ async function main(integrationType, telemetryType, leanEngageType) {
     router,
   });
 
-  const root = document.getElementById('root');
-
-  const setRootView = (component) => {
-    ReactDOM.unmountComponentAtNode(root);
-    ReactDOM.render(rootModule.render(component), root);
-  };
-
   const featureToggles = await loadFeatureToggles(integration);
 
   const routes = getRoutes({
     integration,
-    setRootView,
+    setRootView: rootModule.render,
     popMessages: inbox.popMessages,
     pushMessage: inbox.pushMessage,
     replaceURLParams: router.replaceURLParams,
@@ -69,18 +61,16 @@ async function main(integrationType, telemetryType, leanEngageType) {
     if (window.Appcues && appcue) window.Appcues.show(appcue);
   };
 
-  const beforeAll = ({ module, routeProps }) => {
+  const beforeAll = ({ routeProps }) => {
     unbindAllKeys();
     unsubscribeAllModulesFromStore();
-    module.resetState();
-    rootModule.run(routeProps, module.handlePageTransition);
     telemetry(routeProps);
     startLeanEngage(routeProps);
     showAppcues(routeProps);
-    rootModule.globalCallbacks.pageLoaded(routeProps.currentRouteName.replace('/', '_'));
   };
 
   router.start({
+    rootModule,
     routes,
     beforeAll,
     afterAll: inbox.clearInbox,

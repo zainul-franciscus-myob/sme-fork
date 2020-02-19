@@ -25,7 +25,6 @@ import ExpensePayItemMapping from '../../modules/payItem/expensePayItem/mappings
 import FeatureTogglesMapping from '../../featureToggles/mappings/MemoryFeatureTogglesMapping';
 import FileUnavailableMapping from '../../modules/fileUnavailable/mappings/MemoryFileUnavailableMapping';
 import GeneralJournalMapping from '../../modules/generalJournal/mappings/MemoryGeneralJournalMapping';
-import GlobalBusinessDetailsMapping from '../../root/services/businessDetails/mappings/MemoryBusinessDetailsMapping';
 import HelpMapping from './HelpMapping';
 import InTrayMapping from '../../modules/inTray/mappings/MemoryInTrayMapping';
 import IncomeAllocationMapping from '../../modules/IncomeAllocation/mappings/MemoryIncomeAllocationMapping';
@@ -53,6 +52,8 @@ import PayrollSettingsMapping from '../../modules/payrollSettings/mappings/Memor
 import QuoteMapping from '../../modules/quote/mappings/MemoryQuoteMapping';
 import ReceiveMoneyMapping from '../../modules/receiveMoney/mappings/MemoryReceiveMoneyMapping';
 import ReceiveRefundMapping from '../../modules/receiveRefund/mappings/MemoryReceiveRefundMapping';
+import RootBusinessDetailsMapping from '../../root/services/businessDetails/mappings/MemoryBusinessDetailsMapping';
+import RootModuleMapping from '../../root/mappings/MemoryRootMapping';
 import SalesSettingsMapping from '../../modules/salesSettings/mappings/MemorySalesSettingsMapping';
 import SettingMapping from './SettingMapping';
 import SpendMoneyMapping from '../../modules/spendMoney/mappings/MemorySpendMoneyMapping';
@@ -153,8 +154,9 @@ const RootMapping = Object.freeze({
   ...TemplateMapping,
   ...TemplateBuilderMapping,
   ...BankStatementImportMapping,
-  ...GlobalBusinessDetailsMapping,
+  ...RootBusinessDetailsMapping,
   ...FileUnavailableMapping,
+  ...RootModuleMapping,
 });
 
 export default RootMapping;

@@ -62,6 +62,7 @@ export default class Router {
 
   start = (options) => {
     const {
+      rootModule,
       routes,
       beforeAll,
       afterAll,
@@ -71,18 +72,17 @@ export default class Router {
 
     this.router.add(routerConfig);
 
-    this.router.subscribe(({ route }) => {
-      const { module, action, title } = moduleMapping[route.name];
+    this.router.subscribe(async ({ route }) => {
+      const { module, title } = moduleMapping[route.name];
       document.title = this.buildDocumentTitle(title);
 
-      beforeAll({
-        module,
-        routeProps: {
-          routeParams: route.params,
-          currentRouteName: route.name,
-        },
-      });
-      action(buildModuleContext(route));
+      const routeProps = {
+        routeParams: route.params,
+        currentRouteName: route.name,
+      };
+
+      beforeAll({ routeProps });
+      await rootModule.run(routeProps, module, buildModuleContext(route));
       afterAll();
     });
 
