@@ -83,12 +83,12 @@ export default class RootModule {
     this.dispatcher.setRegion(region);
 
     if (businessId && businessId !== this.last_business_id) {
-      this.last_business_id = businessId;
       await this.integrator.loadSubscriptions();
       this.tasksService.load();
       this.settingsService.load();
       this.businessDetailsService.load();
     }
+    this.last_business_id = businessId;
 
     this.drawer.run(routeProps);
     this.nav.run({ ...routeProps, onPageTransition: module.handlePageTransition });
