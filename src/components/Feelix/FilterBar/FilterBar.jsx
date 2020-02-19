@@ -90,13 +90,20 @@ class FilterBar extends React.Component {
   setChildrenInBar = () => {
     let childCounter = this.props.children.length;
     let stopWidth = 0;
-    this.componentWidths.forEach((groupWidth) => {
-      const innerContent = stopWidth + groupWidth + this.getExtraWidth();
-      if (this.filterBarWidth < innerContent) {
-        childCounter -= 1;
-      }
-      stopWidth += groupWidth + this.insurancePadding;
-    });
+
+    const innerContentTotalWidth = this.componentWidths.reduce((total, width) => (
+      total + width + this.insurancePadding
+    ), this.applyButtonWidth + this.resetButtonWidth);
+
+    if (innerContentTotalWidth > this.filterBarWidth) {
+      this.componentWidths.forEach((groupWidth) => {
+        const innerContent = stopWidth + groupWidth + this.getExtraWidth();
+        if (this.filterBarWidth < innerContent) {
+          childCounter -= 1;
+        }
+        stopWidth += groupWidth + this.insurancePadding;
+      });
+    }
     this.componentsToPlaceInBar = childCounter;
   };
 
