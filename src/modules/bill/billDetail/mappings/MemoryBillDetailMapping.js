@@ -26,7 +26,7 @@ import loadNewBill from './data/loadNewBill';
 import loadNewDuplicateItemAndServiceBill from './data/loadNewDuplicateItemAndServiceBill';
 import loadSupplierAddress from './data/loadSupplierAddress';
 import loadSupplierResponse from './data/loadSupplierResponse';
-import prefillBillFromInTray from './data/prefillBillFromInTray';
+import prefillBillFromInTray from './data/prefillBillFromNonSupplierFeed';
 import successResponse from './data/success';
 import updatedLineForItemDetail from './data/updatedLineForItemDetail';
 

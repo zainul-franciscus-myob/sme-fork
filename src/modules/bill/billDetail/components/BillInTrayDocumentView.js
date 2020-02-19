@@ -1,5 +1,5 @@
 import {
-  Button, Card, Icons, Spinner,
+  Button, Card, Icons,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -14,7 +14,6 @@ import Thumbnail from '../../../../components/Thumbnail/Thumbnail';
 import styles from './BillInTrayDocumentView.module.css';
 
 const BillInTrayDocumentView = ({
-  isDocumentLoading,
   hasInTrayDocumentId,
   inTrayDocument,
   isCreatingFromInTray,
@@ -54,16 +53,8 @@ const BillInTrayDocumentView = ({
     </div>
   );
 
-  const spinnerView = (
-    <div className={styles.spinnerView}>
-      <Spinner size="small" />
-    </div>
-  );
-
   let view;
-  if (isDocumentLoading) {
-    view = spinnerView;
-  } else if (hasInTrayDocumentId) {
+  if (hasInTrayDocumentId) {
     view = documentView;
   } else {
     view = noDocumentView;

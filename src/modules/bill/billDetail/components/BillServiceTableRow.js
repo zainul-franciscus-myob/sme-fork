@@ -1,6 +1,7 @@
 import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classnames from 'classnames';
 
 import {
   getAccountOptions,
@@ -12,6 +13,7 @@ import {
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
+import styles from './BillTableRow.module.css';
 
 const handleComboboxChange = (handler, name) => item => handler({
   target: {
@@ -44,6 +46,7 @@ const BillServiceTableRow = ({
   onAddAccount,
   ...feelixInjectedProps
 }) => {
+  const prefillStatus = billLine.prefillStatus || {};
   const {
     description, accountId, taxCodeId, displayAmount,
   } = billLine;
@@ -70,6 +73,7 @@ const BillServiceTableRow = ({
         value={displayAmount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'amount')}
+        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         textAlign="right"
         disabled={isBlocking}
       />

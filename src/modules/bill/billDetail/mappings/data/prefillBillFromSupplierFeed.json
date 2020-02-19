@@ -1,0 +1,37 @@
+{
+  "bill": {
+    "supplierId": "2",
+    "supplierInvoiceNumber": "1234",
+    "issueDate": "2018-11-02",
+    "isTaxInclusive": true
+  },
+  "layout": "itemAndService",
+  "lines": [
+    {
+      "description": "Cooler Large",
+      "amount": "10.000000",
+      "displayAmount": "10.00",
+      "units": "2",
+      "unitPrice": "5.00",
+      "discount": "0",
+      "displayDiscount": "0.00",
+      "lineSubTypeId": "11",
+      "isSupplierFeedPrefilled": true
+    },
+    {
+      "description": "Cooler Not Large",
+      "amount": "20.000000",
+      "displayAmount": "20.00",
+      "units": "2",
+      "unitPrice": "5.00",
+      "discount": "0",
+      "displayDiscount": "0.00",
+      "lineSubTypeId": "11",
+      "isSupplierFeedPrefilled": true
+    }
+  ],
+  "document": {
+    "thumbnailUrl": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
+    "uploadedDate": "04/04/2019"
+  }
+}

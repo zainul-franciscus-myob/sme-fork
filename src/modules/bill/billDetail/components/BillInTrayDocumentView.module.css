@@ -19,7 +19,3 @@ div.card:global.flx-card {
 .buttonGroup > button + button {
   margin-left: var(--flx-spacing-small);
 }
-
-.spinnerView {
-  display: flex;
-}
