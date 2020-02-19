@@ -84,6 +84,7 @@ const PayrollDetailSuperannuationTable = ({
           initialIsOpen
           selected={{}}
           onBlur={onAddPayItemComboBlur}
+          onInputChange={() => {}}
           onChange={handleComboboxChange(onAddPayrollSuperPayItem)}
           addNewItem={{
             label: 'Create super pay item',

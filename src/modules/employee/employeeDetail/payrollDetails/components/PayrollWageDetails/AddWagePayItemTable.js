@@ -112,6 +112,7 @@ const AddWagePayItemTable = ({
               selected={{}}
               items={filteredWagePayItemOptions}
               onChange={handleComboboxChange(onAddWagePayItem)}
+              onInputChange={() => {}}
               initialIsOpen
               addNewItem={{
                 label: 'Create wage pay item',

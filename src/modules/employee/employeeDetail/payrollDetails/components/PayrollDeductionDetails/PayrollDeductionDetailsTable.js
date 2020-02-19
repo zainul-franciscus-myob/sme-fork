@@ -87,6 +87,7 @@ const PayrollDeductionDetailsTable = ({
             selected={{}}
             onBlur={onAddPayItemComboBlur}
             onChange={handleComboboxChange(onAddPayItem)}
+            onInputChange={() => {}}
             initialIsOpen
             addNewItem={{
               label: 'Create deduction pay item',

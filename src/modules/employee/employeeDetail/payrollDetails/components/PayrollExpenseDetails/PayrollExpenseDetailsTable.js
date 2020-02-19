@@ -81,6 +81,7 @@ const PayrollExpenseDetailsTable = ({
               initialIsOpen
               selected={{}}
               onBlur={onAddPayItemComboBlur}
+              onInputChange={() => {}}
               onChange={handleComboboxChange(onAddPayItem)}
               addNewItem={{
                 label: 'Create expense pay item',

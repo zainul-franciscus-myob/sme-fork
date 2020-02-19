@@ -116,6 +116,7 @@ const PayrollLeaveDetailTable = ({
             onChange={handleComboboxChange(onAddAllocatedLeaveItem)}
             initialIsOpen
             onBlur={onAddPayItemComboBlur}
+            onInputChange={() => {}}
             addNewItem={{
               label: 'Create leave pay item',
               onAddNew: onPayItemSelect(onOpenLeavePayItemModal, 'new'),
