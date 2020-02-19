@@ -4,6 +4,7 @@ import {
 import React from 'react';
 
 import AbnInput from '../../../../../components/autoFormatter/AbnInput/AbnInput';
+import AutoFormatter from '../../../../../components/autoFormatter/AutoFormatterCore/AutoFormatter';
 import CountryCombobox from '../../../../../components/combobox/CountryCombobox';
 import States from '../../../common/States';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
@@ -51,12 +52,16 @@ const BusinessDetails = ({
           requiredLabel="This is required"
           width="md"
         />
-        <Input
-          label="ABN branch"
+        <AutoFormatter
+          label="GST branch number"
           name="branch"
           value={branch}
-          onChange={handleInputChange(onBusinessDetailsChange)}
           width="xs"
+          onChange={handleInputChange(onBusinessDetailsChange)}
+          options={{
+            numericOnly: true,
+            blocks: [3],
+          }}
         />
         <Input
           label="Address"
