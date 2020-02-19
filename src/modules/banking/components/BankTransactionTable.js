@@ -98,6 +98,7 @@ const BankTransactionTable = ({
   onPendingNoteChange,
   onNoteBlur,
   onOpenTransferMoneyModal,
+  onLinkFromInTrayButtonClick,
 }) => {
   const header = (
     <BankTransactionTableHeader
@@ -165,6 +166,7 @@ const BankTransactionTable = ({
       onEditNote={onEditNote}
       onPendingNoteChange={onPendingNoteChange}
       onNoteBlur={onNoteBlur}
+      onLinkFromInTrayButtonClick={onLinkFromInTrayButtonClick}
     />);
 
   return (

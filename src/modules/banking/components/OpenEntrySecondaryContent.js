@@ -42,12 +42,14 @@ const OpenEntrySecondaryContent = ({
   onAddAttachments,
   onDownloadAttachment,
   onRemoveAttachment,
+  onLinkFromInTrayButtonClick,
 }) => {
   const dropzone = isAttachmentsLoading ? spinner : (
     <DropZone
       onDrop={onAddAttachments}
       onFileSelected={onAddAttachments}
     >
+      <Button type="secondary" className={styles.linkButton} onClick={onLinkFromInTrayButtonClick}>Link from In tray</Button>
       <div className={styles.columns}>
         <Columns type="two">
           {

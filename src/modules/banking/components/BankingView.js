@@ -19,6 +19,7 @@ import styles from './BankingView.module.css';
 
 const BankingView = (props) => {
   const {
+    inTrayModal,
     hasError,
     isLoading,
     isEntryLoading,
@@ -89,6 +90,7 @@ const BankingView = (props) => {
     onPendingNoteChange,
     onNoteBlur,
     onImportStatementButtonClick,
+    onLinkFromInTrayButtonClick,
   } = props;
 
   const filterBar = (
@@ -144,6 +146,7 @@ const BankingView = (props) => {
     <div className={`${isEntryLoading ? styles.entryLoading : ''} ${styles.bankTransactionView}`}>
       <StandardTemplate sticky="none" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
         {modal}
+        {inTrayModal}
         {showBulkActions && bulkActions}
         <BankTransactionTable
           onSort={onSort}
@@ -192,6 +195,7 @@ const BankingView = (props) => {
           onEditNote={onEditNote}
           onPendingNoteChange={onPendingNoteChange}
           onNoteBlur={onNoteBlur}
+          onLinkFromInTrayButtonClick={onLinkFromInTrayButtonClick}
         />
       </StandardTemplate>
     </div>

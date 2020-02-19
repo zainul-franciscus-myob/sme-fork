@@ -79,6 +79,7 @@ export const OPEN_REMOVE_ATTACHMENT_MODAL = Symbol('Open remove attachment modal
 export const OPEN_ATTACHMENT = Symbol('Open attachment');
 export const REMOVE_ATTACHMENT = Symbol('Remove attachment');
 export const REMOVE_ATTACHMENT_BY_INDEX = Symbol('Remove attachment by index');
+export const LINK_IN_TRAY_DOCUMENT = Symbol('Link in tray document');
 export const SET_OPERATION_IN_PROGRESS_STATE = Symbol('Set operation in progress state');
 
 export const SET_EDITING_NOTE_STATE = Symbol('Set editing note state');

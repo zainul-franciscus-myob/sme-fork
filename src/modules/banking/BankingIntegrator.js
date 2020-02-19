@@ -3,6 +3,7 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
+  LINK_IN_TRAY_DOCUMENT,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -540,6 +541,29 @@ const createBankingIntegrator = (store, integration) => ({
       },
       content: {
         note,
+      },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  linkInTrayDocument: ({
+    onSuccess, onFailure, inTrayDocumentId,
+  }) => {
+    const state = store.getState();
+    const index = getOpenPosition(state);
+
+    const { transactionUid, transactionId } = getBankTransactionLineByIndex(state, index);
+
+    integration.write({
+      intent: LINK_IN_TRAY_DOCUMENT,
+      content: {
+        id: transactionId,
+        uid: transactionUid,
+        inTrayDocumentId,
+      },
+      urlParams: {
+        businessId: getBusinessId(state),
       },
       onSuccess,
       onFailure,

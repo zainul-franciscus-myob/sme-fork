@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import { getBusinessId, getRegion } from './index';
+
 export const getIsAttachmentsLoading = state => state.openEntry.isAttachmentsLoading;
 
 export const getAttachments = createSelector(
@@ -21,4 +23,10 @@ export const getFilesForUpload = (state, files) => (
   files.filter(file => state.openEntry.attachments.find(
     attachment => attachment.file === file,
   ).state === 'queued')
+);
+
+export const getInTrayModalContext = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => ({ businessId, region }),
 );

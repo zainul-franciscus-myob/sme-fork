@@ -3,6 +3,7 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
+  LINK_IN_TRAY_DOCUMENT,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -38,6 +39,7 @@ import bulkUnallocatedBankTransaction from './data/bulkUnallocatedBankTransactio
 import createBankingRuleResponse from './data/createBankingRuleResponse';
 import filteredBankTransactions from './data/sortAndFilterBankTransactions';
 import filteredMatchTransactions from './data/sortAndFilterMatchTransactions';
+import linkInTrayDocumentResponse from './data/linkInTrayDocumentResponse';
 import loadReceiveMoney from './data/loadReceiveMoney';
 import loadSpendMoney from './data/loadSpendMoney';
 import matchAllocatedTransactions from './data/loadMatchAllocatedTransactions';
@@ -79,6 +81,7 @@ const openAttachment = ({ onSuccess }) => onSuccess(attachmentDetailResponse);
 const removeAttachment = ({ onSuccess }) => onSuccess(successResponse);
 const unmatchTransaction = ({ onSuccess }) => onSuccess(unallocatedBankTransaction);
 const updateNote = ({ onSuccess }) => onSuccess(updateNoteResponse);
+const linkInTrayDocument = ({ onSuccess }) => onSuccess(linkInTrayDocumentResponse);
 
 const MemoryBankingMapping = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
@@ -107,6 +110,7 @@ const MemoryBankingMapping = {
   [OPEN_ATTACHMENT]: openAttachment,
   [REMOVE_ATTACHMENT]: removeAttachment,
   [SAVE_PENDING_NOTE]: updateNote,
+  [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
 };
 
 export default MemoryBankingMapping;

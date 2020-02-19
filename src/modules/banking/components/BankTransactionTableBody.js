@@ -65,6 +65,7 @@ const BankTransactionTableBody = (props) => {
     onEditNote,
     onPendingNoteChange,
     onNoteBlur,
+    onLinkFromInTrayButtonClick,
   } = props;
 
   const spinner = (
@@ -152,6 +153,7 @@ const BankTransactionTableBody = (props) => {
                 onAddAttachments={onAddAttachments}
                 onDownloadAttachment={onDownloadAttachment}
                 onRemoveAttachment={onRemoveAttachment}
+                onLinkFromInTrayButtonClick={onLinkFromInTrayButtonClick}
               />
             </>
           )}

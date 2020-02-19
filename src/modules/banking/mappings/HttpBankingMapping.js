@@ -3,6 +3,7 @@ import {
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
+  LINK_IN_TRAY_DOCUMENT,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -133,6 +134,10 @@ const HttpBankingMapping = {
   [SAVE_PENDING_NOTE]: {
     method: 'PUT',
     getPath: ({ businessId, transactionId }) => `/${businessId}/banking/update_note/${transactionId}`,
+  },
+  [LINK_IN_TRAY_DOCUMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/banking/link_in_tray_document`,
   },
 };
 

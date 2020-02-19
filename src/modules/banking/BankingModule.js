@@ -20,8 +20,11 @@ import {
   getMatchTransactionOrderBy,
   getShowType,
 } from './bankingSelectors/matchTransactionSelectors';
-import { getFilesForUpload } from './bankingSelectors/attachmentsSelectors';
-import { getIsAllSelected, getIsEditedEntryInBulkSelection } from './bankingSelectors/bulkAllocationSelectors';
+import { getFilesForUpload, getInTrayModalContext } from './bankingSelectors/attachmentsSelectors';
+import {
+  getIsAllSelected,
+  getIsEditedEntryInBulkSelection,
+} from './bankingSelectors/bulkAllocationSelectors';
 import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
@@ -29,6 +32,7 @@ import {
 import { tabIds } from './tabItems';
 import BankingRuleModule from './bankingRule/BankingRuleModule';
 import BankingView from './components/BankingView';
+import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
 import Store from '../../store/Store';
 import bankingReducer from './bankingReducer';
 import createBankingDispatcher from './BankingDispatcher';
@@ -51,6 +55,7 @@ export default class BankingModule {
         onSaveSuccess: this.applyRuleToTransaction,
       },
     );
+    this.inTrayModalModule = new InTrayModalModule({ integration });
   }
 
   render = () => {
@@ -81,8 +86,11 @@ export default class BankingModule {
       setPendingNote,
     } = this.dispatcher;
 
+    const inTrayModal = this.inTrayModalModule.render();
+
     const transactionListView = (
       <BankingView
+        inTrayModal={inTrayModal}
         onUpdateFilters={updateFilterOptions}
         onApplyFilter={this.confirmBefore(this.filterBankTransactions)}
         onBankAccountChange={this.bankAccountChange}
@@ -148,6 +156,7 @@ export default class BankingModule {
         onPendingNoteChange={setPendingNote}
         onNoteBlur={this.savePendingNote}
         onImportStatementButtonClick={this.redirectToBankStatementImport}
+        onLinkFromInTrayButtonClick={this.openInTrayModal}
       />
     );
 
@@ -1047,9 +1056,40 @@ export default class BankingModule {
     });
   };
 
+  openInTrayModal = () => {
+    const state = this.store.getState();
+    this.inTrayModalModule.run({
+      context: getInTrayModalContext(state),
+      onSaveSuccess: (inTrayDocumentId) => {
+        this.inTrayModalModule.close();
+        this.dispatcher.setAttachemntsLoadingState(true);
+
+        const onSuccess = (payload) => {
+          this.dispatcher.setAttachemntsLoadingState(false);
+          this.dispatcher.loadAttachments(payload);
+        };
+
+        const onFailure = ({ message }) => {
+          this.dispatcher.setAttachemntsLoadingState(false);
+          this.dispatcher.setAlert({
+            type: 'danger',
+            message,
+          });
+        };
+
+        this.integrator.linkInTrayDocument({ onSuccess, onFailure, inTrayDocumentId });
+      },
+      onLoadFailure: message => this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      }),
+    });
+  };
+
   resetState = () => {
     this.dispatcher.resetState();
-  }
+    this.inTrayModalModule.resetState();
+  };
 
   run(context) {
     this.dispatcher.setInitialState(context);

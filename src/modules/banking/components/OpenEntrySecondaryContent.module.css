@@ -67,3 +67,15 @@
     justify-content: space-between;
   }
 }
+
+.linkButton {
+  margin: 0 auto var(--flx-spacing-small) auto;
+  display: block;
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .linkButton {
+    width: auto;
+  }
+}
