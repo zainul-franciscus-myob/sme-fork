@@ -1,26 +1,9 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  CREATE_APPLY_TO_SALE,
-  DELETE_APPLY_TO_SALE,
-  LOAD_APPLY_TO_SALE,
-  LOAD_NEW_APPLY_TO_SALE,
-  SET_ALERT_MESSAGE,
-  SET_IS_LOADING,
-  SET_IS_PAGE_EDITED,
-  SET_IS_SUBMITTING,
-  SET_MODAL_TYPE,
-  UPDATE_APPLY_TO_SALE_OPTION,
-  UPDATE_TABLE_AMOUNT_INPUT,
-} from './ApplyToSaleIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import { SUCCESSFULLY_DELETED_APPLY_TO_SALE, SUCCESSFULLY_SAVED_APPLY_TO_SALE } from './ApplyToSaleMessageType';
 import {
-  getApplyToSaleId,
   getBusinessId,
-  getCreateApplyToSalePayload,
-  getCustomerReturnId,
   getIsCreating,
   getIsPageEdited,
   getIsSubmitting,
@@ -31,6 +14,8 @@ import ApplyToSaleView from './components/ApplyToSaleView';
 import ModalType from './ModalType';
 import Store from '../../store/Store';
 import applyToSaleReducer from './applyToSaleReducer';
+import createApplyToSaleDispatcher from './createApplyToSaleDispatcher';
+import createApplyToSaleIntegrator from './createApplyToSaleIntegrator';
 import keyMap from '../../hotKeys/keyMap';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
 
@@ -40,54 +25,33 @@ export default class ApplyToSaleModule {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.store = new Store(applyToSaleReducer);
+    this.dispatcher = createApplyToSaleDispatcher(this.store);
+    this.integrator = createApplyToSaleIntegrator(this.store, integration);
   }
 
   loadApplyToSale = () => {
-    const state = this.store.getState();
-    const isCreating = getIsCreating(state);
-    const intent = isCreating ? LOAD_NEW_APPLY_TO_SALE : LOAD_APPLY_TO_SALE;
-    const urlParams = isCreating ? {
-      businessId: getBusinessId(state),
-      customerReturnId: getCustomerReturnId(state),
-    } : {
-      businessId: getBusinessId(state),
-      applyToSaleId: getApplyToSaleId(state),
-    };
+    this.dispatcher.setIsLoading(true);
 
-    this.setIsLoading(true);
+    const isCreating = getIsCreating(this.store.getState());
 
     const onSuccess = (applyToSale) => {
-      this.setIsLoading(false);
-
-      this.store.dispatch({
-        intent,
-        applyToSale,
-      });
+      this.dispatcher.setIsLoading(false);
+      this.dispatcher.loadApplyToSale({ applyToSale, isCreating });
     };
 
     const onFailure = ({ message }) => {
-      this.setIsLoading(false);
-      this.setAlertMessage(message);
+      this.dispatcher.setIsLoading(false);
+      this.dispatcher.setAlertMessage(message);
     };
 
-    this.integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.loadApplyToSale({ isCreating, onSuccess, onFailure });
   }
 
   createApplyToSale = () => {
     const state = this.store.getState();
     if (getIsSubmitting(state)) return;
 
-    this.setIsSubmitting(true);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const content = getCreateApplyToSalePayload(state);
+    this.dispatcher.setIsSubmitting(true);
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -98,27 +62,14 @@ export default class ApplyToSaleModule {
     };
 
     const onFailure = ({ message }) => {
-      this.setIsSubmitting(false);
-      this.setAlertMessage(message);
+      this.dispatcher.setIsSubmitting(false);
+      this.dispatcher.setAlertMessage(message);
     };
-
-    this.integration.write({
-      intent: CREATE_APPLY_TO_SALE,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.createApplyToSale({ onSuccess, onFailure });
   }
 
   deleteApplyToSale = () => {
-    this.setIsSubmitting(true);
-
-    const state = this.store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-      applyToSaleId: getApplyToSaleId(state),
-    };
+    this.dispatcher.setIsSubmitting(true);
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -129,16 +80,11 @@ export default class ApplyToSaleModule {
     };
 
     const onFailure = ({ message }) => {
-      this.setIsSubmitting(false);
-      this.setAlertMessage(message);
+      this.dispatcher.setIsSubmitting(false);
+      this.dispatcher.setAlertMessage(message);
     };
 
-    this.integration.write({
-      intent: DELETE_APPLY_TO_SALE,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.deleteApplyToSale({ onSuccess, onFailure });
   }
 
   cancelApplyToSale = () => {
@@ -146,22 +92,17 @@ export default class ApplyToSaleModule {
   }
 
   updateApplyToSaleOption = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_APPLY_TO_SALE_OPTION,
-      key,
-      value,
-    });
-    this.setIsPageEdited(true);
+    this.dispatcher.updateApplyToSaleOption({ key, value });
+    this.dispatcher.setIsPageEdited(true);
   };
 
   updateTableAmountInput = ({ key, value, index }) => {
-    this.store.dispatch({
-      intent: UPDATE_TABLE_AMOUNT_INPUT,
+    this.dispatcher.updateTableAmountInput({
       key,
       value,
       index,
     });
-    this.setIsPageEdited(true);
+    this.dispatcher.setIsPageEdited(true);
   }
 
   redirectToCustomerReturnList = () => {
@@ -183,57 +124,22 @@ export default class ApplyToSaleModule {
   openCancelModal = () => {
     const state = this.store.getState();
     if (getIsPageEdited(state)) {
-      this.setModalType(ModalType.CANCEL);
+      this.dispatcher.setModalType(ModalType.CANCEL);
     } else {
       this.redirectToCustomerReturnList();
     }
   }
 
   openDeleteModal = () => {
-    this.setModalType(ModalType.DELETE);
+    this.dispatcher.setModalType(ModalType.DELETE);
   }
 
   dismissModal = () => {
-    this.setModalType('');
+    this.dispatcher.setModalType('');
   }
 
   dismissAlert = () => {
-    this.setAlertMessage('');
-  }
-
-  setModalType = (modalType) => {
-    this.store.dispatch({
-      intent: SET_MODAL_TYPE,
-      modalType,
-    });
-  }
-
-  setAlertMessage = (alertMessage) => {
-    this.store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage,
-    });
-  }
-
-  setIsLoading = (isLoading) => {
-    this.store.dispatch({
-      intent: SET_IS_LOADING,
-      isLoading,
-    });
-  }
-
-  setIsSubmitting = (isSubmitting) => {
-    this.store.dispatch({
-      intent: SET_IS_SUBMITTING,
-      isSubmitting,
-    });
-  }
-
-  setIsPageEdited = (isPageEdited) => {
-    this.store.dispatch({
-      intent: SET_IS_PAGE_EDITED,
-      isPageEdited,
-    });
+    this.dispatcher.setAlertMessage('');
   }
 
   saveHandler = () => {
@@ -248,15 +154,8 @@ export default class ApplyToSaleModule {
     SAVE_ACTION: this.saveHandler,
   };
 
-  setInitialState = (context) => {
-    this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
-    });
-  };
-
   run = (context) => {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadApplyToSale();
@@ -288,8 +187,6 @@ export default class ApplyToSaleModule {
   };
 
   resetState() {
-    this.store.dispatch({
-      intent: RESET_STATE,
-    });
+    this.dispatcher.resetState();
   }
 }
