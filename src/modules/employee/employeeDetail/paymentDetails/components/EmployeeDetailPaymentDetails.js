@@ -62,9 +62,27 @@ const EmployeeDetailPaymentDetails = ({
 
     return (
       <FieldGroup label={`Bank Account ${nextIndex}`} key={nextIndex}>
-        <BSBInput label="BSB number" name="bsbNumber" value={account.bsbNumber} onChange={onInputChange(onBankAccountDetailsChange, index)} />
-        <AccountNumberInput label="Account number" name="accountNumber" value={account.accountNumber} onChange={onInputChange(onBankAccountDetailsChange, index)} />
-        <Input label="Account name" name="accountName" value={account.accountName} onChange={onInputChange(onBankAccountDetailsChange, index)} />
+        <BSBInput
+          requiredLabel="BSB number is required"
+          label="BSB number"
+          name="bsbNumber"
+          value={account.bsbNumber}
+          onChange={onInputChange(onBankAccountDetailsChange, index)}
+        />
+        <AccountNumberInput
+          label="Account number"
+          name="accountNumber"
+          value={account.accountNumber}
+          onChange={onInputChange(onBankAccountDetailsChange, index)}
+          requiredLabel="Account number is required"
+        />
+        <Input
+          label="Account name"
+          name="accountName"
+          requiredLabel="Account name is required"
+          value={account.accountName}
+          onChange={onInputChange(onBankAccountDetailsChange, index)}
+        />
         {
           (bankAccounts.length === nextIndex)
             ? <ReadOnly name="balanceRemaining" label="Amount: ">Balance remaining</ReadOnly>

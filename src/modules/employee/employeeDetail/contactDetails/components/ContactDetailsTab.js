@@ -44,7 +44,14 @@ const ContactDetailsTab = (props) => {
 
   const stateInput = isStateDropdown
     ? (
-      <Select label="State/territory" name="state" value={contactDetail.state} onChange={onSelectChange(onContactDetailsChange)}>
+      <Select
+        label="State/territory"
+        name="state"
+        value={contactDetail.state}
+        onChange={onSelectChange(onContactDetailsChange)
+        }
+        requiredLabel="State/territory is require"
+      >
         {stateOptions.map(
           ({ name, value }) => <Select.Option key={value} value={value} label={name} />,
         )}
@@ -69,17 +76,47 @@ const ContactDetailsTab = (props) => {
       <hr />
 
       <FormTemplate pageHead="">
-        <Input label="First name" name="firstName" value={contactDetail.firstName} onChange={onInputChange(onContactDetailsChange)} />
+        <Input
+          label="First name"
+          name="firstName"
+          value={contactDetail.firstName}
+          onChange={onInputChange(onContactDetailsChange)}
+          requiredLabel="First name is required"
+        />
 
-        <Input label="Surname or family name" name="lastName" value={contactDetail.lastName} onChange={onInputChange(onContactDetailsChange)} />
+        <Input
+          label="Surname or family name"
+          name="lastName"
+          value={contactDetail.lastName}
+          onChange={onInputChange(onContactDetailsChange)}
+          requiredLabel="Surname or family name is required"
+        />
 
-        <Input label="Address" name="address" value={contactDetail.address} onChange={onInputChange(onContactDetailsChange)} />
+        <Input
+          label="Address"
+          name="address"
+          value={contactDetail.address}
+          onChange={onInputChange(onContactDetailsChange)}
+          requiredLabel="Address is required"
+        />
 
-        <Input label="Suburb/town/locality" name="suburb" value={contactDetail.suburb} onChange={onInputChange(onContactDetailsChange)} />
+        <Input
+          label="Suburb/town/locality"
+          name="suburb"
+          value={contactDetail.suburb}
+          onChange={onInputChange(onContactDetailsChange)}
+          requiredLabel="Suburb is required"
+        />
 
-        { stateInput }
+        {stateInput}
 
-        <Input label="Postcode" name="postcode" value={contactDetail.postcode} onChange={onInputChange(onContactDetailsChange)} />
+        <Input
+          label="Postcode"
+          name="postcode"
+          value={contactDetail.postcode}
+          onChange={onInputChange(onContactDetailsChange)}
+          requiredLabel="Postcode is required"
+        />
 
         <CountryCombobox
           hideLabel={false}
@@ -87,6 +124,7 @@ const ContactDetailsTab = (props) => {
           name="country"
           selectedId={contactDetail.country}
           onChange={onComboBoxChange(onContactDetailsChange, 'country')}
+          requiredLabel="Country is required"
         />
 
         <PhoneNumberList

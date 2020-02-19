@@ -49,6 +49,7 @@ const TaxDetails = ({
           label="Tax file number"
           value={taxFileNumber}
           onChange={handleInputChange(onPayrollTaxDetailsChange)}
+          requiredLabel="Tax file number is required"
         />
       </FieldGroup>
       <FieldGroup label="Tax table calculations">

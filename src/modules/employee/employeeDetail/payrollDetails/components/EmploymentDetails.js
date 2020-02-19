@@ -59,6 +59,7 @@ const EmploymentDetails = ({
         name="dateOfBirth"
         value={dateOfBirth}
         onSelect={onDateChange('dateOfBirth', onEmploymentDetailsChange)}
+        requiredLabel="Date of birth is required"
       />
       <ReadOnly label="Calculated age" name="calculatedAge">{calculatedAge}</ReadOnly>
       <Select name="gender" label="Gender" onChange={handleSelectChange(onEmploymentDetailsChange)} value={gender}>
