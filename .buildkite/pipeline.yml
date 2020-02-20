@@ -66,6 +66,13 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
+  - wait
+
+  - name: ':white_check_mark: Record "dev" release'
+    command: 'myob-release dev sme-web'
+    agents:
+      queue: cacc-prod-dflt
+
   - block:
     branches: master
 
@@ -75,12 +82,26 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
+  - wait
+
+  - name: ':white_check_mark: Record "preprod" release'
+    command: 'myob-release preprod sme-web'
+    agents:
+      queue: cacc-prod-dflt
+
   - block:
     branches: master
 
   - name: ':rocket: :eagle: Deploy PDV App'
     command: ./ops/bin/deploy pdv
     branches: master
+    agents:
+      queue: cacc-prod-dflt
+
+  - wait
+
+  - name: ':white_check_mark: Record "qa" release'
+    command: 'myob-release qa sme-web'
     agents:
       queue: cacc-prod-dflt
 
@@ -99,5 +120,12 @@ steps:
   - name: ':rocket: :eagle: Deploy Preview App'
     command: ./ops/bin/deploy preview
     branches: master
+    agents:
+      queue: cacc-prod-dflt
+
+  - wait
+
+  - name: ':white_check_mark: Record "prod" release'
+    command: 'myob-release prod sme-web'
     agents:
       queue: cacc-prod-dflt
