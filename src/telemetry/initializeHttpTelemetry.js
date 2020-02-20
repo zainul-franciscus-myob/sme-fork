@@ -1,4 +1,5 @@
 import { getUser } from '../Auth';
+import { parsePath, parseUrl } from './parseUrlAndPath';
 import initilizeSegment from './initializeSegment';
 
 const associateUserWithGroup = (currentBusinessId, { businessId }) => {
@@ -54,16 +55,14 @@ const removeAccessToken = (path) => {
 
 const getUrl = (businessId) => {
   const url = window.location.href;
-  const urlWithoutBusinessId = businessId ? url.replace(`/${businessId}`, '') : url;
-  const urlWithoutHash = urlWithoutBusinessId.replace('/#', '');
-  return removeAccessToken(urlWithoutHash);
+  const parsedUrl = parseUrl(url, businessId);
+  return removeAccessToken(parsedUrl);
 };
 
 const getPath = (businessId) => {
   const path = window.location.hash;
-  const pathWithoutBusinessId = businessId ? path.replace(`/${businessId}`, '') : path;
-  const pathWithoutHash = pathWithoutBusinessId.replace('#', '');
-  return removeAccessToken(pathWithoutHash);
+  const parsedPath = parsePath(path, businessId);
+  return removeAccessToken(parsedPath);
 };
 
 const recordPageVisit = (currentRouteName, userId, businessId) => {
