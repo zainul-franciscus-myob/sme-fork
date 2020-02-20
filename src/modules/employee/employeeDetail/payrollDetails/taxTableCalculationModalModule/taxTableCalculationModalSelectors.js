@@ -22,11 +22,11 @@ export const getOnSaveContent = state => ({
 
 export const getFetchTaxTableResultRequestContext = state => ({
   hasTFN: state.hasTFN,
-  residencyStatus: state.residencyStatus,
+  residencyStatus: state.selectedResidencyStatus,
   hasTaxFreeThreshold: state.hasTaxFreeThreshold,
   hasSLFSDebt: state.hasSLFSDebt,
-  medicareLevy: state.medicareLevy,
-  seniorTaxOffset: state.seniorTaxOffset,
+  medicareLevy: state.selectedMedicareLevy,
+  seniorTaxOffset: state.selectedSeniorTaxOffset,
   isWithholdingVariation: state.isWithholdingVariation,
   isHortiShearer: state.isHortiShearer,
 });

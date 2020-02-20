@@ -39,7 +39,7 @@ const TaxTableCalculationForm = ({
 }) => (
   <div className={styles.taxTableForm}>
     <Select
-      label="Residency Status"
+      label="Residency status"
       value={selectedResidencyStatus}
       onChange={handleSelectChange(onFieldChange)}
       name="selectedResidencyStatus"
@@ -90,7 +90,7 @@ const TaxTableCalculationForm = ({
       />
     )}
     <Select
-      label="Senior and Pensioners Tax Offset claimed"
+      label="Senior and pensioners tax offset claimed"
       value={selectedSeniorTaxOffset}
       onChange={handleSelectChange(onFieldChange)}
       name="selectedSeniorTaxOffset"
@@ -113,8 +113,8 @@ const TaxTableCalculationForm = ({
     {taxTableDescription || isLoading ? (
       <>
         <p>
-        From your tax answers, below is the relevant tax table for your employee.
-        If you need more information on tax tables please
+        From your answers, below is the selected tax table for your employee. For more information
+        on tax tables please
           {' '}
           {atoLink}
         </p>
@@ -144,7 +144,7 @@ const TaxTableCalculationForm = ({
         testid="noTaxTableAlert"
       >
         From your answers, no relevant tax table could be selected. Please review your answers or
-        choose your tax table manually on the previous window. For more information on tax tables
+        choose your tax table manually on the previous page. For more information on tax tables
         {' '}
         {atoLink}
       </Alert>

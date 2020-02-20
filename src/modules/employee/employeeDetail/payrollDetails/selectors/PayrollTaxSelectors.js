@@ -58,3 +58,4 @@ export const getTaxPayItemPayload = state => ({
 });
 
 export const getTaxTableCalculations = state => state.payrollDetails.tax.taxTableCalculation;
+export const getHasTfn = state => getTaxFileNumberStatus(state) === '';

@@ -19,6 +19,7 @@ import {
   getStandardPayWageAmountRuleById,
   getStandardPayWageAmountRuleFromModal,
 } from './selectors/PayrollStandardPaySelectors';
+import { getHasTfn, getTaxPayItemModalSubmitting, getTaxTableCalculations } from './selectors/PayrollTaxSelectors';
 import {
   getIsActionDisabled as getIsDeductionPayItemModalActionDisabled,
   getIsDeductionPayItemModalCreating,
@@ -42,7 +43,6 @@ import {
   getIsActionDisabled as getIsWagePayItemModalActionDisabled,
   getIsWagePayItemModalCreating,
 } from './selectors/WagePayItemModalSelectors';
-import { getTaxPayItemModalSubmitting, getTaxTableCalculations } from './selectors/PayrollTaxSelectors';
 import EmployeeDetailPayrollDetails from './components/EmployeeDetailPayrollDetails';
 import TaxTableCalculationModalModule from './taxTableCalculationModalModule/TaxTableCalculationModalModule';
 import createPayrollDetailsTabDispatchers from './createPayrollDetailsTabDispatchers';
@@ -602,6 +602,7 @@ export default class PayrollDetailsTabModule {
     const state = this.store.getState();
     const context = {
       businessId: getBusinessId(state),
+      hasTFN: getHasTfn(state),
       ...getTaxTableCalculations(state),
     };
 

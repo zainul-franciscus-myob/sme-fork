@@ -33,6 +33,7 @@ const formatWithholdingVariation = (state, { value }) => ({
 const getDefaultState = () => ({
   businessId: '',
   isOpen: false,
+  hasTFN: null,
   selectedResidencyStatus: null,
   residencyStatusOptions: [],
   hasTaxFreeThreshold: false,

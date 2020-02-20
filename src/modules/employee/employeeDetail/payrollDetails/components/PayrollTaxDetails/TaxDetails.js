@@ -58,7 +58,7 @@ const TaxDetails = ({
             testid="taxTableCalculationLinkField"
             renderField={() => (
               <>
-                Select a tax table. Use the TFN declaration questions to assist.
+                Select a tax table using the TFN declaration questions.
                 <br />
                 <Button
                   type="link"
@@ -74,7 +74,6 @@ const TaxDetails = ({
         <Combobox
           label="Tax table"
           hideLabel={false}
-          hintText="Choose tax table"
           metaData={comboboxMetaData}
           selected={selectedTaxTable}
           items={taxTablesOptions}

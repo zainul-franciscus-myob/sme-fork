@@ -28,7 +28,14 @@ describe('taxTableCalculationsSelectors', () => {
       const state = {
         some: true,
         other: 'fields',
-        ...expected,
+        hasTFN: true,
+        selectedResidencyStatus: 'WorkingHoliday',
+        hasTaxFreeThreshold: true,
+        hasSLFSDebt: true,
+        selectedMedicareLevy: 'Half',
+        selectedSeniorTaxOffset: 'Single',
+        isWithholdingVariation: true,
+        isHortiShearer: true,
       };
 
       const result = getFetchTaxTableResultRequestContext(state);

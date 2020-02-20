@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getOnSaveContent } from './taxTableCalculationModalSelectors';
+import { getOnSaveContent, getTaxTableId } from './taxTableCalculationModalSelectors';
 import Store from '../../../../../store/Store';
 import TaxTableCalculationModal from './components/TaxTableCalculationModal';
 import createTaxTableCalculationModalDispatcher from './createTaxTableCalculationModalDispatcher';
@@ -70,7 +70,9 @@ export default class TaxTableCalculationModalModule {
 
   save = () => {
     const state = this.store.getState();
-    this.onSave(getOnSaveContent(state));
-    this.close();
+    if (getTaxTableId(state)) {
+      this.onSave(getOnSaveContent(state));
+      this.close();
+    }
   }
 }
