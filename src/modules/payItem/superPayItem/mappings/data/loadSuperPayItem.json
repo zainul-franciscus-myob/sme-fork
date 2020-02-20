@@ -41,6 +41,15 @@
     "grossWagesId": "2",
     "federalWagesId": "3"
   },
+  "enabledExemptionFieldConfiguration": [
+    {
+      "calculationBasisType": "PercentOfPayrollCategory",
+      "enabledPayItemIds": [
+        "2",
+        "3"
+      ]
+    }
+  ],
   "contributionTypes": [
     {
       "name": "Employee additional (deduction)",
@@ -149,7 +158,7 @@
       "value": "FixedDollar"
     }
   ],
-  "periods":   [
+  "periods": [
     {
       "name": "Pay period",
       "value": "PayPeriod"

@@ -253,31 +253,30 @@ describe('superPayItemSelectors', () => {
   });
 
   describe('getIsExemptionDisabled', () => {
-    [
-      ['UserEntered', 'grossWagesId', true],
-      ['UserEntered', 'federalWagesId', true],
-      ['UserEntered', 'someOtherId', true],
-      ['PercentOfPayrollCategory', 'grossWagesId', false],
-      ['PercentOfPayrollCategory', 'federalWagesId', false],
-      ['PercentOfPayrollCategory', 'someOtherId', true],
-      ['FixedDollar', 'grossWagesId', true],
-      ['FixedDollar', 'federalWagesId', true],
-      ['FixedDollar', 'someOtherId', true],
-    ].forEach((args) => {
-      const [calculationBasisType, calculationBasisPayItemId, expectedIsExemptionDisabled] = args;
-      const grossWagesId = 'grossWagesId';
-      const federalWagesId = 'federalWagesId';
-
-      it(
-        `should return ${expectedIsExemptionDisabled} when calculation basis is ${calculationBasisType} and percent of is ${calculationBasisPayItemId}`,
-        () => {
-          const actual = getIsExemptionDisabled.resultFunc(
-            calculationBasisType, calculationBasisPayItemId, grossWagesId, federalWagesId,
-          );
-
-          expect(actual).toEqual(expectedIsExemptionDisabled);
+    it('returns true when type is disabled for all', () => {
+      const configuration = [
+        {
+          calculationBasisType: 'DisabledForAll',
+          enabledPayItemIds: [],
         },
-      );
+      ];
+
+      const actual = getIsExemptionDisabled.resultFunc('DisabledForAll', 1, configuration);
+
+      expect(actual).toEqual(true);
+    });
+
+    it('returns false when type is enabled for payItemId', () => {
+      const configuration = [
+        {
+          calculationBasisType: 'EnabledForSome',
+          enabledPayItemIds: [10, 11, 12],
+        },
+      ];
+
+      const actual = getIsExemptionDisabled.resultFunc('EnabledForSome', 11, configuration);
+
+      expect(actual).toEqual(false);
     });
   });
 

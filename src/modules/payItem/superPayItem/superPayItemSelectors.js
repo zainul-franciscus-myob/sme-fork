@@ -1,5 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import getIsExemptionEnabled from '../getIsExemptionEnabled';
+
 const contributionTypes = {
   employeeAdditional: 'EmployeeAdditional',
   employerAdditional: 'EmployerAdditional',
@@ -209,15 +211,14 @@ export const getFilteredExemptions = createSelector(
   }),
 );
 
+const getEnabledExemptionConfiguration = state => state.enabledExemptionFieldConfiguration;
+
 export const getIsExemptionDisabled = createSelector(
   getCalculationBasisType,
   getCalculationBasisPayItemId,
-  getGrossWagesId,
-  state => state.settings.federalWagesId,
-  (calculationBasisType, calculationBasisPayItemId, grossWagesId, federalWagesId) => !(
-    calculationBasisType === calculationBasisTypes.percent && (
-      calculationBasisPayItemId === grossWagesId || calculationBasisPayItemId === federalWagesId
-    )),
+  getEnabledExemptionConfiguration,
+  (calculationBasisType, calculationBasisPayItemId, configuration) => (
+    !getIsExemptionEnabled(calculationBasisType, calculationBasisPayItemId, configuration)),
 );
 
 export const getFormattedAmount = value => String((Number(value) || 0).toFixed(2));

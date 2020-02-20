@@ -50,7 +50,7 @@ const ContactDetailsTab = (props) => {
         value={contactDetail.state}
         onChange={onSelectChange(onContactDetailsChange)
         }
-        requiredLabel="State/territory is require"
+        requiredLabel="State/territory is required"
       >
         {stateOptions.map(
           ({ name, value }) => <Select.Option key={value} value={value} label={name} />,
@@ -105,7 +105,7 @@ const ContactDetailsTab = (props) => {
           name="suburb"
           value={contactDetail.suburb}
           onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="Suburb is required"
+          requiredLabel="Suburb/town/locality is required"
         />
 
         {stateInput}

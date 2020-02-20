@@ -56,6 +56,7 @@ const getDefaultState = () => ({
     grossWagesId: '',
     federalWagesId: '',
   },
+  enabledExemptionFieldConfiguration: [],
   contributionTypes: [],
   expenseAccounts: [],
   payableAccounts: [],
