@@ -8,12 +8,15 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_INVOICE_LIST,
+  UPDATE_FILTER_OPTIONS,
 } from '../../InvoiceIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import InvoiceListModule from '../InvoiceListModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
+import createInvoiceListDispatcher from '../createInvoiceListDispatcher';
+import createInvoiceListIntegrator from '../createInvoiceListIntegrator';
 import invoiceListReducer from '../invoiceListReducer';
 
 describe('InvoiceListModule', () => {
@@ -29,6 +32,9 @@ describe('InvoiceListModule', () => {
       popMessages,
     });
     module.store = store;
+    module.dispatcher = createInvoiceListDispatcher(store);
+    module.integrator = createInvoiceListIntegrator(store, integration);
+
     module.resetState();
     store.resetActions();
     integration.resetRequests();
@@ -367,6 +373,21 @@ describe('InvoiceListModule', () => {
       expect(integration.getRequests()).toEqual([
         {
           intent: LOAD_NEXT_PAGE,
+        },
+      ]);
+    });
+  });
+
+  describe('updateFilterOptions', () => {
+    it('updates key with value', () => {
+      const { module, store } = setup();
+      module.updateFilterOptions({ filterName: 'keywords', value: '🐼' });
+
+      expect(store.getActions()).toEqual([
+        {
+          filterName: 'keywords',
+          value: '🐼',
+          intent: UPDATE_FILTER_OPTIONS,
         },
       ]);
     });

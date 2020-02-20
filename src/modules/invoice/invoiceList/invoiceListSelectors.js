@@ -140,3 +140,57 @@ export const getLoadNextPageParams = (state) => {
     offset,
   };
 };
+
+export const getLoadInvoiceListRequest = createSelector(
+  getBusinessId,
+  getOrderBy,
+  getSortOrder,
+  getFilterOptions,
+  (businessId, orderBy, sortOrder, filterOptions) => ({
+    params: {
+      ...filterOptions,
+      orderBy,
+      sortOrder,
+    },
+    urlParams: {
+      businessId,
+    },
+  }),
+);
+
+export const getSortInvoiceListRequest = (state, orderBy) => {
+  const filterOptions = getAppliedFilterOptions(state);
+  const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
+
+  const urlParams = {
+    businessId: getBusinessId(state),
+  };
+
+  return {
+    urlParams,
+    params: {
+      ...filterOptions,
+      sortOrder: newSortOrder,
+      offset: 0,
+      orderBy,
+    },
+  };
+};
+
+export const getFilterInvoiceListRequest = createSelector(
+  getBusinessId,
+  getOrderBy,
+  getSortOrder,
+  getFilterOptions,
+  (businessId, orderBy, sortOrder, filterOptions) => ({
+    urlParams: {
+      businessId,
+    },
+    params: {
+      ...filterOptions,
+      sortOrder,
+      orderBy,
+      offset: 0,
+    },
+  }),
+);
