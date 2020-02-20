@@ -39,7 +39,6 @@ import {
   UPDATE_BILL_OPTION,
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_LAYOUT,
-  UPDATE_LINE_ITEM_ID,
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
@@ -56,14 +55,6 @@ const defaultPrefillStatus = {
   supplierId: false,
   supplierInvoiceNumber: false,
   issueDate: false,
-};
-
-const defaultLinePrefillStatus = {
-  description: false,
-  amount: false,
-  discount: false,
-  units: false,
-  unitPrice: false,
 };
 
 const getDefaultState = () => ({
@@ -326,14 +317,6 @@ const getLineSubTypeId = type => (type === BillLineLayout.ITEM
   ? LineTaxTypes.DEFAULT_ITEM_LINE_SUB_TYPE_ID
   : LineTaxTypes.DEFAULT_SERVICE_LINE_SUB_TYPE_ID);
 
-const getLinePrefillStatus = (key, currentStateLinePrefillStatus) => {
-  const isPrefillField = Object.keys(defaultLinePrefillStatus).includes(key);
-  return isPrefillField ? {
-    ...currentStateLinePrefillStatus,
-    [key]: false,
-  } : currentStateLinePrefillStatus;
-};
-
 const setIsLineEdited = key => ['discount', 'amount', 'units', 'unitPrice'].includes(key);
 
 const updateBillLine = (state, action) => ({
@@ -355,9 +338,6 @@ const updateBillLine = (state, action) => ({
             : line.taxCodeId,
           type,
           lineSubTypeId: getLineSubTypeId(type),
-          prefillStatus: line.prefillStatus
-            ? getLinePrefillStatus(action.key, line.prefillStatus)
-            : undefined,
           [action.key]: action.value,
         };
       }
@@ -366,20 +346,6 @@ const updateBillLine = (state, action) => ({
   },
 });
 
-const updateLineItemId = (state, action) => ({
-  ...state,
-  bill: {
-    ...state.bill,
-    lines: state.bill.lines.map(
-      (line, index) => (index === action.index
-        ? ({
-          ...line,
-          itemId: action.value,
-        })
-        : line),
-    ),
-  },
-});
 
 // @TO-DO: Confirm if this behaviour is still necessary. It can either be removed or combined when
 // we calculate line amounts
@@ -480,44 +446,36 @@ const setCalculatedBillLinesAndTotals = (state, action) => ({
   totals: action.response.totals,
 });
 
-const getPrefilledLines = (state, lines) => lines.map(
-  line => ({
-    ...state.newLine,
-    ...line,
-    prefillStatus: {
-      description: Boolean(line.description),
-      amount: Boolean(line.amount),
-      discount: Boolean(line.discount),
-      units: Boolean(line.units),
-      unitPrice: Boolean(line.unitPrice),
-    },
-  }),
-);
+const getPrefilledNewLineFromInTray = (state, newLine) => ({
+  ...state.newLine,
+  amount: newLine.amount,
+  displayAmount: newLine.amount,
+});
 
 const prefillBillFromInTray = (state, action) => {
-  const {
-    layout, bill, lines, document,
-  } = action.response;
+  let { lines, isTaxInclusive } = state.bill;
+  const { supplierId, supplierInvoiceNumber, issueDate } = state.bill;
+  const { bill, newLine, document } = action.response;
 
-  const shouldPrefillLines = state.bill.lines.length === 0
-    && lines.length > 0;
+  if (newLine.amount && state.bill.lines.length === 0) {
+    lines = [getPrefilledNewLineFromInTray(state, newLine)];
+    isTaxInclusive = bill.isTaxInclusive || isTaxInclusive;
+  }
 
   return {
     ...state,
     isPageEdited: true,
-    layout: shouldPrefillLines ? layout : state.layout,
     bill: {
       ...state.bill,
-      supplierId: state.bill.supplierId || bill.supplierId,
-      supplierInvoiceNumber: state.bill.supplierInvoiceNumber || bill.supplierInvoiceNumber,
-      issueDate: bill.issueDate ? bill.issueDate : state.bill.issueDate,
-      isTaxInclusive: shouldPrefillLines ? bill.isTaxInclusive : state.bill.isTaxInclusive,
-      lines: shouldPrefillLines ? getPrefilledLines(state, lines) : state.bill.lines,
+      supplierId: supplierId || bill.supplierId,
+      supplierInvoiceNumber: supplierInvoiceNumber || bill.supplierInvoiceNumber,
+      issueDate: bill.issueDate ? bill.issueDate : issueDate,
+      isTaxInclusive,
+      lines,
     },
     prefillStatus: {
-      supplierId: !state.bill.supplierId && Boolean(bill.supplierId),
-      supplierInvoiceNumber: !state.bill.supplierInvoiceNumber
-        && Boolean(bill.supplierInvoiceNumber),
+      supplierId: !supplierId && Boolean(bill.supplierId),
+      supplierInvoiceNumber: !supplierInvoiceNumber && Boolean(bill.supplierInvoiceNumber),
       issueDate: Boolean(bill.issueDate),
     },
     inTrayDocument: document,
@@ -652,7 +610,6 @@ const handlers = {
   [STOP_MODAL_BLOCKING]: stopModalBlocking,
   [ADD_BILL_LINE]: addBillLine,
   [UPDATE_BILL_LINE]: updateBillLine,
-  [UPDATE_LINE_ITEM_ID]: updateLineItemId,
   [FORMAT_BILL_LINE]: formatBillLine,
   [CALCULATE_LINE_AMOUNTS]: calculateLineAmounts,
   [REMOVE_BILL_LINE]: removeBillLine,

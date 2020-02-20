@@ -40,7 +40,6 @@ import {
   UPDATE_BILL_OPTION,
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_LAYOUT,
-  UPDATE_LINE_ITEM_ID,
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
@@ -88,14 +87,6 @@ const createBillDispatcher = store => ({
     store.dispatch({
       intent: UPDATE_BILL_OPTION,
       key,
-      value,
-    });
-  },
-
-  updateLineItemId: ({ index, value }) => {
-    store.dispatch({
-      intent: UPDATE_LINE_ITEM_ID,
-      index,
       value,
     });
   },

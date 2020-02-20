@@ -32,7 +32,6 @@ export const STOP_LOADING_MORE = Symbol('Stop loading more');
 
 export const ADD_BILL_LINE = Symbol('Add bill line');
 export const UPDATE_BILL_LINE = Symbol('Update bill line');
-export const UPDATE_LINE_ITEM_ID = Symbol('Update line item id');
 export const FORMAT_BILL_LINE = Symbol('Format bill line');
 export const SET_CALCULATED_BILL_LINES_AND_TOTALS = Symbol('Set calculated bill lines and totals');
 export const CALCULATE_BILL_ITEM_CHANGE = Symbol('Calculate bill line totals on item id change');

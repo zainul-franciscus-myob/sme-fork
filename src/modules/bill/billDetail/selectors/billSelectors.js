@@ -103,11 +103,6 @@ export const getIsPageEdited = state => state.isPageEdited;
 
 export const getIsLineEdited = state => state.isLineEdited;
 
-export const getHasLineBeenPrefilled = (state, index) => {
-  const line = state.bill.lines.find((_, lineIndex) => lineIndex === index);
-  return Boolean(line.prefillStatus);
-};
-
 export const getLines = state => state.bill.lines;
 
 export const getNote = state => state.bill.note;

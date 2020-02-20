@@ -60,7 +60,3 @@ textarea {
     overflow-x: hidden;
   }
 }
-
-:root {
-  --prefill-background-color: #d5e3f9;
-}

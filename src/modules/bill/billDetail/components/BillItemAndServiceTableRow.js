@@ -1,7 +1,6 @@
 import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
-import classnames from 'classnames';
 
 import {
   getAccountOptions,
@@ -15,7 +14,6 @@ import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import ItemCombobox from '../../../../components/combobox/ItemCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
-import styles from './BillTableRow.module.css';
 
 const handleComboboxChange = (handler, name) => e => handler({
   target: {
@@ -53,7 +51,6 @@ const BillItemAndServiceTableRow = ({
   onAddItemButtonClick,
   ...feelixInjectedProps
 }) => {
-  const prefillStatus = billLine.prefillStatus || {};
   const {
     description,
     accountId,
@@ -78,15 +75,13 @@ const BillItemAndServiceTableRow = ({
         onChange={handleComboboxChange(onChange, 'itemId')}
         disabled={isBlocking}
       />
-      <div className={classnames({ [styles.prefilled]: Boolean(prefillStatus.description) })}>
-        <TextArea
-          name="description"
-          autoSize
-          value={description}
-          onChange={onChange}
-          disabled={isBlocking}
-        />
-      </div>
+      <TextArea
+        name="description"
+        autoSize
+        value={description}
+        onChange={onChange}
+        disabled={isBlocking}
+      />
       <AccountCombobox
         onChange={handleComboboxChange(onChange, 'accountId')}
         addNewAccount={() => onAddAccount(
@@ -101,7 +96,6 @@ const BillItemAndServiceTableRow = ({
         value={units}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'units')}
-        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.units) })}
         disabled={isBlocking}
         numeralDecimalScaleMax={6}
       />
@@ -110,7 +104,6 @@ const BillItemAndServiceTableRow = ({
         value={unitPrice}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'unitPrice')}
-        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.unitPrice) })}
         textAlign="right"
         disabled={isBlocking}
         numeralDecimalScaleMax={6}
@@ -120,7 +113,6 @@ const BillItemAndServiceTableRow = ({
         value={displayDiscount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'discount')}
-        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.discount) })}
         textAlign="right"
         disabled={isBlocking}
       />
@@ -129,7 +121,6 @@ const BillItemAndServiceTableRow = ({
         value={displayAmount}
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'amount')}
-        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         textAlign="right"
         disabled={isBlocking}
       />

@@ -9,7 +9,6 @@ import {
   getLoadingState,
 } from '../selectors/billSelectors';
 import {
-  getIsDocumentLoading,
   getShowPrefillInfo,
   getShowSplitView,
 } from '../selectors/BillInTrayDocumentSelectors';
@@ -39,7 +38,6 @@ const BillView = ({
   isModalShown,
   isSplitViewShown,
   isBlocking,
-  isDocumentLoading,
   loadingState,
   showPrefillInfo,
   layout,
@@ -185,7 +183,6 @@ const BillView = ({
 
   return (
     <PageView
-      isLoading={isDocumentLoading}
       loadingState={loadingState}
       view={view}
     />
@@ -198,7 +195,6 @@ const mapStateToProps = state => ({
   isBlocking: getIsBlocking(state),
   layout: getBillLayout(state),
   loadingState: getLoadingState(state),
-  isDocumentLoading: getIsDocumentLoading(state),
   isSplitViewShown: getShowSplitView(state),
   showPrefillInfo: getShowPrefillInfo(state),
 });

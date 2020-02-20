@@ -13,7 +13,6 @@ import {
   getBillUid,
   getContextForInventoryModal,
   getCreateSupplierContactModalContext,
-  getHasLineBeenPrefilled,
   getIsCreating,
   getIsCreatingFromInTray,
   getIsLineAmountsTaxInclusive,
@@ -124,7 +123,6 @@ class BillModule {
       this.dispatcher.stopLoading();
       this.dispatcher.setDocumentLoadingState(false);
       this.dispatcher.prefillDataFromInTray(response);
-      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     };
 
     const onFailure = ({ message }) => {
@@ -381,12 +379,7 @@ class BillModule {
     if (getIsLineTaxCodeIdKey(key) || getIsLineAccountIdKey(key)) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     } else if (getIsLineItemIdKey(key)) {
-      const hasLineBeenPrefilled = getHasLineBeenPrefilled(this.store.getState(), index);
-      if (hasLineBeenPrefilled) {
-        this.dispatcher.updateLineItemId({ index, value });
-      } else {
-        this.loadItemDetailForLine({ index, itemId: value });
-      }
+      this.loadItemDetailForLine({ index, itemId: value });
     }
   }
 
