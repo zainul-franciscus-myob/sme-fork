@@ -20,6 +20,7 @@ import {
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
+  LOAD_NEXT_PAGE,
   LOAD_PAY_DIRECT,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
@@ -93,6 +94,7 @@ const MemoryInvoiceMapping = {
   [LOAD_ITEM_OPTIONS]: ({ onSuccess }) => onSuccess(loadItemOptions),
   [LOAD_CONTACT_OPTIONS]: ({ onSuccess }) => onSuccess(loadContactOptions),
   [LOAD_ITEM_SELLING_DETAILS]: ({ onSuccess }) => onSuccess(loadItemSellingDetailsResponse),
+  [LOAD_NEXT_PAGE]: ({ onSuccess }) => onSuccess(invoiceListFilterResponse),
 };
 
 export default MemoryInvoiceMapping;
