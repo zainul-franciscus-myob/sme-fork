@@ -4,11 +4,7 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getAtoReportCategoryList,
-  getIsHourlyView,
-  getWage,
-} from '../../selectors/WagePayItemModalSelectors';
+import { getAtoReportCategoryList, getIsHourlyView, getWage } from '../../selectors/WagePayItemModalSelectors';
 import HourlySection from './WagePayItemHourlySection';
 import OverrideAccount from './WagePayItemOverrideAccount';
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
@@ -20,7 +16,6 @@ const WagePayItemDetails = ({
   isHourlyView,
   atoReportCategoryList,
   onDetailsChange,
-  onAmountInputBlur,
   onOverrideAccountChange,
 }) => (
   <FieldGroup label="Details">
@@ -63,7 +58,6 @@ const WagePayItemDetails = ({
     { isHourlyView ? (
       <HourlySection
         onDetailsChange={onDetailsChange}
-        onAmountInputBlur={onAmountInputBlur}
         onOverrideAccountChange={onOverrideAccountChange}
       />
     ) : (

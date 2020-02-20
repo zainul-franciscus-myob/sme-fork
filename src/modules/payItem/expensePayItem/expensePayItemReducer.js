@@ -2,7 +2,6 @@ import {
   ADD_ALLOCATED_EMPLOYEE,
   ADD_EXEMPTION_PAY_ITEM,
   CHANGE_EXPENSE_PAY_ITEM_INPUT,
-  FORMAT_EXPENSE_PAY_ITEM_AMOUNT_INPUT,
   LOAD_EXPENSE_PAY_ITEM,
   LOAD_NEW_EXPENSE_PAY_ITEM,
   REMOVE_ALLOCATED_EMPLOYEE,
@@ -147,35 +146,6 @@ const changeExpensePayItemInput = (state, action) => ({
   [action.key]: action.value,
 });
 
-const safeParseNumber = strNum => (Number(strNum) ? Number(strNum) : 0);
-
-const formatAmount = num => num.toFixed(2);
-
-const removeTrailingZeroes = num => String(Number(num));
-
-const countDecimalPlaces = (num) => {
-  if (Math.floor(num) === num) return 0;
-  return num.toString()
-    .split('.')[1].length || 0;
-};
-
-const formatPercentage = (num) => {
-  if (countDecimalPlaces(num) < 2) {
-    return num.toFixed(2);
-  }
-
-  return removeTrailingZeroes(num.toFixed(5));
-};
-
-const formatExpensePayItemAmountInput = state => ({
-  ...state,
-  calculationBasisPercentage: formatPercentage(safeParseNumber(state.calculationBasisPercentage)),
-  calculationBasisAmount: formatAmount(safeParseNumber(state.calculationBasisAmount)),
-  limitPercentage: formatPercentage(safeParseNumber(state.limitPercentage)),
-  limitAmount: formatAmount(safeParseNumber(state.limitAmount)),
-  threshold: formatAmount(safeParseNumber(state.threshold)),
-});
-
 const addAllocatedEmployee = (state, action) => ({
   ...state,
   allocatedEmployees: [
@@ -213,7 +183,6 @@ const handlers = {
   [LOAD_NEW_EXPENSE_PAY_ITEM]: loadNewExpensePayItem,
   [LOAD_EXPENSE_PAY_ITEM]: loadExistingExpensePayItem,
   [CHANGE_EXPENSE_PAY_ITEM_INPUT]: changeExpensePayItemInput,
-  [FORMAT_EXPENSE_PAY_ITEM_AMOUNT_INPUT]: formatExpensePayItemAmountInput,
   [ADD_ALLOCATED_EMPLOYEE]: addAllocatedEmployee,
   [REMOVE_ALLOCATED_EMPLOYEE]: removeAllocatedEmployee,
   [ADD_EXEMPTION_PAY_ITEM]: addExemptionPayItem,

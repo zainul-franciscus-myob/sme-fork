@@ -2,7 +2,6 @@ import {
   ADD_DEDUCTION_PAY_ITEM_MODAL_ITEM,
   CLOSE_DEDUCTION_PAY_ITEM_MODAL,
   CREATE_DEDUCTION_PAY_ITEM_MODAL,
-  FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   OPEN_DEDUCTION_PAY_ITEM_MODAL,
   REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM,
@@ -13,7 +12,6 @@ import {
   UPDATE_DEDUCTION_PAY_ITEM_MODAL,
 } from '../../../EmployeeIntents';
 import { getDeductionPayItems } from '../selectors/PayrollDeductionDetailSelectors';
-import { getFormattedAmount, getFormattedPercentage } from '../selectors/DeductionPayItemModalSelectors';
 
 const getDeductionPayItemModalDefaultState = () => ({
   id: '',
@@ -152,20 +150,6 @@ const setDeductionPayItemModalInput = (state, { key, value }) => (
   setDeductionPayItemState(state, { [key]: value })
 );
 
-const formatDeductionPayItemModalAmountInput = (state, { key, value }) => {
-  if (key === 'calculationPercentage' || key === 'limitPercentage') {
-    const formattedPercentage = getFormattedPercentage(value);
-    return setDeductionPayItemState(state, { [key]: formattedPercentage });
-  }
-
-  if (key === 'calculationDollars' || key === 'limitDollars') {
-    const formattedAmount = getFormattedAmount(value);
-    return setDeductionPayItemState(state, { [key]: formattedAmount });
-  }
-
-  return state;
-};
-
 const addDeductionPayItemModalItem = (state, { key, item }) => (
   setDeductionPayItemState(state, {
     [key]: [
@@ -185,7 +169,6 @@ export default {
   [ADD_DEDUCTION_PAY_ITEM_MODAL_ITEM]: addDeductionPayItemModalItem,
   [CLOSE_DEDUCTION_PAY_ITEM_MODAL]: closeDeductionPayItemModal,
   [CREATE_DEDUCTION_PAY_ITEM_MODAL]: createDeductionPayItemModal,
-  [FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT]: formatDeductionPayItemModalAmountInput,
   [LOAD_DEDUCTION_PAY_ITEM_MODAL]: loadDeductionPayItemModal,
   [OPEN_DEDUCTION_PAY_ITEM_MODAL]: openDeductionPayItemModal,
   [REMOVE_DEDUCTION_PAY_ITEM_MODAL_ITEM]: removeDeductionPayItemModalItem,

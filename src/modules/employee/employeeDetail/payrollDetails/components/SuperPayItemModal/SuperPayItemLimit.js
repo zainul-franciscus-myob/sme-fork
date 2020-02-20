@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getLimit } from '../../selectors/SuperPayItemModalSelectors';
-import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import DollarInput from '../DollarInput';
 import PayItemCombobox from './PayItemCombobox';
-import handleAmountInputChange from '../../../../../../components/handlers/handleAmountInputChange';
+import PercentInput from '../PercentInput';
 import handleComboboxChange from '../../../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 
@@ -22,7 +22,6 @@ const SuperPayItemLimit = (props) => {
     showPercent,
     showAmount,
     onSuperPayItemDetailsChange,
-    onSuperPayItemDetailBlur,
   } = props;
 
   return (
@@ -40,14 +39,11 @@ const SuperPayItemLimit = (props) => {
 
       { showPercent && (
         <React.Fragment>
-          <AmountInput
+          <PercentInput
             label="Percentage %"
             name="limitPercentage"
             value={limitPercentage}
-            onChange={handleAmountInputChange(onSuperPayItemDetailsChange)}
-            onBlur={handleAmountInputChange(onSuperPayItemDetailBlur)}
-            numeralIntegerScale={3}
-            numeralDecimalScaleMax={5}
+            onChange={onSuperPayItemDetailsChange}
           />
           <PayItemCombobox
             label="Percent of"
@@ -61,13 +57,11 @@ const SuperPayItemLimit = (props) => {
 
       { showAmount && (
         <React.Fragment>
-          <AmountInput
+          <DollarInput
             label="Dollar $"
             name="limitAmount"
             value={limitAmount}
-            onChange={handleAmountInputChange(onSuperPayItemDetailsChange)}
-            onBlur={handleAmountInputChange(onSuperPayItemDetailBlur)}
-            numeralIntegerScale={13}
+            onChange={onSuperPayItemDetailsChange}
           />
           <Select
             name="limitPeriod"

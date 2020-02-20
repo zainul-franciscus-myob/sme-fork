@@ -7,7 +7,6 @@ import {
   CHANGE_EXPENSE_PAY_ITEM_INPUT,
   CREATE_EXPENSE_PAY_ITEM,
   DELETE_EXPENSE_PAY_ITEM,
-  FORMAT_EXPENSE_PAY_ITEM_AMOUNT_INPUT,
   LOAD_EXPENSE_PAY_ITEM,
   LOAD_NEW_EXPENSE_PAY_ITEM,
   REMOVE_ALLOCATED_EMPLOYEE,
@@ -238,12 +237,6 @@ class ExpensePayItemModule {
     this.setIsPageEdited(true);
   }
 
-  formatExpensePayItemAmountInput = () => {
-    this.store.dispatch({
-      intent: FORMAT_EXPENSE_PAY_ITEM_AMOUNT_INPUT,
-    });
-  }
-
   addAllocatedEmployee = ({ value }) => {
     this.store.dispatch({
       intent: ADD_ALLOCATED_EMPLOYEE,
@@ -374,7 +367,6 @@ class ExpensePayItemModule {
           onDismissAlert={this.dismissAlert}
           onDismissModal={this.dismissModal}
           onChangeExpensePayItemInput={this.changeExpensePayItemInput}
-          onBlurExpensePayItemAmountInput={this.formatExpensePayItemAmountInput}
           onAddAllocatedEmployee={this.addAllocatedEmployee}
           onRemoveAllocatedEmployee={this.removeAllocatedEmployee}
           onAddExemptionPayItem={this.addExemptionPayItem}

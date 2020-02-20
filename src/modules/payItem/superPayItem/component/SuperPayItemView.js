@@ -31,7 +31,6 @@ const SuperPayItemView = (props) => {
     onCancelButtonClick,
     onDeleteButtonClick,
     onSuperPayItemDetailsChange,
-    onSuperPayItemDetailBlur,
     onAddSuperPayItemEmployee,
     onRemoveSuperPayItemEmployee,
     onAddSuperPayItemExemption,
@@ -65,10 +64,7 @@ const SuperPayItemView = (props) => {
       <div className={styles.payItemView}>
         <FormHorizontal>
           <SuperPayItemDetail onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
-          <SuperPayItemInfo
-            onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
-            onSuperPayItemDetailBlur={onSuperPayItemDetailBlur}
-          />
+          <SuperPayItemInfo onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
         </FormHorizontal>
       </div>
       <hr />

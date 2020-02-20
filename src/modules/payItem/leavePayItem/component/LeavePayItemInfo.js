@@ -1,6 +1,4 @@
-import {
-  Checkbox, CheckboxGroup, FieldGroup,
-} from '@myob/myob-widgets';
+import { Checkbox, CheckboxGroup, FieldGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,13 +14,9 @@ const LeavePayItemInfo = ({
   printOnPaySlip,
   carryRemainingLeave,
   onCalculationBasisChange,
-  onCalculationBasisAmountChange,
 }) => (
   <FieldGroup label="Leave information">
-    <LeavePayItemCalculationBasis
-      onCalculationBasisChange={onCalculationBasisChange}
-      onCalculationBasisAmountChange={onCalculationBasisAmountChange}
-    />
+    <LeavePayItemCalculationBasis onCalculationBasisChange={onCalculationBasisChange} />
     <CheckboxGroup
       label="Print on pay slip"
       hideLabel

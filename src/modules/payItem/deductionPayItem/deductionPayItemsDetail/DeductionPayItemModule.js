@@ -17,7 +17,6 @@ import {
   SET_LOADING_STATE,
   UPDATE_DETAILS,
   UPDATE_INFORMATION,
-  UPDATE_INFORMATION_AMOUNT,
   UPDATE_PAY_ITEM,
 } from '../DeductionPayItemIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
@@ -100,12 +99,6 @@ export default class DeductionPayItemModule {
 
   updatePayItemInformation = ({ key, value }) => this.store.dispatch({
     intent: UPDATE_INFORMATION,
-    key,
-    value,
-  })
-
-  updatePayItemInformationAmount = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_INFORMATION_AMOUNT,
     key,
     value,
   })
@@ -266,7 +259,6 @@ export default class DeductionPayItemModule {
         <DeductionPayItemView
           onDetailsChange={this.updatePayItemDetails}
           onInformationChange={this.updatePayItemInformation}
-          onInformationAmountBlur={this.updatePayItemInformationAmount}
           onEmployeeSelected={this.addEmployeeToSelectedList}
           onRemoveEmployee={this.removeEmployeeFromSelectedList}
           onRemoveExemption={this.removeExemptionFromSelectedList}

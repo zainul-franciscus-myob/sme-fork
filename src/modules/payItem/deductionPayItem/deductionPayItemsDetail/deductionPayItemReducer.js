@@ -12,31 +12,10 @@ import {
   SET_LOADING_STATE,
   UPDATE_DETAILS,
   UPDATE_INFORMATION,
-  UPDATE_INFORMATION_AMOUNT,
 } from '../DeductionPayItemIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
-
-const formatAmount = value => Number(value).toFixed(2);
-
-const removeTrailingZeroes = number => String(Number(number));
-
-const countDecimalPlaces = (num) => {
-  if (Math.floor(num) === num) return 0;
-  return num.toString().split('.')[1].length || 0;
-};
-
-const formatPercentage = (percentage) => {
-  if (countDecimalPlaces(percentage) < 2) {
-    return percentage.toFixed(2);
-  }
-
-  return removeTrailingZeroes(percentage.toFixed(5));
-};
 
 const getDefaultState = () => ({
   title: 'Deduction pay item',
@@ -171,18 +150,6 @@ const updateInformation = (state, { key, value }) => ({
   isPageEdited: true,
 });
 
-const updateInformationAmount = (state, { key, value }) => {
-  if (key === 'calculationPercentage' || key === 'limitPercentage') {
-    const formattedPercentage = formatPercentage(Number(value));
-    return updateInformation(state, { key, value: formattedPercentage });
-  }
-  if (key === 'calculationDollars' || key === 'limitDollars') {
-    const formattedAmount = formatAmount(value);
-    return updateInformation(state, { key, value: formattedAmount });
-  }
-  return updateInformation(state, { key, value });
-};
-
 const addEmployee = (state, { value }) => ({
   ...state,
   employeeAllocations: {
@@ -257,7 +224,6 @@ const handlers = {
   [LOAD_EXISTING_PAY_ITEM]: loadExistingPayItem,
   [UPDATE_DETAILS]: updateDetails,
   [UPDATE_INFORMATION]: updateInformation,
-  [UPDATE_INFORMATION_AMOUNT]: updateInformationAmount,
   [ADD_EMPLOYEE]: addEmployee,
   [REMOVE_EMPLOYEE]: removeEmployee,
   [ADD_EXEMPTION]: addExemption,

@@ -4,8 +4,6 @@ import React from 'react';
 import { SUCCESSFULLY_DELETED_SUPER_PAY_ITEM, SUCCESSFULLY_SAVED_SUPER_PAY_ITEM } from './SuperPayItemMessageTypes';
 import {
   getBusinessId,
-  getFormattedAmount,
-  getFormattedPercentage,
   getIsPageEdited,
   getIsSubmitting,
   getModalType,
@@ -139,18 +137,6 @@ export default class SuperPayItemModule {
     }
   }
 
-  formatSuperPayItemDetail = ({ key, value }) => {
-    if (['calculationBasisPercentage', 'limitPercentage'].includes(key)) {
-      const formattedValue = getFormattedPercentage(value);
-      this.dispatcher.setSuperPayItemDetail({ key, value: formattedValue });
-    }
-
-    if (['calculationBasisAmount', 'limitAmount', 'exclusion', 'threshold'].includes(key)) {
-      const formattedValue = getFormattedAmount(value);
-      this.dispatcher.setSuperPayItemDetail({ key, value: formattedValue });
-    }
-  }
-
   resetState = () => {
     this.dispatcher.resetState();
   }
@@ -190,7 +176,6 @@ export default class SuperPayItemModule {
         onCancelButtonClick={this.confirmBeforeCancel}
         onDeleteButtonClick={this.confirmBeforeDelete}
         onSuperPayItemDetailsChange={this.setSuperPayItemDetail}
-        onSuperPayItemDetailBlur={this.formatSuperPayItemDetail}
         onAddSuperPayItemEmployee={this.dispatcher.addSuperPayItemEmployee}
         onRemoveSuperPayItemEmployee={this.dispatcher.removeSuperPayItemEmployee}
         onAddSuperPayItemExemption={this.dispatcher.addSuperPayItemExemption}

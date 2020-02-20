@@ -13,7 +13,6 @@ const WagePayItemHourlySection = ({
   wage,
   payRateList,
   onDetailsChange,
-  onAmountInputBlur,
   onOverrideAccountChange,
 }) => (
   <React.Fragment>
@@ -37,12 +36,13 @@ const WagePayItemHourlySection = ({
           name="payRateMultiplier"
           label="payRateMultiplier"
           hideLabel
+          numeralDecimalScaleMin={4}
           numeralDecimalScaleMax={4}
           numeralIntegerScale={3}
           numeralPositiveOnly
           value={wage.payRateMultiplier}
           onChange={handleAmountInputChange(onDetailsChange)}
-          onBlur={handleAmountInputChange(onAmountInputBlur)}
+          onBlur={handleAmountInputChange(onDetailsChange)}
           disabled={wage.isSystem}
         />
       ) : (
@@ -51,12 +51,13 @@ const WagePayItemHourlySection = ({
           name="fixedHourlyPayRate"
           label="fixedHourlyPayRate"
           hideLabel
+          numeralDecimalScaleMin={4}
           numeralDecimalScaleMax={4}
           numeralIntegerScale={13}
           numeralPositiveOnly
           value={wage.fixedHourlyPayRate}
           onChange={handleAmountInputChange(onDetailsChange)}
-          onBlur={handleAmountInputChange(onAmountInputBlur)}
+          onBlur={handleAmountInputChange(onDetailsChange)}
           disabled={wage.isSystem}
         />
       )

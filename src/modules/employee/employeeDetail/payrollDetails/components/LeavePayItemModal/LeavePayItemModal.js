@@ -35,7 +35,6 @@ const LeavePayItemModal = (props) => {
     onRemoveLinkedWage,
     onNameChange,
     onCalculationBasisChange,
-    onCalculationBasisAmountChange,
   } = props;
 
   const alertComponent = alert && (
@@ -48,10 +47,7 @@ const LeavePayItemModal = (props) => {
     <>
       { alertComponent }
       <LeavePayItemDetail onNameChange={onNameChange} />
-      <LeavePayItemInfo
-        onCalculationBasisChange={onCalculationBasisChange}
-        onCalculationBasisAmountChange={onCalculationBasisAmountChange}
-      />
+      <LeavePayItemInfo onCalculationBasisChange={onCalculationBasisChange} />
       <LeavePayItemLinkedWages
         onAddLinkedWage={onAddLinkedWage}
         onRemoveLinkedWage={onRemoveLinkedWage}

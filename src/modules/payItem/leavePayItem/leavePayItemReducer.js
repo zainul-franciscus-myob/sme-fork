@@ -12,29 +12,11 @@ import {
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_CALCULATION_BASIS,
-  UPDATE_CALCULATION_BASIS_AMOUNTS,
   UPDATE_NAME,
 } from './LeavePayItemIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
-
-const formatAmount = value => (Number(value) || 0).toFixed(3);
-
-const removeTrailingZeroes = number => String(Number(number));
-
-const countDecimalPlaces = (num) => {
-  if (Math.floor(num) === num) return 0;
-  return num.toString().split('.')[1].length || 0;
-};
-
-const formatPercentage = (percentage) => {
-  if (countDecimalPlaces(percentage) < 2) {
-    return percentage.toFixed(2);
-  }
-
-  return removeTrailingZeroes(percentage.toFixed(5));
-};
 
 const getDefaultState = () => ({
   businessId: '',
@@ -198,19 +180,6 @@ const updateCalculationBasis = (state, action) => ({
   isPageEdited: true,
 });
 
-const updateCalculationBasisAmounts = (state, { key, value }) => {
-  if (key === 'calculationBasisPercentage') {
-    const number = Number(value) || 0;
-    const formattedPercentage = formatPercentage(number);
-    return updateCalculationBasis(state, { key, value: formattedPercentage });
-  }
-  if (key === 'calculationBasisAmount') {
-    const formattedAmount = formatAmount(value);
-    return updateCalculationBasis(state, { key, value: formattedAmount });
-  }
-  return updateCalculationBasis(state, { key, value });
-};
-
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -228,7 +197,6 @@ const handlers = {
   [REMOVE_LINKED_WAGE]: removeLinkedWage,
   [UPDATE_NAME]: updateName,
   [UPDATE_CALCULATION_BASIS]: updateCalculationBasis,
-  [UPDATE_CALCULATION_BASIS_AMOUNTS]: updateCalculationBasisAmounts,
 };
 
 const leavePayItemReducer = createReducer(getDefaultState(), handlers);

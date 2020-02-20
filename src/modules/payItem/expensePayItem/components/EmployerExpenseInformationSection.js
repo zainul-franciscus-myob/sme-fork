@@ -1,25 +1,19 @@
 import {
-  Checkbox,
-  CheckboxGroup,
-  FieldGroup,
-  Icons,
-  Tooltip,
+  Checkbox, CheckboxGroup, FieldGroup, Icons, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsPrintOnPaySlip, getThreshold } from '../ExpensePayItemSelectors';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import CalculationBasisSection from './CalculationBasisSection';
+import DollarInput from '../../components/DollarInput';
 import LimitSection from './LimitSection';
-import handleAmountChange from '../../../../components/handlers/handleAmountInputChange';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 
 const EmployerExpenseInformationSection = ({
   isPrintOnPaySlip,
   threshold,
   onChangeExpensePayItemInput,
-  onBlurExpensePayItemAmountInput,
 }) => (
   <FieldGroup label="Employer expense information">
     <CheckboxGroup
@@ -34,21 +28,13 @@ const EmployerExpenseInformationSection = ({
         />
       )}
     />
-    <CalculationBasisSection
-      onChangeExpensePayItemInput={onChangeExpensePayItemInput}
-      onBlurExpensePayItemAmountInput={onBlurExpensePayItemAmountInput}
-    />
-    <LimitSection
-      onChangeExpensePayItemInput={onChangeExpensePayItemInput}
-      onBlurExpensePayItemAmountInput={onBlurExpensePayItemAmountInput}
-    />
-    <AmountInput
+    <CalculationBasisSection onChangeExpensePayItemInput={onChangeExpensePayItemInput} />
+    <LimitSection onChangeExpensePayItemInput={onChangeExpensePayItemInput} />
+    <DollarInput
       label="Threshold $"
       name="threshold"
       value={threshold}
-      onChange={handleAmountChange(onChangeExpensePayItemInput)}
-      onBlur={onBlurExpensePayItemAmountInput}
-      numeralIntegerScale={13}
+      onChange={onChangeExpensePayItemInput}
       numeralPositiveOnly
       labelAccessory={(
         <Tooltip triggerContent={<Icons.Info />} placement="right">

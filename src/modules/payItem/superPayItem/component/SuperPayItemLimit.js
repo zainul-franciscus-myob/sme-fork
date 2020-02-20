@@ -3,17 +3,13 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getLimit } from '../superPayItemSelectors';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import DollarInput from '../../components/DollarInput';
 import PayItemCombobox from './PayItemCombobox';
+import PercentInput from '../../components/PercentInput';
 
 const handleInputChange = handler => (e) => {
   const { value, name } = e.target;
   handler({ key: name, value });
-};
-
-const handleAmountChange = handler => (e) => {
-  const { name, rawValue } = e.target;
-  handler({ key: name, value: rawValue });
 };
 
 const handlePayItemComboboxChange = (handler, key) => (item) => {
@@ -33,7 +29,6 @@ const SuperPayItemLimit = (props) => {
     showPercent,
     showAmount,
     onSuperPayItemDetailsChange,
-    onSuperPayItemDetailBlur,
   } = props;
 
   return (
@@ -51,14 +46,11 @@ const SuperPayItemLimit = (props) => {
 
       { showPercent && (
         <React.Fragment>
-          <AmountInput
+          <PercentInput
             label="Percentage %"
             name="limitPercentage"
             value={limitPercentage}
-            onChange={handleAmountChange(onSuperPayItemDetailsChange)}
-            onBlur={handleAmountChange(onSuperPayItemDetailBlur)}
-            numeralIntegerScale={3}
-            numeralDecimalScaleMax={5}
+            onChange={onSuperPayItemDetailsChange}
           />
           <PayItemCombobox
             label="Percent of"
@@ -72,13 +64,11 @@ const SuperPayItemLimit = (props) => {
 
       { showAmount && (
         <React.Fragment>
-          <AmountInput
+          <DollarInput
             label="Dollar $"
             name="limitAmount"
             value={limitAmount}
-            onChange={handleAmountChange(onSuperPayItemDetailsChange)}
-            onBlur={handleAmountChange(onSuperPayItemDetailBlur)}
-            numeralIntegerScale={13}
+            onChange={onSuperPayItemDetailsChange}
           />
           <Select
             name="limitPeriod"

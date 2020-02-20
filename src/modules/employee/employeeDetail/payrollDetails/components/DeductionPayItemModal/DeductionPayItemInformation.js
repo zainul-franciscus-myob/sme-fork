@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getInformation } from '../../selectors/DeductionPayItemModalSelectors';
-import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
-import handleAmountInputChange from '../../../../../../components/handlers/handleAmountInputChange';
+import DollarInput from '../DollarInput';
+import PercentInput from '../PercentInput';
 import handleComboboxChange from '../../../../../../components/handlers/handleComboboxChange';
 import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
 
@@ -32,18 +32,14 @@ const DeductionPayItemInformation = ({
   isLimitDollar,
   isLimitPercentage,
   onChange,
-  onBlur,
 }) => {
   const calculationPercentageView = isCalculationPercentage && (
     <>
-      <AmountInput
+      <PercentInput
         name="calculationPercentage"
         label="Percentage %"
-        numeralDecimalScaleMax={5}
-        numeralIntegerScale={3}
         value={calculationPercentage}
-        onChange={handleAmountInputChange(onChange)}
-        onBlur={handleAmountInputChange(onBlur)}
+        onChange={onChange}
       />
       <Combobox
         label="Percent of"
@@ -57,13 +53,11 @@ const DeductionPayItemInformation = ({
 
   const calculationDollarView = isCalculationDollar && (
     <>
-      <AmountInput
+      <DollarInput
         name="calculationDollars"
         label="Dollars $"
-        numeralIntegerScale={13}
         value={calculationDollars}
-        onChange={handleAmountInputChange(onChange)}
-        onBlur={handleAmountInputChange(onBlur)}
+        onChange={onChange}
       />
       <Select
         name="calculationPer"
@@ -82,14 +76,11 @@ const DeductionPayItemInformation = ({
 
   const limitPercentageView = isLimitPercentage && (
     <>
-      <AmountInput
+      <PercentInput
         name="limitPercentage"
         label="Percentage %"
-        numeralDecimalScaleMax={5}
-        numeralIntegerScale={3}
         value={limitPercentage}
-        onChange={handleAmountInputChange(onChange)}
-        onBlur={handleAmountInputChange(onBlur)}
+        onChange={onChange}
       />
       <Combobox
         label="Percent of"
@@ -103,13 +94,11 @@ const DeductionPayItemInformation = ({
 
   const limitDollarView = isLimitDollar && (
     <>
-      <AmountInput
+      <DollarInput
         name="limitDollars"
         label="Dollars $"
-        numeralIntegerScale={13}
         value={limitDollars}
-        onChange={handleAmountInputChange(onChange)}
-        onBlur={handleAmountInputChange(onBlur)}
+        onChange={onChange}
       />
       <Select
         name="limitPer"

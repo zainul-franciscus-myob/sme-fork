@@ -40,7 +40,7 @@
     },
     {
       "name": "Equals hours per pay period",
-      "value": "FixedHour"
+      "value": "FixedHours"
     }
   ],
   "payPeriods":   [

@@ -5,6 +5,7 @@ import React from 'react';
 import { getCalculationBasis } from '../leavePayItemSelectors';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import PayItemCombobox from './PayItemCombobox';
+import PercentInput from '../../components/PercentInput';
 
 const handleInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -32,7 +33,6 @@ const LeavePayItemCalculationBasis = ({
   showPercentage,
   showAmount,
   onCalculationBasisChange,
-  onCalculationBasisAmountChange,
 }) => (
   <React.Fragment>
     <Select
@@ -48,14 +48,11 @@ const LeavePayItemCalculationBasis = ({
 
     {showPercentage && (
       <React.Fragment>
-        <AmountInput
+        <PercentInput
           label="Percentage %"
           name="calculationBasisPercentage"
           value={calculationBasisPercentage}
-          onChange={handleAmountChange(onCalculationBasisChange)}
-          onBlur={handleAmountChange(onCalculationBasisAmountChange)}
-          numeralIntegerScale={3}
-          numeralDecimalScaleMax={5}
+          onChange={onCalculationBasisChange}
         />
         <PayItemCombobox
           label="Percent of"
@@ -74,9 +71,10 @@ const LeavePayItemCalculationBasis = ({
           name="calculationBasisAmount"
           value={calculationBasisAmount}
           onChange={handleAmountChange(onCalculationBasisChange)}
-          onBlur={handleAmountChange(onCalculationBasisAmountChange)}
+          onBlur={handleAmountChange(onCalculationBasisChange)}
           numeralIntegerScale={13}
           numeralDecimalScaleMax={3}
+          numeralDecimalScaleMin={3}
         />
         <Select
           name="calculationBasisPeriod"

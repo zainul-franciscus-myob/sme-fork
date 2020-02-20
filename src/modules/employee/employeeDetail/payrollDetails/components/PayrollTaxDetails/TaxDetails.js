@@ -26,7 +26,6 @@ const TaxDetails = ({
     withholdingVariationRate,
   },
   onPayrollTaxDetailsChange,
-  onPayrollTaxAmountBlur,
   taxFileNumberStatusOptions,
   taxFileNumberStatus,
   onTaxFileNumberStatusChange,
@@ -85,34 +84,37 @@ const TaxDetails = ({
           key="withholdingVariationRate"
           name="withholdingVariationRate"
           label="Withholding variation rate %"
+          numeralDecimalScaleMin={2}
           numeralDecimalScaleMax={4}
           numeralIntegerScale={3}
           numeralPositiveOnly
           value={withholdingVariationRate}
           onChange={handleAmountInputChange(onPayrollTaxDetailsChange)}
-          onBlur={handleAmountInputChange(onPayrollTaxAmountBlur)}
+          onBlur={handleAmountInputChange(onPayrollTaxDetailsChange)}
           disabled={!selectedTaxTable.allowsVariationRate}
         />
         <AmountInput
           key="totalRebates"
           name="totalRebates"
           label="Total rebates per year ($)"
+          numeralDecimalScaleMin={2}
           numeralDecimalScaleMax={2}
           numeralIntegerScale={13}
           value={totalRebates}
           onChange={handleAmountInputChange(onPayrollTaxDetailsChange)}
-          onBlur={handleAmountInputChange(onPayrollTaxAmountBlur)}
+          onBlur={handleAmountInputChange(onPayrollTaxDetailsChange)}
           disabled={!selectedTaxTable.allowsRebates}
         />
         <AmountInput
           key="extraTax"
           name="extraTax"
           label="Extra tax per pay ($)"
+          numeralDecimalScaleMin={2}
           numeralDecimalScaleMax={2}
           numeralIntegerScale={13}
           value={extraTax}
           onChange={handleAmountInputChange(onPayrollTaxDetailsChange)}
-          onBlur={handleAmountInputChange(onPayrollTaxAmountBlur)}
+          onBlur={handleAmountInputChange(onPayrollTaxDetailsChange)}
         />
       </FieldGroup>
     </FormHorizontal>

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getCalculationBasis } from '../../selectors/SuperPayItemModalSelectors';
-import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import DollarInput from '../DollarInput';
 import PayItemCombobox from './PayItemCombobox';
-import handleAmountInputChange from '../../../../../../components/handlers/handleAmountInputChange';
+import PercentInput from '../PercentInput';
 import handleComboboxChange from '../../../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 
@@ -23,7 +23,6 @@ const SuperPayItemCalculationBasis = (props) => {
     showPercent,
     showAmount,
     onSuperPayItemDetailsChange,
-    onSuperPayItemDetailBlur,
   } = props;
 
   return (
@@ -41,14 +40,11 @@ const SuperPayItemCalculationBasis = (props) => {
 
       { showPercent && (
         <React.Fragment>
-          <AmountInput
+          <PercentInput
             label="Percentage %"
             name="calculationBasisPercentage"
             value={calculationBasisPercentage}
-            onChange={handleAmountInputChange(onSuperPayItemDetailsChange)}
-            onBlur={handleAmountInputChange(onSuperPayItemDetailBlur)}
-            numeralIntegerScale={3}
-            numeralDecimalScaleMax={5}
+            onChange={onSuperPayItemDetailsChange}
           />
           <PayItemCombobox
             label="Percent of"
@@ -57,13 +53,11 @@ const SuperPayItemCalculationBasis = (props) => {
             selectedId={calculationBasisPayItemId}
             onChange={handleComboboxChange('calculationBasisPayItemId', onSuperPayItemDetailsChange)}
           />
-          <AmountInput
+          <DollarInput
             label="Exclusions $"
             name="exclusion"
             value={exclusion}
-            onChange={handleAmountInputChange(onSuperPayItemDetailsChange)}
-            onBlur={handleAmountInputChange(onSuperPayItemDetailBlur)}
-            numeralIntegerScale={13}
+            onChange={onSuperPayItemDetailsChange}
             labelAccessory={(
               <Tooltip triggerContent={<Icons.Info />} placement="right">
                 Exclude this first amount of eligible wages from calculations
@@ -75,13 +69,11 @@ const SuperPayItemCalculationBasis = (props) => {
 
       { showAmount && (
         <React.Fragment>
-          <AmountInput
+          <DollarInput
             label="Dollar $"
             name="calculationBasisAmount"
             value={calculationBasisAmount}
-            onChange={handleAmountInputChange(onSuperPayItemDetailsChange)}
-            onBlur={handleAmountInputChange(onSuperPayItemDetailBlur)}
-            numeralIntegerScale={13}
+            onChange={onSuperPayItemDetailsChange}
           />
           <Select
             name="calculationBasisPeriod"

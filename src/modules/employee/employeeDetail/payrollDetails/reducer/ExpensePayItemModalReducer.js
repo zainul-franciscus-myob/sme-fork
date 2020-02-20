@@ -4,7 +4,6 @@ import {
   CHANGE_EXPENSE_PAY_ITEM_MODAL_INPUT,
   CLOSE_EXPENSE_PAY_ITEM_MODAL,
   CREATE_EXPENSE_PAY_ITEM_MODAL,
-  FORMAT_EXPENSE_PAY_ITEM_MODAL_AMOUNT_INPUT,
   LOAD_EXPENSE_PAY_ITEM_MODAL,
   OPEN_EXPENSE_PAY_ITEM_MODAL,
   REMOVE_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE,
@@ -16,14 +15,9 @@ import {
 } from '../../../EmployeeIntents';
 import {
   getAllocatedEmployees,
-  getCalculationBasisAmount,
-  getCalculationBasisPercentage,
   getEmployeeOptions,
   getExemptionPayItemOptions,
   getExemptionPayItems,
-  getLimitAmount,
-  getLimitPercentage,
-  getThreshold,
 } from '../selectors/ExpensePayItemModalSelectors';
 import { getExpensePayItems } from '../selectors/PayrollExpenseDetailSelectors';
 
@@ -78,44 +72,6 @@ const changeExpensePayItemModalInput = (state, { key, value }) => ({
     [key]: value,
   },
 });
-
-const countDecimalPlaces = (num) => {
-  if (Math.floor(num) === num) return 0;
-  return num.toString()
-    .split('.')[1].length || 0;
-};
-
-const removeTrailingZeroes = num => String(Number(num));
-
-const formatPercentage = (num) => {
-  if (countDecimalPlaces(num) < 2) {
-    return num.toFixed(2);
-  }
-
-  return removeTrailingZeroes(num.toFixed(5));
-};
-
-const safeParseNumber = strNum => (Number(strNum) ? Number(strNum) : 0);
-
-const formatAmount = num => num.toFixed(2);
-
-const formatExpensePayItemModalAmountInput = state => (
-  setExpensePayItemModalState(
-    state,
-    {
-      calculationBasisPercentage:
-        formatPercentage(safeParseNumber(getCalculationBasisPercentage(state))),
-      calculationBasisAmount:
-        formatAmount(safeParseNumber(getCalculationBasisAmount(state))),
-      limitPercentage:
-        formatPercentage(safeParseNumber(getLimitPercentage(state))),
-      limitAmount:
-        formatAmount(safeParseNumber(getLimitAmount(state))),
-      threshold:
-        formatAmount(safeParseNumber(getThreshold(state))),
-    },
-  )
-);
 
 const addExpensePayItemModalAllocatedEmployee = (state, action) => (
   setExpensePayItemModalState(
@@ -235,7 +191,6 @@ const updateExpensePayItemModal = (state, {
 export default {
   [SET_EXPENSE_PAY_ITEM_MODAL_ALERT]: setExpensePayItemModalAlert,
   [CHANGE_EXPENSE_PAY_ITEM_MODAL_INPUT]: changeExpensePayItemModalInput,
-  [FORMAT_EXPENSE_PAY_ITEM_MODAL_AMOUNT_INPUT]: formatExpensePayItemModalAmountInput,
   [ADD_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE]: addExpensePayItemModalAllocatedEmployee,
   [REMOVE_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE]: removeExpensePayItemModalAllocatedEmployee,
   [ADD_EXPENSE_PAY_ITEM_MODAL_EXEMPTION_PAY_ITEM]: addExpensePayItemModalExemptionPayItem,

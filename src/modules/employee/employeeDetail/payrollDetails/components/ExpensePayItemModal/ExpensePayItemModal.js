@@ -10,8 +10,7 @@ import {
 } from '../../selectors/ExpensePayItemModalSelectors';
 import AllocatedEmployeesSection from './AllocatedEmployeesSection';
 import DetailsSection from './DetailsSection';
-import EmployerExpenseInformationSection
-  from './EmployerExpenseInformationSection';
+import EmployerExpenseInformationSection from './EmployerExpenseInformationSection';
 import ExemptionsSection from './ExemptionsSection';
 import LoadingPageState from '../../../../../../components/LoadingPageState/LoadingPageState';
 
@@ -24,7 +23,6 @@ const ExpensePayItemModal = ({
   onSave,
   onCancel,
   onChangeExpensePayItemInput,
-  onBlurExpensePayItemAmountInput,
   onAddAllocatedEmployee,
   onRemoveAllocatedEmployee,
   onAddExemptionPayItem,
@@ -44,7 +42,6 @@ const ExpensePayItemModal = ({
       />
       <EmployerExpenseInformationSection
         onChangeExpensePayItemInput={onChangeExpensePayItemInput}
-        onBlurExpensePayItemAmountInput={onBlurExpensePayItemAmountInput}
       />
       <AllocatedEmployeesSection
         onAddAllocatedEmployee={onAddAllocatedEmployee}

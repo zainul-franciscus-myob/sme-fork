@@ -11,7 +11,6 @@ import {
   SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE,
   SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE,
   UPDATE_WAGE_PAY_ITEM_MODAL,
-  UPDATE_WAGE_PAY_ITEM_MODAL_AMOUNT,
   UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS,
   UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT,
 } from '../../../EmployeeIntents';
@@ -141,19 +140,6 @@ const updateWagePayItemModalDetails = (state, { key, value }) => ({
   },
 });
 
-const formatAmount = value => (value === null || value === '' ? null : (Number(value || 0)).toFixed(4));
-
-const updateWagePayItemModalAmount = (state, { key, value }) => ({
-  ...state,
-  wagePayItemModal: {
-    ...state.wagePayItemModal,
-    wage: {
-      ...state.wagePayItemModal.wage,
-      [key]: formatAmount(value),
-    },
-  },
-});
-
 const updateWagePayItemModalOverrideAccount = (state, { value }) => ({
   ...state,
   wagePayItemModal: {
@@ -224,7 +210,6 @@ export default {
   [CLOSE_WAGE_PAY_ITEM_MODAL]: closeWagePayItemModal,
   [SET_WAGE_PAY_ITEM_MODAL_ALERT]: setWagePayItemModalAlert,
   [UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS]: updateWagePayItemModalDetails,
-  [UPDATE_WAGE_PAY_ITEM_MODAL_AMOUNT]: updateWagePayItemModalAmount,
   [UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT]: updateWagePayItemModalOverrideAccount,
   [ADD_WAGE_PAY_ITEM_MODAL_EMPLOYEE]: addWagePayItemModalEmployee,
   [REMOVE_WAGE_PAY_ITEM_MODAL_EMPLOYEE]: removeWagePayItemModalEmployee,

@@ -1,7 +1,8 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import * as TaxTableCalculationModalEnabled from '../../../../../../../common/featureToggles/TaxTableCalculationModalEnabled';
+import * as TaxTableCalculationModalEnabled
+  from '../../../../../../../common/featureToggles/TaxTableCalculationModalEnabled';
 import TaxDetails from '../TaxDetails';
 
 describe('TaxDetails', () => {
@@ -17,7 +18,6 @@ describe('TaxDetails', () => {
           // withholdingVariationRate,
         }}
         onPayrollTaxDetailsChange={() => {}}
-        onPayrollTaxAmountBlur={() => {}}
         taxFileNumberStatusOptions={[]}
         // taxFileNumberStatus
         onTaxFileNumberStatusChange={() => {}}

@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsActionDisabled, getIsLoading, getModalTitle,
+  getAlert,
+  getIsActionDisabled,
+  getIsLoading,
+  getModalTitle,
 } from '../../selectors/DeductionPayItemModalSelectors';
 import DeductionPayItemDetails from './DeductionPayItemDetails';
 import DeductionPayItemEmployees from './DeductionPayItemEmployees';
 import DeductionPayItemExemptions from './DeductionPayItemExemptions';
 import DeductionPayItemInformation from './DeductionPayItemInformation';
 import PageView from '../../../../../../components/PageView/PageView';
-
 
 const DeductionPayItemModal = ({
   title,
@@ -19,7 +21,6 @@ const DeductionPayItemModal = ({
   alert,
   onDismissAlert,
   onChange,
-  onBlur,
   onAddItem,
   onRemoveItem,
   onSave,
@@ -35,10 +36,7 @@ const DeductionPayItemModal = ({
     <>
       { alertComponent }
       <DeductionPayItemDetails onChange={onChange} />
-      <DeductionPayItemInformation
-        onChange={onChange}
-        onBlur={onBlur}
-      />
+      <DeductionPayItemInformation onChange={onChange} />
       <DeductionPayItemEmployees
         onAddItem={onAddItem}
         onRemoveItem={onRemoveItem}

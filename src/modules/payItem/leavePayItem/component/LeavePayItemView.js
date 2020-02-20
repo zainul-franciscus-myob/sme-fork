@@ -1,11 +1,14 @@
-import {
-  Alert, FormHorizontal, StandardTemplate,
-} from '@myob/myob-widgets';
+import { Alert, FormHorizontal, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert, getIsCreating, getLoadingState, getModalType, getShowExemptions, getTitle,
+  getAlert,
+  getIsCreating,
+  getLoadingState,
+  getModalType,
+  getShowExemptions,
+  getTitle,
 } from '../leavePayItemSelectors';
 import LeavePayItemActions from './LeavePayItemActions';
 import LeavePayItemDetail from './LeavePayItemDetail';
@@ -40,7 +43,6 @@ const LeavePayItemView = (props) => {
     onRemoveLinkedWage,
     onNameChange,
     onCalculationBasisChange,
-    onCalculationBasisAmountChange,
   } = props;
 
   const pageHead = isCreating ? 'Create leave pay item' : title;
@@ -70,10 +72,7 @@ const LeavePayItemView = (props) => {
       <div className={styles.leavePayItemContainer}>
         <FormHorizontal>
           <LeavePayItemDetail onNameChange={onNameChange} />
-          <LeavePayItemInfo
-            onCalculationBasisChange={onCalculationBasisChange}
-            onCalculationBasisAmountChange={onCalculationBasisAmountChange}
-          />
+          <LeavePayItemInfo onCalculationBasisChange={onCalculationBasisChange} />
         </FormHorizontal>
       </div>
       <LeavePayItemLinkedWages

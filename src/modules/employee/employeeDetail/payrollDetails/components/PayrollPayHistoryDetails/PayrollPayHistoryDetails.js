@@ -7,7 +7,6 @@ const PayrollPayHistoryDetails = ({
   listeners: {
     onFilterChange,
     onPayItemChange,
-    onPayItemBlur,
     onPayItemClick,
   },
 }) => (
@@ -15,7 +14,6 @@ const PayrollPayHistoryDetails = ({
     <PayrollPayHistoryDetailsFilterOptions onChange={onFilterChange} />
     <PayrollPayHistoryDetailsAllocatedPayItems
       onChange={onPayItemChange}
-      onBlur={onPayItemBlur}
       onClick={onPayItemClick}
     />
   </>

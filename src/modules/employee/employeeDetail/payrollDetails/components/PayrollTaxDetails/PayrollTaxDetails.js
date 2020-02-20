@@ -23,7 +23,6 @@ const PayrollTaxDetails = ({
   onAddPayrollTaxPayItem,
   onRemovePayrollTaxPayItem,
   onPayrollTaxDetailsChange,
-  onPayrollTaxAmountBlur,
   onTaxPayItemClick,
   taxFileNumberStatusOptions,
   taxFileNumberStatus,
@@ -47,7 +46,6 @@ const PayrollTaxDetails = ({
         taxDetails={taxDetails}
         selectedTaxTable={selectedTaxTable}
         onPayrollTaxDetailsChange={onPayrollTaxDetailsChange}
-        onPayrollTaxAmountBlur={onPayrollTaxAmountBlur}
         taxFileNumberStatusOptions={taxFileNumberStatusOptions}
         taxFileNumberStatus={taxFileNumberStatus}
         onTaxFileNumberStatusChange={onTaxFileNumberStatusChange}

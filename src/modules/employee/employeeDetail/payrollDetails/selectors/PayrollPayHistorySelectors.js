@@ -371,17 +371,6 @@ export const getUpdatedPayHistoryItems = (state, { payItemId, payItemType, total
     : [...payHistoryItems, getNewPayHistoryItem(details)];
 };
 
-export const getFormattedActivity = ({ key, value }) => {
-  switch (key) {
-    case 'hours':
-      return getPayHistoryFormattedHours(value);
-    case 'amount':
-      return getPayHistoryFormattedAmount(value);
-    default:
-      return value;
-  }
-};
-
 const getPayHistoryItemLineByMonth = ({ lines }, month) => (
   lines.find(({ month: payHistoryItemMonth }) => payHistoryItemMonth === month)
 );

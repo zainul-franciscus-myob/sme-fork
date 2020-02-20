@@ -2,7 +2,6 @@ import {
   ADD_EMPLOYEE,
   ADD_EXEMPTION,
   CLOSE_MODAL,
-  FORMAT_AMOUNT,
   LOAD_EXISTING_PAY_ITEM,
   LOAD_NEW_PAY_ITEM,
   OPEN_MODAL,
@@ -14,10 +13,7 @@ import {
   UPDATE_DETAILS,
   UPDATE_OVERRIDE_ACCOUNT,
 } from './WagePayItemIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -87,15 +83,6 @@ const updatePayItemDetails = (state, { key, value }) => ({
     [key]: value,
   },
   isPageEdited: true,
-});
-
-const formatAmount = value => (value === null || value === '' ? null : (Number(value || 0)).toFixed(4));
-const updatePayItemAmount = (state, { key, value }) => ({
-  ...state,
-  wage: {
-    ...state.wage,
-    [key]: formatAmount(value),
-  },
 });
 
 const addEmployeeToSelectedList = (state, { value }) => ({
@@ -173,7 +160,6 @@ const handlers = {
   [LOAD_NEW_PAY_ITEM]: loadPayItem,
   [LOAD_EXISTING_PAY_ITEM]: loadPayItem,
   [UPDATE_DETAILS]: updatePayItemDetails,
-  [FORMAT_AMOUNT]: updatePayItemAmount,
   [ADD_EMPLOYEE]: addEmployeeToSelectedList,
   [REMOVE_EMPLOYEE]: removeEmployeeFromSelectedList,
   [ADD_EXEMPTION]: addExemptionToSelectedList,

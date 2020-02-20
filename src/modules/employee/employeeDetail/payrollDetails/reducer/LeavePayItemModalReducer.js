@@ -14,28 +14,9 @@ import {
   SET_LEAVE_PAY_ITEM_MODAL_SUBMITTING_STATE,
   UPDATE_LEAVE_PAY_ITEM,
   UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS,
-  UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS,
   UPDATE_LEAVE_PAY_ITEM_MODAL_NAME,
 } from '../../../EmployeeIntents';
 import { getAllocatedLeavePayItems } from '../selectors/PayrollLeaveDetailSelectors';
-
-const formatAmount = value => (Number(value) || 0).toFixed(3);
-
-const removeTrailingZeroes = number => String(Number(number));
-
-const countDecimalPlaces = (num) => {
-  if (Math.floor(num) === num) return 0;
-  return num.toString()
-    .split('.')[1].length || 0;
-};
-
-const formatPercentage = (percentage) => {
-  if (countDecimalPlaces(percentage) < 2) {
-    return percentage.toFixed(2);
-  }
-
-  return removeTrailingZeroes(percentage.toFixed(5));
-};
 
 const getLeavePayItemModalDefaultState = () => ({
   leavePayItem: {
@@ -186,28 +167,6 @@ const updateLeavePayItemModalCalculationBasis = (state, action) => (
   setLeavePayItemState(state, { [action.key]: action.value })
 );
 
-const updateLeavePayItemModalCalculationBasisAmounts = (state, { key, value }) => {
-  if (key === 'calculationBasisPercentage') {
-    const number = Number(value) || 0;
-    const formattedPercentage = formatPercentage(number);
-    return updateLeavePayItemModalCalculationBasis(state, {
-      key,
-      value: formattedPercentage,
-    });
-  }
-  if (key === 'calculationBasisAmount') {
-    const formattedAmount = formatAmount(value);
-    return updateLeavePayItemModalCalculationBasis(state, {
-      key,
-      value: formattedAmount,
-    });
-  }
-  return updateLeavePayItemModalCalculationBasis(state, {
-    key,
-    value,
-  });
-};
-
 const updateLeavePayItem = (state, { leavePayItem, leavePayItemOptions }) => ({
   ...state,
   payrollDetails: {
@@ -255,6 +214,4 @@ export default {
   [REMOVE_LEAVE_PAY_ITEM_MODAL_LINKED_WAGE]: removeLeavePayItemModalLinkedWage,
   [UPDATE_LEAVE_PAY_ITEM_MODAL_NAME]: updateLeavePayItemModalName,
   [UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS]: updateLeavePayItemModalCalculationBasis,
-  [UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS]:
-    updateLeavePayItemModalCalculationBasisAmounts,
 };

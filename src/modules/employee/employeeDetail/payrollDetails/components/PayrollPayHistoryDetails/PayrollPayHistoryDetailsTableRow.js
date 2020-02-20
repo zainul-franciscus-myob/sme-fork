@@ -15,7 +15,8 @@ const handleOnClick = (handler, payItemId, payItemType) => () => {
 };
 
 const renderAmountInputField = ({
-  name, label, value, decimalScale, disabled, payItemId, payItemType, onChange, onBlur,
+  name, label, value, numeralDecimalScaleMin, numeralDecimalScaleMax,
+  disabled, payItemId, payItemType, onChange,
 }) => (
   <AmountInput
     name={name}
@@ -25,9 +26,10 @@ const renderAmountInputField = ({
     value={value}
     disabled={disabled}
     onChange={handleInputChange(onChange, payItemId, payItemType)}
-    onBlur={handleInputChange(onBlur, payItemId, payItemType)}
+    onBlur={handleInputChange(onChange, payItemId, payItemType)}
     numeralIntegerScale={13}
-    numeralDecimalScaleMax={decimalScale}
+    numeralDecimalScaleMin={numeralDecimalScaleMin}
+    numeralDecimalScaleMax={numeralDecimalScaleMax}
   />
 );
 
@@ -44,7 +46,6 @@ const PayrollPayHistoryDetailsTableRow = ({
   },
   disabled,
   onChange,
-  onBlur,
   onClick,
 }) => {
   const hourRowItem = isHours && renderAmountInputField({
@@ -52,12 +53,12 @@ const PayrollPayHistoryDetailsTableRow = ({
     label: 'Activity (hrs)',
     value: hours,
     numeralIntegerScale: 13,
-    decimalScale: 3,
+    numeralDecimalScaleMin: 2,
+    numeralDecimalScaleMax: 3,
     disabled,
     payItemId,
     payItemType,
     onChange,
-    onBlur,
   });
 
   const amountRowItem = isAmount && renderAmountInputField({
@@ -65,12 +66,12 @@ const PayrollPayHistoryDetailsTableRow = ({
     label: 'Activity ($)',
     value: amount,
     numeralIntegerScale: 26,
-    decimalScale: 2,
+    numeralDecimalScaleMin: 2,
+    numeralDecimalScaleMax: 2,
     disabled,
     payItemId,
     payItemType,
     onChange,
-    onBlur,
   });
 
   return (

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getSuperPayItemInfo } from '../superPayItemSelectors';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import DollarInput from '../../components/DollarInput';
 import SuperPayItemCalculationBasis from './SuperPayItemCalculationBasis';
 import SuperPayItemLimit from './SuperPayItemLimit';
 
@@ -14,17 +14,11 @@ const handleCheckBoxChange = handler => (e) => {
   handler({ key: name, value: checked });
 };
 
-const handleAmountChange = handler => (e) => {
-  const { name, rawValue } = e.target;
-  handler({ key: name, value: rawValue });
-};
-
 const SuperPayItemInfo = (props) => {
   const {
     printOnPayAdvice,
     threshold,
     onSuperPayItemDetailsChange,
-    onSuperPayItemDetailBlur,
   } = props;
 
   return (
@@ -42,21 +36,13 @@ const SuperPayItemInfo = (props) => {
           />
         )}
       />
-      <SuperPayItemCalculationBasis
-        onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
-        onSuperPayItemDetailBlur={onSuperPayItemDetailBlur}
-      />
-      <SuperPayItemLimit
-        onSuperPayItemDetailsChange={onSuperPayItemDetailsChange}
-        onSuperPayItemDetailBlur={onSuperPayItemDetailBlur}
-      />
-      <AmountInput
+      <SuperPayItemCalculationBasis onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
+      <SuperPayItemLimit onSuperPayItemDetailsChange={onSuperPayItemDetailsChange} />
+      <DollarInput
         label="Threshold $"
         name="threshold"
         value={threshold}
-        onChange={handleAmountChange(onSuperPayItemDetailsChange)}
-        onBlur={handleAmountChange(onSuperPayItemDetailBlur)}
-        numeralIntegerScale={13}
+        onChange={onSuperPayItemDetailsChange}
         labelAccessory={(
           <Tooltip triggerContent={<Icons.Info />} placement="right">
             Calculate once eligible wages of this amount have been paid per month

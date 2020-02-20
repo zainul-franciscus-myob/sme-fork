@@ -12,7 +12,6 @@ import {
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_CALCULATION_BASIS,
-  UPDATE_CALCULATION_BASIS_AMOUNTS,
   UPDATE_NAME,
 } from './LeavePayItemIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -101,11 +100,6 @@ const createLeavePayItemDispatcher = store => ({
   updateName: ({ value }) => {
     const intent = UPDATE_NAME;
     store.dispatch({ intent, value });
-  },
-
-  updateCalculationBasisAmount: ({ key, value }) => {
-    const intent = UPDATE_CALCULATION_BASIS_AMOUNTS;
-    store.dispatch({ intent, key, value });
   },
 });
 

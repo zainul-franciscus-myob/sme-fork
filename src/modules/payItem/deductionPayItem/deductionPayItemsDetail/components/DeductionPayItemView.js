@@ -1,6 +1,4 @@
-import {
-  Alert, FormHorizontal, StandardTemplate,
-} from '@myob/myob-widgets';
+import { Alert, FormHorizontal, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -22,7 +20,6 @@ const DeductionPayItemView = ({
   modalType,
   onDetailsChange,
   onInformationChange,
-  onInformationAmountBlur,
   onEmployeeSelected,
   onExemptionSelected,
   onRemoveEmployee,
@@ -59,10 +56,7 @@ const DeductionPayItemView = ({
       <div className={styles.payItemView}>
         <FormHorizontal>
           <DetailsView onDetailsChange={onDetailsChange} />
-          <InformationView
-            onInformationChange={onInformationChange}
-            onInformationAmountBlur={onInformationAmountBlur}
-          />
+          <InformationView onInformationChange={onInformationChange} />
         </FormHorizontal>
       </div>
       <hr />

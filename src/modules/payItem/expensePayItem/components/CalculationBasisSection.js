@@ -11,10 +11,10 @@ import {
   getCalculationBasisPeriod,
   getPeriodOptions,
 } from '../ExpensePayItemSelectors';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import CalculationBasis from '../CalculationBasis';
+import DollarInput from '../../components/DollarInput';
 import PayItemCombobox from './PayItemCombobox';
-import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
+import PercentInput from '../../components/PercentInput';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
@@ -27,19 +27,15 @@ const CalculationBasisSection = ({
   calculationBasisPayItemOptions,
   periodOptions,
   onChangeExpensePayItemInput,
-  onBlurExpensePayItemAmountInput,
 }) => {
   const percentForm = (
     <React.Fragment>
-      <AmountInput
+      <PercentInput
         key={CalculationBasis.PERCENT}
         label="Percentage %"
         name="calculationBasisPercentage"
         value={calculationBasisPercentage}
-        onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
-        onBlur={onBlurExpensePayItemAmountInput}
-        numeralIntegerScale={3}
-        numeralDecimalScaleMax={5}
+        onChange={onChangeExpensePayItemInput}
         numeralPositiveOnly
       />
       <PayItemCombobox
@@ -54,15 +50,12 @@ const CalculationBasisSection = ({
 
   const fixedDollarForm = (
     <React.Fragment>
-      <AmountInput
+      <DollarInput
         key={CalculationBasis.FIXED_DOLLAR}
         label="Dollar $"
         name="calculationBasisAmount"
         value={calculationBasisAmount}
-        onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
-        onBlur={onBlurExpensePayItemAmountInput}
-        numeralIntegerScale={13}
-        numeralDecimalScaleMax={2}
+        onChange={onChangeExpensePayItemInput}
         numeralPositiveOnly
       />
       <Select

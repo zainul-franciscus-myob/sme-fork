@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAlert,
-  getIsActionDisabled,
-  getIsLoading,
-  getModalTitle,
+  getAlert, getIsActionDisabled, getIsLoading, getModalTitle,
 } from '../../selectors/WagePayItemModalSelectors';
 import PageView from '../../../../../../components/PageView/PageView';
 import WagePayItemDetails from './WagePayItemDetails';
@@ -22,7 +19,6 @@ const WagePayItemModal = ({
   onSave,
   onCancel,
   onDetailsChange,
-  onAmountInputBlur,
   onOverrideAccountChange,
   onEmployeeSelected,
   onRemoveEmployee,
@@ -40,7 +36,6 @@ const WagePayItemModal = ({
       { alertComponent }
       <WagePayItemDetails
         onDetailsChange={onDetailsChange}
-        onAmountInputBlur={onAmountInputBlur}
         onOverrideAccountChange={onOverrideAccountChange}
       />
       <WagePayItemEmployeeAllocation

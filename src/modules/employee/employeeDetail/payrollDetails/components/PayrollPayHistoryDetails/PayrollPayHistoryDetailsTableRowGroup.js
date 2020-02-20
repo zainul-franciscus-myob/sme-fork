@@ -4,7 +4,7 @@ import React from 'react';
 import PayrollPayHistoryDetailsTableRow from './PayrollPayHistoryDetailsTableRow';
 
 const PayrollPayHistoryDetailsTableRowGroup = ({
-  name, title, tableConfig, entries, showTableRows, disabled, onChange, onBlur, onClick,
+  name, title, tableConfig, entries, showTableRows, disabled, onChange, onClick,
 }) => {
   const headerRow = (
     <Table.Row key={name}>
@@ -19,7 +19,6 @@ const PayrollPayHistoryDetailsTableRowGroup = ({
       entry={entry}
       disabled={disabled}
       onChange={onChange}
-      onBlur={onBlur}
       onClick={onClick}
     />
   ));

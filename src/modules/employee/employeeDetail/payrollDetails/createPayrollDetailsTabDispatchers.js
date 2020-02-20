@@ -28,10 +28,6 @@ import {
   CREATE_SUPER_FUND,
   CREATE_SUPER_PAY_ITEM_MODAL,
   CREATE_WAGE_PAY_ITEM_MODAL,
-  FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT,
-  FORMAT_EXPENSE_PAY_ITEM_MODAL_AMOUNT_INPUT,
-  FORMAT_PAYROLL_PAY_HISTORY_ITEM_INPUT,
-  FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_ABN_DETAIL,
   LOAD_DEDUCTION_PAY_ITEM_MODAL,
   LOAD_EXPENSE_PAY_ITEM_MODAL,
@@ -104,7 +100,6 @@ import {
   UPDATE_EXPENSE_PAY_ITEM_MODAL,
   UPDATE_LEAVE_PAY_ITEM,
   UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS,
-  UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS,
   UPDATE_LEAVE_PAY_ITEM_MODAL_NAME,
   UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS,
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
@@ -123,7 +118,6 @@ import {
   UPDATE_TAX_FILE_NUMBER,
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
   UPDATE_WAGE_PAY_ITEM_MODAL,
-  UPDATE_WAGE_PAY_ITEM_MODAL_AMOUNT,
   UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS,
   UPDATE_WAGE_PAY_ITEM_MODAL_OVERRIDE_ACCOUNT,
 } from '../../EmployeeIntents';
@@ -250,11 +244,6 @@ const createPayrollDetailsTabDispatchers = store => ({
     });
   },
 
-  formatAmountInput: ({ key, value }) => {
-    const intent = FORMAT_PAYROLL_TAX_AMOUNT;
-    store.dispatch({ intent, key, value });
-  },
-
   addPayrollExpensePayItem: (payItem) => {
     const intent = ADD_PAYROLL_EXPENSE_PAY_ITEM;
     store.dispatch({ intent, payItem });
@@ -359,15 +348,6 @@ const createPayrollDetailsTabDispatchers = store => ({
     });
   },
 
-  formatPayrollPayHistoryItemInput: ({
-    payItemId, payItemType, key, value,
-  }) => {
-    const intent = FORMAT_PAYROLL_PAY_HISTORY_ITEM_INPUT;
-    store.dispatch({
-      intent, payItemId, payItemType, key, value,
-    });
-  },
-
   openTaxPayItemModal: () => {
     const intent = OPEN_TAX_PAY_ITEM_MODAL;
     store.dispatch({ intent });
@@ -442,11 +422,6 @@ const createPayrollDetailsTabDispatchers = store => ({
 
   updateWagePayItemModalDetails: ({ key, value }) => {
     const intent = UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS;
-    store.dispatch({ intent, key, value });
-  },
-
-  updateWagePayItemModalAmount: ({ key, value }) => {
-    const intent = UPDATE_WAGE_PAY_ITEM_MODAL_AMOUNT;
     store.dispatch({ intent, key, value });
   },
 
@@ -537,11 +512,6 @@ const createPayrollDetailsTabDispatchers = store => ({
     store.dispatch({ intent, key, value });
   },
 
-  formatExpensePayItemModalAmountInput: () => {
-    const intent = FORMAT_EXPENSE_PAY_ITEM_MODAL_AMOUNT_INPUT;
-    store.dispatch({ intent });
-  },
-
   addExpensePayItemModalAllocatedEmployee: ({ value }) => {
     const intent = ADD_EXPENSE_PAY_ITEM_MODAL_ALLOCATED_EMPLOYEE;
     store.dispatch({ intent, id: value });
@@ -612,11 +582,6 @@ const createPayrollDetailsTabDispatchers = store => ({
 
   setDeductionPayItemModalInput: ({ key, value }) => {
     const intent = SET_DEDUCTION_PAY_ITEM_MODAL_INPUT;
-    store.dispatch({ intent, key, value });
-  },
-
-  formatDeductionPayItemModalAmountInput: ({ key, value }) => {
-    const intent = FORMAT_DEDUCTION_PAY_ITEM_MODAL_AMOUNT_INPUT;
     store.dispatch({ intent, key, value });
   },
 
@@ -859,11 +824,6 @@ const createPayrollDetailsTabDispatchers = store => ({
   updateLeavePayItemModalName: ({ value }) => {
     const intent = UPDATE_LEAVE_PAY_ITEM_MODAL_NAME;
     store.dispatch({ intent, value });
-  },
-
-  updateLeavePayItemModalCalculationBasisAmount: ({ key, value }) => {
-    const intent = UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS;
-    store.dispatch({ intent, key, value });
   },
 });
 

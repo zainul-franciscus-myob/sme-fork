@@ -17,4 +17,3 @@ export const ADD_LINKED_WAGE = Symbol('Add linked wage');
 export const REMOVE_LINKED_WAGE = Symbol('Remove linked wage');
 export const UPDATE_NAME = Symbol('Update name');
 export const UPDATE_CALCULATION_BASIS = Symbol('Update calculation basis');
-export const UPDATE_CALCULATION_BASIS_AMOUNTS = Symbol('Update calculation basis amounts');

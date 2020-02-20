@@ -4,7 +4,6 @@ import {
   LOAD_NEW_PAY_ITEM,
   REMOVE_EMPLOYEE,
   REMOVE_EXEMPTION,
-  UPDATE_INFORMATION_AMOUNT,
 } from '../../DeductionPayItemIntents';
 import deductionPayItemReducer from '../deductionPayItemReducer';
 import loadDeductionPayItem from './fixtures/loadDeductionPayItem';
@@ -344,28 +343,5 @@ describe('deductionPayItemReducer', () => {
 
       expect(exemptionAllocations).toEqual(expected);
     });
-  });
-
-  describe('updateInformationAmount', () => {
-    it('should format percentages', () => [
-      ['many decimal places', '25.00006', '25.00006'],
-      ['trailing zeros', '25.00050', '25.0005'],
-      ['1 decimal place', '25.50000', '25.50'],
-      ['whole number', '25.00000', '25.00'],
-    ].forEach((i) => {
-      const [, input, expected] = i;
-
-      const state = {};
-
-      const action = {
-        intent: UPDATE_INFORMATION_AMOUNT,
-        key: 'calculationPercentage',
-        value: input,
-      };
-
-      const actual = deductionPayItemReducer(state, action);
-
-      expect(actual.information.calculationPercentage).toEqual(expected);
-    }));
   });
 });

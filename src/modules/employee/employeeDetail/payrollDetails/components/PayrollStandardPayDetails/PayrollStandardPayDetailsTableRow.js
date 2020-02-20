@@ -16,7 +16,8 @@ const handleOnClick = (handler, payItemId, payItemType) => () => {
 };
 
 const renderAmountInputField = ({
-  name, label, value, decimalScale, fieldType, payItemId, payItemType, isLoading, onChange, onBlur,
+  name, label, value, numeralDecimalScaleMin, numeralDecimalScaleMax,
+  fieldType, payItemId, payItemType, isLoading, onChange, onBlur,
 }) => {
   switch (fieldType) {
     case fieldTypes.input:
@@ -31,7 +32,8 @@ const renderAmountInputField = ({
           onChange={handleInputChange(onChange, payItemId, payItemType)}
           onBlur={handleInputChange(onBlur, payItemId, payItemType)}
           numeralIntegerScale={13}
-          numeralDecimalScaleMax={decimalScale}
+          numeralDecimalScaleMin={numeralDecimalScaleMin}
+          numeralDecimalScaleMax={numeralDecimalScaleMax}
         />
       );
     case fieldTypes.calculated:
@@ -61,7 +63,8 @@ const PayrollStandardPayDetailsTableRow = ({
     name: 'hours',
     label: 'Hours',
     value: hours,
-    decimalScale: 3,
+    numeralDecimalScaleMin: 2,
+    numeralDecimalScaleMax: 3,
     fieldType: hourFieldType,
     payItemId,
     payItemType,
@@ -73,7 +76,8 @@ const PayrollStandardPayDetailsTableRow = ({
     name: 'amount',
     label: 'Amount',
     value: amount,
-    decimalScale: 2,
+    numeralDecimalScaleMin: 2,
+    numeralDecimalScaleMax: 2,
     fieldType: amountFieldType,
     payItemId,
     payItemType,

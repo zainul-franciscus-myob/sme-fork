@@ -28,7 +28,6 @@ const ExpensePayItemView = ({
   onDismissAlert,
   onDismissModal,
   onChangeExpensePayItemInput,
-  onBlurExpensePayItemAmountInput,
   onAddAllocatedEmployee,
   onRemoveAllocatedEmployee,
   onAddExemptionPayItem,
@@ -63,7 +62,6 @@ const ExpensePayItemView = ({
           />
           <EmployerExpenseInformationSection
             onChangeExpensePayItemInput={onChangeExpensePayItemInput}
-            onBlurExpensePayItemAmountInput={onBlurExpensePayItemAmountInput}
           />
         </FormHorizontal>
       </div>

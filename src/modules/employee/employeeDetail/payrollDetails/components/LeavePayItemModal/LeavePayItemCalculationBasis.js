@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getCalculationBasis } from '../../selectors/LeavePayItemModalSelectors';
-import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import DollarInput from '../DollarInput';
 import PayItemCombobox from './PayItemCombobox';
-import handleAmountInputChange from '../../../../../../components/handlers/handleAmountInputChange';
+import PercentInput from '../PercentInput';
 import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 
 const handlePayItemComboboxChange = (handler, key) => (item) => {
@@ -24,7 +24,6 @@ const LeavePayItemCalculationBasis = ({
   showPercentage,
   showAmount,
   onCalculationBasisChange,
-  onCalculationBasisAmountChange,
 }) => (
   <React.Fragment>
     <Select
@@ -40,14 +39,11 @@ const LeavePayItemCalculationBasis = ({
 
     {showPercentage && (
       <React.Fragment>
-        <AmountInput
+        <PercentInput
           label="Percentage %"
           name="calculationBasisPercentage"
           value={calculationBasisPercentage}
-          onChange={handleAmountInputChange(onCalculationBasisChange)}
-          onBlur={handleAmountInputChange(onCalculationBasisAmountChange)}
-          numeralIntegerScale={3}
-          numeralDecimalScaleMax={5}
+          onChange={onCalculationBasisChange}
         />
         <PayItemCombobox
           label="Percent of"
@@ -61,14 +57,11 @@ const LeavePayItemCalculationBasis = ({
 
     {showAmount && (
       <React.Fragment>
-        <AmountInput
+        <DollarInput
           label="Hours"
           name="calculationBasisAmount"
           value={calculationBasisAmount}
-          onChange={handleAmountInputChange(onCalculationBasisChange)}
-          onBlur={handleAmountInputChange(onCalculationBasisAmountChange)}
-          numeralIntegerScale={13}
-          numeralDecimalScaleMax={3}
+          onChange={onCalculationBasisChange}
         />
         <Select
           name="calculationBasisPeriod"

@@ -1,37 +1,7 @@
-import {
-  CREATE_LEAVE_PAY_ITEM,
-  UPDATE_LEAVE_PAY_ITEM,
-  UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS,
-} from '../../../../EmployeeIntents';
+import { CREATE_LEAVE_PAY_ITEM, UPDATE_LEAVE_PAY_ITEM } from '../../../../EmployeeIntents';
 import reducers from '../LeavePayItemModalReducer';
 
 describe('LeavePayItemModalReducer', () => {
-  describe('updateLeavePayItemModalCalculationBasisAmounts', () => {
-    it('should format percentages', () => [
-      ['many decimal places', '25.00006', '25.00006'],
-      ['trailing zeros', '25.00050', '25.0005'],
-      ['1 decimal place', '25.50000', '25.50'],
-      ['whole number', '25.00000', '25.00'],
-      ['hyphen', '-', '0.00'],
-    ].forEach((i) => {
-      const [, input, expected] = i;
-
-      const state = {
-        leavePayItemModal: {},
-      };
-
-      const action = {
-        intent: UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS,
-        key: 'calculationBasisPercentage',
-        value: input,
-      };
-
-      const actual = reducers[UPDATE_LEAVE_PAY_ITEM_MODAL_CALCULATION_BASIS_AMOUNTS](state, action);
-
-      expect(actual.leavePayItemModal.leavePayItem.calculationBasisPercentage).toEqual(expected);
-    }));
-  });
-
   describe('updateLeavePayItem', () => {
     it('update leave pay item', () => {
       const state = {

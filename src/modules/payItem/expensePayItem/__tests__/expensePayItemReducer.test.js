@@ -2,7 +2,6 @@ import {
   ADD_ALLOCATED_EMPLOYEE,
   ADD_EXEMPTION_PAY_ITEM,
   CHANGE_EXPENSE_PAY_ITEM_INPUT,
-  FORMAT_EXPENSE_PAY_ITEM_AMOUNT_INPUT,
   LOAD_EXPENSE_PAY_ITEM,
   REMOVE_ALLOCATED_EMPLOYEE,
   REMOVE_EXEMPTION_PAY_ITEM,
@@ -180,82 +179,6 @@ describe('expensePayItemReducer', () => {
           id: 'b',
         },
       ]);
-    });
-  });
-
-  describe('FORMAT_EXPENSE_PAY_ITEM_AMOUNT_INPUT', () => {
-    const state = {
-      calculationBasisPercentage: '1',
-      calculationBasisAmount: '1.01',
-      limitPercentage: '1',
-      limitAmount: '1.01',
-      threshold: '1.01',
-    };
-
-    [
-      {
-        in: '.',
-        out: '0.00',
-      },
-      {
-        in: '1.1',
-        out: '1.10',
-      },
-      {
-        in: '1.001',
-        out: '1.001',
-      },
-    ].forEach((test) => {
-      it(`formats ${test.key} from ${test.in} to ${test.out}`, () => {
-        const modifiedState = {
-          ...state,
-          limitPercentage: test.in,
-          calculationBasisPercentage: test.in,
-        };
-
-        const action = {
-          intent: FORMAT_EXPENSE_PAY_ITEM_AMOUNT_INPUT,
-        };
-
-        const actual = expensePayItemReducer(modifiedState, action);
-
-        expect(actual.calculationBasisPercentage).toEqual(test.out);
-        expect(actual.limitPercentage).toEqual(test.out);
-      });
-    });
-
-    [
-      {
-        in: '.',
-        out: '0.00',
-      },
-      {
-        in: '1.1',
-        out: '1.10',
-      },
-      {
-        in: '1.01',
-        out: '1.01',
-      },
-    ].forEach((test) => {
-      it(`formats ${test.key} from ${test.in} to ${test.out}`, () => {
-        const modifiedState = {
-          ...state,
-          calculationBasisAmount: test.in,
-          limitAmount: test.in,
-          threshold: test.in,
-        };
-
-        const action = {
-          intent: FORMAT_EXPENSE_PAY_ITEM_AMOUNT_INPUT,
-        };
-
-        const actual = expensePayItemReducer(modifiedState, action);
-
-        expect(actual.calculationBasisAmount).toEqual(test.out);
-        expect(actual.limitAmount).toEqual(test.out);
-        expect(actual.threshold).toEqual(test.out);
-      });
     });
   });
 });

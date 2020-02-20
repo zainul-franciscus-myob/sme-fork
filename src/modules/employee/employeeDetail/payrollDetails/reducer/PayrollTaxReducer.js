@@ -1,7 +1,6 @@
 import {
   ADD_PAYROLL_TAX_PAY_ITEM,
   CLOSE_TAX_PAY_ITEM_MODAL,
-  FORMAT_PAYROLL_TAX_AMOUNT,
   LOAD_TAX_PAY_ITEM_MODAL,
   OPEN_TAX_PAY_ITEM_MODAL,
   REMOVE_PAYROLL_TAX_PAY_ITEM,
@@ -71,37 +70,6 @@ const updateTaxFileNumber = (state, { taxFileNumber }) => {
   return setPayrollTaxState(state, partialTax);
 };
 
-const formatAmount = value => (Number(value) || 0).toFixed(2);
-
-const removeTrailingZeroes = number => String(Number(number));
-
-const countDecimalPlaces = (num) => {
-  if (Math.floor(num) === num) return 0;
-  return num.toString().split('.')[1].length || 0;
-};
-
-const formatPercentage = (value) => {
-  const percentage = Number(value) || 0;
-
-  if (countDecimalPlaces(percentage) < 2) {
-    return percentage.toFixed(2);
-  }
-
-  return removeTrailingZeroes(percentage.toFixed(5));
-};
-
-const formatAmountInput = (state, { key, value }) => {
-  if (key === 'withholdingVariationRate') {
-    return setPayrollTaxState(state, {
-      [key]: formatPercentage(value),
-    });
-  }
-
-  return setPayrollTaxState(state, {
-    [key]: formatAmount(value),
-  });
-};
-
 const openTaxPayItemModal = (state) => {
   const defaultTaxPayItemModalState = getDefaultTaxPayItemModal();
   return {
@@ -165,7 +133,6 @@ export default {
   [ADD_PAYROLL_TAX_PAY_ITEM]: addPayrollTaxPayItem,
   [REMOVE_PAYROLL_TAX_PAY_ITEM]: removePayrollTaxPayItem,
   [UPDATE_PAYROLL_TAX_DETAILS]: updatePayrollTaxDetail,
-  [FORMAT_PAYROLL_TAX_AMOUNT]: formatAmountInput,
   [OPEN_TAX_PAY_ITEM_MODAL]: openTaxPayItemModal,
   [CLOSE_TAX_PAY_ITEM_MODAL]: closeTaxPayItemModal,
   [SET_TAX_PAY_ITEM_MODAL_LOADING_STATE]: setTaxPayItemModalLoading,

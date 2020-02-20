@@ -11,10 +11,10 @@ import {
   getLimitPeriod,
   getPeriodOptions,
 } from '../../selectors/ExpensePayItemModalSelectors';
-import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import DollarInput from '../DollarInput';
 import Limit from '../../../Limit';
 import PayItemCombobox from './PayItemCombobox';
-import handleAmountInputChange from '../../../../../../components/handlers/handleAmountInputChange';
+import PercentInput from '../PercentInput';
 import handleComboboxChange from '../../../../../../components/handlers/handleComboboxChange';
 import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
 
@@ -27,19 +27,15 @@ const LimitSection = ({
   limitPayItemOptions,
   periodOptions,
   onChangeExpensePayItemInput,
-  onBlurExpensePayItemAmountInput,
 }) => {
   const percentForm = (
     <React.Fragment>
-      <AmountInput
+      <PercentInput
         key={Limit.PERCENT}
         label="Percentage %"
         name="limitPercentage"
         value={limitPercentage}
-        onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
-        onBlur={onBlurExpensePayItemAmountInput}
-        numeralIntegerScale={3}
-        numeralDecimalScaleMax={5}
+        onChange={onChangeExpensePayItemInput}
         numeralPositiveOnly
       />
       <PayItemCombobox
@@ -54,15 +50,12 @@ const LimitSection = ({
 
   const fixedDollarForm = (
     <React.Fragment>
-      <AmountInput
+      <DollarInput
         key={Limit.FIXED_DOLLAR}
         label="Dollar $"
         name="limitAmount"
         value={limitAmount}
-        onChange={handleAmountInputChange(onChangeExpensePayItemInput)}
-        onBlur={onBlurExpensePayItemAmountInput}
-        numeralIntegerScale={13}
-        numeralDecimalScaleMax={2}
+        onChange={onChangeExpensePayItemInput}
         numeralPositiveOnly
       />
       <Select

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getInformationViewData } from '../DeductionPayItemSelectors';
-import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
-import handleAmountInputChange from '../../../../../components/handlers/handleAmountInputChange';
+import DollarInput from '../../../components/DollarInput';
+import PercentInput from '../../../components/PercentInput';
 import handleComboboxChange from '../../../../../components/handlers/handleComboboxChange';
 import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
 import styles from './DeductionPayItemView.module.css';
@@ -29,7 +29,6 @@ const InformationView = ({
   limitPercentOfOptions,
   limitDollarPerOptions,
   onInformationChange,
-  onInformationAmountBlur,
   isCalculationPercentage,
   isCalculationDollar,
   isLimitDollar,
@@ -51,14 +50,11 @@ const InformationView = ({
     {
       isCalculationPercentage && (
         <React.Fragment>
-          <AmountInput
+          <PercentInput
             name="calculationPercentage"
             label="Percentage %"
-            numeralDecimalScaleMax={5}
-            numeralIntegerScale={3}
             value={calculationPercentage}
-            onChange={handleAmountInputChange(onInformationChange)}
-            onBlur={handleAmountInputChange(onInformationAmountBlur)}
+            onChange={onInformationChange}
           />
           <Combobox
             label="Percent of"
@@ -73,13 +69,11 @@ const InformationView = ({
     {
       isCalculationDollar && (
         <React.Fragment>
-          <AmountInput
+          <DollarInput
             name="calculationDollars"
             label="Dollars $"
-            numeralIntegerScale={13}
             value={calculationDollars}
-            onChange={handleAmountInputChange(onInformationChange)}
-            onBlur={handleAmountInputChange(onInformationAmountBlur)}
+            onChange={onInformationChange}
           />
           <Select
             name="calculationPer"
@@ -114,14 +108,11 @@ const InformationView = ({
     {
       isLimitPercentage && (
         <React.Fragment>
-          <AmountInput
+          <PercentInput
             name="limitPercentage"
             label="Percentage %"
-            numeralDecimalScaleMax={5}
-            numeralIntegerScale={3}
             value={limitPercentage}
-            onChange={handleAmountInputChange(onInformationChange)}
-            onBlur={handleAmountInputChange(onInformationAmountBlur)}
+            onChange={onInformationChange}
           />
           <Combobox
             label="Percent of"
@@ -136,13 +127,11 @@ const InformationView = ({
     {
       isLimitDollar && (
         <React.Fragment>
-          <AmountInput
+          <DollarInput
             name="limitDollars"
             label="Dollars $"
-            numeralIntegerScale={13}
             value={limitDollars}
-            onChange={handleAmountInputChange(onInformationChange)}
-            onBlur={handleAmountInputChange(onInformationAmountBlur)}
+            onChange={onInformationChange}
           />
           <Select
             name="limitPer"
