@@ -1,29 +1,32 @@
-import { BaseTemplate, Card, PageHead } from '@myob/myob-widgets';
+import {
+  BaseTemplate, Card, Columns, PageHead,
+} from '@myob/myob-widgets';
 import React from 'react';
 
 import PageView from '../PageView/PageView';
-import style from './LearnComponent.module.css';
 
-const LearnComponent = ({
-  title, description, media,
-}) => {
+const LearnComponent = ({ title, children, media }) => {
   const view = (
     <BaseTemplate>
       <PageHead title={title} />
+
       <Card>
-        <div className={style.row}>
-          <div className={style.column}>
-            {description}
-          </div>
-          {media && (
-            <div className={style.column}>
+        {media
+          ? (
+            <Columns>
+              <div>
+                {children}
+              </div>
+
               {media}
-            </div>
-          )}
-        </div>
+            </Columns>
+          )
+          : children
+        }
       </Card>
     </BaseTemplate>
   );
+
   return <PageView view={view} />;
 };
 
