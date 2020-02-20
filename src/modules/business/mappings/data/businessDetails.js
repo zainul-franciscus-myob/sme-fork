@@ -2,6 +2,7 @@ export default {
   businessDetails: {
     region: 'AU',
     organisationName: 'Wayne Corp',
+    tradingName: 'Batman',
     abn: '80123123123', // only be used for AU business
     nzbn: '34', // only be used for NZ business
     irdNumber: '435302235', // only be used for NZ business

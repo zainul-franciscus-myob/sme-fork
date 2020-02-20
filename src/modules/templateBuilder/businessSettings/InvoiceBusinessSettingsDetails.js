@@ -5,15 +5,11 @@ import React from 'react';
 import {
   getBusinessDetails,
   getContactDetails,
+  getNzTaxDetails,
 } from '../../business/businessDetail/businessDetailSelectors';
 import { getRegion } from '../../template/templateSelectors';
 import AbnInput from '../../../components/autoFormatter/AbnInput/AbnInput';
-import NzTaxDetails from '../../business/businessDetail/components/NzTaxDetails';
-
-const onInputChange = handler => (e) => {
-  const { value, name } = e.target;
-  handler({ key: name, value });
-};
+import handleInputChange from '../../../components/handlers/handleInputChange';
 
 const InvoiceBusinessSettingsDetails = ({
   address,
@@ -24,6 +20,7 @@ const InvoiceBusinessSettingsDetails = ({
   phoneNumber,
   abn,
   region,
+  irdNumber,
 }) => (
   <FieldGroup label="Add business details">
     <p>
@@ -36,7 +33,7 @@ const InvoiceBusinessSettingsDetails = ({
       label="Business name"
       value={organisationName}
       requiredLabel="required"
-      onChange={onInputChange(onChange)}
+      onChange={handleInputChange(onChange)}
       width="xl"
     />
 
@@ -44,7 +41,7 @@ const InvoiceBusinessSettingsDetails = ({
       name="tradingName"
       label="Trading name"
       value={tradingName}
-      onChange={onInputChange(onChange)}
+      onChange={handleInputChange(onChange)}
       width="xl"
     />
 
@@ -55,18 +52,26 @@ const InvoiceBusinessSettingsDetails = ({
           label="ABN"
           value={abn}
           maxLength={14}
-          onChange={onInputChange(onChange)}
+          onChange={handleInputChange(onChange)}
           width="sm"
         />
       )
-      : <NzTaxDetails onChange={onChange} />}
+      : (
+        <Input
+          name="irdNumber"
+          label="IRD Number/GST Number"
+          value={irdNumber}
+          onChange={handleInputChange(onChange)}
+          width="sm"
+        />
+      )}
 
     <TextArea
       autoSize
       label="Address"
       maxLength={255}
       name="address"
-      onChange={onInputChange(onChange)}
+      onChange={handleInputChange(onChange)}
       resize="vertical"
       value={address}
       width="xl"
@@ -75,7 +80,7 @@ const InvoiceBusinessSettingsDetails = ({
     <Input
       label="Phone"
       name="phoneNumber"
-      onChange={onInputChange(onChange)}
+      onChange={handleInputChange(onChange)}
       value={phoneNumber}
       width="xl"
     />
@@ -83,7 +88,7 @@ const InvoiceBusinessSettingsDetails = ({
     <Input
       label="Email"
       name="email"
-      onChange={onInputChange(onChange)}
+      onChange={handleInputChange(onChange)}
       value={email}
       width="xl"
     />
@@ -93,6 +98,7 @@ const InvoiceBusinessSettingsDetails = ({
 const mapStateToProps = state => ({
   ...getBusinessDetails(state),
   ...getContactDetails(state),
+  ...getNzTaxDetails(state),
   region: getRegion(state),
 });
 
