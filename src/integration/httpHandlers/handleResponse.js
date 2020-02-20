@@ -1,3 +1,5 @@
+import handleErrorResponse from './handleErrorResponse';
+
 const handleError = (error, onFailure) => error.name !== 'AbortError' && onFailure(error);
 
 class BadResponseStatusCodeError extends Error { }
@@ -7,18 +9,14 @@ const handleResponse = async ({
   responseParser,
   onSuccess,
   onFailure,
-  onForbidden,
+  urlParams,
 }) => {
   try {
     const response = await fetchedPromise;
 
     if (response.status >= 400) {
       const responseBody = await response.json();
-
-      if (response.status === 403) {
-        onForbidden(responseBody);
-        return;
-      }
+      handleErrorResponse({ response, responseBody, urlParams });
 
       throw new BadResponseStatusCodeError(responseBody.message);
     }

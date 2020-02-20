@@ -154,8 +154,8 @@ const RootMapping = Object.freeze({
   ...TimesheetMapping,
   ...BankStatementImportMapping,
   ...RootBusinessDetailsMapping,
-  ...FileUnavailableMapping,
   ...RootModuleMapping,
+  ...FileUnavailableMapping,
 });
 
 export default RootMapping;

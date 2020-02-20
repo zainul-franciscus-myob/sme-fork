@@ -4,7 +4,6 @@ import uuid from 'uuid/v4';
 
 import Config from '../Config';
 import RootMapping from './httpMapping/RootMapping';
-import handleForbiddenResponse from './httpHandlers/handleForbiddenResponse';
 import handleResponse from './httpHandlers/handleResponse';
 
 const config = {
@@ -171,7 +170,7 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
       responseParser,
       onSuccess,
       onFailure,
-      onForbidden: handleForbiddenResponse(urlParams),
+      urlParams,
     });
   },
   readFile: async ({
@@ -211,7 +210,7 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
       responseParser,
       onSuccess,
       onFailure,
-      onForbidden: handleForbiddenResponse(urlParams),
+      urlParams,
     });
   },
   write: async ({
@@ -235,7 +234,7 @@ const createHttpIntegration = ({ getAdditionalHeaders = NO_OP } = { }) => ({
       responseParser,
       onSuccess,
       onFailure,
-      onForbidden: handleForbiddenResponse(urlParams),
+      urlParams,
     });
   },
   writeFormData: ({

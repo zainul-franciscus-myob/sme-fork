@@ -3,7 +3,7 @@ import { SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
-  isOnlineUser: true,
+  isOnlineOnly: true,
 });
 
 const setInitialState = (state, action) => ({
@@ -12,10 +12,10 @@ const setInitialState = (state, action) => ({
 });
 
 const load = (state, { context }) => {
-  const { isOnlineUser } = context;
+  const { isOnlineOnly } = context;
   return ({
     ...state,
-    isOnlineUser,
+    isOnlineOnly,
   });
 };
 

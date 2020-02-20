@@ -4,7 +4,6 @@ describe('handleResponse', () => {
   const responseParser = jest.fn().mockResolvedValue({});
   const onFailure = jest.fn();
   const onSuccess = jest.fn();
-  const onForbidden = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -43,7 +42,7 @@ describe('handleResponse', () => {
   });
 
   describe('when response HTTP status code is 403', () => {
-    it('should trigger forbidden response', async () => {
+    it('should redirect to permission denied', async () => {
       const forbiddenCodePromise = Promise.resolve({
         status: 403,
         json: () => { },
@@ -54,10 +53,30 @@ describe('handleResponse', () => {
         responseParser,
         onSuccess,
         onFailure,
-        onForbidden,
+        urlParams: { businessId: '1234-3456-123456-123456' },
       });
 
-      expect(onForbidden).toBeCalled();
+      expect(window.location.href).toBe('http://localhost/#/au/1234-3456-123456-123456/permissionDenied');
+    });
+  });
+
+  describe('when response HTTP status code is 400', () => {
+    it('and code is FileUnavailable, should redirect to file unavailable page', async () => {
+      const body = { code: 'FileUnavailable' };
+      const forbiddenCodePromise = Promise.resolve({
+        status: 400,
+        json: () => body,
+      });
+
+      await handleResponse({
+        fetchedPromise: forbiddenCodePromise,
+        responseParser,
+        onSuccess,
+        onFailure,
+        urlParams: { businessId: '1234-3456-123456-123456' },
+      });
+
+      expect(window.location.href).toBe('http://localhost/#/au/1234-3456-123456-123456/unavailable');
     });
   });
 

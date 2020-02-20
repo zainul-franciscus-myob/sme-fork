@@ -8,7 +8,7 @@ import React from 'react';
 import LinkButton from '../../../components/Button/LinkButton';
 import fileUnavailableGraphic from './fileUnavailableGraphic.svg';
 
-const FileUnavailable = ({ region, businessId, isOnlineUser }) => {
+const FileUnavailable = ({ region, businessId, isOnlineOnly }) => {
   const arlUserCard = (
     <BaseTemplate>
       <Card>
@@ -40,7 +40,7 @@ const FileUnavailable = ({ region, businessId, isOnlineUser }) => {
       </Card>
     </BaseTemplate>
   );
-  return isOnlineUser ? onlineUserCard : arlUserCard;
+  return isOnlineOnly ? onlineUserCard : arlUserCard;
 };
 
 const mapStateToProps = state => ({
