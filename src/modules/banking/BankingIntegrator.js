@@ -484,7 +484,7 @@ const createBankingIntegrator = (store, integration) => ({
     integration.writeFormData({
       intent: UPLOAD_ATTACHMENT,
       content: {
-        relationshipKey: 'BankFeedTransactionUID',
+        relationshipKey: 'BankTransactionUID',
         relationshipValue: transactionUid,
         file,
       },
