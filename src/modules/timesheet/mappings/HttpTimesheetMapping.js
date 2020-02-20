@@ -21,7 +21,7 @@ const HttpTimesheetMapping = {
   },
   [SAVE_TIMESHEET]: {
     method: 'POST',
-    getPath: ({ businessId, employeeId }) => `/${businessId}/timesheet/save_timesheet/${employeeId}`,
+    getPath: ({ businessId, employeeId }) => `/${businessId}/timesheet/save_timesheet_old/${employeeId}`,
   },
   [DELETE_TIMESHEET]: {
     method: 'DELETE',

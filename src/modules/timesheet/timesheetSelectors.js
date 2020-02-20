@@ -63,24 +63,31 @@ export const getSaveTimesheetContent = state => ({
     startStopDescription: row.startStopDescription || null,
     day1: {
       hours: row.day1 && row.day1.hours ? Number(row.day1.hours) : 0,
+      hoursPaid: row.day1 && row.day1.hoursPaid ? Number(row.day1.hoursPaid) : 0,
     },
     day2: {
       hours: row.day2 && row.day2.hours ? Number(row.day2.hours) : 0,
+      hoursPaid: row.day2 && row.day2.hoursPaid ? Number(row.day2.hoursPaid) : 0,
     },
     day3: {
       hours: row.day3 && row.day3.hours ? Number(row.day3.hours) : 0,
+      hoursPaid: row.day3 && row.day3.hoursPaid ? Number(row.day3.hoursPaid) : 0,
     },
     day4: {
       hours: row.day4 && row.day4.hours ? Number(row.day4.hours) : 0,
+      hoursPaid: row.day4 && row.day4.hoursPaid ? Number(row.day4.hoursPaid) : 0,
     },
     day5: {
       hours: row.day5 && row.day5.hours ? Number(row.day5.hours) : 0,
+      hoursPaid: row.day5 && row.day5.hoursPaid ? Number(row.day5.hoursPaid) : 0,
     },
     day6: {
       hours: row.day6 && row.day6.hours ? Number(row.day6.hours) : 0,
+      hoursPaid: row.day6 && row.day6.hoursPaid ? Number(row.day6.hoursPaid) : 0,
     },
     day7: {
       hours: row.day7 && row.day7.hours ? Number(row.day7.hours) : 0,
+      hoursPaid: row.day7 && row.day7.hoursPaid ? Number(row.day7.hoursPaid) : 0,
     },
   })),
 });

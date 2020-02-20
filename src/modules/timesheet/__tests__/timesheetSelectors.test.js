@@ -81,11 +81,30 @@ describe('timesheetSelectors', () => {
         timesheetRows: [{
           notes: '',
           startStopDescription: '',
-          day1: { hours: '1' },
-          day2: { hours: '0.00' },
-          day3: { hours: '' },
-          day4: { hours: '0' },
-          day7: { hours: '1.50' },
+          day1: {
+            hours: '1',
+            hoursPaid: 0,
+          },
+          day2: {
+            hours: '0.00',
+            hoursPaid: 0,
+          },
+          day3: {
+            hours: '',
+            hoursPaid: 0,
+          },
+          day4: {
+            hours: '0',
+            hoursPaid: 0,
+          },
+          day5: {
+            hours: '0',
+            hoursPaid: 0,
+          },
+          day7: {
+            hours: '1.50',
+            hoursPaid: 0,
+          },
         }],
       };
 
@@ -97,13 +116,34 @@ describe('timesheetSelectors', () => {
         timesheetRows: [{
           notes: null,
           startStopDescription: null,
-          day1: { hours: 1 },
-          day2: { hours: 0 },
-          day3: { hours: 0 },
-          day4: { hours: 0 },
-          day5: { hours: 0 },
-          day6: { hours: 0 },
-          day7: { hours: 1.5 },
+          day1: {
+            hours: 1,
+            hoursPaid: 0,
+          },
+          day2: {
+            hours: 0,
+            hoursPaid: 0,
+          },
+          day3: {
+            hours: 0,
+            hoursPaid: 0,
+          },
+          day4: {
+            hours: 0,
+            hoursPaid: 0,
+          },
+          day5: {
+            hours: 0,
+            hoursPaid: 0,
+          },
+          day6: {
+            hours: 0,
+            hoursPaid: 0,
+          },
+          day7: {
+            hours: 1.5,
+            hoursPaid: 0,
+          },
         }],
       });
     });

@@ -78,30 +78,37 @@ const loadEmployeeTimesheet = (state, { timesheetRows, allowedPayItems }) => ({
     ...row,
     day1: {
       hours: getFormattedHours(row.day1.hours),
+      hoursPaid: row.day1.hoursPaid,
       readonly: row.day1.readonly,
     },
     day2: {
       hours: getFormattedHours(row.day2.hours),
+      hoursPaid: row.day2.hoursPaid,
       readonly: row.day2.readonly,
     },
     day3: {
       hours: getFormattedHours(row.day3.hours),
+      hoursPaid: row.day3.hoursPaid,
       readonly: row.day3.readonly,
     },
     day4: {
       hours: getFormattedHours(row.day4.hours),
+      hoursPaid: row.day4.hoursPaid,
       readonly: row.day4.readonly,
     },
     day5: {
       hours: getFormattedHours(row.day5.hours),
+      hoursPaid: row.day5.hoursPaid,
       readonly: row.day5.readonly,
     },
     day6: {
       hours: getFormattedHours(row.day6.hours),
+      hoursPaid: row.day6.hoursPaid,
       readonly: row.day6.readonly,
     },
     day7: {
       hours: getFormattedHours(row.day7.hours),
+      hoursPaid: row.day7.hoursPaid,
       readonly: row.day7.readonly,
     },
   })),

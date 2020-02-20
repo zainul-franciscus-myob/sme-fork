@@ -75,6 +75,8 @@ const TimesheetIsSetUpView = ({
     ? [...baseTableLabels, 'Start and stop times']
     : baseTableLabels;
 
+  const isEmployeeSelected = selectedEmployeeId;
+
   const columnConfig = [{
     config: [
       {
@@ -120,7 +122,7 @@ const TimesheetIsSetUpView = ({
           key={field}
           decimalScale={2}
           numeralIntegerScale={2}
-          disabled={readonly}
+          disabled={readonly || !isEmployeeSelected}
         />
       );
     });
@@ -141,6 +143,7 @@ const TimesheetIsSetUpView = ({
           onChange={onChange}
           label="Pay item"
           hideLabel
+          disabled={!isEmployeeSelected}
         >
           <Select.Option value={null} label=""></Select.Option>
           {payItems.map(payItem => (
@@ -155,6 +158,7 @@ const TimesheetIsSetUpView = ({
           hideLabel
           autoSize
           rows={1}
+          disabled={!isEmployeeSelected}
         />
         {weekDayCells}
         <ReadOnly
@@ -173,6 +177,7 @@ const TimesheetIsSetUpView = ({
             rows={1}
             onChange={onChange}
             value={data.startStopDescription || ''}
+            disabled={!isEmployeeSelected}
           />
         )}
       </LineItemTable.Row>
@@ -246,7 +251,7 @@ const TimesheetIsSetUpView = ({
             type="secondary"
             onClick={onDeleteClick}
             testid="deleteButton"
-            disabled={!selectedEmployeeId}
+            disabled={!isEmployeeSelected}
           >
             Delete timesheet
           </Button>,
@@ -256,7 +261,7 @@ const TimesheetIsSetUpView = ({
             key="save"
             onClick={onSaveClick}
             testid="saveButton"
-            disabled={!selectedEmployeeId}
+            disabled={!isEmployeeSelected}
           >
             Save
           </Button>,
