@@ -4,8 +4,8 @@ import React from 'react';
 const PreviousStepModal = ({
   onCancel,
   onGoBack,
-  title = 'Confirmation',
-  description = 'Are you sure you want to go to the previous step?',
+  title = 'Continue without saving?',
+  description = 'Any changes you\'ve made on this page will be lost if you continue without saving. Go back if you want to save your changes.',
 }) => (
   <Modal
     title={title}
@@ -16,8 +16,8 @@ const PreviousStepModal = ({
       {description}
     </Modal.Body>
     <Modal.Footer>
-      <Button type="secondary" onClick={onCancel}>Cancel</Button>
-      <Button type="primary" onClick={onGoBack}>Go back</Button>
+      <Button type="secondary" onClick={onCancel}>Go back</Button>
+      <Button type="primary" onClick={onGoBack}>Continue without saving</Button>
     </Modal.Footer>
   </Modal>
 );
