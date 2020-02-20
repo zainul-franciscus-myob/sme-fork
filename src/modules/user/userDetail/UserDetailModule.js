@@ -193,6 +193,7 @@ export default class UserDetailModule {
       this.closeModal();
     };
 
+    this.setSubmittingState(true);
     this.integration.write({
       intent,
       urlParams,
@@ -200,8 +201,6 @@ export default class UserDetailModule {
       onSuccess,
       onFailure,
     });
-
-    this.setSubmittingState(true);
   }
 
   deleteUser = () => {
