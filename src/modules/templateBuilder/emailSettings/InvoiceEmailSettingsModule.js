@@ -1,7 +1,9 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getLoadingState, getSalesSettingsPayload, getTabData } from '../../salesSettings/salesSettingsDetail/SalesSettingsDetailSelectors';
+import {
+  getBusinessId, getLoadingState, getRegion, getSalesSettingsPayload, getTabData,
+} from '../../salesSettings/salesSettingsDetail/SalesSettingsDetailSelectors';
 import { mainTabIds } from '../../salesSettings/salesSettingsDetail/tabItems';
 import InvoiceEmailSettingsView from './InvoiceEmailSettingsView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -53,6 +55,16 @@ export default class InvoiceEmailSettingsModule {
     this.integrator.updateSalesSettings({ onSuccess, onFailure, content });
   };
 
+  redirectToPath = (path) => {
+    const state = this.store.getState();
+    const region = getRegion(state);
+    const businessId = getBusinessId(state);
+
+    window.location.href = `/#/${region}/${businessId}${path}`;
+  };
+
+  redirectToTemplates = () => this.redirectToPath('/salesSettings?selectedTab=templates');
+
   saveEmailSettings = () => {
     const state = this.store.getState();
     if (getLoadingState(state) === LoadingState.LOADING) return;
@@ -65,6 +77,7 @@ export default class InvoiceEmailSettingsModule {
       this.dispatcher.setAlert({ type: 'success', message });
       this.dispatcher.saveDataTab();
       this.customisedEmailDefaults();
+      this.redirectToTemplates();
     };
 
     const onFailure = ({ message }) => {
