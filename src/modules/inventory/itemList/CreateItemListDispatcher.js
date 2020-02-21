@@ -11,7 +11,7 @@ import {
 } from '../InventoryIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
-  getAppliedFilterOptions, getFlipSortOrder, getIsFilteredList, getOrderBy,
+  getFlipSortOrder, getIsFilteredList, getOrderBy,
 } from './itemListSelectors';
 
 const CreateItemListDispatcher = store => ({
@@ -52,22 +52,17 @@ const CreateItemListDispatcher = store => ({
   },
   sortItemList: (response) => {
     const state = store.getState();
-    const filterOptions = getAppliedFilterOptions(state);
     const isFilteredList = getIsFilteredList(state);
 
     store.dispatch({
       intent: SORT_AND_FILTER_ITEM_LIST,
-      filterOptions,
       isFilteredList,
       ...response,
     });
   },
   filterItemList: (response) => {
-    const state = store.getState();
-    const filterOptions = getAppliedFilterOptions(state);
     store.dispatch({
       intent: SORT_AND_FILTER_ITEM_LIST,
-      filterOptions,
       isFilteredList: true,
       ...response,
     });
