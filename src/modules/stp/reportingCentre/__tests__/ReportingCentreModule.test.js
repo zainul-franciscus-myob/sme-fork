@@ -1,7 +1,6 @@
 import { Tabs } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
-import * as EOFYFinalisationToggles from '../../../../common/featureToggles/EOFYFinalisationEnabled';
 import { tabIds } from '../TabItems';
 import ReportingCentreModule from '../ReportingCentreModule';
 import ReportingCentreView from '../components/ReportingCentreView';
@@ -50,22 +49,10 @@ describe('ReportingCentreModule', () => {
     });
   });
 
-  describe('REACT_APP_FEATURE_EOFY_FINALISATION', () => {
-    it('hides the finalisation tab when feature toggle is off', () => {
-      EOFYFinalisationToggles.default = false;
-      const wrapper = setupModule('registered', tabIds.reports);
+  it('shows the finalisation tab', () => {
+    const wrapper = setupModule('registered', tabIds.reports);
 
-      const tabs = wrapper.find(Tabs);
-
-      expect(tabs.prop('items').find(item => item.id === tabIds.finalisation)).not.toBeTruthy();
-    });
-
-    it('shows the finalisation tab when feature toggle is on', () => {
-      EOFYFinalisationToggles.default = true;
-      const wrapper = setupModule('registered', tabIds.reports);
-
-      const tabs = wrapper.find(Tabs);
-      expect(tabs.prop('items').find(item => item.id === tabIds.finalisation)).toBeTruthy();
-    });
+    const tabs = wrapper.find(Tabs);
+    expect(tabs.prop('items').find(item => item.id === tabIds.finalisation)).toBeTruthy();
   });
 });

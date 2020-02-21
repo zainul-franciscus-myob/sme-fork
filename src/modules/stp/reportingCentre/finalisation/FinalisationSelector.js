@@ -10,9 +10,9 @@ export const getReportedSection57aRfba = state => state.reportedSection57aRfba;
 export const getPaygWithholdingYtd = state => state.paygWithholdingYtd;
 export const getEmployeesCount = state => state.employeesCount;
 export const getEventId = state => state.eventId;
-export const getIsRFBALocked = state => state.employees.find(
+export const getIsRFBALocked = state => Boolean(state.employees.find(
   e => e.rfbAmount || e.s57aRfbAmount,
-);
+));
 export const getIsRFBAEnabled = state => state.isRFBAEnabled || getIsRFBALocked(state);
 export const getShouldShowFinaliseButton = state => Boolean(
   state.employees.find(employee => employee.isSelected && !employee.isFinalised),

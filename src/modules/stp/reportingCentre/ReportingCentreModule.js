@@ -9,7 +9,6 @@ import {
 } from './ReportingCentreSelectors';
 import { tabIds } from './TabItems';
 import AtoSettingsModule from './atoSettings/AtoSettingsModule';
-import EOFYFinalisationEnabled from '../../../common/featureToggles/EOFYFinalisationEnabled';
 import FinalisationModule from './finalisation/FinalisationModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ReportingCentreReducer from './ReportingCentreReducer';
@@ -48,11 +47,11 @@ export default class ReportingCentreModule {
         context,
         setAlert: this.dispatcher.setAlert,
       }),
-      [tabIds.finalisation]: EOFYFinalisationEnabled ? new FinalisationModule({
+      [tabIds.finalisation]: new FinalisationModule({
         integration: this.integration,
         context,
         setAlert: this.dispatcher.setAlert,
-      }) : undefined,
+      }),
       [tabIds.atoSettings]: new AtoSettingsModule({
         integration: this.integration,
         context,
