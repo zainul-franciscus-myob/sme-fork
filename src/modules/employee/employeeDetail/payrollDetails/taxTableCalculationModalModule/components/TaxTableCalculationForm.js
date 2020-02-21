@@ -112,12 +112,12 @@ const TaxTableCalculationForm = ({
     <Separator />
     {taxTableDescription || isLoading ? (
       <>
-        <p>
+        <div className={styles.bottomMargin}>
         From your answers, below is the selected tax table for your employee. For more information
         on tax tables please
           {' '}
           {atoLink}
-        </p>
+        </div>
         <span className={styles.taxTableResult}>
           <Field
             label="Tax table"
@@ -125,7 +125,7 @@ const TaxTableCalculationForm = ({
               <>
                 <Input
                   disabled
-                  value={taxTableDescription}
+                  value={taxTableDescription || ''}
                   name="taxTableResult"
                   testid="taxTableResult"
                   label=""

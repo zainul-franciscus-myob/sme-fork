@@ -27,3 +27,7 @@
 .linkButton span:global(.btn__content) {
   margin-left: 0;
 }
+
+.bottomMargin {
+  margin-bottom: var(--flx-spacing-large);
+}
