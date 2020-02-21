@@ -4,7 +4,7 @@ import {
   SORT_AND_FILTER_BILL_LIST,
 } from '../../BillIntents';
 import filterBillList from './data/filterBillList';
-import loadBillList from './data/loadBillList';
+import loadBillList from './data/loadBillList.json';
 import loadBillListNextPage from './data/loadBillListNextPage.json';
 
 const MemoryBillMapping = {
