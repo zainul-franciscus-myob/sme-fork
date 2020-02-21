@@ -21,6 +21,9 @@ import invoiceListReducer from '../invoiceListReducer';
 
 describe('InvoiceListModule', () => {
   const setup = () => {
+    // Mock loadSettings from localstorage to prevent side effects
+    localStorageDriver.loadSettings = () => {};
+
     const setRootView = () => {};
     const popMessages = () => [];
     const store = new TestStore(invoiceListReducer);
@@ -34,10 +37,6 @@ describe('InvoiceListModule', () => {
     module.store = store;
     module.dispatcher = createInvoiceListDispatcher(store);
     module.integrator = createInvoiceListIntegrator(store, integration);
-
-    module.resetState();
-    store.resetActions();
-    integration.resetRequests();
 
     return {
       store,
