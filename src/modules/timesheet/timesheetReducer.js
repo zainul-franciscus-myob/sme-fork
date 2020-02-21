@@ -213,13 +213,21 @@ const setSelectedDate = (state, { selectedDate }) => ({
   selectedDate,
 });
 
-const setAlert = (state, { type, message }) => ({
-  ...state,
-  alert: {
-    type,
-    message,
-  },
-});
+const setAlert = (state, { type, message }) => {
+  if (type === null || message === null) {
+    return {
+      ...state,
+      alert: null,
+    };
+  }
+  return {
+    ...state,
+    alert: {
+      type,
+      message,
+    },
+  };
+};
 
 const setModal = (state, action) => {
   if (action.modal === ModalType.UNSAVED) {

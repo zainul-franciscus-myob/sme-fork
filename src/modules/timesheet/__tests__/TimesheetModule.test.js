@@ -2,7 +2,11 @@ import { Alert, DatePicker, Modal } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
 import {
-  LOAD_EMPLOYEE_TIMESHEET, LOAD_INITIAL_TIMESHEET, LOAD_TIMESHEET,
+  LOAD_EMPLOYEE_TIMESHEET,
+  LOAD_INITIAL_TIMESHEET,
+  LOAD_TIMESHEET,
+  SAVE_TIMESHEET,
+  SAVE_TIMESHEET_OLD,
 } from '../timesheetIntents';
 import { findButtonWithTestId, findComponentWithTestId } from '../../../common/tests/selectors';
 import { getSelectedDate, getSelectedEmployeeId } from '../timesheetSelectors';
@@ -30,8 +34,12 @@ describe('TimesheetModule', () => {
     write: jest.fn(),
   };
 
+  const defaultFeatureToggles = {
+    isFeatureTimesheetEnabled: false,
+  };
+
   const constructTimesheetModule = ({
-    integration,
+    integration, featureToggles = defaultFeatureToggles,
   }) => {
     const moduleIntegration = {
       ...defaultIntegration,
@@ -42,7 +50,11 @@ describe('TimesheetModule', () => {
     const setRootView = (component) => {
       wrapper = mount(component);
     };
-    const module = new TimesheetModule({ integration: moduleIntegration, setRootView });
+    const module = new TimesheetModule({
+      integration: moduleIntegration,
+      setRootView,
+      featureToggles,
+    });
     module.run();
     wrapper.update();
     return {
@@ -578,6 +590,44 @@ describe('TimesheetModule', () => {
 
       expect(integration.write).not.toHaveBeenCalled();
       expect(getSelectedDateFromState(module)).toEqual(newDate);
+    });
+  });
+
+  describe('isFeatureTimesheetEnabled', () => {
+    it('calls SAVE_TIMESHEET when feature toggle is enabled', () => {
+      const integration = {
+        write: jest.fn(),
+      };
+      const featureToggles = {
+        isFeatureTimesheetEnabled: true,
+      };
+      const { module } = constructTimesheetModule({ integration, featureToggles });
+
+      module.saveTimesheet({});
+
+      expect(integration.write).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: SAVE_TIMESHEET,
+        }),
+      );
+    });
+
+    it('calls SAVE_TIMESHEET_OLD when feature toggle is off', () => {
+      const integration = {
+        write: jest.fn(),
+      };
+      const featureToggles = {
+        isFeatureTimesheetEnabled: false,
+      };
+      const { module } = constructTimesheetModule({ integration, featureToggles });
+
+      module.saveTimesheet({});
+
+      expect(integration.write).toHaveBeenCalledWith(
+        expect.objectContaining({
+          intent: SAVE_TIMESHEET_OLD,
+        }),
+      );
     });
   });
 });

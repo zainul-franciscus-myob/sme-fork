@@ -6,4 +6,6 @@
  * }
  *
  */
-export default {};
+export default {
+  isFeatureTimesheetEnabled: true,
+};

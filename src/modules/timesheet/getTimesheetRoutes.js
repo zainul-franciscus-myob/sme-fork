@@ -2,14 +2,14 @@ import RouteName from '../../router/RouteName';
 import TimesheetModule from './TimesheetModule';
 
 const getTimesheetRoutes = ({
-  integration, setRootView,
+  integration, setRootView, featureToggles,
 }) => {
   const routes = [
     {
       name: RouteName.TIMESHEET,
       path: '/:region/:businessId/timesheet',
       module: new TimesheetModule({
-        integration, setRootView,
+        integration, setRootView, featureToggles,
       }),
       documentTitle: 'Timesheet',
     },

@@ -12,6 +12,7 @@ import {
   LOAD_TIMESHEET,
   REMOVE_ROW,
   SAVE_TIMESHEET,
+  SAVE_TIMESHEET_OLD,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL,
@@ -43,10 +44,12 @@ export default class TimesheetModule {
   constructor({
     setRootView,
     integration,
+    featureToggles,
   }) {
     this.integration = integration;
     this.store = new Store(reducer);
     this.setRootView = setRootView;
+    this.featureToggles = featureToggles;
   }
 
   loadInitialTimesheet = () => {
@@ -105,6 +108,14 @@ export default class TimesheetModule {
     });
   }
 
+  clearAlert = () => {
+    this.store.dispatch({
+      intent: SET_ALERT,
+      type: null,
+      message: null,
+    });
+  }
+
   onSelectedEmployeeChange = ({ value }) => {
     const state = this.store.getState();
     if (getTimesheetIsDirty(state)) {
@@ -118,6 +129,7 @@ export default class TimesheetModule {
   }
 
   loadSelectedEmployeeTimesheet = ({ value }) => {
+    this.clearAlert();
     const state = this.store.getState();
     this.setSelectedEmployee({ value });
 
@@ -171,6 +183,7 @@ export default class TimesheetModule {
   }
 
   changeSelectedDate = ({ value }) => {
+    this.clearAlert();
     this.store.dispatch({
       intent: SET_SELECTED_DATE,
       selectedDate: value,
@@ -258,7 +271,9 @@ export default class TimesheetModule {
   }) => {
     this.setLoadingState(LoadingState.LOADING);
     const state = this.store.getState();
-    const intent = SAVE_TIMESHEET;
+    const intent = this.featureToggles.isFeatureTimesheetEnabled
+      ? SAVE_TIMESHEET
+      : SAVE_TIMESHEET_OLD;
 
     const urlParams = {
       businessId: getBusinessId(state),
