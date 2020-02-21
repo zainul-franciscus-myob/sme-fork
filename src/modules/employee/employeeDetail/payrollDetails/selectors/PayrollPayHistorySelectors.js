@@ -282,21 +282,21 @@ export const getWageTableRows = createSelector(
 
 export const getDeductionTableRows = createSelector(
   getDeductionPayItemEntries,
+  getSuperDeductionPayItemEntries,
   getIsPayHistoryItemsDisabled,
-  (entries, disabled) => ({
-    entries,
-    showTableRows: entries.length > 0,
+  (deductionEntries, superEntries, disabled) => ({
+    entries: deductionEntries.concat(superEntries),
+    showTableRows: deductionEntries.concat(superEntries).length > 0,
     disabled,
   }),
 );
 
 export const getTaxTableRows = createSelector(
   getTaxPayItemEntries,
-  getSuperDeductionPayItemEntries,
   getIsPayHistoryItemsDisabled,
-  (taxEntries, superDeductionEntries, disabled) => ({
-    entries: taxEntries.concat(superDeductionEntries),
-    showTableRows: taxEntries.concat(superDeductionEntries).length > 0,
+  (entries, disabled) => ({
+    entries,
+    showTableRows: entries.length > 0,
     disabled,
   }),
 );

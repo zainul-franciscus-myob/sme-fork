@@ -345,7 +345,7 @@ describe('PayrollStandardPaySelectors', () => {
   });
 
   describe('getDeductionTableRows', () => {
-    it('should return allocated deduction pay items', () => {
+    it('should return allocated deduction and super deduction pay items', () => {
       const state = {
         payrollDetails: {
           deductionDetails: {
@@ -427,6 +427,15 @@ describe('PayrollStandardPaySelectors', () => {
             payItemId: '41',
             payItemType: 'DeductionPayrollCategory',
             name: 'Deduction percent',
+            hours: '0.00',
+            amount: '0.00',
+            amountFieldType: fieldTypes.calculated,
+            hourFieldType: fieldTypes.blank,
+          },
+          {
+            payItemId: '31',
+            payItemType: 'SuperannuationDeductionBeforeTaxPayrollCategory',
+            name: 'Super deduction before tax',
             hours: '0.00',
             amount: '0.00',
             amountFieldType: fieldTypes.calculated,
@@ -531,15 +540,6 @@ describe('PayrollStandardPaySelectors', () => {
             amountFieldType: fieldTypes.calculated,
             hourFieldType: fieldTypes.blank,
             payBasis: undefined,
-          },
-          {
-            payItemId: '31',
-            payItemType: 'SuperannuationDeductionBeforeTaxPayrollCategory',
-            name: 'Super deduction before tax',
-            hours: '0.00',
-            amount: '0.00',
-            amountFieldType: fieldTypes.calculated,
-            hourFieldType: fieldTypes.blank,
           },
         ],
         showTableRows: true,

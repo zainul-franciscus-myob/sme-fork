@@ -413,7 +413,7 @@ describe('PayrollPayHistorySelectors', () => {
   });
 
   describe('getDeductionTableRows', () => {
-    it('should return deduction pay items', () => {
+    it('should return deduction and super deduction pay items', () => {
       const state = {
         payrollDetails: {
           deductionDetails: {
@@ -500,6 +500,16 @@ describe('PayrollPayHistorySelectors', () => {
             isHours: false,
             isAmount: true,
           },
+          {
+            payItemId: '31',
+            payItemType: 'SuperannuationDeductionBeforeTaxPayrollCategory',
+            name: 'Super deduction before tax',
+            hours: '0.00',
+            amount: '0.00',
+            isHours: false,
+            isAmount: true,
+            payBasis: undefined,
+          },
         ],
         showTableRows: true,
       };
@@ -512,7 +522,7 @@ describe('PayrollPayHistorySelectors', () => {
   });
 
   describe('getTaxTableRows', () => {
-    it('should return allocated tax and super (deduction) pay items', () => {
+    it('should return allocated tax pay items', () => {
       const state = {
         payrollDetails: {
           deductionDetails: {
@@ -594,16 +604,6 @@ describe('PayrollPayHistorySelectors', () => {
             payItemId: '21',
             payItemType: 'TaxPayrollCategory',
             name: 'PAYG Withholding',
-            hours: '0.00',
-            amount: '0.00',
-            isHours: false,
-            isAmount: true,
-            payBasis: undefined,
-          },
-          {
-            payItemId: '31',
-            payItemType: 'SuperannuationDeductionBeforeTaxPayrollCategory',
-            name: 'Super deduction before tax',
             hours: '0.00',
             amount: '0.00',
             isHours: false,
