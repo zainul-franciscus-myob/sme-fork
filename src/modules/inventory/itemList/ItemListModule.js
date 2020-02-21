@@ -2,35 +2,15 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  LOAD_ITEM_LIST,
-  LOAD_NEXT_PAGE,
-  SET_ALERT,
-  SET_LOADING_STATE,
-  SET_NEXT_PAGE_LOADING_STATE,
-  SET_SORT_ORDER,
-  SET_TABLE_LOADING_STATE,
-  SORT_AND_FILTER_ITEM_LIST,
-  UPDATE_FILTER_OPTIONS,
-} from '../InventoryIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
-import {
   SUCCESSFULLY_DELETED_ITEM,
   SUCCESSFULLY_SAVED_ITEM,
 } from '../InventoryMessageTypes';
 import {
-  getAppliedFilterOptions,
   getBusinessId,
-  getFilterOptions,
-  getFlipSortOrder,
-  getIsFilteredList,
-  getLoadNextPageParams,
-  getOrderBy,
   getRegion,
-  getSortOrder,
 } from './itemListSelectors';
+import CreateItemListDispatcher from './CreateItemListDispatcher';
+import CreateItemListIntegrator from './CreateItemListIntegrator';
 import ItemListView from './components/ItemListView';
 import Store from '../../../store/Store';
 import itemListReducer from './itemListReducer';
@@ -43,11 +23,12 @@ export default class ItemListModule {
   constructor({
     integration, setRootView, popMessages,
   }) {
-    this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(itemListReducer);
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
+    this.dispatcher = CreateItemListDispatcher(this.store);
+    this.integrator = CreateItemListIntegrator(this.store, integration);
   }
 
   render = () => {
@@ -71,198 +52,68 @@ export default class ItemListModule {
   }
 
   loadItemList = () => {
-    const state = this.store.getState();
-    const intent = LOAD_ITEM_LIST;
-    const filterOptions = getFilterOptions(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
     const onSuccess = (
       response,
     ) => {
-      this.setLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...response,
-      });
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.loadItemList(response);
     };
 
     const onFailure = ({ message }) => {
-      this.setTableLoadingState(false);
-      this.setAlert({ message, type: 'danger' });
+      this.dispatcher.setLoadingState(false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.setLoadingState(true);
-    this.integration.read({
-      intent,
-      params: {
-        ...filterOptions,
-      },
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
+    this.dispatcher.setLoadingState(true);
+    this.integrator.loadItemList({ onSuccess, onFailure });
   }
 
   sortItemList = (orderBy) => {
-    const state = this.store.getState();
-    const intent = SORT_AND_FILTER_ITEM_LIST;
-    const filterOptions = getAppliedFilterOptions(state);
-    const isFilteredList = getIsFilteredList(state);
-    const newSortOrder = orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
-
-    this.setSortOrder(orderBy, newSortOrder);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
+    this.dispatcher.setSortOrder(orderBy);
 
     const onSuccess = (response) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        filterOptions,
-        isFilteredList,
-        ...response,
-      });
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.sortItemList(response);
     };
 
     const onFailure = ({ message }) => {
-      this.setTableLoadingState(false);
-      this.setAlert({ message, type: 'danger' });
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.setTableLoadingState(true);
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: newSortOrder,
-        orderBy,
-      },
-      onSuccess,
-      onFailure,
-    });
+    this.dispatcher.setTableLoadingState(true);
+    this.integrator.sortItemList({ onSuccess, onFailure, orderBy });
   };
 
   filterItemList = () => {
-    const intent = SORT_AND_FILTER_ITEM_LIST;
-
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
     const onSuccess = (response) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        filterOptions,
-        isFilteredList: true,
-        ...response,
-      });
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.filterItemList(response);
     };
 
     const onFailure = ({ message }) => {
-      this.setTableLoadingState(false);
-      this.setAlert({ message, type: 'danger' });
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.setTableLoadingState(true);
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        ...filterOptions,
-        sortOrder: getSortOrder(state),
-        orderBy: getOrderBy(state),
-      },
-      onSuccess,
-      onFailure,
-    });
+    this.dispatcher.setTableLoadingState(true);
+    this.integrator.filterItemList({ onSuccess, onFailure });
   };
 
   loadNextPage = () => {
-    const state = this.store.getState();
-    this.setNextPageLoadingState(true);
+    this.dispatcher.setNextPageLoadingState(true);
 
-    const intent = LOAD_NEXT_PAGE;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const params = getLoadNextPageParams(state);
-
-    const onSuccess = ({
-      entries, pagination,
-    }) => {
-      this.setNextPageLoadingState(false);
-      this.store.dispatch({
-        intent,
-        entries,
-        pagination,
-      });
+    const onSuccess = (response) => {
+      this.dispatcher.setNextPageLoadingState(false);
+      this.dispatcher.loadNextPage(response);
     };
 
     const onFailure = ({ message }) => {
-      this.setNextPageLoadingState(false);
-      this.setAlert({ message, type: 'danger' });
+      this.dispatcher.setNextPageLoadingState(false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
     };
 
-    this.integration.read({
-      intent,
-      urlParams,
-      params,
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  setNextPageLoadingState = (isNextPageLoading) => {
-    const intent = SET_NEXT_PAGE_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isNextPageLoading,
-    });
-  };
-
-  updateFilterOptions = ({ filterName, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_FILTER_OPTIONS,
-      filterName,
-      value,
-    });
-  }
-
-  setSortOrder = (orderBy, newSortOrder) => {
-    this.store.dispatch({
-      intent: SET_SORT_ORDER,
-      sortOrder: newSortOrder,
-      orderBy,
-    });
-  };
-
-  setTableLoadingState = (isLoading) => {
-    const intent = SET_TABLE_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isTableLoading: isLoading,
-    });
-  };
-
-  setAlert = ({ message, type }) => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: {
-        message,
-        type,
-      },
-    });
+    this.integrator.loadNextPage({ onSuccess, onFailure });
   };
 
   createItem = () => {
@@ -281,40 +132,23 @@ export default class ItemListModule {
         content: message,
       } = successMessage;
 
-      this.setAlert({
+      this.dispatcher.setAlert({
         type: 'success',
         message,
       });
     }
   }
 
+  updateFilterOptions = (filterOption) => {
+    this.dispatcher.updateFilterOptions(filterOption);
+  }
+
   dismissAlert = () => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: undefined,
-    });
+    this.dispatcher.dismissAlert();
   };
 
-  setLoadingState = (isLoading) => {
-    const intent = SET_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isLoading,
-    });
-  }
-
-  setInitialState = (context) => {
-    const intent = SET_INITIAL_STATE;
-
-    this.store.dispatch({
-      intent,
-      context,
-    });
-  }
-
   run(context) {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     this.render();
     this.readMessages();
     this.loadItemList();
@@ -325,9 +159,6 @@ export default class ItemListModule {
   }
 
   resetState = () => {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
+    this.dispatcher.resetState();
   };
 }

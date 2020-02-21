@@ -9,6 +9,8 @@ import {
   SORT_AND_FILTER_ITEM_LIST,
 } from '../../InventoryIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import CreateItemListDispatcher from '../CreateItemListDispatcher';
+import CreateItemListIntegrator from '../CreateItemListIntegrator';
 import ItemListModule from '../ItemListModule';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
@@ -16,7 +18,7 @@ import itemListReducer from '../itemListReducer';
 
 describe('ItemListModule', () => {
   const setup = () => {
-    const setRootView = () => {};
+    const setRootView = () => { };
     const popMessages = () => [];
     const store = new TestStore(itemListReducer);
     const integration = new TestIntegration();
@@ -24,9 +26,8 @@ describe('ItemListModule', () => {
     const module = new ItemListModule({ integration, setRootView, popMessages });
     module.store = store;
 
-    // @TODO wire up dispatcher integrator
-    // module.dispatcher = createGeneralJournalDispatcher(module.store);
-    // module.integrator = createGeneralJournalIntegrator(store, integration);
+    module.dispatcher = CreateItemListDispatcher(module.store);
+    module.integrator = CreateItemListIntegrator(module.store, integration);
 
     return {
       store, module, integration,
@@ -90,10 +91,9 @@ describe('ItemListModule', () => {
           intent: SET_LOADING_STATE,
           isLoading: true,
         },
-        // @TODO this might be a bug
         {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: false,
+          intent: SET_LOADING_STATE,
+          isLoading: false,
         },
         {
           intent: SET_ALERT,
