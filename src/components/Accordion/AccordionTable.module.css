@@ -1,0 +1,4 @@
+/* @FEELIX: Override */
+.header :global(.table-data--header) {
+  padding-right: 6.4rem;
+}

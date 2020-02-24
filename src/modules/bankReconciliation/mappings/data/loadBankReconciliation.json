@@ -40,6 +40,40 @@
     },
     {
       "date": "2019-01-01T00:00:00",
+      "referenceId": "000000123",
+      "journalLineId": "1126",
+      "isChecked": true,
+      "description": "Payment ref-001",
+      "deposit": 200,
+      "journalTransactionId": "2234",
+      "journalId": "1",
+      "sourceJournal": "CashPayment",
+      "hasMatchedTransactions": true,
+      "matchedTransactions": [
+        {
+          "date": "2019-01-01T00:00:00",
+          "referenceId": "000000123",
+          "journalLineId": "1111",
+          "description": "Payment ref-001",
+          "deposit": 200,
+          "journalTransactionId": "2234",
+          "journalId": "1",
+          "sourceJournal": "CashPayment"
+        },
+        {
+          "date": "2019-01-01T00:00:00",
+          "referenceId": "000000234",
+          "journalLineId": "1100",
+          "description": "Payment ref-001",
+          "withdrawal": 0,
+          "journalTransactionId": "2234",
+          "journalId": "3",
+          "sourceJournal": "CashPayment"
+        }
+      ]
+    },
+    {
+      "date": "2019-01-01T00:00:00",
       "referenceId": "000000124",
       "journalLineId": "1124",
       "isChecked": false,

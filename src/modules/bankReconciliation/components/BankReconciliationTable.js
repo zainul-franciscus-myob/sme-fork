@@ -1,15 +1,13 @@
-import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getEntries,
   getIsActionDisabled,
   getIsTableEmpty,
   getIsTableLoading,
-  getTableEntries,
 } from '../BankReconciliationSelectors';
-import AccordionTable from '../../../components/Feelix/Accordion/AccordionTable';
-import BankReconciliationTableCollapsibleRow from './BankReconciliationTableCollapsibleRow';
+import AccordionTable from '../../../components/Accordion/AccordionTable';
 import BankReconciliationTableRow from './BankReconciliationTableRow';
 import TableView from '../../../components/TableView/TableView';
 
@@ -34,43 +32,26 @@ const BankReconciliationTable = ({
     />
   );
 
-  const tableEntries = isTableLoading || isTableEmpty
-    ? []
-    : entries.map((entry, index) => (entry.hasMatchedTransactions
-      ? (
-        BankReconciliationTableCollapsibleRow({
-          tableConfig,
-          index,
-          entry,
-          isActionDisabled,
-          onCheckboxChange,
-          onSelectRow,
-        })
-      ) : (
-        BankReconciliationTableRow({
-          tableConfig,
-          index,
-          entry,
-          isActionDisabled,
-          onCheckboxChange,
-          onSelectRow,
-        })
-      )));
-
   const table = (
     <AccordionTable
-      expansionToggle
-      body={(
-        // This prop is necessary to enable certain styling for the Table component in mobile view
-        // for when the table has a checkbox/radio button, or any actionable item for each row.
-        <Table.Body onRowSelect={() => {}}>
-          {tableEntries}
-        </Table.Body>
+      onRowSelect={() => {}}
+      data={entries}
+      renderRow={(index, _, buildRowProps) => (
+        <BankReconciliationTableRow
+          index={index}
+          tableConfig={tableConfig}
+          isActionDisabled={isActionDisabled}
+          onCheckboxChange={onCheckboxChange}
+          onSelectRow={onSelectRow}
+          buildRowProps={buildRowProps}
+        />
       )}
     />
   );
 
-  const tableView = isTableLoading || isTableEmpty ? loadingOrEmptyTableView : table;
+  const tableView = isTableLoading || isTableEmpty
+    ? loadingOrEmptyTableView
+    : table;
 
   const view = (
     <React.Fragment>
@@ -82,7 +63,7 @@ const BankReconciliationTable = ({
 };
 
 const mapStateToProps = state => ({
-  entries: getTableEntries(state),
+  entries: getEntries(state),
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
   isActionDisabled: getIsActionDisabled(state),

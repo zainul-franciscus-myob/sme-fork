@@ -6,7 +6,7 @@ import {
   getOrder,
   getOutOfBalance,
   getSelectedAccount,
-  getTableEntries,
+  getTableRowByIndexSelector,
 } from '../BankReconciliationSelectors';
 
 describe('BankReconciliationSelectors', () => {
@@ -98,8 +98,10 @@ describe('BankReconciliationSelectors', () => {
     });
   });
 
-  describe('getTableEntries', () => {
-    it('get entries with formatted amount when exist', () => {
+  describe('getTableRowByIndexSelector', () => {
+    it('should build a collapsible row', () => {
+      const getTableRowByIndex = getTableRowByIndexSelector();
+
       const state = {
         businessId: '123',
         region: 'au',
@@ -129,6 +131,47 @@ describe('BankReconciliationSelectors', () => {
               },
             ],
           },
+        ],
+      };
+
+      const props = {
+        index: 0,
+      };
+
+      const expected = {
+        date: '01/01/2019',
+        link: '',
+        referenceId: '',
+        journalLineId: '1123',
+        isChecked: true,
+        description: 'Payment ref-001',
+        withdrawal: '1,200.00',
+        deposit: undefined,
+        hasMatchedTransactions: true,
+        matchedTransactions: [
+          {
+            date: '01/01/2019',
+            link: '/#/au/123/spendMoney/15',
+            referenceId: '000000123',
+            journalLineId: '1123',
+            description: 'Payment ref-001',
+            withdrawal: '1,200.00',
+          },
+        ],
+      };
+
+      const actual = getTableRowByIndex(state, props);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should build a normal row', () => {
+      const getTableRowByIndex = getTableRowByIndexSelector();
+
+      const state = {
+        businessId: '123',
+        region: 'au',
+        entries: [
           {
             date: '2019-01-01',
             referenceId: '000000124',
@@ -144,43 +187,24 @@ describe('BankReconciliationSelectors', () => {
         ],
       };
 
-      const expected = [
-        {
-          date: '01/01/2019',
-          link: '',
-          referenceId: '',
-          journalLineId: '1123',
-          isChecked: true,
-          description: 'Payment ref-001',
-          withdrawal: '1,200.00',
-          deposit: undefined,
-          hasMatchedTransactions: true,
-          matchedTransactions: [
-            {
-              date: '01/01/2019',
-              link: '/#/au/123/spendMoney/15',
-              referenceId: '000000123',
-              journalLineId: '1123',
-              description: 'Payment ref-001',
-              withdrawal: '1,200.00',
-            },
-          ],
-        },
-        {
-          date: '01/01/2019',
-          link: '/#/au/123/receiveMoney/12',
-          referenceId: '000000124',
-          journalLineId: '1124',
-          isChecked: false,
-          description: 'Payment ref-002',
-          withdrawal: undefined,
-          deposit: '1,300.00',
-          hasMatchedTransactions: false,
-          matchedTransactions: [],
-        },
-      ];
+      const props = {
+        index: 0,
+      };
 
-      const actual = getTableEntries(state);
+      const expected = {
+        date: '01/01/2019',
+        link: '/#/au/123/receiveMoney/12',
+        referenceId: '000000124',
+        journalLineId: '1124',
+        isChecked: false,
+        description: 'Payment ref-002',
+        withdrawal: undefined,
+        deposit: '1,300.00',
+        hasMatchedTransactions: false,
+        matchedTransactions: [],
+      };
+
+      const actual = getTableRowByIndex(state, props);
 
       expect(actual).toEqual(expected);
     });
@@ -358,6 +382,7 @@ describe('BankReconciliationSelectors', () => {
       expect(actual).toEqual(0);
     });
   });
+
   describe('getSelectedAccount', () => {
     it('should get the account matching the selected id out of state', () => {
       const matchingAccount = { id: 5, accountType: 'Asset' };

@@ -1,0 +1,74 @@
+.rowHeaderOpen {
+  background-color: #515e6d;
+  border-top-left-radius: 0.4rem;
+  border-top-right-radius: 0.4rem;
+  color: #fff;
+  padding-right: 6.4rem;
+}
+
+/*
+  @FEELIX:
+  The dropdown toggle is hidden whenever a row is selected. This styling keeps it visible and actionable.
+*/
+.rowHeaderToggle :global(.table-data__actions) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rowHeaderClosed {
+  padding-right: 6.4rem;
+}
+
+.rowContentOpen {
+  display: initial;
+}
+
+.rowContentStylingInner {
+  border-left: 0.1rem solid #515e6d;
+  border-right: 0.1rem solid #515e6d;
+  border-bottom: 0.1rem solid #515e6d;
+  border-radius: 0 0 0.4rem 0.4rem;
+  padding: 1.6rem;
+}
+
+.rowContentClosed {
+  display: none;
+}
+
+.collapsibleOpen {
+  border-radius: 0 0 0.4rem 0.4rem;
+  box-shadow: 0 0.2rem 1rem 0 rgba(46, 62, 790, 0.25);
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+  transition: margin 0.3s;
+}
+
+.collapsibleOpen :global(.magic-checkbox:checked + label::after) {
+  border-color: #2e3e4f;
+}
+
+.collapsibleOpen :global(.magic-checkbox:checked + label::before) {
+  background: white;
+}
+
+.collapsibleClosed {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: margin 0.3s;
+}
+
+.collapsibleExpansionToggleOpen :global(.btn-clear:not(:hover) [class*='icon']) {
+  fill: #fff
+}
+
+.collapsibleExpansionToggleClosed :global(.btn-clear:not(:hover) [class*='icon']) {
+  fill: currentColor
+}
+
+.expansionToggle {
+  display: flex;
+  position: absolute;
+  right: 0.4rem;
+  top: 0.3rem;
+}

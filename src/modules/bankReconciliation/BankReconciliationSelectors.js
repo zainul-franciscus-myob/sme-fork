@@ -18,7 +18,7 @@ export const getModal = state => state.modal;
 
 const getClosingBankStatementBalance = state => state.closingBankStatementBalance;
 const getCalculatedClosingBalance = state => state.calculatedClosingBalance;
-const getEntries = state => state.entries;
+export const getEntries = state => state.entries;
 
 export const getAccountId = state => state.selectedAccountId;
 export const getAccounts = state => state.accounts;
@@ -73,43 +73,52 @@ const getEntryLink = (entry, businessId, region) => {
   return feature ? `/#/${region}/${businessId}/${feature}/${journalId}` : undefined;
 };
 
-export const getTableEntries = createSelector(
+const buildTableEntry = (entry, businessId, region) => {
+  const { hasMatchedTransactions } = entry;
+  const matchedTransactions = hasMatchedTransactions
+    ? entry.matchedTransactions.map(transaction => ({
+      journalLineId: transaction.journalLineId,
+      link: getEntryLink(transaction, businessId, region),
+      date: formatSlashDate(new Date(transaction.date)),
+      referenceId: transaction.referenceId,
+      description: transaction.description,
+      deposit: transaction.deposit && formatAmount(transaction.deposit),
+      withdrawal:
+        transaction.withdrawal && formatAmount(transaction.withdrawal),
+    }))
+    : [];
+
+  const link = hasMatchedTransactions
+    ? ''
+    : getEntryLink(entry, businessId, region);
+  const referenceId = hasMatchedTransactions ? '' : entry.referenceId;
+
+  return {
+    journalLineId: entry.journalLineId,
+    date: formatSlashDate(new Date(entry.date)),
+    isChecked: entry.isChecked,
+    description: entry.description,
+    deposit: entry.deposit && formatAmount(entry.deposit),
+    withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
+    link,
+    referenceId,
+    hasMatchedTransactions,
+    matchedTransactions,
+  };
+};
+
+export const getTableRowByIndexSelector = () => createSelector(
+  (state, props) => state.entries[props.index],
   getBusinessId,
   getRegion,
-  getEntries,
-  (businessId, region, entries) => entries.map((entry) => {
-    const { hasMatchedTransactions } = entry;
-    const matchedTransactions = hasMatchedTransactions
-      ? entry.matchedTransactions.map(transaction => ({
-        journalLineId: transaction.journalLineId,
-        link: getEntryLink(transaction, businessId, region),
-        date: formatSlashDate(new Date(transaction.date)),
-        referenceId: transaction.referenceId,
-        description: transaction.description,
-        deposit: transaction.deposit && formatAmount(transaction.deposit),
-        withdrawal:
-              transaction.withdrawal && formatAmount(transaction.withdrawal),
-      }))
-      : [];
+  (entry, businessId, region) => buildTableEntry(entry, businessId, region),
+);
 
-    const link = hasMatchedTransactions
-      ? ''
-      : getEntryLink(entry, businessId, region);
-    const referenceId = hasMatchedTransactions ? '' : entry.referenceId;
-
-    return {
-      journalLineId: entry.journalLineId,
-      date: formatSlashDate(new Date(entry.date)),
-      isChecked: entry.isChecked,
-      description: entry.description,
-      deposit: entry.deposit && formatAmount(entry.deposit),
-      withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
-      link,
-      referenceId,
-      hasMatchedTransactions,
-      matchedTransactions,
-    };
-  }),
+export const getJournalLineIdByIndexSelector = () => createSelector(
+  (state, props) => state.entries[props.index],
+  entry => (entry.hasMatchedTransactions
+    ? entry.matchedTransactions[0].journalLineId
+    : entry.journalLineId),
 );
 
 export const getIsAllSelected = state => state.entries.every(entry => entry.isChecked);
