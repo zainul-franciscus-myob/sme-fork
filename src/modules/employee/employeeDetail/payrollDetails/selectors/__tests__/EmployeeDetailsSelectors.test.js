@@ -1,3 +1,4 @@
+import { getIsPaySlipEmailRequired } from '../EmploymentDetailsSelectors';
 import { getMainTab, getSubTab, sortPayItems } from '../../../EmployeeDetailSelectors';
 import { mainTabIds, payrollDetailsSubTabIds } from '../../../tabItems';
 
@@ -143,6 +144,64 @@ describe('employeeDetailSelectors', () => {
       });
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getIsPaySlipEmailRequired', () => {
+    it('returns true when paySlipDelivery is ToBeEmailed', () => {
+      const state = {
+        payrollDetails: {
+          employmentDetails: {
+            paySlipDelivery: 'ToBeEmailed',
+          },
+        },
+      };
+
+      const actual = getIsPaySlipEmailRequired(state);
+
+      expect(actual).toBe(true);
+    });
+
+    it('returns true when paySlipDelivery is ToBePrintedAndEmailed', () => {
+      const state = {
+        payrollDetails: {
+          employmentDetails: {
+            paySlipDelivery: 'ToBePrintedAndEmailed',
+          },
+        },
+      };
+
+      const actual = getIsPaySlipEmailRequired(state);
+
+      expect(actual).toBe(true);
+    });
+
+    it('returns false when paySlipDelivery is ToBePrinted', () => {
+      const state = {
+        payrollDetails: {
+          employmentDetails: {
+            paySlipDelivery: 'ToBePrinted',
+          },
+        },
+      };
+
+      const actual = getIsPaySlipEmailRequired(state);
+
+      expect(actual).toBe(false);
+    });
+
+    it('returns false when paySlipDelivery is AlreadyPrintedOrSent', () => {
+      const state = {
+        payrollDetails: {
+          employmentDetails: {
+            paySlipDelivery: 'AlreadyPrintedOrSent',
+          },
+        },
+      };
+
+      const actual = getIsPaySlipEmailRequired(state);
+
+      expect(actual).toBe(false);
     });
   });
 });

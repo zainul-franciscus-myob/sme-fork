@@ -12,6 +12,7 @@ import {
   getEmploymentDetails,
   getEmploymentStatusOptions,
   getGenderOptions,
+  getIsPaySlipEmailRequired,
 } from '../selectors/EmploymentDetailsSelectors';
 
 const handleSelectChange = handler => (e) => {
@@ -39,6 +40,7 @@ const EmploymentDetails = ({
   calculatedAge,
   onEmploymentDetailsChange,
   onEmploymentPaySlipDeliveryChange,
+  isPaySlipEmailRequired,
 }) => {
   const {
     dateOfBirth,
@@ -124,6 +126,7 @@ const EmploymentDetails = ({
         name="paySlipEmail"
         value={paySlipEmail}
         onChange={handleInputChange(onEmploymentDetailsChange)}
+        requiredLabel={isPaySlipEmailRequired ? 'Pay slip email is required' : null}
       />
     </FormTemplate>
   );
@@ -137,6 +140,7 @@ const mapStateToProps = state => ({
   employmentStatusOptions: getEmploymentStatusOptions(state),
   payslipDeliveryOptions: getEmployeePayslipDeliveryOptions(state),
   calculatedAge: getCalculatedAge(state),
+  isPaySlipEmailRequired: getIsPaySlipEmailRequired(state),
 });
 
 export default connect(mapStateToProps)(EmploymentDetails);
