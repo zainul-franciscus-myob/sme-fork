@@ -3,7 +3,6 @@ import React from 'react';
 
 import LostSTPConnectionImage from './images/lost-stp-connection.svg';
 import NoPayRunsPageStateImage from './images/no-pay-runs-page-state-image.svg';
-import NoSTPPageStateImage from './images/no-stp-page-state-image.svg';
 import emptyViewTypes from '../emptyViewTypes';
 
 const PayRunListEmptyView = ({
@@ -11,15 +10,6 @@ const PayRunListEmptyView = ({
   onStpSignUpClick,
 }) => {
   switch (emptyState) {
-    case emptyViewTypes.notStpRegistered:
-      return (
-        <PageState
-          title="Sign up to Single Touch Payroll to see your past pay runs"
-          actions={[<Button key={1} type="link" icon={<Icons.Add />} onClick={onStpSignUpClick}>Sign up for Single Touch Payroll</Button>]}
-          description="You can still view and edit past runs from your list of transactions. You can view pay slips from the pay advice report."
-          image={<img src={NoSTPPageStateImage} style={{ width: '60%' }} alt="Not Registered for STP" />}
-        />
-      );
     case emptyViewTypes.noPayRuns:
       return (
         <PageState

@@ -17,7 +17,7 @@ export const getOrder = ({ sortOrder }) => ({
   descending: sortOrder === 'desc',
 });
 export const getIsTableLoading = state => state.isTableLoading;
-export const getIsTableEmpty = ({ entries }) => entries.length === 0;
+export const shouldShowEmptyState = ({ entries, stpRegistrationStatus }) => entries.length === 0 || stpRegistrationStatus === 'lostConnection';
 
 export const getIsLoading = state => state.isLoading;
 export const getEntries = state => state.entries;
@@ -37,8 +37,6 @@ export const getTableEntries = createSelector(
 
 export const getEmptyState = (state) => {
   switch (state.stpRegistrationStatus) {
-    case 'notRegistered':
-      return emptyViewTypes.notStpRegistered;
     case 'lostConnection':
       return emptyViewTypes.stpConnectionLost;
     default:

@@ -1,25 +1,25 @@
-import { getEmptyState, getIsTableEmpty } from '../payRunListSelectors';
+import { getEmptyState, shouldShowEmptyState } from '../payRunListSelectors';
 import emptyViewTypes from '../emptyViewTypes';
 
 describe('payRunListSelectors', () => {
   describe('getEmptyState', () => {
     describe('STP is not registered', () => {
-      it('should return notStpRegistered if filters touched is false', () => {
+      it('should return noPayRuns if filters touched is false', () => {
         const state = {
           filtersTouched: false,
           stpRegistrationStatus: 'notRegistered',
         };
-        const expected = emptyViewTypes.notStpRegistered;
+        const expected = emptyViewTypes.noPayRuns;
 
         expect(getEmptyState(state)).toEqual(expected);
       });
 
-      it('should return notStpRegistered if filters touched is true', () => {
+      it('should return noPayRunsFiltered if filters touched is true', () => {
         const state = {
           filtersTouched: true,
           stpRegistrationStatus: 'notRegistered',
         };
-        const expected = emptyViewTypes.notStpRegistered;
+        const expected = emptyViewTypes.noPayRunsFiltered;
 
         expect(getEmptyState(state)).toEqual(expected);
       });
@@ -70,15 +70,45 @@ describe('payRunListSelectors', () => {
     });
   });
 
-  describe('getIsTableEmpty', () => {
-    it('should return true if entries is empty', () => {
-      const state = { entries: [] };
-      expect(getIsTableEmpty(state)).toEqual(true);
+  describe('shouldShowEmptyState', () => {
+    describe('when registered', () => {
+      it('should return true if entries is empty', () => {
+        const state = {
+          entries: [],
+          stpRegistrationStatus: 'registered',
+        };
+
+        expect(shouldShowEmptyState(state)).toEqual(true);
+      });
+
+      it('should return false if there is at one entry', () => {
+        const state = {
+          entries: [{}],
+          stpRegistrationStatus: 'registered',
+        };
+
+        expect(shouldShowEmptyState(state)).toEqual(false);
+      });
     });
 
-    it('should return false if there is at one entry', () => {
-      const state = { entries: [{}] };
-      expect(getIsTableEmpty(state)).toEqual(false);
+    describe('when connection is lost', () => {
+      it('should return true if entries is empty', () => {
+        const state = {
+          entries: [],
+          stpRegistrationStatus: 'lostConnection',
+        };
+
+        expect(shouldShowEmptyState(state)).toEqual(true);
+      });
+
+      it('should return true if entries is not empty', () => {
+        const state = {
+          entries: [{}],
+          stpRegistrationStatus: 'lostConnection',
+        };
+
+        expect(shouldShowEmptyState(state)).toEqual(true);
+      });
     });
   });
 });

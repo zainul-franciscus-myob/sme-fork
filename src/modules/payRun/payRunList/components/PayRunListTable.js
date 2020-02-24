@@ -7,10 +7,10 @@ import React from 'react';
 
 import {
   getEmptyState,
-  getIsTableEmpty,
   getIsTableLoading,
   getOrder,
   getTableEntries,
+  shouldShowEmptyState,
 } from '../payRunListSelectors';
 import PayRunListEmptyView from './PayRunListEmptyView';
 import TableView from '../../../../components/TableView/TableView';
@@ -82,7 +82,7 @@ const PayRunListTable = ({
 const mapStateToProps = state => ({
   entries: getTableEntries(state),
   sortOrder: getOrder(state),
-  isTableEmpty: getIsTableEmpty(state),
+  isTableEmpty: shouldShowEmptyState(state),
   emptyState: getEmptyState(state),
   isTableLoading: getIsTableLoading(state),
 });
