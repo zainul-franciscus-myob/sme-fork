@@ -56,6 +56,10 @@ const SellingDetails = (
       value={price}
       requiredLabel="This is required"
       onChange={handleAmountInputChange(onUpdateSellingOption)}
+      onBlur={handleAmountInputChange(onUpdateSellingOption)}
+      numeralIntegerScale={13}
+      numeralDecimalScaleMin={2}
+      numeralDecimalScaleMax={6}
       width="sm"
     />
     <BooleanRadioButtonGroup

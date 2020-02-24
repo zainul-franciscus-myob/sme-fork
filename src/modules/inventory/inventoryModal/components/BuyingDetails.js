@@ -46,6 +46,10 @@ const BuyingDetails = ({
       value={price}
       requiredLabel="This is required"
       onChange={handleAmountInputChange(onUpdateBuyingOption)}
+      onBlur={handleAmountInputChange(onUpdateBuyingOption)}
+      numeralIntegerScale={13}
+      numeralDecimalScaleMin={2}
+      numeralDecimalScaleMax={6}
       width="sm"
     />
     <Input
