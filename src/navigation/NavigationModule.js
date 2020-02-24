@@ -113,7 +113,7 @@ export default class NavigationModule {
     const businessId = getBusinessId(this.store.getState());
     const url = await loadSubscriptionUrl(this.integration, businessId, window.location.href);
     if (!url) {
-      console.warn('"Subscribe now" url has no value');
+      console.warn('"Subscription details" url has no value');
       return;
     }
     this.redirectToPage(url);
@@ -127,7 +127,7 @@ export default class NavigationModule {
       window.location.href,
     );
     if (!url) {
-      console.warn('"Change plan" url has no value');
+      console.warn('"Subscription details" url has no value');
       return;
     }
     this.redirectToPage(url);

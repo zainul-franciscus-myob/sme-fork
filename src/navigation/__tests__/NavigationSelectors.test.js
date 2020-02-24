@@ -109,14 +109,14 @@ describe('NavigationSelectors', () => {
 
   describe('getShouldDisplayChangePlan', () => {
     describe('when the user has a paid subscription', () => {
-      it('displays the "Change plan" option', () => {
+      it('displays the "Subscription details" option', () => {
         const state = { subscriptionType: 'paid' };
         expect(getShouldDisplayChangePlan(state)).toEqual(true);
       });
     });
 
     describe('when the user does not have a paid subscription', () => {
-      it('does not display the "Change plan" option', () => {
+      it('does not display the "Subscription details" option', () => {
         const state = { subscriptionType: 'trial' };
         expect(getShouldDisplayChangePlan(state)).toEqual(false);
       });
