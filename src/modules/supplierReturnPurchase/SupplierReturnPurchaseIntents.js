@@ -2,7 +2,7 @@ export const SET_ALERT = Symbol('Set alert');
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
 export const SET_LOADING_STATE = Symbol('Set loading state');
-export const SET_SUBMITTING_STATE = Symbol('Set loading state');
+export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 
 export const CREATE_PURCHASE_RETURN = Symbol('Create purchase return');
 export const LOAD_NEW_PURCHASE_RETURN = Symbol('Load new purchase return');

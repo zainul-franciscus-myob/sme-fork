@@ -68,6 +68,7 @@ export default class SupplerReturnPurchaseModule {
 
     const onFailure = ({ message }) => {
       this.setLoadingState(false);
+      // @TODO is this safe to do, no crash?
       this.displayAlert(message);
     };
 
