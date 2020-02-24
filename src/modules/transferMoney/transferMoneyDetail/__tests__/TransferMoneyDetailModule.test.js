@@ -8,6 +8,7 @@ import {
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  UPDATE_FORM,
 } from '../../TransferMoneyIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_TRANSFER_MONEY, SUCCESSFULLY_SAVED_TRANSFER_MONEY } from '../../transferMoneyMessageTypes';
@@ -16,6 +17,8 @@ import ModalType from '../../ModalType';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import TransferMoneyDetailModule from '../TransferMoneyDetailModule';
+import createTransferMoneyDetailDispatcher from '../createTransferMoneyDetailDispatcher';
+import createTransferMoneyDetailIntegrator from '../createTransferMoneyDetailIntegrator';
 import transferMoneyReducer from '../transferMoneyDetailReducer';
 
 describe('TransferMoneyDetailModule', () => {
@@ -26,6 +29,8 @@ describe('TransferMoneyDetailModule', () => {
 
     const module = new TransferMoneyDetailModule({ store, integration, setRootView });
     module.store = store;
+    module.dispatcher = createTransferMoneyDetailDispatcher(store);
+    module.integrator = createTransferMoneyDetailIntegrator(store, integration);
 
     return { module, store, integration };
   };
@@ -56,7 +61,16 @@ describe('TransferMoneyDetailModule', () => {
     const toolbox = setupWithNew();
     const { module, store } = toolbox;
 
-    module.updateForm({ key: 'referenceId', value: '💩' });
+    module.dispatcher.updateForm({ key: 'referenceId', value: '💩' });
+
+    expect(store.getActions()).toEqual([
+      {
+        intent: UPDATE_FORM,
+        key: 'referenceId',
+        value: '💩',
+      },
+    ]);
+
     store.resetActions();
 
     return toolbox;
@@ -275,7 +289,7 @@ describe('TransferMoneyDetailModule', () => {
 
     it('does nothing when already submitting', () => {
       const { module, store, integration } = setupWithNew();
-      module.setSubmittingState(true);
+      module.dispatcher.setSubmittingState(true);
       store.resetActions();
 
       module.createTransferMoneyEntry();
@@ -351,7 +365,7 @@ describe('TransferMoneyDetailModule', () => {
 
     it('does nothing when already submitting', () => {
       const { module, store, integration } = setupWithOpenUnsavedModal();
-      module.setSubmittingState(true);
+      module.dispatcher.setSubmittingState(true);
       store.resetActions();
 
       module.saveHandler();

@@ -1,4 +1,5 @@
-import { getBalance } from '../transferMoneyDetailSelectors';
+import { LOAD_NEW_TRANSFER_MONEY, LOAD_TRANSFER_MONEY_DETAIL } from '../../TransferMoneyIntents';
+import { getBalance, getLoadTranferMoneyUrlParams, getLoadTransferMoneyIntent } from '../transferMoneyDetailSelectors';
 
 const accounts = [
   {
@@ -120,6 +121,57 @@ describe('transferMoneyDetailSelectors', () => {
         };
 
         expect(getBalance(state)).toEqual(expected);
+      });
+    });
+  });
+
+  describe('getLoadTransferMoneyIntent', () => {
+    it('gets load new when creating', () => {
+      const state = {
+        transferMoneyId: 'new',
+      };
+
+      const actual = getLoadTransferMoneyIntent(state);
+
+      expect(actual).toEqual(LOAD_NEW_TRANSFER_MONEY);
+    });
+
+    it('gets load existing when not creating', () => {
+      const state = {
+        transferMoneyId: '🥮',
+      };
+
+      const actual = getLoadTransferMoneyIntent(state);
+
+      expect(actual).toEqual(LOAD_TRANSFER_MONEY_DETAIL);
+    });
+  });
+
+  describe('getLoadTransferMoneyUrlParams', () => {
+    it('has transferMoneyId and businessId when existing', () => {
+      const state = {
+        businessId: '👩‍🚀',
+        transferMoneyId: '🥮',
+      };
+
+      const actual = getLoadTranferMoneyUrlParams(state);
+
+      expect(actual).toEqual({
+        businessId: '👩‍🚀',
+        transferMoneyId: '🥮',
+      });
+    });
+
+    it('has businessId when new', () => {
+      const state = {
+        businessId: '👩‍🚀',
+        transferMoneyId: 'new',
+      };
+
+      const actual = getLoadTranferMoneyUrlParams(state);
+
+      expect(actual).toEqual({
+        businessId: '👩‍🚀',
       });
     });
   });

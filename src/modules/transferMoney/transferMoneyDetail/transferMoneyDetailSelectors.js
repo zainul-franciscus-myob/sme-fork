@@ -1,8 +1,9 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import { LOAD_NEW_TRANSFER_MONEY, LOAD_TRANSFER_MONEY_DETAIL } from '../TransferMoneyIntents';
 import ModalType from '../ModalType';
 
-const getTransferMoneyId = state => state.transferMoneyId;
+export const getTransferMoneyId = state => state.transferMoneyId;
 const getReferenceId = state => state.transferMoney.referenceId;
 const getOriginalReferenceId = state => state.transferMoney.originalReferenceId;
 const getDate = state => state.transferMoney.date;
@@ -132,3 +133,36 @@ export const getOpenedModalType = (state) => {
 
   return modal.type;
 };
+
+export const getLoadTransferMoneyIntent = createSelector(
+  getIsCreating,
+  isCreating => (isCreating ? LOAD_NEW_TRANSFER_MONEY : LOAD_TRANSFER_MONEY_DETAIL),
+);
+
+export const getLoadTranferMoneyUrlParams = createSelector(
+  getIsCreating,
+  getBusinessId,
+  getTransferMoneyId,
+  (isCreating, businessId, transferMoneyId) => (isCreating ? {
+    businessId,
+  } : {
+    businessId,
+    transferMoneyId,
+  }),
+);
+
+export const getDeleteTransferMoneyUrlParams = createSelector(
+  getBusinessId,
+  getTransferMoneyId,
+  (businessId, transferMoneyId) => ({
+    businessId,
+    transferMoneyId,
+  }),
+);
+
+export const getCreateTranferMoneyUrlParams = createSelector(
+  getBusinessId,
+  businessId => ({
+    businessId,
+  }),
+);
