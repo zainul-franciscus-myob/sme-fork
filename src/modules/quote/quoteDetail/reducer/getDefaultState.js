@@ -3,7 +3,7 @@ import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatI
 
 const getDefaultState = () => ({
   layout: '',
-  openExportPdf: false,
+  openExportPdf: undefined,
   businessId: '',
   region: '',
   quoteId: '',

@@ -7,6 +7,7 @@ describe('removeEmtpyPrams', () => {
       param2: null,
       param3: '',
       param4: 'test',
+      param5: undefined,
     };
 
     const expected = {
