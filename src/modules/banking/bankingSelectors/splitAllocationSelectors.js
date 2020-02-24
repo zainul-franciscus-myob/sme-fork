@@ -1,8 +1,9 @@
 import { createSelector } from 'reselect';
 
 import {
-  formatAmount, formatCurrency, getContacts, getEntries, getFilterOptions,
+  formatCurrency, getContacts, getEntries, getFilterOptions,
 } from './index';
+import formatAmount from '../../../common/valueFormatters/formatAmount';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 const getAllocate = state => state.openEntry.allocate;

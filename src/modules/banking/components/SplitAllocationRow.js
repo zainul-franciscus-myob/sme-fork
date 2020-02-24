@@ -64,6 +64,9 @@ const SplitAllocationRow = (props) => {
         name="amount"
         value={amount}
         onChange={handleAmountChange(onChange)}
+        onBlur={handleAmountChange(onChange)}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
         textAlign="right"
       />
       <AmountInput

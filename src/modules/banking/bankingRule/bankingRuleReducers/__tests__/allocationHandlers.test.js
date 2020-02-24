@@ -1,4 +1,4 @@
-import { addTableRow, formatAmount, removeTableRow } from '../allocationHandlers';
+import { addTableRow, removeTableRow } from '../allocationHandlers';
 
 describe('allocationHandlers', () => {
   describe('addTableRow', () => {
@@ -183,58 +183,6 @@ describe('allocationHandlers', () => {
       const actual = removeTableRow(modifiedState, action);
 
       expect(actual.bankingRule.allocations[1].value).toEqual('Remainder');
-    });
-  });
-
-  describe('formatAmount', () => {
-    it('should format a value of - to an empty string for an inputted value', () => {
-      const action = {
-        index: 0,
-      };
-
-      const state = {
-        allocations: [
-          {
-            value: '-',
-          },
-        ],
-      };
-
-      const actual = formatAmount(state, action);
-
-      expect(actual.allocations[0].value).toEqual('');
-    });
-
-    it('should format the value at the given index', () => {
-      const action = {
-        index: 1,
-      };
-
-      const state = {
-        allocations: [
-          {
-            value: '27.00',
-          },
-          {
-            value: '12',
-          },
-        ],
-      };
-
-      const expected = {
-        allocations: [
-          {
-            value: '27.00',
-          },
-          {
-            value: '12.00',
-          },
-        ],
-      };
-
-      const actual = formatAmount(state, action);
-
-      expect(actual).toEqual(expected);
     });
   });
 });

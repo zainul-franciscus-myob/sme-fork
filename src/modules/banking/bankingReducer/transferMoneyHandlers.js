@@ -1,7 +1,8 @@
 import { allocateTransaction } from './index';
-import { formatAmount, getFilterOptions } from '../bankingSelectors';
+import { getFilterOptions } from '../bankingSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
 import { tabIds } from '../tabItems';
+import formatAmount from '../../../common/valueFormatters/formatAmount';
 import getDefaultState from './getDefaultState';
 
 export const loadTransferMoney = (state, action) => {

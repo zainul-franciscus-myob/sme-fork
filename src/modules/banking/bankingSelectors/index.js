@@ -6,6 +6,7 @@ import Config from '../../../Config';
 import Region from '../Region';
 import StatusTypes from '../BankTransactionStatusTypes';
 import TransactionTypes from '../TransactionTypes';
+import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
@@ -39,14 +40,6 @@ export const getRegion = state => state.region;
 export const getWithdrawalAccounts = state => state.withdrawalAccounts;
 export const getDepositAccounts = state => state.depositAccounts;
 export const getTransferAccounts = state => state.transferAccounts;
-
-export const formatAmount = amount => Intl
-  .NumberFormat('en-AU', {
-    style: 'decimal',
-    minimumFractionDigits: '2',
-    maximumFractionDigits: '2',
-  })
-  .format(amount);
 
 export const formatCurrency = (amount) => {
   const formattedAmount = formatAmount(Math.abs(amount));
