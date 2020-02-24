@@ -1,5 +1,5 @@
 import {
-  Checkbox, Table,
+  Checkbox, Table, Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
@@ -12,38 +12,48 @@ const BankReconciliationTableRow = ({
   isActionDisabled,
   onCheckboxChange,
   onSelectRow,
-}) => (
-  <Table.Row
-    key={entry.journalLineId}
-    isSelected={entry.isChecked}
-    className={styles.tableRowToggle}
-  >
-    <Table.RowItem width="auto" cellRole="checkbox" valign="middle">
-      <Checkbox
-        name={entry.journalLineId}
-        label={entry.journalLineId}
-        hideLabel
-        onChange={onCheckboxChange(onSelectRow, index)}
-        checked={entry.isChecked}
-        disabled={isActionDisabled}
-      />
-    </Table.RowItem>
-    <Table.RowItem {...tableConfig.date}>
-      {entry.date}
-    </Table.RowItem>
-    <Table.RowItem {...tableConfig.reference}>
-      <a href={entry.link}>{entry.referenceId}</a>
-    </Table.RowItem>
-    <Table.RowItem {...tableConfig.description}>
-      {entry.description}
-    </Table.RowItem>
-    <Table.RowItem {...tableConfig.withdrawal}>
-      {entry.withdrawal}
-    </Table.RowItem>
-    <Table.RowItem {...tableConfig.deposit}>
-      {entry.deposit}
-    </Table.RowItem>
-  </Table.Row>
-);
+}) => {
+  const getRefEntryLink = (entry.link ? (
+    <a href={entry.link}>{entry.referenceId}</a>
+  ) : (
+    <Tooltip placement="bottom" triggerContent={entry.referenceId}>
+        This transaction type can only be viewed and edited from your desktop AccountRight software
+    </Tooltip>
+  ));
+
+  return (
+    <Table.Row
+      key={entry.journalLineId}
+      isSelected={entry.isChecked}
+      className={styles.tableRowToggle}
+    >
+      <Table.RowItem width="auto" cellRole="checkbox" valign="middle">
+        <Checkbox
+          name={entry.journalLineId}
+          label={entry.journalLineId}
+          hideLabel
+          onChange={onCheckboxChange(onSelectRow, index)}
+          checked={entry.isChecked}
+          disabled={isActionDisabled}
+        />
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.date}>
+        {entry.date}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.reference}>
+        {getRefEntryLink}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.description}>
+        {entry.description}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.withdrawal}>
+        {entry.withdrawal}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.deposit}>
+        {entry.deposit}
+      </Table.RowItem>
+    </Table.Row>
+  );
+};
 
 export default BankReconciliationTableRow;

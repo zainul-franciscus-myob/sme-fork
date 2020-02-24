@@ -70,8 +70,9 @@ const getEntryLink = (entry, businessId, region) => {
   const { journalId, sourceJournal } = entry;
   const feature = businessEventToFeatureMap[sourceJournal];
 
-  return `/#/${region}/${businessId}/${feature}/${journalId}`;
+  return feature ? `/#/${region}/${businessId}/${feature}/${journalId}` : undefined;
 };
+
 export const getTableEntries = createSelector(
   getBusinessId,
   getRegion,
