@@ -2,7 +2,10 @@ import { FieldGroup, Icons, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getExemptionPayItemOptions } from '../ExpensePayItemSelectors';
+import {
+  getExemptionPayItemOptions,
+  getIsExemptionDisabled,
+} from '../ExpensePayItemSelectors';
 import ExemptionsTable from './ExemptionsTable';
 import PayItemCombobox from './PayItemCombobox';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
@@ -12,16 +15,17 @@ const ExemptionsSection = ({
   exemptionPayItemOptions,
   onAddExemptionPayItem,
   onRemoveExemptionPayItem,
+  isExemptionDisabled,
 }) => (
   <FieldGroup
     label={(
       <React.Fragment>
         <span>Exemptions</span>
         <Tooltip triggerContent={<Icons.Info />} placement="right">
-          Select any wage pay items that will be excluded from this pay item
+            Select any wage pay items that will be excluded from this pay item
         </Tooltip>
       </React.Fragment>
-    )}
+      )}
     className={styles.editableTable}
   >
     <ExemptionsTable onRemoveExemptionPayItem={onRemoveExemptionPayItem} />
@@ -32,12 +36,14 @@ const ExemptionsSection = ({
       items={exemptionPayItemOptions}
       onChange={handleComboboxChange(undefined, onAddExemptionPayItem)}
       width="lg"
+      disabled={isExemptionDisabled}
     />
   </FieldGroup>
 );
 
 const mapStateToProps = state => ({
   exemptionPayItemOptions: getExemptionPayItemOptions(state),
+  isExemptionDisabled: getIsExemptionDisabled(state),
 });
 
 export default connect(mapStateToProps)(ExemptionsSection);

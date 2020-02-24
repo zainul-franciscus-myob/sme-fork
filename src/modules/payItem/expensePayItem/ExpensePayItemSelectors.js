@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import getIsExemptionEnabled from '../getIsExemptionEnabled';
+
 export const getModalType = state => state.modalType;
 export const getAlertMessage = state => state.alertMessage;
 export const getIsModalShown = state => Boolean(getModalType(state));
@@ -109,3 +111,15 @@ export const getUpdateExpensePayItemUrlParams = state => ({
   businessId: getBusinessId(state),
   expensePayItemId: getExpensePayItemId(state),
 });
+
+const getCalculationBasisType = state => state.calculationBasis;
+
+const getEnabledExemptionConfiguration = state => state.enabledExemptionFieldConfiguration;
+
+export const getIsExemptionDisabled = createSelector(
+  getCalculationBasisType,
+  getCalculationBasisPayItemId,
+  getEnabledExemptionConfiguration,
+  (calculationBasisType, calculationBasisPayItemId, configuration) => (
+    !getIsExemptionEnabled(calculationBasisType, calculationBasisPayItemId, configuration)),
+);

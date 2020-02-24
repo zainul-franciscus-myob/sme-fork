@@ -46,6 +46,7 @@ const getDefaultState = () => ({
   payPeriods: [],
   employees: [],
   exemptionOptions: [],
+  enabledExemptionFieldConfiguration: [],
   linkedWagesOptions: [],
 });
 

@@ -4,7 +4,7 @@
     "name": "Page title",
     "printOnPaySlip": true,
     "carryRemainingLeave": true,
-    "calculationBasisType": "Percent",
+    "calculationBasisType": "PercentOfPayrollCategory",
     "calculationBasisPercentage": "5.00",
     "calculationBasisPayItemId": "3",
     "calculationBasisAmount": "2000.00",
@@ -29,6 +29,15 @@
       }
     ]
   },
+  "enabledExemptionFieldConfiguration": [
+    {
+      "calculationBasisType": "PercentOfPayrollCategory",
+      "enabledPayItemIds": [
+        "2",
+        "3"
+      ]
+    }
+  ],
   "calculationBasisTypes": [
     {
       "name": "User-entered amount per pay period",
@@ -36,7 +45,7 @@
     },
     {
       "name": "Equals a percentage of wages",
-      "value": "Percent"
+      "value": "PercentOfPayrollCategory"
     },
     {
       "name": "Equals hours per pay period",

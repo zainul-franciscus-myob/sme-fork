@@ -16,6 +16,15 @@
   "threshold": "0.00",
   "exemptionPayItems": [],
   "allocatedEmployees": [],
+  "enabledExemptionFieldConfiguration": [
+    {
+      "calculationBasisType": "Percent",
+      "enabledPayItemIds": [
+        "2",
+        "3"
+      ]
+    }
+  ],
   "exemptionPayItemOptions": [
     {
       "id": "51",

@@ -1,5 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import getIsExemptionEnabled from '../getIsExemptionEnabled';
+
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
 export const getAlert = state => state.alert;
@@ -18,8 +20,6 @@ export const getCarryRemainingLeave = state => state.leavePayItem.carryRemaining
 export const getLeavePayItemEmployees = state => state.leavePayItem.selectedEmployees;
 export const getSelectedExemptions = state => state.leavePayItem.selectedExemptions;
 export const getSelectedLinkedWages = state => state.leavePayItem.selectedLinkedWages;
-
-export const getShowExemptions = state => state.leavePayItem.calculationBasisType === 'Percent';
 
 export const getFilteredEmployees = createSelector(
   state => state.employees,
@@ -60,7 +60,7 @@ export const getCalculationBasis = createStructuredSelector({
   calculationBasisTypes: state => state.calculationBasisTypes,
   calculationBasisPercentOfOptions: state => state.calculationBasisPercentOfOptions,
   payPeriods: state => state.payPeriods,
-  showPercentage: state => state.leavePayItem.calculationBasisType === 'Percent',
+  showPercentage: state => state.leavePayItem.calculationBasisType === 'PercentOfPayrollCategory',
   showAmount: state => state.leavePayItem.calculationBasisType === 'FixedHours',
 });
 
@@ -84,3 +84,17 @@ export const getLeavePayItemPayload = (state) => {
     selectedLinkedWages: state.leavePayItem.selectedLinkedWages.map(({ id }) => id),
   };
 };
+
+const getCalculationBasisType = state => state.leavePayItem.calculationBasisType;
+
+const getCalculationBasisPayItemId = state => state.leavePayItem.calculationBasisPayItemId;
+
+const getEnabledExemptionConfiguration = state => state.enabledExemptionFieldConfiguration;
+
+export const getIsExemptionDisabled = createSelector(
+  getCalculationBasisType,
+  getCalculationBasisPayItemId,
+  getEnabledExemptionConfiguration,
+  (calculationBasisType, calculationBasisPayItemId, configuration) => (
+    !getIsExemptionEnabled(calculationBasisType, calculationBasisPayItemId, configuration)),
+);

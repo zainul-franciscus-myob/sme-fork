@@ -2,7 +2,7 @@ import { FieldGroup, Icons, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilteredExemptions } from '../leavePayItemSelectors';
+import { getFilteredExemptions, getIsExemptionDisabled } from '../leavePayItemSelectors';
 import LeavePayItemExemptionsTable from './LeavePayItemExemptionsTable';
 import PayItemCombobox from './PayItemCombobox';
 import styles from './LeavePayItemView.module.css';
@@ -15,6 +15,7 @@ const LeavePayItemExemptions = ({
   exemptionOptions,
   onAddExemption,
   onRemoveExemption,
+  isExemptionDisabled,
 }) => {
   const fieldGroupLabel = (
     <div>
@@ -35,6 +36,7 @@ const LeavePayItemExemptions = ({
         items={exemptionOptions}
         onChange={handleExemptionComboboxChange(onAddExemption)}
         width="lg"
+        disabled={isExemptionDisabled}
       />
     </FieldGroup>
   );
@@ -42,6 +44,7 @@ const LeavePayItemExemptions = ({
 
 const mapStateToProps = state => ({
   exemptionOptions: getFilteredExemptions(state),
+  isExemptionDisabled: getIsExemptionDisabled(state),
 });
 
 export default connect(mapStateToProps)(LeavePayItemExemptions);

@@ -45,6 +45,7 @@ const getDefaultState = () => ({
   linkedExpenseAccountOptions: [],
   linkedPayablesAccountOptions: [],
   employeeOptions: [],
+  enabledExemptionFieldConfiguration: [],
   loadingState: LoadingState.LOADING,
   isSubmitting: false,
   isPageEdited: false,
@@ -87,6 +88,7 @@ const setAlertMessage = (state, action) => ({
 const loadNewExpensePayItem = (state, action) => ({
   ...state,
   name: action.expensePayItem.name,
+  enabledExemptionFieldConfiguration: action.expensePayItem.enabledExemptionFieldConfiguration,
   linkedExpenseAccountId: action.expensePayItem.linkedExpenseAccountId,
   linkedPayablesAccountId: action.expensePayItem.linkedPayablesAccountId,
   isPrintOnPaySlip: action.expensePayItem.isPrintOnPaySlip,
@@ -116,6 +118,7 @@ const loadExistingExpensePayItem = (state, action) => ({
   ...state,
   name: action.expensePayItem.name,
   originalName: action.expensePayItem.name,
+  enabledExemptionFieldConfiguration: action.expensePayItem.enabledExemptionFieldConfiguration,
   linkedExpenseAccountId: action.expensePayItem.linkedExpenseAccountId,
   linkedPayablesAccountId: action.expensePayItem.linkedPayablesAccountId,
   isPrintOnPaySlip: action.expensePayItem.isPrintOnPaySlip,

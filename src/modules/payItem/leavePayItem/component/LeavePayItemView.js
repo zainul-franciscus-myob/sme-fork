@@ -7,7 +7,6 @@ import {
   getIsCreating,
   getLoadingState,
   getModalType,
-  getShowExemptions,
   getTitle,
 } from '../leavePayItemSelectors';
 import LeavePayItemActions from './LeavePayItemActions';
@@ -27,7 +26,6 @@ const LeavePayItemView = (props) => {
     isCreating,
     loadingState,
     modalType,
-    showExemptions,
     onDismissAlert,
     onConfirmCancel,
     onConfirmDelete,
@@ -83,14 +81,10 @@ const LeavePayItemView = (props) => {
         onAddEmployee={onAddEmployee}
         onRemoveEmployee={onRemoveEmployee}
       />
-      {
-        showExemptions && (
-        <LeavePayItemExemptions
-          onAddExemption={onAddExemption}
-          onRemoveExemption={onRemoveExemption}
-        />
-        )
-      }
+      <LeavePayItemExemptions
+        onAddExemption={onAddExemption}
+        onRemoveExemption={onRemoveExemption}
+      />
       <div className={styles.actionsGroup}>
         <LeavePayItemActions
           onSaveButtonClick={onSaveButtonClick}
@@ -110,7 +104,6 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   loadingState: getLoadingState(state),
   modalType: getModalType(state),
-  showExemptions: getShowExemptions(state),
 });
 
 export default connect(mapStateToProps)(LeavePayItemView);
