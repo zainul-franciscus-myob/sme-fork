@@ -165,7 +165,10 @@ export default class BillPaymentModule {
       return;
     }
 
+    // @TODO no loading state? bug?
+
     const onSuccess = ({ referenceId }) => {
+      // @TODO this seems like dead code, due to the above early return
       if (!getIsReferenceIdDirty(state)) {
         this.store.dispatch({
           intent,
