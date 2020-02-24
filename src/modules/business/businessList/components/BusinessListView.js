@@ -26,7 +26,7 @@ import styles from './BusinessListView.module.css';
 const renderRow = business => (
   <Table.Row className={styles.businessRow} key={business.id} dataId={business.id}>
     <Table.RowItem title={business.businessName}>
-      <a href={`/#/${business.region}/${business.id}/dashboard`}>
+      <a href={business.uri || `/#/${business.region}/${business.id}/dashboard`}>
         <BusinessAvatar businessName={business.businessName} className={styles.avatar} />
         {business.businessName}
       </a>
