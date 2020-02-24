@@ -263,8 +263,6 @@ export default class SpendMoneyDetailModule {
   addSpendMoneyLine = (line) => {
     const { id, ...partialLine } = line;
     this.dispatcher.addSpendMoneyLine(partialLine);
-
-    this.getTaxCalculations({ isSwitchingTaxInclusive: false });
   }
 
   deleteSpendMoneyLine = (index) => {
