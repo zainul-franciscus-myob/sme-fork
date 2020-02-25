@@ -5,10 +5,14 @@
     "issueDate": "2018-11-02",
     "isTaxInclusive": true
   },
-  "newLine": {
-    "amount": "500.77",
-    "displayAmount": "500.77"
-  },
+  "layout": "service",
+  "lines": [
+    {
+      "amount": "99.000000",
+      "displayAmount": "99.00",
+      "lineSubTypeId": "11"
+    }
+  ],
   "document": {
     "thumbnailUrl": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
     "uploadedDate": "04/04/2019"

@@ -675,6 +675,97 @@ describe('billReducer', () => {
       );
     });
 
+    describe('updates line prefill status', () => {
+      [
+        { key: 'itemId' },
+        { key: 'accountId' },
+        { key: 'taxCodeId' },
+      ].forEach((test) => {
+        it(`should not update prefillStatus if line has been prefilled and ${test.key} is updated`, () => {
+          const state = {
+            bill: {
+              lines: [{
+                amount: '23',
+                prefillStatus: {
+                  amount: true,
+                },
+              }],
+            },
+            accountOptions: [
+              {
+                id: '5',
+                taxCodeId: '10',
+              },
+            ],
+          };
+
+          const action = {
+            intent: UPDATE_BILL_LINE,
+            index: 0,
+            key: test.key,
+            value: '',
+          };
+
+          const actual = billReducer(state, action);
+
+          expect(actual.bill.lines[0].prefillStatus).toEqual({ amount: true });
+        });
+      });
+
+      [
+        { key: 'description' },
+        { key: 'amount' },
+        { key: 'discount' },
+        { key: 'units' },
+        { key: 'unitPrice' },
+      ].forEach((test) => {
+        it(`should update status to false if line has been prefilled and ${test.key} is updated`, () => {
+          const state = {
+            bill: {
+              lines: [{
+                amount: '23',
+                prefillStatus: {
+                  amount: true,
+                },
+              }],
+            },
+          };
+
+          const action = {
+            intent: UPDATE_BILL_LINE,
+            index: 0,
+            key: test.key,
+            value: '',
+          };
+
+          const actual = billReducer(state, action);
+
+          expect(actual.bill.lines[0].prefillStatus[action.key]).toEqual(false);
+        });
+      });
+
+      it('should return undefined for prefillStatus if line has not been prefilled', () => {
+        const state = {
+          bill: {
+            lines: [{
+              amount: '',
+            }],
+          },
+        };
+
+        const action = {
+          intent: UPDATE_BILL_LINE,
+          index: 0,
+          key: 'amount',
+          value: '',
+        };
+
+        const actual = billReducer(state, action);
+
+        expect(actual.bill.lines[0].prefillStatus).toBeUndefined();
+      });
+    });
+
     describe('sets isLineEdited', () => {
       [
         {
@@ -797,20 +888,23 @@ describe('billReducer', () => {
     };
 
     const response = {
+      layout: 'service',
       bill: {
         supplierId: '2',
         supplierInvoiceNumber: '1234',
         issueDate: '2018-11-02',
         isTaxInclusive: true,
       },
-      newLine: {
+      lines: [{
+        id: '',
         amount: '500.77',
         displayAmount: '500.77',
-      },
+      }],
       document,
     };
 
-    const buildExpected = ({ bill, prefillStatus }) => ({
+    const buildExpected = ({ layout, bill, prefillStatus }) => ({
+      layout,
       bill,
       inTrayDocument: document,
       newLine: {
@@ -821,8 +915,17 @@ describe('billReducer', () => {
       showPrefillInfo: true,
     });
 
-    it('prefills bill', () => {
+    const defaultLinePrefillStatus = {
+      description: false,
+      amount: false,
+      discount: false,
+      units: false,
+      unitPrice: false,
+    };
+
+    it('prefills bill from an OCR document', () => {
       const state = {
+        layout: 'itemAndService',
         bill: { lines: [] },
         newLine: {
           id: '',
@@ -839,6 +942,7 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual).toEqual(buildExpected({
+        layout: 'service',
         bill: {
           supplierId: '2',
           supplierInvoiceNumber: '1234',
@@ -848,6 +952,10 @@ describe('billReducer', () => {
             id: '',
             amount: '500.77',
             displayAmount: '500.77',
+            prefillStatus: {
+              ...defaultLinePrefillStatus,
+              amount: true,
+            },
           }],
         },
         prefillStatus: {
@@ -858,8 +966,73 @@ describe('billReducer', () => {
       }));
     });
 
-    it('does not prefill bill when there is user input data except for issue date', () => {
+    it('prefills bill from a supplier feed', () => {
       const state = {
+        layout: 'service',
+        bill: { lines: [] },
+        newLine: {
+          id: '',
+        },
+        isPageEdited: false,
+        inTrayDocument: undefined,
+      };
+
+      const action = {
+        intent: PREFILL_BILL_FROM_IN_TRAY,
+        response: {
+          ...response,
+          layout: 'itemAndService',
+          lines: [
+            {
+              id: '',
+              description: 'Hello',
+              amount: '20.44',
+              displayAmount: '20.44',
+              unitPrice: '21.44',
+              discount: '0',
+              displayDiscount: '0.00',
+            },
+          ],
+        },
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual).toEqual(buildExpected({
+        layout: 'itemAndService',
+        bill: {
+          supplierId: '2',
+          supplierInvoiceNumber: '1234',
+          issueDate: '2018-11-02',
+          isTaxInclusive: true,
+          lines: [{
+            id: '',
+            description: 'Hello',
+            amount: '20.44',
+            displayAmount: '20.44',
+            unitPrice: '21.44',
+            discount: '0',
+            displayDiscount: '0.00',
+            prefillStatus: {
+              ...defaultLinePrefillStatus,
+              description: true,
+              amount: true,
+              discount: true,
+              unitPrice: true,
+            },
+          }],
+        },
+        prefillStatus: {
+          supplierId: true,
+          supplierInvoiceNumber: true,
+          issueDate: true,
+        },
+      }));
+    });
+
+    it('does not prefill bill when there is user input data, except for issue date', () => {
+      const state = {
+        layout: 'itemAndService',
         bill: {
           supplierId: '1',
           supplierInvoiceNumber: '123',
@@ -884,6 +1057,7 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual).toEqual(buildExpected({
+        layout: 'itemAndService',
         bill: {
           supplierId: '1',
           supplierInvoiceNumber: '123',
@@ -901,10 +1075,14 @@ describe('billReducer', () => {
       }));
     });
 
-    it('does not prefill bill when no ocr data available', () => {
+    it('does not prefill bill lines when there is no in tray data returned', () => {
       const state = {
+        layout: 'service',
         bill: {
-          issueDate: '2018-11-02',
+          supplierId: '2',
+          supplierInvoiceNumber: '123',
+          issueDate: '2018-10-02',
+          isTaxInclusive: false,
           lines: [],
         },
         newLine: {
@@ -917,16 +1095,13 @@ describe('billReducer', () => {
       const action = {
         intent: PREFILL_BILL_FROM_IN_TRAY,
         response: {
+          layout: 'itemAndService',
           bill: {
             supplierId: '',
             supplierInvoiceNumber: '',
             issueDate: '',
-            isTaxInclusive: true,
           },
-          newLine: {
-            amount: '',
-            displayAmount: '',
-          },
+          lines: [],
           document,
         },
       };
@@ -934,10 +1109,12 @@ describe('billReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual).toEqual(buildExpected({
+        layout: 'service',
         bill: {
-          supplierId: '',
-          supplierInvoiceNumber: '',
-          issueDate: '2018-11-02',
+          supplierId: '2',
+          supplierInvoiceNumber: '123',
+          issueDate: '2018-10-02',
+          isTaxInclusive: false,
           lines: [],
         },
         prefillStatus: {

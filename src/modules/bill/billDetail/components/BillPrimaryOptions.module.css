@@ -17,7 +17,7 @@
 }
 
 .prefilled :global(input) {
-  background-color: #d5e3f9;
+  background-color: var(--prefill-background-color);
 }
 
 .formControlWrapper {

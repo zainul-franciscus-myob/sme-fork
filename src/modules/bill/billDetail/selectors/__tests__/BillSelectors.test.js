@@ -1,6 +1,7 @@
 import {
   getAccountModalContext,
   getBillLine,
+  getHasLineBeenPrefilled,
   getIsNewLine,
   getLoadBillModalType,
   getNewLineIndex,
@@ -96,6 +97,28 @@ describe('BillSelectors', () => {
       const actual = getIsNewLine(state, props);
 
       expect(actual).toEqual(true);
+    });
+  });
+
+  describe('getHasLineBeenPrefilled', () => {
+    it('returns true if line has prefillStatus', () => {
+      const state = {
+        bill: {
+          lines: [{ prefillStatus: { amount: true } }],
+        },
+      };
+      const actual = getHasLineBeenPrefilled(state, 0);
+      expect(actual).toEqual(true);
+    });
+
+    it('returns false if line does not have prefillStatus', () => {
+      const state = {
+        bill: {
+          lines: [{ amount: '20' }],
+        },
+      };
+      const actual = getHasLineBeenPrefilled(state, 0);
+      expect(actual).toEqual(false);
     });
   });
 
