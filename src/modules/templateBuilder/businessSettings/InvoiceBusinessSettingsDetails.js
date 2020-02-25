@@ -5,22 +5,22 @@ import React from 'react';
 import {
   getBusinessDetails,
   getContactDetails,
-  getNzTaxDetails,
+  getIsRegionAu,
+  getRegionTaxDetails,
 } from '../../business/businessDetail/businessDetailSelectors';
-import { getRegion } from '../../template/templateSelectors';
 import AbnInput from '../../../components/autoFormatter/AbnInput/AbnInput';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 
 const InvoiceBusinessSettingsDetails = ({
+  abn,
   address,
   email,
+  irdNumber,
+  isAu,
   onChange,
   organisationName,
-  tradingName,
   phoneNumber,
-  abn,
-  region,
-  irdNumber,
+  tradingName,
 }) => (
   <FieldGroup label="Add business details">
     <p>
@@ -45,7 +45,7 @@ const InvoiceBusinessSettingsDetails = ({
       width="xl"
     />
 
-    {region === 'au'
+    {isAu
       ? (
         <AbnInput
           name="abn"
@@ -64,7 +64,8 @@ const InvoiceBusinessSettingsDetails = ({
           onChange={handleInputChange(onChange)}
           width="sm"
         />
-      )}
+      )
+    }
 
     <TextArea
       autoSize
@@ -98,8 +99,8 @@ const InvoiceBusinessSettingsDetails = ({
 const mapStateToProps = state => ({
   ...getBusinessDetails(state),
   ...getContactDetails(state),
-  ...getNzTaxDetails(state),
-  region: getRegion(state),
+  ...getRegionTaxDetails(state),
+  isAu: getIsRegionAu(state),
 });
 
 export default connect(mapStateToProps)(InvoiceBusinessSettingsDetails);

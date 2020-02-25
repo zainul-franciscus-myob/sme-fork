@@ -52,6 +52,10 @@ export const getNzTaxDetails = createStructuredSelector({
   nzbn: state => state.businessDetails.nzbn,
 });
 
+export const getRegionTaxDetails = state => (
+  getIsRegionAu(state) ? getAuTaxDetails(state) : getNzTaxDetails(state)
+);
+
 export const getContactDetails = createStructuredSelector({
   phoneNumber: state => state.businessDetails.phoneNumber,
   fax: state => state.businessDetails.fax,
