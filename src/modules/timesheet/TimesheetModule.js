@@ -12,7 +12,6 @@ import {
   LOAD_TIMESHEET,
   REMOVE_ROW,
   SAVE_TIMESHEET,
-  SAVE_TIMESHEET_OLD,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL,
@@ -44,12 +43,10 @@ export default class TimesheetModule {
   constructor({
     setRootView,
     integration,
-    featureToggles,
   }) {
     this.integration = integration;
     this.store = new Store(reducer);
     this.setRootView = setRootView;
-    this.featureToggles = featureToggles;
   }
 
   loadInitialTimesheet = () => {
@@ -271,9 +268,7 @@ export default class TimesheetModule {
   }) => {
     this.setLoadingState(LoadingState.LOADING);
     const state = this.store.getState();
-    const intent = this.featureToggles.isFeatureTimesheetEnabled
-      ? SAVE_TIMESHEET
-      : SAVE_TIMESHEET_OLD;
+    const intent = SAVE_TIMESHEET;
 
     const urlParams = {
       businessId: getBusinessId(state),

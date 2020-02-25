@@ -4,7 +4,6 @@ import {
   LOAD_INITIAL_TIMESHEET,
   LOAD_TIMESHEET,
   SAVE_TIMESHEET,
-  SAVE_TIMESHEET_OLD,
 } from '../timesheetIntents';
 
 const HttpTimesheetMapping = {
@@ -23,10 +22,6 @@ const HttpTimesheetMapping = {
   [SAVE_TIMESHEET]: {
     method: 'POST',
     getPath: ({ businessId, employeeId }) => `/${businessId}/timesheet/save_timesheet/${employeeId}`,
-  },
-  [SAVE_TIMESHEET_OLD]: {
-    method: 'POST',
-    getPath: ({ businessId, employeeId }) => `/${businessId}/timesheet/save_timesheet_old/${employeeId}`,
   },
   [DELETE_TIMESHEET]: {
     method: 'DELETE',

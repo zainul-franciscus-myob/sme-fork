@@ -12,7 +12,6 @@ export const ADD_ROW = Symbol('Add a new row');
 export const TOGGLE_DISPLAY_START_STOP_TIMES = Symbol('Toggle the display of start and stop times');
 export const CLEAR_TIMESHEET_ROWS = Symbol('Clear timesheet rows');
 export const SAVE_TIMESHEET = Symbol('Save the timesheet');
-export const SAVE_TIMESHEET_OLD = Symbol('Save the old timesheet');
 export const DELETE_TIMESHEET = Symbol('Delete the timesheet');
 export const SET_SELECTED_DATE = Symbol('Set the selected date');
 export const SET_ALERT = Symbol('Set alert');
