@@ -5,7 +5,7 @@ import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
 const getReferenceId = state => state.spendMoney.referenceId;
 const getSelectedPayFromId = state => state.spendMoney.selectedPayFromAccountId;
-const getSelectedPayToContactId = state => state.spendMoney.selectedPayToContactId;
+export const getSelectedPayToContactId = state => state.spendMoney.selectedPayToContactId;
 const getPayFromAccounts = state => state.spendMoney.payFromAccounts;
 const getPayToContacts = state => state.spendMoney.payToContacts;
 const getDate = state => state.spendMoney.date;

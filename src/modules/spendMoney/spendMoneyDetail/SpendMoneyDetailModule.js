@@ -22,6 +22,7 @@ import {
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
+  getSelectedPayToContactId,
   getSpendMoneyId,
   getSpendMoneyUid,
   getTaxCodeOptions,
@@ -175,6 +176,7 @@ export default class SpendMoneyDetailModule {
       id: response.id,
       uid: getSpendMoneyUid(state),
       inTrayDocumentId: getInTrayDocumentId(state),
+      contactId: getSelectedPayToContactId(state),
     };
 
     this.integrator.linkInTrayDocument({

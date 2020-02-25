@@ -24,6 +24,7 @@ import {
   getLinesForTaxCalculation,
   getNewLineIndex,
   getRouteUrlParams,
+  getSupplierId,
   getTaxCodeOptions,
 } from './selectors/billSelectors';
 import {
@@ -181,6 +182,7 @@ class BillModule {
       id: response.id,
       uid: response.uid,
       inTrayDocumentId: getInTrayDocumentId(state),
+      supplierId: getSupplierId(state),
     };
 
     this.integrator.linkInTrayDocument({
