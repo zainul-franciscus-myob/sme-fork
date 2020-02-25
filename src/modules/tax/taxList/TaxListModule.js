@@ -1,65 +1,39 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { LOAD_TAX_LIST, SET_LOADING_STATE } from '../TaxIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getBusinessId } from './taxListSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import TaxListView from './components/TaxListView';
+import createTaxListDispatcher from './createTaxListDispatcher';
+import createTaxListIntegrator from './createTaxListIntegrator';
 import taxListReducer from './taxListReducer';
 
 class TaxListModule {
   constructor({
     integration, setRootView,
   }) {
-    this.integration = integration;
     this.store = new Store(taxListReducer);
     this.setRootView = setRootView;
+    this.dispatcher = createTaxListDispatcher(this.store);
+    this.integrator = createTaxListIntegrator(this.store, integration);
   }
 
-  setLoadingState = loadingState => this.store.dispatch({
-    intent: SET_LOADING_STATE,
-    loadingState,
-  });
-
   loadTaxList = () => {
-    const intent = LOAD_TAX_LIST;
-    const urlParams = {
-      businessId: getBusinessId(this.store.getState()),
-    };
-    const onSuccess = ({ entries }) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent,
-        entries,
-      });
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadTaxList(response);
     };
     const onFailure = () => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.setLoadingState(LoadingState.LOADING);
-    this.integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.integrator.loadTaxList({ onSuccess, onFailure });
   }
 
   unsubscribeFromStore = () => this.store.unsubscribeAll();
 
-  resetState = () => this.store.dispatch({ intent: RESET_STATE });
-
-  setInitialState = (context) => {
-    const intent = SET_INITIAL_STATE;
-
-    this.store.dispatch({
-      intent,
-      context,
-    });
-  }
+  resetState = () => this.dispatcher.resetState();
 
   render = () => this.setRootView(
     <Provider store={this.store}>
@@ -68,7 +42,7 @@ class TaxListModule {
   );
 
   run = (context) => {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     this.render();
     this.loadTaxList();
   }

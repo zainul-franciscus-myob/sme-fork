@@ -4,6 +4,8 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import TaxListModule from '../TaxListModule';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
+import createTaxListDispatcher from '../createTaxListDispatcher';
+import createTaxListIntegrator from '../createTaxListIntegrator';
 import taxListReducer from '../taxListReducer';
 
 describe('TaxListModule', () => {
@@ -14,6 +16,8 @@ describe('TaxListModule', () => {
 
     const module = new TaxListModule({ integration, setRootView });
     module.store = store;
+    module.dispatcher = createTaxListDispatcher(store);
+    module.integrator = createTaxListIntegrator(store, integration);
 
     return { store, integration, module };
   };
