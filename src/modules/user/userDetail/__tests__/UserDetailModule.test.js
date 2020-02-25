@@ -69,6 +69,8 @@ describe('UserDetailModule', () => {
     const { store, integration, module } = toolbox;
 
     module.dispatcher.updateUserDetails({ key: 'userName', value: '🐧' });
+    module.dispatcher.updateUserRoles({ key: '1', value: true });
+
     store.resetActions();
     integration.resetRequests();
 

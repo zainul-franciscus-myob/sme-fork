@@ -71,7 +71,7 @@ export default class UserDetailModule {
         onCancelButtonClick={this.cancelUserDetail}
         onConfirmCancelButtonClick={this.redirect}
         onUserDetailsChange={this.dispatcher.updateUserDetails}
-        onUserRolesChange={this.dispatcher.updateSelectedRoles}
+        onUserRolesChange={this.dispatcher.updateUserRoles}
         onSaveButtonClick={this.createOrUpdateUser}
         onDeleteButtonClick={this.openDeleteModal}
         onDismissAlert={this.dismissAlert}
