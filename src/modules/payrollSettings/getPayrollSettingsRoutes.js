@@ -10,7 +10,7 @@ const getPayrollSettingsRoutes = ({
     path: '/:region/:businessId/payrollSettings/',
     allowedParams: ['tab'],
     module: new PayrollSettingsModule({
-      integration, setRootView, popMessages, replaceURLParams,
+      integration, setRootView, popMessages, replaceURLParams, globalCallbacks,
     }),
     documentTitle: 'Payroll settings',
   },

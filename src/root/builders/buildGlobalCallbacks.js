@@ -11,4 +11,5 @@ export default ({ closeTasks }) => ({
   learnInTrayCompleted: () => closeTasks({ closeEvent: 'learnInTrayCompleted' }),
   inTrayBillSaved: () => closeTasks({ closeEvent: 'inTrayBillSaved' }),
   inTrayUploadOptionsClosed: () => closeTasks({ closeEvent: 'inTrayUploadOptionsClosed' }),
+  payrollGeneralSettingsSaved: () => closeTasks({ closeEvent: 'payrollGeneralSettingsSaved' }),
 });

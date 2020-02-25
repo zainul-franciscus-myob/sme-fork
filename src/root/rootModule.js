@@ -13,7 +13,7 @@ import RootReducer from './rootReducer';
 import RootView from './components/RootView';
 import SettingsService from './services/settings';
 import Store from '../store/Store';
-import buildGlobalCallbacks from './builders/buildGobalCallbacks';
+import buildGlobalCallbacks from './builders/buildGlobalCallbacks';
 import tasksService from './services/tasks';
 
 export default class RootModule {

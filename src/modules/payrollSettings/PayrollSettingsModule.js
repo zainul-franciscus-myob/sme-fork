@@ -29,7 +29,7 @@ const messageTypes = [SUCCESSFULLY_DELETED_SUPER_FUND, SUCCESSFULLY_SAVED_SUPER_
 
 export default class PayrollSettingsModule {
   constructor({
-    integration, setRootView, popMessages, replaceURLParams,
+    integration, setRootView, popMessages, replaceURLParams, globalCallbacks,
   }) {
     this.setRootView = setRootView;
     this.store = new Store(payrollSettingsReducer);
@@ -38,6 +38,7 @@ export default class PayrollSettingsModule {
     this.messageTypes = messageTypes;
     this.dispatcher = createPayrollSettingsDispatcher(this.store);
     this.integrator = createPayrollSettingsIntegrator(this.store, integration);
+    this.globalCallbacks = globalCallbacks;
   }
 
   readMessages = () => {
@@ -319,6 +320,7 @@ export default class PayrollSettingsModule {
       this.dispatcher.setGeneralPayrollInformationLoadingState(LoadingState.LOADING_SUCCESS);
       const state = this.store.getState();
       const url = getModalUrl(state);
+      this.globalCallbacks.payrollGeneralSettingsSaved();
 
       if (url) {
         this.redirectToModalUrl();
