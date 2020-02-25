@@ -83,7 +83,7 @@ const getItems = ({
   getDisabledMenuLink('my.MYOB account'),
   urls.paymentDetail && getMenuLink(urls.paymentDetail, 'Payment details', onMenuLinkClick),
   onSubscribeNowClick && getMenuLink('', 'Subscription details', onSubscribeNowClick),
-  false && onChangePlanClick && getMenuLink('', 'Subscription details', onChangePlanClick),
+  onChangePlanClick && getMenuLink('', 'Subscription details', onChangePlanClick),
   <Navigation.Separator key="separator-links" />,
   serialNumber && <UnlinkedMenuLink label={`Serial number: ${serialNumber}`} />,
   getMenuLinkWithIcon('', 'Logout', <Icons.SignOut />, onLogoutLinkClick),
