@@ -34,7 +34,7 @@ const EmployeePayHeader = ({ employeeHeader }) => {
       {
         label: 'Total net pay',
         name: 'totalNetPay',
-        value: employeeHeader.totalNetPay,
+        value: `$${employeeHeader.totalNetPay}`,
       },
     ]
     : initItems;

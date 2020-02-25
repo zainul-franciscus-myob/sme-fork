@@ -109,8 +109,8 @@ const EmployeePayTable = ({
             <Table.CollapsibleRow
               key="expansion-toggle-total"
               header={(
-                <Table.Row key="total">
-                  <Table.RowItem width="auto" cellRole="checkbox" valign="middle" />
+                <Table.Row key="total" className={styles.totalRow}>
+                  <Table.RowItem width="5rem" cellRole="checkbox" valign="middle" />
                   <Table.RowItem {...tableConfig.employee}></Table.RowItem>
                   <Table.RowItem {...tableConfig.gross}>{totals.gross}</Table.RowItem>
                   <Table.RowItem {...tableConfig.payg}>{totals.payg}</Table.RowItem>
