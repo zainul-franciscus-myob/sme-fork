@@ -25,7 +25,7 @@ const TaxTableCalculationForm = ({
   selectedResidencyStatus,
   residencyStatusOptions,
   hasTaxFreeThreshold,
-  hasSLFDebt,
+  hasSLFSDebt,
   isHortiShearer,
   isWithholdingVariation,
   selectedSeniorTaxOffset,
@@ -58,8 +58,8 @@ const TaxTableCalculationForm = ({
     <Checkbox
       label="Higher Education Loan Program (HELP), VET Student Loan (VSL), Financial Supplement
         (FS), Student Start-up Loan (SSL) or Trade Support Loan (TSL) debt"
-      checked={hasSLFDebt}
-      name="hasSLFDebt"
+      checked={hasSLFSDebt}
+      name="hasSLFSDebt"
       onChange={handleCheckboxChange(onFieldChange)}
     />
     <Checkbox

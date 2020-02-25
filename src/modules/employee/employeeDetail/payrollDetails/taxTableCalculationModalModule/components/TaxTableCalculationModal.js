@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getHasSLFDebt,
+  getHasSLFSDebt,
   getHasTaxFreeThreshold,
   getIsHortiShearer,
   getIsLoading,
@@ -30,7 +30,7 @@ const TaxTableCalculationModal = ({
   selectedResidencyStatus,
   residencyStatusOptions,
   hasTaxFreeThreshold,
-  hasSLFDebt,
+  hasSLFSDebt,
   isHortiShearer,
   selectedSeniorTaxOffset,
   seniorTaxOffsetOptions,
@@ -50,7 +50,7 @@ const TaxTableCalculationModal = ({
           selectedResidencyStatus={selectedResidencyStatus}
           residencyStatusOptions={residencyStatusOptions}
           hasTaxFreeThreshold={hasTaxFreeThreshold}
-          hasSLFDebt={hasSLFDebt}
+          hasSLFSDebt={hasSLFSDebt}
           isHortiShearer={isHortiShearer}
           isWithholdingVariation={isWithholdingVariation}
           selectedSeniorTaxOffset={selectedSeniorTaxOffset}
@@ -77,7 +77,7 @@ const mapStateToProps = state => ({
   selectedResidencyStatus: getSelectedResidencyStatus(state),
   residencyStatusOptions: getResidencyStatusOptions(state),
   hasTaxFreeThreshold: getHasTaxFreeThreshold(state),
-  hasSLFDebt: getHasSLFDebt(state),
+  hasSLFSDebt: getHasSLFSDebt(state),
   isHortiShearer: getIsHortiShearer(state),
   isWithholdingVariation: getIsWithholdingVariation(state),
   selectedSeniorTaxOffset: getSelectedSeniorTaxOffset(state),

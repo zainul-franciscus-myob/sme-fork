@@ -2,7 +2,7 @@ export const getIsOpen = state => state.isOpen;
 export const getSelectedResidencyStatus = state => state.selectedResidencyStatus;
 export const getResidencyStatusOptions = state => state.residencyStatusOptions;
 export const getHasTaxFreeThreshold = state => state.hasTaxFreeThreshold;
-export const getHasSLFDebt = state => state.hasSLFDebt;
+export const getHasSLFSDebt = state => state.hasSLFSDebt;
 export const getIsHortiShearer = state => state.isHortiShearer;
 export const getIsWithholdingVariation = state => state.isWithholdingVariation;
 export const getSelectedSeniorTaxOffset = state => state.selectedSeniorTaxOffset;
