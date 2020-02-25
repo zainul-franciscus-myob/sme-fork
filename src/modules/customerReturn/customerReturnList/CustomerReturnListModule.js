@@ -1,30 +1,21 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  LOAD_CUSTOMER_RETURN_LIST,
-  SET_ALERT,
-  SET_LOADING_STATE,
-  SET_SORT_ORDER,
-  SET_TABLE_LOADING_STATE,
-  SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
-  UPDATE_FILTER_BAR_OPTIONS,
-} from '../CustomerReturnIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
 import { SUCCESSFULLY_SAVED_APPLY_TO_SALE } from '../../applyToSale/ApplyToSaleMessageType';
 import { SUCCESSFULLY_SAVED_PAY_REFUND } from '../../payRefund/PayRefundMessageTypes';
 import {
-  getAppliedFilterOptions, getBusinessId, getFilterOptions,
-  getNewSortOrder, getOrderBy, getRegion, getSettings, getSortOrder,
+  getBusinessId,
+  getNewSortOrder,
+  getRegion,
+  getSettings,
 } from './CustomerReturnListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import CustomerReturnListView from './components/CustomerReturnListView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
+import createCustomerReturnListDispatcher from './createCustomerReturnListDispatcher';
+import createCustomerReturnListIntegrator from './createCustomerReturnListIntegrator';
 import customerReturnListReducer from './customerReturnListReducer';
 
 const messageTypes = [SUCCESSFULLY_SAVED_PAY_REFUND, SUCCESSFULLY_SAVED_APPLY_TO_SALE];
@@ -33,9 +24,10 @@ export default class CustomerReturnListModule {
   constructor({
     integration, setRootView, popMessages,
   }) {
-    this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(customerReturnListReducer);
+    this.dispatcher = createCustomerReturnListDispatcher(this.store);
+    this.integrator = createCustomerReturnListIntegrator(this.store, integration);
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
   }
@@ -48,7 +40,7 @@ export default class CustomerReturnListModule {
         content: message,
       } = successMessage;
 
-      this.setAlert({
+      this.dispatcher.setAlert({
         type: 'success',
         message,
       });
@@ -72,179 +64,76 @@ export default class CustomerReturnListModule {
   }
 
   loadCustomerReturnList = () => {
-    const intent = LOAD_CUSTOMER_RETURN_LIST;
-
-    const urlParams = {
-      businessId: getBusinessId(this.store.getState()),
-    };
-
     const onSuccess = (response) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent: LOAD_CUSTOMER_RETURN_LIST,
-        ...response,
-      });
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadCustomerReturnList(response);
     };
 
     const onFailure = () => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
-
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
-    const sortOrder = getSortOrder(state);
-    const orderBy = getOrderBy(state);
-    const params = {
-      ...filterOptions,
-      sortOrder,
-      orderBy,
-    };
-
-    this.integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
-    });
+    this.integrator.loadCustomerReturnList({ onSuccess, onFailure });
   };
 
   filterCustomerReturnList = () => {
-    const state = this.store.getState();
-
-    this.setTableLoadingState(true);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const intent = SORT_AND_FILTER_CUSTOMER_RETURN_LIST;
+    this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = ({ entries, totalAmount, totalCreditAmount }) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.filterCustomerReturnList({
         entries,
         totalAmount,
         totalCreditAmount,
-        isSort: false,
       });
     };
 
     const onFailure = (response) => {
-      this.setTableLoadingState(false);
-      this.setAlert({
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setAlert({
         message: response.message, type: 'danger',
       });
     };
 
-    const filterOptions = getFilterOptions(state);
-    const sortOrder = getSortOrder(state);
-    const orderBy = getOrderBy(state);
-    const params = {
-      ...filterOptions,
-      sortOrder,
-      orderBy,
-    };
-
-    this.integration.read({
-      intent,
-      urlParams,
-      params,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.filterCustomerReturnList({ onSuccess, onFailure });
   };
 
   sortCustomerReturnList = (orderBy) => {
     const state = this.store.getState();
 
-    this.setTableLoadingState(true);
+    this.dispatcher.setTableLoadingState(true);
 
     const newSortOrder = getNewSortOrder(orderBy)(state);
-    this.setSortOrder(orderBy, newSortOrder);
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const intent = SORT_AND_FILTER_CUSTOMER_RETURN_LIST;
+    this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
     const onSuccess = ({ entries, totalAmount, totalCreditAmount }) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        entries,
-        totalAmount,
-        totalCreditAmount,
-        isSort: true,
-      });
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.sortCustomerReturnList({ entries, totalAmount, totalCreditAmount });
     };
 
     const onFailure = (error) => {
-      this.setTableLoadingState(false);
-      this.setAlert({
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setAlert({
         message: error.message, type: 'danger',
       });
     };
 
-    const filterOptions = getAppliedFilterOptions(state);
-    const params = {
-      ...filterOptions,
-      sortOrder: newSortOrder,
+    this.integrator.sortCustomerReturnList({
       orderBy,
-    };
-
-    this.integration.read({
-      intent,
-      urlParams,
-      params,
       onSuccess,
       onFailure,
     });
   };
 
-  setSortOrder = (orderBy, sortOrder) => this.store.dispatch({
-    intent: SET_SORT_ORDER,
-    orderBy,
-    sortOrder,
-  });
-
-  setTableLoadingState = (isTableLoading) => {
-    const intent = SET_TABLE_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isTableLoading,
-    });
+  updateFilterBarOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterBarOptions({ key, value });
   }
-
-  setAlert = ({ message, type }) => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: {
-        message,
-        type,
-      },
-    });
-  }
-
-  dismissAlert = () => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: undefined,
-    });
-  }
-
-  updateFilterBarOptions = ({ key, value }) => this.store.dispatch({
-    intent: UPDATE_FILTER_BAR_OPTIONS,
-    key,
-    value,
-  });
 
   render = () => {
     const View = (
       <CustomerReturnListView
         onUpdateFilterBarOptions={this.updateFilterBarOptions}
         onApplyFilter={this.filterCustomerReturnList}
-        onDismissAlert={this.dismissAlert}
+        onDismissAlert={this.dispatcher.dismissAlert}
         onSort={this.sortCustomerReturnList}
         onCreateRefundClick={this.redirectToCreateRefund}
         onCreateApplyToSaleClick={this.redirectToCreateApplyToSale}
@@ -263,26 +152,9 @@ export default class CustomerReturnListModule {
     this.store.unsubscribeAll();
   }
 
-  setLoadingState = (loadingState) => {
-    const intent = SET_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      loadingState,
-    });
-  }
-
-  setInitialState = (context, settings) => {
-    const intent = SET_INITIAL_STATE;
-    this.store.dispatch({
-      intent,
-      context,
-      settings,
-    });
-  }
-
   run(context) {
     const settings = loadSettings(context.businessId, RouteName.CUSTOMER_RETURN_LIST);
-    this.setInitialState(context, settings);
+    this.dispatcher.setInitialState(context, settings);
     this.render();
     this.store.subscribe(state => (
       saveSettings(context.businessId, RouteName.CUSTOMER_RETURN_LIST, getSettings(state))
@@ -293,9 +165,6 @@ export default class CustomerReturnListModule {
   }
 
   resetState = () => {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
+    this.dispatcher.resetState();
   };
 }
