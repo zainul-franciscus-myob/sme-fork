@@ -2,26 +2,11 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  CLOSE_MODAL,
-  CREATE_CONTACT,
-  DELETE_CONTACT,
-  LOAD_CONTACT_DETAIL,
-  LOAD_NEW_CONTACT,
-  OPEN_MODAL,
-  SET_ALERT_MESSAGE,
-  SET_LOADING_STATE,
-  SET_SUBMITTING_STATE,
-  UPDATE_BILLING_ADDRESS,
-  UPDATE_CONTACT,
-  UPDATE_CONTACT_DETAILS,
-  UPDATE_SHIPPING_ADDRESS,
-} from '../ContactIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT } from '../ContactMessageTypes';
+  SUCCESSFULLY_DELETED_CONTACT,
+  SUCCESSFULLY_SAVED_CONTACT,
+} from '../ContactMessageTypes';
 import {
   getBusinessId,
-  getContact,
-  getContactId,
   getIsCreating,
   getModalType,
   getRegion,
@@ -32,6 +17,8 @@ import ContactDetailView from './components/ContactDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import contactDetailReducer from './contactDetailReducer';
+import createContactDetailDispatcher from './createContactDetailDispatcher';
+import createContactDetailIntegrator from './createContactDetailIntegrator';
 import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
@@ -43,18 +30,20 @@ export default class ContactDetailModule {
     this.store = new Store(contactDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.dispatcher = createContactDetailDispatcher(this.store);
+    this.integrator = createContactDetailIntegrator(this.store, integration);
   }
 
   render = () => {
     const contactDetailView = (
       <ContactDetailView
-        onContactDetailsChange={this.updateContactDetails}
-        onBillingAddressChange={this.updateBillingAddress}
-        onShippingAddressChange={this.updateShippingAddress}
-        onDismissAlert={this.dismissAlert}
+        onContactDetailsChange={this.dispatcher.updateContactDetails}
+        onBillingAddressChange={this.dispatcher.updateBillingAddress}
+        onShippingAddressChange={this.dispatcher.updateShippingAddress}
+        onDismissAlert={this.dispatcher.dismissAlert}
         onDeleteButtonClick={this.openDeleteModal}
         onCancelButtonClick={this.openCancelModal}
-        onCloseModal={this.closeModal}
+        onCloseModal={this.dispatcher.closeModal}
         onSaveButtonClick={this.updateOrCreateContact}
         onDeleteModal={this.deleteContact}
         onCancelModal={this.redirectToContactList}
@@ -74,10 +63,32 @@ export default class ContactDetailModule {
     const state = this.store.getState();
     const isCreating = getIsCreating(state);
 
+    if (getIsSubmitting(state)) return;
+
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_CONTACT,
+        content: message,
+      });
+      this.dispatcher.setSubmittingState(false);
+      this.redirectToContactList();
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.displayAlert(error.message);
+    };
+
+    this.dispatcher.setSubmittingState(true);
+
     if (isCreating) {
-      this.createContact();
+      this.integrator.createContact({
+        onSuccess, onFailure,
+      });
     } else {
-      this.updateContact();
+      this.integrator.updateContact({
+        onSuccess, onFailure,
+      });
     }
   }
 
@@ -90,109 +101,38 @@ export default class ContactDetailModule {
       return;
     }
 
-    this.setLoadingState(LoadingState.LOADING);
-    const intent = LOAD_CONTACT_DETAIL;
-    const urlParams = {
-      businessId: getBusinessId(this.store.getState()),
-      contactId: getContactId(state),
-    };
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (payload) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-
-      this.store.dispatch({
-        intent,
-        ...payload,
-      });
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadContactDetail(payload);
     };
 
     const onFailure = () => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integration.read({
-      intent,
-      urlParams,
+    this.integrator.loadContactDetail({
       onSuccess,
       onFailure,
     });
   }
-
-  updateContactDetails = ({ key, value }) => {
-    const intent = UPDATE_CONTACT_DETAILS;
-
-    this.store.dispatch({
-      intent,
-      key,
-      value,
-    });
-  }
-
-  updateShippingAddress = ({ key, value }) => {
-    const intent = UPDATE_SHIPPING_ADDRESS;
-
-    this.store.dispatch({
-      intent,
-      key,
-      value,
-    });
-  }
-
-  updateBillingAddress = ({ key, value }) => {
-    const intent = UPDATE_BILLING_ADDRESS;
-
-    this.store.dispatch({
-      intent,
-      key,
-      value,
-    });
-  }
-
-  setLoadingState = (loadingState) => {
-    this.store.dispatch({
-      intent: SET_LOADING_STATE,
-      loadingState,
-    });
-  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
 
   openCancelModal = () => {
-    const intent = OPEN_MODAL;
-
     const state = this.store.getState();
     if (isPageEdited(state)) {
-      this.store.dispatch({
-        intent,
-        modalType: 'cancel',
-      });
+      this.dispatcher.openModal('cancel');
     } else {
       this.redirectToContactList();
     }
   };
 
   openDeleteModal = () => {
-    const intent = OPEN_MODAL;
-
-    this.store.dispatch({
-      intent,
-      modalType: 'delete',
-    });
-  };
-
-  closeModal = () => {
-    const intent = CLOSE_MODAL;
-
-    this.store.dispatch({ intent });
-  };
-
-  dismissAlert = () => {
-    this.store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage: '',
-    });
+    this.dispatcher.openModal('delete');
   };
 
   redirectToContactList = () => {
@@ -212,88 +152,25 @@ export default class ContactDetailModule {
   }
 
   loadNewContact = () => {
-    const intent = LOAD_NEW_CONTACT;
-    const urlParams = {
-      businessId: getBusinessId(this.store.getState()),
-    };
-    const params = {
-      region: getRegion(this.store.getState()),
-    };
-
     const onSuccess = (payload) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent,
-        ...payload,
-      });
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadNewContact(payload);
     };
 
     const onFailure = () => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.setLoadingState(LoadingState.LOADING);
-    this.integration.read({
-      intent,
-      urlParams,
-      params,
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.integrator.loadNewContact({
       onSuccess,
       onFailure,
     });
-  }
-
-  createContact = () => {
-    const intent = CREATE_CONTACT;
-    const state = this.store.getState();
-    const content = getContact(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    this.saveContact(intent, content, urlParams);
-  };
-
-  updateContact = () => {
-    const intent = UPDATE_CONTACT;
-    const state = this.store.getState();
-    const content = getContact(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-      contactId: getContactId(state),
-    };
-    this.saveContact(intent, content, urlParams);
-  }
-
-  saveContact(intent, content, urlParams) {
-    if (getIsSubmitting(this.store.getState())) return;
-
-    const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_CONTACT,
-        content: message,
-      });
-      this.setSubmittingState(false);
-      this.redirectToContactList();
-    };
-
-    const onFailure = (error) => {
-      this.setSubmittingState(false);
-      this.displayAlert(error.message);
-    };
-
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-
-    this.setSubmittingState(true);
   }
 
   deleteContact = () => {
-    this.setSubmittingState(true);
-    this.closeModal();
+    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.closeModal();
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -304,49 +181,13 @@ export default class ContactDetailModule {
     };
 
     const onFailure = (error) => {
-      this.setSubmittingState(false);
-      this.displayAlert(error.message);
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.displayAlert(error.message);
     };
 
-    const state = this.store.getState();
-    this.integration.write({
-      intent: DELETE_CONTACT,
-      urlParams: {
-        businessId: getBusinessId(state),
-        contactId: getContactId(state),
-      },
+    this.integrator.deleteContact({
       onSuccess,
       onFailure,
-    });
-  }
-
-  displayAlert = (errorMessage) => {
-    this.store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage: errorMessage,
-    });
-  }
-
-  dismissAlert = () => {
-    this.store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage: '',
-    });
-  };
-
-  setSubmittingState = (isSubmitting) => {
-    const intent = SET_SUBMITTING_STATE;
-
-    this.store.dispatch({
-      intent,
-      isSubmitting,
-    });
-  }
-
-  setInitialState = (context) => {
-    this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
     });
   }
 
@@ -363,16 +204,13 @@ export default class ContactDetailModule {
   };
 
   run(context) {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.loadContactDetail();
   }
 
   resetState() {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
+    this.dispatcher.resetState();
   }
 }
