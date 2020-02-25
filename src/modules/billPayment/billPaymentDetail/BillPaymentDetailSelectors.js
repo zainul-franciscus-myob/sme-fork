@@ -1,5 +1,11 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import {
+  CREATE_BILL_PAYMENT,
+  LOAD_BILL_PAYMENT,
+  LOAD_NEW_BILL_PAYMENT,
+  UPDATE_BILL_PAYMENT,
+} from '../BillPaymentIntents';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import tableViewTypes from './tableViewTypes';
 
@@ -177,3 +183,36 @@ export const getSaveBillPaymentPayload = state => (getIsCreating(state)
   ? getCreateBillPaymentPayload(state) : getUpdateBillPaymentPayload(state));
 
 export const getAlertMessage = state => state.alertMessage;
+
+export const getLoadBillPaymentIntent = createSelector(
+  getIsCreating,
+  isCreating => (isCreating ? LOAD_NEW_BILL_PAYMENT : LOAD_BILL_PAYMENT),
+);
+
+export const getSaveBillPaymentIntent = createSelector(
+  getIsCreating,
+  isCreating => (isCreating ? CREATE_BILL_PAYMENT : UPDATE_BILL_PAYMENT),
+);
+
+export const getBillPaymentUrlParams = createSelector(
+  getBusinessId,
+  getBillPaymentId,
+  (businessId, billPaymentId) => ({
+    businessId,
+    billPaymentId,
+  }),
+);
+
+export const getUpdateReferenceIdUrlParams = createSelector(
+  getBusinessId,
+  businessId => ({
+    businessId,
+  }),
+);
+
+export const getUpdateReferenceIdParams = createSelector(
+  getAccountId,
+  accountId => ({
+    accountId,
+  }),
+);

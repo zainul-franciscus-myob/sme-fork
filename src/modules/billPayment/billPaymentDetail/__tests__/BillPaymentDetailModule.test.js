@@ -21,6 +21,8 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import billPaymentDetailReducer from '../billPaymentDetailReducer';
+import createBillPaymentDetailDispatcher from '../createBillPaymentDetailDispatcher';
+import createBillPaymentDetailIntegrator from '../createBillPaymentDetailIntegrator';
 
 describe('BillPaymentDetailModule', () => {
   const setup = () => {
@@ -31,6 +33,8 @@ describe('BillPaymentDetailModule', () => {
 
     const module = new BillPaymentModule({ integration, setRootView, pushMessage });
     module.store = store;
+    module.dispatcher = createBillPaymentDetailDispatcher(store);
+    module.integrator = createBillPaymentDetailIntegrator(store, integration);
 
     return { store, integration, module };
   };
@@ -286,7 +290,7 @@ describe('BillPaymentDetailModule', () => {
 
     it('does nothing when already submitting', () => {
       const { module, store, integration } = setupWithExisting();
-      module.setSubmittingState(true);
+      module.dispatcher.setSubmittingState(true);
       store.resetActions();
 
       expect(store.getActions()).toEqual([]);
