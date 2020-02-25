@@ -104,6 +104,9 @@ const initializeHttpTelemetry = (segmentWriteKey) => {
       businessId = associateUserWithGroup(businessId, routeParams);
       recordPageVisit(currentRouteName, userId, businessId);
     }
+    if (window.newrelic) {
+      window.newrelic.setCustomAttribute('currentRouteName', currentRouteName);
+    }
   };
 };
 
