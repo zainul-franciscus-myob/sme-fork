@@ -25,10 +25,10 @@ const openMyMyob = () => window.open('https://my.myob.com');
 const UserDetailAccessGroup = ({
   isCreating,
   roles,
-  // isReadOnly,
-  // isAdmin,
+  isReadOnly,
+  isAdmin,
   isOnlineAdministrator,
-  // showReadOnly,
+  showReadOnly,
   onUserDetailsChange,
   onUserRolesChange,
 }) => (
@@ -48,7 +48,7 @@ const UserDetailAccessGroup = ({
         }
       />
     </div>
-    {/* TODO: Currently not supported by New Essentials so hidden from the UI: https://dev-arl.visualstudio.com/ARL%20Protected%20API/_boards/board/t/Phoenix/Stories/?workitem=5132{
+    {
       !isCreating
       && (
         <RadioButtonGroup
@@ -78,7 +78,7 @@ const UserDetailAccessGroup = ({
           ]}
         />
       )
-    } */}
+    }
     <RadioButtonGroup
       label="Business access"
       name="isAdmin"
