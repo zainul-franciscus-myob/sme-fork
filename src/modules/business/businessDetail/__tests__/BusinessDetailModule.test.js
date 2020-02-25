@@ -318,4 +318,40 @@ describe('BusinessDetailModule', () => {
       ]);
     });
   });
+
+  describe('dismissAlertMessage', () => {
+    const setupWithAlert = () => {
+      const toolbox = setupWithEditedPage();
+      const { store, integration, module } = toolbox;
+      module.businessDetailsConfirmed = () => {};
+
+      module.updateBusinessDetail();
+
+      expect(store.getActions()).toContainEqual({
+        intent: SET_ALERT_MESSAGE,
+        alert: {
+          type: 'success',
+          message: expect.any(String),
+        },
+      });
+
+      store.resetActions();
+      integration.resetRequests();
+
+      return toolbox;
+    };
+
+    it('hides alert', () => {
+      const { module, store } = setupWithAlert();
+
+      module.dismissAlert();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_ALERT_MESSAGE,
+          alert: undefined,
+        },
+      ]);
+    });
+  });
 });

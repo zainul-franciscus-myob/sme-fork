@@ -47,10 +47,10 @@ const getDefaultState = () => ({
   pageTitle: '',
 });
 
-const setInitialState = (state, { businessId, region }) => ({
+const setInitialState = (state, { context }) => ({
   ...state,
-  businessId,
-  region,
+  businessId: context.businessId,
+  region: context.region,
 });
 
 const setLoadingState = (state, { loadingState }) => ({

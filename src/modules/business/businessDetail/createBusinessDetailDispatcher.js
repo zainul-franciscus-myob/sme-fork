@@ -36,13 +36,10 @@ const createBusinessDetailDispatcher = store => ({
       isSubmitting,
     });
   },
-  setAlertMessage: ({ message, type }) => {
+  setAlertMessage: (alert) => {
     store.dispatch({
       intent: SET_ALERT_MESSAGE,
-      alert: {
-        message,
-        type,
-      },
+      alert,
     });
   },
   closeModal: () => {
