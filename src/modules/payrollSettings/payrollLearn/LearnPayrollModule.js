@@ -2,6 +2,7 @@ import { Button, ButtonRow } from '@myob/myob-widgets';
 import React from 'react';
 
 import LearnComponent from '../../../components/LearnTemplate/LearnComponent';
+import WistiaVideoPlayer from '../../../components/WistiaVideoPlayer/WistiaVideoPlayer';
 
 export default class LearnPayrollModule {
   constructor({
@@ -31,11 +32,14 @@ export default class LearnPayrollModule {
 
   render = (region, businessId) => {
     this.setRootView(
-      <LearnComponent title="Get to know payroll">
-        <h3>Easy payroll for your growing business</h3>
+      <LearnComponent
+        media={<WistiaVideoPlayer hashedId="nla7o6e6qx" />}
+        title="Get to know payroll"
+      >
+        <h3>Industry leading payroll for your growing business</h3>
 
         <p>
-          Payroll that grows with your business, from employee #1 and beyond.
+          Payroll that grows with your business, from employee #1 and beyond
           <br />
           Simple, fast, and always on the ATO&apos;s good side
         </p>
@@ -45,7 +49,7 @@ export default class LearnPayrollModule {
         <ol>
           <li>Set up payroll settings</li>
           <li>Add your employees</li>
-          <li>Get set up for Single Touch Payroll Reporting</li>
+          <li>Get set up for Single Touch Payroll reporting</li>
           <li>Run a pay run</li>
         </ol>
 
