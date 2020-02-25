@@ -16,10 +16,7 @@ const metaData = [{ columnName: 'name', showData: true }];
 
 const title = (
   <React.Fragment>
-    Allocated employees&nbsp;
-    <Tooltip triggerContent={(<Icons.Info />)}>
-      Add all the employees you want to allocate to this pay item.
-    </Tooltip>
+    Employees using this pay item
   </React.Fragment>
 );
 
@@ -64,12 +61,12 @@ const DeductionPayItemEmployees = ({
       </Table>
     </div>
     <Combobox
-      label="Add employees to pay item"
+      label="Add employee to pay item"
       hideLabel
       items={employeeOptions}
       metaData={metaData}
       selected={{}}
-      hintText="Add employees to pay item"
+      hintText="Add employee to pay item"
       onChange={handleComboboxChange(onAddItem, 'employees')}
       width="lg"
     />

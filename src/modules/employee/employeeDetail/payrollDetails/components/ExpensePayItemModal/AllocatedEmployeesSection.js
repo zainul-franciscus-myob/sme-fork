@@ -1,4 +1,4 @@
-import { FieldGroup, Icons, Tooltip } from '@myob/myob-widgets';
+import { FieldGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,10 +16,7 @@ const AllocatedEmployeesSection = ({
   <FieldGroup
     label={(
       <React.Fragment>
-        <span>Allocate employees</span>
-        <Tooltip triggerContent={<Icons.Info />} placement="right">
-          Add all the employees you want to allocate to this pay item
-        </Tooltip>
+        Employees using this pay item
       </React.Fragment>
     )}
     className={styles.editableTable}
@@ -28,7 +25,7 @@ const AllocatedEmployeesSection = ({
     <EmployeeCombobox
       label="Employees"
       hideLabel
-      hintText="Add employees to pay item"
+      hintText="Add employee to pay item"
       items={employeeOptions}
       onChange={handleComboboxChange(undefined, onAddAllocatedEmployee)}
       width="lg"

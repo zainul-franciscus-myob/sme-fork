@@ -18,10 +18,7 @@ const metaData = [
 
 const label = (
   <div>
-    <span>Allocate employees&nbsp;</span>
-    <Tooltip triggerContent={<Icons.Info />} placement="right">
-      Add all the employees you want to allocate to this pay item
-    </Tooltip>
+    Employees using this pay item
   </div>
 );
 
@@ -69,7 +66,7 @@ const SuperPayItemEmployees = (props) => {
       <Combobox
         label="Employees"
         hideLabel
-        hintText="Add employees to pay item"
+        hintText="Add employee to pay item"
         metaData={metaData}
         items={employeeOptions}
         selected={{}}

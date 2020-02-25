@@ -1,4 +1,4 @@
-import { FieldGroup, Icons, Tooltip } from '@myob/myob-widgets';
+import { FieldGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -14,10 +14,7 @@ const LeavePayItemEmployees = ({
 }) => {
   const fieldGroupLabel = (
     <div>
-      <span>Allocate employees&nbsp;</span>
-      <Tooltip triggerContent={<Icons.Info />} placement="right">
-        Add all the employees you want to allocate to this pay item
-      </Tooltip>
+      Employees using this pay item
     </div>
   );
 
@@ -27,7 +24,7 @@ const LeavePayItemEmployees = ({
       <EmployeeCombobox
         label="Employees"
         hideLabel
-        hintText="Add employees to pay item"
+        hintText="Add employee to pay item"
         items={employees}
         onChange={onAddEmployee}
         width="lg"

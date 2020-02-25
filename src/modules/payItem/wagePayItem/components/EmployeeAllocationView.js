@@ -12,10 +12,7 @@ const filteredListEmployeesMetadata = [{ columnName: 'name', showData: true }];
 
 const title = (
   <React.Fragment>
-    Allocated employees&nbsp;
-    <Tooltip triggerContent={(<Icons.Info />)}>
-      Add all the employees you want to allocate to this pay item.
-    </Tooltip>
+    Employees using this pay item
   </React.Fragment>
 );
 
@@ -57,7 +54,7 @@ const EmployeeAllocationView = ({
       items={filteredListOfEmployees}
       metaData={filteredListEmployeesMetadata}
       selected={{}}
-      hintText="Add employees to pay item"
+      hintText="Add employee to pay item"
       onChange={handleComboboxChange('employeeAllocation', onEmployeeSelected)}
       width="lg"
     />
