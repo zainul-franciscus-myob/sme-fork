@@ -24,7 +24,6 @@ export const getOrder = createSelector(
 );
 
 export const getIsTableEmpty = state => state.entries.length === 0;
-export const getFlipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
 
 export const getIsStatusDisplayed = state => state.appliedFilterOptions.showInactive;
 
@@ -44,3 +43,6 @@ export const getTableEntries = createSelector(
     link: `/#/${region}/${businessId}/bankingRule/${entry.id}`,
   })),
 );
+
+const getFlipSortOrder = ({ sortOrder }) => (sortOrder === 'desc' ? 'asc' : 'desc');
+export const getNewSortOrder = (state, orderBy) => (orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc');

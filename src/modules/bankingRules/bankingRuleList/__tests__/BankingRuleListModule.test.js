@@ -12,6 +12,8 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import bankingRuleListReducer from '../bankingRuleListReducer';
+import createBankingRuleListDispatcher from '../createBankingRuleListDispatcher';
+import createBankingRuleListIntegrator from '../createBankingRuleListIntegrator';
 
 describe('BankingRuleListModule', () => {
   const setup = () => {
@@ -22,10 +24,8 @@ describe('BankingRuleListModule', () => {
 
     const module = new BankingRuleListModule({ integration, setRootView, popMessages });
     module.store = store;
-
-    // @TODO wire up dispatcher integrator
-    // module.dispatcher = createGeneralJournalDispatcher(module.store);
-    // module.integrator = createGeneralJournalIntegrator(store, integration);
+    module.dispatcher = createBankingRuleListDispatcher(store);
+    module.integrator = createBankingRuleListIntegrator(store, integration);
 
     return {
       store, module, integration,
