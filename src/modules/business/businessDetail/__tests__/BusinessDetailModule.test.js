@@ -9,11 +9,14 @@ import {
   SET_SUBMITTING_STATE,
   UPDATE_BUSINESS_DETAIL,
 } from '../../BusinessIntents';
+import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import BusinessDetailModule from '../businessDetailModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import businessDetailsReducer from '../businessDetailReducer';
+import createBusinessDetailDispatcher from '../createBusinessDetailDispatcher';
+import createBusinessDetailIntegrator from '../createBusinessDetailIntegrator';
 
 describe('BusinessDetailModule', () => {
   const setup = () => {
@@ -23,6 +26,8 @@ describe('BusinessDetailModule', () => {
 
     const module = new BusinessDetailModule({ integration, setRootView });
     module.store = store;
+    module.dispatcher = createBusinessDetailDispatcher(store);
+    module.integrator = createBusinessDetailIntegrator(store, integration);
 
     return { module, store, integration };
   };
@@ -42,7 +47,7 @@ describe('BusinessDetailModule', () => {
     const toolbox = setup();
     const { module, store } = toolbox;
 
-    module.createChangeHandler(UPDATE_BUSINESS_DETAIL)({ key: 'description', value: '🤯' });
+    module.updateBusinessDetailField({ key: 'description', value: '🤯' });
 
     expect(store.getActions()).toEqual([
       {
@@ -70,6 +75,10 @@ describe('BusinessDetailModule', () => {
 
       expect(store.getActions()).toEqual([
         {
+          intent: SET_INITIAL_STATE,
+          context: { businessId: '🦒' },
+        },
+        {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING,
         },
@@ -95,6 +104,10 @@ describe('BusinessDetailModule', () => {
       module.run({ businessId: '🦒' });
 
       expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: { businessId: '🦒' },
+        },
         {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING,
@@ -184,7 +197,7 @@ describe('BusinessDetailModule', () => {
 
     it('does nothing when already submitting', () => {
       const { module, store, integration } = setupWithEditedPage();
-      module.setSubmittingState(true);
+      module.dispatcher.setSubmittingState(true);
       store.resetActions();
 
       module.updateBusinessDetail();
@@ -199,7 +212,7 @@ describe('BusinessDetailModule', () => {
       const toolbox = setupWithEditedPage();
       const { module, store } = toolbox;
 
-      module.openUnsavedModal('🥮');
+      module.dispatcher.openModal('🥮');
 
       expect(store.getActions()).toEqual([
         {
@@ -270,7 +283,7 @@ describe('BusinessDetailModule', () => {
 
     it('does nothing when already submitting', () => {
       const { module, store, integration } = setupWithOpenUnsavedModal();
-      module.setSubmittingState(true);
+      module.dispatcher.setSubmittingState(true);
       store.resetActions();
 
       module.updateAndRedirectToUrl();

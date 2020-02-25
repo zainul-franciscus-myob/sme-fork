@@ -16,6 +16,8 @@ import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
+  businessId: '',
+  region: '',
   businessDetails: {
     region: '',
     organisationName: '',
