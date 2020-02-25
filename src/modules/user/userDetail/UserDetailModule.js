@@ -1,36 +1,20 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  CLOSE_MODAL,
-  CREATE_USER,
-  DELETE_USER,
-  OPEN_MODAL,
-  SET_ALERT_MESSAGE,
-  SET_LOADING_STATE,
-  SET_SUBMITTING_STATE,
-  UPDATE_USER,
-  UPDATE_USER_DETAILS,
-  UPDATE_USER_ROLES,
-} from '../UserIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_DELETED_USER, SUCCESSFULLY_SAVED_USER } from '../UserMessageTypes';
 import {
-  getBusinessId,
   getIsActionsDisabled,
   getIsCreating,
-  getLoadUserIntent,
   getOpenedModalType,
   getRedirectUrl,
-  getUserForCreate,
-  getUserForUpdate,
-  getUserId,
   isPageEdited,
 } from './userDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
 import Store from '../../../store/Store';
 import UserDetailView from './components/UserDetailView';
+import createUserDetailDispatcher from './createUserDetailDispatcher';
+import createUserDetailIntegrator from './createUserDetailIntegrator';
 import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 import userDetailReducer from './userDetailReducer';
@@ -40,32 +24,54 @@ export default class UserDetailModule {
   constructor({
     integration, setRootView, pushMessage, usersInvited,
   }) {
-    this.integration = integration;
     this.store = new Store(userDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.usersInvited = usersInvited;
+    this.dispatcher = createUserDetailDispatcher(this.store);
+    this.integrator = createUserDetailIntegrator(this.store, integration);
   }
 
   createOrUpdateUser = () => {
+    const state = this.store.getState();
+
+    if (getIsActionsDisabled(state)) return;
+
     const isCreating = getIsCreating(this.store.getState());
+
+    const onSuccess = ({ message }) => {
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_USER,
+        content: message,
+      });
+      this.dispatcher.setSubmittingState(false);
+      this.redirect();
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setAlertMessage(error.message);
+      this.dispatcher.closeModal();
+    };
+
+    this.dispatcher.setSubmittingState(true);
     if (isCreating) {
-      this.createUser();
+      this.integrator.createUser({ onSuccess, onFailure });
       this.usersInvited();
     } else {
-      this.updateUser();
+      this.integrator.updateUser({ onSuccess, onFailure });
     }
   }
 
   render = () => {
     const userDetailView = (
       <UserDetailView
-        onCloseModal={this.closeModal}
+        onCloseModal={this.dispatcher.closeModal}
         onDeleteModal={this.deleteUser}
         onCancelButtonClick={this.cancelUserDetail}
         onConfirmCancelButtonClick={this.redirect}
-        onUserDetailsChange={this.updateUserDetails}
-        onUserRolesChange={this.updateSelectedRoles}
+        onUserDetailsChange={this.dispatcher.updateUserDetails}
+        onUserRolesChange={this.dispatcher.updateSelectedRoles}
         onSaveButtonClick={this.createOrUpdateUser}
         onDeleteButtonClick={this.openDeleteModal}
         onDismissAlert={this.dismissAlert}
@@ -81,40 +87,22 @@ export default class UserDetailModule {
   };
 
   loadUser = () => {
-    const state = this.store.getState();
-
-    const intent = getLoadUserIntent(state);
-
-    const userId = getUserId(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-      ...(!getIsCreating(state) && { userId }),
-    };
-
-    const onSuccess = (data) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent,
-        ...data,
-      });
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadUser(response);
     };
 
     const onFailure = () => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.loadUser({ onSuccess, onFailure });
   };
 
   openUnsavedModal = (url) => {
-    this.store.dispatch({
-      intent: OPEN_MODAL,
-      modal: { type: ModalType.UNSAVED, url },
+    this.dispatcher.openModal({
+      type: ModalType.UNSAVED,
+      url,
     });
   };
 
@@ -128,84 +116,14 @@ export default class UserDetailModule {
   };
 
   openDeleteModal = () => {
-    this.store.dispatch({
-      intent: OPEN_MODAL,
-      modal: { type: ModalType.DELETE },
+    this.dispatcher.openModal({
+      type: ModalType.DELETE,
     });
   };
-
-  closeModal = () => {
-    this.store.dispatch({ intent: CLOSE_MODAL });
-  };
-
-  updateUserDetails = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_USER_DETAILS,
-      key,
-      value,
-    });
-  };
-
-  updateSelectedRoles = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_USER_ROLES,
-      key,
-      value,
-    });
-  };
-
-  createUser = () => {
-    const intent = CREATE_USER;
-    const state = this.store.getState();
-    const content = getUserForCreate(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    this.saveUser(intent, content, urlParams);
-  };
-
-  updateUser = () => {
-    const intent = UPDATE_USER;
-    const state = this.store.getState();
-    const content = getUserForUpdate(state);
-    const urlParams = {
-      businessId: getBusinessId(state),
-      userId: getUserId(state),
-    };
-    this.saveUser(intent, content, urlParams);
-  };
-
-  saveUser(intent, content, urlParams) {
-    if (getIsActionsDisabled(this.store.getState())) return;
-
-    const onSuccess = ({ message }) => {
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_USER,
-        content: message,
-      });
-      this.setSubmittingState(false);
-      this.redirect();
-    };
-
-    const onFailure = (error) => {
-      this.setSubmittingState(false);
-      this.displayAlert(error.message);
-      this.closeModal();
-    };
-
-    this.setSubmittingState(true);
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
-  }
 
   deleteUser = () => {
-    this.setSubmittingState(true);
-    this.closeModal();
+    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.closeModal();
 
     const onSuccess = ({ message }) => {
       this.pushMessage({
@@ -216,41 +134,15 @@ export default class UserDetailModule {
     };
 
     const onFailure = (error) => {
-      this.setSubmittingState(false);
-      this.displayAlert(error.message);
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setAlertMessage(error.message);
     };
 
-    const state = this.store.getState();
-    this.integration.write({
-      intent: DELETE_USER,
-      urlParams: {
-        businessId: getBusinessId(state),
-        userId: getUserId(state),
-      },
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.deleteUser({ onSuccess, onFailure });
   };
-
-  displayAlert = (errorMessage) => {
-    this.store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage: errorMessage,
-    });
-  }
 
   dismissAlert = () => {
-    this.store.dispatch({
-      intent: SET_ALERT_MESSAGE,
-      alertMessage: '',
-    });
-  };
-
-  setSubmittingState = (isSubmitting) => {
-    this.store.dispatch({
-      intent: SET_SUBMITTING_STATE,
-      isSubmitting,
-    });
+    this.dispatcher.setAlertMessage('');
   };
 
   redirectToUrl = (url) => {
@@ -267,24 +159,8 @@ export default class UserDetailModule {
     this.store.unsubscribeAll();
   };
 
-  setLoadingState = (loadingState) => {
-    this.store.dispatch({
-      intent: SET_LOADING_STATE,
-      loadingState,
-    });
-  };
-
-  setInitialState = (context) => {
-    this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
-    });
-  };
-
   resetState = () => {
-    this.store.dispatch({
-      intent: RESET_STATE,
-    });
+    this.dispatcher.resetState();
   };
 
   saveHandler = () => {
@@ -306,10 +182,10 @@ export default class UserDetailModule {
   };
 
   run(context) {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     this.render();
     setupHotKeys(keyMap, this.handlers);
-    this.setLoadingState(LoadingState.LOADING);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadUser();
   }
 

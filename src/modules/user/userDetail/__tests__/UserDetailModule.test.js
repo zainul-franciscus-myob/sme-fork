@@ -18,6 +18,8 @@ import ModalType from '../../ModalType';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import UserDetailModule from '../UserDetailModule';
+import createUserDetailDispatcher from '../createUserDetailDispatcher';
+import createUserDetailIntegrator from '../createUserDetailIntegrator';
 import userDetailReducer from '../userDetailReducer';
 
 describe('UserDetailModule', () => {
@@ -32,8 +34,8 @@ describe('UserDetailModule', () => {
     });
     const store = new TestStore(userDetailReducer);
     module.store = store;
-    // module.dispatcher = createGeneralJournalDispatcher(module.store);
-    // module.integrator = createGeneralJournalIntegrator(store, integration);
+    module.dispatcher = createUserDetailDispatcher(store);
+    module.integrator = createUserDetailIntegrator(store, integration);
 
     return {
       store, module, integration, pushMessage,
@@ -66,7 +68,7 @@ describe('UserDetailModule', () => {
     const toolbox = setupWithExisting();
     const { store, integration, module } = toolbox;
 
-    module.updateUserDetails({ key: 'userName', value: '🐧' });
+    module.dispatcher.updateUserDetails({ key: 'userName', value: '🐧' });
     store.resetActions();
     integration.resetRequests();
 
@@ -325,7 +327,7 @@ describe('UserDetailModule', () => {
 
     it('does nothing when already submitting', () => {
       const { module, store, integration } = setupWithExisting();
-      module.setSubmittingState(true);
+      module.dispatcher.setSubmittingState(true);
       store.resetActions();
 
       module.createOrUpdateUser();
