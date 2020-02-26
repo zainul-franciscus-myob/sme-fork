@@ -49,6 +49,7 @@ const RouteName = {
   IN_TRAY: 'inTray/inTray',
   ONBOARDING_LEARN_IN_TRAY: 'inTray/learn',
   ONBOARDING_LEARN_PAYROLL: 'payroll/learn',
+  ONBOARDING_LEARN_BANKING: 'banking/learn',
   LINKED_ACCOUNTS: 'linkedAccounts/linkedAccounts',
   BANKING_RULE_LIST: 'bankingRule/bankingRuleList',
   BANKING_RULE_DETAIL: 'bankingRule/bankingRuleDetail',

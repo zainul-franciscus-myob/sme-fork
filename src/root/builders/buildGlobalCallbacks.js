@@ -9,6 +9,7 @@ export default ({ closeTasks }) => ({
   uploadedLogo: () => closeTasks({ closeEvent: 'uploadedLogo' }),
   learnPayrollCompleted: () => closeTasks({ closeEvent: 'learnPayrollCompleted' }),
   learnInTrayCompleted: () => closeTasks({ closeEvent: 'learnInTrayCompleted' }),
+  learnBankingCompleted: () => closeTasks({ closeEvent: 'learnBankingCompleted' }),
   inTrayBillSaved: () => closeTasks({ closeEvent: 'inTrayBillSaved' }),
   inTrayUploadOptionsClosed: () => closeTasks({ closeEvent: 'inTrayUploadOptionsClosed' }),
   payrollGeneralSettingsSaved: () => closeTasks({ closeEvent: 'payrollGeneralSettingsSaved' }),

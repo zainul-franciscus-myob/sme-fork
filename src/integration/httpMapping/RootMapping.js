@@ -1,6 +1,7 @@
 import AccountMapping from '../../modules/account/mappings/HttpAccountMapping';
 import ApplyToSaleMapping from '../../modules/applyToSale/mappings/HttpApplyToSaleMapping';
 import BankFeedsMapping from '../../modules/bankFeeds/mappings/HttpBankFeedsMapping';
+import BankLearnMapping from '../../modules/learning/bankingLearn/mappings/HttpBankLearnMapping';
 import BankReconciliationMapping from '../../modules/bankReconciliation/mappings/HttpBankReconciliationMapping';
 import BankStatementImportMapping from '../../modules/bankStatementImport/mappings/HttpBankStatementImportMapping';
 import BankingMapping from '../../modules/banking/mappings/HttpBankingMapping';
@@ -81,6 +82,7 @@ const RootMapping = Object.freeze({
   ...FeatureTogglesMapping,
   ...DeductionPayItemMapping,
   ...BusinessMapping,
+  ...BankLearnMapping,
   ...ContactMapping,
   ...GeneralJournalMapping,
   ...IncomeAllocationMapping,

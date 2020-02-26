@@ -1,6 +1,7 @@
 import AccountMapping from '../../modules/account/mappings/MemoryAccountMapping';
 import ApplyToSaleMapping from '../../modules/applyToSale/mappings/MemoryApplyToSaleMapping';
 import BankFeedsMapping from '../../modules/bankFeeds/mappings/MemoryBankFeedsMapping';
+import BankLearnMapping from '../../modules/learning/bankingLearn/mappings/MemoryMappingBankLearn';
 import BankReconciliationMapping from '../../modules/bankReconciliation/mappings/MemoryBankReconciliationMapping';
 import BankStatementImportMapping from '../../modules/bankStatementImport/mappings/MemoryBankStatementImportMapping';
 import BankingMapping from '../../modules/banking/mappings/MemoryBankingMapping';
@@ -80,6 +81,7 @@ import WagePayItemMapping from '../../modules/payItem/wagePayItem/mappings/Memor
 const RootMapping = Object.freeze({
   ...FeatureTogglesMapping,
   ...BankingMapping,
+  ...BankLearnMapping,
   ...BusinessMapping,
   ...ContactMapping,
   ...GeneralJournalMapping,

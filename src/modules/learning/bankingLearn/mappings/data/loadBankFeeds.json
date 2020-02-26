@@ -1,0 +1,100 @@
+{
+    "bankFeeds": {
+      "bankAccounts": [
+        {
+          "id": "51",
+          "financialInstitution": "Westpac",
+          "accountName": "Jon Snow",
+          "BSB": "123456",
+          "accountNumber": "987654321",
+          "status": "ACTIVE",
+          "linkedAccountId": "1",
+          "accountOptions": [
+            {
+              "id": "1",
+              "displayName": "Expense 1",
+              "accountType": "Expense",
+              "displayId": "6-134"
+            },
+            {
+              "id": "2",
+              "displayName": "Expense 2",
+              "accountType": "Expense",
+              "displayId": "6-135"
+            }
+          ]
+        },
+        {
+          "id": "52",
+          "financialInstitution": "Commonwealth",
+          "accountName": "Jimi Hendrix",
+          "BSB": "234567",
+          "accountNumber": "876543210",
+          "status": "Pending",
+          "linkedAccountId": "",
+          "accountOptions": [
+            {
+              "id": "1",
+              "displayName": "Expense 1",
+              "accountType": "Expense",
+              "displayId": "6-134"
+            },
+            {
+              "id": "2",
+              "displayName": "Expense 2",
+              "accountType": "Expense",
+              "displayId": "6-135"
+            }
+          ]
+        }
+      ],
+      "creditCards": [
+        {
+          "id": "61",
+          "financialInstitution": "Westpacc",
+          "cardName": "Jon Snow",
+          "cardNumber": "987654321",
+          "status": "ACTIVE",
+          "linkedAccountId": "1",
+          "accountOptions": [
+            {
+              "id": "1",
+              "displayName": "Expense 1",
+              "accountType": "Expense",
+              "displayId": "6-134"
+            },
+            {
+              "id": "2",
+              "displayName": "Expense 2",
+              "accountType": "Expense",
+              "displayId": "6-135"
+            }
+          ]
+        },
+        {
+          "id": "62",
+          "financialInstitution": "Commonwealthh",
+          "cardName": "Jimi Hendrix",
+          "cardNumber": "876543210",
+          "status": "Processing",
+          "linkedAccountId": "",
+          "accountOptions": [
+            {
+              "id": "1",
+              "displayName": "Expense 1",
+              "accountType": "Expense",
+              "displayId": "6-134"
+            },
+            {
+              "id": "2",
+              "displayName": "Expense 2",
+              "accountType": "Expense",
+              "displayId": "6-135"
+            }
+          ]
+        }
+      ]
+    },
+    "serialNumber": "000000000000"
+  }
+  
