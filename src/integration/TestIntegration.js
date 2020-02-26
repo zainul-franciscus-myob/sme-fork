@@ -24,8 +24,8 @@ class TestIntegration {
     this.mapping = { ...this.mapping, [intent]: fn };
   };
 
-  mapFailure = (intent) => {
-    this.overrideMapping(intent, ({ onFailure }) => onFailure({ message: 'fails' }));
+  mapFailure = (intent, error = { message: 'fails' }) => {
+    this.overrideMapping(intent, ({ onFailure }) => onFailure(error));
   };
 }
 
