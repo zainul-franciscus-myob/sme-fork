@@ -1,4 +1,6 @@
 import {
+  Alert,
+  Field,
   FormHorizontal,
   RadioButton,
   RadioButtonGroup,
@@ -8,8 +10,9 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getDisableSelfManaged,
   getIsCreating,
+  getSelfManagedSuperFundEnabled,
+  getShowSelfManagedSuperFundWarning,
   getSuperFund,
 } from '../SuperFundWithPaySuperSelectors';
 import { selfManagedSuperFund, standardSuperFund } from '../../FundTypes';
@@ -24,7 +27,8 @@ const SuperFundBasic = ({
   superFund,
   listeners: { onUpdateSuperFundDetail },
   isCreating,
-  disableSelfManaged,
+  selfManagedSuperFundEnabled,
+  showSelfManagedSuperFundWarning,
 }) => (
   <React.Fragment>
     <FormHorizontal className={styles.fundType}>
@@ -48,15 +52,27 @@ const SuperFundBasic = ({
             value={selfManagedSuperFund.value}
             checked={selfManagedSuperFund.value === superFund.fundType}
             onChange={onInputChange(onUpdateSuperFundDetail)}
-            disabled={!isCreating || disableSelfManaged}
+            disabled={!selfManagedSuperFundEnabled}
             labelAccessory={(
               <Tooltip>
-                You can only select an SMSF if you sign up to Pay super
+                  You can only select an SMSF if you sign up to Pay super
               </Tooltip>
-            )}
+              )}
           />,
         ]}
       />
+      {showSelfManagedSuperFundWarning && (
+      <Field
+        renderField={() => (
+          <Alert type="warning">
+                It looks like you&apos;re not authorised
+                 to do this. Only a person from the business with the role of administrator
+                 can create a self managed
+                super fund in Pay super.
+          </Alert>
+        )}
+      />
+      )}
     </FormHorizontal>
   </React.Fragment>
 );
@@ -64,7 +80,8 @@ const SuperFundBasic = ({
 const mapStateToProps = state => ({
   superFund: getSuperFund(state),
   isCreating: getIsCreating(state),
-  disableSelfManaged: getDisableSelfManaged(state),
+  selfManagedSuperFundEnabled: getSelfManagedSuperFundEnabled(state),
+  showSelfManagedSuperFundWarning: getShowSelfManagedSuperFundWarning(state),
 });
 
 export default connect(mapStateToProps)(SuperFundBasic);

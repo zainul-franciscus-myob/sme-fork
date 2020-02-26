@@ -54,5 +54,9 @@ export const getSaveSuperFundPayload = createStructuredSelector({
   isPaySuperFund: getIsPaySuperFund,
 });
 
-export const getDisableSelfManaged = state => !state.superFund.isPaySuperFund;
-export const getAbnIsDisabled = state => !getDisableSelfManaged(state);
+
+export const getAbnIsDisabled = state => state.superFund.isPaySuperFund;
+
+export const getSelfManagedSuperFundEnabled = state => getIsCreating(state)
+  && state.selfManagedSuperFundEnabled;
+export const getShowSelfManagedSuperFundWarning = state => state.showSelfManagedSuperFundWarning;
