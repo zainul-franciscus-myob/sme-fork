@@ -33,7 +33,7 @@ The `JS Errors` page in newrelic allows you to select an instance of an error an
 
 ![error instance](images/newrelic-error-instance.png)
 
-Once you've identified the `buildNumber` of the error instance, you can navigate to that build in BuildKite, click on the `Artifacts` tab and download the build `build-${env}.tar.gz` file.
+Once you've identified the `buildNumber` of the error instance, you can navigate to that build in BuildKite, click on the `Artifacts` tab and download the build `build-[environment].tar.gz` file.
 
 ![buildkite artifact](images/buildkite-artifact.png)
 
