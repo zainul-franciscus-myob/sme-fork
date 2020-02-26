@@ -11,8 +11,24 @@ fi
 ENV=$1
 BUILD_CONFIG_FILE=config.$ENV
 APP_CONFIG_FILE=config-$ENV.json
+NEW_RELIC_SRC=noop.js
+case $ENV in
+  "integration"|"pdv")
+    NEW_RELIC_SRC=preprod.js
+    ;;
+  "preview")
+    NEW_RELIC_SRC=preview.js
+    ;;
+  "production")
+    NEW_RELIC_SRC=prod.js
+    ;;
+esac
+
+BUILD_FILES="find ./build -ipath ./build/newrelic -prune -type f -o -not -iname config-*.json -type f"
+NEW_RELIC_FILE="find ./build -iname ${NEW_RELIC_SRC}"
+CONFIG_FILE="find ./build -iname config-${REACT_APP_BUILD_NUMBER:-dev}.json"
 
 ./ops/bin/env "echo '--- Building with $BUILD_CONFIG_FILE' && \
               . ${BUILD_CONFIG_FILE} yarn react-scripts build && \
               mv ./build/${APP_CONFIG_FILE} ./build/config-${REACT_APP_BUILD_NUMBER:-dev}.json && \
-              tar czf build-${ENV}.tar.gz build"
+              (${BUILD_FILES}; ${CONFIG_FILE}; ${NEW_RELIC_FILE}) | xargs tar czfv build-${ENV}.tar.gz"

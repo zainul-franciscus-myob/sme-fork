@@ -85,6 +85,7 @@ steps:
 
   - name: ':white_check_mark: Record "preprod" release'
     command: 'myob-release preprod sme-web'
+    branches: master
     agents:
       queue: cacc-prod-dflt
 
@@ -101,6 +102,7 @@ steps:
 
   - name: ':white_check_mark: Record "qa" release'
     command: 'myob-release qa sme-web'
+    branches: master
     agents:
       queue: cacc-prod-dflt
 
@@ -126,5 +128,6 @@ steps:
 
   - name: ':white_check_mark: Record "prod" release'
     command: 'myob-release prod sme-web'
+    branches: master
     agents:
       queue: cacc-prod-dflt
