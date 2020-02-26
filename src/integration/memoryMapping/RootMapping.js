@@ -31,6 +31,7 @@ import InTrayMapping from '../../modules/inTray/mappings/MemoryInTrayMapping';
 import IncomeAllocationMapping from '../../modules/IncomeAllocation/mappings/MemoryIncomeAllocationMapping';
 import InventoryMapping from '../../modules/inventory/mappings/MemoryInventoryMapping';
 import InventoryModalMapping from './InventoryModalMapping';
+import InvoiceBusinessMapping from '../../modules/templateBuilder/businessSettings/mappings/MemoryInvoiceBusinessMapping';
 import InvoiceMapping from '../../modules/invoice/mappings/MemoryInvoiceMapping';
 import InvoicePaymentMapping from '../../modules/invoicePayment/mappings/MemoryInvoicePaymentMapping';
 import JournalTransactionListMapping from '../../modules/transactionList/journalTransaction/mappings/MemoryJournalTransactionListMapping';
@@ -159,6 +160,7 @@ const RootMapping = Object.freeze({
   ...RootBusinessDetailsMapping,
   ...FileUnavailableMapping,
   ...RootModuleMapping,
+  ...InvoiceBusinessMapping,
 });
 
 export default RootMapping;

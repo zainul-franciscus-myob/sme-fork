@@ -1,4 +1,4 @@
-import InvoiceBusinessSettingsModule from './businessSettings/InvoiceBusinessSettingsModule';
+import InvoiceBusinessSettingsModule from './businessSettings/invoiceBusinessSettingsModule';
 import InvoiceEmailSettingsModule from './emailSettings/InvoiceEmailSettingsModule';
 import InvoiceLogoModule from './logoSettings/InvoiceLogoModule';
 import InvoicePaymentSettingsModule from './paymentSettings/InvoicePaymentSettingsModule';
@@ -10,7 +10,10 @@ const getTemplateBuilderRoutes = ({
   pushMessage,
   popMessages,
   globalCallbacks: {
-    setupBusinessDetails, addedPaymentDetails, uploadedLogo, customisedEmailDefaults,
+    setupBusinessDetails,
+    addedPaymentDetails,
+    uploadedLogo,
+    customisedEmailDefaults,
   },
 }) => [
   {

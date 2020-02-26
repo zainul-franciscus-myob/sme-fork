@@ -6,11 +6,11 @@ import React from 'react';
 
 import {
   getAlert, getIsLoading, getIsSubmitting, getModal, getPageTitle,
-} from '../../business/businessDetail/businessDetailSelectors';
-import BusinessSettingsDetails from './InvoiceBusinessSettingsDetails';
-import FormCard from '../../../components/FormCard/FormCard';
-import PageView from '../../../components/PageView/PageView';
-import UnsavedModal from '../../../components/modal/UnsavedModal';
+} from '../invoiceBusinessSettingsDetailSelectors';
+import FormCard from '../../../../components/FormCard/FormCard';
+import InvoiceBusinessSettingsDetails from './InvoiceBusinessSettingsDetails';
+import PageView from '../../../../components/PageView/PageView';
+import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const BusinessSettingsView = ({
   alert,
@@ -53,10 +53,11 @@ const BusinessSettingsView = ({
     >
       {unsavedModal}
       <FormCard>
-        <BusinessSettingsDetails onChange={onChange} />
+        <InvoiceBusinessSettingsDetails onChange={onChange} />
       </FormCard>
     </FormTemplate>
   );
+
   return <PageView isLoading={isLoading} view={view} />;
 };
 

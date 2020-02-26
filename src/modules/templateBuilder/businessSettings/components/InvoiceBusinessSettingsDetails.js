@@ -7,9 +7,9 @@ import {
   getContactDetails,
   getIsRegionAu,
   getRegionTaxDetails,
-} from '../../business/businessDetail/businessDetailSelectors';
-import AbnInput from '../../../components/autoFormatter/AbnInput/AbnInput';
-import handleInputChange from '../../../components/handlers/handleInputChange';
+} from '../invoiceBusinessSettingsDetailSelectors';
+import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const InvoiceBusinessSettingsDetails = ({
   abn,
