@@ -1,24 +1,30 @@
 const parseString = (string) => {
   const pathSegments = string.split('/');
+  const regexPatternForId = '^[0-9]*';
+  const regexPatternForGuid = '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}';
 
-  const pathWithOnlyNumberIds = pathSegments.filter(
+  const segmentsWithIdsOrGuids = pathSegments.filter(
     (pathSegment) => {
-      const regexPattern = '^[0-9]*';
-      const startsWithNumber = pathSegment.match(regexPattern);
-      return Boolean(startsWithNumber[0]);
+      const isIdOrGuid = pathSegment.match(regexPatternForId)
+      || pathSegment.match(regexPatternForGuid);
+      return Boolean(isIdOrGuid[0]);
     },
   );
 
   const updatedPathSegments = pathSegments.map((pathSegment, index) => {
-    if (pathWithOnlyNumberIds.includes(pathSegment)) {
-      const regexPattern = '^[0-9]*';
-      const numberPartOfPathSegment = pathSegment.match(regexPattern);
-
+    if (segmentsWithIdsOrGuids.includes(pathSegment)) {
       /*
         There is an assumption being made that for a given route, the unique id associated with
         a particular domain (e.g. an id for a quote), will always be at the start of a path segment.
       */
 
+      const isGuid = pathSegment.match(regexPatternForGuid);
+      if (isGuid) {
+        const restOfPathSegmentForGuid = pathSegment.slice(isGuid[0].length);
+        return `${pathSegments[index - 1]}Detail${restOfPathSegmentForGuid}`;
+      }
+
+      const numberPartOfPathSegment = pathSegment.match(regexPatternForId);
       const restOfPathSegment = pathSegment.slice(numberPartOfPathSegment[0].length);
       return `${pathSegments[index - 1]}Detail${restOfPathSegment}`;
     }

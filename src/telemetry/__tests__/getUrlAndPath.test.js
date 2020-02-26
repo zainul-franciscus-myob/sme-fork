@@ -28,6 +28,19 @@ describe('getUrl', () => {
       businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
       parsedOutUrl: 'https://app.myob.com/au/payItem/wage/wageDetail',
     },
+    /*
+      Scenario where the id can be a GUID
+    */
+    {
+      url: 'https://app.myob.com/#/au/0b591022-d405-4bb8-93d9-c1c79ff1afbd/payrun/4c4e057a-0788-41c7-ae9f-c3b694226a2f',
+      businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
+      parsedOutUrl: 'https://app.myob.com/au/payrun/payrunDetail',
+    },
+    {
+      url: 'https://app.myob.com/#/au/0b591022-d405-4bb8-93d9-c1c79ff1afbd/payrun/4c4e057a-0788-41c7-ae9f-c3b694226a2f?tab=Detail',
+      businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
+      parsedOutUrl: 'https://app.myob.com/au/payrun/payrunDetail?tab=Detail',
+    },
     {
       url: 'https://localhost:3000/#/au/0b591022-d405-4bb8-93d9-c1c79ff1afbd/receiveRefund/23',
       businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
@@ -110,6 +123,16 @@ describe('getPath', () => {
       path: '#/au/0b591022-d405-4bb8-93d9-c1c79ff1afbd/transactionList?sourceJournal=General',
       businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
       parsedOutPath: '/au/transactionList?sourceJournal=General',
+    },
+    {
+      path: '#/au/0b591022-d405-4bb8-93d9-c1c79ff1afbd/payrun/4c4e057a-0788-41c7-ae9f-c3b694226a2f',
+      businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
+      parsedOutPath: '/au/payrun/payrunDetail',
+    },
+    {
+      path: '#/au/0b591022-d405-4bb8-93d9-c1c79ff1afbd/payrun/4c4e057a-0788-41c7-ae9f-c3b694226a2f?tab=Detail',
+      businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
+      parsedOutPath: '/au/payrun/payrunDetail?tab=Detail',
     },
   ].forEach((test) => {
     it(`should parse out ${test.path} correctly`, () => {
