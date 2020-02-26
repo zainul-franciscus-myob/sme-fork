@@ -1,7 +1,12 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getShouldShowBanking, getShouldShowPurchases, getShouldShowSales } from './selectors/DashboardSelectors';
+import {
+  getShouldShowBanking,
+  getShouldShowPurchases,
+  getShouldShowSales,
+  getShouldShowTracking,
+} from './selectors/DashboardSelectors';
 import DashboardView from './components/DashboardView';
 import Store from '../../store/Store';
 import createDashboardDispatcher from './createDashboardDispatcher';
@@ -79,6 +84,10 @@ export default class DashboardModule {
   }
 
   loadTracking = () => {
+    if (!getShouldShowTracking(this.store.getState())) {
+      return;
+    }
+
     this.dispatcher.setTrackingErrorState(false);
     this.dispatcher.setTrackingLoadingState(true);
 
