@@ -17,8 +17,6 @@ import FormCard from '../../../../../components/FormCard/FormCard';
 import handleCheckboxChange from '../../../../../components/handlers/handleCheckboxChange';
 import styles from './EmployeePayTable.module.css';
 
-const netPayTooltip = <Tooltip>This is your employees&apos; take home pay</Tooltip>;
-
 const tableConfig = {
   employee: { width: 'flex-2', columnName: 'Employee' },
   payg: { width: 'flex-1', columnName: 'Gross ($}', align: 'right' },
@@ -62,14 +60,20 @@ const EmployeePayTable = ({
               />
             </Table.HeaderItem>
             <Table.HeaderItem {...tableConfig.employee}>Employee</Table.HeaderItem>
-            <Table.HeaderItem {...tableConfig.gross}>Gross ($)</Table.HeaderItem>
+            <Table.HeaderItem {...tableConfig.gross}>
+              Gross ($)
+              <Tooltip>Gross includes all taxable and tax exempt income</Tooltip>
+            </Table.HeaderItem>
             <Table.HeaderItem {...tableConfig.payg}>PAYG ($)</Table.HeaderItem>
             <Table.HeaderItem {...tableConfig.deduction}>Deductions ($)</Table.HeaderItem>
             <Table.HeaderItem {...tableConfig.netPay}>
               Net pay ($)
-              {netPayTooltip}
+              <Tooltip>This is your employees&apos; take home pay</Tooltip>
             </Table.HeaderItem>
-            <Table.HeaderItem {...tableConfig.super}>Super ($)</Table.HeaderItem>
+            <Table.HeaderItem {...tableConfig.super}>
+              Super ($)
+              <Tooltip>Super includes all super deductions and super expenses</Tooltip>
+            </Table.HeaderItem>
           </Table.Header>
         )}
         body={(
