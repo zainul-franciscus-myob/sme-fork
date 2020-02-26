@@ -1,5 +1,3 @@
-import { addMonths } from 'date-fns';
-
 import {
   ADD_IN_TRAY_LIST_ENTRY,
   CLOSE_MODAL,
@@ -49,9 +47,6 @@ import {
 } from './uploadOptionsReducer';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
-import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
-
-const getDefaultDateRange = () => addMonths(new Date(), -3);
 
 const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
@@ -66,13 +61,9 @@ const getDefaultState = () => ({
     attachments: [],
     isTableLoading: false,
     filterOptions: {
-      invoiceDateFrom: formatIsoDate(getDefaultDateRange()),
-      invoiceDateTo: formatIsoDate(new Date()),
       keywords: '',
     },
     appliedFilterOptions: {
-      invoiceDateFrom: formatIsoDate(getDefaultDateRange()),
-      invoiceDateTo: formatIsoDate(new Date()),
       keywords: '',
     },
     sortOrder: '',

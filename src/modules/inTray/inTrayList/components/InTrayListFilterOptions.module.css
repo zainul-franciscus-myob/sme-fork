@@ -1,0 +1,30 @@
+/*
+  * @FEELIX
+  * Feelix FilterBar doesn't show `apply filter` button in mobile screen
+  * 
+  * as a temporary fix before the feelix bug get fixed,
+  * we use Card component to replicate the experience FilterBar has
+*/
+.filterBar {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.filterBar :global(.flx-card__body) {
+  display: flex;
+  align-items: flex-end;
+}
+
+.filterBar :global(.flx-card__body > .form-group) {
+  flex: 1 1 0;
+  margin-bottom: 0;
+  margin-right: var(--flx-spacing-tiny);
+}
+
+@media (min-width: 500px) {
+  .filterBar :global(.flx-card__body > .form-group) {
+    flex: 0 0 auto;
+  }
+}
+
