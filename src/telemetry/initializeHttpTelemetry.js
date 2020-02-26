@@ -106,6 +106,7 @@ const initializeHttpTelemetry = (segmentWriteKey) => {
     }
     if (window.newrelic) {
       window.newrelic.setCustomAttribute('currentRouteName', currentRouteName);
+      window.newrelic.setCustomAttribute('buildNumber', process.env.REACT_APP_BUILD_NUMBER || 'dev');
     }
   };
 };
