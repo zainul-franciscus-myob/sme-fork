@@ -1,0 +1,3 @@
+.prefilled, .prefilled :global(textarea){
+  background-color: var(--prefill-background-color);
+}

@@ -1,11 +1,11 @@
 import {
-  TextArea,
+  TextArea, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
 
-import { getHeaderOptions, getPrefillStatus } from '../spendMoneyDetailSelectors';
+import { getAccountOptions, getHeaderOptions, getPrefillStatus } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
@@ -21,8 +21,11 @@ const SpendMoneyDetailPrimaryOptions = ({
     selectedPayFromAccountId,
     isReportableDisabled,
     shouldShowReportable,
+    shouldShowAccountCode,
     region,
+    expenseAccountId,
   },
+  accountOptions,
   onUpdateHeaderOptions,
   prefillStatus,
 }) => {
@@ -77,6 +80,22 @@ const SpendMoneyDetailPrimaryOptions = ({
           disabled={isReportableDisabled}
         />
       )}
+      {shouldShowAccountCode && (
+        <AccountCombobox
+          allowClearSelection
+          items={accountOptions}
+          selectedId={expenseAccountId}
+          onChange={handleComboBoxChange('expenseAccountId')}
+          label="Account code"
+          labelAccessory={(
+            <Tooltip>
+              The account code will be assigned to all lines on the transaction.
+            </Tooltip>
+          )}
+          name="expenseAccountId"
+          hideLabel={false}
+        />
+      )}
       <div className={classnames({ [styles.prefilled]: prefillStatus.description })}>
         <TextArea
           name="description"
@@ -95,6 +114,7 @@ const SpendMoneyDetailPrimaryOptions = ({
 
 const mapStateToProps = state => ({
   headerOptions: getHeaderOptions(state),
+  accountOptions: getAccountOptions(state),
   prefillStatus: getPrefillStatus(state),
 });
 

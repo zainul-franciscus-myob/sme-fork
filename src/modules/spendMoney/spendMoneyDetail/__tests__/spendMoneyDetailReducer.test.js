@@ -5,6 +5,7 @@ import {
   GET_TAX_CALCULATIONS,
   PREFILL_DATA_FROM_IN_TRAY,
   UPDATE_SPEND_MONEY_HEADER,
+  UPDATE_SPEND_MONEY_LINE,
   UPLOAD_ATTACHMENT,
   UPLOAD_ATTACHMENT_FAILED,
 } from '../../SpendMoneyIntents';
@@ -152,6 +153,7 @@ describe('spendMoneyDetailReducer', () => {
               { id: '1', isReportable: true },
               { id: '2', isReportable: false },
             ],
+            lines: [],
           },
         };
 
@@ -173,6 +175,7 @@ describe('spendMoneyDetailReducer', () => {
         const state = {
           spendMoney: {
             isReportable: false,
+            lines: [],
           },
         };
 
@@ -190,7 +193,9 @@ describe('spendMoneyDetailReducer', () => {
 
     it('updates prefill status when corresponding field changed', () => {
       const state = {
-        spendMoney: {},
+        spendMoney: {
+          lines: [],
+        },
         prefillStatus: {
           description: true,
         },
@@ -206,6 +211,112 @@ describe('spendMoneyDetailReducer', () => {
 
       expect(actual.prefillStatus).toEqual({
         description: false,
+      });
+    });
+
+    describe('expenseAccountId', () => {
+      const action = {
+        intent: UPDATE_SPEND_MONEY_HEADER,
+        key: 'expenseAccountId',
+        value: '1',
+      };
+
+      it('updates expenseAccountId', () => {
+        const state = {
+          spendMoney: {
+            expenseAccountId: '',
+            lines: [],
+          },
+        };
+
+        const actual = spendMoneyReducer(state, action);
+
+        expect(actual.spendMoney.expenseAccountId).toEqual('1');
+      });
+
+      it('updates all lines with expenseAccountId and its associated taxCodeId', () => {
+        const state = {
+          spendMoney: {
+            expenseAccountId: '2',
+            lines: [
+              { accountId: '2', taxCodeId: '2', amount: '10.00' },
+              { accountId: '3', taxCodeId: '3', amount: '20.00' },
+            ],
+          },
+          accounts: [
+            { id: '1', taxCodeId: '1' },
+            { id: '2', taxCodeId: '2' },
+            { id: '3', taxCodeId: '3' },
+          ],
+          taxCodes: [
+            { id: '1' },
+            { id: '2' },
+            { id: '3' },
+          ],
+        };
+
+        const actual = spendMoneyReducer(state, action);
+
+        const expectedLines = [
+          { accountId: '1', taxCodeId: '1', amount: '10.00' },
+          { accountId: '1', taxCodeId: '1', amount: '20.00' },
+        ];
+
+        expect(actual.spendMoney.lines).toEqual(expectedLines);
+      });
+    });
+  });
+
+  describe('updateLine', () => {
+    describe('updates line prefill status', () => {
+      [
+        { key: 'description' },
+        { key: 'amount' },
+      ].forEach((test) => {
+        it(`should update status to false if line has been prefilled and ${test.key} is updated`, () => {
+          const state = {
+            spendMoney: {
+              lines: [{
+                amount: '23',
+                prefillStatus: {
+                  amount: true,
+                },
+              }],
+            },
+          };
+
+          const action = {
+            intent: UPDATE_SPEND_MONEY_LINE,
+            lineIndex: 0,
+            lineKey: test.key,
+            lineValue: '',
+          };
+
+          const actual = spendMoneyReducer(state, action);
+
+          expect(actual.spendMoney.lines[0].prefillStatus[action.lineKey]).toEqual(false);
+        });
+      });
+
+      it('should not update prefill status if line has not been prefilled', () => {
+        const state = {
+          spendMoney: {
+            lines: [{
+              amount: '23',
+            }],
+          },
+        };
+
+        const action = {
+          intent: UPDATE_SPEND_MONEY_LINE,
+          lineIndex: 0,
+          lineKey: test.key,
+          lineValue: '',
+        };
+
+        const actual = spendMoneyReducer(state, action);
+
+        expect(actual.spendMoney.lines[0].prefillStatus).toBeUndefined();
       });
     });
   });
@@ -224,11 +335,25 @@ describe('spendMoneyDetailReducer', () => {
       showPrefillInfo: true,
     });
 
+    const accounts = [
+      { id: '1', taxCodeId: '1' },
+      { id: '2', taxCodeId: '2' },
+      { id: '3', taxCodeId: '3' },
+    ];
+
+    const taxCodes = [
+      { id: '1' },
+      { id: '2' },
+      { id: '3' },
+    ];
+
     it('prefills spendMoney', () => {
       const state = {
         spendMoney: {},
         isPageEdited: false,
         inTrayDocument: undefined,
+        accounts,
+        taxCodes,
       };
 
       const response = {
@@ -237,16 +362,13 @@ describe('spendMoneyDetailReducer', () => {
           description: 'Some notes 437889188',
           selectedPayToContactId: '2',
           isTaxInclusive: true,
+          expenseAccountId: '1',
           lines: [
             {
               amount: '10.00',
               description: 'Cooler Large',
             },
           ],
-        },
-        newLine: {
-          amount: '500.77',
-          displayAmount: '500.77',
         },
         document,
       };
@@ -257,25 +379,39 @@ describe('spendMoneyDetailReducer', () => {
       };
 
       const actual = spendMoneyReducer(state, action);
+      const expected = {
+        ...buildExpected({
+          spendMoney: {
+            selectedPayToContactId: '2',
+            date: '2019-01-01',
+            description: 'Some notes 437889188',
+            isTaxInclusive: true,
+            originalExpenseAccountId: '1',
+            expenseAccountId: '1',
+            lines: [{
+              amount: '10.00',
+              displayAmount: '10.00',
+              description: 'Cooler Large',
+              accountId: '1',
+              taxCodeId: '1',
+              prefillStatus: {
+                amount: true,
+                description: true,
+              },
+            }],
+          },
+          prefillStatus: {
+            date: true,
+            description: true,
+            isTaxInclusive: true,
+            selectedPayToContactId: true,
+          },
+        }),
+        accounts,
+        taxCodes,
+      };
 
-      expect(actual).toEqual(buildExpected({
-        spendMoney: {
-          selectedPayToContactId: '2',
-          date: '2019-01-01',
-          description: 'Some notes 437889188',
-          isTaxInclusive: true,
-          lines: [{
-            amount: '10.00',
-            displayAmount: '10.00',
-          }],
-        },
-        prefillStatus: {
-          date: true,
-          description: true,
-          isTaxInclusive: true,
-          selectedPayToContactId: true,
-        },
-      }));
+      expect(actual).toEqual(expected);
     });
 
     it('does not prefill bill when no ocr data available', () => {
@@ -307,6 +443,112 @@ describe('spendMoneyDetailReducer', () => {
           selectedPayToContactId: false,
         },
       }));
+    });
+
+    it('does not prefill lines when there are no prefilled lines returned', () => {
+      const state = {
+        spendMoney: {
+          lines: [],
+        },
+        isPageEdited: false,
+        inTrayDocument: undefined,
+        accounts,
+        taxCodes,
+      };
+
+      const response = {
+        spendMoney: {
+          date: '2019-01-01',
+        },
+        document,
+      };
+
+      const action = {
+        intent: PREFILL_DATA_FROM_IN_TRAY,
+        response,
+      };
+      const actual = spendMoneyReducer(state, action);
+
+      const expected = {
+        ...buildExpected({
+          spendMoney: {
+            date: '2019-01-01',
+            lines: [],
+          },
+          prefillStatus: {
+            date: true,
+            description: false,
+            isTaxInclusive: false,
+            selectedPayToContactId: false,
+          },
+        }),
+        accounts,
+        taxCodes,
+      };
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('does not prefill accountId and taxCodeId if no expenseAccountId was returned from prefill data', () => {
+      const state = {
+        spendMoney: {},
+        newLine: {
+          accountId: '',
+          taxCodeId: '',
+        },
+        isPageEdited: false,
+        inTrayDocument: undefined,
+        accounts,
+        taxCodes,
+      };
+
+      const response = {
+        spendMoney: {
+          lines: [
+            {
+              amount: '10.00',
+            },
+          ],
+        },
+        document,
+      };
+
+      const action = {
+        intent: PREFILL_DATA_FROM_IN_TRAY,
+        response,
+      };
+
+      const actual = spendMoneyReducer(state, action);
+      const expected = {
+        ...buildExpected({
+          spendMoney: {
+            lines: [{
+              amount: '10.00',
+              displayAmount: '10.00',
+              accountId: '',
+              taxCodeId: '',
+              prefillStatus: {
+                amount: true,
+                description: false,
+              },
+            }],
+          },
+          prefillStatus: {
+            date: false,
+            description: false,
+            isTaxInclusive: false,
+            selectedPayToContactId: false,
+          },
+        }),
+        newLine: {
+          accountId: '',
+          taxCodeId: '',
+        },
+        accounts,
+        taxCodes,
+      };
+
+      expect(actual).toEqual(expected);
     });
   });
 

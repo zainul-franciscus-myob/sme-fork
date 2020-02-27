@@ -10,7 +10,10 @@ const getPayFromAccounts = state => state.spendMoney.payFromAccounts;
 const getPayToContacts = state => state.spendMoney.payToContacts;
 const getDate = state => state.spendMoney.date;
 const getDescription = state => state.spendMoney.description;
+const getExpenseAccountId = state => state.spendMoney.expenseAccountId;
+const getOriginalExpenseAccountId = state => state.spendMoney.originalReferenceId;
 const getLines = state => state.spendMoney.lines;
+export const getInTrayDocumentId = state => state.inTrayDocumentId;
 export const getIsReportable = state => state.spendMoney.isReportable;
 export const getIsTaxInclusive = state => state.spendMoney.isTaxInclusive;
 const getTaxInclusiveLabel = state => getRegionToDialectText(state.region)('Tax inclusive');
@@ -27,6 +30,7 @@ const getHeadersProperties = createStructuredSelector({
   payToContacts: getPayToContacts,
   date: getDate,
   description: getDescription,
+  expenseAccountId: getExpenseAccountId,
   isReportable: getIsReportable,
   isTaxInclusive: getIsTaxInclusive,
   taxInclusiveLabel: getTaxInclusiveLabel,
@@ -44,13 +48,32 @@ export const getIsReportableDisabled = createSelector(
   },
 );
 
+export const getIsCreating = state => state.spendMoneyId === 'new';
+export const getIsCreatingFromInTray = createSelector(
+  getIsCreating,
+  getInTrayDocumentId,
+  (isCreating, inTrayDocumentId) => isCreating && inTrayDocumentId,
+);
+
 const getShouldShowReportable = state => state.region.toLowerCase() === 'au';
+
+const getContactType = (contactId, contacts) => contacts.find(
+  contact => contact.id === contactId,
+).contactType;
+
+const getShouldShowAccountCode = createSelector(
+  getIsCreatingFromInTray,
+  getSelectedPayToContactId,
+  getPayToContacts,
+  (isCreatingFromInTray, contactId, contacts) => isCreatingFromInTray && contactId && getContactType(contactId, contacts) === 'Supplier',
+);
 
 export const getHeaderOptions = createSelector(
   getHeadersProperties,
   getIsReportableDisabled,
   getShouldShowReportable,
-  (headerProps, isReportableDisabled, shouldShowReportable) => {
+  getShouldShowAccountCode,
+  (headerProps, isReportableDisabled, shouldShowReportable, shouldShowAccountCode) => {
     const {
       payFromAccounts = [], payToContacts = [],
       ...headerOptions
@@ -62,6 +85,7 @@ export const getHeaderOptions = createSelector(
       ...headerOptions,
       isReportableDisabled,
       shouldShowReportable,
+      shouldShowAccountCode,
     };
   },
 );
@@ -95,7 +119,6 @@ export const getIndexOfLastLine = state => state.spendMoney.lines.length - 1;
 export const getSpendMoney = state => state.spendMoney;
 
 export const getSpendMoneyId = state => state.spendMoneyId;
-export const getIsCreating = state => state.spendMoneyId === 'new';
 export const getSpendMoneyUid = state => state.spendMoney.uid;
 
 export const getTotals = state => state.totals;
@@ -199,20 +222,27 @@ export const getTransactionListUrl = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/transactionList`,
 );
 
-export const getInTrayDocumentId = state => state.inTrayDocumentId;
-
-export const getIsCreatingFromInTray = createSelector(
-  getIsCreating,
-  getInTrayDocumentId,
-  (isCreating, inTrayDocumentId) => isCreating && inTrayDocumentId,
-);
-
 export const getLoadSpendMoneyRequestParams = createStructuredSelector({
   spendMoneyId: getSpendMoneyId,
   isCreating: getIsCreating,
 });
 
 const getInTrayDocument = state => state.inTrayDocument;
+
+export const getLinkInTrayContentWithoutSpendMoneyId = createSelector(
+  getSpendMoneyUid,
+  getInTrayDocumentId,
+  getSelectedPayToContactId,
+  getOriginalExpenseAccountId,
+  getExpenseAccountId,
+  (uid, inTrayDocumentId, contactId, originalExpenseAccountId, expenseAccountId) => ({
+    uid,
+    inTrayDocumentId,
+    contactId,
+    originalExpenseAccountId,
+    expenseAccountId,
+  }),
+);
 
 export const getInTrayDocumentUploadedDate = createSelector(
   getInTrayDocument,
@@ -232,6 +262,7 @@ export const getInTrayDocumentFileUrl = createSelector(
 export const getShowSplitView = state => state.showSplitView;
 
 export const getPrefillStatus = state => state.prefillStatus;
+export const getHasPrefilledLines = state => state.spendMoney.lines.length > 0;
 
 export const getShowPrefillInfo = state => state.showPrefillInfo;
 

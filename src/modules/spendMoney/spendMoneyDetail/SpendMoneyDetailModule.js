@@ -9,6 +9,7 @@ import {
 import { TaxCalculatorTypes, createTaxCalculator } from '../../../common/taxCalculator';
 import {
   getFilesForUpload,
+  getHasPrefilledLines,
   getInTrayDocumentId,
   getInTrayUrl,
   getIsCreating,
@@ -18,13 +19,12 @@ import {
   getIsTableEmpty,
   getIsTaxInclusive,
   getLinesForTaxCalculation,
+  getLinkInTrayContentWithoutSpendMoneyId,
   getLoadSpendMoneyRequestParams,
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
-  getSelectedPayToContactId,
   getSpendMoneyId,
-  getSpendMoneyUid,
   getTaxCodeOptions,
   getTransactionListUrl,
   isPageEdited,
@@ -56,6 +56,11 @@ export default class SpendMoneyDetailModule {
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.prefillDataFromInTray(response);
+
+      const hasPrefilledLines = getHasPrefilledLines(this.store.getState());
+      if (hasPrefilledLines) {
+        this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+      }
     };
 
     const onFailure = ({ message }) => {
@@ -121,6 +126,10 @@ export default class SpendMoneyDetailModule {
     if (key === 'isTaxInclusive') {
       this.getTaxCalculations({ isSwitchingTaxInclusive: true });
     }
+
+    if (key === 'expenseAccountId') {
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+    }
   };
 
   getSaveHandlers = () => ({
@@ -174,9 +183,7 @@ export default class SpendMoneyDetailModule {
 
     const linkContent = {
       id: response.id,
-      uid: getSpendMoneyUid(state),
-      inTrayDocumentId: getInTrayDocumentId(state),
-      contactId: getSelectedPayToContactId(state),
+      ...getLinkInTrayContentWithoutSpendMoneyId(state),
     };
 
     this.integrator.linkInTrayDocument({

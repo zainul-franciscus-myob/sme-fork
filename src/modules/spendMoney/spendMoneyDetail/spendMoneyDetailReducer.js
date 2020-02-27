@@ -42,6 +42,11 @@ const defaultPrefillStatus = {
   isTaxInclusive: false,
 };
 
+const defaultLinePrefillStatus = {
+  description: false,
+  amount: false,
+};
+
 const getDefaultState = () => ({
   spendMoney: {
     id: '',
@@ -54,6 +59,8 @@ const getDefaultState = () => ({
     description: '',
     selectedPayFromAccountId: '',
     selectedPayToContactId: '',
+    originalExpenseAccountId: '',
+    expenseAccountId: '',
     lines: [],
     payFromAccounts: [],
     payToContacts: [],
@@ -97,6 +104,14 @@ const getDefaultTaxCodeId = ({ accountId, accounts }) => {
   return account === undefined ? '' : account.taxCodeId;
 };
 
+const getLinePrefillStatus = (key, currentStateLinePrefillStatus) => {
+  const isPrefillField = Object.keys(defaultLinePrefillStatus).includes(key);
+  return isPrefillField ? {
+    ...currentStateLinePrefillStatus,
+    [key]: false,
+  } : currentStateLinePrefillStatus;
+};
+
 const updateSpendMoneyLine = (line, { lineKey, lineValue }, accounts) => {
   const isUpdateAccount = lineKey === 'accountId';
   const isUpdateAmount = lineKey === 'amount';
@@ -107,6 +122,9 @@ const updateSpendMoneyLine = (line, { lineKey, lineValue }, accounts) => {
     taxCodeId: isUpdateAccount
       ? getDefaultTaxCodeId({ accountId: lineValue, accounts })
       : line.taxCodeId,
+    prefillStatus: line.prefillStatus
+      ? getLinePrefillStatus(lineKey, line.prefillStatus)
+      : undefined,
     [lineKey]: lineValue,
   };
   return updatedLine;
@@ -151,6 +169,15 @@ const deleteLine = (state, action) => ({
   },
 });
 
+const updateAllLinesWithExpenseAccount = (lines, accounts, expenseAccountId) => {
+  const taxCodeId = getDefaultTaxCodeId({ accountId: expenseAccountId, accounts });
+  return lines.map(line => ({
+    ...line,
+    accountId: expenseAccountId,
+    taxCodeId,
+  }));
+};
+
 const updateHeader = (state, { key, value }) => {
   const isReportable = key === 'selectedPayToContactId'
     ? getIsContactReportable(state, value)
@@ -165,6 +192,9 @@ const updateHeader = (state, { key, value }) => {
       ...state.spendMoney,
       isReportable,
       [key]: value,
+      lines: state.spendMoney.lines.length > 0 && key === 'expenseAccountId'
+        ? updateAllLinesWithExpenseAccount(state.spendMoney.lines, state.accounts, value)
+        : state.spendMoney.lines,
     },
     prefillStatus: isPrefillFields
       ? { ...state.prefillStatus, [key]: false }
@@ -365,10 +395,19 @@ const clearInTrayDocumentUrl = state => ({
   },
 });
 
-const getPrefilledNewLineFromInTray = (state, newLine) => ({
+const getPrefilledLineFromInTray = (state, prefilledLine, expenseAccountId) => ({
   ...state.newLine,
-  amount: newLine.amount,
-  displayAmount: newLine.amount,
+  amount: prefilledLine.amount,
+  displayAmount: prefilledLine.amount,
+  description: prefilledLine.description || state.newLine.description,
+  accountId: expenseAccountId || state.newLine.accountId,
+  taxCodeId: expenseAccountId
+    ? getDefaultTaxCodeId({ accountId: expenseAccountId, accounts: state.accounts })
+    : state.newLine.taxCodeId,
+  prefillStatus: {
+    description: Boolean(prefilledLine.description),
+    amount: Boolean(prefilledLine.amount),
+  },
 });
 
 const prefillDataFromInTray = (state, action) => {
@@ -378,6 +417,8 @@ const prefillDataFromInTray = (state, action) => {
     description,
     date,
     isTaxInclusive,
+    originalExpenseAccountId,
+    expenseAccountId,
     lines,
   } = state.spendMoney;
   return {
@@ -385,13 +426,16 @@ const prefillDataFromInTray = (state, action) => {
     isPageEdited: true,
     spendMoney: {
       ...state.spendMoney,
-      selectedPayToContactId:
-        spendMoney.selectedPayToContactId || selectedPayToContactId,
+      selectedPayToContactId: spendMoney.selectedPayToContactId || selectedPayToContactId,
       description: spendMoney.description || description,
       date: spendMoney.date || date,
       isTaxInclusive: spendMoney.isTaxInclusive || isTaxInclusive,
+      originalExpenseAccountId: spendMoney.expenseAccountId || originalExpenseAccountId,
+      expenseAccountId: spendMoney.expenseAccountId || expenseAccountId,
       lines: spendMoney.lines
-        ? spendMoney.lines.map(line => getPrefilledNewLineFromInTray(state, line))
+        ? spendMoney.lines.map(
+          line => getPrefilledLineFromInTray(state, line, spendMoney.expenseAccountId),
+        )
         : lines,
     },
     inTrayDocument: {

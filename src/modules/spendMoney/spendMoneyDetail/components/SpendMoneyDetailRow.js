@@ -1,6 +1,7 @@
 import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classnames from 'classnames';
 
 import {
   getAccountOptions,
@@ -11,6 +12,7 @@ import {
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
+import styles from './SpendMoneyDetailRow.module.css';
 
 const onAmountInputChange = (name, onChange) => (e) => {
   onChange({
@@ -50,6 +52,7 @@ const SpendMoneyDetailRow = (props) => {
     accountId,
     taxCodeId,
     quantity,
+    prefillStatus = {},
   } = data;
 
   return (
@@ -68,6 +71,7 @@ const SpendMoneyDetailRow = (props) => {
         value={displayAmount}
         onChange={onAmountInputChange('amount', onChange)}
         onBlur={onRowInputBlur}
+        className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         numeralDecimalScaleMax={2}
       />
       <AmountInput
@@ -80,16 +84,18 @@ const SpendMoneyDetailRow = (props) => {
         numeralDecimalScaleMax={6}
         numeralIntegerScale={13}
       />
-      <TextArea
-        label="Description"
-        maxLength={255}
-        hideLabel
-        rows={1}
-        autoSize
-        name="description"
-        value={description}
-        onChange={onChange}
-      />
+      <div className={classnames({ [styles.prefilled]: Boolean(prefillStatus.description) })}>
+        <TextArea
+          label="Description"
+          maxLength={255}
+          hideLabel
+          rows={1}
+          autoSize
+          name="description"
+          value={description}
+          onChange={onChange}
+        />
+      </div>
       <TaxCodeCombobox
         label="Tax code"
         hideLabel={false}
