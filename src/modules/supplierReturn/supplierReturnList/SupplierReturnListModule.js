@@ -1,37 +1,17 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  LOAD_SUPPLIER_RETURN_LIST,
-  SET_ALERT,
-  SET_LOADING_STATE,
-  SET_SORT_ORDER,
-  SET_TABLE_LOADING_STATE,
-  SORT_AND_FILTER_SUPPLIER_RETURN_LIST,
-  UPDATE_FILTER_BAR_OPTIONS,
-} from '../SupplierReturnIntents';
-import {
-  RESET_STATE,
-  SET_INITIAL_STATE,
-} from '../../../SystemIntents';
 import { SUCCESSFULLY_SAVED_PURCHASE_RETURN } from '../../supplierReturnPurchase/SupplierReturnPurchaseMessageTypes';
 import { SUCCESSFULLY_SAVED_RECEIVE_REFUND } from '../../receiveRefund/ReceiveRefundMessageTypes';
-import {
-  getAppliedParams,
-  getBusinessId,
-  getParams,
-  getRegion,
-  getSettings,
-  getURLParams,
-} from './selectors/SupplierReturnListIntegrationSelectors';
-import {
-  getNewSortOrder,
-} from './selectors/SupplierReturnListSelectors';
+import { getCreatePurchaseUrl, getCreateRefundUrl, getNewSortOrder } from './selectors/SupplierReturnListSelectors';
+import { getSettings } from './selectors/SupplierReturnListIntegrationSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import LoadingState from '../../../components/PageView/LoadingState';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import SupplierReturnListView from './components/SupplierReturnListView';
+import createSupplierReturnListDispatcher from './createSupplierReturnListDispatcher';
+import createSupplierReturnListIntegrator from './createSupplierReturnListIntegrator';
 import supplierReturnListReducer from './supplierReturnListReducer';
 
 const messageTypes = [SUCCESSFULLY_SAVED_RECEIVE_REFUND, SUCCESSFULLY_SAVED_PURCHASE_RETURN];
@@ -40,207 +20,104 @@ export default class SupplierReturnListModule {
   constructor({
     integration, setRootView, popMessages,
   }) {
-    this.integration = integration;
     this.setRootView = setRootView;
     this.store = new Store(supplierReturnListReducer);
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
+    this.integrator = createSupplierReturnListIntegrator(this.store, integration);
+    this.dispatcher = createSupplierReturnListDispatcher(this.store);
   }
 
-  readMessages = () => {
-    const [successMessage] = this.popMessages(this.messageTypes);
-
-    if (successMessage) {
-      const {
-        content: message,
-      } = successMessage;
-
-      this.setAlert({
-        type: 'success',
-        message,
-      });
-    }
-  }
-
-  setAlert = ({ message, type }) => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: {
-        message,
-        type,
-      },
-    });
+  render = () => {
+    const view = (
+      <Provider store={this.store}>
+        <SupplierReturnListView
+          onUpdateFilterBarOptions={this.dispatcher.updateFilterBarOptions}
+          onApplyFilter={this.filterSupplierReturnList}
+          onDismissAlert={this.dispatcher.dismissAlert}
+          onSort={this.sortSupplierReturnList}
+          onCreateRefundClick={this.redirectToCreateRefund}
+          onCreatePurchaseClick={this.redirectToCreatePurchase}
+        />
+      </Provider>
+    );
+    this.setRootView(view);
   }
 
   loadSupplierReturnList = () => {
-    const state = this.store.getState();
-    const intent = LOAD_SUPPLIER_RETURN_LIST;
-
-    const onSuccess = (response) => {
-      this.setPageLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent,
-        ...response,
-      });
+    const onSuccess = (payload) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadSupplierReturnList(payload);
     };
 
     const onFailure = () => {
-      this.setPageLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    const urlParams = getURLParams(state);
-
-    const params = getParams(state);
-
-    this.integration.read({
-      intent, urlParams, params, onSuccess, onFailure,
-    });
+    this.integrator.loadSupplierReturnList({ onSuccess, onFailure });
   };
 
   filterSupplierReturnList = () => {
-    const state = this.store.getState();
-    const params = getParams(state);
-    const isSort = false;
-    this.getFilteredSupplierList(isSort, params);
+    this.dispatcher.setTableLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.sortAndFilterSupplierReturnList(payload, false);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.filterSupplierList({ onSuccess, onFailure });
   };
 
   sortSupplierReturnList = (orderBy) => {
     const state = this.store.getState();
     const newSortOrder = getNewSortOrder(state, orderBy);
-    this.setSortOrder(orderBy, newSortOrder);
+    this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
-    const isSort = true;
-    const params = getAppliedParams(state);
-    this.getFilteredSupplierList(isSort, params);
+    this.dispatcher.setTableLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.sortAndFilterSupplierReturnList(payload, true);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.sortSupplierReturnList({ onSuccess, onFailure });
   };
-
-  getFilteredSupplierList = (isSort, params) => {
-    const state = this.store.getState();
-    const intent = SORT_AND_FILTER_SUPPLIER_RETURN_LIST;
-
-    this.setTableLoadingState(true);
-
-    const onSuccess = (response) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        ...response,
-        isSort,
-      });
-    };
-    const onFailure = (error) => {
-      this.setTableLoadingState(false);
-      this.setDangerAlert(error.message);
-    };
-
-    const urlParams = getURLParams(state);
-
-    this.integration.read({
-      intent,
-      urlParams,
-      params,
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  setSortOrder = (orderBy, sortOrder) => this.store.dispatch({
-    intent: SET_SORT_ORDER,
-    orderBy,
-    sortOrder,
-  });
-
-  setTableLoadingState = (isTableLoading) => {
-    this.store.dispatch({
-      intent: SET_TABLE_LOADING_STATE,
-      isTableLoading,
-    });
-  }
-
-  setDangerAlert = (message) => {
-    this.store.dispatch({
-      intent: SET_ALERT,
-      alert: {
-        message,
-        type: 'danger',
-      },
-    });
-  }
-
-  dismissAlert = () => {
-    this.store.dispatch({
-      intent: SET_ALERT,
-      alert: undefined,
-    });
-  }
-
-  updateFilterBarOptions = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_FILTER_BAR_OPTIONS,
-      key,
-      value,
-    });
-  }
-
-  render = () => {
-    const View = (
-      <SupplierReturnListView
-        onUpdateFilterBarOptions={this.updateFilterBarOptions}
-        onApplyFilter={this.filterSupplierReturnList}
-        onDismissAlert={this.dismissAlert}
-        onSort={this.sortSupplierReturnList}
-        onCreateRefundClick={this.redirectToCreateRefund}
-        onCreatePurchaseClick={this.redirectToCreatePurchase}
-      />
-    );
-
-    const wrappedView = (
-      <Provider store={this.store}>
-        {View}
-      </Provider>
-    );
-    this.setRootView(wrappedView);
-  }
-
-  unsubscribeFromStore = () => {
-    this.store.unsubscribeAll();
-  }
-
-  setPageLoadingState = (loadingState) => {
-    this.store.dispatch({
-      intent: SET_LOADING_STATE,
-      loadingState,
-    });
-  }
-
-  setInitialState = (context, settings) => {
-    this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
-      settings,
-    });
-  }
 
   redirectToCreateRefund = (id) => {
     const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
+    const url = getCreateRefundUrl(state, id);
 
-    window.location.href = `/#/${region}/${businessId}/supplierReturn/${id}/receiveRefund/new`;
+    window.location.href = url;
   }
 
   redirectToCreatePurchase = (id) => {
     const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
+    const url = getCreatePurchaseUrl(state, id);
 
-    window.location.href = `/#/${region}/${businessId}/supplierReturn/${id}/applyToPurchase/new`;
+    window.location.href = url;
+  }
+
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlert({ type: 'success', message });
+    }
   }
 
   run(context) {
     const settings = loadSettings(context.businessId, RouteName.SUPPLIER_RETURN_LIST);
-    this.setInitialState(context, settings);
+    this.dispatcher.setInitialState(context, settings);
     this.render();
     this.readMessages();
     this.store.subscribe(states => (
@@ -250,8 +127,10 @@ export default class SupplierReturnListModule {
   }
 
   resetState = () => {
-    this.store.dispatch({
-      intent: RESET_STATE,
-    });
+    this.dispatcher.resetState();
   };
+
+  unsubscribeFromStore = () => {
+    this.store.unsubscribeAll();
+  }
 }

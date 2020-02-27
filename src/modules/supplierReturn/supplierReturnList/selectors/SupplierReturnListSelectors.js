@@ -1,26 +1,19 @@
 import { createSelector } from 'reselect';
 
+import { getBusinessId, getRegion } from './SupplierReturnListIntegrationSelectors';
 import shallowCompare from '../../../../common/shallowCompare/shallowCompare';
 
 const DESC = 'desc';
 const ASC = 'asc';
 
 export const getLoadingState = state => state.loadingState;
-
 export const getFilterOptions = state => state.filterOptions;
-
 export const getAppliedFilterOptions = state => state.appliedFilterOptions;
-
 export const getSortOrder = state => state.sortOrder;
-
 export const getOrderBy = state => state.orderBy;
-
 export const getTotalAmount = state => state.totalAmount;
-
 export const getTotalDebitAmount = state => state.totalDebitAmount;
-
 export const getSupplierFilterOptions = state => state.supplierFilterOptions;
-
 export const getIsTableLoading = state => state.isTableLoading;
 
 export const getIsTableEmpty = state => state.entries.length === 0;
@@ -54,3 +47,17 @@ export const getIsDefaultFilters = createSelector(
     defaultFilterOptions, appliedFilterOptions,
   ),
 );
+
+export const getCreateRefundUrl = (state, id) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/supplierReturn/${id}/receiveRefund/new`;
+};
+
+export const getCreatePurchaseUrl = (state, id) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/supplierReturn/${id}/applyToPurchase/new`;
+};

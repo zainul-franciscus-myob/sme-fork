@@ -1,5 +1,3 @@
-import { createSelector } from 'reselect';
-
 import {
   getAppliedFilterOptions,
   getFilterOptions,
@@ -11,40 +9,32 @@ export const getBusinessId = state => state.businessId;
 
 export const getRegion = state => state.region;
 
-export const getURLParams = createSelector(
-  getBusinessId,
-  businessId => ({ businessId }),
-);
+export const getUrlParams = (state) => {
+  const businessId = getBusinessId(state);
 
-export const getParams = createSelector(
-  getSortOrder,
-  getOrderBy,
-  getFilterOptions,
-  (sortOrder, orderBy, filterOptions) => ({
-    ...filterOptions,
-    sortOrder,
-    orderBy,
-  }),
-);
+  return { businessId };
+};
 
-export const getAppliedParams = createSelector(
-  getSortOrder,
-  getOrderBy,
-  getAppliedFilterOptions,
-  (sortOrder, orderBy, appliedFilterOptions) => ({
-    ...appliedFilterOptions,
-    sortOrder,
-    orderBy,
-  }),
-);
+export const getParams = (state) => {
+  const filterOptions = getFilterOptions(state);
+  const sortOrder = getSortOrder(state);
+  const orderBy = getOrderBy(state);
 
-export const getSettings = createSelector(
-  getAppliedFilterOptions,
-  getSortOrder,
-  getOrderBy,
-  (filterOptions, sortOrder, orderBy) => ({
-    filterOptions,
-    sortOrder,
-    orderBy,
-  }),
-);
+  return { ...filterOptions, sortOrder, orderBy };
+};
+
+export const getAppliedParams = (state) => {
+  const appliedFilterOptions = getAppliedFilterOptions(state);
+  const sortOrder = getSortOrder(state);
+  const orderBy = getOrderBy(state);
+
+  return { ...appliedFilterOptions, sortOrder, orderBy };
+};
+
+export const getSettings = (state) => {
+  const filterOptions = getAppliedFilterOptions(state);
+  const sortOrder = getSortOrder(state);
+  const orderBy = getOrderBy(state);
+
+  return { filterOptions, sortOrder, orderBy };
+};
