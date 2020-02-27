@@ -1,15 +1,17 @@
 import {
-  Input, ReadOnly,
+  Input,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsAbnLoading,
   getSuperFund,
   getSuperProducts,
 } from '../../../selectors/SuperFundModalSelectors';
 import AbnInput from '../../../../../../../components/autoFormatter/AbnInput/AbnInput';
 import SuperFundProductCombobox from '../SuperFundProductCombobox';
+import handleInputChange from '../../../../../../../components/handlers/handleInputChange';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -18,6 +20,7 @@ const onInputChange = handler => (e) => {
 
 const SuperFundAPRADetail = ({
   superFund,
+  isAbnLoading,
   superFundModalListeners: {
     onUpdateSuperFundDetail,
     onSelectSuperFund,
@@ -33,7 +36,16 @@ const SuperFundAPRADetail = ({
       onChange={onSelectSuperFund}
       hintText="Please select a superannuation fund"
     />
-    <ReadOnly label="SPIN/USI" name="usi">{superFund.superProductId}</ReadOnly>
+    <Input
+      name="name"
+      label="Name"
+      value={superFund.name}
+      maxLength={76}
+      onChange={handleInputChange(onUpdateSuperFundDetail)}
+      disabled={isAbnLoading}
+      requiredLabel="Name is required"
+    />
+    <Input label="SPIN/USI" name="usi" value={superFund.superProductId} disabled />
     <AbnInput name="superProductAbn" label="Fund ABN" disabled value={superFund.superProductAbn} />
     <Input
       name="employerMembershipNumber"
@@ -48,6 +60,7 @@ const SuperFundAPRADetail = ({
 const mapStateToProps = state => ({
   superFund: getSuperFund(state),
   superProducts: getSuperProducts(state),
+  isAbnLoading: getIsAbnLoading(state),
 });
 
 export default connect(mapStateToProps)(SuperFundAPRADetail);

@@ -1,5 +1,5 @@
 import {
-  ReadOnly, Spinner,
+  Input, ReadOnly, Spinner,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -15,6 +15,7 @@ import AccountNumberInput
 import BSBInput from '../../../../../../../components/autoFormatter/BankDetailsInput/BSBInput';
 import ESACombobox from './ESACombobox';
 import handleAmountInputChange from '../../../../../../../components/handlers/handleAmountInputChange';
+import handleInputChange from '../../../../../../../components/handlers/handleInputChange';
 import styles from './SuperFundSelfManagedDetail.module.css';
 
 const onSEAComboboxChange = handler => (item) => {
@@ -45,6 +46,15 @@ const SuperFundSelfManagedDetail = ({
       </div>
     </div>
     <ReadOnly name="superProductName" label="Fund name">{superFund.superProductName}</ReadOnly>
+    <Input
+      name="name"
+      label="Name"
+      value={superFund.name}
+      maxLength={76}
+      onChange={handleInputChange(onUpdateSuperFundDetail)}
+      disabled={isAbnLoading}
+      requiredLabel="Name is required"
+    />
     <ESACombobox
       label="ESA"
       hideLabel={false}

@@ -21,7 +21,6 @@ const SuperFundWithPaySuperView = ({
   const view = (
     <FieldGroup label="Self managed" hideLabel>
       <SuperFundBasic superFundModalListeners={superFundModalListeners} />
-      <Separator />
       <FundDetail superFundModalListeners={superFundModalListeners} />
       <SuperFundContactDetails superFundModalListeners={superFundModalListeners} />
       <Separator />

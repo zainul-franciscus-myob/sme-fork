@@ -1,11 +1,10 @@
 import {
-  Input, RadioButton, RadioButtonGroup,
+  RadioButton, RadioButtonGroup,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsAbnLoading,
   getIsPaySuperFund,
   getSuperFund,
 } from '../../../selectors/SuperFundModalSelectors';
@@ -15,18 +14,10 @@ import handleInputChange from '../../../../../../../components/handlers/handleIn
 const SuperFundBasic = ({
   superFund,
   superFundModalListeners: { onUpdateSuperFundDetail },
-  isAbnLoading,
   isPaySuperFund,
 }) => (
   <>
-    <Input
-      name="name"
-      label="Name"
-      value={superFund.name}
-      maxLength={76}
-      onChange={handleInputChange(onUpdateSuperFundDetail)}
-      disabled={isAbnLoading}
-    />
+
     { isPaySuperFund && (
       <RadioButtonGroup
         label="Type"
@@ -48,7 +39,6 @@ const SuperFundBasic = ({
 
 const mapStateToProps = state => ({
   superFund: getSuperFund(state),
-  isAbnLoading: getIsAbnLoading(state),
   isPaySuperFund: getIsPaySuperFund(state),
 });
 
