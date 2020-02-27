@@ -289,47 +289,105 @@ describe('calculationReducer', () => {
         expect(actual).toEqual(expected);
       });
 
-      it('should remove discount when update amount and units is 0', () => {
-        const state = {
-          invoice: {
-            layout: 'itemAndService',
-            lines: [
-              {
-                units: '',
-                discount: '50',
-                unitPrice: '100',
-                amount: '100',
-                displayAmount: '100.00',
-              },
-            ],
+      [
+        {
+          name: 'should set unit to 1 when units is empty and updating amount',
+          updatedKey: 'amount',
+          updatedValue: '100',
+          expectedFirstLine: {
+            discount: '',
+            displayDiscount: '0.00',
+            amount: '100',
+            displayAmount: '100.00',
+            unitPrice: '100',
+            displayUnitPrice: '100.00',
+            units: '1',
           },
-        };
-
-        const action = {
-          intent: CALCULATE_LINE_AMOUNTS,
-          key: 'amount',
-          index: 0,
-        };
-
-        const actual = calculateLineAmounts(state, action);
-
-        const expected = {
-          invoice: {
-            layout: 'itemAndService',
-            lines: [
-              {
-                amount: '100',
-                discount: '',
-                displayAmount: '100.00',
-                displayDiscount: '0.00',
-                unitPrice: '100',
-                units: '',
-              },
-            ],
+        },
+        {
+          name: 'should set unit to 1 when units is empty and updating discount',
+          updatedKey: 'discount',
+          updatedValue: '10',
+          expectedFirstLine: {
+            discount: '10',
+            displayDiscount: '10.00',
+            amount: '0',
+            displayAmount: '0.00',
+            unitPrice: '',
+            units: '1',
           },
-        };
+        },
+        {
+          name: 'should not change units when units is empty and updating unitPrice',
+          updatedKey: 'unitPrice',
+          updatedValue: '10',
+          expectedFirstLine: {
+            discount: '',
+            displayDiscount: '0.00',
+            amount: '0',
+            displayAmount: '0.00',
+            unitPrice: '10',
+            units: '',
+          },
+        },
+        {
+          name: 'should set amount to 0 if units is set to 0',
+          initialFirstLine: {
+            amount: '100',
+            displayAmount: '100.00',
+            unitPrice: '100',
+            displayUnitPrice: '100.00',
+            units: '1',
+          },
+          updatedKey: 'units',
+          updatedValue: '0',
+          expectedFirstLine: {
+            discount: '',
+            displayDiscount: '0.00',
+            amount: '0',
+            displayAmount: '0.00',
+            unitPrice: '100',
+            displayUnitPrice: '100.00',
+            units: '0',
+          },
+        },
+      ].forEach((test) => {
+        it(`${test.name}`, () => {
+          const state = {
+            invoice: {
+              layout: 'itemAndService',
+              lines: [
+                {
+                  units: '',
+                  discount: '',
+                  unitPrice: '',
+                  amount: '',
+                  ...test.initialFirstLine,
+                  [test.updatedKey]: test.updatedValue,
+                },
+              ],
+            },
+          };
 
-        expect(actual).toEqual(expected);
+          const action = {
+            intent: CALCULATE_LINE_AMOUNTS,
+            key: test.updatedKey,
+            index: 0,
+          };
+
+          const actual = calculateLineAmounts(state, action);
+
+          const expected = {
+            invoice: {
+              layout: 'itemAndService',
+              lines: [
+                test.expectedFirstLine,
+              ],
+            },
+          };
+
+          expect(actual).toEqual(expected);
+        });
       });
     });
 

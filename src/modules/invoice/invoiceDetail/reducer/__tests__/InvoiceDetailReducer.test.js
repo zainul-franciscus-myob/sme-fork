@@ -300,6 +300,53 @@ describe('InvoiceDetailReducer', () => {
       expect(actual.invoice.lines[1].amount).toEqual('20.00');
       expect(actual.invoice.lines[1].displayAmount).toEqual('20.00');
     });
+
+    it('set unit to 1 when updating account and unit was empty', () => {
+      const modifiedState = {
+        ...state,
+        accountOptions: [
+          {
+            id: '🐱',
+            taxCodeId: '2',
+          },
+        ],
+      };
+      const modifiedAction = {
+        ...action,
+        key: 'accountId',
+        value: '🐱',
+      };
+
+      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
+
+      expect(actual.invoice.lines[1].units).toEqual('1');
+    });
+
+    it('does no change unit when updating account and unit was not empty', () => {
+      const modifiedState = {
+        invoice: {
+          lines: [
+            {},
+            { units: '2' },
+          ],
+        },
+        accountOptions: [
+          {
+            id: '🐱',
+            taxCodeId: '2',
+          },
+        ],
+      };
+      const modifiedAction = {
+        ...action,
+        key: 'accountId',
+        value: '🐱',
+      };
+
+      const actual = invoiceDetailReducer(modifiedState, modifiedAction);
+
+      expect(actual.invoice.lines[1].units).toEqual('2');
+    });
   });
 
   describe('ADD_INVOICE_LINE', () => {

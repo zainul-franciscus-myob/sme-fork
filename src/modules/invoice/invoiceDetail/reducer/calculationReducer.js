@@ -25,45 +25,41 @@ const calculateDiscount = (units, unitPrice, amount) => {
 
 const calculateUnitPrice = (units, amount) => Decimal(amount).div(units);
 
-const shouldCalculateAmount = key => ['units', 'unitPrice', 'discount'].includes(key);
+const shouldPrefillUnits = (key, units) => ['amount', 'discount'].includes(key) && units === '';
 
-const shouldCalculateDiscount = (key, unitPrice) => key === 'amount' && unitPrice !== 0;
+const shouldCalculateAmount = (key, unitsStr) => unitsStr !== '' && ['units', 'unitPrice', 'discount'].includes(key);
+
+const shouldCalculateDiscount = (key, unitPrice, units) => key === 'amount' && unitPrice !== 0 && units !== 0;
 
 const shouldCalculateUnitPrice = (key, unitPrice) => key === 'amount' && unitPrice === 0;
 
-const shouldRemoveDiscount = (key, units) => key === 'amount' && units === 0;
-
 const buildItemLine = (line, key) => {
-  const units = Number(line.units);
+  const unitsStr = shouldPrefillUnits(key, line.units) ? '1' : line.units;
+  const units = Number(unitsStr);
   const unitPrice = Number(line.unitPrice);
-  const amount = Number(line.amount);
+  const amount = unitsStr === '0' ? 0 : Number(line.amount);
   const discount = Number(line.discount);
 
   const updatedLine = {
     ...line,
+    amount: String(amount),
     displayAmount: formatAmount(line.amount),
     displayDiscount: formatAmount(line.discount),
+    units: unitsStr,
   };
-
-  if (shouldRemoveDiscount(key, units)) {
-    return {
-      ...updatedLine,
-      discount: '',
-      displayDiscount: '0.00',
-    };
-  }
 
   if (shouldCalculateUnitPrice(key, unitPrice)) {
     const calculatedUnitPrice = calculateUnitPrice(units, amount).valueOf();
     return {
       ...updatedLine,
       discount: '',
+      displayDiscount: '0.00',
       unitPrice: calculatedUnitPrice,
       displayUnitPrice: formatAmount(calculatedUnitPrice),
     };
   }
 
-  if (shouldCalculateAmount(key)) {
+  if (shouldCalculateAmount(key, unitsStr)) {
     const calculatedAmount = calculateAmount(units, unitPrice, discount);
     return {
       ...updatedLine,
@@ -72,7 +68,7 @@ const buildItemLine = (line, key) => {
     };
   }
 
-  if (shouldCalculateDiscount(key, unitPrice)) {
+  if (shouldCalculateDiscount(key, unitPrice, units)) {
     const calculatedDiscount = calculateDiscount(units, unitPrice, amount);
     return {
       ...updatedLine,

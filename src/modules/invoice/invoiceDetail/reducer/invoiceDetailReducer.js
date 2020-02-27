@@ -217,6 +217,8 @@ const updateInvoiceLine = (state, action) => {
   const isUpdateAccountId = action.key === 'accountId';
   const isUpdateUnitPrice = action.key === 'unitPrice';
 
+  const shouldUpdateUnitForLine = line => isUpdateAccountId && !line.units && line.units !== '0';
+
   const getLineLayout = (layout, key) => {
     const isLineItemLayout = layout === InvoiceLineLayout.ITEM;
     const isUpdateItemId = key === 'itemId';
@@ -246,6 +248,7 @@ const updateInvoiceLine = (state, action) => {
                 accountOptions: state.accountOptions,
               })
               : line.taxCodeId,
+            units: shouldUpdateUnitForLine(line) ? '1' : line.units,
             displayDiscount: isUpdateDiscount ? action.value : line.displayDiscount,
             displayAmount: isUpdateAmount ? action.value : line.displayAmount,
             displayUnitPrice: isUpdateUnitPrice ? action.value : line.displayUnitPrice,
