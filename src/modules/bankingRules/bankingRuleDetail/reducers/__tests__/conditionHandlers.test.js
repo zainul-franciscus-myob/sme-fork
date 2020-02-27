@@ -2,7 +2,6 @@ import {
   ADD_CONDITION_PREDICATE,
   REMOVE_CONDITION_PREDICATE,
 } from '../../BankingRuleDetailIntents';
-
 import bankingRuleDetailReducer from '..';
 
 describe('conditionHandlers', () => {

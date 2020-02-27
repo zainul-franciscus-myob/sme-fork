@@ -1,4 +1,4 @@
-import { allocateTransaction } from './index';
+import { allocateTransaction } from './allocateHandlers';
 import { getAccounts, getIsAllowCustomAmount, getPrefilledEntries } from '../bankingSelectors/matchTransactionSelectors';
 import { loadOpenEntry } from './openEntryHandlers';
 import { tabIds } from '../tabItems';

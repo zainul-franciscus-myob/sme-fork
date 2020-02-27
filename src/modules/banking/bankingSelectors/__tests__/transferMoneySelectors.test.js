@@ -4,9 +4,7 @@ import {
   getMatchTransferMoneyPayload,
   getTransferMoneyModal,
 } from '../transferMoneySelectors';
-
 import { getShowCreateTransferMoneyButton } from '..';
-
 import { tabIds } from '../../tabItems';
 
 describe('transferMoneySelectors', () => {

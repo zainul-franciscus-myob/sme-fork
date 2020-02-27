@@ -1,4 +1,4 @@
-import { allocateTransaction } from './index';
+import { allocateTransaction } from './allocateHandlers';
 import {
   getContacts,
   getDepositAccounts,

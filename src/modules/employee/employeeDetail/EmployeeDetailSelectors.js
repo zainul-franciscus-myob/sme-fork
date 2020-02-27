@@ -1,4 +1,4 @@
-import { createSelector, createStructuredSelector } from 'reselect/lib/index';
+import { createSelector, createStructuredSelector } from 'reselect';
 
 import { getPayHistoryDetailsPayload } from './payrollDetails/selectors/PayrollPayHistorySelectors';
 import { getStandardPayDetailsPayload } from './payrollDetails/selectors/PayrollStandardPaySelectors';
@@ -111,32 +111,5 @@ export const getOpenedModalType = (state) => {
 
   return modal.type;
 };
-
-const SMALLER = -1;
-const BIGGER = 1;
-
-const wagePayItemComparator = (a, b, baseWageIds) => {
-  if (baseWageIds.includes(a.payItemId)) {
-    return SMALLER;
-  }
-  if (baseWageIds.includes(b.payItemId)) {
-    return BIGGER;
-  }
-
-  if (a.payBasis === 'Hourly' && b.payBasis === 'Salary') return SMALLER;
-  if (b.payBasis === 'Hourly' && a.payBasis === 'Salary') return BIGGER;
-
-  return a.name.localeCompare(b.name);
-};
-
-export const sortPayItems = ({
-  payItems,
-  baseSalaryWagePayItemId,
-  baseHourlyWagePayItemId,
-}) => payItems.sort((a, b) => wagePayItemComparator(
-  a,
-  b,
-  [baseSalaryWagePayItemId, baseHourlyWagePayItemId],
-));
 
 export const getShowAddPayItemButton = state => (state.showAddPayItemButton);

@@ -1,5 +1,3 @@
-import uuid from 'uuid/v4';
-
 import {
   CLOSE_PREVIOUS_STEP_MODAL,
   DELETE_PAY_RUN_DRAFT,
@@ -32,6 +30,7 @@ import { getStartPayRunDefaultState, startPayRunHandlers } from './startPayRun/s
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import getEmployeePayLines from './getEmployeePayLines';
+import uuid from '../../../common/uuid/uuid';
 import wrapHandlers from '../../../store/wrapHandlers';
 
 const getDefaultState = () => ({

@@ -1,5 +1,3 @@
-import uuid from 'uuid/v4';
-
 import {
   LOAD_EMPLOYEES_AND_HEADERS_FOR_YEAR,
   LOAD_INITIAL_EMPLOYEES_AND_HEADERS,
@@ -16,7 +14,7 @@ import {
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
-
+import uuid from '../../../../common/uuid/uuid';
 
 export const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,

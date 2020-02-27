@@ -19,6 +19,7 @@ module.exports = {
         ]
       }
     ],
+    'import/extensions': 'off',
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
     'sort-imports-es6-autofix/sort-imports-es6': 2,

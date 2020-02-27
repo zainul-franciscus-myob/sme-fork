@@ -1,10 +1,10 @@
 import { fetch } from 'whatwg-fetch';
 import AbortController from 'abortcontroller-polyfill/dist/abortcontroller';
-import uuid from 'uuid/v4';
 
 import Config from '../Config';
 import RootMapping from './httpMapping/RootMapping';
 import handleResponse from './httpHandlers/handleResponse';
+import uuid from '../common/uuid/uuid';
 
 const config = {
   baseUrl: Config.BFF_BASE_URL,

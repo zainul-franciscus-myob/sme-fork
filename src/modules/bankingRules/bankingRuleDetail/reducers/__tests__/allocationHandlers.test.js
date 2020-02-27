@@ -1,5 +1,4 @@
 import { ADD_TABLE_ROW, REMOVE_TABLE_ROW, UPDATE_FORM } from '../../BankingRuleDetailIntents';
-
 import bankingRuleDetailReducer from '..';
 
 describe('allocationHandlers', () => {

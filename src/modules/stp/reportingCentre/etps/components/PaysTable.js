@@ -1,7 +1,6 @@
-import { Checkbox, Table } from '@myob/myob-widgets';
+import { AccordionTable, Checkbox, Table } from '@myob/myob-widgets';
 import React from 'react';
 
-import AccordionTable from '../../../../../components/Feelix/Accordion/AccordionTable';
 import PayItemsTable from './PayItemsTable';
 import styles from './PaysTable.module.css';
 

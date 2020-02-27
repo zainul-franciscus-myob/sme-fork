@@ -1,5 +1,3 @@
-import uuid from 'uuid/v4';
-
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
   SET_EMPLOYEES,
@@ -12,6 +10,7 @@ import {
 } from './TerminationIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
+import uuid from '../../../../common/uuid/uuid';
 
 export const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,

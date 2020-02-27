@@ -22,9 +22,9 @@ import {
   getAllocatedWagePayItems as getWagePayItems,
 } from './PayrollWageSelectors';
 import { getWage as getWagePayItemModalWage } from './WagePayItemModalSelectors';
-import { sortPayItems } from '../../EmployeeDetailSelectors';
 import formatNumberWithDecimalScaleRange from '../../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import payItemTypes from '../../payItemTypes';
+import sortPayItems from './sortPayItems';
 
 export const fieldTypes = {
   blank: 'blank',
