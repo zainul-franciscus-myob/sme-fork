@@ -72,3 +72,12 @@ export const getIsInactive = state => state.item.isInactive;
 export const getLoadingState = state => state.loadingState;
 export const getIsEnableForSelling = state => state.isEnableForSelling;
 export const getIsEnableForBuying = state => state.isEnableForBuying;
+
+export const getUrlParams = createSelector(
+  getBusinessId,
+  getItemId,
+  getIsCreating,
+  (businessId, itemId, isCreating) => (
+    isCreating ? { businessId } : { businessId, itemId }
+  ),
+);

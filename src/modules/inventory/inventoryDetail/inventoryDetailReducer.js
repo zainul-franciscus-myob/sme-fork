@@ -1,8 +1,8 @@
 import {
   CLOSE_MODAL,
   LOAD_INVENTORY_DETAIL,
-  LOAD_NEW_INVENTORY_DETAIL,
-  OPEN_MODAL, SET_ALERT_MESSAGE,
+  OPEN_MODAL,
+  SET_ALERT_MESSAGE,
   SET_ENABLE_FOR_BUYING,
   SET_ENABLE_FOR_SELLING,
   SET_LOADING_STATE,
@@ -170,7 +170,6 @@ const setInitialState = (state, action) => ({
 const handlers = {
   [RESET_STATE]: resetState,
   [LOAD_INVENTORY_DETAIL]: loadInventoryDetail,
-  [LOAD_NEW_INVENTORY_DETAIL]: loadInventoryDetail,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_INITIAL_STATE]: setInitialState,
