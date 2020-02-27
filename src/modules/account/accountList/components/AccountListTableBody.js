@@ -7,34 +7,45 @@ import { getAppliedFilterOptionsShowInactive, getTableEntries } from '../Account
 import styles from './AccountListTableBody.module.css';
 
 const StatusRowItem = ({ tableConfig, isInactive }) => (
-  <Table.RowItem columnName={tableConfig.status.columnName}>
+  <Table.RowItem columnName={tableConfig.status.columnName} className={!isInactive ? styles.hidden : ''}>
     {
       isInactive
         ? <Label type="boxed" color="light-grey" size="small">Inactive</Label>
-        : <span className={styles.empty} />
+        : <span />
     }
   </Table.RowItem>
 );
 
 const AccountRowItem = ({
-  config, value, indentLevel, isSystem, isHeader, title,
+  config,
+  value,
+  indentLevel,
+  isSystem,
+  isHeader,
+  isAccountNumber,
+  title,
+  hideAccountNumber,
 }) => {
   const className = classNames({
     [styles.systemAccount]: isSystem,
     [styles.headerAccount]: isHeader,
     [styles.indent]: indentLevel > 0,
-    [styles.empty]: value === '' || value === undefined,
   });
 
-  return !config.isHidden && (
-    <Table.RowItem columnName={config.columnName} {...config.styles}>
+  const isHidden = value === '' || value === undefined ? styles.hidden : '';
+  const hideHeaderAccountNumber = hideAccountNumber && isAccountNumber;
+
+  return !config.isHidden && !hideHeaderAccountNumber && (
+    <Table.RowItem columnName={config.columnName} {...config.styles} className={isHidden}>
       <span title={title} className={className} data-indent-level={indentLevel}>{value}</span>
     </Table.RowItem>
   );
 };
 
 const AccountListTableBody = ({
-  tableConfig, showInactive, entries,
+  tableConfig,
+  showInactive,
+  entries,
 }) => {
   const rows = entries.map((entry) => {
     const {
@@ -51,6 +62,7 @@ const AccountListTableBody = ({
       isHeader,
       isInactive,
       indentLevel,
+      hideAccountNumber,
     } = entry;
 
     return (
@@ -62,6 +74,8 @@ const AccountListTableBody = ({
           indentLevel={indentLevel}
           isSystem={isSystem}
           isHeader={isHeader}
+          hideAccountNumber={hideAccountNumber}
+          isAccountNumber
         />
         <AccountRowItem
           config={tableConfig.accountName}

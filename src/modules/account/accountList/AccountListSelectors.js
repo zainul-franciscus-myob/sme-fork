@@ -26,6 +26,8 @@ export const getTableTaxCodeHeader = state => getRegionToDialectText(state.regio
 
 export const getIsTableEmpty = state => state.entries.length === 0;
 
+const getHasFlexibleAccountNumbers = state => state.hasFlexibleAccountNumbers;
+
 const getAccountLink = (account, businessId, region) => {
   const { id } = account;
   return `/#/${region}/${businessId}/account/${id}`;
@@ -35,14 +37,21 @@ export const getTableEntries = createSelector(
   getEntries,
   getBusinessId,
   getRegion,
-  (entries, businessId, region) => entries.map((entry) => {
-    const { level } = entry;
+  getHasFlexibleAccountNumbers,
+  (entries, businessId, region, hasFlexibleAccountNumbers) => entries.map((entry) => {
+    const { level, isSystem } = entry;
+
+    const indentLevel = level > 1 ? level - 1 : undefined;
+    const hideAccountNumber = indentLevel === undefined
+      && isSystem
+      && hasFlexibleAccountNumbers;
 
     return {
       ...entry,
+      indentLevel,
       displayLevel: `Level ${level}`,
-      indentLevel: level > 1 ? level - 1 : undefined,
       link: getAccountLink(entry, businessId, region),
+      hideAccountNumber,
     };
   }),
 );

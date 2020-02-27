@@ -10,14 +10,66 @@ describe('AccountListSelectors', () => {
 
       const expected = [
         {
-          id: 'id-1', level: 1, displayLevel: 'Level 1', link: '/#/undefined/undefined/account/id-1',
+          id: 'id-1',
+          level: 1,
+          displayLevel: 'Level 1',
+          link: '/#/undefined/undefined/account/id-1',
         },
         {
-          id: 'id-2', level: 2, displayLevel: 'Level 2', indentLevel: 1, link: '/#/undefined/undefined/account/id-2',
+          id: 'id-2',
+          level: 2,
+          displayLevel: 'Level 2',
+          indentLevel: 1,
+          link: '/#/undefined/undefined/account/id-2',
+          hideAccountNumber: false,
         },
       ];
 
       const actual = getTableEntries.resultFunc(entries);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should add hideAccountNumber to entry', () => {
+      const state = {
+        businessId: '123',
+        region: 'au',
+        hasFlexibleAccountNumbers: true,
+        entries: [
+          { id: 'id-1', level: 1, isSystem: true },
+          { id: 'id-2', level: 1, isSystem: false },
+          { id: 'id-3', level: 2 },
+        ],
+      };
+
+      const expected = [
+        {
+          id: 'id-1',
+          level: 1,
+          displayLevel: 'Level 1',
+          link: '/#/au/123/account/id-1',
+          hideAccountNumber: true,
+          isSystem: true,
+        },
+        {
+          id: 'id-2',
+          level: 1,
+          displayLevel: 'Level 1',
+          link: '/#/au/123/account/id-2',
+          hideAccountNumber: false,
+          isSystem: false,
+        },
+        {
+          id: 'id-3',
+          level: 2,
+          displayLevel: 'Level 2',
+          hideAccountNumber: false,
+          indentLevel: 1,
+          link: '/#/au/123/account/id-3',
+        },
+      ];
+
+      const actual = getTableEntries(state);
 
       expect(actual).toEqual(expected);
     });

@@ -28,16 +28,8 @@
     padding-left: unset;
   }
 
-  /*
-   * @FEELIX
-   * This is a temporary solution:
-   * Once Feelix allows className prop on Table.RowItem
-   * we can apply the class directly to the Table.RowItem
-   * to hide the entire cell on smaller screen.
-   * Expect the feature coming in after version 5.7.0
-   */
-  .empty::before {
-    content: "-";
+  .hidden {
+    display: none;
   }
 
   .systemAccount {

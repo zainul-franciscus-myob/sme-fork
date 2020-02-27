@@ -181,5 +181,6 @@
       "isHeader": false,
       "isInactive": true
     }
-  ]
+  ],
+  "hasFlexibleAccountNumbers": true
 }

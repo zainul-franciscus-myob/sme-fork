@@ -27,6 +27,7 @@ const getDefaultState = () => ({
     type: tabIds.all,
   },
   entries: [],
+  hasFlexibleAccountNumbers: false,
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -54,6 +55,7 @@ const sortAndFilterAccountList = (state, action) => ({
     ? state.appliedFilterOptions
     : state.filterOptions,
   entries: action.entries,
+  hasFlexibleAccountNumbers: action.hasFlexibleAccountNumbers,
 });
 
 const setAccountListFilterOption = (state, action) => ({
