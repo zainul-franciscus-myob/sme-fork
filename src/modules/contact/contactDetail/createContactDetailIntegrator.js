@@ -1,8 +1,13 @@
 import {
-  CREATE_CONTACT, DELETE_CONTACT, LOAD_CONTACT_DETAIL, LOAD_NEW_CONTACT, UPDATE_CONTACT,
+  CREATE_CONTACT,
+  DELETE_CONTACT,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_DETAIL,
+  LOAD_NEW_CONTACT,
+  UPDATE_CONTACT,
 } from '../ContactIntents';
 import {
-  getBusinessId, getContact, getContactId, getRegion,
+  getBusinessId, getContact, getContactId, getLoadAddedAccountUrlParams, getRegion,
 } from './contactDetailSelectors';
 
 const createContactDetailIntegrator = (store, integration) => ({
@@ -84,6 +89,17 @@ const createContactDetailIntegrator = (store, integration) => ({
       content,
       onSuccess,
       onFailure,
+    });
+  },
+
+  loadAccountAfterCreate: ({ id, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_ACCOUNT_AFTER_CREATE;
+    const urlParams = getLoadAddedAccountUrlParams(state, id);
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
     });
   },
 });

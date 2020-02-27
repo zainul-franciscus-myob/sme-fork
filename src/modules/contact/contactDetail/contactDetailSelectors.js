@@ -12,6 +12,8 @@ export const getModalType = state => state.modalType;
 
 export const getLoadingState = state => state.loadingState;
 
+export const getIsLoadingAccount = state => state.isLoadingAccount;
+
 const getIsCompany = state => state.contact.designation === 'Company';
 
 export const getIsSupplier = state => state.contact.selectedContactType === 'Supplier';
@@ -30,6 +32,7 @@ export const getContactDetails = createStructuredSelector({
   selectedContactType: state => state.contact.selectedContactType,
   designation: state => state.contact.designation,
   referenceId: state => state.contact.referenceId,
+  expenseAccountId: state => state.contact.expenseAccountId,
   isInactive: state => state.contact.isInactive,
   isReportable: state => state.contact.isReportable,
   companyName: state => state.contact.companyName,
@@ -38,6 +41,7 @@ export const getContactDetails = createStructuredSelector({
   isCompany: getIsCompany,
   isSupplier: getIsSupplier,
   contactTypes: state => state.contactTypes,
+  accountOptions: state => state.accountOptions,
   region: getRegion,
 });
 
@@ -112,10 +116,28 @@ export const getFormattedBillingAddress = createSelector(
   formatAddress,
 );
 
-export const getContact = state => state.contact;
+export const getContact = ({ contact }) => ({
+  ...contact,
+  expenseAccountId: (
+    contact.selectedContactType === 'Supplier'
+      ? contact.expenseAccountId : undefined
+  ),
+});
 
 export const getIsActionsDisabled = state => state.isSubmitting;
 
 export const isPageEdited = state => state.isPageEdited;
 
 export const getBusinessId = state => state.businessId;
+
+export const getAccountModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getLoadAddedAccountUrlParams = (state, accountId) => {
+  const businessId = getBusinessId(state);
+  return { businessId, accountId };
+};

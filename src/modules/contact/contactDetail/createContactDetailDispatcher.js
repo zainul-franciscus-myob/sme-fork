@@ -1,9 +1,11 @@
 import {
   CLOSE_MODAL,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_DETAIL,
   LOAD_NEW_CONTACT,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
+  SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BILLING_ADDRESS,
@@ -76,6 +78,20 @@ const createContactDetailDispatcher = store => ({
       intent: UPDATE_BILLING_ADDRESS,
       key,
       value,
+    });
+  },
+
+  loadAccountAfterCreate: (account) => {
+    store.dispatch({
+      intent: LOAD_ACCOUNT_AFTER_CREATE,
+      account,
+    });
+  },
+
+  setLoadingSingleAccountState: (isLoadingAccount) => {
+    store.dispatch({
+      intent: SET_LOADING_SINGLE_ACCOUNT_STATE,
+      isLoadingAccount,
     });
   },
 });

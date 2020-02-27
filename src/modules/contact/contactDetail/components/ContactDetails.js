@@ -4,10 +4,12 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getContactDetails } from '../contactDetailSelectors';
+import { getContactDetails, getIsLoadingAccount } from '../contactDetailSelectors';
 import AbnSection from './AbnSection';
+import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 
 const onInputChange = handler => (e) => {
   const { value, name } = e.target;
@@ -28,6 +30,7 @@ const ContactDetails = ({
   selectedContactType,
   designation,
   isCreating,
+  isLoadingAccount,
   referenceId,
   isInactive,
   companyName,
@@ -36,8 +39,11 @@ const ContactDetails = ({
   isSupplier,
   lastName,
   contactTypes,
+  accountOptions,
   isReportable,
+  expenseAccountId,
   onContactDetailsChange,
+  onAddAccount,
 }) => (
   <FieldGroup label="Details">
     <RadioButtonGroup
@@ -115,6 +121,28 @@ const ContactDetails = ({
       />
       )}
     <AbnSection onContactDetailsChange={onContactDetailsChange} />
+    {
+      isSupplier && (
+        <AccountCombobox
+          disabled={isLoadingAccount}
+          allowClearSelection
+          label="Expense account"
+          labelAccessory={(
+            <Tooltip>
+              The account selected will be used for all purchases including transactions
+              created from the In tray
+            </Tooltip>
+          )}
+          onChange={handleComboboxChange('expenseAccountId', onContactDetailsChange)}
+          addNewAccount={() => onAddAccount(
+            handleComboboxChange('expenseAccountId', onContactDetailsChange),
+          )}
+          items={accountOptions}
+          selectedId={expenseAccountId}
+          width="lg"
+        />
+      )
+    }
     <Input
       name="referenceId"
       label="Contact ID"
@@ -138,6 +166,9 @@ const ContactDetails = ({
   </FieldGroup>
 );
 
-const mapStateToProps = state => getContactDetails(state);
+const mapStateToProps = state => ({
+  ...getContactDetails(state),
+  isLoadingAccount: getIsLoadingAccount(state),
+});
 
 export default connect(mapStateToProps)(ContactDetails);

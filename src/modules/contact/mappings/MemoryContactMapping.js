@@ -2,6 +2,7 @@ import {
   CREATE_CONTACT,
   CREATE_CONTACT_MODAL,
   DELETE_CONTACT,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_DETAIL,
   LOAD_CONTACT_LIST,
   LOAD_CONTACT_LIST_NEXT_PAGE,
@@ -15,6 +16,7 @@ import contactListFilterResponse from './data/filterContactList';
 import contactListLoadResponse from './data/contactList';
 import contactListNextPageResponse from './data/contactListNextPage';
 import createContactModalResponse from './data/createContactModalResponse';
+import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadNewContactModalResponse from './data/loadNewContactModalResponse';
 import newContactDetailResponse from './data/contactDetailNewEntry';
 import success from './data/success.json';
@@ -27,6 +29,7 @@ const loadNewContact = ({ onSuccess }) => onSuccess(newContactDetailResponse);
 const deleteContact = ({ onSuccess }) => onSuccess(success);
 const updateContact = ({ onSuccess }) => onSuccess(success);
 const createContact = ({ onSuccess }) => onSuccess(success);
+const loadNewAccount = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
 
 const ContactListMapping = {
   [LOAD_CONTACT_LIST]: loadContactList,
@@ -39,6 +42,7 @@ const ContactListMapping = {
   [LOAD_CONTACT_MODAL]: ({ onSuccess }) => onSuccess(loadNewContactModalResponse),
   [CREATE_CONTACT_MODAL]: ({ onSuccess }) => onSuccess(createContactModalResponse),
   [LOAD_CONTACT_LIST_NEXT_PAGE]: contactListNextPage,
+  [LOAD_ACCOUNT_AFTER_CREATE]: loadNewAccount,
 };
 
 export default ContactListMapping;

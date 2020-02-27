@@ -17,6 +17,7 @@ import PageView from '../../../../components/PageView/PageView';
 import ShippingAddress from './ShippingAddress';
 
 const ContactDetailView = ({
+  accountModal,
   isCreating,
   loadingState,
   modalType,
@@ -32,6 +33,7 @@ const ContactDetailView = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onRemindersButtonClick,
+  onAddAccount,
 }) => {
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -71,11 +73,13 @@ const ContactDetailView = ({
         />
       )}
     >
+      {accountModal}
       {modal}
       <FormCard>
         <ContactDetails
           isCreating={isCreating}
           onContactDetailsChange={onContactDetailsChange}
+          onAddAccount={onAddAccount}
         />
         <BillingAddress onAddressChange={onBillingAddressChange} />
         <ShippingAddress onAddressChange={onShippingAddressChange} />

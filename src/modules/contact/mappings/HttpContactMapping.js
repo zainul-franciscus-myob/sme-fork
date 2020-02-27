@@ -2,6 +2,7 @@ import {
   CREATE_CONTACT,
   CREATE_CONTACT_MODAL,
   DELETE_CONTACT,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_DETAIL,
   LOAD_CONTACT_LIST,
   LOAD_CONTACT_LIST_NEXT_PAGE,
@@ -51,6 +52,10 @@ const ContactListMapping = {
   [CREATE_CONTACT_MODAL]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/contact/create_contact_modal`,
+  },
+  [LOAD_ACCOUNT_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, accountId }) => `/${businessId}/contact/load_account/${accountId}`,
   },
 };
 

@@ -6,6 +6,7 @@ import {
   SUCCESSFULLY_SAVED_CONTACT,
 } from '../ContactMessageTypes';
 import {
+  getAccountModalContext,
   getBusinessId,
   getIsCreating,
   getModalType,
@@ -13,6 +14,7 @@ import {
   isPageEdited,
 } from './contactDetailSelectors';
 import { getIsSubmitting } from '../contactModal/ContactModalSelectors';
+import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactDetailView from './components/ContactDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -32,9 +34,40 @@ export default class ContactDetailModule {
     this.pushMessage = pushMessage;
     this.dispatcher = createContactDetailDispatcher(this.store);
     this.integrator = createContactDetailIntegrator(this.store, integration);
+    this.accountModalModule = new AccountModalModule({
+      integration,
+    });
   }
 
+  openAccountModal = () => {
+    const state = this.store.getState();
+    const accountModalContext = getAccountModalContext(state);
+    this.accountModalModule.run({
+      context: accountModalContext,
+      onSaveSuccess: ({ id }) => this.loadAccountAfterCreate(id),
+      onLoadFailure: message => this.dispatcher.displayAlert(message),
+    });
+  };
+
+  loadAccountAfterCreate = (id) => {
+    this.accountModalModule.close();
+    this.dispatcher.setLoadingSingleAccountState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setLoadingSingleAccountState(false);
+      this.dispatcher.loadAccountAfterCreate(payload);
+      this.dispatcher.updateContactDetails({ key: 'expenseAccountId', value: id });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.displayAlert(message);
+    };
+    this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
+  };
+
   render = () => {
+    const accountModal = this.accountModalModule.render();
+
     const contactDetailView = (
       <ContactDetailView
         onContactDetailsChange={this.dispatcher.updateContactDetails}
@@ -48,6 +81,8 @@ export default class ContactDetailModule {
         onDeleteModal={this.deleteContact}
         onCancelModal={this.redirectToContactList}
         onRemindersButtonClick={this.redirectToRemindersSettings}
+        accountModal={accountModal}
+        onAddAccount={this.openAccountModal}
       />
     );
 
@@ -212,5 +247,6 @@ export default class ContactDetailModule {
 
   resetState() {
     this.dispatcher.resetState();
+    this.accountModalModule.resetState();
   }
 }

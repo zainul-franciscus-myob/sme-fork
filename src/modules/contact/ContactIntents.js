@@ -1,4 +1,5 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
+export const SET_LOADING_SINGLE_ACCOUNT_STATE = Symbol('Set loading single account state');
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SET_ALERT = Symbol('Set the Alert of the page');
 export const LOAD_CONTACT_LIST = Symbol('Load list of contacts');
@@ -8,6 +9,7 @@ export const SORT_AND_FILTER_CONTACT_LIST = Symbol('Sort and filter list of cont
 export const SET_SORT_ORDER = Symbol('Set sort order for contact list');
 export const LOAD_CONTACT_LIST_NEXT_PAGE = Symbol('Load contact list next page');
 export const SET_NEXT_PAGE_LOADING_STATE = Symbol('Set next page loading state');
+export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account detail after create');
 
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const LOAD_CONTACT_DETAIL = Symbol('Load an existing contact');

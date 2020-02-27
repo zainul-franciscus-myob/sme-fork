@@ -1,9 +1,11 @@
 import {
   CLOSE_MODAL,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_DETAIL,
   LOAD_NEW_CONTACT,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
+  SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   UPDATE_BILLING_ADDRESS,
@@ -22,6 +24,7 @@ const getDefaultState = () => ({
     selectedContactType: '',
     designation: '',
     referenceId: '',
+    expenseAccountId: '',
     companyName: '',
     firstName: '',
     lastName: '',
@@ -63,8 +66,10 @@ const getDefaultState = () => ({
     overDue: '',
   },
   contactTypes: [],
+  accountOptions: [],
   isCreating: false,
   loadingState: LoadingState.LOADING,
+  isLoadingAccount: false,
   isSubmitting: false,
   modalType: '',
   alertMessage: '',
@@ -95,6 +100,7 @@ const loadContactDetail = (state, action) => ({
     ...action.readonly,
   },
   contactTypes: action.contactTypes,
+  accountOptions: action.accountOptions,
 });
 
 const setLoadingState = (state, { loadingState }) => ({
@@ -161,6 +167,20 @@ const setInitialState = (state, action) => ({
   ...action.context,
 });
 
+export const loadAccountAfterCreate = (state, { account }) => ({
+  ...state,
+  accountOptions: [
+    account,
+    ...state.accountOptions,
+  ],
+  isPageEdited: true,
+});
+
+export const setLoadingSingleAccountState = (state, action) => ({
+  ...state,
+  isLoadingAccount: action.isLoadingAccount,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [LOAD_NEW_CONTACT]: loadContactDetail,
@@ -174,6 +194,8 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_INITIAL_STATE]: setInitialState,
+  [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
+  [SET_LOADING_SINGLE_ACCOUNT_STATE]: setLoadingSingleAccountState,
 };
 
 const contactDetailReducer = createReducer(getDefaultState(), handlers);
