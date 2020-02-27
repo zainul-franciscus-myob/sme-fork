@@ -299,6 +299,7 @@ describe('billReducer', () => {
       const state = {
         bill: {
           a: '1',
+          lines: [],
         },
       };
 
@@ -317,7 +318,9 @@ describe('billReducer', () => {
 
     it('sets isPageEdited to true', () => {
       const state = {
-        bill: {},
+        bill: {
+          lines: [],
+        },
         isPageEdited: false,
       };
 
@@ -341,6 +344,7 @@ describe('billReducer', () => {
           bill: {
             expirationDays: '0',
             expirationTerm: 'InAGivenNumberOfDays',
+            lines: [],
           },
         };
 
@@ -359,45 +363,89 @@ describe('billReducer', () => {
       });
     });
 
-    it('updates prefill status when corresponding field changed', () => {
-      const state = {
-        bill: {},
-        prefillStatus: {
+    describe('prefillStatus', () => {
+      it('updates prefill status when corresponding field changed', () => {
+        const state = {
+          bill: {
+            lines: [],
+          },
+          prefillStatus: {
+            supplierId: true,
+          },
+        };
+
+        const action = {
+          intent: UPDATE_BILL_OPTION,
+          key: 'supplierId',
+          value: '2',
+        };
+
+        const actual = billReducer(state, action);
+
+        expect(actual.prefillStatus).toEqual({
+          supplierId: false,
+        });
+      });
+
+      it('does not update prefill status when other field changed', () => {
+        const state = {
+          bill: {
+            lines: [],
+          },
+          prefillStatus: {
+            supplierId: true,
+          },
+        };
+
+        const action = {
+          intent: UPDATE_BILL_OPTION,
+          key: 'other',
+          value: 'blah',
+        };
+
+        const actual = billReducer(state, action);
+
+        expect(actual.prefillStatus).toEqual({
           supplierId: true,
-        },
-      };
-
-      const action = {
-        intent: UPDATE_BILL_OPTION,
-        key: 'supplierId',
-        value: '2',
-      };
-
-      const actual = billReducer(state, action);
-
-      expect(actual.prefillStatus).toEqual({
-        supplierId: false,
+        });
       });
     });
 
-    it('does not update prefill status when other field changed', () => {
-      const state = {
-        bill: {},
-        prefillStatus: {
-          supplierId: true,
-        },
-      };
+    describe('when expenseAccountId is updated', () => {
+      it('updates the accountId and taxCodeId for all prefilled lines', () => {
+        const state = {
+          bill: {
+            expenseAccountId: '2',
+            lines: [
+              { accountId: '2', taxCodeId: '2', amount: '10.00' },
+              { accountId: '3', taxCodeId: '3', amount: '20.00' },
+            ],
+          },
+          accountOptions: [
+            { id: '1', taxCodeId: '1' },
+            { id: '2', taxCodeId: '2' },
+            { id: '3', taxCodeId: '3' },
+          ],
+          taxCodes: [
+            { id: '1' },
+            { id: '2' },
+            { id: '3' },
+          ],
+        };
 
-      const action = {
-        intent: UPDATE_BILL_OPTION,
-        key: 'other',
-        value: 'blah',
-      };
+        const action = {
+          intent: UPDATE_BILL_OPTION,
+          key: 'expenseAccountId',
+          value: '1',
+        };
+        const actual = billReducer(state, action);
 
-      const actual = billReducer(state, action);
+        const expectedLines = [
+          { accountId: '1', taxCodeId: '1', amount: '10.00' },
+          { accountId: '1', taxCodeId: '1', amount: '20.00' },
+        ];
 
-      expect(actual.prefillStatus).toEqual({
-        supplierId: true,
+        expect(actual.bill.lines).toEqual(expectedLines);
       });
     });
   });

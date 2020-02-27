@@ -3,7 +3,8 @@
     "supplierId": "2",
     "supplierInvoiceNumber": "1234",
     "issueDate": "2018-11-02",
-    "isTaxInclusive": true
+    "isTaxInclusive": true,
+    "expenseAccountId": "123"
   },
   "layout": "itemAndService",
   "lines": [

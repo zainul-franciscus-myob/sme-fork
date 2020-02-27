@@ -24,7 +24,6 @@ import {
   getLinesForTaxCalculation,
   getNewLineIndex,
   getRouteUrlParams,
-  getSupplierId,
   getTaxCodeOptions,
 } from './selectors/billSelectors';
 import {
@@ -39,17 +38,18 @@ import {
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import {
   getHasInTrayDocumentUrl,
-  getInTrayDocumentId,
   getInTrayModalContext,
   getShouldLinkInTrayDocument,
 } from './selectors/BillInTrayDocumentSelectors';
 import {
+  getIsExpenseAccountIdKey,
   getIsLineAccountIdKey,
   getIsLineItemIdKey,
   getIsLineTaxCodeIdKey,
   getIsSupplierIdKey,
   getIsTaxInclusiveKey,
 } from './selectors/BillModuleSelectors';
+import { getLinkInTrayContentWithoutIds } from './selectors/BillIntegratorSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import BillView from './components/BillView';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
@@ -181,8 +181,7 @@ class BillModule {
     const linkContent = {
       id: response.id,
       uid: response.uid,
-      inTrayDocumentId: getInTrayDocumentId(state),
-      supplierId: getSupplierId(state),
+      ...getLinkInTrayContentWithoutIds(state),
     };
 
     this.integrator.linkInTrayDocument({
@@ -355,16 +354,20 @@ class BillModule {
   updateBillOption = ({ key, value }) => {
     const isTaxInclusiveKey = getIsTaxInclusiveKey(key);
     const isSupplierIdKey = getIsSupplierIdKey(key);
+    const isExpenseAccountIdKey = getIsExpenseAccountIdKey(key);
+
+    if (isSupplierIdKey) {
+      this.loadSupplierAddress();
+      return;
+    }
+
+    this.dispatcher.updateBillOption({ key, value });
 
     if (isTaxInclusiveKey) {
-      this.dispatcher.updateBillOption({ key, value });
       this.getTaxCalculations({ isSwitchingTaxInclusive: true });
-    } else {
-      this.dispatcher.updateBillOption({ key, value });
-
-      if (isSupplierIdKey) {
-        this.loadSupplierAddress();
-      }
+    }
+    if (isExpenseAccountIdKey) {
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
   };
 

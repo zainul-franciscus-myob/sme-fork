@@ -83,6 +83,8 @@ const getDefaultState = () => ({
     expirationDays: '',
     isTaxInclusive: false,
     isReportable: false,
+    originalExpenseAccountId: '',
+    expenseAccountId: '',
     billNumber: '',
     issueDate: formatIsoDate(new Date()),
     lines: [],
@@ -209,6 +211,20 @@ const setInitialState = (state, action) => ({ ...state, ...action.context });
 
 const resetState = () => getDefaultState();
 
+const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
+  const account = accountOptions.find(({ id }) => id === accountId);
+  return account === undefined ? '' : account.taxCodeId;
+};
+
+const updateAllLinesWithExpenseAccount = (lines, accountOptions, expenseAccountId) => {
+  const taxCodeId = getDefaultTaxCodeId({ accountId: expenseAccountId, accountOptions });
+  return lines.map(line => ({
+    ...line,
+    accountId: expenseAccountId,
+    taxCodeId,
+  }));
+};
+
 const updateBillOption = (state, action) => {
   const isUpdatingExpirationTermToDayOfMonth = action.key === 'expirationTerm' && ['DayOfMonthAfterEOM', 'OnADayOfTheMonth'].includes(action.value);
   const isExpirationDays0 = state.bill.expirationDays === '0';
@@ -222,6 +238,9 @@ const updateBillOption = (state, action) => {
       ...state.bill,
       expirationDays: shouldSetExpirationDaysTo1 ? '1' : state.bill.expirationDays,
       displayAmountPaid: action.key === 'amountPaid' ? action.value : state.bill.displayAmountPaid,
+      lines: state.bill.lines.length > 0 && action.key === 'expenseAccountId'
+        ? updateAllLinesWithExpenseAccount(state.bill.lines, state.accountOptions, action.value)
+        : state.lines,
       [action.key]: action.value,
     },
     isPageEdited: true,
@@ -306,11 +325,6 @@ const addBillLine = state => ({
   },
 
 });
-
-const getDefaultTaxCodeId = ({ accountId, accountOptions }) => {
-  const account = accountOptions.find(({ id }) => id === accountId);
-  return account === undefined ? '' : account.taxCodeId;
-};
 
 const calculateLineLayout = (lineLayout, updateKey) => {
   const isUpdateItemId = updateKey === 'itemId';
@@ -480,10 +494,14 @@ const setCalculatedBillLinesAndTotals = (state, action) => ({
   totals: action.response.totals,
 });
 
-const getPrefilledLines = (state, lines) => lines.map(
+const getPrefilledLines = (state, lines, expenseAccountId) => lines.map(
   line => ({
     ...state.newLine,
     ...line,
+    accountId: expenseAccountId || state.newLine.accountId,
+    taxCodeId: expenseAccountId
+      ? getDefaultTaxCodeId({ accountId: expenseAccountId, accountOptions: state.accountOptions })
+      : state.newLine.taxCodeId,
     prefillStatus: {
       description: Boolean(line.description),
       amount: Boolean(line.amount),
@@ -512,7 +530,11 @@ const prefillBillFromInTray = (state, action) => {
       supplierInvoiceNumber: state.bill.supplierInvoiceNumber || bill.supplierInvoiceNumber,
       issueDate: bill.issueDate ? bill.issueDate : state.bill.issueDate,
       isTaxInclusive: shouldPrefillLines ? bill.isTaxInclusive : state.bill.isTaxInclusive,
-      lines: shouldPrefillLines ? getPrefilledLines(state, lines) : state.bill.lines,
+      originalExpenseAccountId: bill.expenseAccountId || state.bill.originalExpenseAccountId,
+      expenseAccountId: bill.expenseAccountId || state.bill.expenseAccountId,
+      lines: shouldPrefillLines
+        ? getPrefilledLines(state, lines, bill.expenseAccountId)
+        : state.bill.lines,
     },
     prefillStatus: {
       supplierId: !state.bill.supplierId && Boolean(bill.supplierId),

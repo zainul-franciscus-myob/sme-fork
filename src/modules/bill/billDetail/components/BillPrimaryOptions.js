@@ -1,9 +1,12 @@
-import { ReadOnly } from '@myob/myob-widgets';
+import { ReadOnly, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
 
 import {
+  getAccountOptions,
+  getExpenseAccountId,
+  getIsCreatingFromInTray,
   getIsReportable,
   getIsSupplierDisabled,
   getRegion,
@@ -12,6 +15,7 @@ import {
   getSupplierOptions,
 } from '../selectors/billSelectors';
 import { getPrefillStatus } from '../selectors/BillInTrayDocumentSelectors';
+import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
 import SupplierCombobox from '../../../../components/combobox/SupplierCombobox';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
@@ -23,6 +27,9 @@ const BillPrimaryOptions = ({
   supplierId,
   supplierAddress,
   isReportable,
+  shouldShowAccountCode,
+  expenseAccountId,
+  accountOptions,
   region,
   isSupplierDisabled,
   prefillStatus,
@@ -56,6 +63,22 @@ const BillPrimaryOptions = ({
       name="isReportable"
       onChange={handleCheckboxChange(onUpdateBillOption)}
     />
+    {shouldShowAccountCode && (
+    <AccountCombobox
+      allowClearSelection
+      items={accountOptions}
+      selectedId={expenseAccountId}
+      onChange={handleComboboxChange('expenseAccountId', onUpdateBillOption)}
+      label="Account code"
+      labelAccessory={(
+        <Tooltip>
+              The account code will be assigned to all lines on the bill.
+        </Tooltip>
+          )}
+      name="expenseAccountId"
+      hideLabel={false}
+    />
+    )}
   </React.Fragment>
 );
 
@@ -64,6 +87,9 @@ const mapStateToProps = state => ({
   supplierId: getSupplierId(state),
   supplierAddress: getSupplierAddress(state),
   isReportable: getIsReportable(state),
+  shouldShowAccountCode: getIsCreatingFromInTray(state),
+  expenseAccountId: getExpenseAccountId(state),
+  accountOptions: getAccountOptions(state),
   region: getRegion(state),
   isSupplierDisabled: getIsSupplierDisabled(state),
   prefillStatus: getPrefillStatus(state),

@@ -99,6 +99,9 @@ export const getSupplierAddress = state => state.bill.supplierAddress;
 
 export const getIsReportable = state => state.bill.isReportable;
 
+export const getExpenseAccountId = state => state.bill.expenseAccountId;
+export const getOriginalExpenseAccountId = state => state.bill.originalExpenseAccountId;
+
 export const getIsPageEdited = state => state.isPageEdited;
 
 export const getIsLineEdited = state => state.isLineEdited;
