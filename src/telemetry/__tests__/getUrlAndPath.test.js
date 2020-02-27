@@ -37,6 +37,11 @@ describe('getUrl', () => {
       parsedOutUrl: 'https://app.myob.com/au/payrun/payrunDetail',
     },
     {
+      url: 'https://crabdance.app.myob.com/#/au/0b591022-d405-4bb8-93d9-c1c79ff1afbd/payRun/db732992-830d-4582-9336-1c06710334ab',
+      businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
+      parsedOutUrl: 'https://crabdance.app.myob.com/au/payRun/payRunDetail',
+    },
+    {
       url: 'https://app.myob.com/#/au/0b591022-d405-4bb8-93d9-c1c79ff1afbd/payrun/4c4e057a-0788-41c7-ae9f-c3b694226a2f?tab=Detail',
       businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
       parsedOutUrl: 'https://app.myob.com/au/payrun/payrunDetail?tab=Detail',
@@ -133,6 +138,11 @@ describe('getPath', () => {
       path: '#/au/0b591022-d405-4bb8-93d9-c1c79ff1afbd/payrun/4c4e057a-0788-41c7-ae9f-c3b694226a2f?tab=Detail',
       businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
       parsedOutPath: '/au/payrun/payrunDetail?tab=Detail',
+    },
+    {
+      path: '#/au/0b591022-d405-4bb8-93d9-c1c79ff1afbd/payRun/db732992-830d-4582-9336-1c06710334ab',
+      businessId: '0b591022-d405-4bb8-93d9-c1c79ff1afbd',
+      parsedOutPath: '/au/payRun/payRunDetail',
     },
   ].forEach((test) => {
     it(`should parse out ${test.path} correctly`, () => {

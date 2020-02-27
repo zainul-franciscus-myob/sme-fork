@@ -5,9 +5,9 @@ const parseString = (string) => {
 
   const segmentsWithIdsOrGuids = pathSegments.filter(
     (pathSegment) => {
-      const isIdOrGuid = pathSegment.match(regexPatternForId)
-      || pathSegment.match(regexPatternForGuid);
-      return Boolean(isIdOrGuid[0]);
+      const isId = pathSegment.match(regexPatternForId);
+      const isGuid = pathSegment.match(regexPatternForGuid);
+      return Boolean(isId[0]) || isGuid;
     },
   );
 
