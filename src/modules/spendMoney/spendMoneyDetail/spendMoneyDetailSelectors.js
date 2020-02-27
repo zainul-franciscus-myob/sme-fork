@@ -11,7 +11,7 @@ const getPayToContacts = state => state.spendMoney.payToContacts;
 const getDate = state => state.spendMoney.date;
 const getDescription = state => state.spendMoney.description;
 const getExpenseAccountId = state => state.spendMoney.expenseAccountId;
-const getOriginalExpenseAccountId = state => state.spendMoney.originalReferenceId;
+const getOriginalExpenseAccountId = state => state.spendMoney.originalExpenseAccountId;
 const getLines = state => state.spendMoney.lines;
 export const getInTrayDocumentId = state => state.inTrayDocumentId;
 export const getIsReportable = state => state.spendMoney.isReportable;
