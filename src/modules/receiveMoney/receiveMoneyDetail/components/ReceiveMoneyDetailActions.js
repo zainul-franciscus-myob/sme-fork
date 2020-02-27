@@ -2,7 +2,7 @@ import { Button, ButtonRow } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsActionsDisabled } from '../receiveMoneyDetailSelectors';
+import { getIsActionsDisabled, getIsCreating } from '../receiveMoneyDetailSelectors';
 
 const ReceiveMoneyDetailActions = ({
   isCreating,
@@ -31,6 +31,7 @@ const ReceiveMoneyDetailActions = ({
 );
 
 const mapStateToProps = state => ({
+  isCreating: getIsCreating(state),
   isActionsDisabled: getIsActionsDisabled(state),
 });
 

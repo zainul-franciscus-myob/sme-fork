@@ -24,7 +24,6 @@ const ReceiveMoneyDetailView = ({
   onConfirmDeleteButtonClick,
   alertMessage,
   onDismissAlert,
-  isCreating,
   loadingState,
   pageTitle,
   modal,
@@ -39,7 +38,6 @@ const ReceiveMoneyDetailView = ({
 
   const actions = (
     <ReceiveMoneyDetailActions
-      isCreating={isCreating}
       onSaveButtonClick={onSaveButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}

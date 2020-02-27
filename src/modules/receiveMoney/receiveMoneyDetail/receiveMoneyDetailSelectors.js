@@ -8,6 +8,7 @@ import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 const calculate = createTaxCalculator(TaxCalculatorTypes.receiveMoney);
 
 export const getIsLineEdited = state => state.isLineEdited;
+export const getIsCreating = state => state.receiveMoneyId === 'new';
 
 const getReferenceId = state => state.receiveMoney.referenceId;
 const getSelectedDepositIntoId = state => state.receiveMoney.selectedDepositIntoAccountId;
@@ -157,5 +158,14 @@ export const getTaxCalculations = (state, isSwitchingTaxInclusive) => {
       totalTax: formatCurrency(totalTax.valueOf()),
       totalAmount: formatCurrency(totalAmount.valueOf()),
     },
+  };
+};
+
+export const getUrlParams = (state) => {
+  const businessId = getBusinessId(state);
+  const isCreating = getIsCreating(state);
+  return {
+    businessId,
+    ...(!isCreating && { receiveMoneyId: state.receiveMoneyId }),
   };
 };

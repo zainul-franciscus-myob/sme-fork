@@ -2,6 +2,7 @@ import {
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyForUpdatePayload,
   getTaxCalculations,
+  getUrlParams,
 } from '../receiveMoneyDetailSelectors';
 
 describe('receiveMoneySelectors', () => {
@@ -80,6 +81,35 @@ describe('receiveMoneySelectors', () => {
       const actual = getTaxCalculations(state);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getUrlParams', () => {
+    it('should add receiveMoneyId if updating receive money', () => {
+      const state = {
+        businessId: '123',
+        receiveMoneyId: '1',
+      };
+
+      const urlParams = getUrlParams(state);
+
+      expect(urlParams).toEqual({
+        businessId: '123',
+        receiveMoneyId: '1',
+      });
+    });
+
+    it('should not add receiveMoneyId if creating receive money', () => {
+      const state = {
+        businessId: '123',
+        receiveMoneyId: 'new',
+      };
+
+      const urlParams = getUrlParams(state);
+
+      expect(urlParams).toEqual({
+        businessId: '123',
+      });
     });
   });
 });
