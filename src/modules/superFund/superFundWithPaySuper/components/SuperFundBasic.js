@@ -11,6 +11,7 @@ import React from 'react';
 
 import {
   getIsCreating,
+  getIsPaySuperFund,
   getSelfManagedSuperFundEnabled,
   getShowSelfManagedSuperFundWarning,
   getSuperFund,
@@ -27,6 +28,7 @@ const SuperFundBasic = ({
   superFund,
   listeners: { onUpdateSuperFundDetail },
   isCreating,
+  isPaySuperFund,
   selfManagedSuperFundEnabled,
   showSelfManagedSuperFundWarning,
 }) => (
@@ -52,7 +54,7 @@ const SuperFundBasic = ({
             value={selfManagedSuperFund.value}
             checked={selfManagedSuperFund.value === superFund.fundType}
             onChange={onInputChange(onUpdateSuperFundDetail)}
-            disabled={!selfManagedSuperFundEnabled}
+            disabled={!selfManagedSuperFundEnabled || !isPaySuperFund}
             labelAccessory={(
               <Tooltip>
                   You can only select an SMSF if you sign up to Pay super
@@ -82,6 +84,7 @@ const mapStateToProps = state => ({
   isCreating: getIsCreating(state),
   selfManagedSuperFundEnabled: getSelfManagedSuperFundEnabled(state),
   showSelfManagedSuperFundWarning: getShowSelfManagedSuperFundWarning(state),
+  isPaySuperFund: getIsPaySuperFund(state),
 });
 
 export default connect(mapStateToProps)(SuperFundBasic);
