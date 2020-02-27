@@ -12,6 +12,7 @@ export const getIsActionDisabled = createSelector(
 );
 
 export const getIsPaySuperEnabled = state => state.superFundModal.isPaySuperEnabled;
+export const getSignUpForPaySuperUrl = state => state.superFundModal.registerPaySuperUrl;
 
 export const getSuperFund = state => state.superFundModal.superFund;
 export const getFundType = state => state.superFundModal.superFund.fundType;

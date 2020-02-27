@@ -5,7 +5,9 @@ import React from 'react';
 import {
   getAlertMessage,
   getIsActionDisabled,
-  getIsLoading, getIsPaySuperEnabled,
+  getIsLoading,
+  getIsPaySuperEnabled,
+  getSignUpForPaySuperUrl,
 } from '../../selectors/SuperFundModalSelectors';
 import PageView from '../../../../../../components/PageView/PageView';
 import SuperFundNoPaySuperView from './superFundNoPaySuper/SuperFundNoPaySuperView';
@@ -17,18 +19,30 @@ const SuperFundModal = ({
   isPaySuperEnabled,
   alertMessage,
   superFundModalListeners,
+  signUpForPaySuperUrl,
 }) => {
   const alertView = alertMessage && (
     <Alert type="danger" onDismiss={superFundModalListeners.onDismissAlert}>
       {alertMessage}
     </Alert>
   );
-  const DetailView = isPaySuperEnabled ? SuperFundWithPaySuperView : SuperFundNoPaySuperView;
+  const detailView = isPaySuperEnabled
+    ? (
+      <SuperFundWithPaySuperView
+        superFundModalListeners={superFundModalListeners}
+      />
+    )
+    : (
+      <SuperFundNoPaySuperView
+        superFundModalListeners={superFundModalListeners}
+        signUpForPaySuperUrl={signUpForPaySuperUrl}
+      />
+    );
 
   const view = (
     <>
       { alertView }
-      <DetailView superFundModalListeners={superFundModalListeners} />
+      { detailView }
     </>
   );
 
@@ -56,6 +70,7 @@ const mapStateToProps = state => ({
   isLoading: getIsLoading(state),
   isActionDisabled: getIsActionDisabled(state),
   isPaySuperEnabled: getIsPaySuperEnabled(state),
+  signUpForPaySuperUrl: getSignUpForPaySuperUrl(state),
 });
 
 export default connect(mapStateToProps)(SuperFundModal);

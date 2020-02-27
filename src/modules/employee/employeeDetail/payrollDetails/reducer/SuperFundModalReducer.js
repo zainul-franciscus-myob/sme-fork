@@ -41,6 +41,7 @@ const getDefaultSuperFundState = () => ({
   isAbnDirty: false,
   showContactDetails: false,
   superFundId: '',
+  registerPaySuperUrl: '',
 });
 
 const openSuperFundModal = state => ({

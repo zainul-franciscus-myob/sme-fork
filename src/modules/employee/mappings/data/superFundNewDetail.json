@@ -14,7 +14,7 @@
     "superProductName": "",
     "webSite": ""
   },
-  "isPaySuperEnabled": true,
+  "isPaySuperEnabled": false,
   "superProducts": [
     {
       "name": "W & M MCCOLL SUPER FUND",
@@ -87,5 +87,6 @@
     {
       "name": "WESTPAC"
     }
-  ]
+  ],
+  "registerPaySuperUrl": "https://www.google.com"
 }
