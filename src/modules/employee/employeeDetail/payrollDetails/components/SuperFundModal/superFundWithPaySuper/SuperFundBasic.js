@@ -1,5 +1,5 @@
 import {
-  RadioButton, RadioButtonGroup,
+  RadioButton, RadioButtonGroup, Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -8,7 +8,7 @@ import {
   getIsPaySuperFund,
   getSuperFund,
 } from '../../../selectors/SuperFundModalSelectors';
-import fundTypes from '../FundTypes';
+import { selfManagedSuperFund, standardSuperFund } from '../FundTypes';
 import handleInputChange from '../../../../../../../components/handlers/handleInputChange';
 
 const SuperFundBasic = ({
@@ -17,23 +17,34 @@ const SuperFundBasic = ({
   isPaySuperFund,
 }) => (
   <>
-
-    { isPaySuperFund && (
-      <RadioButtonGroup
-        label="Type"
-        name="fundType"
-        renderRadios={() => fundTypes.map(({ name, value }) => (
-          <RadioButton
-            key={name}
-            name="fundType"
-            label={name}
-            value={value}
-            checked={value === superFund.fundType}
-            onChange={handleInputChange(onUpdateSuperFundDetail)}
-          />
-        ))}
-      />
-    )}
+    <RadioButtonGroup
+      label="Type"
+      name="fundType"
+      renderRadios={() => [
+        <RadioButton
+          key={standardSuperFund.name}
+          name="fundType"
+          label={standardSuperFund.name}
+          value={standardSuperFund.value}
+          checked={standardSuperFund.value === superFund.fundType}
+          onChange={handleInputChange(onUpdateSuperFundDetail)}
+        />,
+        <RadioButton
+          key={selfManagedSuperFund.name}
+          name="fundType"
+          label={selfManagedSuperFund.name}
+          value={selfManagedSuperFund.value}
+          checked={selfManagedSuperFund.value === superFund.fundType}
+          onChange={handleInputChange(onUpdateSuperFundDetail)}
+          disabled={!isPaySuperFund}
+          labelAccessory={(
+            <Tooltip>
+                You can only select an SMSF if you sign up to Pay super
+            </Tooltip>
+            )}
+        />,
+      ]}
+    />
   </>
 );
 

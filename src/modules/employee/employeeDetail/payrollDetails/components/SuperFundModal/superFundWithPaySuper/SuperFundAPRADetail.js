@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAbnIsDisabled,
   getIsAbnLoading,
   getSuperFund,
   getSuperProducts,
@@ -26,6 +27,7 @@ const SuperFundAPRADetail = ({
     onSelectSuperFund,
   },
   superProducts,
+  abnIsDisabled,
 }) => (
   <>
     <SuperFundProductCombobox
@@ -46,7 +48,12 @@ const SuperFundAPRADetail = ({
       requiredLabel="Name is required"
     />
     <Input label="SPIN/USI" name="usi" value={superFund.superProductId} disabled />
-    <AbnInput name="superProductAbn" label="Fund ABN" disabled value={superFund.superProductAbn} />
+    <AbnInput
+      name="superProductAbn"
+      label="Fund ABN"
+      disabled={abnIsDisabled}
+      value={superFund.superProductAbn}
+    />
     <Input
       name="employerMembershipNumber"
       label="Employer membership no."
@@ -61,6 +68,7 @@ const mapStateToProps = state => ({
   superFund: getSuperFund(state),
   superProducts: getSuperProducts(state),
   isAbnLoading: getIsAbnLoading(state),
+  abnIsDisabled: getAbnIsDisabled(state),
 });
 
 export default connect(mapStateToProps)(SuperFundAPRADetail);

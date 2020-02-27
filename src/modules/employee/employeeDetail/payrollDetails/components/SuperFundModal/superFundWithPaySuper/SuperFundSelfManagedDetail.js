@@ -33,7 +33,7 @@ const SuperFundSelfManagedDetail = ({
   isAbnLoading,
 }) => (
   <>
-    <div className={styles.abn}>
+    <div>
       <AbnInput
         name="superProductAbn"
         label="Fund ABN"

@@ -28,6 +28,7 @@ export const getElectronicServiceAddresses = (
   state => state.superFundModal.electronicServiceAddresses
 );
 export const getSuperProducts = state => state.superFundModal.superProducts;
+export const getAbnIsDisabled = state => state.superFundModal.superFund.isPaySuperFund;
 
 const getPhoneNumber = state => state.superFundModal.superFund.phoneNumber;
 const getWebSite = state => state.superFundModal.superFund.webSite;
