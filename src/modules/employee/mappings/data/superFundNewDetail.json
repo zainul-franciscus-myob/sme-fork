@@ -14,7 +14,9 @@
     "superProductName": "",
     "webSite": ""
   },
-  "isPaySuperEnabled": false,
+  "selfManagedSuperFundEnabled": false,
+  "showSelfManagedSuperFundWarning": true,
+  "isPaySuperEnabled": true,
   "superProducts": [
     {
       "name": "W & M MCCOLL SUPER FUND",

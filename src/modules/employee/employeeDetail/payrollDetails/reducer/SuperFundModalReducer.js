@@ -33,6 +33,8 @@ const getDefaultSuperFundState = () => ({
     webSite: '',
   },
   isPaySuperEnabled: false,
+  selfManagedSuperFundEnabled: false,
+  showSelfManagedSuperFundWarning: false,
   superProducts: [],
   electronicServiceAddresses: [],
   isSubmitting: false,

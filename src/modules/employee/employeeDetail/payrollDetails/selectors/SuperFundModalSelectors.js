@@ -38,3 +38,12 @@ export const getSuperFundContactDetails = createStructuredSelector({
 });
 
 export const getShowContactDetails = state => state.superFundModal.showContactDetails;
+
+export const getSelfManagedSuperFundEnabled = state => (
+  state.superFundModal.selfManagedSuperFundEnabled
+  && state.superFundModal.superFund.isPaySuperFund
+);
+
+export const getShowSelfManagedSuperFundWarning = state => (
+  state.superFundModal.showSelfManagedSuperFundWarning
+);
