@@ -1,13 +1,10 @@
 import {
   getAppliedFilterOptions,
+  getBusinessId,
   getFilterOptions,
   getOrderBy,
   getSortOrder,
 } from './SupplierReturnListSelectors';
-
-export const getBusinessId = state => state.businessId;
-
-export const getRegion = state => state.region;
 
 export const getUrlParams = (state) => {
   const businessId = getBusinessId(state);

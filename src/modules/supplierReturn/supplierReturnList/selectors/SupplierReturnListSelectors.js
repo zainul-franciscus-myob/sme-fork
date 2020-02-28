@@ -1,10 +1,12 @@
 import { createSelector } from 'reselect';
 
-import { getBusinessId, getRegion } from './SupplierReturnListIntegrationSelectors';
 import shallowCompare from '../../../../common/shallowCompare/shallowCompare';
 
 const DESC = 'desc';
 const ASC = 'asc';
+
+export const getBusinessId = state => state.businessId;
+export const getRegion = state => state.region;
 
 export const getLoadingState = state => state.loadingState;
 export const getFilterOptions = state => state.filterOptions;
