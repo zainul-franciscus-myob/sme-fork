@@ -132,6 +132,7 @@
     "descriptionDirty": false,
     "allocatedAccountId": "",
     "unitPrice": "",
+    "displayUnitPrice": "",
     "discount": "",
     "displayDiscount": "",
     "taxCodeId": "",

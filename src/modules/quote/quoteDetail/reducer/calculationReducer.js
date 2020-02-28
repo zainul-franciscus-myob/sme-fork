@@ -1,7 +1,11 @@
 import Decimal from 'decimal.js';
 
+import { DEFAULT_DISCOUNT } from './getDefaultState';
 import QuoteLayout from '../QuoteLayout';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
+import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
+
+export const formatUnitPrice = value => formatNumberWithDecimalScaleRange(value, 2, 6);
 
 const calculateAmount = (units, unitPrice, discount) => {
   const calculatedDiscount = Decimal(1).minus(Decimal(discount).div(100));
@@ -30,16 +34,7 @@ const shouldRemoveDiscount = (key, units) => key === 'amount' && units === 0;
 
 const amountOnly = (key, units, unitPrice, discount) => key === 'amount' && !units && !unitPrice && !discount;
 
-const buildServiceLine = line => ({
-  ...line,
-  displayAmount: formatAmount(line.amount),
-});
-
 const buildItemServiceLine = (line, key) => {
-  if (amountOnly(key, line.units, line.unitPrice, line.discount)) {
-    return buildServiceLine(line);
-  }
-
   const units = Number(line.units);
   const unitPrice = Number(line.unitPrice);
   const amount = Number(line.amount);
@@ -47,29 +42,42 @@ const buildItemServiceLine = (line, key) => {
 
   const updatedLine = {
     ...line,
-    displayAmount: formatAmount(line.amount),
-    displayDiscount: formatAmount(line.discount),
+    units: units.toString(),
+    unitPrice: unitPrice.toString(),
+    displayUnitPrice: formatUnitPrice(unitPrice),
+    discount: discount.toString(),
+    displayDiscount: formatAmount(discount),
+    amount: amount.toString(),
+    displayAmount: formatAmount(amount),
   };
+
+  if (amountOnly(key, line.units, line.unitPrice, line.discount)) {
+    return updatedLine;
+  }
 
   if (shouldRemoveDiscount(key, units)) {
     return {
       ...updatedLine,
-      discount: '',
-      displayDiscount: '',
+      discount: DEFAULT_DISCOUNT,
+      displayDiscount: formatAmount(DEFAULT_DISCOUNT),
     };
   }
 
   if (shouldCalculateUnitPrice(key, unitPrice)) {
+    const updatedUnitPrice = calculateUnitPrice(units, amount);
+
     return {
       ...updatedLine,
-      discount: '',
-      displayDiscount: '',
-      unitPrice: calculateUnitPrice(units, amount),
+      discount: DEFAULT_DISCOUNT,
+      displayDiscount: formatAmount(DEFAULT_DISCOUNT),
+      unitPrice: updatedUnitPrice,
+      displayUnitPrice: formatUnitPrice(updatedUnitPrice),
     };
   }
 
   if (shouldCalculateAmount(key)) {
     const calculatedAmount = calculateAmount(units, unitPrice, discount);
+
     return {
       ...updatedLine,
       amount: calculatedAmount,
@@ -79,6 +87,7 @@ const buildItemServiceLine = (line, key) => {
 
   if (shouldCalculateDiscount(key, unitPrice)) {
     const calculatedDiscount = calculateDiscount(units, unitPrice, amount);
+
     return {
       ...updatedLine,
       discount: calculatedDiscount,
@@ -89,29 +98,42 @@ const buildItemServiceLine = (line, key) => {
   return updatedLine;
 };
 
-export const calculatePartialQuoteLineAmounts = (state, {
-  key,
-  index,
-}) => {
+const mapKey = (key) => {
+  switch (key) {
+    case 'amount':
+    case 'displayAmount':
+      return 'amount';
+    case 'discount':
+    case 'displayDiscount':
+      return 'discount';
+    case 'unitPrice':
+    case 'displayUnitPrice':
+      return 'unitPrice';
+    default:
+      return key;
+  }
+};
+
+export const calculatePartialQuoteLineAmounts = (state, action) => {
   const { layout } = state.quote;
-  const builder = layout === QuoteLayout.ITEM_AND_SERVICE
-    ? buildItemServiceLine
-    : buildServiceLine;
-  const lines = state.quote.lines.map((line, i) => {
-    if (index !== i) {
-      return line;
-    }
 
-    return builder(line, key);
-  });
+  if (layout === QuoteLayout.ITEM_AND_SERVICE) {
+    const key = mapKey(action.key);
 
-  return {
-    ...state,
-    quote: {
-      ...state.quote,
-      lines,
-    },
-  };
+    return {
+      ...state,
+      quote: {
+        ...state.quote,
+        lines: state.quote.lines.map((line, index) => (
+          action.index === index
+            ? buildItemServiceLine(line, key)
+            : line
+        )),
+      },
+    };
+  }
+
+  return state;
 };
 
 const getUnitPrice = (units, amount, discount, currentUnitPrice) => {
@@ -137,16 +159,16 @@ export const setQuoteCalculatedLines = (state, { lines, totals }) => ({
     lines: state.quote.lines.map((line, index) => {
       const { amount } = lines[index];
       const { unitPrice, units, discount } = line;
+      const updatedUnitPrice = getUnitPrice(
+        Number(units), amount, Number(discount), unitPrice,
+      );
+
       return {
         ...line,
         amount: amount.valueOf(),
-        unitPrice: getUnitPrice(
-          Number(units),
-          amount,
-          Number(discount),
-          unitPrice,
-        ),
         displayAmount: formatAmount(amount.valueOf()),
+        unitPrice: updatedUnitPrice,
+        displayUnitPrice: formatUnitPrice(updatedUnitPrice),
       };
     }),
   },

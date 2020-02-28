@@ -9,10 +9,7 @@ import {
   getDuplicateQuoteIdQueryParam,
   getExportPdfTemplate,
   getIsCreating,
-  getIsTaxInclusive,
-  getLayout,
   getLayoutQueryParam,
-  getLines,
   getQuote,
   getQuoteId,
 } from './QuoteDetailSelectors';
@@ -76,46 +73,6 @@ export const getDeleteQuoteUrlParams = (state) => {
 
   return { businessId, quoteId };
 };
-
-export const getQuoteItemCalculatedLinesUrlParams = (state) => {
-  const businessId = getBusinessId(state);
-
-  return { businessId };
-};
-
-export const getCalculateQuoteItemChangePayload = (state, index, itemId) => ({
-  index,
-  itemId,
-  lines: getLines(state),
-  isTaxInclusive: getIsTaxInclusive(state),
-});
-
-export const getCalculateQuoteLineRemovePayload = state => ({
-  lines: getLines(state),
-  isTaxInclusive: getIsTaxInclusive(state),
-});
-
-export const getCalculateQuoteTaxCodeChangePayload = state => ({
-  lines: getLines(state),
-  isTaxInclusive: getIsTaxInclusive(state),
-});
-
-export const getCalculateQuoteIsTaxInclusiveChangePayload = (state) => {
-  const currentLineIsTaxInclusiveState = !getIsTaxInclusive(state);
-  return {
-    lines: getLines(state),
-    layout: getLayout(state),
-    isTaxInclusive: currentLineIsTaxInclusiveState,
-  };
-};
-
-export const getCalculateQuoteAmountChangePayload = (state, index, key) => ({
-  index,
-  key,
-  layout: getLayout(state),
-  lines: getLines(state),
-  isTaxInclusive: getIsTaxInclusive(state),
-});
 
 export const getLoadContactAddressUrlParams = (state) => {
   const businessId = getBusinessId(state);

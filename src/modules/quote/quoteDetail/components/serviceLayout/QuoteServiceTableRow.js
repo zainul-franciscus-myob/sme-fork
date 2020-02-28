@@ -29,7 +29,11 @@ const onAmountInputChange = (name, onChange) => (e) => {
   });
 };
 
-const onRowInputBlurHandler = (onRowInputBlur, index, key) => () => onRowInputBlur(index, key);
+const onAmountInputBlur = (handler, index) => (e) => {
+  const { rawValue, name } = e.target;
+
+  handler(index, name, rawValue);
+};
 
 const QuoteServiceTableRow = ({
   quoteLine,
@@ -76,12 +80,14 @@ const QuoteServiceTableRow = ({
       <AmountInput
         label="Amount ($)"
         hideLabel
-        name="amount"
+        name="displayAmount"
         value={displayAmount}
-        onChange={onAmountInputChange('amount', onChange)}
-        onBlur={onRowInputBlurHandler(onRowInputBlur, index, 'amount')}
+        onChange={onAmountInputChange('displayAmount', onChange)}
+        onBlur={onAmountInputBlur(onRowInputBlur, index)}
         textAlign="right"
         disabled={isCalculating}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
       />
       <TaxCodeCombobox
         label="Tax code"

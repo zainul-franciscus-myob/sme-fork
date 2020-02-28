@@ -296,7 +296,7 @@ export default class QuoteDetailModule {
   updateQuoteLine = (index, key, value) => {
     this.dispatcher.updateQuoteLine(index, key, value);
 
-    const itemKeys = ['units', 'unitPrice', 'discount', 'amount'];
+    const itemKeys = ['units', 'displayUnitPrice', 'displayDiscount', 'displayAmount'];
     const taxKeys = ['allocatedAccountId', 'taxCodeId'];
 
     if (itemKeys.includes(key)) {
@@ -322,12 +322,12 @@ export default class QuoteDetailModule {
     this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_LINE_TOTALS);
   }
 
-  formatQuoteLine = (index, key) => {
+  formatQuoteLine = (index, key, value) => {
     if (index >= getLength(this.store.getState())) {
       return;
     }
 
-    this.dispatcher.formatQuoteLine(index, key);
+    this.dispatcher.formatQuoteLine(index, key, value);
     this.dispatcher.calculateLineAmounts(index, key);
 
     const state = this.store.getState();
@@ -604,7 +604,6 @@ export default class QuoteDetailModule {
     this.dispatcher.closeModal();
     this.dispatcher.resetOpenSendEmail();
   }
-
 
   openSalesSettingsTabAndCloseModal = () => {
     this.closeEmailSettingsModal();

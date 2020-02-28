@@ -59,9 +59,7 @@ import QuoteLayout from '../QuoteLayout';
 import QuoteLineLayout from '../QuoteLineLayout';
 import createReducer from '../../../../store/createReducer';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
-import formatNumberWithDecimalScaleRange
-  from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
-import getDefaultState from './getDefaultState';
+import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
 
@@ -223,8 +221,9 @@ const addQuoteLine = (state, action) => {
         ...state.quote.lines,
         {
           ...state.newLine,
-          displayDiscount: partialLine.discount || '',
-          displayAmount: partialLine.amount || '',
+          unitPrice: partialLine.displayUnitPrice || state.newLine.displayUnitPrice,
+          discount: partialLine.displayDiscount || state.newLine.displayDiscount,
+          amount: partialLine.displayAmount || state.newLine.displayAmount,
           descriptionDirty: Boolean(partialLine.description),
           type,
           taxCodeId,
@@ -244,11 +243,13 @@ const updateQuoteLine = (state, action) => ({
     lines: state.quote.lines.map((line, index) => {
       if (index === action.index) {
         const lineLayout = action.key === 'itemId' ? QuoteLineLayout.ITEM : line.type;
+
         return {
           ...line,
           id: line.type === lineLayout ? line.id : '',
-          displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
-          displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
+          discount: action.key === 'displayDiscount' ? action.value : line.discount,
+          amount: action.key === 'displayAmount' ? action.value : line.amount,
+          unitPrice: action.key === 'displayUnitPrice' ? action.value : line.unitPrice,
           taxCodeId: action.key === 'allocatedAccountId'
             ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
             : line.taxCodeId,
@@ -257,6 +258,7 @@ const updateQuoteLine = (state, action) => ({
           [action.key]: action.value,
         };
       }
+
       return line;
     }),
   },
@@ -278,23 +280,19 @@ const resetQuoteTotals = state => ({
 
 const shouldFormatUnits = (key, currentUnits) => key === 'units' && Number(currentUnits) === 0;
 
-const DEFAULT_UNITS = '1';
-const formatQuoteLine = (state, { key, index }) => ({
+const formatQuoteLine = (state, action) => ({
   ...state,
   quote: {
     ...state.quote,
-    lines: state.quote.lines.map((line, i) => {
-      if (i === index) {
-        return {
+    lines: state.quote.lines.map((line, index) => (
+      action.index === index
+        ? {
           ...line,
-          units: shouldFormatUnits(key, line.units) ? DEFAULT_UNITS : line.units,
-          displayAmount: key === 'amount' ? formatAmount(line.amount) : line.displayAmount,
-          unitPrice: key === 'unitPrice' ? formatNumberWithDecimalScaleRange(line.unitPrice, 2, 6) : line.unitPrice,
-        };
-      }
-
-      return line;
-    }),
+          [action.key]: action.value,
+          units: shouldFormatUnits(action.key, line.units) ? DEFAULT_UNITS : line.units,
+        }
+        : line
+    )),
   },
 });
 
@@ -379,6 +377,7 @@ const loadItemSellingDetails = (state, action) => ({
     ...state.quote,
     lines: state.quote.lines.map((line, index) => {
       if (index !== action.index) return line;
+
       const {
         unitOfMeasure,
         description,
@@ -388,18 +387,20 @@ const loadItemSellingDetails = (state, action) => ({
         isTaxInclusive,
         taxAmount,
       } = action.itemSellingDetails;
+
       const unitPrice = calculateUnitPrice(
         Number(sellingPrice),
         Number(taxAmount),
         isTaxInclusive,
         state.quote.isTaxInclusive,
       );
+
       return {
         ...line,
-        units: '1',
+        units: DEFAULT_UNITS,
         unitOfMeasure,
-        discount: '0',
-        displayDiscount: '0.00',
+        discount: DEFAULT_DISCOUNT,
+        displayDiscount: formatAmount(DEFAULT_DISCOUNT),
         description,
         taxCodeId: sellTaxCodeId,
         allocatedAccountId: incomeAccountId,

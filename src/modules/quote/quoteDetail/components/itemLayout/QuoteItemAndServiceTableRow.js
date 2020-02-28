@@ -32,7 +32,11 @@ const onAmountInputChange = (name, onChange) => (e) => {
   });
 };
 
-const onAmountInputBlur = (handler, index, key) => () => handler(index, key);
+const onAmountInputBlur = (handler, index) => (e) => {
+  const { rawValue, name } = e.target;
+
+  handler(index, name, rawValue);
+};
 
 const QuoteItemAndServiceTableRow = ({
   index,
@@ -91,7 +95,7 @@ const QuoteItemAndServiceTableRow = ({
       label="No of units"
       value={quoteLine.units}
       onChange={onAmountInputChange('units', onChange)}
-      onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'units')}
+      onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
       disabled={isCalculating}
       numeralDecimalScaleMax={6}
@@ -99,33 +103,38 @@ const QuoteItemAndServiceTableRow = ({
     <AmountInput
       label="Unit price"
       hideLabel
-      name="unitPrice"
-      value={quoteLine.unitPrice}
-      onChange={onAmountInputChange('unitPrice', onChange)}
-      onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'unitPrice')}
+      name="displayUnitPrice"
+      value={quoteLine.displayUnitPrice}
+      onChange={onAmountInputChange('displayUnitPrice', onChange)}
+      onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
       disabled={isCalculating}
+      numeralDecimalScaleMin={2}
       numeralDecimalScaleMax={6}
     />
     <AmountInput
       label="Discount"
       hideLabel
-      name="discount"
+      name="displayDiscount"
       value={quoteLine.displayDiscount}
-      onChange={onAmountInputChange('discount', onChange)}
-      onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'discount')}
+      onChange={onAmountInputChange('displayDiscount', onChange)}
+      onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
       disabled={isCalculating}
+      numeralDecimalScaleMin={2}
+      numeralDecimalScaleMax={2}
     />
     <AmountInput
       label="Amount"
       hideLabel
-      name="amount"
+      name="displayAmount"
       value={quoteLine.displayAmount}
-      onChange={onAmountInputChange('amount', onChange)}
-      onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index, 'amount')}
+      onChange={onAmountInputChange('displayAmount', onChange)}
+      onBlur={onAmountInputBlur(onTableRowAmountInputBlur, index)}
       textAlign="right"
       disabled={isCalculating}
+      numeralDecimalScaleMin={2}
+      numeralDecimalScaleMax={2}
     />
     <TaxCodeCombobox
       items={taxCodeOptions}

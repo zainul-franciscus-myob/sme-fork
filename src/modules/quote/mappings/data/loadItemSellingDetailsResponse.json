@@ -1,7 +1,9 @@
 {
+  "sellingPrice": "10",
+  "taxAmount": "2",
+  "isTaxInclusive": true,
   "unitOfMeasure": "kg",
   "description": "Selling item description",
   "sellTaxCodeId": "2",
-  "incomeAccountId": "123",
-  "unitPrice": "10.00"
+  "incomeAccountId": "123"
 }

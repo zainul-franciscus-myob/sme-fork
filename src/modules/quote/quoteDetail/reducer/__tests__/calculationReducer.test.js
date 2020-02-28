@@ -1,9 +1,6 @@
 import Decimal from 'decimal.js';
 
-import {
-  CALCULATE_LINE_AMOUNTS,
-  SET_QUOTE_CALCULATED_LINES,
-} from '../../../QuoteIntents';
+import { CALCULATE_LINE_AMOUNTS, SET_QUOTE_CALCULATED_LINES } from '../../../QuoteIntents';
 import { calculatePartialQuoteLineAmounts, setQuoteCalculatedLines } from '../calculationReducer';
 
 describe('calculationReducer', () => {
@@ -25,8 +22,10 @@ describe('calculationReducer', () => {
           lines: [
             {
               units: '2',
+              unitPrice: '50',
+              displayUnitPrice: '50.00',
               discount: '',
-              unitPrice: '50.00',
+              displayDiscount: '',
               amount: '0',
               displayAmount: '0.00',
             },
@@ -50,11 +49,13 @@ describe('calculationReducer', () => {
         quote: {
           lines: [
             {
+              units: '2',
+              unitPrice: '50',
+              displayUnitPrice: '50.00',
+              discount: '',
+              displayDiscount: '',
               amount: '100',
               displayAmount: '100.00',
-              unitPrice: '50',
-              units: '2',
-              discount: '',
             },
           ],
         },
@@ -78,8 +79,10 @@ describe('calculationReducer', () => {
             lines: [
               {
                 units: '2',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
                 discount: '',
-                unitPrice: '50.00',
+                displayDiscount: '',
                 amount: '0',
                 displayAmount: '0.00',
               },
@@ -100,12 +103,13 @@ describe('calculationReducer', () => {
             layout: 'itemAndService',
             lines: [
               {
-                amount: '100',
-                discount: '',
-                displayAmount: '100.00',
-                displayDiscount: '0.00',
-                unitPrice: '50.00',
                 units: '2',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                amount: '100',
+                displayAmount: '100.00',
               },
             ],
           },
@@ -114,15 +118,17 @@ describe('calculationReducer', () => {
         expect(actual).toEqual(expected);
       });
 
-      it('should calculate amount correctly when update unitPirce', () => {
+      it('should calculate amount correctly when update displayUnitPrice', () => {
         const state = {
           quote: {
             layout: 'itemAndService',
             lines: [
               {
                 units: '2',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
                 discount: '',
-                unitPrice: '50.00',
+                displayDiscount: '',
                 amount: '0',
                 displayAmount: '0.00',
               },
@@ -132,7 +138,7 @@ describe('calculationReducer', () => {
 
         const action = {
           intent: CALCULATE_LINE_AMOUNTS,
-          key: 'unitPrice',
+          key: 'displayUnitPrice',
           index: 0,
         };
 
@@ -143,12 +149,13 @@ describe('calculationReducer', () => {
             layout: 'itemAndService',
             lines: [
               {
-                amount: '100',
-                discount: '',
-                displayAmount: '100.00',
-                displayDiscount: '0.00',
-                unitPrice: '50.00',
                 units: '2',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                amount: '100',
+                displayAmount: '100.00',
               },
             ],
           },
@@ -157,41 +164,44 @@ describe('calculationReducer', () => {
         expect(actual).toEqual(expected);
       });
 
-      it('should calculate amount correctly when update discount', () => {
+      it('should calculate amount correctly when update displayDiscount', () => {
         const state = {
           quote: {
             layout: 'itemAndService',
             lines: [
               {
                 units: '1',
+                unitPrice: '100',
+                displayUnitPrice: '100.00',
                 discount: '50',
-                unitPrice: '100.00',
-                amount: '0',
-                displayAmount: '0.00',
-              },
-            ],
-          },
-        };
-
-        const action = {
-          intent: CALCULATE_LINE_AMOUNTS,
-          key: 'discount',
-          index: 0,
-        };
-
-        const actual = calculatePartialQuoteLineAmounts(state, action);
-
-        const expected = {
-          quote: {
-            layout: 'itemAndService',
-            lines: [
-              {
-                amount: '50',
-                discount: '50',
-                displayAmount: '50.00',
                 displayDiscount: '50.00',
-                unitPrice: '100.00',
+                amount: '0',
+                displayAmount: '0.00',
+              },
+            ],
+          },
+        };
+
+        const action = {
+          intent: CALCULATE_LINE_AMOUNTS,
+          key: 'displayDiscount',
+          index: 0,
+        };
+
+        const actual = calculatePartialQuoteLineAmounts(state, action);
+
+        const expected = {
+          quote: {
+            layout: 'itemAndService',
+            lines: [
+              {
                 units: '1',
+                unitPrice: '100',
+                displayUnitPrice: '100.00',
+                discount: '50',
+                displayDiscount: '50.00',
+                amount: '50',
+                displayAmount: '50.00',
               },
             ],
           },
@@ -207,8 +217,10 @@ describe('calculationReducer', () => {
             lines: [
               {
                 units: '2',
-                discount: '',
                 unitPrice: '0',
+                displayUnitPrice: '0.00',
+                discount: '',
+                displayDiscount: '',
                 amount: '100',
                 displayAmount: '100.00',
               },
@@ -218,7 +230,7 @@ describe('calculationReducer', () => {
 
         const action = {
           intent: CALCULATE_LINE_AMOUNTS,
-          key: 'amount',
+          key: 'displayAmount',
           index: 0,
         };
 
@@ -229,12 +241,13 @@ describe('calculationReducer', () => {
             layout: 'itemAndService',
             lines: [
               {
-                amount: '100',
-                discount: '',
-                displayAmount: '100.00',
-                displayDiscount: '',
-                unitPrice: '50',
                 units: '2',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                amount: '100',
+                displayAmount: '100.00',
               },
             ],
           },
@@ -250,8 +263,10 @@ describe('calculationReducer', () => {
             lines: [
               {
                 units: '1',
-                discount: '',
                 unitPrice: '200',
+                displayUnitPrice: '200.00',
+                discount: '',
+                displayDiscount: '',
                 amount: '100',
                 displayAmount: '100.00',
               },
@@ -272,12 +287,13 @@ describe('calculationReducer', () => {
             layout: 'itemAndService',
             lines: [
               {
-                amount: '100',
-                discount: '50',
-                displayAmount: '100.00',
-                displayDiscount: '50.00',
-                unitPrice: '200',
                 units: '1',
+                unitPrice: '200',
+                displayUnitPrice: '200.00',
+                discount: '50',
+                displayDiscount: '50.00',
+                amount: '100',
+                displayAmount: '100.00',
               },
             ],
           },
@@ -293,8 +309,10 @@ describe('calculationReducer', () => {
             lines: [
               {
                 units: '',
-                discount: '50',
                 unitPrice: '100',
+                displayUnitPrice: '100.00',
+                discount: '50',
+                displayDiscount: '50.00',
                 amount: '100',
                 displayAmount: '100.00',
               },
@@ -315,12 +333,13 @@ describe('calculationReducer', () => {
             layout: 'itemAndService',
             lines: [
               {
-                amount: '100',
-                discount: '',
-                displayAmount: '100.00',
-                displayDiscount: '',
+                units: '0',
                 unitPrice: '100',
-                units: '',
+                displayUnitPrice: '100.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                amount: '100',
+                displayAmount: '100.00',
               },
             ],
           },
@@ -331,14 +350,14 @@ describe('calculationReducer', () => {
     });
 
     describe('service layout', () => {
-      it('should format amount correctly', () => {
+      it('should not alter current state', () => {
         const state = {
           quote: {
             layout: 'service',
             lines: [
               {
                 amount: '10',
-                displayAmount: '0.00',
+                displayAmount: '10.00',
               },
             ],
           },
@@ -352,19 +371,7 @@ describe('calculationReducer', () => {
 
         const actual = calculatePartialQuoteLineAmounts(state, action);
 
-        const expected = {
-          quote: {
-            layout: 'service',
-            lines: [
-              {
-                amount: '10',
-                displayAmount: '10.00',
-              },
-            ],
-          },
-        };
-
-        expect(actual).toEqual(expected);
+        expect(actual).toEqual(state);
       });
     });
   });

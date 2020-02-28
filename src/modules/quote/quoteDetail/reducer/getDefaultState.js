@@ -1,6 +1,9 @@
 import LoadingState from '../../../../components/PageView/LoadingState';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
+export const DEFAULT_UNITS = '1';
+export const DEFAULT_DISCOUNT = '0';
+
 const getDefaultState = () => ({
   layout: '',
   openExportPdf: undefined,
@@ -50,6 +53,7 @@ const getDefaultState = () => ({
     discount: '',
     displayDiscount: '',
     displayAmount: '',
+    displayUnitPrice: '',
   },
   totals: {
     subTotal: '$0.00',

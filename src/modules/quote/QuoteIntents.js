@@ -29,7 +29,6 @@ export const RESET_QUOTE_TOTALS = Symbol('Reset quote totals');
 export const FORMAT_QUOTE_LINE = Symbol('Format quote line');
 
 export const CALCULATE_QUOTE_LINE_TOTALS = Symbol('Calculate quote line totals');
-
 export const CALCULATE_QUOTE_ITEM_CHANGE = Symbol('Calculate quote item change');
 export const CALCULATE_QUOTE_AMOUNT_CHANGE = Symbol('Calculate quote amount change');
 export const CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE = Symbol('Calculate quote tax inclusive change');

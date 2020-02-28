@@ -1,8 +1,4 @@
 import {
-  CALCULATE_QUOTE_AMOUNT_CHANGE,
-  CALCULATE_QUOTE_ITEM_CHANGE,
-  CALCULATE_QUOTE_LINE_TOTALS,
-  CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE,
   CREATE_QUOTE_DETAIL,
   DELETE_QUOTE_DETAIL,
   EXPORT_QUOTE_PDF,
@@ -23,10 +19,6 @@ import {
 } from '../QuoteIntents';
 import customerAddress from './data/customerAddress';
 import itemQuoteLoadItemOption from './data/itemQuoteLoadItemOption';
-import itemQuoteUpdateLineAmountInputs from './data/itemQuoteUpdateLineAmountInputs';
-import itemQuoteUpdateLineItem from './data/itemQuoteUpdateLineItem';
-import itemQuoteUpdateLineTaxCode from './data/itemQuoteUpdateLineTaxCode';
-import itemQuoteUpdateTaxInclusive from './data/itemQuoteUpdateTaxInclusive';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadCustomerResponse from './data/loadCustomerResponse';
 import loadDuplicateQuoteDetail from './data/loadDuplicateQuoteDetail';
@@ -50,14 +42,6 @@ const MemoryQuoteMapping = {
   [CREATE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess({ ...successResponse, id: '1' }),
   [UPDATE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_QUOTE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
-  [CALCULATE_QUOTE_LINE_TOTALS]: ({ onSuccess }) => onSuccess(itemQuoteUpdateLineTaxCode),
-  [CALCULATE_QUOTE_ITEM_CHANGE]: ({ onSuccess }) => onSuccess(itemQuoteUpdateLineItem),
-  [CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE]: ({ onSuccess }) => onSuccess(
-    itemQuoteUpdateTaxInclusive,
-  ),
-  [CALCULATE_QUOTE_AMOUNT_CHANGE]: ({ onSuccess }) => onSuccess(
-    itemQuoteUpdateLineAmountInputs,
-  ),
   [LOAD_CONTACT_ADDRESS]: ({ onSuccess }) => onSuccess(customerAddress),
   [LOAD_CONTACT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadCustomerResponse),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedAccountResponse),

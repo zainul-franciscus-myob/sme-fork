@@ -1,8 +1,4 @@
 import {
-  CALCULATE_QUOTE_AMOUNT_CHANGE,
-  CALCULATE_QUOTE_ITEM_CHANGE,
-  CALCULATE_QUOTE_LINE_TOTALS,
-  CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE,
   CREATE_QUOTE_DETAIL,
   DELETE_QUOTE_DETAIL,
   EXPORT_QUOTE_PDF,
@@ -59,22 +55,6 @@ const HttpQuoteMapping = {
   [DELETE_QUOTE_DETAIL]: {
     method: 'DELETE',
     getPath: ({ businessId, quoteId }) => `/${businessId}/quote/delete_quote_detail/${quoteId}`,
-  },
-  [CALCULATE_QUOTE_ITEM_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/quote/calculate_item_quote_totals/update_line_item`,
-  },
-  [CALCULATE_QUOTE_TAX_INCLUSIVE_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/quote/calculate_item_quote_totals/update_tax_inclusive`,
-  },
-  [CALCULATE_QUOTE_AMOUNT_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/quote/calculate_item_quote_totals/update_line_amounts`,
-  },
-  [CALCULATE_QUOTE_LINE_TOTALS]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/quote/calculate_line_totals`,
   },
   [LOAD_CONTACT_ADDRESS]: {
     method: 'GET',

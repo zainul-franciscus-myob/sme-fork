@@ -356,17 +356,7 @@ describe('quoteDetailReducer', () => {
 
       const actual = quoteDetailReducer(state, action);
 
-      expect(actual.quote.lines).toEqual([
-        {
-          type: 'service',
-          defaultData: 'defaultData',
-          allocatedAccountId: 'some-id',
-          displayAmount: '',
-          displayDiscount: '',
-          taxCodeId: '',
-          descriptionDirty: false,
-        },
-      ]);
+      expect(actual.quote.lines[0].type).toEqual('service');
     });
 
     it('adds a new line and sets the default taxCodeId if allocatedAccountId has been changed', () => {
@@ -394,17 +384,7 @@ describe('quoteDetailReducer', () => {
 
       const actual = quoteDetailReducer(state, action);
 
-      expect(actual.quote.lines).toEqual([
-        {
-          type: 'service',
-          defaultData: 'defaultData',
-          allocatedAccountId: '1',
-          displayAmount: '',
-          displayDiscount: '',
-          taxCodeId: '2',
-          descriptionDirty: false,
-        },
-      ]);
+      expect(actual.quote.lines[0].taxCodeId).toEqual('2');
     });
 
     it('adds a new line and sets the type to be item if the itemId has been changed', () => {
@@ -426,20 +406,10 @@ describe('quoteDetailReducer', () => {
 
       const actual = quoteDetailReducer(state, action);
 
-      expect(actual.quote.lines).toEqual([
-        {
-          type: 'item',
-          defaultData: 'defaultData',
-          itemId: '1',
-          displayAmount: '',
-          displayDiscount: '',
-          taxCodeId: '',
-          descriptionDirty: false,
-        },
-      ]);
+      expect(actual.quote.lines[0].type).toEqual('item');
     });
 
-    it('set displayAmount when amount has been changed', () => {
+    it('set amount when displayAmount has been changed', () => {
       const state = {
         quote: {
           lines: [],
@@ -452,26 +422,17 @@ describe('quoteDetailReducer', () => {
         intent: ADD_QUOTE_LINE,
         line: {
           id: 'notUsed',
-          amount: '1',
-        },
-      };
-
-      const actual = quoteDetailReducer(state, action);
-
-      expect(actual.quote.lines).toEqual([
-        {
-          type: 'service',
-          defaultData: 'defaultData',
-          amount: '1',
           displayAmount: '1',
-          displayDiscount: '',
-          taxCodeId: '',
-          descriptionDirty: false,
         },
-      ]);
+      };
+
+      const actual = quoteDetailReducer(state, action);
+
+      expect(actual.quote.lines[0].displayAmount).toEqual('1');
+      expect(actual.quote.lines[0].amount).toEqual('1');
     });
 
-    it('set displayDiscount when discount has been changed', () => {
+    it('set discount when displayDiscount has been changed', () => {
       const state = {
         quote: {
           lines: [],
@@ -484,23 +445,14 @@ describe('quoteDetailReducer', () => {
         intent: ADD_QUOTE_LINE,
         line: {
           id: 'notUsed',
-          discount: '1',
+          displayDiscount: '1',
         },
       };
 
       const actual = quoteDetailReducer(state, action);
 
-      expect(actual.quote.lines).toEqual([
-        {
-          type: 'service',
-          defaultData: 'defaultData',
-          discount: '1',
-          displayAmount: '',
-          displayDiscount: '1',
-          taxCodeId: '',
-          descriptionDirty: false,
-        },
-      ]);
+      expect(actual.quote.lines[0].displayDiscount).toEqual('1');
+      expect(actual.quote.lines[0].discount).toEqual('1');
     });
 
     it('set description dirty when description has been changed', () => {
@@ -522,17 +474,7 @@ describe('quoteDetailReducer', () => {
 
       const actual = quoteDetailReducer(state, action);
 
-      expect(actual.quote.lines).toEqual([
-        {
-          type: 'service',
-          defaultData: 'defaultData',
-          displayAmount: '',
-          displayDiscount: '',
-          description: '1',
-          descriptionDirty: true,
-          taxCodeId: '',
-        },
-      ]);
+      expect(actual.quote.lines[0].descriptionDirty).toBeTruthy();
     });
   });
 
@@ -558,7 +500,7 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[1].hello).toEqual(3);
     });
 
-    it('updates both amount and displayAmount when key is amount', () => {
+    it('updates both amount and displayAmount when key is displayAmount', () => {
       const state = {
         quote: {
           lines: [
@@ -571,7 +513,7 @@ describe('quoteDetailReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'amount', value: '3',
+        intent: UPDATE_QUOTE_LINE, index: 0, key: 'displayAmount', value: '3',
       };
 
       const actual = quoteDetailReducer(state, action);
@@ -580,7 +522,7 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[0].displayAmount).toEqual('3');
     });
 
-    it('updates both discount and displayDiscount when key is discount', () => {
+    it('updates both discount and displayDiscount when key is displayDiscount', () => {
       const state = {
         quote: {
           lines: [
@@ -593,13 +535,35 @@ describe('quoteDetailReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'discount', value: '3',
+        intent: UPDATE_QUOTE_LINE, index: 0, key: 'displayDiscount', value: '3',
       };
 
       const actual = quoteDetailReducer(state, action);
 
       expect(actual.quote.lines[0].discount).toEqual('3');
       expect(actual.quote.lines[0].displayDiscount).toEqual('3');
+    });
+
+    it('updates both unitPrice and displayUnitPrice when key is displayUnitPrice', () => {
+      const state = {
+        quote: {
+          lines: [
+            {
+              unitPrice: '1',
+              displayUnitPrice: '1',
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: UPDATE_QUOTE_LINE, index: 0, key: 'displayUnitPrice', value: '3',
+      };
+
+      const actual = quoteDetailReducer(state, action);
+
+      expect(actual.quote.lines[0].unitPrice).toEqual('3');
+      expect(actual.quote.lines[0].displayUnitPrice).toEqual('3');
     });
 
     it('updates taxCodeId and allocatedAccountId when key is allocatedAccountId', () => {
@@ -733,59 +697,6 @@ describe('quoteDetailReducer', () => {
 
       const expected = {
         units: '1',
-      };
-
-      expect(actual.quote.lines[0]).toEqual(expected);
-    });
-
-    it('should format display amount when the key is amount', () => {
-      const state = {
-        quote: {
-          lines: [
-            {
-              amount: '1234',
-            },
-          ],
-        },
-      };
-
-      const action = {
-        intent: FORMAT_QUOTE_LINE,
-        key: 'amount',
-        index: 0,
-      };
-
-      const actual = quoteDetailReducer(state, action);
-
-      const expected = {
-        amount: '1234',
-        displayAmount: '1,234.00',
-      };
-
-      expect(actual.quote.lines[0]).toEqual(expected);
-    });
-
-    it('should format unit price when the key is unitPrice', () => {
-      const state = {
-        quote: {
-          lines: [
-            {
-              unitPrice: '1',
-            },
-          ],
-        },
-      };
-
-      const action = {
-        intent: FORMAT_QUOTE_LINE,
-        key: 'unitPrice',
-        index: 0,
-      };
-
-      const actual = quoteDetailReducer(state, action);
-
-      const expected = {
-        unitPrice: '1.00',
       };
 
       expect(actual.quote.lines[0]).toEqual(expected);

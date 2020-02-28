@@ -25,7 +25,6 @@ import {
   getLoadQuoteIntent,
   getLoadQuoteQueryParams,
   getLoadQuoteUrlParams,
-  getQuoteItemCalculatedLinesUrlParams,
   getSendEmailPayload,
   getSendEmailUrlParams,
   getUploadEmailAttachmentUrlParams,
@@ -65,17 +64,6 @@ const createQuoteDetailIntegrator = (store, integration) => ({
 
     integration.write({
       intent, urlParams, onSuccess, onFailure,
-    });
-  },
-
-  getQuoteCalculatedLines: ({
-    intent, content, onSuccess, onFailure,
-  }) => {
-    const state = store.getState();
-    const urlParams = getQuoteItemCalculatedLinesUrlParams(state);
-
-    integration.write({
-      intent, urlParams, content, onSuccess, onFailure,
     });
   },
 

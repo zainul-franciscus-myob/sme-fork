@@ -94,8 +94,8 @@ const createQuoteDetailDispatcher = store => ({
     intent: REMOVE_QUOTE_LINE, index,
   }),
 
-  formatQuoteLine: (index, key) => store.dispatch({
-    intent: FORMAT_QUOTE_LINE, index, key,
+  formatQuoteLine: (index, key, value) => store.dispatch({
+    intent: FORMAT_QUOTE_LINE, index, key, value,
   }),
 
   resetQuoteTotals: () => store.dispatch({ intent: RESET_QUOTE_TOTALS }),
