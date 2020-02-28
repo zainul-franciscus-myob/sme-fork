@@ -50,7 +50,12 @@ const Onboarding = ({ tasks, closeTasks }) => (
                   [styles.active]: isTaskActive(subItem.action),
                 })}
               >
-                <a href={`${subItem.action}`}>
+                <a
+                  href={`${subItem.action}`}
+                  onClick={() => {
+                    closeTasks({ closeEvent: `${subItem.key}Viewed` });
+                  }}
+                >
                   <span>{subItem.title}</span>
                 </a>
               </li>
