@@ -1,14 +1,8 @@
-import {
-  Alert, Button, PageHead,
-} from '@myob/myob-widgets';
+import { Alert, Button, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getAlert,
-  getLoadMoreButtonStatus,
-  getLoadingState,
-} from '../quoteListSelector';
+import { getAlert, getLoadMoreButtonStatus, getLoadingState } from '../quoteListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import PaginatedListTemplate from '../../../../components/PaginatedListTemplate/PaginatedListTemplate';
 import QuoteListFilterOptions from './QuoteListFilterOptions';

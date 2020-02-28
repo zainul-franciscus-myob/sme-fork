@@ -2,7 +2,7 @@ import { DatePicker } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
-import { getCustomerFilterOptions, getFilterOptions, getTotal } from '../quoteListSelector';
+import { getCustomerFilterOptions, getFilterOptions, getTotal } from '../quoteListSelectors';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';

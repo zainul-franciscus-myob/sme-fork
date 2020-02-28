@@ -1,9 +1,5 @@
-import {
-  LOAD_QUOTE_LIST_NEXT_PAGE, SORT_AND_FILTER_QUOTE_LIST, START_LOADING_MORE, STOP_LOADING_MORE,
-} from '../../QuoteIntents';
-import {
-  SET_INITIAL_STATE,
-} from '../../../../SystemIntents';
+import { LOAD_QUOTE_LIST_NEXT_PAGE, SET_NEXT_PAGE_LOADING_STATE, SORT_AND_FILTER_QUOTE_LIST } from '../../QuoteIntents';
+import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import quoteListReducer from '../quoteListReducer';
 
 describe('quoteListReducer', () => {
@@ -170,35 +166,34 @@ describe('quoteListReducer', () => {
   });
 
   describe('START_LOADING_MORE', () => {
-    it('sets isLoadingMore to true', () => {
+    it('sets isNextPageLoading to true', () => {
       const state = {
-        isLoadingMore: false,
+        isNextPageLoading: false,
       };
 
       const action = {
-        intent: START_LOADING_MORE,
+        intent: SET_NEXT_PAGE_LOADING_STATE,
+        isNextPageLoading: true,
       };
 
       const actual = quoteListReducer(state, action);
 
-      expect(actual.isLoadingMore).toEqual(true);
+      expect(actual.isNextPageLoading).toEqual(true);
     });
-  });
 
-
-  describe('STOP_LOADING_MORE', () => {
-    it('sets isLoadingMore to false', () => {
+    it('sets isNextPageLoading to false', () => {
       const state = {
-        isLoadingMore: true,
+        isNextPageLoading: true,
       };
 
       const action = {
-        intent: STOP_LOADING_MORE,
+        intent: SET_NEXT_PAGE_LOADING_STATE,
+        isNextPageLoading: false,
       };
 
       const actual = quoteListReducer(state, action);
 
-      expect(actual.isLoadingMore).toEqual(false);
+      expect(actual.isNextPageLoading).toEqual(false);
     });
   });
 

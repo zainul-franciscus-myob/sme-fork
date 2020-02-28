@@ -6,7 +6,7 @@ import React from 'react';
 
 import {
   getIsDefaultFilter, getIsTableEmpty, getIsTableLoading, getOrder,
-} from '../quoteListSelector';
+} from '../quoteListSelectors';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import QuoteListTableBody from './QuoteListTableBody';
 import TableView from '../../../../components/TableView/TableView';

@@ -5,16 +5,13 @@ import {
   LOAD_QUOTE_LIST_NEXT_PAGE,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_QUOTE_LIST,
-  START_LOADING_MORE,
-  STOP_LOADING_MORE,
   UPDATE_FILTER_OPTIONS,
 } from '../QuoteIntents';
-import {
-  RESET_STATE, SET_INITIAL_STATE,
-} from '../../../SystemIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -45,7 +42,7 @@ const getDefaultState = () => ({
   alert: undefined,
   loadingState: LoadingState.LOADING,
   isTableLoading: false,
-  isLoadingMore: false,
+  isNextPageLoading: false,
   pagination: {
     hasNextPage: false,
     offset: 0,
@@ -110,14 +107,9 @@ const setTableLoadingState = (state, action) => ({
   isTableLoading: action.isTableLoading,
 });
 
-const startLoadingMore = state => ({
+const setNextPageLoadingState = (state, action) => ({
   ...state,
-  isLoadingMore: true,
-});
-
-const stopLoadingMore = state => ({
-  ...state,
-  isLoadingMore: false,
+  isNextPageLoading: action.isNextPageLoading,
 });
 
 const loadQuoteListNextPage = (state, action) => {
@@ -160,8 +152,7 @@ const handlers = {
   [SORT_AND_FILTER_QUOTE_LIST]: sortAndFilterQuoteList,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,
   [LOAD_QUOTE_LIST_NEXT_PAGE]: loadQuoteListNextPage,
-  [START_LOADING_MORE]: startLoadingMore,
-  [STOP_LOADING_MORE]: stopLoadingMore,
+  [SET_NEXT_PAGE_LOADING_STATE]: setNextPageLoadingState,
 };
 
 const quoteListReducer = createReducer(getDefaultState(), handlers);

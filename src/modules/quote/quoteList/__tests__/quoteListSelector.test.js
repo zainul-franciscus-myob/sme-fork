@@ -1,11 +1,11 @@
-import { getLoadMoreButtonStatus } from '../quoteListSelector';
+import { getLoadMoreButtonStatus } from '../quoteListSelectors';
 import LoadMoreButtonStatuses from '../../../employee/employeeList/components/Pagination/LoadMoreButtonStatuses';
 
 describe('quoteListSelector', () => {
   describe('getLoadMoreButtonStatus', () => {
-    it('returns status LOADING when state.isLoadingMore is true', () => {
+    it('returns status LOADING when state.isNextPageLoading is true', () => {
       const state = {
-        isLoadingMore: true,
+        isNextPageLoading: true,
         pagination: {
           hasNextPage: true,
         },
@@ -41,9 +41,9 @@ describe('quoteListSelector', () => {
       expect(actual).toEqual(LoadMoreButtonStatuses.HIDDEN);
     });
 
-    it('returns status SHOWN when state.pagination.hasNextPage is true, isLoadingMore and isTableLoading is false', () => {
+    it('returns status SHOWN when state.pagination.hasNextPage is true, isNextPageLoading and isTableLoading is false', () => {
       const state = {
-        isLoadingMore: false,
+        isNextPageLoading: false,
         isTableLoading: false,
         pagination: {
           hasNextPage: true,

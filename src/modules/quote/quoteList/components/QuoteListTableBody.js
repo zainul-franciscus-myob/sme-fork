@@ -2,7 +2,7 @@ import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTableEntries } from '../quoteListSelector';
+import { getTableEntries } from '../quoteListSelectors';
 
 /* eslint-disable react/no-array-index-key */
 
