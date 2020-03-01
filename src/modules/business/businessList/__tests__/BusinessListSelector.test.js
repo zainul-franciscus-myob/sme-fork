@@ -1,4 +1,5 @@
 import {
+  getBusinessUrl,
   getBusinesses,
   getShouldRedirect,
 } from '../BusinessListSelector';
@@ -57,6 +58,7 @@ describe('BusinessListSelector', () => {
       ]);
     });
   });
+
   describe('getShouldRedirect', () => {
     it('returns true when there is one business in the business list', () => {
       const state = {
@@ -87,6 +89,22 @@ describe('BusinessListSelector', () => {
       const actual = getShouldRedirect(state);
 
       expect(actual).toEqual(false);
+    });
+  });
+
+  describe('getBusinessUrl', () => {
+    describe('when the business is a New Essentials business', () => {
+      it('returns the dashboard URL for the business', () => {
+        const state = { businesses: [{ id: 'some-business-id', region: 'au' }] };
+        expect(getBusinessUrl(state)).toEqual('/#/au/some-business-id/dashboard');
+      });
+    });
+
+    describe('when the business is an Old Essentials business', () => {
+      it('returns the absolute URL for the business in Old Essentials', () => {
+        const state = { businesses: [{ uri: 'https://some-old-essentials-uri' }] };
+        expect(getBusinessUrl(state)).toEqual('https://some-old-essentials-uri');
+      });
     });
   });
 });

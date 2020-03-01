@@ -43,9 +43,9 @@ export const getIsEmpty = createSelector(
 export const getBusinessUrl = (state) => {
   const businessList = getBusinessList(state);
   const business = businessList[0];
-  const { id, region } = business;
+  const { id, region, uri } = business;
 
-  return `/#/${region}/${id}/dashboard`;
+  return uri || `/#/${region}/${id}/dashboard`;
 };
 
 export const getShouldRedirect = (state) => {
