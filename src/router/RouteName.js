@@ -79,7 +79,7 @@ const RouteName = {
   REPORTS_EXCEPTION: 'reportsException',
   REPORTS_PACK_BUILDER: 'reportsPackBuilder',
   REPORTS_PDF_STYLE_TEMPLATES: 'reportsPdfStyleTemplates',
-  STP_GET_STARTED: 'stp/stpGetStarted',
+  STP_GET_STARTED: 'stp/stpGetStarted',
   STP_ERRORS: 'stp/stpErrors',
   STP_SETUP: 'stp/stpSetup',
   STP_REPORTING_CENTRE: 'stp/reportingCentre',
