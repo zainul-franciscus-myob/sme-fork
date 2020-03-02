@@ -356,16 +356,16 @@ class BillModule {
     const isSupplierIdKey = getIsSupplierIdKey(key);
     const isExpenseAccountIdKey = getIsExpenseAccountIdKey(key);
 
+    this.dispatcher.updateBillOption({ key, value });
+
     if (isSupplierIdKey) {
       this.loadSupplierAddress();
-      return;
     }
-
-    this.dispatcher.updateBillOption({ key, value });
 
     if (isTaxInclusiveKey) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: true });
     }
+
     if (isExpenseAccountIdKey) {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }

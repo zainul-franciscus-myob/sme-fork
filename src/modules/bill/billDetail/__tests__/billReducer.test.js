@@ -313,6 +313,7 @@ describe('billReducer', () => {
 
       expect(actual.bill).toEqual({
         a: '2',
+        lines: [],
       });
     });
 
@@ -359,6 +360,7 @@ describe('billReducer', () => {
         expect(actual.bill).toEqual({
           expirationDays: '1',
           expirationTerm,
+          lines: [],
         });
       });
     });
@@ -443,6 +445,32 @@ describe('billReducer', () => {
         const expectedLines = [
           { accountId: '1', taxCodeId: '1', amount: '10.00' },
           { accountId: '1', taxCodeId: '1', amount: '20.00' },
+        ];
+
+        expect(actual.bill.lines).toEqual(expectedLines);
+      });
+
+      it('does not update lines if key was not expenseAccountId', () => {
+        const state = {
+          bill: {
+            expenseAccountId: '2',
+            lines: [
+              { accountId: '2', taxCodeId: '2', amount: '10.00' },
+              { accountId: '3', taxCodeId: '3', amount: '20.00' },
+            ],
+          },
+        };
+
+        const action = {
+          intent: UPDATE_BILL_OPTION,
+          key: 'someOtherKey',
+          value: '1',
+        };
+        const actual = billReducer(state, action);
+
+        const expectedLines = [
+          { accountId: '2', taxCodeId: '2', amount: '10.00' },
+          { accountId: '3', taxCodeId: '3', amount: '20.00' },
         ];
 
         expect(actual.bill.lines).toEqual(expectedLines);

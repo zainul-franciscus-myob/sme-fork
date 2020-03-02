@@ -240,7 +240,7 @@ const updateBillOption = (state, action) => {
       displayAmountPaid: action.key === 'amountPaid' ? action.value : state.bill.displayAmountPaid,
       lines: state.bill.lines.length > 0 && action.key === 'expenseAccountId'
         ? updateAllLinesWithExpenseAccount(state.bill.lines, state.accountOptions, action.value)
-        : state.lines,
+        : state.bill.lines,
       [action.key]: action.value,
     },
     isPageEdited: true,
