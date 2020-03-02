@@ -51,6 +51,8 @@ export const getItemOptions = state => state.itemOptions;
 export const getAccountOptions = state => state.accountOptions;
 export const getSerialNumber = state => state.serialNumber;
 
+export const getIsTrial = state => state.subscription.isTrial;
+
 export const getIsUpgradeModalShowing = ({ isUpgradeModalShowing }) => isUpgradeModalShowing;
 
 export const getMonthlyLimit = ({ monthlyLimit }) => monthlyLimit;

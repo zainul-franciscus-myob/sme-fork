@@ -1,0 +1,8 @@
+{
+  "message": "You’ve reached your monthly limit of invoices.",
+  "monthlyLimit": {
+    "limit": 5,
+    "used": 4,
+    "hasHitLimit": false
+  }
+}

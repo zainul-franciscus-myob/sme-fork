@@ -92,6 +92,7 @@ const getDefaultState = () => ({
     template: '',
   },
   subscription: {
+    isTrial: false,
     monthlyLimit: {
       hasHitLimit: false,
     },

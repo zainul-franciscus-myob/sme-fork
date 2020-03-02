@@ -197,5 +197,8 @@
   "serialNumber": "000000000000",
   "exportPdf": {
     "template": "a"
+  },
+  "subscription": {
+    "isTrial": false
   }
 }

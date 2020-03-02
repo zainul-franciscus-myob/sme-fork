@@ -135,9 +135,12 @@
     "don't call us we'll call you"
   ],
   "serialNumber": "000000000000",
-  "monthlyLimit": {
-    "limit": 5,
-    "used": 4,
-    "hasHitLimit": false
+  "subscription": {
+    "isTrial": false,
+    "monthlyLimit": {
+      "limit": 5,
+      "used": 4,
+      "hasHitLimit": false
+    }
   }
 }

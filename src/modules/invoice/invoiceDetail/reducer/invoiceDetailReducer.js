@@ -54,10 +54,7 @@ import {
   uploadEmailAttachmentFailed,
   uploadEmailAttachmentUploadProgress,
 } from './EmailReducer';
-import {
-  calculateLineAmounts,
-  calculateLineTotals,
-} from './calculationReducer';
+import { calculateLineAmounts, calculateLineTotals } from './calculationReducer';
 import {
   getLoadInvoiceDetailEmailInvoice,
   getLoadInvoiceDetailModalAndPageAlert,
@@ -133,12 +130,14 @@ const loadInvoiceDetail = (state, action) => {
     modalType,
     modalAlert,
     alert: pageAlert,
-    subscription: action.subscription
-      ? {
-        monthlyLimit: action.subscription.monthlyLimit,
-        isUpgradeModalShowing: !!action.subscription.monthlyLimit.hasHitLimit,
-      }
-      : defaultState.subscription,
+    subscription: {
+      ...defaultState.subscription,
+      ...action.subscription,
+      monthlyLimit: action.subscription.monthlyLimit || defaultState.subscription.monthlyLimit,
+      isUpgradeModalShowing: action.subscription.monthlyLimit
+        ? !!action.subscription.monthlyLimit.hasHitLimit
+        : defaultState.subscription.isUpgradeModalShowing,
+    },
   };
 };
 
@@ -330,6 +329,7 @@ export const setRedirectRef = (state, { redirectRefJournalId, redirectRefJournal
 const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) => ({
   ...state,
   subscription: {
+    ...state.subscription,
     isUpgradeModalShowing,
     monthlyLimit: monthlyLimit || state.subscription.monthlyLimit,
   },

@@ -23,3 +23,15 @@
   width: 1rem;
   padding: 0.2rem;
 }
+
+.trial .onlinePaymentMethodsImageSetUp {
+  padding-right: var(--flx-spacing-tiny);
+}
+
+/*
+  @FEELIX:
+  Center tooltip with the payment method image
+*/
+.trial :global(.tooltip-icon) {
+  vertical-align: middle;
+}

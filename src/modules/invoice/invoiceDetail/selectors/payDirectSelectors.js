@@ -1,6 +1,8 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-import { getBusinessId, getIsAllowOnlinePayments, getSerialNumber } from './invoiceDetailSelectors';
+import {
+  getBusinessId, getIsAllowOnlinePayments, getIsTrial, getSerialNumber,
+} from './invoiceDetailSelectors';
 
 const getIsLoading = state => state.payDirect.isLoading;
 const getIsServiceAvailable = state => state.payDirect.isServiceAvailable;
@@ -17,6 +19,7 @@ const getSetUpOnlinePaymentsLink = createSelector(
 // eslint-disable-next-line import/prefer-default-export
 export const getPayDirectOptions = createStructuredSelector({
   isLoading: getIsLoading,
+  isTrial: getIsTrial,
   isServiceAvailable: getIsServiceAvailable,
   isAllowOnlinePayments: getIsAllowOnlinePayments,
   setUpOnlinePaymentsLink: getSetUpOnlinePaymentsLink,

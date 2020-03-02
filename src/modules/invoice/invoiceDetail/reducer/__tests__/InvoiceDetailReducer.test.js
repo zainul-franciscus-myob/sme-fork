@@ -473,6 +473,7 @@ describe('InvoiceDetailReducer', () => {
   describe('SET_UPGRADE_MODAL_SHOWING', () => {
     const state = {
       subscription: {
+        isTrial: true,
         isUpgradeModalShowing: true,
         monthlyLimit: {
           hasHitLimit: false,
@@ -497,6 +498,7 @@ describe('InvoiceDetailReducer', () => {
 
       expect(actual.subscription.isUpgradeModalShowing).toBeFalsy();
       expect(actual.subscription.monthlyLimit).toEqual(monthlyLimit);
+      expect(actual.subscription.isTrial).toBeTruthy();
     });
 
     it('uses current state monthlyLimit if no monthlyLimit is provided in action', () => {
@@ -525,22 +527,25 @@ describe('InvoiceDetailReducer', () => {
           issueDate: '2019-02-03',
         },
         subscription: {
+          isTrial: false,
           monthlyLimit: {
             limit: 5,
             hasHitLimit: true,
           },
         },
       };
-      it('shows upgrade modal if subscription limit has been reached', () => {
+
+      it('shows upgrade modal if subscription limit has been reached on load new invoice', () => {
         const actual = invoiceDetailReducer(state, action);
 
         expect(actual.subscription.isUpgradeModalShowing).toBeTruthy();
       });
 
-      it('does not show upgrade modal if subscription limit has not been reached', () => {
+      it('does not show upgrade modal if subscription limit has not been reached on load new invoice', () => {
         const modifiedAction = {
           ...action,
           subscription: {
+            isTrial: false,
             monthlyLimit: {
               limit: 5,
               hasHitLimit: false,
@@ -550,6 +555,19 @@ describe('InvoiceDetailReducer', () => {
         const actual = invoiceDetailReducer(state, modifiedAction);
 
         expect(actual.subscription.isUpgradeModalShowing).toBeFalsy();
+      });
+
+      it('does not show upgrade modal on load existing invoice', () => {
+        const modifiedAction = {
+          ...action,
+          subscription: {
+            isTrial: false,
+          },
+        };
+        const actual = invoiceDetailReducer(state, modifiedAction);
+
+        expect(actual.subscription.isUpgradeModalShowing).toBeFalsy();
+        expect(actual.subscription.monthlyLimit.hasHitLimit).toBeFalsy();
       });
     });
   });

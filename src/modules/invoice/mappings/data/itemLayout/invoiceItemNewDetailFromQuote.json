@@ -166,6 +166,7 @@
   "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
   "serialNumber": "000000000000",
   "subscription": {
+    "isTrial": false,
     "monthlyLimit": {
       "limit": 5,
       "used": 4,
