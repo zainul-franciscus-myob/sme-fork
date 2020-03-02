@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+import isExemptionEnabled from '../../isExemptionEnabled';
+
 export const getExpensePayItemModal = state => state.expensePayItemModal;
 
 export const getExpensePayItemModalId = state => getExpensePayItemModal(state).id;
@@ -86,6 +88,19 @@ export const getUnallocatedEmployeeOptions = createSelector(
 
     return [...accumulator, employee];
   }, []),
+);
+
+export const getEnabledExemptionFieldConfiguration = state => (
+  getExpensePayItemModal(state).enabledExemptionFieldConfiguration
+);
+
+export const getIsExemptionEnabled = createSelector(
+  getCalculationBasis,
+  getCalculationBasisPayItemId,
+  getEnabledExemptionFieldConfiguration,
+  (calculationBasis, payItemId, configuration) => (
+    isExemptionEnabled(calculationBasis, payItemId, configuration)
+  ),
 );
 
 export const getExemptionPayItems = state => getExpensePayItemModal(state).exemptionPayItems;

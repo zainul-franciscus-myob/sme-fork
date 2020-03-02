@@ -1,5 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import isExemptionEnabled from '../../isExemptionEnabled';
+
 export const getLeavePayItemModal = state => state.leavePayItemModal;
 
 export const getAlert = state => state.leavePayItemModal.alert;
@@ -40,8 +42,20 @@ export const getSelectedLinkedWages = state => (
   state.leavePayItemModal.leavePayItem.selectedLinkedWages
 );
 
-export const getShowExemptions = state => (
-  state.leavePayItemModal.leavePayItem.calculationBasisType === 'Percent'
+const getCalculationBasisType = state => state.leavePayItemModal.leavePayItem.calculationBasisType;
+const getCalculationBasisPayItemId = state => (
+  state.leavePayItemModal.leavePayItem.calculationBasisPayItemId
+);
+const getEnabledExemptionFieldConfiguration = state => (
+  state.leavePayItemModal.enabledExemptionFieldConfiguration
+);
+export const getEnableExemptions = createSelector(
+  getCalculationBasisType,
+  getCalculationBasisPayItemId,
+  getEnabledExemptionFieldConfiguration,
+  (type, payItemId, configuration) => isExemptionEnabled(
+    type, payItemId, configuration,
+  ),
 );
 
 export const getFilteredEmployees = createSelector(
@@ -75,13 +89,11 @@ export const getFilteredLinkedWages = createSelector(
 );
 
 export const getCalculationBasis = createStructuredSelector({
-  calculationBasisType: state => state.leavePayItemModal.leavePayItem.calculationBasisType,
+  calculationBasisType: getCalculationBasisType,
   calculationBasisPercentage: state => (
     state.leavePayItemModal.leavePayItem.calculationBasisPercentage
   ),
-  calculationBasisPayItemId: state => (
-    state.leavePayItemModal.leavePayItem.calculationBasisPayItemId
-  ),
+  calculationBasisPayItemId: getCalculationBasisPayItemId,
   calculationBasisAmount: state => state.leavePayItemModal.leavePayItem.calculationBasisAmount,
   calculationBasisPeriod: state => state.leavePayItemModal.leavePayItem.calculationBasisPeriod,
   calculationBasisTypes: state => state.leavePayItemModal.calculationBasisTypes,
@@ -89,7 +101,7 @@ export const getCalculationBasis = createStructuredSelector({
     state.leavePayItemModal.calculationBasisPercentOfOptions
   ),
   payPeriods: state => state.leavePayItemModal.payPeriods,
-  showPercentage: state => state.leavePayItemModal.leavePayItem.calculationBasisType === 'Percent',
+  showPercentage: state => state.leavePayItemModal.leavePayItem.calculationBasisType === 'PercentOfPayrollCategory',
   showAmount: state => state.leavePayItemModal.leavePayItem.calculationBasisType === 'FixedHours',
 });
 

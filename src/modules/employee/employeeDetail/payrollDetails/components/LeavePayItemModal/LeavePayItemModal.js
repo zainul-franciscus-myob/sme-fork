@@ -4,11 +4,11 @@ import React from 'react';
 
 import {
   getAlert,
+  getEnableExemptions,
   getIsActionDisabled,
   getIsLeavePayItemModalCreating,
   getIsLoading,
   getModalTitle,
-  getShowExemptions,
 } from '../../selectors/LeavePayItemModalSelectors';
 import LeavePayItemDetail from './LeavePayItemDetail';
 import LeavePayItemEmployees from './LeavePayItemEmployees';
@@ -23,7 +23,7 @@ const LeavePayItemModal = (props) => {
     title,
     isLoading,
     isActionDisabled,
-    showExemptions,
+    enableExemptions,
     onCancel,
     onSave,
     onDismissAlert,
@@ -56,14 +56,11 @@ const LeavePayItemModal = (props) => {
         onAddEmployee={onAddEmployee}
         onRemoveEmployee={onRemoveEmployee}
       />
-      {
-        showExemptions && (
-        <LeavePayItemExemptions
-          onAddExemption={onAddExemption}
-          onRemoveExemption={onRemoveExemption}
-        />
-        )
-      }
+      <LeavePayItemExemptions
+        onAddExemption={onAddExemption}
+        onRemoveExemption={onRemoveExemption}
+        enabled={enableExemptions}
+      />
     </>
   );
 
@@ -90,7 +87,7 @@ const mapStateToProps = state => ({
   isActionDisabled: getIsActionDisabled(state),
   isCreating: getIsLeavePayItemModalCreating(state),
   isLoading: getIsLoading(state),
-  showExemptions: getShowExemptions(state),
+  enableExemptions: getEnableExemptions(state),
 });
 
 export default connect(mapStateToProps)(LeavePayItemModal);

@@ -37,6 +37,12 @@
   },
   "grossWagesId": "2",
   "federalWagesId": "3",
+  "enabledExemptionFieldConfiguration": [
+    {
+      "calculationBasisType": "PercentOfPayrollCategory",
+      "enabledPayItemIds": ["2", "3"]
+    }
+  ],
   "contributionTypeOptions": [
     {
       "name": "Employee additional (deduction)",

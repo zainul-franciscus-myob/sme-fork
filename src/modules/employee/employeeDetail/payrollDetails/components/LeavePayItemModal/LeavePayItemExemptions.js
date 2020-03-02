@@ -15,6 +15,7 @@ const LeavePayItemExemptions = ({
   exemptionOptions,
   onAddExemption,
   onRemoveExemption,
+  enabled,
 }) => {
   const fieldGroupLabel = (
     <div>
@@ -35,6 +36,7 @@ const LeavePayItemExemptions = ({
         items={exemptionOptions}
         onChange={handleExemptionComboboxChange(onAddExemption)}
         width="lg"
+        disabled={!enabled}
       />
     </FieldGroup>
   );

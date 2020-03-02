@@ -1,5 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import isExemptionEnabled from '../../isExemptionEnabled';
+
 const contributionTypeOptions = {
   employeeAdditional: 'EmployeeAdditional',
   employerAdditional: 'EmployerAdditional',
@@ -74,8 +76,6 @@ export const getEmployees = state => state.superPayItemModal.superPayItem.employ
 export const getExemptions = state => state.superPayItemModal.superPayItem.exemptions;
 
 const getGrossWagesId = state => state.superPayItemModal.grossWagesId;
-
-const getFederalWagesId = state => state.superPayItemModal.federalWagesId;
 
 const getAtoReportingCategoryOptions = state => state.superPayItemModal.atoReportingCategoryOptions;
 
@@ -223,15 +223,16 @@ export const getFilteredExemptionOptions = createSelector(
   }),
 );
 
+const getEnabledExemptionFieldConfiguration = state => (
+  state.superPayItemModal.enabledExemptionFieldConfiguration
+);
 export const getIsExemptionDisabled = createSelector(
   getCalculationBasisType,
   getCalculationBasisPayItemId,
-  getGrossWagesId,
-  getFederalWagesId,
-  (calculationBasisType, calculationBasisPayItemId, grossWagesId, federalWagesId) => !(
-    calculationBasisType === calculationBasisTypes.percent && (
-      calculationBasisPayItemId === grossWagesId || calculationBasisPayItemId === federalWagesId
-    )),
+  getEnabledExemptionFieldConfiguration,
+  (calculationBasisType, calculationBasisPayItemId, configuration) => !isExemptionEnabled(
+    calculationBasisType, calculationBasisPayItemId, configuration,
+  ),
 );
 
 export const getSuperPayItemModalFormattedAmount = value => String((Number(value) || 0).toFixed(2));

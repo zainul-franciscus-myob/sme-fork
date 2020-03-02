@@ -34,6 +34,12 @@
       "mappedType": "Wages"
     }
   ],
+  "enabledExemptionFieldConfiguration":[
+    {
+      "calculationBasisType": "Percent",
+      "enabledPayItemIds": ["2", "3"]
+    }
+  ],
   "limitPayItemOptions": [
     {
       "id": "2",

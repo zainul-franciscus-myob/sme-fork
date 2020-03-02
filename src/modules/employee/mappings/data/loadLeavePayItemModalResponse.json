@@ -29,6 +29,12 @@
       }
     ]
   },
+  "enabledExemptionFieldConfiguration": [
+    {
+      "calculationBasisType": "PercentOfPayrollCategory",
+      "enabledPayItemIds": ["4", "5"]
+    }
+  ],
   "calculationBasisTypes": [
     {
       "name": "User-entered amount per pay period",
@@ -36,7 +42,7 @@
     },
     {
       "name": "Equals a percentage of wages",
-      "value": "Percent"
+      "value": "PercentOfPayrollCategory"
     },
     {
       "name": "Equals hours per pay period",
@@ -73,12 +79,12 @@
   ],
   "calculationBasisPercentOfOptions": [
     {
-      "id": "2",
+      "id": "4",
       "name": "Gross hours",
       "mappedType": "Wages"
     },
     {
-      "id": "3",
+      "id": "5",
       "name": "Federal hours",
       "mappedType": "Wages"
     },

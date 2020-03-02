@@ -251,6 +251,12 @@ describe('SuperPayItemModalSelectors', () => {
   describe('getIsExemptionDisabled', () => {
     const grossWagesId = 'grossWagesId';
     const federalWagesId = 'federalWagesId';
+    const configuration = [
+      {
+        calculationBasisType: 'PercentOfPayrollCategory',
+        enabledPayItemIds: [grossWagesId, federalWagesId],
+      },
+    ];
 
     it.each([
       ['UserEntered', 'grossWagesId', true],
@@ -267,7 +273,7 @@ describe('SuperPayItemModalSelectors', () => {
         calculationBasisType, calculationBasisPayItemId, expectedIsExemptionDisabled,
       ) => {
         const actual = getIsExemptionDisabled.resultFunc(
-          calculationBasisType, calculationBasisPayItemId, grossWagesId, federalWagesId,
+          calculationBasisType, calculationBasisPayItemId, configuration,
         );
 
         expect(actual).toEqual(expectedIsExemptionDisabled);

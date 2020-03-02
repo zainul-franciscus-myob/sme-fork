@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAlert,
   getIsActionDisabled,
+  getIsExemptionEnabled,
   getIsLoading,
   getModalTitle,
 } from '../../selectors/ExpensePayItemModalSelectors';
@@ -27,6 +28,7 @@ const ExpensePayItemModal = ({
   onRemoveAllocatedEmployee,
   onAddExemptionPayItem,
   onRemoveExemptionPayItem,
+  exemptionEnabled,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -50,6 +52,7 @@ const ExpensePayItemModal = ({
       <ExemptionsSection
         onAddExemptionPayItem={onAddExemptionPayItem}
         onRemoveExemptionPayItem={onRemoveExemptionPayItem}
+        enabled={exemptionEnabled}
       />
     </>
   );
@@ -75,6 +78,7 @@ const mapStateToProps = state => ({
   title: getModalTitle(state),
   alert: getAlert(state),
   isLoading: getIsLoading(state),
+  exemptionEnabled: getIsExemptionEnabled(state),
   isActionDisabled: getIsActionDisabled(state),
 });
 

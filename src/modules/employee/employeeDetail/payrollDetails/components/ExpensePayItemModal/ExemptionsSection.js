@@ -12,6 +12,7 @@ const ExemptionsSection = ({
   exemptionPayItemOptions,
   onAddExemptionPayItem,
   onRemoveExemptionPayItem,
+  enabled,
 }) => (
   <FieldGroup
     label={(
@@ -32,6 +33,7 @@ const ExemptionsSection = ({
       items={exemptionPayItemOptions}
       onChange={handleComboboxChange(undefined, onAddExemptionPayItem)}
       width="lg"
+      disabled={!enabled}
     />
   </FieldGroup>
 );
