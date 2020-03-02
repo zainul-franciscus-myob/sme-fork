@@ -1,21 +1,12 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  LOAD_LINKED_ACCOUNTS,
-  SAVE_LINKED_ACCOUNTS,
-  SET_ALERT,
-  SET_IS_SUBMITTING,
-  SET_LOADING_STATE,
-  SET_SELECTED_TAB,
-  UPDATE_ACCOUNT,
-  UPDATE_HAS_ACCOUNT_OPTION,
-} from './LinkedAccountsIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import { getBusinessId, getIsActionDisabled, getSaveLinkedAccountsPayload } from './LinkedAccountsSelectors';
+import { getIsActionDisabled } from './LinkedAccountsSelectors';
 import LinkedAccountsView from './components/LinkedAccountsView';
 import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
+import createLinkedAccountsDispatcher from './createLinkedAccountsDispatcher';
+import createLinkedAccountsIntegrator from './createLinkedAccountsIntegrator';
 import keyMap from '../../hotKeys/keyMap';
 import linkedAccountsReducer from './linkedAccountsReducer';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
@@ -27,46 +18,28 @@ class LinkedAccountsModule {
     this.setRootView = setRootView;
     this.integration = integration;
     this.store = new Store(linkedAccountsReducer);
+    this.dispatcher = createLinkedAccountsDispatcher({ store: this.store });
+    this.integrator = createLinkedAccountsIntegrator({ store: this.store, integration });
   }
 
   loadLinkedAccounts = () => {
-    const intent = LOAD_LINKED_ACCOUNTS;
-
     const onSuccess = (response) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent,
-        ...response,
-      });
+      this.dispatcher.loadLinkedAccounts(response);
     };
 
     const onFailure = () => {
       this.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integration.read({
-      intent,
-      urlParams: { businessId: getBusinessId(this.store.getState()) },
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.loadLinkedAccounts({ onSuccess, onFailure });
   }
 
-  updateAccount = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_ACCOUNT,
-      key,
-      value,
-    });
-  }
+  updateAccount = ({ key, value }) => this.dispatcher.updateAccount({ key, value });
 
-  updateHasAccountOption = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_HAS_ACCOUNT_OPTION,
-      key,
-      value,
-    });
-  }
+  updateHasAccountOption = ({ key, value }) => this.dispatcher.updateHasAccountOption({
+    key, value,
+  });
 
   saveLinkedAccounts = () => {
     const state = this.store.getState();
@@ -84,87 +57,41 @@ class LinkedAccountsModule {
       this.displayFailureAlert(response.message);
     };
 
-    this.integration.write({
-      intent: SAVE_LINKED_ACCOUNTS,
-      urlParams: { businessId: getBusinessId(state) },
-      content: getSaveLinkedAccountsPayload(state),
+    this.integrator.saveLinkedAccounts({
       onSuccess,
       onFailure,
     });
   };
 
-  displaySuccessMessage = successMessage => this.displayAlert({
+  displaySuccessMessage = successMessage => this.dispatcher.displayAlert({
     message: successMessage,
     type: 'success',
   });
 
-  displayFailureAlert = errorMessage => this.displayAlert({
+  displayFailureAlert = errorMessage => this.dispatcher.displayAlert({
     message: errorMessage,
     type: 'danger',
   });
 
-  dismissAlert = () => {
-    this.store.dispatch({
-      intent: SET_ALERT,
-      alert: undefined,
-    });
-  }
+  dismissAlert = () => this.dispatcher.dismissAlert();
 
-  setLoadingState = (loadingState) => {
-    this.store.dispatch({
-      intent: SET_LOADING_STATE,
-      loadingState,
-    });
-  }
+  setLoadingState = loadingState => this.dispatcher.setLoadingState(loadingState);
 
-  setIsSubmitting = (isSubmitting) => {
-    this.store.dispatch({
-      intent: SET_IS_SUBMITTING,
-      isSubmitting,
-    });
-  }
+  setIsSubmitting = isSubmitting => this.dispatcher.setIsSubmitting(isSubmitting);
 
-  displayAlert = ({ message, type }) => {
-    const intent = SET_ALERT;
-    const alert = {
-      message,
-      type,
-    };
-    this.store.dispatch({
-      intent,
-      alert,
-    });
-  }
-
-  setSelectedTab = (selectedTab) => {
-    this.store.dispatch({
-      intent: SET_SELECTED_TAB,
-      selectedTab,
-    });
-  }
+  setSelectedTab = selectedTab => this.dispatcher.setSelectedTab(selectedTab);
 
   handlers = {
     SAVE_ACTION: this.saveLinkedAccounts,
   };
 
-  setInitialState = (context) => {
-    this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
-    });
-  }
-
-  resetState = () => {
-    this.store.dispatch({
-      intent: RESET_STATE,
-    });
-  };
+  resetState = () => this.dispatcher.resetState();
 
   run(context) {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
-    this.setLoadingState(true);
+    this.setLoadingState(LoadingState.LOADING);
     this.loadLinkedAccounts();
   }
 
