@@ -43,6 +43,7 @@ export default class EmployeeDetailModule {
     popMessages,
     pushMessage,
     replaceURLParams,
+    addPaymentDetailsAndSaveSuccess,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -51,6 +52,7 @@ export default class EmployeeDetailModule {
     this.popMessages = popMessages;
     this.pushMessage = pushMessage;
     this.popMessageTypes = popMessageTypes;
+    this.addPaymentDetailsAndSaveSuccess = addPaymentDetailsAndSaveSuccess;
     this.dispatcher = createEmployeeDetailDispatcher(this.store);
     this.integrator = createEmployeeDetailIntegrator(this.store, integration);
     this.subModules = {
@@ -125,7 +127,7 @@ export default class EmployeeDetailModule {
     const onSuccess = (response) => {
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-
+      this.addPaymentDetailsAndSaveSuccess();
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
       if (isCreating) {

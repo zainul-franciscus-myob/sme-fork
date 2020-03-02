@@ -3,7 +3,12 @@ import EmployeeListModule from './employeeList/EmployeeListModule';
 import RouteName from '../../router/RouteName';
 
 const getEmployeeRoutes = ({
-  integration, setRootView, popMessages, pushMessage, replaceURLParams,
+  integration,
+  setRootView,
+  popMessages,
+  pushMessage,
+  replaceURLParams,
+  globalCallbacks: { addPaymentDetailsAndSaveSuccess },
 }) => {
   const routes = [
     {
@@ -19,7 +24,12 @@ const getEmployeeRoutes = ({
       path: '/:region/:businessId/employee/:employeeId',
       allowedParams: ['mainTab', 'subTab'],
       module: new EmployeeDetailModule({
-        integration, setRootView, popMessages, pushMessage, replaceURLParams,
+        integration,
+        setRootView,
+        popMessages,
+        pushMessage,
+        replaceURLParams,
+        addPaymentDetailsAndSaveSuccess,
       }),
       documentTitle: 'Employee',
     },
