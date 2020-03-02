@@ -16,6 +16,8 @@ export const getAlert = state => state.alert;
 
 export const getIsTableLoading = state => state.isTableLoading;
 
+export const getIsUploadAllowed = state => state.isUploadAllowed;
+
 export const getFilterOptions = state => state.filterOptions;
 
 export const getAppliedFilterOptions = state => state.appliedFilterOptions;

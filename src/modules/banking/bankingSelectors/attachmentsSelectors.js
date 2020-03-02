@@ -28,5 +28,5 @@ export const getFilesForUpload = (state, files) => (
 export const getInTrayModalContext = createSelector(
   getBusinessId,
   getRegion,
-  (businessId, region) => ({ businessId, region }),
+  (businessId, region) => ({ businessId, region, isUploadAllowed: false }),
 );

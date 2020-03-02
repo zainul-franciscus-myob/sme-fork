@@ -2,7 +2,7 @@ import { HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsTableLoading, getOrder } from '../InTrayModalSelectors';
+import { getIsTableLoading, getIsUploadAllowed, getOrder } from '../InTrayModalSelectors';
 import InTrayDropZone from './InTrayDropZone';
 import InTrayListTableBody from './InTrayModalTableBody';
 import TableView from '../../../../components/TableView/TableView';
@@ -22,6 +22,7 @@ const tableConfig = {
 
 const InTrayModalTable = ({
   isTableLoading,
+  isUploadAllowed,
   order,
   onSort,
   onUpload,
@@ -71,7 +72,7 @@ const InTrayModalTable = ({
       // for when the table has a checkbox/radio button, or any actionable item for each row.
       onRowSelect={() => {}}
     >
-      { dropZone }
+      { isUploadAllowed && dropZone }
       { tableBody }
     </TableView>
   );
@@ -79,6 +80,7 @@ const InTrayModalTable = ({
 
 const mapStateToProps = state => ({
   isTableLoading: getIsTableLoading(state),
+  isUploadAllowed: getIsUploadAllowed(state),
   order: getOrder(state),
 });
 
