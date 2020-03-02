@@ -48,21 +48,7 @@ const loadTasks = (state, action) => ({
   tasks: action.payload,
 });
 
-const updateTasks = (state, { tasks: updatedTasks }) => {
-  const currentTasks = state.tasks;
-
-  const newTasks = currentTasks.map((currentTask) => {
-    const taskToUpdate = updatedTasks.find(
-      updatedTask => updatedTask.key === currentTask.key,
-    );
-
-    if (taskToUpdate) return taskToUpdate;
-
-    return currentTask;
-  });
-
-  return { ...state, tasks: newTasks };
-};
+const updateTasks = (state, { tasks }) => ({ ...state, tasks });
 
 const loadBusinessDetails = (state, { businessDetails }) => ({
   ...state,
