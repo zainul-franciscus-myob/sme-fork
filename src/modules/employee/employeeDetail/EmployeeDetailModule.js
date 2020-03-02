@@ -43,16 +43,16 @@ export default class EmployeeDetailModule {
     popMessages,
     pushMessage,
     replaceURLParams,
-    addPaymentDetailsAndSaveSuccess,
+    globalCallbacks,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
+    this.globalCallbacks = globalCallbacks;
     this.store = new Store(employeeDetailReducer);
     this.replaceURLParams = replaceURLParams;
     this.popMessages = popMessages;
     this.pushMessage = pushMessage;
     this.popMessageTypes = popMessageTypes;
-    this.addPaymentDetailsAndSaveSuccess = addPaymentDetailsAndSaveSuccess;
     this.dispatcher = createEmployeeDetailDispatcher(this.store);
     this.integrator = createEmployeeDetailIntegrator(this.store, integration);
     this.subModules = {
@@ -65,6 +65,7 @@ export default class EmployeeDetailModule {
         integration,
         store: this.store,
         pushMessage,
+        globalCallbacks,
       }),
       paymentDetails: new PaymentDetailsTabModule({
         integration,
@@ -127,7 +128,7 @@ export default class EmployeeDetailModule {
     const onSuccess = (response) => {
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.addPaymentDetailsAndSaveSuccess();
+      this.globalCallbacks.addPaymentDetailsAndSaveSuccess();
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
       if (isCreating) {
