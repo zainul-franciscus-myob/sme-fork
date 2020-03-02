@@ -91,6 +91,7 @@ import {
   SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE,
   SET_TAX_PAY_ITEM_MODAL_LOADING_STATE,
   SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE,
+  SET_TERMINATION_CONFIRM_MODAL,
   SET_WAGE_PAY_ITEM_MODAL_ALERT,
   SET_WAGE_PAY_ITEM_MODAL_LOADING_STATE,
   SET_WAGE_PAY_ITEM_MODAL_SUBMITTING_STATE,
@@ -151,6 +152,13 @@ const createPayrollDetailsTabDispatchers = store => ({
   updatePayrollEmploymentDetails: ({ key, value }) => {
     const intent = UPDATE_PAYROLL_EMPLOYMENT_DETAIL;
     store.dispatch({ intent, key, value });
+  },
+
+  setTerminationConfirmModal: (isOpen) => {
+    store.dispatch({
+      intent: SET_TERMINATION_CONFIRM_MODAL,
+      isOpen,
+    });
   },
 
   updatePayrollEmploymentPaySlipDelivery: ({ key, value }) => {

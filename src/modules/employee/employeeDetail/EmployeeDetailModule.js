@@ -18,6 +18,7 @@ import { getLeavePayItemModal } from './payrollDetails/selectors/LeavePayItemMod
 import { getSuperFundModal } from './payrollDetails/selectors/SuperFundModalSelectors';
 import { getSuperPayItemModal } from './payrollDetails/selectors/SuperPayItemModalSelectors';
 import { getTaxPayItemModal } from './payrollDetails/selectors/PayrollTaxSelectors';
+import { getTerminationDateNewlySet } from './payrollDetails/selectors/EmploymentDetailsSelectors';
 import { getWagePayItemModal } from './payrollDetails/selectors/WagePayItemModalSelectors';
 import ContactDetailsTabModule from './contactDetails/ContactDetailsTabModule';
 import EmployeeDetailView from './components/EmployeeDetailView';
@@ -65,6 +66,7 @@ export default class EmployeeDetailModule {
         integration,
         store: this.store,
         pushMessage,
+        saveEmployee: this.saveEmployee,
         globalCallbacks,
       }),
       paymentDetails: new PaymentDetailsTabModule({
@@ -226,13 +228,22 @@ export default class EmployeeDetailModule {
     }
   };
 
+  saveButtonClick = () => {
+    const state = this.store.getState();
+    if (getTerminationDateNewlySet(state)) {
+      this.subModules.payrollDetails.openTerminationConfirmModal();
+    } else {
+      this.saveEmployee();
+    }
+  }
+
   render = () => {
     const employeeDetailView = (
       <EmployeeDetailView
         tabViews={this.subModules}
         onMainTabSelected={this.dispatcher.setMainTab}
         onCancelButtonClick={this.cancelEmployee}
-        onSaveButtonClick={this.saveEmployee}
+        onSaveButtonClick={this.saveButtonClick}
         onDeleteButtonClick={this.openDeleteModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         confirmModalListeners={{

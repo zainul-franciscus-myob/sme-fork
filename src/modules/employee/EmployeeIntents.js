@@ -18,6 +18,7 @@ export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
 export const SET_PAGE_EDITED_STATE = Symbol('Set page edited state');
 export const UPDATE_PAYROLL_EMPLOYMENT_DETAIL = Symbol('Update Payroll employment detail');
+export const SET_TERMINATION_CONFIRM_MODAL = Symbol('Open or close the termination confirmation modal');
 export const UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY = Symbol('Update Payroll employment payslip delivery');
 export const UPDATE_PAYMENT_DETAILS = Symbol('Update employee payment details');
 export const UPDATE_BANK_ACCOUNT_DETAILS = Symbol('Update employee bank account details');

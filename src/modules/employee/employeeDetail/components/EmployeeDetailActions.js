@@ -32,7 +32,7 @@ const EmployeeDetailActions = ({
         <Button key="cancel" name="cancel" type="secondary" onClick={onCancelButtonClick} disabled={isActionsDisabled}>
         Cancel
         </Button>,
-        <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled}>
+        <Button key="save" name="save" type="primary" onClick={onSaveButtonClick} disabled={isActionsDisabled} testid="testSaveButton">
         Save
         </Button>,
       ]}

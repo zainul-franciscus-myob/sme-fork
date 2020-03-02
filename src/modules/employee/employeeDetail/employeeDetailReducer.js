@@ -8,6 +8,7 @@ import {
   SET_PAGE_EDITED_STATE,
   SET_SUBMITTING_STATE,
   SET_SUB_TAB,
+  SET_TERMINATION_CONFIRM_MODAL,
   UPDATE_EMPLOYEE,
   UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY,
 } from '../EmployeeIntents';
@@ -339,6 +340,17 @@ const updatePayslipDelivery = (state, action) => ((
     isPageEdited: true,
   });
 
+const setTerminationConfirmModal = (state, { isOpen }) => ({
+  ...state,
+  payrollDetails: {
+    ...state.payrollDetails,
+    employmentDetails: {
+      ...state.payrollDetails.employmentDetails,
+      terminationConfirmModalIsOpen: isOpen,
+    },
+  },
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -352,6 +364,7 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [SET_PAGE_EDITED_STATE]: setPageEditedState,
   [UPDATE_PAYROLL_EMPLOYMENT_PAYSLIP_DELIVERY]: updatePayslipDelivery,
+  [SET_TERMINATION_CONFIRM_MODAL]: setTerminationConfirmModal,
   [UPDATE_EMPLOYEE]: updateEmployeeDetail,
   ...DeductionPayItemModalReducerHandlers,
   ...ExpensePayItemModalReducerHandlers,

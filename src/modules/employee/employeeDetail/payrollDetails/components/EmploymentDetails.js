@@ -78,6 +78,7 @@ const EmploymentDetails = ({
       <DatePicker
         label="Termination date"
         name="terminationDate"
+        testid="terminationDate"
         value={terminationDate}
         onSelect={onDateChange('terminationDate', onEmploymentDetailsChange)}
       />

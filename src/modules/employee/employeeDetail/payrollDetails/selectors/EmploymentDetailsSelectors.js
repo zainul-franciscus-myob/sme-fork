@@ -24,3 +24,11 @@ export const shouldDefaultPayslipEmail = state => state.payrollDetails.employmen
 
 export const getIsPaySlipEmailRequired = state => state.payrollDetails.employmentDetails.paySlipDelivery === 'ToBeEmailed'
   || state.payrollDetails.employmentDetails.paySlipDelivery === 'ToBePrintedAndEmailed';
+
+export const getTerminationDateNewlySet = state => (
+  state.payrollDetails.employmentDetails.terminationDateNewlySet
+);
+
+export const getTerminationConfirmModalIsOpen = state => (
+  state.payrollDetails.employmentDetails.terminationConfirmModalIsOpen
+);

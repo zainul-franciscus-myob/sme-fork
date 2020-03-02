@@ -9,6 +9,18 @@ import {
   UPDATE_PAYROLL_EMPLOYMENT_DETAIL,
 } from '../../../EmployeeIntents';
 
+const isTerminationDateNewlySet = (state, action) => {
+  if (action.key === 'terminationDate' && action.value === '') {
+    return false;
+  }
+
+  if (action.key === 'terminationDate' && !state.payrollDetails.employmentDetails.terminationDate) {
+    return true;
+  }
+
+  return state.payrollDetails.employmentDetails.terminationDateNewlySet;
+};
+
 const updatePayrollEmployeeDetail = (state, action) => ({
   ...state,
   payrollDetails: {
@@ -16,6 +28,7 @@ const updatePayrollEmployeeDetail = (state, action) => ({
     employmentDetails: {
       ...state.payrollDetails.employmentDetails,
       [action.key]: action.value,
+      terminationDateNewlySet: isTerminationDateNewlySet(state, action),
     },
   },
   isPageEdited: true,

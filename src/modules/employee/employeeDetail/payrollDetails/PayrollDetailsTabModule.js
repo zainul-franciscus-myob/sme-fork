@@ -54,6 +54,7 @@ export default class PayrollDetailsTabModule {
     integration,
     store,
     pushMessage,
+    saveEmployee,
     globalCallbacks,
   }) {
     this.integration = integration;
@@ -65,6 +66,7 @@ export default class PayrollDetailsTabModule {
     this.subModules = {
       taxTableCalculationModal: new TaxTableCalculationModalModule({ integration }),
     };
+    this.saveEmployee = saveEmployee;
   }
 
   updatePayrollWagePayBasisAndStandardPayItems = ({ value }) => {
@@ -444,6 +446,10 @@ export default class PayrollDetailsTabModule {
     }
   }
 
+  openTerminationConfirmModal = () => {
+    this.dispatcher.setTerminationConfirmModal(true);
+  }
+
   setSuperPayItemModalInput = ({ key, value }) => {
     this.dispatcher.setSuperPayItemModalInput({ key, value });
 
@@ -624,6 +630,15 @@ export default class PayrollDetailsTabModule {
     this.subModules.taxTableCalculationModal.open(context, onModalSave);
   }
 
+  closeTerminationConfirmModal = () => {
+    this.dispatcher.setTerminationConfirmModal(false);
+  }
+
+  onTerminationConfirmModalSave = () => {
+    this.closeTerminationConfirmModal();
+    this.saveEmployee();
+  }
+
   getView() {
     const taxTableCalculationModal = this.subModules.taxTableCalculationModal.render();
     this.globalCallbacks.setupPayrollDetailsCompleted();
@@ -752,6 +767,10 @@ export default class PayrollDetailsTabModule {
             onCloseModal: this.dispatcher.closeTaxPayItemModal,
           }}
           onTfnModalLinkClick={this.onTfnModalLinkClick}
+          terminationConfirmModalListeners={{
+            onCancel: this.closeTerminationConfirmModal,
+            onSave: this.onTerminationConfirmModalSave,
+          }}
         />
       </>
     );

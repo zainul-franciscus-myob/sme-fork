@@ -8,6 +8,7 @@ import { getLeavePayItemModal } from '../selectors/LeavePayItemModalSelectors';
 import { getSubTab } from '../../EmployeeDetailSelectors';
 import { getSuperPayItemModal } from '../selectors/SuperPayItemModalSelectors';
 import { getTaxPayItemModal } from '../selectors/PayrollTaxSelectors';
+import { getTerminationConfirmModalIsOpen } from '../selectors/EmploymentDetailsSelectors';
 import { getWagePayItemModal } from '../selectors/WagePayItemModalSelectors';
 import {
   payrollDetailsSubTabIds,
@@ -27,6 +28,7 @@ import PayrollTaxDetails from './PayrollTaxDetails/PayrollTaxDetails';
 import PayrollWageDetails from './PayrollWageDetails/PayrollWageDetails';
 import SuperPayItemModal from './SuperPayItemModal/SuperPayItemModal';
 import TaxPayItemModal from './PayrollTaxDetails/TaxPayItemModal';
+import TerminationConfirmModal from '../../components/TerminationConfirmModal';
 import WagePayItemModal from './WagePayItemModal/WagePayItemModal';
 
 const EmployeeDetailPayrollDetails = ({
@@ -112,6 +114,8 @@ const EmployeeDetailPayrollDetails = ({
   // TODO this needs to be moved
   leavePayItemModalListeners,
   // TODO this needs to be moved
+  terminationConfirmModalListeners,
+  terminationConfirmModal,
   onAddPayItemComboClick,
   onTaxFileNumberStatusChange,
   onTfnModalLinkClick,
@@ -232,6 +236,7 @@ const EmployeeDetailPayrollDetails = ({
       {taxPayItemModal && <TaxPayItemModal {...taxPayItemModalListeners} />}
       {expensePayItemModal && <ExpensePayItemModal {...expensePayItemModalListeners} />}
       {wagePayItemModal && <WagePayItemModal {...wagePayItemModalListeners} />}
+      {terminationConfirmModal && <TerminationConfirmModal {...terminationConfirmModalListeners} />}
     </Fragment>
   );
 };
@@ -244,6 +249,7 @@ const mapStateToProps = state => ({
   superPayItemModal: getSuperPayItemModal(state),
   taxPayItemModal: getTaxPayItemModal(state),
   wagePayItemModal: getWagePayItemModal(state),
+  terminationConfirmModal: getTerminationConfirmModalIsOpen(state),
 });
 
 export default connect(mapStateToProps)(EmployeeDetailPayrollDetails);
