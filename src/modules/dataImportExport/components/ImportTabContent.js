@@ -2,7 +2,7 @@ import { FormHorizontal, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getCurrentDataTypeInCurrentTab } from '../selectors/DataImportExportSelectors';
+import { getCurrentDataTypeInCurrentTab, getRegion } from '../selectors/DataImportExportSelectors';
 import ImportChartOfAccountsDetail from './ImportChartOfAccountsDetail';
 import ImportContactsDetail from './ImportContactsDetail';
 import ImportEmployeesDetail from './ImportEmployeesDetail';
@@ -15,6 +15,7 @@ import TabItem from '../types/TabItem';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
 
 const ImportTabContent = ({
+  region,
   selectedDataType,
   onFileSelected,
   onFileRemove,
@@ -25,6 +26,7 @@ const ImportTabContent = ({
 }) => (
   <FormHorizontal layout="primary">
     <Select
+      name="Data type"
       label="Data type"
       value={selectedDataType}
       requiredLabel="This is required"
@@ -35,8 +37,9 @@ const ImportTabContent = ({
       <Select.Option value={ImportExportDataType.CONTACTS} label="Contacts" />
       <Select.Option value={ImportExportDataType.EMPLOYEES} label="Employees" />
       <Select.Option value={ImportExportDataType.ITEMS} label="Items" />
-      <Select.Option value={ImportExportDataType.TIMESHEETS} label="Timesheets" />
-      {/* <Select.Option value={ImportExportDataType.GENERAL_JOURNALS} label="General journals" />
+      {region === 'au' && <Select.Option value={ImportExportDataType.TIMESHEETS} label="Timesheets" />}
+      {/* <Select.Option
+      value={ImportExportDataType.GENERAL_JOURNALS} label="General journals" />
       <Select.Option
         value={ImportExportDataType.TRANSACTION_JOURNALS}
         label="Transaction journals"
@@ -85,6 +88,7 @@ const ImportTabContent = ({
 );
 
 const mapStateToProps = state => ({
+  region: getRegion(state),
   selectedDataType: getCurrentDataTypeInCurrentTab(state, TabItem.IMPORT),
 });
 
