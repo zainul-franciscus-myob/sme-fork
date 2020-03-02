@@ -90,14 +90,7 @@ const BillView = ({
   const stickyHeader = (
     <div>
       {isAlertShown && (
-      <BillAlert onDismissAlert={
-        () => {
-          // Trigger resize event to force MasterDetailTemplate recalculate sticky height
-          window.dispatchEvent(new Event('resize'));
-          onDismissAlert();
-        }
-      }
-      />)}
+      <BillAlert onDismissAlert={onDismissAlert} />)}
       <BillHeader onCreatePaymentClick={onCreatePaymentClick} />
     </div>
   );
