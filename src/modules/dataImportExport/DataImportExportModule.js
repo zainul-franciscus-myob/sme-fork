@@ -84,18 +84,17 @@ export default class DataImportExportModule {
   importData = () => {
     const state = this.store.getState();
     const dataType = getCurrentDataTypeInCurrentTab(state);
+    this.closeModal();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
       this.dispatcher.updateImportDataType(ImportExportDataType.NONE);
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.closeModal();
       this.displaySuccessMessage(response.message);
     };
 
     const onFailure = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.closeModal();
       this.displayFailureAlert(response.message);
     };
 
@@ -115,7 +114,6 @@ export default class DataImportExportModule {
       case ImportExportDataType.TIMESHEETS:
         return this.integrator.importTimesheets({ onSuccess, onFailure });
       default:
-        this.closeModal();
         this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
         this.displayFailureAlert('Invalid Data Type selected.');
         return undefined;

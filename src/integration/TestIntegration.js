@@ -16,6 +16,11 @@ class TestIntegration {
     this.mapping[intent]({ intent, onSuccess, onFailure });
   }
 
+  writeFormData = ({ intent, onSuccess, onFailure }) => {
+    this.requests.push({ intent });
+    this.mapping[intent]({ intent, onSuccess, onFailure });
+  }
+
   resetRequests = () => { this.requests = []; }
 
   getRequests = () => this.requests;
