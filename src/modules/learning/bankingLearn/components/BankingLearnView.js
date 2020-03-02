@@ -13,7 +13,7 @@ const BankingLearnView = ({
 }) => (
   <LearnComponent
     title="Automatically import your transactions"
-    media={<WistiaVideoPlayer hashedId="jm3vreox9s" />}
+    media={<WistiaVideoPlayer hashedId="8w115lybv7" />}
   >
     <h3>Why connect your bank?</h3>
     <p>

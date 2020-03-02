@@ -18,7 +18,7 @@ class LearnInTrayModule {
   render = (region, businessId) => this.setRootView(
     <LearnComponent
       title="Upload bills and receipts to your In Tray"
-      media={<WistiaVideoPlayer hashedId="l7li66icu0" />}
+      media={<WistiaVideoPlayer hashedId="jlxo7xiunr" />}
     >
       <h3>Why upload your bills?</h3>
 

@@ -33,7 +33,7 @@ export default class LearnPayrollModule {
   render = (region, businessId) => {
     this.setRootView(
       <LearnComponent
-        media={<WistiaVideoPlayer hashedId="nla7o6e6qx" />}
+        media={<WistiaVideoPlayer hashedId="5tbg16n8ps" />}
         title="Get to know payroll"
       >
         <h3>Industry leading payroll for your growing business</h3>
