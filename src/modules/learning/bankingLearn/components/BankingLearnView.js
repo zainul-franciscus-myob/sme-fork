@@ -24,7 +24,7 @@ const BankingLearnView = ({
     <h3>How does it work?</h3>
     <ol>
       <li>Connect your bank or credit card</li>
-      <li>Transactions automtically imported daily</li>
+      <li>Transactions automatically imported daily</li>
       <li>See how your business is doing</li>
     </ol>
 

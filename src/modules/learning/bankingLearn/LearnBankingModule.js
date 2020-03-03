@@ -42,7 +42,7 @@ export default class LearnBankingModule {
   connectBankFeedUrl = (serialNumber, businessId) => {
     const baseUrl = Config.MANAGE_BANK_FEEDS_BASE_URL;
     const queryParams = getQueryFromParams({
-      SerialNumer: serialNumber,
+      SerialNumber: serialNumber,
       CdfId: businessId,
       Action: 'app',
     });
