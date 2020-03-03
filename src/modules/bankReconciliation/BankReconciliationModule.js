@@ -2,177 +2,74 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  CLOSE_MODAL,
-  CREATE_BANK_RECONCILIATION,
-  LOAD_BANK_RECONCILIATION,
-  LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT,
-  OPEN_MODAL,
-  SELECT_ALL,
-  SELECT_ROW,
-  SET_ALERT,
-  SET_LOADING_STATE,
-  SET_SORT_ORDER,
-  SET_SUBMITTING_STATE,
-  SET_TABLE_LOADING_STATE,
-  SORT_AND_FILTER_BANK_RECONCILIATION,
-  UNDO_BANK_RECONCILIATION,
-  UPDATE_HEADER_OPTION,
-  UPDATE_RESULT,
-} from './BankReconciliationIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
-import {
-  getAccountId,
-  getCreateBankReconciliationPayload,
   getIsModalActive,
   getIsOutOfBalance,
   getIsSubmitting,
-  getSortAndFilterParams,
-  getStatementDate,
-  getUrlParams,
 } from './BankReconciliationSelectors';
 import BankReconciliationView from './components/BankReconciliationView';
 import LoadingState from '../../components/PageView/LoadingState';
-import ModalType from './ModalType';
 import Store from '../../store/Store';
 import bankReconciliationReducer from './bankReconciliationReducer';
+import createBankReconciliationDispatcher from './createBankReconciliationDispatcher';
+import createBankReconciliationIntegrator from './createBankReconciliationIntegrator';
 import keyMap from '../../hotKeys/keyMap';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class BankReconciliationModule {
   constructor({ integration, setRootView }) {
-    this.integration = integration;
     this.store = new Store(bankReconciliationReducer);
+    this.dispatcher = createBankReconciliationDispatcher(this.store);
+    this.integrator = createBankReconciliationIntegrator(this.store, integration);
     this.setRootView = setRootView;
   }
 
   loadBankReconciliation = () => {
-    const state = this.store.getState();
-
-    const urlParams = getUrlParams(state);
-    const accountId = getAccountId(state);
-
-    const params = {
-      statementDate: getStatementDate(state),
-    };
-
-    const intent = accountId
-      ? LOAD_BANK_RECONCILIATION_WITH_BANK_ACCOUNT
-      : LOAD_BANK_RECONCILIATION;
-
     const onSuccess = (response) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
 
-      this.store.dispatch({
-        intent,
-        ...response,
-      });
+      this.dispatcher.loadBankReconciliation(response);
     };
 
     const onFailure = () => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integration.read({
-      intent,
-      urlParams,
-      params,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.loadBankReconciliation({ onSuccess, onFailure });
   };
 
   sortAndFilterBankReconciliation = () => {
-    const state = this.store.getState();
-    this.setTableLoadingState(true);
-
-    const urlParams = getUrlParams(state);
-
-    const params = getSortAndFilterParams(state);
+    this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (response) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent: SORT_AND_FILTER_BANK_RECONCILIATION,
-        ...response,
-      });
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.sortAndFilterBankReconciliation(response);
     };
 
     const onFailure = ({ message }) => {
-      this.setTableLoadingState(false);
-      this.setAlert({
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.integration.read({
-      intent: SORT_AND_FILTER_BANK_RECONCILIATION,
-      urlParams,
-      params,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.sortAndFilterBankReconciliation({ onSuccess, onFailure });
   };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
 
-  setLoadingState = (loadingState) => {
-    this.store.dispatch({
-      intent: SET_LOADING_STATE,
-      loadingState,
-    });
-  }
-
-  setTableLoadingState = (isTableLoading) => {
-    this.store.dispatch({
-      intent: SET_TABLE_LOADING_STATE,
-      isTableLoading,
-    });
-  }
-
-  setInitialState = (context) => {
-    const intent = SET_INITIAL_STATE;
-
-    this.store.dispatch({
-      intent,
-      context,
-    });
-  }
-
   setSubmittingState = (isSubmitting) => {
-    this.store.dispatch({
-      intent: SET_SUBMITTING_STATE,
-      isSubmitting,
-    });
+    this.dispatcher.setSubmittingState(isSubmitting);
   }
-
-  setAlert = ({ message, type }) => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: {
-        message,
-        type,
-      },
-    });
-  }
-
-  dismissAlert = () => {
-    this.store.dispatch({
-      intent: SET_ALERT,
-      alert: undefined,
-    });
-  };
 
   shouldLoad = (key, value) => [
     'selectedAccountId', 'statementDate',
   ].includes(key) && value.length > 0;
 
   updateHeaderOption = ({ key, value }) => {
-    this.store.dispatch({
-      intent: UPDATE_HEADER_OPTION,
+    this.dispatcher.updateHeaderOption({
       key,
       value,
     });
@@ -182,29 +79,10 @@ export default class BankReconciliationModule {
     }
   };
 
-  selectRow = ({ index, value }) => this.store.dispatch({
-    intent: SELECT_ROW,
-    index,
-    value,
-  });
-
-  selectAll = () => this.store.dispatch({
-    intent: SELECT_ALL,
-  });
-
   setSortOrder = (orderBy) => {
-    this.store.dispatch({
-      intent: SET_SORT_ORDER,
-      orderBy,
-    });
+    this.dispatcher.setSortOrder(orderBy);
 
     this.sortAndFilterBankReconciliation();
-  };
-
-  updateReconciliationResult = () => {
-    this.store.dispatch({
-      intent: UPDATE_RESULT,
-    });
   };
 
   saveBankReconciliation = () => {
@@ -212,7 +90,7 @@ export default class BankReconciliationModule {
 
     const isOutOfBalance = getIsOutOfBalance(state);
     if (isOutOfBalance) {
-      this.openOutOfBalanceModal();
+      this.dispatcher.openOutOfBalanceModal();
       return;
     }
 
@@ -222,8 +100,8 @@ export default class BankReconciliationModule {
 
     const onSuccess = ({ message }) => {
       this.setSubmittingState(false);
-      this.updateReconciliationResult();
-      this.setAlert({
+      this.dispatcher.updateReconciliationResult();
+      this.dispatcher.setAlert({
         type: 'success',
         message,
       });
@@ -231,30 +109,22 @@ export default class BankReconciliationModule {
 
     const onFailure = ({ message }) => {
       this.setSubmittingState(false);
-      this.setAlert({
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.integration.write({
-      intent: CREATE_BANK_RECONCILIATION,
-      urlParams: getUrlParams(state),
-      content: getCreateBankReconciliationPayload(state),
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.saveBankReconciliation({ onSuccess, onFailure });
   };
 
   undoReconciliation = () => {
-    this.closeModal();
+    this.dispatcher.closeModal();
     this.setSubmittingState(true);
-
-    const state = this.store.getState();
 
     const onSuccess = ({ message }) => {
       this.setSubmittingState(false);
-      this.setAlert({
+      this.dispatcher.setAlert({
         type: 'success',
         message,
       });
@@ -263,51 +133,26 @@ export default class BankReconciliationModule {
 
     const onFailure = ({ message }) => {
       this.setSubmittingState(false);
-      this.setAlert({
+      this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.integration.write({
-      intent: UNDO_BANK_RECONCILIATION,
-      urlParams: getUrlParams(state),
-      onSuccess,
-      onFailure,
-    });
-  }
-
-  openUndoReconciliationModal = () => {
-    this.store.dispatch({
-      intent: OPEN_MODAL,
-      modal: { type: ModalType.UNDO },
-    });
-  };
-
-  openOutOfBalanceModal = () => {
-    this.store.dispatch({
-      intent: OPEN_MODAL,
-      modal: { type: ModalType.OUT_OF_BALANCE },
-    });
-  };
-
-  closeModal = () => {
-    this.store.dispatch({
-      intent: CLOSE_MODAL,
-    });
+    this.integrator.undoReconciliation({ onSuccess, onFailure });
   }
 
   render = () => {
     const bankReconciliationView = (
       <BankReconciliationView
         onUpdateHeaderOption={this.updateHeaderOption}
-        onSelectRow={this.selectRow}
-        onSelectAll={this.selectAll}
+        onSelectRow={this.dispatcher.selectRow}
+        onSelectAll={this.dispatcher.selectAll}
         onSort={this.setSortOrder}
         onReconcileButtonClick={this.saveBankReconciliation}
-        onDismissAlert={this.dismissAlert}
-        onUndoReconciliationClick={this.openUndoReconciliationModal}
-        onModalCancel={this.closeModal}
+        onDismissAlert={this.dispatcher.dismissAlert}
+        onUndoReconciliationClick={this.dispatcher.openUndoReconciliationModal}
+        onModalCancel={this.dispatcher.closeModal}
         onUndoBankReconciliationModalConfirm={this.undoReconciliation}
       />
     );
@@ -334,17 +179,14 @@ export default class BankReconciliationModule {
   };
 
   run = (context) => {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
-    this.setLoadingState(LoadingState.LOADING);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.render();
     this.loadBankReconciliation();
   };
 
   resetState() {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
+    this.dispatcher.resetState();
   }
 }

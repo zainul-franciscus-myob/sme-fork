@@ -22,6 +22,8 @@ import ModalType from '../ModalType';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
 import bankReconciliationDetailReducer from '../bankReconciliationReducer';
+import createBankReconciliationDispatcher from '../createBankReconciliationDispatcher';
+import createBankReconciliationIntegrator from '../createBankReconciliationIntegrator';
 
 describe('BankReconciliationModule', () => {
   const setup = () => {
@@ -30,6 +32,8 @@ describe('BankReconciliationModule', () => {
     const setRootView = () => {};
     const module = new BankReconciliationModule({ integration, setRootView });
     module.store = store;
+    module.dispatcher = createBankReconciliationDispatcher(store);
+    module.integrator = createBankReconciliationIntegrator(store, integration);
 
     return {
       store,
