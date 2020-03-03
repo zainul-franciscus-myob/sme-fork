@@ -25,6 +25,7 @@ const MasterDetailLineItemTemplate = ({
   more,
   detailHeaderClassName,
   onDismissOptionInfo,
+  templateClassName,
 }) => {
   const options = showDetail ? (
     <React.Fragment>
@@ -68,6 +69,7 @@ const MasterDetailLineItemTemplate = ({
         { [styles.showDetail]: showDetail },
       )}
       sectionClassName={styles.section}
+      templateClassName={templateClassName}
     />
   );
 };

@@ -173,6 +173,7 @@ const BillView = ({
       detail={detail}
       pageHead={stickyHeader}
       showDetail={isSplitViewShown}
+      templateClassName={styles.wrapper}
     />
   );
 

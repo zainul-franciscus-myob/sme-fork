@@ -27,6 +27,7 @@ import SpendMoneyDetailTable from './SpendMoneyDetailTable';
 import SpendMoneyDocumentViewer from './SpendMoneyDocumentViewer';
 import SpendMoneyInTrayDocumentView from './SpendMoneyInTrayDocumentView';
 import SpendMoneyModal from './SpendMoneyModal';
+import styles from './SpendMoneyDetailView.module.css';
 
 const SpendMoneyDetailView = ({
   onUpdateHeaderOptions,
@@ -153,6 +154,7 @@ const SpendMoneyDetailView = ({
       pageHead={pageHead}
       showDetail={showSplitView}
       more={more}
+      templateClassName={styles.wrapper}
     />
   );
 
