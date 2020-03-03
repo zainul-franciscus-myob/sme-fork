@@ -18,6 +18,7 @@ export const getModalType = state => state.modalType;
 const getIsPayDirectSettingsLoading = state => state.payDirect.isLoading;
 const getIsPayDirectSettingsServiceAvailable = state => state.payDirect.isServiceAvailable;
 export const getIsRegistered = state => state.payDirect.isRegistered;
+export const getIsTrial = state => state.subscription.isTrial;
 export const getShowActions = state => mainTabItems
   .find(tab => tab.id === state.selectedTab).hasActions;
 export const getAccountOptions = state => state.accountOptions;
@@ -116,6 +117,7 @@ export const getOnlinePaymentOptions = createSelector(
   getPayDirectLink,
   getTabData,
   getAccountOptions,
+  getIsTrial,
   (
     isLoading,
     isServiceAvailable,
@@ -123,11 +125,13 @@ export const getOnlinePaymentOptions = createSelector(
     payDirectLink,
     salesSettings,
     accountOptions,
+    isTrial,
   ) => {
     const { accountId } = salesSettings;
 
     return {
       isLoading,
+      isTrial,
       isServiceAvailable,
       isRegistered,
       payDirectLink,

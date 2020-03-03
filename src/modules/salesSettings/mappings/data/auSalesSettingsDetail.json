@@ -132,5 +132,8 @@
       "displayId": "6-789"
     }
   ],
-  "serialNumber": "000000000000"
+  "serialNumber": "000000000000",
+  "subscription": {
+    "isTrial": false
+  }
 }

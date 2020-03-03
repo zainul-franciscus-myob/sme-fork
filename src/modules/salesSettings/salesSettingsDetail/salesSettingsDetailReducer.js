@@ -83,6 +83,9 @@ const getDefaultState = () => ({
   accountOptions: [],
   alert: {},
   loadingState: LoadingState.LOADING,
+  subscription: {
+    isTrial: false,
+  },
 });
 
 const resetState = () => getDefaultState();

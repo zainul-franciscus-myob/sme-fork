@@ -1,4 +1,6 @@
-import { Field, Icons, Spinner } from '@myob/myob-widgets';
+import {
+  Alert, Field, Icons, Spinner,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -12,6 +14,7 @@ import styles from './OnlinePaymentOptions.module.css';
 
 const OnlinePaymentOptions = ({
   isLoading,
+  isTrial,
   isServiceAvailable,
   isRegistered,
   payDirectLink,
@@ -20,6 +23,40 @@ const OnlinePaymentOptions = ({
   onUpdateSalesSettingsItem,
 }) => {
   const label = 'Online payments';
+  const imgAlt = 'Online payment methods';
+
+  const setupInfo = (
+    <p>
+      Setting up online payment allows your customers to
+      pay direct from their emailed invoice -
+      meaning you get paid faster and minimise the risk of overdue payments.
+      <br />
+      <a href="https://help.myob.com/wiki/x/r51qAg" target="_blank" rel="noopener noreferrer">Learn more</a>
+    </p>
+  );
+
+  if (isTrial) {
+    return (
+      <Field
+        label={label}
+        renderField={() => (
+          <>
+            <img
+              src={onlinePaymentMethodsImage}
+              alt={imgAlt}
+              className={styles.onlinePaymentMethodsImage}
+            />
+            <div className={styles.trialView}>
+              {setupInfo}
+              <Alert type="info" inline>
+                Online payments aren&rsquo;t available whilst on a trial
+              </Alert>
+            </div>
+          </>
+        )}
+      />
+    );
+  }
 
   if (isLoading) {
     return (
@@ -48,32 +85,24 @@ const OnlinePaymentOptions = ({
   }
 
   const registeredView = (
-    <>
-      <p className={styles.registeredView}>
+    <p className={styles.registeredView}>
         You have online invoice payments
-        <span className={styles.status}> activated</span>
-        <span>. </span>
-        <LinkButton
-          href={payDirectLink}
-          icon={<Icons.OpenExternalLink />}
-          iconRight
-          isOpenInNewTab
-        >
+      <span className={styles.status}> activated</span>
+      <span>. </span>
+      <LinkButton
+        href={payDirectLink}
+        icon={<Icons.OpenExternalLink />}
+        iconRight
+        isOpenInNewTab
+      >
           Edit preferences
-        </LinkButton>
-      </p>
-    </>
+      </LinkButton>
+    </p>
   );
 
   const unregisteredView = (
     <div className={styles.unRegisteredView}>
-      <p>
-        Setting up online payment allows your customers to
-        pay direct from their emailed invoice -
-        meaning you get paid faster and minimise the risk of overdue payments.
-        <br />
-        <a href="https://help.myob.com/wiki/x/r51qAg" target="_blank" rel="noopener noreferrer">Learn more</a>
-      </p>
+      {setupInfo}
       <LinkButton
         href={payDirectLink}
         icon={<Icons.OpenExternalLink />}
@@ -85,37 +114,43 @@ const OnlinePaymentOptions = ({
     </div>
   );
 
-  return (<>
-    <Field
-      label={label}
-      renderField={() => (
-        <>
-          <img src={onlinePaymentMethodsImage} alt="Online payments methods" className={styles.onlinePaymentMethodsImage} />
-          { isRegistered ? registeredView : unregisteredView }
-        </>
-      )}
-    />
-    { isRegistered && (
+  return (
+    <>
       <Field
-        label="Account for receiving online payments"
+        label={label}
         renderField={() => (
-          <div className={styles.account}>
-            <AccountCombobox
-              label="Account for receiving online payments"
-              hideLabel
-              items={accountOptions}
-              selectedId={accountId}
-              onChange={handleComboboxChange('accountId', onUpdateSalesSettingsItem)}
+          <>
+            <img
+              src={onlinePaymentMethodsImage}
+              alt={imgAlt}
+              className={styles.onlinePaymentMethodsImage}
             />
-            <p>
-              This account must match the bank account you chose when
-              setting up your online payments.
-            </p>
-          </div>
+            { isRegistered ? registeredView : unregisteredView }
+          </>
         )}
       />
-    )}
-  </>);
+      { isRegistered && (
+        <Field
+          label="Account for receiving online payments"
+          renderField={() => (
+            <div className={styles.account}>
+              <AccountCombobox
+                label="Account for receiving online payments"
+                hideLabel
+                items={accountOptions}
+                selectedId={accountId}
+                onChange={handleComboboxChange('accountId', onUpdateSalesSettingsItem)}
+              />
+              <p>
+                This account must match the bank account you chose when
+                setting up your online payments.
+              </p>
+            </div>
+          )}
+        />
+      )}
+    </>
+  );
 };
 
 const mapStateToProps = state => getOnlinePaymentOptions(state);

@@ -2,8 +2,13 @@
   margin-bottom: 0;
 }
 
-.unRegisteredView > :global(*) {
+.unRegisteredView > :global(*),
+.trialView > :global(*) {
   margin-bottom: 0;
+}
+
+.trialView > :global(p) {
+  margin-bottom: var(--flx-spacing-x-small);
 }
 
 .account :global(.form-group__input-group) {

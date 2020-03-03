@@ -66,5 +66,8 @@
       { "name": "Services", "value": "Service" },
       { "name": "Services and items", "value": "ItemAndService" }
     ],
-    "serialNumber": "000000000000"
+    "serialNumber": "000000000000",
+    "subscription": {
+      "isTrial": false
+    }
 }
