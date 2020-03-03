@@ -16,9 +16,9 @@ import {
   getDuplicatedBillId,
   getExpenseAccountId,
   getIsCreating,
+  getIsCreatingFromInTray,
   getIsTaxInclusive,
   getLines,
-  getOriginalExpenseAccountId,
   getSupplierId,
   getSupplierOptions,
 } from './billSelectors';
@@ -78,7 +78,7 @@ export const getLoadBillUrlParams = createSelector(
   },
 );
 
-export const getLoadSupplierAddressUrlParams = createSelector(
+export const getLoadSupplierDetailUrlParams = createSelector(
   getBusinessId,
   getSupplierId,
   (businessId, supplierId) => ({ businessId, supplierId }),
@@ -178,12 +178,11 @@ export const getUnlinkInTrayDocumentParams = createSelector(
 export const getLinkInTrayContentWithoutIds = createSelector(
   getInTrayDocumentId,
   getSupplierId,
-  getOriginalExpenseAccountId,
   getExpenseAccountId,
-  (inTrayDocumentId, supplierId, originalExpenseAccountId, expenseAccountId) => ({
+  getIsCreatingFromInTray,
+  (inTrayDocumentId, supplierId, expenseAccountId, isCreatingFromInTray) => ({
     inTrayDocumentId,
     supplierId,
-    originalExpenseAccountId,
-    expenseAccountId,
+    expenseAccountId: isCreatingFromInTray ? expenseAccountId : undefined,
   }),
 );

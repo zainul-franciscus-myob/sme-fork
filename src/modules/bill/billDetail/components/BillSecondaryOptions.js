@@ -9,6 +9,7 @@ import {
   getExpirationTerm,
   getExpirationTermOptions,
   getIsBlocking,
+  getIsSupplierBlocking,
   getIsTaxInclusive,
   getIssueDate,
   getSupplierInvoiceNumber,
@@ -33,6 +34,7 @@ const BillSecondaryOptions = ({
   taxInclusiveLabel,
   taxExclusiveLabel,
   isBlocking,
+  isSupplierDisabled,
   prefillStatus,
   onUpdateBillOption,
 }) => (
@@ -78,7 +80,7 @@ const BillSecondaryOptions = ({
       trueLabel={taxInclusiveLabel}
       falseLabel={taxExclusiveLabel}
       handler={onUpdateBillOption}
-      disabled={isBlocking}
+      disabled={isBlocking || isSupplierDisabled}
     />
   </React.Fragment>
 );
@@ -95,6 +97,7 @@ const mapStateToProps = state => ({
   taxInclusiveLabel: getTaxInclusiveLabel(state),
   taxExclusiveLabel: getTaxExclusiveLabel(state),
   isBlocking: getIsBlocking(state),
+  isSupplierDisabled: getIsSupplierBlocking(state),
   prefillStatus: getPrefillStatus(state),
 });
 

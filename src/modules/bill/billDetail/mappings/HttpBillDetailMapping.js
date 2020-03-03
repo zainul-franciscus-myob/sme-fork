@@ -11,8 +11,8 @@ import {
   LOAD_ITEM_OPTION,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
-  LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
+  LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL,
@@ -31,13 +31,13 @@ const HttpBillDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, duplicatedBillId }) => `/${businessId}/bill/load_new_duplicate_bill/${duplicatedBillId}`,
   },
-  [LOAD_SUPPLIER_ADDRESS]: {
+  [LOAD_SUPPLIER_DETAIL]: {
     method: 'GET',
-    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier_address/${supplierId}`,
+    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier_detail/${supplierId}`,
   },
   [LOAD_SUPPLIER_AFTER_CREATE]: {
     method: 'GET',
-    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier/${supplierId}`,
+    getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier_after_create/${supplierId}`,
   },
   [CALCULATE_BILL_ITEM_CHANGE]: {
     method: 'POST',

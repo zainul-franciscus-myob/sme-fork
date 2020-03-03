@@ -12,8 +12,8 @@ import {
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
-  LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
+  LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_BILL_FROM_IN_TRAY,
@@ -43,7 +43,7 @@ import {
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
-import { getLoadBillModalType, getUpdatedSupplierOptions } from './selectors/billSelectors';
+import { getIsCreatingFromInTray, getLoadBillModalType, getUpdatedSupplierOptions } from './selectors/billSelectors';
 import BillLayout from './types/BillLayout';
 import BillLineLayout from './types/BillLineLayout';
 import LineTaxTypes from './types/LineTaxTypes';
@@ -438,20 +438,42 @@ const formatAmountPaid = state => ({
   },
 });
 
-const loadSupplierAddress = (state, action) => ({
+const loadSupplierDetail = (state, action) => ({
   ...state,
   bill: {
     ...state.bill,
     supplierAddress: action.response.supplierAddress,
+    expenseAccountId: getIsCreatingFromInTray(state)
+      ? action.response.expenseAccountId
+      : state.bill.expenseAccountId,
+    lines: state.bill.lines.length > 0 && getIsCreatingFromInTray(state)
+      ? updateAllLinesWithExpenseAccount(
+        state.bill.lines,
+        state.accountOptions,
+        action.response.expenseAccountId,
+      )
+      : state.bill.lines,
   },
 });
 
-const loadSupplierAfterCreate = (state, { supplierId, supplierAddress, option }) => ({
+const loadSupplierAfterCreate = (state, {
+  supplierId, supplierAddress, option, expenseAccountId,
+}) => ({
   ...state,
   bill: {
     ...state.bill,
     supplierId,
     supplierAddress,
+    expenseAccountId: getIsCreatingFromInTray(state)
+      ? expenseAccountId
+      : state.bill.expenseAccountId,
+    lines: state.bill.lines.length > 0 && getIsCreatingFromInTray(state)
+      ? updateAllLinesWithExpenseAccount(
+        state.bill.lines,
+        state.accountOptions,
+        expenseAccountId,
+      )
+      : state.bill.lines,
   },
   supplierOptions: getUpdatedSupplierOptions(state, option),
   prefillStatus: {
@@ -682,7 +704,7 @@ const handlers = {
   [GET_TAX_CALCULATIONS]: getTaxCalculations,
   [LOAD_ITEM_OPTION]: loadItemOption,
   [LOAD_ITEM_DETAIL_FOR_LINE]: loadItemDetailForLine,
-  [LOAD_SUPPLIER_ADDRESS]: loadSupplierAddress,
+  [LOAD_SUPPLIER_DETAIL]: loadSupplierDetail,
   [LOAD_SUPPLIER_AFTER_CREATE]: loadSupplierAfterCreate,
   [START_SUPPLIER_BLOCKING]: startSupplierBlocking,
   [STOP_SUPPLIER_BLOCKING]: stopSupplierBlocking,

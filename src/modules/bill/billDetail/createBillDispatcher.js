@@ -13,8 +13,8 @@ import {
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
-  LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
+  LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
   OPEN_MODAL,
   PREFILL_BILL_FROM_IN_TRAY,
@@ -243,9 +243,9 @@ const createBillDispatcher = store => ({
     });
   },
 
-  loadSupplierAddress: (response) => {
+  loadSupplierDetail: (response) => {
     store.dispatch({
-      intent: LOAD_SUPPLIER_ADDRESS,
+      intent: LOAD_SUPPLIER_DETAIL,
       response,
     });
   },

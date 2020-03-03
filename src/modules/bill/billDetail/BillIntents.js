@@ -1,7 +1,7 @@
 export const LOAD_NEW_BILL = Symbol('Load new bill');
 export const LOAD_NEW_DUPLICATE_BILL = Symbol('Load new duplicate bill');
 export const LOAD_BILL = Symbol('Load bill');
-export const LOAD_SUPPLIER_ADDRESS = Symbol('Load supplier address');
+export const LOAD_SUPPLIER_DETAIL = Symbol('Load supplier detail');
 export const LOAD_ITEM_OPTION = Symbol('Load item option');
 export const LOAD_SUPPLIER_AFTER_CREATE = Symbol('Load supplier after create');
 export const START_SUPPLIER_BLOCKING = Symbol('Start supplier blocking');

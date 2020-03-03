@@ -5,6 +5,7 @@ import {
   getCalculateBillContent,
   getCalculateBillItemChangeContent,
   getCalculateBillLinesUrlParams,
+  getLinkInTrayContentWithoutIds,
   getLoadAddedAccountUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
@@ -266,6 +267,61 @@ describe('IntegratorSelectors', () => {
 
       expect(actual).toEqual({
         businessId: 'someId',
+      });
+    });
+  });
+
+  describe('getLinkInTrayContentWithoutIds', () => {
+    const state = {
+      inTrayDocumentId: 'abc',
+      bill: {
+        supplierId: '1',
+        expenseAccountId: '2',
+      },
+    };
+
+    it('should return expenseAccountId if isCreatingFromInTray', () => {
+      const modifiedState = {
+        ...state,
+        billId: 'new',
+        source: 'inTray',
+      };
+
+      const actual = getLinkInTrayContentWithoutIds(modifiedState);
+
+      expect(actual).toEqual({
+        inTrayDocumentId: 'abc',
+        supplierId: '1',
+        expenseAccountId: '2',
+      });
+    });
+
+    it('should not return expenseAccountId if creating new not from in tray', () => {
+      const modifiedState = {
+        ...state,
+        billId: 'new',
+        source: 'notInTray',
+      };
+
+      const actual = getLinkInTrayContentWithoutIds(modifiedState);
+
+      expect(actual).toEqual({
+        inTrayDocumentId: 'abc',
+        supplierId: '1',
+      });
+    });
+
+    it('should not return expenseAccountId if linking an existing bill', () => {
+      const modifiedState = {
+        ...state,
+        billId: '1',
+      };
+
+      const actual = getLinkInTrayContentWithoutIds(modifiedState);
+
+      expect(actual).toEqual({
+        inTrayDocumentId: 'abc',
+        supplierId: '1',
       });
     });
   });

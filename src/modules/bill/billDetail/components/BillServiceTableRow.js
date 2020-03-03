@@ -8,6 +8,7 @@ import {
   getBillLine,
   getIsBlocking,
   getIsNewLine,
+  getIsSupplierBlocking,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
@@ -41,6 +42,7 @@ const BillServiceTableRow = ({
   taxCodeOptions,
   isNewLine,
   isBlocking,
+  isSupplierDisabled,
   onChange,
   onRowInputBlur,
   onAddAccount,
@@ -66,7 +68,7 @@ const BillServiceTableRow = ({
         )}
         items={accountOptions}
         selectedId={accountId}
-        disabled={isBlocking}
+        disabled={isBlocking || isSupplierDisabled}
       />
       <AmountInput
         name="amount"
@@ -75,13 +77,13 @@ const BillServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'amount')}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         textAlign="right"
-        disabled={isBlocking}
+        disabled={isBlocking || isSupplierDisabled}
       />
       <TaxCodeCombobox
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
         items={taxCodeOptions}
         selectedId={taxCodeId}
-        disabled={isBlocking}
+        disabled={isBlocking || isSupplierDisabled}
         left
       />
     </LineItemTable.Row>
@@ -94,6 +96,7 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state, props),
+  isSupplierDisabled: getIsSupplierBlocking(state),
 });
 
 export default connect(mapStateToProps)(BillServiceTableRow);

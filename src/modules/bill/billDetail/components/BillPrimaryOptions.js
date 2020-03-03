@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import {
   getAccountOptions,
   getExpenseAccountId,
+  getIsBlocking,
   getIsCreatingFromInTray,
   getIsReportable,
   getIsSupplierDisabled,
@@ -32,6 +33,7 @@ const BillPrimaryOptions = ({
   accountOptions,
   region,
   isSupplierDisabled,
+  isBlocking,
   prefillStatus,
   onUpdateBillOption,
   onAddSupplierButtonClick,
@@ -48,7 +50,7 @@ const BillPrimaryOptions = ({
         name="supplierId"
         requiredLabel="This is required"
         hideLabel={false}
-        disabled={isSupplierDisabled}
+        disabled={isSupplierDisabled || isBlocking}
         addNewItem={{
           label: 'Create supplier',
           onAddNew: onAddSupplierButtonClick,
@@ -77,6 +79,7 @@ const BillPrimaryOptions = ({
           )}
       name="expenseAccountId"
       hideLabel={false}
+      disabled={isSupplierDisabled || isBlocking}
     />
     )}
   </React.Fragment>
@@ -92,6 +95,7 @@ const mapStateToProps = state => ({
   accountOptions: getAccountOptions(state),
   region: getRegion(state),
   isSupplierDisabled: getIsSupplierDisabled(state),
+  isBlocking: getIsBlocking(state),
   prefillStatus: getPrefillStatus(state),
 });
 

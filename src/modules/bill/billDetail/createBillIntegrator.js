@@ -6,8 +6,8 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_ITEM_OPTION,
-  LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
+  LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
 } from './BillIntents';
@@ -22,7 +22,7 @@ import {
   getLoadBillIntent,
   getLoadBillUrlParams,
   getLoadItemOptionUrlParams,
-  getLoadSupplierAddressUrlParams,
+  getLoadSupplierDetailUrlParams,
   getLoadSupplierUrlParams,
   getSaveBillContent,
   getSaveBillIntent,
@@ -73,12 +73,12 @@ const createBillIntegrator = (store, integration) => ({
     });
   },
 
-  loadSupplierAddress: ({ onSuccess, onFailure }) => {
+  loadSupplierDetail: ({ onSuccess, onFailure }) => {
     const state = store.getState();
-    const urlParams = getLoadSupplierAddressUrlParams(state);
+    const urlParams = getLoadSupplierDetailUrlParams(state);
 
     integration.read({
-      intent: LOAD_SUPPLIER_ADDRESS,
+      intent: LOAD_SUPPLIER_DETAIL,
       urlParams,
       onSuccess,
       onFailure,

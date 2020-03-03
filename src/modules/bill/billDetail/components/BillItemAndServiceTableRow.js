@@ -8,6 +8,7 @@ import {
   getBillLine,
   getIsBlocking,
   getIsNewLine,
+  getIsSupplierBlocking,
   getItemOptions,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
@@ -45,6 +46,7 @@ const BillItemAndServiceTableRow = ({
   taxCodeOptions,
   itemOptions,
   isBlocking,
+  isSupplierDisabled,
   isNewLine,
   isLineWithoutItemFromInTray,
   onChange,
@@ -76,7 +78,7 @@ const BillItemAndServiceTableRow = ({
         items={itemOptions}
         selectedId={itemId}
         onChange={handleComboboxChange(onChange, 'itemId')}
-        disabled={isBlocking}
+        disabled={isBlocking || isSupplierDisabled}
       />
       <div className={classnames({ [styles.prefilled]: Boolean(prefillStatus.description) })}>
         <TextArea
@@ -84,7 +86,7 @@ const BillItemAndServiceTableRow = ({
           autoSize
           value={description}
           onChange={onChange}
-          disabled={isBlocking}
+          disabled={isBlocking || isSupplierDisabled}
         />
       </div>
       <AccountCombobox
@@ -94,7 +96,7 @@ const BillItemAndServiceTableRow = ({
         )}
         items={accountOptions}
         selectedId={accountId}
-        disabled={isBlocking}
+        disabled={isBlocking || isSupplierDisabled}
       />
       <AmountInput
         name="units"
@@ -102,7 +104,7 @@ const BillItemAndServiceTableRow = ({
         onChange={handleAmountInputChange(onChange)}
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'units')}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.units) })}
-        disabled={isBlocking}
+        disabled={isBlocking || isSupplierDisabled}
         numeralDecimalScaleMax={6}
       />
       <AmountInput
@@ -112,7 +114,7 @@ const BillItemAndServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'unitPrice')}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.unitPrice) })}
         textAlign="right"
-        disabled={isBlocking}
+        disabled={isBlocking || isSupplierDisabled}
         numeralDecimalScaleMax={6}
       />
       <AmountInput
@@ -122,7 +124,7 @@ const BillItemAndServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'discount')}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.discount) })}
         textAlign="right"
-        disabled={isBlocking}
+        disabled={isBlocking || isSupplierDisabled}
       />
       <AmountInput
         name="amount"
@@ -131,13 +133,13 @@ const BillItemAndServiceTableRow = ({
         onBlur={handleAmountInputBlur(onRowInputBlur, index, 'amount')}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         textAlign="right"
-        disabled={isBlocking}
+        disabled={isBlocking || isSupplierDisabled}
       />
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={taxCodeId}
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
-        disabled={isBlocking}
+        disabled={isBlocking || isSupplierDisabled}
         left
       />
     </LineItemTable.Row>
@@ -151,6 +153,7 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state),
+  isSupplierDisabled: getIsSupplierBlocking(state),
 });
 
 export default connect(mapStateToProps)(BillItemAndServiceTableRow);

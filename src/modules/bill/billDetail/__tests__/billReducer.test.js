@@ -5,6 +5,8 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_OPTION,
+  LOAD_SUPPLIER_AFTER_CREATE,
+  LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   REMOVE_BILL_LINE,
   SET_CALCULATED_BILL_LINES_AND_TOTALS,
@@ -475,6 +477,181 @@ describe('billReducer', () => {
 
         expect(actual.bill.lines).toEqual(expectedLines);
       });
+    });
+  });
+
+  describe('LOAD_SUPPLIER_DETAIL', () => {
+    const bill = {
+      expenseAccountId: '2',
+      lines: [
+        { accountId: '2', taxCodeId: '2', amount: '10.00' },
+        { accountId: '3', taxCodeId: '3', amount: '20.00' },
+      ],
+    };
+
+    const action = {
+      intent: LOAD_SUPPLIER_DETAIL,
+      response: {
+        supplierAddress: 'addr',
+        expenseAccountId: '1',
+      },
+    };
+
+    it('updates expenseAccountId and all lines with the accountId if creating from in tray', () => {
+      const state = {
+        billId: 'new',
+        source: 'inTray',
+        bill,
+        supplierOptions: [
+          { id: '1', expenseAccountId: '1' },
+        ],
+        accountOptions: [
+          { id: '1', taxCodeId: '1' },
+          { id: '2', taxCodeId: '2' },
+          { id: '3', taxCodeId: '3' },
+        ],
+        taxCodes: [
+          { id: '1' },
+          { id: '2' },
+          { id: '3' },
+        ],
+      };
+
+      const actual = billReducer(state, action);
+      const expectedLines = [
+        { accountId: '1', taxCodeId: '1', amount: '10.00' },
+        { accountId: '1', taxCodeId: '1', amount: '20.00' },
+      ];
+
+      expect(actual.bill.lines).toEqual(expectedLines);
+      expect(actual.bill.expenseAccountId).toEqual('1');
+    });
+
+    it('does not update expenseAccountId or lines with the accountId if not creating from in tray', () => {
+      const state = {
+        billId: 'new',
+        source: 'notInTray',
+        bill,
+      };
+
+      const actual = billReducer(state, action);
+      const expectedLines = bill.lines;
+
+      expect(actual.bill.lines).toEqual(expectedLines);
+      expect(actual.bill.expenseAccountId).toEqual('2');
+    });
+
+    it('does not update expenseAccountId or lines with the accountId if updating existing bill', () => {
+      const state = {
+        billId: 'id',
+        bill,
+      };
+
+      const actual = billReducer(state, action);
+      const expectedLines = bill.lines;
+
+      expect(actual.bill.lines).toEqual(expectedLines);
+      expect(actual.bill.expenseAccountId).toEqual('2');
+    });
+  });
+
+  describe('LOAD_SUPPLIER_AFTER_CREATE', () => {
+    const bill = {
+      expenseAccountId: '1',
+      lines: [
+        { accountId: '1', taxCodeId: '1', amount: '10.00' },
+        { accountId: '1', taxCodeId: '1', amount: '20.00' },
+      ],
+    };
+
+    const action = {
+      intent: LOAD_SUPPLIER_AFTER_CREATE,
+      expenseAccountId: '2',
+      supplierAddress: 'addr',
+      option: {
+        id: '2',
+        displayName: '🏖',
+      },
+    };
+
+    it('updates expenseAccountId and all lines with the accountId if creating from in tray', () => {
+      const state = {
+        billId: 'new',
+        source: 'inTray',
+        bill,
+        supplierOptions: [
+          { id: '1', expenseAccountId: '1' },
+        ],
+        accountOptions: [
+          { id: '1', taxCodeId: '1' },
+          { id: '2', taxCodeId: '2' },
+          { id: '3', taxCodeId: '3' },
+        ],
+        taxCodes: [
+          { id: '1' },
+          { id: '2' },
+          { id: '3' },
+        ],
+      };
+
+      const actual = billReducer(state, action);
+      const expectedLines = [
+        { accountId: '2', taxCodeId: '2', amount: '10.00' },
+        { accountId: '2', taxCodeId: '2', amount: '20.00' },
+      ];
+
+      expect(actual.bill.lines).toEqual(expectedLines);
+      expect(actual.bill.expenseAccountId).toEqual('2');
+    });
+
+    it('does not update expenseAccountId or lines with the accountId if not creating from in tray', () => {
+      const state = {
+        billId: 'new',
+        source: 'notInTray',
+        supplierOptions: [
+          { id: '1', expenseAccountId: '1' },
+        ],
+        bill,
+      };
+
+      const actual = billReducer(state, action);
+      const expectedLines = bill.lines;
+
+      expect(actual.bill.lines).toEqual(expectedLines);
+      expect(actual.bill.expenseAccountId).toEqual('1');
+    });
+
+    it('does not update expenseAccountId or lines with the accountId if updating existing bill', () => {
+      const state = {
+        billId: 'id',
+        supplierOptions: [
+          { id: '1', expenseAccountId: '1' },
+        ],
+        bill,
+      };
+
+      const actual = billReducer(state, action);
+      const expectedLines = bill.lines;
+
+      expect(actual.bill.lines).toEqual(expectedLines);
+      expect(actual.bill.expenseAccountId).toEqual('1');
+    });
+
+    it('adds to supplier options with newly created supplier', () => {
+      const state = {
+        billId: 'id',
+        supplierOptions: [
+          { id: '1', displayName: 'name1' },
+        ],
+        bill,
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.supplierOptions).toEqual([
+        { id: '2', displayName: '🏖' },
+        { id: '1', displayName: 'name1' },
+      ]);
     });
   });
 

@@ -359,7 +359,7 @@ class BillModule {
     this.dispatcher.updateBillOption({ key, value });
 
     if (isSupplierIdKey) {
-      this.loadSupplierAddress();
+      this.loadSupplierDetail();
     }
 
     if (isTaxInclusiveKey) {
@@ -480,11 +480,11 @@ class BillModule {
     }
   }
 
-  loadSupplierAddress = () => {
+  loadSupplierDetail = () => {
     this.dispatcher.startBlocking();
 
     const onSuccess = (response) => {
-      this.dispatcher.loadSupplierAddress(response);
+      this.dispatcher.loadSupplierDetail(response);
       this.dispatcher.stopBlocking();
     };
     const onFailure = ({ message }) => {
@@ -492,7 +492,7 @@ class BillModule {
       this.dispatcher.stopBlocking();
     };
 
-    this.integrator.loadSupplierAddress({ onSuccess, onFailure });
+    this.integrator.loadSupplierDetail({ onSuccess, onFailure });
   }
 
   exportPdf = () => {

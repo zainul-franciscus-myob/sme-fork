@@ -64,7 +64,8 @@
         "displayName": "Cow Feed Supplier",
         "id": "2",
         "displayId": "CUS000003",
-        "isReportable": true
+        "isReportable": true,
+        "expenseAccountId": "456"
       },
       {
         "contactType": "Other",

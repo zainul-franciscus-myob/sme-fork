@@ -11,8 +11,8 @@ import {
   LOAD_ITEM_OPTION,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
-  LOAD_SUPPLIER_ADDRESS,
   LOAD_SUPPLIER_AFTER_CREATE,
+  LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL,
@@ -24,7 +24,7 @@ import loadItemAndServiceBill from './data/loadItemAndServiceBill';
 import loadItemOption from './data/loadItemOption';
 import loadNewBill from './data/loadNewBill';
 import loadNewDuplicateItemAndServiceBill from './data/loadNewDuplicateItemAndServiceBill';
-import loadSupplierAddress from './data/loadSupplierAddress';
+import loadSupplierDetail from './data/loadSupplierDetail';
 import loadSupplierResponse from './data/loadSupplierResponse';
 import prefillBillFromInTray from './data/prefillBillFromSupplierFeed';
 import successResponse from './data/success';
@@ -37,7 +37,7 @@ const MemoryBillDetailMapping = {
   [DELETE_BILL]: ({ onSuccess }) => onSuccess(successResponse),
   [CREATE_BILL]: ({ onSuccess }) => onSuccess(createBillResponse),
   [UPDATE_BILL]: ({ onSuccess }) => onSuccess(successResponse),
-  [LOAD_SUPPLIER_ADDRESS]: ({ onSuccess }) => onSuccess(loadSupplierAddress),
+  [LOAD_SUPPLIER_DETAIL]: ({ onSuccess }) => onSuccess(loadSupplierDetail),
   [LOAD_SUPPLIER_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadSupplierResponse),
   [CALCULATE_BILL_ITEM_CHANGE]: ({ onSuccess }) => onSuccess(calculatedLineTotalsResponse),
   [LOAD_ITEM_DETAIL_FOR_LINE]: ({ onSuccess }) => onSuccess(updatedLineForItemDetail),

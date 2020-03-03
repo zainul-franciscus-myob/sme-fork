@@ -29,7 +29,7 @@ import {
   UPLOAD_ATTACHMENT_FAILED,
 } from '../SpendMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getIsContactReportable, getIsReportable } from './spendMoneyDetailSelectors';
+import { getIsContactReportable, getIsCreatingFromInTray, getIsReportable } from './spendMoneyDetailSelectors';
 import createReducer from '../../../store/createReducer';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
@@ -178,12 +178,39 @@ const updateAllLinesWithExpenseAccount = (lines, accounts, expenseAccountId) => 
   }));
 };
 
+const isContactSupplier = (state, contactId) => {
+  const selectedContact = state.spendMoney.payToContacts.find(contact => contact.id === contactId);
+  return selectedContact.contactType === 'Supplier';
+};
+
+const getShouldUpdateExpenseAccountIdFromContactUpdate = (state, key, value) => {
+  if (key === 'selectedPayToContactId') {
+    return getIsCreatingFromInTray(state) && isContactSupplier(state, value);
+  }
+
+  return false;
+};
+
+const getUpdatedExpenseAccountId = (state, key, value) => {
+  if (key === 'expenseAccountId') {
+    return value;
+  }
+
+  if (getShouldUpdateExpenseAccountIdFromContactUpdate(state, key, value)) {
+    return state.spendMoney.payToContacts.find(contact => contact.id === value).expenseAccountId;
+  }
+
+  return state.spendMoney.expenseAccountId;
+};
+
 const updateHeader = (state, { key, value }) => {
   const isReportable = key === 'selectedPayToContactId'
     ? getIsContactReportable(state, value)
     : getIsReportable(state);
 
   const isPrefillFields = Object.keys(defaultPrefillStatus).includes(key);
+
+  const expenseAccountId = getUpdatedExpenseAccountId(state, key, value);
 
   return {
     ...state,
@@ -192,8 +219,10 @@ const updateHeader = (state, { key, value }) => {
       ...state.spendMoney,
       isReportable,
       [key]: value,
-      lines: state.spendMoney.lines.length > 0 && key === 'expenseAccountId'
-        ? updateAllLinesWithExpenseAccount(state.spendMoney.lines, state.accounts, value)
+      expenseAccountId,
+      lines: state.spendMoney.lines.length > 0
+        && (key === 'expenseAccountId' || getShouldUpdateExpenseAccountIdFromContactUpdate(state, key, value))
+        ? updateAllLinesWithExpenseAccount(state.spendMoney.lines, state.accounts, expenseAccountId)
         : state.spendMoney.lines,
     },
     prefillStatus: isPrefillFields
