@@ -71,7 +71,7 @@ const createBankingRuleListDispatcher = store => ({
   updateFilterOptions: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_FILTER_OPTIONS,
-      key,
+      filterName: key,
       value,
     });
   },
