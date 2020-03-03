@@ -1,4 +1,3 @@
-import { Tabs } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React, { Fragment } from 'react';
 
@@ -27,6 +26,7 @@ import PayrollStandardPayDetails from './PayrollStandardPayDetails/PayrollStanda
 import PayrollTaxDetails from './PayrollTaxDetails/PayrollTaxDetails';
 import PayrollWageDetails from './PayrollWageDetails/PayrollWageDetails';
 import SuperPayItemModal from './SuperPayItemModal/SuperPayItemModal';
+import Tabs from '../../../../../components/Tabs/Tabs';
 import TaxPayItemModal from './PayrollTaxDetails/TaxPayItemModal';
 import TerminationConfirmModal from '../../components/TerminationConfirmModal';
 import WagePayItemModal from './WagePayItemModal/WagePayItemModal';

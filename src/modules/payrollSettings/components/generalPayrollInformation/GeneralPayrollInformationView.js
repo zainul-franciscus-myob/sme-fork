@@ -122,7 +122,7 @@ const GeneralPayrollInformationView = (props) => {
                 numeralDecimalScaleMax={0}
                 labelAccessory={(
                   <Tooltip>
-                    {"We'll round the pay down to the nearest cent value you enter."}
+                    {"We'll round the pay down to the nearest cent value you enter. "}
                     {'Any difference will be added to the PAYG (tax contribution).'}
                   </Tooltip>
                 )}
