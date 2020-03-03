@@ -5,6 +5,7 @@ import {
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_BANKING_RULE_LIST,
+  UPDATE_FILTER_OPTIONS,
 } from '../BankingRuleListIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import BankingRuleListModule from '../BankingRuleListModule';
@@ -146,9 +147,9 @@ describe('BankingRuleListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_BANKING_RULE_LIST,
-        },
+        }),
       ]);
     });
 
@@ -179,9 +180,9 @@ describe('BankingRuleListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_BANKING_RULE_LIST,
-        },
+        }),
       ]);
     });
 
@@ -209,8 +210,27 @@ describe('BankingRuleListModule', () => {
   });
 
   describe('filterBankingRuleList', () => {
+    const setupWithFilter = () => {
+      const toolbox = setupWithRun();
+      const { store, module } = toolbox;
+
+      module.dispatcher.updateFilterOptions({ key: 'keywords', value: '😗' });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: UPDATE_FILTER_OPTIONS,
+          key: 'keywords',
+          value: '😗',
+        },
+      ]);
+
+      store.resetActions();
+
+      return toolbox;
+    };
+
     it('successfully apply filter', () => {
-      const { store, integration, module } = setupWithRun();
+      const { store, integration, module } = setupWithFilter();
 
       module.filterBankingRuleList();
 
@@ -229,14 +249,17 @@ describe('BankingRuleListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_BANKING_RULE_LIST,
-        },
+          params: expect.objectContaining({
+            keywords: '😗',
+          }),
+        }),
       ]);
     });
 
     it('fails to apply filter', () => {
-      const { store, integration, module } = setupWithRun();
+      const { store, integration, module } = setupWithFilter();
       integration.mapFailure(SORT_AND_FILTER_BANKING_RULE_LIST);
 
       module.filterBankingRuleList();
@@ -257,9 +280,9 @@ describe('BankingRuleListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_BANKING_RULE_LIST,
-        },
+        }),
       ]);
     });
   });

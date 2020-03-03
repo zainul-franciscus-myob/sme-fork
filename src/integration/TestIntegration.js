@@ -6,18 +6,24 @@ class TestIntegration {
     this.mapping = RootMapping;
   }
 
-  read = ({ intent, onSuccess, onFailure }) => {
-    this.requests.push({ intent });
+  read = ({
+    intent, params, onSuccess, onFailure,
+  }) => {
+    this.requests.push({ intent, params });
     this.mapping[intent]({ intent, onSuccess, onFailure });
   }
 
-  write = ({ intent, onSuccess, onFailure }) => {
-    this.requests.push({ intent });
+  write = ({
+    intent, params, onSuccess, onFailure,
+  }) => {
+    this.requests.push({ intent, params });
     this.mapping[intent]({ intent, onSuccess, onFailure });
   }
 
-  writeFormData = ({ intent, onSuccess, onFailure }) => {
-    this.requests.push({ intent });
+  writeFormData = ({
+    intent, params, onSuccess, onFailure,
+  }) => {
+    this.requests.push({ intent, params });
     this.mapping[intent]({ intent, onSuccess, onFailure });
   }
 

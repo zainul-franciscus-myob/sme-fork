@@ -58,7 +58,7 @@ const updateFilterOptions = (state, action) => ({
   ...state,
   filterOptions: {
     ...state.filterOptions,
-    [action.filterName]: action.value,
+    [action.key]: action.value,
   },
 });
 

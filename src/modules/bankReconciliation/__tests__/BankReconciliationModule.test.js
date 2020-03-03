@@ -116,7 +116,7 @@ describe('BankReconciliationModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
-          { intent: test.intent },
+          expect.objectContaining({ intent: test.intent }),
         ]);
       });
 
@@ -144,7 +144,7 @@ describe('BankReconciliationModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
-          { intent: test.intent },
+          expect.objectContaining({ intent: test.intent }),
         ]);
       });
     });
@@ -184,7 +184,7 @@ describe('BankReconciliationModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
-          { intent: SORT_AND_FILTER_BANK_RECONCILIATION },
+          expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
         ]);
       });
 
@@ -217,7 +217,7 @@ describe('BankReconciliationModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
-          { intent: SORT_AND_FILTER_BANK_RECONCILIATION },
+          expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
         ]);
       });
     });
@@ -281,7 +281,7 @@ describe('BankReconciliationModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        { intent: CREATE_BANK_RECONCILIATION },
+        expect.objectContaining({ intent: CREATE_BANK_RECONCILIATION }),
       ]);
     });
 
@@ -351,8 +351,8 @@ describe('BankReconciliationModule', () => {
         }),
       ]);
       expect(integration.getRequests()).toEqual([
-        { intent: UNDO_BANK_RECONCILIATION },
-        { intent: SORT_AND_FILTER_BANK_RECONCILIATION },
+        expect.objectContaining({ intent: UNDO_BANK_RECONCILIATION }),
+        expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
       ]);
     });
 
@@ -379,7 +379,7 @@ describe('BankReconciliationModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        { intent: UNDO_BANK_RECONCILIATION },
+        expect.objectContaining({ intent: UNDO_BANK_RECONCILIATION }),
       ]);
     });
   });
@@ -423,7 +423,7 @@ describe('BankReconciliationModule', () => {
         ]);
 
         expect(integration.getRequests()).toEqual([
-          { intent: SORT_AND_FILTER_BANK_RECONCILIATION },
+          expect.objectContaining({ intent: SORT_AND_FILTER_BANK_RECONCILIATION }),
         ]);
       });
     });

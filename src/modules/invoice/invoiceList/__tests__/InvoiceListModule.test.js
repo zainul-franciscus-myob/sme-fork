@@ -107,9 +107,9 @@ describe('InvoiceListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_INVOICE_LIST,
-        },
+        }),
       ]);
     });
 
@@ -191,9 +191,9 @@ describe('InvoiceListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_INVOICE_LIST,
-        },
+        }),
       ]);
     });
 
@@ -227,9 +227,9 @@ describe('InvoiceListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_INVOICE_LIST,
-        },
+        }),
       ]);
     });
 
@@ -280,9 +280,9 @@ describe('InvoiceListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_INVOICE_LIST,
-        },
+        }),
       ]);
     });
 
@@ -311,9 +311,9 @@ describe('InvoiceListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_INVOICE_LIST,
-        },
+        }),
       ]);
     });
   });
@@ -339,9 +339,9 @@ describe('InvoiceListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_NEXT_PAGE,
-        },
+        }),
       ]);
     });
 
@@ -370,9 +370,9 @@ describe('InvoiceListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_NEXT_PAGE,
-        },
+        }),
       ]);
     });
   });

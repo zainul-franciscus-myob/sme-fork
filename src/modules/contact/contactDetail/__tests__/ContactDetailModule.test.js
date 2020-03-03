@@ -69,9 +69,9 @@ describe('ContactDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_NEW_CONTACT,
-        },
+        }),
       ]);
     });
 
@@ -97,9 +97,9 @@ describe('ContactDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_NEW_CONTACT,
-        },
+        }),
       ]);
     });
 
@@ -120,9 +120,9 @@ describe('ContactDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_CONTACT,
-        },
+        }),
       ]);
     });
 
@@ -147,9 +147,9 @@ describe('ContactDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: CREATE_CONTACT,
-        },
+        }),
       ]);
     });
   });
@@ -179,9 +179,9 @@ describe('ContactDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_CONTACT_DETAIL,
-        },
+        }),
       ]);
     });
 
@@ -207,9 +207,9 @@ describe('ContactDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_CONTACT_DETAIL,
-        },
+        }),
       ]);
     });
 
@@ -230,9 +230,9 @@ describe('ContactDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: UPDATE_CONTACT,
-        },
+        }),
       ]);
     });
 
@@ -257,9 +257,9 @@ describe('ContactDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: UPDATE_CONTACT,
-        },
+        }),
       ]);
     });
   });
@@ -281,9 +281,9 @@ describe('ContactDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: DELETE_CONTACT,
-        },
+        }),
       ]);
     });
 
@@ -311,9 +311,9 @@ describe('ContactDetailModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: DELETE_CONTACT,
-        },
+        }),
       ]);
     });
   });

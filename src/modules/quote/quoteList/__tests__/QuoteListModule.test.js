@@ -61,7 +61,9 @@ describe('QuoteListModule', () => {
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
         expect.objectContaining({ intent: LOAD_QUOTE_LIST }),
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: LOAD_QUOTE_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_QUOTE_LIST }),
+      ]);
     });
 
     it('fails to load', () => {
@@ -75,7 +77,9 @@ describe('QuoteListModule', () => {
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING },
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_FAIL },
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: LOAD_QUOTE_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_QUOTE_LIST }),
+      ]);
     });
 
     it('display alert from inbox', () => {
@@ -102,7 +106,9 @@ describe('QuoteListModule', () => {
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: SORT_AND_FILTER_QUOTE_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
+      ]);
     });
 
     it('fails to apply filter', () => {
@@ -117,7 +123,9 @@ describe('QuoteListModule', () => {
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         { intent: SET_ALERT, alert: { type: 'danger', message } },
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: SORT_AND_FILTER_QUOTE_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
+      ]);
     });
   });
 
@@ -134,7 +142,9 @@ describe('QuoteListModule', () => {
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: SORT_AND_FILTER_QUOTE_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
+      ]);
     });
 
     it('fails to sort', () => {
@@ -151,7 +161,9 @@ describe('QuoteListModule', () => {
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         { intent: SET_ALERT, alert: { type: 'danger', message } },
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: SORT_AND_FILTER_QUOTE_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_QUOTE_LIST }),
+      ]);
     });
 
     it('flips the sorting order when ordering by the same key', () => {
@@ -179,7 +191,9 @@ describe('QuoteListModule', () => {
         { intent: SET_NEXT_PAGE_LOADING_STATE, isNextPageLoading: false },
         expect.objectContaining({ intent: LOAD_QUOTE_LIST_NEXT_PAGE }),
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: LOAD_QUOTE_LIST_NEXT_PAGE }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_QUOTE_LIST_NEXT_PAGE }),
+      ]);
     });
 
     it('fails to load next', () => {
@@ -194,7 +208,9 @@ describe('QuoteListModule', () => {
         { intent: SET_NEXT_PAGE_LOADING_STATE, isNextPageLoading: false },
         { intent: SET_ALERT, alert: { type: 'danger', message } },
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: LOAD_QUOTE_LIST_NEXT_PAGE }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_QUOTE_LIST_NEXT_PAGE }),
+      ]);
     });
   });
 });

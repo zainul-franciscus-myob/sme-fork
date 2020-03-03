@@ -70,9 +70,9 @@ describe('CustomerReturnListModule', () => {
         }),
       ]);
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_CUSTOMER_RETURN_LIST,
-        },
+        }),
       ]);
     });
 
@@ -93,9 +93,9 @@ describe('CustomerReturnListModule', () => {
         },
       ]);
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_CUSTOMER_RETURN_LIST,
-        },
+        }),
       ]);
     });
 
@@ -166,9 +166,9 @@ describe('CustomerReturnListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
-        },
+        }),
       ]);
     });
 
@@ -202,9 +202,9 @@ describe('CustomerReturnListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
-        },
+        }),
       ]);
     });
 
@@ -255,9 +255,9 @@ describe('CustomerReturnListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
-        },
+        }),
       ]);
     });
 
@@ -286,9 +286,9 @@ describe('CustomerReturnListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_CUSTOMER_RETURN_LIST,
-        },
+        }),
       ]);
     });
   });

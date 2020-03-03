@@ -70,9 +70,9 @@ describe('ItemListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_ITEM_LIST,
-        },
+        }),
       ]);
     });
 
@@ -105,9 +105,9 @@ describe('ItemListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_ITEM_LIST,
-        },
+        }),
       ]);
     });
 
@@ -157,9 +157,9 @@ describe('ItemListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_ITEM_LIST,
-        },
+        }),
       ]);
     });
 
@@ -193,9 +193,9 @@ describe('ItemListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_ITEM_LIST,
-        },
+        }),
       ]);
     });
 
@@ -238,9 +238,9 @@ describe('ItemListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_ITEM_LIST,
-        },
+        }),
       ]);
     });
 
@@ -269,9 +269,9 @@ describe('ItemListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: SORT_AND_FILTER_ITEM_LIST,
-        },
+        }),
       ]);
     });
   });
@@ -297,9 +297,9 @@ describe('ItemListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_NEXT_PAGE,
-        },
+        }),
       ]);
     });
 
@@ -328,9 +328,9 @@ describe('ItemListModule', () => {
       ]);
 
       expect(integration.getRequests()).toEqual([
-        {
+        expect.objectContaining({
           intent: LOAD_NEXT_PAGE,
-        },
+        }),
       ]);
     });
   });

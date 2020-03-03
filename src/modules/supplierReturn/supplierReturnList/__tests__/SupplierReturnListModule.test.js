@@ -58,7 +58,9 @@ describe('SupplierReturnListModule', () => {
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_SUCCESS },
         expect.objectContaining({ intent: LOAD_SUPPLIER_RETURN_LIST }),
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: LOAD_SUPPLIER_RETURN_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_SUPPLIER_RETURN_LIST }),
+      ]);
     });
 
     it('fails to load', () => {
@@ -71,7 +73,9 @@ describe('SupplierReturnListModule', () => {
         { intent: SET_INITIAL_STATE, context },
         { intent: SET_LOADING_STATE, loadingState: LoadingState.LOADING_FAIL },
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: LOAD_SUPPLIER_RETURN_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: LOAD_SUPPLIER_RETURN_LIST }),
+      ]);
     });
 
     it('display alert from inbox', () => {
@@ -98,7 +102,9 @@ describe('SupplierReturnListModule', () => {
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         expect.objectContaining({ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }),
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }),
+      ]);
     });
 
     it('fails to apply filter', () => {
@@ -113,7 +119,9 @@ describe('SupplierReturnListModule', () => {
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         { intent: SET_ALERT, alert: { type: 'danger', message } },
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }),
+      ]);
     });
   });
 
@@ -130,7 +138,9 @@ describe('SupplierReturnListModule', () => {
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         expect.objectContaining({ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }),
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }),
+      ]);
     });
 
     it('fails to sort', () => {
@@ -147,7 +157,9 @@ describe('SupplierReturnListModule', () => {
         { intent: SET_TABLE_LOADING_STATE, isTableLoading: false },
         { intent: SET_ALERT, alert: { type: 'danger', message } },
       ]);
-      expect(integration.getRequests()).toEqual([{ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SORT_AND_FILTER_SUPPLIER_RETURN_LIST }),
+      ]);
     });
 
     it('flips the sorting order when ordering by the same key', () => {
