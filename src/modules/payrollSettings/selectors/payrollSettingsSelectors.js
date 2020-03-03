@@ -66,3 +66,9 @@ export const getUpdateGeneralPayrollInformationContent = createStructuredSelecto
   useTimesheetsWeekStarts: state => state.generalPayrollInformation.useTimesheetsWeekStarts,
   isUseTimesheetsChanged: state => state.generalPayrollInformation.isUseTimesheetsChanged,
 });
+
+export const getCreateSuperUrl = (state) => {
+  const region = getRegion(state);
+  const businessId = getBusinessId(state);
+  return `/#/${region}/${businessId}/superFund/new`;
+};

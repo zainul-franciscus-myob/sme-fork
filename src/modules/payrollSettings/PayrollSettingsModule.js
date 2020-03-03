@@ -3,12 +3,11 @@ import React from 'react';
 
 import { SUCCESSFULLY_DELETED_SUPER_FUND, SUCCESSFULLY_SAVED_SUPER_FUND } from './PayrollSettingsMessageTypes';
 import {
-  getBusinessId,
+  getCreateSuperUrl,
   getCurrentYear,
   getIsCurrentYearProvided,
   getIsPageEdited,
   getModalUrl,
-  getRegion,
   getTab,
   getTabUrl,
   getURLParams,
@@ -129,12 +128,16 @@ export default class PayrollSettingsModule {
     });
   }
 
-  redirectToCreateSuperFund= () => {
+  redirectSuperannuationFundToCreateSuperFund= () => {
     const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/superFund/new`;
+    window.location.href = getCreateSuperUrl(state);
+  }
+
+  redirectGeneralSettingsToCreateSuperFund = () => {
+    const state = this.store.getState();
+    const url = getCreateSuperUrl(state);
+    this.handlePageTransition(url);
   }
 
   loadEmploymentClassificationList = () => {
@@ -402,7 +405,7 @@ export default class PayrollSettingsModule {
         onDismissAlert={this.dispatcher.dismissAlert}
         onSelectTab={this.setTab}
         superFundListeners={{
-          onCreateButtonClick: this.redirectToCreateSuperFund,
+          onCreateButtonClick: this.redirectSuperannuationFundToCreateSuperFund,
           onUpdateFilterOptions: this.dispatcher.setSuperFundListFilterOptions,
           onApplyFilter: this.filterSuperFundList,
           onSort: this.sortSuperFundList,
@@ -415,6 +418,7 @@ export default class PayrollSettingsModule {
           onConfirmCancelButtonClick: this.redirectToModalUrl,
           onConfirmSave: this.saveGeneralPayrollInformation,
           onWarningConfirmSave: this.submitGeneralPayrollInformation,
+          onCreateSuperFundClick: this.redirectGeneralSettingsToCreateSuperFund,
         }}
         employmentClassificationListeners={{
           onCreateButtonClick: this.openNewEmployeeClassificationDetailModal,

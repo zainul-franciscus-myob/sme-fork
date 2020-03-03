@@ -3,7 +3,7 @@ import {
   Button,
   ButtonRow,
   Card,
-  Combobox,
+  Field,
   FieldGroup,
   FormHorizontal,
   PageHead,
@@ -13,11 +13,16 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getGeneralPayrollInformation, getLoadingState, getModal } from '../../selectors/payrollSettingsSelectors';
+import {
+  getGeneralPayrollInformation,
+  getLoadingState,
+  getModal,
+} from '../../selectors/payrollSettingsSelectors';
 import AbnInput from '../../../../components/autoFormatter/AbnInput/AbnInput';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import GeneralPayrollInformationModal from './GeneralPayrollInformationModal';
 import PageView from '../../../../components/PageView/PageView';
+import SuperFundCombobox from '../../../../components/combobox/SuperFundCombobox';
 import TimesheetsSettingsView from './TimesheetsSettingsView';
 import YearInput from '../../../../components/autoFormatter/YearInput/YearInput';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
@@ -53,6 +58,7 @@ const GeneralPayrollInformationView = (props) => {
       onWarningConfirmSave,
       onConfirmCancelButtonClick,
       onDismissModal,
+      onCreateSuperFundClick,
     },
     modal,
   } = props;
@@ -85,6 +91,7 @@ const GeneralPayrollInformationView = (props) => {
       columnName: 'name', showData: true,
     },
   ];
+
 
   const view = (
     <>
@@ -123,7 +130,7 @@ const GeneralPayrollInformationView = (props) => {
               <ReadOnly label="Tax table revision date" name="taxTableRevisionDate">
                 {taxTableRevisionDate}
               </ReadOnly>
-              <Combobox
+              <SuperFundCombobox
                 items={defaultSuperFundOptions}
                 metaData={defaultSuperFundMetaData}
                 name="defaultSuperFund"
@@ -132,8 +139,25 @@ const GeneralPayrollInformationView = (props) => {
                   key: 'defaultSuperFund',
                   value: id,
                 })}
-                selected={defaultSuperFundOptions.find(fund => fund.id === defaultSuperFund)}
+                allowClearSelection
+                selectedId={defaultSuperFund}
                 width="xl"
+              />
+              <Field
+                label="Sign up for Pay super"
+                hideLabel
+                renderField={
+                  () => (
+                    <Button
+                      type="link"
+                      align="center"
+                      iconRight
+                      onClick={onCreateSuperFundClick}
+                    >
+                      Create superannuation fund
+                    </Button>
+                  )
+                }
               />
             </FieldGroup>
             {
