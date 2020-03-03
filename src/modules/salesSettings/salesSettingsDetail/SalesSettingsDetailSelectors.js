@@ -43,7 +43,7 @@ export const getDateInputPostfix = state => ({
 
 export const getPayDirectLink = state => `${state.payDirect.url}?cdf=${state.businessId}&sn=${state.serialNumber}`;
 
-export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&origin=global&businessId=${state.businessId}`;
+export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&origin=global&cfid=${state.businessId}`;
 
 const getTemplateSettings = state => state.templateSettings;
 
