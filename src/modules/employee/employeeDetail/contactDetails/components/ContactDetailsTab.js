@@ -1,5 +1,11 @@
 import {
-  Checkbox, CheckboxGroup, FormTemplate, Input, Select,
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  FormHorizontal,
+  Input,
+  Select,
+  TextArea,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -51,6 +57,7 @@ const ContactDetailsTab = (props) => {
         onChange={onSelectChange(onContactDetailsChange)
         }
         requiredLabel="State/territory is required"
+        width="xs"
       >
         {stateOptions.map(
           ({ name, value }) => <Select.Option key={value} value={value} label={name} />,
@@ -60,8 +67,31 @@ const ContactDetailsTab = (props) => {
     : <Input label="State/territory" name="state" value={contactDetail.state} onChange={onInputChange(onContactDetailsChange)} />;
 
   const view = (
-    <React.Fragment>
-      <FormTemplate pageHead="">
+    <FormHorizontal layout="primary">
+      <FieldGroup label="Details">
+        <Input
+          label="First name"
+          name="firstName"
+          value={contactDetail.firstName}
+          onChange={onInputChange(onContactDetailsChange)}
+          requiredLabel="First name is required"
+          width="lg"
+        />
+        <Input
+          label="Surname or family name"
+          name="lastName"
+          value={contactDetail.lastName}
+          onChange={onInputChange(onContactDetailsChange)}
+          requiredLabel="Surname or family name is required"
+          width="lg"
+        />
+        <Input
+          label="Employee number"
+          name="employeeNumber"
+          value={contactDetail.employeeNumber}
+          onChange={onInputChange(onContactDetailsChange)}
+          width="sm"
+        />
         <CheckboxGroup
           label="Inactive employee"
           hideLabel
@@ -69,55 +99,8 @@ const ContactDetailsTab = (props) => {
             <Checkbox name="isInactive" label="Inactive employee" checked={contactDetail.isInactive} onChange={onCheckBoxChange(onContactDetailsChange)} />
           )}
         />
-
-        <Input label="Employee number" name="employeeNumber" value={contactDetail.employeeNumber} onChange={onInputChange(onContactDetailsChange)} />
-      </FormTemplate>
-
-      <hr />
-
-      <FormTemplate pageHead="">
-        <Input
-          label="First name"
-          name="firstName"
-          value={contactDetail.firstName}
-          onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="First name is required"
-        />
-
-        <Input
-          label="Surname or family name"
-          name="lastName"
-          value={contactDetail.lastName}
-          onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="Surname or family name is required"
-        />
-
-        <Input
-          label="Address"
-          name="address"
-          value={contactDetail.address}
-          onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="Address is required"
-        />
-
-        <Input
-          label="Suburb/town/locality"
-          name="suburb"
-          value={contactDetail.suburb}
-          onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="Suburb/town/locality is required"
-        />
-
-        {stateInput}
-
-        <Input
-          label="Postcode"
-          name="postcode"
-          value={contactDetail.postcode}
-          onChange={onInputChange(onContactDetailsChange)}
-          requiredLabel="Postcode is required"
-        />
-
+      </FieldGroup>
+      <FieldGroup label="Address">
         <CountryCombobox
           hideLabel={false}
           label="Country"
@@ -125,19 +108,58 @@ const ContactDetailsTab = (props) => {
           selectedId={contactDetail.country}
           onChange={onComboBoxChange(onContactDetailsChange, 'country')}
           requiredLabel="Country is required"
+          width="lg"
         />
-
+        <TextArea
+          label="Address"
+          name="address"
+          value={contactDetail.address}
+          onChange={onInputChange(onContactDetailsChange)}
+          requiredLabel="Address is required"
+          rows={3}
+          width="lg"
+        />
+        <Input
+          label="Suburb/town/locality"
+          name="suburb"
+          value={contactDetail.suburb}
+          onChange={onInputChange(onContactDetailsChange)}
+          requiredLabel="Suburb/town/locality is required"
+          width="lg"
+        />
+        {stateInput}
+        <Input
+          label="Postcode"
+          name="postcode"
+          value={contactDetail.postcode}
+          onChange={onInputChange(onContactDetailsChange)}
+          requiredLabel="Postcode is required"
+          width="xs"
+        />
+        <Input
+          label="Email"
+          name="email"
+          value={contactDetail.email}
+          onChange={onInputChange(onContactDetailsChange)}
+          width="lg"
+        />
         <PhoneNumberList
           phoneNumbers={contactDetail.phoneNumbers}
           hasAddPhoneButton={contactDetail.hasAddPhoneButton}
           onPhoneNumbersChange={onPhoneNumberChange(onContactDetailsChange)}
         />
-
-        <Input label="Email" name="email" value={contactDetail.email} onChange={onInputChange(onContactDetailsChange)} />
-
-        <Input label="Notes" name="notes" value={contactDetail.notes} onChange={onInputChange(onContactDetailsChange)} />
-      </FormTemplate>
-    </React.Fragment>
+      </FieldGroup>
+      <FieldGroup label="More information">
+        <TextArea
+          label="Notes"
+          name="notes"
+          value={contactDetail.notes}
+          onChange={onInputChange(onContactDetailsChange)}
+          rows={3}
+          width="lg"
+        />
+      </FieldGroup>
+    </FormHorizontal>
   );
 
   return view;

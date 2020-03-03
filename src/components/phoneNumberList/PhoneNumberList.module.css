@@ -1,5 +1,6 @@
 .phoneNumber {
   display: flex;
+  width: var(--flx-width-field-l);
 }
 
 .phoneNumber button {
