@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import styles from './DocumentViewer.module.css';
@@ -16,7 +16,7 @@ const getType = (type) => {
   return type;
 };
 
-const DocumentViewer = ({
+const DocumentViewer = memo(({
   src, title, className, type,
 }) => {
   /**
@@ -43,6 +43,6 @@ const DocumentViewer = ({
       type={getType(type)}
     />
   );
-};
+});
 
 export default DocumentViewer;

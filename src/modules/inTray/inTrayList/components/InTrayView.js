@@ -5,7 +5,6 @@ import {
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
-import shortid from 'shortid';
 
 import {
   getAlert,
@@ -56,24 +55,10 @@ const InTrayView = ({
   uploadOptionsModalListeners,
   deleteModalListeners,
 }) => {
-  /**
-   * Temp fix for feelix issue when content on the page is dynamicly changed
-   * Re renders master detail, which forces the detail to recalculate its postion.
-   *
-   * NOTE: This is not the preferred way to fix the issue.
-   * Instead, you should try to use the way how `BillView` triggers the recalculate,
-   * we didn't do the same here is because of some weird racing condition issue.
-   */
-  const [key, updateKey] = React.useState(shortid.generate());
-
   const alertComponent = alert && (
     <Alert
       type={alert.type}
-      onDismiss={
-      () => {
-        updateKey(shortid.generate());
-        onDismissAlert();
-      }}
+      onDismiss={onDismissAlert}
     >
       {alert.message}
     </Alert>
@@ -116,7 +101,6 @@ const InTrayView = ({
       {uploadOptionsModalComponent}
       {deleteModalComponent}
       <MasterDetailTemplate
-        key={key}
         alert={alertComponent}
         pageHead={pageHead}
         filterBar={filterBar}
