@@ -49,17 +49,24 @@ const loadTasks = (state, action) => ({
 });
 
 
-const updateTasks = (state, { tasks: updatedTasks }) => {
+const updateTasks = (state, { tasks: newTasks }) => {
   const oldTasks = state.tasks;
 
-  const newTasks = oldTasks.map((oldTask) => {
-    const newTask = updatedTasks.find(
-      updatedTask => updatedTask.key === oldTask.key,
-    );
-    return newTask || oldTask;
+  const mergedTasks = oldTasks.map((oldTask) => {
+    const newTaskIndex = newTasks.findIndex(t => t.key === oldTask.key);
+
+    if (newTaskIndex < 0) return oldTask;
+
+    const newTask = newTasks[newTaskIndex];
+    newTasks.splice(newTaskIndex, 1);
+    return newTask;
   });
 
-  return { ...state, tasks: newTasks };
+  if (newTasks.length > 0) {
+    mergedTasks.push(...newTasks);
+  }
+
+  return { ...state, tasks: mergedTasks };
 };
 
 const loadBusinessDetails = (state, { businessDetails }) => ({
