@@ -7,13 +7,21 @@ import React from 'react';
 import {
   getInvoiceHistoryAccordionStatus, getMostRecentStatus, getMostRecentStatusColor,
 } from '../../selectors/invoiceHistorySelectors';
-import AccordionTable from '../../../../../components/Feelix/Accordion/AccordionTable';
+import AccordionRowTypes from '../../../../../components/Accordion/AccordionRowTypes';
+import AccordionTable from '../../../../../components/Accordion/AccordionTable';
+import CollapsibleTableRow from '../../../../../components/Accordion/CollapsibleTableRow';
 import InvoiceHistoryAccordianStatus from '../../InvoiceHistoryAccordionStatus';
 import InvoiceHistoryStatusPretty from '../../InvoiceHistoryStatusPretty';
 import InvoiceHistoryTable from './InvoiceHistoryTable';
 import ServiceUnavailableImage from '../../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
-import TableCollapsibleRow from '../../../../../components/Feelix/Accordion/TableCollapsibleRow';
 import styles from './InvoiceHistory.module.css';
+
+const InvoiceHistoryTableRowHeader = ({ children }) => (
+  <Table.RowItem>
+      Activity history
+    {children}
+  </Table.RowItem>
+);
 
 const InvoiceHistory = ({
   invoiceHistoryAccordianStatus,
@@ -24,15 +32,6 @@ const InvoiceHistory = ({
   onClickOnRefNo,
 }) => {
   const unavailableTooltipMessage = 'The activity history is currently unavailable. Please try again later.';
-
-  const getTableHeader = appendToHeader => (
-    <Table.Row className={styles.header}>
-      <Table.RowItem>
-        Activity history
-        {appendToHeader}
-      </Table.RowItem>
-    </Table.Row>
-  );
 
   const headerStatusLabel = (
     <div className={styles.headerLabel}>
@@ -45,60 +44,84 @@ const InvoiceHistory = ({
   return {
     [InvoiceHistoryAccordianStatus.LOADING]: (
       <AccordionTable
-        expansionToggle
         openPosition={0}
-        body={(
-          <Table.Body>
-            <TableCollapsibleRow header={getTableHeader()}>
-              <Spinner size="small" />
-            </TableCollapsibleRow>
-          </Table.Body>
+        data={[{}]}
+        renderRow={(index, _, buildRowProps) => (
+          <CollapsibleTableRow
+            {...buildRowProps({
+              id: `loading${index}`,
+              rowType: AccordionRowTypes.COLLAPSIBLE,
+              header: <InvoiceHistoryTableRowHeader />,
+              index,
+            })}
+          >
+            <Spinner size="small" />
+          </CollapsibleTableRow>
         )}
       />),
     [InvoiceHistoryAccordianStatus.OPEN]: (
       <AccordionTable
+        data={[{}]}
         handleHeaderClick={onAccordionClose}
-        expansionToggle
-        openPosition={0}
-        body={(
-          <Table.Body>
-            <TableCollapsibleRow
-              header={getTableHeader(headerStatusLabel)}
-            >
-              <InvoiceHistoryTable onClickOnRefNo={onClickOnRefNo} />
-            </TableCollapsibleRow>
-          </Table.Body>
+        renderRow={(index, _, buildRowProps) => (
+          <CollapsibleTableRow
+            {...buildRowProps({
+              id: `open${index}`,
+              rowType: AccordionRowTypes.COLLAPSIBLE,
+              isRowOpen: true,
+              header: (
+                <InvoiceHistoryTableRowHeader>
+                  { headerStatusLabel }
+                </InvoiceHistoryTableRowHeader>
+              ),
+              index,
+            })}
+          >
+            <InvoiceHistoryTable onClickOnRefNo={onClickOnRefNo} />
+          </CollapsibleTableRow>
         )}
       />),
     [InvoiceHistoryAccordianStatus.CLOSED]: (
       <AccordionTable
+        data={[{}]}
         handleHeaderClick={onAccordionOpen}
-        expansionToggle
-        openPosition={-1}
-        body={(
-          <Table.Body>
-            <TableCollapsibleRow
-              header={getTableHeader(headerStatusLabel)}
-            >
-              <InvoiceHistoryTable />
-            </TableCollapsibleRow>
-          </Table.Body>
+        renderRow={(index, _, buildRowProps) => (
+          <CollapsibleTableRow
+            {...buildRowProps({
+              id: `close${index}`,
+              rowType: AccordionRowTypes.COLLAPSIBLE,
+              isRowOpen: false,
+              header: (
+                <InvoiceHistoryTableRowHeader>
+                  { headerStatusLabel }
+                </InvoiceHistoryTableRowHeader>
+              ),
+              index,
+            })}
+          >
+            <InvoiceHistoryTable onClickOnRefNo={onClickOnRefNo} />
+          </CollapsibleTableRow>
         )}
       />),
     [InvoiceHistoryAccordianStatus.UNAVAILABLE]: (
       <AccordionTable
-        handleHeaderClick={() => {}}
-        body={(
-          <Table.Body className={styles.unavailable}>
-            <TableCollapsibleRow
-              header={getTableHeader(
-                <ServiceUnavailableImage tooltipMessage={unavailableTooltipMessage} />,
-              )}
-            />
-          </Table.Body>
+        data={[{}]}
+        renderRow={(index, _, buildRowProps) => (
+          <CollapsibleTableRow
+            {...buildRowProps({
+              id: `unavailable${index}`,
+              rowType: AccordionRowTypes.NORMAL,
+              isRowOpen: false,
+              header: (
+                <InvoiceHistoryTableRowHeader>
+                  <ServiceUnavailableImage tooltipMessage={unavailableTooltipMessage} />
+                </InvoiceHistoryTableRowHeader>
+              ),
+              index,
+            })}
+          />
         )}
-      />
-    ),
+      />),
   }[invoiceHistoryAccordianStatus];
 };
 

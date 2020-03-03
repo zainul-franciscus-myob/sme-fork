@@ -33,8 +33,11 @@ const AccordionTable = ({
   const buildRowProps = props => ({
     ...props,
     onExpand: setCurrAndPrevOpenRow,
-    isRowOpen: false,
-    handleHeaderClick,
+    isRowOpen: props.isRowOpen !== undefined ? props.isRowOpen : false,
+    handleHeaderClick:
+      props.handleHeaderClick !== undefined
+        ? props.handleHeaderClick
+        : handleHeaderClick,
   });
 
   const memoizedBuildRowProps = useCallback(buildRowProps, []);
@@ -45,14 +48,14 @@ const AccordionTable = ({
     if (index === currOpenRow) {
       rowPropsBuilder = props => ({
         ...buildRowProps(props),
-        isRowOpen: true,
+        isRowOpen: props.isRowOpen !== undefined ? props.isRowOpen : true,
       });
     }
 
     if (index === prevOpenRow) {
       rowPropsBuilder = props => ({
         ...buildRowProps(props),
-        isRowOpen: false,
+        isRowOpen: props.isRowOpen !== undefined ? props.isRowOpen : false,
       });
     }
 

@@ -2,14 +2,6 @@
   "name": "sme-web",
   "version": "0.1.0",
   "private": true,
-  "//FeelixDependencies": {
-    "Accordian": [
-      "classnames",
-      "react-collapsible",
-      "react-sticky-el",
-      "shortid"
-    ]
-  },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "13.4.0",
     "@contentful/rich-text-types": "14.1.0",
@@ -28,11 +20,9 @@
     "prop-types": "15.7.2",
     "react": "16.13.0",
     "react-chartjs-2": "2.9.0",
-    "react-collapsible": "2.7.0",
     "react-dom": "16.13.0",
     "react-redux": "7.2.0",
     "react-scripts": "3.4.0",
-    "react-sticky-el": "1.1.0",
     "reselect": "4.0.0",
     "router5": "7.0.2",
     "router5-plugin-browser": "7.0.2",
