@@ -1,0 +1,13 @@
+.checklist li {
+    list-style-image: url('./assets/check_icon.svg');
+}
+
+.learnImage {
+    margin: Auto;
+}
+
+@media (max-width: 500px){
+   .learnImage {
+    display: flex;
+   }
+}
