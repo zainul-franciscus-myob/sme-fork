@@ -9,7 +9,7 @@ const getEmployeeRoutes = ({
   popMessages,
   pushMessage,
   replaceURLParams,
-  globalCallbacks: { addPaymentDetailsAndSaveSuccess, learnEmployeeCompleted },
+  globalCallbacks,
 }) => {
   const routes = [
     {
@@ -30,14 +30,18 @@ const getEmployeeRoutes = ({
         popMessages,
         pushMessage,
         replaceURLParams,
-        addPaymentDetailsAndSaveSuccess,
+        globalCallbacks,
       }),
       documentTitle: 'Employee',
     },
     {
       name: RouteName.ONBOARDING_LEARN_EMPLOYEE,
       path: '/:region/:businessId/employee/learn',
-      module: new LearnEmployeeModule({ setRootView, integration, learnEmployeeCompleted }),
+      module: new LearnEmployeeModule({
+        setRootView,
+        integration,
+        learnEmployeeCompleted: globalCallbacks.learnEmployeeCompleted,
+      }),
       documentTitle: 'Create your first employee',
     },
   ];
