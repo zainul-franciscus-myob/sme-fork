@@ -119,3 +119,12 @@ export const getOpenedModalType = (state) => {
 
   return modal.type;
 };
+
+export const getUrlParams = createSelector(
+  getBusinessId,
+  getInvoicePaymentId,
+  getIsCreating,
+  (businessId, invoicePaymentId, isCreating) => (
+    isCreating ? { businessId } : { businessId, invoicePaymentId }
+  ),
+);

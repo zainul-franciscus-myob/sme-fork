@@ -2,6 +2,7 @@ import {
   getEntries,
   getSaveContent,
   getTotalReceived,
+  getUrlParams,
   getWasRedirectedFromInvoiceDetail,
 } from '../invoicePaymentDetailSelectors';
 
@@ -234,6 +235,35 @@ describe('invoicePaymentDetailSelectors', () => {
         applyPaymentToInvoiceId: '',
       };
       expect(getWasRedirectedFromInvoiceDetail(state)).toBe(false);
+    });
+  });
+
+  describe('getUrlParams', () => {
+    it('build url params for create', () => {
+      const state = {
+        invoicePaymentId: 'new',
+        businessId: '123',
+      };
+
+      const actual = getUrlParams(state);
+
+      expect(actual).toEqual({
+        businessId: '123',
+      });
+    });
+
+    it('build url params for non create', () => {
+      const state = {
+        invoicePaymentId: '1',
+        businessId: '123',
+      };
+
+      const actual = getUrlParams(state);
+
+      expect(actual).toEqual({
+        invoicePaymentId: '1',
+        businessId: '123',
+      });
     });
   });
 });
