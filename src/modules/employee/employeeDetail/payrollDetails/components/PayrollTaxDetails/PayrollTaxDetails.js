@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getFilteredTaxPayItemOptions,
+  getIsTfnEditable,
   getSelectedTaxPayItems,
   getSelectedTaxTable,
   getTaxDetails,
@@ -28,6 +29,7 @@ const PayrollTaxDetails = ({
   taxFileNumberStatus,
   onTaxFileNumberStatusChange,
   onTfnModalLinkClick,
+  isTfnEditable,
 }) => {
   const fieldGroupLabel = (
     <div>
@@ -44,6 +46,7 @@ const PayrollTaxDetails = ({
       <TaxDetails
         taxTablesOptions={taxTablesOptions}
         taxDetails={taxDetails}
+        isTfnEditable={isTfnEditable}
         selectedTaxTable={selectedTaxTable}
         onPayrollTaxDetailsChange={onPayrollTaxDetailsChange}
         taxFileNumberStatusOptions={taxFileNumberStatusOptions}
@@ -74,6 +77,7 @@ const mapStateToProps = state => ({
   selectedTaxTable: getSelectedTaxTable(state),
   taxFileNumberStatusOptions: getTaxFileNumberStatusOptions(state),
   taxFileNumberStatus: getTaxFileNumberStatus(state),
+  isTfnEditable: getIsTfnEditable(state),
 });
 
 export default connect(mapStateToProps)(PayrollTaxDetails);

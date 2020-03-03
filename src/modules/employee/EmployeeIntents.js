@@ -37,6 +37,7 @@ export const UPDATE_PAYROLL_DETAILS_SUPERANNUATION_DETAILS = Symbol('Update payr
 export const ADD_PAYROLL_TAX_PAY_ITEM = Symbol('Add tax pay item');
 export const REMOVE_PAYROLL_TAX_PAY_ITEM = Symbol('Remove tax pay item');
 export const UPDATE_PAYROLL_TAX_DETAILS = Symbol('Update payroll tax details');
+export const SET_TAX_FILE_NUMBER_STATUS = Symbol('Set the tax file number status');
 export const FORMAT_PAYROLL_TAX_AMOUNT = Symbol('Format payroll tax amount');
 
 export const ADD_PAYROLL_WAGE_PAY_ITEM = Symbol('Add wage pay item');
@@ -66,7 +67,6 @@ export const UPDATE_TAX_PAY_ITEM_MODAL_DETAILS = Symbol('Update tax pay item mod
 export const SET_TAX_PAY_ITEM_MODAL_LOADING_STATE = Symbol('Set tax pay item modal loading state');
 export const SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE = Symbol('Set tax pay item modal submitting state');
 export const SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE = Symbol('Set tax pay item modal alert message');
-export const UPDATE_TAX_FILE_NUMBER = Symbol('Update tax file number');
 
 export const ADD_ALLOCATED_LEAVE_ITEM = Symbol('Add an allocated leave item');
 export const REMOVE_ALLOCATED_LEAVE_ITEM = Symbol('Remove an allocated leave item');

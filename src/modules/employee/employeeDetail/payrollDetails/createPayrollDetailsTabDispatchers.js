@@ -88,6 +88,7 @@ import {
   SET_SUPER_PAY_ITEM_MODAL_LOADING_STATE,
   SET_SUPER_PAY_ITEM_MODAL_SUBMITTING_STATE,
   SET_SUPER_PAY_ITEM_MODAL_SUPER_PAY_ITEM,
+  SET_TAX_FILE_NUMBER_STATUS,
   SET_TAX_PAY_ITEM_MODAL_ALERT_MESSAGE,
   SET_TAX_PAY_ITEM_MODAL_LOADING_STATE,
   SET_TAX_PAY_ITEM_MODAL_SUBMITTING_STATE,
@@ -116,7 +117,6 @@ import {
   UPDATE_SELF_MANAGED_FUND_ABN,
   UPDATE_SUPER_FUND_DETAIL,
   UPDATE_SUPER_PAY_ITEM_MODAL,
-  UPDATE_TAX_FILE_NUMBER,
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
   UPDATE_WAGE_PAY_ITEM_MODAL,
   UPDATE_WAGE_PAY_ITEM_MODAL_DETAILS,
@@ -239,16 +239,10 @@ const createPayrollDetailsTabDispatchers = store => ({
     store.dispatch({ intent, key, value });
   },
 
-  updateTaxFileNumberStatus: ({ key, value }) => {
+  updateTaxFileNumberStatus: ({ value }) => {
     store.dispatch({
-      intent: UPDATE_PAYROLL_TAX_DETAILS,
-      key,
+      intent: SET_TAX_FILE_NUMBER_STATUS,
       value,
-    });
-
-    store.dispatch({
-      intent: UPDATE_TAX_FILE_NUMBER,
-      taxFileNumber: value,
     });
   },
 

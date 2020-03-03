@@ -21,8 +21,8 @@ const TaxDetails = ({
   selectedTaxTable,
   taxDetails: {
     extraTax,
-    taxFileNumber,
     totalRebates,
+    taxFileNumber,
     withholdingVariationRate,
   },
   onPayrollTaxDetailsChange,
@@ -30,6 +30,7 @@ const TaxDetails = ({
   taxFileNumberStatus,
   onTaxFileNumberStatusChange,
   onTfnModalLinkClick,
+  isTfnEditable,
 }) => (
   <div className={styles.taxView}>
     <FormHorizontal>
@@ -49,6 +50,7 @@ const TaxDetails = ({
           label="Tax file number"
           value={taxFileNumber}
           onChange={handleInputChange(onPayrollTaxDetailsChange)}
+          disabled={!isTfnEditable}
           requiredLabel="Tax file number is required"
         />
       </FieldGroup>

@@ -1,4 +1,8 @@
-import { getFilteredTaxPayItemOptions, getSelectedTaxPayItems } from '../PayrollTaxSelectors';
+import {
+  getFilteredTaxPayItemOptions,
+  getIsTfnEditable,
+  getSelectedTaxPayItems,
+} from '../PayrollTaxSelectors';
 
 describe('PayrollTaxSelectors', () => {
   describe('getFilteredTaxPayItemOptions', () => {
@@ -28,6 +32,80 @@ describe('PayrollTaxSelectors', () => {
         .resultFunc(payItemOptions, payItems);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getTfnIsEditable', () => {
+    const taxFileNumberStates = {
+      hasTfn: {
+        tfn: '',
+        tfnEditable: true,
+        hasTfn: true,
+      },
+      waitingOnTfn: {
+        tfn: '111 111 111',
+        tfnEditable: false,
+        hasTfn: false,
+      },
+    };
+
+    it('returns true when selected Tfn Status is hasTfn', () => {
+      const state = {
+        payrollDetails: {
+          tax: {
+            taxFileNumberStatus: 'hasTfn',
+            taxFileNumberStates,
+          },
+        },
+      };
+
+      const result = getIsTfnEditable(state);
+
+      expect(result).toEqual(true);
+    });
+
+    it('returns false when selected Tfn Status is waitingOnTfn', () => {
+      const state = {
+        payrollDetails: {
+          tax: {
+            taxFileNumberStatus: 'waitingOnTfn',
+            taxFileNumberStates,
+          },
+        },
+      };
+
+      const result = getIsTfnEditable(state);
+
+      expect(result).toEqual(false);
+    });
+
+    it('returns false when taxFileNumberStatus is undefined', () => {
+      const state = {
+        payrollDetails: {
+          tax: {
+            taxFileNumberStates,
+          },
+        },
+      };
+
+      const result = getIsTfnEditable(state);
+
+      expect(result).toEqual(false);
+    });
+
+    it('returns false when taxFileNumberStates does not contain taxFileNumberStatus', () => {
+      const state = {
+        payrollDetails: {
+          tax: {
+            taxFileNumberStatus: 'somethingElse',
+            taxFileNumberStates,
+          },
+        },
+      };
+
+      const result = getIsTfnEditable(state);
+
+      expect(result).toEqual(false);
     });
   });
 });

@@ -42,22 +42,44 @@
       "taxFileNumberStatusOptions": [
         {
           "name": "Employee has tax file number",
-          "value": ""
+          "value": "hasTfn"
         },
         {
           "name": "Waiting on TFN declaration",
-          "value": "111 111 111"
+          "value": "waitingOnTfn"
         },
         {
           "name": "Employee is under 18",
-          "value": "333 333 333"
+          "value": "under18"
         },
         {
           "name": "Employee has no TFN or other reason",
-          "value": "000 000 000"
+          "value": "noTfn"
         }
       ],
-      "taxFileNumberStatus": ""
+      "taxFileNumberStates": {
+        "hasTfn": {
+          "tfn": "",
+          "tfnEditable": true,
+          "hasTfn": true
+        },
+        "waitingOnTfn": {
+          "tfn": "111 111 111",
+          "tfnEditable": false,
+          "hasTfn": true
+        },
+        "under18": {
+          "tfn": "333 333 333",
+          "tfnEditable": false,
+          "hasTfn": false
+        },
+        "noTfn": {
+          "tfn": "000 000 000",
+          "tfnEditable": false,
+          "hasTfn": false
+        }
+      },
+      "taxFileNumberStatus": "hasTfn"
     },
     "wage": {
       "selectedPayBasis": "Salary",
