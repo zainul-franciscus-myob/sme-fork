@@ -73,6 +73,7 @@ export default class EmployeeDetailModule {
         integration,
         store: this.store,
         pushMessage,
+        globalCallbacks,
       }),
     };
   }

@@ -8,10 +8,12 @@ export default class PaymentDetailsTabModule {
     integration,
     store,
     pushMessage,
+    globalCallbacks,
   }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.dispatchers = createPaymentDetailsTabDispatchers(store);
+    this.globalCallbacks = globalCallbacks;
   }
 
   getView() {
