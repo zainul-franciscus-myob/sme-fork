@@ -3,6 +3,8 @@ import {
   LOAD_EMPLOYEE_PAYS,
   LOAD_STP_REGISTRATION_STATUS,
   LOAD_TIMESHEETS,
+  PREVIEW_PAY_DETAILS,
+  PREVIEW_PAY_RUN_ACTIVITY,
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
   SAVE_DRAFT,
@@ -58,6 +60,14 @@ const PayRunMapping = {
   [LOAD_TIMESHEETS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/payRun/timesheets`,
+  },
+  [PREVIEW_PAY_RUN_ACTIVITY]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/payRun/preview_pay_run_activity`,
+  },
+  [PREVIEW_PAY_DETAILS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/payRun/preview_pay_details`,
   },
 };
 

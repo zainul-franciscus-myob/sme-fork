@@ -1,4 +1,7 @@
-import { Button, ButtonRow } from '@myob/myob-widgets';
+import {
+  Button,
+  ButtonRow,
+} from '@myob/myob-widgets';
 import React from 'react';
 
 const RecordPayRunActions = ({

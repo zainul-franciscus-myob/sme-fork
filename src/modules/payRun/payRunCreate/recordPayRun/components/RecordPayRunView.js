@@ -16,6 +16,8 @@ const RecordPayRunView = ({
   onSaveAndCloseButtonClick,
   stepNumber,
   payRunSteps,
+  onPreviewPayRunActivityClick,
+  onPreviewPayDetailsClick,
 }) => (
   <>
     <PageHead title="Record and report" />
@@ -25,14 +27,16 @@ const RecordPayRunView = ({
     <EmployeePayHeader />
     <FormCard>
       <FieldGroup label={`Record pay for ${numberOfSelected} employees?`}>
-          Once you&apos;ve recorded these payments, you&apos;ll need to authorise MYOB to send this
-          information to the ATO as part of Single Touch Payroll.
+        Once you&apos;ve recorded these payments, you&apos;ll need to authorise MYOB to send
+        this information to the ATO as part of Single Touch Payroll.
       </FieldGroup>
     </FormCard>
     <RecordPayRunActions
       onRecordButtonClick={recordPayments}
       onPreviousButtonClick={onPreviousButtonClick}
       onSaveAndCloseButtonClick={onSaveAndCloseButtonClick}
+      onPreviewPayDetailsClick={onPreviewPayDetailsClick}
+      onPreviewPayRunActivityClick={onPreviewPayRunActivityClick}
     />
   </>
 );

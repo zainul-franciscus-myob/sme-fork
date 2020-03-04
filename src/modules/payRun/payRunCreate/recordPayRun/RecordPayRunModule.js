@@ -9,6 +9,7 @@ import RecordPayRunView from './components/RecordPayRunView';
 import StpDeclarationModalModule from '../../../stp/stpDeclarationModal/StpDeclarationModalModule';
 import createRecordPayRunDispatchers from './createRecordPayRunDispatchers';
 import createRecordPayRunIntegrator from './createRecordPayRunIntegrator';
+import openBlob from '../../../../common/blobOpener/openBlob';
 
 export default class RecordPayRunModule {
   constructor({
@@ -79,6 +80,43 @@ export default class RecordPayRunModule {
     }
   };
 
+  previewPayDetails = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (blob) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      openBlob({ blob });
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({
+        type: AlertType.ERROR,
+        message: 'Failed to preview pay details',
+      });
+    };
+
+    this.integrator.previewPayDetails({ onSuccess, onFailure });
+  }
+
+  onPreviewPayRunActivityClick = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    const onSuccess = (blob) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      openBlob({ blob });
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({
+        type: AlertType.ERROR,
+        message: 'Failed to preview pay run activity',
+      });
+    };
+
+    this.integrator.previewPayRunActivity({ onSuccess, onFailure });
+  }
+
   getView() {
     const declarationModal = this.stpDeclarationModule.getView();
     return (
@@ -89,6 +127,8 @@ export default class RecordPayRunModule {
           openStpModal={this.dispatcher.openStpModal}
           onPreviousButtonClick={this.goToPreviousStep}
           onSaveAndCloseButtonClick={this.saveDraftAndRedirect}
+          onPreviewPayDetailsClick={this.previewPayDetails}
+          onPreviewPayRunActivityClick={this.onPreviewPayRunActivityClick}
         />
       </>
     );

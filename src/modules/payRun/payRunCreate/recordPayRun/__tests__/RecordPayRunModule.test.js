@@ -8,7 +8,10 @@ import RecordPayRunModule from '../RecordPayRunModule';
 
 describe('RecordPayRunModule', () => {
   const constructRecordPayRunModule = () => {
-    const integration = { write: ({ onSuccess }) => { onSuccess({ message: 'success' }); } };
+    const integration = {
+      readFile: ({ onSuccess }) => onSuccess('FOO'),
+      write: ({ onSuccess }) => { onSuccess({ message: 'success' }); },
+    };
     const pushMessage = () => {};
     const setRootView = () => (<div />);
     const payRunModule = new PayRunModule({ integration, setRootView, pushMessage });

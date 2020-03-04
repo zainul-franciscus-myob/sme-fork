@@ -41,3 +41,5 @@ export const LOAD_TIMESHEETS = Symbol('Load timesheets');
 export const SELECT_ALL_TIMESHEETS = Symbol('Select or deselect all timesheets');
 export const SELECT_TIMESHEETS_ITEM = Symbol('Select or deselect one item of the timesheets');
 export const SET_UNPROCESSED_TIMESHEET_LINES = Symbol('Set unprocessed timesheet lines');
+export const PREVIEW_PAY_DETAILS = Symbol('Preview pay details');
+export const PREVIEW_PAY_RUN_ACTIVITY = Symbol('Preview pay run activity');

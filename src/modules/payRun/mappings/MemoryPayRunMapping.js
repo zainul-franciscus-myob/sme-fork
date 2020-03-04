@@ -3,6 +3,8 @@ import {
   LOAD_EMPLOYEE_PAYS,
   LOAD_STP_REGISTRATION_STATUS,
   LOAD_TIMESHEETS,
+  PREVIEW_PAY_DETAILS,
+  PREVIEW_PAY_RUN_ACTIVITY,
   RECALCULATE_PAY,
   RECORD_PAYMENTS,
   SAVE_DRAFT,
@@ -34,6 +36,8 @@ const PayRunMapping = {
   [EXPORT_TRANSACTION_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [SAVE_DRAFT]: ({ onSuccess }) => onSuccess({ message: 'Saved the draft successfully' }),
   [LOAD_TIMESHEETS]: ({ onSuccess }) => onSuccess(loadTimesheets),
+  [PREVIEW_PAY_DETAILS]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
+  [PREVIEW_PAY_RUN_ACTIVITY]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 
 export default PayRunMapping;

@@ -1,4 +1,6 @@
-import { RECORD_PAYMENTS, SAVE_DRAFT } from '../PayRunIntents';
+import {
+  PREVIEW_PAY_DETAILS, PREVIEW_PAY_RUN_ACTIVITY, RECORD_PAYMENTS, SAVE_DRAFT,
+} from '../PayRunIntents';
 import { getBusinessId, getSaveDraftContent } from '../PayRunSelectors';
 import { getRecordPayContents } from './RecordPayRunSelectors';
 
@@ -26,6 +28,30 @@ const createRecordPayRunIntegrator = (store, integration) => ({
       intent: SAVE_DRAFT,
       urlParams,
       content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  previewPayDetails: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const urlParams = { businessId: getBusinessId(state) };
+
+    integration.readFile({
+      intent: PREVIEW_PAY_DETAILS,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  previewPayRunActivity: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const urlParams = { businessId: getBusinessId(state) };
+
+    integration.readFile({
+      intent: PREVIEW_PAY_RUN_ACTIVITY,
+      urlParams,
       onSuccess,
       onFailure,
     });
