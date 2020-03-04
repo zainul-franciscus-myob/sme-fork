@@ -142,4 +142,4 @@ export const getLoadAddedAccountUrlParams = (state, accountId) => {
   return { businessId, accountId };
 };
 
-export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&origin=Customer&cfid=${state.businessId}&id=${state.contactId}`;
+export const getReminderLink = state => `${state.reminders.url}?consumer=ARL&origin=Customer&cfid=${state.businessId}&id=${state.uid}`;

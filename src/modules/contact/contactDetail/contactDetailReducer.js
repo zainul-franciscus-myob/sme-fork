@@ -56,6 +56,7 @@ const getDefaultState = () => ({
       businessContact: '',
       salutation: '',
     },
+    uid: '',
   },
   readonly: {
     title: '',
@@ -104,6 +105,10 @@ const loadContactDetail = (state, action) => ({
   },
   contactTypes: action.contactTypes,
   accountOptions: action.accountOptions,
+  reminders: {
+    ...state.reminders,
+    ...action.reminders,
+  },
 });
 
 const setLoadingState = (state, { loadingState }) => ({
