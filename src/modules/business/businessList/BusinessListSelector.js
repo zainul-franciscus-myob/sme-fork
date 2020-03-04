@@ -50,5 +50,5 @@ export const getBusinessUrl = (state) => {
 
 export const getShouldRedirect = (state) => {
   const businessList = getBusinessList(state);
-  return businessList.length === 1;
+  return businessList.length === 1 && !businessList[0].uri;
 };

@@ -60,35 +60,59 @@ describe('BusinessListSelector', () => {
   });
 
   describe('getShouldRedirect', () => {
-    it('returns true when there is one business in the business list', () => {
-      const state = {
-        businesses: [
-          { businessName: 'a' },
-        ],
-      };
-      const actual = getShouldRedirect(state);
+    describe('when there is only one business in the business list', () => {
+      describe('and it is a New Essentials business', () => {
+        it('returns true', () => {
+          const state = {
+            businesses: [
+              { businessName: 'a' },
+            ],
+          };
+          const actual = getShouldRedirect(state);
 
-      expect(actual).toEqual(true);
+          expect(actual).toEqual(true);
+        });
+      });
+
+      describe('and it is an Old Essentials business', () => {
+        it('returns false', () => {
+          const state = {
+            businesses: [
+              { uri: 'https://some-old-essentials-uri' },
+            ],
+          };
+
+          const actual = getShouldRedirect(state);
+
+          expect(actual).toEqual(false);
+        });
+      });
     });
-    it('returns false when there is more than one business in the business list', () => {
-      const state = {
-        businesses: [
-          { businessName: 'a' },
-          { businessName: 'b' },
-          { businessName: 'c' },
-        ],
-      };
-      const actual = getShouldRedirect(state);
 
-      expect(actual).toEqual(false);
+    describe('when there is more than one business in the business list', () => {
+      it('returns false', () => {
+        const state = {
+          businesses: [
+            { businessName: 'a' },
+            { businessName: 'b' },
+            { businessName: 'c' },
+          ],
+        };
+        const actual = getShouldRedirect(state);
+
+        expect(actual).toEqual(false);
+      });
     });
-    it('returns false when the business list is empty', () => {
-      const state = {
-        businesses: [],
-      };
-      const actual = getShouldRedirect(state);
 
-      expect(actual).toEqual(false);
+    describe('when the list is empty', () => {
+      it('returns false', () => {
+        const state = {
+          businesses: [],
+        };
+        const actual = getShouldRedirect(state);
+
+        expect(actual).toEqual(false);
+      });
     });
   });
 
