@@ -6,7 +6,7 @@
 .drawer {
   position: fixed;
   top: 0;
-  z-index: var(--flx-zindex-popover);
+  z-index: 1050;
 
   /*
     potentially we can use calc(var(--drawer-width) * -1) to get --animate-drawer-offset

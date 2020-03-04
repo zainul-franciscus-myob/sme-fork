@@ -1,18 +1,21 @@
-import { Button, Icons } from '@myob/myob-widgets';
+import { Button, Icons, Modal } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import WistiaVideoPlayer from '../../../../components/WistiaVideoPlayer/WistiaVideoPlayer';
 import styles from './index.module.css';
 
-const Welcome = ({ task, closeTasks }) => {
+const Welcome = ({
+  task,
+  closeTasks,
+  openIntroModal,
+  closeIntroModal,
+  isOpen,
+}) => {
   if (!task || task.isComplete) return null;
-
   const onCloseWelcomeTask = (e) => {
     e.preventDefault();
     closeTasks({ closeEvent: 'welcomeViewed' });
-  };
-
-  const onboardingTour = () => {
-    window.location.href = task.action;
   };
 
   return (
@@ -21,15 +24,25 @@ const Welcome = ({ task, closeTasks }) => {
         <Icons.Close />
       </button>
       <h2>Getting started</h2>
-
+      {isOpen
+      && (
+      <Modal size="large" title="Welcome to MYOB" onCancel={() => { closeIntroModal(); }}>
+        <Modal.Body>
+          <WistiaVideoPlayer hashedId="xe0wwpzd7u" />
+        </Modal.Body>
+      </Modal>
+      )}
       <p>
         We&apos;ve picked a few tasks to get your business up and running.
         Make sure to check back here later for more setup tasks.
       </p>
 
-      <Button type="link" icon={<Icons.Hints />} onClick={onboardingTour}>Take a short tour</Button>
+      <Button type="link" icon={<Icons.Hints />} onClick={() => { openIntroModal(); }}>Take a short tour</Button>
     </div>
   );
 };
 
-export default Welcome;
+const mapStateToProps = state => ({
+  isOpen: state.introModal.isOpen,
+});
+export default connect(mapStateToProps)(Welcome);

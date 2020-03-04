@@ -13,6 +13,8 @@ import emptyStateImage from './assets/icon-tasks-empty-state.svg';
 const TasksView = ({
   closeTasks,
   closeView,
+  closeIntroModal,
+  openIntroModal,
   isActive,
   loadingState,
   onboardingTasks,
@@ -23,7 +25,12 @@ const TasksView = ({
 
   const tasksView = () => (
     <div>
-      <Welcome task={welcomeTask} closeTasks={closeTasks} />
+      <Welcome
+        task={welcomeTask}
+        closeTasks={closeTasks}
+        closeIntroModal={closeIntroModal}
+        openIntroModal={openIntroModal}
+      />
       <Onboarding tasks={onboardingTasks} closeTasks={closeTasks} />
     </div>
   );

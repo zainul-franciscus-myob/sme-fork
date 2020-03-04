@@ -22,10 +22,13 @@ export default class TasksModule {
     const { closeTasks } = tasksService;
     const onboardingTasks = tasks && tasks.filter(task => task.template !== 'welcome');
     const welcomeTask = tasks && tasks.find(task => task.template === 'welcome');
+    const { dispatcher } = this;
 
     return (
       <Provider store={store}>
         <TasksView
+          openIntroModal={dispatcher.openIntroModal}
+          closeIntroModal={dispatcher.closeIntroModal}
           closeTasks={closeTasks}
           closeView={closeView}
           onboardingTasks={onboardingTasks}
