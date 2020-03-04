@@ -80,5 +80,8 @@
       "taxCodeId": "124",
       "displayId": "6-789"
     }
-  ]
+  ],
+  "reminders": {
+    "url": "https://portal.sit.reminders.myob.com/preferences/customer"
+  }
 }

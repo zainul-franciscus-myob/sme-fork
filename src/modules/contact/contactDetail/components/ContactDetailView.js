@@ -32,7 +32,6 @@ const ContactDetailView = ({
   onSaveButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
-  onRemindersButtonClick,
   onAddAccount,
 }) => {
   const alertComponent = alertMessage && (
@@ -61,7 +60,7 @@ const ContactDetailView = ({
 
   const view = (
     <FormTemplate
-      pageHead={<ContactHeader onRemindersButtonClick={onRemindersButtonClick} />}
+      pageHead={<ContactHeader />}
       alert={alertComponent}
       sticky="none"
       actions={(

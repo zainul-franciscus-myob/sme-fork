@@ -76,6 +76,9 @@ const getDefaultState = () => ({
   isPageEdited: false,
   businessId: '',
   region: '',
+  reminders: {
+    url: '',
+  },
 });
 
 const resetState = () => (getDefaultState());

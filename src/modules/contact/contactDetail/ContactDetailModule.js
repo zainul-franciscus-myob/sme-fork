@@ -80,7 +80,6 @@ export default class ContactDetailModule {
         onSaveButtonClick={this.updateOrCreateContact}
         onDeleteModal={this.deleteContact}
         onCancelModal={this.redirectToContactList}
-        onRemindersButtonClick={this.redirectToRemindersSettings}
         accountModal={accountModal}
         onAddAccount={this.openAccountModal}
       />
@@ -177,14 +176,6 @@ export default class ContactDetailModule {
 
     window.location.href = `/#/${region}/${businessId}/contact`;
   };
-
-  redirectToRemindersSettings = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    window.location.href = `/#/${region}/${businessId}/salesSettings?selectedTab=reminders`;
-  }
 
   loadNewContact = () => {
     const onSuccess = (payload) => {

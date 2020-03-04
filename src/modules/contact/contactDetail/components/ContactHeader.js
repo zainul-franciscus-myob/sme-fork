@@ -4,8 +4,14 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getContactHeaderDetails } from '../contactDetailSelectors';
+import { getContactHeaderDetails, getReminderLink } from '../contactDetailSelectors';
 import styles from './ContactHeader.module.css';
+
+const openNewTab = url => () => window.open(
+  url,
+  'invoiceReminder',
+  'height=776,width=618,menubar=no,toolbar=no,resizable=yes',
+);
 
 const ContactHeader = (props) => {
   const {
@@ -18,7 +24,7 @@ const ContactHeader = (props) => {
     overDue,
     showReminders,
     showPaymentSummary,
-    onRemindersButtonClick,
+    reminderLink,
   } = props;
 
 
@@ -55,7 +61,7 @@ const ContactHeader = (props) => {
     <Button
       type="link"
       icon={<Icons.OpenExternalLink />}
-      onClick={onRemindersButtonClick}
+      onClick={openNewTab(reminderLink)}
     >
       Reminder settings
     </Button>
@@ -78,9 +84,9 @@ const ContactHeader = (props) => {
   );
 };
 
-
 const mapStateToProps = state => ({
   ...getContactHeaderDetails(state),
+  reminderLink: getReminderLink(state),
 });
 
 export default connect(mapStateToProps)(ContactHeader);
