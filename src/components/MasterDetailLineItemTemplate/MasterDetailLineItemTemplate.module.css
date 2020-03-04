@@ -67,3 +67,7 @@ div.card:global.flx-card {
 .showDetail :global(.line-item-table) {
   overflow-x: hidden;
 }
+
+.noPointerEvents embed {
+  pointer-events: none;
+}

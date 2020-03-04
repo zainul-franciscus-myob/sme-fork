@@ -4,7 +4,7 @@ import {
   DetailHeader,
   Separator,
 } from '@myob/myob-widgets';
-import React from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 
 import MasterDetailTemplate from '../Feelix/MasterDetailTemplate/MasterDetailTemplate';
@@ -27,6 +27,25 @@ const MasterDetailLineItemTemplate = ({
   onDismissOptionInfo,
   templateClassName,
 }) => {
+  /*
+   * Walkaround for chrome backward typing issue
+   * - Story: https://dev-arl.visualstudio.com/ARL%20Protected%20API/_workitems/edit/5352
+   * - Chrome bug: https://bugs.chromium.org/p/chromium/issues/detail?id=932002
+   *
+   * Prevent mouse event to be captured by `embed` element before mouse up
+   */
+  const [isMouseDown, setIsMouseDown] = useState(false);
+
+  const onMouseUp = () => {
+    setIsMouseDown(false);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  const onMouseDown = () => {
+    setIsMouseDown(true);
+    document.addEventListener('mouseup', onMouseUp);
+  };
+
   const options = showDetail ? (
     <React.Fragment>
       {primaryOptions}
@@ -42,7 +61,7 @@ const MasterDetailLineItemTemplate = ({
   return (
     <MasterDetailTemplate
       master={(
-        <React.Fragment>
+        <div role="presentation" onMouseDown={onMouseDown}>
           {subHeadChildren}
           <Card classes={styles.card}>
             { optionInfo && (
@@ -57,7 +76,7 @@ const MasterDetailLineItemTemplate = ({
           </Card>
           {actions}
           {more}
-        </React.Fragment>
+        </div>
       )}
       detail={detail}
       pageHead={pageHead}
@@ -66,7 +85,10 @@ const MasterDetailLineItemTemplate = ({
       detailWidth="55%"
       containerClassName={classnames(
         styles.container,
-        { [styles.showDetail]: showDetail },
+        {
+          [styles.showDetail]: showDetail,
+          [styles.noPointerEvents]: isMouseDown,
+        },
       )}
       sectionClassName={styles.section}
       templateClassName={templateClassName}
