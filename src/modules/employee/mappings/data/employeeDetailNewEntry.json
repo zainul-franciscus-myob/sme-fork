@@ -164,8 +164,8 @@
   ],
   "genderOptions": [
     {
-      "name": "Blank",
-      "value": ""
+      "name": "-",
+      "value": "NotSet"
     },
     {
       "name": "Male",
@@ -177,7 +177,7 @@
     },
     {
       "value": "Indeterminate",
-      "name": "Indeterminate"
+      "name": "Unspecified"
     }
   ],
   "employmentBasisOptions": [
@@ -186,7 +186,7 @@
       "value": "Individual"
     },
     {
-      "name": "Labour Hire",
+      "name": "Labour hire",
       "value": "LabourHire"
     },
     {
@@ -210,7 +210,7 @@
       "value": "FullTime"
     },
     {
-      "name": "Part-time",
+      "name": "Part time",
       "value": "PartTime"
     },
     {

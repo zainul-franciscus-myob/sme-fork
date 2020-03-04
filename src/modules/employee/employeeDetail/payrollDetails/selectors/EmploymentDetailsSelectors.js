@@ -11,7 +11,7 @@ export const getEmploymentDetails = state => state.payrollDetails.employmentDeta
 export const getCalculatedAge = (state) => {
   const age = differenceInYears(new Date(),
     new Date(state.payrollDetails.employmentDetails.dateOfBirth));
-  return String(age || '0');
+  return String(age >= 0 ? age : '-');
 };
 
 export const getStartDate = state => state.payrollDetails.employmentDetails.startDate;

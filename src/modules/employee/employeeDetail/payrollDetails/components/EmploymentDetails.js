@@ -1,5 +1,12 @@
 import {
-  DatePicker, FormTemplate, Input, ReadOnly, Select,
+  DatePicker,
+  FieldGroup,
+  FormHorizontal,
+  Input,
+  RadioButton,
+  RadioButtonGroup,
+  ReadOnly,
+  Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -14,6 +21,7 @@ import {
   getGenderOptions,
   getIsPaySlipEmailRequired,
 } from '../selectors/EmploymentDetailsSelectors';
+import handleRadioButtonChange from '../../../../../components/handlers/handleRadioButtonChange';
 
 const handleSelectChange = handler => (e) => {
   const { name, value } = e.target;
@@ -55,81 +63,100 @@ const EmploymentDetails = ({
   } = employmentDetails;
 
   return (
-    <FormTemplate pageHead="">
-      <DatePicker
-        label="Date of birth"
-        name="dateOfBirth"
-        value={dateOfBirth}
-        onSelect={onDateChange('dateOfBirth', onEmploymentDetailsChange)}
-        requiredLabel="Date of birth is required"
-      />
-      <ReadOnly label="Calculated age" name="calculatedAge">{calculatedAge}</ReadOnly>
-      <Select name="gender" label="Gender" onChange={handleSelectChange(onEmploymentDetailsChange)} value={gender}>
-        {genderOptions.map(({ name, value }) => (
-          <Select.Option key={value} value={value} label={name} />
-        ))}
-      </Select>
-      <DatePicker
-        label="Start date"
-        name="startDate"
-        value={startDate}
-        onSelect={onDateChange('startDate', onEmploymentDetailsChange)}
-      />
-      <DatePicker
-        label="Termination date"
-        name="terminationDate"
-        testid="terminationDate"
-        value={terminationDate}
-        onSelect={onDateChange('terminationDate', onEmploymentDetailsChange)}
-      />
-      <Select
-        name="employmentBasis"
-        label="Employment basis"
-        onChange={handleSelectChange(onEmploymentDetailsChange)}
-        value={employmentBasis}
-      >
-        {employmentBasisOptions.map(({ name, value }) => (
-          <Select.Option key={value} value={value} label={name} />
-        ))}
-      </Select>
-      <Select
-        name="employmentCategory"
-        label="Employment category"
-        onChange={handleSelectChange(onEmploymentDetailsChange)}
-        value={employmentCategory}
-      >
-        {employmentCategoryOptions.map(({ name, value }) => (
-          <Select.Option key={value} value={value} label={name} />
-        ))}
-      </Select>
-      <Select
-        name="employmentStatus"
-        label="Employment status"
-        onChange={handleSelectChange(onEmploymentDetailsChange)}
-        value={employmentStatus}
-      >
-        {employmentStatusOptions.map(({ name, value }) => (
-          <Select.Option key={value} value={value} label={name} />
-        ))}
-      </Select>
-      <Select
-        name="paySlipDelivery"
-        label="Payslip Delivery"
-        onChange={handleSelectChange(onEmploymentPaySlipDeliveryChange)}
-        value={paySlipDelivery}
-      >
-        {payslipDeliveryOptions.map(({ name, value }) => (
-          <Select.Option key={value} value={value} label={name} />
-        ))}
-      </Select>
-      <Input
-        label="Pay slip email"
-        name="paySlipEmail"
-        value={paySlipEmail}
-        onChange={handleInputChange(onEmploymentDetailsChange)}
-        requiredLabel={isPaySlipEmailRequired ? 'Pay slip email is required' : null}
-      />
-    </FormTemplate>
+    <FormHorizontal layout="primary">
+      <FieldGroup label="Personal">
+        <DatePicker
+          label="Date of birth"
+          name="dateOfBirth"
+          value={dateOfBirth}
+          onSelect={onDateChange('dateOfBirth', onEmploymentDetailsChange)}
+          requiredLabel="Date of birth is required"
+          width="sm"
+        />
+        <ReadOnly label="Calculated age" name="calculatedAge">{calculatedAge}</ReadOnly>
+        <Select
+          name="gender"
+          label="Gender"
+          onChange={handleSelectChange(onEmploymentDetailsChange)}
+          value={gender}
+          width="lg"
+        >
+          {genderOptions.map(({ name, value }) => (
+            <Select.Option key={value} value={value} label={name} />
+          ))}
+        </Select>
+      </FieldGroup>
+      <FieldGroup label="Employment">
+        <DatePicker
+          label="Start date"
+          name="startDate"
+          value={startDate}
+          onSelect={onDateChange('startDate', onEmploymentDetailsChange)}
+          width="sm"
+        />
+        <DatePicker
+          label="Termination date"
+          name="terminationDate"
+          testid="terminationDate"
+          value={terminationDate}
+          onSelect={onDateChange('terminationDate', onEmploymentDetailsChange)}
+          width="sm"
+        />
+        <RadioButtonGroup
+          name="employmentBasis"
+          label="Employment basis"
+          value={employmentBasis}
+          renderRadios={({ id, value, ...props }) => employmentBasisOptions.map(item => (
+            <RadioButton
+              {...props}
+              checked={item.value === employmentBasis}
+              key={item.value}
+              value={item.value}
+              label={item.name}
+            />))}
+          onChange={handleRadioButtonChange('employmentBasis', onEmploymentDetailsChange)}
+        />
+        <RadioButtonGroup
+          name="employmentCategory"
+          label="Employment category"
+          value={employmentCategory}
+          options={employmentCategoryOptions.map(option => option.value)}
+          onChange={handleRadioButtonChange('employmentCategory', onEmploymentDetailsChange)}
+        />
+        <Select
+          name="employmentStatus"
+          label="Employment status"
+          onChange={handleSelectChange(onEmploymentDetailsChange)}
+          value={employmentStatus}
+          width="lg"
+        >
+          {employmentStatusOptions.map(({ name, value }) => (
+            <Select.Option key={value} value={value} label={name} />
+          ))}
+        </Select>
+      </FieldGroup>
+      <FieldGroup label="Pay slips">
+        <Select
+          name="paySlipDelivery"
+          label="Default pay slip delivery"
+          onChange={handleSelectChange(onEmploymentPaySlipDeliveryChange)}
+          value={paySlipDelivery}
+          width="lg"
+        >
+          {payslipDeliveryOptions.map(({ name, value }) => (
+            <Select.Option key={value} value={value} label={name} />
+          ))}
+        </Select>
+        <Input
+          label="Pay slip email"
+          name="paySlipEmail"
+          value={paySlipEmail}
+          onChange={handleInputChange(onEmploymentDetailsChange)}
+          requiredLabel={isPaySlipEmailRequired ? 'Pay slip email is required' : null}
+          width="lg"
+        />
+      </FieldGroup>
+    </FormHorizontal>
   );
 };
 
