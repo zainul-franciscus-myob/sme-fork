@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+if [[ -z "$3" ]]; then
+  echo "Need to supply the git tag, user and email"
+  echo "Usage: ./tag [tag number] [git user] [git email]"
+  exit 1
+fi
+
+tag=$1
+user=$2
+email=$3
+
+git config --global user.name $user
+git config --global user.email $email
+
+git tag -a -m "Tag release $tag" $tag
+git push origin --tags

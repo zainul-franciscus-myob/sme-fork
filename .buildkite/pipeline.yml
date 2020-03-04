@@ -10,8 +10,6 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - wait
-
   - block:
     branches: '!master'
 
@@ -66,15 +64,6 @@ steps:
     agents:
       queue: cacc-prod-dflt
 
-  - wait
-
-  - name: ':white_check_mark: Record "dev" release'
-    command: 'myob-release dev sme-web'
-    agents:
-      queue: cacc-prod-dflt
-
-  - wait
-
   - name: ':rocket: :eagle: Deploy Integration App'
     command: ./ops/bin/deploy integration
     branches: master hotfix/*
@@ -83,8 +72,8 @@ steps:
 
   - wait
 
-  - name: ':white_check_mark: Record "preprod" release'
-    command: 'myob-release preprod sme-web'
+  - name: ':white_check_mark: Record "dev" release'
+    command: 'myob-release dev sme-web'
     branches: master hotfix/*
     agents:
       queue: cacc-prod-dflt
@@ -112,6 +101,20 @@ steps:
   - name: ':rocket: :eagle: Deploy Production App'
     command: ./ops/bin/deploy production
     branches: master hotfix/*
+    agents:
+      queue: cacc-prod-dflt
+
+  - wait
+
+  - name: ':white_check_mark: Record "preprod" release'
+    command: 'myob-release preprod sme-web'
+    branches: master hotfix/*
+    agents:
+      queue: cacc-prod-dflt
+
+  - name: ':git: Tag release in git repo'
+    command: './ops/bin/tag ${BUILDKITE_BUILD_NUMBER} buildkite buildkite@myob.com'
+    branches: master
     agents:
       queue: cacc-prod-dflt
 
