@@ -13,6 +13,7 @@ export const businessEventTypes = {
   invoice: 'Sale',
   employeePay: 'EmployeePayment',
   paySuper: 'PaySuperannuation',
+  electronicPayment: 'ElectronicPayment',
 };
 
 export const businessEventToFeatureMap = {
@@ -30,4 +31,5 @@ export const businessEventToFeatureMap = {
   [businessEventTypes.invoice]: 'invoice',
   [businessEventTypes.employeePay]: 'employeePay',
   [businessEventTypes.paySuper]: 'paySuper',
+  [businessEventTypes.electronicPayment]: 'electronicPayments',
 };
