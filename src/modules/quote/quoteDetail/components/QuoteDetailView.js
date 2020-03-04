@@ -64,10 +64,12 @@ const QuoteDetailView = ({
     />
   );
 
+  const footer = <QuoteDetailFooter onUpdateNote={onUpdateHeaderOptions} />;
+
   const table = ({
-    [QuoteLayout.SERVICE]: <QuoteServiceTable listeners={serviceLayoutListeners} />,
+    [QuoteLayout.SERVICE]: <QuoteServiceTable listeners={serviceLayoutListeners} footer={footer} />,
     [QuoteLayout.ITEM_AND_SERVICE]: (
-      <QuoteItemAndServiceTable listeners={itemAndServiceLayoutListeners} />
+      <QuoteItemAndServiceTable listeners={itemAndServiceLayoutListeners} footer={footer} />
     ),
   }[layout]);
 
@@ -78,8 +80,6 @@ const QuoteDetailView = ({
       onUpdateLayout={onUpdateLayout}
     />
   );
-
-  const footer = <QuoteDetailFooter onUpdateNote={onUpdateHeaderOptions} />;
 
   const view = (
     <LineItemTemplate
@@ -94,7 +94,6 @@ const QuoteDetailView = ({
       { inventoryModal }
       { layoutPopover }
       { table }
-      { footer }
     </LineItemTemplate>
   );
 

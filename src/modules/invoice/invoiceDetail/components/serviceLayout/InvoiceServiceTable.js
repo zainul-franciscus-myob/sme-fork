@@ -8,6 +8,7 @@ import InvoiceServiceTableRow from './InvoiceServiceTableRow';
 const InvoiceServiceTable = ({
   tableData,
   taxCodeLabel,
+  footer,
   listeners: {
     onUpdateRow,
     onAddRow,
@@ -84,7 +85,9 @@ const InvoiceServiceTable = ({
       onAddRow={onAddRow}
       onRowChange={onUpdateRow}
       onRemoveRow={onRemoveRow}
-    />
+    >
+      {footer}
+    </LineItemTable>
   );
 };
 

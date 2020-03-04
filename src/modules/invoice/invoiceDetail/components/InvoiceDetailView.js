@@ -108,16 +108,16 @@ const InvoiceDetailView = ({
     />
   );
 
-  const table = isServiceLayout
-    ? <InvoiceServiceTable listeners={serviceLayoutListeners} />
-    : <InvoiceItemTable listeners={itemLayoutListeners} />;
-
   const notesAndTotals = (
     <div className={styles.notesAndTotals}>
       <InvoiceDetailNotes onUpdateHeaderOptions={onUpdateHeaderOptions} />
       <InvoiceDetailTotals onChange={onChangeAmountToPay} />
     </div>
   );
+
+  const table = isServiceLayout
+    ? <InvoiceServiceTable listeners={serviceLayoutListeners} footer={notesAndTotals} />
+    : <InvoiceItemTable listeners={itemLayoutListeners} footer={notesAndTotals} />;
 
   const layoutPopver = (
     <InvoiceDetailLayoutPopover onUpdateInvoiceLayout={onUpdateInvoiceLayout} />
@@ -143,7 +143,6 @@ const InvoiceDetailView = ({
         {modal}
         {layoutPopver}
         {table}
-        {notesAndTotals}
       </LineItemTemplate>
       {!isCreating
       && (

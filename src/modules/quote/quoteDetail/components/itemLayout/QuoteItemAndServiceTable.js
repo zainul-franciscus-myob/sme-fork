@@ -16,6 +16,7 @@ const unitOfMeasureLabel = 'Unit';
 const requiredLabel = 'Required';
 
 const QuoteItemAndServiceTable = ({
+  footer,
   emptyQuoteLines,
   listeners: {
     onAddRow,
@@ -133,7 +134,9 @@ const QuoteItemAndServiceTable = ({
       onRowChange={onUpdateRow}
       onRemoveRow={onRemoveRow}
       onTableRowAmountInputBlur={onRowInputBlur}
-    />
+    >
+      {footer}
+    </LineItemTable>
   );
 };
 

@@ -7,6 +7,7 @@ import InvoiceItemTableRow from './InvoiceItemTableRow';
 
 const InvoiceItemTable = ({
   tableData,
+  footer,
   listeners: {
     onAddRow,
     onUpdateRow,
@@ -122,7 +123,9 @@ const InvoiceItemTable = ({
       onAddRow={onAddRow}
       onRowChange={onUpdateRow}
       onRemoveRow={onRemoveRow}
-    />
+    >
+      {footer}
+    </LineItemTable>
   );
 };
 

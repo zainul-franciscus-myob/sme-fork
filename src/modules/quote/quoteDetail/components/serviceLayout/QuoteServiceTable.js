@@ -15,6 +15,7 @@ const onTableAddRow = handler => ({ id, ...partialLine }) => handler(partialLine
 const onTableRemoveRow = handler => index => handler(index);
 
 const QuoteServiceTable = ({
+  footer,
   tableData,
   listeners: {
     onUpdateRow,
@@ -86,7 +87,9 @@ const QuoteServiceTable = ({
       onAddRow={onTableAddRow(onAddRow)}
       onRowChange={onUpdateRow}
       onRemoveRow={onTableRemoveRow(onRemoveRow)}
-    />
+    >
+      {footer}
+    </LineItemTable>
   );
 };
 
