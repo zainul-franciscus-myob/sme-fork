@@ -27,7 +27,7 @@ const fieldGroupLabel = (
 const getHeaderItemWithTooltip = (title, tooltip) => (
   <div>
     <span>{title}</span>
-    <Tooltip triggerContent={<Icons.Info />} placement="right">{tooltip}</Tooltip>
+    <Tooltip triggerContent={<Icons.Info />}>{tooltip}</Tooltip>
   </div>
 );
 
