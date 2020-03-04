@@ -1,10 +1,7 @@
 import Decimal from 'decimal.js';
 
-import {
-  CALCULATE_LINE_AMOUNTS,
-  GET_TAX_CALCULATIONS,
-} from '../BillIntents';
-import { calculateLineAmounts, getTaxCalculations } from '../calculationReducer';
+import { CALCULATE_LINE_AMOUNTS, GET_TAX_CALCULATIONS } from '../BillIntents';
+import { calculateLineAmounts, getTaxCalculations } from '../reducer/calculationReducer';
 import BillLayout from '../types/BillLayout';
 
 describe('calculationReducer', () => {
@@ -58,7 +55,8 @@ describe('calculationReducer', () => {
             {
               amount: '100',
               displayAmount: '100.00',
-              unitPrice: '50.00',
+              unitPrice: '50',
+              displayUnitPrice: '50.00',
               units: '2',
               discount: '',
             },
@@ -107,11 +105,12 @@ describe('calculationReducer', () => {
           bill: {
             lines: [
               {
-                amount: '100.000000',
-                discount: '',
+                amount: '100',
                 displayAmount: '100.00',
-                displayDiscount: '0',
-                unitPrice: '50.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
                 units: '2',
               },
             ],
@@ -150,11 +149,12 @@ describe('calculationReducer', () => {
           bill: {
             lines: [
               {
-                amount: '100.000000',
-                discount: '',
+                amount: '100',
                 displayAmount: '100.00',
-                displayDiscount: '0',
-                unitPrice: '50.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
                 units: '2',
               },
             ],
@@ -193,11 +193,12 @@ describe('calculationReducer', () => {
           bill: {
             lines: [
               {
-                amount: '50.000000',
-                discount: '50',
+                amount: '50',
                 displayAmount: '50.00',
-                displayDiscount: '50',
-                unitPrice: '100.00',
+                discount: '50',
+                displayDiscount: '50.00',
+                unitPrice: '100',
+                displayUnitPrice: '100.00',
                 units: '1',
               },
             ],
@@ -236,11 +237,12 @@ describe('calculationReducer', () => {
           bill: {
             lines: [
               {
-                amount: '100.000000',
-                discount: '',
+                amount: '100',
                 displayAmount: '100.00',
-                displayDiscount: '0',
-                unitPrice: '50.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '50',
+                displayUnitPrice: '50.00',
                 units: '2',
               },
             ],
@@ -279,11 +281,12 @@ describe('calculationReducer', () => {
           bill: {
             lines: [
               {
-                amount: '100.000000',
-                discount: '50',
+                amount: '100',
                 displayAmount: '100.00',
-                displayDiscount: '50',
-                unitPrice: '200.00',
+                discount: '50',
+                displayDiscount: '50.00',
+                unitPrice: '200',
+                displayUnitPrice: '200.00',
                 units: '1',
               },
             ],
@@ -322,11 +325,12 @@ describe('calculationReducer', () => {
           bill: {
             lines: [
               {
-                amount: '100.000000',
-                discount: '',
+                amount: '100',
                 displayAmount: '100.00',
-                displayDiscount: '',
-                unitPrice: '100.00',
+                discount: '0',
+                displayDiscount: '0.00',
+                unitPrice: '100',
+                displayUnitPrice: '100.00',
                 units: '0',
               },
             ],
@@ -364,7 +368,7 @@ describe('calculationReducer', () => {
           bill: {
             lines: [
               {
-                amount: '10.000000',
+                amount: '10',
                 displayAmount: '10.00',
               },
             ],

@@ -1,5 +1,4 @@
 import {
-  CALCULATE_BILL_ITEM_CHANGE,
   CREATE_BILL,
   DELETE_BILL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
@@ -38,10 +37,6 @@ const HttpBillDetailMapping = {
   [LOAD_SUPPLIER_AFTER_CREATE]: {
     method: 'GET',
     getPath: ({ businessId, supplierId }) => `/${businessId}/bill/load_supplier_after_create/${supplierId}`,
-  },
-  [CALCULATE_BILL_ITEM_CHANGE]: {
-    method: 'POST',
-    getPath: ({ businessId }) => `/${businessId}/bill/calculate_bill_item_change`,
   },
   [LOAD_ITEM_DETAIL_FOR_LINE]: {
     method: 'POST',

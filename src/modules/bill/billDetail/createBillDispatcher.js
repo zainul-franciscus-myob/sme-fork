@@ -212,8 +212,8 @@ const createBillDispatcher = store => ({
     updatedLine,
   }),
 
-  formatBillLine: ({ index, key }) => store.dispatch({
-    intent: FORMAT_BILL_LINE, index, key,
+  formatBillLine: ({ index, key, value }) => store.dispatch({
+    intent: FORMAT_BILL_LINE, index, key, value,
   }),
 
   updateBillLine: ({ index, key, value }) => {

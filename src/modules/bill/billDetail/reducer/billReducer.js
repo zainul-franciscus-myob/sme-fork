@@ -2,7 +2,8 @@ import {
   ADD_BILL_LINE,
   CALCULATE_LINE_AMOUNTS,
   CLOSE_ALERT,
-  CLOSE_MODAL, DOWNLOAD_IN_TRAY_DOCUMENT,
+  CLOSE_MODAL,
+  DOWNLOAD_IN_TRAY_DOCUMENT,
   FAIL_LOADING,
   FORMAT_AMOUNT_PAID,
   FORMAT_BILL_LINE,
@@ -40,135 +41,24 @@ import {
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_LAYOUT,
   UPDATE_LINE_ITEM_ID,
-} from './BillIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+} from '../BillIntents';
+import {
+  DEFAULT_UNITS, defaultLinePrefillStatus, defaultPrefillStatus, getDefaultState,
+} from './getDefaultState';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
-import { getIsCreatingFromInTray, getLoadBillModalType, getUpdatedSupplierOptions } from './selectors/billSelectors';
-import BillLayout from './types/BillLayout';
-import BillLineLayout from './types/BillLineLayout';
-import LineTaxTypes from './types/LineTaxTypes';
-import LoadingState from '../../../components/PageView/LoadingState';
-import createReducer from '../../../store/createReducer';
-import formatAmount from '../../../common/valueFormatters/formatAmount';
-import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
-
-const defaultPrefillStatus = {
-  supplierId: false,
-  supplierInvoiceNumber: false,
-  issueDate: false,
-};
-
-const defaultLinePrefillStatus = {
-  description: false,
-  amount: false,
-  discount: false,
-  units: false,
-  unitPrice: false,
-};
-
-const getDefaultState = () => ({
-  today: new Date(),
-  businessId: '',
-  billId: '',
-  duplicatedBillId: '',
-  openExportPdf: undefined,
-  region: '',
-  layout: '',
-  bill: {
-    uid: '',
-    supplierId: '',
-    supplierAddress: '',
-    supplierInvoiceNumber: '',
-    expirationTerm: '',
-    expirationDays: '',
-    isTaxInclusive: false,
-    isReportable: false,
-    originalExpenseAccountId: '',
-    expenseAccountId: '',
-    billNumber: '',
-    issueDate: formatIsoDate(new Date()),
-    lines: [],
-    status: '',
-    amountPaid: '',
-    displayAmountPaid: '',
-
-    // arl compatibility fields
-    // used for update, but not visible
-    note: '',
-    memo: '',
-    chargeForLatePayment: 0,
-    discountForEarlyPayment: 0,
-    numberOfDaysForDiscount: 0,
-  },
-  subscription: {
-    monthlyLimit: {
-      hasHitLimit: false,
-    },
-    isUpgradeModalShowing: false,
-  },
-  supplierOptions: [],
-  expirationTermOptions: [],
-  itemOptions: [],
-  accountOptions: [],
-  taxCodeOptions: [],
-  newLine: {
-    id: '',
-    type: '',
-    description: '',
-    amount: '',
-    displayAmount: '',
-    taxCodeId: '',
-    accountId: '',
-    units: '',
-    discount: '',
-    displayDiscount: '',
-    unitPrice: '',
-    itemId: '',
-  },
-  totals: {
-    subTotal: '',
-    totalTax: '',
-    totalAmount: '',
-    amountDue: '',
-  },
-  loadingState: LoadingState.LOADING,
-  isPageEdited: false,
-  isLineEdited: false,
-  isSupplierBlocking: false,
-  modalType: undefined,
-  isModalBlocking: false,
-  alert: undefined,
-  isDocumentLoading: false,
-  /*
-   * attachmentId vs. inTrayDocumentId
-   *
-   * This confusion comes from the current implementation of cash out in tray service
-   * Basically, when a document is just in the in tray list, it has only `inTrayDocumentId`,
-   * but once it links to a business event, it will get another `attachmentId`
-   * Due to the technical difficulty in Huxley/PAPI side, we have to
-   *   - retrieve `attachmentId` but not `inTrayDocumentId` when we read an existing bill
-   *   - use `attachmentId` for unlink a in tray document
-   *   - use `inTrayDocumentId` for all the other cases
-   */
-  attachmentId: '',
-  inTrayDocumentId: '',
-  inTrayDocument: undefined,
-  inTrayDocumentUrl: undefined,
-  showPrefillInfo: false,
-  prefillStatus: defaultPrefillStatus,
-  itemTemplateOptions: {
-    templateOptions: [],
-    defaultTemplate: '',
-  },
-  serviceTemplateOptions: {
-    templateOptions: [],
-    defaultTemplate: '',
-  },
-  exportPdf: {
-    template: '',
-  },
-  showSplitView: false,
-});
+import { getIsCreatingFromInTray, getLoadBillModalType, getUpdatedSupplierOptions } from '../selectors/billSelectors';
+import BillLayout from '../types/BillLayout';
+import BillLineLayout from '../types/BillLineLayout';
+import LineTaxTypes from '../types/LineTaxTypes';
+import LoadingState from '../../../../components/PageView/LoadingState';
+import createReducer from '../../../../store/createReducer';
+import formatAmount from '../../../../common/valueFormatters/formatAmount';
+import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
+import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const loadBill = (state, action) => {
   const defaultState = getDefaultState();
@@ -185,6 +75,17 @@ const loadBill = (state, action) => {
       issueDate: isCreating
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
+      displayAmountPaid: formatCurrency(action.response.bill.amountPaid || 0),
+      lines: action.response.bill.lines.map(line => ({
+        ...line,
+        displayAmount: formatDisplayAmount(line.amount || 0),
+        displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
+        displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
+      })),
+    },
+    newLine: {
+      ...state.newLine,
+      ...action.response.newLine,
     },
     itemTemplateOptions: action.response.itemTemplateOptions || state.itemTemplateOptions,
     serviceTemplateOptions: action.response.serviceTemplateOptions || state.serviceTemplateOptions,
@@ -395,9 +296,6 @@ const updateLineItemId = (state, action) => ({
   },
 });
 
-// @TO-DO: Confirm if this behaviour is still necessary. It can either be removed or combined when
-// we calculate line amounts
-const DEFAULT_UNITS = '1';
 const formatBillLine = (state, action) => ({
   ...state,
   bill: {
@@ -409,6 +307,7 @@ const formatBillLine = (state, action) => ({
 
         return {
           ...line,
+          [action.key]: action.value,
           units: isFormatUnits && isUnitsCleared ? DEFAULT_UNITS : line.units,
         };
       }
@@ -524,6 +423,9 @@ const getPrefilledLines = (state, lines, expenseAccountId) => lines.map(
     taxCodeId: expenseAccountId
       ? getDefaultTaxCodeId({ accountId: expenseAccountId, accountOptions: state.accountOptions })
       : state.newLine.taxCodeId,
+    displayAmount: formatDisplayAmount(line.amount || 0),
+    displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
+    displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
     prefillStatus: {
       description: Boolean(line.description),
       amount: Boolean(line.amount),
@@ -601,10 +503,18 @@ const loadItemDetailForLine = (state, action) => ({
       if (index !== action.index) {
         return line;
       }
-      return {
+
+      const updatedLine = {
         ...line,
         ...action.updatedLine,
       };
+
+      return ({
+        ...updatedLine,
+        displayAmount: formatDisplayAmount(updatedLine.amount || 0),
+        displayDiscount: formatDisplayDiscount(updatedLine.discount || 0),
+        displayUnitPrice: formatDisplayUnitPrice(updatedLine.unitPrice || 0),
+      });
     }),
   },
 });
@@ -675,7 +585,6 @@ const setUpgradeModalShowing = (state, { isUpgradeModalShowing, monthlyLimit }) 
     monthlyLimit: monthlyLimit || state.subscription.monthlyLimit,
   },
 });
-
 
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,

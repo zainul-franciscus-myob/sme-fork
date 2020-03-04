@@ -5,7 +5,5 @@
   "taxCodeId": "2",
   "accountId": "1",
   "discount": "25",
-  "displayDiscount": "25.00",
-  "amount": "10.11",
-  "displayAmount": "10.11"
+  "amount": "10.11"
 }

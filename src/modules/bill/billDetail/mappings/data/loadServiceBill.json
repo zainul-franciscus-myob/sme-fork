@@ -14,13 +14,12 @@
     "displayBillNumber": "00000123",
     "issueDate": "2018-11-02",
     "amountPaid": "77.77",
-    "displayAmountPaid": "$77.77",
     "lines": [
       {
         "id": "345",
         "description": "Yak shaving - 1/2 an hour",
         "accountId": "123",
-        "amount": "48.50",
+        "amount": "48.5",
         "taxCodeId": "124",
         "lineSubTypeId": "11"
       },
@@ -28,7 +27,7 @@
         "id": "346",
         "description": "Yak shower - 1/2 an hour",
         "accountId": "456",
-        "amount": "50.00",
+        "amount": "50",
         "taxCodeId": "123",
         "lineSubTypeId": "11"
       },
@@ -36,7 +35,7 @@
         "id": "347",
         "description": "Yak blow dry - 1/2 an hour",
         "accountId": "123",
-        "amount": "12.50",
+        "amount": "12.5",
         "taxCodeId": "124",
         "lineSubTypeId": "11"
       }

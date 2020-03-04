@@ -35,7 +35,6 @@ export const UPDATE_BILL_LINE = Symbol('Update bill line');
 export const UPDATE_LINE_ITEM_ID = Symbol('Update line item id');
 export const FORMAT_BILL_LINE = Symbol('Format bill line');
 export const SET_CALCULATED_BILL_LINES_AND_TOTALS = Symbol('Set calculated bill lines and totals');
-export const CALCULATE_BILL_ITEM_CHANGE = Symbol('Calculate bill line totals on item id change');
 export const LOAD_ITEM_DETAIL_FOR_LINE = Symbol('Load item detail for line');
 export const GET_TAX_CALCULATIONS = Symbol('Get tax calculations');
 export const CALCULATE_LINE_AMOUNTS = Symbol('Calculate line amounts');

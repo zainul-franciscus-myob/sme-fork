@@ -34,10 +34,11 @@ const handleAmountInputChange = handler => e => (
   })
 );
 
-const handleAmountInputBlur = (handler, index, key) => () => handler({
-  index,
-  key,
-});
+const handleAmountInputBlur = (handler, index) => (e) => {
+  const { name: key, rawValue: value } = e.target;
+
+  handler({ index, key, value });
+};
 
 const BillItemAndServiceTableRow = ({
   index,
@@ -62,7 +63,7 @@ const BillItemAndServiceTableRow = ({
     taxCodeId,
     displayAmount,
     units,
-    unitPrice,
+    displayUnitPrice,
     itemId,
     displayDiscount,
   } = billLine;
@@ -102,38 +103,43 @@ const BillItemAndServiceTableRow = ({
         name="units"
         value={units}
         onChange={handleAmountInputChange(onChange)}
-        onBlur={handleAmountInputBlur(onRowInputBlur, index, 'units')}
+        onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.units) })}
         disabled={isBlocking || isSupplierDisabled}
         numeralDecimalScaleMax={6}
       />
       <AmountInput
         name="unitPrice"
-        value={unitPrice}
+        value={displayUnitPrice}
         onChange={handleAmountInputChange(onChange)}
-        onBlur={handleAmountInputBlur(onRowInputBlur, index, 'unitPrice')}
+        onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.unitPrice) })}
         textAlign="right"
         disabled={isBlocking || isSupplierDisabled}
+        numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={6}
       />
       <AmountInput
         name="discount"
         value={displayDiscount}
         onChange={handleAmountInputChange(onChange)}
-        onBlur={handleAmountInputBlur(onRowInputBlur, index, 'discount')}
+        onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.discount) })}
         textAlign="right"
         disabled={isBlocking || isSupplierDisabled}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
       />
       <AmountInput
         name="amount"
         value={displayAmount}
         onChange={handleAmountInputChange(onChange)}
-        onBlur={handleAmountInputBlur(onRowInputBlur, index, 'amount')}
+        onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         textAlign="right"
         disabled={isBlocking || isSupplierDisabled}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
       />
       <TaxCodeCombobox
         items={taxCodeOptions}

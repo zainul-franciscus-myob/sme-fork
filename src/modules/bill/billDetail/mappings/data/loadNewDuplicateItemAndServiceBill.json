@@ -14,7 +14,6 @@
     "displayBillNumber": "00000123",
     "issueDate": "2018-11-02",
     "amountPaid": "77.77",
-    "displayAmountPaid": "$77.77",
     "lines": [
       {
         "type": "item",
@@ -25,10 +24,8 @@
         "description": "Cooler Large",
         "unitPrice": "520",
         "discount": "10",
-        "displayDiscount": "10.00",
         "taxCodeId": "123",
         "amount": "850.9101",
-        "displayAmount": "850.91",
         "lineSubTypeId": "13"
       },
       {
@@ -38,10 +35,8 @@
         "accountId": "123",
         "taxCodeId": "124",
         "amount": "850.9101",
-        "displayAmount": "850.91",
         "unitPrice": "",
         "discount": "",
-        "displayDiscount": "",
         "units": "",
         "lineSubTypeId": "11"
       }

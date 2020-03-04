@@ -30,10 +30,11 @@ const handleAmountInputChange = handler => e => handler({
   },
 });
 
-const handleAmountInputBlur = (handler, index, key) => () => handler({
-  index,
-  key,
-});
+const handleAmountInputBlur = (handler, index) => (e) => {
+  const { name: key, rawValue: value } = e.target;
+
+  handler({ index, key, value });
+};
 
 const BillServiceTableRow = ({
   billLine,
@@ -74,7 +75,7 @@ const BillServiceTableRow = ({
         name="amount"
         value={displayAmount}
         onChange={handleAmountInputChange(onChange)}
-        onBlur={handleAmountInputBlur(onRowInputBlur, index, 'amount')}
+        onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         textAlign="right"
         disabled={isBlocking || isSupplierDisabled}

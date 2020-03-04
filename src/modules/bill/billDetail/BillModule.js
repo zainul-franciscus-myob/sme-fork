@@ -13,6 +13,7 @@ import {
   getBillUid,
   getContextForInventoryModal,
   getCreateSupplierContactModalContext,
+  getDisplayKey,
   getHasLineBeenPrefilled,
   getIsCreating,
   getIsCreatingFromInTray,
@@ -27,13 +28,11 @@ import {
   getTaxCodeOptions,
 } from './selectors/billSelectors';
 import {
-  getBillListUrl,
   getBillPaymentUrl,
   getCreateNewBillUrl,
   getDuplicateBillUrl,
   getFinalRedirectUrl,
   getReadBillWithExportPdfModalUrl,
-  getSubscriptionSettingsUrl,
 } from './selectors/BillRedirectSelectors';
 import { getExportPdfFilename, getShouldSaveAndExportPdf } from './selectors/exportPdfSelectors';
 import {
@@ -58,7 +57,7 @@ import InventoryModalModule from '../../inventory/inventoryModal/InventoryModalM
 import ModalType from './types/ModalType';
 import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
-import billReducer from './billReducer';
+import billReducer from './reducer/billReducer';
 import createBillDispatcher from './createBillDispatcher';
 import createBillIntegrator from './createBillIntegrator';
 import keyMap from '../../../hotKeys/keyMap';
@@ -420,11 +419,13 @@ class BillModule {
     }
   }
 
-  calculateBillLines = ({ index, key }) => {
+  calculateBillLines = ({ index, key, value }) => {
+    const displayKey = getDisplayKey(key);
+    this.dispatcher.formatBillLine({ index, key: displayKey, value });
+
     const state = this.store.getState();
     const isLineEdited = getIsLineEdited(state);
     if (isLineEdited) {
-      this.dispatcher.formatBillLine({ index, key });
       this.dispatcher.calculateLineAmounts({ index, key });
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
     }
@@ -711,20 +712,6 @@ class BillModule {
       window.location.href = url;
     }
   }
-
-  redirectToSubscriptionSettings = () => {
-    const state = this.store.getState();
-    const url = getSubscriptionSettingsUrl(state);
-
-    this.redirectToUrl(url);
-  }
-
-  redirectToBillList = () => {
-    const state = this.store.getState();
-    const url = getBillListUrl(state);
-
-    this.redirectToUrl(url);
-  };
 
   redirectToBillPayment = () => {
     const state = this.store.getState();

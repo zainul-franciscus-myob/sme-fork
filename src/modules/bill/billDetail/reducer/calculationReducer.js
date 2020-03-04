@@ -1,19 +1,21 @@
 import Decimal from 'decimal.js';
 
-import { getBillLayout, getLines } from './selectors/billSelectors';
-import BillLayout from './types/BillLayout';
-import formatAmount, { formatDisplayAmount } from './formatters/formatAmount';
-import formatCurrency from '../../../common/valueFormatters/formatCurrency';
-import formatDiscount, { formatDisplayDiscount } from './formatters/formatDiscount';
-import formatUnitPrice from './formatters/formatUnitPrice';
-import formatUnits from './formatters/formatUnits';
-import getUnitPrice from './formatters/getUnitPrice';
+import { DEFAULT_DISCOUNT } from './getDefaultState';
+import { getBillLayout, getLines } from '../selectors/billSelectors';
+import BillLayout from '../types/BillLayout';
+import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
+import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
+import getUnitPrice from '../formatters/getUnitPrice';
 
 const calculateAmount = (units, unitPrice, discount) => {
   const calculatedDiscount = Decimal(1).minus(Decimal(discount).div(100));
   return Decimal(units)
     .times(unitPrice)
-    .times(calculatedDiscount);
+    .times(calculatedDiscount)
+    .valueOf();
 };
 
 const calculateDiscount = (units, unitPrice, amount) => {
@@ -25,7 +27,7 @@ const calculateDiscount = (units, unitPrice, amount) => {
     .valueOf();
 };
 
-const calculateUnitPrice = (units, amount) => Decimal(amount).div(units);
+const calculateUnitPrice = (units, amount) => Decimal(amount).div(units).valueOf();
 
 const shouldCalculateAmount = key => ['units', 'unitPrice', 'discount'].includes(key);
 
@@ -43,26 +45,31 @@ const buildItemServiceLine = (line, key) => {
 
   const updatedLine = {
     ...line,
-    units: formatUnits(line.units),
-    unitPrice: formatUnitPrice(line.unitPrice),
-    amount: formatAmount(Number(line.amount)),
-    displayAmount: formatDisplayAmount(Number(line.amount)),
-    displayDiscount: formatDisplayDiscount(Number(line.discount)),
+    units: formatUnits(units),
+    amount: amount.toString(),
+    displayAmount: formatDisplayAmount(amount),
+    discount: discount.toString(),
+    displayDiscount: formatDisplayDiscount(discount),
+    unitPrice: unitPrice.toString(),
+    displayUnitPrice: formatDisplayUnitPrice(unitPrice),
   };
 
   if (shouldRemoveDiscount(key, units)) {
     return {
       ...updatedLine,
-      discount: '',
-      displayDiscount: '',
+      discount: DEFAULT_DISCOUNT,
+      displayDiscount: formatDisplayDiscount(DEFAULT_DISCOUNT),
     };
   }
 
   if (shouldCalculateUnitPrice(key, unitPrice)) {
+    const updatedUnitPrice = calculateUnitPrice(units, amount);
     return {
       ...updatedLine,
-      discount: '',
-      unitPrice: formatUnitPrice(calculateUnitPrice(units, amount)),
+      discount: DEFAULT_DISCOUNT,
+      displayDiscount: formatDisplayDiscount(DEFAULT_DISCOUNT),
+      unitPrice: updatedUnitPrice,
+      displayUnitPrice: formatDisplayUnitPrice(updatedUnitPrice),
     };
   }
 
@@ -70,7 +77,7 @@ const buildItemServiceLine = (line, key) => {
     const calculatedAmount = calculateAmount(units, unitPrice, discount);
     return {
       ...updatedLine,
-      amount: formatAmount(calculatedAmount),
+      amount: calculatedAmount,
       displayAmount: formatDisplayAmount(calculatedAmount),
     };
   }
@@ -79,7 +86,7 @@ const buildItemServiceLine = (line, key) => {
     const calculatedDiscount = calculateDiscount(units, unitPrice, amount);
     return {
       ...updatedLine,
-      discount: formatDiscount(calculatedDiscount),
+      discount: calculatedDiscount,
       displayDiscount: formatDisplayDiscount(calculatedDiscount),
     };
   }
@@ -89,14 +96,12 @@ const buildItemServiceLine = (line, key) => {
 
 const buildServiceLine = line => ({
   ...line,
-  amount: formatAmount(Number(line.amount)),
   displayAmount: formatDisplayAmount(Number(line.amount)),
 });
 
 export const calculateLineAmounts = (state, { key, index }) => {
   const lines = getLines(state);
   const layout = getBillLayout(state);
-  const builder = layout === BillLayout.ITEM_AND_SERVICE ? buildItemServiceLine : buildServiceLine;
 
   return {
     ...state,
@@ -106,7 +111,10 @@ export const calculateLineAmounts = (state, { key, index }) => {
         if (index !== lineIndex) {
           return line;
         }
-        return builder(line, key);
+
+        return layout === BillLayout.ITEM_AND_SERVICE
+          ? buildItemServiceLine(line, key)
+          : buildServiceLine(line, key);
       }),
     },
   };
@@ -144,7 +152,8 @@ export const getTaxCalculations = (state, { taxCalculations: { lines, totals } }
           ...line,
           amount: amount.valueOf(),
           displayAmount: formatDisplayAmount(amount.valueOf()),
-          unitPrice: formatUnitPrice(calculatedUnitPrice.valueOf()),
+          unitPrice: calculatedUnitPrice.valueOf(),
+          displayUnitPrice: formatDisplayUnitPrice(calculatedUnitPrice.valueOf()),
         };
       }),
     },

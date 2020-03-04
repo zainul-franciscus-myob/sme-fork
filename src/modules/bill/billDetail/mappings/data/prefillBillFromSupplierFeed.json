@@ -10,23 +10,19 @@
   "lines": [
     {
       "description": "Cooler Large",
-      "amount": "10.000000",
-      "displayAmount": "10.00",
+      "amount": "10",
       "units": "2",
-      "unitPrice": "5.00",
+      "unitPrice": "5",
       "discount": "0",
-      "displayDiscount": "0.00",
       "lineSubTypeId": "11",
       "isSupplierFeedPrefilled": true
     },
     {
       "description": "Cooler Not Large",
-      "amount": "20.000000",
-      "displayAmount": "20.00",
+      "amount": "20",
       "units": "2",
-      "unitPrice": "5.00",
+      "unitPrice": "5",
       "discount": "0",
-      "displayDiscount": "0.00",
       "lineSubTypeId": "11",
       "isSupplierFeedPrefilled": true
     }

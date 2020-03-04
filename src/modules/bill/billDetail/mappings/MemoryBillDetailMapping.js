@@ -1,5 +1,4 @@
 import {
-  CALCULATE_BILL_ITEM_CHANGE,
   CREATE_BILL,
   DELETE_BILL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
@@ -17,7 +16,6 @@ import {
   UNLINK_IN_TRAY_DOCUMENT,
   UPDATE_BILL,
 } from '../BillIntents';
-import calculatedLineTotalsResponse from './data/calculatedLineTotalsResponse';
 import createBillResponse from './data/createBillResponse';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadItemAndServiceBill from './data/loadItemAndServiceBill';
@@ -39,7 +37,6 @@ const MemoryBillDetailMapping = {
   [UPDATE_BILL]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_SUPPLIER_DETAIL]: ({ onSuccess }) => onSuccess(loadSupplierDetail),
   [LOAD_SUPPLIER_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadSupplierResponse),
-  [CALCULATE_BILL_ITEM_CHANGE]: ({ onSuccess }) => onSuccess(calculatedLineTotalsResponse),
   [LOAD_ITEM_DETAIL_FOR_LINE]: ({ onSuccess }) => onSuccess(updatedLineForItemDetail),
   [EXPORT_BILL_PDF]: ({ onSuccess }) => onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_ITEM_OPTION]: ({ onSuccess }) => onSuccess(loadItemOption),

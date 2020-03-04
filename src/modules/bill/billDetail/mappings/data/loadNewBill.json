@@ -15,7 +15,6 @@
     "note": "",
     "issueDate": "",
     "amountPaid": "0.00",
-    "displayAmountPaid": "$0.00",
     "lines": []
   },
   "accountOptions": [
@@ -130,8 +129,6 @@
     "discount": "",
     "amount": "",
     "taxCodeId": "",
-    "displayAmount": "",
-    "displayDiscount": "",
     "lineSubTypeId": ""
   },
   "totals": {

@@ -18,7 +18,7 @@ import {
 import BillLayout from '../types/BillLayout';
 import BillLineLayout from '../types/BillLineLayout';
 import LineTaxTypes from '../types/LineTaxTypes';
-import billReducer from '../billReducer';
+import billReducer from '../reducer/billReducer';
 
 describe('billReducer', () => {
   describe('LOAD_ITEM_OPTION', () => {
@@ -70,6 +70,7 @@ describe('billReducer', () => {
       const action = {
         intent: LOAD_BILL,
         response: {
+          bill: { lines: [] },
         },
       };
 
@@ -89,6 +90,7 @@ describe('billReducer', () => {
         response: {
           bill: {
             issueDate: '2019-02-03',
+            lines: [],
           },
         },
       };
@@ -106,6 +108,7 @@ describe('billReducer', () => {
         response: {
           bill: {
             issueDate: '2019-02-03',
+            lines: [],
           },
           subscription: {
             monthlyLimit: {
@@ -1205,6 +1208,8 @@ describe('billReducer', () => {
             id: '',
             amount: '500.77',
             displayAmount: '500.77',
+            displayDiscount: '',
+            displayUnitPrice: '',
             prefillStatus: {
               ...defaultLinePrefillStatus,
               amount: true,
@@ -1266,6 +1271,7 @@ describe('billReducer', () => {
             unitPrice: '21.44',
             discount: '0',
             displayDiscount: '0.00',
+            displayUnitPrice: '21.44',
             prefillStatus: {
               ...defaultLinePrefillStatus,
               description: true,

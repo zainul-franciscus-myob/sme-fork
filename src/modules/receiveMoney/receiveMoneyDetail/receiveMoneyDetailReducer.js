@@ -14,10 +14,10 @@ import {
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { formatDisplayAmount } from '../../bill/billDetail/formatters/formatAmount';
 import { getDefaultTaxCodeId } from './receiveMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
+import formatDisplayAmount from '../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getDefaultState = () => ({
