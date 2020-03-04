@@ -24,6 +24,7 @@ import {
   getModalUrl,
   getOpenedModalType,
   getSaveUrl,
+  getSeletedPayToContactType,
   getSpendMoneyId,
   getTaxCodeOptions,
   getTransactionListUrl,
@@ -116,6 +117,21 @@ export default class SpendMoneyDetailModule {
     });
   };
 
+  loadSupplierExpenseAccount = () => {
+    this.dispatcher.setSupplierBlockingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.loadSupplierExpenseAccount(response);
+      this.dispatcher.setSupplierBlockingState(false);
+    };
+    const onFailure = ({ message }) => {
+      this.dispatcher.openDangerAlert({ message });
+      this.dispatcher.setSupplierBlockingState(false);
+    };
+
+    this.integrator.loadSupplierExpenseAccount({ onSuccess, onFailure });
+  };
+
   updateHeaderOptions = ({ key, value }) => {
     if (key === 'selectedPayFromAccountId' && getIsCreating(this.store.getState())) {
       this.loadNextReferenceId(value);
@@ -129,6 +145,14 @@ export default class SpendMoneyDetailModule {
 
     if (key === 'expenseAccountId') {
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
+    }
+
+    const stateAfterUpdate = this.store.getState();
+    if (key === 'selectedPayToContactId' && getIsCreatingFromInTray(stateAfterUpdate)) {
+      const selectedContactType = getSeletedPayToContactType(stateAfterUpdate);
+      if (selectedContactType === 'Supplier') {
+        this.loadSupplierExpenseAccount();
+      }
     }
   };
 

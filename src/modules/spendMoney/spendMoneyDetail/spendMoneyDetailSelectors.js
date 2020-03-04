@@ -6,6 +6,13 @@ import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 const getReferenceId = state => state.spendMoney.referenceId;
 const getSelectedPayFromId = state => state.spendMoney.selectedPayFromAccountId;
 export const getSelectedPayToContactId = state => state.spendMoney.selectedPayToContactId;
+export const getSeletedPayToContactType = createSelector(
+  getSelectedPayToContactId,
+  state => state,
+  (id, state) => state.spendMoney.payToContacts.find(
+    contact => contact.id === id,
+  ).contactType,
+);
 const getPayFromAccounts = state => state.spendMoney.payFromAccounts;
 const getPayToContacts = state => state.spendMoney.payToContacts;
 const getDate = state => state.spendMoney.date;
@@ -179,6 +186,7 @@ export const getCalculatedTotalsPayload = (state) => {
 
 export const getIsActionsDisabled = state => state.isSubmitting;
 export const getIsSubmitting = state => state.isSubmitting;
+export const getIsSupplierBlocking = state => state.isSupplierBlocking;
 export const isPageEdited = state => state.isPageEdited;
 export const getBusinessId = state => state.businessId;
 export const getPageTitle = state => state.pageTitle;
@@ -220,6 +228,11 @@ export const getTransactionListUrl = createSelector(
   getRegion,
   (businessId, region) => `/#/${region}/${businessId}/transactionList`,
 );
+
+export const getLoadContactDetailUrlParams = createStructuredSelector({
+  businessId: getBusinessId,
+  contactId: getSelectedPayToContactId,
+});
 
 export const getLoadSpendMoneyRequestParams = createStructuredSelector({
   spendMoneyId: getSpendMoneyId,

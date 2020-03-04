@@ -10,6 +10,7 @@ import {
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
+  LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
   PREFILL_DATA_FROM_IN_TRAY,
@@ -22,6 +23,7 @@ import {
   SET_OPERATION_IN_PROGRESS_STATE,
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
+  SET_SUPPLIER_BLOCKING_STATE,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
   UPDATE_UPLOAD_PROGRESS,
@@ -29,7 +31,7 @@ import {
   UPLOAD_ATTACHMENT_FAILED,
 } from '../SpendMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import { getIsContactReportable, getIsCreatingFromInTray, getIsReportable } from './spendMoneyDetailSelectors';
+import { getIsContactReportable, getIsReportable } from './spendMoneyDetailSelectors';
 import createReducer from '../../../store/createReducer';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
@@ -84,6 +86,7 @@ const getDefaultState = () => ({
   modal: undefined,
   isLoading: true,
   isSubmitting: false,
+  isSupplierBlocking: false,
   isPageEdited: false,
   businessId: '',
   region: '',
@@ -178,39 +181,12 @@ const updateAllLinesWithExpenseAccount = (lines, accounts, expenseAccountId) => 
   }));
 };
 
-const isContactSupplier = (state, contactId) => {
-  const selectedContact = state.spendMoney.payToContacts.find(contact => contact.id === contactId);
-  return selectedContact.contactType === 'Supplier';
-};
-
-const getShouldUpdateExpenseAccountIdFromContactUpdate = (state, key, value) => {
-  if (key === 'selectedPayToContactId') {
-    return getIsCreatingFromInTray(state) && isContactSupplier(state, value);
-  }
-
-  return false;
-};
-
-const getUpdatedExpenseAccountId = (state, key, value) => {
-  if (key === 'expenseAccountId') {
-    return value;
-  }
-
-  if (getShouldUpdateExpenseAccountIdFromContactUpdate(state, key, value)) {
-    return state.spendMoney.payToContacts.find(contact => contact.id === value).expenseAccountId;
-  }
-
-  return state.spendMoney.expenseAccountId;
-};
-
 const updateHeader = (state, { key, value }) => {
   const isReportable = key === 'selectedPayToContactId'
     ? getIsContactReportable(state, value)
     : getIsReportable(state);
 
   const isPrefillFields = Object.keys(defaultPrefillStatus).includes(key);
-
-  const expenseAccountId = getUpdatedExpenseAccountId(state, key, value);
 
   return {
     ...state,
@@ -219,10 +195,8 @@ const updateHeader = (state, { key, value }) => {
       ...state.spendMoney,
       isReportable,
       [key]: value,
-      expenseAccountId,
-      lines: state.spendMoney.lines.length > 0
-        && (key === 'expenseAccountId' || getShouldUpdateExpenseAccountIdFromContactUpdate(state, key, value))
-        ? updateAllLinesWithExpenseAccount(state.spendMoney.lines, state.accounts, expenseAccountId)
+      lines: state.spendMoney.lines.length > 0 && key === 'expenseAccountId'
+        ? updateAllLinesWithExpenseAccount(state.spendMoney.lines, state.accounts, value)
         : state.spendMoney.lines,
     },
     prefillStatus: isPrefillFields
@@ -277,6 +251,21 @@ const loadReferenceId = (state, action) => ({
   },
 });
 
+const loadSupplierExpenseAccount = (state, action) => ({
+  ...state,
+  spendMoney: {
+    ...state.spendMoney,
+    expenseAccountId: action.response.expenseAccountId,
+    lines: state.spendMoney.lines.length > 0
+      ? updateAllLinesWithExpenseAccount(
+        state.spendMoney.lines,
+        state.accounts,
+        action.response.expenseAccountId,
+      )
+      : state.spendMoney.lines,
+  },
+});
+
 const setLoadingState = (state, action) => ({
   ...state,
   isLoading: action.isLoading,
@@ -285,6 +274,11 @@ const setLoadingState = (state, action) => ({
 const setSubmittingState = (state, action) => ({
   ...state,
   isSubmitting: action.isSubmitting,
+});
+
+const setSupplierBlockingState = (state, action) => ({
+  ...state,
+  isSupplierBlocking: action.isSupplierBlocking,
 });
 
 const setAlertMessage = (state, action) => ({
@@ -492,11 +486,13 @@ const handlers = {
   [LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
   [GET_TAX_CALCULATIONS]: getTaxCalculations,
   [LOAD_REFERENCE_ID]: loadReferenceId,
+  [LOAD_SUPPLIER_EXPENSE_ACCOUNT]: loadSupplierExpenseAccount,
   [UPDATE_SPEND_MONEY_LINE]: updateLine,
   [ADD_SPEND_MONEY_LINE]: addLine,
   [DELETE_SPEND_MONEY_LINE]: deleteLine,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
+  [SET_SUPPLIER_BLOCKING_STATE]: setSupplierBlockingState,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,

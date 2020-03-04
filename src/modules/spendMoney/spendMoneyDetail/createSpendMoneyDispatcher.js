@@ -8,6 +8,7 @@ import {
   GET_TAX_CALCULATIONS,
   HIDE_PREFILL_INFO,
   LOAD_REFERENCE_ID,
+  LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
   PREFILL_DATA_FROM_IN_TRAY,
@@ -20,6 +21,7 @@ import {
   SET_OPERATION_IN_PROGRESS_STATE,
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
+  SET_SUPPLIER_BLOCKING_STATE,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
   UPDATE_UPLOAD_PROGRESS,
@@ -58,6 +60,11 @@ const createSpendMoneyDispatcher = store => ({
     store.dispatch({ intent, referenceId });
   },
 
+  loadSupplierExpenseAccount: (response) => {
+    const intent = LOAD_SUPPLIER_EXPENSE_ACCOUNT;
+    store.dispatch({ intent, response });
+  },
+
   updateHeaderOptions: ({ key, value }) => {
     const intent = UPDATE_SPEND_MONEY_HEADER;
     store.dispatch({ intent, key, value });
@@ -71,6 +78,11 @@ const createSpendMoneyDispatcher = store => ({
   setSubmittingState: (isSubmitting) => {
     const intent = SET_SUBMITTING_STATE;
     store.dispatch({ intent, isSubmitting });
+  },
+
+  setSupplierBlockingState: (isSupplierBlocking) => {
+    const intent = SET_SUPPLIER_BLOCKING_STATE;
+    store.dispatch({ intent, isSupplierBlocking });
   },
 
   openModal: ({ type, url }) => {

@@ -6,6 +6,7 @@ import {
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
+  LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_ATTACHMENT,
   PREFILL_DATA_FROM_IN_TRAY,
   REMOVE_ATTACHMENT,
@@ -37,6 +38,10 @@ const HttpSpendMoneyMapping = {
   [LOAD_REFERENCE_ID]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/spendMoney/get_reference_id`,
+  },
+  [LOAD_SUPPLIER_EXPENSE_ACCOUNT]: {
+    method: 'GET',
+    getPath: ({ businessId, contactId }) => `/${businessId}/spendMoney/get_supplier_expense_account/${contactId}`,
   },
   [UPLOAD_ATTACHMENT]: {
     method: 'POST',

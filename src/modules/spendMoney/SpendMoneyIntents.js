@@ -1,5 +1,6 @@
 export const LOAD_NEW_SPEND_MONEY = Symbol('Load a new empty spend money entry data');
 export const LOAD_SPEND_MONEY_DETAIL = Symbol('Load a spend money entry data');
+export const LOAD_SUPPLIER_EXPENSE_ACCOUNT = Symbol('Load supplier expense account');
 export const LOAD_REFERENCE_ID = Symbol('Load the reference id');
 export const CREATE_SPEND_MONEY = Symbol('Create a new spend money entry');
 export const DELETE_SPEND_MONEY = Symbol('Delete spend money transaction');
@@ -13,6 +14,7 @@ export const CLOSE_MODAL = Symbol('Close a modal');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
+export const SET_SUPPLIER_BLOCKING_STATE = Symbol('Set supplier blocking state');
 export const GET_TAX_CALCULATIONS = Symbol('Get tax calculations');
 export const RESET_TOTALS = Symbol('Reset calculated totals');
 export const ADD_ATTACHMENTS = Symbol('Add attachments');

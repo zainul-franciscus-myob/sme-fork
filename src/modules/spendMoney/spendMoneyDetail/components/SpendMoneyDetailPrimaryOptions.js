@@ -5,13 +5,16 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
 
-import { getAccountOptions, getHeaderOptions, getPrefillStatus } from '../spendMoneyDetailSelectors';
+import {
+  getAccountOptions, getHeaderOptions, getIsSupplierBlocking, getPrefillStatus,
+} from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ContactCombobox from '../../../../components/combobox/ContactCombobox';
 import ReportableCheckbox from '../../../../components/ReportableCheckbox/ReportableCheckbox';
 import styles from './SpendMoneyDetailPrimaryOptions.module.css';
 
 const SpendMoneyDetailPrimaryOptions = ({
+  isSupplierBlocking,
   headerOptions: {
     isReportable,
     description,
@@ -68,6 +71,7 @@ const SpendMoneyDetailPrimaryOptions = ({
           label="Contact (payee)"
           name="Pay To Contacts"
           hideLabel={false}
+          disabled={isSupplierBlocking}
         />
       </div>
       {shouldShowReportable && (
@@ -94,6 +98,7 @@ const SpendMoneyDetailPrimaryOptions = ({
           )}
           name="expenseAccountId"
           hideLabel={false}
+          disabled={isSupplierBlocking}
         />
       )}
       <div className={classnames({ [styles.prefilled]: prefillStatus.description })}>
@@ -113,6 +118,7 @@ const SpendMoneyDetailPrimaryOptions = ({
 };
 
 const mapStateToProps = state => ({
+  isSupplierBlocking: getIsSupplierBlocking(state),
   headerOptions: getHeaderOptions(state),
   accountOptions: getAccountOptions(state),
   prefillStatus: getPrefillStatus(state),

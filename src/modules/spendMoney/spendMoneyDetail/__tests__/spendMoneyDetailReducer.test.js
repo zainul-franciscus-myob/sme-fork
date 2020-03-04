@@ -3,6 +3,7 @@ import Decimal from 'decimal.js';
 import {
   ADD_ATTACHMENTS,
   GET_TAX_CALCULATIONS,
+  LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   PREFILL_DATA_FROM_IN_TRAY,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
@@ -168,104 +169,6 @@ describe('spendMoneyDetailReducer', () => {
         expect(actual.spendMoney.selectedPayToContactId).toEqual('1');
         expect(actual.spendMoney.isReportable).toBeTruthy();
       });
-
-      it('should update expenseAccountId and lines if contact is supplier and isCreating from in tray', () => {
-        const state = {
-          spendMoneyId: 'new',
-          inTrayDocumentId: '123',
-          spendMoney: {
-            selectedPayToContactId: '2',
-            expenseAccountId: '',
-            payToContacts: [
-              { id: '1', contactType: 'Supplier', expenseAccountId: '3' },
-              { id: '2', contactType: 'Supplier', expenseAccountId: '1' },
-            ],
-            lines: [
-              { accountId: '2', taxCodeId: '2', amount: '10.00' },
-              { accountId: '3', taxCodeId: '3', amount: '20.00' },
-            ],
-          },
-          accounts: [
-            { id: '1', taxCodeId: '1' },
-            { id: '2', taxCodeId: '2' },
-            { id: '3', taxCodeId: '3' },
-          ],
-          taxCodes: [
-            { id: '1' },
-            { id: '2' },
-            { id: '3' },
-          ],
-        };
-
-        const action = {
-          intent: UPDATE_SPEND_MONEY_HEADER,
-          key: 'selectedPayToContactId',
-          value: '2',
-        };
-
-        const actual = spendMoneyReducer(state, action);
-
-        const expectedLines = [
-          { accountId: '1', taxCodeId: '1', amount: '10.00' },
-          { accountId: '1', taxCodeId: '1', amount: '20.00' },
-        ];
-
-        expect(actual.spendMoney.selectedPayToContactId).toEqual('2');
-        expect(actual.spendMoney.expenseAccountId).toEqual('1');
-        expect(actual.spendMoney.lines).toEqual(expectedLines);
-      });
-
-      it('should not update expenseAccountId if contact is supplier but is not creating from in tray', () => {
-        const state = {
-          spendMoneyId: 'new',
-          spendMoney: {
-            selectedPayToContactId: '2',
-            expenseAccountId: '',
-            payToContacts: [
-              { id: '1', contactType: 'Supplier', expenseAccountId: '3' },
-              { id: '2', contactType: 'Supplier', expenseAccountId: '1' },
-            ],
-            lines: [],
-          },
-        };
-
-        const action = {
-          intent: UPDATE_SPEND_MONEY_HEADER,
-          key: 'selectedPayToContactId',
-          value: '2',
-        };
-
-        const actual = spendMoneyReducer(state, action);
-
-        expect(actual.spendMoney.selectedPayToContactId).toEqual('2');
-        expect(actual.spendMoney.expenseAccountId).toEqual('');
-      });
-
-      it('should not update expenseAccountId if contact is supplier but is updating existing spend money', () => {
-        const state = {
-          spendMoneyId: '1',
-          spendMoney: {
-            selectedPayToContactId: '2',
-            expenseAccountId: '',
-            payToContacts: [
-              { id: '1', contactType: 'Supplier', expenseAccountId: '3' },
-              { id: '2', contactType: 'Supplier', expenseAccountId: '1' },
-            ],
-            lines: [],
-          },
-        };
-
-        const action = {
-          intent: UPDATE_SPEND_MONEY_HEADER,
-          key: 'selectedPayToContactId',
-          value: '2',
-        };
-
-        const actual = spendMoneyReducer(state, action);
-
-        expect(actual.spendMoney.selectedPayToContactId).toEqual('2');
-        expect(actual.spendMoney.expenseAccountId).toEqual('');
-      });
     });
 
     describe('isReportable', () => {
@@ -362,6 +265,48 @@ describe('spendMoneyDetailReducer', () => {
 
         expect(actual.spendMoney.lines).toEqual(expectedLines);
       });
+    });
+  });
+
+  describe('loadSupplierExpenseAccount', () => {
+    const spendMoney = {
+      expenseAccountId: '2',
+      lines: [
+        { accountId: '2', taxCodeId: '2', amount: '10.00' },
+        { accountId: '3', taxCodeId: '3', amount: '20.00' },
+      ],
+    };
+
+    const action = {
+      intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
+      response: {
+        expenseAccountId: '1',
+      },
+    };
+
+    it('updates expenseAccountId and all lines with the accountId', () => {
+      const state = {
+        spendMoney,
+        accounts: [
+          { id: '1', taxCodeId: '1' },
+          { id: '2', taxCodeId: '2' },
+          { id: '3', taxCodeId: '3' },
+        ],
+        taxCodes: [
+          { id: '1' },
+          { id: '2' },
+          { id: '3' },
+        ],
+      };
+
+      const actual = spendMoneyReducer(state, action);
+      const expectedLines = [
+        { accountId: '1', taxCodeId: '1', amount: '10.00' },
+        { accountId: '1', taxCodeId: '1', amount: '20.00' },
+      ];
+
+      expect(actual.spendMoney.lines).toEqual(expectedLines);
+      expect(actual.spendMoney.expenseAccountId).toEqual('1');
     });
   });
 

@@ -6,6 +6,7 @@ import {
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
+  LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_ATTACHMENT,
   PREFILL_DATA_FROM_IN_TRAY,
   REMOVE_ATTACHMENT,
@@ -18,6 +19,7 @@ import spendMoneyDetailPrefillResponse from './data/spendMoneyDetailPrefill';
 import spendMoneyNewEntry from './data/spendMoneyDetailNewEntry';
 import spendMoneyReferenceId from './data/spendMoneyDetailReferenceId';
 import successResponse from './data/createSpendMoney';
+import supplierExpenseAccountId from './data/supplierExpenseAccountId';
 import uploadAttachmentResponse from './data/uploadAttachmentResponse';
 
 const newSpendMoney = ({ onSuccess }) => onSuccess(spendMoneyNewEntry);
@@ -50,6 +52,7 @@ const MemorySpendMoneyMapping = {
   [DELETE_SPEND_MONEY]: deleteSpendMoney,
   [UPDATE_SPEND_MONEY]: updateSpendMoney,
   [LOAD_REFERENCE_ID]: getSpendMoneyNextReferenceId,
+  [LOAD_SUPPLIER_EXPENSE_ACCOUNT]: supplierExpenseAccountId,
   [LOAD_SPEND_MONEY_DETAIL]: loadSpendMoneyDetail,
   [UPLOAD_ATTACHMENT]: uploadAttachment,
   [REMOVE_ATTACHMENT]: removeAttachment,

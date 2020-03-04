@@ -6,6 +6,7 @@ import {
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
+  LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_ATTACHMENT,
   PREFILL_DATA_FROM_IN_TRAY,
   REMOVE_ATTACHMENT,
@@ -14,6 +15,7 @@ import {
 } from '../SpendMoneyIntents';
 import {
   getBusinessId,
+  getLoadContactDetailUrlParams,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
   getSpendMoneyId,
@@ -60,6 +62,19 @@ const createSpendMoneyIntegrator = (store, integration) => ({
       intent,
       urlParams,
       params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadSupplierExpenseAccount: ({
+    onSuccess, onFailure,
+  }) => {
+    const urlParams = getLoadContactDetailUrlParams(store.getState());
+
+    integration.read({
+      intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
+      urlParams,
       onSuccess,
       onFailure,
     });

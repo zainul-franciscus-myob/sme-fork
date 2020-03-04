@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
 
-import { getHeaderOptions, getPrefillStatus } from '../spendMoneyDetailSelectors';
+import { getHeaderOptions, getIsSupplierBlocking, getPrefillStatus } from '../spendMoneyDetailSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import styles from './SpendMoneyDetailSecondaryOptions.module.css';
 
 const SpendMoneyDetailSecondaryOptions = ({
+  isSupplierBlocking,
   headerOptions: {
     referenceId,
     date,
@@ -62,12 +63,14 @@ const SpendMoneyDetailSecondaryOptions = ({
         trueLabel={taxInclusiveLabel}
         falseLabel={taxExclusiveLabel}
         handler={onUpdateHeaderOptions}
+        disabled={isSupplierBlocking}
       />
     </React.Fragment>
   );
 };
 
 const mapStateToProps = state => ({
+  isSupplierBlocking: getIsSupplierBlocking(state),
   headerOptions: getHeaderOptions(state),
   prefillStatus: getPrefillStatus(state),
 });

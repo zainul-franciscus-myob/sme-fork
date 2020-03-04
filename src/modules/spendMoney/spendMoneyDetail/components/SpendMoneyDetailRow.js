@@ -5,6 +5,7 @@ import classnames from 'classnames';
 
 import {
   getAccountOptions,
+  getIsSupplierBlocking,
   getLineDataByIndexSelector,
   getNewLineData,
   getTaxCodeOptions,
@@ -42,6 +43,7 @@ const SpendMoneyDetailRow = (props) => {
     newLineData,
     accountOptions,
     taxCodeOptions,
+    isSupplierBlocking,
     ...feelixInjectedProps
   } = props;
   const data = isNewLineRow ? newLineData : lineData;
@@ -63,6 +65,7 @@ const SpendMoneyDetailRow = (props) => {
         items={accountOptions}
         selectedId={accountId}
         onChange={onComboboxChange('accountId', onChange)}
+        disabled={isSupplierBlocking}
       />
       <AmountInput
         label="Amount"
@@ -73,6 +76,7 @@ const SpendMoneyDetailRow = (props) => {
         onBlur={onRowInputBlur}
         className={classnames({ [styles.prefilled]: Boolean(prefillStatus.amount) })}
         numeralDecimalScaleMax={2}
+        disabled={isSupplierBlocking}
       />
       <AmountInput
         label="Quantity"
@@ -83,6 +87,7 @@ const SpendMoneyDetailRow = (props) => {
         numeralDecimalScaleMin={0}
         numeralDecimalScaleMax={6}
         numeralIntegerScale={13}
+        disabled={isSupplierBlocking}
       />
       <div className={classnames({ [styles.prefilled]: Boolean(prefillStatus.description) })}>
         <TextArea
@@ -103,6 +108,7 @@ const SpendMoneyDetailRow = (props) => {
         selectedId={taxCodeId}
         onChange={onComboboxChange('taxCodeId', onChange)}
         left
+        disabled={isSupplierBlocking}
       />
     </LineItemTable.Row>
   );
@@ -115,6 +121,7 @@ const makeMapRowStateToProps = () => {
     newLineData: getNewLineData(state),
     accountOptions: getAccountOptions(state),
     taxCodeOptions: getTaxCodeOptions(state),
+    isSupplierBlocking: getIsSupplierBlocking(state),
   });
 };
 
