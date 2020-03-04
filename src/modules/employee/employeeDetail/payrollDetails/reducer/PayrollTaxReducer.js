@@ -11,6 +11,7 @@ import {
   UPDATE_PAYROLL_TAX_DETAILS,
   UPDATE_TAX_PAY_ITEM_MODAL_DETAILS,
 } from '../../../EmployeeIntents';
+import { getTfn } from '../selectors/PayrollTaxSelectors';
 
 const getDefaultTaxPayItemModal = () => ({
   tax: {
@@ -121,8 +122,6 @@ const setTaxPayItemModalAlertMessage = (state, { alertMessage }) => ({
   },
 });
 
-const getTfnForStatus = (state, status) => state.payrollDetails.tax.taxFileNumberStates[status].tfn;
-
 const updateTaxFileNumberStatus = (state, action) => ({
   ...state,
   payrollDetails: {
@@ -130,7 +129,7 @@ const updateTaxFileNumberStatus = (state, action) => ({
     tax: {
       ...state.payrollDetails.tax,
       taxFileNumberStatus: action.value,
-      taxFileNumber: getTfnForStatus(state, action.value),
+      taxFileNumber: getTfn(state, action.value),
     },
   },
 });

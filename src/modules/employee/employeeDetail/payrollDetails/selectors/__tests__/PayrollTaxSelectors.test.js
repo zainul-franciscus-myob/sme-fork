@@ -1,7 +1,9 @@
 import {
   getFilteredTaxPayItemOptions,
+  getHasTfn,
   getIsTfnEditable,
   getSelectedTaxPayItems,
+  getTfn,
 } from '../PayrollTaxSelectors';
 
 describe('PayrollTaxSelectors', () => {
@@ -104,6 +106,84 @@ describe('PayrollTaxSelectors', () => {
       };
 
       const result = getIsTfnEditable(state);
+
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('getTfn', () => {
+    const state = {
+      payrollDetails: {
+        tax: {
+          taxFileNumberStates: {
+            hasTfn: {
+              tfn: '',
+              tfnEditable: true,
+              hasTfn: true,
+            },
+            under18: {
+              tfn: '111 111 111',
+              tfnEditable: false,
+              hasTfn: false,
+            },
+          },
+        },
+      },
+    };
+
+    it('returns the tfn for the given status', () => {
+      const result = getTfn(state, 'under18');
+
+      expect(result).toEqual('111 111 111');
+    });
+
+    it('returns empty string if the status is not in states', () => {
+      const result = getTfn(state, 'missingState');
+
+      expect(result).toEqual('');
+    });
+  });
+
+  describe('getHasTfn', () => {
+    const taxFileNumberStates = {
+      hasTfn: {
+        tfn: '',
+        tfnEditable: true,
+        hasTfn: true,
+      },
+      under18: {
+        tfn: '111 111 111',
+        tfnEditable: false,
+        hasTfn: false,
+      },
+    };
+
+    it('returns true when taxFileNumberState is hasTfn', () => {
+      const state = {
+        payrollDetails: {
+          tax: {
+            taxFileNumberStates,
+            taxFileNumberStatus: 'hasTfn',
+          },
+        },
+      };
+
+      const result = getHasTfn(state);
+
+      expect(result).toEqual(true);
+    });
+
+    it('returns false when taxFileNumberState is under18', () => {
+      const state = {
+        payrollDetails: {
+          tax: {
+            taxFileNumberStates,
+            taxFileNumberStatus: 'under18',
+          },
+        },
+      };
+
+      const result = getHasTfn(state);
 
       expect(result).toEqual(false);
     });

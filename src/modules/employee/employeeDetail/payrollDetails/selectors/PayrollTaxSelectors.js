@@ -46,17 +46,38 @@ export const getTaxPayItemModal = state => state.taxPayItemModal;
 export const getTaxPayItemModalLoading = state => state.taxPayItemModal.isLoading;
 export const getTaxPayItemModalSubmitting = state => state.taxPayItemModal.isSubmitting;
 export const getTaxPayItemModalAlertMessage = state => state.taxPayItemModal.alertMessage;
-export const getIsTfnEditable = createSelector(
-  getPayrollDetailsTax,
-  (payrollDetailTax) => {
-    if (!payrollDetailTax.taxFileNumberStatus
-      || !payrollDetailTax.taxFileNumberStates[payrollDetailTax.taxFileNumberStatus]) {
-      return false;
-    }
 
-    return payrollDetailTax.taxFileNumberStates[payrollDetailTax.taxFileNumberStatus].tfnEditable;
-  },
+const getCurrentTfnState = createSelector(
+  getPayrollDetailsTax,
+  payrollDetailTax => payrollDetailTax.taxFileNumberStates
+   && payrollDetailTax.taxFileNumberStates[payrollDetailTax.taxFileNumberStatus],
 );
+
+const getTfnStateForStatus = (state, tfnStatus) => {
+  const payrollDetailsTax = getPayrollDetailsTax(state);
+  return payrollDetailsTax.taxFileNumberStates[tfnStatus];
+};
+
+export const getIsTfnEditable = (state) => {
+  const tfnState = getCurrentTfnState(state);
+  return tfnState
+    ? tfnState.tfnEditable || false
+    : false;
+};
+
+export const getHasTfn = (state) => {
+  const tfnState = getCurrentTfnState(state);
+  return tfnState
+    ? tfnState.hasTfn || false
+    : false;
+};
+
+export const getTfn = (state, tfnStatus) => {
+  const tfnState = getTfnStateForStatus(state, tfnStatus);
+  return tfnState
+    ? tfnState.tfn || ''
+    : '';
+};
 
 export const getTaxPayItemDetail = state => state.taxPayItemModal.tax;
 export const getTaxPayItemAccounts = state => state.taxPayItemModal.accounts;
@@ -70,4 +91,3 @@ export const getTaxPayItemPayload = state => ({
 });
 
 export const getTaxTableCalculations = state => state.payrollDetails.tax.taxTableCalculation;
-export const getHasTfn = state => getTaxFileNumberStatus(state) === '';
