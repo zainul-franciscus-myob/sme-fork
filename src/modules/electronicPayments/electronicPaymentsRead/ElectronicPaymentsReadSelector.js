@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import PaymentTypeMap from './PaymentTypeMap';
+import PaymentTypeMap from '../PaymentTypeMap';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 

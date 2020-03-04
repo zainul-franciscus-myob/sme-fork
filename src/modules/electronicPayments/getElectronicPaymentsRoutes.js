@@ -9,7 +9,7 @@ const getElectronicPaymentsRoutes = ({
     {
       name: RouteName.ELECTRONIC_PAYMENTS_CREATE,
       path: '/:region/:businessId/electronicPayments/',
-      // allowedParams: ['paymentType'],
+      allowedParams: ['paymentType'],
       module: new ElectronicPaymentsCreateModule({
         integration,
         setRootView,

@@ -99,7 +99,7 @@ export const featuresConfig = {
   bankReconciliation: { routeName: RouteName.BANK_RECONCILIATION },
   bankingRuleList: { routeName: RouteName.BANKING_RULE_LIST },
   bankFeeds: { routeName: RouteName.BANK_FEEDS },
-  electronicPaymentBankCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE, params: { paymentType: 'PayBills' } },
+  electronicPaymentBankCreate: { routeName: RouteName.ELECTRONIC_PAYMENTS_CREATE, params: { paymentType: 'SpendMoney' } },
   spendMoneyCreate: { routeName: RouteName.SPEND_MONEY_DETAIL, params: { spendMoneyId: 'new' } },
   receiveMoneyCreate: { routeName: RouteName.RECEIVE_MONEY_DETAIL, params: { receiveMoneyId: 'new' } },
   transferMoneyCreate: { routeName: RouteName.TRANSFER_MONEY_DETAIL, params: { transferMoneyId: 'new' } },

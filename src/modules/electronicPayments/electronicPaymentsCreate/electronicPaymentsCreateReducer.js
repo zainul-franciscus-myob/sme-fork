@@ -49,34 +49,21 @@ const getDefaultState = () => ({
   alert: undefined,
 });
 
-// const setInitialState = (state, { context }) => {
-//   const { paymentType } = context;
-//   return {
-//     ...state,
-//     ...context,
-//     filterOptions: {
-//       ...state.filterOptions,
-//       paymentType,
-//     },
-//     appliedFilterOptions: {
-//       ...state.appliedFilterOptions,
-//       paymentType,
-//     },
-//   };
-// };
-
-const setInitialState = (state, { context }) => ({
-  ...state,
-  ...context,
-  filterOptions: {
-    ...state.filterOptions,
-    paymentType: 'PayEmployees',
-  },
-  appliedFilterOptions: {
-    ...state.appliedFilterOptions,
-    paymentType: 'PayEmployees',
-  },
-});
+const setInitialState = (state, { context }) => {
+  const { paymentType } = context;
+  return {
+    ...state,
+    ...context,
+    filterOptions: {
+      ...state.filterOptions,
+      paymentType,
+    },
+    appliedFilterOptions: {
+      ...state.appliedFilterOptions,
+      paymentType,
+    },
+  };
+};
 
 const loadAccountsAndTransactions = (state, { response }) => ({
   ...state,
