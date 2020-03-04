@@ -90,7 +90,7 @@ steps:
       queue: cacc-prod-dflt
 
   - block:
-    branches: master hotfix/*
+    if: build.message != 'Scheduled build for sme-web for 7AM AEST'
 
   - name: ':rocket: :eagle: Deploy PDV App'
     command: ./ops/bin/deploy pdv
@@ -107,7 +107,7 @@ steps:
       queue: cacc-prod-dflt
 
   - block:
-    branches: master hotfix/*
+    if: build.message != 'Scheduled build for sme-web for 7AM AEST'
 
   - name: ':rocket: :eagle: Deploy Production App'
     command: ./ops/bin/deploy production
