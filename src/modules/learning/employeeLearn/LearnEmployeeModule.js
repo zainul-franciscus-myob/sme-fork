@@ -13,7 +13,7 @@ export default class LearnEmployeeModule {
 
   onClick = (region, businessId) => {
     this.learnEmployeeCompleted();
-    window.location.href = `/#/${region}/${businessId}/employee/new?mainTab=contactDetails`;
+    window.location.href = `/#/${region}/${businessId}/employee/new?mainTab=contactDetails&appcue=-M0zEQRdUJQxH8iquMVt`;
   }
 
   render = (region, businessId) => this.setRootView(
