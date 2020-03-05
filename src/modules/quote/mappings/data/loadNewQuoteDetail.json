@@ -132,12 +132,9 @@
     "descriptionDirty": false,
     "allocatedAccountId": "",
     "unitPrice": "",
-    "displayUnitPrice": "",
     "discount": "",
-    "displayDiscount": "",
     "taxCodeId": "",
     "amount": "",
-    "displayAmount": "",
     "lineTypeId": "5"
   },
   "totals": {

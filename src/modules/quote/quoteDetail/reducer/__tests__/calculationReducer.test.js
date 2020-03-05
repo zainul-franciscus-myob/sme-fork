@@ -118,7 +118,7 @@ describe('calculationReducer', () => {
         expect(actual).toEqual(expected);
       });
 
-      it('should calculate amount correctly when update displayUnitPrice', () => {
+      it('should calculate amount correctly when update unitPrice', () => {
         const state = {
           quote: {
             layout: 'itemAndService',
@@ -138,7 +138,7 @@ describe('calculationReducer', () => {
 
         const action = {
           intent: CALCULATE_LINE_AMOUNTS,
-          key: 'displayUnitPrice',
+          key: 'unitPrice',
           index: 0,
         };
 
@@ -164,7 +164,7 @@ describe('calculationReducer', () => {
         expect(actual).toEqual(expected);
       });
 
-      it('should calculate amount correctly when update displayDiscount', () => {
+      it('should calculate amount correctly when update discount', () => {
         const state = {
           quote: {
             layout: 'itemAndService',
@@ -184,7 +184,7 @@ describe('calculationReducer', () => {
 
         const action = {
           intent: CALCULATE_LINE_AMOUNTS,
-          key: 'displayDiscount',
+          key: 'discount',
           index: 0,
         };
 
@@ -230,7 +230,7 @@ describe('calculationReducer', () => {
 
         const action = {
           intent: CALCULATE_LINE_AMOUNTS,
-          key: 'displayAmount',
+          key: 'amount',
           index: 0,
         };
 

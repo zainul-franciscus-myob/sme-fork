@@ -20,19 +20,19 @@ const onComboboxChange = (name, onChange) => item => onChange({
   },
 });
 
-const onAmountInputChange = (name, onChange) => (e) => {
-  onChange({
+const handleAmountInputChange = handler => e => (
+  handler({
     target: {
-      name,
+      name: e.target.name,
       value: e.target.rawValue,
     },
-  });
-};
+  })
+);
 
-const onAmountInputBlur = (handler, index) => (e) => {
-  const { rawValue, name } = e.target;
+const handleAmountInputBlur = (handler, index) => (e) => {
+  const { name: key, rawValue: value } = e.target;
 
-  handler(index, name, rawValue);
+  handler(index, key, value);
 };
 
 const QuoteServiceTableRow = ({
@@ -80,10 +80,10 @@ const QuoteServiceTableRow = ({
       <AmountInput
         label="Amount ($)"
         hideLabel
-        name="displayAmount"
+        name="amount"
         value={displayAmount}
-        onChange={onAmountInputChange('displayAmount', onChange)}
-        onBlur={onAmountInputBlur(onRowInputBlur, index)}
+        onChange={handleAmountInputChange(onChange)}
+        onBlur={handleAmountInputBlur(onRowInputBlur, index)}
         textAlign="right"
         disabled={isCalculating}
         numeralDecimalScaleMin={2}

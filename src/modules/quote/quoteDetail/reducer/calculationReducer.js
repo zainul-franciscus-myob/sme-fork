@@ -3,9 +3,10 @@ import Decimal from 'decimal.js';
 import { DEFAULT_DISCOUNT } from './getDefaultState';
 import QuoteLayout from '../QuoteLayout';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
-import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
-
-export const formatUnitPrice = value => formatNumberWithDecimalScaleRange(value, 2, 6);
+import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
+import formatUnits from '../../../../common/valueFormatters/formatTaxCalculation/formatUnits';
 
 const calculateAmount = (units, unitPrice, discount) => {
   const calculatedDiscount = Decimal(1).minus(Decimal(discount).div(100));
@@ -42,13 +43,13 @@ const buildItemServiceLine = (line, key) => {
 
   const updatedLine = {
     ...line,
-    units: units.toString(),
-    unitPrice: unitPrice.toString(),
-    displayUnitPrice: formatUnitPrice(unitPrice),
-    discount: discount.toString(),
-    displayDiscount: formatAmount(discount),
-    amount: amount.toString(),
-    displayAmount: formatAmount(amount),
+    units: formatUnits(units),
+    unitPrice: String(unitPrice),
+    displayUnitPrice: formatDisplayUnitPrice(unitPrice),
+    discount: String(discount),
+    displayDiscount: formatDisplayDiscount(discount),
+    amount: String(amount),
+    displayAmount: formatDisplayAmount(amount),
   };
 
   if (amountOnly(key, line.units, line.unitPrice, line.discount)) {
@@ -59,7 +60,7 @@ const buildItemServiceLine = (line, key) => {
     return {
       ...updatedLine,
       discount: DEFAULT_DISCOUNT,
-      displayDiscount: formatAmount(DEFAULT_DISCOUNT),
+      displayDiscount: formatDisplayDiscount(DEFAULT_DISCOUNT),
     };
   }
 
@@ -69,9 +70,9 @@ const buildItemServiceLine = (line, key) => {
     return {
       ...updatedLine,
       discount: DEFAULT_DISCOUNT,
-      displayDiscount: formatAmount(DEFAULT_DISCOUNT),
+      displayDiscount: formatDisplayDiscount(DEFAULT_DISCOUNT),
       unitPrice: updatedUnitPrice,
-      displayUnitPrice: formatUnitPrice(updatedUnitPrice),
+      displayUnitPrice: formatDisplayUnitPrice(updatedUnitPrice),
     };
   }
 
@@ -81,7 +82,7 @@ const buildItemServiceLine = (line, key) => {
     return {
       ...updatedLine,
       amount: calculatedAmount,
-      displayAmount: formatAmount(calculatedAmount),
+      displayAmount: formatDisplayAmount(calculatedAmount),
     };
   }
 
@@ -91,42 +92,24 @@ const buildItemServiceLine = (line, key) => {
     return {
       ...updatedLine,
       discount: calculatedDiscount,
-      displayDiscount: formatAmount(calculatedDiscount),
+      displayDiscount: formatDisplayDiscount(calculatedDiscount),
     };
   }
 
   return updatedLine;
 };
 
-const mapKey = (key) => {
-  switch (key) {
-    case 'amount':
-    case 'displayAmount':
-      return 'amount';
-    case 'discount':
-    case 'displayDiscount':
-      return 'discount';
-    case 'unitPrice':
-    case 'displayUnitPrice':
-      return 'unitPrice';
-    default:
-      return key;
-  }
-};
-
 export const calculatePartialQuoteLineAmounts = (state, action) => {
   const { layout } = state.quote;
 
   if (layout === QuoteLayout.ITEM_AND_SERVICE) {
-    const key = mapKey(action.key);
-
     return {
       ...state,
       quote: {
         ...state.quote,
         lines: state.quote.lines.map((line, index) => (
           action.index === index
-            ? buildItemServiceLine(line, key)
+            ? buildItemServiceLine(line, action.key)
             : line
         )),
       },
@@ -166,9 +149,9 @@ export const setQuoteCalculatedLines = (state, { lines, totals }) => ({
       return {
         ...line,
         amount: amount.valueOf(),
-        displayAmount: formatAmount(amount.valueOf()),
+        displayAmount: formatDisplayAmount(amount.valueOf()),
         unitPrice: updatedUnitPrice,
-        displayUnitPrice: formatUnitPrice(updatedUnitPrice),
+        displayUnitPrice: formatDisplayUnitPrice(updatedUnitPrice),
       };
     }),
   },

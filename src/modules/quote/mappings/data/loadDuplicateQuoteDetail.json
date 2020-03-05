@@ -24,12 +24,9 @@
         "allocatedAccountId": "123",
         "description": "Cooler Medium",
         "unitPrice": "100",
-        "displayUnitPrice": "100.00",
         "discount": "0",
-        "displayDiscount": "0",
         "taxCodeId": "2",
         "amount": "850.910100",
-        "displayAmount": "850.91",
         "lineTypeId": "5"
       },
       {
@@ -40,12 +37,9 @@
         "allocatedAccountId": "123",
         "description": "Cooler Large",
         "unitPrice": "",
-        "displayUnitPrice": "",
         "discount": "",
-        "displayDiscount": "",
         "taxCodeId": "3",
         "amount": "850.910100",
-        "displayAmount": "850.91",
         "lineTypeId": "5"
       }
     ]
@@ -166,10 +160,8 @@
     "descriptionDirty": false,
     "unitPrice": "",
     "discount": "",
-    "displayDiscount": "",
     "taxCodeId": "",
     "amount": "",
-    "displayAmount": "",
     "lineTypeId": "5"
   },
   "totals": {

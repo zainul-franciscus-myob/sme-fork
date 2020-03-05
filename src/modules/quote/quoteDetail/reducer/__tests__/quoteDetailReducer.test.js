@@ -34,6 +34,7 @@ describe('quoteDetailReducer', () => {
         intent: LOAD_QUOTE_DETAIL,
         quote: {
           quoteNumber: '123',
+          lines: [],
         },
         emailQuote: {
           hasEmailReplyDetails: true,
@@ -107,6 +108,7 @@ describe('quoteDetailReducer', () => {
         },
         quote: {
           quoteNumber: '123',
+          lines: [],
         },
       };
 
@@ -409,7 +411,7 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[0].type).toEqual('item');
     });
 
-    it('set amount when displayAmount has been changed', () => {
+    it('set displayAmount when amount has been changed', () => {
       const state = {
         quote: {
           lines: [],
@@ -422,7 +424,7 @@ describe('quoteDetailReducer', () => {
         intent: ADD_QUOTE_LINE,
         line: {
           id: 'notUsed',
-          displayAmount: '1',
+          amount: '1',
         },
       };
 
@@ -432,7 +434,7 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[0].amount).toEqual('1');
     });
 
-    it('set discount when displayDiscount has been changed', () => {
+    it('set displayDiscount when discount has been changed', () => {
       const state = {
         quote: {
           lines: [],
@@ -445,7 +447,7 @@ describe('quoteDetailReducer', () => {
         intent: ADD_QUOTE_LINE,
         line: {
           id: 'notUsed',
-          displayDiscount: '1',
+          discount: '1',
         },
       };
 
@@ -500,7 +502,7 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[1].hello).toEqual(3);
     });
 
-    it('updates both amount and displayAmount when key is displayAmount', () => {
+    it('updates both amount and displayAmount when key is amount', () => {
       const state = {
         quote: {
           lines: [
@@ -513,7 +515,7 @@ describe('quoteDetailReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'displayAmount', value: '3',
+        intent: UPDATE_QUOTE_LINE, index: 0, key: 'amount', value: '3',
       };
 
       const actual = quoteDetailReducer(state, action);
@@ -522,7 +524,7 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[0].displayAmount).toEqual('3');
     });
 
-    it('updates both discount and displayDiscount when key is displayDiscount', () => {
+    it('updates both discount and displayDiscount when key is discount', () => {
       const state = {
         quote: {
           lines: [
@@ -535,7 +537,7 @@ describe('quoteDetailReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'displayDiscount', value: '3',
+        intent: UPDATE_QUOTE_LINE, index: 0, key: 'discount', value: '3',
       };
 
       const actual = quoteDetailReducer(state, action);
@@ -544,7 +546,7 @@ describe('quoteDetailReducer', () => {
       expect(actual.quote.lines[0].displayDiscount).toEqual('3');
     });
 
-    it('updates both unitPrice and displayUnitPrice when key is displayUnitPrice', () => {
+    it('updates both unitPrice and displayUnitPrice when key is unitPrice', () => {
       const state = {
         quote: {
           lines: [
@@ -557,7 +559,7 @@ describe('quoteDetailReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_QUOTE_LINE, index: 0, key: 'displayUnitPrice', value: '3',
+        intent: UPDATE_QUOTE_LINE, index: 0, key: 'unitPrice', value: '3',
       };
 
       const actual = quoteDetailReducer(state, action);

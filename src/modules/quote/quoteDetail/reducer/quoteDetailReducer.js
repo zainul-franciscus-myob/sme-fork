@@ -59,6 +59,9 @@ import QuoteLayout from '../QuoteLayout';
 import QuoteLineLayout from '../QuoteLineLayout';
 import createReducer from '../../../../store/createReducer';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
+import formatDisplayAmount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayAmount';
+import formatDisplayDiscount from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayDiscount';
+import formatDisplayUnitPrice from '../../../../common/valueFormatters/formatTaxCalculation/formatDisplayUnitPrice';
 import getDefaultState, { DEFAULT_DISCOUNT, DEFAULT_UNITS } from './getDefaultState';
 
 const setInitialState = (state, { context }) => ({ ...state, ...context });
@@ -119,8 +122,17 @@ const loadQuoteDetail = (state, action) => {
     quote: {
       ...state.quote,
       ...action.quote,
+      lines: action.quote.lines.map(line => ({
+        ...line,
+        displayAmount: formatDisplayAmount(line.amount),
+        displayDiscount: line.discount ? formatDisplayDiscount(line.discount) : '',
+        displayUnitPrice: line.unitPrice ? formatDisplayUnitPrice(line.unitPrice) : '',
+      })),
     },
-    newLine: action.newLine,
+    newLine: {
+      ...state.newLine,
+      ...action.newLine,
+    },
     totals: action.totals,
     contactOptions: action.contactOptions,
     expirationTermOptions: action.expirationTermOptions,
@@ -221,9 +233,9 @@ const addQuoteLine = (state, action) => {
         ...state.quote.lines,
         {
           ...state.newLine,
-          unitPrice: partialLine.displayUnitPrice || state.newLine.displayUnitPrice,
-          discount: partialLine.displayDiscount || state.newLine.displayDiscount,
-          amount: partialLine.displayAmount || state.newLine.displayAmount,
+          displayUnitPrice: partialLine.unitPrice || state.newLine.displayUnitPrice,
+          displayDiscount: partialLine.discount || state.newLine.displayDiscount,
+          displayAmount: partialLine.amount || state.newLine.displayAmount,
           descriptionDirty: Boolean(partialLine.description),
           type,
           taxCodeId,
@@ -247,9 +259,9 @@ const updateQuoteLine = (state, action) => ({
         return {
           ...line,
           id: line.type === lineLayout ? line.id : '',
-          discount: action.key === 'displayDiscount' ? action.value : line.discount,
-          amount: action.key === 'displayAmount' ? action.value : line.amount,
-          unitPrice: action.key === 'displayUnitPrice' ? action.value : line.unitPrice,
+          displayDiscount: action.key === 'discount' ? action.value : line.discount,
+          displayAmount: action.key === 'amount' ? action.value : line.amount,
+          displayUnitPrice: action.key === 'unitPrice' ? action.value : line.unitPrice,
           taxCodeId: action.key === 'allocatedAccountId'
             ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
             : line.taxCodeId,

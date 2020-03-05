@@ -15,6 +15,7 @@ import {
 import {
   getAccountModalContext,
   getContactModalContext,
+  getDisplayKey,
   getExportPdfFilename,
   getInventoryModalContext,
   getIsCreating,
@@ -296,7 +297,7 @@ export default class QuoteDetailModule {
   updateQuoteLine = (index, key, value) => {
     this.dispatcher.updateQuoteLine(index, key, value);
 
-    const itemKeys = ['units', 'displayUnitPrice', 'displayDiscount', 'displayAmount'];
+    const itemKeys = ['units', 'unitPrice', 'discount', 'amount'];
     const taxKeys = ['allocatedAccountId', 'taxCodeId'];
 
     if (itemKeys.includes(key)) {
@@ -327,15 +328,15 @@ export default class QuoteDetailModule {
       return;
     }
 
-    this.dispatcher.formatQuoteLine(index, key, value);
-    this.dispatcher.calculateLineAmounts(index, key);
+    const displayKey = getDisplayKey(key);
+    this.dispatcher.formatQuoteLine(index, displayKey, value);
 
     const state = this.store.getState();
     const isLineAmountDirty = getIsLineAmountInputDirty(state);
-
     if (isLineAmountDirty) {
-      const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: false });
+      this.dispatcher.calculateLineAmounts(index, key);
 
+      const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: false });
       this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_AMOUNT_CHANGE);
     }
   }
