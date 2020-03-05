@@ -215,3 +215,24 @@ export const loadNewSplitAllocation = (state, action) => {
 export const saveSplitAllocation = (state, action) => ({
   ...allocateTransaction(state, action),
 });
+
+export const appendAccountToAllocateTable = (state, { account }) => ({
+  ...state,
+  openEntry: {
+    ...state.openEntry,
+    allocate: {
+      ...state.openEntry.allocate,
+      lines: state.openEntry.allocate.lines.map(line => ({
+        ...line,
+        accounts: [account, ...line.accounts],
+      })),
+      newLine: {
+        ...state.openEntry.allocate.newLine,
+        accounts: [
+          account,
+          ...state.openEntry.allocate.newLine.accounts,
+        ],
+      },
+    },
+  },
+});

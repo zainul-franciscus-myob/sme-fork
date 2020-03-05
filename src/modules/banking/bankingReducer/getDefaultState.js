@@ -61,6 +61,7 @@ const getDefaultState = () => ({
   isLoading: true,
   isTableLoading: false,
   isBulkLoading: false,
+  isLoadingAccount: false,
   businessId: '',
   region: '',
   openPosition: getDefaultOpenPosition(),

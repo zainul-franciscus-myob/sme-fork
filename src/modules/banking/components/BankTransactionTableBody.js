@@ -20,6 +20,7 @@ const BankTransactionTableBody = (props) => {
     entrySelectStatus,
     isOpenEntryLoading,
     onHeaderClick,
+    onAddAccount,
     onSplitRowItemClick,
     onMatchRowItemClick,
     onMatchedToBlur,
@@ -88,6 +89,7 @@ const BankTransactionTableBody = (props) => {
       onAddSplitAllocationLine,
       onUpdateSplitAllocationLine,
       onDeleteSplitAllocationLine,
+      onAddAccount,
     },
     [tabIds.match]: {
       onApplyMatchTransactionOptions,
@@ -100,6 +102,7 @@ const BankTransactionTableBody = (props) => {
       onUpdateAdjustment,
       onRemoveAdjustment,
       onExpandAdjustmentSection,
+      onAddAccount,
     },
     [tabIds.transfer]: {
       onUpdateTransfer,

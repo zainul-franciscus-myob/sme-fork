@@ -4,6 +4,7 @@ import {
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -567,6 +568,20 @@ const createBankingIntegrator = (store, integration) => ({
       },
       onSuccess,
       onFailure,
+    });
+  },
+
+  loadAccountAfterCreate: ({ accountId, onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_ACCOUNT_AFTER_CREATE;
+    const urlParams = {
+      accountId,
+      businessId: getBusinessId(state),
+    };
+
+    integration.read({
+      intent, urlParams, onSuccess, onFailure,
     });
   },
 });

@@ -36,6 +36,7 @@ export const getEntries = state => state.entries;
 
 export const getBusinessId = state => state.businessId;
 export const getRegion = state => state.region;
+export const getIsLoadingAccount = state => state.isLoadingAccount;
 
 export const getWithdrawalAccounts = state => state.withdrawalAccounts;
 export const getDepositAccounts = state => state.depositAccounts;
@@ -429,4 +430,11 @@ export const getEditingNoteTransaction = createSelector(
 export const getShouldShowNote = (state, index) => {
   const entries = getEntries(state);
   return entries[index].note && entries[index].note !== entries[index].description;
+};
+
+export const getAccountModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
 };

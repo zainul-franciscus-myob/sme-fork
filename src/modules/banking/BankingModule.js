@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  getAccountModalContext,
   getBankTransactionLineByIndex,
   getBankingRuleInitState,
   getBusinessId,
@@ -30,6 +31,7 @@ import {
   getMatchTransferMoneyOrderBy,
 } from './bankingSelectors/transferMoneySelectors';
 import { tabIds } from './tabItems';
+import AccountModalModule from '../account/accountModal/AccountModalModule';
 import BankingRuleModule from './bankingRule/BankingRuleModule';
 import BankingView from './components/BankingView';
 import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
@@ -56,6 +58,9 @@ export default class BankingModule {
       },
     );
     this.inTrayModalModule = new InTrayModalModule({ integration });
+    this.accountModalModule = new AccountModalModule({
+      integration,
+    });
   }
 
   render = () => {
@@ -87,10 +92,12 @@ export default class BankingModule {
     } = this.dispatcher;
 
     const inTrayModal = this.inTrayModalModule.render();
+    const accountModal = this.accountModalModule.render();
 
     const transactionListView = (
       <BankingView
         inTrayModal={inTrayModal}
+        accountModal={accountModal}
         onUpdateFilters={updateFilterOptions}
         onApplyFilter={this.confirmBefore(this.filterBankTransactions)}
         onBankAccountChange={this.bankAccountChange}
@@ -157,6 +164,7 @@ export default class BankingModule {
         onNoteBlur={this.savePendingNote}
         onImportStatementButtonClick={this.redirectToBankStatementImport}
         onLinkFromInTrayButtonClick={this.openInTrayModal}
+        onAddAccount={this.openAccountModal}
       />
     );
 
@@ -1086,9 +1094,51 @@ export default class BankingModule {
     });
   };
 
+  openAccountModal = (onAccountCreated) => {
+    const state = this.store.getState();
+    const accountModalContext = getAccountModalContext(state);
+    this.accountModalModule.run({
+      context: accountModalContext,
+      onSaveSuccess: ({ id }) => {
+        this.loadAccountAfterCreate(id, onAccountCreated);
+      },
+      onLoadFailure: message => (
+        this.dispatcher.setAlert({
+          type: 'danger',
+          message,
+        })
+      ),
+    });
+  };
+
+  loadAccountAfterCreate = (accountId, onAccountCreated) => {
+    this.accountModalModule.close();
+    this.dispatcher.setLoadingSingleAccountState(true);
+    const onSuccess = (payload) => {
+      this.dispatcher.setLoadingSingleAccountState(false);
+      const activeTabId = getOpenEntryActiveTabId(this.store.getState());
+      this.dispatcher.loadAccountAfterCreate(payload);
+      if (activeTabId === tabIds.allocate) {
+        this.dispatcher.appendAccountToAllocateTable(payload);
+      }
+      onAccountCreated(payload);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingSingleAccountState(false);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integrator.loadAccountAfterCreate({ accountId, onSuccess, onFailure });
+  };
+
   resetState = () => {
     this.dispatcher.resetState();
     this.inTrayModalModule.resetState();
+    this.accountModalModule.resetState();
   };
 
   run(context) {

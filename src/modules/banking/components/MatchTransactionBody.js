@@ -14,6 +14,7 @@ import MatchTransactionTotals from './MatchTransactionTotals';
 import styles from './MatchTransactionBody.module.css';
 
 const MatchTransactionBody = ({
+  onAddAccount,
   onApplyMatchTransactionOptions,
   onUpdateMatchTransactionOptions,
   onSortMatchTransactions,
@@ -30,6 +31,7 @@ const MatchTransactionBody = ({
     <FieldGroup label="Add adjustments or roundings">
       {
         <MatchTransactionAdjustments
+          onAddAccount={onAddAccount}
           onAddAdjustment={onAddAdjustment}
           onUpdateAdjustment={onUpdateAdjustment}
           onRemoveAdjustment={onRemoveAdjustment}

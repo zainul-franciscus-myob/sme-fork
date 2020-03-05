@@ -6,6 +6,7 @@ import {
   getIndexOfLastLine,
   getTableData, getTaxLabel, getTotals,
 } from '../bankingSelectors/splitAllocationSelectors';
+import { getIsLoadingAccount } from '../bankingSelectors';
 import SplitAllocationRow from './SplitAllocationRow';
 
 const accountLabel = 'Account';
@@ -20,7 +21,7 @@ const onRowChange = handler => (index, key, value) => handler(index, key, value)
 
 const onAddRow = handler => ({ id, ...partialLine }) => handler(partialLine);
 
-const renderRow = indexOfLastLine => (index, data, onChange, labels) => {
+const renderRow = (indexOfLastLine, onAddAccount, disabled) => (index, data, onChange, labels) => {
   const isNewLineRow = indexOfLastLine < index;
 
   return (
@@ -28,7 +29,9 @@ const renderRow = indexOfLastLine => (index, data, onChange, labels) => {
       index={index}
       key={index}
       labels={labels}
+      disabled={disabled}
       onChange={onChange}
+      onAddAccount={onAddAccount}
       isNewLineRow={isNewLineRow}
     />
   );
@@ -46,6 +49,8 @@ const SplitAllocationTable = (props) => {
     onAddSplitAllocationLine,
     onUpdateSplitAllocationLine,
     onDeleteSplitAllocationLine,
+    onAddAccount,
+    isLoadingAccount,
   } = props;
 
   const labels = [
@@ -108,7 +113,7 @@ const SplitAllocationTable = (props) => {
     <LineItemTable
       labels={labels}
       data={tableData}
-      renderRow={renderRow(indexOfLastLine)}
+      renderRow={renderRow(indexOfLastLine, onAddAccount, isLoadingAccount)}
       onAddRow={onAddRow(onAddSplitAllocationLine)}
       onRowChange={onRowChange(onUpdateSplitAllocationLine)}
       onRemoveRow={onDeleteSplitAllocationLine}
@@ -128,6 +133,7 @@ const mapStateToProps = state => ({
   indexOfLastLine: getIndexOfLastLine(state),
   totals: getTotals(state),
   taxLabel: getTaxLabel(state),
+  isLoadingAccount: getIsLoadingAccount(state),
 });
 
 export default connect(mapStateToProps)(SplitAllocationTable);

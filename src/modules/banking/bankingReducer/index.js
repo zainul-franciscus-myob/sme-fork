@@ -3,6 +3,7 @@ import {
   ADD_MATCH_TRANSACTION_ADJUSTMENT,
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
+  APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE,
   APPLY_RULE_TO_TRANSACTIONS,
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
@@ -10,6 +11,7 @@ import {
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
   EXPAND_ADJUSTMENT_SECTION,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -36,6 +38,7 @@ import {
   SET_ENTRY_FOCUS,
   SET_ENTRY_LOADING_STATE,
   SET_ERROR_STATE,
+  SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_MATCH_TRANSACTION_SORT_ORDER,
@@ -107,6 +110,7 @@ import {
 } from './openEntryHandlers';
 import {
   addSplitAllocationLine,
+  appendAccountToAllocateTable,
   deleteSplitAllocationLine,
   loadNewSplitAllocation,
   loadSplitAllocation,
@@ -330,6 +334,23 @@ const setSubmittingNoteState = (state, action) => ({
   isSubmittingNote: action.isSubmittingNote,
 });
 
+export const loadAccountAfterCreate = (state, { account }) => ({
+  ...state,
+  withdrawalAccounts: [
+    account,
+    ...state.withdrawalAccounts,
+  ],
+  depositAccounts: [
+    account,
+    ...state.depositAccounts,
+  ],
+});
+
+export const setLoadingSingleAccountState = (state, action) => ({
+  ...state,
+  isLoadingAccount: action.isLoadingAccount,
+});
+
 const handlers = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: sortAndFilterBankTransactions,
@@ -406,6 +427,9 @@ const handlers = {
   [SET_SUBMMITTING_NOTE_STATE]: setSubmittingNoteState,
   [SET_PENDING_NOTE]: setPendingNote,
   [SAVE_PENDING_NOTE]: savePendingNote,
+  [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
+  [APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE]: appendAccountToAllocateTable,
+  [SET_LOADING_SINGLE_ACCOUNT_STATE]: setLoadingSingleAccountState,
   ...wrapHandlers('bankingRuleModal', bankingRuleHandlers),
 };
 

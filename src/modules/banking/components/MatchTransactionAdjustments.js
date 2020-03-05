@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getAccounts, getAdjustments } from '../bankingSelectors/matchTransactionSelectors';
-import { getTaxCodes } from '../bankingSelectors';
+import { getIsLoadingAccount, getTaxCodes } from '../bankingSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import TaxCodeCombobox from '../../../components/combobox/TaxCodeCombobox';
@@ -31,7 +31,7 @@ const getTableColumns = ({ taxCodeLabel }) => [
 
 const renderRow = (accounts, taxCodes, [
   accountColumn, amountColumn, quantityColumn, descColumn, taxColumn,
-]) => (index, adjustment, onChange) => {
+], onAddAccount, isLoadingAccount) => (index, adjustment, onChange) => {
   const {
     id, accountId, amount = '', quantity = '', description, taxCodeId,
   } = adjustment;
@@ -45,31 +45,46 @@ const renderRow = (accounts, taxCodes, [
           items={accounts}
           onChange={handleComboboxChange('accountId', onChange)}
           selectedId={accountId}
+          addNewAccount={() => onAddAccount(handleComboboxChange('accountId', onChange))}
+          disabled={isLoadingAccount}
         />
       </BulkAdd.RowItem>
       <BulkAdd.RowItem
         columnName={amountColumn.label}
         {...amountColumn}
       >
-        <AmountInput name="amount" textAlign="right" onChange={handleAmountInputChange(onChange)} value={amount} />
+        <AmountInput
+          name="amount"
+          textAlign="right"
+          onChange={handleAmountInputChange(onChange)}
+          value={amount}
+          disabled={isLoadingAccount}
+        />
       </BulkAdd.RowItem>
       <BulkAdd.RowItem
         columnName={quantityColumn.label}
         {...quantityColumn}
       >
-        <AmountInput name="quantity" textAlign="right" onChange={handleAmountInputChange(onChange)} value={quantity} />
+        <AmountInput
+          name="quantity"
+          textAlign="right"
+          onChange={handleAmountInputChange(onChange)}
+          value={quantity}
+          disabled={isLoadingAccount}
+        />
       </BulkAdd.RowItem>
       <BulkAdd.RowItem
         columnName={descColumn.label}
         {...descColumn}
       >
-        <Input name="description" onChange={handleInputChange(onChange)} value={description} />
+        <Input name="description" disabled={isLoadingAccount} onChange={handleInputChange(onChange)} value={description} />
       </BulkAdd.RowItem>
       <BulkAdd.RowItem
         columnName={taxColumn.label}
         {...taxColumn}
       >
         <TaxCodeCombobox
+          disabled={isLoadingAccount}
           items={taxCodes}
           selectedId={taxCodeId}
           onChange={handleComboboxChange('taxCodeId', onChange)}
@@ -80,6 +95,7 @@ const renderRow = (accounts, taxCodes, [
 };
 
 const MatchTransactionAdjustments = ({
+  onAddAccount,
   onUpdateAdjustment,
   onRemoveAdjustment,
   onAddAdjustment,
@@ -87,6 +103,7 @@ const MatchTransactionAdjustments = ({
   accounts,
   taxCodes,
   taxCodeLabel,
+  isLoadingAccount,
 }) => {
   const tableColumns = getTableColumns({
     taxCodeLabel,
@@ -108,7 +125,7 @@ const MatchTransactionAdjustments = ({
       </BulkAdd.Header>
       <BulkAdd.Rows
         data={adjustments}
-        renderRow={renderRow(accounts, taxCodes, tableColumns)}
+        renderRow={renderRow(accounts, taxCodes, tableColumns, onAddAccount, isLoadingAccount)}
         onRowChange={onUpdateAdjustment}
         onRemoveRow={onRemoveAdjustment}
         onAddRow={onAddAdjustment}
@@ -122,6 +139,7 @@ const mapStateToProps = state => ({
   taxCodes: getTaxCodes(state),
   accounts: getAccounts(state),
   taxCodeLabel: getRegionToDialectText(state.region)('Tax code'),
+  isLoadingAccount: getIsLoadingAccount(state),
 });
 
 export default connect(mapStateToProps)(MatchTransactionAdjustments);

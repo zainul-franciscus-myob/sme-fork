@@ -87,3 +87,7 @@ export const SET_SUBMMITTING_NOTE_STATE = Symbol('Set submitting note state');
 export const SET_PENDING_NOTE = Symbol('Set pending note');
 
 export const SAVE_PENDING_NOTE = Symbol('Save pending note');
+
+export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account detail after create');
+export const APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE = Symbol('Append new account to allocate table');
+export const SET_LOADING_SINGLE_ACCOUNT_STATE = Symbol('Set loading single account state');

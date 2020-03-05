@@ -48,6 +48,7 @@ const BankTransactionTable = ({
   isOpenEntryLoading,
   bulkSelectStatus,
   entrySelectStatus,
+  onAddAccount,
   onMatchedToBlur,
   onSplitRowItemClick,
   onMatchRowItemClick,
@@ -121,6 +122,7 @@ const BankTransactionTable = ({
       entrySelectStatus={entrySelectStatus}
       isOpenEntryLoading={isOpenEntryLoading}
       activeTabId={activeTabId}
+      onAddAccount={onAddAccount}
       onHeaderClick={onHeaderClick}
       onSplitRowItemClick={onSplitRowItemClick}
       onMatchRowItemClick={onMatchRowItemClick}

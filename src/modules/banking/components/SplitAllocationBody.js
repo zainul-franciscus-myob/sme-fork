@@ -8,6 +8,7 @@ const SplitAllocationBody = ({
   onAddSplitAllocationLine,
   onUpdateSplitAllocationLine,
   onDeleteSplitAllocationLine,
+  onAddAccount,
 }) => (
   <React.Fragment>
     <SplitAllocationOptions
@@ -17,6 +18,7 @@ const SplitAllocationBody = ({
       onAddSplitAllocationLine={onAddSplitAllocationLine}
       onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
       onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
+      onAddAccount={onAddAccount}
     />
   </React.Fragment>
 );

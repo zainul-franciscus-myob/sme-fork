@@ -4,6 +4,7 @@ import {
   BULK_ALLOCATE_TRANSACTIONS,
   BULK_UNALLOCATE_TRANSACTIONS,
   LINK_IN_TRAY_DOCUMENT,
+  LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_MATCH_TRANSACTIONS,
@@ -34,6 +35,10 @@ const HttpBankingMapping = {
   [LOAD_BANK_TRANSACTIONS]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/banking/load_bank_transactions`,
+  },
+  [LOAD_ACCOUNT_AFTER_CREATE]: {
+    method: 'GET',
+    getPath: ({ businessId, accountId }) => `/${businessId}/banking/load_account/${accountId}`,
   },
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: {
     method: 'GET',

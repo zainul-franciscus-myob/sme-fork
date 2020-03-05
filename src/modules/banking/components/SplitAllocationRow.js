@@ -26,10 +26,12 @@ const handleAmountChange = onChange => (e) => {
 const SplitAllocationRow = (props) => {
   const {
     index,
+    onAddAccount,
     onChange,
     isNewLineRow,
     lineData,
     labels,
+    disabled,
     newLineData,
     ...feelixInjectedProps
   } = props;
@@ -54,11 +56,14 @@ const SplitAllocationRow = (props) => {
       {...feelixInjectedProps}
     >
       <AccountCombobox
+        disabled={disabled}
         items={accounts}
         selectedId={accountId}
         onChange={handleComboBoxChange('accountId', onChange)}
+        addNewAccount={() => onAddAccount(handleComboBoxChange('accountId', onChange))}
       />
       <AmountInput
+        disabled={disabled}
         label="Amount"
         hideLabel
         name="amount"
@@ -70,6 +75,7 @@ const SplitAllocationRow = (props) => {
         textAlign="right"
       />
       <AmountInput
+        disabled={disabled}
         label="AmountPercent"
         hideLabel
         name="amountPercent"
@@ -78,6 +84,7 @@ const SplitAllocationRow = (props) => {
         textAlign="right"
       />
       <AmountInput
+        disabled={disabled}
         label="Quantity"
         hideLabel
         numeralDecimalScaleMax={6}
@@ -87,6 +94,7 @@ const SplitAllocationRow = (props) => {
         onChange={handleAmountChange(onChange)}
       />
       <TextArea
+        disabled={disabled}
         type="text"
         label="Description"
         hideLabel
@@ -96,6 +104,7 @@ const SplitAllocationRow = (props) => {
         autoSize
       />
       <TaxCodeCombobox
+        disabled={disabled}
         items={taxCodes}
         selectedId={taxCodeId}
         onChange={handleComboBoxChange('taxCodeId', onChange)}

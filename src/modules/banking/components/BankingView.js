@@ -20,6 +20,7 @@ import styles from './BankingView.module.css';
 const BankingView = (props) => {
   const {
     inTrayModal,
+    accountModal,
     hasError,
     isLoading,
     isEntryLoading,
@@ -29,6 +30,7 @@ const BankingView = (props) => {
     getBankingRuleModal,
     onUpdateFilters,
     onApplyFilter,
+    onAddAccount,
     onBankAccountChange,
     onSort,
     onAllocate,
@@ -146,10 +148,12 @@ const BankingView = (props) => {
     <div className={`${isEntryLoading ? styles.entryLoading : ''} ${styles.bankTransactionView}`}>
       <StandardTemplate sticky="none" alert={alertComponent} pageHead={pageHead} filterBar={filterBar}>
         {modal}
+        {accountModal}
         {inTrayModal}
         {showBulkActions && bulkActions}
         <BankTransactionTable
           onSort={onSort}
+          onAddAccount={onAddAccount}
           onAllocate={onAllocate}
           onUnallocate={onUnallocate}
           onMatchedToBlur={onMatchedToBlur}
