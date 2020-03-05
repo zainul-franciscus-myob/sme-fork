@@ -331,12 +331,13 @@ export default class QuoteDetailModule {
     const displayKey = getDisplayKey(key);
     this.dispatcher.formatQuoteLine(index, displayKey, value);
 
-    const state = this.store.getState();
-    const isLineAmountDirty = getIsLineAmountInputDirty(state);
+    const isLineAmountDirty = getIsLineAmountInputDirty(this.store.getState());
     if (isLineAmountDirty) {
       this.dispatcher.calculateLineAmounts(index, key);
 
-      const taxCalculations = getTaxCalculations(state, { isSwitchingTaxInclusive: false });
+      const taxCalculations = getTaxCalculations(
+        this.store.getState(), { isSwitchingTaxInclusive: false },
+      );
       this.setQuoteCalculatedLines(taxCalculations, CALCULATE_QUOTE_AMOUNT_CHANGE);
     }
   }

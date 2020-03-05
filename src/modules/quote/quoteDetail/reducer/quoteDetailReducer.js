@@ -259,9 +259,9 @@ const updateQuoteLine = (state, action) => ({
         return {
           ...line,
           id: line.type === lineLayout ? line.id : '',
-          displayDiscount: action.key === 'discount' ? action.value : line.discount,
-          displayAmount: action.key === 'amount' ? action.value : line.amount,
-          displayUnitPrice: action.key === 'unitPrice' ? action.value : line.unitPrice,
+          displayDiscount: action.key === 'discount' ? action.value : line.displayDiscount,
+          displayAmount: action.key === 'amount' ? action.value : line.displayAmount,
+          displayUnitPrice: action.key === 'unitPrice' ? action.value : line.displayUnitPrice,
           taxCodeId: action.key === 'allocatedAccountId'
             ? getDefaultTaxCodeId({ accountId: action.value, accountOptions: state.accountOptions })
             : line.taxCodeId,
