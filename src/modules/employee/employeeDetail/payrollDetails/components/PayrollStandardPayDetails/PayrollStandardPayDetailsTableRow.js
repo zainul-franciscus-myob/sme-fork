@@ -94,7 +94,7 @@ const PayrollStandardPayDetailsTableRow = ({
     },
     amount: {
       ...tableConfig.amount,
-      columnName: amountRowItem ? tableConfig.hours.columnName : '',
+      columnName: amountRowItem ? tableConfig.amount.columnName : '',
     },
   };
 
