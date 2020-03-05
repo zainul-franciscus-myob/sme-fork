@@ -66,6 +66,7 @@ const ElectronicPaymentsCreateView = ({
   onCancelButtonClick,
   onRecordButtonClick,
   onContinueButtonClick,
+  isSpendMoneyEnabled,
 }) => {
   const totalPaymentFooter = (
     <div className={styles.totalPaymentsFooter}>
@@ -98,6 +99,7 @@ const ElectronicPaymentsCreateView = ({
           dateTo={dateTo}
           onUpdateFilterBarOptions={onUpdateFilterBarOptions}
           onApplyFilter={onApplyFilter}
+          isSpendMoneyEnabled={isSpendMoneyEnabled}
         />
       </Card>
       <Card footer={totalPaymentFooter}>

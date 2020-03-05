@@ -56,11 +56,11 @@ const setInitialState = (state, { context }) => {
     ...context,
     filterOptions: {
       ...state.filterOptions,
-      paymentType,
+      paymentType: context.isSpendMoneyEnabled ? paymentType : 'PayEmployees',
     },
     appliedFilterOptions: {
       ...state.appliedFilterOptions,
-      paymentType,
+      paymentType: context.isSpendMoneyEnabled ? paymentType : 'PayEmployees',
     },
   };
 };

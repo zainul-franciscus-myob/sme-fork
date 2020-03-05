@@ -3,7 +3,7 @@ import ElectronicPaymentsReadModule from './electronicPaymentsRead/ElectronicPay
 import RouteName from '../../router/RouteName';
 
 const getElectronicPaymentsRoutes = ({
-  integration, setRootView, pushMessage, replaceURLParams,
+  integration, setRootView, pushMessage, replaceURLParams, featureToggles,
 }) => {
   const routes = [
     {
@@ -14,6 +14,7 @@ const getElectronicPaymentsRoutes = ({
         integration,
         setRootView,
         replaceURLParams,
+        featureToggles,
       }),
       documentTitle: 'Bank file payment',
     },

@@ -39,13 +39,16 @@ const downloadAsFile = (content, filename) => {
 };
 
 export default class ElectronicPaymentsModule {
-  constructor({ setRootView, integration, replaceURLParams }) {
+  constructor({
+    setRootView, integration, replaceURLParams, featureToggles,
+  }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.replaceURLParams = replaceURLParams;
     this.store = new Store(electronicPaymentsCreateReducer);
     this.dispatcher = createElectronicPaymentsCreateDispatcher(this.store);
     this.integrator = createElectronicPaymentsCreateIntegrator(this.store, this.integration);
+    this.isSpendMoneyEnabled = featureToggles.isSpendMoneyBankPaymentEnabled;
   }
 
   loadAccountsAndElectronicPayments = () => {
@@ -136,7 +139,7 @@ export default class ElectronicPaymentsModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({ ...context, isSpendMoneyEnabled: this.isSpendMoneyEnabled });
     this.render();
     this.loadAccountsAndElectronicPayments();
 
@@ -161,6 +164,7 @@ export default class ElectronicPaymentsModule {
           onCancelButtonClick={this.dispatcher.closeModal}
           onRecordButtonClick={this.recordAndDownloadBankFile}
           onContinueButtonClick={this.recordAndDownloadBankFile}
+          isSpendMoneyEnabled={this.isSpendMoneyEnabled}
         />
       </Provider>
     );
