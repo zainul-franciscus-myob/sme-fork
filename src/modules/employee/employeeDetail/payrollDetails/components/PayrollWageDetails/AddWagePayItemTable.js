@@ -10,8 +10,8 @@ import Combobox from '../../../../../../components/Feelix/Combobox/Combobox';
 import styles from './AddWagePayItemTable.module.css';
 
 const tableConfig = {
-  name: { width: 'flex-1', valign: 'middle' },
-  type: { width: 'flex-1', valign: 'middle' },
+  name: { columnName: 'Name', width: 'flex-1', valign: 'middle' },
+  type: { columnName: 'Type', width: 'flex-1', valign: 'middle' },
   actions: { width: '5rem', valign: 'middle', align: 'right' },
 };
 
@@ -37,10 +37,12 @@ const getActionsColumnContent = ({
   id, tooltipText, isRemovable, onRemoveWagePayItem,
 }) => (isRemovable
   ? (
-    <Tooltip triggerContent={(
-      <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemoveWagePayItem, id)}>
-        <Icons.Remove />
-      </Button>
+    <Tooltip
+      placement="left"
+      triggerContent={(
+        <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemoveWagePayItem, id)}>
+          <Icons.Remove />
+        </Button>
         )}
     >
       Remove from employee
@@ -49,6 +51,7 @@ const getActionsColumnContent = ({
   : (
     <Tooltip
       className={styles.payItemInfoTooltip}
+      placement="left"
       triggerContent={(
         <Icons.Info />
         )}

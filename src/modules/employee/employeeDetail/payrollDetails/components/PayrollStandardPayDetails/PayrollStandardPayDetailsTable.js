@@ -10,9 +10,13 @@ import PayrollStandardPayDetailsTaxTableRows from './PayrollStandardPayDetailsTa
 import PayrollStandardPayDetailsWageTableRows from './PayrollStandardPayDetailsWageTableRows';
 
 const tableConfig = {
-  name: { width: 'flex-1', valign: 'middle' },
-  hours: { width: '20rem', valign: 'middle', align: 'right' },
-  amount: { width: '20rem', valign: 'middle', align: 'right' },
+  name: { columnName: 'Name', width: 'flex-1', valign: 'middle' },
+  hours: {
+    columnName: 'Hours (hrs)', width: '20rem', valign: 'middle', align: 'right',
+  },
+  amount: {
+    columnName: 'Amount ($)', width: '20rem', valign: 'middle', align: 'right',
+  },
 };
 
 const fieldGroupLabel = (
@@ -27,7 +31,7 @@ const fieldGroupLabel = (
 const getHeaderItemWithTooltip = (title, tooltip) => (
   <div>
     <span>{title}</span>
-    <Tooltip triggerContent={<Icons.Info />}>{tooltip}</Tooltip>
+    <Tooltip triggerContent={<Icons.Info />} placement="left">{tooltip}</Tooltip>
   </div>
 );
 

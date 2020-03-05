@@ -74,13 +74,25 @@ const PayrollPayHistoryDetailsTableRow = ({
     onChange,
   });
 
+  const tableConfigWithConditionalHeaders = {
+    ...tableConfig,
+    hours: {
+      ...tableConfig.hours,
+      columnName: hourRowItem ? tableConfig.hours.columnName : '',
+    },
+    amount: {
+      ...tableConfig.amount,
+      columnName: amountRowItem ? tableConfig.amount.columnName : '',
+    },
+  };
+
   return (
     <Table.Row key={payItemId}>
       <Table.RowItem {...tableConfig.name} indentLevel={1}>
         <Button type="link" onClick={handleOnClick(onClick, payItemId, payItemType)}>{name}</Button>
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.hours}>{hourRowItem}</Table.RowItem>
-      <Table.RowItem {...tableConfig.amount}>{amountRowItem}</Table.RowItem>
+      <Table.RowItem {...tableConfigWithConditionalHeaders.hours}>{hourRowItem}</Table.RowItem>
+      <Table.RowItem {...tableConfigWithConditionalHeaders.amount}>{amountRowItem}</Table.RowItem>
     </Table.Row>
   );
 };

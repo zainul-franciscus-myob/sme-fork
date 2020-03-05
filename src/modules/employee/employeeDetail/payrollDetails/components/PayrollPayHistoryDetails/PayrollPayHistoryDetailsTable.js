@@ -10,9 +10,13 @@ import PayrollPayHistoryDetailsTaxTableRows from './PayrollPayHistoryDetailsTaxT
 import PayrollPayHistoryDetailsWageTableRows from './PayrollPayHistoryDetailsWageTableRowGroup';
 
 const tableConfig = {
-  name: { width: 'flex-1', valign: 'middle' },
-  hours: { width: '20rem', valign: 'middle', align: 'right' },
-  amount: { width: '20rem', valign: 'middle', align: 'right' },
+  name: { columnName: 'Name', width: 'flex-1', valign: 'middle' },
+  hours: {
+    columnName: 'Activity (hrs)', width: '20rem', valign: 'middle', align: 'right',
+  },
+  amount: {
+    columnName: 'Activity ($)', width: '20rem', valign: 'middle', align: 'right',
+  },
 };
 
 const fieldGroupLabel = (

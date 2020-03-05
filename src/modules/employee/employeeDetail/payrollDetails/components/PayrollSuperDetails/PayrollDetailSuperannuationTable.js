@@ -10,8 +10,8 @@ import Combobox from '../../../../../../components/Feelix/Combobox/Combobox';
 import styles from './PayrollDetailSuperannuationTable.module.css';
 
 const tableConfig = {
-  name: { width: 'flex-1', valign: 'middle' },
-  displayType: { width: 'flex-1', valign: 'middle' },
+  name: { columnName: 'Name', width: 'flex-1', valign: 'middle' },
+  displayType: { columnName: 'Type', width: 'flex-1', valign: 'middle' },
   actions: { width: '5rem', valign: 'middle', align: 'right' },
 };
 

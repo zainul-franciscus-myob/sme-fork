@@ -8,8 +8,8 @@ import styles from './PayrollExpenseDetailsTable.module.css';
 
 
 const tableConfig = {
-  name: { width: 'flex-1', valign: 'middle' },
-  type: { width: 'flex-1', valign: 'middle' },
+  name: { columnName: 'Name', width: 'flex-1', valign: 'middle' },
+  type: { columnName: 'Type', width: 'flex-1', valign: 'middle' },
   actions: { width: '5rem', valign: 'middle', align: 'right' },
 };
 

@@ -8,10 +8,16 @@ import Combobox from '../../../../../components/Feelix/Combobox/Combobox';
 import styles from './PayrollLeaveDetailTable.module.css';
 
 const tableConfig = {
-  name: { width: 'flex-1', valign: 'middle' },
-  carryOver: { width: 'flex-1', valign: 'middle', align: 'right' },
-  yearToDate: { width: 'flex-1', valign: 'middle', align: 'right' },
-  total: { width: 'flex-1', valign: 'middle', align: 'right' },
+  name: { columnName: 'Name', width: 'flex-1', valign: 'middle' },
+  carryOver: {
+    columnName: 'Carry over', width: 'flex-1', valign: 'middle', align: 'right',
+  },
+  yearToDate: {
+    columnName: 'Year-to-date', width: 'flex-1', valign: 'middle', align: 'right',
+  },
+  total: {
+    columnName: 'Total', width: 'flex-1', valign: 'middle', align: 'right',
+  },
   actions: { width: '5rem', valign: 'middle', align: 'right' },
 };
 
