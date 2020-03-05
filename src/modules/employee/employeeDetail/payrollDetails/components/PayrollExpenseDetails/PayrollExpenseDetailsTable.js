@@ -40,10 +40,12 @@ const PayrollExpenseDetailsTable = ({
       </Table.RowItem>
       <Table.RowItem {...tableConfig.type}>{displayType}</Table.RowItem>
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-        <Tooltip triggerContent={(
-          <Button type="secondary" size="xs" onClick={onPayItemSelect(onRemovePayItem, id)}>
-            <Icons.Remove />
-          </Button>
+        <Tooltip
+          placement="left"
+          triggerContent={(
+            <Button type="secondary" size="xs" onClick={onPayItemSelect(onRemovePayItem, id)}>
+              <Icons.Remove />
+            </Button>
         )}
         >
           Remove from employee

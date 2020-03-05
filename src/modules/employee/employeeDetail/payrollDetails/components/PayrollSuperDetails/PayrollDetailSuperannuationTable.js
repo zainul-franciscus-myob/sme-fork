@@ -55,10 +55,12 @@ const PayrollDetailSuperannuationTable = ({
       </Table.RowItem>
       <Table.RowItem {...tableConfig.displayType}>{displayType}</Table.RowItem>
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-        <Tooltip triggerContent={(
-          <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemovePayrollSuperPayItem, id)}>
-            <Icons.Remove />
-          </Button>
+        <Tooltip
+          placement="left"
+          triggerContent={(
+            <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemovePayrollSuperPayItem, id)}>
+              <Icons.Remove />
+            </Button>
         )}
         >
           Remove from employee

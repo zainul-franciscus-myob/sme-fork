@@ -45,6 +45,7 @@ const PayrollDeductionDetailsTable = ({
       <Table.RowItem {...tableConfig.type}>{displayType}</Table.RowItem>
       <Table.RowItem cellRole="actions" {...tableConfig.actions}>
         <Tooltip
+          placement="left"
           triggerContent={(
             <Button
               type="secondary"

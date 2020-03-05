@@ -78,10 +78,12 @@ const PayrollLeaveDetailTable = ({
         <Table.RowItem {...tableConfig.yearToDate}>{yearToDate}</Table.RowItem>
         <Table.RowItem {...tableConfig.total}>{total}</Table.RowItem>
         <Table.RowItem cellRole="actions" {...tableConfig.actions}>
-          <Tooltip triggerContent={(
-            <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemoveAllocatedLeaveItem, payItem)}>
-              <Icons.Remove />
-            </Button>
+          <Tooltip
+            placement="left"
+            triggerContent={(
+              <Button type="secondary" size="xs" onClick={onRemoveButtonClick(onRemoveAllocatedLeaveItem, payItem)}>
+                <Icons.Remove />
+              </Button>
           )}
           >
             Remove from employee
