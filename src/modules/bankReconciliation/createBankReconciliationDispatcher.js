@@ -83,7 +83,7 @@ const createBankReconciliationDispatcher = store => ({
     index,
     value,
   }),
-  selectAll: () => this.store.dispatch({
+  selectAll: () => store.dispatch({
     intent: SELECT_ALL,
   }),
   openUndoReconciliationModal: () => {
